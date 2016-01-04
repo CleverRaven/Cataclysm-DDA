@@ -2025,7 +2025,7 @@
         "id" : "t_window_domestic",
         "name": "window with curtains",
         "symbol": "\"",
-        "color": "ltgrey",
+        "color": "ltgray",
         "move_cost": 0,
         "flags": [
             "TRANSPARENT", "FLAMMABLE", "NOITEM", "OPENCLOSE_INSIDE",
@@ -2158,7 +2158,7 @@
         "id" : "t_window_open",
         "name": "open window with curtains",
         "symbol": "'",
-        "color": "ltgrey",
+        "color": "ltgray",
         "move_cost": 4,
         "flags": ["TRANSPARENT", "FLAMMABLE", "NOITEM", "OPENCLOSE_INSIDE", "MOUNTABLE", "CONNECT_TO_WALL" ],
         "close": "t_window_domestic",

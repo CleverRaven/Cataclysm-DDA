@@ -91,10 +91,10 @@ class veh_interact
         inventory crafting_inv;
         input_context main_context;
 
-        int part_at(int dx, int dy);
-        void move_cursor(int dx, int dy);
-        task_reason cant_do(char mode);
-        bool can_currently_install(const vpart_info &vpart);
+        int part_at( int dx, int dy );
+        void move_cursor( int dx, int dy );
+        task_reason cant_do( char mode );
+        bool can_currently_install( const vpart_info &vpart );
         /** Move index (parameter pos) according to input action:
          * (up or down, single step or whole page).
          * @param pos index to change.
@@ -103,8 +103,9 @@ class veh_interact
          * @param header number of lines reserved for list header.
          * @return false if the action is not a move action, the index is not changed in this case.
          */
-        bool move_in_list(int &pos, const std::string &action, const int size, const int header = 0) const;
-        void move_fuel_cursor(int delta);
+        bool move_in_list( int &pos, const std::string &action, const int size,
+                           const int header = 0 ) const;
+        void move_fuel_cursor( int delta );
 
         void do_install();
         void do_repair();
@@ -119,14 +120,14 @@ class veh_interact
         void display_veh();
         void display_stats();
         void display_name();
-        void display_mode(char mode);
-        void display_list(size_t pos, std::vector<const vpart_info*> list, const int header = 0);
-        void display_details(const vpart_info *part);
-        size_t display_esc (WINDOW *w);
+        void display_mode( char mode );
+        void display_list( size_t pos, std::vector<const vpart_info *> list, const int header = 0 );
+        void display_details( const vpart_info *part );
+        size_t display_esc( WINDOW *w );
 
         void countDurability();
-        friend nc_color getDurabilityColor(const int &dur);
-        std::string getDurabilityDescription(const int &dur);
+        friend nc_color getDurabilityColor( const int &dur );
+        std::string getDurabilityDescription( const int &dur );
 
         int durabilityPercent;
         std::string totalDurabilityText;
@@ -138,12 +139,12 @@ class veh_interact
         int mostDamagedPart;
 
         //do_remove supporting operation, writes requirements to ui
-        bool can_remove_part(int veh_part_index, int mech_skill, int msg_width);
+        bool can_remove_part( int veh_part_index, int mech_skill, int msg_width );
         //do install support, writes requirements to ui
-        bool can_install_part(int msg_width);
+        bool can_install_part( int msg_width );
         //true if trying to install foot crank with electric engines for example
         //writes failure to ui
-        bool is_drive_conflict(int msg_width);
+        bool is_drive_conflict( int msg_width );
         /* true if current selected square has part with "FUEL_TANK flag and
          * they are not full. Otherwise will be false.
          */
@@ -152,15 +153,15 @@ class veh_interact
         /* Vector of all vpart TYPES that can be mounted in the current square.
          * Can be converted to a vector<vpart_info>.
          * Updated whenever the cursor moves. */
-        std::vector<const vpart_info*> can_mount;
+        std::vector<const vpart_info *> can_mount;
 
         /* Maps part names to vparts representing different shapes of a part.
          * Used to slim down installable parts list. Only built once. */
-        std::map< std::string, std::vector<const vpart_info*> > vpart_shapes;
+        std::map< std::string, std::vector<const vpart_info *> > vpart_shapes;
 
         /* Vector of all wheel types. Used for changing wheels, so it only needs
          * to be built once. */
-        std::vector<const vpart_info*> wheel_types;
+        std::vector<const vpart_info *> wheel_types;
 
         /* Vector of vparts in the current square that can be repaired. Strictly a
          * subset of parts_here.
@@ -187,11 +188,11 @@ class veh_interact
         void deallocate_windows();
 
     public:
-        veh_interact ();
-        void exec(vehicle *v);
+        veh_interact();
+        void exec( vehicle *v );
 };
 
-void complete_vehicle ();
-nc_color getDurabilityColor(const int &dur);
+void complete_vehicle();
+nc_color getDurabilityColor( const int &dur );
 
 #endif

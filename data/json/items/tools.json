@@ -276,9 +276,10 @@
     "color": "dark_green",
     "name": "survivor telescope",
     "name_plural": "survivor telescopes",
-    "description": "A homemade collapsible telescope. Too large and inaccurate to use as a weapon scope, but carrying this item in your inventory will double the distance that is mapped around you during your travels.",
+    "description": "A homemade collapsible telescope.  Too large and inaccurate to use as a weapon scope, but carrying this item in your inventory will double the distance that is mapped around you during your travels.",
     "price": 600,
     "material": ["glass", "plastic"],
+    "flags": [ "LENS", "ZOOM" ],
     "weight": 500,
     "volume": 1,
     "bashing": 0,
@@ -289,7 +290,11 @@
     "max_charges": 0,
     "initial_charges": 0,
     "charges_per_use": 0,
-    "turns_per_charge": 0
+    "turns_per_charge": 0,
+    "use_action": {
+            "type": "extended_firestarter",
+            "need_sunlight": true
+    }
   },
   {
     "id": "rock_quern",
@@ -333,7 +338,17 @@
     "turns_per_charge": 0,
     "ammo": "thread",
     "revert_to": "null",
-    "use_action": "SEW"
+    "use_action": {
+        "type": "repair_item",
+        "item_action_type" : "repair_fabric",
+        "materials": [
+            "cotton", "leather", "wool", "fur", "nomex"
+        ],
+        "skill": "tailor",
+        "cost_scaling": 0,
+        "tool_quality": 0,
+        "move_cost": 1000
+    }
   },
 
   {
@@ -357,7 +372,19 @@
     "turns_per_charge": 0,
     "ammo": "thread",
     "revert_to": "null",
-    "use_action": "SEW_ADVANCED",
+    "use_action": [
+        {
+            "type": "repair_item",
+            "item_action_type" : "repair_fabric",
+            "materials": [
+                "cotton", "leather", "wool", "fur", "nomex"
+            ],
+            "skill": "tailor",
+            "cost_scaling": 0,
+            "tool_quality": 1,
+            "move_cost": 800
+        },
+        "SEW_ADVANCED" ],
     "qualities": [["CUT", 1]]
   },
 
@@ -1631,7 +1658,16 @@
     "ammo": "battery",
     "revert_to": "null",
     "use_action": [
-        "SOLDER_WELD",
+        {
+            "type": "repair_item",
+            "item_action_type" : "repair_metal",
+            "materials": [
+                "kevlar", "plastic", "iron", "steel", "hardsteel", "aluminum", "copper"
+            ],
+            "skill": "mechanics",
+            "cost_scaling": 0.25,
+            "move_cost": 1500
+        },
         {
             "type": "cauterize",
             "flame": false
@@ -3610,7 +3646,8 @@
         "active": true,
         "need_fire": 1,
         "need_fire_msg": "You need a source of fire!",
-        "msg": "You light the Molotov cocktail."
+        "msg": "You light the Molotov cocktail.",
+        "moves": 75
     }
   },
 
@@ -4765,7 +4802,17 @@
     "ammo": "battery",
     "revert_to": "null",
     "use_action": [
-        "SOLDER_WELD",
+        {
+            "type": "repair_item",
+            "item_action_type" : "repair_metal",
+            "materials": [
+                "kevlar", "plastic", "iron", "steel", "hardsteel", "aluminum", "copper"
+            ],
+            "skill": "mechanics",
+            "cost_scaling": 0.25,
+            "move_cost": 500,
+            "tool_quality": 3
+        },
         {
             "type": "cauterize",
             "flame": false
@@ -5534,7 +5581,7 @@
     "price": 120000,
     "material": "steel",
     "flags": ["CHOP", "DURABLE_MELEE", "SHEATH_SWORD", "IAIJUTSU"],
-    "techniques": "WBLOCK_1",
+    "techniques": "WBLOCK_2",
     "weight": 1474,
     "volume": 9,
     "bashing": 8,
@@ -5573,7 +5620,7 @@
     "price": 120000,
     "material": "steel",
     "flags": ["FIRE", "CHOP", "LIGHT_240", "CHARGEDIM", "FLAMING", "DURABLE_MELEE"],
-    "techniques": ["WBLOCK_1"],
+    "techniques": ["WBLOCK_2"],
     "weight": 1474,
     "volume": 9,
     "bashing": 8,
@@ -6698,8 +6745,14 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category" : "spare_parts",
-    "use_action": "RAG",
-    "flags": ["NO_SALVAGE"]
+    "flags": ["NO_SALVAGE"],
+        "use_action" : {
+            "type" : "heal",
+            "limb_power" : 0,
+            "bleed" : 0.5,
+            "move_cost" : 200,
+            "used_up_item" : "rag_bloody"
+        }
   },
 
   {
@@ -6891,7 +6944,7 @@
     "symbol": ";",
     "color": "white",
     "name": "bone needle",
-    "description": "This is sharp needle made from a bone.  It would be useful for making rough clothing and items",
+    "description": "This is sharp needle made from a bone.  It would be useful for making rough clothing and items.  Its low quality makes it rather unsuitable for anything requiring speed or precision.",
     "price": 0,
     "material": "bone",
     "flags": "STAB",
@@ -6906,7 +6959,17 @@
     "turns_per_charge": 0,
     "ammo": "thread",
     "revert_to": "null",
-    "use_action": "SEW"
+    "use_action": {
+        "type": "repair_item",
+        "item_action_type" : "repair_fabric",
+        "materials": [
+            "cotton", "leather", "wool", "fur", "nomex"
+        ],
+        "skill": "tailor",
+        "cost_scaling": 0,
+        "tool_quality": -1,
+        "move_cost": 1300
+    }
   },
 
    {
@@ -6916,7 +6979,7 @@
     "symbol": ";",
     "color": "brown",
     "name": "wooden needle",
-    "description": "This is a wooden needle whittled down to a sharp point.  It has a narrow hole carved into the head for threading.",
+    "description": "This is a wooden needle whittled down to a sharp point.  It has a narrow hole carved into the head for threading.  Its low quality makes it rather unsuitable for anything requiring speed or precision.",
     "price": 0,
     "material": "wood",
     "flags": "STAB",
@@ -6931,7 +6994,17 @@
     "turns_per_charge": 0,
     "ammo": "thread",
     "revert_to": "null",
-    "use_action": "SEW"
+    "use_action": {
+        "type": "repair_item",
+        "item_action_type" : "repair_fabric",
+        "materials": [
+            "cotton", "leather", "wool", "fur", "nomex"
+        ],
+        "skill": "tailor",
+        "cost_scaling": 0,
+        "tool_quality": -1,
+        "move_cost": 1500
+    }
   },
 
   {
@@ -8014,7 +8087,12 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category" : "drugs",
-    "use_action": "RAG"
+        "use_action" : {
+            "type" : "heal",
+            "limb_power" : 0,
+            "bleed" : 0.5,
+            "move_cost" : 200
+        }
   },
 
   {
@@ -8111,7 +8189,17 @@
     "ammo": "battery",
     "revert_to": "null",
     "use_action": [
-        "SOLDER_WELD",
+        {
+            "type": "repair_item",
+            "item_action_type" : "repair_metal",
+            "materials": [
+                "kevlar", "plastic", "iron", "steel", "hardsteel", "aluminum", "copper"
+            ],
+            "skill": "mechanics",
+            "cost_scaling": 0.25,
+            "move_cost": 1000,
+            "tool_quality": 3
+        },
         {
             "type": "cauterize",
             "flame": false
@@ -9595,7 +9683,7 @@
     "description": "This is a stout metal box containing a complete tool kit suitable for most household maintenance and construction activities.  In addition, when supplied with duct tape, it serves as a vital tool for fixing items made of wood, paper, bone, or chitin.  It requires 25 units of duct tape per use.",
     "price": 12999,
     "material": "steel",
-    "weight": 3364,
+    "weight": 3522,
     "volume": 10,
     "bashing": 8,
     "cutting": 0,
@@ -10584,7 +10672,7 @@
     "price": 185000,
     "material": ["steel", "diamond"],
     "flags" : ["CHOP", "DURABLE_MELEE", "SHEATH_SWORD", "IAIJUTSU", "VORPAL"],
-    "techniques": "WBLOCK_1",
+    "techniques": "WBLOCK_2",
     "weight": 1100,
     "volume": 7,
     "bashing": 8,
@@ -10610,7 +10698,7 @@
     "price": 250000,
     "material": ["steel", "diamond"],
     "flags" : ["CHOP", "DURABLE_MELEE", "SHEATH_SWORD", "VORPAL"],
-    "techniques": ["WBLOCK_2", "WIDE", "BRUTAL"],
+    "techniques": ["WBLOCK_1", "WIDE", "BRUTAL"],
     "weight": 3083,
     "volume": 13,
     "bashing": 17,

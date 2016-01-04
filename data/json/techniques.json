@@ -7,20 +7,20 @@
     },{
         "type" : "technique",
         "id" : "WBLOCK_1",
-        "name" : "Parry",
-        "dummy" : true,
-        "messages" : [
-            "You parry %s",
-            "<npcname> parries %s"
-        ]
-    },{
-        "type" : "technique",
-        "id" : "WBLOCK_2",
         "name" : "Block",
         "dummy" : true,
         "messages" : [
             "You block %s",
             "<npcname> blocks %s"
+        ]
+    },{
+        "type" : "technique",
+        "id" : "WBLOCK_2",
+        "name" : "Parry",
+        "dummy" : true,
+        "messages" : [
+            "You parry %s",
+            "<npcname> parries %s"
         ]
     },{
         "type" : "technique",

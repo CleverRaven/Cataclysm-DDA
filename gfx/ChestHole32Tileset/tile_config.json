@@ -1708,31 +1708,31 @@
         },
         {
           "id": "armor_blarmor",
-          "fg": 242,
+          "fg": 3702,
           "bg": 632,
           "rotates": false
         },
         {
           "id": "armor_chitin",
-          "fg": 243,
+          "fg": 3670,
           "bg": 632,
           "rotates": false
         },
         {
           "id": "armor_bone",
-          "fg": 3196,
+          "fg": 3679,
           "bg": 632,
           "rotates": false
         },
         {
           "id": "overlay_worn_helmet_bone",
-          "fg": 3195,
+          "fg": 3672,
           "bg": 632,
           "rotates": false
         },
         {
           "id": "helmet_bone",
-          "fg": 3195,
+          "fg": 3680,
           "bg": 632,
           "rotates": false
         },
@@ -1744,7 +1744,7 @@
         },
         {
           "id": "armor_larmor",
-          "fg": 245,
+          "fg": 3702,
           "bg": 632,
           "rotates": false
         },
@@ -2190,8 +2190,8 @@
           "rotates": false
         },
         {
-          "id": "bunker_pants",
-          "fg": 290,
+          "id": "overlay_worn_bunker_pants",
+          "fg": 3711,
           "bg": 632,
           "rotates": false
         },
@@ -3027,7 +3027,7 @@
         },
         {
           "id": "hazmat_suit",
-          "fg": 3154,
+          "fg": 3723,
           "bg": 632,
           "rotates": false
         },
@@ -3060,10 +3060,10 @@
           "fg": 369,
           "bg": 632,
           "rotates": false
-        },
+        }, 
         {
           "id": "helmet_chitin",
-          "fg": 370,
+          "fg": 3671,
           "bg": 632,
           "rotates": false
         },
@@ -3075,11 +3075,16 @@
         },
         {
           "id": "helmet_hsurvivor",
-          "fg": 372
+          "fg": 3687
         },
         {
           "id": "overlay_worn_helmet_hsurvivor",
-          "fg": 372,
+          "fg": 3681,
+          "rotates": false
+        },
+        {
+          "id": "overlay_worn_mask_hsurvivor",
+          "fg": 3687,
           "rotates": false
         },
         {
@@ -3093,7 +3098,7 @@
         },
         {
           "id": "helmet_larmor",
-          "fg": 373,
+          "fg": 3701,
           "bg": 632,
           "rotates": false
         },
@@ -3500,7 +3505,7 @@
         },
         {
           "id": "nomex_suit",
-          "fg": 394,
+          "fg": 3695,
           "bg": 632,
           "rotates": false
         },
@@ -3678,7 +3683,7 @@
         },
         {
           "id": "mask_hsurvivor",
-          "fg": 413,
+          "fg": 3688,
           "bg": 632,
           "rotates": false
         },
@@ -3801,7 +3806,7 @@
         },
         {
           "id": "hsurvivor_suit",
-          "fg": 423,
+          "fg": 3689,
           "bg": 632,
           "rotates": false
         },
@@ -3924,7 +3929,7 @@
         },
         {
           "id": "overlay_worn_armguard_chitin",
-          "fg": 431,
+          "fg": 3667,
           "rotates": false
         },
         {
@@ -3996,13 +4001,23 @@
           "rotates": false
         },
         {
-          "id": "overlay_worn_armor_blarmor",
-          "fg": 435,
+          "id": "overlay_female_worn_armor_blarmor",
+          "fg": 3697,
           "rotates": false
         },
         {
-          "id": "overlay_worn_armor_bone",
-          "fg": 3196,
+          "id": "overlay_male_worn_armor_blarmor",
+          "fg": 3700,
+          "rotates": false
+        },
+        {
+          "id": "overlay_male_worn_armor_bone",
+          "fg": 3676,
+          "rotates": false
+        },
+        {
+          "id": "overlay_female_worn_armor_bone",
+          "fg": 3673,
           "rotates": false
         },
         {
@@ -4057,15 +4072,35 @@
           "id": "overlay_worn_armor_plate",
           "fg": 438,
           "rotates": false
-        },
+        }, 
         {
-          "id": "overlay_worn_armor_scrapsuit",
-          "fg": 438,
+          "id": "overlay_male_worn_armor_scrapsuit",
+          "fg": 3728,
           "rotates": false
         },
         {
-          "id": "overlay_worn_armor_chitin",
-          "fg": 438,
+          "id": "overlay_female_worn_armor_scrapsuit",
+          "fg": 3729,
+          "rotates": false
+        },
+        {
+          "id": "overlay_male_worn_football_armor",
+          "fg": 3744,
+          "rotates": false
+        },
+        {
+          "id": "overlay_female_worn_football_armor",
+          "fg": 3745,
+          "rotates": false
+        },
+        {
+          "id": "overlay_female_worn_armor_chitin",
+          "fg": 3665,
+          "rotates": false
+        },
+        {
+          "id": "overlay_male_worn_armor_chitin",
+          "fg": 3668,
           "rotates": false
         },
         {
@@ -4335,13 +4370,23 @@
           "rotates": false
         },
         {
-          "id": "overlay_worn_boots_bone",
-          "fg": 3197,
+          "id": "overlay_male_worn_boots_bone",
+          "fg": 3678,
           "rotates": false
         },
         {
-          "id": "overlay_worn_boots_chitin",
-          "fg": 451,
+          "id": "overlay_female_worn_boots_bone",
+          "fg": 3675,
+          "rotates": false
+        },
+        {
+          "id": "overlay_female_worn_boots_chitin",
+          "fg": 3666,
+          "rotates": false
+        },
+        {
+          "id": "overlay_male_worn_boots_chitin",
+          "fg": 3669,
           "rotates": false
         },
         {
@@ -4351,7 +4396,7 @@
         },
         {
           "id": "overlay_worn_boots_hsurvivor",
-          "fg": 451,
+          "fg": 3685,
           "rotates": false
         },
         {
@@ -4591,7 +4636,7 @@
         },
         {
           "id": "overlay_worn_bunker_coat",
-          "fg": 463,
+          "fg": 3695,
           "rotates": false
         },
         {
@@ -4666,13 +4711,13 @@
           "fg": 466
         },
         {
-          "id": "overlay_worn_depowered_armor",
-          "fg": 467,
+          "id": "overlay_worn_power_armor_light",
+          "fg": 3719,
           "rotates": false
         },
         {
-          "id": "overlay_worn_power_armor_light",
-          "fg": 467,
+          "id": "overlay_worn_power_armor_heavy",
+          "fg": 3713,
           "rotates": false
         },
         {
@@ -4682,7 +4727,7 @@
         },
         {
           "id": "overlay_worn_power_armor_basic",
-          "fg": 467,
+          "fg": 3716,
           "rotates": false
         },
         {
@@ -4707,7 +4752,7 @@
         },
         {
           "id": "overlay_worn_boots_larmor",
-          "fg": 470,
+          "fg": 3698,
           "rotates": false
         },
         {
@@ -4790,7 +4835,7 @@
         },
         {
           "id": "overlay_worn_firehelmet",
-          "fg": 475,
+          "fg": 3693,
           "rotates": false
         },
         {
@@ -4934,12 +4979,12 @@
         },
         {
           "id": "overlay_worn_gloves_hsurvivor",
-          "fg": 480,
+          "fg": 3686,
           "rotates": false
         },
         {
           "id": "overlay_worn_gloves_survivor",
-          "fg": 480,
+          "fg": 3686,
           "rotates": false
         },
         {
@@ -4953,8 +4998,13 @@
           "rotates": false
         },
         {
-          "id": "overlay_worn_gauntlets_bone",
-          "fg": 3198,
+          "id": "overlay_male_worn_gauntlets_bone",
+          "fg": 3677,
+          "rotates": false
+        },
+        {
+          "id": "overlay_female_worn_gauntlets_bone",
+          "fg": 3674,
           "rotates": false
         },
         {
@@ -4963,13 +5013,13 @@
           "rotates": false
         },
         {
-          "id": "overlay_worn_gauntlets_chitin",
-          "fg": 480,
+          "id": "overlay_worn_helmet_chitin",
+          "fg": 3664,
           "rotates": false
         },
         {
           "id": "overlay_worn_gauntlets_larmor",
-          "fg": 480,
+          "fg": 3699,
           "rotates": false
         },
         {
@@ -5003,7 +5053,7 @@
         },
         {
           "id": "overlay_worn_nomex_gloves",
-          "fg": 481,
+          "fg": 3711,
           "rotates": false
         },
         {
@@ -5196,7 +5246,7 @@
         },
         {
           "id": "overlay_worn_helmet_larmor",
-          "fg": 491,
+          "fg": 3696,
           "rotates": false
         },
         {
@@ -5206,27 +5256,47 @@
         },
         {
           "id": "anbc_suit",
-          "fg": 3155,
+          "fg": 3721,
           "rotates": false
         },
         {
-          "id": "overlay_worn_anbc_suit",
-          "fg": 3155,
+          "id": "overlay_female_worn_anbc_suit",
+          "fg": 3722,
           "rotates": false
         },
         {
-          "id": "overlay_worn_hazmat_suit",
-          "fg": 3154,
+          "id": "overlay_male_worn_anbc_suit",
+          "fg": 3721,
           "rotates": false
         },
         {
-          "id": "overlay_worn_cleansuit",
-          "fg": 492,
+          "id": "overlay_female_worn_hazmat_suit",
+          "fg": 3724,
           "rotates": false
         },
         {
-          "id": "overlay_worn_aep_suit",
-          "fg": 492,
+          "id": "overlay_male_worn_hazmat_suit",
+          "fg": 3723,
+          "rotates": false
+        },
+        {
+          "id": "overlay_female_worn_cleansuit",
+          "fg": 3736,
+          "rotates": false
+        },
+        {
+          "id": "overlay_male_worn_cleansuit",
+          "fg": 3735,
+          "rotates": false
+        },
+        {
+          "id": "overlay_female_worn_aep_suit",
+          "fg": 3738,
+          "rotates": false
+        },
+        {
+          "id": "overlay_male_worn_aep_suit",
+          "fg": 3737,
           "rotates": false
         },
         {
@@ -5289,12 +5359,12 @@
         },
         {
           "id": "overlay_worn_mask_fsurvivor",
-          "fg": 499,
+          "fg": 3692,
           "rotates": false
         },
         {
           "id": "overlay_worn_mask_fsurvivorxl",
-          "fg": 499,
+          "fg": 3692,
           "rotates": false
         },
         {
@@ -5371,8 +5441,13 @@
           "rotates": false
         },
         {
-          "id": "overlay_worn_hsurvivor_suit",
-          "fg": 504,
+          "id": "overlay_female_worn_hsurvivor_suit",
+          "fg": 3682,
+          "rotates": false
+        },
+        {
+          "id": "overlay_male_worn_hsurvivor_suit",
+          "fg": 3684,
           "rotates": false
         },
         {
@@ -5381,8 +5456,13 @@
           "rotates": false
         },
         {
-          "id": "overlay_worn_survivor_suit",
-          "fg": 504,
+          "id": "overlay_female_worn_survivor_suit",
+          "fg": 3682,
+          "rotates": false
+        },
+        {
+          "id": "overlay_male_worn_survivor_suit",
+          "fg": 3684,
           "rotates": false
         },
         {
@@ -5463,8 +5543,13 @@
           "rotates": false
         },
         {
-          "id": "overlay_worn_winter_jacket_army",
-          "fg": 508,
+          "id": "overlay_male_worn_winter_jacket_army",
+          "fg": 3731,
+          "rotates": false
+        },
+        {
+          "id": "overlay_female_worn_winter_jacket_army",
+          "fg": 3732,
           "rotates": false
         },
         {
@@ -5764,12 +5849,12 @@
         },
         {
           "id": "overlay_worn_power_armor_helmet_heavy",
-          "fg": 526,
+          "fg": 3712,
           "rotates": false
         },
         {
           "id": "overlay_worn_power_armor_helmet_basic",
-          "fg": 526,
+          "fg": 3715,
           "rotates": false
         },
         {
@@ -5779,7 +5864,7 @@
         },
         {
           "id": "overlay_worn_power_armor_helmet_light",
-          "fg": 526,
+          "fg": 3718,
           "rotates": false
         },
         {
@@ -5967,8 +6052,13 @@
           "rotates": false
         },
         {
-          "id": "overlay_worn_jacket_army",
-          "fg": 539,
+          "id": "overlay_male_worn_jacket_army",
+          "fg": 3733,
+          "rotates": false
+        },
+        {
+          "id": "overlay_female_worn_jacket_army",
+          "fg": 3734,
           "rotates": false
         },
         {
@@ -6269,7 +6359,7 @@
         },
         {
           "id": "power_armor_basic",
-          "fg": 565,
+          "fg": 3716,
           "bg": 632,
           "rotates": false
         },
@@ -6281,31 +6371,31 @@
         },
         {
           "id": "power_armor_heavy",
-          "fg": 567,
+          "fg": 3713,
           "bg": 632,
           "rotates": false
         },
         {
           "id": "power_armor_helmet_basic",
-          "fg": 568,
+          "fg": 3717,
           "bg": 632,
           "rotates": false
         },
         {
           "id": "power_armor_helmet_heavy",
-          "fg": 569,
+          "fg": 3714,
           "bg": 632,
           "rotates": false
         },
         {
           "id": "power_armor_helmet_light",
-          "fg": 570,
+          "fg": 3720,
           "bg": 632,
           "rotates": false
         },
         {
           "id": "power_armor_light",
-          "fg": 571,
+          "fg": 3719,
           "bg": 632,
           "rotates": false
         },
@@ -10729,7 +10819,7 @@
         },
         {
           "id": "helsing",
-          "fg": 1462,
+          "fg": 3657,
           "bg": 632,
           "rotates": false
         },
@@ -11447,6 +11537,18 @@
         {
           "id": "cerberus_laser",
           "fg": 1472,
+          "bg": 632,
+          "rotates": false
+        },
+        {
+          "id": "arccan",
+          "fg": 3651,
+          "bg": 632,
+          "rotates": false
+        },
+        {
+          "id": "ltcarb",
+          "fg": 3643,
           "bg": 632,
           "rotates": false
         },
@@ -12306,13 +12408,13 @@
         },
         {
           "id": "nailgun",
-          "fg": 1497,
+          "fg": 3653,
           "bg": 632,
           "rotates": false
         },
         {
           "id": "nailrifle",
-          "fg": 1498,
+          "fg": 3655,
           "bg": 632,
           "rotates": false
         },
@@ -13297,7 +13399,7 @@
         },
         {
           "id": "savage_111f",
-          "fg": 1557,
+          "fg": 3649,
           "bg": 632,
           "rotates": false
         },
@@ -16391,20 +16493,20 @@
           "rotates": false
         },
         {
-          "id": "overlay_worn_swat_armor",
-          "fg": 3476,
+          "id": "overlay_female_worn_swat_armor",
+          "fg": 3740,
+          "bg": 632,
+          "rotates": false
+        },
+        {
+          "id": "overlay_male_worn_swat_armor",
+          "fg": 3739,
           "bg": 632,
           "rotates": false
         },
         {
           "id": "armor_scrapsuit",
-          "fg": 3477,
-          "bg": 632,
-          "rotates": false
-        },
-        {
-          "id": "overlay_worn_armor_scrapsuit",
-          "fg": 3477,
+          "fg": 3730,
           "bg": 632,
           "rotates": false
         },
@@ -16434,7 +16536,13 @@
         },
         {
           "id": "nomex_hood",
-          "fg": 3481,
+          "fg": 3694,
+          "bg": 632,
+          "rotates": false
+        },
+        {
+          "id": "overlay_worn_nomex_hood",
+          "fg": 3694,
           "bg": 632,
           "rotates": false
         },
@@ -17673,12 +17781,7 @@
         },
         {
          "id": "bottle_plastic_small",
-           "fg": [
-            { "weight":2, "sprite":2850},
-            { "weight":2, "sprite":3628},
-            { "weight":2, "sprite":3629},
-            { "weight":2, "sprite":3630} 
-        ], 
+           "fg": 2850,
           "bg": 632
         },
         {
@@ -20501,7 +20604,7 @@
           "id": "t_wall",
           "fg": [
             { "weight":1, "sprite":[2918, 3627, 2918, 3627]},
-            { "weight":99, "sprite":[2918, 2919, 2918, 2919]}
+            { "weight":999, "sprite":[2918, 2919, 2918, 2919]}
            ], 
           "bg": 633,
           "rotates": true,
@@ -22372,13 +22475,7 @@
         }, 
         {
           "id": "npc_male",
-          "fg": [
-            { "weight":1, "sprite":3600},
-            { "weight":2, "sprite":3599},
-            { "weight":2, "sprite":3598},
-            { "weight":2, "sprite":3597 },
-            { "weight":3, "sprite":1706 }
-        ],
+          "fg":1706 ,
           "bg": 642,
           "rotates": false
         },
@@ -22390,13 +22487,7 @@
         },
         {
           "id": "player_male",
-          "fg": [
-            { "weight":2, "sprite":3600},
-            { "weight":2, "sprite":3599},
-            { "weight":2, "sprite":3598},
-            { "weight":2, "sprite":3597},
-            { "weight":2, "sprite":1706}
-        ],
+          "fg": 1706,
           "bg": 642,
           "rotates": false
         },
@@ -27286,7 +27377,7 @@
         },
         {
           "id": "ak47",
-          "fg": 1428,
+          "fg": 3663,
           "rotates": false
         },
         {
@@ -27384,7 +27475,7 @@
         },
         {
           "id": "hk_g3",
-          "fg": 1463,
+          "fg": 3659,
           "rotates": false
         },
         {
@@ -27483,7 +27574,7 @@
         },
         {
           "id": "marlin_9a",
-          "fg": 1491,
+          "fg": 3645,
           "rotates": false
         },
         {
@@ -27598,7 +27689,7 @@
         },
         {
           "id": "overlay_wielded_ak47",
-          "fg": 1503,
+          "fg": 3662,
           "rotates": false
         },
         {
@@ -27608,7 +27699,7 @@
         },
         {
           "id": "overlay_wielded_hk_g3",
-          "fg": 1503,
+          "fg": 3658,
           "rotates": false
         },
         {
@@ -27708,12 +27799,12 @@
         },
         {
           "id": "overlay_wielded_helsing",
-          "fg": 1505,
+          "fg": 3656,
           "rotates": false
         },
         {
           "id": "overlay_wielded_marlin_9a",
-          "fg": 1505,
+          "fg": 3644,
           "rotates": false
         },
         {
@@ -27728,7 +27819,7 @@
         },
         {
           "id": "overlay_wielded_nailrifle",
-          "fg": 1505,
+          "fg": 3654,
           "rotates": false
         },
         {
@@ -27753,7 +27844,7 @@
         },
         {
           "id": "overlay_wielded_savage_111f",
-          "fg": 1505,
+          "fg": 3648,
           "rotates": false
         },
         {
@@ -27844,6 +27935,16 @@
         {
           "id": "overlay_wielded_hk_g80",
           "fg": 1509,
+          "rotates": false
+        },
+        {
+          "id": "overlay_wielded_arccan",
+          "fg": 3650,
+          "rotates": false
+        },
+        {
+          "id": "overlay_wielded_ltcarb",
+          "fg": 3642,
           "rotates": false
         },
         {
@@ -28183,7 +28284,7 @@
         },
         {
           "id": "overlay_wielded_tec9",
-          "fg": 1516,
+          "fg": 3647,
           "rotates": false
         },
         {
@@ -28316,7 +28417,7 @@
         },
         {
           "id": "overlay_wielded_remington_870",
-          "fg": 1521,
+          "fg": 3660,
           "rotates": false
         },
         {
@@ -28356,7 +28457,7 @@
         },
         {
           "id": "overlay_wielded_nailgun",
-          "fg": 1522,
+          "fg": 3652,
           "rotates": false
         },
         {
@@ -28426,7 +28527,7 @@
         },
         {
           "id": "overlay_wielded_cx4",
-          "fg": 1525,
+          "fg": 3646,
           "rotates": false
         },
         {
@@ -28471,7 +28572,7 @@
         },
         {
           "id": "remington_870",
-          "fg": 1538,
+          "fg": 3661,
           "rotates": false
         },
         {
@@ -29903,6 +30004,27 @@
         {
           "id": "t_window",
           "fg": [2938, 2904, 2938, 2904],
+          "rotates": true
+        },
+        {
+          "fg": [
+            2938,
+            2904,
+            2938,
+            2904
+          ],
+          "id": "t_window_no_curtains",
+          "rotates": true
+        },
+        {
+          "bg": 661,
+          "fg": [
+            2939,
+            2912,
+            2939,
+            2912
+          ],
+          "id": "t_window_no_curtains_open",
           "rotates": true
         },
         {

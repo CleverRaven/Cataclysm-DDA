@@ -24,8 +24,6 @@ public:
     int sewage              ( player*, item*, bool, const tripoint& );
     int honeycomb           ( player*, item*, bool, const tripoint& );
     int royal_jelly         ( player*, item*, bool, const tripoint& );
-    int bandage             ( player*, item*, bool, const tripoint& );
-    int firstaid            ( player*, item*, bool, const tripoint& );
     int completefirstaid    ( player*, item*, bool, const tripoint& );
     int disinfectant        ( player*, item*, bool, const tripoint& );
     int caff                ( player*, item*, bool, const tripoint& );
@@ -76,7 +74,6 @@ public:
     int catfood             ( player*, item*, bool, const tripoint& );
 
 // TOOLS
-    int sew                 ( player*, item*, bool, const tripoint& );
     int sew_advanced        ( player*, item*, bool, const tripoint& );
     int extra_battery       ( player*, item*, bool, const tripoint& );
     int double_reactor      ( player*, item*, bool, const tripoint& );
@@ -84,7 +81,6 @@ public:
     int scissors            ( player*, item*, bool, const tripoint& );
     int extinguisher        ( player*, item*, bool, const tripoint& );
     int hammer              ( player*, item*, bool, const tripoint& );
-    int solder_weld         ( player*, item*, bool, const tripoint& );
     int water_purifier      ( player*, item*, bool, const tripoint& );
     int two_way_radio       ( player*, item*, bool, const tripoint& );
     int directional_antenna ( player*, item*, bool, const tripoint& );
@@ -126,7 +122,6 @@ public:
     int arrow_flamable      ( player*, item*, bool, const tripoint& );
     int acidbomb_act        ( player*, item*, bool, const tripoint& );
     int grenade_inc_act     ( player*, item*, bool, const tripoint& );
-    int molotov             ( player*, item*, bool, const tripoint& );
     int molotov_lit         ( player*, item*, bool, const tripoint& );
     int firecracker_pack    ( player*, item*, bool, const tripoint& );
     int firecracker_pack_act( player*, item*, bool, const tripoint& );
@@ -164,7 +159,6 @@ public:
     int boltcutters         ( player*, item*, bool, const tripoint& );
     int mop                 ( player*, item*, bool, const tripoint& );
     int spray_can           ( player*, item*, bool, const tripoint& );
-    int rag                 ( player*, item*, bool, const tripoint& );
     int LAW                 ( player*, item*, bool, const tripoint& );
     int heatpack            ( player*, item*, bool, const tripoint& );
     int hotplate            ( player*, item*, bool, const tripoint& );

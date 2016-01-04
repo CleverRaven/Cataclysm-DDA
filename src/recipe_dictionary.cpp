@@ -43,7 +43,7 @@ void recipe_dictionary::delete_if( const std::function<bool( recipe & )> &pred )
 void recipe_dictionary::add_to_component_lookup( recipe *r )
 {
     std::unordered_set<itype_id> counted;
-    for( const auto &comp_choices : r->requirements.components ) {
+    for( const auto &comp_choices : r->requirements.get_components() ) {
         for( const item_comp &comp : comp_choices ) {
             if( counted.count( comp.type ) ) {
                 continue;

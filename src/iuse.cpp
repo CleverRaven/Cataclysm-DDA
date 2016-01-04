@@ -311,297 +311,6 @@ int iuse::royal_jelly(player *p, item *it, bool, const tripoint& )
     return it->type->charges_to_use();
 }
 
-static hp_part pick_part_to_heal( const player &healer, const player &patient,
-                                  const std::string &menu_header,
-                                  int normal_bonus, int head_bonus, int torso_bonus,
-                                  int bleed, int bite, int infect, bool force )
-{
-    const bool precise = &healer == &patient ?
-        patient.has_trait( "SELFAWARE" ) :
-        ///\EFFECT_PER slightly increases precision when using first aid on someone else
-
-        ///\EFFECT_FIRSTAID increases precision when using first aid on someone else
-        (healer.get_skill_level( skill_firstaid ) * 4 + healer.per_cur >= 20);
-    while( true ) {
-        hp_part healed_part = patient.body_window( menu_header, force, precise,
-                                                   normal_bonus, head_bonus, torso_bonus,
-                                                   bleed, bite, infect );
-        if( healed_part == num_hp_parts ) {
-            return num_hp_parts;
-        }
-
-        body_part bp = player::hp_to_bp( healed_part );
-        if( ( infect > 0 && patient.has_effect( "infected", bp ) ) ||
-            ( bite > 0 && patient.has_effect( "bite", bp ) ) ||
-            ( bleed > 0 && patient.has_effect( "bleed", bp ) ) ) {
-            return healed_part;
-        }
-
-        if( patient.hp_cur[healed_part] == 0 ) {
-            if( healed_part == hp_arm_l || healed_part == hp_arm_r ) {
-                add_msg( m_info, _("That arm is broken.  It needs surgical attention or a splint.") );
-            } else if( healed_part == hp_leg_l || healed_part == hp_leg_r ) {
-                add_msg( m_info, _("That leg is broken.  It needs surgical attention or a splint.") );
-            } else {
-                add_msg( m_info, "That body part is bugged.  It needs developer's attention." );
-            }
-
-            continue;
-        }
-
-        if( force || patient.hp_cur[healed_part] < patient.hp_max[healed_part] ) {
-            return healed_part;
-        }
-    }
-
-    // Won't happen?
-    return num_hp_parts;
-}
-
-player &get_patient( player &healer, const tripoint &pos )
-{
-    if( healer.pos() == pos ) {
-        return healer;
-    }
-
-    if( g->u.pos() == pos ) {
-        return g->u;
-    }
-
-    const int npc_index = g->npc_at( pos );
-    if( npc_index == -1 ) {
-        // Default to heal self on failure not to break old functionality
-        add_msg( m_debug, "No heal target at position %d,%d,%d", pos.x, pos.y, pos.z );
-        return healer;
-    }
-
-    return *g->active_npc[npc_index];
-}
-
-hp_part use_healing_item( player &healer, player &patient, item *it,
-                          int normal_power, int head_power,
-                          int torso_power, int bleed,
-                          int bite, int infect, bool force )
-{
-    hp_part healed = num_hp_parts;
-    ///\EFFECT_FIRSTAID increases healing item effects
-    int bonus = healer.get_skill_level( skill_firstaid );
-    int head_bonus = 0;
-    int normal_bonus = 0;
-    int torso_bonus = 0;
-    if (head_power > 0) {
-        head_bonus = bonus * .8 + head_power;
-    } else {
-        head_bonus = head_power;
-    }
-    if (normal_power > 0) {
-        normal_bonus = bonus + normal_power;
-    } else {
-        normal_bonus = normal_power;
-    }
-    if (torso_power > 0) {
-        torso_bonus = bonus * 1.5 + torso_power;
-    } else {
-        torso_bonus = torso_power;
-    }
-
-    if( healer.is_npc() ) {
-        // NPCs heal whichever has sustained the most damage
-        int highest_damage = 0;
-        for (int i = 0; i < num_hp_parts; i++) {
-            int damage = patient.hp_max[i] - patient.hp_cur[i];
-            if (i == hp_head) {
-                damage *= 1.5;
-            }
-            if (i == hp_torso) {
-                damage *= 1.2;
-            }
-            // Consider states too
-            // Weights are arbitrary, may need balancing
-            const body_part i_bp = player::hp_to_bp( hp_part( i ) );
-            damage += bleed * patient.get_effect_dur( "bleed", i_bp ) / 100 / 50;
-            damage += bite * patient.get_effect_dur( "bite", i_bp ) / 100 / 100;
-            damage += infect * patient.get_effect_dur( "infected", i_bp ) / 100 / 100;
-            if (damage > highest_damage) {
-                highest_damage = damage;
-                healed = hp_part(i);
-            }
-        }
-    } else if( patient.is_player() ) {
-        // Player healing self - let player select
-        if( healer.activity.type != ACT_FIRSTAID ) {
-            const std::string menu_header = it->tname();
-            healed = pick_part_to_heal( healer, patient, menu_header,
-                                        normal_bonus, head_bonus, torso_bonus,
-                                        bleed, bite, infect, force );
-            if( healed == num_hp_parts ) {
-                return num_hp_parts; // canceled
-            }
-        }
-        // Brick healing if using a first aid kit for the first time.
-        // TODO: Base check on something other than the name.
-        if( it->type->id == "1st_aid" && healer.activity.type != ACT_FIRSTAID ) {
-            // Cancel and wait for activity completion.
-            return healed;
-        } else if( healer.activity.type == ACT_FIRSTAID ) {
-            // Completed activity, extract body part from it.
-            healed = (hp_part)healer.activity.values[0];
-        }
-    } else {
-        // Player healing NPC
-        // TODO: Remove this hack, allow using activities on NPCs
-        const std::string menu_header = it->tname();
-        healed = pick_part_to_heal( healer, patient, menu_header,
-                                    normal_bonus, head_bonus, torso_bonus,
-                                    bleed, bite, infect, force );
-        if( healed == num_hp_parts ) {
-            return num_hp_parts; // canceled
-        }
-    }
-
-    healer.practice( skill_firstaid, 8 );
-    int dam = 0;
-    if (healed == hp_head) {
-        dam = head_bonus;
-    } else if (healed == hp_torso) {
-        dam = torso_bonus;
-    } else {
-        dam = normal_bonus;
-    }
-    if( (patient.hp_cur[healed] >= 1) && (dam > 0)) { // Prevent first-aid from mending limbs
-        patient.heal(healed, dam);
-    } else if ((patient.hp_cur[healed] >= 1) && (dam < 0)) {
-        const body_part bp = player::hp_to_bp( healed );
-        patient.apply_damage( nullptr, bp, -dam ); //hurt takes + damage
-    }
-
-    const body_part bp_healed = player::hp_to_bp( healed );
-
-    const bool u_see = healer.is_player() || patient.is_player() ||
-        g->u.sees( healer ) || g->u.sees( patient );
-    const bool player_healing_player = healer.is_player() && patient.is_player();
-    // Need a helper here - messages are from healer's point of view
-    // but it would be cool if NPCs could use this function too
-    const auto heal_msg = [&]( game_message_type msg_type,
-        const char *player_player_msg, const char *other_msg ) {
-        if( !u_see ) {
-            return;
-        }
-
-        if( player_healing_player ) {
-            add_msg( msg_type, player_player_msg );
-        } else {
-            add_msg( msg_type, other_msg );
-        }
-    };
-
-    if (patient.has_effect("bleed", bp_healed)) {
-        if (x_in_y(bleed, 100)) {
-            patient.remove_effect("bleed", bp_healed);
-            heal_msg( m_good, _("You stop the bleeding."), _("The bleeding is stopped.") );
-        } else {
-            heal_msg( m_warning, _("You fail to stop the bleeding."), _("The wound still bleeds.") );
-        }
-    }
-    if (patient.has_effect("bite", bp_healed)) {
-        if (x_in_y(bite, 100)) {
-            patient.remove_effect("bite", bp_healed);
-            heal_msg( m_good, _("You clean the wound."), _("The wound is cleaned.") );
-        } else {
-            heal_msg( m_warning, _("Your wound still aches."), _("The wound still looks bad.") );
-        }
-    }
-    if (patient.has_effect("infected", bp_healed)) {
-        if (x_in_y(infect, 100)) {
-            int infected_dur = patient.get_effect_dur("infected", bp_healed);
-            patient.remove_effect("infected", bp_healed);
-            patient.add_effect("recover", infected_dur);
-            heal_msg( m_good, _("You disinfect the wound."), _("The wound is disinfected.") );
-        } else {
-            heal_msg( m_warning, _("Your wound still hurts."), _("The wound still looks nasty.") );
-        }
-    }
-
-    return healed;
-}
-
-hp_part use_healing_item( player *healer, item *it,
-                          int normal_power, int head_power,
-                          int torso_power, int bleed,
-                          int bite, int infect, bool force )
-{
-    return use_healing_item( *healer, *healer, it,
-                             normal_power, head_power, torso_power,
-                             bleed, bite, infect, force );
-}
-
-int iuse::bandage(player *p, item *it, bool, const tripoint &pos )
-{
-    if (p->is_underwater()) {
-        p->add_msg_if_player(m_info, _("You can't do that while underwater."));
-        return false;
-    }
-    player &patient = get_patient( *p, pos );
-    if (num_hp_parts != use_healing_item( *p, patient, it, 3, 1, 4, 90, 0, 0, false)) {
-        if (it->type->id != "quikclot" || it->type->id != "bfipowder") {
-            // Make bandages and rags take arbitrarily longer than hemostatic/antiseptic powders.
-            p->moves -= 100;
-        }
-        p->add_msg_if_player(m_good, _("You use your %s."), it->tname().c_str());
-        return it->type->charges_to_use();
-    }
-    return 0;
-}
-
-int iuse::firstaid(player *p, item *it, bool, const tripoint &pos )
-{
-    if (p->is_underwater()) {
-        p->add_msg_if_player(m_info, _("You can't do that while underwater."));
-        return false;
-    }
-
-    player &patient = get_patient( *p, pos );
-    hp_part healed = use_healing_item( *p, patient, it, 14, 10, 18, 95, 99, 95, false);
-    if( healed == num_hp_parts ) {
-        return 0;
-    }
-
-    if( &patient != p ) {
-        return 1;
-    }
-
-    // Assign first aid long action.
-    ///\EFFECT_FIRSTAID speeds up firstaid activity
-    p->assign_activity(ACT_FIRSTAID, 6000 / (p->skillLevel( skill_firstaid ) + 1), 0,
-                       p->get_item_position(it), it->tname());
-    p->activity.values.push_back(healed);
-    p->moves = 0;
-    return 0;
-}
-
-// Used when finishing the first aid long action.
-int iuse::completefirstaid(player *p, item *it, bool, const tripoint& )
-{
-    if (num_hp_parts != use_healing_item(p, it, 14, 10, 18, 95, 99, 95, false)) {
-        p->add_msg_if_player(_("You finish using the %s."), it->tname().c_str());
-        p->add_effect("pkill1", 120);
-    }
-    return 0;
-}
-
-int iuse::disinfectant(player *p, item *it, bool, const tripoint &pos )
-{
-    if (p->is_underwater()) {
-        p->add_msg_if_player(m_info, _("You can't do that while underwater."));
-        return false;
-    }
-    player &patient = get_patient( *p, pos );
-    if (num_hp_parts != use_healing_item( *p, patient, it, 6, 5, 9, 0, 95, 0, false)) {
-        return it->type->charges_to_use();
-    }
-    return 0;
-}
-
 int iuse::xanax(player *p, item *it, bool, const tripoint& )
 {
     p->add_msg_if_player(_("You take some %s."), it->tname().c_str());
@@ -2282,185 +1991,6 @@ int iuse::catfood(player *p, item *it, bool, const tripoint& )
     return petfood(p, it, false);
 }
 
-static int repair_clothing(player *p, item *it, item *fix, int pos) {
-    // Some items are made from more than one material.
-    // we should try to use both items if one type of repair item is missing
-    itype_id repair_item = "none";
-    std::vector<std::string> plurals;
-    std::vector<itype_id> repair_items;
-    std::string plural = "";
-    int thread_used = 1;
-    //translation note: add <plural> tag to keep them unique
-    if (fix->made_of("cotton")) {
-        repair_items.push_back("rag");
-        plurals.push_back(rm_prefix(_("<plural>rags")));
-    }
-    if (fix->made_of("leather")) {
-        repair_items.push_back("leather");
-        plurals.push_back(rm_prefix(_("<plural>leather")));
-    }
-    if (fix->made_of("fur")) {
-        repair_items.push_back("fur");
-        plurals.push_back(rm_prefix(_("<plural>fur")));
-    }
-    if (fix->made_of("nomex")) {
-        repair_items.push_back("nomex");
-        plurals.push_back(rm_prefix(_("<plural>Nomex")));
-    }
-    if (fix->made_of("wool")) {
-        repair_items.push_back("felt_patch");
-        plurals.push_back(rm_prefix(_("<plural>wool")));
-    }
-    if (repair_items.empty()) {
-        p->add_msg_if_player(m_info, _("Your %s is not made of fabric, leather, fur, or wool."),
-                                fix->tname().c_str());
-        return 0;
-    }
-    if( fix == it || std::find(repair_items.begin(), repair_items.end(),
-                               fix->typeId()) != repair_items.end()) {
-        p->add_msg_if_player(m_info, _("This can be used to repair other items, not itself."));
-        return 0;
-    }
-
-    int items_needed = (fix->damage > 2 || fix->damage == 0) ? 1 : 0;
-
-    // this will cause issues if/when NPCs start being able to sew.
-    // but, then again, it'll cause issues when they start crafting, too.
-    const inventory &crafting_inv = p->crafting_inventory();
-    bool bFound = false;
-    //go through all discovered repair items and see if we have any of them available
-    for( auto &repair_items_i : repair_items ) {
-        if( crafting_inv.has_amount( repair_items_i, items_needed ) ) {
-            //we've found enough of a material, use this one
-            repair_item = repair_items_i;
-            bFound = true;
-        }
-    }
-    if (!bFound) {
-        for (unsigned int i = 0; i < repair_items.size(); i++) {
-            p->add_msg_if_player(m_info, _("You don't have enough %s to do that."), plurals[i].c_str());
-        }
-        return 0;
-    }
-    std::vector<item_comp> comps;
-    comps.push_back(item_comp(repair_item, items_needed));
-
-    if (fix->damage > 0) {
-        p->moves -= 500 * p->fine_detail_vision_mod();
-        p->practice( skill_tailor, 8);
-        ///\EFFECT_TAILOR randomly improves clothing repair efforts
-        int rn = dice(4, 2 + p->skillLevel( skill_tailor ));
-        rn -= rng(fix->damage, fix->damage * 2);
-        ///\EFFECT_DEX randomly improves clothing repair efforts
-        if (p->dex_cur < 8 && one_in(p->dex_cur)) {
-            rn -= rng(2, 6);
-        }
-        if (p->dex_cur >= 8 && (p->dex_cur >= 16 || one_in(16 - p->dex_cur))) {
-            rn += rng(2, 6);
-        }
-        if (p->dex_cur > 16) {
-            rn += rng(0, p->dex_cur - 16);
-        }
-        if (rn <= 4) {
-            p->add_msg_if_player(m_bad, _("You damage your %s further!"), fix->tname().c_str());
-            fix->damage++;
-            if (fix->damage >= 5) {
-                p->add_msg_if_player(m_bad, _("You destroy it!"));
-                p->i_rem_keep_contents( pos );
-            }
-        } else if (rn <= 6) {
-            p->add_msg_if_player(m_bad, _("You don't repair your %s, but you waste lots of thread."),
-                                 fix->tname().c_str());
-            thread_used = rng(1, 8);
-        } else if (rn <= 8) {
-            p->add_msg_if_player(m_mixed, _("You repair your %s, but waste lots of thread."),
-                                 fix->tname().c_str());
-            if (fix->damage >= 3) {
-                p->consume_items(comps);
-            }
-            fix->damage--;
-            thread_used = rng(1, 8);
-        } else if (rn <= 16) {
-            p->add_msg_if_player(m_good, _("You repair your %s!"), fix->tname().c_str());
-            if (fix->damage >= 3) {
-                p->consume_items(comps);
-            }
-            fix->damage--;
-        } else {
-            p->add_msg_if_player(m_good, _("You repair your %s completely!"), fix->tname().c_str());
-            if (fix->damage >= 3) {
-                p->consume_items(comps);
-            }
-            fix->damage = 0;
-        }
-    } else if (fix->damage == 0 && fix->has_flag("PRIMITIVE_RANGED_WEAPON")) {
-        p->add_msg_if_player(m_info, _("You cannot improve your %s any more this way."), fix->tname().c_str());
-        return 0;
-    } else if (fix->damage == 0 || (fix->has_flag("VARSIZE") && !fix->has_flag("FIT"))) {
-        p->moves -= 500 * p->fine_detail_vision_mod();
-        p->practice( skill_tailor, 10);
-        ///\EFFECT_TAILOR randomly improves clothing fit efforts
-        int rn = dice(4, 2 + p->skillLevel( skill_tailor ));
-        ///\EFFECT_DEX randomly improves clothing fit efforts
-        if (p->dex_cur < 8 && one_in(p->dex_cur)) {
-            rn -= rng(2, 6);
-        }
-        if (p->dex_cur >= 16 || (p->dex_cur > 8 && one_in(16 - p->dex_cur))) {
-            rn += rng(2, 6);
-        }
-        if (p->dex_cur > 16) {
-            rn += rng(0, p->dex_cur - 16);
-        }
-        if (rn <= 4) {
-            p->add_msg_if_player(m_bad, _("You damage your %s!"), fix->tname().c_str());
-            fix->damage++;
-        } else if (rn >= 12 && fix->has_flag("VARSIZE") && !fix->has_flag("FIT")) {
-            p->add_msg_if_player(m_good, _("You take your %s in, improving the fit."), fix->tname().c_str());
-            fix->item_tags.insert("FIT");
-        } else if (rn >= 12 && (fix->has_flag("FIT") || !fix->has_flag("VARSIZE"))) {
-            p->add_msg_if_player(m_good, _("You make your %s extra sturdy."), fix->tname().c_str());
-            fix->damage--;
-            p->consume_items(comps);
-        } else {
-            p->add_msg_if_player(m_neutral, _("You practice your sewing."));
-        }
-    } else {
-        p->add_msg_if_player(m_info, _("Your %s already reinforced."), fix->tname().c_str());
-        return 0;
-    }
-
-    return thread_used;
-}
-
-int iuse::sew(player *p, item *it, bool, const tripoint& )
-{
-    if (it->charges == 0) {
-        return 0;
-    }
-    if (p->is_underwater()) {
-        p->add_msg_if_player(m_info, _("You can't do that while underwater."));
-        return 0;
-    }
-    if (p->fine_detail_vision_mod() > 4) {
-        add_msg(m_info, _("You can't see to sew!"));
-        return 0;
-    }
-
-    int pos = g->inv_for_filter( _("Repair what?"), []( const item & itm ) {
-        return itm.made_of( "cotton" ) ||
-                itm.made_of( "leather" ) ||
-                itm.made_of( "fur" ) ||
-                itm.made_of( "nomex" ) ||
-                itm.made_of( "wool" );
-    } );
-    item *fix = &(p->i_at(pos));
-    if (fix == NULL || fix->is_null()) {
-            p->add_msg_if_player(m_info, _("You do not have that item!"));
-            return 0;
-    };
-    return repair_clothing(p, it, fix, pos);
-}
-
 static bool is_firearm(const item &it)
 {
     return it.is_gun() && !it.has_flag("PRIMITIVE_RANGED_WEAPON");
@@ -2621,17 +2151,12 @@ int iuse::sew_advanced(player *p, item *it, bool, const tripoint& )
         mod->bash_resist(), mod->cut_resist(), temp_item.bash_resist(), temp_item.cut_resist(),
         mod->get_encumber(), temp_item.get_encumber() );
 
-    tmenu.addentry( 4, true, MENU_AUTOASSIGN, _("Repair/fit in") );
-    tmenu.addentry( 5, true, 'q', _("Cancel") );
+    tmenu.addentry( 4, true, 'q', _("Cancel") );
 
     tmenu.query();
     const int choice = tmenu.ret;
 
-    if( choice == 4 ) {
-        return repair_clothing( p, it, mod, pos );
-    }
-
-    if( choice < 0 || choice > 4 ) {
+    if( choice < 0 || choice > 3 ) {
         return 0;
     }
 
@@ -3259,26 +2784,6 @@ int iuse::pack_item(player *p, item *it, bool t, const tripoint& )
     return 0;
 }
 
-static bool cauterize_effect(player *p, item *it, bool force = true)
-{
-    hp_part hpart = use_healing_item(p, it, -2, -2, -2, 100, 50, 0, force);
-    if (hpart != num_hp_parts) {
-        p->add_msg_if_player(m_neutral, _("You cauterize yourself."));
-        if (!(p->has_trait("NOPAIN"))) {
-            p->mod_pain(15);
-            p->add_msg_if_player(m_bad, _("It hurts like hell!"));
-        } else {
-            p->add_msg_if_player(m_neutral, _("It itches a little."));
-        }
-        const body_part bp = player::hp_to_bp( hpart );
-        if (p->has_effect("bite", bp)) {
-            p->add_effect("bite", 2600, bp, true);
-        }
-        return true;
-    }
-    return 0;
-}
-
 static int cauterize_elec(player *p, item *it)
 {
     if (it->charges == 0) {
@@ -3287,230 +2792,37 @@ static int cauterize_elec(player *p, item *it)
     } else if (!p->has_effect("bite") && !p->has_effect("bleed") && !p->is_underwater()) {
         if ((p->has_trait("MASOCHIST") || p->has_trait("MASOCHIST_MED") || p->has_trait("CENOBITE")) &&
             query_yn(_("Cauterize yourself for fun?"))) {
-            return cauterize_effect(p, it, true) ? it->type->charges_to_use() : 0;
+            return cauterize_actor::cauterize_effect(p, it, true) ? it->type->charges_to_use() : 0;
         } else {
             p->add_msg_if_player(m_info,
                                  _("You are not bleeding or bitten, there is no need to cauterize yourself."));
             return 0;
         }
     } else if (p->is_npc() || query_yn(_("Cauterize any open wounds?"))) {
-        return cauterize_effect(p, it, true) ? it->type->charges_to_use() : 0;
+        return cauterize_actor::cauterize_effect(p, it, true) ? it->type->charges_to_use() : 0;
     }
     return 0;
 }
 
-int iuse::solder_weld( player *p, item *it, bool, const tripoint& )
-{
-    if( p->is_underwater() ) {
-        p->add_msg_if_player(m_info, _("You can't do that while underwater."));
-        return 0;
-    }
-    if (p->fine_detail_vision_mod() > 4) {
-        add_msg(m_info, _("You can't see to solder!"));
-        return 0;
-    }
-    int charges_used = dynamic_cast<const it_tool*>( it->type )->charges_to_use();
-    if( it->charges <= charges_used ) {
-        p->add_msg_if_player(m_info, _("Your tool does not have enough charges to do that."));
-        return 0;
-    }
-
-    static const std::vector<std::string> materials = {{
-        "kevlar", "plastic", "iron", "steel", "hardsteel", "aluminum", "copper"
-    }};
-
-    int pos = g->inv_for_filter( _("Repair what?"), [it]( const item &itm ) {
-        return itm.made_of_any( materials ) && !itm.is_ammo() && !is_firearm(itm) && &itm != it;
-    } );
-
-    item &fix = p->i_at( pos );
-    if( fix.is_null() ) {
-        p->add_msg_if_player(m_info, _("You do not have that item!"));
-        return 0;
-    }
-    if( is_firearm(fix) ) {
-        p->add_msg_if_player(m_info, _("That requires gunsmithing tools."));
-        return 0;
-    }
-    if( fix.is_ammo() ) {
-        p->add_msg_if_player(m_info, _("You cannot repair this type of item."));
-        return 0;
-    }
-
-    // <material, material item id, translated name of material item>
-    using repair_tuple = std::tuple<std::string, itype_id, std::string>;
-    // TODO: Rewrite this to be created from jsons and populated from materials and items
-    static const std::vector< repair_tuple >
-        repair_list {
-            std::make_tuple( "kevlar", "kevlar_plate", _("Kevlar plates") ),
-            std::make_tuple( "plastic", "plastic_chunk", _("plastic chunks") ),
-            std::make_tuple( "iron", "scrap", _("scrap metal") ),
-            std::make_tuple( "steel", "scrap", _("scrap metal") ),
-            std::make_tuple( "hardsteel", "scrap", _("scrap metal") ),
-            std::make_tuple( "aluminum", "material_aluminium_ingot", _("aluminum ingots") ),
-            std::make_tuple( "copper", "scrap_copper", _("scrap copper") )
-    };
-
-    if( &fix == it || any_of( repair_list.begin(), repair_list.end(), [&fix]( const repair_tuple &tup ) {
-            return std::get<1>( tup ) == fix.typeId();
-        } ) ) {
-        p->add_msg_if_player(m_info, _("This can be used to repair other items, not itself."));
-        return 0;
-    }
-
-    // Entries valid for repaired items
-    std::set<repair_tuple> valid_entries;
-    for( const auto &tup : repair_list ) {
-        if( fix.made_of( std::get<0>( tup ) ) ) {
-            valid_entries.insert( tup );
-        }
-    }
-
-    if( valid_entries.empty() ) {
-        p->add_msg_if_player(m_info, _("Your %s is not made of plastic, metal, or Kevlar."),
-                             fix.tname().c_str());
-        return 0;
-    }
-
-
-    // Repairing apparently doesn't always consume items;
-    // maybe it should just consume less or something?
-    // Anyway, don't ask for items if we won't need any.
-    const bool consume_items = fix.damage >= 3 || fix.damage == 0;
-    // Let's have a dummy inventory not to build a crafting inventory when we don't need it
-    static const inventory null_inventory;
-    const inventory &crafting_inv = consume_items ? p->crafting_inventory() : null_inventory;
-    std::vector<item_comp> comps;
-    if( consume_items ) {
-        // Repairing or modifying items requires at least 1 repair item,
-        //  otherwise number is related to size of item
-        const int items_needed = std::max<int>( 1, ceil( fix.volume() * 0.25f ) );
-
-        // Go through all discovered repair items and see if we have any of them available
-        for( const auto &entry : valid_entries ) {
-            if( crafting_inv.has_amount( std::get<1>( entry ), items_needed ) ) {
-                // We've found enough of a material, add it to list
-                comps.push_back( item_comp( std::get<1>( entry ), items_needed ) );
-            }
-        }
-
-        if( comps.empty() ) {
-            for( const auto &entry : valid_entries ) {
-                p->add_msg_if_player( m_info, _("You don't have enough %s to do that. Have: %d, need: %d"),
-                                      std::get<2>( entry ).c_str(),
-                                      crafting_inv.amount_of( std::get<1>( entry ), false ), items_needed );
-            }
-
-            return 0;
-        }
-    }
-
-    if( fix.damage > 0 ) {
-        p->moves -= 500 * p->fine_detail_vision_mod();
-        p->practice( skill_mechanics, 8);
-        ///\EFFECT_MECHANICS randomly improves metal repair efforts
-        int rn = dice(4, 2 + p->skillLevel( skill_mechanics ));
-        rn -= rng(fix.damage, fix.damage * 2);
-        ///\EFFECT_DEX randomly improves metal repair efforts
-        if (p->dex_cur < 8 && one_in(p->dex_cur)) {
-            rn -= rng(2, 6);
-        }
-        if (p->dex_cur >= 8 && (p->dex_cur >= 16 || one_in(16 - p->dex_cur))) {
-            rn += rng(2, 6);
-        }
-        if (p->dex_cur > 16) {
-            rn += rng(0, p->dex_cur - 16);
-        }
-        if (rn <= 4) {
-            p->add_msg_if_player(m_bad, _("You damage your %s further!"), fix.tname().c_str());
-            fix.damage++;
-            if (fix.damage >= 5) {
-                p->add_msg_if_player(m_bad, _("You destroy it!"));
-                p->i_rem_keep_contents( pos );
-            }
-        } else if (rn <= 6) {
-            p->add_msg_if_player(m_bad, _("You don't repair your %s, and you waste lots of charge."),
-                                 fix.tname().c_str());
-            charges_used += rng(1, 8);
-        } else if (rn <= 8) {
-            p->add_msg_if_player(m_mixed, _("You repair your %s, but you waste lots of charge."),
-                                 fix.tname().c_str());
-            if( consume_items ) {
-                p->consume_items(comps);
-            }
-
-            fix.damage--;
-            charges_used += rng(1, 8);
-        } else if (rn <= 16) {
-            p->add_msg_if_player(m_good, _("You repair your %s!"), fix.tname().c_str());
-            if( consume_items ) {
-                p->consume_items(comps);
-            }
-            fix.damage--;
-        } else {
-            p->add_msg_if_player(m_good, _("You repair your %s completely!"), fix.tname().c_str());
-            if( consume_items ) {
-                p->consume_items(comps);
-            }
-            fix.damage = 0;
-        }
-    } else if (fix.damage == 0 && fix.has_flag("PRIMITIVE_RANGED_WEAPON")) {
-        p->add_msg_if_player(m_info, _("You cannot improve your %s any more this way."), fix.tname().c_str());
-        return 0;
-    } else if (fix.damage == 0 || (fix.has_flag("VARSIZE") && !fix.has_flag("FIT"))) {
-        p->moves -= 500 * p->fine_detail_vision_mod();
-        p->practice( skill_mechanics, 10);
-        ///\EFFECT_MECHANICS randomly improves metal improvement efforts
-        int rn = dice(4, 2 + p->skillLevel( skill_mechanics ));
-        ///\EFFECT_DEX randomly improves metal improvement efforts
-        if (p->dex_cur < 8 && one_in(p->dex_cur)) {
-            rn -= rng(2, 6);
-        }
-        if (p->dex_cur >= 16 || (p->dex_cur > 8 && one_in(16 - p->dex_cur))) {
-            rn += rng(2, 6);
-        }
-        if (p->dex_cur > 16) {
-            rn += rng(0, p->dex_cur - 16);
-        }
-        if (rn <= 4) {
-            p->add_msg_if_player(m_bad, _("You damage your %s!"), fix.tname().c_str());
-            fix.damage++;
-        } else if (rn >= 12 && fix.has_flag("VARSIZE") && !fix.has_flag("FIT")) {
-            p->add_msg_if_player(m_good, _("You take your %s in, improving the fit."),
-                                 fix.tname().c_str());
-            fix.item_tags.insert("FIT");
-            p->consume_items(comps);
-        } else if (rn >= 12 && (fix.has_flag("FIT") || !fix.has_flag("VARSIZE"))) {
-            p->add_msg_if_player(m_good, _("You make your %s extra sturdy."), fix.tname().c_str());
-            fix.damage--;
-            p->consume_items(comps);
-        } else {
-            p->add_msg_if_player(m_neutral, _("You practice your soldering."));
-        }
-    } else {
-        p->add_msg_if_player(m_info, _("Your %s is already enhanced."), fix.tname().c_str());
-        return 0;
-    }
-    return charges_used;
-}
-
-
 int iuse::water_purifier(player *p, item *it, bool, const tripoint& )
 {
-    int pos = g->inv_for_filter( _("Purify what?"), []( const item & itm ) {
+    auto loc = g->inv_map_splice( []( const item & itm ) {
         return !itm.contents.empty() &&
                ( itm.contents[0].type->id == "water" ||
                  itm.contents[0].type->id == "salt_water" );
-    } );
-    if (!p->has_item(pos)) {
+    }, _( "Purify what?" ), 1 );
+
+    item *target = loc.get_item();
+    if( target == nullptr ) {
         p->add_msg_if_player(m_info, _("You do not have that item!"));
         return 0;
     }
-    if (p->i_at(pos).contents.empty()) {
+    if( target->contents.empty() ) {
         p->add_msg_if_player(m_info, _("You can only purify water."));
         return 0;
     }
-    item *pure = &(p->i_at(pos).contents[0]);
+
+    item *pure = &target->contents[0];
     if (pure->type->id != "water" && pure->type->id != "salt_water") {
         p->add_msg_if_player(m_info, _("You can only purify water."));
         return 0;
@@ -3520,6 +2832,7 @@ int iuse::water_purifier(player *p, item *it, bool, const tripoint& )
                              _("You don't have enough charges in your purifier to purify all of the water."));
         return 0;
     }
+
     p->moves -= 150;
     pure->make("water_clean");
     pure->poison = 0;
@@ -6040,25 +5353,6 @@ int iuse::mop(player *p, item *it, bool, const tripoint& )
     return it->type->charges_to_use();
 }
 
-int iuse::rag(player *p, item *it, bool, const tripoint& )
-{
-    if (p->is_underwater()) {
-        p->add_msg_if_player(m_info, _("You can't do that while underwater."));
-        return 0;
-    }
-    if (p->has_effect("bleed")) {
-        if (use_healing_item(p, it, 0, 0, 0, 50, 0, 0, false) != num_hp_parts) {
-            p->use_charges("rag", 1);
-            it->make("rag_bloody");
-        }
-        return 0;
-    } else {
-        p->add_msg_if_player(m_info, _("You're not bleeding enough to need your %s."),
-                             it->tname().c_str());
-        return 0;
-    }
-}
-
 int iuse::LAW(player *p, item *it, bool, const tripoint& )
 {
     p->add_msg_if_player(_("You pull the activating lever, readying the LAW to fire."));
@@ -6480,15 +5774,17 @@ int iuse::handle_ground_graffiti(player *p, item *it, const std::string prefix)
  */
 static bool heat_item(player *p)
 {
-    int inventory_index = g->inv_for_filter( _("Heat up what?"), []( const item & itm ) {
+   auto loc = g->inv_map_splice( []( const item & itm ) {
         return (itm.is_food() && itm.has_flag("EATEN_HOT")) ||
             (itm.is_food_container() && itm.contents[0].has_flag("EATEN_HOT"));
-    } );
-    item *heat = &( p->i_at(inventory_index ) );
-    if (heat->type->id == "null") {
+    }, _( "Heat up what?" ), 1 );
+
+    item *heat = loc.get_item();
+    if( heat == nullptr ) {
         add_msg(m_info, _("You do not have that item!"));
         return false;
     }
+
     item *target = heat->is_food_container() ? &(heat->contents[0]) : heat;
     if ((target->is_food()) && (target->has_flag("EATEN_HOT"))) {
         p->moves -= 300;
@@ -8733,7 +8029,7 @@ int iuse::multicooker(player *p, item *it, bool t, const tripoint &pos)
                     return 0;
                 }
 
-                for (auto it : meal->requirements.components) {
+                for( auto it : meal->requirements.get_components() ) {
                     p->consume_items(it);
                 }
 

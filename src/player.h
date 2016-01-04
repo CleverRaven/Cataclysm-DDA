@@ -758,7 +758,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Returns a value from 1.0 to 5.0 that acts as a multiplier
          * for the time taken to perform tasks that require detail vision,
          * above 4.0 means these activities cannot be performed. */
-        float fine_detail_vision_mod();
+        float fine_detail_vision_mod() const;
 
         /** Used to determine player feedback on item use for the inventory code.
          *  rates usability lower for non-tools (books, etc.) */
@@ -798,6 +798,12 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int get_armor_cut_base(body_part bp) const override;
         /** Returns overall env_resist on a body_part */
         int get_env_resist(body_part bp) const override;
+        /** Returns overall acid resistance for the body part */
+        int get_armor_acid(body_part bp) const;
+        /** Returns overall fire resistance for the body part */
+        int get_armor_fire(body_part bp) const;
+        /** Returns overall resistance to given type on the bod part */
+        int get_armor_type( damage_type dt, body_part bp ) const override;
         /** Returns true if the player is wearing something on the entered body_part */
         bool wearing_something_on(body_part bp) const;
         /** Returns true if the player is wearing something on the entered body_part, ignoring items with the ALLOWS_NATURAL_ATTACKS flag */

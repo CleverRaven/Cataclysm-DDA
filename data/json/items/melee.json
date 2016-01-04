@@ -699,28 +699,6 @@
     },
     {
         "type":"GENERIC",
-        "id": "binoculars",
-        "category" : "tools",
-        "symbol": ";",
-        "color": "dark_gray",
-        "name": "pair of binoculars",
-        "name_plural": "pairs of binoculars",
-        "description": "A tool useful for seeing long distances.  Simply carrying this item in your inventory will double the distance that is mapped around you during your travels.  You could also use them to focus the sunlight.",
-        "price": 30000,
-        "material": ["plastic", "glass"],
-        "flags": [ "LENS" ],
-        "weight": 708,
-        "volume": 2,
-        "bashing": 4,
-        "cutting": 0,
-        "to_hit": -1,
-        "use_action": {
-            "type": "extended_firestarter",
-            "need_sunlight": true
-        }
-    },
-    {
-        "type":"GENERIC",
         "id": "usb_drive",
         "symbol": ",",
         "color": "white",
@@ -3335,7 +3313,7 @@
         "bashing": 1,
         "cutting": 2,
         "to_hit": 2,
-        "techniques" : ["PRECISE", "RAPID"],
+        "techniques" : ["PRECISE", "RAPID", "WBLOCK_2"],
         "flags": ["STAB", "SHEATH_SWORD"]
     },
     {
@@ -3352,7 +3330,7 @@
         "bashing": 3,
         "cutting": 7,
         "to_hit": 2,
-        "techniques" : ["PRECISE", "RAPID"],
+        "techniques" : ["PRECISE", "RAPID", "WBLOCK_2"],
         "flags": ["STAB", "SHEATH_SWORD"]
     },
     {
@@ -3369,7 +3347,7 @@
         "bashing": 1,
         "cutting": 6,
         "to_hit": 2,
-        "techniques" : ["PRECISE", "RAPID"],
+        "techniques" : ["PRECISE", "RAPID", "WBLOCK_2"],
         "flags": ["STAB", "SHEATH_SWORD"]
     },
     {
@@ -3456,7 +3434,7 @@
     "price": 12000,
     "material": "aluminum",
     "flags" : ["BASH", "SHEATH_SWORD"],
-    "techniques": "WBLOCK_1",
+    "techniques": "WBLOCK_2",
     "weight": 753,
     "volume": 7,
     "bashing": 10,

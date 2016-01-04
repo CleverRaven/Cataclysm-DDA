@@ -277,6 +277,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
 
         int  get_armor_cut(body_part bp) const override;   // Natural armor, plus any worn armor
         int  get_armor_bash(body_part bp) const override;  // Natural armor, plus any worn armor
+        int  get_armor_type( damage_type dt, body_part bp ) const override;
         int  get_dodge() const override;       // Natural dodge, or 0 if we're occupied
         int  get_melee() const override; // For determining attack skill when awarding dodge practice.
         int  hit_roll() const override;  // For the purposes of comparing to player::dodge_roll()
