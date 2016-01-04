@@ -7336,6 +7336,7 @@
         "encumbrance" : 50,
         "bashing" : -4,
         "coverage" : 5, "//" : "You drag it along with you, so it taking a hit is Rare.",
+        "flags" : ["RESTRICT_HANDS"],
         "material_thickness" : 3
     },
     {
@@ -7358,6 +7359,7 @@
         "encumbrance" : 50,
         "bashing" : -4,
         "coverage" : 0,
+        "flags" : ["RESTRICT_HANDS"],
         "material_thickness" : 3
     },
     {
@@ -10918,6 +10920,7 @@
         "encumbrance" : 50,
         "bashing" : -3,
         "coverage" : 5,
+        "flags" : ["RESTRICT_HANDS"],
         "material_thickness" : 1
     },
     {
@@ -10941,7 +10944,7 @@
         "bashing" : 5,
         "coverage" : 10,
         "material_thickness" : 2,
-        "flags" : ["FANCY", "OVERSIZE"]
+        "flags" : ["FANCY", "OVERSIZE", "RESTRICT_HANDS"]
     },
     {
         "type" : "ARMOR",
@@ -10964,7 +10967,7 @@
         "bashing" : 4,
         "coverage" : 4,
         "material_thickness" : 1,
-        "flags" : ["OVERSIZE"]
+        "flags" : ["OVERSIZE", "RESTRICT_HANDS"]
     },
     {
         "type" : "ARMOR",
@@ -10986,6 +10989,7 @@
         "encumbrance" : 30,
         "bashing" : 0,
         "coverage" : 4,
+        "flags" : ["RESTRICT_HANDS"],
         "material_thickness" : 1
     },
     {
@@ -11865,6 +11869,7 @@
         "encumbrance" : 15,
         "bashing" : 0,
         "coverage" : 4,
+        "flags" : ["RESTRICT_HANDS"],
         "material_thickness" : 2
     },
     {
