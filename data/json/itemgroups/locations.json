@@ -32,6 +32,32 @@
     ]
   },{
     "type" : "item_group",
+    "id" : "mansion_guns",
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "pistols", "prob": 50 },
+      { "group": "smg", "prob": 25 },
+      { "group": "pistol_ammo", "prob": 100 },
+      { "group": "shotguns", "prob": 75 },
+      { "group": "shotgun_ammo", "prob": 75 },
+      { "group": "rifles", "prob": 100 },
+      { "group": "rifle_ammo", "prob": 75 },
+      { "group": "antique_guns", "prob": 50 },
+      { "group": "antique_ammo", "prob": 75 },
+      { "group": "archery", "prob": 50 },
+      { "group": "archery_ammo", "prob": 75 },
+      { "item": "weatherby_5", "prob": 10 },
+      { "item": "combination_gun", "prob": 5 },
+      { "item": "trex_gun", "prob": 1 },
+      { "item": "700nx", "prob": 2 },
+      { "item": "small_repairkit", "prob": 15 },
+      { "item": "large_repairkit", "prob": 5 },
+      { "item": "tuned_mechanism", "prob": 5 },
+      { "item": "match_trigger", "prob": 5 },
+      { "item": "RPG", "prob": 1 }
+    ]
+  },{
+    "type" : "item_group",
     "id" : "lmoe_guns",
     "guns_with_ammo" : true,
     "subtype": "distribution",
@@ -57,6 +83,6 @@
       ["vacutainer", 10]
     ]
   }
- ]
+]
  
  
