@@ -520,6 +520,51 @@
       ["120mm_HEAT", 0],
       ["mininuke_mod", 0]
     ]
+  },{
+    "type" : "item_group",
+    "id" : "future_guns",
+    "items":[
+      ["v29_cheap", 40],
+      ["v29", 80],
+      ["laser_rifle", 60],
+      ["plasma_rifle", 50],
+      ["ftk93", 40],
+      ["nx17", 40],
+      ["hk_g80", 20],
+      ["cerberus_laser", 50]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "future_ammo",
+    "items":[
+      ["laser_pack", 50],
+      ["laser_capacitor", 40],
+      ["plasma", 50],
+      ["12mm", 50],
+      ["plut_cell", 50],
+      ["adv_UPS_off", 5],
+      ["UPS_off", 5]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "antique_guns",
+    "items" : [
+      ["pistol_flintlock", 60],
+      ["carbine_flintlock", 40],
+      ["lemat_revolver", 30],
+      ["rifle_flintlock", 75],
+      ["colt_army", 30],
+      ["colt_navy", 30]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "antique_ammo",
+    "items" : [
+      ["flintlock_ammo", 60],
+      ["flintlock_shot", 40],
+      ["36navy", 50],
+      ["44army", 50]
+    ]
   }
 ]
 
