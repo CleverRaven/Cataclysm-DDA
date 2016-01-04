@@ -691,6 +691,7 @@
       ["8mm_bootleg_jsp", 20],
       ["8mm_bootleg", 20],
       ["reloaded_5x50dart", 10]
+    ]
   },{
     "type" : "item_group",
     "id" : "reloaded_ammo",
