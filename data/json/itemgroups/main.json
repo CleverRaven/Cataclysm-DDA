@@ -410,6 +410,57 @@
     ]
   },{
     "type" : "item_group",
+    "id" : "machine_guns",
+    "items":[
+      ["m249", 100],
+      ["m240", 50],
+      ["m60", 50],
+      ["rm614_lmg", 50],
+      ["rm298", 50],
+      ["m134", 50],
+      ["l_lmg_223", 60]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "rifle_ammo",
+    "//" : "some set to 0 so they won't spawn in civilian areas.",
+    "items":[
+      ["22_lr", 200],
+      ["22_fmj", 50],
+      ["22_cb", 30],
+      ["22_ratshot", 30],
+      ["545", 40],
+      ["545_ap", 0],
+      ["223", 150],
+      ["556", 150],
+      ["556_incendiary", 0],
+      ["762_54R", 50],
+      ["762_25", 20],
+      ["762_m43", 100],
+      ["762_m87", 20],
+      ["762_51", 200],
+      ["762_51_incendiary", 0],
+      ["270", 50],
+      ["300_winmag", 50],
+      ["308", 100],
+      ["3006", 50],
+      ["3006fmj", 20],
+      ["3006_incendiary", 0],
+      ["50bmg", 30],
+      ["50ss", 0],
+      ["50_incendiary", 0],
+      ["8mm_jhp", 20],
+      ["8mm_inc", 0],
+      ["8mm_hvp", 0],
+      ["8mm_fmj", 20],
+      ["8mm_caseless", 10],
+      ["8mm_civilian", 50],
+      ["5x50dart", 10],
+      ["5x50heavy", 5],
+      ["700nx", 0]
+    ]
+  },{
+    "type" : "item_group",
     "id" : "allguns",
     "subtype": "distribution",
     "entries" : [
