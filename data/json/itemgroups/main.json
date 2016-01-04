@@ -222,6 +222,212 @@
       ["mutagen_medical", 0],
       ["unbio_blaster_gun", 0]
     ]
+ },{
+    "type" : "item_group",
+    "id" : "pistols",
+    "//" : "see gear for specific sets of guns. military, cops, hunting, etc.",
+    "items":[
+      ["sig_mosquito", 50],
+      ["cop_38", 5],
+      ["moss_brownie", 5],
+      ["sw_22", 50],
+      ["glock_19", 250],
+      ["usp_9mm", 50],
+      ["l_lookout_9mm", 50],
+      ["l_sp_9mm", 50],
+      ["l_mp_9mm", 30],
+      ["walther_ppk", 50],
+      ["sig_p230", 50],
+      ["sw_619", 50],
+      ["sw629", 75],
+      ["taurus_38", 50],
+      ["tokarev", 10],
+      ["makarov", 10],
+      ["sig_40", 40],
+      ["sw_610", 30],
+      ["ruger_redhawk", 50],
+      ["deagle_44", 20],
+      ["l_enforcer_45", 60],
+      ["l_sp_45", 10],
+      ["l_mp_45", 80],
+      ["usp_45", 50],
+      ["m1911", 110],
+      ["fn57", 20],
+      ["hk_ucp", 20],
+      ["raging_bull", 30],
+      ["sw_500", 10],
+      ["l_bak_223", 10],
+      ["lemat_revolver", 1],
+      ["rm99_pistol", 10],
+      ["rm103a_pistol", 10],
+      ["needlepistol", 20]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "smg",
+    "items":[
+      ["american_180", 15],
+      ["skorpion_61", 5],
+      ["skorpion_82", 5],
+      ["ppsh", 5],
+      ["sten", 10],
+      ["l_mp_9mm", 55],
+      ["uzi", 80],
+      ["tec9", 60],
+      ["calico", 25],
+      ["hk_mp5", 100],
+      ["tommygun", 20],
+      ["mac_10", 60],
+      ["hk_ump45", 40],
+      ["TDI", 40],
+      ["fn_p90", 40],
+      ["hk_mp7", 50],
+      ["briefcase_smg", 1],
+      ["rm360_carbine", 20],
+      ["rm2000_smg", 5]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "pistol_ammo",
+    "items":[
+      ["9mm", 300],
+      ["9mmP", 20],
+      ["9mmP2", 20],
+      ["9mmfmj", 20],
+      ["9x18mm", 50],
+      ["9x18mmP2", 10],
+      ["9x18mmfmj", 10],
+      ["57mm", 50],
+      ["46mm", 50],
+      ["32_acp", 50],
+      ["38_special", 50],
+      ["38_super", 20],
+      ["38_fmj", 20],
+      ["10mm", 50],
+      ["40sw", 20],
+      ["40fmj", 20],
+      ["44magnum", 50],
+      ["45_acp", 50],
+      ["45_jhp", 20],
+      ["45_super", 20],
+      ["454_Casull", 20],
+      ["500_Magnum", 20],
+      ["5x50dart", 10],
+      ["5x50heavy", 5]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "shotguns",
+    "items":[
+      ["shotgun_s", 80],
+      ["shotgun_d", 100],
+      ["remington_870", 70],
+      ["mossberg_500", 200],
+      ["saiga_12", 50],
+      ["l_def_12", 50],
+      ["rm228", 20],
+      ["rm120c", 20],
+      ["rm20", 5],
+      ["ksg", 5],
+      ["lemat_revolver", 1],
+      ["combination_gun_shotgun", 3]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "shotgun_ammo",
+    "//" : "some set to 0 so they won't spawn in civilian areas.",
+    "items":[
+      ["shot_bird", 150],
+      ["shot_00", 200],
+      ["shot_flechette", 0],
+      ["shot_slug", 150],
+      ["shot_beanbag", 10],
+      ["shot_he", 0],
+      ["20x66_shot", 50],
+      ["20x66_exp", 0],
+      ["20x66_inc", 0],
+      ["20x66_flare", 10],
+      ["20x66_frag", 0],
+      ["20x66_slug", 50],
+      ["20x66_flechette", 0],
+      ["20x66_beanbag", 10]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "rifles",
+    "items":[
+      ["marlin_9a", 120],
+      ["ruger_1022", 120],
+      ["cx4", 40],
+      ["l_long_45", 30],
+      ["ruger_mini", 75],
+      ["ar15", 120],
+      ["l_dsr_223", 2],
+      ["savage_111f", 70],
+      ["remington_700", 80],
+      ["m1903", 10],
+      ["garand", 10],
+      ["win70", 60],
+      ["m107a1", 5],
+      ["m14ebr", 5],
+      ["weatherby_5", 30],
+      ["mosin91_30", 25],
+      ["mosin44", 10],
+      ["mosin91_30_ebr", 10],
+      ["mosin44_ebr", 10],
+      ["sks", 50],
+      ["combination_gun", 40],
+      ["rm11b_sniper_rifle", 1],
+      ["trex_gun", 0]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "assault",
+    "//" : "This is a general list. The US military guns are in gear.json.",
+    "items":[
+      ["m1918", 15],
+      ["browning_blr", 10],
+      ["m14a", 80],
+      ["m4a1", 300],
+      ["l_car_223", 10],
+      ["l_mbr_223", 10],
+      ["l_dsr_223", 10],
+      ["hk_g3", 50],
+      ["hk_g36", 50],
+      ["ak47", 110],
+      ["ak74", 60],
+      ["an94", 20],
+      ["fn_fal", 50],
+      ["acr", 60],
+      ["arx160", 60],
+      ["m27iar", 30],
+      ["scar_l", 30],
+      ["scar_h", 50],
+      ["steyr_aug", 40],
+      ["rm51_assault_rifle", 10],
+      ["rm88_battle_rifle", 5],
+      ["needlegun", 10]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "allguns",
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "pistols", "prob": 1000 },
+      { "group": "shotguns", "prob": 1000 },
+      { "group": "smg", "prob": 1000 },
+      { "group": "rifles", "prob": 1000 },
+      { "group": "assault", "prob": 1000 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "ammo",
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "pistol_ammo", "prob": 1000 },
+      { "group": "shotgun_ammo", "prob": 1000 },
+      { "group": "rifle_ammo", "prob": 1000 }
+    ]
   }
 ]
 
