@@ -522,6 +522,25 @@
         "density" : 30
     },{
         "type" : "material",
+        "ident" : "carbon_steel",
+        "name" : "High Carbon Steel",
+        "bash_resist" : 6,
+        "cut_resist" : 8,
+        "bash_dmg_verb" : "dented",
+        "cut_dmg_verb" : "scratched",
+        "dmg_adj" : [
+            "marked",
+            "dented",
+            "smashed",
+            "shattered"
+        ],
+        "acid_resist" : 7,
+        "elec_resist" : 0,
+        "fire_resist" : 3,
+        "chip_resist" : 30, //High Carbon Steel holds an edge better than standard, use this for RARE equipment
+        "density" : 30 //It also should not be producable by the player
+    },{
+        "type" : "material",
         "ident" : "budget_steel",
         "name" : "budget steel",
         "bash_resist" : 4,
