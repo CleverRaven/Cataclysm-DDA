@@ -362,7 +362,6 @@ void player_activity::finish( player *p )
             break;
         case ACT_BUTCHER:
             activity_handlers::butcher_finish( this, p );
-            type = ACT_NULL;
             break;
         case ACT_LONGSALVAGE:
             activity_handlers::longsalvage_finish( this, p );

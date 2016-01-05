@@ -11193,7 +11193,10 @@ void game::butcher()
             u.assign_activity( ACT_LONGSALVAGE, 0, salvage_tool_index );
             break;
         case MULTIBUTCHER:
-            debugmsg("longbutcher not implemented");
+            u.assign_activity( ACT_BUTCHER, 0, -1 );
+            for( int i : corpses ) {
+                u.activity.values.push_back( i );
+            }
             break;
         case MULTIDISASSEMBLE_ONE:
             debugmsg("longdisassemble_one not implemented");
@@ -11209,32 +11212,9 @@ void game::butcher()
     case BUTCHER_CORPSE:
         {
             draw_ter();
-            size_t index = corpses[indexer_index];
-            const mtype *corpse = items[index].get_mtype();
-            int time_to_cut = 0;
-            switch( corpse->size ) { // Time (roughly) in turns to cut up the corpse
-            case MS_TINY:
-                time_to_cut = 12;
-                break;
-            case MS_SMALL:
-                time_to_cut = 25;
-                break;
-            case MS_MEDIUM:
-                time_to_cut = 50;
-                break;
-            case MS_LARGE:
-                time_to_cut = 80;
-                break;
-            case MS_HUGE:
-                time_to_cut = 150;
-                break;
-            }
-            // At factor 0, 10 time_to_cut is 10 turns. At factor 50, it's 5 turns, at 75 it's 2.5
-            time_to_cut *= std::max( 25, 100 - factor );
-            if( time_to_cut < 500 ) {
-                time_to_cut = 500;
-            }
-            u.assign_activity( ACT_BUTCHER, time_to_cut, index );
+            int index = corpses[indexer_index];
+            u.assign_activity( ACT_BUTCHER, 0, -1 );
+            u.activity.values.push_back( index );
         }
         break;
     case BUTCHER_DISASSEMBLE:
