@@ -522,10 +522,10 @@
         "density" : 30
     },{
         "type" : "material",
-        "ident" : "stainless_steel",
-        "name" : "Stainless Steel",
-        "bash_resist" : 3,
-        "cut_resist" : 1,
+        "ident" : "budget_steel",
+        "name" : "budget steel",
+        "bash_resist" : 4,
+        "cut_resist" : 2,
         "bash_dmg_verb" : "dented",
         "cut_dmg_verb" : "scratched",
         "dmg_adj" : [
@@ -534,7 +534,7 @@
             "smashed",
             "shattered"
         ],
-        "acid_resist" : 7,
+        "acid_resist" : 15,
         "elec_resist" : 0,
         "fire_resist" : 3,
         "chip_resist" : 7,
