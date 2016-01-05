@@ -13300,6 +13300,7 @@
         "type" : "COMESTIBLE",
         "id" : "apple_canned",
         "name" : "canned fruit",
+        "name_plural" : "canned fruit",
         "weight" : 450,
         "color" : "red",
         "addiction_type" : "none",

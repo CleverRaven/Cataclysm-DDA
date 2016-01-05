@@ -10522,6 +10522,162 @@
   ]
 },{
   "type" : "recipe",
+  "result": "fish_canned",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_MEAT",
+  "skill_used": "cooking",
+  "difficulty": 5,
+  "time": 24000,
+  "reversible": false,
+  "autolearn": true,
+  "contained": true,
+  "batch_time_factors":[83, 5],
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1},
+    {"id":"COOK","level":3,"amount":1}
+  ], "tools": [
+    [
+      [ "hotplate", 10 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 10 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "can_sealer", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "can_food", 1 ]
+    ],
+    [
+      [ "scrap", 1 ]
+    ],
+    [
+      [ "water", 1 ],
+      [ "water_clean", 1 ]
+    ],
+    [
+      [ "fish", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "veggy_canned",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_VEGGI",
+  "skill_used": "cooking",
+  "difficulty": 4,
+  "time": 24000,
+  "reversible": false,
+  "autolearn": true,
+  "contained": true,
+  "batch_time_factors":[83, 5],
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1},
+    {"id":"COOK","level":3,"amount":1}
+  ], "tools": [
+    [
+      [ "hotplate", 10 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 10 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "can_sealer", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "can_food", 1 ]
+    ],
+    [
+      [ "scrap", 1 ]
+    ],
+    [
+      [ "water", 1 ],
+      [ "water_clean", 1 ]
+    ],
+    [
+      [ "carrot", 6 ],
+      [ "plant_sac", 3 ],
+      [ "raw_dandelion", 2 ],
+      [ "broccoli", 2 ],
+      [ "tomato", 2 ],
+      [ "zucchini", 2 ],
+      [ "celery", 2 ],
+      [ "onion", 2 ],
+      [ "veggy_wild", 2 ],
+      [ "potato_raw", 1 ],
+      [ "pumpkin", 1 ],
+      [ "veggy", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "apple_canned",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_VEGGI",
+  "skill_used": "cooking",
+  "difficulty": 4,
+  "time": 24000,
+  "reversible": false,
+  "autolearn": true,
+  "contained": true,
+  "batch_time_factors":[83, 5],
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1},
+    {"id":"COOK","level":3,"amount":1}
+  ], "tools": [
+    [
+      [ "hotplate", 10 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 10 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "can_sealer", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "can_food", 1 ]
+    ],
+    [
+      [ "scrap", 1 ]
+    ],
+    [
+      [ "water", 1 ],
+      [ "water_clean", 1 ]
+    ],
+    [
+      [ "cranberries", 4 ],
+      [ "grapes", 4 ],
+      [ "apple", 2 ],
+      [ "blackberries", 2 ],
+      [ "blueberries", 2 ],
+      [ "cherries", 2 ],
+      [ "grapefruit", 2 ],
+      [ "banana", 2 ],
+      [ "kiwi", 2 ],
+      [ "lemon", 2 ],
+      [ "mango", 2 ],
+      [ "melon", 2 ],
+      [ "orange", 2 ],
+      [ "papaya", 2 ],
+      [ "peach", 2 ],
+      [ "pear", 2 ],
+      [ "pineapple", 2 ],
+      [ "plums", 2 ],
+      [ "pomegranate", 2 ],
+      [ "raspberries", 2 ],
+      [ "strawberries", 2 ],
+      [ "watermelon", 2 ],
+      [ "apricot", 2 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
   "result": "royal_beef",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
