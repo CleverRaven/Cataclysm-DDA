@@ -10669,6 +10669,11 @@ hint_rating player::rate_action_wear( const item &it ) const
         }
     }
 
+    // Check if we have a hand free to wear a briefcase or shield, including if we're already wearing such a thing.
+    if (it.has_flag("RESTRICT_HANDS") &&  !has_two_arms()) {
+        return HINT_IFFY;
+    }
+
     // Make sure we're not wearing 2 of the item already
     int count = 0;
     for (auto &i : worn) {
@@ -10903,6 +10908,15 @@ bool player::wear_item( const item &to_wear, bool interactive )
                 }
             }
         }
+    }
+
+    // Check if we don't have both hands available before wearing a briefcase, shield, etc. Also occurs if we're already wearing one.
+    if (!has_two_arms && to_wear.has_flag("RESTRICT_HANDS")) {
+        if(interactive) {
+            add_msg_if_player(m_info, _("You don't have a hand free to wear an %s")),
+                    to_wear.tname(count).c_str());
+        }
+        return false;
     }
 
     // Make sure we're not wearing 2 of the item already
