@@ -10911,7 +10911,7 @@ bool player::wear_item( const item &to_wear, bool interactive )
     }
 
     // Check if we don't have both hands available before wearing a briefcase, shield, etc. Also occurs if we're already wearing one.
-    if (!has_two_arms && to_wear.has_flag("RESTRICT_HANDS")) {
+    if (to_wear.has_flag("RESTRICT_HANDS") && !has_two_arms()) {
         if(interactive) {
             add_msg_if_player(m_info, _("You don't have a hand free to wear an %s")),
                     to_wear.tname(count).c_str());
@@ -10924,7 +10924,7 @@ bool player::wear_item( const item &to_wear, bool interactive )
     if (count == MAX_WORN_PER_TYPE) {
         if(interactive) {
             add_msg_if_player(m_info, _("You can't wear more than two %s at once."),
-                    to_wear.tname(count).c_str());
+                        to_wear.type_name().c_str());
         }
         return false;
     }
