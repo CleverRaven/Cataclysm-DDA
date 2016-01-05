@@ -13314,7 +13314,7 @@
         "healthy" : 1,
         "addiction_potential" : 0,
         "nutrition" : 16,
-        "description" : "Sealed glass jar containing preserved fruit.  Bland, mushy and losing color.",
+        "description" : "This sodden mass of preserved fruit was boiled and canned in an earlier life.  Bland, mushy and losing color.",
         "price" : 220,
         "material" : "fruit",
         "tool" : "null",
