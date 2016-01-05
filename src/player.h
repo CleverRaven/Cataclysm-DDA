@@ -962,9 +962,13 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
                               bool print_msg ) const;
         bool can_disassemble( const item &dis_item, const recipe *cur_recipe,
                               const inventory &crafting_inv, bool print_msg ) const;
-        void disassemble(int pos = INT_MAX);
-        void disassemble(item &dis_item, int dis_pos, bool ground);
+        bool disassemble(int pos = INT_MAX);
+        bool disassemble( item &dis_item, int dis_pos,
+            bool ground, bool msg_and_query = true );
+        void disassemble_all( bool one_pass ); // Disassemble all items on the tile
         void complete_disassemble();
+        void complete_disassemble( int item_pos, const tripoint &loc,
+            bool from_ground, const recipe &dis );
 
         // yet more crafting.cpp
         const inventory &crafting_inventory(); // includes nearby items

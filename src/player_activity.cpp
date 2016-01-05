@@ -358,7 +358,6 @@ void player_activity::finish( player *p )
             break;
         case ACT_DISASSEMBLE:
             p->complete_disassemble();
-            type = ACT_NULL;
             break;
         case ACT_BUTCHER:
             activity_handlers::butcher_finish( this, p );
