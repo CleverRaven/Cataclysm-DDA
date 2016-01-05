@@ -4076,7 +4076,7 @@
     "name_plural": "jian",
     "description": "This is an ancient Chinese doubled-edged straight sword, with an ornate guard and a tassel attatched to the pommel.  One of the four major weapons in folklore, alongside the dao sabre, qiang spear, and gun staff.",
     "price": 100000,
-    "material": "budgets_steel",
+    "material": "budget_steel",
     "flags" : ["CHOP", "SHEATH_SWORD"],
     "techniques": ["WBLOCK_1"],
     "weight": 800,
