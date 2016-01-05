@@ -5686,10 +5686,10 @@
       ["cutlass", 1],
       ["rapier", 1],
       ["wakizashi", 1],
-      ["jian_inferior", 30]
-      ["scimitar_inferior", 25]
-      ["longsword_inferior", 25]
-      ["arming_sword_inferior", 25]
+      ["jian_inferior", 30],
+      ["scimitar_inferior", 25],
+      ["longsword_inferior", 25],
+      ["arming_sword_inferior", 25],
       ["tanto", 1],
       ["kris", 5],
       ["armor_lightplate", 1],
