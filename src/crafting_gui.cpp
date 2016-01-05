@@ -25,6 +25,8 @@ std::vector<std::string> craft_cat_list;
 std::map<std::string, std::vector<std::string> > craft_subcat_list;
 std::map<std::string, std::string> normalized_names;
 
+static void draw_can_craft_indicator( WINDOW *w, int window_width, int margin_x, int margin_y,
+                                      const recipe &rec );
 static void draw_recipe_tabs( WINDOW *w, std::string tab, TAB_MODE mode = NORMAL );
 static void draw_recipe_subtabs( WINDOW *w, std::string tab, std::string subtab,
                                  TAB_MODE mode = NORMAL );
@@ -310,6 +312,9 @@ const recipe *select_crafting_recipe( int &batch_size )
             }
         }
         if( !current.empty() ) {
+            draw_can_craft_indicator( w_head, getmaxx( w_head ), 1, 0, *current[line] );
+            wrefresh( w_head );
+
             nc_color col = ( available[line] ? c_white : c_ltgray );
             ypos = 0;
 
@@ -356,6 +361,10 @@ const recipe *select_crafting_recipe( int &batch_size )
                 }
                 ypos += current[line]->print_time( w_data, ypos, 30, FULL_SCREEN_WIDTH - 30 - 1, col,
                                                    ( batch ) ? line + 1 : 1 );
+                mvwprintz( w_data, ypos++, 30, col, _( "Dark craftable? %s" ),
+                           current[line]->has_flag( "BLIND_EASY" ) ? _( "Easy" ) :
+                           current[line]->has_flag( "BLIND_HARD" ) ? _( "Hard" ) :
+                           _( "Impossible" ) );
                 ypos += current[line]->print_items( w_data, ypos, 30, col, ( batch ) ? line + 1 : 1 );
             }
             if( display_mode == 0 || display_mode == 1 ) {
@@ -506,16 +515,24 @@ const recipe *select_crafting_recipe( int &batch_size )
 }
 
 // Anchors top-right
-static void draw_can_craft_indicator( WINDOW *w, int window_width, int margin_x, int margin_y )
+static void draw_can_craft_indicator( WINDOW *w, int window_width, int margin_x, int margin_y,
+                                      const recipe &rec )
 {
     int x_align = window_width - margin_x;
+    // Erase previous text
+    mvwprintz( w, margin_y + 1, x_align - 1 - utf8_width( _( "too dark" ) ),  c_black  ,
+               std::string( utf8_width( _( "too dark" ) ), ' ' ).c_str() );
     // Draw text
     mvwprintz( w, margin_y, x_align - utf8_width( _( "can craft:" ) ), c_ltgray, _( "can craft:" ) );
-    if( g->u.can_see_to_craft() ) {
+    if( g->u.lighting_craft_speed_multiplier( rec ) == 0.0f ) {
         mvwprintz( w, margin_y + 1, x_align - 1 - utf8_width( _( "too dark" ) ),  i_red  ,
                    _( "too dark" ) );
     } else if( g->u.has_moral_to_craft() ) {
         mvwprintz( w, margin_y + 1, x_align - 1 - utf8_width( _( "too sad" ) ),  i_red  , _( "too sad" ) );
+    } else if( g->u.lighting_craft_speed_multiplier( rec ) < 1.0f ) {
+        mvwprintz( w, margin_y + 1, x_align - 5 - utf8_width( _( "slow" ) ),  i_yellow  , _( "slow" ) );
+        mvwprintz( w, margin_y + 1, x_align - 5 ,  i_yellow  , "%3d%%",
+                   int( g->u.lighting_craft_speed_multiplier( rec ) * 100 ) );
     } else {
         mvwprintz( w, margin_y + 1, x_align - 1 - utf8_width( _( "yes" ) ),  i_green  , _( "yes" ) );
     }
@@ -531,9 +548,6 @@ static void draw_recipe_tabs( WINDOW *w, std::string tab, TAB_MODE mode )
 
     mvwputch( w, 2,  0, BORDER_COLOR, LINE_OXXO ); // |^
     mvwputch( w, 2, width - 1, BORDER_COLOR, LINE_OOXX ); // ^|
-
-    // Draw a "can craft" indicator
-    draw_can_craft_indicator( w, width, 1, 0 );
 
     switch( mode ) {
         case NORMAL: {

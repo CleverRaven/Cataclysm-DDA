@@ -12500,16 +12500,20 @@ std::string player::is_snuggling() const
     return "nothing";
 }
 
-// Returned values range from 1.0 (unimpeded vision) to 5.0 (totally blind).
-// LIGHT_AMBIENT DIM is enough light for detail work, but held items get a boost.
+// Returned values range from 1.0 (unimpeded vision) to 11.0 (totally blind).
+//  1.0 is LIGHT_AMBIENT_LIT or brighter
+//  4.0 is a dark clear night, barely bright enough for reading and crafting
+//  6.0 is LIGHT_AMBIENT_DIM
+//  7.3 is LIGHT_AMBIENT_MINIMAL, a dark cloudy night, unlit indoors
+// 11.0 is zero light or blindness
 float player::fine_detail_vision_mod() const
 {
     // PER_SLIME_OK implies you can get enough eyes around the bile
     // that you can generaly see.  There'll still be the haze, but
     // it's annoying rather than limiting.
-    if( has_effect("blind") || worn_with_flag("BLIND") || has_active_bionic("bio_blindfold") ||
-        (( has_effect("boomered") || has_effect("darkness") ) && !has_trait("PER_SLIME_OK")) ) {
-        return 5.0;
+    if( has_effect( "blind" ) || worn_with_flag( "BLIND" ) || has_active_bionic("bio_blindfold") ||
+         ( ( has_effect( "boomered" ) || has_effect( "darkness" ) ) && !has_trait( "PER_SLIME_OK" ) ) ) {
+        return 11.0;
     }
     // Scale linearly as light level approaches LIGHT_AMBIENT_LIT.
     // If we're actually a source of light, assume we can direct it where we need it.
@@ -13502,23 +13506,22 @@ void player::practice( const skill_id &s, int amount, int cap )
     practice( &s.obj(), amount, cap );
 }
 
-bool player::has_recipe_requirements( const recipe *rec ) const
+int player::exceeds_recipe_requirements( const recipe &rec ) const
 {
     if( !rec->valid_learn() ) {
-        return false;
+        return -1;
     }
 
-    bool meets_requirements = false;
-    if( !rec->skill_used || get_skill_level( rec->skill_used) >= rec->difficulty ) {
-        meets_requirements = true;
-        for( const auto &required_skill : rec->required_skills ) {
-            if( get_skill_level( required_skill.first ) < required_skill.second ) {
-                meets_requirements = false;
-            }
-        }
+    int over = rec.skill_used ? get_skill_level( rec.skill_used ) - rec.difficulty : 0;
+    for( const auto &required_skill : rec.required_skills ) {
+        over = std::min( over, get_skill_level( required_skill.first ) - required_skill.second );
     }
+    return over;
+}
 
-    return meets_requirements;
+bool player::has_recipe_requirements( const recipe *rec ) const
+{
+    return ( exceeds_recipe_requirements( *rec ) > -1 );
 }
 
 bool player::knows_recipe(const recipe *rec) const

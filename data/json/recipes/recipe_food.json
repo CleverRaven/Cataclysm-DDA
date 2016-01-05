@@ -992,6 +992,7 @@
   "time": 4000,
   "reversible": false,
   "autolearn": true,
+  "flags": ["BLIND_HARD"],
   "components": [
     [
       [ "protein_powder", 1 ]
@@ -3034,6 +3035,7 @@
   "time": 7000,
   "reversible": false,
   "autolearn": true,
+  "flags": ["BLIND_HARD"],
   "components": [
     [
       [ "orangesoda", 1 ]
@@ -3053,6 +3055,7 @@
   "time": 7000,
   "reversible": false,
   "autolearn": true,
+  "flags": ["BLIND_HARD"],
   "components": [
     [
       [ "lemonlime", 1 ]
@@ -3071,6 +3074,7 @@
   "time": 7000,
   "reversible": false,
   "autolearn": true,
+  "flags": ["BLIND_HARD"],
   "components": [
     [
       [ "whiskey", 1 ],
@@ -3090,6 +3094,7 @@
   "time": 7000,
   "reversible": false,
   "autolearn": true,
+  "flags": ["BLIND_HARD"],
   "components": [
     [
       [ "cola", 1 ]
@@ -3120,6 +3125,7 @@
   "time": 7000,
   "reversible": false,
   "autolearn": true,
+  "flags": ["BLIND_HARD"],
   "components": [
     [
       [ "oj", 1 ]
@@ -3138,6 +3144,7 @@
   "time": 7000,
   "reversible": false,
   "autolearn": true,
+  "flags": ["BLIND_HARD"],
   "components": [
     [
       [ "apple_cider", 1 ]
@@ -3156,6 +3163,7 @@
   "time": 7000,
   "reversible": false,
   "autolearn": true,
+  "flags": ["BLIND_HARD"],
   "components": [
     [
       [ "rum", 1 ]
@@ -8384,6 +8392,7 @@
   "time": 20,
   "reversible": false,
   "autolearn": true,
+  "flags": ["BLIND_HARD"],
   "components": [
     [ ["chem_ethanol", 7] ],
     [ ["water", 1], ["water_clean", 1] ] ]
@@ -10312,6 +10321,7 @@
   "time": 1000,
   "reversible": false,
   "autolearn": true,
+  "flags": ["BLIND_HARD"],
   "components": [
     [
       [ "water_clean", 1 ]
@@ -10712,6 +10722,7 @@
   "time": 1500,
   "reversible": false,
   "autolearn": true,
+  "flags": ["BLIND_HARD"],
   "components": [
     [
       [ "tea", 1 ]
@@ -10733,6 +10744,7 @@
   "time": 1500,
   "reversible": false,
   "autolearn": true,
+  "flags": ["BLIND_HARD"],
   "components": [
     [
       [ "coffee_syrup", 1 ],
@@ -10827,6 +10839,7 @@
   "time": 3000,
   "reversible": false,
   "autolearn": true,
+  "flags": ["BLIND_HARD"],
   "components": [
     [
       [ "lemonade", 1 ]
@@ -10847,6 +10860,7 @@
   "time": 3000,
   "reversible": false,
   "autolearn": true,
+  "flags": ["BLIND_HARD"],
   "components": [
     [
       [ "bum_wine", 6 ],
@@ -10868,6 +10882,7 @@
   "time": 4000,
   "reversible": false,
   "autolearn": true,
+  "flags": ["BLIND_HARD"],
   "components": [
     [
       [ "oj", 1 ],

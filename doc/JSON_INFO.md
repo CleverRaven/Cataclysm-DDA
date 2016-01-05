@@ -219,22 +219,18 @@ The syntax listed here is still valid.
 "reversible": false,         // Can be disassembled.
 "autolearn": true,           // Automatically learned upon gaining required skills
 "batch_time_factors": [25, 15], // Optional factors for batch crafting time reduction. First number specifies maximum crafting time reduction as percentage, and the second number the minimal batch size to reach that number. In this example given batch size of 20 the last 6 crafts will take only 3750 time units.
-"tools": [                   // Tools needed to craft
-[                            // Equivalent tools are surrounded by a single set of brackets []
-  [ "hatchet", -1 ],         // Charges consumed when tool is used, -1 means no charges are consumed
-  [ "knife_steak", -1 ],
-  [ "knife_combat", -1 ],
-  [ "knife_butcher", -1 ],
-  [ "pockknife", -1 ],
-  [ "scalpel", -1 ],
-  [ "machete", -1 ],
-  [ "broadsword", -1 ],
-  [ "toolset", -1 ]
+"flags": [                   // A set of strings describing boolean features of the recipe
+  "BLIND_EASY",
+  "ANOTHERFLAG"
+], 
+"qualities": [               // Generic qualities of tools needed to craft
+  {"id":"CUT","level":1,"amount":1}
 ],
+"tools": [                   // Specific tools needed to craft
 [
-    [ "fire", -1 ]
+    [ "fire", -1 ]           // Charges consumed when tool is used, -1 means no charges are consumed
 ]],
-"components": [              // Equivalent components are surrounded by a single set of brackets
+"components": [              // Equivalent tools or components are surrounded by a single set of brackets
 [
   [ "spear_wood", 1 ],       // Number of charges/items required
   [ "pointy_stick", 1 ]
