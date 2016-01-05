@@ -486,6 +486,32 @@
     ]
   },{
     "type" : "item_group",
+    "id" : "restricted_ammo",
+    "//" : "ammo types restricted or illegal for civilians.",
+    "items":[
+      ["shot_flechette", 50],
+      ["shot_he", 30],
+      ["20x66_shot", 50],
+      ["20x66_exp", 40],
+      ["20x66_inc", 40],
+      ["20x66_flare", 40],
+      ["20x66_frag", 40],
+      ["20x66_flechette", 40],
+      ["545_ap", 20],
+      ["556_incendiary", 100],
+      ["762_51_incendiary", 100],
+      ["3006_incendiary", 50],
+      ["50ss", 50],
+      ["50_incendiary", 50],
+      ["8mm_jhp", 100],
+      ["8mm_inc", 50],
+      ["8mm_hvp", 50],
+      ["8mm_fmj", 50],
+      ["5x50dart", 50],
+      ["5x50heavy", 50]
+    ]
+  },{
+    "type" : "item_group",
     "id" : "launchers",
     "items":[
       ["m79", 10],
