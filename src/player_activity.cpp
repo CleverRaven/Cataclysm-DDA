@@ -63,6 +63,7 @@ bool player_activity::is_abortable() const
         case ACT_BUILD:
         case ACT_CRAFT:
         case ACT_LONGCRAFT:
+        case ACT_DISASSEMBLE:
         case ACT_REFILL_VEHICLE:
         case ACT_WAIT:
         case ACT_WAIT_WEATHER:

@@ -11072,11 +11072,12 @@ void game::butcher()
         }
 
         const recipe *cur_recipe = get_disassemble_recipe(items[i].type->id);
-        if( cur_recipe == nullptr ) {
+        if( cur_recipe == nullptr && !items[i].is_book() ) {
             continue;
         }
 
-        if( u.can_disassemble( items[i], cur_recipe, crafting_inv, false ) ) {
+        if( items[i].is_book() ||
+            u.can_disassemble( items[i], cur_recipe, crafting_inv, false ) ) {
             disassembles.push_back(i);
         } else if( first_item_without_tools == nullptr ) {
             first_item_without_tools = &items[i];
@@ -11199,10 +11200,10 @@ void game::butcher()
             }
             break;
         case MULTIDISASSEMBLE_ONE:
-            debugmsg("longdisassemble_one not implemented");
+            u.disassemble_all( true );
             break;
         case MULTIDISASSEMBLE_ALL:
-            debugmsg("longdisassemble_all not implemented");
+            u.disassemble_all( false );
             break;
         default:
             debugmsg("tii: %d", indexer_index );

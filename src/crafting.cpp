@@ -1249,16 +1249,14 @@ bool player::disassemble(int dis_pos)
 bool player::disassemble( item &dis_item, int dis_pos,
     bool ground, bool msg_and_query )
 {
-    const recipe *cur_recipe = get_disassemble_recipe( dis_item.type->id );
-
-    //no disassembly without proper light
+    // No disassembly without proper light
     if( fine_detail_vision_mod() > 4 ) {
         add_msg(m_info, _("You can't see to craft!"));
         activity.type = ACT_NULL;
         return false;
     }
 
-    //checks to see if you're disassembling rotten food, and will stop you if true
+    // Checks to see if you're disassembling rotten food, and will stop you if true
     if( (dis_item.is_food() && dis_item.goes_bad()) ||
         (dis_item.is_food_container() && dis_item.contents[0].goes_bad()) ) {
         dis_item.calc_rot( global_square_location() );
@@ -1276,6 +1274,7 @@ bool player::disassemble( item &dis_item, int dis_pos,
     std::string recipe_ident;
     int recipe_time = 100;
     const inventory &crafting_inv = crafting_inventory();
+    const recipe *cur_recipe = get_disassemble_recipe( dis_item.type->id );
     if( cur_recipe != nullptr &&
         can_disassemble( dis_item, cur_recipe, crafting_inv, msg_and_query ) ) {
         if( msg_and_query && !query_disassemble( dis_item ) ) {
@@ -1283,8 +1282,9 @@ bool player::disassemble( item &dis_item, int dis_pos,
         }
 
         recipe_ident = cur_recipe->ident;
+        recipe_time = cur_recipe->time;
     }
-    //if we're trying to disassemble a book or magazine
+    // If we're trying to disassemble a book or magazine
     if( dis_item.is_book() ) {
         if( msg_and_query && OPTIONS["QUERY_DISASSEMBLE"] &&
             !(query_yn(_("Do you want to tear %s into pages?"),
@@ -1312,7 +1312,7 @@ bool player::disassemble( item &dis_item, int dis_pos,
 
     activity.values.push_back( dis_pos );
     activity.coords.push_back( ground ? pos() : tripoint_min );
-    activity.str_values.push_back( recipe_indent );
+    activity.str_values.push_back( recipe_ident );
 
     return true;
 }
@@ -1320,22 +1320,28 @@ bool player::disassemble( item &dis_item, int dis_pos,
 void player::disassemble_all( bool one_pass )
 {
     // Reset all the activity values
-    activity = player_activity();
-    const inventory &crafting_inv = crafting_inventory();
+    assign_activity( ACT_DISASSEMBLE, 0 );
     auto items = g->m.i_at( pos() );
     bool found_any = false;
-    for( const auto &item : items ) {
-        if( disassemble( item, i, true, false ) ) {
-            found_any = true;
-        }
-    }
-
-    if( !one_pass && found_any ) {
+    if( !one_pass ) {
         // Kinda hacky
         // That INT_MIN notes we want infinite uncraft
         // If INT_MIN is reached in complete_disassemble,
         // we will call this function again.
         activity.values.push_back( INT_MIN );
+        activity.str_values.push_back( "" );
+        activity.coords.push_back( tripoint_min );
+    }
+
+    for( size_t i = 0; i < items.size(); i++ ) {
+        if( disassemble( items[i], i, true, false ) ) {
+            found_any = true;
+        }
+    }
+
+    if( !found_any ) {
+        // Reset the activity - don't loop if there is nothing to do
+        activity = player_activity();
     }
 }
 
@@ -1353,50 +1359,86 @@ item_comp find_component( const std::vector<item_comp> &altercomps, const item &
     return altercomps.front();
 }
 
-struct disassembly_target
+item &get_item_for_uncraft( player &p, int item_pos,
+    const tripoint &loc, bool from_ground )
 {
-    
-};
+    item *org_item;
+    if( from_ground ) {
+        auto items_on_ground = g->m.i_at( loc );
+        if( static_cast<size_t>(item_pos) >= items_on_ground.size() ) {
+            return p.ret_null;
+        }
+        org_item = &items_on_ground[item_pos];
+    } else {
+        org_item = &p.i_at(item_pos);
+    }
 
-disassembly_target next_disassembly_target( player_activity &act, bool pop )
-{
+    return *org_item;
 }
 
 void player::complete_disassemble()
 {
-    if( activity.values.empty() ) {
-        activity.type = ACT_NULL;
-        return;
-    }
-    const int item_pos = activity.values.front();
-    if( item_pos == INT_MIN ) {
-        disassemble_all();
-        return;
-    }
-    activity.values.erase( activity.values.begin() );
-    tripoint loc = activity.coords.empty() ?
-        tripoint_min : activity.coords.front();
-    const bool from_ground = loc != tripoint_min;
-    if( !activity.coords.empty() ) {
-        activity.coords.erase( activity.coords.begin() );
-    }
-
+    // Clean up old settings
     // Warning: Breaks old saves with disassembly in progress!
     // But so would adding a new recipe...
-    const auto recipe_name = activity.str_values.empty() ?
-        "" : activity.str_values.front();
-    if( !activity.str_values.empty() ) {
-        activity.str_values.erase( activity.str_values.begin() );
-    }
-
-    const recipe *dis_ptr = recipe_by_name( recipe_name ); // Which recipe is it?
-    if( dis_ptr == nullptr ) {
-        debugmsg( "no recipe with name %s found", recipe_name );
+    if( activity.values.empty() ||
+        activity.values.size() != activity.str_values.size() ||
+        activity.values.size() != activity.coords.size() ) {
+        debugmsg( "bad disassembly activity values" );
         activity.type = ACT_NULL;
         return;
     }
 
-    complete_disassemble( item_pos, loc, from_ground, *dis_ptr );
+    // Disassembly activity is now saved in 3 parallel vectors:
+    // item position, tripoint location (tripoint_min for inventory) and recipe
+
+    // Note: we're reading from the back (in inverse order)
+    // This is to avoid having to maintain indices
+    const int item_pos = activity.values.back();
+    const tripoint loc = activity.coords.back();
+    const auto recipe_name = activity.str_values.back();
+
+    activity.values.pop_back();
+    activity.str_values.pop_back();
+    activity.coords.pop_back();
+
+    if( item_pos == INT_MIN ) {
+        disassemble_all( false );
+        return;
+    }
+
+    const bool from_ground = loc != tripoint_min;
+
+    // Need to handle the book uncraft hack first
+    if( recipe_name == fake_recipe_book ) {
+        item &org_item = get_item_for_uncraft( *this, item_pos, loc, from_ground );
+        if( org_item.is_null() || !org_item.is_book() ) {
+            add_msg(_("The item has vanished."));
+            activity.type = ACT_NULL;
+            return;
+        }
+
+        // Twice the volume then multiplied by 10.
+        // A book with volume 3 will give 60 pages.
+        const int num_pages = (org_item.volume() * 2) * 10;
+        g->m.spawn_item( pos(), "paper", 0, num_pages );
+        if( from_ground ) {
+            g->m.i_rem( loc, item_pos );
+        } else {
+            i_rem( item_pos );
+        }
+    } else {
+        // Now regular recipe
+        const recipe *dis_ptr = recipe_by_name( recipe_name ); // Which recipe is it?
+        if( dis_ptr == nullptr ) {
+            debugmsg( "no recipe with name %s found", recipe_name.c_str() );
+            activity.type = ACT_NULL;
+            return;
+        }
+
+        complete_disassemble( item_pos, loc, from_ground, *dis_ptr );
+    }
+
     if( activity.type == ACT_NULL ) {
         // Something above went wrong, don't continue
         return;
@@ -1404,22 +1446,28 @@ void player::complete_disassemble()
 
     // Try to get another disassembly target from the activity
     if( activity.values.empty() ) {
+        // No more targets
         activity.type = ACT_NULL;
         return;
     }
 
-    if( activity.values.front() == INT_MIN ) {
-        disassemble_all();
+    if( activity.values.back() == INT_MIN ) {
+        disassemble_all( false );
         return;
     }
 
-    const recipe *next_recipe = recipe_by_name( recipe_name );
-    if( next_recipe == nullptr ) {
-        activity.type = ACT_NULL;
-        return;
-    }
+    const auto &next_recipe_name = activity.str_values.back();
+    if( next_recipe_name == fake_recipe_book ) {
+        activity.moves_left = 100;
+    } else {
+        const recipe *next_recipe = recipe_by_name( next_recipe_name );
+        if( next_recipe == nullptr ) {
+            activity.type = ACT_NULL;
+            return;
+        }
 
-    activity.moves_left = next_recipe->time;
+        activity.moves_left = next_recipe->time;
+    }
 }
 
 // TODO: Make them accessible in a less ugly way
@@ -1431,41 +1479,21 @@ void player::complete_disassemble( int item_pos, const tripoint &loc,
 {
     // Get the proper recipe - the one for disassembly, not assembly
     const auto dis_requirements = dis.requirements.disassembly_requirements();
-    item *org_item;
-    auto items_on_ground = g->m.i_at( loc );
-    if( from_ground ) {
-        if (static_cast<size_t>(item_pos) >= items_on_ground.size()) {
-            add_msg(_("The item has vanished."));
-            activity.type = ACT_NULL;
-            return;
-        }
-        org_item = &items_on_ground[item_pos];
-    } else {
-        org_item = &i_at(item_pos);
-    }
-
-    // Check book fake recipe first
-    if( org_item->is_book() && dis.name == fake_recipe_book ) {
-        // Twice the volume then multiplied by 10.
-        // A book with volume 3 will give 60 pages.
-        int num_pages = (org_item->volume() * 2) * 10;
-        g->m.spawn_item( pos(), "paper", 0, num_pages );
-        if( from_ground ) {
-            g->m.i_rem( loc, item_pos );
-        } else {
-            i_rem( item_pos );
-        }
+    item &org_item = get_item_for_uncraft( *this, item_pos, loc, from_ground );
+    if( org_item.is_null() ) {
+        add_msg(_("The item has vanished."));
+        activity.type = ACT_NULL;
         return;
     }
 
-    if (org_item->type->id != dis.result) {
+    if( org_item.type->id != dis.result ) {
         add_msg(_("The item might be gone, at least it is not at the expected position anymore."));
         activity.type = ACT_NULL;
         return;
     }
     // Make a copy to keep its data (damage/components) even after it
     // has been removed.
-    item dis_item = *org_item;
+    item dis_item = org_item;
 
     float component_success_chance = std::min(std::pow(0.8f, dis_item.damage), 1.0);
 
@@ -1483,10 +1511,10 @@ void player::complete_disassemble( int item_pos, const tripoint &loc,
 
     if (dis_item.count_by_charges()) {
         // remove the charges that one would get from crafting it
-        org_item->charges -= dis.create_result().charges;
+        org_item.charges -= dis.create_result().charges;
     }
     // remove the item, except when it's counted by charges and still has some
-    if (!org_item->count_by_charges() || org_item->charges <= 0) {
+    if (!org_item.count_by_charges() || org_item.charges <= 0) {
         if( from_ground ) {
             g->m.i_rem( loc, item_pos );
         } else {

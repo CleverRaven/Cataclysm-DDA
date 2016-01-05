@@ -463,7 +463,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     if( pieces <= 0 ) {
         p->add_msg_if_player(m_bad, _("Your clumsy butchering destroys the meat!"));
     } else {
-        p->add_msg_if_player(m_good, _("You butcher the corpse."));
+        p->add_msg_if_player(m_good, _("You harvest some meat."));
         const itype_id meat = corpse->get_meat_itype();
         if( meat == "null" ) {
             return;
@@ -476,7 +476,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         }
     }
 
-    p->add_msg_if_player( m_good, _("You finish butchering the %s"), corpse->nname().c_str() );
+    p->add_msg_if_player( m_good, _("You finish butchering the %s."), corpse->nname().c_str() );
 
     if( act->values.empty() ) {
         act->type = ACT_NULL;
