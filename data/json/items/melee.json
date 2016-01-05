@@ -3586,7 +3586,7 @@
     "price": 17800,
     "material": "budget_steel",
     "techniques": ["RAPID", "WBLOCK_1"],
-    "flags" : ["SLICE", "DURABLE_MELEE", "SHEATH_SWORD", "IAIJUTSU"],
+    "flags" : ["SLICE", "SHEATH_SWORD", "IAIJUTSU"],
     "weight": 835,
     "volume": 6,
     "bashing": 3,
