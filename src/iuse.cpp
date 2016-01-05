@@ -5443,7 +5443,7 @@ int iuse::artifact(player *p, item *it, bool, const tripoint& )
 
             case AEA_ADRENALINE:
                 p->add_msg_if_player(m_good, _("You're filled with a roaring energy!"));
-                p->add_effect("adrenaline", rng(200, 250));
+                p->add_effect("adrenaline", rng(200, 250), num_bp, false, 2);
                 break;
 
             case AEA_MAP: {
@@ -6019,7 +6019,7 @@ int iuse::adrenaline_injector(player *p, item *it, bool, const tripoint& )
 
     item syringe( "syringe", it->bday );
     p->i_add( syringe );
-    p->add_effect("adrenaline", 200);
+    p->add_effect("adrenaline", 200, num_bp, false, 2);
     if (p->has_effect("adrenaline")) {
         //Massively boost stimulant level, risking death on an extended chain
         p->stim += 80;

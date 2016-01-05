@@ -4748,7 +4748,7 @@ void player::on_hurt( Creature *source, bool disturb /*= true*/ )
 {
     if( has_trait("ADRENALINE") && !has_effect("adrenaline") &&
         (hp_cur[hp_head] < 25 || hp_cur[hp_torso] < 15) ) {
-        add_effect("adrenaline", 200);
+        add_effect("adrenaline", 200, num_bp, false, 2);
     }
 
     if( disturb ) {
