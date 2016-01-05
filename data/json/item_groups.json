@@ -4503,6 +4503,7 @@
     "id" : "mansion_guns",
     "items":[
       ["shotgun_s", 6],
+      ["pistol_pepperbox", 5]
       ["shotgun_d", 6],
       ["trex_gun", 1],
       ["combination_gun", 1],
