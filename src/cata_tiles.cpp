@@ -1093,12 +1093,14 @@ void cata_tiles::init_minimap( int destx, int desty, int width, int height )
     minimap_tiles_range.y = ( MAPSIZE - 2 ) * SEEY;
     minimap_tile_size.x = std::max( width / minimap_tiles_range.x, 1 );
     minimap_tile_size.y = std::max( height / minimap_tiles_range.y, 1 );
+    //maintain a square "pixel" shape
+    if (OPTIONS["PIXEL_MINIMAP_RATIO"]) {
+        int smallest_size = std::min( minimap_tile_size.x, minimap_tile_size.y );
+        minimap_tile_size.x = smallest_size;
+        minimap_tile_size.y = smallest_size;
+    }
     minimap_tiles_limit.x = std::min( width / minimap_tile_size.x, minimap_tiles_range.x );
     minimap_tiles_limit.y = std::min( height / minimap_tile_size.y, minimap_tiles_range.y );
-    //maintain a square "pixel" shape
-    int smallest_size = std::min( minimap_tiles_limit.x, minimap_tiles_limit.y );
-    minimap_tiles_limit.x = smallest_size;
-    minimap_tiles_limit.y = smallest_size;
     // Center the drawn area within the total area.
     minimap_drawn_width = minimap_tiles_limit.x * minimap_tile_size.x;
     minimap_drawn_height = minimap_tiles_limit.y * minimap_tile_size.y;
@@ -1240,12 +1242,15 @@ void cata_tiles::draw_minimap( int destx, int desty, const tripoint &center, int
 
     //handles the enemy faction red highlights
     //this value should be divisible by 200
-    const int indicator_length = 2000;
-    int indicator_tick = SDL_GetTicks() % indicator_length;
-    if(indicator_tick > indicator_length / 2) {
-        indicator_tick = indicator_length - indicator_tick;
+    const int indicator_length = OPTIONS["PIXEL_MINIMAP_BLINK"] * 200; //default is 2000 ms, 2 seconds
+    int indicator_tick = 0; //if blink is disabled, leave at 0
+    if(indicator_length > 0){
+        indicator_tick = SDL_GetTicks() % indicator_length;
+        if(indicator_tick > indicator_length / 2) {
+            indicator_tick = indicator_length - indicator_tick;
+        }
+        indicator_tick /= (indicator_length / 200); //scale to 0-100 percent
     }
-    indicator_tick /= (indicator_length / 200); //scale to 0-100 percent
 
     // Now draw critters over terrain.
     for( int y = 0; y < minimap_tiles_limit.y; y++) {

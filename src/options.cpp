@@ -1061,6 +1061,16 @@ void options_manager::init()
                                 0, 100, 0, COPT_CURSES_HIDE
                                );
 
+    OPTIONS["PIXEL_MINIMAP_RATIO"] = cOpt("graphics", _("Maintain Pixel Minimap aspect ratio"),
+                                          _("Preserves the square shape of tiles shown on the pixel minimap. Requires restart."),
+                                          true, COPT_CURSES_HIDE
+                                          );
+
+    OPTIONS["PIXEL_MINIMAP_BLINK"] = cOpt("graphics", _("Enemy beacon blink speed"),
+                                          _("Controls how fast the enemy beacons blink on the pixel minimap. Value is multiplied by 200 ms. Set to 0 to disable."),
+                                          0, 50, 10, COPT_CURSES_HIDE
+                                          );
+
     mOptionsSort["graphics"]++;
 
     optionNames["fullscreen"] = _("Fullscreen");
