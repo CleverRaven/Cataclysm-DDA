@@ -10492,6 +10492,8 @@
   "contained": true,
   "batch_time_factors":[83, 5],
   "qualities" : [
+    {"id":"SAW_M","level":1,"amount":1},
+    {"id":"HAMMER","level":1,"amount":1},
     {"id":"CUT","level":1,"amount":1},
     {"id":"COOK","level":3,"amount":1}
   ], "tools": [
@@ -10533,6 +10535,8 @@
   "contained": true,
   "batch_time_factors":[83, 5],
   "qualities" : [
+    {"id":"SAW_M","level":1,"amount":1},
+    {"id":"HAMMER","level":1,"amount":1},
     {"id":"CUT","level":1,"amount":1},
     {"id":"COOK","level":3,"amount":1}
   ], "tools": [
@@ -10574,6 +10578,8 @@
   "contained": true,
   "batch_time_factors":[83, 5],
   "qualities" : [
+    {"id":"SAW_M","level":1,"amount":1},
+    {"id":"HAMMER","level":1,"amount":1},
     {"id":"CUT","level":1,"amount":1},
     {"id":"COOK","level":3,"amount":1}
   ], "tools": [
@@ -10615,6 +10621,8 @@
   "contained": true,
   "batch_time_factors":[83, 5],
   "qualities" : [
+    {"id":"SAW_M","level":1,"amount":1},
+    {"id":"HAMMER","level":1,"amount":1},
     {"id":"CUT","level":1,"amount":1},
     {"id":"COOK","level":3,"amount":1}
   ], "tools": [
@@ -10667,6 +10675,8 @@
   "contained": true,
   "batch_time_factors":[83, 5],
   "qualities" : [
+    {"id":"SAW_M","level":1,"amount":1},
+    {"id":"HAMMER","level":1,"amount":1},
     {"id":"CUT","level":1,"amount":1},
     {"id":"COOK","level":3,"amount":1}
   ], "tools": [
