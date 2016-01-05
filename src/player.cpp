@@ -10914,7 +10914,7 @@ bool player::wear_item( const item &to_wear, bool interactive )
     if (to_wear.has_flag("RESTRICT_HANDS") && !has_two_arms()) {
         if(interactive) {
             add_msg_if_player(m_info, _("You don't have a hand free to wear an %s")),
-                    to_wear.type_name().c_str());
+                    to_wear.type_name().c_str();
         }
         return false;
     }
