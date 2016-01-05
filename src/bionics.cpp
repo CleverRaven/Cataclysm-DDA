@@ -896,7 +896,7 @@ bool player::activate_bionic(int b, bool eff_only)
         if (has_effect("adrenaline")) {
             add_effect("adrenaline", 50);
         } else {
-            add_effect("adrenaline", 200);
+            add_effect("adrenaline", 200, num_bp, false, 2);
         }
     } else if(bio.id == "bio_blaster") {
         tmp_item = weapon;

@@ -5808,10 +5808,10 @@ int game::mon_info(WINDOW *w)
                 if (u.has_trait("M_DEFENDER") && critter.type->in_species( PLANT )) {
                     add_msg(m_warning, _("We have detected a %s."), critter.name().c_str());
                     if (!u.has_effect("adrenaline_mycus")){
-                        u.add_effect("adrenaline_mycus", 300);
+                        u.add_effect("adrenaline_mycus", 300, num_bp, false, 2);
                     } else if (u.get_effect_int("adrenaline_mycus") == 1) {
                         // Triffids present.  We ain't got TIME to adrenaline comedown!
-                        u.add_effect("adrenaline_mycus", 150);
+                        u.add_effect("adrenaline_mycus", 150, num_bp, false, 2);
                         u.mod_pain(3); // Does take it out of you, though
                         add_msg(m_info, _("Our fibers strain with renewed wrath!"));
                     }
