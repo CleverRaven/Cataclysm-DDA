@@ -127,9 +127,6 @@ void load_recipe(JsonObject &jsobj)
         }
     }
 
-    std::set<std::string> flags;
-    flags = jsobj.get_tags( "flags" );
-
     std::string rec_name = result + id_suffix;
     int id = check_recipe_ident(rec_name, jsobj); // may delete recipes
 
@@ -154,7 +151,7 @@ void load_recipe(JsonObject &jsobj)
     rec->batch_rscale = batch_rscale;
     rec->batch_rsize = batch_rsize;
     rec->result_mult = result_mult;
-    rec->flags = flags;
+    rec->flags = jsobj.get_tags( "flags" );
 
     rec->requirements.load(jsobj);
 
