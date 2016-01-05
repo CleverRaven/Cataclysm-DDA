@@ -556,7 +556,7 @@
         "acid_resist" : 15,
         "elec_resist" : 0,
         "fire_resist" : 3,
-        "chip_resist" : 7,
+        "chip_resist" : 13,
         "density" : 30
     },{
         "type" : "material",
