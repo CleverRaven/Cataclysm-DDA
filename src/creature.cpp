@@ -802,7 +802,6 @@ void Creature::add_effect( efftype_id eff_id, int dur, body_part bp,
             if (e.get_max_duration() > 0 && e.get_duration() > e.get_max_duration()) {
                 e.set_duration(e.get_max_duration());
             }
-
             // Adding a permanent effect makes it permanent
             if( e.is_permanent() ) {
                 e.pause_effect();
