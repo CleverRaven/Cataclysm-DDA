@@ -1297,7 +1297,9 @@ bool player::disassemble( item &dis_item, int dis_pos,
     const recipe *cur_recipe = get_disassemble_recipe( dis_item.type->id );
 
     // No disassembly without proper light
-    if( lighting_craft_speed_multiplier(*cur_recipe) == 0.0f ) {
+    // But book-ripping is OK
+    if( cur_recipe != nullptr &&
+        lighting_craft_speed_multiplier( *cur_recipe ) == 0.0f ) {
         add_msg(m_info, _("You can't see to craft!"));
         activity.type = ACT_NULL;
         return false;
