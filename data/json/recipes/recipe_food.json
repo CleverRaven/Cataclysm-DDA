@@ -296,7 +296,7 @@
 },{
   "type" : "recipe",
   "result": "lard",
-  "byproducts": { "id" : "cracklins", "charges_mult" : 2 },
+  "byproducts": { "id" : "cracklins" },
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
   "skill_used": "cooking",
