@@ -1079,6 +1079,10 @@ int effect::get_dur_add_perc() const
 {
     return eff_type->dur_add_perc;
 }
+int effect::get_int_dur_factor() const
+{
+    return eff_type->int_dur_factor;
+}
 int effect::get_int_add_val() const
 {
     return eff_type->int_add_val;

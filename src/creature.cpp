@@ -787,7 +787,6 @@ void Creature::add_effect( efftype_id eff_id, int dur, body_part bp,
     if (effect_types[eff_id].get_main_parts()) {
         bp = mutate_to_main_part(bp);
     }
-
     bool found = false;
     // Check if we already have it
     auto matching_map = effects.find(eff_id);
@@ -802,6 +801,7 @@ void Creature::add_effect( efftype_id eff_id, int dur, body_part bp,
             if (e.get_max_duration() > 0 && e.get_duration() > e.get_max_duration()) {
                 e.set_duration(e.get_max_duration());
             }
+
             // Adding a permanent effect makes it permanent
             if( e.is_permanent() ) {
                 e.pause_effect();
@@ -815,11 +815,10 @@ void Creature::add_effect( efftype_id eff_id, int dur, body_part bp,
             }
 
             // Force intensity if it is duration based
-            if (eff_type->int_dur_factor != 0) {
-            // + 1 here so that the lowest is intensity 1, not 0
-            e.set_intensity ((dur / eff_type->int_dur_factor) + 1);
+            if (e.get_int_dur_factor() != 0) {
+                // + 1 here so that the lowest is intensity 1, not 0
+                e.set_intensity((e.get_duration() / e.get_int_dur_factor()) + 1);
             }
-
             // Bound intensity by [1, max intensity]
             if (e.get_intensity() < 1) {
                 add_msg( m_debug, "Bad intensity, ID: %s", e.get_id().c_str() );
@@ -851,6 +850,12 @@ void Creature::add_effect( efftype_id eff_id, int dur, body_part bp,
         // Bound to max duration
         if (e.get_max_duration() > 0 && e.get_duration() > e.get_max_duration()) {
             e.set_duration(e.get_max_duration());
+        }
+
+        // Force intensity if it is duration based
+        if (e.get_int_dur_factor() != 0) {
+            // + 1 here so that the lowest is intensity 1, not 0
+             e.set_intensity((e.get_duration() / e.get_int_dur_factor()) + 1);
         }
         // Bound new effect intensity by [1, max intensity]
         if (new_eff.get_intensity() < 1) {
