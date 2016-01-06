@@ -13964,7 +13964,7 @@
                     "id": "iodine",
                     "duration": 2400
                 }
-            ],
+            ]},
         "stim" : 0,
         "container" : "null",
         "to_hit" : 0,
@@ -14002,7 +14002,7 @@
                     "id": "pblue",
                     "duration": 1200
                 }
-            ],
+            ]},
         "stim" : 0,
         "container" : "null",
         "to_hit" : 0,
