@@ -6083,7 +6083,8 @@ void game::monmove()
         if (!critter.is_dead() &&
             u.has_active_bionic("bio_alarm") &&
             u.power_level >= 25 &&
-            rl_dist( u.pos(), critter.pos() ) <= 5) {
+            rl_dist( u.pos(), critter.pos() ) <= 5 &&
+            !critter.is_hallucination()) {
                 u.charge_power(-25);
                 add_msg(m_warning, _("Your motion alarm goes off!"));
                 cancel_activity_query(_("Your motion alarm goes off!"));
