@@ -2185,7 +2185,7 @@
         "id" : "naginata",
         "name" : "naginata",
         "name_plural": "naginata",
-        "description" : "A sturdy polearm with a curved blade, made in the same manner as the katana and other Japanese blades. Occasionally used by samurai in early periods, or by their wives in defense of the household.",
+        "description" : "A sturdy polearm with a curved blade, made in the same manner as the katana and other Japanese blades.  Occasionally used by samurai in early periods, or by their wives in defense of the household.",
         "weight" : 1700,
         "to_hit" : 2,
         "color" : "light_gray",

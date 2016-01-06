@@ -5481,7 +5481,7 @@
     "symbol": "/",
     "color": "light_gray",
     "name": "scimitar",
-    "description": "This is a curved sword associated with various middle eastern and central asian countries. Designed for slashing, and quite deadly against unarmored targets.",
+    "description": "This is a curved sword associated with various middle eastern and central asian countries.  Designed for slashing, and quite deadly against unarmored targets.",
     "price": 93000,
     "material": "iron",
     "techniques": ["WBLOCK_1"],
