@@ -11183,8 +11183,6 @@ void game::butcher()
             debugmsg( "%d", ret );
             return;
         }
-
-        indexer_index = ret;
     }
 
     switch( butcher_type ) {
