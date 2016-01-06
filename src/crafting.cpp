@@ -80,7 +80,6 @@ void load_recipe(JsonObject &jsobj)
     bool contained = jsobj.get_bool("contained",false);
     std::string subcategory = jsobj.get_string("subcategory", "");
     bool reversible = jsobj.get_bool("reversible", false);
-    bool uncraft_single_charge = jsobj.get_bool("uncraft_single_charge", false);
     skill_id skill_used( jsobj.get_string("skill_used", skill_id::NULL_ID.str() ) );
     std::string id_suffix = jsobj.get_string("id_suffix", "");
     int learn_by_disassembly = jsobj.get_int("decomp_learn", -1);
@@ -148,7 +147,6 @@ void load_recipe(JsonObject &jsobj)
     }
     rec->reversible = reversible;
     rec->autolearn = autolearn;
-    rec->uncraft_single_charge = uncraft_single_charge;
     rec->learn_by_disassembly = learn_by_disassembly;
     rec->batch_rscale = batch_rscale;
     rec->batch_rsize = batch_rsize;
