@@ -52,7 +52,6 @@ struct recipe {
     std::map<skill_id, int> required_skills;
     bool reversible; // can the item be disassembled?
     bool autolearn; // do we learn it just by leveling skills?
-    bool uncraft_single_charge; // recipe is to uncraft one charge of an item with multiple default charges
     int learn_by_disassembly; // what level (if any) do we learn it by disassembly?
 
     // maximum achievable time reduction, as percentage of the original time.

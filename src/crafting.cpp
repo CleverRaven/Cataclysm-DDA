@@ -34,7 +34,7 @@ void remove_from_component_lookup(recipe* r);
 
 recipe::recipe() :
     id(0), result("null"), contained(false),skill_used( NULL_ID ), reversible(false),
-    autolearn(false), uncraft_single_charge(false), learn_by_disassembly(-1), result_mult(1)
+    autolearn(false), learn_by_disassembly(-1), result_mult(1)
 {
 }
 
