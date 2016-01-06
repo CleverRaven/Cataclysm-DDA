@@ -67,6 +67,7 @@
         "melee_allowed" : true,
         "min_melee" : 3,
         "crit_tec" : true,
+        "weighting" : 2,
         "messages" : [
             "You swing in a wide arc through %s",
             "<npcname> swings in a wide arc through %s"

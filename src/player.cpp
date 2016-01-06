@@ -505,9 +505,12 @@ void player::process_turn()
         scent--;
 
     // We can dodge again! Assuming we can actually move...
-    if (moves > 0) {
+    if( !in_sleep_state() ) {
         blocks_left = get_num_blocks();
         dodges_left = get_num_dodges();
+    } else {
+        blocks_left = 0;
+        dodges_left = 0;
     }
 
     // auto-learning. This is here because skill-increases happens all over the place:

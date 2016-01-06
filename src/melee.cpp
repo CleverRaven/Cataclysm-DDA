@@ -418,7 +418,7 @@ void player::melee_attack(Creature &t, bool allow_special, const matec_id &force
 
     const int melee = get_skill_level( skill_melee );
     ///\EFFECT_STR reduces stamina cost for melee attack with heavier weapons
-    const int weight_cost = weapon.weight() / ( 12 * std::max( 1, str_cur ) );
+    const int weight_cost = weapon.weight() / ( 20 * std::max( 1, str_cur ) );
     const int encumbrance_cost =
         divide_roll_remainder( encumb( bp_arm_l ) + encumb( bp_arm_r ), 5.0f );
     ///\EFFECT_MELEE reduces stamina cost of melee attacks
@@ -1031,7 +1031,7 @@ matec_id player::pick_technique(Creature &t,
         }
 
         // if aoe, check if there are valid targets
-        if (tec.aoe.length() > 0 && !valid_aoe_technique(t, tec)) {
+        if( !tec.aoe.empty() && !valid_aoe_technique(t, tec) ) {
             continue;
         }
 
@@ -1065,7 +1065,7 @@ bool player::valid_aoe_technique( Creature &t, const ma_technique &technique )
 bool player::valid_aoe_technique( Creature &t, const ma_technique &technique,
                                   std::vector<int> &mon_targets, std::vector<int> &npc_targets )
 {
-    if (technique.aoe.length() == 0) {
+    if( technique.aoe.empty() ) {
         return false;
     }
 
@@ -1165,8 +1165,8 @@ bool player::valid_aoe_technique( Creature &t, const ma_technique &technique,
                 }
             }
         }
-        //don't trigger circle for fewer than 4 targets
-        if( npc_targets.size() + mon_targets.size() < 4 ) {
+        //don't trigger circle for fewer than 2 targets
+        if( npc_targets.size() + mon_targets.size() < 2 ) {
             npc_targets.clear();
             mon_targets.clear();
         } else {
@@ -1258,7 +1258,10 @@ void player::perform_technique(const ma_technique &technique, Creature &t, damag
 
     //AOE attacks, feel free to skip over this lump
     if (technique.aoe.length() > 0) {
-        int temp_moves = moves;
+        // Remember out moves and stamina
+        // We don't want to consume them for every attack!
+        const int temp_moves = moves;
+        const int temp_stamina = stamina;
 
         std::vector<int> mon_targets = std::vector<int>();
         std::vector<int> npc_targets = std::vector<int>();
@@ -1304,9 +1307,9 @@ void player::perform_technique(const ma_technique &technique, Creature &t, damag
         }
 
         t.add_msg_if_player(m_good, ngettext("%d enemy hit!", "%d enemies hit!", count_hit), count_hit);
-
-        //AOE attacks should take longer than normal, but less than individual attacks.
-        moves = temp_moves - ((temp_moves - moves) / 4);
+        // Extra attacks are free of charge (otherwise AoE attacks would SUCK)
+        moves = temp_moves;
+        stamina = temp_stamina;
     }
 
     //player has a very small chance, based on their intelligence, to learn a style whilst using the cqb bionic
@@ -1732,7 +1735,7 @@ std::string player::melee_special_effects(Creature &t, damage_instance &d, const
             ///\EFFECT_STABBING reduces chance of weapon getting stuck, if STABBING>CUTTING
 
             ///\EFFECT_CUTTING reduces chance of weapon getting stuck, if CUTTING>STABBING
-            cutting_penalty -= rng( used_skill, used_skill * 2 + 2);
+            cutting_penalty -= rng( used_skill, used_skill * 2 + 2 );
         }
         if( cutting_penalty >= 50 && !is_hallucination ) {
             dump << string_format(_("Your %1$s gets stuck in %2$s but you yank it free!"), weapon.tname().c_str(),
@@ -1746,11 +1749,10 @@ std::string player::melee_special_effects(Creature &t, damage_instance &d, const
             t.mod_moves(-30);
         }
     }
-    if (cutting_penalty > 0) {
-        ///\EFFECT_STABBING reduces duration of weapon getting stuck, if STABBING>CUTTING
-
-        ///\EFFECT_CUTTING reduces duration of weapon getting stuck, if CUTTING>STABBING
-        mod_moves(-cutting_penalty);
+    if( cutting_penalty > 0 && !is_hallucination ) {
+        // Don't charge more than 1 turn of stuck penalty
+        // It scales with attack time and low attack time is bad enough on its own
+        mod_moves( std::max( -100, -cutting_penalty ) );
     }
 
     // on-hit effects for martial arts
