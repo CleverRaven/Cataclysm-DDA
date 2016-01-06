@@ -11,6 +11,7 @@
 #include "options.h"
 #include "map.h"
 #include "weather.h"
+#include "itype.h"
 
 #include <string>
 
@@ -129,5 +130,38 @@ TEST_CASE("Player body temperatures converge on expected values.") {
 
         //test_temperature_spread( &dummy, { -47, -32, -17, -2, 13, 28, 43 } );
         test_temperature_spread( &dummy, {{ -115, -87, -54, -6, 36, 64, 80 }} );
+    }
+}
+
+TEST_CASE("Sane nutrition_for hunger thresholds.") {
+    player &dummy = g->u;
+    const item foodstuff( "ant_egg", 0 );
+    const auto it_ptr = dynamic_cast<const it_comest*>( foodstuff.type );
+    SECTION("Non-decreasing") {
+        dummy.set_hunger(-500);
+        int last_nutrition = dummy.nutrition_for( it_ptr );
+        for( int i = -500; i < 10000; i++ ) {
+            dummy.set_hunger(i);
+            const int cur_nutrition = dummy.nutrition_for( it_ptr );
+            CHECK( cur_nutrition >= last_nutrition );
+            last_nutrition = cur_nutrition;
+        }
+    }
+
+    SECTION("Matching thresholds") {
+        // TODO: Move this somewhere common to player and player_test
+        using threshold_pair = std::pair<int, float>;
+        static const std::array<threshold_pair, 5> thresholds = {{
+            { 100, 1.0f },
+            { 300, 2.0f },
+            { 1400, 4.0f },
+            { 2800, 6.0f },
+            { 6000, 10.0f }
+        }};
+        for( const auto &thr : thresholds ) {
+            dummy.set_hunger( thr.first );
+            const int cur_nutrition = dummy.nutrition_for( it_ptr );
+            CHECK( cur_nutrition == (int)(thr.second * it_ptr->nutr) );
+        }
     }
 }

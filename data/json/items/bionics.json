@@ -1343,6 +1343,23 @@
         "to_hit": 0,
         "difficulty": 4
     },
+    {   
+        "type": "BIONIC_ITEM",
+        "category": "bionics",
+        "id": "bio_eye_optic",
+        "symbol": ":",
+        "color": "yellow",
+        "name": "Telescopic Eyes CBM",
+        "description": "Much of the material in your inner eye has been removed and replaced with an array of high-powered, auto-focusing lenses.  You can now see much farther and more clearer than before, any vision problems you might have had are now gone.",
+        "price": 500000,
+        "material": ["steel", "plastic"],
+        "weight": 2041,
+        "volume": 10,
+        "bashing": 8,
+        "cutting": 0,
+        "to_hit": 0,
+        "difficulty": 5
+    },
     {
         "type": "BIONIC_ITEM",
         "category": "bionics",

@@ -24,8 +24,6 @@ public:
     int sewage              ( player*, item*, bool, const tripoint& );
     int honeycomb           ( player*, item*, bool, const tripoint& );
     int royal_jelly         ( player*, item*, bool, const tripoint& );
-    int bandage             ( player*, item*, bool, const tripoint& );
-    int firstaid            ( player*, item*, bool, const tripoint& );
     int completefirstaid    ( player*, item*, bool, const tripoint& );
     int disinfectant        ( player*, item*, bool, const tripoint& );
     int caff                ( player*, item*, bool, const tripoint& );
@@ -161,7 +159,6 @@ public:
     int boltcutters         ( player*, item*, bool, const tripoint& );
     int mop                 ( player*, item*, bool, const tripoint& );
     int spray_can           ( player*, item*, bool, const tripoint& );
-    int rag                 ( player*, item*, bool, const tripoint& );
     int LAW                 ( player*, item*, bool, const tripoint& );
     int heatpack            ( player*, item*, bool, const tripoint& );
     int hotplate            ( player*, item*, bool, const tripoint& );

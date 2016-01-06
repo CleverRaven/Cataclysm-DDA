@@ -171,7 +171,7 @@ bool Creature::sees( const Creature &critter ) const
         return true;
     } else if( ( wanted_range > 1 && critter.digging() ) ||
         (critter.has_flag(MF_NIGHT_INVISIBILITY) && g->m.light_at(critter.pos()) <= LL_LOW ) ||
-        ( critter.is_underwater() && !is_underwater() && g->m.is_divable( critter.pos3() ) ) ) {
+        ( critter.is_underwater() && !is_underwater() && g->m.is_divable( critter.pos() ) ) ) {
         return false;
     }
 
@@ -198,7 +198,7 @@ bool Creature::sees( const tripoint &t, bool is_player ) const
     const int range_cur = sight_range( g->m.ambient_light_at(t) );
     const int range_day = sight_range( DAYLIGHT_LEVEL );
     const int range_min = std::min( range_cur, range_day );
-    const int wanted_range = rl_dist( pos3(), t );
+    const int wanted_range = rl_dist( pos(), t );
     if( wanted_range <= range_min ||
         ( wanted_range <= range_day &&
           g->m.ambient_light_at( t ) > g->natural_light_level( t.z ) ) ) {
@@ -213,7 +213,7 @@ bool Creature::sees( const tripoint &t, bool is_player ) const
             return range >= wanted_range &&
                 g->m.get_cache_ref(pos().z).seen_cache[pos().x][pos().y] > LIGHT_TRANSPARENCY_SOLID;
         } else {
-            return g->m.sees( pos3(), t, range );
+            return g->m.sees( pos(), t, range );
         }
     } else {
         return false;
@@ -306,7 +306,7 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
             continue;
         }
 
-        if( in_veh != nullptr && g->m.veh_at( m->pos3(), part ) == in_veh ) {
+        if( in_veh != nullptr && g->m.veh_at( m->pos(), part ) == in_veh ) {
             // No shooting stuff on vehicle we're a part of
             continue;
         }
@@ -1462,7 +1462,7 @@ body_part Creature::select_body_part(Creature *source, int hit_roll) const
 
 bool Creature::compare_by_dist_to_point::operator()( const Creature* const a, const Creature* const b ) const
 {
-    return rl_dist( a->pos3(), center ) < rl_dist( b->pos3(), center );
+    return rl_dist( a->pos(), center ) < rl_dist( b->pos(), center );
 }
 
 void Creature::check_dead_state() {

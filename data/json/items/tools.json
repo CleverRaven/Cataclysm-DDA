@@ -1571,6 +1571,22 @@
     "flags" : ["STAB"]
   },
   {
+    "type":"GENERIC",
+    "category" : "tools",
+    "id": "can_sealer",
+    "symbol": ";",
+    "color": "ltgray",
+    "name": "can sealer",
+    "description": "A hand crank powered cast aluminum machine designed to automatically seal tin cans.",
+    "price": 52500,
+    "material": "aluminum",
+    "weight": 9800,
+    "volume": 20,
+    "bashing": 8,
+    "cutting": 0,
+    "to_hit": -2
+  },
+  {
     "type":"TOOL",
     "id": "con_mix",
     "symbol": "$",
@@ -5581,7 +5597,7 @@
     "price": 120000,
     "material": "steel",
     "flags": ["CHOP", "DURABLE_MELEE", "SHEATH_SWORD", "IAIJUTSU"],
-    "techniques": "WBLOCK_1",
+    "techniques": "WBLOCK_2",
     "weight": 1474,
     "volume": 9,
     "bashing": 8,
@@ -5620,7 +5636,7 @@
     "price": 120000,
     "material": "steel",
     "flags": ["FIRE", "CHOP", "LIGHT_240", "CHARGEDIM", "FLAMING", "DURABLE_MELEE"],
-    "techniques": ["WBLOCK_1"],
+    "techniques": ["WBLOCK_2"],
     "weight": 1474,
     "volume": 9,
     "bashing": 8,
@@ -6745,8 +6761,14 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category" : "spare_parts",
-    "use_action": "RAG",
-    "flags": ["NO_SALVAGE"]
+    "flags": ["NO_SALVAGE"],
+        "use_action" : {
+            "type" : "heal",
+            "limb_power" : 0,
+            "bleed" : 0.5,
+            "move_cost" : 200,
+            "used_up_item" : "rag_bloody"
+        }
   },
 
   {
@@ -8081,7 +8103,12 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category" : "drugs",
-    "use_action": "RAG"
+        "use_action" : {
+            "type" : "heal",
+            "limb_power" : 0,
+            "bleed" : 0.5,
+            "move_cost" : 200
+        }
   },
 
   {
@@ -10661,7 +10688,7 @@
     "price": 185000,
     "material": ["steel", "diamond"],
     "flags" : ["CHOP", "DURABLE_MELEE", "SHEATH_SWORD", "IAIJUTSU", "VORPAL"],
-    "techniques": "WBLOCK_1",
+    "techniques": "WBLOCK_2",
     "weight": 1100,
     "volume": 7,
     "bashing": 8,
@@ -10687,7 +10714,7 @@
     "price": 250000,
     "material": ["steel", "diamond"],
     "flags" : ["CHOP", "DURABLE_MELEE", "SHEATH_SWORD", "VORPAL"],
-    "techniques": ["WBLOCK_2", "WIDE", "BRUTAL"],
+    "techniques": ["WBLOCK_1", "WIDE", "BRUTAL"],
     "weight": 3083,
     "volume": 13,
     "bashing": 17,

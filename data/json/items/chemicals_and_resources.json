@@ -698,7 +698,6 @@
     "volume" : 1,
     "phase" : "liquid",
     "charges" : 14,
-    "bashing" : 0,
     "category" : "chems",
     "ammo_type" : "conc_alcohol",
     "damage" : 0,
@@ -719,7 +718,6 @@
     "material": "wood",
     "weight": 500,
     "volume": 2,
-    "bashing": 0,
     "to_hit": -2
     },
     {
@@ -734,7 +732,6 @@
     "material": "wood",
     "weight": 212,
     "volume": 1,
-    "bashing": 0,
     "to_hit": -2
     }
 ]

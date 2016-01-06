@@ -261,7 +261,7 @@ void player::melee_attack(Creature &t, bool allow_special, const matec_id &force
     const int hit_spread = t.deal_melee_attack(this, hit_roll());
     if( hit_spread < 0 ) {
         int stumble_pen = stumble(*this);
-        sfx::generate_melee_sound( pos3(), t.pos3(), 0, 0);
+        sfx::generate_melee_sound( pos(), t.pos(), 0, 0);
         if( is_player() ) { // Only display messages if this is the player
 
             if( one_in(2) ) {
@@ -286,6 +286,9 @@ void player::melee_attack(Creature &t, bool allow_special, const matec_id &force
             else
                 add_msg(_("%s misses."),name.c_str());
         }
+
+        t.on_dodge( this );
+
         if( !has_active_bionic("bio_cqb") ) {
             // No practice if you're relying on bio_cqb to fight for you
             melee_practice( *this, false, unarmed_attack(),
@@ -336,7 +339,7 @@ void player::melee_attack(Creature &t, bool allow_special, const matec_id &force
 
             // Make a rather quiet sound, to alert any nearby monsters
             if (!is_quiet()) { // check martial arts silence
-                sounds::sound( pos3(), 8, "" );
+                sounds::sound( pos(), 8, "" );
             }
             std::string material = "flesh";
             if( t.is_monster() ) {
@@ -345,7 +348,7 @@ void player::melee_attack(Creature &t, bool allow_special, const matec_id &force
                     material = "steel";
                 }
             }
-            sfx::generate_melee_sound( pos3(), t.pos3(), 1, t.is_monster(), material);
+            sfx::generate_melee_sound( pos(), t.pos(), 1, t.is_monster(), material);
             int dam = dealt_dam.total_damage();
 
             bool bashing = (d.type_damage(DT_BASH) >= 10 && !unarmed_attack());
@@ -588,14 +591,13 @@ int player::get_dodge_base() const {
 int player::get_dodge() const
 {
     //If we're asleep or busy we can't dodge
-    if (in_sleep_state()) {
+    if( in_sleep_state() ) {
         return 0;
     }
-    if (activity.type != ACT_NULL) {return 0;}
 
     int ret = Creature::get_dodge();
     // Chop in half if we are unable to move
-    if (has_effect("beartrap") || has_effect("lightsnare") || has_effect("heavysnare")) {
+    if( has_effect( "beartrap" ) || has_effect( "lightsnare" ) || has_effect( "heavysnare" ) ) {
         ret /= 2;
     }
     return ret;
@@ -1114,8 +1116,8 @@ bool player::valid_aoe_technique( Creature &t, const ma_technique &technique,
 
         int lookup = t.posy() - posy() + 1 + (3 * (t.posx() - posx() + 1));
 
-        tripoint left = pos3() + tripoint( offset_a[lookup], offset_b[lookup], 0 );
-        tripoint right = pos3() + tripoint( offset_b[lookup], -offset_a[lookup], 0 );
+        tripoint left = pos() + tripoint( offset_a[lookup], offset_b[lookup], 0 );
+        tripoint right = pos() + tripoint( offset_b[lookup], -offset_a[lookup], 0 );
 
         int mondex_l = g->mon_at( left );
         int mondex_r = g->mon_at( right );
@@ -1149,9 +1151,9 @@ bool player::valid_aoe_technique( Creature &t, const ma_technique &technique,
 
         int lookup = t.posy() - posy() + 1 + (3 * (t.posx() - posx() + 1));
 
-        tripoint left = t.pos3() + tripoint( offset_a[lookup], offset_b[lookup], 0 );
-        tripoint target_pos = t.pos3() + (t.pos3() - pos3());
-        tripoint right = t.pos3() + tripoint( offset_b[lookup], -offset_b[lookup], 0 );
+        tripoint left = t.pos() + tripoint( offset_a[lookup], offset_b[lookup], 0 );
+        tripoint target_pos = t.pos() + (t.pos() - pos());
+        tripoint right = t.pos() + tripoint( offset_b[lookup], -offset_b[lookup], 0 );
 
         int mondex_l = g->mon_at( left );
         int mondex_t = g->mon_at( target_pos );
@@ -1188,7 +1190,7 @@ bool player::valid_aoe_technique( Creature &t, const ma_technique &technique,
         tmp.z = posz();
         for ( tmp.x = posx() - 1; tmp.x <= posx() + 1; tmp.x++) {
             for ( tmp.y = posy() - 1; tmp.y <= posy() + 1; tmp.y++) {
-                if( tmp == t.pos3() ) {
+                if( tmp == t.pos() ) {
                     continue;
                 }
                 int mondex = g->mon_at( tmp );
@@ -1282,7 +1284,7 @@ void player::perform_technique(const ma_technique &technique, Creature &t, damag
 
     player *p = dynamic_cast<player*>( &t );
     if( technique.disarms && p != nullptr && p->is_armed() ) {
-        g->m.add_item_or_charges( p->pos3(), p->remove_weapon() );
+        g->m.add_item_or_charges( p->pos(), p->remove_weapon() );
         if( p->is_player() ) {
             add_msg_if_npc( _("<npcname> disarms you!") );
         } else {
@@ -1599,7 +1601,7 @@ std::string player::melee_special_effects(Creature &t, damage_instance &d, const
 
     target = t.disp_name();
 
-    tripoint tarpos = t.pos3();
+    tripoint tarpos = t.pos();
 
     // Bonus attacks!
     bool shock_them = (has_active_bionic("bio_shock") && power_level >= 2 &&
@@ -1675,10 +1677,10 @@ std::string player::melee_special_effects(Creature &t, damage_instance &d, const
                                      weapon.tname().c_str());
         }
 
-        sounds::sound( pos3(), 16, "" );
+        sounds::sound( pos(), 16, "" );
         // Dump its contents on the ground
         for( auto &elem : weapon.contents ) {
-            g->m.add_item_or_charges( pos3(), elem );
+            g->m.add_item_or_charges( pos(), elem );
         }
         // Take damage
         deal_damage( nullptr, bp_arm_r, damage_instance::physical(0, rng(0, weapon.volume() * 2), 0) );

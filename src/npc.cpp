@@ -2253,7 +2253,7 @@ void npc::die(Creature* nkiller) {
     dead = true;
     Character::die( nkiller );
     if (in_vehicle) {
-        g->m.unboard_vehicle( pos3() );
+        g->m.unboard_vehicle( pos() );
     }
 
     if (g->u.sees( *this )) {

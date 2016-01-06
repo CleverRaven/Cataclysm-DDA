@@ -40,7 +40,7 @@ void craft_command::execute()
 
     bool need_selections = true;
     inventory map_inv;
-    map_inv.form_from_map( crafter->pos3(), PICKUP_RANGE );
+    map_inv.form_from_map( crafter->pos(), PICKUP_RANGE );
 
     if( has_cached_selections() ) {
         std::vector<comp_selection<item_comp>> missing_items = check_item_components_missing( map_inv );
@@ -56,7 +56,7 @@ void craft_command::execute()
 
     if( need_selections ) {
         item_selections.clear();
-        for( const auto &it : rec->requirements.components ) {
+        for( const auto &it : rec->requirements.get_components() ) {
             comp_selection<item_comp> is = crafter->select_item_component( it, batch_size, map_inv, true );
             if( is.use_from == cancel ) {
                 return;
@@ -65,7 +65,7 @@ void craft_command::execute()
         }
 
         tool_selections.clear();
-        for( const auto &it : rec->requirements.tools ) {
+        for( const auto &it : rec->requirements.get_tools() ) {
             comp_selection<tool_comp> ts = crafter->select_tool_component(
                                                it, batch_size, map_inv, DEFAULT_HOTKEYS, true );
             if( ts.use_from == cancel ) {

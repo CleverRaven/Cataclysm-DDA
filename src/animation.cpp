@@ -401,7 +401,7 @@ void draw_hit_player_curses(game const& g, player const &p, const int dam)
     nc_color const col = (!dam) ? yellow_background(p.symbol_color())
                                 : red_background(p.symbol_color());
 
-    tripoint const q = relative_view_pos( g.u, p.pos3() );
+    tripoint const q = relative_view_pos( g.u, p.pos() );
     hit_animation( q.x, q.y, col, p.symbol() );
 }
 } //namespace
@@ -422,7 +422,7 @@ void game::draw_hit_player(player const &p, const int dam)
     std::string const& type = p.is_player() ? (p.male ? player_male : player_female)
                                             : (p.male ? npc_male    : npc_female);
 
-    tilecontext->init_draw_hit( p.pos3(), type );
+    tilecontext->init_draw_hit( p.pos(), type );
     wrefresh(w_terrain);
     draw_animation_delay();
 }

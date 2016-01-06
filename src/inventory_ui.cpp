@@ -1116,7 +1116,7 @@ void game::compare()
 
 void game::compare( const tripoint &offset )
 {
-    const tripoint examp = u.pos3() + offset;
+    const tripoint examp = u.pos() + offset;
 
     std::vector<std::list<item>> grounditems;
     indexed_invslice grounditems_slice;

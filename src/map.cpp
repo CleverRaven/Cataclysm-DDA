@@ -1233,7 +1233,7 @@ void map::unboard_vehicle( const tripoint &p )
     if( !veh ) {
         debugmsg ("map::unboard_vehicle: vehicle not found");
         // Try and force unboard the player anyway.
-        if( g->u.pos3() == p ) {
+        if( g->u.pos() == p ) {
             passenger = &(g->u);
         } else {
             int npcdex = g->npc_at( p );
@@ -5561,7 +5561,7 @@ bool map::add_field(const tripoint &p, const field_id t, int density, const int 
         current_submap->field_count++;
     }
 
-    if( g != nullptr && this == &g->m && p == g->u.pos3() ) {
+    if( g != nullptr && this == &g->m && p == g->u.pos() ) {
         creature_in_field( g->u ); //Hit the player with the field if it spawned on top of them.
     }
 
@@ -7617,7 +7617,7 @@ field &map::get_field( const tripoint &p )
 
 void map::creature_on_trap( Creature &c, bool const may_avoid )
 {
-    auto const &tr = tr_at( c.pos3() );
+    auto const &tr = tr_at( c.pos() );
     if( tr.is_null() ) {
         return;
     }
@@ -7627,10 +7627,10 @@ void map::creature_on_trap( Creature &c, bool const may_avoid )
     if( p != nullptr && p->in_vehicle ) {
         return;
     }
-    if( may_avoid && c.avoid_trap( c.pos3(), tr ) ) {
+    if( may_avoid && c.avoid_trap( c.pos(), tr ) ) {
         return;
     }
-    tr.trigger( c.pos3(), &c );
+    tr.trigger( c.pos(), &c );
 }
 
 template<typename Functor>

@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include <map>
+#include <memory>
 #include "color.h"
 #include "output.h"
 
@@ -131,9 +132,12 @@ struct requirement_data {
         typedef std::vector< std::vector<item_comp> > alter_item_comp_vector;
         typedef std::vector< std::vector<quality_requirement> > alter_quali_req_vector;
 
+    private:
         alter_tool_comp_vector tools;
         alter_quali_req_vector qualities;
         alter_item_comp_vector components;
+
+    public:
 
         /**
          * Load @ref tools, @ref qualities and @ref components from
@@ -159,6 +163,10 @@ struct requirement_data {
          */
         bool remove_item(const std::string &type);
 
+        const alter_tool_comp_vector &get_tools() const;
+        const alter_quali_req_vector &get_qualities() const;
+        const alter_item_comp_vector &get_components() const;
+
         bool can_make_with_inventory(const inventory &crafting_inv, int batch = 1) const;
 
         int print_components(WINDOW *w, int ypos, int xpos, int width, nc_color col,
@@ -168,6 +176,12 @@ struct requirement_data {
         int print_tools(WINDOW *w, int ypos, int xpos, int width, nc_color col,
                         const inventory &crafting_inv, int batch = 1) const;
         std::vector<std::string> get_folded_tools_list(int width, nc_color col, const inventory &crafting_inv, int batch = 1) const;
+
+        /**
+         * Gets a variant of this recipe with crafting-only tools replaced by their
+         * disassembly equivalents.
+         */
+        const requirement_data disassembly_requirements() const;
 
     private:
         bool check_enough_materials(const inventory &crafting_inv, int batch = 1) const;

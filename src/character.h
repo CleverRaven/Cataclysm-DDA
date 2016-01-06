@@ -188,7 +188,7 @@ class Character : public Creature
         hp_part body_window( const std::string &menu_header,
                              bool show_all, bool precise,
                              int normal_bonus, int head_bonus, int torso_bonus,
-                             int bleed, int bite, int infect ) const;
+                             bool bleed, bool bite, bool infect ) const;
 
         // Returns color which this limb would have in healing menus
         nc_color limb_color( body_part bp, bool bleed, bool bite, bool infect ) const;

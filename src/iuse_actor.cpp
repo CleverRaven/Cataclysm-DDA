@@ -20,6 +20,7 @@
 #include "mapdata.h"
 #include "field.h"
 #include "weather.h"
+#include "pldata.h"
 
 #include <sstream>
 #include <algorithm>
@@ -346,6 +347,12 @@ iuse_actor *consume_drug_iuse::clone() const
     return new consume_drug_iuse(*this);
 }
 
+static effect_data load_effect_data( JsonObject &e )
+{
+    return effect_data( e.get_string( "id", "null" ), e.get_int( "duration", 0 ),
+        get_body_part_token( e.get_string( "bp", "NUM_BP" ) ), e.get_bool( "permanent", false ) );
+}
+
 void consume_drug_iuse::load( JsonObject &obj )
 {
     obj.read( "activation_message", activation_message );
@@ -356,9 +363,7 @@ void consume_drug_iuse::load( JsonObject &obj )
         JsonArray jsarr = obj.get_array( "effects" );
         while( jsarr.has_more() ) {
             JsonObject e = jsarr.next_object();
-            effect_data new_eff( e.get_string( "id", "null" ), e.get_int( "duration", 0 ),
-                                 get_body_part_token( e.get_string( "bp", "NUM_BP" ) ), e.get_bool( "permanent", false ) );
-            effects.push_back( new_eff );
+            effects.push_back( load_effect_data( e ) );
         }
     }
     obj.read( "stat_adjustments", stat_adjustments );
@@ -790,7 +795,7 @@ bool firestarter_actor::prep_firestarter_use( const player *p, const item *it, t
     if( !choose_adjacent(_("Light where?"), pos ) ) {
         return false;
     }
-    if( pos == p->pos3() ) {
+    if( pos == p->pos() ) {
         p->add_msg_if_player(m_info, _("You would set yourself on fire."));
         p->add_msg_if_player(_("But you're already smokin' hot."));
         return false;
@@ -1308,13 +1313,23 @@ iuse_actor *cauterize_actor::clone() const
     return new cauterize_actor( *this );
 }
 
-extern hp_part use_healing_item(player *p, item *it, int normal_power,
-                                       int head_power, int torso_power, int bleed,
-                                       int bite, int infect, bool force);
-
-bool cauterize_actor::cauterize_effect( player *p, item *it, bool force ) const
+static heal_actor prepare_dummy()
 {
-    hp_part hpart = use_healing_item( p, it, -2, -2, -2, 100, 50, 0, force );
+    heal_actor dummy;
+    dummy.limb_power = -2;
+    dummy.head_power = -2;
+    dummy.torso_power = -2;
+    dummy.bleed = 1.0f;
+    dummy.bite = 0.5f;
+    dummy.move_cost = 100;
+    return dummy;
+}
+
+bool cauterize_actor::cauterize_effect( player *p, item *it, bool force )
+{
+    // TODO: Make this less hacky
+    static const heal_actor dummy = prepare_dummy();
+    hp_part hpart = dummy.use_healing_item( *p, *p, *it, force );
     if( hpart != num_hp_parts ) {
         p->add_msg_if_player(m_neutral, _("You cauterize yourself."));
         if (!(p->has_trait("NOPAIN"))) {
@@ -2196,4 +2211,315 @@ repair_item_actor::attempt_hint repair_item_actor::repair( player &pl, item &too
 
     pl.add_msg_if_player(m_info, _("Your %s is already enhanced."), fix.tname().c_str());
     return AS_CANT;
+}
+
+void heal_actor::load( JsonObject &obj )
+{
+    // Mandatory
+    limb_power = obj.get_int( "limb_power" );
+    move_cost = obj.get_int( "move_cost" );
+
+    // Optional
+    head_power = obj.get_int( "head_power", 0.8f * limb_power );
+    torso_power = obj.get_int( "torso_power", 1.5f * limb_power );
+
+    bleed = obj.get_float( "bleed", 0.0f );
+    bite = obj.get_float( "bite", 0.0f );
+    infect = obj.get_float( "infect", 0.0f );
+
+    long_action = obj.get_bool( "long_action", false );
+
+    if( obj.has_array( "effects" ) ) {
+        JsonArray jsarr = obj.get_array( "effects" );
+        while( jsarr.has_more() ) {
+            JsonObject e = jsarr.next_object();
+            effects.push_back( load_effect_data( e ) );
+        }
+    }
+
+    used_up_item = obj.get_string( "used_up_item", used_up_item );
+}
+
+player &get_patient( player &healer, const tripoint &pos )
+{
+    if( healer.pos() == pos ) {
+        return healer;
+    }
+
+    if( g->u.pos() == pos ) {
+        return g->u;
+    }
+
+    const int npc_index = g->npc_at( pos );
+    if( npc_index == -1 ) {
+        // Default to heal self on failure not to break old functionality
+        add_msg( m_debug, "No heal target at position %d,%d,%d", pos.x, pos.y, pos.z );
+        return healer;
+    }
+
+    return (player&)(*g->active_npc[npc_index]);
+}
+
+long heal_actor::use( player *p, item *it, bool, const tripoint &pos ) const
+{
+    if( p->is_underwater() ) {
+        p->add_msg_if_player( m_info, _("You can't do that while underwater.") );
+        return 0;
+    }
+
+    player &patient = get_patient( *p, pos );
+    const hp_part hpp = use_healing_item( *p, patient, *it, false );
+    if( hpp == num_hp_parts ) {
+        return 0;
+    }
+
+    int cost = move_cost;
+    if( long_action ) {
+        // A hack: long action healing on NPCs isn't done yet.
+        // So just heal at start and paralyze the player for 5 minutes.
+        cost /= (p->skillLevel( skill_firstaid ) + 1);
+    }
+
+    if( long_action && &patient == p ) {
+        // Assign first aid long action.
+        ///\EFFECT_FIRSTAID speeds up firstaid activity
+        p->assign_activity( ACT_FIRSTAID, cost, 0, p->get_item_position( it ), it->tname() );
+        p->activity.values.push_back( hpp );
+        p->moves = 0;
+        return 0;
+    }
+
+    p->moves -= cost;
+    p->add_msg_if_player(m_good, _("You use your %s."), it->tname().c_str());
+    return it->type->charges_to_use();
+}
+
+iuse_actor *heal_actor::clone() const
+{
+    return new heal_actor( *this );
+}
+
+int heal_actor::get_heal_value( const player &healer, hp_part healed ) const
+{
+    int heal_base;
+    float bonus_mult;
+    if( healed == hp_head ) {
+        heal_base = head_power;
+        bonus_mult = 0.8f;
+    } else if( healed == hp_torso ) {
+        heal_base = torso_power;
+        bonus_mult = 1.5f;
+    } else {
+        heal_base = limb_power;
+        bonus_mult = 1.0f;
+    }
+
+    if( heal_base > 0 ) {
+        ///\EFFECT_FIRSTAID increases healing item effects
+        float bonus = healer.get_skill_level( skill_firstaid ) * bonus_scaling;
+        return heal_base + bonus_mult * bonus;
+    }
+
+    return heal_base;
+}
+
+long heal_actor::finish_using( player &healer, player &patient, item &it, hp_part healed ) const
+{
+    healer.practice( skill_firstaid, 8 );
+    const int dam = get_heal_value( healer, healed );
+    
+    if( (patient.hp_cur[healed] >= 1) && (dam > 0)) { // Prevent first-aid from mending limbs
+        patient.heal(healed, dam);
+    } else if ((patient.hp_cur[healed] >= 1) && (dam < 0)) {
+        const body_part bp = player::hp_to_bp( healed );
+        patient.apply_damage( nullptr, bp, -dam ); //hurt takes + damage
+    }
+
+    const body_part bp_healed = player::hp_to_bp( healed );
+
+    const bool u_see = healer.is_player() || patient.is_player() ||
+        g->u.sees( healer ) || g->u.sees( patient );
+    const bool player_healing_player = healer.is_player() && patient.is_player();
+    // Need a helper here - messages are from healer's point of view
+    // but it would be cool if NPCs could use this function too
+    const auto heal_msg = [&]( game_message_type msg_type,
+        const char *player_player_msg, const char *other_msg ) {
+        if( !u_see ) {
+            return;
+        }
+
+        if( player_healing_player ) {
+            add_msg( msg_type, player_player_msg );
+        } else {
+            add_msg( msg_type, other_msg );
+        }
+    };
+
+    if( patient.has_effect( "bleed", bp_healed ) ) {
+        if( x_in_y( bleed, 1.0f ) ) {
+            patient.remove_effect("bleed", bp_healed);
+            heal_msg( m_good, _("You stop the bleeding."), _("The bleeding is stopped.") );
+        } else {
+            heal_msg( m_warning, _("You fail to stop the bleeding."), _("The wound still bleeds.") );
+        }
+    }
+    if( patient.has_effect( "bite", bp_healed ) ) {
+        if( x_in_y( bite, 1.0f ) ) {
+            patient.remove_effect("bite", bp_healed);
+            heal_msg( m_good, _("You clean the wound."), _("The wound is cleaned.") );
+        } else {
+            heal_msg( m_warning, _("Your wound still aches."), _("The wound still looks bad.") );
+        }
+    }
+    if( patient.has_effect( "infected", bp_healed ) ) {
+        if( x_in_y( infect, 1.0f ) ) {
+            int infected_dur = patient.get_effect_dur("infected", bp_healed);
+            patient.remove_effect("infected", bp_healed);
+            patient.add_effect("recover", infected_dur);
+            heal_msg( m_good, _("You disinfect the wound."), _("The wound is disinfected.") );
+        } else {
+            heal_msg( m_warning, _("Your wound still hurts."), _("The wound still looks nasty.") );
+        }
+    }
+
+    if( long_action ) {
+        healer.add_msg_if_player( _("You finish using the %s."), it.tname().c_str() );
+    }
+
+    for( auto eff : effects ) {
+        if( eff.id == "null" ) {
+            continue;
+        }
+
+        patient.add_effect( eff.id, eff.duration, eff.bp, eff.permanent );
+    }
+
+    if( !used_up_item.empty() ) {
+        // If the item is a tool, `make` it the new form
+        // Otherwise it probably was consumed, so create a new one
+        if( it.is_tool() ) {
+            it.make( used_up_item );
+        } else {
+            item used_up( used_up_item, it.bday );
+            healer.i_add_or_drop( used_up );
+        }
+    }
+
+    return it.type->charges_to_use();
+}
+
+hp_part pick_part_to_heal(
+    const player &healer, const player &patient,
+    const std::string &menu_header,
+    int limb_power, int head_bonus, int torso_bonus,
+    float bleed_chance, float bite_chance, float infect_chance,
+    bool force )
+{
+    const bool bleed = bleed_chance > 0.0f;
+    const bool bite = bite_chance > 0.0f;
+    const bool infect = infect_chance > 0.0f;
+    const bool precise = &healer == &patient ?
+        patient.has_trait( "SELFAWARE" ) :
+        ///\EFFECT_PER slightly increases precision when using first aid on someone else
+
+        ///\EFFECT_FIRSTAID increases precision when using first aid on someone else
+        (healer.get_skill_level( skill_firstaid ) * 4 + healer.per_cur >= 20);
+    while( true ) {
+        hp_part healed_part = patient.body_window( menu_header, force, precise,
+                                                   limb_power, head_bonus, torso_bonus,
+                                                   bleed, bite, infect );
+        if( healed_part == num_hp_parts ) {
+            return num_hp_parts;
+        }
+
+        body_part bp = player::hp_to_bp( healed_part );
+        if( ( infect && patient.has_effect( "infected", bp ) ) ||
+            ( bite && patient.has_effect( "bite", bp ) ) ||
+            ( bleed && patient.has_effect( "bleed", bp ) ) ) {
+            return healed_part;
+        }
+
+        if( patient.hp_cur[healed_part] == 0 ) {
+            if( healed_part == hp_arm_l || healed_part == hp_arm_r ) {
+                add_msg( m_info, _("That arm is broken.  It needs surgical attention or a splint.") );
+            } else if( healed_part == hp_leg_l || healed_part == hp_leg_r ) {
+                add_msg( m_info, _("That leg is broken.  It needs surgical attention or a splint.") );
+            } else {
+                add_msg( m_info, "That body part is bugged.  It needs developer's attention." );
+            }
+
+            continue;
+        }
+
+        if( force || patient.hp_cur[healed_part] < patient.hp_max[healed_part] ) {
+            return healed_part;
+        }
+    }
+
+    // Won't happen?
+    return num_hp_parts;
+}
+
+hp_part heal_actor::use_healing_item( player &healer, player &patient, item &it, bool force ) const
+{
+    hp_part healed = num_hp_parts;
+    const int head_bonus = get_heal_value( healer, hp_head );
+    const int limb_power = get_heal_value( healer, hp_arm_l );
+    const int torso_bonus = get_heal_value( healer, hp_torso );
+
+    if( healer.is_npc() ) {
+        // NPCs heal whichever has sustained the most damage
+        int highest_damage = 0;
+        for (int i = 0; i < num_hp_parts; i++) {
+            int damage = patient.hp_max[i] - patient.hp_cur[i];
+            if (i == hp_head) {
+                damage *= 1.5;
+            }
+            if (i == hp_torso) {
+                damage *= 1.2;
+            }
+            // Consider states too
+            // Weights are arbitrary, may need balancing
+            const body_part i_bp = player::hp_to_bp( hp_part( i ) );
+            damage += bleed * patient.get_effect_dur( "bleed", i_bp ) / 50;
+            damage += bite * patient.get_effect_dur( "bite", i_bp ) / 100;
+            damage += infect * patient.get_effect_dur( "infected", i_bp ) / 100;
+            if (damage > highest_damage) {
+                highest_damage = damage;
+                healed = hp_part(i);
+            }
+        }
+    } else if( patient.is_player() ) {
+        // Player healing self - let player select
+        if( healer.activity.type != ACT_FIRSTAID ) {
+            const std::string menu_header = it.tname();
+            healed = pick_part_to_heal( healer, patient, menu_header,
+                                        limb_power, head_bonus, torso_bonus,
+                                        bleed, bite, infect, force );
+            if( healed == num_hp_parts ) {
+                return num_hp_parts; // canceled
+            }
+        }
+        // Brick healing if using a first aid kit for the first time.
+        if( long_action && healer.activity.type != ACT_FIRSTAID ) {
+            // Cancel and wait for activity completion.
+            return healed;
+        } else if( healer.activity.type == ACT_FIRSTAID ) {
+            // Completed activity, extract body part from it.
+            healed = (hp_part)healer.activity.values[0];
+        }
+    } else {
+        // Player healing NPC
+        // TODO: Remove this hack, allow using activities on NPCs
+        const std::string menu_header = it.tname();
+        healed = pick_part_to_heal( healer, patient, menu_header,
+                                    limb_power, head_bonus, torso_bonus,
+                                    bleed, bite, infect, force );
+    }
+
+    if( healed != num_hp_parts ) {
+        finish_using( healer, patient, it, healed );
+    }
+
+    return healed;
 }

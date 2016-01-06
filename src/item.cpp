@@ -1033,6 +1033,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                                   false ) );
         info.push_back( iteminfo( "ARMOR", space + _( "Cut: " ), "", cut_resist(), true, "", false ) );
         info.push_back( iteminfo( "ARMOR", space + _( "Acid: " ), "", acid_resist(), true, "", true ) );
+        info.push_back( iteminfo( "ARMOR", space + _( "Fire: " ), "", fire_resist(), true, "", true ) );
         info.push_back( iteminfo( "ARMOR", _( "Environmental protection: " ), "", get_env_resist() ) );
 
     }
@@ -1238,7 +1239,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         if( dis_recipe != nullptr ) {
             std::ostringstream buffer;
             bool first_component = true;
-            for( const auto &it : dis_recipe->requirements.components ) {
+            for( const auto &it : dis_recipe->requirements.get_components() ) {
                 if( first_component ) {
                     first_component = false;
                 } else {
@@ -2792,7 +2793,7 @@ bool item::ready_to_revive( const tripoint &pos ) const
         // If we're a special revival zombie, wait to get up until the player is nearby.
         const bool isReviveSpecial = has_flag("REVIVE_SPECIAL");
         if( isReviveSpecial ) {
-            const int distance = rl_dist( pos, g->u.pos3() );
+            const int distance = rl_dist( pos, g->u.pos() );
             if (distance > 3) {
                 return false;
             }
@@ -2848,7 +2849,7 @@ long item::num_charges()
     return 0;
 }
 
-int item::bash_resist() const
+int item::bash_resist(bool /*to_self*/) const
 {
     float resist = 0;
     float l_padding = 0;
@@ -2889,7 +2890,7 @@ int item::bash_resist() const
     return lround((resist * eff_thickness * adjustment) + l_padding + k_padding);
 }
 
-int item::cut_resist() const
+int item::cut_resist(bool /*to_self*/) const
 {
     float resist = 0;
     float l_padding = 0;
@@ -2931,7 +2932,13 @@ int item::cut_resist() const
     return lround((resist * eff_thickness * adjustment) + l_padding + k_padding);
 }
 
-int item::acid_resist() const
+int item::stab_resist(bool to_self) const
+{
+    // Better than hardcoding it in multiple places
+    return (int)(0.8f * cut_resist( to_self ));
+}
+
+int item::acid_resist( bool to_self ) const
 {
     float resist = 0.0;
     if( is_null() ) {
@@ -2947,6 +2954,34 @@ int item::acid_resist() const
     }
     // Average based on number of materials.
     resist /= mat_types.size();
+    const int env = get_env_resist();
+    if( !to_self && env < 10 ) {
+        // Low env protection means it doesn't prevent acid seeping in.
+        resist *= env / 10.0f;
+    }
+
+    return lround(resist);
+}
+
+int item::fire_resist( bool to_self ) const
+{
+    float resist = 0.0;
+    if( is_null() ) {
+        return 0.0;
+    }
+
+    std::vector<material_type*> mat_types = made_of_types();
+
+    for( auto mat : mat_types ) {
+        resist += mat->fire_resist();
+    }
+    // Average based on number of materials.
+    resist /= mat_types.size();
+    const int env = get_env_resist();
+    if( !to_self && env < 10 ) {
+        // Iron resists immersion in magma, iron-clad knight won't.
+        resist *= env / 10.0f;
+    }
 
     return lround(resist);
 }
@@ -2976,6 +3011,34 @@ int item::chip_resistance( bool worst ) const
     res = res * ( 10 - std::max<int>( 0, damage ) ) / 10;
 
     return res;
+}
+
+int item::damage_resist( damage_type dt, bool to_self ) const
+{
+    switch( dt ) {
+        case DT_TRUE:
+        case DT_BIOLOGICAL:
+        case DT_ELECTRIC:
+        case DT_COLD:
+            // Currently hardcoded:
+            // Items can never be damaged by those types
+            // But they provide 0 protection from them
+            return to_self ? INT_MAX : 0;
+        case DT_BASH:
+            return bash_resist( to_self );
+        case DT_CUT:
+            return cut_resist ( to_self );
+        case DT_ACID:
+            return acid_resist( to_self );
+        case DT_STAB:
+            return stab_resist( to_self );
+        case DT_HEAT:
+            return fire_resist( to_self );
+        default:
+            debugmsg( "Invalid damage type: %d", dt );
+    }
+
+    return 0;
 }
 
 bool item::is_two_handed( const player &u ) const

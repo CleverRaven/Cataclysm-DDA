@@ -1384,35 +1384,6 @@
   ]
 },{
   "type" : "recipe",
-  "result": "bio_laser",
-  "category": "CC_ELECTRONIC",
-  "subcategory": "CSC_ELECTRONIC_CBMS",
-  "skill_used": "electronics",
-  "skills_required": [ "firstaid", 5 ],
-  "difficulty": 9,
-  "time": 50000,
-  "reversible": true,
-  "autolearn": false,
-  "decomp_learn": 7,
-  "book_learn": [[ "recipe_lab_elec", 7 ] , [ "recipe_mil_augs", 8 ]],
-  "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
-  "tools": [
-    [
-      [ "soldering_iron", 20 ],
-      [ "toolset", 20 ]
-    ]
-  ],
-  "components": [
-    [ [ "power_supply", 2 ] ],
-    [ [ "amplifier", 2 ] ],
-    [ [ "lens", 2 ] ],
-    [
-      [ "burnt_out_bionic", 1 ],
-      [ "processor", 2 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
   "result": "bio_flashlight",
   "category": "CC_ELECTRONIC",
   "subcategory": "CSC_ELECTRONIC_CBMS",

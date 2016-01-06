@@ -99,21 +99,23 @@ int dealt_damage_instance::total_damage() const
 
 
 resistances::resistances() : resist_vals( NUM_DT, 0 ) { }
-resistances::resistances( item &armor ) : resist_vals( NUM_DT, 0 )
+resistances::resistances( item &armor, bool to_self ) : resist_vals( NUM_DT, 0 )
 {
     if( armor.is_armor() ) {
-        set_resist( DT_BASH, armor.bash_resist() );
-        set_resist( DT_CUT, armor.cut_resist() );
-        set_resist( DT_STAB, 0.8 * armor.cut_resist() ); // stab dam cares less bout armor
-        set_resist( DT_ACID, armor.acid_resist() );
+        set_resist( DT_BASH, armor.bash_resist( to_self ) );
+        set_resist( DT_CUT,  armor.cut_resist( to_self ) );
+        set_resist( DT_STAB, armor.stab_resist( to_self ) );
+        set_resist( DT_ACID, armor.acid_resist( to_self ) );
+        set_resist( DT_HEAT, armor.fire_resist( to_self ) );
     }
 }
 resistances::resistances( monster &monster ) : resist_vals( NUM_DT, 0 )
 {
     set_resist( DT_BASH, monster.type->armor_bash );
-    set_resist( DT_CUT, monster.type->armor_cut );
-    set_resist( DT_STAB, 0.8 * monster.type->armor_cut ); // stab dam cares less bout armor
-    set_resist( DT_ACID, monster.type->armor_cut / 2 ); // No acid resist stat yet
+    set_resist( DT_CUT,  monster.type->armor_cut );
+    set_resist( DT_STAB, monster.type->armor_stab );
+    set_resist( DT_ACID, monster.type->armor_acid );
+    set_resist( DT_HEAT, monster.type->armor_fire );
 }
 void resistances::set_resist( damage_type dt, int amount )
 {
@@ -139,7 +141,10 @@ float resistances::get_effective_resist( const damage_unit &du ) const
         case DT_ACID:
             effective_resist = std::max( type_resist( DT_ACID ) - du.res_pen, 0 ) * du.res_mult;
             break;
-        default: // TODO: DT_HEAT vs env protection, DT_COLD vs warmth
+        case DT_HEAT:
+            effective_resist = std::max( type_resist( DT_HEAT ) - du.res_pen, 0 ) * du.res_mult;
+            break;
+        default: // TODO: Other types
             effective_resist = 0;
     }
     return effective_resist;

@@ -257,11 +257,6 @@ class Creature
         virtual int posz() const = 0;
         virtual const tripoint &pos() const = 0;
 
-        virtual const tripoint &pos3() const
-        {
-            return pos();
-        }
-
         virtual void setpos( const tripoint &pos ) = 0;
 
         struct compare_by_dist_to_point {
@@ -344,6 +339,8 @@ class Creature
         virtual int get_armor_cut_base(body_part bp) const;
         virtual int get_armor_bash_bonus() const;
         virtual int get_armor_cut_bonus() const;
+
+        virtual int get_armor_type( damage_type dt, body_part bp ) const = 0;
 
         virtual int get_speed() const;
         virtual int get_dodge() const;
