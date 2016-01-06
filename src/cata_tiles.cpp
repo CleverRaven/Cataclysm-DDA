@@ -691,7 +691,7 @@ void cata_tiles::load_tilejson_from_file( JsonObject &config, int offset, int si
         std::vector<std::string> ids;
         if( entry.has_string( "id" ) ) {
             ids.push_back( entry.get_string( "id" ) );
-        } else if ( entry.has_array( "id" ) ) {
+        } else if( entry.has_array( "id" ) ) {
             ids = entry.get_string_array( "id" );
         }
         for( auto t_id : ids ) {
