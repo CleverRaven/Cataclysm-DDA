@@ -530,8 +530,11 @@ double player::crit_chance( int roll_hit, int target_dodge, const item &weap ) c
         // Unarmed attack: 1/2 of unarmed skill is to-hit
         ///\EFFECT_UNARMED increases crit chance with UNARMED_WEAPON
         weapon_crit_chance = 0.5 + 0.05 * unarmed_skill;
-    } else if( weap.type->m_to_hit > 0 ) {
-        weapon_crit_chance = 0.5 + 0.1 * weap.type->m_to_hit;
+    }
+
+    if( weap.type->m_to_hit > 0 ) {
+        weapon_crit_chance = std::max(
+            weapon_crit_chance, 0.5 + 0.1 * weap.type->m_to_hit );
     } else if( weap.type->m_to_hit < 0 ) {
         weapon_crit_chance += 0.1 * weap.type->m_to_hit;
     }
@@ -673,10 +676,10 @@ float player::bonus_damage( bool random ) const
 {
     ///\EFFECT_STR increases bashing damage
     if( random ) {
-        return (float)divide_roll_remainder( get_str(), 2.0f );
+        return rng_float( get_str() / 2.0f, get_str() );
     }
 
-    return get_str() / 4.0f;
+    return get_str() * 0.75f;
 }
 
 void player::roll_bash_damage( bool crit, damage_instance &di, bool average, const item &weap ) const
@@ -725,15 +728,15 @@ void player::roll_bash_damage( bool crit, damage_instance &di, bool average, con
     float bash_mul = 1.0f;
 
     if( unarmed ) {
-        ///\EFFECT_UNARMED randomly increases bashing damage with unarmed weapons
-        weap_dam += average ? unarmed_skill * 0.5f : rng_float( 0.0f, unarmed_skill );
+        ///\EFFECT_UNARMED increases bashing damage with unarmed weapons
+        weap_dam += unarmed_skill;
+    }
+
+    // 80%, 88%, 96%, 104%, 112%, 116%, 120%, 124%, 128%, 132%
+    if( skill < 5 ) {
+        bash_mul = 0.8 + 0.08 * skill;
     } else {
-        // 80%, 88%, 96%, 104%, 112%, 116%, 120%, 124%, 128%, 132%
-        if( bashing_skill < 5 ) {
-            bash_mul = 0.8 + 0.08 * bashing_skill;
-        } else {
-            bash_mul = 0.96 + 0.04 * bashing_skill;
-        }
+        bash_mul = 0.96 + 0.04 * skill;
     }
 
     if( bash_cap < weap_dam ) {
@@ -826,8 +829,7 @@ void player::roll_cut_damage( bool crit, damage_instance &di, bool average, cons
 
     cut_mul *= mabuff_cut_mult();
     if( crit ) {
-        cut_mul *= 1.0 + (cutting_skill / 12.0);
-        arpen += 5;
+        arpen += 5 + cutting_skill;
     }
 
     di.add_damage( DT_CUT, cut_dam, arpen, 0.0f, cut_mul );

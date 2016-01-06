@@ -506,8 +506,8 @@
                  "name" : "Niten Ichi-Ryu",
                  "description" : "Perception increases dodging and damage.",
                  "min_melee" : 2,
-                 "cut_per" : 1.1,
-                 "bash_per" : 1.1,
+                 "cut_per" : 0.5,
+                 "bash_per" : 0.5,
                  "dodge_per" : 0.5
             }
         ],
@@ -544,8 +544,7 @@
                  "description" : "You found a gap in the enemy's defense!",
                  "min_melee" : 4,
                  "buff_duration" : 2,
-                 "max_stacks" : 1,
-                 "cut_mult" : 1
+                 "max_stacks" : 1
             }
         ],
         "techniques" : [
