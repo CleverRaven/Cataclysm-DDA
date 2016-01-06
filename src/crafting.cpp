@@ -293,12 +293,8 @@ void player::long_craft()
 
 bool player::making_would_work(const std::string &id_to_make, int batch_size)
 {
-    if (!crafting_allowed()) {
-        return false;
-    }
-
     const recipe *making = recipe_by_name( id_to_make );
-    if( making == nullptr ) {
+    if( making == nullptr || !crafting_allowed( *making ) ) {
         return false;
     }
 
@@ -1325,7 +1321,6 @@ bool player::disassemble( item &dis_item, int dis_pos,
     std::string recipe_ident;
     int recipe_time = 100;
     const inventory &crafting_inv = crafting_inventory();
-    const recipe *cur_recipe = get_disassemble_recipe( dis_item.type->id );
     if( cur_recipe != nullptr &&
         can_disassemble( dis_item, cur_recipe, crafting_inv, msg_and_query ) ) {
         if( msg_and_query && !query_disassemble( dis_item ) ) {
@@ -1344,7 +1339,6 @@ bool player::disassemble( item &dis_item, int dis_pos,
         } else {
             recipe_ident = fake_recipe_book;
         }
-        return;
     }
 
     if( recipe_ident.empty() ) {
