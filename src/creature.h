@@ -13,7 +13,6 @@
 #include <string>
 #include <unordered_map>
 
-class effect_type;
 class game;
 class JsonObject;
 class JsonOut;
