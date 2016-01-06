@@ -11620,5 +11620,93 @@
       [ "mushroom_morel", 1 ]
     ]
   ]
+},{
+  "type" : "recipe",
+  "result": "eggnog",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_DRINKS",
+  "skill_used": "cooking",
+  "difficulty": 1,
+  "time": 5000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [ ["family_cookbook", 2] ],
+  "qualities":[
+    {"id":"COOK","level":3,"amount":1},
+    {"id":"BOIL","level":2,"amount":1}
+  ],
+  "tools": [
+    [
+      ["hotplate", 5],
+      ["toolset", 5],
+      ["fire", -1]
+    ]
+  ],
+  "components": [
+    [
+        ["egg_bird", 3 ],
+        ["egg_reptile", 3 ]
+    ],
+    [
+      [ "milk", 1 ],
+      [ "milk_powder", 1 ]
+    ],
+    [
+      [ "sugar", 1 ]
+    ],
+    [
+      [ "con_milk", 1 ]
+    ],
+    [
+      ["cinnamon", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "eggnog_spiked",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_DRINKS",
+  "skill_used": "cooking",
+  "difficulty": 1,
+  "time": 5000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [ ["family_cookbook", 2] ],
+  "qualities":[
+    {"id":"COOK","level":3,"amount":1},
+    {"id":"BOIL","level":2,"amount":1}
+  ],
+  "tools": [
+    [
+      ["hotplate", 5],
+      ["toolset", 5],
+      ["fire", -1]
+    ]
+  ],
+  "components": [
+    [
+        ["egg_bird", 3 ],
+        ["egg_reptile", 3 ]
+    ],
+    [
+      [ "milk", 1 ],
+      [ "milk_powder", 1 ]
+    ],
+    [
+      [ "sugar", 1 ]
+    ],
+    [
+      [ "con_milk", 1 ]
+    ],
+    [
+      ["rum", 1 ],
+      ["brandy", 1 ],
+      ["whiskey", 1 ],
+      ["single_malt_whiskey", 1 ]
+    ],	
+    [
+      ["cinnamon", 1 ]
+    ]	  
+  ]
 }
 ]
