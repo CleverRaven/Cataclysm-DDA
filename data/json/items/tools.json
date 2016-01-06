@@ -1578,7 +1578,7 @@
     "color": "ltgray",
     "name": "can sealer",
     "description": "A hand crank powered cast aluminum machine designed to automatically seal tin cans.",
-    "price": 22500,
+    "price": 52500,
     "material": "aluminum",
     "weight": 9800,
     "volume": 20,
