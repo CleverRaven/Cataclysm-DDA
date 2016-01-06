@@ -1571,6 +1571,22 @@
     "flags" : ["STAB"]
   },
   {
+    "type":"GENERIC",
+    "category" : "tools",
+    "id": "can_sealer",
+    "symbol": ";",
+    "color": "ltgray",
+    "name": "can sealer",
+    "description": "A hand crank powered cast aluminum machine designed to automatically seal tin cans.",
+    "price": 52500,
+    "material": "aluminum",
+    "weight": 9800,
+    "volume": 20,
+    "bashing": 8,
+    "cutting": 0,
+    "to_hit": -2
+  },
+  {
     "type":"TOOL",
     "id": "con_mix",
     "symbol": "$",

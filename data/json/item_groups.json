@@ -361,6 +361,7 @@
       ["pan", 25],
       ["waffleiron", 25],
       ["pastaextruder", 10],
+      ["can_sealer", 5],
       ["knife_butter", 90],
       ["knife_steak", 85],
       ["fork", 90],
@@ -2502,6 +2503,7 @@
       ["pan", 20],
       ["waffleiron", 25],
       ["pastaextruder", 10],
+      ["can_sealer", 5],
       ["binoculars", 20],
       ["roller_blades", 20],
       ["rollerskates", 10],
@@ -5411,6 +5413,7 @@
       ["microwave", 5],
       ["multi_cooker", 1],
       ["pastaextruder", 8],
+      ["can_sealer", 5],
       ["knuckle_brass", 15],
       ["gold", 10],
       ["silver", 20],
@@ -7873,6 +7876,7 @@
       ["toolbox", 1],
       ["pur_tablets", 10],
       ["pastaextruder", 10],
+      ["can_sealer", 10],
       ["remotevehcontrol", 8]
     ]
   },{
