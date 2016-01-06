@@ -787,6 +787,7 @@ void Creature::add_effect( efftype_id eff_id, int dur, body_part bp,
     if (effect_types[eff_id].get_main_parts()) {
         bp = mutate_to_main_part(bp);
     }
+    
     bool found = false;
     // Check if we already have it
     auto matching_map = effects.find(eff_id);
