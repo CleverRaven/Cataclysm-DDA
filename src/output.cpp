@@ -1785,6 +1785,12 @@ std::string string_format(std::string pattern, ...)
     return result;
 }
 
+std::string trim(const std::string &s)
+{
+   auto wsfront = std::find_if_not( s.begin(), s.end(), []( int c ) { return std::isspace( c ); });
+   return std::string( wsfront, std::find_if_not( s.rbegin(), std::string::const_reverse_iterator( wsfront ), []( int c ){ return std::isspace( c ); }).base());
+}
+
 void replace_name_tags(std::string & input)
 {
     // these need to replace each tag with a new randomly generated name

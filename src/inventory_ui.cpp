@@ -851,9 +851,12 @@ item_location game::inv_map_splice(
     u.inv.sort();
     inv_s.make_item_list( u.inv.slice_filter_by( inv_filter ) );
 
+    // nearby categories with distance and direction names
+    std::vector<std::unique_ptr<item_category>> nearby_cats;
+    int nearby_rank = -2000;
+
     // items are stacked per tile considering vehicle and map tiles separately
     static const item_category ground_cat( "GROUND:",  _( "GROUND:" ),  -1000 );
-    static const item_category nearby_cat( "NEARBY:",  _( "NEARBY:" ),  -2000 );
     static const item_category vehicle_cat( "VEHICLE:", _( "VEHICLE:" ), -3000 );
 
     // in the below loops identical items on the same tile are grouped into lists
@@ -887,8 +890,10 @@ item_location game::inv_map_splice(
             auto &current_stack = stacks.back();
             current_stack.reserve( items.size() );
 
+            bool match_items_found = false;
             for( item &it : items ) {
                 if( ground_filter( it ) ) {
+                    match_items_found = true;
                     auto match = std::find_if( current_stack.begin(),
                     current_stack.end(), [&]( const std::list<item> &e ) {
                         return it.stacks_with( e.back() );
@@ -910,7 +915,21 @@ item_location game::inv_map_splice(
                     }
                 }
             }
-            inv_s.make_item_list( slices.back(), pos == g->u.pos() ? &ground_cat : &nearby_cat );
+            if ( match_items_found ) {
+                if( pos == g->u.pos() ) {
+                    inv_s.make_item_list( slices.back(), &ground_cat );
+                } else {
+                    int dist = square_dist( g->u.pos(), pos );
+                    std::string dir_name = direction_name_short( direction_from( g->u.pos(), pos ) );
+                    std::string cat_id = string_format( "NEARBY %d", nearby_rank );
+                    std::string cat_name = string_format( _( "NEARBY %d %s:" ), dist, trim( dir_name ).c_str() );
+
+                    std::unique_ptr<item_category> nearby_cat( new item_category( cat_id, cat_name, nearby_rank ) );
+                    nearby_rank -= 10;
+                    inv_s.make_item_list( slices.back(), nearby_cat.get() );
+                    nearby_cats.push_back( std::move( nearby_cat ) );
+                }
+            }
         }
 
         // finally get all matching items in vehicle cargo spaces
