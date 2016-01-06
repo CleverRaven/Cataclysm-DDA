@@ -31,7 +31,7 @@ int passive_effect_cost[NUM_AEPS] = {
     3, // AEP_INT_UP
     5, // AEP_ALL_UP
     4, // AEP_SPEED_UP
-    2, // AEP_IODINE
+    2, // AEP_PBLUE
     4, // AEP_SNAKES
     7, // AEP_INVISIBLE
     5, // AEP_CLAIRVOYANCE

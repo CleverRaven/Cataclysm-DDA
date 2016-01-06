@@ -92,7 +92,8 @@ enum art_effect_passive : int {
     AEP_INT_UP, // Intelligence + 4
     AEP_ALL_UP, // All stats + 2
     AEP_SPEED_UP, // +20 speed
-    AEP_IODINE, // Reduces radiation
+    AEP_PBLUE, // Reduces radiation
+    AEP_IODINE, // Resist half radiation
     AEP_SNAKES, // Summons friendly snakes when you're hit
     AEP_INVISIBLE, // Makes you invisible
     AEP_CLAIRVOYANCE, // See through walls

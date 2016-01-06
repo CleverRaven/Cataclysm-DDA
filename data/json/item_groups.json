@@ -1708,6 +1708,7 @@
       ["caffeine", 25],
       ["pills_sleep", 15],
       ["iodine", 5],
+      ["prussian_blue", 5],
       ["dayquil", 70],
       ["nyquil", 70],
       ["disinfectant", 35],
@@ -2690,6 +2691,7 @@
     "items":[
       ["plastic_shopping_bag", 35],
       ["iodine", 5],
+      ["prussian_blue", 5],
       ["bum_wine", 5],
       ["meth", 2],
       ["heroin", 1],
@@ -4633,6 +4635,7 @@
     "items":[
       ["blood", 20],
       ["iodine", 5],
+      ["prussian_blue", 5],
       ["bleach", 20],
       ["bandages", 50],
       ["cotton_ball", 50],
@@ -4795,6 +4798,7 @@
     "items":[
       ["blood", 20],
       ["iodine", 5],
+      ["prussian_blue", 5],
       ["bandages", 50],
       ["cotton_ball", 50],
       ["scalpel", 48],
@@ -5847,6 +5851,7 @@
       ["vitamins", 75],
       ["gummy_vitamins", 25],
       ["iodine", 5],
+      ["prussian_blue", 5],
       ["dayquil", 70],
       ["screwdriver", 40],
       ["screwdriver_set", 10],
@@ -6022,6 +6027,7 @@
     "id" : "chem_school",
     "items":[
       ["iodine", 5],
+      ["prussian_blue", 5],
       ["pocket_firstaid", 2],
       ["file", 5],
       ["textbook_chemistry", 10],
@@ -6067,6 +6073,7 @@
     "id" : "chem_home",
     "items":[
       ["iodine", 5],
+      ["prussian_blue", 5],
       ["textbook_chemistry", 8],
       ["brewing_cookbook", 4],
       ["adv_chemistry", 6],
@@ -6106,6 +6113,7 @@
     "id" : "chem_lab",
     "items":[
       ["iodine", 5],
+      ["prussian_blue", 5],
       ["adv_chemistry", 4],
       ["decoy_elfa", 6],
       ["file", 10],
@@ -6249,6 +6257,7 @@
     "id" : "dissection",
     "items":[
       ["iodine", 5],
+      ["prussian_blue", 5],
       ["textbook_firstaid", 2],
       ["emergency_book", 1],
       ["recipe_creepy", 2],
@@ -7333,6 +7342,7 @@
       ["disinfectant", 35],
       ["caffeine", 25],
       ["iodine", 5],
+      ["prussian_blue", 5],
       ["electrohack", 3],
       ["string_36", 40],
       ["dump_pouch", 10],
@@ -7617,6 +7627,7 @@
     "items":[
       ["1st_aid", 35],
       ["iodine", 5],
+      ["prussian_blue", 5],
       ["canister_empty", 5],
       ["boots_steel", 50],
       ["wrapped_rad_badge", 15],
@@ -8190,6 +8201,7 @@
       ["1st_aid", 35],
       ["saline", 15],
       ["iodine", 5],
+      ["prussian_blue", 5],
       ["neccowafers", 5],
       ["codeine", 15],
       ["adrenaline_injector", 4],
@@ -8406,6 +8418,7 @@
       ["mutagen", 8],
       ["purifier", 12],
       ["iodine", 5],
+      ["prussian_blue", 5],
       ["inhaler", 14],
       ["eyedrops", 20],
       ["adderall", 10],
@@ -9102,6 +9115,7 @@
       ["oxygen_tank", 10],
       ["smoxygen_tank", 15],
       ["adv_UPS_off", 2],
+      ["prussian_blue", 25],
       ["iodine", 50]
     ]
   },{
