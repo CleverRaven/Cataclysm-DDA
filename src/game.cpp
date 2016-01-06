@@ -14705,9 +14705,6 @@ void game::add_artifact_messages(std::vector<art_effect_passive> effects)
         case AEP_PBLUE:
             break; // No message
             
-        case AEP_IODINE:
-            break; // No message
-
         case AEP_SNAKES:
             add_msg(m_warning, _("Your skin feels slithery."));
             break;

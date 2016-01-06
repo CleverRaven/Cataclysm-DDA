@@ -13956,7 +13956,15 @@
         "color" : "white",
         "addiction_type" : "none",
         "spoils_in" : 0,
-        "use_action" : "IODINE",
+        "use_action" :  {
+            "type" : "consume_drug",
+            "activation_message" : "You take some potassium iodide.",
+            "effects" : [
+                {
+                    "id": "iodine",
+                    "duration": 2400
+                }
+            ],
         "stim" : 0,
         "container" : "null",
         "to_hit" : 0,
@@ -13986,7 +13994,15 @@
         "color" : "blue",
         "addiction_type" : "none",
         "spoils_in" : 0,
-        "use_action" : "PBLUE",
+        "use_action" : {
+            "type" : "consume_drug",
+            "activation_message" : "You take some Prussian blue.",
+            "effects" : [
+                {
+                    "id": "pblue",
+                    "duration": 1200
+                }
+            ],
         "stim" : 0,
         "container" : "null",
         "to_hit" : 0,

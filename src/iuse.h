@@ -54,8 +54,6 @@ public:
     int thorazine           ( player*, item*, bool, const tripoint& );
     int prozac              ( player*, item*, bool, const tripoint& );
     int sleep               ( player*, item*, bool, const tripoint& );
-    int pblue               ( player*, item*, bool, const tripoint& );
-    int iodine              ( player*, item*, bool, const tripoint& );
     int datura              ( player*, item*, bool, const tripoint& );
     int flumed              ( player*, item*, bool, const tripoint& );
     int flusleep            ( player*, item*, bool, const tripoint& );

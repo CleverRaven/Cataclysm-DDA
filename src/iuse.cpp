@@ -951,20 +951,6 @@ int iuse::sleep(player *p, item *it, bool, const tripoint& )
     return it->type->charges_to_use();
 }
 
-int iuse::pblue(player *p, item *it, bool, const tripoint& )
-{
-    p->add_effect("pblue", 1200);
-    p->add_msg_if_player(_("You take a Prussian blue tablet."));
-    return it->type->charges_to_use();
-}
-
-int iuse::iodine(player *p, item *it, bool, const tripoint& )
-{
-    p->add_effect("iodine", 2400);
-    p->add_msg_if_player(_("You take an iodine tablet."));
-    return it->type->charges_to_use();
-}
-
 int iuse::datura(player *p, item *it, bool, const tripoint& )
 {
     const auto comest = dynamic_cast<const it_comest *>(it->type);

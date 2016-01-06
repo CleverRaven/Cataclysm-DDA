@@ -8326,7 +8326,8 @@ void player::suffer()
             rads = localRadiation / 200.0f + selfRadiation / 10.0f;
         } else {
             rads = localRadiation / 32.0f + selfRadiation / 3.0f;
-        } if (has_effect("iodine")) {
+        }
+        if (has_effect("iodine")) {
             rads *= 0.33;
         }
         int rads_max = 0;

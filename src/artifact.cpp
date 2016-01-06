@@ -1373,7 +1373,7 @@ static const std::unordered_map<std::string, art_effect_passive> art_effect_pass
     PAIR( AEP_INT_UP ),
     PAIR( AEP_ALL_UP ),
     PAIR( AEP_SPEED_UP ),
-    PAIR( AEP_IODINE ),
+    PAIR( AEP_PBLUE ),
     PAIR( AEP_SNAKES ),
     PAIR( AEP_INVISIBLE ),
     PAIR( AEP_CLAIRVOYANCE ),
