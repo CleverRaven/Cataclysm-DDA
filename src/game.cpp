@@ -11180,7 +11180,7 @@ void game::butcher()
             butcher_type = BUTCHER_SALVAGE;
             indexer_index = ret - corpses.size() - disassembles.size();
         } else {
-            debugmsg( "%d", ret );
+            debugmsg( "Invalid butchery index: %d", ret );
             return;
         }
     }
@@ -11204,7 +11204,7 @@ void game::butcher()
             u.disassemble_all( false );
             break;
         default:
-            debugmsg("tii: %d", indexer_index );
+            debugmsg("Invalid butchery type: %d", indexer_index );
             return;
         }
         break;
