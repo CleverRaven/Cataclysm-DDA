@@ -814,6 +814,12 @@ void Creature::add_effect( efftype_id eff_id, int dur, body_part bp,
                 e.mod_intensity(e.get_int_add_val());
             }
 
+            // Force intensity if it is duration based
+            if (eff_type->int_dur_factor != 0) {
+            // + 1 here so that the lowest is intensity 1, not 0
+            e.set_intensity ((dur / eff_type->int_dur_factor) + 1);
+            }
+
             // Bound intensity by [1, max intensity]
             if (e.get_intensity() < 1) {
                 add_msg( m_debug, "Bad intensity, ID: %s", e.get_id().c_str() );
