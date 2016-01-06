@@ -13508,7 +13508,7 @@ void player::practice( const skill_id &s, int amount, int cap )
 
 int player::exceeds_recipe_requirements( const recipe &rec ) const
 {
-    if( !rec->valid_learn() ) {
+    if( !rec.valid_learn() ) {
         return -1;
     }
 
