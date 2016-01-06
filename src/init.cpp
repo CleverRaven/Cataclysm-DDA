@@ -198,7 +198,6 @@ void DynamicDataLoader::initialize()
     type_function_map["colordef"] = new StaticFunctionAccessor(&load_ingored_type);
     // mod information, ignored, handled by the mod manager
     type_function_map["MOD_INFO"] = new StaticFunctionAccessor(&load_ingored_type);
-    type_function_map["BULLET_PULLING"] = new StaticFunctionAccessor(&iuse::load_bullet_pulling);
 
     type_function_map["faction"] = new StaticFunctionAccessor(
         &faction::load_faction);
@@ -341,7 +340,6 @@ void DynamicDataLoader::unload_data()
     reset_mapgens();
     reset_effect_types();
     reset_speech();
-    iuse::reset_bullet_pulling();
     clear_overmap_specials();
     ammunition_type::reset();
     unload_talk_topics();

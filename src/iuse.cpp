@@ -5227,69 +5227,6 @@ int iuse::battletorch_lit(player *p, item *it, bool t, const tripoint &pos)
     return it->type->charges_to_use();
 }
 
-iuse::bullet_pulling_t iuse::bullet_pulling_recipes;
-
-void iuse::reset_bullet_pulling()
-{
-    bullet_pulling_recipes.clear();
-}
-
-void iuse::load_bullet_pulling(JsonObject &jo)
-{
-    const std::string type = jo.get_string("bullet");
-    result_list_t &recipe = bullet_pulling_recipes[type];
-    // Allow mods that are later loaded to override previously loaded recipes
-    recipe.clear();
-    JsonArray ja = jo.get_array("items");
-    while (ja.has_more()) {
-        JsonArray itm = ja.next_array();
-        recipe.push_back(result_t(itm.get_string(0), itm.get_int(1)));
-    }
-}
-
-int iuse::bullet_puller(player *p, item *it, bool, const tripoint& )
-{
-    if (p->is_underwater()) {
-        p->add_msg_if_player(m_info, _("You can't do that while underwater."));
-        return 0;
-    }
-    int inventory_index = g->inv(_("Disassemble what?"));
-    item *pull = &(p->i_at(inventory_index));
-    if (pull->is_null()) {
-        add_msg(m_info, _("You do not have that item!"));
-        return 0;
-    }
-    bullet_pulling_t::const_iterator a = bullet_pulling_recipes.find(pull->type->id);
-    if (a == bullet_pulling_recipes.end()) {
-        add_msg(m_info, _("You cannot disassemble that."));
-        return 0;
-    }
-    ///\EFFECTS_GUN >1 allows disassembling ammunition
-    if (p->skillLevel( skill_id( "gun" ) ) < 2) {
-        add_msg(m_info, _("You need to be at least level 2 in the firearms skill before you can disassemble ammunition."));
-        return 0;
-    }
-    const long multiply = std::min<long>(20, pull->charges);
-    pull->charges -= multiply;
-    if (pull->charges == 0) {
-        p->i_rem(inventory_index);
-    }
-    const result_list_t &recipe = a->second;
-    for( const auto &elem : recipe ) {
-        int count = elem.second * multiply;
-        item new_item( elem.first, calendar::turn );
-        if (new_item.count_by_charges()) {
-            new_item.charges = count;
-            count = 1;
-        }
-        p->i_add_or_drop(new_item, count);
-    }
-    add_msg(_("You take apart the ammunition."));
-    p->moves -= 500;
-    p->practice( skill_fabrication, rng(1, multiply / 5 + 1));
-    return it->type->charges_to_use();
-}
-
 int iuse::boltcutters(player *p, item *it, bool, const tripoint &pos )
 {
     tripoint dirp = pos;
