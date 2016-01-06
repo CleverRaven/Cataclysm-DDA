@@ -815,9 +815,9 @@ void Creature::add_effect( efftype_id eff_id, int dur, body_part bp,
             }
 
             // Force intensity if it is duration based
-            if (e.get_int_dur_factor() != 0) {
+            if( e.get_int_dur_factor() != 0 ) {
                 // + 1 here so that the lowest is intensity 1, not 0
-                e.set_intensity((e.get_duration() / e.get_int_dur_factor()) + 1);
+                e.set_intensity( ( e.get_duration() / e.get_int_dur_factor() ) + 1 );
             }
             // Bound intensity by [1, max intensity]
             if (e.get_intensity() < 1) {
@@ -853,9 +853,9 @@ void Creature::add_effect( efftype_id eff_id, int dur, body_part bp,
         }
 
         // Force intensity if it is duration based
-        if (e.get_int_dur_factor() != 0) {
+        if( e.get_int_dur_factor() != 0 ) {
             // + 1 here so that the lowest is intensity 1, not 0
-             e.set_intensity((e.get_duration() / e.get_int_dur_factor()) + 1);
+             e.set_intensity( ( e.get_duration() / e.get_int_dur_factor() ) + 1 );
         }
         // Bound new effect intensity by [1, max intensity]
         if (new_eff.get_intensity() < 1) {
