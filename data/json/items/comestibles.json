@@ -21034,7 +21034,7 @@
         "comestible_type" : "DRINK",
         "symbol" : "~",
         "quench" : 25,
-        "healthy": 1,
+        "healthy": 0,
         "addiction_potential" : 0,
         "nutrition" : 10,
         "description" : "Smooth and rich, this spoon-coating mix of milk, cream, and eggs is a popular traditional holiday drink.  While often spiked, it is still delicious on its own.  Meant to be stored cold, it will spoil rapidly.",
@@ -21044,7 +21044,7 @@
         "volume" : 1,
         "cutting" : 0,
         "phase" : "liquid",
-        "charges" : 1,
+        "charges" : 3,
         "bashing" : 0,
         "flags" : ["EATEN_COLD"],
         "fun" : 5
@@ -21073,7 +21073,7 @@
         "volume" : 1,
         "cutting" : 0,
         "phase" : "liquid",
-        "charges" : 1,
+        "charges" : 4,
         "bashing" : 0,
         "flags" : ["EATEN_COLD"],
         "fun" : 15
