@@ -5952,7 +5952,7 @@ bool vehicle::aim_turrets()
         parts[turret_index].target.second = tpos;
     }
 
-    const tripoint &upos = g->u.pos3();
+    const tripoint &upos = g->u.pos();
     int range = 0;
     for( auto &bnd : bounds ) {
         int dist = rl_dist( upos, bnd );
@@ -5970,7 +5970,7 @@ bool vehicle::aim_turrets()
     tmpammo->range = range;
 
     target_mode tmode = TARGET_MODE_TURRET; // We can't aim here yet
-    tripoint player_pos = g->u.pos3();
+    tripoint player_pos = g->u.pos();
     auto trajectory = g->pl_target_ui( player_pos, range, &pointer, tmode );
     if( trajectory.empty() ) {
         add_msg( m_info, _("Clearing targets") );
@@ -6403,7 +6403,7 @@ bool vehicle::automatic_fire_turret( int p, const itype &gun, const itype &ammo,
             return false;
         }
 
-        targ = auto_target->pos3();
+        targ = auto_target->pos();
     } else if( target.first != target.second ) {
         // Target set manually
         // Make sure we didn't move between aiming and firing (it's a bug if we did)
@@ -6471,7 +6471,7 @@ bool vehicle::manual_fire_turret( int p, player &shooter, const itype &guntype,
     const int range = shooter.weapon.gun_range( &shooter );
     auto mons = shooter.get_visible_creatures( range );
     constexpr target_mode tmode = TARGET_MODE_TURRET_MANUAL; // No aiming yet!
-    tripoint shooter_pos = shooter.pos3();
+    tripoint shooter_pos = shooter.pos();
     auto trajectory = g->pl_target_ui( shooter_pos, range, &shooter.weapon, tmode );
     shooter.recoil = abs(velocity) / 100 / 4;
     if( !trajectory.empty() ) {

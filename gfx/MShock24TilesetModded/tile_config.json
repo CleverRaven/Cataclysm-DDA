@@ -495,6 +495,12 @@
           "rotates": false
         },
         {
+          "id": "5x50heavy",
+          "fg": 74,
+          "bg": 505,
+          "rotates": false
+        },
+        {
           "id": "654",
           "fg": 75,
           "bg": 505,
@@ -1652,6 +1658,18 @@
           "rotates": false
         },
         {
+          "id": "thermal_mask",
+          "fg": 262,
+          "bg": 505,
+          "rotates": false
+        },
+        {
+          "id": "thermal_mask_on",
+          "fg": 262,
+          "bg": 505,
+          "rotates": false
+        },
+        {
           "id": "bandana",
           "fg": 263,
           "bg": 505,
@@ -2187,6 +2205,18 @@
         },
         {
           "id": "gloves_liner",
+          "fg": 347,
+          "bg": 505,
+          "rotates": false
+        },
+        {
+          "id": "thermal_gloves",
+          "fg": 347,
+          "bg": 505,
+          "rotates": false
+        },
+        {
+          "id": "thermal_gloves_on",
           "fg": 347,
           "bg": 505,
           "rotates": false
@@ -3009,6 +3039,18 @@
           "rotates": false
         },
         {
+          "id": "thermal_socks",
+          "fg": 468,
+          "bg": 505,
+          "rotates": false
+        },
+        {
+          "id": "thermal_socks_on",
+          "fg": 468,
+          "bg": 505,
+          "rotates": false
+        },
+        {
           "id": "socks_bowling",
           "fg": 469,
           "rotates": false
@@ -3158,6 +3200,18 @@
           "rotates": false
         },
         {
+          "id": "thermal_suit",
+          "fg": 493,
+          "bg": 505,
+          "rotates": false
+        },
+        {
+          "id": "thermal_suit_on",
+          "fg": 493,
+          "bg": 505,
+          "rotates": false
+        },
+        {
           "id": "vest",
           "fg": 494,
           "bg": 505,
@@ -3234,6 +3288,12 @@
           "rotates": false
         },
         {
+          "id": "seed_sunflower",
+          "fg": 816,
+          "bg": 505,
+          "rotates": false
+        },
+        {
           "id": "seed_blueberries",
           "fg": 817,
           "bg": 505,
@@ -3241,6 +3301,18 @@
         },
         {
           "id": "seed_cotton_boll",
+          "fg": 818,
+          "bg": 505,
+          "rotates": false
+        },
+        {
+          "id": "seed_pumpkin",
+          "fg": 818,
+          "bg": 505,
+          "rotates": false
+        },
+        {
+          "id": "fried_seeds",
           "fg": 818,
           "bg": 505,
           "rotates": false
@@ -20885,7 +20957,17 @@
           "rotates": false
         },
         {
+          "id": "raw_tainted_fur",
+          "fg": 2571,
+          "rotates": false
+        },
+        {
           "id": "raw_leather",
+          "fg": 2572,
+          "rotates": false
+        },
+        {
+          "id": "raw_tainted_leather",
           "fg": 2572,
           "rotates": false
         },
@@ -23825,6 +23907,62 @@
         {
           "id": "mon_zombie_shady",
           "fg": 3051,
+          "bg": 515,
+          "rotates": false
+        },
+        {
+          "id": "pumpkin",
+          "fg": 3052,
+          "rotates": false
+        },
+        {
+          "id": "vambrace_larmor",
+          "fg": 3053,
+          "rotates": false
+        },
+        {
+          "id": "armguard_larmor",
+          "fg": 3054,
+          "rotates": false
+        },
+        {
+          "id": "armguard_bone",
+          "fg": 3055,
+          "rotates": false
+        },
+        {
+          "id": "mon_zombie_anklebiter",
+          "fg": 3056,
+          "bg": 515,
+          "rotates": false
+        },
+        {
+          "id": "mon_zombie_sproglodyte",
+          "fg": 3057,
+          "bg": 515,
+          "rotates": false
+        },
+        {
+          "id": "mon_zombie_shriekling",
+          "fg": 3058,
+          "bg": 515,
+          "rotates": false
+        },
+        {
+          "id": "mon_zombie_creepy",
+          "fg": 3059,
+          "bg": 515,
+          "rotates": false
+        },
+        {
+          "id": "mon_zombie_snotgobbler",
+          "fg": 3060,
+          "bg": 515,
+          "rotates": false
+        },
+        {
+          "id": "mon_zombie_waif",
+          "fg": 3061,
           "bg": 515,
           "rotates": false
         }

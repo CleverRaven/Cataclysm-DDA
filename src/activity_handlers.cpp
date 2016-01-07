@@ -1351,15 +1351,69 @@ repeat_type repeat_menu( repeat_type last_selection )
     return REPEAT_CANCEL;
 }
 
+// This is a part of a hack to provide pseudo items for long repair activity
+// Note: similar hack could be used to implement all sorts of vehicle pseudo-items
+//  and possibly CBM pseudo-items too.
+struct weldrig_hack {
+    vehicle *veh;
+    int part;
+    item pseudo;
+
+    weldrig_hack()
+        : veh( nullptr )
+        , part( -1 )
+        , pseudo( "welder", calendar::turn )
+    { }
+
+    bool init( const player_activity &act )
+    {
+        if( act.coords.empty() || act.values.size() < 2 ) {
+            return false;
+        }
+
+        part = act.values[1];
+        veh = g->m.veh_at( act.coords[0] );
+        if( veh == nullptr || veh->parts.size() <= (size_t)part ) {
+            part = -1;
+            return false;
+        }
+
+        part = veh->part_with_feature( part, "WELDRIG" );
+        return part >= 0;
+    }
+
+    item &get_item()
+    {
+        if( veh != nullptr && part >= 0 ) {
+            pseudo.charges = veh->drain( "battery", 1000 - pseudo.charges );
+            return pseudo;
+        }
+
+        static item nulitem;
+        // null item should be handled just fine
+        return nulitem;
+    }
+
+    void clean_up()
+    {
+        // Return unused charges
+        if( veh == nullptr || part < 0 ) {
+            return;
+        }
+
+        veh->refill( "battery", pseudo.charges );
+        pseudo.charges = 0;
+    }
+};
+
 void activity_handlers::repair_item_finish( player_activity *act, player *p )
 {
-    const int index = act->index;
-    const int pos = act->position;
     const std::string iuse_name_string = act->get_str_value( 0, "repair_item" );
     const repeat_type repeat = (repeat_type)act->get_value( 0, REPEAT_ONCE );
-    // Allow the items to be "weird" (for example, null) for now
-    item &main_tool = p->i_at( index );
-    item &fix = p->i_at( pos );
+    weldrig_hack w_hack;
+    item &main_tool = !w_hack.init( *act ) ?
+        p->i_at( act->index ) :
+        w_hack.get_item();
 
     item *used_tool = main_tool.get_usable_item( iuse_name_string );
     if( used_tool == nullptr ) {
@@ -1386,6 +1440,8 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
         return;
     }
 
+    item &fix = p->i_at( act->position );
+
     // Remember our level: we want to stop retrying on level up
     const int old_level = p->get_skill_level( actor->used_skill );
     const auto attempt = actor->repair( *p, *used_tool, fix );
@@ -1401,8 +1457,11 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
         !actor->can_repair( *p, *used_tool, fix, !destroyed ) ) {
         // Can't repeat any more
         act->type = ACT_NULL;
+        w_hack.clean_up();
         return;
     }
+
+    w_hack.clean_up();
 
     const bool event_happened =
         attempt == repair_item_actor::AS_FAILURE ||
@@ -1421,7 +1480,10 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
             return;
         }
 
-        act->values.resize( 1 );
+        if( act->values.empty() ) {
+            act->values.resize( 1 );
+        }
+
         act->values[0] = (int)answer;
     }
 

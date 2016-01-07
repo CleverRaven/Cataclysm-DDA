@@ -306,7 +306,7 @@ std::string calendar::textify_period() const
     if (year > 0) {
         am = year;
         tx = ngettext("%d year", "%d years", am);
-    } else if (season > 0) {
+    } else if (season > 0 && !eternal_season) {
         am = season;
         tx = ngettext("%d season", "%d seasons", am);
     } else if (day > 0) {

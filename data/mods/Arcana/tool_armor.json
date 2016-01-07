@@ -135,7 +135,7 @@
         "storage" : 8,
         "warmth" : 25,
         "encumbrance" : 23,
-        "coverage" : 85,
+        "coverage" : 90,
         "material_thickness" : 4
     },{
         "id": "revenant_crown",
@@ -316,7 +316,6 @@
         "material" : ["silver", "essencemat"],
         "coverage" : 0,
         "symbol" : "[",
-        "bashing" : 0,
         "warmth" : 0,
         "phase" : "solid",
         "flags" : ["FANCY"]

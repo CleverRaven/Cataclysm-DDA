@@ -2098,7 +2098,7 @@ item consume_vpart_item( const vpart_str_id &vpid )
     }
 
     inventory map_inv;
-    map_inv.form_from_map( g->u.pos3(), PICKUP_RANGE );
+    map_inv.form_from_map( g->u.pos(), PICKUP_RANGE );
 
     if( g->u.has_amount( itid, 1 ) ) {
         candidates.push_back( true );
@@ -2139,7 +2139,7 @@ item consume_vpart_item( const vpart_str_id &vpid )
         item_used = g->u.use_amount( itid, 1 );
     } else {
         long quantity = 1;
-        item_used = g->m.use_amount( g->u.pos3(), PICKUP_RANGE, itid, quantity );
+        item_used = g->m.use_amount( g->u.pos(), PICKUP_RANGE, itid, quantity );
     }
     remove_ammo( item_used, g->u );
 

@@ -696,12 +696,12 @@ void complete_construction()
         }
     }
 
-    for (const auto &it : built.requirements.components) {
+    for (const auto &it : built.requirements.get_components()) {
         // Tried issuing rope for WEB_ROPE here.  Didn't arrive in time for the
         // gear check.  Ultimately just coded a bypass in crafting.cpp.
         u.consume_items(it);
     }
-    for( const auto &it : built.requirements.tools ) {
+    for( const auto &it : built.requirements.get_tools() ) {
         u.consume_tools( it );
     }
 

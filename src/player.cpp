@@ -465,7 +465,7 @@ void player::process_turn()
     }
 
     remove_items_with( [this]( item &itm ) {
-        return itm.process_artifact( this, pos3() );
+        return itm.process_artifact( this, pos() );
     } );
 
     suffer();
@@ -835,6 +835,10 @@ void player::update_bodytemp()
     // This gets incremented in the for loop and used in the morale calculation
     int morale_pen = 0;
 
+    // Let's cache this not to check it num_bp times
+    const bool has_bark = has_trait( "BARK" );
+    const bool has_sleep = has_effect( "sleep" );
+    const bool has_heatsink = has_bionic( "bio_heatsink" ) || is_wearing( "rm13_armor_on" );
     // Current temperature and converging temperature calculations
     for( int i = 0 ; i < num_bp; i++ ) {
         // This adjusts the temperature scale to match the bodytemp scale,
@@ -886,12 +890,12 @@ void player::update_bodytemp()
         // HUNGER
         temp_conv[i] -= get_hunger() / 6 + 100;
         // FATIGUE
-        if( !has_effect("sleep") ) {
+        if( !has_sleep ) {
             temp_conv[i] -= std::max(0.0, 1.5 * fatigue);
         }
         // CONVECTION HEAT SOURCES (generates body heat, helps fight frostbite)
-        // Bark : lowers blister count to -100; harder to get blisters
-        int blister_count = (has_trait("BARK") ? -100 : 0); // If the counter is high, your skin starts to burn
+        // Bark : lowers blister count to -10; harder to get blisters
+        int blister_count = (has_bark ? -10 : 0); // If the counter is high, your skin starts to burn
         int best_fire = 0;
         for (int j = -6 ; j <= 6 ; j++) {
             for (int k = -6 ; k <= 6 ; k++) {
@@ -904,29 +908,31 @@ void player::update_bodytemp()
                 } else if (g->m.tr_at( dest ).loadid == tr_lava ) {
                     heat_intensity = 3;
                 }
-                if( heat_intensity > 0 &&
-                    g->m.sees( pos(), dest, -1 ) ) {
-                    // Ensure fire_dist >= 1 to avoid divide-by-zero errors.
-                    int fire_dist = std::max(1, std::max( std::abs( j ), std::abs( k ) ) );
-                    if (frostbite_timer[i] > 0) {
-                        frostbite_timer[i] -= heat_intensity - fire_dist / 2;
-                    }
-                    temp_conv[i] +=  300 * heat_intensity * heat_intensity / (fire_dist);
-                    blister_count += heat_intensity / (fire_dist * fire_dist);
-                    if( fire_dist <= 1 ) {
-                        // Extend limbs/lean over a single adjacent fire to warm up
-                        best_fire = std::max( best_fire, heat_intensity );
-                    }
+                if( heat_intensity == 0 || !g->m.sees( pos(), dest, -1 ) ) {
+                    // No heat source here
+                    continue;
+                }
+                // Ensure fire_dist >= 1 to avoid divide-by-zero errors.
+                int fire_dist = std::max( 1, std::max( std::abs( j ), std::abs( k ) ) );
+                if( frostbite_timer[i] > 0 ) {
+                    frostbite_timer[i] -= std::max( 0, heat_intensity - fire_dist / 2 );
+                }
+                int heat_here = heat_intensity * heat_intensity / fire_dist;
+                temp_conv[i] += 300 * heat_here;
+                blister_count += heat_here;
+                if( fire_dist <= 1 ) {
+                    // Extend limbs/lean over a single adjacent fire to warm up
+                    best_fire = std::max( best_fire, heat_intensity );
                 }
             }
         }
         // Bionic "Thermal Dissipation" says it prevents fire damage up to 2000F.
-        // 500 is picked at random...
-        if( has_bionic( "bio_heatsink" ) || is_wearing( "rm13_armor_on" ) ) {
-            blister_count -= 500;
+        // But it's kinda hard to get the balance right, let's go with 20 blisters
+        if( has_heatsink ) {
+            blister_count -= 20;
         }
         // BLISTERS : Skin gets blisters from intense heat exposure.
-        if( blister_count - 10 * get_env_resist( body_part( i ) ) > 20 ) {
+        if( blister_count - get_env_resist( body_part( i ) ) > 10 ) {
             add_effect( "blisters", 1, ( body_part )i );
         }
 
@@ -939,7 +945,7 @@ void player::update_bodytemp()
             temp_conv[i] += 500;
         }
         // DISEASES
-        if( has_effect("flu") && i == bp_head ) {
+        if( i == bp_head && has_effect("flu") ) {
             temp_conv[i] += 1500;
         }
         if( has_effect("common_cold") ) {
@@ -2629,10 +2635,10 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
     wrefresh(w_stats);
 
     // Next, draw encumberment.
-    const char *title_ENCUMB = _("ENCUMBRANCE AND WARMTH");
-    mvwprintz(w_encumb, 0, 13 - utf8_width(title_ENCUMB) / 2, c_ltgray, title_ENCUMB);
-    print_encumbrance(w_encumb, 0, 8);
-    wrefresh(w_encumb);
+    const char *title_ENCUMB = _( "ENCUMBRANCE AND WARMTH" );
+    mvwprintz( w_encumb, 0, 13 - utf8_width( title_ENCUMB ) / 2, c_ltgray, title_ENCUMB );
+    print_encumbrance( w_encumb );
+    wrefresh( w_encumb );
 
     // Next, draw traits.
     const char *title_TRAITS = _("TRAITS");
@@ -2855,10 +2861,10 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
     refresh();
 
     int curtab = 1;
-    unsigned min, max;
+    size_t min, max;
     line = 0;
     bool done = false;
-    unsigned half_y = 0;
+    size_t half_y = 0;
 
     // Initial printing is DONE.  Now we give the player a chance to scroll around
     // and "hover" over different items for more info.
@@ -2965,25 +2971,10 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
             break;
         case 2: // Encumberment tab
         {
-            werase(w_encumb);
-            mvwprintz(w_encumb, 0, 0, h_ltgray, header_spaces.c_str());
-            mvwprintz(w_encumb, 0, 13 - utf8_width(title_ENCUMB)/2, h_ltgray, title_ENCUMB);
-            int encumb_win_size_y = 8;
-            half_y = encumb_win_size_y / 2;
-            if (line <= half_y) {
-                min = 0;
-                max = encumb_win_size_y;
-            } else if (line >= 12 - half_y) {
-                min = (12 - encumb_win_size_y);
-                max = 12;
-            } else {
-                min = line - half_y;
-                max = line - half_y + encumb_win_size_y;
-            }
-
-            print_encumbrance(w_encumb, min, max, line);
-            draw_scrollbar(w_encumb, line, encumb_win_size_y, 12, 1);
-            wrefresh(w_encumb);
+            werase( w_encumb );
+            mvwprintz( w_encumb, 0, 13 - utf8_width( title_ENCUMB ) / 2, h_ltgray, title_ENCUMB );
+            print_encumbrance( w_encumb, line );
+            wrefresh( w_encumb );
 
             werase(w_info);
             std::string s;
@@ -3030,23 +3021,32 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
             fold_and_print( w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta, s );
             wrefresh(w_info);
 
-
             action = ctxt.handle_input();
-            if (action == "DOWN") {
-                if (line < 11) {
-                    line++;
+            if( action == "DOWN" ) {
+                if( line < num_bp - 1 ) {
+                    if( bp_aiOther[line] == line + 1 && // first of a pair
+                    get_encumbrance( line ) == get_encumbrance( bp_aiOther[line] ) ) {
+                        line += ( line < num_bp - 2 ) ? 2 : 0; // skip a line if we aren't at the last pair
+                    } else {
+                        line++; // unpaired or unequal
+                    }
                 }
-            } else if (action == "UP") {
-                if (line > 0) {
-                    line--;
+            } else if( action == "UP" ) {
+                if( line > 0 ) {
+                    if( bp_aiOther[line] == line - 1 && // second of a pair
+                         get_encumbrance( line ) == get_encumbrance( bp_aiOther[line] ) ) {
+                        line -= ( line < num_bp - 2 ) ? 2 : 0; // skip a line if we aren't at the first pair
+                    } else {
+                        line--; // unpaired or unequal
+                    }
                 }
-            } else if (action == "NEXT_TAB") {
+            } else if( action == "NEXT_TAB" ) {
                 mvwprintz(w_encumb, 0, 0, c_ltgray, header_spaces.c_str());
                 mvwprintz(w_encumb, 0, 13 - utf8_width(title_ENCUMB)/2, c_ltgray, title_ENCUMB);
                 wrefresh(w_encumb);
                 line = 0;
                 curtab++;
-            } else if (action == "QUIT") {
+            } else if(action == "QUIT") {
                 done = true;
             }
             break;
@@ -4168,31 +4168,14 @@ int player::overmap_sight_range(int light_level) const
     if( sight <= SEEX * 4) {
         return (sight / (SEEX / 2) );
     }
-    if ( has_item_with_flag( "ZOOM" ) &&
-        !has_trait( "EAGLEEYED" ) )  {
-         if ( has_trait( "BIRD_EYE" ) ) {
-             return 25;
-         }
-        return 20;
+    sight = has_trait( "BIRD_EYE" ) ? 15 : 10;
+    bool has_optic = ( has_item_with_flag( "ZOOM" ) || has_bionic( "bio_eye_optic" ) );
+    if( has_optic && has_trait( "EAGLEEYED" ) ) {
+        sight += 15;
+    } else if( has_optic != has_trait( "EAGLEEYED" ) ) {
+        sight += 10;
     }
-    else if ( !has_item_with_flag( "ZOOM" ) &&
-        has_trait( "EAGLEEYED" ) )  {
-         if ( has_trait( "BIRD_EYE" ) ) {
-             return 25;
-         }
-        return 20;
-    }
-    else if ( has_item_with_flag( "ZOOM" ) &&
-        has_trait( "EAGLEEYED" ) )  {
-         if ( has_trait( "BIRD_EYE" ) ) {
-             return 30;
-         }
-        return 25;
-    }
-    else if ( has_trait( "BIRD_EYE" ) ) {
-            return 15;
-        }
-    return 10;
+    return sight;
 }
 
 #define MAX_CLAIRVOYANCE 40
@@ -4675,6 +4658,11 @@ bool player::is_dead_state() const
 
 void player::on_dodge( Creature *source, int difficulty )
 {
+    // dodging throws of our aim unless we are either skilled at dodging or using a small weapon
+    if( is_armed() && weapon.is_gun() ) {
+        recoil += std::max( weapon.volume() - get_skill_level( skill_dodge ), 0 ) * rng( 0, 100 );
+    }
+
     if( difficulty == INT_MIN && source != nullptr ) {
         difficulty = source->get_melee();
     }
@@ -4687,19 +4675,11 @@ void player::on_dodge( Creature *source, int difficulty )
 }
 
 void player::on_hit( Creature *source, body_part bp_hit,
-                     int difficulty, dealt_projectile_attack const* const proj ) {
+                     int /*difficulty*/ , dealt_projectile_attack const* const proj ) {
     check_dead_state();
     bool u_see = g->u.sees( *this );
     if( source == nullptr || proj != nullptr ) {
         return;
-    }
-
-    if( difficulty == INT_MIN ) {
-        difficulty = source->get_melee();
-    }
-
-    if( difficulty > 0 ) {
-        practice( skill_dodge, difficulty );
     }
 
     if (has_active_bionic("bio_ods")) {
@@ -5318,7 +5298,7 @@ void player::knock_back_from( const tripoint &p )
         add_effect("stunned", 1);
         ///\EFFECT_STR_MAX allows knocked back player to knock back, damage, stun some monsters
         if ((str_max - 6) / 4 > critter->type->size) {
-            critter->knock_back_from(pos3()); // Chain reaction!
+            critter->knock_back_from(pos()); // Chain reaction!
             critter->apply_damage( this, bp_torso, (str_max - 6) / 4);
             critter->add_effect("stunned", 1);
         } else if ((str_max - 6) / 4 == critter->type->size) {
@@ -8308,8 +8288,8 @@ void player::suffer()
         rad_mut = 1;
     }
     if( rad_mut > 0 ) {
-        if( g->m.get_radiation( pos3() ) < rad_mut - 1 && one_in( 600 / rad_mut ) ) {
-            g->m.adjust_radiation( pos3(), 1 );
+        if( g->m.get_radiation( pos() ) < rad_mut - 1 && one_in( 600 / rad_mut ) ) {
+            g->m.adjust_radiation( pos(), 1 );
         } else if( one_in( 300 / rad_mut ) ) {
             radiation++;
         }
@@ -8332,7 +8312,7 @@ void player::suffer()
     int selfRadiation = 0;
     selfRadiation = leak_level("RADIOACTIVE");
 
-    int localRadiation = g->m.get_radiation( pos3() );
+    int localRadiation = g->m.get_radiation( pos() );
 
     if (localRadiation || selfRadiation) {
         bool has_helmet = false;
@@ -9065,21 +9045,21 @@ void player::rem_morale(morale_type type, const itype* item_type)
 
 void player::process_active_items()
 {
-    if( weapon.needs_processing() && weapon.process( this, pos3(), false ) ) {
+    if( weapon.needs_processing() && weapon.process( this, pos(), false ) ) {
         weapon = ret_null;
     }
 
     std::vector<item *> inv_active = inv.active_items();
     for( auto tmp_it : inv_active ) {
 
-        if( tmp_it->process( this, pos3(), false ) ) {
+        if( tmp_it->process( this, pos(), false ) ) {
             inv.remove_item(tmp_it);
         }
     }
 
     // worn items
     remove_worn_items_with( [this]( item &itm ) {
-        return itm.needs_processing() && itm.process( this, pos3(), false );
+        return itm.needs_processing() && itm.process( this, pos(), false );
     } );
 
     long ch_UPS = charges_of( "UPS" );
@@ -9274,7 +9254,7 @@ bool player::has_fire(const int quantity) const
 {
 // TODO: Replace this with a "tool produces fire" flag.
 
-    if( g->m.has_nearby_fire( pos3() ) ) {
+    if( g->m.has_nearby_fire( pos() ) ) {
         return true;
     } else if (has_charges("torch_lit", 1)) {
         return true;
@@ -9328,7 +9308,7 @@ void player::use_fire(const int quantity)
 // (home made, military), hotplate, welder in that order.
 // bio_lighter, bio_laser, bio_tools, has_active_bionic("bio_tools"
 
-    if( g->m.has_nearby_fire( pos3() ) ) {
+    if( g->m.has_nearby_fire( pos() ) ) {
         return;
     } else if (has_charges("torch_lit", 1)) {
         return;
@@ -9733,7 +9713,7 @@ bool player::consume_item( item &target )
             }
             if (comest->has_use()) {
                 //Check special use
-                amount_used = comest->invoke( this, to_eat, pos3() );
+                amount_used = comest->invoke( this, to_eat, pos() );
                 if( amount_used <= 0 ) {
                     return false;
                 }
@@ -10041,7 +10021,7 @@ bool player::eat(item *eaten, const it_comest *comest)
     }
 
     if (comest->has_use()) {
-        to_eat = comest->invoke( this, eaten, pos3() );
+        to_eat = comest->invoke( this, eaten, pos() );
         if( to_eat <= 0 ) {
             return false;
         }
@@ -10226,29 +10206,34 @@ bool player::eat(item *eaten, const it_comest *comest)
 
 int player::nutrition_for(const it_comest *comest)
 {
-    /* thresholds:
-    **  100 : 1x
-    **  300 : 2x
-    ** 1400 : 4x
-    ** 2800 : 6x
-    ** 6000 : 10x
-    */
+    // First value is hunger, second is nutrition multiplier
+    using threshold_pair = std::pair<int, float>;
+    static const std::array<threshold_pair, 7> thresholds = {{
+        { INT_MIN, 1.0f },
+        { 100, 1.0f },
+        { 300, 2.0f },
+        { 1400, 4.0f },
+        { 2800, 6.0f },
+        { 6000, 10.0f },
+        { INT_MAX, 10.0f }
+    }};
 
-    float nutr;
-
-    if (get_hunger() < 100) {
-        nutr = comest->nutr;
-    } else if (get_hunger() <= 300) {
-        nutr = ((float)get_hunger()/300) * 2 * comest->nutr;
-    } else if (get_hunger() <= 1400) {
-        nutr = ((float)get_hunger()/1400) * 4 * comest->nutr;
-    } else if (get_hunger() <= 2800) {
-        nutr = ((float)get_hunger()/2800) * 6 * comest->nutr;
-    } else {
-        nutr = ((float)get_hunger()/6000)* 10 * comest->nutr;
+    const int hng = get_hunger();
+    // Find the first threshold > hunger
+    int i = 1;
+    while( thresholds[i].first <= hng ) {
+        i++;
     }
 
-    return (int)nutr;
+    // How far are we along the way from last threshold to current one
+    const float t = (hng - thresholds[i - 1].first) /
+            (thresholds[i].first - thresholds[i - 1].first);
+
+    // Linear interpolation of values at relevant thresholds
+    const float modifier = (t * thresholds[i].second) +
+        ((1 - t) * thresholds[i - 1].second);
+
+    return (int)(comest->nutr * modifier);
 }
 
 void player::consume_effects(item *eaten, const it_comest *comest, bool rotten)
@@ -11270,6 +11255,11 @@ hint_rating player::rate_action_reload( const item &it ) const
     // Guns may contain additional reloadable mods so check these first
     if( it.is_gun() ) {
         for( const auto& mod : it.contents ) {
+            // @todo deprecate spare magazine
+            if( mod.typeId() == "spare_mag" && mod.charges < it.ammo_capacity() ) {
+                return HINT_GOOD;
+            }
+
             if( mod.ammo_capacity() <= 0 ||
                 mod.ammo_type() == "NULL" ||
                 mod.has_flag( "NO_RELOAD" ) ||
@@ -11277,10 +11267,6 @@ hint_rating player::rate_action_reload( const item &it ) const
                 continue;
             }
 
-            // @todo deprecate spare magazine
-            if( mod.typeId() == "spare_mag" && mod.charges < it.ammo_capacity() ) {
-                return HINT_GOOD;
-            }
             if (mod.is_auxiliary_gunmod() && mod.ammo_remaining() < mod.ammo_capacity() ) {
                 return HINT_GOOD;
             }
@@ -12167,7 +12153,7 @@ void player::do_read( item *book )
     }
 
     for( auto &m : reading->use_methods ) {
-        m.call( this, book, false, pos3() );
+        m.call( this, book, false, pos() );
     }
 
     activity.type = ACT_NULL;
@@ -12439,7 +12425,7 @@ bool player::can_sleep()
         // Sleep ain't happening until that meth wears off completely.
         return false;
     }
-    int sleepy = sleep_spot( pos3() );
+    int sleepy = sleep_spot( pos() );
     sleepy += rng( -8, 8 );
     if( sleepy > 0 ) {
         return true;
@@ -12514,16 +12500,20 @@ std::string player::is_snuggling() const
     return "nothing";
 }
 
-// Returned values range from 1.0 (unimpeded vision) to 5.0 (totally blind).
-// LIGHT_AMBIENT DIM is enough light for detail work, but held items get a boost.
+// Returned values range from 1.0 (unimpeded vision) to 11.0 (totally blind).
+//  1.0 is LIGHT_AMBIENT_LIT or brighter
+//  4.0 is a dark clear night, barely bright enough for reading and crafting
+//  6.0 is LIGHT_AMBIENT_DIM
+//  7.3 is LIGHT_AMBIENT_MINIMAL, a dark cloudy night, unlit indoors
+// 11.0 is zero light or blindness
 float player::fine_detail_vision_mod() const
 {
     // PER_SLIME_OK implies you can get enough eyes around the bile
     // that you can generaly see.  There'll still be the haze, but
     // it's annoying rather than limiting.
-    if( has_effect("blind") || worn_with_flag("BLIND") || has_active_bionic("bio_blindfold") ||
-        (( has_effect("boomered") || has_effect("darkness") ) && !has_trait("PER_SLIME_OK")) ) {
-        return 5.0;
+    if( has_effect( "blind" ) || worn_with_flag( "BLIND" ) || has_active_bionic("bio_blindfold") ||
+         ( ( has_effect( "boomered" ) || has_effect( "darkness" ) ) && !has_trait( "PER_SLIME_OK" ) ) ) {
+        return 11.0;
     }
     // Scale linearly as light level approaches LIGHT_AMBIENT_LIT.
     // If we're actually a source of light, assume we can direct it where we need it.
@@ -12793,6 +12783,37 @@ int player::get_armor_cut(body_part bp) const
     return get_armor_cut_base(bp) + armor_cut_bonus;
 }
 
+int player::get_armor_type( damage_type dt, body_part bp ) const
+{
+    switch( dt ) {
+        case DT_TRUE:
+            return 0;
+        case DT_BIOLOGICAL:
+            return 0;
+        case DT_BASH:
+            return get_armor_bash( bp );
+        case DT_CUT:
+            return get_armor_cut( bp );
+        case DT_ACID:
+            return get_armor_acid( bp );
+        case DT_STAB:
+            return get_armor_cut( bp ) * 0.8f;
+        case DT_HEAT:
+            return get_armor_fire( bp );
+        case DT_COLD:
+            return 0;
+        case DT_ELECTRIC:
+            return 0;
+        case DT_NULL:
+        case NUM_DT:
+            // Let it error below
+            break;
+    }
+
+    debugmsg( "Invalid damage type: %d", dt );
+    return 0;
+}
+
 int player::get_armor_bash_base(body_part bp) const
 {
     int ret = 0;
@@ -12915,6 +12936,30 @@ int player::get_armor_cut_base(body_part bp) const
     return ret;
 }
 
+int player::get_armor_acid(body_part bp) const
+{
+    int ret = 0;
+    for( auto &i : worn ) {
+        if( i.covers( bp ) ) {
+            ret += i.acid_resist();
+        }
+    }
+
+    return ret;
+}
+
+int player::get_armor_fire(body_part bp) const
+{
+    int ret = 0;
+    for( auto &i : worn ) {
+        if( i.covers( bp ) ) {
+            ret += i.fire_resist();
+        }
+    }
+
+    return ret;
+}
+
 bool player::armor_absorb(damage_unit& du, item& armor) {
     if( rng( 1, 100 ) > armor.get_coverage() ) {
         return false;
@@ -12928,10 +12973,10 @@ bool player::armor_absorb(damage_unit& du, item& armor) {
     const float mitigation = std::min(effective_resist, du.amount);
     du.amount -= mitigation; // mitigate the damage first
 
-    if( mitigation <= 0 ) {
-        // If it doesn't protect from it at all, it's some weird type,
-        // like electricity (which should not damage clothing)
-        // or fire (for which resistance isn't implemented yet so it would slice power armor)
+    // We want armor's own resistance to this type, not the resistance it grants
+    const int armors_own_resist = resistances( armor, true ).type_resist( du.type );
+    if( armors_own_resist > 1000 ) {
+        // This is some weird type that doesn't damage armors
         return false;
     }
 
@@ -12946,48 +12991,56 @@ bool player::armor_absorb(damage_unit& du, item& armor) {
     // Don't damage armor as much when bypassed by armor piercing
     // Most armor piercing damage comes from bypassing armor, not forcing through
     const int raw_dmg = du.amount;
-    const int raw_armor = res.type_resist( du.type );
-    if( (raw_dmg > raw_armor && !one_in(du.amount) && one_in(2)) ||
-        // or if it isn't, but 1/50 chance
-        (raw_dmg <= raw_armor && !armor.has_flag("STURDY") &&
-         !armor.is_power_armor() && one_in(200)) ) {
-
-        auto &material = armor.get_random_material();
-        std::string damage_verb = ( du.type == DT_BASH ) ?
-            material.bash_dmg_verb() : material.cut_dmg_verb();
-
-        const std::string pre_damage_name = armor.tname();
-        const std::string pre_damage_adj = armor.get_base_material().
-            dmg_adj(armor.damage);
-
-        // add "further" if the damage adjective and verb are the same
-        std::string format_string = ( pre_damage_adj == damage_verb ) ?
-            _("Your %1$s is %2$s further!") : _("Your %1$s is %2$s!");
-        add_msg_if_player( m_bad, format_string.c_str(), pre_damage_name.c_str(),
-                           damage_verb.c_str());
-        //item is damaged
-        if( is_player() ) {
-            SCT.add(posx(), posy(), NORTH, remove_color_tags( pre_damage_name ),
-                    m_neutral, damage_verb, m_info);
+    if( raw_dmg > armors_own_resist ) {
+        // If damage is above armor value, the chance to avoid armor damage is
+        // 50% + 50% * 1/dmg
+        if( one_in( raw_dmg ) || one_in( 2 ) ) {
+            return false;
         }
-
-        if (armor.has_flag("FRAGILE")) {
-            armor.damage += rng(2,3);
-        } else {
-            armor.damage++;
-        }
-
-        if( armor.damage >= 5 ) {
-            //~ %s is armor name
-            add_memorial_log( pgettext("memorial_male", "Worn %s was completely destroyed."),
-                              pgettext("memorial_female", "Worn %s was completely destroyed."),
-                              pre_damage_name.c_str() );
-            add_msg_player_or_npc( m_bad, _("Your %s is completely destroyed!"),
-                                   _("<npcname>'s %s is completely destroyed!"),
-                                   pre_damage_name.c_str() );
-            return true;
+    } else {
+        // Sturdy items and power armors never take chip damage.
+        // Other armors have 0.5% of getting damaged from hits below their armor value.
+        if( armor.has_flag("STURDY") || armor.is_power_armor() || !one_in( 200 ) ) {
+            return false;
         }
     }
+
+    auto &material = armor.get_random_material();
+    std::string damage_verb = ( du.type == DT_BASH ) ?
+        material.bash_dmg_verb() : material.cut_dmg_verb();
+
+    const std::string pre_damage_name = armor.tname();
+    const std::string pre_damage_adj = armor.get_base_material().
+        dmg_adj(armor.damage);
+
+    // add "further" if the damage adjective and verb are the same
+    std::string format_string = ( pre_damage_adj == damage_verb ) ?
+        _("Your %1$s is %2$s further!") : _("Your %1$s is %2$s!");
+    add_msg_if_player( m_bad, format_string.c_str(), pre_damage_name.c_str(),
+                       damage_verb.c_str());
+    //item is damaged
+    if( is_player() ) {
+        SCT.add(posx(), posy(), NORTH, remove_color_tags( pre_damage_name ),
+                m_neutral, damage_verb, m_info);
+    }
+
+    if (armor.has_flag("FRAGILE")) {
+        armor.damage += rng(2,3);
+    } else {
+        armor.damage++;
+    }
+
+    if( armor.damage >= 5 ) {
+        //~ %s is armor name
+        add_memorial_log( pgettext("memorial_male", "Worn %s was completely destroyed."),
+                          pgettext("memorial_female", "Worn %s was completely destroyed."),
+                          pre_damage_name.c_str() );
+        add_msg_player_or_npc( m_bad, _("Your %s is completely destroyed!"),
+                               _("<npcname>'s %s is completely destroyed!"),
+                               pre_damage_name.c_str() );
+        return true;
+    }
+
     return false;
 }
 
@@ -13453,23 +13506,22 @@ void player::practice( const skill_id &s, int amount, int cap )
     practice( &s.obj(), amount, cap );
 }
 
+int player::exceeds_recipe_requirements( const recipe &rec ) const
+{
+    if( !rec.valid_learn() ) {
+        return -1;
+    }
+
+    int over = rec.skill_used ? get_skill_level( rec.skill_used ) - rec.difficulty : 0;
+    for( const auto &required_skill : rec.required_skills ) {
+        over = std::min( over, get_skill_level( required_skill.first ) - required_skill.second );
+    }
+    return over;
+}
+
 bool player::has_recipe_requirements( const recipe *rec ) const
 {
-    if( !rec->valid_learn() ) {
-        return false;
-    }
-
-    bool meets_requirements = false;
-    if( !rec->skill_used || get_skill_level( rec->skill_used) >= rec->difficulty ) {
-        meets_requirements = true;
-        for( const auto &required_skill : rec->required_skills ) {
-            if( get_skill_level( required_skill.first ) < required_skill.second ) {
-                meets_requirements = false;
-            }
-        }
-    }
-
-    return meets_requirements;
+    return ( exceeds_recipe_requirements( *rec ) > -1 );
 }
 
 bool player::knows_recipe(const recipe *rec) const
@@ -13889,7 +13941,7 @@ action_id player::get_next_auto_move_direction()
     }
 
     if (next_expected_position != tripoint_min ) {
-        if( pos3() != next_expected_position ) {
+        if( pos() != next_expected_position ) {
             // We're off course, possibly stumbling or stuck, cancel auto move
             return ACTION_NULL;
         }
@@ -13898,7 +13950,7 @@ action_id player::get_next_auto_move_direction()
     next_expected_position = auto_move_route.front();
     auto_move_route.erase(auto_move_route.begin());
 
-    tripoint dp = next_expected_position - pos3();
+    tripoint dp = next_expected_position - pos();
 
     // Make sure the direction is just one step and that
     // all diagonal moves have 0 z component
@@ -14032,7 +14084,7 @@ Creature::Attitude player::attitude_to( const Creature &other ) const
 bool player::sees( const tripoint &t, bool ) const
 {
     static const std::string str_bio_night("bio_night");
-    const int wanted_range = rl_dist( pos3(), t );
+    const int wanted_range = rl_dist( pos(), t );
     bool can_see = is_player() ? g->m.pl_sees( t, wanted_range ) :
         Creature::sees( t );;
     // Only check if we need to override if we already came to the opposite conclusion.
@@ -14054,7 +14106,7 @@ bool player::sees( const tripoint &t, bool ) const
 bool player::sees( const Creature &critter ) const
 {
     // This handles only the player/npc specific stuff (monsters don't have traits or bionics).
-    const int dist = rl_dist( pos3(), critter.pos3() );
+    const int dist = rl_dist( pos(), critter.pos() );
     if (dist <= 3 && has_trait("ANTENNAE")) {
         return true;
     }
@@ -14189,13 +14241,13 @@ bool player::can_hear( const tripoint &source, const int volume ) const
     }
 
     // source is in-ear and at our square, we can hear it
-    if ( source == pos3() && volume == 0 ) {
+    if ( source == pos() && volume == 0 ) {
         return true;
     }
 
     // TODO: sound attenuation due to weather
 
-    const int dist = rl_dist( source, pos3() );
+    const int dist = rl_dist( source, pos() );
     const float volume_multiplier = hearing_ability();
     return volume * volume_multiplier >= dist;
 }
@@ -14524,41 +14576,78 @@ std::vector<mission*> player::get_failed_missions() const
     return failed_missions;
 }
 
-void player::print_encumbrance(WINDOW *win, int min, int max, int line) const
+encumbrance_data player::get_encumbrance( size_t i ) const
 {
-    // initialize these once, and only once
-    static std::string asText[] = {_("Torso"), _("Head"), _("Eyes"), _("Mouth"), _("L. Arm"), _("R. Arm"),
-                             _("L. Hand"), _("R. Hand"), _("L. Leg"), _("R. Leg"), _("L. Foot"),
-                             _("R. Foot")};
-    static body_part aBodyPart[] = {bp_torso, bp_head, bp_eyes, bp_mouth, bp_arm_l, bp_arm_r, bp_hand_l,
-                             bp_hand_r, bp_leg_l, bp_leg_r, bp_foot_l, bp_foot_r};
-    int iEnc, iArmorEnc, iBodyTempInt;
-    double iLayers;
+    encumbrance_data enc_data;
+    enc_data.iBodyTempInt = ( temp_conv[i] / 100.0 ) * 2 - 100; // Scale of -100 to +100
+    enc_data.iEnc = encumb( bp_aBodyPart[i], enc_data.iLayers, enc_data.iArmorEnc );
+    return enc_data;
+}
+
+void player::print_encumbrance( WINDOW *win, int line ) const
+{
+    int height, width;
+    getmaxyx( win, height, width );
+    int orig_line = line;
+
+    // fill a set with the indices of the body parts to display
+    line = std::max( 0, line );
+    std::set<int> parts;
+    // check and optionally enqueue line+0, -1, +1, -2, +2, ...
+    int off = 0; // offset from line
+    int skip[2] = {}; // how far to skip on next neg/pos jump
+    do {
+        if( !skip[off > 0] && line + off >= 0 && line + off < num_bp ) { // line+off is in bounds
+            parts.insert( line + off );
+            if( line + off != ( int )bp_aiOther[line + off] &&
+                 get_encumbrance( line + off ) == get_encumbrance( bp_aiOther[line + off] ) ) { // part of a pair
+                skip[( int )bp_aiOther[line + off] > line + off ] = 1; // skip the next candidate in this direction
+            }
+        } else {
+            skip[off > 0] = 0;
+        }
+        if( off < 0 ) {
+            off = -off;
+        } else {
+            off = -off - 1;
+        }
+    } while( off > -num_bp && ( int )parts.size() < height - 1 );
+
     std::string out;
     /*** I chose to instead only display X+Y instead of X+Y=Z. More room was needed ***
      *** for displaying triple digit encumbrance, due to new encumbrance system.    ***
      *** If the player wants to see the total without having to do them maths, the  ***
      *** armor layers ui shows everything they want :-) -Davek                      ***/
-    for (int i = min; i < max; ++i) {
+    int row = 1;
+    for( auto bp : parts ) {
+        encumbrance_data e = get_encumbrance( bp );
+        bool combine = false;
+        if( e == get_encumbrance( bp_aiOther[bp] ) ) {
+            combine = true;
+        }
         out.clear();
-        iLayers = iArmorEnc = 0;
-        iBodyTempInt = (temp_conv[i] / 100.0) * 2 - 100; // Scale of -100 to +100
-        iEnc = encumb(aBodyPart[i], iLayers, iArmorEnc);
         // limb, and possible color highlighting
-        out = string_format("%-7s", asText[i].c_str());
-        mvwprintz(win, i + 1 - min, 1, (line == i) ? h_ltgray : c_ltgray, out.c_str());
+        out = string_format( "%-7s", ( combine ? bpp_asText[bp] : bp_asText[bp] ).c_str() );
+        mvwprintz( win, row, 1, ( orig_line == bp ) ? h_ltgray : c_ltgray, out.c_str() );
         // take into account the new encumbrance system for layers
-        out = string_format("(%1d) ", static_cast<int>(iLayers / 10.0));
-        wprintz(win, c_ltgray, out.c_str());
+        out = string_format( "(%1d) ", static_cast<int>( e.iLayers / 10.0 ) );
+        wprintz( win, c_ltgray, out.c_str() );
         // accumulated encumbrance from clothing, plus extra encumbrance from layering
-        wprintz(win, encumb_color(iEnc), string_format("%3d", iArmorEnc).c_str());
+        wprintz( win, encumb_color( e.iEnc ), string_format( "%3d", e.iArmorEnc ).c_str() );
         // seperator in low toned color
-        wprintz(win, c_ltgray, "+");
-        wprintz(win, encumb_color(iEnc), string_format("%-3d", iEnc - iArmorEnc).c_str());
+        wprintz( win, c_ltgray, "+" );
+        wprintz( win, encumb_color( e.iEnc ), string_format( "%-3d", e.iEnc - e.iArmorEnc ).c_str() );
         // print warmth, tethered to right hand side of the window
-        out = string_format("(% 3d)", iBodyTempInt);
-        mvwprintz(win, i + 1 - min, getmaxx(win) - 6, bodytemp_color(i), out.c_str());
+        out = string_format( "(% 3d)", e.iBodyTempInt );
+        mvwprintz( win, row, getmaxx( win ) - 6, bodytemp_color( bp ), out.c_str() );
+        row++;
     }
+
+    if( off > -num_bp ) { // not every body part fit in the window
+        //TODO: account for skipped paired body parts in scrollbar math
+        draw_scrollbar( win, std::max( orig_line, 0 ), height - 1, num_bp, 1 );
+    }
+
 }
 
 bool player::query_yn( const char *mes, ... ) const

@@ -22,6 +22,10 @@ Character::Character()
     dex_cur = 0;
     per_cur = 0;
     int_cur = 0;
+    str_bonus = 0;
+    dex_bonus = 0;
+    per_bonus = 0;
+    int_bonus = 0;
     healthy = 0;
     healthy_mod = 0;
     hunger = 0;

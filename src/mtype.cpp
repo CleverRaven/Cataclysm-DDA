@@ -32,6 +32,9 @@ mtype::mtype ()
     sk_dodge = 0;
     armor_bash = 0;
     armor_cut = 0;
+    armor_stab = 0;
+    armor_acid = 0;
+    armor_fire = 0;
     hp = 0;
     def_chance = 0;
     upgrades = false;

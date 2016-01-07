@@ -1,5 +1,6 @@
 #include <vector>
 #include <string>
+#include <cmath>
 #include "game.h"
 #include "map.h"
 #include "debug.h"
@@ -489,7 +490,8 @@ void player::fire_gun( const tripoint &targ_arg, bool burst )
 
         // Experience gain is limited by range and penalised proportional to inaccuracy.
         int exp = std::min( range, 3 * ( skillLevel( skill_used ) + 1 ) ) * 20;
-        int penalty = sqrt( missed_by * 36 );
+        // Make sure the penalty doesn't become 0
+        int penalty = sqrt( missed_by * 36 ) + 1;
 
         // Even if we are not training we practice the skill to prevent rust.
         practice( skill_used, train_skill ? exp / penalty : 0 );
@@ -773,7 +775,7 @@ static int draw_targeting_window( WINDOW *w_target, item *relevant, player &p, t
 static int find_target( std::vector <Creature *> &t, const tripoint &tpos ) {
     int target = -1;
     for( int i = 0; i < (int)t.size(); i++ ) {
-        if( t[i]->pos3() == tpos ) {
+        if( t[i]->pos() == tpos ) {
             target = i;
             break;
         }
@@ -785,7 +787,7 @@ static void do_aim( player *p, std::vector <Creature *> &t, int &target,
                     item *relevant, const tripoint &tpos )
 {
     // If we've changed targets, reset aim, unless it's above the minimum.
-    if( t[target]->pos3() != tpos ) {
+    if( t[target]->pos() != tpos ) {
         target = find_target( t, tpos );
         // TODO: find radial offset between targets and
         // spend move points swinging the gun around.
@@ -823,7 +825,7 @@ std::vector<tripoint> game::target( tripoint &p, const tripoint &low, const trip
     std::vector<tripoint> ret;
     tripoint from = from_arg;
     if( from == tripoint_min ) {
-        from = u.pos3();
+        from = u.pos();
     }
     int range = ( high.x - from.x );
     // First, decide on a target among the monsters, if there are any in range
@@ -831,7 +833,7 @@ std::vector<tripoint> game::target( tripoint &p, const tripoint &low, const trip
         if( static_cast<size_t>( target ) >= t.size() ) {
             target = 0;
         }
-        p = t[target]->pos3();
+        p = t[target]->pos();
     } else {
         target = -1; // No monsters in range, don't use target, reset to -1
     }
@@ -890,11 +892,11 @@ std::vector<tripoint> game::target( tripoint &p, const tripoint &low, const trip
         // This chunk of code handles shifting the aim point around
         // at maximum range when using circular distance.
         // The range > 1 check ensures that you can alweays at least hit adjacent squares.
-        if(trigdist && range > 1 && std::round(trig_dist( from, p )) > range) {
+        if(trigdist && range > 1 && round(trig_dist( from, p )) > range) {
             bool cont = true;
             tripoint cp = p;
             for (size_t i = 0; i < ret.size() && cont; i++) {
-                if( std::round(trig_dist( from, ret[i] )) > range ) {
+                if( round(trig_dist( from, ret[i] )) > range ) {
                     ret.resize(i);
                     cont = false;
                 } else {
@@ -907,7 +909,7 @@ std::vector<tripoint> game::target( tripoint &p, const tripoint &low, const trip
         if (snap_to_target) {
             center = p;
         } else {
-            center = u.pos3() + u.view_offset;
+            center = u.pos() + u.view_offset;
         }
         // Clear the target window.
         for (int i = 1; i <= getmaxy(w_target) - num_instruction_lines - 2; i++) {

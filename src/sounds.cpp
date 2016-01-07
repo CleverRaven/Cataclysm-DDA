@@ -196,7 +196,7 @@ void sounds::process_sound_markers( player *p )
         const std::string& sfx_id = sound_event_pair.second.id;
         const std::string& sfx_variant = sound_event_pair.second.variant;
         const int max_volume = std::max( volume, sound_event_pair.second.volume );  // For deafness checks
-        int dist = rl_dist( p->pos3(), sound_event_pair.first );
+        int dist = rl_dist( p->pos(), sound_event_pair.first );
         bool ambient = sound_event_pair.second.ambient;
         // Too far away, we didn't hear it!
         if( dist > volume ) {
@@ -257,7 +257,7 @@ void sounds::process_sound_markers( player *p )
         }
         const tripoint &pos = sound_event_pair.first;
         const std::string &description = sound_event_pair.second.description;
-        if( !ambient && ( pos != p->pos3() ) && !g->m.pl_sees( pos, dist ) ) {
+        if( !ambient && ( pos != p->pos() ) && !g->m.pl_sees( pos, dist ) ) {
             if( p->activity.ignore_trivial != true ) {
                 std::string query;
                 if( description.empty() ) {
@@ -277,13 +277,13 @@ void sounds::process_sound_markers( player *p )
         // Only print a description if it exists
         if( !description.empty() ) {
             // If it came from us, don't print a direction
-            if( pos == p->pos3() ) {
+            if( pos == p->pos() ) {
                 std::string uppercased = description;
                 capitalize_letter( uppercased, 0 );
                 add_msg( "%s", uppercased.c_str() );
             } else {
                 // Else print a direction as well
-                std::string direction = direction_name( direction_from( p->pos3(), pos ) );
+                std::string direction = direction_name( direction_from( p->pos(), pos ) );
                 add_msg( m_warning, _( "From the %s you hear %s" ), direction.c_str(), description.c_str() );
             }
         }
@@ -297,7 +297,7 @@ void sounds::process_sound_markers( player *p )
         // If Z coord is different, draw even when you can see the source
         const bool diff_z = pos.z != p->posz();
         // Place footstep markers.
-        if( pos == p->pos3() || p->sees( pos ) ) {
+        if( pos == p->pos() || p->sees( pos ) ) {
             // If we are or can see the source, don't draw a marker.
             continue;
         }
@@ -562,7 +562,7 @@ void sfx::generate_gun_sound( const player &p, const item &firing )
     int distance;
     std::string selected_sound;
     // this does not mean p == g->u (it could be a vehicle turret)
-    if( g->u.pos3() == source ) {
+    if( g->u.pos() == source ) {
         angle = 0;
         distance = 0;
         selected_sound = "fire_gun";
@@ -571,7 +571,7 @@ void sfx::generate_gun_sound( const player &p, const item &firing )
         }
     } else {
         angle = get_heard_angle( source );
-        distance = rl_dist( g->u.pos3(), source );
+        distance = rl_dist( g->u.pos(), source );
         if( distance <= 17 ) {
             selected_sound = "fire_gun";
         } else {
@@ -972,7 +972,7 @@ void sfx::do_obstacle() { }
   * without sound support. */
 /*@{*/
 int sfx::get_heard_volume( const tripoint source ) {
-    int distance = rl_dist( g->u.pos3(), source );
+    int distance = rl_dist( g->u.pos(), source );
     // fract = -100 / 24
     const float fract = -4.166666;
     int heard_volume = fract * distance - 1 + 100;

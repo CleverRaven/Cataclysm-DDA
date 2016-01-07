@@ -31,7 +31,6 @@
         "symbol" : "?",
         "material" : ["paper"],
         "volume" : 3,
-        "bashing" : 0,
         "price" : 0,
         "book_data" : {
             "max_level" : 0,
@@ -3367,7 +3366,7 @@
         "id" : "recipe_serum",
         "name" : "Best Practices for Compound Delivery",
         "name_plural" : "Best Practices for Compound Delivery",
-        "description" : "This internal manual details several varieties of mutagenic experiments, as well as describing the protocols used to concentrate mutagens for quicker results.  The authors recommend that researchers ensure that their subjects are well-fed and in good  health, as the concentrated serums draw heavily on subjects' bodies.",
+        "description" : "This internal manual details several varieties of mutagenic experiments, as well as describing the protocols used to concentrate mutagens for quicker results.  The authors recommend that researchers ensure that their subjects are well-fed and in good health, as the concentrated serums draw heavily on subjects' bodies.",
         "weight" : 1700,
         "volume" : 2,
         "price" : 50000,

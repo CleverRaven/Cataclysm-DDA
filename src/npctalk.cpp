@@ -2659,7 +2659,7 @@ void dialogue::gen_responses( const std::string &topic )
                 SUCCESS("TALK_DENY_TRAIN");
             }
             add_response( _("Let's trade items."), "TALK_NONE", &talk_function::start_trade );
-            if (p->is_following() && g->m.camp_at( g->u.pos3() )) {
+            if (p->is_following() && g->m.camp_at( g->u.pos() )) {
                 add_response( _("Wait at this base."), "TALK_DONE", &talk_function::assign_base );
             }
             if (p->is_following()) {
@@ -3226,7 +3226,7 @@ void talk_function::bulk_trade_accept(npc *p, itype_id it)
 void talk_function::assign_base(npc *p)
 {
     // TODO: decide what to do upon assign? maybe pathing required
-    basecamp* camp = g->m.camp_at( g->u.pos3() );
+    basecamp* camp = g->m.camp_at( g->u.pos() );
     if(!camp) {
         dbg(D_ERROR) << "talk_function::assign_base: Assigned to base but no base here.";
         return;

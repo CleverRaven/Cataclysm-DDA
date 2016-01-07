@@ -20300,12 +20300,611 @@
           ]
         },
         {
+          "id": "overlay_wielded_cx4",
+          "fg": 3646,
+          "rotates": false
+        },
+        {
+          "id": "overlay_wielded_tec9",
+          "fg": 3647,
+          "rotates": false
+        },
+        {
+          "id": "overlay_wielded_savage_111f",
+          "fg": 3648,
+          "rotates": false
+        },
+        {
+          "id": "savage_111f",
+          "fg": 3649,
+          "bg": 632,
+          "rotates": false
+        },
+        {
+          "id": "overlay_wielded_nailgun",
+          "fg": 3652,
+          "rotates": false
+        },
+        {
+          "id": "nailgun",
+          "fg": 3653,
+          "bg": 632,
+          "rotates": false
+        },
+        {
+          "id": "nailrifle",
+          "fg": 3655,
+          "bg": 632,
+          "rotates": false
+        },
+        {
+          "id": "overlay_wielded_nailrifle",
+          "fg": 3654,
+          "rotates": false
+        },
+        {
+          "id": "overlay_wielded_helsing",
+          "fg": 3656,
+          "rotates": false
+        },
+        {
+          "id": "overlay_wielded_marlin_9a",
+          "fg": 3644,
+          "rotates": false
+        },
+        {
+          "id": "marlin_9a",
+          "fg": 3645,
+          "rotates": false
+        },
+        {
+          "id": "overlay_wielded_helsing",
+          "fg": 3656,
+          "rotates": false
+        },
+        {
+          "id": "helsing",
+          "fg": 3657,
+          "bg": 632,
+          "rotates": false
+        },
+        {
+          "id": "overlay_wielded_hk_g3",
+          "fg": 3658,
+          "rotates": false
+        },
+        {
+          "id": "hk_g3",
+          "fg": 3659,
+          "rotates": false
+        },
+        {
+          "id": "overlay_wielded_remington_870",
+          "fg": 3660,
+          "rotates": false
+        },
+        {
+          "id": "remington_870",
+          "fg": 3661,
+          "rotates": false
+        },
+        {
+          "id": "overlay_wielded_ak47",
+          "fg": 3662,
+          "rotates": false
+        },
+        {
+          "id": "ak47",
+          "fg": 3663,
+          "rotates": false
+        },
+        {
+          "id": "overlay_worn_helmet_chitin",
+          "fg": 3664,
+          "rotates": false
+        },
+        {
+          "id": "overlay_wielded_marlin_9a",
+          "fg": 3644,
+          "rotates": false
+        },
+        {
+          "id": "arccan",
+          "fg": 3651,
+          "bg": 632,
+          "rotates": false
+        },
+        {
+          "id": "ltcarb",
+          "fg": 3643,
+          "bg": 632,
+          "rotates": false
+        },
+        {
+          "id": "overlay_wielded_arccan",
+          "fg": 3650,
+          "rotates": false
+        },
+        {
+          "id": "overlay_wielded_ltcarb",
+          "fg": 3642,
+          "rotates": false
+        },
+        {
+          "id": "overlay_male_worn_bondage_suit",
+          "fg": 3760,
+          "rotates": false
+        },
+        {
+          "id": "overlay_female_worn_bondage_suit",
+          "fg": 3761,
+          "rotates": false
+        },
+        {
+          "id": "overlay_male_worn_winter_jacket_army",
+          "fg": 3731,
+          "rotates": false
+        },
+        {
+          "id": "overlay_female_worn_winter_jacket_army",
+          "fg": 3732,
+          "rotates": false
+        },
+        {
+          "id": "overlay_male_worn_jacket_army",
+          "fg": 3733,
+          "rotates": false
+        },
+        {
+          "id": "overlay_female_worn_jacket_army",
+          "fg": 3734,
+          "rotates": false
+        },
+        {
+          "id": "overlay_worn_mask_fsurvivor",
+          "fg": 3692,
+          "rotates": false
+        },
+        {
+          "id": "overlay_worn_mask_fsurvivorxl",
+          "fg": 3692,
+          "rotates": false
+        },
+        {
+          "id": "overlay_worn_firehelmet",
+          "fg": 3693,
+          "rotates": false
+        },
+        {
+          "id": "overlay_female_worn_swat_armor",
+          "fg": 3740,
+          "bg": 632,
+          "rotates": false
+        },
+        {
+          "id": "overlay_male_worn_swat_armor",
+          "fg": 3739,
+          "bg": 632,
+          "rotates": false
+        },
+        {
+          "id": "armor_scrapsuit",
+          "fg": 3730,
+          "bg": 632,
+          "rotates": false
+        }, 
+        {
+          "id": "nomex_hood",
+          "fg": 3694,
+          "bg": 632,
+          "rotates": false
+        },
+        {
+          "id": "overlay_worn_nomex_hood",
+          "fg": 3694,
+          "bg": 632,
+          "rotates": false
+        },
+        {
+          "id": "nomex_suit",
+          "fg": 3695,
+          "bg": 632,
+          "rotates": false
+        },
+        {
+          "id": "overlay_worn_bunker_coat",
+          "fg": 3695,
+          "rotates": false
+        },
+        {
+          "id": "overlay_worn_helmet_larmor",
+          "fg": 3696,
+          "rotates": false
+        },
+        {
+          "id": "overlay_worn_boots_larmor",
+          "fg": 3698,
+          "rotates": false
+        },
+        {
+          "id": "overlay_male_worn_gauntlets_bone",
+          "fg": 3677,
+          "rotates": false
+        },
+        {
+          "id": "overlay_female_worn_gauntlets_bone",
+          "fg": 3674,
+          "rotates": false
+        },
+        {
+          "id": "gauntlets_bone",
+          "fg": 3198,
+          "rotates": false
+        },
+        {
+          "id": "overlay_worn_helmet_chitin",
+          "fg": 3664,
+          "rotates": false
+        },
+        {
+          "id": "overlay_worn_gauntlets_larmor",
+          "fg": 3699,
+          "rotates": false
+        },
+        {
+          "id": "helmet_hsurvivor",
+          "fg": 3687
+        },
+        {
+          "id": "overlay_worn_helmet_hsurvivor",
+          "fg": 3681,
+          "rotates": false
+        },{
+          "id": "overlay_female_worn_hsurvivor_suit",
+          "fg": 3682,
+          "rotates": false
+        },
+        {
+          "id": "overlay_male_worn_hsurvivor_suit",
+          "fg": 3684,
+          "rotates": false
+        },
+        {
+          "id": "overlay_worn_boots_hsurvivor",
+          "fg": 3685,
+          "rotates": false
+        },
+        {
+          "id": "overlay_worn_gloves_hsurvivor",
+          "fg": 3686,
+          "rotates": false
+        },
+        {
+          "id": "overlay_worn_gloves_survivor",
+          "fg": 3686,
+          "rotates": false
+        },
+        {
+          "id": "overlay_worn_lsurvivor_suit",
+          "fg": 504,
+          "rotates": false
+        },
+        {
+          "id": "overlay_female_worn_survivor_suit",
+          "fg": 3682,
+          "rotates": false
+        },
+        {
+          "id": "overlay_male_worn_survivor_suit",
+          "fg": 3684,
+          "rotates": false
+        },
+        {
+          "id": "overlay_worn_mask_hsurvivor",
+          "fg": 3687,
+          "rotates": false
+        },
+        {
+          "id": "mask_hsurvivor",
+          "fg": 3688,
+          "bg": 632,
+          "rotates": false
+        },
+        {
+          "id": "hsurvivor_suit",
+          "fg": 3689,
+          "bg": 632,
+          "rotates": false
+        },
+        {
+          "id": "overlay_worn_helmet_xlsurvivor",
+          "fg": 372,
+          "rotates": false
+        },
+        {
+          "id": "helmet_xlsurvivor",
+          "fg": 372
+        },
+        {
+          "id": "helmet_larmor",
+          "fg": 3701,
+          "bg": 632,
+          "rotates": false
+        },
+        {
+          "id": "armor_blarmor",
+          "fg": 3702,
+          "bg": 632,
+          "rotates": false
+        },
+        {
+          "id": "armor_chitin",
+          "fg": 3670,
+          "bg": 632,
+          "rotates": false
+        },
+        {
+          "id": "helmet_chitin",
+          "fg": 3671,
+          "bg": 632,
+          "rotates": false
+        },
+        {
+          "id": "armor_bone",
+          "fg": 3679,
+          "bg": 632,
+          "rotates": false
+        },
+        {
+          "id": "overlay_worn_helmet_bone",
+          "fg": 3672,
+          "bg": 632,
+          "rotates": false
+        },
+        {
+          "id": "overlay_female_worn_armor_blarmor",
+          "fg": 3697,
+          "rotates": false
+        },
+        {
+          "id": "overlay_male_worn_armor_blarmor",
+          "fg": 3700,
+          "rotates": false
+        },
+        {
+          "id": "overlay_male_worn_armor_bone",
+          "fg": 3676,
+          "rotates": false
+        },
+        {
+          "id": "overlay_female_worn_armor_bone",
+          "fg": 3673,
+          "rotates": false
+        },
+        {
+          "id": "helmet_bone",
+          "fg": 3680,
+          "bg": 632,
+          "rotates": false
+        },
+        {
+          "id": "armor_farmor",
+          "fg": 244,
+          "bg": 632,
+          "rotates": false
+        },
+        {
+          "id": "armor_larmor",
+          "fg": 3702,
+          "bg": 632,
+          "rotates": false
+        },
+        {
+          "id": "overlay_worn_nomex_gloves",
+          "fg": 3710,
+          "rotates": false
+        },
+        {
+          "id": "overlay_worn_bunker_pants",
+          "fg": 3711,
+          "bg": 632,
+          "rotates": false
+        },
+        {
+          "id": "overlay_worn_power_armor_helmet_heavy",
+          "fg": 3712,
+          "rotates": false
+        },
+        {
+          "id": "overlay_worn_power_armor_helmet_basic",
+          "fg": 3715,
+          "rotates": false
+        },
+        {
+          "id": "overlay_worn_depowered_helmet",
+          "fg": 526,
+          "rotates": false
+        },
+        {
+          "id": "overlay_worn_power_armor_helmet_light",
+          "fg": 3718,
+          "rotates": false
+        },
+        {
+          "id": "power_armor_basic",
+          "fg": 3716,
+          "bg": 632,
+          "rotates": false
+        },
+        {
+          "id": "power_armor_frame",
+          "fg": 566,
+          "bg": 632,
+          "rotates": false
+        },
+        {
+          "id": "power_armor_heavy",
+          "fg": 3713,
+          "bg": 632,
+          "rotates": false
+        },
+        {
+          "id": "power_armor_helmet_basic",
+          "fg": 3717,
+          "bg": 632,
+          "rotates": false
+        },
+        {
+          "id": "power_armor_helmet_heavy",
+          "fg": 3714,
+          "bg": 632,
+          "rotates": false
+        },
+        {
+          "id": "power_armor_helmet_light",
+          "fg": 3720,
+          "bg": 632,
+          "rotates": false
+        },
+        {
+          "id": "power_armor_light",
+          "fg": 3719,
+          "bg": 632,
+          "rotates": false
+        },
+        {
+          "id": "anbc_suit",
+          "fg": 3721,
+          "rotates": false
+        },
+        {
+          "id": "overlay_female_worn_anbc_suit",
+          "fg": 3722,
+          "rotates": false
+        },
+        {
+          "id": "overlay_male_worn_anbc_suit",
+          "fg": 3721,
+          "rotates": false
+        },
+        {
+          "id": "overlay_female_worn_hazmat_suit",
+          "fg": 3724,
+          "rotates": false
+        },
+        {
+          "id": "entry_suit",
+          "fg": 3725
+        },
+        {
+          "id": "overlay_worn_entry_suit",
+          "fg": 3725
+        },
+        {
+          "id": "overlay_male_worn_hazmat_suit",
+          "fg": 3723,
+          "rotates": false
+        },
+        {
+          "id": "overlay_female_worn_cleansuit",
+          "fg": 3736,
+          "rotates": false
+        },
+        {
+          "id": "overlay_male_worn_cleansuit",
+          "fg": 3735,
+          "rotates": false
+        },
+        {
+          "id": "overlay_female_worn_aep_suit",
+          "fg": 3738,
+          "rotates": false
+        },
+        {
+          "id": "overlay_male_worn_aep_suit",
+          "fg": 3737,
+          "rotates": false
+        },
+        {
+          "id": "overlay_male_worn_armor_scrapsuit",
+          "fg": 3728,
+          "rotates": false
+        },
+        {
+          "id": "overlay_female_worn_armor_scrapsuit",
+          "fg": 3729,
+          "rotates": false
+        },
+        {
+          "id": "overlay_male_worn_football_armor",
+          "fg": 3744,
+          "rotates": false
+        },
+        {
+          "id": "overlay_female_worn_football_armor",
+          "fg": 3745,
+          "rotates": false
+        },
+        {
+          "id": "overlay_female_worn_armor_chitin",
+          "fg": 3665,
+          "rotates": false
+        },
+        {
+          "id": "overlay_male_worn_boots_bone",
+          "fg": 3678,
+          "rotates": false
+        },
+        {
+          "id": "overlay_female_worn_boots_bone",
+          "fg": 3675,
+          "rotates": false
+        },
+        {
+          "id": "overlay_female_worn_boots_chitin",
+          "fg": 3666,
+          "rotates": false
+        },
+        {
+          "id": "overlay_worn_armguard_chitin",
+          "fg": 3667,
+          "rotates": false
+        },
+        {
+          "id": "overlay_male_worn_boots_chitin",
+          "fg": 3669,
+          "rotates": false
+        },
+        {
+          "id": "overlay_male_worn_armor_chitin",
+          "fg": 3668,
+          "rotates": false
+        },
+        {
           "id": "t_tree",
           "fg": 2175,
           "bg": 640,
           "rotates": false
         },
-        {
+        { 
+            "id": "t_tree_hickory",
+            "fg": 3591,
+            "bg": 632,
+            "rotates": false
+          },
+          {
+            "id": "t_tree_hickory_harvested",
+            "fg": 3592,
+            "bg": 632,
+            "rotates": false
+          },
+          {
+            "id": "t_tree_hickory_season_winter",
+            "fg": 3593,
+            "bg": 632,
+             "rotates": false
+          },
+         { 
           "id": "t_tree_birch",
           "fg": 3559,
           "bg": 640,
@@ -22127,6 +22726,12 @@
         {
           "id": "mon_shia",
           "fg": 3626,
+          "bg": 642,
+          "rotates": false
+        },
+        {
+          "id": "mon_zombie_shady",
+          "fg": 3632,
           "bg": 642,
           "rotates": false
         },
@@ -29896,6 +30501,27 @@
         {
           "id": "t_window",
           "fg": [2938, 2904, 2938, 2904],
+          "rotates": true
+        },
+        {
+          "fg": [
+            2938,
+            2904,
+            2938,
+            2904
+          ],
+          "id": "t_window_no_curtains",
+          "rotates": true
+        },
+        {
+          "bg": 661,
+          "fg": [
+            2939,
+            2912,
+            2939,
+            2912
+          ],
+          "id": "t_window_no_curtains_open",
           "rotates": true
         },
         {

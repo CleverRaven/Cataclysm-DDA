@@ -1927,40 +1927,6 @@
   ]
 },{
   "type" : "recipe",
-  "result": "nx17",
-  "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_RANGED",
-  "skill_used": "electronics",
-  "skills_required": [ "mechanics", 5 ],
-  "difficulty": 8,
-  "time": 40000,
-  "reversible": true,
-  "decomp_learn": 9,
-  "autolearn": false,
-  "book_learn": [[ "recipe_lab_elec", 5 ]],
-  "qualities":[
-    {"id":"SAW_M_FINE","level":1,"amount":1}
-  ], "tools": [
-    [
-      [ "soldering_iron", 6 ],
-      [ "toolset", 6 ],
-      [ "small_repairkit", 6 ],
-      [ "large_repairkit", 3 ]
-    ]
-  ],
-  "components": [
-    [
-      [ "vacutainer", 1 ]
-    ],
-    [
-      [ "power_supply", 8 ]
-    ],
-    [
-      [ "amplifier", 8 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
   "result": "mininuke",
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_EXPLOSIVE",
@@ -4775,6 +4741,7 @@
   "time": 1000,
   "reversible": true,
   "autolearn": true,
+  "flags": ["BLIND_HARD"],
   "components": [
     [
       [ "rock", 1 ]

@@ -251,7 +251,6 @@ void Item_factory::init()
     iuse_function_list["PORTABLE_STRUCTURE"] = &iuse::portable_structure;
     iuse_function_list["TORCH_LIT"] = &iuse::torch_lit;
     iuse_function_list["BATTLETORCH_LIT"] = &iuse::battletorch_lit;
-    iuse_function_list["BULLET_PULLER"] = &iuse::bullet_puller;
     iuse_function_list["BOLTCUTTERS"] = &iuse::boltcutters;
     iuse_function_list["MOP"] = &iuse::mop;
     iuse_function_list["SPRAY_CAN"] = &iuse::spray_can;
@@ -828,6 +827,7 @@ void Item_factory::load_container(JsonObject &jo)
 void Item_factory::load( islot_seed &slot, JsonObject &jo )
 {
     slot.grow = jo.get_int( "grow" );
+    slot.fruit_div = jo.get_int( "fruit_div", 1 );
     slot.plant_name = _( jo.get_string( "plant_name" ).c_str() );
     slot.fruit_id = jo.get_string( "fruit" );
     slot.spawn_seeds = jo.get_bool( "seeds", true );
@@ -932,34 +932,34 @@ void Item_factory::load_basic_info(JsonObject &jo, itype *new_item_template)
     m_templates[new_id] = new_item_template;
 
     // And then proceed to assign the correct field
-    new_item_template->price = jo.get_int("price");
-    new_item_template->name = jo.get_string("name").c_str();
-    if (jo.has_member("name_plural")) {
-        new_item_template->name_plural = jo.get_string("name_plural").c_str();
+    new_item_template->price = jo.get_int( "price" );
+    new_item_template->name = jo.get_string( "name" ).c_str();
+    if( jo.has_member( "name_plural" ) ) {
+        new_item_template->name_plural = jo.get_string( "name_plural" ).c_str();
     } else {
-        // default behaviour: Assume the regular plural form (appending an “s”)
-        new_item_template->name_plural = (jo.get_string("name") + "s").c_str();
+        // default behavior: Assume the regular plural form (appending an “s”)
+        new_item_template->name_plural = ( jo.get_string( "name" ) + "s" ).c_str();
     }
-    new_item_template->sym = jo.get_string("symbol")[0];
-    new_item_template->color = color_from_string(jo.get_string("color"));
+    new_item_template->sym = jo.get_string( "symbol" )[0];
+    new_item_template->color = color_from_string( jo.get_string( "color" ) );
     std::string temp_desc;
-    temp_desc = jo.get_string("description");
-    if ( !temp_desc.empty() ) {
-        new_item_template->description = _(jo.get_string("description").c_str());
+    temp_desc = jo.get_string( "description" );
+    if( !temp_desc.empty() ) {
+        new_item_template->description = _( jo.get_string( "description" ).c_str() );
     } else {
         new_item_template->description = "";
     }
-    if( jo.has_member("material") ){
+    if( jo.has_member( "material" ) ) {
         set_material_from_json( jo, "material", new_item_template );
     } else {
-        new_item_template->materials.push_back("null");
+        new_item_template->materials.push_back( "null" );
     }
     new_item_template->phase = jo.get_enum_value( "phase", SOLID );
-    new_item_template->volume = jo.get_int("volume");
-    new_item_template->weight = jo.get_int("weight");
-    new_item_template->melee_dam = jo.get_int("bashing");
-    new_item_template->melee_cut = jo.get_int("cutting", 0);
-    new_item_template->m_to_hit = jo.get_int("to_hit");
+    new_item_template->volume = jo.get_int( "volume" );
+    new_item_template->weight = jo.get_int( "weight" );
+    new_item_template->melee_dam = jo.get_int( "bashing", 0 );
+    new_item_template->melee_cut = jo.get_int( "cutting", 0 );
+    new_item_template->m_to_hit = jo.get_int( "to_hit" );
 
     new_item_template->min_str = jo.get_int( "min_strength",     0 );
     new_item_template->min_dex = jo.get_int( "min_dexterity",    0 );

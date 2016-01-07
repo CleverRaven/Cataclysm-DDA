@@ -688,26 +688,33 @@ void cata_tiles::load_tilejson_from_file( JsonObject &config, int offset, int si
     while( tiles.has_more() ) {
         JsonObject entry = tiles.next_object();
 
-        std::string t_id = entry.get_string( "id" );
-        tile_type &curr_tile = load_tile( entry, t_id, offset, size );
-        bool t_multi = entry.get_bool( "multitile", false );
-        bool t_rota = entry.get_bool( "rotates", t_multi );
-        if( t_multi ) {
-            // fetch additional tiles
-            JsonArray subentries = entry.get_array( "additional_tiles" );
-            while( subentries.has_more() ) {
-                JsonObject subentry = subentries.next_object();
-                const std::string s_id = subentry.get_string( "id" );
-                const std::string m_id = t_id + "_" + s_id;
-                tile_type &curr_subtile = load_tile( subentry, m_id, offset, size );
-                curr_subtile.rotates = true;
-                curr_tile.available_subtiles.push_back( s_id );
+        std::vector<std::string> ids;
+        if( entry.has_string( "id" ) ) {
+            ids.push_back( entry.get_string( "id" ) );
+        } else if( entry.has_array( "id" ) ) {
+            ids = entry.get_string_array( "id" );
+        }
+        for( auto t_id : ids ) {
+            tile_type &curr_tile = load_tile( entry, t_id, offset, size );
+            bool t_multi = entry.get_bool( "multitile", false );
+            bool t_rota = entry.get_bool( "rotates", t_multi );
+            if( t_multi ) {
+                // fetch additional tiles
+                JsonArray subentries = entry.get_array( "additional_tiles" );
+                while( subentries.has_more() ) {
+                    JsonObject subentry = subentries.next_object();
+                    const std::string s_id = subentry.get_string( "id" );
+                    const std::string m_id = t_id + "_" + s_id;
+                    tile_type &curr_subtile = load_tile( subentry, m_id, offset, size );
+                    curr_subtile.rotates = true;
+                    curr_tile.available_subtiles.push_back( s_id );
+                }
             }
+            // write the information of the base tile to curr_tile
+            curr_tile.multitile = t_multi;
+            curr_tile.rotates = t_rota;
         }
 
-        // write the information of the base tile to curr_tile
-        curr_tile.multitile = t_multi;
-        curr_tile.rotates = t_rota;
     }
     dbg( D_INFO ) << "Tile Width: " << tile_width << " Tile Height: " << tile_height <<
                   " Tile Definitions: " << tile_ids.size();
@@ -1126,7 +1133,7 @@ bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
     }
 
     if (it == tile_ids.end()) {
-        long sym = -1;
+        uint32_t sym = UNKNOWN_UNICODE;
         nc_color col = c_white;
         if (category == C_FURNITURE) {
             if (furnmap.count(id) > 0) {
@@ -1193,7 +1200,7 @@ bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
             case LINE_XXXX: sym = LINE_XXXX_C; break;
             default: break; // sym goes unchanged
         }
-        if (sym != 0 && sym < 256 && sym >= 0) {
+        if( sym != 0 && sym < 256 ) {
             // see cursesport.cpp, function wattron
             const int pairNumber = (col & A_COLOR) >> 17;
             const pairs &colorpair = colorpairs[pairNumber];

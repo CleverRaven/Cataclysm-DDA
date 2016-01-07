@@ -446,12 +446,21 @@ void MonsterGenerator::load_monster(JsonObject &jo)
         newmon->sk_dodge = jo.get_int("dodge", 0);
         newmon->armor_bash = jo.get_int("armor_bash", 0);
         newmon->armor_cut = jo.get_int("armor_cut", 0);
+        newmon->armor_acid = jo.get_int("armor_acid", newmon->armor_cut / 2);
+        newmon->armor_fire = jo.get_int("armor_fire", 0);
         newmon->hp = jo.get_int("hp", 0);
         jo.read("starting_ammo", newmon->starting_ammo);
         newmon->luminance = jo.get_float("luminance", 0);
         newmon->revert_to_itype = jo.get_string( "revert_to_itype", "" );
         newmon->vision_day = jo.get_int("vision_day", 40);
         newmon->vision_night = jo.get_int("vision_night", 1);
+
+        // Stab armor is optional, use 80% cut armor if it isn't set
+        if( jo.has_int("armor_stab") ) {
+            newmon->armor_stab = jo.get_int("armor_stab", 0);
+        } else {
+            newmon->armor_stab = 0.8f * newmon->armor_cut;
+        }
 
         if (jo.has_array("attack_effs")) {
             JsonArray jsarr = jo.get_array("attack_effs");

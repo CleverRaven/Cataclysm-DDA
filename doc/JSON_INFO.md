@@ -219,22 +219,18 @@ The syntax listed here is still valid.
 "reversible": false,         // Can be disassembled.
 "autolearn": true,           // Automatically learned upon gaining required skills
 "batch_time_factors": [25, 15], // Optional factors for batch crafting time reduction. First number specifies maximum crafting time reduction as percentage, and the second number the minimal batch size to reach that number. In this example given batch size of 20 the last 6 crafts will take only 3750 time units.
-"tools": [                   // Tools needed to craft
-[                            // Equivalent tools are surrounded by a single set of brackets []
-  [ "hatchet", -1 ],         // Charges consumed when tool is used, -1 means no charges are consumed
-  [ "knife_steak", -1 ],
-  [ "knife_combat", -1 ],
-  [ "knife_butcher", -1 ],
-  [ "pockknife", -1 ],
-  [ "scalpel", -1 ],
-  [ "machete", -1 ],
-  [ "broadsword", -1 ],
-  [ "toolset", -1 ]
+"flags": [                   // A set of strings describing boolean features of the recipe
+  "BLIND_EASY",
+  "ANOTHERFLAG"
+], 
+"qualities": [               // Generic qualities of tools needed to craft
+  {"id":"CUT","level":1,"amount":1}
 ],
+"tools": [                   // Specific tools needed to craft
 [
-    [ "fire", -1 ]
+    [ "fire", -1 ]           // Charges consumed when tool is used, -1 means no charges are consumed
 ]],
-"components": [              // Equivalent components are surrounded by a single set of brackets
+"components": [              // Equivalent tools or components are surrounded by a single set of brackets
 [
   [ "spear_wood", 1 ],       // Number of charges/items required
   [ "pointy_stick", 1 ]
@@ -374,8 +370,8 @@ The syntax listed here is still valid.
 "material" : "plastic", // Material types.  See materials.json for possible options
 "volume" : 2,         // Volume, measured in 1/4 liters
 "weight" : 34,        // Weight, measured in grams
-"bashing" : 1,        // Bashing damage caused by using it as a melee weapon
-"cutting" : 0,        // Cutting damage caused by using it as a melee weapon (optional parameter, default value is 0).
+"bashing" : 1,        // (Optional, default = 0) Bashing damage caused by using it as a melee weapon.
+"cutting" : 0,        // (Optional, default = 0) Cutting damage caused by using it as a melee weapon.
 "to_hit" : 0,         // To-hit bonus if using it as a melee weapon
 "ammo_type" : "shot", // Determines what it can be loaded in
 "damage" : 18,        // Ranged damage when fired
@@ -621,6 +617,7 @@ Every item type can have optional seed data, if the item has seed data, it's con
 "seed_data" : {
     "fruits": "weed", // The item id of the fruits that this seed will produce.
     "seeds": false, // (optional, default is true). If true, harvesting the plant will spawn seeds (the same type as the item used to plant). If false only the fruits are spawned, no seeds.
+    "fruit_div": 2, // (optional, default is 1). Final amount of fruit charges produced is divided by this number. Works only if fruit item is counted by charges.
     "byproducts": ["withered", "straw_pile"], // A list of further items that should spawn upon harvest.
     "plant_name": "sunflower", // The name of the plant that grows from this seed. This is only used as information displayed to the user.
     "grow" : 91 // Time it takes for a plant to fully mature. Based around a 91 day season length (roughly a real world season) to give better accuracy for longer season lengths
@@ -1172,4 +1169,92 @@ The terrain / furniture that will be set after the original has been deconstruct
     "forbidden_traits": [ "PROF_MED" ], // Traits that can explicitly not be chosen at start.
     "map_special": "mx_helicopter",  // (optional) Add a map special to the starting location, see JSON_FLAGS for the possible specials.
 }
+```
+
+###TILE_CONFIG
+Each tileset has a tile_config.json describing how to map the contents of a sprite sheet to various tile identifiers, different orientations, etc. Example:
+```JSON
+  {                                             // whole file is a single object
+    "tile_info": [                              // tile_info is mandatory
+      {
+        "height": 32,
+        "width": 32
+      }
+    ],
+    "tiles-new": [                              // tiles-new is an array of sprite sheets
+      {                                           //   alternately, just one "tiles" array
+        "file": "tiles.png",                      // file containing sprites in a grid
+        "tiles": [                                // array with one entry per tile
+          {
+            "id": "10mm",                         // id is how the game maps things to sprites
+            "fg": 1,                              //   lack of prefix mostly indicates items
+            "bg": 632,                            // fg and bg can be sprite indexes in the image
+            "rotates": false
+          },
+          {
+            "id": "t_wall",                       // "t_" indicates terrain
+            "fg": [2918, 2919, 2918, 2919],       // 2 or 4 sprite numbers indicates pre-rotated
+            "bg": 633,
+            "rotates": true,
+            "multitile": true,
+            "additional_tiles": [                 // connected/combined versions of sprite
+              {                                   //   or variations, see below
+                "id": "center",
+                "fg": [2919, 2918, 2919, 2918]
+              },
+              {
+                "id": "corner",
+                "fg": [2924, 2922, 2922, 2923]
+              },
+              {
+                "id": "end_piece",
+                "fg": [2918, 2919, 2918, 2919]
+              },
+              {
+                "id": "t_connection",
+                "fg": [2919, 2918, 2919, 2918]
+              },
+              {
+                "id": "unconnected",
+                "fg": 2235
+              }
+            ]
+          },
+          {
+            "id": "vp_atomic_lamp",               // "vp_" vehicle part
+            "fg": 3019,
+            "bg": 632,
+            "rotates": false,
+            "multitile": true,
+            "additional_tiles": [
+              {
+                "id": "broken",                   // variant sprite
+                "fg": 3021
+              }
+            ]
+          },
+          {
+            "id": "t_dirt",
+            "rotates": false,
+            "fg": [
+              { "weight":50, "sprite":640},       // weighted random variants
+              { "weight":1, "sprite":3620},
+              { "weight":1, "sprite":3621},
+              { "weight":1, "sprite":3622}
+            ]
+          }
+        ]
+      },
+      {                                           // second entry in tiles-new
+        "file": "moretiles.png",                  // another sprite sheet
+        "tiles": [
+          {
+            "id": ["xxx","yyy"],                  // define two ids at once
+            "fg": 1,
+            "bg": 234
+          }
+        ]
+      }
+    ]
+  }
 ```

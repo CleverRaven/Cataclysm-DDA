@@ -3242,7 +3242,7 @@ int iuse::crowbar(player *p, item *it, bool, const tripoint &pos)
 {
     // TODO: Make this 3D now that NPCs get to use items
     tripoint dirp = pos;
-    if( pos == p->pos3() ) {
+    if( pos == p->pos() ) {
         if( !choose_adjacent(_("Pry where?"), dirp ) ) {
             return 0;
         }
@@ -3930,7 +3930,7 @@ int iuse::geiger(player *p, item *it, bool t, const tripoint &pos)
             break;
         case 2:
             p->add_msg_if_player(m_info, _("The ground's radiation level: %d"),
-                                 g->m.get_radiation( p->pos3() ) );
+                                 g->m.get_radiation( p->pos() ) );
             break;
         case 3:
             p->add_msg_if_player(_("The geiger counter's scan LED turns on."));
@@ -4250,7 +4250,7 @@ int iuse::acidbomb_act(player *p, item *it, bool, const tripoint &pos)
         int &x = tmp.x;
         int &y = tmp.y;
         if (tmp.x == -999) {
-            tmp = p->pos3();
+            tmp = p->pos();
         }
         it->charges = -1;
         for ( x = pos.x - 1; x <= pos.x + 1; x++) {
@@ -5330,73 +5330,10 @@ int iuse::battletorch_lit(player *p, item *it, bool t, const tripoint &pos)
     return it->type->charges_to_use();
 }
 
-iuse::bullet_pulling_t iuse::bullet_pulling_recipes;
-
-void iuse::reset_bullet_pulling()
-{
-    bullet_pulling_recipes.clear();
-}
-
-void iuse::load_bullet_pulling(JsonObject &jo)
-{
-    const std::string type = jo.get_string("bullet");
-    result_list_t &recipe = bullet_pulling_recipes[type];
-    // Allow mods that are later loaded to override previously loaded recipes
-    recipe.clear();
-    JsonArray ja = jo.get_array("items");
-    while (ja.has_more()) {
-        JsonArray itm = ja.next_array();
-        recipe.push_back(result_t(itm.get_string(0), itm.get_int(1)));
-    }
-}
-
-int iuse::bullet_puller(player *p, item *it, bool, const tripoint& )
-{
     if( p->is_npc() ) {
         // Uses NPC inventory, disarms them
         return 0;
     }
-
-    if (p->is_underwater()) {
-        p->add_msg_if_player(m_info, _("You can't do that while underwater."));
-        return 0;
-    }
-    int inventory_index = g->inv(_("Disassemble what?"));
-    item *pull = &(p->i_at(inventory_index));
-    if (pull->is_null()) {
-        add_msg(m_info, _("You do not have that item!"));
-        return 0;
-    }
-    bullet_pulling_t::const_iterator a = bullet_pulling_recipes.find(pull->type->id);
-    if (a == bullet_pulling_recipes.end()) {
-        add_msg(m_info, _("You cannot disassemble that."));
-        return 0;
-    }
-    ///\EFFECTS_GUN >1 allows disassembling ammunition
-    if (p->skillLevel( skill_id( "gun" ) ) < 2) {
-        add_msg(m_info, _("You need to be at least level 2 in the firearms skill before you can disassemble ammunition."));
-        return 0;
-    }
-    const long multiply = std::min<long>(20, pull->charges);
-    pull->charges -= multiply;
-    if (pull->charges == 0) {
-        p->i_rem(inventory_index);
-    }
-    const result_list_t &recipe = a->second;
-    for( const auto &elem : recipe ) {
-        int count = elem.second * multiply;
-        item new_item( elem.first, calendar::turn );
-        if (new_item.count_by_charges()) {
-            new_item.charges = count;
-            count = 1;
-        }
-        p->i_add_or_drop(new_item, count);
-    }
-    add_msg(_("You take apart the ammunition."));
-    p->moves -= 500;
-    p->practice( skill_fabrication, rng(1, multiply / 5 + 1));
-    return it->type->charges_to_use();
-}
 
 int iuse::boltcutters(player *p, item *it, bool, const tripoint &pos )
 {
@@ -5699,7 +5636,7 @@ int iuse::artifact(player *p, item *it, bool, const tripoint& )
                 break;
 
             case AEA_GROWTH: {
-                monster tmptriffid( NULL_ID, p->pos3() );
+                monster tmptriffid( NULL_ID, p->pos() );
                 mattack::growplants(&tmptriffid);
             }
             break;
@@ -5777,7 +5714,7 @@ int iuse::artifact(player *p, item *it, bool, const tripoint& )
 
             case AEA_FLASH:
                 p->add_msg_if_player(_("The %s flashes brightly!"), it->tname().c_str());
-                g->flashbang( p->pos3() );
+                g->flashbang( p->pos() );
                 break;
 
             case AEA_VOMIT:
@@ -5859,7 +5796,7 @@ int iuse::handle_ground_graffiti(player *p, item *it, const std::string prefix)
     if( message.empty() ) {
         return 0;
     } else {
-        const auto where = p->pos3();
+        const auto where = p->pos();
         int move_cost;
         if( message == "." ) {
             if( g->m.has_graffiti_at( where ) ) {
@@ -6456,7 +6393,7 @@ int iuse::robotcontrol(player *p, item *it, bool, const tripoint& )
             for( size_t i = 0; i < g->num_zombies(); ++i ) {
                 monster &candidate = g->zombie( i );
                 if( candidate.type->in_species( ROBOT ) && candidate.friendly == 0 &&
-                    rl_dist( p->pos3(), candidate.pos3() ) <= 10 ) {
+                    rl_dist( p->pos(), candidate.pos() ) <= 10 ) {
                     mons.push_back( &candidate );
                     pick_robot.addentry( entry_num++, true, MENU_AUTOASSIGN, candidate.name() );
                     tripoint seen_loc;
@@ -7629,13 +7566,13 @@ void sendRadioSignal(player *p, std::string signal)
             auto tmp = dynamic_cast<const it_tool *>(it.type);
             if( it.has_flag("RADIO_INVOKE_PROC") ) {
                 // Invoke twice: first to transform, then later to proc
-                tmp->invoke( p, &it, p->pos3() );
+                tmp->invoke( p, &it, p->pos() );
                 it.charges = 0;
                 // The type changed
                 tmp = dynamic_cast<const it_tool *>(it.type);
             }
 
-            tmp->invoke(p, &it, p->pos3());
+            tmp->invoke(p, &it, p->pos());
         }
     }
 
@@ -8158,7 +8095,7 @@ int iuse::multicooker(player *p, item *it, bool t, const tripoint &pos)
                     return 0;
                 }
 
-                for (auto it : meal->requirements.components) {
+                for( auto it : meal->requirements.get_components() ) {
                     p->consume_items(it);
                 }
 
@@ -8267,7 +8204,7 @@ int iuse::cable_attach(player *p, item *it, bool, const tripoint& )
             it->set_var( "source_x", abspos.x );
             it->set_var( "source_y", abspos.y );
             it->set_var( "source_z", g->get_levz() );
-            it->process( p, p->pos3(), false );
+            it->process( p, p->pos(), false );
         }
         p->moves -= 15;
     }

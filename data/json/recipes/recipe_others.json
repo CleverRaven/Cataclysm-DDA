@@ -1968,6 +1968,7 @@
   "time": 5000,
   "reversible": false,
   "autolearn": true,
+  "flags": ["BLIND_HARD"],
   "components": [
     [
       [ "paper", 5 ]
@@ -5574,93 +5575,6 @@
     ],
     [
       [ "charcoal", 15 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "gobag",
-  "category": "CC_OTHER",
-  "subcategory": "CSC_OTHER_OTHER",
-  "skill_used": "survival",
-  "difficulty": 0,
-  "time": 10000,
-  "reversible": true,
-  "autolearn": true,
-  "components": [
-    [
-      [ "duffelbag", 1 ]
-    ],
-    [
-      [ "backpack", 1 ]
-    ],
-    [
-      [ "helmet_army", 1 ]
-    ],
-    [
-      [ "jacket_army", 1 ]
-    ],
-    [
-      [ "pants_army", 1 ]
-    ],
-    [
-      [ "tshirt", 7 ]
-    ],
-    [
-      [ "under_armor", 1 ]
-    ],
-    [
-      [ "kevlar", 1 ]
-    ],
-    [
-      [ "chestrig", 1 ]
-    ],
-    [
-      [ "coat_rain", 1 ]
-    ],
-    [
-      [ "hood_rain", 1 ]
-    ],
-    [
-      [ "long_underpants", 1 ]
-    ],
-    [
-      [ "towel", 1 ]
-    ],
-    [
-      [ "boots_combat", 1 ]
-    ],
-    [
-      [ "sneakers", 1 ]
-    ],
-    [
-      [ "socks", 7 ]
-    ],
-    [
-      [ "gloves_tactical", 1 ]
-    ],
-    [
-      [ "gloves_rubber", 1 ]
-    ],
-    [
-      [ "fire_gauntlets", 1 ]
-    ],
-    [
-      [ "battery", 100 ]
-    ],
-    [
-      [ "flashlight", 1 ]
-    ],
-    [
-      [ "lighter", 1 ]
-    ],
-    [
-      [ "pockknife", 1 ]
-    ],
-    [
-      [ "rollmat", 1 ]
-    ],
-    [
-      [ "sleeping_bag", 1 ]
     ]
   ]
 },{
