@@ -11644,8 +11644,8 @@
   ],
   "components": [
     [
-      [ "egg_bird", 3 ],
-      [ "egg_reptile", 3 ]
+      [ "egg_bird", 2 ],
+      [ "egg_reptile", 2 ]
     ],
     [
       [ "milk", 1 ],
@@ -11685,8 +11685,8 @@
   ],
   "components": [
     [
-      [ "egg_bird", 3 ],
-      [ "egg_reptile", 3 ]
+      [ "egg_bird", 2 ],
+      [ "egg_reptile", 2 ]
     ],
     [
       [ "milk", 1 ],
