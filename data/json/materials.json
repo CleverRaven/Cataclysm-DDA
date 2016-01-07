@@ -553,29 +553,10 @@
             "smashed",
             "shattered"
         ],
-        "acid_resist" : 15,
+        "acid_resist" : 7,
         "elec_resist" : 0,
         "fire_resist" : 3,
         "chip_resist" : 13,
-        "density" : 30
-    },{
-        "type" : "material",
-        "ident" : "stainless_steel",
-        "name" : "stainless steel",
-        "bash_resist" : 6,
-        "cut_resist" : 4,
-        "bash_dmg_verb" : "dented",
-        "cut_dmg_verb" : "scratched",
-        "dmg_adj" : [
-            "marked",
-            "dented",
-            "smashed",
-            "shattered"
-        ],
-        "acid_resist" : 25,
-        "elec_resist" : 0,
-        "fire_resist" : 3,
-        "chip_resist" : 15,
         "density" : 30
     },{
         "type" : "material",
@@ -730,25 +711,6 @@
         "fire_resist" : 3,
         "chip_resist" : 8,
         "density" : 100
-    },{
-        "type" : "material",
-        "ident" : "obsidian",
-        "name" : "Obsidian",
-        "bash_resist" : 1,
-        "cut_resist" : 1,
-        "bash_dmg_verb" : "dented",
-        "cut_dmg_verb" : "scratched",
-        "dmg_adj" : [
-            "marked",
-            "dented",
-            "smashed",
-            "shattered"
-        ],
-        "acid_resist" : 50,
-        "elec_resist" : 0,
-        "fire_resist" : 3,
-        "chip_resist" : 1,
-        "density" : 7
     },{
         "type" : "material",
         "ident" : "copper",
