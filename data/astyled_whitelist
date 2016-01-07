@@ -10,6 +10,7 @@ src/crafting_gui.cpp
 src/creature_tracker.cpp
 src/damage.cpp
 src/debug.cpp
+src/gamemode.cpp
 src/itype.cpp
 src/iuse_software.cpp
 src/lua_console.cpp
@@ -18,6 +19,7 @@ src/mission_fail.cpp
 src/mission_place.cpp
 src/mondefense.cpp
 src/monfaction.cpp
+src/monmove.cpp
 src/nonplayer.cpp
 src/pathfinding.cpp
 src/recipe_dictionary.cpp
@@ -57,6 +59,7 @@ src/game_constants.h
 src/get_version.h
 src/help.h
 src/iexamine.h
+src/init.h
 src/int_id.h
 src/item_location.h
 src/item_stack.h
@@ -78,10 +81,12 @@ src/morale.h
 src/mutation.h
 src/name.h
 src/nonplayer.h
+src/options.h
 src/path_info.h
 src/pickup.h
 src/platform_win.h
 src/player_activity.h
+src/pldata.h
 src/posix_time.h
 src/profession.h
 src/recipe_dictionary.h
@@ -96,5 +101,6 @@ src/translations.h
 src/tutorial.h
 src/veh_interact.h
 src/version.h
+src/weather.h
 src/weighted_list.h
 src/worldfactory.h
