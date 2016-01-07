@@ -9781,8 +9781,7 @@
       ["knitting_needles", 50],
       ["pointy_stick", 50],
       ["copper_knife", 10],
-      ["copper_ax", 10],
-      ["macuahuitl", 7]
+      ["copper_ax", 10]
     ]
   },{
 "type" : "item_group",
