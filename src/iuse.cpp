@@ -5330,11 +5330,6 @@ int iuse::battletorch_lit(player *p, item *it, bool t, const tripoint &pos)
     return it->type->charges_to_use();
 }
 
-    if( p->is_npc() ) {
-        // Uses NPC inventory, disarms them
-        return 0;
-    }
-
 int iuse::boltcutters(player *p, item *it, bool, const tripoint &pos )
 {
     tripoint dirp = pos;
