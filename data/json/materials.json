@@ -522,29 +522,10 @@
         "density" : 30
     },{
         "type" : "material",
-        "ident" : "carbon_steel",
-        "name" : "High Carbon Steel",
-        "bash_resist" : 6,
-        "cut_resist" : 8,
-        "bash_dmg_verb" : "dented",
-        "cut_dmg_verb" : "scratched",
-        "dmg_adj" : [
-            "marked",
-            "dented",
-            "smashed",
-            "shattered"
-        ],
-        "acid_resist" : 7,
-        "elec_resist" : 0,
-        "fire_resist" : 3,
-        "chip_resist" : 30, 
-        "density" : 30 
-    },{
-        "type" : "material",
         "ident" : "budget_steel",
         "name" : "budget steel",
-        "bash_resist" : 4,
-        "cut_resist" : 2,
+        "bash_resist" : 6,
+        "cut_resist" : 6,
         "bash_dmg_verb" : "dented",
         "cut_dmg_verb" : "scratched",
         "dmg_adj" : [
@@ -556,7 +537,7 @@
         "acid_resist" : 7,
         "elec_resist" : 0,
         "fire_resist" : 3,
-        "chip_resist" : 13,
+        "chip_resist" : 11,
         "density" : 30
     },{
         "type" : "material",
