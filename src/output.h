@@ -101,7 +101,59 @@ nc_color msgtype_to_color(const game_message_type type, const bool bOldMsg = fal
 int msgtype_to_tilecolor(const game_message_type type, const bool bOldMsg = false);
 
 /**
- * Print text with embedded color tags, x, y are in curses system.
+ * @anchor color_tags
+ * @name color tags
+ *
+ * Most print function have only one color parameter (or none at all), therefor they would
+ * print the whole text in one color. To print some parts of a text in a different color,
+ * one would have to write separate calls to the print functions.
+ *
+ * Color tags allow embedding coloring instructions directly into the text, which allows
+ * a single call to the print function with the full text. The color tags are removed
+ * (not printed), but the text inside the tags is printed with a specific color.
+ *
+ * Example: Print "You need a tool to do this." in white and the word "tool" in red.
+ * \code
+ *    wprintz( w, c_white, "You need a " );
+ *    wprintz( w, c_red, "tool" );
+ *    wprintz( w, c_white, " to do this." );
+ * \endcode
+ * Same code with color tags:
+ * \code
+ *    print_colored_text( w, c_white, "You need a <color_red>tool</color> to do this." );
+ * \endcode
+ *
+ * Color tags must appear in pairs, first `<color_XXX>`, followed by text, followed by `</color>`.
+ * The text in between is colored according to the color `XXX`. `XXX` must be a valid color name,
+ * see @ref color_from_string. Color tags do *not* stack, the text inside the color tags should
+ * not contain any other color tags.
+ *
+ * Functions that handle color tags should contain a note about this in their documentation. If
+ * they have no such note, they probably don't handle color tags (which means they just print the
+ * string as is).
+ *
+ * Note: use @ref string_from_color to convert a `nc_color` value to a string suitable for a
+ * color tag:
+ * \code
+ *    nc_color color = ...;
+ *    text = "<color_" + string_from_color( color ) + ">some text</color>";
+ * \endcode
+ *
+ * One can use @ref utf8_width with the second parameter set to `true` to determine the printed
+ * length of a string containing color tags. The parameter instructs `utf8_width` to ignore the
+ * color tags. For example `utf8_width("<color_red>text</color>")` would return 23, but
+ * `utf8_width("<color_red>text</color>", true)` returns 4 (the length of "text").
+ */
+/*@{*/
+/**
+ * Removes the color tags from the input string. This might be required when the string is to
+ * be used for functions that don't handle color tags.
+ */
+std::string remove_color_tags( const std::string &text );
+/*@}*/
+
+/**
+ * Print text with embedded @ref color_tags, x, y are in curses system.
  * The text is not word wrapped, but may automatically be wrapped on new line characters or
  * when it reaches the border of the window (both is done by the curses system).
  * If the text contains no color tags, it's equivalent to a simple mvprintz.
@@ -112,7 +164,7 @@ int msgtype_to_tilecolor(const game_message_type type, const bool bOldMsg = fals
  **/
 void print_colored_text( WINDOW *w, int y, int x, nc_color &cur_color, nc_color base_color, const std::string &text );
 /**
- * Print word wrapped text (with color tags) into the window.
+ * Print word wrapped text (with @ref color_tags) into the window.
  * @param begin_line Line in the word wrapped text that is printed first (lines before that are not printed at all).
  * @param base_color Color used outside of any color tags.
  * @param scroll_msg Optional, can be empty. If not empty and the text does not fit the window, the string is printed
@@ -124,7 +176,7 @@ int print_scrollable( WINDOW *w, int begin_line, const std::string &text, nc_col
 
 std::vector<std::string> foldstring (std::string str, int width);
 /**
- * Format, fold and print text in the given window. The function handles color tags and
+ * Format, fold and print text in the given window. The function handles @ref color_tags and
  * uses them while printing. It expects a printf-like format string and matching
  * arguments to that format (see @ref string_format).
  * @param begin_x The row index on which to print the first line.
@@ -146,7 +198,7 @@ int fold_and_print(WINDOW *w, int begin_y, int begin_x, int width, nc_color colo
 /**
  * Like @ref fold_and_print, but starts the output with the N-th line of the folded string.
  * This can be used for scrolling large texts. Parameters have the same meaning as for
- * @ref fold_and_print, the function therefor handles color tags correctly.
+ * @ref fold_and_print, the function therefor handles @ref color_tags correctly.
  * @param begin_line The index of the first line (of the folded string) that is to be printed.
  * The function basically removes all lines before this one and prints the remaining lines
  * with `fold_and_print`.
@@ -163,7 +215,7 @@ int fold_and_print_from(WINDOW *w, int begin_y, int begin_x, int width, int begi
                         nc_color color, const std::string &text);
 /**
  * Prints a single line of formatted text. The text is automatically trimmed to fit into the given
- * width. The function handles color tags correctly.
+ * width. The function handles @ref color_tags correctly.
  * @param begin_x,begin_y The row and column index on which to start the line.
  * @param width Maximal width of the printed line, if the text is longer, it is cut off.
  * @param base_color The initially used color. This can be overridden using color tags.
@@ -203,7 +255,6 @@ void draw_tabs(WINDOW *w, int active_tab, ...);
 std::string word_rewrap (const std::string &ins, int width);
 std::vector<size_t> get_tag_positions(const std::string &s);
 std::vector<std::string> split_by_color(const std::string &s);
-std::string remove_color_tags(const std::string &s);
 
 bool query_yn(const char *mes, ...);
 int  query_int(const char *mes, ...);
@@ -216,7 +267,7 @@ int  query_int(const char *mes, ...);
  * any text and confirms the input (by pressing ENTER). It's currently not possible these two
  * situations.
  *
- * @param title The displayed title, describing what to enter. Color tags can be used.
+ * @param title The displayed title, describing what to enter. @ref color_tags can be used.
  * @param width Width of the input area where the user input appears.
  * @param input The initially display input. The user can change this.
  * @param desc An optional text (e.h. help or formatting information) which is displayed
@@ -252,7 +303,7 @@ int  menu(bool cancelable, const char *mes, ...);
  *
  * The functions return the key (taken from @ref getch) that was entered by the user.
  *
- * The message is a printf-like string. It may contain color tags, which are used while printing.
+ * The message is a printf-like string. It may contain @ref color_tags, which are used while printing.
  *
  * - PF_GET_KEY (ignored when combined with PF_NO_WAIT) cancels the popup on *any* user input.
  *   Without the flag the popup is only canceled when the user enters new-line, space and escape.
