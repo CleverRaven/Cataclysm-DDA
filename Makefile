@@ -222,7 +222,11 @@ endif
 
 # OSX
 ifeq ($(NATIVE), osx)
-  OSX_MIN = 10.5
+  ifdef CLANG
+    OSX_MIN = 10.7
+  else
+    OSX_MIN = 10.5
+  endif
   DEFINES += -DMACOSX
   CXXFLAGS += -mmacosx-version-min=$(OSX_MIN)
   LDFLAGS += -mmacosx-version-min=$(OSX_MIN)
