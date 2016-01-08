@@ -1258,7 +1258,6 @@ int draw_item_info(WINDOW *win, const std::string sItemName, const std::string s
     }
     buffer << " \n"; //This space is required, otherwise it won't make an empty line.
 
-    int selected_ret = '\n';
     buffer << format_item_info( vItemDisplay, vItemCompare );
 
     const auto b = use_full_win ? 0 : (without_border ? 1 : 2);
@@ -1302,8 +1301,8 @@ int draw_item_info(WINDOW *win, const std::string sItemName, const std::string s
         } else if( handle_scrolling && ch == KEY_NPAGE ) {
             selected++;
             werase(win);
-        } else if( selected > 0 && ( ch == '\n' || ch == KEY_RIGHT ) && selected_ret != 0 ) {
-            ch = selected_ret;
+        } else if( selected > 0 && ( ch == '\n' || ch == KEY_RIGHT ) ) {
+            ch = '\n';
             break;
         } else if( selected == KEY_LEFT ) {
             ch = (int)' ';
