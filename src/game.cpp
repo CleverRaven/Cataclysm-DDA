@@ -156,12 +156,12 @@ game::game() :
     w_status2(NULL),
     w_blackspace(NULL),
     dangerous_proximity(5),
+    pixel_minimap_option(0),
     safe_mode(SAFE_MODE_ON),
     mostseen(0),
     gamemode(NULL),
     lookHeight(13),
-    tileset_zoom(16),
-    pixel_minimap_option(0)
+    tileset_zoom(16)
 {
     world_generator = new worldfactory();
     // do nothing, everything that was in here is moved to init_data() which is called immediately after g = new game; in main.cpp
@@ -274,11 +274,10 @@ game::~game()
     delete gamemode;
     delwin(w_terrain);
     delwin(w_minimap);
-    if (pixel_minimap_option){
-        delwin(w_pixel_minimap);
-    }
+    delwin(w_pixel_minimap);
     delwin(w_HP);
-    delwin(w_messages);
+    delwin(w_messages_short);
+    delwin(w_messages_long);
     delwin(w_location);
     delwin(w_status);
     delwin(w_status2);
@@ -321,6 +320,12 @@ void game::init_ui()
         intro();
 
         first_init = false;
+
+#ifdef TILES
+        //class variable to track the option being active
+        //only set once, toggle action is used to change during game
+        pixel_minimap_option = OPTIONS["PIXEL_MINIMAP"];
+#endif // TILES
     }
 
     int sidebarWidth = narrow_sidebar ? 45 : 55;
@@ -417,19 +422,16 @@ void game::init_ui()
 
     int minimapX, minimapY; // always MINIMAP_WIDTH x MINIMAP_HEIGHT in size
     int hpX, hpY, hpW, hpH;
-    int messX, messY, messW, messH;
+    int messX, messY, messW, messHshort, messHlong;
     int locX, locY, locW, locH;
     int statX, statY, statW, statH;
     int stat2X, stat2Y, stat2W, stat2H;
     int mouseview_y, mouseview_h, mouseview_w;
     int pixelminimapW, pixelminimapH, pixelminimapX, pixelminimapY;
 
-    //class variable to track the option being active
-    pixel_minimap_option = 0;
     bool pixel_minimap_custom_height = false;
 
 #ifdef TILES
-    pixel_minimap_option = OPTIONS["PIXEL_MINIMAP"];
     pixel_minimap_custom_height = OPTIONS["PIXEL_MINIMAP_HEIGHT"] > 0;
 #endif // TILES
 
@@ -443,17 +445,18 @@ void game::init_ui()
         locW = sidebarWidth;
         stat2H = 2;
         stat2W = sidebarWidth;
-        pixelminimapW = sidebarWidth * pixel_minimap_option;
-        pixelminimapH = (pixelminimapW / 2) * pixel_minimap_option;
+        pixelminimapW = sidebarWidth;
+        pixelminimapH = (pixelminimapW / 2);
         if (pixel_minimap_custom_height && pixelminimapH > OPTIONS["PIXEL_MINIMAP_HEIGHT"]){
             pixelminimapH = OPTIONS["PIXEL_MINIMAP_HEIGHT"];
         }
-        messH = TERRAIN_WINDOW_TERM_HEIGHT - (statH + locH + stat2H + pixelminimapH);
+        messHshort = TERRAIN_WINDOW_TERM_HEIGHT - (statH + locH + stat2H + pixelminimapH);
         messW = sidebarWidth;
-        if (messH < 9) {
-            pixelminimapH -= 9 - messH;
-            messH = 9;
+        if (messHshort < 9) {
+            pixelminimapH -= 9 - messHshort;
+            messHshort = 9;
         }
+        messHlong = TERRAIN_WINDOW_TERM_HEIGHT - (statH + locH + stat2H);
 
         // Now position the elements relative to each other.
         minimapX = 0;
@@ -469,7 +472,7 @@ void game::init_ui()
         messX = 0;
         messY = stat2Y + stat2H;
         pixelminimapX = 0;
-        pixelminimapY = messY + messH;
+        pixelminimapY = messY + messHshort;
 
         mouseview_y = messY + 7;
         mouseview_h = TERRAIN_WINDOW_TERM_HEIGHT - mouseview_y - 5;
@@ -484,26 +487,27 @@ void game::init_ui()
         messX = MINIMAP_WIDTH;
         messY = 0;
         messW = sidebarWidth - messX;
-        pixelminimapW = messW * pixel_minimap_option;
-        pixelminimapH = (pixelminimapW / 2) * pixel_minimap_option;
+        pixelminimapW = messW;
+        pixelminimapH = (pixelminimapW / 2);
         if (pixel_minimap_custom_height && pixelminimapH > OPTIONS["PIXEL_MINIMAP_HEIGHT"]){
             pixelminimapH = OPTIONS["PIXEL_MINIMAP_HEIGHT"];
         }
-        messH = TERRAIN_WINDOW_TERM_HEIGHT - (locH + statH + pixelminimapH); // 1 for w_location + 4 for w_stat, w_messages starts at 0
-        if (messH < 9) {
-            pixelminimapH -= 9 - messH;
-            messH = 9;
+        messHshort = TERRAIN_WINDOW_TERM_HEIGHT - (locH + statH + pixelminimapH); // 1 for w_location + 4 for w_stat, w_messages starts at 0
+        if (messHshort < 9) {
+            pixelminimapH -= 9 - messHshort;
+            messHshort = 9;
         }
+        messHlong = TERRAIN_WINDOW_TERM_HEIGHT - (locH + statH);
         pixelminimapX = MINIMAP_WIDTH;
-        pixelminimapY = messH;
+        pixelminimapY = messHshort;
         hpX = 0;
         hpY = MINIMAP_HEIGHT;
         // under the minimap, but down to the same line as w_location (which is under w_messages)
         // so it erases the space between w_terrain and (w_messages and w_location)
-        hpH = messH + pixelminimapH - MINIMAP_HEIGHT + 3;
+        hpH = messHshort + pixelminimapH - MINIMAP_HEIGHT + 3;
         hpW = 7;
         locX = MINIMAP_WIDTH;
-        locY = messY + messH + pixelminimapH;
+        locY = messY + messHshort + pixelminimapH;
         locW = sidebarWidth - locX;
         statY = locY + locH;
         statW = sidebarWidth;
@@ -528,12 +532,18 @@ void game::init_ui()
     w_HP = newwin(hpH, hpW, _y + hpY, _x + hpX);
     werase(w_HP);
 
-    w_messages = newwin(messH, messW, _y + messY, _x + messX);
-    werase(w_messages);
+    w_messages_short = newwin(messHshort, messW, _y + messY, _x + messX);
+    werase(w_messages_short);
 
-    if (pixel_minimap_option){
-        w_pixel_minimap = newwin(pixelminimapH, pixelminimapW, _y + pixelminimapY, _x + pixelminimapX);
-        werase(w_pixel_minimap);
+    w_messages_long = newwin(messHlong, messW, _y + messY, _x + messX);
+    werase(w_messages_long);
+
+    w_pixel_minimap = newwin(pixelminimapH, pixelminimapW, _y + pixelminimapY, _x + pixelminimapX);
+    werase(w_pixel_minimap);
+
+    w_messages = w_messages_short;
+    if (!pixel_minimap_option) {
+        w_messages = w_messages_long;
     }
 
     w_location = newwin(locH, locW, _y + locY, _x + locX);
@@ -577,6 +587,24 @@ void game::toggle_fullscreen(void)
     init_ui();
     refresh_all();
 #endif
+}
+
+void game::toggle_pixel_minimap(void)
+{
+#ifdef TILES
+    if (w_messages == w_messages_short) {
+        clear_window_area(w_pixel_minimap);
+        w_messages = w_messages_long;
+        pixel_minimap_option = 0;
+    } else {
+        w_messages = w_messages_short;
+        pixel_minimap_option = 1;
+    }
+    werase(w_messages);
+    mvwputch(w_messages, 0, 0, c_black, ' ');
+    wrefresh(w_messages);
+    draw_sidebar();
+#endif // TILES
 }
 
 // temporarily switch out of fullscreen for functions that rely
@@ -1972,6 +2000,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action("zoom_in");
     ctxt.register_action("toggle_sidebar_style");
     ctxt.register_action("toggle_fullscreen");
+    ctxt.register_action("toggle_pixel_minimap");
     ctxt.register_action("action_menu");
     ctxt.register_action("item_action_menu");
     ctxt.register_action("ANY_INPUT");
@@ -3039,6 +3068,10 @@ bool game::handle_action()
 
         case ACTION_TOGGLE_FULLSCREEN:
             toggle_fullscreen();
+            break;
+
+        case ACTION_TOGGLE_PIXEL_MINIMAP:
+            toggle_pixel_minimap();
             break;
 
         case ACTION_DISPLAY_SCENT:

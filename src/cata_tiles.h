@@ -179,6 +179,11 @@ struct minimap_shared_texture_pool {
     std::set<int> active_index;
     std::vector<int> inactive_index;
     minimap_shared_texture_pool() {
+        reinit();
+    }
+
+    void reinit() {
+        inactive_index.clear();
         texture_pool.resize( ( MAPSIZE + 1 ) * ( MAPSIZE + 1 ) );
         for( int i = 0; i < static_cast<int>( texture_pool.size() ); i++ ) {
             inactive_index.push_back( i );
@@ -412,6 +417,9 @@ class cata_tiles
          * @throw std::exception On any error.
          */
         void reinit();
+
+        void reinit_minimap();
+
         int get_tile_height() const { return tile_height; }
         int get_tile_width() const { return tile_width; }
         float get_tile_ratiox() const { return tile_ratiox; }
@@ -519,6 +527,7 @@ class cata_tiles
         SDL_Rect minimap_clip_rect;
         //track the previous viewing area to determine if the minimap cache needs to be cleared
         tripoint previous_submap_view;
+        bool minimap_reinit_flag; //set to true to force a reallocation of minimap details
 };
 
 #endif

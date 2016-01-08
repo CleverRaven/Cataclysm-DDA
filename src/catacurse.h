@@ -196,4 +196,7 @@ void init_interface();
 int projected_window_width(int column_count);
 int projected_window_height(int row_count);
 
+//used only in SDL mode for clearing windows using rendering
+void clear_window_area(WINDOW* win);
+
 #endif

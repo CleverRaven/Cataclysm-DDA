@@ -431,6 +431,7 @@ class game
 
         void toggle_sidebar_style(void);
         void toggle_fullscreen(void);
+        void toggle_pixel_minimap(void);
         void temp_exit_fullscreen(void);
         void reenter_fullscreen(void);
         void zoom_in();
@@ -475,7 +476,10 @@ class game
         WINDOW *w_minimap;
         WINDOW *w_pixel_minimap;
         WINDOW *w_HP;
+        //only a pointer, can refer to w_messages_short or w_messages_long
         WINDOW *w_messages;
+        WINDOW *w_messages_short;
+        WINDOW *w_messages_long;
         WINDOW *w_location;
         WINDOW *w_status;
         WINDOW *w_status2;
@@ -581,6 +585,10 @@ class game
         // from closing at all.
         // If the door gets closed the items on the door tile get moved away or destroyed.
         bool forced_gate_closing( const tripoint &p, const ter_id door_type, int bash_dmg );
+
+
+        //pixel minimap management
+        int pixel_minimap_option;
     private:
         // Game-start procedures
         void print_menu(WINDOW *w_open, int iSel, const int iMenuOffsetX, int iMenuOffsetY,
@@ -808,9 +816,6 @@ class game
 
         void move_save_to_graveyard();
         bool save_player_data();
-
-        //pixel minimap management
-        int pixel_minimap_option;
 };
 
 #endif
