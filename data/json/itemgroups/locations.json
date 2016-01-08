@@ -3,6 +3,7 @@
     "type":"item_group",
     "id":"homeguns",
     "guns_with_ammo" : true,
+    "//" : "guns_with_ammo doesn't work here yet. using the X_with_ammo groups in the meantime.",
     "subtype": "distribution",
     "entries" : [
       { "group": "pistols_with_ammo", "prob": 150 },
