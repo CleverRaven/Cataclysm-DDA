@@ -1492,9 +1492,9 @@ bool player::install_bionics(const itype &type, int skill_level)
         add_msg(m_good, _("Successfully installed %s."), bionics[bioid].name.c_str());
         add_bionic(bioid);
 
-        if (bioid == "bio_eye_optic" && g->u.has_trait( "HYPEROPIC" ) ) {
+        if( bioid == "bio_eye_optic" && g->u.has_trait( "HYPEROPIC" ) ) {
             g->u.remove_mutation( "HYPEROPIC" );
-        }if (bioid == "bio_eye_optic" && g->u.has_trait( "MYOPIC" ) ) {
+        } if( bioid == "bio_eye_optic" && g->u.has_trait( "MYOPIC" ) ) {
             g->u.remove_mutation( "MYOPIC" );
         } else if (bioid == "bio_ears") {
             add_bionic("bio_earplugs"); // automatically add the earplugs, they're part of the same bionic

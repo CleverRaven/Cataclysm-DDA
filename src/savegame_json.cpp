@@ -375,7 +375,7 @@ void player::load(JsonObject &data)
         add_bionic( "bio_blindfold" );
     }
     
-    // Fixes buged charcters for telescopic eyes CBM.
+    // Fixes bugged characters for telescopic eyes CBM.
     if( has_bionic( "bio_eye_optic" ) && has_trait( "HYPEROPIC" ) ) {
         remove_mutation( "HYPEROPIC" );
     }
