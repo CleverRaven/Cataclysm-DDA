@@ -1335,7 +1335,7 @@ void player::remove_mutation( const std::string &mut )
         } else {
             rating = m_neutral;
         }
-        add_msg_if_player( rating,
+        add_msg_player_or_npc( rating,
             _("Your %1$s mutation turns into %2$s."),
             _("<npcname>'s %1$s mutation turns into %2$s."),
             mdata.name.c_str(), replace_mdata.name.c_str() );
@@ -1355,7 +1355,7 @@ void player::remove_mutation( const std::string &mut )
         } else {
             rating = m_neutral;
         }
-        add_msg_if_player( rating,
+        add_msg_player_or_npc( rating,
             _("Your %1$s mutation turns into %2$s."),
             _("<npcname>'s %1$s mutation turns into %2$s."),
             mdata.name.c_str(), replace_mdata.name.c_str() );
@@ -1374,11 +1374,10 @@ void player::remove_mutation( const std::string &mut )
         } else {
             rating = m_neutral;
         }
-        add_msg_if_player( rating,
+        add_msg_player_or_npc( rating,
             _("You lose your %s mutation."),
             _("<npcname> loses their %s mutation."),
             mdata.name.c_str() );
-        add_msg_if_player(rating, _("You lose your %s mutation."), mdata.name.c_str());
         mutation_loss_effect(mut);
     }
 
