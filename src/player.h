@@ -456,7 +456,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool can_limb_block() const;
 
         // melee.cpp
-        /** Returns true if the player has a weapon with a block technique */
+        /** Returns true if the player has a weapon or armor with a block technique */
+        bool can_armor_block() const;
         bool can_weapon_block() const;
         using Creature::melee_attack;
         /**

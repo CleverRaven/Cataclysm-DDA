@@ -110,6 +110,56 @@ bool player::handle_melee_wear()
     return true;
 }
 
+bool player::handle_shields_wear()
+{
+    // Here is where we handle wear and tear on things we use as  shields.
+    if( !armor.has_flag("BLOCK_WHILE_WORN") ) {
+        return true;
+    }
+
+    // UNBREAKABLE_MELEE items can't be damaged through melee combat usage.
+    if( armor.has_flag("UNBREAKABLE_MELEE") ) {
+        return true;
+    }
+
+    ///\EFFECT_DEX reduces chance of damaging your melee weapon
+
+    ///\EFFECT_STR increases chance of damaging your melee weapon (NEGATIVE)
+
+    ///\EFFECT_MELEE reduces chance of damaging your melee weapon
+    const float stat_factor = dex_cur / 2.0f + get_skill_level( skill_melee ) + ( 64.0f / std::max( str_cur, 4 ) );
+    const float material_factor = armor.chip_resistance();
+    int damage_chance = static_cast<int>( stat_factor * material_factor );
+    // DURABLE_MELEE items are made to hit stuff and they do it well, so they're considered to be a lot tougher
+    // than other weapons made of the same materials.
+    if( armor.has_flag( "DURABLE_MELEE" ) ) {
+        damage_chance *= 4;
+    }
+
+    if( damage_chance > 0 && !one_in(damage_chance) ) {
+        return true;
+    }
+
+    if( armor.damage < 4 ){
+        add_msg_player_or_npc( m_bad, _("Your %s is damaged by the force of the blow!"),
+                                _("<npcname>'s %s is damaged by the force of the blow!"),
+                                armor.tname().c_str());
+        //Don't increment until after the message is displayed
+        armor.damage++;
+    } else if( armor.damage >= 4 ) {
+        add_msg_player_or_npc( m_bad, _("Your %s is destroyed by the blow!"),
+                                _("<npcname>'s %s is destroyed by the blow!"),
+                                armor.tname().c_str());
+        // Dump its contents on the ground
+        for( auto &elem : armor.contents ) {
+            g->m.add_item_or_charges( pos(), elem );
+        }
+        remove_weapon();
+    }
+
+    return true;
+}
+
 bool player::unarmed_attack() const {
     return weapon.has_flag("UNARMED_WEAPON");
 }
@@ -1366,6 +1416,16 @@ bool player::can_weapon_block() const
             weapon.has_technique( WBLOCK_3 ));
 }
 
+bool player::can_armor_block() const
+{
+    for (auto &armor : worn) {
+        if (armor.has_flag("BLOCK_WHILE_WORN")) {
+            return true;
+    }
+    return false;
+    }
+}
+
 void player::dodge_hit(Creature *source, int) {
     if( dodges_left < 1 ) {
         return;
@@ -1402,12 +1462,26 @@ bool player::block_hit(Creature *source, body_part &bp_hit, damage_instance &dam
     // but it still counts as a block even if it absorbs all the damage.
     float total_phys_block = mabuff_block_bonus();
     bool conductive_weapon = weapon.conductive();
+    bool conductive_armor = armor.conductive();
 
     // This gets us a number between:
     // str ~0 + skill 0 = 0
     // str ~20 + skill 10 + 10(unarmed skill or weapon bonus) = 40
     int block_score = 1;
-    if (can_weapon_block()) {
+    if (can_armor_block()) {
+        int block_bonus = 2;
+        if (armor.has_technique( WBLOCK_3 )) {
+            block_bonus = 10;
+        } else if (armor.has_technique( WBLOCK_2 )) {
+            block_bonus = 6;
+        } else if (armor.has_technique( WBLOCK_1 )) {
+            block_bonus = 4;
+        }
+        ///\EFFECT_STR increases attack blocking effectiveness with a weapon
+
+        ///\EFFECT_MELEE increases attack blocking effectiveness with a weapon
+        block_score = str_cur + block_bonus + (int)get_skill_level( skill_melee );
+    } else if (can_weapon_block()) {
         int block_bonus = 2;
         if (weapon.has_technique( WBLOCK_3 )) {
             block_bonus = 10;
@@ -1416,9 +1490,6 @@ bool player::block_hit(Creature *source, body_part &bp_hit, damage_instance &dam
         } else if (weapon.has_technique( WBLOCK_1 )) {
             block_bonus = 4;
         }
-        ///\EFFECT_STR increases attack blocking effectiveness with a weapon
-
-        ///\EFFECT_MELEE increases attack blocking effectiveness with a weapon
         block_score = str_cur + block_bonus + (int)get_skill_level( skill_melee );
     } else if (can_limb_block()) {
         ///\EFFECT_STR increases attack blocking effectiveness with a limb
@@ -1460,7 +1531,7 @@ bool player::block_hit(Creature *source, body_part &bp_hit, damage_instance &dam
         // but severely mitigated damage if not
         } else if( elem.type == DT_HEAT || elem.type == DT_ACID || elem.type == DT_COLD ) {
             //TODO: should damage weapons if blocked
-            if (!unarmed_attack() && can_weapon_block()) {
+            if (!unarmed_attack() && ( can_weapon_block() || can_armor_block() )) {
                 float previous_amount = elem.amount;
                 elem.amount /= 5;
                 damage_blocked += previous_amount - elem.amount;
@@ -1468,7 +1539,7 @@ bool player::block_hit(Creature *source, body_part &bp_hit, damage_instance &dam
         // electrical damage deals full damage if unarmed OR wielding a
         // conductive weapon
         } else if( elem.type == DT_ELECTRIC ) {
-            if (!unarmed_attack() && can_weapon_block() && !conductive_weapon) {
+            if (!unarmed_attack() && (( can_weapon_block() && !conductive_weapon ) || ( can_armor_block() && !conductive_armor ))) {
                 float previous_amount = elem.amount;
                 elem.amount /= 5;
                 damage_blocked += previous_amount - elem.amount;
@@ -1480,7 +1551,10 @@ bool player::block_hit(Creature *source, body_part &bp_hit, damage_instance &dam
 
     // weapon blocks are preferred to arm blocks
     std::string thing_blocked_with;
-    if (player::is_armed() && !weapon.has_flag("UNARMED_WEAPON")) {
+    if (armor.has_flag("BLOCK_WHILE_WORN")) {
+        thing_blocked_with = armor.tname();
+        handle_shield_wear();
+    } else if (player::is_armed() && !weapon.has_flag("UNARMED_WEAPON")) {
         thing_blocked_with = weapon.tname();
         handle_melee_wear();
     } else {

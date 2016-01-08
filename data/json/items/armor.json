@@ -10930,6 +10930,7 @@
         "weight" : 1700,
         "color" : "light_gray",
         "covers" : ["ARMS", "HANDS"],
+        "techniques" : ["WBLOCK_1"],
         "to_hit" : -2,
         "storage" : 24,
         "symbol" : "[",
@@ -10944,7 +10945,7 @@
         "bashing" : 5,
         "coverage" : 10,
         "material_thickness" : 2,
-        "flags" : ["FANCY", "OVERSIZE", "RESTRICT_HANDS"]
+        "flags" : ["FANCY", "OVERSIZE", "RESTRICT_HANDS", "BLOCK_WHILE_WORN"]
     },
     {
         "type" : "ARMOR",
