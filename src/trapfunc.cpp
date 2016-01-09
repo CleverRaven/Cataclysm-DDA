@@ -867,7 +867,58 @@ void trapfunc::portal( Creature * /*c*/, const tripoint & )
 bool query_for_item( const player *pl, const std::string &itemname, const char *que )
 {
     return pl->has_amount( itemname, 1 ) && ( !pl->is_player() || query_yn( que ) );
-};
+}
+
+static tripoint random_neighbor( tripoint center )
+{
+    center.x += rng( -1, 1 );
+    center.y += rng( -1, 1 );
+    return center;
+}
+
+static bool sinkhole_safety_roll( player *p, const std::string &itemname, const int diff )
+{
+    ///\EFFECT_STR increases chance to attach grapnel, bullwhip, or rope when falling into a sinkhole
+
+    ///\EFFECT_DEX increases chance to attach grapnel, bullwhip, or rope when falling into a sinkhole
+
+    ///\EFFECT_THROW increases chance to attach grapnel, bullwhip, or rope when falling into a sinkhole
+    const int roll = rng( p->skillLevel( skill_throw ),
+                          p->skillLevel( skill_throw ) + p->str_cur + p->dex_cur );
+    if( roll < diff ) {
+        p->add_msg_if_player( m_bad, _( "You fail to attach it..." ) );
+        p->use_amount( itemname, 1 );
+        g->m.spawn_item( random_neighbor( p->pos() ), itemname );
+        return false;
+    }
+
+    std::vector<tripoint> safe;
+    tripoint tmp = p->pos();
+    int &i = tmp.x;
+    int &j = tmp.y;
+    for( i = p->posx() - 1; i <= p->posx() + 1; i++ ) {
+        for( j = p->posy() - 1; j <= p->posy() + 1; j++ ) {
+            if( g->m.passable( tmp ) && g->m.tr_at( tmp ).loadid != tr_pit ) {
+                safe.push_back( tmp );
+            }
+        }
+    }
+    if( safe.empty() ) {
+        p->add_msg_if_player( m_bad, _( "There's nowhere to pull yourself to, and you sink!" ) );
+        p->use_amount( itemname, 1 );
+        g->m.spawn_item( random_neighbor( p->pos() ), itemname );
+        return false;
+    } else {
+        p->add_msg_player_or_npc( m_good, _( "You pull yourself to safety!" ),
+                                  _( "<npcname> steps on a sinkhole, but manages to pull themselves to safety." ) );
+        p->setpos( random_entry( safe ) );
+        if( p == &g->u ) {
+            g->update_map( p );
+        }
+
+        return true;
+    }
+}
 
 void trapfunc::sinkhole( Creature *c, const tripoint &p )
 {
@@ -877,67 +928,18 @@ void trapfunc::sinkhole( Creature *c, const tripoint &p )
         return;
     }
 
-    const auto random_neighbor = []( tripoint center ) {
-        center.x += rng( -1, 1 );
-        center.y += rng( -1, 1 );
-        return center;
-    };
-
-    const auto safety_roll = [&]( const std::string & itemname, const int diff ) {
-        ///\EFFECT_STR increases chance to attach grapnel, bullwhip, or rope when falling into a sinkhole
-
-        ///\EFFECT_DEX increases chance to attach grapnel, bullwhip, or rope when falling into a sinkhole
-
-        ///\EFFECT_THROW increases chance to attach grapnel, bullwhip, or rope when falling into a sinkhole
-        const int roll = rng( pl->skillLevel( skill_throw ),
-                              pl->skillLevel( skill_throw ) + pl->str_cur + pl->dex_cur );
-        if( roll < diff ) {
-            pl->add_msg_if_player( m_bad, _( "You fail to attach it..." ) );
-            pl->use_amount( itemname, 1 );
-            g->m.spawn_item( random_neighbor( pl->pos() ), itemname );
-            return false;
-        }
-
-        std::vector<tripoint> safe;
-        tripoint tmp = pl->pos();
-        int &i = tmp.x;
-        int &j = tmp.y;
-        for( i = pl->posx() - 1; i <= pl->posx() + 1; i++ ) {
-            for( j = pl->posy() - 1; j <= pl->posy() + 1; j++ ) {
-                if( g->m.passable( tmp ) && g->m.tr_at( tmp ).loadid != tr_pit ) {
-                    safe.push_back( tmp );
-                }
-            }
-        }
-        if( safe.empty() ) {
-            pl->add_msg_if_player( m_bad, _( "There's nowhere to pull yourself to, and you sink!" ) );
-            pl->use_amount( itemname, 1 );
-            g->m.spawn_item( random_neighbor( pl->pos() ), itemname );
-            return false;
-        } else {
-            pl->add_msg_player_or_npc( m_good, _( "You pull yourself to safety!" ),
-                                       _( "<npcname> steps on a sinkhole, but manages to pull themselves to safety." ) );
-            pl->setpos( random_entry( safe ) );
-            if( pl == &g->u ) {
-                g->update_map( &g->u );
-            }
-
-            return true;
-        }
-    };
-
     pl->add_memorial_log( pgettext( "memorial_male", "Stepped into a sinkhole." ),
                           pgettext( "memorial_female", "Stepped into a sinkhole." ) );
     bool success = false;
     if( query_for_item( pl, "grapnel",
                         _( "You step into a sinkhole!  Throw your grappling hook out to try to catch something?" ) ) ) {
-        success = safety_roll( "grapnel", 6 );
+        success = sinkhole_safety_roll( pl, "grapnel", 6 );
     } else if( query_for_item( pl, "bullwhip",
                                _( "You step into a sinkhole!  Throw your whip out to try and snag something?" ) ) ) {
-        success = safety_roll( "bullwhip", 8 );
+        success = sinkhole_safety_roll( pl, "bullwhip", 8 );
     } else if( query_for_item( pl, "rope_30",
                                _( "You step into a sinkhole!  Throw your rope out to try to catch something?" ) ) ) {
-        success = safety_roll( "rope_30", 12 );
+        success = sinkhole_safety_roll( pl, "rope_30", 12 );
     }
 
     pl->add_msg_player_or_npc( m_warning, _( "The sinkhole collapses!" ),
