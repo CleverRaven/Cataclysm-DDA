@@ -551,7 +551,6 @@
    {
       "type" : "AMMO",
       "id" : "bolt_metal",
-      "rarity" : 7,
       "price" : 1000,
       "name" : "metal crossbow bolt",
       "symbol" : "=",
@@ -596,7 +595,6 @@
    {
       "type" : "AMMO",
       "id" : "bolt_explosive",
-      "rarity" : 7,
       "price" : 30000, "//" : "Resin and carbon-fiber bolts get to $10 per shot IRL, so explosives can only go higher.",
       "name" : "explosive crossbow bolt",
       "symbol" : "=",

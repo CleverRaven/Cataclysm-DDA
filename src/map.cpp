@@ -7521,68 +7521,146 @@ void map::draw_fill_background(const id_or_id<ter_t> & f) {
     draw_square_ter(f, 0, 0, SEEX * my_MAPSIZE - 1, SEEY * my_MAPSIZE - 1);
 }
 
-void map::draw_square_ter(ter_id type, int x1, int y1, int x2, int y2) {
-    for (int x = x1; x <= x2; x++) {
-        for (int y = y1; y <= y2; y++) {
-            ter_set(x, y, type);
+void map::draw_square_ter( ter_id type, int x1, int y1, int x2, int y2 ) {
+    if( x1 > x2 ) {
+        std::swap( x1, x2 );
+    }
+    if( y1 > y2 ) {
+        std::swap( y1, y2 );
+    }
+    for( int x = x1; x <= x2; x++ ) {
+        for( int y = y1; y <= y2; y++ ) {
+            ter_set( x, y, type );
         }
     }
 }
-void map::draw_square_ter(std::string type, int x1, int y1, int x2, int y2) {
-    draw_square_ter(find_ter_id(type), x1, y1, x2, y2);
+void map::draw_square_ter( std::string type, int x1, int y1, int x2, int y2 )
+{
+    draw_square_ter( find_ter_id( type ), x1, y1, x2, y2 );
 }
 
-void map::draw_square_furn(furn_id type, int x1, int y1, int x2, int y2) {
-    for (int x = x1; x <= x2; x++) {
-        for (int y = y1; y <= y2; y++) {
-            furn_set(x, y, type);
+void map::draw_square_furn( furn_id type, int x1, int y1, int x2, int y2 )
+{
+    if( x1 > x2 ) {
+        std::swap( x1, x2 );
+    }
+    if( y1 > y2 ) {
+        std::swap( y1, y2 );
+    }
+    for( int x = x1; x <= x2; x++ ) {
+        for( int y = y1; y <= y2; y++ ) {
+            furn_set( x, y, type );
         }
     }
 }
-void map::draw_square_furn(std::string type, int x1, int y1, int x2, int y2) {
-    draw_square_furn(find_furn_id(type), x1, y1, x2, y2);
+void map::draw_square_furn( std::string type, int x1, int y1, int x2, int y2 )
+{
+    draw_square_furn( find_furn_id( type ), x1, y1, x2, y2 );
 }
 
-void map::draw_square_ter(ter_id (*f)(), int x1, int y1, int x2, int y2) {
-    for (int x = x1; x <= x2; x++) {
-        for (int y = y1; y <= y2; y++) {
-            ter_set(x, y, f());
+void map::draw_square_ter( ter_id( *f )(), int x1, int y1, int x2, int y2 )
+{
+    if( x1 > x2 ) {
+        std::swap( x1, x2 );
+    }
+    if( y1 > y2 ) {
+        std::swap( y1, y2 );
+    }
+    for( int x = x1; x <= x2; x++ ) {
+        for( int y = y1; y <= y2; y++ ) {
+            ter_set( x, y, f() );
         }
     }
 }
 
-void map::draw_square_ter(const id_or_id<ter_t> & f, int x1, int y1, int x2, int y2) {
-    for (int x = x1; x <= x2; x++) {
-        for (int y = y1; y <= y2; y++) {
-            ter_set(x, y, f.get() );
+void map::draw_square_ter( const id_or_id<ter_t> &f, int x1, int y1, int x2, int y2 )
+{
+    if( x1 > x2 ) {
+        std::swap( x1, x2 );
+    }
+    if( y1 > y2 ) {
+        std::swap( y1, y2 );
+    }
+    for( int x = x1; x <= x2; x++ ) {
+        for( int y = y1; y <= y2; y++ ) {
+            ter_set( x, y, f.get() );
         }
     }
 }
 
-void map::draw_rough_circle(ter_id type, int x, int y, int rad) {
-    for (int i = x - rad; i <= x + rad; i++) {
-        for (int j = y - rad; j <= y + rad; j++) {
-            if (rl_dist(x, y, i, j) + rng(0, 3) <= rad) {
-                ter_set(i, j, type);
+void map::draw_rough_circle( ter_id type, int x, int y, int rad )
+{
+    for( int i = x - rad; i <= x + rad; i++ ) {
+        for( int j = y - rad; j <= y + rad; j++ ) {
+            if( trig_dist( x, y, i, j ) + rng( 0, 3 ) <= rad ) {
+                ter_set( i, j, type );
             }
         }
     }
 }
-void map::draw_rough_circle(std::string type, int x, int y, int rad) {
-    draw_rough_circle(find_ter_id(type), x, y, rad);
+
+void map::draw_rough_circle( std::string type, int x, int y, int rad )
+{
+    draw_rough_circle( find_ter_id( type ), x, y, rad );
 }
 
-void map::draw_rough_circle_furn(furn_id type, int x, int y, int rad) {
-    for (int i = x - rad; i <= x + rad; i++) {
-        for (int j = y - rad; j <= y + rad; j++) {
-            if (rl_dist(x, y, i, j) + rng(0, 3) <= rad) {
-                furn_set(i, j, type);
+void map::draw_rough_circle_furn( furn_id type, int x, int y, int rad )
+{
+    for( int i = x - rad; i <= x + rad; i++ ) {
+        for( int j = y - rad; j <= y + rad; j++ ) {
+            if( trig_dist( x, y, i, j ) + rng( 0, 3 ) <= rad ) {
+                furn_set( i, j, type );
             }
         }
     }
 }
-void map::draw_rough_circle_furn(std::string type, int x, int y, int rad) {
-    draw_rough_circle_furn(find_furn_id(type), x, y, rad);
+
+void map::draw_rough_circle_furn( std::string type, int x, int y, int rad )
+{
+    draw_rough_circle_furn( find_furn_id( type ), x, y, rad );
+}
+
+void map::draw_circle( ter_id type, double x, double y, double rad )
+{
+    for( int i = x - rad - 1; i <= x + rad + 1; i++ ) {
+        for( int j = y - rad - 1; j <= y + rad + 1; j++ ) {
+            if( ( x - i ) * ( x - i ) + ( y - j ) * ( y - j ) <= rad * rad ) {
+                ter_set( i, j, type );
+            }
+        }
+    }
+}
+
+void map::draw_circle( ter_id type, int x, int y, int rad )
+{
+    for( int i = x - rad; i <= x + rad; i++ ) {
+        for( int j = y - rad; j <= y + rad; j++ ) {
+            if( trig_dist( x, y, i, j ) <= rad ) {
+                ter_set( i, j, type );
+            }
+        }
+    }
+}
+
+void map::draw_circle( std::string type, int x, int y, int rad )
+{
+    draw_circle( find_ter_id( type ), x, y, rad );
+}
+
+void map::draw_circle_furn( furn_id type, int x, int y, int rad )
+{
+    for( int i = x - rad; i <= x + rad; i++ ) {
+        for( int j = y - rad; j <= y + rad; j++ ) {
+            if( trig_dist( x, y, i, j ) <= rad ) {
+                furn_set( i, j, type );
+            }
+        }
+    }
+}
+
+void map::draw_circle_furn( std::string type, int x, int y, int rad )
+{
+    draw_circle_furn( find_furn_id( type ), x, y, rad );
 }
 
 void map::add_corpse( const tripoint &p ) {
