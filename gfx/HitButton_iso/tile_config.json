@@ -91,12 +91,12 @@
           "fg": 18
         },
         {
-          "id": ["t_door_c", "t_door_makeshift_c", "t_door_frame", "t_door_locked", "t_door_locked_alarm", "t_door_locked_interior" ],
+          "id": ["t_door_c", "t_door_makeshift_c", "t_door_locked", "t_door_locked_alarm", "t_door_locked_interior" ],
           "multitile": true,
           "fg": [ 19, 20 ]
         },
         {
-          "id": ["t_door_o", "t_door_o_peep", "t_door_curtain_o", "t_door_makeshift_o" ],
+          "id": ["t_door_o", "t_door_o_peep", "t_door_curtain_o", "t_door_makeshift_o", "t_door_frame" ],
           "multitile": true,
           "fg": [ 21, 22 ]
         },
