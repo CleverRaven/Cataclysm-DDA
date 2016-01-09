@@ -710,9 +710,7 @@
       ["protein_shake", 10],
       ["fries", 8],
       ["cheese_fries", 6],
-      ["onion_rings", 8],
-      ["eggnog", 2],
-      ["eggnog_spiked", 1]	  
+      ["onion_rings", 8]  
     ]
   },{
     "type" : "item_group",
@@ -1437,9 +1435,7 @@
       ["protein_shake", 10],
       ["pie", 20],
       ["pie_veggy", 18],
-      ["pie_meat", 18],
-      ["eggnog", 2],
-      ["eggnog_spiked", 1]	  
+      ["pie_meat", 18]	  
     ]
   },{
     "type" : "item_group",
@@ -2672,8 +2668,7 @@
       ["belgian_ale", 10],
       ["imperial_stout", 4],
       ["single_malt_whiskey", 2],
-      ["survnote", 1],
-      ["eggnog_spiked", 1]	  
+      ["survnote", 1]  
     ]
   },{
     "type" : "item_group",
