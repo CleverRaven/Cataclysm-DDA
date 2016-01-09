@@ -925,7 +925,7 @@ void monster::melee_attack(Creature &target, bool, const matec_id&) {
             }
         }
         if( !is_hallucination() ) {
-            target.on_dodge( this );
+            target.on_dodge( this, get_melee() );
         }
     //Hallucinations always produce messages but never actually deal damage
     } else if (is_hallucination() || dealt_dam.total_damage() > 0) {

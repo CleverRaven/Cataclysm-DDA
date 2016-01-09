@@ -287,7 +287,7 @@ void player::melee_attack(Creature &t, bool allow_special, const matec_id &force
                 add_msg(_("%s misses."),name.c_str());
         }
 
-        t.on_dodge( this );
+        t.on_dodge( this, get_melee() );
 
         if( !has_active_bionic("bio_cqb") ) {
             // No practice if you're relying on bio_cqb to fight for you
