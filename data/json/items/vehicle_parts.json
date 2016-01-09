@@ -407,7 +407,7 @@
         "name" : "storage battery",
         "name_plural" : "storage batteries",
         "description" : "A large storage battery.  Could be installed into a storage battery case for easy removal from a vehicle, or just welded straight in.",
-        "weight" : 12600,
+        "weight" : 22679,
         "to_hit" : -2,
         "color" : "light_cyan",
         "symbol" : ":",
