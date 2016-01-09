@@ -2254,35 +2254,35 @@ std::string melee_message( const ma_technique &tec, player &p, const dealt_damag
     // Those could be extracted to a json
 
     // Three last values are for low damage
-    static const std::array<std::string, 6> player_stab = {
+    static const std::array<std::string, 6> player_stab = {{
         "You impale %s", "You gouge %s", "You run %s through",
         "You puncture %s", "You pierce %s", "You poke %s"
-    };
-    static const std::array<std::string, 6> npc_stab = {
+    }};
+    static const std::array<std::string, 6> npc_stab = {{
         "<npcname> impales %s", "<npcname> gouges %s", "<npcname> runs %s through",
         "<npcname> punctures %s", "<npcname> pierces %s", "<npcname> pokes %s"
-    };
+    }};
     // First 5 are for high damage, next 2 for medium, then for low and then for v. low
-    static const std::array<std::string, 9> player_cut = {
+    static const std::array<std::string, 9> player_cut = {{
         "You gut %s", "You chop %s", "You slash %s",
         "You mutilate %s", "You maim %s", "You stab %s",
         "You slice %s", "You cut %s", "You nick %s"
-    };
-    static const std::array<std::string, 9> npc_cut = {
+    }};
+    static const std::array<std::string, 9> npc_cut = {{
         "<npcname> guts %s", "<npcname> chops %s", "<npcname> slashes %s",
         "<npcname> mutilates %s", "<npcname> maims %s", "<npcname> stabs %s",
         "<npcname> slices %s", "<npcname> cuts %s", "<npcname> nicks %s"
-    };
+    }};
 
     // Three last values are for low damage
-    static const std::array<std::string, 6> player_bash = {
+    static const std::array<std::string, 6> player_bash = {{
         "You clobber %s", "You smash %s", "You thrash %s",
         "You batter %s", "You whack %s", "You hit %s"
-    };
-    static const std::array<std::string, 6> npc_bash = {
+    }};
+    static const std::array<std::string, 6> npc_bash = {{
         "<npcname> clobbers %s", "<npcname> smashes %s", "<npcname> thrashes %s",
         "<npcname> batters %s", "<npcname> whacks %s", "<npcname> hits %s"
-    };
+    }};
 
     const int bash_dam = ddi.type_damage( DT_BASH );
     const int cut_dam  = ddi.type_damage( DT_CUT );
