@@ -4758,6 +4758,9 @@ VisitResponse item::visit( const std::function<VisitResponse(item&)>& func ) {
         case VisitResponse::SKIP:
             return VisitResponse::NEXT;
     }
+
+    /* never reached but suppresses GCC warning */
+    return VisitResponse::ABORT;
 }
 
 VisitResponse item::visit( const std::function<VisitResponse(const item&)>& func ) const {
