@@ -134,16 +134,16 @@ void map::generate(const int x, const int y, const int z, const int turn)
     int overy = y;
     overmapbuffer::sm_to_omt(overx, overy);
     const regional_settings *rsettings = &overmap_buffer.get_settings(overx, overy, z);
-    oter_id t_above = overmap_buffer.ter(overx, overy, z + 1);
     oter_id terrain_type = overmap_buffer.ter(overx, overy, z);
-    oter_id t_north = overmap_buffer.ter(overx, overy - 1, z);
-    oter_id t_neast = overmap_buffer.ter(overx + 1, overy - 1, z);
-    oter_id t_east = overmap_buffer.ter(overx + 1, overy, z);
-    oter_id t_seast = overmap_buffer.ter(overx + 1, overy + 1, z);
-    oter_id t_south = overmap_buffer.ter(overx, overy + 1, z);
-    oter_id t_nwest = overmap_buffer.ter(overx - 1, overy - 1, z);
-    oter_id t_west = overmap_buffer.ter(overx - 1, overy, z);
-    oter_id t_swest = overmap_buffer.ter(overx - 1, overy + 1, z);
+    oter_id t_above = overmap_buffer.ter( overx    , overy    , z + 1 );
+    oter_id t_north = overmap_buffer.ter( overx    , overy - 1, z );
+    oter_id t_neast = overmap_buffer.ter( overx + 1, overy - 1, z );
+    oter_id t_east  = overmap_buffer.ter( overx + 1, overy    , z );
+    oter_id t_seast = overmap_buffer.ter( overx + 1, overy + 1, z );
+    oter_id t_south = overmap_buffer.ter( overx    , overy + 1, z );
+    oter_id t_swest = overmap_buffer.ter( overx - 1, overy + 1, z );
+    oter_id t_west  = overmap_buffer.ter( overx - 1, overy    , z );
+    oter_id t_nwest = overmap_buffer.ter( overx - 1, overy - 1, z );
 
     // This attempts to scale density of zombies inversely with distance from the nearest city.
     // In other words, make city centers dense and perimiters sparse.
@@ -155,7 +155,7 @@ void map::generate(const int x, const int y, const int z, const int turn)
     }
     density = density / 100;
 
-    draw_map(terrain_type, t_north, t_east, t_south, t_west, t_neast, t_seast, t_nwest, t_swest,
+    draw_map(terrain_type, t_north, t_east, t_south, t_west, t_neast, t_seast, t_swest, t_nwest,
              t_above, turn, density, z, rsettings);
 
     // At some point, we should add region information so we can grab the appropriate extras
@@ -189,7 +189,7 @@ void map::generate(const int x, const int y, const int z, const int turn)
                 monx = rng( 0, SEEX * 2 - 1 );
                 mony = rng( 0, SEEY * 2 - 1 );
                 tries--;
-            } while( move_cost( monx, mony ) == 0 && tries > 0 );
+            } while( impassable( monx, mony ) && tries > 0 );
             if( tries > 0 ) {
                 add_spawn( spawn_details.name, spawn_details.pack_size, monx, mony );
             }
@@ -1613,7 +1613,7 @@ void mapgen_function_lua::generate( map *m, oter_id terrain_type, mapgendata dat
 
 void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter_id t_east,
                    const oter_id t_south, const oter_id t_west, const oter_id t_neast,
-                   const oter_id t_seast, const oter_id t_nwest, const oter_id t_swest,
+                   const oter_id t_seast, const oter_id t_swest, const oter_id t_nwest,
                    const oter_id t_above, const int turn, const float density,
                    const int zlevel, const regional_settings * rsettings)
 {
@@ -1650,11 +1650,11 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
     // To distinguish between types of labs
     bool ice_lab = true;
 
-    oter_id t_nesw[] = {t_north, t_east, t_south, t_west, t_neast, t_seast, t_nwest, t_swest};
-    int nesw_fac[] = {0, 0, 0, 0, 0, 0, 0, 0};
+    oter_id t_nesw[] = { t_north, t_east, t_south, t_west, t_neast, t_seast, t_swest, t_nwest };
+    int nesw_fac[] = { 0, 0, 0, 0, 0, 0, 0, 0 };
     int &n_fac = nesw_fac[0], &e_fac = nesw_fac[1], &s_fac = nesw_fac[2], &w_fac = nesw_fac[3];
 
-    mapgendata dat(t_north, t_east, t_south, t_west, t_neast, t_seast, t_nwest, t_swest, t_above, zlevel, rsettings, this);
+    mapgendata dat( t_north, t_east, t_south, t_west, t_neast, t_seast, t_swest, t_nwest, t_above, zlevel, rsettings, this );
 
     computer *tmpcomp = NULL;
     bool terrain_type_found = true;
@@ -4588,7 +4588,7 @@ ff.......|....|WWWWWWWW|\n\
             bool generator_ok = false;
             for (int i = 0; i < 20; i++){
                 int rnx = rng(3, 20), rny = rng(3, 20);
-                 if (move_cost(rnx, rny) != 0) {
+                 if (passable(rnx, rny)) {
                     generator_ok = true;
                     ter_set(rnx, rny, t_plut_generator);
                     break;
@@ -4606,7 +4606,7 @@ ff.......|....|WWWWWWWW|\n\
         // Finally, scatter dead bodies / mil zombies
         for (int i = 0; i < 20; i++) {
             int rnx = rng(3, 20), rny = rng(3, 20);
-            if (move_cost(rnx, rny) != 0) {
+            if (passable(rnx, rny)) {
                 if (one_in(5)) { // Military zombie
                     add_spawn(mon_zombie_soldier, 1, rnx, rny);
                 } else if (one_in(2)) {
@@ -9173,7 +9173,7 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
            int zx = rng(0, SEEX * 2 - 1), zy = rng(0, SEEY * 2 - 1);
            if (ter(zx, zy) == t_bed || one_in(3))
             add_item(zx, zy, body);
-           else if (move_cost(zx, zy) > 0) {
+           else if (passable(zx, zy)) {
             mon_id zom = mon_zombie;
             if (one_in(6))
              zom = mon_zombie_spitter;
@@ -9538,7 +9538,7 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
             item body;
             body.make_corpse();
             int zx = rng(0, SEEX * 2 - 1), zy = rng(0, SEEY * 2 - 1);
-            if (move_cost(zx, zy) > 0) {
+            if (passable(zx, zy)) {
                 if (furn(zx, zy) == f_bed || one_in(3)) {
                     add_item(zx, zy, body);
                 } else {
@@ -9756,7 +9756,7 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
         if (t_west != "mansion_entrance" && t_west != "mansion") {
             int consecutive = 0;
             for (int i = 1; i < SEEY; i++) {
-                if (move_cost(1, i) != 0 && move_cost(1, SEEY * 2 - 1 - i) != 0) {
+                if (passable(1, i) && passable(1, SEEY * 2 - 1 - i)) {
                     if (consecutive == 3) {
                         consecutive = 0;    // No really long windows
                     } else {
@@ -9772,8 +9772,8 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
         if (t_south != "mansion_entrance" && t_south != "mansion") {
             int consecutive = 0;
             for (int i = 1; i < SEEX; i++) {
-                if (move_cost(i, SEEY * 2 - 2) != 0 &&
-                    move_cost(SEEX * 2 - 1 - i, SEEY * 2 - 2) != 0) {
+                if (passable(i, SEEY * 2 - 2) &&
+                    passable(SEEX * 2 - 1 - i, SEEY * 2 - 2)) {
                     if (consecutive == 3) {
                         consecutive = 0;    // No really long windows
                     } else {
@@ -9789,8 +9789,8 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
         if (t_east != "mansion_entrance" && t_east != "mansion") {
             int consecutive = 0;
             for (int i = 1; i < SEEY; i++) {
-                if (move_cost(SEEX * 2 - 2, i) != 0 &&
-                    move_cost(SEEX * 2 - 2, SEEY * 2 - 1 - i) != 0) {
+                if (passable(SEEX * 2 - 2, i) &&
+                    passable(SEEX * 2 - 2, SEEY * 2 - 1 - i)) {
                     if (consecutive == 3) {
                         consecutive = 0;    // No really long windows
                     } else {
@@ -9807,7 +9807,7 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
         if (t_north != "mansion_entrance" && t_north != "mansion") {
             int consecutive = 0;
             for (int i = 1; i < SEEX; i++) {
-                if (move_cost(i, 1) != 0 && move_cost(SEEX * 2 - 1 - i, 1) != 0) {
+                if (passable(i, 1) && passable(SEEX * 2 - 1 - i, 1)) {
                     if (consecutive == 3) {
                         consecutive = 0;    // No really long windows
                     } else {
@@ -10423,6 +10423,36 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
         }
     }
 
+    int terrain_type_with_suffix_to_nesw_array( oter_id terrain_type, bool array[4] );
+
+    // finally, any terrain with SIDEWALKS should contribute sidewalks to neighboring diagonal roads
+    if( otermap[terrain_type].has_flag( has_sidewalk ) ) {
+        for( int dir = 4; dir < 8; dir++ ) { // NE SE SW NW
+            bool n_roads_nesw[4] = {};
+            int n_num_dirs = terrain_type_with_suffix_to_nesw_array( oter_id( t_nesw[dir] ), n_roads_nesw );
+            // only handle diagonal neighbors
+            if( n_num_dirs == 2 &&
+                n_roads_nesw[( ( dir - 4 ) + 3 ) % 4] &&
+                n_roads_nesw[( ( dir - 4 ) + 2 ) % 4] ) {
+                // make drawing simpler by rotating the map back and forth
+                rotate( 4 - ( dir - 4 ) );
+                // draw a small triangle of sidewalk in the northeast corner
+                for( int y = 0; y < 4; y++ ) {
+                    for( int x = SEEX * 2 - 4; x < SEEX * 2; x++ ) {
+                        if( x - y > SEEX * 2 - 4 ) {
+                            //TODO more discriminating conditions
+                            if( ter( x, y ) == t_grass ||
+                                ter( x, y ) == t_dirt ||
+                                ter( x, y ) == t_shrub ) {
+                                ter_set( x, y, t_sidewalk );
+                            }
+                        }
+                    }
+                }
+                rotate( ( dir - 4 ) );
+            }
+        }
+    }
 }
 
 void map::post_process(unsigned zones)
@@ -10439,7 +10469,7 @@ void map::post_process(unsigned zones)
             int num_corpses = rng(1, 8);
             for (int i = 0; i < num_corpses; i++) {
                 int x = rng(0, 23), y = rng(0, 23);
-                if (move_cost(x, y) > 0) {
+                if (passable(x, y)) {
                     add_corpse( tripoint( x, y, abs_sub.z ) );
                 }
             }
@@ -10495,7 +10525,7 @@ void map::place_spawns(const mongroup_id& group, const int chance,
                 x = rng(x1, x2);
                 y = rng(y1, y2);
                 tries--;
-            } while( move_cost(x, y) == 0 && tries );
+            } while( impassable(x, y) && tries );
 
             // Pick a monster type
             MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup( group, &num );
@@ -10747,7 +10777,7 @@ vehicle *map::add_vehicle_to_map(vehicle *veh, const bool merge_wrecks)
 
         // Don't spawn shopping carts on top of another vehicle or other obstacle.
         if (veh->type == vproto_id( "shopping_cart" ) ) {
-            if (veh_at( p ) != nullptr || move_cost( p ) == 0) {
+            if (veh_at( p ) != nullptr || impassable( p )) {
                 delete veh;
                 return nullptr;
             }
@@ -10813,7 +10843,7 @@ vehicle *map::add_vehicle_to_map(vehicle *veh, const bool merge_wrecks)
             //Try again with the wreckage
             return add_vehicle_to_map(wreckage, true);
 
-        } else if (move_cost(p.x, p.y) == 0) {
+        } else if (impassable(p.x, p.y)) {
             if( !merge_wrecks ) {
                 delete veh;
                 return NULL;
@@ -12429,7 +12459,7 @@ void mx_military(map &m, const tripoint &)
             x = rng(0, SEEX * 2 - 1);
             y = rng(0, SEEY * 2 - 1);
             tries++;
-        } while (tries < 10 && m.move_cost(x, y) == 0);
+        } while (tries < 10 && m.impassable(x, y));
 
         if (tries < 10) { // We found a valid spot!
             if (one_in(10)) {
@@ -12469,7 +12499,7 @@ void mx_science(map &m, const tripoint &)
             x = rng(0, SEEX * 2 - 1);
             y = rng(0, SEEY * 2 - 1);
             tries++;
-        } while (tries < 10 && m.move_cost(x, y) == 0);
+        } while (tries < 10 && m.impassable(x, y));
 
         if (tries < 10) { // We found a valid spot!
             if (one_in(10)) {
@@ -12502,7 +12532,7 @@ void mx_collegekids(map &m, const tripoint &)
             x = rng(0, SEEX * 2 - 1);
             y = rng(0, SEEY * 2 - 1);
             tries++;
-        } while (tries < 10 && m.move_cost(x, y) == 0);
+        } while (tries < 10 && m.impassable(x, y));
 
         if (tries < 10) { // We found a valid spot!
             if (one_in(10)) {
@@ -12572,7 +12602,7 @@ void mx_roadblock(map &m, const tripoint &abs_sub)
                 x = rng(0, SEEX * 2 - 1);
                 y = rng(0, SEEY * 2 - 1);
                 tries++;
-            } while (tries < 10 && m.move_cost(x, y) == 0);
+            } while (tries < 10 && m.impassable(x, y));
 
             if (tries < 10) { // We found a valid spot!
                 if (one_in(8)) {
@@ -12600,7 +12630,7 @@ void mx_roadblock(map &m, const tripoint &abs_sub)
                 x = rng(0, SEEX * 2 - 1);
                 y = rng(0, SEEY * 2 - 1);
                 tries++;
-            } while (tries < 10 && m.move_cost(x, y) == 0);
+            } while (tries < 10 && m.impassable(x, y));
 
             if (tries < 10) { // We found a valid spot!
                 if (one_in(8)) {
@@ -12667,7 +12697,7 @@ void mx_drugdeal(map &m, const tripoint &abs_sub)
                 y_offset = 0;
             }
             tries++;
-        } while (tries < 10 && m.move_cost(x, y) == 0);
+        } while (tries < 10 && m.impassable(x, y));
 
         if (tries < 10) { // We found a valid spot!
             if (one_in(10)) {
@@ -12705,7 +12735,7 @@ void mx_drugdeal(map &m, const tripoint &abs_sub)
                 y_offset = 0;
             }
             tries++;
-        } while (tries < 10 && m.move_cost(x, y) == 0);
+        } while (tries < 10 && m.impassable(x, y));
 
         if (tries < 10) { // We found a valid spot!
             if (one_in(20)) {
@@ -12748,7 +12778,7 @@ void mx_supplydrop(map &m, const tripoint &abs_sub)
             x = rng(0, SEEX * 2 - 1);
             y = rng(0, SEEY * 2 - 1);
             tries++;
-        } while (tries < 10 && m.move_cost(x, y) == 0);
+        } while (tries < 10 && m.impassable(x, y));
         m.furn_set(x, y, f_crate_c);
         std::string item_group;
         switch (rng(1, 10)) {
@@ -13059,40 +13089,64 @@ void map::create_anomaly( const tripoint &cp, artifact_natural_property prop )
 }
 ///////////////////// part of map
 
-void line(map *m, const ter_id type, int x1, int y1, int x2, int y2) {
-    m->draw_line_ter(type, x1, y1, x2, y2);
+void line( map *m, const ter_id type, int x1, int y1, int x2, int y2 )
+{
+    m->draw_line_ter( type, x1, y1, x2, y2 );
 }
-void line_furn(map *m, furn_id type, int x1, int y1, int x2, int y2) {
-    m->draw_line_furn(type, x1, y1, x2, y2);
+void line_furn( map *m, furn_id type, int x1, int y1, int x2, int y2 )
+{
+    m->draw_line_furn( type, x1, y1, x2, y2 );
 }
-void fill_background(map *m, ter_id type) {
-    m->draw_fill_background(type);
+void fill_background( map *m, ter_id type )
+{
+    m->draw_fill_background( type );
 }
-void fill_background(map *m, ter_id (*f)()) {
-    m->draw_fill_background(f);
+void fill_background( map *m, ter_id( *f )() )
+{
+    m->draw_fill_background( f );
 }
-void fill_background(map *m, const id_or_id<ter_t> & f) {
-    m->draw_fill_background(f);
+void fill_background( map *m, const id_or_id<ter_t> &f )
+{
+    m->draw_fill_background( f );
 }
-void square(map *m, ter_id type, int x1, int y1, int x2, int y2) {
-    m->draw_square_ter(type, x1, y1, x2, y2);
+void square( map *m, ter_id type, int x1, int y1, int x2, int y2 )
+{
+    m->draw_square_ter( type, x1, y1, x2, y2 );
 }
-void square_furn(map *m, furn_id type, int x1, int y1, int x2, int y2) {
-    m->draw_square_furn(type, x1, y1, x2, y2);
+void square_furn( map *m, furn_id type, int x1, int y1, int x2, int y2 )
+{
+    m->draw_square_furn( type, x1, y1, x2, y2 );
 }
-void square(map *m, ter_id (*f)(), int x1, int y1, int x2, int y2) {
-    m->draw_square_ter(f, x1, y1, x2, y2);
+void square( map *m, ter_id( *f )(), int x1, int y1, int x2, int y2 )
+{
+    m->draw_square_ter( f, x1, y1, x2, y2 );
 }
-void square(map *m, const id_or_id<ter_t> & f, int x1, int y1, int x2, int y2) {
-    m->draw_square_ter(f, x1, y1, x2, y2);
+void square( map *m, const id_or_id<ter_t> &f, int x1, int y1, int x2, int y2 )
+{
+    m->draw_square_ter( f, x1, y1, x2, y2 );
 }
-void rough_circle(map *m, ter_id type, int x, int y, int rad) {
-    m->draw_rough_circle(type, x, y, rad);
+void rough_circle( map *m, ter_id type, int x, int y, int rad )
+{
+    m->draw_rough_circle( type, x, y, rad );
 }
-void rough_circle_furn(map *m, furn_id type, int x, int y, int rad) {
-    m->draw_rough_circle_furn(type, x, y, rad);
+void rough_circle_furn( map *m, furn_id type, int x, int y, int rad )
+{
+    m->draw_rough_circle_furn( type, x, y, rad );
 }
-void add_corpse(map *m, int x, int y) {
+void circle( map *m, ter_id type, double x, double y, double rad )
+{
+    m->draw_circle( type, x, y, rad );
+}
+void circle( map *m, ter_id type, int x, int y, int rad )
+{
+    m->draw_circle( type, x, y, rad );
+}
+void circle_furn( map *m, furn_id type, int x, int y, int rad )
+{
+    m->draw_circle_furn( type, x, y, rad );
+}
+void add_corpse( map *m, int x, int y )
+{
     m->add_corpse( tripoint( x, y, m->get_abs_sub().z ) );
 }
 

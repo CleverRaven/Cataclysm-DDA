@@ -297,8 +297,6 @@ void defense_game::init_map()
     int x = g->u.posx();
     int y = g->u.posy();
     g->update_map(x, y);
-    g->u.setx(x);
-    g->u.sety(y);
     monster generator( mtype_id( "mon_generator" ),
                        tripoint( g->u.posx() + 1, g->u.posy() + 1, g->u.posz() ) );
     // Find a valid spot to spawn the generator
@@ -1424,7 +1422,7 @@ void defense_game::spawn_wave_monster( const mtype_id &type )
         }
     }
     monster tmp( type, tripoint( pnt, g->get_levz() ) );
-    tmp.wander_pos = g->u.pos3();
+    tmp.wander_pos = g->u.pos();
     tmp.wandf = 150;
     // We wanna kill!
     tmp.anger = 100;

@@ -162,9 +162,6 @@ class Creature
         dealt_projectile_attack projectile_attack( const projectile &proj, const tripoint &target,
                                                    double total_dispersion );
 
-        // handles dodges and misses, allowing triggering of martial arts counter
-        virtual void dodge_hit(Creature *source, int hit_spread) = 0;
-
         // handles blocking of damage instance. mutates &dam
         virtual bool block_hit(Creature *source, body_part &bp_hit,
                                damage_instance &dam) = 0;
@@ -212,7 +209,7 @@ class Creature
          * This creature just dodged an attack - possibly special/ranged attack - from source.
          * Players should train dodge, monsters may use some special defenses.
          */
-        virtual void on_dodge( Creature *source, int difficulty = INT_MIN ) = 0;
+        virtual void on_dodge( Creature *source, int difficulty ) = 0;
         /**
          * This creature just got hit by an attack - possibly special/ranged attack - from source.
          * Players should train dodge, possibly counter-attack somehow.
@@ -256,11 +253,6 @@ class Creature
         virtual int posy() const = 0;
         virtual int posz() const = 0;
         virtual const tripoint &pos() const = 0;
-
-        virtual const tripoint &pos3() const
-        {
-            return pos();
-        }
 
         virtual void setpos( const tripoint &pos ) = 0;
 
@@ -344,6 +336,8 @@ class Creature
         virtual int get_armor_cut_base(body_part bp) const;
         virtual int get_armor_bash_bonus() const;
         virtual int get_armor_cut_bonus() const;
+
+        virtual int get_armor_type( damage_type dt, body_part bp ) const = 0;
 
         virtual int get_speed() const;
         virtual int get_dodge() const;

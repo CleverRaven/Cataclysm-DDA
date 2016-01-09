@@ -361,7 +361,7 @@ bool mattack::acid(monster *z)
     if( hit_critter == nullptr && g->m.hit_with_acid( hitp ) && g->u.sees( hitp ) ) {
         add_msg( _("A glob of acid hits the %s!"),
                  g->m.tername( hitp ).c_str());
-        if( g->m.move_cost( hitp ) == 0 ) {
+        if( g->m.impassable( hitp ) ) {
             // TODO: Allow it to spill on the side it hit from
             return true;
         }
@@ -370,7 +370,7 @@ bool mattack::acid(monster *z)
     for (int i = -3; i <= 3; i++) {
         for (int j = -3; j <= 3; j++) {
             tripoint dest = hitp + tripoint( i, j, 0 );
-            if (g->m.move_cost( dest ) > 0 &&
+            if (g->m.passable( dest ) &&
                 g->m.clear_path( dest, hitp, 6, 1, 100 ) &&
                 ((one_in(abs(j)) && one_in(abs(i))) || (i == 0 && j == 0))) {
                 g->m.add_field( dest, fd_acid, 2, 0 );
@@ -560,7 +560,7 @@ bool mattack::smokecloud(monster *z)
 {
     const auto place_smoke = [&]( const int x, const int y ) {
         tripoint dest( x, y, z->posz() );
-        if( g->m.move_cost( dest ) != 0 &&
+        if( g->m.passable( dest ) &&
             g->m.clear_path( z->pos(), dest, 3, 1, 100 ) ) {
             g->m.add_field( dest, fd_smoke, 2, 0 );
         }
@@ -604,7 +604,7 @@ bool mattack::boomer(monster *z)
     for (auto &i : line) {
         g->m.add_field( i, fd_bile, 1, 0 );
         // If bile hit a solid tile, return.
-        if (g->m.move_cost( i ) == 0) {
+        if (g->m.impassable( i )) {
             g->m.add_field( i, fd_bile, 3, 0 );
             if (g->u.sees( i ))
                 add_msg(_("Bile splatters on the %s!"),
@@ -645,7 +645,7 @@ bool mattack::boomer_glow(monster *z)
     }
     for (auto &i : line) {
         g->m.add_field(i, fd_bile, 1, 0);
-        if (g->m.move_cost(i) == 0) {
+        if (g->m.impassable(i)) {
             g->m.add_field(i, fd_bile, 3, 0);
             if (g->u.sees( i ))
                 add_msg(_("Bile splatters on the %s!"), g->m.tername(i).c_str());
@@ -695,7 +695,7 @@ bool mattack::resurrect(monster *z)
     std::vector<std::pair<tripoint, item*>> corpses;
     // Find all corpses that we can see within 10 tiles.
     int range = 10;
-    tripoint tmp = z->pos3();
+    tripoint tmp = z->pos();
     int x = tmp.x;
     int y = tmp.y;
     bool found_eligible_corpse = false;
@@ -704,7 +704,7 @@ bool mattack::resurrect(monster *z)
         for (int j = y - range; j < y + range; j++) {
             tmp.x = i;
             tmp.y = j;
-            if (g->is_empty(tmp) && g->m.sees(z->pos3(), tmp, -1)) {
+            if (g->is_empty(tmp) && g->m.sees(z->pos(), tmp, -1)) {
                 for( auto &i : g->m.i_at( tmp ) ) {
                     if( i.is_corpse() && i.active && i.get_mtype()->has_flag(MF_REVIVES) &&
                         i.get_mtype()->in_species( ZOMBIE ) ) {
@@ -1508,7 +1508,7 @@ bool mattack::fungus(monster *z)
             tripoint sporep( z->posx() + i, z->posy() + j, z->posz() );
             const int dist = rl_dist( z->pos(), sporep );
             if( !one_in( dist ) ||
-                g->m.move_cost(sporep) <= 0 ||
+                g->m.impassable(sporep) ||
                 ( dist > 1 && !g->m.clear_path( z->pos(), sporep, 2, 1, 10 ) ) ) {
                 continue;
             }
@@ -1912,7 +1912,7 @@ bool mattack::leap(monster *z)
             // check if monster has a clear path to the proposed point
             std::vector<tripoint> line = g->m.find_clear_path( z->pos(), dest );
             for (auto &i : line) {
-                if (g->m.move_cost( i ) == 0) {
+                if (g->m.impassable( i )) {
                     blocked_path = true;
                     break;
                 }
@@ -2124,75 +2124,130 @@ bool mattack::disappear(monster *z)
     return true;
 }
 
+static void poly_keep_speed( monster &mon, const mtype_id& id )
+{
+    // Retain old speed after polymorph
+    // This prevents blobs regenerating speed through polymorphs
+    // and thus replicating indefinitely, covering entire map
+    const int old_speed = mon.get_speed_base();
+    mon.poly( id );
+    mon.set_speed_base( old_speed );
+}
+
+static bool blobify( monster &blob, monster &target )
+{
+    if( g->u.sees( target ) ) {
+        add_msg( m_warning, _("%s is engulfed by %s!"),
+            target.disp_name().c_str(), blob.disp_name().c_str() );
+    }
+
+    switch( target.get_size() ) {
+        case MS_TINY:
+            // Just consume it
+            target.set_hp( 0 );
+            blob.set_speed_base( blob.get_speed_base() + 5 );
+            return false;
+        case MS_SMALL:
+            target.poly( mon_blob_small );
+            break;
+        case MS_MEDIUM:
+            target.poly( mon_blob );
+            break;
+        case MS_LARGE:
+            target.poly( mon_blob_large );
+            break;
+        case MS_HUGE:
+            // No polymorphing huge stuff
+            target.add_effect( "slimed", rng( 2, 10 ) );
+            break;
+        default:
+            debugmsg("Tried to blobify %s with invalid size: %d",
+                 target.disp_name().c_str(), (int)target.get_size() );
+            return false;
+    }
+
+    target.make_ally( &blob );
+    return true;
+}
+
 bool mattack::formblob(monster *z)
 {
     if( z->friendly ) {
         return false; // TODO: handle friendly monsters
     }
+
     bool didit = false;
-    int thatmon = -1;
-    for (int i = -1; i <= 1; i++) {
-        for (int j = -1; j <= 1; j++) {
-            tripoint dest( z->posx() + i, z->posy() + j, z->posz() );
-            thatmon = g->mon_at(dest);
-            if( g->u.pos() == dest ) {
-                // If we hit the player, cover them with slime
-                didit = true;
-                g->u.add_effect("slimed", rng(0, z->get_hp()));
-            } else if (thatmon != -1) {
-                monster &othermon = g->zombie(thatmon);
-                // Hit a monster.  If it's a blob, give it our speed.  Otherwise, blobify it?
-                if( z->get_speed_base() > 40 && othermon.type->in_species( BLOB ) ) {
-                    if( othermon.type->id == mon_blob_brain ) {
-                        // Brain blobs don't get sped up, they heal at the cost of the other blob.
-                        // But only if they are hurt badly.
-                        if( othermon.get_hp() < othermon.get_hp_max() / 2 ) {
-                            didit = true;
-                            othermon.heal( z->get_speed_base(), true );
-                            z->set_hp( 0 );
-                            return true;
-                        }
-                        continue;
-                    }
-                    didit = true;
-                    othermon.set_speed_base( othermon.get_speed_base() + 5 );
-                    z->set_speed_base( z->get_speed_base() - 5 );
-                    if (othermon.type->id == mon_blob_small && othermon.get_speed_base() >= 60) {
-                        othermon.poly( mon_blob );
-                    } else if ( othermon.type->id == mon_blob && othermon.get_speed_base() >= 80) {
-                        othermon.poly( mon_blob_large );
-                    }
-                } else if( (othermon.made_of("flesh") ||
-                            othermon.made_of("veggy") ||
-                            othermon.made_of("iflesh") ) &&
-                           rng(0, z->get_hp()) > rng(0, othermon.get_hp())) { // Blobify!
-                    didit = true;
-                    othermon.poly( mon_blob );
-                    othermon.set_speed_base( othermon.get_speed_base() - rng(5, 25) );
-                    othermon.set_hp( othermon.get_speed_base() );
-                }
-            } else if (z->get_speed_base() >= 85 && rng(0, 250) < z->get_speed_base()) {
+    auto pts = closest_tripoints_first( 1, z->pos() );
+    // Don't check own tile
+    pts.erase( pts.begin() );
+    for( const tripoint &dest : pts ) {
+        Creature *critter = g->critter_at( dest );
+        if( critter == nullptr ) {
+            if( z->get_speed_base() > 85 && rng(0, 250) < z->get_speed_base() ) {
                 // If we're big enough, spawn a baby blob.
                 didit = true;
-                z->mod_speed_bonus( -15 );
-                if (g->summon_mon(mon_blob_small, tripoint(z->posx() + i, z->posy() + j, z->posz()))) {
-                    monster *blob = g->monster_at(tripoint(z->posx() + i, z->posy() + j, z->posz()));
-                    blob->make_ally(z);
-                    blob->set_speed_base( blob->get_speed_base() - rng(30, 60) );
-                    blob->set_hp( blob->get_speed_base() );
+                z->set_speed_base( z->get_speed_base() - 15 );
+                if( g->summon_mon( mon_blob_small, dest ) ) {
+                    monster *blob = g->monster_at( dest );
+                    blob->make_ally( z );
                 }
-            }
-        }
-        if (didit) { // We did SOMEthing.
-            if (z->type->id == mon_blob && z->get_speed_base() <= 50) { // We shrank!
-                z->poly( mon_blob_small );
-            } else if (z->type->id == mon_blob_large && z->get_speed_base() <= 70) { // We shrank!
-                z->poly( mon_blob );
+
+                break;
             }
 
-            z->moves = 0;
-            return true;
+            continue;
         }
+
+        monster *mon = dynamic_cast<monster*>( critter );
+        if( mon == nullptr ) {
+            // If we hit the player or some NPC, cover them with slime
+            didit = true;
+            // TODO: Add some sort of a resistance/dodge roll
+            g->u.add_effect( "slimed", rng( 0, z->get_hp() ) );
+            break;
+        }
+
+        monster &othermon = *mon;
+        // Hit a monster.  If it's a blob, give it our speed.  Otherwise, blobify it?
+        if( z->get_speed_base() > 40 && othermon.type->in_species( BLOB ) ) {
+            if( othermon.type->id == mon_blob_brain ) {
+                // Brain blobs don't get sped up, they heal at the cost of the other blob.
+                // But only if they are hurt badly.
+                if( othermon.get_hp() < othermon.get_hp_max() / 2 ) {
+                    didit = true;
+                    othermon.heal( z->get_speed_base(), true );
+                    z->set_hp( 0 );
+                    return true;
+                }
+                continue;
+            }
+            didit = true;
+            othermon.set_speed_base( othermon.get_speed_base() + 5 );
+            z->set_speed_base( z->get_speed_base() - 5 );
+            if( othermon.type->id == mon_blob_small && othermon.get_speed_base() >= 60 ) {
+                poly_keep_speed( othermon, mon_blob );
+            } else if( othermon.type->id == mon_blob && othermon.get_speed_base() >= 80 ) {
+                poly_keep_speed( othermon, mon_blob_large );
+            }
+        } else if( (othermon.made_of("flesh") ||
+                    othermon.made_of("veggy") ||
+                    othermon.made_of("iflesh") ) &&
+                   rng( 0, z->get_hp() ) > rng( othermon.get_hp() / 2, othermon.get_hp() ) ) {
+            didit = blobify( *z, othermon );
+        }
+    }
+
+    if( didit ) { // We did SOMEthing.
+        if( z->type->id == mon_blob && z->get_speed_base() <= 50 ) {
+            // We shrank!
+            poly_keep_speed( *z, mon_blob_small );
+        } else if( z->type->id == mon_blob_large && z->get_speed_base() <= 70 ) {
+            // We shrank!
+            poly_keep_speed( *z, mon_blob );
+        }
+
+        z->moves = 0;
+        return true;
     }
 
     return true; // consider returning false to try again immediately if nothing happened?
@@ -4389,7 +4444,7 @@ bool mattack::riotbot(monster *z)
         for (int i = -4; i <= 4; i++) {
             for (int j = -4; j <= 4; j++) {
                 tripoint dest( z->posx() + i, z->posy() + j, z->posz() );
-                if( g->m.move_cost( dest ) != 0 &&
+                if( g->m.passable( dest ) &&
                     g->m.clear_path( z->pos(), dest, 3, 1, 100 ) ) {
                     g->m.add_field( dest, fd_relax_gas, rng(1, 3), 0 );
                 }
@@ -4524,7 +4579,7 @@ bool mattack::riotbot(monster *z)
             for (int i = -2; i <= 2; i++) {
                 for (int j = -2; j <= 2; j++) {
                     tripoint dest( z->posx() + i, z->posy() + j, z->posz() );
-                    if( g->m.move_cost( dest ) != 0 &&
+                    if( g->m.passable( dest ) &&
                         g->m.clear_path( z->pos(), dest, 3, 1, 100 ) ) {
                         g->m.add_field( dest, fd_tear_gas, rng(1, 3), 0 );
                     }

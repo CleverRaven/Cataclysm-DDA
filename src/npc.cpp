@@ -2253,7 +2253,7 @@ void npc::die(Creature* nkiller) {
     dead = true;
     Character::die( nkiller );
     if (in_vehicle) {
-        g->m.unboard_vehicle( pos3() );
+        g->m.unboard_vehicle( pos() );
     }
 
     if (g->u.sees( *this )) {
@@ -2529,6 +2529,9 @@ void npc::on_load()
     for( ; cur < now; cur++ ) {
         update_body( cur, cur + 1 );
     }
+
+    // Not necessarily true, but it's not a bad idea to set this
+    has_new_items = true;
 }
 
 void npc_chatbin::add_new_mission( mission *miss )

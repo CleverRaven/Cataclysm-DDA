@@ -1304,6 +1304,41 @@
     },
     {
         "type": "profession",
+        "ident": "crossbow_hunter",
+        "name": "Crossbow Hunter",
+        "description": "Ever since you were a child you loved hunting, and you soon took a liking to the challenge of hunting with a crossbow.  Why, if the world ended there's nothing you'd want at your side more than your trusty crossbow.  So when it did, you made sure to bring it along.",
+        "points": 2,
+        "skills": [
+            {
+                "level": 2,
+                "name": "archery"
+            }
+        ],
+        "items": {
+            "both": [
+                "army_top",
+                "knit_scarf",
+                "socks",
+                "boots_steel",
+                "pants_cargo",
+                "jacket_flannel",
+                "crossbow",
+                "bolt_metal",
+                "knife_hunting",
+                "hat_hunting",
+                "quiver"
+            ],
+            "male": [
+                "boxer_shorts"
+            ],
+            "female": [
+                "sports_bra",
+                "boxer_shorts"
+            ]
+        }
+    },
+    {
+        "type": "profession",
         "ident": "construction_worker",
         "name": "Handy Man",
         "description": "You used to work at a local hardware store, and you did a lot of home renovations yourself.  Now you look out at the horizon of a ruined world, and wonder - are your meager skills, and the few supplies you grabbed on the way out, sufficient to help it rebuild?",

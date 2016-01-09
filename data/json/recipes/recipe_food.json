@@ -296,7 +296,7 @@
 },{
   "type" : "recipe",
   "result": "lard",
-  "byproducts": { "id" : "cracklins", "charges_mult" : 2 },
+  "byproducts": { "id" : "cracklins" },
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
   "skill_used": "cooking",
@@ -347,6 +347,8 @@
     [
       [ "plant_sac", 1 ],
       [ "seed_cotton_boll", 1 ],
+      [ "seed_pumpkin", 4 ],
+      [ "seed_sunflower", 2 ],
       [ "seed_canola", 4 ]
     ]
   ]
@@ -692,6 +694,7 @@
       [ "flour", 1 ],
       [ "cornmeal", 1 ],
       [ "flatbread", 1 ],
+      [ "tortilla_corn", 1 ],
       [ "bread", 1 ],
       [ "wastebread", 1 ],
       [ "cornbread", 1 ],
@@ -950,8 +953,34 @@
   "components": [
     [
       [ "dry_meat", 2 ],
-      [ "dry_hflesh", 2 ],
       [ "dry_fish", 2 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "hflesh_powder",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_OTHER",
+  "skill_used": "cooking",
+  "difficulty": 4,
+  "time": 12000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [ [ "cookbook_human", 4 ] ],
+  "batch_time_factors":[83, 3],
+  "qualities":[
+    {"id":"CHEM","level":2,"amount":1}
+  ], "tools": [
+    [
+      [ "hotplate", 25 ],
+      [ "toolset", 25 ],
+      [ "fire", -1 ],
+      [ "char_smoker", 3 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "dry_hflesh", 2 ]
     ]
   ]
 },{
@@ -964,9 +993,29 @@
   "time": 4000,
   "reversible": false,
   "autolearn": true,
+  "flags": ["BLIND_HARD"],
   "components": [
     [
       [ "protein_powder", 1 ]
+    ],
+    [
+      [ "water_clean", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "hflesh_drink",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_DRINKS",
+  "skill_used": "cooking",
+  "difficulty": 0,
+  "time": 4000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [ [ "cookbook_human", 0 ] ],
+  "components": [
+    [
+      [ "hflesh_powder", 1 ]
     ],
     [
       [ "water_clean", 1 ]
@@ -988,6 +1037,82 @@
   "components": [
     [
       [ "protein_powder", 1 ]
+    ],
+    [
+      [ "water_clean", 1 ]
+    ],
+    [
+      ["lemonade_powder", 1],
+      ["apple", 1],
+      ["apricot", 1],
+      ["banana", 1],
+      ["blackberries", 1],
+      ["blueberries", 1],
+      ["cherries", 1],
+      ["coconut", 1],
+      ["cranberries", 3],
+      ["dry_fruit", 1],
+      ["grapefruit", 1],
+      ["grapes", 2],
+      ["irradiated_apple", 1],
+      ["irradiated_apricot", 1],
+      ["irradiated_banana", 1],
+      ["irradiated_blackberries", 1],
+      ["irradiated_blueberries", 1],
+      ["irradiated_cherries", 1],
+      ["irradiated_cranberries", 3],
+      ["irradiated_grapefruit", 1],
+      ["irradiated_grapes", 2],
+      ["irradiated_kiwi", 1],
+      ["irradiated_lemon", 1],
+      ["irradiated_mango", 1],
+      ["irradiated_melon", 2],
+      ["irradiated_orange", 1],
+      ["irradiated_papaya", 1],
+      ["irradiated_peach", 1],
+      ["irradiated_pear", 1],
+      ["irradiated_pineapple", 1],
+      ["irradiated_plums", 1],
+      ["irradiated_pomegranate", 1],
+      ["irradiated_raspberries", 1],
+      ["irradiated_strawberries", 1],
+      ["irradiated_watermelon", 1],
+      ["juice_pulp", 2],
+      ["kiwi", 1],
+      ["lemon", 1],
+      ["mango", 1],
+      ["melon", 2],
+      ["orange", 1],
+      ["papaya", 1],
+      ["peach", 1],
+      ["pear", 1],
+      ["pineapple", 1],
+      ["plums", 1],
+      ["pomegranate", 1],
+      ["raspberries", 1],
+      ["rehydrated_fruit", 1],
+      ["can_peach", 1],
+      ["strawberries", 1],
+      ["watermelon", 1]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "hflesh_shake",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_DRINKS",
+  "skill_used": "cooking",
+  "difficulty": 0,
+  "time": 4000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [ [ "cookbook_human", 0 ] ],
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "components": [
+    [
+      [ "hflesh_powder", 1 ]
     ],
     [
       [ "water_clean", 1 ]
@@ -1073,6 +1198,8 @@
       [ "irradiated_broccoli", 2 ],
       [ "tomato", 2 ],
       [ "irradiated_tomato", 2 ],
+      [ "pumpkin", 2 ],
+      [ "irradiated_pumpkin", 2 ],
       [ "zucchini", 2 ],
       [ "irradiated_zucchini", 2 ],
       [ "celery", 2 ],
@@ -1566,6 +1693,7 @@
       [ "flour", 1 ],
       [ "cornmeal", 1 ],
       [ "flatbread", 1 ],
+      [ "tortilla_corn", 1 ],
       [ "bread", 1 ],
       [ "wastebread", 1 ],
       [ "cornbread", 1 ],
@@ -1668,6 +1796,7 @@
       [ "flour", 1 ],
       [ "cornmeal", 1 ],
       [ "flatbread", 1 ],
+      [ "tortilla_corn", 1 ],
       [ "bread", 1 ],
       [ "wastebread", 1 ],
       [ "cornbread", 1 ],
@@ -1912,6 +2041,34 @@
   ]
 },{
   "type" : "recipe",
+  "result": "cooked_pumpkin",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_VEGGI",
+  "skill_used": "cooking",
+  "difficulty": 1,
+  "time": 15000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1},
+    {"id":"COOK","level":2,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "hotplate", 5 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 5 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "pumpkin", 1 ],
+      [ "irradiated_pumpkin", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
   "result": "potato_baked",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_VEGGI",
@@ -1966,6 +2123,34 @@
     [
       [ "salt", 1 ],
       [ "seasoning_salt", 10 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "fried_seeds",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_SNACK",
+  "skill_used": "cooking",
+  "difficulty": 1,
+  "time": 8000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"COOK","level":2,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "hotplate", 5 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 5 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "seed_weed", 4 ],
+      [ "seed_pumpkin", 4 ],
+      [ "seed_sunflower", 4 ]
     ]
   ]
 },{
@@ -2749,9 +2934,6 @@
     [
       [ "irradiated_orange", 2 ],
       [ "orange", 2 ]
-    ],
-    [
-      [ "water_clean", 1 ]
     ]
   ]
 },{
@@ -2856,6 +3038,7 @@
   "time": 7000,
   "reversible": false,
   "autolearn": true,
+  "flags": ["BLIND_HARD"],
   "components": [
     [
       [ "orangesoda", 1 ]
@@ -2875,6 +3058,7 @@
   "time": 7000,
   "reversible": false,
   "autolearn": true,
+  "flags": ["BLIND_HARD"],
   "components": [
     [
       [ "lemonlime", 1 ]
@@ -2893,6 +3077,7 @@
   "time": 7000,
   "reversible": false,
   "autolearn": true,
+  "flags": ["BLIND_HARD"],
   "components": [
     [
       [ "whiskey", 1 ],
@@ -2912,6 +3097,7 @@
   "time": 7000,
   "reversible": false,
   "autolearn": true,
+  "flags": ["BLIND_HARD"],
   "components": [
     [
       [ "cola", 1 ]
@@ -2942,6 +3128,7 @@
   "time": 7000,
   "reversible": false,
   "autolearn": true,
+  "flags": ["BLIND_HARD"],
   "components": [
     [
       [ "oj", 1 ]
@@ -2960,6 +3147,7 @@
   "time": 7000,
   "reversible": false,
   "autolearn": true,
+  "flags": ["BLIND_HARD"],
   "components": [
     [
       [ "apple_cider", 1 ]
@@ -2978,6 +3166,7 @@
   "time": 7000,
   "reversible": false,
   "autolearn": true,
+  "flags": ["BLIND_HARD"],
   "components": [
     [
       [ "rum", 1 ]
@@ -3057,6 +3246,8 @@
         [ "can_tomato", 3 ],
         [ "tomato", 3 ],
         [ "irradiated_tomato", 3 ],
+        [ "pumpkin", 3 ],
+        [ "irradiated_pumpkin", 3 ],
         [ "broccoli", 3 ],
         [ "irradiated_broccoli", 3 ],
         [ "zucchini", 3 ],
@@ -3592,6 +3783,8 @@
       [ "irradiated_tomato", 2 ],
       [ "can_tomato", 2 ],
       [ "tomato", 2 ],
+      [ "pumpkin", 2 ],
+      [ "irradiated_pumpkin", 2 ],
       [ "irradiated_broccoli", 2 ],
       [ "broccoli", 2 ],
       [ "irradiated_zucchini", 2 ],
@@ -3703,11 +3896,14 @@
       [ "irradiated_onion", 1 ],
       [ "carrot", 6 ],
       [ "irradiated_carrot", 6 ],
+      [ "pumpkin", 1 ],
+      [ "irradiated_pumpkin", 1 ],
       [ "veggy_wild", 1 ],
       [ "veggy", 1 ],
       [ "dry_veggy", 1 ],
       [ "con_milk", 1 ],
       [ "flatbread", 1 ],
+      [ "tortilla_corn", 1 ],
       [ "bread", 1 ],
       [ "cornbread", 1 ],
       [ "hardtack", 1 ],
@@ -3914,11 +4110,24 @@
     ]
   ],
   "components": [
-    [ [ "flour", 3 ] ],
-    [ [ "water", 2 ], [ "water_clean", 2 ] ],
-    [ [ "chocolate", 1] ],
-    [ [ "powder_eggs", 1] ],
-    [ [ "weed", 5] ]
+    [
+      [ "flour", 3 ]
+    ],
+    [
+      [ "water", 2 ],
+      [ "water_clean", 2 ]
+    ],
+    [
+      [ "chocolate", 1 ]
+    ],
+    [
+      [ "powder_eggs", 10 ],
+      [ "egg_bird", 2 ],
+      [ "egg_reptile", 2 ]
+    ],
+    [
+      [ "weed", 5 ]
+    ]
   ]
 },{
   "type" : "recipe",
@@ -4013,8 +4222,42 @@
       [ "water", 1 ]
     ]
   ]
-},
-{
+},{
+  "type" : "recipe",
+  "result": "tortilla_corn",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_BREAD",
+  "skill_used": "cooking",
+  "difficulty": 2,
+  "time": 18000,
+  "batch_time_factors":[50, 4],
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"COOK","level":2,"amount":1}
+  ], "tools": [
+    [
+      [ "hotplate", 8 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 8 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "cooking_oil", 1 ],
+      [ "tallow", 1 ],
+      [ "lard", 1 ]
+    ],
+    [
+      [ "cornmeal", 3 ]
+    ],
+    [
+      [ "water", 2 ],
+      [ "water_clean", 2 ]
+    ]
+  ]
+},{
   "type" : "recipe",
   "result": "cornbread",
   "category": "CC_FOOD",
@@ -4290,6 +4533,8 @@
       [ "can_tomato", 1 ],
       ["tomato", 1],
       ["irradiated_tomato", 1],
+      ["pumpkin", 1 ],
+      ["irradiated_pumpkin", 1 ],
       ["broccoli", 1],
       ["irradiated_broccoli", 1],
       ["zucchini", 1],
@@ -4429,6 +4674,8 @@
       [ "can_tomato", 1 ],
       ["tomato", 1],
       ["irradiated_tomato", 1],
+      ["pumpkin", 1 ],
+      ["irradiated_pumpkin", 1 ],
       ["broccoli", 1],
       ["irradiated_broccoli", 1],
       ["zucchini", 1],
@@ -4582,6 +4829,8 @@
       [ "can_tomato", 1 ],
       ["tomato", 1],
       ["irradiated_tomato", 1],
+      ["pumpkin", 1],
+      ["irradiated_pumpkin", 1],
       ["broccoli", 1],
       ["irradiated_broccoli", 1],
       ["zucchini", 1],
@@ -5261,6 +5510,48 @@
   ]
 },{
   "type" : "recipe",
+  "result": "frenchtoast",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_BREAD",
+  "skill_used": "cooking",
+  "difficulty": 3,
+  "time": 12000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+     {"id":"COOK","level":2,"amount":1} ],
+  "tools": [
+    [
+      [ "hotplate", 8 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 8 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "milk", 1 ],
+      [ "con_milk", 1 ],
+      [ "can_coconut", 1 ]
+    ],
+    [
+      [ "powder_eggs", 5 ],
+      [ "egg_bird", 1 ],
+      [ "egg_reptile", 1 ]
+    ],
+    [
+      [ "cinnamon", 20 ]
+    ],
+    [
+      [ "flatbread", 2 ],
+      [ "bread", 2 ],
+      [ "cornbread", 2 ],
+      [ "wastebread", 2 ],
+      [ "hardtack", 4]
+    ]
+  ]
+},{
+  "type" : "recipe",
   "result": "waffles",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_BREAD",
@@ -5651,6 +5942,64 @@
   ]
 },{
   "type" : "recipe",
+  "result": "choco_coffee_beans",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_SNACK",
+  "skill_used": "cooking",
+  "difficulty": 1,
+  "result_mult": 2,
+  "time": 6000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"COOK","level":2,"amount":1}
+  ], "tools": [
+    [
+      [ "hotplate", 2 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 2 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "roasted_coffee_bean", 1 ]
+    ],
+    [
+      [ "chocolate", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "chocpretzels",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_SNACK",
+  "skill_used": "cooking",
+  "difficulty": 1,
+  "result_mult": 2,
+  "time": 6000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"COOK","level":2,"amount":1}
+  ], "tools": [
+    [
+      [ "hotplate", 2 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 2 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "pretzels", 6 ]
+    ],
+    [
+      [ "chocolate", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
   "result": "seasoning_salt",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_OTHER",
@@ -5850,6 +6199,8 @@
       [ "irradiated_broccoli", 2 ],
       [ "tomato", 2 ],
       [ "irradiated_tomato", 2 ],
+      [ "pumpkin", 2 ],
+      [ "irradiated_pumpkin", 2 ],
       [ "zucchini", 2 ],
       [ "irradiated_zucchini", 2 ],
       [ "celery", 2 ],
@@ -6172,6 +6523,8 @@
       [ "irradiated_celery", 2 ],
       [ "tomato", 2 ],
       [ "can_tomato", 2 ],
+      [ "pumpkin", 2 ],
+      [ "irradiated_pumpkin", 2 ],
       [ "onion", 2 ],
       [ "irradiated_onion", 2 ],
       [ "broccoli", 1 ],
@@ -7254,6 +7607,8 @@
       [ "irradiated_tomato", 2 ],
       [ "can_tomato", 2 ],
       [ "tomato", 2 ],
+      [ "pumpkin", 2 ],
+      [ "irradiated_pumpkin", 2 ],
       [ "irradiated_broccoli", 2 ],
       [ "broccoli", 2 ],
       [ "irradiated_zucchini", 2 ],
@@ -7317,6 +7672,8 @@
       [ "onion", 1 ],
       [ "irradiated_carrot", 6 ],
       [ "carrot", 6 ],
+      [ "pumpkin", 1 ],
+      [ "irradiated_pumpkin", 1 ],
       [ "veggy_wild", 1 ],
       [ "veggy", 1 ],
       [ "dry_veggy", 1 ],
@@ -7329,6 +7686,7 @@
       [ "noodles_fast", 1],
       [ "con_milk", 1 ],
       [ "flatbread", 1 ],
+      [ "tortilla_corn", 1 ],
       [ "bread", 1 ],
       [ "cornbread", 1 ],
       [ "hardtack", 1 ],
@@ -7457,6 +7815,8 @@
       [ "irradiated_tomato", 1 ],
       [ "can_tomato", 1 ],
       [ "tomato", 1 ],
+      [ "pumpkin", 1 ],
+      [ "irradiated_pumpkin", 1 ],
       [ "irradiated_zucchini", 1 ],
       [ "zucchini", 1 ],
       [ "veggy", 1 ],
@@ -8037,6 +8397,7 @@
   "time": 20,
   "reversible": false,
   "autolearn": true,
+  "flags": ["BLIND_HARD"],
   "components": [
     [ ["chem_ethanol", 7] ],
     [ ["water", 1], ["water_clean", 1] ] ]
@@ -8701,8 +9062,7 @@
       [ "can_chicken", 2 ]
     ],
     [
-      [ "flour", 2 ],
-      [ "cornmeal", 2]
+      [ "tortilla_corn", 3 ]
     ],
     [
       [ "salt", 2 ]
@@ -8737,8 +9097,7 @@
       [ "rehydrated_hflesh", 2]
     ],
     [
-      [ "flour", 2 ],
-      [ "cornmeal", 2]
+      [ "tortilla_corn", 3 ]
     ],
     [
       [ "salt", 2 ]
@@ -9725,7 +10084,6 @@
 },{
   "type" : "recipe",
   "result": "juice",
-  "result_mult": 2,
   "byproducts": "juice_pulp",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_DRINKS",
@@ -9749,7 +10107,19 @@
       ["cherries", 2],
       ["cranberries", 6],
       ["grapefruit", 2],
-      ["grapes", 4],
+      ["grapes", 2],
+      ["kiwi", 2],
+      ["mango", 2],
+      ["melon", 4],
+      ["papaya", 2],
+      ["peach", 2],
+      ["pear", 2],
+      ["pineapple", 2],
+      ["plums", 2],
+      ["pomegranate", 2],
+      ["raspberries", 2],
+      ["strawberries", 2],
+      ["watermelon", 1],
       ["irradiated_apple", 2],
       ["irradiated_apricot", 2],
       ["irradiated_banana", 2],
@@ -9760,10 +10130,8 @@
       ["irradiated_grapefruit", 2],
       ["irradiated_grapes", 4],
       ["irradiated_kiwi", 2],
-      ["irradiated_lemon", 2],
       ["irradiated_mango", 2],
       ["irradiated_melon", 4],
-      ["irradiated_orange", 2],
       ["irradiated_papaya", 2],
       ["irradiated_peach", 2],
       ["irradiated_pear", 2],
@@ -9772,21 +10140,7 @@
       ["irradiated_pomegranate", 2],
       ["irradiated_raspberries", 2],
       ["irradiated_strawberries", 2],
-      ["irradiated_watermelon", 1],
-      ["kiwi", 2],
-      ["lemon", 2],
-      ["mango", 2],
-      ["melon", 4],
-      ["orange", 2],
-      ["papaya", 2],
-      ["peach", 2],
-      ["pear", 2],
-      ["pineapple", 2],
-      ["plums", 2],
-      ["pomegranate", 2],
-      ["raspberries", 2],
-      ["strawberries", 2],
-      ["watermelon", 1]
+      ["irradiated_watermelon", 1]
     ],
     [
       [ "water_clean", 1 ]
@@ -9972,6 +10326,7 @@
   "time": 1000,
   "reversible": false,
   "autolearn": true,
+  "flags": ["BLIND_HARD"],
   "components": [
     [
       [ "water_clean", 1 ]
@@ -10137,6 +10492,254 @@
     [
       [ "tomato", 3 ],
       [ "irradiated_tomato", 3]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "meat_canned",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_MEAT",
+  "skill_used": "cooking",
+  "difficulty": 5,
+  "time": 24000,
+  "reversible": false,
+  "autolearn": true,
+  "contained": true,
+  "batch_time_factors":[83, 5],
+  "qualities" : [
+    {"id":"SAW_M","level":1,"amount":1},
+    {"id":"HAMMER","level":1,"amount":1},
+    {"id":"CUT","level":1,"amount":1},
+    {"id":"COOK","level":3,"amount":1}
+  ], "tools": [
+    [
+      [ "hotplate", 10 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 10 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "can_sealer", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "can_food", 1 ]
+    ],
+    [
+      [ "scrap", 1 ]
+    ],
+    [
+      [ "water", 1 ],
+      [ "water_clean", 1 ]
+    ],
+    [
+      [ "meat", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "fish_canned",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_MEAT",
+  "skill_used": "cooking",
+  "difficulty": 5,
+  "time": 24000,
+  "reversible": false,
+  "autolearn": true,
+  "contained": true,
+  "batch_time_factors":[83, 5],
+  "qualities" : [
+    {"id":"SAW_M","level":1,"amount":1},
+    {"id":"HAMMER","level":1,"amount":1},
+    {"id":"CUT","level":1,"amount":1},
+    {"id":"COOK","level":3,"amount":1}
+  ], "tools": [
+    [
+      [ "hotplate", 10 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 10 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "can_sealer", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "can_food", 1 ]
+    ],
+    [
+      [ "scrap", 1 ]
+    ],
+    [
+      [ "water", 1 ],
+      [ "water_clean", 1 ]
+    ],
+    [
+      [ "fish", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "human_canned",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_MEAT",
+  "skill_used": "cooking",
+  "difficulty": 5,
+  "time": 24000,
+  "reversible": false,
+  "autolearn": true,
+  "contained": true,
+  "batch_time_factors":[83, 5],
+  "qualities" : [
+    {"id":"SAW_M","level":1,"amount":1},
+    {"id":"HAMMER","level":1,"amount":1},
+    {"id":"CUT","level":1,"amount":1},
+    {"id":"COOK","level":3,"amount":1}
+  ], "tools": [
+    [
+      [ "hotplate", 10 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 10 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "can_sealer", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "can_food", 1 ]
+    ],
+    [
+      [ "scrap", 1 ]
+    ],
+    [
+      [ "water", 1 ],
+      [ "water_clean", 1 ]
+    ],
+    [
+      [ "human_flesh", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "veggy_canned",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_VEGGI",
+  "skill_used": "cooking",
+  "difficulty": 4,
+  "time": 24000,
+  "reversible": false,
+  "autolearn": true,
+  "contained": true,
+  "batch_time_factors":[83, 5],
+  "qualities" : [
+    {"id":"SAW_M","level":1,"amount":1},
+    {"id":"HAMMER","level":1,"amount":1},
+    {"id":"CUT","level":1,"amount":1},
+    {"id":"COOK","level":3,"amount":1}
+  ], "tools": [
+    [
+      [ "hotplate", 10 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 10 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "can_sealer", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "can_food", 1 ]
+    ],
+    [
+      [ "scrap", 1 ]
+    ],
+    [
+      [ "water", 1 ],
+      [ "water_clean", 1 ]
+    ],
+    [
+      [ "carrot", 6 ],
+      [ "plant_sac", 3 ],
+      [ "raw_dandelion", 2 ],
+      [ "broccoli", 2 ],
+      [ "tomato", 2 ],
+      [ "zucchini", 2 ],
+      [ "celery", 2 ],
+      [ "onion", 2 ],
+      [ "veggy_wild", 2 ],
+      [ "potato_raw", 1 ],
+      [ "pumpkin", 1 ],
+      [ "veggy", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "apple_canned",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_VEGGI",
+  "skill_used": "cooking",
+  "difficulty": 4,
+  "time": 24000,
+  "reversible": false,
+  "autolearn": true,
+  "contained": true,
+  "batch_time_factors":[83, 5],
+  "qualities" : [
+    {"id":"SAW_M","level":1,"amount":1},
+    {"id":"HAMMER","level":1,"amount":1},
+    {"id":"CUT","level":1,"amount":1},
+    {"id":"COOK","level":3,"amount":1}
+  ], "tools": [
+    [
+      [ "hotplate", 10 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 10 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "can_sealer", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "can_food", 1 ]
+    ],
+    [
+      [ "scrap", 1 ]
+    ],
+    [
+      [ "water", 1 ],
+      [ "water_clean", 1 ]
+    ],
+    [
+      [ "cranberries", 4 ],
+      [ "grapes", 4 ],
+      [ "apple", 2 ],
+      [ "blackberries", 2 ],
+      [ "blueberries", 2 ],
+      [ "cherries", 2 ],
+      [ "grapefruit", 2 ],
+      [ "banana", 2 ],
+      [ "kiwi", 2 ],
+      [ "lemon", 2 ],
+      [ "mango", 2 ],
+      [ "melon", 2 ],
+      [ "orange", 2 ],
+      [ "papaya", 2 ],
+      [ "peach", 2 ],
+      [ "pear", 2 ],
+      [ "pineapple", 2 ],
+      [ "plums", 2 ],
+      [ "pomegranate", 2 ],
+      [ "raspberries", 2 ],
+      [ "strawberries", 2 ],
+      [ "watermelon", 2 ],
+      [ "apricot", 2 ]
     ]
   ]
 },{
@@ -10372,6 +10975,7 @@
   "time": 1500,
   "reversible": false,
   "autolearn": true,
+  "flags": ["BLIND_HARD"],
   "components": [
     [
       [ "tea", 1 ]
@@ -10393,6 +10997,7 @@
   "time": 1500,
   "reversible": false,
   "autolearn": true,
+  "flags": ["BLIND_HARD"],
   "components": [
     [
       [ "coffee_syrup", 1 ],
@@ -10487,6 +11092,7 @@
   "time": 3000,
   "reversible": false,
   "autolearn": true,
+  "flags": ["BLIND_HARD"],
   "components": [
     [
       [ "lemonade", 1 ]
@@ -10507,6 +11113,7 @@
   "time": 3000,
   "reversible": false,
   "autolearn": true,
+  "flags": ["BLIND_HARD"],
   "components": [
     [
       [ "bum_wine", 6 ],
@@ -10528,6 +11135,7 @@
   "time": 4000,
   "reversible": false,
   "autolearn": true,
+  "flags": ["BLIND_HARD"],
   "components": [
     [
       [ "oj", 1 ],
@@ -10992,24 +11600,6 @@
   ]
 },{
   "type" : "recipe",
-  "result": "seed_canola",
-  "category": "CC_FOOD",
-  "subcategory": "CSC_FOOD_OTHER",
-  "skill_used": "survival",
-  "difficulty": 2,
-  "time": 5000,
-  "reversible": false,
-  "autolearn": true,
-  "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
-  ],
-  "components": [
-    [
-      [ "canola", 1 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
   "result": "seed_dogbane",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_OTHER",
@@ -11282,6 +11872,94 @@
     [
       [ "mushroom_morel", 1 ]
     ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "eggnog",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_DRINKS",
+  "skill_used": "cooking",
+  "difficulty": 1,
+  "time": 5000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [ ["family_cookbook", 2] ],
+  "qualities":[
+    {"id":"COOK","level":3,"amount":1},
+    {"id":"BOIL","level":2,"amount":1}
+  ],
+  "tools": [
+    [
+      ["hotplate", 5],
+      ["toolset", 5],
+      ["fire", -1]
+    ]
+  ],
+  "components": [
+    [
+        ["egg_bird", 3 ],
+        ["egg_reptile", 3 ]
+    ],
+    [
+      [ "milk", 1 ],
+      [ "milk_powder", 1 ]
+    ],
+    [
+      [ "sugar", 1 ]
+    ],
+    [
+      [ "con_milk", 1 ]
+    ],
+    [
+      ["cinnamon", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "eggnog_spiked",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_DRINKS",
+  "skill_used": "cooking",
+  "difficulty": 1,
+  "time": 5000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [ ["family_cookbook", 2] ],
+  "qualities":[
+    {"id":"COOK","level":3,"amount":1},
+    {"id":"BOIL","level":2,"amount":1}
+  ],
+  "tools": [
+    [
+      ["hotplate", 5],
+      ["toolset", 5],
+      ["fire", -1]
+    ]
+  ],
+  "components": [
+    [
+        ["egg_bird", 3 ],
+        ["egg_reptile", 3 ]
+    ],
+    [
+      [ "milk", 1 ],
+      [ "milk_powder", 1 ]
+    ],
+    [
+      [ "sugar", 1 ]
+    ],
+    [
+      [ "con_milk", 1 ]
+    ],
+    [
+      ["rum", 1 ],
+      ["brandy", 1 ],
+      ["whiskey", 1 ],
+      ["single_malt_whiskey", 1 ]
+    ],	
+    [
+      ["cinnamon", 1 ]
+    ]	  
   ]
 }
 ]

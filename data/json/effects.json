@@ -230,7 +230,8 @@
         "remove_memorial_log": "Put out the fire.",
         "apply_message": "You're on fire!",
         "apply_memorial_log": "Caught on fire.",
-        "rating": "bad"
+        "rating": "bad",
+        "max_duration": 10
     },
     {
         "type": "effect_type",
@@ -818,6 +819,8 @@
             "pain_min": [1],
             "pain_chance": [2],
             "pain_max_val": [-1],
+            "hurt_min": [1],
+            "hurt_chance": [-300],
             "stamina_chance": [2]
         },
         "scaling_mods": {
@@ -825,6 +828,7 @@
             "thirst_min": [1],
             "thirst_tick": [-100],
             "pain_max_val": [10],
+            "hurt_chance": [200],
             "stamina_min": [-1]
         }
     },

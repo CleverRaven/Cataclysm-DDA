@@ -229,7 +229,7 @@ int rate_location( map &m, const tripoint &p, const bool must_be_inside,
                    int (&checked)[MAPSIZE*SEEX][MAPSIZE*SEEY] )
 {
     if( ( must_be_inside && m.is_outside( p ) ) ||
-        m.move_cost( p ) == 0 ||
+        m.impassable( p ) ||
         checked[p.x][p.y] > 0 ) {
         return 0;
     }
@@ -247,7 +247,7 @@ int rate_location( map &m, const tripoint &p, const bool must_be_inside,
         }
 
         const tripoint pt( x, y, p.z );
-        if( m.move_cost( pt ) > 0 ||
+        if( m.passable( pt ) ||
             m.bash_resistance( pt ) <= bash_str ||
             m.open_door( pt, !m.is_outside( from ), true ) ) {
             st.push_back( pt );

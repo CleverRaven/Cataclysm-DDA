@@ -46,7 +46,8 @@
       [ "hotplate", 20 ],
       [ "toolset", 20 ],
       [ "fire", -1 ]
-    ]
+    ],
+    [ [ "sewing_kit", 4 ] ]
   ],
   "components": [
     [
@@ -61,7 +62,8 @@
       [ "pine_bough", 20 ]
     ],
     [ [ "salt", 5 ] ],
-    [ [ "armor_larmor", 1 ] ]
+    [ [ "armor_larmor", 1 ] ],
+    [ [ "armguard_larmor", 1 ] ]
   ]
 },{
   "type" : "recipe",
@@ -78,7 +80,7 @@
   "book_learn": [[ "textbook_tailor", 5 ], [ "tailor_portfolio", 5 ], ["textbook_armwest", 4], ["textbook_armschina", 4]],
   "tools": [
     [
-      [ "sewing_kit", 22 ]
+      [ "sewing_kit", 26 ]
     ]
   ],
   "components": [
@@ -87,34 +89,6 @@
       [ "scrap", 18 ]
     ],
     [ [ "armor_larmor", 1 ] ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "boots_larmor",
-  "override": true,
-  "category": "CC_ARMOR",
-  "subcategory": "CSC_ARMOR_FEET",
-  "skill_used": "tailor",
-  "difficulty": 2,
-  "time": 30000,
-  "reversible": false,
-  "autolearn": false,
-  "book_learn": [[ "textbook_tailor", 3 ], [ "tailor_portfolio", 4 ], ["textbook_survival", 3], ["trappers_companion", 3], ["survival_book", 3], ["textbook_armwest", 5], ["textbook_armschina", 5]],
-  "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
-  ],
-  "tools": [
-    [
-      [ "sewing_kit", 24 ]
-    ]
-  ],
-  "components": [
-    [
-      [ "leather", 18 ],
-      [ "tanned_hide", 3 ],
-      [ "fur", 18 ],
-      [ "tanned_pelt", 3 ]
-    ]
   ]
 },{
   "type" : "recipe",

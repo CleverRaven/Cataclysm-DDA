@@ -11,6 +11,7 @@
 struct vehicle_prototype;
 using vproto_id = string_id<vehicle_prototype>;
 enum field_id : int;
+enum hp_part : int;
 struct mtype;
 using mtype_id = string_id<mtype>;
 class JsonObject;
@@ -467,7 +468,7 @@ class cauterize_actor : public iuse_actor
         // Use flame. If false, uses item charges instead.
         bool flame;
 
-        bool cauterize_effect( player *p, item *it, bool force ) const;
+        static bool cauterize_effect( player *p, item *it, bool force );
 
         cauterize_actor() : iuse_actor(), flame( true ) { }
         virtual ~cauterize_actor() { }
@@ -625,6 +626,105 @@ class holster_actor : public iuse_actor
 
         holster_actor() : iuse_actor(), max_weight( -1 ), multi( 1 ), draw_cost( VOLUME_MOVE_COST ) { }
         virtual ~holster_actor() { }
+        virtual void load( JsonObject &jo );
+        virtual long use( player *, item *, bool, const tripoint & ) const override;
+        virtual iuse_actor *clone() const override;
+};
+
+/**
+ * Repair an item
+ */
+class repair_item_actor : public iuse_actor
+{
+    public:
+        /** Materials we are allowed to repair */
+        std::vector<std::string> materials;
+        /** Skill used */
+        skill_id used_skill;
+        /**
+          * Volume of materials required (and used up) as percentage of repaired item's volume.
+          * Set to 0 to always use just 1 component.
+          */
+        float cost_scaling;
+        /** Extra value added to skill roll */
+        int tool_quality;
+        /** Move cost for every attempt */
+        int move_cost;
+
+        enum attempt_hint : int {
+            AS_SUCCESS = 0,     // Success, but can retry
+            AS_RETRY,           // Failed, but can retry
+            AS_FAILURE,         // Failed hard, don't retry
+            AS_DESTROYED,       // Failed and destroyed item
+            AS_CANT             // Couldn't attempt
+        };
+
+        /** Attempts to repair target item with selected tool */
+        attempt_hint repair( player &pl, item &tool, item &target ) const;
+        /** Checks if repairs are possible.
+          * Doesn't just estimate - should not return true if repairs are not possible or false if they are. */
+        bool can_repair( player &pl, const item &tool, const item &target, bool print_msg ) const;
+        /** Returns if components are available. Consumes them if `just_check` is false. */
+        bool handle_components( player &pl, const item &fix, bool print_msg, bool just_check ) const;
+
+        repair_item_actor() : iuse_actor() { }
+        virtual ~repair_item_actor() { }
+        virtual void load( JsonObject &jo );
+        virtual long use( player *, item *, bool, const tripoint & ) const override;
+        virtual iuse_actor *clone() const override;
+};
+
+class heal_actor : public iuse_actor
+{
+    public:
+        /** How much hp to restore when healing limbs? */
+        int limb_power;
+        /** How much hp to restore when healing head? */
+        int head_power;
+        /** How much hp to restore when healing torso? */
+        int torso_power;
+        /** Chance to remove bleed effect. */
+        float bleed;
+        /** Chance to remove bite effect. */
+        float bite;
+        /** Chance to remove infected effect. */
+        float infect;
+        /** Cost in moves to use the item. */
+        int move_cost;
+        /** Is using this item a long action. */
+        bool long_action;
+        /** Scales extra healed hp gained from first aid skill. */
+        float bonus_scaling;
+        /** Effects to apply to patient on finished healing. */
+        std::vector<effect_data> effects;
+        /**
+         * Item produced on finished healing. For example, bloody rag.
+         * If the used item is a tool it, it will be turned into the used up item.
+         * If it is not a tool a new item with this id will be created.
+         */
+        std::string used_up_item;
+
+        /** How much hp would `healer` heal using this actor on `healed` body part. */
+        int get_heal_value( const player &healer, hp_part healed ) const;
+
+        /** Does the actual healing. Used by both long and short actions. Returns charges used. */
+        long finish_using( player &healer, player &patient, item &it, hp_part part ) const;
+
+        hp_part use_healing_item( player &healer, player &patient, item &it, bool force ) const;
+
+        heal_actor()
+            : iuse_actor()
+            , limb_power( 0 )
+            , head_power( 0 )
+            , torso_power( 0 )
+            , bleed( 0.0f )
+            , bite( 0.0f )
+            , infect( 0.0f )
+            , move_cost( 100 )
+            , long_action( false )
+            , bonus_scaling( 1.0f )
+            { }
+        virtual ~heal_actor() { }
         virtual void load( JsonObject &jo );
         virtual long use( player *, item *, bool, const tripoint & ) const override;
         virtual iuse_actor *clone() const override;

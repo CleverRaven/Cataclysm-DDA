@@ -35,6 +35,7 @@
 #include "weather.h"
 #include "ui.h"
 #include "mapbuffer.h"
+#include "map_iterator.h"
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -1374,9 +1375,11 @@ bool overmap::generate_sub(int const z)
             for( auto &elem : skip_above ) {
                 if( oter_above == elem ) {
                     skipme = true;
+                    break;
                 }
             }
-            if (skipme) {
+            if( skipme )
+            {
                 continue;
             }
 
@@ -1428,15 +1431,13 @@ bool overmap::generate_sub(int const z)
                 // technically not all finales need a sub level,
                 // but at this point we don't know
                 requires_sub = true;
-            } else if (oter_above == "mine_finale") {
-                for (int x = i - 1; x <= i + 1; x++) {
-                    for (int y = j - 1; y <= j + 1; y++) {
-                        ter(x, y, z) = "spiral";
-                    }
+            } else if( oter_above == "mine_finale" ) {
+                for( auto &p : g->m.points_in_radius( tripoint( i, j, z ), 1, 0 ) ) {
+                    ter( p.x, p.y, p.z ) = "spiral";
                 }
-                ter(i, j, z) = "spiral_hub";
-                add_mon_group(mongroup( mongroup_id( "GROUP_SPIRAL" ), i * 2, j * 2, z, 2, 200));
-            } else if (oter_above == "silo") {
+                ter( i, j, z ) = "spiral_hub";
+                add_mon_group( mongroup( mongroup_id( "GROUP_SPIRAL" ), i * 2, j * 2, z, 2, 200 ) );
+            } else if ( oter_above == "silo" ) {
                 if (rng(2, 7) < abs(z) || rng(2, 7) < abs(z)) {
                     ter(i, j, z) = "silo_finale";
                 } else {
@@ -1464,7 +1465,7 @@ bool overmap::generate_sub(int const z)
         }
     }
     for (auto &i : ice_lab_points) {
-        bool ice_lab = build_ice_lab(i.x, i.y, z, i.s);
+        bool ice_lab = build_lab(i.x, i.y, z, i.s, true);
         requires_sub |= ice_lab;
         if (!ice_lab && ter(i.x, i.y, z) == "ice_lab_core") {
             ter(i.x, i.y, z) = "ice_lab";
@@ -2972,127 +2973,81 @@ void overmap::make_road(int x, int y, int cs, int dir, city town)
     }
 }
 
-bool overmap::build_lab(int x, int y, int z, int s)
+bool overmap::build_lab( int x, int y, int z, int s, bool ice )
 {
     std::vector<point> generated_lab;
-    ter(x, y, z) = "lab";
-    for (int n = 0; n <= 1; n++) { // Do it in two passes to allow diagonals
-        for (int i = 1; i <= s; i++) {
-            for (int lx = x - i; lx <= x + i; lx++) {
-                for (int ly = y - i; ly <= y + i; ly++) {
-                    if ((ter(lx - 1, ly, z) == "lab" ||
-                         ter(lx + 1, ly, z) == "lab" ||
-                         ter(lx, ly - 1, z) == "lab" ||
-                         ter(lx, ly + 1, z) == "lab") && one_in(i)) {
-                        ter(lx, ly, z) = "lab";
-                        generated_lab.push_back(point(lx, ly));
-                    }
+    std::string labt = ice ? "ice_lab" : "lab";
+    ter( x, y, z ) = labt;
+
+    // maintain a list of potential new lab maps
+    // grows outwards from previously placed lab maps
+    std::set<point> candidates;
+    candidates.insert( {point( x - 1, y ), point( x + 1, y ), point( x, y - 1 ), point( x, y + 1 )} );
+    while( candidates.size() ) {
+        auto cand = candidates.begin();
+        const int &cx = cand->x;
+        const int &cy = cand->y;
+        int dist = abs( x - cx ) + abs( y - cy );
+        if( dist <= s * 2 ) { // increase radius to compensate for sparser new algorithm
+            if( one_in( dist / 2 + 1 ) ) { // odds diminish farther away from the stairs
+                ter( cx, cy, z ) = labt;
+                generated_lab.push_back( *cand );
+                // add new candidates, don't backtrack
+                if( ter( cx - 1, cy, z ) != labt && abs( x - cx + 1 ) + abs( y - cy ) > dist ) {
+                    candidates.insert( point( cx - 1, cy ) );
+                }
+                if( ter( cx + 1, cy, z ) != labt && abs( x - cx - 1 ) + abs( y - cy ) > dist ) {
+                    candidates.insert( point( cx + 1, cy ) );
+                }
+                if( ter( cx, cy - 1, z ) != labt && abs( x - cx ) + abs( y - cy + 1 ) > dist ) {
+                    candidates.insert( point( cx, cy - 1 ) );
+                }
+                if( ter( cx, cy + 1, z ) != labt && abs( x - cx ) + abs( y - cy - 1 ) > dist ) {
+                    candidates.insert( point( cx, cy + 1 ) );
                 }
             }
         }
+        candidates.erase( cand );
     }
 
     bool generate_stairs = true;
     for( auto &elem : generated_lab ) {
-        if( ter( elem.x, elem.y, z + 1 ) == "lab_stairs" ) {
+        if( ter( elem.x, elem.y, z + 1 ) == ( labt + "_stairs" ) ) {
             generate_stairs = false;
         }
     }
-    if (generate_stairs && !generated_lab.empty()) {
+    if( generate_stairs && !generated_lab.empty() ) {
         const point p = random_entry( generated_lab );
-        ter(p.x, p.y, z + 1) = "lab_stairs";
+        ter( p.x, p.y, z + 1 ) = ( labt + "_stairs" );
     }
 
-    ter(x, y, z) = "lab_core";
+    ter( x, y, z ) = labt + "_core";
     int numstairs = 0;
-    if (s > 0) { // Build stairs going down
-        while (!one_in(6)) {
+    if( s > 0 ) { // Build stairs going down
+        while( !one_in( 6 ) ) {
             int stairx, stairy;
             int tries = 0;
             do {
-                stairx = rng(x - s, x + s);
-                stairy = rng(y - s, y + s);
+                stairx = rng( x - s, x + s );
+                stairy = rng( y - s, y + s );
                 tries++;
-            } while (ter(stairx, stairy, z) != "lab" && tries < 15);
-            if (tries < 15) {
-                ter(stairx, stairy, z) = "lab_stairs";
+            } while( ter( stairx, stairy, z ) != labt && tries < 15 );
+            if( tries < 15 ) {
+                ter( stairx, stairy, z ) = ( labt + "_stairs" );
                 numstairs++;
             }
         }
     }
-    if (numstairs == 0) { // This is the bottom of the lab;  We need a finale
+    if( numstairs == 0 ) { // This is the bottom of the lab;  We need a finale
         int finalex, finaley;
         int tries = 0;
         do {
-            finalex = rng(x - s, x + s);
-            finaley = rng(y - s, y + s);
+            finalex = rng( x - s, x + s );
+            finaley = rng( y - s, y + s );
             tries++;
-        } while (tries < 15 && ter(finalex, finaley, z) != "lab"
-                 && ter(finalex, finaley, z) != "lab_core");
-        ter(finalex, finaley, z) = "lab_finale";
-    }
-
-    return numstairs > 0;
-}
-
-bool overmap::build_ice_lab(int x, int y, int z, int s)
-{
-    std::vector<point> generated_ice_lab;
-    ter(x, y, z) = "ice_lab";
-    for (int n = 0; n <= 1; n++) { // Do it in two passes to allow diagonals
-        for (int i = 1; i <= s; i++) {
-            for (int lx = x - i; lx <= x + i; lx++) {
-                for (int ly = y - i; ly <= y + i; ly++) {
-                    if ((ter(lx - 1, ly, z) == "ice_lab" ||
-                         ter(lx + 1, ly, z) == "ice_lab" ||
-                         ter(lx, ly - 1, z) == "ice_lab" ||
-                         ter(lx, ly + 1, z) == "ice_lab") && one_in(i)) {
-                        ter(lx, ly, z) = "ice_lab";
-                        generated_ice_lab.push_back(point(lx, ly));
-                    }
-                }
-            }
-        }
-    }
-
-    bool generate_stairs = true;
-    for( auto &elem : generated_ice_lab ) {
-        if( ter( elem.x, elem.y, z + 1 ) == "ice_lab_stairs" ) {
-            generate_stairs = false;
-        }
-    }
-    if (generate_stairs && !generated_ice_lab.empty()) {
-        const point p = random_entry( generated_ice_lab );
-        ter(p.x, p.y, z + 1) = "ice_lab_stairs";
-    }
-
-    ter(x, y, z) = "ice_lab_core";
-    int numstairs = 0;
-    if (s > 0) { // Build stairs going down
-        while (!one_in(6)) {
-            int stairx, stairy;
-            int tries = 0;
-            do {
-                stairx = rng(x - s, x + s);
-                stairy = rng(y - s, y + s);
-                tries++;
-            } while (ter(stairx, stairy, z) != "ice_lab" && tries < 15);
-            if (tries < 15) {
-                ter(stairx, stairy, z) = "ice_lab_stairs";
-                numstairs++;
-            }
-        }
-    }
-    if (numstairs == 0) { // This is the bottom of the ice_lab;  We need a finale
-        int finalex, finaley;
-        int tries = 0;
-        do {
-            finalex = rng(x - s, x + s);
-            finaley = rng(y - s, y + s);
-            tries++;
-        } while (tries < 15 && ter(finalex, finaley, z) != "ice_lab"
-                 && ter(finalex, finaley, z) != "ice_lab_core");
-        ter(finalex, finaley, z) = "ice_lab_finale";
+        } while( tries < 15 && ter( finalex, finaley, z ) != labt
+                  && ter( finalex, finaley, z ) != ( labt + "_core" ) );
+        ter( finalex, finaley, z ) = labt + "_finale";
     }
 
     return numstairs > 0;
@@ -3175,21 +3130,19 @@ void overmap::build_tunnel(int x, int y, int z, int s, int dir)
     build_tunnel(next.x, next.y, z, s - 1, dir);
 }
 
-bool overmap::build_slimepit(int x, int y, int z, int s)
+bool overmap::build_slimepit( int x, int y, int z, int s )
 {
     bool requires_sub = false;
-    for (int n = 1; n <= s; n++) {
-        for (int i = x - n; i <= x + n; i++) {
-            for (int j = y - n; j <= y + n; j++) {
-                if (rng(1, s * 2) >= n) {
-                    chip_rock( i, j, z );
-                    if (one_in(8) && z > -OVERMAP_DEPTH) {
-                        ter(i, j, z) = "slimepit_down";
-                        requires_sub = true;
-                    } else {
-                        ter(i, j, z) = "slimepit";
-                    }
-                }
+    tripoint origin( x, y, z );
+    for( auto p : g->m.points_in_radius( origin, s + z + 1, 0 ) ) {
+        int dist = square_dist( x, y, p.x, p.y );
+        if( one_in( 2 * dist ) ) {
+            chip_rock( p.x, p.y, p.z );
+            if( one_in( 8 ) && z > -OVERMAP_DEPTH ) {
+                ter( p.x, p.y, p.z ) = "slimepit_down";
+                requires_sub = true;
+            } else {
+                ter( p.x, p.y, p.z ) = "slimepit";
             }
         }
     }

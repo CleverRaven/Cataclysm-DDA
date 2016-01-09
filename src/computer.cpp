@@ -311,7 +311,7 @@ void computer::activate_function(computer_action action, char ch)
         break;
 
     case COMPACT_OPEN:
-        g->m.translate_radius(t_door_metal_locked, t_floor, 25.0, g->u.pos3());
+        g->m.translate_radius(t_door_metal_locked, t_floor, 25.0, g->u.pos());
         query_any(_("Doors opened.  Press any key..."));
         break;
 
@@ -321,12 +321,12 @@ void computer::activate_function(computer_action action, char ch)
     //Simply uses translate_radius which take a given radius and
     // player position to determine which terrain tiles to edit.
     case COMPACT_LOCK:
-        g->m.translate_radius(t_door_metal_c, t_door_metal_locked, 8.0, g->u.pos3());
+        g->m.translate_radius(t_door_metal_c, t_door_metal_locked, 8.0, g->u.pos());
         query_any(_("Lock enabled.  Press any key..."));
         break;
 
     case COMPACT_UNLOCK:
-        g->m.translate_radius(t_door_metal_locked, t_door_metal_c, 8.0, g->u.pos3());
+        g->m.translate_radius(t_door_metal_locked, t_door_metal_c, 8.0, g->u.pos());
         query_any(_("Lock disabled.  Press any key..."));
         break;
 
@@ -379,13 +379,13 @@ void computer::activate_function(computer_action action, char ch)
         g->u.add_memorial_log(pgettext("memorial_male", "Released subspace specimens."),
                               pgettext("memorial_female", "Released subspace specimens."));
         sounds::sound(g->u.pos(), 40, _("An alarm sounds!"));
-        g->m.translate_radius(t_reinforced_glass, t_floor, 25.0, g->u.pos3());
+        g->m.translate_radius(t_reinforced_glass, t_floor, 25.0, g->u.pos());
         query_any(_("Containment shields opened.  Press any key..."));
         break;
 
     case COMPACT_RELEASE_BIONICS:
         sounds::sound(g->u.pos(), 40, _("An alarm sounds!"));
-        g->m.translate_radius(t_reinforced_glass, t_floor, 2.0, g->u.pos3());
+        g->m.translate_radius(t_reinforced_glass, t_floor, 2.0, g->u.pos());
         query_any(_("Containment shields opened.  Press any key..."));
         break;
 
@@ -1295,16 +1295,16 @@ void computer::activate_failure(computer_failure fail)
                     int leak_size = rng(4, 10);
                     for (int i = 0; i < leak_size; i++) {
                         std::vector<point> next_move;
-                        if (g->m.move_cost(p.x, p.y - 1) > 0) {
+                        if (g->m.passable(p.x, p.y - 1)) {
                             next_move.push_back( point(p.x, p.y - 1) );
                         }
-                        if (g->m.move_cost(p.x + 1, p.y) > 0) {
+                        if (g->m.passable(p.x + 1, p.y)) {
                             next_move.push_back( point(p.x + 1, p.y) );
                         }
-                        if (g->m.move_cost(p.x, p.y + 1) > 0) {
+                        if (g->m.passable(p.x, p.y + 1)) {
                             next_move.push_back( point(p.x, p.y + 1) );
                         }
-                        if (g->m.move_cost(p.x - 1, p.y) > 0) {
+                        if (g->m.passable(p.x - 1, p.y)) {
                             next_move.push_back( point(p.x - 1, p.y) );
                         }
 

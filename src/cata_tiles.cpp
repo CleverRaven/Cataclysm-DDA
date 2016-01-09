@@ -688,26 +688,33 @@ void cata_tiles::load_tilejson_from_file( JsonObject &config, int offset, int si
     while( tiles.has_more() ) {
         JsonObject entry = tiles.next_object();
 
-        std::string t_id = entry.get_string( "id" );
-        tile_type &curr_tile = load_tile( entry, t_id, offset, size );
-        bool t_multi = entry.get_bool( "multitile", false );
-        bool t_rota = entry.get_bool( "rotates", t_multi );
-        if( t_multi ) {
-            // fetch additional tiles
-            JsonArray subentries = entry.get_array( "additional_tiles" );
-            while( subentries.has_more() ) {
-                JsonObject subentry = subentries.next_object();
-                const std::string s_id = subentry.get_string( "id" );
-                const std::string m_id = t_id + "_" + s_id;
-                tile_type &curr_subtile = load_tile( subentry, m_id, offset, size );
-                curr_subtile.rotates = true;
-                curr_tile.available_subtiles.push_back( s_id );
+        std::vector<std::string> ids;
+        if( entry.has_string( "id" ) ) {
+            ids.push_back( entry.get_string( "id" ) );
+        } else if( entry.has_array( "id" ) ) {
+            ids = entry.get_string_array( "id" );
+        }
+        for( auto t_id : ids ) {
+            tile_type &curr_tile = load_tile( entry, t_id, offset, size );
+            bool t_multi = entry.get_bool( "multitile", false );
+            bool t_rota = entry.get_bool( "rotates", t_multi );
+            if( t_multi ) {
+                // fetch additional tiles
+                JsonArray subentries = entry.get_array( "additional_tiles" );
+                while( subentries.has_more() ) {
+                    JsonObject subentry = subentries.next_object();
+                    const std::string s_id = subentry.get_string( "id" );
+                    const std::string m_id = t_id + "_" + s_id;
+                    tile_type &curr_subtile = load_tile( subentry, m_id, offset, size );
+                    curr_subtile.rotates = true;
+                    curr_tile.available_subtiles.push_back( s_id );
+                }
             }
+            // write the information of the base tile to curr_tile
+            curr_tile.multitile = t_multi;
+            curr_tile.rotates = t_rota;
         }
 
-        // write the information of the base tile to curr_tile
-        curr_tile.multitile = t_multi;
-        curr_tile.rotates = t_rota;
     }
     dbg( D_INFO ) << "Tile Width: " << tile_width << " Tile Height: " << tile_height <<
                   " Tile Definitions: " << tile_ids.size();
@@ -860,11 +867,12 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
 
     // in isometric mode, render the whole reality bubble
     // TODO: make this smarter
-    const int min_x = tile_iso ? MAPSIZE * SEEX : o_x;
-    const int max_x = tile_iso ? 0 : sx + o_x;
-    const int dx = tile_iso ? -1 : 1; // iso mode renders right to left, for overlap reasons
-    const int min_y = tile_iso ? 0 : o_y;
-    const int max_y = tile_iso ? MAPSIZE * SEEX : sy + o_y;
+    const bool iso_mode = tile_iso && use_tiles;
+    const int min_x = iso_mode ? MAPSIZE * SEEX : o_x;
+    const int max_x = iso_mode ? 0 : sx + o_x;
+    const int dx = iso_mode ? -1 : 1; // iso mode renders right to left, for overlap reasons
+    const int min_y = iso_mode ? 0 : o_y;
+    const int max_y = iso_mode ? MAPSIZE * SEEX : sy + o_y;
     const int dy = 1;
 
     //limit the render area to what is available in the visibility cache
@@ -893,9 +901,9 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
     for( y = min_y; y * dy < max_y * dy; y += dy) {
         for( x = min_x; x * dx < max_x * dx; x += dx) {
             //if the render area is outside the visibility cache, default to the darkened tile
-            if(!tile_iso && ((y < min_visible_y || y > max_visible_y) || (x < min_visible_x ||
-                             x > max_visible_x))) {
-                apply_vision_effects(x, y, offscreen_type);
+            if( !iso_mode && ( ( y < min_visible_y || y > max_visible_y ) ||
+                               ( x < min_visible_x || x > max_visible_x ) ) ) {
+                apply_vision_effects( x, y, offscreen_type );
             } else {
                 draw_single_tile( temp, ch.visibility_cache[x][y], cache );
             }
@@ -1104,7 +1112,7 @@ bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
 
     // check to make sure that we are drawing within a valid area
     // [0->width|height / tile_width|height]
-    if( !tile_iso &&
+    if( !( tile_iso && use_tiles ) &&
         ( x - o_x < 0 || x - o_x >= screentile_width ||
           y - o_y < 0 || y - o_y >= screentile_height )
       ) {
@@ -1125,7 +1133,7 @@ bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
     }
 
     if (it == tile_ids.end()) {
-        long sym = -1;
+        uint32_t sym = UNKNOWN_UNICODE;
         nc_color col = c_white;
         if (category == C_FURNITURE) {
             if (furnmap.count(id) > 0) {
@@ -1192,7 +1200,7 @@ bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
             case LINE_XXXX: sym = LINE_XXXX_C; break;
             default: break; // sym goes unchanged
         }
-        if (sym != 0 && sym < 256 && sym >= 0) {
+        if( sym != 0 && sym < 256 ) {
             // see cursesport.cpp, function wattron
             const int pairNumber = (col & A_COLOR) >> 17;
             const pairs &colorpair = colorpairs[pairNumber];
@@ -1264,7 +1272,7 @@ bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
 
     // translate from player-relative to screen relative tile position
     int screen_x, screen_y;
-    if (tile_iso) {
+    if ( tile_iso && use_tiles ) {
         screen_x = ((x-o_x) - (o_y-y)) * tile_width / 2 +
             op_x;
         // y uses tile_width because width is definitive for iso tiles
@@ -1389,7 +1397,7 @@ bool cata_tiles::draw_sprite_at( const weighted_int_list<std::vector<int>> &svli
             sprite_num = 0;
         } else if( spritelist.size() == 1 ) {
             // just one tile, apply SDL sprite rotation if not in isometric mode
-            rotate_sprite = !tile_iso;
+            rotate_sprite = !( tile_iso && use_tiles );
             sprite_num = 0;
         } else {
             // multiple rotated tiles defined, don't apply sprite rotation after picking one

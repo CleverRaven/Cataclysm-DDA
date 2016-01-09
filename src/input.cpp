@@ -823,7 +823,7 @@ bool input_context::get_direction(int &dx, int &dy, const std::string &action)
         dy = -2;
         return false;
     }
-    if(iso_mode && tile_iso) {
+    if(iso_mode && tile_iso && use_tiles ) {
         rotate_direction_cw(dx,dy);
     }
     return true;
@@ -1157,7 +1157,7 @@ input_event input_manager::get_input_event(WINDOW * /*win*/)
         // but we should only return *one* key, so return the code point of it.
         const char *utf8str = rval.text.c_str();
         int len = rval.text.length();
-        const unsigned cp = UTF8_getch(&utf8str, &len);
+        const uint32_t cp = UTF8_getch(&utf8str, &len);
         if( cp == UNKNOWN_UNICODE ) {
             // Invalid UTF-8 sequence, this should never happen, what now?
             // Maybe return any error instead?

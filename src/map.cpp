@@ -1233,7 +1233,7 @@ void map::unboard_vehicle( const tripoint &p )
     if( !veh ) {
         debugmsg ("map::unboard_vehicle: vehicle not found");
         // Try and force unboard the player anyway.
-        if( g->u.pos3() == p ) {
+        if( g->u.pos() == p ) {
             passenger = &(g->u);
         } else {
             int npcdex = g->npc_at( p );
@@ -1436,7 +1436,7 @@ bool map::displace_water( const tripoint &p )
             for( tx = p.x - 1; tx <= p.x + 1; tx++ ) {
                 for( ty = p.y -1; ty <= p.y + 1; ty++ ) {
                     if( ( tx != p.x && ty != p.y )
-                            || move_cost_ter_furn( temp ) == 0
+                            || impassable_ter_furn( temp )
                             || has_flag( TFLAG_DEEP_WATER, temp ) ) {
                         continue;
                     }
@@ -1885,6 +1885,16 @@ int map::move_cost(const int x, const int y, const vehicle *ignored_vehicle) con
     return move_cost( tripoint( x, y, abs_sub.z ), ignored_vehicle );
 }
 
+bool map::impassable( const int x, const int y ) const
+{
+    return !passable( x, y );
+}
+
+bool map::passable( const int x, const int y ) const
+{
+    return passable( tripoint( x, y, abs_sub.z ) );
+}
+
 int map::move_cost_ter_furn(const int x, const int y) const
 {
     if (!INBOUNDS(x, y)) {
@@ -1927,6 +1937,16 @@ int map::move_cost( const tripoint &p, const vehicle *ignored_vehicle ) const
     return move_cost_internal( furniture, terrain, veh, part );
 }
 
+bool map::impassable( const tripoint &p ) const
+{
+    return !passable( p );
+}
+
+bool map::passable( const tripoint &p ) const
+{
+    return move_cost( p ) != 0;
+}
+
 int map::move_cost_ter_furn( const tripoint &p ) const
 {
     if( !inbounds( p ) ) {
@@ -1948,6 +1968,16 @@ int map::move_cost_ter_furn( const tripoint &p ) const
 
     const int cost = tercost + furncost;
     return cost > 0 ? cost : 0;
+}
+
+bool map::impassable_ter_furn( const tripoint &p ) const
+{
+    return !passable_ter_furn( p );
+}
+
+bool map::passable_ter_furn( const tripoint &p ) const
+{
+    return move_cost_ter_furn( p ) != 0;
 }
 
 int map::combined_movecost( const tripoint &from, const tripoint &to,
@@ -1981,7 +2011,7 @@ bool map::valid_move( const tripoint &from, const tripoint &to,
     }
 
     if( from.z == to.z ) {
-        return bash || move_cost( to ) > 0;
+        return bash || passable( to );
     } else if( !zlevels ) {
         return false;
     }
@@ -2060,7 +2090,7 @@ int map::climb_difficulty( const tripoint &p ) const
     }
 
     for( const auto &pt : points_in_radius( p, 1 ) ) {
-        if( move_cost_ter_furn( pt ) == 0 ) {
+        if( impassable_ter_furn( pt ) ) {
             // TODO: Non-hardcoded climbability
             best_difficulty = std::min( best_difficulty, 10 );
             blocks_movement++;
@@ -2692,11 +2722,11 @@ void map::make_rubble( const tripoint &p, furn_id rubble_type, bool items, ter_i
             destroy_furn( p, true );
         }
         // Leave the terrain alone unless it interferes with furniture placement
-        if( move_cost(p) <= 0 && is_bashable_ter( p ) ) {
+        if( impassable(p) && is_bashable_ter( p ) ) {
             destroy( p, true );
         }
         // Check again for new terrain after potential destruction
-        if( move_cost(p) <= 0 ) {
+        if( impassable(p) ) {
             ter_set(p, floor_type);
         }
 
@@ -3343,7 +3373,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
 
     if( bash == nullptr || (bash->destroy_only && !params.destroy) ) {
         // Nothing bashable here
-        if( move_cost( p ) <= 0 ) {
+        if( impassable( p ) ) {
             if( !params.silent ) {
                 sounds::sound( p, 18, _("thump!"), false, "smash_thump", "smash_success" );
             }
@@ -3875,7 +3905,7 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
                     g->explosion( p, 40, 0.8, 0, true);
                 } else {
                     for( const tripoint &pt : points_in_radius( p, 2 ) ) {
-                        if( one_in( 3 ) && move_cost( pt ) > 0 ) {
+                        if( one_in( 3 ) && passable( pt ) ) {
                             int gas_amount = rng(10, 100);
                             item gas_spill("gasoline", calendar::turn);
                             gas_spill.charges = gas_amount;
@@ -3896,7 +3926,7 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
         } else {
             dam = 0;
         }
-    } else if( move_cost( p ) == 0 && !trans( p ) ) {
+    } else if( impassable( p ) && !trans( p ) ) {
         bash( p, dam, false );
         dam = 0; // TODO: Preserve some residual damage when it makes sense.
     } else {
@@ -3967,7 +3997,7 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
 
 bool map::hit_with_acid( const tripoint &p )
 {
-    if( move_cost( p ) != 0 ) {
+    if( passable( p ) ) {
         return false;    // Didn't hit the tile!
     }
     const ter_id t = ter( p );
@@ -4002,7 +4032,7 @@ bool map::hit_with_acid( const tripoint &p )
 // returns true if terrain stops fire
 bool map::hit_with_fire( const tripoint &p )
 {
-    if (move_cost( p ) != 0)
+    if (passable( p ))
         return false; // Didn't hit the tile!
 
     // non passable but flammable terrain, set it on fire
@@ -4544,7 +4574,7 @@ bool map::is_full(const tripoint &p, const int addvolume, const int addnumber ) 
    const int maxitems = MAX_ITEM_IN_SQUARE; // (game.h) 1024
    const int maxvolume = this->max_volume(p);
 
-   if( ! (inbounds(p) && move_cost(p) > 0 && !has_flag("NOITEM", p) ) ) {
+   if( ! (inbounds(p) && passable(p) && !has_flag("NOITEM", p) ) ) {
        return true;
    }
 
@@ -5531,7 +5561,7 @@ bool map::add_field(const tripoint &p, const field_id t, int density, const int 
         current_submap->field_count++;
     }
 
-    if( g != nullptr && this == &g->m && p == g->u.pos3() ) {
+    if( g != nullptr && this == &g->m && p == g->u.pos() ) {
         creature_in_field( g->u ); //Hit the player with the field if it spawned on top of them.
     }
 
@@ -6853,7 +6883,7 @@ void map::spawn_monsters_submap_group( const tripoint &gp, mongroup &group, bool
     bool ignore_inside_checks = gp.z < 0;
     if( current_submap->is_uniform ) {
         const tripoint upper_left{ SEEX * gp.x, SEEY * gp.y, gp.z };
-        if( move_cost( upper_left ) == 0 ||
+        if( impassable( upper_left ) ||
             ( !ignore_inside_checks && has_flag_ter_or_furn( TFLAG_INDOORS, upper_left ) ) ) {
             const tripoint glp = getabs( gp );
             dbg( D_ERROR ) << "Empty locations for group " << group.type.str() <<
@@ -6875,7 +6905,7 @@ void map::spawn_monsters_submap_group( const tripoint &gp, mongroup &group, bool
                 continue; // there is already some creature
             }
 
-            if( !ignore_terrain_checks && move_cost( fp ) == 0 ) {
+            if( !ignore_terrain_checks && impassable( fp ) ) {
                 continue; // solid area, impassable
             }
 
@@ -7491,68 +7521,146 @@ void map::draw_fill_background(const id_or_id<ter_t> & f) {
     draw_square_ter(f, 0, 0, SEEX * my_MAPSIZE - 1, SEEY * my_MAPSIZE - 1);
 }
 
-void map::draw_square_ter(ter_id type, int x1, int y1, int x2, int y2) {
-    for (int x = x1; x <= x2; x++) {
-        for (int y = y1; y <= y2; y++) {
-            ter_set(x, y, type);
+void map::draw_square_ter( ter_id type, int x1, int y1, int x2, int y2 ) {
+    if( x1 > x2 ) {
+        std::swap( x1, x2 );
+    }
+    if( y1 > y2 ) {
+        std::swap( y1, y2 );
+    }
+    for( int x = x1; x <= x2; x++ ) {
+        for( int y = y1; y <= y2; y++ ) {
+            ter_set( x, y, type );
         }
     }
 }
-void map::draw_square_ter(std::string type, int x1, int y1, int x2, int y2) {
-    draw_square_ter(find_ter_id(type), x1, y1, x2, y2);
+void map::draw_square_ter( std::string type, int x1, int y1, int x2, int y2 )
+{
+    draw_square_ter( find_ter_id( type ), x1, y1, x2, y2 );
 }
 
-void map::draw_square_furn(furn_id type, int x1, int y1, int x2, int y2) {
-    for (int x = x1; x <= x2; x++) {
-        for (int y = y1; y <= y2; y++) {
-            furn_set(x, y, type);
+void map::draw_square_furn( furn_id type, int x1, int y1, int x2, int y2 )
+{
+    if( x1 > x2 ) {
+        std::swap( x1, x2 );
+    }
+    if( y1 > y2 ) {
+        std::swap( y1, y2 );
+    }
+    for( int x = x1; x <= x2; x++ ) {
+        for( int y = y1; y <= y2; y++ ) {
+            furn_set( x, y, type );
         }
     }
 }
-void map::draw_square_furn(std::string type, int x1, int y1, int x2, int y2) {
-    draw_square_furn(find_furn_id(type), x1, y1, x2, y2);
+void map::draw_square_furn( std::string type, int x1, int y1, int x2, int y2 )
+{
+    draw_square_furn( find_furn_id( type ), x1, y1, x2, y2 );
 }
 
-void map::draw_square_ter(ter_id (*f)(), int x1, int y1, int x2, int y2) {
-    for (int x = x1; x <= x2; x++) {
-        for (int y = y1; y <= y2; y++) {
-            ter_set(x, y, f());
+void map::draw_square_ter( ter_id( *f )(), int x1, int y1, int x2, int y2 )
+{
+    if( x1 > x2 ) {
+        std::swap( x1, x2 );
+    }
+    if( y1 > y2 ) {
+        std::swap( y1, y2 );
+    }
+    for( int x = x1; x <= x2; x++ ) {
+        for( int y = y1; y <= y2; y++ ) {
+            ter_set( x, y, f() );
         }
     }
 }
 
-void map::draw_square_ter(const id_or_id<ter_t> & f, int x1, int y1, int x2, int y2) {
-    for (int x = x1; x <= x2; x++) {
-        for (int y = y1; y <= y2; y++) {
-            ter_set(x, y, f.get() );
+void map::draw_square_ter( const id_or_id<ter_t> &f, int x1, int y1, int x2, int y2 )
+{
+    if( x1 > x2 ) {
+        std::swap( x1, x2 );
+    }
+    if( y1 > y2 ) {
+        std::swap( y1, y2 );
+    }
+    for( int x = x1; x <= x2; x++ ) {
+        for( int y = y1; y <= y2; y++ ) {
+            ter_set( x, y, f.get() );
         }
     }
 }
 
-void map::draw_rough_circle(ter_id type, int x, int y, int rad) {
-    for (int i = x - rad; i <= x + rad; i++) {
-        for (int j = y - rad; j <= y + rad; j++) {
-            if (rl_dist(x, y, i, j) + rng(0, 3) <= rad) {
-                ter_set(i, j, type);
+void map::draw_rough_circle( ter_id type, int x, int y, int rad )
+{
+    for( int i = x - rad; i <= x + rad; i++ ) {
+        for( int j = y - rad; j <= y + rad; j++ ) {
+            if( trig_dist( x, y, i, j ) + rng( 0, 3 ) <= rad ) {
+                ter_set( i, j, type );
             }
         }
     }
 }
-void map::draw_rough_circle(std::string type, int x, int y, int rad) {
-    draw_rough_circle(find_ter_id(type), x, y, rad);
+
+void map::draw_rough_circle( std::string type, int x, int y, int rad )
+{
+    draw_rough_circle( find_ter_id( type ), x, y, rad );
 }
 
-void map::draw_rough_circle_furn(furn_id type, int x, int y, int rad) {
-    for (int i = x - rad; i <= x + rad; i++) {
-        for (int j = y - rad; j <= y + rad; j++) {
-            if (rl_dist(x, y, i, j) + rng(0, 3) <= rad) {
-                furn_set(i, j, type);
+void map::draw_rough_circle_furn( furn_id type, int x, int y, int rad )
+{
+    for( int i = x - rad; i <= x + rad; i++ ) {
+        for( int j = y - rad; j <= y + rad; j++ ) {
+            if( trig_dist( x, y, i, j ) + rng( 0, 3 ) <= rad ) {
+                furn_set( i, j, type );
             }
         }
     }
 }
-void map::draw_rough_circle_furn(std::string type, int x, int y, int rad) {
-    draw_rough_circle_furn(find_furn_id(type), x, y, rad);
+
+void map::draw_rough_circle_furn( std::string type, int x, int y, int rad )
+{
+    draw_rough_circle_furn( find_furn_id( type ), x, y, rad );
+}
+
+void map::draw_circle( ter_id type, double x, double y, double rad )
+{
+    for( int i = x - rad - 1; i <= x + rad + 1; i++ ) {
+        for( int j = y - rad - 1; j <= y + rad + 1; j++ ) {
+            if( ( x - i ) * ( x - i ) + ( y - j ) * ( y - j ) <= rad * rad ) {
+                ter_set( i, j, type );
+            }
+        }
+    }
+}
+
+void map::draw_circle( ter_id type, int x, int y, int rad )
+{
+    for( int i = x - rad; i <= x + rad; i++ ) {
+        for( int j = y - rad; j <= y + rad; j++ ) {
+            if( trig_dist( x, y, i, j ) <= rad ) {
+                ter_set( i, j, type );
+            }
+        }
+    }
+}
+
+void map::draw_circle( std::string type, int x, int y, int rad )
+{
+    draw_circle( find_ter_id( type ), x, y, rad );
+}
+
+void map::draw_circle_furn( furn_id type, int x, int y, int rad )
+{
+    for( int i = x - rad; i <= x + rad; i++ ) {
+        for( int j = y - rad; j <= y + rad; j++ ) {
+            if( trig_dist( x, y, i, j ) <= rad ) {
+                furn_set( i, j, type );
+            }
+        }
+    }
+}
+
+void map::draw_circle_furn( std::string type, int x, int y, int rad )
+{
+    draw_circle_furn( find_furn_id( type ), x, y, rad );
 }
 
 void map::add_corpse( const tripoint &p ) {
@@ -7587,7 +7695,7 @@ field &map::get_field( const tripoint &p )
 
 void map::creature_on_trap( Creature &c, bool const may_avoid )
 {
-    auto const &tr = tr_at( c.pos3() );
+    auto const &tr = tr_at( c.pos() );
     if( tr.is_null() ) {
         return;
     }
@@ -7597,10 +7705,10 @@ void map::creature_on_trap( Creature &c, bool const may_avoid )
     if( p != nullptr && p->in_vehicle ) {
         return;
     }
-    if( may_avoid && c.avoid_trap( c.pos3(), tr ) ) {
+    if( may_avoid && c.avoid_trap( c.pos(), tr ) ) {
         return;
     }
-    tr.trigger( c.pos3(), &c );
+    tr.trigger( c.pos(), &c );
 }
 
 template<typename Functor>

@@ -25,6 +25,12 @@
 - ```CC_ARMOR```
 - ```CC_MISC```
 
+### Flags
+
+- ```BLIND_EASY``` Easy to craft with little to no light
+- ```BLIND_HARD``` Possible to craft with little to no light, but difficult
+- ```UNCRAFT_SINGLE_CHARGE``` Lists returned amounts for one charge of an item that is counted by charges.
+
 ## Furniture & Terrain
 List of known flags, used in both terrain.json and furniture.json
 
@@ -739,6 +745,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```USE_EAT_VERB``` "You drink your %s." or "You eat your %s."
 - ```FERTILIZER``` Works as fertilizer for farming.
 - ```LENS``` Lens items can make fires via focusing light rays.
+- ```ZOOM``` Zoom items can increase your overmap sight range.
 - ```FIRE_DRILL``` Item will start fires in the primitive way.
 - ```MUTAGEN_STRONG``` Chance of mutating several times.
 - ```MUTAGEN_WEAK``` Causes generic mutation (with less chance to mutate than `MUTAGEN_STRONG`).

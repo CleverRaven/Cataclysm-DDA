@@ -86,6 +86,19 @@
     {
         "type" : "item_group",
         "subtype": "collection",
+        "comment": "contains cloth (always), a cash card (10% chance) a random item (50% chance), and essence (25% chance)",
+        "id": "default_essence_death_drops",
+        "entries":
+        [
+            { "group": "default_zombie_clothes" },
+            { "group": "default_zombie_items", "prob": 50 },
+            { "item": "cash_card", "prob": 10 },
+            { "item": "essence", "prob": 25 }
+        ]
+    },
+    {
+        "type" : "item_group",
+        "subtype": "collection",
         "comment": "contains cloth (always), a cash card (10% chance) a random item (50% chance), an essence, and small chance of magical gear",
         "id": "boss_zombie_death_drops",
         "entries":

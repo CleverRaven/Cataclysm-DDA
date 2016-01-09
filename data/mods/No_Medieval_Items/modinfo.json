@@ -51,7 +51,9 @@
         "helmet_kabuto",
         "helmet_larmor",
         "boots_larmor",
-        "armor_larmor"
+        "armor_larmor",
+        "armguard_larmor",
+        "vambrace_larmor"
     ]
 }
 ]

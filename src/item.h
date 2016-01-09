@@ -33,6 +33,8 @@ using matec_id = string_id<ma_technique>;
 class Skill;
 using skill_id = string_id<Skill>;
 
+enum damage_type : int;
+
 std::string const& rad_badge_color(int rad);
 
 struct light_emission {
@@ -74,6 +76,12 @@ enum layer_level {
     OUTER_LAYER,
     BELTED_LAYER,
     MAX_CLOTHING_LAYER
+};
+
+enum class VisitResponse {
+    ABORT, // Stop processing after this node
+    NEXT,  // Descend vertically to any child nodes and then horizontally to next sibling
+    SKIP   // Skip any child nodes and move directly to the next sibling
 };
 
 class item_category
@@ -532,12 +540,20 @@ public:
      * Larger values means more resistance are thereby better, but there is no absolute value to
      * compare them to. The values can be interpreted as chance (@ref one_in) of damaging the item
      * when exposed to the type of damage.
+     * @param to_self If this is true, it returns item's own resistance, not one it gives to wearer.
      */
     /*@{*/
-    int bash_resist() const;
-    int cut_resist() const;
-    int acid_resist() const;
+    int bash_resist( bool to_self = false ) const;
+    int cut_resist ( bool to_self = false )  const;
+    int stab_resist( bool to_self = false ) const;
+    int acid_resist( bool to_self = false ) const;
+    int fire_resist( bool to_self = false ) const;
     /*@}*/
+
+    /**
+     * Resistance provided by this item against damage type given by an enum.
+     */
+    int damage_resist( damage_type dt, bool to_self = false ) const;
 
     /**
      * Returns resistance to being damaged by attack against the item itself.
@@ -563,7 +579,7 @@ public:
      * @param carrier The player / npc that carries the item. This can be null when
      * the item is not carried by anyone (laying on ground)!
      * @param pos The location of the item on the map, same system as
-     * @ref player::pos3 used. If the item is carried, it should be the
+     * @ref player::pos used. If the item is carried, it should be the
      * location of the carrier.
      * @param activate Whether the item should be activated (true), or
      * processed as an active item.
@@ -657,6 +673,16 @@ public:
  itype_id typeId() const;
  const itype* type;
  std::vector<item> contents;
+
+        /** Traverses this item and any child items contained using a visitor pattern
+         * @pram func visitor function called for each node which controls whether traversal continues.
+         * Typically a lambda making use of captured state it should return VisitResponse::Next to
+         * recursively process child items, VisitResponse::Skip to ignore children of the current node
+         * or VisitResponse::Abort to skip further processing of any nodes.
+         * @return This method itself only ever returns VisitResponse::Next or VisitResponse::Abort.
+         */
+        VisitResponse visit( const std::function<VisitResponse(item&)>& func );
+        VisitResponse visit( const std::function<VisitResponse(const item&)>& func ) const;
 
         /** Checks if item is a holster and currently capable of storing obj */
         bool can_holster ( const item& obj ) const;
@@ -1164,6 +1190,10 @@ public:
          * for non-guns it always returns 0.
          */
         int get_free_mod_locations( const std::string& location ) const;
+        /**
+         * Does it require gunsmithing tools to repair.
+         */
+        bool is_firearm() const;
         /*@}*/
 
         /**

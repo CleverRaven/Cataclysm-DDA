@@ -276,9 +276,10 @@
     "color": "dark_green",
     "name": "survivor telescope",
     "name_plural": "survivor telescopes",
-    "description": "A homemade collapsible telescope. Too large and inaccurate to use as a weapon scope, but carrying this item in your inventory will double the distance that is mapped around you during your travels.",
+    "description": "A homemade collapsible telescope.  Too large and inaccurate to use as a weapon scope, but carrying this item in your inventory will double the distance that is mapped around you during your travels.",
     "price": 600,
     "material": ["glass", "plastic"],
+    "flags": [ "LENS", "ZOOM" ],
     "weight": 500,
     "volume": 1,
     "bashing": 0,
@@ -289,7 +290,11 @@
     "max_charges": 0,
     "initial_charges": 0,
     "charges_per_use": 0,
-    "turns_per_charge": 0
+    "turns_per_charge": 0,
+    "use_action": {
+            "type": "extended_firestarter",
+            "need_sunlight": true
+    }
   },
   {
     "id": "rock_quern",
@@ -333,7 +338,17 @@
     "turns_per_charge": 0,
     "ammo": "thread",
     "revert_to": "null",
-    "use_action": "SEW"
+    "use_action": {
+        "type": "repair_item",
+        "item_action_type" : "repair_fabric",
+        "materials": [
+            "cotton", "leather", "wool", "fur", "nomex"
+        ],
+        "skill": "tailor",
+        "cost_scaling": 0,
+        "tool_quality": 0,
+        "move_cost": 1000
+    }
   },
 
   {
@@ -357,7 +372,19 @@
     "turns_per_charge": 0,
     "ammo": "thread",
     "revert_to": "null",
-    "use_action": "SEW_ADVANCED",
+    "use_action": [
+        {
+            "type": "repair_item",
+            "item_action_type" : "repair_fabric",
+            "materials": [
+                "cotton", "leather", "wool", "fur", "nomex"
+            ],
+            "skill": "tailor",
+            "cost_scaling": 0,
+            "tool_quality": 1,
+            "move_cost": 800
+        },
+        "SEW_ADVANCED" ],
     "qualities": [["CUT", 1]]
   },
 
@@ -1544,6 +1571,22 @@
     "flags" : ["STAB"]
   },
   {
+    "type":"GENERIC",
+    "category" : "tools",
+    "id": "can_sealer",
+    "symbol": ";",
+    "color": "ltgray",
+    "name": "can sealer",
+    "description": "A hand crank powered cast aluminum machine designed to automatically seal tin cans.",
+    "price": 52500,
+    "material": "aluminum",
+    "weight": 9800,
+    "volume": 20,
+    "bashing": 8,
+    "cutting": 0,
+    "to_hit": -2
+  },
+  {
     "type":"TOOL",
     "id": "con_mix",
     "symbol": "$",
@@ -1631,7 +1674,16 @@
     "ammo": "battery",
     "revert_to": "null",
     "use_action": [
-        "SOLDER_WELD",
+        {
+            "type": "repair_item",
+            "item_action_type" : "repair_metal",
+            "materials": [
+                "kevlar", "plastic", "iron", "steel", "hardsteel", "aluminum", "copper"
+            ],
+            "skill": "mechanics",
+            "cost_scaling": 0.25,
+            "move_cost": 1500
+        },
         {
             "type": "cauterize",
             "flame": false
@@ -3610,7 +3662,8 @@
         "active": true,
         "need_fire": 1,
         "need_fire_msg": "You need a source of fire!",
-        "msg": "You light the Molotov cocktail."
+        "msg": "You light the Molotov cocktail.",
+        "moves": 75
     }
   },
 
@@ -4765,7 +4818,17 @@
     "ammo": "battery",
     "revert_to": "null",
     "use_action": [
-        "SOLDER_WELD",
+        {
+            "type": "repair_item",
+            "item_action_type" : "repair_metal",
+            "materials": [
+                "kevlar", "plastic", "iron", "steel", "hardsteel", "aluminum", "copper"
+            ],
+            "skill": "mechanics",
+            "cost_scaling": 0.25,
+            "move_cost": 500,
+            "tool_quality": 3
+        },
         {
             "type": "cauterize",
             "flame": false
@@ -5419,7 +5482,6 @@
     "color": "light_gray",
     "name": "zweihänder",
     "description": "This is a huge two-handed sword from Germany.  It packs a real wallop.",
-    "rarity": 30,
     "price": 160000,
     "material": "steel",
     "flags" : ["CHOP", "DURABLE_MELEE", "SHEATH_SWORD"],
@@ -5447,7 +5509,6 @@
     "name": "flammenschwert (aus)",
     "name_plural": "flammenschwerter (aus)",
     "description": "Ein großes zweihändiges Schwert aus Deutschland, an dessen Klinge sich, unter zuführung von Benzin, eine anhaltende Flamme erzeugen lässt.  Es ist eine sehr mächtige Waffe.",
-    "rarity": 0,
     "price": 160000,
     "material": "steel",
     "flags": ["CHOP", "DURABLE_MELEE", "SHEATH_SWORD"],
@@ -5487,7 +5548,6 @@
     "name": "flammenschwert (an)",
     "name_plural": "flammenschwerter (an)",
     "description": "Ein großes zweihändiges Schwert aus Deutschland, an dessen Klinge sich, unter zuführung von Benzin, eine anhaltende Flamme erzeugen lässt.  Es ist eine sehr mächtige Waffe.",
-    "rarity": 0,
     "price": 160000,
     "material": "steel",
     "flags": ["CHOP", "FIRE", "LIGHT_240", "CHARGEDIM", "FLAMING", "DURABLE_MELEE"],
@@ -5534,7 +5594,7 @@
     "price": 120000,
     "material": "steel",
     "flags": ["CHOP", "DURABLE_MELEE", "SHEATH_SWORD", "IAIJUTSU"],
-    "techniques": "WBLOCK_1",
+    "techniques": "WBLOCK_2",
     "weight": 1474,
     "volume": 9,
     "bashing": 8,
@@ -5573,7 +5633,7 @@
     "price": 120000,
     "material": "steel",
     "flags": ["FIRE", "CHOP", "LIGHT_240", "CHARGEDIM", "FLAMING", "DURABLE_MELEE"],
-    "techniques": ["WBLOCK_1"],
+    "techniques": ["WBLOCK_2"],
     "weight": 1474,
     "volume": 9,
     "bashing": 8,
@@ -6277,8 +6337,7 @@
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "NULL",
-    "revert_to": "null",
-    "use_action": "BULLET_PULLER"
+    "revert_to": "null"
   },
 
   {
@@ -6698,8 +6757,14 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category" : "spare_parts",
-    "use_action": "RAG",
-    "flags": ["NO_SALVAGE"]
+    "flags": ["NO_SALVAGE"],
+        "use_action" : {
+            "type" : "heal",
+            "limb_power" : 0,
+            "bleed" : 0.5,
+            "move_cost" : 200,
+            "used_up_item" : "rag_bloody"
+        }
   },
 
   {
@@ -6891,7 +6956,7 @@
     "symbol": ";",
     "color": "white",
     "name": "bone needle",
-    "description": "This is sharp needle made from a bone.  It would be useful for making rough clothing and items",
+    "description": "This is sharp needle made from a bone.  It would be useful for making rough clothing and items.  Its low quality makes it rather unsuitable for anything requiring speed or precision.",
     "price": 0,
     "material": "bone",
     "flags": "STAB",
@@ -6906,7 +6971,17 @@
     "turns_per_charge": 0,
     "ammo": "thread",
     "revert_to": "null",
-    "use_action": "SEW"
+    "use_action": {
+        "type": "repair_item",
+        "item_action_type" : "repair_fabric",
+        "materials": [
+            "cotton", "leather", "wool", "fur", "nomex"
+        ],
+        "skill": "tailor",
+        "cost_scaling": 0,
+        "tool_quality": -1,
+        "move_cost": 1300
+    }
   },
 
    {
@@ -6916,7 +6991,7 @@
     "symbol": ";",
     "color": "brown",
     "name": "wooden needle",
-    "description": "This is a wooden needle whittled down to a sharp point.  It has a narrow hole carved into the head for threading.",
+    "description": "This is a wooden needle whittled down to a sharp point.  It has a narrow hole carved into the head for threading.  Its low quality makes it rather unsuitable for anything requiring speed or precision.",
     "price": 0,
     "material": "wood",
     "flags": "STAB",
@@ -6931,7 +7006,17 @@
     "turns_per_charge": 0,
     "ammo": "thread",
     "revert_to": "null",
-    "use_action": "SEW"
+    "use_action": {
+        "type": "repair_item",
+        "item_action_type" : "repair_fabric",
+        "materials": [
+            "cotton", "leather", "wool", "fur", "nomex"
+        ],
+        "skill": "tailor",
+        "cost_scaling": 0,
+        "tool_quality": -1,
+        "move_cost": 1500
+    }
   },
 
   {
@@ -7298,7 +7383,6 @@
     "name": "sealed 3-liter jar of kompot",
     "name_plural": "sealed 3-liter jars of kompot",
     "description": "This is a sealed glass jar containing kompot.  Use to open and eat to enjoy.",
-    "rarity": 0,
     "price": 800,
     "material": ["glass", "water"],
     "weight": 617,
@@ -7388,7 +7472,7 @@
         "container": "jar_glass"
     }
   },
-  
+
   {
     "id": "jar_tomato_canned",
     "type": "GENERIC",
@@ -7435,7 +7519,7 @@
         "container": "jar_glass"
     }
   },
-  
+
   {
     "id": "jar_sauerkraut_pickled",
     "type": "GENERIC",
@@ -7783,7 +7867,7 @@
         "target_charges": 10
     }
   },
-  
+
   {
     "id": "sauerkraut_ferment",
     "type": "GENERIC",
@@ -8014,7 +8098,12 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category" : "drugs",
-    "use_action": "RAG"
+        "use_action" : {
+            "type" : "heal",
+            "limb_power" : 0,
+            "bleed" : 0.5,
+            "move_cost" : 200
+        }
   },
 
   {
@@ -8111,7 +8200,17 @@
     "ammo": "battery",
     "revert_to": "null",
     "use_action": [
-        "SOLDER_WELD",
+        {
+            "type": "repair_item",
+            "item_action_type" : "repair_metal",
+            "materials": [
+                "kevlar", "plastic", "iron", "steel", "hardsteel", "aluminum", "copper"
+            ],
+            "skill": "mechanics",
+            "cost_scaling": 0.25,
+            "move_cost": 1000,
+            "tool_quality": 3
+        },
         {
             "type": "cauterize",
             "flame": false
@@ -8197,7 +8296,6 @@
     "name": "crack pipe",
     "description": "This is a fine glass tube with a bulb with a bowl on one end.  It's used to partake of certain illicit substances.",
     "price": 0,
-    "rarity": 5,
     "material": "glass",
     "weight": 242,
     "volume": 1,
@@ -8221,7 +8319,6 @@
     "name": "glass pipe",
     "description": "This is a hand-blown glass pipe.  It's of the type most commonly used to smoke recreational substances.",
     "price": 2000,
-    "rarity": 3,
     "material": "glass",
     "weight": 442,
     "volume": 1,
@@ -8245,7 +8342,6 @@
     "name": "tobacco pipe",
     "description": "This is a hand-carved wooden smoking pipe.  It's designed to facilitate consumption of fire cured tobacco leaves.",
     "price": 3000,
-    "rarity": 4,
     "material": "wood",
     "weight": 372,
     "volume": 1,
@@ -8444,7 +8540,6 @@
     "name": "nodachi",
     "name_plural": "nodachi",
     "description": "This is a huge, curved, two-handed sword from Japan.  It is surprisingly light for its size.",
-    "rarity": 30,
     "price": 150000,
     "material": "steel",
     "flags": ["SLICE", "DURABLE_MELEE", "SHEATH_SWORD"],
@@ -9595,7 +9690,7 @@
     "description": "This is a stout metal box containing a complete tool kit suitable for most household maintenance and construction activities.  In addition, when supplied with duct tape, it serves as a vital tool for fixing items made of wood, paper, bone, or chitin.  It requires 25 units of duct tape per use.",
     "price": 12999,
     "material": "steel",
-    "weight": 3364,
+    "weight": 3522,
     "volume": 10,
     "bashing": 8,
     "cutting": 0,
@@ -10584,7 +10679,7 @@
     "price": 185000,
     "material": ["steel", "diamond"],
     "flags" : ["CHOP", "DURABLE_MELEE", "SHEATH_SWORD", "IAIJUTSU", "VORPAL"],
-    "techniques": "WBLOCK_1",
+    "techniques": "WBLOCK_2",
     "weight": 1100,
     "volume": 7,
     "bashing": 8,
@@ -10610,7 +10705,7 @@
     "price": 250000,
     "material": ["steel", "diamond"],
     "flags" : ["CHOP", "DURABLE_MELEE", "SHEATH_SWORD", "VORPAL"],
-    "techniques": ["WBLOCK_2", "WIDE", "BRUTAL"],
+    "techniques": ["WBLOCK_1", "WIDE", "BRUTAL"],
     "weight": 3083,
     "volume": 13,
     "bashing": 17,
@@ -10746,6 +10841,8 @@
         "type": "transform",
         "target": "tool_anfo_charge_act",
         "target_charges": 20,
+        "need_fire": 1,
+        "need_fire_msg": "You need a source of fire!",
         "active": true,
         "msg": "You light the fuse on the ANFO charge.  Run survivor, run!"
     }
@@ -10807,6 +10904,8 @@
         "type": "transform",
         "target": "tool_black_powder_bomb_act",
         "target_charges": 2,
+        "need_fire": 1,
+        "need_fire_msg": "You need a source of fire!",
         "active": true,
         "msg": "You light the fuse on the black gunpowder bomb.  Throw it before it blows in your face!"
     }
@@ -10929,6 +11028,8 @@
         "type": "transform",
         "target": "tool_rdx_sand_bomb_act",
         "target_charges": 2,
+        "need_fire": 1,
+        "need_fire_msg": "You need a source of fire!",
         "active": true,
         "msg": "You light the fuse on the sand bomb.  Throw it!"
     }
@@ -11087,7 +11188,7 @@
         "fields_type": "fd_smoke",
         "fields_min_density": 2,
         "fields_max_density": 3
-    }    
+    }
   },
   {
     "type" : "TOOL",
@@ -11163,7 +11264,7 @@
     "phase" : "solid",
     "bashing" : 4
   },
-  
+
   {
     "type" : "TOOL",
     "id" : "trumpet",
@@ -11385,7 +11486,7 @@
     "bashing": 14,
     "cutting": 3,
     "flags" : ["DURABLE_MELEE"],
-    "techniques": ["WBLOCK_1"], 
+    "techniques": ["WBLOCK_1"],
     "to_hit": 2,
     "max_charges": 0,
     "initial_charges": 0,
@@ -11403,7 +11504,7 @@
     "color": "light_gray",
     "name": "L-stick (off)",
     "name_plural": "l-sticks (off)",
-    "description": "Produced by the Light corporation, this stylish staff not only functions as a light source, but doubles as a light-weight weapon, due to the superalloy materials it is made of.  Due to proprietary efficiency improvements over standard light sources, the l-stick or light stick as it is commonly called, batteries last longer than other light sources.", 
+    "description": "Produced by the Light corporation, this stylish staff not only functions as a light source, but doubles as a light-weight weapon, due to the superalloy materials it is made of.  Due to proprietary efficiency improvements over standard light sources, the l-stick or light stick as it is commonly called, batteries last longer than other light sources.",
     "price": 5000,
     "material": ["superalloy", "steel"],
     "techniques" : ["WBLOCK_1", "RAPID"],

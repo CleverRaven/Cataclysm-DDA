@@ -22,6 +22,10 @@ Character::Character()
     dex_cur = 0;
     per_cur = 0;
     int_cur = 0;
+    str_bonus = 0;
+    dex_bonus = 0;
+    per_bonus = 0;
+    int_bonus = 0;
     healthy = 0;
     healthy_mod = 0;
     hunger = 0;
@@ -341,10 +345,10 @@ void Character::recalc_sight_limits()
     if( has_trait("DEBUG_NIGHTVISION") ) {
         vision_mode_cache.set( DEBUG_NIGHTVISION );
     }
-    if( has_nv() || is_wearing("rm13_armor_on") ) {
+    if( has_nv() ) {
         vision_mode_cache.set( NV_GOGGLES );
     }
-    if( has_active_mutation("NIGHTVISION3") ) {
+    if( has_active_mutation("NIGHTVISION3") || is_wearing("rm13_armor_on") ) {
         vision_mode_cache.set( NIGHTVISION_3 );
     }
     if( has_active_mutation("ELFA_FNV") ) {
@@ -447,6 +451,39 @@ bool Character::has_active_bionic(const std::string & b) const
         }
     }
     return false;
+}
+
+VisitResponse Character::visit_items( const std::function<VisitResponse( item& )>& func )
+{
+    if( !weapon.is_null() && weapon.visit( func ) == VisitResponse::ABORT ) {
+        return VisitResponse::ABORT;
+    }
+
+    for( auto& e : worn ) {
+        if( e.visit( func ) == VisitResponse::ABORT ) {
+            return VisitResponse::ABORT;
+        }
+    }
+
+    return inv.visit_items( func );
+}
+
+VisitResponse Character::visit_items( const std::function<VisitResponse( const item& )>& func ) const
+{
+    return const_cast<Character *>( this )->visit_items( static_cast<const std::function<VisitResponse(item&)>&>( func ) );
+}
+
+bool Character::has_item_with( const std::function<bool(const item&)>& filter ) const
+{
+    bool found = false;
+    visit_items( [&found, &filter]( const item& it ) {
+        if( filter( it ) ) {
+            found = true;
+            return VisitResponse::ABORT;
+        }
+        return VisitResponse::NEXT;
+    });
+    return found;
 }
 
 item& Character::i_add(item it)
@@ -1215,7 +1252,7 @@ hp_part Character::body_window( bool precise ) const
 hp_part Character::body_window( const std::string &menu_header,
                                 bool show_all, bool precise,
                                 int normal_bonus, int head_bonus, int torso_bonus,
-                                int bleed, int bite, int infect ) const
+                                bool bleed, bool bite, bool infect ) const
 {
     WINDOW *hp_window = newwin(10, 31, (TERMY - 10) / 2, (TERMX - 31) / 2);
     draw_border(hp_window);
