@@ -845,6 +845,10 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
         //set clipping to prevent drawing over stuff we shouldn't
         SDL_Rect clipRect = {destx, desty, width, height};
         SDL_RenderSetClipRect(renderer, &clipRect);
+
+        //fill render area with black to prevent artifacts where no new pixels are drawn
+        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+        SDL_RenderFillRect(renderer, &clipRect);
     }
 
     int posx = center.x;
