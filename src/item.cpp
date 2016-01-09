@@ -244,7 +244,7 @@ bool item::is_null() const
 bool item::covers( const body_part bp ) const
 {
     if( bp >= num_bp ) {
-        debugmsg( "bad body part %d to ceck in item::covers", static_cast<int>( bp ) );
+        debugmsg( "bad body part %d to check in item::covers", static_cast<int>( bp ) );
         return false;
     }
     if( is_gun() ) {

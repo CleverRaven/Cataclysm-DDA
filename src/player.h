@@ -1205,7 +1205,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         // returns a struct describing the encumbrance of a body part
         encumbrance_data get_encumbrance( size_t i ) const;
         // formats and prints encumbrance info to specified window
-        void print_encumbrance( WINDOW * win, int line = -1 ) const;
+        void print_encumbrance( WINDOW * win, int line = -1, item *selected_limb = nullptr ) const;
 
         // Prints message(s) about current health
         void print_health() const;
