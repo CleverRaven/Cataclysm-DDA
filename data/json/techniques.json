@@ -652,7 +652,7 @@
         "unarmed_allowed" : true,
         "dodge_counter" : true,
         "speed_mult" : 0.75,
-        "bashing_mult" : 1.25,
+        "bash_mult" : 1.25,
         "messages" : [
             "You lurch, and your wild swing hits %s",
             "<npcname> lurches, and hits %s"
@@ -662,7 +662,7 @@
         "id" : "tec_fencing_lunge",
         "name" : "Fencing lunge",
         "min_melee" : 2,
-        "speed_mult" : 0.5,
+        "speed_mult" : 0.75,
         "weighting" : 2,
         "messages" : [
             "You lunge at %s",
@@ -673,9 +673,9 @@
         "id" : "tec_fencing_thrust",
         "name" : "Fencing thrust",
         "min_melee" : 1,
-        "speed_mult" : 0.75,
+        "speed_mult" : 0.9,
         "weighting" : 2,
-        "cut_mult" : 1.25,
+        "cut_mult" : 1.15,
         "messages" : [
             "You thrust at %s",
             "<npcname> thrust at %s"
@@ -758,9 +758,8 @@
         "min_melee" : 3,
         "min_bashing_damage": 2,
         "bash": 1,
-        "bashing_mult": 4,
-        "cutting_mult": 0,
-        "stabbing_mult": 0,
+        "bash_mult": 4,
+        "cut_mult": 0,
         "crit_tec" : true,
         "stun_dur" : 1,
         "messages" : [
@@ -819,7 +818,7 @@
         "name" : "Dirty Hit",
         "min_melee" : 1,
         "crit_tec" : true,
-        "stun_dur" : 1,
+        "stun_dur" : 2,
         "req_buffs" : [
             "silat_dodge_buff"
         ],

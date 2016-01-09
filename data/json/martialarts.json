@@ -767,7 +767,7 @@
                 "name" : "Tiger Strength",
                 "description" : "Strength provides additional damage bonus.",
                 "unarmed_allowed" : true,
-                "hit_str" : 0.8
+                "bash_str" : 0.8
             }
         ],
         "onhit_buffs" : [

@@ -829,7 +829,8 @@ void player::roll_cut_damage( bool crit, damage_instance &di, bool average, cons
 
     cut_mul *= mabuff_cut_mult();
     if( crit ) {
-        arpen += 5 + cutting_skill;
+        cut_mul *= 1.25f;
+        arpen += 5;
     }
 
     di.add_damage( DT_CUT, cut_dam, arpen, 0.0f, cut_mul );
@@ -900,6 +901,7 @@ void player::roll_stab_damage( bool crit, damage_instance &di, bool average, con
     float armor_mult = 1.0f;
 
     if( crit ) {
+        // Crit damage bonus for stabbing scales with skill
         stab_mul *= 1.0 + (stabbing_skill / 10.0);
         // Stab criticals have extra extra %arpen
         armor_mult = 0.66f;
