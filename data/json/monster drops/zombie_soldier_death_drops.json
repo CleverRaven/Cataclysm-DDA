@@ -143,8 +143,8 @@
         "entries":
         [
             { "item": "holster"},
-            { "item": "9mm", "charges-min": 0, "charges-max": 4},
-            { "item": "m9", "charges-min": 1, "charges-max": 7, "ammo": "9mm"}
+            { "item": "9mm", "charges-min": 5, "charges-max": 15, "prob": 50},
+            { "item": "m9"}
         ]
     },
     {
@@ -154,8 +154,8 @@
         "entries":
         [
             { "item": "spare_mag", "prob": 50, "count": 2},
-            { "item": "m4a1", "charges-min": 0, "charges-max": 10, "ammo": "556", "damage-min": 0, "damage-max": 4},
-            { "item": "556", "charges-min": 0, "charges-max": 60}
+            { "item": "m4a1", "damage-min": 0, "damage-max": 4},
+            { "item": "556", "charges-min": 5, "charges-max": 60, "prob": 50}
         ]
     },
 
@@ -168,8 +168,8 @@
             { "item": "modularvestceramic", "damage-min": 1, "damage-max": 4, "prob": 50},
             { "item": "rucksack", "prob": 50, "damage-min": 1, "damage-max": 4},
             { "item": "spare_mag", "prob": 50, "count": 2},
-            { "item": "m27iar", "charges-min": 0, "charges-max": 10, "ammo": "556", "damage-min": 0, "damage-max": 4},
-            { "item": "556", "charges-min": 0, "charges-max": 20}
+            { "item": "m27iar", "damage-min": 0, "damage-max": 4},
+            { "item": "556", "charges-min": 5, "charges-max": 20, "prob": 50}
         ]
     },
     {
@@ -180,7 +180,7 @@
         [
             { "item": "rucksack", "prob": 15, "damage-min": 1, "damage-max": 4},
             { "item": "modularvesthard", "damage-min": 1, "damage-max": 4, "prob": 50},
-            { "item": "m1014", "charges-min": 0, "charges-max": 2, "ammo": "shot_00", "damage-min": 0, "damage-max": 4},
+            { "item": "m1014", "damage-min": 0, "damage-max": 4},
             { "item": "shot_00", "charges-min": 0, "charges-max": 10},
             { "item": "shot_flechette", "charges-min": 0, "charges-max": 1},
             { "item": "shot_slug", "charges-min": 0, "charges-max": 2}
@@ -198,8 +198,8 @@
             { "item": "modularvesthard", "damage-min": 1, "damage-max": 4},
             { "item": "mask_bal", "prob": 2, "damage-min": 1, "damage-max": 4},
             { "item": "balclava", "prob": 33, "damage-min": 1, "damage-max": 4},
-            { "item": "m249", "charges-min": 0, "charges-max": 10, "ammo": "556", "damage-min": 0, "damage-max": 4},
-            { "item": "556", "charges-min": 0, "charges-max": 60}
+            { "item": "m249", "damage-min": 0, "damage-max": 4},
+            { "item": "556", "charges-min": 15, "charges-max": 60, "prob": 33}
         ]
     },
     {
@@ -225,8 +225,8 @@
             { "item": "spare_mag", "prob": 50, "count": 2},
             { "item": "binoculars", "prob": 50},
             { "item": "kevlar", "damage-min": 1, "damage-max": 4, "prob": 50},
-            { "item": "m14ebr", "charges-min": 0, "charges-max": 30, "ammo": "762_51"},
-            { "item": "556", "charges-min": 0, "charges-max": 60}
+            { "item": "m14ebr", "damage-min": 0, "damage-max": 4},
+            { "item": "556", "charges-min": 5, "charges-max": 60, "prob": 66}
         ]
     }
 ]
