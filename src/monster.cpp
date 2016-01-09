@@ -117,7 +117,7 @@ monster::monster( const mtype_id& id ) : monster()
     hp = type->hp;
     for( auto &sa : type->special_attacks ) {
         auto &entry = special_attacks[sa.first];
-        entry.cooldown = rng(0,sa.second.cooldown);
+        entry.cooldown = rng( 0, sa.second.get_cooldown() );
     }
     def_chance = type->def_chance;
     anger = type->agro;
@@ -168,7 +168,7 @@ void monster::poly( const mtype_id& id )
     special_attacks.clear();
     for( auto &sa : type->special_attacks ) {
         auto &entry = special_attacks[sa.first];
-        entry.cooldown = sa.second.cooldown;
+        entry.cooldown = sa.second.get_cooldown();
     }
     def_chance = type->def_chance;
     faction = type->default_faction;
@@ -1456,12 +1456,12 @@ int monster::impact( const int force, const tripoint &p )
 
 void monster::reset_special(const std::string &special_name)
 {
-    special_attacks[special_name].cooldown = type->special_attacks.at(special_name).cooldown;;
+    special_attacks[special_name].cooldown = type->special_attacks.at(special_name).get_cooldown();
 }
 
 void monster::reset_special_rng(const std::string &special_name)
 {
-    special_attacks[special_name].cooldown = rng(0,type->special_attacks.at(special_name).cooldown);
+    special_attacks[special_name].cooldown = rng( 0,type->special_attacks.at(special_name).get_cooldown() );
 }
 
 void monster::set_special(const std::string &special_name, int time)

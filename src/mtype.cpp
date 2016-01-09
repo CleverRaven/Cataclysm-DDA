@@ -197,3 +197,42 @@ itype_id mtype::get_meat_itype() const
     }
     return "null";
 }
+
+bool mtype_special_attack::call( monster &mon ) const
+{
+    if( function_type == ATTACK_CPP ) {
+        return cpp_function( &mon );
+    } else if( function_type == ATTACK_ACTOR_PTR ) {
+        return actor_ptr->call( mon );
+    }
+
+    return false;
+}
+
+mtype_special_attack::~mtype_special_attack()
+{
+    if( function_type == ATTACK_ACTOR_PTR ) {
+        delete actor_ptr;
+    }
+}
+
+mtype_special_attack::mtype_special_attack( const mtype_special_attack &other )
+    : function_type( other.function_type ), cooldown( other.cooldown )
+{
+    if( function_type == ATTACK_CPP ) {
+        cpp_function = other.cpp_function;
+    } else if( function_type == ATTACK_ACTOR_PTR ) {
+        actor_ptr = other.actor_ptr->clone();
+    }
+}
+
+void mtype_special_attack::operator=( const mtype_special_attack &other )
+{
+    this->~mtype_special_attack();
+    new (this) mtype_special_attack( other );
+}
+
+void mtype_special_attack::set_cooldown( int i )
+{
+    cooldown = i;
+}

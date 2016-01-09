@@ -13,6 +13,7 @@
 #include "mondeath.h"
 #include "monfaction.h"
 #include "mtype.h"
+#include "mattack_actors.h"
 
 template<>
 const mtype_id string_id<mtype>::NULL_ID( "mon_null" );
@@ -222,7 +223,6 @@ void MonsterGenerator::init_attack()
     attack_map["FUNGUS_GROWTH"] = &mattack::fungus_growth;
     attack_map["FUNGUS_SPROUT"] = &mattack::fungus_sprout;
     attack_map["FUNGUS_FORTIFY"] = &mattack::fungus_fortify;
-    attack_map["LEAP"] = &mattack::leap;
     attack_map["DERMATIK"] = &mattack::dermatik;
     attack_map["DERMATIK_GROWTH"] = &mattack::dermatik_growth;
     attack_map["PLANT"] = &mattack::plant;
@@ -621,23 +621,58 @@ std::vector<mon_action_death> MonsterGenerator::get_death_functions(JsonObject &
     return deaths;
 }
 
+template<typename mattack_actor_type>
+mtype_special_attack load_actor( JsonObject obj, int cooldown )
+{
+    std::unique_ptr<mattack_actor_type> actor( new mattack_actor_type() );
+    actor->load( obj );
+    return mtype_special_attack( actor.release(), cooldown );
+}
+
+void set_attack_from_object(
+    JsonObject obj,
+    std::map<std::string, mtype_special_attack> &special_attacks,
+    std::vector<std::string> &special_attacks_names )
+{
+    const std::string type = obj.get_string( "type" );
+    const int cooldown = obj.get_int( "cooldown" );
+
+    if( type == "leap" ) {
+        special_attacks[type] = load_actor<leap_actor>( obj, cooldown );
+    } else {
+        obj.throw_error( "unknown monster attack", "type" );
+        return;
+    }
+
+    special_attacks_names.push_back( type );
+}
+
 void MonsterGenerator::load_special_attacks(mtype *m, JsonObject &jo, std::string member) {
     m->special_attacks.clear(); // make sure we're running with everything cleared
 
-    if (jo.has_array(member)) {
-        JsonArray outer = jo.get_array(member);
-        while (outer.has_more()) {
+    if( !jo.has_array( member ) ) {
+        return;
+    }
+
+    JsonArray outer = jo.get_array(member);
+    while( outer.has_more() ) {
+        if( outer.test_array() ) {
             JsonArray inner = outer.next_array();
             const auto &aname = inner.get_string(0);
             if ( attack_map.find(aname) != attack_map.end() ) {
-                auto &entry = m->special_attacks[aname];
-                entry.attack = attack_map[aname];
-                entry.cooldown = inner.get_int(1);
+                auto new_entry = mtype_special_attack(
+                    attack_map[aname], inner.get_int(1) );
+                m->special_attacks[aname] = new_entry;
 
                 m->special_attacks_names.push_back(aname);
             } else {
                 inner.throw_error("Invalid special_attacks");
             }
+        } else if( outer.test_object() ) {
+            set_attack_from_object(
+                outer.next_object(), m->special_attacks, m->special_attacks_names );
+        } else {
+            outer.throw_error( "array element is neither array nor object." );
         }
     }
 }

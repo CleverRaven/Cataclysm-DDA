@@ -405,7 +405,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
 
     private:
         int hp;
-        std::unordered_map<std::string, mon_special_attack> special_attacks;
+        std::map<std::string, mon_special_attack> special_attacks;
         tripoint goal;
         tripoint position;
         bool dead;
