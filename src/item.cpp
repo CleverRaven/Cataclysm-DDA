@@ -4158,31 +4158,34 @@ static void eject_casings( player &p, item *reload_target, itype_id casing_type 
     }
 }
 
-bool item::reload(player &u, int pos)
+bool item::reload( player &u, int pos )
 {
-    long qty = 0;
-    item *target = nullptr;
-    item *ammo = &u.i_at(pos);
-    item *container = nullptr;
+    return reload( u, item_location::on_character( u, &u.i_at( pos ) ) );
+}
+
+bool item::reload( player &u, item_location loc )
+{
+    // @todo deprecate reloading using a spare magazine
+    item *spare_mag = has_gunmod("spare_mag") >= 0 ? &contents[has_gunmod("spare_mag")] : nullptr;
+    if( spare_mag && spare_mag->charges > 0 && ammo_remaining() <= 0 ) {
+        charges = spare_mag->charges;
+        set_curammo( spare_mag->get_curammo_id() );
+        spare_mag->charges = 0;
+        spare_mag->unset_curammo();
+        return true;
+    }
+
+    item *ammo = loc.get_item();
+    if( ammo == nullptr || ammo->is_null() ) {
+        debugmsg( "Tried to reload using non-existent ammo" );
+        return false;
+    }
 
     // Handle ammo in containers, currently only gasoline and quivers
+    item *container = nullptr;
     if ( (ammo->is_container() || ammo->type->can_use("QUIVER")) && !ammo->contents.empty() ) {
         container = ammo;
         ammo = &ammo->contents[0];
-    }
-
-     // @todo deprecate reloading using a spare magazine
-     item *spare_mag = has_gunmod("spare_mag") >= 0 ? &contents[has_gunmod("spare_mag")] : nullptr;
-     if( spare_mag && spare_mag->charges > 0 && ammo_remaining() <= 0 ) {
-         charges = spare_mag->charges;
-         set_curammo( spare_mag->get_curammo_id() );
-         spare_mag->charges = 0;
-         spare_mag->unset_curammo();
-         return true;
-     }
-
-    if( ammo->is_null() ) {
-        return false;
     }
 
     // Chance to fail pulling an arrow at lower levels
@@ -4200,6 +4203,9 @@ bool item::reload(player &u, int pos)
     }
 
     // First determine what we are trying to reload
+    long qty = 0;
+    item *target = nullptr;
+
     if( is_gun() ) {
         // In order of preference reload active gunmod, gun, spare magazine, any other auxiliary gunmod
         std::vector<item *> opts = { active_gunmod(), this, spare_mag };
@@ -4261,7 +4267,7 @@ bool item::reload(player &u, int pos)
                 container->contents.erase(container->contents.begin());
                 u.inv.restack(&u); // emptied containers do not stack with non-empty ones
             } else {
-                u.i_rem(pos);
+                loc.remove_item();
             }
         }
         return true;

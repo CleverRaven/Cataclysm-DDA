@@ -14,6 +14,7 @@
 #include "bodypart.h"
 #include "string_id.h"
 #include "line.h"
+#include "item_location.h"
 
 class game;
 class Character;
@@ -216,7 +217,13 @@ public:
      * @retval other the item position (@ref player::i_at) in the players inventory.
      */
     int pick_reload_ammo( const player &u, bool interactive );
- bool reload(player &u, int pos);
+
+    /** Reload item using ammo from inventory position returning true if sucessful */
+    bool reload( player &u, int pos );
+
+    /** Reload item using ammo from location returning true if sucessful */
+    bool reload( player &u, item_location loc );
+
     skill_id skill() const;
 
     template<typename Archive>
