@@ -471,7 +471,8 @@ void game::wishitem( player *p, int x, int y, int z)
 
     for (size_t i = 0; i < standard_itype_ids.size(); i++) {
         item ity( standard_itype_ids[i], 0 );
-        wmenu.addentry( i, true, 0, string_format(_("%s"), ity.tname(1, false).c_str()) );
+        wmenu.addentry( i, true, 0, string_format( _( "%.*s" ), wmenu.pad_right - 5,
+                                                   ity.tname( 1, false ).c_str() ) );
         wmenu.entries[i].extratxt.txt = string_format("%c", ity.symbol());
         wmenu.entries[i].extratxt.color = ity.color();
         wmenu.entries[i].extratxt.left = 1;
