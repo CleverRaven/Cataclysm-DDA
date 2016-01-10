@@ -4775,7 +4775,7 @@ static void process_vehicle_items( vehicle *cur_veh, int part )
                 full_charge = full_charge * 2;
             }
             if( n.is_tool() && full_charge > n.charges ) {
-                if(cur_veh->discharge_battery(10, FALSE)) {
+                if( cur_veh->discharge_battery( 10, false ) ) {
                     break; // Check car's power before charging
                 }
                 n.charges++;
