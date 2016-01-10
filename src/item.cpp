@@ -2068,7 +2068,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
 
     const it_comest* food_type = NULL;
     std::string tagtext = "";
-    std::string toolmodtext = "";
+    std::string modtext = "";
     ret.str("");
     if (is_food())
     {
@@ -2116,7 +2116,11 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
     }
 
     if (has_flag("ATOMIC_AMMO")) {
-        toolmodtext = _("atomic ");
+        modtext += _( "atomic " );
+    }
+
+    if( has_gunmod( "barrel_small" ) != -1 ) {
+        modtext += _( "sawn-off ");
     }
 
     if(has_flag("WET"))
@@ -2141,7 +2145,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
 
     //~ This is a string to construct the item name as it is displayed. This format string has been added for maximum flexibility. The strings are: %1$s: Damage text (eg. "bruised"). %2$s: burn adjectives (eg. "burnt"). %3$s: tool modifier text (eg. "atomic"). %4$s: vehicle part text (eg. "3.8-Liter"). $5$s: main item text (eg. "apple"). %6s: tags (eg. "(wet) (fits)").
     ret << string_format(_("%1$s%2$s%3$s%4$s%5$s%6$s"), damtext.c_str(), burntext.c_str(),
-                        toolmodtext.c_str(), vehtext.c_str(), maintext.c_str(), tagtext.c_str());
+                        modtext.c_str(), vehtext.c_str(), maintext.c_str(), tagtext.c_str());
 
     static const std::string const_str_item_note("item_note");
     if( item_vars.find(const_str_item_note) != item_vars.end() ) {
