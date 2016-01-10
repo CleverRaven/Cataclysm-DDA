@@ -208,15 +208,11 @@ public:
  const item_category &get_category() const;
 
     /**
-     * @param u The player whose inventory is used to search for suitable ammo.
-     * @param interactive Whether to show a dialog to select the ammo, if false it will select
-     * the first suitable ammo.
-     * @retval INT_MIN+2 to indicate the user canceled the menu
-     * @retval INT_MIN+1 to indicate reload from spare magazine
-     * @retval INT_MIN to indicate no suitable ammo found.
-     * @retval other the item position (@ref player::i_at) in the players inventory.
+     * Select suitable ammo with which to reload the item
+     * @param u player inventory to search for suitable ammo.
+     * @param interactive if true prompt to select ammo otherwise select first suitable ammo
      */
-    int pick_reload_ammo( const player &u, bool interactive );
+    item_location pick_reload_ammo( player &u, bool interactive ) const;
 
     /** Reload item using ammo from inventory position returning true if sucessful */
     bool reload( player &u, int pos );

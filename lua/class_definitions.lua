@@ -812,7 +812,7 @@ classes = {
             { name = "on_pickup", rval = nil, args = { "Character" } },
             { name = "on_wear", rval = nil, args = { "player" } },
             { name = "on_wield", rval = nil, args = { "player" } },
-            { name = "pick_reload_ammo", rval = "int", args = { "player", "bool" } },
+            { name = "pick_reload_ammo", rval = "item_location", args = { "player", "bool" } },
             { name = "precise_unit_volume", rval = "int", args = { } },
             { name = "price", rval = "int", args = { } },
             { name = "process", rval = "bool", args = { "player", "tripoint", "bool" } },

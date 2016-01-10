@@ -10870,17 +10870,7 @@ void game::plfire( bool burst, const tripoint &default_target )
         }
 
         if( u.weapon.has_flag("RELOAD_AND_SHOOT") && u.weapon.charges == 0 ) {
-            const int reload_pos = u.weapon.pick_reload_ammo( u, true );
-            if( reload_pos == INT_MIN ) {
-                add_msg(m_info, _("Out of ammo!"));
-                return;
-            } else if( reload_pos == INT_MIN + 2 ) {
-                add_msg(m_info, _("Never mind."));
-                refresh_all();
-                return;
-            }
-
-            if( !u.weapon.reload( u, reload_pos ) ) {
+            if( !u.weapon.reload( u, u.weapon.pick_reload_ammo( u, true ) ) ) {
                 return;
             }
 
@@ -11313,18 +11303,16 @@ void game::reload( int pos )
     }
 
     // pick ammo
-    int am_pos = it->pick_reload_ammo( u, true );
-    if( am_pos == INT_MIN ) {
-       if( it->is_gun() ) {
-            add_msg( m_info, _( "Out of ammo!" ) );
-        } else if( it->has_curammo() ) {
-            add_msg( m_info, _( "Out of %s!" ), item::nname( it->get_curammo_id() ).c_str() );
-        } else {
-            add_msg( m_info, _( "Out of %s!" ), ammo_name( it->ammo_type() ).c_str() );
+    auto loc = it->pick_reload_ammo( u, true );
+    auto ammo = loc.get_item();
+    if( ammo ) {
+        // move ammo to inventory if necessary
+        int am_pos = u.get_item_position( ammo );
+        if( am_pos == INT_MIN ) {
+            am_pos = u.get_item_position( &u.i_add( *ammo ) );
+            loc.remove_item();
         }
-    } else if( am_pos == INT_MIN + 2 ) {
-        add_msg( m_info, _( "Never mind." ) );
-    } else {
+
         // do the actual reloading
         std::stringstream ss;
         ss << pos;

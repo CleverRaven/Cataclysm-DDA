@@ -4008,7 +4008,7 @@ item *item::get_usable_item( const std::string &use_name )
     return nullptr;
 }
 
-int item::pick_reload_ammo( const player &u, bool interactive )
+item_location item::pick_reload_ammo( player &u, bool interactive ) const
 {
     std::set<std::string> ammo_types; // for unloaded items any ammo will do
     std::set<std::string> item_types; // for partially loaded require matching type
@@ -4017,7 +4017,7 @@ int item::pick_reload_ammo( const player &u, bool interactive )
     auto spare = has_gunmod( "spare_mag" );
     if( spare >= 0 ) {
         if( ammo_remaining() <= 0 && contents[spare].charges > 0 ) {
-            return INT_MIN + 1; // special return to use spare magazine for reloading.
+            return item_location::on_character( u, this );
         }
         if( contents[spare].charges < ammo_remaining() ) {
             if( contents[spare].charges > 0 || ammo_remaining() > 0 ) {
@@ -4044,7 +4044,7 @@ int item::pick_reload_ammo( const player &u, bool interactive )
     std::for_each( contents.begin(), contents.end(), wants_ammo );
 
     // Actual ammo items that can be used as ammo.
-    std::vector<const item*> am = u.items_with( [&ammo_types, &item_types]( const item & it ) {
+    std::vector<item *> am = u.items_with( [&ammo_types, &item_types]( const item & it ) {
         if( !it.is_ammo() ) {
             return false;
         }
@@ -4079,11 +4079,14 @@ int item::pick_reload_ammo( const player &u, bool interactive )
     }
 
     if( ammo_list.empty() ) {
-        return INT_MIN;
+        if( interactive ) {
+            u.add_msg_if_player( m_info, _( "Out of %s!" ), is_gun() ? _("ammo") : ammo_name( ammo_type() ).c_str() );
+        }
+        return item_location::nowhere();
     }
     if( ammo_list.size() == 1 || !interactive ) {
         // Either only one valid choice or chosing for a NPC, just return the first.
-        return std::get<1>( ammo_list[0] );
+        return item_location::on_character( u, &u.i_at( std::get<1>( ammo_list[0] ) ) );
     }
 
     // More than one option; list 'em and pick
@@ -4133,11 +4136,14 @@ int item::pick_reload_ammo( const player &u, bool interactive )
     amenu.query();
     if( amenu.ret < 0 || amenu.ret >= ( int )ammo_list.size() ) {
         // invalid selection / escaped from the menu
-        return INT_MIN + 2;
+        if( interactive ) {
+            u.add_msg_if_player( m_info, _( "Never mind." ) );
+        }
+        return item_location::nowhere();
     }
     const auto &selected = ammo_list[ amenu.ret ];
     uistate.lastreload[ ammo_type() ] = std::get<0>( selected )->id;
-    return std::get<1>( selected );
+    return item_location::on_character( u, &u.i_at( std::get<1>( selected ) ) );
 }
 
 // Helper to handle ejecting casings from guns that require them to be manually extracted.
