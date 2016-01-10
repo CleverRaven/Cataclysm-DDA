@@ -669,7 +669,14 @@ int player::dodge_roll()
         }
     }
 
-    return dice(dodge_stat, 10); //Matches NPC and monster dodge_roll functions
+    const int roll = dice(dodge_stat, 10);
+    // Speed below 100 linearly decreases dodge effectiveness
+    int speed_stat = get_speed();
+    if( speed_stat < 100 ) {
+        return roll * speed_stat / 100;
+    }
+
+    return roll;
 }
 
 float player::bonus_damage( bool random ) const
