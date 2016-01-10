@@ -1118,6 +1118,9 @@ void cata_tiles::init_minimap( int destx, int desty, int width, int height )
     minimap_clip_rect.w = width - minimap_border_width * 2;
     minimap_clip_rect.h = height - minimap_border_height * 2;
 
+    main_minimap_tex.reset();
+    main_minimap_tex = create_minimap_cache_texture( minimap_clip_rect.w, minimap_clip_rect.h);
+
     previous_submap_view = tripoint( INT_MIN, INT_MIN, INT_MIN );
 
     //allocate the textures for the texture pool
@@ -1207,10 +1210,8 @@ void cata_tiles::draw_minimap( int destx, int desty, const tripoint &center, int
 
     //update minimap textures
     process_minimap_cache_updates();
-    //prepare to copy to screen
-    set_displaybuffer_rendertarget();
-    //this hides the edges of submaps that are usually out of view
-    SDL_RenderSetClipRect( renderer, &minimap_clip_rect );
+    //prepare to copy to intermediate texture
+    SDL_SetRenderTarget( renderer, main_minimap_tex.get() );
 
     //attempt to draw the submap cache if any of its tiles are exposed in the minimap area
     //the drawn flag prevents it from being drawn more than once
@@ -1241,12 +1242,15 @@ void cata_tiles::draw_minimap( int destx, int desty, const tripoint &center, int
             //the position of the submap texture has to account for the actual (current) 12x12 tile size
             //the clipping rectangle handles the portions that need to hide
             tripoint drawpoint( ( p.x / SEEX ) * SEEX - start_x, ( p.y / SEEY ) * SEEY - start_y, p.z );
-            drawrect.x = drawpoint.x * minimap_tile_size.x + destx + minimap_border_width;
-            drawrect.y = drawpoint.y * minimap_tile_size.y + desty + minimap_border_height;
+            drawrect.x = drawpoint.x * minimap_tile_size.x;
+            drawrect.y = drawpoint.y * minimap_tile_size.y;
             SDL_RenderCopy( renderer, it->second->minimap_tex.get(), NULL, &drawrect );
         }
     }
-    SDL_RenderSetClipRect( renderer, NULL );
+    //set display buffer to main screen
+    set_displaybuffer_rendertarget();
+    //paint intermediate texture to screen
+    SDL_RenderCopy( renderer, main_minimap_tex.get(), NULL, &minimap_clip_rect );
 
     //unused submap caches get deleted
     clear_unused_minimap_cache();

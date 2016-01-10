@@ -528,6 +528,9 @@ class cata_tiles
         //track the previous viewing area to determine if the minimap cache needs to be cleared
         tripoint previous_submap_view;
         bool minimap_reinit_flag; //set to true to force a reallocation of minimap details
+        //place all submaps on this texture before rendering to screen
+        //replaces clipping rectangle usage while SDL still has a flipped y-coordinate bug
+        SDL_Texture_Ptr main_minimap_tex;
 };
 
 #endif
