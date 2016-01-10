@@ -8397,7 +8397,13 @@ int iuse::saw_barrel( player *p, item *, bool, const tripoint& )
     }
 
     auto filter = [&]( const item& e ) {
-        return e.is_gun() && e.get_free_mod_locations( "barrel" );
+        if( !e.is_gun() || e.type->gun->barrel_length <= 0 ) {
+            return false;
+        }
+        // cannot saw down barrel of gun that already has a barrel mod
+        return std::none_of( e.contents.begin(), e.contents.end(), [&]( const item& mod ) {
+            return mod.type->gunmod->location == "barrel";
+        });
     };
 
     item& obj = p->i_at( g->inv_for_filter( _( "Saw barrel?" ), filter ) );

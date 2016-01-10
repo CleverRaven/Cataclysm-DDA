@@ -2384,7 +2384,7 @@ int item::volume(bool unit_value, bool precise_value ) const
 
         if (has_flag("COLLAPSIBLE_STOCK")) {
             // consider only the base size of the gun (without mods)
-            int tmpvol = get_var( "volume", (int) type->volume);
+            int tmpvol = get_var( "volume", type->volume - type->gun->barrel_length );
             if      (tmpvol <=  3) ; // intentional NOP
             else if (tmpvol <=  5) ret -= precise_value ? 2000 : 2;
             else if (tmpvol <=  6) ret -= precise_value ? 3000 : 3;
@@ -2392,6 +2392,10 @@ int item::volume(bool unit_value, bool precise_value ) const
             else if (tmpvol <= 11) ret -= precise_value ? 5000 : 5;
             else if (tmpvol <= 16) ret -= precise_value ? 6000 : 6;
             else                   ret -= precise_value ? 7000 : 7;
+        }
+
+        if( has_gunmod( "barrel_small" ) != -1 ) {
+            ret -= type->gun->barrel_length * ( precise_value ? 1000 : 1 );
         }
     }
 

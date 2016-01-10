@@ -659,6 +659,11 @@ void Item_factory::load( islot_gun &slot, JsonObject &jo )
     slot.ammo_effects = jo.get_tags( "ammo_effects" );
     slot.ups_charges = jo.get_int( "ups_charges", 0 );
 
+    slot.barrel_length = jo.get_int( "barrel_length", 0 );
+    if( slot.barrel_length < 0 ) {
+        jo.throw_error( "gun barrel length cannot be negative", "barrel_length" );
+    }
+
     if( jo.has_array( "valid_mod_locations" ) ) {
         JsonArray jarr = jo.get_array( "valid_mod_locations" );
         while( jarr.has_more() ) {
