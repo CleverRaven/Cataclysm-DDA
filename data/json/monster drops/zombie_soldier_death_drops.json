@@ -57,7 +57,7 @@
                     { "item": "two_way_radio", "prob": 15},
                     { "group": "mil_food", "prob": 5}, 
                     { "item": "grapnel", "prob": 2},
-                    { "item": "chestrig", "damage-min": 1, "damage-max": 4 },
+                    { "item": "chestrig", "damage-min": 1, "damage-max": 4, "prob": 33 },
                     { "item": "goggles_nv", "damage-min": 1, "damage-max": 4, "prob": 5},
                     { "item": "goggles_ir", "damage-min": 1, "damage-max": 4, "prob": 5},
                     { "group": "soldier_primary", "prob": 25 },
