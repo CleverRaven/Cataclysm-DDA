@@ -782,8 +782,11 @@ bool player::activate_bionic(int b, bool eff_only)
         if (has_effect("hallu") || has_effect("visuals")) {
             bad.push_back(_("Hallucinations"));
         }
+        if (has_effect("pblue")) {
+            good.push_back(_("Prussian Blue"));
+        }
         if (has_effect("iodine")) {
-            good.push_back(_("Iodine"));
+            good.push_back(_("Potassium Iodide"));
         }
         if (has_effect("datura")) {
             good.push_back(_("Anticholinergic Tropane Alkaloids"));
@@ -849,6 +852,7 @@ bool player::activate_bionic(int b, bool eff_only)
         remove_effect("high");
         remove_effect("hallu");
         remove_effect("visuals");
+        remove_effect("pblue");
         remove_effect("iodine");
         remove_effect("datura");
         remove_effect("took_xanax");

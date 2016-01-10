@@ -14514,7 +14514,7 @@ void game::process_artifact(item *it, player *p)
         case AEP_SPEED_UP: // Handled in player::current_speed()
             break;
 
-        case AEP_IODINE:
+        case AEP_PBLUE:
             if (p->radiation > 0) {
                 p->radiation--;
             }
@@ -14703,9 +14703,9 @@ void game::add_artifact_messages(std::vector<art_effect_passive> effects)
             net_speed -= 20;
             break;
 
-        case AEP_IODINE:
+        case AEP_PBLUE:
             break; // No message
-
+            
         case AEP_SNAKES:
             add_msg(m_warning, _("Your skin feels slithery."));
             break;

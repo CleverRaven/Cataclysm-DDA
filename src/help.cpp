@@ -359,7 +359,7 @@ std::vector<std::string> text_mutation()
 Though it is relatively rare, certain areas of the world may be contaminated \
 with radiation. It will gradually accumulate in your body, weakening you \
 more and more. While in radiation-free areas, your radiation level will \
-slowly decrease. Taking iodine tablets will help speed the process."));
+slowly decrease. Taking Prussian blue tablets will help speed the process."));
 
     text.push_back(_("\
 If you become very irradiated, you may develop mutations. Most of the time, these \

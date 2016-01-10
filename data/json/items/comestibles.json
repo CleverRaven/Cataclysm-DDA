@@ -13952,12 +13952,20 @@
     {
         "type" : "COMESTIBLE",
         "id" : "iodine",
-        "name" : "iodine tablet",
+        "name" : "potassium iodide tablet",
         "weight" : 1,
         "color" : "white",
         "addiction_type" : "none",
         "spoils_in" : 0,
-        "use_action" : "IODINE",
+        "use_action" :  {
+            "type" : "consume_drug",
+            "activation_message" : "You take some potassium iodide.",
+            "effects" : [
+                {
+                    "id": "iodine",
+                    "duration": 2400
+                }
+            ]},
         "stim" : 0,
         "container" : "null",
         "to_hit" : 0,
@@ -13967,8 +13975,46 @@
         "healthy" : 0,
         "addiction_potential" : 0,
         "nutrition" : 0,
-        "description" : "Potassium iodide tablets.  They might help mitigate some of the detrimental effects caused by irradiation.",
+        "description" : "Potassium iodide tablets.  If taken prior to exposure, they help to mitigate injury caused by radiation absorption.",
         "price" : 1000,
+        "material" : "null",
+        "tool" : "null",
+        "volume" : 1,
+        "cutting" : 0,
+        "phase" : "solid",
+        "charges" : 10,
+        "stack_size" : 200,
+        "bashing" : 0,
+        "fun" : 0
+    },
+    {
+        "type" : "COMESTIBLE",
+        "id" : "prussian_blue",
+        "name" : "Prussian blue tablet",
+        "weight" : 1,
+        "color" : "blue",
+        "addiction_type" : "none",
+        "spoils_in" : 0,
+        "use_action" : {
+            "type" : "consume_drug",
+            "activation_message" : "You take some Prussian blue.",
+            "effects" : [
+                {
+                    "id": "pblue",
+                    "duration": 1200
+                }
+            ]},
+        "stim" : 0,
+        "container" : "null",
+        "to_hit" : 0,
+        "comestible_type" : "MED",
+        "symbol" : "!",
+        "quench" : 0,
+        "healthy" : 0,
+        "addiction_potential" : 0,
+        "nutrition" : 0,
+        "description" : "Tablets containing oxidized ferrous ferrocyanide salts.  Capable of purging nuclear contaminants from the body if taken after radiation exposure.",
+        "price" : 3000,
         "material" : "null",
         "tool" : "null",
         "volume" : 1,

@@ -160,7 +160,6 @@ void Item_factory::init()
     iuse_function_list["THORAZINE"] = &iuse::thorazine;
     iuse_function_list["PROZAC"] = &iuse::prozac;
     iuse_function_list["SLEEP"] = &iuse::sleep;
-    iuse_function_list["IODINE"] = &iuse::iodine;
     iuse_function_list["DATURA"] = &iuse::datura;
     iuse_function_list["FLUMED"] = &iuse::flumed;
     iuse_function_list["FLUSLEEP"] = &iuse::flusleep;
