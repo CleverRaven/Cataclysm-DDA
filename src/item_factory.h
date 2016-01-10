@@ -316,6 +316,7 @@ class Item_factory
 
         //iuse stuff
         std::map<Item_tag, use_function> iuse_function_list;
+
 };
 
 extern std::unique_ptr<Item_factory> item_controller;

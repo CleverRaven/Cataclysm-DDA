@@ -936,29 +936,16 @@ public:
          */
         int get_storage() const;
         /**
-         * Returns the storage amount, and the total volume of other materials that can be stored
-         * in an armor item (such as quivers or holsters). Returns 0 if the item can not be worn.
-         */
-        int get_storage_equivalent() const;
-        /**
          * Returns the resistance to environmental effects (@ref islot_armor::env_resist) that this
          * item provides when worn. See @ref player::get_env_resist. Higher values are better.
          * For non-armor it returns 0.
          */
         int get_env_resist() const;
         /**
-         * Returns the average density of materials
-         */
-        float get_density() const;
-        /**
          * Whether this is a power armor item. Not necessarily the main armor, it could be a helmet
          * or similar.
          */
         bool is_power_armor() const;
-        /**
-         * Returns a size multiplier based on the number and size of body parts covered by armor.
-         */
-        int armor_size_by_body_part() const;
         /**
          * If this is an armor item, return its armor data. You should probably not use this function,
          * use the various functions above (like @ref get_storage) to access armor data directly.

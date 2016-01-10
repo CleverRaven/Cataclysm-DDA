@@ -8064,6 +8064,8 @@
         "warmth" : 90,
         "encumbrance" : 50,
         "bashing" : 1,
+        "weight" : 20339,
+        "volume" : 100,
         "flags" : ["WATERPROOF", "STURDY", "ELECTRIC_IMMUNE"],
         "use_action": {
             "type": "ups_based_armor",
@@ -8093,6 +8095,8 @@
         "bashing" : 1,
         "coverage" : 100,
         "material_thickness" : 11,
+        "weight" : 3628,
+        "volume" : 20,
         "flags" : ["WATCH", "WATERPROOF", "STURDY", "THERMOMETER"]
     },
     {
@@ -8115,6 +8119,8 @@
         "warmth" : 60,
         "encumbrance" : 40,
         "bashing" : 1,
+        "weight" : 7670,
+        "volume" : 60,
         "flags" : ["WATERPROOF", "STURDY", "ELECTRIC_IMMUNE"],
         "use_action": {
             "type": "ups_based_armor",
@@ -8144,6 +8150,8 @@
         "bashing" : 1,
         "coverage" : 100,
         "material_thickness" : 9,
+        "weight" : 1814,
+        "volume" : 16,
         "flags" : ["WATCH", "WATERPROOF", "STURDY", "THERMOMETER"]
     },
     {
@@ -8166,6 +8174,8 @@
         "warmth" : 60,
         "encumbrance" : 60,
         "bashing" : 1,
+        "weight" : 29009,
+        "volume" : 120,
         "flags" : ["WATERPROOF", "STURDY", "ELECTRIC_IMMUNE"],
         "use_action": {
             "type": "ups_based_armor",
@@ -8195,6 +8205,8 @@
         "bashing" : 1,
         "coverage" : 100,
         "material_thickness" : 12,
+        "weight" : 5442,
+        "volume" : 28,
         "flags" : ["WATCH", "WATERPROOF", "STURDY", "THERMOMETER"]
     },
     {
@@ -8215,6 +8227,8 @@
         "encumbrance" : 40,
         "bashing" : 1,
         "symbol" : "[",
+        "weight" : 1640,
+        "volume" : 48,
         "flags" : ["WATERPROOF", "STURDY", "BELTED"],
         "coverage" : 100,
         "material_thickness" : 10
@@ -8239,6 +8253,8 @@
         "warmth" : 50,
         "encumbrance" : 40,
         "bashing" : 1,
+        "weight" : 12214,
+        "volume" : 100,
         "flags" : ["WATERPROOF", "STURDY"],
         "coverage" : 95,
         "material_thickness" : 8
@@ -8264,6 +8280,8 @@
         "bashing" : 1,
         "coverage" : 95,
         "material_thickness" : 8,
+        "weight" : 2416,
+        "volume" : 20,
         "flags" : ["WATERPROOF", "STURDY"]
     },
     {
@@ -9958,6 +9976,8 @@
         "encumbrance" : 35,
         "bashing" : -1,
         "coverage" : 50,
+        "weight" : 18043,
+        "volume" : 143,
         "flags" : ["BELTED"],
         "material_thickness" : 3
     },

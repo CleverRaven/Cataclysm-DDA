@@ -955,8 +955,7 @@ void Item_factory::load_basic_info(JsonObject &jo, itype *new_item_template)
         new_item_template->materials.push_back( "null" );
     }
     new_item_template->phase = jo.get_enum_value( "phase", SOLID );
-    new_item_template->volume = jo.get_int( "volume", 0 );
-    new_item_template->weight = jo.get_int( "weight", 0 );
+
     new_item_template->melee_dam = jo.get_int( "bashing", 0 );
     new_item_template->melee_cut = jo.get_int( "cutting", 0 );
     new_item_template->m_to_hit = jo.get_int( "to_hit" );
@@ -1060,6 +1059,139 @@ void Item_factory::load_basic_info(JsonObject &jo, itype *new_item_template)
     load_slot_optional( new_item_template->seed, jo, "seed_data" );
     load_slot_optional( new_item_template->software, jo, "software_data" );
     load_slot_optional( new_item_template->artifact, jo, "artifact_data" );
+
+    if ( new_item_template->armor == nullptr || ( jo.has_member( "weight" ) && jo.has_member( "volume" ) ) ) {
+        new_item_template->weight = jo.get_int( "weight" );
+        new_item_template->volume = jo.get_int( "volume" );
+    }
+    else {
+        float body_part_multiplier = 0;
+        {
+            if(new_item_template->armor->covers.test(bp_torso)) {
+                body_part_multiplier += 16;
+            }
+            if(new_item_template->armor->covers.test(bp_leg_l)) {
+                body_part_multiplier += 4;
+            }
+            if(new_item_template->armor->covers.test(bp_leg_r)) {
+                body_part_multiplier += 4;
+            }
+            if(new_item_template->armor->covers.test(bp_foot_l)) {
+                body_part_multiplier += 4;
+            }
+            if(new_item_template->armor->covers.test(bp_foot_r)) {
+                body_part_multiplier += 4;
+            }
+            if(new_item_template->armor->covers.test(bp_hand_l)) {
+                body_part_multiplier += 2;
+            }
+            if(new_item_template->armor->covers.test(bp_hand_r)) {
+                body_part_multiplier += 2;
+            }
+            if(new_item_template->armor->covers.test(bp_head)) {
+                body_part_multiplier += 4;
+            }
+            if(new_item_template->armor->covers.test(bp_eyes)) {
+                body_part_multiplier += 1;
+            }
+            if(new_item_template->armor->covers.test(bp_arm_l)) {
+                body_part_multiplier += 4;
+            }
+            if(new_item_template->armor->covers.test(bp_arm_r)) {
+                body_part_multiplier += 4;
+            }
+            if(new_item_template->armor->covers.test(bp_mouth)) {
+                body_part_multiplier += 2;
+            }
+        }
+        body_part_multiplier = std::max( body_part_multiplier, (float) 1 );
+
+        float coverage = static_cast<int> ( static_cast <unsigned int> (new_item_template->armor->coverage ) );
+        coverage = std::max( coverage, (float) 5 );
+
+        float thickness = static_cast<int> ( static_cast <unsigned int> ( new_item_template->armor->thickness ) );
+        thickness = std::max( thickness, (float) 1 );
+
+        float storage = 0;
+        storage += static_cast <int> ( static_cast <unsigned int> ( new_item_template->armor->storage) );
+        if ( new_item_template->can_use( "HOLSTER" ) ) {
+            auto ptr = dynamic_cast<const holster_actor *> ( new_item_template->get_use("holster")->get_actor_ptr() );
+            storage += ptr->max_volume * ptr->multi;
+        }
+        if( new_item_template->container && new_item_template->container->rigid ) {
+            storage += new_item_template->container->contains;
+        }
+
+        if ( jo.has_member( "weight" ) ) {
+            new_item_template->weight = jo.get_int( "weight" );
+        }
+        else {
+            float weight = 0;
+            float density = 0;
+            std::vector<std::string> materials_composed_of = new_item_template->materials;
+            std::vector<material_type*> mat_types;
+            material_type *next_material;
+            for (auto mat_id : materials_composed_of) {
+                next_material = material_type::find_material(mat_id);
+                mat_types.push_back(next_material);
+            }
+            for (auto mat : mat_types) {
+                density += mat->density();
+            }
+            density /= mat_types.size();
+            density = std::max( density, (float) 1);
+
+            const float base_weight_multiplier = 0.035;
+            const float storage_weight_multiplier = 2;
+
+            weight = base_weight_multiplier * body_part_multiplier * density * coverage * thickness;
+            weight += storage_weight_multiplier * density * storage;
+
+            new_item_template->weight = lround( weight );
+        }
+
+        if ( jo.has_member( "volume" ) ) {
+            new_item_template->volume = jo.get_int( "volume" );
+        }
+        else {
+
+            const float base_volume_multiplier = 0.005;
+            const float storage_volume_multiplier = 1;
+
+            float vol = base_volume_multiplier * body_part_multiplier * coverage * thickness;
+            vol += storage_volume_multiplier * storage;
+
+            {
+                std::vector<std::string> flexible;
+                flexible.push_back( "cotton" );
+                flexible.push_back( "wool" );
+                flexible.push_back( "leather" );
+                flexible.push_back( "kevlar" );
+                flexible.push_back( "fur" );
+                flexible.push_back( "paper" );
+                flexible.push_back( "lowdensityplastic" );
+                flexible.push_back( "nomex" );
+                std::vector<std::string> materials_composed_of = new_item_template->materials;
+                bool bad_material = false;
+                bool found = false;
+                for (auto mat_id : materials_composed_of) {
+                    for ( auto candidate_material : flexible ) {
+                        if ( mat_id == candidate_material ) {
+                            found = true;
+                            break;
+                        }
+                    }
+                    if (!found) {
+                        break;
+                    }
+                }
+                if (found) {
+                    vol /= 4;
+                }
+            }
+            new_item_template->volume = std::max( lround(vol) , (long) 1 );
+        }
+    }
 }
 
 void Item_factory::load_item_category(JsonObject &jo)

@@ -631,6 +631,7 @@
         "flags" : ["VARSIZE", "STURDY", "WATERPROOF", "RAINPROOF", "WATCH", "ALARMCLOCK", "SWIM_GOGGLES", "SUN_GLASSES", "RAD_RESIST"],
         "price": 50000000,
         "material": ["ceramic", "kevlar"],
+        "weight" : 6820,
         "volume": 36,
         "to_hit" : -3,
         "max_charges": 5000,
@@ -660,6 +661,7 @@
         "flags" : ["VARSIZE", "STURDY", "WATERPROOF", "RAINPROOF", "WATCH", "ALARMCLOCK", "SWIM_GOGGLES", "SUN_GLASSES", "RAD_PROOF", "ELECTRIC_IMMUNE"],
         "price": 50000000,
         "material": ["ceramic", "kevlar"],
+        "weight" : 6820,
         "volume": 36,
         "to_hit" : -3,
         "max_charges": 5000,
@@ -2184,6 +2186,8 @@
         "phase" : "solid",
         "encumbrance" : 27,
         "bashing" : 8,
+        "weight" : 2500,
+        "volume" : 27,
         "flags" : ["BELTED"],
         "coverage" : 10,
         "material_thickness" : 2
@@ -2224,6 +2228,8 @@
         "phase" : "solid",
         "encumbrance" : 15,
         "bashing" : 4,
+        "weight" : 2300,
+        "volume" : 16,
         "flags" : ["BELTED"],
         "coverage" : 10,
         "material_thickness" : 2
@@ -2265,6 +2271,8 @@
         "phase" : "solid",
         "encumbrance" : 30,
         "bashing" : 13,
+        "weight" : 10000,
+        "volume" : 50,
         "coverage" : 20,
         "material_thickness" : 4
     },
@@ -2304,6 +2312,8 @@
         "phase" : "solid",
         "encumbrance" : 30,
         "bashing" : 12,
+        "weight" : 2000,
+        "volume" : 18,
         "coverage" : 20,
         "material_thickness" : 4    
     }

@@ -2259,23 +2259,6 @@ int item::weight() const
         return 0;
     }
 
-    if ( is_armor() ) {
-        float ret = 0;
-        float density = std::max( get_density(), (float) 1);
-        float body_part_multiplier = std::max( armor_size_by_body_part(), 1);
-        float coverage = std::max( get_coverage(), 5 );
-        float thickness = std::max( get_thickness(), 1 );
-        float storage = get_storage_equivalent();
-
-        const float base_weight_multiplier = 0.035;
-        const float storage_weight_multiplier = 2;
-
-        ret = base_weight_multiplier * body_part_multiplier * density * coverage * thickness;
-        ret += storage_weight_multiplier * density * storage;
-
-        return lround(ret);
-    }
-
     int ret = type->weight;
     ret = get_var( "weight", ret );
 
@@ -2364,39 +2347,8 @@ int item::volume(bool unit_value, bool precise_value ) const
         return 0;
     }
 
-    if ( is_armor() ) {
-        float vol = 0;
-        float body_part_multiplier = (float) std::max( armor_size_by_body_part(), 1 );
-        float coverage = (float) std::max( get_coverage(), 5 );
-        float thickness = (float) std::max( get_thickness(), 1 );
-        float storage = (float) get_storage_equivalent();
-
-
-        const float base_volume_multiplier = 0.005;
-        const float storage_volume_multiplier = 1;
-
-        vol = base_volume_multiplier * body_part_multiplier * coverage * thickness;
-        vol += storage_volume_multiplier * storage;
-
-        std::vector<std::string> flexible;
-        flexible.push_back( "cotton" );
-        flexible.push_back( "wool" );
-        flexible.push_back( "leather" );
-        flexible.push_back( "kevlar" );
-        flexible.push_back( "fur" );
-        flexible.push_back( "paper" );
-        flexible.push_back( "lowdensityplastic" );
-        flexible.push_back( "nomex" );
-        if (only_made_of(flexible)) {
-            vol /= 4;
-        }
-        ret = lround(vol);
-        ret = std::max( ret, 1 );
-    }
-    else {
-        ret = type->volume;
-        ret = get_var( "volume", ret );
-    }
+    ret = type->volume;
+    ret = get_var( "volume", ret );
 
     if ( precise_value == true ) {
         ret *= 1000;
@@ -2699,30 +2651,6 @@ int item::get_storage() const
     return static_cast<int> (static_cast<unsigned int>( t->storage ) );
 }
 
-int item::get_storage_equivalent() const
-{
-    auto t = find_armor_data();
-    if( t == nullptr )
-        return 0;
-
-    int storage = get_storage();
-
-    if ( type->can_use( "QUIVER" ) ) {
-        storage += max_charges_from_flag( "QUIVER" );
-    }
-
-    if ( type->can_use( "HOLSTER" ) ) {
-        auto ptr = dynamic_cast<const holster_actor *> ( type->get_use("holster")->get_actor_ptr() );
-        storage += ptr->max_volume * ptr->multi;
-    }
-
-    if( type->container && type->container->rigid ) {
-        storage += type->container->contains;
-    }
-
-    return storage;
-}
-
 int item::get_env_resist() const
 {
     const auto t = find_armor_data();
@@ -2733,17 +2661,6 @@ int item::get_env_resist() const
     return static_cast<int>( static_cast<unsigned int>( t->env_resist ) );
 }
 
-float item::get_density() const
-{
-    float density = 0;
-    std::vector<material_type*> mat_types = made_of_types();
-    for (auto mat : mat_types) {
-        density += mat->density();
-    }
-    density /= mat_types.size();
-    return density;
-}
-
 bool item::is_power_armor() const
 {
     const auto t = find_armor_data();
@@ -2751,50 +2668,6 @@ bool item::is_power_armor() const
         return false;
     }
     return t->power_armor;
-}
-
-int item::armor_size_by_body_part() const
-{
-    int size_multiplier = 0;
-    std::bitset<num_bp> covered = get_covered_body_parts();
-
-    if(covered.test(bp_torso)) {
-        size_multiplier += 16;
-    }
-    if(covered.test(bp_leg_l)) {
-        size_multiplier += 4;
-    }
-    if(covered.test(bp_leg_r)) {
-        size_multiplier += 4;
-    }
-    if(covered.test(bp_foot_l)) {
-        size_multiplier += 4;
-    }
-    if(covered.test(bp_foot_r)) {
-        size_multiplier += 4;
-    }
-    if(covered.test(bp_hand_l)) {
-        size_multiplier += 2;
-    }
-    if(covered.test(bp_hand_r)) {
-        size_multiplier += 2;
-    }
-    if(covered.test(bp_head)) {
-        size_multiplier += 4;
-    }
-    if(covered.test(bp_eyes)) {
-        size_multiplier += 1;
-    }
-    if(covered.test(bp_arm_l)) {
-        size_multiplier += 4;
-    }
-    if(covered.test(bp_arm_r)) {
-        size_multiplier += 4;
-    }
-    if(covered.test(bp_mouth)) {
-        size_multiplier += 2;
-    }
-    return size_multiplier;
 }
 
 int item::get_encumber() const
