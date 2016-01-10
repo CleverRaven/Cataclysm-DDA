@@ -7658,9 +7658,9 @@
         "flags" : ["VARSIZE", "BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS"],
         "use_action" : {
             "type": "holster",
-            "max_volume": 2,
+            "max_volume": 3,
             "draw_cost": 30,
-            "skills": ["pistol"]
+            "skills": ["pistol", "shotgun"]
         }
     },
     {
