@@ -1948,7 +1948,7 @@
     "luminance":8,
     "hp":140,
     "death_function":["ACID", "NORMAL"],
-    "special_attacks":[["ACID_ACCURATE", 3]],
+    "special_attacks":[["ACID_ACCURATE", 3], ["ACID_BARF", 3]],
     "special_when_hit":["ACIDSPLASH", 50],
     "description":"This body has swollen to immense proportions, but still manages to hold itself together with semi-congealed acid all over its bloated body.  It clumsily moves around, but attacks with a large reserve of acid.",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "ACIDPROOF", "ACID_BLOOD", "NO_BREATHE", "REVIVES", "BONES", "PUSH_MON"]
