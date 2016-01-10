@@ -14,6 +14,7 @@ src/gamemode.cpp
 src/itype.cpp
 src/iuse_software.cpp
 src/lua_console.cpp
+src/mattack_actors.cpp
 src/mission_end.cpp
 src/mission_fail.cpp
 src/mission_place.cpp
@@ -75,6 +76,7 @@ src/mapbuffer.h
 src/mapsharing.h
 src/martialarts.h
 src/material.h
+src/mattack_actors.h
 src/mondefense.h
 src/monfaction.h
 src/morale.h

@@ -1291,7 +1291,7 @@ bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
     unsigned int seed = 0;
     // FUTURE TODO rework Z value if multiple z levels are being drawn
     // z level is currently always focused on player location
-    int z_coord = g->u.pos().z;
+    const tripoint p( x, y, g->u.pos().z );
     // TODO determine ways other than category to differentiate more types of sprites
     switch( category ) {
         case C_TERRAIN:
@@ -1306,7 +1306,7 @@ bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
         {
             // new scope for variable declarations
             int partid;
-            vehicle *veh = g->m.veh_at( tripoint( x, y, z_coord ), partid );
+            vehicle *veh = g->m.veh_at( p, partid );
             vehicle_part &part = veh->parts[partid];
             seed = part.mount.x + part.mount.y * 65536;
         }
@@ -1321,11 +1321,24 @@ bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
             // TODO come up with ways to make random sprites consistent for these types
             break;
         case C_MONSTER:
-            // monsters (and player?), seed with index into monster list
-            // TODO detect player character, seed on name?
-            // FIXME add persistent id to Creature ttripoint(x,y,z_coord)ype, instead of using monster list index
-            seed = g->mon_at( tripoint( x, y, z_coord ) );
+            // monsters, seed with index into monster list
+            // FIXME add persistent id to Creature type, instead of using monster list index
+            seed = g->mon_at( p );
             break;
+        default:
+            // player
+            if( id.substr(7) == "player_" ) {
+                seed = g->u.name[0];
+                break;
+            }
+            // NPC
+            if( id.substr(4) == "npc_" ) {
+                const int nindex = g->npc_at( p );
+                if( nindex != -1 ) {
+                    seed = nindex;
+                    break;
+                }
+            }
     }
 
     unsigned int loc_rand = 0;

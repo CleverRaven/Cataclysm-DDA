@@ -36,7 +36,6 @@ bool fungus_bristle     (monster *z); // Fungal hedgrow rake & inject
 bool fungus_growth      (monster *z); // Sporeling -> fungal creature
 bool fungus_sprout      (monster *z); // Grow fungal walls
 bool fungus_fortify     (monster *z); // Grow fungal hedgerows
-bool leap               (monster *z);
 bool impale             (monster *z);
 bool dermatik           (monster *z);
 bool dermatik_growth    (monster *z);
@@ -98,5 +97,6 @@ void flame              (monster *z, Creature *target);
 
 bool dodge_check        (monster *z, Creature *target);
 } //namespace mattack
+
 
 #endif

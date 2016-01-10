@@ -282,7 +282,14 @@ class inventory
             }
             return result;
         }
-        
+
+        /** Traverses each item in the inventory using a visitor function
+         * @return Similar to item::visit returns only VisitResponse::Next or VisitResponse::Abort
+         * @see item::visit
+         **/
+        VisitResponse visit_items( const std::function<VisitResponse(item&)>& func );
+        VisitResponse visit_items( const std::function<VisitResponse(const item&)>& func ) const;
+
         template<typename T>
         std::list<item> remove_items_with( T filter )
         {

@@ -1,0 +1,40 @@
+[
+  {
+      "type" : "snippet",
+      "category" : "robot_protest",
+      "text": "Real work for real people!"
+  },{
+      "type" : "snippet",
+      "category" : "robot_protest",
+      "text": "Strike!"
+  },{
+      "type" : "snippet",
+      "category" : "robot_protest",
+      "text": "Robots stole my job!"
+  },{
+      "type" : "snippet",
+      "category" : "robot_protest",
+      "text": "robot labor=slave labor"
+  },{
+      "type" : "snippet",
+      "category" : "robot_protest",
+      "text": "Bring back our jobs!"
+  },{
+      "type" : "snippet",
+      "category" : "robot_protest",
+      "text": "Robots go home!"
+  },{
+      "type" : "snippet",
+      "category" : "robot_protest",
+      "text": "Human labor"
+  },{
+      "type" : "snippet",
+      "category" : "robot_protest",
+      "text": "We want our old factory!"
+
+  },{
+      "type" : "snippet",
+      "category" : "robot_protest",
+      "text": "Smash the Bots!"
+  }
+]

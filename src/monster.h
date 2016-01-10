@@ -239,7 +239,6 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         bool is_immune_damage( const damage_type ) const override;
 
         void absorb_hit(body_part bp, damage_instance &dam) override;
-        void dodge_hit(Creature *source, int hit_spread) override;
         bool block_hit(Creature *source, body_part &bp_hit, damage_instance &d) override;
         using Creature::melee_attack;
         void melee_attack(Creature &p, bool allow_special, const matec_id &force_technique) override;
@@ -291,7 +290,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
 
         int stability_roll() const override;
         // We just dodged an attack from something
-        void on_dodge( Creature *source, int difficulty = INT_MIN ) override;
+        void on_dodge( Creature *source, int difficulty ) override;
         // Something hit us (possibly null source)
         void on_hit( Creature *source, body_part bp_hit = num_bp,
                      int difficulty = INT_MIN, dealt_projectile_attack const* const proj = nullptr ) override;
@@ -406,7 +405,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
 
     private:
         int hp;
-        std::unordered_map<std::string, mon_special_attack> special_attacks;
+        std::map<std::string, mon_special_attack> special_attacks;
         tripoint goal;
         tripoint position;
         bool dead;

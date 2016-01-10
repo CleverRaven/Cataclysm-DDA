@@ -1,0 +1,21 @@
+[
+  {
+    "type" : "faction",
+    "id" : "captives",
+    "name" : "Captives",
+    "likes_u" : 40,
+    "respects_u" : 70,
+    "known_by_u" : true,
+    "size" : 1,
+    "power" : 10,
+    "combat_ability" : 45,
+    "food_supply": 0,
+    "wealth": 0,
+    "good" : 1,
+    "strength" : 0,
+    "sneak" : 0,
+    "crime" : -1,
+    "cult" : -1,
+    "description" : "These are hapless survivors who have been captured by raiders, slavers, mutants, or worse.  Without your help, the remainder of their lives will be short and gruesome."
+  }
+]

@@ -117,7 +117,7 @@ monster::monster( const mtype_id& id ) : monster()
     hp = type->hp;
     for( auto &sa : type->special_attacks ) {
         auto &entry = special_attacks[sa.first];
-        entry.cooldown = rng(0,sa.second.cooldown);
+        entry.cooldown = rng( 0, sa.second.get_cooldown() );
     }
     def_chance = type->def_chance;
     anger = type->agro;
@@ -168,7 +168,7 @@ void monster::poly( const mtype_id& id )
     special_attacks.clear();
     for( auto &sa : type->special_attacks ) {
         auto &entry = special_attacks[sa.first];
-        entry.cooldown = sa.second.cooldown;
+        entry.cooldown = sa.second.get_cooldown();
     }
     def_chance = type->def_chance;
     faction = type->default_faction;
@@ -867,9 +867,6 @@ bool monster::is_dead_state() const {
     return hp <= 0;
 }
 
-void monster::dodge_hit(Creature *, int) {
-}
-
 bool monster::block_hit(Creature *, body_part &, damage_instance &) {
     return false;
 }
@@ -928,7 +925,7 @@ void monster::melee_attack(Creature &target, bool, const matec_id&) {
             }
         }
         if( !is_hallucination() ) {
-            target.on_dodge( this );
+            target.on_dodge( this, get_melee() );
         }
     //Hallucinations always produce messages but never actually deal damage
     } else if (is_hallucination() || dealt_dam.total_damage() > 0) {
@@ -1037,10 +1034,6 @@ void monster::hit_monster(monster &other)
     } else {
         if( g->u.sees( *this ) ) {
             add_msg(_("The %1$s misses the %2$s!"), name().c_str(), other.name().c_str());
-        }
-
-        if( !is_hallucination() ) {
-            other.on_dodge( this );
         }
     }
 }
@@ -1463,12 +1456,12 @@ int monster::impact( const int force, const tripoint &p )
 
 void monster::reset_special(const std::string &special_name)
 {
-    special_attacks[special_name].cooldown = type->special_attacks.at(special_name).cooldown;;
+    special_attacks[special_name].cooldown = type->special_attacks.at(special_name).get_cooldown();
 }
 
 void monster::reset_special_rng(const std::string &special_name)
 {
-    special_attacks[special_name].cooldown = rng(0,type->special_attacks.at(special_name).cooldown);
+    special_attacks[special_name].cooldown = rng( 0,type->special_attacks.at(special_name).get_cooldown() );
 }
 
 void monster::set_special(const std::string &special_name, int time)

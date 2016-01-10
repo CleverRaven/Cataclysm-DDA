@@ -244,7 +244,7 @@ bool item::is_null() const
 bool item::covers( const body_part bp ) const
 {
     if( bp >= num_bp ) {
-        debugmsg( "bad body part %d to ceck in item::covers", static_cast<int>( bp ) );
+        debugmsg( "bad body part %d to check in item::covers", static_cast<int>( bp ) );
         return false;
     }
     if( is_gun() ) {
@@ -4803,6 +4803,31 @@ void item::mark_as_used_by_player(const player &p)
     }
     // and always end with a ';'
     used_by_ids += string_format( "%d;", p.getID() );
+}
+
+VisitResponse item::visit( const std::function<VisitResponse(item&)>& func ) {
+    switch( func( *this ) ) {
+        case VisitResponse::ABORT:
+            return VisitResponse::ABORT;
+
+        case VisitResponse::NEXT:
+            for( auto& e : contents ) {
+                if( e.visit( func ) == VisitResponse::ABORT ) {
+                    return VisitResponse::ABORT;
+                }
+            }
+        /* intentional fallthrough */
+
+        case VisitResponse::SKIP:
+            return VisitResponse::NEXT;
+    }
+
+    /* never reached but suppresses GCC warning */
+    return VisitResponse::ABORT;
+}
+
+VisitResponse item::visit( const std::function<VisitResponse(const item&)>& func ) const {
+    return const_cast<item *>( this )->visit( static_cast<const std::function<VisitResponse(item&)>&>( func ) );
 }
 
 bool item::can_holster ( const item& obj ) const {

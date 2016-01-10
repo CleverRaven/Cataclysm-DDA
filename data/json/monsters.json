@@ -313,7 +313,13 @@
     "vision_night":10,
     "hp":60,
     "death_function":"NORMAL",
-    "special_attacks":[["LEAP", 5]],
+    "special_attacks":[
+        {
+            "type" : "leap",
+            "cooldown" : 5,
+            "max_range" : 5
+        }
+    ],
     "description":"The Eastern cougar, a large feline predator.  Once thought extinct in this region, conservation efforts were successful in restoring a thriving population.",
     "flags":["SEES", "HEARS", "GOODHEARING", "SMELLS", "ANIMAL", "WARM", "FUR", "HIT_AND_RUN", "KEENNOSE", "BLEED", "ATTACKMON", "BONES", "FAT"],
     "anger_triggers":["STALK", "PLAYER_WEAK", "HURT", "PLAYER_CLOSE", "FRIEND_ATTACKED"],
@@ -1929,8 +1935,8 @@
     "morale":100,
     "speed":75,
     "melee_skill":1,
-    "melee_dice":5,
-    "melee_dice_sides":8,
+    "melee_dice":1,
+    "melee_dice_sides":6,
     "melee_cut":0,
     "dodge":0,
     "armor_bash":10,
@@ -1939,10 +1945,10 @@
     "vision_day":40,
     "vision_night":3,
     "death_drops": "default_zombie_death_drops",
-    "luminance":8,
+    "luminance":0,
     "hp":140,
     "death_function":["ACID", "NORMAL"],
-    "special_attacks":[["ACID_ACCURATE", 3]],
+    "special_attacks":[["ACID_ACCURATE", 3], ["ACID_BARF", 3]],
     "special_when_hit":["ACIDSPLASH", 50],
     "description":"This body has swollen to immense proportions, but still manages to hold itself together with semi-congealed acid all over its bloated body.  It clumsily moves around, but attacks with a large reserve of acid.",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "ACIDPROOF", "ACID_BLOOD", "NO_BREATHE", "REVIVES", "BONES", "PUSH_MON"]
@@ -2807,7 +2813,14 @@
     },
     "hp":90,
     "death_function":["NORMAL"],
-    "special_attacks":[["LEAP", 5], ["BITE", 5]],
+    "special_attacks":[
+        {
+            "type" : "leap",
+            "cooldown" : 5,
+            "max_range" : 5
+        },
+        ["BITE", 5]
+    ],
     "description":"This once-human body is barely recognizable, scrambling about on all fours, its nails and teeth both sharpened into dangerous looking spikes.",
     "flags":["SEES", "HEARS", "SMELLS", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "BONES", "CLIMBS", "PUSH_MON"]
     },{
@@ -2837,7 +2850,18 @@
     "death_drops": "default_zombie_death_drops",
     "hp":90,
     "death_function":["NORMAL"],
-    "special_attacks":[["LEAP", 5], ["BITE", 5], ["IMPALE", 25]],
+    "special_attacks": [
+        {
+            "type" : "leap",
+            "cooldown" : 10,
+            "max_range" : 8,
+            "min_consider_range" : 3,
+            "max_consider_range" : 7,
+            "allow_no_target" : false
+        },
+        ["BITE", 5],
+        ["IMPALE", 25]
+    ],
     "description":"With its joints in odd places and angles, this humanoid creature prowls across the landscape with suprising speed.  Its teeth and arms are sharpened into fine points, and black ooze seeps out from cuts between its muscles.",
     "flags":["SEES", "HEARS", "SMELLS", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "BONES", "PUSH_MON"]
     },{
@@ -3017,7 +3041,13 @@
     },
     "hp":30,
     "death_function":["NORMAL"],
-    "special_attacks":[["LEAP", 10]],
+    "special_attacks":[
+        {
+            "type" : "leap",
+            "cooldown" : 10,
+            "max_range" : 5
+        }
+    ],
     "description":"This crouching child-mutant's face is dominated by a pair of huge black eyes and its fingertips end in sharp claws.",
     "//": "no GUILT because it no longer looks enough like a child to evoke pity",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BLEED", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "BONES", "CLIMBS"]
@@ -4334,7 +4364,13 @@
     "armor_cut":0,
     "hp":3,
     "death_function":"NORMAL",
-    "special_attacks":[["LEAP", 5]],
+    "special_attacks":[
+        {
+            "type" : "leap",
+            "cooldown" : 10,
+            "max_range" : 5
+        }
+    ],
     "description":"The American bullfrog, in its natural habitat.  It feeds on insects, mice, lizards and any other living thing it can stuff down its gullet.",
     "flags":["SEES", "SMELLS", "HEARS", "SWIMS", "HUNTS_VERMIN"],
     "fear_triggers":["PLAYER_CLOSE"]
@@ -4362,7 +4398,15 @@
     "vision_day":40,
     "hp":70,
     "death_function":"NORMAL",
-    "special_attacks":[["LEAP", 5]],
+    "special_attacks" : [
+        {
+            "type" : "leap",
+            "cooldown" : 10,
+            "max_range" : 10,
+            "min_consider_range" : 2,
+            "move_cost" : 0
+        }
+    ],
     "description":"A mutated bullfrog taller than you are.  It stares with amber eyes as it considers the easiest way to swallow you whole.",
     "flags":["SEES", "SMELLS", "HEARS", "SWIMS", "LEATHER", "ATTACKMON", "BONES", "FAT"],
     "anger_triggers":["STALK", "PLAYER_WEAK", "PLAYER_CLOSE"]
@@ -4630,7 +4674,13 @@
     "vision_night":5,
     "hp":30,
     "death_function":"NORMAL",
-    "special_attacks":[["LEAP", 2]],
+    "special_attacks":[
+        {
+            "type" : "leap",
+            "cooldown" : 2,
+            "max_range" : 5
+        }
+    ],
     "description":"A giant spider with big forelegs and two pairs of inquisitive-looking eyes.  It can leap quite quickly, even into the treetops.",
     "flags":["SEES", "SMELLS", "HEARS", "VENOM", "HIT_AND_RUN", "CHITIN", "CLIMBS"],
     "anger_triggers":["PLAYER_CLOSE"]
@@ -6653,7 +6703,13 @@
     "vision_night":10,
     "hp":65,
     "death_function":"NORMAL",
-    "special_attacks":[["LEAP", 10]],
+    "special_attacks":[
+        {
+            "type" : "leap",
+            "cooldown" : 10,
+            "max_range" : 5
+        }
+    ],
     "description":"An otherwise normal-looking cougar, except that its hind legs are swollen, and its eyes bulge with black goo.",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "KEENNOSE", "GOODHEARING", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "FUR", "BONES"],
     "anger_triggers":["PLAYER_CLOSE", "HURT"],

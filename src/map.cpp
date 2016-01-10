@@ -1,4 +1,6 @@
 ﻿#include "map.h"
+
+#include "drawing_primitives.h"
 #include "lightmap.h"
 #include "output.h"
 #include "rng.h"
@@ -7449,53 +7451,57 @@ size_t map::get_nonant( const tripoint &gridp ) const
     return get_nonant( gridp.x, gridp.y, gridp.z );
 }
 
-tinymap::tinymap(int mapsize, bool zlevels)
-: map(mapsize, zlevels)
+tinymap::tinymap( int mapsize, bool zlevels )
+    : map( mapsize, zlevels )
 {
 }
 
-ter_id find_ter_id(const std::string id, bool complain=true) {
-    (void)complain; //FIXME: complain unused
-    if( termap.find(id) == termap.end() ) {
-         debugmsg("Can't find termap[%s]",id.c_str());
-         return ter_id( 0 );
+ter_id find_ter_id( const std::string id, bool complain = true )
+{
+    ( void )complain; //FIXME: complain unused
+    if( termap.find( id ) == termap.end() ) {
+        debugmsg( "Can't find termap[%s]", id.c_str() );
+        return ter_id( 0 );
     }
     return termap[id].loadid;
 }
 
-furn_id find_furn_id(const std::string id, bool complain=true) {
-    (void)complain; //FIXME: complain unused
-    if( furnmap.find(id) == furnmap.end() ) {
-         debugmsg("Can't find furnmap[%s]",id.c_str());
-         return furn_id( 0 );
+furn_id find_furn_id( const std::string id, bool complain = true )
+{
+    ( void )complain; //FIXME: complain unused
+    if( furnmap.find( id ) == furnmap.end() ) {
+        debugmsg( "Can't find furnmap[%s]", id.c_str() );
+        return furn_id( 0 );
     }
     return furnmap[id].loadid;
 }
-void map::draw_line_ter(const ter_id type, int x1, int y1, int x2, int y2)
+
+void map::draw_line_ter( const ter_id type, int x1, int y1, int x2, int y2 )
 {
-    std::vector<point> line = line_to(x1, y1, x2, y2, 0);
-    for (auto &i : line) {
-        ter_set(i.x, i.y, type);
-    }
-    ter_set(x1, y1, type);
-}
-void map::draw_line_ter(const std::string type, int x1, int y1, int x2, int y2) {
-    draw_line_ter(find_ter_id(type), x1, y1, x2, y2);
+    draw_line( [this, type]( int x, int y ) {
+        this->ter_set( x, y, type );
+    }, x1, y1, x2, y2 );
 }
 
-
-void map::draw_line_furn(furn_id type, int x1, int y1, int x2, int y2) {
-    std::vector<point> line = line_to(x1, y1, x2, y2, 0);
-    for (auto &i : line) {
-        furn_set(i.x, i.y, type);
-    }
-    furn_set(x1, y1, type);
-}
-void map::draw_line_furn(const std::string type, int x1, int y1, int x2, int y2) {
-    draw_line_furn(find_furn_id(type), x1, y1, x2, y2);
+void map::draw_line_ter( const std::string type, int x1, int y1, int x2, int y2 )
+{
+    draw_line_ter( find_ter_id( type ), x1, y1, x2, y2 );
 }
 
-void map::draw_fill_background(ter_id type) {
+void map::draw_line_furn( furn_id type, int x1, int y1, int x2, int y2 )
+{
+    draw_line( [this, type]( int x, int y ) {
+        this->furn_set( x, y, type );
+    }, x1, y1, x2, y2 );
+}
+
+void map::draw_line_furn( const std::string type, int x1, int y1, int x2, int y2 )
+{
+    draw_line_furn( find_furn_id( type ), x1, y1, x2, y2 );
+}
+
+void map::draw_fill_background( ter_id type )
+{
     // Need to explicitly set caches dirty - set_ter would do it before
     set_transparency_cache_dirty( abs_sub.z );
     set_outside_cache_dirty( abs_sub.z );
@@ -7511,29 +7517,26 @@ void map::draw_fill_background(ter_id type) {
     }
 }
 
-void map::draw_fill_background(std::string type) {
-    draw_fill_background( find_ter_id(type) );
+void map::draw_fill_background( std::string type )
+{
+    draw_fill_background( find_ter_id( type ) );
 }
-void map::draw_fill_background(ter_id (*f)()) {
-    draw_square_ter(f, 0, 0, SEEX * my_MAPSIZE - 1, SEEY * my_MAPSIZE - 1);
+void map::draw_fill_background( ter_id( *f )() )
+{
+    draw_square_ter( f, 0, 0, SEEX * my_MAPSIZE - 1, SEEY * my_MAPSIZE - 1 );
 }
-void map::draw_fill_background(const id_or_id<ter_t> & f) {
-    draw_square_ter(f, 0, 0, SEEX * my_MAPSIZE - 1, SEEY * my_MAPSIZE - 1);
+void map::draw_fill_background( const id_or_id<ter_t> &f )
+{
+    draw_square_ter( f, 0, 0, SEEX * my_MAPSIZE - 1, SEEY * my_MAPSIZE - 1 );
 }
 
-void map::draw_square_ter( ter_id type, int x1, int y1, int x2, int y2 ) {
-    if( x1 > x2 ) {
-        std::swap( x1, x2 );
-    }
-    if( y1 > y2 ) {
-        std::swap( y1, y2 );
-    }
-    for( int x = x1; x <= x2; x++ ) {
-        for( int y = y1; y <= y2; y++ ) {
-            ter_set( x, y, type );
-        }
-    }
+void map::draw_square_ter( ter_id type, int x1, int y1, int x2, int y2 )
+{
+    draw_square( [this, type]( int x, int y ) {
+        this->ter_set( x, y, type );
+    }, x1, y1, x2, y2 );
 }
+
 void map::draw_square_ter( std::string type, int x1, int y1, int x2, int y2 )
 {
     draw_square_ter( find_ter_id( type ), x1, y1, x2, y2 );
@@ -7541,18 +7544,11 @@ void map::draw_square_ter( std::string type, int x1, int y1, int x2, int y2 )
 
 void map::draw_square_furn( furn_id type, int x1, int y1, int x2, int y2 )
 {
-    if( x1 > x2 ) {
-        std::swap( x1, x2 );
-    }
-    if( y1 > y2 ) {
-        std::swap( y1, y2 );
-    }
-    for( int x = x1; x <= x2; x++ ) {
-        for( int y = y1; y <= y2; y++ ) {
-            furn_set( x, y, type );
-        }
-    }
+    draw_square( [this, type]( int x, int y ) {
+        this->furn_set( x, y, type );
+    }, x1, y1, x2, y2 );
 }
+
 void map::draw_square_furn( std::string type, int x1, int y1, int x2, int y2 )
 {
     draw_square_furn( find_furn_id( type ), x1, y1, x2, y2 );
@@ -7560,59 +7556,35 @@ void map::draw_square_furn( std::string type, int x1, int y1, int x2, int y2 )
 
 void map::draw_square_ter( ter_id( *f )(), int x1, int y1, int x2, int y2 )
 {
-    if( x1 > x2 ) {
-        std::swap( x1, x2 );
-    }
-    if( y1 > y2 ) {
-        std::swap( y1, y2 );
-    }
-    for( int x = x1; x <= x2; x++ ) {
-        for( int y = y1; y <= y2; y++ ) {
-            ter_set( x, y, f() );
-        }
-    }
+    draw_square( [this, f]( int x, int y ) {
+        this->ter_set( x, y, f() );
+    }, x1, y1, x2, y2 );
 }
 
 void map::draw_square_ter( const id_or_id<ter_t> &f, int x1, int y1, int x2, int y2 )
 {
-    if( x1 > x2 ) {
-        std::swap( x1, x2 );
-    }
-    if( y1 > y2 ) {
-        std::swap( y1, y2 );
-    }
-    for( int x = x1; x <= x2; x++ ) {
-        for( int y = y1; y <= y2; y++ ) {
-            ter_set( x, y, f.get() );
-        }
-    }
+    draw_square( [this, f]( int x, int y ) {
+        this->ter_set( x, y, f.get() );
+    }, x1, y1, x2, y2 );
 }
 
-void map::draw_rough_circle( ter_id type, int x, int y, int rad )
+void map::draw_rough_circle_ter( ter_id type, int x, int y, int rad )
 {
-    for( int i = x - rad; i <= x + rad; i++ ) {
-        for( int j = y - rad; j <= y + rad; j++ ) {
-            if( trig_dist( x, y, i, j ) + rng( 0, 3 ) <= rad ) {
-                ter_set( i, j, type );
-            }
-        }
-    }
+    draw_rough_circle( [this, type]( int x, int y ) {
+        this->ter_set( x, y, type );
+    }, x, y, rad );
 }
 
-void map::draw_rough_circle( std::string type, int x, int y, int rad )
+void map::draw_rough_circle_ter( std::string type, int x, int y, int rad )
 {
-    draw_rough_circle( find_ter_id( type ), x, y, rad );
+    draw_rough_circle_ter( find_ter_id( type ), x, y, rad );
 }
 
 void map::draw_rough_circle_furn( furn_id type, int x, int y, int rad )
 {
-    for( int i = x - rad; i <= x + rad; i++ ) {
-        for( int j = y - rad; j <= y + rad; j++ ) {
-            if( trig_dist( x, y, i, j ) + rng( 0, 3 ) <= rad ) {
-                furn_set( i, j, type );
-            }
-        }
-    }
+    draw_rough_circle( [this, type]( int x, int y ) {
+        this->furn_set( x, y, type );
+    }, x, y, rad );
 }
 
 void map::draw_rough_circle_furn( std::string type, int x, int y, int rad )
@@ -7620,42 +7592,30 @@ void map::draw_rough_circle_furn( std::string type, int x, int y, int rad )
     draw_rough_circle_furn( find_furn_id( type ), x, y, rad );
 }
 
-void map::draw_circle( ter_id type, double x, double y, double rad )
+void map::draw_circle_ter( ter_id type, double x, double y, double rad )
 {
-    for( int i = x - rad - 1; i <= x + rad + 1; i++ ) {
-        for( int j = y - rad - 1; j <= y + rad + 1; j++ ) {
-            if( ( x - i ) * ( x - i ) + ( y - j ) * ( y - j ) <= rad * rad ) {
-                ter_set( i, j, type );
-            }
-        }
-    }
+    draw_circle( [this, type]( int x, int y ) {
+        this->ter_set( x, y, type );
+    }, x, y, rad );
 }
 
-void map::draw_circle( ter_id type, int x, int y, int rad )
+void map::draw_circle_ter( ter_id type, int x, int y, int rad )
 {
-    for( int i = x - rad; i <= x + rad; i++ ) {
-        for( int j = y - rad; j <= y + rad; j++ ) {
-            if( trig_dist( x, y, i, j ) <= rad ) {
-                ter_set( i, j, type );
-            }
-        }
-    }
+    draw_circle( [this, type]( int x, int y ) {
+        this->ter_set( x, y, type );
+    }, x, y, rad );
 }
 
-void map::draw_circle( std::string type, int x, int y, int rad )
+void map::draw_circle_ter( std::string type, int x, int y, int rad )
 {
-    draw_circle( find_ter_id( type ), x, y, rad );
+    draw_circle_ter( find_ter_id( type ), x, y, rad );
 }
 
 void map::draw_circle_furn( furn_id type, int x, int y, int rad )
 {
-    for( int i = x - rad; i <= x + rad; i++ ) {
-        for( int j = y - rad; j <= y + rad; j++ ) {
-            if( trig_dist( x, y, i, j ) <= rad ) {
-                furn_set( i, j, type );
-            }
-        }
-    }
+    draw_circle( [this, type]( int x, int y ) {
+        this->furn_set( x, y, type );
+    }, x, y, rad );
 }
 
 void map::draw_circle_furn( std::string type, int x, int y, int rad )
@@ -7663,28 +7623,29 @@ void map::draw_circle_furn( std::string type, int x, int y, int rad )
     draw_circle_furn( find_furn_id( type ), x, y, rad );
 }
 
-void map::add_corpse( const tripoint &p ) {
+void map::add_corpse( const tripoint &p )
+{
     item body;
 
-    const bool isReviveSpecial = one_in(10);
+    const bool isReviveSpecial = one_in( 10 );
 
-    if (!isReviveSpecial){
+    if( !isReviveSpecial ) {
         body.make_corpse();
     } else {
         body.make_corpse( mon_zombie, calendar::turn );
-        body.item_tags.insert("REVIVE_SPECIAL");
+        body.item_tags.insert( "REVIVE_SPECIAL" );
         body.active = true;
     }
 
-    add_item_or_charges(p, body);
-    put_items_from_loc( "shoes",  p, 0);
-    put_items_from_loc( "pants",  p, 0);
-    put_items_from_loc( "shirts", p, 0);
-    if (one_in(6)) {
-        put_items_from_loc("jackets", p, 0);
+    add_item_or_charges( p, body );
+    put_items_from_loc( "shoes",  p, 0 );
+    put_items_from_loc( "pants",  p, 0 );
+    put_items_from_loc( "shirts", p, 0 );
+    if( one_in( 6 ) ) {
+        put_items_from_loc( "jackets", p, 0 );
     }
-    if (one_in(15)) {
-        put_items_from_loc("bags", p, 0);
+    if( one_in( 15 ) ) {
+        put_items_from_loc( "bags", p, 0 );
     }
 }
 

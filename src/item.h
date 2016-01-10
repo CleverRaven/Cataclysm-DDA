@@ -78,6 +78,12 @@ enum layer_level {
     MAX_CLOTHING_LAYER
 };
 
+enum class VisitResponse {
+    ABORT, // Stop processing after this node
+    NEXT,  // Descend vertically to any child nodes and then horizontally to next sibling
+    SKIP   // Skip any child nodes and move directly to the next sibling
+};
+
 class item_category
 {
     public:
@@ -667,6 +673,16 @@ public:
  itype_id typeId() const;
  const itype* type;
  std::vector<item> contents;
+
+        /** Traverses this item and any child items contained using a visitor pattern
+         * @pram func visitor function called for each node which controls whether traversal continues.
+         * Typically a lambda making use of captured state it should return VisitResponse::Next to
+         * recursively process child items, VisitResponse::Skip to ignore children of the current node
+         * or VisitResponse::Abort to skip further processing of any nodes.
+         * @return This method itself only ever returns VisitResponse::Next or VisitResponse::Abort.
+         */
+        VisitResponse visit( const std::function<VisitResponse(item&)>& func );
+        VisitResponse visit( const std::function<VisitResponse(const item&)>& func ) const;
 
         /** Checks if item is a holster and currently capable of storing obj */
         bool can_holster ( const item& obj ) const;

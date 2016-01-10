@@ -4661,20 +4661,30 @@ bool player::is_dead_state() const
 
 void player::on_dodge( Creature *source, int difficulty )
 {
+    static const matec_id tec_none( "tec_none" );
+
+    // Each avoided hit consumes an available dodge
+    // When no more available we are likely to fail player::dodge_roll
+    dodges_left--;
+
     // dodging throws of our aim unless we are either skilled at dodging or using a small weapon
     if( is_armed() && weapon.is_gun() ) {
         recoil += std::max( weapon.volume() - get_skill_level( skill_dodge ), 0 ) * rng( 0, 100 );
     }
 
-    if( difficulty == INT_MIN && source != nullptr ) {
-        difficulty = source->get_melee();
-    }
-
-    if( difficulty > 0 ) {
-        practice( skill_dodge, difficulty );
-    }
+    // Even if we are not to train still call practice to prevent skill rust
+    difficulty = std::max( difficulty, 0 );
+    practice( skill_dodge, difficulty * 2, difficulty );
 
     ma_ondodge_effects();
+
+    // For adjacent attackers check for techniques usable upon successful dodge
+    if( source && square_dist( pos(), source->pos() ) == 1 ) {
+        matec_id tec = pick_technique( *source, false, true, false );
+        if( tec != tec_none ) {
+            melee_attack( *source, false, tec );
+        }
+    }
 }
 
 void player::on_hit( Creature *source, body_part bp_hit,
@@ -8330,6 +8340,9 @@ void player::suffer()
         } else {
             rads = localRadiation / 32.0f + selfRadiation / 3.0f;
         }
+        if (has_effect("iodine")) {
+            rads *= 0.33;
+        }
         int rads_max = 0;
         if( rads > 0 ) {
             rads_max = static_cast<int>( rads );
@@ -10887,8 +10900,8 @@ bool player::wear_item( const item &to_wear, bool interactive )
     else
     {
         // Only headgear can be worn with power armor, except other power armor components
-        if(!to_wear.covers(bp_head) && !to_wear.covers(bp_eyes) &&
-             !to_wear.covers(bp_head)) {
+        if(!to_wear.covers(bp_head) && !to_wear.covers(bp_eyes) && !to_wear.covers(bp_mouth)) 
+        {
             for (auto &i : worn)
             {
                 if( i.is_power_armor() )
@@ -14488,13 +14501,17 @@ bool player::has_item_with_flag( std::string flag ) const
 
 bool player::has_items_with_quality( const std::string &quality_id, int level, int amount ) const
 {
-    return has_item_with( [&quality_id, level, &amount]( const item &it ) {
+    visit_items( [&quality_id, level, &amount]( const item &it ) {
         if( it.has_quality( quality_id, level ) ) {
             // Each suitable item decreases the require count until it reaches 0, where the requirement is fulfilled.
-            amount--;
+            if( --amount <= 0) {
+                return VisitResponse::ABORT;
+            }
         }
-        return amount <= 0;
+        return VisitResponse::NEXT;
     } );
+
+    return amount <= 0;
 }
 
 void player::on_mission_assignment( mission &new_mission )
@@ -14571,7 +14588,7 @@ encumbrance_data player::get_encumbrance( size_t i ) const
     return enc_data;
 }
 
-void player::print_encumbrance( WINDOW *win, int line ) const
+void player::print_encumbrance( WINDOW *win, int line, item *selected_clothing ) const
 {
     int height, width;
     getmaxyx( win, height, width );
@@ -14609,13 +14626,21 @@ void player::print_encumbrance( WINDOW *win, int line ) const
     for( auto bp : parts ) {
         encumbrance_data e = get_encumbrance( bp );
         bool combine = false;
+        bool highlighted = ( selected_clothing == nullptr ) ? false :
+            ( selected_clothing->covers( static_cast<body_part>( bp ) ) ||
+              selected_clothing->covers( static_cast<body_part>( bp_aiOther[bp] ) ) );
         if( e == get_encumbrance( bp_aiOther[bp] ) ) {
             combine = true;
         }
         out.clear();
         // limb, and possible color highlighting
         out = string_format( "%-7s", ( combine ? bpp_asText[bp] : bp_asText[bp] ).c_str() );
-        mvwprintz( win, row, 1, ( orig_line == bp ) ? h_ltgray : c_ltgray, out.c_str() );
+        // Two different highlighting schemes, highlight if the line is selected as per line being set.
+        // Make the text green if this part is covered by the passed in item.
+        int limb_color = ( orig_line == bp ) ?
+            ( highlighted ? h_green : h_ltgray ) :
+            ( highlighted ? c_green : c_ltgray );
+        mvwprintz( win, row, 1, limb_color, out.c_str() );
         // take into account the new encumbrance system for layers
         out = string_format( "(%1d) ", static_cast<int>( e.iLayers / 10.0 ) );
         wprintz( win, c_ltgray, out.c_str() );
