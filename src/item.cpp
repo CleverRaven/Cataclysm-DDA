@@ -4043,40 +4043,16 @@ item_location item::pick_reload_ammo( player &u, bool interactive ) const
     wants_ammo( *this );
     std::for_each( contents.begin(), contents.end(), wants_ammo );
 
-    // Actual ammo items that can be used as ammo.
-    std::vector<item *> am = u.items_with( [&ammo_types, &item_types]( const item & it ) {
-        if( !it.is_ammo() ) {
-            return false;
+    // first check the inventory for suitable ammo
+    std::vector<item_location> ammo_list;
+    u.visit_items( [&]( const item& it ) {
+        // @todo handle magazines
+        if( it.is_ammo() && ( item_types.count( it.typeId() ) || ammo_types.count( it.ammo_type() ) ) ) {
+            auto loc = item_location::on_character( u, &it );
+            ammo_list.push_back( std::move( loc ) );
         }
-        return item_types.count( it.typeId() ) > 0 || ammo_types.count( it.ammo_type() ) > 0;
-    } );
-    // Sort so items of the same type are in succession
-    std::sort( am.begin(), am.end(), [](const item* a, const item* b) { return *a < *b; } );
-    // 0 = item type, 1 = item position, 2 = charges (total)
-    using ammo_data = std::tuple<const itype*, int, long>;
-    // Compress several items of the same type into one entry.
-    // This also makes the list ignore damage or other stack specific properties and merges
-    // items from quivers and from main inventory and items in different containers.
-    std::vector<ammo_data> ammo_list;
-    for( auto &it : am ) {
-        const int item_pos = u.get_item_position( it );
-        const auto ammo_def = it->type->ammo.get();
-        if( ammo_def == NULL ) {
-            debugmsg( "%s: is no ammo", it->tname().c_str() );
-            continue;
-        }
-        const ammo_data curdata( it->type, item_pos, it->charges );
-        if( ammo_list.empty() || std::get<0>( ammo_list.back() ) != it->type ) {
-            ammo_list.push_back( curdata );
-        } else {
-            ammo_data &last = ammo_list.back();
-            // prefer bigger item positions, everything >= 0 is in the main inventory,
-            // everything < -1 is worn (e.g. quiver!), refilling the quiver is an extra step for
-            // the player, try to avoid.
-            std::get<1>( last ) = std::max( std::get<1>( last ), item_pos );
-            std::get<2>( last ) += it->charges;
-        }
-    }
+        return VisitResponse::NEXT;
+    });
 
     if( ammo_list.empty() ) {
         if( interactive ) {
@@ -4085,11 +4061,10 @@ item_location item::pick_reload_ammo( player &u, bool interactive ) const
         return item_location::nowhere();
     }
     if( ammo_list.size() == 1 || !interactive ) {
-        // Either only one valid choice or chosing for a NPC, just return the first.
-        return item_location::on_character( u, &u.i_at( std::get<1>( ammo_list[0] ) ) );
+        return std::move( ammo_list[0] );
     }
 
-    // More than one option; list 'em and pick
+    // If interactive and more than one option prompt the user for a selection
     uimenu amenu;
     amenu.return_invalid = true;
     amenu.w_y = 0;
@@ -4099,8 +4074,8 @@ item_location item::pick_reload_ammo( player &u, bool interactive ) const
     // 2: prefix from uimenu: hotkey + space in front of name
     // 4: borders: 2 char each ("| " and " |")
     const int namelen = TERMX - 2 - 40 - 4;
-    std::string lastreload = "";
 
+    std::string lastreload = "";
     if( uistate.lastreload.find( ammo_type() ) != uistate.lastreload.end() ) {
         lastreload = uistate.lastreload[ ammo_type() ];
     }
@@ -4115,11 +4090,11 @@ item_location item::pick_reload_ammo( player &u, bool interactive ) const
     amenu.text.insert( 0, "  " );
     //~ header of table that appears when reloading, each colum must contain exactly 10 characters
     amenu.text += _( "| Damage  | Pierce  | Range   | Accuracy" );
-    for( size_t i = 0; i < ammo_list.size(); i++ ) {
-        const itype &type = *std::get<0>( ammo_list[i] );
-        const long charges = std::get<2>( ammo_list[i] );
-        const auto &ammo_def = *type.ammo;
-        std::string row = type.nname( charges ) + string_format( " (%d)", charges );
+    int i = 0;
+    for( auto& e : ammo_list ) {
+        const item *it = e.get_item();
+        const auto& ammo_def = *it->type->ammo;
+        std::string row = it->type->nname( it->charges ) + string_format( " (%d)", it->charges );
         if( utf8_width(row) < namelen ) {
             row += std::string( namelen - utf8_width(row), ' ' );
         } else {
@@ -4129,10 +4104,12 @@ item_location item::pick_reload_ammo( player &u, bool interactive ) const
                               ammo_def.damage, ammo_def.pierce,
                               ammo_def.range, 100 - ammo_def.dispersion );
         amenu.addentry( i, true, i + 'a', row );
-        if( lastreload == type.id ) {
+        if( lastreload == it->type->id ) {
             amenu.selected = i;
         }
+        i++;
     }
+
     amenu.query();
     if( amenu.ret < 0 || amenu.ret >= ( int )ammo_list.size() ) {
         // invalid selection / escaped from the menu
@@ -4141,9 +4118,10 @@ item_location item::pick_reload_ammo( player &u, bool interactive ) const
         }
         return item_location::nowhere();
     }
-    const auto &selected = ammo_list[ amenu.ret ];
-    uistate.lastreload[ ammo_type() ] = std::get<0>( selected )->id;
-    return item_location::on_character( u, &u.i_at( std::get<1>( selected ) ) );
+
+    item_location sel = std::move( ammo_list[amenu.ret] );
+    uistate.lastreload[ ammo_type() ] = sel.get_item()->type->id;
+    return sel;
 }
 
 // Helper to handle ejecting casings from guns that require them to be manually extracted.
