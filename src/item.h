@@ -936,6 +936,11 @@ public:
          */
         int get_storage() const;
         /**
+         * Returns the storage amount, and the total volume of other materials that can be stored
+         * in an armor item (such as quivers or holsters). Returns 0 if the item can not be worn.
+         */
+        int get_storage_equivalent() const;
+        /**
          * Returns the resistance to environmental effects (@ref islot_armor::env_resist) that this
          * item provides when worn. See @ref player::get_env_resist. Higher values are better.
          * For non-armor it returns 0.
@@ -1292,7 +1297,7 @@ public:
  t_item_vector components;
 
  int quiver_store_arrow(item &arrow);
- int max_charges_from_flag(std::string flagName);
+ int max_charges_from_flag(std::string flagName) const;
  int get_gun_ups_drain() const;
 };
 

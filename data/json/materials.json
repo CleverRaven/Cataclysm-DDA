@@ -266,7 +266,7 @@
         "elec_resist" : 2,
         "fire_resist" : 0,
         "chip_resist" : 6,
-        "density" : 9
+        "density" : 4
     },{
         "type" : "material",
         "ident" : "leather",

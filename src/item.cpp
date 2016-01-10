@@ -2260,12 +2260,12 @@ int item::weight() const
     }
 
     if ( is_armor() ) {
-        int ret = 0;
-        float density = get_density();
-        float body_part_multiplier = (float) armor_size_by_body_part();
-        float coverage = (float) get_coverage();
-        float thickness = (float) get_thickness();
-        float storage = (float) get_storage();
+        float ret = 0;
+        float density = std::max( get_density(), (float) 1);
+        float body_part_multiplier = std::max( armor_size_by_body_part(), 1);
+        float coverage = std::max( get_coverage(), 5 );
+        float thickness = std::max( get_thickness(), 1 );
+        float storage = get_storage_equivalent();
 
         const float base_weight_multiplier = 0.035;
         const float storage_weight_multiplier = 2;
@@ -2273,7 +2273,7 @@ int item::weight() const
         ret = base_weight_multiplier * body_part_multiplier * density * coverage * thickness;
         ret += storage_weight_multiplier * density * storage;
 
-        return ret;
+        return lround(ret);
     }
 
     int ret = type->weight;
@@ -2365,42 +2365,38 @@ int item::volume(bool unit_value, bool precise_value ) const
     }
 
     if ( is_armor() ) {
-        int ret = 0;
-        float body_part_multiplier = (float) armor_size_by_body_part();
-        float coverage = (float) get_coverage();
-        float thickness = (float) get_thickness();
-        float storage = (float) get_storage();
+        float vol = 0;
+        float body_part_multiplier = (float) std::max( armor_size_by_body_part(), 1 );
+        float coverage = (float) std::max( get_coverage(), 5 );
+        float thickness = (float) std::max( get_thickness(), 1 );
+        float storage = (float) get_storage_equivalent();
+
 
         const float base_volume_multiplier = 0.005;
-        const float storage_volume_multiplier = 2;
+        const float storage_volume_multiplier = 1;
 
-        ret = base_volume_multiplier * body_part_multiplier * coverage * thickness;
-        ret += storage_volume_multiplier * storage;
+        vol = base_volume_multiplier * body_part_multiplier * coverage * thickness;
+        vol += storage_volume_multiplier * storage;
 
-        // volume is
-        std::vector<std::string> foldable;
-        foldable.push_back( "cotton" );
-        foldable.push_back( "wool" );
-        foldable.push_back( "leather" );
-        foldable.push_back( "kevlar" );
-        foldable.push_back( "fur" );
-        foldable.push_back( "paper" );
-        foldable.push_back( "lowdensityplastic" );
-        foldable.push_back( "nomex" );
-        if (only_made_of(foldable)) {
-            ret /= 4;
+        std::vector<std::string> flexible;
+        flexible.push_back( "cotton" );
+        flexible.push_back( "wool" );
+        flexible.push_back( "leather" );
+        flexible.push_back( "kevlar" );
+        flexible.push_back( "fur" );
+        flexible.push_back( "paper" );
+        flexible.push_back( "lowdensityplastic" );
+        flexible.push_back( "nomex" );
+        if (only_made_of(flexible)) {
+            vol /= 4;
         }
-
-        ret = std::max(ret,1);
-
-        if ( precise_value == true ) {
-            ret *= 1000;
-        }
-        return ret;
+        ret = lround(vol);
+        ret = std::max( ret, 1 );
     }
-
-    ret = type->volume;
-    ret = get_var( "volume", ret );
+    else {
+        ret = type->volume;
+        ret = get_var( "volume", ret );
+    }
 
     if ( precise_value == true ) {
         ret *= 1000;
@@ -2701,6 +2697,30 @@ int item::get_storage() const
 
     // it_armor::storage is unsigned char
     return static_cast<int> (static_cast<unsigned int>( t->storage ) );
+}
+
+int item::get_storage_equivalent() const
+{
+    auto t = find_armor_data();
+    if( t == nullptr )
+        return 0;
+
+    int storage = get_storage();
+
+    if ( type->can_use( "QUIVER" ) ) {
+        storage += max_charges_from_flag( "QUIVER" );
+    }
+
+    if ( type->can_use( "HOLSTER" ) ) {
+        auto ptr = dynamic_cast<const holster_actor *> ( type->get_use("holster")->get_actor_ptr() );
+        storage += ptr->max_volume * ptr->multi;
+    }
+
+    if( type->container && type->container->rigid ) {
+        storage += type->container->contains;
+    }
+
+    return storage;
 }
 
 int item::get_env_resist() const
@@ -4849,9 +4869,9 @@ int item::quiver_store_arrow( item &arrow)
 //used to implement charges for items that aren't tools (e.g. quivers)
 //flagName arg is the flag's name before the underscore and integer on the end
 //e.g. for "QUIVER_20" flag, flagName = "QUIVER"
-int item::max_charges_from_flag(std::string flagName)
+int item::max_charges_from_flag(std::string flagName) const
 {
-    item* it = this;
+    const item* it = this;
     int maxCharges = 0;
 
     //loop through item's flags, looking for flag that matches flagName
