@@ -11584,8 +11584,9 @@ void game::chat()
         nmenu.addentry( i++, true, MENU_AUTOASSIGN, ( elem )->name );
     }
 
-    nmenu.addentry( i++, true, 'a', _("Yell") );
-    nmenu.addentry( i++, true, 'q', _("Cancel") );
+    nmenu.return_invalid = true;
+    nmenu.addentry( i++, true, 'a', _( "Yell" ) );
+    nmenu.addentry( i++, true, 'q', _( "Cancel" ) );
 
     nmenu.query();
     if( nmenu.ret < 0 || nmenu.ret > (int)available.size() ) {
