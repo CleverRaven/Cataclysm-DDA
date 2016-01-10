@@ -60,10 +60,10 @@
                     { "item": "chestrig", "damage-min": 1, "damage-max": 4 },
                     { "item": "goggles_nv", "damage-min": 1, "damage-max": 4, "prob": 5},
                     { "item": "goggles_ir", "damage-min": 1, "damage-max": 4, "prob": 5},
-                    { "group": "soldier_primary", "prob": 50 },
-                    { "group": "soldier_m9", "prob": 75}, 
+                    { "group": "soldier_primary", "prob": 25 },
+                    { "group": "soldier_m9", "prob": 50}, 
                     { "group": "soldier_weapon_mods", "count-min": 1, "count-max": 2, "damage-min": 1, "damage-max": 4, "prob": 10}, 
-                    { "item": "grenade", "prob": 15},
+                    { "item": "grenade", "prob": 15, "count-min": 1, "count-max": 2},
                     { "item": "water_clean", "container_item": "canteen", "charges-min": 1, "charges-max": 7, "prob": 20}
                     ],
                 "prob": 10 },
@@ -77,14 +77,14 @@
                     { "item": "chestrig", "damage-min": 1, "damage-max": 4},
                     { "item": "water_clean", "container_item": "canteen", "charges-min": 1, "charges-max": 7, "prob": 20},
                     { "item": "molle_pack", "damage-min": 1, "damage-max": 4},
-                    { "item": "bandages", "count-min": 1, "count-max": 3},
-                    { "item": "1st_aid"},
+                    { "item": "bandages", "count-min": 1, "count-max": 3, "prob": 50},
+                    { "item": "1st_aid", "prob": 66},
                     { "item": "scissors"},
-                    { "item": "morphine", "count-min": 1, "count-max": 2},
-                    { "item": "tramadol"},
-                    { "item": "smoxygen_tank"},                   
-                    { "item": "antibiotics"},
-                    { "item": "quikclot"},
+                    { "item": "morphine", "prob": 25},
+                    { "item": "tramadol", "prob": 33},
+                    { "item": "smoxygen_tank", "prob": 20},                   
+                    { "item": "antibiotics", "prob": 20},
+                    { "item": "quikclot", "prob": 20},
                     { "item": "gloves_medical", "count-min": 1, "count-max": 2},
                     { "item": "scalpel", "container-item": "bag_plastic", "count-min": 1, "count-max": 2},
                     { "item": "syringe", "container-item": "bag_plastic", "count-min": 1, "count-max": 2}
@@ -142,9 +142,9 @@
         "id": "soldier_m9",
         "entries":
         [
-            { "item": "holster"},
-            { "item": "9mm", "charges-min": 5, "charges-max": 15, "prob": 50},
-            { "item": "m9"}
+            { "item": "holster", "damage-min": 0, "damage-max": 4},
+            { "item": "9mm", "charges-min": 5, "charges-max": 15, "prob": 33},
+            { "item": "m9", "damage-min": 0, "damage-max": 4}
         ]
     },
     {
@@ -153,9 +153,9 @@
         "id": "soldier_m4",
         "entries":
         [
-            { "item": "spare_mag", "prob": 50, "count": 2},
+            { "item": "spare_mag", "prob": 25},
             { "item": "m4a1", "damage-min": 0, "damage-max": 4},
-            { "item": "556", "charges-min": 5, "charges-max": 60, "prob": 50}
+            { "item": "556", "charges-min": 5, "charges-max": 30, "prob": 33}
         ]
     },
 
@@ -167,9 +167,9 @@
         [
             { "item": "modularvestceramic", "damage-min": 1, "damage-max": 4, "prob": 50},
             { "item": "rucksack", "prob": 50, "damage-min": 1, "damage-max": 4},
-            { "item": "spare_mag", "prob": 50, "count": 2},
+            { "item": "spare_mag", "prob": 50},
             { "item": "m27iar", "damage-min": 0, "damage-max": 4},
-            { "item": "556", "charges-min": 5, "charges-max": 20, "prob": 50}
+            { "item": "556", "charges-min": 5, "charges-max": 20, "prob": 33}
         ]
     },
     {
@@ -181,9 +181,9 @@
             { "item": "rucksack", "prob": 15, "damage-min": 1, "damage-max": 4},
             { "item": "modularvesthard", "damage-min": 1, "damage-max": 4, "prob": 50},
             { "item": "m1014", "damage-min": 0, "damage-max": 4},
-            { "item": "shot_00", "charges-min": 0, "charges-max": 10},
-            { "item": "shot_flechette", "charges-min": 0, "charges-max": 1},
-            { "item": "shot_slug", "charges-min": 0, "charges-max": 2}
+            { "item": "shot_00", "charges-min": 0, "charges-max": 10, "prob": 33},
+            { "item": "shot_flechette", "charges-min": 0, "charges-max": 1, "prob": 15},
+            { "item": "shot_slug", "charges-min": 0, "charges-max": 2, "prob": 15}
         ]
     },
     {
@@ -192,14 +192,14 @@
         "id": "soldier_m249",
         "entries":
         [
-            { "item": "dump_pouch", "damage-min": 1, "damage-max": 4},
+            { "item": "dump_pouch", "damage-min": 1, "damage-max": 4, "prob": 33},
             { "item": "molle_pack", "prob": 75, "damage-min": 1, "damage-max": 4},
             { "item": "smokebomb", "prob": 33},
             { "item": "modularvesthard", "damage-min": 1, "damage-max": 4},
             { "item": "mask_bal", "prob": 2, "damage-min": 1, "damage-max": 4},
             { "item": "balclava", "prob": 33, "damage-min": 1, "damage-max": 4},
             { "item": "m249", "damage-min": 0, "damage-max": 4},
-            { "item": "556", "charges-min": 15, "charges-max": 60, "prob": 33}
+            { "item": "556", "charges-min": 15, "charges-max": 45, "prob": 33}
         ]
     },
     {
@@ -208,12 +208,12 @@
         "id": "soldier_m320",
         "entries":
         [
-            { "item": "m320", "damage-min": 0, "damage-max": 3},
-            { "item": "40mm_frag", "prob": 75},
-            { "item": "40mm_smoke", "prob": 33},
-            { "item": "40mm_teargas", "prob": 10},
-            { "item": "40mm_flashbang", "prob": 10},
-            { "item": "40mm_shot", "prob": 10}
+            { "item": "m320", "damage-min": 0, "damage-max": 4},
+            { "item": "40mm_frag", "charges-min": 1, "charges-max": 2, "prob": 66},
+            { "item": "40mm_smoke", "prob": 10},
+            { "item": "40mm_teargas", "prob": 5},
+            { "item": "40mm_flashbang", "prob": 5},
+            { "item": "40mm_shot", "prob": 5}
         ]
     },
     {
@@ -222,11 +222,11 @@
         "id": "soldier_m14ebr",
         "entries":
         [
-            { "item": "spare_mag", "prob": 50, "count": 2},
+            { "item": "spare_mag", "prob": 50},
             { "item": "binoculars", "prob": 50},
             { "item": "kevlar", "damage-min": 1, "damage-max": 4, "prob": 50},
             { "item": "m14ebr", "damage-min": 0, "damage-max": 4},
-            { "item": "556", "charges-min": 5, "charges-max": 60, "prob": 66}
+            { "item": "556", "charges-min": 5, "charges-max": 25, "prob": 33}
         ]
     }
 ]
