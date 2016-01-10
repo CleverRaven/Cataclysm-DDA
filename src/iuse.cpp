@@ -1104,7 +1104,7 @@ static int marloss_reject_mutagen( player *p, item *it )
         return 0;
     }
     if (p->has_trait("THRESH_MARLOSS")) {
-        p->add_msg_if_player( m_warning,
+        p->add_msg_player_or_npc( m_warning,
             _("The %s sears your insides white-hot, and you collapse to the ground!"),
             _("<npcname> writhes in agony and collapses to the ground!"),
             it->tname().c_str());
@@ -1146,7 +1146,7 @@ static int marloss_reject_mut_iv( player *p, item *it )
         return 0;
     }
     if (p->has_trait("THRESH_MARLOSS")) {
-        p->add_msg_if_player( m_warning,
+        p->add_msg_player_or_npc( m_warning,
             _("The %s sears your insides white-hot, and you collapse to the ground!"),
             _("<npcname> writhes in agony and collapses to the ground!"),
             it->tname().c_str());
@@ -1428,7 +1428,7 @@ int iuse::mut_iv(player *p, item *it, bool, const tripoint& )
             p->mod_hunger(10);
             p->fatigue += 5;
             p->thirst += 10;
-            p->add_msg_if_player( m_bad,
+            p->add_msg_player_or_npc( m_bad,
                 _("You writhe and collapse to the ground."),
                 _("<npcname> writhes and collapses to the ground.") );
             p->add_effect("downed", rng( 1, 4 ), num_bp, false, 0, true );
@@ -1439,7 +1439,7 @@ int iuse::mut_iv(player *p, item *it, bool, const tripoint& )
             p->mod_hunger(10);
             p->fatigue += 5;
             p->thirst += 10;
-            p->add_msg_if_player( m_bad,
+            p->add_msg_player_or_npc( m_bad,
                 _("It all goes dark..."),
                 _("<npcname> suddenly falls over!") );
             //Should be about 40 min, less 30 sec/IN point.
