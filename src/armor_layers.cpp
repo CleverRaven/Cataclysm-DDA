@@ -340,7 +340,7 @@ void player::sort_armor()
         }
 
         mvwprintz( w_encumb, 0, 1, c_white, _( "Encumbrance and Warmth" ) );
-        print_encumbrance( w_encumb );
+        print_encumbrance( w_encumb, -1, (leftListSize > 0) ? tmp_worn[leftListIndex] : nullptr );
 
         // Right header
         mvwprintz( w_sort_right, 0, 0, c_ltgray, _( "(Innermost)" ) );

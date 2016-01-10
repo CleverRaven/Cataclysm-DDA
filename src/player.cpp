@@ -14582,7 +14582,7 @@ encumbrance_data player::get_encumbrance( size_t i ) const
     return enc_data;
 }
 
-void player::print_encumbrance( WINDOW *win, int line ) const
+void player::print_encumbrance( WINDOW *win, int line, item *selected_clothing ) const
 {
     int height, width;
     getmaxyx( win, height, width );
@@ -14620,13 +14620,21 @@ void player::print_encumbrance( WINDOW *win, int line ) const
     for( auto bp : parts ) {
         encumbrance_data e = get_encumbrance( bp );
         bool combine = false;
+        bool highlighted = ( selected_clothing == nullptr ) ? false :
+            ( selected_clothing->covers( static_cast<body_part>( bp ) ) ||
+              selected_clothing->covers( static_cast<body_part>( bp_aiOther[bp] ) ) );
         if( e == get_encumbrance( bp_aiOther[bp] ) ) {
             combine = true;
         }
         out.clear();
         // limb, and possible color highlighting
         out = string_format( "%-7s", ( combine ? bpp_asText[bp] : bp_asText[bp] ).c_str() );
-        mvwprintz( win, row, 1, ( orig_line == bp ) ? h_ltgray : c_ltgray, out.c_str() );
+        // Two different highlighting schemes, highlight if the line is selected as per line being set.
+        // Make the text green if this part is covered by the passed in item.
+        int limb_color = ( orig_line == bp ) ?
+            ( highlighted ? h_green : h_ltgray ) :
+            ( highlighted ? c_green : c_ltgray );
+        mvwprintz( win, row, 1, limb_color, out.c_str() );
         // take into account the new encumbrance system for layers
         out = string_format( "(%1d) ", static_cast<int>( e.iLayers / 10.0 ) );
         wprintz( win, c_ltgray, out.c_str() );
