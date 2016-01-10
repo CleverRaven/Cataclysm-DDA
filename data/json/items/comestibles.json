@@ -13952,12 +13952,20 @@
     {
         "type" : "COMESTIBLE",
         "id" : "iodine",
-        "name" : "iodine tablet",
+        "name" : "potassium iodide tablet",
         "weight" : 1,
         "color" : "white",
         "addiction_type" : "none",
         "spoils_in" : 0,
-        "use_action" : "IODINE",
+        "use_action" :  {
+            "type" : "consume_drug",
+            "activation_message" : "You take some potassium iodide.",
+            "effects" : [
+                {
+                    "id": "iodine",
+                    "duration": 2400
+                }
+            ]},
         "stim" : 0,
         "container" : "null",
         "to_hit" : 0,
@@ -13967,8 +13975,46 @@
         "healthy" : 0,
         "addiction_potential" : 0,
         "nutrition" : 0,
-        "description" : "Potassium iodide tablets.  They might help mitigate some of the detrimental effects caused by irradiation.",
+        "description" : "Potassium iodide tablets.  If taken prior to exposure, they help to mitigate injury caused by radiation absorption.",
         "price" : 1000,
+        "material" : "null",
+        "tool" : "null",
+        "volume" : 1,
+        "cutting" : 0,
+        "phase" : "solid",
+        "charges" : 10,
+        "stack_size" : 200,
+        "bashing" : 0,
+        "fun" : 0
+    },
+    {
+        "type" : "COMESTIBLE",
+        "id" : "prussian_blue",
+        "name" : "Prussian blue tablet",
+        "weight" : 1,
+        "color" : "blue",
+        "addiction_type" : "none",
+        "spoils_in" : 0,
+        "use_action" : {
+            "type" : "consume_drug",
+            "activation_message" : "You take some Prussian blue.",
+            "effects" : [
+                {
+                    "id": "pblue",
+                    "duration": 1200
+                }
+            ]},
+        "stim" : 0,
+        "container" : "null",
+        "to_hit" : 0,
+        "comestible_type" : "MED",
+        "symbol" : "!",
+        "quench" : 0,
+        "healthy" : 0,
+        "addiction_potential" : 0,
+        "nutrition" : 0,
+        "description" : "Tablets containing oxidized ferrous ferrocyanide salts.  Capable of purging nuclear contaminants from the body if taken after radiation exposure.",
+        "price" : 3000,
         "material" : "null",
         "tool" : "null",
         "volume" : 1,
@@ -21028,16 +21074,16 @@
         "weight" : 258,
         "color" : "white",
         "addiction_type" : "none",
-        "spoils_in" : 4,
+        "spoils_in" : 8,
         "stim" : 0,
         "container" : "bottle_glass",
         "to_hit" : 0,
         "comestible_type" : "DRINK",
         "symbol" : "~",
         "quench" : 25,
-        "healthy": 1,
+        "healthy": 0,
         "addiction_potential" : 0,
-        "nutrition" : 10,
+        "nutrition" : 45,
         "description" : "Smooth and rich, this spoon-coating mix of milk, cream, and eggs is a popular traditional holiday drink.  While often spiked, it is still delicious on its own.  Meant to be stored cold, it will spoil rapidly.",
         "price" : 40,
         "material" : ["milk", "egg"],
@@ -21045,10 +21091,10 @@
         "volume" : 1,
         "cutting" : 0,
         "phase" : "liquid",
-        "charges" : 1,
+        "charges" : 2,
         "bashing" : 0,
         "flags" : ["EATEN_COLD"],
-        "fun" : 5
+        "fun" : 15
     },{
         "type" : "COMESTIBLE",
         "id" : "eggnog_spiked",
@@ -21066,7 +21112,7 @@
         "quench" : 25,
         "healthy" : -1,
         "addiction_potential" : 5,
-        "nutrition" : 8,
+        "nutrition" : 45,
         "description" : "Smooth and rich, this spoon-coating mixture of milk, cream, eggs, and booze is a popular traditional holiday drink.  Having been fortified with alcohol, it will keep for a long time.",
         "price" : 45, "//" : "A 12-charge gallon currently goes for around US$4, and eggnog is a bit more expensive than that.",
         "material" : ["milk", "alcohol"],
@@ -21074,9 +21120,9 @@
         "volume" : 1,
         "cutting" : 0,
         "phase" : "liquid",
-        "charges" : 1,
+        "charges" : 2,
         "bashing" : 0,
         "flags" : ["EATEN_COLD"],
-        "fun" : 15
+        "fun" : 20
     }
 ]

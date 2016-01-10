@@ -419,7 +419,6 @@ classes = {
             { name = "disp_name", rval = "string", args = { "bool" } },
             { name = "disp_name", rval = "string", args = { } },
             { name = "do_read", rval = nil, args = { "item" } },
-            { name = "dodge_hit", rval = nil, args = { "Creature", "int" } },
             { name = "dodge_roll", rval = "int", args = { } },
             { name = "drench", rval = nil, args = { "int", "int", "bool" } },
             { name = "drench_mut_calc", rval = nil, args = { } },
@@ -542,7 +541,6 @@ classes = {
             { name = "mutation_ok", rval = "bool", args = { "string", "bool", "bool" } },
             { name = "normalize", rval = nil, args = { } },
             { name = "num_bionics", rval = "int", args = { } },
-            { name = "on_dodge", rval = nil, args = { "Creature" } },
             { name = "on_dodge", rval = nil, args = { "Creature", "int" } },
             { name = "on_hit", rval = nil, args = { "Creature" } },
             { name = "on_hit", rval = nil, args = { "Creature", "body_part" } },
@@ -814,7 +812,7 @@ classes = {
             { name = "on_pickup", rval = nil, args = { "Character" } },
             { name = "on_wear", rval = nil, args = { "player" } },
             { name = "on_wield", rval = nil, args = { "player" } },
-            { name = "pick_reload_ammo", rval = "int", args = { "player", "bool" } },
+            { name = "pick_reload_ammo", rval = "item_location", args = { "player", "bool" } },
             { name = "precise_unit_volume", rval = "int", args = { } },
             { name = "price", rval = "int", args = { } },
             { name = "process", rval = "bool", args = { "player", "tripoint", "bool" } },
@@ -855,6 +853,15 @@ classes = {
             { name = "volume", rval = "int", args = { } },
             { name = "weap_skill", rval = "skill_id", args = { } },
             { name = "weight", rval = "int", args = { } },
+        }
+    },
+    item_location = {
+        attributes = {
+        },
+        functions = {
+            { name = "get_inventory_position", rval = "int", args = { } },
+            { name = "get_item", rval = "item", args = { } },
+            { name = "remove_item", rval = nil, args = { } }
         }
     },
     point = {
@@ -1000,8 +1007,8 @@ classes = {
             { name = "draw_line_furn", rval = nil, args = { "string", "int", "int", "int", "int" } },
             { name = "draw_line_ter", rval = nil, args = { "ter_id", "int", "int", "int", "int" } },
             { name = "draw_line_ter", rval = nil, args = { "string", "int", "int", "int", "int" } },
-            { name = "draw_rough_circle", rval = nil, args = { "ter_id", "int", "int", "int" } },
-            { name = "draw_rough_circle", rval = nil, args = { "string", "int", "int", "int" } },
+            { name = "draw_rough_circle_ter", rval = nil, args = { "ter_id", "int", "int", "int" } },
+            { name = "draw_rough_circle_ter", rval = nil, args = { "string", "int", "int", "int" } },
             { name = "draw_rough_circle_furn", rval = nil, args = { "furn_id", "int", "int", "int" } },
             { name = "draw_rough_circle_furn", rval = nil, args = { "string", "int", "int", "int" } },
             { name = "draw_square_furn", rval = nil, args = { "furn_id", "int", "int", "int", "int" } },
@@ -1201,7 +1208,6 @@ classes = {
             { name = "digging", rval = "bool", args = { } },
             { name = "disp_name", rval = "string", args = { "bool" } },
             { name = "disp_name", rval = "string", args = { } },
-            { name = "dodge_hit", rval = nil, args = { "Creature", "int" } },
             { name = "dodge_roll", rval = "int", args = { } },
             { name = "get_armor_bash", rval = "int", args = { "body_part" } },
             { name = "get_armor_bash_base", rval = "int", args = { "body_part" } },
@@ -1279,7 +1285,6 @@ classes = {
             { name = "mod_stat", rval = nil, args = { "string", "int" } },
             { name = "move_effects", rval = "bool", args = { "bool" } },
             { name = "normalize", rval = nil, args = { } },
-            { name = "on_dodge", rval = nil, args = { "Creature" } },
             { name = "on_dodge", rval = nil, args = { "Creature", "int" } },
             { name = "on_hit", rval = nil, args = { "Creature" } },
             { name = "on_hit", rval = nil, args = { "Creature", "body_part" } },
@@ -1379,7 +1384,6 @@ classes = {
             { name = "digging", rval = "bool", args = { } },
             { name = "disp_name", rval = "string", args = { "bool" } },
             { name = "disp_name", rval = "string", args = { } },
-            { name = "dodge_hit", rval = nil, args = { "Creature", "int" } },
             { name = "dodge_roll", rval = "int", args = { } },
             { name = "drop_items_on_death", rval = nil, args = { } },
             { name = "explode", rval = nil, args = { } },
@@ -1426,7 +1430,6 @@ classes = {
             { name = "name", rval = "string", args = { "int" } },
             { name = "name", rval = "string", args = { } },
             { name = "name_with_armor", rval = "string", args = { } },
-            { name = "on_dodge", rval = nil, args = { "Creature" } },
             { name = "on_dodge", rval = nil, args = { "Creature", "int" } },
             { name = "on_hit", rval = nil, args = { "Creature" } },
             { name = "on_hit", rval = nil, args = { "Creature", "body_part" } },

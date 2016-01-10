@@ -12566,7 +12566,7 @@
         "name" : "rioter mask",
         "weight" : 123,
         "color" : "white",
-        "covers" : ["MOUTH", "HEAD", "EYES"],
+        "covers" : ["MOUTH", "HEAD"],
         "to_hit" : -1,
         "symbol" : "[",
         "description" : "This is a t-shirt with sleeves tied on the back.  These are usually worn by rioters to hide their identity.",

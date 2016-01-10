@@ -186,15 +186,14 @@ void defense_game::init_itypes()
 
 void defense_game::init_mtypes()
 {
-    std::map<mtype_id, mtype *> montemplates = MonsterGenerator::generator().get_all_mtypes();
-
-    for( auto &montemplate : montemplates ) {
-        montemplate.second->difficulty *= 1.5;
-        montemplate.second->difficulty += int( montemplate.second->difficulty / 5 );
-        montemplate.second->flags.insert( MF_BASHES );
-        montemplate.second->flags.insert( MF_SMELLS );
-        montemplate.second->flags.insert( MF_HEARS );
-        montemplate.second->flags.insert( MF_SEES );
+    for( auto &type : MonsterGenerator::generator().get_all_mtypes() ) {
+        mtype *const t = const_cast<mtype *>( type );
+        t->difficulty *= 1.5;
+        t->difficulty += int( t->difficulty / 5 );
+        t->flags.insert( MF_BASHES );
+        t->flags.insert( MF_SMELLS );
+        t->flags.insert( MF_HEARS );
+        t->flags.insert( MF_SEES );
     }
 }
 

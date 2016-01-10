@@ -13,7 +13,6 @@
         "material": "paper",
         "weight": 3,
         "volume": 0,
-        "cutting": 0,
         "to_hit": 0
     },
     {
@@ -30,7 +29,6 @@
         "material": "paper",
         "weight": 3,
         "volume": 0,
-        "cutting": 0,
         "to_hit": 0
     },
         {
@@ -47,7 +45,6 @@
         "material": "paper",
         "weight": 3,
         "volume": 0,
-        "cutting": 0,
         "to_hit": 0
     },
         {
@@ -64,7 +61,6 @@
         "material": "paper",
         "weight": 3,
         "volume": 0,
-        "cutting": 0,
         "to_hit": 0
     },
         {
@@ -81,7 +77,6 @@
         "material": "paper",
         "weight": 3,
         "volume": 0,
-        "cutting": 0,
         "to_hit": 0
     },
         {
@@ -98,7 +93,6 @@
         "material": "paper",
         "weight": 3,
         "volume": 0,
-        "cutting": 0,
         "to_hit": 0
     },
         {
@@ -115,7 +109,6 @@
         "material": "paper",
         "weight": 3,
         "volume": 0,
-        "cutting": 0,
         "to_hit": 0
     },
         {
@@ -132,7 +125,6 @@
         "material": "paper",
         "weight": 3,
         "volume": 0,
-        "cutting": 0,
         "to_hit": 0
     },
         {
@@ -149,7 +141,6 @@
         "material": "paper",
         "weight": 1,
         "volume": 0,
-        "cutting": 0,
         "to_hit": 0
     }
     ]
