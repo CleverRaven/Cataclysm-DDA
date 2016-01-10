@@ -1945,7 +1945,7 @@
     "vision_day":40,
     "vision_night":3,
     "death_drops": "default_zombie_death_drops",
-    "luminance":8,
+    "luminance":0,
     "hp":140,
     "death_function":["ACID", "NORMAL"],
     "special_attacks":[["ACID_ACCURATE", 3], ["ACID_BARF", 3]],
