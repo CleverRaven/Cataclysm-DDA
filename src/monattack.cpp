@@ -454,7 +454,6 @@ bool mattack::acid_accurate(monster *z)
 
     projectile proj;
     proj.speed = 10;
-    proj.proj_effects.insert( "ACID_DROP" );
     proj.proj_effects.insert( "BLINDS_EYES" );
     proj.impact.add_damage( DT_ACID, rng( 5, 10 ) );
     z->projectile_attack( proj, target->pos(), rng( 150, 1200 ) );
