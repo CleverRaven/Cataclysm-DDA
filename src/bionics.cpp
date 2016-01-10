@@ -1492,23 +1492,23 @@ bool player::install_bionics(const itype &type, int skill_level)
         add_msg(m_good, _("Successfully installed %s."), bionics[bioid].name.c_str());
         add_bionic(bioid);
 
-        if( bioid == "bio_eye_optic" && g->u.has_trait( "HYPEROPIC" ) ) {
-            g->u.remove_mutation( "HYPEROPIC" );
+        if( bioid == "bio_eye_optic" && has_trait( "HYPEROPIC" ) ) {
+            remove_mutation( "HYPEROPIC" );
         }
-        if( bioid == "bio_eye_optic" && g->u.has_trait( "MYOPIC" ) ) {
-            g->u.remove_mutation( "MYOPIC" );
-        } else if (bioid == "bio_ears") {
-            add_bionic("bio_earplugs"); // automatically add the earplugs, they're part of the same bionic
-        } else if (bioid == "bio_sunglasses") {
-			add_bionic("bio_blindfold"); // automatically add the Optical Dampers, they're part of the same bionic
-        } else if (bioid == "bio_reactor_upgrade") {
-            remove_bionic("bio_reactor");
-            remove_bionic("bio_reactor_upgrade");
-            add_bionic("bio_advreactor");
-        } else if (bioid == "bio_reactor" || bioid == "bio_advreactor") {
-            add_bionic("bio_plutdump");
+        if( bioid == "bio_eye_optic" && has_trait( "MYOPIC" ) ) {
+            remove_mutation( "MYOPIC" );
+        } else if( bioid == "bio_ears" ) {
+            add_bionic( "bio_earplugs" ); // automatically add the earplugs, they're part of the same bionic
+        } else if( bioid == "bio_sunglasses" ) {
+			add_bionic( "bio_blindfold" ); // automatically add the Optical Dampers, they're part of the same bionic
+        } else if( bioid == "bio_reactor_upgrade" ) {
+            remove_bionic( "bio_reactor" );
+            remove_bionic( "bio_reactor_upgrade" );
+            add_bionic( "bio_advreactor" );
+        } else if( bioid == "bio_reactor" || bioid == "bio_advreactor" ) {
+            add_bionic( "bio_plutdump" );
         }
-    } else {
+    } else{
         add_memorial_log(pgettext("memorial_male", "Installed bionic: %s."),
                          pgettext("memorial_female", "Installed bionic: %s."),
                          bionics[bioid].name.c_str());
