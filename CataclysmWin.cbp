@@ -391,6 +391,8 @@
 		<Unit filename="src/dependency_tree.cpp" />
 		<Unit filename="src/dependency_tree.h" />
 		<Unit filename="src/dialogue.h" />
+		<Unit filename="src/drawing_primitives.cpp" />
+		<Unit filename="src/drawing_primitives.h" />
 		<Unit filename="src/editmap.cpp" />
 		<Unit filename="src/editmap.h" />
 		<Unit filename="src/effect.cpp" />
@@ -478,6 +480,8 @@
 		<Unit filename="src/martialarts.h" />
 		<Unit filename="src/material.cpp" />
 		<Unit filename="src/material.h" />
+		<Unit filename="src/mattack_actors.cpp" />
+		<Unit filename="src/mattack_actors.h" />
 		<Unit filename="src/melee.cpp" />
 		<Unit filename="src/messages.cpp" />
 		<Unit filename="src/messages.h" />
