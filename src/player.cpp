@@ -10894,8 +10894,8 @@ bool player::wear_item( const item &to_wear, bool interactive )
     else
     {
         // Only headgear can be worn with power armor, except other power armor components
-        if(!to_wear.covers(bp_head) && !to_wear.covers(bp_eyes) &&
-             !to_wear.covers(bp_head)) {
+        if(!to_wear.covers(bp_head) && !to_wear.covers(bp_eyes) && !to_wear.covers(bp_mouth)) 
+        {
             for (auto &i : worn)
             {
                 if( i.is_power_armor() )
