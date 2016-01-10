@@ -2043,13 +2043,13 @@ void player::memorial( std::ofstream &memorial_file, std::string epitaph )
     std::map<std::tuple<std::string,std::string>,int> kill_counts;
 
     // map <name, sym> to kill count
-    for( const auto &monid : MonsterGenerator::generator().get_all_mtypes() ) {
-        if( g->kill_count( monid.first ) > 0 ) {
+    for( const auto &type : MonsterGenerator::generator().get_all_mtypes() ) {
+        if( g->kill_count( type->id ) > 0 ) {
             kill_counts[std::tuple<std::string,std::string>(
-                monid.second->nname(),
-                monid.second->sym
-            )] += g->kill_count( monid.first );
-            total_kills += g->kill_count( monid.first );
+                type->nname(),
+                type->sym
+            )] += g->kill_count( type->id );
+            total_kills += g->kill_count( type->id );
         }
     }
 

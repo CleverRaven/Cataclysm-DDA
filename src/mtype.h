@@ -230,6 +230,9 @@ struct mtype {
         std::set< const species_type* > species_ptrs;
     public:
         mtype_id id;
+        // TODO: maybe make this private as well? It must be set to `true` only once,
+        // and must never be set back to `false`.
+        bool was_loaded = false;
         std::string description;
         std::set<species_id> species;
         std::set<std::string> categories;
@@ -325,6 +328,9 @@ struct mtype {
         // The item id of the meat items that are produced by this monster (or "null")
         // if there is no matching item type. e.g. "veggy" for plant monsters.
         itype_id get_meat_itype() const;
+
+        // Historically located in monstergenerator.cpp
+        void load( JsonObject &jo );
 };
 
 #endif

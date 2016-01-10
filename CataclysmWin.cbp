@@ -411,6 +411,7 @@
 		<Unit filename="src/game_constants.h" />
 		<Unit filename="src/gamemode.cpp" />
 		<Unit filename="src/gamemode.h" />
+		<Unit filename="src/generic_factory.h" />
 		<Unit filename="src/get_version.h" />
 		<Unit filename="src/help.cpp" />
 		<Unit filename="src/help.h" />

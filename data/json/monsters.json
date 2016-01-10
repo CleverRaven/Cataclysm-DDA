@@ -7,7 +7,7 @@
     "default_faction":"",
     "symbol":"X",
     "color":"white",
-    "size":"medium",
+    "size":"MEDIUM",
     "material":"flesh",
     "diff":1,
     "aggression":100,
@@ -1853,7 +1853,7 @@
     "death_function":["NORMAL"],
     "special_attacks":[["SHRIEK_ALERT", 20], ["SHRIEK_STUN", 1]],
     "description":"A thin corpse, its chest is swollen in what appears to be preparation.  A thick black ooze drips from its open mouth.",
-    "flags":["SEES", "DEAF", "KEENNOSE", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "BONES", "PARROT"]
+    "flags":["SEES", "KEENNOSE", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "BONES"]
     },{
     "type" : "MONSTER",
     "id" : "mon_zombie_acidic",
@@ -5451,7 +5451,7 @@
     "death_function":"MELT",
     "special_attacks":[["PARROT", 40]],
     "description":"A gargantuan protoplasmic blob, constantly reshaping, forming new pseudopods seemingly at will.  All over its body are eyes that form and disappear.  It looks at you with malice.",
-    "flags":["SEES", "SMELLS", "SWIMS", "PLASTIC", "SLUDGEPROOF", "ACID_BLOOD", "ACID_PROOF", "NOHEAD", "REGENERATES_50", "ABSORBS", "REGEN_MORALE", "NOGIB"]
+    "flags":["SEES", "SMELLS", "SWIMS", "PLASTIC", "SLUDGEPROOF", "ACID_BLOOD", "ACIDPROOF", "NOHEAD", "REGENERATES_50", "ABSORBS", "REGEN_MORALE", "NOGIB"]
     },{
     "type":"MONSTER",
     "id":"mon_albino_penguin",
@@ -6590,7 +6590,7 @@
     "special_attacks":[["BRANDISH", 10]],
     "description":"Living in the woods, \nkilling for sport, \neating all the bodies, \nactual cannibal Shia LaBeouf.",
     "flags":["SEES", "HEARS", "WARM", "BASHES", "POISON", "BONES", "BLEED", "NO_BREATHE"],
-    "anger_triggers":["STALK", "PLAYER_WEAK", "HURT", "PLAYER_CLOSE", "BONES"],
+    "anger_triggers":["STALK", "PLAYER_WEAK", "HURT", "PLAYER_CLOSE"],
     "fear_triggers":["FIRE"]
     },{
     "type" : "MONSTER",
