@@ -437,6 +437,7 @@ class wish_item_callback: public uimenu_callback
                 mvwprintw(menu->window, y, startx - 1, "%s", padding.c_str());
             }
             item tmp(standard_itype_ids[entnum], calendar::turn);
+            mvwhline( menu->window, 1, startx, ' ', menu->pad_right - 1 );
             const std::string header = string_format("#%d: %s%s", entnum, standard_itype_ids[entnum].c_str(),
                                        ( incontainer ? _(" (contained)") : "" ));
             mvwprintz(menu->window, 1, startx + ( menu->pad_right - 1 - header.size() ) / 2, c_cyan, "%s",
