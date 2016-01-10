@@ -855,6 +855,15 @@ classes = {
             { name = "weight", rval = "int", args = { } },
         }
     },
+    item_location = {
+        attributes = {
+        },
+        functions = {
+            { name = "get_inventory_position", rval = "int", args = { } },
+            { name = "get_item", rval = "item", args = { } },
+            { name = "remove_item", rval = nil, args = { } }
+        }
+    },
     point = {
         by_value = true,
         has_equal = true,
