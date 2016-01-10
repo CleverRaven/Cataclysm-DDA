@@ -2755,7 +2755,7 @@ bool item::is_power_armor() const
 
 int item::armor_size_by_body_part() const
 {
-    int size_multiplier;
+    int size_multiplier = 0;
     std::bitset<num_bp> covered = get_covered_body_parts();
 
     if(covered.test(bp_torso)) {
