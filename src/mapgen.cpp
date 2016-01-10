@@ -13127,7 +13127,7 @@ void square( map *m, const id_or_id<ter_t> &f, int x1, int y1, int x2, int y2 )
 }
 void rough_circle( map *m, ter_id type, int x, int y, int rad )
 {
-    m->draw_rough_circle( type, x, y, rad );
+    m->draw_rough_circle_ter( type, x, y, rad );
 }
 void rough_circle_furn( map *m, furn_id type, int x, int y, int rad )
 {
@@ -13135,11 +13135,11 @@ void rough_circle_furn( map *m, furn_id type, int x, int y, int rad )
 }
 void circle( map *m, ter_id type, double x, double y, double rad )
 {
-    m->draw_circle( type, x, y, rad );
+    m->draw_circle_ter( type, x, y, rad );
 }
 void circle( map *m, ter_id type, int x, int y, int rad )
 {
-    m->draw_circle( type, x, y, rad );
+    m->draw_circle_ter( type, x, y, rad );
 }
 void circle_furn( map *m, furn_id type, int x, int y, int rad )
 {
