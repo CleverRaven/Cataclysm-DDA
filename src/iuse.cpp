@@ -8389,3 +8389,30 @@ int iuse::ladder( player *p, item *, bool, const tripoint& )
     g->m.furn_set( dirp, "f_ladder" );
     return 1;
 }
+
+int iuse::saw_barrel( player *p, item *, bool, const tripoint& )
+{
+    if( p == nullptr ) {
+        return 0;
+    }
+
+    auto filter = [&]( const item& e ) {
+        return e.is_gun() && e.get_free_mod_locations( "barrel" );
+    };
+
+    item& obj = p->i_at( g->inv_for_filter( _( "Saw barrel?" ), filter ) );
+
+    if( obj.is_null() ) {
+        p->add_msg_if_player( _( "Never mind." ) );
+        return 0;
+    }
+    if( !filter( obj ) ) {
+        p->add_msg_if_player( _( "Can't saw down the barrel of your %s" ), obj.tname().c_str() );
+        return 0;
+    }
+
+    obj.contents.emplace_back( "barrel_small", calendar::turn );
+    p->add_msg_if_player( _( "You saw down the barrel of your %s" ), obj.tname().c_str() );
+
+    return 1;
+}
