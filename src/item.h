@@ -942,10 +942,18 @@ public:
          */
         int get_env_resist() const;
         /**
+         * Returns the average density of materials
+         */
+        float get_density() const;
+        /**
          * Whether this is a power armor item. Not necessarily the main armor, it could be a helmet
          * or similar.
          */
         bool is_power_armor() const;
+        /**
+         * Returns a size multiplier based on the number and size of body parts covered by armor.
+         */
+        int armor_size_by_body_part() const;
         /**
          * If this is an armor item, return its armor data. You should probably not use this function,
          * use the various functions above (like @ref get_storage) to access armor data directly.

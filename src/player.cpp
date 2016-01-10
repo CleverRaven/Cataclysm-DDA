@@ -6565,7 +6565,7 @@ void player::hardcoded_effects(effect &it)
         remove_worn_items_with( []( item &tmp ) {
             bool burnVeggy = (tmp.made_of("veggy") || tmp.made_of("paper"));
             bool burnFabric = ((tmp.made_of("cotton") || tmp.made_of("wool")) && one_in(10));
-            bool burnPlastic = ((tmp.made_of("plastic")) && one_in(50));
+            bool burnPlastic = ((tmp.made_of("plastic") || tmp.made_of("lowdensityplastic")) && one_in(50));
             return burnVeggy || burnFabric || burnPlastic;
         } );
     } else if (id == "spores") {
@@ -12536,7 +12536,7 @@ int player::get_wind_resistance(body_part bp) const
     for( auto &i : worn ) {
         if( i.covers(bp) ) {
             if( i.made_of("leather") || i.made_of("plastic") || i.made_of("bone") ||
-                i.made_of("chitin") || i.made_of("nomex") ) {
+                i.made_of("chitin") || i.made_of("nomex") || i.made_of("lowdensityplastic") ) {
                 penalty = 10; // 90% effective
             } else if( i.made_of("cotton") ) {
                 penalty = 30;

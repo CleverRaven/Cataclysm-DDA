@@ -446,7 +446,7 @@
     },{
         "type" : "material",
         "ident" : "plastic",
-        "name" : "Plastic",
+        "name" : "Hard Plastic",
         "salvage_id": "plastic_chunk",
         "bash_resist" : 2,
         "cut_resist" : 2,
@@ -463,6 +463,26 @@
         "fire_resist" : 1,
         "chip_resist" : 6,
         "density" : 8
+    },{
+        "type" : "material",
+        "ident" : "lowdensityplastic",
+        "name" : "Flexible Plastic",
+        "salvage_id": "plastic_chunk",
+        "bash_resist" : 2,
+        "cut_resist" : 2,
+        "bash_dmg_verb" : "ripped",
+        "cut_dmg_verb" : "cut",
+        "dmg_adj" : [
+            "scratched",
+            "cut",
+            "shredded",
+            "tattered"
+        ],
+        "acid_resist" : 9,
+        "elec_resist" : 2,
+        "fire_resist" : 1,
+        "chip_resist" : 6,
+        "density" : 4
     },{
         "type" : "material",
         "ident" : "glass",

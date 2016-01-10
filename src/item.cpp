@@ -2259,6 +2259,23 @@ int item::weight() const
         return 0;
     }
 
+    if ( is_armor() ) {
+        int ret = 0;
+        float density = get_density();
+        float body_part_multiplier = (float) armor_size_by_body_part();
+        float coverage = (float) get_coverage();
+        float thickness = (float) get_thickness();
+        float storage = (float) get_storage();
+
+        const float base_weight_multiplier = 0.035;
+        const float storage_weight_multiplier = 2;
+
+        ret = base_weight_multiplier * body_part_multiplier * density * coverage * thickness;
+        ret += storage_weight_multiplier * density * storage;
+
+        return ret;
+    }
+
     int ret = type->weight;
     ret = get_var( "weight", ret );
 
@@ -2345,6 +2362,41 @@ int item::volume(bool unit_value, bool precise_value ) const
 
     if( is_null()) {
         return 0;
+    }
+
+    if ( is_armor() ) {
+        int ret = 0;
+        float body_part_multiplier = (float) armor_size_by_body_part();
+        float coverage = (float) get_coverage();
+        float thickness = (float) get_thickness();
+        float storage = (float) get_storage();
+
+        const float base_volume_multiplier = 0.005;
+        const float storage_volume_multiplier = 2;
+
+        ret = base_volume_multiplier * body_part_multiplier * coverage * thickness;
+        ret += storage_volume_multiplier * storage;
+
+        // volume is
+        std::vector<std::string> foldable;
+        foldable.push_back( "cotton" );
+        foldable.push_back( "wool" );
+        foldable.push_back( "leather" );
+        foldable.push_back( "kevlar" );
+        foldable.push_back( "fur" );
+        foldable.push_back( "paper" );
+        foldable.push_back( "lowdensityplastic" );
+        foldable.push_back( "nomex" );
+        if (only_made_of(foldable)) {
+            ret /= 4;
+        }
+
+        ret = std::max(ret,1);
+
+        if ( precise_value == true ) {
+            ret *= 1000;
+        }
+        return ret;
     }
 
     ret = type->volume;
@@ -2661,6 +2713,17 @@ int item::get_env_resist() const
     return static_cast<int>( static_cast<unsigned int>( t->env_resist ) );
 }
 
+float item::get_density() const
+{
+    float density = 0;
+    std::vector<material_type*> mat_types = made_of_types();
+    for (auto mat : mat_types) {
+        density += mat->density();
+    }
+    density /= mat_types.size();
+    return density;
+}
+
 bool item::is_power_armor() const
 {
     const auto t = find_armor_data();
@@ -2668,6 +2731,50 @@ bool item::is_power_armor() const
         return false;
     }
     return t->power_armor;
+}
+
+int item::armor_size_by_body_part() const
+{
+    int size_multiplier;
+    std::bitset<num_bp> covered = get_covered_body_parts();
+
+    if(covered.test(bp_torso)) {
+        size_multiplier += 16;
+    }
+    if(covered.test(bp_leg_l)) {
+        size_multiplier += 4;
+    }
+    if(covered.test(bp_leg_r)) {
+        size_multiplier += 4;
+    }
+    if(covered.test(bp_foot_l)) {
+        size_multiplier += 4;
+    }
+    if(covered.test(bp_foot_r)) {
+        size_multiplier += 4;
+    }
+    if(covered.test(bp_hand_l)) {
+        size_multiplier += 2;
+    }
+    if(covered.test(bp_hand_r)) {
+        size_multiplier += 2;
+    }
+    if(covered.test(bp_head)) {
+        size_multiplier += 4;
+    }
+    if(covered.test(bp_eyes)) {
+        size_multiplier += 1;
+    }
+    if(covered.test(bp_arm_l)) {
+        size_multiplier += 4;
+    }
+    if(covered.test(bp_arm_r)) {
+        size_multiplier += 4;
+    }
+    if(covered.test(bp_mouth)) {
+        size_multiplier += 2;
+    }
+    return size_multiplier;
 }
 
 int item::get_encumber() const
@@ -4304,7 +4411,7 @@ bool item::flammable() const
         return false;
     }
 
-    if( made_of("paper") || made_of("powder") || made_of("plastic") ) {
+    if( made_of("paper") || made_of("powder") || made_of("plastic") || made_of("lowdensityplastic") ) {
         return true;
     }
 
