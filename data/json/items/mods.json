@@ -142,6 +142,7 @@
         "dispersion_modifier" : 75,
         "description" : "A shortened barrel results in markedly reduced accuracy, and a minor increase in noise, but also reduces recoil greatly as a result of the improved manageability of the firearm.",
         "location": "barrel",
+        "flags": ["IRREMOVABLE"],
         "weight" : 113,
         "to_hit" : -1,
         "color" : "light_gray",
