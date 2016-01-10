@@ -1287,14 +1287,20 @@ void cata_tiles::draw_minimap( int destx, int desty, const tripoint &center, int
                     if( critter == &( g->u ) || g->u.sees( *critter ) ) {
                         SDL_Color c = cursesColorToSDL( critter->symbol_color() );
                         c.a = 255;
-                        const auto m = dynamic_cast<monster *>( critter );
-                        if( m != nullptr ) {
-                            //faction status (attacking or tracking) determines if red highlights get applied to creature
-                            monster_attitude matt = m->attitude( &( g->u ) );
-                            if( MATT_ATTACK == matt || MATT_FOLLOW == matt ) {
-                                pixel p( c );
-                                color_pixel_red_mix( p, indicator_tick );
-                                c = p.getSdlColor();
+                        // use a red-black transition for flickering enemy beacons
+                        if( indicator_length > 0 ) {
+                            c.r = 0;
+                            c.g = 0;
+                            c.b = 0;
+                            const auto m = dynamic_cast<monster *>( critter );
+                            if( m != nullptr ) {
+                                //faction status (attacking or tracking) determines if red highlights get applied to creature
+                                monster_attitude matt = m->attitude( &( g->u ) );
+                                if( MATT_ATTACK == matt || MATT_FOLLOW == matt ) {
+                                    pixel p( c );
+                                    color_pixel_red_mix( p, indicator_tick );
+                                    c = p.getSdlColor();
+                                }
                             }
                         }
                         draw_rhombus(
