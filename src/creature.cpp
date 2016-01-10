@@ -573,9 +573,6 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
     if (proj.proj_effects.count("BEANBAG")) {
         stun_strength = 4;
     }
-    if(proj.proj_effects.count("WHIP")) {
-        stun_strength = rng(4, 10);
-    }
     if (proj.proj_effects.count("LARGE_BEANBAG")) {
         stun_strength = 16;
     }
