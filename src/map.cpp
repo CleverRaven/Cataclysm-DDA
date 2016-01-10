@@ -4767,7 +4767,7 @@ static void process_vehicle_items( vehicle *cur_veh, int part )
     }
     if( cur_veh->recharger_on && cur_veh->part_with_feature(part, VPFLAG_RECHARGE) >= 0 ) {
         for( auto &n : cur_veh->get_items( part ) ) {
-            if( !n.has_flag("RECHARGE") ) {
+            if( !n.has_flag("RECHARGE") && !n.has_flag("USE_UPS") ) {
                 continue;
             }
             int full_charge = dynamic_cast<const it_tool*>(n.type)->max_charges;
@@ -4775,9 +4775,10 @@ static void process_vehicle_items( vehicle *cur_veh, int part )
                 full_charge = full_charge * 2;
             }
             if( n.is_tool() && full_charge > n.charges ) {
-                if( one_in(10) ) {
-                    n.charges++;
+                if(cur_veh->discharge_battery(10, FALSE)) {
+                    break; // Check car's power before charging
                 }
+                n.charges++;
             }
         }
     }
