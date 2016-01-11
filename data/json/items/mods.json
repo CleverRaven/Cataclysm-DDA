@@ -140,7 +140,7 @@
         "id" : "barrel_small",
         "name" : "shortened barrel",
         "dispersion_modifier" : 75,
-        "description" : "A shortened barrel results in markedly reduced accuracy, and a minor increase in noise, but also reduces recoil greatly as a result of the improved manageability of the firearm.",
+        "description" : "A shortened barrel results in markedly reduced accuracy, and a minor increase in noise, but also greatly improves the ease with which the weapon can be carried and wielded.",
         "location": "barrel",
         "flags": ["IRREMOVABLE"],
         "weight" : 0,
@@ -151,7 +151,6 @@
         "mod_targets" : ["smg", "rifle", "shotgun"],
         "volume" : 0,
         "bashing" : -2,
-        "recoil_modifier" : -90,
         "price" : 12000,
         "skill_required": 5,
         "loudness_modifier" : 2
