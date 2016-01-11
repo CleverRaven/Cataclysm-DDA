@@ -1233,7 +1233,7 @@ void mapgen_road( map *m, oter_id terrain_type, mapgendata dat, int turn, float 
                 }
                 for( int x = SEEX - 1; x <= SEEX; x++ ) {
                     for( int y = 0; y < max_y; y++ ) {
-                        if( ( y + ( ( dir + rot ) / 2 ) ) % 4 ) {
+                        if( ( y + ( ( dir + rot ) / 2 % 2 ) ) % 4 ) {
                             int xn = x, yn = y;
                             coord_rotate_cw( xn, yn, dir );
                             m->ter_set( xn, yn, t_pavement_y );
