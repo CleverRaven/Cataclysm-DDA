@@ -479,8 +479,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Handles reach melee attacks */
         void reach_attack( const tripoint &target );
 
-        /** Activates any on-dodge effects and checks for dodge counter techniques */
-        void dodge_hit(Creature *source, int hit_spread) override;
         /** Checks for valid block abilities and reduces damage accordingly. Returns true if the player blocks */
         bool block_hit(Creature *source, body_part &bp_hit, damage_instance &dam) override;
         /**
@@ -491,7 +489,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Runs through all bionics and armor on a part and reduces damage through their armor_absorb */
         void absorb_hit(body_part bp, damage_instance &dam) override;
         /** Called after the player has successfully dodged an attack */
-        void on_dodge( Creature *source, int difficulty = INT_MIN ) override;
+        void on_dodge( Creature *source, int difficulty ) override;
         /** Handles special defenses from an attack that hit us (source can be null) */
         void on_hit( Creature *source, body_part bp_hit = num_bp,
                      int difficulty = INT_MIN, dealt_projectile_attack const* const proj = nullptr ) override;
@@ -932,21 +930,23 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int has_recipe( const recipe *r, const inventory &crafting_inv ) const;
         bool knows_recipe( const recipe *rec ) const;
         void learn_recipe( const recipe *rec, bool force = false );
-        bool has_recipe_requirements(const recipe *rec) const;
+        int exceeds_recipe_requirements( const recipe &rec ) const;
+        bool has_recipe_requirements( const recipe *rec ) const;
 
-        bool studied_all_recipes(const itype &book) const;
+        bool studied_all_recipes( const itype &book ) const;
 
         // crafting.cpp
-        bool crafting_allowed(); // can_see_to_craft() && has_morale_to_craft()
-        bool can_see_to_craft();
+        bool crafting_allowed( const std::string & rec_name );
+        bool crafting_allowed( const recipe & rec );
+        float lighting_craft_speed_multiplier( const recipe & rec );
         bool has_moral_to_craft();
-        bool can_make(const recipe *r, int batch_size = 1); // have components?
-        bool making_would_work(const std::string &id_to_make, int batch_size);
+        bool can_make( const recipe * r, int batch_size = 1 ); // have components?
+        bool making_would_work( const std::string & id_to_make, int batch_size );
         void craft();
         void recraft();
         void long_craft();
-        void make_craft(const std::string &id, int batch_size);
-        void make_all_craft(const std::string &id, int batch_size);
+        void make_craft( const std::string & id, int batch_size );
+        void make_all_craft( const std::string & id, int batch_size );
         void complete_craft();
 
         // also crafting.cpp
@@ -1203,7 +1203,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         // returns a struct describing the encumbrance of a body part
         encumbrance_data get_encumbrance( size_t i ) const;
         // formats and prints encumbrance info to specified window
-        void print_encumbrance( WINDOW * win, int line = -1 ) const;
+        void print_encumbrance( WINDOW * win, int line = -1, item *selected_limb = nullptr ) const;
 
         // Prints message(s) about current health
         void print_health() const;

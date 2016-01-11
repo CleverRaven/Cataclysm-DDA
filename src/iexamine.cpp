@@ -990,7 +990,7 @@ void iexamine::slot_machine(player *p, map*, const tripoint&)
 
 void iexamine::safe(player *p, map *m, const tripoint &examp)
 {
-    if (!p->has_amount("stethoscope", 1)) {
+    if ( !( p->has_amount("stethoscope", 1) || p->has_bionic("bio_ears") ) ) {
         p->moves -= 100;
         // one_in(30^3) chance of guessing
         if (one_in(27000)) {

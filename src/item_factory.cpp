@@ -160,7 +160,6 @@ void Item_factory::init()
     iuse_function_list["THORAZINE"] = &iuse::thorazine;
     iuse_function_list["PROZAC"] = &iuse::prozac;
     iuse_function_list["SLEEP"] = &iuse::sleep;
-    iuse_function_list["IODINE"] = &iuse::iodine;
     iuse_function_list["DATURA"] = &iuse::datura;
     iuse_function_list["FLUMED"] = &iuse::flumed;
     iuse_function_list["FLUSLEEP"] = &iuse::flusleep;
@@ -251,7 +250,6 @@ void Item_factory::init()
     iuse_function_list["PORTABLE_STRUCTURE"] = &iuse::portable_structure;
     iuse_function_list["TORCH_LIT"] = &iuse::torch_lit;
     iuse_function_list["BATTLETORCH_LIT"] = &iuse::battletorch_lit;
-    iuse_function_list["BULLET_PULLER"] = &iuse::bullet_puller;
     iuse_function_list["BOLTCUTTERS"] = &iuse::boltcutters;
     iuse_function_list["MOP"] = &iuse::mop;
     iuse_function_list["SPRAY_CAN"] = &iuse::spray_can;
@@ -291,6 +289,7 @@ void Item_factory::init()
     iuse_function_list["WEATHER_TOOL"] = &iuse::weather_tool;
     iuse_function_list["REMOVE_ALL_MODS"] = &iuse::remove_all_mods;
     iuse_function_list["LADDER"] = &iuse::ladder;
+    iuse_function_list["SAW_BARREL"] = &iuse::saw_barrel;
 
     // MACGUFFINS
     iuse_function_list["MCG_NOTE"] = &iuse::mcg_note;
@@ -659,6 +658,11 @@ void Item_factory::load( islot_gun &slot, JsonObject &jo )
     slot.pierce = jo.get_int( "pierce", 0 );
     slot.ammo_effects = jo.get_tags( "ammo_effects" );
     slot.ups_charges = jo.get_int( "ups_charges", 0 );
+
+    slot.barrel_length = jo.get_int( "barrel_length", 0 );
+    if( slot.barrel_length < 0 ) {
+        jo.throw_error( "gun barrel length cannot be negative", "barrel_length" );
+    }
 
     if( jo.has_array( "valid_mod_locations" ) ) {
         JsonArray jarr = jo.get_array( "valid_mod_locations" );

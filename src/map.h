@@ -687,10 +687,15 @@ void draw_square_furn(furn_id type, int x1, int y1, int x2, int y2);
 void draw_square_furn(std::string type, int x1, int y1, int x2, int y2);
 void draw_square_ter(ter_id (*f)(), int x1, int y1, int x2, int y2);
 void draw_square_ter(const id_or_id<ter_t> & f, int x1, int y1, int x2, int y2);
-void draw_rough_circle(ter_id type, int x, int y, int rad);
-void draw_rough_circle(std::string type, int x, int y, int rad);
+void draw_rough_circle_ter(ter_id type, int x, int y, int rad);
+void draw_rough_circle_ter(std::string type, int x, int y, int rad);
 void draw_rough_circle_furn(furn_id type, int x, int y, int rad);
 void draw_rough_circle_furn(std::string type, int x, int y, int rad);
+void draw_circle_ter(ter_id type, double x, double y, double rad);
+void draw_circle_ter(ter_id type, int x, int y, int rad);
+void draw_circle_ter(std::string type, int x, int y, int rad);
+void draw_circle_furn(furn_id type, int x, int y, int rad);
+void draw_circle_furn(std::string type, int x, int y, int rad);
 
 void add_corpse( const tripoint &p );
 
@@ -1177,7 +1182,7 @@ protected:
         void copy_grid( const tripoint &to, const tripoint &from );
  void draw_map(const oter_id terrain_type, const oter_id t_north, const oter_id t_east,
                 const oter_id t_south, const oter_id t_west, const oter_id t_neast,
-                const oter_id t_seast, const oter_id t_nwest, const oter_id t_swest,
+                const oter_id t_seast, const oter_id t_swest, const oter_id t_nwest,
                 const oter_id t_above, const int turn, const float density,
                 const int zlevel, const regional_settings * rsettings);
 

@@ -22,6 +22,10 @@ Character::Character()
     dex_cur = 0;
     per_cur = 0;
     int_cur = 0;
+    str_bonus = 0;
+    dex_bonus = 0;
+    per_bonus = 0;
+    int_bonus = 0;
     healthy = 0;
     healthy_mod = 0;
     hunger = 0;
@@ -447,6 +451,39 @@ bool Character::has_active_bionic(const std::string & b) const
         }
     }
     return false;
+}
+
+VisitResponse Character::visit_items( const std::function<VisitResponse( item& )>& func )
+{
+    if( !weapon.is_null() && weapon.visit( func ) == VisitResponse::ABORT ) {
+        return VisitResponse::ABORT;
+    }
+
+    for( auto& e : worn ) {
+        if( e.visit( func ) == VisitResponse::ABORT ) {
+            return VisitResponse::ABORT;
+        }
+    }
+
+    return inv.visit_items( func );
+}
+
+VisitResponse Character::visit_items( const std::function<VisitResponse( const item& )>& func ) const
+{
+    return const_cast<Character *>( this )->visit_items( static_cast<const std::function<VisitResponse(item&)>&>( func ) );
+}
+
+bool Character::has_item_with( const std::function<bool(const item&)>& filter ) const
+{
+    bool found = false;
+    visit_items( [&found, &filter]( const item& it ) {
+        if( filter( it ) ) {
+            found = true;
+            return VisitResponse::ABORT;
+        }
+        return VisitResponse::NEXT;
+    });
+    return found;
 }
 
 item& Character::i_add(item it)

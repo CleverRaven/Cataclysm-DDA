@@ -121,9 +121,9 @@ int fold_and_print(WINDOW *w, int begin_y, int begin_x, int width, nc_color base
     return fold_and_print(w, begin_y, begin_x, width, base_color, text);
 }
 
-void print_colored_text( WINDOW *w, int x, int y, nc_color &color, nc_color base_color, const std::string &text )
+void print_colored_text( WINDOW *w, int y, int x, nc_color &color, nc_color base_color, const std::string &text )
 {
-    wmove( w, x, y );
+    wmove( w, y, x );
     const auto color_segments = split_by_color( text );
     for( auto seg : color_segments ) {
         if( seg.empty() ) {
@@ -1258,7 +1258,6 @@ int draw_item_info(WINDOW *win, const std::string sItemName, const std::string s
     }
     buffer << " \n"; //This space is required, otherwise it won't make an empty line.
 
-    int selected_ret = '\n';
     buffer << format_item_info( vItemDisplay, vItemCompare );
 
     const auto b = use_full_win ? 0 : (without_border ? 1 : 2);
@@ -1302,8 +1301,8 @@ int draw_item_info(WINDOW *win, const std::string sItemName, const std::string s
         } else if( handle_scrolling && ch == KEY_NPAGE ) {
             selected++;
             werase(win);
-        } else if( selected > 0 && ( ch == '\n' || ch == KEY_RIGHT ) && selected_ret != 0 ) {
-            ch = selected_ret;
+        } else if( selected > 0 && ( ch == '\n' || ch == KEY_RIGHT ) ) {
+            ch = '\n';
             break;
         } else if( selected == KEY_LEFT ) {
             ch = (int)' ';
@@ -1365,6 +1364,12 @@ long special_symbol (long sym)
     default:
         return sym;
     }
+}
+
+std::string trim( const std::string &s )
+{
+   auto wsfront = std::find_if_not( s.begin(), s.end(), []( int c ) { return std::isspace( c ); });
+   return std::string( wsfront, std::find_if_not( s.rbegin(), std::string::const_reverse_iterator( wsfront ), []( int c ){ return std::isspace( c ); }).base());
 }
 
 // find the position of each non-printing tag in a string

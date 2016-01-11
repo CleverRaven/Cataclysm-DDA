@@ -1968,6 +1968,7 @@
   "time": 5000,
   "reversible": false,
   "autolearn": true,
+  "flags": ["BLIND_HARD"],
   "components": [
     [
       [ "paper", 5 ]

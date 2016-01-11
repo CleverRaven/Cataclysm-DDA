@@ -361,6 +361,7 @@
       ["pan", 25],
       ["waffleiron", 25],
       ["pastaextruder", 10],
+      ["can_sealer", 5],
       ["knife_butter", 90],
       ["knife_steak", 85],
       ["fork", 90],
@@ -709,7 +710,7 @@
       ["protein_shake", 10],
       ["fries", 8],
       ["cheese_fries", 6],
-      ["onion_rings", 8]
+      ["onion_rings", 8]  
     ]
   },{
     "type" : "item_group",
@@ -1296,7 +1297,7 @@
       ["protein_shake", 10],
       ["pie", 20],
       ["pie_veggy", 18],
-      ["pie_meat", 18]
+      ["pie_meat", 18]	  
     ]
   },{
     "type" : "item_group",
@@ -1570,6 +1571,7 @@
       ["caffeine", 25],
       ["pills_sleep", 15],
       ["iodine", 5],
+      ["prussian_blue", 5],
       ["dayquil", 70],
       ["nyquil", 70],
       ["disinfectant", 35],
@@ -2360,6 +2362,7 @@
       ["pan", 20],
       ["waffleiron", 25],
       ["pastaextruder", 10],
+      ["can_sealer", 5],
       ["binoculars", 20],
       ["roller_blades", 20],
       ["rollerskates", 10],
@@ -2528,7 +2531,7 @@
       ["belgian_ale", 10],
       ["imperial_stout", 4],
       ["single_malt_whiskey", 2],
-      ["survnote", 1]
+      ["survnote", 1]  
     ]
   },{
     "type" : "item_group",
@@ -2552,6 +2555,7 @@
     "items":[
       ["plastic_shopping_bag", 35],
       ["iodine", 5],
+      ["prussian_blue", 5],
       ["bum_wine", 5],
       ["meth", 2],
       ["heroin", 1],
@@ -2666,7 +2670,6 @@
       ["recoil_stock", 12],
       ["pistol_stock", 12],
       ["barrel_big", 10],
-      ["barrel_small", 6],
       ["barrel_rifled", 5],
       ["barrel_ported", 5],
       ["muzzle_brake", 2],
@@ -2734,6 +2737,146 @@
       ["survnote", 1],
       ["shoulder_strap", 24]
     ]
+<<<<<<< HEAD
+=======
+  },{
+    "type" : "item_group",
+    "id" : "gunsmith_tools",
+    "items":[
+      ["polisher", 40],
+      ["glasses_safety", 60],
+      ["screwdriver",70],
+      ["screwdriver_set", 60],
+      ["hammer",70],
+      ["boltcutters",50],
+      ["crucible",40],
+      ["pot",50],
+      ["anvil",50],
+      ["tongs",50],
+      ["swage",50],
+      ["hacksaw",40],
+      ["welder",40],
+      ["goggles_welding",60],
+      ["wrench",70],
+      ["pliers", 50],
+      ["extinguisher",90],
+      ["puller",90],
+      ["press",90],
+      ["chemistry_set",30],
+      ["hotplate",50],
+      ["small_repairkit", 20],
+      ["large_repairkit", 50],
+      ["forge",30]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "gunsmith_mat",
+    "items":[
+      ["rag",30],
+      ["plastic_chunk",60],
+      ["scrap",90],
+      ["steel_chunk",60],
+      ["steel_lump",20],
+      ["cable",60],
+      ["duct_tape",60],
+      ["pipe",70],
+      ["2x4",90],
+      ["spring",70],
+      ["string_6",10],
+      ["string_36",40],
+      ["superglue",40],
+      ["scrap_copper",40],
+      ["battery",30],
+      ["nail",40]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "gunsmith_hazmat",
+    "items":[
+      ["gunpowder",80],
+      ["oxy_powder",60],
+      ["lead",90],
+      ["incendiary",30],
+      ["battery",70],
+      ["sugar",60],
+      ["charcoal",70],
+      ["ammonia",50],
+      ["bleach",50],
+      ["lye_powder",30],
+      ["shotgun_primer", 30],
+      ["smpistol_primer", 40],
+      ["lgpistol_primer", 40],
+      ["smrifle_primer", 20],
+      ["lgrifle_primer", 20]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "gunsmith_gunparts",
+    "items":[
+      ["bayonet", 20],
+      ["pistol_bayonet", 10],
+      ["sword_bayonet", 5],
+      ["suppressor", 15],
+      ["shot_suppressor", 1],
+      ["grip", 24],
+      ["pistol_grip", 24],
+      ["adjustable_stock", 24],
+      ["folding_stock", 24],
+      ["light_grip", 18],
+      ["pistol_stock", 12],
+      ["barrel_big", 20],
+      ["barrel_rifled", 10],
+      ["barrel_ported", 10],
+      ["muzzle_brake", 5],
+      ["conversion_battle", 1],
+      ["conversion_sniper", 1],
+      ["mn_ebr_kit", 1],
+      ["clip", 16],
+      ["spare_mag", 30],
+      ["clip2", 8],
+      ["stabilizer", 4],
+      ["blowback", 3],
+      ["autofire", 2],
+      ["retool_45", 5],
+      ["retool_9mm", 5],
+      ["retool_22", 5],
+      ["retool_57", 5],
+      ["retool_46", 5],
+      ["retool_308", 5],
+      ["retool_223", 5],
+      ["brass_catcher", 30],
+      ["laser_sight", 15],
+      ["red_dot_sight", 18],
+      ["holo_sight", 20],
+      ["rifle_scope", 18],
+      ["pistol_scope", 12],
+      ["waterproof_gunmod", 8],
+      ["tuned_mechanism", 10],
+      ["match_trigger", 15],
+      ["recoil_stock", 15],
+      ["improve_sights", 40]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "gunsmith_casings",
+    "items":[
+      ["22_casing", 24],
+      ["shot_hull", 12],
+      ["9mm_casing", 18],
+      ["38_casing", 10],
+      ["40_casing", 12],
+      ["44_casing", 10],
+      ["45_casing", 18],
+      ["454_casing", 3],
+      ["500_casing", 3],
+      ["57mm_casing", 12],
+      ["46mm_casing", 12],
+      ["762_casing", 10],
+      ["223_casing", 10],
+      ["3006_casing", 10],
+      ["308_casing", 10]
+    ]
+>>>>>>> 43522fd8b400753cf1d379696cf5d27b0e08bda1
  },{
     "type" : "item_group",
     "id" : "shoes",
@@ -3954,6 +4097,7 @@
     "items":[
       ["blood", 20],
       ["iodine", 5],
+      ["prussian_blue", 5],
       ["bleach", 20],
       ["bandages", 50],
       ["cotton_ball", 50],
@@ -4116,6 +4260,7 @@
     "items":[
       ["blood", 20],
       ["iodine", 5],
+      ["prussian_blue", 5],
       ["bandages", 50],
       ["cotton_ball", 50],
       ["scalpel", 48],
@@ -4727,6 +4872,7 @@
       ["microwave", 5],
       ["multi_cooker", 1],
       ["pastaextruder", 8],
+      ["can_sealer", 5],
       ["knuckle_brass", 15],
       ["gold", 10],
       ["silver", 20],
@@ -5168,6 +5314,7 @@
       ["vitamins", 75],
       ["gummy_vitamins", 25],
       ["iodine", 5],
+      ["prussian_blue", 5],
       ["dayquil", 70],
       ["screwdriver", 40],
       ["screwdriver_set", 10],
@@ -5343,6 +5490,7 @@
     "id" : "chem_school",
     "items":[
       ["iodine", 5],
+      ["prussian_blue", 5],
       ["pocket_firstaid", 2],
       ["file", 5],
       ["textbook_chemistry", 10],
@@ -5388,6 +5536,7 @@
     "id" : "chem_home",
     "items":[
       ["iodine", 5],
+      ["prussian_blue", 5],
       ["textbook_chemistry", 8],
       ["brewing_cookbook", 4],
       ["adv_chemistry", 6],
@@ -5427,6 +5576,7 @@
     "id" : "chem_lab",
     "items":[
       ["iodine", 5],
+      ["prussian_blue", 5],
       ["adv_chemistry", 4],
       ["decoy_elfa", 6],
       ["file", 10],
@@ -5570,6 +5720,7 @@
     "id" : "dissection",
     "items":[
       ["iodine", 5],
+      ["prussian_blue", 5],
       ["textbook_firstaid", 2],
       ["emergency_book", 1],
       ["recipe_creepy", 2],
@@ -5674,7 +5825,7 @@
       ["small_lcd_screen", 20],
       ["battery_compartment", 20],
       ["double_plutonium_core", 2],
-      ["rechargeable_battery", 15],
+      ["battery_ups", 15],
       ["cell_phone", 20],
       ["pda", 10],
       ["eink_tablet_pc", 8],
@@ -6627,6 +6778,7 @@
       ["disinfectant", 35],
       ["caffeine", 25],
       ["iodine", 5],
+      ["prussian_blue", 5],
       ["electrohack", 3],
       ["string_36", 40],
       ["dump_pouch", 10],
@@ -6911,6 +7063,7 @@
     "items":[
       ["1st_aid", 35],
       ["iodine", 5],
+      ["prussian_blue", 5],
       ["canister_empty", 5],
       ["boots_steel", 50],
       ["wrapped_rad_badge", 15],
@@ -7162,6 +7315,7 @@
       ["toolbox", 1],
       ["pur_tablets", 10],
       ["pastaextruder", 10],
+      ["can_sealer", 10],
       ["remotevehcontrol", 8]
     ]
   },{
@@ -7484,6 +7638,7 @@
       ["1st_aid", 35],
       ["saline", 15],
       ["iodine", 5],
+      ["prussian_blue", 5],
       ["neccowafers", 5],
       ["codeine", 15],
       ["adrenaline_injector", 4],
@@ -7700,6 +7855,7 @@
       ["mutagen", 8],
       ["purifier", 12],
       ["iodine", 5],
+      ["prussian_blue", 5],
       ["inhaler", 14],
       ["eyedrops", 20],
       ["adderall", 10],
@@ -8396,6 +8552,7 @@
       ["oxygen_tank", 10],
       ["smoxygen_tank", 15],
       ["adv_UPS_off", 2],
+      ["prussian_blue", 25],
       ["iodine", 50]
     ]
   },{

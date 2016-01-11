@@ -25,6 +25,12 @@
 - ```CC_ARMOR```
 - ```CC_MISC```
 
+### Flags
+
+- ```BLIND_EASY``` Easy to craft with little to no light
+- ```BLIND_HARD``` Possible to craft with little to no light, but difficult
+- ```UNCRAFT_SINGLE_CHARGE``` Lists returned amounts for one charge of an item that is counted by charges.
+
 ## Furniture & Terrain
 List of known flags, used in both terrain.json and furniture.json
 

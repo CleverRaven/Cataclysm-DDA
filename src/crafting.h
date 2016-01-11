@@ -69,6 +69,8 @@ struct recipe {
         bool hidden;
     };
     std::vector<bookdata_t> booksets;
+    std::set<std::string> flags;
+
 
     //Create a string list to describe the skill requirements fir this recipe
     // Format: skill_name(amount), skill_name(amount)
@@ -99,6 +101,8 @@ struct recipe {
                    int batch = 1) const;
 
     int batch_time(int batch = 1) const;
+
+    bool has_flag(const std::string &flag_name) const;
 
 };
 

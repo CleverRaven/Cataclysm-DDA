@@ -9,6 +9,7 @@
   "time": 1000,
   "reversible": false,
   "autolearn": true,
+  "flags": ["BLIND_HARD"],
   "components": [
     [
       [ "water_clean", 1 ],
@@ -189,6 +190,7 @@
   "time": 2000,
   "reversible": false,
   "autolearn": true,
+  "flags": ["BLIND_HARD"],
   "components": [
     [
       [ "rolling_paper", 1 ]
@@ -209,6 +211,7 @@
   "time": 2000,
   "reversible": false,
   "autolearn": true,
+  "flags": ["BLIND_HARD"],
   "components": [
     [
       [ "rolling_paper", 1 ]
@@ -2109,6 +2112,46 @@
     ],
     [
       [ "aspirin", 10 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "prussian_blue",
+  "category": "CC_CHEM",
+  "subcategory": "CSC_CHEM_CHEMICALS",
+  "skill_used": "cooking",
+  "skills_required": [ "firstaid", 1 ],
+  "difficulty": 7,
+  "time": 36000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [["adv_chemistry", 6] , ["textbook_chemistry", 7] , ["recipe_labchem", 6] , ["atomic_survival", 5]],
+  "qualities":[
+    {"id":"CHEM","level":2,"amount":1},
+    {"id":"CONTAIN","level":1,"amount":1}
+  ], "tools": [
+    [
+      [ "char_smoker", 3 ],
+      [ "hotplate", 25 ],
+      [ "toolset", 25 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "material_quicklime", 1 ]
+    ],
+    [
+      [ "scrap", 1 ]
+    ],
+    [
+      [ "ammonia", 1 ]
+    ],
+    [
+      [ "charcoal", 1 ]
+    ],
+    [
+      [ "lye_powder", 5 ]
     ]
   ]
 },{

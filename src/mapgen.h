@@ -309,6 +309,9 @@ void square(map *m, ter_id (*f)(), int x1, int y1, int x2, int y2);
 void square_furn(map *m, furn_id type, int x1, int y1, int x2, int y2);
 void rough_circle(map *m, ter_id type, int x, int y, int rad);
 void rough_circle_furn(map *m, furn_id type, int x, int y, int rad);
+void circle(map *m, ter_id type, double x, double y, double rad);
+void circle(map *m, ter_id type, int x, int y, int rad);
+void circle_furn(map *m, furn_id type, int x, int y, int rad);
 void add_corpse(map *m, int x, int y);
 
 typedef void (*map_special_pointer)(map &m, const tripoint &abs_sub);

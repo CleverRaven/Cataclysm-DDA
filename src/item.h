@@ -14,6 +14,7 @@
 #include "bodypart.h"
 #include "string_id.h"
 #include "line.h"
+#include "item_location.h"
 
 class game;
 class Character;
@@ -76,6 +77,12 @@ enum layer_level {
     OUTER_LAYER,
     BELTED_LAYER,
     MAX_CLOTHING_LAYER
+};
+
+enum class VisitResponse {
+    ABORT, // Stop processing after this node
+    NEXT,  // Descend vertically to any child nodes and then horizontally to next sibling
+    SKIP   // Skip any child nodes and move directly to the next sibling
 };
 
 class item_category
@@ -201,16 +208,18 @@ public:
  const item_category &get_category() const;
 
     /**
-     * @param u The player whose inventory is used to search for suitable ammo.
-     * @param interactive Whether to show a dialog to select the ammo, if false it will select
-     * the first suitable ammo.
-     * @retval INT_MIN+2 to indicate the user canceled the menu
-     * @retval INT_MIN+1 to indicate reload from spare magazine
-     * @retval INT_MIN to indicate no suitable ammo found.
-     * @retval other the item position (@ref player::i_at) in the players inventory.
+     * Select suitable ammo with which to reload the item
+     * @param u player inventory to search for suitable ammo.
+     * @param interactive if true prompt to select ammo otherwise select first suitable ammo
      */
-    int pick_reload_ammo( const player &u, bool interactive );
- bool reload(player &u, int pos);
+    item_location pick_reload_ammo( player &u, bool interactive ) const;
+
+    /** Reload item using ammo from inventory position returning true if sucessful */
+    bool reload( player &u, int pos );
+
+    /** Reload item using ammo from location returning true if sucessful */
+    bool reload( player &u, item_location loc );
+
     skill_id skill() const;
 
     template<typename Archive>
@@ -667,6 +676,16 @@ public:
  itype_id typeId() const;
  const itype* type;
  std::vector<item> contents;
+
+        /** Traverses this item and any child items contained using a visitor pattern
+         * @pram func visitor function called for each node which controls whether traversal continues.
+         * Typically a lambda making use of captured state it should return VisitResponse::Next to
+         * recursively process child items, VisitResponse::Skip to ignore children of the current node
+         * or VisitResponse::Abort to skip further processing of any nodes.
+         * @return This method itself only ever returns VisitResponse::Next or VisitResponse::Abort.
+         */
+        VisitResponse visit( const std::function<VisitResponse(item&)>& func );
+        VisitResponse visit( const std::function<VisitResponse(const item&)>& func ) const;
 
         /** Checks if item is a holster and currently capable of storing obj */
         bool can_holster ( const item& obj ) const;

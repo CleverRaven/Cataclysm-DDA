@@ -688,26 +688,33 @@ void cata_tiles::load_tilejson_from_file( JsonObject &config, int offset, int si
     while( tiles.has_more() ) {
         JsonObject entry = tiles.next_object();
 
-        std::string t_id = entry.get_string( "id" );
-        tile_type &curr_tile = load_tile( entry, t_id, offset, size );
-        bool t_multi = entry.get_bool( "multitile", false );
-        bool t_rota = entry.get_bool( "rotates", t_multi );
-        if( t_multi ) {
-            // fetch additional tiles
-            JsonArray subentries = entry.get_array( "additional_tiles" );
-            while( subentries.has_more() ) {
-                JsonObject subentry = subentries.next_object();
-                const std::string s_id = subentry.get_string( "id" );
-                const std::string m_id = t_id + "_" + s_id;
-                tile_type &curr_subtile = load_tile( subentry, m_id, offset, size );
-                curr_subtile.rotates = true;
-                curr_tile.available_subtiles.push_back( s_id );
+        std::vector<std::string> ids;
+        if( entry.has_string( "id" ) ) {
+            ids.push_back( entry.get_string( "id" ) );
+        } else if( entry.has_array( "id" ) ) {
+            ids = entry.get_string_array( "id" );
+        }
+        for( auto t_id : ids ) {
+            tile_type &curr_tile = load_tile( entry, t_id, offset, size );
+            bool t_multi = entry.get_bool( "multitile", false );
+            bool t_rota = entry.get_bool( "rotates", t_multi );
+            if( t_multi ) {
+                // fetch additional tiles
+                JsonArray subentries = entry.get_array( "additional_tiles" );
+                while( subentries.has_more() ) {
+                    JsonObject subentry = subentries.next_object();
+                    const std::string s_id = subentry.get_string( "id" );
+                    const std::string m_id = t_id + "_" + s_id;
+                    tile_type &curr_subtile = load_tile( subentry, m_id, offset, size );
+                    curr_subtile.rotates = true;
+                    curr_tile.available_subtiles.push_back( s_id );
+                }
             }
+            // write the information of the base tile to curr_tile
+            curr_tile.multitile = t_multi;
+            curr_tile.rotates = t_rota;
         }
 
-        // write the information of the base tile to curr_tile
-        curr_tile.multitile = t_multi;
-        curr_tile.rotates = t_rota;
     }
     dbg( D_INFO ) << "Tile Width: " << tile_width << " Tile Height: " << tile_height <<
                   " Tile Definitions: " << tile_ids.size();
@@ -838,6 +845,10 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
         //set clipping to prevent drawing over stuff we shouldn't
         SDL_Rect clipRect = {destx, desty, width, height};
         SDL_RenderSetClipRect(renderer, &clipRect);
+
+        //fill render area with black to prevent artifacts where no new pixels are drawn
+        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+        SDL_RenderFillRect(renderer, &clipRect);
     }
 
     int posx = center.x;
@@ -1284,7 +1295,7 @@ bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
     unsigned int seed = 0;
     // FUTURE TODO rework Z value if multiple z levels are being drawn
     // z level is currently always focused on player location
-    int z_coord = g->u.pos().z;
+    const tripoint p( x, y, g->u.pos().z );
     // TODO determine ways other than category to differentiate more types of sprites
     switch( category ) {
         case C_TERRAIN:
@@ -1299,7 +1310,7 @@ bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
         {
             // new scope for variable declarations
             int partid;
-            vehicle *veh = g->m.veh_at( tripoint( x, y, z_coord ), partid );
+            vehicle *veh = g->m.veh_at( p, partid );
             vehicle_part &part = veh->parts[partid];
             seed = part.mount.x + part.mount.y * 65536;
         }
@@ -1314,11 +1325,24 @@ bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
             // TODO come up with ways to make random sprites consistent for these types
             break;
         case C_MONSTER:
-            // monsters (and player?), seed with index into monster list
-            // TODO detect player character, seed on name?
-            // FIXME add persistent id to Creature ttripoint(x,y,z_coord)ype, instead of using monster list index
-            seed = g->mon_at( tripoint( x, y, z_coord ) );
+            // monsters, seed with index into monster list
+            // FIXME add persistent id to Creature type, instead of using monster list index
+            seed = g->mon_at( p );
             break;
+        default:
+            // player
+            if( id.substr(7) == "player_" ) {
+                seed = g->u.name[0];
+                break;
+            }
+            // NPC
+            if( id.substr(4) == "npc_" ) {
+                const int nindex = g->npc_at( p );
+                if( nindex != -1 ) {
+                    seed = nindex;
+                    break;
+                }
+            }
     }
 
     unsigned int loc_rand = 0;
@@ -2262,7 +2286,10 @@ void cata_tiles::do_tile_loading_report() {
     tile_loading_report(furnmap, "Furniture", "");
     //TODO: exclude fake items from Item_factory::init_old()
     tile_loading_report(item_controller->get_all_itypes(), "Items", "");
-    tile_loading_report(MonsterGenerator::generator().get_all_mtypes(), "Monsters", "");
+    auto mtypes = MonsterGenerator::generator().get_all_mtypes();
+    lr_generic( mtypes.begin(), mtypes.end(), []( std::vector<const mtype *>::iterator m ) {
+        return ( *m )->id.str();
+    }, "Monsters", "" );
     tile_loading_report<vpart_info>(vpart_info::get_all().size(), "Vehicle Parts", "vp_");
     tile_loading_report<trap>(trap::count(), "Traps", "");
     tile_loading_report(fieldlist, num_fields, "Fields", "");

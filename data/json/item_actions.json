@@ -139,6 +139,10 @@
         "type" : "item_action",
         "id" : "holster",
         "name" : "Use holster"
+    },{
+        "type" : "item_action",
+        "id" : "SAW_BARREL",
+        "name" : "Saw down barrel"
     }
 
 ]
