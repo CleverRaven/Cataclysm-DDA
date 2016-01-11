@@ -2737,8 +2737,6 @@
       ["survnote", 1],
       ["shoulder_strap", 24]
     ]
-<<<<<<< HEAD
-=======
   },{
     "type" : "item_group",
     "id" : "gunsmith_tools",
