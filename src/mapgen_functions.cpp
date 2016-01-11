@@ -1227,8 +1227,12 @@ void mapgen_road( map *m, oter_id terrain_type, mapgendata dat, int turn, float 
         // draw yellow dots on the pavement
         for( int dir = 0; dir < 4; dir++ ) {
             if( roads_nesw[dir] ) {
+                int max_y = SEEY;
+                if ( num_dirs == 4 || ( num_dirs == 3 && dir == 0 ) ) {                    
+                    max_y = 4; // dots don't extend into some intersections
+                }
                 for( int x = SEEX - 1; x <= SEEX; x++ ) {
-                    for( int y = 0; y < SEEY; y++ ) {
+                    for( int y = 0; y < max_y; y++ ) {
                         if( ( y + ( ( dir + rot ) / 2 ) ) % 4 ) {
                             int xn = x, yn = y;
                             coord_rotate_cw( xn, yn, dir );
