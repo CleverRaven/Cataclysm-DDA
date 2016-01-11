@@ -2288,6 +2288,13 @@ int item::weight() const
         }
     }
 
+    // reduce weight for sawn-off weepons capped to the apportioned weight of the barrel
+    if( has_gunmod( "barrel_small" ) != -1 ) {
+        float b = type->gun->barrel_length;
+        ret -= std::min( b * 250, b / type->volume * type->weight );
+    }
+
+
 // tool mods also add about a pound of weight
     if (has_flag("ATOMIC_AMMO")) {
         ret += 250;
