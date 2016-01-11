@@ -1200,7 +1200,7 @@ void mapgen_road( map *m, oter_id terrain_type, mapgendata dat, int turn, float 
         }
 
         //draw dead end sidewalk
-        if( ( dead_end_extension > 0 ) && ( neighbor_sidewalks > 0 ) ) {
+        if( dead_end_extension > 0 && sidewalks_neswx[ 2 ] ) {
             square( m, t_sidewalk, 0, SEEY + dead_end_extension, SEEX * 2 - 1, SEEY + dead_end_extension + 4 );
         }
 
