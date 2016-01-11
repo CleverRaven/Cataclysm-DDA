@@ -631,6 +631,7 @@ public:
  bool is_food_container() const;      // Ignoring the ability to eat batteries, etc.
  bool is_ammo_container() const;
  bool is_bionic() const;
+ bool is_magazine() const;
  bool is_ammo() const;
  bool is_armor() const;
  bool is_book() const;
