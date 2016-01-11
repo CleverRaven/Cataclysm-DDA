@@ -252,7 +252,6 @@ Flags used to describe monsters and define their properties and abilities.
 - ```CBM_CIV``` May produce a common cbm or two when butchered.
 - ```BONES``` May produce bones and sinews when butchered.
 - ```IMMOBILE``` Doesn't move (e.g. turrets)
-- ```FRIENDLY_SPECIAL``` Use our special attack, even if friendly.
 - ```HIT_AND_RUN``` Flee for several turns after a melee attack.
 - ```GUILT``` You feel guilty for killing it.
 - ```HUMAN``` It's a live human, as long as it's alive.
