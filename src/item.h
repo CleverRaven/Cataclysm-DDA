@@ -697,11 +697,6 @@ public:
          */
         const itype* get_curammo() const;
         /**
-         * Returns the item type id of the currently loaded ammo.
-         * Returns "null" if the item is not loaded.
-         */
-        itype_id get_curammo_id() const;
-        /**
          * Whether the item is currently loaded (which implies it has some non-null pointer
          * as @ref curammo).
          */

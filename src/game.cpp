@@ -10368,7 +10368,7 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
             return false;
         }
 
-        if (cont->charges > 0 && cont->has_curammo() && cont->get_curammo_id() != liquid.typeId()) {
+        if (cont->charges > 0 && cont->has_curammo() && cont->ammo_current() != liquid.typeId()) {
             add_msg(m_info, _("You can't mix loads in your %s."), cont->tname().c_str());
             return false;
         }
@@ -10454,7 +10454,7 @@ int game::move_liquid(item &liquid)
                 return -1;
             }
 
-            if (cont->charges > 0 && cont->has_curammo() && cont->get_curammo_id() != liquid.typeId()) {
+            if (cont->charges > 0 && cont->has_curammo() && cont->ammo_current() != liquid.typeId()) {
                 add_msg(m_info, _("You can't mix loads in your %s."), cont->tname().c_str());
                 return -1;
             }
@@ -11434,7 +11434,7 @@ void game::unload( item &it )
 
     // @todo deprecate handling of spare magazine as special case
     if( target->typeId() == "spare_mag" && target->charges > 0 ) {
-        item ammo( it.get_curammo_id(), calendar::turn );
+        item ammo( it.ammo_current(), calendar::turn );
         ammo.charges = it.charges;
         if( add_or_drop_with_msg( u, ammo ) ) {
             target->charges = 0;
@@ -11482,7 +11482,7 @@ void game::unload( item &it )
     }
 
     // Construct a new ammo item and try to drop it
-    item ammo( target->has_curammo() ? target->get_curammo_id() :
+    item ammo( target->has_curammo() ? target->ammo_current() :
                default_ammo( target->ammo_type() ), calendar::turn );
     ammo.charges = qty;
 

@@ -11721,7 +11721,7 @@ void player::remove_gunmod(item *weapon, unsigned id)
     item ammo;
     if (gunmod->charges > 0) {
         if( gunmod->has_curammo() ) {
-            ammo = item( gunmod->get_curammo_id(), calendar::turn );
+            ammo = item( gunmod->ammo_current(), calendar::turn );
         } else {
             ammo = item(default_ammo(weapon->ammo_type()), calendar::turn);
         }
@@ -11743,7 +11743,7 @@ void player::remove_gunmod(item *weapon, unsigned id)
     weapon->contents.erase(weapon->contents.begin()+id);
     // gunmod removal decreased the gun's clip_size, move ammo to inventory
     if ( weapon->clip_size() < weapon->charges ) {
-        ammo = item( weapon->get_curammo_id(), calendar::turn );
+        ammo = item( weapon->ammo_current(), calendar::turn );
         ammo.charges = weapon->charges - weapon->clip_size();
         weapon->charges = weapon->clip_size();
         i_add_or_drop(ammo);

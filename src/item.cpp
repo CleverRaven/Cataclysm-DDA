@@ -2220,7 +2220,7 @@ int item::price() const
 
     // tools, guns and auxiliary gunmods may contain ammunition which can affect the price
     if( ammo_remaining() > 0 && has_curammo() ) {
-        item tmp( get_curammo_id(), 0 );
+        item tmp( ammo_current(), 0 );
         tmp.charges = charges;
         ret += tmp.price();
     }
@@ -4053,7 +4053,7 @@ item_location item::pick_reload_ammo( player &u, bool interactive ) const
         }
         if( contents[spare].charges < ammo_remaining() ) {
             if( contents[spare].charges > 0 || ammo_remaining() > 0 ) {
-                item_types.insert( get_curammo_id() ); // gun or spare mag partially loaded
+                item_types.insert( ammo_current() ); // gun or spare mag partially loaded
             } else {
                 ammo_types.insert( ammo_type() ); // neither loaded
             }
@@ -4064,7 +4064,7 @@ item_location item::pick_reload_ammo( player &u, bool interactive ) const
     auto wants_ammo = [&ammo_types,&item_types](const item& it) {
         if( it.ammo_remaining() < it.ammo_capacity() && !it.has_flag( "NO_RELOAD" ) ) {
             if( it.ammo_remaining() > 0 ) {
-                item_types.insert( it.get_curammo_id() ); // partially loaded
+                item_types.insert( it.ammo_current() ); // partially loaded
             } else {
                 ammo_types.insert( it.ammo_type() ); // not loaded
             }
@@ -4185,7 +4185,7 @@ bool item::reload( player &u, item_location loc )
     item *spare_mag = has_gunmod("spare_mag") >= 0 ? &contents[has_gunmod("spare_mag")] : nullptr;
     if( spare_mag && spare_mag->charges > 0 && ammo_remaining() <= 0 ) {
         charges = spare_mag->charges;
-        set_curammo( spare_mag->get_curammo_id() );
+        set_curammo( spare_mag->ammo_current() );
         spare_mag->charges = 0;
         spare_mag->unset_curammo();
         return true;
@@ -4233,7 +4233,7 @@ bool item::reload( player &u, item_location loc )
             if( e != nullptr ) {
                 // @todo deprecate handling of spare magazines as a special case
                 if( e == spare_mag && ammo_type() == ammo->ammo_type() &&
-                    (!e->charges || e->get_curammo_id() == ammo->typeId()) &&
+                    (!e->charges || e->ammo_current() == ammo->typeId()) &&
                     e->charges < ammo_capacity() ) {
 
                     qty = has_flag("RELOAD_ONE") ? 1 : ammo_capacity() - e->charges;
@@ -4241,7 +4241,7 @@ bool item::reload( player &u, item_location loc )
                     break;
                 } // handle everything else (gun and auxiliary gunmods)
                 if( e->ammo_type() == ammo->ammo_type() &&
-                    (!e->ammo_remaining() || e->get_curammo_id() == ammo->typeId()) &&
+                    (!e->ammo_remaining() || e->ammo_current() == ammo->typeId()) &&
                     e->ammo_remaining() < e->ammo_capacity() ) {
                     qty = e->ammo_capacity() - e->ammo_remaining();
 
@@ -4462,7 +4462,7 @@ item::LIQUID_FILL_ERROR item::has_valid_capacity_for_liquid(const item &liquid) 
             return L_ERR_FULL;
         }
 
-        if (charges > 0 && has_curammo() && get_curammo_id() != liquid.type->id) {
+        if (charges > 0 && has_curammo() && ammo_current() != liquid.type->id) {
             return L_ERR_NO_MIX;
         }
     }
@@ -4875,14 +4875,6 @@ const itype *item::get_curammo() const
     return curammo;
 }
 
-itype_id item::get_curammo_id() const
-{
-    if( curammo == nullptr ) {
-        return "null";
-    }
-    return curammo->id;
-}
-
 bool item::has_curammo() const
 {
     return curammo != nullptr;
@@ -5266,7 +5258,7 @@ bool item::update_charger_gun_ammo()
     if( !is_charger_gun() ) {
         return false;
     }
-    if( get_curammo_id() != CHARGER_GUN_AMMO_ID ) {
+    if( ammo_current() != CHARGER_GUN_AMMO_ID ) {
         set_curammo( CHARGER_GUN_AMMO_ID );
     }
     auto tmpammo = get_curammo()->ammo.get();
