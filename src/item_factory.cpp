@@ -1172,7 +1172,6 @@ void Item_factory::load_basic_info(JsonObject &jo, itype *new_item_template)
                 flexible.push_back( "lowdensityplastic" );
                 flexible.push_back( "nomex" );
                 std::vector<std::string> materials_composed_of = new_item_template->materials;
-                bool bad_material = false;
                 bool found = false;
                 for (auto mat_id : materials_composed_of) {
                     for ( auto candidate_material : flexible ) {
