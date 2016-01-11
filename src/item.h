@@ -1078,6 +1078,8 @@ public:
         bool ammo_consume( int qty );
         /** Specific ammo data, returns nullptr if item is neither ammo nor loaded with any */
         const itype * ammo_data() const;
+        /** Specific ammo type, returns "null" if item is neither ammo nor loaded with any */
+        itype_id ammo_current() const;
         /**
          * The id of the ammo type (@ref ammunition_type) that can be used by this item.
          * Will return "NULL" if the item does not use a specific ammo type. Items without

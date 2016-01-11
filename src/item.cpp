@@ -3976,6 +3976,12 @@ const itype * item::ammo_data() const
     return curammo;
 }
 
+itype_id item::ammo_current() const
+{
+    const auto ammo = ammo_data();
+    return ammo ? ammo->id : "null";
+}
+
 ammotype item::ammo_type() const
 {
     if (is_gun()) {
