@@ -1179,18 +1179,18 @@ void mapgen_road( map *m, oter_id terrain_type, mapgendata dat, int turn, float 
         for( int dir = 0; dir < 4; dir++ ) {
             if( roads_nesw[dir] ) {
                 // sidewalk west of north road, etc
-                if( sidewalks_neswx[( dir - 1 + 4 ) % 4    ] || // has_sidewalk west?
-                    sidewalks_neswx[( dir - 1 + 4 ) % 4 + 4] || // has_sidewalk northwest?
-                    sidewalks_neswx[  dir ] ) {                 // has_sidewalk north?
+                if( sidewalks_neswx[ ( dir + 3 ) % 4     ] ||  // has_sidewalk west?
+                    sidewalks_neswx[ ( dir + 3 ) % 4 + 4 ] ||  // has_sidewalk northwest?
+                    sidewalks_neswx[   dir               ] ) { // has_sidewalk north?
                     int x1 = 0, y1 = 0, x2 = 3, y2 = SEEY - 1 + dead_end_extension;
                     coord_rotate_cw( x1, y1, dir );
                     coord_rotate_cw( x2, y2, dir );
                     square( m, t_sidewalk, x1, y1, x2, y2 );
                 }
                 // sidewalk east of north road, etc
-                if( sidewalks_neswx[( dir + 1 ) % 4  ]   || // has_sidewalk east?
-                    sidewalks_neswx[( dir + 1 ) % 4 + 4] || // has_sidewalk northeast?
-                    sidewalks_neswx[  dir ] ) {             // has_sidewalk north?
+                if( sidewalks_neswx[ ( dir + 1 ) % 4 ] ||  // has_sidewalk east?
+                    sidewalks_neswx[   dir + 4       ] ||  // has_sidewalk northeast?
+                    sidewalks_neswx[   dir           ] ) { // has_sidewalk north?
                     int x1 = SEEX * 2 - 5, y1 = 0, x2 = SEEX * 2 - 1, y2 = SEEY - 1 + dead_end_extension;
                     coord_rotate_cw( x1, y1, dir );
                     coord_rotate_cw( x2, y2, dir );
