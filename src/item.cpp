@@ -2048,6 +2048,8 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
         ret << label(quantity);
         ret << "+";
         maintext = ret.str();
+    } else if( is_magazine() ) {
+        maintext = label( quantity );
     } else if (contents.size() == 1) {
         if(contents[0].made_of(LIQUID)) {
             maintext = rmp_format(_("<item_name>%s of %s"), label(quantity).c_str(), contents[0].tname( quantity, with_prefix ).c_str());
@@ -3189,6 +3191,11 @@ bool item::is_bionic() const
     return type->bionic.get() != nullptr;
 }
 
+bool item::is_magazine() const
+{
+    return type->magazine.get() != nullptr;
+}
+
 bool item::is_ammo() const
 {
     return type->ammo.get() != nullptr;
@@ -3874,6 +3881,14 @@ long item::ammo_remaining() const
         return charges;
     }
 
+    if( is_magazine() ) {
+        long res = 0;
+        for( const auto& e : contents ) {
+            res += e.charges;
+        }
+        return res;
+    }
+
     return 0;
 }
 
@@ -3901,6 +3916,10 @@ long item::ammo_capacity() const
                 res += res * e.type->gunmod->clip / 100;
             }
         }
+    }
+
+    if( is_magazine() ) {
+        res = type->magazine->capacity;
     }
 
     if( has_flag("NO_AMMO") ) {
@@ -3983,6 +4002,8 @@ ammotype item::ammo_type() const
             return "plutonium";
         }
         return tool->ammo_id;
+    } else if (is_magazine()) {
+        return type->magazine->type;
     } else if (is_ammo()) {
         return type->ammo->type;
     } else if (is_gunmod()) {
