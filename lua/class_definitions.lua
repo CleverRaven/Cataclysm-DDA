@@ -614,7 +614,7 @@ classes = {
             { name = "sort_armor", rval = nil, args = { } },
             { name = "spores", rval = nil, args = { } },
             { name = "stability_roll", rval = "int", args = { } },
-            { name = "store", rval = nil, args = { "item", "item", "skill_id", "int" } },
+            { name = "store", rval = nil, args = { "item", "item", "int", "bool" } },
             { name = "studied_all_recipes", rval = "bool", args = { "itype" } },
             { name = "suffer", rval = nil, args = { } },
             { name = "swim_speed", rval = "int", args = { } },
