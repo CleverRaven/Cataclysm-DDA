@@ -911,7 +911,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                     destroyed = true;
                                     smoke += 2;
 
-                                } else if( fuel->made_of("plastic") && !fuel->made_of("nomex") ) {
+                                } else if(( fuel->made_of("plastic") || fuel->made_of("lowdensityplastic") ) && !fuel->made_of("nomex") ) {
                                     //Smokey material, doesn't fuel well.
                                     smoke += 3;
                                     if( fuel->burnt <= cur->getFieldDensity() * 2 ||

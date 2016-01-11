@@ -1303,7 +1303,7 @@ public:
  t_item_vector components;
 
  int quiver_store_arrow(item &arrow);
- int max_charges_from_flag(std::string flagName);
+ int max_charges_from_flag(std::string flagName) const;
  int get_gun_ups_drain() const;
 };
 

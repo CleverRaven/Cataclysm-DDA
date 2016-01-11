@@ -4309,7 +4309,7 @@ bool item::flammable() const
         return false;
     }
 
-    if( made_of("paper") || made_of("powder") || made_of("plastic") ) {
+    if( made_of("paper") || made_of("powder") || made_of("plastic") || made_of("lowdensityplastic") ) {
         return true;
     }
 
@@ -4747,9 +4747,9 @@ int item::quiver_store_arrow( item &arrow)
 //used to implement charges for items that aren't tools (e.g. quivers)
 //flagName arg is the flag's name before the underscore and integer on the end
 //e.g. for "QUIVER_20" flag, flagName = "QUIVER"
-int item::max_charges_from_flag(std::string flagName)
+int item::max_charges_from_flag(std::string flagName) const
 {
-    item* it = this;
+    const item* it = this;
     int maxCharges = 0;
 
     //loop through item's flags, looking for flag that matches flagName

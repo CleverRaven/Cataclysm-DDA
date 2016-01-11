@@ -968,6 +968,7 @@ void salvage_actor::load( JsonObject &obj )
         material_whitelist.push_back("nomex");
         material_whitelist.push_back("kevlar");
         material_whitelist.push_back("plastic");
+        material_whitelist.push_back("lowdensityplastic");
         material_whitelist.push_back("wood");
         material_whitelist.push_back("wool");
     }
@@ -1911,6 +1912,7 @@ const itype_id &material_component( const std::string &material_id )
         // Metals (welded)
         { "kevlar", "kevlar_plate" },
         { "plastic", "plastic_chunk" },
+        { "lowdensityplastic", "plastic_chunk" },
         { "iron", "scrap" },
         { "steel", "scrap" },
         { "hardsteel", "scrap" },
@@ -2101,7 +2103,7 @@ bool repair_item_actor::can_repair( player &pl, const item &tool, const item &fi
     if( !handle_components( pl, fix, print_msg, true ) ) {
         return false;
     }
-    
+
     if( fix.damage == 0 && fix.has_flag("PRIMITIVE_RANGED_WEAPON") ) {
         if( print_msg ) {
             pl.add_msg_if_player( m_info, _("You cannot improve your %s any more this way."), fix.tname().c_str());
@@ -2327,7 +2329,7 @@ long heal_actor::finish_using( player &healer, player &patient, item &it, hp_par
 {
     healer.practice( skill_firstaid, 8 );
     const int dam = get_heal_value( healer, healed );
-    
+
     if( (patient.hp_cur[healed] >= 1) && (dam > 0)) { // Prevent first-aid from mending limbs
         patient.heal(healed, dam);
     } else if ((patient.hp_cur[healed] >= 1) && (dam < 0)) {

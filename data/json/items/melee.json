@@ -985,7 +985,7 @@
         "name": "damaged tent",
         "description": "A small tent, just big enough to fit a person comfortably.  This tent is broken and cannot be deployed",
         "price": 6500,
-        "material": ["plastic", "aluminum"],
+        "material": ["lowdensityplastic", "aluminum"],
         "weight": 1133,
         "volume": 10,
         "bashing": 4,
@@ -1000,7 +1000,7 @@
         "name": "large damaged tent",
         "description": "A family sized tent, very bulky but with plenty of space.  This tent is broken and can not be deployed.",
         "price": 10000,
-        "material": ["plastic", "aluminum"],
+        "material": ["lowdensityplastic", "aluminum"],
         "weight": 2266,
         "volume": 40,
         "bashing": 4,
@@ -2474,7 +2474,7 @@
         "name": "umbrella",
         "category": "tools",
         "description": "An umbrella with a pointy end, useful for keeping dry when wielded.",
-        "material": ["plastic","aluminum"],
+        "material": ["lowdensityplastic","aluminum"],
         "price": 2400,
         "volume": 6,
         "weight": 141,
@@ -2492,7 +2492,7 @@
         "name": "telescoping umbrella",
         "category": "tools",
         "description": "A telescoping umbrella which collapses down for easy storage, useful for keeping dry when wielded.",
-        "material": ["plastic", "aluminum"],
+        "material": ["lowdensityplastic", "aluminum"],
         "price": 12000,
         "volume": 2,
         "weight": 118,
@@ -2921,7 +2921,7 @@
         "bashing": -2,
         "cutting": 0,
         "to_hit": 0,
-        "material": ["plastic", "null"]
+        "material": ["lowdensityplastic", "null"]
     },
     {
         "id": "mre_veggy_box",
@@ -2938,7 +2938,7 @@
         "bashing": -2,
         "cutting": 0,
         "to_hit": 0,
-        "material": ["plastic", "null"]
+        "material": ["lowdensityplastic", "null"]
     },
     {
         "id": "mre_chicken_box",
@@ -2955,7 +2955,7 @@
         "bashing": -2,
         "cutting": 0,
         "to_hit": 0,
-        "material": ["plastic", "null"]
+        "material": ["lowdensityplastic", "null"]
     },
     {
         "id": "mre_hotdog_box",
@@ -2972,7 +2972,7 @@
         "bashing": -2,
         "cutting": 0,
         "to_hit": 0,
-        "material": ["plastic", "null"]
+        "material": ["lowdensityplastic", "null"]
     },
     {
         "id": "mre_ravioli_box",
@@ -2989,7 +2989,7 @@
         "bashing": -2,
         "cutting": 0,
         "to_hit": 0,
-        "material": ["plastic", "null"]
+        "material": ["lowdensityplastic", "null"]
     },
     {
         "type":"GENERIC",

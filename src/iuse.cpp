@@ -210,7 +210,7 @@ static bool item_inscription(player *p, item *cut, std::string verb, std::string
     if (carveable && !(cut->made_of("wood") || cut->made_of("plastic") ||
                        cut->made_of("glass") || cut->made_of("chitin") ||
                        cut->made_of("iron") || cut->made_of("steel") ||
-                       cut->made_of("silver"))) {
+                       cut->made_of("silver") || cut->made_of("lowdensityplastic"))) {
         std::string lower_verb = verb;
         std::transform(lower_verb.begin(), lower_verb.end(), lower_verb.begin(), ::tolower);
         add_msg(m_info, _("You can't %1$s %2$s because of the material it is made of."),
@@ -2007,6 +2007,7 @@ int iuse::sew_advanced(player *p, item *it, bool, const tripoint& )
             itm.made_of( "fur" ) ||
             itm.made_of( "nomex" ) ||
             itm.made_of( "plastic" ) ||
+            itm.made_of( "lowdensityplastic" ) ||
             itm.made_of( "kevlar" ) ||
             itm.made_of( "wool" );
         } );
@@ -2049,6 +2050,7 @@ int iuse::sew_advanced(player *p, item *it, bool, const tripoint& )
     add_material( "fur", "fur", _( "<plural>fur" ) );
     add_material( "nomex", "nomex", _( "<plural>Nomex" ) );
     add_material( "plastic", "plastic_chunk", _( "<plural>plastic" ) );
+    add_material( "lowdensityplastic", "plastic_chunk", _( "<plural>plastic" ) );
     add_material( "kevlar", "kevlar_plate", _( "<plural>Kevlar" ) );
     add_material( "wool", "felt_patch", _( "<plural>wool" ) );
     if (repair_items.empty()) {
