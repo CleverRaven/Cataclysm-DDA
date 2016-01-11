@@ -14099,7 +14099,7 @@ bool player::sees( const tripoint &t, bool ) const
     static const std::string str_bio_night("bio_night");
     const int wanted_range = rl_dist( pos(), t );
     bool can_see = is_player() ? g->m.pl_sees( t, wanted_range ) :
-        Creature::sees( t );;
+        Creature::sees( t );
     // Only check if we need to override if we already came to the opposite conclusion.
     if( can_see && wanted_range < 15 && wanted_range > sight_range(1) &&
         has_active_bionic(str_bio_night) ) {
