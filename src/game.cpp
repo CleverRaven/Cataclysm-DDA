@@ -11381,10 +11381,11 @@ void game::unload( item &it )
     // Unload a container consuming moves per item successfully removed
     if( it.is_container() && !it.contents.empty() ) {
         it.contents.erase( std::remove_if( it.contents.begin(), it.contents.end(), [this]( item& e ) {
+            int mv = u.item_handling_cost( e );
             if( !add_or_drop_with_msg( u, e ) ) {
                 return false;
             }
-            u.moves -= 40;
+            u.moves -= mv;
             return true;
         } ), it.contents.end() );
         return;
