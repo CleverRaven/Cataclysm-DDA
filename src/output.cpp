@@ -907,7 +907,7 @@ std::string string_input_win(WINDOW *w, std::string input, int max_length, int s
                         hist.clear();
                     }
             }
-        } else if (ch == KEY_DOWN || ch == KEY_NPAGE || ch == KEY_PPAGE ) {
+        } else if (ch == KEY_DOWN || ch == KEY_NPAGE || ch == KEY_PPAGE || ch == KEY_BTAB || ch == 9 ) {
             /* absolutely nothing */
         } else if (ch == KEY_RIGHT ) {
             if( pos + 1 <= (int)ret.size() ) {
