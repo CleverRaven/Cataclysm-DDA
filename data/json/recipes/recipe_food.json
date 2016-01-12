@@ -8848,8 +8848,7 @@
       [ "flatbread", 2 ],
       [ "bread", 2 ],
       [ "cornbread", 2 ],
-      [ "wastebread", 2 ],
-      [ "hardtack", 4]
+      [ "wastebread", 2 ]
     ],
     [
       [ "cheese", 2 ], [ "cheese_hard", 2 ], [ "can_cheese", 1]
@@ -8889,8 +8888,7 @@
       [ "flatbread", 2 ],
       [ "bread", 2 ],
       [ "cornbread", 2 ],
-      [ "wastebread", 2 ],
-      [ "hardtack", 4]
+      [ "wastebread", 2 ]
     ],
     [
       [ "pickle", 1],
@@ -8968,8 +8966,7 @@
       [ "flatbread", 2 ],
       [ "bread", 2 ],
       [ "cornbread", 2 ],
-      [ "wastebread", 2 ],
-      [ "hardtack", 4]
+      [ "wastebread", 2 ]
     ],
     [
       [ "cheese", 2 ], [ "cheese_hard", 2 ], [ "can_cheese", 1]
@@ -9016,8 +9013,7 @@
       [ "flatbread", 2 ],
       [ "bread", 2 ],
       [ "cornbread", 2 ],
-      [ "wastebread", 2 ],
-      [ "hardtack", 4]
+      [ "wastebread", 2 ]
     ],
     [
       [ "pickle", 1],
@@ -9132,8 +9128,7 @@
       [ "flatbread", 4 ],
       [ "bread", 4 ],
       [ "cornbread", 4 ],
-      [ "wastebread", 4 ],
-      [ "hardtack", 8]
+      [ "wastebread", 4 ]
     ],
     [
       [ "ketchup", 4 ],
@@ -9178,8 +9173,7 @@
       [ "flatbread", 4 ],
       [ "bread", 4 ],
       [ "cornbread", 4 ],
-      [ "wastebread", 4 ],
-      [ "hardtack", 8]
+      [ "wastebread", 4 ]
     ],
     [
       [ "mustard", 4],
@@ -9252,8 +9246,7 @@
       [ "flatbread", 4 ],
       [ "bread", 4 ],
       [ "cornbread", 4 ],
-      [ "wastebread", 4 ],
-      [ "hardtack", 8]
+      [ "wastebread", 4 ]
     ],
     [
       [ "mustard", 4],
@@ -9350,8 +9343,7 @@
       [ "flatbread", 2 ],
       [ "bread", 2 ],
       [ "cornbread", 2 ],
-      [ "wastebread", 2 ],
-      [ "hardtack", 4]
+      [ "wastebread", 2 ]
     ],
     [
       [ "pickle", 1],
@@ -9392,8 +9384,7 @@
       [ "flatbread", 2 ],
       [ "bread", 2 ],
       [ "cornbread", 2 ],
-      [ "wastebread", 2 ],
-      [ "hardtack", 4]
+      [ "wastebread", 2 ]
     ],
     [
       [ "bacon", 1 ]
@@ -9434,8 +9425,7 @@
       [ "flatbread", 2 ],
       [ "bread", 2 ],
       [ "cornbread", 2 ],
-      [ "wastebread", 2 ],
-      [ "hardtack", 4]
+      [ "wastebread", 2 ]
     ],
     [
       [ "sauce_red", 1],
@@ -9478,8 +9468,7 @@
       [ "flatbread", 2 ],
       [ "bread", 2 ],
       [ "cornbread", 2 ],
-      [ "wastebread", 2 ],
-      [ "hardtack", 4]
+      [ "wastebread", 2 ]
     ],
     [
       [ "sauce_red", 1],
@@ -9511,8 +9500,7 @@
       [ "flatbread", 2 ],
       [ "bread", 2 ],
       [ "cornbread", 2 ],
-      [ "wastebread", 2 ],
-      [ "hardtack", 4]
+      [ "wastebread", 2 ]
     ],
     [
       [ "meat_cooked", 1 ],
@@ -9538,8 +9526,7 @@
       [ "flatbread", 2 ],
       [ "bread", 2 ],
       [ "cornbread", 2 ],
-      [ "wastebread", 2 ],
-      [ "hardtack", 4]
+      [ "wastebread", 2 ]
     ],
     [
       [ "peanutbutter", 1 ]
@@ -9563,8 +9550,7 @@
       [ "flatbread", 2 ],
       [ "bread", 2 ],
       [ "cornbread", 2 ],
-      [ "wastebread", 2 ],
-      [ "hardtack", 4 ]
+      [ "wastebread", 2 ]
     ],
     [
       [ "jam_fruit", 1 ],
@@ -9593,8 +9579,7 @@
       [ "flatbread", 2 ],
       [ "bread", 2 ],
       [ "cornbread", 2 ],
-      [ "wastebread", 2 ],
-      [ "hardtack", 4]
+      [ "wastebread", 2 ]
     ],
     [
       [ "honeycomb", 2],
@@ -9624,8 +9609,7 @@
       [ "flatbread", 2 ],
       [ "bread", 2 ],
       [ "cornbread", 2 ],
-      [ "wastebread", 2 ],
-      [ "hardtack", 4]
+      [ "wastebread", 2 ]
     ],
     [
       [ "human_cooked", 1 ],
@@ -10833,7 +10817,6 @@
       [ "flatbread", 2 ],
       [ "bread", 2 ],
       [ "cornbread", 2 ],
-      [ "hardtack", 4 ],
       [ "wastebread", 2 ]
     ],
     [
@@ -10866,7 +10849,6 @@
       [ "flatbread", 2 ],
       [ "bread", 2 ],
       [ "cornbread", 2 ],
-      [ "hardtack", 4 ],
       [ "wastebread", 2 ]
     ],
     [
@@ -10894,7 +10876,6 @@
       [ "flatbread", 2 ],
       [ "bread", 2 ],
       [ "cornbread", 2 ],
-      [ "hardtack", 4 ],
       [ "wastebread", 2 ]
     ],
     [
