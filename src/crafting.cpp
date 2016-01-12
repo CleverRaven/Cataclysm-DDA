@@ -1296,6 +1296,20 @@ void player::disassemble(item &dis_item, int dis_pos, bool ground)
 
     // no recipe exists
     if ( cur_recipe == NULL ) {
+        //if we're trying to disassemble a book or magazine
+        if( dis_item.is_book() ) {
+            if(OPTIONS["QUERY_DISASSEMBLE"] &&
+                    !(query_yn(_("Do you want to tear %s into pages?"), dis_item.tname().c_str()))) {
+                return;
+            } else {
+                //twice the volume then multiplied by 10 (a book with volume 3 will give 60 pages)
+                int num_pages = (dis_item.volume() * 2) * 10;
+                g->m.spawn_item(pos(), "paper", 0, num_pages);
+                i_rem(dis_pos);
+            }
+            return;
+        }
+
         add_msg(m_info, _("This item cannot be disassembled!"));
         return;
     }
@@ -1329,20 +1343,6 @@ void player::disassemble(item &dis_item, int dis_pos, bool ground)
         activity.values.push_back( dis_pos );
         if( ground ) {
             activity.values.push_back( 1 );
-        }
-        return; 
-    }
-
-    //if we're trying to disassemble a book or magazine
-    if( dis_item.is_book() ) {
-        if(OPTIONS["QUERY_DISASSEMBLE"] &&
-                !(query_yn(_("Do you want to tear %s into pages?"), dis_item.tname().c_str()))) {
-            return;
-        } else {
-            //twice the volume then multiplied by 10 (a book with volume 3 will give 60 pages)
-            int num_pages = (dis_item.volume() * 2) * 10;
-            g->m.spawn_item(pos(), "paper", 0, num_pages);
-            i_rem(dis_pos);
         }
         return;
     }
