@@ -10795,7 +10795,7 @@ int player::item_handling_cost( const item& it, bool effects, int factor ) const
         mv *= 2;
     }
 
-    return std::min(mv, MAX_HANDLING_COST);
+    return std::min( std::max( mv, MIN_HANDLING_COST ), MAX_HANDLING_COST );
 }
 
 bool player::wear(int inventory_position, bool interactive)
