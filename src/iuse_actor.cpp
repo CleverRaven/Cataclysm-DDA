@@ -1836,7 +1836,8 @@ long holster_actor::use( player *p, item *it, bool, const tripoint & ) const
     }
 
     if( pos >= 0 ) {
-        p->wield_contents( it, pos, draw_cost );
+        // holsters ignore penalty effects (eg. GRABBED) when determining number of moves to consume
+        p->wield_contents( it, pos, draw_cost, false );
     } else {
         item &obj = p->i_at( g->inv_for_filter( prompt, [&](const item& e) { return can_holster(e); } ) );
 
@@ -1873,7 +1874,9 @@ long holster_actor::use( player *p, item *it, bool, const tripoint & ) const
 
         p->add_msg_if_player( holster_msg.empty() ? _( "You holster your %s" ) : _( holster_msg.c_str() ),
                               obj.tname().c_str(), it->tname().c_str() );
-        p->store( it, &obj, obj.is_gun() ? obj.gun_skill() : obj.weap_skill(), VOLUME_MOVE_COST );
+
+        // holsters ignore penalty effects (eg. GRABBED) when determining number of moves to consume
+        p->store( it, &obj, draw_cost, false );
     }
 
     return 0;
