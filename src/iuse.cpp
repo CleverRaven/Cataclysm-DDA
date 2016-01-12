@@ -4599,7 +4599,7 @@ int iuse::shocktonfa_on(player *p, item *it, bool t, const tripoint &pos)
 
 int iuse::mp3(player *p, item *it, bool, const tripoint& )
 {
-    if (it->charges < it->type->charges_to_use()) {
+    if (it->charges <= it->type->charges_to_use()) {
         p->add_msg_if_player(m_info, _("The mp3 player's batteries are dead."));
     } else if (p->has_active_item("mp3_on")) {
         p->add_msg_if_player(m_info, _("You are already listening to an mp3 player!"));
