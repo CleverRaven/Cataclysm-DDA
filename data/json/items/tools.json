@@ -5099,7 +5099,7 @@
     "color": "light_gray",
     "name": "Rising Sun (off)",
     "name_plural": "Rising Suns (off)",
-    "description": "This is a katana with a nozzle just behind the cutting edge of the blade.  People love fire, and people love katanas, so why not put them together? The gas burners attached to this blade can really turn up the heat on your foes.  Use to ignite.",
+    "description": "This is a katana with a nozzle just behind the cutting edge of the blade.  People love fire, and people love katanas, so why not put them together?  The gas burners attached to this blade can really turn up the heat on your foes.  Use to ignite.",
     "price": 98000,
     "material": "steel",
     "flags": ["FIRE", "SLICE", "DURABLE_MELEE", "SHEATH_SWORD", "IAIJUTSU"],
@@ -11143,7 +11143,7 @@
     "color": "blue",
     "name": "L-stick (on)",
     "name_plural": "L-sticks (on)",
-    "description": "Produced by the Light corporation, this stylish staff not only functions as a light source, but doubles as a light-weight weapon, due to the superalloy materials it is made of.  Due to proprietary efficiency improvements over standard light sources, the l-stick or light stick as it is commonly called, batteries last longer than other light sources.  The staff is glowing brightly, which is slowly draining the batteries",
+    "description": "Produced by the Light corporation, this stylish staff not only functions as a light source, but doubles as a light-weight weapon, due to the superalloy materials it is made of.  Due to proprietary efficiency improvements over standard light sources, the l-stick or light stick as it is commonly called, batteries last longer than other light sources.  The staff is glowing brightly, which is slowly draining the batteries.",
     "price": 8000,
     "material": ["superalloy", "steel"],
     "techniques" : ["WBLOCK_1", "RAPID"],
@@ -11161,7 +11161,7 @@
     "revert_to": "l-stick",
     "use_action": {
         "type": "transform",
-        "msg": "The l-stick(tm)'s light fades away",
+        "msg": "The l-stick(tm)'s light fades away.",
         "target": "l-stick"
     }
   }
