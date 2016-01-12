@@ -10783,9 +10783,18 @@ bool player::can_use( const item& it, bool interactive ) const {
 
 int player::item_handling_cost( const item& it, bool effects, int factor ) const {
     int mv = std::max( 1, it.volume() * factor );
+
+    // For single handed items use the least encumbered hand
+    if( it.is_two_handed( *this ) ) {
+        mv += encumb( bp_hand_l ) + encumb( bp_hand_r );
+    } else {
+        mv += std::min( encumb( bp_hand_l ), encumb( bp_hand_r ) );
+    }
+
     if( effects && has_effect( "grabbed" ) ) {
         mv *= 2;
     }
+
     return std::min(mv, MAX_HANDLING_COST);
 }
 
