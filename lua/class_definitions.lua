@@ -650,7 +650,6 @@ classes = {
             { name = "vomit_mod", rval = "float", args = { } },
             { name = "wake_up", rval = nil, args = { } },
             { name = "warmth", rval = "int", args = { "body_part" } },
-            { name = "weapname", rval = "string", args = { "bool" } },
             { name = "weapname", rval = "string", args = { } },
             { name = "wear", rval = "bool", args = { "int" } },
             { name = "wear", rval = "bool", args = { "int", "bool" } },
