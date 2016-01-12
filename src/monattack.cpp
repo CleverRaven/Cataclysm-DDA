@@ -1164,10 +1164,15 @@ bool mattack::growplants(monster *z)
             continue;
         }
 
-        // Grow a tree
-        g->m.ter_set(p, t_tree_young);
-        // Pierce stuff with it
+        // Grow a tree and pierce stuff with it
         Creature *critter = g->critter_at( p );
+        // Don't grow under friends (and self)
+        if( critter != nullptr &&
+            z->attitude_to( *critter ) == Creature::A_FRIENDLY ) {
+            continue;
+        }
+
+        g->m.ter_set( p, t_tree_young );
         if( critter == nullptr || critter->uncanny_dodge() ) {
             continue;
         }
@@ -1176,7 +1181,7 @@ bool mattack::growplants(monster *z)
         //~ %s is bodypart name in accusative.
         critter->add_msg_player_or_npc( m_bad,
             _("A tree bursts forth from the earth and pierces your %s!"),
-            _("A tree bursts forth from the earth and pierces <npcname>'s %2$s!"),
+            _("A tree bursts forth from the earth and pierces <npcname>'s %s!"),
             body_part_name_accusative( hit ).c_str() );
         critter->deal_damage( z, hit, damage_instance( DT_STAB, rng( 10, 30 ) ) );
     }
@@ -1205,12 +1210,12 @@ bool mattack::growplants(monster *z)
         } else if( ter == t_underbrush ) {
             // Underbrush => young tree
             g->m.ter_set( p, t_tree_young );
-            if( !critter->uncanny_dodge() ) {
+            if( critter != nullptr && !critter->uncanny_dodge() ) {
                 const body_part hit = body_part_hit_by_plant();
                 //~ %s is bodypart name in accusative.
                 critter->add_msg_player_or_npc( m_bad,
                     _("The underbrush beneath your feet grows and pierces your %s!"),
-                    _("Underbrush grows into a tree, and it pierces <npcname>'s %2$s!"),
+                    _("Underbrush grows into a tree, and it pierces <npcname>'s %s!"),
                     body_part_name_accusative( hit ).c_str() );
                 critter->deal_damage( z, hit, damage_instance( DT_STAB, rng( 10, 30 ) ) );
             }
@@ -1264,7 +1269,9 @@ bool mattack::vine(monster *z)
             body_part bphit = critter->get_random_body_part();
             //~ 1$s monster name(vine), 2$s bodypart in accusative
             critter->add_msg_player_or_npc( m_bad,
-                _("The %1$s lashes <npcname>'s %2$s!"), z->name().c_str(),
+                _("The %1$s lashes your %2$s!"),
+                _("The %1$s lashes <npcname>'s %2$s!"),
+                z->name().c_str(),
                 body_part_name_accusative( bphit ).c_str() );
             damage_instance d;
             // TODO: Buff it to more "modern" numbers - 4+4 is nothing
