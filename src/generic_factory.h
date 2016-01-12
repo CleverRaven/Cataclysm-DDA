@@ -292,6 +292,9 @@ class Dummy2 {
 };
 \endcode
 
+Both versions of `optional` have yet another overload that does not require an explicit default
+value, a default initialized object of the member type will be used instead.
+
 ----
 
 Readers must provide the following function:
@@ -328,13 +331,46 @@ inline void mandatory( JsonObject &jo, const bool was_loaded, const std::string 
         }
     }
 }
-template<typename MemberType, typename DefaultType = MemberType>
+
+template<typename MemberType>
+inline void optional( JsonObject &jo, const bool was_loaded, const std::string &name,
+                      MemberType &member )
+{
+    if( !jo.read( name, member ) ) {
+        if( !was_loaded ) {
+            member = MemberType();
+        }
+    }
+}
+/*
+Template trickery, not for the faint of heart. It is required because there are two functions
+with 5 parameters. The first 4 are always the same: JsonObject, bool, member name, member reference.
+The last one is different: in one case it's the default value, in the other case it's the reader
+and there is no explicit default value there.
+The enable_if stuff assumes that a `MemberType` can not be constructed from a `ReaderType`, in other
+words: `MemberType foo( ReaderType(...) );` does not work. This is what `is_constructible` checks.
+If the 5. parameter can be used to construct a `MemberType`, it is assumed to be the default value,
+otherwise it is assumed to be the reader.
+*/
+template<typename MemberType, typename DefaultType = MemberType,
+         typename = typename std::enable_if<std::is_constructible<MemberType, const DefaultType &>::value>::type>
 inline void optional( JsonObject &jo, const bool was_loaded, const std::string &name,
                       MemberType &member, const DefaultType &default_value )
 {
     if( !jo.read( name, member ) ) {
         if( !was_loaded ) {
             member = default_value;
+        }
+    }
+}
+template<typename MemberType, typename ReaderType, typename DefaultType = MemberType,
+         typename = typename std::enable_if<!std::is_constructible<MemberType, const ReaderType &>::value>::type>
+inline void optional( JsonObject &jo, const bool was_loaded, const std::string &name,
+                      MemberType &member, const ReaderType &reader )
+{
+    if( !reader( jo, name, member, was_loaded ) ) {
+        if( !was_loaded ) {
+            member = MemberType();
         }
     }
 }
