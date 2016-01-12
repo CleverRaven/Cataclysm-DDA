@@ -848,7 +848,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int has_morale( morale_type type ) const;
         void rem_morale(morale_type type, const itype *item_type = NULL);
 
-        std::string weapname(bool charges = true) const;
+        /** Get the formatted name of the currently wielded item (if any) */
+        std::string weapname() const;
 
         virtual float power_rating() const override;
 
