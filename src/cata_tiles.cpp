@@ -702,8 +702,11 @@ void cata_tiles::load_tilejson_from_file( JsonObject &config, int offset, int si
         }
         for( auto t_id : ids ) {
             tile_type &curr_tile = load_tile( entry, t_id, offset, size );
+            curr_tile.offset.x = sprite_offset_x;
+            curr_tile.offset.y = sprite_offset_y;
             bool t_multi = entry.get_bool( "multitile", false );
             bool t_rota = entry.get_bool( "rotates", t_multi );
+            int t_h3d = entry.get_int( "height_3d", 0 );
             if( t_multi ) {
                 // fetch additional tiles
                 JsonArray subentries = entry.get_array( "additional_tiles" );
@@ -845,30 +848,28 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
     int posx = center.x;
     int posy = center.y;
 
-    int sx, sy;
+    int sy;
     get_window_tile_counts(width, height, sx, sy);
 
     init_light();
     visibility_variables cache;
     g->m.update_visibility_cache( cache, center.z );
 
-    o_x = posx - POSX;
-    o_y = posy - POSY;
+    const bool iso_mode = tile_iso && use_tiles;
+
+    o_x = iso_mode ? posx : posx - POSX;
+    o_y = iso_mode ? posy : posy - POSY;
+
     op_x = destx;
     op_y = desty;
     // Rounding up to include incomplete tiles at the bottom/right edges
     screentile_width = (width + tile_width - 1) / tile_width;
     screentile_height = (height + tile_height - 1) / tile_height;
 
-    // in isometric mode, render the whole reality bubble
-    // TODO: make this smarter
-    const bool iso_mode = tile_iso && use_tiles;
-    const int min_x = iso_mode ? MAPSIZE * SEEX : o_x;
-    const int max_x = iso_mode ? 0 : sx + o_x;
-    const int dx = iso_mode ? -1 : 1; // iso mode renders right to left, for overlap reasons
-    const int min_y = iso_mode ? 0 : o_y;
-    const int max_y = iso_mode ? MAPSIZE * SEEX : sy + o_y;
-    const int dy = 1;
+    const int min_col = 0;
+    const int max_col = sx;
+    const int min_row = 0;
+    const int max_row = sy;
 
     //limit the render area to what is available in the visibility cache
     const int min_visible_x = 0;
@@ -893,10 +894,24 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
     auto vision_cache = g->u.get_vision_modes();
     nv_goggles_activated = vision_cache[NV_GOGGLES];
 
-    std::vector<tile_render_info> draw_points;
-    for( y = min_y; y * dy < max_y * dy; y += dy) {
-        for( x = min_x; x * dx < max_x * dx; x += dx) {
-            if(!tile_iso && ((y < min_visible_y || y > max_visible_y) || (x < min_visible_x ||
+    for( int row = min_row; row < max_row; row ++) {
+        std::vector<tile_render_info> draw_points;
+        draw_points.reserve(max_col);
+        for( int col = min_col; col < max_col; col ++) {
+            if (iso_mode) {
+                //in isometric, rows and columns represent a checkerboard screen space, and we place
+                //the appropriate tile in valid squares by getting position relative to the screen centre.
+                if ( (row + o_y ) % 2 != (col + o_x) % 2 ) {
+                    continue;
+                }
+                x = ( col  - row - sx/2 + sy/2 ) / 2 + o_x;
+                y = ( row + col - sy/2 - sx/2 ) / 2 + o_y;
+            }
+            else {
+                x = col + o_x;
+                y = row + o_y;
+            }
+            if( ( (y < min_visible_y || y > max_visible_y) || (x < min_visible_x ||
                              x > max_visible_x))) {
                 apply_vision_effects(x, y, offscreen_type);
                 continue;
@@ -922,15 +937,14 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
 
             draw_points.push_back( tile_render_info( tripoint( x, y, center.z ), height_3d ) );
         }
-    }
-
-    // for each of the drawing layers in order, back to front ...
-    for( auto f : { &cata_tiles::draw_furniture, &cata_tiles::draw_trap,
-                    &cata_tiles::draw_field_or_item, &cata_tiles::draw_vpart,
-                    &cata_tiles::draw_critter_at } ) {
-        // ... draw all the points we drew terrain for, in the same order
-        for( auto &p : draw_points ) {
-            (this->*f)( p.pos, ch.visibility_cache[p.pos.x][p.pos.y], p.height_3d );
+        // for each of the drawing layers in order, back to front ...
+        for( auto f : { &cata_tiles::draw_furniture, &cata_tiles::draw_trap,
+                        &cata_tiles::draw_field_or_item, &cata_tiles::draw_vpart,
+                        &cata_tiles::draw_critter_at } ) {
+            // ... draw all the points we drew terrain for, in the same order
+            for( auto &p : draw_points ) {
+                (this->*f)( p.pos, ch.visibility_cache[p.pos.x][p.pos.y], p.height_3d );
+            }
         }
     }
 
@@ -1114,8 +1128,8 @@ void cata_tiles::clear_buffer()
 
 void cata_tiles::get_window_tile_counts(const int width, const int height, int &columns, int &rows) const
 {
-    columns = ceil((double) width / tile_width);
-    rows = ceil((double) height / tile_height);
+    columns = ( tile_iso && use_tiles ) ? ceil((double) width / tile_width ) * 2 + 4 : ceil((double) width / tile_width );
+    rows = ( tile_iso && use_tiles ) ? ceil((double) height / ( tile_width / 2 - 1 ) ) * 2 + 4 : ceil((double) height / tile_height);
 }
 
 bool cata_tiles::draw_from_id_string( std::string id, int x, int y, int subtile, int rota,
@@ -1154,12 +1168,14 @@ bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
 
     // check to make sure that we are drawing within a valid area
     // [0->width|height / tile_width|height]
+
     if( !( tile_iso && use_tiles ) &&
         ( x - o_x < 0 || x - o_x >= screentile_width ||
           y - o_y < 0 || y - o_y >= screentile_height )
       ) {
         return false;
     }
+
 
     constexpr size_t suffix_len = 15;
     constexpr char season_suffix[4][suffix_len] = {
@@ -1315,11 +1331,11 @@ bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
     // translate from player-relative to screen relative tile position
     int screen_x, screen_y;
     if ( tile_iso && use_tiles ) {
-        screen_x = ((x-o_x) - (o_y-y)) * tile_width / 2 +
+        screen_x = ((x-o_x) - (o_y-y) + sx/2 - 4) * tile_width / 2 +
             op_x;
         // y uses tile_width because width is definitive for iso tiles
         // tile footprints are half as tall as wide, aribtrarily tall
-        screen_y = ((y-o_y) - (x-o_x)) * tile_width / 4 +
+        screen_y = ((y-o_y) - (x-o_x) - 4) * tile_width / 4 +
             screentile_height * tile_height / 2 + // TODO: more obvious centering math
             op_y;
     } else {
