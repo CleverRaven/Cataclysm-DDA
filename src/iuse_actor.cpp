@@ -377,9 +377,10 @@ long consume_drug_iuse::use(player *p, item *it, bool, const tripoint& ) const
     for( auto tool = tools_needed.cbegin(); tool != tools_needed.cend(); ++tool ) {
         // Amount == -1 means need one, but don't consume it.
         if( !p->has_amount( tool->first, 1 ) ) {
-            p->add_msg_if_player( _("You need %1$s to consume %2$s!"),
-                                  item::nname( tool->first ).c_str(),
-                                  it->type_name( 1 ).c_str() );
+            p->add_msg_player_or_say( _("You need %1$s to consume %2$s!"),
+                _("I need a %1$s to consume %2$s!"),
+                item::nname( tool->first ).c_str(),
+                it->type_name( 1 ).c_str() );
             return -1;
         }
     }
@@ -388,9 +389,10 @@ long consume_drug_iuse::use(player *p, item *it, bool, const tripoint& ) const
         // Amount == -1 means need one, but don't consume it.
         if( !p->has_charges( consumable->first, (consumable->second == -1) ?
                              1 : consumable->second ) ) {
-            p->add_msg_if_player( _("You need %1$s to consume %2$s!"),
-                                  item::nname( consumable->first ).c_str(),
-                                  it->type_name( 1 ).c_str() );
+            p->add_msg_player_or_say( _("You need %1$s to consume %2$s!"),
+                _("I need a %1$s to consume %2$s!"),
+                item::nname( consumable->first ).c_str(),
+                it->type_name( 1 ).c_str() );
             return -1;
         }
     }
