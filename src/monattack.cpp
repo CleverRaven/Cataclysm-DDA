@@ -156,7 +156,7 @@ bool mattack::antqueen(monster *z)
     std::vector<tripoint> egg_points;
     std::vector<int> ants;
     // Count up all adjacent tiles the contain at least one egg.
-    for( const auto &dest : g->m.points_in_radius( z->pos(), 1 ) ) {
+    for( const auto &dest : g->m.points_in_radius( z->pos(), 2 ) ) {
         if( g->m.impassable( dest ) ) {
             continue;
         }
@@ -206,11 +206,11 @@ bool mattack::antqueen(monster *z)
         }
         for( auto &i : egg_points ) {
             auto eggs = g->m.i_at( i );
-            for (size_t j = 0; j < eggs.size(); j++) {
+            for( size_t j = 0; j < eggs.size(); j++ ) {
                 if( eggs[j].type->id != "ant_egg" ) {
                     continue;
                 }
-                g->m.i_rem(i.x, i.y, j);
+                g->m.i_rem( i, j );
                 monster tmp( mon_ant_larva, i );
                 tmp.make_ally( z );
                 g->add_zombie(tmp);
