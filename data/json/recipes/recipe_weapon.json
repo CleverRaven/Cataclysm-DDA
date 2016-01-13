@@ -1502,24 +1502,6 @@
   ]
 },{
   "type" : "recipe",
-  "result": "pipe_double_shotgunsawn",
-  "byproducts": { "id" : "scrap", "amount" : 6 },
-  "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_RANGED",
-  "skill_used": "fabrication",
-  "difficulty": 0,
-  "time": 15000,
-  "reversible": false,
-  "autolearn": true,
-  "qualities":[
-    {"id":"SAW_M_FINE","level":1,"amount":1}
-  ], "components": [
-    [
-      [ "pipe_double_shotgun", 1 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
   "result": "rifle_9mm",
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_RANGED",
