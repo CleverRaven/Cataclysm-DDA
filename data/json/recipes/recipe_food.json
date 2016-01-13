@@ -1210,6 +1210,8 @@
       [ "irradiated_onion", 2 ],
       [ "carrot", 12 ],
       [ "irradiated_carrot", 12 ],
+      [ "cabbage", 2 ],
+      [ "irradiated_cabbage", 2 ],
       [ "veggy", 2 ],
       [ "veggy_wild", 2 ],
       [ "plant_sac", 6 ],
