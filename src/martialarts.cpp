@@ -12,20 +12,17 @@
 
 std::map<matype_id, martialart> martialarts;
 std::map<mabuff_id, ma_buff> ma_buffs;
-std::map<matec_id, ma_technique> ma_techniques;
+namespace {
+generic_factory<ma_technique> ma_techniques( "martial art technique" );
+}
 
 void load_technique(JsonObject &jo)
 {
-    ma_technique tec;
-    tec.id = matec_id( jo.get_string("id") );
-    tec.load( jo );
-
-    ma_techniques[tec.id] = tec;
+    ma_techniques.load( jo );
 }
 
 void ma_technique::load( JsonObject &jo )
 {
-    const bool was_loaded = false;
     optional( jo, was_loaded, "name", name, translated_string_reader );
 
     if( jo.has_member( "messages" ) ) {
@@ -90,19 +87,13 @@ void ma_technique::load( JsonObject &jo )
 template<>
 const ma_technique &string_id<ma_technique>::obj() const
 {
-    const auto iter = ma_techniques.find( *this );
-    if( iter == ma_techniques.end() ) {
-        debugmsg( "invalid martial art technique id %s", _id.c_str() );
-        static const ma_technique dummy;
-        return dummy;
-    }
-    return iter->second;
+    return ma_techniques.obj( *this );
 }
 
 template<>
 bool string_id<ma_technique>::is_valid() const
 {
-    return ma_techniques.count( *this ) > 0;
+    return ma_techniques.is_valid( *this );
 }
 
 mabuff_id load_buff(JsonObject &jo)
@@ -304,7 +295,7 @@ void check_martialarts()
             }
         }
     }
-    for( auto & t : ma_techniques ) {
+    for( auto & t : ma_techniques.all_ref() ) {
         ::check( t.second.reqs, string_format( "technique %s", t.first.c_str() ) );
     }
     for( auto & b : ma_buffs ) {
@@ -375,7 +366,7 @@ void clear_techniques_and_martial_arts()
 {
     martialarts.clear();
     ma_buffs.clear();
-    ma_techniques.clear();
+    ma_techniques.reset();
 }
 
 bool ma_requirements::is_valid_player( const player &u ) const

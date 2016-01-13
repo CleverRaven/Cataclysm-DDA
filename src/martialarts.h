@@ -61,6 +61,7 @@ class ma_technique
         void load( JsonObject &jo );
 
         matec_id id;
+        bool was_loaded = false;
         std::string name;
 
         std::string goal; // the melee goal this achieves
