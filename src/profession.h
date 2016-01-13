@@ -53,8 +53,7 @@ enum add_type : int;
         std::set<std::string> flags; // flags for some special properties of the profession
         StartingSkillList  _starting_skills;
 
-        void add_items_from_jsonarray( JsonArray jsarr, std::string gender );
-        void add_item( const itypedec &entry, const std::string &gender );
+        void add_items_from_jsonarray( JsonArray jsarr, itypedecvec &container );
         void add_addiction( add_type, int );
         void add_CBM( std::string CBM );
         void add_trait( std::string trait );

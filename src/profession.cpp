@@ -72,9 +72,9 @@ void profession::load_profession(JsonObject &jsobj)
     prof._point_cost = jsobj.get_int("points");
 
     JsonObject items_obj = jsobj.get_object("items");
-    prof.add_items_from_jsonarray(items_obj.get_array("both"), "both");
-    prof.add_items_from_jsonarray(items_obj.get_array("male"), "male");
-    prof.add_items_from_jsonarray(items_obj.get_array("female"), "female");
+    prof.add_items_from_jsonarray(items_obj.get_array("both"), prof._starting_items);
+    prof.add_items_from_jsonarray(items_obj.get_array("male"), prof._starting_items_male);
+    prof.add_items_from_jsonarray(items_obj.get_array("female"), prof._starting_items_female);
 
     jsarr = jsobj.get_array("skills");
     while (jsarr.has_more()) {
@@ -203,7 +203,7 @@ bool profession::has_initialized()
     return generic_profession_id.is_valid();
 }
 
-void profession::add_items_from_jsonarray(JsonArray jsarr, std::string gender)
+void profession::add_items_from_jsonarray(JsonArray jsarr, itypedecvec &container)
 {
     while (jsarr.has_more()) {
         // either a plain item type id string, or an array with item type id
@@ -212,21 +212,10 @@ void profession::add_items_from_jsonarray(JsonArray jsarr, std::string gender)
             auto arr = jsarr.next_array();
             const itypedec entry( arr.get_string( 0 ),
                                   _( arr.get_string( 1 ).c_str() ) );
-            add_item( entry, gender );
+            container.push_back( entry );
         } else {
-            add_item( itypedec( jsarr.next_string(), "" ), gender );
+            container.emplace_back( jsarr.next_string(), "" );
         }
-    }
-}
-
-void profession::add_item(const itypedec &entry, const std::string &gender)
-{
-    if(gender == "male") {
-        _starting_items_male.push_back( entry );
-    } else if(gender == "female") {
-        _starting_items_female.push_back( entry );
-    } else {
-        _starting_items.push_back( entry );
     }
 }
 
