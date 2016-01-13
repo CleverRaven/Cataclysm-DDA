@@ -14572,6 +14572,7 @@
         "type" : "COMESTIBLE",
         "id" : "coke",
         "name" : "cocaine",
+        "name_plural" : "cocaine",
         "weight" : 1,
         "color" : "white",
         "addiction_type" : "cocaine",
