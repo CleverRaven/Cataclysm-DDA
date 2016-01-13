@@ -1285,7 +1285,14 @@ public:
  char invlet;             // Inventory letter
  long charges;
  bool active;             // If true, it has active effects to be processed
- signed char damage;      // How much damage it's sustained; generally, max is 5
+
+    /**
+     * How much damage the item has sustained
+     * @see MIN_ITEM_DAMAGE
+     * @see MAX_ITEM_DAMAGE
+     */
+    int damage;
+
  int burnt;               // How badly we're burnt
  int bday;                // The turn on which it was created
  union{

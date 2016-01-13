@@ -62,4 +62,9 @@
 /** Maximum move cost when handling an item */
 #define MAX_HANDLING_COST 800
 
+/** Minimum amount of damage to an item (state of maximum repair) */
+#define MIN_ITEM_DAMAGE -1
+/** Maximum amount of damage to an item (state before destroyed) */
+#define MAX_ITEM_DAMAGE 4
+
 #endif

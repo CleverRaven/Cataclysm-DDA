@@ -90,13 +90,13 @@ bool player::handle_melee_wear()
         return true;
     }
 
-    if( weapon.damage < 4 ){
+    if( weapon.damage < MAX_ITEM_DAMAGE ){
         add_msg_player_or_npc( m_bad, _("Your %s is damaged by the force of the blow!"),
                                 _("<npcname>'s %s is damaged by the force of the blow!"),
                                 weapon.tname().c_str());
         //Don't increment until after the message is displayed
         weapon.damage++;
-    } else if( weapon.damage >= 4 ) {
+    } else if( weapon.damage >= MAX_ITEM_DAMAGE ) {
         add_msg_player_or_npc( m_bad, _("Your %s is destroyed by the blow!"),
                                 _("<npcname>'s %s is destroyed by the blow!"),
                                 weapon.tname().c_str());
