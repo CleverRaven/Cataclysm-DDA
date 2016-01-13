@@ -3965,6 +3965,17 @@ bool item::ammo_consume( int qty ) {
     return false;
 }
 
+const itype * item::ammo_data() const
+{
+    // @todo handle magazines
+
+    if( is_ammo() ) {
+        return type;
+    }
+
+    return curammo;
+}
+
 ammotype item::ammo_type() const
 {
     if (is_gun()) {

@@ -1076,6 +1076,8 @@ public:
         long ammo_required() const;
         /** If sufficient ammo available consume it, otherwise do nothing and return false */
         bool ammo_consume( int qty );
+        /** Specific ammo data, returns nullptr if item is neither ammo nor loaded with any */
+        const itype * ammo_data() const;
         /**
          * The id of the ammo type (@ref ammunition_type) that can be used by this item.
          * Will return "NULL" if the item does not use a specific ammo type. Items without
