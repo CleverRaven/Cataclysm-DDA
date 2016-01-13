@@ -594,7 +594,7 @@ class typed_flag_reader : public generic_typed_reader<typename C::mapped_type>
  * Uses @ref io::string_to_enum to convert the string from JSON to a C++ enum.
  */
 template<typename E>
-class enum_flags_reader : generic_typed_reader<E>
+class enum_flags_reader : public generic_typed_reader<E>
 {
     public:
         E convert( const std::string &flag, JsonObject &jo,
@@ -603,6 +603,7 @@ class enum_flags_reader : generic_typed_reader<E>
                 return io::string_to_enum<E>( flag );
             } catch( const io::InvalidEnumString & ) {
                 jo.throw_error( "invalid enumeration value: \"" + flag + "\"", member_name );
+                throw; // ^^ throws already
             }
         }
 };
