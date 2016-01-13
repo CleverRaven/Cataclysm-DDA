@@ -2668,8 +2668,11 @@ bool mattack::photograph(monster *z)
 bool mattack::tazer(monster *z)
 {
     Creature *target = z->attack_target();
-    taze( z, target );
+    if( target == nullptr || !is_adjacent( z, target, false ) ) {
+        return false;
+    }
 
+    taze( z, target );
     return true;
 }
 
@@ -3692,7 +3695,7 @@ bool mattack::breathe(monster *z)
 
     bool able = (z->type->id == mon_breather_hub);
     if( !able ) {
-        for( const tripoint &dest : g->m.points_in_radius( z->pos(), 1 ) ) {
+        for( const tripoint &dest : g->m.points_in_radius( z->pos(), 3 ) ) {
             int mondex = g->mon_at(dest);
             if( mondex != -1 && g->zombie(mondex).type->id == mon_breather_hub ) {
                 able = true;
