@@ -385,9 +385,9 @@ inline bool one_char_symbol_reader( JsonObject &jo, const std::string &member_na
 }
 
 /**
- * Base class for reading generic objects based on a single string.
+ * Base class for reading generic objects from JSON.
  * It can load members being certain containers or being a single value.
- * @ref convert needs to be implemented to translate the JSON string to the flag type.
+ * @ref get_next needs to be implemented to read and convert the data from JSON.
  *
  * - If the object is new (`was_loaded` is `false`), only the given JSON member is read
  *   and assigned, overriding any existing content of it.
@@ -401,8 +401,8 @@ inline bool one_char_symbol_reader( JsonObject &jo, const std::string &member_na
  * Loading the set again from the JSON `{ "remove:f": ["c","x"], "add:f": ["h"] }` would add the
  * "h" flag and removes the "c" and the "x" flag, resulting in `{"a","b","h"}`.
  *
- * @tparam F The type of the loaded object, e.g. a flag enum or a string_id or just a string.
- *           This type is the result of the conversion form the JSON string and this type is
+ * @tparam F The type of the loaded object, e.g. a flag enum or a string_id or anything.
+ *           This type is the result of the conversion form the JSON data and this type is
  *           used when interacting with the member that is to be loaded.
  */
 template<typename F>
@@ -411,22 +411,40 @@ class generic_typed_reader
     public:
         using FlagType = F;
         virtual ~generic_typed_reader() = default;
+
         /**
-         * Does the conversion from string (as read from JSON) to the generic type.
-         * `jo` and `member_name` should only be used to throw an exception.
-         * The string that should be converted is already loaded from JSON: `data`.
+         * The function should read the next value from the JSON stream, convert it to the
+         * required type (`F`) and return it.
+         *
+         * A simple implementation for `F` being `std::string` can look like this:
+         * `return jin.get_string();`, or for a complex type:
+         * \code
+         *   JsonObject subobj = jin.get_object();
+         *   return std::make_pair( subobj.get_string( "skill" ), subobj.get_int( "level" ) );
+         * \endcode
+         *
+         * Errors should be reported via exceptions (see @ref JsonIn::error).
          */
-        virtual FlagType convert( const std::string &data, JsonObject &jo,
-                                  const std::string &member_name ) const = 0;
+        virtual FlagType get_next( JsonIn &jin ) const = 0;
 
         /**
          * Loads the set from JSON, similar to `JsonObject::get_tags`, but returns
-         * a properly typed set.
+         * a properly typed set. It uses the @ref get_next to actually read the typed
+         * values.
          */
         std::set<FlagType> get_tags( JsonObject &jo, const std::string &member_name ) const {
             std::set<FlagType> result;
-            for( auto && data : jo.get_tags( member_name ) ) {
-                result.insert( convert( data, jo, member_name ) );
+            if( !jo.has_member( member_name ) ) {
+                return result;
+            }
+            JsonIn &jin = *jo.get_raw( member_name );
+            if( jin.test_array() ) {
+                jin.start_array();
+                while( !jin.end_array() ) {
+                    result.insert( get_next( jin ) );
+                }
+            } else {
+                result.insert( get_next( jin ) );
             }
             return result;
         }
@@ -468,7 +486,7 @@ class generic_typed_reader
             if( !jo.has_member( member_name ) ) {
                 return false;
             }
-            member = convert( jo.get_string( member_name ), jo, member_name );
+            member = get_next( *jo.get_raw( member_name ) );
             return true;
         }
 
@@ -527,9 +545,9 @@ class generic_typed_reader
 class color_reader : public generic_typed_reader<nc_color>
 {
     public:
-        nc_color convert( const std::string &data, JsonObject &, const std::string & ) const override {
+        nc_color get_next( JsonIn &jin ) const override {
             // TODO: check for valid color name
-            return color_from_string( data );
+            return color_from_string( jin.get_string() );
         }
 };
 
@@ -549,8 +567,8 @@ template<typename FlagType = std::string>
 class auto_flags_reader : public generic_typed_reader<FlagType>
 {
     public:
-        FlagType convert( const std::string &flag, JsonObject &, const std::string & ) const override {
-            return FlagType( flag );
+        FlagType get_next( JsonIn &jin ) const override {
+            return FlagType( jin.get_string() );
         }
 };
 
@@ -580,11 +598,13 @@ class typed_flag_reader : public generic_typed_reader<typename C::mapped_type>
             , error_msg( e ) {
         }
 
-        typename C::mapped_type convert( const std::string &flag, JsonObject &jo,
-                                         const std::string &member_name ) const override {
+        typename C::mapped_type get_next( JsonIn &jin ) const override {
+            const auto position = jin.tell();
+            const std::string flag = jin.get_string();
             const auto iter = flag_map.find( flag );
             if( iter == flag_map.end() ) {
-                jo.throw_error( error_msg + ": \"" + flag + "\"" , member_name );
+                jin.seek( position );
+                jin.error( error_msg + ": \"" + flag + "\"" );
             }
             return iter->second;
         }
@@ -597,12 +617,14 @@ template<typename E>
 class enum_flags_reader : public generic_typed_reader<E>
 {
     public:
-        E convert( const std::string &flag, JsonObject &jo,
-                   const std::string &member_name ) const override {
+        E get_next( JsonIn &jin ) const override {
+            const auto position = jin.tell();
+            const std::string flag = jin.get_string();
             try {
                 return io::string_to_enum<E>( flag );
             } catch( const io::InvalidEnumString & ) {
-                jo.throw_error( "invalid enumeration value: \"" + flag + "\"", member_name );
+                jin.seek( position );
+                jin.error( "invalid enumeration value: \"" + flag + "\"" );
                 throw; // ^^ throws already
             }
         }
