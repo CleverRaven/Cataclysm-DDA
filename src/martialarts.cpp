@@ -10,10 +10,10 @@
 #include <algorithm>
 #include "generic_factory.h"
 
-std::map<mabuff_id, ma_buff> ma_buffs;
 namespace {
 generic_factory<ma_technique> ma_techniques( "martial art technique" );
 generic_factory<martialart> martialarts( "martial art style" );
+generic_factory<ma_buff> ma_buffs( "martial art buff" );
 }
 
 void load_technique(JsonObject &jo)
@@ -98,19 +98,12 @@ bool string_id<ma_technique>::is_valid() const
 
 mabuff_id load_buff(JsonObject &jo)
 {
-    ma_buff buff;
-    buff.id = mabuff_id( jo.get_string("id") );
-
-    buff.load( jo );
-
-    ma_buffs[buff.id] = buff;
-    return buff.id;
+    ma_buffs.load( jo );
+    return mabuff_id( jo.get_string( "id" ) );
 }
 
 void ma_buff::load( JsonObject &jo )
 {
-    const bool was_loaded = false;
-
     mandatory( jo, was_loaded, "name", name, translated_string_reader );
     mandatory( jo, was_loaded, "description", description, translated_string_reader );
 
@@ -176,19 +169,13 @@ void ma_buff::load( JsonObject &jo )
 template<>
 const ma_buff &string_id<ma_buff>::obj() const
 {
-    const auto iter = ma_buffs.find( *this );
-    if( iter == ma_buffs.end() ) {
-        debugmsg( "invalid martial art buff id %s", _id.c_str() );
-        static const ma_buff dummy;
-        return dummy;
-    }
-    return iter->second;
+    return ma_buffs.obj( *this );
 }
 
 template<>
 bool string_id<ma_buff>::is_valid() const
 {
-    return ma_buffs.count( *this ) > 0;
+    return ma_buffs.is_valid( *this );
 }
 
 void load_martial_art(JsonObject &jo)
@@ -288,7 +275,7 @@ void check_martialarts()
     for( auto & t : ma_techniques.all_ref() ) {
         ::check( t.second.reqs, string_format( "technique %s", t.first.c_str() ) );
     }
-    for( auto & b : ma_buffs ) {
+    for( auto & b : ma_buffs.all_ref() ) {
         ::check( b.second.reqs, string_format( "buff %s", b.first.c_str() ) );
     }
 }
@@ -344,7 +331,7 @@ void finialize_martial_arts()
 {
     // This adds an effect type for each ma_buff, so we can later refer to it and don't need a
     // redundant definition of those effects in json.
-    for( auto &buff : ma_buffs ) {
+    for( auto &buff : ma_buffs.all_ref() ) {
         const ma_buff_effect_type new_eff( buff.second );
         // Note the slicing here: new_eff is converted to a plain effect_type, but this doesn't
         // bother us because ma_buff_effect_type does not have any members that can be sliced.
@@ -355,7 +342,7 @@ void finialize_martial_arts()
 void clear_techniques_and_martial_arts()
 {
     martialarts.reset();
-    ma_buffs.clear();
+    ma_buffs.reset();
     ma_techniques.reset();
 }
 

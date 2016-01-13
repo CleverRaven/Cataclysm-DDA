@@ -10,6 +10,7 @@
         "static_buffs" : [
             {
                 "id" : "silat_buff",
+                "edit-mode" : "override",
                 "name" : "Silat Stance",
                 "description" : "+1 dodge",
                 "unarmed_allowed" : true,
@@ -20,6 +21,7 @@
         "ondodge_buffs" : [
             {
                 "id" : "silat_dodge_buff",
+                "edit-mode" : "override",
                 "name" : "Silat Counter",
                 "description" : "Extra to-hit after successful dodge",
                 "unarmed_allowed" : true,
@@ -103,6 +105,7 @@
         "onmove_buffs" : [
             {
                 "id" : "fencing_move_buff",
+                "edit-mode" : "override",
                 "name" : "Fencing Footwork",
                 "description" : "+2 stab and +1 acc per stack",
                 "unarmed_allowed" : true,
@@ -147,6 +150,7 @@
         "static_buffs" : [
             {
                  "id": "niten_stationary_buff",
+                 "edit-mode" : "override",
                  "name" : "Niten Ichi-Ryu",
                  "description" : "Perception increases dodging and damage.",
                  "min_melee" : 2,
@@ -158,6 +162,7 @@
         "onmove_buffs" : [
           {
              "id" : "niten_move_buff",
+            "edit-mode" : "override",
             "name" : "Blocking",
             "description" : "You forgo dodging on the move, but gain more blocks.",
             "min_melee" : 2,
@@ -171,6 +176,7 @@
       "onhit_buffs" : [
           {
             "id" : "niten_hit_buff",
+            "edit-mode" : "override",
             "name" : "Blocking",
             "description" : "You forgo dodging on the offensive, but gain more blocks.",
             "min_melee" : 2,
@@ -184,6 +190,7 @@
         "ondodge_buffs" : [
             {
                  "id" : "niten_set-up",
+                 "edit-mode" : "override",
                  "name" : "In-One Timing Set-Up",
                  "description" : "You found a gap in the enemy's defense!",
                  "min_melee" : 4,

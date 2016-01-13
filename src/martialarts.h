@@ -170,6 +170,7 @@ class ma_buff
         static const ma_buff *from_effect( const effect &eff );
 
         mabuff_id id;
+        bool was_loaded = false;
         std::string name;
         std::string description;
 
