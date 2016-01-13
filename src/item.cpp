@@ -3997,6 +3997,21 @@ itype_id item::ammo_current() const
     return curammo ? curammo->id : "null";
 }
 
+const itype * item::ammo_data() const
+{
+    // @todo handle magazines
+
+    if( is_ammo() ) {
+        return type;
+    }
+
+    if( is_magazine() ) {
+        return !contents.empty() ? contents[0].type : nullptr;
+    }
+
+    return curammo;
+}
+
 ammotype item::ammo_type() const
 {
     if (is_gun()) {
