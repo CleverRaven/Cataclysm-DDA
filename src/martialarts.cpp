@@ -244,7 +244,7 @@ void load_martial_art(JsonObject &jo)
     jsarr = jo.get_array("ongethit_buffs");
     while (jsarr.has_more()) {
         JsonObject jsobj = jsarr.next_object();
-        ma.onblock_buffs.push_back(load_buff(jsobj));
+        ma.ongethit_buffs.push_back(load_buff(jsobj));
     }
 
     for( auto & s :jo.get_tags( "techniques" ) ) {
