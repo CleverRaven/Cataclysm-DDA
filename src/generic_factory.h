@@ -110,12 +110,14 @@ class generic_factory
 
         std::string type_name;
 
-        void load_override( const string_id<T> &id, JsonObject &jo ) {
+        T &load_override( const string_id<T> &id, JsonObject &jo ) {
             T obj;
             obj.id = id;
             obj.load( jo );
             obj.was_loaded = true;
-            data[id] = std::move( obj );
+            T &result = data[id];
+            result = std::move( obj );
+            return result;
         }
 
     public:
@@ -133,9 +135,10 @@ class generic_factory
          * calling `T::load(jo)` (either on a new object or on an existing object).
          * See class documentation for intended behavior of that function.
          *
+         * @return A reference to the loaded/modified object.
          * @throws JsonError If loading fails for any reason (thrown by `T::load`).
          */
-        void load( JsonObject &jo ) {
+        T &load( JsonObject &jo ) {
             const string_id<T> id( jo.get_string( "id" ) );
             const auto iter = data.find( id );
             const bool exists = iter != data.end();
@@ -144,22 +147,24 @@ class generic_factory
             // existing objects.
             const std::string mode = jo.get_string( "edit-mode", "create" );
             if( mode == "override" ) {
-                load_override( id, jo );
+                return load_override( id, jo );
 
             } else if( mode == "modify" ) {
                 if( !exists ) {
                     jo.throw_error( "missing definition of " + type_name + " \"" + id.str() + "\" to be modified", "id" );
                 }
                 iter->second.load( jo );
+                return iter->second;
 
             } else if( mode == "create" ) {
                 if( exists ) {
                     jo.throw_error( "duplicated definition of " + type_name + " \"" + id.str() + "\"", "id" );
                 }
-                load_override( id, jo );
+                return load_override( id, jo );
 
             } else {
                 jo.throw_error( "invalid edit mode, must be \"create\", \"modify\" or \"override\"", "edit-mode" );
+                throw; // dummy, throw_error always throws
             }
         }
         /**

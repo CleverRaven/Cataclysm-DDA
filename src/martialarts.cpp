@@ -98,8 +98,7 @@ bool string_id<ma_technique>::is_valid() const
 
 mabuff_id load_buff(JsonObject &jo)
 {
-    ma_buffs.load( jo );
-    return mabuff_id( jo.get_string( "id" ) );
+    return ma_buffs.load( jo ).id;
 }
 
 void ma_buff::load( JsonObject &jo )
@@ -189,7 +188,7 @@ class ma_buff_reader : public generic_typed_reader<mabuff_id>
         mabuff_id get_next( JsonIn &jin ) const override {
             if( jin.test_string() ) {
                 return mabuff_id( jin.get_string() );
-    }
+            }
             JsonObject jsobj = jin.get_object();
             return load_buff( jsobj );
     }
