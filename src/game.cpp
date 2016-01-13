@@ -10837,7 +10837,7 @@ void game::plfire( bool burst, const tripoint &default_target )
                 options.push_back( string_format( _("%s from %s (%d)" ),
                                                   w.contents[0].tname().c_str(),
                                                   w.type_name().c_str(),
-                                                  w.contents[0].charges ) );
+                                                  w.contents[0].ammo_remaining() ) );
 
                 actions.push_back( [&]{ u.invoke_item( &w, "holster" ); } );
 
@@ -10893,7 +10893,7 @@ void game::plfire( bool burst, const tripoint &default_target )
             u.weapon.set_curammo( "generic_no_ammo" );
         }
 
-        if( u.weapon.has_flag("RELOAD_AND_SHOOT") && u.weapon.charges == 0 ) {
+        if( u.weapon.has_flag("RELOAD_AND_SHOOT") && u.weapon.ammo_remaining() == 0 ) {
             if( !u.weapon.reload( u, u.weapon.pick_reload_ammo( u, true ) ) ) {
                 return;
             }
