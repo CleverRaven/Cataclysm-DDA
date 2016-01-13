@@ -223,6 +223,8 @@ class ma_buff
         bool quiet;
         bool melee_allowed;
         bool throw_immune; // are we immune to throws/grabs?
+
+        void load( JsonObject &jo );
 };
 
 class martialart

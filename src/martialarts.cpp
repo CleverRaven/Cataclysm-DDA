@@ -111,72 +111,75 @@ bool string_id<ma_technique>::is_valid() const
 mabuff_id load_buff(JsonObject &jo)
 {
     ma_buff buff;
-
     buff.id = mabuff_id( jo.get_string("id") );
 
-    buff.name = _(jo.get_string("name").c_str());
-    buff.description = _(jo.get_string("description").c_str());
-
-    buff.buff_duration = jo.get_int("buff_duration", 2);
-    buff.max_stacks = jo.get_int("max_stacks", 1);
-
-    buff.reqs.unarmed_allowed = jo.get_bool("unarmed_allowed", false);
-    buff.reqs.melee_allowed = jo.get_bool("melee_allowed", false);
-
-    buff.reqs.min_melee = jo.get_int("min_melee", 0);
-    buff.reqs.min_unarmed = jo.get_int("min_unarmed", 0);
-
-    buff.dodges_bonus = jo.get_int("bonus_dodges", 0);
-    buff.blocks_bonus = jo.get_int("bonus_blocks", 0);
-
-    buff.hit = jo.get_int("hit", 0);
-    buff.bash = jo.get_int("bash", 0);
-    buff.cut = jo.get_int("cut", 0);
-    buff.dodge = jo.get_int("dodge", 0);
-    buff.speed = jo.get_int("speed", 0);
-    buff.block = jo.get_int("block", 0);
-
-    buff.arm_bash = jo.get_int("arm_bash", 0);
-    buff.arm_cut = jo.get_int("arm_cut", 0);
-
-    buff.bash_stat_mult = jo.get_float("bash_mult", 1.0);
-    buff.cut_stat_mult = jo.get_float("cut_mult", 1.0);
-
-    buff.hit_str = jo.get_float("hit_str", 0.0);
-    buff.hit_dex = jo.get_float("hit_dex", 0.0);
-    buff.hit_int = jo.get_float("hit_int", 0.0);
-    buff.hit_per = jo.get_float("hit_per", 0.0);
-
-    buff.bash_str = jo.get_float("bash_str", 0.0);
-    buff.bash_dex = jo.get_float("bash_dex", 0.0);
-    buff.bash_int = jo.get_float("bash_int", 0.0);
-    buff.bash_per = jo.get_float("bash_per", 0.0);
-
-    buff.cut_str = jo.get_float("cut_str", 0.0);
-    buff.cut_dex = jo.get_float("cut_dex", 0.0);
-    buff.cut_int = jo.get_float("cut_int", 0.0);
-    buff.cut_per = jo.get_float("cut_per", 0.0);
-
-    buff.dodge_str = jo.get_float("dodge_str", 0.0);
-    buff.dodge_dex = jo.get_float("dodge_dex", 0.0);
-    buff.dodge_int = jo.get_float("dodge_int", 0.0);
-    buff.dodge_per = jo.get_float("dodge_per", 0.0);
-
-    buff.block_str = jo.get_float("block_str", 0.0);
-    buff.block_dex = jo.get_float("block_dex", 0.0);
-    buff.block_int = jo.get_float("block_int", 0.0);
-    buff.block_per = jo.get_float("block_per", 0.0);
-
-    buff.quiet = jo.get_bool("quiet", false);
-    buff.throw_immune = jo.get_bool("throw_immune", false);
-
-    for( auto & s :jo.get_tags( "req_buffs" ) ) {
-        buff.reqs.req_buffs.insert( mabuff_id( s ) );
-    }
+    buff.load( jo );
 
     ma_buffs[buff.id] = buff;
-
     return buff.id;
+}
+
+void ma_buff::load( JsonObject &jo )
+{
+    name = _(jo.get_string("name").c_str());
+    description = _(jo.get_string("description").c_str());
+
+    buff_duration = jo.get_int("buff_duration", 2);
+    max_stacks = jo.get_int("max_stacks", 1);
+
+    reqs.unarmed_allowed = jo.get_bool("unarmed_allowed", false);
+    reqs.melee_allowed = jo.get_bool("melee_allowed", false);
+
+    reqs.min_melee = jo.get_int("min_melee", 0);
+    reqs.min_unarmed = jo.get_int("min_unarmed", 0);
+
+    dodges_bonus = jo.get_int("bonus_dodges", 0);
+    blocks_bonus = jo.get_int("bonus_blocks", 0);
+
+    hit = jo.get_int("hit", 0);
+    bash = jo.get_int("bash", 0);
+    cut = jo.get_int("cut", 0);
+    dodge = jo.get_int("dodge", 0);
+    speed = jo.get_int("speed", 0);
+    block = jo.get_int("block", 0);
+
+    arm_bash = jo.get_int("arm_bash", 0);
+    arm_cut = jo.get_int("arm_cut", 0);
+
+    bash_stat_mult = jo.get_float("bash_mult", 1.0);
+    cut_stat_mult = jo.get_float("cut_mult", 1.0);
+
+    hit_str = jo.get_float("hit_str", 0.0);
+    hit_dex = jo.get_float("hit_dex", 0.0);
+    hit_int = jo.get_float("hit_int", 0.0);
+    hit_per = jo.get_float("hit_per", 0.0);
+
+    bash_str = jo.get_float("bash_str", 0.0);
+    bash_dex = jo.get_float("bash_dex", 0.0);
+    bash_int = jo.get_float("bash_int", 0.0);
+    bash_per = jo.get_float("bash_per", 0.0);
+
+    cut_str = jo.get_float("cut_str", 0.0);
+    cut_dex = jo.get_float("cut_dex", 0.0);
+    cut_int = jo.get_float("cut_int", 0.0);
+    cut_per = jo.get_float("cut_per", 0.0);
+
+    dodge_str = jo.get_float("dodge_str", 0.0);
+    dodge_dex = jo.get_float("dodge_dex", 0.0);
+    dodge_int = jo.get_float("dodge_int", 0.0);
+    dodge_per = jo.get_float("dodge_per", 0.0);
+
+    block_str = jo.get_float("block_str", 0.0);
+    block_dex = jo.get_float("block_dex", 0.0);
+    block_int = jo.get_float("block_int", 0.0);
+    block_per = jo.get_float("block_per", 0.0);
+
+    quiet = jo.get_bool("quiet", false);
+    throw_immune = jo.get_bool("throw_immune", false);
+
+    for( auto & s :jo.get_tags( "req_buffs" ) ) {
+        reqs.req_buffs.insert( mabuff_id( s ) );
+    }
 }
 
 // Not implemented on purpose (martialart objects have no integer id)
