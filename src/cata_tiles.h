@@ -209,15 +209,15 @@ class cata_tiles
         /** How many rows and columns of tiles fit into given dimensions **/
         void get_window_tile_counts(const int width, const int height, int &columns, int &rows) const;
 
-        bool draw_from_id_string(std::string id, int x, int y, int subtile, int rota, lit_level ll,
+        bool draw_from_id_string(std::string id, tripoint pos, int subtile, int rota, lit_level ll,
                                  bool apply_night_vision_goggles );
         bool draw_from_id_string(std::string id, TILE_CATEGORY category,
-                                 const std::string &subcategory, int x, int y, int subtile, int rota,
+                                 const std::string &subcategory, tripoint pos, int subtile, int rota,
                                  lit_level ll, bool apply_night_vision_goggles );
-        bool draw_from_id_string(std::string id, int x, int y, int subtile, int rota, lit_level ll,
+        bool draw_from_id_string(std::string id, tripoint pos, int subtile, int rota, lit_level ll,
                                  bool apply_night_vision_goggles, int &height_3d );
         bool draw_from_id_string(std::string id, TILE_CATEGORY category,
-                                 const std::string &subcategory, int x, int y, int subtile, int rota,
+                                 const std::string &subcategory, tripoint pos, int subtile, int rota,
                                  lit_level ll, bool apply_night_vision_goggles, int &height_3d );
         bool draw_sprite_at( const tile_type & tile, const weighted_int_list<std::vector<int>> &svlist,
                              int x, int y, unsigned int loc_rand, int rota_fg, int rota, lit_level ll,
@@ -245,7 +245,7 @@ class cata_tiles
         /** Drawing Layers */
         void draw_single_tile( const tripoint &p, const lit_level ll,
                                const visibility_variables &cache, int &height_3d );
-        bool apply_vision_effects( int x, int y, const visibility_type visibility);
+        bool apply_vision_effects( const tripoint &pos, const visibility_type visibility);
         bool draw_terrain( const tripoint &p, lit_level ll, int &height_3d );
         bool draw_furniture( const tripoint &p, lit_level ll, int &height_3d );
         bool draw_trap( const tripoint &p, lit_level ll, int &height_3d );
@@ -255,7 +255,7 @@ class cata_tiles
         bool draw_entity( const Creature &critter, const tripoint &p, lit_level ll, int &height_3d );
         void draw_entity_with_overlays( const player &pl, const tripoint &p, lit_level ll, int &height_3d );
 
-        bool draw_item_highlight(int x, int y);
+        bool draw_item_highlight( const tripoint &pos );
 
     private:
         //surface manipulation
@@ -269,7 +269,7 @@ class cata_tiles
         void draw_explosion_frame();
         void void_explosion();
 
-        void init_custom_explosion_layer( const std::map<point, explosion_tile> &layer );
+        void init_custom_explosion_layer( const std::map<tripoint, explosion_tile> &layer );
         void draw_custom_explosion_frame();
         void void_custom_explosion();
 
@@ -360,17 +360,18 @@ class cata_tiles
         bool do_draw_sct;
         bool do_draw_zones;
 
-        int exp_pos_x, exp_pos_y, exp_rad;
+        tripoint exp_pos;
+        int exp_rad;
 
-        std::map<point, explosion_tile> custom_explosion_layer;
+        std::map<tripoint, explosion_tile> custom_explosion_layer;
 
-        int bul_pos_x, bul_pos_y;
+        tripoint bul_pos;
         std::string bul_id;
 
-        int hit_pos_x, hit_pos_y;
+        tripoint hit_pos;
         std::string hit_entity_id;
 
-        int line_pos_x, line_pos_y;
+        tripoint line_pos;
         bool is_target_line;
         std::vector<tripoint> line_trajectory;
         std::string line_endpoint_id;
