@@ -8,6 +8,7 @@
 #include <map>
 #include <string>
 #include <algorithm>
+#include "generic_factory.h"
 
 std::map<matype_id, martialart> martialarts;
 std::map<mabuff_id, ma_buff> ma_buffs;
@@ -24,10 +25,8 @@ void load_technique(JsonObject &jo)
 
 void ma_technique::load( JsonObject &jo )
 {
-    name = jo.get_string("name", "");
-    if (!name.empty()) {
-        name = _(name.c_str());
-    }
+    const bool was_loaded = false;
+    optional( jo, was_loaded, "name", name, translated_string_reader );
 
     if( jo.has_member( "messages" ) ) {
         JsonArray jsarr = jo.get_array("messages");
@@ -41,50 +40,48 @@ void ma_technique::load( JsonObject &jo )
         }
     }
 
-    reqs.unarmed_allowed = jo.get_bool("unarmed_allowed", false);
-    reqs.melee_allowed = jo.get_bool("melee_allowed", false);
-    reqs.min_melee = jo.get_int("min_melee", 0);
-    reqs.min_unarmed = jo.get_int("min_unarmed", 0);
+    optional( jo, was_loaded, "unarmed_allowed", reqs.unarmed_allowed, false );
+    optional( jo, was_loaded, "melee_allowed", reqs.melee_allowed, false );
+    optional( jo, was_loaded, "min_melee", reqs.min_melee, 0 );
+    optional( jo, was_loaded, "min_unarmed", reqs.min_unarmed, 0 );
 
-    reqs.min_bashing = jo.get_int("min_bashing", 0);
-    reqs.min_cutting = jo.get_int("min_cutting", 0);
-    reqs.min_stabbing = jo.get_int("min_stabbing", 0);
+    optional( jo, was_loaded, "min_bashing", reqs.min_bashing, 0 );
+    optional( jo, was_loaded, "min_cutting", reqs.min_cutting, 0 );
+    optional( jo, was_loaded, "min_stabbing", reqs.min_stabbing, 0 );
 
-    reqs.min_bashing_damage = jo.get_int("min_bashing_damage", 0);
-    reqs.min_cutting_damage = jo.get_int("min_cutting_damage", 0);
+    optional( jo, was_loaded, "min_bashing_damage", reqs.min_bashing_damage, 0 );
+    optional( jo, was_loaded, "min_cutting_damage", reqs.min_cutting_damage, 0 );
 
-    for( auto & s :jo.get_tags( "req_buffs" ) ) {
-        reqs.req_buffs.insert( mabuff_id( s ) );
-    }
-    reqs.req_flags = jo.get_tags("req_flags");
+    optional( jo, was_loaded, "req_buffs", reqs.req_buffs, auto_flags_reader<mabuff_id>{} );
+    optional( jo, was_loaded, "req_flags", reqs.req_flags, auto_flags_reader<>{} );
 
-    crit_tec = jo.get_bool("crit_tec", false);
-    defensive = jo.get_bool("defensive", false);
-    disarms = jo.get_bool("disarms", false);
-    dodge_counter = jo.get_bool("dodge_counter", false);
-    block_counter = jo.get_bool("block_counter", false);
-    miss_recovery = jo.get_bool("miss_recovery", false);
-    grab_break = jo.get_bool("grab_break", false);
-    flaming = jo.get_bool("flaming", false);
+    optional( jo, was_loaded, "crit_tec", crit_tec, false );
+    optional( jo, was_loaded, "defensive", defensive, false );
+    optional( jo, was_loaded, "disarms", disarms, false );
+    optional( jo, was_loaded, "dodge_counter", dodge_counter, false );
+    optional( jo, was_loaded, "block_counter", block_counter, false );
+    optional( jo, was_loaded, "miss_recovery", miss_recovery, false );
+    optional( jo, was_loaded, "grab_break", grab_break, false );
+    optional( jo, was_loaded, "flaming", flaming, false );
 
-    hit = jo.get_int("hit", 0);
-    bash = jo.get_int("bash", 0);
-    cut = jo.get_int("cut", 0);
-    pain = jo.get_int("pain", 0);
+    optional( jo, was_loaded, "hit", hit, 0 );
+    optional( jo, was_loaded, "bash", bash, 0 );
+    optional( jo, was_loaded, "cut", cut, 0 );
+    optional( jo, was_loaded, "pain", pain, 0 );
 
-    weighting = jo.get_int("weighting", 1);
+    optional( jo, was_loaded, "weighting", weighting, 1 );
 
-    bash_mult = jo.get_float("bash_mult", 1.0);
-    cut_mult = jo.get_float("cut_mult", 1.0);
-    speed_mult = jo.get_float("speed_mult", 1.0);
+    optional( jo, was_loaded, "bash_mult", bash_mult, 1.0 );
+    optional( jo, was_loaded, "cut_mult", cut_mult, 1.0 );
+    optional( jo, was_loaded, "speed_mult", speed_mult, 1.0 );
 
-    down_dur = jo.get_int("down_dur", 0);
-    stun_dur = jo.get_int("stun_dur", 0);
-    knockback_dist = jo.get_int("knockback_dist", 0);
-    knockback_spread = jo.get_int("knockback_spread", 0);
+    optional( jo, was_loaded, "down_dur", down_dur, 0 );
+    optional( jo, was_loaded, "stun_dur", stun_dur, 0 );
+    optional( jo, was_loaded, "knockback_dist", knockback_dist, 0 );
+    optional( jo, was_loaded, "knockback_spread", knockback_spread, 0 );
 
-    aoe = jo.get_string("aoe", "");
-    flags = jo.get_tags("flags");
+    optional( jo, was_loaded, "aoe", aoe, "" );
+    optional( jo, was_loaded, "flags", flags, auto_flags_reader<>{} );
 }
 
 // Not implemented on purpose (martialart objects have no integer id)
