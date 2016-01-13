@@ -256,6 +256,7 @@ class martialart
         bool has_weapon( std::string item ) const;
 
         matype_id id;
+        bool was_loaded = false;
         std::string name;
         std::string description;
         int arm_block;

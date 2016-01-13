@@ -10,10 +10,10 @@
 #include <algorithm>
 #include "generic_factory.h"
 
-std::map<matype_id, martialart> martialarts;
 std::map<mabuff_id, ma_buff> ma_buffs;
 namespace {
 generic_factory<ma_technique> ma_techniques( "martial art technique" );
+generic_factory<martialart> martialarts( "martial art style" );
 }
 
 void load_technique(JsonObject &jo)
@@ -193,11 +193,7 @@ bool string_id<ma_buff>::is_valid() const
 
 void load_martial_art(JsonObject &jo)
 {
-    martialart ma;
-    ma.id = matype_id( jo.get_string("id") );
-    ma.load( jo );
-
-    martialarts[ma.id] = ma;
+    martialarts.load( jo );
 }
 
 class ma_buff_reader : public generic_typed_reader<mabuff_id>
@@ -214,7 +210,6 @@ class ma_buff_reader : public generic_typed_reader<mabuff_id>
 
 void martialart::load( JsonObject &jo )
 {
-    const bool was_loaded = false;
     JsonArray jsarr;
 
     mandatory( jo, was_loaded, "name", name, translated_string_reader );
@@ -244,25 +239,19 @@ void martialart::load( JsonObject &jo )
 template<>
 const martialart &string_id<martialart>::obj() const
 {
-    const auto iter = martialarts.find( *this );
-    if( iter == martialarts.end() ) {
-        debugmsg( "invalid martial art id %s", _id.c_str() );
-        static const martialart dummy;
-        return dummy;
-    }
-    return iter->second;
+    return martialarts.obj( *this );
 }
 
 template<>
 bool string_id<martialart>::is_valid() const
 {
-    return martialarts.count( *this ) > 0;
+    return martialarts.is_valid( *this );
 }
 
 std::vector<matype_id> all_martialart_types()
 {
     std::vector<matype_id> result;
-    for( auto & e : martialarts ) {
+    for( auto & e : martialarts.all_ref() ) {
         result.push_back( e.first );
     }
     return result;
@@ -279,7 +268,8 @@ void check( const ma_requirements & req, const std::string &display_text )
 
 void check_martialarts()
 {
-    for( auto style = martialarts.cbegin(); style != martialarts.cend(); ++style ) {
+    for( auto &e : martialarts.all_ref() ) {
+        const auto style = &e;
         for( auto technique = style->second.techniques.cbegin();
              technique != style->second.techniques.cend(); ++technique ) {
             if( !technique->is_valid() ) {
@@ -364,7 +354,7 @@ void finialize_martial_arts()
 
 void clear_techniques_and_martial_arts()
 {
-    martialarts.clear();
+    martialarts.reset();
     ma_buffs.clear();
     ma_techniques.reset();
 }

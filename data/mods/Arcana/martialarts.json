@@ -2,6 +2,7 @@
     {
         "type" : "martial_art",
         "id" : "style_silat",
+        "edit-mode" : "override",
         "name" : "Silat",
         "description": "Pentjak Silat, of Indonesian origin, is a fighting style that covers the use of short blades and bludgeons.  Fighters stay low and mobile to avoid attacks, then unleash deadly critical hits.", 
         "arm_block" : 99,
@@ -94,6 +95,7 @@
     },{
         "type" : "martial_art",
         "id" : "style_fencing",
+        "edit-mode" : "override",
         "name" : "Fencing",
         "description": "The noble art of fencing is taught with flexible competition blades, but the techniques are derived from (and applicable to) more functional examples.  Skilled fencers can take advantage of advances and retreats to deliver accurate strikes.", 
         "arm_block" : 99,
@@ -137,6 +139,7 @@
     },{
         "type" : "martial_art",
         "id" : "style_niten",
+        "edit-mode" : "override",
         "name" : "Niten Ichi-Ryu",
         "description" : "Niten Ichi-Ryu is an ancient school of combat, transmitting a style of classical Japanese swordsmanship conceived by the warrior Miyamoto Musashi.  It primarily focuses on the proper use of the katana and wakizashi, but includes staff techniques as well.",
         "arm_block" : 99,
