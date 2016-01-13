@@ -209,65 +209,42 @@ void load_martial_art(JsonObject &jo)
     martialarts[ma.id] = ma;
 }
 
+class ma_buff_reader : public generic_typed_reader<mabuff_id>
+{
+    private:
+        mabuff_id get_next( JsonIn &jin ) const override {
+            if( jin.test_string() ) {
+                return mabuff_id( jin.get_string() );
+    }
+            JsonObject jsobj = jin.get_object();
+            return load_buff( jsobj );
+    }
+};
+
 void martialart::load( JsonObject &jo )
 {
+    const bool was_loaded = false;
     JsonArray jsarr;
 
-    name = _(jo.get_string("name").c_str());
-    description = _(jo.get_string("description").c_str());
+    mandatory( jo, was_loaded, "name", name, translated_string_reader );
+    mandatory( jo, was_loaded, "description", description, translated_string_reader );
 
-    jsarr = jo.get_array("static_buffs");
-    while (jsarr.has_more()) {
-        JsonObject jsobj = jsarr.next_object();
-        static_buffs.push_back(load_buff(jsobj));
-    }
+    optional( jo, was_loaded, "static_buffs", static_buffs, ma_buff_reader{} );
+    optional( jo, was_loaded, "onmove_buffs", onmove_buffs, ma_buff_reader{} );
+    optional( jo, was_loaded, "onhit_buffs", onhit_buffs, ma_buff_reader{} );
+    optional( jo, was_loaded, "onattack_buffs", onattack_buffs, ma_buff_reader{} );
+    optional( jo, was_loaded, "ondodge_buffs", ondodge_buffs, ma_buff_reader{} );
+    optional( jo, was_loaded, "onblock_buffs", onblock_buffs, ma_buff_reader{} );
+    optional( jo, was_loaded, "ongethit_buffs", ongethit_buffs, ma_buff_reader{} );
 
-    jsarr = jo.get_array("onmove_buffs");
-    while (jsarr.has_more()) {
-        JsonObject jsobj = jsarr.next_object();
-        onmove_buffs.push_back(load_buff(jsobj));
-    }
+    optional( jo, was_loaded, "techniques", techniques, auto_flags_reader<matec_id>{} );
+    optional( jo, was_loaded, "weapons", weapons, auto_flags_reader<itype_id>{} );
 
-    jsarr = jo.get_array("onhit_buffs");
-    while (jsarr.has_more()) {
-        JsonObject jsobj = jsarr.next_object();
-        onhit_buffs.push_back(load_buff(jsobj));
-    }
+    optional( jo, was_loaded, "leg_block", leg_block, 99 );
+    optional( jo, was_loaded, "arm_block", arm_block, 99 );
 
-    jsarr = jo.get_array("onattack_buffs");
-    while (jsarr.has_more()) {
-        JsonObject jsobj = jsarr.next_object();
-        onattack_buffs.push_back(load_buff(jsobj));
-    }
-
-    jsarr = jo.get_array("ondodge_buffs");
-    while (jsarr.has_more()) {
-        JsonObject jsobj = jsarr.next_object();
-        ondodge_buffs.push_back(load_buff(jsobj));
-    }
-
-    jsarr = jo.get_array("onblock_buffs");
-    while (jsarr.has_more()) {
-        JsonObject jsobj = jsarr.next_object();
-        onblock_buffs.push_back(load_buff(jsobj));
-    }
-
-    jsarr = jo.get_array("ongethit_buffs");
-    while (jsarr.has_more()) {
-        JsonObject jsobj = jsarr.next_object();
-        ongethit_buffs.push_back(load_buff(jsobj));
-    }
-
-    for( auto & s :jo.get_tags( "techniques" ) ) {
-        techniques.insert( matec_id( s ) );
-    }
-    weapons = jo.get_tags("weapons");
-
-    leg_block = jo.get_int("leg_block", 99);
-    arm_block = jo.get_int("arm_block", 99);
-
-    arm_block_with_bio_armor_arms = jo.get_bool("arm_block_with_bio_armor_arms", false);
-    leg_block_with_bio_armor_legs = jo.get_bool("leg_block_with_bio_armor_legs", false);
+    optional( jo, was_loaded, "arm_block_with_bio_armor_arms", arm_block_with_bio_armor_arms, false );
+    optional( jo, was_loaded, "leg_block_with_bio_armor_legs", leg_block_with_bio_armor_legs, false );
 }
 
 // Not implemented on purpose (martialart objects have no integer id)
