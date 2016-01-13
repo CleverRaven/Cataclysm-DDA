@@ -96,11 +96,6 @@ bool string_id<ma_technique>::is_valid() const
     return ma_techniques.is_valid( *this );
 }
 
-mabuff_id load_buff(JsonObject &jo)
-{
-    return ma_buffs.load( jo ).id;
-}
-
 void ma_buff::load( JsonObject &jo )
 {
     mandatory( jo, was_loaded, "name", name, translated_string_reader );
@@ -190,7 +185,7 @@ class ma_buff_reader : public generic_typed_reader<mabuff_id>
                 return mabuff_id( jin.get_string() );
             }
             JsonObject jsobj = jin.get_object();
-            return load_buff( jsobj );
+            return ma_buffs.load( jsobj ).id;
     }
 };
 
