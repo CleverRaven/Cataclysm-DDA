@@ -63,10 +63,12 @@ void iexamine::gaspump(player *p, map *m, const tripoint &examp)
     auto items = m->i_at( examp );
     for( auto item_it = items.begin(); item_it != items.end(); ++item_it ) {
         if( item_it->made_of(LIQUID) ) {
+            ///\EFFECT_DEX decreases chance of spilling gas from a pump
             if( one_in(10 + p->dex_cur) ) {
                 add_msg(m_bad, _("You accidentally spill the %s."), item_it->type_name(1).c_str());
                 item spill( item_it->type->id, calendar::turn );
                 const auto min = item_it->liquid_charges( 1 );
+                ///\EFFECT_DEX decreases amount of gas spilled from a pump
                 const auto max = item_it->liquid_charges( 1 ) * 8.0 / p->dex_cur;
                 spill.charges = rng( min, max );
                 m->add_item_or_charges( p->pos(), spill, 1 );
@@ -601,16 +603,12 @@ void iexamine::cardreader(player *p, map *m, const tripoint &examp)
                           "id_military");
     if (p->has_amount(card_type, 1) && query_yn(_("Swipe your ID card?"))) {
         p->moves -= 100;
-        tripoint tmp = examp;
-        int &i = tmp.x;
-        int &j = tmp.y;
-        for (i = examp.x - 3; i <= examp.x + 3; i++) {
-            for (j = examp.y - 3; j <= examp.y + 3; j++) {
-                if (m->ter(tmp) == t_door_metal_locked) {
-                    m->ter_set(tmp, t_floor);
-                }
+        for(const tripoint &tmp : m->points_in_radius( examp, 3 ) ) {
+            if (m->ter(tmp) == t_door_metal_locked) {
+                m->ter_set(tmp, t_floor);
             }
         }
+        //TODO only despawn turrets "behind" the door
         for (int i = 0; i < (int)g->num_zombies(); i++) {
             if ( (g->zombie(i).type->id == mon_turret) ||
                  (g->zombie(i).type->id == mon_turret_rifle) ) {
@@ -622,55 +620,34 @@ void iexamine::cardreader(player *p, map *m, const tripoint &examp)
         add_msg(m_good, _("The nearby doors slide into the floor."));
         p->use_amount(card_type, 1);
     } else {
-        bool using_electrohack = (p->has_amount("electrohack", 1) &&
-                                  query_yn(_("Use electrohack on the reader?")));
-        bool using_fingerhack = (!using_electrohack && p->has_bionic("bio_fingerhack") &&
-                                 p->power_level > 0 &&
-                                 query_yn(_("Use fingerhack on the reader?")));
-        if (using_electrohack || using_fingerhack) {
-            p->moves -= 500;
-            p->practice( skill_computer, 20 );
-            int success = rng(p->skillLevel( skill_computer ) / 4 - 2, p->skillLevel( skill_computer ) * 2);
-            success += rng(-3, 3);
-            if (using_fingerhack) {
-                success++;
-            }
-            if (p->int_cur < 8) {
-                success -= rng(0, int((8 - p->int_cur) / 2));
-            } else if (p->int_cur > 8) {
-                success += rng(0, int((p->int_cur - 8) / 2));
-            }
-            if (success < 0) {
-                add_msg(_("You cause a short circuit!"));
-                if (success <= -5) {
-                    if (using_electrohack) {
-                        add_msg(m_bad, _("Your electrohack is ruined!"));
-                        p->use_amount("electrohack", 1);
-                    } else {
-                        add_msg(m_bad, _("Your power is drained!"));
-                        p->charge_power(-rng(0, p->power_level));
-                    }
-                }
+        switch( hack_attempt( *p ) ) {
+            case HACK_FAIL:
                 m->ter_set(examp, t_card_reader_broken);
-            } else if (success < 6) {
+                break;
+            case HACK_NOTHING:
                 add_msg(_("Nothing happens."));
-            } else {
-                add_msg(_("You activate the panel!"));
-                add_msg(m_good, _("The nearby doors slide into the floor."));
-                m->ter_set(examp, t_card_reader_broken);
-                tripoint tmp = examp;
-                int &i = tmp.x;
-                int &j = tmp.y;
-                for (i = examp.x - 3; i <= examp.x + 3; i++) {
-                    for (j = examp.y - 3; j <= examp.y + 3; j++) {
+                break;
+            case HACK_SUCCESS:
+                {
+                    add_msg(_("You activate the panel!"));
+                    add_msg(m_good, _("The nearby doors slide into the floor."));
+                    m->ter_set(examp, t_card_reader_broken);
+                    for(const tripoint &tmp : m->points_in_radius( examp, 3 ) ) {
                         if (m->ter(tmp) == t_door_metal_locked) {
                             m->ter_set(tmp, t_floor);
                         }
                     }
                 }
-            }
-        } else {
-            add_msg(m_info, _("Looks like you need a %s."), item::nname( card_type ).c_str());
+                break;
+            case HACK_UNABLE:
+                add_msg(
+                    m_info,
+                    p->skillLevel( skill_computer ) > 0 ?
+                        _("Looks like you need a %s, or a tool to hack it with.") :
+                        _("Looks like you need a %s."),
+                    item::nname( card_type ).c_str()
+                );
+                break;
         }
     }
 }
@@ -753,6 +730,7 @@ void iexamine::chainfence( player *p, map *m, const tripoint &examp )
         p->moves -= 100;
     } else {
         p->moves -= 400;
+        ///\EFFECT_DEX decreases chances of slipping while climbing
         int climb = p->dex_cur;
         if (p->has_trait( "BADKNEES" )) {
             climb = climb / 2;
@@ -840,7 +818,7 @@ void iexamine::portable_structure(player *p, map *m, const tripoint &examp)
 void iexamine::pit(player *p, map *m, const tripoint &examp)
 {
     inventory map_inv;
-    map_inv.form_from_map( p->pos3(), 1);
+    map_inv.form_from_map( p->pos(), 1);
 
     bool player_has = p->has_amount("2x4", 1);
     bool map_has = map_inv.has_amount("2x4", 1);
@@ -856,7 +834,7 @@ void iexamine::pit(player *p, map *m, const tripoint &examp)
         if (player_has && map_has) {
             if (query_yn(_("Use the plank at your feet?"))) {
                 long quantity = 1;
-                m->use_amount( p->pos3(), 1, "2x4", quantity);
+                m->use_amount( p->pos(), 1, "2x4", quantity);
             } else {
                 p->use_amount("2x4", 1);
             }
@@ -864,7 +842,7 @@ void iexamine::pit(player *p, map *m, const tripoint &examp)
             p->use_amount("2x4", 1);
         } else if (!player_has && map_has) { // only map has plank
             long quantity = 1;
-            m->use_amount( p->pos3(), 1, "2x4", quantity);
+            m->use_amount( p->pos(), 1, "2x4", quantity);
         }
 
         if( m->ter(examp) == t_pit ) {
@@ -1012,7 +990,7 @@ void iexamine::slot_machine(player *p, map*, const tripoint&)
 
 void iexamine::safe(player *p, map *m, const tripoint &examp)
 {
-    if (!p->has_amount("stethoscope", 1)) {
+    if ( !( p->has_amount("stethoscope", 1) || p->has_bionic("bio_ears") ) ) {
         p->moves -= 100;
         // one_in(30^3) chance of guessing
         if (one_in(27000)) {
@@ -1032,6 +1010,9 @@ void iexamine::safe(player *p, map *m, const tripoint &examp)
         }
          // 150 minutes +/- 20 minutes per mechanics point away from 3 +/- 10 minutes per
         // perception point away from 8; capped at 30 minutes minimum. *100 to convert to moves
+        ///\EFFECT_PER speeds up safe cracking
+
+        ///\EFFECT_MECHANICS speeds up safe cracking
         int moves = std::max(MINUTES(150) + (p->skillLevel( skill_mechanics ) - 3) * MINUTES(-20) +
                              (p->get_per() - 8) * MINUTES(-10), MINUTES(30)) * 100;
 
@@ -1059,7 +1040,13 @@ void iexamine::gunsafe_ml(player *p, map *m, const tripoint &examp)
     }
 
     p->practice( skill_mechanics, 1);
+    ///\EFFECT_DEX speeds up lock picking gun safe
+
+    ///\EFFECT_MECHANICS speeds up lock picking gun safe
     p->moves -= (1000 - (pick_quality * 100)) - (p->dex_cur + p->skillLevel( skill_mechanics )) * 5;
+    ///\EFFECT_DEX increases chance of lock picking gun safe
+
+    ///\EFFECT_MECHANICS increases chance of lock picking gun safe
     int pick_roll = (dice(2, p->skillLevel( skill_mechanics )) + dice(2, p->dex_cur)) * pick_quality;
     int door_roll = dice(4, 30);
     if (pick_roll >= door_roll) {
@@ -1077,54 +1064,30 @@ void iexamine::gunsafe_ml(player *p, map *m, const tripoint &examp)
 void iexamine::gunsafe_el(player *p, map *m, const tripoint &examp)
 {
     std::string furn_name = m->tername(examp).c_str();
-    bool can_hack = ( !p->has_trait("ILLITERATE") &&
-                      ( (p->has_amount("electrohack", 1)) ||
-                        (p->has_bionic("bio_fingerhack") && p->power_level > 0) ) );
-    if (!can_hack) {
-        add_msg(_("You can't hack this gun safe without an electrohack."));
-        return;
-    }
-
-    bool using_electrohack = (p->has_amount("electrohack", 1) &&
-                              query_yn(_("Use electrohack on the gun safe?")));
-    bool using_fingerhack = (!using_electrohack && p->has_bionic("bio_fingerhack") &&
-                             p->power_level > 0 && query_yn(_("Use fingerhack on the gun safe?")));
-    if (using_electrohack || using_fingerhack) {
-        p->moves -= 500;
-        p->practice( skill_computer, 20);
-        int success = rng(p->skillLevel( skill_computer ) / 4 - 2, p->skillLevel( skill_computer ) * 2);
-        success += rng(-3, 3);
-        if (using_fingerhack) {
-            success++;
-        }
-        if (p->int_cur < 8) {
-            success -= rng(0, int((8 - p->int_cur) / 2));
-        } else if (p->int_cur > 8) {
-            success += rng(0, int((p->int_cur - 8) / 2));
-        }
-        if (success < 0) {
-            add_msg(_("You cause a short circuit!"));
-            if (success <= -5) {
-                if (using_electrohack) {
-                    add_msg(m_bad, _("Your electrohack is ruined!"));
-                    p->use_amount("electrohack", 1);
-                } else {
-                    add_msg(m_bad, _("Your power is drained!"));
-                    p->charge_power(-rng(0, p->power_level));
-                }
-            }
+    switch( hack_attempt( *p ) ) {
+        case HACK_FAIL:
             p->add_memorial_log(pgettext("memorial_male", "Set off an alarm."),
                                 pgettext("memorial_female", "Set off an alarm."));
             sounds::sound(p->pos(), 60, _("An alarm sounds!"));
             if (examp.z > 0 && !g->event_queued(EVENT_WANTED)) {
                 g->add_event(EVENT_WANTED, int(calendar::turn) + 300, 0, p->global_sm_location());
             }
-        } else if (success < 6) {
+            break;
+        case HACK_NOTHING:
             add_msg(_("Nothing happens."));
-        } else {
+            break;
+        case HACK_SUCCESS:
             add_msg(_("You successfully hack the gun safe."));
             g->m.furn_set(examp, "f_safe_o");
-        }
+            break;
+        case HACK_UNABLE:
+            add_msg(
+                m_info,
+                p->skillLevel( skill_computer ) > 0 ?
+                    _("You can't hack this gun safe without a hacking tool.") :
+                    _("This electronic safe looks too complicated to open.")
+            );
+            break;
     }
 }
 
@@ -1449,10 +1412,10 @@ void iexamine::examine_cattails(player *p, map *m, const tripoint &examp)
         return;
     }
     if (calendar::turn.get_season() != WINTER) {
-        m->spawn_item( p->pos3(), "cattail_stalk", rng( 1, 4 ), 0, calendar::turn );
+        m->spawn_item( p->pos(), "cattail_stalk", rng( 1, 4 ), 0, calendar::turn );
     }
     m->furn_set(examp, f_null);
-    m->spawn_item( p->pos3(), "cattail_rhizome", 1, 0, calendar::turn );
+    m->spawn_item( p->pos(), "cattail_rhizome", 1, 0, calendar::turn );
 }
 
 void iexamine::flower_marloss(player *p, map *m, const tripoint &examp)
@@ -1528,7 +1491,7 @@ void iexamine::fungus(player *p, map *m, const tripoint &examp)
 void iexamine::dirtmound(player *p, map *m, const tripoint &examp)
 {
 
-    if (g->get_temperature() < 50) { // semi-appropriate temperature for most plants
+    if( !warm_enough_to_plant() ) {
         add_msg(m_info, _("It is too cold to plant anything now."));
         return;
     }
@@ -1609,6 +1572,7 @@ std::list<item> iexamine::get_harvest_items( const itype &type, const int plant_
         item new_item( id, calendar::turn );
         if( new_item.count_by_charges() && count > 0 ) {
             new_item.charges *= count;
+            new_item.charges /= seed_data.fruit_div;
             result.push_back( new_item );
         } else if( count > 0 ) {
             result.insert( result.begin(), count, new_item );
@@ -1675,6 +1639,7 @@ void iexamine::aggie_plant(player *p, map *m, const tripoint &examp)
             m->furn_set(examp, f_null);
 
             int skillLevel = p->skillLevel( skill_survival );
+            ///\EFFECT_SURVIVAL increases number of plants harvested from a seed
             int plantCount = rng(skillLevel / 2, skillLevel);
             if (plantCount >= 12) {
                 plantCount = 12;
@@ -1789,6 +1754,7 @@ void iexamine::kiln_empty(player *p, map *m, const tripoint &examp)
         return;
     }
 
+    ///\EFFECT_CARPENTRY decreases loss when firing a kiln
     SkillLevel &skill = p->skillLevel( skill_carpentry );
     int loss = 90 - 2 * skill; // We can afford to be inefficient - logs and skeletons are cheap, charcoal isn't
 
@@ -2005,6 +1971,7 @@ void iexamine::fvat_full(player *p, map *m, const tripoint &examp)
                 m->furn(examp) == f_fvat_full && query_yn(_("Finish brewing?")) ) {
                 //declare fermenting result as the brew's ID minus "brew_"
                 itype_id alcoholType = m->i_at(examp)[0].typeId().substr(5);
+                ///\EFFECT_COOKING >4 prevents hb_beer from turning into just beer
                 SkillLevel &cooking = p->skillLevel( skill_cooking );
                 if (alcoholType == "hb_beer" && cooking < 5) {
                     alcoholType = alcoholType.substr(3);    //hb_beer -> beer
@@ -2216,6 +2183,7 @@ void pick_plant(player *p, map *m, const tripoint &examp,
     }
 
     int plantBase = rng(2, 5);
+    ///\EFFECT_SURVIVAL increases number of plants harvested
     int plantCount = rng(plantBase, plantBase + survival / 2);
     if (plantCount > 12) {
         plantCount = 12;
@@ -2274,6 +2242,7 @@ void iexamine::tree_pine(player *p, map *m, const tripoint &examp)
 void iexamine::tree_hickory(player *p, map *m, const tripoint &examp)
 {
     harvest_tree_shrub(p,m,examp);
+    ///\EFFECT_SURVIVAL >0 allows digging up hickory root
     if( !( p->skillLevel( skill_survival ) > 0 ) ) {
         return;
     }
@@ -2286,6 +2255,7 @@ void iexamine::tree_hickory(player *p, map *m, const tripoint &examp)
     }
     m->spawn_item(p->pos(), "hickory_root", rng(1,4) );
     m->ter_set(examp, t_tree_hickory_dead);
+    ///\EFFECT_SURVIVAL speeds up hickory root digging
     p->moves -= 2000 / ( p->skillLevel( skill_survival ) + 1 ) + 100;
     return;
     none(p, m, examp);
@@ -2346,7 +2316,9 @@ void iexamine::shrub_wildveggies( player *p, map *m, const tripoint &examp )
     }
 
     add_msg( _("You forage through the %s."), m->tername( examp ).c_str() );
+    ///\EFFECT_SURVIVAL speeds up foraging
     int move_cost = 100000 / ( 2 * p->skillLevel( skill_survival ) + 5 );
+    ///\EFFECT_PER randomly speeds up foraging
     move_cost /= rng( std::max( 4, p->per_cur ), 4 + p->per_cur * 2 );
     p->assign_activity( ACT_FORAGE, move_cost, 0 );
     p->activity.placement = examp;
@@ -2402,7 +2374,7 @@ void iexamine::recycler(player *p, map *m, const tripoint &examp)
     const int norm_recover_weight = steel_weight * norm_recover_factor;
     uimenu as_m;
     const std::string weight_str = string_format("%.3f %s", convert_weight(steel_weight),
-                                                            weight_units().c_str());
+                                                            weight_units());
     as_m.text = string_format(_("Recycle %s metal into:"), weight_str.c_str());
     add_recyle_menu_entry(as_m, norm_recover_weight, 'l', "steel_lump");
     add_recyle_menu_entry(as_m, norm_recover_weight, 'S', "sheet_metal");
@@ -2531,29 +2503,6 @@ void iexamine::water_source(player *p, map *m, const tripoint &examp)
     p->activity.str_values.push_back(water.typeId());
     p->activity.values.push_back(water.poison);
     p->activity.values.push_back(water.bday);
-}
-void iexamine::swater_source(player *p, map *m, const tripoint &examp)
-{
-    item swater = m->swater_from( examp );
-    const std::string text = string_format(_("Container for %s"), swater.tname().c_str());
-    item *cont = g->inv_map_for_liquid(swater, text);
-    if (cont == NULL || cont->is_null()) {
-        // No container selected, try drinking from out hands
-        p->drink_from_hands(swater);
-    } else {
-        // Turns needed is the number of liquid units / 10 * 100 (because 100 moves in a turn).
-        int turns = cont->get_remaining_capacity_for_liquid( swater ) * 10;
-        if (turns > 0) {
-            if( turns/1000 > 1 ) {
-                // If it takes less than a minute, no need to inform the player about time.
-                p->add_msg_if_player(m_info, _("It will take around %d minutes to fill that container."), turns / 1000);
-            }
-            p->assign_activity(ACT_FILL_LIQUID, turns, -1, p->get_item_position(cont), cont->tname());
-            p->activity.str_values.push_back(swater.typeId());
-            p->activity.values.push_back(swater.poison);
-            p->activity.values.push_back(swater.bday);
-        }
-    }
 }
 
 itype *furn_t::crafting_pseudo_item_type() const
@@ -3103,45 +3052,22 @@ void iexamine::pay_gas(player *p, map *m, const tripoint &examp)
         return;
     }
 
-    if (hack == choice) {
-        bool using_electrohack = (p->has_amount("electrohack", 1) &&
-                                  query_yn(_("Use electrohack on the reader?")));
-        bool using_fingerhack = (!using_electrohack && p->has_bionic("bio_fingerhack") &&
-                                 p->power_level > 0 &&
-                                 query_yn(_("Use fingerhack on the reader?")));
-        if (using_electrohack || using_fingerhack) {
-            p->moves -= 500;
-            p->practice( skill_computer, 20);
-            int success = rng(p->skillLevel( skill_computer ) / 4 - 2, p->skillLevel( skill_computer ) * 2);
-            success += rng(-3, 3);
-            if (using_fingerhack) {
-                success++;
-            }
-            if (p->int_cur < 8) {
-                success -= rng(0, int((8 - p->int_cur) / 2));
-            } else if (p->int_cur > 8) {
-                success += rng(0, int((p->int_cur - 8) / 2));
-            }
-            if (success < 0) {
-                add_msg(_("You cause a short circuit!"));
-                if (success <= -5) {
-                    if (using_electrohack) {
-                        add_msg(m_bad, _("Your electrohack is ruined!"));
-                        p->use_amount("electrohack", 1);
-                    } else {
-                        add_msg(m_bad, _("Your power is drained!"));
-                        p->charge_power(-rng(0, p->power_level));
-                    }
-                }
+    if( hack == choice ) {
+        switch( hack_attempt( *p ) ) {
+            case HACK_UNABLE:
+                break;
+            case HACK_FAIL:
                 p->add_memorial_log(pgettext("memorial_male", "Set off an alarm."),
-                                      pgettext("memorial_female", "Set off an alarm."));
+                                    pgettext("memorial_female", "Set off an alarm."));
                 sounds::sound(p->pos(), 60, _("An alarm sounds!"));
                 if (examp.z > 0 && !g->event_queued(EVENT_WANTED)) {
                     g->add_event(EVENT_WANTED, int(calendar::turn) + 300, 0, p->global_sm_location());
                 }
-            } else if (success < 6) {
+                break;
+            case HACK_NOTHING:
                 add_msg(_("Nothing happens."));
-            } else {
+                break;
+            case HACK_SUCCESS:
                 tripoint pGasPump = getGasPumpByNumber(m, examp, uistate.ags_pay_gas_selected_pump);
                 if (toPumpFuel(m, pTank, pGasPump, tankGasUnits)) {
                     add_msg(_("You hack the terminal and route all available fuel to your pump!"));
@@ -3149,9 +3075,7 @@ void iexamine::pay_gas(player *p, map *m, const tripoint &examp)
                 } else {
                     add_msg(_("Nothing happens."));
                 }
-            }
-        } else {
-            return;
+                break;
         }
     }
 
@@ -3414,9 +3338,6 @@ iexamine_function iexamine_function_from_string(std::string const &function_name
     if ("water_source" == function_name) {
         return &iexamine::water_source;
     }
-    if ("swater_source" == function_name) {
-        return &iexamine::swater_source;
-    }
     if ("reload_furniture" == function_name) {
         return &iexamine::reload_furniture;
     }
@@ -3447,4 +3368,51 @@ iexamine_function iexamine_function_from_string(std::string const &function_name
     //No match found
     debugmsg("Could not find an iexamine function matching '%s'!", function_name.c_str());
     return &iexamine::none;
+}
+
+hack_result iexamine::hack_attempt(player &p) {
+    if( p.has_trait( "ILLITERATE" ) ) {
+        return HACK_UNABLE;
+    }
+    bool using_electrohack = ( p.has_amount( "electrohack", 1 ) &&
+                               query_yn( _( "Use electrohack?" ) ) );
+    bool using_fingerhack = ( !using_electrohack && p.has_bionic( "bio_fingerhack" ) &&
+                             p.power_level  > 0  &&
+                             query_yn( _( "Use fingerhack?" ) ) );
+
+    if( ! ( using_electrohack || using_fingerhack ) ) {
+        return HACK_UNABLE;
+    }
+
+    p.moves -= 500;
+    p.practice( skill_computer, 20 );
+    ///\EFFECT_COMPUTER increases success chance of hacking card readers
+    int success = rng( p.skillLevel( skill_computer ) / 4 - 2, p.skillLevel( skill_computer ) * 2 );
+    success += rng( -3, 3 );
+    if( using_fingerhack ) {
+        success++;
+    }
+
+    // odds go up with int>8, down with int<8
+    // 4 int stat is worth 1 computer skill here
+    ///\EFFECT_INT increases success chance of hacking card readers
+    success += rng( 0, int( ( p.int_cur - 8 ) / 2 ) );
+
+    if( success < 0 ) {
+        add_msg( _( "You cause a short circuit!" ) );
+        if( success <= -5 ) {
+            if( using_electrohack ) {
+                add_msg( m_bad, _( "Your electrohack is ruined!" ) );
+                p.use_amount( "electrohack", 1 );
+            } else {
+                add_msg( m_bad, _( "Your power is drained!" ) );
+                p.charge_power( -rng( 0, p.power_level ) );
+            }
+        }
+        return HACK_FAIL;
+    } else if( success < 6 ) {
+        return HACK_NOTHING;
+    } else {
+        return HACK_SUCCESS;
+    }
 }

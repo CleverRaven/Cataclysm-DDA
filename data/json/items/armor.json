@@ -316,10 +316,10 @@
         "warmth" : 20,
         "phase" : "solid",
         "environmental_protection" : 2,
-        "encumbrance" : 5,
+        "encumbrance" : 10,
         "bashing" : 1,
         "flags" : ["VARSIZE", "WATERPROOF"],
-        "coverage" : 100,
+        "coverage" : 90,
         "material_thickness" : 3,
         "use_action" : {
             "type": "holster",
@@ -327,7 +327,7 @@
              "holster_msg": "You sheath your %s",
              "multi": 2,
              "max_volume": 1,
-             "draw_speed": 80,
+             "draw_cost": 80,
              "flags": ["SHEATH_KNIFE"]
         }
     },
@@ -360,7 +360,7 @@
              "holster_msg": "You sheath your %s",
              "multi": 2,
              "max_volume": 1,
-             "draw_speed": 80,
+             "draw_cost": 80,
              "flags": ["SHEATH_KNIFE"]
         }
     },
@@ -393,7 +393,7 @@
              "holster_msg": "You sheath your %s",
              "multi": 2,
              "max_volume": 1,
-             "draw_speed": 80,
+             "draw_cost": 80,
              "flags": ["SHEATH_KNIFE"]
         }
     },
@@ -426,7 +426,7 @@
              "holster_msg": "You sheath your %s",
              "multi": 2,
              "max_volume": 1,
-             "draw_speed": 80,
+             "draw_cost": 80,
              "flags": ["SHEATH_KNIFE"]
         }
     },
@@ -475,7 +475,7 @@
         "encumbrance" : 20,
         "bashing" : 1,
         "flags" : ["VARSIZE", "WATERPROOF"],
-        "coverage" : 100,
+        "coverage" : 90,
         "material_thickness" : 3,
         "use_action" : {
             "type": "holster",
@@ -483,7 +483,7 @@
              "holster_msg": "You sheath your %s",
              "multi": 2,
              "max_volume": 1,
-             "draw_speed": 80,
+             "draw_cost": 80,
              "flags": ["SHEATH_KNIFE"]
         }
     },
@@ -508,7 +508,7 @@
         "encumbrance" : 15,
         "bashing" : 4,
         "flags" : ["VARSIZE", "WATERPROOF"],
-        "coverage" : 100,
+        "coverage" : 90,
         "material_thickness" : 3,
         "use_action" : {
             "type": "holster",
@@ -516,7 +516,7 @@
              "holster_msg": "You sheath your %s",
              "multi": 2,
              "max_volume": 1,
-             "draw_speed": 80,
+             "draw_cost": 80,
              "flags": ["SHEATH_KNIFE"]
         }
     },
@@ -539,7 +539,7 @@
         "warmth" : 25,
         "phase" : "solid",
         "environmental_protection" : 2,
-        "encumbrance" : 15,
+        "encumbrance" : 18,
         "bashing" : 1,
         "flags" : ["VARSIZE", "WATERPROOF", "STURDY"],
         "coverage" : 100,
@@ -550,7 +550,7 @@
              "holster_msg": "You sheath your %s",
              "multi": 2,
              "max_volume": 1,
-             "draw_speed": 80,
+             "draw_cost": 80,
              "flags": ["SHEATH_KNIFE"]
         }
     },
@@ -572,7 +572,7 @@
         "warmth" : 30,
         "phase" : "solid",
         "environmental_protection" : 2,
-        "encumbrance" : 5,
+        "encumbrance" : 10,
         "bashing" : 1,
         "flags" : ["VARSIZE", "WATERPROOF"],
         "coverage" : 95,
@@ -583,7 +583,7 @@
              "holster_msg": "You sheath your %s",
              "multi": 2,
              "max_volume": 1,
-             "draw_speed": 80,
+             "draw_cost": 80,
              "flags": ["SHEATH_KNIFE"]
         }
     },
@@ -605,10 +605,10 @@
         "warmth" : 80,
         "phase" : "solid",
         "environmental_protection" : 1,
-        "encumbrance" : 15,
+        "encumbrance" : 18,
         "bashing" : 0,
         "flags" : ["VARSIZE", "WATERPROOF"],
-        "coverage" : 100,
+        "coverage" : 90,
         "material_thickness" : 6,
         "use_action" : {
             "type": "holster",
@@ -616,7 +616,7 @@
              "holster_msg": "You sheath your %s",
              "multi": 2,
              "max_volume": 1,
-             "draw_speed": 80,
+             "draw_cost": 80,
              "flags": ["SHEATH_KNIFE"]
         }
     },
@@ -638,10 +638,10 @@
         "warmth" : 20,
         "phase" : "solid",
         "environmental_protection" : 2,
-        "encumbrance" : 40,
+        "encumbrance" : 22,
         "bashing" : 1,
         "flags" : ["VARSIZE", "FANCY"],
-        "coverage" : 100,
+        "coverage" : 95,
         "material_thickness" : 2,
         "use_action" : {
             "type": "holster",
@@ -649,7 +649,7 @@
              "holster_msg": "You sheath your %s",
              "multi": 2,
              "max_volume": 1,
-             "draw_speed": 80,
+             "draw_cost": 80,
              "flags": ["SHEATH_KNIFE"]
         }
     },
@@ -857,7 +857,7 @@
         "warmth" : 10,
         "phase" : "solid",
         "environmental_protection" : 3,
-        "encumbrance" : 10,
+        "encumbrance" : 12,
         "bashing" : 4,
         "flags" : ["STURDY"],
         "coverage" : 95,
@@ -868,7 +868,7 @@
              "holster_msg": "You sheath your %s",
              "multi": 2,
              "max_volume": 1,
-             "draw_speed": 80,
+             "draw_cost": 80,
              "flags": ["SHEATH_KNIFE"]
         }
     },
@@ -902,7 +902,7 @@
              "holster_msg": "You sheath your %s",
              "multi": 2,
              "max_volume": 1,
-             "draw_speed": 80,
+             "draw_cost": 80,
              "flags": ["SHEATH_KNIFE"]
         }
     },
@@ -928,7 +928,7 @@
         "encumbrance" : 15,
         "bashing" : 4,
         "flags" : ["VARSIZE", "WATERPROOF", "STURDY"],
-        "coverage" : 90,
+        "coverage" : 95,
         "material_thickness" : 5,
         "use_action" : {
             "type": "holster",
@@ -936,7 +936,7 @@
              "holster_msg": "You sheath your %s",
              "multi": 2,
              "max_volume": 1,
-             "draw_speed": 80,
+             "draw_cost": 80,
              "flags": ["SHEATH_KNIFE"]
         }
     },
@@ -2687,15 +2687,15 @@
         "id" : "armor_bone",
         "category" : "armor",
         "name" : "bone body armor",
-        "weight" : 3332,
+        "weight" : 2687,
         "color" : "white",
-        "covers" : ["LEGS", "TORSO", "ARMS"],
+        "covers" : ["LEGS", "TORSO"],
         "to_hit" : -5,
         "symbol" : "[",
         "description" : "Body armor consisting of a leather backing suit with bone reinforcement.  Light and strong.",
-        "price" : 120000,
+        "price" : 100000,
         "material" : ["bone", "leather"],
-        "volume" : 62,
+        "volume" : 50,
         "cutting" : 0,
         "warmth" : 20,
         "phase" : "solid",
@@ -2710,23 +2710,23 @@
         "id" : "armor_larmor",
         "category" : "armor",
         "name" : "leather body armor",
-        "weight" : 1928,
+        "weight" : 1498,
         "color" : "brown",
-        "covers" : ["LEGS", "TORSO", "ARMS"],
+        "covers" : ["LEGS", "TORSO"],
         "to_hit" : -5,
         "storage" : 8,
         "symbol" : "[",
         "description" : "Thick leather body armor.  Light and comfortable.",
-        "price" : 16000,
+        "price" : 12000,
         "material" : ["leather", "null"],
-        "volume" : 36,
+        "volume" : 28,
         "cutting" : 0,
         "warmth" : 25,
         "phase" : "solid",
         "encumbrance" : 23,
         "bashing" : 2,
         "flags" : ["VARSIZE", "STURDY"],
-        "coverage" : 85,
+        "coverage" : 90,
         "material_thickness" : 4
     },
     {
@@ -2750,7 +2750,7 @@
         "encumbrance" : 28,
         "bashing" : 2,
         "flags" : ["VARSIZE", "STURDY"],
-        "coverage" : 85,
+        "coverage" : 90,
         "material_thickness" : 5
     },
     {
@@ -3158,7 +3158,7 @@
         "use_action" : {
             "type": "holster",
              "max_volume": 8,
-             "draw_speed": 5,
+             "draw_cost": 5,
              "skills": ["smg", "shotgun", "rifle"]
         }
     },
@@ -4912,8 +4912,8 @@
         "phase" : "solid",
         "encumbrance" : 20,
         "bashing" : -4,
-        "flags" : ["VARSIZE", "POCKETS", "COLLAR", "OUTER"],
-        "coverage" : 95,
+        "flags" : ["VARSIZE", "POCKETS", "COLLAR", "OUTER", "FANCY"],
+        "coverage" : 85,
         "material_thickness" : 4
     },
     {
@@ -4924,16 +4924,17 @@
         "color" : "blue",
         "covers" : ["TORSO", "ARMS", "LEGS"],
         "to_hit" : -3,
-        "storage" : 10,
+        "storage" : 22,
         "symbol" : "[",
         "description" : "A heavy, full-length wool coat.  Cumbersome, but warm and with deep pockets.",
         "price" : 18000,
         "material" : ["wool", "null"],
-        "volume" : 16,
+        "volume" : 32,
         "cutting" : 0,
         "warmth" : 50,
         "phase" : "solid",
-        "encumbrance" : 20,
+        "environmental_protection" : 1,
+        "encumbrance" : 23,
         "bashing" : -4,
         "flags" : ["VARSIZE", "POCKETS", "COLLAR", "OUTER"],
         "coverage" : 95,
@@ -5014,7 +5015,7 @@
              "holster_msg": "You clip your %s to your %s",
              "max_volume": 2,
              "max_weight": 600,
-             "draw_speed": 50,
+             "draw_cost": 50,
              "flags": ["BELT_CLIP"]
         }
     },
@@ -5140,6 +5141,80 @@
     },
     {
         "type" : "ARMOR",
+        "id" : "vambrace_larmor",
+        "category" : "armor",
+        "name" : "pair of leather vambraces",
+        "name_plural" : "pairs of leather vambraces",
+        "weight" : 362,
+        "color" : "brown",
+        "covers" : ["ARMS"],
+        "to_hit" : 1,
+        "symbol" : "[",
+        "description" : "A pair of light leather arm guards, made for archery.",
+        "price" : 2000,
+        "material" : ["leather", "null"],
+        "volume" : 4,
+        "cutting" : 0,
+        "warmth" : 10,
+        "phase" : "solid",
+        "environmental_protection" : 1,
+        "encumbrance" : 8,
+        "bashing" : -5,
+        "flags" : ["STURDY", "BELTED"],
+        "coverage" : 50,
+        "material_thickness" : 3
+    },
+    {
+        "type" : "ARMOR",
+        "id" : "armguard_larmor",
+        "category" : "armor",
+        "name" : "pair of leather arm guards",
+        "name_plural" : "pairs of arm guardss",
+        "weight" : 430,
+        "color" : "brown",
+        "covers" : ["ARMS"],
+        "to_hit" : 1,
+        "symbol" : "[",
+        "description" : "A pair of tough leather arm guards.  Light and comfortable.",
+        "price" : 4000,
+        "material" : ["leather", "null"],
+        "volume" : 8,
+        "cutting" : 0,
+        "warmth" : 25,
+        "phase" : "solid",
+        "encumbrance" : 23,
+        "bashing" : -5,
+        "flags" : ["VARSIZE", "STURDY"],
+        "coverage" : 90,
+        "material_thickness" : 4
+    },
+    {
+        "type" : "ARMOR",
+        "id" : "armguard_bone",
+        "category" : "armor",
+        "name" : "pair of bone arm guards",
+        "name_plural" : "pairs of bone arm guards",
+        "weight" : 645,
+        "color" : "white",
+        "covers" : ["ARMS"],
+        "to_hit" : 1,
+        "symbol" : "[",
+        "description" : "A pair of arm guards made from leather, reinforced by bone.  Light and strong.",
+        "price" : 20000,
+        "material" : ["bone", "leather"],
+        "volume" : 12,
+        "cutting" : 0,
+        "warmth" : 20,
+        "phase" : "solid",
+        "environmental_protection" : 1,
+        "encumbrance" : 37,
+        "bashing" : -5,
+        "flags" : ["VARSIZE", "STURDY"],
+        "coverage" : 95,
+        "material_thickness" : 4
+    },
+    {
+        "type" : "ARMOR",
         "id" : "armguard_chitin",
         "category" : "armor",
         "name" : "pair of chitin arm guards",
@@ -5160,7 +5235,7 @@
         "encumbrance" : 10,
         "bashing" : -5,
         "flags" : ["STURDY", "BELTED"],
-        "coverage" : 50,
+        "coverage" : 75,
         "material_thickness" : 4
     },
     {
@@ -5254,7 +5329,7 @@
         "phase" : "solid",
         "encumbrance" : 80,
         "bashing" : -5,
-        "flags" : ["OVERSIZE"],
+        "flags" : ["OVERSIZE, OUTER"],
         "coverage" : 100,
         "material_thickness" : 4
     },
@@ -5507,7 +5582,7 @@
         "warmth" : 10,
         "phase" : "solid",
         "environmental_protection" : 12,
-        "encumbrance" : 20,
+        "encumbrance" : 30,
         "bashing" : -3,
         "flags" : ["WATERPROOF"],
         "coverage" : 100,
@@ -5518,7 +5593,7 @@
              "holster_msg": "You sheath your %s",
              "multi": 2,
              "max_volume": 1,
-             "draw_speed": 80,
+             "draw_cost": 80,
              "flags": ["SHEATH_KNIFE"]
         }
     },
@@ -6473,7 +6548,7 @@
         "warmth" : 35,
         "phase" : "solid",
         "environmental_protection" : 8,
-        "encumbrance" : 30,
+        "encumbrance" : 35,
         "bashing" : -3,
         "flags" : ["VARSIZE", "WATERPROOF", "STURDY"],
         "coverage" : 100,
@@ -6484,7 +6559,7 @@
              "holster_msg": "You sheath your %s",
              "multi": 2,
              "max_volume": 1,
-             "draw_speed": 80,
+             "draw_cost": 80,
              "flags": ["SHEATH_KNIFE"]
         }
     },
@@ -6516,7 +6591,7 @@
              "holster_msg": "You clip your %s to your %s",
              "max_volume": 5,
              "max_weight": 3600,
-             "draw_speed": 50,
+             "draw_cost": 50,
              "flags": ["BELT_CLIP"]
         }
     },
@@ -7500,7 +7575,7 @@
         "use_action" : {
             "type": "holster",
             "max_volume": 4,
-            "draw_speed": 3,
+            "draw_cost": 3,
             "skills": ["pistol", "shotgun"]
         }
     },
@@ -7528,8 +7603,36 @@
         "use_action" : {
             "type": "holster",
             "max_volume": 15,
-            "draw_speed": 20,
+            "draw_cost": 20,
             "skills": ["smg", "shotgun", "rifle", "launcher"]
+        }
+    },
+    {
+        "type" : "ARMOR",
+        "id" : "XL_holster",
+        "name" : "XL holster",
+        "weight" : 320,
+        "volume" : 5,
+        "price" : 9000,
+        "symbol" : "[",
+        "color" : "ltgray",
+        "description" : "A holster for larger sidearms.  Slightly more cumbersome than a standard holster due to the straps that hold it flat against your leg, but has the benefit of accommodating heavily modified handguns and small shoulder-fired weapons.  Activate to holster/draw a gun.",
+        "to_hit" : -1,
+        "material" : ["leather", "iron"],
+        "covers" : ["LEG_EITHER"],
+        "flags" : ["VARSIZE", "WAIST", "OVERSIZE"],
+        "coverage" : 7,
+        "cutting" : 0,
+        "bashing" : -1,
+        "warmth" : 0,
+        "phase" : "solid",
+        "encumbrance" : 7,
+        "material_thickness" : 1,
+        "use_action" : {
+            "type": "holster",
+            "max_volume": 9,
+            "draw_cost": 12,
+            "skills": ["pistol", "smg", "shotgun"]
         }
     },
     {
@@ -7556,7 +7659,7 @@
         "use_action" : {
             "type": "holster",
             "max_volume": 2,
-            "draw_speed": 30,
+            "draw_cost": 30,
             "skills": ["pistol"]
         }
     },
@@ -7586,7 +7689,7 @@
             "holster_prompt": "Sheath knife",
             "holster_msg": "You sheath your %s",
             "max_volume": 2,
-            "draw_speed": 30,
+            "draw_cost": 30,
             "flags": ["SHEATH_KNIFE"]
         }
     },
@@ -7617,7 +7720,7 @@
             "holster_prompt": "Sheath knife",
             "holster_msg": "You sheath your %s",
             "max_volume": 3,
-            "draw_speed": 3,
+            "draw_cost": 3,
             "flags": ["SHEATH_KNIFE"]
         }
     },
@@ -7649,7 +7752,7 @@
         "id" : "quiver_birchbark",
         "name" : "birchbark quiver",
         "weight" : 490,
-        "color" : "light_grey",
+        "color" : "light_gray",
         "to_hit" : 0,
         "symbol" : "[",
         "description" : "A quiver woven from strips of birch bark, that can hold 20 arrows.  Activate to store arrows.",
@@ -7695,7 +7798,7 @@
         "id" : "quiver_large_birchbark",
         "name" : "large birchbark quiver",
         "weight" : 1380,
-        "color" : "light_grey",
+        "color" : "light_gray",
         "covers" : ["TORSO"],
         "to_hit" : 0,
         "symbol" : "[",
@@ -7768,7 +7871,7 @@
             "holster_prompt": "Sheath sword",
             "holster_msg": "You sheath your %s",
             "max_volume": 15,
-            "draw_speed": 20,
+            "draw_cost": 20,
             "flags": ["SHEATH_SWORD"]
         }
     },
@@ -8914,7 +9017,7 @@
         "description" : "A tool to help set bones and hold them in place.",
         "weight" : 300,
         "color" : "white",
-        "covers" : ["ARMS"],
+        "covers" : ["ARM_EITHER"],
         "price" : 20000,
         "material" : ["wood", "cotton"],
         "volume" : 4,
@@ -8936,7 +9039,7 @@
         "description" : "A tool to help set bones and hold them in place.",
         "weight" : 500,
         "color" : "white",
-        "covers" : ["LEGS"],
+        "covers" : ["LEG_EITHER"],
         "price" : 20000,
         "material" : ["wood", "cotton"],
         "volume" : 4,
@@ -9454,7 +9557,7 @@
         "warmth" : 20,
         "phase" : "solid",
         "environmental_protection" : 1,
-        "encumbrance" : 20,
+        "encumbrance" : 24,
         "bashing" : 7,
         "flags" : ["VARSIZE", "WATERPROOF", "STURDY"],
         "coverage" : 100,
@@ -9465,7 +9568,7 @@
              "holster_msg": "You sheath your %s",
              "multi": 2,
              "max_volume": 1,
-             "draw_speed": 80,
+             "draw_cost": 80,
              "flags": ["SHEATH_KNIFE"]
         }
     },
@@ -9574,7 +9677,7 @@
              "holster_msg": "You sheath your %s",
              "multi": 2,
              "max_volume": 1,
-             "draw_speed": 80,
+             "draw_cost": 80,
              "flags": ["SHEATH_KNIFE"]
         }
     },
@@ -9719,7 +9822,7 @@
         "warmth" : 15,
         "phase" : "solid",
         "environmental_protection" : 10,
-        "encumbrance" : 30,
+        "encumbrance" : 35,
         "bashing" : 1,
         "flags" : ["VARSIZE", "WATERPROOF", "STURDY"],
         "coverage" : 100,
@@ -9730,7 +9833,7 @@
              "holster_msg": "You sheath your %s",
              "multi": 2,
              "max_volume": 1,
-             "draw_speed": 80,
+             "draw_cost": 80,
              "flags": ["SHEATH_KNIFE"]
         }
     },
@@ -9875,7 +9978,7 @@
         "warmth" : 15,
         "phase" : "solid",
         "environmental_protection" : 10,
-        "encumbrance" : 25,
+        "encumbrance" : 32,
         "bashing" : 1,
         "flags" : ["VARSIZE", "WATER_FRIENDLY", "STURDY"],
         "coverage" : 100,
@@ -9886,7 +9989,7 @@
              "holster_msg": "You sheath your %s",
              "multi": 2,
              "max_volume": 1,
-             "draw_speed": 80,
+             "draw_cost": 80,
              "flags": ["SHEATH_KNIFE"]
         }
     },
@@ -9958,7 +10061,7 @@
         "warmth" : 15,
         "phase" : "solid",
         "environmental_protection" : 3,
-        "encumbrance" : 13,
+        "encumbrance" : 15,
         "bashing" : 1,
         "flags" : ["VARSIZE", "WATERPROOF", "STURDY"],
         "coverage" : 100,
@@ -9969,7 +10072,7 @@
              "holster_msg": "You sheath your %s",
              "multi": 2,
              "max_volume": 1,
-             "draw_speed": 80,
+             "draw_cost": 80,
              "flags": ["SHEATH_KNIFE"]
         }
     },
@@ -9992,7 +10095,7 @@
         "warmth" : 15,
         "phase" : "solid",
         "environmental_protection" : 3,
-        "encumbrance" : 20,
+        "encumbrance" : 24,
         "bashing" : 1,
         "flags" : ["VARSIZE", "WATERPROOF", "STURDY"],
         "coverage" : 100,
@@ -10003,7 +10106,7 @@
              "holster_msg": "You sheath your %s",
              "multi": 2,
              "max_volume": 1,
-             "draw_speed": 80,
+             "draw_cost": 80,
              "flags": ["SHEATH_KNIFE"]
         }
     },
@@ -10026,7 +10129,7 @@
         "warmth" : 15,
         "phase" : "solid",
         "environmental_protection" : 5,
-        "encumbrance" : 30,
+        "encumbrance" : 35,
         "bashing" : 1,
         "flags" : ["VARSIZE", "WATERPROOF", "STURDY"],
         "coverage" : 100,
@@ -10037,7 +10140,7 @@
              "holster_msg": "You sheath your %s",
              "multi": 2,
              "max_volume": 1,
-             "draw_speed": 80,
+             "draw_cost": 80,
              "flags": ["SHEATH_KNIFE"]
         }
     },
@@ -10648,7 +10751,7 @@
         "to_hit" : 0,
         "symbol" : ";",
         "description" : "Industrial grade ear plugs.  They fit inside the ear.",
-        "price" : 5500,
+        "price" : 10,
         "material" : ["cotton", "null"],
         "volume" : 0,
         "cutting" : 0,
@@ -10794,6 +10897,28 @@
         "flags" : ["VARSIZE", "POCKETS"],
         "coverage" : 95,
         "material_thickness" : 2
+    },
+    {
+        "type" : "ARMOR",
+        "id" : "swag_bag",
+        "name" : "swag bag",
+        "weight" : 415,
+        "color" : "brown",
+        "covers" : ["ARMS", "HANDS"],
+        "to_hit" : -5,
+        "storage" : 60,
+        "symbol" : "[",
+        "description" : "A large canvas sack, re-purposed for makeshift storage.  Goes well with a striped shirt and a domino mask.",
+        "price" : 0,
+        "material" : "cotton",
+        "volume" : 4,
+        "cutting" : 0,
+        "warmth" : 0,
+        "phase" : "solid",
+        "encumbrance" : 50,
+        "bashing" : -3,
+        "coverage" : 5,
+        "material_thickness" : 1
     },
     {
         "type" : "ARMOR",
@@ -10976,7 +11101,7 @@
         "warmth" : 15,
         "phase" : "solid",
         "environmental_protection" : 3,
-        "encumbrance" : 30,
+        "encumbrance" : 35,
         "bashing" : 1,
         "flags" : ["OVERSIZE", "VARSIZE", "WATERPROOF", "STURDY"],
         "coverage" : 100,
@@ -10987,7 +11112,7 @@
              "holster_msg": "You sheath your %s",
              "multi": 2,
              "max_volume": 1,
-             "draw_speed": 80,
+             "draw_cost": 80,
              "flags": ["SHEATH_KNIFE"]
         }
     },
@@ -11609,7 +11734,7 @@
         "description" : "A thick leather full-length duster without sleeves, leaving your arms unencumbered.  Has plenty of storage space due to its many pockets.",
         "price" : 20825,
         "material" : ["leather", "null"],
-        "volume" : 28,
+        "volume" : 24,
         "cutting" : 0,
         "warmth" : 30,
         "phase" : "solid",
@@ -11748,7 +11873,7 @@
         "name" : "pair of birchbark shoes",
         "name_plural" : "pairs of birchbark shoes",
         "weight" : 345,
-        "color" : "light_grey",
+        "color" : "light_gray",
         "covers" : ["FEET"],
         "to_hit" : 0,
         "symbol" : "[",
@@ -11953,7 +12078,7 @@
             "type": "holster",
             "holster_prompt": "Sheath blade",
             "holster_msg": "You sheath your %s",
-            "draw_speed": 3,
+            "draw_cost": 3,
             "max_volume": 4,
             "flags": ["SHEATH_KNIFE", "SHEATH_SWORD"]
         }
@@ -12317,7 +12442,7 @@
         "phase" : "solid",
         "encumbrance" : 7,
         "bashing" : -5,
-        "flags" : ["WATERPROOF", "OVERSIZE"],
+        "flags" : ["WATERPROOF", "OVERSIZE", "OUTER"],
         "coverage" : 70,
         "material_thickness" : 1
     },
@@ -12441,7 +12566,7 @@
         "name" : "rioter mask",
         "weight" : 123,
         "color" : "white",
-        "covers" : ["MOUTH", "HEAD", "EYES"],
+        "covers" : ["MOUTH", "HEAD"],
         "to_hit" : -1,
         "symbol" : "[",
         "description" : "This is a t-shirt with sleeves tied on the back.  These are usually worn by rioters to hide their identity.",
@@ -12862,9 +12987,9 @@
         "warmth" : 35,
         "phase" : "solid",
         "environmental_protection" : 3,
-        "encumbrance" : 20,
+        "encumbrance" : 18,
         "bashing" : 5,
-        "coverage" : 100,
+        "coverage" : 95,
         "material_thickness" : 4,
         "flags" : ["VARSIZE", "RAINPROOF"]
     },

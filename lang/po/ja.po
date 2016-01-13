@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Cataclysm-DDA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-12-07 21:44+0300\n"
-"PO-Revision-Date: 2015-12-08 16:00+0000\n"
+"POT-Creation-Date: 2015-12-15 19:00+0300\n"
+"PO-Revision-Date: 2015-12-19 22:26+0000\n"
 "Last-Translator: zojirushi\n"
 "Language-Team: Japanese (http://www.transifex.com/cataclysm-dda-translators/"
 "cataclysm-dda/language/ja/)\n"
@@ -6567,6 +6567,13 @@ msgstr "レースの付いた白いウェディングベールです。"
 msgid "A large American flag made to fly in even the worst conditions."
 msgstr "悪天候でも旗が翻る様に作られた米国の大きな国旗です。"
 
+#. ~ Description for swag bag
+#: lang/json/ARMOR_from_json.py
+msgid ""
+"A large canvas sack, re-purposed for makeshift storage.  Goes well with a "
+"striped shirt and a domino mask."
+msgstr ""
+
 #. ~ Description for sheet
 #: lang/json/ARMOR_from_json.py
 msgid ""
@@ -12276,6 +12283,11 @@ msgid_plural "survivor wetsuit hoods"
 msgstr[0] "サバイバーウェットスーツフード"
 
 #: lang/json/ARMOR_from_json.py
+msgid "swag bag"
+msgid_plural "swag bags"
+msgstr[0] ""
+
+#: lang/json/ARMOR_from_json.py
 msgid "sweater"
 msgid_plural "sweaters"
 msgstr[0] "セーター"
@@ -16668,7 +16680,7 @@ msgstr "黄色いプロセスチーズの塊です。"
 msgid ""
 "A boiled stomach from a large humanoid creature, nothing else.  It looks all "
 "but appetizing."
-msgstr ""
+msgstr "茹でた大きな人型生物の胃です。意外に美味しそうに見えます。"
 
 #. ~ Description for large boiled stomach
 #: lang/json/COMESTIBLE_from_json.py
@@ -17751,7 +17763,7 @@ msgstr ""
 msgid ""
 "A small boiled stomach from a human, nothing else.  It looks all but "
 "appetizing."
-msgstr ""
+msgstr "茹でた人間の胃です。意外に美味しそうに見えます。"
 
 #. ~ Description for boiled stomach
 #: lang/json/COMESTIBLE_from_json.py
@@ -20830,12 +20842,12 @@ msgstr ""
 #. ~ Description for human stomach
 #: lang/json/COMESTIBLE_from_json.py
 msgid "The stomach of a human.  It is surprisingly durable."
-msgstr ""
+msgstr "人間の胃袋です。耐久性に優れています。"
 
 #. ~ Description for large human stomach
 #: lang/json/COMESTIBLE_from_json.py
 msgid "The stomach of a large humanoid creature.  It is surprisingly durable."
-msgstr ""
+msgstr "大きな人型生物の胃袋です。耐久性に優れています。"
 
 #. ~ Description for large stomach
 #: lang/json/COMESTIBLE_from_json.py
@@ -21703,12 +21715,12 @@ msgstr[0] "ゆで卵"
 #: lang/json/COMESTIBLE_from_json.py
 msgid "boiled human stomach"
 msgid_plural "boiled human stomachs"
-msgstr[0] ""
+msgstr[0] "人間の胃(湯煮)"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "boiled large human stomach"
 msgid_plural "boiled large human stomachs"
-msgstr[0] ""
+msgstr[0] "大きな人間の胃(湯煮)"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "boiled lasagne"
@@ -23008,7 +23020,7 @@ msgstr[0] ""
 #: lang/json/COMESTIBLE_from_json.py
 msgid "human stomach"
 msgid_plural "human stomachs"
-msgstr[0] ""
+msgstr[0] "人間の胃"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "hydrogen peroxide"
@@ -23263,7 +23275,7 @@ msgstr[0] "マリファナ"
 #: lang/json/COMESTIBLE_from_json.py
 msgid "joint roach"
 msgid_plural "joint roaches"
-msgstr[0] "煙草(マリファナ)"
+msgstr[0] "吸殻(マリファナ)"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "juice pulp"
@@ -23303,7 +23315,7 @@ msgstr[0] ""
 #: lang/json/COMESTIBLE_from_json.py
 msgid "large human stomach"
 msgid_plural "large human stomachs"
-msgstr[0] ""
+msgstr[0] "大きな人間の胃"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "large stomach"
@@ -23492,8 +23504,8 @@ msgstr[0] "メタコーラ"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "milk"
-msgid_plural "milks"
-msgstr[0] "牛乳"
+msgid_plural "milk"
+msgstr[0] ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "milk tea"
@@ -24646,8 +24658,8 @@ msgstr[0] "ベイクドビーンズ(野菜)"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "vinegar"
-msgid_plural "vinegars"
-msgstr[0] "食用酢"
+msgid_plural "vinegar"
+msgstr[0] ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "vitamin"
@@ -30830,8 +30842,8 @@ msgstr[0] "密封瓶(魚煮込みスープ)"
 
 #: lang/json/GENERIC_from_json.py
 msgid "sealed jar of human broth"
-msgid_plural "sealed jars of bone broth"
-msgstr[0] "密封瓶(人骨スープの素)"
+msgid_plural "sealed jars of human broth"
+msgstr[0] ""
 
 #: lang/json/GENERIC_from_json.py
 msgid "sealed jar of meat soup"
@@ -53271,6 +53283,10 @@ msgstr "蒲"
 msgid "chair"
 msgstr "椅子"
 
+#: lang/json/furniture_from_json.py
+msgid "chamomile"
+msgstr ""
+
 #: lang/json/furniture_from_json.py lang/json/terrain_from_json.py
 msgid "clang!"
 msgstr "甲高い音が聞こえました！"
@@ -54392,7 +54408,7 @@ msgstr "釘を引き抜く"
 
 #: lang/json/item_action_from_json.py
 msgid "Remove tool mods"
-msgstr ""
+msgstr "道具の追加部品を取り外す"
 
 #: lang/json/item_action_from_json.py
 msgid "Repair a gun"
@@ -54456,7 +54472,7 @@ msgstr "放射能測定器を使う"
 
 #: lang/json/item_action_from_json.py
 msgid "Use holster"
-msgstr ""
+msgstr "ホルスターを使う"
 
 #: lang/json/item_action_from_json.py
 msgid "Write on an item"
@@ -63378,6 +63394,10 @@ msgid "swamp"
 msgstr "湿地"
 
 #: lang/json/overmap_terrain_from_json.py
+msgid "teashop shop"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
 msgid "tower parking"
 msgstr "立体駐車場"
 
@@ -64163,6 +64183,16 @@ msgstr "サイボーグ(破損)"
 msgctxt "profession_male"
 msgid "Broken Cyborg"
 msgstr "サイボーグ(破損)"
+
+#: lang/json/professions_from_json.py
+msgctxt "profession_female"
+msgid "Burglar"
+msgstr ""
+
+#: lang/json/professions_from_json.py
+msgctxt "profession_male"
+msgid "Burglar"
+msgstr ""
 
 #: lang/json/professions_from_json.py
 msgctxt "profession_male"
@@ -65966,6 +65996,16 @@ msgstr ""
 "ています。"
 
 #: lang/json/professions_from_json.py
+msgctxt "profession_male"
+msgid "Traceur"
+msgstr ""
+
+#: lang/json/professions_from_json.py
+msgctxt "profession_female"
+msgid "Traceuse"
+msgstr ""
+
+#: lang/json/professions_from_json.py
 msgctxt "profession_female"
 msgid "Trapper"
 msgstr "罠猟師"
@@ -66647,6 +66687,22 @@ msgid ""
 "You studied under a well-learned scholar, a seeker of the fabled elixer of "
 "life.  Despite the tutelage of a master alchemist, you never got any closer "
 "to finishing the great work."
+msgstr ""
+
+#. ~ Profession (female Burglar) description
+#: lang/json/professions_from_json.py
+msgctxt "prof_desc_female"
+msgid ""
+"You thought this would your lucky break.  Does it count as breaking and "
+"entering if everyone in town is undead?"
+msgstr ""
+
+#. ~ Profession (male Burglar) description
+#: lang/json/professions_from_json.py
+msgctxt "prof_desc_male"
+msgid ""
+"You thought this would your lucky break.  Does it count as breaking and "
+"entering if everyone in town is undead?"
 msgstr ""
 
 #. ~ Profession (female Ballroom Dancer) description
@@ -67513,6 +67569,24 @@ msgstr ""
 "人生の大部分を教師として生きてきました。今までに教えたどの子供も概ね良き生徒"
 "でしたが、今や彼らの目的は恩師を生きたまま食うことであって、宿題の作文を書い"
 "てくることはもうありません。"
+
+#. ~ Profession (Traceuse) description
+#: lang/json/professions_from_json.py
+msgctxt "prof_desc_female"
+msgid ""
+"You've practiced parkour for many years, and made the world your "
+"playground.  It wouldn't be a lie to say that running is your life.  Which "
+"is good, because now that the end has come, you're running for your life."
+msgstr ""
+
+#. ~ Profession (Traceur) description
+#: lang/json/professions_from_json.py
+msgctxt "prof_desc_male"
+msgid ""
+"You've practiced parkour for many years, and made the world your "
+"playground.  It wouldn't be a lie to say that running is your life.  Which "
+"is good, because now that the end has come, you're running for your life."
+msgstr ""
 
 #. ~ Profession (female Backpacker) description
 #: lang/json/professions_from_json.py
@@ -71972,7 +72046,7 @@ msgstr "そのツラを綺麗に作り直してやろうか！"
 
 #: lang/json/talk_topic_from_json.py
 msgid "I will."
-msgstr "私がやりましょう。"
+msgstr "そうするよ。"
 
 #: lang/json/talk_topic_from_json.py
 msgid "I'll buy."
@@ -75541,8 +75615,16 @@ msgid "aisle with lights"
 msgstr "明かりの付いた通路"
 
 #: lang/json/vehicle_part_from_json.py
+msgid "armored wheel (steerable)"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
 msgid "assault rifle turret"
 msgstr "タレット(アサルトライフル)"
+
+#: lang/json/vehicle_part_from_json.py
+msgid "bicycle wheel (steerable)"
+msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
 msgid "blob roller"
@@ -75821,6 +75903,10 @@ msgid "military seat"
 msgstr "軍用座席"
 
 #: lang/json/vehicle_part_from_json.py
+msgid "motorbike wheel (steerable)"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
 msgid "mounted .50 caliber rifle"
 msgstr "車載/ライフル(50口径)"
 
@@ -76097,6 +76183,10 @@ msgid "sliding door"
 msgstr "スライドドア"
 
 #: lang/json/vehicle_part_from_json.py
+msgid "small wheel (steerable)"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
 msgid "smokelayer"
 msgstr "煙層"
 
@@ -76177,8 +76267,16 @@ msgid "welding rig"
 msgstr "溶接装置"
 
 #: lang/json/vehicle_part_from_json.py
+msgid "wheel (steerable)"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
 msgid "wheelchair wheel"
 msgstr "車椅子のホイール"
+
+#: lang/json/vehicle_part_from_json.py
+msgid "wide wheel (steerable)"
+msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
 msgid "windshield"
@@ -76352,7 +76450,7 @@ msgstr "カチン！カチン！カチン！という音が聞こえました。
 #: src/activity_handlers.cpp
 #, c-format
 msgid "Can't reload your %s."
-msgstr "%sは再装填できない。"
+msgstr "%sは再装填できません。"
 
 #: src/activity_handlers.cpp
 msgid "Feels like you're making good progress.  Another half an hour, maybe?"
@@ -76513,7 +76611,7 @@ msgstr "死体を捌きました。"
 #: src/activity_handlers.cpp src/game.cpp
 #, c-format
 msgid "You caught a %s."
-msgstr "%sに捕まりました。"
+msgstr "%sを捕らえました。"
 
 #: src/activity_handlers.cpp
 msgid ""
@@ -76555,7 +76653,7 @@ msgstr "サルベージを終えました。"
 #: src/activity_handlers.cpp
 #, c-format
 msgid "You finish training %s to level %d."
-msgstr ""
+msgstr "訓練を受けて%s技能が%dに上昇しました。"
 
 #: src/activity_handlers.cpp
 #, c-format
@@ -77230,7 +77328,7 @@ msgstr ""
 
 #: src/advanced_inv.cpp
 msgid "You don't have enough room for that!"
-msgstr ""
+msgstr "それをする空間がありません！"
 
 #: src/advanced_inv.cpp
 msgid "You look at the items, then your clothes, and scratch your head..."
@@ -79098,6 +79196,14 @@ msgstr "火曜日"
 msgid "Wednesday"
 msgstr "水曜日"
 
+#: src/cata_utility.cpp src/options.cpp
+msgid "kg"
+msgstr "kg"
+
+#: src/cata_utility.cpp src/options.cpp
+msgid "lbs"
+msgstr "lbs"
+
 #: src/catalua.cpp src/player.cpp
 #, c-format
 msgid "You can't do anything interesting with your %s."
@@ -79115,6 +79221,10 @@ msgstr "<npcname>は拘束を解きました！"
 #: src/character.cpp
 msgid "<npcname> escapes the pit!"
 msgstr "<npcname>は落とし穴から脱出しました！"
+
+#: src/character.cpp
+msgid "<npcname> finds themselves no longer grabbed."
+msgstr ""
 
 #: src/character.cpp
 msgid "<npcname> frees themselves from the bear trap!"
@@ -79171,6 +79281,10 @@ msgstr "拘束を解きました！"
 #: src/character.cpp
 msgid "You escape the pit!"
 msgstr "落とし穴から脱出しました！"
+
+#: src/character.cpp
+msgid "You find yourself no longer grabbed."
+msgstr ""
 
 #: src/character.cpp
 msgid "You free yourself from the bear trap!"
@@ -80603,17 +80717,17 @@ msgstr " (人物＆近く)"
 #: src/crafting.cpp
 #, c-format
 msgid "%s assists with crafting..."
-msgstr "%sが製作を手伝ってくれた..."
+msgstr "%sが製作を手伝ってくれました..."
 
 #: src/crafting.cpp
 #, c-format
 msgid "%s could assist you with a batch..."
-msgstr "%sなら少しぐらい手伝えたはず..."
+msgstr "%sが少しだけ手伝ってくれました..."
 
 #: src/crafting.cpp
 #, c-format
 msgid "%s watches you craft..."
-msgstr "%sは製作を見ている..."
+msgstr "%sは製作を見ています..."
 
 #: src/crafting.cpp
 msgid "Craft something first"
@@ -83151,7 +83265,7 @@ msgstr "高潔"
 
 #: src/faction.cpp
 msgid "Wanted Criminal"
-msgstr "賞金首（罪人）"
+msgstr "賞金首(罪人)"
 
 #: src/faction.cpp
 msgid "Wanted Dead"
@@ -83441,7 +83555,7 @@ msgstr "蜂に刺されました！"
 
 #: src/field.cpp
 msgid "The electric cloud doesn't affect you."
-msgstr ""
+msgstr "電撃を無効化しました。"
 
 #: src/field.cpp
 msgid "The electric cloud doesn't seem to affect <npcname>."
@@ -84026,7 +84140,7 @@ msgstr "%sを退かせた。"
 #: src/game.cpp
 #, c-format
 msgid "%s slammed into an obstacle!"
-msgstr ""
+msgstr "%sは障害物に叩きつけられました！"
 
 #: src/game.cpp
 #, c-format
@@ -84801,12 +84915,8 @@ msgid "Low Priority:"
 msgstr "優先度/低:"
 
 #: src/game.cpp
-msgid "Lua Command"
-msgstr "Luaコマンド"
-
-#: src/game.cpp
-msgid "Lua:"
-msgstr "Lua:"
+msgid "Lua Console"
+msgstr ""
 
 #: src/game.cpp
 msgid "M[u]tate"
@@ -84851,6 +84961,11 @@ msgstr "モンスター"
 #: src/game.cpp
 msgid "Monsters spotted!"
 msgstr "モンスターを発見しました！"
+
+#: src/game.cpp
+#, c-format
+msgid "Moon %s"
+msgstr ""
 
 #: src/game.cpp
 msgid "Move East"
@@ -85051,7 +85166,7 @@ msgstr "世界を創造しています。少々お待ち下さい。"
 
 #: src/game.cpp
 msgid "Please wait while the world data loads"
-msgstr ""
+msgstr "世界を読み込んでいます。少々お待ちください。"
 
 #: src/game.cpp
 #, c-format
@@ -85679,6 +85794,10 @@ msgid "The sign says: %s"
 msgstr "標識: %s"
 
 #: src/game.cpp
+msgid "The steering is completely broken!"
+msgstr ""
+
+#: src/game.cpp
 msgid "The tank is full."
 msgstr "タンクは満タンです。"
 
@@ -85814,6 +85933,10 @@ msgstr "口渇"
 #: src/game.cpp
 msgid "This is not a bag!"
 msgstr "これはバッグではない！"
+
+#: src/game.cpp
+msgid "This vehicle has no steering system installed, you can't turn it."
+msgstr ""
 
 #: src/game.cpp
 msgid "Throw item:"
@@ -86023,7 +86146,7 @@ msgstr "レーザー照準を受けています。'%s'で無視します。"
 
 #: src/game.cpp
 msgid "You are not wielding a ranged weapon."
-msgstr ""
+msgstr "射撃武器を装備していません。"
 
 #: src/game.cpp
 msgid ""
@@ -86200,8 +86323,8 @@ msgstr ""
 
 #: src/game.cpp
 #, c-format
-msgid "You can't reload a %s!"
-msgstr "%sは再装填できない！"
+msgid "You can't reload a %s!."
+msgstr ""
 
 #: src/game.cpp
 msgid "You can't remove partially depleted plutonium!"
@@ -86607,7 +86730,7 @@ msgstr "%1$sの%2$sを開けました。"
 #: src/game.cpp
 #, c-format
 msgid "You pour %1$s into the %2$s."
-msgstr ""
+msgstr "%1$sを%2$sに注ぎ入れました。"
 
 #: src/game.cpp
 #, c-format
@@ -86888,7 +87011,7 @@ msgstr "弓を引ける程の力が無い！"
 
 #: src/game.cpp
 msgid "You're not wielding anything."
-msgstr "何も武装していない。"
+msgstr "何も武装していません。"
 
 #: src/game.cpp
 msgid "You're too pacified to strike anything..."
@@ -86912,11 +87035,6 @@ msgstr "%sは再装填の必要はない。(再装填と発射を同時に行う
 
 #: src/game.cpp
 #, c-format
-msgid "Your %s does not reload normally."
-msgstr "%sは正常に再装填されなかった。"
-
-#: src/game.cpp
-#, c-format
 msgid "Your %s is fully loaded!"
 msgstr "%sは最大まで装弾されています！"
 
@@ -86937,18 +87055,8 @@ msgstr "%sは充填されていません。"
 
 #: src/game.cpp
 #, c-format
-msgid "Your %s needs 100 charges to fire!"
-msgstr "%sを撃つには充電(100)が必要です！"
-
-#: src/game.cpp
-#, c-format
-msgid "Your %s needs 20 charges to fire!"
-msgstr "%sを撃つには充電(20)が必要です！"
-
-#: src/game.cpp
-#, c-format
-msgid "Your %s needs 50 charges to fire!"
-msgstr "%sを撃つには充電(50)が必要です！"
+msgid "Your %s needs %i charges to fire!"
+msgstr ""
 
 #: src/game.cpp src/melee.cpp
 #, c-format
@@ -87058,6 +87166,10 @@ msgstr "近くで階段を歩く音が聞こえました！"
 msgctxt "action"
 msgid "activate"
 msgstr "使う"
+
+#: src/game.cpp
+msgid "ammo"
+msgstr ""
 
 #: src/game.cpp
 msgid "an explosion!"
@@ -88685,16 +88797,6 @@ msgstr "$%0.2f"
 
 #: src/iexamine.cpp
 #, c-format
-msgid "%.3f kg"
-msgstr "%.3f kg"
-
-#: src/iexamine.cpp
-#, c-format
-msgid "%.3f lbs"
-msgstr "%.3f lbs"
-
-#: src/iexamine.cpp
-#, c-format
 msgid "%1$s ripen in %2$s."
 msgstr "%1$sは%2$sに実ります。"
 
@@ -88918,13 +89020,13 @@ msgstr "カードを挿入しました。"
 #: src/iexamine.cpp
 #, c-format
 msgid "It contains %s (%d), %d%% full."
-msgstr ""
+msgstr "%s(%d)が満杯の%d%%入っています。"
 
 #: src/iexamine.cpp
 msgid "It is about halfway done fermenting."
 msgstr ""
 
-#: src/iexamine.cpp src/mission_companion.cpp
+#: src/iexamine.cpp src/mission_companion.cpp src/vehicle.cpp
 msgid "It is too cold to plant anything now."
 msgstr "植え付けるには寒過ぎます。"
 
@@ -88948,7 +89050,7 @@ msgstr ""
 
 #: src/iexamine.cpp
 msgid "It's been set recently, and will take some time to ferment."
-msgstr ""
+msgstr "仕込んだばかりです。発酵完了にはもう少し時間が必要です。"
 
 #: src/iexamine.cpp
 msgid "JACKPOT!  You win $3000!"
@@ -88963,6 +89065,11 @@ msgstr ""
 msgid "Looks like %d storey. Jump down?"
 msgid_plural "Looks like %d stories. Jump down?"
 msgstr[0] ""
+
+#: src/iexamine.cpp
+#, c-format
+msgid "Looks like you need a %s, or a tool to hack it with."
+msgstr ""
 
 #: src/iexamine.cpp
 #, c-format
@@ -89283,7 +89390,7 @@ msgstr "そこには炭焼窯があります。"
 #: src/iexamine.cpp
 #, c-format
 msgid "There's a vat full of %s set to ferment there."
-msgstr ""
+msgstr "%sを発酵中の大桶があります。"
 
 #: src/iexamine.cpp
 #, c-format
@@ -89299,6 +89406,10 @@ msgstr "この%sは既に施肥されています。"
 #, c-format
 msgid "This %s has already been harvested. Harvest it again next year."
 msgstr "既に%sは収穫されています。来年、再度収穫する事が出来ます。"
+
+#: src/iexamine.cpp
+msgid "This electronic safe looks too complicated to open."
+msgstr ""
 
 #: src/iexamine.cpp
 msgid "This flower has a heady aroma."
@@ -89400,20 +89511,12 @@ msgid "Unable to refund, no fuel in pump."
 msgstr ""
 
 #: src/iexamine.cpp
-msgid "Use electrohack on the gun safe?"
-msgstr "銃保管庫にハッキング装置を使いますか？"
+msgid "Use electrohack?"
+msgstr ""
 
 #: src/iexamine.cpp
-msgid "Use electrohack on the reader?"
-msgstr "リーダーにハッキング装置を使いますか？"
-
-#: src/iexamine.cpp
-msgid "Use fingerhack on the gun safe?"
-msgstr "銃保管庫に指内蔵式ハッキングツールを使いますか？"
-
-#: src/iexamine.cpp
-msgid "Use fingerhack on the reader?"
-msgstr "リーダーに指内蔵式ハッキングツールを使いますか？"
+msgid "Use fingerhack?"
+msgstr ""
 
 #: src/iexamine.cpp
 #, c-format
@@ -89515,8 +89618,8 @@ msgid "You can't crack a safe while deaf!"
 msgstr "耳が聞こえないと金庫破りは出来ない！"
 
 #: src/iexamine.cpp
-msgid "You can't hack this gun safe without an electrohack."
-msgstr "ハッキング装置がないので、銃保管庫をハッキングする事が出来ない。"
+msgid "You can't hack this gun safe without a hacking tool."
+msgstr ""
 
 #: src/iexamine.cpp
 msgid "You cannot get to the curtains from the outside."
@@ -89555,12 +89658,12 @@ msgstr "そのアイテムは持っていない！"
 #: src/iexamine.cpp
 #, c-format
 msgid "You don't have any %1$s to fill the %2$s with."
-msgstr ""
+msgstr "%1$sを持っていないので%2$sに補充できません。"
 
 #: src/iexamine.cpp
 #, c-format
 msgid "You don't have any drinks to fill the %s with."
-msgstr ""
+msgstr "%sに注ぎ入れる飲み物を持っていません。"
 
 #: src/iexamine.cpp
 msgid "You drink some nectar."
@@ -89767,12 +89870,12 @@ msgstr ""
 #: src/iexamine.cpp
 #, c-format
 msgid "You squeeze the last drops of %1$s from the %2$s."
-msgstr ""
+msgstr "%1$sを最後の一滴まで%2$sから取り出しました。"
 
 #: src/iexamine.cpp
 #, c-format
 msgid "You squeeze the last drops of %s from the vat."
-msgstr ""
+msgstr "%sを最後の一滴まで大桶から取り出しました。"
 
 #: src/iexamine.cpp
 msgid "You successfully hack the gun safe."
@@ -89992,14 +90095,6 @@ msgstr "武器:"
 msgid "Weight (%s): "
 msgstr "重量(%s): "
 
-#: src/inventory_ui.cpp src/item.cpp src/newcharacter.cpp src/options.cpp
-msgid "kg"
-msgstr "kg"
-
-#: src/inventory_ui.cpp src/item.cpp src/newcharacter.cpp src/options.cpp
-msgid "lbs"
-msgstr "lbs"
-
 #: src/item.cpp
 msgid " (UPS)"
 msgstr " (UPS)"
@@ -90179,6 +90274,8 @@ msgid ""
 "* This gear has Kevlar inserted into strategic locations to <good>increase "
 "protection</good> with some <bad>increase to encumbrance</bad>."
 msgstr ""
+"*この装備は急所を守るようにケブラー繊維が挿入されているため<good>防御力が向上"
+"</good>し、やや<bad>動きにくく</bad>なっています。"
 
 #: src/item.cpp
 msgid "* This gear has an <info>alarm clock</info> feature."
@@ -90190,7 +90287,7 @@ msgid ""
 "protection</good> with moderate <bad>increase to encumbrance</bad>."
 msgstr ""
 "*この装備は革のパッドを継ぎ当てて補強されているため<good>防御力が向上</good>"
-"し、<good>動きにくく</good>なっています。"
+"し、<bad>動きにくく</bad>なっています。"
 
 #: src/item.cpp
 msgid ""
@@ -90827,18 +90924,18 @@ msgstr "<info>より多くのレシピ<info>を考え出すのに役立つ可能
 
 #: src/item.cpp
 #, c-format
-msgid "It takes you longer than usual to wield your %s."
-msgstr "%sを構えるには時間がかかります。"
+msgid "It takes you a long time to wield your %s."
+msgstr ""
 
 #: src/item.cpp
 #, c-format
-msgid "It takes you much longer than usual to wield your %s."
-msgstr "%sを構えるにはとても時間がかかります。"
+msgid "It takes you a very long time to wield your %s."
+msgstr ""
 
 #: src/item.cpp
 #, c-format
-msgid "It takes you slightly longer than usual to wield your %s."
-msgstr "%sを構えるには幾らか時間がかかります。"
+msgid "It takes you several seconds to wield your %s."
+msgstr ""
 
 #: src/item.cpp
 #, c-format
@@ -92361,7 +92458,7 @@ msgstr ""
 
 #: src/iuse.cpp
 msgid "Only power mods for tools can be removed this way."
-msgstr ""
+msgstr "この方法で取り外せるのは電源系の追加部品のみです。"
 
 #: src/iuse.cpp
 msgid "Oops.  You must've blacked out for a minute there."
@@ -93815,17 +93912,18 @@ msgstr ""
 #: src/iuse.cpp
 #, c-format
 msgid "You don't have enough %s to do that."
-msgstr ""
+msgstr "それをするには%sが足りません。"
 
 #: src/iuse.cpp
 #, c-format
 msgid "You don't have enough %s to do that. Have: %d, need: %d"
-msgstr ""
+msgstr "それをするには%sが足りません。 所持:%d 必要:%d"
 
 #: src/iuse.cpp
 msgid ""
 "You don't have enough charges in your purifier to purify all of the water."
 msgstr ""
+"浄水器の充填が不足しています。全ての水を浄化することはできませんでした。"
 
 #: src/iuse.cpp
 #, c-format
@@ -93852,17 +93950,19 @@ msgstr ""
 msgid "You download %d new photo into internal memory."
 msgid_plural "You download %d new photos into internal memory."
 msgstr[0] ""
+"タブレットパソコンの記憶領域に%d枚の新しい画像をダウンロードしました。"
 
 #: src/iuse.cpp
 #, c-format
 msgid "You download %d new song into internal memory."
 msgid_plural "You download %d new songs into internal memory."
 msgstr[0] ""
+"タブレットパソコンの記憶領域に%d曲の新しい音楽をダウンロードしました。"
 
 #: src/iuse.cpp
 #, c-format
 msgid "You download a recipe for %s into the tablet's memory."
-msgstr ""
+msgstr "タブレットパソコンの記憶領域に%sのレシピをダウンロードしました。"
 
 #: src/iuse.cpp
 msgid "You eat the datura seed."
@@ -93978,7 +94078,7 @@ msgstr ""
 #: src/iuse.cpp
 #, c-format
 msgid "You fire up your %s and start getting the tension out."
-msgstr ""
+msgstr "握った%sに火を入れました。盛り上がってきたぞ。"
 
 #: src/iuse.cpp
 msgid "You flip the switch, but nothing happens."
@@ -94092,7 +94192,7 @@ msgstr "%sに耳を傾けた。"
 #: src/iuse.cpp
 #, c-format
 msgid "You make your %s extra sturdy."
-msgstr ""
+msgstr "%sを補強しました。"
 
 #: src/iuse.cpp
 msgid "You manage to get rid of the message on the ground."
@@ -94386,7 +94486,7 @@ msgstr ""
 msgid ""
 "You replace the battery compartment of your %s with a rechargeable battery "
 "pack!"
-msgstr ""
+msgstr "%sの電源周りを再充電式拡張バッテリーに置き換えました！"
 
 #: src/iuse.cpp
 #, c-format
@@ -94492,7 +94592,7 @@ msgstr ""
 
 #: src/iuse.cpp
 msgid "You squeeze the pheromone ball..."
-msgstr ""
+msgstr "フェロモンボールを搾った..."
 
 #: src/iuse.cpp
 msgid "You stagger with a piercing headache!"
@@ -95169,7 +95269,7 @@ msgstr ""
 #: src/iuse_actor.cpp
 #, c-format
 msgid "At your skill level, it will take around %d minutes to light a fire."
-msgstr ""
+msgstr "現在の技能レベルでは点火に約%d分かかります。"
 
 #: src/iuse_actor.cpp
 msgid "But you're already smokin' hot."
@@ -95317,7 +95417,7 @@ msgstr ""
 msgid ""
 "There's a brazier there but you haven't set it up to contain the fire. "
 "Continue?"
-msgstr ""
+msgstr "火鉢に燃料がくべられていません。続けますか？"
 
 #: src/iuse_actor.cpp
 msgid "There's nothing to light there."
@@ -95351,7 +95451,7 @@ msgstr ""
 
 #: src/iuse_actor.cpp
 msgid "You are wielding that, are you sure?"
-msgstr ""
+msgstr "それを装備していますが、本当に宜しいですか？"
 
 #: src/iuse_actor.cpp
 #, c-format
@@ -95407,7 +95507,7 @@ msgstr ""
 #: src/iuse_actor.cpp
 #, c-format
 msgid "You holster your %s"
-msgstr ""
+msgstr "%sをホルスターに収めました。"
 
 #. ~ First %s is the ammo item (with plural form and count included), second is the monster name
 #: src/iuse_actor.cpp
@@ -95509,7 +95609,7 @@ msgstr ""
 #: src/iuse_actor.cpp
 #, c-format
 msgid "Your %s is too big to fit in your %s"
-msgstr ""
+msgstr "%sは%sに収めるには大き過ぎます！"
 
 #: src/iuse_actor.cpp
 #, c-format
@@ -97440,12 +97540,12 @@ msgstr "%1$sの触手を使った引っ掻き攻撃が%2$sに命中しました�
 #: src/melee.cpp
 #, c-format
 msgid "%1$s sinks her fangs into %2$s"
-msgstr ""
+msgstr "%1$sの牙による噛み付きが%2$sに命中しました！"
 
 #: src/melee.cpp
 #, c-format
 msgid "%1$s sinks his fangs into %2$s"
-msgstr ""
+msgstr "%1$sの牙による噛み付きが%2$sに命中しました！"
 
 #: src/melee.cpp
 #, c-format
@@ -97490,12 +97590,12 @@ msgstr ""
 #: src/melee.cpp
 #, c-format
 msgid "%1$s tears into %2$s with her saber teeth"
-msgstr ""
+msgstr "%1$sの長い剣歯による噛み付きが%2$sに命中しました！"
 
 #: src/melee.cpp
 #, c-format
 msgid "%1$s tears into %2$s with his saber teeth"
-msgstr ""
+msgstr "%1$sの長い剣歯による噛み付きが%2$sに命中しました！"
 
 #: src/melee.cpp
 #, c-format
@@ -97540,7 +97640,7 @@ msgstr "%s%dのダメージを与えました。クリティカル！"
 #: src/melee.cpp
 #, c-format
 msgid "%s misses and stumbles with the momentum."
-msgstr ""
+msgstr "%sは攻撃を外した勢いでよろめきました。"
 
 #: src/melee.cpp
 #, c-format
@@ -97565,7 +97665,7 @@ msgstr "<npcname>の%2$sが%1$sのダメージを防ぎました！"
 #: src/melee.cpp
 #, c-format
 msgid "<npcname> burns %s."
-msgstr ""
+msgstr "<npcname>が%sを燃やしました。"
 
 #: src/melee.cpp
 #, c-format
@@ -97589,16 +97689,16 @@ msgstr "<npcname>が%sの武装を解除しました！"
 
 #: src/melee.cpp
 msgid "<npcname> disarms you!"
-msgstr "<npcname>が貴方の武装を解除しました！"
+msgstr "<npcname>があなたの武装を解除しました！"
 
 #: src/melee.cpp
 #, c-format
 msgid "<npcname> drains %s's body heat!"
-msgstr ""
+msgstr "<npcname>が%sの体温を吸収しました！"
 
 #: src/melee.cpp
 msgid "<npcname> drains your body heat!"
-msgstr ""
+msgstr "<npcname>があなたの体温を吸収しました！"
 
 #: src/melee.cpp
 #, c-format
@@ -97622,7 +97722,7 @@ msgstr "<npcname>の攻撃が%sに命中しました！"
 
 #: src/melee.cpp
 msgid "<npcname> hits something."
-msgstr ""
+msgstr "<npcnameの攻撃が何かに命中しました。"
 
 #: src/melee.cpp
 #, c-format
@@ -97667,7 +97767,7 @@ msgstr ""
 #: src/melee.cpp
 #, c-format
 msgid "<npcname> shocks %s."
-msgstr ""
+msgstr "<npcname>が%sを感電させました。"
 
 #: src/melee.cpp
 #, c-format
@@ -97702,12 +97802,12 @@ msgstr "<npcname>の殴打が%sに命中しました。"
 #: src/melee.cpp
 #, c-format
 msgid "<npcname>'s %s is damaged by the force of the blow!"
-msgstr ""
+msgstr "<npcname>の%sが打ち付けた衝撃で損傷しました！"
 
 #: src/melee.cpp
 #, c-format
 msgid "<npcname>'s %s is destroyed by the blow!"
-msgstr ""
+msgstr "<npcname>の%sが衝撃で壊れました！"
 
 #: src/melee.cpp
 #, c-format
@@ -97716,21 +97816,21 @@ msgstr "<npcname>の%sは粉々になりました!"
 
 #: src/melee.cpp
 msgid "Fighting on wheels is hard!"
-msgstr ""
+msgstr "車輪の上で戦うのは困難です！"
 
 #: src/melee.cpp
 #, c-format
 msgid "The %s cuts your hand!"
-msgstr ""
+msgstr "%sがあなたの手を切りました！"
 
 #: src/melee.cpp
 msgid "The ground shifts beneath your feet!"
-msgstr ""
+msgstr "足元の地面が動いています！"
 
 #: src/melee.cpp
 #, c-format
 msgid "You are hurt by the %s being pulled from your hands!"
-msgstr ""
+msgstr "%sが強く引っ張られており、手が痛みます！"
 
 #: src/melee.cpp
 #, c-format
@@ -97765,7 +97865,7 @@ msgstr "%2$sが%1$sのダメージを防ぎました！"
 #: src/melee.cpp
 #, c-format
 msgid "You burn %s."
-msgstr ""
+msgstr "%sを燃やしました。"
 
 #: src/melee.cpp
 #, c-format
@@ -97804,12 +97904,12 @@ msgstr "%sの武装を解除しました！"
 #: src/melee.cpp
 #, c-format
 msgid "You drain %s's body heat!"
-msgstr ""
+msgstr "%sの体温を吸収しました！"
 
 #: src/melee.cpp
 #, c-format
 msgid "You drain %s's body heat."
-msgstr ""
+msgstr "%sの体温を吸収しました。"
 
 #: src/melee.cpp
 msgid "You feint."
@@ -97828,7 +97928,7 @@ msgstr "刺突攻撃が%sに命中しました。"
 #: src/melee.cpp
 #, c-format
 msgid "You have learnt %s from extensive practice with the CQB Bionic."
-msgstr ""
+msgstr "CQB生体部品の広い訓練から%sを学び取りました。"
 
 #: src/melee.cpp
 #, c-format
@@ -97852,7 +97952,7 @@ msgstr "攻撃が%sに命中しました！"
 
 #: src/melee.cpp
 msgid "You hit something."
-msgstr ""
+msgstr "攻撃が何かに命中しました。"
 
 #: src/melee.cpp
 #, c-format
@@ -97886,7 +97986,7 @@ msgstr "切刻攻撃が%sに命中しました。"
 
 #: src/melee.cpp
 msgid "You miss and stumble with the momentum."
-msgstr ""
+msgstr "攻撃を外した勢いでよろめきました。"
 
 #: src/melee.cpp
 msgid "You miss."
@@ -97899,7 +97999,7 @@ msgstr "切断攻撃が%sに命中しました。"
 
 #: src/melee.cpp
 msgid "You nearly fall, but recover thanks to your skating experience."
-msgstr ""
+msgstr "スケートの経験によってかろうじて転倒を免れました。"
 
 #: src/melee.cpp
 #, c-format
@@ -97913,7 +98013,7 @@ msgstr ""
 
 #: src/melee.cpp
 msgid "You overbalance and stumble!"
-msgstr ""
+msgstr "体の平衡を失ってよろめきました！"
 
 #: src/melee.cpp
 #, c-format
@@ -97953,12 +98053,12 @@ msgstr ""
 #: src/melee.cpp
 #, c-format
 msgid "You shock %s."
-msgstr ""
+msgstr "%sを感電させました。"
 
 #: src/melee.cpp
 #, c-format
 msgid "You sink your fangs into %s"
-msgstr ""
+msgstr "牙による噛み付きが%sに命中しました！"
 
 #: src/melee.cpp
 #, c-format
@@ -97987,7 +98087,7 @@ msgstr "虫顎を使った横斬攻撃が%sに命中しました！"
 
 #: src/melee.cpp
 msgid "You slip as the ground shifts beneath your feet!"
-msgstr ""
+msgstr "足を滑らせました！足元の地面が動いています！"
 
 #: src/melee.cpp
 #, c-format
@@ -98011,7 +98111,7 @@ msgstr ""
 
 #: src/melee.cpp
 msgid "You swing at the air."
-msgstr ""
+msgstr "攻撃は空を切りました。"
 
 #: src/melee.cpp
 msgid "You swing wildly and miss."
@@ -98020,7 +98120,7 @@ msgstr "乱暴な振り回し攻撃は外れました。"
 #: src/melee.cpp
 #, c-format
 msgid "You tear into %s with your saber teeth"
-msgstr ""
+msgstr "長い剣歯による噛み付きが%sに命中しました！"
 
 #: src/melee.cpp
 #, c-format
@@ -98040,22 +98140,22 @@ msgstr ""
 #: src/melee.cpp
 #, c-format
 msgid "Your %1$s gets stuck in %2$s but you yank it free!"
-msgstr ""
+msgstr "%1$sが%2$sに深々と食い込みましたが、なんとか引き抜きました！"
 
 #: src/melee.cpp
 #, c-format
 msgid "Your %1$s gets stuck in %2$s, pulling it out of your hands!"
-msgstr ""
+msgstr "%1$sが%2$sに深々と食い込み、手から引き剥がされました！"
 
 #: src/melee.cpp
 #, c-format
 msgid "Your %s is damaged by the force of the blow!"
-msgstr ""
+msgstr "%sが打ち付けた衝撃で損傷しました！"
 
 #: src/melee.cpp
 #, c-format
 msgid "Your %s is destroyed by the blow!"
-msgstr ""
+msgstr "%sが衝撃で壊れました！"
 
 #: src/melee.cpp
 msgid "Your torso encumbrance throws you off-balance."
@@ -101897,7 +101997,7 @@ msgid "Description: [NONE]\n"
 msgstr "概要: [NONE]\n"
 
 #: src/mod_manager_ui.cpp
-msgid "This mod requires Lua but your CDDA build not support it!"
+msgid "This mod requires Lua but your CDDA build doesn't support it!"
 msgstr "このMODはLuaを要求します。このビルドでは対応していません！"
 
 #: src/monattack.cpp
@@ -104052,7 +104152,7 @@ msgstr "開始/泥酔・病気"
 #: src/newcharacter.cpp
 #, c-format
 msgid "Failed to write template to %s"
-msgstr "%sへのテンプレートの書き込むが失敗しました。"
+msgstr "%sへのテンプレートの書き込みが失敗しました。"
 
 #: src/newcharacter.cpp
 msgid "Fire nearby"
@@ -104504,7 +104604,7 @@ msgstr "<npcname>は%sを落としました。"
 #: src/npc.cpp
 #, c-format
 msgid "<npcname> puts away the %s."
-msgstr ""
+msgstr "<npcname>は%sを手放しました。"
 
 #: src/npc.cpp
 #, c-format
@@ -104903,7 +105003,7 @@ msgstr "着用: "
 #: src/npc.cpp
 #, c-format
 msgid "Wielding a %s"
-msgstr ""
+msgstr "装備:%s"
 
 #: src/npc.cpp
 msgid "Wielding: "
@@ -105212,7 +105312,7 @@ msgstr "もし力を貸してくれるなら他にも頼みたいことがある
 
 #: src/npctalk.cpp
 msgid "  If you are interested, I have another job for you."
-msgstr ""
+msgstr "もし興味があれば、他にも頼みたい仕事があるんだ。"
 
 #: src/npctalk.cpp
 #, c-format
@@ -107343,7 +107443,7 @@ msgstr "正義の為に悪を探しているところさ。"
 
 #: src/npctalk.cpp
 msgid "Just on watch, move along."
-msgstr ""
+msgstr "見張りをしてるだけだ、どっか行け。"
 
 #: src/npctalk.cpp
 msgid "Justice has been served."
@@ -107351,7 +107451,7 @@ msgstr "正義は成されたな。"
 
 #: src/npctalk.cpp
 msgid "Keep civil or I'll bring the pain."
-msgstr ""
+msgstr "痛い目に遭うのが嫌なら大人しくしていろ。"
 
 #: src/npctalk.cpp
 msgid "Keep close!"
@@ -108079,8 +108179,8 @@ msgid ""
 "sure whatever toxic waste is still out there is bound to mutate more than "
 "just his hair."
 msgstr ""
-"ひどいな！血塗れの毛皮をまとっている... だが、そこいらに放置されてる有害廃棄"
-"物か何かで体毛が変異したと考えれば、不思議ではないのかな？"
+"駄目だ！ひどいな、こいつ血塗れの毛皮をまとっているぞ... だが、そこいらに放置"
+"されてる有害廃棄物か何かで体毛が変異したと考えれば、不思議ではないのかな？"
 
 #: src/npctalk.cpp
 msgid ""
@@ -109098,7 +109198,7 @@ msgstr "チョー"
 
 #: src/npctalk.cpp src/player.cpp
 msgid "you"
-msgstr "君"
+msgstr "あなた"
 
 #: src/npctalk.cpp
 msgid "you dig"
@@ -110649,12 +110749,12 @@ msgstr "重量 %.1f"
 #: src/pickup.cpp
 #, c-format
 msgid "Wielding %c - %s"
-msgstr "%c - %sを手に持ちました。"
+msgstr "装備 %c - %s"
 
 #: src/pickup.cpp
 #, c-format
 msgid "Wielding - %s"
-msgstr ""
+msgstr "装備 - %s"
 
 #: src/pickup.cpp
 msgid "You can't pick up a liquid!"
@@ -110908,7 +111008,7 @@ msgstr ""
 #: src/player.cpp
 #, c-format
 msgid "<npcname> is slammed against %s."
-msgstr ""
+msgstr "<npcname>は%sに叩きつけられました！"
 
 #: src/player.cpp
 #, c-format
@@ -111647,7 +111747,7 @@ msgstr "%s技能は上昇しません。それでも読みますか？"
 
 #: src/player.cpp
 msgid "It's a bad idea to read while driving!"
-msgstr ""
+msgstr "運転しながら読書する馬鹿はいません！"
 
 #: src/player.cpp
 msgid "It's a good time to lie down and sleep."
@@ -111752,7 +111852,7 @@ msgstr "この素敵な密集した蜘蛛の巣は眠るには最適な場所で
 
 #: src/player.cpp
 msgid "Maybe you should find something new to read..."
-msgstr ""
+msgstr "脳が新しい読み物を求めています..."
 
 #: src/player.cpp
 msgid "Meh. You've eaten worse."
@@ -111946,7 +112046,7 @@ msgstr "ゲームで遊んだ"
 #: src/player.cpp
 #, c-format
 msgid "Putting on a %s would be tricky."
-msgstr ""
+msgstr "%sを着用するのは無理がある。"
 
 #: src/player.cpp
 #, c-format
@@ -112022,7 +112122,7 @@ msgstr "全て取り外す"
 
 #: src/player.cpp
 msgid "Remove which modification?"
-msgstr ""
+msgstr "どのMODを取り外しますか？"
 
 #: src/player.cpp
 #, c-format
@@ -112239,7 +112339,7 @@ msgstr[0] "技術:"
 #: src/player.cpp
 #, c-format
 msgid "That %1$s cannot be used on a %2$s."
-msgstr ""
+msgstr "%1$sを%2$sに使うことはできません。"
 
 #: src/player.cpp
 #, c-format
@@ -112279,7 +112379,7 @@ msgstr "%sはサブマシンガンには取り付けられない。"
 #: src/player.cpp
 #, c-format
 msgid "That %s is a gunmod, it can not be modded."
-msgstr ""
+msgstr "%sは銃器MODです。MODを取り付けることはできません。"
 
 #: src/player.cpp
 #, c-format
@@ -112307,7 +112407,7 @@ msgstr ""
 #: src/player.cpp
 #, c-format
 msgid "The %s isn't as much fun now that you've finished it."
-msgstr ""
+msgstr "%sはもう読み終えました。今ではそう面白くもありません。"
 
 #: src/player.cpp
 #, c-format
@@ -112446,7 +112546,7 @@ msgstr "渇き *"
 #: src/player.cpp
 #, c-format
 msgid "This %s is eminently reliable. You can't improve upon it this way."
-msgstr ""
+msgstr "%sは既に調整されています。この方法ではさらに改良することはできません。"
 
 #: src/player.cpp
 #, c-format
@@ -112734,17 +112834,17 @@ msgstr ""
 #: src/player.cpp
 #, c-format
 msgid "You are now wielding an empty %s."
-msgstr ""
+msgstr "空の%sを装備しています。"
 
 #: src/player.cpp
 #, c-format
 msgid "You are slammed against %s for %d damage."
-msgstr ""
+msgstr "%sにに叩きつけられ、%dのダメージを受けました！"
 
 #: src/player.cpp
 #, c-format
 msgid "You are slammed against %s."
-msgstr ""
+msgstr "%sにに叩きつけられました！"
 
 #: src/player.cpp
 msgid "You are sweating profusely."
@@ -112763,7 +112863,7 @@ msgstr "%sを消化しました。"
 #: src/player.cpp
 #, c-format
 msgid "You attach the %1$s to your %2$s."
-msgstr ""
+msgstr "%1$sに%2$sを取り付けました。"
 
 #: src/player.cpp
 #, c-format
@@ -112793,17 +112893,17 @@ msgstr "%sからはもう何も学ぶところがない。"
 #: src/player.cpp
 #, c-format
 msgid "You can not extend the ammo capacity of your %s."
-msgstr ""
+msgstr "%sのマガジン容量を増やすことはできません。"
 
 #: src/player.cpp
 #, c-format
 msgid "You can not modify your %s while it's worn."
-msgstr ""
+msgstr "%sを身に付けたまま改造することはできません。"
 
 #: src/player.cpp
 #, c-format
 msgid "You can not use a spare magazine in your %s."
-msgstr ""
+msgstr "%sに予備マガジンを取り付けることはできません。"
 
 #: src/player.cpp
 msgid "You can only wear power armor components with power armor!"
@@ -112830,6 +112930,7 @@ msgstr "日光に耐えられない！"
 msgid ""
 "You can't take off power armor while wearing other power armor components."
 msgstr ""
+"パワーアーマー関連部品を装備したままパワーアーマーを脱ぐことはできません。"
 
 #: src/player.cpp
 #, c-format
@@ -112860,7 +112961,7 @@ msgstr "それは羊毛製なので装備できない！"
 #: src/player.cpp
 #, c-format
 msgid "You cannot attach a brass catcher to your %s."
-msgstr ""
+msgstr "%sにブラスキャッチャーを取り付けることはできません。"
 
 #: src/player.cpp
 msgid "You cannot fit that over your shell."
@@ -113231,14 +113332,14 @@ msgstr ""
 #: src/player.cpp
 #, c-format
 msgid "You need an UPS of some kind for this %s to work continuously."
-msgstr ""
+msgstr "%sを連続使用するにはUPS型電源が必要です。"
 
 #: src/player.cpp
 #, c-format
 msgid ""
 "You need to be at least level %d in the marksmanship skill before you can "
 "install this mod."
-msgstr ""
+msgstr "このMODを取り付けるには%d以上の射撃技能が必要です。"
 
 #: src/player.cpp
 msgid "You nestle your pile of clothes for warmth."
@@ -113310,7 +113411,7 @@ msgstr ""
 #: src/player.cpp
 #, c-format
 msgid "You skim %s to find out what's in it."
-msgstr ""
+msgstr "%sの内容を簡単に確かめてみました。"
 
 #: src/player.cpp
 msgid "You slow to a walk."
@@ -113507,7 +113608,7 @@ msgstr "既に靴を履いています！"
 
 #: src/player.cpp
 msgid "You're already wielding that!"
-msgstr ""
+msgstr "既にそれを装備しています！"
 
 #: src/player.cpp
 msgid "You're cramping up from stuffing yourself in this vehicle."
@@ -113529,7 +113630,7 @@ msgstr ""
 
 #: src/player.cpp
 msgid "You're fed.  Try to pack more in anyway?"
-msgstr ""
+msgstr "もう食べたくありません。それでも押し込みますか？"
 
 #: src/player.cpp
 msgid "You're feeling tired."
@@ -113614,7 +113715,7 @@ msgstr "%2$sに%1$sを発見しました！"
 #: src/player.cpp
 #, c-format
 msgid "Your %1$s already has a %2$s."
-msgstr ""
+msgstr "%1$sは既に%2$sを取り付けてあります。"
 
 #: src/player.cpp
 #, c-format
@@ -113622,6 +113723,8 @@ msgid ""
 "Your %1$s doesn't have enough room for another %2$s mod. To remove the mods, "
 "activate your weapon."
 msgstr ""
+"%1$sは%2$sの取り付け位置に空きがありません。導入済みのMODを取り外してくださ"
+"い。"
 
 #: src/player.cpp
 #, c-format
@@ -113651,7 +113754,7 @@ msgstr "%sが鈍く傷みます。"
 #: src/player.cpp
 #, c-format
 msgid "Your %s already has an extended magazine."
-msgstr ""
+msgstr "%sは既に拡張マガジンを取り付けてあります。"
 
 #: src/player.cpp
 #, c-format
@@ -113661,18 +113764,18 @@ msgstr "%1$sの動きをかなり妨げます！%2$s"
 #: src/player.cpp
 #, c-format
 msgid "Your %s doesn't appear to be modded."
-msgstr ""
+msgstr "%sにMODは取り付けられていません。"
 
 #: src/player.cpp
 #, c-format
 msgid "Your %s doesn't have a slot for this mod."
-msgstr ""
+msgstr "%sにはこのMODに対応する取り付け位置がありません。"
 
 #: src/player.cpp
 #, c-format
 msgid "Your %s has %d charge but needs %d."
 msgid_plural "Your %s has %d charges but needs %d."
-msgstr[0] ""
+msgstr[0] "%s(%d)の充填量は%d以上必要です。"
 
 #. ~ %s is bodypart
 #: src/player.cpp
@@ -113688,7 +113791,7 @@ msgstr "%sに怪我をしました！"
 #: src/player.cpp
 #, c-format
 msgid "Your %s is already waterproof."
-msgstr ""
+msgstr "%sは既に防水化されています。"
 
 #: src/player.cpp
 #, c-format
@@ -113698,7 +113801,7 @@ msgstr "%sは完全に破壊されました！"
 #: src/player.cpp
 #, c-format
 msgid "Your %s is not good reading material."
-msgstr ""
+msgstr "%sはあまり読み物にはならない。"
 
 #: src/player.cpp
 #, c-format
@@ -113723,13 +113826,13 @@ msgstr "%sに走る激痛に苦しみました！"
 #: src/player.cpp
 #, c-format
 msgid "Your %s isn't big enough to use that mod.'"
-msgstr ""
+msgstr "%sはこのMODを取り付けるには小さすぎます。"
 
 #: src/player.cpp
 #, c-format
 msgid "Your %s needs %d charge from some UPS."
 msgid_plural "Your %s needs %d charges from some UPS."
-msgstr[0] ""
+msgstr[0] "%sを使うにはUPS型電源(%d)が必要です。"
 
 #: src/player.cpp
 #, c-format
@@ -114393,7 +114496,7 @@ msgstr ""
 
 #: src/player_activity.cpp
 msgid "You feel much better."
-msgstr ""
+msgstr "スッキリしました。"
 
 #: src/player_activity.cpp
 msgid "You finish reading."
@@ -115238,7 +115341,7 @@ msgstr "射撃を回避しました！"
 
 #: src/trapfunc.cpp
 msgid "You fail to attach it..."
-msgstr ""
+msgstr "取り付けに失敗しました..."
 
 #: src/trapfunc.cpp
 msgid "You fall down a level!"
@@ -115395,6 +115498,13 @@ msgstr ""
 msgid ""
 "  You also need level <color_%1$s>%2$d</color> skill in mechanics to install "
 "additional engines."
+msgstr ""
+
+#: src/veh_interact.cpp
+#, c-format
+msgid ""
+"  You also need level <color_%1$s>%2$d</color> skill in mechanics to install "
+"additional steering axles."
 msgstr ""
 
 #: src/veh_interact.cpp
@@ -115609,8 +115719,8 @@ msgstr "ライト"
 
 #: src/veh_interact.cpp
 #, c-format
-msgid "Mass: <color_ltblue>%5d</color> %s"
-msgstr "質量: <color_ltblue>%5d</color> %s"
+msgid "Mass: <color_ltblue>%5.0f</color> %s"
+msgstr ""
 
 #: src/veh_interact.cpp
 msgid "Most damaged:"
@@ -115629,7 +115739,7 @@ msgstr "近くの車両(%d)"
 #, c-format
 msgid ""
 "Needs <color_%1$s>%2$s</color>, a <color_%3$s>wrench</color> and level "
-"<color_%4$s>%5$d</color> skill in mechanics.%6$s%7$s"
+"<color_%4$s>%5$d</color> skill in mechanics.%6$s%7$s%8$s"
 msgstr ""
 
 #: src/veh_interact.cpp
@@ -115638,14 +115748,14 @@ msgid ""
 "Needs <color_%1$s>%2$s</color>, a <color_%3$s>wrench</color>, either a "
 "<color_%4$s>powered welder</color> (and <color_%5$s>welding goggles</color>) "
 "or <color_%6$s>duct tape</color>, and level <color_%7$s>%8$d</color> skill "
-"in mechanics.%9$s%10$s"
+"in mechanics.%9$s%10$s%11$s"
 msgstr ""
 
 #: src/veh_interact.cpp
 #, c-format
 msgid ""
 "Needs <color_%1$s>%2$s</color>, and level <color_%3$s>%4$d</color> skill in "
-"mechanics.%5$s%6$s"
+"mechanics.%5$s%6$s%7$s"
 msgstr ""
 
 #: src/veh_interact.cpp
@@ -115653,7 +115763,7 @@ msgstr ""
 msgid ""
 "Needs <color_%1$s>%2$s</color>, either <color_%3$s>nails</color> and <color_"
 "%4$s>something to drive them</color> or <color_%5$s>duct tape</color>, and "
-"level <color_%6$s>%7$d</color> skill in mechanics.%8$s%9$s"
+"level <color_%6$s>%7$d</color> skill in mechanics.%8$s%9$s%10$s"
 msgstr ""
 
 #: src/veh_interact.cpp
@@ -115798,8 +115908,20 @@ msgid "Wheels: <color_ltgreen>enough</color>"
 msgstr "車輪: <color_ltgreen>十分</color>"
 
 #: src/veh_interact.cpp
+msgid "Wheels: <color_ltred>broken steering</color>"
+msgstr ""
+
+#: src/veh_interact.cpp
 msgid "Wheels: <color_ltred>lack</color>"
 msgstr "車輪: <color_ltred>不足</color>"
+
+#: src/veh_interact.cpp
+msgid "Wheels: <color_ltred>no steering</color>"
+msgstr ""
+
+#: src/veh_interact.cpp
+msgid "Wheels: <color_ltred>poor steering</color>"
+msgstr ""
 
 #: src/veh_interact.cpp
 msgid "Wheels: <color_ltred>unbalanced</color>"
@@ -116073,11 +116195,11 @@ msgstr "ブルゥンブルゥンブルゥンブルゥン！！！"
 
 #: src/vehicle.cpp
 msgid "Camera system disabled"
-msgstr "カメラシステムを作動させました"
+msgstr "カメラシステムを切りました"
 
 #: src/vehicle.cpp
 msgid "Camera system enabled"
-msgstr "カメラシステムを止めました"
+msgstr "カメラシステムを起動しました"
 
 #: src/vehicle.cpp
 msgid "Camera system won't turn on"
@@ -116449,6 +116571,11 @@ msgstr ""
 
 #: src/vehicle.cpp
 #, c-format
+msgid "The %s's planter turns off due to low temperature."
+msgstr ""
+
+#: src/vehicle.cpp
+#, c-format
 msgid "The %s's reactor dies!"
 msgstr "%sの原子炉が壊れました！"
 
@@ -116730,7 +116857,7 @@ msgstr ""
 #: src/vehicle.cpp
 #, c-format
 msgid "You change the %s's engine configuration."
-msgstr ""
+msgstr "%sのエンジン設定を変更しました。"
 
 #: src/vehicle.cpp
 msgid "You could use a screwdriver to hotwire it."
@@ -116782,7 +116909,7 @@ msgstr "アラームを鳴らしました"
 #: src/vehicle.cpp
 #, c-format
 msgid "You turn off the %s's engines to change their configurations."
-msgstr ""
+msgstr "設定を変更するために%sのエンジンを止めました。"
 
 #: src/vehicle.cpp
 msgid "You turn the engine off and let go of the controls."
@@ -117066,7 +117193,7 @@ msgstr " (幻覚)"
 #: src/wish.cpp
 #, c-format
 msgid "%s Mutation changes: %d"
-msgstr ""
+msgstr "%sが%dになりました。"
 
 #: src/wish.cpp
 #, c-format
@@ -117225,7 +117352,7 @@ msgstr "確認"
 
 #: src/worldfactory.cpp
 msgid "Can't add mod. This mod requires Lua support."
-msgstr ""
+msgstr "MODを追加できません。このMODはLuaサポートが必須です。"
 
 #: src/worldfactory.cpp
 #, c-format

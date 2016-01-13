@@ -468,6 +468,22 @@
         }
     },{
         "type" : "terrain",
+        "id" : "t_grass_white",
+        "name": "white grass",
+        "symbol": ".",
+        "color": "white",
+        "move_cost": 2,
+        "flags": ["TRANSPARENT", "DIGGABLE", "FLAT"],
+        "bash": {
+                "sound": "thump",
+                "ter_set": "t_null",
+                "str_min": 40,
+                "str_max": 100,
+                "str_min_supported": 100,
+                "bash_below": true
+        }
+    },{
+        "type" : "terrain",
         "id" : "t_metal_floor",
         "name": "metal floor",
         "symbol": ".",
@@ -1153,7 +1169,7 @@
         "move_cost": 2,
         "flags": [
             "FLAMMABLE_ASH", "TRANSPARENT",
-            "FLAT", "BARRICADABLE_DOOR", "CONNECT_TO_WALL"
+            "FLAT", "BARRICADABLE_DOOR", "CONNECT_TO_WALL", "ROAD"
         ],
         "deconstruct": {
             "ter_set": "t_door_frame",
@@ -1870,7 +1886,7 @@
         "color": "ltcyan",
         "move_cost": 0,
         "flags": [
-            "TRANSPARENT", "DOOR", "NOITEM", "CONNECT_TO_WALL", "ROAD"
+            "TRANSPARENT", "DOOR", "NOITEM", "CONNECT_TO_WALL"
         ],
         "open": "t_door_glass_o",
         "deconstruct": {
@@ -1897,7 +1913,7 @@
         "symbol": "'",
         "color": "ltcyan",
         "move_cost": 2,
-        "flags": ["TRANSPARENT", "FLAT", "CONNECT_TO_WALL"],
+        "flags": ["TRANSPARENT", "FLAT", "CONNECT_TO_WALL", "ROAD"],
         "close": "t_door_glass_c",
         "deconstruct": {
             "ter_set": "t_door_frame",
@@ -2009,7 +2025,7 @@
         "id" : "t_window_domestic",
         "name": "window with curtains",
         "symbol": "\"",
-        "color": "ltgrey",
+        "color": "ltgray",
         "move_cost": 0,
         "flags": [
             "TRANSPARENT", "FLAMMABLE", "NOITEM", "OPENCLOSE_INSIDE",
@@ -2142,7 +2158,7 @@
         "id" : "t_window_open",
         "name": "open window with curtains",
         "symbol": "'",
-        "color": "ltgrey",
+        "color": "ltgray",
         "move_cost": 4,
         "flags": ["TRANSPARENT", "FLAMMABLE", "NOITEM", "OPENCLOSE_INSIDE", "MOUNTABLE", "CONNECT_TO_WALL" ],
         "close": "t_window_domestic",
@@ -3659,8 +3675,8 @@
         "symbol": "~",
         "color": "ltblue",
         "move_cost": 5,
-        "flags": ["TRANSPARENT", "LIQUID", "SWIMMABLE", "FISHABLE"],
-        "examine_action": "swater_source"
+        "flags": ["TRANSPARENT", "LIQUID", "SWIMMABLE", "SALT_WATER", "FISHABLE"],
+        "examine_action": "water_source"
     },{
         "type" : "terrain",
         "id" : "t_swater_dp",
@@ -3668,8 +3684,8 @@
         "symbol": "~",
         "color": "blue",
         "move_cost": 8,
-        "flags": ["TRANSPARENT", "LIQUID", "SWIMMABLE", "DEEP_WATER", "FISHABLE"],
-        "examine_action": "swater_source"
+        "flags": ["TRANSPARENT", "LIQUID", "SWIMMABLE", "SALT_WATER", "DEEP_WATER", "FISHABLE"],
+        "examine_action": "water_source"
     },{
         "type" : "terrain",
         "id" : "t_water_pool",

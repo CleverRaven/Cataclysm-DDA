@@ -133,9 +133,6 @@ void Item_factory::init()
     iuse_function_list["SEWAGE"] = &iuse::sewage;
     iuse_function_list["HONEYCOMB"] = &iuse::honeycomb;
     iuse_function_list["ROYAL_JELLY"] = &iuse::royal_jelly;
-    iuse_function_list["BANDAGE"] = &iuse::bandage;
-    iuse_function_list["FIRSTAID"] = &iuse::firstaid;
-    iuse_function_list["DISINFECTANT"] = &iuse::disinfectant;
     iuse_function_list["CAFF"] = &iuse::caff;
     iuse_function_list["ATOMIC_CAFF"] = &iuse::atomic_caff;
     iuse_function_list["ALCOHOL"] = &iuse::alcohol_medium;
@@ -163,7 +160,6 @@ void Item_factory::init()
     iuse_function_list["THORAZINE"] = &iuse::thorazine;
     iuse_function_list["PROZAC"] = &iuse::prozac;
     iuse_function_list["SLEEP"] = &iuse::sleep;
-    iuse_function_list["IODINE"] = &iuse::iodine;
     iuse_function_list["DATURA"] = &iuse::datura;
     iuse_function_list["FLUMED"] = &iuse::flumed;
     iuse_function_list["FLUSLEEP"] = &iuse::flusleep;
@@ -184,7 +180,6 @@ void Item_factory::init()
     iuse_function_list["CATFOOD"] = &iuse::catfood;
     iuse_function_list["CAPTURE_MONSTER_ACT"] = &iuse::capture_monster_act;
     // TOOLS
-    iuse_function_list["SEW"] = &iuse::sew;
     iuse_function_list["SEW_ADVANCED"] = &iuse::sew_advanced;
     iuse_function_list["EXTRA_BATTERY"] = &iuse::extra_battery;
     iuse_function_list["DOUBLE_REACTOR"] = &iuse::double_reactor;
@@ -192,7 +187,6 @@ void Item_factory::init()
     iuse_function_list["EXTINGUISHER"] = &iuse::extinguisher;
     iuse_function_list["HAMMER"] = &iuse::hammer;
     iuse_function_list["DIRECTIONAL_ANTENNA"] = &iuse::directional_antenna;
-    iuse_function_list["SOLDER_WELD"] = &iuse::solder_weld;
     iuse_function_list["WATER_PURIFIER"] = &iuse::water_purifier;
     iuse_function_list["TWO_WAY_RADIO"] = &iuse::two_way_radio;
     iuse_function_list["RADIO_OFF"] = &iuse::radio_off;
@@ -231,7 +225,6 @@ void Item_factory::init()
     iuse_function_list["ACIDBOMB_ACT"] = &iuse::acidbomb_act;
     iuse_function_list["GRENADE_INC_ACT"] = &iuse::grenade_inc_act;
     iuse_function_list["ARROW_FLAMABLE"] = &iuse::arrow_flamable;
-    iuse_function_list["MOLOTOV"] = &iuse::molotov;
     iuse_function_list["MOLOTOV_LIT"] = &iuse::molotov_lit;
     iuse_function_list["FIRECRACKER_PACK"] = &iuse::firecracker_pack;
     iuse_function_list["FIRECRACKER_PACK_ACT"] = &iuse::firecracker_pack_act;
@@ -257,11 +250,9 @@ void Item_factory::init()
     iuse_function_list["PORTABLE_STRUCTURE"] = &iuse::portable_structure;
     iuse_function_list["TORCH_LIT"] = &iuse::torch_lit;
     iuse_function_list["BATTLETORCH_LIT"] = &iuse::battletorch_lit;
-    iuse_function_list["BULLET_PULLER"] = &iuse::bullet_puller;
     iuse_function_list["BOLTCUTTERS"] = &iuse::boltcutters;
     iuse_function_list["MOP"] = &iuse::mop;
     iuse_function_list["SPRAY_CAN"] = &iuse::spray_can;
-    iuse_function_list["RAG"] = &iuse::rag;
     iuse_function_list["LAW"] = &iuse::LAW;
     iuse_function_list["HEATPACK"] = &iuse::heatpack;
     iuse_function_list["QUIVER"] = &iuse::quiver;
@@ -298,6 +289,7 @@ void Item_factory::init()
     iuse_function_list["WEATHER_TOOL"] = &iuse::weather_tool;
     iuse_function_list["REMOVE_ALL_MODS"] = &iuse::remove_all_mods;
     iuse_function_list["LADDER"] = &iuse::ladder;
+    iuse_function_list["SAW_BARREL"] = &iuse::saw_barrel;
 
     // MACGUFFINS
     iuse_function_list["MCG_NOTE"] = &iuse::mcg_note;
@@ -667,6 +659,11 @@ void Item_factory::load( islot_gun &slot, JsonObject &jo )
     slot.ammo_effects = jo.get_tags( "ammo_effects" );
     slot.ups_charges = jo.get_int( "ups_charges", 0 );
 
+    slot.barrel_length = jo.get_int( "barrel_length", 0 );
+    if( slot.barrel_length < 0 ) {
+        jo.throw_error( "gun barrel length cannot be negative", "barrel_length" );
+    }
+
     if( jo.has_array( "valid_mod_locations" ) ) {
         JsonArray jarr = jo.get_array( "valid_mod_locations" );
         while( jarr.has_more() ) {
@@ -835,6 +832,7 @@ void Item_factory::load_container(JsonObject &jo)
 void Item_factory::load( islot_seed &slot, JsonObject &jo )
 {
     slot.grow = jo.get_int( "grow" );
+    slot.fruit_div = jo.get_int( "fruit_div", 1 );
     slot.plant_name = _( jo.get_string( "plant_name" ).c_str() );
     slot.fruit_id = jo.get_string( "fruit" );
     slot.spawn_seeds = jo.get_bool( "seeds", true );
@@ -939,34 +937,45 @@ void Item_factory::load_basic_info(JsonObject &jo, itype *new_item_template)
     m_templates[new_id] = new_item_template;
 
     // And then proceed to assign the correct field
-    new_item_template->price = jo.get_int("price");
-    new_item_template->name = jo.get_string("name").c_str();
-    if (jo.has_member("name_plural")) {
-        new_item_template->name_plural = jo.get_string("name_plural").c_str();
+    new_item_template->price = jo.get_int( "price" );
+    new_item_template->name = jo.get_string( "name" ).c_str();
+    if( jo.has_member( "name_plural" ) ) {
+        new_item_template->name_plural = jo.get_string( "name_plural" ).c_str();
     } else {
-        // default behaviour: Assume the regular plural form (appending an “s”)
-        new_item_template->name_plural = (jo.get_string("name") + "s").c_str();
+        // default behavior: Assume the regular plural form (appending an “s”)
+        new_item_template->name_plural = ( jo.get_string( "name" ) + "s" ).c_str();
     }
-    new_item_template->sym = jo.get_string("symbol")[0];
-    new_item_template->color = color_from_string(jo.get_string("color"));
+    new_item_template->sym = jo.get_string( "symbol" )[0];
+    new_item_template->color = color_from_string( jo.get_string( "color" ) );
     std::string temp_desc;
-    temp_desc = jo.get_string("description");
-    if ( !temp_desc.empty() ) {
-        new_item_template->description = _(jo.get_string("description").c_str());
+    temp_desc = jo.get_string( "description" );
+    if( !temp_desc.empty() ) {
+        new_item_template->description = _( jo.get_string( "description" ).c_str() );
     } else {
         new_item_template->description = "";
     }
-    if( jo.has_member("material") ){
+    if( jo.has_member( "material" ) ) {
         set_material_from_json( jo, "material", new_item_template );
     } else {
-        new_item_template->materials.push_back("null");
+        new_item_template->materials.push_back( "null" );
     }
     new_item_template->phase = jo.get_enum_value( "phase", SOLID );
-    new_item_template->volume = jo.get_int("volume");
-    new_item_template->weight = jo.get_int("weight");
-    new_item_template->melee_dam = jo.get_int("bashing");
-    new_item_template->melee_cut = jo.get_int("cutting");
-    new_item_template->m_to_hit = jo.get_int("to_hit");
+    new_item_template->volume = jo.get_int( "volume" );
+    new_item_template->weight = jo.get_int( "weight" );
+    new_item_template->melee_dam = jo.get_int( "bashing", 0 );
+    new_item_template->melee_cut = jo.get_int( "cutting", 0 );
+    new_item_template->m_to_hit = jo.get_int( "to_hit" );
+
+    new_item_template->min_str = jo.get_int( "min_strength",     0 );
+    new_item_template->min_dex = jo.get_int( "min_dexterity",    0 );
+    new_item_template->min_int = jo.get_int( "min_intelligence", 0 );
+    new_item_template->min_per = jo.get_int( "min_perception",   0 );
+
+    JsonArray jarr = jo.get_array( "min_skills" );
+    while( jarr.has_more() ) {
+        JsonArray cur = jarr.next_array();
+        new_item_template->min_skills[skill_id( cur.get_string( 0 ) )] = cur.get_int( 1 );
+    }
 
     if (jo.has_member("explode_in_fire")) {
         JsonObject je = jo.get_object("explode_in_fire");
@@ -1474,6 +1483,10 @@ void Item_factory::set_uses_from_object(JsonObject obj, std::vector<use_function
         newfun = load_actor<musical_instrument_actor>( obj );
     } else if( type == "holster" ) {
         newfun = load_actor<holster_actor>( obj );
+    } else if( type == "repair_item" ) {
+        newfun = load_actor<repair_item_actor>( obj );
+    } else if( type == "heal" ) {
+        newfun = load_actor<heal_actor>( obj );
     } else if( type == "knife" ) {
         use_methods.push_back( load_actor<salvage_actor>( obj, "salvage" ) );
         use_methods.push_back( load_actor<inscribe_actor>( obj, "inscribe" ) );

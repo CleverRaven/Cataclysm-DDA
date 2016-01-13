@@ -28,6 +28,7 @@ extern void try_sdl_update();
 extern bool trigdist;
 extern bool use_tiles;
 extern bool fov_3d;
+extern bool tile_iso;
 
 extern const int savegame_version;
 extern int savegame_loading_version;
@@ -456,7 +457,7 @@ class game
          */
         void load_map( tripoint pos_sm );
         /**
-         * The overmap which is at the top left corner of the reality bubble.
+         * The overmap which contains the center submap of the reality bubble.
          */
         overmap &get_cur_om() const;
         scenario *scen;

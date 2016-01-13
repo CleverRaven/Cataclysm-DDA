@@ -3,6 +3,8 @@
 #include "translations.h"
 #include <cstdlib>
 
+#include "output.h"
+
 #define SGN(a) (((a)<0) ? -1 : 1)
 
 void bresenham( const int x1, const int y1, const int x2, const int y2, int t,
@@ -465,6 +467,15 @@ std::string const& direction_name(direction const dir)
 std::string const& direction_name_short(direction const dir)
 {
     return direction_name_impl(dir, true);
+}
+
+std::string direction_suffix( const tripoint& p, const tripoint& q )
+{
+    int dist = square_dist( p, q );
+    if ( dist <= 0 ) {
+        return std::string();
+    }
+    return string_format( "%d%s", dist, trim( direction_name_short( direction_from( p, q ) ) ).c_str() );
 }
 
 // Cardinals are cardinals. Result is cardinal and adjacent sub-cardinals.

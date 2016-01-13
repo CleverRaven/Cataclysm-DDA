@@ -3,7 +3,7 @@
     "id": "fire_lance",
     "type": "GUN",
     "symbol": "/",
-    "color": "light_grey",
+    "color": "light_gray",
     "name": "fire lance",
     "description": "An ancient Chinese spear, with a small tube attached for a charge of gunpowder.  While it has an extremely short range, it gives a powerful edge in close combat.",
     "price" : 95000,

@@ -1,24 +1,44 @@
 [
     {
-        "type": "BULLET_PULLING",
-        "bullet": "654",
-        "items": [
-            ["lead", 5],
-            ["654_casing", 1],
-            ["smrifle_primer", 1],
-            ["gunpowder", 10],
-            ["copper", 5]
+        "type": "recipe",
+        "result": "654",
+        "id_suffix": "uncraft",
+        "category": "CC_NONCRAFT",
+        "subcategory": "CSC_NONCRAFT",
+        "skill_used": "gun",
+        "difficulty": 5,
+        "time": 500,
+        "reversible": true,
+        "autolearn": true,
+        "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
+        "tools": [ [ [ "puller", -1 ] ] ],
+        "components": [
+            [ [ "lead", 5 ] ],
+            [ [ "654_casing", 1 ] ],
+            [ [ "smrifle_primer", 1 ] ],
+            [ [ "gunpowder", 10 ] ],
+            [ [ "copper", 5 ] ]
         ]
     },
     {
-        "type": "BULLET_PULLING",
-        "bullet": "654t",
-        "items": [
-            ["lead", 6],
-            ["654_casing", 1],
-            ["smrifle_primer", 1],
-            ["gunpowder", 10],
-            ["copper", 6]
+        "type": "recipe",
+        "result": "654t",
+        "id_suffix": "uncraft",
+        "category": "CC_NONCRAFT",
+        "subcategory": "CSC_NONCRAFT",
+        "skill_used": "gun",
+        "difficulty": 5,
+        "time": 500,
+        "reversible": true,
+        "autolearn": true,
+        "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
+        "tools": [ [ [ "puller", -1 ] ] ],
+        "components": [
+            [ [ "lead", 6 ] ],
+            [ [ "654_casing", 1 ] ],
+            [ [ "smrifle_primer", 1 ] ],
+            [ [ "gunpowder", 10 ] ],
+            [ [ "copper", 6 ] ]
         ]
     }
 ]

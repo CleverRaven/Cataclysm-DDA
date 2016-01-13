@@ -239,11 +239,9 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         bool is_immune_damage( const damage_type ) const override;
 
         void absorb_hit(body_part bp, damage_instance &dam) override;
-        void dodge_hit(Creature *source, int hit_spread) override;
         bool block_hit(Creature *source, body_part &bp_hit, damage_instance &d) override;
         using Creature::melee_attack;
         void melee_attack(Creature &p, bool allow_special, const matec_id &force_technique) override;
-        virtual int deal_melee_attack(Creature *source, int hitroll) override;
         virtual void deal_projectile_attack( Creature *source, dealt_projectile_attack &attack ) override;
         virtual void deal_damage_handle_type(const damage_unit &du, body_part bp, int &damage, int &pain) override;
         void apply_damage(Creature *source, body_part bp, int amount) override;
@@ -277,6 +275,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
 
         int  get_armor_cut(body_part bp) const override;   // Natural armor, plus any worn armor
         int  get_armor_bash(body_part bp) const override;  // Natural armor, plus any worn armor
+        int  get_armor_type( damage_type dt, body_part bp ) const override;
         int  get_dodge() const override;       // Natural dodge, or 0 if we're occupied
         int  get_melee() const override; // For determining attack skill when awarding dodge practice.
         int  hit_roll() const override;  // For the purposes of comparing to player::dodge_roll()
@@ -291,7 +290,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
 
         int stability_roll() const override;
         // We just dodged an attack from something
-        void on_dodge( Creature *source, int difficulty = INT_MIN ) override;
+        void on_dodge( Creature *source, int difficulty ) override;
         // Something hit us (possibly null source)
         void on_hit( Creature *source, body_part bp_hit = num_bp,
                      int difficulty = INT_MIN, dealt_projectile_attack const* const proj = nullptr ) override;
@@ -406,7 +405,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
 
     private:
         int hp;
-        std::unordered_map<std::string, mon_special_attack> special_attacks;
+        std::map<std::string, mon_special_attack> special_attacks;
         tripoint goal;
         tripoint position;
         bool dead;

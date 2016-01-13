@@ -321,6 +321,8 @@ public:
 
 // Move cost: 2D overloads
     int move_cost(const int x, const int y, const vehicle *ignored_vehicle = nullptr) const;
+    bool impassable(int x, int y) const;
+    bool passable(int x, int y) const;
     int move_cost_ter_furn(const int x, const int y) const;
 
 // Move cost: 3D
@@ -336,16 +338,19 @@ public:
     * @return The return value is interpreted as follows:
     * Move Cost | Meaning
     * --------- | -------
-    * 0         | Impassable
+    * 0         | Impassable. Use `passable`/`impassable` to check for this.
     * n > 0     | x*n turns to move past this
     */
     int move_cost( const tripoint &p, const vehicle *ignored_vehicle = nullptr ) const;
-
+    bool impassable( const tripoint &p ) const;
+    bool passable( const tripoint &p ) const;
 
     /**
     * Similar behavior to `move_cost()`, but ignores vehicles.
     */
     int move_cost_ter_furn( const tripoint &p ) const;
+    bool impassable_ter_furn( const tripoint &p ) const;
+    bool passable_ter_furn( const tripoint &p ) const;
 
     /**
     * Cost to move out of one tile and into the next.
@@ -682,10 +687,15 @@ void draw_square_furn(furn_id type, int x1, int y1, int x2, int y2);
 void draw_square_furn(std::string type, int x1, int y1, int x2, int y2);
 void draw_square_ter(ter_id (*f)(), int x1, int y1, int x2, int y2);
 void draw_square_ter(const id_or_id<ter_t> & f, int x1, int y1, int x2, int y2);
-void draw_rough_circle(ter_id type, int x, int y, int rad);
-void draw_rough_circle(std::string type, int x, int y, int rad);
+void draw_rough_circle_ter(ter_id type, int x, int y, int rad);
+void draw_rough_circle_ter(std::string type, int x, int y, int rad);
 void draw_rough_circle_furn(furn_id type, int x, int y, int rad);
 void draw_rough_circle_furn(std::string type, int x, int y, int rad);
+void draw_circle_ter(ter_id type, double x, double y, double rad);
+void draw_circle_ter(ter_id type, int x, int y, int rad);
+void draw_circle_ter(std::string type, int x, int y, int rad);
+void draw_circle_furn(furn_id type, int x, int y, int rad);
+void draw_circle_furn(std::string type, int x, int y, int rad);
 
 void add_corpse( const tripoint &p );
 
@@ -788,9 +798,8 @@ void add_corpse( const tripoint &p );
     // Accessor that returns a wrapped reference to an item stack for safe modification.
     map_stack i_at( const tripoint &p );
     item water_from( const tripoint &p );
-    item swater_from( const tripoint &p );
     void i_clear( const tripoint &p );
-    // i_rem() methods that return values act like conatiner::erase(),
+    // i_rem() methods that return values act like container::erase(),
     // returning an iterator to the next item after removal.
     std::list<item>::iterator i_rem( const tripoint &p, std::list<item>::iterator it );
     int i_rem( const tripoint &p, const int index );
@@ -1173,7 +1182,7 @@ protected:
         void copy_grid( const tripoint &to, const tripoint &from );
  void draw_map(const oter_id terrain_type, const oter_id t_north, const oter_id t_east,
                 const oter_id t_south, const oter_id t_west, const oter_id t_neast,
-                const oter_id t_seast, const oter_id t_nwest, const oter_id t_swest,
+                const oter_id t_seast, const oter_id t_swest, const oter_id t_nwest,
                 const oter_id t_above, const int turn, const float density,
                 const int zlevel, const regional_settings * rsettings);
 

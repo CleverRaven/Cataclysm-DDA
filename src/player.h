@@ -8,6 +8,7 @@
 #include "player_activity.h"
 #include "morale.h"
 #include "weighted_list.h"
+#include "game_constants.h"
 
 #include <unordered_set>
 #include <bitset>
@@ -92,6 +93,18 @@ struct stats : public JsonSerializer, public JsonDeserializer {
         jo.read("damage_taken", damage_taken);
         jo.read("damage_healed", damage_healed);
         jo.read("headshots", headshots);
+    }
+};
+
+struct encumbrance_data {
+    int iEnc = 0;
+    int iArmorEnc = 0;
+    int iBodyTempInt = 0;
+    double iLayers = 0.0;
+    bool operator ==( const encumbrance_data &RHS )
+    {
+        return this->iEnc == RHS.iEnc && this->iArmorEnc == RHS.iArmorEnc &&
+            this->iBodyTempInt == RHS.iBodyTempInt && this->iLayers == RHS.iLayers;
     }
 };
 
@@ -192,10 +205,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int calc_focus_equilibrium() const;
         /** Maintains body temperature */
         void update_bodytemp();
-        /** Value of the body temperature corrected by climate control **/
-        int temp_corrected_by_climate_control(int temperature);
-        /** Define blood loss (in percents) */
-        int blood_loss(body_part bp);
         /** Define color for displaying the body temperature */
         nc_color bodytemp_color(int bp) const;
         /** Returns the player's modified base movement cost */
@@ -470,8 +479,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Handles reach melee attacks */
         void reach_attack( const tripoint &target );
 
-        /** Activates any on-dodge effects and checks for dodge counter techniques */
-        void dodge_hit(Creature *source, int hit_spread) override;
         /** Checks for valid block abilities and reduces damage accordingly. Returns true if the player blocks */
         bool block_hit(Creature *source, body_part &bp_hit, damage_instance &dam) override;
         /**
@@ -481,8 +488,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool armor_absorb(damage_unit &du, item &armor);
         /** Runs through all bionics and armor on a part and reduces damage through their armor_absorb */
         void absorb_hit(body_part bp, damage_instance &dam) override;
-        /** Handles dodged attacks (training dodge) and ma_ondodge */
-        void on_dodge( Creature *source, int difficulty = INT_MIN ) override;
+        /** Called after the player has successfully dodged an attack */
+        void on_dodge( Creature *source, int difficulty ) override;
         /** Handles special defenses from an attack that hit us (source can be null) */
         void on_hit( Creature *source, body_part bp_hit = num_bp,
                      int difficulty = INT_MIN, dealt_projectile_attack const* const proj = nullptr ) override;
@@ -688,6 +695,18 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         virtual bool wield(item *it, bool autodrop = false);
         /** Creates the UI and handles player input for picking martial arts styles */
         bool pick_style();
+        /**
+         * Checks if player stats and skills meet minimum requirements for the item
+         * @param interactive controls whether informative messages are printed if item requirements not met
+         */
+        bool can_use( const item& it, bool interactive = true ) const;
+        /**
+         * Calculate (but do not deduct) the number of moves required when handling (eg. storing, drawing etc.) an item
+         * @param effects whether temporary player effects should be considered (eg. GRABBED, DOWNED)
+         * @param factor base move cost per unit volume before considering any other modifiers
+         * @return cost in moves ranging from 0 to MAX_HANDLING_COST
+         */
+        int item_handling_cost( const item& it, bool effects = true, int factor = VOLUME_MOVE_COST) const;
         /** Wear item; returns false on fail. If interactive is false, don't alert the player or drain moves on completion. */
         bool wear(int pos, bool interactive = true);
         /** Wear item; returns false on fail. If interactive is false, don't alert the player or drain moves on completion. */
@@ -702,7 +721,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Try to wield a contained item consuming moves proportional to weapon skill and volume.
          *  @param pos index of contained item to wield. Set to -1 to show menu if container has more than one item
          *  @param factor scales moves cost and can be set to zero if item should be wielded without any delay */
-        bool wield_contents(item *container, int pos = 0, int factor = 10);
+        bool wield_contents(item *container, int pos = 0, int factor = VOLUME_MOVE_COST);
         /** Stores an item inside another item, taking moves based on skill and volume of item being stored. */
         void store(item *container, item *put, const skill_id &skill_used, int volume_factor);
         /** Draws the UI and handles player input for the armor re-ordering window */
@@ -749,7 +768,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Returns a value from 1.0 to 5.0 that acts as a multiplier
          * for the time taken to perform tasks that require detail vision,
          * above 4.0 means these activities cannot be performed. */
-        float fine_detail_vision_mod();
+        float fine_detail_vision_mod() const;
 
         /** Used to determine player feedback on item use for the inventory code.
          *  rates usability lower for non-tools (books, etc.) */
@@ -789,6 +808,12 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int get_armor_cut_base(body_part bp) const override;
         /** Returns overall env_resist on a body_part */
         int get_env_resist(body_part bp) const override;
+        /** Returns overall acid resistance for the body part */
+        int get_armor_acid(body_part bp) const;
+        /** Returns overall fire resistance for the body part */
+        int get_armor_fire(body_part bp) const;
+        /** Returns overall resistance to given type on the bod part */
+        int get_armor_type( damage_type dt, body_part bp ) const override;
         /** Returns true if the player is wearing something on the entered body_part */
         bool wearing_something_on(body_part bp) const;
         /** Returns true if the player is wearing something on the entered body_part, ignoring items with the ALLOWS_NATURAL_ATTACKS flag */
@@ -904,22 +929,24 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         // Returns -1 to indicate recipe not found, otherwise difficulty to learn.
         int has_recipe( const recipe *r, const inventory &crafting_inv ) const;
         bool knows_recipe( const recipe *rec ) const;
-        void learn_recipe( const recipe *rec );
-        bool has_recipe_requirements(const recipe *rec) const;
+        void learn_recipe( const recipe *rec, bool force = false );
+        int exceeds_recipe_requirements( const recipe &rec ) const;
+        bool has_recipe_requirements( const recipe *rec ) const;
 
-        bool studied_all_recipes(const itype &book) const;
+        bool studied_all_recipes( const itype &book ) const;
 
         // crafting.cpp
-        bool crafting_allowed(); // can_see_to_craft() && has_morale_to_craft()
-        bool can_see_to_craft();
+        bool crafting_allowed( const std::string & rec_name );
+        bool crafting_allowed( const recipe & rec );
+        float lighting_craft_speed_multiplier( const recipe & rec );
         bool has_moral_to_craft();
-        bool can_make(const recipe *r, int batch_size = 1); // have components?
-        bool making_would_work(const std::string &id_to_make, int batch_size);
+        bool can_make( const recipe * r, int batch_size = 1 ); // have components?
+        bool making_would_work( const std::string & id_to_make, int batch_size );
         void craft();
         void recraft();
         void long_craft();
-        void make_craft(const std::string &id, int batch_size);
-        void make_all_craft(const std::string &id, int batch_size);
+        void make_craft( const std::string & id, int batch_size );
+        void make_all_craft( const std::string & id, int batch_size );
         void complete_craft();
 
         // also crafting.cpp
@@ -1173,8 +1200,10 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          */
         void on_mission_finished( mission &mission );
 
+        // returns a struct describing the encumbrance of a body part
+        encumbrance_data get_encumbrance( size_t i ) const;
         // formats and prints encumbrance info to specified window
-        void print_encumbrance(WINDOW *win, int min, int max, int line = -1) const;
+        void print_encumbrance( WINDOW * win, int line = -1, item *selected_limb = nullptr ) const;
 
         // Prints message(s) about current health
         void print_health() const;
@@ -1201,6 +1230,19 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          * are included.
          */
         bool is_visible_in_range( const Creature &critter, int range ) const;
+
+        /** Calculate bonus warmth from furniture, items, and mutations for sleeping player **/
+        int warmth_in_sleep();
+        /** Correction factor of the body temperature due to fire **/
+        int bodytemp_modifier_fire();
+        /** Correction factor of the body temperature due to traits and mutations **/
+        int bodytemp_modifier_traits( bool overheated );
+        /** Correction factor of the body temperature due to traits and mutations for sleeping player **/
+        int bodytemp_modifier_traits_sleep();
+        /** Value of the body temperature corrected by climate control **/
+        int temp_corrected_by_climate_control( int temperature );
+        /** Define blood loss (in percents) */
+        int blood_loss( body_part bp );
 
         // Trigger and disable mutations that can be so toggled.
         void activate_mutation( const std::string &mutation );

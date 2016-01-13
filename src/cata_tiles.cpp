@@ -35,6 +35,7 @@
 
 extern int WindowHeight, WindowWidth;
 extern int fontwidth, fontheight;
+extern bool tile_iso;
 
 SDL_Color cursesColorToSDL(int color);
 
@@ -693,33 +694,39 @@ void cata_tiles::load_tilejson_from_file( JsonObject &config, int offset, int si
     while( tiles.has_more() ) {
         JsonObject entry = tiles.next_object();
 
-        std::string t_id = entry.get_string( "id" );
-        tile_type &curr_tile = load_tile( entry, t_id, offset, size );
-        curr_tile.offset.x = sprite_offset_x;
-        curr_tile.offset.y = sprite_offset_y;
-        bool t_multi = entry.get_bool( "multitile", false );
-        bool t_rota = entry.get_bool( "rotates", t_multi );
-        int t_h3d = entry.get_int( "height_3d", 0 );
-        if( t_multi ) {
-            // fetch additional tiles
-            JsonArray subentries = entry.get_array( "additional_tiles" );
-            while( subentries.has_more() ) {
-                JsonObject subentry = subentries.next_object();
-                const std::string s_id = subentry.get_string( "id" );
-                const std::string m_id = t_id + "_" + s_id;
-                tile_type &curr_subtile = load_tile( subentry, m_id, offset, size );
-                curr_subtile.offset.x = sprite_offset_x;
-                curr_subtile.offset.y = sprite_offset_y;
-                curr_subtile.rotates = true;
-                curr_subtile.height_3d = t_h3d;
-                curr_tile.available_subtiles.push_back( s_id );
-            }
+        std::vector<std::string> ids;
+        if( entry.has_string( "id" ) ) {
+            ids.push_back( entry.get_string( "id" ) );
+        } else if( entry.has_array( "id" ) ) {
+            ids = entry.get_string_array( "id" );
         }
-
-        // write the information of the base tile to curr_tile
-        curr_tile.multitile = t_multi;
-        curr_tile.rotates = t_rota;
-        curr_tile.height_3d = t_h3d;
+        for( auto t_id : ids ) {
+            tile_type &curr_tile = load_tile( entry, t_id, offset, size );
+            curr_tile.offset.x = sprite_offset_x;
+            curr_tile.offset.y = sprite_offset_y;
+            bool t_multi = entry.get_bool( "multitile", false );
+            bool t_rota = entry.get_bool( "rotates", t_multi );
+            int t_h3d = entry.get_int( "height_3d", 0 );
+            if( t_multi ) {
+                // fetch additional tiles
+                JsonArray subentries = entry.get_array( "additional_tiles" );
+                while( subentries.has_more() ) {
+                    JsonObject subentry = subentries.next_object();
+                    const std::string s_id = subentry.get_string( "id" );
+                    const std::string m_id = t_id + "_" + s_id;
+                    tile_type &curr_subtile = load_tile( subentry, m_id, offset, size );
+                    curr_subtile.offset.x = sprite_offset_x;
+                    curr_subtile.offset.y = sprite_offset_y;
+                    curr_subtile.rotates = true;
+                    curr_subtile.height_3d = t_h3d;
+                    curr_tile.available_subtiles.push_back( s_id );
+                }
+            }
+            // write the information of the base tile to curr_tile
+            curr_tile.multitile = t_multi;
+            curr_tile.rotates = t_rota;
+            curr_tile.height_3d = t_h3d;
+        }
     }
     dbg( D_INFO ) << "Tile Width: " << tile_width << " Tile Height: " << tile_height <<
                   " Tile Definitions: " << tile_ids.size();
@@ -832,6 +839,10 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
         //set clipping to prevent drawing over stuff we shouldn't
         SDL_Rect clipRect = {destx, desty, width, height};
         SDL_RenderSetClipRect(renderer, &clipRect);
+
+        //fill render area with black to prevent artifacts where no new pixels are drawn
+        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+        SDL_RenderFillRect(renderer, &clipRect);
     }
 
     int posx = center.x;
@@ -844,22 +855,21 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
     visibility_variables cache;
     g->m.update_visibility_cache( cache, center.z );
 
-    o_x = posx - POSX;
-    o_y = posy - POSY;
+    const bool iso_mode = tile_iso && use_tiles;
+
+    o_x = iso_mode ? posx : posx - POSX;
+    o_y = iso_mode ? posy : posy - POSY;
+
     op_x = destx;
     op_y = desty;
     // Rounding up to include incomplete tiles at the bottom/right edges
     screentile_width = (width + tile_width - 1) / tile_width;
     screentile_height = (height + tile_height - 1) / tile_height;
 
-    // in isometric mode, render the whole reality bubble
-    // TODO: make this smarter
-    const int min_x = tile_iso ? MAPSIZE * SEEX : o_x;
-    const int max_x = tile_iso ? 0 : sx + o_x;
-    const int dx = tile_iso ? -1 : 1; // iso mode renders right to left, for overlap reasons
-    const int min_y = tile_iso ? 0 : o_y;
-    const int max_y = tile_iso ? MAPSIZE * SEEX : sy + o_y;
-    const int dy = 1;
+    const int min_col = 0;
+    const int max_col = sx;
+    const int min_row = 0;
+    const int max_row = sy;
 
     //limit the render area to what is available in the visibility cache
     const int min_visible_x = 0;
@@ -884,10 +894,24 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
     auto vision_cache = g->u.get_vision_modes();
     nv_goggles_activated = vision_cache[NV_GOGGLES];
 
-    std::vector<tile_render_info> draw_points;
-    for( y = min_y; y * dy < max_y * dy; y += dy) {
-        for( x = min_x; x * dx < max_x * dx; x += dx) {
-            if(!tile_iso && ((y < min_visible_y || y > max_visible_y) || (x < min_visible_x ||
+    for( int row = min_row; row < max_row; row ++) {
+        std::vector<tile_render_info> draw_points;
+        draw_points.reserve(max_col);
+        for( int col = min_col; col < max_col; col ++) {
+            if (iso_mode) {
+                //in isometric, rows and columns represent a checkerboard screen space, and we place
+                //the appropriate tile in valid squares by getting position relative to the screen centre.
+                if ( (row + o_y ) % 2 != (col + o_x) % 2 ) {
+                    continue;
+                }
+                x = ( col  - row - sx/2 + sy/2 ) / 2 + o_x;
+                y = ( row + col - sy/2 - sx/2 ) / 2 + o_y;
+            }
+            else {
+                x = col + o_x;
+                y = row + o_y;
+            }
+            if( ( (y < min_visible_y || y > max_visible_y) || (x < min_visible_x ||
                              x > max_visible_x))) {
                 apply_vision_effects(x, y, offscreen_type);
                 continue;
@@ -913,15 +937,14 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
 
             draw_points.push_back( tile_render_info( tripoint( x, y, center.z ), height_3d ) );
         }
-    }
-
-    // for each of the drawing layers in order, back to front ...
-    for( auto f : { &cata_tiles::draw_furniture, &cata_tiles::draw_trap, 
-                    &cata_tiles::draw_field_or_item, &cata_tiles::draw_vpart, 
-                    &cata_tiles::draw_critter_at } ) {
-        // ... draw all the points we drew terrain for, in the same order
-        for( auto &p : draw_points ) {
-            (this->*f)( p.pos, ch.visibility_cache[p.pos.x][p.pos.y], p.height_3d );
+        // for each of the drawing layers in order, back to front ...
+        for( auto f : { &cata_tiles::draw_furniture, &cata_tiles::draw_trap,
+                        &cata_tiles::draw_field_or_item, &cata_tiles::draw_vpart,
+                        &cata_tiles::draw_critter_at } ) {
+            // ... draw all the points we drew terrain for, in the same order
+            for( auto &p : draw_points ) {
+                (this->*f)( p.pos, ch.visibility_cache[p.pos.x][p.pos.y], p.height_3d );
+            }
         }
     }
 
@@ -1105,8 +1128,8 @@ void cata_tiles::clear_buffer()
 
 void cata_tiles::get_window_tile_counts(const int width, const int height, int &columns, int &rows) const
 {
-    columns = ceil((double) width / tile_width);
-    rows = ceil((double) height / tile_height);
+    columns = ( tile_iso && use_tiles ) ? ceil((double) width / tile_width ) * 2 + 4 : ceil((double) width / tile_width );
+    rows = ( tile_iso && use_tiles ) ? ceil((double) height / ( tile_width / 2 - 1 ) ) * 2 + 4 : ceil((double) height / tile_height);
 }
 
 bool cata_tiles::draw_from_id_string( std::string id, int x, int y, int subtile, int rota,
@@ -1145,12 +1168,14 @@ bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
 
     // check to make sure that we are drawing within a valid area
     // [0->width|height / tile_width|height]
-    if( !tile_iso &&
+
+    if( !( tile_iso && use_tiles ) &&
         ( x - o_x < 0 || x - o_x >= screentile_width ||
           y - o_y < 0 || y - o_y >= screentile_height )
       ) {
         return false;
     }
+
 
     constexpr size_t suffix_len = 15;
     constexpr char season_suffix[4][suffix_len] = {
@@ -1166,7 +1191,7 @@ bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
     }
 
     if (it == tile_ids.end()) {
-        long sym = -1;
+        uint32_t sym = UNKNOWN_UNICODE;
         nc_color col = c_white;
         if (category == C_FURNITURE) {
             if (furnmap.count(id) > 0) {
@@ -1233,7 +1258,7 @@ bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
             case LINE_XXXX: sym = LINE_XXXX_C; break;
             default: break; // sym goes unchanged
         }
-        if (sym != 0 && sym < 256 && sym >= 0) {
+        if( sym != 0 && sym < 256 ) {
             // see cursesport.cpp, function wattron
             const int pairNumber = (col & A_COLOR) >> 17;
             const pairs &colorpair = colorpairs[pairNumber];
@@ -1305,12 +1330,12 @@ bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
 
     // translate from player-relative to screen relative tile position
     int screen_x, screen_y;
-    if (tile_iso) {
-        screen_x = ((x-o_x) - (o_y-y)) * tile_width / 2 +
-            op_x;
+    if ( tile_iso && use_tiles ) {
+        screen_x = ((x-o_x) - (o_y-y) + screentile_width - 2 ) * tile_width / 2 +
+        op_x;
         // y uses tile_width because width is definitive for iso tiles
         // tile footprints are half as tall as wide, aribtrarily tall
-        screen_y = ((y-o_y) - (x-o_x)) * tile_width / 4 +
+        screen_y = ((y-o_y) - (x-o_x) - 4) * tile_width / 4 +
             screentile_height * tile_height / 2 + // TODO: more obvious centering math
             op_y;
     } else {
@@ -1322,8 +1347,9 @@ bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
     // seed the PRNG to get a reproducible random int
     // TODO faster solution here
     unsigned int seed = 0;
-    // FIXME determine correct Z value
-    int z_coord = 0;
+    // FUTURE TODO rework Z value if multiple z levels are being drawn
+    // z level is currently always focused on player location
+    const tripoint p( x, y, g->u.pos().z );
     // TODO determine ways other than category to differentiate more types of sprites
     switch( category ) {
         case C_TERRAIN:
@@ -1338,7 +1364,7 @@ bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
         {
             // new scope for variable declarations
             int partid;
-            vehicle *veh = g->m.veh_at( tripoint( x, y, z_coord ), partid );
+            vehicle *veh = g->m.veh_at( p, partid );
             vehicle_part &part = veh->parts[partid];
             seed = part.mount.x + part.mount.y * 65536;
         }
@@ -1353,18 +1379,42 @@ bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
             // TODO come up with ways to make random sprites consistent for these types
             break;
         case C_MONSTER:
-            // monsters (and player?), seed with index into monster list
-            // TODO detect player character, seed on name?
-            // FIXME add persistent id to Creature ttripoint(x,y,z_coord)ype, instead of using monster list index
-            seed = g->mon_at( tripoint( x, y, z_coord ) );
+            // monsters, seed with index into monster list
+            // FIXME add persistent id to Creature type, instead of using monster list index
+            seed = g->mon_at( p );
             break;
+        default:
+            // player
+            if( id.substr(7) == "player_" ) {
+                seed = g->u.name[0];
+                break;
+            }
+            // NPC
+            if( id.substr(4) == "npc_" ) {
+                const int nindex = g->npc_at( p );
+                if( nindex != -1 ) {
+                    seed = nindex;
+                    break;
+                }
+            }
     }
-    // this should preserve the deterministic nature of the game based on original seed
-    // even when a tileset changes
-    auto temp = rand();
-    srand( seed );
-    unsigned int loc_rand = rand();
-    srand( temp );
+
+    unsigned int loc_rand = 0;
+    // only bother mixing up a hash/random value if the tile has some sprites to randomly pick between
+    if(display_tile.fg.size()>1 || display_tile.bg.size()>1) {
+        // use a fair mix function to turn the "random" seed into a random int
+        // taken from public domain code at http://burtleburtle.net/bob/c/lookup3.c 2015/12/11
+#define rot32(x,k) (((x)<<(k)) | ((x)>>(32-(k))))
+        unsigned int a = seed, b = -seed, c = seed*seed;
+        c ^= b; c -= rot32(b,14);
+        a ^= c; a -= rot32(c,11);
+        b ^= a; b -= rot32(a,25);
+        c ^= b; c -= rot32(b,16);
+        a ^= c; a -= rot32(c, 4);
+        b ^= a; b -= rot32(a,14);
+        c ^= b; c -= rot32(b,24);
+        loc_rand = c;
+    }
 
     //draw it!
     draw_tile_at( display_tile, screen_x, screen_y, loc_rand, rota, ll, apply_night_vision_goggles, height_3d );
@@ -1408,7 +1458,7 @@ bool cata_tiles::draw_sprite_at( const tile_type &tile, const weighted_int_list<
             sprite_num = 0;
         } else if( spritelist.size() == 1 ) {
             // just one tile, apply SDL sprite rotation if not in isometric mode
-            rotate_sprite = !tile_iso;
+            rotate_sprite = !( tile_iso && use_tiles );
             sprite_num = 0;
         } else {
             // multiple rotated tiles defined, don't apply sprite rotation after picking one
@@ -2322,7 +2372,10 @@ void cata_tiles::do_tile_loading_report() {
     tile_loading_report(furnmap, "Furniture", "");
     //TODO: exclude fake items from Item_factory::init_old()
     tile_loading_report(item_controller->get_all_itypes(), "Items", "");
-    tile_loading_report(MonsterGenerator::generator().get_all_mtypes(), "Monsters", "");
+    auto mtypes = MonsterGenerator::generator().get_all_mtypes();
+    lr_generic( mtypes.begin(), mtypes.end(), []( std::vector<const mtype *>::iterator m ) {
+        return ( *m )->id.str();
+    }, "Monsters", "" );
     tile_loading_report<vpart_info>(vpart_info::get_all().size(), "Vehicle Parts", "vp_");
     tile_loading_report<trap>(trap::count(), "Traps", "");
     tile_loading_report(fieldlist, num_fields, "Fields", "");

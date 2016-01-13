@@ -22,6 +22,7 @@
 #include <iterator>
 
 extern input_context get_default_mode_input_context();
+extern bool tile_iso;
 
 void parse_keymap( std::istream &keymap_txt, std::map<char, action_id> &kmap,
                    std::set<action_id> &unbound_keymap );
@@ -326,52 +327,6 @@ action_id look_up_action( std::string ident )
     return ACTION_NULL;
 }
 
-void get_direction( int &x, int &y, char ch )
-{
-    x = 0;
-    y = 0;
-    action_id act = action_from_key( ch );
-
-    switch( act ) {
-        case ACTION_MOVE_NW:
-            x = -1;
-            y = -1;
-            return;
-        case ACTION_MOVE_NE:
-            x = 1;
-            y = -1;
-            return;
-        case ACTION_MOVE_W:
-            x = -1;
-            return;
-        case ACTION_MOVE_S:
-            y = 1;
-            return;
-        case ACTION_MOVE_N:
-            y = -1;
-            return;
-        case ACTION_MOVE_E:
-            x = 1;
-            return;
-        case ACTION_MOVE_SW:
-            x = -1;
-            y = 1;
-            return;
-        case ACTION_MOVE_SE:
-            x = 1;
-            y = 1;
-            return;
-        case ACTION_PAUSE:
-        case ACTION_PICKUP:
-            x = 0;
-            y = 0;
-            return;
-        default:
-            x = -2;
-            y = -2;
-    }
-}
-
 // (Press X (or Y)|Try) to Z
 std::string press_x( action_id act )
 {
@@ -501,10 +456,10 @@ bool can_interact_at( action_id action, const tripoint &p )
 {
     switch( action ) {
         case ACTION_OPEN:
-            return g->m.open_door( p, !g->m.is_outside( g->u.pos3() ), true );
+            return g->m.open_door( p, !g->m.is_outside( g->u.pos() ), true );
             break;
         case ACTION_CLOSE:
-            return g->m.close_door( p, !g->m.is_outside( g->u.pos3() ), true );
+            return g->m.close_door( p, !g->m.is_outside( g->u.pos() ), true );
             break;
         case ACTION_BUTCHER:
             return can_butcher_at( p );
@@ -807,6 +762,7 @@ bool choose_direction( const std::string &message, int &x, int &y )
 bool choose_direction( const std::string &message, tripoint &offset, bool allow_vertical )
 {
     input_context ctxt( "DEFAULTMODE" );
+    ctxt.set_iso( true );
     ctxt.register_directions();
     ctxt.register_action( "pause" );
     ctxt.register_action( "QUIT" );
@@ -821,7 +777,7 @@ bool choose_direction( const std::string &message, tripoint &offset, bool allow_
     popup( query_text, PF_NO_WAIT_ON_TOP );
 
     const std::string action = ctxt.handle_input();
-    if( input_context::get_direction( offset.x, offset.y, action ) ) {
+    if( ctxt.get_direction( offset.x, offset.y, action ) ) {
         offset.z = 0;
         return true;
     } else if( action == "pause" ) {
@@ -853,7 +809,7 @@ bool choose_adjacent( std::string message, tripoint &p, bool allow_vertical )
     if( !choose_direction( message, p, allow_vertical ) ) {
         return false;
     }
-    p += g->u.pos3();
+    p += g->u.pos();
     return true;
 }
 

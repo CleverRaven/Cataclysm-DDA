@@ -14,7 +14,6 @@
         "symbol" : ":",
         "material" : ["steel", "null"],
         "volume" : 1,
-        "cutting" : 0,
         "recoil_modifier" : 1,
         "acceptable_ammo" : ["545x39"],
         "mod_targets" : ["rifle"],

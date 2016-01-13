@@ -141,6 +141,42 @@
         ]
     },{
         "type" : "vehicle",
+        "id" : "water_cart",
+        "name" : "Water Cart",
+        "blueprint" : "o",
+        "parts" : [
+            {"x": 0, "y": 0, "part": "xlframe_vertical_2"},
+            {"x": 0, "y": 0, "part": "wheel_caster"},
+            {"x": 0, "y": 0, "part": "water_tank_small"},
+            {"x": 0, "y": 0, "part": "water_faucet"},
+            {"x": 0, "y": 0, "part": "basketsm"}
+        ],
+        "items" : [
+            {"x": 0, "y": 0, "chance": 15, "items": "whistle"},
+            {"x": 0, "y": 0, "chance": 25, "items": "sports_drink"},
+            {"x": 0, "y": 0, "chance": 25, "items": "sports_drink"},
+            {"x": 0, "y": 0, "chance": 25, "items": "sports_drink"},
+            {"x": 0, "y": 0, "chance": 25, "items": "towel"},
+            {"x": 0, "y": 0, "chance": 25, "items": "towel"},
+            {"x": 0, "y": 0, "chance": 25, "items": "towel"},
+            {"x": 0, "y": 0, "chance": 15, "items": "heatpack"},
+            {"x": 0, "y": 0, "chance": 15, "items": "heatpack"},
+            {"x": 0, "y": 0, "chance": 15, "items": "bandages"},
+            {"x": 0, "y": 0, "chance": 15, "items": "bandages"},
+            {"x": 0, "y": 0, "chance": 15, "items": "1st_aid"},
+            {"x": 0, "y": 0, "chance": 15, "items": "1st_aid"},
+            {"x": 0, "y": 0, "chance": 15, "items": "mouthpiece"},
+            {"x": 0, "y": 0, "chance": 15, "items": "mouthpiece"},
+            {"x": 0, "y": 0, "chance": 15, "items": "arm_splint"},
+            {"x": 0, "y": 0, "chance": 15, "items": "leg_splint"},
+            {"x": 0, "y": 0, "chance": 15, "items": "football"},
+            {"x": 0, "y": 0, "chance": 15, "items": "football"},
+            {"x": 0, "y": 0, "chance": 15, "items": "football"},
+            {"x": 0, "y": 0, "chance": 15, "items": "football_armor"},
+            {"x": 0, "y": 0, "chance": 15, "items": "helmet_football"}
+        ]
+    },{
+        "type" : "vehicle",
         "id" : "wheelbarrow",
         "name" : "Wheelbarrow",
         "blueprint" : "o",

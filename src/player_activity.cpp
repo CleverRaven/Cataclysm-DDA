@@ -51,7 +51,7 @@ const std::string &player_activity::get_stop_phrase() const
         _(" Stop working the winch?"), _(" Stop filling the container?"),
         _(" Stop hotwiring the vehicle?"), _(" Stop aiming?"),
         _(" Stop using the ATM?"), _(" Stop trying to start the vehicle?"),
-        _(" Stop welding?")
+        _(" Stop welding?"), _(" Stop cracking?"), _(" Stop repairing?")
     };
     return stop_phrase[type];
 }
@@ -84,6 +84,7 @@ bool player_activity::is_abortable() const
         case ACT_START_ENGINES:
         case ACT_OXYTORCH:
         case ACT_CRACKING:
+        case ACT_REPAIR_ITEM:
             return true;
         default:
             return false;
@@ -269,8 +270,8 @@ void player_activity::do_turn( player *p )
             }
             break;
          case ACT_CRACKING:
-             if (!p->has_amount("stethoscope", 1)) {
-                 // We lost our stethoscope somehow, bail out.
+             if ( !( p->has_amount("stethoscope", 1) || p->has_bionic("bio_ears") ) ) {
+                 // We lost our cracking tool somehow, bail out.
                  type = ACT_NULL;
                  break;
              }
@@ -283,6 +284,21 @@ void player_activity::do_turn( player *p )
                 moves_left = 0;
             }
             p->practice( skill_id( "mechanics" ), 1 );
+            break;
+        case ACT_REPAIR_ITEM:
+        {
+            // Based on speed * detail vision
+            const int effective_moves = p->moves / p->fine_detail_vision_mod();
+            if( effective_moves <= moves_left ) {
+                moves_left -= effective_moves;
+                p->moves = 0;
+            } else {
+                p->moves -= moves_left * p->fine_detail_vision_mod();
+                moves_left = 0;
+            }
+        }
+
+            break;
         default:
             // Based on speed, not time
             if( p->moves <= moves_left ) {
@@ -421,6 +437,10 @@ void player_activity::finish( player *p )
         case ACT_CRACKING:
             activity_handlers::cracking_finish( this, p);
             type = ACT_NULL;
+            break;
+        case ACT_REPAIR_ITEM:
+            // Unsets activity (if needed) inside function
+            activity_handlers::repair_item_finish( this, p );
             break;
         default:
             type = ACT_NULL;

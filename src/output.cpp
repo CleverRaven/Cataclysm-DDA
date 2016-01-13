@@ -121,9 +121,9 @@ int fold_and_print(WINDOW *w, int begin_y, int begin_x, int width, nc_color base
     return fold_and_print(w, begin_y, begin_x, width, base_color, text);
 }
 
-void print_colored_text( WINDOW *w, int x, int y, nc_color &color, nc_color base_color, const std::string &text )
+void print_colored_text( WINDOW *w, int y, int x, nc_color &color, nc_color base_color, const std::string &text )
 {
-    wmove( w, x, y );
+    wmove( w, y, x );
     const auto color_segments = split_by_color( text );
     for( auto seg : color_segments ) {
         if( seg.empty() ) {
@@ -762,7 +762,7 @@ std::string string_input_popup(std::string title, int width, std::string input, 
 
 std::string string_input_win(WINDOW *w, std::string input, int max_length, int startx, int starty,
                              int endx, bool loop, long &ch, int &pos, std::string identifier,
-                             int w_x, int w_y, bool dorefresh, bool only_digits)
+                             int w_x, int w_y, bool dorefresh, bool only_digits, std::map<long, std::function<void()>> callbacks)
 {
     utf8_wrapper ret(input);
     nc_color string_color = c_magenta;
@@ -862,6 +862,9 @@ std::string string_input_win(WINDOW *w, std::string input, int max_length, int s
         const std::string action = ctxt.handle_input();
         const input_event ev = ctxt.get_raw_input();
         ch = ev.type == CATA_INPUT_KEYBOARD ? ev.get_first_input() : 0;
+        if( callbacks[ch] ) {
+            callbacks[ch]();
+        }
         if( ch == KEY_ESCAPE ) {
             return "";
         } else if (ch == '\n') {
@@ -958,6 +961,7 @@ std::string string_input_win(WINDOW *w, std::string input, int max_length, int s
             pos += t.length();
             redraw = true;
         }
+
         if (return_key) {//"/n" return code
             {
                 if(!identifier.empty() && !ret.empty() ) {
@@ -1254,7 +1258,6 @@ int draw_item_info(WINDOW *win, const std::string sItemName, const std::string s
     }
     buffer << " \n"; //This space is required, otherwise it won't make an empty line.
 
-    int selected_ret = '\n';
     buffer << format_item_info( vItemDisplay, vItemCompare );
 
     const auto b = use_full_win ? 0 : (without_border ? 1 : 2);
@@ -1298,8 +1301,8 @@ int draw_item_info(WINDOW *win, const std::string sItemName, const std::string s
         } else if( handle_scrolling && ch == KEY_NPAGE ) {
             selected++;
             werase(win);
-        } else if( selected > 0 && ( ch == '\n' || ch == KEY_RIGHT ) && selected_ret != 0 ) {
-            ch = selected_ret;
+        } else if( selected > 0 && ( ch == '\n' || ch == KEY_RIGHT ) ) {
+            ch = '\n';
             break;
         } else if( selected == KEY_LEFT ) {
             ch = (int)' ';
@@ -1363,6 +1366,12 @@ long special_symbol (long sym)
     }
 }
 
+std::string trim( const std::string &s )
+{
+   auto wsfront = std::find_if_not( s.begin(), s.end(), []( int c ) { return std::isspace( c ); });
+   return std::string( wsfront, std::find_if_not( s.rbegin(), std::string::const_reverse_iterator( wsfront ), []( int c ){ return std::isspace( c ); }).base());
+}
+
 // find the position of each non-printing tag in a string
 std::vector<size_t> get_tag_positions(const std::string &s)
 {
@@ -1397,7 +1406,7 @@ std::string word_rewrap (const std::string &in, int width)
     for (int j = 0, x = 0; j < (int)in.size(); ) {
         const char *ins = instr + j;
         int len = ANY_LENGTH;
-        unsigned uc = UTF8_getch(&ins, &len);
+        uint32_t uc = UTF8_getch(&ins, &len);
 
         if (uc == '<') { // maybe skip non-printing tag
             std::vector<size_t>::iterator it;
@@ -1629,6 +1638,7 @@ std::string vstring_format(char const *const format, va_list args)
 //
 std::string rewrite_vsnprintf(const char* msg)
 {
+    bool contains_positional = false;
     const char* orig_msg = msg;
     const char* formats = "diouxXeEfFgGaAcsCSpnm";
 
@@ -1670,6 +1680,11 @@ std::string rewrite_vsnprintf(const char* msg)
             ptr++;
         }
 
+        // If '$' ever follows a numeral, the string has a positional arg
+        if (*ptr == '$') {
+            contains_positional = true;
+        }
+
         // Check if it's expected argument
         if (*ptr == '$' && positional_arg == next_positional_arg) {
             next_positional_arg++;
@@ -1699,6 +1714,10 @@ std::string rewrite_vsnprintf(const char* msg)
         }
 
         msg = end + 1;
+    }
+
+    if (!contains_positional) {
+        return orig_msg;
     }
 
     if (next_positional_arg > 0){

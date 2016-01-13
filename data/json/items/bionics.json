@@ -12,7 +12,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "cutting": 0,
         "to_hit": 0,
         "difficulty": 7
     },
@@ -29,7 +28,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "cutting": 0,
         "to_hit": 0,
         "difficulty": 3
     },
@@ -46,7 +44,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "cutting": 0,
         "to_hit": 0,
         "difficulty": 1
     },
@@ -63,7 +60,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "cutting": 0,
         "to_hit": 0,
         "difficulty": 3
     },
@@ -80,7 +76,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "cutting": 0,
         "to_hit": 0,
         "difficulty": 5
     },
@@ -97,7 +92,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "cutting": 0,
         "to_hit": 0,
         "difficulty": 5
     },
@@ -114,7 +108,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "cutting": 0,
         "to_hit": 0,
         "difficulty": 3
     },
@@ -131,7 +124,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "cutting": 0,
         "to_hit": 0,
         "difficulty": 4
     },
@@ -148,7 +140,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "cutting": 0,
         "to_hit": 0,
         "difficulty": 4
     },
@@ -165,7 +156,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "cutting": 0,
         "to_hit": 0,
         "difficulty": 3
     },
@@ -182,7 +172,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "cutting": 0,
         "to_hit": 0,
         "difficulty": 2
     },
@@ -199,7 +188,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "cutting": 0,
         "to_hit": 0,
         "difficulty": 3
     },
@@ -216,7 +204,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "cutting": 0,
         "to_hit": 0,
         "difficulty": 9
     },
@@ -233,7 +220,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "cutting": 0,
         "to_hit": 0,
         "difficulty": 4
     },
@@ -250,7 +236,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "cutting": 0,
         "to_hit": 0,
         "difficulty": 5
     },
@@ -267,7 +252,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "cutting": 0,
         "to_hit": 0,
         "difficulty": 8
     },
@@ -284,7 +268,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "cutting": 0,
         "to_hit": 0,
         "difficulty": 8
     },
@@ -301,7 +284,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "cutting": 0,
         "to_hit": 0,
         "difficulty": 3
     },
@@ -318,7 +300,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "cutting": 0,
         "to_hit": 0,
         "difficulty": 5
     },
@@ -335,7 +316,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "cutting": 0,
         "to_hit": 0,
         "difficulty": 11
     },
@@ -352,7 +332,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "cutting": 0,
         "to_hit": 0,
         "difficulty": 6
     },
@@ -369,7 +348,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "cutting": 0,
         "to_hit": 0,
         "difficulty": 6
     },
@@ -386,7 +364,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "cutting": 0,
         "to_hit": 0,
         "difficulty": 5
     },
@@ -403,7 +380,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "cutting": 0,
         "to_hit": 0,
         "difficulty": 4
     },
@@ -420,7 +396,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "cutting": 0,
         "to_hit": 0,
         "difficulty": 4
     },
@@ -437,7 +412,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "cutting": 0,
         "to_hit": 0,
         "difficulty": 11
     },
@@ -454,7 +428,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "cutting": 0,
         "to_hit": 0,
         "difficulty": 5
     },
@@ -471,7 +444,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "cutting": 0,
         "to_hit": 0,
         "difficulty": 2
     },
@@ -488,7 +460,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "cutting": 0,
         "to_hit": 0,
         "difficulty": 5
     },
@@ -505,7 +476,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "cutting": 0,
         "to_hit": 0,
         "difficulty": 2
     },
@@ -522,7 +492,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "cutting": 0,
         "to_hit": 0,
         "difficulty": 4
     },
@@ -539,7 +508,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "cutting": 0,
         "to_hit": 0,
         "difficulty": 11
     },
@@ -556,7 +524,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "cutting": 0,
         "to_hit": 0,
         "difficulty": 11
     },
@@ -573,7 +540,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "cutting": 0,
         "to_hit": 0,
         "difficulty": 6
     },
@@ -590,7 +556,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "cutting": 0,
         "to_hit": 0,
         "difficulty": 13
     },
@@ -607,7 +572,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "cutting": 0,
         "to_hit": 0,
         "difficulty": 3
     },
@@ -624,7 +588,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "cutting": 0,
         "to_hit": 0,
         "difficulty": 6
     },
@@ -641,7 +604,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "cutting": 0,
         "to_hit": 0,
         "difficulty": 6
     },
@@ -658,7 +620,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "cutting": 0,
         "to_hit": 0,
         "difficulty": 5
     },
@@ -675,7 +636,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "cutting": 0,
         "to_hit": 0,
         "difficulty": 5
     },
@@ -692,7 +652,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "cutting": 0,
         "to_hit": 0,
         "difficulty": 3
     },
@@ -709,7 +668,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "cutting": 0,
         "to_hit": 0,
         "difficulty": 6
     },
@@ -726,7 +684,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "cutting": 0,
         "to_hit": 0,
         "difficulty": 6
     },
@@ -743,7 +700,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "cutting": 0,
         "to_hit": 0,
         "difficulty": 11
     },
@@ -760,7 +716,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "cutting": 0,
         "to_hit": 0,
         "difficulty": 12
     },
@@ -777,7 +732,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "cutting": 0,
         "to_hit": 0,
         "difficulty": 5
     },
@@ -794,7 +748,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "cutting": 0,
         "to_hit": 0,
         "difficulty": 5
     },
@@ -811,7 +764,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "cutting": 0,
         "to_hit": 0,
         "difficulty": 4
     },
@@ -828,7 +780,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "cutting": 0,
         "to_hit": 0,
         "difficulty": 2
     },
@@ -845,7 +796,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "cutting": 0,
         "to_hit": 0,
         "difficulty": 2
     },
@@ -862,7 +812,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "cutting": 0,
         "to_hit": 0,
         "difficulty": 6
     },
@@ -879,7 +828,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "cutting": 0,
         "to_hit": 0,
         "difficulty": 9
     },
@@ -896,7 +844,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "cutting": 0,
         "to_hit": 0,
         "difficulty": 4
     },
@@ -913,7 +860,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "cutting": 0,
         "to_hit": 0,
         "difficulty": 6
     },
@@ -930,7 +876,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "cutting": 0,
         "to_hit": 0,
         "difficulty": 5
     },
@@ -947,7 +892,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "cutting": 0,
         "to_hit": 0,
         "difficulty": 11
     },
@@ -964,7 +908,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "cutting": 0,
         "to_hit": 0,
         "difficulty": 7
     },
@@ -981,7 +924,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "cutting": 0,
         "to_hit": 0,
         "difficulty": 4
     },
@@ -998,7 +940,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "cutting": 0,
         "to_hit": 0,
         "difficulty": 1
     },
@@ -1015,7 +956,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "cutting": 0,
         "to_hit": 0,
         "difficulty": 8
     },
@@ -1032,7 +972,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "cutting": 0,
         "to_hit": 0,
         "difficulty": 1
     },
@@ -1050,7 +989,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "cutting": 0,
         "to_hit": 0,
         "difficulty": 1
     },
@@ -1067,7 +1005,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "cutting": 0,
         "to_hit": 0,
         "difficulty": 1
     },
@@ -1084,7 +1021,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "cutting": 0,
         "to_hit": 0,
         "difficulty": 11
     },
@@ -1101,7 +1037,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "cutting": 0,
         "to_hit": 0,
         "difficulty": 4
     },
@@ -1118,7 +1053,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "cutting": 0,
         "to_hit": 0,
         "difficulty": 4
     },
@@ -1135,7 +1069,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "cutting": 0,
         "to_hit": 0,
         "difficulty": 3
     },
@@ -1152,7 +1085,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "cutting": 0,
         "to_hit": 0,
         "difficulty": 4
     },
@@ -1169,7 +1101,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "cutting": 0,
         "to_hit": 0,
         "difficulty": 6
     },
@@ -1186,7 +1117,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "cutting": 0,
         "to_hit": 0,
         "difficulty": 11
     },
@@ -1203,7 +1133,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "cutting": 0,
         "to_hit": 0,
         "difficulty": 5
     },
@@ -1220,7 +1149,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "cutting": 0,
         "to_hit": 0,
         "difficulty": 8
     },
@@ -1237,7 +1165,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "cutting": 0,
         "to_hit": 0,
         "difficulty": 5
     },
@@ -1254,7 +1181,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "cutting": 0,
         "to_hit": 0,
         "difficulty": 5
     },
@@ -1271,7 +1197,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "cutting": 0,
         "to_hit": 0,
         "difficulty": 4
     },
@@ -1288,7 +1213,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "cutting": 0,
         "to_hit": 0,
         "difficulty": 7
     },
@@ -1305,7 +1229,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "cutting": 0,
         "to_hit": 0,
         "difficulty": 7
     },
@@ -1322,7 +1245,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "cutting": 0,
         "to_hit": 0,
         "difficulty": 11
     },
@@ -1333,15 +1255,30 @@
         "symbol": ":",
         "color": "yellow",
         "name": "Anti-Glare Compensators CBM",
-        "description": "Your eyes have high-power, quick-reacting transition lenses installed over them, negating any glare penalties and protecting you from bright flashes including those of a welder.",
+        "description": "Your eyes have high-power, quick-reacting transition lenses installed over them, negating any glare penalties and protecting you from bright flashes including those of a welder.  Additionally you can toggle them to block out all light.",
         "price": 450000,
         "material": ["steel", "plastic"],
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "cutting": 0,
         "to_hit": 0,
         "difficulty": 4
+    },
+    {   
+        "type": "BIONIC_ITEM",
+        "category": "bionics",
+        "id": "bio_eye_optic",
+        "symbol": ":",
+        "color": "yellow",
+        "name": "Telescopic Eyes CBM",
+        "description": "Much of the material in your inner eye has been removed and replaced with an array of high-powered, auto-focusing lenses.  You can now see much farther and more clearer than before, any vision problems you might have had are now gone.",
+        "price": 500000,
+        "material": ["steel", "plastic"],
+        "weight": 2041,
+        "volume": 10,
+        "bashing": 8,
+        "to_hit": 0,
+        "difficulty": 5
     },
     {
         "type": "BIONIC_ITEM",
@@ -1356,7 +1293,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "cutting": 0,
         "to_hit": 0,
         "difficulty": 5
     },
@@ -1373,7 +1309,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "cutting": 0,
         "to_hit": 0,
         "difficulty": 7
     },
@@ -1390,7 +1325,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "cutting": 0,
         "to_hit": 0,
         "difficulty": 11
     },
@@ -1407,7 +1341,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "cutting": 0,
         "to_hit": 0,
         "difficulty": 6
     },
@@ -1424,7 +1357,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "cutting": 0,
         "to_hit": 0,
         "difficulty": 4
     },
@@ -1441,7 +1373,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "cutting": 0,
         "to_hit": 0,
         "difficulty": 11
     },
@@ -1458,7 +1389,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "cutting": 0,
         "to_hit": 0,
         "difficulty": 5
     },
@@ -1475,7 +1405,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "cutting": 0,
         "to_hit": 0,
         "difficulty": 3
     },
@@ -1492,7 +1421,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "cutting": 0,
         "to_hit": 0,
         "difficulty": 6
     }

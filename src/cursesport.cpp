@@ -344,7 +344,7 @@ inline int fill(const char *&fmt, int &len, std::string &target)
     const char *tmpptr = fmt; // pointer for UTF8_getch, which increments it
     int tmplen = len;
     while( tmplen > 0 ) {
-        const unsigned ch = UTF8_getch(&tmpptr, &tmplen);
+        const uint32_t ch = UTF8_getch(&tmpptr, &tmplen);
         // UNKNOWN_UNICODE is most likely a (vertical/horizontal) line or similar
         const int cw = (ch == UNKNOWN_UNICODE) ? 1 : mk_wcwidth(ch);
         if( cw > 0 && dlen > 0 ) {

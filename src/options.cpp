@@ -27,6 +27,7 @@ bool trigdist;
 bool use_tiles;
 bool log_from_top;
 bool fov_3d;
+bool tile_iso;
 
 #ifdef TILES
 extern cata_tiles *tilecontext;
@@ -1147,8 +1148,13 @@ void options_manager::init()
     mOptionsSort["world_default"]++;
 
     OPTIONS["CITY_SIZE"] = cOpt("world_default", _("Size of cities"),
-                                _("A number determining how large cities are. Warning, large numbers lead to very slow mapgen. 0 disables cities and roads."),
+                                _("A number determining how large cities are. 0 disables cities and roads."),
                                 0, 16, 4
+                               );
+
+    OPTIONS["CITY_SPACING"] = cOpt("world_default", _("City spacing"),
+                                _("A number determining how far apart cities are. Warning, small numbers lead to very slow mapgen."),
+                                0, 8, 4
                                );
 
     OPTIONS["SPAWN_DENSITY"] = cOpt("world_default", _("Spawn rate scaling factor"),
@@ -1776,10 +1782,4 @@ bool options_manager::load_legacy()
 bool use_narrow_sidebar()
 {
     return TERMY < 25 || g->narrow_sidebar;
-}
-
-inline std::string trim(const std::string &s)
-{
-   auto wsfront = std::find_if_not( s.begin(), s.end(), []( int c ) { return std::isspace( c ); });
-   return std::string( wsfront, std::find_if_not( s.rbegin(), std::string::const_reverse_iterator( wsfront ), []( int c ){ return std::isspace( c ); }).base());
 }

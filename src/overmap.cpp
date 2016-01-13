@@ -35,6 +35,7 @@
 #include "weather.h"
 #include "ui.h"
 #include "mapbuffer.h"
+#include "map_iterator.h"
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -160,8 +161,6 @@ void load_overmap_specials(JsonObject &jo)
     }
 
     spec.rotatable = jo.get_bool("rotate", false);
-    spec.unique = jo.get_bool("unique", false);
-    spec.required = jo.get_bool("required", false);
 
     if(jo.has_object("spawns")) {
         JsonObject spawns = jo.get_object("spawns");
@@ -1376,9 +1375,11 @@ bool overmap::generate_sub(int const z)
             for( auto &elem : skip_above ) {
                 if( oter_above == elem ) {
                     skipme = true;
+                    break;
                 }
             }
-            if (skipme) {
+            if( skipme )
+            {
                 continue;
             }
 
@@ -1430,15 +1431,13 @@ bool overmap::generate_sub(int const z)
                 // technically not all finales need a sub level,
                 // but at this point we don't know
                 requires_sub = true;
-            } else if (oter_above == "mine_finale") {
-                for (int x = i - 1; x <= i + 1; x++) {
-                    for (int y = j - 1; y <= j + 1; y++) {
-                        ter(x, y, z) = "spiral";
-                    }
+            } else if( oter_above == "mine_finale" ) {
+                for( auto &p : g->m.points_in_radius( tripoint( i, j, z ), 1, 0 ) ) {
+                    ter( p.x, p.y, p.z ) = "spiral";
                 }
-                ter(i, j, z) = "spiral_hub";
-                add_mon_group(mongroup( mongroup_id( "GROUP_SPIRAL" ), i * 2, j * 2, z, 2, 200));
-            } else if (oter_above == "silo") {
+                ter( i, j, z ) = "spiral_hub";
+                add_mon_group( mongroup( mongroup_id( "GROUP_SPIRAL" ), i * 2, j * 2, z, 2, 200 ) );
+            } else if ( oter_above == "silo" ) {
                 if (rng(2, 7) < abs(z) || rng(2, 7) < abs(z)) {
                     ter(i, j, z) = "silo_finale";
                 } else {
@@ -1466,7 +1465,7 @@ bool overmap::generate_sub(int const z)
         }
     }
     for (auto &i : ice_lab_points) {
-        bool ice_lab = build_ice_lab(i.x, i.y, z, i.s);
+        bool ice_lab = build_lab(i.x, i.y, z, i.s, true);
         requires_sub |= ice_lab;
         if (!ice_lab && ter(i.x, i.y, z) == "ice_lab_core") {
             ter(i.x, i.y, z) = "ice_lab";
@@ -2157,13 +2156,14 @@ tripoint overmap::draw_overmap(const tripoint &orig, const draw_data_t &data)
             const std::string new_note = string_input_popup(
                 _("Note (X:TEXT for custom symbol, G; for color):"),
                 45, old_note, color_notes); // 45 char max
-            if(old_note != new_note) {
-                overmap_buffer.add_note(curs, new_note);
+            if( new_note.empty() && !old_note.empty() ) {
+                // do nothing, the player should be using [D]elete
+            } else if( old_note != new_note ) {
+                overmap_buffer.add_note( curs, new_note );
             }
-        } else if(action == "DELETE_NOTE") {
-            if (overmap_buffer.has_note(curs) &&
-                query_yn(_("Really delete note?"))) {
-                overmap_buffer.delete_note(curs);
+        } else if( action == "DELETE_NOTE" ) {
+            if( overmap_buffer.has_note( curs ) && query_yn( _( "Really delete note?" ) ) ) {
+                overmap_buffer.delete_note( curs );
             }
         } else if (action == "LIST_NOTES") {
             const point p = display_notes(curs.z);
@@ -2630,36 +2630,39 @@ void grow_forest_oter_id(oter_id &oid, bool swampy)
 
 void overmap::place_forest()
 {
-
+    int forests_placed = 0;
     for (int i = 0; i < settings.num_forests; i++) {
-        // forx and fory determine the epicenter of the forest
-        int forx = rng(0, OMAPX - 1);
-        int fory = rng(0, OMAPY - 1);
-        // fors determinds its basic size
-        int fors = rng(settings.forest_size_min, settings.forest_size_max);
-        int outer_tries = 1000;
-        int inner_tries = 1000;
-        for (auto j = cities.begin(); j != cities.end(); j++) {
-            inner_tries = 1000;
-            while (trig_dist(forx, fory, j->x, j->y) - fors / 2 < j->s ) {
-                // Set forx and fory far enough from cities
-                forx = rng(0, OMAPX - 1);
-                fory = rng(0, OMAPY - 1);
-                // Set fors to determine the size of the forest; usually won't overlap w/ cities
-                fors = rng(settings.forest_size_min, settings.forest_size_max);
-                j = cities.begin();
-                if( 0 == --inner_tries ) {
-                    break;
+        int forx, fory, fors;
+        // try to place this forest
+        int tries = 100;
+        do {
+            // forx and fory determine the epicenter of the forest
+            forx = rng(0, OMAPX - 1);
+            fory = rng(0, OMAPY - 1);
+            // fors determinds its basic size
+            fors = rng(settings.forest_size_min, settings.forest_size_max);
+            const auto iter = std::find_if(
+                cities.begin(),
+                cities.end(),
+                [&](const city &c) {
+                    return 
+                        // is this city too close?
+                        trig_dist(forx, fory, c.x, c.y) - fors / 2 < c.s &&
+                        // occasionally accept near a city if we've been failing
+                        tries > rng(-1000/(i-forests_placed+1),2);
                 }
+            );
+            if(iter == cities.end()) { // every city was too close
+                break; 
             }
-            if( 0 == --outer_tries || 0 == inner_tries ) {
-                break;
-            }
-        }
+        } while( tries-- );
 
-        if( 0 == outer_tries || 0 == inner_tries ) {
+        // if we gave up, don't bother trying to place another forest
+        if (tries == 0) {
             break;
         }
+
+        forests_placed++;
 
         int swamps = settings.swamp_maxsize; // How big the swamp may be...
         int x = forx;
@@ -2798,38 +2801,60 @@ spawns happen at... <cue Clue music>
 20:56 <kevingranade>: game:pawn_mon() in game.cpp:7380*/
 void overmap::place_cities()
 {
-    int NUM_CITIES = dice(4, 4);
-    int start_dir;
     int op_city_size = int(ACTIVE_WORLD_OPTIONS["CITY_SIZE"]);
     if( op_city_size <= 0 ) {
         return;
     }
-    // Limit number of cities based on average size.
-    NUM_CITIES = std::min(NUM_CITIES, int(256 / op_city_size * op_city_size));
+    int op_city_spacing = int(ACTIVE_WORLD_OPTIONS["CITY_SPACING"]);
 
-    // Generate a list of random cities in accordance with village/town/city rules.
-    int village_size = std::max(op_city_size - 2, 1);
-    int town_min = std::max(op_city_size - 1, 1);
-    int town_max = op_city_size + 1;
-    int city_size = op_city_size + 3;
+    // spacing dictates how much of the map is covered in cities
+    //   city  |  cities  |   size N cities per overmap
+    // spacing | % of map |  2  |  4  |  8  |  12 |  16
+    //     0   |   ~99    |2025 | 506 | 126 |  56 |  31
+    //     1   |    50    |1012 | 253 |  63 |  28 |  15
+    //     2   |    25    | 506 | 126 |  31 |  14 |   7
+    //     3   |    12    | 253 |  63 |  15 |   7 |   3
+    //     4   |     6    | 126 |  31 |   7 |   3 |   1
+    //     5   |     3    |  63 |  15 |   3 |   1 |   0
+    //     6   |     1    |  31 |   7 |   1 |   0 |   0
+    //     7   |     0    |  15 |   3 |   0 |   0 |   0
+    //     8   |     0    |   7 |   1 |   0 |   0 |   0
 
-    while (cities.size() < size_t(NUM_CITIES)) {
-        int cx = rng(12, OMAPX - 12);
-        int cy = rng(12, OMAPY - 12);
-        int size = dice(town_min, town_max);
-        if (one_in(6)) {
-            size = city_size;
-        } else if (one_in(3)) {
-            size = village_size;
+    const double omts_per_overmap = OMAPX * OMAPY;
+    const double city_map_coverage_ratio = 1.0/std::pow(2.0, op_city_spacing);
+    const double omts_per_city = (op_city_size*2+1) * (op_city_size*2+1) * 3 / 4;
+
+    // how many cities on this overmap?
+    const int NUM_CITIES = 
+        roll_remainder(omts_per_overmap * city_map_coverage_ratio / omts_per_city);
+
+    // place a seed for NUM_CITIES cities, and maybe one more
+    while ( cities.size() < size_t(NUM_CITIES) ) {
+        // randomly make some cities smaller or larger
+        int size = rng(op_city_size-1, op_city_size+1);
+        if(one_in(3)) {          // 33% tiny
+            size = 1;
+        } else if (one_in(2)) {  // 33% small
+            size = size * 2 / 3;
+        } else if (one_in(2)) {  // 17% large
+            size = size * 3 / 2;
+        } else {                 // 17% huge
+            size = size * 2;
         }
+        size = std::max(size,1);
+
+        // TODO put cities closer to the edge when they can span overmaps
+        // don't draw cities across the edge of the map, they will get clipped
+        int cx = rng(size - 1, OMAPX - size);
+        int cy = rng(size - 1, OMAPY - size);
         if (ter(cx, cy, 0) == settings.default_oter ) {
-            ter(cx, cy, 0) = "road_nesw";
+            ter(cx, cy, 0) = "road_nesw"; // every city starts with an intersection
             city tmp;
             tmp.x = cx;
             tmp.y = cy;
             tmp.s = size;
             cities.push_back(tmp);
-            start_dir = rng(0, 3);
+            int start_dir = rng(0, 3);
             for (int j = 0; j < 4; j++) {
                 make_road(cx, cy, size, (start_dir + j) % 4, tmp);
             }
@@ -2948,127 +2973,81 @@ void overmap::make_road(int x, int y, int cs, int dir, city town)
     }
 }
 
-bool overmap::build_lab(int x, int y, int z, int s)
+bool overmap::build_lab( int x, int y, int z, int s, bool ice )
 {
     std::vector<point> generated_lab;
-    ter(x, y, z) = "lab";
-    for (int n = 0; n <= 1; n++) { // Do it in two passes to allow diagonals
-        for (int i = 1; i <= s; i++) {
-            for (int lx = x - i; lx <= x + i; lx++) {
-                for (int ly = y - i; ly <= y + i; ly++) {
-                    if ((ter(lx - 1, ly, z) == "lab" ||
-                         ter(lx + 1, ly, z) == "lab" ||
-                         ter(lx, ly - 1, z) == "lab" ||
-                         ter(lx, ly + 1, z) == "lab") && one_in(i)) {
-                        ter(lx, ly, z) = "lab";
-                        generated_lab.push_back(point(lx, ly));
-                    }
+    std::string labt = ice ? "ice_lab" : "lab";
+    ter( x, y, z ) = labt;
+
+    // maintain a list of potential new lab maps
+    // grows outwards from previously placed lab maps
+    std::set<point> candidates;
+    candidates.insert( {point( x - 1, y ), point( x + 1, y ), point( x, y - 1 ), point( x, y + 1 )} );
+    while( candidates.size() ) {
+        auto cand = candidates.begin();
+        const int &cx = cand->x;
+        const int &cy = cand->y;
+        int dist = abs( x - cx ) + abs( y - cy );
+        if( dist <= s * 2 ) { // increase radius to compensate for sparser new algorithm
+            if( one_in( dist / 2 + 1 ) ) { // odds diminish farther away from the stairs
+                ter( cx, cy, z ) = labt;
+                generated_lab.push_back( *cand );
+                // add new candidates, don't backtrack
+                if( ter( cx - 1, cy, z ) != labt && abs( x - cx + 1 ) + abs( y - cy ) > dist ) {
+                    candidates.insert( point( cx - 1, cy ) );
+                }
+                if( ter( cx + 1, cy, z ) != labt && abs( x - cx - 1 ) + abs( y - cy ) > dist ) {
+                    candidates.insert( point( cx + 1, cy ) );
+                }
+                if( ter( cx, cy - 1, z ) != labt && abs( x - cx ) + abs( y - cy + 1 ) > dist ) {
+                    candidates.insert( point( cx, cy - 1 ) );
+                }
+                if( ter( cx, cy + 1, z ) != labt && abs( x - cx ) + abs( y - cy - 1 ) > dist ) {
+                    candidates.insert( point( cx, cy + 1 ) );
                 }
             }
         }
+        candidates.erase( cand );
     }
 
     bool generate_stairs = true;
     for( auto &elem : generated_lab ) {
-        if( ter( elem.x, elem.y, z + 1 ) == "lab_stairs" ) {
+        if( ter( elem.x, elem.y, z + 1 ) == ( labt + "_stairs" ) ) {
             generate_stairs = false;
         }
     }
-    if (generate_stairs && !generated_lab.empty()) {
+    if( generate_stairs && !generated_lab.empty() ) {
         const point p = random_entry( generated_lab );
-        ter(p.x, p.y, z + 1) = "lab_stairs";
+        ter( p.x, p.y, z + 1 ) = ( labt + "_stairs" );
     }
 
-    ter(x, y, z) = "lab_core";
+    ter( x, y, z ) = labt + "_core";
     int numstairs = 0;
-    if (s > 0) { // Build stairs going down
-        while (!one_in(6)) {
+    if( s > 0 ) { // Build stairs going down
+        while( !one_in( 6 ) ) {
             int stairx, stairy;
             int tries = 0;
             do {
-                stairx = rng(x - s, x + s);
-                stairy = rng(y - s, y + s);
+                stairx = rng( x - s, x + s );
+                stairy = rng( y - s, y + s );
                 tries++;
-            } while (ter(stairx, stairy, z) != "lab" && tries < 15);
-            if (tries < 15) {
-                ter(stairx, stairy, z) = "lab_stairs";
+            } while( ter( stairx, stairy, z ) != labt && tries < 15 );
+            if( tries < 15 ) {
+                ter( stairx, stairy, z ) = ( labt + "_stairs" );
                 numstairs++;
             }
         }
     }
-    if (numstairs == 0) { // This is the bottom of the lab;  We need a finale
+    if( numstairs == 0 ) { // This is the bottom of the lab;  We need a finale
         int finalex, finaley;
         int tries = 0;
         do {
-            finalex = rng(x - s, x + s);
-            finaley = rng(y - s, y + s);
+            finalex = rng( x - s, x + s );
+            finaley = rng( y - s, y + s );
             tries++;
-        } while (tries < 15 && ter(finalex, finaley, z) != "lab"
-                 && ter(finalex, finaley, z) != "lab_core");
-        ter(finalex, finaley, z) = "lab_finale";
-    }
-
-    return numstairs > 0;
-}
-
-bool overmap::build_ice_lab(int x, int y, int z, int s)
-{
-    std::vector<point> generated_ice_lab;
-    ter(x, y, z) = "ice_lab";
-    for (int n = 0; n <= 1; n++) { // Do it in two passes to allow diagonals
-        for (int i = 1; i <= s; i++) {
-            for (int lx = x - i; lx <= x + i; lx++) {
-                for (int ly = y - i; ly <= y + i; ly++) {
-                    if ((ter(lx - 1, ly, z) == "ice_lab" ||
-                         ter(lx + 1, ly, z) == "ice_lab" ||
-                         ter(lx, ly - 1, z) == "ice_lab" ||
-                         ter(lx, ly + 1, z) == "ice_lab") && one_in(i)) {
-                        ter(lx, ly, z) = "ice_lab";
-                        generated_ice_lab.push_back(point(lx, ly));
-                    }
-                }
-            }
-        }
-    }
-
-    bool generate_stairs = true;
-    for( auto &elem : generated_ice_lab ) {
-        if( ter( elem.x, elem.y, z + 1 ) == "ice_lab_stairs" ) {
-            generate_stairs = false;
-        }
-    }
-    if (generate_stairs && !generated_ice_lab.empty()) {
-        const point p = random_entry( generated_ice_lab );
-        ter(p.x, p.y, z + 1) = "ice_lab_stairs";
-    }
-
-    ter(x, y, z) = "ice_lab_core";
-    int numstairs = 0;
-    if (s > 0) { // Build stairs going down
-        while (!one_in(6)) {
-            int stairx, stairy;
-            int tries = 0;
-            do {
-                stairx = rng(x - s, x + s);
-                stairy = rng(y - s, y + s);
-                tries++;
-            } while (ter(stairx, stairy, z) != "ice_lab" && tries < 15);
-            if (tries < 15) {
-                ter(stairx, stairy, z) = "ice_lab_stairs";
-                numstairs++;
-            }
-        }
-    }
-    if (numstairs == 0) { // This is the bottom of the ice_lab;  We need a finale
-        int finalex, finaley;
-        int tries = 0;
-        do {
-            finalex = rng(x - s, x + s);
-            finaley = rng(y - s, y + s);
-            tries++;
-        } while (tries < 15 && ter(finalex, finaley, z) != "ice_lab"
-                 && ter(finalex, finaley, z) != "ice_lab_core");
-        ter(finalex, finaley, z) = "ice_lab_finale";
+        } while( tries < 15 && ter( finalex, finaley, z ) != labt
+                  && ter( finalex, finaley, z ) != ( labt + "_core" ) );
+        ter( finalex, finaley, z ) = labt + "_finale";
     }
 
     return numstairs > 0;
@@ -3151,21 +3130,19 @@ void overmap::build_tunnel(int x, int y, int z, int s, int dir)
     build_tunnel(next.x, next.y, z, s - 1, dir);
 }
 
-bool overmap::build_slimepit(int x, int y, int z, int s)
+bool overmap::build_slimepit( int x, int y, int z, int s )
 {
     bool requires_sub = false;
-    for (int n = 1; n <= s; n++) {
-        for (int i = x - n; i <= x + n; i++) {
-            for (int j = y - n; j <= y + n; j++) {
-                if (rng(1, s * 2) >= n) {
-                    chip_rock( i, j, z );
-                    if (one_in(8) && z > -OVERMAP_DEPTH) {
-                        ter(i, j, z) = "slimepit_down";
-                        requires_sub = true;
-                    } else {
-                        ter(i, j, z) = "slimepit";
-                    }
-                }
+    tripoint origin( x, y, z );
+    for( auto p : g->m.points_in_radius( origin, s + z + 1, 0 ) ) {
+        int dist = square_dist( x, y, p.x, p.y );
+        if( one_in( 2 * dist ) ) {
+            chip_rock( p.x, p.y, p.z );
+            if( one_in( 8 ) && z > -OVERMAP_DEPTH ) {
+                ter( p.x, p.y, p.z ) = "slimepit_down";
+                requires_sub = true;
+            } else {
+                ter( p.x, p.y, p.z ) = "slimepit";
             }
         }
     }
@@ -3233,6 +3210,21 @@ void overmap::place_rifts(int const z)
         }
     }
 }
+
+struct node
+{
+    int x;
+    int y;
+    int d;
+    int p;
+
+    node( int xp, int yp, int dir, int pri ) {
+        x = xp; y = yp; d = dir; p = pri;
+    }
+    bool operator< ( const node &n ) const {
+        return this->p > n.p;
+    }
+};
 
 void overmap::make_hiway(int x1, int y1, int x2, int y2, int z, const std::string &base)
 {

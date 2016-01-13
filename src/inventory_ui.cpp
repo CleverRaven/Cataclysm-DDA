@@ -253,7 +253,7 @@ void inventory_selector::print_inv_weight_vol(int weight_carried, int vol_carrie
         int vol_capacity) const
 {
     // Print weight
-    mvwprintw(w_inv, 0, 32, _("Weight (%s): "), weight_units().c_str());
+    mvwprintw(w_inv, 0, 32, _("Weight (%s): "), weight_units());
     nc_color weight_color;
     if (weight_carried > g->u.weight_capacity()) {
         weight_color = c_red;
@@ -851,11 +851,10 @@ item_location game::inv_map_splice(
     u.inv.sort();
     inv_s.make_item_list( u.inv.slice_filter_by( inv_filter ) );
 
-    // items are stacked per tile considering vehicle and map tiles separately
-    static const item_category ground_cat( "GROUND:",  _( "GROUND:" ),  -1000 );
-    static const item_category nearby_cat( "NEARBY:",  _( "NEARBY:" ),  -2000 );
-    static const item_category vehicle_cat( "VEHICLE:", _( "VEHICLE:" ), -3000 );
+    std::list<item_category> categories;
+    int rank = -1000;
 
+    // items are stacked per tile considering vehicle and map tiles separately
     // in the below loops identical items on the same tile are grouped into lists
     // each element of stacks represents one tile and is a vector of such lists
     std::vector<std::vector<std::list<item>>> stacks;
@@ -904,11 +903,15 @@ item_location game::inv_map_splice(
                         if( cur_invlet <= max_invlet ) {
                             current_stack.back().front().invlet = cur_invlet++;
                             invlets.emplace_back( item_location::on_map( pos, &it ) );
+                        } else {
+                            current_stack.back().front().invlet = 0;
                         }
                     }
                 }
             }
-            inv_s.make_item_list( slices.back(), pos == g->u.pos() ? &ground_cat : &nearby_cat );
+            std::string name = trim( std::string( _( "GROUND" ) ) + " " + direction_suffix( g->u.pos(), pos ) );
+            categories.emplace_back( name, name, rank-- );
+            inv_s.make_item_list( slices.back(), &categories.back() );
         }
 
         // finally get all matching items in vehicle cargo spaces
@@ -945,11 +948,15 @@ item_location game::inv_map_splice(
                             if( cur_invlet <= max_invlet ) {
                                 current_stack.back().front().invlet = cur_invlet++;
                                 invlets.emplace_back( item_location::on_vehicle( *veh, veh->parts[part].mount, &it ) );
+                            } else {
+                                current_stack.back().front().invlet = 0;
                             }
                         }
                     }
                 }
-                inv_s.make_item_list( slices.back(), &vehicle_cat );
+                std::string name = trim( std::string( _( "VEHICLE" ) )  + " " + direction_suffix( g->u.pos(), pos ) );
+                categories.emplace_back( name, name, rank-- );
+                inv_s.make_item_list( slices.back(), &categories.back() );
             }
         }
     }
@@ -1112,7 +1119,7 @@ void game::compare()
 
 void game::compare( const tripoint &offset )
 {
-    const tripoint examp = u.pos3() + offset;
+    const tripoint examp = u.pos() + offset;
 
     std::vector<std::list<item>> grounditems;
     indexed_invslice grounditems_slice;

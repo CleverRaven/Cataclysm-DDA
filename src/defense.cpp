@@ -186,15 +186,14 @@ void defense_game::init_itypes()
 
 void defense_game::init_mtypes()
 {
-    std::map<mtype_id, mtype *> montemplates = MonsterGenerator::generator().get_all_mtypes();
-
-    for( auto &montemplate : montemplates ) {
-        montemplate.second->difficulty *= 1.5;
-        montemplate.second->difficulty += int( montemplate.second->difficulty / 5 );
-        montemplate.second->flags.insert( MF_BASHES );
-        montemplate.second->flags.insert( MF_SMELLS );
-        montemplate.second->flags.insert( MF_HEARS );
-        montemplate.second->flags.insert( MF_SEES );
+    for( auto &type : MonsterGenerator::generator().get_all_mtypes() ) {
+        mtype *const t = const_cast<mtype *>( type );
+        t->difficulty *= 1.5;
+        t->difficulty += int( t->difficulty / 5 );
+        t->flags.insert( MF_BASHES );
+        t->flags.insert( MF_SMELLS );
+        t->flags.insert( MF_HEARS );
+        t->flags.insert( MF_SEES );
     }
 }
 
@@ -297,8 +296,6 @@ void defense_game::init_map()
     int x = g->u.posx();
     int y = g->u.posy();
     g->update_map(x, y);
-    g->u.setx(x);
-    g->u.sety(y);
     monster generator( mtype_id( "mon_generator" ),
                        tripoint( g->u.posx() + 1, g->u.posy() + 1, g->u.posz() ) );
     // Find a valid spot to spawn the generator
@@ -1311,6 +1308,7 @@ void draw_caravan_items(WINDOW *w, std::vector<itype_id> *items,
 
 int caravan_price(player &u, int price)
 {
+    ///\EFFECT_BARTER reduces caravan prices, 5% per point, up to 50%
     if (u.skillLevel( skill_barter ) > 10) {
         return int( double(price) * .5);
     }
@@ -1423,7 +1421,7 @@ void defense_game::spawn_wave_monster( const mtype_id &type )
         }
     }
     monster tmp( type, tripoint( pnt, g->get_levz() ) );
-    tmp.wander_pos = g->u.pos3();
+    tmp.wander_pos = g->u.pos();
     tmp.wandf = 150;
     // We wanna kill!
     tmp.anger = 100;

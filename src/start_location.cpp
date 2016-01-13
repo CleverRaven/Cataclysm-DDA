@@ -158,6 +158,7 @@ void board_up( map &m, const tripoint &start, const tripoint &end )
             }
             // If the furniture is movable and the character can move it, use it to barricade
             // g->u is workable here as NPCs by definition are not starting the game.  (Let's hope.)
+            ///\EFFECT_STR determines what furniture might be used as a starting area barricade
             if( m.furn_at( p ).move_str_req > 0 && m.furn_at( p ).move_str_req < g->u.get_str() ) {
                 if( m.furn_at( p ).movecost == 0 ) {
                     // Obstacles are better, prefer them
@@ -228,7 +229,7 @@ int rate_location( map &m, const tripoint &p, const bool must_be_inside,
                    int (&checked)[MAPSIZE*SEEX][MAPSIZE*SEEY] )
 {
     if( ( must_be_inside && m.is_outside( p ) ) ||
-        m.move_cost( p ) == 0 ||
+        m.impassable( p ) ||
         checked[p.x][p.y] > 0 ) {
         return 0;
     }
@@ -246,7 +247,7 @@ int rate_location( map &m, const tripoint &p, const bool must_be_inside,
         }
 
         const tripoint pt( x, y, p.z );
-        if( m.move_cost( pt ) > 0 ||
+        if( m.passable( pt ) ||
             m.bash_resistance( pt ) <= bash_str ||
             m.open_door( pt, !m.is_outside( from ), true ) ) {
             st.push_back( pt );
@@ -290,6 +291,7 @@ void start_location::place_player( player &u ) const
 
     m.build_map_cache( m.get_abs_sub().z );
     const bool must_be_inside = flags().count( "ALLOW_OUTSIDE" ) == 0;
+    ///\EFFECT_STR allows player to start behind less-bashable furniture and terrain
     const int bash = u.get_str(); // TODO: Allow using items here
 
     // Remember biggest found location

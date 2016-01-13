@@ -14,7 +14,6 @@
         "material" : ["paper", "null"],
         "volume" : 5,
         "bashing" : -2,
-        "cutting" : 0,
         "time" : 60,
         "fun" : 0,
         "skill" : "fabrication",

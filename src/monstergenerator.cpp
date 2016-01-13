@@ -1,18 +1,25 @@
 #include "monstergenerator.h"
+
+#include "catacharset.h"
 #include "color.h"
 #include "creature.h"
-#include "translations.h"
-#include "rng.h"
 #include "debug.h"
-#include "item_group.h"
-#include "catacharset.h"
+#include "generic_factory.h"
 #include "item.h"
-#include "output.h"
+#include "item_group.h"
+#include "mattack_actors.h"
 #include "monattack.h"
-#include "mondefense.h"
 #include "mondeath.h"
+#include "mondefense.h"
 #include "monfaction.h"
 #include "mtype.h"
+#include "output.h"
+#include "rng.h"
+#include "translations.h"
+
+const mtype_id mon_generator( "mon_generator" );
+const mtype_id mon_zombie_dog( "mon_zombie_dog" );
+const mtype_id mon_fungaloid( "mon_fungaloid" );
 
 template<>
 const mtype_id string_id<mtype>::NULL_ID( "mon_null" );
@@ -20,13 +27,31 @@ const mtype_id string_id<mtype>::NULL_ID( "mon_null" );
 template<>
 const mtype& string_id<mtype>::obj() const
 {
-    return MonsterGenerator::generator().get_mtype( *this );
+    auto &factory = *MonsterGenerator::generator().mon_templates;
+
+    // first do the look-up as it is most likely to succeed
+    if( factory.is_valid( *this ) ) {
+        return factory.obj( *this );
+    }
+
+    // second most likely are outdated ids from old saves, this compares against strings, not
+    // mtype_ids because the old ids are not valid ids at all.
+    if( str() == "mon_zombie_fast" ) {
+        return mon_zombie_dog.obj();
+    }
+    if( str() == "mon_fungaloid_dormant" ) {
+        return mon_fungaloid.obj();
+    }
+
+    // this is most unlikely and therefor checked last.
+    debugmsg( "Could not find monster with type %s", c_str() );
+    return factory.obj( mtype_id::NULL_ID );
 }
 
 template<>
 bool string_id<mtype>::is_valid() const
 {
-    return MonsterGenerator::generator().has_mtype( *this );
+    return MonsterGenerator::generator().mon_templates->is_valid( *this );
 }
 
 template<>
@@ -35,23 +60,22 @@ const species_id string_id<species_type>::NULL_ID( "spec_null" );
 template<>
 const species_type& string_id<species_type>::obj() const
 {
-    return MonsterGenerator::generator().get_species( *this );
+    auto &factory = *MonsterGenerator::generator().mon_species;
+    return factory.obj( *this );
 }
 
 template<>
 bool string_id<species_type>::is_valid() const
 {
-    return MonsterGenerator::generator().has_species( *this );
+    return MonsterGenerator::generator().mon_species->is_valid( *this );
 }
 
-const mtype_id mon_generator( "mon_generator" );
-const mtype_id mon_zombie_dog( "mon_zombie_dog" );
-const mtype_id mon_fungaloid( "mon_fungaloid" );
-
 MonsterGenerator::MonsterGenerator()
+: mon_templates( new generic_factory<mtype>( "monster type" ) )
+, mon_species( new generic_factory<species_type>( "species" ) )
 {
-    mon_templates[mtype_id::NULL_ID] = new mtype();
-    mon_species[species_id::NULL_ID] = new species_type();
+    mon_templates->insert( mtype() );
+    mon_species->insert( species_type() );
     //ctor
     init_phases();
     init_attack();
@@ -68,22 +92,17 @@ MonsterGenerator::~MonsterGenerator()
 
 void MonsterGenerator::reset()
 {
-    for( auto &elem : mon_templates ) {
-        delete elem.second;
-    }
-    mon_templates.clear();
-    for( auto &elem : mon_species ) {
-        delete elem.second;
-    }
-    mon_species.clear();
-    mon_templates[mtype_id::NULL_ID] = new mtype();
-    mon_species[species_id::NULL_ID] = new species_type();
+    mon_templates->reset();
+    mon_templates->insert( mtype() );
+
+    mon_species->reset();
+    mon_species->insert( species_type() );
 }
 
 void MonsterGenerator::finalize_mtypes()
 {
-    for( auto &elem : mon_templates ) {
-        mtype &mon = *elem.second;
+    for( auto &elem : mon_templates->all_ref() ) {
+        mtype &mon = const_cast<mtype&>( elem.second );
         apply_species_attributes( mon );
         set_mtype_flags( mon );
         set_species_ids( mon );
@@ -222,7 +241,6 @@ void MonsterGenerator::init_attack()
     attack_map["FUNGUS_GROWTH"] = &mattack::fungus_growth;
     attack_map["FUNGUS_SPROUT"] = &mattack::fungus_sprout;
     attack_map["FUNGUS_FORTIFY"] = &mattack::fungus_fortify;
-    attack_map["LEAP"] = &mattack::leap;
     attack_map["DERMATIK"] = &mattack::dermatik;
     attack_map["DERMATIK_GROWTH"] = &mattack::dermatik_growth;
     attack_map["PLANT"] = &mattack::plant;
@@ -380,6 +398,7 @@ void MonsterGenerator::init_flags()
     flag_map["CLIMBS"] = MF_CLIMBS;
     flag_map["GROUP_MORALE"] = MF_GROUP_MORALE;
     flag_map["INTERIOR_AMMO"] = MF_INTERIOR_AMMO;
+    flag_map["NIGHT_INVISIBILITY"] = MF_NIGHT_INVISIBILITY;
     flag_map["PUSH_MON"] = MF_PUSH_MON;
 }
 
@@ -396,188 +415,149 @@ void MonsterGenerator::set_species_ids( mtype &mon )
 
 void MonsterGenerator::load_monster(JsonObject &jo)
 {
-    const mtype_id mid = mtype_id( jo.get_string("id") );
-        if (mon_templates.count(mid) > 0) {
-            delete mon_templates[mid];
-        }
+    mon_templates->load( jo );
+}
 
-        mtype *newmon = new mtype;
+void mtype::load( JsonObject &jo )
+{
+    MonsterGenerator &gen = MonsterGenerator::generator();
 
-        newmon->id = mid;
-        newmon->name = jo.get_string("name").c_str();
-        if(jo.has_member("name_plural")) {
-            newmon->name_plural = jo.get_string("name_plural");
-        } else {
-            // default behaviour: Assume the regular plural form (appending an “s”)
-            newmon->name_plural = newmon->name + "s";
-        }
-        newmon->description = _(jo.get_string("description").c_str());
+    // Name and name plural are not translated here, but when needed in
+    // combination with the actual count in `mtype::nname`.
+    mandatory( jo, was_loaded, "name", name );
+    // default behaviour: Assume the regular plural form (appending an “s”)
+    optional( jo, was_loaded, "name_plural", name_plural, name + "s" );
+    mandatory( jo, was_loaded, "description", description, translated_string_reader );
 
-        // Have to overwrite the default { "hflesh" } here
-        newmon->mat = { jo.get_string("material") };
+    // Have to overwrite the default { "hflesh" } here
+    if( !was_loaded || jo.has_member( "material" ) ) {
+        mat = { jo.get_string( "material" ) };
+    }
+    optional( jo, was_loaded, "species", species, auto_flags_reader<species_id> {}, {} );
+    optional( jo, was_loaded, "categories", categories, auto_flags_reader<> {}, {} );
 
-        for( auto &s : jo.get_tags( "species" ) ) {
-            newmon->species.insert( species_id( s ) );
-        }
-        newmon->categories = jo.get_tags("categories");
+    // See monfaction.cpp
+    if( !was_loaded || jo.has_member( "default_faction" ) ) {
+        const auto faction = mfaction_str_id( jo.get_string( "default_faction" ) );
+        default_faction = monfactions::get_or_add_faction( faction );
+    }
 
-        // See monfaction.cpp
-        newmon->default_faction =
-            monfactions::get_or_add_faction( mfaction_str_id( jo.get_string("default_faction") ) );
-
-        newmon->sym = jo.get_string("symbol");
-        if( utf8_wrapper( newmon->sym ).display_width() != 1 ) {
+    if( !was_loaded || jo.has_member( "symbol" ) ) {
+        sym = jo.get_string( "symbol" );
+        if( utf8_wrapper( sym ).display_width() != 1 ) {
             jo.throw_error( "monster symbol should be exactly one console cell width", "symbol" );
         }
-        newmon->color = color_from_string(jo.get_string("color"));
-        newmon->size = get_from_string(jo.get_string("size", "MEDIUM"), Creature::size_map, MS_MEDIUM);
-        newmon->phase = get_from_string(jo.get_string("phase", "SOLID"), phase_map, SOLID);
+    }
 
-        newmon->difficulty = jo.get_int("diff", 0);
-        newmon->agro = jo.get_int("aggression", 0);
-        newmon->morale = jo.get_int("morale", 0);
-        newmon->speed = jo.get_int("speed", 0);
-        newmon->attack_cost = jo.get_int("attack_cost", 100);
-        newmon->melee_skill = jo.get_int("melee_skill", 0);
-        newmon->melee_dice = jo.get_int("melee_dice", 0);
-        newmon->melee_sides = jo.get_int("melee_dice_sides", 0);
-        newmon->melee_cut = jo.get_int("melee_cut", 0);
-        newmon->sk_dodge = jo.get_int("dodge", 0);
-        newmon->armor_bash = jo.get_int("armor_bash", 0);
-        newmon->armor_cut = jo.get_int("armor_cut", 0);
-        newmon->hp = jo.get_int("hp", 0);
-        jo.read("starting_ammo", newmon->starting_ammo);
-        newmon->luminance = jo.get_float("luminance", 0);
-        newmon->revert_to_itype = jo.get_string( "revert_to_itype", "" );
-        newmon->vision_day = jo.get_int("vision_day", 40);
-        newmon->vision_night = jo.get_int("vision_night", 1);
+    mandatory( jo, was_loaded, "color", color, color_reader{} );
+    const typed_flag_reader<decltype( Creature::size_map )> size_reader{ Creature::size_map, "invalid creature size" };
+    optional( jo, was_loaded, "size", size, size_reader, MS_MEDIUM );
+    const typed_flag_reader<decltype( gen.phase_map )> phase_reader{ gen.phase_map, "invalid phase id" };
+    optional( jo, was_loaded, "phase", phase, phase_reader, SOLID );
 
-        if (jo.has_array("attack_effs")) {
-            JsonArray jsarr = jo.get_array("attack_effs");
-            while (jsarr.has_more()) {
-                JsonObject e = jsarr.next_object();
-                mon_effect_data new_eff(e.get_string("id", "null"), e.get_int("duration", 0),
-                                    get_body_part_token( e.get_string("bp", "NUM_BP") ), e.get_bool("permanent", false),
-                                    e.get_int("chance", 100));
-                newmon->atk_effs.push_back(new_eff);
-            }
+    optional( jo, was_loaded, "diff", difficulty, 0 );
+    optional( jo, was_loaded, "aggression", agro, 0 );
+    optional( jo, was_loaded, "morale", morale, 0 );
+    optional( jo, was_loaded, "speed", speed, 0 );
+    optional( jo, was_loaded, "attack_cost", attack_cost, 100 );
+    optional( jo, was_loaded, "melee_skill", melee_skill, 0 );
+    optional( jo, was_loaded, "melee_dice", melee_dice, 0 );
+    optional( jo, was_loaded, "melee_dice_sides", melee_sides, 0 );
+    optional( jo, was_loaded, "melee_cut", melee_cut, 0 );
+    optional( jo, was_loaded, "dodge", sk_dodge, 0 );
+    optional( jo, was_loaded, "armor_bash", armor_bash, 0 );
+    optional( jo, was_loaded, "armor_cut", armor_cut, 0 );
+    optional( jo, was_loaded, "armor_acid", armor_acid, armor_cut / 2 );
+    optional( jo, was_loaded, "armor_fire", armor_fire, 0 );
+    optional( jo, was_loaded, "hp", hp, 0 );
+    optional( jo, was_loaded, "starting_ammo", starting_ammo, {} );
+    optional( jo, was_loaded, "luminance", luminance, 0 );
+    optional( jo, was_loaded, "revert_to_itype", revert_to_itype, "" );
+    optional( jo, was_loaded, "vision_day", vision_day, 40 );
+    optional( jo, was_loaded, "vision_night", vision_night, 1 );
+    optional( jo, was_loaded, "armor_stab", armor_stab, 0.8f * armor_cut );
+
+    // TODO: allow adding/removing specific entries if `was_loaded` is true
+    if( jo.has_array( "attack_effs" ) ) {
+        JsonArray jsarr = jo.get_array( "attack_effs" );
+        while( jsarr.has_more() ) {
+            JsonObject e = jsarr.next_object();
+            mon_effect_data new_eff( e.get_string( "id", "null" ), e.get_int( "duration", 0 ),
+                                     get_body_part_token( e.get_string( "bp", "NUM_BP" ) ), e.get_bool( "permanent", false ),
+                                     e.get_int( "chance", 100 ) );
+            atk_effs.push_back( new_eff );
+        }
+    }
+
+    if( jo.has_member( "death_drops" ) ) {
+        JsonIn &stream = *jo.get_raw( "death_drops" );
+        death_drops = item_group::load_item_group( stream, "distribution" );
+    }
+
+    const typed_flag_reader<decltype( gen.death_map )> death_reader{ gen.death_map, "invalid monster death function" };
+    optional( jo, was_loaded, "death_function", dies, death_reader, {} );
+    if( dies.empty() ) {
+        // TODO: really needed? Is an empty `dies` container not allowed?
+        dies.push_back( mdeath::normal );
+    }
+
+    // TODO: allow overriding/adding/removing those if `was_loaded` is true
+    gen.load_special_defense( this, jo, "special_when_hit" );
+    gen.load_special_attacks( this, jo, "special_attacks" );
+
+        // Disable upgrading when JSON contains `"upgrades": false`, but fallback to the
+        // normal behavior (including error checking) if "upgrades" is not boolean or not `false`.
+    if( jo.has_bool( "upgrades" ) && !jo.get_bool( "upgrades" ) ) {
+            upgrade_group = mongroup_id::NULL_ID;
+            upgrade_into = mtype_id::NULL_ID;
+            upgrades = false;
+    } else if( jo.has_member( "upgrades" ) ) {
+            JsonObject up = jo.get_object( "upgrades" );
+            optional( up, was_loaded, "half_life", half_life, -1 );
+            optional( up, was_loaded, "into_group", upgrade_group, auto_flags_reader<mongroup_id> {}, mongroup_id::NULL_ID );
+            optional( up, was_loaded, "into", upgrade_into, auto_flags_reader<mtype_id> {}, mtype_id::NULL_ID );
+            upgrades = true;
         }
 
-        if( jo.has_member( "death_drops" ) ) {
-            JsonIn& stream = *jo.get_raw( "death_drops" );
-            newmon->death_drops = item_group::load_item_group( stream, "distribution" );
-        }
+    const typed_flag_reader<decltype( gen.flag_map )> flag_reader{ gen.flag_map, "invalid monster flag" };
+    optional( jo, was_loaded, "flags", flags, flag_reader, {} );
 
-        newmon->dies = get_death_functions(jo, "death_function");
-        load_special_defense(newmon, jo, "special_when_hit");
-        load_special_attacks(newmon, jo, "special_attacks");
-
-        if (jo.has_member("upgrades")) {
-            JsonObject upgrades = jo.get_object("upgrades");
-            newmon->half_life = upgrades.get_int("half_life", -1);
-            newmon->upgrade_group = mongroup_id( upgrades.get_string("into_group", mongroup_id::NULL_ID.str() ) );
-            newmon->upgrade_into = mtype_id( upgrades.get_string("into", mtype_id::NULL_ID.str() ) );
-            newmon->upgrades = true;
-        }
-
-        std::set<std::string> flags, anger_trig, placate_trig, fear_trig;
-        flags = jo.get_tags("flags");
-        anger_trig = jo.get_tags("anger_triggers");
-        placate_trig = jo.get_tags("placate_triggers");
-        fear_trig = jo.get_tags("fear_triggers");
-
-        newmon->flags = get_set_from_tags(flags, flag_map, MF_NULL);
-        newmon->anger = get_set_from_tags(anger_trig, trigger_map, MTRIG_NULL);
-        newmon->fear = get_set_from_tags(fear_trig, trigger_map, MTRIG_NULL);
-        newmon->placate = get_set_from_tags(placate_trig, trigger_map, MTRIG_NULL);
-
-        mon_templates[mid] = newmon;
+    const typed_flag_reader<decltype( gen.trigger_map )> trigger_reader{ gen.trigger_map, "invalid monster trigger" };
+    optional( jo, was_loaded, "anger_triggers", anger, trigger_reader, {} );
+    optional( jo, was_loaded, "placate_triggers", placate, trigger_reader, {} );
+    optional( jo, was_loaded, "fear_triggers", fear, trigger_reader, {} );
 }
+
 void MonsterGenerator::load_species(JsonObject &jo)
 {
-    const species_id sid( jo.get_string( "id" ) );
-    if (mon_species.count(sid) > 0) {
-        delete mon_species[sid];
-    }
-
-    std::set<std::string> sflags, sanger, sfear, splacate;
-    sflags = jo.get_tags("flags");
-    sanger = jo.get_tags("anger_triggers");
-    sfear  = jo.get_tags("fear_triggers");
-    splacate = jo.get_tags("placate_triggers");
-
-    std::set<m_flag> flags = get_set_from_tags(sflags, flag_map, MF_NULL);
-    std::set<monster_trigger> anger, fear, placate;
-    anger = get_set_from_tags(sanger, trigger_map, MTRIG_NULL);
-    fear = get_set_from_tags(sfear, trigger_map, MTRIG_NULL);
-    placate = get_set_from_tags(splacate, trigger_map, MTRIG_NULL);
-
-    species_type *new_species = new species_type(sid, flags, anger, fear, placate);
-
-    mon_species[sid] = new_species;
+    mon_species->load( jo );
 }
 
-species_type &MonsterGenerator::get_species( const species_id &id )
+void species_type::load( JsonObject &jo )
 {
-    const auto iter = mon_species.find( id );
-    if( iter != mon_species.end() ) {
-        return *iter->second;
-    }
-    debugmsg( "Could not find species %s", id.c_str() );
-    return *mon_species[species_id::NULL_ID];
+    MonsterGenerator &gen = MonsterGenerator::generator();
+
+    const typed_flag_reader<decltype( gen.flag_map )> flag_reader{ gen.flag_map, "invalid monster flag" };
+    optional( jo, was_loaded, "flags", flags, flag_reader, {} );
+
+    const typed_flag_reader<decltype( gen.trigger_map )> trigger_reader{ gen.trigger_map, "invalid monster trigger" };
+    optional( jo, was_loaded, "anger_triggers", anger_trig, trigger_reader, {} );
+    optional( jo, was_loaded, "placate_triggers", placate_trig, trigger_reader, {} );
+    optional( jo, was_loaded, "fear_triggers", fear_trig, trigger_reader, {} );
 }
 
-mtype &MonsterGenerator::get_mtype( const mtype_id& id )
+std::vector<const mtype *> MonsterGenerator::get_all_mtypes() const
 {
-    // first do the look-up as it is most likely to succeed
-    const auto iter = mon_templates.find( id );
-    if( iter != mon_templates.end() ) {
-        return *iter->second;
-    }
-
-    // second most likely are outdated ids from old saves, this compares against strings, not
-    // mtype_ids because the old ids are not valid ids at all.
-    if( id.str() == "mon_zombie_fast" ) {
-        return get_mtype( mon_zombie_dog );
-    }
-    if( id.str() == "mon_fungaloid_dormant" ) {
-        return get_mtype( mon_fungaloid );
-    }
-
-    // this is most unlikely and therefor checked last.
-    debugmsg( "Could not find monster with type %s", id.c_str() );
-    return *mon_templates[mtype_id::NULL_ID];
-}
-
-bool MonsterGenerator::has_mtype( const mtype_id& mon ) const
-{
-    return mon_templates.count(mon) > 0;
-}
-
-bool MonsterGenerator::has_species( const species_id &species ) const
-{
-    return mon_species.count(species) > 0;
-}
-
-std::map<mtype_id, mtype *> MonsterGenerator::get_all_mtypes() const
-{
-    return mon_templates;
-}
-std::vector<mtype_id> MonsterGenerator::get_all_mtype_ids() const
-{
-    std::vector<mtype_id> hold;
-    for( const auto &elem : mon_templates ) {
-        hold.push_back( elem.first );
-    }
-    return hold;
+    return mon_templates->get_all();
 }
 
 mtype_id MonsterGenerator::get_valid_hallucination() const
 {
     std::vector<mtype_id> potentials;
-    for( auto &elem : mon_templates ) {
-        if( elem.first != NULL_ID && elem.first != mon_generator ) {
-            potentials.push_back( elem.first );
+    for( auto &elem : mon_templates->all_ref() ) {
+        const mtype &mon = elem.second;
+        if( mon.id != NULL_ID && mon.id != mon_generator ) {
+            potentials.push_back( mon.id );
         }
     }
 
@@ -611,23 +591,58 @@ std::vector<mon_action_death> MonsterGenerator::get_death_functions(JsonObject &
     return deaths;
 }
 
+template<typename mattack_actor_type>
+mtype_special_attack load_actor( JsonObject obj, int cooldown )
+{
+    std::unique_ptr<mattack_actor_type> actor( new mattack_actor_type() );
+    actor->load( obj );
+    return mtype_special_attack( actor.release(), cooldown );
+}
+
+void set_attack_from_object(
+    JsonObject obj,
+    std::map<std::string, mtype_special_attack> &special_attacks,
+    std::vector<std::string> &special_attacks_names )
+{
+    const std::string type = obj.get_string( "type" );
+    const int cooldown = obj.get_int( "cooldown" );
+
+    if( type == "leap" ) {
+        special_attacks[type] = load_actor<leap_actor>( obj, cooldown );
+    } else {
+        obj.throw_error( "unknown monster attack", "type" );
+        return;
+    }
+
+    special_attacks_names.push_back( type );
+}
+
 void MonsterGenerator::load_special_attacks(mtype *m, JsonObject &jo, std::string member) {
     m->special_attacks.clear(); // make sure we're running with everything cleared
 
-    if (jo.has_array(member)) {
-        JsonArray outer = jo.get_array(member);
-        while (outer.has_more()) {
+    if( !jo.has_array( member ) ) {
+        return;
+    }
+
+    JsonArray outer = jo.get_array(member);
+    while( outer.has_more() ) {
+        if( outer.test_array() ) {
             JsonArray inner = outer.next_array();
             const auto &aname = inner.get_string(0);
             if ( attack_map.find(aname) != attack_map.end() ) {
-                auto &entry = m->special_attacks[aname];
-                entry.attack = attack_map[aname];
-                entry.cooldown = inner.get_int(1);
+                auto new_entry = mtype_special_attack(
+                    attack_map[aname], inner.get_int(1) );
+                m->special_attacks[aname] = new_entry;
 
                 m->special_attacks_names.push_back(aname);
             } else {
                 inner.throw_error("Invalid special_attacks");
             }
+        } else if( outer.test_object() ) {
+            set_attack_from_object(
+                outer.next_object(), m->special_attacks, m->special_attacks_names );
+        } else {
+            outer.throw_error( "array element is neither array nor object." );
         }
     }
 }
@@ -681,8 +696,8 @@ T MonsterGenerator::get_from_string(std::string tag, std::map<std::string, T> co
 
 void MonsterGenerator::check_monster_definitions() const
 {
-    for( const auto &elem : mon_templates ) {
-        const mtype *mon = elem.second;
+    for( const auto &elem : mon_templates->all_ref() ) {
+        const mtype *mon = &elem.second;
         for( auto &spec : mon->species ) {
             if( !spec.is_valid() ) {
                 debugmsg("monster %s has invalid species %s", mon->id.c_str(), spec.c_str());
@@ -711,7 +726,7 @@ void MonsterGenerator::check_monster_definitions() const
             if( mon->upgrade_into && mon->upgrade_group ) {
                 debugmsg( "both into and into_group defined for monster %s", mon->id.c_str() );
             }
-            if( !has_mtype( mon->upgrade_into ) ) {
+            if( !mon->upgrade_into.is_valid() ) {
                 debugmsg( "upgrade_into %s of monster %s is not a valid monster id",
                            mon->upgrade_into.c_str(), mon->id.c_str() );
             }

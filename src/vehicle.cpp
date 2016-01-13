@@ -833,7 +833,7 @@ bool vehicle::interact_vehicle_locked()
         if( crafting_inv.has_items_with_quality( "SCREW", 1, 1 ) ) {
             if (query_yn(_("You don't find any keys in the %s. Attempt to hotwire vehicle?"),
                             name.c_str())) {
-
+                ///\EFFECT_MECHANICS speeds up vehicle hotwiring
                 int mechanics_skill = g->u.skillLevel( skill_mechanics );
                 int hotwire_time = 6000 / ((mechanics_skill > 0)? mechanics_skill : 1);
                 //assign long activity
@@ -873,6 +873,7 @@ void vehicle::smash_security_system(){
     }
     //controls and security must both be valid
     if (c >= 0 && s >= 0){
+        ///\EFFECT_MECHANICS reduces chance of damaging controls when smashing security system
         int skill = g->u.skillLevel( skill_mechanics );
         int percent_controls = 70 / (1 + skill);
         int percent_alarm = (skill+3) * 10;
@@ -1351,6 +1352,10 @@ void vehicle::use_controls(const tripoint &pos)
         plow_on = !plow_on;
         break;
     case toggle_planter:
+        if( !planter_on && !warm_enough_to_plant() ) {
+            add_msg( m_info, _( "It is too cold to plant anything now." ) );
+            break;
+        }
         add_msg(planter_on ? _("Planter system stopped"): _("Planter system started"));
         planter_on = !planter_on;
         break;
@@ -1672,6 +1677,7 @@ int vehicle::part_power(int const index, bool const at_full_hp) const
     if (part_info(index).fuel_type == fuel_type_muscle) {
         int pwr_factor = (part_flag(index, "MUSCLE_LEGS") ? 5 : 0) +
                          (part_flag(index, "MUSCLE_ARMS") ? 2 : 0);
+        ///\EFFECT_STR increases power produced for MUSCLE_* vehicles
         pwr += int(((g->u).str_cur - 8) * pwr_factor);
     }
 
@@ -3219,6 +3225,7 @@ int vehicle::acceleration(bool const fueled) const
     } else if ((has_engine_type(fuel_type_muscle, true))){
         //limit vehicle weight for muscle engines
         int mass = total_mass();
+        ///\EFFECT_STR caps vehicle weight for muscle engines
         int move_mass = std::max((g->u).str_cur * 25, 150);
         if (mass <= move_mass) {
             return (int) (safe_velocity (fueled) * k_mass() / (1 + strain ()) / 10);
@@ -3955,6 +3962,14 @@ void vehicle::idle(bool on_map) {
         engine_on = false;
     }
 
+    if( planter_on && !warm_enough_to_plant() ) {
+        if( g->u.sees( global_pos3() ) ) {
+            add_msg(_("The %s's planter turns off due to low temperature."), name.c_str());
+        }
+        planter_on = false;
+    }
+
+
     if (stereo_on) {
         play_music();
     }
@@ -4559,7 +4574,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
         ret.type = veh_coll_bashable;
         terrain_collision_data( p, bash_floor, mass2, part_dens, e );
         ret.target_name = g->m.disp_name( p );
-    } else if( g->m.move_cost_ter_furn( p ) == 0 ||
+    } else if( g->m.impassable_ter_furn( p ) ||
                ( bash_floor && !g->m.has_flag( TFLAG_NO_FLOOR, p ) ) ) {
         ret.type = veh_coll_other; // not destructible
         mass2 = 1000;
@@ -4667,7 +4682,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
                     smashed = false;
                     terrain_collision_data( p, bash_floor, mass2, part_dens, e );
                     ret.target_name = g->m.disp_name( p );
-                } else if( g->m.move_cost_ter_furn( p ) == 0 ) {
+                } else if( g->m.impassable_ter_furn( p ) ) {
                     // There's new terrain there, but we can't smash it!
                     smashed = false;
                     ret.type = veh_coll_other;
@@ -5803,7 +5818,7 @@ void vehicle::leak_fuel (int p)
         maxp.y += 2;
 
         for ( const tripoint &pt : g->m.points_in_rectangle(minp, maxp) ){
-            if (g->m.move_cost(pt) > 0 && one_in(2)) {
+            if (g->m.passable(pt) && one_in(2)) {
                 int leak_amount = rng(79, 121);
 
                 if (parts[p].amount < leak_amount) {
@@ -5937,7 +5952,7 @@ bool vehicle::aim_turrets()
         parts[turret_index].target.second = tpos;
     }
 
-    const tripoint &upos = g->u.pos3();
+    const tripoint &upos = g->u.pos();
     int range = 0;
     for( auto &bnd : bounds ) {
         int dist = rl_dist( upos, bnd );
@@ -5955,7 +5970,7 @@ bool vehicle::aim_turrets()
     tmpammo->range = range;
 
     target_mode tmode = TARGET_MODE_TURRET; // We can't aim here yet
-    tripoint player_pos = g->u.pos3();
+    tripoint player_pos = g->u.pos();
     auto trajectory = g->pl_target_ui( player_pos, range, &pointer, tmode );
     if( trajectory.empty() ) {
         add_msg( m_info, _("Clearing targets") );
@@ -5978,6 +5993,7 @@ bool vehicle::aim_turrets()
     }
 
     // Take at least a single whole turn to aim
+    ///\EFFECT_INT speeds up aiming of vehicle turrets
     g->u.moves = std::min( 0, g->u.moves - 100 + (5 * g->u.int_cur) );
     g->draw_ter();
     return true;
@@ -6002,6 +6018,7 @@ void vehicle::control_turrets() {
 
     while( true ) {
         pmenu.title = _("Cycle turret mode");
+        pmenu.return_invalid = true;
         pmenu.callback = &callback;
         // Regen menu entries
         for( int i = 0; i < (int)turrets.size(); i++ ) {
@@ -6386,7 +6403,7 @@ bool vehicle::automatic_fire_turret( int p, const itype &gun, const itype &ammo,
             return false;
         }
 
-        targ = auto_target->pos3();
+        targ = auto_target->pos();
     } else if( target.first != target.second ) {
         // Target set manually
         // Make sure we didn't move between aiming and firing (it's a bug if we did)
@@ -6454,7 +6471,7 @@ bool vehicle::manual_fire_turret( int p, player &shooter, const itype &guntype,
     const int range = shooter.weapon.gun_range( &shooter );
     auto mons = shooter.get_visible_creatures( range );
     constexpr target_mode tmode = TARGET_MODE_TURRET_MANUAL; // No aiming yet!
-    tripoint shooter_pos = shooter.pos3();
+    tripoint shooter_pos = shooter.pos();
     auto trajectory = g->pl_target_ui( shooter_pos, range, &shooter.weapon, tmode );
     shooter.recoil = abs(velocity) / 100 / 4;
     if( !trajectory.empty() ) {

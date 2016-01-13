@@ -22,6 +22,7 @@
 #include "field.h"
 #include "weather_gen.h"
 #include "weather.h"
+#include "cata_utility.h"
 
 #include <math.h>    //sqrt
 #include <algorithm> //std::min
@@ -781,8 +782,11 @@ bool player::activate_bionic(int b, bool eff_only)
         if (has_effect("hallu") || has_effect("visuals")) {
             bad.push_back(_("Hallucinations"));
         }
+        if (has_effect("pblue")) {
+            good.push_back(_("Prussian Blue"));
+        }
         if (has_effect("iodine")) {
-            good.push_back(_("Iodine"));
+            good.push_back(_("Potassium Iodide"));
         }
         if (has_effect("datura")) {
             good.push_back(_("Anticholinergic Tropane Alkaloids"));
@@ -848,6 +852,7 @@ bool player::activate_bionic(int b, bool eff_only)
         remove_effect("high");
         remove_effect("hallu");
         remove_effect("visuals");
+        remove_effect("pblue");
         remove_effect("iodine");
         remove_effect("datura");
         remove_effect("took_xanax");
@@ -964,7 +969,7 @@ bool player::activate_bionic(int b, bool eff_only)
         for (int i = posx() - 10; i <= posx() + 10; i++) {
             for (int j = posy() - 10; j <= posy() + 10; j++) {
                 if (g->m.i_at(i, j).size() > 0) {
-                    traj = g->m.find_clear_path( {i, j, posz()}, pos3() );
+                    traj = g->m.find_clear_path( {i, j, posz()}, pos() );
                 }
                 traj.insert(traj.begin(), {i, j, posz()});
                 if( g->m.has_flag( "SEALED", i, j ) ) {
@@ -983,16 +988,16 @@ bool player::activate_bionic(int b, bool eff_only)
                                 g->zombie(index).check_dead_state();
                                 g->m.add_item_or_charges(it->x, it->y, tmp_item);
                                 break;
-                            } else if (g->m.move_cost(it->x, it->y) == 0) {
+                            } else if (g->m.impassable(it->x, it->y)) {
                                 if (it != traj.begin()) {
                                     g->m.bash( tripoint( it->x, it->y, posz() ), tmp_item.weight() / 225 );
-                                    if (g->m.move_cost(it->x, it->y) == 0) {
+                                    if (g->m.impassable(it->x, it->y)) {
                                         g->m.add_item_or_charges((it - 1)->x, (it - 1)->y, tmp_item);
                                         break;
                                     }
                                 } else {
                                     g->m.bash( *it, tmp_item.weight() / 225 );
-                                    if (g->m.move_cost(it->x, it->y) == 0) {
+                                    if (g->m.impassable(it->x, it->y)) {
                                         break;
                                     }
                                 }
@@ -1019,9 +1024,9 @@ bool player::activate_bionic(int b, bool eff_only)
             // TODO: damage the player / their bionics
         }
     } else if(bio.id == "bio_flashbang") {
-        g->flashbang( pos3(), true);
+        g->flashbang( pos(), true);
     } else if(bio.id == "bio_shockwave") {
-        g->shockwave( pos3(), 3, 4, 2, 8, true );
+        g->shockwave( pos(), 3, 4, 2, 8, true );
         add_msg_if_player(m_neutral, _("You unleash a powerful shockwave!"));
     } else if(bio.id == "bio_meteorologist") {
         // Calculate local wind power
@@ -1033,13 +1038,24 @@ bool player::activate_bionic(int b, bool eff_only)
         }
         const oter_id &cur_om_ter = overmap_buffer.ter( global_omt_location() );
         std::string omtername = otermap[cur_om_ter].name;
-        int windpower = get_local_windpower(weatherPoint.windpower + vehwindspeed, omtername, g->is_sheltered(g->u.pos()));
-
-        add_msg_if_player(m_info, _("Temperature: %s."), print_temperature(g->get_temperature()).c_str());
-        add_msg_if_player(m_info, _("Relative Humidity: %s."), print_humidity(get_local_humidity(weatherPoint.humidity, g->weather, g->is_sheltered(g->u.pos()))).c_str());
-        add_msg_if_player(m_info, _("Pressure: %s."), print_pressure((int)weatherPoint.pressure).c_str());
-        add_msg_if_player(m_info, _("Wind Speed: %s."), print_windspeed((float)windpower).c_str());
-        add_msg_if_player(m_info, _("Feels Like: %s."), print_temperature(get_local_windchill(weatherPoint.temperature, weatherPoint.humidity, windpower) + g->get_temperature()).c_str());
+        /* windpower defined in internal velocity units (=.01 mph) */
+        double windpower = 100.0f * get_local_windpower( weatherPoint.windpower + vehwindspeed,
+                                                         omtername, g->is_sheltered( g->u.pos() ) );
+        add_msg_if_player( m_info, _( "Temperature: %s." ),
+                           print_temperature( g->get_temperature() ).c_str() );
+        add_msg_if_player( m_info, _( "Relative Humidity: %s." ),
+                           print_humidity(
+                               get_local_humidity( weatherPoint.humidity, g->weather,
+                                                   g->is_sheltered( g->u.pos() ) ) ).c_str() );
+        add_msg_if_player( m_info, _( "Pressure: %s."),
+                           print_pressure( (int)weatherPoint.pressure ).c_str() );
+        add_msg_if_player( m_info, _( "Wind Speed: %.1f %s." ),
+                           convert_velocity( int( windpower ), VU_WIND ),
+                           velocity_units( VU_WIND ) );
+        add_msg_if_player( m_info, _( "Feels Like: %s." ),
+                           print_temperature(
+                               get_local_windchill( weatherPoint.temperature, weatherPoint.humidity,
+                                                    windpower ) + g->get_temperature() ).c_str() );
     } else if(bio.id == "bio_claws") {
         if (weapon.has_flag ("NO_UNWIELD")) {
             add_msg(m_info, _("Deactivate your %s first!"),
@@ -1323,6 +1339,16 @@ bool player::uninstall_bionic(std::string const &b_id, int skill_level)
         return false;
     }
 
+	if( b_id == "bio_eye_optic" ) {
+        popup(_("The Telescopic Lenses are part of your eyes now.  Removing them would leave you blind.") );
+        return false;
+    }
+
+	if( b_id == "bio_blindfold" ) {
+        popup(_("You must remove the Anti-glare Compensators bionic to remove the Optical Dampers.") );
+        return false;
+    }
+
     // removal of bionics adds +2 difficulty over installation
     int chance_of_success;
     if (skill_level != -1){
@@ -1332,7 +1358,7 @@ bool player::uninstall_bionic(std::string const &b_id, int skill_level)
                                 skill_level,
                                 difficulty + 2);
     } else {
-        ///\xrefitem Stat_Effects_Intelligence "" "" Intelligence increases chance of success removing bionics with unspecified skill level
+        ///\EFFECT_INT increases chance of success removing bionics with unspecified skil level
         chance_of_success = bionic_manip_cos(int_cur,
                                 skillLevel( skilll_electronics ),
                                 skillLevel( skilll_firstaid ),
@@ -1444,7 +1470,7 @@ bool player::install_bionics(const itype &type, int skill_level)
                                 skill_level,
                                 difficult);
     } else {
-        ///\xrefitem Stat_Effects_Intelligence "" "" Intelligence increases chance of success installing bionics with unspecified skill level
+        ///\EFFECT_INT increases chance of success installing bionics with unspecified skill level
         chance_of_success = bionic_manip_cos(int_cur,
                                 skillLevel( skilll_electronics ),
                                 skillLevel( skilll_firstaid ),
@@ -1470,16 +1496,23 @@ bool player::install_bionics(const itype &type, int skill_level)
         add_msg(m_good, _("Successfully installed %s."), bionics[bioid].name.c_str());
         add_bionic(bioid);
 
-        if (bioid == "bio_ears") {
-            add_bionic("bio_earplugs"); // automatically add the earplugs, they're part of the same bionic
-        } else if (bioid == "bio_reactor_upgrade") {
-            remove_bionic("bio_reactor");
-            remove_bionic("bio_reactor_upgrade");
-            add_bionic("bio_advreactor");
-        } else if (bioid == "bio_reactor" || bioid == "bio_advreactor") {
-            add_bionic("bio_plutdump");
+        if( bioid == "bio_eye_optic" && has_trait( "HYPEROPIC" ) ) {
+            remove_mutation( "HYPEROPIC" );
         }
-    } else {
+        if( bioid == "bio_eye_optic" && has_trait( "MYOPIC" ) ) {
+            remove_mutation( "MYOPIC" );
+        } else if( bioid == "bio_ears" ) {
+            add_bionic( "bio_earplugs" ); // automatically add the earplugs, they're part of the same bionic
+        } else if( bioid == "bio_sunglasses" ) {
+			add_bionic( "bio_blindfold" ); // automatically add the Optical Dampers, they're part of the same bionic
+        } else if( bioid == "bio_reactor_upgrade" ) {
+            remove_bionic( "bio_reactor" );
+            remove_bionic( "bio_reactor_upgrade" );
+            add_bionic( "bio_advreactor" );
+        } else if( bioid == "bio_reactor" || bioid == "bio_advreactor" ) {
+            add_bionic( "bio_plutdump" );
+        }
+    } else{
         add_memorial_log(pgettext("memorial_male", "Installed bionic: %s."),
                          pgettext("memorial_female", "Installed bionic: %s."),
                          bionics[bioid].name.c_str());
@@ -1497,7 +1530,7 @@ void bionics_install_failure(player *u, int difficulty, int success)
 
     // it would be better for code reuse just to pass in skill as an argument from install_bionic
     // pl_skill should be calculated the same as in install_bionics
-    ///\xrefitem Stat_Effects_Intelligence "" "" Intelligence randomly decreases severity of bionics installation failure
+    ///\EFFECT_INT randomly decreases severity of bionics installation failure
     int pl_skill = u->int_cur * 4 +
                    u->skillLevel( skilll_electronics ) * 4 +
                    u->skillLevel( skilll_firstaid )    * 3 +
@@ -1652,11 +1685,14 @@ void player::remove_bionic(std::string const &b) {
             continue;
         }
 
-        // Ears and earplugs go together like peanut butter and jelly.
+        // Ears and earplugs and sunglasses and blindfold go together like peanut butter and jelly.
         // Therefore, removing one, should remove the other.
         if ((b == "bio_ears" && i.id == "bio_earplugs") ||
             (b == "bio_earplugs" && i.id == "bio_ears")) {
             continue;
+        } else if ((b == "bio_sunglasses" && i.id == "bio_blindfold") ||
+		           (b == "bio_blindfold" && i.id == "bio_sunglasses")) {
+				   continue;
         }
 
         new_my_bionics.push_back(bionic(i.id, i.invlet));

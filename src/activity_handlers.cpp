@@ -20,6 +20,7 @@
 #include "mtype.h"
 #include "field.h"
 #include "weather.h"
+#include "ui.h"
 
 #include <math.h>
 #include <sstream>
@@ -194,11 +195,11 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
 
     auto roll_butchery = [&] () {
         double skill_shift = 0.0;
-        ///\xrefitem Skill_Effects_Survival "" "" Survival above 3 randomly increases Butcher rolls, below 3 decreases
+        ///\EFFECT_SURVIVAL randomly increases butcher rolls, slightly
         skill_shift += rng_float( 0, skill_level - 3 );
-        ///\xrefitem Stat_Effects_Dexterity "" "" Dexterity above 8 randomly increases Butcher rolls, slightly, below 8 decreases
+        ///\EFFECT_DEX >8 randomly increases butcher rolls, slightly, <8 decreases
         skill_shift += rng_float( 0, p->dex_cur - 8 ) / 4.0;
-        ///\xrefitem Stat_Effects_Strength "" "" Strength below 4 randomly decreases Butcher rolls, slightly
+        ///\EFFECT_STR >4 randomly increases butcher rolls, <4 decreases
         if( p->str_cur < 4 ) {
             skill_shift -= rng_float( 0, 5 * ( 4 - p->str_cur ) ) / 4.0;
         }
@@ -275,7 +276,9 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
          corpse->has_flag(MF_CHITIN)) && skins > 0 ) {
         add_msg(m_good, _("You manage to skin the %s!"), corpse->nname().c_str());
         int fur = 0;
+        int tainted_fur = 0;
         int leather = 0;
+        int tainted_leather = 0;
         int human_leather = 0;
         int chitin = 0;
 
@@ -286,12 +289,20 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
                 skins = std::max(skins, 0);
             }
             if( corpse->has_flag(MF_FUR) ) {
-                fur = rng(0, skins);
-                skins -= fur;
+                if( corpse->has_flag(MF_POISON) ) {
+                    tainted_fur = rng(0, skins);
+                    skins -= tainted_fur;
+                } else {
+                    fur = rng(0, skins);
+                    skins -= fur;
+                }
                 skins = std::max(skins, 0);
             }
             if( corpse->has_flag(MF_LEATHER) ) {
-                if( corpse->has_flag(MF_HUMAN) ) {
+                if( corpse->has_flag(MF_POISON) ) {
+                    tainted_leather = rng(0, skins);
+                    skins -= tainted_leather;
+                } else if( corpse->has_flag(MF_HUMAN) ) {
                     human_leather = rng(0, skins);
                     skins -= human_leather;
                 } else {
@@ -308,11 +319,17 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         if( fur > 0 ) {
             g->m.spawn_item(p->pos(), "raw_fur", fur, 0, age);
         }
+        if( tainted_fur > 0 ) {
+            g->m.spawn_item(p->pos(), "raw_tainted_fur", fur, 0, age);
+        }
         if( leather > 0 ) {
             g->m.spawn_item(p->pos(), "raw_leather", leather, 0, age);
         }
-        if( human_leather ) {
+        if( human_leather > 0 ) {
             g->m.spawn_item(p->pos(), "raw_hleather", leather, 0, age);
+        }
+        if( tainted_leather > 0 ) {
+            g->m.spawn_item(p->pos(), "raw_tainted_leather", leather, 0, age);
         }
     }
 
@@ -440,10 +457,29 @@ void activity_handlers::pickup_finish(player_activity *act, player *p)
 
 void activity_handlers::firstaid_finish( player_activity *act, player *p )
 {
-    item &it = p->i_at(act->position);
-    iuse tmp;
-    tmp.completefirstaid( p, &it, false, p->pos() );
-    p->reduce_charges(act->position, 1);
+    static const std::string iuse_name_string( "heal" );
+
+    item &it = p->i_at( act->position );
+    item *used_tool = it.get_usable_item( iuse_name_string );
+    if( used_tool == nullptr ) {
+        debugmsg( "Lost tool used for healing" );
+        act->type = ACT_NULL;
+        return;
+    }
+
+    const auto use_fun = used_tool->get_use( iuse_name_string );
+    const auto *actor = dynamic_cast<const heal_actor *>( use_fun->get_actor_ptr() );
+    if( actor == nullptr ) {
+        debugmsg( "iuse_actor type descriptor and actual type mismatch" );
+        act->type = ACT_NULL;
+        return;
+    }
+
+    // TODO: Store the patient somehow, retrieve here
+    player &patient = *p;
+    hp_part healed = (hp_part)act->values[0];
+    long charges_consumed = actor->finish_using( *p, patient, *used_tool, healed );
+    p->reduce_charges( act->position, charges_consumed );
     // Erase activity and values.
     act->type = ACT_NULL;
     act->values.clear();
@@ -452,7 +488,7 @@ void activity_handlers::firstaid_finish( player_activity *act, player *p )
 // fish-with-rod fish catching function.
 static void rod_fish( player *p, int sSkillLevel, int fishChance )
 {
-    if( sSkillLevel > fishChance ) {
+   if( sSkillLevel > fishChance ) {
         std::vector<monster *> fishables = g->get_fishable(60); //get the nearby fish list.
         //if the vector is empty (no fish around) the player is still given a small chance to get a (let us say it was hidden) fish
         if( fishables.size() < 1 ) {
@@ -488,6 +524,7 @@ void activity_handlers::fish_finish( player_activity *act, player *p )
         sSkillLevel = p->skillLevel( skill_survival ) * 1.5 + dice(1, 6) + 3;
         fishChance = dice(1, 20);
     }
+    ///\EFFECT_SURVIVAL increases chance of fishing success
     rod_fish( p, sSkillLevel, fishChance );
     p->practice( skill_survival, rng(5, 15) );
     act->type = ACT_NULL;
@@ -523,6 +560,9 @@ void activity_handlers::forage_finish( player_activity *act, player *p )
 
     // Survival gives a bigger boost, and Peception is leveled a bit.
     // Both survival and perception affect time to forage
+    ///\EFFECT_SURVIVAL increases forage success chance
+
+    ///\EFFECT_PER slightly increases forage success chance
     if( veggy_chance < p->skillLevel( skill_survival ) * 3 + p->per_cur - 2 ) {
         const auto dropped = g->m.put_items_from_loc( loc, p->pos(), calendar::turn );
         for( const auto &it : dropped ) {
@@ -543,9 +583,9 @@ void activity_handlers::forage_finish( player_activity *act, player *p )
         add_msg(_("You didn't find anything."));
     }
 
-    ///\xrefitem Stat_Effects_Intelligence "" "" Intelligence caps survival skill gains from foraging
-    // Intelligence limits the forage exp gain
+    ///\EFFECT_INT Intelligence caps survival skill gains from foraging
     const int max_forage_skill = p->int_cur / 3 + 1;
+    ///\EFFECT_SURVIVAL decreases survival skill gain from foraging (NEGATIVE)
     const int max_exp = 2 * ( max_forage_skill - p->skillLevel( skill_survival ) );
     // Award experience for foraging attempt regardless of success
     p->practice( skill_survival, rng(1, max_exp), max_forage_skill );
@@ -782,10 +822,10 @@ void activity_handlers::pulp_do_turn( player_activity *act, player *p )
     if( p->weapon.has_flag("STAB") || p->weapon.has_flag("SPEAR") ) {
         cut_power /= 2;
     }
-    ///\xrefitem Stat_Effects_Strength "" "" Strength increases pulping power, with diminishing returns
+    ///\EFFECT_STR increases pulping power, with diminishing returns
     double pulp_power = sqrt((double)(p->str_cur + p->weapon.type->melee_dam)) *
         std::min(1.0, sqrt((double)(cut_power + 1)));
-    ///\xrefitem Stat_Effects_Strength "" "" Strength caps pulping power
+    ///\EFFECT_STR caps pulping power
     pulp_power = std::min(pulp_power, (double)p->str_cur);
     pulp_power *= 20; // constant multiplier to get the chance right
     int moves = 0;
@@ -1282,6 +1322,173 @@ void activity_handlers::open_gate_finish( player_activity *act, player *p )
     } else {
         p->add_msg_if_player(_("Nothing happens."));
     }
+}
+
+enum repeat_type : int {
+    REPEAT_ONCE = 0,    // Repeat just once
+    REPEAT_FOREVER,     // Repeat for as long as possible
+    REPEAT_FULL,        // Repeat until damage==0
+    REPEAT_EVENT,       // Repeat until something interesting happens
+    REPEAT_CANCEL       // Stop repeating
+};
+
+repeat_type repeat_menu( repeat_type last_selection )
+{
+    uimenu rmenu;
+    rmenu.text = _("Repeat repairing?");
+    rmenu.addentry( REPEAT_ONCE, true, '1', _("Repeat once") );
+    rmenu.addentry( REPEAT_FOREVER, true, '2', _("Repeat as long as you can") );
+    rmenu.addentry( REPEAT_FULL, true, '3', _("Repeat until fully repaired, but don't reinforce") );
+    rmenu.addentry( REPEAT_EVENT, true, '4', _("Repeat until success/failure/level up") );
+    rmenu.addentry( REPEAT_CANCEL, true, 'q', _("Cancel") );
+    rmenu.selected = last_selection;
+
+    rmenu.query();
+    if( rmenu.ret >= REPEAT_ONCE && rmenu.ret <= REPEAT_EVENT ) {
+        return (repeat_type)rmenu.ret;
+    }
+
+    return REPEAT_CANCEL;
+}
+
+// This is a part of a hack to provide pseudo items for long repair activity
+// Note: similar hack could be used to implement all sorts of vehicle pseudo-items
+//  and possibly CBM pseudo-items too.
+struct weldrig_hack {
+    vehicle *veh;
+    int part;
+    item pseudo;
+
+    weldrig_hack()
+        : veh( nullptr )
+        , part( -1 )
+        , pseudo( "welder", calendar::turn )
+    { }
+
+    bool init( const player_activity &act )
+    {
+        if( act.coords.empty() || act.values.size() < 2 ) {
+            return false;
+        }
+
+        part = act.values[1];
+        veh = g->m.veh_at( act.coords[0] );
+        if( veh == nullptr || veh->parts.size() <= (size_t)part ) {
+            part = -1;
+            return false;
+        }
+
+        part = veh->part_with_feature( part, "WELDRIG" );
+        return part >= 0;
+    }
+
+    item &get_item()
+    {
+        if( veh != nullptr && part >= 0 ) {
+            pseudo.charges = veh->drain( "battery", 1000 - pseudo.charges );
+            return pseudo;
+        }
+
+        static item nulitem;
+        // null item should be handled just fine
+        return nulitem;
+    }
+
+    void clean_up()
+    {
+        // Return unused charges
+        if( veh == nullptr || part < 0 ) {
+            return;
+        }
+
+        veh->refill( "battery", pseudo.charges );
+        pseudo.charges = 0;
+    }
+};
+
+void activity_handlers::repair_item_finish( player_activity *act, player *p )
+{
+    const std::string iuse_name_string = act->get_str_value( 0, "repair_item" );
+    const repeat_type repeat = (repeat_type)act->get_value( 0, REPEAT_ONCE );
+    weldrig_hack w_hack;
+    item &main_tool = !w_hack.init( *act ) ?
+        p->i_at( act->index ) :
+        w_hack.get_item();
+
+    item *used_tool = main_tool.get_usable_item( iuse_name_string );
+    if( used_tool == nullptr ) {
+        debugmsg( "Lost tool used for long repair" );
+        act->type = ACT_NULL;
+        return;
+    }
+
+    const auto use_fun = used_tool->get_use( iuse_name_string );
+    // TODO: De-uglify this block. Something like get_use<iuse_actor_type>() maybe?
+    const auto *actor = dynamic_cast<const repair_item_actor *>( use_fun->get_actor_ptr() );
+    if( actor == nullptr ) {
+        debugmsg( "iuse_actor type descriptor and actual type mismatch" );
+        act->type = ACT_NULL;
+        return;
+    }
+
+    // TODO: Allow setting this in the actor
+    // TODO: Don't use charges_to_use: welder has 50 charges per use, soldering iron has 1
+    const int charges_to_use = used_tool->type->charges_to_use();
+    if( used_tool->charges < charges_to_use ) {
+        p->add_msg_if_player( _("Your %s ran out of charges"), used_tool->tname().c_str() );
+        act->type = ACT_NULL;
+        return;
+    }
+
+    item &fix = p->i_at( act->position );
+
+    // Remember our level: we want to stop retrying on level up
+    const int old_level = p->get_skill_level( actor->used_skill );
+    const auto attempt = actor->repair( *p, *used_tool, fix );
+    if( attempt != repair_item_actor::AS_CANT ) {
+        p->consume_charges( used_tool, charges_to_use );
+    }
+
+    // Print message explaining why we stopped
+    // But only if we didn't destroy the item (because then it's obvious)
+    const bool destroyed = attempt == repair_item_actor::AS_DESTROYED;
+    if( attempt == repair_item_actor::AS_CANT ||
+        destroyed ||
+        !actor->can_repair( *p, *used_tool, fix, !destroyed ) ) {
+        // Can't repeat any more
+        act->type = ACT_NULL;
+        w_hack.clean_up();
+        return;
+    }
+
+    w_hack.clean_up();
+
+    const bool event_happened =
+        attempt == repair_item_actor::AS_FAILURE ||
+        attempt == repair_item_actor::AS_SUCCESS ||
+        old_level != p->get_skill_level( actor->used_skill );
+    const bool need_input =
+        repeat == REPEAT_ONCE ||
+        (repeat == REPEAT_EVENT && event_happened) ||
+        (repeat == REPEAT_FULL && fix.damage <= 0);
+
+    if( need_input ) {
+        g->draw();
+        repeat_type answer = repeat_menu( repeat );
+        if( answer == REPEAT_CANCEL ) {
+            act->type = ACT_NULL;
+            return;
+        }
+
+        if( act->values.empty() ) {
+            act->values.resize( 1 );
+        }
+
+        act->values[0] = (int)answer;
+    }
+
+    // Otherwise keep retrying
+    act->moves_left = actor->move_cost;
 }
 
 

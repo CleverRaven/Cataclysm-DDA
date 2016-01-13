@@ -59,12 +59,15 @@ cata_tiles *tilecontext;
 static unsigned long lastupdate = 0;
 static unsigned long interval = 25;
 static bool needupdate = false;
+extern bool tile_iso;
 
 #ifdef SDL_SOUND
 /** The music we're currently playing. */
 Mix_Music *current_music = NULL;
 std::string current_playlist = "";
 size_t current_playlist_at = 0;
+size_t absolute_playlist_at = 0;
+std::vector<std::size_t> playlist_indexes;
 
 struct sound_effect {
     int volume;
@@ -1759,14 +1762,13 @@ bool input_context::get_coordinates(WINDOW* capture_win, int& x, int& y) {
         return false;
     }
 
-    if (tilecontext->tile_iso) {
-        const int selected_column = (coordinate_x - win_left)/fw - (coordinate_y - win_top - fh - (capture_win->height * fh)/2)/(fw/2);
-        const int selected_row = (coordinate_x - win_left)/fw + (coordinate_y - win_top - fh - (capture_win->height * fh)/2)/(fw/2);
-        // add_msg( m_info, "c %d r %d", selected_column, selected_row );
-        x = g->ter_view_x - ((capture_win->width / 2) - selected_column);
-        y = g->ter_view_y - ((capture_win->height / 2) - selected_row);
-        // add_msg( m_info, "gtvx %d gtvy %d x %d y %d", g->ter_view_x, g->ter_view_y, x, y );
-
+    if ( tile_iso && use_tiles ) {
+        const int screen_column = round( (float) ( coordinate_x - win_left - (( win_right - win_left ) / 2 + win_left ) ) / ( fw / 2 ) );
+        const int screen_row = round( (float) ( coordinate_y - win_top - ( win_bottom - win_top ) / 2 + win_top ) / ( fw / 4 ) );
+        const int selected_x = ( screen_column - screen_row ) / 2;
+        const int selected_y = ( screen_row + screen_column ) / 2;
+        x = g->ter_view_x + selected_x;
+        y = g->ter_view_y + selected_y;
     } else {
         const int selected_column = (coordinate_x - win_left) / fw;
         const int selected_row = (coordinate_y - win_top) / fh;
@@ -2041,12 +2043,14 @@ void musicFinished() {
     }
 
     // Load the next file to play.
-    current_playlist_at++;
+    absolute_playlist_at++;
 
     // Wrap around if we reached the end of the playlist.
-    if( current_playlist_at >= list.entries.size() ) {
-        current_playlist_at = 0;
+    if( absolute_playlist_at >= list.entries.size() ) {
+        absolute_playlist_at = 0;
     }
+
+    current_playlist_at = playlist_indexes.at( absolute_playlist_at );
 
     const auto &next = list.entries[current_playlist_at];
     play_music_file( next.file, next.volume );
@@ -2069,10 +2073,17 @@ void play_music(std::string playlist) {
         return;
     }
 
-    current_playlist = playlist;
-    current_playlist_at = 0;
+    for( size_t i = 0; i < list.entries.size(); i++ ) {
+        playlist_indexes.push_back( i );
+    }
+    if( list.shuffle ) {
+        std::random_shuffle( playlist_indexes.begin(), playlist_indexes.end() );
+    }
 
-    const auto &next = list.entries[0];
+    current_playlist = playlist;
+    current_playlist_at = playlist_indexes.at( absolute_playlist_at );
+
+    const auto &next = list.entries[current_playlist_at];
     play_music_file( next.file, next.volume );
 #else
     (void)playlist;

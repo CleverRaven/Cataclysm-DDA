@@ -10,7 +10,8 @@
                 "bio_torsionratchet",
                 "bio_power_storage",
                 "bio_tools",
-                "bio_sunglasses"
+                "bio_sunglasses",
+                "bio_blindfold"
             ],
             "skills": [
                 {
@@ -1288,6 +1289,41 @@
                 "jacket_flannel",
                 "compbow",
                 "arrow_cf",
+                "knife_hunting",
+                "hat_hunting",
+                "quiver"
+            ],
+            "male": [
+                "boxer_shorts"
+            ],
+            "female": [
+                "sports_bra",
+                "boxer_shorts"
+            ]
+        }
+    },
+    {
+        "type": "profession",
+        "ident": "crossbow_hunter",
+        "name": "Crossbow Hunter",
+        "description": "Ever since you were a child you loved hunting, and you soon took a liking to the challenge of hunting with a crossbow.  Why, if the world ended there's nothing you'd want at your side more than your trusty crossbow.  So when it did, you made sure to bring it along.",
+        "points": 2,
+        "skills": [
+            {
+                "level": 2,
+                "name": "archery"
+            }
+        ],
+        "items": {
+            "both": [
+                "army_top",
+                "knit_scarf",
+                "socks",
+                "boots_steel",
+                "pants_cargo",
+                "jacket_flannel",
+                "crossbow",
+                "bolt_metal",
                 "knife_hunting",
                 "hat_hunting",
                 "quiver"
@@ -2739,6 +2775,38 @@
     },
     {
         "type": "profession",
+        "ident": "burglar",
+        "name": "Burglar",
+        "description": "You thought this would your lucky break.  Does it count as breaking and entering if everyone in town is undead?",
+        "points": 3,
+        "//" : "A ski mask would fit the stereotype better, but wool allergy breaks this.",
+        "items": {
+            "both": [
+                "socks",
+                "sneakers",
+                "pants",
+                "striped_shirt",
+                "hoodie",
+                "gloves_light",
+                "balclava",
+                "swag_bag",
+                "crowbar",
+                "hacksaw",
+                "boltcutters",
+                "stethoscope",
+                "picklocks"
+            ],
+            "male": [
+                "briefs"
+            ],
+            "female": [
+                "bra",
+                "panties"
+            ]
+        }
+    },
+    {
+        "type": "profession",
         "ident": "razorgirl",
         "name": {
             "male": "Razor Boy",
@@ -2750,6 +2818,7 @@
             "bio_razors",
             "bio_armor_eyes",
             "bio_sunglasses",
+            "bio_blindfold",
             "bio_dex_enhancer",
             "bio_ears",
             "bio_earplugs",
@@ -4457,7 +4526,7 @@
         "points": 3,
         "traits": [
             "PARKOUR"
-        ],	
+        ],
         "skills": [
             {
                 "level": 4,
@@ -4479,7 +4548,6 @@
             "female": [
                 "sports_bra",
                 "boy_shorts"
-
             ]
         }
     }

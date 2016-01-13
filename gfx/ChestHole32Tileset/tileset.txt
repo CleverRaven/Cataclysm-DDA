@@ -1,5 +1,6 @@
 #Generated from project in Cataclysm DDA Tileset Studio
-#By Sean "Chezzo" Osman
+#By Sean "Chezzo" Osman and Voddweller
+#Various rpgxp template based free tile resource used as base, some original tiles were redrawn. Will add more info over time.
 #With contributions from Lukas Courtial "Zava"
 #Based on the Fatdog tileset by Daftigod, Pixelhack (http://pixelhack.blogspot.com/) by Mindflayer, The Absurd Tileset by John Shaw, and MShock24 by mshock, egomassive and Arex.
 #MShock24 is based on Coleen's Tileset (by Coleen, Waldo, Tsu, Sir Hoder)

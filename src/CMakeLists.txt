@@ -132,6 +132,7 @@ SET(CATACLYSM_DDA_SOURCES
     ${CMAKE_SOURCE_DIR}/src/clzones.cpp
     ${CMAKE_SOURCE_DIR}/src/character.cpp
     ${CMAKE_SOURCE_DIR}/src/live_view.cpp
+	${CMAKE_SOURCE_DIR}/src/lua_console.cpp
     ${CMAKE_SOURCE_DIR}/src/iexamine.cpp
     ${CMAKE_SOURCE_DIR}/src/gamemode.cpp
     ${CMAKE_SOURCE_DIR}/src/creature.cpp
@@ -229,6 +230,7 @@ SET (CATACLYSM_DDA_HEADERS
     ${CMAKE_SOURCE_DIR}/src/veh_interact.h
     ${CMAKE_SOURCE_DIR}/src/morale.h
     ${CMAKE_SOURCE_DIR}/src/game.h
+    ${CMAKE_SOURCE_DIR}/src/generic_factory.h
     ${CMAKE_SOURCE_DIR}/src/help.h
     ${CMAKE_SOURCE_DIR}/src/lightmap.h
     ${CMAKE_SOURCE_DIR}/src/mutation.h
@@ -243,6 +245,7 @@ SET (CATACLYSM_DDA_HEADERS
     ${CMAKE_SOURCE_DIR}/src/line.h
     ${CMAKE_SOURCE_DIR}/src/mtype.h
     ${CMAKE_SOURCE_DIR}/src/live_view.h
+	${CMAKE_SOURCE_DIR}/src/lua_console.h
     ${CMAKE_SOURCE_DIR}/src/character.h
     ${CMAKE_SOURCE_DIR}/src/name.h
     ${CMAKE_SOURCE_DIR}/src/tile_id_data.h

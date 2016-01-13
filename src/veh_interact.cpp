@@ -458,6 +458,7 @@ task_reason veh_interact::cant_do (char mode)
         break;
     case 'c': // change tire
         valid_target = wheel != NULL;
+        ///\EFFECT_STR allows changing tires on heavier vehicles without a jack
         has_str = g->u.get_str() >= int(veh->total_mass() / TIRE_CHANGE_STR_MOD);
         has_tools = has_wrench && (has_jack || has_str) && has_wheel;
         break;
@@ -553,6 +554,7 @@ bool veh_interact::can_install_part(int msg_width){
     bool drive_conflict = is_drive_conflict(msg_width);
 
     bool has_comps = crafting_inv.has_components(itm, 1);
+    ///\EFFECT_MECHANICS determines which vehicle parts can be installed
     bool has_skill = g->u.skillLevel( skill_mechanics ) >= sel_vpart_info->difficulty;
     bool has_tools = ((has_welder && has_goggles) || has_duct_tape) && has_wrench;
     bool has_skill2 = !is_engine || (g->u.skillLevel( skill_mechanics ) >= dif_eng);
@@ -561,6 +563,7 @@ bool veh_interact::can_install_part(int msg_width){
     bool is_wood = sel_vpart_info->has_flag("NAILABLE");
     bool is_hand_remove = sel_vpart_info->has_flag("TOOL_NONE");
     const int needed_strength = veh->total_mass() / TIRE_CHANGE_STR_MOD;
+    ///\EFFECT_STR allows installing tires on heavier vehicles without a jack
     const bool has_str = g->u.get_str() >= needed_strength;
     std::string engine_string = "";
     std::string steering_string = "";
@@ -958,6 +961,7 @@ void veh_interact::do_repair()
         werase (w_msg);
         bool has_comps = true;
         int dif = sel_vpart_info->difficulty + ((sel_vehicle_part->hp <= 0) ? 0 : 2);
+        ///\EFFECT_MECHANICS determines which vehicle parts can be replaced
         bool has_skill = g->u.skillLevel( skill_mechanics ) >= dif;
         fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
                        _("You need level <color_%1$s>%2$d</color> skill in mechanics."),
@@ -1064,6 +1068,7 @@ bool veh_interact::can_remove_part(int veh_part_index, int mech_skill, int msg_w
                                 (is_wheel && veh->part_flag(veh_part_index, "NO_JACK"));
         bool is_hand_remove = veh->part_flag(veh_part_index, "TOOL_NONE");
         const int needed_strength = veh->total_mass() / TIRE_CHANGE_STR_MOD;
+        ///\EFFECT_STR allows removing tires on heavier vehicles without a jack
         const bool has_str = g->u.get_str() >= needed_strength;
 
         int skill_req;
@@ -1173,6 +1178,7 @@ void veh_interact::do_remove()
     mvwprintz(w_mode, 0, 1, c_ltgray, _("Choose a part here to remove:"));
     wrefresh (w_mode);
 
+    ///\EFFECT_MECHANICS determines which vehicle parts can be removed
     const int skilllevel = g->u.skillLevel( skill_mechanics );
     int pos = 0;
     for( size_t i = 0; i < parts_here.size(); i++ ) {
@@ -1252,6 +1258,7 @@ void veh_interact::do_tirechange()
     werase( w_msg );
     int msg_width = getmaxx(w_msg);
     const int needed_strength = veh->total_mass() / TIRE_CHANGE_STR_MOD;
+    ///\EFFECT_STR allows changing tires on heavier vehicles without a jack
     const bool has_str = g->u.get_str() >= needed_strength;
     switch( reason ) {
     case INVALID_TARGET:
@@ -1369,6 +1376,7 @@ bool veh_interact::can_currently_install(const vpart_info &vpart)
         return true;
     }
     bool has_comps = crafting_inv.has_components(vpart.item, 1);
+    ///\EFFECT_MECHANICS determines which vehicle parts can be installed
     bool has_skill = g->u.skillLevel( skill_mechanics ) >= vpart.difficulty;
     bool is_wheel = vpart.has_flag("WHEEL");
     return (has_comps && (has_skill || is_wheel));
@@ -1398,7 +1406,7 @@ void veh_interact::move_cursor (int dx, int dy)
     int vdy = -ddy;
     point q = veh->coord_translate (point(vdx, vdy));
     tripoint vehp = veh->global_pos3() + q;
-    bool obstruct = g->m.move_cost_ter_furn( vehp ) == 0;
+    bool obstruct = g->m.impassable_ter_furn( vehp );
     vehicle *oveh = g->m.veh_at( vehp );
     if( oveh != nullptr && oveh != veh ) {
         obstruct = true;
@@ -1626,24 +1634,24 @@ void veh_interact::display_stats()
         }
     }
 
-    std::string speed_units = OPTIONS["USE_METRIC_SPEEDS"].getValue();
-    float speed_factor = 0.01f;
-    if (speed_units == "km/h") {
-        speed_factor *= 1.61f;
-    }
-    fold_and_print(w_stats, y[0], x[0], w[0], c_ltgray,
-                   _("Safe/Top Speed: <color_ltgreen>%3d</color>/<color_ltred>%3d</color> %s"),
-                   int(veh->safe_velocity(false) * speed_factor),
-                   int(veh->max_velocity(false) * speed_factor), speed_units.c_str());
-    fold_and_print(w_stats, y[1], x[1], w[1], c_ltgray,
-                   _("Acceleration: <color_ltblue>%3d</color> %s/t"),
-                   int(veh->acceleration(false) * speed_factor), speed_units.c_str());
-    fold_and_print(w_stats, y[2], x[2], w[2], c_ltgray,
-                   _("Mass: <color_ltblue>%5.0f</color> %s"),
-                   convert_weight(veh->total_mass() * 1000.0f), weight_units().c_str());
-    fold_and_print(w_stats, y[3], x[3], w[3], c_ltgray,
-                   _("Cargo Volume: <color_ltgray>%d/%d</color>"),
-                   total_cargo - free_cargo, total_cargo);
+    fold_and_print( w_stats, y[0], x[0], w[0], c_ltgray,
+                    _( "Safe/Top Speed: <color_ltgreen>%3d</color>/<color_ltred>%3d</color> %s" ),
+                    int( convert_velocity( veh->safe_velocity( false ), VU_VEHICLE ) ),
+                    int( convert_velocity( veh->max_velocity( false ), VU_VEHICLE ) ),
+                    velocity_units( VU_VEHICLE ) );
+    //TODO: extract accelerations units to its own function
+
+    fold_and_print( w_stats, y[1], x[1], w[1], c_ltgray,
+                    //~ /t means per turn
+                    _( "Acceleration: <color_ltblue>%3d</color> %s/t" ),
+                    int( convert_velocity( veh->acceleration( false ), VU_VEHICLE ) ),
+                    velocity_units( VU_VEHICLE ) );
+    fold_and_print( w_stats, y[2], x[2], w[2], c_ltgray,
+                    _( "Mass: <color_ltblue>%5.0f</color> %s" ),
+                    convert_weight( veh->total_mass() * 1000.0f ), weight_units() );
+    fold_and_print( w_stats, y[3], x[3], w[3], c_ltgray,
+                    _( "Cargo Volume: <color_ltgray>%d/%d</color>" ),
+                    total_cargo - free_cargo, total_cargo);
     // Write the overall damage
     mvwprintz(w_stats, y[4], x[4], c_ltgray, _("Status:"));
     x[4] += utf8_width(_("Status:")) + 1;
@@ -1919,7 +1927,7 @@ void veh_interact::display_details( const vpart_info *part )
                    "%s: <color_ltgray>%.1f%s</color>",
                    small_mode ? _("Wgt") : _("Weight"),
                    convert_weight(item::find_type( part->item )->weight),
-                   weight_units().c_str());
+                   weight_units());
     if ( part->folded_volume != 0 ) {
         fold_and_print(w_details, line+2, col_2, column_width, c_white,
                        "%s: <color_ltgray>%d</color>",
@@ -2090,7 +2098,7 @@ item consume_vpart_item( const vpart_str_id &vpid )
     }
 
     inventory map_inv;
-    map_inv.form_from_map( g->u.pos3(), PICKUP_RANGE );
+    map_inv.form_from_map( g->u.pos(), PICKUP_RANGE );
 
     if( g->u.has_amount( itid, 1 ) ) {
         candidates.push_back( true );
@@ -2131,7 +2139,7 @@ item consume_vpart_item( const vpart_str_id &vpid )
         item_used = g->u.use_amount( itid, 1 );
     } else {
         long quantity = 1;
-        item_used = g->m.use_amount( g->u.pos3(), PICKUP_RANGE, itid, quantity );
+        item_used = g->m.use_amount( g->u.pos(), PICKUP_RANGE, itid, quantity );
     }
     remove_ammo( item_used, g->u );
 
@@ -2358,7 +2366,7 @@ void complete_vehicle ()
             g->u.view_offset.y = py;
 
             int delta_x = headlight_target.x - (veh->global_x() + q.x);
-            int delta_y = headlight_target.y - (veh->global_y() + q.x);
+            int delta_y = headlight_target.y - (veh->global_y() + q.y);
 
             const double PI = 3.14159265358979f;
             int dir = int(atan2(static_cast<float>(delta_y), static_cast<float>(delta_x)) * 180.0 / PI);

@@ -141,6 +141,7 @@ enum m_flag : int {
     MF_INTERIOR_AMMO,       // Monster contain's its ammo inside itself, no need to load on launch. Prevents ammo from being dropped on disable.
     MF_CLIMBS,              // Monsters that can climb certain terrain and furniture
     MF_PUSH_MON,            // Monsters that can push creatures out of their way
+    MF_NIGHT_INVISIBILITY,     // Monsters that are invisible in poor light conditions
     MF_MAX                  // Sets the length of the flags - obviously must be LAST
 };
 
@@ -157,9 +158,67 @@ struct mon_effect_data
                     id(nid), duration(dur), bp(nbp), permanent(perm), chance(nchance) {};
 };
 
+class mattack_actor {
+protected:
+    mattack_actor() { }
+public:
+    virtual ~mattack_actor() { }
+    virtual bool call( monster & ) const = 0;
+    virtual mattack_actor *clone() const = 0;
+};
+
 struct mtype_special_attack {
-    mon_action_attack attack = nullptr; // function pointer to the attack function
-    int cooldown = 0; // turns between uses of this attack
+protected:
+    enum attack_function_t : int {
+        ATTACK_NONE,
+        ATTACK_CPP,
+        ATTACK_ACTOR_PTR
+    };
+
+    attack_function_t function_type;
+
+    union {
+        mon_action_attack cpp_function;
+        mattack_actor *actor_ptr;
+    };
+
+    int cooldown;
+
+public:
+    mtype_special_attack( int cool = 0 )
+        : function_type(ATTACK_NONE), cooldown( cool )
+    { }
+
+    mtype_special_attack( mon_action_attack f, int cool )
+        : function_type(ATTACK_CPP), cpp_function(f), cooldown(cool)
+    { }
+
+    mtype_special_attack( mattack_actor *f, int cool )
+        : function_type(ATTACK_ACTOR_PTR), actor_ptr(f), cooldown(cool)
+    { }
+
+    mtype_special_attack( const mtype_special_attack &other );
+
+    ~mtype_special_attack();
+
+    void operator=( const mtype_special_attack &other );
+
+    bool call( monster & ) const;
+
+    int get_cooldown() const
+    {
+        return cooldown;
+    }
+
+    void set_cooldown( int i );
+
+    const mattack_actor *get_actor_ptr() const
+    {
+        if( function_type != ATTACK_ACTOR_PTR ) {
+            return nullptr;
+        }
+        return actor_ptr;
+    }
 };
 
 struct mtype {
@@ -171,6 +230,9 @@ struct mtype {
         std::set< const species_type* > species_ptrs;
     public:
         mtype_id id;
+        // TODO: maybe make this private as well? It must be set to `true` only once,
+        // and must never be set back to `false`.
+        bool was_loaded = false;
         std::string description;
         std::set<species_id> species;
         std::set<std::string> categories;
@@ -208,13 +270,16 @@ struct mtype {
         unsigned char sk_dodge;    // Dodge skill; should be 0 to 5
         unsigned char armor_bash;  // Natural armor vs. bash
         unsigned char armor_cut;   // Natural armor vs. cut
+        unsigned char armor_stab;  // Natural armor vs. stabbing
+        unsigned char armor_acid;  // Natural armor vs. acid
+        unsigned char armor_fire;  // Natural armor vs. fire
         std::map<std::string, int> starting_ammo; // Amount of ammo the monster spawns with.
         // Name of item group that is used to create item dropped upon death, or empty.
         std::string death_drops;
         float luminance;           // 0 is default, >0 gives luminance to lightmap
         int hp;
         // special attack frequencies and function pointers
-        std::unordered_map<std::string, mtype_special_attack> special_attacks;
+        std::map<std::string, mtype_special_attack> special_attacks;
         std::vector<std::string> special_attacks_names; // names of attacks, in json load order
 
         unsigned int def_chance; // How likely a special "defensive" move is to trigger (0-100%, default 0)
@@ -263,6 +328,9 @@ struct mtype {
         // The item id of the meat items that are produced by this monster (or "null")
         // if there is no matching item type. e.g. "veggy" for plant monsters.
         itype_id get_meat_itype() const;
+
+        // Historically located in monstergenerator.cpp
+        void load( JsonObject &jo );
 };
 
 #endif

@@ -1,8 +1,12 @@
 [
     {
         "type" : "item_action",
-        "id" : "SEW",
-        "name" : "Sew"
+        "id" : "repair_fabric",
+        "name" : "Repair cotton/leather/wool/Nomex/fur"
+    },{
+        "type" : "item_action",
+        "id" : "repair_metal",
+        "name" : "Repair metal/plastic/kevlar"
     },{
         "type" : "item_action",
         "id" : "SEW_ADVANCED",
@@ -15,10 +19,6 @@
         "type" : "item_action",
         "id" : "HAMMER",
         "name" : "Pull out nails"
-    },{
-        "type" : "item_action",
-        "id" : "SOLDER_WELD",
-        "name" : "Repair metal/plastic/kevlar"
     },{
         "type" : "item_action",
         "id" : "picklock",
@@ -139,6 +139,10 @@
         "type" : "item_action",
         "id" : "holster",
         "name" : "Use holster"
+    },{
+        "type" : "item_action",
+        "id" : "SAW_BARREL",
+        "name" : "Saw down barrel"
     }
 
 ]
