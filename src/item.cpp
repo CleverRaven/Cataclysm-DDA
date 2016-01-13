@@ -3986,15 +3986,8 @@ bool item::ammo_consume( int qty ) {
 
 itype_id item::ammo_current() const
 {
-    if( is_ammo() ) {
-        return typeId();
-    }
-
-    if( is_magazine() ) {
-        return contents.size() ? contents[0].type->id : "null";
-    }
-
-    return curammo ? curammo->id : "null";
+    const auto ammo = ammo_data();
+    return ammo ? ammo->id : "null";
 }
 
 const itype * item::ammo_data() const
