@@ -125,7 +125,7 @@ class effect : public JsonSerializer, public JsonDeserializer
             intensity(1),
             start_turn(0)
         { }
-        effect(effect_type *peff_type, int dur, body_part part, bool perm, int nintensity, int nstart_turn) :
+        effect(const effect_type *peff_type, int dur, body_part part, bool perm, int nintensity, int nstart_turn) :
             eff_type(peff_type),
             duration(dur),
             bp(part),
@@ -150,7 +150,7 @@ class effect : public JsonSerializer, public JsonDeserializer
         bool use_part_descs() const;
 
         /** Returns the effect's matching effect_type. */
-        effect_type *get_effect_type() const;
+        const effect_type *get_effect_type() const;
 
         /** Decays effect durations, pushing their id and bp's back to rem_ids and rem_bps for removal later
          *  if their duration is <= 0. This is called in the middle of a loop through all effects, which is
@@ -248,7 +248,7 @@ class effect : public JsonSerializer, public JsonDeserializer
         void deserialize(JsonIn &jsin) override;
 
     protected:
-        effect_type *eff_type;
+        const effect_type *eff_type;
         int duration;
         body_part bp;
         bool permanent;

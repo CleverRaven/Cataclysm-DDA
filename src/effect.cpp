@@ -1107,7 +1107,7 @@ std::string effect::get_speed_name() const
     }
 }
 
-effect_type *effect::get_effect_type() const
+const effect_type *effect::get_effect_type() const
 {
     return eff_type;
 }
