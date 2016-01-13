@@ -570,6 +570,7 @@
 		<Unit filename="src/sdltiles.cpp" />
 		<Unit filename="src/simplexnoise.cpp" />
 		<Unit filename="src/simplexnoise.h" />
+        <Unit filename="src/shadowcasting.h" />
 		<Unit filename="src/skill.cpp" />
 		<Unit filename="src/skill.h" />
 		<Unit filename="src/sounds.cpp" />

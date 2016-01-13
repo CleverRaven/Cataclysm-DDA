@@ -340,6 +340,7 @@ void map::destroy_vehicle (vehicle *veh)
 void map::on_vehicle_moved( const int smz ) {
     set_outside_cache_dirty( smz );
     set_transparency_cache_dirty( smz );
+    set_floor_cache_dirty( smz );
 }
 
 void map::vehmove()
@@ -1601,6 +1602,10 @@ void map::furn_set( const tripoint &p, const furn_id new_furniture )
         set_outside_cache_dirty( p.z );
     }
 
+    if( old_t.has_flag( TFLAG_NO_FLOOR ) != new_t.has_flag( TFLAG_NO_FLOOR ) ) {
+        set_floor_cache_dirty( p.z );
+    }
+
     // Make sure the furniture falls if it needs to
     support_dirty( p );
     tripoint above( p.x, p.y, p.z + 1 );
@@ -1807,6 +1812,7 @@ void map::ter_set( const tripoint &p, const ter_id new_terrain )
     }
 
     if( new_t.has_flag( TFLAG_NO_FLOOR ) && !old_t.has_flag( TFLAG_NO_FLOOR ) ) {
+        set_floor_cache_dirty( p.z );
         // It's a set, not a flag
         support_cache_dirty.insert( p );
     }
@@ -2117,9 +2123,15 @@ int map::climb_difficulty( const tripoint &p ) const
 
 bool map::has_floor( const tripoint &p ) const
 {
-    return !zlevels ||
-           p.z < -OVERMAP_DEPTH + 1 || p.z > OVERMAP_HEIGHT ||
-           !has_flag( TFLAG_NO_FLOOR, p );
+    if( !zlevels || p.z < -OVERMAP_DEPTH + 1 || p.z > OVERMAP_HEIGHT ) {
+        return true;
+    }
+
+    if( !inbounds( p.x, p.y ) ) {
+        return true;
+    }
+
+    return get_cache_ref( p.z ).floor_cache[p.x][p.y];
 }
 
 bool map::supports_above( const tripoint &p ) const
@@ -5707,7 +5719,7 @@ void map::update_visibility_cache( visibility_variables &cache, const int zlev )
 }
 
 lit_level map::apparent_light_at( const tripoint &p, const visibility_variables &cache ) const {
-    const int dist = rl_dist(g->u.posx(), g->u.posy(), p.x, p.y);
+    const int dist = rl_dist( g->u.pos(), p );
 
     // Clairvoyance overrides everything.
     if( dist <= cache.u_clairvoyance ) {
@@ -6174,7 +6186,7 @@ bool map::sees( const tripoint &F, const tripoint &T, const int range, int &bres
     bool visible = true;
 
     // Ugly `if` for now
-    if( !fov_3d ) {
+    if( !fov_3d || F.z == T.z ) {
         bresenham( F.x, F.y, T.x, T.y, bresenham_slope,
                    [this, &visible, &T]( const point &new_point ) {
                        // Exit before checking the last square, it's still visible even if opaque.
@@ -6190,18 +6202,34 @@ bool map::sees( const tripoint &F, const tripoint &T, const int range, int &bres
         return visible;
     }
 
+    tripoint last_point = F;
     bresenham( F, T, bresenham_slope, 0,
-                [this, &visible, &T]( const tripoint &new_point ) {
-               // Exit before checking the last square, it's still visible even if opaque.
-               if( new_point == T ) {
-                   return false;
-               }
-               if( !this->trans( new_point ) ) {
-                   visible = false;
-                   return false;
-               }
-               return true;
-           });
+                [this, &visible, &T, &last_point]( const tripoint &new_point ) {
+                    // Exit before checking the last square, it's still visible even if opaque.
+                    if( new_point == T ) {
+                        return false;
+                    }
+
+                    // TODO: Allow transparent floors (and cache them!)
+                    if( new_point.z == last_point.z ) {
+                        if( !this->trans( new_point ) ) {
+                            visible = false;
+                            return false;
+                        }
+                    } else {
+                        const int max_z = std::max( new_point.z, last_point.z );
+                        if( ( has_floor_or_support({new_point.x, new_point.y, max_z}) ||
+                              !trans({new_point.x, new_point.y, last_point.z}) ) &&
+                            ( has_floor_or_support({last_point.x, last_point.y, max_z}) ||
+                              !trans({last_point.x, last_point.y, new_point.z}) ) ) {
+                            visible = false;
+                            return false;
+                        }
+                    }
+
+                    last_point = new_point;
+                    return true;
+                });
     return visible;
 }
 
@@ -6235,11 +6263,11 @@ bool map::clear_path( const tripoint &f, const tripoint &t, const int range,
                       const int cost_min, const int cost_max ) const
 {
     // Ugly `if` for now
-    if( !fov_3d ) {
-        if( f.z != t.z ) {
-            return false;
-        }
+    if( !fov_3d && f.z != t.z ) {
+        return false;
+    }
 
+    if( f.z == t.z ) {
         if( (range >= 0 && range < rl_dist(f.x, f.y, t.x, t.y)) ||
             !INBOUNDS(t.x, t.y) ) {
             return false; // Out of range!
@@ -6267,20 +6295,47 @@ bool map::clear_path( const tripoint &f, const tripoint &t, const int range,
         return false; // Out of range!
     }
     bool is_clear = true;
+    tripoint last_point = f;
     bresenham( f, t, 0, 0,
-               [this, &is_clear, cost_min, cost_max, t](const tripoint &new_point ) {
-                   // Exit before checking the last square, it's still reachable even if it is an obstacle.
-                   if( new_point == t ) {
-                       return false;
-                   }
+        [this, &is_clear, cost_min, cost_max, t, &last_point](const tripoint &new_point ) {
+        // Exit before checking the last square, it's still reachable even if it is an obstacle.
+        if( new_point == t ) {
+            return false;
+        }
 
-                   const int cost = this->move_cost( new_point );
-                   if( cost < cost_min || cost > cost_max ) {
-                       is_clear = false;
-                       return false;
-                   }
-                   return true;
-               } );
+        // We have to check a weird case where the move is both vertical and horizontal
+        if( new_point.z == last_point.z ) {
+            const int cost = move_cost( new_point );
+            if( cost < cost_min || cost > cost_max ) {
+                is_clear = false;
+                return false;
+            }
+        } else {
+            bool this_clear = false;
+            const int max_z = std::max( new_point.z, last_point.z );
+            if( !has_floor_or_support({new_point.x, new_point.y, max_z}) ) {
+                const int cost = move_cost( {new_point.x, new_point.y, last_point.z} );
+                if( cost > cost_min && cost < cost_max ) {
+                    this_clear = true;
+                }
+            }
+
+            if( !this_clear && has_floor_or_support({last_point.x, last_point.y, max_z}) ) {
+                const int cost = move_cost( {last_point.x, last_point.y, new_point.z} );
+                if( cost > cost_min && cost < cost_max ) {
+                    this_clear = true;
+                }
+            }
+
+            if( !this_clear ) {
+                is_clear = false;
+                return false;
+            }
+        }
+
+        last_point = new_point;
+        return true;
+    } );
     return is_clear;
 }
 
@@ -6650,6 +6705,7 @@ void map::loadn( const int gridx, const int gridy, const int gridz, const bool u
     // New submap changes the content of the map and all caches must be recalculated
     set_transparency_cache_dirty( gridz );
     set_outside_cache_dirty( gridz );
+    set_floor_cache_dirty( gridz );
     setsubmap( gridn, tmpsub );
 
     for( auto it : tmpsub->vehicles ) {
@@ -7219,32 +7275,85 @@ void map::build_outside_cache( const int zlev )
     ch.outside_cache_dirty = false;
 }
 
+void map::build_floor_cache( const int zlev )
+{
+    auto &ch = get_cache( zlev );
+    if( !ch.floor_cache_dirty ) {
+        return;
+    }
+
+    auto &floor_cache = ch.floor_cache;
+    std::uninitialized_fill_n(
+            &floor_cache[0][0], ( MAPSIZE * SEEX ) * ( MAPSIZE * SEEY ), true );
+
+    for( int smx = 0; smx < my_MAPSIZE; ++smx ) {
+        for( int smy = 0; smy < my_MAPSIZE; ++smy ) {
+            auto const cur_submap = get_submap_at_grid( smx, smy, zlev );
+
+            for( int sx = 0; sx < SEEX; ++sx ) {
+                for( int sy = 0; sy < SEEY; ++sy ) {
+                    // Note: furniture currently can't affect existence of floor
+                    if( cur_submap->get_ter( sx, sy ).obj().has_flag( TFLAG_NO_FLOOR ) ) {
+                        const int x = sx + ( smx * SEEX );
+                        const int y = sy + ( smy * SEEY );
+                        floor_cache[x][y] = false;
+                    }
+                }
+            }
+        }
+    }
+
+    ch.floor_cache_dirty = false;
+}
+
+void map::build_floor_caches()
+{
+    const int minz = zlevels ? -OVERMAP_DEPTH : abs_sub.z;
+    const int maxz = zlevels ? OVERMAP_HEIGHT : abs_sub.z;
+    for( int z = minz; z <= maxz; z++ ) {
+        build_floor_cache( z );
+    }
+}
+
 void map::build_map_cache( const int zlev, bool skip_lightmap )
 {
-    build_outside_cache( zlev );
-    build_transparency_cache( zlev );
+    const int minz = zlevels ? -OVERMAP_DEPTH : zlev;
+    const int maxz = zlevels ? OVERMAP_HEIGHT : zlev;
+    for( int z = minz; z <= maxz; z++ ) {
+        build_outside_cache( z );
+        build_transparency_cache( z );
+        build_floor_cache( z );
+    }
 
-    tripoint start( 0, 0, zlev );
-    tripoint end( my_MAPSIZE * SEEX, my_MAPSIZE * SEEY, zlev );
-
+    tripoint start( 0, 0, minz );
+    tripoint end( my_MAPSIZE * SEEX, my_MAPSIZE * SEEY, maxz );
     VehicleList vehs = get_vehicles( start, end );
-    auto &outside_cache = get_cache( zlev ).outside_cache;
-    auto &transparency_cache = get_cache( zlev ).transparency_cache;
     // Cache all the vehicle stuff in one loop
     for( auto &v : vehs ) {
+        auto &ch = get_cache( v.z );
+        auto &outside_cache = ch.outside_cache;
+        auto &transparency_cache = ch.transparency_cache;
+        auto &floor_cache = ch.floor_cache;
         for( size_t part = 0; part < v.v->parts.size(); part++ ) {
             int px = v.x + v.v->parts[part].precalc[0].x;
             int py = v.y + v.v->parts[part].precalc[0].y;
-            if(INBOUNDS(px, py)) {
-                if (v.v->is_inside(part)) {
-                    outside_cache[px][py] = false;
+            if( !INBOUNDS( px, py ) ) {
+                continue;
+            }
+
+            if( v.v->is_inside( part ) ) {
+                outside_cache[px][py] = false;
+            }
+
+            if( v.v->part_flag(part, VPFLAG_OPAQUE) && v.v->parts[part].hp > 0 ) {
+                int dpart = v.v->part_with_feature( part, VPFLAG_OPENABLE );
+                if (dpart < 0 || !v.v->parts[dpart].open) {
+                    transparency_cache[px][py] = LIGHT_TRANSPARENCY_SOLID;
                 }
-                if (v.v->part_flag(part, VPFLAG_OPAQUE) && v.v->parts[part].hp > 0) {
-                    int dpart = v.v->part_with_feature( part, VPFLAG_OPENABLE );
-                    if (dpart < 0 || !v.v->parts[dpart].open) {
-                        transparency_cache[px][py] = LIGHT_TRANSPARENCY_SOLID;
-                    }
-                }
+            }
+
+            if( v.v->part_flag( part, VPFLAG_BOARDABLE ) && v.v->parts[part].hp > 0 ) {
+                floor_cache[px][py] = true;
             }
         }
     }

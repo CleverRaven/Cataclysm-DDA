@@ -249,16 +249,14 @@ Flags used to describe monsters and define their properties and abilities.
 - ```WOOL``` May produce wool when butchered.
 - ```FEATHER``` May produce feathers when butchered.
 - ```FAT``` May produce fat when butchered.
-- ```CBM_CIV``` May produce a common cbm or two when butchered.
 - ```BONES``` May produce bones and sinews when butchered.
 - ```IMMOBILE``` Doesn't move (e.g. turrets)
-- ```FRIENDLY_SPECIAL``` Use our special attack, even if friendly.
 - ```HIT_AND_RUN``` Flee for several turns after a melee attack.
 - ```GUILT``` You feel guilty for killing it.
 - ```HUMAN``` It's a live human, as long as it's alive.
 - ```NO_BREATHE``` Creature can't drown and is unharmed by gas, smoke or poison.
 - ```REGENERATES_50``` Monster regenerates very quickly over time.
-- ```REGENERATES_10``` Monster regenerates very quickly over time.
+- ```REGENERATES_10``` Monster regenerates quickly over time.
 - ```FLAMMABLE``` Monster catches fire, burns, and spreads fire to nearby objects.
 - ```REVIVES``` Monster corpse will revive after a short period of time.
 - ```CHITIN``` May produce chitin when butchered.
@@ -471,7 +469,7 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```DOME_LIGHT```
 - ```HORN``` Generates noise when used.
 - ```BEEPER``` Generates noise when the vehicle moves backward.
-- ```CHIMES```
+- ```CHIMES``` Generates continuous noise when used.
 - ```STEREO```
 - ```MULTISQUARE``` Causes this part and any adjacent parts with the same ID to act as a singular part.
 - ```CIRCLE_LIGHT``` Projects a circular radius of light when turned on.
