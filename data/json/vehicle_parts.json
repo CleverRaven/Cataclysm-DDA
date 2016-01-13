@@ -141,7 +141,7 @@
         "difficulty": 2,
         "epower": -63,
         "folded_volume": 2,
-        "flags": ["TRACK", "UNMOUNT_ON_DAMAGE", "FOLDABLE"],
+        "flags": ["TOOL_SCREWDRIVER", "TRACK", "UNMOUNT_ON_DAMAGE", "FOLDABLE"],
         "breaks_into": [
             {"item": "scrap", "count": [0, 2]}
         ]
@@ -1760,7 +1760,7 @@
         "item" : "flashlight",
         "difficulty" : 1,
         "location" : "on_ceiling",
-        "flags" : ["AISLE_LIGHT"],
+        "flags" : ["TOOL_SCREWDRIVER", "AISLE_LIGHT"],
         "breaks_into" : [
             {"item": "scrap", "count": [0, 2]}
         ]
@@ -2614,6 +2614,29 @@
         ]
     },{
         "type" : "vehicle_part",
+        "id" : "engine_electric_small",
+        "name" : "small electric motor",
+        "symbol" : "*",
+        "color" : "yellow",
+        "broken_symbol" : "#",
+        "broken_color" : "red",
+        "damage_modifier" : 80,
+        "durability" : 120,
+        "power" : 15,
+        "epower" : -6000,
+        "fuel_type" : "battery",
+        "item" : "motor_small",
+        "difficulty" : 1,
+        "location" : "engine_block",
+        "flags" : ["TOOL_SCREWDRIVER", "ENGINE"],
+        "breaks_into" : [
+            {"item": "steel_lump", "count": [1, 2]},
+            {"item": "steel_chunk", "count": [1, 2]},
+            {"item": "scrap", "count": [1, 2]},
+            {"item": "cable", "charges": [3, 6]}
+        ]
+    },{
+        "type" : "vehicle_part",
         "id" : "engine_electric",
         "name" : "electric motor",
         "symbol" : "*",
@@ -2680,29 +2703,6 @@
             {"item": "steel_chunk", "count": [30, 40]},
             {"item": "scrap", "count": [30, 40]},
             {"item": "cable", "charges": [15, 20]}
-        ]
-    },{
-        "type" : "vehicle_part",
-        "id" : "engine_electric_small",
-        "name" : "small electric motor",
-        "symbol" : "*",
-        "color" : "yellow",
-        "broken_symbol" : "#",
-        "broken_color" : "red",
-        "damage_modifier" : 80,
-        "durability" : 120,
-        "power" : 15,
-        "epower" : -6000,
-        "fuel_type" : "battery",
-        "item" : "motor_small",
-        "difficulty" : 1,
-        "location" : "engine_block",
-        "flags" : ["ENGINE"],
-        "breaks_into" : [
-            {"item": "steel_lump", "count": [1, 2]},
-            {"item": "steel_chunk", "count": [1, 2]},
-            {"item": "scrap", "count": [1, 2]},
-            {"item": "cable", "charges": [3, 6]}
         ]
     },{
         "type" : "vehicle_part",
@@ -3012,10 +3012,11 @@
         "item" : "medium_storage_battery",
         "difficulty" : 1,
         "location" : "fuel_source",
-        "flags" : ["FUEL_TANK", "TOOL_NONE", "FOLDABLE"],
+        "flags" : ["FUEL_TANK", "TOOL_SCREWDRIVER", "FOLDABLE"],
         "folded_volume" : 3,
         "breaks_into" : [
-            {"item": "scrap", "count": [1, 2]}
+            {"item": "scrap", "count": [1, 4]},
+            {"item": "small_storage_battery", "count": [0, 2]}
         ]
     },{
         "type" : "vehicle_part",
@@ -3055,7 +3056,8 @@
         "breaks_into" : [
             {"item": "steel_lump", "count": [5, 10]},
             {"item": "steel_chunk", "count": [5, 10]},
-            {"item": "scrap", "count": [5, 10]}
+            {"item": "scrap", "count": [5, 10]},
+            {"item": "medium_storage_battery", "count": [0, 2]}
         ]
     },{
         "type" : "vehicle_part",
@@ -3076,7 +3078,8 @@
         "breaks_into" : [
             {"item": "steel_lump", "count": [5, 10]},
             {"item": "steel_chunk", "count": [5, 10]},
-            {"item": "scrap", "count": [5, 10]}
+            {"item": "scrap", "count": [5, 10]},
+            {"item": "medium_storage_battery", "count": [0, 2]}
         ]
     },{
         "type" : "vehicle_part",
@@ -3383,7 +3386,7 @@
         "item" : "frame",
         "difficulty" : 1,
         "location" : "center",
-        "flags" : ["CARGO", "BOARDABLE", "COVERED"],
+        "flags" : ["CARGO", "TOOL_SCREWDRIVER", "BOARDABLE", "COVERED"],
         "breaks_into": "ig_vp_frame"
     },{
         "type" : "vehicle_part",
@@ -3458,7 +3461,7 @@
         "item" : "wire",
         "difficulty" : 1,
         "location" : "center",
-        "flags" : ["CARGO", "BOARDABLE", "FOLDABLE"]
+        "flags" : ["CARGO", "TOOL_SCREWDRIVER", "BOARDABLE", "FOLDABLE"]
     },{
         "type" : "vehicle_part",
         "id" : "basketlg",
@@ -3606,7 +3609,7 @@
         "item" : "rope_6",
         "difficulty" : 1,
         "location" : "on_seat",
-        "flags" : ["SEATBELT", "FOLDABLE"],
+        "flags" : ["SEATBELT", "TOOL_SCREWDRIVER", "FOLDABLE"],
         "breaks_into" : [
             {"item": "string_36", "count": [0, 3]}
         ]
@@ -3645,7 +3648,7 @@
         "item" : "rope_30",
         "difficulty" : 2,
         "location" : "on_seat",
-        "flags" : ["SEATBELT", "FOLDABLE"],
+        "flags" : ["SEATBELT", "TOOL_SCREWDRIVER", "FOLDABLE"],
         "breaks_into" : [
             {"item": "string_36", "count": [0, 3]}
         ]
@@ -3663,7 +3666,7 @@
         "item": "sheet",
         "location": "on_windshield",
         "difficulty": 1,
-        "flags": ["OPENABLE", "OPENCLOSE_INSIDE", "OPAQUE", "CURTAIN"],
+        "flags": ["OPENABLE", "TOOL_SCREWDRIVER", "OPENCLOSE_INSIDE", "OPAQUE", "CURTAIN"],
         "breaks_into": []
     },{
         "type" : "vehicle_part",
@@ -3679,7 +3682,7 @@
         "item": "v_curtain_item",
         "location": "on_ceiling",
         "difficulty": 1,
-        "flags": ["OPENABLE", "OPAQUE", "OPENCLOSE_INSIDE"],
+        "flags": ["OPENABLE", "TOOL_SCREWDRIVER", "OPAQUE", "OPENCLOSE_INSIDE"],
         "breaks_into": []
     },{
         "type" : "vehicle_part",
@@ -3816,7 +3819,7 @@
         "item" : "kitchen_unit",
         "difficulty" : 3,
         "location" : "center",
-        "flags" : ["CARGO", "OBSTACLE", "KITCHEN", "COVERED"],
+        "flags" : ["CARGO", "OBSTACLE", "KITCHEN", "FAUCET", "COVERED"],
         "breaks_into" : [
             {"item": "steel_lump", "count": [30, 40]},
             {"item": "steel_chunk", "count": [30, 40]},
@@ -3859,7 +3862,7 @@
         "item" : "craftrig",
         "difficulty" : 3,
         "location" : "center",
-        "flags" : ["CARGO", "OBSTACLE", "CRAFTRIG", "COVERED"],
+        "flags" : ["CARGO", "OBSTACLE", "CRAFTRIG", "WATER_PURIFIER", "COVERED"],
         "breaks_into" : [
             {"item": "steel_lump", "count": [4, 7]},
             {"item": "steel_chunk", "count": [4, 7]},
@@ -3885,7 +3888,7 @@
         "item" : "chemlab",
         "difficulty" : 3,
         "location" : "center",
-        "flags" : ["CARGO", "OBSTACLE", "CHEMLAB", "COVERED"],
+        "flags" : ["CARGO", "OBSTACLE", "CHEMLAB", "FAUCET", "COVERED"],
         "breaks_into" : [
             {"item": "steel_lump", "count": [4, 7]},
             {"item": "steel_chunk", "count": [4, 7]},
@@ -4273,7 +4276,7 @@
         "bonus" : 8000,
         "item" : "flashlight",
         "difficulty" : 1,
-        "flags" : ["CONE_LIGHT", "FOLDABLE"],
+        "flags" : ["CONE_LIGHT", "TOOL_SCREWDRIVER", "FOLDABLE"],
         "breaks_into" : [
             {"item": "scrap", "count": [0, 2]}
         ]
@@ -4291,7 +4294,7 @@
         "bonus" : 8000,
         "item" : "headlight_reinforced",
         "difficulty" : 1,
-        "flags" : ["CONE_LIGHT"],
+        "flags" : ["CONE_LIGHT", "TOOL_SCREWDRIVER"],
         "breaks_into" : [
             {"item": "scrap", "count": [0, 2]}
         ]
@@ -4327,7 +4330,7 @@
         "bonus" : 15,
         "item" : "horn_bicycle",
         "difficulty" : 1,
-        "flags" : ["HORN", "FOLDABLE"],
+        "flags" : ["HORN", "FOLDABLE", "TOOL_SCREWDRIVER"],
         "breaks_into" : [
             {"item": "scrap", "prob": 50}
         ]
@@ -4344,7 +4347,7 @@
         "bonus" : 30,
         "item" : "horn_car",
         "difficulty" : 2,
-        "flags" : ["HORN"],
+        "flags" : ["HORN", "TOOL_SCREWDRIVER"],
         "breaks_into" : [
             {"item": "scrap", "count": [0, 2]}
         ]
@@ -4361,7 +4364,7 @@
         "bonus" : 45,
         "item" : "horn_big",
         "difficulty" : 2,
-        "flags" : ["HORN"],
+        "flags" : ["HORN", "TOOL_SCREWDRIVER"],
         "breaks_into" : [
             {"item": "steel_chunk", "prob": 50}
         ]
@@ -4378,7 +4381,7 @@
         "bonus" : 28,
         "item" : "beeper",
         "difficulty" : 2,
-        "flags" : ["BEEPER", "ODDTURN"],
+        "flags" : ["BEEPER", "ODDTURN", "TOOL_SCREWDRIVER"],
         "breaks_into" : [
             {"item": "scrap", "count": [0, 2]},
             {"item": "cable", "charges": [1, 3]},
@@ -4461,7 +4464,7 @@
         "fuel_type" : "battery",
         "item" : "alternator_motorbike",
         "difficulty" : 2,
-        "flags" : ["ALTERNATOR", "FOLDABLE"],
+        "flags" : ["ALTERNATOR", "FOLDABLE", "TOOL_SCREWDRIVER"],
         "folded_volume" : 5,
         "breaks_into" : [
             {"item": "steel_lump", "count": [2, 5]},
@@ -4589,7 +4592,7 @@
         "item" : "light_emergency_red",
         "difficulty" : 1,
         "location" : "on_roof",
-        "flags" : ["CIRCLE_LIGHT", "ODDTURN", "FOLDABLE"],
+        "flags" : ["CIRCLE_LIGHT", "ODDTURN", "FOLDABLE", "TOOL_SCREWDRIVER"],
         "breaks_into" : [
           {"item": "steel_lump", "count": [4, 6]},
           {"item": "steel_chunk", "count": [4, 6]},
@@ -4613,7 +4616,7 @@
         "item" : "light_emergency_blue",
         "difficulty" : 1,
         "location" : "on_roof",
-        "flags" : ["CIRCLE_LIGHT", "EVENTURN", "FOLDABLE"],
+        "flags" : ["CIRCLE_LIGHT", "EVENTURN", "FOLDABLE", "TOOL_SCREWDRIVER"],
         "breaks_into" : [
             {"item": "steel_chunk", "prob": 50},
             {"item": "scrap"}
@@ -4674,7 +4677,7 @@
         "item" : "floodlight",
         "difficulty" : 1,
         "location" : "on_roof",
-        "flags" : ["CIRCLE_LIGHT", "FOLDABLE"],
+        "flags" : ["CIRCLE_LIGHT", "FOLDABLE", "TOOL_SCREWDRIVER"],
         "folded_volume": 8,
         "breaks_into" : [
             {"item": "steel_chunk", "count": [0, 2]},
@@ -4695,7 +4698,7 @@
         "item" : "recharge_station",
         "difficulty" : 3,
         "location" : "on_cargo",
-        "flags" : ["INTERNAL", "RECHARGE", "FOLDABLE"],
+        "flags" : ["INTERNAL", "RECHARGE", "FOLDABLE", "TOOL_SCREWDRIVER"],
         "folded_volume" : 8,
         "breaks_into" : [
             {"item": "steel_chunk", "count": [0, 2]},
@@ -4716,7 +4719,7 @@
         "item" : "mirror",
         "difficulty" : 1,
         "location" : "structure",
-        "flags" : ["VISION", "PROTRUSION", "UNMOUNT_ON_DAMAGE", "FOLDABLE"],
+        "flags" : ["VISION", "PROTRUSION", "UNMOUNT_ON_DAMAGE", "FOLDABLE", "TOOL_SCREWDRIVER"],
         "breaks_into" : [
             {"item": "glass_shard", "count": [0, 2]}
         ]
@@ -4734,7 +4737,7 @@
         "item" : "mirror",
         "difficulty" : 1,
         "location" : "on_windshield",
-        "flags" : ["VISION", "FOLDABLE"],
+        "flags" : ["VISION", "FOLDABLE", "TOOL_SCREWDRIVER"],
         "breaks_into" : [
             {"item": "glass_shard", "count": [0, 2]}
         ]
@@ -4752,7 +4755,7 @@
         "bonus" : 40,
         "item" : "stereo",
         "difficulty" : 2,
-        "flags" : ["STEREO"],
+        "flags" : ["STEREO", "TOOL_SCREWDRIVER"],
         "breaks_into" : [
             {"item": "steel_lump", "count": [3, 5]},
             {"item": "steel_chunk", "count": [3, 5]},
@@ -4773,7 +4776,7 @@
         "epower" : -200,
         "item" : "chimes",
         "difficulty" : 4,
-        "flags" : ["CHIMES"],
+        "flags" : ["CHIMES", "TOOL_SCREWDRIVER"],
         "location" : "on_roof",
         "breaks_into" : [
             {"item": "steel_lump", "count": [3, 5]},
@@ -5039,7 +5042,7 @@
         "item" : "motor_small",
         "difficulty" : 2,
         "folded_volume": 1,
-        "flags" : ["DOOR_MOTOR", "UNMOUNT_ON_DAMAGE", "FOLDABLE"],
+        "flags" : ["DOOR_MOTOR", "UNMOUNT_ON_DAMAGE", "FOLDABLE", "TOOL_SCREWDRIVER"],
         "breaks_into" : [
             {"item": "scrap", "count": [4, 6]}
         ]
@@ -5077,7 +5080,7 @@
         "item" : "camera_control",
         "epower": -100,
         "difficulty" : 3,
-        "flags" : ["VISION", "CAMERA", "CAMERA_CONTROL"],
+        "flags" : ["VISION", "CAMERA", "CAMERA_CONTROL", "TOOL_SCREWDRIVER"],
         "breaks_into" : [
             {"item": "e_scrap", "count": [4, 10]},
             {"item": "plastic_chunk", "count": [2, 8]}
@@ -5099,7 +5102,7 @@
         "epower": -75,
         "difficulty" : 4,
         "location" : "on_roof",
-        "flags" : ["VISION", "CAMERA"],
+        "flags" : ["VISION", "CAMERA", "TOOL_SCREWDRIVER"],
         "breaks_into" : [
             {"item": "e_scrap", "count": [4, 16]},
             {"item": "plastic_chunk", "count": [2, 8]}
@@ -5157,7 +5160,7 @@
         "item" : "atomic_lamp",
         "difficulty" : 1,
         "location" : "on_ceiling",
-        "flags": ["ATOMIC_LIGHT", "LEAK_DAM", "RADIOACTIVE"],
+        "flags": ["ATOMIC_LIGHT", "LEAK_DAM", "RADIOACTIVE", "TOOL_SCREWDRIVER"],
         "breaks_into" : [
             {"item": "scrap", "count": [0, 2]}
         ]
@@ -5175,7 +5178,7 @@
         "item" : "atomic_light",
         "difficulty" : 1,
         "location" : "on_ceiling",
-        "flags": ["ATOMIC_LIGHT", "LEAK_DAM", "RADIOACTIVE"],
+        "flags": ["ATOMIC_LIGHT", "LEAK_DAM", "RADIOACTIVE", "TOOL_SCREWDRIVER"],
         "breaks_into" : [
             {"item": "scrap", "prob": 50}
         ]
@@ -5191,7 +5194,7 @@
         "epower" : 0,
         "item" : "wristwatch",
         "difficulty" : 1,
-        "flags": ["WATCH", "ALARMCLOCK"],
+        "flags": ["WATCH", "ALARMCLOCK", "TOOL_SCREWDRIVER"],
         "breaks_into" : [
             {"item": "scrap", "prob": 50}
         ]
@@ -5209,7 +5212,7 @@
         "item" : "funnel",
         "difficulty" : 1,
         "location" : "on_roof",
-        "flags" : ["FUNNEL", "VARIABLE_SIZE"],
+        "flags" : ["FUNNEL", "VARIABLE_SIZE", "TOOL_SCREWDRIVER"],
         "breaks_into" : [
             {"item": "plastic_chunk", "count": [1, 2]}
         ]
@@ -5247,7 +5250,7 @@
         "item" : "water_purifier",
         "difficulty" : 4,
         "location" : "center",
-        "flags" : ["WATER_PURIFIER"],
+        "flags" : ["WATER_PURIFIER", "TOOL_SCREWDRIVER"],
         "breaks_into" : [
             {"item": "plastic_chunk", "count": [1, 2]}
         ]

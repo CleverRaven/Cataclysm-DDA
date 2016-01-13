@@ -71,7 +71,7 @@ Pickup::interact_results Pickup::interact_with_vehicle( vehicle *veh, const trip
         selectmenu.addentry( USE_HOTPLATE, true, 'h', _("Use the hotplate") );
     }
 
-    if( ( has_kitchen || has_faucet ) && veh->fuel_left("water_clean") > 0) {
+    if( has_faucet && veh->fuel_left("water_clean") > 0) {
         selectmenu.addentry( FILL_CONTAINER, true, 'c', _("Fill a container with water") );
 
         selectmenu.addentry( DRINK, true, 'd', _("Have a drink") );
@@ -81,11 +81,11 @@ Pickup::interact_results Pickup::interact_with_vehicle( vehicle *veh, const trip
         selectmenu.addentry( USE_WELDER, true, 'w', _("Use the welding rig?") );
     }
 
-    if( ( has_craftrig || has_purify ) && veh->fuel_left("battery") > 0 ) {
+    if( has_purify && veh->fuel_left("battery") > 0 ) {
         selectmenu.addentry( USE_PURIFIER, true, 'p', _("Purify water in carried container") );
     }
 
-    if( ( has_craftrig || has_purify ) && veh->fuel_left("battery") > 0 &&
+    if( has_purify && veh->fuel_left("battery") > 0 &&
         veh->fuel_left("water") > 0 &&
         veh->fuel_capacity("water_clean") > veh->fuel_left("water_clean") ) {
         selectmenu.addentry( PURIFY_TANK, true, 'P', _("Purify water in vehicle's tank") );

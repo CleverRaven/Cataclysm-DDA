@@ -1497,52 +1497,6 @@
   ]
 },{
   "type" : "recipe",
-  "result": "kitchen_unit",
-  "category": "CC_OTHER",
-  "subcategory": "CSC_OTHER_PARTS",
-  "skill_used": "mechanics",
-  "difficulty": 4,
-  "time": 60000,
-  "reversible": true,
-  "decomp_learn": 3,
-  "autolearn": true,
-  "qualities":[
-    {"id":"HAMMER","level":2,"amount":1},
-    {"id":"SAW_M","level":1,"amount":1},
-    {"id":"WRENCH","level":1,"amount":1}
-  ], "tools": [
-    [
-      [ "goggles_welding", -1 ]
-    ],
-    [
-      [ "welder", 100 ],
-      [ "welder_crude", 150 ],
-      [ "toolset", 150 ]
-    ]
-  ],
-  "components": [
-    [
-      [ "pipe", 2 ]
-    ],
-    [
-      [ "steel_chunk", 16 ],
-      [ "steel_plate", 2 ]
-    ],
-    [
-      [ "hotplate", 1 ]
-    ],
-    [
-      [ "pot", 1 ]
-    ],
-    [
-      [ "pan", 1 ]
-    ],
-    [
-      [ "water_faucet", 1 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
   "result": "cargo_rack",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_PARTS",
