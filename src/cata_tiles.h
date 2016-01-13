@@ -386,8 +386,6 @@ class cata_tiles
         int o_x, o_y;
         // offset for drawing, in pixels.
         int op_x, op_y;
-        // screen width in tiles
-        int sx;
 
     private:
         void create_default_item_highlight();

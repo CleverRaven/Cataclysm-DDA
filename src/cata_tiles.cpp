@@ -848,7 +848,7 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
     int posx = center.x;
     int posy = center.y;
 
-    int sy;
+    int sx, sy;
     get_window_tile_counts(width, height, sx, sy);
 
     init_light();
@@ -1331,8 +1331,8 @@ bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
     // translate from player-relative to screen relative tile position
     int screen_x, screen_y;
     if ( tile_iso && use_tiles ) {
-        screen_x = ((x-o_x) - (o_y-y) + sx/2 - 4) * tile_width / 2 +
-            op_x;
+        screen_x = ((x-o_x) - (o_y-y) + screentile_width - 2 ) * tile_width / 2 +
+        op_x;
         // y uses tile_width because width is definitive for iso tiles
         // tile footprints are half as tall as wide, aribtrarily tall
         screen_y = ((y-o_y) - (x-o_x) - 4) * tile_width / 4 +
