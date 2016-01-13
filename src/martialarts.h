@@ -257,13 +257,13 @@ class martialart
         bool leg_block_with_bio_armor_legs;
         std::set<matec_id> techniques; // all available techniques
         std::set<std::string> weapons; // all style weapons
-        std::vector<ma_buff> static_buffs; // all buffs triggered by each condition
-        std::vector<ma_buff> onmove_buffs;
-        std::vector<ma_buff> onhit_buffs;
-        std::vector<ma_buff> onattack_buffs;
-        std::vector<ma_buff> ondodge_buffs;
-        std::vector<ma_buff> onblock_buffs;
-        std::vector<ma_buff> ongethit_buffs;
+        std::vector<mabuff_id> static_buffs; // all buffs triggered by each condition
+        std::vector<mabuff_id> onmove_buffs;
+        std::vector<mabuff_id> onhit_buffs;
+        std::vector<mabuff_id> onattack_buffs;
+        std::vector<mabuff_id> ondodge_buffs;
+        std::vector<mabuff_id> onblock_buffs;
+        std::vector<mabuff_id> ongethit_buffs;
 };
 
 void load_technique( JsonObject &jo );

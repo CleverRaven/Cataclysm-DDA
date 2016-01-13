@@ -104,7 +104,7 @@ bool string_id<ma_technique>::is_valid() const
     return ma_techniques.count( *this ) > 0;
 }
 
-ma_buff load_buff(JsonObject &jo)
+mabuff_id load_buff(JsonObject &jo)
 {
     ma_buff buff;
 
@@ -172,7 +172,7 @@ ma_buff load_buff(JsonObject &jo)
 
     ma_buffs[buff.id] = buff;
 
-    return buff;
+    return buff.id;
 }
 
 // Not implemented on purpose (martialart objects have no integer id)
@@ -654,10 +654,11 @@ martialart::martialart()
 
 // simultaneously check and add all buffs. this is so that buffs that have
 // buff dependencies added by the same event trigger correctly
-void simultaneous_add(player &u, const std::vector<ma_buff> &buffs)
+void simultaneous_add(player &u, const std::vector<mabuff_id> &buffs)
 {
     std::vector<const ma_buff*> buffer; // hey get it because it's for buffs????
-    for( auto &buff : buffs ) {
+    for( auto &buffid : buffs ) {
+        const ma_buff &buff = buffid.obj();
         if( buff.is_valid_player( u ) ) {
             buffer.push_back( &buff );
         }
