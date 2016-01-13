@@ -118,65 +118,65 @@ mabuff_id load_buff(JsonObject &jo)
 
 void ma_buff::load( JsonObject &jo )
 {
-    name = _(jo.get_string("name").c_str());
-    description = _(jo.get_string("description").c_str());
+    const bool was_loaded = false;
 
-    buff_duration = jo.get_int("buff_duration", 2);
-    max_stacks = jo.get_int("max_stacks", 1);
+    mandatory( jo, was_loaded, "name", name, translated_string_reader );
+    mandatory( jo, was_loaded, "description", description, translated_string_reader );
 
-    reqs.unarmed_allowed = jo.get_bool("unarmed_allowed", false);
-    reqs.melee_allowed = jo.get_bool("melee_allowed", false);
+    optional( jo, was_loaded, "buff_duration", buff_duration, 2 );
+    optional( jo, was_loaded, "max_stacks", max_stacks, 1 );
 
-    reqs.min_melee = jo.get_int("min_melee", 0);
-    reqs.min_unarmed = jo.get_int("min_unarmed", 0);
+    optional( jo, was_loaded, "unarmed_allowed", reqs.unarmed_allowed, false );
+    optional( jo, was_loaded, "melee_allowed", reqs.melee_allowed, false );
 
-    dodges_bonus = jo.get_int("bonus_dodges", 0);
-    blocks_bonus = jo.get_int("bonus_blocks", 0);
+    optional( jo, was_loaded, "min_melee", reqs.min_melee, 0 );
+    optional( jo, was_loaded, "min_unarmed", reqs.min_unarmed, 0 );
 
-    hit = jo.get_int("hit", 0);
-    bash = jo.get_int("bash", 0);
-    cut = jo.get_int("cut", 0);
-    dodge = jo.get_int("dodge", 0);
-    speed = jo.get_int("speed", 0);
-    block = jo.get_int("block", 0);
+    optional( jo, was_loaded, "bonus_dodges", dodges_bonus, 0 );
+    optional( jo, was_loaded, "bonus_blocks", blocks_bonus, 0 );
 
-    arm_bash = jo.get_int("arm_bash", 0);
-    arm_cut = jo.get_int("arm_cut", 0);
+    optional( jo, was_loaded, "hit", hit, 0 );
+    optional( jo, was_loaded, "bash", bash, 0 );
+    optional( jo, was_loaded, "cut", cut, 0 );
+    optional( jo, was_loaded, "dodge", dodge, 0 );
+    optional( jo, was_loaded, "speed", speed, 0 );
+    optional( jo, was_loaded, "block", block, 0 );
 
-    bash_stat_mult = jo.get_float("bash_mult", 1.0);
-    cut_stat_mult = jo.get_float("cut_mult", 1.0);
+    optional( jo, was_loaded, "arm_bash", arm_bash, 0 );
+    optional( jo, was_loaded, "arm_cut", arm_cut, 0 );
 
-    hit_str = jo.get_float("hit_str", 0.0);
-    hit_dex = jo.get_float("hit_dex", 0.0);
-    hit_int = jo.get_float("hit_int", 0.0);
-    hit_per = jo.get_float("hit_per", 0.0);
+    optional( jo, was_loaded, "bash_mult", bash_stat_mult, 1.0 );
+    optional( jo, was_loaded, "cut_mult", cut_stat_mult, 1.0 );
 
-    bash_str = jo.get_float("bash_str", 0.0);
-    bash_dex = jo.get_float("bash_dex", 0.0);
-    bash_int = jo.get_float("bash_int", 0.0);
-    bash_per = jo.get_float("bash_per", 0.0);
+    optional( jo, was_loaded, "hit_str", hit_str, 0.0 );
+    optional( jo, was_loaded, "hit_dex", hit_dex, 0.0 );
+    optional( jo, was_loaded, "hit_int", hit_int, 0.0 );
+    optional( jo, was_loaded, "hit_per", hit_per, 0.0 );
 
-    cut_str = jo.get_float("cut_str", 0.0);
-    cut_dex = jo.get_float("cut_dex", 0.0);
-    cut_int = jo.get_float("cut_int", 0.0);
-    cut_per = jo.get_float("cut_per", 0.0);
+    optional( jo, was_loaded, "bash_str", bash_str, 0.0 );
+    optional( jo, was_loaded, "bash_dex", bash_dex, 0.0 );
+    optional( jo, was_loaded, "bash_int", bash_int, 0.0 );
+    optional( jo, was_loaded, "bash_per", bash_per, 0.0 );
 
-    dodge_str = jo.get_float("dodge_str", 0.0);
-    dodge_dex = jo.get_float("dodge_dex", 0.0);
-    dodge_int = jo.get_float("dodge_int", 0.0);
-    dodge_per = jo.get_float("dodge_per", 0.0);
+    optional( jo, was_loaded, "cut_str", cut_str, 0.0 );
+    optional( jo, was_loaded, "cut_dex", cut_dex, 0.0 );
+    optional( jo, was_loaded, "cut_int", cut_int, 0.0 );
+    optional( jo, was_loaded, "cut_per", cut_per, 0.0 );
 
-    block_str = jo.get_float("block_str", 0.0);
-    block_dex = jo.get_float("block_dex", 0.0);
-    block_int = jo.get_float("block_int", 0.0);
-    block_per = jo.get_float("block_per", 0.0);
+    optional( jo, was_loaded, "dodge_str", dodge_str, 0.0 );
+    optional( jo, was_loaded, "dodge_dex", dodge_dex, 0.0 );
+    optional( jo, was_loaded, "dodge_int", dodge_int, 0.0 );
+    optional( jo, was_loaded, "dodge_per", dodge_per, 0.0 );
 
-    quiet = jo.get_bool("quiet", false);
-    throw_immune = jo.get_bool("throw_immune", false);
+    optional( jo, was_loaded, "block_str", block_str, 0.0 );
+    optional( jo, was_loaded, "block_dex", block_dex, 0.0 );
+    optional( jo, was_loaded, "block_int", block_int, 0.0 );
+    optional( jo, was_loaded, "block_per", block_per, 0.0 );
 
-    for( auto & s :jo.get_tags( "req_buffs" ) ) {
-        reqs.req_buffs.insert( mabuff_id( s ) );
-    }
+    optional( jo, was_loaded, "quiet", quiet, false );
+    optional( jo, was_loaded, "throw_immune", throw_immune, false );
+
+    optional( jo, was_loaded, "req_buffs", reqs.req_buffs, auto_flags_reader<mabuff_id>{} );
 }
 
 // Not implemented on purpose (martialart objects have no integer id)
