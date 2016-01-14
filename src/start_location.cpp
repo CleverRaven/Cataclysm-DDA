@@ -14,10 +14,8 @@
 static location_map _locations;
 
 start_location::start_location()
+    : _name( "null" ), _target( "shelter" )
 {
-    _ident = "";
-    _name = "null";
-    _target = "shelter";
 }
 
 start_location::start_location( std::string ident, std::string name,
