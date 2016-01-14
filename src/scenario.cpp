@@ -314,9 +314,9 @@ std::vector<std::string> scenario::items_female() const
 {
     return _starting_items_female;
 }
-bool scenario::profquery(const profession* proff) const
+bool scenario::profquery( const string_id<profession> &proff ) const
 {
-    return _allowed_professions.count(proff->ident()) != 0;
+    return _allowed_professions.count( proff ) != 0;
 }
 bool scenario::traitquery(std::string trait) const
 {

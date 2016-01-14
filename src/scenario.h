@@ -84,7 +84,7 @@ public:
     std::string start_name() const;
     const profession* get_profession() const;
     const profession* random_profession() const;
-    bool profquery(const profession* proff) const;
+    bool profquery( const string_id<profession> &proff ) const;
     bool traitquery(std::string trait) const;
     bool locked_traits(std::string trait) const;
     bool forbidden_traits(std::string trait) const;

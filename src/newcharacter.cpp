@@ -1087,7 +1087,7 @@ int set_profession(WINDOW *w, player *u, int &points)
             sorted_profs.clear();
             for (profmap::const_iterator iter = profession::begin(); iter != profession::end(); ++iter) {
                 if ((g->scen->profsize() == 0 && (iter->second).has_flag("SCEN_ONLY") == false) ||
-                    g->scen->profquery(&(iter->second)) == true) {
+                    g->scen->profquery( iter->first ) ) {
                     if (!lcmatch(iter->second.gender_appropriate_name(u->male), filterstring)) {
                         continue;
                     }
