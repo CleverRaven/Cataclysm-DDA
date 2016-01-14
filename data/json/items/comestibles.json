@@ -12215,7 +12215,7 @@
         "price" : 500,
         "material" : ["milk"],
         "tool" : "null",
-        "volume" : 
+        "volume" : 1,
         "phase" : "solid",
         "charges" : 2,
         "flags" : ["EATEN_HOT"],
