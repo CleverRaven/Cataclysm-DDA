@@ -347,7 +347,6 @@ classes = {
             scent = { type = "int", writable = true },
             slow_rad = { type = "int", writable = true },
             stamina = { type = "int", writable = true },
-            start_location = { type = "string", writable = true },
             stim = { type = "int", writable = true },
             tank_plut = { type = "int", writable = true },
             thirst = { type = "int", writable = true },

@@ -1,6 +1,8 @@
 #ifndef START_LOCATION_H
 #define START_LOCATION_H
 
+#include "string_id.h"
+
 #include <string>
 #include <map>
 #include <set>
@@ -10,22 +12,22 @@ class tinymap;
 class player;
 class JsonObject;
 struct tripoint;
+class start_location;
 
-typedef std::map<std::string, class start_location> location_map;
+typedef std::map<string_id<start_location>, start_location> location_map;
 
 class start_location
 {
     public:
         start_location();
 
-        std::string ident() const;
+        const string_id<start_location> &ident() const;
         std::string name() const;
         std::string target() const;
         const std::set<std::string> &flags() const;
 
         static location_map::iterator begin();
         static location_map::iterator end();
-        static const start_location *find( const std::string ident );
         static void load_location( JsonObject &jsonobj );
         static void reset();
 
@@ -54,7 +56,7 @@ class start_location
 
         void handle_heli_crash( player &u ) const;
     private:
-        std::string _ident;
+        string_id<start_location> _ident;
         std::string _name;
         std::string _target;
         std::set<std::string> _flags;

@@ -33,6 +33,8 @@ struct recipe;
 struct item_comp;
 struct tool_comp;
 class vehicle;
+class start_location;
+using start_location_id = string_id<start_location>;
 struct it_comest;
 struct w_point;
 
@@ -1055,7 +1057,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         const profession *prof;
 
-        std::string start_location;
+        start_location_id start_location;
 
         std::map<std::string, int> mutation_category_level;
 

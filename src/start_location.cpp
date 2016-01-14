@@ -13,12 +13,31 @@
 
 static location_map _locations;
 
+template<>
+const start_location &string_id<start_location>::obj() const
+{
+    const auto iter = _locations.find( *this );
+    if( iter != _locations.end() ) {
+        return iter->second;
+    } else {
+        debugmsg( "Tried to get invalid start location: %s", c_str() );
+        static const start_location dummy{};
+        return dummy;
+    }
+}
+
+template<>
+bool string_id<start_location>::is_valid() const
+{
+    return _locations.count( *this ) > 0;
+}
+
 start_location::start_location()
     : _name( "null" ), _target( "shelter" )
 {
 }
 
-std::string start_location::ident() const
+const string_id<start_location> &start_location::ident() const
 {
     return _ident;
 }
@@ -43,18 +62,6 @@ location_map::iterator start_location::end()
     return _locations.end();
 }
 
-const start_location *start_location::find( const std::string ident )
-{
-    location_map::iterator found = _locations.find( ident );
-    if(found != _locations.end()) {
-        return &(found->second);
-    } else {
-        debugmsg("Tried to get invalid location: %s", ident.c_str());
-        static start_location null_location;
-        return &null_location;
-    }
-}
-
 const std::set<std::string> &start_location::flags() const {
     return _flags;
 }
@@ -63,7 +70,7 @@ void start_location::load_location( JsonObject &jsonobj )
 {
     start_location new_location;
 
-    new_location._ident = jsonobj.get_string("ident");
+    new_location._ident = string_id<start_location>( jsonobj.get_string( "ident" ) );
     new_location._name = jsonobj.get_string("name");
     new_location._target = jsonobj.get_string("target");
     new_location._flags = jsonobj.get_tags("flags");

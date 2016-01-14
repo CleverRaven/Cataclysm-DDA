@@ -15,6 +15,8 @@ class JsonArray;
 class JsonObject;
 class addiction;
 enum add_type : int;
+class start_location;
+using start_location_id = string_id<start_location>;
 
 typedef std::map<string_id<scenario>, scenario> scenmap;
 
@@ -30,13 +32,13 @@ private:
     std::string _description_female;
     std::string _gender_req;
     std::string _start_name;
-    std::string _default_loc;
+    start_location_id _default_loc;
     string_id<profession> _profession;
     std::set<string_id<profession>> _allowed_professions;
     std::set<std::string> _allowed_traits;
     std::set<std::string> _forced_traits;
     std::set<std::string> _forbidden_traits;
-    std::set<std::string> _allowed_locs;
+    std::set<start_location_id> _allowed_locs;
     int _mission;
     std::vector<std::string> traits;
     int _point_cost;
@@ -77,8 +79,8 @@ public:
     std::string gender_appropriate_name(bool male) const;
     std::string description(bool male) const;
     std::string gender_req() const;
-    std::string start_location() const;
-    std::string random_start_location() const;
+    start_location_id start_location() const;
+    start_location_id random_start_location() const;
     std::string start_name() const;
     const profession* get_profession() const;
     const profession* random_profession() const;
@@ -86,7 +88,7 @@ public:
     bool traitquery(std::string trait) const;
     bool locked_traits(std::string trait) const;
     bool forbidden_traits(std::string trait) const;
-    bool allowed_start(std::string loc) const;
+    bool allowed_start( const start_location_id &loc ) const;
     int profsize() const;
     int mission() const;
     signed int point_cost() const;

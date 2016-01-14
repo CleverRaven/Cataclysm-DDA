@@ -693,7 +693,7 @@ void game::start_game(std::string worldname)
     }
     u.setID( assign_npc_id() ); // should be as soon as possible, but *after* load_master
 
-    const start_location &start_loc = *start_location::find( u.start_location );
+    const start_location &start_loc = u.start_location.obj();
     const tripoint omtstart = start_loc.setup();
     if( scen->has_map_special() ) {
         // Specials can add monster spawn points and similar and should be done before the main

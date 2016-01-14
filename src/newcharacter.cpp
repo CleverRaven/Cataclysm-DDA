@@ -2040,7 +2040,7 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
         mvwprintz( w_location, 0, prompt_offset + 1, c_ltgray, _("Starting location:") );
         // ::find will return empty location if id was not found. Debug msg will be printed too.
         mvwprintz( w_location, 0, prompt_offset + utf8_width(_("Starting location:")) + 2,
-                   c_ltgray, _(start_location::find(u->start_location)->name().c_str()));
+                   c_ltgray, _(u->start_location.obj().name().c_str()));
         wrefresh(w_location);
 
         werase(w_scenario);

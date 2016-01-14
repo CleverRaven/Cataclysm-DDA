@@ -112,12 +112,12 @@ void scenario::load_scenario(JsonObject &jsobj)
     }
     jsarr = jsobj.get_array("allowed_locs");
     while (jsarr.has_more()) {
-        if (scen._default_loc.size() < 1){
-            scen._default_loc = jsarr.next_string();
-            scen._allowed_locs.insert(scen._default_loc);
+        if( scen._default_loc.str().empty() ) {
+            scen._default_loc = start_location_id( jsarr.next_string() );
+            scen._allowed_locs.insert( start_location_id( scen._default_loc ) );
         }
         else{
-            scen._allowed_locs.insert(jsarr.next_string());
+            scen._allowed_locs.insert( start_location_id( jsarr.next_string() ) );
         }
     }
     jsarr = jsobj.get_array("flags");
@@ -272,13 +272,13 @@ signed int scenario::point_cost() const
     return _point_cost;
 }
 
-std::string scenario::start_location() const
+start_location_id scenario::start_location() const
 {
     return _default_loc;
 }
-std::string scenario::random_start_location() const
+start_location_id scenario::random_start_location() const
 {
-   return random_entry( _allowed_locs, start_location() );
+   return random_entry( _allowed_locs );
 }
 const profession* scenario::get_profession() const
 {
@@ -338,7 +338,7 @@ bool scenario::has_flag(std::string flag) const
 {
     return flags.count(flag) != 0;
 }
-bool scenario::allowed_start(std::string loc) const
+bool scenario::allowed_start( const start_location_id &loc ) const
 {
     return _allowed_locs.count(loc) != 0;
 }
