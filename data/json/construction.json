@@ -2190,5 +2190,63 @@
         ],
         "pre_special" : "check_empty",
         "post_terrain" : "f_clay_kiln"
+    },{
+        "type" : "construction",
+        "description" : "Build Reinforced Glass Window", "//": "Step 1 : metal frame",
+        "category" : "CONSTRUCT",
+        "difficulty" : 7,
+        "time" : 90,
+        "qualities": [
+            [
+            { "id": "HAMMER", "level": 2 }
+            ],
+            [
+            { "id": "SAW_M", "level": 1 }
+            ]
+            ],
+        "components" : [
+            [ [ "spike", 8 ] ],
+            [ [ "steel_chunk", 4 ], [ "scrap", 12 ] ]
+        ],
+        "pre_special" : "check_empty",
+        "post_terrain" : "t_m_frame"
+    },{
+        "type" : "construction",
+        "description" : "Build Reinforced Glass Window", "//": "Step 2 : Reinforced Glass",
+        "category" : "CONSTRUCT",
+        "difficulty" : 8,
+        "time" : 150,
+        "qualities": [
+            [
+            { "id": "HAMMER", "level": 2 }
+            ],
+            [
+            { "id": "SAW_M", "level": 1 }
+            ]
+            ],
+        "components" : [
+            [["reinforced_glass_sheet", 1]]            
+        ],
+        "pre_terrain" : "t_m_frame",
+        "post_terrain" : "t_reinforced_glass"
+    },{
+        "type" : "construction",
+        "description" : "Build Reinforced Glass Window", "//": "Step 3 : Metal shutters",
+        "category" : "CONSTRUCT",
+        "difficulty" : 8,
+        "time" : 150,
+        "qualities": [
+            [
+            { "id": "HAMMER", "level": 2 }
+            ],
+            [
+            { "id": "SAW_M", "level": 1 }
+            ]
+            ],
+        "components" : [
+            [ [ "steel_plate", 2 ]]
+        ],
+        "pre_terrain" : "t_reinforced_glass",
+        "post_terrain" : "t_reinforced_glass_shutter"
     }
 ]
