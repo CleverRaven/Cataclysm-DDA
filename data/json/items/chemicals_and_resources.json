@@ -198,7 +198,7 @@
     "name" : "rock salt",
     "name_plural" : "rock salt",
     "symbol" : "*",
-    "color" : "gray",
+    "color" : "light_gray",
     "description" : "A handful of rock salt crystals.  Could be refined into table salt.",
     "material" : "stone",
     "volume" : 14,

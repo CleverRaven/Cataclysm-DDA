@@ -260,7 +260,7 @@
     "id": "survivor_scope",
     "type": "TOOL",
     "symbol": "o",
-    "color": "dark_green",
+    "color": "green",
     "name": "survivor telescope",
     "name_plural": "survivor telescopes",
     "description": "A homemade collapsible telescope.  Too large and inaccurate to use as a weapon scope, but carrying this item in your inventory will double the distance that is mapped around you during your travels.",
