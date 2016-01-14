@@ -17,7 +17,6 @@ class start_location
 {
     public:
         start_location();
-        start_location( std::string ident, std::string name, std::string target );
 
         std::string ident() const;
         std::string name() const;

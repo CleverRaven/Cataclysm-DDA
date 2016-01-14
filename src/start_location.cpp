@@ -18,14 +18,6 @@ start_location::start_location()
 {
 }
 
-start_location::start_location( std::string ident, std::string name,
-                                std::string target )
-{
-    _ident = ident;
-    _name = name;
-    _target = target;
-}
-
 std::string start_location::ident() const
 {
     return _ident;
