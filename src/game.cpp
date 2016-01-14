@@ -11802,7 +11802,7 @@ bool game::plmove(int dx, int dy, int dz)
         dest_loc.y = rng(u.posy() - 1, u.posy() + 1);
         dest_loc.z = u.posz();
     } else {
-        if( tile_iso && use_tiles ) {
+        if( tile_iso && use_tiles && !u.has_destination() ) {
             rotate_direction_cw(dx,dy);
         }
         dest_loc.x = u.posx() + dx;
@@ -14719,7 +14719,7 @@ void game::add_artifact_messages(std::vector<art_effect_passive> effects)
 
         case AEP_PBLUE:
             break; // No message
-            
+
         case AEP_SNAKES:
             add_msg(m_warning, _("Your skin feels slithery."));
             break;
