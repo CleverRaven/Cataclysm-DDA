@@ -270,8 +270,8 @@ void player_activity::do_turn( player *p )
             }
             break;
          case ACT_CRACKING:
-             if (!p->has_amount("stethoscope", 1)) {
-                 // We lost our stethoscope somehow, bail out.
+             if ( !( p->has_amount("stethoscope", 1) || p->has_bionic("bio_ears") ) ) {
+                 // We lost our cracking tool somehow, bail out.
                  type = ACT_NULL;
                  break;
              }

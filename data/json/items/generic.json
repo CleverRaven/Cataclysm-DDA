@@ -218,7 +218,7 @@
         "id" : "rope_6",
         "category" : "spare_parts",
         "name" : "short rope",
-        "description" : "A six-foot long piece of rope.  Too small to be of much use.  ",
+        "description" : "A six-foot long piece of rope.  Too small to be of much use.",
         "weight" : 216,
         "to_hit" : 1,
         "color" : "light_gray",

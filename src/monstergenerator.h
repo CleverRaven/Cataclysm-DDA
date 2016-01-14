@@ -6,6 +6,7 @@
 #include "string_id.h"
 
 #include <map>
+#include <memory>
 #include <set>
 
 class Creature;
@@ -23,9 +24,12 @@ using mon_action_defend = void (*)(monster&, Creature*, dealt_projectile_attack 
 using mtype_id = string_id<mtype>;
 struct species_type;
 using species_id = string_id<species_type>;
+template<typename T>
+class generic_factory;
 
 struct species_type {
     species_id id;
+    bool was_loaded = false;
     std::set<m_flag> flags;
     std::set<monster_trigger> anger_trig, fear_trig, placate_trig;
 
@@ -33,18 +37,8 @@ struct species_type {
     {
 
     }
-    species_type( const species_id &_id,
-                 std::set<m_flag> _flags,
-                 std::set<monster_trigger> _anger,
-                 std::set<monster_trigger> _fear,
-                 std::set<monster_trigger> _placate)
-    : id( _id )
-    , flags( _flags )
-    , anger_trig( _anger)
-    , fear_trig( _fear )
-    , placate_trig( _placate )
-    {
-    }
+
+    void load( JsonObject &jo );
 };
 
 class MonsterGenerator
@@ -56,8 +50,7 @@ class MonsterGenerator
 
             return generator;
         }
-        /** Default destructor */
-        virtual ~MonsterGenerator();
+        ~MonsterGenerator();
 
         // clear monster & species definitions
         void reset();
@@ -68,18 +61,15 @@ class MonsterGenerator
 
         // combines mtype and species information, sets bitflags
         void finalize_mtypes();
-        
+
 
         void check_monster_definitions() const;
 
-        mtype &get_mtype( const mtype_id& id );
-        species_type &get_species( const species_id& id );
-        bool has_mtype( const mtype_id &id ) const;
-        bool has_species( const species_id &species ) const;
-        std::map<mtype_id, mtype *> get_all_mtypes() const;
-        std::vector<mtype_id> get_all_mtype_ids() const;
+        std::vector<const mtype *> get_all_mtypes() const;
         mtype_id get_valid_hallucination() const;
         friend struct mtype;
+        friend struct species_type;
+
     protected:
         m_flag m_flag_from_string( std::string flag ) const;
     private:
@@ -112,8 +102,12 @@ class MonsterGenerator
 
         template <typename T> void apply_set_to_set(std::set<T> from, std::set<T> &to);
 
-        std::map<mtype_id, mtype *> mon_templates;
-        std::map<species_id, species_type *> mon_species;
+        friend class string_id<mtype>;
+        friend class string_id<species_type>;
+
+        // Using unique_ptr here to avoid including generic_factory.h in this header.
+        std::unique_ptr<generic_factory<mtype>> mon_templates;
+        std::unique_ptr<generic_factory<species_type>> mon_species;
 
         std::map<std::string, phase_id> phase_map;
         std::map<std::string, mon_action_death> death_map;

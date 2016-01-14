@@ -143,6 +143,7 @@ struct level_cache {
 
     bool transparency_cache_dirty;
     bool outside_cache_dirty;
+    bool floor_cache_dirty;
 
     float lm[MAPSIZE*SEEX][MAPSIZE*SEEY];
     float sm[MAPSIZE*SEEX][MAPSIZE*SEEY];
@@ -150,6 +151,7 @@ struct level_cache {
     // This is only valid for the duration of generate_lightmap
     float light_source_buffer[MAPSIZE*SEEX][MAPSIZE*SEEY];
     bool outside_cache[MAPSIZE*SEEX][MAPSIZE*SEEY];
+    bool floor_cache[MAPSIZE*SEEX][MAPSIZE*SEEY];
     float transparency_cache[MAPSIZE*SEEX][MAPSIZE*SEEY];
     float seen_cache[MAPSIZE*SEEX][MAPSIZE*SEEY];
     lit_level visibility_cache[MAPSIZE*SEEX][MAPSIZE*SEEY];
@@ -198,30 +200,32 @@ class map
 
 
     /**
-     * Sets a dirty flag on the transparency cache.
+     * Sets a dirty flag on the a given cache.
      *
      * If this isn't set, it's just assumed that
-     * the transparency cache hasn't changed and
+     * the cache hasn't changed and
      * doesn't need to be updated.
      */
+    /*@{*/
     void set_transparency_cache_dirty( const int zlev ) {
         if( inbounds_z( zlev ) ) {
             get_cache( zlev ).transparency_cache_dirty = true;
         }
     }
 
-    /**
-     * Sets a dirty flag on the outside cache.
-     *
-     * If this isn't set, it's just assumed that
-     * the outside cache hasn't changed and
-     * doesn't need to be updated.
-     */
     void set_outside_cache_dirty( const int zlev ) {
         if( inbounds_z( zlev ) ) {
             get_cache( zlev ).outside_cache_dirty = true;
         }
     }
+
+    void set_floor_cache_dirty( const int zlev ) {
+        if( inbounds_z( zlev ) ) {
+            get_cache( zlev ).floor_cache_dirty = true;
+        }
+    }
+    /*@}*/
+
 
     /**
      * Callback invoked when a vehicle has moved.
@@ -687,13 +691,13 @@ void draw_square_furn(furn_id type, int x1, int y1, int x2, int y2);
 void draw_square_furn(std::string type, int x1, int y1, int x2, int y2);
 void draw_square_ter(ter_id (*f)(), int x1, int y1, int x2, int y2);
 void draw_square_ter(const id_or_id<ter_t> & f, int x1, int y1, int x2, int y2);
-void draw_rough_circle(ter_id type, int x, int y, int rad);
-void draw_rough_circle(std::string type, int x, int y, int rad);
+void draw_rough_circle_ter(ter_id type, int x, int y, int rad);
+void draw_rough_circle_ter(std::string type, int x, int y, int rad);
 void draw_rough_circle_furn(furn_id type, int x, int y, int rad);
 void draw_rough_circle_furn(std::string type, int x, int y, int rad);
-void draw_circle(ter_id type, double x, double y, double rad);
-void draw_circle(ter_id type, int x, int y, int rad);
-void draw_circle(std::string type, int x, int y, int rad);
+void draw_circle_ter(ter_id type, double x, double y, double rad);
+void draw_circle_ter(ter_id type, int x, int y, int rad);
+void draw_circle_ter(std::string type, int x, int y, int rad);
 void draw_circle_furn(furn_id type, int x, int y, int rad);
 void draw_circle_furn(std::string type, int x, int y, int rad);
 
@@ -1047,6 +1051,8 @@ public:
  vehicle *add_vehicle(const vproto_id &type, const int x, const int y, const int dir,
                       const int init_veh_fuel = -1, const int init_veh_status = -1,
                       const bool merge_wrecks = true);
+
+    // Note: in 3D mode, will actually build caches on ALL zlevels
     void build_map_cache( int zlev, bool skip_lightmap = false );
 
     vehicle *add_vehicle( const vgroup_id &type, const tripoint &p, const int dir,
@@ -1189,6 +1195,9 @@ protected:
  void build_transparency_cache( int zlev );
 public:
  void build_outside_cache( int zlev );
+    void build_floor_cache( int zlev );
+    // We want this visible in `game`, because we want it built earlier in the turn than the rest
+    void build_floor_caches();
 protected:
  void generate_lightmap( int zlev );
  void build_seen_cache( const tripoint &origin, int target_z );
@@ -1395,27 +1404,6 @@ friend class editmap;
 public:
  tinymap(int mapsize = 2, bool zlevels = false);
 };
-
-// Hoisted to header and inlined so the test in tests/shadowcasting_test.cpp can use it.
-// Beer–Lambert law says attenuation is going to be equal to
-// 1 / (e^al) where a = coefficient of absorption and l = length.
-// Factoring out length, we get 1 / (e^((a1*a2*a3*...*an)*l))
-// We merge all of the absorption values by taking their cumulative average.
-inline float sight_calc( const float &numerator, const float &transparency, const int &distance ) {
-    return numerator / (float)exp( transparency * distance );
-}
-inline bool sight_check( const float &transparency, const float &/*intensity*/ ) {
-    return transparency > LIGHT_TRANSPARENCY_SOLID;
-}
-
-template<int xx, int xy, int yx, int yy, float(*calc)(const float &, const float &, const int &),
-    bool(*check)(const float &, const float &)>
-    void castLight( float (&output_cache)[MAPSIZE*SEEX][MAPSIZE*SEEY],
-                    const float (&input_array)[MAPSIZE*SEEX][MAPSIZE*SEEY],
-                    const int offsetX, const int offsetY, const int offsetDistance,
-                    const float numerator = 1.0, const int row = 1,
-                    float start = 1.0f, const float end = 0.0f,
-                    double cumulative_transparency = LIGHT_TRANSPARENCY_OPEN_AIR );
 
 #endif
 

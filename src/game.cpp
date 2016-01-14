@@ -1054,10 +1054,9 @@ bool game::cleanup_at_end()
 
         int iTotalKills = 0;
 
-        const std::map<mtype_id, mtype *> monids = MonsterGenerator::generator().get_all_mtypes();
-        for( const auto &monid : monids ) {
-            if( kill_count( monid.first ) > 0 ) {
-                iTotalKills += kill_count( monid.first );
+        for( const auto &type : MonsterGenerator::generator().get_all_mtypes() ) {
+            if( kill_count( type->id ) > 0 ) {
+                iTotalKills += kill_count( type->id );
             }
         }
 
@@ -1363,6 +1362,9 @@ bool game::do_turn()
     }
     update_scent();
 
+    // We need floor cache before checking falling 'n stuff
+    m.build_floor_caches();
+
     m.process_falling();
     m.vehmove();
 
@@ -1594,6 +1596,13 @@ void game::update_weather()
 
         if (weather != old_weather && u.has_activity(ACT_WAIT_WEATHER)) {
             u.assign_activity(ACT_WAIT_WEATHER, 0, 0);
+        }
+
+        if( weather_data( weather ).sight_penalty !=
+            weather_data( old_weather ).sight_penalty ) {
+            for( int i = -OVERMAP_DEPTH; i <= OVERMAP_HEIGHT; i++ ) {
+                m.set_transparency_cache_dirty( i );
+            }
         }
     }
 }
@@ -5040,7 +5049,7 @@ void game::draw_sidebar()
         mvwprintz(w_location, 0, 18, weather_data(weather).color, "%s", weather_data(weather).name.c_str());
     }
 
-    if (u.worn_with_flag("THERMOMETER")) {
+    if( u.worn_with_flag( "THERMOMETER" ) || u.has_bionic( "bio_meteorologist" ) ) {
         wprintz( w_location, c_white, " %s", print_temperature( get_temperature() ).c_str());
     }
 
@@ -5110,6 +5119,16 @@ void game::draw_critter( const Creature &critter, const tripoint &center )
         return;
     }
     if( critter.posz() != center.z && m.has_zlevels() ) {
+        static const tripoint up_tripoint( 0, 0, 1 );
+        if( critter.posz() == center.z - 1 &&
+            ( debug_mode || u.sees( critter ) ) &&
+            m.valid_move( critter.pos(), critter.pos() + up_tripoint, false, true ) ) {
+            // Monster is below
+            // TODO: Make this show something more informative than just green 'v'
+            // TODO: Allow looking at this mon with look command
+            // TODO: Redraw this after weather etc. animations
+            mvwputch( w_terrain, my, mx, c_green_cyan, 'v' );
+        }
         return;
     }
     if( u.sees( critter ) || &critter == &u ) {
@@ -5135,7 +5154,12 @@ void game::draw_ter( const tripoint &center, const bool looking, const bool draw
     const int posx = center.x;
     const int posy = center.y;
 
-    m.build_map_cache( center.z );
+    // TODO: Make it not rebuild the cache all the time (cache point+moves?)
+    if( !looking ) {
+        // If we're looking, the cache is built at start (entering looking mode)
+        m.build_map_cache( center.z );
+    }
+
     m.draw( w_terrain, center );
 
     if( draw_sounds ) {
@@ -8901,7 +8925,7 @@ tripoint game::look_around( WINDOW *w_info, const tripoint &start_point,
     bVMonsterLookFire = false;
     // TODO: Make this `true`
     const bool allow_zlev_move = m.has_zlevels() &&
-        ( debug_mode || u.has_trait( "DEBUG_NIGHTVISION" ) );
+        ( debug_mode || fov_3d || u.has_trait( "DEBUG_NIGHTVISION" ) );
 
     temp_exit_fullscreen();
 
@@ -10870,17 +10894,7 @@ void game::plfire( bool burst, const tripoint &default_target )
         }
 
         if( u.weapon.has_flag("RELOAD_AND_SHOOT") && u.weapon.charges == 0 ) {
-            const int reload_pos = u.weapon.pick_reload_ammo( u, true );
-            if( reload_pos == INT_MIN ) {
-                add_msg(m_info, _("Out of ammo!"));
-                return;
-            } else if( reload_pos == INT_MIN + 2 ) {
-                add_msg(m_info, _("Never mind."));
-                refresh_all();
-                return;
-            }
-
-            if( !u.weapon.reload( u, reload_pos ) ) {
+            if( !u.weapon.reload( u, u.weapon.pick_reload_ammo( u, true ) ) ) {
                 return;
             }
 
@@ -11313,18 +11327,16 @@ void game::reload( int pos )
     }
 
     // pick ammo
-    int am_pos = it->pick_reload_ammo( u, true );
-    if( am_pos == INT_MIN ) {
-       if( it->is_gun() ) {
-            add_msg( m_info, _( "Out of ammo!" ) );
-        } else if( it->has_curammo() ) {
-            add_msg( m_info, _( "Out of %s!" ), item::nname( it->get_curammo_id() ).c_str() );
-        } else {
-            add_msg( m_info, _( "Out of %s!" ), ammo_name( it->ammo_type() ).c_str() );
+    auto loc = it->pick_reload_ammo( u, true );
+    auto ammo = loc.get_item();
+    if( ammo ) {
+        // move ammo to inventory if necessary
+        int am_pos = u.get_item_position( ammo );
+        if( am_pos == INT_MIN ) {
+            am_pos = u.get_item_position( &u.i_add( *ammo ) );
+            loc.remove_item();
         }
-    } else if( am_pos == INT_MIN + 2 ) {
-        add_msg( m_info, _( "Never mind." ) );
-    } else {
+
         // do the actual reloading
         std::stringstream ss;
         ss << pos;
@@ -11394,10 +11406,11 @@ void game::unload( item &it )
     // Unload a container consuming moves per item successfully removed
     if( it.is_container() && !it.contents.empty() ) {
         it.contents.erase( std::remove_if( it.contents.begin(), it.contents.end(), [this]( item& e ) {
+            int mv = u.item_handling_cost( e );
             if( !add_or_drop_with_msg( u, e ) ) {
                 return false;
             }
-            u.moves -= 40;
+            u.moves -= mv;
             return true;
         } ), it.contents.end() );
         return;
@@ -11585,8 +11598,9 @@ void game::chat()
         nmenu.addentry( i++, true, MENU_AUTOASSIGN, ( elem )->name );
     }
 
-    nmenu.addentry( i++, true, 'a', _("Yell") );
-    nmenu.addentry( i++, true, 'q', _("Cancel") );
+    nmenu.return_invalid = true;
+    nmenu.addentry( i++, true, 'a', _( "Yell" ) );
+    nmenu.addentry( i++, true, 'q', _( "Cancel" ) );
 
     nmenu.query();
     if( nmenu.ret < 0 || nmenu.ret > (int)available.size() ) {
@@ -14514,7 +14528,7 @@ void game::process_artifact(item *it, player *p)
         case AEP_SPEED_UP: // Handled in player::current_speed()
             break;
 
-        case AEP_IODINE:
+        case AEP_PBLUE:
             if (p->radiation > 0) {
                 p->radiation--;
             }
@@ -14703,9 +14717,9 @@ void game::add_artifact_messages(std::vector<art_effect_passive> effects)
             net_speed -= 20;
             break;
 
-        case AEP_IODINE:
+        case AEP_PBLUE:
             break; // No message
-
+            
         case AEP_SNAKES:
             add_msg(m_warning, _("Your skin feels slithery."));
             break;

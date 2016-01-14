@@ -1,4 +1,6 @@
 ﻿#include "map.h"
+
+#include "drawing_primitives.h"
 #include "lightmap.h"
 #include "output.h"
 #include "rng.h"
@@ -338,6 +340,7 @@ void map::destroy_vehicle (vehicle *veh)
 void map::on_vehicle_moved( const int smz ) {
     set_outside_cache_dirty( smz );
     set_transparency_cache_dirty( smz );
+    set_floor_cache_dirty( smz );
 }
 
 void map::vehmove()
@@ -1599,6 +1602,10 @@ void map::furn_set( const tripoint &p, const furn_id new_furniture )
         set_outside_cache_dirty( p.z );
     }
 
+    if( old_t.has_flag( TFLAG_NO_FLOOR ) != new_t.has_flag( TFLAG_NO_FLOOR ) ) {
+        set_floor_cache_dirty( p.z );
+    }
+
     // Make sure the furniture falls if it needs to
     support_dirty( p );
     tripoint above( p.x, p.y, p.z + 1 );
@@ -1805,6 +1812,7 @@ void map::ter_set( const tripoint &p, const ter_id new_terrain )
     }
 
     if( new_t.has_flag( TFLAG_NO_FLOOR ) && !old_t.has_flag( TFLAG_NO_FLOOR ) ) {
+        set_floor_cache_dirty( p.z );
         // It's a set, not a flag
         support_cache_dirty.insert( p );
     }
@@ -2115,9 +2123,15 @@ int map::climb_difficulty( const tripoint &p ) const
 
 bool map::has_floor( const tripoint &p ) const
 {
-    return !zlevels ||
-           p.z < -OVERMAP_DEPTH + 1 || p.z > OVERMAP_HEIGHT ||
-           !has_flag( TFLAG_NO_FLOOR, p );
+    if( !zlevels || p.z < -OVERMAP_DEPTH + 1 || p.z > OVERMAP_HEIGHT ) {
+        return true;
+    }
+
+    if( !inbounds( p.x, p.y ) ) {
+        return true;
+    }
+
+    return get_cache_ref( p.z ).floor_cache[p.x][p.y];
 }
 
 bool map::supports_above( const tripoint &p ) const
@@ -4765,7 +4779,7 @@ static void process_vehicle_items( vehicle *cur_veh, int part )
     }
     if( cur_veh->recharger_on && cur_veh->part_with_feature(part, VPFLAG_RECHARGE) >= 0 ) {
         for( auto &n : cur_veh->get_items( part ) ) {
-            if( !n.has_flag("RECHARGE") ) {
+            if( !n.has_flag("RECHARGE") && !n.has_flag("USE_UPS") ) {
                 continue;
             }
             int full_charge = dynamic_cast<const it_tool*>(n.type)->max_charges;
@@ -4773,9 +4787,10 @@ static void process_vehicle_items( vehicle *cur_veh, int part )
                 full_charge = full_charge * 2;
             }
             if( n.is_tool() && full_charge > n.charges ) {
-                if( one_in(10) ) {
-                    n.charges++;
+                if( cur_veh->discharge_battery( 10, false ) ) {
+                    break; // Check car's power before charging
                 }
+                n.charges++;
             }
         }
     }
@@ -5704,7 +5719,7 @@ void map::update_visibility_cache( visibility_variables &cache, const int zlev )
 }
 
 lit_level map::apparent_light_at( const tripoint &p, const visibility_variables &cache ) const {
-    const int dist = rl_dist(g->u.posx(), g->u.posy(), p.x, p.y);
+    const int dist = rl_dist( g->u.pos(), p );
 
     // Clairvoyance overrides everything.
     if( dist <= cache.u_clairvoyance ) {
@@ -6171,7 +6186,7 @@ bool map::sees( const tripoint &F, const tripoint &T, const int range, int &bres
     bool visible = true;
 
     // Ugly `if` for now
-    if( !fov_3d ) {
+    if( !fov_3d || F.z == T.z ) {
         bresenham( F.x, F.y, T.x, T.y, bresenham_slope,
                    [this, &visible, &T]( const point &new_point ) {
                        // Exit before checking the last square, it's still visible even if opaque.
@@ -6187,18 +6202,34 @@ bool map::sees( const tripoint &F, const tripoint &T, const int range, int &bres
         return visible;
     }
 
+    tripoint last_point = F;
     bresenham( F, T, bresenham_slope, 0,
-                [this, &visible, &T]( const tripoint &new_point ) {
-               // Exit before checking the last square, it's still visible even if opaque.
-               if( new_point == T ) {
-                   return false;
-               }
-               if( !this->trans( new_point ) ) {
-                   visible = false;
-                   return false;
-               }
-               return true;
-           });
+                [this, &visible, &T, &last_point]( const tripoint &new_point ) {
+                    // Exit before checking the last square, it's still visible even if opaque.
+                    if( new_point == T ) {
+                        return false;
+                    }
+
+                    // TODO: Allow transparent floors (and cache them!)
+                    if( new_point.z == last_point.z ) {
+                        if( !this->trans( new_point ) ) {
+                            visible = false;
+                            return false;
+                        }
+                    } else {
+                        const int max_z = std::max( new_point.z, last_point.z );
+                        if( ( has_floor_or_support({new_point.x, new_point.y, max_z}) ||
+                              !trans({new_point.x, new_point.y, last_point.z}) ) &&
+                            ( has_floor_or_support({last_point.x, last_point.y, max_z}) ||
+                              !trans({last_point.x, last_point.y, new_point.z}) ) ) {
+                            visible = false;
+                            return false;
+                        }
+                    }
+
+                    last_point = new_point;
+                    return true;
+                });
     return visible;
 }
 
@@ -6232,11 +6263,11 @@ bool map::clear_path( const tripoint &f, const tripoint &t, const int range,
                       const int cost_min, const int cost_max ) const
 {
     // Ugly `if` for now
-    if( !fov_3d ) {
-        if( f.z != t.z ) {
-            return false;
-        }
+    if( !fov_3d && f.z != t.z ) {
+        return false;
+    }
 
+    if( f.z == t.z ) {
         if( (range >= 0 && range < rl_dist(f.x, f.y, t.x, t.y)) ||
             !INBOUNDS(t.x, t.y) ) {
             return false; // Out of range!
@@ -6264,20 +6295,47 @@ bool map::clear_path( const tripoint &f, const tripoint &t, const int range,
         return false; // Out of range!
     }
     bool is_clear = true;
+    tripoint last_point = f;
     bresenham( f, t, 0, 0,
-               [this, &is_clear, cost_min, cost_max, t](const tripoint &new_point ) {
-                   // Exit before checking the last square, it's still reachable even if it is an obstacle.
-                   if( new_point == t ) {
-                       return false;
-                   }
+        [this, &is_clear, cost_min, cost_max, t, &last_point](const tripoint &new_point ) {
+        // Exit before checking the last square, it's still reachable even if it is an obstacle.
+        if( new_point == t ) {
+            return false;
+        }
 
-                   const int cost = this->move_cost( new_point );
-                   if( cost < cost_min || cost > cost_max ) {
-                       is_clear = false;
-                       return false;
-                   }
-                   return true;
-               } );
+        // We have to check a weird case where the move is both vertical and horizontal
+        if( new_point.z == last_point.z ) {
+            const int cost = move_cost( new_point );
+            if( cost < cost_min || cost > cost_max ) {
+                is_clear = false;
+                return false;
+            }
+        } else {
+            bool this_clear = false;
+            const int max_z = std::max( new_point.z, last_point.z );
+            if( !has_floor_or_support({new_point.x, new_point.y, max_z}) ) {
+                const int cost = move_cost( {new_point.x, new_point.y, last_point.z} );
+                if( cost > cost_min && cost < cost_max ) {
+                    this_clear = true;
+                }
+            }
+
+            if( !this_clear && has_floor_or_support({last_point.x, last_point.y, max_z}) ) {
+                const int cost = move_cost( {last_point.x, last_point.y, new_point.z} );
+                if( cost > cost_min && cost < cost_max ) {
+                    this_clear = true;
+                }
+            }
+
+            if( !this_clear ) {
+                is_clear = false;
+                return false;
+            }
+        }
+
+        last_point = new_point;
+        return true;
+    } );
     return is_clear;
 }
 
@@ -6647,6 +6705,7 @@ void map::loadn( const int gridx, const int gridy, const int gridz, const bool u
     // New submap changes the content of the map and all caches must be recalculated
     set_transparency_cache_dirty( gridz );
     set_outside_cache_dirty( gridz );
+    set_floor_cache_dirty( gridz );
     setsubmap( gridn, tmpsub );
 
     for( auto it : tmpsub->vehicles ) {
@@ -7216,32 +7275,85 @@ void map::build_outside_cache( const int zlev )
     ch.outside_cache_dirty = false;
 }
 
+void map::build_floor_cache( const int zlev )
+{
+    auto &ch = get_cache( zlev );
+    if( !ch.floor_cache_dirty ) {
+        return;
+    }
+
+    auto &floor_cache = ch.floor_cache;
+    std::uninitialized_fill_n(
+            &floor_cache[0][0], ( MAPSIZE * SEEX ) * ( MAPSIZE * SEEY ), true );
+
+    for( int smx = 0; smx < my_MAPSIZE; ++smx ) {
+        for( int smy = 0; smy < my_MAPSIZE; ++smy ) {
+            auto const cur_submap = get_submap_at_grid( smx, smy, zlev );
+
+            for( int sx = 0; sx < SEEX; ++sx ) {
+                for( int sy = 0; sy < SEEY; ++sy ) {
+                    // Note: furniture currently can't affect existence of floor
+                    if( cur_submap->get_ter( sx, sy ).obj().has_flag( TFLAG_NO_FLOOR ) ) {
+                        const int x = sx + ( smx * SEEX );
+                        const int y = sy + ( smy * SEEY );
+                        floor_cache[x][y] = false;
+                    }
+                }
+            }
+        }
+    }
+
+    ch.floor_cache_dirty = false;
+}
+
+void map::build_floor_caches()
+{
+    const int minz = zlevels ? -OVERMAP_DEPTH : abs_sub.z;
+    const int maxz = zlevels ? OVERMAP_HEIGHT : abs_sub.z;
+    for( int z = minz; z <= maxz; z++ ) {
+        build_floor_cache( z );
+    }
+}
+
 void map::build_map_cache( const int zlev, bool skip_lightmap )
 {
-    build_outside_cache( zlev );
-    build_transparency_cache( zlev );
+    const int minz = zlevels ? -OVERMAP_DEPTH : zlev;
+    const int maxz = zlevels ? OVERMAP_HEIGHT : zlev;
+    for( int z = minz; z <= maxz; z++ ) {
+        build_outside_cache( z );
+        build_transparency_cache( z );
+        build_floor_cache( z );
+    }
 
-    tripoint start( 0, 0, zlev );
-    tripoint end( my_MAPSIZE * SEEX, my_MAPSIZE * SEEY, zlev );
-
+    tripoint start( 0, 0, minz );
+    tripoint end( my_MAPSIZE * SEEX, my_MAPSIZE * SEEY, maxz );
     VehicleList vehs = get_vehicles( start, end );
-    auto &outside_cache = get_cache( zlev ).outside_cache;
-    auto &transparency_cache = get_cache( zlev ).transparency_cache;
     // Cache all the vehicle stuff in one loop
     for( auto &v : vehs ) {
+        auto &ch = get_cache( v.z );
+        auto &outside_cache = ch.outside_cache;
+        auto &transparency_cache = ch.transparency_cache;
+        auto &floor_cache = ch.floor_cache;
         for( size_t part = 0; part < v.v->parts.size(); part++ ) {
             int px = v.x + v.v->parts[part].precalc[0].x;
             int py = v.y + v.v->parts[part].precalc[0].y;
-            if(INBOUNDS(px, py)) {
-                if (v.v->is_inside(part)) {
-                    outside_cache[px][py] = false;
+            if( !INBOUNDS( px, py ) ) {
+                continue;
+            }
+
+            if( v.v->is_inside( part ) ) {
+                outside_cache[px][py] = false;
+            }
+
+            if( v.v->part_flag(part, VPFLAG_OPAQUE) && v.v->parts[part].hp > 0 ) {
+                int dpart = v.v->part_with_feature( part, VPFLAG_OPENABLE );
+                if (dpart < 0 || !v.v->parts[dpart].open) {
+                    transparency_cache[px][py] = LIGHT_TRANSPARENCY_SOLID;
                 }
-                if (v.v->part_flag(part, VPFLAG_OPAQUE) && v.v->parts[part].hp > 0) {
-                    int dpart = v.v->part_with_feature( part, VPFLAG_OPENABLE );
-                    if (dpart < 0 || !v.v->parts[dpart].open) {
-                        transparency_cache[px][py] = LIGHT_TRANSPARENCY_SOLID;
-                    }
-                }
+            }
+
+            if( v.v->part_flag( part, VPFLAG_BOARDABLE ) && v.v->parts[part].hp > 0 ) {
+                floor_cache[px][py] = true;
             }
         }
     }
@@ -7449,53 +7561,57 @@ size_t map::get_nonant( const tripoint &gridp ) const
     return get_nonant( gridp.x, gridp.y, gridp.z );
 }
 
-tinymap::tinymap(int mapsize, bool zlevels)
-: map(mapsize, zlevels)
+tinymap::tinymap( int mapsize, bool zlevels )
+    : map( mapsize, zlevels )
 {
 }
 
-ter_id find_ter_id(const std::string id, bool complain=true) {
-    (void)complain; //FIXME: complain unused
-    if( termap.find(id) == termap.end() ) {
-         debugmsg("Can't find termap[%s]",id.c_str());
-         return ter_id( 0 );
+ter_id find_ter_id( const std::string id, bool complain = true )
+{
+    ( void )complain; //FIXME: complain unused
+    if( termap.find( id ) == termap.end() ) {
+        debugmsg( "Can't find termap[%s]", id.c_str() );
+        return ter_id( 0 );
     }
     return termap[id].loadid;
 }
 
-furn_id find_furn_id(const std::string id, bool complain=true) {
-    (void)complain; //FIXME: complain unused
-    if( furnmap.find(id) == furnmap.end() ) {
-         debugmsg("Can't find furnmap[%s]",id.c_str());
-         return furn_id( 0 );
+furn_id find_furn_id( const std::string id, bool complain = true )
+{
+    ( void )complain; //FIXME: complain unused
+    if( furnmap.find( id ) == furnmap.end() ) {
+        debugmsg( "Can't find furnmap[%s]", id.c_str() );
+        return furn_id( 0 );
     }
     return furnmap[id].loadid;
 }
-void map::draw_line_ter(const ter_id type, int x1, int y1, int x2, int y2)
+
+void map::draw_line_ter( const ter_id type, int x1, int y1, int x2, int y2 )
 {
-    std::vector<point> line = line_to(x1, y1, x2, y2, 0);
-    for (auto &i : line) {
-        ter_set(i.x, i.y, type);
-    }
-    ter_set(x1, y1, type);
-}
-void map::draw_line_ter(const std::string type, int x1, int y1, int x2, int y2) {
-    draw_line_ter(find_ter_id(type), x1, y1, x2, y2);
+    draw_line( [this, type]( int x, int y ) {
+        this->ter_set( x, y, type );
+    }, x1, y1, x2, y2 );
 }
 
-
-void map::draw_line_furn(furn_id type, int x1, int y1, int x2, int y2) {
-    std::vector<point> line = line_to(x1, y1, x2, y2, 0);
-    for (auto &i : line) {
-        furn_set(i.x, i.y, type);
-    }
-    furn_set(x1, y1, type);
-}
-void map::draw_line_furn(const std::string type, int x1, int y1, int x2, int y2) {
-    draw_line_furn(find_furn_id(type), x1, y1, x2, y2);
+void map::draw_line_ter( const std::string type, int x1, int y1, int x2, int y2 )
+{
+    draw_line_ter( find_ter_id( type ), x1, y1, x2, y2 );
 }
 
-void map::draw_fill_background(ter_id type) {
+void map::draw_line_furn( furn_id type, int x1, int y1, int x2, int y2 )
+{
+    draw_line( [this, type]( int x, int y ) {
+        this->furn_set( x, y, type );
+    }, x1, y1, x2, y2 );
+}
+
+void map::draw_line_furn( const std::string type, int x1, int y1, int x2, int y2 )
+{
+    draw_line_furn( find_furn_id( type ), x1, y1, x2, y2 );
+}
+
+void map::draw_fill_background( ter_id type )
+{
     // Need to explicitly set caches dirty - set_ter would do it before
     set_transparency_cache_dirty( abs_sub.z );
     set_outside_cache_dirty( abs_sub.z );
@@ -7511,29 +7627,26 @@ void map::draw_fill_background(ter_id type) {
     }
 }
 
-void map::draw_fill_background(std::string type) {
-    draw_fill_background( find_ter_id(type) );
+void map::draw_fill_background( std::string type )
+{
+    draw_fill_background( find_ter_id( type ) );
 }
-void map::draw_fill_background(ter_id (*f)()) {
-    draw_square_ter(f, 0, 0, SEEX * my_MAPSIZE - 1, SEEY * my_MAPSIZE - 1);
+void map::draw_fill_background( ter_id( *f )() )
+{
+    draw_square_ter( f, 0, 0, SEEX * my_MAPSIZE - 1, SEEY * my_MAPSIZE - 1 );
 }
-void map::draw_fill_background(const id_or_id<ter_t> & f) {
-    draw_square_ter(f, 0, 0, SEEX * my_MAPSIZE - 1, SEEY * my_MAPSIZE - 1);
+void map::draw_fill_background( const id_or_id<ter_t> &f )
+{
+    draw_square_ter( f, 0, 0, SEEX * my_MAPSIZE - 1, SEEY * my_MAPSIZE - 1 );
 }
 
-void map::draw_square_ter( ter_id type, int x1, int y1, int x2, int y2 ) {
-    if( x1 > x2 ) {
-        std::swap( x1, x2 );
-    }
-    if( y1 > y2 ) {
-        std::swap( y1, y2 );
-    }
-    for( int x = x1; x <= x2; x++ ) {
-        for( int y = y1; y <= y2; y++ ) {
-            ter_set( x, y, type );
-        }
-    }
+void map::draw_square_ter( ter_id type, int x1, int y1, int x2, int y2 )
+{
+    draw_square( [this, type]( int x, int y ) {
+        this->ter_set( x, y, type );
+    }, x1, y1, x2, y2 );
 }
+
 void map::draw_square_ter( std::string type, int x1, int y1, int x2, int y2 )
 {
     draw_square_ter( find_ter_id( type ), x1, y1, x2, y2 );
@@ -7541,18 +7654,11 @@ void map::draw_square_ter( std::string type, int x1, int y1, int x2, int y2 )
 
 void map::draw_square_furn( furn_id type, int x1, int y1, int x2, int y2 )
 {
-    if( x1 > x2 ) {
-        std::swap( x1, x2 );
-    }
-    if( y1 > y2 ) {
-        std::swap( y1, y2 );
-    }
-    for( int x = x1; x <= x2; x++ ) {
-        for( int y = y1; y <= y2; y++ ) {
-            furn_set( x, y, type );
-        }
-    }
+    draw_square( [this, type]( int x, int y ) {
+        this->furn_set( x, y, type );
+    }, x1, y1, x2, y2 );
 }
+
 void map::draw_square_furn( std::string type, int x1, int y1, int x2, int y2 )
 {
     draw_square_furn( find_furn_id( type ), x1, y1, x2, y2 );
@@ -7560,59 +7666,35 @@ void map::draw_square_furn( std::string type, int x1, int y1, int x2, int y2 )
 
 void map::draw_square_ter( ter_id( *f )(), int x1, int y1, int x2, int y2 )
 {
-    if( x1 > x2 ) {
-        std::swap( x1, x2 );
-    }
-    if( y1 > y2 ) {
-        std::swap( y1, y2 );
-    }
-    for( int x = x1; x <= x2; x++ ) {
-        for( int y = y1; y <= y2; y++ ) {
-            ter_set( x, y, f() );
-        }
-    }
+    draw_square( [this, f]( int x, int y ) {
+        this->ter_set( x, y, f() );
+    }, x1, y1, x2, y2 );
 }
 
 void map::draw_square_ter( const id_or_id<ter_t> &f, int x1, int y1, int x2, int y2 )
 {
-    if( x1 > x2 ) {
-        std::swap( x1, x2 );
-    }
-    if( y1 > y2 ) {
-        std::swap( y1, y2 );
-    }
-    for( int x = x1; x <= x2; x++ ) {
-        for( int y = y1; y <= y2; y++ ) {
-            ter_set( x, y, f.get() );
-        }
-    }
+    draw_square( [this, f]( int x, int y ) {
+        this->ter_set( x, y, f.get() );
+    }, x1, y1, x2, y2 );
 }
 
-void map::draw_rough_circle( ter_id type, int x, int y, int rad )
+void map::draw_rough_circle_ter( ter_id type, int x, int y, int rad )
 {
-    for( int i = x - rad; i <= x + rad; i++ ) {
-        for( int j = y - rad; j <= y + rad; j++ ) {
-            if( trig_dist( x, y, i, j ) + rng( 0, 3 ) <= rad ) {
-                ter_set( i, j, type );
-            }
-        }
-    }
+    draw_rough_circle( [this, type]( int x, int y ) {
+        this->ter_set( x, y, type );
+    }, x, y, rad );
 }
 
-void map::draw_rough_circle( std::string type, int x, int y, int rad )
+void map::draw_rough_circle_ter( std::string type, int x, int y, int rad )
 {
-    draw_rough_circle( find_ter_id( type ), x, y, rad );
+    draw_rough_circle_ter( find_ter_id( type ), x, y, rad );
 }
 
 void map::draw_rough_circle_furn( furn_id type, int x, int y, int rad )
 {
-    for( int i = x - rad; i <= x + rad; i++ ) {
-        for( int j = y - rad; j <= y + rad; j++ ) {
-            if( trig_dist( x, y, i, j ) + rng( 0, 3 ) <= rad ) {
-                furn_set( i, j, type );
-            }
-        }
-    }
+    draw_rough_circle( [this, type]( int x, int y ) {
+        this->furn_set( x, y, type );
+    }, x, y, rad );
 }
 
 void map::draw_rough_circle_furn( std::string type, int x, int y, int rad )
@@ -7620,42 +7702,30 @@ void map::draw_rough_circle_furn( std::string type, int x, int y, int rad )
     draw_rough_circle_furn( find_furn_id( type ), x, y, rad );
 }
 
-void map::draw_circle( ter_id type, double x, double y, double rad )
+void map::draw_circle_ter( ter_id type, double x, double y, double rad )
 {
-    for( int i = x - rad - 1; i <= x + rad + 1; i++ ) {
-        for( int j = y - rad - 1; j <= y + rad + 1; j++ ) {
-            if( ( x - i ) * ( x - i ) + ( y - j ) * ( y - j ) <= rad * rad ) {
-                ter_set( i, j, type );
-            }
-        }
-    }
+    draw_circle( [this, type]( int x, int y ) {
+        this->ter_set( x, y, type );
+    }, x, y, rad );
 }
 
-void map::draw_circle( ter_id type, int x, int y, int rad )
+void map::draw_circle_ter( ter_id type, int x, int y, int rad )
 {
-    for( int i = x - rad; i <= x + rad; i++ ) {
-        for( int j = y - rad; j <= y + rad; j++ ) {
-            if( trig_dist( x, y, i, j ) <= rad ) {
-                ter_set( i, j, type );
-            }
-        }
-    }
+    draw_circle( [this, type]( int x, int y ) {
+        this->ter_set( x, y, type );
+    }, x, y, rad );
 }
 
-void map::draw_circle( std::string type, int x, int y, int rad )
+void map::draw_circle_ter( std::string type, int x, int y, int rad )
 {
-    draw_circle( find_ter_id( type ), x, y, rad );
+    draw_circle_ter( find_ter_id( type ), x, y, rad );
 }
 
 void map::draw_circle_furn( furn_id type, int x, int y, int rad )
 {
-    for( int i = x - rad; i <= x + rad; i++ ) {
-        for( int j = y - rad; j <= y + rad; j++ ) {
-            if( trig_dist( x, y, i, j ) <= rad ) {
-                furn_set( i, j, type );
-            }
-        }
-    }
+    draw_circle( [this, type]( int x, int y ) {
+        this->furn_set( x, y, type );
+    }, x, y, rad );
 }
 
 void map::draw_circle_furn( std::string type, int x, int y, int rad )
@@ -7663,28 +7733,29 @@ void map::draw_circle_furn( std::string type, int x, int y, int rad )
     draw_circle_furn( find_furn_id( type ), x, y, rad );
 }
 
-void map::add_corpse( const tripoint &p ) {
+void map::add_corpse( const tripoint &p )
+{
     item body;
 
-    const bool isReviveSpecial = one_in(10);
+    const bool isReviveSpecial = one_in( 10 );
 
-    if (!isReviveSpecial){
+    if( !isReviveSpecial ) {
         body.make_corpse();
     } else {
         body.make_corpse( mon_zombie, calendar::turn );
-        body.item_tags.insert("REVIVE_SPECIAL");
+        body.item_tags.insert( "REVIVE_SPECIAL" );
         body.active = true;
     }
 
-    add_item_or_charges(p, body);
-    put_items_from_loc( "shoes",  p, 0);
-    put_items_from_loc( "pants",  p, 0);
-    put_items_from_loc( "shirts", p, 0);
-    if (one_in(6)) {
-        put_items_from_loc("jackets", p, 0);
+    add_item_or_charges( p, body );
+    put_items_from_loc( "shoes",  p, 0 );
+    put_items_from_loc( "pants",  p, 0 );
+    put_items_from_loc( "shirts", p, 0 );
+    if( one_in( 6 ) ) {
+        put_items_from_loc( "jackets", p, 0 );
     }
-    if (one_in(15)) {
-        put_items_from_loc("bags", p, 0);
+    if( one_in( 15 ) ) {
+        put_items_from_loc( "bags", p, 0 );
     }
 }
 

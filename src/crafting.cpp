@@ -1294,6 +1294,26 @@ void player::disassemble(item &dis_item, int dis_pos, bool ground)
 {
     const recipe *cur_recipe = get_disassemble_recipe( dis_item.type->id );
 
+    // no recipe exists
+    if ( cur_recipe == NULL ) {
+        //if we're trying to disassemble a book or magazine
+        if( dis_item.is_book() ) {
+            if(OPTIONS["QUERY_DISASSEMBLE"] &&
+                    !(query_yn(_("Do you want to tear %s into pages?"), dis_item.tname().c_str()))) {
+                return;
+            } else {
+                //twice the volume then multiplied by 10 (a book with volume 3 will give 60 pages)
+                int num_pages = (dis_item.volume() * 2) * 10;
+                g->m.spawn_item(pos(), "paper", 0, num_pages);
+                i_rem(dis_pos);
+            }
+            return;
+        }
+
+        add_msg(m_info, _("This item cannot be disassembled!"));
+        return;
+    }
+
     //no disassembly without proper light
     if( lighting_craft_speed_multiplier(*cur_recipe) == 0.0f ) {
         add_msg(m_info, _("You can't see to craft!"));
@@ -1311,38 +1331,21 @@ void player::disassemble(item &dis_item, int dis_pos, bool ground)
         }
     }
 
-    if( cur_recipe != NULL ) {
-        const inventory &crafting_inv = crafting_inventory();
-        if( can_disassemble( dis_item, cur_recipe, crafting_inv, true ) ) {
-            if( !query_dissamble( dis_item ) ) {
-                return;
-            }
-            assign_activity(ACT_DISASSEMBLE,
-                ( float( cur_recipe->time ) / lighting_craft_speed_multiplier( *cur_recipe ) ),
-                cur_recipe->id );
-            activity.values.push_back( dis_pos );
-            if( ground ) {
-                activity.values.push_back( 1 );
-            }
-        }
-        return; // recipe exists, but no tools, so do not start disassembly
-    }
-    //if we're trying to disassemble a book or magazine
-    if( dis_item.is_book() ) {
-        if(OPTIONS["QUERY_DISASSEMBLE"] &&
-            !(query_yn(_("Do you want to tear %s into pages?"), dis_item.tname().c_str()))) {
+    // recipe exists, but no tools, so do not start disassembly
+    const inventory &crafting_inv = crafting_inventory();
+    if( can_disassemble( dis_item, cur_recipe, crafting_inv, true ) ) {
+        if( !query_dissamble( dis_item ) ) {
             return;
-        } else {
-            //twice the volume then multiplied by 10 (a book with volume 3 will give 60 pages)
-            int num_pages = (dis_item.volume() * 2) * 10;
-            g->m.spawn_item(pos(), "paper", 0, num_pages);
-            i_rem(dis_pos);
+        }
+        assign_activity(
+            ACT_DISASSEMBLE, ( float( cur_recipe->time ) / lighting_craft_speed_multiplier( *cur_recipe ) ),
+            cur_recipe->id );
+        activity.values.push_back( dis_pos );
+        if( ground ) {
+            activity.values.push_back( 1 );
         }
         return;
     }
-
-    // no recipe exists, or the item cannot be disassembled
-    add_msg(m_info, _("This item cannot be disassembled!"));
 }
 
 // Find out which of the alternative components had been used to craft the item.

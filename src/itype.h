@@ -273,6 +273,10 @@ struct islot_gun : common_firing_data {
      */
     int ups_charges = 0;
     /**
+     * Length of gun barrel, if positive allows sawing down of the barrel
+     */
+    int barrel_length = 0;
+    /**
      * Effects that are applied to the ammo when fired.
      */
     std::set<std::string> ammo_effects;

@@ -705,11 +705,15 @@
     },
     {
         "type": "effect_type",
-        "id": "iodine",
+        "id": "pblue",
         "base_mods": {
             "rad_chance": [16],
             "rad_min": [-1]
         }
+    },
+    {
+        "type": "effect_type",
+        "id": "iodine"
     },
     {
         "type": "effect_type",

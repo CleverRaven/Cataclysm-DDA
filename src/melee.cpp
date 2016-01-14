@@ -287,7 +287,7 @@ void player::melee_attack(Creature &t, bool allow_special, const matec_id &force
                 add_msg(_("%s misses."),name.c_str());
         }
 
-        t.on_dodge( this );
+        t.on_dodge( this, get_melee() );
 
         if( !has_active_bionic("bio_cqb") ) {
             // No practice if you're relying on bio_cqb to fight for you
@@ -1364,26 +1364,6 @@ bool player::can_weapon_block() const
     return (weapon.has_technique( WBLOCK_1 ) ||
             weapon.has_technique( WBLOCK_2 ) ||
             weapon.has_technique( WBLOCK_3 ));
-}
-
-void player::dodge_hit(Creature *source, int) {
-    if( dodges_left < 1 ) {
-        return;
-    }
-
-    ma_ondodge_effects(); // fire martial arts block-triggered effects
-
-    dodges_left--;
-
-    ///\EFFECT_MELEE increases dodge practice of a missed target player (NEGATIVE)
-    practice( skill_dodge, source->get_melee() * 2, source->get_melee() );
-
-    // check if we have any dodge counters
-    matec_id tec = pick_technique(*source, false, true, false);
-
-    if( tec != tec_none ) {
-        melee_attack(*source, false, tec);
-    }
 }
 
 bool player::block_hit(Creature *source, body_part &bp_hit, damage_instance &dam) {

@@ -951,13 +951,6 @@ int iuse::sleep(player *p, item *it, bool, const tripoint& )
     return it->type->charges_to_use();
 }
 
-int iuse::iodine(player *p, item *it, bool, const tripoint& )
-{
-    p->add_effect("iodine", 1200);
-    p->add_msg_if_player(_("You take an iodine tablet."));
-    return it->type->charges_to_use();
-}
-
 int iuse::datura(player *p, item *it, bool, const tripoint& )
 {
     const auto comest = dynamic_cast<const it_comest *>(it->type);
@@ -4606,7 +4599,7 @@ int iuse::shocktonfa_on(player *p, item *it, bool t, const tripoint &pos)
 
 int iuse::mp3(player *p, item *it, bool, const tripoint& )
 {
-    if (it->charges < it->type->charges_to_use()) {
+    if (it->charges <= it->type->charges_to_use()) {
         p->add_msg_if_player(m_info, _("The mp3 player's batteries are dead."));
     } else if (p->has_active_item("mp3_on")) {
         p->add_msg_if_player(m_info, _("You are already listening to an mp3 player!"));
@@ -8395,4 +8388,37 @@ int iuse::ladder( player *p, item *, bool, const tripoint& )
     p->moves -= 500;
     g->m.furn_set( dirp, "f_ladder" );
     return 1;
+}
+
+int iuse::saw_barrel( player *p, item *, bool, const tripoint& )
+{
+    if( p == nullptr ) {
+        return 0;
+    }
+
+    auto filter = [&]( const item& e ) {
+        if( !e.is_gun() || e.type->gun->barrel_length <= 0 ) {
+            return false;
+        }
+        // cannot saw down barrel of gun that already has a barrel mod
+        return std::none_of( e.contents.begin(), e.contents.end(), [&]( const item& mod ) {
+            return mod.type->gunmod->location == "barrel";
+        });
+    };
+
+    item& obj = p->i_at( g->inv_for_filter( _( "Saw barrel?" ), filter ) );
+
+    if( obj.is_null() ) {
+        p->add_msg_if_player( _( "Never mind." ) );
+        return 0;
+    }
+    if( !filter( obj ) ) {
+        p->add_msg_if_player( _( "Can't saw down the barrel of your %s" ), obj.tname().c_str() );
+        return 0;
+    }
+
+    p->add_msg_if_player( _( "You saw down the barrel of your %s" ), obj.tname().c_str() );
+    obj.contents.emplace_back( "barrel_small", calendar::turn );
+
+    return 0;
 }

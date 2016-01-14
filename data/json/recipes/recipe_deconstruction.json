@@ -479,27 +479,13 @@
   "qualities" : [
     {"id":"SCREW","level":1,"amount":1}
   ], "components": [
-    [
-      ["processor", 1]
-    ],
-    [
-      ["RAM", 4]
-    ],
-    [
-      ["cable", 6]
-    ],
-    [
-      ["amplifier", 1]
-    ],
-    [
-      ["plastic_chunk", 6]
-    ],
-    [
-      ["small_lcd_screen", 1]
-    ],
-    [
-      ["battery", 200]
-    ]
+    [["processor", 1]],
+    [["RAM", 4]],
+    [["cable", 6]],
+    [["amplifier", 1]],
+    [["plastic_chunk", 6]],
+    [["small_lcd_screen", 1]],
+    [["small_storage_battery", 2]]
   ]
 },{
   "type" : "recipe",
@@ -514,18 +500,10 @@
   "qualities" : [
     {"id":"SCREW","level":1,"amount":1}
   ], "components": [
-    [
-      [ "scrap", 1 ]
-    ],
-    [
-      [ "plastic_chunk", 3 ]
-    ],
-    [
-      [ "motor_small", 1 ]
-    ],
-    [
-      [ "cable", 2 ]
-    ]
+    [[ "scrap", 1 ]],
+    [[ "plastic_chunk", 3 ]],
+    [[ "motor_small", 1 ]],
+    [[ "cable", 2 ]]
   ]
 },{
   "type" : "recipe",
@@ -540,12 +518,8 @@
   "qualities" : [
     {"id":"SCREW","level":1,"amount":1}
   ], "components": [
-    [
-      [ "scrap", 2 ]
-    ],
-    [
-      [ "clockworks", 1 ]
-    ]
+    [[ "scrap", 2 ]],
+    [[ "clockworks", 1 ]]
   ]
   },{
     "type" : "recipe",
@@ -598,12 +572,8 @@
   "qualities" : [
     {"id":"SCREW","level":1,"amount":1}
   ], "components": [
-    [
-      [ "scrap", 4 ]
-    ],
-    [
-      [ "clockworks", 2 ]
-    ]
+    [[ "scrap", 4 ]],
+    [[ "clockworks", 2 ]]
   ]
 },{
   "type" : "recipe",
@@ -618,24 +588,12 @@
   "qualities" : [
     {"id":"SCREW","level":1,"amount":1}
   ], "components": [
-    [
-      ["processor", 1]
-    ],
-    [
-      ["RAM", 2]
-    ],
-    [
-      ["cable", 8]
-    ],
-    [
-      ["amplifier", 4]
-    ],
-    [
-      [ "power_supply", 2 ]
-    ],
-    [
-      ["plastic_chunk", 8]
-    ]
+    [["processor", 1]],
+    [["RAM", 2]],
+    [["cable", 8]],
+    [["amplifier", 4]],
+    [[ "power_supply", 2 ]],
+    [["plastic_chunk", 8]]
   ]
 },{
   "type" : "recipe",
@@ -650,21 +608,11 @@
   "qualities" : [
     {"id":"SCREW","level":1,"amount":1}
   ], "components": [
-    [
-      ["processor", 1]
-    ],
-    [
-      ["cable", 4]
-    ],
-    [
-      ["amplifier", 1]
-    ],
-    [
-      [ "power_supply", 4 ]
-    ],
-    [
-      ["plastic_chunk", 8]
-    ]
+    [["processor", 1]],
+    [["cable", 4]],
+    [["amplifier", 1]],
+    [["power_supply", 4]],
+    [["plastic_chunk", 8]]
   ]
 },{
   "type" : "recipe",
@@ -679,18 +627,10 @@
   "qualities" : [
     {"id":"SCREW","level":1,"amount":1}
   ], "components": [
-    [
-      ["cable", 2]
-    ],
-    [
-      [ "power_supply", 1 ]
-    ],
-    [
-      ["scrap", 2]
-    ],
-    [
-      ["element", 4]
-    ]
+    [["cable", 2]],
+    [["power_supply", 1]],
+    [["scrap", 2]],
+    [["element", 4]]
   ]
 },{
   "type" : "recipe",
@@ -705,12 +645,8 @@
   "qualities" : [
     {"id":"SCREW","level":1,"amount":1}
   ], "components": [
-    [
-      [ "scrap", 3 ]
-    ],
-    [
-      [ "clockworks", 2 ]
-    ]
+    [["scrap", 3]],
+    [["clockworks", 2]]
   ]
 },{
   "type" : "recipe",
@@ -724,9 +660,7 @@
   "autolearn": false,
   "flags": ["BLIND_EASY"],
   "components": [
-    [
-      [ "spike", 1 ]
-    ]
+    [["spike", 1]]
   ]
 },{
   "type" : "recipe",
@@ -741,24 +675,12 @@
   "qualities" : [
     {"id":"WRENCH","level":1,"amount":1}
   ], "components": [
-    [
-      [ "scrap", 8 ]
-    ],
-    [
-      [ "spring", 2 ]
-    ],
-    [
-      [ "blade",  2 ]
-    ],
-    [
-      [ "1cyl_combustion", 1 ]
-    ],
-    [
-      [ "metal_tank_little", 1 ]
-    ],
-    [
-      [ "pipe", 3 ]
-    ]
+    [[ "scrap", 8 ]],
+    [[ "spring", 2 ]],
+    [[ "blade",  2 ]],
+    [[ "1cyl_combustion", 1 ]],
+    [[ "metal_tank_little", 1 ]],
+    [[ "pipe", 3 ]]
   ]
 },{
   "type" : "recipe",
@@ -771,9 +693,8 @@
   "reversible": true,
   "autolearn": false,
   "components": [
-    [
-      [ "pilot_light", 1 ]
-    ]
+    [["pilot_light", 1]],
+    [["plastic_chunk", 1]]
   ]
 },{
   "type" : "recipe",
@@ -786,12 +707,8 @@
   "reversible": true,
   "autolearn": false,
   "components": [
-    [
-      [ "pilot_light", 1 ]
-    ],
-    [
-      [ "scrap", 1 ]
-    ]
+    [["pilot_light", 1]],
+    [["scrap", 1]]
   ]
 },{
   "type" : "recipe",
@@ -857,13 +774,10 @@
   "autolearn": false,
   "qualities":[
     {"id":"CUT","level":1,"amount":1}
-  ],  "components": [
-    [
-      [ "amplifier", 1 ]
-    ],
-    [
-      [ "e_scrap", 1 ]
-    ]
+  ],
+  "components": [
+    [["amplifier", 1]],
+    [["e_scrap", 1]]
   ]
 },{
   "type" : "recipe",

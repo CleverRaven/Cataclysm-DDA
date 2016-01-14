@@ -11,6 +11,7 @@
 #include "submap.h"
 #include "mtype.h"
 #include "weather.h"
+#include "shadowcasting.h"
 
 #include <cmath>
 #include <cstring>
@@ -148,7 +149,8 @@ void map::generate_lightmap( const int zlev )
          checking of neighbors.
      * Step 2: After everything else, iterate buffer and apply_light_source only in non-redundant
          directions
-     * Step 3: Profit!
+     * Step 3: ????
+     * Step 4: Profit!
      */
     auto &light_source_buffer = map_cache.light_source_buffer;
     std::memset(light_source_buffer, 0, sizeof(light_source_buffer));
@@ -462,11 +464,198 @@ bool map::pl_sees( const tripoint &t, const int max_range ) const
     if( max_range >= 0 && square_dist( t, g->u.pos() ) > max_range ) {
         return false;    // Out of range!
     }
+
     const auto &map_cache = get_cache_ref( t.z );
     return map_cache.seen_cache[t.x][t.y] > LIGHT_TRANSPARENCY_SOLID + 0.1 &&
         ( map_cache.seen_cache[t.x][t.y] * map_cache.lm[t.x][t.y] >
           g->u.get_vision_threshold( map_cache.lm[g->u.posx()][g->u.posy()] ) ||
           map_cache.sm[t.x][t.y] > 0.0 );
+}
+
+#include "messages.h"
+
+template<int xx, int xy, int xz, int yx, int yy, int yz, int zz,
+         float(*calc)(const float &, const float &, const int &),
+         bool(*check)(const float &, const float &)>
+void cast_zlight(
+    const std::array<float (*)[MAPSIZE*SEEX][MAPSIZE*SEEY], OVERMAP_LAYERS> &output_caches,
+    const std::array<const float (*)[MAPSIZE*SEEX][MAPSIZE*SEEY], OVERMAP_LAYERS> &input_arrays,
+    const std::array<const bool (*)[MAPSIZE*SEEX][MAPSIZE*SEEY], OVERMAP_LAYERS> &floor_caches,
+    const tripoint &offset, const int offset_distance,
+    const float numerator, const int row,
+    float start_major, const float end_major,
+    float start_minor, const float end_minor,
+    double cumulative_transparency )
+{
+    if( start_major >= end_major || start_minor >= end_minor ) {
+        return;
+    }
+
+    float radius = 60.0f - offset_distance;
+
+    constexpr int min_z = -OVERMAP_DEPTH;
+    constexpr int max_z = OVERMAP_HEIGHT;
+
+    float new_start_minor = 1.0f;
+
+    float last_intensity = 0.0;
+    // Making this static prevents it from being needlessly constructed/destructed all the time.
+    static const tripoint origin(0, 0, 0);
+    // But each instance of the method needs one of these.
+    tripoint delta(0, 0, 0);
+    tripoint current(0, 0, 0);
+    for( int distance = row; distance <= radius; distance++ ) {
+        delta.y = distance;
+        bool started_block = false;
+        float current_transparency = 0.0f;
+
+        // TODO: Precalculate min/max delta.z based on start/end and distance
+        for( delta.z = 0; delta.z <= distance; delta.z++ ) {
+            float trailing_edge_major = (delta.z - 0.5f) / (delta.y + 0.5f);
+            float leading_edge_major = (delta.z + 0.5f) / (delta.y - 0.5f);
+            current.z = offset.z + delta.x * 00 + delta.y * 00 + delta.z * zz;
+            if( current.z > max_z || current.z < min_z ) {
+                continue;
+            } else if( start_major > leading_edge_major ) {
+                continue;
+            } else if( end_major < trailing_edge_major ) {
+                break;
+            }
+
+            bool started_span = false;
+            const int z_index = current.z + OVERMAP_DEPTH;
+            for( delta.x = 0; delta.x <= distance; delta.x++ ) {
+                current.x = offset.x + delta.x * xx + delta.y * xy + delta.z * xz;
+                current.y = offset.y + delta.x * yx + delta.y * yy + delta.z * yz;
+                float trailing_edge_minor = (delta.x - 0.5f) / (delta.y + 0.5f);
+                float leading_edge_minor = (delta.x + 0.5f) / (delta.y - 0.5f);
+
+                if( !(current.x >= 0 && current.y >= 0 &&
+                      current.x < SEEX * MAPSIZE &&
+                      current.y < SEEY * MAPSIZE) || start_minor > leading_edge_minor ) {
+                    continue;
+                } else if( end_minor < trailing_edge_minor ) {
+                    break;
+                }
+
+                float new_transparency = (*input_arrays[z_index])[current.x][current.y];
+                // If we're looking at a tile with floor or roof from the floor/roof side,
+                //  that tile is actually invisible to us.
+                bool floor_block = false;
+                if( current.z < offset.z ) {
+                    if( z_index < (OVERMAP_LAYERS - 1) &&
+                        (*floor_caches[z_index + 1])[current.x][current.y] ) {
+                        floor_block = true;
+                        new_transparency = LIGHT_TRANSPARENCY_SOLID;
+                    }
+                } else if( current.z > offset.z ) {
+                    if( (*floor_caches[z_index])[current.x][current.y] ) {
+                        floor_block = true;
+                        new_transparency = LIGHT_TRANSPARENCY_SOLID;
+                    }
+                }
+
+                if( !started_block ) {
+                    started_block = true;
+                    current_transparency = new_transparency;
+                }
+
+                const int dist = rl_dist( origin, delta ) + offset_distance;
+                last_intensity = calc( numerator, cumulative_transparency, dist );
+
+                if( !floor_block ) {
+                    (*output_caches[z_index])[current.x][current.y] =
+                        std::max( (*output_caches[z_index])[current.x][current.y], last_intensity );
+                }
+
+                if( !started_span ) {
+                    // Need to reset minor slope, because we're starting a new line
+                    new_start_minor = leading_edge_minor;
+                    // Need more precision or artifacts happen
+                    leading_edge_minor = start_minor;
+                    started_span = true;
+                }
+
+                if( new_transparency == current_transparency ) {
+                    // All in order, no need to recurse
+                    new_start_minor = leading_edge_minor;
+                    continue;
+                }
+
+                // We split the block into 4 sub-blocks (sub-frustums actually):
+
+                // One we processed fully in 2D and only need to extend in last D
+                // Only cast recursively horizontally if previous span was not opaque.
+                if( check( current_transparency, last_intensity ) ) {
+                    float next_cumulative_transparency =
+                        ((distance - 1) * cumulative_transparency + current_transparency) / distance;
+                    // Blocks can be merged if they are actually a single rectangle
+                    // rather than rectangle + line shorter than rectangle's width
+                    const bool merge_blocks = end_minor <= trailing_edge_minor;
+                    // trailing_edge_major can be less than start_major
+                    const float trailing_clipped = std::max( trailing_edge_major, start_major );
+                    const float major_mid = merge_blocks ? leading_edge_major : trailing_clipped;
+                    cast_zlight<xx, xy, xz, yx, yy, yz, zz, calc, check>(
+                        output_caches, input_arrays, floor_caches,
+                        offset, offset_distance, numerator, distance + 1,
+                        start_major, major_mid, start_minor, end_minor,
+                        next_cumulative_transparency );
+                    if( !merge_blocks ) {
+                        // One line that is too short to be part of the rectangle above
+                        cast_zlight<xx, xy, xz, yx, yy, yz, zz, calc, check>(
+                            output_caches, input_arrays, floor_caches,
+                            offset, offset_distance, numerator, distance + 1,
+                            major_mid, leading_edge_major, start_minor, trailing_edge_minor,
+                            next_cumulative_transparency );
+                    }
+                }
+
+                // One from which we shaved one line ("processed in 1D")
+                const float old_start_minor = start_minor;
+                // The new span starts at the leading edge of the previous square if it is opaque,
+                // and at the trailing edge of the current square if it is transparent.
+                if( current_transparency == LIGHT_TRANSPARENCY_SOLID ) {
+                    start_minor = new_start_minor;
+                } else {
+                    // Note this is the same slope as one of the recursive calls we just made.
+                    start_minor = std::max( start_minor, trailing_edge_minor );
+                    start_major = std::max( start_major, trailing_edge_major );
+                }
+
+                // leading_edge_major plus some epsilon
+                float after_leading_edge_major = (delta.z + 0.50001f) / (delta.y - 0.5f);
+                cast_zlight<xx, xy, xz, yx, yy, yz, zz, calc, check>(
+                    output_caches, input_arrays, floor_caches,
+                    offset, offset_distance, numerator, distance,
+                    after_leading_edge_major, end_major, old_start_minor, start_minor,
+                    cumulative_transparency );
+
+                // One we just entered ("processed in 0D" - the first point)
+                // No need to recurse, we're processing it right now
+
+                current_transparency = new_transparency;
+                new_start_minor = leading_edge_minor;
+            }
+
+            if( current_transparency == LIGHT_TRANSPARENCY_SOLID ) {
+                start_major = leading_edge_major;
+            }
+        }
+
+        if( !started_block ) {
+            // If we didn't scan at least 1 z-level, don't iterate further
+            // Otherwise we may "phase" through tiles without checking them
+            break;
+        }
+
+        if( !check(current_transparency, last_intensity) ) {
+            // If we reach the end of the span with terrain being opaque, we don't iterate further.
+            break;
+        }
+        // Cumulative average of the transparency values encountered.
+        cumulative_transparency =
+            ((distance - 1) * cumulative_transparency + current_transparency) / distance;
+    }
 }
 
 /**
@@ -490,98 +679,160 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
 
     std::uninitialized_fill_n(
         &seen_cache[0][0], MAPSIZE*SEEX * MAPSIZE*SEEY, LIGHT_TRANSPARENCY_SOLID);
-    seen_cache[origin.x][origin.y] = LIGHT_TRANSPARENCY_CLEAR;
 
-    castLight<0, 1, 1, 0, sight_calc, sight_check>(
-        seen_cache, transparency_cache, origin.x, origin.y, 0 );
-    castLight<1, 0, 0, 1, sight_calc, sight_check>(
-        seen_cache, transparency_cache, origin.x, origin.y, 0 );
+    if( !fov_3d ) {
+        seen_cache[origin.x][origin.y] = LIGHT_TRANSPARENCY_CLEAR;
 
-    castLight<0, -1, 1, 0, sight_calc, sight_check>(
-        seen_cache, transparency_cache, origin.x, origin.y, 0 );
-    castLight<-1, 0, 0, 1, sight_calc, sight_check>(
-        seen_cache, transparency_cache, origin.x, origin.y, 0 );
+        castLight<0, 1, 1, 0, sight_calc, sight_check>(
+            seen_cache, transparency_cache, origin.x, origin.y, 0 );
+        castLight<1, 0, 0, 1, sight_calc, sight_check>(
+            seen_cache, transparency_cache, origin.x, origin.y, 0 );
 
-    castLight<0, 1, -1, 0, sight_calc, sight_check>(
-        seen_cache, transparency_cache, origin.x, origin.y, 0 );
-    castLight<1, 0, 0, -1, sight_calc, sight_check>(
-        seen_cache, transparency_cache, origin.x, origin.y, 0 );
+        castLight<0, -1, 1, 0, sight_calc, sight_check>(
+            seen_cache, transparency_cache, origin.x, origin.y, 0 );
+        castLight<-1, 0, 0, 1, sight_calc, sight_check>(
+            seen_cache, transparency_cache, origin.x, origin.y, 0 );
 
-    castLight<0, -1, -1, 0, sight_calc, sight_check>(
-        seen_cache, transparency_cache, origin.x, origin.y, 0 );
-    castLight<-1, 0, 0, -1, sight_calc, sight_check>(
-        seen_cache, transparency_cache, origin.x, origin.y, 0 );
+        castLight<0, 1, -1, 0, sight_calc, sight_check>(
+            seen_cache, transparency_cache, origin.x, origin.y, 0 );
+        castLight<1, 0, 0, -1, sight_calc, sight_check>(
+            seen_cache, transparency_cache, origin.x, origin.y, 0 );
+
+        castLight<0, -1, -1, 0, sight_calc, sight_check>(
+            seen_cache, transparency_cache, origin.x, origin.y, 0 );
+        castLight<-1, 0, 0, -1, sight_calc, sight_check>(
+            seen_cache, transparency_cache, origin.x, origin.y, 0 );
+    } else {
+        if( origin.z == target_z ) {
+            seen_cache[origin.x][origin.y] = LIGHT_TRANSPARENCY_CLEAR;
+        }
+
+        // Cache the caches (pointers to them)
+        std::array<const float (*)[MAPSIZE*SEEX][MAPSIZE*SEEY], OVERMAP_LAYERS> transparency_caches;
+        std::array<float (*)[MAPSIZE*SEEX][MAPSIZE*SEEY], OVERMAP_LAYERS> seen_caches;
+        std::array<const bool (*)[MAPSIZE*SEEX][MAPSIZE*SEEY], OVERMAP_LAYERS> floor_caches;
+        for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
+            auto &cur_cache = get_cache( z );
+            transparency_caches[z + OVERMAP_DEPTH] = &cur_cache.transparency_cache;
+            seen_caches[z + OVERMAP_DEPTH] = &cur_cache.seen_cache;
+            floor_caches[z + OVERMAP_DEPTH] = &cur_cache.floor_cache;
+        }
+
+        // Down
+        cast_zlight<0, 1, 0, 1, 0, 0, -1, sight_calc, sight_check>(
+            seen_caches, transparency_caches, floor_caches, origin, 0 );
+        cast_zlight<1, 0, 0, 0, 1, 0, -1, sight_calc, sight_check>(
+            seen_caches, transparency_caches, floor_caches, origin, 0 );
+
+        cast_zlight<0, -1, 0, 1, 0, 0, -1, sight_calc, sight_check>(
+            seen_caches, transparency_caches, floor_caches, origin, 0 );
+        cast_zlight<-1, 0, 0, 0, 1, 0, -1, sight_calc, sight_check>(
+            seen_caches, transparency_caches, floor_caches, origin, 0 );
+
+        cast_zlight<0, 1, 0, -1, 0, 0, -1, sight_calc, sight_check>(
+            seen_caches, transparency_caches, floor_caches, origin, 0 );
+        cast_zlight<1, 0, 0, 0, -1, 0, -1, sight_calc, sight_check>(
+            seen_caches, transparency_caches, floor_caches, origin, 0 );
+
+        cast_zlight<0, -1, 0, -1, 0, 0, -1, sight_calc, sight_check>(
+            seen_caches, transparency_caches, floor_caches, origin, 0 );
+        cast_zlight<-1, 0, 0, 0, -1, 0, -1, sight_calc, sight_check>(
+            seen_caches, transparency_caches, floor_caches, origin, 0 );
+        cast_zlight<0, 1, 0, 1, 0, 0, 1, sight_calc, sight_check>(
+            seen_caches, transparency_caches, floor_caches, origin, 0 );
+        cast_zlight<1, 0, 0, 0, 1, 0, 1, sight_calc, sight_check>(
+            seen_caches, transparency_caches, floor_caches, origin, 0 );
+        // Up
+        cast_zlight<0, -1, 0, 1, 0, 0, 1, sight_calc, sight_check>(
+            seen_caches, transparency_caches, floor_caches, origin, 0 );
+        cast_zlight<-1, 0, 0, 0, 1, 0, 1, sight_calc, sight_check>(
+            seen_caches, transparency_caches, floor_caches, origin, 0 );
+
+        cast_zlight<0, 1, 0, -1, 0, 0, 1, sight_calc, sight_check>(
+            seen_caches, transparency_caches, floor_caches, origin, 0 );
+        cast_zlight<1, 0, 0, 0, -1, 0, 1, sight_calc, sight_check>(
+            seen_caches, transparency_caches, floor_caches, origin, 0 );
+
+        cast_zlight<0, -1, 0, -1, 0, 0, 1, sight_calc, sight_check>(
+            seen_caches, transparency_caches, floor_caches, origin, 0 );
+        cast_zlight<-1, 0, 0, 0, -1, 0, 1, sight_calc, sight_check>(
+            seen_caches, transparency_caches, floor_caches, origin, 0 );
+    }
 
     int part;
-    if ( vehicle *veh = veh_at( origin, part ) ) {
-        // We're inside a vehicle. Do mirror calcs.
-        std::vector<int> mirrors = veh->all_parts_with_feature(VPFLAG_EXTENDS_VISION, true);
-        // Do all the sight checks first to prevent fake multiple reflection
-        // from happening due to mirrors becoming visible due to processing order.
-        // Cameras are also handled here, so that we only need to get through all veh parts once
-        int cam_control = -1;
-        for (std::vector<int>::iterator m_it = mirrors.begin(); m_it != mirrors.end(); /* noop */) {
-            const auto mirror_pos = veh->global_pos() + veh->parts[*m_it].precalc[0];
-            // We can utilize the current state of the seen cache to determine
-            // if the player can see the mirror from their position.
-            if( !veh->part_info( *m_it ).has_flag( "CAMERA" ) &&
-                seen_cache[mirror_pos.x][mirror_pos.y] < LIGHT_TRANSPARENCY_SOLID + 0.1 ) {
-                m_it = mirrors.erase(m_it);
-            } else if( !veh->part_info( *m_it ).has_flag( "CAMERA_CONTROL" ) ) {
-                ++m_it;
-            } else {
-                if( origin.x == mirror_pos.x && origin.y == mirror_pos.y && veh->camera_on ) {
-                    cam_control = *m_it;
-                }
-                m_it = mirrors.erase( m_it );
+    vehicle *veh = veh_at( origin, part );
+    if( veh == nullptr ) {
+        return;
+    }
+
+    // We're inside a vehicle. Do mirror calcs.
+    std::vector<int> mirrors = veh->all_parts_with_feature(VPFLAG_EXTENDS_VISION, true);
+    // Do all the sight checks first to prevent fake multiple reflection
+    // from happening due to mirrors becoming visible due to processing order.
+    // Cameras are also handled here, so that we only need to get through all veh parts once
+    int cam_control = -1;
+    for (std::vector<int>::iterator m_it = mirrors.begin(); m_it != mirrors.end(); /* noop */) {
+        const auto mirror_pos = veh->global_pos() + veh->parts[*m_it].precalc[0];
+        // We can utilize the current state of the seen cache to determine
+        // if the player can see the mirror from their position.
+        if( !veh->part_info( *m_it ).has_flag( "CAMERA" ) &&
+            seen_cache[mirror_pos.x][mirror_pos.y] < LIGHT_TRANSPARENCY_SOLID + 0.1 ) {
+            m_it = mirrors.erase(m_it);
+        } else if( !veh->part_info( *m_it ).has_flag( "CAMERA_CONTROL" ) ) {
+            ++m_it;
+        } else {
+            if( origin.x == mirror_pos.x && origin.y == mirror_pos.y && veh->camera_on ) {
+                cam_control = *m_it;
             }
+            m_it = mirrors.erase( m_it );
+        }
+    }
+
+    for( size_t i = 0; i < mirrors.size(); i++ ) {
+        const int &mirror = mirrors[i];
+        bool is_camera = veh->part_info( mirror ).has_flag( "CAMERA" );
+        if( is_camera && cam_control < 0 ) {
+            continue; // Player not at camera control, so cameras don't work
         }
 
-        for( size_t i = 0; i < mirrors.size(); i++ ) {
-            const int &mirror = mirrors[i];
-            bool is_camera = veh->part_info( mirror ).has_flag( "CAMERA" );
-            if( is_camera && cam_control < 0 ) {
-                continue; // Player not at camera control, so cameras don't work
-            }
+        const auto mirror_pos = veh->global_pos() + veh->parts[mirror].precalc[0];
 
-            const auto mirror_pos = veh->global_pos() + veh->parts[mirror].precalc[0];
-
-            // Determine how far the light has already traveled so mirrors
-            // don't cheat the light distance falloff.
-            int offsetDistance;
-            if( !is_camera ) {
-                offsetDistance = rl_dist(origin.x, origin.y, mirror_pos.x, mirror_pos.y);
-            } else {
-                offsetDistance = 60 - veh->part_info( mirror ).bonus *
-                                      veh->parts[mirror].hp / veh->part_info( mirror ).durability;
-                seen_cache[mirror_pos.x][mirror_pos.y] = LIGHT_TRANSPARENCY_OPEN_AIR;
-            }
-
-            // @todo: Factor in the mirror facing and only cast in the
-            // directions the player's line of sight reflects to.
-            //
-            // The naive solution of making the mirrors act like a second player
-            // at an offset appears to give reasonable results though.
-            castLight<0, 1, 1, 0, sight_calc, sight_check>(
-                seen_cache, transparency_cache, mirror_pos.x, mirror_pos.y, offsetDistance );
-            castLight<1, 0, 0, 1, sight_calc, sight_check>(
-                seen_cache, transparency_cache, mirror_pos.x, mirror_pos.y, offsetDistance );
-
-            castLight<0, -1, 1, 0, sight_calc, sight_check>(
-                seen_cache, transparency_cache, mirror_pos.x, mirror_pos.y, offsetDistance );
-            castLight<-1, 0, 0, 1, sight_calc, sight_check>(
-                seen_cache, transparency_cache, mirror_pos.x, mirror_pos.y, offsetDistance );
-
-            castLight<0, 1, -1, 0, sight_calc, sight_check>(
-                seen_cache, transparency_cache, mirror_pos.x, mirror_pos.y, offsetDistance );
-            castLight<1, 0, 0, -1, sight_calc, sight_check>(
-                seen_cache, transparency_cache, mirror_pos.x, mirror_pos.y, offsetDistance );
-
-            castLight<0, -1, -1, 0, sight_calc, sight_check>(
-                seen_cache, transparency_cache, mirror_pos.x, mirror_pos.y, offsetDistance );
-            castLight<-1, 0, 0, -1, sight_calc, sight_check>(
-                seen_cache, transparency_cache, mirror_pos.x, mirror_pos.y, offsetDistance );
+        // Determine how far the light has already traveled so mirrors
+        // don't cheat the light distance falloff.
+        int offsetDistance;
+        if( !is_camera ) {
+            offsetDistance = rl_dist(origin.x, origin.y, mirror_pos.x, mirror_pos.y);
+        } else {
+            offsetDistance = 60 - veh->part_info( mirror ).bonus *
+                                  veh->parts[mirror].hp / veh->part_info( mirror ).durability;
+            seen_cache[mirror_pos.x][mirror_pos.y] = LIGHT_TRANSPARENCY_OPEN_AIR;
         }
+
+        // @todo: Factor in the mirror facing and only cast in the
+        // directions the player's line of sight reflects to.
+        //
+        // The naive solution of making the mirrors act like a second player
+        // at an offset appears to give reasonable results though.
+
+        castLight<0, 1, 1, 0, sight_calc, sight_check>(
+            seen_cache, transparency_cache, mirror_pos.x, mirror_pos.y, offsetDistance );
+        castLight<1, 0, 0, 1, sight_calc, sight_check>(
+            seen_cache, transparency_cache, mirror_pos.x, mirror_pos.y, offsetDistance );
+
+        castLight<0, -1, 1, 0, sight_calc, sight_check>(
+            seen_cache, transparency_cache, mirror_pos.x, mirror_pos.y, offsetDistance );
+        castLight<-1, 0, 0, 1, sight_calc, sight_check>(
+            seen_cache, transparency_cache, mirror_pos.x, mirror_pos.y, offsetDistance );
+
+        castLight<0, 1, -1, 0, sight_calc, sight_check>(
+            seen_cache, transparency_cache, mirror_pos.x, mirror_pos.y, offsetDistance );
+        castLight<1, 0, 0, -1, sight_calc, sight_check>(
+            seen_cache, transparency_cache, mirror_pos.x, mirror_pos.y, offsetDistance );
+
+        castLight<0, -1, -1, 0, sight_calc, sight_check>(
+            seen_cache, transparency_cache, mirror_pos.x, mirror_pos.y, offsetDistance );
+        castLight<-1, 0, 0, -1, sight_calc, sight_check>(
+            seen_cache, transparency_cache, mirror_pos.x, mirror_pos.y, offsetDistance );
     }
 }
 

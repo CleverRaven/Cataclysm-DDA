@@ -14,12 +14,15 @@ src/gamemode.cpp
 src/itype.cpp
 src/iuse_software.cpp
 src/lua_console.cpp
+src/mapsharing.cpp
+src/mattack_actors.cpp
 src/mission_end.cpp
 src/mission_fail.cpp
 src/mission_place.cpp
 src/mondefense.cpp
 src/monfaction.cpp
 src/monmove.cpp
+src/mtype.cpp
 src/nonplayer.cpp
 src/pathfinding.cpp
 src/recipe_dictionary.cpp
@@ -27,6 +30,7 @@ src/rng.cpp
 src/speech.cpp
 src/submap.cpp
 src/text_snippets.cpp
+src/trapfunc.cpp
 src/version.cpp
 src/action.h
 src/active_item_cache.h
@@ -45,6 +49,8 @@ src/char_validity_check.h
 src/color.h
 src/compatibility.h
 src/computer.h
+src/construction.h
+src/coordinates.h
 src/craft_command.h
 src/crafting_gui.h
 src/creature_tracker.h
@@ -61,6 +67,7 @@ src/help.h
 src/iexamine.h
 src/init.h
 src/int_id.h
+src/item_action.h
 src/item_location.h
 src/item_stack.h
 src/iuse_software.h
@@ -75,6 +82,8 @@ src/mapbuffer.h
 src/mapsharing.h
 src/martialarts.h
 src/material.h
+src/mod_manager.h
+src/mattack_actors.h
 src/mondefense.h
 src/monfaction.h
 src/morale.h

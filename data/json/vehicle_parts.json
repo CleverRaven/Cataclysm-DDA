@@ -2987,13 +2987,13 @@
         "broken_color" : "red",
         "damage_modifier" : 80,
         "durability" : 200,
-        "size" : 1000,
+        "size" : 2500,
         "fuel_type" : "battery",
         "item" : "small_storage_battery",
         "difficulty" : 1,
         "location" : "fuel_source",
         "flags" : ["FUEL_TANK", "TOOL_NONE", "FOLDABLE"],
-        "folded_volume" : 2,
+        "folded_volume" : 1,
         "breaks_into" : [
             {"item": "scrap", "count": [1, 2]}
         ]
@@ -3007,13 +3007,13 @@
         "broken_color" : "red",
         "damage_modifier" : 80,
         "durability" : 250,
-        "size" : 10000,
+        "size" : 20000,
         "fuel_type" : "battery",
         "item" : "medium_storage_battery",
         "difficulty" : 1,
         "location" : "fuel_source",
         "flags" : ["FUEL_TANK", "TOOL_NONE", "FOLDABLE"],
-        "folded_volume" : 4,
+        "folded_volume" : 3,
         "breaks_into" : [
             {"item": "scrap", "count": [1, 2]}
         ]
@@ -4683,7 +4683,7 @@
     },{
         "type" : "vehicle_part",
         "id" : "recharge_station",
-        "name" : "recharging station",
+        "name" : "UPS-compatible recharging station",
         "symbol" : "#",
         "color" : "light_green",
         "broken_symbol" : "0",

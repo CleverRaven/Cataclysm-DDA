@@ -964,7 +964,7 @@
     "color": "white",
     "name": "scroll of discord",
     "name_plural": "scrolls of discord",
-    "description": "This is a scroll, with odd writing and peculiar swirling symbols on it.  Using it will warp the fabric of space, teleporting you at random.  Something might follow you through the gateway.",
+    "description": "This is a scroll, with odd writing and peculiar swirling symbols on it.  Using it will warp the fabric of space, teleporting you at random.  The trip is a bit nauseating, and you might be followed.",
     "price": 2000,
     "material": ["paper"],
     "weight": 415,
@@ -991,7 +991,7 @@
     "color": "white",
     "name": "scroll of discord",
     "name_plural": "scrolls of discord",
-    "description": "This is a scroll, with odd writing and peculiar swirling symbols on it.  Using it will warp the fabric of space, teleporting you at random.  Something might follow you through the gateway.",
+    "description": "This is a scroll, with odd writing and peculiar swirling symbols on it.  Using it will warp the fabric of space, teleporting you at random.  The trip is a bit nauseating, and you might be followed.",
     "price": 2000,
     "material": ["paper"],
     "weight": 415,
@@ -1007,7 +1007,7 @@
     "revert_to": "scroll_blank",
     "use_action" : "ARTIFACT",
         "artifact_data" : {
-            "effects_activated": ["AEA_FATIGUE", "AEA_TELEPORT", "AEA_VOMIT", "AEA_SHADOWS"]
+            "effects_activated": ["AEA_SHADOWS", "AEA_FATIGUE", "AEA_TELEPORT", "AEA_VOMIT"]
         }
   },{
     "id": "stormbringer",

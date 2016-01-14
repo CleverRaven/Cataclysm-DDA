@@ -903,7 +903,7 @@ static int game_get_item_groups(lua_State *L)
 // monster_types = game.get_monster_types()
 static int game_get_monster_types(lua_State *L)
 {
-    std::vector<mtype_id> mtypes = MonsterGenerator::generator().get_all_mtype_ids();
+    std::vector<const mtype *> mtypes = MonsterGenerator::generator().get_all_mtypes();
 
     lua_createtable(L, mtypes.size(), 0); // Preallocate enough space for all our monster types.
 
@@ -917,7 +917,7 @@ static int game_get_monster_types(lua_State *L)
         // lua_rawset then does t[k] = v and pops v and k from the stack
 
         lua_pushnumber(L, i + 1);
-        LuaValue<mtype_id>::push( L, mtypes[i] );
+        LuaValue<mtype_id>::push( L, mtypes[i]->id );
         lua_rawset(L, -3);
     }
 

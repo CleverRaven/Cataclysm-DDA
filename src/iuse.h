@@ -54,7 +54,6 @@ public:
     int thorazine           ( player*, item*, bool, const tripoint& );
     int prozac              ( player*, item*, bool, const tripoint& );
     int sleep               ( player*, item*, bool, const tripoint& );
-    int iodine              ( player*, item*, bool, const tripoint& );
     int datura              ( player*, item*, bool, const tripoint& );
     int flumed              ( player*, item*, bool, const tripoint& );
     int flusleep            ( player*, item*, bool, const tripoint& );
@@ -194,6 +193,7 @@ public:
     int hairkit             ( player*, item*, bool, const tripoint& );
     int weather_tool        ( player*, item*, bool, const tripoint& );
     int ladder              ( player*, item*, bool, const tripoint& );
+    int saw_barrel          ( player*, item*, bool, const tripoint& );
 
 // MACGUFFINS
     int mcg_note            ( player*, item*, bool, const tripoint& );
