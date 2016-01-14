@@ -369,21 +369,21 @@ void player::load(JsonObject &data)
     if( has_bionic( "bio_ears" ) && !has_bionic( "bio_earplugs" ) ) {
         add_bionic("bio_earplugs");
     }
-	
+
     // Add the blindfold.
     if( has_bionic( "bio_sunglasses" ) && !has_bionic( "bio_blindfold" ) ) {
         add_bionic( "bio_blindfold" );
     }
-    
+
     // Fixes bugged characters for telescopic eyes CBM.
     if( has_bionic( "bio_eye_optic" ) && has_trait( "HYPEROPIC" ) ) {
         remove_mutation( "HYPEROPIC" );
     }
-    
+
     if( has_bionic( "bio_eye_optic" ) && has_trait( "MYOPIC" ) ) {
         remove_mutation( "MYOPIC" );
     }
-    
+
 
 }
 
@@ -620,7 +620,7 @@ void player::deserialize(JsonIn &jsin)
         g->scen = scenario::scen(scen_ident);
         start_location = g->scen->start_location();
     } else {
-        scenario *generic_scenario = scenario::generic();
+        const scenario *generic_scenario = scenario::generic();
         // Only display error message if from a game file after scenarios existed.
         if (savegame_loading_version > 20) {
             debugmsg("Tried to use non-existent scenario '%s'. Setting to generic '%s'.",

@@ -55,10 +55,10 @@ public:
     static void load_scenario(JsonObject &jsobj);
 
     // these should be the only ways used to get at scenario
-    static scenario* scen(std::string ident);
-    static scenario* generic(); // points to the generic, default profession
+    static const scenario* scen(std::string ident);
+    static const scenario* generic(); // points to the generic, default profession
     // return a random scenario, weighted for use w/ random character creation
-    static scenario* weighted_random();
+    static const scenario* weighted_random();
     static bool exists(std::string ident);
     static scenmap::const_iterator begin();
     static scenmap::const_iterator end();

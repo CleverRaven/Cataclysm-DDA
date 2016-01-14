@@ -109,7 +109,7 @@ void scenario::load_scenario(JsonObject &jsobj)
     DebugLog( D_INFO, DC_ALL ) << "Loaded scenario: " << scen._ident;
 }
 
-scenario* scenario::scen(std::string ident)
+const scenario *scenario::scen(std::string ident)
 {
     scenmap::iterator scen = _all_scens.find(ident);
     if (scen != _all_scens.end())
@@ -123,7 +123,7 @@ scenario* scenario::scen(std::string ident)
     }
 }
 
-scenario* scenario::generic()
+const scenario *scenario::generic()
 {
     return scenario::scen("evacuee");
 }
@@ -131,12 +131,12 @@ scenario* scenario::generic()
 // Strategy: a third of the time, return the generic scenario.  Otherwise, return a scenario,
 // weighting 0 cost scenario more likely--the weight of a scenario with cost n is 2/(|n|+2),
 // e.g., cost 1 is 2/3rds as likely, cost -2 is 1/2 as likely.
-scenario* scenario::weighted_random()
+const scenario *scenario::weighted_random()
 {
     if (one_in(3)) {
         return generic();
     } else {
-        scenario* retval = 0;
+        const scenario* retval = 0;
         while(retval == 0) {
             scenmap::iterator iter = _all_scens.begin();
             for (int i = rng(0, _all_scens.size() - 1); i > 0; --i) {

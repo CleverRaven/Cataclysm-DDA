@@ -147,10 +147,10 @@ int player::create(character_type type, std::string tempname)
                 g->u.name = MAP_SHARING::getUsername();
             }
             if (type == PLTYPE_RANDOM_WITH_SCENARIO) {
-                std::vector<scenario *> scenarios;
+                std::vector<const scenario *> scenarios;
                 for (scenmap::const_iterator iter = scenario::begin(); iter != scenario::end(); iter++) {
                     if (!(iter->second).has_flag("CHALLENGE")) {
-                        scenarios.emplace_back(scenario::scen((iter->second).ident()));
+                        scenarios.emplace_back(&iter->second);
                     }
                 }
                 g->scen = random_entry( scenarios );
@@ -1819,7 +1819,7 @@ int set_scenario(WINDOW *w, player *u, int &points)
             u->dex_max = 8;
             u->int_max = 8;
             u->per_max = 8;
-            g->scen = scenario::scen(sorted_scens[cur_id]->ident());
+            g->scen = sorted_scens[cur_id];
             u->prof = g->scen->get_profession();
             u->empty_traits();
             u->empty_skills();
