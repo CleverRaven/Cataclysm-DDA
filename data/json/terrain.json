@@ -1012,7 +1012,7 @@
         "flags": ["NOITEM", "WALL", "AUTO_WALL_SYMBOL", "OPENCLOSE_INSIDE"],
 		"open": "t_reinforced_glass_shutter_open",
         "bash": {
-            "str_min": 45, "str_max": 210,
+            "str_min": 60, "str_max": 210,
             "sound": "glass breaking!",
             "sound_fail": "whack!",
             "sound_vol": 20,
@@ -1034,7 +1034,7 @@
         "flags": ["TRANSPARENT", "NOITEM", "WALL", "AUTO_WALL_SYMBOL", "OPENCLOSE_INSIDE"],
 		"close": "t_reinforced_glass_shutter",
         "bash": {
-            "str_min": 45, "str_max": 210,
+            "str_min": 40, "str_max": 210,
             "sound": "glass breaking!",
             "sound_fail": "whack!",
             "sound_vol": 20,
