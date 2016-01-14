@@ -16,13 +16,14 @@ class JsonObject;
 class addiction;
 enum add_type : int;
 
-typedef std::map<std::string, scenario> scenmap;
+typedef std::map<string_id<scenario>, scenario> scenmap;
 
 class scenario
 {
 
 private:
-    std::string _ident;
+    friend class string_id<scenario>;
+    string_id<scenario> _ident;
     std::string _name_male;
     std::string _name_female;
     std::string _description_male;
@@ -57,11 +58,9 @@ public:
     static void load_scenario(JsonObject &jsobj);
 
     // these should be the only ways used to get at scenario
-    static const scenario* scen(std::string ident);
     static const scenario* generic(); // points to the generic, default profession
     // return a random scenario, weighted for use w/ random character creation
     static const scenario* weighted_random();
-    static bool exists(std::string ident);
     static scenmap::const_iterator begin();
     static scenmap::const_iterator end();
     static int count();
@@ -74,7 +73,7 @@ public:
     /** Check that item definitions are valid */
     void check_definition() const;
 
-    std::string ident() const;
+    const string_id<scenario> &ident() const;
     std::string gender_appropriate_name(bool male) const;
     std::string description(bool male) const;
     std::string gender_req() const;

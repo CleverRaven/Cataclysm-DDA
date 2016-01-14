@@ -616,8 +616,8 @@ void player::deserialize(JsonIn &jsin)
     set_highest_cat_level();
     drench_mut_calc();
     std::string scen_ident="(null)";
-    if ( data.read("scenario",scen_ident) && scenario::exists(scen_ident) ) {
-        g->scen = scenario::scen(scen_ident);
+    if ( data.read("scenario",scen_ident) && string_id<scenario>( scen_ident ).is_valid() ) {
+        g->scen = &string_id<scenario>( scen_ident ).obj();
         start_location = g->scen->start_location();
     } else {
         const scenario *generic_scenario = scenario::generic();

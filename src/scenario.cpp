@@ -19,6 +19,27 @@
 #include "mutation.h"
 #include "mapgen.h"
 
+template<>
+const scenario &string_id<scenario>::obj() const
+{
+    const auto prof = scenario::_all_scens.find( *this );
+    if( prof != scenario::_all_scens.end() ) {
+        return prof->second;
+    } else {
+        debugmsg( "Tried to get invalid scenario: %s", c_str() );
+        static const scenario dummy{};
+        return dummy;
+    }
+}
+
+template<>
+bool string_id<scenario>::is_valid() const
+{
+    return scenario::_all_scens.count( *this ) > 0;
+}
+
+const string_id<scenario> generic_scenario_id( "evacuee" );
+
 scenario::scenario()
    : _ident(""), _name_male("null"), _name_female("null"),
      _description_male("null"), _description_female("null")
@@ -32,7 +53,7 @@ void scenario::load_scenario(JsonObject &jsobj)
     scenario scen;
     JsonArray jsarr;
 
-    scen._ident = jsobj.get_string("ident");
+    scen._ident = string_id<scenario>( jsobj.get_string( "ident" ) );
     //If the "name" is an object then we have to deal with gender-specific titles,
     if(jsobj.has_object("name")) {
         JsonObject name_obj=jsobj.get_object("name");
@@ -106,26 +127,12 @@ void scenario::load_scenario(JsonObject &jsobj)
     scen._map_special = jsobj.get_string( "map_special", "mx_null" );
 
     _all_scens[scen._ident] = scen;
-    DebugLog( D_INFO, DC_ALL ) << "Loaded scenario: " << scen._ident;
-}
-
-const scenario *scenario::scen(std::string ident)
-{
-    scenmap::iterator scen = _all_scens.find(ident);
-    if (scen != _all_scens.end())
-    {
-        return &(scen->second);
-    }
-    else
-    {
-        debugmsg("Tried to get invalid scenario: %s", ident.c_str());
-        return NULL;
-    }
+    DebugLog( D_INFO, DC_ALL ) << "Loaded scenario: " << scen._ident.str();
 }
 
 const scenario *scenario::generic()
 {
-    return scenario::scen("evacuee");
+    return &generic_scenario_id.obj();
 }
 
 // Strategy: a third of the time, return the generic scenario.  Otherwise, return a scenario,
@@ -148,11 +155,6 @@ const scenario *scenario::weighted_random()
         }
         return retval;
     }
-}
-
-bool scenario::exists(std::string ident)
-{
-    return _all_scens.find(ident) != _all_scens.end();
 }
 
 scenmap::const_iterator scenario::begin()
@@ -182,7 +184,7 @@ void scenario::check_definitions()
     }
 }
 
-void check_traits( const std::set<std::string> &traits, const std::string &ident )
+void check_traits( const std::set<std::string> &traits, const string_id<scenario> &ident )
 {
     for( auto &t : traits ) {
         if( !mutation_branch::has( t ) ) {
@@ -216,7 +218,7 @@ void scenario::check_definition() const
 
 bool scenario::has_initialized()
 {
-    return exists("evacuee");
+    return generic_scenario_id.is_valid();
 }
 
 void scenario::add_items_from_jsonarray(JsonArray jsarr, std::string gender)
@@ -240,7 +242,7 @@ void scenario::add_item(std::string item, std::string gender)
 }
 
 
-std::string scenario::ident() const
+const string_id<scenario> &scenario::ident() const
 {
     return _ident;
 }
