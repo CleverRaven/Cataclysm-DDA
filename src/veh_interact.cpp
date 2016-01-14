@@ -2358,9 +2358,11 @@ void complete_vehicle ()
             g->u.consume_tools(tools);
         }
         // Only parts that use charges
-        else if (is_screwable && !has_screwdriver){
-            tools.push_back(tool_comp("duct_tape", DUCT_TAPE_USED));
-            g->u.consume_tools(tools);
+        else if (is_screwable){
+            if(!has_screwdriver){
+                tools.push_back(tool_comp("duct_tape", DUCT_TAPE_USED));
+                g->u.consume_tools(tools);
+            }
         }
         else if (!is_wrenchable && !is_hand_remove){
             if (has_goggles) {
