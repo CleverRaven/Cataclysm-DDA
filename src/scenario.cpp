@@ -24,16 +24,6 @@ scenario::scenario()
      _description_male("null"), _description_female("null")
 {
 }
-scenario::scenario(std::string ident, std::string name, std::string description, int mission)
-{
-    _ident = ident;
-    _name_male = name;
-    _name_female = name;
-    _description_male = description;
-    _description_female = description;
-    _mission = mission;
-    _point_cost = 0;
-}
 
 scenmap scenario::_all_scens;
 
