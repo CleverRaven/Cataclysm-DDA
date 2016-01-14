@@ -17,6 +17,27 @@
 #include "pldata.h"
 #include "itype.h"
 
+template<>
+const profession &string_id<profession>::obj() const
+{
+    const auto prof = profession::_all_profs.find( *this );
+    if( prof != profession::_all_profs.end() ) {
+        return prof->second;
+    } else {
+        debugmsg( "Tried to get invalid profession: %s", c_str() );
+        static const profession dummy{};
+        return dummy;
+    }
+}
+
+template<>
+bool string_id<profession>::is_valid() const
+{
+    return profession::_all_profs.count( *this ) > 0;
+}
+
+const string_id<profession> generic_profession_id( "unemployed" );
+
 profession::profession()
     : _ident(""), _name_male("null"), _name_female("null"),
       _description_male("null"), _description_female("null"), _point_cost(0)
@@ -30,7 +51,7 @@ void profession::load_profession(JsonObject &jsobj)
     profession prof;
     JsonArray jsarr;
 
-    prof._ident = jsobj.get_string("ident");
+    prof._ident = string_id<profession>( jsobj.get_string( "ident" ) );
     //If the "name" is an object then we have to deal with gender-specific titles,
     if(jsobj.has_object("name")) {
         JsonObject name_obj = jsobj.get_object("name");
@@ -81,23 +102,12 @@ void profession::load_profession(JsonObject &jsobj)
     }
 
     _all_profs[prof._ident] = prof;
-    DebugLog( D_INFO, DC_ALL ) << "Loaded profession: " << prof._ident;
-}
-
-const profession *profession::prof(std::string ident)
-{
-    profmap::iterator prof = _all_profs.find(ident);
-    if (prof != _all_profs.end()) {
-        return &(prof->second);
-    } else {
-        debugmsg("Tried to get invalid profession: %s", ident.c_str());
-        return NULL;
-    }
+    DebugLog( D_INFO, DC_ALL ) << "Loaded profession: " << prof._ident.str();
 }
 
 const profession *profession::generic()
 {
-    return profession::prof("unemployed");
+    return &generic_profession_id.obj();
 }
 
 // Strategy: a third of the time, return the generic profession.  Otherwise, return a profession,
@@ -120,11 +130,6 @@ const profession *profession::weighted_random()
         }
         return retval;
     }
-}
-
-bool profession::exists(std::string ident)
-{
-    return _all_profs.find(ident) != _all_profs.end();
 }
 
 profmap::const_iterator profession::begin()
@@ -185,7 +190,7 @@ void profession::check_definition() const
             debugmsg("bionic %s for profession %s does not exist", a.c_str(), _ident.c_str());
         }
     }
-    
+
     for( auto &t : _starting_traits ) {
         if( !mutation_branch::has( t ) ) {
             debugmsg( "trait %s for profession %s does not exist", t.c_str(), _ident.c_str() );
@@ -201,7 +206,7 @@ void profession::check_definition() const
 
 bool profession::has_initialized()
 {
-    return exists("unemployed");
+    return generic_profession_id.is_valid();
 }
 
 void profession::add_items_from_jsonarray(JsonArray jsarr, std::string gender)
@@ -250,7 +255,7 @@ void profession::add_skill(const skill_id &skill_name, const int level)
     _starting_skills.push_back(StartingSkill(skill_name, level));
 }
 
-std::string profession::ident() const
+const string_id<profession> &profession::ident() const
 {
     return _ident;
 }

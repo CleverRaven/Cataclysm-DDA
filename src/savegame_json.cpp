@@ -575,8 +575,8 @@ void player::deserialize(JsonIn &jsin)
     // contain get_object(), load()
 
     std::string prof_ident = "(null)";
-    if ( data.read("profession", prof_ident) && profession::exists(prof_ident) ) {
-        prof = profession::prof(prof_ident);
+    if ( data.read("profession", prof_ident) && string_id<profession>( prof_ident ).is_valid() ) {
+        prof = &string_id<profession>( prof_ident ).obj();
     } else {
         debugmsg("Tried to use non-existent profession '%s'", prof_ident.c_str());
     }

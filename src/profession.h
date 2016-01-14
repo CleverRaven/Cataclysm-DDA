@@ -17,7 +17,7 @@ enum add_type : int;
     class Skill;
     using skill_id = string_id<Skill>;
 
-    typedef std::map<std::string, profession> profmap;
+    typedef std::map<string_id<profession>, profession> profmap;
 
     class profession
 {
@@ -35,8 +35,9 @@ enum add_type : int;
             }
         };
         typedef std::vector<itypedec> itypedecvec;
+        friend class string_id<profession>;
     private:
-        std::string _ident;
+        string_id<profession> _ident;
         std::string _name_male;
         std::string _name_female;
         std::string _description_male;
@@ -71,11 +72,9 @@ enum add_type : int;
         static void load_profession( JsonObject &jsobj );
 
         // these should be the only ways used to get at professions
-        static const profession *prof( std::string ident );
         static const profession *generic(); // points to the generic, default profession
         // return a random profession, weighted for use w/ random character creation or npcs
         static const profession *weighted_random();
-        static bool exists( std::string ident );
         static profmap::const_iterator begin();
         static profmap::const_iterator end();
         static int count();
@@ -88,7 +87,7 @@ enum add_type : int;
         /** Check that item/CBM/addiction/skill definitions are valid. */
         void check_definition() const;
 
-        std::string ident() const;
+        const string_id<profession> &ident() const;
         std::string gender_appropriate_name( bool male ) const;
         std::string description( bool male ) const;
         std::string gender_req() const;

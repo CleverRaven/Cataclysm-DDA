@@ -66,10 +66,10 @@ void scenario::load_scenario(JsonObject &jsobj)
     jsarr = jsobj.get_array("professions");
     while (jsarr.has_more()) {
         if (first == true){
-            scen._allowed_professions.insert(jsarr.next_string());
+            scen._allowed_professions.insert( string_id<profession>( jsarr.next_string() ) );
         }
         else{
-            scen._profession = jsarr.next_string();
+            scen._profession = string_id<profession>( jsarr.next_string() );
             scen._allowed_professions.insert(scen._profession);
             first = true;
         }
@@ -280,15 +280,15 @@ std::string scenario::random_start_location() const
 }
 const profession* scenario::get_profession() const
 {
-    return profession::prof(_profession);;
+    return &_profession.obj();
 }
 const profession* scenario::random_profession() const
 {
-    std::vector<std::string> allowed_professions(_allowed_professions.begin(), _allowed_professions.end());
+    std::vector<string_id<profession>> allowed_professions(_allowed_professions.begin(), _allowed_professions.end());
     if (allowed_professions.size() == 0) {
         return profession::generic();
     }
-    return profession::prof(allowed_professions[rng(0, allowed_professions.size()-1)]);
+    return &allowed_professions[rng(0, allowed_professions.size()-1)].obj();
 }
 std::string scenario::start_name() const
 {

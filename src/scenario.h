@@ -1,6 +1,8 @@
 #ifndef SCENARIO_H
 #define SCENARIO_H
 
+#include "string_id.h"
+
 #include <string>
 #include <vector>
 #include <map>
@@ -28,8 +30,8 @@ private:
     std::string _gender_req;
     std::string _start_name;
     std::string _default_loc;
-    std::string _profession;
-    std::set<std::string> _allowed_professions;
+    string_id<profession> _profession;
+    std::set<string_id<profession>> _allowed_professions;
     std::set<std::string> _allowed_traits;
     std::set<std::string> _forced_traits;
     std::set<std::string> _forbidden_traits;
