@@ -1020,7 +1020,8 @@
             "ter_set": "t_floor",
             "items": [
                 { "item": "glass_shard", "count": [5, 10] },
-                { "item": "wire", "prob": 20 }
+                { "item": "wire", "prob": 20 },
+				{ "item": "scrap", "count": [3, 5] }
             ]
         }
     },{
@@ -1041,7 +1042,8 @@
             "ter_set": "t_floor",
             "items": [
                 { "item": "glass_shard", "count": [5, 10] },
-                { "item": "wire", "prob": 20 }
+                { "item": "wire", "prob": 20 },
+				{ "item": "scrap", "count": [3, 5] }
             ]
         }
     },{
