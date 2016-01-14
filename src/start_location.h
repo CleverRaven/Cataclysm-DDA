@@ -25,7 +25,7 @@ class start_location
 
         static location_map::iterator begin();
         static location_map::iterator end();
-        static start_location *find( const std::string ident );
+        static const start_location *find( const std::string ident );
         static void load_location( JsonObject &jsonobj );
         static void reset();
 

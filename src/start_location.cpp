@@ -43,7 +43,7 @@ location_map::iterator start_location::end()
     return _locations.end();
 }
 
-start_location *start_location::find( const std::string ident )
+const start_location *start_location::find( const std::string ident )
 {
     location_map::iterator found = _locations.find( ident );
     if(found != _locations.end()) {
