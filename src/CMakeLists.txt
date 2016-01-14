@@ -213,6 +213,7 @@ SET (CATACLYSM_DDA_HEADERS
     ${CMAKE_SOURCE_DIR}/src/enums.h
     ${CMAKE_SOURCE_DIR}/src/tutorial.h
     ${CMAKE_SOURCE_DIR}/src/simplexnoise.h
+    ${CMAKE_SOURCE_DIR}/src/shadowcasting.h
     ${CMAKE_SOURCE_DIR}/src/scenario.h
     ${CMAKE_SOURCE_DIR}/src/auto_pickup.h
     ${CMAKE_SOURCE_DIR}/src/cata_tiles.h

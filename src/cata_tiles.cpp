@@ -821,7 +821,6 @@ void cata_tiles::load_tile_spritelists( JsonObject &entry, weighted_int_list<std
     }
 }
 
-
 struct tile_render_info {
     const tripoint pos;
     int height_3d = 0; // accumulator for 3d tallness of sprites rendered here so far

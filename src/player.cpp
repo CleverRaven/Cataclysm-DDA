@@ -10783,9 +10783,18 @@ bool player::can_use( const item& it, bool interactive ) const {
 
 int player::item_handling_cost( const item& it, bool effects, int factor ) const {
     int mv = std::max( 1, it.volume() * factor );
+
+    // For single handed items use the least encumbered hand
+    if( it.is_two_handed( *this ) ) {
+        mv += encumb( bp_hand_l ) + encumb( bp_hand_r );
+    } else {
+        mv += std::min( encumb( bp_hand_l ), encumb( bp_hand_r ) );
+    }
+
     if( effects && has_effect( "grabbed" ) ) {
         mv *= 2;
     }
+
     return std::min(mv, MAX_HANDLING_COST);
 }
 
@@ -13648,42 +13657,42 @@ bool player::has_gun_for_ammo( const ammotype &at ) const
     } );
 }
 
-std::string player::weapname(bool charges) const
+std::string player::weapname() const
 {
-    if (!(weapon.is_tool() && dynamic_cast<const it_tool*>(weapon.type)->max_charges <= 0) &&
-          weapon.charges >= 0 && charges) {
-        std::stringstream dump;
-        int spare_mag = weapon.has_gunmod("spare_mag");
-        // For guns, just print the unadorned name.
-        dump << weapon.type_name(1).c_str();
-        if (!(weapon.has_flag("NO_AMMO") || weapon.has_flag("RELOAD_AND_SHOOT"))) {
-            dump << " (" << weapon.charges;
-            if( -1 != spare_mag ) {
-                dump << "+" << weapon.contents[spare_mag].charges;
+    if( weapon.is_gun() ) {
+        std::stringstream str;
+        str << weapon.type_name();
+
+        if( weapon.ammo_capacity() > 0 && !weapon.has_flag( "RELOAD_AND_SHOOT" ) ) {
+            str << " (" << weapon.ammo_remaining() << "/" << weapon.ammo_capacity();
+
+            // @todo deprecate handling of spare magazine
+            int spare_mag = weapon.has_gunmod( "spare_mag" );
+            if( spare_mag != -1 ) {
+                str << " +" << weapon.contents[spare_mag].charges;
             }
-            for (auto &i : weapon.contents) {
-                if( i.is_auxiliary_gunmod() ) {
-                    dump << "+" << i.charges;
+
+            for( const auto& mod : weapon.contents ) {
+                if( mod.is_auxiliary_gunmod() ) {
+                    str << " +" << mod.ammo_remaining();
                 }
             }
-            dump << ")";
+            str << ")";
         }
-        return dump.str();
-    } else if (weapon.is_container()) {
-        std::stringstream dump;
-        dump << weapon.tname().c_str();
-        if(weapon.contents.size() == 1) {
-            dump << " (" << weapon.contents[0].charges << ")";
-        }
-        return dump.str();
-    } else if (weapon.is_null()) {
-        return _("fists");
+        return str.str();
+
+    } else if( weapon.is_container() && weapon.contents.size() == 1 ) {
+        return string_format( "%s (%d)", weapon.tname().c_str(), weapon.contents[0].charges );
+
+    } else if( weapon.is_null() ) {
+        return _( "fists" );
+
     } else {
         return weapon.tname();
     }
 }
 
-bool player::wield_contents(item *container, int pos, int factor)
+bool player::wield_contents( item *container, int pos, int factor, bool effects )
 {
     // if index not specified and container has multiple items then ask the player to choose one
     if( pos < 0 ) {
@@ -13731,9 +13740,9 @@ bool player::wield_contents(item *container, int pos, int factor)
 
     // TODO Doxygen comment covering all possible gun and weapon skills
     // documenting decrease in time spent wielding from a container
-    int lvl = get_skill_level( weapon.is_gun() ? weapon.gun_skill() : weapon.weap_skill() );
+    int lvl = std::max( (int) get_skill_level( weapon.is_gun() ? weapon.gun_skill() : weapon.weap_skill() ), 1);
+    mv += item_handling_cost( weapon, effects, factor ) / lvl;
 
-    mv += (weapon.volume() * factor) / std::max( lvl, 1 );
     moves -= mv;
 
     weapon.on_wield( *this, mv );
@@ -13741,10 +13750,10 @@ bool player::wield_contents(item *container, int pos, int factor)
     return true;
 }
 
-void player::store(item* container, item* put, const skill_id &skill_used, int volume_factor)
+void player::store(item* container, item* put, int factor, bool effects)
 {
-    const int lvl = get_skill_level(skill_used);
-    moves -= (lvl == 0) ? ((volume_factor + 1) * put->volume()) : (volume_factor * put->volume()) / lvl;
+    int lvl = std::max( (int) get_skill_level( put->is_gun() ? put->gun_skill() : put->weap_skill() ), 1 );
+    moves -= item_handling_cost( *put, effects, factor ) / lvl;
     container->put_in(i_rem(put));
 }
 
@@ -14099,7 +14108,7 @@ bool player::sees( const tripoint &t, bool ) const
     static const std::string str_bio_night("bio_night");
     const int wanted_range = rl_dist( pos(), t );
     bool can_see = is_player() ? g->m.pl_sees( t, wanted_range ) :
-        Creature::sees( t );;
+        Creature::sees( t );
     // Only check if we need to override if we already came to the opposite conclusion.
     if( can_see && wanted_range < 15 && wanted_range > sight_range(1) &&
         has_active_bionic(str_bio_night) ) {

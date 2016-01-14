@@ -161,7 +161,7 @@ bool Creature::sees( const Creature &critter ) const
         return p == this;
     }
 
-    if( !fov_3d && posz() != critter.posz() ) {
+    if( !fov_3d && !debug_mode && posz() != critter.posz() ) {
         return false;
     }
 
@@ -190,8 +190,7 @@ bool Creature::sees( const point t ) const
 
 bool Creature::sees( const tripoint &t, bool is_player ) const
 {
-    // TODO: FoV update
-    if( posz() != t.z ) {
+    if( !fov_3d && posz() != t.z ) {
         return false;
     }
 
@@ -1351,8 +1350,13 @@ int Creature::weight_capacity() const
  */
 void Creature::draw(WINDOW *w, int player_x, int player_y, bool inverted) const
 {
-    int draw_x = getmaxx(w) / 2 + posx() - player_x;
-    int draw_y = getmaxy(w) / 2 + posy() - player_y;
+    draw( w, tripoint( player_x, player_y, posz() ), inverted );
+}
+
+void Creature::draw( WINDOW *w, const tripoint &p, bool inverted ) const
+{
+    int draw_x = getmaxx(w) / 2 + posx() - p.x;
+    int draw_y = getmaxy(w) / 2 + posy() - p.y;
     if(inverted) {
         mvwputch_inv(w, draw_y, draw_x, basic_symbol_color(), symbol());
     } else if(is_symbol_highlighted()) {
@@ -1360,11 +1364,6 @@ void Creature::draw(WINDOW *w, int player_x, int player_y, bool inverted) const
     } else {
         mvwputch(w, draw_y, draw_x, symbol_color(), symbol() );
     }
-}
-
-void Creature::draw( WINDOW *w, const tripoint &p, bool inverted ) const
-{
-    draw( w, p.x, p.y, inverted );
 }
 
 nc_color Creature::basic_symbol_color() const

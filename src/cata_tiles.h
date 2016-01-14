@@ -245,7 +245,7 @@ class cata_tiles
         /** Drawing Layers */
         void draw_single_tile( const tripoint &p, const lit_level ll,
                                const visibility_variables &cache, int &height_3d );
-        bool apply_vision_effects( const tripoint &pos, const visibility_type visibility);
+        bool apply_vision_effects( const tripoint &pos, const visibility_type visibility );
         bool draw_terrain( const tripoint &p, lit_level ll, int &height_3d );
         bool draw_furniture( const tripoint &p, lit_level ll, int &height_3d );
         bool draw_trap( const tripoint &p, lit_level ll, int &height_3d );
