@@ -278,11 +278,11 @@ std::string scenario::random_start_location() const
 {
    return random_entry( _allowed_locs, start_location() );
 }
-profession* scenario::get_profession() const
+const profession* scenario::get_profession() const
 {
     return profession::prof(_profession);;
 }
-profession* scenario::random_profession() const
+const profession* scenario::random_profession() const
 {
     std::vector<std::string> allowed_professions(_allowed_professions.begin(), _allowed_professions.end());
     if (allowed_professions.size() == 0) {

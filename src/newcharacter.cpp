@@ -1313,7 +1313,7 @@ int set_profession(WINDOW *w, player *u, int &points)
                 desc_offset++;
             }
         } else if (action == "CONFIRM") {
-            u->prof = profession::prof(sorted_profs[cur_id]->ident()); // we've got a const*
+            u->prof = sorted_profs[cur_id];
             points -= netPointCost;
         } else if (action == "CHANGE_GENDER") {
             u->male = !u->male;

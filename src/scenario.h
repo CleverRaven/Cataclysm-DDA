@@ -79,8 +79,8 @@ public:
     std::string start_location() const;
     std::string random_start_location() const;
     std::string start_name() const;
-    profession* get_profession() const;
-    profession* random_profession() const;
+    const profession* get_profession() const;
+    const profession* random_profession() const;
     bool profquery(const profession* proff) const;
     bool traitquery(std::string trait) const;
     bool locked_traits(std::string trait) const;

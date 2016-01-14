@@ -1053,7 +1053,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         std::list<player_activity> backlog;
         int volume;
 
-        profession *prof;
+        const profession *prof;
 
         std::string start_location;
 
