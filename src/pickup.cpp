@@ -33,7 +33,6 @@ Pickup::interact_results Pickup::interact_with_vehicle( vehicle *veh, const trip
     const bool has_kitchen = (veh->part_with_feature(veh_root_part, "KITCHEN") >= 0);
     const bool has_faucet = (veh->part_with_feature(veh_root_part, "FAUCET") >= 0);
     const bool has_weldrig = (veh->part_with_feature(veh_root_part, "WELDRIG") >= 0);
-    //const bool has_craftrig = (veh->part_with_feature(veh_root_part, "CRAFTRIG") >= 0);
     const bool has_chemlab = (veh->part_with_feature(veh_root_part, "CHEMLAB") >= 0);
     const bool has_purify = (veh->part_with_feature(veh_root_part, "WATER_PURIFIER") >=0);
     const bool has_controls = ((veh->part_with_feature(veh_root_part, "CONTROLS") >= 0) ||

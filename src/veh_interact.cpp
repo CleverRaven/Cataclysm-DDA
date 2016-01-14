@@ -622,7 +622,7 @@ bool veh_interact::can_install_part(int msg_width){
     } else if (is_screwable){
         werase (w_msg);
         fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
-                        _("Needs <color_%1$s>%2$s</color>, a <color_%3$s>screwdriver</color> or <color_%5$s>duct tape</color> and level <color_%4$s>%5$d</color> skill in mechanics.%6$s%7$s%8$s"),
+                        _("Needs <color_%1$s>%2$s</color>, a <color_%3$s>screwdriver</color> or <color_%4$s>duct tape</color> and level <color_%5$s>%6$d</color> skill in mechanics.%7$s%8$s%9$s"),
                         has_comps ? "ltgreen" : "red",
                         item::nname( itm ).c_str(),
                         has_screwdriver ? "ltgreen" : "red",
@@ -1114,7 +1114,7 @@ bool veh_interact::can_remove_part(int veh_part_index, int mech_skill, int msg_w
                            skill_req);
         } else if (is_screwable) {
             fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
-                           _("You need a <color_%1$s>screwdriver</color> or <color_%2$s>hacksaw, cutting torch and welding goggles, or circular saw (off)</color> and <color_%2$s>level %3$d</color> mechanics skill to remove this part."),
+                           _("You need a <color_%1$s>screwdriver</color> or <color_%2$s>hacksaw, cutting torch and welding goggles, or circular saw (off)</color> and <color_%3$s>level %4$d</color> mechanics skill to remove this part."),
                            has_screwdriver ? "ltgreen" : "red",
                            has_hacksaw ? "ltgreen" : "red",
                            has_skill ? "ltgreen" : "red",
