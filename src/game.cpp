@@ -11007,6 +11007,33 @@ void game::cycle_item_mode( bool force_gun )
     }
 }
 
+// Helper for game::butcher
+void add_corpses_to_menu( uimenu &kmenu, map_stack &items,
+    const std::vector<int> &indices, size_t &menu_index,
+    bool salvage )
+{
+    for( size_t index : indices ) {
+        const item &it = items[index];
+        int hotkey = -1;
+        // First entry gets a hotkey matching the butcher command.
+        if( menu_index == 0 ) {
+            const long butcher_key = inp_mngr.get_previously_pressed_key();
+            if( butcher_key != 0 ) {
+                hotkey = butcher_key;
+            }
+        }
+        if( it.is_corpse() ) {
+            kmenu.addentry( menu_index++, true, hotkey, it.get_mtype()->nname() );
+        } else if( !salvage ) {
+            kmenu.addentry( menu_index++, true, hotkey, it.tname());
+        } else {
+            std::stringstream ss;
+            ss << _("Cut up") << " " << it.tname();
+            kmenu.addentry( menu_index++, true, hotkey, ss.str() );
+        }
+    }
+}
+
 void game::butcher()
 {
     const static std::string salvage_string = "salvage";
@@ -11016,11 +11043,11 @@ void game::butcher()
     }
 
     const int factor = u.butcher_factor();
-    bool has_corpse = false;
-    bool has_item = false;
     const item *first_item_without_tools = nullptr;
-    // indices of corpses / items that can be disassembled
+    // Indices of relevant items
     std::vector<int> corpses;
+    std::vector<int> disassembles;
+    std::vector<int> salvageables;
     auto items = m.i_at(u.pos());
     const inventory &crafting_inv = u.crafting_inventory();
 
@@ -11050,7 +11077,6 @@ void game::butcher()
         for (size_t i = 0; i < items.size(); i++) {
             if( items[i].is_corpse() ) {
                 corpses.push_back(i);
-                has_corpse = true;
             }
         }
     }
@@ -11061,40 +11087,40 @@ void game::butcher()
         }
 
         const recipe *cur_recipe = get_disassemble_recipe(items[i].type->id);
-        if( cur_recipe == nullptr ) {
+        if( cur_recipe == nullptr && !items[i].is_book() ) {
             continue;
         }
 
-        if( u.can_disassemble( items[i], cur_recipe, crafting_inv, false ) ) {
-            corpses.push_back(i);
-            has_item = true;
+        if( items[i].is_book() ||
+            u.can_disassemble( items[i], cur_recipe, crafting_inv, false ) ) {
+            disassembles.push_back(i);
         } else if( first_item_without_tools == nullptr ) {
             first_item_without_tools = &items[i];
         }
     }
     // Now salvageable items
-    size_t salvage_index = corpses.size();
     if( salvage_tool_index != INT_MIN ) {
         for( size_t i = 0; i < items.size(); i++ ) {
             if( !items[i].is_corpse() &&
                 salvage_iuse->valid_to_cut_up( &items[i] ) ) {
-                    corpses.push_back(i);
-                    has_item = true;
+                    salvageables.push_back(i);
             }
         }
     }
 
-    if (corpses.empty()) {
+    if( corpses.empty() && disassembles.empty() && salvageables.empty() ) {
         if( factor > INT_MIN ) {
             add_msg( m_info, _("There are no corpses here to butcher.") );
-        } else if( first_item_without_tools != nullptr ) {
+        } else {
+            add_msg( m_info, _("You don't have a sharp item to butcher with.") );
+        }
+
+        if( first_item_without_tools != nullptr ) {
             add_msg( m_info, _("You don't have the necessary tools to disassemble any items here.") );
             const recipe *cur_recipe = get_disassemble_recipe( first_item_without_tools->type->id );
             // Just for the "You need x to disassemble y" messages
             u.can_disassemble( *first_item_without_tools, cur_recipe, crafting_inv, true );
-        } else {
-            add_msg( m_info, _("You don't have a sharp item to butcher with.") );
-        }
+        } 
         return;
     }
 
@@ -11106,90 +11132,118 @@ void game::butcher()
         }
     }
 
-    int butcher_corpse_index = 0;
-    bool multisalvage = corpses.size() - salvage_index > 1;
+    // Magic indices for special butcher options
+    enum : int {
+        MULTISALVAGE =  MAX_ITEM_IN_SQUARE + 1,
+        MULTIBUTCHER,
+        MULTIDISASSEMBLE_ONE,
+        MULTIDISASSEMBLE_ALL,
+        CANCEL
+    };
+    // What are we butchering (ie. which vector to pick indices from)
+    enum {
+        BUTCHER_CORPSE,
+        BUTCHER_DISASSEMBLE,
+        BUTCHER_SALVAGE,
+        BUTCHER_OTHER // For multisalvage etc.
+    } butcher_type = BUTCHER_CORPSE;
+    // Index to std::vector of indices...
+    int indexer_index = 0;
     // Always ask before cutting up/disassembly, but not before butchery
-    if( corpses.size() > 1 || has_item ) {
+    if( corpses.size() > 1 || !disassembles.empty() || !salvageables.empty() ) {
         uimenu kmenu;
-        if( has_item && has_corpse ) {
-            kmenu.text = _("Choose corpse to butcher / item to disassemble");
-        } else if (has_corpse) {
-            kmenu.text = _("Choose corpse to butcher");
-        } else {
-            kmenu.text = _("Choose item to disassemble");
-        }
+        kmenu.text = _("Choose corpse to butcher / item to disassemble");
+
         kmenu.selected = 0;
-        for (size_t i = 0; i < corpses.size(); i++) {
-            const item &it = items[corpses[i]];
-            int hotkey = -1;
-            // First entry gets a hotkey matching the butcher command.
-            if (i == 0) {
-                const long butcher_key = inp_mngr.get_previously_pressed_key();
-                if (butcher_key != 0) {
-                    hotkey = butcher_key;
-                }
-            }
-            if (it.is_corpse()) {
-                kmenu.addentry(i, true, hotkey, it.get_mtype()->nname());
-            } else if( i < salvage_index ) {
-                kmenu.addentry(i, true, hotkey, it.tname());
-            } else {
-                std::stringstream ss;
-                ss << _("Cut up") << " " << it.tname();
-                kmenu.addentry( i, true, hotkey, ss.str() );
-            }
+        size_t i = 0;
+        add_corpses_to_menu( kmenu, items, corpses, i, false );
+        add_corpses_to_menu( kmenu, items, disassembles, i, false );
+        add_corpses_to_menu( kmenu, items, salvageables, i, true );
+
+        if( corpses.size() > 1 ) {
+            kmenu.addentry( MULTIBUTCHER, true, 'b',
+                _("Butcher everything") );
         }
-        if( multisalvage ) {
-            kmenu.addentry(corpses.size(), true, 'z', _("Cut up all you can"));
+        if( disassembles.size() > 1 ) {
+            kmenu.addentry( MULTIDISASSEMBLE_ONE, true, 'D',
+                _("Disassemble everything once") );
+            kmenu.addentry( MULTIDISASSEMBLE_ALL, true, 'd',
+                _("Disassemble everything") );
         }
-        int last_pos = corpses.size() + (int)multisalvage;
-        kmenu.addentry(last_pos, true, 'q', _("Cancel"));
+        if( salvageables.size() > 1 ) {
+            kmenu.addentry( MULTISALVAGE, true, 'z', _("Cut up all you can") );
+        }
+
+        kmenu.addentry( CANCEL, true, 'q', _("Cancel"));
         kmenu.return_invalid = true;
         kmenu.query();
-        if( kmenu.ret < 0 || kmenu.ret == last_pos ) {
+        if( kmenu.ret < 0 || kmenu.ret >= CANCEL ) {
             return;
         }
-        butcher_corpse_index = kmenu.ret;
+
+        size_t ret = (size_t)kmenu.ret;
+        if( ret >= MULTISALVAGE && ret < CANCEL ) {
+            butcher_type = BUTCHER_OTHER;
+            indexer_index = ret;
+        } else if( ret < corpses.size() ) {
+            butcher_type = BUTCHER_CORPSE;
+            indexer_index = ret;
+        } else if( ret < corpses.size() + disassembles.size() ) {
+            butcher_type = BUTCHER_DISASSEMBLE;
+            indexer_index = ret - corpses.size();
+        } else if( ret < corpses.size() + disassembles.size() + salvageables.size() ) {
+            butcher_type = BUTCHER_SALVAGE;
+            indexer_index = ret - corpses.size() - disassembles.size();
+        } else {
+            debugmsg( "Invalid butchery index: %d", ret );
+            return;
+        }
     }
 
-    if( multisalvage == true && butcher_corpse_index == (int)corpses.size() ) {
-        u.assign_activity( ACT_LONGSALVAGE, 0, salvage_tool_index );
-        return;
+    switch( butcher_type ) {
+    case BUTCHER_OTHER:
+        switch( indexer_index ) {
+        case MULTISALVAGE:
+            u.assign_activity( ACT_LONGSALVAGE, 0, salvage_tool_index );
+            break;
+        case MULTIBUTCHER:
+            u.assign_activity( ACT_BUTCHER, 0, -1 );
+            for( int i : corpses ) {
+                u.activity.values.push_back( i );
+            }
+            break;
+        case MULTIDISASSEMBLE_ONE:
+            u.disassemble_all( true );
+            break;
+        case MULTIDISASSEMBLE_ALL:
+            u.disassemble_all( false );
+            break;
+        default:
+            debugmsg("Invalid butchery type: %d", indexer_index );
+            return;
+        }
+        break;
+    case BUTCHER_CORPSE:
+        {
+            draw_ter();
+            int index = corpses[indexer_index];
+            u.assign_activity( ACT_BUTCHER, 0, -1 );
+            u.activity.values.push_back( index );
+        }
+        break;
+    case BUTCHER_DISASSEMBLE:
+        {
+            size_t index = disassembles[indexer_index];
+            u.disassemble( items[index], index, true );
+        }
+        break;
+    case BUTCHER_SALVAGE:
+        {
+            size_t index = salvageables[indexer_index];
+            salvage_iuse->cut_up( &u, salvage_tool, &items[index] );
+        }
+        break;
     }
-    item &dis_item = items[corpses[butcher_corpse_index]];
-    if( !dis_item.is_corpse() && butcher_corpse_index < (int)salvage_index) {
-        draw_ter();
-        u.disassemble(dis_item, corpses[butcher_corpse_index], true);
-        return;
-    } else if( !dis_item.is_corpse() ) {
-        salvage_iuse->cut_up( &u, salvage_tool, &items[corpses[butcher_corpse_index]] );
-        return;
-    }
-    const mtype *corpse = dis_item.get_mtype();
-    int time_to_cut = 0;
-    switch( corpse->size ) { // Time (roughly) in turns to cut up the corpse
-    case MS_TINY:
-        time_to_cut = 6;
-        break;
-    case MS_SMALL:
-        time_to_cut = 15;
-        break;
-    case MS_MEDIUM:
-        time_to_cut = 30;
-        break;
-    case MS_LARGE:
-        time_to_cut = 60;
-        break;
-    case MS_HUGE:
-        time_to_cut = 120;
-        break;
-    }
-    // At factor 0, 10 time_to_cut is 10 turns. At factor 50, it's 5 turns, at 75 it's 2.5
-    time_to_cut *= std::max( 25, 100 - factor );
-    if( time_to_cut < 500 ) {
-        time_to_cut = 500;
-    }
-    u.assign_activity(ACT_BUTCHER, time_to_cut, corpses[butcher_corpse_index]);
 }
 
 void game::eat(int pos)
