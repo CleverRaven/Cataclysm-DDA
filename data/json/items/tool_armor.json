@@ -606,6 +606,7 @@
         "environmental_protection" : 7,
         "encumbrance" : 40,
         "coverage" : 100,
+        "qualities" : [["GLARE", 2]],
         "material_thickness" : 3
     },
     {
@@ -639,6 +640,7 @@
         "environmental_protection" : 30,
         "encumbrance" : 20,
         "coverage" : 100,
+        "qualities" : [["GLARE", 2]],
         "material_thickness" : 3
     },
     {
@@ -698,6 +700,7 @@
         "environmental_protection" : 40,
         "encumbrance" : 10,
         "coverage" : 100,
+        "qualities" : [["GLARE", 2]],
         "material_thickness" : 5
     },
     {

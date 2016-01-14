@@ -345,9 +345,7 @@ void veh_interact::cache_tool_availability()
     has_wrench = crafting_inv.has_items_with_quality( "WRENCH", 1, 1 );
     has_hammer = crafting_inv.has_items_with_quality( "HAMMER", 1, 1 );
     has_nailgun = crafting_inv.has_tools("nailgun", 1);
-    has_goggles = (crafting_inv.has_tools("goggles_welding", 1) ||
-                   g->u.has_bionic("bio_sunglasses") ||
-                   g->u.is_wearing("goggles_welding") || g->u.is_wearing("rm13_armor_on"));
+    has_goggles = (g->u.has_bionic("bio_sunglasses") || crafting_inv.has_items_with_quality( "GLARE", 2, 1 ));
     has_hacksaw = crafting_inv.has_items_with_quality( "SAW_M_FINE", 1, 1 ) ||
                   (crafting_inv.has_tools("circsaw_off", 1) &&
                    crafting_inv.has_charges("circsaw_off", CIRC_SAW_USED)) ||
@@ -609,10 +607,11 @@ bool veh_interact::can_install_part(int msg_width){
     } else if (is_wrenchable){
         werase (w_msg);
         fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
-                        _("Needs <color_%1$s>%2$s</color>, a <color_%3$s>wrench</color> and level <color_%4$s>%5$d</color> skill in mechanics.%6$s%7$s%8$s"),
+                        _("Needs <color_%1$s>%2$s</color>, a <color_%3$s>wrench</color> or <color_%4$s>duct tape</color> and level <color_%5$s>%6$d</color> skill in mechanics.%7$s%8$s%9$s"),
                         has_comps ? "ltgreen" : "red",
                         item::nname( itm ).c_str(),
                         has_wrench ? "ltgreen" : "red",
+                        has_duct_tape ? "ltgreen" : "red",
                         has_skill ? "ltgreen" : "red",
                         sel_vpart_info->difficulty,
                         engine_string.c_str(),
@@ -673,7 +672,7 @@ bool veh_interact::can_install_part(int msg_width){
     } else if(is_hand_remove) {
         return true;
     } else if(is_wrenchable) {
-        return has_wrench;
+        return has_duct_tape || has_wrench;
     } else if(is_screwable) {
         return has_duct_tape || has_screwdriver;
     } else if(is_wood) {
@@ -1108,8 +1107,9 @@ bool veh_interact::can_remove_part(int veh_part_index, int mech_skill, int msg_w
                            skill_req);
         } else if (is_wrenchable) {
             fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
-                           _("You need a <color_%1$s>wrench</color> and <color_%2$s>level %3$d</color> mechanics skill to remove this part."),
+                           _("You need a <color_%1$s>wrench</color> or <color_%2$s>hacksaw, cutting torch and welding goggles, or circular saw (off)</color> and <color_%3$s>level %4$d</color> mechanics skill to remove this part."),
                            has_wrench ? "ltgreen" : "red",
+                           has_hacksaw ? "ltgreen" : "red",
                            has_skill ? "ltgreen" : "red",
                            skill_req);
         } else if (is_screwable) {
@@ -1147,7 +1147,7 @@ bool veh_interact::can_remove_part(int veh_part_index, int mech_skill, int msg_w
         }
         //check if have all necessary materials
         if (has_skill && ((is_wheel && has_wrench && (has_jack || has_str)) ||
-                            (is_wrenchable && has_wrench) ||
+                            (is_wrenchable && (has_wrench || has_hacksaw)) ||
                             (is_hand_remove) ||
                             (is_wood && has_hammer) ||
                             (is_screwable && (has_screwdriver || has_hacksaw)) ||
@@ -2327,10 +2327,9 @@ void complete_vehicle ()
     int welder_oxy_charges = charges_per_use( "oxy_torch" );
     int welder_crude_charges = charges_per_use( "welder_crude" );
     const inventory &crafting_inv = g->u.crafting_inventory();
-    const bool has_goggles = crafting_inv.has_tools("goggles_welding", 1) ||
-                             g->u.has_bionic("bio_sunglasses") ||
-                             g->u.is_wearing("goggles_welding") || g->u.is_wearing("rm13_armor_on");
+    const bool has_goggles = g->u.has_bionic("bio_sunglasses") || crafting_inv.has_items_with_quality( "GLARE", 2, 1 );
     const bool has_screwdriver = crafting_inv.has_items_with_quality( "SCREW", 1, 1 );
+    const bool has_wrench = crafting_inv.has_items_with_quality( "WRENCH", 1, 1 );
 
 
 
@@ -2364,7 +2363,13 @@ void complete_vehicle ()
                 g->u.consume_tools(tools);
             }
         }
-        else if (!is_wrenchable && !is_hand_remove){
+        else if (is_wrenchable){
+            if(!has_wrench){
+                tools.push_back(tool_comp("duct_tape", DUCT_TAPE_USED));
+                g->u.consume_tools(tools);
+            }
+        }
+        else if (!is_hand_remove){
             if (has_goggles) {
                 // Need welding goggles to use any of these tools,
                 // without the goggles one _must_ use the duct tape
@@ -2419,8 +2424,8 @@ void complete_vehicle ()
         add_msg (m_good, _("You install a %1$s into the %2$s."),
                  vpinfo.name.c_str(), veh->name.c_str());
         // easy parts don't train
-        if (!is_wrenchable && !is_screwable && !is_hand_remove) {
-            g->u.practice( skill_mechanics, vpinfo.difficulty * 5 + (is_wood ? 10 : 20) );
+        if (!is_hand_remove) {
+            g->u.practice( skill_mechanics, vpinfo.difficulty * 5 + ((is_wood || is_wrenchable || is_screwable) ? 20 : 40) );
         }
         break;
     case 'r':
@@ -2458,7 +2463,7 @@ void complete_vehicle ()
         break;
     case 'o':
         // Only parts that use charges
-        if (!is_wrenchable && !is_hand_remove && !is_wheel && !(is_screwable && has_screwdriver)){
+        if (!(is_wrenchable && has_wrench) && !(is_screwable && has_screwdriver) && !is_hand_remove && !is_wheel){
             if( !crafting_inv.has_items_with_quality( "SAW_M_FINE", 1, 1 ) && (is_wood && !crafting_inv.has_items_with_quality("HAMMER", 1, 1))) {
                 tools.push_back(tool_comp("circsaw_off", 20));
                 tools.push_back(tool_comp("oxy_torch", 10));
@@ -2489,8 +2494,8 @@ void complete_vehicle ()
             used_item = veh->parts[vehicle_part].properties_to_item();
             g->m.add_item_or_charges(g->u.posx(), g->u.posy(), used_item);
             // simple tasks won't train mechanics
-            if(type != SEL_JACK && !is_wrenchable && !is_hand_remove) {
-                g->u.practice( skill_mechanics, is_wood ? 15 : 30);
+            if(type != SEL_JACK && !is_hand_remove) {
+                g->u.practice( skill_mechanics, (is_wood || is_wrenchable || is_screwable) ? 15 : 30);
             }
         } else {
             veh->break_part_into_pieces(vehicle_part, g->u.posx(), g->u.posy());
