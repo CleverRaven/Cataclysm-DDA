@@ -23,17 +23,6 @@ profession::profession()
 {
 }
 
-profession::profession(std::string ident, std::string name, std::string description,
-                       signed int points)
-{
-    _ident = ident;
-    _name_male = name;
-    _name_female = name;
-    _description_male = description;
-    _description_female = description;
-    _point_cost = points;
-}
-
 profmap profession::_all_profs;
 
 void profession::load_profession(JsonObject &jsobj)

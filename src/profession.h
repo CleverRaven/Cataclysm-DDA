@@ -67,7 +67,6 @@ enum add_type : int;
     public:
         //these three aren't meant for external use, but had to be made public regardless
         profession();
-        profession( std::string ident, std::string name, std::string description, signed int points );
 
         static void load_profession( JsonObject &jsobj );
 
