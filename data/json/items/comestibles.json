@@ -12215,11 +12215,9 @@
         "price" : 500,
         "material" : ["milk"],
         "tool" : "null",
-        "volume" : 1,
-        "cutting" : 0,
+        "volume" : 
         "phase" : "solid",
         "charges" : 2,
-        "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 6
     },
