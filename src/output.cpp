@@ -45,6 +45,8 @@ int OVERMAP_WINDOW_WIDTH;
 
 
 scrollingcombattext SCT;
+extern bool tile_iso;
+extern bool use_tiles;
 
 void delwin_functor::operator()( WINDOW *w ) const {
     if( w == nullptr ) {
@@ -2033,8 +2035,23 @@ scrollingcombattext::cSCT::cSCT(const int p_iPosX, const int p_iPosY, const dire
 {
     iPosX = p_iPosX;
     iPosY = p_iPosY;
-
+    sType = p_sType;
     oDir = p_oDir;
+
+    // translate from player relative to screen relative direction
+    iso_mode = false;
+#ifdef TILES
+    iso_mode = tile_iso && use_tiles;
+#endif
+    oUp = iso_mode ? NORTHEAST : NORTH;
+    oUpRight = iso_mode ? EAST : NORTHEAST;
+    oRight = iso_mode ? SOUTHEAST : EAST;
+    oDownRight = iso_mode ? SOUTH : SOUTHEAST;
+    oDown = iso_mode ? SOUTHWEST : SOUTH;
+    oDownLeft = iso_mode ? WEST : SOUTHWEST;
+    oLeft = iso_mode ? NORTHWEST : WEST;
+    oUpLeft = iso_mode ? NORTH : NORTHWEST;
+
     point pairDirXY = direction_XY(oDir);
 
     iDirX = pairDirXY.x;
@@ -2055,7 +2072,6 @@ scrollingcombattext::cSCT::cSCT(const int p_iPosX, const int p_iPosY, const dire
     sText2 = p_sText2;
     gmt2 = p_gmt2;
 
-    sType = p_sType;
 }
 
 void scrollingcombattext::add(const int p_iPosX, const int p_iPosY, direction p_oDir,
@@ -2064,44 +2080,67 @@ void scrollingcombattext::add(const int p_iPosX, const int p_iPosY, direction p_
                               const std::string p_sType)
 {
     if (OPTIONS["ANIMATION_SCT"]) {
+
         int iCurStep = 0;
+
+        bool tiled = false;
+        bool iso_mode = false;
+#ifdef TILES
+        tiled = use_tiles;
+        iso_mode = tile_iso && use_tiles;
+#endif
 
         if (p_sType == "hp") {
             //Remove old HP bar
             removeCreatureHP();
 
-            if (p_oDir == WEST || p_oDir == NORTHWEST || p_oDir == SOUTHWEST) {
-                p_oDir = WEST;
+            if (p_oDir == WEST || p_oDir == NORTHWEST || p_oDir == (iso_mode ? NORTH : SOUTHWEST) ) {
+                p_oDir = (iso_mode ? NORTHWEST : WEST);
             } else {
-                p_oDir = EAST;
+                p_oDir = (iso_mode ? SOUTHEAST : EAST);
             }
 
         } else {
-            //reserve East/West for creature hp display
-            if (p_oDir == EAST) {
-                p_oDir = (one_in(2)) ? NORTHEAST : SOUTHEAST;
+            //reserve Left/Right for creature hp display
+            if (p_oDir == (iso_mode ? SOUTHEAST : EAST)) {
+                p_oDir = (one_in(2)) ? (iso_mode ? EAST : NORTHEAST) : (iso_mode ? SOUTH : SOUTHEAST);
 
-            } else if (p_oDir == WEST) {
-                p_oDir = (one_in(2)) ? NORTHWEST : SOUTHWEST;
+            } else if (p_oDir == (iso_mode ? NORTHWEST : WEST)) {
+                p_oDir = (one_in(2)) ? (iso_mode ? NORTH : NORTHWEST) : (iso_mode ? WEST : SOUTHWEST);
             }
         }
 
-        //Message offset: multiple impacts in the same direction in short order overriding prior messages (mostly turrets)
-        for (std::vector<cSCT>::reverse_iterator iter = vSCT.rbegin(); iter != vSCT.rend(); ++iter) {
-            if (iter->getDirecton() == p_oDir && (iter->getStep() + iter->getStepOffset()) == iCurStep) {
-                ++iCurStep;
-                iter->advanceStepOffset();
+        // in tiles, SCT that scroll downwards are inserted at the beginning of the vector to prevent
+        // oversize ascii tiles overdrawing messages below them.
+        if (tiled && ( p_oDir == SOUTHWEST || p_oDir == SOUTH || p_oDir == (iso_mode ? WEST : SOUTHEAST))) {
+
+            //Message offset: multiple impacts in the same direction in short order overriding prior messages (mostly turrets)
+            for (std::vector<cSCT>::iterator iter = vSCT.begin(); iter != vSCT.end(); ++iter) {
+                if (iter->getDirecton() == p_oDir && (iter->getStep() + iter->getStepOffset()) == iCurStep) {
+                    ++iCurStep;
+                    iter->advanceStepOffset();
+                }
             }
+            vSCT.insert( vSCT.begin(), cSCT(p_iPosX, p_iPosY, p_oDir, p_sText, p_gmt, p_sText2, p_gmt2, p_sType));
+
+        } else {
+            //Message offset: this time in reverse.
+            for (std::vector<cSCT>::reverse_iterator iter = vSCT.rbegin(); iter != vSCT.rend(); ++iter) {
+                if (iter->getDirecton() == p_oDir && (iter->getStep() + iter->getStepOffset()) == iCurStep) {
+                    ++iCurStep;
+                    iter->advanceStepOffset();
+                }
+            }
+            vSCT.push_back(cSCT(p_iPosX, p_iPosY, p_oDir, p_sText, p_gmt, p_sText2, p_gmt2, p_sType));
         }
 
-        vSCT.push_back(cSCT(p_iPosX, p_iPosY, p_oDir, p_sText, p_gmt, p_sText2, p_gmt2, p_sType));
     }
 }
 
 std::string scrollingcombattext::cSCT::getText(std::string const &type) const
 {
     if (!sText2.empty()) {
-        if (oDir == NORTHWEST || oDir == SOUTHWEST || oDir == WEST) {
+        if (oDir == oUpLeft || oDir == oDownLeft || oDir == oLeft) {
             if (type == "first") {
                 return sText2 + " ";
 
@@ -2125,7 +2164,7 @@ std::string scrollingcombattext::cSCT::getText(std::string const &type) const
 game_message_type scrollingcombattext::cSCT::getMsgType(std::string const &type) const
 {
     if (!sText2.empty()) {
-        if (oDir == NORTHWEST || oDir == SOUTHWEST || oDir == WEST) {
+        if (oDir == oUpLeft || oDir == oDownLeft || oDir == oLeft) {
             if (type == "first") {
                 return gmt2;
             }
@@ -2142,19 +2181,24 @@ game_message_type scrollingcombattext::cSCT::getMsgType(std::string const &type)
 int scrollingcombattext::cSCT::getPosX() const
 {
     if (getStep() > 0) {
-        int iDirOffset = (oDir == EAST) ? 1 : ((oDir == WEST) ? -1 : 0);
+        int iDirOffset = (oDir == oRight) ? 1 : ((oDir == oLeft) ? -1 : 0);
 
-        if (oDir == NORTH || oDir == SOUTH) {
+        if (oDir == oUp || oDir == oDown) {
+
+            if (iso_mode) {
+                iDirOffset = (oDir == oUp) ? 1 : -1;
+            }
+
             //Center text
-            iDirOffset -= getText().length() / 2;
+            iDirOffset -= ( getText().length() / 2 );
 
-        } else if (oDir == NORTHWEST || oDir == SOUTHWEST || oDir == WEST) {
-            //Left align text
-            iDirOffset -= getText().length();
+        } else if (oDir == oLeft || oDir == oDownLeft || oDir == oUpLeft) {
+            //Right align text
+            iDirOffset -= getText().length() - 1;
         }
 
         return iPosX + iDirOffset + (iDirX * ((sType == "hp") ? (getStepOffset() + 1) :
-                                              (getStepOffset() + getStep())));
+                                              (getStepOffset() * (iso_mode ? 2 : 1) + getStep())));
     }
 
     return 0;
@@ -2163,8 +2207,26 @@ int scrollingcombattext::cSCT::getPosX() const
 int scrollingcombattext::cSCT::getPosY() const
 {
     if (getStep() > 0) {
-        const int iDirOffset = (oDir == SOUTH) ? 1 : ((oDir == NORTH) ? -1 : 0);
-        return iPosY + iDirOffset + (iDirY * (getStepOffset() + getStep()));
+        int iDirOffset = (oDir == oDown) ? 1 : ((oDir == oUp) ? -1 : 0);
+
+        if (iso_mode) {
+            if (oDir == oLeft || oDir == oRight) {
+                iDirOffset = (oDir == oRight) ? 1 : -1;
+            }
+
+            if (oDir == oUp || oDir == oDown) {
+            //Center text
+            iDirOffset -= ( getText().length() / 2 );
+
+            } else if (oDir == oLeft || oDir == oDownLeft || oDir == oUpLeft) {
+                //Right align text
+                iDirOffset -= getText().length() - 1;
+            }
+
+        }
+
+        return iPosY + iDirOffset + (iDirY * ((iso_mode && sType == "hp") ? (getStepOffset() + 1) :
+                                              (getStepOffset() * (iso_mode ? 2 : 1) + getStep())));
     }
 
     return 0;
