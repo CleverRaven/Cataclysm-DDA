@@ -1085,7 +1085,6 @@
         "weight": 725,
         "volume": 3,
         "bashing": 0,
-        "cutting": 0,
         "to_hit": 0
     },
     {
@@ -1100,7 +1099,6 @@
         "weight": 11339,
         "volume": 12,
         "bashing": 0,
-        "cutting": 0,
         "to_hit": 0
     },
     {
@@ -1115,7 +1113,6 @@
         "weight": 2721,
         "volume": 3,
         "bashing": 0,
-        "cutting": 0,
         "to_hit": 0
     },
     {
@@ -1354,7 +1351,6 @@
         "weight": 2857,
         "volume": 4,
         "bashing": 0,
-        "cutting": 0,
         "to_hit": 0
     },
     {
@@ -1370,7 +1366,6 @@
         "weight": 362,
         "volume": 2,
         "bashing": 4,
-        "cutting": 0,
         "to_hit": 0
     },
     {
@@ -1385,7 +1380,6 @@
         "weight": 362,
         "volume": 1,
         "bashing": 1,
-        "cutting": 0,
         "to_hit": 0
     },
     {
@@ -1400,7 +1394,6 @@
         "weight": 400,
         "volume": 1,
         "bashing": 1,
-        "cutting": 0,
         "to_hit": 0,
         "qualities": [["CONTAIN", 1]]
     },
@@ -1416,7 +1409,6 @@
         "weight": 300,
         "volume": 1,
         "bashing": 1,
-        "cutting": 0,
         "to_hit": 0,
         "qualities": [["CONTAIN", 1]]
     },
@@ -1432,7 +1424,6 @@
         "weight": 452,
         "volume": 1,
         "bashing": 1,
-        "cutting": 0,
         "to_hit": 0
     },
     {
@@ -1447,7 +1438,6 @@
         "weight": 500,
         "volume": 1,
         "bashing": 1,
-        "cutting": 0,
         "to_hit": 0,
         "qualities": [["CONTAIN", 1]]
     },
@@ -1464,7 +1454,6 @@
         "weight": 375,
         "volume": 1,
         "bashing": 1,
-        "cutting": 0,
         "to_hit": 0,
         "qualities": [["CONTAIN", 1]]
     },
@@ -1480,7 +1469,6 @@
         "weight": 525,
         "volume": 1,
         "bashing": 0,
-        "cutting": 0,
         "to_hit": 0
     },
     {
@@ -1511,7 +1499,6 @@
         "weight": 48,
         "volume": 1,
         "bashing": 2,
-        "cutting": 0,
         "to_hit": -2,
         "flags": ["SHEATH_KNIFE"]
     },
@@ -1560,7 +1547,6 @@
         "weight": 80,
         "volume": 1,
         "bashing": 0,
-        "cutting": 0,
         "to_hit": 0
     },
     {
@@ -1575,7 +1561,6 @@
         "weight": 725,
         "volume": 1,
         "bashing": 4,
-        "cutting": 0,
         "to_hit": -3
     },
     {
@@ -1592,7 +1577,6 @@
         "weight": 453,
         "volume": 1,
         "bashing": 0,
-        "cutting": 0,
         "to_hit": 0
     },
     {
@@ -1607,7 +1591,6 @@
         "weight": 657,
         "volume": 1,
         "bashing": 7,
-        "cutting": 0,
         "to_hit": -2,
         "qualities": [["HAMMER", 1]]
     },
@@ -1654,7 +1637,6 @@
         "weight": 150,
         "volume": 1,
         "bashing": 6,
-        "cutting": 0,
         "to_hit": 3
     },
     {
@@ -1669,7 +1651,6 @@
         "weight": 170,
         "volume": 1,
         "bashing": 7,
-        "cutting": 0,
         "to_hit": 2
     },
     {
@@ -1684,7 +1665,6 @@
         "weight": 400,
         "volume": 3,
         "bashing": 4,
-        "cutting": 0,
         "to_hit": -1
     },
     {
@@ -1699,7 +1679,6 @@
         "weight": 800,
         "volume": 4,
         "bashing": 6,
-        "cutting": 0,
         "to_hit": -1
     },
     {
@@ -1714,7 +1693,6 @@
         "weight": 0,
         "volume": 0,
         "bashing": 0,
-        "cutting": 0,
         "to_hit": 0
     },
     {
@@ -2519,7 +2497,6 @@
         "volume": 2,
         "weight": 118,
         "bashing": 1,
-        "cutting": 0,
         "to_hit": 1,
         "flags": ["RAIN_PROTECT"],
         "techniques": ["WBLOCK_1"]
@@ -2537,7 +2514,6 @@
         "weight": 7042,
         "volume": 4,
         "bashing": -8,
-        "cutting": 0,
         "to_hit": -6
     },
     {
@@ -2553,7 +2529,6 @@
         "volume": 1,
         "weight": 430,
         "bashing": 8,
-        "cutting": 0,
         "flags" : ["UNARMED_WEAPON"],
         "to_hit": 0
     },
@@ -2587,7 +2562,6 @@
         "volume": 2,
         "weight": 970,
         "bashing": 12,
-        "cutting": 0,
         "flags" : ["UNARMED_WEAPON", "DURABLE_MELEE"],
         "to_hit": 0
     },
@@ -2605,7 +2579,6 @@
         "volume": 0,
         "weight": 320,
         "bashing": 6,
-        "cutting": 0,
         "flags" : ["UNARMED_WEAPON", "DURABLE_MELEE"],
         "to_hit": 0
     },
@@ -2636,7 +2609,6 @@
         "weight": 300,
         "volume": 4,
         "bashing": 14,
-        "cutting": 0,
         "to_hit": 1
     },
     {
@@ -2652,7 +2624,6 @@
         "weight": 1007,
         "volume": 2,
         "bashing": 8,
-        "cutting": 0,
         "to_hit": 1
     },
     {
@@ -2751,7 +2722,6 @@
         "weight": 3714,
         "volume": 1,
         "bashing": 4,
-        "cutting": 0,
         "to_hit": -2,
         "revert_to": "null",
         "use_action": {
@@ -2774,7 +2744,6 @@
         "weight": 3714,
         "volume": 1,
         "bashing": 4,
-        "cutting": 0,
         "to_hit": -2,
         "revert_to": "null",
         "use_action": {
@@ -2797,7 +2766,6 @@
         "weight": 5438,
         "volume": 4,
         "bashing": 8,
-        "cutting": 0,
         "to_hit": -2,
         "revert_to": "null",
         "use_action": {
@@ -2820,7 +2788,6 @@
         "weight": 5438,
         "volume": 4,
         "bashing": 8,
-        "cutting": 0,
         "to_hit": -2,
         "revert_to": "null",
         "use_action": {
@@ -2861,7 +2828,6 @@
         "weight": 42,
         "volume": 1,
         "bashing": -8,
-        "cutting": 0,
         "to_hit": 0
     },
     {
@@ -2893,7 +2859,6 @@
         "weight": 4290,
         "volume": 18,
         "bashing": 5,
-        "cutting": 0,
         "to_hit": -1
     },
     {
@@ -2942,7 +2907,6 @@
         "weight": 900,
         "volume": 3,
         "bashing": -2,
-        "cutting": 0,
         "to_hit": 0,
         "material": ["plastic", "null"]
     },
@@ -2959,7 +2923,6 @@
         "weight": 900,
         "volume": 3,
         "bashing": -2,
-        "cutting": 0,
         "to_hit": 0,
         "material": ["plastic", "null"]
     },
@@ -2976,7 +2939,6 @@
         "weight": 900,
         "volume": 3,
         "bashing": -2,
-        "cutting": 0,
         "to_hit": 0,
         "material": ["plastic", "null"]
     },
@@ -2993,7 +2955,6 @@
         "weight": 900,
         "volume": 3,
         "bashing": -2,
-        "cutting": 0,
         "to_hit": 0,
         "material": ["plastic", "null"]
     },
@@ -3010,7 +2971,6 @@
         "weight": 900,
         "volume": 3,
         "bashing": -2,
-        "cutting": 0,
         "to_hit": 0,
         "material": ["plastic", "null"]
     },
@@ -3073,7 +3033,6 @@
         "weight": 19400,
         "volume": 5,
         "bashing": 7,
-        "cutting": 0,
         "to_hit": -5
     },
     {
@@ -3088,7 +3047,6 @@
         "weight": 120,
         "volume": 1,
         "bashing": 0,
-        "cutting": 0,
         "to_hit": -5
     },
     {   "type" : "AMMO",
@@ -3319,7 +3277,6 @@
         "weight": 600,
         "volume": 1,
         "bashing": 0,
-        "cutting": 0,
         "to_hit": 1
     },
     {
@@ -3618,7 +3575,6 @@
     "weight": 8932,
     "volume": 18,
     "bashing": -2,
-    "cutting": 0,
     "to_hit": -2,
     "material": ["wood", "steel"]
   },{
@@ -3634,7 +3590,6 @@
     "weight": 2000,
     "volume": 11,
     "bashing": -2,
-    "cutting": 0,
     "to_hit": -2,
     "material": ["wood", "steel"]
   },{
@@ -3650,7 +3605,6 @@
     "weight": 2000,
     "volume": 11,
     "bashing": -2,
-    "cutting": 0,
     "to_hit": -2,
     "material": ["plastic", "steel"]
   },{
@@ -3666,7 +3620,6 @@
     "weight": 400,
     "volume": 2,
     "bashing": -2,
-    "cutting": 0,
     "to_hit": -2,
     "material": ["steel", "plastic"]
   },{
@@ -3682,7 +3635,6 @@
     "weight": 700,
     "volume": 3,
     "bashing": -2,
-    "cutting": 0,
     "to_hit": -2,
     "material": ["steel", "plastic"]
   },{
@@ -3698,7 +3650,6 @@
     "weight": 1900,
     "volume": 10,
     "bashing": -2,
-    "cutting": 0,
     "to_hit": -2,
     "material": ["steel", "plastic"]
   },{
@@ -3714,7 +3665,6 @@
     "weight": 2300,
     "volume": 11,
     "bashing": -2,
-    "cutting": 0,
     "to_hit": -2,
     "material": ["steel", "plastic"]
   },{
@@ -3730,7 +3680,6 @@
     "weight": 5,
     "volume": 0,
     "bashing": 0,
-    "cutting": 0,
     "to_hit": 0
   },
   {
@@ -3747,7 +3696,6 @@
     "weight": 5,
     "volume": 0,
     "bashing": 0,
-    "cutting": 0,
     "to_hit": 0
   },
   {
@@ -3764,7 +3712,6 @@
     "weight": 5,
     "volume": 0,
     "bashing": 0,
-    "cutting": 0,
     "to_hit": 0
   },
   {
@@ -3781,7 +3728,6 @@
     "weight": 5,
     "volume": 0,
     "bashing": 0,
-    "cutting": 0,
     "to_hit": 0
   },
    {
@@ -3797,7 +3743,6 @@
      "weight": 5,
      "volume": 1,
      "bashing": -5,
-     "cutting": 0,
      "to_hit": -3
    },
     {
@@ -3814,7 +3759,6 @@
         "weight": 600,
         "volume": 3,
         "bashing": -2,
-        "cutting": 0,
         "category" : "spare_parts",
         "to_hit": -1
     },
@@ -3831,7 +3775,6 @@
         "weight": 600,
         "volume": 6,
         "bashing": -2,
-        "cutting": 0,
         "category" : "spare_parts",
         "to_hit": -1
     },
@@ -3849,7 +3792,6 @@
         "weight": 684,
         "volume": 4,
         "bashing": -2,
-        "cutting": 0,
         "category" : "spare_parts",
         "to_hit": -1
     },
@@ -3866,7 +3808,6 @@
         "weight": 684,
         "volume": 6,
         "bashing": -2,
-        "cutting": 0,
         "category" : "spare_parts",
         "to_hit": -1
     },{
@@ -3913,7 +3854,6 @@
         "weight": 480,
         "volume": 8,
         "bashing": 1,
-        "cutting": 0,
         "category": "tools",
         "to_hit": 0,
         "qualities": [["COOK", 3], ["BOIL", 2], ["CONTAIN", 1], ["CHEM", 1]]
@@ -3929,7 +3869,6 @@
         "weight": 2264,
         "volume": 6,
         "bashing": 0,
-        "cutting": 0,
         "category": "tools",
         "to_hit": 0
     },{
@@ -3945,7 +3884,6 @@
         "weight": 429,
         "volume": 3,
         "bashing": 1,
-        "cutting": 0,
         "to_hit": 1,
         "qualities": [["BOIL", 1]]
     },{
@@ -3962,7 +3900,6 @@
         "weight": 530,
         "volume": 1,
         "bashing": -1,
-        "cutting": 0,
         "to_hit": -4
     },{
         "type": "GENERIC",
@@ -3977,7 +3914,6 @@
         "weight": 969,
         "volume": 2,
         "bashing": 8,
-        "cutting": 0,
         "to_hit": -2
     },{
             "type": "GENERIC",
@@ -3992,7 +3928,6 @@
         "weight": 1269,
         "volume": 2,
         "bashing": 8,
-        "cutting": 0,
         "to_hit": -2
     },{
         "type": "GENERIC",
@@ -4006,7 +3941,6 @@
         "weight": 1000,
         "volume": 4,
         "bashing": 4,
-        "cutting": 0,
         "to_hit": 0
     },
     {
@@ -4022,7 +3956,6 @@
     "weight": 6,
     "volume": 0,
     "bashing": -8,
-    "cutting": 0,
     "to_hit": -3,
     "max_charges": 0,
     "initial_charges": 0,
@@ -4045,7 +3978,6 @@
     "weight": 6,
     "volume": 0,
     "bashing": -8,
-    "cutting": 0,
     "to_hit": -3,
     "max_charges": 0,
     "initial_charges": 0,
@@ -4068,7 +4000,6 @@
     "weight": 6,
     "volume": 0,
     "bashing": -8,
-    "cutting": 0,
     "to_hit": -3,
     "max_charges": 0,
     "initial_charges": 0,
@@ -4090,7 +4021,6 @@
         "weight": 2000,
         "volume": 4,
         "bashing": 1,
-        "cutting": 0,
         "to_hit": -2
     }
 ]
