@@ -12,7 +12,6 @@
         "techniques" : ["BRUTAL", "WIDE"],
         "volume" : 10,
         "bashing" : 9999,
-        "cutting" : 0,
         "price" : 12000,
         "qualities": [["HAMMER", 1]]
     },
@@ -47,7 +46,6 @@
         "weight": 56,
         "volume": 1,
         "bashing": -3,
-        "cutting": 0,
         "to_hit": -1
     },
     {
@@ -63,7 +61,6 @@
         "weight": 30,
         "volume": 1,
         "bashing": -5,
-        "cutting": 0,
         "to_hit": -1
     },
     {
@@ -79,7 +76,6 @@
         "weight": 113,
         "volume": 4,
         "bashing": 5,
-        "cutting": 0,
         "to_hit": -1
     },
     {
@@ -95,7 +91,6 @@
         "weight": 114,
         "volume": 1,
         "bashing": -5,
-        "cutting": 0,
         "to_hit": -1
     },
     {
@@ -111,7 +106,6 @@
         "weight": 480,
         "volume": 1,
         "bashing": -5,
-        "cutting": 0,
         "to_hit": -1
     },
     {
@@ -127,7 +121,6 @@
         "weight": 114,
         "volume": 1,
         "bashing": -4,
-        "cutting": 0,
         "to_hit": -1
     },
     {
@@ -161,7 +154,6 @@
         "weight": 340,
         "volume": 0,
         "bashing": -8,
-        "cutting": 0,
         "to_hit": -3,
         "use_action": {
             "type": "extended_firestarter",
@@ -181,7 +173,6 @@
         "weight": 317,
         "volume": 10,
         "bashing": -4,
-        "cutting": 0,
         "to_hit": -1
     },
     {
@@ -197,7 +188,6 @@
         "weight": 68,
         "volume": 1,
         "bashing": -6,
-        "cutting": 0,
         "to_hit": 2
     },
     {
@@ -213,7 +203,6 @@
         "weight": 26,
         "volume": 0,
         "bashing": -6,
-        "cutting": 0,
         "to_hit": 2
     },
     {
@@ -229,7 +218,6 @@
         "weight": 14,
         "volume": 0,
         "bashing": -6,
-        "cutting": 0,
         "to_hit": 2
     },
     {
@@ -245,7 +233,6 @@
         "weight": 21000,
         "volume": 8,
         "bashing": 4,
-        "cutting": 0,
         "to_hit": 1
     },
     {
@@ -262,7 +249,6 @@
         "weight": 340,
         "volume": 2,
         "bashing": 8,
-        "cutting": 0,
         "to_hit": -2,
         "qualities": [["HAMMER", 1]]
     },
@@ -280,7 +266,6 @@
         "weight": 1360,
         "volume": 2,
         "bashing": 12,
-        "cutting": 0,
         "to_hit": -4,
         "qualities": [["HAMMER", 1]]
     },
@@ -297,7 +282,6 @@
         "weight": 113,
         "volume": 1,
         "bashing": 1,
-        "cutting": 0,
         "to_hit": -2
     },
     {
@@ -313,7 +297,6 @@
         "weight": 200,
         "volume": 1,
         "bashing": 1,
-        "cutting": 0,
         "to_hit": -2
     },
     {
@@ -329,7 +312,6 @@
         "weight": 400,
         "volume": 1,
         "bashing": 4,
-        "cutting": 0,
         "to_hit": -2
     },
     {
@@ -361,7 +343,6 @@
         "weight": 300,
         "volume": 3,
         "bashing": 2,
-        "cutting": 0,
         "to_hit": -3
     },
     {
@@ -378,7 +359,6 @@
         "weight": 24176,
         "volume": 50,
         "bashing": 4,
-        "cutting": 0,
         "to_hit": -5
     },
     {
@@ -395,7 +375,6 @@
         "weight": 40123,
         "volume": 50,
         "bashing": 6,
-        "cutting": 0,
         "to_hit": -6
     },
     {
@@ -412,7 +391,6 @@
         "weight": 10040,
         "volume": 12,
         "bashing": 4,
-        "cutting": 0,
         "to_hit": -2
     },
     {
@@ -429,7 +407,6 @@
         "weight": 36287,
         "volume": 12,
         "bashing": 20,
-        "cutting": 0,
         "to_hit": -5
     },
     {
@@ -444,7 +421,6 @@
         "weight": 1700,
         "volume": 5,
         "bashing": 14,
-        "cutting": 0,
         "to_hit": -2
     },
     {
@@ -459,7 +435,6 @@
         "weight": 220,
         "volume": 2,
         "bashing": 0,
-        "cutting": 0,
         "to_hit": -2
     },
     {
@@ -474,7 +449,6 @@
         "weight": 90,
         "volume": 1,
         "bashing": 0,
-        "cutting": 0,
         "to_hit": -2
     },
     {
@@ -532,7 +506,6 @@
         "flags" : ["DURABLE_MELEE"],
         "volume" : 8,
         "bashing" : 8,
-        "cutting" : 0,
         "price" : 4000
     },
     {
@@ -550,7 +523,6 @@
         "weight": 1400,
         "volume": 12,
         "bashing": 19,
-        "cutting": 0,
         "category" : "weapons",
         "to_hit": 3
     },
@@ -569,7 +541,6 @@
         "weight": 2200,
         "volume": 12,
         "bashing": 25,
-        "cutting": 0,
         "category" : "weapons",
         "to_hit": 3
     },
@@ -639,7 +610,6 @@
         "weight": 89,
         "volume": 1,
         "bashing": 1,
-        "cutting": 0,
         "to_hit": -2
     },
     {
@@ -654,7 +624,6 @@
         "weight": 60,
         "volume": 1,
         "bashing": -8,
-        "cutting": 0,
         "to_hit": -3
     },
     {
@@ -669,7 +638,6 @@
         "weight": 158,
         "volume": 1,
         "bashing": 2,
-        "cutting": 0,
         "to_hit": -1,
         "qualities": [["CONTAIN", 1]]
     },
@@ -685,7 +653,6 @@
         "weight": 907,
         "volume": 1,
         "bashing": 6,
-        "cutting": 0,
         "to_hit": -1
     },
     {
@@ -700,7 +667,6 @@
         "weight": 493,
         "volume": 1,
         "bashing": 6,
-        "cutting": 0,
         "to_hit": -1
     },
     {
@@ -715,7 +681,6 @@
         "weight": 18,
         "volume": 0,
         "bashing": 0,
-        "cutting": 0,
         "to_hit": -3
     },
     {
@@ -731,7 +696,6 @@
         "weight": 170,
         "volume": 1,
         "bashing": 8,
-        "cutting": 0,
         "to_hit": -3
     },
     {
@@ -747,7 +711,6 @@
         "weight": 2000,
         "volume": 10,
         "bashing": 16,
-        "cutting": 0,
         "to_hit": -2
     },
     {
@@ -763,7 +726,6 @@
         "weight": 1514,
         "volume": 1,
         "bashing": 9,
-        "cutting": 0,
         "to_hit": 0
     },
     {
@@ -812,7 +774,6 @@
         "weight": 151,
         "volume": 2,
         "bashing": 0,
-        "cutting": 0,
         "to_hit": -2
     },
     {
@@ -827,7 +788,6 @@
         "weight": 302,
         "volume": 2,
         "bashing": 0,
-        "cutting": 0,
         "to_hit": -2
     },
     {
@@ -843,7 +803,6 @@
         "weight": 908,
         "volume": 6,
         "bashing": 12,
-        "cutting": 0,
         "to_hit": 2
     },
     {
@@ -859,7 +818,6 @@
         "weight": 1000,
         "volume": 4,
         "bashing": 4,
-        "cutting": 0,
         "to_hit": 0
         },
     {
@@ -875,7 +833,6 @@
         "weight": 9071,
         "volume": 40,
         "bashing": 10,
-        "cutting": 0,
         "to_hit": -10
     },
     {
@@ -891,7 +848,6 @@
         "weight": 453,
         "volume": 1,
         "bashing": 4,
-        "cutting": 0,
         "to_hit": 1
     },
     {
@@ -908,7 +864,6 @@
         "weight": 6,
         "volume": 0,
         "bashing": 0,
-        "cutting": 0,
         "to_hit": -5,
         "qualities": [["COOK", 1]]
     },
@@ -943,7 +898,6 @@
         "weight": 751,
         "volume": 3,
         "bashing": 8,
-        "cutting": 0,
         "to_hit": 3
     },
     {
@@ -961,7 +915,6 @@
         "weight": 39,
         "volume": 1,
         "bashing": 0,
-        "cutting": 0,
         "to_hit": -1
     },
     {
@@ -977,7 +930,6 @@
         "weight": 3220,
         "volume": 3,
         "bashing": -1,
-        "cutting": 0,
         "to_hit": 0
     },
     {
@@ -993,7 +945,6 @@
         "weight": 9071,
         "volume": 25,
         "bashing": 6,
-        "cutting": 0,
         "to_hit": -4
     },
     {
@@ -1008,7 +959,6 @@
         "weight": 1133,
         "volume": 10,
         "bashing": 4,
-        "cutting": 0,
         "to_hit": -3
     },
     { 
@@ -1023,7 +973,6 @@
         "weight": 2266,
         "volume": 40,
         "bashing": 4,
-        "cutting": 0,
         "to_hit": -3
     },
     {
@@ -1039,7 +988,6 @@
         "weight": 226,
         "volume": 1,
         "bashing": 0,
-        "cutting": 0,
         "to_hit": 0
     },
     {
@@ -1054,7 +1002,6 @@
         "weight": 22600,
         "volume": 12,
         "bashing": 5,
-        "cutting": 0,
         "to_hit": -5
     },
     {
@@ -1070,7 +1017,6 @@
         "weight": 5,
         "volume": 0,
         "bashing": 0,
-        "cutting": 0,
         "to_hit": 0
     },
     {
@@ -1809,7 +1755,6 @@
         "techniques" : ["WBLOCK_1"],
         "volume" : 5,
         "bashing" : 4,
-        "cutting" : 0,
         "price" : 2400
     },
     {
@@ -1825,7 +1770,6 @@
         "techniques" : ["BRUTAL", "WIDE"],
         "volume" : 10,
         "bashing" : 40,
-        "cutting" : 0,
         "price" : 12000,
         "qualities": [["HAMMER", 1]]
     },
@@ -1965,7 +1909,6 @@
         "techniques" : ["WBLOCK_1"],
         "volume" : 6,
         "bashing" : 10,
-        "cutting" : 0,
         "price" : 8000
     },
     {
@@ -1982,7 +1925,6 @@
         "techniques" : ["WBLOCK_1"],
         "volume" : 4,
         "bashing" : 12,
-        "cutting" : 0,
         "price" : 7500
     },
     {
@@ -1999,7 +1941,6 @@
         "flags" : ["DURABLE_MELEE"],
         "volume" : 7,
         "bashing" : 19,
-        "cutting" : 0,
         "price" : 16000
     },
     {
@@ -2016,7 +1957,6 @@
         "flags" : ["DURABLE_MELEE"],
         "volume" : 9,
         "bashing" : 11,
-        "cutting" : 0,
         "price" : 1000
     },
     {
@@ -2033,7 +1973,6 @@
         "flags" : ["DURABLE_MELEE"],
         "volume" : 7,
         "bashing" : 19,
-        "cutting" : 0,
         "price" : 18000
     },
     {
@@ -2050,7 +1989,6 @@
         "flags" : ["DURABLE_MELEE"],
         "volume" : 7,
         "bashing" : 20,
-        "cutting" : 0,
         "price" : 16000
     },
     {
@@ -2162,7 +2100,6 @@
         },
         "volume" : 1,
         "bashing" : 4,
-        "cutting" : 0,
         "price" : 17500
     },
     {
@@ -2185,7 +2122,6 @@
         },
         "volume" : 3,
         "bashing" : 12,
-        "cutting" : 0,
         "price" : 17500
     },
     {
@@ -2252,7 +2188,6 @@
         "techniques" : ["WBLOCK_1"],
         "volume" : 4,
         "bashing" : 10,
-        "cutting" : 0,
         "price" : 16000
     },
     {
@@ -2270,7 +2205,6 @@
         "volume" : 5,
         "//": "Same total damage and slightly higher weight than a morningstar - exchanged.",
         "bashing" : 37,
-        "cutting" : 0,
         "price" : 100000,
         "qualities": [["HAMMER", 1]]
     },
@@ -2305,7 +2239,6 @@
         "techniques" : ["WBLOCK_1"],
         "volume" : 8,
         "bashing" : 10,
-        "cutting" : 0,
         "price" : 8000
     },
     {
@@ -2446,7 +2379,6 @@
         "material" : ["plastic", "aluminum"],
         "volume" : 2,
         "bashing" : -8,
-        "cutting" : 0,
         "price" : 10000,
         "flags" : ["WATCH", "ALARMCLOCK"]
     },
@@ -2462,7 +2394,6 @@
         "material" : ["gold", "glass"],
         "volume" : 0,
         "bashing" : -8,
-        "cutting" : 0,
         "price" : 25000,
         "flags" : ["WATCH", "FANCY"]
     },
@@ -2640,7 +2571,6 @@
         "flags" : ["DURABLE_MELEE"],
         "volume" : 8,
         "bashing" : 12,
-        "cutting" : 0,
         "price" : 19500
     },
     {
@@ -2657,7 +2587,6 @@
         "flags" : ["DURABLE_MELEE"],
         "volume" : 8,
         "bashing" : 14,
-        "cutting" : 0,
         "price" : 19500
     },
     {
@@ -2681,7 +2610,6 @@
         },
         "volume" : 4,
         "bashing" : 5,
-        "cutting" : 0,
         "price" : 30000
     },
     {
@@ -2705,7 +2633,6 @@
         },
         "volume" : 8,
         "bashing" : 13,
-        "cutting" : 0,
         "price" : 30000
     },
     {
@@ -2810,7 +2737,6 @@
         "techniques" : ["WBLOCK_1"],
         "volume" : 2,
         "bashing" : 5,
-        "cutting" : 0,
         "price" : 7500
     },
     {
@@ -2842,7 +2768,6 @@
         "material" : ["aluminum", "glass"],
         "volume" : 1,
         "bashing" : 3,
-        "cutting" : 0,
         "price" : 5000,
         "flags" : ["WATCH", "ALARMCLOCK"]
     },
@@ -3062,7 +2987,6 @@
         "volume" : 5,
         "weight" : 10,
         "bashing" : 0,
-        "cutting" : 0,
         "to_hit" : 0,
         "ammo_type" : "NULL",
         "damage" : 0,
@@ -3084,7 +3008,6 @@
         "volume" : 5,
         "weight" : 10,
         "bashing" : 0,
-        "cutting" : 0,
         "to_hit" : 0,
         "ammo_type" : "NULL",
         "damage" : 0,
@@ -3106,7 +3029,6 @@
         "volume" : 5,
         "weight" : 10,
         "bashing" : 0,
-        "cutting" : 0,
         "to_hit" : 0,
         "ammo_type" : "NULL",
         "damage" : 0,
@@ -3128,7 +3050,6 @@
         "volume" : 5,
         "weight" : 10,
         "bashing" : 0,
-        "cutting" : 0,
         "to_hit" : 0,
         "ammo_type" : "NULL",
         "damage" : 0,
@@ -3150,7 +3071,6 @@
         "volume" : 5,
         "weight" : 10,
         "bashing" : 0,
-        "cutting" : 0,
         "to_hit" : 0,
         "ammo_type" : "NULL",
         "damage" : 0,
@@ -3172,7 +3092,6 @@
         "volume" : 5,
         "weight" : 10,
         "bashing" : 0,
-        "cutting" : 0,
         "to_hit" : 0,
         "ammo_type" : "NULL",
         "damage" : 0,
@@ -3193,7 +3112,6 @@
         "volume" : 7,
         "weight" : 45,
         "bashing" : 0,
-        "cutting" : 0,
         "to_hit" : 0,
         "ammo_type" : "NULL",
         "damage" : 0,
@@ -3214,7 +3132,6 @@
         "volume" : 7,
         "weight" : 45,
         "bashing" : 0,
-        "cutting" : 0,
         "to_hit" : 0,
         "ammo_type" : "NULL",
         "damage" : 0,
@@ -3235,7 +3152,6 @@
         "volume" : 7,
         "weight" : 45,
         "bashing" : 0,
-        "cutting" : 0,
         "to_hit" : 0,
         "ammo_type" : "NULL",
         "damage" : 0,
@@ -3256,7 +3172,6 @@
         "volume" : 7,
         "weight" : 45,
         "bashing" : 0,
-        "cutting" : 0,
         "to_hit" : 0,
         "ammo_type" : "NULL",
         "damage" : 0,
