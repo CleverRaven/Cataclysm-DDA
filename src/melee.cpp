@@ -105,7 +105,7 @@ bool player::handle_melee_wear( item &shield, float wear_multiplier )
         return false;
     }
 
-    if( shield.damage < 4 ){
+    if( shield.damage < MAX_ITEM_DAMAGE ){
         add_msg_player_or_npc( m_bad, _("Your %s is damaged by the force of the blow!"),
                                 _("<npcname>'s %s is damaged by the force of the blow!"),
                                 shield.tname().c_str());

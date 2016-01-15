@@ -1958,7 +1958,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
     std::string damtext = "";
     if ((damage != 0 || ( OPTIONS["ITEM_HEALTH_BAR"] && is_armor() )) && !is_null() && with_prefix) {
         if( damage < 0 )  {
-            if( damage < -1 ) {
+            if( damage < MIN_ITEM_DAMAGE ) {
                 damtext = rm_prefix(_("<dam_adj>bugged "));
             } else if ( OPTIONS["ITEM_HEALTH_BAR"] ) {
                 auto const &nc_text = get_item_hp_bar(damage);
@@ -2784,7 +2784,7 @@ int item::brewing_time() const
 
 bool item::can_revive() const
 {
-    if ( is_corpse() && corpse->has_flag(MF_REVIVES) && damage < 4) {
+    if( is_corpse() && corpse->has_flag( MF_REVIVES ) && damage < CORPSE_PULP_THRESHOLD ) {
         return true;
     }
     return false;
@@ -3000,7 +3000,7 @@ int item::fire_resist( bool to_self ) const
 
 int item::chip_resistance( bool worst ) const
 {
-    if( damage > 4 ) {
+    if( damage > MAX_ITEM_DAMAGE ) {
         return 0;
     }
 

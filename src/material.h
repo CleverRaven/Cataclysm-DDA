@@ -4,6 +4,7 @@
 #include <string>
 #include <map>
 
+#include "game_constants.h"
 #include "damage.h" // damage_type
 #include "enums.h"
 #include "json.h"
@@ -23,7 +24,7 @@ class material_type
         int _cut_resist;
         std::string _bash_dmg_verb;
         std::string _cut_dmg_verb;
-        std::string _dmg_adj[4];
+        std::string _dmg_adj[MAX_ITEM_DAMAGE];
         int _acid_resist;
         int _elec_resist;
         int _fire_resist;
@@ -63,7 +64,7 @@ class material_type
         int cut_resist() const;
         std::string bash_dmg_verb() const;
         std::string cut_dmg_verb() const;
-        std::string dmg_adj( int dam ) const;
+        std::string dmg_adj( int damage ) const;
         int acid_resist() const;
         int elec_resist() const;
         int fire_resist() const;
