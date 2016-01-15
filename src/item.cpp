@@ -2220,7 +2220,7 @@ int item::price() const
 
     // tools, guns and auxiliary gunmods may contain ammunition which can affect the price
     if( ammo_remaining() > 0 && has_curammo() ) {
-        item tmp( get_curammo_id(), 0 );
+        item tmp( ammo_current(), 0 );
         tmp.charges = charges;
         ret += tmp.price();
     }
@@ -2239,52 +2239,49 @@ int item::price() const
 // MATERIALS-TODO: add a density field to materials.json
 int item::weight() const
 {
-    if( is_corpse() ) {
-        int ret = 0;
-        switch (corpse->size) {
+    if( is_null() ) {
+        return 0;
+    }
+
+    int ret = get_var( "weight", type->weight );
+    if( has_flag( "REDUCED_WEIGHT" ) ) {
+        ret *= 0.75;
+    }
+
+    if( count_by_charges() ) {
+        ret *= charges;
+
+    } else if( ammo_capacity() > 0 ) {
+        if( ammo_data() ) {
+            ret += ammo_remaining() * ammo_data()->weight;
+        } else if ( ammo_type() == "plutonium" ) {
+            ret += ammo_remaining() * find_type( default_ammo( ammo_type() ) )->weight / 500;
+        } else if ( ammo_type() != "null" ) {
+            ret += ammo_remaining() * find_type( default_ammo( ammo_type() ) )->weight;
+        }
+
+    } else if( is_corpse() ) {
+        switch( corpse->size ) {
             case MS_TINY:   ret =   1000;  break;
             case MS_SMALL:  ret =  40750;  break;
             case MS_MEDIUM: ret =  81500;  break;
             case MS_LARGE:  ret = 120000;  break;
             case MS_HUGE:   ret = 200000;  break;
         }
-        if (made_of("veggy")) {
+        if( made_of( "veggy" ) ) {
             ret /= 3;
         }
-        if( corpse->in_species( FISH ) || corpse->in_species( BIRD ) || corpse->in_species( INSECT ) || made_of("bone")) {
+        if( corpse->in_species( FISH ) || corpse->in_species( BIRD ) || corpse->in_species( INSECT ) || made_of( "bone" ) ) {
             ret /= 8;
-        } else if (made_of("iron") || made_of("steel") || made_of("stone")) {
+        } else if ( made_of( "iron" ) || made_of( "steel" ) || made_of( "stone" ) ) {
             ret *= 7;
         }
-        return ret;
     }
 
-    if( is_null() ) {
-        return 0;
-    }
-
-    int ret = type->weight;
-    ret = get_var( "weight", ret );
-
-    if (has_flag("REDUCED_WEIGHT")) {
-        ret *= 0.75;
-    }
-
-    if (count_by_charges()) {
-        ret *= charges;
-    } else if (type->gun && charges >= 1 && has_curammo() ) {
-        ret += get_curammo()->weight * charges;
-    } else if (type->is_tool() && charges >= 1 && ammo_type() != "NULL") {
-        if( ammo_type() == "plutonium" ) {
-            ret += find_type(default_ammo(this->ammo_type()))->weight * charges / 500;
-        } else {
-            ret += find_type(default_ammo(this->ammo_type()))->weight * charges;
-        }
-    }
     for( auto &elem : contents ) {
         ret += elem.weight();
-        if( elem.is_gunmod() && elem.charges >= 1 && elem.has_curammo() ) {
-            ret += elem.get_curammo()->weight * elem.charges;
+        if( elem.is_gunmod() && elem.ammo_data() ) {
+            ret += elem.ammo_data()->weight * elem.ammo_remaining();
         }
     }
 
@@ -2295,8 +2292,8 @@ int item::weight() const
     }
 
 
-// tool mods also add about a pound of weight
-    if (has_flag("ATOMIC_AMMO")) {
+    // tool mods also add about a pound of weight
+    if( has_flag("ATOMIC_AMMO") ) {
         ret += 250;
     }
 
@@ -3965,6 +3962,23 @@ bool item::ammo_consume( int qty ) {
     return false;
 }
 
+const itype * item::ammo_data() const
+{
+    // @todo handle magazines
+
+    if( is_ammo() ) {
+        return type;
+    }
+
+    return curammo;
+}
+
+itype_id item::ammo_current() const
+{
+    const auto ammo = ammo_data();
+    return ammo ? ammo->id : "null";
+}
+
 ammotype item::ammo_type() const
 {
     if (is_gun()) {
@@ -4036,7 +4050,7 @@ item_location item::pick_reload_ammo( player &u, bool interactive ) const
         }
         if( contents[spare].charges < ammo_remaining() ) {
             if( contents[spare].charges > 0 || ammo_remaining() > 0 ) {
-                item_types.insert( get_curammo_id() ); // gun or spare mag partially loaded
+                item_types.insert( ammo_current() ); // gun or spare mag partially loaded
             } else {
                 ammo_types.insert( ammo_type() ); // neither loaded
             }
@@ -4047,7 +4061,7 @@ item_location item::pick_reload_ammo( player &u, bool interactive ) const
     auto wants_ammo = [&ammo_types,&item_types](const item& it) {
         if( it.ammo_remaining() < it.ammo_capacity() && !it.has_flag( "NO_RELOAD" ) ) {
             if( it.ammo_remaining() > 0 ) {
-                item_types.insert( it.get_curammo_id() ); // partially loaded
+                item_types.insert( it.ammo_current() ); // partially loaded
             } else {
                 ammo_types.insert( it.ammo_type() ); // not loaded
             }
@@ -4168,7 +4182,7 @@ bool item::reload( player &u, item_location loc )
     item *spare_mag = has_gunmod("spare_mag") >= 0 ? &contents[has_gunmod("spare_mag")] : nullptr;
     if( spare_mag && spare_mag->charges > 0 && ammo_remaining() <= 0 ) {
         charges = spare_mag->charges;
-        set_curammo( spare_mag->get_curammo_id() );
+        set_curammo( spare_mag->ammo_current() );
         spare_mag->charges = 0;
         spare_mag->unset_curammo();
         return true;
@@ -4216,7 +4230,7 @@ bool item::reload( player &u, item_location loc )
             if( e != nullptr ) {
                 // @todo deprecate handling of spare magazines as a special case
                 if( e == spare_mag && ammo_type() == ammo->ammo_type() &&
-                    (!e->charges || e->get_curammo_id() == ammo->typeId()) &&
+                    (!e->charges || e->ammo_current() == ammo->typeId()) &&
                     e->charges < ammo_capacity() ) {
 
                     qty = has_flag("RELOAD_ONE") ? 1 : ammo_capacity() - e->charges;
@@ -4224,7 +4238,7 @@ bool item::reload( player &u, item_location loc )
                     break;
                 } // handle everything else (gun and auxiliary gunmods)
                 if( e->ammo_type() == ammo->ammo_type() &&
-                    (!e->ammo_remaining() || e->get_curammo_id() == ammo->typeId()) &&
+                    (!e->ammo_remaining() || e->ammo_current() == ammo->typeId()) &&
                     e->ammo_remaining() < e->ammo_capacity() ) {
                     qty = e->ammo_capacity() - e->ammo_remaining();
 
@@ -4445,7 +4459,7 @@ item::LIQUID_FILL_ERROR item::has_valid_capacity_for_liquid(const item &liquid) 
             return L_ERR_FULL;
         }
 
-        if (charges > 0 && has_curammo() && get_curammo_id() != liquid.type->id) {
+        if (charges > 0 && has_curammo() && ammo_current() != liquid.type->id) {
             return L_ERR_NO_MIX;
         }
     }
@@ -4858,14 +4872,6 @@ const itype *item::get_curammo() const
     return curammo;
 }
 
-itype_id item::get_curammo_id() const
-{
-    if( curammo == nullptr ) {
-        return "null";
-    }
-    return curammo->id;
-}
-
 bool item::has_curammo() const
 {
     return curammo != nullptr;
@@ -5249,7 +5255,7 @@ bool item::update_charger_gun_ammo()
     if( !is_charger_gun() ) {
         return false;
     }
-    if( get_curammo_id() != CHARGER_GUN_AMMO_ID ) {
+    if( ammo_current() != CHARGER_GUN_AMMO_ID ) {
         set_curammo( CHARGER_GUN_AMMO_ID );
     }
     auto tmpammo = get_curammo()->ammo.get();

@@ -33,7 +33,6 @@ Pickup::interact_results Pickup::interact_with_vehicle( vehicle *veh, const trip
     const bool has_kitchen = (veh->part_with_feature(veh_root_part, "KITCHEN") >= 0);
     const bool has_faucet = (veh->part_with_feature(veh_root_part, "FAUCET") >= 0);
     const bool has_weldrig = (veh->part_with_feature(veh_root_part, "WELDRIG") >= 0);
-    const bool has_craftrig = (veh->part_with_feature(veh_root_part, "CRAFTRIG") >= 0);
     const bool has_chemlab = (veh->part_with_feature(veh_root_part, "CHEMLAB") >= 0);
     const bool has_purify = (veh->part_with_feature(veh_root_part, "WATER_PURIFIER") >=0);
     const bool has_controls = ((veh->part_with_feature(veh_root_part, "CONTROLS") >= 0) ||
@@ -71,7 +70,7 @@ Pickup::interact_results Pickup::interact_with_vehicle( vehicle *veh, const trip
         selectmenu.addentry( USE_HOTPLATE, true, 'h', _("Use the hotplate") );
     }
 
-    if( ( has_kitchen || has_faucet ) && veh->fuel_left("water_clean") > 0) {
+    if( has_faucet && veh->fuel_left("water_clean") > 0) {
         selectmenu.addentry( FILL_CONTAINER, true, 'c', _("Fill a container with water") );
 
         selectmenu.addentry( DRINK, true, 'd', _("Have a drink") );
@@ -81,11 +80,11 @@ Pickup::interact_results Pickup::interact_with_vehicle( vehicle *veh, const trip
         selectmenu.addentry( USE_WELDER, true, 'w', _("Use the welding rig?") );
     }
 
-    if( ( has_craftrig || has_purify ) && veh->fuel_left("battery") > 0 ) {
+    if( has_purify && veh->fuel_left("battery") > 0 ) {
         selectmenu.addentry( USE_PURIFIER, true, 'p', _("Purify water in carried container") );
     }
 
-    if( ( has_craftrig || has_purify ) && veh->fuel_left("battery") > 0 &&
+    if( has_purify && veh->fuel_left("battery") > 0 &&
         veh->fuel_left("water") > 0 &&
         veh->fuel_capacity("water_clean") > veh->fuel_left("water_clean") ) {
         selectmenu.addentry( PURIFY_TANK, true, 'P', _("Purify water in vehicle's tank") );

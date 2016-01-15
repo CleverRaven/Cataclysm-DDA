@@ -1137,7 +1137,7 @@ static projectile make_gun_projectile( const item &gun) {
     });
 
     if( recover && !fx.count( "IGNITE" ) && !fx.count( "EXPLOSIVE" ) ) {
-        item drop( gun.get_curammo_id(), calendar::turn, false );
+        item drop( gun.ammo_current(), calendar::turn, false );
         drop.charges = 1;
         drop.active = fx.count( "ACT_ON_RANGED_HIT" );
 

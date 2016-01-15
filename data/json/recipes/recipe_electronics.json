@@ -1688,6 +1688,38 @@
   ]
 },{
   "type" : "recipe",
+  "result": "kitchen_unit",
+  "category": "CC_ELECTRONIC",
+  "subcategory": "CSC_ELECTRONIC_PARTS",
+  "skill_used": "mechanics",
+  "difficulty": 4,
+  "time": 60000,
+  "reversible": true,
+  "decomp_learn": 3,
+  "autolearn": true,
+  "qualities":[
+    {"id":"HAMMER","level":2,"amount":1},
+    {"id":"SAW_M","level":1,"amount":1},
+    {"id":"WRENCH","level":1,"amount":1}
+  ], "tools": [
+    [ [ "goggles_welding", -1 ] ],
+    [
+      [ "welder", 100 ],
+      [ "oxy_torch", 20 ],
+      [ "welder_crude", 150 ],
+      [ "toolset", 150 ]
+    ]
+  ],
+  "components": [
+    [[ "frame", 1 ]],
+    [[ "hotplate", 1 ]],
+    [[ "pot", 1 ]],
+    [[ "pan", 1 ]],
+    [[ "water_faucet", 1 ]],
+    [[ "cable", 5 ]]
+  ]
+},{
+  "type" : "recipe",
   "result": "forgerig",
   "category": "CC_ELECTRONIC",
   "subcategory": "CSC_ELECTRONIC_PARTS",
@@ -1709,7 +1741,7 @@
   "components": [
     [ [ "power_supply", 2 ] ],
     [ [ "forge", 1 ] ],
-    [ ["cable", 5] ]
+    [ [ "cable", 5] ]
   ]
 },{
   "type" : "recipe",
@@ -1733,6 +1765,7 @@
     [ [ "goggles_welding", -1 ] ],
     [
       [ "welder", 100 ],
+      [ "oxy_torch", 20 ],
       [ "welder_crude", 150 ],
       [ "toolset", 150 ]
     ]
@@ -1768,6 +1801,7 @@
     [ [ "goggles_welding", -1 ] ],
     [
       [ "welder", 100 ],
+      [ "oxy_torch", 20 ],
       [ "welder_crude", 150 ],
       [ "toolset", 150 ]
     ]
@@ -1802,6 +1836,7 @@
     [ [ "goggles_welding", -1 ] ],
     [
       [ "welder", 100 ],
+      [ "oxy_torch", 20 ],
       [ "welder_crude", 150 ],
       [ "toolset", 150 ]
     ]
@@ -1809,6 +1844,7 @@
   "components": [
     [ [ "frame", 1 ] ],
     [ [ "chemistry_set", 1 ] ],
+    [ [ "water_faucet", 1 ] ],
     [ [ "power_supply", 1 ] ],
     [ [ "cable", 5 ] ]
   ]

@@ -8822,6 +8822,7 @@
         "encumbrance" : 50,
         "bashing" : 1,
         "coverage" : 100,
+        "qualities" : [["GLARE", 2]],
         "material_thickness" : 11,
         "flags" : ["WATCH", "WATERPROOF", "STURDY", "THERMOMETER"]
     },
@@ -8877,6 +8878,7 @@
         "encumbrance" : 40,
         "bashing" : 1,
         "coverage" : 100,
+        "qualities" : [["GLARE", 2]],
         "material_thickness" : 9,
         "flags" : ["WATCH", "WATERPROOF", "STURDY", "THERMOMETER"]
     },
@@ -8932,6 +8934,7 @@
         "encumbrance" : 60,
         "bashing" : 1,
         "coverage" : 100,
+        "qualities" : [["GLARE", 2]],
         "material_thickness" : 12,
         "flags" : ["WATCH", "WATERPROOF", "STURDY", "THERMOMETER"]
     },
@@ -9007,6 +9010,7 @@
         "encumbrance" : 40,
         "bashing" : 1,
         "coverage" : 95,
+        "qualities" : [["GLARE", 2]],
         "material_thickness" : 8,
         "flags" : ["WATERPROOF", "STURDY"]
     },
