@@ -3386,7 +3386,6 @@
         "color": "light_gray",
         "name": "zweihänder",
         "description": "This is a dull, cheaply made replica of a huge two-handed sword from Germany.  It still packs a wallop.",
-        "rarity": 30,
         "price": 8000,
         "material": "aluminum",
         "flags" : ["BASH", "SHEATH_SWORD"],
@@ -3531,7 +3530,6 @@
     "color": "light_gray",
     "name": "nodachi",
     "description": "This is a dull, cheaply made replica of a huge, curved, two-handed sword from Japan.  It is surprisingly light for its size.",
-    "rarity": 30,
     "price": 15000,
     "material": "aluminum",
     "flags": ["BASH", "SHEATH_SWORD"],
@@ -3841,7 +3839,7 @@
         "bashing": 0,
         "cutting": 3,
         "to_hit": 0,
-	"category": "weapons"
+        "category": "weapons"
     },{
         "type": "GENERIC",
         "id": "clay_pot",
