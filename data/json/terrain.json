@@ -1010,7 +1010,7 @@
         "color": "ltgray",
         "move_cost": 0,
         "flags": ["NOITEM", "WALL", "AUTO_WALL_SYMBOL", "OPENCLOSE_INSIDE"],
-		"open": "t_reinforced_glass_shutter_open",
+        "open": "t_reinforced_glass_shutter_open",
         "bash": {
             "str_min": 60, "str_max": 210,
             "sound": "glass breaking!",
@@ -1021,7 +1021,7 @@
             "items": [
                 { "item": "glass_shard", "count": [5, 10] },
                 { "item": "wire", "prob": 20 },
-				{ "item": "scrap", "count": [3, 5] }
+                { "item": "scrap", "count": [3, 5] }
             ]
         }
     },{
@@ -1032,7 +1032,7 @@
         "color": "ltcyan",
         "move_cost": 0,
         "flags": ["TRANSPARENT", "NOITEM", "WALL", "AUTO_WALL_SYMBOL", "OPENCLOSE_INSIDE"],
-		"close": "t_reinforced_glass_shutter",
+        "close": "t_reinforced_glass_shutter",
         "bash": {
             "str_min": 40, "str_max": 210,
             "sound": "glass breaking!",
@@ -1043,7 +1043,7 @@
             "items": [
                 { "item": "glass_shard", "count": [5, 10] },
                 { "item": "wire", "prob": 20 },
-				{ "item": "scrap", "count": [3, 5] }
+                { "item": "scrap", "count": [3, 5] }
             ]
         }
     },{
