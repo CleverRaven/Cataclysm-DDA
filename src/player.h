@@ -328,8 +328,9 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool has_two_arms() const;
         /** Returns true if the player is wielding something, including bionic weapons */
         bool is_armed() const;
-        /** Calculates melee weapon wear-and-tear through use, returns true */
-        bool handle_melee_wear();
+        /** Calculates melee weapon wear-and-tear through use, returns true if item is destroyed. */
+        bool handle_melee_wear( float wear_multiplier = 1.0f );
+        bool handle_melee_wear( item &shield, float wear_multiplier = 1.0f );
         /** True if unarmed or wielding a weapon with the UNARMED_WEAPON flag */
         bool unarmed_attack() const;
         /** Called when a player triggers a trap, returns true if they don't set it off */
@@ -496,8 +497,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Handles effects that happen when the player is damaged and aware of the fact. */
         void on_hurt( Creature *source, bool disturb = true );
 
-        /** Returns the base damage the player deals based on their stats */
-        int base_damage(bool real_life = true, int stat = -999) const;
+        /** Returns the bonus bashing damage the player deals based on their stats */
+        float bonus_damage( bool random ) const;
         /** Returns Creature::get_hit_base() modified by weapon skill */
         int get_hit_base() const override;
         /** Returns the player's basic hit roll that is compared to the target's dodge roll */
