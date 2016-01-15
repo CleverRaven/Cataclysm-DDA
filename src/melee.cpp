@@ -2248,33 +2248,33 @@ std::string melee_message( const ma_technique &tec, player &p, const dealt_damag
 
     // Three last values are for low damage
     static const std::array<std::string, 6> player_stab = {{
-        "You impale %s", "You gouge %s", "You run %s through",
-        "You puncture %s", "You pierce %s", "You poke %s"
+        _("You impale %s"), _("You gouge %s"), _("You run %s through"),
+        _("You puncture %s"), _("You pierce %s"), _("You poke %s")
     }};
     static const std::array<std::string, 6> npc_stab = {{
-        "<npcname> impales %s", "<npcname> gouges %s", "<npcname> runs %s through",
-        "<npcname> punctures %s", "<npcname> pierces %s", "<npcname> pokes %s"
+        _("<npcname> impales %s"), _("<npcname> gouges %s"), _("<npcname> runs %s through"),
+        _("<npcname> punctures %s"), _("<npcname> pierces %s"), _("<npcname> pokes %s")
     }};
     // First 5 are for high damage, next 2 for medium, then for low and then for v. low
     static const std::array<std::string, 9> player_cut = {{
-        "You gut %s", "You chop %s", "You slash %s",
-        "You mutilate %s", "You maim %s", "You stab %s",
-        "You slice %s", "You cut %s", "You nick %s"
+        _("You gut %s"), _("You chop %s"), _("You slash %s"),
+        _("You mutilate %s"), _("You maim %s"), _("You stab %s"),
+        _("You slice %s"), _("You cut %s"), _("You nick %s")
     }};
     static const std::array<std::string, 9> npc_cut = {{
-        "<npcname> guts %s", "<npcname> chops %s", "<npcname> slashes %s",
-        "<npcname> mutilates %s", "<npcname> maims %s", "<npcname> stabs %s",
-        "<npcname> slices %s", "<npcname> cuts %s", "<npcname> nicks %s"
+        _("<npcname> guts %s"), _("<npcname> chops %s"), _("<npcname> slashes %s"),
+        _("<npcname> mutilates %s"), _("<npcname> maims %s"), _("<npcname> stabs %s"),
+        _("<npcname> slices %s"), _("<npcname> cuts %s"), _("<npcname> nicks %s")
     }};
 
     // Three last values are for low damage
     static const std::array<std::string, 6> player_bash = {{
-        "You clobber %s", "You smash %s", "You thrash %s",
-        "You batter %s", "You whack %s", "You hit %s"
+        _("You clobber %s"), _("You smash %s"), _("You thrash %s"),
+        _("You batter %s"), _("You whack %s"), _("You hit %s")
     }};
     static const std::array<std::string, 6> npc_bash = {{
-        "<npcname> clobbers %s", "<npcname> smashes %s", "<npcname> thrashes %s",
-        "<npcname> batters %s", "<npcname> whacks %s", "<npcname> hits %s"
+        _("<npcname> clobbers %s"), _("<npcname> smashes %s"), _("<npcname> thrashes %s"),
+        _("<npcname> batters %s"), _("<npcname> whacks %s"), _("<npcname> hits %s")
     }};
 
     const int bash_dam = ddi.type_damage( DT_BASH );
@@ -2315,14 +2315,14 @@ std::string melee_message( const ma_technique &tec, player &p, const dealt_damag
     }
 
     if( dominant_type == DT_STAB ) {
-        return _( (npc ? npc_stab[index] : player_stab[index]).c_str() );
+        return (npc ? npc_stab[index] : player_stab[index]).c_str();
     } else if( dominant_type == DT_CUT ) {
-        return _( (npc ? npc_cut[index] : player_cut[index]).c_str() );
+        return (npc ? npc_cut[index] : player_cut[index]).c_str();
     } else if( dominant_type == DT_BASH ) {
-        return _( (npc ? npc_bash[index] : player_bash[index]).c_str() );
+        return (npc ? npc_bash[index] : player_bash[index]).c_str();
     }
 
-    return "The bugs attack %s";
+    return _("The bugs attack %s");
 }
 
 // display the hit message for an attack
