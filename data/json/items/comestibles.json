@@ -12203,7 +12203,6 @@
         "addiction_type" : "none",
         "spoils_in" : 480,
         "container" : "wrapper",
-        "to_hit" : 0,
         "comestible_type" : "FOOD",
         "symbol" : "%",
         "quench" : 0,
