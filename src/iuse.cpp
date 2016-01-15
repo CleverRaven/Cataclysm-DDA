@@ -2184,7 +2184,7 @@ int iuse::sew_advanced(player *p, item *it, bool, const tripoint& )
         p->add_msg_if_player(m_bad, _("You damage your %s trying to modify it!"),
                              mod->tname().c_str());
         mod->damage++;
-        if( mod->damage >= 5 ) {
+        if( mod->damage > MAX_ITEM_DAMAGE ) {
             p->add_msg_if_player(m_bad, _("You destroy it!"));
             p->i_rem_keep_contents( pos );
         }
@@ -4887,11 +4887,11 @@ int iuse::vacutainer(player *p, item *it, bool, const tripoint& )
         drew_blood = true;
         if (p->has_trait ("ACIDBLOOD")) {
             it->put_in(acid);
-            if (one_in(2) && it->damage <= 3){
+            if ( one_in( 2 ) && it->damage < MAX_ITEM_DAMAGE ) {
                 it->damage++;
                 p->add_msg_if_player(m_info, _("Your acidic blood damages the %s!"), it->tname().c_str());
             }
-            if (!one_in(4) && it->damage >= 4){
+            if ( !one_in( 4 ) && it->damage >= MAX_ITEM_DAMAGE ) {
                 p->add_msg_if_player(m_info, _("Your acidic blood melts the %s, destroying it!"), it->tname().c_str());
                 p->inv.remove_item(it);
                 return 0;
@@ -6103,7 +6103,7 @@ int iuse::gun_repair(player *p, item *it, bool, const tripoint& )
         p->add_msg_if_player(m_info, _("That isn't a firearm!"));
         return 0;
     }
-    if (fix->damage == -1) {
+    if ( fix->damage == MIN_ITEM_DAMAGE ) {
         p->add_msg_if_player(m_info, _("You cannot improve your %s any more this way."),
                              fix->tname().c_str());
         return 0;
@@ -6173,7 +6173,7 @@ int iuse::misc_repair(player *p, item *it, bool, const tripoint& )
         p->add_msg_if_player(m_info, _("That isn't made of wood, paper, bone, or chitin!"));
         return 0;
     }
-    if (fix->damage == -1) {
+    if ( fix->damage == MIN_ITEM_DAMAGE ) {
         p->add_msg_if_player(m_info, _("You cannot improve your %s any more this way."),
                              fix->tname().c_str());
         return 0;
