@@ -2523,6 +2523,21 @@ long item::get_property_long( const std::string& prop, long def ) const
     return def;
 }
 
+int item::get_quality(const std::string &quality_id) const
+{
+    int return_quality = INT_MIN;
+    for( const auto &quality : type->qualities ) {
+        if( quality.first == quality_id ) {
+            return_quality = quality.second;
+        }
+    }
+    for( auto &itm : contents ) {
+        return_quality = std::max(return_quality, itm.get_quality(quality_id));
+    }
+
+    return return_quality;
+}
+
 bool item::has_quality(std::string quality_id) const
 {
     return has_quality(quality_id, 1);
@@ -2530,18 +2545,9 @@ bool item::has_quality(std::string quality_id) const
 
 bool item::has_quality(std::string quality_id, int quality_value) const
 {
-    for( const auto &quality : type->qualities ) {
-        if( quality.first == quality_id && quality.second >= quality_value ) {
-            return true;
-        }
+    if( get_quality(quality_id) >= quality_value ) {
+        return true;
     }
-
-    for( const auto &content : contents ) {
-        if( content.has_quality( quality_id, quality_value ) ) {
-            return true;
-        }
-    }
-
     return false;
 }
 
@@ -4769,20 +4775,6 @@ int item::max_charges_from_flag(std::string flagName)
     }
 
     return maxCharges;
-}
-
-int item::butcher_factor() const
-{
-    static const std::string BUTCHER_QUALITY_ID( "BUTCHER" );
-    const auto it = type->qualities.find( BUTCHER_QUALITY_ID );
-    if( it != type->qualities.end() ) {
-        return it->second;
-    }
-    int butcher_factor = INT_MIN;
-    for( auto &itm : contents ) {
-        butcher_factor = std::max( butcher_factor, itm.butcher_factor() );
-    }
-    return butcher_factor;
 }
 
 static const std::string USED_BY_IDS( "USED_BY_IDS" );

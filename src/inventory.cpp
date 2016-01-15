@@ -969,6 +969,17 @@ bool inventory::has_items_with_quality(std::string id, int level, int amount) co
     }
 }
 
+int inventory::max_quality( const std::string &quality_id) const
+{
+    int result = INT_MIN;
+    for( const auto &elem : items ) {
+        for( const auto &cur_item : elem ) {
+            result = std::max( result, cur_item.get_quality(quality_id) );
+        }
+    }
+    return result;
+}
+
 int inventory::leak_level(std::string flag) const
 {
     int ret = 0;
@@ -985,18 +996,6 @@ int inventory::leak_level(std::string flag) const
         }
     }
     return ret;
-}
-
-int inventory::butcher_factor() const
-{
-    int result = INT_MIN;
-    for( const auto &elem : items ) {
-        for( const auto &cur_item : elem ) {
-
-            result = std::max( result, cur_item.butcher_factor() );
-        }
-    }
-    return result;
 }
 
 int inventory::worst_item_value(npc *p) const
@@ -1136,7 +1135,7 @@ void inventory::assign_empty_invlet(item &it, bool force)
     if( !OPTIONS["AUTO_INV_ASSIGN"] ) {
         return;
     }
-    
+
     player *p = &(g->u);
     std::set<char> cur_inv = p->allocated_invlets();
     itype_id target_type = it.typeId();

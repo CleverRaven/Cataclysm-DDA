@@ -3847,7 +3847,7 @@ int iuse::set_trap(player *p, item *it, bool, const tripoint& )
     }
 
     if (buried) {
-        if (!p->has_amount("shovel", 1) && !p->has_amount("e_tool", 1)) {
+        if (!p->has_items_with_quality( "DIG", 2, 1 )) {
             p->add_msg_if_player(m_info, _("You need a shovel."));
             return 0;
         } else if (!g->m.has_flag("DIGGABLE", posx, posy)) {

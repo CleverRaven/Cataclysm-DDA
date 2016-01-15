@@ -681,13 +681,8 @@ void iexamine::rubble(player *p, map *m, const tripoint &examp)
 void iexamine::crate(player *p, map *m, const tripoint &examp)
 {
     // Check for a crowbar in the inventory
-    const auto has_prying = []( const item it ) {
-        const auto fun = it.type->get_use( "CROWBAR" );
-        return fun != nullptr;
-    };
-
-    bool has_tools = p->has_item_with( has_prying );
-    if( !has_tools ) {
+    bool has_prying_tool = p->crafting_inventory().has_items_with_quality( "PRY", 1, 1 );
+    if( !has_prying_tool ) {
         add_msg( m_info, _("If only you had a crowbar...") );
         return;
     }

@@ -11042,7 +11042,7 @@ void game::butcher()
         return;
     }
 
-    const int factor = u.butcher_factor();
+    const int factor = u.max_quality( "BUTCHER" );
     const item *first_item_without_tools = nullptr;
     // Indices of relevant items
     std::vector<int> corpses;
@@ -11120,7 +11120,7 @@ void game::butcher()
             const recipe *cur_recipe = get_disassemble_recipe( first_item_without_tools->type->id );
             // Just for the "You need x to disassemble y" messages
             u.can_disassemble( *first_item_without_tools, cur_recipe, crafting_inv, true );
-        } 
+        }
         return;
     }
 
@@ -14773,7 +14773,7 @@ void game::add_artifact_messages(std::vector<art_effect_passive> effects)
 
         case AEP_PBLUE:
             break; // No message
-            
+
         case AEP_SNAKES:
             add_msg(m_warning, _("Your skin feels slithery."));
             break;

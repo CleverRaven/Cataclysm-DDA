@@ -243,11 +243,6 @@ public:
  char symbol() const;
  int price() const;
 
-    /**
-     * Return the butcher factor (BUTCHER tool quality).
-     * If the item can not be used for butchering it returns INT_MIN.
-     */
-    int butcher_factor() const;
 
         bool stacks_with( const item &rhs ) const;
         /**
@@ -399,6 +394,7 @@ public:
     void add_rain_to_container(bool acid, int charges = 1);
     /*@}*/
 
+ int get_quality(const std::string &quality_id) const;
  bool has_quality(std::string quality_id) const;
  bool has_quality(std::string quality_id, int quality_value) const;
  bool count_by_charges() const;
