@@ -1475,24 +1475,30 @@ bool player::block_hit(Creature *source, body_part &bp_hit, damage_instance &dam
         thing_blocked_with = body_part_name(bp_hit);
     }
 
-    //~ Adjective in "You block <adjective> of the damage with your <weapon>.
     std::string damage_blocked_description;
     // good/bad/ugly add_msg color code?
     // none, hardly any, a little, some, most, all
     float blocked_ratio = (total_damage - damage_blocked) / total_damage;
     if( blocked_ratio < std::numeric_limits<float>::epsilon() ) {
+        //~ Adjective in "You block <adjective> of the damage with your <weapon>.
         damage_blocked_description = _("all");
     } else if( blocked_ratio < 0.2 ) {
+        //~ Adjective in "You block <adjective> of the damage with your <weapon>.
         damage_blocked_description = _("nearly all");
     } else if( blocked_ratio < 0.4 ) {
+        //~ Adjective in "You block <adjective> of the damage with your <weapon>.
         damage_blocked_description = _("most");
     } else if( blocked_ratio < 0.6 ) {
+        //~ Adjective in "You block <adjective> of the damage with your <weapon>.
         damage_blocked_description = _("a lot");
     } else if( blocked_ratio < 0.8 ) {
+        //~ Adjective in "You block <adjective> of the damage with your <weapon>.
         damage_blocked_description = _("some");
     } else if( blocked_ratio > std::numeric_limits<float>::epsilon() ){
+        //~ Adjective in "You block <adjective> of the damage with your <weapon>.
         damage_blocked_description = _("a little");
     } else {
+        //~ Adjective in "You block <adjective> of the damage with your <weapon>.
         damage_blocked_description = _("none");
     }
     add_msg_player_or_npc( _("You block %1$s of the damage with your %2$s!"),
