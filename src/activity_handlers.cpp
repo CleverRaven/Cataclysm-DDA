@@ -679,8 +679,6 @@ void activity_handlers::longsalvage_finish( player_activity *act, player *p )
 
 void activity_handlers::make_zlave_finish( player_activity *act, player *p )
 {
-    static const int full_pulp_threshold = 4;
-
     auto items = g->m.i_at(p->pos());
     std::string corpse_name = act->str_values[0];
     item *body = NULL;
@@ -735,14 +733,9 @@ void activity_handlers::make_zlave_finish( player_activity *act, player *p )
             p->practice( skill_firstaid, rng(1, 8) );
             p->practice( skill_survival, rng(1, 8) );
 
-            int pulp = rng(1, full_pulp_threshold);
-
-            body->damage += pulp;
-
-            if( body->damage >= full_pulp_threshold ) {
-                body->damage = full_pulp_threshold;
+            body->damage = std::min( body->damage + (int) rng( 1, CORPSE_PULP_THRESHOLD ), CORPSE_PULP_THRESHOLD );
+            if( body->damage == CORPSE_PULP_THRESHOLD ) {
                 body->active = false;
-
                 p->add_msg_if_player(m_warning, _("You cut up the corpse too much, it is thoroughly pulped."));
             } else {
                 p->add_msg_if_player(m_warning,
@@ -810,8 +803,6 @@ void activity_handlers::pickaxe_finish(player_activity *act, player *p)
 void activity_handlers::pulp_do_turn( player_activity *act, player *p )
 {
     const tripoint &pos = act->placement;
-    static const int full_pulp_threshold = 4;
-    const int move_cost = int(p->weapon.is_null() ? 80 : p->weapon.attack_time() * 0.8);
 
     // numbers logic: a str 8 character with a butcher knife (4 bash, 18 cut)
     // should have at least a 50% chance of damaging an intact zombie corpse (75 volume).
@@ -828,50 +819,51 @@ void activity_handlers::pulp_do_turn( player_activity *act, player *p )
     ///\EFFECT_STR caps pulping power
     pulp_power = std::min(pulp_power, (double)p->str_cur);
     pulp_power *= 20; // constant multiplier to get the chance right
+
     int moves = 0;
     int &num_corpses = act->index; // use this to collect how many corpse are pulped
     auto corpse_pile = g->m.i_at(pos);
     for( auto corpse = corpse_pile.begin(); corpse != corpse_pile.end(); ++corpse ) {
-        if( !(corpse->is_corpse() && corpse->damage < full_pulp_threshold) ) {
+
+        if( !corpse->is_corpse() || corpse->damage >= CORPSE_PULP_THRESHOLD ) {
             continue; // no corpse or already pulped
         }
-        int damage = pulp_power / corpse->volume();
-        //Determine corpse's blood type.
-        field_id type_blood = corpse->get_mtype()->bloodType();
-        do {
-            moves += move_cost;
-            const int mod_sta = ( (p->weapon.weight() / 100 ) + 20) * -1;
-            p->mod_stat("stamina", mod_sta);
-            // Increase damage as we keep smashing,
-            // to insure that we eventually smash the target.
-            if( x_in_y(pulp_power, corpse->volume())  ) {
-                corpse->damage++;
+
+        while( corpse->damage < CORPSE_PULP_THRESHOLD ) {
+
+            // Increase damage as we keep smashing ensuring we eventually smash the target.
+            if( x_in_y( pulp_power, corpse->volume() ) ) {
+                if( ++corpse->damage == CORPSE_PULP_THRESHOLD ) {
+                    corpse->active = false;
+                    num_corpses++;
+                }
                 p->handle_melee_wear();
             }
+
             // Splatter some blood around
             tripoint tmp = pos;
+            field_id type_blood = corpse->get_mtype()->bloodType();
             if( type_blood != fd_null ) {
                 for( tmp.x = pos.x - 1; tmp.x <= pos.x + 1; tmp.x++ ) {
                     for( tmp.y = pos.y - 1; tmp.y <= pos.y + 1; tmp.y++ ) {
-                        if( !one_in(damage + 1) && type_blood != fd_null ) {
+                        if( !one_in( pulp_power / std::min( corpse->volume(), 1 ) ) ) {
                             g->m.add_field( tmp, type_blood, 1, 0 );
                         }
                     }
                 }
             }
-            if( corpse->damage >= full_pulp_threshold ) {
-                corpse->damage = full_pulp_threshold;
-                corpse->active = false;
-                num_corpses++;
-            }
+
+            p->mod_stat( "stamina", -20 - ( p->weapon.weight() / 100 ) );
+
+            moves += p->weapon.is_null() ? 80 : p->weapon.attack_time() * 0.8;
             if( moves >= p->moves ) {
-                // enough for this turn;
-                p->moves -= moves;
+                p->moves -= moves; // enough for this turn;
                 return;
             }
-        } while( corpse->damage < full_pulp_threshold );
+        }
     }
-    // If we reach this, all corpses have been pulped, finish the activity
+
+   // If we reach this, all corpses have been pulped, finish the activity
     act->moves_left = 0;
     if( num_corpses == 0 ) {
         add_msg(m_bad, _("The corpse moved before you could finish smashing it!"));

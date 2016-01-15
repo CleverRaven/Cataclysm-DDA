@@ -7452,9 +7452,9 @@ void game::smash()
         u.moves -= 100;
         return;
     }
-    static const int full_pulp_threshold = 4;
+
     for (auto it = m.i_at(smashp).begin(); it != m.i_at(smashp).end(); ++it) {
-        if (it->is_corpse() && it->damage < full_pulp_threshold) {
+        if ( it->is_corpse() && it->damage < CORPSE_PULP_THRESHOLD ) {
             // do activity forever. ACT_PULP stops itself
             u.assign_activity(ACT_PULP, INT_MAX, 0);
             u.activity.placement = smashp;

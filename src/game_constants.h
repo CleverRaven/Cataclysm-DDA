@@ -67,4 +67,7 @@
 /** Maximum amount of damage to an item (state before destroyed) */
 #define MAX_ITEM_DAMAGE 4
 
+/** Amount of damage which a corpse is considered pulped */
+#define CORPSE_PULP_THRESHOLD 4
+
 #endif
