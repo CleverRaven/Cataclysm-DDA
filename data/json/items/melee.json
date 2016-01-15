@@ -326,7 +326,6 @@
         "material": "glass",
         "weight": 89,
         "volume": 1,
-        "bashing": 0,
         "cutting": 6,
         "flags": ["HURT_WHEN_WIELDED", "HURT_WHEN_PULLED"],
         "to_hit": -1
@@ -434,7 +433,6 @@
         "material": "wood",
         "weight": 220,
         "volume": 2,
-        "bashing": 0,
         "to_hit": -2
     },
     {
@@ -448,7 +446,6 @@
         "material": "wood",
         "weight": 90,
         "volume": 1,
-        "bashing": 0,
         "to_hit": -2
     },
     {
@@ -680,7 +677,6 @@
         "material": "plastic",
         "weight": 18,
         "volume": 0,
-        "bashing": 0,
         "to_hit": -3
     },
     {
@@ -757,7 +753,6 @@
         "material": "steel",
         "weight": 349,
         "volume": 1,
-        "bashing": 0,
         "cutting": 14,
         "flags": ["HURT_WHEN_WIELDED"],
         "to_hit": -4
@@ -773,7 +768,6 @@
         "material": "steel",
         "weight": 151,
         "volume": 2,
-        "bashing": 0,
         "to_hit": -2
     },
     {
@@ -787,7 +781,6 @@
         "material": "steel",
         "weight": 302,
         "volume": 2,
-        "bashing": 0,
         "to_hit": -2
     },
     {
@@ -863,7 +856,6 @@
         "flags": ["NO_SALVAGE"],
         "weight": 6,
         "volume": 0,
-        "bashing": 0,
         "to_hit": -5,
         "qualities": [["COOK", 1]]
     },
@@ -914,7 +906,6 @@
         "material": "plastic",
         "weight": 39,
         "volume": 1,
-        "bashing": 0,
         "to_hit": -1
     },
     {
@@ -987,7 +978,6 @@
         "material": "iron",
         "weight": 226,
         "volume": 1,
-        "bashing": 0,
         "to_hit": 0
     },
     {
@@ -1016,7 +1006,6 @@
         "material": ["aluminum", "plastic"],
         "weight": 5,
         "volume": 0,
-        "bashing": 0,
         "to_hit": 0
     },
     {
@@ -1030,7 +1019,6 @@
         "material": ["aluminum", "plastic"],
         "weight": 725,
         "volume": 3,
-        "bashing": 0,
         "to_hit": 0
     },
     {
@@ -1044,7 +1032,6 @@
         "material": ["steel", "plastic"],
         "weight": 11339,
         "volume": 12,
-        "bashing": 0,
         "to_hit": 0
     },
     {
@@ -1058,7 +1045,6 @@
         "material": ["plastic", "aluminum"],
         "weight": 2721,
         "volume": 3,
-        "bashing": 0,
         "to_hit": 0
     },
     {
@@ -1296,7 +1282,6 @@
         "material": ["aluminum", "plastic"],
         "weight": 2857,
         "volume": 4,
-        "bashing": 0,
         "to_hit": 0
     },
     {
@@ -1414,7 +1399,6 @@
         "material": "steel",
         "weight": 525,
         "volume": 1,
-        "bashing": 0,
         "to_hit": 0
     },
     {
@@ -1492,7 +1476,6 @@
         "flags": ["NO_SALVAGE"],
         "weight": 80,
         "volume": 1,
-        "bashing": 0,
         "to_hit": 0
     },
     {
@@ -1522,7 +1505,6 @@
         "material": "steel",
         "weight": 453,
         "volume": 1,
-        "bashing": 0,
         "to_hit": 0
     },
     {
@@ -1638,7 +1620,6 @@
         "material": "veggy",
         "weight": 0,
         "volume": 0,
-        "bashing": 0,
         "to_hit": 0
     },
     {
@@ -2474,7 +2455,6 @@
         "price": 0,
         "volume": 2,
         "weight": 1150,
-        "bashing": 0,
         "cutting": 16,
         "to_hit": 2,
         "flags" : ["UNARMED_WEAPON", "CHOP"],
@@ -2797,7 +2777,6 @@
         "material": ["glass", "cotton"],
         "weight": 129,
         "volume": 1,
-        "bashing": 0,
         "cutting": 6,
         "to_hit": 0,
         "flags": ["SHEATH_KNIFE"],
@@ -2942,7 +2921,6 @@
         "material": "steel",
         "weight": 10,
         "volume": 0,
-        "bashing": 0,
         "cutting": 1,
         "to_hit": 0
     },
@@ -2971,7 +2949,6 @@
         "material": "diamond",
         "weight": 120,
         "volume": 1,
-        "bashing": 0,
         "to_hit": -5
     },
     {   "type" : "AMMO",
@@ -3191,7 +3168,6 @@
         "material": ["plastic", "steel"],
         "weight": 600,
         "volume": 1,
-        "bashing": 0,
         "to_hit": 1
     },
     {
@@ -3751,7 +3727,6 @@
         "price": 3500,
         "material": ["leather", "null"],
         "flags": ["REACH_ATTACK", "REACH3", "WHIP"],
-        "bashing": 0,
         "cutting": 3,
         "to_hit": 0,
         "category": "weapons"
@@ -3781,7 +3756,6 @@
         "material": "clay",
         "weight": 2264,
         "volume": 6,
-        "bashing": 0,
         "category": "tools",
         "to_hit": 0
     },{
