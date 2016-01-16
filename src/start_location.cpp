@@ -11,6 +11,8 @@
 #include "field.h"
 #include "mapgen.h"
 
+typedef std::map<string_id<start_location>, start_location> location_map;
+
 static location_map _locations;
 
 template<>
@@ -52,14 +54,13 @@ std::string start_location::target() const
     return _target;
 }
 
-location_map::iterator start_location::begin()
+std::vector<const start_location*> start_location::get_all()
 {
-    return _locations.begin();
+    std::vector<const start_location*> result;
+    for( auto &p : _locations ) {
+        result.push_back( &p.second );
 }
-
-location_map::iterator start_location::end()
-{
-    return _locations.end();
+    return result;
 }
 
 const std::set<std::string> &start_location::flags() const {

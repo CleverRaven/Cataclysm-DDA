@@ -1896,11 +1896,10 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
     uimenu select_location;
     select_location.text = _("Select a starting location.");
     int offset = 0;
-    for( location_map::iterator loc = start_location::begin();
-         loc != start_location::end(); ++loc) {
-        if (g->scen->allowed_start(loc->second.ident()) || g->scen->has_flag("ALL_STARTS")) {
-            select_location.entries.push_back( uimenu_entry( _( loc->second.name().c_str() ) ) );
-            if( loc->second.ident() == u->start_location ) {
+    for( const start_location *const loc : start_location::get_all() ) {
+        if (g->scen->allowed_start(loc->ident()) || g->scen->has_flag("ALL_STARTS")) {
+            select_location.entries.push_back( uimenu_entry( _( loc->name().c_str() ) ) );
+            if( loc->ident() == u->start_location ) {
                 select_location.selected = offset;
             }
             offset++;
@@ -2107,11 +2106,10 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
         } else if ( action == "CHOOSE_LOCATION" ) {
             select_location.redraw();
             select_location.query();
-            for( location_map::iterator loc = start_location::begin();
-                 loc != start_location::end(); ++loc ) {
-                if( 0 == strcmp( _( loc->second.name().c_str() ),
+            for( const start_location *const loc : start_location::get_all() ) {
+                if( 0 == strcmp( _( loc->name().c_str() ),
                                  select_location.entries[ select_location.selected ].txt.c_str() ) ) {
-                    u->start_location = loc->second.ident();
+                    u->start_location = loc->ident();
                 }
             }
             werase(select_location.window);

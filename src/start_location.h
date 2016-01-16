@@ -14,8 +14,6 @@ class JsonObject;
 struct tripoint;
 class start_location;
 
-typedef std::map<string_id<start_location>, start_location> location_map;
-
 class start_location
 {
     public:
@@ -26,10 +24,10 @@ class start_location
         std::string target() const;
         const std::set<std::string> &flags() const;
 
-        static location_map::iterator begin();
-        static location_map::iterator end();
         static void load_location( JsonObject &jsonobj );
         static void reset();
+
+        static std::vector<const start_location*> get_all();
 
         /**
          * Setup the player start location on the overmaps.
