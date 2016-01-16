@@ -486,7 +486,6 @@ void advanced_inventory::menu_square( uimenu *menu )
 
 inline char advanced_inventory::get_location_key( aim_location area )
 {
-    ;
     switch( area ) {
         case AIM_INVENTORY:
             return 'I';
