@@ -75,6 +75,7 @@
         "color": "ltgray",
         "move_cost": 4,
         "flags": ["NOITEM", "TRANSPARENT", "MOUNTABLE", "REDUCE_SCENT"],
+        "connects_to": "WALL",
         "bash": {
             "str_min": 40, "str_max": 350,
             "sound": "crash!",
@@ -111,6 +112,7 @@
         "color": "ltgray",
         "move_cost": 5,
         "flags": ["TRANSPARENT", "NOITEM", "MOUNTABLE", "REDUCE_SCENT"],
+        "connects_to": "WALL",
         "bash": {
             "str_min": 60, "str_max": 460,
             "sound": "scrrrash!",
@@ -692,6 +694,7 @@
         "color": "brown",
         "move_cost": 4,
         "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "NOITEM", "REDUCE_SCENT", "MOUNTABLE"],
+        "connects_to": "WALL",
         "bash": {
             "str_min": 40, "str_max": 120,
             "sound": "crash!",
@@ -818,6 +821,7 @@
         "color": "ltred",
         "move_cost": 4,
         "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "NOITEM", "REDUCE_SCENT", "MOUNTABLE"],
+        "connects_to": "WALL",
         "bash": {
             "str_min": 10, "str_max": 70,
             "sound": "crunch!",
@@ -1533,6 +1537,7 @@
         "color": "cyan",
         "move_cost": 0,
         "flags": ["TRANSPARENT", "PERMEABLE"],
+        "connects_to": "CHAINFENCE",
         "bash": {
             "str_min": 10, "str_max": 150, "str_min_blocked": 15, "str_max_blocked": 175,
             "sound": "metal screeching!",
@@ -1551,6 +1556,7 @@
         "color": "brown",
         "move_cost": 3,
         "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "DOOR", "MOUNTABLE"],
+        "connects_to": "WOODFENCE",
         "open": "t_fencegate_o",
         "bash": {
             "str_min": 4, "str_max": 20, "str_min_blocked": 6, "str_max_blocked": 30,
@@ -1573,6 +1579,7 @@
         "flags": [
             "TRANSPARENT", "FLAMMABLE_ASH", "FLAT", "ROAD"
         ],
+        "connects_to": "WOODFENCE",
         "close": "t_fencegate_c",
         "bash": {
             "str_min": 4, "str_max": 60,
@@ -1593,6 +1600,7 @@
         "color": "cyan",
         "move_cost": 0,
         "flags": ["TRANSPARENT", "DOOR", "PERMEABLE"],
+        "connects_to": "CHAINFENCE",
         "open": "t_chaingate_o",
         "bash": {
             "str_min": 10, "str_max": 150, "str_min_blocked": 15, "str_max_blocked": 100,
@@ -1613,6 +1621,7 @@
         "color": "cyan",
         "move_cost": 2,
         "flags": ["TRANSPARENT", "FLAT", "ROAD"],
+        "connects_to": "CHAINFENCE",
         "close": "t_chaingate_c",
         "bash": {
             "str_min": 5, "str_max": 150,
@@ -3254,13 +3263,13 @@
         "type" : "terrain",
         "id" : "t_fence_v",
         "name": "picket fence",
-        "symbol": "|",
+        "symbol": "LINE_OXOX",
         "color": "brown",
         "move_cost": 3,
         "flags": [
             "TRANSPARENT", "DIGGABLE", "FLAMMABLE_ASH", "NOITEM", "THIN_OBSTACLE", "REDUCE_SCENT",
-            "MOUNTABLE", "SHORT"
-        ],
+            "MOUNTABLE", "SHORT", "AUTO_WALL_SYMBOL" ],
+        "connects_to": "WOODFENCE",
         "bash": {
             "str_min": 4, "str_max": 20,
             "sound": "crack.",
@@ -3276,13 +3285,13 @@
         "type" : "terrain",
         "id" : "t_fence_h",
         "name": "picket fence",
-        "symbol": "-",
+        "symbol": "LINE_OXOX",
         "color": "brown",
         "move_cost": 3,
         "flags": [
             "TRANSPARENT", "DIGGABLE", "FLAMMABLE_ASH", "NOITEM", "THIN_OBSTACLE", "REDUCE_SCENT",
-            "MOUNTABLE", "SHORT"
-        ],
+            "MOUNTABLE", "SHORT", "AUTO_WALL_SYMBOL" ],
+        "connects_to": "WOODFENCE",
         "bash": {
             "str_min": 4, "str_max": 20,
             "sound": "crack.",
@@ -3298,12 +3307,12 @@
         "type" : "terrain",
         "id" : "t_chainfence_v",
         "name": "chain link fence",
-        "symbol": "|",
+        "symbol": "LINE_OXOX",
         "color": "cyan",
         "move_cost": 0,
         "flags": [
-            "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "SUPPORTS_ROOF", "PERMEABLE", "UNSTABLE", "CLIMBABLE"
-        ],
+            "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "SUPPORTS_ROOF", "PERMEABLE", "UNSTABLE", "CLIMBABLE", "AUTO_WALL_SYMBOL" ],
+        "connects_to": "CHAINFENCE",
         "examine_action": "chainfence",
         "bash": {
             "str_min": 10, "str_max": 150,
@@ -3318,12 +3327,12 @@
         "type" : "terrain",
         "id" : "t_chainfence_h",
         "name": "chain link fence",
-        "symbol": "-",
+        "symbol": "LINE_OXOX",
         "color": "cyan",
         "move_cost": 0,
         "flags": [
-            "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "SUPPORTS_ROOF", "PERMEABLE", "UNSTABLE", "CLIMBABLE"
-        ],
+            "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "SUPPORTS_ROOF", "PERMEABLE", "UNSTABLE", "CLIMBABLE", "AUTO_WALL_SYMBOL" ],
+        "connects_to": "CHAINFENCE",
         "examine_action": "chainfence",
         "bash": {
             "str_min": 10, "str_max": 150,
@@ -3432,10 +3441,11 @@
         "type" : "terrain",
         "id" : "t_railing_v",
         "name": "railing",
-        "symbol": "|",
+        "symbol": "LINE_OXOX",
         "color": "yellow",
         "move_cost": 3,
-        "flags": ["TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "MOUNTABLE", "SHORT"],
+        "flags": ["TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "MOUNTABLE", "SHORT", "AUTO_WALL_SYMBOL" ],
+        "connects_to": "RAILING",
         "bash": {
             "str_min": 20, "str_max": 80,
             "sound": "crack!",
@@ -3452,10 +3462,11 @@
         "type" : "terrain",
         "id" : "t_railing_h",
         "name": "railing",
-        "symbol": "-",
+        "symbol": "LINE_OXOX",
         "color": "yellow",
         "move_cost": 3,
-        "flags": ["TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "MOUNTABLE", "SHORT"],
+        "flags": ["TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "MOUNTABLE", "SHORT", "AUTO_WALL_SYMBOL" ],
+        "connects_to": "RAILING",
         "bash": {
             "str_min": 20, "str_max": 80,
             "sound": "crack!",
@@ -4981,6 +4992,7 @@
         "color": "ltgray",
         "move_cost": 4,
         "flags": ["TRANSPARENT", "NOITEM", "REDUCE_SCENT", "MOUNTABLE"],
+        "connects_to": "WALL",
         "bash": {
             "str_min": 40, "str_max": 200,
             "sound": "crash!",

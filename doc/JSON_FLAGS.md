@@ -60,7 +60,8 @@ List of known flags, used in both terrain.json and furniture.json
 - ```CONSOLE``` Used as a computer.
 - ```ALARMED``` Sets off an alarm if smashed.
 - ```SUPPORTS_ROOF``` Used as a boundary for roof construction.
-- ```CONNECT_TO_WALL```
+- ```CONNECT_TO_WALL``` (only for terrain) This flag has been superseded by the JSON entry "connects_to", but retained for backward compatibility.
+- ```WALL``` This terrain is an upright obstacle. Used for fungal conversion, and also implies "CONNECT_TO_WALL".
 - ```NO_FLOOR```
 - ```RAMP```
 - ```RAMP_END```
@@ -145,7 +146,6 @@ Example: `-` and `|` is terrain with the `CONNECT_TO_WALL` flag, `O` does not ha
 
 ### Currently only used for Fungal conversions
 
-- ```WALL``` This terrain is an upright obstacle.
 - ```ORGANIC``` This furniture is partly organic.
 - ```FLOWER``` This furniture is a flower.
 - ```SHRUB``` This terrain is a shrub.

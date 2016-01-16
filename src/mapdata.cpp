@@ -73,13 +73,20 @@ static const std::unordered_map<std::string, ter_bitflags> ter_bitflags_map = { 
     { "HARVESTED",                TFLAG_HARVESTED },      // harvested.  will not bear fruit.
     { "PERMEABLE",                TFLAG_PERMEABLE },      // gases can flow through.
     { "AUTO_WALL_SYMBOL",         TFLAG_AUTO_WALL_SYMBOL }, // automatically create the appropriate wall
-    { "CONNECT_TO_WALL",          TFLAG_CONNECT_TO_WALL }, // works with TFLAG_AUTO_WALL_SYMBOL
+    { "CONNECT_TO_WALL",          TFLAG_CONNECT_TO_WALL }, // superseded by ter_connects, retained for json backward compatibilty
     { "CLIMBABLE",                TFLAG_CLIMBABLE },      // Can be climbed over
     { "GOES_DOWN",                TFLAG_GOES_DOWN },      // Allows non-flying creatures to move downwards
     { "GOES_UP",                  TFLAG_GOES_UP },        // Allows non-flying creatures to move upwards
     { "NO_FLOOR",                 TFLAG_NO_FLOOR },       // Things should fall when placed on this tile
     { "SEEN_FROM_ABOVE",          TFLAG_SEEN_FROM_ABOVE },// This should be visible if the tile above has no floor
     { "RAMP",                     TFLAG_RAMP },           // Can be used to move up a z-level
+} };
+
+static const std::unordered_map<std::string, ter_connects> ter_connects_map = { {
+    { "WALL",                     TERCONN_WALL },         // implied by TFLAG_CONNECT_TO_WALL, TFLAG_AUTO_WALL_SYMBOL or TFLAG_WALL
+    { "CHAINFENCE",               TERCONN_CHAINFENCE },
+    { "WOODFENCE",                TERCONN_WOODFENCE },
+    { "RAILING",                  TERCONN_RAILING },
 } };
 
 void load_map_bash_tent_centers( JsonArray ja, std::vector<std::string> &centers ) {
@@ -338,8 +345,17 @@ void load_terrain(JsonObject &jsobj)
   new_terrain.max_volume = jsobj.get_int("max_volume", MAX_VOLUME_IN_SQUARE);
 
   new_terrain.transparent = false;
+    new_terrain.connect_group = TERCONN_NONE;
+
     for( auto & flag : jsobj.get_string_array( "flags" ) ) {
         new_terrain.set_flag( flag );
+    }
+
+    // connect_group is initialised to none, then terrain flags are set, then finally
+    // connections from JSON are set. This is so that wall flags can set wall connections
+    // but can be overridden by explicit connections in JSON.
+    if(jsobj.has_member("connects_to")) {
+    new_terrain.set_connects( jsobj.get_string("connects_to") );
     }
 
   if(jsobj.has_member("examine_action")) {
@@ -440,18 +456,36 @@ ter_id terfind(const std::string & id) {
 void map_data_common_t::set_flag( const std::string &flag )
 {
     flags.insert( flag );
-
     auto const it = ter_bitflags_map.find( flag );
     if( it != ter_bitflags_map.end() ) {
         bitflags.set( it->second );
         if( !transparent && it->second == TFLAG_TRANSPARENT ) {
             transparent = true;
         }
-        // Faster to set this here instead of checking all three flags when drawing.
-        if( it->second == TFLAG_WALL || it->second == TFLAG_AUTO_WALL_SYMBOL ) {
-            set_flag( "CONNECT_TO_WALL" );
+        // wall connection check for JSON backwards compatibility
+        if( it->second == TFLAG_WALL || it->second == TFLAG_CONNECT_TO_WALL ) {
+            set_connects( "WALL" );
         }
     }
+}
+
+void map_data_common_t::set_connects( const std::string &connect_group_string )
+{
+    auto const it = ter_connects_map.find( connect_group_string );
+    if( it != ter_connects_map.end() ) {
+        connect_group = it->second;
+    }
+    else { // arbitrary connect groups are a bad idea for optimisation reasons
+        debugmsg( "can't find terrain connection group %s", connect_group_string.c_str() );
+    }
+}
+
+bool map_data_common_t::connects( int &ret ) const {
+    if ( connect_group != TERCONN_NONE ) {
+        ret = connect_group;
+        return true;
+    }
+    return false;
 }
 
 ter_id t_null,

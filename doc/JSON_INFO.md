@@ -1001,6 +1001,7 @@ Strength required to move the furniture around. Negative values indicate an unmo
     "trap": "spike_pit",
     "max_volume": 4000,
     "flags": ["TRANSPARENT", "DIGGABLE"],
+    "connects_to" : "WALL",
     "close": "t_foo_closed",
     "open": "t_foo_open",
     "bash": "TODO",
@@ -1052,6 +1053,15 @@ Displayed name of the object. This will be translated.
 
 #### "flags"
 (Optional) Various additional flags, see "doc/JSON_FLAGS.md".
+
+#### "connects_to"
+(Optional) The group of terrains to which this terrain connects. This affects tile rotation and connections, and the ASCII symbol drawn by terrain with the flag "AUTO_WALL_SYMBOL". Current values are "WALL", "CHAINFENCE", "WOODFENCE" and "RAILING".
+
+Example: `-` , `|` , `X` and `Y` are terrain which share the same `connects_to` value. `O` does not have it. `X` and `Y` also have the `AUTO_WALL_SYMBOL` flag. `X` will be drawn as a T-intersection (connected to west, south and east), `Y` will be drawn as a horizontal line (going from west to east, no connection to south).
+```
+-X-    -Y-
+ |      O
+```
 
 #### "symbol"
 ASCII symbol of the object as it appears in the game. The symbol string must be exactly one character long. This can also be an array of 4 strings, which define the symbol during the different seasons. The first entry defines the symbol during spring. If it's not an array, the same symbol is used all year round.

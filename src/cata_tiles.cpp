@@ -1513,8 +1513,9 @@ bool cata_tiles::draw_terrain( const tripoint &p, lit_level ll )
     //char alteration = 0;
     int subtile = 0, rotation = 0;
 
-    if( g->m.ter_at( p ).has_flag( TFLAG_CONNECT_TO_WALL ) ) {
-        get_wall_values( p, subtile, rotation );
+    int connect_group;
+    if( g->m.ter_at( p ).connects( connect_group ) ) {
+        get_connect_values( p, subtile, rotation, connect_group );
     } else {
         get_terrain_orientation( p, rotation, subtile );
         // do something to get other terrain orientation values
@@ -2238,15 +2239,14 @@ void cata_tiles::get_rotation_and_subtile(const char val, const int num_connects
     }
 }
 
-void cata_tiles::get_wall_values( const tripoint &p, int &subtile, int &rotation )
+void cata_tiles::get_connect_values( const tripoint &p, int &subtile, int &rotation, int connect_group )
 {
     const bool connects[4] = {
-        g->m.ter_at( tripoint( p.x, p.y + 1, p.z ) ).has_flag( TFLAG_CONNECT_TO_WALL ),
-        g->m.ter_at( tripoint( p.x + 1, p.y, p.z ) ).has_flag( TFLAG_CONNECT_TO_WALL ),
-        g->m.ter_at( tripoint( p.x - 1, p.y, p.z ) ).has_flag( TFLAG_CONNECT_TO_WALL ),
-        g->m.ter_at( tripoint( p.x, p.y - 1, p.z ) ).has_flag( TFLAG_CONNECT_TO_WALL )
+        g->m.ter_at( tripoint( p.x, p.y + 1, p.z ) ).connects_to( connect_group ),
+        g->m.ter_at( tripoint( p.x + 1, p.y, p.z ) ).connects_to( connect_group ),
+        g->m.ter_at( tripoint( p.x - 1, p.y, p.z ) ).connects_to( connect_group ),
+        g->m.ter_at( tripoint( p.x, p.y - 1, p.z ) ).connects_to( connect_group )
     };
-
     char val = 0;
     int num_connects = 0;
 
