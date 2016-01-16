@@ -191,6 +191,16 @@ void scenario::check_definition() const
             debugmsg("item %s for scenario %s does not exist", a->c_str(), id.c_str());
         }
     }
+    for( auto &p : _allowed_professions ) {
+        if( !p.is_valid() ) {
+            debugmsg( "profession %s for scenario %s does not exist", p.c_str(), id.c_str() );
+        }
+    }
+    for( auto &l : _allowed_locs ) {
+        if( !l.is_valid() ) {
+            debugmsg( "starting location %s for scenario %s does not exist", l.c_str(), id.c_str() );
+        }
+    }
     check_traits( _allowed_traits, id );
     check_traits( _forced_traits, id );
     check_traits( _forbidden_traits, id );
