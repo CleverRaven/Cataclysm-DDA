@@ -56,7 +56,7 @@ class start_location
 
         void handle_heli_crash( player &u ) const;
     private:
-        string_id<start_location> _ident;
+        string_id<start_location> id;
         std::string _name;
         std::string _target;
         std::set<std::string> _flags;

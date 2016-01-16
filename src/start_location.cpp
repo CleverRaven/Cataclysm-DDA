@@ -39,7 +39,7 @@ start_location::start_location()
 
 const string_id<start_location> &start_location::ident() const
 {
-    return _ident;
+    return id;
 }
 
 std::string start_location::name() const
@@ -70,12 +70,12 @@ void start_location::load_location( JsonObject &jsonobj )
 {
     start_location new_location;
 
-    new_location._ident = string_id<start_location>( jsonobj.get_string( "ident" ) );
+    new_location.id = string_id<start_location>( jsonobj.get_string( "ident" ) );
     new_location._name = jsonobj.get_string("name");
     new_location._target = jsonobj.get_string("target");
     new_location._flags = jsonobj.get_tags("flags");
 
-    _locations[new_location._ident] = new_location;
+    _locations[new_location.id] = new_location;
 }
 
 void start_location::reset()
