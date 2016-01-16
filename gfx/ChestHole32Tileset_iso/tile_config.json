@@ -23316,12 +23316,14 @@
           "bg": 659,
           "fg": 2164,
           "id": "t_stairs_down",
+          "height_3d": -4,
           "rotates": false
         },
         {
           "bg": 659,
           "fg": 2165,
           "id": "t_stairs_up",
+          "height_3d": 4,
           "rotates": false
         },
         {
@@ -30363,11 +30365,13 @@
         {
           "fg": 2162,
           "id": "t_slope_down",
+          "height_3d": -4,
           "rotates": false
         },
         {
           "fg": 2163,
           "id": "t_slope_up",
+          "height_3d": 4,
           "rotates": false
         },
         {

@@ -1776,13 +1776,12 @@ bool input_context::get_coordinates(WINDOW* capture_win, int& x, int& y) {
     }
 
     if ( tile_iso && use_tiles ) {
-        const int selected_column = (coordinate_x - win_left)/fw - (coordinate_y - win_top - fh - (capture_win->height * fh)/2)/(fw/2);
-        const int selected_row = (coordinate_x - win_left)/fw + (coordinate_y - win_top - fh - (capture_win->height * fh)/2)/(fw/2);
-        // add_msg( m_info, "c %d r %d", selected_column, selected_row );
-        x = g->ter_view_x - ((capture_win->width / 2) - selected_column);
-        y = g->ter_view_y - ((capture_win->height / 2) - selected_row);
-        // add_msg( m_info, "gtvx %d gtvy %d x %d y %d", g->ter_view_x, g->ter_view_y, x, y );
-
+        const int screen_column = round( (float) ( coordinate_x - win_left - (( win_right - win_left ) / 2 + win_left ) ) / ( fw / 2 ) );
+        const int screen_row = round( (float) ( coordinate_y - win_top - ( win_bottom - win_top ) / 2 + win_top ) / ( fw / 4 ) );
+        const int selected_x = ( screen_column - screen_row ) / 2;
+        const int selected_y = ( screen_row + screen_column ) / 2;
+        x = g->ter_view_x + selected_x;
+        y = g->ter_view_y + selected_y;
     } else {
         const int selected_column = (coordinate_x - win_left) / fw;
         const int selected_row = (coordinate_y - win_top) / fh;
