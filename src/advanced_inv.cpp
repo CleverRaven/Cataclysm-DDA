@@ -455,7 +455,7 @@ void advanced_inventory::menu_square( uimenu *menu )
         bool in_vehicle = squares[loc].can_store_in_vehicle();
         const char *bracket = ( in_vehicle ) ? "<>" : "[]";
         // always show storage option for vehicle storage, if applicable
-        bool canputitems = ( menu->entries[loc - 1].enabled && squares[i].canputitems() );
+        bool canputitems = ( menu->entries[i - 1].enabled && squares[loc].canputitems() );
         nc_color bcolor = ( canputitems ? ( sel == loc ? h_white : c_ltgray ) : c_dkgray );
         nc_color kcolor = ( canputitems ? ( sel == loc ? h_white : c_ltgray ) : c_dkgray );
         const int x = squares[loc].hscreenx + ofs;
