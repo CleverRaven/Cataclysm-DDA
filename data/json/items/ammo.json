@@ -267,7 +267,6 @@
         "material": "paper",
         "weight": 0,
         "volume": 0,
-        "bashing": 0,
         "to_hit": 0,
         "ammo_type" : "components",
         "damage" : 0,
