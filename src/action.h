@@ -109,34 +109,35 @@ enum action_id : int {
 };
 
 // Load keybindings from disk
-void load_keyboard_settings(std::map<char, action_id> &keymap, std::string &keymap_file_loaded_from,
-                            std::set<action_id> &unbound_keymap);
+void load_keyboard_settings( std::map<char, action_id> &keymap,
+                             std::string &keymap_file_loaded_from,
+                             std::set<action_id> &unbound_keymap );
 std::string default_keymap_txt();
 // All keys bound to act
-std::vector<char> keys_bound_to(action_id act);
-action_id look_up_action(std::string ident);
-std::string action_ident(action_id);
+std::vector<char> keys_bound_to( action_id act );
+action_id look_up_action( std::string ident );
+std::string action_ident( action_id );
 // Lookup key in keymap, return the mapped action or ACTION_NULL
-action_id action_from_key(char ch);
-// Use the keymap to figure out direction properly
-void get_direction(int &x, int &y, char ch);
+action_id action_from_key( char ch );
 // Get input from the player to choose an adjacent tile (for examine() etc)
 bool choose_adjacent( std::string message, int &x, int &y );
 bool choose_adjacent( std::string message, tripoint &p, bool allow_vertical = false );
 // Input from player for a direction, not related to the player position
-bool choose_direction(const std::string &message, int &x, int &y);
-bool choose_adjacent_highlight(std::string message, int &x, int &y, action_id action_to_highlight);
+bool choose_direction( const std::string &message, int &x, int &y );
+bool choose_adjacent_highlight( std::string message, int &x, int &y,
+                                action_id action_to_highlight );
 bool choose_direction( const std::string &message, tripoint &offset, bool allow_vertical = false );
-bool choose_adjacent_highlight( std::string message, tripoint &offset, action_id action_to_highlight );
+bool choose_adjacent_highlight( std::string message, tripoint &offset,
+                                action_id action_to_highlight );
 
 // (Press X (or Y)|Try) to Z
-std::string press_x(action_id act);
-std::string press_x(action_id act, std::string key_bound,
-                    std::string key_unbound);
-std::string press_x(action_id act, std::string key_bound_pre,
-                    std::string key_bound_suf, std::string key_unbound);
+std::string press_x( action_id act );
+std::string press_x( action_id act, std::string key_bound,
+                     std::string key_unbound );
+std::string press_x( action_id act, std::string key_bound_pre,
+                     std::string key_bound_suf, std::string key_unbound );
 // ('Z'ing|zing) (X( or Y)))
-std::string press_x(action_id act, std::string act_desc);
+std::string press_x( action_id act, std::string act_desc );
 
 // Helper function to convert co-ordinate delta to a movement direction
 action_id get_movement_direction_from_delta( const int dx, const int dy, const int dz = 0 );

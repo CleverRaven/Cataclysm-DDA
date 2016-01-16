@@ -154,7 +154,7 @@
                 },
                 "Z": {
                     "items": { "item": "bed", "chance": 60 },
-                    "furniture": "f_desk"
+                    "furniture": "f_bed"
                 },
                 "r": {
                     "items": { "item": "summoner_drops", "chance": 40 },

@@ -13,7 +13,6 @@
         "flags" : ["DURABLE_MELEE"],
         "volume" : 5,
         "bashing" : 37,
-        "cutting" : 0,
         "price" : 160000,
         "qualities": [["HAMMER", 1]]
     },
@@ -27,11 +26,11 @@
         "color" : "light_gray",
         "symbol" : "/",
         "material" : ["steel", "gold"],
-        "techniques" : ["WBLOCK_1", "RAPID", "IMPALE"],
+        "techniques" : ["WBLOCK_1", "IMPALE"],
         "volume" : 6,
         "bashing" : 10,
         "cutting" : 20,
-        "flags" : ["SPEAR"],
+        "flags" : ["SPEAR", "REACH_ATTACK"],
         "price" : 120000,
         "qualities": [["COOK", 1]]
     }

@@ -80,10 +80,9 @@ struct islot_armor {
      */
     std::bitset<num_bp> covers;
     /**
-     * Bitfield of enum body_part
-     * TODO: document me.
+     * Whether this item can be worn on either side of the body
      */
-    std::bitset<num_bp> sided;
+    bool sided = false;
     /**
      * How much this item encumbers the player.
      */
@@ -274,6 +273,10 @@ struct islot_gun : common_firing_data {
      */
     int ups_charges = 0;
     /**
+     * Length of gun barrel, if positive allows sawing down of the barrel
+     */
+    int barrel_length = 0;
+    /**
      * Effects that are applied to the ammo when fired.
      */
     std::set<std::string> ammo_effects;
@@ -412,6 +415,10 @@ struct islot_seed {
      * Time it takes for a seed to grow (in days, based of off a season length of 91)
      */
     int grow = 0;
+	/**
+     * Amount of harvested charges of fruits is divided by this number.
+     */
+    int fruit_div = 1;
     /**
      * Name of the plant, already translated.
      */
@@ -494,6 +501,13 @@ public:
 
     std::set<std::string> item_tags;
     std::set<matec_id> techniques;
+
+    // Minimum stat(s) or skill(s) to use the item
+    int min_str = 0;
+    int min_dex = 0;
+    int min_int = 0;
+    int min_per = 0;
+    std::map<skill_id, int> min_skills;
 
     // Explosion that happens when the item is set on fire
     explosion_data explosion_on_fire_data;

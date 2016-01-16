@@ -17,7 +17,7 @@
 #include <clocale>
 
 #define _(STRING) gettext(STRING)
-const char *pgettext(const char *context, const char *msgid);
+const char *pgettext( const char *context, const char *msgid );
 
 #else // !LOCALIZE
 
@@ -25,13 +25,13 @@ const char *pgettext(const char *context, const char *msgid);
 // so preemptively include it before the gettext overrides.
 #include <locale>
 
-const char *strip_positional_formatting(const char *msgid);
+const char *strip_positional_formatting( const char *msgid );
 
 #define _(STRING) strip_positional_formatting(STRING)
 #define ngettext(STRING1, STRING2, COUNT) (COUNT < 2 ? _(STRING1) : _(STRING2))
 #define pgettext(STRING1, STRING2) _(STRING2)
 
 #endif // LOCALIZE
-void set_language(bool reload_options);
+void set_language( bool reload_options );
 
 #endif // _TRANSLATIONS_H_

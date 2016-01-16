@@ -257,7 +257,6 @@
         "material" : ["powder"],
         "volume" : 0,
         "bashing" : 0,
-        "cutting" : 0,
         "category" : "veh_parts",
         "price" : 0
     },
@@ -273,7 +272,6 @@
         "material" : ["powder"],
         "volume" : 0,
         "bashing" : 0,
-        "cutting" : 0,
         "category" : "veh_parts",
         "price" : 0
     },
@@ -289,7 +287,6 @@
         "material" : ["powder"],
         "volume" : 0,
         "bashing" : 0,
-        "cutting" : 0,
         "category" : "veh_parts",
         "price" : 0
     },
@@ -305,7 +302,6 @@
         "material" : ["powder"],
         "volume" : 0,
         "bashing" : 0,
-        "cutting" : 0,
         "category" : "veh_parts",
         "price" : 0
     },
@@ -321,7 +317,6 @@
         "material" : ["powder"],
         "volume" : 0,
         "bashing" : 0,
-        "cutting" : 0,
         "category" : "veh_parts",
         "price" : 0
     },
@@ -337,7 +332,6 @@
         "material" : ["powder"],
         "volume" : 0,
         "bashing" : 0,
-        "cutting" : 0,
         "category" : "veh_parts",
         "price" : 0
     },
@@ -353,7 +347,6 @@
         "material" : ["powder"],
         "volume" : 0,
         "bashing" : 0,
-        "cutting" : 0,
         "category" : "veh_parts",
         "price" : 0
     },
@@ -369,7 +362,6 @@
         "material" : ["powder"],
         "volume" : 0,
         "bashing" : 0,
-        "cutting" : 0,
         "category" : "veh_parts",
         "price" : 0
     },
@@ -385,7 +377,6 @@
         "material" : ["powder"],
         "volume" : 0,
         "bashing" : 0,
-        "cutting" : 0,
         "category" : "veh_parts",
         "price" : 0
     },

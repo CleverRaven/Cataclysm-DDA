@@ -136,6 +136,12 @@
     },
     {
         "type": "effect_type",
+        "id": "shrieking",
+        "name": ["Shrieking"],
+        "desc": ["AI tag used for screecher sounds.  This is a bug if you have it."]
+    },
+    {
+        "type": "effect_type",
         "id": "targeted",
         "name": ["Turret is Targeted"],
         "desc": ["AI tag used for turret targeting sounds.  This is a bug if you have it."]
@@ -201,13 +207,31 @@
     },
     {
         "type": "effect_type",
+        "id": "dazed",
+        "name": ["Dazed"],
+        "desc": ["You're visibly shaken up, and are having a hard time focusing on what's going on around you."],
+        "apply_message": "The scream dazes you!",
+        "rating": "bad",
+        "max_intensity": 10,
+        "int_add_val": 2,
+        "base_mods": {
+            "per_mod": [-5],
+            "dex_mod": [-2]
+        },
+        "scaling_mods": {
+            "speed_mod": [-3]
+        }
+    },
+    {
+        "type": "effect_type",
         "id": "onfire",
         "name": ["On Fire"],
         "desc": ["Loss of health - Entire Body\nYour clothing and other equipment may be consumed by the flames."],
         "remove_memorial_log": "Put out the fire.",
         "apply_message": "You're on fire!",
         "apply_memorial_log": "Caught on fire.",
-        "rating": "bad"
+        "rating": "bad",
+        "max_duration": 10
     },
     {
         "type": "effect_type",
@@ -681,11 +705,15 @@
     },
     {
         "type": "effect_type",
-        "id": "iodine",
+        "id": "pblue",
         "base_mods": {
             "rad_chance": [16],
             "rad_min": [-1]
         }
+    },
+    {
+        "type": "effect_type",
+        "id": "iodine"
     },
     {
         "type": "effect_type",
@@ -795,6 +823,8 @@
             "pain_min": [1],
             "pain_chance": [2],
             "pain_max_val": [-1],
+            "hurt_min": [1],
+            "hurt_chance": [-300],
             "stamina_chance": [2]
         },
         "scaling_mods": {
@@ -802,6 +832,7 @@
             "thirst_min": [1],
             "thirst_tick": [-100],
             "pain_max_val": [10],
+            "hurt_chance": [200],
             "stamina_min": [-1]
         }
     },
@@ -960,6 +991,12 @@
     {
         "type": "effect_type",
         "id": "evil"
+    },
+    {
+        "type": "effect_type",
+        "id": "raising",
+        "int_add_val": 1,
+        "max_intensity": 100
     },
     {
         "type": "effect_type",
@@ -1449,6 +1486,20 @@
         },
         "scaling_mods": {
             "hurt_chance": [1]
+        }
+    },
+    {
+        "type": "effect_type",
+        "id": "zapped",
+        "name": ["Zapped"],
+        "desc": ["You've been zapped with electricity and are barely able to move!"],
+        "apply_message": "You're zapped!",
+        "rating": "bad",
+        "max_duration": 2,
+        "dur_add_perc": 20,
+        "base_mods": {
+            "speed_mod": [-1000],
+            "dex_mod": [-100]
         }
     }
 ]

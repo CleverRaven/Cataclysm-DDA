@@ -867,7 +867,7 @@ long inventory::charges_of(itype_id it) const
     return count;
 }
 
-std::list<item> inventory::use_amount(itype_id it, int _quantity, bool use_container)
+std::list<item> inventory::use_amount(itype_id it, int _quantity)
 {
     long quantity = _quantity; // Don't wanny change the function signature right now
     sort();
@@ -876,7 +876,7 @@ std::list<item> inventory::use_amount(itype_id it, int _quantity, bool use_conta
         for (std::list<item>::iterator stack_iter = iter->begin();
              stack_iter != iter->end() && quantity > 0;
              /* noop */) {
-            if (stack_iter->use_amount(it, quantity, use_container, ret)) {
+            if (stack_iter->use_amount(it, quantity, ret)) {
                 stack_iter = iter->erase(stack_iter);
             } else {
                 ++stack_iter;
@@ -1184,4 +1184,19 @@ std::set<char> inventory::allocated_invlets() const
         }
     }
     return invlets;
+}
+
+VisitResponse inventory::visit_items( const std::function<VisitResponse(item&)>& func ) {
+    for( auto &stack : items ) {
+        for( auto &it : stack ) {
+            if( it.visit( func ) == VisitResponse::ABORT ) {
+                return VisitResponse::ABORT;
+            }
+        }
+    }
+    return VisitResponse::NEXT;
+}
+
+VisitResponse inventory::visit_items( const std::function<VisitResponse(const item&)>& func ) const {
+    return const_cast<inventory *>( this )->visit_items( static_cast<const std::function<VisitResponse(item&)>&>( func ) );
 }

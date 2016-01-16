@@ -215,36 +215,5 @@
       [ "solder_wire", 1400 ]
     ]
   ]
-},{
-  "type" : "recipe",
-  "result": "atgm_turret",
-  "category": "CC_OTHER",
-  "subcategory": "CSC_OTHER_PARTS",
-  "skill_used": "mechanics",
-  "skills_required": [ "launcher", 2 ],
-  "difficulty": 5,
-  "time": 10000,
-  "reversible": true,
-  "autolearn": false,
-  "book_learn": [["textbook_launcher" , 5 ]],
-  "qualities":[
-    {"id":"HAMMER","level":2,"amount":1},
-    {"id":"SAW_M","level":1,"amount":1}
-  ],
-  "tools": [
-    [
-      [ "soldering_iron", 20 ],
-      [ "toolset", 20 ]
-    ]
-  ],
-  "components": [
-    [ [ "fcs", 1 ] ],
-    [ [ "turret_engine", 1 ] ],
-    [
-      [ "scrap", 6],
-      [ "steel_chunk", 2]
-    ],
-    [ [ "atgm_launcher", 1 ] ]
-  ]
 }
 ]

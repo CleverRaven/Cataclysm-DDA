@@ -45,7 +45,7 @@ void addict_effect(player &u, addiction &add,
         u.mod_per_bonus(-1);
         u.mod_int_bonus(-1);
         if (rng(40, 1200) <= in * 10) {
-            u.mod_healthy_mod(-1);
+            u.mod_healthy_mod(-1, -in * 10);
         }
         if (one_in(20) && rng(0, 20) < in) {
             u.add_msg_if_player(m_warning, _("You could use a drink."));
@@ -81,7 +81,7 @@ void addict_effect(player &u, addiction &add,
                 u.mod_pain(1);
             }
             if (in >= 40 || one_in(1200 - 30 * in)) {
-                u.mod_healthy_mod(-1);
+                u.mod_healthy_mod(-1, -in * 30);
             }
             if (one_in(20) && dice(2, 20) < in) {
                 u.add_msg_if_player(m_bad, _("Your hands start shaking... you need some painkillers."));
@@ -110,7 +110,7 @@ void addict_effect(player &u, addiction &add,
             u.stim--;
         }
         if (rng(0, 150) <= in) {
-            u.mod_healthy_mod(-1);
+            u.mod_healthy_mod(-1, -in);
         }
         if (dice(2, 100) < in) {
             u.add_msg_if_player(m_warning, _("You feel depressed.  Speed would help."));
@@ -184,7 +184,7 @@ void addict_effect(player &u, addiction &add,
         u.mod_per_bonus(-1);
         u.mod_int_bonus(-1);
         if (rng(40, 1200) <= in * 10) {
-            u.mod_healthy_mod(-1);
+            u.mod_healthy_mod(-1, -in * 10);
         }
         if (one_in(20) && rng(0, 20) < in) {
             u.add_msg_if_player(m_warning, _("You could use some diazepam."));

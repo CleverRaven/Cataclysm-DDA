@@ -131,7 +131,7 @@ protected:
     jmapgen_piece() { }
 public:
     /** Place something on the map m at (x,y). mon_density */
-    virtual void apply( map &m, size_t xmin, size_t ymin, size_t xmax, size_t ymax, float mon_density ) const = 0;
+    virtual void apply( map &m, const jmapgen_int &x, const jmapgen_int &y, float mon_density ) const = 0;
     virtual ~jmapgen_piece() { }
 };
 
@@ -309,6 +309,9 @@ void square(map *m, ter_id (*f)(), int x1, int y1, int x2, int y2);
 void square_furn(map *m, furn_id type, int x1, int y1, int x2, int y2);
 void rough_circle(map *m, ter_id type, int x, int y, int rad);
 void rough_circle_furn(map *m, furn_id type, int x, int y, int rad);
+void circle(map *m, ter_id type, double x, double y, double rad);
+void circle(map *m, ter_id type, int x, int y, int rad);
+void circle_furn(map *m, furn_id type, int x, int y, int rad);
 void add_corpse(map *m, int x, int y);
 
 typedef void (*map_special_pointer)(map &m, const tripoint &abs_sub);

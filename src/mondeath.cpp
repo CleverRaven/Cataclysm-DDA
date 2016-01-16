@@ -230,7 +230,7 @@ void mdeath::fungus(monster *z)
     sounds::sound(z->pos(), 10, _("Pouf!"));
 
     for( auto &&sporep : g->m.points_in_radius( z->pos(), 1 ) ) {
-        if( g->m.move_cost( sporep ) == 0 ) {
+        if( g->m.impassable( sporep ) ) {
             continue;
         }
         // z is dead, don't credit it with the kill
@@ -366,7 +366,7 @@ void mdeath::blobsplit(monster *z)
     std::vector <tripoint> valid;
 
     for( auto &&dest : g->m.points_in_radius( z->pos(), 1 ) ) {
-        bool moveOK = (g->m.move_cost( dest ) > 0);
+        bool moveOK = g->m.passable( dest );
         bool monOK = g->mon_at( dest ) == -1;
         bool posOK = (g->u.pos() != dest);
         if (moveOK && monOK && posOK) {
@@ -417,24 +417,25 @@ void mdeath::melt(monster *z)
 
 void mdeath::amigara(monster *z)
 {
-    if (!g->u.has_effect("amigara")) {
-        return;
-    }
     for (size_t i = 0; i < g->num_zombies(); i++) {
         const monster &critter = g->zombie( i );
         if( critter.type == z->type && !critter.is_dead() ) {
             return;
         }
     }
+
     // We were the last!
+    if (g->u.has_effect("amigara")) {
         g->u.remove_effect("amigara");
         add_msg(_("Your obsession with the fault fades away..."));
-        g->m.spawn_artifact( z->pos3() );
+    }
+
+    g->m.spawn_artifact( z->pos() );
 }
 
 void mdeath::thing(monster *z)
 {
-    g->summon_mon(mon_thing, z->pos3());
+    g->summon_mon(mon_thing, z->pos());
 }
 
 void mdeath::explode(monster *z)
@@ -657,7 +658,7 @@ void mdeath::detonate(monster *z)
             add_msg(m_bad, _("The %s's hands fly to its remaining pockets, opening them!"), z->name().c_str());
         }
     }
-    const tripoint det_point = z->pos3();
+    const tripoint det_point = z->pos();
     // HACK, used to stop them from having ammo on respawn
     z->add_effect("no_ammo", 1, num_bp, true);
 

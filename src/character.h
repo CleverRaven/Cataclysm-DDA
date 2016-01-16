@@ -93,7 +93,7 @@ class Character : public Creature
 
         /** Modifiers for health values exclusive to characters */
         virtual void mod_healthy(int nhealthy);
-        virtual void mod_healthy_mod(int nhealthy_mod);
+        virtual void mod_healthy_mod(int nhealthy_mod, int cap);
 
         /** Setters for health values exclusive to characters */
         virtual void set_healthy(int nhealthy);
@@ -121,7 +121,7 @@ class Character : public Creature
         virtual int get_hit_base() const override;
 
         /** Handles health fluctuations over time */
-        virtual void update_health(int base_threshold = 0);
+        virtual void update_health(int external_modifiers = 0);
 
         /** Resets the value of all bonus fields to 0. */
         virtual void reset_bonuses() override;
@@ -188,7 +188,7 @@ class Character : public Creature
         hp_part body_window( const std::string &menu_header,
                              bool show_all, bool precise,
                              int normal_bonus, int head_bonus, int torso_bonus,
-                             int bleed, int bite, int infect ) const;
+                             bool bleed, bool bite, bool infect ) const;
 
         // Returns color which this limb would have in healing menus
         nc_color limb_color( body_part bp, bool bleed, bool bite, bool infect ) const;
@@ -239,34 +239,22 @@ class Character : public Creature
             return false;
         }
 
+        /** Traverses wielded, worn and inventory items and using a visitor function
+         * @return Similar to item::visit returns only VisitResponse::Next or VisitResponse::Abort
+         * @see item::visit
+         **/
+        VisitResponse visit_items( const std::function<VisitResponse(item&)>& func );
+        VisitResponse visit_items( const std::function<VisitResponse(const item&)>& func ) const;
+
         /**
-         * Test whether an item in the possession of this player match a
-         * certain filter.
+         * Test whether an item in the playerts possession matches a certain filter.
          * The items might be inside other items (containers / quiver / etc.),
          * the filter is recursively applied to all item contents.
-         * If this returns true, the vector returned by @ref items_with
-         * (with the same filter) will be non-empty.
-         * @param filter some object that when invoked with the () operator
-         * returns true for item that should checked for.
-         * @return Returns true when at least one item matches the filter,
-         * if no item matches the filter it returns false.
+         * @param filter functor returning true for item that should checked for.
+         * @return Returns true when at least one item matches the filter, otherwise false
          */
-        template<typename T>
-        bool has_item_with(T filter) const
-        {
-            if( inv.has_item_with( filter ) ) {
-                return true;
-            }
-            if( !weapon.is_null() && inventory::has_item_with_recursive( weapon, filter ) ) {
-                return true;
-            }
-            for( auto &w : worn ) {
-                if( inventory::has_item_with_recursive( w, filter ) ) {
-                    return true;
-                }
-            }
-            return false;
-        }
+        bool has_item_with( const std::function<bool(const item&)>& filter ) const;
+
         /**
          * Gather all items that match a certain filter.
          * The returned vector contains pointers to items in the possession
@@ -443,13 +431,18 @@ class Character : public Creature
         virtual void normalize() override;
         virtual void die(Creature *nkiller) override;
 
+        /**
+         * It is supposed to hide the query_yn to simplify player vs. npc code.
+         */
+        virtual bool query_yn( const char *mes, ... ) const = 0;
+
         /** Returns true if the player has some form of night vision */
         bool has_nv();
 
         // In newcharacter.cpp
         void empty_skills();
         /** Returns a random name from NAMES_* */
-        void pick_name(bool bUseDefault = true);
+        void pick_name(bool bUseDefault = false);
         /** Get the idents of all base traits. */
         std::vector<std::string> get_base_traits() const;
         /** Get the idents of all traits/mutations. */

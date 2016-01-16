@@ -14,8 +14,8 @@ void init_global_game_state() {
     PATH_INFO::init_user_dir("./");
     PATH_INFO::set_standard_filenames();
 
-    init_options();
-    load_options();
+    get_options().init();
+    get_options().load();
     init_colors();
 
     g = new game;

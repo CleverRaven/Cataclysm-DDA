@@ -6,7 +6,7 @@
     "name": "No Triffids",
     "author": "Williham Totland",
     "description": "Removes triffids from the game.",
-    "category": "exclude",
+    "category": "monster_exclude",
     "path": ""
 },{
     "type": "MONSTER_BLACKLIST",

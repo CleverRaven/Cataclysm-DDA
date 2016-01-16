@@ -46,9 +46,9 @@
         ],
         "components" : [
             [ [ "2x4", 5 ], [ "stick", 10 ]  ],
-            [ [ "material_quicklime", 5 ], [ "material_limestone", 5 ], [ "clay_lump", 5 ] ],
+            [ [ "material_quicklime", 4 ], [ "material_limestone", 4 ], [ "clay_lump", 4 ] ],
             [ [ "pebble", 10 ], [ "material_sand", 10 ] ],
-            [ [ "straw_pile", 5 ], [ "cattail_stalk", 5 ], [ "dogbane", 5 ], [ "pine_bough", 5 ] ],
+            [ [ "straw_pile", 4 ], [ "cattail_stalk", 4 ], [ "dogbane", 4 ], [ "pine_bough", 4 ] ],
             [ [ "water", 5 ], [ "water_clean", 5 ] ]
         ],
         "pre_special" : "check_empty",
@@ -66,9 +66,9 @@
         ],
         "components" : [
             [ [ "2x4", 5 ], [ "stick", 10 ]  ],
-            [ [ "material_quicklime", 5 ], [ "material_limestone", 5 ], [ "clay_lump", 5 ] ],
+            [ [ "material_quicklime", 4 ], [ "material_limestone", 4 ], [ "clay_lump", 4 ] ],
             [ [ "pebble", 10 ], [ "material_sand", 10 ] ],
-            [ [ "straw_pile", 5 ], [ "cattail_stalk", 5 ], [ "dogbane", 5 ], [ "pine_bough", 5 ] ],
+            [ [ "straw_pile", 4 ], [ "cattail_stalk", 4 ], [ "dogbane", 4 ], [ "pine_bough", 4 ] ],
             [ [ "water", 5 ], [ "water_clean", 5 ] ]
         ],
         "pre_terrain" : "t_wall_wattle_half",
@@ -85,7 +85,7 @@
         ],
         "components" : [
             [ [ "2x4", 5 ], [ "stick", 10 ] ],
-            [ [ "straw_pile", 15 ], [ "pine_bough", 15 ], [ "birchbark", 15 ] ]
+            [ [ "straw_pile", 12 ], [ "pine_bough", 12 ], [ "birchbark", 12 ] ]
         ],
         "pre_special" : "check_support",
         "post_terrain" : "t_dirtfloor"
@@ -137,5 +137,18 @@
         ],
         "pre_flags" : [ "DIGGABLE", "FLAT" ],
         "post_terrain" : "t_raincatcher"
+    },{
+        "type" : "construction",
+        "skill" : "survival",
+        "description" : "Build Straw Bed",
+        "category" : "FURN",
+        "difficulty" : 1,
+        "time" : 30,
+        "components" : [
+            [ [ "2x4", 4 ], [ "stick", 4 ] ],
+            [ [ "pine_bough", 8 ] ]
+        ],
+        "pre_special" : "check_empty",
+        "post_terrain" : "f_straw_bed"
     }
   ]

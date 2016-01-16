@@ -20,6 +20,7 @@
 #include "mapdata.h"
 #include "field.h"
 #include "weather.h"
+#include "pldata.h"
 
 #include <sstream>
 #include <algorithm>
@@ -346,6 +347,12 @@ iuse_actor *consume_drug_iuse::clone() const
     return new consume_drug_iuse(*this);
 }
 
+static effect_data load_effect_data( JsonObject &e )
+{
+    return effect_data( e.get_string( "id", "null" ), e.get_int( "duration", 0 ),
+        get_body_part_token( e.get_string( "bp", "NUM_BP" ) ), e.get_bool( "permanent", false ) );
+}
+
 void consume_drug_iuse::load( JsonObject &obj )
 {
     obj.read( "activation_message", activation_message );
@@ -356,9 +363,7 @@ void consume_drug_iuse::load( JsonObject &obj )
         JsonArray jsarr = obj.get_array( "effects" );
         while( jsarr.has_more() ) {
             JsonObject e = jsarr.next_object();
-            effect_data new_eff( e.get_string( "id", "null" ), e.get_int( "duration", 0 ),
-                                 get_body_part_token( e.get_string( "bp", "NUM_BP" ) ), e.get_bool( "permanent", false ) );
-            effects.push_back( new_eff );
+            effects.push_back( load_effect_data( e ) );
         }
     }
     obj.read( "stat_adjustments", stat_adjustments );
@@ -372,9 +377,10 @@ long consume_drug_iuse::use(player *p, item *it, bool, const tripoint& ) const
     for( auto tool = tools_needed.cbegin(); tool != tools_needed.cend(); ++tool ) {
         // Amount == -1 means need one, but don't consume it.
         if( !p->has_amount( tool->first, 1 ) ) {
-            p->add_msg_if_player( _("You need %1$s to consume %2$s!"),
-                                  item::nname( tool->first ).c_str(),
-                                  it->type_name( 1 ).c_str() );
+            p->add_msg_player_or_say( _("You need %1$s to consume %2$s!"),
+                _("I need a %1$s to consume %2$s!"),
+                item::nname( tool->first ).c_str(),
+                it->type_name( 1 ).c_str() );
             return -1;
         }
     }
@@ -383,9 +389,10 @@ long consume_drug_iuse::use(player *p, item *it, bool, const tripoint& ) const
         // Amount == -1 means need one, but don't consume it.
         if( !p->has_charges( consumable->first, (consumable->second == -1) ?
                              1 : consumable->second ) ) {
-            p->add_msg_if_player( _("You need %1$s to consume %2$s!"),
-                                  item::nname( consumable->first ).c_str(),
-                                  it->type_name( 1 ).c_str() );
+            p->add_msg_player_or_say( _("You need %1$s to consume %2$s!"),
+                _("I need a %1$s to consume %2$s!"),
+                item::nname( consumable->first ).c_str(),
+                it->type_name( 1 ).c_str() );
             return -1;
         }
     }
@@ -534,6 +541,7 @@ long place_monster_iuse::use( player *p, item *it, bool, const tripoint &pos ) c
     if( skill2 ) {
         skill_offset += p->skillLevel( skill2 );
     }
+    ///\EFFECT_INT increases chance of a placed turret being friendly
     if( rng( 0, p->int_cur / 2 ) + skill_offset < rng( 0, difficulty ) ) {
         if( hostile_msg.empty() ) {
             p->add_msg_if_player( m_bad, _( "The %s scans you and makes angry beeping noises!" ),
@@ -683,16 +691,21 @@ long pick_lock_actor::use( player *p, item *it, bool, const tripoint& ) const
     }
 
     p->practice( skill_mechanics, 1 );
+    ///\EFFECT_DEX speeds up door lock picking
+
+    ///\EFFECT_MECHANICS speeds up door lock picking
     p->moves -= std::max(0, ( 1000 - ( pick_quality * 100 ) ) - ( p->dex_cur + p->skillLevel( skill_mechanics ) ) * 5);
+    ///\EFFECT_DEX improves chances of successfully picking door lock, reduces chances of bad outcomes
+
+    ///\EFFECT_MECHANICS improves chances of successfully picking door lock, reduces chances of bad outcomes
     int pick_roll = ( dice( 2, p->skillLevel( skill_mechanics ) ) + dice( 2, p->dex_cur ) - it->damage / 2 ) * pick_quality;
     int door_roll = dice( 4, 30 );
     if( pick_roll >= door_roll ) {
         p->practice( skill_mechanics, 1 );
         p->add_msg_if_player( m_good, "%s", open_message.c_str() );
         g->m.ter_set( dirp, new_type );
-    } else if( door_roll > ( 1.5 * pick_roll ) && it->damage < 100 ) {
-        it->damage++;
-        if( it->damage >= 5 ) {
+    } else if( door_roll > ( 1.5 * pick_roll ) ) {
+        if( it->damage++ >= MAX_ITEM_DAMAGE ) {
             p->add_msg_if_player( m_bad, _( "The lock stumps your efforts to pick it, and you destroy your tool." ) );
         } else {
             p->add_msg_if_player( m_bad, _( "The lock stumps your efforts to pick it, and you damage your tool." ) );
@@ -700,18 +713,16 @@ long pick_lock_actor::use( player *p, item *it, bool, const tripoint& ) const
     } else {
         p->add_msg_if_player( m_bad, _( "The lock stumps your efforts to pick it." ) );
     }
-    if( type == t_door_locked_alarm && ( door_roll + dice( 1, 30 ) ) > pick_roll &&
-        it->damage < 100 ) {
+    if( type == t_door_locked_alarm && ( door_roll + dice( 1, 30 ) ) > pick_roll ) {
         sounds::sound( p->pos(), 40, _( "An alarm sounds!" ) );
         if( !g->event_queued( EVENT_WANTED ) ) {
             g->add_event( EVENT_WANTED, int( calendar::turn ) + 300, 0, p->global_sm_location() );
         }
     }
-    // Special handling, normally the item isn't used up, but it is if broken.
-    if( it->damage >= 5 ) {
-        return 1;
+    if( it->damage > MAX_ITEM_DAMAGE ) {
+        p->i_rem( it );
+        return 0;
     }
-
     return it->type->charges_to_use();
 }
 
@@ -784,7 +795,7 @@ bool firestarter_actor::prep_firestarter_use( const player *p, const item *it, t
     if( !choose_adjacent(_("Light where?"), pos ) ) {
         return false;
     }
-    if( pos == p->pos3() ) {
+    if( pos == p->pos() ) {
         p->add_msg_if_player(m_info, _("You would set yourself on fire."));
         p->add_msg_if_player(_("But you're already smokin' hot."));
         return false;
@@ -866,6 +877,7 @@ int extended_firestarter_actor::calculate_time_for_lens_fire( const player *p, f
     float moves_base = std::pow( 80 / light_level, 8 ) * 1000 ;
     // survival 0 takes 3 * moves_base, survival 1 takes 1,5 * moves_base,
     // max moves capped at moves_base
+    ///\EFFECT_SURVIVAL speeds up fire starting with lens
     float moves_modifier = 1 / ( p->get_skill_level( skill_survival ) * 0.33 + 0.33 );
     if( moves_modifier < 1 ) {
         moves_modifier = 1;
@@ -908,6 +920,7 @@ long extended_firestarter_actor::use( player *p, item *it, bool, const tripoint 
                 skillLevel = 0.536;
             }
             // At survival=5 modifier=1, at survival=1 modifier=~6.
+            ///\EFFECT_SURVIVAL speeds up fire starting
             float moves_modifier = std::pow( 5 / skillLevel, 1.113 );
             if (moves_modifier < 1) {
                 moves_modifier = 1; // activity time improvement is capped at skillevel 5
@@ -1061,6 +1074,7 @@ int salvage_actor::cut_up(player *p, item *it, item *cut) const
     // This can go awry if there is a volume / recipe mismatch.
     int count = cut->volume();
     // Chance of us losing a material component to entropy.
+    ///\EFFECT_FABRICATION reduces chance of losing components when cutting items up
     int entropy_threshold = std::max(5, 10 - p->skillLevel( skill_fabrication ) );
     // What material components can we get back?
     std::vector<std::string> cut_material_components = cut->made_of();
@@ -1088,6 +1102,7 @@ int salvage_actor::cut_up(player *p, item *it, item *cut) const
         count -= 1;
     }
     // Fail dex roll, potentially lose more parts.
+    ///\EFFECT_DEX randomly reduces component loss when cutting items up
     if (dice(3, 4) > p->dex_cur) {
         count -= rng(0, 2);
     }
@@ -1169,6 +1184,9 @@ void inscribe_actor::load( JsonObject &obj )
         material_whitelist.push_back("silver");
     }
 
+    verb = _(obj.get_string( "verb", "Carve" ).c_str());
+    gerund = _(obj.get_string( "gerund", "Carved" ).c_str());
+
     if( !on_items && !on_terrain ) {
         obj.throw_error( "Tried to create an useless inscribe_actor, at least on of \"on_items\" or \"on_terrain\" should be true" );
     }
@@ -1179,7 +1197,7 @@ iuse_actor *inscribe_actor::clone() const
     return new inscribe_actor( *this );
 }
 
-bool inscribe_actor::item_inscription( item *cut, std::string verb, std::string gerund ) const
+bool inscribe_actor::item_inscription( item *cut ) const
 {
     if( !cut->made_of(SOLID) ) {
         add_msg( m_info, _("You can't inscribe an item that isn't solid!") );
@@ -1194,23 +1212,51 @@ bool inscribe_actor::item_inscription( item *cut, std::string verb, std::string 
         return false;
     }
 
-    const bool hasnote = cut->has_var( "item_note" );
+    enum inscription_type {
+        INSCRIPTION_LABEL,
+        INSCRIPTION_NOTE,
+        INSCRIPTION_CANCEL
+    };
+
+    uimenu menu;
+    menu.text = string_format(_("%s meaning?"), verb.c_str());
+    menu.addentry(INSCRIPTION_LABEL, true, -1, _("It's a label"));
+    menu.addentry(INSCRIPTION_NOTE, true, -1, _("It's a note"));
+    menu.addentry(INSCRIPTION_CANCEL, true, 'q', _("Cancel"));
+    menu.query();
+
+    std::string carving, carving_type;
+    switch ( menu.ret )
+    {
+    case INSCRIPTION_LABEL:
+        carving = "item_label";
+        carving_type = "item_label_type";
+        break;
+    case INSCRIPTION_NOTE:
+        carving = "item_note";
+        carving_type = "item_note_type";
+        break;
+    case INSCRIPTION_CANCEL:
+        return false;
+    }
+
+    const bool hasnote = cut->has_var( carving );
     std::string message = "";
     std::string messageprefix = string_format(hasnote ? _("(To delete, input one '.')\n") : "") +
                                 string_format(_("%1$s on the %2$s is: "),
                                         gerund.c_str(), cut->type_name().c_str());
     message = string_input_popup(string_format(_("%s what?"), verb.c_str()), 64,
-                                 (hasnote ? cut->get_var( "item_note" ) : message),
+                                 (hasnote ? cut->get_var( carving ) : message),
                                  messageprefix, "inscribe_item", 128);
 
-    if( !message.empty() ) {
+    if( !message.empty() )
+    {
         if( hasnote && message == "." ) {
-            cut->erase_var( "item_note" );
-            cut->erase_var( "item_note_type" );
-            cut->erase_var( "item_note_typez" );
+            cut->erase_var( carving );
+            cut->erase_var( carving_type );
         } else {
-            cut->set_var( "item_note", message );
-            cut->set_var( "item_note_type", gerund );
+            cut->set_var( carving, message );
+            cut->set_var( carving_type, gerund );
         }
     }
 
@@ -1227,7 +1273,7 @@ long inscribe_actor::use( player *p, item *it, bool t, const tripoint& ) const
     int choice = INT_MAX;
     if( on_terrain && on_items ) {
         uimenu imenu;
-        imenu.text = _("Write on what?");
+        imenu.text = string_format( _("%s on what?"), verb.c_str() );
         imenu.addentry( 0, true, MENU_AUTOASSIGN, _("The ground") );
         imenu.addentry( 1, true, MENU_AUTOASSIGN, _("An item") );
         imenu.addentry( 2, true, MENU_AUTOASSIGN, _("Cancel") );
@@ -1244,13 +1290,13 @@ long inscribe_actor::use( player *p, item *it, bool t, const tripoint& ) const
     }
 
     if( choice == 0 ) {
-        return iuse::handle_ground_graffiti( p, it, _("Write what?") );
+        return iuse::handle_ground_graffiti( p, it, string_format( _("%s what?"), verb.c_str()) );
     }
 
     int pos = g->inv( _("Inscribe which item?") );
     item *cut = &( p->i_at(pos) );
     // inscribe_item returns false if the action fails or is canceled somehow.
-    if( item_inscription( cut, verb, gerund ) ) {
+    if( item_inscription( cut ) ) {
         return it->type->charges_to_use();
     }
 
@@ -1267,13 +1313,23 @@ iuse_actor *cauterize_actor::clone() const
     return new cauterize_actor( *this );
 }
 
-extern hp_part use_healing_item(player *p, item *it, int normal_power,
-                                       int head_power, int torso_power, int bleed,
-                                       int bite, int infect, bool force);
-
-bool cauterize_actor::cauterize_effect( player *p, item *it, bool force ) const
+static heal_actor prepare_dummy()
 {
-    hp_part hpart = use_healing_item( p, it, -2, -2, -2, 100, 50, 0, force );
+    heal_actor dummy;
+    dummy.limb_power = -2;
+    dummy.head_power = -2;
+    dummy.torso_power = -2;
+    dummy.bleed = 1.0f;
+    dummy.bite = 0.5f;
+    dummy.move_cost = 100;
+    return dummy;
+}
+
+bool cauterize_actor::cauterize_effect( player *p, item *it, bool force )
+{
+    // TODO: Make this less hacky
+    static const heal_actor dummy = prepare_dummy();
+    hp_part hpart = dummy.use_healing_item( *p, *p, *it, force );
     if( hpart != num_hp_parts ) {
         p->add_msg_if_player(m_neutral, _("You cauterize yourself."));
         if (!(p->has_trait("NOPAIN"))) {
@@ -1393,6 +1449,7 @@ long enzlave_actor::use( player *p, item *it, bool t, const tripoint& ) const
 
     // Survival skill increases your willingness to get things done,
     // but it doesn't make you feel any less bad about it.
+    ///\EFFECT_SURVIVAL increases tolerance for enzlavement
     if( p->morale_level() <= (15 * (tolerance_level - p->skillLevel( skill_survival ) )) - 150 ) {
         add_msg(m_neutral, _("The prospect of cutting up the copse and letting it rise again as a slave is too much for you to deal with right now."));
         return 0;
@@ -1421,6 +1478,7 @@ long enzlave_actor::use( player *p, item *it, bool t, const tripoint& ) const
     } else {
         add_msg(m_bad, _("You feel horrible for mutilating and enslaving someone's corpse."));
 
+        ///\EFFECT_SURVIVAL decreases moral penalty and duration for enzlavement
         int moraleMalus = -50 * (5.0 / (float) p->skillLevel( skill_survival ));
         int maxMalus = -250 * (5.0 / (float)p->skillLevel( skill_survival ));
         int duration = 300 * (5.0 / (float)p->skillLevel( skill_survival ));
@@ -1449,11 +1507,17 @@ long enzlave_actor::use( player *p, item *it, bool t, const tripoint& ) const
     // An average zombie with an undamaged corpse is 0 + 8 + 14 = 22.
     int difficulty = (body->damage * 5) + (mt->hp / 10) + (mt->speed / 5);
     // 0 - 30
+    ///\EFFECT_DEX increases chance of success for enzlavement
+
+    ///\EFFECT_SURVIVAL increases chance of success for enzlavement
+
+    ///\EFFECT_FIRSTAID increases chance of success for enzlavement
     int skills = p->skillLevel( skill_survival ) + p->skillLevel( skill_firstaid ) + (p->dex_cur / 2);
     skills *= 2;
 
     int success = rng(0, skills) - rng(0, difficulty);
 
+    ///\EFFECT_FIRSTAID speeds up enzlavement
     const int moves = difficulty * 1200 / p->skillLevel( skill_firstaid );
 
     p->assign_activity(ACT_MAKE_ZLAVE, moves);
@@ -1464,6 +1528,9 @@ long enzlave_actor::use( player *p, item *it, bool t, const tripoint& ) const
 
 bool enzlave_actor::can_use( const player *p, const item*, bool, const tripoint& ) const
 {
+    ///\EFFECT_SURVIVAL >1 allows enzlavement
+
+    ///\EFFECT_FIRSTAID >1 allows enzlavement
     return p->get_skill_level( skill_survival ) > 1 && p->get_skill_level( skill_firstaid ) > 1;
 }
 
@@ -1674,6 +1741,7 @@ long musical_instrument_actor::use( player *p, item *it, bool t, const tripoint&
     }
 
     std::string desc = "";
+    ///\EFFECT_PER increases morale bonus when playing an instrument
     const int morale_effect = fun + fun_bonus * p->per_cur;
     if( morale_effect >= 0 && calendar::turn.once_every( description_frequency ) ) {
         if( !descriptions.empty() ) {
@@ -1703,4 +1771,758 @@ bool musical_instrument_actor::can_use( const player *p, const item*, bool, cons
     }
 
     return true;
+}
+
+iuse_actor *holster_actor::clone() const
+{
+    return new holster_actor( *this );
+}
+
+void holster_actor::load( JsonObject &obj )
+{
+    holster_prompt = obj.get_string( "holster_prompt", "" );
+    holster_msg    = obj.get_string( "holster_msg",    "" );
+
+    max_volume = obj.get_int( "max_volume" );
+    min_volume = obj.get_int( "min_volume", max_volume / 3 );
+    max_weight = obj.get_int( "max_weight", max_weight );
+    multi      = obj.get_int( "multi",      multi );
+    draw_cost  = obj.get_int( "draw_cost",  draw_cost );
+
+    auto tmp = obj.get_string_array( "skills" );
+    std::transform( tmp.begin(), tmp.end(), std::back_inserter( skills ),
+    []( const std::string & elem ) {
+        return skill_id( elem );
+    } );
+
+    flags = obj.get_string_array( "flags" );
+}
+
+bool holster_actor::can_holster( const item& obj ) const {
+    if( obj.volume() > max_volume || obj.volume() < min_volume ) {
+        return false;
+    }
+    if( max_weight > 0 && obj.weight() > max_weight ) {
+        return false;
+    }
+    return std::any_of( flags.begin(), flags.end(), [&](const std::string& f) { return obj.has_flag(f); } ) ||
+           std::find( skills.begin(), skills.end(), obj.gun_skill() ) != skills.end();
+}
+
+long holster_actor::use( player *p, item *it, bool, const tripoint & ) const
+{
+    std::string prompt = holster_prompt.empty() ? _( "Holster item" ) : _( holster_prompt.c_str() );
+
+    if( &p->weapon == it ) {
+        p->add_msg_if_player( _( "You need to unwield your %s before using it." ), it->tname().c_str() );
+        return 0;
+    }
+
+    int pos = 0;
+    std::vector<std::string> opts;
+
+    if( ( int ) it->contents.size() < multi ) {
+        opts.push_back( prompt );
+        pos = -1;
+    }
+
+    std::transform( it->contents.begin(), it->contents.end(), std::back_inserter( opts ),
+    []( const item & elem ) {
+        return string_format( _( "Draw %s" ), elem.display_name().c_str() );
+    } );
+
+    if( opts.size() > 1 ) {
+        pos += uimenu( false, string_format( _( "Use %s" ), it->tname().c_str() ).c_str(), opts ) - 1;
+    }
+
+    if( pos >= 0 ) {
+        // holsters ignore penalty effects (eg. GRABBED) when determining number of moves to consume
+        p->wield_contents( it, pos, draw_cost, false );
+    } else {
+        item &obj = p->i_at( g->inv_for_filter( prompt, [&](const item& e) { return can_holster(e); } ) );
+
+        if( obj.is_null() ) {
+            p->add_msg_if_player( _( "Never mind." ) );
+            return 0;
+        }
+
+        // if selected item is unsuitable inform the player why not
+        if( obj.volume() > max_volume ) {
+            p->add_msg_if_player( m_info, _( "Your %s is too big to fit in your %s" ),
+                                  obj.tname().c_str(), it->tname().c_str() );
+            return 0;
+        }
+        if( obj.volume() < min_volume ) {
+            p->add_msg_if_player( m_info, _( "Your %s is too small to fit in your %s" ),
+                                  obj.tname().c_str(), it->tname().c_str() );
+            return 0;
+        }
+        if( max_weight > 0 && obj.weight() > max_weight ) {
+            p->add_msg_if_player( m_info, _( "Your %s is too heavy to fit in your %s" ),
+                                  obj.tname().c_str(), it->tname().c_str() );
+            return 0;
+        }
+
+        if( std::none_of( flags.begin(), flags.end(), [&]( const std::string & f ) {
+        return obj.has_flag( f );
+        } ) &&
+        std::find( skills.begin(), skills.end(), obj.gun_skill() ) == skills.end() ) {
+            p->add_msg_if_player( m_info, _( "You can't put your %s in your %s" ),
+                                  obj.tname().c_str(), it->tname().c_str() );
+            return 0;
+        }
+
+        p->add_msg_if_player( holster_msg.empty() ? _( "You holster your %s" ) : _( holster_msg.c_str() ),
+                              obj.tname().c_str(), it->tname().c_str() );
+
+        // holsters ignore penalty effects (eg. GRABBED) when determining number of moves to consume
+        p->store( it, &obj, draw_cost, false );
+    }
+
+    return 0;
+}
+
+void repair_item_actor::load( JsonObject &obj )
+{
+    // Mandatory:
+    JsonArray jarr = obj.get_array( "materials" );
+    while( jarr.has_more() ) {
+        materials.push_back( jarr.next_string() );
+    }
+
+    // TODO: Make skill non-mandatory while still erroring on invalid skill
+    const std::string skill_string = obj.get_string( "skill" );
+    used_skill = skill_id( skill_string );
+    if( !used_skill.is_valid() ) {
+        obj.throw_error( "Invalid skill", "skill" );
+    }
+
+    cost_scaling = obj.get_float( "cost_scaling" );
+
+    // Kinda hacky: get subtype of the actor for item action menu
+    type = obj.get_string( "item_action_type" );
+
+    // Optional
+    tool_quality = obj.get_int( "tool_quality", 0 );
+    move_cost    = obj.get_int( "move_cost", 500 );
+}
+
+// TODO: This should be a property of material json, not a hardcoded hack
+const itype_id &material_component( const std::string &material_id )
+{
+    static const std::map< std::string, itype_id > material_id_map {
+        // Metals (welded)
+        { "kevlar", "kevlar_plate" },
+        { "plastic", "plastic_chunk" },
+        { "iron", "scrap" },
+        { "steel", "scrap" },
+        { "hardsteel", "scrap" },
+        { "aluminum", "material_aluminium_ingot" },
+        { "copper", "scrap_copper" },
+        // Fabrics (sewn)
+        { "cotton", "rag" },
+        { "leather", "leather" },
+        { "fur", "fur" },
+        { "nomex", "nomex" },
+        { "wool", "felt_patch" }
+    };
+
+    static const itype_id null_material = "";
+    const auto iter = material_id_map.find( material_id );
+    if( iter != material_id_map.end() ) {
+        return iter->second;
+    }
+
+    return null_material;
+}
+
+bool could_repair( const player &p, const item &it, bool print_msg )
+{
+    if( p.is_underwater() ) {
+        if( print_msg ) {
+            p.add_msg_if_player(m_info, _("You can't do that while underwater."));
+        }
+        return false;
+    }
+    if( p.fine_detail_vision_mod() > 4 ) {
+        if( print_msg ) {
+            p.add_msg_if_player(m_info, _("You can't see to solder!"));
+        }
+        return false;
+    }
+    int charges_used = dynamic_cast<const it_tool*>( it.type )->charges_to_use();
+    if( it.charges < charges_used ) {
+        if( print_msg ) {
+            p.add_msg_if_player( m_info, _("Your tool does not have enough charges to do that.") );
+        }
+        return false;
+    }
+
+    return true;
+}
+
+long repair_item_actor::use( player *p, item *it, bool, const tripoint & ) const
+{
+    if( !could_repair( *p, *it, true ) ) {
+        return 0;
+    }
+
+    int pos = g->inv_for_filter( _("Repair what?"), [this, it]( const item &itm ) {
+        return itm.made_of_any( materials ) && !itm.is_ammo() && !itm.is_firearm() && &itm != it;
+    } );
+
+    item &fix = p->i_at( pos );
+    if( fix.is_null() ) {
+        p->add_msg_if_player(m_info, _("You do not have that item!"));
+        return 0;
+    }
+
+    p->assign_activity( ACT_REPAIR_ITEM, 0, p->get_item_position( it ), pos );
+    // We also need to store the repair actor subtype in the activity
+    p->activity.str_values.push_back( type );
+    // All repairs are done in the activity, including charge cost
+    return 0;
+}
+
+iuse_actor *repair_item_actor::clone() const
+{
+    return new repair_item_actor( *this );
+}
+
+bool repair_item_actor::handle_components( player &pl, const item &fix,
+    bool print_msg, bool just_check ) const
+{
+    // Entries valid for repaired items
+    std::set<std::string> valid_entries;
+    for( const auto &mat : materials ) {
+        if( fix.made_of( mat ) ) {
+            valid_entries.insert( mat );
+        }
+    }
+
+    std::vector<item_comp> comps;
+    if( valid_entries.empty() ) {
+        if( print_msg ) {
+            pl.add_msg_if_player( m_info, _("Your %s is not made of any of:"),
+                                  fix.tname().c_str());
+            for( const auto &mat_name : materials ) {
+                const auto mat = material_type::find_material( mat_name );
+                const auto mat_comp = material_component( mat_name );
+                pl.add_msg_if_player( m_info, _("%s (repaired using %s)"),
+                                      mat->name().c_str(), item::nname( mat_comp, 2 ).c_str() );
+            }
+        }
+
+        return false;
+    }
+
+    // Repairing apparently doesn't always consume items;
+    // maybe it should just consume less or something?
+    // Anyway, don't ask for items if we won't need any.
+    if( !(fix.damage >= 3 || fix.damage == 0) ) {
+        return true;
+    }
+
+    const inventory &crafting_inv = pl.crafting_inventory();
+
+    // Repairing or modifying items requires at least 1 repair item,
+    //  otherwise number is related to size of item
+    const int items_needed = std::max<int>( 1, ceil( fix.volume() * cost_scaling ) );
+
+    // Go through all discovered repair items and see if we have any of them available
+    for( const auto &entry : valid_entries ) {
+        const auto component_id = material_component( entry );
+        if( crafting_inv.has_amount( component_id, items_needed ) ) {
+            // We've found enough of a material, add it to list
+            comps.push_back( item_comp( component_id, items_needed ) );
+        }
+    }
+
+    if( comps.empty() ) {
+        if( print_msg ) {
+            for( const auto &entry : valid_entries ) {
+                const auto &mat_comp = material_component( entry );
+                pl.add_msg_if_player( m_info,
+                    _("You don't have enough %s to do that. Have: %d, need: %d"),
+                    item::nname( mat_comp, 2 ).c_str(),
+                    crafting_inv.amount_of( mat_comp, false ), items_needed );
+            }
+        }
+
+        return false;
+    }
+
+    if( !just_check ) {
+        if( comps.empty() ) {
+            // This shouldn't happen - the check in can_repair should prevent it
+            // But report it, just in case
+            debugmsg( "Attempted repair with no components" );
+        }
+
+        pl.consume_items( comps );
+    }
+
+    return true;
+}
+
+bool repair_item_actor::can_repair( player &pl, const item &tool, const item &fix, bool print_msg ) const
+{
+    if( !could_repair( pl, tool, print_msg ) ) {
+        return false;
+    }
+
+    // In some rare cases (indices getting scrambled after inventory overflow)
+    //  our `fix` can be a different item.
+    if( fix.is_null() ) {
+        if( print_msg ) {
+            pl.add_msg_if_player( m_info, _("You do not have that item!") );
+        }
+        return false;
+    }
+    if( fix.is_firearm() ) {
+        if( print_msg ) {
+            pl.add_msg_if_player( m_info, _("That requires gunsmithing tools.") );
+        }
+        return false;
+    }
+    if( fix.is_ammo() ) {
+        if( print_msg ) {
+            pl.add_msg_if_player( m_info, _("You cannot repair this type of item.") );
+        }
+        return false;
+    }
+
+    if( &fix == &tool || any_of( materials.begin(), materials.end(), [&fix]( const std::string &mat ) {
+            return material_component( mat ) == fix.typeId();
+        } ) ) {
+        if( print_msg ) {
+            pl.add_msg_if_player( m_info, _("This can be used to repair other items, not itself.") );
+        }
+        return false;
+    }
+
+    if( !handle_components( pl, fix, print_msg, true ) ) {
+        return false;
+    }
+    
+    if( fix.damage == 0 && fix.has_flag("PRIMITIVE_RANGED_WEAPON") ) {
+        if( print_msg ) {
+            pl.add_msg_if_player( m_info, _("You cannot improve your %s any more this way."), fix.tname().c_str());
+        }
+        return false;
+    }
+
+    if( fix.damage >= 0 || (fix.has_flag("VARSIZE") && !fix.has_flag("FIT")) ) {
+        return true;
+    }
+
+    if( print_msg ) {
+        pl.add_msg_if_player( m_info, _("Your %s is already enhanced."), fix.tname().c_str() );
+    }
+    return false;
+}
+
+repair_item_actor::attempt_hint repair_item_actor::repair( player &pl, item &tool, item &fix ) const
+{
+    if( !can_repair( pl, tool, fix, true ) ) {
+        return AS_CANT;
+    }
+
+    pl.practice( used_skill, 8 );
+    ///\EFFECT_TAILOR randomly improves clothing repair efforts
+    ///\EFFECT_MECHANICS randomly improves metal repair efforts
+    // Let's make refitting/reinforcing as hard as recovering an almost-wrecked item
+    // TODO: Make difficulty depend on the item type (for example, on recipe's difficulty)
+    const int difficulty = fix.damage == 0 ? 4 : fix.damage;
+    float repair_chance = (5 + pl.get_skill_level( used_skill ) - difficulty) / 100.0f;
+    ///\EFFECT_DEX randomly reduces the chances of damaging an item when repairing
+    float damage_chance = (5 - (pl.dex_cur - tool_quality) / 5.0f) / 100.0f;
+    float roll_value = rng_float( 0.0, 1.0 );
+    enum roll_result {
+        SUCCESS,
+        FAILURE,
+        NEUTRAL
+    } roll;
+
+    if( roll_value > 1.0f - damage_chance ) {
+        roll = FAILURE;
+    } else if( roll_value < repair_chance ) {
+        roll = SUCCESS;
+    } else {
+        roll = NEUTRAL;
+    }
+
+    if( fix.damage > 0 ) {
+        if( roll == FAILURE ) {
+            pl.add_msg_if_player(m_bad, _("You damage your %s further!"), fix.tname().c_str());
+            fix.damage++;
+            if( fix.damage >= 5 ) {
+                pl.add_msg_if_player(m_bad, _("You destroy it!"));
+                const int pos = pl.get_item_position( &fix );
+                if( pos != INT_MIN ) {
+                    pl.i_rem_keep_contents( pos );
+                } else {
+                    // NOTE: Repairing items outside inventory is NOT yet supported!
+                    debugmsg( "Tried to remove an item that doesn't exist" );
+                }
+
+                return AS_DESTROYED;
+            }
+
+            return AS_FAILURE;
+        }
+
+        if( roll == SUCCESS ) {
+            pl.add_msg_if_player(m_good, _("You repair your %s!"), fix.tname().c_str());
+            handle_components( pl, fix, false, false );
+            fix.damage--;
+            return AS_SUCCESS;
+        }
+
+        return AS_RETRY;
+    }
+
+    if( fix.damage == 0 && fix.has_flag("PRIMITIVE_RANGED_WEAPON") ) {
+        pl.add_msg_if_player(m_info, _("You cannot improve your %s any more this way."), fix.tname().c_str());
+        return AS_CANT;
+    }
+
+    if( fix.damage == 0 || (fix.has_flag("VARSIZE") && !fix.has_flag("FIT")) ) {
+        if( roll == FAILURE ) {
+            pl.add_msg_if_player(m_bad, _("You damage your %s!"), fix.tname().c_str());
+            fix.damage++;
+            return AS_FAILURE;
+        }
+
+        if( roll == SUCCESS && fix.has_flag("VARSIZE") && !fix.has_flag("FIT") ) {
+            pl.add_msg_if_player(m_good, _("You take your %s in, improving the fit."),
+                                 fix.tname().c_str());
+            fix.item_tags.insert("FIT");
+            handle_components( pl, fix, false, false );
+            return AS_SUCCESS;
+        }
+
+        if( roll == SUCCESS && (fix.has_flag("FIT") || !fix.has_flag("VARSIZE")) ) {
+            pl.add_msg_if_player(m_good, _("You make your %s extra sturdy."), fix.tname().c_str());
+            fix.damage--;
+            handle_components( pl, fix, false, false );
+            return AS_SUCCESS;
+        }
+
+        return AS_RETRY;
+    }
+
+    pl.add_msg_if_player(m_info, _("Your %s is already enhanced."), fix.tname().c_str());
+    return AS_CANT;
+}
+
+void heal_actor::load( JsonObject &obj )
+{
+    // Mandatory
+    limb_power = obj.get_int( "limb_power" );
+    move_cost = obj.get_int( "move_cost" );
+
+    // Optional
+    head_power = obj.get_int( "head_power", 0.8f * limb_power );
+    torso_power = obj.get_int( "torso_power", 1.5f * limb_power );
+
+    bleed = obj.get_float( "bleed", 0.0f );
+    bite = obj.get_float( "bite", 0.0f );
+    infect = obj.get_float( "infect", 0.0f );
+
+    long_action = obj.get_bool( "long_action", false );
+
+    if( obj.has_array( "effects" ) ) {
+        JsonArray jsarr = obj.get_array( "effects" );
+        while( jsarr.has_more() ) {
+            JsonObject e = jsarr.next_object();
+            effects.push_back( load_effect_data( e ) );
+        }
+    }
+
+    used_up_item = obj.get_string( "used_up_item", used_up_item );
+}
+
+player &get_patient( player &healer, const tripoint &pos )
+{
+    if( healer.pos() == pos ) {
+        return healer;
+    }
+
+    if( g->u.pos() == pos ) {
+        return g->u;
+    }
+
+    const int npc_index = g->npc_at( pos );
+    if( npc_index == -1 ) {
+        // Default to heal self on failure not to break old functionality
+        add_msg( m_debug, "No heal target at position %d,%d,%d", pos.x, pos.y, pos.z );
+        return healer;
+    }
+
+    return (player&)(*g->active_npc[npc_index]);
+}
+
+long heal_actor::use( player *p, item *it, bool, const tripoint &pos ) const
+{
+    if( p->is_underwater() ) {
+        p->add_msg_if_player( m_info, _("You can't do that while underwater.") );
+        return 0;
+    }
+
+    player &patient = get_patient( *p, pos );
+    const hp_part hpp = use_healing_item( *p, patient, *it, false );
+    if( hpp == num_hp_parts ) {
+        return 0;
+    }
+
+    int cost = move_cost;
+    if( long_action ) {
+        // A hack: long action healing on NPCs isn't done yet.
+        // So just heal at start and paralyze the player for 5 minutes.
+        cost /= (p->skillLevel( skill_firstaid ) + 1);
+    }
+
+    if( long_action && &patient == p ) {
+        // Assign first aid long action.
+        ///\EFFECT_FIRSTAID speeds up firstaid activity
+        p->assign_activity( ACT_FIRSTAID, cost, 0, p->get_item_position( it ), it->tname() );
+        p->activity.values.push_back( hpp );
+        p->moves = 0;
+        return 0;
+    }
+
+    p->moves -= cost;
+    p->add_msg_if_player(m_good, _("You use your %s."), it->tname().c_str());
+    return it->type->charges_to_use();
+}
+
+iuse_actor *heal_actor::clone() const
+{
+    return new heal_actor( *this );
+}
+
+int heal_actor::get_heal_value( const player &healer, hp_part healed ) const
+{
+    int heal_base;
+    float bonus_mult;
+    if( healed == hp_head ) {
+        heal_base = head_power;
+        bonus_mult = 0.8f;
+    } else if( healed == hp_torso ) {
+        heal_base = torso_power;
+        bonus_mult = 1.5f;
+    } else {
+        heal_base = limb_power;
+        bonus_mult = 1.0f;
+    }
+
+    if( heal_base > 0 ) {
+        ///\EFFECT_FIRSTAID increases healing item effects
+        float bonus = healer.get_skill_level( skill_firstaid ) * bonus_scaling;
+        return heal_base + bonus_mult * bonus;
+    }
+
+    return heal_base;
+}
+
+long heal_actor::finish_using( player &healer, player &patient, item &it, hp_part healed ) const
+{
+    healer.practice( skill_firstaid, 8 );
+    const int dam = get_heal_value( healer, healed );
+    
+    if( (patient.hp_cur[healed] >= 1) && (dam > 0)) { // Prevent first-aid from mending limbs
+        patient.heal(healed, dam);
+    } else if ((patient.hp_cur[healed] >= 1) && (dam < 0)) {
+        const body_part bp = player::hp_to_bp( healed );
+        patient.apply_damage( nullptr, bp, -dam ); //hurt takes + damage
+    }
+
+    const body_part bp_healed = player::hp_to_bp( healed );
+
+    const bool u_see = healer.is_player() || patient.is_player() ||
+        g->u.sees( healer ) || g->u.sees( patient );
+    const bool player_healing_player = healer.is_player() && patient.is_player();
+    // Need a helper here - messages are from healer's point of view
+    // but it would be cool if NPCs could use this function too
+    const auto heal_msg = [&]( game_message_type msg_type,
+        const char *player_player_msg, const char *other_msg ) {
+        if( !u_see ) {
+            return;
+        }
+
+        if( player_healing_player ) {
+            add_msg( msg_type, player_player_msg );
+        } else {
+            add_msg( msg_type, other_msg );
+        }
+    };
+
+    if( patient.has_effect( "bleed", bp_healed ) ) {
+        if( x_in_y( bleed, 1.0f ) ) {
+            patient.remove_effect("bleed", bp_healed);
+            heal_msg( m_good, _("You stop the bleeding."), _("The bleeding is stopped.") );
+        } else {
+            heal_msg( m_warning, _("You fail to stop the bleeding."), _("The wound still bleeds.") );
+        }
+    }
+    if( patient.has_effect( "bite", bp_healed ) ) {
+        if( x_in_y( bite, 1.0f ) ) {
+            patient.remove_effect("bite", bp_healed);
+            heal_msg( m_good, _("You clean the wound."), _("The wound is cleaned.") );
+        } else {
+            heal_msg( m_warning, _("Your wound still aches."), _("The wound still looks bad.") );
+        }
+    }
+    if( patient.has_effect( "infected", bp_healed ) ) {
+        if( x_in_y( infect, 1.0f ) ) {
+            int infected_dur = patient.get_effect_dur("infected", bp_healed);
+            patient.remove_effect("infected", bp_healed);
+            patient.add_effect("recover", infected_dur);
+            heal_msg( m_good, _("You disinfect the wound."), _("The wound is disinfected.") );
+        } else {
+            heal_msg( m_warning, _("Your wound still hurts."), _("The wound still looks nasty.") );
+        }
+    }
+
+    if( long_action ) {
+        healer.add_msg_if_player( _("You finish using the %s."), it.tname().c_str() );
+    }
+
+    for( auto eff : effects ) {
+        if( eff.id == "null" ) {
+            continue;
+        }
+
+        patient.add_effect( eff.id, eff.duration, eff.bp, eff.permanent );
+    }
+
+    if( !used_up_item.empty() ) {
+        // If the item is a tool, `make` it the new form
+        // Otherwise it probably was consumed, so create a new one
+        if( it.is_tool() ) {
+            it.make( used_up_item );
+        } else {
+            item used_up( used_up_item, it.bday );
+            healer.i_add_or_drop( used_up );
+        }
+    }
+
+    return it.type->charges_to_use();
+}
+
+hp_part pick_part_to_heal(
+    const player &healer, const player &patient,
+    const std::string &menu_header,
+    int limb_power, int head_bonus, int torso_bonus,
+    float bleed_chance, float bite_chance, float infect_chance,
+    bool force )
+{
+    const bool bleed = bleed_chance > 0.0f;
+    const bool bite = bite_chance > 0.0f;
+    const bool infect = infect_chance > 0.0f;
+    const bool precise = &healer == &patient ?
+        patient.has_trait( "SELFAWARE" ) :
+        ///\EFFECT_PER slightly increases precision when using first aid on someone else
+
+        ///\EFFECT_FIRSTAID increases precision when using first aid on someone else
+        (healer.get_skill_level( skill_firstaid ) * 4 + healer.per_cur >= 20);
+    while( true ) {
+        hp_part healed_part = patient.body_window( menu_header, force, precise,
+                                                   limb_power, head_bonus, torso_bonus,
+                                                   bleed, bite, infect );
+        if( healed_part == num_hp_parts ) {
+            return num_hp_parts;
+        }
+
+        body_part bp = player::hp_to_bp( healed_part );
+        if( ( infect && patient.has_effect( "infected", bp ) ) ||
+            ( bite && patient.has_effect( "bite", bp ) ) ||
+            ( bleed && patient.has_effect( "bleed", bp ) ) ) {
+            return healed_part;
+        }
+
+        if( patient.hp_cur[healed_part] == 0 ) {
+            if( healed_part == hp_arm_l || healed_part == hp_arm_r ) {
+                add_msg( m_info, _("That arm is broken.  It needs surgical attention or a splint.") );
+            } else if( healed_part == hp_leg_l || healed_part == hp_leg_r ) {
+                add_msg( m_info, _("That leg is broken.  It needs surgical attention or a splint.") );
+            } else {
+                add_msg( m_info, "That body part is bugged.  It needs developer's attention." );
+            }
+
+            continue;
+        }
+
+        if( force || patient.hp_cur[healed_part] < patient.hp_max[healed_part] ) {
+            return healed_part;
+        }
+    }
+
+    // Won't happen?
+    return num_hp_parts;
+}
+
+hp_part heal_actor::use_healing_item( player &healer, player &patient, item &it, bool force ) const
+{
+    hp_part healed = num_hp_parts;
+    const int head_bonus = get_heal_value( healer, hp_head );
+    const int limb_power = get_heal_value( healer, hp_arm_l );
+    const int torso_bonus = get_heal_value( healer, hp_torso );
+
+    if( healer.is_npc() ) {
+        // NPCs heal whichever has sustained the most damage
+        int highest_damage = 0;
+        for (int i = 0; i < num_hp_parts; i++) {
+            int damage = patient.hp_max[i] - patient.hp_cur[i];
+            if (i == hp_head) {
+                damage *= 1.5;
+            }
+            if (i == hp_torso) {
+                damage *= 1.2;
+            }
+            // Consider states too
+            // Weights are arbitrary, may need balancing
+            const body_part i_bp = player::hp_to_bp( hp_part( i ) );
+            damage += bleed * patient.get_effect_dur( "bleed", i_bp ) / 50;
+            damage += bite * patient.get_effect_dur( "bite", i_bp ) / 100;
+            damage += infect * patient.get_effect_dur( "infected", i_bp ) / 100;
+            if (damage > highest_damage) {
+                highest_damage = damage;
+                healed = hp_part(i);
+            }
+        }
+    } else if( patient.is_player() ) {
+        // Player healing self - let player select
+        if( healer.activity.type != ACT_FIRSTAID ) {
+            const std::string menu_header = it.tname();
+            healed = pick_part_to_heal( healer, patient, menu_header,
+                                        limb_power, head_bonus, torso_bonus,
+                                        bleed, bite, infect, force );
+            if( healed == num_hp_parts ) {
+                return num_hp_parts; // canceled
+            }
+        }
+        // Brick healing if using a first aid kit for the first time.
+        if( long_action && healer.activity.type != ACT_FIRSTAID ) {
+            // Cancel and wait for activity completion.
+            return healed;
+        } else if( healer.activity.type == ACT_FIRSTAID ) {
+            // Completed activity, extract body part from it.
+            healed = (hp_part)healer.activity.values[0];
+        }
+    } else {
+        // Player healing NPC
+        // TODO: Remove this hack, allow using activities on NPCs
+        const std::string menu_header = it.tname();
+        healed = pick_part_to_heal( healer, patient, menu_header,
+                                    limb_power, head_bonus, torso_bonus,
+                                    bleed, bite, infect, force );
+    }
+
+    if( healed != num_hp_parts ) {
+        finish_using( healer, patient, it, healed );
+    }
+
+    return healed;
 }

@@ -10,8 +10,6 @@
         "price": 300,
         "weight": 0,
         "volume": 0,
-        "bashing": 0,
-        "cutting": 0,
         "to_hit": 0,
         "software_data": {
             "power": 0,
@@ -32,8 +30,6 @@
         "price": 800,
         "weight": 0,
         "volume": 0,
-        "bashing": 0,
-        "cutting": 0,
         "to_hit": 0,
         "software_data": {
             "power": 2,
@@ -54,8 +50,6 @@
         "price": 600,
         "weight": 0,
         "volume": 0,
-        "bashing": 0,
-        "cutting": 0,
         "to_hit": 0,
         "software_data": {
             "power": 2,
@@ -76,8 +70,6 @@
         "price": 500,
         "weight": 0,
         "volume": 0,
-        "bashing": 0,
-        "cutting": 0,
         "to_hit": 0,
         "software_data": {
             "power": 3,
@@ -98,8 +90,6 @@
         "price": 200,
         "weight": 0,
         "volume": 0,
-        "bashing": 0,
-        "cutting": 0,
         "to_hit": 0,
         "software_data": {
             "power": 5,

@@ -16,6 +16,7 @@
             ["bicycle", 400],
             ["bicycle_electric", 100],
             ["motorcycle", 200],
+            ["superbike", 50],
             ["motorcycle_sidecart", 100],
             ["scooter", 200],
             ["scooter_electric", 300],
@@ -88,7 +89,8 @@
             ["rv", 800],
             ["lux_rv", 100],
             ["meth_lab", 300],
-            ["armored_car", 900],
+            ["armored_car", 300],
+            ["superbike", 50],
             ["wienermobile", 5]
         ]
     },{
@@ -101,13 +103,15 @@
             ["beetle", 300],
             ["car_sports", 100],
             ["car_sports_electric", 50],
+            ["superbike", 50],
             ["motorcycle", 200],
             ["motorcycle_sidecart", 100],
             ["scooter", 100],
             ["scooter_electric", 100],
             ["suv", 500],
             ["suv_electric", 200],
-            ["pickup", 300]
+            ["pickup", 300],
+            ["portable_generator", 50]
         ]
     },{
         "type" : "vehicle_group",
@@ -150,10 +154,12 @@
             ["unicycle", 100],
             ["bicycle_electric", 200],
             ["motorcycle", 500],
+            ["superbike", 50],
             ["motorcycle_sidecart", 300],
             ["shopping_cart", 1000],
             ["icecream_truck", 50],
-            ["wienermobile", 5]
+            ["wienermobile", 5],
+            ["portable_generator", 50]
         ]
     },{
         "type" : "vehicle_group",
@@ -162,10 +168,12 @@
             ["car", 200],
             ["quad_bike", 120],
             ["motorcycle", 120],
+            ["superbike", 50],
             ["welding_cart", 120],
             ["car_chassis", 200],
             ["quad_bike_chassis", 120],
-            ["motorcycle_chassis", 120]
+            ["motorcycle_chassis", 120],
+            ["portable_generator", 50]
         ]
     },{
         "type" : "vehicle_group",
@@ -179,12 +187,13 @@
             ["aapc-mg", 250],
             ["apc-gl", 125]
         ]
-    },{ "type":"vehicle_group",
-	"id":"farm_vehicles",
-	"vehicles":[
-		["tractor_plow",1000],
-		["tractor_seed",1000],
-		["tractor_reaper",1000]
-	 ]
-      }
+    },{
+        "type":"vehicle_group",
+        "id":"farm_vehicles",
+        "vehicles":[
+            ["tractor_plow", 1000],
+            ["tractor_seed", 1000],
+            ["tractor_reaper", 1000]
+        ]
+    }
 ]

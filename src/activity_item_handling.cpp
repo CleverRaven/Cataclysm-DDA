@@ -180,7 +180,7 @@ static void place_item_activity( std::list<item *> &selected_items, std::list<in
     int prev_volume = g->u.volume_capacity();
     bool taken_off = false;
     // Make the relative coordinates absolute.
-    drop_target += g->u.pos3();
+    drop_target += g->u.pos();
     if( type == DROP_WORN || type == STASH_WORN ) {
         // TODO: Add the logic where dropping a worn container drops a number of contents as well.
         // Stash previous volume and compare it to volume after taking off each article of clothing.
@@ -235,15 +235,15 @@ static void activity_on_turn_drop_or_stash( enum activity_type act )
                                                          selected_worn_items, worn_item_quantities );
 
     // Consume the list as long as we don't run out of moves.
-    while( g->u.moves >= 0 && !selected_worn_items.empty() ) {
-        place_item_activity( selected_items, item_quantities,
-                             selected_worn_items, worn_item_quantities,
-                             (act == ACT_DROP) ? DROP_WORN : STASH_WORN, drop_target, to_vehicle );
-    }
     while( g->u.moves >= 0 && !selected_items.empty() ) {
         place_item_activity( selected_items, item_quantities,
                              selected_worn_items, worn_item_quantities,
                              (act == ACT_DROP ) ? DROP_NOT_WORN : STASH_NOT_WORN, drop_target, to_vehicle );
+    }
+    while( g->u.moves >= 0 && !selected_worn_items.empty() ) {
+        place_item_activity( selected_items, item_quantities,
+                             selected_worn_items, worn_item_quantities,
+                             (act == ACT_DROP) ? DROP_WORN : STASH_WORN, drop_target, to_vehicle );
     }
     if( selected_items.empty() && selected_worn_items.empty() ) {
         // Yay we're done, just exit.
@@ -270,7 +270,7 @@ void activity_on_turn_pickup()
     // indices of items on map, and quantities of same.
     bool from_vehicle = g->u.activity.values.front();
     tripoint pickup_target = g->u.activity.placement;
-    tripoint true_target = g->u.pos3();
+    tripoint true_target = g->u.pos();
     true_target += pickup_target;
     // Auto_resume implies autopickup.
     bool autopickup = g->u.activity.auto_resume;

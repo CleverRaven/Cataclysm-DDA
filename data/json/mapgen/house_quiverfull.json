@@ -43,7 +43,7 @@
             "terrain": {
                 ".": "t_grass",
                 "-": "t_wall",
-                "2": "t_window",
+                "2": "t_window_domestic",
                 "3": "t_door_locked",
                 "|": "t_wall",
                 " ": "t_floor",

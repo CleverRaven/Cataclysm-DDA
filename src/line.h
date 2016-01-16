@@ -62,6 +62,9 @@ point direction_XY(direction dir);
 std::string const& direction_name(direction dir);
 std::string const& direction_name_short(direction dir);
 
+/* Get suffix describing vector from p to q (eg. 1NW, 2SE) or empty string if p == q */
+std::string direction_suffix( const tripoint& p, const tripoint& q );
+
 /**
  * The actual bresenham algorithm in 2D and 3D, everything else should call these
  * and pass in an interact functor to iterate across a line between two points.
@@ -87,6 +90,8 @@ int rl_dist(const tripoint &loc1, const tripoint &loc2);
 int rl_dist(const point &a, const point &b);
 std::pair<double, double> slope_of(const std::vector<point> &line);
 std::pair<std::pair<double, double>, double> slope_of(const std::vector<tripoint> &line);
+// Get the magnitude of the slope ranging from 0.0 to 1.0
+float get_normalized_angle( const point &start, const point &end );
 std::vector<point> continue_line(const std::vector<point> &line, int distance);
 std::vector<tripoint> continue_line(const std::vector<tripoint> &line, int distance);
 std::vector<point> squares_in_direction( int x1, int y1, int x2, int y2 );

@@ -161,7 +161,7 @@ bool Creature::sees( const Creature &critter ) const
         return p == this;
     }
 
-    if( !fov_3d && posz() != critter.posz() ) {
+    if( !fov_3d && !debug_mode && posz() != critter.posz() ) {
         return false;
     }
 
@@ -170,7 +170,8 @@ bool Creature::sees( const Creature &critter ) const
         ( posz() == critter.posz() || g->m.valid_move( pos(), critter.pos(), false, true ) ) ) {
         return true;
     } else if( ( wanted_range > 1 && critter.digging() ) ||
-        ( critter.is_underwater() && !is_underwater() && g->m.is_divable( critter.pos3() ) ) ) {
+        (critter.has_flag(MF_NIGHT_INVISIBILITY) && g->m.light_at(critter.pos()) <= LL_LOW ) ||
+        ( critter.is_underwater() && !is_underwater() && g->m.is_divable( critter.pos() ) ) ) {
         return false;
     }
 
@@ -189,15 +190,14 @@ bool Creature::sees( const point t ) const
 
 bool Creature::sees( const tripoint &t, bool is_player ) const
 {
-    // TODO: FoV update
-    if( posz() != t.z ) {
+    if( !fov_3d && posz() != t.z ) {
         return false;
     }
 
     const int range_cur = sight_range( g->m.ambient_light_at(t) );
     const int range_day = sight_range( DAYLIGHT_LEVEL );
     const int range_min = std::min( range_cur, range_day );
-    const int wanted_range = rl_dist( pos3(), t );
+    const int wanted_range = rl_dist( pos(), t );
     if( wanted_range <= range_min ||
         ( wanted_range <= range_day &&
           g->m.ambient_light_at( t ) > g->natural_light_level( t.z ) ) ) {
@@ -212,7 +212,7 @@ bool Creature::sees( const tripoint &t, bool is_player ) const
             return range >= wanted_range &&
                 g->m.get_cache_ref(pos().z).seen_cache[pos().x][pos().y] > LIGHT_TRANSPARENCY_SOLID;
         } else {
-            return g->m.sees( pos3(), t, range );
+            return g->m.sees( pos(), t, range );
         }
     } else {
         return false;
@@ -305,7 +305,7 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
             continue;
         }
 
-        if( in_veh != nullptr && g->m.veh_at( m->pos3(), part ) == in_veh ) {
+        if( in_veh != nullptr && g->m.veh_at( m->pos(), part ) == in_veh ) {
             // No shooting stuff on vehicle we're a part of
             continue;
         }
@@ -362,15 +362,13 @@ void Creature::melee_attack(Creature &t, bool allow_special)
  * Damage-related functions
  */
 
-int Creature::deal_melee_attack(Creature *source, int hitroll)
+int Creature::deal_melee_attack( Creature *source, int hitroll )
 {
-    int dodgeroll = dodge_roll();
-    int hit_spread = hitroll - dodgeroll;
-    bool missed = hit_spread <= 0;
+    int hit_spread = hitroll - dodge_roll();
 
-    if (missed) {
-        dodge_hit(source, hit_spread);
-        return hit_spread;
+    // If attacker missed call targets on_dodge event
+    if( hit_spread <= 0 && !source->is_hallucination() ) {
+        on_dodge( source, source->get_melee() );
     }
 
     return hit_spread;
@@ -574,9 +572,6 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
     if (proj.proj_effects.count("BEANBAG")) {
         stun_strength = 4;
     }
-    if(proj.proj_effects.count("WHIP")) {
-        stun_strength = rng(4, 10);
-    }
     if (proj.proj_effects.count("LARGE_BEANBAG")) {
         stun_strength = 16;
     }
@@ -628,7 +623,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
                     SCT.add(posx(), posy(),
                             direction_from(0, 0, posx() - source->posx(), posy() - source->posy()),
                             get_hp_bar(get_hp(), get_hp_max(), true).first, m_good,
-                            //~ “hit points”, used in scrolling combat text
+                            //~ "hit points", used in scrolling combat text
                             _("hp"), m_neutral, "hp");
                 } else {
                     SCT.removeCreatureHP();
@@ -713,10 +708,10 @@ void Creature::deal_damage_handle_type(const damage_unit &du, body_part, int &da
             add_effect("onfire", rng(1, 3));
         }
         break;
-    case DT_ELECTRIC: // electrical damage slows us a lot
+    case DT_ELECTRIC: // Electrical damage adds a major speed/dex debuff
         damage += adjusted_damage;
         pain += adjusted_damage / 4;
-        mod_moves(-adjusted_damage * 100);
+        add_effect( "zapped", std::max( adjusted_damage, 2 ) );
         break;
     case DT_COLD: // cold damage slows us a bit and hurts less
         damage += adjusted_damage;
@@ -786,7 +781,7 @@ void Creature::add_effect( efftype_id eff_id, int dur, body_part bp,
     if (effect_types[eff_id].get_main_parts()) {
         bp = mutate_to_main_part(bp);
     }
-
+    
     bool found = false;
     // Check if we already have it
     auto matching_map = effects.find(eff_id);
@@ -844,6 +839,12 @@ void Creature::add_effect( efftype_id eff_id, int dur, body_part bp,
         // Bound to max duration
         if (e.get_max_duration() > 0 && e.get_duration() > e.get_max_duration()) {
             e.set_duration(e.get_max_duration());
+        }
+
+        // Force intensity if it is duration based
+        if( e.get_int_dur_factor() != 0 ) {
+            // + 1 here so that the lowest is intensity 1, not 0
+             e.set_intensity( ( e.get_duration() / e.get_int_dur_factor() ) + 1 );
         }
         // Bound new effect intensity by [1, max intensity]
         if (new_eff.get_intensity() < 1) {
@@ -936,7 +937,13 @@ bool Creature::has_effect(efftype_id eff_id, body_part bp) const
         return false;
     }
 }
-effect Creature::get_effect(efftype_id eff_id, body_part bp) const
+
+effect &Creature::get_effect(efftype_id eff_id, body_part bp)
+{
+    return const_cast<effect &>( const_cast<const Creature*>(this)->get_effect( eff_id, bp ) );
+}
+
+const effect &Creature::get_effect(efftype_id eff_id, body_part bp) const
 {
     auto got_outer = effects.find(eff_id);
     if(got_outer != effects.end()) {
@@ -945,22 +952,24 @@ effect Creature::get_effect(efftype_id eff_id, body_part bp) const
             return got_inner->second;
         }
     }
-    return effect();
+    return effect::null_effect;
 }
 int Creature::get_effect_dur(efftype_id eff_id, body_part bp) const
 {
-    if(has_effect(eff_id, bp)) {
-        effect tmp = get_effect(eff_id, bp);
-        return tmp.get_duration();
+    const effect &eff = get_effect(eff_id, bp);
+    if( !eff.is_null() ) {
+        return eff.get_duration();
     }
+
     return 0;
 }
 int Creature::get_effect_int(efftype_id eff_id, body_part bp) const
 {
-    if(has_effect(eff_id, bp)) {
-        effect tmp = get_effect(eff_id, bp);
-        return tmp.get_intensity();
+    const effect &eff = get_effect(eff_id, bp);
+    if( !eff.is_null() ) {
+        return eff.get_intensity();
     }
+
     return 0;
 }
 void Creature::process_effects()
@@ -1347,8 +1356,13 @@ int Creature::weight_capacity() const
  */
 void Creature::draw(WINDOW *w, int player_x, int player_y, bool inverted) const
 {
-    int draw_x = getmaxx(w) / 2 + posx() - player_x;
-    int draw_y = getmaxy(w) / 2 + posy() - player_y;
+    draw( w, tripoint( player_x, player_y, posz() ), inverted );
+}
+
+void Creature::draw( WINDOW *w, const tripoint &p, bool inverted ) const
+{
+    int draw_x = getmaxx(w) / 2 + posx() - p.x;
+    int draw_y = getmaxy(w) / 2 + posy() - p.y;
     if(inverted) {
         mvwputch_inv(w, draw_y, draw_x, basic_symbol_color(), symbol());
     } else if(is_symbol_highlighted()) {
@@ -1356,11 +1370,6 @@ void Creature::draw(WINDOW *w, int player_x, int player_y, bool inverted) const
     } else {
         mvwputch(w, draw_y, draw_x, symbol_color(), symbol() );
     }
-}
-
-void Creature::draw( WINDOW *w, const tripoint &p, bool inverted ) const
-{
-    draw( w, p.x, p.y, inverted );
 }
 
 nc_color Creature::basic_symbol_color() const
@@ -1453,7 +1462,7 @@ body_part Creature::select_body_part(Creature *source, int hit_roll) const
 
 bool Creature::compare_by_dist_to_point::operator()( const Creature* const a, const Creature* const b ) const
 {
-    return rl_dist( a->pos3(), center ) < rl_dist( b->pos3(), center );
+    return rl_dist( a->pos(), center ) < rl_dist( b->pos(), center );
 }
 
 void Creature::check_dead_state() {

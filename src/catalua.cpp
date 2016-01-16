@@ -49,6 +49,9 @@ lua_State *lua_state = nullptr;
 // we know where to load files from.
 std::string lua_file_path = "";
 
+std::stringstream lua_output_stream;
+std::stringstream lua_error_stream;
+
 #if LUA_VERSION_NUM < 502
 // Compatibility, for before Lua 5.2, which does not have luaL_setfuncs
 static void luaL_setfuncs( lua_State * const L, const luaL_Reg arrary[], int const nup )
@@ -116,7 +119,7 @@ std::string lua_tostring_wrapper( lua_State* const L, int const stack_position )
 
 // Given a Lua return code and a file that it happened in, print a debugmsg with the error and path.
 // Returns true if there was an error, false if there was no error at all.
-bool lua_report_error(lua_State *L, int err, const char *path) {
+bool lua_report_error( lua_State *L, int err, const char *path, bool simple = false ) {
     if( err == LUA_OK || err == LUA_ERRRUN ) {
         // No error or error message already shown via traceback function.
         return err != LUA_OK;
@@ -124,16 +127,25 @@ bool lua_report_error(lua_State *L, int err, const char *path) {
     const std::string error = lua_tostring_wrapper( L, -1 );
     switch(err) {
         case LUA_ERRSYNTAX:
-            debugmsg( "Lua returned syntax error for %s\n%s", path, error.c_str() );
+            if( !simple ) {
+                lua_error_stream << "Lua returned syntax error for "  << path  << std::endl;
+            }
+            lua_error_stream << error;
             break;
         case LUA_ERRMEM:
-            debugmsg( "Lua is out of memory" );
+            lua_error_stream << "Lua is out of memory";
             break;
         case LUA_ERRFILE:
-            debugmsg( "Lua returned file io error for %s\n%s", path, error.c_str() );
+            if( !simple ) {
+                lua_error_stream << "Lua returned file io error for " << path << std::endl;
+            }
+            lua_error_stream << error;
             break;
         default:
-            debugmsg( "Lua returned unknown error %d for %s\n%s", err, path, error.c_str() );
+            if( !simple ) {
+                lua_error_stream << string_format( "Lua returned unknown error %d for ", err) << path << std::endl;
+            }
+            lua_error_stream << error;
             break;
     }
     return true;
@@ -719,10 +731,9 @@ int call_lua(std::string tocall)
 
     update_globals(L);
     int err = luaL_dostring(L, tocall.c_str());
-    lua_report_error(L, err, tocall.c_str());
+    lua_report_error(L, err, tocall.c_str(), true);
     return err;
 }
-
 
 void lua_callback(const char *callback_name)
 {
@@ -892,7 +903,7 @@ static int game_get_item_groups(lua_State *L)
 // monster_types = game.get_monster_types()
 static int game_get_monster_types(lua_State *L)
 {
-    std::vector<mtype_id> mtypes = MonsterGenerator::generator().get_all_mtype_ids();
+    std::vector<const mtype *> mtypes = MonsterGenerator::generator().get_all_mtypes();
 
     lua_createtable(L, mtypes.size(), 0); // Preallocate enough space for all our monster types.
 
@@ -906,7 +917,7 @@ static int game_get_monster_types(lua_State *L)
         // lua_rawset then does t[k] = v and pops v and k from the stack
 
         lua_pushnumber(L, i + 1);
-        LuaValue<mtype_id>::push( L, mtypes[i] );
+        LuaValue<mtype_id>::push( L, mtypes[i]->id );
         lua_rawset(L, -3);
     }
 
@@ -1024,6 +1035,16 @@ static int game_dofile(lua_State *L)
     return 0;
 }
 
+static int game_myPrint( lua_State *L )
+{
+    int argc = lua_gettop( L );
+    for( int i = argc; i > 0; i-- ) {
+        lua_output_stream << lua_tostring_wrapper( L, -i );
+    }
+    lua_output_stream << std::endl;
+    return 0;
+}
+
 // Registry containing all the game functions exported to lua.
 // -----------------------------------------------------------
 static const struct luaL_Reg global_funcs [] = {
@@ -1074,6 +1095,9 @@ void game::init_lua()
 
     load_metatables( lua_state );
     LuaEnum<body_part>::export_global( lua_state, "body_part" );
+
+    // override default print to our version
+    lua_register( lua_state, "print", game_myPrint );
 
     // Load lua-side metatables etc.
     lua_dofile(lua_state, FILENAMES["class_defslua"].c_str());

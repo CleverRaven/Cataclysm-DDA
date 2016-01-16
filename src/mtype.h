@@ -25,7 +25,7 @@ enum body_part : int;
 enum m_size : int;
 
 using mon_action_death  = void (*)(monster*);
-using mon_action_attack = void (*)(monster*, int);
+using mon_action_attack = bool (*)(monster*);
 using mon_action_defend = void (*)(monster&, Creature*, dealt_projectile_attack const*);
 struct MonsterGroup;
 using mongroup_id = string_id<MonsterGroup>;
@@ -105,8 +105,8 @@ enum m_flag : int {
     MF_ELECTRONIC,          // e.g. a robot; affected by emp blasts, and other stuff
     MF_FUR,                 // May produce fur when butchered
     MF_LEATHER,             // May produce leather when butchered
+    MF_WOOL,                // May produce wool when butchered
     MF_FEATHER,             // May produce feather when butchered
-    MF_CBM_CIV,             // May produce a common cbm or two when butchered
     MF_BONES,               // May produce bones and sinews when butchered; if combined with POISON flag, tainted bones, if combined with HUMAN, human bones
     MF_FAT,                 // May produce fat when butchered; if combined with POISON flag, tainted fat
     MF_IMMOBILE,            // Doesn't move (e.g. turrets)
@@ -115,32 +115,33 @@ enum m_flag : int {
     MF_HUMAN,               // It's a live human, as long as it's alive
     MF_NO_BREATHE,          // Creature can't drown and is unharmed by gas, smoke, or poison
     MF_REGENERATES_50,      // Monster regenerates very quickly over time
-    MF_REGENERATES_10,      // Monster regenerates very quickly over time
+    MF_REGENERATES_10,      // Monster regenerates quickly over time
     MF_FLAMMABLE,           // Monster catches fire, burns, and spreads fire to nearby objects
     MF_REVIVES,             // Monster corpse will revive after a short period of time
     MF_CHITIN,              // May produce chitin when butchered
     MF_VERMIN,              // Creature is too small for normal combat, butchering, etc.
     MF_NOGIB,               // Creature won't leave gibs / meat chunks when killed with huge damage.
     MF_HUNTS_VERMIN,        // Creature uses vermin as a food source
-    MF_SMALL_BITER,         // Creature can cause a painful, non-damaging bite
     MF_LARVA,               // Creature is a larva. Currently used for gib and blood handling.
     MF_ARTHROPOD_BLOOD,     // Forces monster to bleed hemolymph.
     MF_ACID_BLOOD,          // Makes monster bleed acid. Fun stuff! Does not automatically dissolve in a pool of acid on death.
     MF_BILE_BLOOD,          // Makes monster bleed bile.
     MF_ABSORBS,             // Consumes objects it moves over.
     MF_REGENMORALE,         // Will stop fleeing if at max hp, and regen anger and morale to positive values.
+    MF_CBM_CIV,             // May produce a common CBM a power CBM when butchered.
     MF_CBM_POWER,           // May produce a power CBM when butchered, independent of MF_CBM_wev.
     MF_CBM_SCI,             // May produce a bionic from bionics_sci when butchered.
     MF_CBM_OP,              // May produce a bionic from bionics_op when butchered, and the power storage is mk 2.
     MF_CBM_TECH,            // May produce a bionic from bionics_tech when butchered.
     MF_CBM_SUBS,            // May produce a bionic from bionics_subs when butchered.
-    MF_FISHABLE,            // Its fishable.
+    MF_FISHABLE,            // It is fishable.
     MF_GROUP_BASH,          // Monsters that can pile up against obstacles and add their strength together to break them.
     MF_SWARMS,              // Monsters that like to group together and form loose packs
     MF_GROUP_MORALE,        // Monsters that are more courageous when near friends
     MF_INTERIOR_AMMO,       // Monster contain's its ammo inside itself, no need to load on launch. Prevents ammo from being dropped on disable.
     MF_CLIMBS,              // Monsters that can climb certain terrain and furniture
     MF_PUSH_MON,            // Monsters that can push creatures out of their way
+    MF_NIGHT_INVISIBILITY,     // Monsters that are invisible in poor light conditions
     MF_MAX                  // Sets the length of the flags - obviously must be LAST
 };
 
@@ -157,6 +158,69 @@ struct mon_effect_data
                     id(nid), duration(dur), bp(nbp), permanent(perm), chance(nchance) {};
 };
 
+class mattack_actor {
+protected:
+    mattack_actor() { }
+public:
+    virtual ~mattack_actor() { }
+    virtual bool call( monster & ) const = 0;
+    virtual mattack_actor *clone() const = 0;
+};
+
+struct mtype_special_attack {
+protected:
+    enum attack_function_t : int {
+        ATTACK_NONE,
+        ATTACK_CPP,
+        ATTACK_ACTOR_PTR
+    };
+
+    attack_function_t function_type;
+
+    union {
+        mon_action_attack cpp_function;
+        mattack_actor *actor_ptr;
+    };
+
+    int cooldown;
+
+public:
+    mtype_special_attack( int cool = 0 )
+        : function_type(ATTACK_NONE), cooldown( cool )
+    { }
+
+    mtype_special_attack( mon_action_attack f, int cool )
+        : function_type(ATTACK_CPP), cpp_function(f), cooldown(cool)
+    { }
+
+    mtype_special_attack( mattack_actor *f, int cool )
+        : function_type(ATTACK_ACTOR_PTR), actor_ptr(f), cooldown(cool)
+    { }
+
+    mtype_special_attack( const mtype_special_attack &other );
+
+    ~mtype_special_attack();
+
+    void operator=( const mtype_special_attack &other );
+
+    bool call( monster & ) const;
+
+    int get_cooldown() const
+    {
+        return cooldown;
+    }
+
+    void set_cooldown( int i );
+
+    const mattack_actor *get_actor_ptr() const
+    {
+        if( function_type != ATTACK_ACTOR_PTR ) {
+            return nullptr;
+        }
+        return actor_ptr;
+    }
+};
+
 struct mtype {
     private:
         friend class MonsterGenerator;
@@ -166,6 +230,9 @@ struct mtype {
         std::set< const species_type* > species_ptrs;
     public:
         mtype_id id;
+        // TODO: maybe make this private as well? It must be set to `true` only once,
+        // and must never be set back to `false`.
+        bool was_loaded = false;
         std::string description;
         std::set<species_id> species;
         std::set<std::string> categories;
@@ -203,17 +270,21 @@ struct mtype {
         unsigned char sk_dodge;    // Dodge skill; should be 0 to 5
         unsigned char armor_bash;  // Natural armor vs. bash
         unsigned char armor_cut;   // Natural armor vs. cut
+        unsigned char armor_stab;  // Natural armor vs. stabbing
+        unsigned char armor_acid;  // Natural armor vs. acid
+        unsigned char armor_fire;  // Natural armor vs. fire
         std::map<std::string, int> starting_ammo; // Amount of ammo the monster spawns with.
         // Name of item group that is used to create item dropped upon death, or empty.
         std::string death_drops;
         float luminance;           // 0 is default, >0 gives luminance to lightmap
         int hp;
-        std::vector<unsigned int> sp_freq;     // How long sp_attack takes to charge
+        // special attack frequencies and function pointers
+        std::map<std::string, mtype_special_attack> special_attacks;
+        std::vector<std::string> special_attacks_names; // names of attacks, in json load order
 
         unsigned int def_chance; // How likely a special "defensive" move is to trigger (0-100%, default 0)
 
         std::vector<mon_action_death>  dies;       // What happens when this monster dies
-        std::vector<mon_action_attack> sp_attack;  // This monster's special attack
 
         // This monster's special "defensive" move that may trigger when the monster is attacked.
         // Note that this can be anything, and is not necessarily beneficial to the monster
@@ -240,6 +311,7 @@ struct mtype {
 
         // Used to fetch the properly pluralized monster type name
         std::string nname(unsigned int quantity = 1) const;
+        bool has_special_attack( const std::string &attack_name ) const;
         bool has_flag(m_flag flag) const;
         bool has_flag(std::string flag) const;
         bool has_material( const std::string &material ) const;
@@ -256,6 +328,9 @@ struct mtype {
         // The item id of the meat items that are produced by this monster (or "null")
         // if there is no matching item type. e.g. "veggy" for plant monsters.
         itype_id get_meat_itype() const;
+
+        // Historically located in monstergenerator.cpp
+        void load( JsonObject &jo );
 };
 
 #endif

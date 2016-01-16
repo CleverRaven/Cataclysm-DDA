@@ -694,7 +694,7 @@
         "examine_action": "sign",
         "move_cost_mod": 1,
         "required_str": 8,
-        "flags": ["TRANSPARENT", "FLAMMABLE", "ASH", "ORGANIC", "MOUNTABLE"],
+        "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE"],
         "deconstruct": {
             "items": [
                 { "item": "2x4", "count": 3 },
@@ -1839,6 +1839,20 @@
         }
     },{
         "type" : "furniture",
+        "id" : "f_chamomile",
+        "name": "chamomile",
+        "symbol": "f",
+        "color": "white",
+        "move_cost_mod": 0,
+        "required_str": -1,
+        "flags": ["TRANSPARENT", "TINY", "FLAMMABLE_ASH"],
+        "bash": {
+            "str_min": 2, "str_max": 6,
+            "sound": "crunch.",
+            "sound_fail": "whish."
+        }
+    },{
+        "type" : "furniture",
         "id" : "f_cattails",
         "name": "cattails",
         "symbol": "i",
@@ -2244,7 +2258,7 @@
         "examine_action": "kiln_empty",
         "max_volume": 500,
         "crafting_pseudo_item": "char_kiln",
-        "flags": ["CONTAINER", "FIRE_CONTAINER", "PLACE_ITEM", "KILN"],
+        "flags": ["CONTAINER", "FIRE_CONTAINER", "PLACE_ITEM"],
         "deconstruct": {
             "items": [
                 { "item": "rock", "count": [30, 30] }
@@ -2292,7 +2306,7 @@
         "examine_action": "kiln_empty",
         "max_volume": 500,
         "crafting_pseudo_item": "char_kiln",
-        "flags": ["CONTAINER", "FIRE_CONTAINER", "PLACE_ITEM", "KILN"],
+        "flags": ["CONTAINER", "FIRE_CONTAINER", "PLACE_ITEM"],
         "deconstruct": {
             "items": [
                 { "item": "metal_tank", "count": [1, 4] },
@@ -2503,6 +2517,59 @@
                 { "item": "2x4", "count": [4, 10] },
                 { "item": "nail", "charges": [10, 30] },
                 { "item": "splinter", "count": [5, 10] }
+            ]
+        }
+    },{
+        "type" : "furniture",
+        "id" : "f_boulder_small",
+        "name": "small boulder",
+        "symbol": "o",
+        "color": "dkgray",
+        "move_cost_mod": 3,
+        "required_str": 10,
+        "flags": ["TRANSPARENT", "MINEABLE", "UNSTABLE", "TINY"],
+        "bash": {
+            "str_min": 16, "str_max": 40,
+            "sound": "smash!",
+            "sound_fail": "thump.",
+            "items": [
+                { "item": "rock", "count": [1, 6] }              
+            ]
+        }
+      },{
+        "type" : "furniture",
+        "id" : "f_boulder_medium",
+        "name": "medium boulder",
+        "symbol": "0",
+        "color": "dkgray",
+        "move_cost_mod": 6,
+        "required_str": 16,
+        "flags": ["NOITEM", "TRANSPARENT", "MINEABLE", "UNSTABLE", "SHORT", "BASHABLE"],
+        "bash": {
+            "str_min": 32, "str_max": 80,
+            "sound": "smash!",
+            "sound_fail": "thump.",
+            "items": [
+                { "item": "rock", "count": [5, 11] }
+            ]
+        }
+      },{
+        "type" : "furniture",
+        "id" : "f_boulder_large",
+        "name": "large boulder",
+        "symbol": "O",
+        "color": "dkgray",
+        "move_cost_mod": -1,
+        "required_str": 32,
+        "flags": ["NOITEM", "MINEABLE", "BASHABLE"],
+        "bash": {
+            "str_min": 64, "str_max": 160,
+            "sound": "smash!",
+            "sound_fail": "thump.",
+            "items": [
+                { "item": "rock", "count": [10, 22] },
+                { "item": "material_limestone", "charges": [2, 5], "prob": 30 },
+                { "item": "material_rocksalt", "count": [0, 1], "prob": 10 }
             ]
         }
     }

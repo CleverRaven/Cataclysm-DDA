@@ -619,6 +619,7 @@ public:
 
 // Display
     virtual nc_color basic_symbol_color() const override;
+    virtual nc_color symbol_color() const override;
  int print_info(WINDOW* w, int vStart, int vLines, int column) const override;
  std::string short_description() const;
  std::string opinion_text() const;
@@ -696,7 +697,7 @@ public:
     bool bravery_check(int diff);
     bool emergency(int danger);
     bool is_active() const;
-    void say(std::string line, ...) const;
+    void say( const std::string line, ...) const;
     void decide_needs();
     void die(Creature* killer) override;
     bool is_dead() const;
@@ -776,8 +777,12 @@ public:
  virtual void add_msg_if_player(game_message_type, const char *, ...) const override{};
  virtual void add_memorial_log(const char*, const char*, ...) override {};
  virtual void add_miss_reason(const char *, unsigned int) {};
+    virtual void add_msg_player_or_say( const char *, const char *, ... ) const override;
+    virtual void add_msg_player_or_say( game_message_type, const char *, const char *, ... ) const override;
 
 // The preceding are in npcmove.cpp
+
+    bool query_yn( const char *mes, ... ) const override;
 
 
 
@@ -856,6 +861,16 @@ public:
  unsigned flags : NF_MAX;
  // Dummy point that indicates that the goal is invalid.
  static const tripoint no_goal_point;
+
+    int last_updated;
+    /**
+     * Do some cleanup and caching as npc is being unloaded from map.
+     */
+    void on_unload();
+    /**
+     * Retroactively update npc.
+     */
+    void on_load();
 
     protected:
         void store(JsonOut &jsout) const;

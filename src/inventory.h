@@ -144,7 +144,7 @@ class inventory
         int  amount_of (itype_id it, bool used_as_tool) const;
         long charges_of(itype_id it) const;
 
-        std::list<item> use_amount (itype_id it, int quantity, bool use_container = false);
+        std::list<item> use_amount (itype_id it, int quantity);
         std::list<item> use_charges(itype_id it, long quantity);
 
         bool has_amount (itype_id it, int quantity) const;
@@ -282,7 +282,14 @@ class inventory
             }
             return result;
         }
-        
+
+        /** Traverses each item in the inventory using a visitor function
+         * @return Similar to item::visit returns only VisitResponse::Next or VisitResponse::Abort
+         * @see item::visit
+         **/
+        VisitResponse visit_items( const std::function<VisitResponse(item&)>& func );
+        VisitResponse visit_items( const std::function<VisitResponse(const item&)>& func ) const;
+
         template<typename T>
         std::list<item> remove_items_with( T filter )
         {

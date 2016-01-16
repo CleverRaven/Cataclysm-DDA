@@ -91,7 +91,7 @@ bool npc::sees_dangerous_field( const tripoint &p ) const
 
 bool npc::could_move_onto( const tripoint &p ) const
 {
-    return g->m.move_cost( p ) != 0 && !sees_dangerous_field( p );
+    return g->m.passable( p ) && !sees_dangerous_field( p );
 }
 
 // class npc functions!
@@ -119,8 +119,8 @@ void npc::move()
     }
 
     // This bypasses the logic to determine the npc action, but this all needs to be rewritten anyway.
-    if( sees_dangerous_field( pos3() ) ) {
-        auto targets = closest_tripoints_first( 1, pos3() );
+    if( sees_dangerous_field( pos() ) ) {
+        auto targets = closest_tripoints_first( 1, pos() );
         targets.erase( targets.begin() ); // current location
         auto filter = [this](const tripoint &p) {
             return !could_move_onto( p );
@@ -134,7 +134,7 @@ void npc::move()
 
     if( is_enemy() ) {
         int pl_danger = player_danger( &(g->u) );
-        if( ( pl_danger > danger || rl_dist( pos3(), g->u.pos3() ) <= 1 ) || target == INT_MIN ) {
+        if( ( pl_danger > danger || rl_dist( pos(), g->u.pos() ) <= 1 ) || target == INT_MIN ) {
             target = TARGET_PLAYER;
             danger = pl_danger;
             add_msg( m_debug, "NPC %s: Set target to PLAYER, danger = %d", name.c_str(), danger );
@@ -228,11 +228,11 @@ void npc::move()
 void npc::execute_action(npc_action action, int target)
 {
     int oldmoves = moves;
-    tripoint tar = pos3();
+    tripoint tar = pos();
     if( target == TARGET_PLAYER ) {
-        tar = g->u.pos3();
+        tar = g->u.pos();
     } else if( target >= 0 && g->num_zombies() > (size_t)target ) {
-        tar = g->zombie(target).pos3();
+        tar = g->zombie(target).pos();
     }
     /*
       debugmsg("%s ran execute_action() with target = %d! Action %s",
@@ -254,8 +254,8 @@ void npc::execute_action(npc_action action, int target)
     */
 
     std::vector<tripoint> line;
-    if( tar != pos3() ) {
-        line = g->m.find_clear_path( pos3(), tar );
+    if( tar != pos() ) {
+        line = g->m.find_clear_path( pos(), tar );
     }
 
     switch (action) {
@@ -266,15 +266,14 @@ void npc::execute_action(npc_action action, int target)
 
     case npc_reload: {
         moves -= weapon.reload_time(*this);
-        int ammo_index = weapon.pick_reload_ammo(*this, false);
-        if (!weapon.reload(*this, ammo_index)) {
+        if( ! weapon.reload( *this, weapon.pick_reload_ammo( *this, false ) ) ) {
             debugmsg("NPC reload failed.");
         }
         recoil = MIN_RECOIL;
         if (g->u.sees( *this )) {
             add_msg(_("%1$s reloads their %2$s."), name.c_str(),
                     weapon.tname().c_str());
-            sfx::play_variant_sound( "reload", weapon.typeId(), sfx::get_heard_volume(pos3()), sfx::get_heard_angle( pos3()));
+            sfx::play_variant_sound( "reload", weapon.typeId(), sfx::get_heard_volume(pos()), sfx::get_heard_angle( pos()));
         }
     }
     break;
@@ -422,7 +421,7 @@ void npc::execute_action(npc_action action, int target)
         break;
 
     case npc_heal_player:
-        update_path( g->u.pos3() );
+        update_path( g->u.pos() );
         if (path.size() == 1) { // We're adjacent to u, and thus can heal u
             heal_player(g->u);
         } else if (!path.empty()) {
@@ -544,7 +543,7 @@ void npc::execute_action(npc_action action, int target)
         break;
 
     case npc_mug_player:
-        update_path( g->u.pos3() );
+        update_path( g->u.pos() );
         if (path.size() == 1) { // We're adjacent to u, and thus can mug u
             mug_player(g->u);
         } else if (!path.empty()) {
@@ -576,9 +575,7 @@ void npc::execute_action(npc_action action, int target)
     }
 
     if( oldmoves == moves ) {
-        dbg(D_ERROR) << "map::execute_action: NPC didn't use its moves.";
-        debugmsg("NPC didn't use its moves.  Action %d.  Turning on debug mode.", action);
-        debug_mode = true;
+        add_msg( m_debug, "NPC didn't use its moves.  Action %d.", action);
     }
 }
 
@@ -665,7 +662,7 @@ npc_action npc::method_of_fleeing(int enemy)
     int speed = (enemy == TARGET_PLAYER ? g->u.get_speed() :
                  g->zombie(enemy).get_speed());
     tripoint enemy_loc = enemy == TARGET_PLAYER ?
-        g->u.pos3() : g->zombie(enemy).pos3();
+        g->u.pos() : g->zombie(enemy).pos();
     int distance = rl_dist(pos(), enemy_loc);
 
     if (choose_escape_item() != INT_MIN) { // We have an escape item!
@@ -730,7 +727,7 @@ npc_action npc::method_of_attack(int target, int danger)
                 }
             } else if (target == TARGET_PLAYER && !sees( g->u )) {
                 return npc_melee;//Can't see target
-            } else if (rl_dist( pos3(), tar ) > weapon.gun_range( this ) &&
+            } else if (rl_dist( pos(), tar ) > weapon.gun_range( this ) &&
                        sees( tar )) {
                 return npc_melee; // If out of range, move closer to the target
             } else if (dist <= confident_range() / 3 && weapon.charges >= weapon.type->gun->burst &&
@@ -822,6 +819,9 @@ npc_action npc::address_needs(int danger)
         }
 
         if( rules.allow_sleep || fatigue > MASSIVE_FATIGUE ) {
+            return npc_sleep;
+        } else if( g->u.in_sleep_state() ) {
+            // TODO: "Guard me while I sleep" command
             return npc_sleep;
         } else if( g->u.sees( *this ) && !has_effect( "npc_said" ) &&
                    one_in( 10000 / ( fatigue + 1 ) ) ) {
@@ -1010,6 +1010,7 @@ int npc::confident_range(int position)
         item *thrown = &i_at(position);
         max = throw_range(position); // The max distance we can throw
         deviation = 0;
+        ///\EFFECT_THROW_NPC increases throwing confidence
         if (skillLevel( skill_throw ) < 8) {
             deviation += 8 - skillLevel( skill_throw );
         } else {
@@ -1018,6 +1019,7 @@ int npc::confident_range(int position)
 
         deviation += throw_dex_mod();
 
+        ///\EFFECT_PER_NPC increases throwing confidence
         if (per_cur < 6) {
             deviation += 8 - per_cur;
         } else if (per_cur > 8) {
@@ -1032,6 +1034,7 @@ int npc::confident_range(int position)
             deviation += 3;
         }
 
+        ///\EFFECT_STR_NPC decreases throwing confidence
         deviation += 1 + abs(str_cur - (thrown->weight() / 113));
     }
     //Account for rng's, *.5 for 50%
@@ -1049,14 +1052,14 @@ int npc::confident_range(int position)
 bool npc::wont_hit_friend( const tripoint &tar, int weapon_index )
 {
     int confident = confident_range(weapon_index);
-    if( rl_dist( pos3(), tar ) == 1 ) {
+    if( rl_dist( pos(), tar ) == 1 ) {
         return true;    // If we're *really* sure that our aim is dead-on
     }
 
-    std::vector<tripoint> traj = g->m.find_clear_path( pos3(), tar );
+    std::vector<tripoint> traj = g->m.find_clear_path( pos(), tar );
 
     for( auto &i : traj ) {
-        int dist = rl_dist( pos3(), i );
+        int dist = rl_dist( pos(), i );
         int deviation = 1 + int(dist / confident);
         for (int x = i.x - deviation; x <= i.x + deviation; x++) {
             for (int y = i.y - deviation; y <= i.y + deviation; y++) {
@@ -1118,7 +1121,7 @@ bool npc::is_blocking_position( const tripoint &p ) {
         right.y += dy;
     }
 
-    return (g->m.move_cost(left) == 0 && g->m.move_cost(right) == 0);
+    return g->m.impassable(left) && g->m.impassable(right);
 }
 
 bool npc::need_to_reload()
@@ -1188,7 +1191,7 @@ bool npc::can_move_to( const tripoint &p, bool no_bashing ) const
     // Allow moving into any bashable spots, but penalize them during pathing
     return( rl_dist( pos(), p ) <= 1 &&
               (
-                g->m.move_cost( p ) > 0 ||
+                g->m.passable( p ) ||
                 ( !no_bashing && g->m.bash_rating( smash_ability(), p ) > 0 ) ||
                 g->m.open_door( p, !g->m.is_outside( pos() ), true )
               )
@@ -1207,7 +1210,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing )
     if( sees_dangerous_field( pt ) ) {
         // Move to a neighbor field instead, if possible.
         // Maybe this code already exists somewhere?
-        auto other_points = g->m.get_dir_circle( pos3(), pt );
+        auto other_points = g->m.get_dir_circle( pos(), pt );
         for( const tripoint &ot : other_points ) {
             if( could_move_onto( ot ) ) {
                 p = ot;
@@ -1217,6 +1220,9 @@ void npc::move_to( const tripoint &pt, bool no_bashing )
     }
 
     if (recoil > 0) { // Start by dropping recoil a little
+        ///\EFFECT_STR_NPC increases recoil recovery speed
+
+        ///\EFFECT_GUN_NPC increases recoil recovery speed
         if (int(str_cur / 2) + skillLevel( skill_gun ) >= (int)recoil) {
             recoil = MIN_RECOIL;
         } else {
@@ -1301,13 +1307,14 @@ void npc::move_to( const tripoint &pt, bool no_bashing )
         // TODO: Make it properly find the tile to move to
         moves -= 100;
         moved = true;
-    } else if( g->m.move_cost( p ) > 0 ) {
+    } else if( g->m.passable( p ) ) {
         bool diag = trigdist && posx() != p.x && posy() != p.y;
         moves -= run_cost( g->m.combined_movecost( pos(), p ), diag );
         moved = true;
     } else if( g->m.open_door( p, !g->m.is_outside( pos() ) ) ) {
         moves -= 100;
     } else if( g->m.has_flag_ter_or_furn( "CLIMBABLE", p ) ) {
+        ///\EFFECT_DEX_NPC increases chance to climb CLIMBABLE furniture or terrain
         int climb = dex_cur;
         if( one_in( climb ) ) {
             add_msg_if_npc( m_neutral, _( "%1$s falls tries to climb the %2$s but slips." ),
@@ -1996,10 +2003,10 @@ void npc::activate_item(int item_index)
     item *it = &i_at(item_index);
     if (it->is_tool()) {
         const auto tool = dynamic_cast<const it_tool *>(it->type);
-        tool->invoke( this, it, pos3() );
+        tool->invoke( this, it, pos() );
     } else if (it->is_food()) {
         const auto comest = dynamic_cast<const it_comest *>(it->type);
-        comest->invoke( this, it, pos3() );
+        comest->invoke( this, it, pos() );
     }
 
     if( moves == oldmoves ) {
@@ -2021,10 +2028,10 @@ bool thrown_item(item *used)
 
 void npc::heal_player(player &patient)
 {
-    int dist = rl_dist( pos3(), patient.pos3() );
+    int dist = rl_dist( pos(), patient.pos() );
 
     if (dist > 1) { // We need to move to the player
-        update_path( patient.pos3() );
+        update_path( patient.pos() );
         move_to_next();
     } else { // Close enough to heal!
         int lowest_HP = 400;
@@ -2064,6 +2071,7 @@ void npc::heal_player(player &patient)
         }
 
         int amount_healed = 0;
+        ///\EFFECT_FIRSTAID_NPC increases healing effects of first aid kit or bandages for player
         if (has_amount("1st_aid", 1)) {
             switch (worst) {
             case hp_head:
@@ -2125,6 +2133,7 @@ void npc::heal_self()
         }
     }
 
+    ///\EFFECT_FIRSTAID_NPC increases healing effects of first aid kit or bandages for self
     int amount_healed = 0;
     if (has_amount("1st_aid", 1)) {
         switch (worst) {
@@ -2225,7 +2234,7 @@ void npc::pick_and_eat()
 void npc::mug_player(player &mark)
 {
     if( rl_dist( pos(), mark.pos() ) > 1 ) { // We have to travel
-        update_path( mark.pos3() );
+        update_path( mark.pos() );
         move_to_next();
     } else {
         bool u_see_me   = g->u.sees( *this ),
@@ -2480,7 +2489,7 @@ void npc::go_to_destination()
     // sx and sy are now equal to the direction we need to move in
     tripoint dest( posx() + 8 * sx, posy() + 8 * sy, posz() );
     for( int i = 0; i < 8; i++ ) {
-        if( ( g->m.move_cost( dest ) > 0 ||
+        if( ( g->m.passable( dest ) ||
              //Needs 20% chance of bashing success to be considered for pathing
              g->m.bash_rating( smash_ability(), dest ) >= 2 ||
              g->m.open_door( dest, true, true ) ) &&

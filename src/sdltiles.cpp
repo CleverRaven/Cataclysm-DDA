@@ -7,6 +7,7 @@
 #include "catacharset.h"
 #include "cursesdef.h"
 #include "debug.h"
+#include "player.h"
 #include <cstring>
 #include <vector>
 #include <fstream>
@@ -37,17 +38,15 @@
 #   ifndef strcasecmp
 #       define strcasecmp StrCmpI
 #   endif
-#else
-#   include <wordexp.h>
 #endif
 
-#include "SDL2/SDL.h"
-#include "SDL2/SDL_ttf.h"
-#include "SDL2/SDL_image.h"
+#include <SDL.h>
+#include <SDL_ttf.h>
+#include <SDL_image.h>
 
 #ifdef SDL_SOUND
-#include "SDL2/SDL_mixer.h"
-#include "sounds.h"
+#   include <SDL_mixer.h>
+#   include "sounds.h"
 #endif
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
@@ -60,12 +59,15 @@ cata_tiles *tilecontext;
 static unsigned long lastupdate = 0;
 static unsigned long interval = 25;
 static bool needupdate = false;
+extern bool tile_iso;
 
 #ifdef SDL_SOUND
 /** The music we're currently playing. */
 Mix_Music *current_music = NULL;
 std::string current_playlist = "";
 size_t current_playlist_at = 0;
+size_t absolute_playlist_at = 0;
+std::vector<std::size_t> playlist_indexes;
 
 struct sound_effect {
     int volume;
@@ -95,6 +97,8 @@ struct music_playlist {
 };
 
 std::map<std::string, music_playlist> playlists;
+
+std::string current_soundpack_path = "";
 #endif
 
 /**
@@ -279,6 +283,25 @@ bool InitSDL()
     return true;
 }
 
+bool SetupRenderTarget()
+{
+    if( SDL_SetRenderDrawBlendMode( renderer, SDL_BLENDMODE_NONE ) != 0 ) {
+        dbg( D_ERROR ) << "SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_NONE) failed: " << SDL_GetError();
+        // Ignored for now, rendering could still work
+    }
+    display_buffer = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_TARGET, WindowWidth, WindowHeight);
+    if( display_buffer == nullptr ) {
+        dbg( D_ERROR ) << "Failed to create window buffer: " << SDL_GetError();
+        return false;
+    }
+    if( SDL_SetRenderTarget( renderer, display_buffer ) != 0 ) {
+        dbg( D_ERROR ) << "Failed to select render target: " << SDL_GetError();
+        return false;
+    }
+
+    return true;
+}
+
 //Registers, creates, and shows the Window!!
 bool WinCreate()
 {
@@ -289,8 +312,15 @@ bool WinCreate()
     WindowWidth = TERMINAL_WIDTH * fontwidth;
     WindowHeight = TERMINAL_HEIGHT * fontheight;
 
-    if (OPTIONS["FULLSCREEN"]) {
+    if( OPTIONS["SCALING_MODE"] != "none" ) {
+        window_flags |= SDL_WINDOW_RESIZABLE;
+        SDL_SetHint( SDL_HINT_RENDER_SCALE_QUALITY, OPTIONS["SCALING_MODE"].getValue().c_str() );
+    }
+
+    if (OPTIONS["FULLSCREEN"] == "fullscreen") {
         window_flags |= SDL_WINDOW_FULLSCREEN;
+    } else if (OPTIONS["FULLSCREEN"] == "windowedbl") {
+        window_flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
     }
 
     window = SDL_CreateWindow(version.c_str(),
@@ -305,7 +335,7 @@ bool WinCreate()
         dbg(D_ERROR) << "SDL_CreateWindow failed: " << SDL_GetError();
         return false;
     }
-    if (window_flags & SDL_WINDOW_FULLSCREEN) {
+    if (window_flags & SDL_WINDOW_FULLSCREEN || window_flags & SDL_WINDOW_FULLSCREEN_DESKTOP) {
         SDL_GetWindowSize(window, &WindowWidth, &WindowHeight);
         // Ignore previous values, use the whole window, but nothing more.
         TERMINAL_WIDTH = WindowWidth / fontwidth;
@@ -334,6 +364,17 @@ bool WinCreate()
         if( renderer == NULL ) {
             dbg( D_ERROR ) << "Failed to initialize accelerated renderer, falling back to software rendering: " << SDL_GetError();
             software_renderer = true;
+        } else if( !SetupRenderTarget() ) {
+            dbg( D_ERROR ) << "Failed to initialize display buffer under accelerated rendering, falling back to software rendering.";
+            software_renderer = true;
+            if (display_buffer != NULL) {
+                SDL_DestroyTexture(display_buffer);
+                display_buffer = NULL;
+            }
+            if( renderer != NULL ) {
+                SDL_DestroyRenderer( renderer );
+                renderer = NULL;
+            }
         }
     }
     if( software_renderer ) {
@@ -341,22 +382,12 @@ bool WinCreate()
         if( renderer == NULL ) {
             dbg( D_ERROR ) << "Failed to initialize software renderer: " << SDL_GetError();
             return false;
+        } else if( !SetupRenderTarget() ) {
+            dbg( D_ERROR ) << "Failed to initialize display buffer under software rendering, unable to continue.";
+            return false;
         }
     }
 
-    if( SDL_SetRenderDrawBlendMode( renderer, SDL_BLENDMODE_NONE ) != 0 ) {
-        dbg( D_ERROR ) << "SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_NONE) failed: " << SDL_GetError();
-        // Ignored for now, rendering could still work
-    }
-    display_buffer = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_TARGET, WindowWidth, WindowHeight);
-    if( display_buffer == nullptr ) {
-        dbg( D_ERROR ) << "Failed to create window buffer: " << SDL_GetError();
-        return false;
-    }
-    if( SDL_SetRenderTarget( renderer, display_buffer ) != 0 ) {
-        dbg( D_ERROR ) << "Failed to select render target: " << SDL_GetError();
-        return false;
-    }
     ClearScreen();
 
     // Errors here are ignored, worst case: the option does not work as expected,
@@ -592,7 +623,7 @@ void BitmapFont::OutputChar(long t, int x, int y, unsigned char color)
 }
 
 // only update if the set interval has elapsed
-void try_update()
+void try_sdl_update()
 {
     unsigned long now = SDL_GetTicks();
     if (now - lastupdate >= interval) {
@@ -601,6 +632,7 @@ void try_update()
         if( SDL_SetRenderTarget( renderer, NULL ) != 0 ) {
             dbg(D_ERROR) << "SDL_SetRenderTarget failed: " << SDL_GetError();
         }
+        SDL_RenderSetLogicalSize( renderer, WindowWidth, WindowHeight );
         if( SDL_RenderCopy( renderer, display_buffer, NULL, NULL ) != 0 ) {
             dbg(D_ERROR) << "SDL_RenderCopy failed: " << SDL_GetError();
         }
@@ -706,12 +738,16 @@ void curses_drawwindow(WINDOW *win)
         // When the terrain updates, predraw a black space around its edge
         // to keep various former interface elements from showing through the gaps
         // TODO: Maybe track down screen changes and use g->w_blackspace to draw this instead
+
+        //calculate width differences between map_font and font
+        int partial_width = std::max(TERRAIN_WINDOW_TERM_WIDTH * fontwidth - TERRAIN_WINDOW_WIDTH * map_font->fontwidth, 0);
+        int partial_height = std::max(TERRAIN_WINDOW_TERM_HEIGHT * fontheight - TERRAIN_WINDOW_HEIGHT * map_font->fontheight, 0);
         //Gap between terrain and lower window edge
-        FillRectDIB(win->x * fontwidth, (win->y + TERRAIN_WINDOW_TERM_HEIGHT - 1) * fontheight,
-                    TERRAIN_WINDOW_TERM_WIDTH * fontwidth, fontheight, COLOR_BLACK);
+        FillRectDIB(win->x * map_font->fontwidth, (win->y + TERRAIN_WINDOW_HEIGHT) * map_font->fontheight,
+                    TERRAIN_WINDOW_WIDTH * map_font->fontwidth + partial_width, partial_height, COLOR_BLACK);
         //Gap between terrain and sidebar
-        FillRectDIB((win->x + TERRAIN_WINDOW_TERM_WIDTH - 1) * fontwidth, win->y * fontheight,
-                    fontwidth, TERRAIN_WINDOW_TERM_HEIGHT * fontheight, COLOR_BLACK);
+        FillRectDIB((win->x + TERRAIN_WINDOW_WIDTH) * map_font->fontwidth, win->y * map_font->fontheight,
+                    partial_width, TERRAIN_WINDOW_HEIGHT * map_font->fontheight + partial_height, COLOR_BLACK);
         // Special font for the terrain window
         update = map_font->draw_window(win);
     } else if (g && win == g->w_overmap && overmap_font != NULL) {
@@ -732,6 +768,15 @@ void curses_drawwindow(WINDOW *win)
         int wwidth = win->width * font->fontwidth;
         int wheight = win->height * font->fontheight;
         FillRectDIB(offsetx, offsety, wwidth, wheight, COLOR_BLACK);
+        update = true;
+    } else if (g && win == g->w_pixel_minimap && OPTIONS["PIXEL_MINIMAP"]) {
+        // Make sure the entire minimap window is black before drawing.
+        FillRectDIB(win->x * fontwidth, win->y * fontheight,
+                    win->width * fontwidth, win->height * fontheight, COLOR_BLACK);
+        tilecontext->draw_minimap(
+            win->x * fontwidth, win->y * fontheight,
+            tripoint( g->u.pos().x, g->u.pos().y, g->ter_view_z ),
+            win->width * font->fontwidth, win->height * font->fontheight);
         update = true;
     } else {
         // Either not using tiles (tilecontext) or not the w_terrain window.
@@ -1125,7 +1170,7 @@ void CheckMessages()
         }
     }
     if (needupdate) {
-        try_update();
+        try_sdl_update();
     }
     if(quit) {
         endwin();
@@ -1249,7 +1294,6 @@ static void save_font_list()
     strcat(buf, "\\fonts");
     font_folder_list(fout, buf);
 #elif (defined _APPLE_ && defined _MACH_)
-
     /*
     // Well I don't know how osx actually works ....
     font_folder_list(fout, "/System/Library/Fonts");
@@ -1259,15 +1303,16 @@ static void save_font_list()
     wordexp("~/Library/Fonts", &exp, 0);
     font_folder_list(fout, exp.we_wordv[0]);
     wordfree(&exp);*/
-#elif (defined linux || defined __linux)
+#else // Other POSIX-ish systems
     font_folder_list(fout, "/usr/share/fonts");
     font_folder_list(fout, "/usr/local/share/fonts");
-    wordexp_t exp;
-    wordexp("~/.fonts", &exp, 0);
-    font_folder_list(fout, exp.we_wordv[0]);
-    wordfree(&exp);
+    char *home;
+    if( ( home = getenv( "HOME" ) ) ) {
+        std::string userfontdir = home;
+        userfontdir += "/.fonts";
+        font_folder_list( fout, userfontdir );
+    }
 #endif
-    //TODO: other systems
 
     bitmap_fonts->clear();
     delete bitmap_fonts;
@@ -1717,7 +1762,7 @@ bool input_context::get_coordinates(WINDOW* capture_win, int& x, int& y) {
         return false;
     }
 
-    if (tilecontext->tile_iso) {
+    if ( tile_iso && use_tiles ) {
         const int selected_column = (coordinate_x - win_left)/fw - (coordinate_y - win_top - fh - (capture_win->height * fh)/2)/(fw/2);
         const int selected_row = (coordinate_x - win_left)/fw + (coordinate_y - win_top - fh - (capture_win->height * fh)/2)/(fw/2);
         // add_msg( m_info, "c %d r %d", selected_column, selected_row );
@@ -1958,12 +2003,18 @@ bool is_draw_tiles_mode() {
     return use_tiles;
 }
 
+SDL_Color cursesColorToSDL(int color) {
+    // Extract the color pair ID.
+    int pair = (color & 0x03fe0000) >> 17;
+    return windowsPalette[colorpairs[pair].FG];
+}
+
 #ifdef SDL_SOUND
 
 void musicFinished();
 
 void play_music_file(std::string filename, int volume) {
-    const std::string path = (FILENAMES["datadir"] + "sound/" + filename);
+    const std::string path = ( current_soundpack_path + "/" + filename );
     current_music = Mix_LoadMUS(path.c_str());
     if( current_music == nullptr ) {
         dbg( D_ERROR ) << "Failed to load audio file " << path << ": " << Mix_GetError();
@@ -1993,12 +2044,14 @@ void musicFinished() {
     }
 
     // Load the next file to play.
-    current_playlist_at++;
+    absolute_playlist_at++;
 
     // Wrap around if we reached the end of the playlist.
-    if( current_playlist_at >= list.entries.size() ) {
-        current_playlist_at = 0;
+    if( absolute_playlist_at >= list.entries.size() ) {
+        absolute_playlist_at = 0;
     }
+
+    current_playlist_at = playlist_indexes.at( absolute_playlist_at );
 
     const auto &next = list.entries[current_playlist_at];
     play_music_file( next.file, next.volume );
@@ -2021,10 +2074,17 @@ void play_music(std::string playlist) {
         return;
     }
 
-    current_playlist = playlist;
-    current_playlist_at = 0;
+    for( size_t i = 0; i < list.entries.size(); i++ ) {
+        playlist_indexes.push_back( i );
+    }
+    if( list.shuffle ) {
+        std::random_shuffle( playlist_indexes.begin(), playlist_indexes.end() );
+    }
 
-    const auto &next = list.entries[0];
+    current_playlist = playlist;
+    current_playlist_at = playlist_indexes.at( absolute_playlist_at );
+
+    const auto &next = list.entries[current_playlist_at];
     play_music_file( next.file, next.volume );
 #else
     (void)playlist;
@@ -2041,7 +2101,7 @@ void sfx::load_sound_effects( JsonObject &jsobj ) {
     while( jsarr.has_more() ) {
         sound_effect new_sound_effect;
         const std::string file = jsarr.next_string();
-        std::string path = ( FILENAMES[ "datadir" ] + "sound/" + file );
+        std::string path = ( current_soundpack_path + "/" + file );
         new_sound_effect.chunk.reset( Mix_LoadWAV( path.c_str() ) );
         if( !new_sound_effect.chunk ) {
             dbg( D_ERROR ) << "Failed to load audio file " << path << ": " << Mix_GetError();
@@ -2220,8 +2280,32 @@ void sfx::play_ambient_variant_sound( std::string id, std::string variant, int v
 
 void load_soundset() {
 #ifdef SDL_SOUND
+    const std::string default_path = FILENAMES["defaultsounddir"];
+    const std::string default_soundpack = "basic";
+    std::string current_soundpack = OPTIONS["SOUNDPACKS"].getValue();
+    std::string soundpack_path;
+
+    // Get curent soundpack and it's directory path.
+    if (current_soundpack.empty()) {
+        dbg( D_ERROR ) << "Soundpack not set in OPTIONS. Corrupted options or empty soundpack name";
+        soundpack_path = default_path;
+        current_soundpack = default_soundpack;
+    } else {
+        dbg( D_INFO ) << "Current OPTIONS soundpack is: " << current_soundpack;
+        soundpack_path = SOUNDPACKS[current_soundpack];
+    }
+
+    if (soundpack_path.empty()) {
+        dbg( D_ERROR ) << "Soundpack with name " << current_soundpack << " can't be found or empty string";
+        soundpack_path = default_path;
+        current_soundpack = default_soundpack;
+    } else {
+        dbg( D_INFO ) << '"' << current_soundpack << '"' << " soundpack: found path: " << soundpack_path;
+    }
+
+    current_soundpack_path = soundpack_path;
     try {
-        DynamicDataLoader::get_instance().load_data_from_path( FILENAMES["datadir"] + "sound/" );
+        DynamicDataLoader::get_instance().load_data_from_path( soundpack_path );
     } catch( const std::exception &err ) {
         dbg( D_ERROR ) << "failed to load sounds: " << err.what();
     }

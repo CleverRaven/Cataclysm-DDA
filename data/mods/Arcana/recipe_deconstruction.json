@@ -1,6 +1,17 @@
 [
 {
   "type" : "recipe",
+  "result": "scroll_blank",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "subcategory": "CSC_NONCRAFT",
+  "difficulty": 0,
+  "time": 100,
+  "reversible": true,
+  "autolearn": false,
+  "components": [ [ [ "paper", 5 ] ] ]
+},{
+  "type" : "recipe",
   "result": "silver_glyph",
   "id_suffix": "uncraft",
   "category": "CC_NONCRAFT",
@@ -32,7 +43,7 @@
   "category": "CC_NONCRAFT",
   "subcategory": "CSC_NONCRAFT",
   "skill_used": "magic",
-  "difficulty": 0,
+  "difficulty": 1,
   "time": 50000,
   "reversible": true,
   "autolearn": false,
@@ -45,7 +56,7 @@
   "category": "CC_NONCRAFT",
   "subcategory": "CSC_NONCRAFT",
   "skill_used": "magic",
-  "difficulty": 2,
+  "difficulty": 4,
   "time": 50000,
   "reversible": true,
   "autolearn": false,
@@ -53,6 +64,24 @@
   "components": [
     [ [ "gold_small", 625 ] ],
     [ [ "essence_dull", 30 ] ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "robe_shadow",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "subcategory": "CSC_NONCRAFT",
+  "skill_used": "magic",
+  "difficulty": 7,
+  "time": 50000,
+  "reversible": true,
+  "autolearn": false,
+  "qualities" : [{"id":"CUT","level":1,"amount":1}],
+  "tools": [ [ [ "hexenhammer", -1 ] ] ],
+  "components": [
+    [ [ "rag", 19 ] ],
+    [ [ "fur", 4 ] ],
+    [ [ "essence_dull", 105 ] ]
   ]
 },{
   "type" : "recipe",
@@ -77,7 +106,7 @@
   "category": "CC_NONCRAFT",
   "subcategory": "CSC_NONCRAFT",
   "skill_used": "magic",
-  "difficulty": 4,
+  "difficulty": 7,
   "time": 50000,
   "reversible": true,
   "autolearn": false,
@@ -94,7 +123,7 @@
   "category": "CC_NONCRAFT",
   "subcategory": "CSC_NONCRAFT",
   "skill_used": "magic",
-  "difficulty": 4,
+  "difficulty": 2,
   "time": 50000,
   "reversible": true,
   "autolearn": false,
@@ -102,6 +131,23 @@
   "components": [
     [ [ "silver_small", 165 ] ],
     [ [ "essence_dull", 15 ] ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "armor_wyrm",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "subcategory": "CSC_NONCRAFT",
+  "skill_used": "magic",
+  "difficulty": 3,
+  "time": 50000,
+  "reversible": true,
+  "autolearn": false,
+  "qualities" : [{"id":"CUT","level":1,"amount":1}],
+  "tools": [ [ [ "hexenhammer", -1 ] ] ],
+  "components": [
+    [ [ "leather", 42 ] ],
+    [ [ "essence_dull", 20 ] ]
   ]
 },{
   "type" : "recipe",
@@ -186,7 +232,7 @@
   ]
 },{
   "type" : "recipe",
-  "result": "summon_flying_polyp",
+  "result": "summon_dark_wyrm",
   "id_suffix": "uncraft",
   "category": "CC_NONCRAFT",
   "subcategory": "CSC_NONCRAFT",
@@ -218,7 +264,7 @@
   ]
 },{
   "type" : "recipe",
-  "result": "summon_yugg",
+  "result": "summon_jabberwock",
   "id_suffix": "uncraft",
   "category": "CC_NONCRAFT",
   "subcategory": "CSC_NONCRAFT",
@@ -231,6 +277,38 @@
   "components": [
     [ [ "silver_small", 95 ] ],
     [ [ "essence_dull", 60 ] ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "summon_flying_polyp",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "subcategory": "CSC_NONCRAFT",
+  "skill_used": "magic",
+  "difficulty": 8,
+  "time": 50000,
+  "reversible": true,
+  "autolearn": false,
+  "tools": [ [ [ "hexenhammer", -1 ] ] ],
+  "components": [
+    [ [ "silver_small", 95 ] ],
+    [ [ "essence_dull", 60 ] ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "summon_yugg",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "subcategory": "CSC_NONCRAFT",
+  "skill_used": "magic",
+  "difficulty": 9,
+  "time": 50000,
+  "reversible": true,
+  "autolearn": false,
+  "tools": [ [ [ "hexenhammer", -1 ] ] ],
+  "components": [
+    [ [ "silver_small", 95 ] ],
+    [ [ "essence_dull", 75 ] ]
   ]
 },{
   "type" : "recipe",
@@ -266,6 +344,23 @@
   ]
 },{
   "type" : "recipe",
+  "result": "spear_pestilence",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "subcategory": "CSC_NONCRAFT",
+  "skill_used": "magic",
+  "difficulty": 6,
+  "time": 50000,
+  "reversible": true,
+  "autolearn": false,
+  "tools": [ [ [ "hexenhammer", -1 ] ] ],
+  "components": [
+    [ [ "scrap", 10 ] ],
+    [ [ "meal_chitin_piece", 8 ] ],
+    [ [ "essence_dull", 60 ] ]
+  ]
+},{
+  "type" : "recipe",
   "result": "scroll_sun",
   "id_suffix": "uncraft",
   "category": "CC_NONCRAFT",
@@ -275,7 +370,10 @@
   "time": 50000,
   "reversible": true,
   "autolearn": false,
-  "tools": [ [ [ "hexenhammer", -1 ] ] ],
+  "tools": [
+    [ [ "hexenhammer", -1 ] ],
+    [ [ "fire", -1 ] ]
+  ],
   "components": [
     [ [ "essence_dull", 15 ] ]
   ]
@@ -290,7 +388,10 @@
   "time": 50000,
   "reversible": true,
   "autolearn": false,
-  "tools": [ [ [ "hexenhammer", -1 ] ] ],
+  "tools": [
+    [ [ "hexenhammer", -1 ] ],
+    [ [ "fire", -1 ] ]
+  ],
   "components": [
     [ [ "essence_dull", 15 ] ]
   ]
@@ -305,7 +406,10 @@
   "time": 50000,
   "reversible": true,
   "autolearn": false,
-  "tools": [ [ [ "hexenhammer", -1 ] ] ],
+  "tools": [
+    [ [ "hexenhammer", -1 ] ],
+    [ [ "fire", -1 ] ]
+  ],
   "components": [
     [ [ "essence_dull", 30 ] ]
   ]
@@ -320,7 +424,10 @@
   "time": 50000,
   "reversible": true,
   "autolearn": false,
-  "tools": [ [ [ "hexenhammer", -1 ] ] ],
+  "tools": [
+    [ [ "hexenhammer", -1 ] ],
+    [ [ "fire", -1 ] ]
+  ],
   "components": [
     [ [ "essence_dull", 30 ] ]
   ]
@@ -335,7 +442,10 @@
   "time": 50000,
   "reversible": true,
   "autolearn": false,
-  "tools": [ [ [ "hexenhammer", -1 ] ] ],
+  "tools": [
+    [ [ "hexenhammer", -1 ] ],
+    [ [ "fire", -1 ] ]
+  ],
   "components": [
     [ [ "essence_dull", 45 ] ]
   ]
@@ -350,7 +460,10 @@
   "time": 50000,
   "reversible": true,
   "autolearn": false,
-  "tools": [ [ [ "hexenhammer", -1 ] ] ],
+  "tools": [
+    [ [ "hexenhammer", -1 ] ],
+    [ [ "fire", -1 ] ]
+  ],
   "components": [
     [ [ "essence_dull", 45 ] ]
   ]
@@ -370,7 +483,7 @@
     [ [ "book_hexenhammer", -1 ] ],
     [ [ "fire", -1 ] ]
   ],
-  "components": [ [ [ "essence_dull", 100 ] ] ]
+  "components": [ [ [ "essence_dull", 150 ] ] ]
 },{
   "type" : "recipe",
   "result": "scourge_staff",
@@ -387,7 +500,7 @@
     [ [ "book_hexenhammer", -1 ] ],
     [ [ "fire", -1 ] ]
   ],
-  "components": [ [ [ "essence_dull", 100 ] ] ]
+  "components": [ [ [ "essence_dull", 150 ] ] ]
 },{
   "type" : "recipe",
   "result": "stormbringer",
@@ -405,7 +518,7 @@
     [ [ "fire", -1 ] ]
   ],
   "components": [
-    [ [ "essence_dull", 100 ] ]
+    [ [ "essence_dull", 150 ] ]
   ]
 },{
   "type" : "recipe",
@@ -424,7 +537,7 @@
     [ [ "fire", -1 ] ]
   ],
   "components": [
-    [ [ "essence_dull", 100 ] ]
+    [ [ "essence_dull", 150 ] ]
   ]
 }
 ]

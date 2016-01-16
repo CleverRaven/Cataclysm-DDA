@@ -23,6 +23,10 @@ MinGW version 4.9.0 is currently building the project, but has a few rough edges
 This is the preferred compiler for building on Windows, and is the compiler we use to cross-compile for Windows experimental and release builds.
 MinGW-w64 is currently building the project.  Input on the earliest version that will successfully compile the project is welcome.
 
+## MSYS2
+
+MSYS2 is an alternate way to build the project on Windows. It has a great package manager called Pacman which was ported from Arch Linux. It's as close to a Linux system as a (native) Windows can get (Arch in particular) and allows for simple updating of all the installed packages. You need the latest version of some packages in order for the provided instructions to work properly. To be specific, you will need mingw-w64-x86_64-SDL2_mixer >= 2.0.0-6 if you want sound support.
+
 ## Visual Studio
 
 MSVC 14 can build Cataclysm and we have project files for it in msvc140/.  We strongly suspect that MSVC 13 and earlier are incapable of building Cataclysm and we've removed their project files.  If we can support MSVC 13, feel free to restore the project files.

@@ -3,7 +3,7 @@
         "type": "profession",
         "ident": "wanderer",
         "name": "Wanderer",
-        "description": "You always prefered the comfort of the open sky, far from the complexities of modern life.  Though from the looks of it, things have changed since last time you've been anywhere near civilization.",
+        "description": "You always preferred the comfort of the open sky, far from the complexities of modern life.  Though from the looks of it, things have changed since last time you've been anywhere near civilization.",
         "points": 5,
         "skills": [
             {

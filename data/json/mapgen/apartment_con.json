@@ -1,0 +1,428 @@
+[
+    {
+        "type": "mapgen",
+        "om_terrain": ["apartments_con_tower_NW"],
+        "method": "json",
+        "weight": 250,
+        "object": {
+            "fill_ter": "t_floor",
+            "rows": [
+                "                        ",
+                "   |------|-|-|ww---|   ",
+                "   |.dBBd.+r|u+..eSc|-w-",
+                "   w..BB..|-|-|....c|...",
+                "   w.h....|STb|....O|.hc",
+                "   |cxc...+.fb|..ccc|cxc",
+                "   |--|-+-|-+-|.....|-ww",
+                "   RssX.............|^..",
+                "   Rssw..F..........D...",
+                "   Rssw..F.......|+-|...",
+                "   Rss|..F...FFF^|.r|...",
+                "   |------|-|-|--|--|...",
+                "   |.dBBd.+r|u+..eSc|...",
+                "   w..BB..|-|-|....c|...",
+                "   w......|STb|....O|...",
+                "   |od....+.fb|..ccc|...",
+                "   |--|-+-|-+-|...hh|...",
+                "   RssX.............|...",
+                "   Rssw.............D...",
+                "   Rssw..A.....F.|+-|...",
+                "   Rss|.....FFFF^|.r|...",
+                "   |------------||--|...",
+                "   |############|EEE=...",
+                "   |############|EEx=..."
+            ],
+            "terrain": {
+                "E": "t_elevator",
+                ">": "t_stairs_down",
+                "<": "t_stairs_up",
+                "R": "t_railing_v",
+                "#": "t_rock",
+                "G": "t_door_glass_c",
+                "x": "t_console_broken",
+                "%": "t_shrub",
+                "-": "t_wall",
+                "|": "t_wall",
+                "+": "t_door_c",
+                "D": "t_door_locked_interior",
+                "=": "t_door_metal_c",
+                "X": "t_door_locked",
+                "w": "t_window",
+                "s": "t_sidewalk",
+                " ": [ "t_grass", "t_grass", "t_grass", "t_dirt" ]
+            },
+            "furniture": {
+                "u": "f_cupboard",
+                "A": "f_armchair",
+                "F": "f_sofa",
+                "r": "f_rack",
+                "^": "f_indoor_plant",
+                "t": "f_table",
+                "B": "f_bed",
+                "b": "f_bathtub",
+                "T": "f_toilet",
+                "S": "f_sink",
+                "e": "f_fridge",
+                "O": "f_oven",
+                "h": "f_chair",
+                "c": "f_counter",
+                "d": "f_dresser",
+                "l": "f_locker",
+                "o": "f_bookcase"
+            },
+            "items": {
+                "d": { "item": "dresser", "chance": 70 },
+                "r": [
+                    { "item": "dresser", "chance": 30 },
+                    { "item": "jackets", "chance": 60 }
+                ],
+                "e": { "item": "fridge", "chance": 70 },
+                "O": { "item": "oven", "chance": 70 },
+                "u": [
+                    { "item": "cleaning", "chance": 50 },
+                    { "item": "home_hw", "chance": 30 },
+                    { "item": "cannedfood", "chance": 50 },
+                    { "item": "pasta", "chance": 50 }
+                ],
+                "o": [
+                    { "item": "magazines", "chance": 30 },
+                    { "item": "novels", "chance": 40 },
+                    { "item": "alcohol", "chance": 30 },
+                    { "item": "manuals", "chance": 20 }
+                ],
+                "S": [
+                    { "item": "softdrugs", "chance": 70 },
+                    { "item": "cleaning", "chance": 50 }
+                ],
+                "f": [
+                    { "item": "magazines", "chance": 70 },
+                    { "item": "novels", "chance": 50 }
+                ],
+                "B": { "item": "bed", "chance": 15 }
+            },
+            "toilets": {
+                "T": { }
+            },
+            "place_monsters": [
+                { "monster": "GROUP_ZOMBIE", "x": [ 4, 23 ], "y": [ 2, 23 ], "repeat": [1, 2] }
+            ]
+        }
+    },{
+        "type": "mapgen",
+        "om_terrain": ["apartments_con_tower_NE"],
+        "method": "json",
+        "weight": 250,
+        "object": {
+            "fill_ter": "t_floor",
+            "rows": [
+               "                        ",
+               "   |---ww|-|-|------|   ",
+               "-w-|cSe..+u|r+.dBBd.|   ",
+               "..l|c....|-|-|..BB..w   ",
+               "..l|O....|bTS|......w   ",
+               "...|ccc..|bf.+....d.|   ",
+               "-D-|.hh..|-+-|-+-|--|   ",
+               "...|.............XssR   ",
+               "...D.............wssR   ",
+               "...|-+|..........wssR   ",
+               "...|r.|oo.FFFF..^|ssR   ",
+               "...|--|--|-|-|------|   ",
+               "...|cSe..+u|r+.dBBd.|   ",
+               "...|c....|-|-|..BB..w   ",
+               "...|O....|bTS|......w   ",
+               "...|ccc..|bf.+....d.|   ",
+               "..^|h.h..|-+-|-+-|--|   ",
+               "...|.............XssR   ",
+               "...D......A......wssR   ",
+               "...|-+|..........wssR   ",
+               "...|r.|^....FFF.o|ssR   ",
+               "...|--||------------|   ",
+               "...=xEE|############|   ",
+               "...=EEE|############|   "
+            ],
+            "terrain": {
+                "E": "t_elevator",
+                ">": "t_stairs_down",
+                "<": "t_stairs_up",
+                "R": "t_railing_v",
+                "#": "t_rock",
+                "G": "t_door_glass_c",
+                "x": "t_console_broken",
+                "%": "t_shrub",
+                "-": "t_wall",
+                "|": "t_wall",
+                "+": "t_door_c",
+                "D": "t_door_locked_interior",
+                "=": "t_door_metal_c",
+                "X": "t_door_locked",
+                "w": "t_window",
+                "s": "t_sidewalk",
+                " ": [ "t_grass", "t_grass", "t_grass", "t_dirt" ]
+            },
+            "furniture": {
+                "u": "f_cupboard",
+                "A": "f_armchair",
+                "F": "f_sofa",
+                "r": "f_rack",
+                "^": "f_indoor_plant",
+                "t": "f_table",
+                "B": "f_bed",
+                "b": "f_bathtub",
+                "T": "f_toilet",
+                "S": "f_sink",
+                "e": "f_fridge",
+                "O": "f_oven",
+                "h": "f_chair",
+                "c": "f_counter",
+                "d": "f_dresser",
+                "l": "f_locker",
+                "o": "f_bookcase"
+            },
+            "items": {
+                "l": { "item": "office", "chance": 70 },
+                "d": { "item": "dresser", "chance": 70 },
+                "r": [
+                    { "item": "dresser", "chance": 30 },
+                    { "item": "jackets", "chance": 60 }
+                ],
+                "e": { "item": "fridge", "chance": 70 },
+                "O": { "item": "oven", "chance": 70 },
+                "u": [
+                    { "item": "cleaning", "chance": 50 },
+                    { "item": "home_hw", "chance": 30 },
+                    { "item": "cannedfood", "chance": 50 },
+                    { "item": "pasta", "chance": 50 }
+                ],
+                "o": [
+                    { "item": "magazines", "chance": 30 },
+                    { "item": "novels", "chance": 40 },
+                    { "item": "alcohol", "chance": 30 },
+                    { "item": "manuals", "chance": 20 }
+                ],
+                "S": [
+                    { "item": "softdrugs", "chance": 70 },
+                    { "item": "cleaning", "chance": 50 }
+                ],
+                "f": [
+                    { "item": "magazines", "chance": 70 },
+                    { "item": "novels", "chance": 50 }
+                ],
+                "B": { "item": "bed", "chance": 15 }
+            },
+            "toilets": {
+                "T": { }
+            },
+            "place_monsters": [
+                { "monster": "GROUP_ZOMBIE", "x": [ 0, 19 ], "y": [ 2, 23 ], "repeat": [1, 2] }
+            ]
+        }
+    },{
+        "type": "mapgen",
+        "om_terrain": ["apartments_con_tower_SW"],
+        "method": "json",
+        "weight": 250,
+        "object": {
+            "fill_ter": "t_floor",
+            "rows": [
+               "   |------|-|-|-|---|...",
+               "   |.dBBd.+r|u+..eSc|...",
+               "   w..BB..|-|-|....c|...",
+               "   w......|STb|....O|...",
+               "   |oo....+..b|..ccc|^..",
+               "   |--|-+-|-+-|..hhh|...",
+               "   RssX.............|...",
+               "   Rssw.............D...",
+               "   Rssw..A....A..|+-|...",
+               "   Rss|...FFF...^|.r|...",
+               "   |------|-|-|--|--|...",
+               "   |.dBBd.+r|u+..eSc|...",
+               "   w..BB..|-|-|....c|...",
+               "   w......|STb|....O|...",
+               "   |.d....+..b|..ccc|...",
+               "   |--|-+-|-+-|....^|...",
+               "   RssX...A.........|...",
+               "   Rssw.............D...",
+               "   Rssw.........o|+-|...",
+               "   Rss|..A.FFF..o|.r|...",
+               "   |--|--ww---ww-|--|w-G",
+               "                      ss",
+               "                      ss",
+               "                      ss"
+            ],
+            "terrain": {
+                "E": "t_elevator",
+                ">": "t_stairs_down",
+                "<": "t_stairs_up",
+                "R": "t_railing_v",
+                "#": "t_rock",
+                "G": "t_door_glass_c",
+                "x": "t_console_broken",
+                "%": "t_shrub",
+                "-": "t_wall",
+                "|": "t_wall",
+                "+": "t_door_c",
+                "D": "t_door_locked_interior",
+                "=": "t_door_metal_c",
+                "X": "t_door_locked",
+                "w": "t_window",
+                "s": "t_sidewalk",
+                " ": [ "t_grass", "t_grass", "t_grass", "t_dirt" ]
+            },
+            "furniture": {
+                "u": "f_cupboard",
+                "A": "f_armchair",
+                "F": "f_sofa",
+                "r": "f_rack",
+                "^": "f_indoor_plant",
+                "t": "f_table",
+                "B": "f_bed",
+                "b": "f_bathtub",
+                "T": "f_toilet",
+                "S": "f_sink",
+                "e": "f_fridge",
+                "O": "f_oven",
+                "h": "f_chair",
+                "c": "f_counter",
+                "d": "f_dresser",
+                "l": "f_locker",
+                "o": "f_bookcase"
+            },
+            "items": {
+                "d": { "item": "dresser", "chance": 70 },
+                "r": [
+                    { "item": "dresser", "chance": 30 },
+                    { "item": "jackets", "chance": 60 }
+                ],
+                "e": { "item": "fridge", "chance": 70 },
+                "O": { "item": "oven", "chance": 70 },
+                "u": [
+                    { "item": "cleaning", "chance": 50 },
+                    { "item": "home_hw", "chance": 30 },
+                    { "item": "cannedfood", "chance": 50 },
+                    { "item": "pasta", "chance": 50 }
+                ],
+                "o": [
+                    { "item": "magazines", "chance": 30 },
+                    { "item": "novels", "chance": 40 },
+                    { "item": "alcohol", "chance": 30 },
+                    { "item": "manuals", "chance": 20 }
+                ],
+                "B": { "item": "bed", "chance": 15 }
+            },
+            "toilets": {
+                "T": { }
+            },
+            "place_monsters": [
+                { "monster": "GROUP_ZOMBIE", "x": [ 4, 23 ], "y": [ 0, 19 ], "repeat": [1, 2] }
+            ]
+        }
+    },{
+        "type": "mapgen",
+        "om_terrain": ["apartments_con_tower_SE"],
+        "method": "json",
+        "weight": 250,
+        "object": {
+            "fill_ter": "t_floor",
+            "rows": [
+               "...|---|-|-|-|------|   ",
+               "...|cSe..+u|r+.dBBd.|   ",
+               "...|c....|-|-|..BB..w   ",
+               "...|O....|bTS|......w   ",
+               "...|ccc..|bf.+....d.|   ",
+               "...|.....|-+-|-+-|--|   ",
+               "...|.............+ssR   ",
+               "...D.............wssR   ",
+               "...|-+|...htth...wssR   ",
+               "...|r.|^..htth.oo|ssR   ",
+               "...|--|--|-|-|------|   ",
+               "...|cSe..+u|r+.dBBd.|   ",
+               "..^|c....|-|-|..BB..w   ",
+               "...|O....|bTS|......w   ",
+               "...|ccc..|bf.+....d.|   ",
+               "...|.....|-+-|-+-|--|   ",
+               "...|.............+ssR   ",
+               "...D...........A.wssR   ",
+               "...|-+|..A...h...wssR   ",
+               "...|r.|o....cxc.^|ssR   ",
+               "G-w|--|-ww---ww--|--|   ",
+               "ss                      ",
+               "ss                      ",
+               "ss                      "
+            ],
+            "terrain": {
+                "E": "t_elevator",
+                ">": "t_stairs_down",
+                "<": "t_stairs_up",
+                "R": "t_railing_v",
+                "#": "t_rock",
+                "G": "t_door_glass_c",
+                "x": "t_console_broken",
+                "%": "t_shrub",
+                "-": "t_wall",
+                "|": "t_wall",
+                "+": "t_door_c",
+                "D": "t_door_locked_interior",
+                "=": "t_door_metal_c",
+                "X": "t_door_locked",
+                "w": "t_window",
+                "s": "t_sidewalk",
+                " ": [ "t_grass", "t_grass", "t_grass", "t_dirt" ]
+            },
+            "furniture": {
+                "u": "f_cupboard",
+                "A": "f_armchair",
+                "F": "f_sofa",
+                "r": "f_rack",
+                "^": "f_indoor_plant",
+                "t": "f_table",
+                "B": "f_bed",
+                "b": "f_bathtub",
+                "T": "f_toilet",
+                "S": "f_sink",
+                "e": "f_fridge",
+                "O": "f_oven",
+                "h": "f_chair",
+                "c": "f_counter",
+                "d": "f_dresser",
+                "l": "f_locker",
+                "o": "f_bookcase"
+            },
+            "items": {
+                "d": { "item": "dresser", "chance": 70 },
+                "r": [
+                    { "item": "dresser", "chance": 30 },
+                    { "item": "jackets", "chance": 60 }
+                ],
+                "e": { "item": "fridge", "chance": 70 },
+                "O": { "item": "oven", "chance": 70 },
+                "u": [
+                    { "item": "cleaning", "chance": 50 },
+                    { "item": "home_hw", "chance": 30 },
+                    { "item": "cannedfood", "chance": 50 },
+                    { "item": "pasta", "chance": 50 }
+                ],
+                "o": [
+                    { "item": "magazines", "chance": 30 },
+                    { "item": "novels", "chance": 40 },
+                    { "item": "alcohol", "chance": 30 },
+                    { "item": "manuals", "chance": 20 }
+                ],
+                "S": [
+                    { "item": "softdrugs", "chance": 70 },
+                    { "item": "cleaning", "chance": 50 }
+                ],
+                "f": [
+                    { "item": "magazines", "chance": 70 },
+                    { "item": "novels", "chance": 50 }
+                ],
+                "B": { "item": "bed", "chance": 60 }
+            },
+            "toilets": {
+                "T": { }
+            },
+            "place_monsters": [
+                { "monster": "GROUP_ZOMBIE", "x": [ 0, 19 ], "y": [ 0, 19 ], "repeat": [1, 2] }
+            ]
+        }
+    }
+]

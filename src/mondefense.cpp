@@ -15,7 +15,8 @@ void mdefense::none( monster &, Creature *, const dealt_projectile_attack * )
 {
 }
 
-void mdefense::zapback( monster &m, Creature *const source, dealt_projectile_attack const *const proj )
+void mdefense::zapback( monster &m, Creature *const source,
+                        dealt_projectile_attack const *const proj )
 {
     // Not a melee attack, attacker lucked out or out of range
     if( source == nullptr || proj != nullptr ||
@@ -60,7 +61,8 @@ static int sign( int arg )
     return 0;
 }
 
-void mdefense::acidsplash( monster &m, Creature *const source, dealt_projectile_attack const *const proj )
+void mdefense::acidsplash( monster &m, Creature *const source,
+                           dealt_projectile_attack const *const proj )
 {
     // Would be useful to have the attack data here, for cutting vs. bashing etc.
     if( proj != nullptr && proj->dealt_dam.total_damage() <= 0 ) {
@@ -89,8 +91,8 @@ void mdefense::acidsplash( monster &m, Creature *const source, dealt_projectile_
                 source->deal_damage( &m, bp_hand_r, burn );
             }
 
-            source->add_msg_if_player( m_bad,
-                _("Acid covering %s burns your hand!"), m.disp_name().c_str() );
+            source->add_msg_if_player( m_bad, _( "Acid covering %s burns your hand!" ),
+                                       m.disp_name().c_str() );
         }
     }
 
