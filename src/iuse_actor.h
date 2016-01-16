@@ -624,6 +624,9 @@ class holster_actor : public iuse_actor
         /** Check if obj could be stored in the holster */
         bool can_holster( const item& obj ) const;
 
+        /** Store an object in the holster */
+        bool store( player &p, item& holster, item& obj ) const;
+
         holster_actor() : iuse_actor(), max_weight( -1 ), multi( 1 ), draw_cost( VOLUME_MOVE_COST ) { }
         virtual ~holster_actor() { }
         virtual void load( JsonObject &jo );

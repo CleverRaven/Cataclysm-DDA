@@ -1809,6 +1809,50 @@ bool holster_actor::can_holster( const item& obj ) const {
            std::find( skills.begin(), skills.end(), obj.gun_skill() ) != skills.end();
 }
 
+bool holster_actor::store( player &p, item& holster, item& obj ) const
+{
+    if( obj.is_null() || holster.is_null() ) {
+        debugmsg( "Null item was passed to holster_actor" );
+        return false;
+    }
+
+    // if selected item is unsuitable inform the player why not
+    if( obj.volume() > max_volume ) {
+        p.add_msg_if_player( m_info, _( "Your %s is too big to fit in your %s" ),
+                             obj.tname().c_str(), holster.tname().c_str() );
+        return false;
+    }
+
+    if( obj.volume() < min_volume ) {
+        p.add_msg_if_player( m_info, _( "Your %s is too small to fit in your %s" ),
+                              obj.tname().c_str(), holster.tname().c_str() );
+        return false;
+    }
+
+    if( max_weight > 0 && obj.weight() > max_weight ) {
+        p.add_msg_if_player( m_info, _( "Your %s is too heavy to fit in your %s" ),
+                             obj.tname().c_str(), holster.tname().c_str() );
+        return false;
+    }
+
+    if( std::none_of( flags.begin(), flags.end(), [&]( const std::string & f ) { return obj.has_flag( f ); } ) &&
+        std::find( skills.begin(), skills.end(), obj.gun_skill() ) == skills.end() )
+    {
+       p.add_msg_if_player( m_info, _( "You can't put your %s in your %s" ),
+                             obj.tname().c_str(), holster.tname().c_str() );
+        return false;
+    }
+
+
+    p.add_msg_if_player( holster_msg.empty() ? _( "You holster your %s" ) : _( holster_msg.c_str() ),
+                         obj.tname().c_str(), holster.tname().c_str() );
+
+    // holsters ignore penalty effects (eg. GRABBED) when determining number of moves to consume
+    p.store( &holster, &obj, draw_cost, false );
+    return true;
+}
+
+
 long holster_actor::use( player *p, item *it, bool, const tripoint & ) const
 {
     std::string prompt = holster_prompt.empty() ? _( "Holster item" ) : _( holster_prompt.c_str() );
@@ -1838,45 +1882,15 @@ long holster_actor::use( player *p, item *it, bool, const tripoint & ) const
     if( pos >= 0 ) {
         // holsters ignore penalty effects (eg. GRABBED) when determining number of moves to consume
         p->wield_contents( it, pos, draw_cost, false );
+
     } else {
         item &obj = p->i_at( g->inv_for_filter( prompt, [&](const item& e) { return can_holster(e); } ) );
-
         if( obj.is_null() ) {
             p->add_msg_if_player( _( "Never mind." ) );
             return 0;
         }
 
-        // if selected item is unsuitable inform the player why not
-        if( obj.volume() > max_volume ) {
-            p->add_msg_if_player( m_info, _( "Your %s is too big to fit in your %s" ),
-                                  obj.tname().c_str(), it->tname().c_str() );
-            return 0;
-        }
-        if( obj.volume() < min_volume ) {
-            p->add_msg_if_player( m_info, _( "Your %s is too small to fit in your %s" ),
-                                  obj.tname().c_str(), it->tname().c_str() );
-            return 0;
-        }
-        if( max_weight > 0 && obj.weight() > max_weight ) {
-            p->add_msg_if_player( m_info, _( "Your %s is too heavy to fit in your %s" ),
-                                  obj.tname().c_str(), it->tname().c_str() );
-            return 0;
-        }
-
-        if( std::none_of( flags.begin(), flags.end(), [&]( const std::string & f ) {
-        return obj.has_flag( f );
-        } ) &&
-        std::find( skills.begin(), skills.end(), obj.gun_skill() ) == skills.end() ) {
-            p->add_msg_if_player( m_info, _( "You can't put your %s in your %s" ),
-                                  obj.tname().c_str(), it->tname().c_str() );
-            return 0;
-        }
-
-        p->add_msg_if_player( holster_msg.empty() ? _( "You holster your %s" ) : _( holster_msg.c_str() ),
-                              obj.tname().c_str(), it->tname().c_str() );
-
-        // holsters ignore penalty effects (eg. GRABBED) when determining number of moves to consume
-        p->store( it, &obj, draw_cost, false );
+        store( *p, *it, obj );
     }
 
     return 0;
