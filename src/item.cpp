@@ -697,20 +697,16 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                                               mod->tname().c_str() ) ) );
         }
         islot_gun *gun = mod->type->gun.get();
-        int ammo_dam = 0;
-        int ammo_range = 0;
-        int ammo_recoil = 0;
-        int ammo_pierce = 0;
-        int ammo_dispersion = 0;
-        bool has_ammo = (mod->has_curammo() && mod->ammo_remaining() > 0);
-        if (has_ammo) {
-            const auto curammo = mod->get_curammo()->ammo.get();
-            ammo_dam = curammo->damage;
-            ammo_range = curammo->range;
-            ammo_recoil = curammo->recoil;
-            ammo_pierce = curammo->pierce;
-            ammo_dispersion = curammo->dispersion;
-        }
+        const auto curammo = mod->ammo_data();
+
+        bool has_ammo = curammo && mod->ammo_remaining();
+
+        int ammo_dam        = has_ammo ? curammo->ammo->damage     : 0;
+        int ammo_range      = has_ammo ? curammo->ammo->range      : 0;
+        int ammo_recoil     = has_ammo ? curammo->ammo->recoil     : 0;
+        int ammo_pierce     = has_ammo ? curammo->ammo->pierce     : 0;
+        int ammo_dispersion = has_ammo ? curammo->ammo->dispersion : 0;
+
         const auto skill = &mod->gun_skill().obj();
 
         info.push_back( iteminfo( "GUN", _( "Skill used: " ), "<info>" + skill->name() + "</info>" ) );
