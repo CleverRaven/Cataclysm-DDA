@@ -2203,7 +2203,7 @@ void npc::pick_and_eat()
             food = dynamic_cast<const it_comest *>(it.contents[0].type);
         }
         if (food != NULL) {
-            eaten_hunger = get_hunger() - food->nutr;
+            eaten_hunger = get_hunger() - food->get_nutrition();
             eaten_thirst = thirst - food->quench;
         }
         if (eaten_hunger > 0) { // <0 means we have a chance of puking

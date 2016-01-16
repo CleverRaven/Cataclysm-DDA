@@ -100,3 +100,25 @@ itype_id const &default_ammo( std::string const &t )
 {
     return ammunition_type::find_ammunition_type( t ).default_ammotype();
 }
+
+// 1 nutr per 5 minutes = 12 * 24 = 288 per day
+// Assuming 2500 kcal per day, 1 nutr ~= 8.7 kcal
+constexpr float kcal_per_nutr = 2500.0f / ( 12 * 24 );
+
+int it_comest::get_nutrition() const
+{
+    if( nutr >= 0 ) {
+        return nutr;
+    }
+
+    return ( int )( kcal / kcal_per_nutr );
+}
+
+int it_comest::get_calories() const
+{
+    if( nutr >= 0 ) {
+        return ( int )( nutr * kcal_per_nutr );
+    }
+
+    return kcal;
+}

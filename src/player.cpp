@@ -10249,7 +10249,7 @@ int player::nutrition_for(const it_comest *comest)
     const float modifier = (t * thresholds[i].second) +
         ((1 - t) * thresholds[i - 1].second);
 
-    return (int)(comest->nutr * modifier);
+    return (int)(comest->get_nutrition() * modifier);
 }
 
 void player::consume_effects(item *eaten, const it_comest *comest, bool rotten)

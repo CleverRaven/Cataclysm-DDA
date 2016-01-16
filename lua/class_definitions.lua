@@ -1611,11 +1611,6 @@ classes = {
                 type = "int",
                 writable = true
             },
-            nutrition = {
-                type = "int",
-                cpp_name = "nutr",
-                writable = true
-            },
             spoils_in = {
                 type = "int",
                 cpp_name = "spoils",
@@ -1657,6 +1652,8 @@ classes = {
             }
         },
         functions = {
+            { name = "get_nutrition", rval = "int", args = { } },
+            { name = "get_calories", rval = "int", args = { } }
         }
     },
     it_tool = {

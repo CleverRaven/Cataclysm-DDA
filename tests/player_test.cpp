@@ -161,7 +161,7 @@ TEST_CASE("Sane nutrition_for hunger thresholds.") {
         for( const auto &thr : thresholds ) {
             dummy.set_hunger( thr.first );
             const int cur_nutrition = dummy.nutrition_for( it_ptr );
-            CHECK( cur_nutrition == (int)(thr.second * it_ptr->nutr) );
+            CHECK( cur_nutrition == (int)(thr.second * it_ptr->get_nutrition()) );
         }
     }
 }

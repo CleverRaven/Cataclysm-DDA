@@ -1595,7 +1595,7 @@ void npc::decide_needs()
             food = dynamic_cast<const it_comest*>(i->front().contents[0].type);
         }
         if (food != NULL) {
-            needrank[need_food] += food->nutr / 4;
+            needrank[need_food] += food->get_nutrition() / 4;
             needrank[need_drink] += food->quench / 4;
         }
     }
@@ -1749,10 +1749,10 @@ int npc::value(const item &it)
 
     if( it.is_food() ) {
         const auto comest = dynamic_cast<const it_comest*>(it.type);
-        if( comest->nutr > 0 || comest->quench > 0 ) {
+        if( comest->get_nutrition() > 0 || comest->quench > 0 ) {
             ret++;
         } if( get_hunger() > 40 ) {
-            ret += (comest->nutr + get_hunger() - 40) / 6;
+            ret += (comest->get_nutrition() + get_hunger() - 40) / 6;
         } if( thirst > 40 ) {
             ret += (comest->quench + thirst - 40) / 4;
         }
