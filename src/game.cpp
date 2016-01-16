@@ -11536,8 +11536,7 @@ void game::unload( item &it )
     }
 
     // Construct a new ammo item and try to drop it
-    item ammo( target->has_curammo() ? target->ammo_current() :
-               default_ammo( target->ammo_type() ), calendar::turn );
+    item ammo( target->ammo_current(), calendar::turn );
     ammo.charges = qty;
 
     if( !add_or_drop_with_msg( u, ammo ) ) {

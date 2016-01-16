@@ -2215,7 +2215,7 @@ int item::price() const
     }
 
     // tools, guns and auxiliary gunmods may contain ammunition which can affect the price
-    if( ammo_remaining() > 0 && has_curammo() ) {
+    if( ammo_remaining() > 0 && ammo_current() != "null" ) {
         item tmp( ammo_current(), 0 );
         tmp.charges = charges;
         ret += tmp.price();
@@ -4258,7 +4258,7 @@ bool item::reload( player &u, item_location loc )
     // If we found a suitable target, try and reload it
     if ( target ) {
 
-        eject_casings( u, target );
+        eject_casings( u, *target );
 
         target->set_curammo( *ammo );
 
@@ -5257,7 +5257,7 @@ bool item::update_charger_gun_ammo()
     if( ammo_current() != CHARGER_GUN_AMMO_ID ) {
         set_curammo( CHARGER_GUN_AMMO_ID );
     }
-    auto tmpammo = get_curammo()->ammo.get();
+    const auto tmpammo = ammo_data()->ammo.get();
 
     long charges = num_charges();
     tmpammo->damage = charges * charges;
