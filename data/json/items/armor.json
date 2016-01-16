@@ -12797,7 +12797,6 @@
         "price" : 30000,
         "material" : ["iron", "leather"],
         "volume" : 10,
-        "cutting" : 0,
         "warmth" : 0,
         "phase" : "solid",
         "environmental_protection" : 0,
