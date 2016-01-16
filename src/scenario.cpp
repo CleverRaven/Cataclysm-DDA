@@ -157,19 +157,13 @@ const scenario *scenario::weighted_random()
     }
 }
 
-scenmap::const_iterator scenario::begin()
+std::vector<const scenario*> scenario::get_all()
 {
-    return _all_scens.begin();
+    std::vector<const scenario*> result;
+    for( auto &p : _all_scens ) {
+        result.push_back( &p.second );
 }
-
-scenmap::const_iterator scenario::end()
-{
-    return _all_scens.end();
-}
-
-int scenario::count()
-{
-    return _all_scens.size();
+    return result;
 }
 
 void scenario::reset()

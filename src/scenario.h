@@ -63,9 +63,7 @@ public:
     static const scenario* generic(); // points to the generic, default profession
     // return a random scenario, weighted for use w/ random character creation
     static const scenario* weighted_random();
-    static scenmap::const_iterator begin();
-    static scenmap::const_iterator end();
-    static int count();
+        static std::vector<const scenario*> get_all();
 
     static bool has_initialized();
     // clear scenario map, every scenario pointer becames invalid!

@@ -148,9 +148,9 @@ int player::create(character_type type, std::string tempname)
             }
             if (type == PLTYPE_RANDOM_WITH_SCENARIO) {
                 std::vector<const scenario *> scenarios;
-                for (scenmap::const_iterator iter = scenario::begin(); iter != scenario::end(); iter++) {
-                    if (!(iter->second).has_flag("CHALLENGE")) {
-                        scenarios.emplace_back(&iter->second);
+                for( const scenario *const scenptr : scenario::get_all() ) {
+                    if (!scenptr->has_flag("CHALLENGE")) {
+                        scenarios.emplace_back( scenptr );
                     }
                 }
                 g->scen = random_entry( scenarios );
@@ -1609,11 +1609,11 @@ int set_scenario(WINDOW *w, player *u, int &points)
     do {
         if (recalc_scens) {
             sorted_scens.clear();
-            for (scenmap::const_iterator iter = scenario::begin(); iter != scenario::end(); ++iter) {
-                if (!lcmatch(iter->second.gender_appropriate_name(u->male), filterstring)) {
+            for( const scenario *const scenptr : scenario::get_all() ) {
+                if (!lcmatch(scenptr->gender_appropriate_name(u->male), filterstring)) {
                     continue;
                 }
-                sorted_scens.push_back(&(iter->second));
+                sorted_scens.push_back( scenptr );
             }
             scens_length = sorted_scens.size();
             if (scens_length == 0) {
