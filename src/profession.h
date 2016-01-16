@@ -37,7 +37,7 @@ enum add_type : int;
         typedef std::vector<itypedec> itypedecvec;
         friend class string_id<profession>;
     private:
-        string_id<profession> _ident;
+        string_id<profession> id;
         std::string _name_male;
         std::string _name_female;
         std::string _description_male;

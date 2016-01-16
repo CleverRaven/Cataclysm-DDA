@@ -39,7 +39,7 @@ bool string_id<profession>::is_valid() const
 const string_id<profession> generic_profession_id( "unemployed" );
 
 profession::profession()
-    : _ident(""), _name_male("null"), _name_female("null"),
+    : id(), _name_male("null"), _name_female("null"),
       _description_male("null"), _description_female("null"), _point_cost(0)
 {
 }
@@ -51,7 +51,7 @@ void profession::load_profession(JsonObject &jsobj)
     profession prof;
     JsonArray jsarr;
 
-    prof._ident = string_id<profession>( jsobj.get_string( "ident" ) );
+    prof.id = string_id<profession>( jsobj.get_string( "ident" ) );
     //If the "name" is an object then we have to deal with gender-specific titles,
     if(jsobj.has_object("name")) {
         JsonObject name_obj = jsobj.get_object("name");
@@ -101,8 +101,8 @@ void profession::load_profession(JsonObject &jsobj)
         prof.flags.insert(jsarr.next_string());
     }
 
-    _all_profs[prof._ident] = prof;
-    DebugLog( D_INFO, DC_ALL ) << "Loaded profession: " << prof._ident.str();
+    _all_profs[prof.id] = prof;
+    DebugLog( D_INFO, DC_ALL ) << "Loaded profession: " << prof.id.str();
 }
 
 const profession *profession::generic()
@@ -163,17 +163,17 @@ void profession::check_item_definitions( const itypedecvec &items ) const
 {
     for( auto & itd : items ) {
         if( !item::type_is_defined( itd.type_id ) ) {
-            debugmsg( "profession %s: item %s does not exist", _ident.c_str() , itd.type_id.c_str() );
+            debugmsg( "profession %s: item %s does not exist", id.c_str() , itd.type_id.c_str() );
         } else if( !itd.snippet_id.empty() ) {
             const itype *type = item::find_type( itd.type_id );
             if( type->snippet_category.empty() ) {
                 debugmsg( "profession %s: item %s has no snippet category - no description can be set",
-                          _ident.c_str(), itd.type_id.c_str() );
+                          id.c_str(), itd.type_id.c_str() );
             } else {
                 const int hash = SNIPPET.get_snippet_by_id( itd.snippet_id );
                 if( SNIPPET.get( hash ).empty() ) {
                     debugmsg( "profession %s: snippet id %s for item %s is not contained in snippet category %s",
-                              _ident.c_str(), itd.snippet_id.c_str(), itd.type_id.c_str(), type->snippet_category.c_str() );
+                              id.c_str(), itd.snippet_id.c_str(), itd.type_id.c_str(), type->snippet_category.c_str() );
                 }
             }
         }
@@ -187,19 +187,19 @@ void profession::check_definition() const
     check_item_definitions( _starting_items_male );
     for (auto const &a : _starting_CBMs) {
         if (!is_valid_bionic(a)) {
-            debugmsg("bionic %s for profession %s does not exist", a.c_str(), _ident.c_str());
+            debugmsg("bionic %s for profession %s does not exist", a.c_str(), id.c_str());
         }
     }
 
     for( auto &t : _starting_traits ) {
         if( !mutation_branch::has( t ) ) {
-            debugmsg( "trait %s for profession %s does not exist", t.c_str(), _ident.c_str() );
+            debugmsg( "trait %s for profession %s does not exist", t.c_str(), id.c_str() );
         }
     }
 
     for( const auto &elem : _starting_skills ) {
         if( !elem.first.is_valid() ) {
-            debugmsg( "skill %s for profession %s does not exist", elem.first.c_str(), _ident.c_str() );
+            debugmsg( "skill %s for profession %s does not exist", elem.first.c_str(), id.c_str() );
         }
     }
 }
@@ -257,7 +257,7 @@ void profession::add_skill(const skill_id &skill_name, const int level)
 
 const string_id<profession> &profession::ident() const
 {
-    return _ident;
+    return id;
 }
 
 std::string profession::gender_appropriate_name(bool male) const
