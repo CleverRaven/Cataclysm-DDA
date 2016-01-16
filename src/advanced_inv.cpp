@@ -466,17 +466,18 @@ void advanced_inventory::menu_square( uimenu *menu )
     assert( menu != nullptr );
     assert( menu->entries.size() >= 9 );
     int ofs = -25 - 4;
-    int sel = menu->selected + 1;
+    int sel = screen_relative_location( static_cast <aim_location> ( menu->selected + 1 ) );
     for( int i = 1; i < 10; i++ ) {
-        char key = ( char )( i + 48 );
-        bool in_vehicle = squares[i].can_store_in_vehicle();
+        aim_location loc = screen_relative_location( static_cast <aim_location> ( i ) );
+        char key = get_location_key( loc );
+        bool in_vehicle = squares[loc].can_store_in_vehicle();
         const char *bracket = (in_vehicle) ? "<>" : "[]";
         // always show storage option for vehicle storage, if applicable
-        bool canputitems = (menu->entries[i - 1].enabled && squares[i].canputitems());
-        nc_color bcolor = ( canputitems ? ( sel == i ? h_white : c_ltgray ) : c_dkgray );
-        nc_color kcolor = ( canputitems ? ( sel == i ? h_white : c_ltgray ) : c_dkgray );
-        const int x = squares[i].hscreenx + ofs;
-        const int y = squares[i].hscreeny + 5;
+        bool canputitems = (menu->entries[loc - 1].enabled && squares[i].canputitems());
+        nc_color bcolor = ( canputitems ? ( sel == loc ? h_white : c_ltgray ) : c_dkgray );
+        nc_color kcolor = ( canputitems ? ( sel == loc ? h_white : c_ltgray ) : c_dkgray );
+        const int x = squares[loc].hscreenx + ofs;
+        const int y = squares[loc].hscreeny + 5;
         mvwprintz( menu->window, y, x, bcolor, "%c", bracket[0] );
         wprintz( menu->window, kcolor, "%c", key );
         wprintz( menu->window, bcolor, "%c", bracket[1] );
@@ -508,33 +509,42 @@ inline char advanced_inventory::get_location_key( aim_location area )
         case AIM_SOUTHEAST:
         case AIM_SOUTHWEST:
             {
-                if ( area == screen_relative_location( AIM_SOUTHWEST ) ) {
-                    return '1';
-                }
-                if ( area == screen_relative_location( AIM_SOUTH ) ) {
-                    return '2';
-                }
-                if ( area == screen_relative_location( AIM_SOUTHEAST ) ) {
-                    return '3';
-                }
-                if ( area == screen_relative_location( AIM_WEST ) ) {
-                    return '4';
-                }
-                if ( area == screen_relative_location( AIM_EAST ) ) {
-                    return '6';
-                }
-                if ( area == screen_relative_location( AIM_NORTHWEST ) ) {
-                    return '7';
-                }
-                if ( area == screen_relative_location( AIM_NORTH ) ) {
-                    return '8';
-                }
-                return '9';
+                return std::to_string( get_direction_key( area ) ).c_str()[0];
             }
         default:
             debugmsg( "invalid [aim_location] in get_location_key()!" );
             return ' ';
     }
+}
+
+int advanced_inventory::get_direction_key( aim_location area ) {
+
+    if ( area == screen_relative_location( AIM_SOUTHWEST ) ) {
+        return 1;
+    }
+    if ( area == screen_relative_location( AIM_SOUTH ) ) {
+        return 2;
+    }
+    if ( area == screen_relative_location( AIM_SOUTHEAST ) ) {
+        return 3;
+    }
+    if ( area == screen_relative_location( AIM_WEST ) ) {
+        return 4;
+    }
+    if ( area == screen_relative_location( AIM_EAST ) ) {
+        return 6;
+    }
+    if ( area == screen_relative_location( AIM_NORTHWEST ) ) {
+        return 7;
+    }
+    if ( area == screen_relative_location( AIM_NORTH ) ) {
+        return 8;
+    }
+    if ( area == screen_relative_location( AIM_NORTHEAST ) ) {
+        return 9;
+    }
+    debugmsg( "invalid [aim_location] in get_direction_key()!" );
+    return 0;
 }
 
 int advanced_inventory::print_header( advanced_inventory_pane &pane, aim_location sel )
@@ -1492,7 +1502,6 @@ void advanced_inventory::display()
             if( !query_destination( destarea ) ) {
                 continue;
             }
-
             // AIM_ALL should disable same area check and handle it with proper filtering instead.
             // This is a workaround around the lack of vehicle location info in
             // either aim_location or advanced_inv_listitem.
@@ -1843,20 +1852,26 @@ bool advanced_inventory::query_destination( aim_location &def )
     menu.text = _( "Select destination" );
     menu.pad_left = 9; /* free space for advanced_inventory::menu_square */
 
-    // the direction locations should be continues in the enum
-    assert( AIM_NORTHEAST - AIM_SOUTHWEST == 8 );
-    for( int i = AIM_SOUTHWEST; i <= AIM_NORTHEAST; i++ ) {
-        auto &s = squares[i];
-        const int size = s.get_item_count();
-        std::string prefix = string_format( "%2d/%d", size, MAX_ITEM_IN_SQUARE );
-        if( size >= MAX_ITEM_IN_SQUARE ) {
-            prefix += _( " (FULL)" );
+    {
+        // the direction locations should be contiguous in the enum
+        std::vector <aim_location> ordered_locs;
+        assert( AIM_NORTHEAST - AIM_SOUTHWEST == 8 );
+        for( int i = AIM_SOUTHWEST; i <= AIM_NORTHEAST; i++ ) {
+            ordered_locs.push_back( screen_relative_location( static_cast <aim_location>(i) ) );
         }
-        menu.addentry( i, ( s.canputitems() && s.id != panes[src].get_area() ),
-                       i + '0', prefix + " " + s.name + " " +
-                       ( s.veh != nullptr ? s.veh->name : "" ) );
+        for ( std::vector <aim_location>::iterator iter = ordered_locs.begin(); iter != ordered_locs.end(); ++iter ) {
+            auto &s = squares[*iter];
+            const int size = s.get_item_count();
+            std::string prefix = string_format( "%2d/%d", size, MAX_ITEM_IN_SQUARE );
+            if( size >= MAX_ITEM_IN_SQUARE ) {
+                prefix += _( " (FULL)" );
+            }
+            menu.addentry( *iter ,
+                           ( s.canputitems() && s.id != panes[src].get_area() ),
+                           get_location_key( *iter ),
+                           prefix + " " + s.name + " " + ( s.veh != nullptr ? s.veh->name : "" ) );
+        }
     }
-
     // Selected keyed to uimenu.entries, which starts at 0.
     menu.selected = uistate.adv_inv_last_popup_dest - AIM_SOUTHWEST;
     menu.show(); // generate and show window.
@@ -2461,20 +2476,6 @@ aim_location advanced_inventory::screen_relative_location( aim_location area ) {
         return area;
     }
     switch ( area ) {
-        case AIM_NORTHWEST:
-            return AIM_NORTH;
-
-        case AIM_NORTH:
-            return AIM_NORTHEAST;
-
-        case AIM_NORTHEAST:
-            return AIM_EAST;
-
-        case AIM_WEST:
-            return AIM_NORTHWEST;
-
-        case AIM_EAST:
-            return AIM_SOUTHEAST;
 
         case AIM_SOUTHWEST:
             return AIM_WEST;
@@ -2484,6 +2485,21 @@ aim_location advanced_inventory::screen_relative_location( aim_location area ) {
 
         case AIM_SOUTHEAST:
             return AIM_SOUTH;
+
+        case AIM_WEST:
+            return AIM_NORTHWEST;
+
+        case AIM_EAST:
+            return AIM_SOUTHEAST;
+
+        case AIM_NORTHWEST:
+            return AIM_NORTH;
+
+        case AIM_NORTH:
+            return AIM_NORTHEAST;
+
+        case AIM_NORTHEAST:
+            return AIM_EAST;
 
         default :
             return area;

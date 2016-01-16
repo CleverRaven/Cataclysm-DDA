@@ -463,6 +463,7 @@ class advanced_inventory
         void menu_square(uimenu *menu);
 
         static char get_location_key( aim_location area );
+        static int get_direction_key( aim_location area );
 
         /**
          * Converts from screen relative location to game-space relative location
