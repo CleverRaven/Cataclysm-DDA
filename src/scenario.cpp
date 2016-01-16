@@ -210,11 +210,6 @@ void scenario::check_definition() const
     MapExtras::get_function( _map_special ); // triggers a debug message upon invalid input
 }
 
-bool scenario::has_initialized()
-{
-    return generic_scenario_id.is_valid();
-}
-
 void scenario::add_items_from_jsonarray(JsonArray jsarr, std::string gender)
 {
     while (jsarr.has_more()) {
