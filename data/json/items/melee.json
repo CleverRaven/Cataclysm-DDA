@@ -12,7 +12,6 @@
         "techniques" : ["BRUTAL", "WIDE"],
         "volume" : 10,
         "bashing" : 9999,
-        "cutting" : 0,
         "price" : 12000,
         "qualities": [["HAMMER", 1]]
     },
@@ -23,6 +22,7 @@
         "color": "light_gray",
         "name": "grappling hook",
         "description": "A folding grappling hook attached to a stout 30-foot long piece of lightweight cord.  Useful for keeping yourself safe from falls.",
+        "category": "tools",
         "techniques" : ["RAPID", "SPIN"],
         "flags" : ["WRAP", "DURABLE_MELEE"],
         "price": 25000,
@@ -46,7 +46,6 @@
         "weight": 56,
         "volume": 1,
         "bashing": -3,
-        "cutting": 0,
         "to_hit": -1
     },
     {
@@ -62,7 +61,6 @@
         "weight": 30,
         "volume": 1,
         "bashing": -5,
-        "cutting": 0,
         "to_hit": -1
     },
     {
@@ -78,7 +76,6 @@
         "weight": 113,
         "volume": 4,
         "bashing": 5,
-        "cutting": 0,
         "to_hit": -1
     },
     {
@@ -94,7 +91,6 @@
         "weight": 114,
         "volume": 1,
         "bashing": -5,
-        "cutting": 0,
         "to_hit": -1
     },
     {
@@ -110,7 +106,6 @@
         "weight": 480,
         "volume": 1,
         "bashing": -5,
-        "cutting": 0,
         "to_hit": -1
     },
     {
@@ -126,7 +121,6 @@
         "weight": 114,
         "volume": 1,
         "bashing": -4,
-        "cutting": 0,
         "to_hit": -1
     },
     {
@@ -160,7 +154,6 @@
         "weight": 340,
         "volume": 0,
         "bashing": -8,
-        "cutting": 0,
         "to_hit": -3,
         "use_action": {
             "type": "extended_firestarter",
@@ -180,7 +173,6 @@
         "weight": 317,
         "volume": 10,
         "bashing": -4,
-        "cutting": 0,
         "to_hit": -1
     },
     {
@@ -196,7 +188,6 @@
         "weight": 68,
         "volume": 1,
         "bashing": -6,
-        "cutting": 0,
         "to_hit": 2
     },
     {
@@ -212,7 +203,6 @@
         "weight": 26,
         "volume": 0,
         "bashing": -6,
-        "cutting": 0,
         "to_hit": 2
     },
     {
@@ -228,7 +218,6 @@
         "weight": 14,
         "volume": 0,
         "bashing": -6,
-        "cutting": 0,
         "to_hit": 2
     },
     {
@@ -244,7 +233,6 @@
         "weight": 21000,
         "volume": 8,
         "bashing": 4,
-        "cutting": 0,
         "to_hit": 1
     },
     {
@@ -261,7 +249,6 @@
         "weight": 340,
         "volume": 2,
         "bashing": 8,
-        "cutting": 0,
         "to_hit": -2,
         "qualities": [["HAMMER", 1]]
     },
@@ -279,7 +266,6 @@
         "weight": 1360,
         "volume": 2,
         "bashing": 12,
-        "cutting": 0,
         "to_hit": -4,
         "qualities": [["HAMMER", 1]]
     },
@@ -296,7 +282,6 @@
         "weight": 113,
         "volume": 1,
         "bashing": 1,
-        "cutting": 0,
         "to_hit": -2
     },
     {
@@ -312,7 +297,6 @@
         "weight": 200,
         "volume": 1,
         "bashing": 1,
-        "cutting": 0,
         "to_hit": -2
     },
     {
@@ -328,7 +312,6 @@
         "weight": 400,
         "volume": 1,
         "bashing": 4,
-        "cutting": 0,
         "to_hit": -2
     },
     {
@@ -337,12 +320,12 @@
         "symbol": ",",
         "color": "light_cyan",
         "name": "glass shard",
+        "category": "other",
         "description": "A broken shard of glass covered in sharp edges.  You could use it as a weapon, but you might want to wear gloves.",
         "price": 0,
         "material": "glass",
         "weight": 89,
         "volume": 1,
-        "bashing": 0,
         "cutting": 6,
         "flags": ["HURT_WHEN_WIELDED", "HURT_WHEN_PULLED"],
         "to_hit": -1
@@ -359,7 +342,6 @@
         "weight": 300,
         "volume": 3,
         "bashing": 2,
-        "cutting": 0,
         "to_hit": -3
     },
     {
@@ -370,12 +352,12 @@
         "name": "sheet of glass",
         "name_plural": "sheets of glass",
         "description": "A large sheet of glass.  Easily shattered.  Useful for repairing windows.",
+        "category": "spare_parts",
         "price": 5000,
         "material": "glass",
         "weight": 24176,
         "volume": 50,
         "bashing": 4,
-        "cutting": 0,
         "to_hit": -5
     },
     {
@@ -386,12 +368,12 @@
         "name": "sheet of reinforced glass",
         "name_plural": "sheets of reinforced glass",
         "description": "A large sheet of glass strengthened with steel wiring.",
+        "category": "spare_parts",
         "price": 10000,
         "material": [ "glass", "steel" ],
         "weight": 40123,
         "volume": 50,
         "bashing": 6,
-        "cutting": 0,
         "to_hit": -6
     },
     {
@@ -402,12 +384,12 @@
         "name": "pane of reinforced glass",
         "name_plural": "panes of reinforced glass",
         "description": "A small pane of glass strengthened with steel wiring.",
+        "category": "spare_parts",
         "price": 5000,
         "material": [ "glass", "steel" ],
         "weight": 10040,
         "volume": 12,
         "bashing": 4,
-        "cutting": 0,
         "to_hit": -2
     },
     {
@@ -417,13 +399,13 @@
         "color": "dark_gray",
         "name": "manhole cover",
         "description": "A heavy iron disc that typically covers a ladder into the sewers.  Lifting it from the manhole is impossible without a crowbar.",
+        "category": "other",
         "price": 20000,
         "material": "iron",
         "flags": ["DURABLE_MELEE"],
         "weight": 36287,
         "volume": 12,
         "bashing": 20,
-        "cutting": 0,
         "to_hit": -5
     },
     {
@@ -438,7 +420,6 @@
         "weight": 1700,
         "volume": 5,
         "bashing": 14,
-        "cutting": 0,
         "to_hit": -2
     },
     {
@@ -452,8 +433,6 @@
         "material": "wood",
         "weight": 220,
         "volume": 2,
-        "bashing": 0,
-        "cutting": 0,
         "to_hit": -2
     },
     {
@@ -467,8 +446,6 @@
         "material": "wood",
         "weight": 90,
         "volume": 1,
-        "bashing": 0,
-        "cutting": 0,
         "to_hit": -2
     },
     {
@@ -526,7 +503,6 @@
         "flags" : ["DURABLE_MELEE"],
         "volume" : 8,
         "bashing" : 8,
-        "cutting" : 0,
         "price" : 4000
     },
     {
@@ -544,7 +520,6 @@
         "weight": 1400,
         "volume": 12,
         "bashing": 19,
-        "cutting": 0,
         "category" : "weapons",
         "to_hit": 3
     },
@@ -563,7 +538,6 @@
         "weight": 2200,
         "volume": 12,
         "bashing": 25,
-        "cutting": 0,
         "category" : "weapons",
         "to_hit": 3
     },
@@ -633,7 +607,6 @@
         "weight": 89,
         "volume": 1,
         "bashing": 1,
-        "cutting": 0,
         "to_hit": -2
     },
     {
@@ -648,7 +621,6 @@
         "weight": 60,
         "volume": 1,
         "bashing": -8,
-        "cutting": 0,
         "to_hit": -3
     },
     {
@@ -663,7 +635,6 @@
         "weight": 158,
         "volume": 1,
         "bashing": 2,
-        "cutting": 0,
         "to_hit": -1,
         "qualities": [["CONTAIN", 1]]
     },
@@ -679,7 +650,6 @@
         "weight": 907,
         "volume": 1,
         "bashing": 6,
-        "cutting": 0,
         "to_hit": -1
     },
     {
@@ -694,7 +664,6 @@
         "weight": 493,
         "volume": 1,
         "bashing": 6,
-        "cutting": 0,
         "to_hit": -1
     },
     {
@@ -708,8 +677,6 @@
         "material": "plastic",
         "weight": 18,
         "volume": 0,
-        "bashing": 0,
-        "cutting": 0,
         "to_hit": -3
     },
     {
@@ -719,12 +686,12 @@
         "color": "blue",
         "name": "pool ball",
         "description": "A colorful, hard ball.  Essentially a rock.",
+        "category": "other",
         "price": 3000,
         "material": "stone",
         "weight": 170,
         "volume": 1,
         "bashing": 8,
-        "cutting": 0,
         "to_hit": -3
     },
     {
@@ -734,12 +701,12 @@
         "color": "blue",
         "name": "bowling ball",
         "description": "A large, heavy ball.  Before the apocalypse, its main purpose was to be rolled along waxed floors.",
+        "category": "other",
         "price": 30,
         "material": "ceramic",
         "weight": 2000,
         "volume": 10,
         "bashing": 16,
-        "cutting": 0,
         "to_hit": -2
     },
     {
@@ -749,12 +716,12 @@
         "color": "yellow",
         "name": "candlestick",
         "description": "A gold candlestick.",
+        "category": "other",
         "price": 10000,
         "material": "gold",
         "weight": 1514,
         "volume": 1,
         "bashing": 9,
-        "cutting": 0,
         "to_hit": 0
     },
     {
@@ -764,6 +731,7 @@
         "color": "light_gray",
         "name": "blade",
         "description": "A large, relatively sharp blade.  Could be used to make bladed weaponry, or attached to a car.",
+        "category": "spare_parts",
         "price": 28000,
         "material": "steel",
         "weight": 553,
@@ -780,11 +748,11 @@
         "color": "light_gray",
         "name": "circular sawblade",
         "description": "An 8\" circular sawblade.  You could make a saw with it, or throw it.  Wielding it without sturdy gloves is a bad idea.",
+        "category": "spare_parts",
         "price": 20000,
         "material": "steel",
         "weight": 349,
         "volume": 1,
-        "bashing": 0,
         "cutting": 14,
         "flags": ["HURT_WHEN_WIELDED"],
         "to_hit": -4
@@ -800,8 +768,6 @@
         "material": "steel",
         "weight": 151,
         "volume": 2,
-        "bashing": 0,
-        "cutting": 0,
         "to_hit": -2
     },
     {
@@ -815,8 +781,6 @@
         "material": "steel",
         "weight": 302,
         "volume": 2,
-        "bashing": 0,
-        "cutting": 0,
         "to_hit": -2
     },
     {
@@ -826,12 +790,12 @@
         "color": "dark_gray",
         "name": "rebar",
         "description": "A length of rebar, makes a nice melee weapon, and could be handy in constructing tougher walls and such.",
+        "category": "spare_parts",
         "price": 7500,
         "material": "steel",
         "weight": 908,
         "volume": 6,
         "bashing": 12,
-        "cutting": 0,
         "to_hit": 2
     },
     {
@@ -847,7 +811,6 @@
         "weight": 1000,
         "volume": 4,
         "bashing": 4,
-        "cutting": 0,
         "to_hit": 0
         },
     {
@@ -856,13 +819,13 @@
         "symbol": "/",
         "color": "brown",
         "name": "log",
-        "description": "A large log, cut from a tree.  (a)ctivate a wood axe or wood saw to cut it into planks",
+        "description": "A large log, cut from a tree.  (a)ctivate a wood axe or wood saw to cut it into planks.",
+        "category": "other",
         "price": 10000,
         "material": "wood",
         "weight": 9071,
         "volume": 40,
         "bashing": 10,
-        "cutting": 0,
         "to_hit": -10
     },
     {
@@ -871,13 +834,13 @@
         "symbol": "/",
         "color": "brown",
         "name": "splintered wood",
-        "description": "A splintered piece of wood, useless as anything but kindling",
+        "description": "A splintered piece of wood, useless as anything but kindling.",
+        "category": "other",
         "price": 0,
         "material": "wood",
         "weight": 453,
         "volume": 1,
         "bashing": 4,
-        "cutting": 0,
         "to_hit": 1
     },
     {
@@ -887,13 +850,12 @@
         "color": "brown",
         "name": "skewer",
         "description": "A thin wooden skewer.  Squirrel on a stick, anyone?",
+        "category": "other",
         "price": 0,
         "material": "wood",
         "flags": ["NO_SALVAGE"],
         "weight": 6,
         "volume": 0,
-        "bashing": 0,
-        "cutting": 0,
         "to_hit": -5,
         "qualities": [["COOK", 1]]
     },
@@ -904,6 +866,7 @@
     "color": "white",
     "name": "bone skewer",
     "description": "A thin skewer carved from bone.  Sadly, it won't make squirrel on a stick taste better.",
+    "category": "other",
     "price": 0,
     "material": "bone",
     "weight": 10,
@@ -921,12 +884,12 @@
         "name": "burnt out torch",
         "name_plural": "burnt out torches",
         "description": "A torch that has consumed all its fuel; it can be recrafted into another torch.",
+        "category": "other",
         "price": 0,
         "material": "wood",
         "weight": 751,
         "volume": 3,
         "bashing": 8,
-        "cutting": 0,
         "to_hit": 3
     },
     {
@@ -942,8 +905,6 @@
         "material": "plastic",
         "weight": 39,
         "volume": 1,
-        "bashing": 0,
-        "cutting": 0,
         "to_hit": -1
     },
     {
@@ -959,7 +920,6 @@
         "weight": 3220,
         "volume": 3,
         "bashing": -1,
-        "cutting": 0,
         "to_hit": 0
     },
     {
@@ -969,12 +929,12 @@
         "color": "green",
         "name": "lawnmower",
         "description": "A motorized pushmower that seems to be broken.  You could take it apart if you had a wrench.",
+        "category": "other",
         "price": 10000,
         "material": ["steel", "iron"],
         "weight": 9071,
         "volume": 25,
         "bashing": 6,
-        "cutting": 0,
         "to_hit": -4
     },
     {
@@ -983,13 +943,12 @@
         "symbol": ";",
         "color": "green",
         "name": "damaged tent",
-        "description": "A small tent, just big enough to fit a person comfortably.  This tent is broken and cannot be deployed",
+        "description": "A small tent, just big enough to fit a person comfortably.  This tent is broken and cannot be deployed.",
         "price": 6500,
         "material": ["plastic", "aluminum"],
         "weight": 1133,
         "volume": 10,
         "bashing": 4,
-        "cutting": 0,
         "to_hit": -3
     },
     { 
@@ -1004,7 +963,6 @@
         "weight": 2266,
         "volume": 40,
         "bashing": 4,
-        "cutting": 0,
         "to_hit": -3
     },
     {
@@ -1019,8 +977,6 @@
         "material": "iron",
         "weight": 226,
         "volume": 1,
-        "bashing": 0,
-        "cutting": 0,
         "to_hit": 0
     },
     {
@@ -1035,7 +991,6 @@
         "weight": 22600,
         "volume": 12,
         "bashing": 5,
-        "cutting": 0,
         "to_hit": -5
     },
     {
@@ -1050,8 +1005,6 @@
         "material": ["aluminum", "plastic"],
         "weight": 5,
         "volume": 0,
-        "bashing": 0,
-        "cutting": 0,
         "to_hit": 0
     },
     {
@@ -1065,8 +1018,6 @@
         "material": ["aluminum", "plastic"],
         "weight": 725,
         "volume": 3,
-        "bashing": 0,
-        "cutting": 0,
         "to_hit": 0
     },
     {
@@ -1080,8 +1031,6 @@
         "material": ["steel", "plastic"],
         "weight": 11339,
         "volume": 12,
-        "bashing": 0,
-        "cutting": 0,
         "to_hit": 0
     },
     {
@@ -1095,8 +1044,6 @@
         "material": ["plastic", "aluminum"],
         "weight": 2721,
         "volume": 3,
-        "bashing": 0,
-        "cutting": 0,
         "to_hit": 0
     },
     {
@@ -1334,8 +1281,6 @@
         "material": ["aluminum", "plastic"],
         "weight": 2857,
         "volume": 4,
-        "bashing": 0,
-        "cutting": 0,
         "to_hit": 0
     },
     {
@@ -1351,7 +1296,6 @@
         "weight": 362,
         "volume": 2,
         "bashing": 4,
-        "cutting": 0,
         "to_hit": 0
     },
     {
@@ -1366,7 +1310,6 @@
         "weight": 362,
         "volume": 1,
         "bashing": 1,
-        "cutting": 0,
         "to_hit": 0
     },
     {
@@ -1381,7 +1324,6 @@
         "weight": 400,
         "volume": 1,
         "bashing": 1,
-        "cutting": 0,
         "to_hit": 0,
         "qualities": [["CONTAIN", 1]]
     },
@@ -1397,7 +1339,6 @@
         "weight": 300,
         "volume": 1,
         "bashing": 1,
-        "cutting": 0,
         "to_hit": 0,
         "qualities": [["CONTAIN", 1]]
     },
@@ -1413,7 +1354,6 @@
         "weight": 452,
         "volume": 1,
         "bashing": 1,
-        "cutting": 0,
         "to_hit": 0
     },
     {
@@ -1428,7 +1368,6 @@
         "weight": 500,
         "volume": 1,
         "bashing": 1,
-        "cutting": 0,
         "to_hit": 0,
         "qualities": [["CONTAIN", 1]]
     },
@@ -1445,7 +1384,6 @@
         "weight": 375,
         "volume": 1,
         "bashing": 1,
-        "cutting": 0,
         "to_hit": 0,
         "qualities": [["CONTAIN", 1]]
     },
@@ -1460,8 +1398,6 @@
         "material": "steel",
         "weight": 525,
         "volume": 1,
-        "bashing": 0,
-        "cutting": 0,
         "to_hit": 0
     },
     {
@@ -1492,7 +1428,6 @@
         "weight": 48,
         "volume": 1,
         "bashing": 2,
-        "cutting": 0,
         "to_hit": -2,
         "flags": ["SHEATH_KNIFE"]
     },
@@ -1540,8 +1475,6 @@
         "flags": ["NO_SALVAGE"],
         "weight": 80,
         "volume": 1,
-        "bashing": 0,
-        "cutting": 0,
         "to_hit": 0
     },
     {
@@ -1556,7 +1489,6 @@
         "weight": 725,
         "volume": 1,
         "bashing": 4,
-        "cutting": 0,
         "to_hit": -3
     },
     {
@@ -1572,8 +1504,6 @@
         "material": "steel",
         "weight": 453,
         "volume": 1,
-        "bashing": 0,
-        "cutting": 0,
         "to_hit": 0
     },
     {
@@ -1588,7 +1518,6 @@
         "weight": 657,
         "volume": 1,
         "bashing": 7,
-        "cutting": 0,
         "to_hit": -2,
         "qualities": [["HAMMER", 1]]
     },
@@ -1635,7 +1564,6 @@
         "weight": 150,
         "volume": 1,
         "bashing": 6,
-        "cutting": 0,
         "to_hit": 3
     },
     {
@@ -1650,7 +1578,6 @@
         "weight": 170,
         "volume": 1,
         "bashing": 7,
-        "cutting": 0,
         "to_hit": 2
     },
     {
@@ -1665,7 +1592,6 @@
         "weight": 400,
         "volume": 3,
         "bashing": 4,
-        "cutting": 0,
         "to_hit": -1
     },
     {
@@ -1680,7 +1606,6 @@
         "weight": 800,
         "volume": 4,
         "bashing": 6,
-        "cutting": 0,
         "to_hit": -1
     },
     {
@@ -1694,8 +1619,6 @@
         "material": "veggy",
         "weight": 0,
         "volume": 0,
-        "bashing": 0,
-        "cutting": 0,
         "to_hit": 0
     },
     {
@@ -1812,7 +1735,6 @@
         "techniques" : ["WBLOCK_1"],
         "volume" : 5,
         "bashing" : 4,
-        "cutting" : 0,
         "price" : 2400
     },
     {
@@ -1828,7 +1750,6 @@
         "techniques" : ["BRUTAL", "WIDE"],
         "volume" : 10,
         "bashing" : 40,
-        "cutting" : 0,
         "price" : 12000,
         "qualities": [["HAMMER", 1]]
     },
@@ -1841,7 +1762,7 @@
         "to_hit" : 1,
         "color" : "brown",
         "symbol" : "/",
-        "//": "Craftable from steel, shouldn't be silver.  A warhammer is essentialy one end of a pickaxe with balancing weight on the other and crushes/pierces the armor.",
+        "//": "Craftable from steel, shouldn't be silver.  A warhammer is essentially one end of a pickaxe with balancing weight on the other and crushes/pierces the armor.",
         "material" : ["iron", "wood"],
         "techniques" : ["BRUTAL"],
         "flags" : ["DURABLE_MELEE", "SPEAR"],
@@ -1907,7 +1828,7 @@
         "id" : "bowling_axe",
         "name" : "The 7-10 Split",
         "name_plural" : "7-10 Splits",
-        "description" : "An improvised weapon, made from two spikes attached to a bowling pin in the shape of a 'T'",
+        "description" : "An improvised weapon, made from two spikes attached to a bowling pin in the shape of a 'T'.",
         "weight" : 2433,
         "to_hit" : -1,
         "color" : "brown",
@@ -1959,6 +1880,7 @@
         "id" : "2x4",
         "name" : "two by four",
         "description" : "A plank of wood.  Makes a decent melee weapon, and can be used to board up doors and windows if you have a hammer and nails.",
+        "category": "spare_parts",
         "weight" : 1391,
         "to_hit" : 1,
         "color" : "brown",
@@ -1967,7 +1889,6 @@
         "techniques" : ["WBLOCK_1"],
         "volume" : 6,
         "bashing" : 10,
-        "cutting" : 0,
         "price" : 8000
     },
     {
@@ -1975,6 +1896,7 @@
         "id" : "pipe",
         "name" : "pipe",
         "description" : "A steel pipe, makes a good melee weapon.  Useful in a few crafting recipes.",
+        "category": "spare_parts",
         "weight" : 1262,
         "to_hit" : 1,
         "color" : "dark_gray",
@@ -1983,7 +1905,6 @@
         "techniques" : ["WBLOCK_1"],
         "volume" : 4,
         "bashing" : 12,
-        "cutting" : 0,
         "price" : 7500
     },
     {
@@ -2000,7 +1921,6 @@
         "flags" : ["DURABLE_MELEE"],
         "volume" : 7,
         "bashing" : 19,
-        "cutting" : 0,
         "price" : 16000
     },
     {
@@ -2017,7 +1937,6 @@
         "flags" : ["DURABLE_MELEE"],
         "volume" : 9,
         "bashing" : 11,
-        "cutting" : 0,
         "price" : 1000
     },
     {
@@ -2034,7 +1953,6 @@
         "flags" : ["DURABLE_MELEE"],
         "volume" : 7,
         "bashing" : 19,
-        "cutting" : 0,
         "price" : 18000
     },
     {
@@ -2051,7 +1969,6 @@
         "flags" : ["DURABLE_MELEE"],
         "volume" : 7,
         "bashing" : 20,
-        "cutting" : 0,
         "price" : 16000
     },
     {
@@ -2163,7 +2080,6 @@
         },
         "volume" : 1,
         "bashing" : 4,
-        "cutting" : 0,
         "price" : 17500
     },
     {
@@ -2186,7 +2102,6 @@
         },
         "volume" : 3,
         "bashing" : 12,
-        "cutting" : 0,
         "price" : 17500
     },
     {
@@ -2253,7 +2168,6 @@
         "techniques" : ["WBLOCK_1"],
         "volume" : 4,
         "bashing" : 10,
-        "cutting" : 0,
         "price" : 16000
     },
     {
@@ -2271,7 +2185,6 @@
         "volume" : 5,
         "//": "Same total damage and slightly higher weight than a morningstar - exchanged.",
         "bashing" : 37,
-        "cutting" : 0,
         "price" : 100000,
         "qualities": [["HAMMER", 1]]
     },
@@ -2306,7 +2219,6 @@
         "techniques" : ["WBLOCK_1"],
         "volume" : 8,
         "bashing" : 10,
-        "cutting" : 0,
         "price" : 8000
     },
     {
@@ -2314,6 +2226,7 @@
         "id" : "spike",
         "name" : "spike",
         "description" : "A large and slightly misshapen spike, could do some damage mounted on a vehicle.",
+        "category": "spare_parts",
         "weight" : 550,
         "to_hit" : -2,
         "color" : "light_gray",
@@ -2446,7 +2359,6 @@
         "material" : ["plastic", "aluminum"],
         "volume" : 2,
         "bashing" : -8,
-        "cutting" : 0,
         "price" : 10000,
         "flags" : ["WATCH", "ALARMCLOCK"]
     },
@@ -2462,7 +2374,6 @@
         "material" : ["gold", "glass"],
         "volume" : 0,
         "bashing" : -8,
-        "cutting" : 0,
         "price" : 25000,
         "flags" : ["WATCH", "FANCY"]
     },
@@ -2497,7 +2408,6 @@
         "volume": 2,
         "weight": 118,
         "bashing": 1,
-        "cutting": 0,
         "to_hit": 1,
         "flags": ["RAIN_PROTECT"],
         "techniques": ["WBLOCK_1"]
@@ -2515,7 +2425,6 @@
         "weight": 7042,
         "volume": 4,
         "bashing": -8,
-        "cutting": 0,
         "to_hit": -6
     },
     {
@@ -2531,7 +2440,6 @@
         "volume": 1,
         "weight": 430,
         "bashing": 8,
-        "cutting": 0,
         "flags" : ["UNARMED_WEAPON"],
         "to_hit": 0
     },
@@ -2546,7 +2454,6 @@
         "price": 0,
         "volume": 2,
         "weight": 1150,
-        "bashing": 0,
         "cutting": 16,
         "to_hit": 2,
         "flags" : ["UNARMED_WEAPON", "CHOP"],
@@ -2565,7 +2472,6 @@
         "volume": 2,
         "weight": 970,
         "bashing": 12,
-        "cutting": 0,
         "flags" : ["UNARMED_WEAPON", "DURABLE_MELEE"],
         "to_hit": 0
     },
@@ -2583,7 +2489,6 @@
         "volume": 0,
         "weight": 320,
         "bashing": 6,
-        "cutting": 0,
         "flags" : ["UNARMED_WEAPON", "DURABLE_MELEE"],
         "to_hit": 0
     },
@@ -2614,7 +2519,6 @@
         "weight": 300,
         "volume": 4,
         "bashing": 14,
-        "cutting": 0,
         "to_hit": 1
     },
     {
@@ -2630,7 +2534,6 @@
         "weight": 1007,
         "volume": 2,
         "bashing": 8,
-        "cutting": 0,
         "to_hit": 1
     },
     {
@@ -2647,7 +2550,6 @@
         "flags" : ["DURABLE_MELEE"],
         "volume" : 8,
         "bashing" : 12,
-        "cutting" : 0,
         "price" : 19500
     },
     {
@@ -2664,7 +2566,6 @@
         "flags" : ["DURABLE_MELEE"],
         "volume" : 8,
         "bashing" : 14,
-        "cutting" : 0,
         "price" : 19500
     },
     {
@@ -2688,7 +2589,6 @@
         },
         "volume" : 4,
         "bashing" : 5,
-        "cutting" : 0,
         "price" : 30000
     },
     {
@@ -2712,7 +2612,6 @@
         },
         "volume" : 8,
         "bashing" : 13,
-        "cutting" : 0,
         "price" : 30000
     },
     {
@@ -2729,7 +2628,6 @@
         "weight": 3714,
         "volume": 1,
         "bashing": 4,
-        "cutting": 0,
         "to_hit": -2,
         "revert_to": "null",
         "use_action": {
@@ -2752,7 +2650,6 @@
         "weight": 3714,
         "volume": 1,
         "bashing": 4,
-        "cutting": 0,
         "to_hit": -2,
         "revert_to": "null",
         "use_action": {
@@ -2775,7 +2672,6 @@
         "weight": 5438,
         "volume": 4,
         "bashing": 8,
-        "cutting": 0,
         "to_hit": -2,
         "revert_to": "null",
         "use_action": {
@@ -2798,7 +2694,6 @@
         "weight": 5438,
         "volume": 4,
         "bashing": 8,
-        "cutting": 0,
         "to_hit": -2,
         "revert_to": "null",
         "use_action": {
@@ -2812,6 +2707,7 @@
         "id" : "cu_pipe",
         "name" : "copper tubing",
         "description" : "A copper tube, too thin to be much use as a melee weapon, but will do if nothing else is available.  Useful in a few crafting recipes.",
+        "category": "spare_parts",
         "weight" : 345,
         "to_hit" : -1,
         "color" : "light_red",
@@ -2820,7 +2716,6 @@
         "techniques" : ["WBLOCK_1"],
         "volume" : 2,
         "bashing" : 5,
-        "cutting" : 0,
         "price" : 7500
     },
     {
@@ -2838,7 +2733,6 @@
         "weight": 42,
         "volume": 1,
         "bashing": -8,
-        "cutting": 0,
         "to_hit": 0
     },
     {
@@ -2853,7 +2747,6 @@
         "material" : ["aluminum", "glass"],
         "volume" : 1,
         "bashing" : 3,
-        "cutting" : 0,
         "price" : 5000,
         "flags" : ["WATCH", "ALARMCLOCK"]
     },
@@ -2870,7 +2763,6 @@
         "weight": 4290,
         "volume": 18,
         "bashing": 5,
-        "cutting": 0,
         "to_hit": -1
     },
     {
@@ -2884,7 +2776,6 @@
         "material": ["glass", "cotton"],
         "weight": 129,
         "volume": 1,
-        "bashing": 0,
         "cutting": 6,
         "to_hit": 0,
         "flags": ["SHEATH_KNIFE"],
@@ -2919,7 +2810,6 @@
         "weight": 900,
         "volume": 3,
         "bashing": -2,
-        "cutting": 0,
         "to_hit": 0,
         "material": ["plastic", "null"]
     },
@@ -2936,7 +2826,6 @@
         "weight": 900,
         "volume": 3,
         "bashing": -2,
-        "cutting": 0,
         "to_hit": 0,
         "material": ["plastic", "null"]
     },
@@ -2953,7 +2842,6 @@
         "weight": 900,
         "volume": 3,
         "bashing": -2,
-        "cutting": 0,
         "to_hit": 0,
         "material": ["plastic", "null"]
     },
@@ -2970,7 +2858,6 @@
         "weight": 900,
         "volume": 3,
         "bashing": -2,
-        "cutting": 0,
         "to_hit": 0,
         "material": ["plastic", "null"]
     },
@@ -2987,7 +2874,6 @@
         "weight": 900,
         "volume": 3,
         "bashing": -2,
-        "cutting": 0,
         "to_hit": 0,
         "material": ["plastic", "null"]
     },
@@ -3014,6 +2900,7 @@
         "name": "sharpened toothbrush",
         "name_plural": "sharpened toothbrushes",
         "description": "A personal hygiene item turned into a shank.",
+        "category": "weapons",
         "price": 400,
         "material": ["plastic", "null"],
         "weight": 49,
@@ -3034,7 +2921,6 @@
         "material": "steel",
         "weight": 10,
         "volume": 0,
-        "bashing": 0,
         "cutting": 1,
         "to_hit": 0
     },
@@ -3050,7 +2936,6 @@
         "weight": 19400,
         "volume": 5,
         "bashing": 7,
-        "cutting": 0,
         "to_hit": -5
     },
     {
@@ -3064,8 +2949,6 @@
         "material": "diamond",
         "weight": 120,
         "volume": 1,
-        "bashing": 0,
-        "cutting": 0,
         "to_hit": -5
     },
     {   "type" : "AMMO",
@@ -3081,7 +2964,6 @@
         "volume" : 5,
         "weight" : 10,
         "bashing" : 0,
-        "cutting" : 0,
         "to_hit" : 0,
         "ammo_type" : "NULL",
         "damage" : 0,
@@ -3103,7 +2985,6 @@
         "volume" : 5,
         "weight" : 10,
         "bashing" : 0,
-        "cutting" : 0,
         "to_hit" : 0,
         "ammo_type" : "NULL",
         "damage" : 0,
@@ -3125,7 +3006,6 @@
         "volume" : 5,
         "weight" : 10,
         "bashing" : 0,
-        "cutting" : 0,
         "to_hit" : 0,
         "ammo_type" : "NULL",
         "damage" : 0,
@@ -3147,7 +3027,6 @@
         "volume" : 5,
         "weight" : 10,
         "bashing" : 0,
-        "cutting" : 0,
         "to_hit" : 0,
         "ammo_type" : "NULL",
         "damage" : 0,
@@ -3169,7 +3048,6 @@
         "volume" : 5,
         "weight" : 10,
         "bashing" : 0,
-        "cutting" : 0,
         "to_hit" : 0,
         "ammo_type" : "NULL",
         "damage" : 0,
@@ -3191,7 +3069,6 @@
         "volume" : 5,
         "weight" : 10,
         "bashing" : 0,
-        "cutting" : 0,
         "to_hit" : 0,
         "ammo_type" : "NULL",
         "damage" : 0,
@@ -3212,7 +3089,6 @@
         "volume" : 7,
         "weight" : 45,
         "bashing" : 0,
-        "cutting" : 0,
         "to_hit" : 0,
         "ammo_type" : "NULL",
         "damage" : 0,
@@ -3233,7 +3109,6 @@
         "volume" : 7,
         "weight" : 45,
         "bashing" : 0,
-        "cutting" : 0,
         "to_hit" : 0,
         "ammo_type" : "NULL",
         "damage" : 0,
@@ -3254,7 +3129,6 @@
         "volume" : 7,
         "weight" : 45,
         "bashing" : 0,
-        "cutting" : 0,
         "to_hit" : 0,
         "ammo_type" : "NULL",
         "damage" : 0,
@@ -3275,7 +3149,6 @@
         "volume" : 7,
         "weight" : 45,
         "bashing" : 0,
-        "cutting" : 0,
         "to_hit" : 0,
         "ammo_type" : "NULL",
         "damage" : 0,
@@ -3295,8 +3168,6 @@
         "material": ["plastic", "steel"],
         "weight": 600,
         "volume": 1,
-        "bashing": 0,
-        "cutting": 0,
         "to_hit": 1
     },
     {
@@ -3484,7 +3355,6 @@
         "color": "light_gray",
         "name": "zweihänder",
         "description": "This is a dull, cheaply made replica of a huge two-handed sword from Germany.  It still packs a wallop.",
-        "rarity": 30,
         "price": 8000,
         "material": "aluminum",
         "flags" : ["BASH", "SHEATH_SWORD"],
@@ -3707,7 +3577,6 @@
     "color": "light_gray",
     "name": "nodachi",
     "description": "This is a dull, cheaply made replica of a huge, curved, two-handed sword from Japan.  It is surprisingly light for its size.",
-    "rarity": 30,
     "price": 15000,
     "material": "aluminum",
     "flags": ["BASH", "SHEATH_SWORD"],
@@ -3751,7 +3620,6 @@
     "weight": 8932,
     "volume": 18,
     "bashing": -2,
-    "cutting": 0,
     "to_hit": -2,
     "material": ["wood", "steel"]
   },{
@@ -3767,7 +3635,6 @@
     "weight": 2000,
     "volume": 11,
     "bashing": -2,
-    "cutting": 0,
     "to_hit": -2,
     "material": ["wood", "steel"]
   },{
@@ -3783,7 +3650,6 @@
     "weight": 2000,
     "volume": 11,
     "bashing": -2,
-    "cutting": 0,
     "to_hit": -2,
     "material": ["plastic", "steel"]
   },{
@@ -3799,7 +3665,6 @@
     "weight": 400,
     "volume": 2,
     "bashing": -2,
-    "cutting": 0,
     "to_hit": -2,
     "material": ["steel", "plastic"]
   },{
@@ -3815,7 +3680,6 @@
     "weight": 700,
     "volume": 3,
     "bashing": -2,
-    "cutting": 0,
     "to_hit": -2,
     "material": ["steel", "plastic"]
   },{
@@ -3831,7 +3695,6 @@
     "weight": 1900,
     "volume": 10,
     "bashing": -2,
-    "cutting": 0,
     "to_hit": -2,
     "material": ["steel", "plastic"]
   },{
@@ -3847,7 +3710,6 @@
     "weight": 2300,
     "volume": 11,
     "bashing": -2,
-    "cutting": 0,
     "to_hit": -2,
     "material": ["steel", "plastic"]
   },{
@@ -3863,7 +3725,6 @@
     "weight": 5,
     "volume": 0,
     "bashing": 0,
-    "cutting": 0,
     "to_hit": 0
   },
   {
@@ -3880,7 +3741,6 @@
     "weight": 5,
     "volume": 0,
     "bashing": 0,
-    "cutting": 0,
     "to_hit": 0
   },
   {
@@ -3897,7 +3757,6 @@
     "weight": 5,
     "volume": 0,
     "bashing": 0,
-    "cutting": 0,
     "to_hit": 0
   },
   {
@@ -3914,7 +3773,6 @@
     "weight": 5,
     "volume": 0,
     "bashing": 0,
-    "cutting": 0,
     "to_hit": 0
   },
    {
@@ -3930,7 +3788,6 @@
      "weight": 5,
      "volume": 1,
      "bashing": -5,
-     "cutting": 0,
      "to_hit": -3
    },
     {
@@ -3947,7 +3804,6 @@
         "weight": 600,
         "volume": 3,
         "bashing": -2,
-        "cutting": 0,
         "category" : "spare_parts",
         "to_hit": -1
     },
@@ -3964,7 +3820,6 @@
         "weight": 600,
         "volume": 6,
         "bashing": -2,
-        "cutting": 0,
         "category" : "spare_parts",
         "to_hit": -1
     },
@@ -3982,7 +3837,6 @@
         "weight": 684,
         "volume": 4,
         "bashing": -2,
-        "cutting": 0,
         "category" : "spare_parts",
         "to_hit": -1
     },
@@ -3999,7 +3853,6 @@
         "weight": 684,
         "volume": 6,
         "bashing": -2,
-        "cutting": 0,
         "category" : "spare_parts",
         "to_hit": -1
     },{
@@ -4030,10 +3883,9 @@
         "price": 3500,
         "material": ["leather", "null"],
         "flags": ["REACH_ATTACK", "REACH3", "WHIP"],
-        "bashing": 0,
         "cutting": 3,
         "to_hit": 0,
-	"category": "weapons"
+        "category": "weapons"
     },{
         "type": "GENERIC",
         "id": "clay_pot",
@@ -4046,7 +3898,6 @@
         "weight": 480,
         "volume": 8,
         "bashing": 1,
-        "cutting": 0,
         "category": "tools",
         "to_hit": 0,
         "qualities": [["COOK", 3], ["BOIL", 2], ["CONTAIN", 1], ["CHEM", 1]]
@@ -4061,8 +3912,6 @@
         "material": "clay",
         "weight": 2264,
         "volume": 6,
-        "bashing": 0,
-        "cutting": 0,
         "category": "tools",
         "to_hit": 0
     },{
@@ -4072,12 +3921,12 @@
         "color": "brown",
         "name": "clay teapot",
         "description": "A clay teapot.  Now all you need is tea and water.",
+        "category": "tools",
         "price": 2000,
         "material": "clay",
         "weight": 429,
         "volume": 3,
         "bashing": 1,
-        "cutting": 0,
         "to_hit": 1,
         "qualities": [["BOIL", 1]]
     },{
@@ -4094,7 +3943,6 @@
         "weight": 530,
         "volume": 1,
         "bashing": -1,
-        "cutting": 0,
         "to_hit": -4
     },{
         "type": "GENERIC",
@@ -4109,7 +3957,6 @@
         "weight": 969,
         "volume": 2,
         "bashing": 8,
-        "cutting": 0,
         "to_hit": -2
     },{
             "type": "GENERIC",
@@ -4124,7 +3971,6 @@
         "weight": 1269,
         "volume": 2,
         "bashing": 8,
-        "cutting": 0,
         "to_hit": -2
     },{
         "type": "GENERIC",
@@ -4138,7 +3984,6 @@
         "weight": 1000,
         "volume": 4,
         "bashing": 4,
-        "cutting": 0,
         "to_hit": 0
     },
     {
@@ -4148,13 +3993,13 @@
     "color": "yellow",
     "name": "silver gas discount card",
     "description": "This card gives you a little discount on the purchase of gasoline.",
+    "category": "other",
     "price": 500,
     "material": "plastic",
     "flags": ["GAS_DISCOUNT", "DISCOUNT_VALUE_1"],
     "weight": 6,
     "volume": 0,
     "bashing": -8,
-    "cutting": 0,
     "to_hit": -3,
     "max_charges": 0,
     "initial_charges": 0,
@@ -4170,13 +4015,13 @@
     "color": "yellow",
     "name": "gold gas discount card",
     "description": "This card gives you a good discount on the purchase of gasoline.",
+    "category": "other",
     "price": 500,
     "material": "plastic",
     "flags": ["GAS_DISCOUNT", "DISCOUNT_VALUE_2"],
     "weight": 6,
     "volume": 0,
     "bashing": -8,
-    "cutting": 0,
     "to_hit": -3,
     "max_charges": 0,
     "initial_charges": 0,
@@ -4192,13 +4037,13 @@
     "color": "yellow",
     "name": "platinum gas discount card",
     "description": "This card gives you a splendid discount on the purchase of gasoline.",
+    "category": "other",
     "price": 500,
     "material": "plastic",
     "flags": ["GAS_DISCOUNT", "DISCOUNT_VALUE_3"],
     "weight": 6,
     "volume": 0,
     "bashing": -8,
-    "cutting": 0,
     "to_hit": -3,
     "max_charges": 0,
     "initial_charges": 0,
@@ -4220,7 +4065,6 @@
         "weight": 2000,
         "volume": 4,
         "bashing": 1,
-        "cutting": 0,
         "to_hit": -2
     },
     {

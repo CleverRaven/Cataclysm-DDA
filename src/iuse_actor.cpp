@@ -1946,7 +1946,7 @@ bool could_repair( const player &p, const item &it, bool print_msg )
     }
     if( p.fine_detail_vision_mod() > 4 ) {
         if( print_msg ) {
-            p.add_msg_if_player(m_info, _("You can't see to solder!"));
+            p.add_msg_if_player(m_info, _("You can't see to do that!"));
         }
         return false;
     }
@@ -2104,7 +2104,7 @@ bool repair_item_actor::can_repair( player &pl, const item &tool, const item &fi
     if( !handle_components( pl, fix, print_msg, true ) ) {
         return false;
     }
-    
+
     if( fix.damage == 0 && fix.has_flag("PRIMITIVE_RANGED_WEAPON") ) {
         if( print_msg ) {
             pl.add_msg_if_player( m_info, _("You cannot improve your %s any more this way."), fix.tname().c_str());
@@ -2330,7 +2330,7 @@ long heal_actor::finish_using( player &healer, player &patient, item &it, hp_par
 {
     healer.practice( skill_firstaid, 8 );
     const int dam = get_heal_value( healer, healed );
-    
+
     if( (patient.hp_cur[healed] >= 1) && (dam > 0)) { // Prevent first-aid from mending limbs
         patient.heal(healed, dam);
     } else if ((patient.hp_cur[healed] >= 1) && (dam < 0)) {
