@@ -414,6 +414,11 @@ void calendar::sync()
     second = (turn_number * 6) % 60;
 }
 
+int calendar::get_radio_message_index(int radio_message_size)
+{
+    return (calendar::turn % radio_message_size);
+}
+
 bool calendar::once_every(int event_frequency) {
     return (calendar::turn % event_frequency) == 0;
 }

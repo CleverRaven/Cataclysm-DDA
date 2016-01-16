@@ -120,6 +120,11 @@ class calendar
         }
 
         /**
+         * Return which part of the message is going to be printed on the screen when using radio
+         */
+        static int get_radio_message_index(int radio_message_size);
+
+        /**
          * Predicate to handle rate-limiting, returns true once every @event_frequency turns.
          */
         static bool once_every(int event_frequency);
