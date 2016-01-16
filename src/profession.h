@@ -75,9 +75,7 @@ enum add_type : int;
         static const profession *generic(); // points to the generic, default profession
         // return a random profession, weighted for use w/ random character creation or npcs
         static const profession *weighted_random();
-        static profmap::const_iterator begin();
-        static profmap::const_iterator end();
-        static int count();
+        static std::vector<const profession*> get_all();
 
         static bool has_initialized();
         // clear profession map, every profession pointer becames invalid!

@@ -1085,13 +1085,13 @@ int set_profession(WINDOW *w, player *u, int &points)
     do {
         if (recalc_profs) {
             sorted_profs.clear();
-            for (profmap::const_iterator iter = profession::begin(); iter != profession::end(); ++iter) {
-                if ((g->scen->profsize() == 0 && (iter->second).has_flag("SCEN_ONLY") == false) ||
-                    g->scen->profquery( iter->first ) ) {
-                    if (!lcmatch(iter->second.gender_appropriate_name(u->male), filterstring)) {
+            for( const profession *const profptr : profession::get_all() ) {
+                if ((g->scen->profsize() == 0 && profptr->has_flag("SCEN_ONLY") == false) ||
+                    g->scen->profquery( profptr->ident() ) ) {
+                    if (!lcmatch(profptr->gender_appropriate_name(u->male), filterstring)) {
                         continue;
                     }
-                    sorted_profs.push_back(&(iter->second));
+                    sorted_profs.push_back(profptr);
                 }
             }
             profs_length = sorted_profs.size();

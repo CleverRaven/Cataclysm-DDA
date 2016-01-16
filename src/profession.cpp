@@ -132,19 +132,13 @@ const profession *profession::weighted_random()
     }
 }
 
-profmap::const_iterator profession::begin()
+std::vector<const profession*> profession::get_all()
 {
-    return _all_profs.begin();
+    std::vector<const profession*> result;
+    for( auto &p : _all_profs ) {
+        result.push_back( &p.second );
 }
-
-profmap::const_iterator profession::end()
-{
-    return _all_profs.end();
-}
-
-int profession::count()
-{
-    return _all_profs.size();
+    return result;
 }
 
 void profession::reset()
