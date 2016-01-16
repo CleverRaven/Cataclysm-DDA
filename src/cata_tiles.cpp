@@ -2068,6 +2068,7 @@ void cata_tiles::draw_sct_frame()
         const int iDY = iter->getPosY();
 
         int iOffsetX = 0;
+        int iOffsetY = 0;
 
         for( int j = 0; j < 2; ++j ) {
             std::string sText = iter->getText( ( j == 0 ) ? "first" : "second" );
@@ -2082,9 +2083,12 @@ void cata_tiles::draw_sct_frame()
 
                 if( tile_ids.count( generic_id ) > 0 ) {
                     draw_from_id_string( generic_id, C_NONE, empty_string,
-                                         { iDX + iOffsetX, iDY, g->u.pos().z }, 0, 0, LL_LIT, false);
+                                         { iDX + iOffsetX, iDY + iOffsetY, g->u.pos().z }, 0, 0, LL_LIT, false);
                 }
 
+                if (tile_iso && use_tiles) {
+                    iOffsetY++;
+                }
                 iOffsetX++;
             }
         }

@@ -57,8 +57,8 @@ struct advanced_inv_listitem;
 struct advanced_inv_area {
     const aim_location id;
     // Used for the small overview 3x3 grid
-    const int hscreenx = 0;
-    const int hscreeny = 0;
+    int hscreenx = 0;
+    int hscreeny = 0;
     // relative (to the player) position of the map point
     tripoint off;
     /** Long name, displayed, translated */
@@ -463,6 +463,13 @@ class advanced_inventory
         void menu_square(uimenu *menu);
 
         static char get_location_key( aim_location area );
+        static int get_direction_key( aim_location area );
+
+        /**
+         * Converts from screen relative location to game-space relative location
+         * for control rotation in isometric mode.
+        */
+        static aim_location screen_relative_location( aim_location area );
 };
 
 #endif
