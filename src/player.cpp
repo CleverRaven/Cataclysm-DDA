@@ -10469,7 +10469,7 @@ bool player::wield(item* it, bool )
         });
 
         prompt.addentry( -1, true, '2', _( "Drop item" ) );
-        actions.push_back( [&]{ g->m.add_item_or_charges( posx(), posy(), remove_weapon() ); });
+        actions.push_back( [&]{ g->m.add_item_or_charges( pos(), remove_weapon() ); });
 
         prompt.addentry( -1, rate_action_wear( weapon ) == HINT_GOOD, '3', _( "Wear item" ) );
         actions.push_back( [&]{ wear( -1 ); });
