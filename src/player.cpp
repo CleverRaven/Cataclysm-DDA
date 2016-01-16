@@ -210,7 +210,7 @@ player::player() : Character()
  male = true;
  prof = profession::has_initialized() ? profession::generic() : NULL; //workaround for a potential structural limitation, see player::create
 
- start_location = "shelter";
+    start_location = start_location_id( "shelter" );
  moves = 100;
  movecounter = 0;
  cached_turn = -1;
@@ -10909,7 +10909,7 @@ bool player::wear_item( const item &to_wear, bool interactive )
     else
     {
         // Only headgear can be worn with power armor, except other power armor components
-        if(!to_wear.covers(bp_head) && !to_wear.covers(bp_eyes) && !to_wear.covers(bp_mouth)) 
+        if(!to_wear.covers(bp_head) && !to_wear.covers(bp_eyes) && !to_wear.covers(bp_mouth))
         {
             for (auto &i : worn)
             {
@@ -11723,7 +11723,7 @@ void player::remove_gunmod(item *weapon, unsigned id)
     item *gunmod = &weapon->contents[id];
     item ammo;
     if (gunmod->charges > 0) {
-        if( gunmod->has_curammo() ) {
+        if( gunmod->ammo_current() != "null" ) {
             ammo = item( gunmod->ammo_current(), calendar::turn );
         } else {
             ammo = item(default_ammo(weapon->ammo_type()), calendar::turn);

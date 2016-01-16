@@ -461,7 +461,7 @@ class game
          * The overmap which contains the center submap of the reality bubble.
          */
         overmap &get_cur_om() const;
-        scenario *scen;
+        const scenario *scen;
         std::vector<monster> coming_to_stairs;
         int monstairz;
         std::vector<npc *> active_npc;

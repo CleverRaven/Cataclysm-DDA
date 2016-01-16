@@ -147,10 +147,10 @@ int player::create(character_type type, std::string tempname)
                 g->u.name = MAP_SHARING::getUsername();
             }
             if (type == PLTYPE_RANDOM_WITH_SCENARIO) {
-                std::vector<scenario *> scenarios;
-                for (scenmap::const_iterator iter = scenario::begin(); iter != scenario::end(); iter++) {
-                    if (!(iter->second).has_flag("CHALLENGE")) {
-                        scenarios.emplace_back(scenario::scen((iter->second).ident()));
+                std::vector<const scenario *> scenarios;
+                for( const scenario *const scenptr : scenario::get_all() ) {
+                    if (!scenptr->has_flag("CHALLENGE")) {
+                        scenarios.emplace_back( scenptr );
                     }
                 }
                 g->scen = random_entry( scenarios );
@@ -1085,13 +1085,13 @@ int set_profession(WINDOW *w, player *u, int &points)
     do {
         if (recalc_profs) {
             sorted_profs.clear();
-            for (profmap::const_iterator iter = profession::begin(); iter != profession::end(); ++iter) {
-                if ((g->scen->profsize() == 0 && (iter->second).has_flag("SCEN_ONLY") == false) ||
-                    g->scen->profquery(&(iter->second)) == true) {
-                    if (!lcmatch(iter->second.gender_appropriate_name(u->male), filterstring)) {
+            for( const profession *const profptr : profession::get_all() ) {
+                if ((g->scen->profsize() == 0 && profptr->has_flag("SCEN_ONLY") == false) ||
+                    g->scen->profquery( profptr->ident() ) ) {
+                    if (!lcmatch(profptr->gender_appropriate_name(u->male), filterstring)) {
                         continue;
                     }
-                    sorted_profs.push_back(&(iter->second));
+                    sorted_profs.push_back(profptr);
                 }
             }
             profs_length = sorted_profs.size();
@@ -1313,7 +1313,7 @@ int set_profession(WINDOW *w, player *u, int &points)
                 desc_offset++;
             }
         } else if (action == "CONFIRM") {
-            u->prof = profession::prof(sorted_profs[cur_id]->ident()); // we've got a const*
+            u->prof = sorted_profs[cur_id];
             points -= netPointCost;
         } else if (action == "CHANGE_GENDER") {
             u->male = !u->male;
@@ -1609,11 +1609,11 @@ int set_scenario(WINDOW *w, player *u, int &points)
     do {
         if (recalc_scens) {
             sorted_scens.clear();
-            for (scenmap::const_iterator iter = scenario::begin(); iter != scenario::end(); ++iter) {
-                if (!lcmatch(iter->second.gender_appropriate_name(u->male), filterstring)) {
+            for( const scenario *const scenptr : scenario::get_all() ) {
+                if (!lcmatch(scenptr->gender_appropriate_name(u->male), filterstring)) {
                     continue;
                 }
-                sorted_scens.push_back(&(iter->second));
+                sorted_scens.push_back( scenptr );
             }
             scens_length = sorted_scens.size();
             if (scens_length == 0) {
@@ -1690,11 +1690,11 @@ int set_scenario(WINDOW *w, player *u, int &points)
         }
         ///* This string has fixed start pos(7 = 2(start) + 5(length of "(+%d)" and space))
         mvwprintz(w, 3, pMsg_length + 7, can_pick ? c_green : c_ltred, scen_msg_temp.c_str(),
-                  _(sorted_scens[cur_id]->gender_appropriate_name(u->male).c_str()),
+                  sorted_scens[cur_id]->gender_appropriate_name(u->male).c_str(),
                   pointsForScen);
 
         fold_and_print(w_description, 0, 0, FULL_SCREEN_WIDTH - 2, c_green,
-                       _(sorted_scens[cur_id]->description(u->male).c_str()));
+                       sorted_scens[cur_id]->description(u->male).c_str());
 
         //Draw options
         calcStartPos(iStartPos, cur_id, iContentHeight, scens_length);
@@ -1711,7 +1711,7 @@ int set_scenario(WINDOW *w, player *u, int &points)
                 col = (sorted_scens[i] == sorted_scens[cur_id] ? hilite(COL_SKILL_USED) : COL_SKILL_USED);
             }
             mvwprintz(w, 5 + i - iStartPos, 2, col,
-                      _(sorted_scens[i]->gender_appropriate_name(u->male).c_str()));
+                      sorted_scens[i]->gender_appropriate_name(u->male).c_str());
 
         }
         //Clear rest of space in case stuff got filtered out
@@ -1754,7 +1754,7 @@ int set_scenario(WINDOW *w, player *u, int &points)
 
         mvwprintz(w_location, 0, 0, COL_HEADER, _("Scenario Location:"));
         wprintz(w_location, c_ltgray, ("\n"));
-        wprintz(w_location, c_ltgray, _(sorted_scens[cur_id]->start_name().c_str()));
+        wprintz(w_location, c_ltgray, sorted_scens[cur_id]->start_name().c_str());
 
         mvwprintz(w_flags, 0, 0, COL_HEADER, _("Scenario Flags:"));
         wprintz(w_flags, c_ltgray, ("\n"));
@@ -1819,7 +1819,7 @@ int set_scenario(WINDOW *w, player *u, int &points)
             u->dex_max = 8;
             u->int_max = 8;
             u->per_max = 8;
-            g->scen = scenario::scen(sorted_scens[cur_id]->ident());
+            g->scen = sorted_scens[cur_id];
             u->prof = g->scen->get_profession();
             u->empty_traits();
             u->empty_skills();
@@ -1896,11 +1896,10 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
     uimenu select_location;
     select_location.text = _("Select a starting location.");
     int offset = 0;
-    for( location_map::iterator loc = start_location::begin();
-         loc != start_location::end(); ++loc) {
-        if (g->scen->allowed_start(loc->second.ident()) || g->scen->has_flag("ALL_STARTS")) {
-            select_location.entries.push_back( uimenu_entry( _( loc->second.name().c_str() ) ) );
-            if( loc->second.ident() == u->start_location ) {
+    for( const start_location *const loc : start_location::get_all() ) {
+        if (g->scen->allowed_start(loc->ident()) || g->scen->has_flag("ALL_STARTS")) {
+            select_location.entries.push_back( uimenu_entry( _( loc->name().c_str() ) ) );
+            if( loc->ident() == u->start_location ) {
                 select_location.selected = offset;
             }
             offset++;
@@ -2040,12 +2039,12 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
         mvwprintz( w_location, 0, prompt_offset + 1, c_ltgray, _("Starting location:") );
         // ::find will return empty location if id was not found. Debug msg will be printed too.
         mvwprintz( w_location, 0, prompt_offset + utf8_width(_("Starting location:")) + 2,
-                   c_ltgray, _(start_location::find(u->start_location)->name().c_str()));
+                   c_ltgray, _(u->start_location.obj().name().c_str()));
         wrefresh(w_location);
 
         werase(w_scenario);
         mvwprintz(w_scenario, 0, 0, COL_HEADER, _("Scenario: "));
-        wprintz(w_scenario, c_ltgray, _(g->scen->gender_appropriate_name(u->male).c_str()));
+        wprintz(w_scenario, c_ltgray, g->scen->gender_appropriate_name(u->male).c_str());
         wrefresh(w_scenario);
 
         werase(w_profession);
@@ -2107,11 +2106,10 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
         } else if ( action == "CHOOSE_LOCATION" ) {
             select_location.redraw();
             select_location.query();
-            for( location_map::iterator loc = start_location::begin();
-                 loc != start_location::end(); ++loc ) {
-                if( 0 == strcmp( _( loc->second.name().c_str() ),
+            for( const start_location *const loc : start_location::get_all() ) {
+                if( 0 == strcmp( _( loc->name().c_str() ),
                                  select_location.entries[ select_location.selected ].txt.c_str() ) ) {
-                    u->start_location = loc->second.ident();
+                    u->start_location = loc->ident();
                 }
             }
             werase(select_location.window);

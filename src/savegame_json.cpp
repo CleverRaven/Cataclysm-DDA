@@ -369,21 +369,21 @@ void player::load(JsonObject &data)
     if( has_bionic( "bio_ears" ) && !has_bionic( "bio_earplugs" ) ) {
         add_bionic("bio_earplugs");
     }
-	
+
     // Add the blindfold.
     if( has_bionic( "bio_sunglasses" ) && !has_bionic( "bio_blindfold" ) ) {
         add_bionic( "bio_blindfold" );
     }
-    
+
     // Fixes bugged characters for telescopic eyes CBM.
     if( has_bionic( "bio_eye_optic" ) && has_trait( "HYPEROPIC" ) ) {
         remove_mutation( "HYPEROPIC" );
     }
-    
+
     if( has_bionic( "bio_eye_optic" ) && has_trait( "MYOPIC" ) ) {
         remove_mutation( "MYOPIC" );
     }
-    
+
 
 }
 
@@ -575,8 +575,8 @@ void player::deserialize(JsonIn &jsin)
     // contain get_object(), load()
 
     std::string prof_ident = "(null)";
-    if ( data.read("profession", prof_ident) && profession::exists(prof_ident) ) {
-        prof = profession::prof(prof_ident);
+    if ( data.read("profession", prof_ident) && string_id<profession>( prof_ident ).is_valid() ) {
+        prof = &string_id<profession>( prof_ident ).obj();
     } else {
         debugmsg("Tried to use non-existent profession '%s'", prof_ident.c_str());
     }
@@ -616,11 +616,11 @@ void player::deserialize(JsonIn &jsin)
     set_highest_cat_level();
     drench_mut_calc();
     std::string scen_ident="(null)";
-    if ( data.read("scenario",scen_ident) && scenario::exists(scen_ident) ) {
-        g->scen = scenario::scen(scen_ident);
+    if ( data.read("scenario",scen_ident) && string_id<scenario>( scen_ident ).is_valid() ) {
+        g->scen = &string_id<scenario>( scen_ident ).obj();
         start_location = g->scen->start_location();
     } else {
-        scenario *generic_scenario = scenario::generic();
+        const scenario *generic_scenario = scenario::generic();
         // Only display error message if from a game file after scenarios existed.
         if (savegame_loading_version > 20) {
             debugmsg("Tried to use non-existent scenario '%s'. Setting to generic '%s'.",

@@ -721,7 +721,7 @@ void game::start_game(std::string worldname)
     }
     u.setID( assign_npc_id() ); // should be as soon as possible, but *after* load_master
 
-    const start_location &start_loc = *start_location::find( u.start_location );
+    const start_location &start_loc = u.start_location.obj();
     const tripoint omtstart = start_loc.setup();
     if( scen->has_map_special() ) {
         // Specials can add monster spawn points and similar and should be done before the main
@@ -11586,8 +11586,7 @@ void game::unload( item &it )
     }
 
     // Construct a new ammo item and try to drop it
-    item ammo( target->has_curammo() ? target->ammo_current() :
-               default_ammo( target->ammo_type() ), calendar::turn );
+    item ammo( target->ammo_current(), calendar::turn );
     ammo.charges = qty;
 
     if( !add_or_drop_with_msg( u, ammo ) ) {

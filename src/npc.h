@@ -725,7 +725,7 @@ public:
  int choose_escape_item(); // Returns item position of our best escape aid
 
 // Helper functions for ranged combat
- int  confident_range(int position = -1); // >= 50% chance to hit
+ int confident_range( int position = -1 );
  /**
   * Check if this NPC is blocking movement from the given position
   */

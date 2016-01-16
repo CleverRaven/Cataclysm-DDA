@@ -338,7 +338,7 @@ void player::fire_gun( const tripoint &targ_arg, bool burst )
     item *used_weapon = weapon.active_gunmod() ? weapon.active_gunmod() : &weapon;
 
     const bool is_charger_gun = used_weapon->update_charger_gun_ammo();
-    const itype *curammo = used_weapon->get_curammo();
+    const itype *curammo = used_weapon->ammo_data();
 
     if( !used_weapon->is_gun() || curammo == nullptr ) {
         debugmsg( "%s tried to fire empty or non-gun (%s).", name.c_str(), used_weapon->tname().c_str() );
@@ -705,7 +705,7 @@ static int draw_targeting_window( WINDOW *w_target, item *relevant, player &p, t
         if( mode == TARGET_MODE_FIRE ) {
             if(relevant->has_flag("RELOAD_AND_SHOOT")) {
                 title = string_format( _("Shooting %1$s from %2$s"),
-                        p.weapon.get_curammo()->nname(1).c_str(), p.weapon.tname().c_str());
+                        p.weapon.ammo_data()->nname(1).c_str(), p.weapon.tname().c_str());
             } else if( relevant->has_flag("NO_AMMO") ) {
                 title = string_format( _("Firing %s"), p.weapon.tname().c_str());
             } else {
@@ -1121,12 +1121,14 @@ static projectile make_gun_projectile( const item &gun) {
     proj.speed  = 1000;
     proj.impact = damage_instance::physical( 0, gun.gun_damage(), 0, gun.gun_pierce() );
 
+    const auto curammo = gun.ammo_data();
+
     // Consider both effects from the gun and ammo
     auto &fx = proj.proj_effects;
     fx.insert( gun.type->gun->ammo_effects.begin(), gun.type->gun->ammo_effects.end() );
-    fx.insert( gun.get_curammo()->ammo->ammo_effects.begin(), gun.get_curammo()->ammo->ammo_effects.end() );
+    fx.insert( curammo->ammo->ammo_effects.begin(), curammo->ammo->ammo_effects.end() );
 
-    if( gun.get_curammo()->phase == LIQUID || fx.count( "SHOT" ) || fx.count("BOUNCE" ) ) {
+    if( curammo->phase == LIQUID || fx.count( "SHOT" ) || fx.count("BOUNCE" ) ) {
         fx.insert( "WIDE" );
     }
 
@@ -1137,7 +1139,7 @@ static projectile make_gun_projectile( const item &gun) {
     });
 
     if( recover && !fx.count( "IGNITE" ) && !fx.count( "EXPLOSIVE" ) ) {
-        item drop( gun.ammo_current(), calendar::turn, false );
+        item drop( curammo->id, calendar::turn, false );
         drop.charges = 1;
         drop.active = fx.count( "ACT_ON_RANGED_HIT" );
 
@@ -1176,7 +1178,7 @@ int time_to_fire(player &p, const itype &firingt)
 }
 
 static inline void eject_casing( player& p, item& weap ) {
-    itype_id casing_type = weap.get_curammo()->ammo->casing;
+    itype_id casing_type = weap.ammo_data()->ammo->casing;
     if( casing_type == "NULL" || casing_type.empty() ) {
         return;
     }
@@ -1242,10 +1244,7 @@ item::sound_data item::gun_noise( bool const burst ) const
         return sound_data{ 0, { "" } };
     }
 
-    int noise = gun.loudness;
-    if( has_curammo() ) {
-        noise += get_curammo()->ammo->damage;
-    }
+    int noise = gun.loudness + ammo_data() ? ammo_data()->ammo->damage : 0;
     for( auto &elem : contents ) {
         if( elem.is_gunmod() ) {
             noise += elem.type->gunmod->loudness;
@@ -1363,8 +1362,8 @@ double player::get_weapon_dispersion(item *weapon, bool random) const
     dispersion += rand_or_max( random, 3 * (encumb(bp_arm_l) + encumb(bp_arm_r)));
     dispersion += rand_or_max( random, 6 * encumb(bp_eyes));
 
-    if( weapon->has_curammo() ) {
-        dispersion += rand_or_max( random, weapon->get_curammo()->ammo->dispersion);
+    if( weapon->ammo_data() ) {
+        dispersion += rand_or_max( random, weapon->ammo_data()->ammo->dispersion );
     }
 
     dispersion += rand_or_max( random, weapon->gun_dispersion(false) );
