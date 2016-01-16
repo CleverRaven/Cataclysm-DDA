@@ -32,12 +32,11 @@ private:
     std::string _description_female;
     std::string _gender_req;
     std::string _start_name;
-    start_location_id _default_loc;
     std::vector<string_id<profession>> _allowed_professions;
     std::set<std::string> _allowed_traits;
     std::set<std::string> _forced_traits;
     std::set<std::string> _forbidden_traits;
-    std::set<start_location_id> _allowed_locs;
+    std::vector<start_location_id> _allowed_locs;
     int _mission;
     std::vector<std::string> traits;
     int _point_cost;

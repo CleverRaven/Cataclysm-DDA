@@ -102,13 +102,10 @@ void scenario::load_scenario(JsonObject &jsobj)
     }
     jsarr = jsobj.get_array("allowed_locs");
     while (jsarr.has_more()) {
-        if( scen._default_loc.str().empty() ) {
-            scen._default_loc = start_location_id( jsarr.next_string() );
-            scen._allowed_locs.insert( start_location_id( scen._default_loc ) );
-        }
-        else{
-            scen._allowed_locs.insert( start_location_id( jsarr.next_string() ) );
-        }
+        scen._allowed_locs.push_back( start_location_id( jsarr.next_string() ) );
+    }
+    if( scen._allowed_locs.empty() ) {
+        jsobj.throw_error( "at least one starting location (member \"allowed_locs\") must be defined" );
     }
     jsarr = jsobj.get_array("flags");
     while (jsarr.has_more()) {
@@ -239,7 +236,7 @@ signed int scenario::point_cost() const
 
 start_location_id scenario::start_location() const
 {
-    return _default_loc;
+    return _allowed_locs.front();
 }
 start_location_id scenario::random_start_location() const
 {
@@ -310,7 +307,8 @@ bool scenario::has_flag(std::string flag) const
 }
 bool scenario::allowed_start( const start_location_id &loc ) const
 {
-    return _allowed_locs.count(loc) != 0;
+    auto &vec = _allowed_locs;
+    return std::find( vec.begin(), vec.end(), loc ) != vec.end();
 }
 bool scenario::can_pick(int points) const
 {
