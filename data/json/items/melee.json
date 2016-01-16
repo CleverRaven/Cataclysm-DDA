@@ -3462,14 +3462,7 @@
     "volume": 8,
     "bashing": 6,
     "cutting": 2,
-    "to_hit": 1,
-    "max_charges": 0,
-    "initial_charges": 0,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
-    "ammo": "NULL",
-    "revert_to": "null",
-    "category" : "weapons"
+    "to_hit": 1
     },{
         "id": "katana_fake",
         "type": "GENERIC",
@@ -3558,8 +3551,7 @@
     "volume": 8,
     "bashing": 14,
     "cutting": 2,
-    "to_hit": 2,
-    "category" : "weapons"
+    "to_hit": 2
     },{
     "id": "longsword_fake",
     "type": "GENERIC",
@@ -3575,8 +3567,7 @@
     "volume": 11,
     "bashing": 16,
     "cutting": 2,
-    "to_hit": 2,
-    "category" : "weapons"
+    "to_hit": 2
   },{
     "id": "jian_fake",
     "type": "GENERIC",
@@ -3593,8 +3584,7 @@
     "volume": 8,
     "bashing": 8,
     "cutting": 2,
-    "to_hit": 2,
-    "category" : "weapons"
+    "to_hit": 2
   },{
     "id": "rapier_fake",
     "type": "GENERIC",
@@ -3634,8 +3624,7 @@
     "volume": 11,
     "bashing": 4,
     "cutting": 2,
-    "to_hit": 2,
-    "category" : "weapons"
+    "to_hit": 2
     },{
     "id": "wakizashi_fake",
     "type": "GENERIC",
@@ -3723,14 +3712,7 @@
     "volume": 15,
     "bashing": 16,
     "cutting": 2,
-    "to_hit": 2,
-    "max_charges": 0,
-    "initial_charges": 0,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
-    "ammo": "NULL",
-    "revert_to": "null",
-    "category" : "weapons"
+    "to_hit": 2
     },{
     "id": "nodachi_fake",
     "type": "TOOL",
