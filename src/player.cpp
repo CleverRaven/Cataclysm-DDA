@@ -41,6 +41,7 @@
 #include "mtype.h"
 #include "weather_gen.h"
 #include "cata_utility.h"
+#include "iuse_actor.h"
 
 #include <map>
 
@@ -10443,32 +10444,57 @@ bool player::can_wield( const item &it, bool interactive ) const
     return true;
 }
 
-bool player::wield(item* it, bool autodrop)
+bool player::wield(item* it, bool )
 {
     if (weapon.has_flag("NO_UNWIELD")) {
         add_msg(m_info, _("You cannot unwield your %s!  Withdraw them with 'p'."),
                 weapon.tname().c_str());
         return false;
     }
-    if (it == NULL || it->is_null()) {
-        if(weapon.is_null()) {
+
+    if( it == NULL || it->is_null() ) {
+        if( weapon.is_null() ) {
             return false;
         }
-        if (autodrop || volume_carried() + weapon.volume() <= volume_capacity()) {
-            moves -= item_handling_cost(weapon);
-            inv.add_item_keep_invlet(remove_weapon());
+
+        uimenu prompt;
+        prompt.text = string_format( _( "Stop wielding %s?" ), weapon.tname().c_str() );
+        std::vector<std::function<void()>> actions;
+
+        prompt.entries.emplace_back( -1, volume_carried() + weapon.volume() <= volume_capacity(), '1', _( "Store in inventory" ) );
+        actions.push_back( [&]{
+            moves -= item_handling_cost( weapon );
+            inv.add_item_keep_invlet( remove_weapon() );
             inv.unsort();
-            recoil = MIN_RECOIL;
-            return true;
-        } else if (query_yn(_("No space in inventory for your %s.  Drop it?"),
-                   weapon.tname().c_str())) {
-            g->m.add_item_or_charges(posx(), posy(), remove_weapon());
-            recoil = MIN_RECOIL;
-            return true;
-        } else {
-            return false;
+        });
+
+        prompt.entries.emplace_back( -1, true, '2', _( "Drop item" ) );
+        actions.push_back( [&]{ g->m.add_item_or_charges( posx(), posy(), remove_weapon() ); });
+
+        prompt.entries.emplace_back( -1, rate_action_wear( weapon ) == HINT_GOOD, '3', _( "Wear item" ) );
+        actions.push_back( [&]{ wear( -1 ); });
+
+        for( auto& e : worn ) {
+            if( e.can_holster( weapon ) ) {
+                prompt.entries.emplace_back( -1, true, e.invlet, string_format( _( "Store in %s" ), e.tname().c_str() ) );
+                actions.push_back( [&]{
+		    auto ptr = dynamic_cast<const holster_actor *>( e.type->get_use( "holster" )->get_actor_ptr() );
+                    ptr->store( *this, e, weapon );
+                });
+            }
         }
+
+        prompt.query();
+        if( prompt.ret >= 0 ) {
+            actions[ prompt.ret ]();
+            if( weapon.is_null() ) {
+                recoil = MIN_RECOIL;
+                return true;
+            }
+        }
+        return false;
     }
+
     if (&weapon == it) {
         add_msg(m_info, _("You're already wielding that!"));
         return false;
@@ -10484,13 +10510,7 @@ bool player::wield(item* it, bool autodrop)
     int mv = 0;
 
     if( is_armed() ) {
-        if( volume_carried() + weapon.volume() - it->volume() < volume_capacity() ) {
-            mv += item_handling_cost(weapon);
-            inv.add_item_keep_invlet( remove_weapon() );
-        } else if( query_yn(_("No space in inventory for your %s.  Drop it?"),
-                            weapon.tname().c_str() ) ) {
-            g->m.add_item_or_charges( posx(), posy(), remove_weapon() );
-        } else {
+        if( !wield( &ret_null ) ) {
             return false;
         }
         inv.unsort();
@@ -13723,14 +13743,7 @@ bool player::wield_contents( item *container, int pos, int factor, bool effects 
     int mv = 0;
 
     if( is_armed() ) {
-        if( volume_carried() + weapon.volume() - container->contents[pos].volume() <
-            volume_capacity() ) {
-            mv += item_handling_cost(weapon);
-            inv.add_item_keep_invlet( remove_weapon() );
-        } else if( query_yn( _("No space in inventory for your %s.  Drop it?"),
-                             weapon.tname().c_str() ) ) {
-            g->m.add_item_or_charges( posx(), posy(), remove_weapon() );
-        } else {
+        if( !wield( &ret_null ) ) {
             return false;
         }
         inv.unsort();
