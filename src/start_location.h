@@ -28,6 +28,7 @@ class start_location
         static location_map::iterator end();
         static start_location *find( const std::string ident );
         static void load_location( JsonObject &jsonobj );
+        static void reset();
 
         /**
          * Setup the player start location on the overmaps.

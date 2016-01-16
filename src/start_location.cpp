@@ -79,6 +79,11 @@ void start_location::load_location( JsonObject &jsonobj )
     _locations[new_location._ident] = new_location;
 }
 
+void start_location::reset()
+{
+    _locations.clear();
+}
+
 // check if tile at p should be boarded with some kind of furniture.
 void add_boardable( map &m, const tripoint &p, std::vector<tripoint> &vec )
 {
