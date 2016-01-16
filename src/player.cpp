@@ -10461,22 +10461,22 @@ bool player::wield(item* it, bool )
         prompt.text = string_format( _( "Stop wielding %s?" ), weapon.tname().c_str() );
         std::vector<std::function<void()>> actions;
 
-        prompt.entries.emplace_back( -1, volume_carried() + weapon.volume() <= volume_capacity(), '1', _( "Store in inventory" ) );
+        prompt.addentry( -1, volume_carried() + weapon.volume() <= volume_capacity(), '1', _( "Store in inventory" ) );
         actions.push_back( [&]{
             moves -= item_handling_cost( weapon );
             inv.add_item_keep_invlet( remove_weapon() );
             inv.unsort();
         });
 
-        prompt.entries.emplace_back( -1, true, '2', _( "Drop item" ) );
+        prompt.addentry( -1, true, '2', _( "Drop item" ) );
         actions.push_back( [&]{ g->m.add_item_or_charges( posx(), posy(), remove_weapon() ); });
 
-        prompt.entries.emplace_back( -1, rate_action_wear( weapon ) == HINT_GOOD, '3', _( "Wear item" ) );
+        prompt.addentry( -1, rate_action_wear( weapon ) == HINT_GOOD, '3', _( "Wear item" ) );
         actions.push_back( [&]{ wear( -1 ); });
 
         for( auto& e : worn ) {
             if( e.can_holster( weapon ) ) {
-                prompt.entries.emplace_back( -1, true, e.invlet, string_format( _( "Store in %s" ), e.tname().c_str() ) );
+                prompt.addentry( -1, true, e.invlet, _( "Store in %s" ), e.tname().c_str() );
                 actions.push_back( [&]{
 		    auto ptr = dynamic_cast<const holster_actor *>( e.type->get_use( "holster" )->get_actor_ptr() );
                     ptr->store( *this, e, weapon );
