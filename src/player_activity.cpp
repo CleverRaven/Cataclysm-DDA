@@ -63,6 +63,7 @@ bool player_activity::is_abortable() const
         case ACT_BUILD:
         case ACT_CRAFT:
         case ACT_LONGCRAFT:
+        case ACT_DISASSEMBLE:
         case ACT_REFILL_VEHICLE:
         case ACT_WAIT:
         case ACT_WAIT_WEATHER:
@@ -270,8 +271,8 @@ void player_activity::do_turn( player *p )
             }
             break;
          case ACT_CRACKING:
-             if (!p->has_amount("stethoscope", 1)) {
-                 // We lost our stethoscope somehow, bail out.
+             if ( !( p->has_amount("stethoscope", 1) || p->has_bionic("bio_ears") ) ) {
+                 // We lost our cracking tool somehow, bail out.
                  type = ACT_NULL;
                  break;
              }
@@ -358,11 +359,9 @@ void player_activity::finish( player *p )
             break;
         case ACT_DISASSEMBLE:
             p->complete_disassemble();
-            type = ACT_NULL;
             break;
         case ACT_BUTCHER:
             activity_handlers::butcher_finish( this, p );
-            type = ACT_NULL;
             break;
         case ACT_LONGSALVAGE:
             activity_handlers::longsalvage_finish( this, p );

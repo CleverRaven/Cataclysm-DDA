@@ -137,6 +137,7 @@
         "color" : "light_gray",
         "description" : "A small quantity of thread that could be used to refill a sewing kit.",
         "material" : "cotton",
+        "flags" : ["NO_SALVAGE"],
         "volume" : 1,
         "weight" : 1,
         "bashing" : 1,

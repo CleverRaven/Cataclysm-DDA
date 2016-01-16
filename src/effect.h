@@ -225,6 +225,8 @@ class effect : public JsonSerializer, public JsonDeserializer
         bool get_harmful_cough() const;
         /** Returns the percentage value by further applications of existing effects' duration is multiplied by. */
         int get_dur_add_perc() const;
+        /** Returns the number of turns it takes for the intensity to fall by 1 or 0 if intensity isn't based on duration. */
+        int get_int_dur_factor() const;
         /** Returns the amount an already existing effect intensity is modified by further applications of the same effect. */
         int get_int_add_val() const;
 

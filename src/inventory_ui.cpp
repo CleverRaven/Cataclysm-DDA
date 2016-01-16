@@ -851,11 +851,10 @@ item_location game::inv_map_splice(
     u.inv.sort();
     inv_s.make_item_list( u.inv.slice_filter_by( inv_filter ) );
 
-    // items are stacked per tile considering vehicle and map tiles separately
-    static const item_category ground_cat( "GROUND:",  _( "GROUND:" ),  -1000 );
-    static const item_category nearby_cat( "NEARBY:",  _( "NEARBY:" ),  -2000 );
-    static const item_category vehicle_cat( "VEHICLE:", _( "VEHICLE:" ), -3000 );
+    std::list<item_category> categories;
+    int rank = -1000;
 
+    // items are stacked per tile considering vehicle and map tiles separately
     // in the below loops identical items on the same tile are grouped into lists
     // each element of stacks represents one tile and is a vector of such lists
     std::vector<std::vector<std::list<item>>> stacks;
@@ -910,7 +909,9 @@ item_location game::inv_map_splice(
                     }
                 }
             }
-            inv_s.make_item_list( slices.back(), pos == g->u.pos() ? &ground_cat : &nearby_cat );
+            std::string name = trim( std::string( _( "GROUND" ) ) + " " + direction_suffix( g->u.pos(), pos ) );
+            categories.emplace_back( name, name, rank-- );
+            inv_s.make_item_list( slices.back(), &categories.back() );
         }
 
         // finally get all matching items in vehicle cargo spaces
@@ -953,7 +954,9 @@ item_location game::inv_map_splice(
                         }
                     }
                 }
-                inv_s.make_item_list( slices.back(), &vehicle_cat );
+                std::string name = trim( std::string( _( "VEHICLE" ) )  + " " + direction_suffix( g->u.pos(), pos ) );
+                categories.emplace_back( name, name, rank-- );
+                inv_s.make_item_list( slices.back(), &categories.back() );
             }
         }
     }

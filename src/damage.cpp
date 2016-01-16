@@ -196,10 +196,6 @@ void ammo_effects( const tripoint &p, const std::set<std::string> &effects )
         }
     }
 
-    if( effects.count( "ACID_DROP" ) > 0 ) {
-        g->m.add_field( p, fd_acid, 1, 0 );
-    }
-
     if( effects.count( "EXPLOSIVE_BIG" ) > 0 ) {
         g->explosion( p, 40 );
     }

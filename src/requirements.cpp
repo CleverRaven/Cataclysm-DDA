@@ -650,5 +650,5 @@ const requirement_data requirement_data::disassembly_requirements() const
         return tcv.empty();
     } ), ret.tools.end() );
 
-    return std::move( ret );
+    return ret;
 }

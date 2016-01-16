@@ -373,12 +373,12 @@ void game::wishmonster( const tripoint &p )
 
     int i = 0;
     for( const auto &montype : MonsterGenerator::generator().get_all_mtypes() ) {
-        wmenu.addentry( i, true, 0, "%s", montype.second->nname().c_str() );
-        wmenu.entries[i].extratxt.txt = montype.second->sym;
-        wmenu.entries[i].extratxt.color = montype.second->color;
+        wmenu.addentry( i, true, 0, "%s", montype->nname().c_str() );
+        wmenu.entries[i].extratxt.txt = montype->sym;
+        wmenu.entries[i].extratxt.color = montype->color;
         wmenu.entries[i].extratxt.left = 1;
         ++i;
-        mtypes.push_back( montype.second );
+        mtypes.push_back( montype );
     }
 
     do {
@@ -437,6 +437,7 @@ class wish_item_callback: public uimenu_callback
                 mvwprintw(menu->window, y, startx - 1, "%s", padding.c_str());
             }
             item tmp(standard_itype_ids[entnum], calendar::turn);
+            mvwhline( menu->window, 1, startx, ' ', menu->pad_right - 1 );
             const std::string header = string_format("#%d: %s%s", entnum, standard_itype_ids[entnum].c_str(),
                                        ( incontainer ? _(" (contained)") : "" ));
             mvwprintz(menu->window, 1, startx + ( menu->pad_right - 1 - header.size() ) / 2, c_cyan, "%s",
@@ -470,7 +471,8 @@ void game::wishitem( player *p, int x, int y, int z)
 
     for (size_t i = 0; i < standard_itype_ids.size(); i++) {
         item ity( standard_itype_ids[i], 0 );
-        wmenu.addentry( i, true, 0, string_format(_("%s"), ity.tname(1, false).c_str()) );
+        wmenu.addentry( i, true, 0, string_format( _( "%.*s" ), wmenu.pad_right - 5,
+                                                   ity.tname( 1, false ).c_str() ) );
         wmenu.entries[i].extratxt.txt = string_format("%c", ity.symbol());
         wmenu.entries[i].extratxt.color = ity.color();
         wmenu.entries[i].extratxt.left = 1;

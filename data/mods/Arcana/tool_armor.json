@@ -40,7 +40,7 @@
         "color": "light_red",
         "name": "mask of insight",
         "name_plural": "masks of insight",
-        "description": "A mask faced with iron and decorated with copper, depicting the face of some unknown divine figure.  Fueling it with consecrated essence will grant the wearer sight beyond sight, within a limited range.",
+        "description": "A mask faced with iron and decorated with copper, depicting the face of some unknown divine figure.  Fueling it with consecrated essence will grant the wearer clairvoyance within a limited range, in exchange for blindness.",
         "price": 21000,
         "material": ["leather", "iron", "copper"],
         "weight" : 210,

@@ -58,7 +58,10 @@ class ma_technique
     public:
         ma_technique();
 
+        void load( JsonObject &jo );
+
         matec_id id;
+        bool was_loaded = false;
         std::string name;
 
         std::string goal; // the melee goal this achieves
@@ -167,6 +170,7 @@ class ma_buff
         static const ma_buff *from_effect( const effect &eff );
 
         mabuff_id id;
+        bool was_loaded = false;
         std::string name;
         std::string description;
 
@@ -221,12 +225,16 @@ class ma_buff
         bool quiet;
         bool melee_allowed;
         bool throw_immune; // are we immune to throws/grabs?
+
+        void load( JsonObject &jo );
 };
 
 class martialart
 {
     public:
         martialart();
+
+        void load( JsonObject &jo );
 
         // modifies a player's "current" stats with various types of bonuses
         void apply_static_buffs( player &u ) const;
@@ -249,6 +257,7 @@ class martialart
         bool has_weapon( std::string item ) const;
 
         matype_id id;
+        bool was_loaded = false;
         std::string name;
         std::string description;
         int arm_block;
@@ -257,13 +266,13 @@ class martialart
         bool leg_block_with_bio_armor_legs;
         std::set<matec_id> techniques; // all available techniques
         std::set<std::string> weapons; // all style weapons
-        std::vector<ma_buff> static_buffs; // all buffs triggered by each condition
-        std::vector<ma_buff> onmove_buffs;
-        std::vector<ma_buff> onhit_buffs;
-        std::vector<ma_buff> onattack_buffs;
-        std::vector<ma_buff> ondodge_buffs;
-        std::vector<ma_buff> onblock_buffs;
-        std::vector<ma_buff> ongethit_buffs;
+        std::vector<mabuff_id> static_buffs; // all buffs triggered by each condition
+        std::vector<mabuff_id> onmove_buffs;
+        std::vector<mabuff_id> onhit_buffs;
+        std::vector<mabuff_id> onattack_buffs;
+        std::vector<mabuff_id> ondodge_buffs;
+        std::vector<mabuff_id> onblock_buffs;
+        std::vector<mabuff_id> ongethit_buffs;
 };
 
 void load_technique( JsonObject &jo );

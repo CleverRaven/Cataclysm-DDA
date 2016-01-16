@@ -244,7 +244,7 @@ bool item::is_null() const
 bool item::covers( const body_part bp ) const
 {
     if( bp >= num_bp ) {
-        debugmsg( "bad body part %d to ceck in item::covers", static_cast<int>( bp ) );
+        debugmsg( "bad body part %d to check in item::covers", static_cast<int>( bp ) );
         return false;
     }
     if( is_gun() ) {
@@ -1962,7 +1962,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
     std::string damtext = "";
     if ((damage != 0 || ( OPTIONS["ITEM_HEALTH_BAR"] && is_armor() )) && !is_null() && with_prefix) {
         if( damage < 0 )  {
-            if( damage < -1 ) {
+            if( damage < MIN_ITEM_DAMAGE ) {
                 damtext = rm_prefix(_("<dam_adj>bugged "));
             } else if ( OPTIONS["ITEM_HEALTH_BAR"] ) {
                 auto const &nc_text = get_item_hp_bar(damage);
@@ -2072,7 +2072,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
 
     const it_comest* food_type = NULL;
     std::string tagtext = "";
-    std::string toolmodtext = "";
+    std::string modtext = "";
     ret.str("");
     if (is_food())
     {
@@ -2120,7 +2120,11 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
     }
 
     if (has_flag("ATOMIC_AMMO")) {
-        toolmodtext = _("atomic ");
+        modtext += _( "atomic " );
+    }
+
+    if( has_gunmod( "barrel_small" ) != -1 ) {
+        modtext += _( "sawn-off ");
     }
 
     if(has_flag("WET"))
@@ -2145,7 +2149,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
 
     //~ This is a string to construct the item name as it is displayed. This format string has been added for maximum flexibility. The strings are: %1$s: Damage text (eg. "bruised"). %2$s: burn adjectives (eg. "burnt"). %3$s: tool modifier text (eg. "atomic"). %4$s: vehicle part text (eg. "3.8-Liter"). $5$s: main item text (eg. "apple"). %6s: tags (eg. "(wet) (fits)").
     ret << string_format(_("%1$s%2$s%3$s%4$s%5$s%6$s"), damtext.c_str(), burntext.c_str(),
-                        toolmodtext.c_str(), vehtext.c_str(), maintext.c_str(), tagtext.c_str());
+                        modtext.c_str(), vehtext.c_str(), maintext.c_str(), tagtext.c_str());
 
     static const std::string const_str_item_note("item_note");
     if( item_vars.find(const_str_item_note) != item_vars.end() ) {
@@ -2220,7 +2224,7 @@ int item::price() const
 
     // tools, guns and auxiliary gunmods may contain ammunition which can affect the price
     if( ammo_remaining() > 0 && has_curammo() ) {
-        item tmp( get_curammo_id(), 0 );
+        item tmp( ammo_current(), 0 );
         tmp.charges = charges;
         ret += tmp.price();
     }
@@ -2239,57 +2243,61 @@ int item::price() const
 // MATERIALS-TODO: add a density field to materials.json
 int item::weight() const
 {
-    if( is_corpse() ) {
-        int ret = 0;
-        switch (corpse->size) {
+    if( is_null() ) {
+        return 0;
+    }
+
+    int ret = get_var( "weight", type->weight );
+    if( has_flag( "REDUCED_WEIGHT" ) ) {
+        ret *= 0.75;
+    }
+
+    if( count_by_charges() ) {
+        ret *= charges;
+
+    } else if( ammo_capacity() > 0 ) {
+        if( ammo_data() ) {
+            ret += ammo_remaining() * ammo_data()->weight;
+        } else if ( ammo_type() == "plutonium" ) {
+            ret += ammo_remaining() * find_type( default_ammo( ammo_type() ) )->weight / 500;
+        } else if ( ammo_type() != "null" ) {
+            ret += ammo_remaining() * find_type( default_ammo( ammo_type() ) )->weight;
+        }
+
+    } else if( is_corpse() ) {
+        switch( corpse->size ) {
             case MS_TINY:   ret =   1000;  break;
             case MS_SMALL:  ret =  40750;  break;
             case MS_MEDIUM: ret =  81500;  break;
             case MS_LARGE:  ret = 120000;  break;
             case MS_HUGE:   ret = 200000;  break;
         }
-        if (made_of("veggy")) {
+        if( made_of( "veggy" ) ) {
             ret /= 3;
         }
-        if( corpse->in_species( FISH ) || corpse->in_species( BIRD ) || corpse->in_species( INSECT ) || made_of("bone")) {
+        if( corpse->in_species( FISH ) || corpse->in_species( BIRD ) || corpse->in_species( INSECT ) || made_of( "bone" ) ) {
             ret /= 8;
-        } else if (made_of("iron") || made_of("steel") || made_of("stone")) {
+        } else if ( made_of( "iron" ) || made_of( "steel" ) || made_of( "stone" ) ) {
             ret *= 7;
         }
-        return ret;
     }
 
-    if( is_null() ) {
-        return 0;
-    }
-
-    int ret = type->weight;
-    ret = get_var( "weight", ret );
-
-    if (has_flag("REDUCED_WEIGHT")) {
-        ret *= 0.75;
-    }
-
-    if (count_by_charges()) {
-        ret *= charges;
-    } else if (type->gun && charges >= 1 && has_curammo() ) {
-        ret += get_curammo()->weight * charges;
-    } else if (type->is_tool() && charges >= 1 && ammo_type() != "NULL") {
-        if( ammo_type() == "plutonium" ) {
-            ret += find_type(default_ammo(this->ammo_type()))->weight * charges / 500;
-        } else {
-            ret += find_type(default_ammo(this->ammo_type()))->weight * charges;
-        }
-    }
     for( auto &elem : contents ) {
         ret += elem.weight();
-        if( elem.is_gunmod() && elem.charges >= 1 && elem.has_curammo() ) {
-            ret += elem.get_curammo()->weight * elem.charges;
+        if( elem.is_gunmod() && elem.ammo_data() ) {
+            ret += elem.ammo_data()->weight * elem.ammo_remaining();
         }
     }
 
-// tool mods also add about a pound of weight
-    if (has_flag("ATOMIC_AMMO")) {
+    // reduce weight for sawn-off weepons capped to the apportioned weight of the barrel
+    if( has_gunmod( "barrel_small" ) != -1 ) {
+        float b = type->gun->barrel_length;
+        ret -= std::min( b * 250, b / type->volume * type->weight );
+    }
+
+
+    // tool mods also add about a pound of weight
+    if( has_flag("ATOMIC_AMMO") ) {
         ret += 250;
     }
 
@@ -2384,7 +2392,7 @@ int item::volume(bool unit_value, bool precise_value ) const
 
         if (has_flag("COLLAPSIBLE_STOCK")) {
             // consider only the base size of the gun (without mods)
-            int tmpvol = get_var( "volume", (int) type->volume);
+            int tmpvol = get_var( "volume", type->volume - type->gun->barrel_length );
             if      (tmpvol <=  3) ; // intentional NOP
             else if (tmpvol <=  5) ret -= precise_value ? 2000 : 2;
             else if (tmpvol <=  6) ret -= precise_value ? 3000 : 3;
@@ -2392,6 +2400,10 @@ int item::volume(bool unit_value, bool precise_value ) const
             else if (tmpvol <= 11) ret -= precise_value ? 5000 : 5;
             else if (tmpvol <= 16) ret -= precise_value ? 6000 : 6;
             else                   ret -= precise_value ? 7000 : 7;
+        }
+
+        if( has_gunmod( "barrel_small" ) != -1 ) {
+            ret -= type->gun->barrel_length * ( precise_value ? 1000 : 1 );
         }
     }
 
@@ -2776,7 +2788,7 @@ int item::brewing_time() const
 
 bool item::can_revive() const
 {
-    if ( is_corpse() && corpse->has_flag(MF_REVIVES) && damage < 4) {
+    if( is_corpse() && corpse->has_flag( MF_REVIVES ) && damage < CORPSE_PULP_THRESHOLD ) {
         return true;
     }
     return false;
@@ -2992,7 +3004,7 @@ int item::fire_resist( bool to_self ) const
 
 int item::chip_resistance( bool worst ) const
 {
-    if( damage > 4 ) {
+    if( damage > MAX_ITEM_DAMAGE ) {
         return 0;
     }
 
@@ -3954,6 +3966,23 @@ bool item::ammo_consume( int qty ) {
     return false;
 }
 
+const itype * item::ammo_data() const
+{
+    // @todo handle magazines
+
+    if( is_ammo() ) {
+        return type;
+    }
+
+    return curammo;
+}
+
+itype_id item::ammo_current() const
+{
+    const auto ammo = ammo_data();
+    return ammo ? ammo->id : "null";
+}
+
 ammotype item::ammo_type() const
 {
     if (is_gun()) {
@@ -4012,7 +4041,7 @@ item *item::get_usable_item( const std::string &use_name )
     return nullptr;
 }
 
-int item::pick_reload_ammo( const player &u, bool interactive )
+item_location item::pick_reload_ammo( player &u, bool interactive ) const
 {
     std::set<std::string> ammo_types; // for unloaded items any ammo will do
     std::set<std::string> item_types; // for partially loaded require matching type
@@ -4021,11 +4050,11 @@ int item::pick_reload_ammo( const player &u, bool interactive )
     auto spare = has_gunmod( "spare_mag" );
     if( spare >= 0 ) {
         if( ammo_remaining() <= 0 && contents[spare].charges > 0 ) {
-            return INT_MIN + 1; // special return to use spare magazine for reloading.
+            return item_location::on_character( u, this );
         }
         if( contents[spare].charges < ammo_remaining() ) {
             if( contents[spare].charges > 0 || ammo_remaining() > 0 ) {
-                item_types.insert( get_curammo_id() ); // gun or spare mag partially loaded
+                item_types.insert( ammo_current() ); // gun or spare mag partially loaded
             } else {
                 ammo_types.insert( ammo_type() ); // neither loaded
             }
@@ -4036,7 +4065,7 @@ int item::pick_reload_ammo( const player &u, bool interactive )
     auto wants_ammo = [&ammo_types,&item_types](const item& it) {
         if( it.ammo_remaining() < it.ammo_capacity() && !it.has_flag( "NO_RELOAD" ) ) {
             if( it.ammo_remaining() > 0 ) {
-                item_types.insert( it.get_curammo_id() ); // partially loaded
+                item_types.insert( it.ammo_current() ); // partially loaded
             } else {
                 ammo_types.insert( it.ammo_type() ); // not loaded
             }
@@ -4047,50 +4076,28 @@ int item::pick_reload_ammo( const player &u, bool interactive )
     wants_ammo( *this );
     std::for_each( contents.begin(), contents.end(), wants_ammo );
 
-    // Actual ammo items that can be used as ammo.
-    std::vector<const item*> am = u.items_with( [&ammo_types, &item_types]( const item & it ) {
-        if( !it.is_ammo() ) {
-            return false;
+    // first check the inventory for suitable ammo
+    std::vector<item_location> ammo_list;
+    u.visit_items( [&]( const item& it ) {
+        // @todo handle magazines
+        if( it.is_ammo() && ( item_types.count( it.typeId() ) || ammo_types.count( it.ammo_type() ) ) ) {
+            auto loc = item_location::on_character( u, &it );
+            ammo_list.push_back( std::move( loc ) );
         }
-        return item_types.count( it.typeId() ) > 0 || ammo_types.count( it.ammo_type() ) > 0;
-    } );
-    // Sort so items of the same type are in succession
-    std::sort( am.begin(), am.end(), [](const item* a, const item* b) { return *a < *b; } );
-    // 0 = item type, 1 = item position, 2 = charges (total)
-    using ammo_data = std::tuple<const itype*, int, long>;
-    // Compress several items of the same type into one entry.
-    // This also makes the list ignore damage or other stack specific properties and merges
-    // items from quivers and from main inventory and items in different containers.
-    std::vector<ammo_data> ammo_list;
-    for( auto &it : am ) {
-        const int item_pos = u.get_item_position( it );
-        const auto ammo_def = it->type->ammo.get();
-        if( ammo_def == NULL ) {
-            debugmsg( "%s: is no ammo", it->tname().c_str() );
-            continue;
-        }
-        const ammo_data curdata( it->type, item_pos, it->charges );
-        if( ammo_list.empty() || std::get<0>( ammo_list.back() ) != it->type ) {
-            ammo_list.push_back( curdata );
-        } else {
-            ammo_data &last = ammo_list.back();
-            // prefer bigger item positions, everything >= 0 is in the main inventory,
-            // everything < -1 is worn (e.g. quiver!), refilling the quiver is an extra step for
-            // the player, try to avoid.
-            std::get<1>( last ) = std::max( std::get<1>( last ), item_pos );
-            std::get<2>( last ) += it->charges;
-        }
-    }
+        return VisitResponse::NEXT;
+    });
 
     if( ammo_list.empty() ) {
-        return INT_MIN;
+        if( interactive ) {
+            u.add_msg_if_player( m_info, _( "Out of %s!" ), is_gun() ? _("ammo") : ammo_name( ammo_type() ).c_str() );
+        }
+        return item_location::nowhere();
     }
     if( ammo_list.size() == 1 || !interactive ) {
-        // Either only one valid choice or chosing for a NPC, just return the first.
-        return std::get<1>( ammo_list[0] );
+        return std::move( ammo_list[0] );
     }
 
-    // More than one option; list 'em and pick
+    // If interactive and more than one option prompt the user for a selection
     uimenu amenu;
     amenu.return_invalid = true;
     amenu.w_y = 0;
@@ -4100,8 +4107,8 @@ int item::pick_reload_ammo( const player &u, bool interactive )
     // 2: prefix from uimenu: hotkey + space in front of name
     // 4: borders: 2 char each ("| " and " |")
     const int namelen = TERMX - 2 - 40 - 4;
-    std::string lastreload = "";
 
+    std::string lastreload = "";
     if( uistate.lastreload.find( ammo_type() ) != uistate.lastreload.end() ) {
         lastreload = uistate.lastreload[ ammo_type() ];
     }
@@ -4116,11 +4123,11 @@ int item::pick_reload_ammo( const player &u, bool interactive )
     amenu.text.insert( 0, "  " );
     //~ header of table that appears when reloading, each colum must contain exactly 10 characters
     amenu.text += _( "| Damage  | Pierce  | Range   | Accuracy" );
-    for( size_t i = 0; i < ammo_list.size(); i++ ) {
-        const itype &type = *std::get<0>( ammo_list[i] );
-        const long charges = std::get<2>( ammo_list[i] );
-        const auto &ammo_def = *type.ammo;
-        std::string row = type.nname( charges ) + string_format( " (%d)", charges );
+    int i = 0;
+    for( auto& e : ammo_list ) {
+        const item *it = e.get_item();
+        const auto& ammo_def = *it->type->ammo;
+        std::string row = it->type->nname( it->charges ) + string_format( " (%d)", it->charges );
         if( utf8_width(row) < namelen ) {
             row += std::string( namelen - utf8_width(row), ' ' );
         } else {
@@ -4130,18 +4137,24 @@ int item::pick_reload_ammo( const player &u, bool interactive )
                               ammo_def.damage, ammo_def.pierce,
                               ammo_def.range, 100 - ammo_def.dispersion );
         amenu.addentry( i, true, i + 'a', row );
-        if( lastreload == type.id ) {
+        if( lastreload == it->type->id ) {
             amenu.selected = i;
         }
+        i++;
     }
+
     amenu.query();
     if( amenu.ret < 0 || amenu.ret >= ( int )ammo_list.size() ) {
         // invalid selection / escaped from the menu
-        return INT_MIN + 2;
+        if( interactive ) {
+            u.add_msg_if_player( m_info, _( "Never mind." ) );
+        }
+        return item_location::nowhere();
     }
-    const auto &selected = ammo_list[ amenu.ret ];
-    uistate.lastreload[ ammo_type() ] = std::get<0>( selected )->id;
-    return std::get<1>( selected );
+
+    item_location sel = std::move( ammo_list[amenu.ret] );
+    uistate.lastreload[ ammo_type() ] = sel.get_item()->type->id;
+    return sel;
 }
 
 // Helper to handle ejecting casings from guns that require them to be manually extracted.
@@ -4162,31 +4175,34 @@ static void eject_casings( player &p, item *reload_target, itype_id casing_type 
     }
 }
 
-bool item::reload(player &u, int pos)
+bool item::reload( player &u, int pos )
 {
-    long qty = 0;
-    item *target = nullptr;
-    item *ammo = &u.i_at(pos);
-    item *container = nullptr;
+    return reload( u, item_location::on_character( u, &u.i_at( pos ) ) );
+}
+
+bool item::reload( player &u, item_location loc )
+{
+    // @todo deprecate reloading using a spare magazine
+    item *spare_mag = has_gunmod("spare_mag") >= 0 ? &contents[has_gunmod("spare_mag")] : nullptr;
+    if( spare_mag && spare_mag->charges > 0 && ammo_remaining() <= 0 ) {
+        charges = spare_mag->charges;
+        set_curammo( spare_mag->ammo_current() );
+        spare_mag->charges = 0;
+        spare_mag->unset_curammo();
+        return true;
+    }
+
+    item *ammo = loc.get_item();
+    if( ammo == nullptr || ammo->is_null() ) {
+        debugmsg( "Tried to reload using non-existent ammo" );
+        return false;
+    }
 
     // Handle ammo in containers, currently only gasoline and quivers
+    item *container = nullptr;
     if ( (ammo->is_container() || ammo->type->can_use("QUIVER")) && !ammo->contents.empty() ) {
         container = ammo;
         ammo = &ammo->contents[0];
-    }
-
-     // @todo deprecate reloading using a spare magazine
-     item *spare_mag = has_gunmod("spare_mag") >= 0 ? &contents[has_gunmod("spare_mag")] : nullptr;
-     if( spare_mag && spare_mag->charges > 0 && ammo_remaining() <= 0 ) {
-         charges = spare_mag->charges;
-         set_curammo( spare_mag->get_curammo_id() );
-         spare_mag->charges = 0;
-         spare_mag->unset_curammo();
-         return true;
-     }
-
-    if( ammo->is_null() ) {
-        return false;
     }
 
     // Chance to fail pulling an arrow at lower levels
@@ -4204,6 +4220,9 @@ bool item::reload(player &u, int pos)
     }
 
     // First determine what we are trying to reload
+    long qty = 0;
+    item *target = nullptr;
+
     if( is_gun() ) {
         // In order of preference reload active gunmod, gun, spare magazine, any other auxiliary gunmod
         std::vector<item *> opts = { active_gunmod(), this, spare_mag };
@@ -4215,7 +4234,7 @@ bool item::reload(player &u, int pos)
             if( e != nullptr ) {
                 // @todo deprecate handling of spare magazines as a special case
                 if( e == spare_mag && ammo_type() == ammo->ammo_type() &&
-                    (!e->charges || e->get_curammo_id() == ammo->typeId()) &&
+                    (!e->charges || e->ammo_current() == ammo->typeId()) &&
                     e->charges < ammo_capacity() ) {
 
                     qty = has_flag("RELOAD_ONE") ? 1 : ammo_capacity() - e->charges;
@@ -4223,7 +4242,7 @@ bool item::reload(player &u, int pos)
                     break;
                 } // handle everything else (gun and auxiliary gunmods)
                 if( e->ammo_type() == ammo->ammo_type() &&
-                    (!e->ammo_remaining() || e->get_curammo_id() == ammo->typeId()) &&
+                    (!e->ammo_remaining() || e->ammo_current() == ammo->typeId()) &&
                     e->ammo_remaining() < e->ammo_capacity() ) {
                     qty = e->ammo_capacity() - e->ammo_remaining();
 
@@ -4265,7 +4284,7 @@ bool item::reload(player &u, int pos)
                 container->contents.erase(container->contents.begin());
                 u.inv.restack(&u); // emptied containers do not stack with non-empty ones
             } else {
-                u.i_rem(pos);
+                loc.remove_item();
             }
         }
         return true;
@@ -4444,7 +4463,7 @@ item::LIQUID_FILL_ERROR item::has_valid_capacity_for_liquid(const item &liquid) 
             return L_ERR_FULL;
         }
 
-        if (charges > 0 && has_curammo() && get_curammo_id() != liquid.type->id) {
+        if (charges > 0 && has_curammo() && ammo_current() != liquid.type->id) {
             return L_ERR_NO_MIX;
         }
     }
@@ -4809,6 +4828,31 @@ void item::mark_as_used_by_player(const player &p)
     used_by_ids += string_format( "%d;", p.getID() );
 }
 
+VisitResponse item::visit( const std::function<VisitResponse(item&)>& func ) {
+    switch( func( *this ) ) {
+        case VisitResponse::ABORT:
+            return VisitResponse::ABORT;
+
+        case VisitResponse::NEXT:
+            for( auto& e : contents ) {
+                if( e.visit( func ) == VisitResponse::ABORT ) {
+                    return VisitResponse::ABORT;
+                }
+            }
+        /* intentional fallthrough */
+
+        case VisitResponse::SKIP:
+            return VisitResponse::NEXT;
+    }
+
+    /* never reached but suppresses GCC warning */
+    return VisitResponse::ABORT;
+}
+
+VisitResponse item::visit( const std::function<VisitResponse(const item&)>& func ) const {
+    return const_cast<item *>( this )->visit( static_cast<const std::function<VisitResponse(item&)>&>( func ) );
+}
+
 bool item::can_holster ( const item& obj ) const {
     if( !type->can_use("holster") ) {
         return false; // item is not a holster
@@ -4830,14 +4874,6 @@ bool item::can_holster ( const item& obj ) const {
 const itype *item::get_curammo() const
 {
     return curammo;
-}
-
-itype_id item::get_curammo_id() const
-{
-    if( curammo == nullptr ) {
-        return "null";
-    }
-    return curammo->id;
 }
 
 bool item::has_curammo() const
@@ -5223,7 +5259,7 @@ bool item::update_charger_gun_ammo()
     if( !is_charger_gun() ) {
         return false;
     }
-    if( get_curammo_id() != CHARGER_GUN_AMMO_ID ) {
+    if( ammo_current() != CHARGER_GUN_AMMO_ID ) {
         set_curammo( CHARGER_GUN_AMMO_ID );
     }
     auto tmpammo = get_curammo()->ammo.get();

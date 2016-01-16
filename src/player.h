@@ -328,8 +328,9 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool has_two_arms() const;
         /** Returns true if the player is wielding something, including bionic weapons */
         bool is_armed() const;
-        /** Calculates melee weapon wear-and-tear through use, returns true */
-        bool handle_melee_wear();
+        /** Calculates melee weapon wear-and-tear through use, returns true if item is destroyed. */
+        bool handle_melee_wear( float wear_multiplier = 1.0f );
+        bool handle_melee_wear( item &shield, float wear_multiplier = 1.0f );
         /** True if unarmed or wielding a weapon with the UNARMED_WEAPON flag */
         bool unarmed_attack() const;
         /** Called when a player triggers a trap, returns true if they don't set it off */
@@ -479,8 +480,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Handles reach melee attacks */
         void reach_attack( const tripoint &target );
 
-        /** Activates any on-dodge effects and checks for dodge counter techniques */
-        void dodge_hit(Creature *source, int hit_spread) override;
         /** Checks for valid block abilities and reduces damage accordingly. Returns true if the player blocks */
         bool block_hit(Creature *source, body_part &bp_hit, damage_instance &dam) override;
         /**
@@ -491,15 +490,15 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Runs through all bionics and armor on a part and reduces damage through their armor_absorb */
         void absorb_hit(body_part bp, damage_instance &dam) override;
         /** Called after the player has successfully dodged an attack */
-        void on_dodge( Creature *source, int difficulty = INT_MIN ) override;
+        void on_dodge( Creature *source, int difficulty ) override;
         /** Handles special defenses from an attack that hit us (source can be null) */
         void on_hit( Creature *source, body_part bp_hit = num_bp,
                      int difficulty = INT_MIN, dealt_projectile_attack const* const proj = nullptr ) override;
         /** Handles effects that happen when the player is damaged and aware of the fact. */
         void on_hurt( Creature *source, bool disturb = true );
 
-        /** Returns the base damage the player deals based on their stats */
-        int base_damage(bool real_life = true, int stat = -999) const;
+        /** Returns the bonus bashing damage the player deals based on their stats */
+        float bonus_damage( bool random ) const;
         /** Returns Creature::get_hit_base() modified by weapon skill */
         int get_hit_base() const override;
         /** Returns the player's basic hit roll that is compared to the target's dodge roll */
@@ -722,10 +721,13 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool takeoff( int pos, bool autodrop = false, std::vector<item> *items = nullptr );
         /** Try to wield a contained item consuming moves proportional to weapon skill and volume.
          *  @param pos index of contained item to wield. Set to -1 to show menu if container has more than one item
-         *  @param factor scales moves cost and can be set to zero if item should be wielded without any delay */
-        bool wield_contents(item *container, int pos = 0, int factor = VOLUME_MOVE_COST);
-        /** Stores an item inside another item, taking moves based on skill and volume of item being stored. */
-        void store(item *container, item *put, const skill_id &skill_used, int volume_factor);
+         *  @param factor scales moves cost and can be set to zero if item should be wielded without any delay
+         *  @param effects whether temporary player effects such (eg. GRABBED) are considered when consuming moves */
+        bool wield_contents( item *container, int pos = 0, int factor = VOLUME_MOVE_COST, bool effects = true );
+        /** Stores an item inside another consuming moves proportional to weapon skill and volume
+         *  @param factor scales moves cost and can be set to zero if item should be stored without any delay
+         *  @param effects whether temporary player effects such (eg. GRABBED) are considered when consuming moves */
+        void store( item *container, item *put, int factor = VOLUME_MOVE_COST, bool effects = true );
         /** Draws the UI and handles player input for the armor re-ordering window */
         void sort_armor();
         /** Uses a tool */
@@ -850,7 +852,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int has_morale( morale_type type ) const;
         void rem_morale(morale_type type, const itype *item_type = NULL);
 
-        std::string weapname(bool charges = true) const;
+        /** Get the formatted name of the currently wielded item (if any) */
+        std::string weapname() const;
 
         virtual float power_rating() const override;
 
@@ -932,21 +935,23 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int has_recipe( const recipe *r, const inventory &crafting_inv ) const;
         bool knows_recipe( const recipe *rec ) const;
         void learn_recipe( const recipe *rec, bool force = false );
-        bool has_recipe_requirements(const recipe *rec) const;
+        int exceeds_recipe_requirements( const recipe &rec ) const;
+        bool has_recipe_requirements( const recipe *rec ) const;
 
-        bool studied_all_recipes(const itype &book) const;
+        bool studied_all_recipes( const itype &book ) const;
 
         // crafting.cpp
-        bool crafting_allowed(); // can_see_to_craft() && has_morale_to_craft()
-        bool can_see_to_craft();
+        bool crafting_allowed( const std::string & rec_name );
+        bool crafting_allowed( const recipe & rec );
+        float lighting_craft_speed_multiplier( const recipe & rec );
         bool has_moral_to_craft();
-        bool can_make(const recipe *r, int batch_size = 1); // have components?
-        bool making_would_work(const std::string &id_to_make, int batch_size);
+        bool can_make( const recipe * r, int batch_size = 1 ); // have components?
+        bool making_would_work( const std::string & id_to_make, int batch_size );
         void craft();
         void recraft();
         void long_craft();
-        void make_craft(const std::string &id, int batch_size);
-        void make_all_craft(const std::string &id, int batch_size);
+        void make_craft( const std::string & id, int batch_size );
+        void make_all_craft( const std::string & id, int batch_size );
         void complete_craft();
 
         // also crafting.cpp
@@ -962,9 +967,13 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
                               bool print_msg ) const;
         bool can_disassemble( const item &dis_item, const recipe *cur_recipe,
                               const inventory &crafting_inv, bool print_msg ) const;
-        void disassemble(int pos = INT_MAX);
-        void disassemble(item &dis_item, int dis_pos, bool ground);
+        bool disassemble(int pos = INT_MAX);
+        bool disassemble( item &dis_item, int dis_pos,
+            bool ground, bool msg_and_query = true );
+        void disassemble_all( bool one_pass ); // Disassemble all items on the tile
         void complete_disassemble();
+        void complete_disassemble( int item_pos, const tripoint &loc,
+            bool from_ground, const recipe &dis );
 
         // yet more crafting.cpp
         const inventory &crafting_inventory(); // includes nearby items
@@ -1153,6 +1162,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         virtual void add_msg_player_or_npc(const char *player_str, const char *npc_str, ...) const override;
         virtual void add_msg_player_or_npc(game_message_type type, const char *player_str,
                                            const char *npc_str, ...) const override;
+        virtual void add_msg_player_or_say( const char *, const char *, ... ) const override;
+        virtual void add_msg_player_or_say( game_message_type, const char *, const char *, ... ) const override;
 
         typedef std::map<tripoint, std::string> trap_map;
         bool knows_trap( const tripoint &pos ) const;
@@ -1203,10 +1214,12 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         // returns a struct describing the encumbrance of a body part
         encumbrance_data get_encumbrance( size_t i ) const;
         // formats and prints encumbrance info to specified window
-        void print_encumbrance( WINDOW * win, int line = -1 ) const;
+        void print_encumbrance( WINDOW * win, int line = -1, item *selected_limb = nullptr ) const;
 
         // Prints message(s) about current health
         void print_health() const;
+
+        bool query_yn( const char *mes, ... ) const override;
 
     protected:
         // The player's position on the local map.

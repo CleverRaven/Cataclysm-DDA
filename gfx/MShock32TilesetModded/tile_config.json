@@ -23914,6 +23914,42 @@
           "id": "armguard_bone",
           "fg": 3055,
           "rotates": false
+        },
+        {
+          "id": "mon_zombie_anklebiter",
+          "fg": 3056,
+          "bg": 515,
+          "rotates": false
+        },
+        {
+          "id": "mon_zombie_sproglodyte",
+          "fg": 3057,
+          "bg": 515,
+          "rotates": false
+        },
+        {
+          "id": "mon_zombie_shriekling",
+          "fg": 3058,
+          "bg": 515,
+          "rotates": false
+        },
+        {
+          "id": "mon_zombie_creepy",
+          "fg": 3059,
+          "bg": 515,
+          "rotates": false
+        },
+        {
+          "id": "mon_zombie_snotgobbler",
+          "fg": 3060,
+          "bg": 515,
+          "rotates": false
+        },
+        {
+          "id": "mon_zombie_waif",
+          "fg": 3061,
+          "bg": 515,
+          "rotates": false
         }
       ]
     },

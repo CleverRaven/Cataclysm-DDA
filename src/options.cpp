@@ -1126,15 +1126,14 @@ void options_manager::init()
                                  _("Set the level of skill rust. Vanilla: Vanilla Cataclysm - Capped: Capped at skill levels 2 - Int: Intelligence dependent - IntCap: Intelligence dependent, capped - Off: None at all."),
                                  "vanilla,capped,int,intcap,off", "int"
                                 );
-/*
-    // Disabled for now
+
+
     mOptionsSort["debug"]++;
 
     OPTIONS["FOV_3D"] = cOpt("debug", _("Experimental 3D Field of Vision"),
                                  _("If false, vision is limited to current z-level. If true and the world is in z-level mode, the vision will extend beyond current z-level. Currently very bugged!"),
                                  false
                                 );
-*/
 
     ////////////////////////////WORLD DEFAULT////////////////////
     optionNames["no"] = _("No");
@@ -1688,7 +1687,7 @@ bool options_manager::save(bool ingame)
     trigdist = OPTIONS["CIRCLEDIST"]; // update trigdist as well
     use_tiles = OPTIONS["USE_TILES"]; // and use_tiles
     log_from_top = OPTIONS["SIDEBAR_LOG_FLOW"] == "new_top"; // cache to global due to heavy usage.
-    fov_3d = false; // OPTIONS["FOV_3D"];
+    fov_3d = OPTIONS["FOV_3D"];
 
     try {
         std::ofstream fout;
@@ -1742,7 +1741,7 @@ void options_manager::load()
     trigdist = OPTIONS["CIRCLEDIST"]; // cache to global due to heavy usage.
     use_tiles = OPTIONS["USE_TILES"]; // cache to global due to heavy usage.
     log_from_top = OPTIONS["SIDEBAR_LOG_FLOW"] == "new_top"; // cache to global due to heavy usage.
-    fov_3d = false; // OPTIONS["FOV_3D"];
+    fov_3d = OPTIONS["FOV_3D"];
 }
 
 bool options_manager::load_legacy()
@@ -1782,10 +1781,4 @@ bool options_manager::load_legacy()
 bool use_narrow_sidebar()
 {
     return TERMY < 25 || g->narrow_sidebar;
-}
-
-inline std::string trim(const std::string &s)
-{
-   auto wsfront = std::find_if_not( s.begin(), s.end(), []( int c ) { return std::isspace( c ); });
-   return std::string( wsfront, std::find_if_not( s.rbegin(), std::string::const_reverse_iterator( wsfront ), []( int c ){ return std::isspace( c ); }).base());
 }

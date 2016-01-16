@@ -285,7 +285,7 @@ bool player::handle_gun_damage( const itype &firingt, const std::set<std::string
             add_msg_player_or_npc(_("Your %s malfunctions!"),
                                   _("<npcname>'s %s malfunctions!"),
                                   weapon.tname().c_str());
-            if ((weapon.damage < 4) && one_in(4 * firing->durability)) {
+            if( weapon.damage < MAX_ITEM_DAMAGE && one_in( 4 * firing->durability ) ) {
                 add_msg_player_or_npc(m_bad, _("Your %s is damaged by the mechanical malfunction!"),
                                       _("<npcname>'s %s is damaged by the mechanical malfunction!"),
                                       weapon.tname().c_str());
@@ -309,7 +309,7 @@ bool player::handle_gun_damage( const itype &firingt, const std::set<std::string
             add_msg_player_or_npc(_("Your %s misfires with a muffled click!"),
                                   _("<npcname>'s %s misfires with a muffled click!"),
                                   weapon.tname().c_str());
-            if ((weapon.damage < 4) && one_in(firing->durability)) {
+            if( weapon.damage < MAX_ITEM_DAMAGE && one_in( firing->durability ) ) {
                 add_msg_player_or_npc(m_bad, _("Your %s is damaged by the misfired round!"),
                                       _("<npcname>'s %s is damaged by the misfired round!"),
                                       weapon.tname().c_str());
@@ -1137,7 +1137,7 @@ static projectile make_gun_projectile( const item &gun) {
     });
 
     if( recover && !fx.count( "IGNITE" ) && !fx.count( "EXPLOSIVE" ) ) {
-        item drop( gun.get_curammo_id(), calendar::turn, false );
+        item drop( gun.ammo_current(), calendar::turn, false );
         drop.charges = 1;
         drop.active = fx.count( "ACT_ON_RANGED_HIT" );
 

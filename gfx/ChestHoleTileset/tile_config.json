@@ -291,6 +291,12 @@
           "rotates": false
         },
         {
+          "id": "40mm_toxicgas",
+          "fg": 38,
+          "bg": 632,
+          "rotates": false
+        },
+        {
           "id": "40mm_beanbag",
           "fg": 39,
           "bg": 632,
@@ -2452,6 +2458,11 @@
           "rotates": false
         },
         {
+          "id": "fishing_hook_bone",
+          "fg": 2836,
+          "rotates": false
+        },
+        {
           "id": "fitover_sunglasses",
           "fg": 323
         },
@@ -3135,6 +3146,11 @@
         },
         {
           "id": "holster",
+          "fg": 379,
+          "bg": 632
+        },
+        {
+          "id": "XL_holster",
           "fg": 379,
           "bg": 632
         },
@@ -6370,6 +6386,16 @@
           "rotates": false
         },
         {
+          "id": "bscabbard",
+          "fg": 580,
+          "rotates": false
+        },
+        {
+          "id": "bootsheath",
+          "fg": 580,
+          "rotates": false
+        },
+        {
           "id": "scabbard",
           "fg": 580,
           "rotates": false
@@ -6878,6 +6904,12 @@
         },
         {
           "id": "pine_nuts",
+          "fg": 955,
+          "bg": 632,
+          "rotates": false
+        },
+        {
+          "id": "fried_seeds",
           "fg": 955,
           "bg": 632,
           "rotates": false
@@ -7476,11 +7508,7 @@
         },
         {
           "id": "bag_plastic", 
-          "fg": [
-            { "weight":2, "sprite":3639},
-            { "weight":2, "sprite":2792}, 
-            { "weight":2, "sprite":3640} 
-          ], 
+          "fg": 2792, 
           "bg": 632,
           "rotates": false
         },
@@ -7839,6 +7867,11 @@
         },
         {
           "id": "bio_eye_enhancer",
+          "fg": 681,
+          "bg": 632
+        },
+        {
+          "id": "bio_eye_optic",
           "fg": 681,
           "bg": 632
         },
@@ -8436,11 +8469,7 @@
         },
         {
           "id": "box_small", 
-          "fg": [
-            { "weight":2, "sprite":2795},
-            { "weight":2, "sprite":3636},
-            { "weight":2, "sprite":3637} 
-        ], 
+          "fg": 2795, 
           "bg": 632
         },
         {
@@ -8749,21 +8778,12 @@
         },
         {
           "id": "can_drink",  
-          "fg": [
-            { "weight":2, "sprite":2798},
-            { "weight":20, "sprite":3638} 
-         ], 
+          "fg": 2798,
           "bg": 632
         },
         {
           "id": "can_food", 
-          "fg": [
-            { "weight":2, "sprite":1016},
-            { "weight":20, "sprite":3632},
-            { "weight":20, "sprite":3633},
-            { "weight":20, "sprite":3634},
-            { "weight":20, "sprite":3635} 
-        ], 
+          "fg": 1016, 
           "bg": 632,
           "rotates": false
         },
@@ -9632,6 +9652,12 @@
           "rotates": false
         },
         {
+          "id": "chai_tea",
+          "fg": 803,
+          "bg": 632,
+          "rotates": false
+        },
+        {
           "id": "coffee_syrup",
           "fg": 797,
           "bg": 632,
@@ -10477,6 +10503,18 @@
         },
         {
           "id": "gasbomb_act",
+          "fg": 2380,
+          "bg": 632,
+          "rotates": false
+        },
+        {
+          "id": "gasbomb_makeshift",
+          "fg": 2379,
+          "bg": 632,
+          "rotates": false
+        },
+        {
+          "id": "gasbomb_makeshift_act",
           "fg": 2380,
           "bg": 632,
           "rotates": false
@@ -12912,6 +12950,11 @@
         },
         {
           "id": "rag",
+          "fg": 2504,
+          "bg": 632
+        },
+        {
+          "id": "chloroform_rag",
           "fg": 2504,
           "bg": 632
         },
@@ -15405,6 +15448,12 @@
           "rotates": false
         },
         {
+          "id": "frenchtoast",
+          "fg": 3359,
+          "bg": 632,
+          "rotates": false
+        },
+        {
           "id": "choc_waffles",
           "fg": 3359,
           "bg": 632,
@@ -15874,6 +15923,12 @@
         },
         {
           "id": "gas_fungicidal",
+          "fg": 3418,
+          "bg": 632,
+          "rotates": false
+        },
+        {
+          "id": "gas_chloramine",
           "fg": 3418,
           "bg": 632,
           "rotates": false
@@ -16715,6 +16770,18 @@
         },
         {
           "id": "rm13_armor",
+          "fg": 3518,
+          "bg": 632,
+          "rotates": false
+        },
+        {
+          "id": "overlay_worn_rm13_armor_on",
+          "fg": 3517,
+          "bg": 632,
+          "rotates": false
+        },
+        {
+          "id": "overlay_worn_rm13_armor",
           "fg": 3518,
           "bg": 632,
           "rotates": false
@@ -17690,12 +17757,7 @@
         },
         {
           "id": "bottle_plastic_small",
-           "fg": [
-            { "weight":2, "sprite":2850},
-            { "weight":80, "sprite":3629},
-            { "weight":80, "sprite":3630},
-            { "weight":80, "sprite":3631} 
-        ], 
+           "fg": 2850, 
           "bg": 632
         },
         {
@@ -23573,6 +23635,11 @@
           "rotates": false
         },
         {
+          "id": "t_concrete_floor",
+          "fg": 660,
+          "rotates": false
+        },
+        {
           "id": "t_concrete_wall",
           "fg": 1975,
           "bg": 660,
@@ -24018,6 +24085,12 @@
         },
         {
           "id": "t_generator_broken",
+          "fg": 2036,
+          "bg": 660,
+          "rotates": false
+        },
+        {
+          "id": "generator_7500w",
           "fg": 2036,
           "bg": 660,
           "rotates": false
@@ -27743,6 +27816,16 @@
           "bg": 632
         },
         {
+          "id": "cinnamon",
+          "fg": 3205,
+          "bg": 632
+        },
+        {
+          "id": "cooked_pumpkin",
+          "fg": 3205,
+          "bg": 632
+        },
+        {
           "id": "chem_saltpetre",
           "fg": 3205,
           "bg": 632
@@ -27844,6 +27927,11 @@
         },
         {
           "id": "chem_sulphur",
+          "fg": 3209,
+          "bg": 632
+        },
+        {
+          "id": "chunk_sulfur",
           "fg": 3209,
           "bg": 632
         },
@@ -31938,6 +32026,18 @@
           ]
         },
         {
+          "id": "vp_wheel_steerable",
+          "fg": 2634,
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "broken",
+              "fg": 3269
+            }
+          ]
+        },
+        {
           "id": "vp_wheel_armor",
           "fg": 2635,
           "rotates": true,
@@ -31950,7 +32050,31 @@
           ]
         },
         {
+          "id": "vp_wheel_armor_steerable",
+          "fg": 2635,
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "broken",
+              "fg": 3270
+            }
+          ]
+        },
+        {
           "id": "vp_wheel_bicycle",
+          "fg": 2636,
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "broken",
+              "fg": 3271
+            }
+          ]
+        },
+        {
+          "id": "vp_wheel_bicycle_steerable",
           "fg": 2636,
           "rotates": true,
           "multitile": true,
@@ -31998,6 +32122,18 @@
           ]
         },
         {
+          "id": "vp_wheel_motorbike_steerable",
+          "fg": 2638,
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "broken",
+              "fg": 3273
+            }
+          ]
+        },
+        {
           "id": "vp_wheel_small",
           "fg": 2639,
           "rotates": true,
@@ -32010,7 +32146,31 @@
           ]
         },
         {
+          "id": "vp_wheel_small_steerable",
+          "fg": 2639,
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "broken",
+              "fg": 3274
+            }
+          ]
+        },
+        {
           "id": "vp_wheel_wide",
+          "fg": 2640,
+          "rotates": true,
+	  "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "broken",
+              "fg": 3024
+            }
+	    ]
+        },
+        {
+          "id": "vp_wheel_wide_steerable",
           "fg": 2640,
           "rotates": true,
 	  "multitile": true,

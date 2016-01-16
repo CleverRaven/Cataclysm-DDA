@@ -161,7 +161,7 @@ bool Creature::sees( const Creature &critter ) const
         return p == this;
     }
 
-    if( !fov_3d && posz() != critter.posz() ) {
+    if( !fov_3d && !debug_mode && posz() != critter.posz() ) {
         return false;
     }
 
@@ -190,8 +190,7 @@ bool Creature::sees( const point t ) const
 
 bool Creature::sees( const tripoint &t, bool is_player ) const
 {
-    // TODO: FoV update
-    if( posz() != t.z ) {
+    if( !fov_3d && posz() != t.z ) {
         return false;
     }
 
@@ -363,15 +362,13 @@ void Creature::melee_attack(Creature &t, bool allow_special)
  * Damage-related functions
  */
 
-int Creature::deal_melee_attack(Creature *source, int hitroll)
+int Creature::deal_melee_attack( Creature *source, int hitroll )
 {
-    int dodgeroll = dodge_roll();
-    int hit_spread = hitroll - dodgeroll;
-    bool missed = hit_spread <= 0;
+    int hit_spread = hitroll - dodge_roll();
 
-    if (missed) {
-        dodge_hit(source, hit_spread);
-        return hit_spread;
+    // If attacker missed call targets on_dodge event
+    if( hit_spread <= 0 && !source->is_hallucination() ) {
+        on_dodge( source, source->get_melee() );
     }
 
     return hit_spread;
@@ -574,9 +571,6 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
     int stun_strength = 0;
     if (proj.proj_effects.count("BEANBAG")) {
         stun_strength = 4;
-    }
-    if(proj.proj_effects.count("WHIP")) {
-        stun_strength = rng(4, 10);
     }
     if (proj.proj_effects.count("LARGE_BEANBAG")) {
         stun_strength = 16;
@@ -787,7 +781,7 @@ void Creature::add_effect( efftype_id eff_id, int dur, body_part bp,
     if (effect_types[eff_id].get_main_parts()) {
         bp = mutate_to_main_part(bp);
     }
-
+    
     bool found = false;
     // Check if we already have it
     auto matching_map = effects.find(eff_id);
@@ -845,6 +839,12 @@ void Creature::add_effect( efftype_id eff_id, int dur, body_part bp,
         // Bound to max duration
         if (e.get_max_duration() > 0 && e.get_duration() > e.get_max_duration()) {
             e.set_duration(e.get_max_duration());
+        }
+
+        // Force intensity if it is duration based
+        if( e.get_int_dur_factor() != 0 ) {
+            // + 1 here so that the lowest is intensity 1, not 0
+             e.set_intensity( ( e.get_duration() / e.get_int_dur_factor() ) + 1 );
         }
         // Bound new effect intensity by [1, max intensity]
         if (new_eff.get_intensity() < 1) {
@@ -1356,8 +1356,13 @@ int Creature::weight_capacity() const
  */
 void Creature::draw(WINDOW *w, int player_x, int player_y, bool inverted) const
 {
-    int draw_x = getmaxx(w) / 2 + posx() - player_x;
-    int draw_y = getmaxy(w) / 2 + posy() - player_y;
+    draw( w, tripoint( player_x, player_y, posz() ), inverted );
+}
+
+void Creature::draw( WINDOW *w, const tripoint &p, bool inverted ) const
+{
+    int draw_x = getmaxx(w) / 2 + posx() - p.x;
+    int draw_y = getmaxy(w) / 2 + posy() - p.y;
     if(inverted) {
         mvwputch_inv(w, draw_y, draw_x, basic_symbol_color(), symbol());
     } else if(is_symbol_highlighted()) {
@@ -1365,11 +1370,6 @@ void Creature::draw(WINDOW *w, int player_x, int player_y, bool inverted) const
     } else {
         mvwputch(w, draw_y, draw_x, symbol_color(), symbol() );
     }
-}
-
-void Creature::draw( WINDOW *w, const tripoint &p, bool inverted ) const
-{
-    draw( w, p.x, p.y, inverted );
 }
 
 nc_color Creature::basic_symbol_color() const

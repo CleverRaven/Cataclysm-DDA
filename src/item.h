@@ -14,6 +14,7 @@
 #include "bodypart.h"
 #include "string_id.h"
 #include "line.h"
+#include "item_location.h"
 
 class game;
 class Character;
@@ -76,6 +77,12 @@ enum layer_level {
     OUTER_LAYER,
     BELTED_LAYER,
     MAX_CLOTHING_LAYER
+};
+
+enum class VisitResponse {
+    ABORT, // Stop processing after this node
+    NEXT,  // Descend vertically to any child nodes and then horizontally to next sibling
+    SKIP   // Skip any child nodes and move directly to the next sibling
 };
 
 class item_category
@@ -201,16 +208,18 @@ public:
  const item_category &get_category() const;
 
     /**
-     * @param u The player whose inventory is used to search for suitable ammo.
-     * @param interactive Whether to show a dialog to select the ammo, if false it will select
-     * the first suitable ammo.
-     * @retval INT_MIN+2 to indicate the user canceled the menu
-     * @retval INT_MIN+1 to indicate reload from spare magazine
-     * @retval INT_MIN to indicate no suitable ammo found.
-     * @retval other the item position (@ref player::i_at) in the players inventory.
+     * Select suitable ammo with which to reload the item
+     * @param u player inventory to search for suitable ammo.
+     * @param interactive if true prompt to select ammo otherwise select first suitable ammo
      */
-    int pick_reload_ammo( const player &u, bool interactive );
- bool reload(player &u, int pos);
+    item_location pick_reload_ammo( player &u, bool interactive ) const;
+
+    /** Reload item using ammo from inventory position returning true if sucessful */
+    bool reload( player &u, int pos );
+
+    /** Reload item using ammo from location returning true if sucessful */
+    bool reload( player &u, item_location loc );
+
     skill_id skill() const;
 
     template<typename Archive>
@@ -668,6 +677,16 @@ public:
  const itype* type;
  std::vector<item> contents;
 
+        /** Traverses this item and any child items contained using a visitor pattern
+         * @pram func visitor function called for each node which controls whether traversal continues.
+         * Typically a lambda making use of captured state it should return VisitResponse::Next to
+         * recursively process child items, VisitResponse::Skip to ignore children of the current node
+         * or VisitResponse::Abort to skip further processing of any nodes.
+         * @return This method itself only ever returns VisitResponse::Next or VisitResponse::Abort.
+         */
+        VisitResponse visit( const std::function<VisitResponse(item&)>& func );
+        VisitResponse visit( const std::function<VisitResponse(const item&)>& func ) const;
+
         /** Checks if item is a holster and currently capable of storing obj */
         bool can_holster ( const item& obj ) const;
         /**
@@ -677,11 +696,6 @@ public:
          * @code itm.get_curammo()->ammo->damage @endcode will work.
          */
         const itype* get_curammo() const;
-        /**
-         * Returns the item type id of the currently loaded ammo.
-         * Returns "null" if the item is not loaded.
-         */
-        itype_id get_curammo_id() const;
         /**
          * Whether the item is currently loaded (which implies it has some non-null pointer
          * as @ref curammo).
@@ -1057,6 +1071,10 @@ public:
         long ammo_required() const;
         /** If sufficient ammo available consume it, otherwise do nothing and return false */
         bool ammo_consume( int qty );
+        /** Specific ammo data, returns nullptr if item is neither ammo nor loaded with any */
+        const itype * ammo_data() const;
+        /** Specific ammo type, returns "null" if item is neither ammo nor loaded with any */
+        itype_id ammo_current() const;
         /**
          * The id of the ammo type (@ref ammunition_type) that can be used by this item.
          * Will return "NULL" if the item does not use a specific ammo type. Items without
@@ -1266,7 +1284,14 @@ public:
  char invlet;             // Inventory letter
  long charges;
  bool active;             // If true, it has active effects to be processed
- signed char damage;      // How much damage it's sustained; generally, max is 5
+
+    /**
+     * How much damage the item has sustained
+     * @see MIN_ITEM_DAMAGE
+     * @see MAX_ITEM_DAMAGE
+     */
+    int damage;
+
  int burnt;               // How badly we're burnt
  int bday;                // The turn on which it was created
  union{

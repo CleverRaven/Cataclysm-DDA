@@ -32,7 +32,7 @@
         "death_function":"NORMAL",
         "special_attack":["NONE"],
         "description":"A bipedal dinosaur about the size of a small cat.  Its teeth and claws look quite sharp.",
-        "flags":["SEES", "SMELLS", "HEARS", "GOODHEARING", "SMALL_BITER", "HUNTS_VERMIN", "HIT_AND_RUN", "ANIMAL", "VIS50", "BLEED", "BONES", "LEATHER"],
+        "flags":["SEES", "SMELLS", "HEARS", "GOODHEARING", "HUNTS_VERMIN", "HIT_AND_RUN", "ANIMAL", "VIS50", "BLEED", "BONES", "LEATHER"],
         "anger_triggers":["PLAYER_WEAK", "HURT"],
         "fear_triggers":["SOUND", "PLAYER_CLOSE", "FIRE"],
         "placate_triggers":["MEAT"],
@@ -324,7 +324,7 @@
         "death_function":"NORMAL",
         "special_attack":["NONE"],
         "description":"A bipedal dinosaur about the size of a chicken.  It roots around the undergrowth, scavenging on small animals and plants.",
-        "flags":["SEES", "SMELLS", "HEARS", "GOODHEARING", "SMALL_BITER", "HUNTS_VERMIN", "HIT_AND_RUN", "ANIMAL", "VIS50", "BONES"],
+        "flags":["SEES", "SMELLS", "HEARS", "GOODHEARING", "HUNTS_VERMIN", "HIT_AND_RUN", "ANIMAL", "VIS50", "BONES"],
         "fear_triggers":["SOUND", "PLAYER_CLOSE", "FIRE"],
         "categories":["DINOSAUR"]
     },{
@@ -486,7 +486,7 @@
         "death_function":"NORMAL",
         "special_attack":["NONE"],
         "description":"A small flying reptile, circling overhead looking for prey.",
-        "flags":["SEES", "SMELLS", "HEARS", "FLIES", "HIT_AND_RUN", "SMALL_BITER", "HUNTS_VERMIN", "ANIMAL", "VIS50", "BLEED", "BONES"],
+        "flags":["SEES", "SMELLS", "HEARS", "FLIES", "HIT_AND_RUN", "HUNTS_VERMIN", "ANIMAL", "VIS50", "BLEED", "BONES"],
         "fear_triggers":["SOUND", "PLAYER_CLOSE", "FIRE"],
         "placate_triggers":["MEAT"],
         "categories":["DINOSAUR"]

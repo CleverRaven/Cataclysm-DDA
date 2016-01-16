@@ -645,8 +645,8 @@ int set_stats(WINDOW *w, player *u, int &points)
             mvwprintz(w_description, 0, 0, COL_STAT_NEUTRAL, _("Base HP: %d"), u->hp_max[0]);
             mvwprintz(w_description, 1, 0, COL_STAT_NEUTRAL, _("Carry weight: %.1f %s"),
                       convert_weight(u->weight_capacity()), weight_units());
-            mvwprintz(w_description, 2, 0, COL_STAT_NEUTRAL, _("Melee damage: %d"),
-                      u->base_damage(false));
+            mvwprintz(w_description, 2, 0, COL_STAT_NEUTRAL, _("Melee damage bonus: %.1f"),
+                      u->bonus_damage(false) );
             fold_and_print(w_description, 4, 0, getmaxx(w_description) - 1, COL_STAT_NEUTRAL,
                            _("Strength also makes you more resistant to many diseases and poisons, and makes actions which require brute force more effective."));
             break;

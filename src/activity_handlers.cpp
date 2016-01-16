@@ -117,13 +117,66 @@ void butcher_cbm_group( const std::string &group, const tripoint &pos,
     }
 }
 
+void set_up_butchery( player_activity &act, player &u )
+{
+    if( !act.values.empty() ) {
+        act.index = act.values.back();
+        act.values.pop_back();
+    } else {
+        debugmsg( "Invalid butchery item index %d", act.index );
+        act.type = ACT_NULL;
+        return;
+    }
+
+    const int factor = u.butcher_factor();
+    auto items = g->m.i_at( u.pos() );
+    if( (size_t)act.index >= items.size() || factor == INT_MIN ) {
+        // Let it print a msg for lack of corpses
+        act.index = INT_MAX;
+        return;
+    }
+
+    const mtype *corpse = items[act.index].get_mtype();
+    int time_to_cut = 0;
+    switch( corpse->size ) { // Time (roughly) in turns to cut up the corpse
+    case MS_TINY:
+        time_to_cut = 12;
+        break;
+    case MS_SMALL:
+        time_to_cut = 25;
+        break;
+    case MS_MEDIUM:
+        time_to_cut = 50;
+        break;
+    case MS_LARGE:
+        time_to_cut = 80;
+        break;
+    case MS_HUGE:
+        time_to_cut = 150;
+        break;
+    }
+
+    // At factor 0, 10 time_to_cut is 10 turns. At factor 50, it's 5 turns, at 75 it's 2.5
+    time_to_cut *= std::max( 25, 100 - factor );
+    if( time_to_cut < 500 ) {
+        time_to_cut = 500;
+    }
+
+    act.moves_left = time_to_cut;
+}
+
 void activity_handlers::butcher_finish( player_activity *act, player *p )
 {
+    if( act->index < 0 ) {
+        set_up_butchery( *act, *p );
+        return;
+    }
     // Corpses can disappear (rezzing!), so check for that
     auto items_here = g->m.i_at( p->pos() );
     if( static_cast<int>( items_here.size() ) <= act->index ||
         !( items_here[act->index].is_corpse() ) ) {
-        add_msg(m_info, _("There's no corpse to butcher!"));
+        p->add_msg_if_player(m_info, _("There's no corpse to butcher!"));
+        act->type = ACT_NULL;
         return;
     }
 
@@ -228,26 +281,26 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     if( bones > 0 ) {
         if( corpse->has_material("veggy") ) {
             g->m.spawn_item(p->pos(), "plant_sac", bones, 0, age);
-            add_msg(m_good, _("You harvest some fluid bladders!"));
+            p->add_msg_if_player(m_good, _("You harvest some fluid bladders!"));
         } else if( corpse->has_flag(MF_BONES) && corpse->has_flag(MF_POISON) ) {
             g->m.spawn_item(p->pos(), "bone_tainted", bones / 2, 0, age);
-            add_msg(m_good, _("You harvest some salvageable bones!"));
+            p->add_msg_if_player(m_good, _("You harvest some salvageable bones!"));
         } else if( corpse->has_flag(MF_BONES) && corpse->has_flag(MF_HUMAN) ) {
             g->m.spawn_item(p->pos(), "bone_human", bones, 0, age);
-            add_msg(m_good, _("You harvest some salvageable bones!"));
+            p->add_msg_if_player(m_good, _("You harvest some salvageable bones!"));
         } else if( corpse->has_flag(MF_BONES) ) {
             g->m.spawn_item(p->pos(), "bone", bones, 0, age);
-            add_msg(m_good, _("You harvest some usable bones!"));
+            p->add_msg_if_player(m_good, _("You harvest some usable bones!"));
         }
     }
 
     if( sinews > 0 ) {
         if( corpse->has_flag(MF_BONES) && !corpse->has_flag(MF_POISON) ) {
             g->m.spawn_item(p->pos(), "sinew", sinews, 0, age);
-            add_msg(m_good, _("You harvest some usable sinews!"));
+            p->add_msg_if_player(m_good, _("You harvest some usable sinews!"));
         } else if( corpse->has_material("veggy") ) {
             g->m.spawn_item(p->pos(), "plant_fibre", sinews, 0, age);
-            add_msg(m_good, _("You harvest some plant fibers!"));
+            p->add_msg_if_player(m_good, _("You harvest some plant fibers!"));
         }
     }
 
@@ -256,25 +309,25 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         if( meat == "meat" ) {
             if( corpse->size == MS_SMALL || corpse->size == MS_MEDIUM ) {
                 g->m.spawn_item(p->pos(), "stomach", 1, 0, age);
-                add_msg(m_good, _("You harvest the stomach!"));
+                p->add_msg_if_player(m_good, _("You harvest the stomach!"));
             } else if( corpse->size == MS_LARGE || corpse->size == MS_HUGE ) {
                 g->m.spawn_item(p->pos(), "stomach_large", 1, 0, age);
-                add_msg(m_good, _("You harvest the stomach!"));
+                p->add_msg_if_player(m_good, _("You harvest the stomach!"));
             }
         } else if( meat == "human_flesh" ) {
             if( corpse->size == MS_SMALL || corpse->size == MS_MEDIUM ) {
                 g->m.spawn_item(p->pos(), "hstomach", 1, 0, age);
-                add_msg(m_good, _("You harvest the stomach!"));
+                p->add_msg_if_player(m_good, _("You harvest the stomach!"));
             } else if( corpse->size == MS_LARGE || corpse->size == MS_HUGE ) {
                 g->m.spawn_item(p->pos(), "hstomach_large", 1, 0, age);
-                add_msg(m_good, _("You harvest the stomach!"));
+                p->add_msg_if_player(m_good, _("You harvest the stomach!"));
             }
         }
     }
 
     if( (corpse->has_flag(MF_FUR) || corpse->has_flag(MF_LEATHER) ||
          corpse->has_flag(MF_CHITIN)) && skins > 0 ) {
-        add_msg(m_good, _("You manage to skin the %s!"), corpse->nname().c_str());
+        p->add_msg_if_player(m_good, _("You manage to skin the %s!"), corpse->nname().c_str());
         int fur = 0;
         int tainted_fur = 0;
         int leather = 0;
@@ -336,24 +389,24 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     if( feathers > 0 ) {
         if( corpse->has_flag(MF_FEATHER) ) {
             g->m.spawn_item(p->pos(), "feather", feathers, 0, age);
-            add_msg(m_good, _("You harvest some feathers!"));
+            p->add_msg_if_player(m_good, _("You harvest some feathers!"));
         }
     }
 
     if( wool > 0 ) {
         if( corpse->has_flag(MF_WOOL) ) {
             g->m.spawn_item(p->pos(), "wool_staple", wool, 0, age);
-            add_msg(m_good, _("You harvest some wool staples!"));
+            p->add_msg_if_player(m_good, _("You harvest some wool staples!"));
         }
     }
 
     if( fats > 0 ) {
         if( corpse->has_flag(MF_FAT) && corpse->has_flag(MF_POISON) ) {
             g->m.spawn_item(p->pos(), "fat_tainted", fats, 0, age);
-            add_msg(m_good, _("You harvest some gooey fat!"));
+            p->add_msg_if_player(m_good, _("You harvest some gooey fat!"));
         } else if( corpse->has_flag(MF_FAT) ) {
             g->m.spawn_item(p->pos(), "fat", fats, 0, age);
-            add_msg(m_good, _("You harvest some fat!"));
+            p->add_msg_if_player(m_good, _("You harvest some fat!"));
         }
     }
 
@@ -399,7 +452,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     for( auto &content : contents  ) {
         if( ( roll_butchery() + 10 ) * 5 > rng( 0, 100 ) ) {
             //~ %1$s - item name, %2$s - monster name
-            add_msg( m_good, _( "You discover a %1$s in the %2$s!" ), content.tname().c_str(),
+            p->add_msg_if_player( m_good, _( "You discover a %1$s in the %2$s!" ), content.tname().c_str(),
                      corpse->nname().c_str() );
             g->m.add_item_or_charges( p->pos(), content );
         } else if( content.is_bionic()  ) {
@@ -408,9 +461,9 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     }
 
     if( pieces <= 0 ) {
-        add_msg(m_bad, _("Your clumsy butchering destroys the meat!"));
+        p->add_msg_if_player(m_bad, _("Your clumsy butchering destroys the meat!"));
     } else {
-        add_msg(m_good, _("You butcher the corpse."));
+        p->add_msg_if_player(m_good, _("You harvest some meat."));
         const itype_id meat = corpse->get_meat_itype();
         if( meat == "null" ) {
             return;
@@ -421,6 +474,14 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
             pieces--;
             g->m.add_item_or_charges(p->pos(), tmpitem);
         }
+    }
+
+    p->add_msg_if_player( m_good, _("You finish butchering the %s."), corpse->nname().c_str() );
+
+    if( act->values.empty() ) {
+        act->type = ACT_NULL;
+    } else {
+        set_up_butchery( *act, *p );
     }
 }
 
@@ -679,8 +740,6 @@ void activity_handlers::longsalvage_finish( player_activity *act, player *p )
 
 void activity_handlers::make_zlave_finish( player_activity *act, player *p )
 {
-    static const int full_pulp_threshold = 4;
-
     auto items = g->m.i_at(p->pos());
     std::string corpse_name = act->str_values[0];
     item *body = NULL;
@@ -735,14 +794,9 @@ void activity_handlers::make_zlave_finish( player_activity *act, player *p )
             p->practice( skill_firstaid, rng(1, 8) );
             p->practice( skill_survival, rng(1, 8) );
 
-            int pulp = rng(1, full_pulp_threshold);
-
-            body->damage += pulp;
-
-            if( body->damage >= full_pulp_threshold ) {
-                body->damage = full_pulp_threshold;
+            body->damage = std::min( body->damage + (int) rng( 1, CORPSE_PULP_THRESHOLD ), CORPSE_PULP_THRESHOLD );
+            if( body->damage == CORPSE_PULP_THRESHOLD ) {
                 body->active = false;
-
                 p->add_msg_if_player(m_warning, _("You cut up the corpse too much, it is thoroughly pulped."));
             } else {
                 p->add_msg_if_player(m_warning,
@@ -810,8 +864,6 @@ void activity_handlers::pickaxe_finish(player_activity *act, player *p)
 void activity_handlers::pulp_do_turn( player_activity *act, player *p )
 {
     const tripoint &pos = act->placement;
-    static const int full_pulp_threshold = 4;
-    const int move_cost = int(p->weapon.is_null() ? 80 : p->weapon.attack_time() * 0.8);
 
     // numbers logic: a str 8 character with a butcher knife (4 bash, 18 cut)
     // should have at least a 50% chance of damaging an intact zombie corpse (75 volume).
@@ -828,50 +880,51 @@ void activity_handlers::pulp_do_turn( player_activity *act, player *p )
     ///\EFFECT_STR caps pulping power
     pulp_power = std::min(pulp_power, (double)p->str_cur);
     pulp_power *= 20; // constant multiplier to get the chance right
+
     int moves = 0;
     int &num_corpses = act->index; // use this to collect how many corpse are pulped
     auto corpse_pile = g->m.i_at(pos);
     for( auto corpse = corpse_pile.begin(); corpse != corpse_pile.end(); ++corpse ) {
-        if( !(corpse->is_corpse() && corpse->damage < full_pulp_threshold) ) {
+
+        if( !corpse->is_corpse() || corpse->damage >= CORPSE_PULP_THRESHOLD ) {
             continue; // no corpse or already pulped
         }
-        int damage = pulp_power / corpse->volume();
-        //Determine corpse's blood type.
-        field_id type_blood = corpse->get_mtype()->bloodType();
-        do {
-            moves += move_cost;
-            const int mod_sta = ( (p->weapon.weight() / 100 ) + 20) * -1;
-            p->mod_stat("stamina", mod_sta);
-            // Increase damage as we keep smashing,
-            // to insure that we eventually smash the target.
-            if( x_in_y(pulp_power, corpse->volume())  ) {
-                corpse->damage++;
+
+        while( corpse->damage < CORPSE_PULP_THRESHOLD ) {
+
+            // Increase damage as we keep smashing ensuring we eventually smash the target.
+            if( x_in_y( pulp_power, corpse->volume() ) ) {
+                if( ++corpse->damage == CORPSE_PULP_THRESHOLD ) {
+                    corpse->active = false;
+                    num_corpses++;
+                }
                 p->handle_melee_wear();
             }
+
             // Splatter some blood around
             tripoint tmp = pos;
+            field_id type_blood = corpse->get_mtype()->bloodType();
             if( type_blood != fd_null ) {
                 for( tmp.x = pos.x - 1; tmp.x <= pos.x + 1; tmp.x++ ) {
                     for( tmp.y = pos.y - 1; tmp.y <= pos.y + 1; tmp.y++ ) {
-                        if( !one_in(damage + 1) && type_blood != fd_null ) {
+                        if( !one_in( pulp_power / std::min( corpse->volume(), 1 ) ) ) {
                             g->m.add_field( tmp, type_blood, 1, 0 );
                         }
                     }
                 }
             }
-            if( corpse->damage >= full_pulp_threshold ) {
-                corpse->damage = full_pulp_threshold;
-                corpse->active = false;
-                num_corpses++;
-            }
+
+            p->mod_stat( "stamina", -20 - ( p->weapon.weight() / 100 ) );
+
+            moves += p->weapon.is_null() ? 80 : p->weapon.attack_time() * 0.8;
             if( moves >= p->moves ) {
-                // enough for this turn;
-                p->moves -= moves;
+                p->moves -= moves; // enough for this turn;
                 return;
             }
-        } while( corpse->damage < full_pulp_threshold );
+        }
     }
-    // If we reach this, all corpses have been pulped, finish the activity
+
+   // If we reach this, all corpses have been pulped, finish the activity
     act->moves_left = 0;
     if( num_corpses == 0 ) {
         add_msg(m_bad, _("The corpse moved before you could finish smashing it!"));

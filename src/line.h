@@ -62,6 +62,9 @@ point direction_XY(direction dir);
 std::string const& direction_name(direction dir);
 std::string const& direction_name_short(direction dir);
 
+/* Get suffix describing vector from p to q (eg. 1NW, 2SE) or empty string if p == q */
+std::string direction_suffix( const tripoint& p, const tripoint& q );
+
 /**
  * The actual bresenham algorithm in 2D and 3D, everything else should call these
  * and pass in an interact functor to iterate across a line between two points.

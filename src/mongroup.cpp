@@ -287,14 +287,13 @@ bool MonsterGroupManager::monster_is_blacklisted(const mtype_id& m)
 
 void MonsterGroupManager::FinalizeMonsterGroups()
 {
-    const MonsterGenerator &gen = MonsterGenerator::generator();
     for( auto &mtid : monster_whitelist ) {
-        if( !gen.has_mtype( mtype_id( mtid ) ) ) {
+        if( !mtype_id( mtid ).is_valid() ) {
             debugmsg( "monster on whitelist %s does not exist", mtid.c_str() );
         }
     }
     for( auto &mtid : monster_blacklist ) {
-        if( !gen.has_mtype( mtype_id( mtid ) ) ) {
+        if( !mtype_id( mtid ).is_valid() ) {
             debugmsg( "monster on blacklist %s does not exist", mtid.c_str() );
         }
     }

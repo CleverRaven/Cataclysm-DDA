@@ -505,9 +505,12 @@ void player::process_turn()
         scent--;
 
     // We can dodge again! Assuming we can actually move...
-    if (moves > 0) {
+    if( !in_sleep_state() ) {
         blocks_left = get_num_blocks();
         dodges_left = get_num_dodges();
+    } else {
+        blocks_left = 0;
+        dodges_left = 0;
     }
 
     // auto-learning. This is here because skill-increases happens all over the place:
@@ -2043,13 +2046,13 @@ void player::memorial( std::ofstream &memorial_file, std::string epitaph )
     std::map<std::tuple<std::string,std::string>,int> kill_counts;
 
     // map <name, sym> to kill count
-    for( const auto &monid : MonsterGenerator::generator().get_all_mtypes() ) {
-        if( g->kill_count( monid.first ) > 0 ) {
+    for( const auto &type : MonsterGenerator::generator().get_all_mtypes() ) {
+        if( g->kill_count( type->id ) > 0 ) {
             kill_counts[std::tuple<std::string,std::string>(
-                monid.second->nname(),
-                monid.second->sym
-            )] += g->kill_count( monid.first );
-            total_kills += g->kill_count( monid.first );
+                type->nname(),
+                type->sym
+            )] += g->kill_count( type->id );
+            total_kills += g->kill_count( type->id );
         }
     }
 
@@ -2892,7 +2895,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
                     }
                     mvwprintz(w_stats, 7, 21, c_magenta, "%4.1f", convert_weight(weight_capacity()));
                     mvwprintz(w_stats, 8, 1, c_magenta, _("Melee damage:"));
-                    mvwprintz(w_stats, 8, 22, c_magenta, "%3d", base_damage(false));
+                    mvwprintz(w_stats, 8, 22, c_magenta, "%3.1f", bonus_damage( false ) );
 
                     fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta,
                      _("Strength affects your melee damage, the amount of weight you can carry, your total HP, "
@@ -2979,7 +2982,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
             werase(w_info);
             std::string s;
             if (line == 0) {
-                const int melee_roll_pen = std::max( -( encumb( bp_torso ) / 10 ) * 10, -80 );
+                const int melee_roll_pen = std::max( -encumb( bp_torso ), -80 );
                 s += string_format( _("Melee attack rolls %+d%%; "), melee_roll_pen );
                 s += dodge_skill_text( - (encumb( bp_torso ) / 10));
                 s += swim_cost_text( (encumb( bp_torso ) / 10) * ( 80 - get_skill_level( skill_swimming ) * 3 ) );
@@ -4169,7 +4172,7 @@ int player::overmap_sight_range(int light_level) const
         return (sight / (SEEX / 2) );
     }
     sight = has_trait( "BIRD_EYE" ) ? 15 : 10;
-    bool has_optic = ( has_item_with_flag( "ZOOM" ) || has_bionic( "bio_optic" ) );
+    bool has_optic = ( has_item_with_flag( "ZOOM" ) || has_bionic( "bio_eye_optic" ) );
     if( has_optic && has_trait( "EAGLEEYED" ) ) {
         sight += 15;
     } else if( has_optic != has_trait( "EAGLEEYED" ) ) {
@@ -4659,20 +4662,30 @@ bool player::is_dead_state() const
 
 void player::on_dodge( Creature *source, int difficulty )
 {
+    static const matec_id tec_none( "tec_none" );
+
+    // Each avoided hit consumes an available dodge
+    // When no more available we are likely to fail player::dodge_roll
+    dodges_left--;
+
     // dodging throws of our aim unless we are either skilled at dodging or using a small weapon
     if( is_armed() && weapon.is_gun() ) {
         recoil += std::max( weapon.volume() - get_skill_level( skill_dodge ), 0 ) * rng( 0, 100 );
     }
 
-    if( difficulty == INT_MIN && source != nullptr ) {
-        difficulty = source->get_melee();
-    }
-
-    if( difficulty > 0 ) {
-        practice( skill_dodge, difficulty );
-    }
+    // Even if we are not to train still call practice to prevent skill rust
+    difficulty = std::max( difficulty, 0 );
+    practice( skill_dodge, difficulty * 2, difficulty );
 
     ma_ondodge_effects();
+
+    // For adjacent attackers check for techniques usable upon successful dodge
+    if( source && square_dist( pos(), source->pos() ) == 1 ) {
+        matec_id tec = pick_technique( *source, false, true, false );
+        if( tec != tec_none ) {
+            melee_attack( *source, false, tec );
+        }
+    }
 }
 
 void player::on_hit( Creature *source, body_part bp_hit,
@@ -8328,6 +8341,9 @@ void player::suffer()
         } else {
             rads = localRadiation / 32.0f + selfRadiation / 3.0f;
         }
+        if (has_effect("iodine")) {
+            rads *= 0.33;
+        }
         int rads_max = 0;
         if( rads > 0 ) {
             rads_max = static_cast<int>( rads );
@@ -10784,10 +10800,19 @@ bool player::can_use( const item& it, bool interactive ) const {
 
 int player::item_handling_cost( const item& it, bool effects, int factor ) const {
     int mv = std::max( 1, it.volume() * factor );
+
+    // For single handed items use the least encumbered hand
+    if( it.is_two_handed( *this ) ) {
+        mv += encumb( bp_hand_l ) + encumb( bp_hand_r );
+    } else {
+        mv += std::min( encumb( bp_hand_l ), encumb( bp_hand_r ) );
+    }
+
     if( effects && has_effect( "grabbed" ) ) {
         mv *= 2;
     }
-    return std::min(mv, MAX_HANDLING_COST);
+
+    return std::min( std::max( mv, MIN_HANDLING_COST ), MAX_HANDLING_COST );
 }
 
 bool player::wear(int inventory_position, bool interactive)
@@ -10898,8 +10923,8 @@ bool player::wear_item( const item &to_wear, bool interactive )
     else
     {
         // Only headgear can be worn with power armor, except other power armor components
-        if(!to_wear.covers(bp_head) && !to_wear.covers(bp_eyes) &&
-             !to_wear.covers(bp_head)) {
+        if(!to_wear.covers(bp_head) && !to_wear.covers(bp_eyes) && !to_wear.covers(bp_mouth)) 
+        {
             for (auto &i : worn)
             {
                 if( i.is_power_armor() )
@@ -11722,7 +11747,7 @@ void player::remove_gunmod(item *weapon, unsigned id)
     item ammo;
     if (gunmod->charges > 0) {
         if( gunmod->has_curammo() ) {
-            ammo = item( gunmod->get_curammo_id(), calendar::turn );
+            ammo = item( gunmod->ammo_current(), calendar::turn );
         } else {
             ammo = item(default_ammo(weapon->ammo_type()), calendar::turn);
         }
@@ -11744,7 +11769,7 @@ void player::remove_gunmod(item *weapon, unsigned id)
     weapon->contents.erase(weapon->contents.begin()+id);
     // gunmod removal decreased the gun's clip_size, move ammo to inventory
     if ( weapon->clip_size() < weapon->charges ) {
-        ammo = item( weapon->get_curammo_id(), calendar::turn );
+        ammo = item( weapon->ammo_current(), calendar::turn );
         ammo.charges = weapon->charges - weapon->clip_size();
         weapon->charges = weapon->clip_size();
         i_add_or_drop(ammo);
@@ -12523,16 +12548,20 @@ std::string player::is_snuggling() const
     return "nothing";
 }
 
-// Returned values range from 1.0 (unimpeded vision) to 5.0 (totally blind).
-// LIGHT_AMBIENT DIM is enough light for detail work, but held items get a boost.
+// Returned values range from 1.0 (unimpeded vision) to 11.0 (totally blind).
+//  1.0 is LIGHT_AMBIENT_LIT or brighter
+//  4.0 is a dark clear night, barely bright enough for reading and crafting
+//  6.0 is LIGHT_AMBIENT_DIM
+//  7.3 is LIGHT_AMBIENT_MINIMAL, a dark cloudy night, unlit indoors
+// 11.0 is zero light or blindness
 float player::fine_detail_vision_mod() const
 {
     // PER_SLIME_OK implies you can get enough eyes around the bile
     // that you can generaly see.  There'll still be the haze, but
     // it's annoying rather than limiting.
-    if( has_effect("blind") || worn_with_flag("BLIND") || has_active_bionic("bio_blindfold") ||
-        (( has_effect("boomered") || has_effect("darkness") ) && !has_trait("PER_SLIME_OK")) ) {
-        return 5.0;
+    if( has_effect( "blind" ) || worn_with_flag( "BLIND" ) || has_active_bionic("bio_blindfold") ||
+         ( ( has_effect( "boomered" ) || has_effect( "darkness" ) ) && !has_trait( "PER_SLIME_OK" ) ) ) {
+        return 11.0;
     }
     // Scale linearly as light level approaches LIGHT_AMBIENT_LIT.
     // If we're actually a source of light, assume we can direct it where we need it.
@@ -13525,23 +13554,22 @@ void player::practice( const skill_id &s, int amount, int cap )
     practice( &s.obj(), amount, cap );
 }
 
+int player::exceeds_recipe_requirements( const recipe &rec ) const
+{
+    if( !rec.valid_learn() ) {
+        return -1;
+    }
+
+    int over = rec.skill_used ? get_skill_level( rec.skill_used ) - rec.difficulty : 0;
+    for( const auto &required_skill : rec.required_skills ) {
+        over = std::min( over, get_skill_level( required_skill.first ) - required_skill.second );
+    }
+    return over;
+}
+
 bool player::has_recipe_requirements( const recipe *rec ) const
 {
-    if( !rec->valid_learn() ) {
-        return false;
-    }
-
-    bool meets_requirements = false;
-    if( !rec->skill_used || get_skill_level( rec->skill_used) >= rec->difficulty ) {
-        meets_requirements = true;
-        for( const auto &required_skill : rec->required_skills ) {
-            if( get_skill_level( required_skill.first ) < required_skill.second ) {
-                meets_requirements = false;
-            }
-        }
-    }
-
-    return meets_requirements;
+    return ( exceeds_recipe_requirements( *rec ) > -1 );
 }
 
 bool player::knows_recipe(const recipe *rec) const
@@ -13655,42 +13683,42 @@ bool player::has_gun_for_ammo( const ammotype &at ) const
     } );
 }
 
-std::string player::weapname(bool charges) const
+std::string player::weapname() const
 {
-    if (!(weapon.is_tool() && dynamic_cast<const it_tool*>(weapon.type)->max_charges <= 0) &&
-          weapon.charges >= 0 && charges) {
-        std::stringstream dump;
-        int spare_mag = weapon.has_gunmod("spare_mag");
-        // For guns, just print the unadorned name.
-        dump << weapon.type_name(1).c_str();
-        if (!(weapon.has_flag("NO_AMMO") || weapon.has_flag("RELOAD_AND_SHOOT"))) {
-            dump << " (" << weapon.charges;
-            if( -1 != spare_mag ) {
-                dump << "+" << weapon.contents[spare_mag].charges;
+    if( weapon.is_gun() ) {
+        std::stringstream str;
+        str << weapon.type_name();
+
+        if( weapon.ammo_capacity() > 0 && !weapon.has_flag( "RELOAD_AND_SHOOT" ) ) {
+            str << " (" << weapon.ammo_remaining() << "/" << weapon.ammo_capacity();
+
+            // @todo deprecate handling of spare magazine
+            int spare_mag = weapon.has_gunmod( "spare_mag" );
+            if( spare_mag != -1 ) {
+                str << " +" << weapon.contents[spare_mag].charges;
             }
-            for (auto &i : weapon.contents) {
-                if( i.is_auxiliary_gunmod() ) {
-                    dump << "+" << i.charges;
+
+            for( const auto& mod : weapon.contents ) {
+                if( mod.is_auxiliary_gunmod() ) {
+                    str << " +" << mod.ammo_remaining();
                 }
             }
-            dump << ")";
+            str << ")";
         }
-        return dump.str();
-    } else if (weapon.is_container()) {
-        std::stringstream dump;
-        dump << weapon.tname().c_str();
-        if(weapon.contents.size() == 1) {
-            dump << " (" << weapon.contents[0].charges << ")";
-        }
-        return dump.str();
-    } else if (weapon.is_null()) {
-        return _("fists");
+        return str.str();
+
+    } else if( weapon.is_container() && weapon.contents.size() == 1 ) {
+        return string_format( "%s (%d)", weapon.tname().c_str(), weapon.contents[0].charges );
+
+    } else if( weapon.is_null() ) {
+        return _( "fists" );
+
     } else {
         return weapon.tname();
     }
 }
 
-bool player::wield_contents(item *container, int pos, int factor)
+bool player::wield_contents( item *container, int pos, int factor, bool effects )
 {
     // if index not specified and container has multiple items then ask the player to choose one
     if( pos < 0 ) {
@@ -13738,9 +13766,9 @@ bool player::wield_contents(item *container, int pos, int factor)
 
     // TODO Doxygen comment covering all possible gun and weapon skills
     // documenting decrease in time spent wielding from a container
-    int lvl = get_skill_level( weapon.is_gun() ? weapon.gun_skill() : weapon.weap_skill() );
+    int lvl = std::max( (int) get_skill_level( weapon.is_gun() ? weapon.gun_skill() : weapon.weap_skill() ), 1);
+    mv += item_handling_cost( weapon, effects, factor ) / lvl;
 
-    mv += (weapon.volume() * factor) / std::max( lvl, 1 );
     moves -= mv;
 
     weapon.on_wield( *this, mv );
@@ -13748,10 +13776,10 @@ bool player::wield_contents(item *container, int pos, int factor)
     return true;
 }
 
-void player::store(item* container, item* put, const skill_id &skill_used, int volume_factor)
+void player::store(item* container, item* put, int factor, bool effects)
 {
-    const int lvl = get_skill_level(skill_used);
-    moves -= (lvl == 0) ? ((volume_factor + 1) * put->volume()) : (volume_factor * put->volume()) / lvl;
+    int lvl = std::max( (int) get_skill_level( put->is_gun() ? put->gun_skill() : put->weap_skill() ), 1 );
+    moves -= item_handling_cost( *put, effects, factor ) / lvl;
     container->put_in(i_rem(put));
 }
 
@@ -14106,7 +14134,7 @@ bool player::sees( const tripoint &t, bool ) const
     static const std::string str_bio_night("bio_night");
     const int wanted_range = rl_dist( pos(), t );
     bool can_see = is_player() ? g->m.pl_sees( t, wanted_range ) :
-        Creature::sees( t );;
+        Creature::sees( t );
     // Only check if we need to override if we already came to the opposite conclusion.
     if( can_see && wanted_range < 15 && wanted_range > sight_range(1) &&
         has_active_bionic(str_bio_night) ) {
@@ -14212,6 +14240,22 @@ void player::add_msg_player_or_npc(game_message_type type, const char* player_st
     va_list ap;
     va_start(ap, npc_str);
     Messages::vadd_msg(type, player_str, ap);
+    va_end(ap);
+}
+
+void player::add_msg_player_or_say( const char *player_str, const char *npc_str, ... ) const
+{
+    va_list ap;
+    va_start( ap, npc_str );
+    Messages::vadd_msg( player_str, ap );
+    va_end(ap);
+}
+
+void player::add_msg_player_or_say( game_message_type type, const char *player_str, const char *npc_str, ... ) const
+{
+    va_list ap;
+    va_start( ap, npc_str );
+    Messages::vadd_msg( type, player_str, ap );
     va_end(ap);
 }
 
@@ -14505,13 +14549,17 @@ bool player::has_item_with_flag( std::string flag ) const
 
 bool player::has_items_with_quality( const std::string &quality_id, int level, int amount ) const
 {
-    return has_item_with( [&quality_id, level, &amount]( const item &it ) {
+    visit_items( [&quality_id, level, &amount]( const item &it ) {
         if( it.has_quality( quality_id, level ) ) {
             // Each suitable item decreases the require count until it reaches 0, where the requirement is fulfilled.
-            amount--;
+            if( --amount <= 0) {
+                return VisitResponse::ABORT;
+            }
         }
-        return amount <= 0;
+        return VisitResponse::NEXT;
     } );
+
+    return amount <= 0;
 }
 
 void player::on_mission_assignment( mission &new_mission )
@@ -14588,7 +14636,7 @@ encumbrance_data player::get_encumbrance( size_t i ) const
     return enc_data;
 }
 
-void player::print_encumbrance( WINDOW *win, int line ) const
+void player::print_encumbrance( WINDOW *win, int line, item *selected_clothing ) const
 {
     int height, width;
     getmaxyx( win, height, width );
@@ -14626,13 +14674,21 @@ void player::print_encumbrance( WINDOW *win, int line ) const
     for( auto bp : parts ) {
         encumbrance_data e = get_encumbrance( bp );
         bool combine = false;
+        bool highlighted = ( selected_clothing == nullptr ) ? false :
+            ( selected_clothing->covers( static_cast<body_part>( bp ) ) ||
+              selected_clothing->covers( static_cast<body_part>( bp_aiOther[bp] ) ) );
         if( e == get_encumbrance( bp_aiOther[bp] ) ) {
             combine = true;
         }
         out.clear();
         // limb, and possible color highlighting
         out = string_format( "%-7s", ( combine ? bpp_asText[bp] : bp_asText[bp] ).c_str() );
-        mvwprintz( win, row, 1, ( orig_line == bp ) ? h_ltgray : c_ltgray, out.c_str() );
+        // Two different highlighting schemes, highlight if the line is selected as per line being set.
+        // Make the text green if this part is covered by the passed in item.
+        int limb_color = ( orig_line == bp ) ?
+            ( highlighted ? h_green : h_ltgray ) :
+            ( highlighted ? c_green : c_ltgray );
+        mvwprintz( win, row, 1, limb_color, out.c_str() );
         // take into account the new encumbrance system for layers
         out = string_format( "(%1d) ", static_cast<int>( e.iLayers / 10.0 ) );
         wprintz( win, c_ltgray, out.c_str() );
@@ -14654,3 +14710,11 @@ void player::print_encumbrance( WINDOW *win, int line ) const
 
 }
 
+bool player::query_yn( const char *mes, ... ) const
+{
+    va_list ap;
+    va_start( ap, mes );
+    bool ret = internal_query_yn( mes, ap );
+    va_end( ap );
+    return ret;
+}

@@ -377,9 +377,10 @@ long consume_drug_iuse::use(player *p, item *it, bool, const tripoint& ) const
     for( auto tool = tools_needed.cbegin(); tool != tools_needed.cend(); ++tool ) {
         // Amount == -1 means need one, but don't consume it.
         if( !p->has_amount( tool->first, 1 ) ) {
-            p->add_msg_if_player( _("You need %1$s to consume %2$s!"),
-                                  item::nname( tool->first ).c_str(),
-                                  it->type_name( 1 ).c_str() );
+            p->add_msg_player_or_say( _("You need %1$s to consume %2$s!"),
+                _("I need a %1$s to consume %2$s!"),
+                item::nname( tool->first ).c_str(),
+                it->type_name( 1 ).c_str() );
             return -1;
         }
     }
@@ -388,9 +389,10 @@ long consume_drug_iuse::use(player *p, item *it, bool, const tripoint& ) const
         // Amount == -1 means need one, but don't consume it.
         if( !p->has_charges( consumable->first, (consumable->second == -1) ?
                              1 : consumable->second ) ) {
-            p->add_msg_if_player( _("You need %1$s to consume %2$s!"),
-                                  item::nname( consumable->first ).c_str(),
-                                  it->type_name( 1 ).c_str() );
+            p->add_msg_player_or_say( _("You need %1$s to consume %2$s!"),
+                _("I need a %1$s to consume %2$s!"),
+                item::nname( consumable->first ).c_str(),
+                it->type_name( 1 ).c_str() );
             return -1;
         }
     }
@@ -702,9 +704,8 @@ long pick_lock_actor::use( player *p, item *it, bool, const tripoint& ) const
         p->practice( skill_mechanics, 1 );
         p->add_msg_if_player( m_good, "%s", open_message.c_str() );
         g->m.ter_set( dirp, new_type );
-    } else if( door_roll > ( 1.5 * pick_roll ) && it->damage < 100 ) {
-        it->damage++;
-        if( it->damage >= 5 ) {
+    } else if( door_roll > ( 1.5 * pick_roll ) ) {
+        if( it->damage++ >= MAX_ITEM_DAMAGE ) {
             p->add_msg_if_player( m_bad, _( "The lock stumps your efforts to pick it, and you destroy your tool." ) );
         } else {
             p->add_msg_if_player( m_bad, _( "The lock stumps your efforts to pick it, and you damage your tool." ) );
@@ -712,17 +713,16 @@ long pick_lock_actor::use( player *p, item *it, bool, const tripoint& ) const
     } else {
         p->add_msg_if_player( m_bad, _( "The lock stumps your efforts to pick it." ) );
     }
-    if( type == t_door_locked_alarm && ( door_roll + dice( 1, 30 ) ) > pick_roll &&
-        it->damage < 100 ) {
+    if( type == t_door_locked_alarm && ( door_roll + dice( 1, 30 ) ) > pick_roll ) {
         sounds::sound( p->pos(), 40, _( "An alarm sounds!" ) );
         if( !g->event_queued( EVENT_WANTED ) ) {
             g->add_event( EVENT_WANTED, int( calendar::turn ) + 300, 0, p->global_sm_location() );
         }
     }
-    if( it->damage >= 5 ) {
-        p->i_rem(it);
+    if( it->damage > MAX_ITEM_DAMAGE ) {
+        p->i_rem( it );
         return 0;
-        }
+    }
     return it->type->charges_to_use();
 }
 
@@ -1836,7 +1836,8 @@ long holster_actor::use( player *p, item *it, bool, const tripoint & ) const
     }
 
     if( pos >= 0 ) {
-        p->wield_contents( it, pos, draw_cost );
+        // holsters ignore penalty effects (eg. GRABBED) when determining number of moves to consume
+        p->wield_contents( it, pos, draw_cost, false );
     } else {
         item &obj = p->i_at( g->inv_for_filter( prompt, [&](const item& e) { return can_holster(e); } ) );
 
@@ -1873,7 +1874,9 @@ long holster_actor::use( player *p, item *it, bool, const tripoint & ) const
 
         p->add_msg_if_player( holster_msg.empty() ? _( "You holster your %s" ) : _( holster_msg.c_str() ),
                               obj.tname().c_str(), it->tname().c_str() );
-        p->store( it, &obj, obj.is_gun() ? obj.gun_skill() : obj.weap_skill(), VOLUME_MOVE_COST );
+
+        // holsters ignore penalty effects (eg. GRABBED) when determining number of moves to consume
+        p->store( it, &obj, draw_cost, false );
     }
 
     return 0;

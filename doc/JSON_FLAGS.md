@@ -25,6 +25,12 @@
 - ```CC_ARMOR```
 - ```CC_MISC```
 
+### Flags
+
+- ```BLIND_EASY``` Easy to craft with little to no light
+- ```BLIND_HARD``` Possible to craft with little to no light, but difficult
+- ```UNCRAFT_SINGLE_CHARGE``` Lists returned amounts for one charge of an item that is counted by charges.
+
 ## Furniture & Terrain
 List of known flags, used in both terrain.json and furniture.json
 
@@ -243,16 +249,14 @@ Flags used to describe monsters and define their properties and abilities.
 - ```WOOL``` May produce wool when butchered.
 - ```FEATHER``` May produce feathers when butchered.
 - ```FAT``` May produce fat when butchered.
-- ```CBM_CIV``` May produce a common cbm or two when butchered.
 - ```BONES``` May produce bones and sinews when butchered.
 - ```IMMOBILE``` Doesn't move (e.g. turrets)
-- ```FRIENDLY_SPECIAL``` Use our special attack, even if friendly.
 - ```HIT_AND_RUN``` Flee for several turns after a melee attack.
 - ```GUILT``` You feel guilty for killing it.
 - ```HUMAN``` It's a live human, as long as it's alive.
 - ```NO_BREATHE``` Creature can't drown and is unharmed by gas, smoke or poison.
 - ```REGENERATES_50``` Monster regenerates very quickly over time.
-- ```REGENERATES_10``` Monster regenerates very quickly over time.
+- ```REGENERATES_10``` Monster regenerates quickly over time.
 - ```FLAMMABLE``` Monster catches fire, burns, and spreads fire to nearby objects.
 - ```REVIVES``` Monster corpse will revive after a short period of time.
 - ```CHITIN``` May produce chitin when butchered.
@@ -465,7 +469,7 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```DOME_LIGHT```
 - ```HORN``` Generates noise when used.
 - ```BEEPER``` Generates noise when the vehicle moves backward.
-- ```CHIMES```
+- ```CHIMES``` Generates continuous noise when used.
 - ```STEREO```
 - ```MULTISQUARE``` Causes this part and any adjacent parts with the same ID to act as a singular part.
 - ```CIRCLE_LIGHT``` Projects a circular radius of light when turned on.
@@ -476,10 +480,11 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```POWER_TRANSFER``` Transmits power to and from an attached thingy (probably a vehicle).
 - ```INITIAL_PART``` When starting a new vehicle via the construction menu, this vehicle part will be the initial part of the vehicle (if the used item matches the item required for this part).
 - ```NO_JACK```
-- ```TOOL_NONE```
-- ```TOOL_WRENCH```
+- ```TOOL_NONE``` Can be removed/installed without any tools
+- ```TOOL_WRENCH``` Attached with bolts, can be removed/installed with a wrench
+- ```TOOL_SCREWDRIVER``` Attached with screws, can be removed/installed with a screwdriver
 - ```DIFFICULTY_REMOVE```
-- ```NAILABLE```
+- ```NAILABLE``` Attached with nails
 - ```FOLDABLE```
 - ```SCOOP``` Pulls items from underneath the vehicle to the cargo space of the part. Also mops up liquids. 
   - Uses the ```bonus``` tag to determine the maximum size of the item picked up.

@@ -77,6 +77,7 @@ class veh_interact
         int name_w;
 
         vehicle *veh;
+        bool has_screwdriver;
         bool has_wrench;
         bool has_hammer;
         bool has_nailgun;
