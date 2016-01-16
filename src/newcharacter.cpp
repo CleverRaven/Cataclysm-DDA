@@ -1690,11 +1690,11 @@ int set_scenario(WINDOW *w, player *u, int &points)
         }
         ///* This string has fixed start pos(7 = 2(start) + 5(length of "(+%d)" and space))
         mvwprintz(w, 3, pMsg_length + 7, can_pick ? c_green : c_ltred, scen_msg_temp.c_str(),
-                  _(sorted_scens[cur_id]->gender_appropriate_name(u->male).c_str()),
+                  sorted_scens[cur_id]->gender_appropriate_name(u->male).c_str(),
                   pointsForScen);
 
         fold_and_print(w_description, 0, 0, FULL_SCREEN_WIDTH - 2, c_green,
-                       _(sorted_scens[cur_id]->description(u->male).c_str()));
+                       sorted_scens[cur_id]->description(u->male).c_str());
 
         //Draw options
         calcStartPos(iStartPos, cur_id, iContentHeight, scens_length);
@@ -1711,7 +1711,7 @@ int set_scenario(WINDOW *w, player *u, int &points)
                 col = (sorted_scens[i] == sorted_scens[cur_id] ? hilite(COL_SKILL_USED) : COL_SKILL_USED);
             }
             mvwprintz(w, 5 + i - iStartPos, 2, col,
-                      _(sorted_scens[i]->gender_appropriate_name(u->male).c_str()));
+                      sorted_scens[i]->gender_appropriate_name(u->male).c_str());
 
         }
         //Clear rest of space in case stuff got filtered out
@@ -1754,7 +1754,7 @@ int set_scenario(WINDOW *w, player *u, int &points)
 
         mvwprintz(w_location, 0, 0, COL_HEADER, _("Scenario Location:"));
         wprintz(w_location, c_ltgray, ("\n"));
-        wprintz(w_location, c_ltgray, _(sorted_scens[cur_id]->start_name().c_str()));
+        wprintz(w_location, c_ltgray, sorted_scens[cur_id]->start_name().c_str());
 
         mvwprintz(w_flags, 0, 0, COL_HEADER, _("Scenario Flags:"));
         wprintz(w_flags, c_ltgray, ("\n"));
@@ -2045,7 +2045,7 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
 
         werase(w_scenario);
         mvwprintz(w_scenario, 0, 0, COL_HEADER, _("Scenario: "));
-        wprintz(w_scenario, c_ltgray, _(g->scen->gender_appropriate_name(u->male).c_str()));
+        wprintz(w_scenario, c_ltgray, g->scen->gender_appropriate_name(u->male).c_str());
         wrefresh(w_scenario);
 
         werase(w_profession);
