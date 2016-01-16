@@ -990,62 +990,44 @@ void npc::use_escape_item(int position)
     move_pause();
 }
 
-// Index defaults to 0, i.e., wielded weapon
-int npc::confident_range(int position)
+
+int npc::confident_range( int position )
 {
-
-    if (position == -1 && (!weapon.is_gun() || weapon.charges <= 0)) {
-        return 1;
-    }
-
     double deviation = 0;
-    int max = 0;
-    if (position == -1) {
-        deviation = get_weapon_dispersion( &weapon, true );
-        deviation += recoil + driving_recoil;
-        // Convert from MoA back to quarter-degrees.
-        deviation /= 15;
-    } else { // We aren't firing a gun, we're throwing something!
 
-        item *thrown = &i_at(position);
-        max = throw_range(position); // The max distance we can throw
-        deviation = 0;
-        ///\EFFECT_THROW_NPC increases throwing confidence
-        if (skillLevel( skill_throw ) < 8) {
-            deviation += 8 - skillLevel( skill_throw );
-        } else {
-            deviation -= skillLevel( skill_throw ) - 6;
+    if( position == -1 ) {
+        // Firing a weapon
+        if( !weapon.is_gun() || weapon.ammo_remaining() <= 0 ) {
+            return 0;
         }
 
+        deviation = get_weapon_dispersion( &weapon, true ) + recoil + driving_recoil;
+        deviation /= 15; // convert from MoA back to quarter-degrees.
+
+        return std::min( int( 360 / deviation ), weapon.gun_range( this ) );
+
+    } else {
+        // Throwing an item
+        const auto& thrown = i_at( position );
+
+        ///\EFFECT_THROW_NPC increases throwing confidence of all items
+        deviation += 10 - skillLevel( skill_throw );
+
+        ///\EFFECT_PER_NPC increases throwing confidence of all items
+        deviation += 10 - per_cur;
+
+        ///\EFFECT_DEX_NPC increases throwing confidence of all items
         deviation += throw_dex_mod();
 
-        ///\EFFECT_PER_NPC increases throwing confidence
-        if (per_cur < 6) {
-            deviation += 8 - per_cur;
-        } else if (per_cur > 8) {
-            deviation -= per_cur - 8;
-        }
+        ///\EFFECT_STR_NPC increases throwing confidence of heavy items
+        deviation += std::min( ( thrown.weight() / 100 ) - str_cur, 0 );
 
-        deviation += encumb(bp_hand_r) + encumb(bp_hand_l) + encumb(bp_eyes) + 1;
-        if (thrown->volume() > 5) {
-            deviation += 1 + (thrown->volume() - 5) / 4;
-        }
-        if (thrown->volume() == 0) {
-            deviation += 3;
-        }
+        deviation += thrown.volume() / 4;
 
-        ///\EFFECT_STR_NPC decreases throwing confidence
-        deviation += 1 + abs(str_cur - (thrown->weight() / 113));
+        deviation += encumb( bp_hand_r ) + encumb( bp_hand_l ) + encumb( bp_eyes );
+
+        return std::min( int( 360 / deviation ), throw_range( position ) );
     }
-    //Account for rng's, *.5 for 50%
-    deviation /= 2;
-
-    // Using 180 for now for extra-confident NPCs.
-    int ret = (max > int(180 / deviation) ? max : int(180 / deviation));
-    if (weapon.has_curammo() && ret > weapon.gun_range(this)) {
-        return weapon.gun_range(this);
-    }
-    return ret;
 }
 
 // Index defaults to -1, i.e., wielded weapon
