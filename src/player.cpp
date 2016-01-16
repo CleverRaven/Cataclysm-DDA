@@ -10478,7 +10478,7 @@ bool player::wield(item* it, bool )
             if( e.can_holster( weapon ) ) {
                 prompt.addentry( -1, true, e.invlet, _( "Store in %s" ), e.tname().c_str() );
                 actions.push_back( [&]{
-		    auto ptr = dynamic_cast<const holster_actor *>( e.type->get_use( "holster" )->get_actor_ptr() );
+                    auto ptr = dynamic_cast<const holster_actor *>( e.type->get_use( "holster" )->get_actor_ptr() );
                     ptr->store( *this, e, weapon );
                 });
             }
