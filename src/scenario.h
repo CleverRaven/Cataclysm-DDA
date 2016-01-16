@@ -25,7 +25,7 @@ class scenario
 
 private:
     friend class string_id<scenario>;
-    string_id<scenario> _ident;
+    string_id<scenario> id;
     std::string _name_male;
     std::string _name_female;
     std::string _description_male;

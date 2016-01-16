@@ -41,7 +41,7 @@ bool string_id<scenario>::is_valid() const
 const string_id<scenario> generic_scenario_id( "evacuee" );
 
 scenario::scenario()
-   : _ident(""), _name_male("null"), _name_female("null"),
+   : id(""), _name_male("null"), _name_female("null"),
      _description_male("null"), _description_female("null")
 {
 }
@@ -53,7 +53,7 @@ void scenario::load_scenario(JsonObject &jsobj)
     scenario scen;
     JsonArray jsarr;
 
-    scen._ident = string_id<scenario>( jsobj.get_string( "ident" ) );
+    scen.id = string_id<scenario>( jsobj.get_string( "ident" ) );
     //If the "name" is an object then we have to deal with gender-specific titles,
     if(jsobj.has_object("name")) {
         JsonObject name_obj=jsobj.get_object("name");
@@ -126,8 +126,8 @@ void scenario::load_scenario(JsonObject &jsobj)
     }
     scen._map_special = jsobj.get_string( "map_special", "mx_null" );
 
-    _all_scens[scen._ident] = scen;
-    DebugLog( D_INFO, DC_ALL ) << "Loaded scenario: " << scen._ident.str();
+    _all_scens[scen.id] = scen;
+    DebugLog( D_INFO, DC_ALL ) << "Loaded scenario: " << scen.id.str();
 }
 
 const scenario *scenario::generic()
@@ -197,22 +197,22 @@ void scenario::check_definition() const
 {
     for (std::vector<std::string>::const_iterator a = _starting_items.begin(); a != _starting_items.end(); ++a) {
         if( !item::type_is_defined( *a ) ) {
-            debugmsg("item %s for scenario %s does not exist", a->c_str(), _ident.c_str());
+            debugmsg("item %s for scenario %s does not exist", a->c_str(), id.c_str());
         }
     }
     for (std::vector<std::string>::const_iterator a = _starting_items_female.begin(); a != _starting_items_female.end(); ++a) {
         if( !item::type_is_defined( *a ) ) {
-            debugmsg("item %s for scenario %s does not exist", a->c_str(), _ident.c_str());
+            debugmsg("item %s for scenario %s does not exist", a->c_str(), id.c_str());
         }
     }
     for (std::vector<std::string>::const_iterator a = _starting_items_male.begin(); a != _starting_items_male.end(); ++a) {
         if( !item::type_is_defined( *a ) ) {
-            debugmsg("item %s for scenario %s does not exist", a->c_str(), _ident.c_str());
+            debugmsg("item %s for scenario %s does not exist", a->c_str(), id.c_str());
         }
     }
-    check_traits( _allowed_traits, _ident );
-    check_traits( _forced_traits, _ident );
-    check_traits( _forbidden_traits, _ident );
+    check_traits( _allowed_traits, id );
+    check_traits( _forced_traits, id );
+    check_traits( _forbidden_traits, id );
     MapExtras::get_function( _map_special ); // triggers a debug message upon invalid input
 }
 
@@ -244,7 +244,7 @@ void scenario::add_item(std::string item, std::string gender)
 
 const string_id<scenario> &scenario::ident() const
 {
-    return _ident;
+    return id;
 }
 
 std::string scenario::gender_appropriate_name(bool male) const
