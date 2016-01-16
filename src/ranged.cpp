@@ -1121,12 +1121,14 @@ static projectile make_gun_projectile( const item &gun) {
     proj.speed  = 1000;
     proj.impact = damage_instance::physical( 0, gun.gun_damage(), 0, gun.gun_pierce() );
 
+    const auto curammo = gun.ammo_data();
+
     // Consider both effects from the gun and ammo
     auto &fx = proj.proj_effects;
     fx.insert( gun.type->gun->ammo_effects.begin(), gun.type->gun->ammo_effects.end() );
-    fx.insert( gun.get_curammo()->ammo->ammo_effects.begin(), gun.get_curammo()->ammo->ammo_effects.end() );
+    fx.insert( curammo->ammo->ammo_effects.begin(), curammo->ammo->ammo_effects.end() );
 
-    if( gun.get_curammo()->phase == LIQUID || fx.count( "SHOT" ) || fx.count("BOUNCE" ) ) {
+    if( curammo->phase == LIQUID || fx.count( "SHOT" ) || fx.count("BOUNCE" ) ) {
         fx.insert( "WIDE" );
     }
 
@@ -1137,7 +1139,7 @@ static projectile make_gun_projectile( const item &gun) {
     });
 
     if( recover && !fx.count( "IGNITE" ) && !fx.count( "EXPLOSIVE" ) ) {
-        item drop( gun.ammo_current(), calendar::turn, false );
+        item drop( curammo->id, calendar::turn, false );
         drop.charges = 1;
         drop.active = fx.count( "ACT_ON_RANGED_HIT" );
 
