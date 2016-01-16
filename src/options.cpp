@@ -1052,14 +1052,24 @@ void options_manager::init()
                            ); // populate the options dynamically
 
     OPTIONS["PIXEL_MINIMAP"] = cOpt("graphics", _("Pixel Minimap"),
-                                _("If true, a pixel-detail minimap is drawn in the game. Requires restart."),
+                                _("If true, shows the pixel-detail minimap in game after the save is loaded. Use the 'Toggle Pixel Minimap' action key to change its visibility during gameplay."),
                                 true, COPT_CURSES_HIDE
                                );
 
     OPTIONS["PIXEL_MINIMAP_HEIGHT"] = cOpt("graphics", _("Pixel Minimap height"),
-                                _("Height of pixel-detail minimap, measured in terminal rows. Set to 0 for default spacing. Requires restart."),
+                                _("Height of pixel-detail minimap, measured in terminal rows. Set to 0 for default spacing."),
                                 0, 100, 0, COPT_CURSES_HIDE
                                );
+
+    OPTIONS["PIXEL_MINIMAP_RATIO"] = cOpt("graphics", _("Maintain Pixel Minimap aspect ratio"),
+                                          _("Preserves the square shape of tiles shown on the pixel minimap."),
+                                          true, COPT_CURSES_HIDE
+                                          );
+
+    OPTIONS["PIXEL_MINIMAP_BLINK"] = cOpt("graphics", _("Enemy beacon blink speed"),
+                                          _("Controls how fast the enemy beacons blink on the pixel minimap. Value is multiplied by 200 ms. Set to 0 to disable."),
+                                          0, 50, 10, COPT_CURSES_HIDE
+                                          );
 
     mOptionsSort["graphics"]++;
 
@@ -1576,6 +1586,7 @@ void options_manager::show(bool ingame)
     bool world_options_changed = false;
     bool lang_changed = false;
     bool used_tiles_changed = false;
+    bool pixel_minimap_height_changed = false;
 
     for (auto &iter : OPTIONS_OLD) {
         if ( iter.second.getValue() != OPTIONS[iter.first].getValue() ) {
@@ -1583,6 +1594,10 @@ void options_manager::show(bool ingame)
 
             if ( iter.second.getPage() == "world_default" ) {
                 world_options_changed = true;
+            }
+
+            if ( iter.first == "PIXEL_MINIMAP_HEIGHT" || iter.first == "PIXEL_MINIMAP_RATIO" ) {
+                pixel_minimap_height_changed = true;
             }
 
             if ( iter.first == "TILES" || iter.first == "USE_TILES" ) {
@@ -1616,6 +1631,9 @@ void options_manager::show(bool ingame)
         //try and keep SDL calls limited to source files that deal specifically with them
         try {
             tilecontext->reinit();
+            if (pixel_minimap_height_changed) {
+                tilecontext->reinit_minimap();
+            }
             //g->init_ui is called when zoom is changed
             g->reset_zoom();
             if( ingame ) {
@@ -1626,6 +1644,11 @@ void options_manager::show(bool ingame)
             popup(_("Loading the tileset failed: %s"), err.what());
             use_tiles = false;
         }
+#endif // TILES
+    } else if (!used_tiles_changed && pixel_minimap_height_changed) {
+#ifdef TILES
+        tilecontext->reinit_minimap();
+        g->init_ui();
 #endif // TILES
     }
     delwin(w_options);

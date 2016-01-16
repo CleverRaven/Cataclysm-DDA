@@ -647,6 +647,14 @@ void try_sdl_update()
     }
 }
 
+//for resetting the render target after updating texture caches in cata_tiles.cpp
+void set_displaybuffer_rendertarget()
+{
+    if( SDL_SetRenderTarget( renderer, display_buffer ) != 0 ) {
+        dbg(D_ERROR) << "SDL_SetRenderTarget failed: " << SDL_GetError();
+    }
+}
+
 // line_id is one of the LINE_*_C constants
 // FG is a curses color
 void Font::draw_ascii_lines(unsigned char line_id, int drawx, int drawy, int FG) const
@@ -717,6 +725,12 @@ void reinitialize_framebuffer()
     }
 }
 
+void clear_window_area(WINDOW* win)
+{
+    FillRectDIB(win->x * fontwidth, win->y * fontheight,
+                win->width * fontwidth, win->height * fontheight, COLOR_BLACK);
+}
+
 extern WINDOW *w_hit_animation;
 void curses_drawwindow(WINDOW *win)
 {
@@ -769,10 +783,9 @@ void curses_drawwindow(WINDOW *win)
         int wheight = win->height * font->fontheight;
         FillRectDIB(offsetx, offsety, wwidth, wheight, COLOR_BLACK);
         update = true;
-    } else if (g && win == g->w_pixel_minimap && OPTIONS["PIXEL_MINIMAP"]) {
+    } else if (g && win == g->w_pixel_minimap && g->pixel_minimap_option) {
         // Make sure the entire minimap window is black before drawing.
-        FillRectDIB(win->x * fontwidth, win->y * fontheight,
-                    win->width * fontwidth, win->height * fontheight, COLOR_BLACK);
+        clear_window_area(win);
         tilecontext->draw_minimap(
             win->x * fontwidth, win->y * fontheight,
             tripoint( g->u.pos().x, g->u.pos().y, g->ter_view_z ),
