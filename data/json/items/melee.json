@@ -3837,6 +3837,7 @@
     "color": "yellow",
     "name": "silver gas discount card",
     "description": "This card gives you a little discount on the purchase of gasoline.",
+    "category": "other",
     "price": 500,
     "material": "plastic",
     "flags": ["GAS_DISCOUNT", "DISCOUNT_VALUE_1"],
