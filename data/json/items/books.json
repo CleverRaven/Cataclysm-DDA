@@ -3244,7 +3244,6 @@
         "max_level" : 10,
         "description" : "This textbook details the military history of ancient China, with a particular focus on the nature of historical arms and armor.  It also details some of the equipment used by other cultures that came into conflict with the empire over various dynasties.",
         "weight" : 654,
-        "to_hit" : 0,
         "color" : "blue",
         "intelligence" : 9,
         "symbol" : "?",
