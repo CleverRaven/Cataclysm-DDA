@@ -5160,7 +5160,8 @@
         "environmental_protection" : 1,
         "encumbrance" : 8,
         "bashing" : -5,
-        "flags" : ["STURDY", "BELTED"],
+        "flags" : ["STURDY", "BELTED", "BLOCK_WHILE_WORN"],
+        "techniques" : ["WBLOCK_1"],
         "coverage" : 50,
         "material_thickness" : 3
     },
@@ -5184,7 +5185,8 @@
         "phase" : "solid",
         "encumbrance" : 23,
         "bashing" : -5,
-        "flags" : ["VARSIZE", "STURDY"],
+        "flags" : ["VARSIZE", "STURDY", "BLOCK_WHILE_WORN"],
+        "techniques" : ["WBLOCK_1"],
         "coverage" : 90,
         "material_thickness" : 4
     },
@@ -5209,7 +5211,8 @@
         "environmental_protection" : 1,
         "encumbrance" : 37,
         "bashing" : -5,
-        "flags" : ["VARSIZE", "STURDY"],
+        "flags" : ["VARSIZE", "STURDY", "BLOCK_WHILE_WORN"],
+        "techniques" : ["WBLOCK_1"],
         "coverage" : 95,
         "material_thickness" : 4
     },
@@ -5234,7 +5237,8 @@
         "environmental_protection" : 2,
         "encumbrance" : 10,
         "bashing" : -5,
-        "flags" : ["STURDY", "BELTED"],
+        "flags" : ["STURDY", "BELTED", "BLOCK_WHILE_WORN"],
+        "techniques" : ["WBLOCK_1"],
         "coverage" : 75,
         "material_thickness" : 4
     },
@@ -5250,8 +5254,9 @@
         "to_hit" : 1,
         "symbol" : "[",
         "description" : "A pair of arm guards hammered out from metal.  Perfect for the Post-Apocalyptic Warrior look.",
-        "flags" : ["BELTED"],
+        "flags" : ["BELTED", "BLOCK_WHILE_WORN"],
         "//" : "They're not actually FANCY, so calling them 'very stylish' seemed inaccurate.",
+        "techniques" : ["WBLOCK_1"],
         "price" : 30000,
         "material" : ["iron", "null"],
         "volume" : 11,
@@ -10948,7 +10953,8 @@
         "bashing" : 5,
         "coverage" : 10,
         "material_thickness" : 2,
-        "flags" : ["FANCY", "OVERSIZE", "RESTRICT_HANDS"]
+        "techniques" : ["WBLOCK_1"],
+        "flags" : ["FANCY", "OVERSIZE", "RESTRICT_HANDS", "BLOCK_WHILE_WORN"]
     },
     {
         "type" : "ARMOR",

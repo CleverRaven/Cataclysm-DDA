@@ -1340,6 +1340,30 @@ bool player::can_weapon_block() const
             weapon.has_technique( WBLOCK_3 ));
 }
 
+int blocking_ability( const item &shield )
+{
+    int block_bonus = 2;
+    if (shield.has_technique( WBLOCK_3 )) {
+        block_bonus = 10;
+    } else if (shield.has_technique( WBLOCK_2 )) {
+        block_bonus = 6;
+    } else if (shield.has_technique( WBLOCK_1 )) {
+        block_bonus = 4;
+    }
+    return block_bonus;
+}
+
+item &player::best_shield()
+{
+    int weapon_block = blocking_ability( weapon );
+    for( const item &shield : worn ) {
+        if( shield.has_flag( "BLOCK_WHILE_WORN" ) && blocking_ability( shield ) >= weapon_block ) {
+            return shield;
+        }
+    }
+    return weapon;
+}
+
 bool player::block_hit(Creature *source, body_part &bp_hit, damage_instance &dam) {
 
     // Shouldn't block if player is asleep; this only seems to be used by player.
@@ -1357,7 +1381,7 @@ bool player::block_hit(Creature *source, body_part &bp_hit, damage_instance &dam
     // but it still counts as a block even if it absorbs all the damage.
     float total_phys_block = mabuff_block_bonus();
     // Extract this to make it easier to implement shields/multiwield later
-    item &shield = weapon;
+    item &shield = best_shield()
     bool conductive_shield = shield.conductive();
     bool unarmed = unarmed_attack();
 
@@ -1369,14 +1393,6 @@ bool player::block_hit(Creature *source, body_part &bp_hit, damage_instance &dam
     // So that we don't suddenly switch that for any reason.
     const bool weapon_blocking = can_weapon_block();
     if( weapon_blocking ) {
-        int block_bonus = 2;
-        if (shield.has_technique( WBLOCK_3 )) {
-            block_bonus = 10;
-        } else if (shield.has_technique( WBLOCK_2 )) {
-            block_bonus = 6;
-        } else if (shield.has_technique( WBLOCK_1 )) {
-            block_bonus = 4;
-        }
         ///\EFFECT_STR increases attack blocking effectiveness with a weapon
 
         ///\EFFECT_MELEE increases attack blocking effectiveness with a weapon

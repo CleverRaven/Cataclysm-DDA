@@ -1377,6 +1377,10 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
             info.push_back( iteminfo( "DESCRIPTION",
                                       _( "* This piece of clothing is large enough to accommodate <info>mutated anatomy</info>." ) ) );
         }
+        if( is_armor() && has_flag( "BLOCK_WHILE_WORN" ) ) {
+            info.push_back( iteminfo( "DESCRIPTION",
+                                      _( "* This piece of clothing can be used to block attacks when worn." ) ) );
+        }
         if( is_armor() && has_flag( "RESTRICT_HANDS" ) ) {
             info.push_back( iteminfo( "DESCRIPTION",
                                       _( "* This piece of clothing hinders using both hands when wielding weapons." ) ) );
