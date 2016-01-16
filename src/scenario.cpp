@@ -83,21 +83,11 @@ void scenario::load_scenario(JsonObject &jsobj)
     scen.add_items_from_jsonarray(items_obj.get_array("male"), scen._starting_items_male);
     scen.add_items_from_jsonarray(items_obj.get_array("female"), scen._starting_items_female);
 
-    bool first = false;
     jsarr = jsobj.get_array("professions");
     while (jsarr.has_more()) {
-        if (first == true){
-            scen._allowed_professions.insert( string_id<profession>( jsarr.next_string() ) );
-        }
-        else{
-            scen._profession = string_id<profession>( jsarr.next_string() );
-            scen._allowed_professions.insert(scen._profession);
-            first = true;
-        }
+        scen._allowed_professions.push_back( string_id<profession>( jsarr.next_string() ) );
     }
-    if (scen._allowed_professions.size() < 1){
-        scen._profession = profession::generic()->ident();
-    }
+
     jsarr = jsobj.get_array("traits");
     while (jsarr.has_more()) {
         scen._allowed_traits.insert(jsarr.next_string());
@@ -257,15 +247,19 @@ start_location_id scenario::random_start_location() const
 }
 const profession* scenario::get_profession() const
 {
-    return &_profession.obj();
+    if( _allowed_professions.empty() ) {
+        return profession::generic();
+    } else {
+        return &_allowed_professions.front().obj();
+    }
 }
 const profession* scenario::random_profession() const
 {
-    std::vector<string_id<profession>> allowed_professions(_allowed_professions.begin(), _allowed_professions.end());
-    if (allowed_professions.size() == 0) {
+    if( _allowed_professions.empty() ) {
         return profession::generic();
+    } else {
+        return &random_entry( _allowed_professions ).obj();
     }
-    return &allowed_professions[rng(0, allowed_professions.size()-1)].obj();
 }
 std::string scenario::start_name() const
 {
@@ -291,7 +285,8 @@ std::vector<std::string> scenario::items_female() const
 }
 bool scenario::profquery( const string_id<profession> &proff ) const
 {
-    return _allowed_professions.count( proff ) != 0;
+    auto &vec = _allowed_professions;
+    return std::find( vec.begin(), vec.end(), proff ) != vec.end();
 }
 bool scenario::traitquery(std::string trait) const
 {

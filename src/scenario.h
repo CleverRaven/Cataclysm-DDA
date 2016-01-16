@@ -33,8 +33,7 @@ private:
     std::string _gender_req;
     std::string _start_name;
     start_location_id _default_loc;
-    string_id<profession> _profession;
-    std::set<string_id<profession>> _allowed_professions;
+    std::vector<string_id<profession>> _allowed_professions;
     std::set<std::string> _allowed_traits;
     std::set<std::string> _forced_traits;
     std::set<std::string> _forbidden_traits;
