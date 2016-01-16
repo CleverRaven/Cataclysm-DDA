@@ -3674,8 +3674,8 @@ int item::gun_dispersion( bool with_ammo ) const
     }
     dispersion_sum += damage * 60;
     dispersion_sum = std::max(dispersion_sum, 0);
-    if( with_ammo && has_curammo() ) {
-        dispersion_sum += get_curammo()->ammo->dispersion;
+    if( with_ammo && ammo_data() ) {
+        dispersion_sum += ammo_data()->ammo->dispersion;
     }
     dispersion_sum = std::max(dispersion_sum, 0);
     return dispersion_sum;
@@ -3742,8 +3742,8 @@ int item::gun_damage( bool with_ammo ) const
         return 0;
     }
     int ret = type->gun->damage;
-    if( with_ammo && has_curammo() ) {
-        ret += get_curammo()->ammo->damage;
+    if( with_ammo && ammo_data() ) {
+        ret += ammo_data()->ammo->damage;
     }
     for( auto & elem : contents ) {
         if( elem.is_gunmod() ) {
@@ -3760,8 +3760,8 @@ int item::gun_pierce( bool with_ammo ) const
         return 0;
     }
     int ret = type->gun->pierce;
-    if( with_ammo && has_curammo() ) {
-        ret += get_curammo()->ammo->pierce;
+    if( with_ammo && ammo_data() ) {
+        ret += ammo_data()->ammo->pierce;
     }
     for( auto &elem : contents ) {
         if( elem.is_gunmod() ) {
@@ -3799,8 +3799,8 @@ int item::gun_recoil( bool with_ammo ) const
         return 0;
     }
     int ret = type->gun->recoil;
-    if( with_ammo && has_curammo() ) {
-        ret += get_curammo()->ammo->recoil;
+    if( with_ammo && ammo_data() ) {
+        ret += ammo_data()->ammo->recoil;
     }
     for( auto & elem : contents ) {
         if( elem.is_gunmod() ) {
@@ -3822,13 +3822,13 @@ int item::gun_range( bool with_ammo ) const
             ret += elem.type->gunmod->range;
         }
     }
-    if( has_flag( "NO_AMMO" ) && !has_curammo() ) {
+    if( has_flag( "NO_AMMO" ) && !ammo_data() ) {
         return ret;
     }
     if( with_ammo && is_charger_gun() ) {
         ret += 5 + charges * 5;
-    } else if( with_ammo && has_curammo() ) {
-        ret += get_curammo()->ammo->range;
+    } else if( with_ammo && ammo_data() ) {
+        ret += ammo_data()->ammo->range;
     }
     return std::max( 0, ret );
 }

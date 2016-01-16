@@ -1242,10 +1242,7 @@ item::sound_data item::gun_noise( bool const burst ) const
         return sound_data{ 0, { "" } };
     }
 
-    int noise = gun.loudness;
-    if( has_curammo() ) {
-        noise += get_curammo()->ammo->damage;
-    }
+    int noise = gun.loudness + ammo_data() ? ammo_data()->ammo->damage : 0;
     for( auto &elem : contents ) {
         if( elem.is_gunmod() ) {
             noise += elem.type->gunmod->loudness;
