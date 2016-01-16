@@ -344,6 +344,7 @@ void DynamicDataLoader::unload_data()
     ammunition_type::reset();
     unload_talk_topics();
     start_location::reset();
+    scenario::reset();
 
     // TODO:
     //    NameGenerator::generator().clear_names();
