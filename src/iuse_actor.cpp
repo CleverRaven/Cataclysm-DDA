@@ -1818,19 +1818,19 @@ bool holster_actor::store( player &p, item& holster, item& obj ) const
 
     // if selected item is unsuitable inform the player why not
     if( obj.volume() > max_volume ) {
-        p.add_msg_if_player( m_info, _( "Your %s is too big to fit in your %s" ),
+        p.add_msg_if_player( m_info, _( "Your %1$s is too big to fit in your %2$s" ),
                              obj.tname().c_str(), holster.tname().c_str() );
         return false;
     }
 
     if( obj.volume() < min_volume ) {
-        p.add_msg_if_player( m_info, _( "Your %s is too small to fit in your %s" ),
+        p.add_msg_if_player( m_info, _( "Your %1$s is too small to fit in your %2$s" ),
                               obj.tname().c_str(), holster.tname().c_str() );
         return false;
     }
 
     if( max_weight > 0 && obj.weight() > max_weight ) {
-        p.add_msg_if_player( m_info, _( "Your %s is too heavy to fit in your %s" ),
+        p.add_msg_if_player( m_info, _( "Your %1$s is too heavy to fit in your %2$s" ),
                              obj.tname().c_str(), holster.tname().c_str() );
         return false;
     }
@@ -1838,7 +1838,7 @@ bool holster_actor::store( player &p, item& holster, item& obj ) const
     if( std::none_of( flags.begin(), flags.end(), [&]( const std::string & f ) { return obj.has_flag( f ); } ) &&
         std::find( skills.begin(), skills.end(), obj.gun_skill() ) == skills.end() )
     {
-       p.add_msg_if_player( m_info, _( "You can't put your %s in your %s" ),
+       p.add_msg_if_player( m_info, _( "You can't put your %1$s in your %2$s" ),
                              obj.tname().c_str(), holster.tname().c_str() );
         return false;
     }
