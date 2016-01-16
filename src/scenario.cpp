@@ -79,9 +79,9 @@ void scenario::load_scenario(JsonObject &jsobj)
     scen._point_cost = jsobj.get_int("points");
 
     JsonObject items_obj=jsobj.get_object("items");
-    scen.add_items_from_jsonarray(items_obj.get_array("both"), "both");
-    scen.add_items_from_jsonarray(items_obj.get_array("male"), "male");
-    scen.add_items_from_jsonarray(items_obj.get_array("female"), "female");
+    scen.add_items_from_jsonarray(items_obj.get_array("both"), scen._starting_items);
+    scen.add_items_from_jsonarray(items_obj.get_array("male"), scen._starting_items_male);
+    scen.add_items_from_jsonarray(items_obj.get_array("female"), scen._starting_items_female);
 
     bool first = false;
     jsarr = jsobj.get_array("professions");
@@ -210,26 +210,12 @@ void scenario::check_definition() const
     MapExtras::get_function( _map_special ); // triggers a debug message upon invalid input
 }
 
-void scenario::add_items_from_jsonarray(JsonArray jsarr, std::string gender)
+void scenario::add_items_from_jsonarray(JsonArray jsarr, std::vector<std::string> &container)
 {
     while (jsarr.has_more()) {
-        add_item(jsarr.next_string(), gender);
+        container.push_back( jsarr.next_string() );
     }
 }
-
-void scenario::add_item(std::string item, std::string gender)
-{
-    if(gender=="male") {
-        _starting_items_male.push_back(item);
-    }
-    else if(gender=="female") {
-        _starting_items_female.push_back(item);
-    }
-    else {
-        _starting_items.push_back(item);
-    }
-}
-
 
 const string_id<scenario> &scenario::ident() const
 {
