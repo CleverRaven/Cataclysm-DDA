@@ -1361,7 +1361,10 @@ item &player::best_shield()
             return shield;
         }
     }
-    return weapon;
+    if( can_weapon_block() ) {
+        return weapon;
+    }
+return ret_null;
 }
 
 bool player::block_hit(Creature *source, body_part &bp_hit, damage_instance &dam) {
@@ -1391,11 +1394,12 @@ bool player::block_hit(Creature *source, body_part &bp_hit, damage_instance &dam
     int block_score = 1;
     // Remember if we're using a weapon or a limb to block.
     // So that we don't suddenly switch that for any reason.
-    const bool weapon_blocking = can_weapon_block();
+    const bool weapon_blocking = !shield.is_null();
     if( weapon_blocking ) {
         ///\EFFECT_STR increases attack blocking effectiveness with a weapon
 
         ///\EFFECT_MELEE increases attack blocking effectiveness with a weapon
+        block_bonus = blocking_ability( shield );
         block_score = str_cur + block_bonus + (int)get_skill_level( skill_melee );
     } else if( can_limb_block() ) {
         ///\EFFECT_STR increases attack blocking effectiveness with a limb
