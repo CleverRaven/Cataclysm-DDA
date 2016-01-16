@@ -174,23 +174,20 @@ void check_traits( const std::set<std::string> &traits, const string_id<scenario
     }
 }
 
+void check_items( const std::vector<std::string> &items, const string_id<scenario> &ident )
+{
+    for( auto &i : items ) {
+        if( !item::type_is_defined( i ) ) {
+            debugmsg( "item %s for scenario %s does not exist", i.c_str(), ident.c_str() );
+    }
+        }
+    }
+
 void scenario::check_definition() const
 {
-    for (std::vector<std::string>::const_iterator a = _starting_items.begin(); a != _starting_items.end(); ++a) {
-        if( !item::type_is_defined( *a ) ) {
-            debugmsg("item %s for scenario %s does not exist", a->c_str(), id.c_str());
-        }
-    }
-    for (std::vector<std::string>::const_iterator a = _starting_items_female.begin(); a != _starting_items_female.end(); ++a) {
-        if( !item::type_is_defined( *a ) ) {
-            debugmsg("item %s for scenario %s does not exist", a->c_str(), id.c_str());
-        }
-    }
-    for (std::vector<std::string>::const_iterator a = _starting_items_male.begin(); a != _starting_items_male.end(); ++a) {
-        if( !item::type_is_defined( *a ) ) {
-            debugmsg("item %s for scenario %s does not exist", a->c_str(), id.c_str());
-        }
-    }
+    check_items( _starting_items, id );
+    check_items( _starting_items_female, id );
+    check_items( _starting_items_male, id );
     for( auto &p : _allowed_professions ) {
         if( !p.is_valid() ) {
             debugmsg( "profession %s for scenario %s does not exist", p.c_str(), id.c_str() );
