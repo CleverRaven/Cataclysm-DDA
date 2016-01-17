@@ -377,9 +377,10 @@ long consume_drug_iuse::use(player *p, item *it, bool, const tripoint& ) const
     for( auto tool = tools_needed.cbegin(); tool != tools_needed.cend(); ++tool ) {
         // Amount == -1 means need one, but don't consume it.
         if( !p->has_amount( tool->first, 1 ) ) {
-            p->add_msg_if_player( _("You need %1$s to consume %2$s!"),
-                                  item::nname( tool->first ).c_str(),
-                                  it->type_name( 1 ).c_str() );
+            p->add_msg_player_or_say( _("You need %1$s to consume %2$s!"),
+                _("I need a %1$s to consume %2$s!"),
+                item::nname( tool->first ).c_str(),
+                it->type_name( 1 ).c_str() );
             return -1;
         }
     }
@@ -388,9 +389,10 @@ long consume_drug_iuse::use(player *p, item *it, bool, const tripoint& ) const
         // Amount == -1 means need one, but don't consume it.
         if( !p->has_charges( consumable->first, (consumable->second == -1) ?
                              1 : consumable->second ) ) {
-            p->add_msg_if_player( _("You need %1$s to consume %2$s!"),
-                                  item::nname( consumable->first ).c_str(),
-                                  it->type_name( 1 ).c_str() );
+            p->add_msg_player_or_say( _("You need %1$s to consume %2$s!"),
+                _("I need a %1$s to consume %2$s!"),
+                item::nname( consumable->first ).c_str(),
+                it->type_name( 1 ).c_str() );
             return -1;
         }
     }
@@ -702,9 +704,8 @@ long pick_lock_actor::use( player *p, item *it, bool, const tripoint& ) const
         p->practice( skill_mechanics, 1 );
         p->add_msg_if_player( m_good, "%s", open_message.c_str() );
         g->m.ter_set( dirp, new_type );
-    } else if( door_roll > ( 1.5 * pick_roll ) && it->damage < 100 ) {
-        it->damage++;
-        if( it->damage >= 5 ) {
+    } else if( door_roll > ( 1.5 * pick_roll ) ) {
+        if( it->damage++ >= MAX_ITEM_DAMAGE ) {
             p->add_msg_if_player( m_bad, _( "The lock stumps your efforts to pick it, and you destroy your tool." ) );
         } else {
             p->add_msg_if_player( m_bad, _( "The lock stumps your efforts to pick it, and you damage your tool." ) );
@@ -712,17 +713,16 @@ long pick_lock_actor::use( player *p, item *it, bool, const tripoint& ) const
     } else {
         p->add_msg_if_player( m_bad, _( "The lock stumps your efforts to pick it." ) );
     }
-    if( type == t_door_locked_alarm && ( door_roll + dice( 1, 30 ) ) > pick_roll &&
-        it->damage < 100 ) {
+    if( type == t_door_locked_alarm && ( door_roll + dice( 1, 30 ) ) > pick_roll ) {
         sounds::sound( p->pos(), 40, _( "An alarm sounds!" ) );
         if( !g->event_queued( EVENT_WANTED ) ) {
             g->add_event( EVENT_WANTED, int( calendar::turn ) + 300, 0, p->global_sm_location() );
         }
     }
-    if( it->damage >= 5 ) {
-        p->i_rem(it);
+    if( it->damage > MAX_ITEM_DAMAGE ) {
+        p->i_rem( it );
         return 0;
-        }
+    }
     return it->type->charges_to_use();
 }
 
@@ -1946,7 +1946,7 @@ bool could_repair( const player &p, const item &it, bool print_msg )
     }
     if( p.fine_detail_vision_mod() > 4 ) {
         if( print_msg ) {
-            p.add_msg_if_player(m_info, _("You can't see to solder!"));
+            p.add_msg_if_player(m_info, _("You can't see to do that!"));
         }
         return false;
     }
@@ -2104,7 +2104,7 @@ bool repair_item_actor::can_repair( player &pl, const item &tool, const item &fi
     if( !handle_components( pl, fix, print_msg, true ) ) {
         return false;
     }
-    
+
     if( fix.damage == 0 && fix.has_flag("PRIMITIVE_RANGED_WEAPON") ) {
         if( print_msg ) {
             pl.add_msg_if_player( m_info, _("You cannot improve your %s any more this way."), fix.tname().c_str());
@@ -2330,7 +2330,7 @@ long heal_actor::finish_using( player &healer, player &patient, item &it, hp_par
 {
     healer.practice( skill_firstaid, 8 );
     const int dam = get_heal_value( healer, healed );
-    
+
     if( (patient.hp_cur[healed] >= 1) && (dam > 0)) { // Prevent first-aid from mending limbs
         patient.heal(healed, dam);
     } else if ((patient.hp_cur[healed] >= 1) && (dam < 0)) {

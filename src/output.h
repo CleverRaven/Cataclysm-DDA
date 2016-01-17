@@ -266,6 +266,8 @@ std::vector<std::string> split_by_color(const std::string &s);
 bool query_yn(const char *mes, ...);
 int  query_int(const char *mes, ...);
 
+bool internal_query_yn( const char *mes, va_list ap );
+
 /**
  * Shows a window querying the user for input.
  *
@@ -433,6 +435,7 @@ class scrollingcombattext
                 int iPosX;
                 int iPosY;
                 direction oDir;
+                direction oUp, oUpRight, oRight, oDownRight, oDown, oDownLeft, oLeft, oUpLeft;
                 int iDirX;
                 int iDirY;
                 int iStep;
@@ -442,6 +445,7 @@ class scrollingcombattext
                 std::string sText2;
                 game_message_type gmt2;
                 std::string sType;
+                bool iso_mode;
 
             public:
                 cSCT(const int p_iPosX, const int p_iPosY, direction p_oDir,

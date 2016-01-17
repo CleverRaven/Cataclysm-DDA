@@ -13,6 +13,7 @@
 #include "trap.h"
 #include "monster.h"
 #include "options.h"
+#include "overmapbuffer.h"
 #include "catacharset.h"
 #include "itype.h"
 #include "vehicle.h"
@@ -26,6 +27,7 @@
 #include <algorithm>
 #include <fstream>
 #include <stdlib.h>     /* srand, rand */
+#include <sstream>
 
 #include <SDL_image.h>
 
@@ -36,6 +38,9 @@
 extern int WindowHeight, WindowWidth;
 extern int fontwidth, fontheight;
 extern bool tile_iso;
+
+//the minimap texture pool which is used to reduce new texture allocation spam
+static minimap_shared_texture_pool tex_pool;
 
 SDL_Color cursesColorToSDL(int color);
 
@@ -69,26 +74,6 @@ void SDL_Surface_deleter::operator()( SDL_Surface *const ptr )
     }
 }
 
-struct pixel {
-    int r;
-    int g;
-    int b;
-    int a;
-
-    pixel()
-    {
-        r = 0;
-        g = 0;
-        b = 0;
-        a = 0;
-    }
-
-    bool isBlack()
-    {
-        return (r == 0 && g == 0 && b == 0);
-    }
-};
-
 cata_tiles::cata_tiles(SDL_Renderer *render)
 {
     //ctor
@@ -110,6 +95,8 @@ cata_tiles::cata_tiles(SDL_Renderer *render)
     do_draw_zones = false;
 
     nv_goggles_activated = false;
+    minimap_prep = false;
+    minimap_reinit_flag = false;
 
     last_pos_x = 0;
     last_pos_y = 0;
@@ -168,6 +155,11 @@ void cata_tiles::reinit()
     clear_buffer();
     clear();
     init();
+}
+
+void cata_tiles::reinit_minimap()
+{
+    minimap_reinit_flag = true;
 }
 
 void cata_tiles::get_tile_information(std::string config_path, std::string &json_path, std::string &tileset_path)
@@ -239,6 +231,14 @@ inline static void set_pixel_color(SDL_Surface_Ptr &surf, int x, int y, int w, p
     pixel_ptr[3] = static_cast<unsigned char>(pix.a);
 }
 
+static void color_pixel_red_mix(pixel& pix, int percent)
+{
+    int otherpercent = 100 - percent;
+    pix.r = pix.r * otherpercent / 100 + 255 * percent / 100;
+    pix.g = pix.g * otherpercent / 100;
+    pix.b = pix.b * otherpercent / 100;
+}
+
 static void color_pixel_grayscale(pixel& pix)
 {
     bool isBlack = pix.isBlack();
@@ -291,7 +291,7 @@ static void apply_color_filter(SDL_Surface_Ptr &surf, void (&pixel_converter)(pi
     }
 }
 
-int cata_tiles::load_tileset(std::string img_path, int R, int G, int B)
+int cata_tiles::load_tileset(std::string img_path, int R, int G, int B, int sprite_width, int sprite_height)
 {
     /** reinit tile_atlas */
     SDL_Surface_Ptr tile_atlas( IMG_Load( img_path.c_str() ) );
@@ -329,24 +329,24 @@ int cata_tiles::load_tileset(std::string img_path, int R, int G, int B)
     int w = tile_atlas->w;
     int h = tile_atlas->h;
     /** sx and sy will take care of any extraneous pixels that do not add up to a full tile */
-    int sx = w / tile_width;
-    int sy = h / tile_height;
+    int sx = w / sprite_width;
+    int sy = h / sprite_height;
 
-    sx *= tile_width;
-    sy *= tile_height;
+    sx *= sprite_width;
+    sy *= sprite_height;
 
     /** Set up initial source and destination information. Destination is going to be unchanging */
-    SDL_Rect source_rect = {0, 0, tile_width, tile_height};
-    SDL_Rect dest_rect = {0, 0, tile_width, tile_height};
+    SDL_Rect source_rect = {0, 0, sprite_width, sprite_height};
+    SDL_Rect dest_rect = {0, 0, sprite_width, sprite_height};
 
     /** split the atlas into tiles using SDL_Rect structs instead of slicing the atlas into individual surfaces */
     int tilecount = 0;
-    for (int y = 0; y < sy; y += tile_height) {
-        for (int x = 0; x < sx; x += tile_width) {
+    for( int y = 0; y < sy; y += sprite_height ) {
+        for( int x = 0; x < sx; x += sprite_width ) {
             source_rect.x = x;
             source_rect.y = y;
 
-            SDL_Surface_Ptr tile_surf = create_tile_surface();
+            SDL_Surface_Ptr tile_surf = create_tile_surface(sprite_width, sprite_height);
             if( !tile_surf ) {
                 continue;
             }
@@ -355,7 +355,7 @@ int cata_tiles::load_tileset(std::string img_path, int R, int G, int B)
                 dbg( D_ERROR ) << "SDL_BlitSurface failed: " << SDL_GetError();
             }
 
-            if (R >= 0 && R <= 255 && G >= 0 && G <= 255 && B >= 0 && B <= 255) {
+            if( R >= 0 && R <= 255 && G >= 0 && G <= 255 && B >= 0 && B <= 255 ) {
                 Uint32 key = SDL_MapRGB(tile_surf->format, 0, 0, 0);
                 SDL_SetColorKey(tile_surf.get(), SDL_TRUE, key);
                 SDL_SetSurfaceRLE(tile_surf.get(), true);
@@ -483,13 +483,17 @@ void cata_tiles::load_tilejson_from_file(const std::string &tileset_dir, std::if
                 G = tra.get_int("G");
                 B = tra.get_int("B");
             }
+            int sprite_width = tile_part_def.get_int("sprite_width",tile_width);
+            int sprite_height = tile_part_def.get_int("sprite_height",tile_height);
             // First load the tileset image to get the number of available tiles.
             dbg( D_INFO ) << "Attempting to Load Tileset file " << tileset_image_path;
-            const int newsize = load_tileset(tileset_image_path, R, G, B);
+            const int newsize = load_tileset(tileset_image_path, R, G, B, sprite_width, sprite_height);
             // Now load the tile definitions for the loaded tileset image.
-            load_tilejson_from_file(tile_part_def, offset, newsize);
+            int sprite_offset_x = tile_part_def.get_int("sprite_offset_x",0);
+            int sprite_offset_y = tile_part_def.get_int("sprite_offset_y",0);
+            load_tilejson_from_file(tile_part_def, offset, newsize, sprite_offset_x, sprite_offset_y);
             if (tile_part_def.has_member("ascii")) {
-                load_ascii_tilejson_from_file(tile_part_def, offset, newsize);
+                load_ascii_tilejson_from_file(tile_part_def, offset, newsize, sprite_offset_x, sprite_offset_y);
             }
             // Make sure the tile definitions of the next tileset image don't
             // override the current ones.
@@ -498,7 +502,7 @@ void cata_tiles::load_tilejson_from_file(const std::string &tileset_dir, std::if
     } else {
         // old system, no tile file path entry, only one array of tiles
         dbg( D_INFO ) << "Attempting to Load Tileset file " << image_path;
-        const int newsize = load_tileset(image_path, -1, -1, -1);
+        const int newsize = load_tileset(image_path, -1, -1, -1, tile_width, tile_height);
         load_tilejson_from_file(config, 0, newsize);
         offset = newsize;
     }
@@ -563,7 +567,7 @@ void cata_tiles::add_ascii_subtile( tile_type &curr_tile, const std::string &t_i
     tile_ids[m_id] = curr_subtile;
 }
 
-void cata_tiles::load_ascii_tilejson_from_file( JsonObject &config, int offset, int size )
+void cata_tiles::load_ascii_tilejson_from_file( JsonObject &config, int offset, int size, int sprite_offset_x, int sprite_offset_y )
 {
     if( !config.has_member( "ascii" ) ) {
         config.throw_error( "\"ascii\" section missing" );
@@ -571,11 +575,11 @@ void cata_tiles::load_ascii_tilejson_from_file( JsonObject &config, int offset, 
     JsonArray ascii = config.get_array( "ascii" );
     while( ascii.has_more() ) {
         JsonObject entry = ascii.next_object();
-        load_ascii_set( entry, offset, size );
+        load_ascii_set( entry, offset, size, sprite_offset_x, sprite_offset_y );
     }
 }
 
-void cata_tiles::load_ascii_set( JsonObject &entry, int offset, int size )
+void cata_tiles::load_ascii_set( JsonObject &entry, int offset, int size, int sprite_offset_x, int sprite_offset_y )
 {
     // tile for ASCII char 0 is at `in_image_offset`,
     // the other ASCII chars follow from there.
@@ -629,6 +633,8 @@ void cata_tiles::load_ascii_set( JsonObject &entry, int offset, int size )
         id[7] = static_cast<char>( FG );
         id[8] = static_cast<char>( -1 );
         tile_type &curr_tile = tile_ids[id];
+        curr_tile.offset.x = sprite_offset_x;
+        curr_tile.offset.y = sprite_offset_y;
         auto &sprites = *( curr_tile.fg.add( std::vector<int>( {index_in_image + offset} ), 1 ) );
         switch( ascii_char ) {
             case LINE_OXOX_C://box bottom/top side (horizontal line)
@@ -678,7 +684,7 @@ void cata_tiles::load_ascii_set( JsonObject &entry, int offset, int size )
     }
 }
 
-void cata_tiles::load_tilejson_from_file( JsonObject &config, int offset, int size )
+void cata_tiles::load_tilejson_from_file( JsonObject &config, int offset, int size, int sprite_offset_x, int sprite_offset_y )
 {
     if( !config.has_member( "tiles" ) ) {
         config.throw_error( "\"tiles\" section missing" );
@@ -696,8 +702,11 @@ void cata_tiles::load_tilejson_from_file( JsonObject &config, int offset, int si
         }
         for( auto t_id : ids ) {
             tile_type &curr_tile = load_tile( entry, t_id, offset, size );
+            curr_tile.offset.x = sprite_offset_x;
+            curr_tile.offset.y = sprite_offset_y;
             bool t_multi = entry.get_bool( "multitile", false );
             bool t_rota = entry.get_bool( "rotates", t_multi );
+            int t_h3d = entry.get_int( "height_3d", 0 );
             if( t_multi ) {
                 // fetch additional tiles
                 JsonArray subentries = entry.get_array( "additional_tiles" );
@@ -706,15 +715,18 @@ void cata_tiles::load_tilejson_from_file( JsonObject &config, int offset, int si
                     const std::string s_id = subentry.get_string( "id" );
                     const std::string m_id = t_id + "_" + s_id;
                     tile_type &curr_subtile = load_tile( subentry, m_id, offset, size );
+                    curr_subtile.offset.x = sprite_offset_x;
+                    curr_subtile.offset.y = sprite_offset_y;
                     curr_subtile.rotates = true;
+                    curr_subtile.height_3d = t_h3d;
                     curr_tile.available_subtiles.push_back( s_id );
                 }
             }
             // write the information of the base tile to curr_tile
             curr_tile.multitile = t_multi;
             curr_tile.rotates = t_rota;
+            curr_tile.height_3d = t_h3d;
         }
-
     }
     dbg( D_INFO ) << "Tile Width: " << tile_width << " Tile Height: " << tile_height <<
                   " Tile Definitions: " << tile_ids.size();
@@ -809,31 +821,13 @@ void cata_tiles::load_tile_spritelists( JsonObject &entry, weighted_int_list<std
     }
 }
 
-void cata_tiles::draw_single_tile( const tripoint &p, lit_level ll,
-                                   const visibility_variables &cache )
-{
-    if( apply_vision_effects( p, g->m.get_visibility( ll, cache ) ) ) {
-        const auto critter = g->critter_at( p, true );
-        if( critter != nullptr && g->u.sees_with_infrared( *critter ) ) {
-            draw_from_id_string( "infrared_creature", C_NONE, empty_string, p, 0, 0, LL_LIT, false );
-        }
-        return;
+struct tile_render_info {
+    const tripoint pos;
+    int height_3d = 0; // accumulator for 3d tallness of sprites rendered here so far
+    tile_render_info(const tripoint &pos, int height_3d) : pos(pos), height_3d(height_3d)
+    {
     }
-
-    // light level is now used for choosing between grayscale filter and normal lit tiles.
-    // Draw Terrain if possible. If not possible then we need to continue on to the next part of loop
-    if( !draw_terrain( p, ll ) ) {
-        return;
-    }
-    draw_furniture( p, ll );
-    draw_trap( p, ll );
-    draw_field_or_item( p, ll );
-    draw_vpart( p, ll );
-    const auto critter = g->critter_at( p, true );
-    if( critter != nullptr ) {
-        draw_entity( *critter, p, ll );
-    }
-}
+};
 
 void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, int height )
 {
@@ -861,23 +855,21 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
     visibility_variables cache;
     g->m.update_visibility_cache( cache, center.z );
 
-    o_x = posx - POSX;
-    o_y = posy - POSY;
+    const bool iso_mode = tile_iso && use_tiles;
+
+    o_x = iso_mode ? posx : posx - POSX;
+    o_y = iso_mode ? posy : posy - POSY;
+
     op_x = destx;
     op_y = desty;
     // Rounding up to include incomplete tiles at the bottom/right edges
     screentile_width = (width + tile_width - 1) / tile_width;
     screentile_height = (height + tile_height - 1) / tile_height;
 
-    // in isometric mode, render the whole reality bubble
-    // TODO: make this smarter
-    const bool iso_mode = tile_iso && use_tiles;
-    const int min_x = iso_mode ? MAPSIZE * SEEX : o_x;
-    const int max_x = iso_mode ? 0 : sx + o_x;
-    const int dx = iso_mode ? -1 : 1; // iso mode renders right to left, for overlap reasons
-    const int min_y = iso_mode ? 0 : o_y;
-    const int max_y = iso_mode ? MAPSIZE * SEEX : sy + o_y;
-    const int dy = 1;
+    const int min_col = 0;
+    const int max_col = sx;
+    const int min_row = 0;
+    const int max_row = sy;
 
     //limit the render area to what is available in the visibility cache
     const int min_visible_x = 0;
@@ -902,14 +894,56 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
     auto vision_cache = g->u.get_vision_modes();
     nv_goggles_activated = vision_cache[NV_GOGGLES];
 
-    for( y = min_y; y * dy < max_y * dy; y += dy ) {
-        for( x = min_x; x * dx < max_x * dx; x += dx ) {
-            //if the render area is outside the visibility cache, default to the darkened tile
-            if( !iso_mode && ( ( y < min_visible_y || y > max_visible_y ) ||
-                               ( x < min_visible_x || x > max_visible_x ) ) ) {
-                apply_vision_effects( { x, y, temp.z }, offscreen_type );
-            } else {
-                draw_single_tile( temp, ch.visibility_cache[x][y], cache );
+    for( int row = min_row; row < max_row; row ++) {
+        std::vector<tile_render_info> draw_points;
+        draw_points.reserve(max_col);
+        for( int col = min_col; col < max_col; col ++) {
+            if (iso_mode) {
+                //in isometric, rows and columns represent a checkerboard screen space, and we place
+                //the appropriate tile in valid squares by getting position relative to the screen centre.
+                if ( (row + o_y ) % 2 != (col + o_x) % 2 ) {
+                    continue;
+                }
+                x = ( col  - row - sx/2 + sy/2 ) / 2 + o_x;
+                y = ( row + col - sy/2 - sx/2 ) / 2 + o_y;
+            }
+            else {
+                x = col + o_x;
+                y = row + o_y;
+            }
+            if( ( (y < min_visible_y || y > max_visible_y) || (x < min_visible_x ||
+                             x > max_visible_x))) {
+                apply_vision_effects( temp, offscreen_type );
+                continue;
+            }
+
+            if( apply_vision_effects( temp, g->m.get_visibility( ch.visibility_cache[x][y], cache ) ) ) {
+                const auto critter = g->critter_at( tripoint(x,y,center.z), true );
+                if( critter != nullptr && g->u.sees_with_infrared( *critter ) ) {
+                    //TODO defer drawing this until later when we know how tall
+                    //     the terrain/furniture under the creature is.
+                    draw_from_id_string( "infrared_creature", C_NONE, empty_string, temp, 0, 0, LL_LIT, false );
+                }
+                continue;
+            }
+
+            int height_3d = 0;
+
+            // light level is now used for choosing between grayscale filter and normal lit tiles.
+            // Draw Terrain if possible. If not possible then we need to continue on to the next part of loop
+            if( !draw_terrain( tripoint(x,y,center.z), ch.visibility_cache[x][y], height_3d ) ) {
+                continue;
+            }
+
+            draw_points.push_back( tile_render_info( tripoint( x, y, center.z ), height_3d ) );
+        }
+        // for each of the drawing layers in order, back to front ...
+        for( auto f : { &cata_tiles::draw_furniture, &cata_tiles::draw_trap,
+                        &cata_tiles::draw_field_or_item, &cata_tiles::draw_vpart,
+                        &cata_tiles::draw_critter_at } ) {
+            // ... draw all the points we drew terrain for, in the same order
+            for( auto &p : draw_points ) {
+                (this->*f)( p.pos, ch.visibility_cache[p.pos.x][p.pos.y], p.height_3d );
             }
         }
     }
@@ -985,107 +1019,351 @@ void cata_tiles::draw_rhombus(int destx, int desty, int size, SDL_Color color, i
     }
 }
 
+//converts the local x,y point into the global submap coordinates
+static tripoint convert_tripoint_to_abs_submap(const tripoint& p)
+{
+    //get the submap coordinates of the current location
+    tripoint sm_loc = overmapbuffer::ms_to_sm_copy(p);
+    //add it to the absolute map coordinates
+    tripoint abs_sm_loc = g->m.get_abs_sub();
+    return abs_sm_loc + sm_loc;
+}
+
+//creates the texture that individual minimap updates are drawn to
+//later, the main texture is drawn to the display buffer
+//the surface is needed to determine the color format needed by the texture
+SDL_Texture_Ptr cata_tiles::create_minimap_cache_texture(int tile_width, int tile_height)
+{
+    SDL_Surface_Ptr temp = create_tile_surface();
+    SDL_Texture_Ptr tex ( SDL_CreateTexture(renderer, temp->format->format, SDL_TEXTUREACCESS_TARGET,
+                                            tile_width, tile_height) );
+    return tex;
+}
+
+//resets the touched and drawn properties of each active submap cache
+void cata_tiles::prepare_minimap_cache_for_updates()
+{
+    for(auto &mcp : minimap_cache) {
+        mcp.second->touched = false;
+        mcp.second->drawn = false;
+    }
+}
+
+//deletes the mapping of unused submap caches from the main map
+//the touched flag prevents deletion
+void cata_tiles::clear_unused_minimap_cache()
+{
+    for(auto it = minimap_cache.begin(); it != minimap_cache.end(); ) {
+        if(!it->second->touched) {
+            minimap_cache.erase(it++);
+        } else {
+            it++;
+        }
+    }
+}
+
+//draws individual updates to the submap cache texture
+//the render target will be set back to display_buffer after all submaps are updated
+void cata_tiles::process_minimap_cache_updates()
+{
+    for( auto &mcp : minimap_cache ) {
+        if( !mcp.second->update_list.empty() ) {
+            SDL_SetRenderTarget( renderer, mcp.second->minimap_tex.get() );
+
+            //draw a default dark-colored rectangle over the texture which may have been used previously
+            if( !mcp.second->ready ) {
+                mcp.second->ready = true;
+                SDL_Rect fullRect;
+                fullRect.h = SEEY * minimap_tile_size.y;
+                fullRect.w = SEEX * minimap_tile_size.x;
+                fullRect.x = 0;
+                fullRect.y = 0;
+                SDL_SetRenderDrawColor( renderer, 12, 12, 12, 255 );
+                SDL_RenderFillRect( renderer, &fullRect );
+            }
+
+            SDL_Rect rectangle;
+            rectangle.w = minimap_tile_size.x;
+            rectangle.h = minimap_tile_size.y;
+            for( point &p : mcp.second->update_list ) {
+                rectangle.x = p.x * minimap_tile_size.x;
+                rectangle.y = p.y * minimap_tile_size.y;
+                pixel &current_pix = mcp.second->minimap_colors[p.y * SEEX + p.x];
+                SDL_Color c = current_pix.getSdlColor();
+                SDL_SetRenderDrawColor( renderer, c.r, c.g, c.b, c.a );
+                SDL_RenderFillRect( renderer, &rectangle );
+            }
+            mcp.second->update_list.clear();
+        }
+    }
+}
+
+//finds the correct submap cache and applies the new minimap color blip if it doesn't match the current one
+void cata_tiles::update_minimap_cache( const tripoint &loc, pixel &pix )
+{
+    tripoint current_submap_loc = convert_tripoint_to_abs_submap( loc );
+    auto it = minimap_cache.find( current_submap_loc );
+    if( it == minimap_cache.end() ) {
+        minimap_cache.insert( std::pair<tripoint, minimap_cache_ptr>( current_submap_loc,
+                              minimap_cache_ptr( new minimap_submap_cache() ) ) );
+        it = minimap_cache.find( current_submap_loc );
+    }
+
+    it->second->touched = true;
+
+    point offset( loc.x, loc.y );
+    overmapbuffer::ms_to_sm_remain( offset );
+
+    pixel &current_pix = it->second->minimap_colors[offset.y * SEEX + offset.x];
+    if( current_pix != pix ) {
+        current_pix = pix;
+        it->second->update_list.push_back( offset );
+    }
+}
+
+minimap_submap_cache::minimap_submap_cache() : ready( false )
+{
+    //set color to force updates on a new submap texture
+    minimap_colors.resize( SEEY * SEEX, pixel( -1, -1, -1, -1 ) );
+    minimap_tex = tex_pool.request_tex( texture_index );
+}
+
+minimap_submap_cache::~minimap_submap_cache()
+{
+    tex_pool.release_tex( texture_index, std::move( minimap_tex ) );
+}
+
+//store the known persistent values used in drawing the minimap
+//since modifying the minimap properties requires a restart
+void cata_tiles::init_minimap( int destx, int desty, int width, int height )
+{
+    minimap_prep = true;
+    minimap_min.x = 0;
+    minimap_min.y = 0;
+    minimap_max.x = MAPSIZE * SEEX;
+    minimap_max.y = MAPSIZE * SEEY;
+    minimap_tiles_range.x = ( MAPSIZE - 2 ) * SEEX;
+    minimap_tiles_range.y = ( MAPSIZE - 2 ) * SEEY;
+    minimap_tile_size.x = std::max( width / minimap_tiles_range.x, 1 );
+    minimap_tile_size.y = std::max( height / minimap_tiles_range.y, 1 );
+    //maintain a square "pixel" shape
+    if (OPTIONS["PIXEL_MINIMAP_RATIO"]) {
+        int smallest_size = std::min( minimap_tile_size.x, minimap_tile_size.y );
+        minimap_tile_size.x = smallest_size;
+        minimap_tile_size.y = smallest_size;
+    }
+    minimap_tiles_limit.x = std::min( width / minimap_tile_size.x, minimap_tiles_range.x );
+    minimap_tiles_limit.y = std::min( height / minimap_tile_size.y, minimap_tiles_range.y );
+    // Center the drawn area within the total area.
+    minimap_drawn_width = minimap_tiles_limit.x * minimap_tile_size.x;
+    minimap_drawn_height = minimap_tiles_limit.y * minimap_tile_size.y;
+    minimap_border_width = std::max( ( width - minimap_drawn_width ) / 2, 0 );
+    minimap_border_height = std::max( ( height - minimap_drawn_height ) / 2, 0 );
+    //prepare the minimap clipped area
+    minimap_clip_rect.x = destx + minimap_border_width;
+    minimap_clip_rect.y = desty + minimap_border_height;
+    minimap_clip_rect.w = width - minimap_border_width * 2;
+    minimap_clip_rect.h = height - minimap_border_height * 2;
+
+    main_minimap_tex.reset();
+    main_minimap_tex = create_minimap_cache_texture( minimap_clip_rect.w, minimap_clip_rect.h);
+
+    previous_submap_view = tripoint( INT_MIN, INT_MIN, INT_MIN );
+
+    //allocate the textures for the texture pool
+    for( int i = 0; i < static_cast<int>( tex_pool.texture_pool.size() ); i++ ) {
+        tex_pool.texture_pool[i] = create_minimap_cache_texture( minimap_tile_size.x * SEEX,
+                                   minimap_tile_size.y * SEEY );
+    }
+}
+
+//the main call for drawing the pixel minimap to the screen
 void cata_tiles::draw_minimap( int destx, int desty, const tripoint &center, int width, int height )
 {
-    if (!g) {
+    if( !g ) {
         return;
     }
 
-    const int minx = 0;
-    const int miny = 0;
-    const int maxx = MAPSIZE * SEEX;
-    const int maxy = MAPSIZE * SEEY;
+    //set up class variables on the first run
+    if( !minimap_prep || minimap_reinit_flag ) {
+        minimap_reinit_flag = false;
+        minimap_cache.clear();
+        tex_pool.texture_pool.clear();
+        tex_pool.reinit();
+        init_minimap( destx, desty, width, height );
+    }
 
-    const int tiles_range_x = (MAPSIZE - 2) * SEEX;
-    const int tiles_range_y = (MAPSIZE - 2) * SEEY;
-    const int tile_size_x = std::max(width / tiles_range_x, 1);
-    const int tile_size_y = std::max(height / tiles_range_y, 1);
-    const int tiles_x_limit = std::min(width / tile_size_x, tiles_range_x);
-    const int tiles_y_limit = std::min(height / tile_size_y, tiles_range_y);
-    const int start_x = center.x - tiles_x_limit / 2;
-    const int start_y = center.y - tiles_y_limit / 2;
+    //invalidate the cache if the game shifted more than one submap in the last update, or if z-level changed
+    tripoint current_submap_view = g->m.get_abs_sub();
+    tripoint submap_view_diff = current_submap_view - previous_submap_view;
+    if( abs( submap_view_diff.x ) > 1 || abs( submap_view_diff.y ) > 1 ||
+        abs( submap_view_diff.z ) > 0 ) {
+        minimap_cache.clear();
+    }
+    previous_submap_view = current_submap_view;
 
-    // Center the drawn area within the total area.
-    const int drawn_width = tiles_x_limit * tile_size_x;
-    const int drawn_height = tiles_y_limit * tile_size_y;
-    const int border_width = std::max((width - drawn_width) / 2, 0);
-    const int border_height = std::max((height - drawn_height) / 2, 0);
+    //clear leftover flags for the current draw cycle
+    prepare_minimap_cache_for_updates();
+
+    const int start_x = center.x - minimap_tiles_limit.x / 2;
+    const int start_y = center.y - minimap_tiles_limit.y / 2;
 
     auto &ch = g->m.access_cache( center.z );
+    //retrieve night vision goggle status once per draw
+    auto vision_cache = g->u.get_vision_modes();
+    bool nv_goggle = vision_cache[NV_GOGGLES];
 
-    SDL_Rect rectangle;
-    rectangle.w = tile_size_x;
-    rectangle.h = tile_size_y;
 
-    // First draw terrain.
-    for( int y = 0; y < tiles_y_limit; y++) {
-        if(start_y + y < miny || start_y + y >= maxy){
-            continue;
-        }
-        for( int x = 0; x <= tiles_x_limit; x++) {
-            if(start_x + x < minx || start_x + x >= maxx){
-                continue;
-            }
-            tripoint p(start_x + x, start_y + y, center.z);
+    //check all of exposed submaps (MAPSIZE*MAPSIZE submaps) and apply new color changes to the cache
+    for( int y = 0; y < MAPSIZE * SEEY; y++ ) {
+        for( int x = 0; x < MAPSIZE * SEEX; x++ ) {
+            tripoint p( x, y, center.z );
 
             lit_level lighting = ch.visibility_cache[p.x][p.y];
             SDL_Color color;
-            if(lighting == LL_DARK || lighting == LL_BLANK) {
+            color.a = 255;
+            if( lighting == LL_DARK || lighting == LL_BLANK ) {
                 color.r = 12;
                 color.g = 12;
                 color.b = 12;
             } else {
                 int veh_part = 0;
                 vehicle *veh = g->m.veh_at( p, veh_part );
-                if (veh != nullptr) {
-                    color = cursesColorToSDL(veh->part_color(veh_part));
-                } else if ( g->m.has_furn( p ) ) {
-                    auto& furniture = g->m.furn_at( p );
-                    color = cursesColorToSDL(furniture.color());
+                if( veh != nullptr ) {
+                    color = cursesColorToSDL( veh->part_color( veh_part ) );
+                } else if( g->m.has_furn( p ) ) {
+                    auto &furniture = g->m.furn_at( p );
+                    color = cursesColorToSDL( furniture.color() );
                 } else {
-                    auto& terrain = g->m.ter_at( p );
-                    color = cursesColorToSDL(terrain.color());
+                    auto &terrain = g->m.ter_at( p );
+                    color = cursesColorToSDL( terrain.color() );
                 }
             }
-            if(border_width + x * tile_size_x < width &&
-                border_height + y * tile_size_y < height){
-                SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, 255);
-                rectangle.x = destx + border_width + x * tile_size_x;
-                rectangle.y = desty + border_height + y * tile_size_y;
-                SDL_RenderFillRect(renderer, &rectangle);
+            pixel pix( color );
+            //color terrain according to lighting conditions
+            if( nv_goggle ) {
+                if( lighting == LL_LOW ) {
+                    color_pixel_nightvision( pix );
+                } else if( lighting != LL_DARK && lighting != LL_BLANK ) {
+                    color_pixel_overexposed( pix );
+                }
+            } else if( lighting == LL_LOW ) {
+                color_pixel_grayscale( pix );
             }
+            //add an individual color update to the cache
+            update_minimap_cache( p, pix );
         }
     }
 
-    // Now draw critters over terrain.
-    for( int y = 0; y < tiles_y_limit; y++) {
-        if(start_y + y < miny || start_y + y >= maxy){
+    //update minimap textures
+    process_minimap_cache_updates();
+    //prepare to copy to intermediate texture
+    SDL_SetRenderTarget( renderer, main_minimap_tex.get() );
+
+    //attempt to draw the submap cache if any of its tiles are exposed in the minimap area
+    //the drawn flag prevents it from being drawn more than once
+    SDL_Rect drawrect;
+    drawrect.w = SEEX * minimap_tile_size.x;
+    drawrect.h = SEEY * minimap_tile_size.y;
+    for( int y = 0; y < minimap_tiles_limit.y; y++ ) {
+        if( start_y + y < minimap_min.y || start_y + y >= minimap_max.y ) {
             continue;
         }
-        for( int x = 0; x <= tiles_x_limit; x++) {
-            if(start_x + x < minx || start_x + x >= maxx){
+        for( int x = 0; x < minimap_tiles_limit.x; x++ ) {
+            if( start_x + x < minimap_min.x || start_x + x >= minimap_max.x ) {
                 continue;
             }
-            tripoint p(start_x + x, start_y + y, center.z);
+            tripoint p( start_x + x, start_y + y, center.z );
+            tripoint current_submap_loc = convert_tripoint_to_abs_submap( p );
+            auto it = minimap_cache.find( current_submap_loc );
+
+            //a missing submap cache should be pretty improbable
+            if( it == minimap_cache.end() ) {
+                continue;
+            }
+            if( it->second->drawn ) {
+                continue;
+            }
+            it->second->drawn = true;
+
+            //the position of the submap texture has to account for the actual (current) 12x12 tile size
+            //the clipping rectangle handles the portions that need to hide
+            tripoint drawpoint( ( p.x / SEEX ) * SEEX - start_x, ( p.y / SEEY ) * SEEY - start_y, p.z );
+            drawrect.x = drawpoint.x * minimap_tile_size.x;
+            drawrect.y = drawpoint.y * minimap_tile_size.y;
+            SDL_RenderCopy( renderer, it->second->minimap_tex.get(), NULL, &drawrect );
+        }
+    }
+    //set display buffer to main screen
+    set_displaybuffer_rendertarget();
+    //paint intermediate texture to screen
+    SDL_RenderCopy( renderer, main_minimap_tex.get(), NULL, &minimap_clip_rect );
+
+    //unused submap caches get deleted
+    clear_unused_minimap_cache();
+
+    //handles the enemy faction red highlights
+    //this value should be divisible by 200
+    const int indicator_length = OPTIONS["PIXEL_MINIMAP_BLINK"] * 200; //default is 2000 ms, 2 seconds
+    int indicator_tick = 0; //if blink is disabled, leave at 0
+    if( indicator_length > 0 ) {
+        indicator_tick = SDL_GetTicks() % indicator_length;
+        if( indicator_tick > indicator_length / 2 ) {
+            indicator_tick = indicator_length - indicator_tick;
+        }
+        indicator_tick /= ( indicator_length / 200 ); //scale to 0-100 percent
+    }
+
+    // Now draw critters over terrain.
+    for( int y = 0; y < minimap_tiles_limit.y; y++ ) {
+        if( start_y + y < minimap_min.y || start_y + y >= minimap_max.y ) {
+            continue;
+        }
+        for( int x = 0; x < minimap_tiles_limit.x; x++ ) {
+            if( start_x + x < minimap_min.x || start_x + x >= minimap_max.x ) {
+                continue;
+            }
+            tripoint p( start_x + x, start_y + y, center.z );
 
             lit_level lighting = ch.visibility_cache[p.x][p.y];
-            if(lighting != LL_DARK && lighting != LL_BLANK) {
-                const auto critter = g->critter_at( p, true );
+
+            if( lighting != LL_DARK && lighting != LL_BLANK ) {
+                Creature *critter = g->critter_at( p, true );
                 if( critter != nullptr ) {
-                    draw_rhombus(
-                        destx + border_width + x * tile_size_x,
-                        desty + border_height + y * tile_size_y,
-                        tile_size_x,
-                        cursesColorToSDL(critter->symbol_color()),
-                        width,
-                        height
-                    );
+                    // use player::sees, otherwise shady zombies or worms will be visible early
+                    if( critter == &( g->u ) || g->u.sees( *critter ) ) {
+                        SDL_Color c = cursesColorToSDL( critter->symbol_color() );
+                        c.a = 255;
+                        if( indicator_length > 0 ) {
+                            const auto m = dynamic_cast<monster *>( critter );
+                            if( m != nullptr ) {
+                                //faction status (attacking or tracking) determines if red highlights get applied to creature
+                                monster_attitude matt = m->attitude( &( g->u ) );
+                                if( MATT_ATTACK == matt || MATT_FOLLOW == matt ) {
+                                    // use a red-black transition for flickering enemy beacons
+                                    c.r = 0;
+                                    c.g = 0;
+                                    c.b = 0;
+                                    pixel p( c );
+                                    color_pixel_red_mix( p, indicator_tick );
+                                    c = p.getSdlColor();
+                                }
+                            }
+                        }
+                        draw_rhombus(
+                            destx + minimap_border_width + x * minimap_tile_size.x,
+                            desty + minimap_border_height + y * minimap_tile_size.y,
+                            minimap_tile_size.x,
+                            c,
+                            width,
+                            height
+                        );
+                    }
                 }
             }
         }
     }
 }
-
 
 void cata_tiles::clear_buffer()
 {
@@ -1095,21 +1373,39 @@ void cata_tiles::clear_buffer()
 
 void cata_tiles::get_window_tile_counts(const int width, const int height, int &columns, int &rows) const
 {
-    columns = ceil((double) width / tile_width);
-    rows = ceil((double) height / tile_height);
+    columns = ( tile_iso && use_tiles ) ? ceil((double) width / tile_width ) * 2 + 4 : ceil((double) width / tile_width );
+    rows = ( tile_iso && use_tiles ) ? ceil((double) height / ( tile_width / 2 - 1 ) ) * 2 + 4 : ceil((double) height / tile_height);
 }
 
 bool cata_tiles::draw_from_id_string( std::string id, tripoint pos, int subtile, int rota,
                                       lit_level ll, bool apply_night_vision_goggles )
 {
-    return cata_tiles::draw_from_id_string( id, C_NONE, empty_string, pos, subtile,
-                                            rota, ll, apply_night_vision_goggles );
+    int nullint = 0;
+    return cata_tiles::draw_from_id_string( std::move( id ), C_NONE, empty_string, pos, subtile, rota,
+                                            ll, apply_night_vision_goggles, nullint );
 }
 
-bool cata_tiles::draw_from_id_string( std::string id, TILE_CATEGORY category,
-                                      const std::string &subcategory, tripoint pos,
-                                      int subtile, int rota, lit_level ll,
-                                      bool apply_night_vision_goggles )
+bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
+                                     const std::string &subcategory, tripoint pos,
+                                     int subtile, int rota, lit_level ll,
+                                     bool apply_night_vision_goggles )
+{
+    int nullint = 0;
+    return cata_tiles::draw_from_id_string( id, category, subcategory, pos, subtile, rota,
+                                            ll, apply_night_vision_goggles, nullint );
+}
+
+bool cata_tiles::draw_from_id_string( std::string id, tripoint pos, int subtile, int rota,
+                                      lit_level ll, bool apply_night_vision_goggles, int &height_3d )
+{
+    return cata_tiles::draw_from_id_string( std::move( id ), C_NONE, empty_string, pos, subtile, rota,
+                                            ll, apply_night_vision_goggles, height_3d );
+}
+
+bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
+                                     const std::string &subcategory, tripoint pos,
+                                     int subtile, int rota, lit_level ll,
+                                     bool apply_night_vision_goggles, int &height_3d )
 {
     // If the ID string does not produce a drawable tile
     // it will revert to the "unknown" tile.
@@ -1117,11 +1413,13 @@ bool cata_tiles::draw_from_id_string( std::string id, TILE_CATEGORY category,
 
     // check to make sure that we are drawing within a valid area
     // [0->width|height / tile_width|height]
+
     if( !( tile_iso && use_tiles ) &&
         ( pos.x - o_x < 0 || pos.x - o_x >= screentile_width ||
           pos.y - o_y < 0 || pos.y - o_y >= screentile_height ) ) {
         return false;
     }
+
 
     constexpr size_t suffix_len = 15;
     constexpr char season_suffix[4][suffix_len] = {
@@ -1267,7 +1565,7 @@ bool cata_tiles::draw_from_id_string( std::string id, TILE_CATEGORY category,
             // append subtile name to tile and re-find display_tile
             return draw_from_id_string(
                 std::move( id.append( "_", 1 ).append( multitile_keys[subtile] ) ),
-                pos, -1, rota, ll, apply_night_vision_goggles );
+                pos, -1, rota, ll, apply_night_vision_goggles, height_3d );
         }
     }
 
@@ -1277,13 +1575,13 @@ bool cata_tiles::draw_from_id_string( std::string id, TILE_CATEGORY category,
     }
 
     // translate from player-relative to screen relative tile position
-    int screen_x;
-    int screen_y;
-    if( tile_iso && use_tiles ) {
-        screen_x = ( ( pos.x - o_x ) - ( o_y -pos. y ) ) * tile_width / 2 + op_x;
+    int screen_x, screen_y;
+    if ( tile_iso && use_tiles ) {
+        screen_x = (( pos.x - o_x ) - ( o_y - pos.y ) + screentile_width - 2 ) * tile_width / 2 +
+        op_x;
         // y uses tile_width because width is definitive for iso tiles
         // tile footprints are half as tall as wide, aribtrarily tall
-        screen_y = ( ( pos.y - o_y ) - ( pos.x - o_x ) ) * tile_width / 4 +
+        screen_y = (( pos.y - o_y ) - ( pos.x - o_x ) - 4) * tile_width / 4 +
             screentile_height * tile_height / 2 + // TODO: more obvious centering math
             op_y;
     } else {
@@ -1362,21 +1660,24 @@ bool cata_tiles::draw_from_id_string( std::string id, TILE_CATEGORY category,
     }
 
     //draw it!
-    draw_tile_at( display_tile, screen_x, screen_y, loc_rand, rota, ll, apply_night_vision_goggles );
+    draw_tile_at( display_tile, screen_x, screen_y, loc_rand, rota, ll, apply_night_vision_goggles, height_3d );
 
     return true;
 }
 
-bool cata_tiles::draw_sprite_at( const weighted_int_list<std::vector<int>> &svlist, int x, int y,
-                                 unsigned int loc_rand, int rota_fg, int rota, lit_level ll,
+bool cata_tiles::draw_sprite_at( const tile_type &tile, const weighted_int_list<std::vector<int>> &svlist,
+                                 int x, int y, unsigned int loc_rand, int rota_fg, int rota, lit_level ll,
                                  bool apply_night_vision_goggles )
 {
-    SDL_Rect destination;
-    destination.x = x;
-    destination.y = y;
-    destination.w = tile_width;
-    destination.h = tile_height;
+    int nullint = 0;
+    return cata_tiles::draw_sprite_at( tile, svlist, x, y, loc_rand, rota_fg, rota, ll,
+                                       apply_night_vision_goggles, nullint );
+}
 
+bool cata_tiles::draw_sprite_at( const tile_type &tile, const weighted_int_list<std::vector<int>> &svlist,
+                                 int x, int y, unsigned int loc_rand, int rota_fg, int rota, lit_level ll,
+                                 bool apply_night_vision_goggles, int &height_3d )
+{
     if( svlist.empty() ) {
         // render nothing
         return true;
@@ -1412,6 +1713,7 @@ bool cata_tiles::draw_sprite_at( const weighted_int_list<std::vector<int>> &svli
         }
 
         SDL_Texture *sprite_tex = tile_values[spritelist[sprite_num]].get();
+
         //use night vision colors when in use
         //then use low light tile if available
         if(apply_night_vision_goggles && spritelist[sprite_num] < static_cast<int>(night_tile_values.size())){
@@ -1425,6 +1727,17 @@ bool cata_tiles::draw_sprite_at( const weighted_int_list<std::vector<int>> &svli
         else if(ll == LL_LOW && spritelist[sprite_num] < static_cast<int>(shadow_tile_values.size())) {
             sprite_tex = shadow_tile_values[spritelist[sprite_num]].get();
         }
+
+        Uint32 format;
+        int access, width, height;
+        SDL_QueryTexture(sprite_tex, &format, &access, &width, &height);
+
+        SDL_Rect destination;
+        destination.x = x + tile.offset.x * tile_width / default_tile_width;
+        destination.y = y + ( tile.offset.y - height_3d ) * tile_width / default_tile_width;
+        destination.w = width * tile_width / default_tile_width;
+        destination.h = height * tile_height / default_tile_height;
+
         if ( rotate_sprite ) {
             switch ( rota ) {
                 default:
@@ -1459,16 +1772,19 @@ bool cata_tiles::draw_sprite_at( const weighted_int_list<std::vector<int>> &svli
         if( ret != 0 ) {
             dbg( D_ERROR ) << "SDL_RenderCopyEx() failed: " << SDL_GetError();
         }
+        // this reference passes all the way back up the call chain back to
+        // cata_tiles::draw() std::vector<tile_render_info> draw_points[].height_3d
+        // where we are accumulating the height of every sprite stacked up in a tile
+        height_3d += tile.height_3d;
     }
     return true;
 }
 
 bool cata_tiles::draw_tile_at( const tile_type &tile, int x, int y, unsigned int loc_rand, int rota,
-                               lit_level ll,
-                               bool apply_night_vision_goggles )
+                               lit_level ll, bool apply_night_vision_goggles, int &height_3d )
 {
-    draw_sprite_at( tile.bg, x, y, loc_rand, 0, rota, ll, apply_night_vision_goggles );
-    draw_sprite_at( tile.fg, x, y, loc_rand, 1, rota, ll, apply_night_vision_goggles );
+    draw_sprite_at( tile, tile.bg, x, y, loc_rand, 0, rota, ll, apply_night_vision_goggles );
+    draw_sprite_at( tile, tile.fg, x, y, loc_rand, 1, rota, ll, apply_night_vision_goggles, height_3d );
     return true;
 }
 
@@ -1502,7 +1818,7 @@ bool cata_tiles::apply_vision_effects( const tripoint &pos,
     return true;
 }
 
-bool cata_tiles::draw_terrain( const tripoint &p, lit_level ll )
+bool cata_tiles::draw_terrain( const tripoint &p, lit_level ll, int &height_3d )
 {
     const ter_id t = g->m.ter( p ); // get the ter_id value at this point
     // check for null, if null return false
@@ -1523,10 +1839,10 @@ bool cata_tiles::draw_terrain( const tripoint &p, lit_level ll )
     const std::string& tname = t.obj().id;
 
     return draw_from_id_string( tname, C_TERRAIN, empty_string, p, subtile, rotation, ll,
-                                nv_goggles_activated );
+                                nv_goggles_activated, height_3d );
 }
 
-bool cata_tiles::draw_furniture( const tripoint &p, lit_level ll )
+bool cata_tiles::draw_furniture( const tripoint &p, lit_level ll, int &height_3d )
 {
     // get furniture ID at x,y
     bool has_furn = g->m.has_furn( p );
@@ -1550,14 +1866,14 @@ bool cata_tiles::draw_furniture( const tripoint &p, lit_level ll )
     // get the name of this furniture piece
     const std::string& f_name = f_id.obj().id; // replace with furniture names array access
     bool ret = draw_from_id_string( f_name, C_FURNITURE, empty_string, p, subtile, rotation, ll,
-                                    nv_goggles_activated );
+                                    nv_goggles_activated, height_3d );
     if( ret && g->m.sees_some_items( p, g->u ) ) {
         draw_item_highlight( p );
     }
     return ret;
 }
 
-bool cata_tiles::draw_trap( const tripoint &p, lit_level ll )
+bool cata_tiles::draw_trap( const tripoint &p, lit_level ll, int &height_3d )
 {
     const trap &tr = g->m.tr_at( p );
     if( !tr.can_see( p, g->u) ) {
@@ -1575,10 +1891,10 @@ bool cata_tiles::draw_trap( const tripoint &p, lit_level ll )
     get_tile_values(tr.loadid, neighborhood, subtile, rotation);
 
     return draw_from_id_string( tr.id.str(), C_TRAP, empty_string, p, subtile, rotation, ll,
-                               nv_goggles_activated);
+                               nv_goggles_activated, height_3d );
 }
 
-bool cata_tiles::draw_field_or_item( const tripoint &p, lit_level ll )
+bool cata_tiles::draw_field_or_item( const tripoint &p, lit_level ll, int &height_3d )
 {
     // check for field
     const field &f = g->m.field_at( p );
@@ -1653,15 +1969,15 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, lit_level ll )
         const std::string &it_name = display_item.type->id;
         const std::string it_category = display_item.type->get_item_type_string();
         ret_draw_item = draw_from_id_string( it_name, C_ITEM, it_category, p, 0, 0, ll,
-                                             nv_goggles_activated );
-        if( ret_draw_item && items.size() > 1 ) {
+                                             nv_goggles_activated, height_3d );
+        if ( ret_draw_item && items.size() > 1 ) {
             draw_item_highlight( p );
         }
     }
     return ret_draw_field && ret_draw_item;
 }
 
-bool cata_tiles::draw_vpart( const tripoint &p, lit_level ll )
+bool cata_tiles::draw_vpart( const tripoint &p, lit_level ll, int &height_3d )
 {
     int veh_part = 0;
     vehicle *veh = g->m.veh_at( p, veh_part );
@@ -1699,19 +2015,28 @@ bool cata_tiles::draw_vpart( const tripoint &p, lit_level ll )
     int cargopart = veh->part_with_feature(veh_part, "CARGO");
     bool draw_highlight = (cargopart > 0) && (!veh->get_items(cargopart).empty());
     bool ret = draw_from_id_string( vpid, C_VEHICLE_PART, subcategory, p, subtile, veh_dir,
-                                    ll, nv_goggles_activated );
-    if( ret && draw_highlight ) {
+                                   ll, nv_goggles_activated, height_3d );
+    if ( ret && draw_highlight ) {
         draw_item_highlight( p );
     }
     return ret;
 }
 
-bool cata_tiles::draw_entity( const Creature &critter, const tripoint &p, lit_level ll )
+bool cata_tiles::draw_critter_at( const tripoint &p, lit_level ll, int &height_3d )
+{
+    const auto critter = g->critter_at( p, true );
+    if( critter != nullptr ) {
+        return draw_entity( *critter, p, ll, height_3d );
+    }
+    return false;
+}
+
+bool cata_tiles::draw_entity( const Creature &critter, const tripoint &p, lit_level ll, int &height_3d )
 {
     if( !g->u.sees( critter ) ) {
         if( g->u.sees_with_infrared( critter ) ) {
             return draw_from_id_string( "infrared_creature", C_NONE, empty_string, p, 0, 0,
-                                        LL_LIT, false );
+                                        LL_LIT, false, height_3d );
         }
         return false;
     }
@@ -1724,18 +2049,19 @@ bool cata_tiles::draw_entity( const Creature &critter, const tripoint &p, lit_le
             ent_subcategory = m->type->species.begin()->str();
         }
         const int subtile = corner;
-        return draw_from_id_string( ent_name.str(), ent_category, ent_subcategory, p, subtile,
-                                    0, ll, false );
+        return draw_from_id_string(ent_name.str(), ent_category, ent_subcategory, p, subtile,
+                                   0, ll, false, height_3d );
     }
     const player *pl = dynamic_cast<const player*>( &critter );
     if( pl != nullptr ) {
-        draw_entity_with_overlays( *pl, p, ll );
+        draw_entity_with_overlays( *pl, p, ll, height_3d );
         return true;
     }
     return false;
 }
 
-void cata_tiles::draw_entity_with_overlays( const player &pl, const tripoint &p, lit_level ll )
+void cata_tiles::draw_entity_with_overlays( const player &pl, const tripoint &p, lit_level ll,
+        int &height_3d )
 {
     std::string ent_name;
 
@@ -1744,26 +2070,31 @@ void cata_tiles::draw_entity_with_overlays( const player &pl, const tripoint &p,
     } else {
         ent_name = pl.male ? "player_male" : "player_female";
     }
-        // first draw the character itself(i guess this means a tileset that
-        // takes this seriously needs a naked sprite)
-        draw_from_id_string( ent_name, C_NONE, "", p, corner, 0, ll, false );
-        // next up, draw all the overlays
-        std::vector<std::string> overlays = pl.get_overlay_ids();
-        for( const std::string& overlay : overlays ) {
-            bool exists = true;
-            std::string draw_id = pl.male ? "overlay_male_" + overlay : "overlay_female_" + overlay;
-            if( tile_ids.find( draw_id ) == tile_ids.end() ) {
-                draw_id = "overlay_" + overlay;
-                if( tile_ids.find( draw_id ) == tile_ids.end() ) {
-                    exists = false;
-                }
-            }
+    // first draw the character itself(i guess this means a tileset that
+    // takes this seriously needs a naked sprite)
+    int prev_height_3d = height_3d;
+    draw_from_id_string( ent_name, C_NONE, "", p, corner, 0, ll, false, height_3d );
 
-            // make sure we don't draw an annoying "unknown" tile when we have nothing to draw
-            if( exists ) {
-                draw_from_id_string( draw_id, C_NONE, "", p, corner, 0, ll, false);
+    // next up, draw all the overlays
+    std::vector<std::string> overlays = pl.get_overlay_ids();
+    for( const std::string &overlay : overlays ) {
+        bool exists = true;
+        std::string draw_id = pl.male ? "overlay_male_" + overlay : "overlay_female_" + overlay;
+        if( tile_ids.find( draw_id ) == tile_ids.end() ) {
+            draw_id = "overlay_" + overlay;
+            if( tile_ids.find( draw_id ) == tile_ids.end() ) {
+                exists = false;
             }
         }
+
+        // make sure we don't draw an annoying "unknown" tile when we have nothing to draw
+        if( exists ) {
+            int overlay_height_3d = prev_height_3d;
+            draw_from_id_string( draw_id, C_NONE, "", p, corner, 0, ll, false, overlay_height_3d );
+            // the tallest height-having overlay is the one that counts
+            height_3d = std::max( height_3d, overlay_height_3d );
+        }
+    }
 }
 
 bool cata_tiles::draw_item_highlight( const tripoint &pos )
@@ -2049,18 +2380,27 @@ void cata_tiles::draw_line()
 
     draw_from_id_string( line_endpoint_id, line_trajectory.back(), 0, 0, LL_LIT, false );
 }
+
 void cata_tiles::draw_weather_frame()
 {
+
     for( auto weather_iterator = anim_weather.vdrops.begin();
          weather_iterator != anim_weather.vdrops.end(); ++weather_iterator ) {
-        // currently in ascii screen coordinates
-        int x = weather_iterator->first + o_x;
-        int y = weather_iterator->second + o_y;
         // TODO: Z-level awareness if weather ever happens on anything but z-level 0.
+        int x, y;
+        if( tile_iso && use_tiles ) {
+            x = weather_iterator->first;
+            y = weather_iterator->second;
+        } else {
+            // currently in ascii screen coordinates
+            x = weather_iterator->first + o_x;
+            y = weather_iterator->second + o_y;
+        }
         draw_from_id_string( weather_name, C_WEATHER, empty_string, {x, y, 0}, 0, 0,
                              LL_LIT, nv_goggles_activated );
     }
 }
+
 void cata_tiles::draw_sct_frame()
 {
     for( auto iter = SCT.vSCT.begin(); iter != SCT.vSCT.end(); ++iter ) {
@@ -2068,6 +2408,7 @@ void cata_tiles::draw_sct_frame()
         const int iDY = iter->getPosY();
 
         int iOffsetX = 0;
+        int iOffsetY = 0;
 
         for( int j = 0; j < 2; ++j ) {
             std::string sText = iter->getText( ( j == 0 ) ? "first" : "second" );
@@ -2082,9 +2423,12 @@ void cata_tiles::draw_sct_frame()
 
                 if( tile_ids.count( generic_id ) > 0 ) {
                     draw_from_id_string( generic_id, C_NONE, empty_string,
-                                         { iDX + iOffsetX, iDY, g->u.pos().z }, 0, 0, LL_LIT, false);
+                                         { iDX + iOffsetX, iDY + iOffsetY, g->u.pos().z }, 0, 0, LL_LIT, false);
                 }
 
+                if (tile_iso && use_tiles) {
+                    iOffsetY++;
+                }
                 iOffsetX++;
             }
         }

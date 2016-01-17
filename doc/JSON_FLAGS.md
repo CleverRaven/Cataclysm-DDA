@@ -480,10 +480,11 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```POWER_TRANSFER``` Transmits power to and from an attached thingy (probably a vehicle).
 - ```INITIAL_PART``` When starting a new vehicle via the construction menu, this vehicle part will be the initial part of the vehicle (if the used item matches the item required for this part).
 - ```NO_JACK```
-- ```TOOL_NONE```
-- ```TOOL_WRENCH```
+- ```TOOL_NONE``` Can be removed/installed without any tools
+- ```TOOL_WRENCH``` Attached with bolts, can be removed/installed with a wrench
+- ```TOOL_SCREWDRIVER``` Attached with screws, can be removed/installed with a screwdriver
 - ```DIFFICULTY_REMOVE```
-- ```NAILABLE```
+- ```NAILABLE``` Attached with nails
 - ```FOLDABLE```
 - ```SCOOP``` Pulls items from underneath the vehicle to the cargo space of the part. Also mops up liquids. 
   - Uses the ```bonus``` tag to determine the maximum size of the item picked up.

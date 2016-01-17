@@ -200,6 +200,8 @@ std::string special_talk(char ch);
 
 bool trade(npc *p, int cost, std::string deal);
 
+std::string give_item_to( npc &p, bool allow_use, bool allow_carry );
+
 const std::string &talk_trial::name() const
 {
     static std::array<std::string, NUM_TALK_TRIALS> const texts = { {
@@ -1655,114 +1657,11 @@ std::string dialogue::dynamic_line( const std::string &topic ) const
 
         return status.str();
 
-    } else if( topic == "TALK_USE_ITEM" || topic == "TALK_GIVE_ITEM" ) {
-        // TODO: Clean it up and break it apart, it is huge now
-        const int inv_pos = g->inv( _("Offer what?") );
-        item &given = g->u.i_at( inv_pos );
-        if( given.is_null() ) {
-            return _("Changed your mind?");
-        }
-
-        if( &given == &g->u.weapon && given.has_flag( "NO_UNWIELD" ) ) {
-            // Bio weapon or shackles
-            return _("How?");
-        }
-
-        const bool allow_carry = topic == "TALK_GIVE_ITEM";
-        if( given.is_dangerous() ) {
-            return _("Are you <swear> insane!?");
-        }
-
-        long our_ammo = 0;
-        if( p->weapon.is_gun() ) {
-            our_ammo = p->weapon.charges;
-            const auto other_ammo = p->get_ammo( p->weapon.ammo_type() );
-            for( const auto &amm : other_ammo ) {
-                our_ammo += amm->charges;
-            }
-        }
-
-        const double cur_weapon_value = p->weapon_value( p->weapon, our_ammo );
-        add_msg( m_debug, "NPC evaluates own %s (%d ammo): %0.1f",
-                 p->weapon.tname().c_str(), our_ammo, cur_weapon_value );
-        bool taken = false;
-        const double new_melee_value = p->melee_value( given );
-        double new_weapon_value = new_melee_value;
-        add_msg( m_debug, "NPC evaluates your %s as melee weapon: %0.1f",
-                 given.tname().c_str(), new_melee_value );
-        if( new_melee_value > cur_weapon_value ) {
-            p->wield( &given );
-            taken = true;
-        }
-
-        if( !taken && given.is_gun() ) {
-            // Don't take guns for which we have no ammo, even if they look cool
-            int ammo_count = given.charges;
-            const auto other_ammo = p->get_ammo( given.ammo_type() );
-            for( const auto &amm : other_ammo ) {
-                ammo_count += amm->charges;
-            }
-            // TODO: Flamethrowers (why would player give a NPC one anyway?) and other multi-charge guns
-            new_weapon_value = p->weapon_value( given, ammo_count );
-
-            add_msg( m_debug, "NPC evaluates your %s (%d ammo): %0.1f",
-                     given.tname().c_str(), ammo_count, new_weapon_value );
-            if( new_weapon_value > cur_weapon_value ) {
-                p->wield( &given );
-                taken = true;
-            }
-        }
-
-        // is_gun here is a hack to prevent NPCs wearing guns if they don't want to use them
-        if( !taken && !given.is_gun() && p->wear_if_wanted( given ) ) {
-            taken = true;
-        }
-
-        if( !taken && allow_carry &&
-            p->can_pickVolume( given.volume() ) &&
-            p->can_pickWeight( given.weight() ) ) {
-            taken = true;
-            p->i_add( given );
-        }
-
-        // TODO: Allow NPCs accepting meds, food, ammo etc.
-        if( taken ) {
-            g->u.i_rem( inv_pos );
-            g->u.moves -= 100;
-            return _("Thanks!");
-        } else {
-            std::stringstream reason;
-            reason << _("Nope.");
-            reason << std::endl;
-            reason << _("My current weapon is better than this.");
-            reason << std::endl;
-            reason << string_format( _("(new weapon value: %.1f vs %.1f)."),
-                new_weapon_value, cur_weapon_value );
-            if( !given.is_gun() && given.is_armor() ) {
-                reason << std::endl;
-                reason << string_format( _("It's too encumbering to wear.") );
-            }
-            if( allow_carry ) {
-                if( !p->can_pickVolume( given.volume() ) ) {
-                    const int free_space = p->volume_capacity() - p->volume_carried();
-                    reason << std::endl;
-                    reason << string_format( _("I have no space to store it.") );
-                    reason << std::endl;
-                    if( free_space > 0 ) {
-                        reason << string_format( _("I can only store %.2f liters more."),
-                            free_space / 4.0f );
-                    } else {
-                        reason << string_format( _("...or to store anything else for that matter.") );
-                    }
-                }
-                if( !p->can_pickWeight( given.weight() ) ) {
-                    reason << std::endl;
-                    reason << string_format( _("It is too heavy for me to carry.") );
-                }
-            }
-
-            return reason.str();
-        }
+    } else if( topic == "TALK_USE_ITEM" ) {
+        return give_item_to( *p, true, false );
+    } else if( topic == "TALK_GIVE_ITEM" ) {
+        return give_item_to( *p, false, true );
+        // Maybe TODO: Allow an option to "just take it, use it if you want"
     } else if( topic == "TALK_MIND_CONTROL" ) {
         p->attitude = NPCATT_FOLLOW;
         return _("YES MASTER");
@@ -4650,4 +4549,191 @@ void load_talk_topic( JsonObject &jo )
         const std::string id = jo.get_string( "id" );
         json_talk_topics[id].load( jo );
     }
+}
+
+// Returns true if we destroyed the item through consumption
+bool try_consume( npc &p, item &it, bool &used, std::string &reason )
+{
+    item &to_eat = it.is_food_container( &p ) ?
+        it.contents[0] : it;
+    const auto comest = dynamic_cast<const it_comest*>( to_eat.type );
+    if( comest == nullptr ) {
+        // Don't inform the player that we don't want to eat the lighter
+        return false;
+    }
+
+    if( p.op_of_u.trust < 5 && !g->u.has_trait( "DEBUG_MIND_CONTROL" ) ) {
+        // TODO: Get some better check here
+        reason = _("I don't <swear> trust you enough to eat from your hand...");
+        return false;
+    }
+
+    // TODO: Make it not a copy+paste from player::consume_item
+    int amount_used = 1;
+    if( comest->comesttype == "FOOD" || comest->comesttype == "DRINK" ) {
+        if( !p.eat( &to_eat, comest ) ) {
+            reason = _("It doesn't look like a good idea to consume this...");
+            return false;
+        }
+    } else if (comest->comesttype == "MED") {
+        if (comest->tool != "null") {
+            bool has = p.has_amount( comest->tool, 1 );
+            if( item::count_by_charges( comest->tool ) ) {
+                has = p.has_charges( comest->tool, 1 );
+            }
+            if (!has) {
+                reason = string_format( _("I need a %s to consume that!"),
+                    item::nname( comest->tool ).c_str() );
+                return false;
+            }
+            p.use_charges( comest->tool, 1 );
+        }
+        if (comest->has_use()) {
+            amount_used = comest->invoke( &p, &to_eat, p.pos() );
+            if( amount_used <= 0 ) {
+                reason = _("It doesn't look like a good idea to consume this..");
+                return false;
+            }
+        }
+
+        p.consume_effects( &to_eat, comest );
+        p.moves -= 250;
+    } else {
+        debugmsg("Unknown comestible type of item: %s\n", to_eat.tname().c_str());
+    }
+
+    used = true;
+    to_eat.charges -= amount_used;
+    return to_eat.charges <= 0;
+}
+
+std::string give_item_to( npc &p, bool allow_use, bool allow_carry )
+{
+    const int inv_pos = g->inv( _("Offer what?") );
+    item &given = g->u.i_at( inv_pos );
+    if( given.is_null() ) {
+        return _("Changed your mind?");
+    }
+
+    if( &given == &g->u.weapon && given.has_flag( "NO_UNWIELD" ) ) {
+        // Bio weapon or shackles
+        return _("How?");
+    }
+
+    if( given.is_dangerous() ) {
+        return _("Are you <swear> insane!?");
+    }
+
+    bool used = false;
+    std::string no_consume_reason;
+    if( allow_use ) {
+        // Eating first, to avoid evaluating bread as a weapon
+        if( try_consume( p, given, used, no_consume_reason ) ) {
+            g->u.i_rem( inv_pos );
+        }
+        if( used ) {
+            g->u.moves -= 100;
+            return _("Here we go...");
+        }
+    }
+
+    long our_ammo = 0;
+    if( p.weapon.is_gun() ) {
+        our_ammo = p.weapon.charges;
+        const auto other_ammo = p.get_ammo( p.weapon.ammo_type() );
+        for( const auto &amm : other_ammo ) {
+            our_ammo += amm->charges;
+        }
+    }
+
+    bool taken = false;
+    const double new_melee_value = p.melee_value( given );
+    double new_weapon_value = new_melee_value;
+    const double cur_weapon_value = p.weapon_value( p.weapon, our_ammo );
+    if( allow_use ) {
+        add_msg( m_debug, "NPC evaluates own %s (%d ammo): %0.1f",
+                 p.weapon.tname().c_str(), our_ammo, cur_weapon_value );
+        add_msg( m_debug, "NPC evaluates your %s as melee weapon: %0.1f",
+                 given.tname().c_str(), new_melee_value );
+        if( new_melee_value > cur_weapon_value ) {
+            p.wield( &given );
+            taken = true;
+        }
+
+        if( !taken && given.is_gun() ) {
+            // Don't take guns for which we have no ammo, even if they look cool
+            int ammo_count = given.charges;
+            const auto other_ammo = p.get_ammo( given.ammo_type() );
+            for( const auto &amm : other_ammo ) {
+                ammo_count += amm->charges;
+            }
+            // TODO: Flamethrowers (why would player give a NPC one anyway?) and other multi-charge guns
+            new_weapon_value = p.weapon_value( given, ammo_count );
+
+            add_msg( m_debug, "NPC evaluates your %s (%d ammo): %0.1f",
+                     given.tname().c_str(), ammo_count, new_weapon_value );
+            if( new_weapon_value > cur_weapon_value ) {
+                p.wield( &given );
+                taken = true;
+            }
+        }
+
+        // is_gun here is a hack to prevent NPCs wearing guns if they don't want to use them
+        if( !taken && !given.is_gun() && p.wear_if_wanted( given ) ) {
+            taken = true;
+        }
+    }
+
+    if( !taken && allow_carry &&
+        p.can_pickVolume( given.volume() ) &&
+        p.can_pickWeight( given.weight() ) ) {
+        taken = true;
+        p.i_add( given );
+    }
+
+    if( taken ) {
+        g->u.i_rem( inv_pos );
+        g->u.moves -= 100;
+        p.has_new_items = true;
+        return _("Thanks!");
+    }
+
+    std::stringstream reason;
+    reason << _("Nope.");
+    reason << std::endl;
+    if( allow_use ) {
+        if( !no_consume_reason.empty() ) {
+            reason << no_consume_reason;
+            reason << std::endl;
+        }
+
+        reason << _("My current weapon is better than this.");
+        reason << std::endl;
+        reason << string_format( _("(new weapon value: %.1f vs %.1f)."),
+            new_weapon_value, cur_weapon_value );
+        if( !given.is_gun() && given.is_armor() ) {
+            reason << std::endl;
+            reason << string_format( _("It's too encumbering to wear.") );
+        }
+    }
+    if( allow_carry ) {
+        if( !p.can_pickVolume( given.volume() ) ) {
+            const int free_space = p.volume_capacity() - p.volume_carried();
+            reason << std::endl;
+            reason << string_format( _("I have no space to store it.") );
+            reason << std::endl;
+            if( free_space > 0 ) {
+                reason << string_format( _("I can only store %.2f liters more."),
+                    free_space / 4.0f );
+            } else {
+                reason << string_format( _("...or to store anything else for that matter.") );
+            }
+        }
+        if( !p.can_pickWeight( given.weight() ) ) {
+            reason << std::endl;
+            reason << string_format( _("It is too heavy for me to carry.") );
+        }
+    }
+
+    return reason.str();
 }

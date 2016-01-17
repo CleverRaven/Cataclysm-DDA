@@ -813,7 +813,8 @@ void Item_factory::load_comestible(JsonObject &jo)
     comest_template->comesttype = jo.get_string("comestible_type");
     comest_template->tool = jo.get_string("tool", "null");
     comest_template->quench = jo.get_int("quench", 0);
-    comest_template->nutr = jo.get_int("nutrition", 0);
+    comest_template->nutr = jo.get_int("nutrition", -1);
+    comest_template->kcal = jo.get_int("calories", 0);
     comest_template->spoils = jo.get_int("spoils_in", 0);
     // In json it's in hours, here it shall be in turns, as item::rot is also in turns.
     comest_template->spoils *= 600;
@@ -993,7 +994,7 @@ void Item_factory::load_basic_info(JsonObject &jo, itype *new_item_template)
     new_item_template->weight = jo.get_int( "weight" );
     new_item_template->melee_dam = jo.get_int( "bashing", 0 );
     new_item_template->melee_cut = jo.get_int( "cutting", 0 );
-    new_item_template->m_to_hit = jo.get_int( "to_hit" );
+    new_item_template->m_to_hit = jo.get_int( "to_hit", 0 );
 
     new_item_template->min_str = jo.get_int( "min_strength",     0 );
     new_item_template->min_dex = jo.get_int( "min_dexterity",    0 );

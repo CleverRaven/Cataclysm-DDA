@@ -44,15 +44,15 @@ material_type::material_type(std::string ident, std::string name,
     _cut_resist = cut_resist;
     _bash_dmg_verb = bash_dmg_verb;
     _cut_dmg_verb = cut_dmg_verb;
-    _dmg_adj[0] = dmg_adj[0];
-    _dmg_adj[1] = dmg_adj[1];
-    _dmg_adj[2] = dmg_adj[2];
-    _dmg_adj[3] = dmg_adj[3];
     _acid_resist = acid_resist;
     _elec_resist = elec_resist;
     _fire_resist = fire_resist;
     _chip_resist = chip_resist;
     _density = density;
+
+    for( auto i = 0; i != MAX_ITEM_DAMAGE; ++i ) {
+        _dmg_adj[i] = dmg_adj[i];
+    }
 }
 
 material_type::material_type(std::string ident)
@@ -66,15 +66,15 @@ material_type::material_type(std::string ident)
     _cut_resist = mat_type->cut_resist();
     _bash_dmg_verb = mat_type->bash_dmg_verb();
     _cut_dmg_verb = mat_type->bash_dmg_verb();
-    _dmg_adj[0] = mat_type->dmg_adj(1);
-    _dmg_adj[1] = mat_type->dmg_adj(2);
-    _dmg_adj[2] = mat_type->dmg_adj(3);
-    _dmg_adj[3] = mat_type->dmg_adj(4);
     _acid_resist = mat_type->acid_resist();
     _elec_resist = mat_type->elec_resist();
     _fire_resist = mat_type->fire_resist();
     _chip_resist = mat_type->chip_resist();
     _density = mat_type->density();
+
+    for( auto i = 0; i != MAX_ITEM_DAMAGE; ++i ) {
+        _dmg_adj[i] = mat_type->dmg_adj( i+1 );
+    }
 }
 
 material_map material_type::_all_materials;
@@ -204,15 +204,15 @@ std::string material_type::cut_dmg_verb() const
     return _cut_dmg_verb;
 }
 
-std::string material_type::dmg_adj(int dam) const
+std::string material_type::dmg_adj( int damage ) const
 {
-    int tmpdam = dam - 1;
-    // bounds check
-    if (tmpdam < 0 || tmpdam >= 4) {
-        return "";
+    if( damage <= 0 ) {
+        // not damaged (+/- reinforced)
+        return std::string();
     }
 
-    return _dmg_adj[tmpdam];
+    // apply bounds checking
+    return _dmg_adj[ std::max( damage, MAX_ITEM_DAMAGE ) - 1 ];
 }
 
 int material_type::acid_resist() const

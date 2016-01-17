@@ -57,7 +57,20 @@
 
 /** Base move cost (before modifiers) per unit volume when handling items */
 #define VOLUME_MOVE_COST 10
+/** Minimum move cost when handling an item */
+#define MIN_HANDLING_COST 40
 /** Maximum move cost when handling an item */
 #define MAX_HANDLING_COST 800
+
+/** Minimum amount of damage to an item (state of maximum repair) */
+#define MIN_ITEM_DAMAGE -1
+/** Maximum amount of damage to an item (state before destroyed) */
+#define MAX_ITEM_DAMAGE 4
+
+/** Amount of damage which a corpse is considered pulped */
+#define CORPSE_PULP_THRESHOLD 4
+
+/** Amount by which to charge an item for each unit of plutonium cell */
+#define PLUTONIUM_CHARGES 500
 
 #endif

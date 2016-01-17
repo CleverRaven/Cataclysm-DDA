@@ -3260,7 +3260,7 @@ void map::smash_items(const tripoint &p, const int power)
         } else {
             while( ( damage_chance > material_factor ||
                      x_in_y( damage_chance, material_factor ) ) &&
-                   i->damage < 4 ) {
+                   i->damage < MAX_ITEM_DAMAGE ) {
                 i->damage++;
                 if( type_blood != fd_null ) {
                     for( const tripoint &pt : points_in_radius( p, 1 ) ) {
@@ -3273,7 +3273,7 @@ void map::smash_items(const tripoint &p, const int power)
             }
         }
         // Remove them if they were damaged too much
-        if( i->damage >= 4 || ( by_charges && i->charges == 0 ) ) {
+        if( i->damage >= MAX_ITEM_DAMAGE || ( by_charges && i->charges == 0 ) ) {
             // But save the contents
             for( auto &elem : i->contents ) {
                 contents.push_back( elem );
@@ -4482,14 +4482,8 @@ item &map::spawn_an_item(const tripoint &p, item new_item,
         has_flag("DESTROY_ITEM", p) ) {
         return nulitem;
     }
-    // bounds checking for damage level
-    if( damlevel < -1 ) {
-        new_item.damage = -1;
-    } else if( damlevel > 4 ) {
-        new_item.damage = 4;
-    } else {
-        new_item.damage = damlevel;
-    }
+
+    new_item.damage = std::min( std::max( damlevel, MIN_ITEM_DAMAGE ), MAX_ITEM_DAMAGE );
 
     return add_item_or_charges(p, new_item);
 }

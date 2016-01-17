@@ -210,7 +210,7 @@ player::player() : Character()
  male = true;
  prof = profession::has_initialized() ? profession::generic() : NULL; //workaround for a potential structural limitation, see player::create
 
- start_location = "shelter";
+    start_location = start_location_id( "shelter" );
  moves = 100;
  movecounter = 0;
  cached_turn = -1;
@@ -505,9 +505,12 @@ void player::process_turn()
         scent--;
 
     // We can dodge again! Assuming we can actually move...
-    if (moves > 0) {
+    if( !in_sleep_state() ) {
         blocks_left = get_num_blocks();
         dodges_left = get_num_dodges();
+    } else {
+        blocks_left = 0;
+        dodges_left = 0;
     }
 
     // auto-learning. This is here because skill-increases happens all over the place:
@@ -2892,7 +2895,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
                     }
                     mvwprintz(w_stats, 7, 21, c_magenta, "%4.1f", convert_weight(weight_capacity()));
                     mvwprintz(w_stats, 8, 1, c_magenta, _("Melee damage:"));
-                    mvwprintz(w_stats, 8, 22, c_magenta, "%3d", base_damage(false));
+                    mvwprintz(w_stats, 8, 22, c_magenta, "%3.1f", bonus_damage( false ) );
 
                     fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta,
                      _("Strength affects your melee damage, the amount of weight you can carry, your total HP, "
@@ -2979,7 +2982,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
             werase(w_info);
             std::string s;
             if (line == 0) {
-                const int melee_roll_pen = std::max( -( encumb( bp_torso ) / 10 ) * 10, -80 );
+                const int melee_roll_pen = std::max( -encumb( bp_torso ), -80 );
                 s += string_format( _("Melee attack rolls %+d%%; "), melee_roll_pen );
                 s += dodge_skill_text( - (encumb( bp_torso ) / 10));
                 s += swim_cost_text( (encumb( bp_torso ) / 10) * ( 80 - get_skill_level( skill_swimming ) * 3 ) );
@@ -9751,11 +9754,11 @@ bool player::consume_item( item &target )
             to_eat->charges++; //there's a flat subtraction later
         } else if (to_eat->is_ammo() &&  ( has_active_bionic("bio_reactor") || has_active_bionic("bio_advreactor") ) && ( to_eat->ammo_type() == "reactor_slurry" || to_eat->ammo_type() == "plutonium")) {
             if (to_eat->type->id == "plut_cell" && query_yn(_("Thats a LOT of plutonium.  Are you sure you want that much?"))) {
-                tank_plut += 5000;
+                tank_plut += PLUTONIUM_CHARGES * 10;
             } else if (to_eat->type->id == "plut_slurry_dense") {
-                tank_plut += 500;
+                tank_plut += PLUTONIUM_CHARGES;
             } else if (to_eat->type->id == "plut_slurry") {
-                tank_plut += 250;
+                tank_plut += PLUTONIUM_CHARGES / 2;
             }
             add_msg_player_or_npc( _("You add your %s to your reactor's tank."), _("<npcname> pours %s into their reactor's tank."),
             to_eat->tname().c_str());
@@ -10246,7 +10249,7 @@ int player::nutrition_for(const it_comest *comest)
     const float modifier = (t * thresholds[i].second) +
         ((1 - t) * thresholds[i - 1].second);
 
-    return (int)(comest->nutr * modifier);
+    return (int)(comest->get_nutrition() * modifier);
 }
 
 void player::consume_effects(item *eaten, const it_comest *comest, bool rotten)
@@ -10795,7 +10798,7 @@ int player::item_handling_cost( const item& it, bool effects, int factor ) const
         mv *= 2;
     }
 
-    return std::min(mv, MAX_HANDLING_COST);
+    return std::min( std::max( mv, MIN_HANDLING_COST ), MAX_HANDLING_COST );
 }
 
 bool player::wear(int inventory_position, bool interactive)
@@ -10906,7 +10909,7 @@ bool player::wear_item( const item &to_wear, bool interactive )
     else
     {
         // Only headgear can be worn with power armor, except other power armor components
-        if(!to_wear.covers(bp_head) && !to_wear.covers(bp_eyes) && !to_wear.covers(bp_mouth)) 
+        if(!to_wear.covers(bp_head) && !to_wear.covers(bp_eyes) && !to_wear.covers(bp_mouth))
         {
             for (auto &i : worn)
             {
@@ -11720,7 +11723,7 @@ void player::remove_gunmod(item *weapon, unsigned id)
     item *gunmod = &weapon->contents[id];
     item ammo;
     if (gunmod->charges > 0) {
-        if( gunmod->has_curammo() ) {
+        if( gunmod->ammo_current() != "null" ) {
             ammo = item( gunmod->ammo_current(), calendar::turn );
         } else {
             ammo = item(default_ammo(weapon->ammo_type()), calendar::turn);
@@ -14217,6 +14220,22 @@ void player::add_msg_player_or_npc(game_message_type type, const char* player_st
     va_end(ap);
 }
 
+void player::add_msg_player_or_say( const char *player_str, const char *npc_str, ... ) const
+{
+    va_list ap;
+    va_start( ap, npc_str );
+    Messages::vadd_msg( player_str, ap );
+    va_end(ap);
+}
+
+void player::add_msg_player_or_say( game_message_type type, const char *player_str, const char *npc_str, ... ) const
+{
+    va_list ap;
+    va_start( ap, npc_str );
+    Messages::vadd_msg( type, player_str, ap );
+    va_end(ap);
+}
+
 bool player::knows_trap( const tripoint &pos ) const
 {
     const tripoint p = g->m.getabs( pos );
@@ -14668,3 +14687,11 @@ void player::print_encumbrance( WINDOW *win, int line, item *selected_clothing )
 
 }
 
+bool player::query_yn( const char *mes, ... ) const
+{
+    va_list ap;
+    va_start( ap, mes );
+    bool ret = internal_query_yn( mes, ap );
+    va_end( ap );
+    return ret;
+}

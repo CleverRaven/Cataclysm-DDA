@@ -1072,10 +1072,10 @@ public:
         long ammo_required() const;
         /** If sufficient ammo available consume it, otherwise do nothing and return false */
         bool ammo_consume( int qty );
-        /** Specific ammo type, returns "null" if item is neither ammo nor loaded with any */
-        itype_id ammo_current() const;
         /** Specific ammo data, returns nullptr if item is neither ammo nor loaded with any */
         const itype * ammo_data() const;
+        /** Specific ammo type, returns "null" if item is neither ammo nor loaded with any */
+        itype_id ammo_current() const;
         /**
          * The id of the ammo type (@ref ammunition_type) that can be used by this item.
          * Will return "NULL" if the item does not use a specific ammo type. Items without
@@ -1285,7 +1285,14 @@ public:
  char invlet;             // Inventory letter
  long charges;
  bool active;             // If true, it has active effects to be processed
- signed char damage;      // How much damage it's sustained; generally, max is 5
+
+    /**
+     * How much damage the item has sustained
+     * @see MIN_ITEM_DAMAGE
+     * @see MAX_ITEM_DAMAGE
+     */
+    int damage;
+
  int burnt;               // How badly we're burnt
  int bday;                // The turn on which it was created
  union{

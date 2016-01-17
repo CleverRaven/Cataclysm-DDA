@@ -372,7 +372,7 @@ The syntax listed here is still valid.
 "weight" : 34,        // Weight, measured in grams
 "bashing" : 1,        // (Optional, default = 0) Bashing damage caused by using it as a melee weapon.
 "cutting" : 0,        // (Optional, default = 0) Cutting damage caused by using it as a melee weapon.
-"to_hit" : 0,         // To-hit bonus if using it as a melee weapon
+"to_hit" : 0,         // (Optional, default = 0) To-hit bonus if using it as a melee weapon
 "ammo_type" : "shot", // Determines what it can be loaded in
 "damage" : 18,        // Ranged damage when fired
 "pierce" : 0,         // Armor piercing ability when fired

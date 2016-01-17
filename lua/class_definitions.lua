@@ -347,7 +347,6 @@ classes = {
             scent = { type = "int", writable = true },
             slow_rad = { type = "int", writable = true },
             stamina = { type = "int", writable = true },
-            start_location = { type = "string", writable = true },
             stim = { type = "int", writable = true },
             tank_plut = { type = "int", writable = true },
             thirst = { type = "int", writable = true },
@@ -375,9 +374,7 @@ classes = {
             { name = "apply_damage", rval = nil, args = { "Creature", "body_part", "int" } },
             { name = "apply_persistent_morale", rval = nil, args = { } },
             { name = "avoid_trap", rval = "bool", args = { "tripoint", "trap" } },
-            { name = "base_damage", rval = "int", args = { "bool" } },
-            { name = "base_damage", rval = "int", args = { "bool", "int" } },
-            { name = "base_damage", rval = "int", args = { } },
+            { name = "bonus_damage", rval = "float", args = { "bool" } },
             { name = "basic_symbol_color", rval = "int", args = { } },
             { name = "blossoms", rval = nil, args = { } },
             { name = "bodytemp_color", rval = "int", args = { "int" } },
@@ -1613,11 +1610,6 @@ classes = {
                 type = "int",
                 writable = true
             },
-            nutrition = {
-                type = "int",
-                cpp_name = "nutr",
-                writable = true
-            },
             spoils_in = {
                 type = "int",
                 cpp_name = "spoils",
@@ -1659,6 +1651,8 @@ classes = {
             }
         },
         functions = {
+            { name = "get_nutrition", rval = "int", args = { } },
+            { name = "get_calories", rval = "int", args = { } }
         }
     },
     it_tool = {

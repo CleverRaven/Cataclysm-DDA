@@ -1,6 +1,8 @@
 #ifndef SCENARIO_H
 #define SCENARIO_H
 
+#include "string_id.h"
+
 #include <string>
 #include <vector>
 #include <map>
@@ -13,27 +15,28 @@ class JsonArray;
 class JsonObject;
 class addiction;
 enum add_type : int;
+class start_location;
+using start_location_id = string_id<start_location>;
 
-typedef std::map<std::string, scenario> scenmap;
+typedef std::map<string_id<scenario>, scenario> scenmap;
 
 class scenario
 {
 
 private:
-    std::string _ident;
+    friend class string_id<scenario>;
+    string_id<scenario> id;
     std::string _name_male;
     std::string _name_female;
     std::string _description_male;
     std::string _description_female;
     std::string _gender_req;
     std::string _start_name;
-    std::string _default_loc;
-    std::string _profession;
-    std::set<std::string> _allowed_professions;
+    std::vector<string_id<profession>> _allowed_professions;
     std::set<std::string> _allowed_traits;
     std::set<std::string> _forced_traits;
     std::set<std::string> _forbidden_traits;
-    std::set<std::string> _allowed_locs;
+    std::vector<start_location_id> _allowed_locs;
     int _mission;
     std::vector<std::string> traits;
     int _point_cost;
@@ -44,29 +47,20 @@ private:
     std::set<std::string> flags; // flags for some special properties of the scenario
     std::string _map_special;
 
-    void add_items_from_jsonarray(JsonArray jsarr, std::string gender);
-    void add_item(std::string item, std::string gender);
-
+    void add_items_from_jsonarray(JsonArray jsarr, std::vector<std::string> &container);
 
     static scenmap _all_scens;
 public:
     //these three aren't meant for external use, but had to be made public regardless
     scenario();
-    scenario(std::string ident, std::string name, std::string description);
-    scenario(std::string ident, std::string name, std::string description, int mission);
     static void load_scenario(JsonObject &jsobj);
 
     // these should be the only ways used to get at scenario
-    static scenario* scen(std::string ident);
-    static scenario* generic(); // points to the generic, default profession
+    static const scenario* generic(); // points to the generic, default profession
     // return a random scenario, weighted for use w/ random character creation
-    static scenario* weighted_random();
-    static bool exists(std::string ident);
-    static scenmap::const_iterator begin();
-    static scenmap::const_iterator end();
-    static int count();
+    static const scenario* weighted_random();
+        static std::vector<const scenario*> get_all();
 
-    static bool has_initialized();
     // clear scenario map, every scenario pointer becames invalid!
     static void reset();
     /** calls @ref check_definition for each scenario */
@@ -74,20 +68,20 @@ public:
     /** Check that item definitions are valid */
     void check_definition() const;
 
-    std::string ident() const;
+    const string_id<scenario> &ident() const;
     std::string gender_appropriate_name(bool male) const;
     std::string description(bool male) const;
     std::string gender_req() const;
-    std::string start_location() const;
-    std::string random_start_location() const;
+    start_location_id start_location() const;
+    start_location_id random_start_location() const;
     std::string start_name() const;
-    profession* get_profession() const;
-    profession* random_profession() const;
-    bool profquery(const profession* proff) const;
+    const profession* get_profession() const;
+    const profession* random_profession() const;
+    bool profquery( const string_id<profession> &proff ) const;
     bool traitquery(std::string trait) const;
     bool locked_traits(std::string trait) const;
     bool forbidden_traits(std::string trait) const;
-    bool allowed_start(std::string loc) const;
+    bool allowed_start( const start_location_id &loc ) const;
     int profsize() const;
     int mission() const;
     signed int point_cost() const;

@@ -17,21 +17,31 @@
 #include "pldata.h"
 #include "itype.h"
 
-profession::profession()
-    : _ident(""), _name_male("null"), _name_female("null"),
-      _description_male("null"), _description_female("null"), _point_cost(0)
+template<>
+const profession &string_id<profession>::obj() const
 {
+    const auto prof = profession::_all_profs.find( *this );
+    if( prof != profession::_all_profs.end() ) {
+        return prof->second;
+    } else {
+        debugmsg( "Tried to get invalid profession: %s", c_str() );
+        static const profession dummy{};
+        return dummy;
+    }
 }
 
-profession::profession(std::string ident, std::string name, std::string description,
-                       signed int points)
+template<>
+bool string_id<profession>::is_valid() const
 {
-    _ident = ident;
-    _name_male = name;
-    _name_female = name;
-    _description_male = description;
-    _description_female = description;
-    _point_cost = points;
+    return profession::_all_profs.count( *this ) > 0;
+}
+
+const string_id<profession> generic_profession_id( "unemployed" );
+
+profession::profession()
+    : id(), _name_male("null"), _name_female("null"),
+      _description_male("null"), _description_female("null"), _point_cost(0)
+{
 }
 
 profmap profession::_all_profs;
@@ -41,7 +51,7 @@ void profession::load_profession(JsonObject &jsobj)
     profession prof;
     JsonArray jsarr;
 
-    prof._ident = jsobj.get_string("ident");
+    prof.id = string_id<profession>( jsobj.get_string( "ident" ) );
     //If the "name" is an object then we have to deal with gender-specific titles,
     if(jsobj.has_object("name")) {
         JsonObject name_obj = jsobj.get_object("name");
@@ -62,9 +72,9 @@ void profession::load_profession(JsonObject &jsobj)
     prof._point_cost = jsobj.get_int("points");
 
     JsonObject items_obj = jsobj.get_object("items");
-    prof.add_items_from_jsonarray(items_obj.get_array("both"), "both");
-    prof.add_items_from_jsonarray(items_obj.get_array("male"), "male");
-    prof.add_items_from_jsonarray(items_obj.get_array("female"), "female");
+    prof.add_items_from_jsonarray(items_obj.get_array("both"), prof._starting_items);
+    prof.add_items_from_jsonarray(items_obj.get_array("male"), prof._starting_items_male);
+    prof.add_items_from_jsonarray(items_obj.get_array("female"), prof._starting_items_female);
 
     jsarr = jsobj.get_array("skills");
     while (jsarr.has_more()) {
@@ -91,35 +101,24 @@ void profession::load_profession(JsonObject &jsobj)
         prof.flags.insert(jsarr.next_string());
     }
 
-    _all_profs[prof._ident] = prof;
-    DebugLog( D_INFO, DC_ALL ) << "Loaded profession: " << prof._ident;
+    _all_profs[prof.id] = prof;
+    DebugLog( D_INFO, DC_ALL ) << "Loaded profession: " << prof.id.str();
 }
 
-profession *profession::prof(std::string ident)
+const profession *profession::generic()
 {
-    profmap::iterator prof = _all_profs.find(ident);
-    if (prof != _all_profs.end()) {
-        return &(prof->second);
-    } else {
-        debugmsg("Tried to get invalid profession: %s", ident.c_str());
-        return NULL;
-    }
-}
-
-profession *profession::generic()
-{
-    return profession::prof("unemployed");
+    return &generic_profession_id.obj();
 }
 
 // Strategy: a third of the time, return the generic profession.  Otherwise, return a profession,
 // weighting 0 cost professions more likely--the weight of a profession with cost n is 2/(|n|+2),
 // e.g., cost 1 is 2/3rds as likely, cost -2 is 1/2 as likely.
-profession *profession::weighted_random()
+const profession *profession::weighted_random()
 {
     if (one_in(3)) {
         return generic();
     } else {
-        profession *retval = 0;
+        const profession *retval = 0;
         while(retval == 0) {
             profmap::iterator iter = _all_profs.begin();
             for (int i = rng(0, _all_profs.size() - 1); i > 0; --i) {
@@ -133,24 +132,13 @@ profession *profession::weighted_random()
     }
 }
 
-bool profession::exists(std::string ident)
+std::vector<const profession*> profession::get_all()
 {
-    return _all_profs.find(ident) != _all_profs.end();
+    std::vector<const profession*> result;
+    for( auto &p : _all_profs ) {
+        result.push_back( &p.second );
 }
-
-profmap::const_iterator profession::begin()
-{
-    return _all_profs.begin();
-}
-
-profmap::const_iterator profession::end()
-{
-    return _all_profs.end();
-}
-
-int profession::count()
-{
-    return _all_profs.size();
+    return result;
 }
 
 void profession::reset()
@@ -169,17 +157,17 @@ void profession::check_item_definitions( const itypedecvec &items ) const
 {
     for( auto & itd : items ) {
         if( !item::type_is_defined( itd.type_id ) ) {
-            debugmsg( "profession %s: item %s does not exist", _ident.c_str() , itd.type_id.c_str() );
+            debugmsg( "profession %s: item %s does not exist", id.c_str() , itd.type_id.c_str() );
         } else if( !itd.snippet_id.empty() ) {
             const itype *type = item::find_type( itd.type_id );
             if( type->snippet_category.empty() ) {
                 debugmsg( "profession %s: item %s has no snippet category - no description can be set",
-                          _ident.c_str(), itd.type_id.c_str() );
+                          id.c_str(), itd.type_id.c_str() );
             } else {
                 const int hash = SNIPPET.get_snippet_by_id( itd.snippet_id );
                 if( SNIPPET.get( hash ).empty() ) {
                     debugmsg( "profession %s: snippet id %s for item %s is not contained in snippet category %s",
-                              _ident.c_str(), itd.snippet_id.c_str(), itd.type_id.c_str(), type->snippet_category.c_str() );
+                              id.c_str(), itd.snippet_id.c_str(), itd.type_id.c_str(), type->snippet_category.c_str() );
                 }
             }
         }
@@ -193,29 +181,29 @@ void profession::check_definition() const
     check_item_definitions( _starting_items_male );
     for (auto const &a : _starting_CBMs) {
         if (!is_valid_bionic(a)) {
-            debugmsg("bionic %s for profession %s does not exist", a.c_str(), _ident.c_str());
+            debugmsg("bionic %s for profession %s does not exist", a.c_str(), id.c_str());
         }
     }
-    
+
     for( auto &t : _starting_traits ) {
         if( !mutation_branch::has( t ) ) {
-            debugmsg( "trait %s for profession %s does not exist", t.c_str(), _ident.c_str() );
+            debugmsg( "trait %s for profession %s does not exist", t.c_str(), id.c_str() );
         }
     }
 
     for( const auto &elem : _starting_skills ) {
         if( !elem.first.is_valid() ) {
-            debugmsg( "skill %s for profession %s does not exist", elem.first.c_str(), _ident.c_str() );
+            debugmsg( "skill %s for profession %s does not exist", elem.first.c_str(), id.c_str() );
         }
     }
 }
 
 bool profession::has_initialized()
 {
-    return exists("unemployed");
+    return generic_profession_id.is_valid();
 }
 
-void profession::add_items_from_jsonarray(JsonArray jsarr, std::string gender)
+void profession::add_items_from_jsonarray(JsonArray jsarr, itypedecvec &container)
 {
     while (jsarr.has_more()) {
         // either a plain item type id string, or an array with item type id
@@ -224,21 +212,10 @@ void profession::add_items_from_jsonarray(JsonArray jsarr, std::string gender)
             auto arr = jsarr.next_array();
             const itypedec entry( arr.get_string( 0 ),
                                   _( arr.get_string( 1 ).c_str() ) );
-            add_item( entry, gender );
+            container.push_back( entry );
         } else {
-            add_item( itypedec( jsarr.next_string(), "" ), gender );
+            container.emplace_back( jsarr.next_string(), "" );
         }
-    }
-}
-
-void profession::add_item(const itypedec &entry, const std::string &gender)
-{
-    if(gender == "male") {
-        _starting_items_male.push_back( entry );
-    } else if(gender == "female") {
-        _starting_items_female.push_back( entry );
-    } else {
-        _starting_items.push_back( entry );
     }
 }
 
@@ -261,9 +238,9 @@ void profession::add_skill(const skill_id &skill_name, const int level)
     _starting_skills.push_back(StartingSkill(skill_name, level));
 }
 
-std::string profession::ident() const
+const string_id<profession> &profession::ident() const
 {
-    return _ident;
+    return id;
 }
 
 std::string profession::gender_appropriate_name(bool male) const

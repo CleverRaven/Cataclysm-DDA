@@ -156,12 +156,12 @@ game::game() :
     w_status2(NULL),
     w_blackspace(NULL),
     dangerous_proximity(5),
+    pixel_minimap_option(0),
     safe_mode(SAFE_MODE_ON),
     mostseen(0),
     gamemode(NULL),
     lookHeight(13),
-    tileset_zoom(16),
-    pixel_minimap_option(0)
+    tileset_zoom(16)
 {
     world_generator = new worldfactory();
     // do nothing, everything that was in here is moved to init_data() which is called immediately after g = new game; in main.cpp
@@ -274,11 +274,10 @@ game::~game()
     delete gamemode;
     delwin(w_terrain);
     delwin(w_minimap);
-    if (pixel_minimap_option){
-        delwin(w_pixel_minimap);
-    }
+    delwin(w_pixel_minimap);
     delwin(w_HP);
-    delwin(w_messages);
+    delwin(w_messages_short);
+    delwin(w_messages_long);
     delwin(w_location);
     delwin(w_status);
     delwin(w_status2);
@@ -321,6 +320,12 @@ void game::init_ui()
         intro();
 
         first_init = false;
+
+#ifdef TILES
+        //class variable to track the option being active
+        //only set once, toggle action is used to change during game
+        pixel_minimap_option = OPTIONS["PIXEL_MINIMAP"];
+#endif // TILES
     }
 
     int sidebarWidth = narrow_sidebar ? 45 : 55;
@@ -417,19 +422,16 @@ void game::init_ui()
 
     int minimapX, minimapY; // always MINIMAP_WIDTH x MINIMAP_HEIGHT in size
     int hpX, hpY, hpW, hpH;
-    int messX, messY, messW, messH;
+    int messX, messY, messW, messHshort, messHlong;
     int locX, locY, locW, locH;
     int statX, statY, statW, statH;
     int stat2X, stat2Y, stat2W, stat2H;
     int mouseview_y, mouseview_h, mouseview_w;
     int pixelminimapW, pixelminimapH, pixelminimapX, pixelminimapY;
 
-    //class variable to track the option being active
-    pixel_minimap_option = 0;
     bool pixel_minimap_custom_height = false;
 
 #ifdef TILES
-    pixel_minimap_option = OPTIONS["PIXEL_MINIMAP"];
     pixel_minimap_custom_height = OPTIONS["PIXEL_MINIMAP_HEIGHT"] > 0;
 #endif // TILES
 
@@ -443,17 +445,18 @@ void game::init_ui()
         locW = sidebarWidth;
         stat2H = 2;
         stat2W = sidebarWidth;
-        pixelminimapW = sidebarWidth * pixel_minimap_option;
-        pixelminimapH = (pixelminimapW / 2) * pixel_minimap_option;
+        pixelminimapW = sidebarWidth;
+        pixelminimapH = (pixelminimapW / 2);
         if (pixel_minimap_custom_height && pixelminimapH > OPTIONS["PIXEL_MINIMAP_HEIGHT"]){
             pixelminimapH = OPTIONS["PIXEL_MINIMAP_HEIGHT"];
         }
-        messH = TERRAIN_WINDOW_TERM_HEIGHT - (statH + locH + stat2H + pixelminimapH);
+        messHshort = TERRAIN_WINDOW_TERM_HEIGHT - (statH + locH + stat2H + pixelminimapH);
         messW = sidebarWidth;
-        if (messH < 9) {
-            pixelminimapH -= 9 - messH;
-            messH = 9;
+        if (messHshort < 9) {
+            pixelminimapH -= 9 - messHshort;
+            messHshort = 9;
         }
+        messHlong = TERRAIN_WINDOW_TERM_HEIGHT - (statH + locH + stat2H);
 
         // Now position the elements relative to each other.
         minimapX = 0;
@@ -469,7 +472,7 @@ void game::init_ui()
         messX = 0;
         messY = stat2Y + stat2H;
         pixelminimapX = 0;
-        pixelminimapY = messY + messH;
+        pixelminimapY = messY + messHshort;
 
         mouseview_y = messY + 7;
         mouseview_h = TERRAIN_WINDOW_TERM_HEIGHT - mouseview_y - 5;
@@ -484,26 +487,27 @@ void game::init_ui()
         messX = MINIMAP_WIDTH;
         messY = 0;
         messW = sidebarWidth - messX;
-        pixelminimapW = messW * pixel_minimap_option;
-        pixelminimapH = (pixelminimapW / 2) * pixel_minimap_option;
+        pixelminimapW = messW;
+        pixelminimapH = (pixelminimapW / 2);
         if (pixel_minimap_custom_height && pixelminimapH > OPTIONS["PIXEL_MINIMAP_HEIGHT"]){
             pixelminimapH = OPTIONS["PIXEL_MINIMAP_HEIGHT"];
         }
-        messH = TERRAIN_WINDOW_TERM_HEIGHT - (locH + statH + pixelminimapH); // 1 for w_location + 4 for w_stat, w_messages starts at 0
-        if (messH < 9) {
-            pixelminimapH -= 9 - messH;
-            messH = 9;
+        messHshort = TERRAIN_WINDOW_TERM_HEIGHT - (locH + statH + pixelminimapH); // 1 for w_location + 4 for w_stat, w_messages starts at 0
+        if (messHshort < 9) {
+            pixelminimapH -= 9 - messHshort;
+            messHshort = 9;
         }
+        messHlong = TERRAIN_WINDOW_TERM_HEIGHT - (locH + statH);
         pixelminimapX = MINIMAP_WIDTH;
-        pixelminimapY = messH;
+        pixelminimapY = messHshort;
         hpX = 0;
         hpY = MINIMAP_HEIGHT;
         // under the minimap, but down to the same line as w_location (which is under w_messages)
         // so it erases the space between w_terrain and (w_messages and w_location)
-        hpH = messH + pixelminimapH - MINIMAP_HEIGHT + 3;
+        hpH = messHshort + pixelminimapH - MINIMAP_HEIGHT + 3;
         hpW = 7;
         locX = MINIMAP_WIDTH;
-        locY = messY + messH + pixelminimapH;
+        locY = messY + messHshort + pixelminimapH;
         locW = sidebarWidth - locX;
         statY = locY + locH;
         statW = sidebarWidth;
@@ -528,12 +532,18 @@ void game::init_ui()
     w_HP = newwin(hpH, hpW, _y + hpY, _x + hpX);
     werase(w_HP);
 
-    w_messages = newwin(messH, messW, _y + messY, _x + messX);
-    werase(w_messages);
+    w_messages_short = newwin(messHshort, messW, _y + messY, _x + messX);
+    werase(w_messages_short);
 
-    if (pixel_minimap_option){
-        w_pixel_minimap = newwin(pixelminimapH, pixelminimapW, _y + pixelminimapY, _x + pixelminimapX);
-        werase(w_pixel_minimap);
+    w_messages_long = newwin(messHlong, messW, _y + messY, _x + messX);
+    werase(w_messages_long);
+
+    w_pixel_minimap = newwin(pixelminimapH, pixelminimapW, _y + pixelminimapY, _x + pixelminimapX);
+    werase(w_pixel_minimap);
+
+    w_messages = w_messages_short;
+    if (!pixel_minimap_option) {
+        w_messages = w_messages_long;
     }
 
     w_location = newwin(locH, locW, _y + locY, _x + locX);
@@ -577,6 +587,24 @@ void game::toggle_fullscreen(void)
     init_ui();
     refresh_all();
 #endif
+}
+
+void game::toggle_pixel_minimap(void)
+{
+#ifdef TILES
+    if (w_messages == w_messages_short) {
+        clear_window_area(w_pixel_minimap);
+        w_messages = w_messages_long;
+        pixel_minimap_option = 0;
+    } else {
+        w_messages = w_messages_short;
+        pixel_minimap_option = 1;
+    }
+    werase(w_messages);
+    mvwputch(w_messages, 0, 0, c_black, ' ');
+    wrefresh(w_messages);
+    draw_sidebar();
+#endif // TILES
 }
 
 // temporarily switch out of fullscreen for functions that rely
@@ -693,7 +721,7 @@ void game::start_game(std::string worldname)
     }
     u.setID( assign_npc_id() ); // should be as soon as possible, but *after* load_master
 
-    const start_location &start_loc = *start_location::find( u.start_location );
+    const start_location &start_loc = u.start_location.obj();
     const tripoint omtstart = start_loc.setup();
     if( scen->has_map_special() ) {
         // Specials can add monster spawn points and similar and should be done before the main
@@ -1981,6 +2009,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action("zoom_in");
     ctxt.register_action("toggle_sidebar_style");
     ctxt.register_action("toggle_fullscreen");
+    ctxt.register_action("toggle_pixel_minimap");
     ctxt.register_action("action_menu");
     ctxt.register_action("item_action_menu");
     ctxt.register_action("ANY_INPUT");
@@ -2016,12 +2045,22 @@ input_context game::get_player_input(std::string &action)
 
         //x% of the Viewport, only shown on visible areas
         auto const weather_info = get_weather_animation(weather);
+        int offset_x = (u.posx() + u.view_offset.x) - getmaxx(w_terrain) / 2;
+        int offset_y = (u.posy() + u.view_offset.y) - getmaxy(w_terrain) / 2;
 
-        const int dropCount = int(iEndX * iEndY * weather_info.factor);
-        const int offset_x = (u.posx() + u.view_offset.x) - getmaxx(w_terrain) / 2;
-        const int offset_y = (u.posy() + u.view_offset.y) - getmaxy(w_terrain) / 2;
+#ifdef TILES
+        if( tile_iso && use_tiles ) {
+            iStartX = 0;
+            iStartY = 0;
+            iEndX = MAPSIZE * SEEX;
+            iEndY = MAPSIZE * SEEY;
+            offset_x = 0;
+            offset_y = 0;
+        }
+#endif //TILES
 
-        const bool bWeatherEffect = (weather_info.glyph != '?');
+        const bool bWeatherEffect = ( weather_info.glyph != '?' );
+        const int dropCount = int( iEndX * iEndY * weather_info.factor );
 
         weather_printable wPrint;
         wPrint.colGlyph = weather_info.color;
@@ -2041,7 +2080,7 @@ input_context game::get_player_input(std::string &action)
         inp_mngr.set_timeout(125);
         // Force at least one animation frame if the player is dead.
         while( handle_mouseview(ctxt, action) || uquit == QUIT_WATCH ) {
-            if (bWeatherEffect && OPTIONS["ANIMATION_RAIN"]) {
+            if( bWeatherEffect && OPTIONS["ANIMATION_RAIN"] ) {
                 /*
                 Location to add rain drop animation bits! Since it refreshes w_terrain it can be added to the animation section easily
                 Get tile information from above's weather information:
@@ -2050,25 +2089,31 @@ input_context game::get_player_input(std::string &action)
                 WEATHER_FLURRIES | WEATHER_SNOW | WEATHER_SNOWSTORM = "weather_snowflake"
                 */
 
-                //Erase previous drops from w_terrain
-                for( auto &elem : wPrint.vdrops ) {
-                    const tripoint location( elem.first + offset_x, elem.second + offset_y, get_levz() );
-                    const lit_level lighting = visibility_cache[location.x][location.y];
-                    wmove( w_terrain, location.y - offset_y, location.x - offset_x );
-                    if( !m.apply_vision_effects( w_terrain, lighting, cache ) ) {
-                        m.drawsq( w_terrain, u, location, false, true,
-                                  u.pos() + u.view_offset,
-                                  lighting == LL_LOW, lighting == LL_BRIGHT );
+#ifdef TILES
+                if( !use_tiles ) {
+#endif //TILES
+                    //If not using tiles, erase previous drops from w_terrain
+                    for( auto &elem : wPrint.vdrops ) {
+                        const tripoint location( elem.first + offset_x, elem.second + offset_y, get_levz() );
+                        const lit_level lighting = visibility_cache[location.x][location.y];
+                        wmove( w_terrain, location.y - offset_y, location.x - offset_x );
+                        if( !m.apply_vision_effects( w_terrain, lighting, cache ) ) {
+                            m.drawsq( w_terrain, u, location, false, true,
+                                      u.pos() + u.view_offset,
+                                      lighting == LL_LOW, lighting == LL_BRIGHT );
+                        }
                     }
+#ifdef TILES
                 }
-
+#endif //TILES
                 wPrint.vdrops.clear();
 
-                for (int i = 0; i < dropCount; i++) {
-                    const int iRandX = rng(iStartX, iEndX - 1);
-                    const int iRandY = rng(iStartY, iEndY - 1);
+                for( int i = 0; i < dropCount; i++ ) {
+                    const int iRandX = rng( iStartX, iEndX - 1 );
+                    const int iRandY = rng( iStartY, iEndY - 1 );
                     const int mapx = iRandX + offset_x;
                     const int mapy = iRandY + offset_y;
+
                     const tripoint mapp( mapx, mapy, u.posz() );
 
                     const lit_level lighting = visibility_cache[mapp.x][mapp.y];
@@ -2144,6 +2189,9 @@ input_context game::get_player_input(std::string &action)
                 break;
             }
             wrefresh(w_terrain);
+
+            //updating the pixel minimap here allows red flashing indicators for enemies to actually flicker
+            draw_pixel_minimap();
         }
         inp_mngr.set_timeout(-1);
     } else {
@@ -3046,6 +3094,10 @@ bool game::handle_action()
 
         case ACTION_TOGGLE_FULLSCREEN:
             toggle_fullscreen();
+            break;
+
+        case ACTION_TOGGLE_PIXEL_MINIMAP:
+            toggle_pixel_minimap();
             break;
 
         case ACTION_DISPLAY_SCENT:
@@ -4968,6 +5020,18 @@ void game::draw()
 #endif // TILES
 }
 
+void game::draw_pixel_minimap()
+{
+    // Force a refresh of the pixel minimap.
+    // only do so if it is in use
+    if(pixel_minimap_option && w_pixel_minimap){
+        werase(w_pixel_minimap);
+        //trick window into rendering
+        mvwputch(w_pixel_minimap, 0, 0, c_black, ' ');
+        wrefresh(w_pixel_minimap);
+    }
+}
+
 void game::draw_sidebar()
 {
     if (fullscreen) {
@@ -5049,7 +5113,7 @@ void game::draw_sidebar()
         mvwprintz(w_location, 0, 18, weather_data(weather).color, "%s", weather_data(weather).name.c_str());
     }
 
-    if (u.worn_with_flag("THERMOMETER")) {
+    if( u.worn_with_flag( "THERMOMETER" ) || u.has_bionic( "bio_meteorologist" ) ) {
         wprintz( w_location, c_white, " %s", print_temperature( get_temperature() ).c_str());
     }
 
@@ -5103,13 +5167,9 @@ void game::draw_sidebar()
 
     draw_minimap();
 
-    // Force a refresh of the pixel minimap.
-    // only do so if it is in use
-    if(pixel_minimap_option && w_pixel_minimap){
-        werase(w_pixel_minimap);
-        wrefresh(w_pixel_minimap);
-    }
+    draw_pixel_minimap();
 }
+
 
 void game::draw_critter( const Creature &critter, const tripoint &center )
 {
@@ -7452,9 +7512,9 @@ void game::smash()
         u.moves -= 100;
         return;
     }
-    static const int full_pulp_threshold = 4;
+
     for (auto it = m.i_at(smashp).begin(); it != m.i_at(smashp).end(); ++it) {
-        if (it->is_corpse() && it->damage < full_pulp_threshold) {
+        if ( it->is_corpse() && it->damage < CORPSE_PULP_THRESHOLD ) {
             // do activity forever. ACT_PULP stops itself
             u.assign_activity(ACT_PULP, INT_MAX, 0);
             u.activity.placement = smashp;
@@ -7463,7 +7523,7 @@ void game::smash()
     }
 
     didit = m.bash( smashp, smashskill, false, false, smash_floor ).did_bash;
-    if (didit) {
+    if( didit ) {
         u.handle_melee_wear();
         u.moves -= move_cost;
         const int mod_sta = ( (u.weapon.weight() / 100 ) + 20) * -1;
@@ -8942,6 +9002,12 @@ tripoint game::look_around( WINDOW *w_info, const tripoint &start_point,
     }
 
     draw_ter( lp );
+
+    //change player location to peek location temporarily for minimap update
+    tripoint current_pos = u.pos();
+    u.setpos(lp);
+    draw_pixel_minimap();
+    u.setpos(current_pos);
 
     int soffset = (int)OPTIONS["MOVE_VIEW_OFFSET"];
     bool fast_scroll = false;
@@ -11007,6 +11073,33 @@ void game::cycle_item_mode( bool force_gun )
     }
 }
 
+// Helper for game::butcher
+void add_corpses_to_menu( uimenu &kmenu, map_stack &items,
+    const std::vector<int> &indices, size_t &menu_index,
+    bool salvage )
+{
+    for( size_t index : indices ) {
+        const item &it = items[index];
+        int hotkey = -1;
+        // First entry gets a hotkey matching the butcher command.
+        if( menu_index == 0 ) {
+            const long butcher_key = inp_mngr.get_previously_pressed_key();
+            if( butcher_key != 0 ) {
+                hotkey = butcher_key;
+            }
+        }
+        if( it.is_corpse() ) {
+            kmenu.addentry( menu_index++, true, hotkey, it.get_mtype()->nname() );
+        } else if( !salvage ) {
+            kmenu.addentry( menu_index++, true, hotkey, it.tname());
+        } else {
+            std::stringstream ss;
+            ss << _("Cut up") << " " << it.tname();
+            kmenu.addentry( menu_index++, true, hotkey, ss.str() );
+        }
+    }
+}
+
 void game::butcher()
 {
     const static std::string salvage_string = "salvage";
@@ -11016,11 +11109,11 @@ void game::butcher()
     }
 
     const int factor = u.butcher_factor();
-    bool has_corpse = false;
-    bool has_item = false;
     const item *first_item_without_tools = nullptr;
-    // indices of corpses / items that can be disassembled
+    // Indices of relevant items
     std::vector<int> corpses;
+    std::vector<int> disassembles;
+    std::vector<int> salvageables;
     auto items = m.i_at(u.pos());
     const inventory &crafting_inv = u.crafting_inventory();
 
@@ -11050,7 +11143,6 @@ void game::butcher()
         for (size_t i = 0; i < items.size(); i++) {
             if( items[i].is_corpse() ) {
                 corpses.push_back(i);
-                has_corpse = true;
             }
         }
     }
@@ -11061,39 +11153,39 @@ void game::butcher()
         }
 
         const recipe *cur_recipe = get_disassemble_recipe(items[i].type->id);
-        if( cur_recipe == nullptr ) {
+        if( cur_recipe == nullptr && !items[i].is_book() ) {
             continue;
         }
 
-        if( u.can_disassemble( items[i], cur_recipe, crafting_inv, false ) ) {
-            corpses.push_back(i);
-            has_item = true;
+        if( items[i].is_book() ||
+            u.can_disassemble( items[i], cur_recipe, crafting_inv, false ) ) {
+            disassembles.push_back(i);
         } else if( first_item_without_tools == nullptr ) {
             first_item_without_tools = &items[i];
         }
     }
     // Now salvageable items
-    size_t salvage_index = corpses.size();
     if( salvage_tool_index != INT_MIN ) {
         for( size_t i = 0; i < items.size(); i++ ) {
             if( !items[i].is_corpse() &&
                 salvage_iuse->valid_to_cut_up( &items[i] ) ) {
-                    corpses.push_back(i);
-                    has_item = true;
+                    salvageables.push_back(i);
             }
         }
     }
 
-    if (corpses.empty()) {
+    if( corpses.empty() && disassembles.empty() && salvageables.empty() ) {
         if( factor > INT_MIN ) {
             add_msg( m_info, _("There are no corpses here to butcher.") );
-        } else if( first_item_without_tools != nullptr ) {
+        } else {
+            add_msg( m_info, _("You don't have a sharp item to butcher with.") );
+        }
+
+        if( first_item_without_tools != nullptr ) {
             add_msg( m_info, _("You don't have the necessary tools to disassemble any items here.") );
             const recipe *cur_recipe = get_disassemble_recipe( first_item_without_tools->type->id );
             // Just for the "You need x to disassemble y" messages
             u.can_disassemble( *first_item_without_tools, cur_recipe, crafting_inv, true );
-        } else {
-            add_msg( m_info, _("You don't have a sharp item to butcher with.") );
         }
         return;
     }
@@ -11106,90 +11198,118 @@ void game::butcher()
         }
     }
 
-    int butcher_corpse_index = 0;
-    bool multisalvage = corpses.size() - salvage_index > 1;
+    // Magic indices for special butcher options
+    enum : int {
+        MULTISALVAGE =  MAX_ITEM_IN_SQUARE + 1,
+        MULTIBUTCHER,
+        MULTIDISASSEMBLE_ONE,
+        MULTIDISASSEMBLE_ALL,
+        CANCEL
+    };
+    // What are we butchering (ie. which vector to pick indices from)
+    enum {
+        BUTCHER_CORPSE,
+        BUTCHER_DISASSEMBLE,
+        BUTCHER_SALVAGE,
+        BUTCHER_OTHER // For multisalvage etc.
+    } butcher_type = BUTCHER_CORPSE;
+    // Index to std::vector of indices...
+    int indexer_index = 0;
     // Always ask before cutting up/disassembly, but not before butchery
-    if( corpses.size() > 1 || has_item ) {
+    if( corpses.size() > 1 || !disassembles.empty() || !salvageables.empty() ) {
         uimenu kmenu;
-        if( has_item && has_corpse ) {
-            kmenu.text = _("Choose corpse to butcher / item to disassemble");
-        } else if (has_corpse) {
-            kmenu.text = _("Choose corpse to butcher");
-        } else {
-            kmenu.text = _("Choose item to disassemble");
-        }
+        kmenu.text = _("Choose corpse to butcher / item to disassemble");
+
         kmenu.selected = 0;
-        for (size_t i = 0; i < corpses.size(); i++) {
-            const item &it = items[corpses[i]];
-            int hotkey = -1;
-            // First entry gets a hotkey matching the butcher command.
-            if (i == 0) {
-                const long butcher_key = inp_mngr.get_previously_pressed_key();
-                if (butcher_key != 0) {
-                    hotkey = butcher_key;
-                }
-            }
-            if (it.is_corpse()) {
-                kmenu.addentry(i, true, hotkey, it.get_mtype()->nname());
-            } else if( i < salvage_index ) {
-                kmenu.addentry(i, true, hotkey, it.tname());
-            } else {
-                std::stringstream ss;
-                ss << _("Cut up") << " " << it.tname();
-                kmenu.addentry( i, true, hotkey, ss.str() );
-            }
+        size_t i = 0;
+        add_corpses_to_menu( kmenu, items, corpses, i, false );
+        add_corpses_to_menu( kmenu, items, disassembles, i, false );
+        add_corpses_to_menu( kmenu, items, salvageables, i, true );
+
+        if( corpses.size() > 1 ) {
+            kmenu.addentry( MULTIBUTCHER, true, 'b',
+                _("Butcher everything") );
         }
-        if( multisalvage ) {
-            kmenu.addentry(corpses.size(), true, 'z', _("Cut up all you can"));
+        if( disassembles.size() > 1 ) {
+            kmenu.addentry( MULTIDISASSEMBLE_ONE, true, 'D',
+                _("Disassemble everything once") );
+            kmenu.addentry( MULTIDISASSEMBLE_ALL, true, 'd',
+                _("Disassemble everything") );
         }
-        int last_pos = corpses.size() + (int)multisalvage;
-        kmenu.addentry(last_pos, true, 'q', _("Cancel"));
+        if( salvageables.size() > 1 ) {
+            kmenu.addentry( MULTISALVAGE, true, 'z', _("Cut up all you can") );
+        }
+
+        kmenu.addentry( CANCEL, true, 'q', _("Cancel"));
         kmenu.return_invalid = true;
         kmenu.query();
-        if( kmenu.ret < 0 || kmenu.ret == last_pos ) {
+        if( kmenu.ret < 0 || kmenu.ret >= CANCEL ) {
             return;
         }
-        butcher_corpse_index = kmenu.ret;
+
+        size_t ret = (size_t)kmenu.ret;
+        if( ret >= MULTISALVAGE && ret < CANCEL ) {
+            butcher_type = BUTCHER_OTHER;
+            indexer_index = ret;
+        } else if( ret < corpses.size() ) {
+            butcher_type = BUTCHER_CORPSE;
+            indexer_index = ret;
+        } else if( ret < corpses.size() + disassembles.size() ) {
+            butcher_type = BUTCHER_DISASSEMBLE;
+            indexer_index = ret - corpses.size();
+        } else if( ret < corpses.size() + disassembles.size() + salvageables.size() ) {
+            butcher_type = BUTCHER_SALVAGE;
+            indexer_index = ret - corpses.size() - disassembles.size();
+        } else {
+            debugmsg( "Invalid butchery index: %d", ret );
+            return;
+        }
     }
 
-    if( multisalvage == true && butcher_corpse_index == (int)corpses.size() ) {
-        u.assign_activity( ACT_LONGSALVAGE, 0, salvage_tool_index );
-        return;
+    switch( butcher_type ) {
+    case BUTCHER_OTHER:
+        switch( indexer_index ) {
+        case MULTISALVAGE:
+            u.assign_activity( ACT_LONGSALVAGE, 0, salvage_tool_index );
+            break;
+        case MULTIBUTCHER:
+            u.assign_activity( ACT_BUTCHER, 0, -1 );
+            for( int i : corpses ) {
+                u.activity.values.push_back( i );
+            }
+            break;
+        case MULTIDISASSEMBLE_ONE:
+            u.disassemble_all( true );
+            break;
+        case MULTIDISASSEMBLE_ALL:
+            u.disassemble_all( false );
+            break;
+        default:
+            debugmsg("Invalid butchery type: %d", indexer_index );
+            return;
+        }
+        break;
+    case BUTCHER_CORPSE:
+        {
+            draw_ter();
+            int index = corpses[indexer_index];
+            u.assign_activity( ACT_BUTCHER, 0, -1 );
+            u.activity.values.push_back( index );
+        }
+        break;
+    case BUTCHER_DISASSEMBLE:
+        {
+            size_t index = disassembles[indexer_index];
+            u.disassemble( items[index], index, true );
+        }
+        break;
+    case BUTCHER_SALVAGE:
+        {
+            size_t index = salvageables[indexer_index];
+            salvage_iuse->cut_up( &u, salvage_tool, &items[index] );
+        }
+        break;
     }
-    item &dis_item = items[corpses[butcher_corpse_index]];
-    if( !dis_item.is_corpse() && butcher_corpse_index < (int)salvage_index) {
-        draw_ter();
-        u.disassemble(dis_item, corpses[butcher_corpse_index], true);
-        return;
-    } else if( !dis_item.is_corpse() ) {
-        salvage_iuse->cut_up( &u, salvage_tool, &items[corpses[butcher_corpse_index]] );
-        return;
-    }
-    const mtype *corpse = dis_item.get_mtype();
-    int time_to_cut = 0;
-    switch( corpse->size ) { // Time (roughly) in turns to cut up the corpse
-    case MS_TINY:
-        time_to_cut = 6;
-        break;
-    case MS_SMALL:
-        time_to_cut = 15;
-        break;
-    case MS_MEDIUM:
-        time_to_cut = 30;
-        break;
-    case MS_LARGE:
-        time_to_cut = 60;
-        break;
-    case MS_HUGE:
-        time_to_cut = 120;
-        break;
-    }
-    // At factor 0, 10 time_to_cut is 10 turns. At factor 50, it's 5 turns, at 75 it's 2.5
-    time_to_cut *= std::max( 25, 100 - factor );
-    if( time_to_cut < 500 ) {
-        time_to_cut = 500;
-    }
-    u.assign_activity(ACT_BUTCHER, time_to_cut, corpses[butcher_corpse_index]);
 }
 
 void game::eat(int pos)
@@ -11488,7 +11608,7 @@ void game::unload( item &it )
     long qty = target->ammo_remaining();
 
     if( target->ammo_type() == "plutonium" ) {
-        qty = target->ammo_remaining() / 500;
+        qty = target->ammo_remaining() / PLUTONIUM_CHARGES;
         if( qty > 0 ) {
             add_msg( _( "You recover %i unused plutonium." ), qty );
         } else {
@@ -11498,8 +11618,7 @@ void game::unload( item &it )
     }
 
     // Construct a new ammo item and try to drop it
-    item ammo( target->has_curammo() ? target->ammo_current() :
-               default_ammo( target->ammo_type() ), calendar::turn );
+    item ammo( target->ammo_current(), calendar::turn );
     ammo.charges = qty;
 
     if( !add_or_drop_with_msg( u, ammo ) ) {
@@ -11508,7 +11627,7 @@ void game::unload( item &it )
 
     // If we succeeded remove appropriate qty of ammo from the item
     if( target->ammo_type() == "plutonium" ) {
-        qty *= 500;
+        qty *= PLUTONIUM_CHARGES;
     }
 
     target->charges -= qty;
@@ -11818,7 +11937,7 @@ bool game::plmove(int dx, int dy, int dz)
         dest_loc.y = rng(u.posy() - 1, u.posy() + 1);
         dest_loc.z = u.posz();
     } else {
-        if( tile_iso && use_tiles ) {
+        if( tile_iso && use_tiles && !u.has_destination() ) {
             rotate_direction_cw(dx,dy);
         }
         dest_loc.x = u.posx() + dx;
@@ -14735,7 +14854,7 @@ void game::add_artifact_messages(std::vector<art_effect_passive> effects)
 
         case AEP_PBLUE:
             break; // No message
-            
+
         case AEP_SNAKES:
             add_msg(m_warning, _("Your skin feels slithery."));
             break;

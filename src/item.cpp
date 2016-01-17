@@ -697,20 +697,16 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                                               mod->tname().c_str() ) ) );
         }
         islot_gun *gun = mod->type->gun.get();
-        int ammo_dam = 0;
-        int ammo_range = 0;
-        int ammo_recoil = 0;
-        int ammo_pierce = 0;
-        int ammo_dispersion = 0;
-        bool has_ammo = (mod->has_curammo() && mod->ammo_remaining() > 0);
-        if (has_ammo) {
-            const auto curammo = mod->get_curammo()->ammo.get();
-            ammo_dam = curammo->damage;
-            ammo_range = curammo->range;
-            ammo_recoil = curammo->recoil;
-            ammo_pierce = curammo->pierce;
-            ammo_dispersion = curammo->dispersion;
-        }
+        const auto curammo = mod->ammo_data();
+
+        bool has_ammo = curammo && mod->ammo_remaining();
+
+        int ammo_dam        = has_ammo ? curammo->ammo->damage     : 0;
+        int ammo_range      = has_ammo ? curammo->ammo->range      : 0;
+        int ammo_recoil     = has_ammo ? curammo->ammo->recoil     : 0;
+        int ammo_pierce     = has_ammo ? curammo->ammo->pierce     : 0;
+        int ammo_dispersion = has_ammo ? curammo->ammo->dispersion : 0;
+
         const auto skill = &mod->gun_skill().obj();
 
         info.push_back( iteminfo( "GUN", _( "Skill used: " ), "<info>" + skill->name() + "</info>" ) );
@@ -1958,7 +1954,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
     std::string damtext = "";
     if ((damage != 0 || ( OPTIONS["ITEM_HEALTH_BAR"] && is_armor() )) && !is_null() && with_prefix) {
         if( damage < 0 )  {
-            if( damage < -1 ) {
+            if( damage < MIN_ITEM_DAMAGE ) {
                 damtext = rm_prefix(_("<dam_adj>bugged "));
             } else if ( OPTIONS["ITEM_HEALTH_BAR"] ) {
                 auto const &nc_text = get_item_hp_bar(damage);
@@ -2221,7 +2217,7 @@ int item::price() const
     }
 
     // tools, guns and auxiliary gunmods may contain ammunition which can affect the price
-    if( ammo_remaining() > 0 && has_curammo() ) {
+    if( ammo_remaining() > 0 && ammo_current() != "null" ) {
         item tmp( ammo_current(), 0 );
         tmp.charges = charges;
         ret += tmp.price();
@@ -2241,52 +2237,47 @@ int item::price() const
 // MATERIALS-TODO: add a density field to materials.json
 int item::weight() const
 {
-    if( is_corpse() ) {
-        int ret = 0;
-        switch (corpse->size) {
+    if( is_null() ) {
+        return 0;
+    }
+
+    int ret = get_var( "weight", type->weight );
+    if( has_flag( "REDUCED_WEIGHT" ) ) {
+        ret *= 0.75;
+    }
+
+    if( count_by_charges() ) {
+        ret *= charges;
+
+    } else if( ammo_capacity() > 0 ) {
+        if ( ammo_type() == "plutonium" ) {
+            ret += ammo_remaining() * find_type( default_ammo( ammo_type() ) )->weight / PLUTONIUM_CHARGES;
+        } else if( ammo_data() ) {
+            ret += ammo_remaining() * ammo_data()->weight;
+        }
+
+    } else if( is_corpse() ) {
+        switch( corpse->size ) {
             case MS_TINY:   ret =   1000;  break;
             case MS_SMALL:  ret =  40750;  break;
             case MS_MEDIUM: ret =  81500;  break;
             case MS_LARGE:  ret = 120000;  break;
             case MS_HUGE:   ret = 200000;  break;
         }
-        if (made_of("veggy")) {
+        if( made_of( "veggy" ) ) {
             ret /= 3;
         }
-        if( corpse->in_species( FISH ) || corpse->in_species( BIRD ) || corpse->in_species( INSECT ) || made_of("bone")) {
+        if( corpse->in_species( FISH ) || corpse->in_species( BIRD ) || corpse->in_species( INSECT ) || made_of( "bone" ) ) {
             ret /= 8;
-        } else if (made_of("iron") || made_of("steel") || made_of("stone")) {
+        } else if ( made_of( "iron" ) || made_of( "steel" ) || made_of( "stone" ) ) {
             ret *= 7;
         }
-        return ret;
     }
 
-    if( is_null() ) {
-        return 0;
-    }
-
-    int ret = type->weight;
-    ret = get_var( "weight", ret );
-
-    if (has_flag("REDUCED_WEIGHT")) {
-        ret *= 0.75;
-    }
-
-    if (count_by_charges()) {
-        ret *= charges;
-    } else if (type->gun && charges >= 1 && has_curammo() ) {
-        ret += get_curammo()->weight * charges;
-    } else if (type->is_tool() && charges >= 1 && ammo_type() != "NULL") {
-        if( ammo_type() == "plutonium" ) {
-            ret += find_type(default_ammo(this->ammo_type()))->weight * charges / 500;
-        } else {
-            ret += find_type(default_ammo(this->ammo_type()))->weight * charges;
-        }
-    }
     for( auto &elem : contents ) {
         ret += elem.weight();
-        if( elem.is_gunmod() && elem.charges >= 1 && elem.has_curammo() ) {
-            ret += elem.get_curammo()->weight * elem.charges;
+        if( elem.is_gunmod() && elem.ammo_data() ) {
+            ret += elem.ammo_data()->weight * elem.ammo_remaining();
         }
     }
 
@@ -2297,8 +2288,8 @@ int item::weight() const
     }
 
 
-// tool mods also add about a pound of weight
-    if (has_flag("ATOMIC_AMMO")) {
+    // tool mods also add about a pound of weight
+    if( has_flag("ATOMIC_AMMO") ) {
         ret += 250;
     }
 
@@ -2789,7 +2780,7 @@ int item::brewing_time() const
 
 bool item::can_revive() const
 {
-    if ( is_corpse() && corpse->has_flag(MF_REVIVES) && damage < 4) {
+    if( is_corpse() && corpse->has_flag( MF_REVIVES ) && damage < CORPSE_PULP_THRESHOLD ) {
         return true;
     }
     return false;
@@ -3005,7 +2996,7 @@ int item::fire_resist( bool to_self ) const
 
 int item::chip_resistance( bool worst ) const
 {
-    if( damage > 4 ) {
+    if( damage > MAX_ITEM_DAMAGE ) {
         return 0;
     }
 
@@ -3688,8 +3679,8 @@ int item::gun_dispersion( bool with_ammo ) const
     }
     dispersion_sum += damage * 60;
     dispersion_sum = std::max(dispersion_sum, 0);
-    if( with_ammo && has_curammo() ) {
-        dispersion_sum += get_curammo()->ammo->dispersion;
+    if( with_ammo && ammo_data() ) {
+        dispersion_sum += ammo_data()->ammo->dispersion;
     }
     dispersion_sum = std::max(dispersion_sum, 0);
     return dispersion_sum;
@@ -3756,8 +3747,8 @@ int item::gun_damage( bool with_ammo ) const
         return 0;
     }
     int ret = type->gun->damage;
-    if( with_ammo && has_curammo() ) {
-        ret += get_curammo()->ammo->damage;
+    if( with_ammo && ammo_data() ) {
+        ret += ammo_data()->ammo->damage;
     }
     for( auto & elem : contents ) {
         if( elem.is_gunmod() ) {
@@ -3774,8 +3765,8 @@ int item::gun_pierce( bool with_ammo ) const
         return 0;
     }
     int ret = type->gun->pierce;
-    if( with_ammo && has_curammo() ) {
-        ret += get_curammo()->ammo->pierce;
+    if( with_ammo && ammo_data() ) {
+        ret += ammo_data()->ammo->pierce;
     }
     for( auto &elem : contents ) {
         if( elem.is_gunmod() ) {
@@ -3813,8 +3804,8 @@ int item::gun_recoil( bool with_ammo ) const
         return 0;
     }
     int ret = type->gun->recoil;
-    if( with_ammo && has_curammo() ) {
-        ret += get_curammo()->ammo->recoil;
+    if( with_ammo && ammo_data() ) {
+        ret += ammo_data()->ammo->recoil;
     }
     for( auto & elem : contents ) {
         if( elem.is_gunmod() ) {
@@ -3836,13 +3827,13 @@ int item::gun_range( bool with_ammo ) const
             ret += elem.type->gunmod->range;
         }
     }
-    if( has_flag( "NO_AMMO" ) && !has_curammo() ) {
+    if( has_flag( "NO_AMMO" ) && !ammo_data() ) {
         return ret;
     }
     if( with_ammo && is_charger_gun() ) {
         ret += 5 + charges * 5;
-    } else if( with_ammo && has_curammo() ) {
-        ret += get_curammo()->ammo->range;
+    } else if( with_ammo && ammo_data() ) {
+        ret += ammo_data()->ammo->range;
     }
     return std::max( 0, ret );
 }
@@ -3984,12 +3975,6 @@ bool item::ammo_consume( int qty ) {
     return false;
 }
 
-itype_id item::ammo_current() const
-{
-    const auto ammo = ammo_data();
-    return ammo ? ammo->id : "null";
-}
-
 const itype * item::ammo_data() const
 {
     // @todo handle magazines
@@ -4003,6 +3988,15 @@ const itype * item::ammo_data() const
     }
 
     return curammo;
+}
+
+    return curammo;
+}
+
+itype_id item::ammo_current() const
+{
+    const auto ammo = ammo_data();
+    return ammo ? ammo->id : "null";
 }
 
 ammotype item::ammo_type() const
@@ -4187,21 +4181,25 @@ item_location item::pick_reload_ammo( player &u, bool interactive ) const
 }
 
 // Helper to handle ejecting casings from guns that require them to be manually extracted.
-static void eject_casings( player &p, item *reload_target, itype_id casing_type )
+static void eject_casings( player &p, item& target )
 {
-    if( reload_target->has_flag("RELOAD_EJECT") && casing_type != "NULL" && !casing_type.empty() ) {
-        const int num_casings = reload_target->get_var( "CASINGS", 0 );
-        if( num_casings > 0 ) {
-            item casing( casing_type, 0);
-            // Casings need a count of one to stack properly.
-            casing.charges = 1;
-            // Drop all the casings on the ground under the player.
-            for( int i = 0; i < num_casings; ++i ) {
-                g->m.add_item_or_charges(p.posx(), p.posy(), casing);
-            }
-            reload_target->erase_var( "CASINGS" );
-        }
+    const auto curammo = target.ammo_data();
+
+    if( !target.has_flag( "RELOAD_EJECT" ) || !curammo ||
+        curammo->ammo->casing == "NULL" || curammo->ammo->casing.empty() ) {
+        return;
     }
+
+    // Casings need a count of one to stack properly.
+    item casing( curammo->ammo->casing, calendar::turn );
+    casing.charges = 1;
+
+    // Drop all the casings on the ground under the player.
+    for( auto i = target.get_var( "CASINGS", 0 ); i > 0 ; --i ) {
+        g->m.add_item_or_charges( p.posx(), p.posy(), casing );
+    }
+
+    target.erase_var( "CASINGS" );
 }
 
 bool item::reload( player &u, int pos )
@@ -4291,10 +4289,7 @@ bool item::reload( player &u, item_location loc )
     // If we found a suitable target, try and reload it
     if ( target ) {
 
-        // we eject casings from the base item rather than the target
-        if( has_curammo() ) {
-            eject_casings( u, target, get_curammo()->ammo->casing );
-        }
+        eject_casings( u, *target );
 
         if( target->is_magazine() ) {
             qty = std::min(qty, ammo->charges);
@@ -5300,7 +5295,7 @@ bool item::update_charger_gun_ammo()
     if( ammo_current() != CHARGER_GUN_AMMO_ID ) {
         set_curammo( CHARGER_GUN_AMMO_ID );
     }
-    auto tmpammo = get_curammo()->ammo.get();
+    const auto tmpammo = ammo_data()->ammo.get();
 
     long charges = num_charges();
     tmpammo->damage = charges * charges;

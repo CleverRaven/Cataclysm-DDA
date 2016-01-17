@@ -647,6 +647,14 @@ void try_sdl_update()
     }
 }
 
+//for resetting the render target after updating texture caches in cata_tiles.cpp
+void set_displaybuffer_rendertarget()
+{
+    if( SDL_SetRenderTarget( renderer, display_buffer ) != 0 ) {
+        dbg(D_ERROR) << "SDL_SetRenderTarget failed: " << SDL_GetError();
+    }
+}
+
 // line_id is one of the LINE_*_C constants
 // FG is a curses color
 void Font::draw_ascii_lines(unsigned char line_id, int drawx, int drawy, int FG) const
@@ -717,6 +725,12 @@ void reinitialize_framebuffer()
     }
 }
 
+void clear_window_area(WINDOW* win)
+{
+    FillRectDIB(win->x * fontwidth, win->y * fontheight,
+                win->width * fontwidth, win->height * fontheight, COLOR_BLACK);
+}
+
 extern WINDOW *w_hit_animation;
 void curses_drawwindow(WINDOW *win)
 {
@@ -769,10 +783,9 @@ void curses_drawwindow(WINDOW *win)
         int wheight = win->height * font->fontheight;
         FillRectDIB(offsetx, offsety, wwidth, wheight, COLOR_BLACK);
         update = true;
-    } else if (g && win == g->w_pixel_minimap && OPTIONS["PIXEL_MINIMAP"]) {
+    } else if (g && win == g->w_pixel_minimap && g->pixel_minimap_option) {
         // Make sure the entire minimap window is black before drawing.
-        FillRectDIB(win->x * fontwidth, win->y * fontheight,
-                    win->width * fontwidth, win->height * fontheight, COLOR_BLACK);
+        clear_window_area(win);
         tilecontext->draw_minimap(
             win->x * fontwidth, win->y * fontheight,
             tripoint( g->u.pos().x, g->u.pos().y, g->ter_view_z ),
@@ -1763,13 +1776,12 @@ bool input_context::get_coordinates(WINDOW* capture_win, int& x, int& y) {
     }
 
     if ( tile_iso && use_tiles ) {
-        const int selected_column = (coordinate_x - win_left)/fw - (coordinate_y - win_top - fh - (capture_win->height * fh)/2)/(fw/2);
-        const int selected_row = (coordinate_x - win_left)/fw + (coordinate_y - win_top - fh - (capture_win->height * fh)/2)/(fw/2);
-        // add_msg( m_info, "c %d r %d", selected_column, selected_row );
-        x = g->ter_view_x - ((capture_win->width / 2) - selected_column);
-        y = g->ter_view_y - ((capture_win->height / 2) - selected_row);
-        // add_msg( m_info, "gtvx %d gtvy %d x %d y %d", g->ter_view_x, g->ter_view_y, x, y );
-
+        const int screen_column = round( (float) ( coordinate_x - win_left - (( win_right - win_left ) / 2 + win_left ) ) / ( fw / 2 ) );
+        const int screen_row = round( (float) ( coordinate_y - win_top - ( win_bottom - win_top ) / 2 + win_top ) / ( fw / 4 ) );
+        const int selected_x = ( screen_column - screen_row ) / 2;
+        const int selected_y = ( screen_row + screen_column ) / 2;
+        x = g->ter_view_x + selected_x;
+        y = g->ter_view_y + selected_y;
     } else {
         const int selected_column = (coordinate_x - win_left) / fw;
         const int selected_row = (coordinate_y - win_top) / fh;

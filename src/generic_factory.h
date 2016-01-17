@@ -110,12 +110,14 @@ class generic_factory
 
         std::string type_name;
 
-        void load_override( const string_id<T> &id, JsonObject &jo ) {
+        T &load_override( const string_id<T> &id, JsonObject &jo ) {
             T obj;
             obj.id = id;
             obj.load( jo );
             obj.was_loaded = true;
-            data[id] = std::move( obj );
+            T &result = data[id];
+            result = std::move( obj );
+            return result;
         }
 
     public:
@@ -133,9 +135,10 @@ class generic_factory
          * calling `T::load(jo)` (either on a new object or on an existing object).
          * See class documentation for intended behavior of that function.
          *
+         * @return A reference to the loaded/modified object.
          * @throws JsonError If loading fails for any reason (thrown by `T::load`).
          */
-        void load( JsonObject &jo ) {
+        T &load( JsonObject &jo ) {
             const string_id<T> id( jo.get_string( "id" ) );
             const auto iter = data.find( id );
             const bool exists = iter != data.end();
@@ -144,22 +147,24 @@ class generic_factory
             // existing objects.
             const std::string mode = jo.get_string( "edit-mode", "create" );
             if( mode == "override" ) {
-                load_override( id, jo );
+                return load_override( id, jo );
 
             } else if( mode == "modify" ) {
                 if( !exists ) {
                     jo.throw_error( "missing definition of " + type_name + " \"" + id.str() + "\" to be modified", "id" );
                 }
                 iter->second.load( jo );
+                return iter->second;
 
             } else if( mode == "create" ) {
                 if( exists ) {
                     jo.throw_error( "duplicated definition of " + type_name + " \"" + id.str() + "\"", "id" );
                 }
-                load_override( id, jo );
+                return load_override( id, jo );
 
             } else {
                 jo.throw_error( "invalid edit mode, must be \"create\", \"modify\" or \"override\"", "edit-mode" );
+                throw; // dummy, throw_error always throws
             }
         }
         /**
@@ -292,6 +297,9 @@ class Dummy2 {
 };
 \endcode
 
+Both versions of `optional` have yet another overload that does not require an explicit default
+value, a default initialized object of the member type will be used instead.
+
 ----
 
 Readers must provide the following function:
@@ -328,13 +336,46 @@ inline void mandatory( JsonObject &jo, const bool was_loaded, const std::string 
         }
     }
 }
-template<typename MemberType, typename DefaultType = MemberType>
+
+template<typename MemberType>
+inline void optional( JsonObject &jo, const bool was_loaded, const std::string &name,
+                      MemberType &member )
+{
+    if( !jo.read( name, member ) ) {
+        if( !was_loaded ) {
+            member = MemberType();
+        }
+    }
+}
+/*
+Template trickery, not for the faint of heart. It is required because there are two functions
+with 5 parameters. The first 4 are always the same: JsonObject, bool, member name, member reference.
+The last one is different: in one case it's the default value, in the other case it's the reader
+and there is no explicit default value there.
+The enable_if stuff assumes that a `MemberType` can not be constructed from a `ReaderType`, in other
+words: `MemberType foo( ReaderType(...) );` does not work. This is what `is_constructible` checks.
+If the 5. parameter can be used to construct a `MemberType`, it is assumed to be the default value,
+otherwise it is assumed to be the reader.
+*/
+template<typename MemberType, typename DefaultType = MemberType,
+         typename = typename std::enable_if<std::is_constructible<MemberType, const DefaultType &>::value>::type>
 inline void optional( JsonObject &jo, const bool was_loaded, const std::string &name,
                       MemberType &member, const DefaultType &default_value )
 {
     if( !jo.read( name, member ) ) {
         if( !was_loaded ) {
             member = default_value;
+        }
+    }
+}
+template<typename MemberType, typename ReaderType, typename DefaultType = MemberType,
+         typename = typename std::enable_if<!std::is_constructible<MemberType, const ReaderType &>::value>::type>
+inline void optional( JsonObject &jo, const bool was_loaded, const std::string &name,
+                      MemberType &member, const ReaderType &reader )
+{
+    if( !reader( jo, name, member, was_loaded ) ) {
+        if( !was_loaded ) {
+            member = MemberType();
         }
     }
 }
@@ -385,9 +426,9 @@ inline bool one_char_symbol_reader( JsonObject &jo, const std::string &member_na
 }
 
 /**
- * Base class for reading generic objects based on a single string.
+ * Base class for reading generic objects from JSON.
  * It can load members being certain containers or being a single value.
- * @ref convert needs to be implemented to translate the JSON string to the flag type.
+ * @ref get_next needs to be implemented to read and convert the data from JSON.
  *
  * - If the object is new (`was_loaded` is `false`), only the given JSON member is read
  *   and assigned, overriding any existing content of it.
@@ -401,8 +442,8 @@ inline bool one_char_symbol_reader( JsonObject &jo, const std::string &member_na
  * Loading the set again from the JSON `{ "remove:f": ["c","x"], "add:f": ["h"] }` would add the
  * "h" flag and removes the "c" and the "x" flag, resulting in `{"a","b","h"}`.
  *
- * @tparam F The type of the loaded object, e.g. a flag enum or a string_id or just a string.
- *           This type is the result of the conversion form the JSON string and this type is
+ * @tparam F The type of the loaded object, e.g. a flag enum or a string_id or anything.
+ *           This type is the result of the conversion form the JSON data and this type is
  *           used when interacting with the member that is to be loaded.
  */
 template<typename F>
@@ -411,22 +452,40 @@ class generic_typed_reader
     public:
         using FlagType = F;
         virtual ~generic_typed_reader() = default;
+
         /**
-         * Does the conversion from string (as read from JSON) to the generic type.
-         * `jo` and `member_name` should only be used to throw an exception.
-         * The string that should be converted is already loaded from JSON: `data`.
+         * The function should read the next value from the JSON stream, convert it to the
+         * required type (`F`) and return it.
+         *
+         * A simple implementation for `F` being `std::string` can look like this:
+         * `return jin.get_string();`, or for a complex type:
+         * \code
+         *   JsonObject subobj = jin.get_object();
+         *   return std::make_pair( subobj.get_string( "skill" ), subobj.get_int( "level" ) );
+         * \endcode
+         *
+         * Errors should be reported via exceptions (see @ref JsonIn::error).
          */
-        virtual FlagType convert( const std::string &data, JsonObject &jo,
-                                  const std::string &member_name ) const = 0;
+        virtual FlagType get_next( JsonIn &jin ) const = 0;
 
         /**
          * Loads the set from JSON, similar to `JsonObject::get_tags`, but returns
-         * a properly typed set.
+         * a properly typed set. It uses the @ref get_next to actually read the typed
+         * values.
          */
         std::set<FlagType> get_tags( JsonObject &jo, const std::string &member_name ) const {
             std::set<FlagType> result;
-            for( auto && data : jo.get_tags( member_name ) ) {
-                result.insert( convert( data, jo, member_name ) );
+            if( !jo.has_member( member_name ) ) {
+                return result;
+            }
+            JsonIn &jin = *jo.get_raw( member_name );
+            if( jin.test_array() ) {
+                jin.start_array();
+                while( !jin.end_array() ) {
+                    result.insert( get_next( jin ) );
+                }
+            } else {
+                result.insert( get_next( jin ) );
             }
             return result;
         }
@@ -468,7 +527,7 @@ class generic_typed_reader
             if( !jo.has_member( member_name ) ) {
                 return false;
             }
-            member = convert( jo.get_string( member_name ), jo, member_name );
+            member = get_next( *jo.get_raw( member_name ) );
             return true;
         }
 
@@ -527,9 +586,9 @@ class generic_typed_reader
 class color_reader : public generic_typed_reader<nc_color>
 {
     public:
-        nc_color convert( const std::string &data, JsonObject &, const std::string & ) const override {
+        nc_color get_next( JsonIn &jin ) const override {
             // TODO: check for valid color name
-            return color_from_string( data );
+            return color_from_string( jin.get_string() );
         }
 };
 
@@ -549,8 +608,8 @@ template<typename FlagType = std::string>
 class auto_flags_reader : public generic_typed_reader<FlagType>
 {
     public:
-        FlagType convert( const std::string &flag, JsonObject &, const std::string & ) const override {
-            return FlagType( flag );
+        FlagType get_next( JsonIn &jin ) const override {
+            return FlagType( jin.get_string() );
         }
 };
 
@@ -580,11 +639,13 @@ class typed_flag_reader : public generic_typed_reader<typename C::mapped_type>
             , error_msg( e ) {
         }
 
-        typename C::mapped_type convert( const std::string &flag, JsonObject &jo,
-                                         const std::string &member_name ) const override {
+        typename C::mapped_type get_next( JsonIn &jin ) const override {
+            const auto position = jin.tell();
+            const std::string flag = jin.get_string();
             const auto iter = flag_map.find( flag );
             if( iter == flag_map.end() ) {
-                jo.throw_error( error_msg + ": \"" + flag + "\"" , member_name );
+                jin.seek( position );
+                jin.error( error_msg + ": \"" + flag + "\"" );
             }
             return iter->second;
         }
@@ -594,15 +655,18 @@ class typed_flag_reader : public generic_typed_reader<typename C::mapped_type>
  * Uses @ref io::string_to_enum to convert the string from JSON to a C++ enum.
  */
 template<typename E>
-class enum_flags_reader : generic_typed_reader<E>
+class enum_flags_reader : public generic_typed_reader<E>
 {
     public:
-        E convert( const std::string &flag, JsonObject &jo,
-                   const std::string &member_name ) const override {
+        E get_next( JsonIn &jin ) const override {
+            const auto position = jin.tell();
+            const std::string flag = jin.get_string();
             try {
                 return io::string_to_enum<E>( flag );
             } catch( const io::InvalidEnumString & ) {
-                jo.throw_error( "invalid enumeration value: \"" + flag + "\"", member_name );
+                jin.seek( position );
+                jin.error( "invalid enumeration value: \"" + flag + "\"" );
+                throw; // ^^ throws already
             }
         }
 };
