@@ -684,8 +684,8 @@ public:
          * or VisitResponse::Abort to skip further processing of any nodes.
          * @return This method itself only ever returns VisitResponse::Next or VisitResponse::Abort.
          */
-        VisitResponse visit( const std::function<VisitResponse(item&)>& func );
-        VisitResponse visit( const std::function<VisitResponse(const item&)>& func ) const;
+        VisitResponse visit_items( const std::function<VisitResponse(item&)>& func );
+        VisitResponse visit_items( const std::function<VisitResponse(const item&)>& func ) const;
 
         /** Check if this item contains one or more items matching filter */
         bool contains( const std::function<bool(const item&)>& filter ) const;

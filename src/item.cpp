@@ -4074,7 +4074,7 @@ item_location item::pick_reload_ammo( player &u, bool interactive ) const
 
     // first check the inventory for suitable ammo
     std::vector<item_location> ammo_list;
-    u.visit( [&]( const item& it ) {
+    u.visit_items( [&]( const item& it ) {
         // @todo handle magazines
         if( it.is_ammo() && ( item_types.count( it.typeId() ) || ammo_types.count( it.ammo_type() ) ) ) {
             auto loc = item_location::on_character( u, &it );
@@ -4824,14 +4824,14 @@ void item::mark_as_used_by_player(const player &p)
     used_by_ids += string_format( "%d;", p.getID() );
 }
 
-VisitResponse item::visit( const std::function<VisitResponse(item&)>& func ) {
+VisitResponse item::visit_items( const std::function<VisitResponse(item&)>& func ) {
     switch( func( *this ) ) {
         case VisitResponse::ABORT:
             return VisitResponse::ABORT;
 
         case VisitResponse::NEXT:
             for( auto& e : contents ) {
-                if( e.visit( func ) == VisitResponse::ABORT ) {
+                if( e.visit_items( func ) == VisitResponse::ABORT ) {
                     return VisitResponse::ABORT;
                 }
             }
@@ -4845,12 +4845,12 @@ VisitResponse item::visit( const std::function<VisitResponse(item&)>& func ) {
     return VisitResponse::ABORT;
 }
 
-VisitResponse item::visit( const std::function<VisitResponse(const item&)>& func ) const {
-    return const_cast<item *>( this )->visit( static_cast<const std::function<VisitResponse(item&)>&>( func ) );
+VisitResponse item::visit_items( const std::function<VisitResponse(const item&)>& func ) const {
+    return const_cast<item *>( this )->visit_items( static_cast<const std::function<VisitResponse(item&)>&>( func ) );
 }
 
 bool item::contains( const std::function<bool(const item&)>& filter ) const {
-    return visit( [&filter] ( const item& e ) {
+    return visit_items( [&filter] ( const item& e ) {
         return filter( e ) ? VisitResponse::ABORT : VisitResponse::NEXT;
     }) == VisitResponse::ABORT;
 }

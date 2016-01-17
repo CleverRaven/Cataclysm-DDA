@@ -1183,10 +1183,10 @@ std::set<char> inventory::allocated_invlets() const
     return invlets;
 }
 
-VisitResponse inventory::visit( const std::function<VisitResponse(item&)>& func ) {
+VisitResponse inventory::visit_items( const std::function<VisitResponse(item&)>& func ) {
     for( auto &stack : items ) {
         for( auto &it : stack ) {
-            if( it.visit( func ) == VisitResponse::ABORT ) {
+            if( it.visit_items( func ) == VisitResponse::ABORT ) {
                 return VisitResponse::ABORT;
             }
         }
@@ -1194,13 +1194,13 @@ VisitResponse inventory::visit( const std::function<VisitResponse(item&)>& func 
     return VisitResponse::NEXT;
 }
 
-VisitResponse inventory::visit( const std::function<VisitResponse(const item&)>& func ) const {
-    return const_cast<inventory *>( this )->visit( static_cast<const std::function<VisitResponse(item&)>&>( func ) );
+VisitResponse inventory::visit_items( const std::function<VisitResponse(const item&)>& func ) const {
+    return const_cast<inventory *>( this )->visit_items( static_cast<const std::function<VisitResponse(item&)>&>( func ) );
 }
 
 std::vector<item *> inventory::items_with( const std::function<bool(const item&)>& filter ) {
     std::vector<item *> res;
-    visit( [&res, &filter]( item& it ) {
+    visit_items( [&res, &filter]( item& it ) {
         if( filter( it ) ) {
             res.emplace_back( &it );
         }
@@ -1211,7 +1211,7 @@ std::vector<item *> inventory::items_with( const std::function<bool(const item&)
 
 std::vector<const item *> inventory::items_with( const std::function<bool(const item&)>& filter ) const {
     std::vector<const item *> res;
-    visit( [&res, &filter]( const item& it ) {
+    visit_items( [&res, &filter]( const item& it ) {
         if( filter( it ) ) {
             res.emplace_back( &it );
         }
@@ -1221,7 +1221,7 @@ std::vector<const item *> inventory::items_with( const std::function<bool(const 
 }
 
 bool inventory::has_item_with( const std::function<bool(const item&)>& filter ) const {
-    return visit( [&filter]( const item& it ) {
+    return visit_items( [&filter]( const item& it ) {
         return filter( it ) ? VisitResponse::ABORT : VisitResponse::NEXT;
     } ) == VisitResponse::ABORT;
 }
