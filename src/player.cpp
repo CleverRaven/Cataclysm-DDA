@@ -10468,17 +10468,19 @@ bool player::can_unwield( const item& it, bool interactive ) const
 
 bool player::wield( item& target, bool )
 {
-    if (weapon.has_flag("NO_UNWIELD")) {
-        add_msg(m_info, _("You cannot unwield your %s!  Withdraw them with 'p'."),
-                weapon.tname().c_str());
+    if( ( !weapon.is_null() && !can_unwield( weapon ) ) ||
+        ( !target.is_null() && !can_wield  ( target ) ) ) {
+        return false;
+    }
+
+    if( &weapon == &target ) {
+        if( !weapon.is_null() ) {
+            add_msg( m_info, _( "You're already wielding that!" ) );
+        }
         return false;
     }
 
     if( target.is_null() ) {
-        if( weapon.is_null() ) {
-            return false;
-        }
-
         uimenu prompt;
         prompt.text = string_format( _( "Stop wielding %s?" ), weapon.tname().c_str() );
         std::vector<std::function<void()>> actions;
@@ -10514,15 +10516,6 @@ bool player::wield( item& target, bool )
                 return true;
             }
         }
-        return false;
-    }
-
-    if( &weapon == &target ) {
-        add_msg(m_info, _("You're already wielding that!"));
-        return false;
-    }
-
-    if( !can_wield( target ) ) {
         return false;
     }
 
