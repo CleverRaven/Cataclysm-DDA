@@ -698,7 +698,11 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
           * @param it item to check which must not be a null item
           * @param interactive display reason for any failure */
         bool can_unwield( const item& it, bool interactive = true ) const;
-        /** Wields an item, returns false on failed wield */
+        /**
+         * Removes currently wielded item (if any) and replaces it with the target item
+         * @param target replacement item to wield or null item to remove existing weapon without replacing it
+         * @return whether both removal and replacement were successful (they are performed atomically)
+         */
         virtual bool wield( item& target );
         /** Creates the UI and handles player input for picking martial arts styles */
         bool pick_style();
