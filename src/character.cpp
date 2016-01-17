@@ -550,19 +550,18 @@ item& Character::i_at(int position)
 
 int Character::get_item_position( const item *it ) const
 {
-    const auto filter = [it]( const item & i ) {
-        return &i == it;
-    };
-    if( inventory::has_item_with_recursive( weapon, filter ) ) {
+    if( weapon.contains( it ) ) {
         return -1;
     }
-    int i = 0;
-    for( auto &iter : worn ) {
-        if( inventory::has_item_with_recursive( iter, filter ) ) {
-            return worn_position_to_index( i );
+
+    int p = 0;
+    for( const auto &e : worn ) {
+        if( e.contains( it ) ) {
+            return worn_position_to_index( p );
         }
-        i++;
+        p++;
     }
+
     return inv.position_by_item( it );
 }
 
