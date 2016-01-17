@@ -1353,7 +1353,7 @@ int blocking_ability( const item &shield )
     return block_bonus;
 }
 
-item &player::best_shield()
+std::string player::best_shield() const
 {
     int weapon_block = blocking_ability( weapon );
     for( item &shield : worn ) {
