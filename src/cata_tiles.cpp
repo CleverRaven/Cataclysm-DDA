@@ -871,12 +871,11 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
     const int min_row = 0;
     const int max_row = sy;
 
-    //limit the render area to what is available in the visibility cache
-    const int min_visible_x = 0;
-    const int max_visible_x = MAPSIZE * SEEX - 1;
-
-    const int min_visible_y = 0;
-    const int max_visible_y = MAPSIZE * SEEY - 1;
+    //limit the render area to maximum view range (121x121 square centred on player)
+    const int min_visible_x = g->u.posx() % SEEX;
+    const int min_visible_y = g->u.posy() % SEEY;
+    const int max_visible_x = ( g->u.posx() % SEEX ) + ( MAPSIZE - 1 ) * SEEX;
+    const int max_visible_y = ( g->u.posy() % SEEY ) + ( MAPSIZE - 1 ) * SEEY;
 
     tripoint temp;
     temp.z = center.z;
@@ -898,10 +897,10 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
         std::vector<tile_render_info> draw_points;
         draw_points.reserve(max_col);
         for( int col = min_col; col < max_col; col ++) {
-            if (iso_mode) {
+            if(iso_mode) {
                 //in isometric, rows and columns represent a checkerboard screen space, and we place
                 //the appropriate tile in valid squares by getting position relative to the screen centre.
-                if ( (row + o_y ) % 2 != (col + o_x) % 2 ) {
+                if( (row + o_y ) % 2 != (col + o_x) % 2 ) {
                     continue;
                 }
                 x = ( col  - row - sx/2 + sy/2 ) / 2 + o_x;
@@ -911,9 +910,14 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
                 x = col + o_x;
                 y = row + o_y;
             }
-            if( ( (y < min_visible_y || y > max_visible_y) || (x < min_visible_x ||
-                             x > max_visible_x))) {
-                apply_vision_effects( temp, offscreen_type );
+            if( y < min_visible_y || y > max_visible_y || x < min_visible_x || x > max_visible_x ) {
+                // draw 1 tile border of offscreen_type around the edge of the max visible area.
+                // This is perhaps unnecessary. It only affects tilesets that have a "dark" tile
+                // distinguishable from black, allowing them to denote the border of max view range.
+                // Adds 4 int comparisons per checked off-map tile, and max 480 extra textures drawn.
+                if( y >= min_visible_y - 1 && y <= max_visible_y + 1 && x >= min_visible_x - 1 && x <= max_visible_x + 1 ) {
+                    apply_vision_effects( temp, offscreen_type );
+                }
                 continue;
             }
 
