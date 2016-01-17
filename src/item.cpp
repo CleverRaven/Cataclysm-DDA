@@ -4849,6 +4849,12 @@ VisitResponse item::visit( const std::function<VisitResponse(const item&)>& func
     return const_cast<item *>( this )->visit( static_cast<const std::function<VisitResponse(item&)>&>( func ) );
 }
 
+bool item::contains( const std::function<bool(const item&)>& filter ) const {
+    return visit( [&filter] ( const item& e ) {
+        return filter( e ) ? VisitResponse::ABORT : VisitResponse::NEXT;
+    }) == VisitResponse::ABORT;
+}
+
 bool item::can_holster ( const item& obj ) const {
     if( !type->can_use("holster") ) {
         return false; // item is not a holster
