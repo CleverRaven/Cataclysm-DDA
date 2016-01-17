@@ -330,61 +330,53 @@ void player::fire_gun( item& gun, const tripoint &targ, long burst_size )
 
 void player::fire_gun( item& gun, const tripoint &targ_arg, bool burst )
 {
-    if( gun.is_auxiliary_gunmod() ) {
-        add_msg( m_info, _( "The %s must be attached to a gun, it can not be fired separately." ), weapon.tname().c_str() );
+    const bool is_charger_gun = gun.update_charger_gun_ammo();
+    const itype *curammo = gun.ammo_data();
+
+    if( !gun.is_gun() || curammo == nullptr ) {
+        debugmsg( "%s tried to fire empty or non-gun (%s).", name.c_str(), gun.tname().c_str() );
         return;
     }
-
-    item *used_weapon = weapon.active_gunmod() ? weapon.active_gunmod() : &gun;
-
-    const bool is_charger_gun = used_weapon->update_charger_gun_ammo();
-    const itype *curammo = used_weapon->ammo_data();
-
-    if( !used_weapon->is_gun() || curammo == nullptr ) {
-        debugmsg( "%s tried to fire empty or non-gun (%s).", name.c_str(), used_weapon->tname().c_str() );
-        return;
-    }
-    const skill_id skill_used = used_weapon->gun_skill();
+    const skill_id skill_used = gun.gun_skill();
 
     if (has_trait("TRIGGERHAPPY") && one_in(30)) {
         burst = true;
     }
-    if (burst && used_weapon->burst_size() < 2) {
+    if( burst && gun.burst_size() < 2 ) {
         burst = false; // Can't burst fire a semi-auto
     }
 
     // Use different amounts of time depending on the type of gun and our skill
-    moves -= time_to_fire(*this, *used_weapon->type);
+    moves -= time_to_fire( *this, *gun.type );
 
     // Decide how many shots to fire limited by the ammount of remaining ammo
     long num_shots = 1;
     if ( burst || ( has_trait( "TRIGGERHAPPY" ) && one_in( 30 ) ) ) {
-        num_shots = used_weapon->burst_size();
+        num_shots = gun.burst_size();
     }
-    if( !used_weapon->has_flag( "NO_AMMO" ) && !is_charger_gun ) {
-        num_shots = std::min( num_shots, used_weapon->ammo_remaining() );
+    if( !gun.has_flag( "NO_AMMO" ) && !is_charger_gun ) {
+        num_shots = std::min( num_shots, gun.ammo_remaining() );
     }
 
     // cap our maximum burst size by the amount of UPS power left
-    if( used_weapon->get_gun_ups_drain() > 0 ) {
+    if( gun.get_gun_ups_drain() > 0 ) {
         // @todo refactor handling of vehicle turrets to separate function
         if( !worn.empty() && worn.back().type->id == "fake_UPS" ) {
-            num_shots = std::min(num_shots, worn.back().charges / used_weapon->get_gun_ups_drain() );
+            num_shots = std::min(num_shots, worn.back().charges / gun.get_gun_ups_drain() );
         } else {
-            num_shots = std::min(num_shots, charges_of( "UPS" ) / used_weapon->get_gun_ups_drain() );
+            num_shots = std::min(num_shots, charges_of( "UPS" ) / gun.get_gun_ups_drain() );
         }
     }
 
     // This is expensive, let's cache. todo: figure out if we need weapon.range(&p);
-    const int weaponrange = used_weapon->gun_range( this );
+    const int weaponrange = gun.gun_range( this );
 
-    const int player_dispersion = skill_dispersion( used_weapon, false ) +
+    const int player_dispersion = skill_dispersion( &gun, false ) +
         ranged_skill_offset( skill_used );
     // If weapon dispersion exceeds skill dispersion you can't tell
     // if you need to correct or if the gun messed up, so you can't learn.
     ///\EFFECT_PER allows you to learn more often with less accurate weapons.
-    const bool train_skill = used_weapon->gun_dispersion() <
-        player_dispersion + 15 * rng( 0, get_per() );
+    const bool train_skill = gun.gun_dispersion() < player_dispersion + 15 * rng( 0, get_per() );
     if( train_skill ) {
         practice( skill_used, 8 + 2 * num_shots );
     } else if( one_in( 30 ) ) {
@@ -433,11 +425,11 @@ void player::fire_gun( item& gun, const tripoint &targ_arg, bool burst )
             }
         }
 
-        if( !handle_gun_damage( *used_weapon->type, curammo->ammo->ammo_effects ) ) {
+        if( !handle_gun_damage( *gun.type, curammo->ammo->ammo_effects ) ) {
             return;
         }
 
-        double total_dispersion = get_weapon_dispersion(used_weapon, true);
+        double total_dispersion = get_weapon_dispersion( &gun, true );
         //debugmsg("%f",total_dispersion);
         int range = rl_dist(pos(), targ);
         // penalties for point-blank
@@ -452,40 +444,40 @@ void player::fire_gun( item& gun, const tripoint &targ_arg, bool burst )
         }
 
         if (curshot > 0) {
-            recoil += recoil_add(*this, *used_weapon) / (has_effect( "on_roof" ) ? 90 : 2);
+            recoil += recoil_add( *this, gun ) / ( has_effect( "on_roof" ) ? 90 : 2 );
         } else {
-            recoil += recoil_add(*this, *used_weapon) / (has_effect( "on_roof" ) ? 30 : 1);
+            recoil += recoil_add( *this, gun ) / ( has_effect( "on_roof" ) ? 30 : 1 );
         }
 
-        auto dealt = projectile_attack( make_gun_projectile( *used_weapon ), targ, total_dispersion );
+        auto dealt = projectile_attack( make_gun_projectile( gun ), targ, total_dispersion );
         double missed_by = dealt.missed_by;
         if( missed_by <= .1 ) { // TODO: check head existence for headshot
             lifetime_stats()->headshots++;
         }
 
-        make_gun_sound_effect( *this, num_shots > 1, used_weapon );
+        make_gun_sound_effect( *this, num_shots > 1, &gun );
 
-        sfx::generate_gun_sound( *this, *used_weapon );
+        sfx::generate_gun_sound( *this, gun );
 
-        eject_casing( *this, *used_weapon );
+        eject_casing( *this, gun );
 
-        if( used_weapon->has_flag( "BIO_WEAPON" ) ) {
+        if( gun.has_flag( "BIO_WEAPON" ) ) {
             // Consume a (virtual) charge to let player::activate_bionic know the weapon has been fired.
-            used_weapon->charges--;
-        } else if( used_weapon->deactivate_charger_gun() ) {
+            gun.charges--;
+        } else if( gun.deactivate_charger_gun() ) {
             // Deactivated charger gun
         } else {
-            if( !used_weapon->ammo_consume( used_weapon->ammo_required() ) ) {
-                debugmsg( "Unexpected shortage of ammo whilst firing %s", used_weapon->tname().c_str() );
+            if( !gun.ammo_consume( gun.ammo_required() ) ) {
+                debugmsg( "Unexpected shortage of ammo whilst firing %s", gun.tname().c_str() );
                 return;
             }
         }
 
         // @todo refactor handling of vehicle turrets to separate function
         if ( !worn.empty() && worn.back().type->id == "fake_UPS" ) {
-            use_charges( "fake_UPS", used_weapon->get_gun_ups_drain() );
+            use_charges( "fake_UPS", gun.get_gun_ups_drain() );
         } else {
-            use_charges( "UPS", used_weapon->get_gun_ups_drain() );
+            use_charges( "UPS", gun.get_gun_ups_drain() );
         }
 
         // Experience gain is limited by range and penalised proportional to inaccuracy.

@@ -10903,24 +10903,26 @@ void game::plfire( bool burst, const tripoint &default_target )
         }
     }
 
-    if( !u.weapon.is_gun() && !u.weapon.has_flag( "REACH_ATTACK" ) ) {
-        return;
-    }
-    if( u.weapon.is_gunmod() ) {
+    if( u.weapon.is_auxiliary_gunmod() ) {
         add_msg( m_info, _( "The %s must be attached to a gun, it can not be fired separately." ), u.weapon.tname().c_str() );
         return;
     }
-    if( !u.can_use( u.weapon ) ) {
+
+    item& gun = u.weapon.active_gunmod() ? *u.weapon.active_gunmod() : u.weapon;
+
+    if( !gun.is_gun() && !gun.has_flag( "REACH_ATTACK" ) ) {
+        return;
+    }
+    if( !u.can_use( gun ) ) {
         return;
     }
 
     // Execute reach attack (instead of shooting) if our weapon can reach and
     // either we're not using a gun or using a gun set to use a non-gun gunmod
-    bool reach_attack = u.weapon.has_flag( "REACH_ATTACK" ) &&
-                        ( !u.weapon.is_gun() || u.weapon.get_gun_mode() == "MODE_REACH" );
+    bool reach_attack = gun.has_flag( "REACH_ATTACK" ) && ( !gun.is_gun() || gun.get_gun_mode() == "MODE_REACH" );
 
     vehicle *veh = m.veh_at(u.pos());
-    if( veh != nullptr && veh->player_in_control(u) && u.weapon.is_two_handed(u) ) {
+    if( veh != nullptr && veh->player_in_control( u ) && gun.is_two_handed( u ) ) {
         add_msg(m_info, _("You need a free arm to drive!"));
         return;
     }
@@ -10928,52 +10930,51 @@ void game::plfire( bool burst, const tripoint &default_target )
     if( !reach_attack ) {
         //below prevents fire burst key from fireing in burst mode in semiautos that have been modded
         //should be fine to place this here, plfire(true,*) only once in code
-        if (burst && !u.weapon.has_flag("MODE_BURST")) {
+        if( burst && !gun.has_flag( "MODE_BURST" ) ) {
             return;
         }
 
-        if( !u.weapon.active && !u.weapon.is_in_auxiliary_mode() ) {
-            if( u.weapon.activate_charger_gun( u ) ) {
+        if( !gun.active && !gun.is_in_auxiliary_mode() ) {
+            if( gun.activate_charger_gun( u ) ) {
                 return;
             }
         }
 
-        if( u.weapon.has_flag("NO_AMMO") ) {
-            u.weapon.charges = 1;
-            u.weapon.set_curammo( "generic_no_ammo" );
+        if( gun.has_flag("NO_AMMO") ) {
+            gun.charges = 1;
+            gun.set_curammo( "generic_no_ammo" );
         }
 
-        if( u.weapon.has_flag("RELOAD_AND_SHOOT") && u.weapon.ammo_remaining() == 0 ) {
-            if( !u.weapon.reload( u, u.weapon.pick_reload_ammo( u, true ) ) ) {
+        if( gun.has_flag("RELOAD_AND_SHOOT") && gun.ammo_remaining() == 0 ) {
+            if( !gun.reload( u, gun.pick_reload_ammo( u, true ) ) ) {
                 return;
             }
 
             // Burn 2x the strength required to fire in stamina.
-            u.mod_stat( "stamina", u.weapon.type->min_str * -2 );
+            u.mod_stat( "stamina", gun.type->min_str * -2 );
 
             // At low stamina levels, firing starts getting slow.
             int sta_percent = (100 * u.stamina) / u.get_stamina_max();
             u.moves -= (sta_percent < 25) ? ((25 - sta_percent) * 2) : 0;
 
-            u.moves -= u.weapon.reload_time(u);
+            u.moves -= gun.reload_time(u);
             refresh_all();
         }
 
-        if( u.weapon.num_charges() < u.weapon.ammo_required() && !u.weapon.has_flag("RELOAD_AND_SHOOT") ) {
-            if( u.weapon.num_charges() == 0 ) {
+        if( gun.ammo_remaining() < gun.ammo_required() && !gun.has_flag("RELOAD_AND_SHOOT") ) {
+            if( gun.ammo_remaining() == 0 ) {
                 add_msg(m_info, _("You need to reload!"));
             } else {
-                add_msg(m_info, _("Your %s needs %i charges to fire!"), u.weapon.tname().c_str(), u.weapon.ammo_required() );
+                add_msg(m_info, _("Your %s needs %i charges to fire!"), gun.tname().c_str(), gun.ammo_required() );
             }
             return;
         }
 
-        const auto gun = u.weapon.type->gun.get();
-
-        if( gun != nullptr && ( u.weapon.get_gun_ups_drain() > 0 ) ) {
-            const int ups_drain = u.weapon.get_gun_ups_drain();
-            const int adv_ups_drain = std::max( 1, ups_drain * 3 / 5 );
+        if( gun.get_gun_ups_drain() > 0 ) {
+            const int ups_drain       = gun.get_gun_ups_drain();
+            const int adv_ups_drain   = std::max( 1, ups_drain * 3 / 5 );
             const int bio_power_drain = std::max( 1, ups_drain / 5 );
+
             if( !( u.has_charges( "UPS_off", ups_drain ) ||
                    u.has_charges( "adv_UPS_off", adv_ups_drain ) ||
                    (u.has_bionic( "bio_ups" ) && u.power_level >= bio_power_drain ) ) ) {
@@ -10984,7 +10985,7 @@ void game::plfire( bool burst, const tripoint &default_target )
             }
         }
 
-        if (u.weapon.has_flag("MOUNTED_GUN")) {
+        if( gun.has_flag( "MOUNTED_GUN" ) ) {
             int vpart = -1;
             vehicle *veh = m.veh_at( u.pos(), vpart );
             if( !m.has_flag_ter_or_furn( "MOUNTABLE", u.pos() ) &&
@@ -10998,9 +10999,9 @@ void game::plfire( bool burst, const tripoint &default_target )
 
     int range;
     if( reach_attack ) {
-        range = u.weapon.has_flag( "REACH3" ) ? 3 : 2;
+        range = gun.has_flag( "REACH3" ) ? 3 : 2;
     } else {
-        range = u.weapon.gun_range( &u );
+        range = gun.gun_range( &u );
     }
 
     temp_exit_fullscreen();
@@ -11009,29 +11010,28 @@ void game::plfire( bool burst, const tripoint &default_target )
     tripoint p = u.pos();
 
     target_mode tmode = reach_attack ? TARGET_MODE_REACH : TARGET_MODE_FIRE;
-    std::vector<tripoint> trajectory = pl_target_ui( p, range, &u.weapon, tmode,
-                                                     default_target );
+    std::vector<tripoint> trajectory = pl_target_ui( p, range, &gun, tmode, default_target );
 
     if (trajectory.empty()) {
-        if( u.weapon.has_flag("RELOAD_AND_SHOOT") && u.activity.type != ACT_AIM ) {
+        if( gun.has_flag( "RELOAD_AND_SHOOT" ) && u.activity.type != ACT_AIM ) {
             // Supress unloading if we're mid-aim.
-            u.moves += u.weapon.reload_time(u);
-            unload(u.weapon);
-            u.moves += u.weapon.reload_time(u) / 2; // unloading time
+            u.moves += gun.reload_time( u );
+            unload( gun );
+            u.moves += gun.reload_time( u ) / 2; // unloading time
         }
         reenter_fullscreen();
         return;
     }
     draw_ter(); // Recenter our view
 
-    if (u.weapon.get_gun_mode() == "MODE_BURST") {
+    if( gun.get_gun_mode() == "MODE_BURST" ) {
         burst = true;
     }
 
     if( reach_attack ) {
         u.reach_attack( p );
     } else {
-        u.fire_gun( u.weapon, p, burst );
+        u.fire_gun( gun, p, burst );
     }
 
     reenter_fullscreen();
