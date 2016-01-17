@@ -70,4 +70,7 @@
 /** Amount of damage which a corpse is considered pulped */
 #define CORPSE_PULP_THRESHOLD 4
 
+/** Amount by which to charge an item for each unit of plutonium cell */
+#define PLUTONIUM_CHARGES 500
+
 #endif

@@ -11576,7 +11576,7 @@ void game::unload( item &it )
     long qty = target->ammo_remaining();
 
     if( target->ammo_type() == "plutonium" ) {
-        qty = target->ammo_remaining() / 500;
+        qty = target->ammo_remaining() / PLUTONIUM_CHARGES;
         if( qty > 0 ) {
             add_msg( _( "You recover %i unused plutonium." ), qty );
         } else {
@@ -11595,7 +11595,7 @@ void game::unload( item &it )
 
     // If we succeeded remove appropriate qty of ammo from the item
     if( target->ammo_type() == "plutonium" ) {
-        qty *= 500;
+        qty *= PLUTONIUM_CHARGES;
     }
 
     target->charges -= qty;
