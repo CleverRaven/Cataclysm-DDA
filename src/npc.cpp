@@ -1171,13 +1171,6 @@ bool npc::wear_if_wanted( const item &it )
     return false;
 }
 
-//to placate clang++
-bool npc::wield( item& it, bool )
-{
-    return this->wield(it);
-}
-
-
 bool npc::wield( item& it )
 {
     if( !weapon.is_null() ) {

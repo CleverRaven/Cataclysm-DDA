@@ -655,7 +655,6 @@ classes = {
             { name = "wear_item", rval = "bool", args = { "item", "bool" } },
             { name = "wearing_something_on", rval = "bool", args = { "body_part" } },
             { name = "wield", rval = "bool", args = { "item" } },
-            { name = "wield", rval = "bool", args = { "item", "bool" } },
             { name = "wield_contents", rval = nil, args = { "item", "int", "int", "bool" } },
         }
     },

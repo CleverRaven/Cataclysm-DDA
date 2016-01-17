@@ -683,8 +683,7 @@ public:
  void update_worst_item_value(); // Find the worst value in our inventory
  int  value(const item &it);
     bool wear_if_wanted( const item &it );
- virtual bool wield( item& it, bool ) override;
- virtual bool wield( item& it );
+    virtual bool wield( item& it ) override;
  bool has_healing_item();
  bool has_painkiller();
  bool took_painkiller() const;

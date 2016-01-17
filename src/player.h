@@ -699,7 +699,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
           * @param interactive display reason for any failure */
         bool can_unwield( const item& it, bool interactive = true ) const;
         /** Wields an item, returns false on failed wield */
-        virtual bool wield( item& target, bool autodrop = false );
+        virtual bool wield( item& target );
         /** Creates the UI and handles player input for picking martial arts styles */
         bool pick_style();
         /**

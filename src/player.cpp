@@ -10466,7 +10466,7 @@ bool player::can_unwield( const item& it, bool interactive ) const
     return true;
 }
 
-bool player::wield( item& target, bool )
+bool player::wield( item& target )
 {
     if( ( !weapon.is_null() && !can_unwield( weapon ) ) ||
         ( !target.is_null() && !can_wield  ( target ) ) ) {
@@ -11231,7 +11231,7 @@ bool player::takeoff( item *target, bool autodrop, std::vector<item> *items)
 bool player::takeoff(int inventory_position, bool autodrop, std::vector<item> *items)
 {
     if (inventory_position == -1) {
-        return wield( ret_null, autodrop );
+        return wield( ret_null );
     }
 
     int worn_index = worn_position_to_index( inventory_position );
