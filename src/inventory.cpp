@@ -1197,3 +1197,9 @@ VisitResponse inventory::visit_items( const std::function<VisitResponse(item&)>&
 VisitResponse inventory::visit_items( const std::function<VisitResponse(const item&)>& func ) const {
     return const_cast<inventory *>( this )->visit_items( static_cast<const std::function<VisitResponse(item&)>&>( func ) );
 }
+
+bool inventory::has_item_with( const std::function<bool(const item&)>& filter ) const {
+    return visit( [&filter]( const item& it ) {
+        return filter( it ) ? VisitResponse::ABORT : VisitResponse::NEXT;
+    } ) == VisitResponse::ABORT;
+}

@@ -248,18 +248,6 @@ class inventory
             return false;
         }
         template<typename T>
-        bool has_item_with(T filter) const
-        {
-            for( auto &stack : items ) {
-                for( auto &it : stack ) {
-                    if( has_item_with_recursive( it, filter ) ) {
-                        return true;
-                    }
-                }
-            }
-            return false;
-        }
-        template<typename T>
         std::vector<const item *> items_with(T filter) const
         {
             std::vector<const item *> result;
@@ -289,6 +277,9 @@ class inventory
          **/
         VisitResponse visit_items( const std::function<VisitResponse(item&)>& func );
         VisitResponse visit_items( const std::function<VisitResponse(const item&)>& func ) const;
+
+        /** Returns true if any item (including those within a container) matches the filter */
+        bool has_item_with( const std::function<bool(const item&)>& filter ) const;
 
         template<typename T>
         std::list<item> remove_items_with( T filter )
