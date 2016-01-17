@@ -6457,10 +6457,6 @@ bool vehicle::manual_fire_turret( int p, player &shooter, const itype &guntype,
     gun.set_curammo( ammotype.id );
     gun.charges = charges;
 
-    // Give shooter fake weapon
-    item old_weapon = shooter.weapon;
-    shooter.weapon = gun;
-
     // Spawn a fake UPS to power any turreted weapons that need electricity.
     item tmp_ups( "fake_UPS", 0 );
     // Drain a ton of power
@@ -6468,11 +6464,11 @@ bool vehicle::manual_fire_turret( int p, player &shooter, const itype &guntype,
     // Fire_gun expects that the fake UPS is a last worn item
     shooter.worn.insert( shooter.worn.end(), tmp_ups );
 
-    const int range = shooter.weapon.gun_range( &shooter );
+    const int range = gun.gun_range( &shooter );
     auto mons = shooter.get_visible_creatures( range );
     constexpr target_mode tmode = TARGET_MODE_TURRET_MANUAL; // No aiming yet!
     tripoint shooter_pos = shooter.pos();
-    auto trajectory = g->pl_target_ui( shooter_pos, range, &shooter.weapon, tmode );
+    auto trajectory = g->pl_target_ui( shooter_pos, range, &gun, tmode );
     shooter.recoil = abs(velocity) / 100 / 4;
     if( !trajectory.empty() ) {
         // Need to redraw before shooting
@@ -6480,7 +6476,7 @@ bool vehicle::manual_fire_turret( int p, player &shooter, const itype &guntype,
         const tripoint &targ = trajectory.back();
         // Put our shooter on the roof of the vehicle
         shooter.add_effect( "on_roof", 1 );
-        shooter.fire_gun( shooter.weapon, targ, (long)abs( parts[p].mode ) );
+        shooter.fire_gun( gun, targ, (long)abs( parts[p].mode ) );
         // And now back - we don't want to get any weird behavior
         shooter.remove_effect( "on_roof" );
     }
@@ -6501,12 +6497,10 @@ bool vehicle::manual_fire_turret( int p, player &shooter, const itype &guntype,
         }
     }
 
-    charges = shooter.weapon.charges;
+    charges = gun.charges;
 
     // Place the shooter back where we took them from
     shooter.setpos( oldpos );
-    // Give back old weapon
-    shooter.weapon = old_weapon;
 
     // Deactivate automatic aiming
     if( parts[p].mode > 0 ) {
