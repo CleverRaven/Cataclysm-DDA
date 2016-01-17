@@ -322,13 +322,12 @@ bool player::handle_gun_damage( const itype &firingt, const std::set<std::string
     return true;
 }
 
-void player::fire_gun( item& gun, const tripoint &targ, long burst_size )
+void player::fire_gun( const tripoint &target, bool burst )
 {
-    // Currently just an overload
-    fire_gun( gun, targ, burst_size > 1 );
+    fire_gun( target, burst, weapon );
 }
 
-void player::fire_gun( item& gun, const tripoint &targ_arg, bool burst )
+void player::fire_gun( const tripoint &target, bool burst, item& gun )
 {
     const bool is_charger_gun = gun.update_charger_gun_ammo();
     const itype *curammo = gun.ammo_data();
@@ -383,7 +382,7 @@ void player::fire_gun( item& gun, const tripoint &targ_arg, bool burst )
         add_msg_if_player(m_info, _("You'll need a more accurate gun to keep improving your aim."));
     }
 
-    tripoint targ = targ_arg;
+    tripoint targ = target;
     const bool trigger_happy = has_trait( "TRIGGERHAPPY" );
     for (int curshot = 0; curshot < num_shots; curshot++) {
         // Burst-fire weapons allow us to pick a new target after killing the first

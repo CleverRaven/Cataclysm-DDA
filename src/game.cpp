@@ -11031,7 +11031,7 @@ void game::plfire( bool burst, const tripoint &default_target )
     if( reach_attack ) {
         u.reach_attack( p );
     } else {
-        u.fire_gun( gun, p, burst );
+        u.fire_gun( p, burst );
     }
 
     reenter_fullscreen();

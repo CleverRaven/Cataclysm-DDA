@@ -477,8 +477,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Returns true if a gun misfires, jams, or has other problems, else returns false */
         bool handle_gun_damage( const itype &firing, const std::set<std::string> &curammo_effects );
         /** Handles gun firing effects and functions */
-        void fire_gun( item& gun, const tripoint &target, bool burst );
-        void fire_gun( item& gun, const tripoint &target, long burst_size );
+        void fire_gun( const tripoint &target, bool burst );
+        void fire_gun( const tripoint &target, bool burst, item& gun );
         /** Handles reach melee attacks */
         void reach_attack( const tripoint &target );
 
