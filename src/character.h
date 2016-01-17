@@ -269,31 +269,9 @@ class Character : public Creature
          * @param filter some object that when invoked with the () operator
          * returns true for item that should be returned.
          */
-        template<typename T>
-        std::vector<const item *> items_with(T filter) const
-        {
-            auto result = inv.items_with( filter );
-            if( !weapon.is_null() ) {
-                inventory::items_with_recursive( result, weapon, filter );
-            }
-            for( auto &w : worn ) {
-                inventory::items_with_recursive( result, w, filter );
-            }
-            return result;
-        }
+        std::vector<item *> items_with( const std::function<bool(const item&)>& filter );
+        std::vector<const item *> items_with( const std::function<bool(const item&)>& filter ) const;
 
-        template<typename T>
-        std::vector<item *> items_with(T filter)
-        {
-            auto result = inv.items_with( filter );
-            if( !weapon.is_null() ) {
-                inventory::items_with_recursive( result, weapon, filter );
-            }
-            for( auto &w : worn ) {
-                inventory::items_with_recursive( result, w, filter );
-            }
-            return result;
-        }
         /**
          * Removes the items that match the given filter.
          * The returned items are a copy of the removed item.

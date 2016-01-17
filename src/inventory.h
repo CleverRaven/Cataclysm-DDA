@@ -212,28 +212,6 @@ class inventory
             return stacks;
         }
 
-        template<typename T>
-        static void items_with_recursive( std::vector<const item *> &vec, const item &it, T filter )
-        {
-            if( filter( it ) ) {
-                vec.push_back( &it );
-            }
-            for( auto &c : it.contents ) {
-                items_with_recursive( vec, c, filter );
-            }
-        }
-        // Non-const variant of the above
-        template<typename T>
-        static void items_with_recursive( std::vector<item *> &vec, item &it, T filter )
-        {
-            if( filter( it ) ) {
-                vec.push_back( &it );
-            }
-            for( auto &c : it.contents ) {
-                items_with_recursive( vec, c, filter );
-            }
-        }
-
         /** Traverses each item in the inventory using a visitor function
          * @return Similar to item::visit returns only VisitResponse::Next or VisitResponse::Abort
          * @see item::visit

@@ -473,6 +473,52 @@ VisitResponse Character::visit_items( const std::function<VisitResponse( const i
     return const_cast<Character *>( this )->visit_items( static_cast<const std::function<VisitResponse(item&)>&>( func ) );
 }
 
+std::vector<item *> Character::items_with( const std::function<bool(const item&)>& filter )
+{
+    auto res = inv.items_with( filter );
+
+    weapon.visit( [&res, &filter]( item& it ) {
+        if( filter( it ) ) {
+            res.emplace_back( &it );
+        }
+        return VisitResponse::NEXT;
+    });
+
+    for( auto &e : worn ) {
+        e.visit( [&res, &filter]( item& it ) {
+            if( filter( it ) ) {
+                res.emplace_back( &it );
+            }
+            return VisitResponse::NEXT;
+        });
+    }
+
+    return res;
+}
+
+std::vector<const item *> Character::items_with( const std::function<bool(const item&)>& filter ) const
+{
+    auto res = inv.items_with( filter );
+
+    weapon.visit( [&res, &filter]( const item& it ) {
+        if( filter( it ) ) {
+            res.emplace_back( &it );
+        }
+        return VisitResponse::NEXT;
+    });
+
+    for( const auto &e : worn ) {
+        e.visit( [&res, &filter]( const item& it ) {
+            if( filter( it ) ) {
+                res.emplace_back( &it );
+            }
+            return VisitResponse::NEXT;
+        });
+    }
+
+    return res;
+}
+
 bool Character::has_item_with( const std::function<bool(const item&)>& filter ) const
 {
     return visit_items( [&filter]( const item& it ) {
