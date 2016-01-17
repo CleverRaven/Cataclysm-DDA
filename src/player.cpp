@@ -10426,7 +10426,7 @@ void player::rooted()
     }
 }
 
-bool player::can_wield( const item &it, bool interactive ) const
+bool player::can_wield( const item &it, bool alert ) const
 {
     if( it.is_null() ) {
         debugmsg( "player::can_wield called for null item" );
@@ -10435,11 +10435,11 @@ bool player::can_wield( const item &it, bool interactive ) const
 
     if( it.is_two_handed(*this) && !has_two_arms() ) {
         if( it.has_flag("ALWAYS_TWOHAND") ) {
-            if( interactive ) {
+            if( alert ) {
                 add_msg( m_info, _("The %s can't be wielded with only one arm."), it.tname().c_str() );
             }
         } else {
-            if( interactive ) {
+            if( alert ) {
                 add_msg( m_info, _("You are too weak to wield %s with only one arm."),
                          it.tname().c_str() );
             }
@@ -10449,7 +10449,7 @@ bool player::can_wield( const item &it, bool interactive ) const
     return true;
 }
 
-bool player::can_unwield( const item& it, bool interactive ) const
+bool player::can_unwield( const item& it, bool alert ) const
 {
     if( it.is_null() ) {
         debugmsg( "player::can_unwield called for null item" );
@@ -10457,7 +10457,7 @@ bool player::can_unwield( const item& it, bool interactive ) const
     }
 
     if( it.has_flag( "NO_UNWIELD" ) ) {
-        if( interactive ) {
+        if( alert ) {
             add_msg( m_info, _( "You cannot unwield your %s" ), weapon.tname().c_str() );
         }
         return false;
