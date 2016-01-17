@@ -2103,9 +2103,9 @@ input_context game::get_player_input(std::string &action)
                                       lighting == LL_LOW, lighting == LL_BRIGHT );
                         }
                     }
-
+#ifdef TILES
                 }
-
+#endif //TILES
                 wPrint.vdrops.clear();
 
                 for (int i = 0; i < dropCount; i++) {
