@@ -691,11 +691,9 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void rooted_message() const;
         void rooted();
         /** Check player capable of wielding an item.
-          * @param it item to check which must not be a null item
           * @param alert display reason for any failure */
         bool can_wield( const item& it, bool alert = true ) const;
         /** Check player capable of unwielding an item.
-          * @param it item to check which must not be a null item
           * @param alert display reason for any failure */
         bool can_unwield( const item& it, bool alert = true ) const;
         /**
