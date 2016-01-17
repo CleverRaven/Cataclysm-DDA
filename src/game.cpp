@@ -10496,8 +10496,7 @@ void game::drop(int pos)
 {
     if (pos == INT_MIN) {
         make_drop_activity( ACT_DROP, u.pos() );
-    } else if (pos == -1 && u.weapon.has_flag("NO_UNWIELD")) {
-        add_msg(m_info, _("You cannot drop your %s."), u.weapon.tname().c_str());
+    } else if( pos == -1 && !u.can_unwield( u.weapon ) ) {
         return;
     } else {
         std::vector<item> dropped;

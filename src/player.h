@@ -690,8 +690,14 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Handles rooting effects */
         void rooted_message() const;
         void rooted();
-        /** Check if player capable of wielding item. If interactive is false dont display messages if item is not wieldable */
-        bool can_wield(const item& it, bool interactive = true) const;
+        /** Check player capable of wielding an item.
+          * @param it item to check which must not be a null item
+          * @param interactive display reason for any failure */
+        bool can_wield( const item& it, bool interactive = true ) const;
+        /** Check player capable of unwielding an item.
+          * @param it item to check which must not be a null item
+          * @param interactive display reason for any failure */
+        bool can_unwield( const item& it, bool interactive = true ) const;
         /** Wields an item, returns false on failed wield */
         virtual bool wield(item *it, bool autodrop = false);
         /** Creates the UI and handles player input for picking martial arts styles */

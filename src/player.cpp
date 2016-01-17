@@ -9225,7 +9225,7 @@ const martialart &player::get_combat_style() const
 std::vector<item *> player::inv_dump()
 {
     std::vector<item *> ret;
-    if (!weapon.is_null() && !weapon.has_flag("NO_UNWIELD")) {
+    if( !weapon.is_null() && can_unwield( weapon, false ) ) {
         ret.push_back(&weapon);
     }
     for (auto &i : worn) {
@@ -10428,6 +10428,11 @@ void player::rooted()
 
 bool player::can_wield( const item &it, bool interactive ) const
 {
+    if( it.is_null() ) {
+        debugmsg( "player::can_wield called for null item" );
+        return false;
+    }
+
     if( it.is_two_handed(*this) && !has_two_arms() ) {
         if( it.has_flag("ALWAYS_TWOHAND") ) {
             if( interactive ) {
@@ -10441,6 +10446,23 @@ bool player::can_wield( const item &it, bool interactive ) const
         }
         return false;
     }
+    return true;
+}
+
+bool player::can_unwield( const item& it, bool interactive ) const
+{
+    if( it.is_null() ) {
+        debugmsg( "player::can_unwield called for null item" );
+        return false;
+    }
+
+    if( it.has_flag( "NO_UNWIELD" ) ) {
+        if( interactive ) {
+            add_msg( m_info, _( "You cannot unwield your %s" ), weapon.tname().c_str() );
+        }
+        return false;
+    }
+
     return true;
 }
 
