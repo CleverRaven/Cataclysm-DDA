@@ -10448,7 +10448,7 @@ bool player::can_unwield( const item& it, bool alert ) const
 {
     if( it.has_flag( "NO_UNWIELD" ) ) {
         if( alert ) {
-            add_msg( m_info, _( "You cannot unwield your %s" ), weapon.tname().c_str() );
+            add_msg( m_info, _( "You cannot unwield your %s" ), it.tname().c_str() );
         }
         return false;
     }
