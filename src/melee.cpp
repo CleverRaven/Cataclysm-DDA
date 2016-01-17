@@ -1356,7 +1356,7 @@ int blocking_ability( const item &shield )
 item &player::best_shield()
 {
     int weapon_block = blocking_ability( weapon );
-    for( const item &shield : worn ) {
+    for( item &shield : worn ) {
         if( shield.has_flag( "BLOCK_WHILE_WORN" ) && blocking_ability( shield ) >= weapon_block ) {
             return shield;
         }
