@@ -2045,10 +2045,21 @@ input_context game::get_player_input(std::string &action)
 
         //x% of the Viewport, only shown on visible areas
         auto const weather_info = get_weather_animation(weather);
-
         const int dropCount = int(iEndX * iEndY * weather_info.factor);
-        const int offset_x = (u.posx() + u.view_offset.x) - getmaxx(w_terrain) / 2;
-        const int offset_y = (u.posy() + u.view_offset.y) - getmaxy(w_terrain) / 2;
+        int offset_x = (u.posx() + u.view_offset.x) - getmaxx(w_terrain) / 2;
+        int offset_y = (u.posy() + u.view_offset.y) - getmaxy(w_terrain) / 2;
+
+#ifdef TILES
+        // number of tiles displayed is very different in iso, and view is centred on player
+        if ( tile_iso && use_tiles ) {
+            iStartX = 0;
+            iStartY = 0;
+            iEndX = MAPSIZE * SEEX;
+            iEndY = MAPSIZE * SEEY;
+            offset_x = 0;
+            offset_y = 0;
+        }
+#endif //TILES
 
         const bool bWeatherEffect = (weather_info.glyph != '?');
 
@@ -2079,16 +2090,21 @@ input_context game::get_player_input(std::string &action)
                 WEATHER_FLURRIES | WEATHER_SNOW | WEATHER_SNOWSTORM = "weather_snowflake"
                 */
 
-                //Erase previous drops from w_terrain
-                for( auto &elem : wPrint.vdrops ) {
-                    const tripoint location( elem.first + offset_x, elem.second + offset_y, get_levz() );
-                    const lit_level lighting = visibility_cache[location.x][location.y];
-                    wmove( w_terrain, location.y - offset_y, location.x - offset_x );
-                    if( !m.apply_vision_effects( w_terrain, lighting, cache ) ) {
-                        m.drawsq( w_terrain, u, location, false, true,
-                                  u.pos() + u.view_offset,
-                                  lighting == LL_LOW, lighting == LL_BRIGHT );
+#ifdef TILES
+                if (!use_tiles) {
+#endif //TILES
+                    //If not using tiles, erase previous drops from w_terrain
+                    for( auto &elem : wPrint.vdrops ) {
+                        const tripoint location( elem.first + offset_x, elem.second + offset_y, get_levz() );
+                        const lit_level lighting = visibility_cache[location.x][location.y];
+                        wmove( w_terrain, location.y - offset_y, location.x - offset_x );
+                        if( !m.apply_vision_effects( w_terrain, lighting, cache ) ) {
+                            m.drawsq( w_terrain, u, location, false, true,
+                                      u.pos() + u.view_offset,
+                                      lighting == LL_LOW, lighting == LL_BRIGHT );
+                        }
                     }
+
                 }
 
                 wPrint.vdrops.clear();
@@ -2098,6 +2114,7 @@ input_context game::get_player_input(std::string &action)
                     const int iRandY = rng(iStartY, iEndY - 1);
                     const int mapx = iRandX + offset_x;
                     const int mapy = iRandY + offset_y;
+
                     const tripoint mapp( mapx, mapy, u.posz() );
 
                     const lit_level lighting = visibility_cache[mapp.x][mapp.y];
@@ -11170,7 +11187,7 @@ void game::butcher()
             const recipe *cur_recipe = get_disassemble_recipe( first_item_without_tools->type->id );
             // Just for the "You need x to disassemble y" messages
             u.can_disassemble( *first_item_without_tools, cur_recipe, crafting_inv, true );
-        } 
+        }
         return;
     }
 

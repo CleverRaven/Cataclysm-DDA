@@ -2382,12 +2382,19 @@ void cata_tiles::draw_line()
 }
 void cata_tiles::draw_weather_frame()
 {
+
     for( auto weather_iterator = anim_weather.vdrops.begin();
          weather_iterator != anim_weather.vdrops.end(); ++weather_iterator ) {
-        // currently in ascii screen coordinates
-        int x = weather_iterator->first + o_x;
-        int y = weather_iterator->second + o_y;
         // TODO: Z-level awareness if weather ever happens on anything but z-level 0.
+        int x, y;
+        if (tile_iso && use_tiles) {
+            x = weather_iterator->first;
+            y = weather_iterator->second;
+        } else {
+            // currently in ascii screen coordinates
+            x = weather_iterator->first + o_x;
+            y = weather_iterator->second + o_y;
+        }
         draw_from_id_string( weather_name, C_WEATHER, empty_string, {x, y, 0}, 0, 0,
                              LL_LIT, nv_goggles_activated );
     }
