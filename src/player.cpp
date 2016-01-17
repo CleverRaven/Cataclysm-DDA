@@ -245,7 +245,6 @@ player::player() : Character()
   body_wetness[i] = 0;
  }
  nv_cached = false;
- pda_cached = false;
  volume = 0;
 
  memorial_log.clear();
@@ -431,7 +430,6 @@ void player::reset_stats()
     if( calendar::once_every(MINUTES(1)) ) {
         update_mental_focus();
     }
-    pda_cached = false;
 
     recalc_sight_limits();
     recalc_speed_bonus();
@@ -529,7 +527,6 @@ void player::process_turn()
 void player::action_taken()
 {
     nv_cached = false;
-    pda_cached = false;
 }
 
 void player::update_morale()
@@ -4247,18 +4244,6 @@ body_part player::get_random_body_part( bool main ) const
     // TODO: Refuse broken limbs, adjust for mutations
     return random_body_part( main );
 }
-
-bool player::has_pda()
-{
-    static bool pda = false;
-    if ( !pda_cached ) {
-      pda_cached = true;
-      pda = has_amount("pda", 1)  || has_amount("pda_flashlight", 1);
-    }
-
-    return pda;
-}
-
 
 bool player::has_alarm_clock() const
 {
