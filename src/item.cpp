@@ -2252,8 +2252,6 @@ int item::weight() const
             ret += ammo_remaining() * find_type( default_ammo( ammo_type() ) )->weight / 500;
         } else if( ammo_data() ) {
             ret += ammo_remaining() * ammo_data()->weight;
-        } else if ( ammo_type() != "null" ) {
-            ret += ammo_remaining() * find_type( default_ammo( ammo_type() ) )->weight;
         }
 
     } else if( is_corpse() ) {
