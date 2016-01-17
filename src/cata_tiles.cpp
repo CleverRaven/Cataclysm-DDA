@@ -2380,6 +2380,7 @@ void cata_tiles::draw_line()
 
     draw_from_id_string( line_endpoint_id, line_trajectory.back(), 0, 0, LL_LIT, false );
 }
+
 void cata_tiles::draw_weather_frame()
 {
 
@@ -2387,7 +2388,7 @@ void cata_tiles::draw_weather_frame()
          weather_iterator != anim_weather.vdrops.end(); ++weather_iterator ) {
         // TODO: Z-level awareness if weather ever happens on anything but z-level 0.
         int x, y;
-        if (tile_iso && use_tiles) {
+        if( tile_iso && use_tiles ) {
             x = weather_iterator->first;
             y = weather_iterator->second;
         } else {
@@ -2399,6 +2400,7 @@ void cata_tiles::draw_weather_frame()
                              LL_LIT, nv_goggles_activated );
     }
 }
+
 void cata_tiles::draw_sct_frame()
 {
     for( auto iter = SCT.vSCT.begin(); iter != SCT.vSCT.end(); ++iter ) {

@@ -2049,7 +2049,7 @@ input_context game::get_player_input(std::string &action)
         int offset_y = (u.posy() + u.view_offset.y) - getmaxy(w_terrain) / 2;
 
 #ifdef TILES
-        if ( tile_iso && use_tiles ) {
+        if( tile_iso && use_tiles ) {
             iStartX = 0;
             iStartY = 0;
             iEndX = MAPSIZE * SEEX;
@@ -2059,8 +2059,8 @@ input_context game::get_player_input(std::string &action)
         }
 #endif //TILES
 
-        const bool bWeatherEffect = (weather_info.glyph != '?');
-        const int dropCount = int(iEndX * iEndY * weather_info.factor);
+        const bool bWeatherEffect = ( weather_info.glyph != '?' );
+        const int dropCount = int( iEndX * iEndY * weather_info.factor );
 
         weather_printable wPrint;
         wPrint.colGlyph = weather_info.color;
@@ -2080,7 +2080,7 @@ input_context game::get_player_input(std::string &action)
         inp_mngr.set_timeout(125);
         // Force at least one animation frame if the player is dead.
         while( handle_mouseview(ctxt, action) || uquit == QUIT_WATCH ) {
-            if (bWeatherEffect && OPTIONS["ANIMATION_RAIN"]) {
+            if( bWeatherEffect && OPTIONS["ANIMATION_RAIN"] ) {
                 /*
                 Location to add rain drop animation bits! Since it refreshes w_terrain it can be added to the animation section easily
                 Get tile information from above's weather information:
@@ -2090,7 +2090,7 @@ input_context game::get_player_input(std::string &action)
                 */
 
 #ifdef TILES
-                if (!use_tiles) {
+                if( !use_tiles ) {
 #endif //TILES
                     //If not using tiles, erase previous drops from w_terrain
                     for( auto &elem : wPrint.vdrops ) {
@@ -2108,9 +2108,9 @@ input_context game::get_player_input(std::string &action)
 #endif //TILES
                 wPrint.vdrops.clear();
 
-                for (int i = 0; i < dropCount; i++) {
-                    const int iRandX = rng(iStartX, iEndX - 1);
-                    const int iRandY = rng(iStartY, iEndY - 1);
+                for( int i = 0; i < dropCount; i++ ) {
+                    const int iRandX = rng( iStartX, iEndX - 1 );
+                    const int iRandY = rng( iStartY, iEndY - 1 );
                     const int mapx = iRandX + offset_x;
                     const int mapy = iRandY + offset_y;
 
