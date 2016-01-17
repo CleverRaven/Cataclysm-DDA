@@ -475,15 +475,9 @@ VisitResponse Character::visit_items( const std::function<VisitResponse( const i
 
 bool Character::has_item_with( const std::function<bool(const item&)>& filter ) const
 {
-    bool found = false;
-    visit_items( [&found, &filter]( const item& it ) {
-        if( filter( it ) ) {
-            found = true;
-            return VisitResponse::ABORT;
-        }
-        return VisitResponse::NEXT;
-    });
-    return found;
+    return visit_items( [&filter]( const item& it ) {
+        return filter( it ) ? VisitResponse::ABORT : VisitResponse::NEXT;
+    }) == VisitResponse::ABORT;
 }
 
 item& Character::i_add(item it)
