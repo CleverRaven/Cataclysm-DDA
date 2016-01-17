@@ -10498,9 +10498,6 @@ bool player::wield(item* it, bool )
     if (&weapon == it) {
         add_msg(m_info, _("You're already wielding that!"));
         return false;
-    } else if (it == NULL || it->is_null()) {
-        add_msg(m_info, _("You don't have that item."));
-        return false;
     }
 
     if( !can_wield( *it ) ) {
