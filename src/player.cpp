@@ -10798,6 +10798,10 @@ int player::item_handling_cost( const item& it, bool effects, int factor ) const
         mv *= 2;
     }
 
+    if( weapon.typeId() == "e_handcuffs" ) {
+        mv *= 4;
+    }
+
     return std::min( std::max( mv, MIN_HANDLING_COST ), MAX_HANDLING_COST );
 }
 
