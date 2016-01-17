@@ -3038,24 +3038,24 @@ int iuse::directional_antenna(player *p, item *it, bool, const tripoint& )
     return it->type->charges_to_use();
 }
 
-int iuse::radio_on(player *p, item *it, bool t, const tripoint &pos)
+int iuse::radio_on( player *p, item *it, bool t, const tripoint &pos )
 {
-    if (t) {
+    if( t ) {
         // Normal use
-        std::string message = _("Radio: Kssssssssssssh.");
+        std::string message = _( "Radio: Kssssssssssssh." );
         const auto tref = overmap_buffer.find_radio_station( it->frequency );
         if( tref ) {
             const auto selected_tower = tref.tower;
-            if (selected_tower->type == MESSAGE_BROADCAST) {
+            if( selected_tower->type == MESSAGE_BROADCAST ) {
                 message = selected_tower->message;
-            } else if (selected_tower->type == WEATHER_RADIO) {
+            } else if( selected_tower->type == WEATHER_RADIO ) {
                 message = weather_forecast( tref.abs_sm_pos );
             }
             for( auto &elem : message ) {
-                int signal_roll = dice(10, tref.signal_strength * 3);
-                int static_roll = dice(10, 100);
-                if (static_roll > signal_roll) {
-                    if (static_roll < signal_roll * 1.1 && one_in(4)) {
+                int signal_roll = dice( 10, tref.signal_strength * 3 );
+                int static_roll = dice( 10, 100 );
+                if( static_roll > signal_roll ) {
+                    if( static_roll < signal_roll * 1.1 && one_in( 4 ) ) {
                         elem = char( rng( 'a', 'z' ) );
                     } else {
                         elem = '#';
@@ -3063,20 +3063,20 @@ int iuse::radio_on(player *p, item *it, bool t, const tripoint &pos)
                 }
             }
 
-            std::vector<std::string> segments = foldstring(message, RADIO_PER_TURN);
-            int index = calendar::once_every(segments.size());
+            std::vector<std::string> segments = foldstring( message, RADIO_PER_TURN );
+            int index = calendar::turn % segments.size();
             std::stringstream messtream;
-            messtream << string_format(_("radio: %s"), segments[index].c_str());
+            messtream << string_format( _( "radio: %s" ), segments[index].c_str() );
             message = messtream.str();
         }
-        sounds::ambient_sound(pos, 6, message.c_str());
+        sounds::ambient_sound( pos, 6, message.c_str() );
     } else { // Activated
         int ch = 2;
-        if (it->charges > 0) {
-            ch = menu(true, _("Radio:"), _("Scan"), _("Turn off"), NULL);
+        if( it->charges > 0 ) {
+            ch = menu( true, _( "Radio:" ), _( "Scan" ), _( "Turn off" ), NULL );
         }
 
-        switch (ch) {
+        switch( ch ) {
             case 1: {
                 const int old_frequency = it->frequency;
                 const radio_tower *lowest_tower = nullptr;
@@ -3087,7 +3087,7 @@ int iuse::radio_on(player *p, item *it, bool t, const tripoint &pos)
                         continue;
                     }
                     if( new_frequency > old_frequency &&
-                        ( lowest_larger_tower == nullptr || new_frequency < lowest_larger_tower->frequency)) {
+                        ( lowest_larger_tower == nullptr || new_frequency < lowest_larger_tower->frequency ) ) {
                         lowest_larger_tower = tref.tower;
                     } else if( lowest_tower == nullptr || new_frequency < lowest_tower->frequency ) {
                         lowest_tower = tref.tower;
@@ -3101,8 +3101,8 @@ int iuse::radio_on(player *p, item *it, bool t, const tripoint &pos)
             }
             break;
             case 2:
-                p->add_msg_if_player(_("The radio dies."));
-                it->make("radio");
+                p->add_msg_if_player( _( "The radio dies." ) );
+                it->make( "radio" );
                 it->active = false;
                 break;
             case 3:
