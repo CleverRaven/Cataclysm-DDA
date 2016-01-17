@@ -4074,7 +4074,7 @@ item_location item::pick_reload_ammo( player &u, bool interactive ) const
 
     // first check the inventory for suitable ammo
     std::vector<item_location> ammo_list;
-    u.visit_items( [&]( const item& it ) {
+    u.visit( [&]( const item& it ) {
         // @todo handle magazines
         if( it.is_ammo() && ( item_types.count( it.typeId() ) || ammo_types.count( it.ammo_type() ) ) ) {
             auto loc = item_location::on_character( u, &it );
