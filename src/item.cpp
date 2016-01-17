@@ -2248,10 +2248,10 @@ int item::weight() const
         ret *= charges;
 
     } else if( ammo_capacity() > 0 ) {
-        if( ammo_data() ) {
-            ret += ammo_remaining() * ammo_data()->weight;
-        } else if ( ammo_type() == "plutonium" ) {
+        if ( ammo_type() == "plutonium" ) {
             ret += ammo_remaining() * find_type( default_ammo( ammo_type() ) )->weight / 500;
+        } else if( ammo_data() ) {
+            ret += ammo_remaining() * ammo_data()->weight;
         } else if ( ammo_type() != "null" ) {
             ret += ammo_remaining() * find_type( default_ammo( ammo_type() ) )->weight;
         }
