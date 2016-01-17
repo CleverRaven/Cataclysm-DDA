@@ -2045,12 +2045,10 @@ input_context game::get_player_input(std::string &action)
 
         //x% of the Viewport, only shown on visible areas
         auto const weather_info = get_weather_animation(weather);
-        const int dropCount = int(iEndX * iEndY * weather_info.factor);
         int offset_x = (u.posx() + u.view_offset.x) - getmaxx(w_terrain) / 2;
         int offset_y = (u.posy() + u.view_offset.y) - getmaxy(w_terrain) / 2;
 
 #ifdef TILES
-        // number of tiles displayed is very different in iso, and view is centred on player
         if ( tile_iso && use_tiles ) {
             iStartX = 0;
             iStartY = 0;
@@ -2062,6 +2060,7 @@ input_context game::get_player_input(std::string &action)
 #endif //TILES
 
         const bool bWeatherEffect = (weather_info.glyph != '?');
+        const int dropCount = int(iEndX * iEndY * weather_info.factor);
 
         weather_printable wPrint;
         wPrint.colGlyph = weather_info.color;
