@@ -322,20 +322,20 @@ bool player::handle_gun_damage( const itype &firingt, const std::set<std::string
     return true;
 }
 
-void player::fire_gun( const tripoint &targ, long burst_size )
+void player::fire_gun( item& gun, const tripoint &targ, long burst_size )
 {
     // Currently just an overload
-    fire_gun( targ, burst_size > 1 );
+    fire_gun( gun, targ, burst_size > 1 );
 }
 
-void player::fire_gun( const tripoint &targ_arg, bool burst )
+void player::fire_gun( item& gun, const tripoint &targ_arg, bool burst )
 {
-    if( weapon.is_auxiliary_gunmod() ) {
+    if( gun.is_auxiliary_gunmod() ) {
         add_msg( m_info, _( "The %s must be attached to a gun, it can not be fired separately." ), weapon.tname().c_str() );
         return;
     }
 
-    item *used_weapon = weapon.active_gunmod() ? weapon.active_gunmod() : &weapon;
+    item *used_weapon = weapon.active_gunmod() ? weapon.active_gunmod() : &gun;
 
     const bool is_charger_gun = used_weapon->update_charger_gun_ammo();
     const itype *curammo = used_weapon->ammo_data();
