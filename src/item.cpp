@@ -4301,10 +4301,10 @@ bool item::reload( player &u, item_location loc )
 
             if( ammo_type() == "plutonium" ) {
                 // always consume at least one cell but never more than actually available
-                auto cells = std::min(qty / 500 + (qty % 500 != 0), ammo->charges);
+                auto cells = std::min(qty / PLUTONIUM_CHARGES + (qty % PLUTONIUM_CHARGES != 0), ammo->charges);
                 ammo->charges -= cells;
                 // any excess is wasted rather than overfilling the target
-                target->charges += std::min(cells * 500, qty);
+                target->charges += std::min(cells * PLUTONIUM_CHARGES, qty);
             } else {
                 qty = std::min(qty, ammo->charges);
                 ammo->charges   -= qty;
