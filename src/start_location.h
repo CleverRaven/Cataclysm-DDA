@@ -3,6 +3,7 @@
 
 #include "string_id.h"
 
+#include <vector>
 #include <string>
 #include <map>
 #include <set>
