@@ -697,20 +697,16 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                                               mod->tname().c_str() ) ) );
         }
         islot_gun *gun = mod->type->gun.get();
-        int ammo_dam = 0;
-        int ammo_range = 0;
-        int ammo_recoil = 0;
-        int ammo_pierce = 0;
-        int ammo_dispersion = 0;
-        bool has_ammo = (mod->has_curammo() && mod->ammo_remaining() > 0);
-        if (has_ammo) {
-            const auto curammo = mod->get_curammo()->ammo.get();
-            ammo_dam = curammo->damage;
-            ammo_range = curammo->range;
-            ammo_recoil = curammo->recoil;
-            ammo_pierce = curammo->pierce;
-            ammo_dispersion = curammo->dispersion;
-        }
+        const auto curammo = mod->ammo_data();
+
+        bool has_ammo = curammo && mod->ammo_remaining();
+
+        int ammo_dam        = has_ammo ? curammo->ammo->damage     : 0;
+        int ammo_range      = has_ammo ? curammo->ammo->range      : 0;
+        int ammo_recoil     = has_ammo ? curammo->ammo->recoil     : 0;
+        int ammo_pierce     = has_ammo ? curammo->ammo->pierce     : 0;
+        int ammo_dispersion = has_ammo ? curammo->ammo->dispersion : 0;
+
         const auto skill = &mod->gun_skill().obj();
 
         info.push_back( iteminfo( "GUN", _( "Skill used: " ), "<info>" + skill->name() + "</info>" ) );
@@ -2219,7 +2215,7 @@ int item::price() const
     }
 
     // tools, guns and auxiliary gunmods may contain ammunition which can affect the price
-    if( ammo_remaining() > 0 && has_curammo() ) {
+    if( ammo_remaining() > 0 && ammo_current() != "null" ) {
         item tmp( ammo_current(), 0 );
         tmp.charges = charges;
         ret += tmp.price();
@@ -2252,12 +2248,10 @@ int item::weight() const
         ret *= charges;
 
     } else if( ammo_capacity() > 0 ) {
-        if( ammo_data() ) {
+        if ( ammo_type() == "plutonium" ) {
+            ret += ammo_remaining() * find_type( default_ammo( ammo_type() ) )->weight / PLUTONIUM_CHARGES;
+        } else if( ammo_data() ) {
             ret += ammo_remaining() * ammo_data()->weight;
-        } else if ( ammo_type() == "plutonium" ) {
-            ret += ammo_remaining() * find_type( default_ammo( ammo_type() ) )->weight / 500;
-        } else if ( ammo_type() != "null" ) {
-            ret += ammo_remaining() * find_type( default_ammo( ammo_type() ) )->weight;
         }
 
     } else if( is_corpse() ) {
@@ -3678,8 +3672,8 @@ int item::gun_dispersion( bool with_ammo ) const
     }
     dispersion_sum += damage * 60;
     dispersion_sum = std::max(dispersion_sum, 0);
-    if( with_ammo && has_curammo() ) {
-        dispersion_sum += get_curammo()->ammo->dispersion;
+    if( with_ammo && ammo_data() ) {
+        dispersion_sum += ammo_data()->ammo->dispersion;
     }
     dispersion_sum = std::max(dispersion_sum, 0);
     return dispersion_sum;
@@ -3746,8 +3740,8 @@ int item::gun_damage( bool with_ammo ) const
         return 0;
     }
     int ret = type->gun->damage;
-    if( with_ammo && has_curammo() ) {
-        ret += get_curammo()->ammo->damage;
+    if( with_ammo && ammo_data() ) {
+        ret += ammo_data()->ammo->damage;
     }
     for( auto & elem : contents ) {
         if( elem.is_gunmod() ) {
@@ -3764,8 +3758,8 @@ int item::gun_pierce( bool with_ammo ) const
         return 0;
     }
     int ret = type->gun->pierce;
-    if( with_ammo && has_curammo() ) {
-        ret += get_curammo()->ammo->pierce;
+    if( with_ammo && ammo_data() ) {
+        ret += ammo_data()->ammo->pierce;
     }
     for( auto &elem : contents ) {
         if( elem.is_gunmod() ) {
@@ -3803,8 +3797,8 @@ int item::gun_recoil( bool with_ammo ) const
         return 0;
     }
     int ret = type->gun->recoil;
-    if( with_ammo && has_curammo() ) {
-        ret += get_curammo()->ammo->recoil;
+    if( with_ammo && ammo_data() ) {
+        ret += ammo_data()->ammo->recoil;
     }
     for( auto & elem : contents ) {
         if( elem.is_gunmod() ) {
@@ -3826,13 +3820,13 @@ int item::gun_range( bool with_ammo ) const
             ret += elem.type->gunmod->range;
         }
     }
-    if( has_flag( "NO_AMMO" ) && !has_curammo() ) {
+    if( has_flag( "NO_AMMO" ) && !ammo_data() ) {
         return ret;
     }
     if( with_ammo && is_charger_gun() ) {
         ret += 5 + charges * 5;
-    } else if( with_ammo && has_curammo() ) {
-        ret += get_curammo()->ammo->range;
+    } else if( with_ammo && ammo_data() ) {
+        ret += ammo_data()->ammo->range;
     }
     return std::max( 0, ret );
 }
@@ -4154,21 +4148,25 @@ item_location item::pick_reload_ammo( player &u, bool interactive ) const
 }
 
 // Helper to handle ejecting casings from guns that require them to be manually extracted.
-static void eject_casings( player &p, item *reload_target, itype_id casing_type )
+static void eject_casings( player &p, item& target )
 {
-    if( reload_target->has_flag("RELOAD_EJECT") && casing_type != "NULL" && !casing_type.empty() ) {
-        const int num_casings = reload_target->get_var( "CASINGS", 0 );
-        if( num_casings > 0 ) {
-            item casing( casing_type, 0);
-            // Casings need a count of one to stack properly.
-            casing.charges = 1;
-            // Drop all the casings on the ground under the player.
-            for( int i = 0; i < num_casings; ++i ) {
-                g->m.add_item_or_charges(p.posx(), p.posy(), casing);
-            }
-            reload_target->erase_var( "CASINGS" );
-        }
+    const auto curammo = target.ammo_data();
+
+    if( !target.has_flag( "RELOAD_EJECT" ) || !curammo ||
+        curammo->ammo->casing == "NULL" || curammo->ammo->casing.empty() ) {
+        return;
     }
+
+    // Casings need a count of one to stack properly.
+    item casing( curammo->ammo->casing, calendar::turn );
+    casing.charges = 1;
+
+    // Drop all the casings on the ground under the player.
+    for( auto i = target.get_var( "CASINGS", 0 ); i > 0 ; --i ) {
+        g->m.add_item_or_charges( p.posx(), p.posy(), casing );
+    }
+
+    target.erase_var( "CASINGS" );
 }
 
 bool item::reload( player &u, int pos )
@@ -4257,18 +4255,17 @@ bool item::reload( player &u, item_location loc )
 
     // If we found a suitable target, try and reload it
     if ( target ) {
-        if( has_curammo() ) {
-            eject_casings( u, target, get_curammo()->ammo->casing );
-        }
+
+        eject_casings( u, *target );
 
         target->set_curammo( *ammo );
 
         if( ammo_type() == "plutonium" ) {
             // always consume at least one cell but never more than actually available
-            auto cells = std::min(qty / 500 + (qty % 500 != 0), ammo->charges);
+            auto cells = std::min(qty / PLUTONIUM_CHARGES + (qty % PLUTONIUM_CHARGES != 0), ammo->charges);
             ammo->charges -= cells;
             // any excess is wasted rather than overfilling the target
-            target->charges += std::min(cells * 500, qty);
+            target->charges += std::min(cells * PLUTONIUM_CHARGES, qty);
         } else {
             qty = std::min(qty, ammo->charges);
             ammo->charges   -= qty;
@@ -5258,7 +5255,7 @@ bool item::update_charger_gun_ammo()
     if( ammo_current() != CHARGER_GUN_AMMO_ID ) {
         set_curammo( CHARGER_GUN_AMMO_ID );
     }
-    auto tmpammo = get_curammo()->ammo.get();
+    const auto tmpammo = ammo_data()->ammo.get();
 
     long charges = num_charges();
     tmpammo->damage = charges * charges;

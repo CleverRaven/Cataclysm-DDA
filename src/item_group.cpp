@@ -4,6 +4,7 @@
 #include "item.h"
 #include "debug.h"
 #include "itype.h"
+#include "game_constants.h"
 #include <map>
 #include <algorithm>
 #include <cassert>
@@ -176,10 +177,9 @@ void Item_modifier::modify(item &new_item) const
     if(new_item.is_null()) {
         return;
     }
-    int dm = (damage.first == damage.second) ? damage.first : rng(damage.first, damage.second);
-    if(dm >= -1 && dm <= 4) {
-        new_item.damage = dm;
-    }
+
+    new_item.damage = std::min( std::max( (int) rng( damage.first, damage.second ), MIN_ITEM_DAMAGE ), MAX_ITEM_DAMAGE );
+
     long ch = (charges.first == charges.second) ? charges.first : rng(charges.first, charges.second);
     const auto g = new_item.type->gun.get();
     const auto t = dynamic_cast<const it_tool *>(new_item.type);

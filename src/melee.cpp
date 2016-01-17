@@ -238,9 +238,10 @@ const char *player::get_miss_reason()
         divide_roll_remainder( encumb( bp_torso ), 10.0f ) );
     const int farsightedness = 2 * ( has_trait("HYPEROPIC") &&
                                !is_wearing("glasses_reading") &&
-                               !is_wearing("glasses_bifocal") );
+                               !is_wearing("glasses_bifocal") && 
+                               !has_effect("contacts") );
     add_miss_reason(
-        _("You can't hit reliably without your glasses."),
+        _("You can't hit reliably due to your farsightedness."),
         farsightedness);
 
     const char** reason = melee_miss_reasons.pick();

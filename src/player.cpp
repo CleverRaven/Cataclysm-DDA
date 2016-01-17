@@ -210,7 +210,7 @@ player::player() : Character()
  male = true;
  prof = profession::has_initialized() ? profession::generic() : NULL; //workaround for a potential structural limitation, see player::create
 
- start_location = "shelter";
+    start_location = start_location_id( "shelter" );
  moves = 100;
  movecounter = 0;
  cached_turn = -1;
@@ -9754,11 +9754,11 @@ bool player::consume_item( item &target )
             to_eat->charges++; //there's a flat subtraction later
         } else if (to_eat->is_ammo() &&  ( has_active_bionic("bio_reactor") || has_active_bionic("bio_advreactor") ) && ( to_eat->ammo_type() == "reactor_slurry" || to_eat->ammo_type() == "plutonium")) {
             if (to_eat->type->id == "plut_cell" && query_yn(_("Thats a LOT of plutonium.  Are you sure you want that much?"))) {
-                tank_plut += 5000;
+                tank_plut += PLUTONIUM_CHARGES * 10;
             } else if (to_eat->type->id == "plut_slurry_dense") {
-                tank_plut += 500;
+                tank_plut += PLUTONIUM_CHARGES;
             } else if (to_eat->type->id == "plut_slurry") {
-                tank_plut += 250;
+                tank_plut += PLUTONIUM_CHARGES / 2;
             }
             add_msg_player_or_npc( _("You add your %s to your reactor's tank."), _("<npcname> pours %s into their reactor's tank."),
             to_eat->tname().c_str());
@@ -10909,7 +10909,7 @@ bool player::wear_item( const item &to_wear, bool interactive )
     else
     {
         // Only headgear can be worn with power armor, except other power armor components
-        if(!to_wear.covers(bp_head) && !to_wear.covers(bp_eyes) && !to_wear.covers(bp_mouth)) 
+        if(!to_wear.covers(bp_head) && !to_wear.covers(bp_eyes) && !to_wear.covers(bp_mouth))
         {
             for (auto &i : worn)
             {
@@ -11723,7 +11723,7 @@ void player::remove_gunmod(item *weapon, unsigned id)
     item *gunmod = &weapon->contents[id];
     item ammo;
     if (gunmod->charges > 0) {
-        if( gunmod->has_curammo() ) {
+        if( gunmod->ammo_current() != "null" ) {
             ammo = item( gunmod->ammo_current(), calendar::turn );
         } else {
             ammo = item(default_ammo(weapon->ammo_type()), calendar::turn);
