@@ -757,7 +757,7 @@ public:
     bool fire_turret( int p, bool manual );
 
     // Fire turret at some automatically acquired target
-    bool automatic_fire_turret( int p, const itype &gun, const itype &ammo, long &charges );
+    bool automatic_fire_turret( int p, const itype &guntype, const itype &ammotype, long &charges );
 
     // Aim and fire turret manually
     // TODO: Make it work correctly with UPS-powered turrets when player has a UPS already

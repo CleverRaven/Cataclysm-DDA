@@ -6355,7 +6355,7 @@ void vehicle::turret_ammo_data::consume( vehicle &veh, int const part, long cons
     }
 }
 
-bool vehicle::automatic_fire_turret( int p, const itype &gun, const itype &ammo, long &charges )
+bool vehicle::automatic_fire_turret( int p, const itype &guntype, const itype &ammotype, long &charges )
 {
     tripoint pos = global_pos3();
     pos.x += parts[p].precalc[0].x;
@@ -6366,7 +6366,7 @@ bool vehicle::automatic_fire_turret( int p, const itype &gun, const itype &ammo,
     tmp.set_fake( true );
     tmp.add_effect( "on_roof", 1 );
     tmp.name = rmp_format(_("<veh_player>The %s"), part_info(p).name.c_str());
-    tmp.skillLevel(gun.gun->skill_used).level(8);
+    tmp.skillLevel( guntype.gun->skill_used ).level( 8 );
     tmp.skillLevel( skill_id( "gun" ) ).level(4);
     tmp.recoil = abs(velocity) / 100 / 4;
     tmp.setpos( pos );
@@ -6375,13 +6375,14 @@ bool vehicle::automatic_fire_turret( int p, const itype &gun, const itype &ammo,
     tmp.per_cur = 12;
     // Assume vehicle turrets are defending the player.
     tmp.attitude = NPCATT_DEFEND;
-    tmp.weapon = item(gun.id, 0);
-    tmp.weapon.set_curammo( ammo.id );
-    tmp.weapon.charges = charges;
-    tmp.weapon.update_charger_gun_ammo();
 
-    int area = std::max( aoe_size( tmp.weapon.get_curammo()->ammo->ammo_effects ),
-                         aoe_size( tmp.weapon.type->gun->ammo_effects ) );
+    item gun( guntype.id, calendar::turn );
+    gun.set_curammo( ammotype.id );
+    gun.charges = charges;
+    gun.update_charger_gun_ammo();
+
+    int area = std::max( aoe_size( gun.ammo_data()->ammo->ammo_effects ),
+                         aoe_size( gun.type->gun->ammo_effects ) );
     if( area > 0 ) {
         area += area == 1 ? 1 : 2; // Pad a bit for less friendly fire
     }
@@ -6422,7 +6423,7 @@ bool vehicle::automatic_fire_turret( int p, const itype &gun, const itype &ammo,
     }
 
     // Move the charger gun "whoosh" here - no need to pass it from above
-    if( tmp.weapon.is_charger_gun() && charges > 20 ) {
+    if( gun.is_charger_gun() && charges > 20 ) {
         sounds::sound( targ, 20, _("whoosh!") );
     }
     // notify player if player can see the shot
@@ -6434,10 +6435,12 @@ bool vehicle::automatic_fire_turret( int p, const itype &gun, const itype &ammo,
     // Drain a ton of power
     tmp_ups.charges = drain( fuel_type_battery, 1000 );
     tmp.worn.insert( tmp.worn.end(), tmp_ups );
-    tmp.fire_gun( tmp.weapon, targ, (long)abs( parts[p].mode ) );
+
+    tmp.fire_gun( gun, targ, (long)abs( parts[p].mode ) );
+
     // Return whatever is left.
     refill( fuel_type_battery, tmp.worn.back().charges );
-    charges = tmp.weapon.charges; // Return real ammo, in case of burst ending early
+    charges = gun.charges; // Return real ammo, in case of burst ending early
 
     return true;
 }
