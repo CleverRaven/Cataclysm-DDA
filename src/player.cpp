@@ -3001,10 +3001,12 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
             } else if (line == 5) { //Right Arm
                 s += _("Arm encumbrance affects stamina cost of melee attacks and accuracy with ranged weapons.");
             } else if (line == 6) { //Left Hand
+                s += _( "Reduces the speed at which you can handle or manipulate items\n" );
                 s += reload_cost_text( (encumb( bp_hand_l ) / 10) * 15 );
                 s += string_format( _("Dexterity %+d when throwing items;\n"), -(encumb( bp_hand_l )/10) );
                 s += melee_cost_text( encumb( bp_hand_l ) / 2 );
             } else if (line == 7) { //Right Hand
+                s += _( "Reduces the speed at which you can handle or manipulate items\n" );
                 s += reload_cost_text( (encumb( bp_hand_r ) / 10) * 15 );
                 s += string_format( _("Dexterity %+d when throwing items;\n"), -(encumb( bp_hand_r )/10) );
                 s += melee_cost_text( encumb( bp_hand_r ) / 2 );
