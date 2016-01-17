@@ -10466,7 +10466,7 @@ bool player::can_unwield( const item& it, bool interactive ) const
     return true;
 }
 
-bool player::wield(item* it, bool )
+bool player::wield( item& target, bool )
 {
     if (weapon.has_flag("NO_UNWIELD")) {
         add_msg(m_info, _("You cannot unwield your %s!  Withdraw them with 'p'."),
@@ -10474,7 +10474,7 @@ bool player::wield(item* it, bool )
         return false;
     }
 
-    if( it == NULL || it->is_null() ) {
+    if( target.is_null() ) {
         if( weapon.is_null() ) {
             return false;
         }
@@ -10517,19 +10517,19 @@ bool player::wield(item* it, bool )
         return false;
     }
 
-    if (&weapon == it) {
+    if( &weapon == &target ) {
         add_msg(m_info, _("You're already wielding that!"));
         return false;
     }
 
-    if( !can_wield( *it ) ) {
+    if( !can_wield( target ) ) {
         return false;
     }
 
     int mv = 0;
 
     if( is_armed() ) {
-        if( !wield( &ret_null ) ) {
+        if( !wield( ret_null ) ) {
             return false;
         }
         inv.unsort();
@@ -10540,17 +10540,17 @@ bool player::wield(item* it, bool )
     // than a skilled player with a holster.
     // There is an additional penalty when wielding items from the inventory whilst currently grabbed.
 
-    mv += item_handling_cost(*it);
+    mv += item_handling_cost( target );
 
-    if( is_worn( *it ) ) {
-        it->on_takeoff( *this );
+    if( is_worn( target ) ) {
+        target.on_takeoff( *this );
     } else {
         mv *= 2;
     }
 
     moves -= mv;
 
-    weapon = i_rem( it );
+    weapon = i_rem( &target );
     last_item = itype_id( weapon.type->id );
 
     weapon.on_wield( *this, mv );
@@ -11238,7 +11238,7 @@ bool player::takeoff( item *target, bool autodrop, std::vector<item> *items)
 bool player::takeoff(int inventory_position, bool autodrop, std::vector<item> *items)
 {
     if (inventory_position == -1) {
-        return wield( nullptr, autodrop );
+        return wield( ret_null, autodrop );
     }
 
     int worn_index = worn_position_to_index( inventory_position );
@@ -13762,7 +13762,7 @@ bool player::wield_contents( item *container, int pos, int factor, bool effects 
     int mv = 0;
 
     if( is_armed() ) {
-        if( !wield( &ret_null ) ) {
+        if( !wield( ret_null ) ) {
             return false;
         }
         inv.unsort();

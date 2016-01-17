@@ -10843,7 +10843,7 @@ void game::plfire( bool burst, const tripoint &default_target )
             } else if( w.is_gun() && w.has_gunmod( "shoulder_strap" ) >= 0 ) {
                 // wield item currently worn using shoulder strap
                 options.push_back( w.display_name() );
-                actions.push_back( [&]{ u.wield( &w ); } );
+                actions.push_back( [&]{ u.wield( w ); } );
             }
         }
 
@@ -11585,14 +11585,8 @@ void game::wield( int pos )
         u.inv.assign_empty_invlet( it, true );
     }
 
-    bool success = false;
-    if( pos == -1 ) {
-        success = u.wield( NULL );
-    } else {
-        success = u.wield( &( u.i_at( pos ) ) );
-    }
-
-    if( success ) {
+    // If called for the current weapon then try unwielding it
+    if( u.wield( pos == -1 ? u.ret_null : it ) ) {
         u.recoil = MIN_RECOIL;
     }
 }

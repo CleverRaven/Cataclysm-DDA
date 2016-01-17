@@ -4656,7 +4656,7 @@ std::string give_item_to( npc &p, bool allow_use, bool allow_carry )
         add_msg( m_debug, "NPC evaluates your %s as melee weapon: %0.1f",
                  given.tname().c_str(), new_melee_value );
         if( new_melee_value > cur_weapon_value ) {
-            p.wield( &given );
+            p.wield( given );
             taken = true;
         }
 
@@ -4673,7 +4673,7 @@ std::string give_item_to( npc &p, bool allow_use, bool allow_carry )
             add_msg( m_debug, "NPC evaluates your %s (%d ammo): %0.1f",
                      given.tname().c_str(), ammo_count, new_weapon_value );
             if( new_weapon_value > cur_weapon_value ) {
-                p.wield( &given );
+                p.wield( given );
                 taken = true;
             }
         }
