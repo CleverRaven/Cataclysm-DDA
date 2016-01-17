@@ -884,7 +884,7 @@
         "type":"GENERIC",
         "id": "veh_tracker",
         "name": "vehicle tracking device",
-        "description": "A vehicle tracking device, when installed on a vehicle allows you track the vehicle through your PDA",
+        "description": "A vehicle tracking device, when installed on a vehicle allows you track the vehicle.",
         "weight": 400,
         "to_hit": 0,
         "color": "red",

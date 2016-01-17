@@ -954,7 +954,6 @@ void vehicle::use_controls(const tripoint &pos)
     bool has_overhead_lights = false;
     bool has_horn = false;
     bool has_turrets = false;
-    bool has_tracker = false;
     bool has_reactor = false;
     bool has_engine = false;
     bool has_mult_engine = false;
@@ -992,9 +991,6 @@ void vehicle::use_controls(const tripoint &pos)
         }
         else if (part_flag(p, "HORN")) {
             has_horn = true;
-        }
-        else if (part_flag(p, "TRACK")) {
-            has_tracker = true;
         }
         else if (part_flag(p, "STEREO")) {
             has_stereo = true;
@@ -1107,10 +1103,8 @@ void vehicle::use_controls(const tripoint &pos)
     }
 
     // Tracking on the overmap
-    if (has_tracker) {
-        menu.addentry( toggle_tracker, true, 'g', tracking_on ?
-                       _("Disable tracking device") : _("Enable tracking device") );
-    }
+    menu.addentry( toggle_tracker, true, 'g', tracking_on ?
+                   _("Forget vehicle position") : _("Remember vehicle position") );
 
     const bool can_be_folded = is_foldable();
     const bool is_convertible = (tags.count("convertible") > 0);
@@ -1313,18 +1307,14 @@ void vehicle::use_controls(const tripoint &pos)
         }
         break;
     case toggle_tracker:
-        if (tracking_on)
-        {
+        if( tracking_on ) {
             overmap_buffer.remove_vehicle( this );
             tracking_on = false;
-            add_msg(_("tracking device disabled"));
-        } else if (fuel_left(fuel_type_battery, true))
-        {
+            add_msg( _( "You stop keeping track of the vehicle position." ) );
+        } else {
             overmap_buffer.add_vehicle( this );
             tracking_on = true;
-            add_msg(_("tracking device enabled"));
-        } else {
-            add_msg(_("tracking device won't turn on"));
+            add_msg( _( "You start keeping track of this vehicle's position." ) );
         }
         break;
     case toggle_doors:
@@ -2150,23 +2140,6 @@ bool vehicle::remove_part (int p)
          * depending on presence of window and seatbelt depending on presence of seat.
          */
         return false;
-    }
-    if (part_flag(p, "TRACK")) {
-        // disable tracking if there are no other trackers installed.
-        if (tracking_on)
-        {
-            bool has_tracker = false;
-            for (int i = 0; i != (int)parts.size(); i++){
-                if (i != p && part_flag(i, "TRACK")){
-                    has_tracker = true;
-                    break;
-                }
-            }
-            if (!has_tracker){ // disable tracking
-                overmap_buffer.remove_vehicle( this );
-                tracking_on = false;
-            }
-        }
     }
 
     if (part_flag(p, "ATOMIC_LIGHT")) {
@@ -3655,7 +3628,6 @@ void vehicle::power_parts()
     // Consumers of epower
     if( lights_on ) epower += lights_epower;
     if( overhead_lights_on ) epower += overhead_epower;
-    if( tracking_on ) epower += tracking_epower;
     if( fridge_on ) epower += fridge_epower;
     if( recharger_on ) epower += recharger_epower;
     if( is_alarm_on ) epower += alarm_epower;
@@ -3746,10 +3718,6 @@ void vehicle::power_parts()
     if( battery_deficit != 0 ) {
         is_alarm_on = false;
         lights_on = false;
-        if( tracking_on ) {
-            overmap_buffer.remove_vehicle( this );
-            tracking_on = false;
-        }
         overhead_lights_on = false;
         fridge_on = false;
         stereo_on = false;
