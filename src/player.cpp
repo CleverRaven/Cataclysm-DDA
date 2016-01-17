@@ -9754,11 +9754,11 @@ bool player::consume_item( item &target )
             to_eat->charges++; //there's a flat subtraction later
         } else if (to_eat->is_ammo() &&  ( has_active_bionic("bio_reactor") || has_active_bionic("bio_advreactor") ) && ( to_eat->ammo_type() == "reactor_slurry" || to_eat->ammo_type() == "plutonium")) {
             if (to_eat->type->id == "plut_cell" && query_yn(_("Thats a LOT of plutonium.  Are you sure you want that much?"))) {
-                tank_plut += 5000;
+                tank_plut += PLUTONIUM_CHARGES * 10;
             } else if (to_eat->type->id == "plut_slurry_dense") {
-                tank_plut += 500;
+                tank_plut += PLUTONIUM_CHARGES;
             } else if (to_eat->type->id == "plut_slurry") {
-                tank_plut += 250;
+                tank_plut += PLUTONIUM_CHARGES / 2;
             }
             add_msg_player_or_npc( _("You add your %s to your reactor's tank."), _("<npcname> pours %s into their reactor's tank."),
             to_eat->tname().c_str());
