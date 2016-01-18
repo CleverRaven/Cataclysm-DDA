@@ -460,8 +460,7 @@
         "volume": 6,
         "bashing": 14,
         "flags" : ["SPEAR", "REACH_ATTACK"],
-        "cutting": 8,
-        "to_hit": 0
+        "cutting": 8
     },
     {
         "id": "bokken",
@@ -720,8 +719,7 @@
         "material": "gold",
         "weight": 1514,
         "volume": 1,
-        "bashing": 9,
-        "to_hit": 0
+        "bashing": 9
     },
     {
         "type":"GENERIC",
@@ -809,8 +807,7 @@
         "material": "stone",
         "weight": 1000,
         "volume": 4,
-        "bashing": 4,
-        "to_hit": 0
+        "bashing": 4
         },
     {
         "type":"GENERIC",
@@ -918,8 +915,7 @@
         "material": "iron",
         "weight": 3220,
         "volume": 3,
-        "bashing": -1,
-        "to_hit": 0
+        "bashing": -1
     },
     {
         "type":"GENERIC",
@@ -975,8 +971,7 @@
         "price": 1000,
         "material": "iron",
         "weight": 226,
-        "volume": 1,
-        "to_hit": 0
+        "volume": 1
     },
     {
         "type":"GENERIC",
@@ -1003,8 +998,7 @@
         "price": 1000,
         "material": ["aluminum", "plastic"],
         "weight": 5,
-        "volume": 0,
-        "to_hit": 0
+        "volume": 0
     },
     {
         "type":"GENERIC",
@@ -1016,8 +1010,7 @@
         "price": 1000,
         "material": ["aluminum", "plastic"],
         "weight": 725,
-        "volume": 3,
-        "to_hit": 0
+        "volume": 3
     },
     {
         "type":"GENERIC",
@@ -1029,8 +1022,7 @@
         "price": 1000,
         "material": ["steel", "plastic"],
         "weight": 11339,
-        "volume": 12,
-        "to_hit": 0
+        "volume": 12
     },
     {
         "type":"GENERIC",
@@ -1042,8 +1034,7 @@
         "price": 1000,
         "material": ["plastic", "aluminum"],
         "weight": 2721,
-        "volume": 3,
-        "to_hit": 0
+        "volume": 3
     },
     {
         "type":"GENERIC",
@@ -1279,8 +1270,7 @@
         "price": 1000,
         "material": ["aluminum", "plastic"],
         "weight": 2857,
-        "volume": 4,
-        "to_hit": 0
+        "volume": 4
     },
     {
         "type":"GENERIC",
@@ -1294,8 +1284,7 @@
         "material": "ceramic",
         "weight": 362,
         "volume": 2,
-        "bashing": 4,
-        "to_hit": 0
+        "bashing": 4
     },
     {
         "type":"GENERIC",
@@ -1308,8 +1297,7 @@
         "material": "ceramic",
         "weight": 362,
         "volume": 1,
-        "bashing": 1,
-        "to_hit": 0
+        "bashing": 1
     },
     {
         "type":"GENERIC",
@@ -1350,8 +1338,7 @@
         "material": "glass",
         "weight": 452,
         "volume": 1,
-        "bashing": 1,
-        "to_hit": 0
+        "bashing": 1
     },
     {
         "type":"GENERIC",
@@ -1392,8 +1379,7 @@
         "price": 500,
         "material": "steel",
         "weight": 525,
-        "volume": 1,
-        "to_hit": 0
+        "volume": 1
     },
     {
         "type":"GENERIC",
@@ -1469,8 +1455,7 @@
         "material": "cotton",
         "flags": ["NO_SALVAGE"],
         "weight": 80,
-        "volume": 1,
-        "to_hit": 0
+        "volume": 1
     },
     {
         "type":"GENERIC",
@@ -1498,8 +1483,7 @@
         "price": 200,
         "material": "steel",
         "weight": 453,
-        "volume": 1,
-        "to_hit": 0
+        "volume": 1
     },
     {
         "type":"GENERIC",
@@ -1613,8 +1597,7 @@
         "price": 0,
         "material": "veggy",
         "weight": 0,
-        "volume": 0,
-        "to_hit": 0
+        "volume": 0
     },
     {
         "type":"GENERIC",
@@ -1848,8 +1831,7 @@
         "weight": 430,
         "bashing": 4,
         "cutting": 6,
-        "flags" : ["UNARMED_WEAPON"],
-        "to_hit": 0
+        "flags" : ["UNARMED_WEAPON"]
     },
     {
         "type":"GENERIC",
@@ -2429,8 +2411,7 @@
         "volume": 1,
         "weight": 430,
         "bashing": 8,
-        "flags" : ["UNARMED_WEAPON"],
-        "to_hit": 0
+        "flags" : ["UNARMED_WEAPON"]
     },
     {
         "type":"GENERIC",
@@ -2461,8 +2442,7 @@
         "volume": 2,
         "weight": 970,
         "bashing": 12,
-        "flags" : ["UNARMED_WEAPON", "DURABLE_MELEE"],
-        "to_hit": 0
+        "flags" : ["UNARMED_WEAPON", "DURABLE_MELEE"]
     },
     {
         "type":"GENERIC",
@@ -2478,8 +2458,7 @@
         "volume": 0,
         "weight": 320,
         "bashing": 6,
-        "flags" : ["UNARMED_WEAPON", "DURABLE_MELEE"],
-        "to_hit": 0
+        "flags" : ["UNARMED_WEAPON", "DURABLE_MELEE"]
     },
     {
         "type":"GENERIC",
@@ -2721,8 +2700,7 @@
         "flags": ["NO_SALVAGE"],
         "weight": 42,
         "volume": 1,
-        "bashing": -8,
-        "to_hit": 0
+        "bashing": -8
     },
     {
         "type":"GENERIC",
@@ -2890,8 +2868,7 @@
         "volume": 1,
         "bashing": 2,
         "cutting": 1,
-        "flags" : ["STAB", "SHEATH_KNIFE"],
-        "to_hit": 0
+        "flags" : ["STAB", "SHEATH_KNIFE"]
     },
     {
         "type":"GENERIC",
@@ -2904,8 +2881,7 @@
         "material": "steel",
         "weight": 10,
         "volume": 0,
-        "cutting": 1,
-        "to_hit": 0
+        "cutting": 1
     },
     {
         "type":"GENERIC",
@@ -3685,9 +3661,7 @@
     "material": "plastic",
     "flags" : ["MC_MOBILE", "MC_RANDOM_STUFF", "MC_MAY_BE_ENCRYPTED", "MC_TURN_USED"],
     "weight": 5,
-    "volume": 0,
-    "bashing": 0,
-    "to_hit": 0
+    "volume": 0
   },
   {
     "type":"GENERIC",
@@ -3701,9 +3675,7 @@
     "material": "plastic",
     "flags" : ["MC_MOBILE", "MC_USED"],
     "weight": 5,
-    "volume": 0,
-    "bashing": 0,
-    "to_hit": 0
+    "volume": 0
   },
   {
     "type":"GENERIC",
@@ -3717,9 +3689,7 @@
     "material": "plastic",
     "flags" : ["MC_MOBILE", "MC_ENCRYPTED", "MC_TURN_USED"],
     "weight": 5,
-    "volume": 0,
-    "bashing": 0,
-    "to_hit": 0
+    "volume": 0
   },
   {
     "type":"GENERIC",
@@ -3733,9 +3703,8 @@
     "material": "plastic",
     "flags" : ["MC_MOBILE", "MC_ENCRYPTED", "MC_TURN_USED", "MC_SCIENCE_STUFF"],
     "weight": 5,
-    "volume": 0,
-    "bashing": 0,
-    "to_hit": 0
+    "volume": 0
+
   },
    {
      "type":"GENERIC",
@@ -3872,8 +3841,7 @@
         "material": "clay",
         "weight": 2264,
         "volume": 6,
-        "category": "tools",
-        "to_hit": 0
+        "category": "tools"
     },{
         "type": "GENERIC",
         "id": "clay_teapot",
@@ -3943,8 +3911,7 @@
         "material": "stone",
         "weight": 1000,
         "volume": 4,
-        "bashing": 4,
-        "to_hit": 0
+        "bashing": 4
     },
     {
     "id": "gasdiscount_silver",
