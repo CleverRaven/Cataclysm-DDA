@@ -2,13 +2,14 @@
     "tile_info":
     [
         {
-            "height": 20,
-            "width": 20
+            "height": 10,
+            "width": 10,
+            "pixelscale": 2
         }
     ],
 	"tiles-new": [
 	{
-	"file": "retrodaystiles20.png",
+	"file": "../RetroDaysTileset10/retrodaystiles10.png",
 	"transparency": { "R": 0, "G": 0, "B": 0 },
     "tiles":
     [
@@ -30203,7 +30204,7 @@
 	]
 	},
 	{
-      "file": "retrodaysfallback20.png",
+      "file": "../RetroDaysTileset10/retrodaysfallback10.png",
       "tiles": [
       ],
       "ascii": [
