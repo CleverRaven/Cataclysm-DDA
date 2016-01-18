@@ -4995,9 +4995,6 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp, const 
         if (source->is_monster() && dealt_dams.total_damage() > 0) {
             monster *m = dynamic_cast<monster *>(source); if( m != NULL ) {
                 for (auto eff : m->type->atk_effs) {
-                    if( eff.id == efftype_id( "null" ) ) {
-                        continue;
-                    }
                     if (x_in_y(eff.chance, 100)) {
                         add_effect( eff.id, eff.duration, eff.bp, eff.permanent );
                     }

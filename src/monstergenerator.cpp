@@ -482,7 +482,7 @@ void mtype::load( JsonObject &jo )
         JsonArray jsarr = jo.get_array( "attack_effs" );
         while( jsarr.has_more() ) {
             JsonObject e = jsarr.next_object();
-            mon_effect_data new_eff( efftype_id( e.get_string( "id", "null" ) ), e.get_int( "duration", 0 ),
+            mon_effect_data new_eff( efftype_id( e.get_string( "id" ) ), e.get_int( "duration", 0 ),
                                      get_body_part_token( e.get_string( "bp", "NUM_BP" ) ), e.get_bool( "permanent", false ),
                                      e.get_int( "chance", 100 ) );
             atk_effs.push_back( new_eff );
