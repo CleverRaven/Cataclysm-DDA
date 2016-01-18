@@ -1178,7 +1178,9 @@ Each tileset has a tile_config.json describing how to map the contents of a spri
     "tile_info": [                              // tile_info is mandatory
       {
         "height": 32,
-        "width": 32
+        "width": 32,
+        "iso" : true,                             //  Optional. Indicates an isometric tileset. Defaults to false.
+        "pixelscale" : 2                          //  Optional. Sets a multiplier for resizing a tileset. Defaults to 1.
       }
     ],
     "tiles-new": [                              // tiles-new is an array of sprite sheets
