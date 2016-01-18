@@ -110,7 +110,6 @@ const efftype_id effect_glowing( "glowing" );
 const efftype_id effect_grabbed( "grabbed" );
 const efftype_id effect_hallu( "hallu" );
 const efftype_id effect_hot( "hot" );
-const efftype_id effect_impaled( "impaled" );
 const efftype_id effect_infected( "infected" );
 const efftype_id effect_iodine( "iodine" );
 const efftype_id effect_jetinjector( "jetinjector" );
@@ -7563,11 +7562,6 @@ void player::hardcoded_effects(effect &it)
         if (zed_number > 0){
             add_effect( effect_grabbed, 2, bp_torso, false, (intense + zed_number) / 2); //If intensity isn't pass the cap, average it with # of zeds
         }
-    } else if( id == effect_impaled ) {
-        blocks_left -= 2;
-        dodges_left = 0;
-        // Set ourselves up for removal
-        it.set_duration(0);
     } else if( id == effect_bite ) {
         bool recovered = false;
         /* Recovery chances, use binomial distributions if balancing here. Healing in the bite
