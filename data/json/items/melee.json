@@ -5,7 +5,6 @@
         "name" : "Mjölnir",
         "description" : "A large hammer, forged from the heart of a dying star.  It bears the inscription:\n \nWhosoever holds this hammer,\nIf he be worthy,\nShall possess the power to...\nCRUSH!!'",
         "weight" : 5443,
-        "to_hit" : 0,
         "color" : "light_gray",
         "symbol" : "/",
         "material" : ["wood", "steel"],
@@ -1324,7 +1323,6 @@
         "weight": 400,
         "volume": 1,
         "bashing": 1,
-        "to_hit": 0,
         "qualities": [["CONTAIN", 1]]
     },
     {
@@ -1339,7 +1337,6 @@
         "weight": 300,
         "volume": 1,
         "bashing": 1,
-        "to_hit": 0,
         "qualities": [["CONTAIN", 1]]
     },
     {
@@ -1368,7 +1365,6 @@
         "weight": 500,
         "volume": 1,
         "bashing": 1,
-        "to_hit": 0,
         "qualities": [["CONTAIN", 1]]
     },
     {
@@ -1384,7 +1380,6 @@
         "weight": 375,
         "volume": 1,
         "bashing": 1,
-        "to_hit": 0,
         "qualities": [["CONTAIN", 1]]
     },
     {
@@ -1685,7 +1680,6 @@
         "weight": 648,
         "bashing": 12,
         "cutting": 4,
-        "to_hit": 0,
         "techniques": ["WBLOCK_1"]
     },
     {
@@ -1743,7 +1737,6 @@
         "name" : "sledge hammer",
         "description" : "A large, heavy hammer.  Makes an acceptable melee weapon for the very strong, but is nearly useless in the hands of the weak.",
         "weight" : 4500,
-        "to_hit" : 0,
         "color" : "brown",
         "symbol" : "/",
         "material" : ["wood", "steel"],
@@ -2116,7 +2109,6 @@
         "material" : ["flesh", "null"],
         "techniques" : ["PRECISE"],
         "volume" : 1,
-        "bashing" : 0,
         "cutting" : 10,
         "flags" : ["SPEAR"],
         "price" : 7000
@@ -2133,7 +2125,6 @@
         "material" : ["veggy", "null"],
         "techniques" : ["PRECISE"],
         "volume" : 1,
-        "bashing" : 0,
         "cutting" : 8,
         "flags" : ["SPEAR", "SHEATH_KNIFE"],
         "price" : 7000
@@ -2150,7 +2141,6 @@
         "material" : ["flesh", "null"],
         "techniques" : ["PRECISE"],
         "volume" : 1,
-        "bashing" : 0,
         "cutting" : 8,
         "flags" : ["SPEAR", "SHEATH_KNIFE"],
         "price" : 9000
@@ -2304,7 +2294,6 @@
         "material" : ["superalloy", "null"],
         "techniques" : ["WBLOCK_1"],
         "volume" : 3,
-        "bashing" : 0,
         "cutting" : 36,
         "flags" : ["NON_STUCK", "STAB", "UNARMED_WEAPON", "NO_UNWIELD", "UNBREAKABLE_MELEE"],
         "price" : 0,
@@ -2777,7 +2766,6 @@
         "weight": 129,
         "volume": 1,
         "cutting": 6,
-        "to_hit": 0,
         "flags": ["SHEATH_KNIFE"],
         "qualities": [["BUTCHER", -18]]
     },{
@@ -2810,7 +2798,6 @@
         "weight": 900,
         "volume": 3,
         "bashing": -2,
-        "to_hit": 0,
         "material": ["plastic", "null"]
     },
     {
@@ -2826,7 +2813,6 @@
         "weight": 900,
         "volume": 3,
         "bashing": -2,
-        "to_hit": 0,
         "material": ["plastic", "null"]
     },
     {
@@ -2842,7 +2828,6 @@
         "weight": 900,
         "volume": 3,
         "bashing": -2,
-        "to_hit": 0,
         "material": ["plastic", "null"]
     },
     {
@@ -2858,7 +2843,6 @@
         "weight": 900,
         "volume": 3,
         "bashing": -2,
-        "to_hit": 0,
         "material": ["plastic", "null"]
     },
     {
@@ -2874,7 +2858,6 @@
         "weight": 900,
         "volume": 3,
         "bashing": -2,
-        "to_hit": 0,
         "material": ["plastic", "null"]
     },
     {
@@ -2963,8 +2946,6 @@
         "material" : "steel",
         "volume" : 5,
         "weight" : 10,
-        "bashing" : 0,
-        "to_hit" : 0,
         "ammo_type" : "NULL",
         "damage" : 0,
         "range" : 0,
@@ -2984,8 +2965,6 @@
         "material" : "steel",
         "volume" : 5,
         "weight" : 10,
-        "bashing" : 0,
-        "to_hit" : 0,
         "ammo_type" : "NULL",
         "damage" : 0,
         "range" : 0,
@@ -3005,8 +2984,6 @@
         "material" : "steel",
         "volume" : 5,
         "weight" : 10,
-        "bashing" : 0,
-        "to_hit" : 0,
         "ammo_type" : "NULL",
         "damage" : 0,
         "range" : 0,
@@ -3026,8 +3003,6 @@
         "material" : "steel",
         "volume" : 5,
         "weight" : 10,
-        "bashing" : 0,
-        "to_hit" : 0,
         "ammo_type" : "NULL",
         "damage" : 0,
         "range" : 0,
@@ -3047,8 +3022,6 @@
         "material" : "steel",
         "volume" : 5,
         "weight" : 10,
-        "bashing" : 0,
-        "to_hit" : 0,
         "ammo_type" : "NULL",
         "damage" : 0,
         "range" : 0,
@@ -3068,8 +3041,6 @@
         "material" : "steel",
         "volume" : 5,
         "weight" : 10,
-        "bashing" : 0,
-        "to_hit" : 0,
         "ammo_type" : "NULL",
         "damage" : 0,
         "range" : 0,
@@ -3088,8 +3059,6 @@
         "material" : "cotton",
         "volume" : 7,
         "weight" : 45,
-        "bashing" : 0,
-        "to_hit" : 0,
         "ammo_type" : "NULL",
         "damage" : 0,
         "range" : 0,
@@ -3108,8 +3077,6 @@
         "material" : "cotton",
         "volume" : 7,
         "weight" : 45,
-        "bashing" : 0,
-        "to_hit" : 0,
         "ammo_type" : "NULL",
         "damage" : 0,
         "range" : 0,
@@ -3128,8 +3095,6 @@
         "material" : "cotton",
         "volume" : 7,
         "weight" : 45,
-        "bashing" : 0,
-        "to_hit" : 0,
         "ammo_type" : "NULL",
         "damage" : 0,
         "range" : 0,
@@ -3148,8 +3113,6 @@
         "material" : "cotton",
         "volume" : 7,
         "weight" : 45,
-        "bashing" : 0,
-        "to_hit" : 0,
         "ammo_type" : "NULL",
         "damage" : 0,
         "range" : 0,
@@ -3605,7 +3568,6 @@
       "weight":15,
       "volume":0,
       "bashing":-2,
-      "cutting":0,
       "to_hit":-2
   },{
     "id": "l_HFPack",
@@ -3884,7 +3846,6 @@
         "material": ["leather", "null"],
         "flags": ["REACH_ATTACK", "REACH3", "WHIP"],
         "cutting": 3,
-        "to_hit": 0,
         "category": "weapons"
     },{
         "type": "GENERIC",
@@ -3899,7 +3860,6 @@
         "volume": 8,
         "bashing": 1,
         "category": "tools",
-        "to_hit": 0,
         "qualities": [["COOK", 3], ["BOIL", 2], ["CONTAIN", 1], ["CHEM", 1]]
     },{
         "type": "GENERIC",
