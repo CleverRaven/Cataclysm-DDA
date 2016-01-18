@@ -772,17 +772,14 @@ int inventory::invlet_to_position( char invlet ) const
 
 int inventory::position_by_item( const item *it ) const
 {
-    const auto filter = [it]( const item & i ) {
-        return &i == it;
-    };
-    int i = 0;
-    for( auto &elem : items ) {
-        for( auto &elem_stack_iter : elem ) {
-            if( has_item_with_recursive( elem_stack_iter, filter ) ) {
-                return i;
+    int p = 0;
+    for( const auto &stack : items ) {
+        for( const auto &e : stack ) {
+            if( e.contains( it ) ) {
+                return p;
             }
         }
-        ++i;
+        p++;
     }
     return INT_MIN;
 }
@@ -1189,7 +1186,7 @@ std::set<char> inventory::allocated_invlets() const
 VisitResponse inventory::visit_items( const std::function<VisitResponse(item&)>& func ) {
     for( auto &stack : items ) {
         for( auto &it : stack ) {
-            if( it.visit( func ) == VisitResponse::ABORT ) {
+            if( it.visit_items( func ) == VisitResponse::ABORT ) {
                 return VisitResponse::ABORT;
             }
         }
@@ -1199,4 +1196,32 @@ VisitResponse inventory::visit_items( const std::function<VisitResponse(item&)>&
 
 VisitResponse inventory::visit_items( const std::function<VisitResponse(const item&)>& func ) const {
     return const_cast<inventory *>( this )->visit_items( static_cast<const std::function<VisitResponse(item&)>&>( func ) );
+}
+
+std::vector<item *> inventory::items_with( const std::function<bool(const item&)>& filter ) {
+    std::vector<item *> res;
+    visit_items( [&res, &filter]( item& it ) {
+        if( filter( it ) ) {
+            res.emplace_back( &it );
+        }
+        return VisitResponse::NEXT;
+    });
+    return res;
+}
+
+std::vector<const item *> inventory::items_with( const std::function<bool(const item&)>& filter ) const {
+    std::vector<const item *> res;
+    visit_items( [&res, &filter]( const item& it ) {
+        if( filter( it ) ) {
+            res.emplace_back( &it );
+        }
+        return VisitResponse::NEXT;
+    });
+    return res;
+}
+
+bool inventory::has_item_with( const std::function<bool(const item&)>& filter ) const {
+    return visit_items( [&filter]( const item& it ) {
+        return filter( it ) ? VisitResponse::ABORT : VisitResponse::NEXT;
+    } ) == VisitResponse::ABORT;
 }

@@ -341,7 +341,7 @@ void Pickup::pick_one_up( const tripoint &pickup_target, item &newit, vehicle *v
                             g->m.add_item_or_charges( pickup_target,
                                                       g->u.remove_weapon(), 1 );
                             g->u.inv.assign_empty_invlet( newit, true ); // force getting an invlet.
-                            g->u.wield( &( g->u.i_add(newit) ) );
+                            g->u.wield( g->u.i_add(newit) );
 
                             if (newit.invlet) {
                                 add_msg(m_info, _("Wielding %c - %s"), newit.invlet,
@@ -364,7 +364,7 @@ void Pickup::pick_one_up( const tripoint &pickup_target, item &newit, vehicle *v
                             newit.display_name().c_str());
                 } else {
                     g->u.inv.assign_empty_invlet(newit, true);  // force getting an invlet.
-                    g->u.wield(&(g->u.i_add(newit)));
+                    g->u.wield( g->u.i_add( newit ) );
                     picked_up = true;
 
                     if (newit.invlet) {

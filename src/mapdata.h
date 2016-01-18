@@ -172,6 +172,18 @@ enum ter_bitflags : int {
     NUM_TERFLAGS
 };
 
+/*
+ * Terrain groups which affect whether the terrain connects visually.
+ * Groups are also defined in ter_connects_map() in mapdata.cpp which matches group to JSON string.
+ */
+enum ter_connects : int {
+    TERCONN_NONE,
+    TERCONN_WALL,
+    TERCONN_CHAINFENCE,
+    TERCONN_WOODFENCE,
+    TERCONN_RAILING,
+};
+
 struct map_data_common_t {
     std::string id;    // The terrain's ID. Must be set, must be unique.
     std::string name;  // The plaintext name of the terrain type the user would see (i.e. dirt)
@@ -184,6 +196,7 @@ struct map_data_common_t {
 private:
     std::set<std::string> flags;    // string flags which possibly refer to what's documented above.
     std::bitset<NUM_TERFLAGS> bitflags; // bitfield of -certian- string flags which are heavily checked
+
 public:
 
     enum { SEASONS_PER_YEAR = 4 };
@@ -213,6 +226,16 @@ public:
     }
 
     void set_flag( const std::string &flag );
+
+    int connect_group;
+
+    void set_connects( const std::string &connect_group_string );
+
+    bool connects( int &ret ) const;
+
+    bool connects_to( int test_connect_group ) const {
+        return ( connect_group != TERCONN_NONE ) && ( connect_group == test_connect_group );
+    }
 
     long symbol() const;
     nc_color color() const;

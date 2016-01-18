@@ -333,7 +333,7 @@ void npc::execute_action(npc_action action, int target)
             debugmsg("NPC tried to wield a loaded gun, but has none!");
             move_pause();
         } else {
-            wield(it);
+            wield( *it );
         }
     }
     break;
@@ -355,7 +355,7 @@ void npc::execute_action(npc_action action, int target)
             debugmsg("NPC tried to wield a gun, but has none!");
             move_pause();
         } else {
-            wield(&(slice[index]->front()));
+            wield( slice[index]->front() );
         }
     }
     break;
@@ -1832,7 +1832,7 @@ void npc::wield_best_melee()
         it = &ret_null;
     }
 
-    wield( it );
+    wield( *it );
 }
 
 void npc::alt_attack(int target)

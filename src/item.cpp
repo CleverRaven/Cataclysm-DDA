@@ -4821,14 +4821,14 @@ void item::mark_as_used_by_player(const player &p)
     used_by_ids += string_format( "%d;", p.getID() );
 }
 
-VisitResponse item::visit( const std::function<VisitResponse(item&)>& func ) {
+VisitResponse item::visit_items( const std::function<VisitResponse(item&)>& func ) {
     switch( func( *this ) ) {
         case VisitResponse::ABORT:
             return VisitResponse::ABORT;
 
         case VisitResponse::NEXT:
             for( auto& e : contents ) {
-                if( e.visit( func ) == VisitResponse::ABORT ) {
+                if( e.visit_items( func ) == VisitResponse::ABORT ) {
                     return VisitResponse::ABORT;
                 }
             }
@@ -4842,8 +4842,14 @@ VisitResponse item::visit( const std::function<VisitResponse(item&)>& func ) {
     return VisitResponse::ABORT;
 }
 
-VisitResponse item::visit( const std::function<VisitResponse(const item&)>& func ) const {
-    return const_cast<item *>( this )->visit( static_cast<const std::function<VisitResponse(item&)>&>( func ) );
+VisitResponse item::visit_items( const std::function<VisitResponse(const item&)>& func ) const {
+    return const_cast<item *>( this )->visit_items( static_cast<const std::function<VisitResponse(item&)>&>( func ) );
+}
+
+bool item::contains( const std::function<bool(const item&)>& filter ) const {
+    return visit_items( [&filter] ( const item& e ) {
+        return filter( e ) ? VisitResponse::ABORT : VisitResponse::NEXT;
+    }) == VisitResponse::ABORT;
 }
 
 bool item::can_holster ( const item& obj ) const {

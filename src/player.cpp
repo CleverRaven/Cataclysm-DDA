@@ -41,6 +41,7 @@
 #include "mtype.h"
 #include "weather_gen.h"
 #include "cata_utility.h"
+#include "iuse_actor.h"
 
 #include <map>
 
@@ -3001,10 +3002,12 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
             } else if (line == 5) { //Right Arm
                 s += _("Arm encumbrance affects stamina cost of melee attacks and accuracy with ranged weapons.");
             } else if (line == 6) { //Left Hand
+                s += _( "Reduces the speed at which you can handle or manipulate items\n" );
                 s += reload_cost_text( (encumb( bp_hand_l ) / 10) * 15 );
                 s += string_format( _("Dexterity %+d when throwing items;\n"), -(encumb( bp_hand_l )/10) );
                 s += melee_cost_text( encumb( bp_hand_l ) / 2 );
             } else if (line == 7) { //Right Hand
+                s += _( "Reduces the speed at which you can handle or manipulate items\n" );
                 s += reload_cost_text( (encumb( bp_hand_r ) / 10) * 15 );
                 s += string_format( _("Dexterity %+d when throwing items;\n"), -(encumb( bp_hand_r )/10) );
                 s += melee_cost_text( encumb( bp_hand_r ) / 2 );
@@ -9224,7 +9227,7 @@ const martialart &player::get_combat_style() const
 std::vector<item *> player::inv_dump()
 {
     std::vector<item *> ret;
-    if (!weapon.is_null() && !weapon.has_flag("NO_UNWIELD")) {
+    if( !weapon.is_null() && can_unwield( weapon, false ) ) {
         ret.push_back(&weapon);
     }
     for (auto &i : worn) {
@@ -10425,15 +10428,15 @@ void player::rooted()
     }
 }
 
-bool player::can_wield( const item &it, bool interactive ) const
+bool player::can_wield( const item &it, bool alert ) const
 {
     if( it.is_two_handed(*this) && !has_two_arms() ) {
         if( it.has_flag("ALWAYS_TWOHAND") ) {
-            if( interactive ) {
+            if( alert ) {
                 add_msg( m_info, _("The %s can't be wielded with only one arm."), it.tname().c_str() );
             }
         } else {
-            if( interactive ) {
+            if( alert ) {
                 add_msg( m_info, _("You are too weak to wield %s with only one arm."),
                          it.tname().c_str() );
             }
@@ -10443,54 +10446,72 @@ bool player::can_wield( const item &it, bool interactive ) const
     return true;
 }
 
-bool player::wield(item* it, bool autodrop)
+bool player::can_unwield( const item& it, bool alert ) const
 {
-    if (weapon.has_flag("NO_UNWIELD")) {
-        add_msg(m_info, _("You cannot unwield your %s!  Withdraw them with 'p'."),
-                weapon.tname().c_str());
-        return false;
-    }
-    if (it == NULL || it->is_null()) {
-        if(weapon.is_null()) {
-            return false;
+    if( it.has_flag( "NO_UNWIELD" ) ) {
+        if( alert ) {
+            add_msg( m_info, _( "You cannot unwield your %s" ), it.tname().c_str() );
         }
-        if (autodrop || volume_carried() + weapon.volume() <= volume_capacity()) {
-            moves -= item_handling_cost(weapon);
-            inv.add_item_keep_invlet(remove_weapon());
-            inv.unsort();
-            recoil = MIN_RECOIL;
-            return true;
-        } else if (query_yn(_("No space in inventory for your %s.  Drop it?"),
-                   weapon.tname().c_str())) {
-            g->m.add_item_or_charges(posx(), posy(), remove_weapon());
-            recoil = MIN_RECOIL;
-            return true;
-        } else {
-            return false;
-        }
-    }
-    if (&weapon == it) {
-        add_msg(m_info, _("You're already wielding that!"));
-        return false;
-    } else if (it == NULL || it->is_null()) {
-        add_msg(m_info, _("You don't have that item."));
         return false;
     }
 
-    if( !can_wield( *it ) ) {
+    return true;
+}
+
+bool player::wield( item& target )
+{
+    if( !can_unwield( weapon ) || !can_wield( target ) ) {
+        return false;
+    }
+
+    if( target.is_null() ) {
+        uimenu prompt;
+        prompt.text = string_format( _( "Stop wielding %s?" ), weapon.tname().c_str() );
+        std::vector<std::function<void()>> actions;
+
+        prompt.addentry( -1, volume_carried() + weapon.volume() <= volume_capacity(), '1', _( "Store in inventory" ) );
+        actions.push_back( [&]{
+            moves -= item_handling_cost( weapon );
+            inv.add_item_keep_invlet( remove_weapon() );
+            inv.unsort();
+        });
+
+        prompt.addentry( -1, true, '2', _( "Drop item" ) );
+        actions.push_back( [&]{ g->m.add_item_or_charges( pos(), remove_weapon() ); });
+
+        prompt.addentry( -1, rate_action_wear( weapon ) == HINT_GOOD, '3', _( "Wear item" ) );
+        actions.push_back( [&]{ wear( -1 ); });
+
+        for( auto& e : worn ) {
+            if( e.can_holster( weapon ) ) {
+                prompt.addentry( -1, true, e.invlet, _( "Store in %s" ), e.tname().c_str() );
+                actions.push_back( [&]{
+                    auto ptr = dynamic_cast<const holster_actor *>( e.type->get_use( "holster" )->get_actor_ptr() );
+                    ptr->store( *this, e, weapon );
+                });
+            }
+        }
+
+        prompt.query();
+        if( prompt.ret >= 0 ) {
+            actions[ prompt.ret ]();
+            if( weapon.is_null() ) {
+                recoil = MIN_RECOIL;
+                return true;
+            }
+        }
+        return false;
+    }
+
+    if( &weapon == &target ) {
+        add_msg( m_info, _( "You're already wielding that!" ) );
         return false;
     }
 
     int mv = 0;
 
     if( is_armed() ) {
-        if( volume_carried() + weapon.volume() - it->volume() < volume_capacity() ) {
-            mv += item_handling_cost(weapon);
-            inv.add_item_keep_invlet( remove_weapon() );
-        } else if( query_yn(_("No space in inventory for your %s.  Drop it?"),
-                            weapon.tname().c_str() ) ) {
-            g->m.add_item_or_charges( posx(), posy(), remove_weapon() );
-        } else {
+        if( !wield( ret_null ) ) {
             return false;
         }
         inv.unsort();
@@ -10501,17 +10522,17 @@ bool player::wield(item* it, bool autodrop)
     // than a skilled player with a holster.
     // There is an additional penalty when wielding items from the inventory whilst currently grabbed.
 
-    mv += item_handling_cost(*it);
+    mv += item_handling_cost( target );
 
-    if( is_worn( *it ) ) {
-        it->on_takeoff( *this );
+    if( is_worn( target ) ) {
+        target.on_takeoff( *this );
     } else {
         mv *= 2;
     }
 
     moves -= mv;
 
-    weapon = i_rem( it );
+    weapon = i_rem( &target );
     last_item = itype_id( weapon.type->id );
 
     weapon.on_wield( *this, mv );
@@ -10796,6 +10817,10 @@ int player::item_handling_cost( const item& it, bool effects, int factor ) const
 
     if( effects && has_effect( "grabbed" ) ) {
         mv *= 2;
+    }
+
+    if( weapon.typeId() == "e_handcuffs" ) {
+        mv *= 4;
     }
 
     return std::min( std::max( mv, MIN_HANDLING_COST ), MAX_HANDLING_COST );
@@ -11199,7 +11224,7 @@ bool player::takeoff( item *target, bool autodrop, std::vector<item> *items)
 bool player::takeoff(int inventory_position, bool autodrop, std::vector<item> *items)
 {
     if (inventory_position == -1) {
-        return wield( nullptr, autodrop );
+        return wield( ret_null );
     }
 
     int worn_index = worn_position_to_index( inventory_position );
@@ -13723,14 +13748,7 @@ bool player::wield_contents( item *container, int pos, int factor, bool effects 
     int mv = 0;
 
     if( is_armed() ) {
-        if( volume_carried() + weapon.volume() - container->contents[pos].volume() <
-            volume_capacity() ) {
-            mv += item_handling_cost(weapon);
-            inv.add_item_keep_invlet( remove_weapon() );
-        } else if( query_yn( _("No space in inventory for your %s.  Drop it?"),
-                             weapon.tname().c_str() ) ) {
-            g->m.add_item_or_charges( posx(), posy(), remove_weapon() );
-        } else {
+        if( !wield( ret_null ) ) {
             return false;
         }
         inv.unsort();

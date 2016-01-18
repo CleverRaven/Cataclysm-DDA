@@ -1170,13 +1170,8 @@ bool npc::wear_if_wanted( const item &it )
 
     return false;
 }
-//to placate clang++
-bool npc::wield(item* it, bool)
-{
-    return this->wield(it);
-}
 
-bool npc::wield(item* it)
+bool npc::wield( item& it )
 {
     if( !weapon.is_null() ) {
         if ( volume_carried() + weapon.volume() <= volume_capacity() ) {
@@ -1189,16 +1184,16 @@ bool npc::wield(item* it)
         }
     }
 
-    if( it->is_null() ) {
+    if( it.is_null() ) {
         weapon = ret_null;
         return true;
     }
 
     moves -= 15;
-    if( inv.has_item( it ) ) {
-        weapon = inv.remove_item( it );
+    if( inv.has_item( &it ) ) {
+        weapon = inv.remove_item( &it );
     } else {
-        weapon = *it;
+        weapon = it;
     }
 
     add_msg_if_npc( m_info, _( "<npcname> wields a %s." ),  weapon.tname().c_str() );
