@@ -716,6 +716,11 @@ void MonsterGenerator::check_monster_definitions() const
                 debugmsg( "starting ammo %s of monster %s is unknown", s.first.c_str(), mon->id.c_str() );
             }
         }
+        for( auto & e : mon->atk_effs ) {
+            if( !e.id.is_valid() ) {
+                debugmsg( "attack effect %s of monster %s is unknown", e.id.c_str(), mon->id.c_str() );
+            }
+        }
         if( mon->upgrades ) {
             if( mon->half_life <= 0 ) {
                 debugmsg( "half_life %d (<= 0) of monster %s is invalid", mon->half_life, mon->id.c_str() );
