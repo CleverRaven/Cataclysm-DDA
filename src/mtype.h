@@ -33,6 +33,8 @@ struct mtype;
 using mtype_id = string_id<mtype>;
 using mfaction_id = int_id<monfaction>;
 using species_id = string_id<species_type>;
+class effect_type;
+using efftype_id = string_id<effect_type>;
 
 typedef std::string itype_id;
 

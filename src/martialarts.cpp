@@ -329,7 +329,7 @@ void finialize_martial_arts()
         const ma_buff_effect_type new_eff( buff.second );
         // Note the slicing here: new_eff is converted to a plain effect_type, but this doesn't
         // bother us because ma_buff_effect_type does not have any members that can be sliced.
-        effect_types[new_eff.id] = new_eff;
+        effect_type::register_ma_buff_effect( new_eff );
     }
 }
 
@@ -471,12 +471,12 @@ ma_buff::ma_buff()
 
 efftype_id ma_buff::get_effect_id() const
 {
-    return std::string( "mabuff:" ) + id.str();
+    return efftype_id( std::string( "mabuff:" ) + id.str() );
 }
 
 const ma_buff *ma_buff::from_effect( const effect &eff )
 {
-    const std::string &id = eff.get_effect_type()->id;
+    const std::string &id = eff.get_effect_type()->id.str();
     // Same as in get_effect_id!
     if( id.compare( 0, 7, "mabuff:" ) != 0 ) {
         return nullptr;

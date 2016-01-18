@@ -17,7 +17,8 @@ using mtype_id = string_id<mtype>;
 class JsonObject;
 class Skill;
 using skill_id = string_id<Skill>;
-using efftype_id = std::string;
+class effect_type;
+using efftype_id = string_id<effect_type>;
 
 /**
  * Transform an item into a specific type.

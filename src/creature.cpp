@@ -781,12 +781,11 @@ void Creature::add_effect( const efftype_id &eff_id, int dur, body_part bp,
         return;
     }
 
-    // First make sure it's a valid effect
-    if (effect_types.find(eff_id) == effect_types.end()) {
-        debugmsg("Invalid effect, ID: %s", eff_id.c_str());
+    if( !eff_id.is_valid() ) {
+        debugmsg( "Invalid effect, ID: %s", eff_id.c_str() );
         return;
     }
-    const effect_type &type = effect_types[eff_id];
+    const effect_type &type = eff_id.obj();
 
     // Mutate to a main (HP'd) body_part if necessary.
     if (type.get_main_parts()) {
@@ -907,7 +906,7 @@ bool Creature::remove_effect( const efftype_id &eff_id, body_part bp )
         //Effect doesn't exist, so do nothing
         return false;
     }
-    const effect_type &type = effect_types[eff_id];
+    const effect_type &type = eff_id.obj();
 
     if (is_player()) {
         // Print the removal message and add the memorial log if needed

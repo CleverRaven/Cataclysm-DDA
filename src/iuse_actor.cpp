@@ -357,7 +357,7 @@ iuse_actor *consume_drug_iuse::clone() const
 
 static effect_data load_effect_data( JsonObject &e )
 {
-    return effect_data( e.get_string( "id", "null" ), e.get_int( "duration", 0 ),
+    return effect_data( efftype_id( e.get_string( "id", "null" ) ), e.get_int( "duration", 0 ),
         get_body_part_token( e.get_string( "bp", "NUM_BP" ) ), e.get_bool( "permanent", false ) );
 }
 
@@ -406,7 +406,7 @@ long consume_drug_iuse::use(player *p, item *it, bool, const tripoint& ) const
     }
     // Apply the various effects.
     for( auto eff : effects ) {
-        if (eff.id == "null") {
+        if( eff.id == efftype_id( "null" ) ) {
             continue;
         }
 
@@ -2412,7 +2412,7 @@ long heal_actor::finish_using( player &healer, player &patient, item &it, hp_par
     }
 
     for( auto eff : effects ) {
-        if( eff.id == "null" ) {
+        if( eff.id == efftype_id( "null" ) ) {
             continue;
         }
 

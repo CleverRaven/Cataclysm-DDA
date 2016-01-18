@@ -4,6 +4,7 @@
 #include "pldata.h"
 #include "json.h"
 #include "enums.h"
+#include "string_id.h"
 #include <unordered_map>
 #include <tuple>
 
@@ -11,8 +12,7 @@ class effect_type;
 class Creature;
 class player;
 enum game_message_type : int;
-
-extern std::map<efftype_id, effect_type> effect_types;
+using efftype_id = string_id<effect_type>;
 
 /** Handles the large variety of weed messages. */
 void weed_msg(player *p);
@@ -67,6 +67,9 @@ class effect_type
         bool load_mod_data(JsonObject &jsobj, std::string member);
         bool load_miss_msgs(JsonObject &jsobj, std::string member);
         bool load_decay_msgs(JsonObject &jsobj, std::string member);
+
+        /** Registers the effect in the global map */
+        static void register_ma_buff_effect( const effect_type &eff );
 
     protected:
         int max_intensity;

@@ -18,6 +18,8 @@ class ma_buff;
 using mabuff_id = string_id<ma_buff>;
 class ma_technique;
 using matec_id = string_id<ma_technique>;
+class effect_type;
+using efftype_id = string_id<effect_type>;
 
 struct ma_requirements {
     bool unarmed_allowed; // does this bonus work when unarmed?
