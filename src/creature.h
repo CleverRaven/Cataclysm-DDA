@@ -227,7 +227,6 @@ class Creature
         virtual bool is_dead_state() const = 0;
 
         // Resistances
-        bool is_immune( const std::string &type ) const;
         virtual bool is_elec_immune() const = 0;
         virtual bool is_immune_effect( const efftype_id &type ) const = 0;
         virtual bool is_immune_damage( const damage_type type ) const = 0;

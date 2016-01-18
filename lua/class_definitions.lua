@@ -1258,8 +1258,6 @@ classes = {
             { name = "is_elec_immune", rval = "bool", args = { } },
             { name = "is_fake", rval = "bool", args = { } },
             { name = "is_hallucination", rval = "bool", args = { } },
-            { name = "is_immune", rval = "bool", args = { "string" } },
-            { name = "is_immune_effect", rval = "bool", args = { "string" } },
             { name = "is_monster", rval = "bool", args = { } },
             { name = "is_npc", rval = "bool", args = { } },
             { name = "is_on_ground", rval = "bool", args = { } },

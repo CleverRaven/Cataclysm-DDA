@@ -1061,16 +1061,6 @@ bool Creature::in_sleep_state() const
     return has_effect("sleep") || has_effect("lying_down");
 }
 
-bool Creature::is_immune( const std::string &type ) const
-{
-    damage_type dt = dt_by_name( type );
-    if( dt != DT_NULL ) {
-        return is_immune_damage( dt );
-    }
-
-    return is_immune_effect( type );
-}
-
 /*
  * Killer-related things
  */
