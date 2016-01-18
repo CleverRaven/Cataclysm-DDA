@@ -1264,7 +1264,7 @@ void monster::add_eff_effects(effect e, bool reduced)
     }
     Creature::add_eff_effects(e, reduced);
 }
-void monster::add_effect( efftype_id eff_id, int dur, body_part bp,
+void monster::add_effect( const efftype_id &eff_id, int dur, body_part bp,
                           bool permanent, int intensity, bool force )
 {
     bp = num_bp;

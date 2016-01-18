@@ -268,7 +268,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         /** Handles any monster-specific effect application effects before calling Creature::add_eff_effects(). */
         virtual void add_eff_effects(effect e, bool reduced) override;
         /** Performs any monster-specific modifications to the arguments before passing to Creature::add_effect(). */
-        virtual void add_effect( efftype_id eff_id, int dur, body_part bp = num_bp, bool permanent = false,
+        virtual void add_effect( const efftype_id &eff_id, int dur, body_part bp = num_bp, bool permanent = false,
                                  int intensity = 0, bool force = false ) override;
 
         virtual float power_rating() const override;

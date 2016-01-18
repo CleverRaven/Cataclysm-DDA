@@ -763,7 +763,7 @@ void Creature::add_eff_effects(effect e, bool reduced)
     return;
 }
 
-void Creature::add_effect( efftype_id eff_id, int dur, body_part bp,
+void Creature::add_effect( const efftype_id &eff_id, int dur, body_part bp,
                            bool permanent, int intensity, bool force )
 {
     // Check our innate immunity
@@ -781,7 +781,7 @@ void Creature::add_effect( efftype_id eff_id, int dur, body_part bp,
     if (effect_types[eff_id].get_main_parts()) {
         bp = mutate_to_main_part(bp);
     }
-    
+
     bool found = false;
     // Check if we already have it
     auto matching_map = effects.find(eff_id);
@@ -870,7 +870,7 @@ void Creature::add_effect( efftype_id eff_id, int dur, body_part bp,
         add_eff_effects(e, reduced);
     }
 }
-bool Creature::add_env_effect( efftype_id eff_id, body_part vector, int strength, int dur,
+bool Creature::add_env_effect( const efftype_id &eff_id, body_part vector, int strength, int dur,
                                body_part bp, bool permanent, int intensity, bool force )
 {
     if( !force && is_immune_effect( eff_id ) ) {
@@ -890,7 +890,7 @@ void Creature::clear_effects()
 {
     effects.clear();
 }
-bool Creature::remove_effect(efftype_id eff_id, body_part bp)
+bool Creature::remove_effect( const efftype_id &eff_id, body_part bp )
 {
     if (!has_effect(eff_id, bp)) {
         //Effect doesn't exist, so do nothing
@@ -921,7 +921,7 @@ bool Creature::remove_effect(efftype_id eff_id, body_part bp)
     }
     return true;
 }
-bool Creature::has_effect(efftype_id eff_id, body_part bp) const
+bool Creature::has_effect( const efftype_id &eff_id, body_part bp ) const
 {
     // num_bp means anything targeted or not
     if (bp == num_bp) {
@@ -938,12 +938,12 @@ bool Creature::has_effect(efftype_id eff_id, body_part bp) const
     }
 }
 
-effect &Creature::get_effect(efftype_id eff_id, body_part bp)
+effect &Creature::get_effect( const efftype_id &eff_id, body_part bp )
 {
     return const_cast<effect &>( const_cast<const Creature*>(this)->get_effect( eff_id, bp ) );
 }
 
-const effect &Creature::get_effect(efftype_id eff_id, body_part bp) const
+const effect &Creature::get_effect( const efftype_id &eff_id, body_part bp ) const
 {
     auto got_outer = effects.find(eff_id);
     if(got_outer != effects.end()) {
@@ -954,7 +954,7 @@ const effect &Creature::get_effect(efftype_id eff_id, body_part bp) const
     }
     return effect::null_effect;
 }
-int Creature::get_effect_dur(efftype_id eff_id, body_part bp) const
+int Creature::get_effect_dur( const efftype_id &eff_id, body_part bp ) const
 {
     const effect &eff = get_effect(eff_id, bp);
     if( !eff.is_null() ) {
@@ -963,7 +963,7 @@ int Creature::get_effect_dur(efftype_id eff_id, body_part bp) const
 
     return 0;
 }
-int Creature::get_effect_int(efftype_id eff_id, body_part bp) const
+int Creature::get_effect_int( const efftype_id &eff_id, body_part bp ) const
 {
     const effect &eff = get_effect(eff_id, bp);
     if( !eff.is_null() ) {
