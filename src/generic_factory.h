@@ -151,7 +151,8 @@ class generic_factory
 
             } else if( mode == "modify" ) {
                 if( !exists ) {
-                    jo.throw_error( "missing definition of " + type_name + " \"" + id.str() + "\" to be modified", "id" );
+                    jo.throw_error( "missing definition of " + type_name + " \"" + id.str() + "\" to be modified",
+                                    "id" );
                 }
                 iter->second.load( jo );
                 return iter->second;
@@ -368,8 +369,9 @@ inline void optional( JsonObject &jo, const bool was_loaded, const std::string &
         }
     }
 }
-template<typename MemberType, typename ReaderType, typename DefaultType = MemberType,
-         typename = typename std::enable_if<!std::is_constructible<MemberType, const ReaderType &>::value>::type>
+template < typename MemberType, typename ReaderType, typename DefaultType = MemberType,
+           typename = typename std::enable_if <
+               !std::is_constructible<MemberType, const ReaderType &>::value >::type >
 inline void optional( JsonObject &jo, const bool was_loaded, const std::string &name,
                       MemberType &member, const ReaderType &reader )
 {
