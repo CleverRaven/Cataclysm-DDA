@@ -10,7 +10,6 @@
         "price": 300,
         "weight": 0,
         "volume": 0,
-        "to_hit": 0,
         "software_data": {
             "power": 0,
             "type": "USELESS"
@@ -30,7 +29,6 @@
         "price": 800,
         "weight": 0,
         "volume": 0,
-        "to_hit": 0,
         "software_data": {
             "power": 2,
             "type": "HACKING"
@@ -50,7 +48,6 @@
         "price": 600,
         "weight": 0,
         "volume": 0,
-        "to_hit": 0,
         "software_data": {
             "power": 2,
             "type": "MEDICAL"
@@ -70,7 +67,6 @@
         "price": 500,
         "weight": 0,
         "volume": 0,
-        "to_hit": 0,
         "software_data": {
             "power": 3,
             "type": "SCIENCE"
@@ -90,7 +86,6 @@
         "price": 200,
         "weight": 0,
         "volume": 0,
-        "to_hit": 0,
         "software_data": {
             "power": 5,
             "type": "DATA"

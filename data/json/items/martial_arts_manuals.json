@@ -12,7 +12,6 @@
         "material": "paper",
         "weight": 150,
         "volume": 1,
-        "bashing": 0,
         "to_hit": -1,
         "book_data": {
             "max_level" : 0,
@@ -38,7 +37,6 @@
         "material": "paper",
         "weight": 150,
         "volume": 1,
-        "bashing": 0,
         "to_hit": -1,
         "book_data": {
             "max_level" : 0,
@@ -64,7 +62,6 @@
         "material": "paper",
         "weight": 150,
         "volume": 1,
-        "bashing": 0,
         "to_hit": -1,
         "book_data": {
             "max_level" : 0,
@@ -90,7 +87,6 @@
         "material": "paper",
         "weight": 150,
         "volume": 1,
-        "bashing": 0,
         "to_hit": -1,
         "book_data": {
             "max_level" : 0,
@@ -116,7 +112,6 @@
         "material": "paper",
         "weight": 150,
         "volume": 1,
-        "bashing": 0,
         "to_hit": -1,
         "book_data": {
             "max_level" : 0,
@@ -142,7 +137,6 @@
         "material": "paper",
         "weight": 150,
         "volume": 1,
-        "bashing": 0,
         "to_hit": -1,
         "book_data": {
             "max_level" : 0,
@@ -168,7 +162,6 @@
         "material": "paper",
         "weight": 150,
         "volume": 1,
-        "bashing": 0,
         "to_hit": -1,
         "book_data": {
             "max_level" : 0,
@@ -194,7 +187,6 @@
         "material": "paper",
         "weight": 150,
         "volume": 1,
-        "bashing": 0,
         "to_hit": -1,
         "book_data": {
             "max_level" : 0,
@@ -220,7 +212,6 @@
         "material": "paper",
         "weight": 150,
         "volume": 1,
-        "bashing": 0,
         "to_hit": -1,
         "book_data": {
             "max_level" : 0,
@@ -245,7 +236,6 @@
         "material": "paper",
         "weight": 150,
         "volume": 1,
-        "bashing": 0,
         "to_hit": -1,
         "book_data": {
             "max_level" : 0,
@@ -271,7 +261,6 @@
         "material": "paper",
         "weight": 150,
         "volume": 1,
-        "bashing": 0,
         "to_hit": -1,
         "book_data": {
             "max_level" : 0,
@@ -297,7 +286,6 @@
         "material": "paper",
         "weight": 150,
         "volume": 1,
-        "bashing": 0,
         "to_hit": -1,
         "book_data": {
             "max_level" : 0,
@@ -323,7 +311,6 @@
         "material": "paper",
         "weight": 150,
         "volume": 1,
-        "bashing": 0,
         "to_hit": -1,
         "book_data": {
             "max_level" : 0,
@@ -349,7 +336,6 @@
         "material": "paper",
         "weight": 150,
         "volume": 1,
-        "bashing": 0,
         "to_hit": -1,
         "book_data": {
             "max_level" : 0,
@@ -375,7 +361,6 @@
         "material": "paper",
         "weight": 150,
         "volume": 1,
-        "bashing": 0,
         "to_hit": -1,
         "book_data": {
             "max_level" : 0,
@@ -401,7 +386,6 @@
         "material": "paper",
         "weight": 150,
         "volume": 1,
-        "bashing": 0,
         "to_hit": -1,
         "book_data": {
             "max_level" : 0,
@@ -427,7 +411,6 @@
         "material": "paper",
         "weight": 150,
         "volume": 1,
-        "bashing": 0,
         "to_hit": -1,
         "book_data": {
             "max_level" : 0,
@@ -453,7 +436,6 @@
         "material": "paper",
         "weight": 150,
         "volume": 1,
-        "bashing": 0,
         "to_hit": -1,
         "book_data": {
             "max_level" : 0,
@@ -479,7 +461,6 @@
         "material": "paper",
         "weight": 150,
         "volume": 1,
-        "bashing": 0,
         "to_hit": -1,
         "book_data": {
             "max_level" : 0,
@@ -505,7 +486,6 @@
         "material": "paper",
         "weight": 150,
         "volume": 1,
-        "bashing": 0,
         "to_hit": -1,
         "book_data": {
             "max_level" : 0,
@@ -531,7 +511,6 @@
         "material": "paper",
         "weight": 150,
         "volume": 1,
-        "bashing": 0,
         "to_hit": -1,
         "book_data": {
             "max_level" : 0,
@@ -557,7 +536,6 @@
         "material": "paper",
         "weight": 150,
         "volume": 1,
-        "bashing": 0,
         "to_hit": -1,
         "book_data": {
             "max_level" : 0,
@@ -583,7 +561,6 @@
         "material": "paper",
         "weight": 150,
         "volume": 1,
-        "bashing": 0,
         "to_hit": -1,
         "book_data": {
             "max_level" : 0,
@@ -609,7 +586,6 @@
         "material": "paper",
         "weight": 150,
         "volume": 1,
-        "bashing": 0,
         "to_hit": -1,
         "book_data": {
             "max_level" : 0,
@@ -635,7 +611,6 @@
         "material": "paper",
         "weight": 150,
         "volume": 1,
-        "bashing": 0,
         "to_hit": -1,
         "book_data": {
             "max_level" : 0,
