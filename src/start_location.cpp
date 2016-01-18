@@ -11,6 +11,8 @@
 #include "field.h"
 #include "mapgen.h"
 
+const efftype_id effect_bleed( "bleed" );
+
 typedef std::map<string_id<start_location>, start_location> location_map;
 
 static location_map _locations;
@@ -396,7 +398,7 @@ void start_location::handle_heli_crash( player &u ) const {
         switch (roll) {
             case 1:
             case 2:// Damage + Bleed
-                u.add_effect("bleed", 60, bp_part);
+                u.add_effect( effect_bleed, 60, bp_part);
             case 3:
             case 4:
             case 5:// Just damage

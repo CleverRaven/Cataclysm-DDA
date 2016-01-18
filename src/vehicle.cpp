@@ -51,6 +51,9 @@ static const std::string part_location_structure("structure");
 
 const skill_id skill_mechanics( "mechanics" );
 
+const efftype_id effect_on_roof( "on_roof" );
+const efftype_id effect_stunned( "stunned" );
+
 const std::array<fuel_type, 7> &get_fuel_types()
 {
 
@@ -4708,7 +4711,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
 
             turns_stunned = ( rng( 0, dam ) > 10 ) + ( rng( 0, dam ) > 40 );
             if( turns_stunned > 0 ) {
-                critter->add_effect( "stunned", turns_stunned );
+                critter->add_effect( effect_stunned, turns_stunned );
             }
 
             const int angle = (100 - degree) * 2 * ( one_in( 2 ) ? 1 : -1 );
@@ -6364,7 +6367,7 @@ bool vehicle::automatic_fire_turret( int p, const itype &guntype, const itype &a
 
     npc tmp;
     tmp.set_fake( true );
-    tmp.add_effect( "on_roof", 1 );
+    tmp.add_effect( effect_on_roof, 1 );
     tmp.name = rmp_format(_("<veh_player>The %s"), part_info(p).name.c_str());
     tmp.skillLevel( guntype.gun->skill_used ).level( 8 );
     tmp.skillLevel( skill_id( "gun" ) ).level(4);
@@ -6478,10 +6481,10 @@ bool vehicle::manual_fire_turret( int p, player &shooter, const itype &guntype,
         g->draw_ter();
         const tripoint &targ = trajectory.back();
         // Put our shooter on the roof of the vehicle
-        shooter.add_effect( "on_roof", 1 );
+        shooter.add_effect( effect_on_roof, 1 );
         shooter.fire_gun( targ, (long)abs( parts[p].mode ), gun );
         // And now back - we don't want to get any weird behavior
-        shooter.remove_effect( "on_roof" );
+        shooter.remove_effect( effect_on_roof );
     }
 
     // Done shooting, clean up

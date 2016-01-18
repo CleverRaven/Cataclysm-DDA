@@ -38,6 +38,9 @@ auto start_sfx_timestamp = std::chrono::high_resolution_clock::now();
 auto end_sfx_timestamp = std::chrono::high_resolution_clock::now();
 auto sfx_time = end_sfx_timestamp - start_sfx_timestamp;
 
+const efftype_id effect_deaf( "deaf" );
+const efftype_id effect_sleep( "sleep" );
+
 struct sound_event {
     int volume;
     std::string description;
@@ -204,11 +207,11 @@ void sounds::process_sound_markers( player *p )
         }
         if( is_deaf ) {
             // Has to be here as well to work for stacking deafness (loud noises prolong deafness)
-            if( !p->is_immune_effect( "deaf" )
+            if( !p->is_immune_effect( effect_deaf )
                     && rng( ( max_volume - dist ) / 2, ( max_volume - dist ) ) >= 150 ) {
                 // Prolong deafness, but not as much as if it was freshly applied
                 int duration = std::min( 40, ( max_volume - dist - 130 ) / 8 );
-                p->add_effect( "deaf", duration );
+                p->add_effect( effect_deaf, duration );
                 if( !p->has_trait( "DEADENED" ) ) {
                     p->add_msg_if_player( m_bad, _( "Your eardrums suddenly ache!" ) );
                     if( p->pain < 10 ) {
@@ -225,9 +228,9 @@ void sounds::process_sound_markers( player *p )
             p->volume = std::max( p->volume, volume );
         }
         // Check for deafness
-        if( !p->is_immune_effect( "deaf" ) && rng((max_volume - dist) / 2, (max_volume - dist)) >= 150 ) {
+        if( !p->is_immune_effect( effect_deaf ) && rng((max_volume - dist) / 2, (max_volume - dist)) >= 150 ) {
             int duration = (max_volume - dist - 130) / 4;
-            p->add_effect("deaf", duration);
+            p->add_effect( effect_deaf, duration );
             if( p->is_deaf() ) {
                 // Need to check for actual deafness
                 is_deaf = true;
@@ -243,7 +246,7 @@ void sounds::process_sound_markers( player *p )
             continue;
         }
         // See if we need to wake someone up
-        if( p->has_effect( "sleep" ) ) {
+        if( p->has_effect( effect_sleep ) ) {
             if( ( !( p->has_trait( "HEAVYSLEEPER" ) ||
                      p->has_trait( "HEAVYSLEEPER2" ) ) && dice( 2, 15 ) < mod_vol - dist ) ||
                     ( p->has_trait( "HEAVYSLEEPER" ) && dice( 3, 15 ) < mod_vol - dist ) ||
@@ -455,7 +458,7 @@ void sfx::do_ambient() {
         return;
     }
     audio_muted = false;
-    const bool is_deaf = g->u.get_effect_int( "deaf" ) > 0;
+    const bool is_deaf = g->u.get_effect_int( effect_deaf ) > 0;
     const int heard_volume = get_heard_volume( g->u.pos() );
     const bool is_underground = ::is_underground( g->u.pos() );
     const bool is_sheltered = g->is_sheltered( g->u.pos() );

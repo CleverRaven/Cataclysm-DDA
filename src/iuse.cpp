@@ -81,6 +81,58 @@ const species_id ZOMBIE( "ZOMBIE" );
 const species_id FUNGUS( "FUNGUS" );
 const species_id INSECT( "INSECT" );
 
+const efftype_id effect_adrenaline( "adrenaline" );
+const efftype_id effect_asthma( "asthma" );
+const efftype_id effect_attention( "attention" );
+const efftype_id effect_bite( "bite" );
+const efftype_id effect_bleed( "bleed" );
+const efftype_id effect_blind( "blind" );
+const efftype_id effect_bloodworms( "bloodworms" );
+const efftype_id effect_boomered( "boomered" );
+const efftype_id effect_brainworms( "brainworms" );
+const efftype_id effect_cig( "cig" );
+const efftype_id effect_contacts( "contacts" );
+const efftype_id effect_cureall( "cureall" );
+const efftype_id effect_datura( "datura" );
+const efftype_id effect_dermatik( "dermatik" );
+const efftype_id effect_docile( "docile" );
+const efftype_id effect_downed( "downed" );
+const efftype_id effect_drunk( "drunk" );
+const efftype_id effect_earphones( "earphones" );
+const efftype_id effect_flushot( "flushot" );
+const efftype_id effect_foodpoison( "foodpoison" );
+const efftype_id effect_formication( "formication" );
+const efftype_id effect_fungus( "fungus" );
+const efftype_id effect_glowing( "glowing" );
+const efftype_id effect_grack( "grack" );
+const efftype_id effect_hallu( "hallu" );
+const efftype_id effect_high( "high" );
+const efftype_id effect_infected( "infected" );
+const efftype_id effect_jetinjector( "jetinjector" );
+const efftype_id effect_meth( "meth" );
+const efftype_id effect_music( "music" );
+const efftype_id effect_paincysts( "paincysts" );
+const efftype_id effect_pet( "pet" );
+const efftype_id effect_poison( "poison" );
+const efftype_id effect_recover( "recover" );
+const efftype_id effect_run( "run" );
+const efftype_id effect_shakes( "shakes" );
+const efftype_id effect_slimed( "slimed" );
+const efftype_id effect_smoke( "smoke" );
+const efftype_id effect_spores( "spores" );
+const efftype_id effect_stimpack( "stimpack" );
+const efftype_id effect_stunned( "stunned" );
+const efftype_id effect_tapeworm( "tapeworm" );
+const efftype_id effect_teleglow( "teleglow" );
+const efftype_id effect_tetanus( "tetanus" );
+const efftype_id effect_took_flumed( "took_flumed" );
+const efftype_id effect_took_prozac( "took_prozac" );
+const efftype_id effect_took_xanax( "took_xanax" );
+const efftype_id effect_valium( "valium" );
+const efftype_id effect_visuals( "visuals" );
+const efftype_id effect_weed_high( "weed_high" );
+const efftype_id effect_winded( "winded" );
+
 static bool is_firearm(const item &it);
 
 void remove_double_ammo_mod( item &it, player &p )
@@ -309,14 +361,14 @@ int iuse::honeycomb(player *p, item *it, bool, const tripoint& )
 
 int iuse::royal_jelly(player *p, item *it, bool, const tripoint& )
 {
-    p->add_effect("cureall", 1);
+    p->add_effect( effect_cureall, 1);
     return it->type->charges_to_use();
 }
 
 int iuse::xanax(player *p, item *it, bool, const tripoint& )
 {
     p->add_msg_if_player(_("You take some %s."), it->tname().c_str());
-    p->add_effect("took_xanax", 900);
+    p->add_effect( effect_took_xanax, 900);
     return it->type->charges_to_use();
 }
 
@@ -352,21 +404,21 @@ int raw_food(player *p, item *it, const struct parasite_chances &pcs)
     if (p->has_bionic("bio_digestion") || p->has_trait("PARAIMMUNE")) {
         return it->type->charges_to_use();
     }
-    if (pcs.tapeworm > 0 && one_in(pcs.tapeworm) && !(p->has_effect("tapeworm")
+    if (pcs.tapeworm > 0 && one_in(pcs.tapeworm) && !(p->has_effect( effect_tapeworm)
             || p->has_trait("EATHEALTH"))) {
            // Hyper-Metabolism digests the thing before it can set up shop.
-        p->add_effect("tapeworm", 1, num_bp, true);
+        p->add_effect( effect_tapeworm, 1, num_bp, true);
     }
-    if (pcs.bloodworms > 0 && one_in(pcs.bloodworms) && !(p->has_effect("bloodworms")
+    if (pcs.bloodworms > 0 && one_in(pcs.bloodworms) && !(p->has_effect( effect_bloodworms)
            || p->has_trait("ACIDBLOOD"))) {
            // The worms can't survive in acidic blood.
-        p->add_effect("bloodworms", 1, num_bp, true);
+        p->add_effect( effect_bloodworms, 1, num_bp, true);
     }
-    if (pcs.brainworms > 0 && one_in(pcs.brainworms) && !p->has_effect("brainworms")) {
-        p->add_effect("brainworms", 1, num_bp, true);
+    if (pcs.brainworms > 0 && one_in(pcs.brainworms) && !p->has_effect( effect_brainworms)) {
+        p->add_effect( effect_brainworms, 1, num_bp, true);
     }
-    if (pcs.paincysts > 0 && one_in(pcs.paincysts) && !p->has_effect("paincysts")) {
-        p->add_effect("paincysts", 1, num_bp, true);
+    if (pcs.paincysts > 0 && one_in(pcs.paincysts) && !p->has_effect( effect_paincysts)) {
+        p->add_effect( effect_paincysts, 1, num_bp, true);
     }
     return it->type->charges_to_use();
 }
@@ -439,7 +491,7 @@ int alcohol(player *p, item *it, int strength)
     if (!(p->has_trait("ALCMET"))) {
         p->pkill += STR(4, 8, 12);
     }
-    p->add_effect("drunk", duration);
+    p->add_effect( effect_drunk, duration);
     return it->type->charges_to_use();
 }
 #undef STR
@@ -528,7 +580,7 @@ int iuse::smoking(player *p, item *it, bool, const tripoint& )
             weed_msg(p);
         }
     }
-    if (p->get_effect_dur("cig") > (100 * (p->addiction_level(ADD_CIG) + 1))) {
+    if (p->get_effect_dur( effect_cig ) > (100 * (p->addiction_level(ADD_CIG) + 1))) {
         p->add_msg_if_player(m_bad, _("Ugh, too much smoke... you feel nasty."));
     }
 
@@ -552,8 +604,8 @@ int iuse::ecig(player *p, item *it, bool, const tripoint& )
 
     p->thirst += 1;
     p->mod_hunger(-1);
-    p->add_effect("cig", 100);
-    if (p->get_effect_dur("cig") > (100 * (p->addiction_level(ADD_CIG) + 1))) {
+    p->add_effect( effect_cig, 100);
+    if (p->get_effect_dur( effect_cig ) > (100 * (p->addiction_level(ADD_CIG) + 1))) {
         p->add_msg_if_player(m_bad, _("Ugh, too much nicotine... you feel nasty."));
     }
     return it->type->charges_to_use();
@@ -564,25 +616,25 @@ int iuse::antibiotic(player *p, item *it, bool, const tripoint& )
     p->add_msg_player_or_npc( m_neutral,
         _("You take some antibiotics."),
         _("<npcname> takes some antibiotics.") );
-    if (p->has_effect("infected")) {
+    if (p->has_effect( effect_infected)) {
         // cheap model of antibiotic resistance, but it's something.
         if (x_in_y(95, 100)) {
             // Add recovery effect for each infected wound
             int infected_tot = 0;
             for (int i = 0; i < num_bp; ++i) {
-                int infected_dur = p->get_effect_dur("infected", body_part(i));
+                int infected_dur = p->get_effect_dur( effect_infected, body_part(i) );
                 if (infected_dur > 0) {
                     infected_tot += infected_dur;
                 }
             }
-            p->add_effect("recover", infected_tot);
+            p->add_effect( effect_recover, infected_tot);
             // Remove all infected wounds
-            p->remove_effect("infected");
+            p->remove_effect( effect_infected);
         }
     }
-    if (p->has_effect("tetanus")) {
+    if (p->has_effect( effect_tetanus)) {
         if (one_in(3)) {
-            p->remove_effect("tetanus");
+            p->remove_effect( effect_tetanus);
             p->add_msg_if_player(m_good, _("The muscle spasms start to go away."));
         } else {
             p->add_msg_if_player(m_warning, _("The medication does nothing to help the spasms."));
@@ -603,8 +655,8 @@ int iuse::eyedrops(player *p, item *it, bool, const tripoint& )
     }
     p->add_msg_if_player(_("You use your %s."), it->tname().c_str());
     p->moves -= 150;
-    if (p->has_effect("boomered")) {
-        p->remove_effect("boomered");
+    if (p->has_effect( effect_boomered)) {
+        p->remove_effect( effect_boomered);
         p->add_msg_if_player(m_good, _("You wash the slime from your eyes."));
     }
     return it->type->charges_to_use();
@@ -617,8 +669,8 @@ int iuse::fungicide(player *p, item *it, bool, const tripoint& )
         return 0;
     }
 
-    const bool has_fungus = p->has_effect("fungus");
-    const bool has_spores = p->has_effect("spores");
+    const bool has_fungus = p->has_effect( effect_fungus);
+    const bool has_spores = p->has_effect( effect_spores);
 
     if( p->is_npc() && !has_fungus && !has_spores ) {
         return 0;
@@ -626,15 +678,15 @@ int iuse::fungicide(player *p, item *it, bool, const tripoint& )
 
     p->add_msg_player_or_npc( _("You use your fungicide."), _("<npcname> uses some fungicide") );
     if (has_fungus && (one_in(3))) {
-        p->remove_effect("fungus");
+        p->remove_effect( effect_fungus);
         p->add_msg_if_player(m_warning,
                              _("You feel a burning sensation under your skin that quickly fades away."));
     }
     if (has_spores && (one_in(2))) {
-        if (!p->has_effect("fungus")) {
+        if (!p->has_effect( effect_fungus)) {
             p->add_msg_if_player(m_warning, _("Your skin grows warm for a moment."));
         }
-        p->remove_effect("spores");
+        p->remove_effect( effect_spores);
         int spore_count = rng(1, 6);
         if (spore_count > 0) {
             for (int i = p->posx() - 1; i <= p->posx() + 1; i++) {
@@ -680,13 +732,13 @@ int iuse::antifungal(player *p, item *it, bool, const tripoint& )
         return false;
     }
     p->add_msg_if_player(_("You take some antifungal medication."));
-    if (p->has_effect("fungus")) {
-        p->remove_effect("fungus");
+    if (p->has_effect( effect_fungus)) {
+        p->remove_effect( effect_fungus);
         p->add_msg_if_player(m_warning,
                              _("You feel a burning sensation under your skin that quickly fades away."));
     }
-    if (p->has_effect("spores")) {
-        if (!p->has_effect("fungus")) {
+    if (p->has_effect( effect_spores)) {
+        if (!p->has_effect( effect_fungus)) {
             p->add_msg_if_player(m_warning, _("Your skin grows warm for a moment."));
         }
     }
@@ -700,12 +752,12 @@ int iuse::antiparasitic(player *p, item *it, bool, const tripoint& )
         return false;
     }
     p->add_msg_if_player(_("You take some antiparasitic medication."));
-    if (p->has_effect("dermatik")) {
-        p->remove_effect("dermatik");
+    if (p->has_effect( effect_dermatik)) {
+        p->remove_effect( effect_dermatik);
         p->add_msg_if_player(m_good, _("The itching sensation under your skin fades away."));
     }
-    if (p->has_effect("tapeworm")) {
-        p->remove_effect("tapeworm");
+    if (p->has_effect( effect_tapeworm)) {
+        p->remove_effect( effect_tapeworm);
         p->mod_hunger(-1);  // You just digested the tapeworm.
         if (p->has_trait("NOPAIN")) {
             p->add_msg_if_player(m_good, _("Your bowels clench as something inside them dies."));
@@ -714,12 +766,12 @@ int iuse::antiparasitic(player *p, item *it, bool, const tripoint& )
             p->mod_pain(rng(8, 24));
         }
     }
-    if (p->has_effect("bloodworms")) {
-        p->remove_effect("bloodworms");
+    if (p->has_effect( effect_bloodworms)) {
+        p->remove_effect( effect_bloodworms);
         p->add_msg_if_player(_("Your skin prickles and your veins itch for a few moments."));
     }
-    if (p->has_effect("brainworms")) {
-        p->remove_effect("brainworms");
+    if (p->has_effect( effect_brainworms)) {
+        p->remove_effect( effect_brainworms);
         if (p->has_trait("NOPAIN")) {
             p->add_msg_if_player(m_good, _("The pressure inside your head feels better already."));
         } else {
@@ -728,8 +780,8 @@ int iuse::antiparasitic(player *p, item *it, bool, const tripoint& )
             p->mod_pain(rng(8, 24));
         }
     }
-    if (p->has_effect("paincysts")) {
-        p->remove_effect("paincysts");
+    if (p->has_effect( effect_paincysts)) {
+        p->remove_effect( effect_paincysts);
         if (p->has_trait("NOPAIN")) {
             p->add_msg_if_player(m_good, _("The stiffness in your joints goes away."));
         } else {
@@ -750,10 +802,10 @@ int iuse::anticonvulsant(player *p, item *it, bool, const tripoint& )
     if (p->has_trait("LIGHTWEIGHT")) {
         duration += 1200;
     }
-    p->add_effect("valium", duration);
-    p->add_effect("high", duration);
-    if (p->has_effect("shakes")) {
-        p->remove_effect("shakes");
+    p->add_effect( effect_valium, duration);
+    p->add_effect( effect_high, duration);
+    if (p->has_effect( effect_shakes)) {
+        p->remove_effect( effect_shakes);
         p->add_msg_if_player(m_good, _("You stop shaking."));
     }
     return it->type->charges_to_use();
@@ -775,7 +827,7 @@ int iuse::weed_brownie(player *p, item *it, bool, const tripoint& )
         p->pkill += 3;
         p->pkill *= 2;
     }
-    p->add_effect("weed_high", duration);
+    p->add_effect( effect_weed_high, duration);
     p->moves -= 100;
     if (one_in(5)) {
         weed_msg(p);
@@ -795,7 +847,7 @@ int iuse::coke(player *p, item *it, bool, const tripoint& )
         duration += 20;
     }
     p->mod_hunger(-8);
-    p->add_effect("high", duration);
+    p->add_effect( effect_high, duration);
     return it->type->charges_to_use();
 }
 
@@ -812,7 +864,7 @@ int iuse::grack(player *p, item *it, bool, const tripoint& )
             duration += 10;
         }
         p->mod_hunger(-10);
-        p->add_effect("grack", duration);
+        p->add_effect( effect_grack, duration);
         return it->type->charges_to_use();
     }
     return 0;
@@ -839,7 +891,7 @@ int iuse::meth(player *p, item *it, bool, const tripoint& )
         p->add_msg_if_player(_("You snort some crystal meth."));
         p->fatigue -= 300;
     }
-    if (!p->has_effect("meth")) {
+    if (!p->has_effect( effect_meth)) {
         duration += 600;
     }
     if (duration > 0) {
@@ -849,7 +901,7 @@ int iuse::meth(player *p, item *it, bool, const tripoint& )
         if (hungerpen>0) {
             p->mod_hunger(-hungerpen);
         }
-        p->add_effect("meth", duration);
+        p->add_effect( effect_meth, duration);
     }
     return it->type->charges_to_use();
 }
@@ -876,7 +928,7 @@ int iuse::flu_vaccine(player *p, item *it, bool, const tripoint& )
 {
     p->add_msg_if_player(_("You inject the vaccine."));
     p->add_msg_if_player(m_good, _("You no longer need to fear the flu."));
-    p->add_effect("flushot", 1, num_bp, true);
+    p->add_effect( effect_flushot, 1, num_bp, true);
     p->mod_pain(3);
     item syringe( "syringe", it->bday );
     p->i_add( syringe );
@@ -900,8 +952,8 @@ int iuse::poison(player *p, item *it, bool, const tripoint& )
     if ((p->has_trait("EATPOISON")) && (!(one_in(p->str_cur / 2)))) {
         return it->type->charges_to_use();
     }
-    p->add_effect("poison", 600);
-    p->add_effect("foodpoison", 1800);
+    p->add_effect( effect_poison, 600);
+    p->add_effect( effect_foodpoison, 1800);
     return it->type->charges_to_use();
 }
 
@@ -924,8 +976,8 @@ int iuse::fun_hallu(player *p, item *it, bool, const tripoint& )
     } else {
             p->add_morale(MORALE_FOOD_GOOD, 18, 36, 60, 30, false, comest);
       }
-    if (!p->has_effect("hallu")) {
-        p->add_effect("hallu", 3600);
+    if (!p->has_effect( effect_hallu)) {
+        p->add_effect( effect_hallu, 3600);
     }
     return it->type->charges_to_use();
 }
@@ -945,11 +997,11 @@ int iuse::meditate(player *p, item *it, bool, const tripoint& )
 int iuse::thorazine(player *p, item *it, bool, const tripoint& )
 {
     p->fatigue += 5;
-    p->remove_effect("hallu");
-    p->remove_effect("visuals");
-    p->remove_effect("high");
-    if (!p->has_effect("dermatik")) {
-        p->remove_effect("formication");
+    p->remove_effect( effect_hallu);
+    p->remove_effect( effect_visuals);
+    p->remove_effect( effect_high);
+    if (!p->has_effect( effect_dermatik)) {
+        p->remove_effect( effect_formication);
     }
     if (one_in(50)) {  // adverse reaction
         p->add_msg_if_player(m_bad, _("You feel completely exhausted."));
@@ -962,8 +1014,8 @@ int iuse::thorazine(player *p, item *it, bool, const tripoint& )
 
 int iuse::prozac(player *p, item *it, bool, const tripoint& )
 {
-    if (!p->has_effect("took_prozac") && p->morale_level() < 0) {
-        p->add_effect("took_prozac", 7200);
+    if (!p->has_effect( effect_took_prozac) && p->morale_level() < 0) {
+        p->add_effect( effect_took_prozac, 7200);
     } else {
         p->stim += 3;
     }
@@ -988,7 +1040,7 @@ int iuse::datura(player *p, item *it, bool, const tripoint& )
 
     const auto comest = dynamic_cast<const it_comest *>(it->type);
 
-    p->add_effect("datura", rng(2000, 8000));
+    p->add_effect( effect_datura, rng(2000, 8000));
     p->add_msg_if_player(_("You eat the datura seed."));
     if (p->has_trait("SPIRITUAL")) {
         p->add_morale(MORALE_FOOD_GOOD, 36, 72, 120, 60, false, comest);
@@ -998,14 +1050,14 @@ int iuse::datura(player *p, item *it, bool, const tripoint& )
 
 int iuse::flumed(player *p, item *it, bool, const tripoint& )
 {
-    p->add_effect("took_flumed", 6000);
+    p->add_effect( effect_took_flumed, 6000);
     p->add_msg_if_player(_("You take some %s"), it->tname().c_str());
     return it->type->charges_to_use();
 }
 
 int iuse::flusleep(player *p, item *it, bool, const tripoint& )
 {
-    p->add_effect("took_flumed", 7200);
+    p->add_effect( effect_took_flumed, 7200);
     p->fatigue += 30;
     p->add_msg_if_player(_("You take some %s"), it->tname().c_str());
     p->add_msg_if_player(m_warning, _("You feel very sleepy..."));
@@ -1014,7 +1066,7 @@ int iuse::flusleep(player *p, item *it, bool, const tripoint& )
 
 int iuse::inhaler(player *p, item *it, bool, const tripoint& )
 {
-    p->remove_effect("asthma");
+    p->remove_effect( effect_asthma);
     p->add_msg_if_player(m_neutral, _("You take a puff from your inhaler."));
     if (one_in(50)) {  // adverse reaction
         p->add_msg_if_player(m_bad, _("Your heart begins to race."));
@@ -1027,15 +1079,15 @@ int iuse::oxygen_bottle(player *p, item *it, bool, const tripoint& )
 {
     p->moves -= 500;
     p->add_msg_if_player(m_neutral, _("You breathe deeply from the %s"), it->tname().c_str());
-    if (p->has_effect("smoke")) {
-        p->remove_effect("smoke");
-    } else if (p->has_effect("asthma")) {
-        p->remove_effect("asthma");
+    if (p->has_effect( effect_smoke)) {
+        p->remove_effect( effect_smoke);
+    } else if (p->has_effect( effect_asthma)) {
+        p->remove_effect( effect_asthma);
     } else if (p->stim < 16) {
         p->stim += 8;
         p->pkill += 2;
     }
-    p->remove_effect("winded");
+    p->remove_effect( effect_winded);
     p->pkill += 2;
     return it->type->charges_to_use();
 }
@@ -1278,7 +1330,7 @@ int iuse::mutagen(player *p, item *it, bool, const tripoint& )
         p->add_msg_player_or_npc( m_bad,
             _("You suddenly feel dizzy, and collapse to the ground."),
             _("<npcname> suddenly collapses to the ground!") );
-        p->add_effect("downed", 1, num_bp, false, 0, true );
+        p->add_effect( effect_downed, 1, num_bp, false, 0, true );
     }
     return it->type->charges_to_use();
 }
@@ -1331,7 +1383,7 @@ static void test_crossing_threshold(player *p, const mutation_category_trait &m_
             } else {
                 p->add_msg_if_player(m_bad, _("You stagger with a piercing headache!"));
                 p->pain += 8;
-                p->add_effect("stunned", rng(3, 5));
+                p->add_effect( effect_stunned, rng(3, 5));
             }
         } else if (p->mutation_category_level[primary] > 80) {
             if (p->has_trait("NOPAIN")) {
@@ -1339,14 +1391,14 @@ static void test_crossing_threshold(player *p, const mutation_category_trait &m_
             } else {
                 p->add_msg_if_player(m_bad, _("Your head throbs with memories of your life, before all this..."));
                 p->pain += 6;
-                p->add_effect("stunned", rng(2, 4));
+                p->add_effect( effect_stunned, rng(2, 4));
             }
         } else if (p->mutation_category_level[primary] > 60) {
             if (p->has_trait("NOPAIN")) {
                 p->add_msg_if_player(m_bad, _("You feel Bugged."));
             } else {
                 p->add_msg_if_player(m_bad, _("Images of your past life flash before you."));
-                p->add_effect("stunned", rng(2, 3));
+                p->add_effect( effect_stunned, rng(2, 3));
             }
         }
     }
@@ -1424,7 +1476,7 @@ int iuse::mut_iv(player *p, item *it, bool, const tripoint& )
             p->add_msg_player_or_npc( m_bad,
                 _("You writhe and collapse to the ground."),
                 _("<npcname> writhes and collapses to the ground.") );
-            p->add_effect("downed", rng( 1, 4 ), num_bp, false, 0, true );
+            p->add_effect( effect_downed, rng( 1, 4 ), num_bp, false, 0, true );
         }
         if (!one_in(3)) {
             //Jackpot! ...kinda, don't wanna go unconscious in dangerous territory
@@ -2016,7 +2068,7 @@ int petfood(player *p, item *it, bool is_dogfood)
               : _("The cat seems to like you!  Or maybe it just tolerates your presence better.  It's hard to tell with cats."));
             g->zombie(mon_dex).friendly = -1;
             if (is_dogfood) {
-                g->zombie(mon_dex).add_effect("pet", 1, num_bp, true);
+                g->zombie(mon_dex).add_effect( effect_pet, 1, num_bp, true);
             }
         } else {
             p->add_msg_if_player(_("The %s seems quite unimpressed!"),
@@ -2732,7 +2784,7 @@ int iuse::extinguisher(player *p, item *it, bool, const tripoint& )
         bool blind = false;
         if (one_in(2) && g->zombie(mondex).has_flag(MF_SEES)) {
             blind = true;
-            g->zombie(mondex).add_effect("blind", rng(10, 20));
+            g->zombie(mondex).add_effect( effect_blind, rng(10, 20));
         }
         if (g->u.sees(g->zombie(mondex))) {
             p->add_msg_if_player(_("The %s is sprayed!"), g->zombie(mondex).name().c_str());
@@ -2850,7 +2902,7 @@ static int cauterize_elec(player *p, item *it)
     if (it->charges == 0) {
         p->add_msg_if_player(m_info, _("You need batteries to cauterize wounds."));
         return 0;
-    } else if (!p->has_effect("bite") && !p->has_effect("bleed") && !p->is_underwater()) {
+    } else if (!p->has_effect( effect_bite ) && !p->has_effect( effect_bleed ) && !p->is_underwater()) {
         if ((p->has_trait("MASOCHIST") || p->has_trait("MASOCHIST_MED") || p->has_trait("CENOBITE")) &&
             p->query_yn(_("Cauterize yourself for fun?"))) {
             return cauterize_actor::cauterize_effect(p, it, true) ? it->type->charges_to_use() : 0;
@@ -4741,7 +4793,7 @@ void iuse::play_music( player * const p, const tripoint &source, int const volum
     // TODO: what about other "player", e.g. when a NPC is listening or when the PC is listening,
     // the other characters around should be able to profit as well.
 
-    bool const do_effects = !p->has_effect( "music" ) && p->can_hear( source, volume );
+    bool const do_effects = !p->has_effect( effect_music ) && p->can_hear( source, volume );
     int morale_bonus = 0;
     std::string sound;
     if( calendar::once_every(MINUTES(5)) ) {
@@ -4769,11 +4821,11 @@ void iuse::play_music( player * const p, const tripoint &source, int const volum
             sounds::ambient_sound( source, volume, sound );
     }
     if( do_effects ) {
-        p->add_effect("music", 1);
+        p->add_effect( effect_music, 1);
         p->add_morale(MORALE_MUSIC, 1, max_morale + morale_bonus, 5, 2);
         // mp3 player reduces hearing
         if ( volume == 0 ) {
-             p->add_effect("earphones",1);
+             p->add_effect( effect_earphones,1);
         }
     }
 }
@@ -4943,16 +4995,16 @@ int iuse::dog_whistle(player *p, item *it, bool, const tripoint& )
     for (size_t i = 0; i < g->num_zombies(); i++) {
         if (g->zombie(i).friendly != 0 && g->zombie(i).type->id == mon_dog) {
             bool u_see = g->u.sees(g->zombie(i));
-            if (g->zombie(i).has_effect("docile")) {
+            if (g->zombie(i).has_effect( effect_docile)) {
                 if (u_see) {
                     p->add_msg_if_player(_("Your %s looks ready to attack."), g->zombie(i).name().c_str());
                 }
-                g->zombie(i).remove_effect("docile");
+                g->zombie(i).remove_effect( effect_docile);
             } else {
                 if (u_see) {
                     p->add_msg_if_player(_("Your %s goes docile."), g->zombie(i).name().c_str());
                 }
-                g->zombie(i).add_effect("docile", 1, num_bp, true);
+                g->zombie(i).add_effect( effect_docile, 1, num_bp, true);
             }
         }
     }
@@ -5367,7 +5419,7 @@ int iuse::mop(player *p, item *it, bool, const tripoint& )
         p->add_msg_if_player(_("The universe implodes and reforms around you."));
         return 0;
     }
-    if (p->has_effect("blind") || p->worn_with_flag("BLIND")) {
+    if (p->has_effect( effect_blind) || p->worn_with_flag("BLIND")) {
         add_msg(_("You move the mop around, unsure whether it's doing any good."));
         p->moves -= 15;
         if (one_in(3) && g->m.moppable_items_at( dirp )) {
@@ -5481,7 +5533,7 @@ int iuse::artifact(player *p, item *it, bool, const tripoint& )
 
             case AEA_ADRENALINE:
                 p->add_msg_if_player(m_good, _("You're filled with a roaring energy!"));
-                p->add_effect("adrenaline", rng(200, 250));
+                p->add_effect( effect_adrenaline, rng(200, 250));
                 break;
 
             case AEA_MAP: {
@@ -5556,7 +5608,7 @@ int iuse::artifact(player *p, item *it, bool, const tripoint& )
                         tripoint dest( x, y, p->posz() );
                         int mondex = g->mon_at( dest, true );
                         if (mondex != -1) {
-                            g->zombie(mondex).add_effect("stunned", rng(5, 15));
+                            g->zombie(mondex).add_effect( effect_stunned, rng(5, 15));
                         }
                     }
                 }
@@ -5676,12 +5728,12 @@ int iuse::artifact(player *p, item *it, bool, const tripoint& )
 
             case AEA_ATTENTION:
                 p->add_msg_if_player(m_warning, _("You feel like your action has attracted attention."));
-                p->add_effect("attention", 600 * rng(1, 3));
+                p->add_effect( effect_attention, 600 * rng(1, 3));
                 break;
 
             case AEA_TELEGLOW:
                 p->add_msg_if_player(m_warning, _("You feel unhinged."));
-                p->add_effect("teleglow", 100 * rng(3, 12));
+                p->add_effect( effect_teleglow, 100 * rng(3, 12));
                 break;
 
             case AEA_NOISE:
@@ -5852,7 +5904,7 @@ int iuse::hotplate(player *p, item *it, bool, const tripoint& )
     }
 
     int choice = 1;
-    if ((p->has_effect("bite") || p->has_effect("bleed") || p->has_trait("MASOCHIST") ||
+    if ((p->has_effect( effect_bite ) || p->has_effect(effect_bleed  ) || p->has_trait("MASOCHIST") ||
          p->has_trait("MASOCHIST_MED") || p->has_trait("CENOBITE")) && !p->is_underwater()) {
         //Might want to cauterize
         choice = menu(true, _("Using hotplate:"), _("Heat food"), _("Cauterize wound"), _("Cancel"), NULL);
@@ -5965,9 +6017,9 @@ int iuse::towel(player *p, item *it, bool t, const tripoint& )
         // wet towels only as they are active items.
         return 0;
     }
-    bool slime = p->has_effect("slimed");
-    bool boom = p->has_effect("boomered");
-    bool glow = p->has_effect("glowing");
+    bool slime = p->has_effect( effect_slimed);
+    bool boom = p->has_effect( effect_boomered);
+    bool glow = p->has_effect( effect_glowing);
     int mult = slime + boom + glow; // cleaning off more than one at once makes it take longer
     bool towelUsed = false;
 
@@ -5979,9 +6031,9 @@ int iuse::towel(player *p, item *it, bool t, const tripoint& )
 
     // clean off the messes first, more important
     } else if (slime || boom || glow) {
-        p->remove_effect("slimed");  // able to clean off all at once
-        p->remove_effect("boomered");
-        p->remove_effect("glowing");
+        p->remove_effect( effect_slimed);  // able to clean off all at once
+        p->remove_effect( effect_boomered);
+        p->remove_effect( effect_glowing);
         p->add_msg_if_player(_("You use the %s to clean yourself off, saturating it with slime!"),
                              it->tname().c_str());
 
@@ -6066,14 +6118,14 @@ int iuse::adrenaline_injector(player *p, item *it, bool, const tripoint& )
 
     item syringe( "syringe", it->bday );
     p->i_add( syringe );
-    p->add_effect("adrenaline", 200);
-    if (p->has_effect("adrenaline")) {
+    p->add_effect( effect_adrenaline, 200);
+    if (p->has_effect( effect_adrenaline)) {
         //Massively boost stimulant level, risking death on an extended chain
         p->stim += 80;
     }
 
-    if (p->has_effect("asthma")) {
-        p->remove_effect("asthma");
+    if (p->has_effect( effect_asthma)) {
+        p->remove_effect( effect_asthma);
         p->add_msg_if_player(m_good, _("The adrenaline causes your asthma to clear."));
     }
     return it->type->charges_to_use();
@@ -6087,14 +6139,14 @@ int iuse::jet_injector(player *p, item *it, bool, const tripoint& )
     } else {
         p->add_msg_if_player(_("You inject yourself with the jet injector."));
         // Intensity is 2 here because intensity = 1 is the comedown
-        p->add_effect("jetinjector", 200, num_bp, false, 2);
+        p->add_effect( effect_jetinjector, 200, num_bp, false, 2);
         p->pkill += 20;
         p->stim += 10;
         p->healall(20);
     }
 
-    if (p->has_effect("jetinjector")) {
-        if (p->get_effect_dur("jetinjector") > 200) {
+    if (p->has_effect( effect_jetinjector)) {
+        if (p->get_effect_dur( effect_jetinjector ) > 200) {
             p->add_msg_if_player(m_warning, _("Your heart is beating alarmingly fast!"));
         }
     }
@@ -6113,7 +6165,7 @@ int iuse::stimpack(player *p, item *it, bool, const tripoint& )
     } else {
         p->add_msg_if_player(_("You inject yourself with the stimulants."));
         // Intensity is 2 here because intensity = 1 is the comedown
-        p->add_effect("stimpack", 250, num_bp, false, 2);
+        p->add_effect( effect_stimpack, 250, num_bp, false, 2);
         p->pkill += 2;
         p->stim += 20;
         p->fatigue -= 100;
@@ -6158,12 +6210,12 @@ int iuse::contacts(player *p, item *it, bool, const tripoint& )
         return 0;
     }
     int duration = rng(80640, 120960); // Around 7 days.
-    if (p->has_effect("contacts")) {
+    if (p->has_effect( effect_contacts)) {
         if (query_yn(_("Replace your current lenses?"))) {
             p->moves -= 200;
             p->add_msg_if_player(_("You replace your current %s."), it->tname().c_str());
-            p->remove_effect("contacts");
-            p->add_effect("contacts", duration);
+            p->remove_effect( effect_contacts);
+            p->add_effect( effect_contacts, duration);
             return it->type->charges_to_use();
         } else {
             p->add_msg_if_player(_("You don't do anything with your %s."), it->tname().c_str());
@@ -6172,7 +6224,7 @@ int iuse::contacts(player *p, item *it, bool, const tripoint& )
     } else if (p->has_trait("HYPEROPIC") || p->has_trait("MYOPIC") || p->has_trait("URSINE_EYE")) {
         p->moves -= 200;
         p->add_msg_if_player(_("You put the %s in your eyes."), it->tname().c_str());
-        p->add_effect("contacts", duration);
+        p->add_effect( effect_contacts, duration);
         return it->type->charges_to_use();
     } else {
         p->add_msg_if_player(m_info, _("Your vision is fine already."));
@@ -6451,7 +6503,7 @@ int iuse::robotcontrol(player *p, item *it, bool, const tripoint& )
                 if (g->zombie(i).friendly != 0 && g->zombie(i).type->in_species( ROBOT )) {
                     p->add_msg_if_player(_("A following %s goes into passive mode."),
                                          g->zombie(i).name().c_str());
-                    g->zombie(i).add_effect("docile", 1, num_bp, true);
+                    g->zombie(i).add_effect( effect_docile, 1, num_bp, true);
                     f = 1;
                 }
             }
@@ -6469,7 +6521,7 @@ int iuse::robotcontrol(player *p, item *it, bool, const tripoint& )
                 if (g->zombie(i).friendly != 0 && g->zombie(i).has_flag(MF_ELECTRONIC)) {
                     p->add_msg_if_player(_("A following %s goes into combat mode."),
                                          g->zombie(i).name().c_str());
-                    g->zombie(i).remove_effect("docile");
+                    g->zombie(i).remove_effect( effect_docile);
                     f = 1;
                 }
             }
@@ -6748,7 +6800,7 @@ int iuse::einktabletpc(player *p, item *it, bool t, const tripoint &pos)
             return 0;
         }
         if (p->has_trait("HYPEROPIC") && !p->is_wearing("glasses_reading")
-            && !p->is_wearing("glasses_bifocal") && !p->has_effect("contacts")) {
+            && !p->is_wearing("glasses_bifocal") && !p->has_effect( effect_contacts)) {
             add_msg(m_info, _("You'll need to put on reading glasses before you can see the screen."));
             return 0;
         }
@@ -7120,7 +7172,7 @@ int iuse::camera(player *p, item *it, bool, const tripoint& )
                 if (photo_quality < 0) {
                     photo_quality = 0;
                 }
-                if (p->has_effect("blind") || p->worn_with_flag("BLIND")) {
+                if (p->has_effect( effect_blind) || p->worn_with_flag("BLIND")) {
                     photo_quality /= 2;
                 }
 
@@ -7131,7 +7183,7 @@ int iuse::camera(player *p, item *it, bool, const tripoint& )
 
                     if (dist < 4 && one_in(dist + 2) && z.has_flag(MF_SEES)) {
                         p->add_msg_if_player(_("%s looks blinded."), z.name().c_str());
-                        z.add_effect("blind", rng(5, 10));
+                        z.add_effect( effect_blind, rng(5, 10));
                     }
 
                     // shoot past small monsters and hallucinations
@@ -7151,7 +7203,7 @@ int iuse::camera(player *p, item *it, bool, const tripoint& )
 
                     if (zid == sel_zid) {
                         // if the loop makes it to the target, take its photo
-                        if (p->has_effect("blind") || p->worn_with_flag("BLIND")) {
+                        if (p->has_effect( effect_blind) || p->worn_with_flag("BLIND")) {
                             p->add_msg_if_player(_("You took a photo of %s."), z.name().c_str());
                         } else {
                             p->add_msg_if_player(_("You took a %1$s photo of %2$s."), quality_name.c_str(),
@@ -7181,7 +7233,7 @@ int iuse::camera(player *p, item *it, bool, const tripoint& )
                             char *chq = &monster_photos[strqpos];
                             const int old_quality = atoi(chq);
 
-                            if (!p->has_effect("blind") && !p->worn_with_flag("BLIND")) {
+                            if (!p->has_effect( effect_blind) && !p->worn_with_flag("BLIND")) {
                                 if (photo_quality > old_quality) {
                                     chq = &string_format("%d", photo_quality)[0];
                                     monster_photos[strqpos] = *chq;
@@ -7201,12 +7253,12 @@ int iuse::camera(player *p, item *it, bool, const tripoint& )
 
                     if (dist < 4 && one_in(dist + 2)) {
                         p->add_msg_if_player(_("%s looks blinded."), guy->name.c_str());
-                        guy->add_effect("blind", rng(5, 10));
+                        guy->add_effect( effect_blind, rng(5, 10));
                     }
 
                     //just photo, no save. Maybe in the future we will need to create CAMERA_NPC_PHOTOS
                     if (npcID == sel_npcID) {
-                        if (p->has_effect("blind") || p->worn_with_flag("BLIND")) {
+                        if (p->has_effect( effect_blind) || p->worn_with_flag("BLIND")) {
                             p->add_msg_if_player(_("You took a photo of %s."), guy->name.c_str());
                         } else {
                             p->add_msg_if_player(_("You took a %1$s photo of %2$s."), quality_name.c_str(),
@@ -7230,7 +7282,7 @@ int iuse::camera(player *p, item *it, bool, const tripoint& )
 
     if (c_photos == choice) {
 
-        if (p->has_effect("blind") || p->worn_with_flag("BLIND")) {
+        if (p->has_effect( effect_blind) || p->worn_with_flag("BLIND")) {
             p->add_msg_if_player(_("You can't see the camera screen, you're blind."));
             return 0;
         }
@@ -7287,7 +7339,7 @@ int iuse::camera(player *p, item *it, bool, const tripoint& )
 
     if (c_upload == choice) {
 
-        if (p->has_effect("blind") || p->worn_with_flag("BLIND")) {
+        if (p->has_effect( effect_blind) || p->worn_with_flag("BLIND")) {
             p->add_msg_if_player(_("You can't see the camera screen, you're blind."));
             return 0;
         }
@@ -7858,7 +7910,7 @@ bool multicooker_hallu(player *p)
                 if (g->summon_mon(mon_hallu_multicooker, random_point)) {
                     monster *m = g->monster_at(random_point);
                     m->hallucination = true;
-                    m->add_effect("run", 1, num_bp, true);
+                    m->add_effect( effect_run, 1, num_bp, true);
                 }
             } else {
                 add_msg(m_bad, _("You're surrounded by aggressive multi-cookers!"));
@@ -7938,14 +7990,14 @@ int iuse::multicooker(player *p, item *it, bool t, const tripoint &pos)
             return 0;
         }
 
-        if (p->has_effect("hallu") || p->has_effect("visuals")) {
+        if( p->has_effect( effect_hallu ) || p->has_effect( effect_visuals ) ) {
             if (multicooker_hallu(p)) {
                 return 0;
             }
         }
 
         if (p->has_trait("HYPEROPIC") && !p->is_wearing("glasses_reading")
-            && !p->is_wearing("glasses_bifocal") && !p->has_effect("contacts")) {
+            && !p->is_wearing("glasses_bifocal") && !p->has_effect( effect_contacts)) {
             add_msg(m_info, _("You'll need to put on reading glasses before you can see the screen."));
             return 0;
         }

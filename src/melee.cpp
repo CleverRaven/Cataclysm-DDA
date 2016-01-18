@@ -35,6 +35,18 @@ static const skill_id skill_bashing( "bashing" );
 static const skill_id skill_melee( "melee" );
 static const skill_id skill_dodge( "dodge" );
 
+const efftype_id effect_badpoison( "badpoison" );
+const efftype_id effect_beartrap( "beartrap" );
+const efftype_id effect_bouldering( "bouldering" );
+const efftype_id effect_contacts( "contacts" );
+const efftype_id effect_downed( "downed" );
+const efftype_id effect_drunk( "drunk" );
+const efftype_id effect_heavysnare( "heavysnare" );
+const efftype_id effect_hit_by_player( "hit_by_player" );
+const efftype_id effect_lightsnare( "lightsnare" );
+const efftype_id effect_poison( "poison" );
+const efftype_id effect_stunned( "stunned" );
+
 void player_hit_message(player* attacker, std::string message,
                         Creature &t, int dam, bool crit = false);
 void melee_practice( player &u, bool hit, bool unarmed, bool bashing, bool cutting, bool stabbing);
@@ -186,7 +198,7 @@ int player::get_hit_base() const
 int player::hit_roll() const
 {
     //Unstable ground chance of failure
-    if( has_effect("bouldering") && one_in(8) ) {
+    if( has_effect( effect_bouldering) && one_in(8) ) {
         add_msg_if_player(m_bad, _("The ground shifts beneath your feet!"));
         return 0;
     }
@@ -196,9 +208,9 @@ int player::hit_roll() const
     // Drunken master makes us hit better
     if (has_trait("DRUNKEN")) {
         if (unarmed_attack()) {
-            numdice += int(get_effect_dur("drunk") / 300);
+            numdice += int(get_effect_dur( effect_drunk ) / 300);
         } else {
-            numdice += int(get_effect_dur("drunk") / 400);
+            numdice += int(get_effect_dur( effect_drunk ) / 400);
         }
     }
 
@@ -238,8 +250,8 @@ const char *player::get_miss_reason()
         divide_roll_remainder( encumb( bp_torso ), 10.0f ) );
     const int farsightedness = 2 * ( has_trait("HYPEROPIC") &&
                                !is_wearing("glasses_reading") &&
-                               !is_wearing("glasses_bifocal") && 
-                               !has_effect("contacts") );
+                               !is_wearing("glasses_bifocal") &&
+                               !has_effect( effect_contacts) );
     add_miss_reason(
         _("You can't hit reliably due to your farsightedness."),
         farsightedness);
@@ -269,7 +281,7 @@ void player::melee_attack(Creature &t, bool allow_special, const matec_id &force
 {
     if (!t.is_player()) {
         // @todo Per-NPC tracking? Right now monster hit by either npc or player will draw aggro...
-        t.add_effect("hit_by_player", 100); // Flag as attacked by us for AI
+        t.add_effect( effect_hit_by_player, 100); // Flag as attacked by us for AI
     }
 
     const bool critical_hit = scored_crit( t.dodge_roll() );
@@ -620,7 +632,7 @@ int player::get_dodge() const
 
     int ret = Creature::get_dodge();
     // Chop in half if we are unable to move
-    if( has_effect( "beartrap" ) || has_effect( "lightsnare" ) || has_effect( "heavysnare" ) ) {
+    if( has_effect( effect_beartrap ) || has_effect( effect_lightsnare ) || has_effect( effect_heavysnare ) ) {
         ret /= 2;
     }
     return ret;
@@ -633,26 +645,26 @@ int player::dodge_roll()
     ///\EFFECT_DODGE decreases chances of falling over when dodging on roller blades
     if( is_wearing("roller_blades") &&
         one_in( (get_dex() + get_skill_level( skill_dodge )) / 3 ) &&
-        !has_effect("downed") ) {
+        !has_effect( effect_downed) ) {
         // Skaters have a 67% chance to avoid knockdown, and get up a turn quicker.
         if (has_trait("PROF_SKATER")) {
             if (one_in(3)) {
                 add_msg_if_player(m_bad, _("You overbalance and stumble!"));
-                add_effect("downed", 2);
+                add_effect( effect_downed, 2);
             } else {
                 add_msg_if_player(m_good, _("You nearly fall, but recover thanks to your skating experience."));
             }
         } else {
             add_msg_if_player(_("Fighting on wheels is hard!"));
-            add_effect("downed", 3);
+            add_effect( effect_downed, 3);
         }
     }
 
-    if (has_effect("bouldering")) {
+    if (has_effect( effect_bouldering)) {
         ///\EFFECT_DEX decreases chance of falling when dodging while bouldering
         if(one_in(get_dex())) {
             add_msg_if_player(m_bad, _("You slip as the ground shifts beneath your feet!"));
-            add_effect("downed", 3);
+            add_effect( effect_downed, 3);
             return 0;
         }
     }
@@ -711,11 +723,11 @@ void player::roll_bash_damage( bool crit, damage_instance &di, bool average, con
     const int skill = unarmed ? unarmed_skill : bashing_skill;
 
     // Drunken Master damage bonuses
-    if( has_trait("DRUNKEN") && has_effect("drunk") ) {
+    if( has_trait("DRUNKEN") && has_effect( effect_drunk) ) {
         // Remember, a single drink gives 600 levels of "drunk"
         int mindrunk = 0;
         int maxdrunk = 0;
-        const int drunk_dur = get_effect_dur("drunk");
+        const int drunk_dur = get_effect_dur( effect_drunk );
         if( unarmed ) {
             mindrunk = drunk_dur / 600;
             maxdrunk = drunk_dur / 250;
@@ -995,7 +1007,7 @@ matec_id player::pick_technique(Creature &t,
 
     std::vector<matec_id> possible;
 
-    bool downed = t.has_effect("downed");
+    bool downed = t.has_effect( effect_downed);
 
     // first add non-aoe tecs
     for( auto & tec_id : all ) {
@@ -1230,7 +1242,7 @@ void player::perform_technique(const ma_technique &technique, Creature &t, damag
 
     if( technique.down_dur > 0 ) {
         if( t.get_throw_resist() == 0 ) {
-            t.add_effect("downed", rng(1, technique.down_dur));
+            t.add_effect( effect_downed, rng(1, technique.down_dur));
             if( bash.amount > 0 ) {
                 bash.amount += 3;
             }
@@ -1238,7 +1250,7 @@ void player::perform_technique(const ma_technique &technique, Creature &t, damag
     }
 
     if (technique.stun_dur > 0) {
-        t.add_effect("stunned", rng(1, technique.stun_dur));
+        t.add_effect( effect_stunned, rng(1, technique.stun_dur));
     }
 
     if (technique.knockback_dist > 0) {
@@ -1558,10 +1570,10 @@ void player::perform_special_attacks(Creature &t)
     if( can_poison && (has_trait("POISONOUS") || has_trait("POISONOUS2")) ) {
         if( has_trait("POISONOUS") ) {
             t.add_msg_if_player(m_good, _("You poison %s!"), target.c_str());
-            t.add_effect("poison", 6);
+            t.add_effect( effect_poison, 6);
         } else if( has_trait("POISONOUS2") ) {
             t.add_msg_if_player(m_good, _("You inject your venom into %s!"), target.c_str());
-            t.add_effect("badpoison", 6);
+            t.add_effect( effect_badpoison, 6);
         }
     }
 }

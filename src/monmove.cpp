@@ -26,6 +26,13 @@
 
 #define MONSTER_FOLLOW_DIST 8
 
+const efftype_id effect_bouldering( "bouldering" );
+const efftype_id effect_docile( "docile" );
+const efftype_id effect_downed( "downed" );
+const efftype_id effect_pacified( "pacified" );
+const efftype_id effect_pushed( "pushed" );
+const efftype_id effect_stunned( "stunned" );
+
 bool monster::wander()
 {
     return ( goal == pos() );
@@ -141,7 +148,7 @@ void monster::plan( const mfactions &factions )
     // 8.6f is rating for tank drone 60 tiles away, moose 16 or boomer 33
     float dist = !electronic ? 1000 : 8.6f;
     bool fleeing = false;
-    bool docile = has_flag( MF_VERMIN ) || ( friendly != 0 && has_effect( "docile" ) );
+    bool docile = has_flag( MF_VERMIN ) || ( friendly != 0 && has_effect( effect_docile ) );
     bool angers_hostile_weak = type->anger.find( MTRIG_HOSTILE_WEAK ) != type->anger.end();
     int angers_hostile_near = ( type->anger.find( MTRIG_HOSTILE_CLOSE ) != type->anger.end() ) ? 5 : 0;
     int fears_hostile_near = ( type->fear.find( MTRIG_HOSTILE_CLOSE ) != type->fear.end() ) ? 5 : 0;
@@ -482,8 +489,7 @@ void monster::move()
         }
     }
 
-    static const std::string pacified_string = "pacified";
-    const bool pacified = has_effect( pacified_string );
+    const bool pacified = has_effect( effect_pacified );
 
     // First, use the special attack, if we can!
     // The attack may change `monster::special_attacks` (e.g. by transforming
@@ -538,8 +544,7 @@ void monster::move()
         moves = 0;
         return;
     }
-    static const std::string stun_string = "stunned";
-    if( has_effect( stun_string ) ) {
+    if( has_effect( effect_stunned ) ) {
         stumble();
         moves = 0;
         return;
@@ -1162,9 +1167,9 @@ bool monster::move_to( const tripoint &p, bool force, const float stagger_adjust
     }
 
     if( g->m.has_flag( "UNSTABLE", p ) && on_ground ) {
-        add_effect( "bouldering", 1, num_bp, true );
-    } else if( has_effect( "bouldering" ) ) {
-        remove_effect( "bouldering" );
+        add_effect( effect_bouldering, 1, num_bp, true );
+    } else if( has_effect( effect_bouldering ) ) {
+        remove_effect( effect_bouldering );
     }
     g->m.creature_on_trap( *this );
     if( !will_be_water && ( has_flag( MF_DIGS ) || has_flag( MF_CAN_DIG ) ) ) {
@@ -1227,7 +1232,7 @@ bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
         return false;
     }
 
-    if( !has_flag( MF_PUSH_MON ) || depth > 2 || has_effect( "pushed" ) ) {
+    if( !has_flag( MF_PUSH_MON ) || depth > 2 || has_effect( effect_pushed ) ) {
         return false;
     }
 
@@ -1265,7 +1270,7 @@ bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
     const tripoint dir = p - pos();
 
     // Mark self as pushed to simplify recursive pushing
-    add_effect( "pushed", 1 );
+    add_effect( effect_pushed, 1 );
 
     for( size_t i = 0; i < 6; i++ ) {
         const int dx = rng( -1, 1 );
@@ -1310,7 +1315,7 @@ bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
 
                 moves -= movecost_attacker;
                 if( movecost_from > 100 ) {
-                    critter->add_effect( "downed", movecost_from / 100 + 1 );
+                    critter->add_effect( effect_downed, movecost_from / 100 + 1 );
                 } else {
                     critter->moves -= movecost_from;
                 }
@@ -1334,7 +1339,7 @@ bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
         move_to( p );
         moves -= movecost_attacker;
         if( movecost_from > 100 ) {
-            critter->add_effect( "downed", movecost_from / 100 + 1 );
+            critter->add_effect( effect_downed, movecost_from / 100 + 1 );
         } else {
             critter->moves -= movecost_from;
         }
@@ -1349,7 +1354,7 @@ bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
     }
 
     g->swap_critters( *critter, *this );
-    critter->add_effect( "stunned", rng( 0, 2 ) );
+    critter->add_effect( effect_stunned, rng( 0, 2 ) );
     // Only print the message when near player or it can get spammy
     if( rl_dist( g->u.pos(), pos() ) < 4 && g->u.sees( *critter ) ) {
         add_msg( m_warning, _( "The %1$s tramples %2$s" ),
@@ -1358,7 +1363,7 @@ bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
 
     moves -= movecost_attacker;
     if( movecost_from > 100 ) {
-        critter->add_effect( "downed", movecost_from / 100 + 1 );
+        critter->add_effect( effect_downed, movecost_from / 100 + 1 );
     } else {
         critter->moves -= movecost_from;
     }
@@ -1445,14 +1450,14 @@ void monster::knock_back_from( const tripoint &p )
     if( mondex != -1 ) {
         monster *z = &( g->zombie( mondex ) );
         apply_damage( z, bp_torso, z->type->size );
-        add_effect( "stunned", 1 );
+        add_effect( effect_stunned, 1 );
         if( type->size > 1 + z->type->size ) {
             z->knock_back_from( pos() ); // Chain reaction!
             z->apply_damage( this, bp_torso, type->size );
-            z->add_effect( "stunned", 1 );
+            z->add_effect( effect_stunned, 1 );
         } else if( type->size > z->type->size ) {
             z->apply_damage( this, bp_torso, type->size );
-            z->add_effect( "stunned", 1 );
+            z->add_effect( effect_stunned, 1 );
         }
         z->check_dead_state();
 
@@ -1467,7 +1472,7 @@ void monster::knock_back_from( const tripoint &p )
     if( npcdex != -1 ) {
         npc *p = g->active_npc[npcdex];
         apply_damage( p, bp_torso, 3 );
-        add_effect( "stunned", 1 );
+        add_effect( effect_stunned, 1 );
         p->deal_damage( this, bp_torso, damage_instance( DT_BASH, type->size ) );
         if( u_see ) {
             add_msg( _( "The %1$s bounces off %2$s!" ), name().c_str(), p->name.c_str() );
@@ -1497,7 +1502,7 @@ void monster::knock_back_from( const tripoint &p )
 
         // It's some kind of wall.
         apply_damage( nullptr, bp_torso, type->size );
-        add_effect( "stunned", 2 );
+        add_effect( effect_stunned, 2 );
         if( u_see ) {
             add_msg( _( "The %1$s bounces off a %2$s." ), name().c_str(),
                      g->m.tername( to ).c_str() );

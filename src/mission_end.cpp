@@ -6,6 +6,8 @@
 #include "translations.h"
 #include "messages.h"
 
+const efftype_id effect_infection( "infection" );
+
 void mission_end::heal_infection( mission *miss )
 {
     npc *p = g->find_npc( miss->get_npc_id() );
@@ -13,7 +15,7 @@ void mission_end::heal_infection( mission *miss )
         debugmsg( "could not find mission NPC %d", miss->get_npc_id() );
         return;
     }
-    p->remove_effect( "infection" );
+    p->remove_effect( effect_infection );
 }
 
 void mission_end::leave( mission *miss )

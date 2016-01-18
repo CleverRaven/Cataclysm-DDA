@@ -10,8 +10,10 @@
 
 std::map<efftype_id, effect_type> effect_types;
 
+const efftype_id effect_weed_high( "weed_high" );
+
 void weed_msg(player *p) {
-    int howhigh = p->get_effect_dur("weed_high");
+    int howhigh = p->get_effect_dur( effect_weed_high );
     ///\EFFECT_INT changes messages when smoking weed
     int smarts = p->get_int();
     if(howhigh > 125 && one_in(7)) {

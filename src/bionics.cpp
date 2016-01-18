@@ -35,6 +35,37 @@ const skill_id skilll_electronics( "electronics" );
 const skill_id skilll_firstaid( "firstaid" );
 const skill_id skilll_mechanics( "mechanics" );
 
+const efftype_id effect_adrenaline( "adrenaline" );
+const efftype_id effect_adrenaline_mycus( "adrenaline_mycus" );
+const efftype_id effect_bleed( "bleed" );
+const efftype_id effect_bloodworms( "bloodworms" );
+const efftype_id effect_brainworms( "brainworms" );
+const efftype_id effect_cig( "cig" );
+const efftype_id effect_datura( "datura" );
+const efftype_id effect_dermatik( "dermatik" );
+const efftype_id effect_drunk( "drunk" );
+const efftype_id effect_fungus( "fungus" );
+const efftype_id effect_hallu( "hallu" );
+const efftype_id effect_high( "high" );
+const efftype_id effect_iodine( "iodine" );
+const efftype_id effect_meth( "meth" );
+const efftype_id effect_paincysts( "paincysts" );
+const efftype_id effect_pblue( "pblue" );
+const efftype_id effect_pkill1( "pkill1" );
+const efftype_id effect_pkill2( "pkill2" );
+const efftype_id effect_pkill3( "pkill3" );
+const efftype_id effect_pkill_l( "pkill_l" );
+const efftype_id effect_poison( "poison" );
+const efftype_id effect_stung( "stung" );
+const efftype_id effect_tapeworm( "tapeworm" );
+const efftype_id effect_teleglow( "teleglow" );
+const efftype_id effect_tetanus( "tetanus" );
+const efftype_id effect_took_flumed( "took_flumed" );
+const efftype_id effect_took_prozac( "took_prozac" );
+const efftype_id effect_took_xanax( "took_xanax" );
+const efftype_id effect_visuals( "visuals" );
+const efftype_id effect_weed_high( "weed_high" );
+
 namespace {
 std::map<std::string, bionic_data> bionics;
 std::vector<std::string> faulty_bionics;
@@ -701,7 +732,7 @@ bool player::activate_bionic(int b, bool eff_only)
             return false;
         }
     } else if (bio.id == "bio_nanobots") {
-        remove_effect("bleed");
+        remove_effect( effect_bleed );
         healall(4);
     } else if (bio.id == "bio_resonator") {
         //~Sound of a bionic sonic-resonator shaking the area
@@ -727,98 +758,98 @@ bool player::activate_bionic(int b, bool eff_only)
             apply_damage( nullptr, bp_torso, rng( 5, 15 ) );
         }
         if (one_in(5)) {
-            add_effect("teleglow", rng(50, 400));
+            add_effect( effect_teleglow, rng( 50, 400 ) );
         }
     } else if (bio.id == "bio_teleport") {
         g->teleport();
-        add_effect("teleglow", 300);
+        add_effect( effect_teleglow, 300 );
         // TODO: More stuff here (and bio_blood_filter)
     } else if(bio.id == "bio_blood_anal") {
         WINDOW *w = newwin(20, 40, 3 + ((TERMY > 25) ? (TERMY - 25) / 2 : 0),
                 10 + ((TERMX > 80) ? (TERMX - 80) / 2 : 0));
         draw_border(w);
-        if (has_effect("fungus")) {
+        if (has_effect( effect_fungus )) {
             bad.push_back(_("Fungal Parasite"));
         }
-        if (has_effect("dermatik")) {
+        if (has_effect( effect_dermatik )) {
             bad.push_back(_("Insect Parasite"));
         }
-        if (has_effect("stung")) {
+        if (has_effect( effect_stung )) {
             bad.push_back(_("Stung"));
         }
-        if (has_effect("poison")) {
+        if (has_effect( effect_poison )) {
             bad.push_back(_("Poison"));
         }
         if (radiation > 0) {
             bad.push_back(_("Irradiated"));
         }
-        if (has_effect("pkill1")) {
+        if (has_effect( effect_pkill1 )) {
             good.push_back(_("Minor Painkiller"));
         }
-        if (has_effect("pkill2")) {
+        if (has_effect( effect_pkill2 )) {
             good.push_back(_("Moderate Painkiller"));
         }
-        if (has_effect("pkill3")) {
+        if (has_effect( effect_pkill3 )) {
             good.push_back(_("Heavy Painkiller"));
         }
-        if (has_effect("pkill_l")) {
+        if (has_effect( effect_pkill_l )) {
             good.push_back(_("Slow-Release Painkiller"));
         }
-        if (has_effect("drunk")) {
+        if (has_effect( effect_drunk )) {
             good.push_back(_("Alcohol"));
         }
-        if (has_effect("cig")) {
+        if (has_effect( effect_cig )) {
             good.push_back(_("Nicotine"));
         }
-        if (has_effect("meth")) {
+        if (has_effect( effect_meth )) {
             good.push_back(_("Methamphetamines"));
         }
-        if (has_effect("high")) {
+        if (has_effect( effect_high )) {
             good.push_back(_("Intoxicant: Other"));
         }
-        if (has_effect("weed_high")) {
+        if (has_effect( effect_weed_high )) {
             good.push_back(_("THC Intoxication"));
         }
-        if (has_effect("hallu") || has_effect("visuals")) {
+        if (has_effect( effect_hallu ) || has_effect( effect_visuals )) {
             bad.push_back(_("Hallucinations"));
         }
-        if (has_effect("pblue")) {
+        if (has_effect( effect_pblue )) {
             good.push_back(_("Prussian Blue"));
         }
-        if (has_effect("iodine")) {
+        if (has_effect( effect_iodine )) {
             good.push_back(_("Potassium Iodide"));
         }
-        if (has_effect("datura")) {
+        if (has_effect( effect_datura )) {
             good.push_back(_("Anticholinergic Tropane Alkaloids"));
         }
-        if (has_effect("took_xanax")) {
+        if (has_effect( effect_took_xanax )) {
             good.push_back(_("Xanax"));
         }
-        if (has_effect("took_prozac")) {
+        if (has_effect( effect_took_prozac )) {
             good.push_back(_("Prozac"));
         }
-        if (has_effect("took_flumed")) {
+        if (has_effect( effect_took_flumed )) {
             good.push_back(_("Antihistamines"));
         }
-        if (has_effect("adrenaline")) {
+        if (has_effect( effect_adrenaline )) {
             good.push_back(_("Adrenaline Spike"));
         }
-        if (has_effect("adrenaline_mycus")) {
+        if (has_effect( effect_adrenaline_mycus )) {
             good.push_back(_("Mycal Spike"));
         }
-        if (has_effect("tapeworm")) {  // This little guy is immune to the blood filter though, as he lives in your bowels.
+        if (has_effect( effect_tapeworm )) {  // This little guy is immune to the blood filter though, as he lives in your bowels.
             good.push_back(_("Intestinal Parasite"));
         }
-        if (has_effect("bloodworms")) {
+        if (has_effect( effect_bloodworms )) {
             good.push_back(_("Hemolytic Parasites"));
         }
-        if (has_effect("brainworms")) {  // These little guys are immune to the blood filter too, as they live in your brain.
+        if (has_effect( effect_brainworms )) {  // These little guys are immune to the blood filter too, as they live in your brain.
             good.push_back(_("Intracranial Parasite"));
         }
-        if (has_effect("paincysts")) {  // These little guys are immune to the blood filter too, as they live in your muscles.
+        if (has_effect( effect_paincysts )) {  // These little guys are immune to the blood filter too, as they live in your muscles.
             good.push_back(_("Intramuscular Parasites"));
         }
-        if (has_effect("tetanus")) {  // Tetanus infection.
+        if (has_effect( effect_tetanus )) {  // Tetanus infection.
             good.push_back(_("Clostridium Tetani Infection"));
         }
         if (good.empty() && bad.empty()) {
@@ -837,29 +868,29 @@ bool player::activate_bionic(int b, bool eff_only)
         getch();
         delwin(w);
     } else if(bio.id == "bio_blood_filter") {
-        remove_effect("fungus");
-        remove_effect("dermatik");
-        remove_effect("bloodworms");
-        remove_effect("tetanus");
-        remove_effect("poison");
-        remove_effect("stung");
-        remove_effect("pkill1");
-        remove_effect("pkill2");
-        remove_effect("pkill3");
-        remove_effect("pkill_l");
-        remove_effect("drunk");
-        remove_effect("cig");
-        remove_effect("high");
-        remove_effect("hallu");
-        remove_effect("visuals");
-        remove_effect("pblue");
-        remove_effect("iodine");
-        remove_effect("datura");
-        remove_effect("took_xanax");
-        remove_effect("took_prozac");
-        remove_effect("took_flumed");
-        remove_effect("adrenaline");
-        remove_effect("meth");
+        remove_effect( effect_fungus );
+        remove_effect( effect_dermatik );
+        remove_effect( effect_bloodworms );
+        remove_effect( effect_tetanus );
+        remove_effect( effect_poison );
+        remove_effect( effect_stung );
+        remove_effect( effect_pkill1 );
+        remove_effect( effect_pkill2 );
+        remove_effect( effect_pkill3 );
+        remove_effect( effect_pkill_l );
+        remove_effect( effect_drunk );
+        remove_effect( effect_cig );
+        remove_effect( effect_high );
+        remove_effect( effect_hallu );
+        remove_effect( effect_visuals );
+        remove_effect( effect_pblue );
+        remove_effect( effect_iodine );
+        remove_effect( effect_datura );
+        remove_effect( effect_took_xanax );
+        remove_effect( effect_took_prozac );
+        remove_effect( effect_took_flumed );
+        remove_effect( effect_adrenaline );
+        remove_effect( effect_meth );
         pkill = 0;
         stim = 0;
     } else if(bio.id == "bio_evap") {
@@ -897,10 +928,10 @@ bool player::activate_bionic(int b, bool eff_only)
             radiation = 0;
         }
     } else if(bio.id == "bio_adrenaline") {
-        if (has_effect("adrenaline")) {
-            add_effect("adrenaline", 50);
+        if (has_effect( effect_adrenaline )) {
+            add_effect( effect_adrenaline, 50);
         } else {
-            add_effect("adrenaline", 200);
+            add_effect( effect_adrenaline, 200);
         }
     } else if(bio.id == "bio_blaster") {
         tmp_item = weapon;

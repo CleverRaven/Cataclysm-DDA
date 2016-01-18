@@ -10,6 +10,8 @@
 #include <map>
 #include <string>
 
+const efftype_id effect_blind( "blind" );
+
 namespace {
 constexpr int START_LINE = 1;
 constexpr int START_COLUMN = 1;
@@ -23,7 +25,7 @@ void print_items(WINDOW *const w, const map_stack &items, int &line)
 
     int const last_line = getmaxy(w) - START_LINE - 1;
     int const max_w = getmaxx(w) - START_COLUMN - 1; // border
-    
+
     for (auto const &it : item_names) {
         if (line == last_line) {
             mvwprintz(w, line++, START_COLUMN, c_yellow, _("More items here..."));
@@ -82,14 +84,14 @@ void live_view::show(const int x, const int y)
     wprintz(*this, c_green, _("Mouse View"));
     wprintz(*this, c_white, " >");
     int line = START_LINE;
-    
+
     // TODO: Z
     tripoint p( x, y, g->get_levz() );
 
     g->print_all_tile_info( p, *this, START_COLUMN, line, true);
 
     if (m.can_put_items( p ) && m.sees_some_items( p, g->u)) {
-        if(g->u.has_effect("blind") || g->u.worn_with_flag("BLIND")) {
+        if(g->u.has_effect( effect_blind) || g->u.worn_with_flag("BLIND")) {
             mvwprintz(*this, line++, START_COLUMN, c_yellow,
                       _("There's something here, but you can't see what it is."));
         } else {

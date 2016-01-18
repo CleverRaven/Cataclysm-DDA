@@ -15,6 +15,8 @@
 #include <vector>
 #include <sstream>
 
+const efftype_id effect_glare( "glare" );
+
 /**
  * \defgroup Weather "Weather and its implications."
  * @{
@@ -32,17 +34,17 @@ void weather_effect::glare()
 {
     if (PLAYER_OUTSIDE && g->is_in_sunlight(g->u.pos()) &&
         !g->u.worn_with_flag("SUN_GLASSES") && !g->u.has_bionic("bio_sunglasses")) {
-        if(!g->u.has_effect("glare")) {
+        if(!g->u.has_effect( effect_glare)) {
             if (g->u.has_trait("CEPH_VISION")) {
-                g->u.add_env_effect("glare", bp_eyes, 2, 4);
+                g->u.add_env_effect( effect_glare, bp_eyes, 2, 4 );
             } else {
-                g->u.add_env_effect("glare", bp_eyes, 2, 2);
+                g->u.add_env_effect( effect_glare, bp_eyes, 2, 2 );
             }
         } else {
             if (g->u.has_trait("CEPH_VISION")) {
-                g->u.add_env_effect("glare", bp_eyes, 2, 2);
+                g->u.add_env_effect( effect_glare, bp_eyes, 2, 2 );
             } else {
-                g->u.add_env_effect("glare", bp_eyes, 2, 1);
+                g->u.add_env_effect( effect_glare, bp_eyes, 2, 1 );
             }
         }
     }

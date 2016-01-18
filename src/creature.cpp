@@ -18,6 +18,16 @@
 #include <cmath>
 #include <map>
 
+const efftype_id effect_blind( "blind" );
+const efftype_id effect_bounced( "bounced" );
+const efftype_id effect_downed( "downed" );
+const efftype_id effect_onfire( "onfire" );
+const efftype_id effect_sap( "sap" );
+const efftype_id effect_sleep( "sleep" );
+const efftype_id effect_stunned( "stunned" );
+const efftype_id effect_zapped( "zapped" );
+const efftype_id effect_lying_down( "lying_down" );
+
 static std::map<int, std::map<body_part, double> > default_hit_weights = {
     {
         -1, /* attacker smaller */
@@ -383,9 +393,9 @@ void Creature::deal_melee_hit(Creature *source, int hit_spread, bool critical_hi
     block_hit(source, bp_hit, d);
 
     // Bashing crit
-    if( critical_hit && !is_immune_effect( "stunned" ) ) {
+    if( critical_hit && !is_immune_effect( effect_stunned ) ) {
         if( d.type_damage(DT_BASH) * hit_spread > get_hp_max() ) {
-            add_effect( "stunned", 1 ); // 1 turn is enough
+            add_effect( effect_stunned, 1 ); // 1 turn is enough
         }
     }
 
@@ -395,7 +405,7 @@ void Creature::deal_melee_hit(Creature *source, int hit_spread, bool critical_hi
     if (critical_hit) {
         stab_moves *= 1.5;
     }
-    if( stab_moves >= 150 && !is_immune_effect( "downed" ) ) {
+    if( stab_moves >= 150 && !is_immune_effect( effect_downed ) ) {
         if( is_player() ) {
             source->add_msg_if_npc( m_bad, _("<npcname> forces you to the ground!"));
         } else {
@@ -404,7 +414,7 @@ void Creature::deal_melee_hit(Creature *source, int hit_spread, bool critical_hi
                                            disp_name().c_str() );
         }
 
-        add_effect("downed", 1);
+        add_effect( effect_downed, 1);
         mod_moves(-stab_moves / 2);
     } else {
         mod_moves(-stab_moves);
@@ -464,7 +474,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
 
     // Bounce applies whether it does damage or not.
     if( proj.proj_effects.count( "BOUNCE" ) ) {
-        add_effect("bounced", 1);
+        add_effect( effect_bounced, 1);
     }
 
     body_part bp_hit;
@@ -536,36 +546,36 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
         if (0 == target_material.compare("veggy") || 0 == target_material.compare("cotton") ||
             0 == target_material.compare("wool") || 0 == target_material.compare("paper") ||
             0 == target_material.compare("wood" ) ) {
-            add_effect("onfire", rng(8, 20));
+            add_effect( effect_onfire, rng(8, 20));
         } else if (0 == target_material.compare("flesh") || 0 == target_material.compare("iflesh") ) {
-            add_effect("onfire", rng(5, 10));
+            add_effect( effect_onfire, rng(5, 10));
         }
     } else if (proj.proj_effects.count("INCENDIARY") ) {
         if (0 == target_material.compare("veggy") || 0 == target_material.compare("cotton") ||
             0 == target_material.compare("wool") || 0 == target_material.compare("paper") ||
             0 == target_material.compare("wood") ) {
-            add_effect("onfire", rng(2, 6));
+            add_effect( effect_onfire, rng(2, 6));
         } else if ( (0 == target_material.compare("flesh") || 0 == target_material.compare("iflesh") ) &&
                     one_in(4) ) {
-            add_effect("onfire", rng(1, 4));
+            add_effect( effect_onfire, rng(1, 4));
         }
     } else if (proj.proj_effects.count("IGNITE")) {
         if (0 == target_material.compare("veggy") || 0 == target_material.compare("cotton") ||
             0 == target_material.compare("wool") || 0 == target_material.compare("paper") ||
             0 == target_material.compare("wood") ) {
-            add_effect("onfire", rng(6, 6));
+            add_effect( effect_onfire, rng(6, 6));
         } else if (0 == target_material.compare("flesh") || 0 == target_material.compare("iflesh") ) {
-            add_effect("onfire", rng(10, 10));
+            add_effect( effect_onfire, rng(10, 10));
         }
     }
 
     if( bp_hit == bp_head && proj_effects.count( "BLINDS_EYES" ) ) {
         // TODO: Change this to require bp_eyes
-        add_env_effect( "blind", bp_eyes, 5, rng( 3, 10 ) );
+        add_env_effect( effect_blind, bp_eyes, 5, rng( 3, 10 ) );
     }
 
     if( proj_effects.count( "APPLY_SAP" ) ) {
-        add_effect( "sap", dealt_dam.total_damage() );
+        add_effect( effect_sap, dealt_dam.total_damage() );
     }
 
     int stun_strength = 0;
@@ -593,7 +603,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
             stun_strength /= 4;
             break;
         }
-        add_effect( "stunned", rng(stun_strength / 2, stun_strength) );
+        add_effect( effect_stunned, rng(stun_strength / 2, stun_strength) );
     }
 
     if(u_see_this) {
@@ -705,13 +715,13 @@ void Creature::deal_damage_handle_type(const damage_unit &du, body_part, int &da
         damage += adjusted_damage;
         pain += adjusted_damage / 4;
         if( rng(0, 100) < adjusted_damage ) {
-            add_effect("onfire", rng(1, 3));
+            add_effect( effect_onfire, rng(1, 3));
         }
         break;
     case DT_ELECTRIC: // Electrical damage adds a major speed/dex debuff
         damage += adjusted_damage;
         pain += adjusted_damage / 4;
-        add_effect( "zapped", std::max( adjusted_damage, 2 ) );
+        add_effect( effect_zapped, std::max( adjusted_damage, 2 ) );
         break;
     case DT_COLD: // cold damage slows us a bit and hurts less
         damage += adjusted_damage;
@@ -1058,7 +1068,7 @@ void Creature::set_moves(int nmoves)
 
 bool Creature::in_sleep_state() const
 {
-    return has_effect("sleep") || has_effect("lying_down");
+    return has_effect( effect_sleep ) || has_effect( effect_lying_down );
 }
 
 /*

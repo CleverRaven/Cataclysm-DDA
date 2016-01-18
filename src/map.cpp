@@ -44,6 +44,11 @@ const skill_id skill_traps( "traps" );
 
 const species_id FUNGUS( "FUNGUS" );
 
+const efftype_id effect_boomered( "boomered" );
+const efftype_id effect_crushed( "crushed" );
+const efftype_id effect_spores( "spores" );
+const efftype_id effect_stunned( "stunned" );
+
 extern bool is_valid_in_w_terrain(int,int);
 
 #include "overmapbuffer.h"
@@ -3104,7 +3109,7 @@ void map::fungalize( const tripoint &sporep, Creature *origin, double spore_chan
         monster &critter = g->zombie( mondex );
         if( !critter.make_fungus() ) {
             // Don't insta-kill non-fungables. Jabberwocks, for example
-            critter.add_effect( "stunned", rng( 1, 3 ) );
+            critter.add_effect( effect_stunned, rng( 1, 3 ) );
             critter.apply_damage( origin, bp_torso, rng( 25, 50 ) );
         }
     } else if( g->u.pos() == sporep ) {
@@ -3119,12 +3124,12 @@ void map::fungalize( const tripoint &sporep, Creature *origin, double spore_chan
         }
         // Spores hit the player--is there any hope?
         bool hit = false;
-        hit |= one_in(4) && pl.add_env_effect("spores", bp_head, 3, 90, bp_head);
-        hit |= one_in(2) && pl.add_env_effect("spores", bp_torso, 3, 90, bp_torso);
-        hit |= one_in(4) && pl.add_env_effect("spores", bp_arm_l, 3, 90, bp_arm_l);
-        hit |= one_in(4) && pl.add_env_effect("spores", bp_arm_r, 3, 90, bp_arm_r);
-        hit |= one_in(4) && pl.add_env_effect("spores", bp_leg_l, 3, 90, bp_leg_l);
-        hit |= one_in(4) && pl.add_env_effect("spores", bp_leg_r, 3, 90, bp_leg_r);
+        hit |= one_in(4) && pl.add_env_effect( effect_spores, bp_head, 3, 90, bp_head );
+        hit |= one_in(2) && pl.add_env_effect( effect_spores, bp_torso, 3, 90, bp_torso );
+        hit |= one_in(4) && pl.add_env_effect( effect_spores, bp_arm_l, 3, 90, bp_arm_l );
+        hit |= one_in(4) && pl.add_env_effect( effect_spores, bp_arm_r, 3, 90, bp_arm_r );
+        hit |= one_in(4) && pl.add_env_effect( effect_spores, bp_leg_l, 3, 90, bp_leg_l );
+        hit |= one_in(4) && pl.add_env_effect( effect_spores, bp_leg_r, 3, 90, bp_leg_r );
         if( hit ) {
             add_msg(m_warning, _("You're covered in tiny spores!"));
         }
@@ -3750,7 +3755,7 @@ void map::crush( const tripoint &p )
             crushed_player->deal_damage( nullptr, hit, damage_instance( DT_BASH, dam * .05 ) );
 
             // Pin whoever got hit
-            crushed_player->add_effect("crushed", 1, num_bp, true);
+            crushed_player->add_effect( effect_crushed, 1, num_bp, true);
             crushed_player->check_dead_state();
         }
     }
@@ -3762,7 +3767,7 @@ void map::crush( const tripoint &p )
         monhit->deal_damage(nullptr, bp_torso, damage_instance(DT_BASH, rng(0,25)));
 
         // Pin whoever got hit
-        monhit->add_effect("crushed", 1, num_bp, true);
+        monhit->add_effect( effect_crushed, 1, num_bp, true);
         monhit->check_dead_state();
     }
 
@@ -5681,7 +5686,7 @@ void map::update_visibility_cache( visibility_variables &cache, const int zlev )
 
     cache.u_clairvoyance = g->u.clairvoyance();
     cache.u_sight_impaired = g->u.sight_impaired();
-    cache.u_is_boomered = g->u.has_effect("boomered");
+    cache.u_is_boomered = g->u.has_effect( effect_boomered);
 
     int sm_squares_seen[MAPSIZE][MAPSIZE];
     std::memset(sm_squares_seen, 0, sizeof(sm_squares_seen));

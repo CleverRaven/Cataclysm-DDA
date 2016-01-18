@@ -6,6 +6,9 @@
 #include "rng.h"
 #include "translations.h"
 
+const efftype_id effect_hallu( "hallu" );
+const efftype_id effect_shakes( "shakes" );
+
 void addict_effect(player &u, addiction &add,
                    std::function<void (char const*)> const &cancel_activity)
 {
@@ -36,7 +39,7 @@ void addict_effect(player &u, addiction &add,
             }
             if (rng(8, 400) < in) {
                 u.add_msg_if_player(m_bad, _("Your hands start shaking... you need it bad!"));
-                u.add_effect("shakes", 20);
+                u.add_effect( effect_shakes, 20);
             }
         }
         break;
@@ -53,9 +56,9 @@ void addict_effect(player &u, addiction &add,
         } else if (rng(8, 300) < in) {
             u.add_msg_if_player(m_bad, _("Your hands start shaking... you need a drink bad!"));
             u.add_morale(MORALE_CRAVING_ALCOHOL, -35, -120);
-            u.add_effect("shakes", 50);
-        } else if (!u.has_effect("hallu") && rng(10, 1600) < in) {
-            u.add_effect("hallu", 3600);
+            u.add_effect( effect_shakes, 50);
+        } else if (!u.has_effect( effect_hallu) && rng(10, 1600) < in) {
+            u.add_effect( effect_hallu, 3600);
         }
         break;
 
@@ -86,7 +89,7 @@ void addict_effect(player &u, addiction &add,
             if (one_in(20) && dice(2, 20) < in) {
                 u.add_msg_if_player(m_bad, _("Your hands start shaking... you need some painkillers."));
                 u.add_morale(MORALE_CRAVING_OPIATE, -40, -200);
-                u.add_effect("shakes", 20 + in * 5);
+                u.add_effect( effect_shakes, 20 + in * 5);
             } else if (one_in(20) && dice(2, 30) < in) {
                 u.add_msg_if_player(m_bad, _("You feel anxious.  You need your painkillers!"));
                 u.add_morale(MORALE_CRAVING_OPIATE, -30, -200);
@@ -118,13 +121,13 @@ void addict_effect(player &u, addiction &add,
         } else if (one_in(10) && dice(2, 80) < in) {
             u.add_msg_if_player(m_bad, _("Your hands start shaking... you need a pick-me-up."));
             u.add_morale(MORALE_CRAVING_SPEED, -25, -200);
-            u.add_effect("shakes", in * 20);
+            u.add_effect( effect_shakes, in * 20);
         } else if (one_in(50) && dice(2, 100) < in) {
             u.add_msg_if_player(m_bad, _("You stop suddenly, feeling bewildered."));
             cancel_activity(nullptr);
             u.moves -= 300;
-        } else if (!u.has_effect("hallu") && one_in(20) && 8 + dice(2, 80) < in) {
-            u.add_effect("hallu", 3600);
+        } else if (!u.has_effect( effect_hallu) && one_in(20) && 8 + dice(2, 80) < in) {
+            u.add_effect( effect_hallu, 3600);
         }
     }
     break;
@@ -192,9 +195,9 @@ void addict_effect(player &u, addiction &add,
         } else if (rng(8, 200) < in) {
             u.add_msg_if_player(m_bad, _("You're shaking... you need some diazepam!"));
             u.add_morale(MORALE_CRAVING_DIAZEPAM, -35, -120);
-            u.add_effect("shakes", 50);
-        } else if (!u.has_effect("hallu") && rng(10, 3200) < in) {
-            u.add_effect("hallu", 3600);
+            u.add_effect( effect_shakes, 50);
+        } else if (!u.has_effect( effect_hallu) && rng(10, 3200) < in) {
+            u.add_effect( effect_hallu, 3600);
         } else if (one_in(50) && dice(3, 50) < in) {
             u.add_msg_if_player(m_bad, _("You throw up heavily!"));
             cancel_activity(_("Throwing up."));
