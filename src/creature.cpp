@@ -776,9 +776,10 @@ void Creature::add_effect( const efftype_id &eff_id, int dur, body_part bp,
         debugmsg("Invalid effect, ID: %s", eff_id.c_str());
         return;
     }
+    const effect_type &type = effect_types[eff_id];
 
     // Mutate to a main (HP'd) body_part if necessary.
-    if (effect_types[eff_id].get_main_parts()) {
+    if (type.get_main_parts()) {
         bp = mutate_to_main_part(bp);
     }
 
@@ -834,7 +835,7 @@ void Creature::add_effect( const efftype_id &eff_id, int dur, body_part bp,
         }
 
         // Now we can make the new effect for application
-        effect new_eff(&effect_types[eff_id], dur, bp, permanent, intensity, calendar::turn);
+        effect new_eff(&type, dur, bp, permanent, intensity, calendar::turn);
         effect &e = new_eff;
         // Bound to max duration
         if (e.get_max_duration() > 0 && e.get_duration() > e.get_max_duration()) {
@@ -856,14 +857,14 @@ void Creature::add_effect( const efftype_id &eff_id, int dur, body_part bp,
         effects[eff_id][bp] = new_eff;
         if (is_player()) {
             // Only print the message if we didn't already have it
-            if(effect_types[eff_id].get_apply_message() != "") {
-                     add_msg(effect_types[eff_id].gain_game_message_type(),
-                             _(effect_types[eff_id].get_apply_message().c_str()));
+            if(type.get_apply_message() != "") {
+                     add_msg(type.gain_game_message_type(),
+                             _(type.get_apply_message().c_str()));
             }
             add_memorial_log(pgettext("memorial_male",
-                                           effect_types[eff_id].get_apply_memorial_log().c_str()),
+                                           type.get_apply_memorial_log().c_str()),
                                   pgettext("memorial_female",
-                                           effect_types[eff_id].get_apply_memorial_log().c_str()));
+                                           type.get_apply_memorial_log().c_str()));
         }
         // Perform any effect addition effects.
         bool reduced = resists_effect(e);
@@ -896,17 +897,18 @@ bool Creature::remove_effect( const efftype_id &eff_id, body_part bp )
         //Effect doesn't exist, so do nothing
         return false;
     }
+    const effect_type &type = effect_types[eff_id];
 
     if (is_player()) {
         // Print the removal message and add the memorial log if needed
-        if(effect_types[eff_id].get_remove_message() != "") {
-            add_msg(effect_types[eff_id].lose_game_message_type(),
-                         _(effect_types[eff_id].get_remove_message().c_str()));
+        if(type.get_remove_message() != "") {
+            add_msg(type.lose_game_message_type(),
+                         _(type.get_remove_message().c_str()));
         }
         add_memorial_log(pgettext("memorial_male",
-                                       effect_types[eff_id].get_remove_memorial_log().c_str()),
+                                       type.get_remove_memorial_log().c_str()),
                               pgettext("memorial_female",
-                                       effect_types[eff_id].get_remove_memorial_log().c_str()));
+                                       type.get_remove_memorial_log().c_str()));
     }
 
     // num_bp means remove all of a given effect id
