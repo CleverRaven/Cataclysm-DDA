@@ -8,7 +8,7 @@
 #include <map>
 #include <sstream>
 
-std::map<std::string, effect_type> effect_types;
+std::map<efftype_id, effect_type> effect_types;
 
 void weed_msg(player *p) {
     int howhigh = p->get_effect_dur("weed_high");
@@ -631,7 +631,7 @@ std::string effect::disp_desc(bool reduced) const
     return ret.str();
 }
 
-void effect::decay(std::vector<std::string> &rem_ids, std::vector<body_part> &rem_bps,
+void effect::decay(std::vector<efftype_id> &rem_ids, std::vector<body_part> &rem_bps,
                    unsigned int turn, bool player)
 {
     // Decay duration if not permanent
@@ -776,17 +776,17 @@ const std::vector<std::string> &effect::get_resist_traits() const
 {
     return eff_type->resist_traits;
 }
-const std::vector<std::string> &effect::get_resist_effects() const
+const std::vector<efftype_id> &effect::get_resist_effects() const
 {
     return eff_type->resist_effects;
 }
-const std::vector<std::string> &effect::get_removes_effects() const
+const std::vector<efftype_id> &effect::get_removes_effects() const
 {
     return eff_type->removes_effects;
 }
-const std::vector<std::string> effect::get_blocks_effects() const
+const std::vector<efftype_id> effect::get_blocks_effects() const
 {
-    std::vector<std::string> ret = eff_type->removes_effects;
+    std::vector<efftype_id> ret = eff_type->removes_effects;
     ret.insert(ret.end(), eff_type->blocks_effects.begin(), eff_type->blocks_effects.end());
     return ret;
 }

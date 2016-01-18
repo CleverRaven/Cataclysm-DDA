@@ -12,7 +12,7 @@ class Creature;
 class player;
 enum game_message_type : int;
 
-extern std::map<std::string, effect_type> effect_types;
+extern std::map<efftype_id, effect_type> effect_types;
 
 /** Handles the large variety of weed messages. */
 void weed_msg(player *p);
@@ -82,9 +82,9 @@ class effect_type
         bool main_parts_only;
 
         std::vector<std::string> resist_traits;
-        std::vector<std::string> resist_effects;
-        std::vector<std::string> removes_effects;
-        std::vector<std::string> blocks_effects;
+        std::vector<efftype_id> resist_effects;
+        std::vector<efftype_id> removes_effects;
+        std::vector<efftype_id> blocks_effects;
 
         std::vector<std::pair<std::string, int>> miss_msgs;
 
@@ -155,7 +155,7 @@ class effect : public JsonSerializer, public JsonDeserializer
         /** Decays effect durations, pushing their id and bp's back to rem_ids and rem_bps for removal later
          *  if their duration is <= 0. This is called in the middle of a loop through all effects, which is
          *  why we aren't allowed to remove the effects here. */
-        void decay(std::vector<std::string> &rem_ids, std::vector<body_part> &rem_bps, unsigned int turn, bool player);
+        void decay(std::vector<efftype_id> &rem_ids, std::vector<body_part> &rem_bps, unsigned int turn, bool player);
 
         /** Returns the remaining duration of an effect. */
         int get_duration() const;
@@ -195,11 +195,11 @@ class effect : public JsonSerializer, public JsonDeserializer
         /** Returns the string id of the resist trait to be used in has_trait("id"). */
         const std::vector<std::string> &get_resist_traits() const;
         /** Returns the string id of the resist effect to be used in has_effect("id"). */
-        const std::vector<std::string> &get_resist_effects() const;
+        const std::vector<efftype_id> &get_resist_effects() const;
         /** Returns the string ids of the effects removed by this effect to be used in remove_effect("id"). */
-        const std::vector<std::string> &get_removes_effects() const;
+        const std::vector<efftype_id> &get_removes_effects() const;
         /** Returns the string ids of the effects blocked by this effect to be used in add_effect("id"). */
-        const std::vector<std::string> get_blocks_effects() const;
+        const std::vector<efftype_id> get_blocks_effects() const;
 
         /** Returns the matching modifier type from an effect, used for getting actual effect effects. */
         int get_mod(std::string arg, bool reduced = false) const;
@@ -237,7 +237,7 @@ class effect : public JsonSerializer, public JsonDeserializer
         std::string get_speed_name() const;
 
         /** Returns the effect's matching effect_type id. */
-        efftype_id get_id() const
+        const efftype_id &get_id() const
         {
             return eff_type->id;
         }

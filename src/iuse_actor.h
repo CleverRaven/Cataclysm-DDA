@@ -17,6 +17,7 @@ using mtype_id = string_id<mtype>;
 class JsonObject;
 class Skill;
 using skill_id = string_id<Skill>;
+using efftype_id = std::string;
 
 /**
  * Transform an item into a specific type.
@@ -194,12 +195,12 @@ class unfold_vehicle_iuse : public iuse_actor
 /** Used in consume_drug_iuse for storing effect data. */
 struct effect_data
 {
-    std::string id;
+    efftype_id id;
     int duration;
     body_part bp;
     bool permanent;
 
-    effect_data(std::string nid, int dur, body_part nbp, bool perm) :
+    effect_data(const efftype_id &nid, int dur, body_part nbp, bool perm) :
                     id(nid), duration(dur), bp(nbp), permanent(perm) {};
 };
 

@@ -469,7 +469,7 @@ ma_buff::ma_buff()
 
 }
 
-std::string ma_buff::get_effect_id() const
+efftype_id ma_buff::get_effect_id() const
 {
     return std::string( "mabuff:" ) + id.str();
 }

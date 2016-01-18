@@ -165,8 +165,8 @@ class ma_buff
         bool can_melee() const;
 
         // The ID of the effect that is used to store this buff
-        std::string get_effect_id() const;
-        // If the effects represents an ma_buff effect, return the ma_buff, otherwise retur null.
+        efftype_id get_effect_id() const;
+        // If the effects represents an ma_buff effect, return the ma_buff, otherwise return null.
         static const ma_buff *from_effect( const effect &eff );
 
         mabuff_id id;

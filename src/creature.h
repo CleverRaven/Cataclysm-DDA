@@ -229,7 +229,7 @@ class Creature
         // Resistances
         bool is_immune( const std::string &type ) const;
         virtual bool is_elec_immune() const = 0;
-        virtual bool is_immune_effect( const std::string &type ) const = 0;
+        virtual bool is_immune_effect( const efftype_id &type ) const = 0;
         virtual bool is_immune_damage( const damage_type type ) const = 0;
 
         /** Returns multiplier on fall damage at low velocity (knockback/pit/1 z-level, not 5 z-levels) */
@@ -457,7 +457,7 @@ class Creature
         void set_killer( Creature *killer );
 
         // Storing body_part as an int to make things easier for hash and JSON
-        std::unordered_map<std::string, std::unordered_map<body_part, effect, std::hash<int>>> effects;
+        std::unordered_map<efftype_id, std::unordered_map<body_part, effect, std::hash<int>>> effects;
         // Miscellaneous key/value pairs.
         std::unordered_map<std::string, std::string> values;
 

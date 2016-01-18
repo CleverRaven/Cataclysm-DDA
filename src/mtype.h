@@ -148,13 +148,13 @@ enum m_flag : int {
 /** Used to store monster effects placed on attack */
 struct mon_effect_data
 {
-    std::string id;
+    efftype_id id;
     int duration;
     body_part bp;
     bool permanent;
     int chance;
 
-    mon_effect_data(std::string nid, int dur, body_part nbp, bool perm, int nchance) :
+    mon_effect_data(const efftype_id &nid, int dur, body_part nbp, bool perm, int nchance) :
                     id(nid), duration(dur), bp(nbp), permanent(perm), chance(nchance) {};
 };
 

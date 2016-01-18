@@ -977,7 +977,7 @@ void Creature::process_effects()
     // id's and body_part's of all effects to be removed. If we ever get player or
     // monster specific removals these will need to be moved down to that level and then
     // passed in to this function.
-    std::vector<std::string> rem_ids;
+    std::vector<efftype_id> rem_ids;
     std::vector<body_part> rem_bps;
 
     // Decay/removal of effects

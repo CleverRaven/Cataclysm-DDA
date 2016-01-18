@@ -1702,7 +1702,7 @@ void monster::process_effects()
                 }
             }
 
-            std::string id = _effect_it.second.get_id();
+            const efftype_id &id = _effect_it.second.get_id();
             // MATERIALS-TODO: use fire resistance
             if (id == "onfire") {
                 if (made_of("flesh") || made_of("iflesh"))

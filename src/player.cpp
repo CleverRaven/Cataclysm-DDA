@@ -6566,7 +6566,7 @@ void player::hardcoded_effects(effect &it)
         }
         return;
     }
-    std::string id = it.get_id();
+    const efftype_id &id = it.get_id();
     int start = it.get_start_turn();
     int dur = it.get_duration();
     int intense = it.get_intensity();
