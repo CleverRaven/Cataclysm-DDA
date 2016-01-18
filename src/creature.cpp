@@ -787,8 +787,9 @@ void Creature::add_effect( const efftype_id &eff_id, int dur, body_part bp,
     // Check if we already have it
     auto matching_map = effects.find(eff_id);
     if (matching_map != effects.end()) {
-        auto found_effect = effects[eff_id].find(bp);
-        if (found_effect != effects[eff_id].end()) {
+        auto &bodyparts = matching_map->second;
+        auto found_effect = bodyparts.find(bp);
+        if (found_effect != bodyparts.end()) {
             found = true;
             effect &e = found_effect->second;
             // If we do, mod the duration, factoring in the mod value
