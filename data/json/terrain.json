@@ -1004,6 +1004,50 @@
         }
     },{
         "type" : "terrain",
+        "id" : "t_reinforced_glass_shutter",
+        "name": "reinforced glass with closed shutters",
+        "symbol": "LINE_OXOX",
+        "color": "ltgray",
+        "move_cost": 0,
+        "flags": ["NOITEM", "WALL", "AUTO_WALL_SYMBOL", "OPENCLOSE_INSIDE"],
+        "open": "t_reinforced_glass_shutter_open",
+        "bash": {
+            "str_min": 60, "str_max": 210,
+            "sound": "glass breaking!",
+            "sound_fail": "whack!",
+            "sound_vol": 20,
+            "sound_fail_vol": 14,
+            "ter_set": "t_floor",
+            "items": [
+                { "item": "glass_shard", "count": [5, 10] },
+                { "item": "wire", "prob": 20 },
+                { "item": "scrap", "count": [3, 5] }
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_reinforced_glass_shutter_open",
+        "name": "reinforced glass with open shutters",
+        "symbol": "LINE_OXOX",
+        "color": "ltcyan",
+        "move_cost": 0,
+        "flags": ["TRANSPARENT", "NOITEM", "WALL", "AUTO_WALL_SYMBOL", "OPENCLOSE_INSIDE"],
+        "close": "t_reinforced_glass_shutter",
+        "bash": {
+            "str_min": 40, "str_max": 210,
+            "sound": "glass breaking!",
+            "sound_fail": "whack!",
+            "sound_vol": 20,
+            "sound_fail_vol": 14,
+            "ter_set": "t_floor",
+            "items": [
+                { "item": "glass_shard", "count": [5, 10] },
+                { "item": "wire", "prob": 20 },
+                { "item": "scrap", "count": [3, 5] }
+            ]
+        }
+    },{
+        "type" : "terrain",
         "id" : "t_bars",
         "name": "metal bars",
         "examine_action": "bars",
@@ -1511,6 +1555,24 @@
         "type" : "terrain",
         "id" : "t_mdoor_frame",
         "name": "empty metal door frame",
+        "symbol": ".",
+        "color": "dkgray",
+        "move_cost": 2,
+        "flags": ["TRANSPARENT", "FLAT", "CONNECT_TO_WALL", "ROAD"],
+        "bash": {
+            "str_min": 18, "str_max": 75,
+            "sound": "metal screeching!",
+            "sound_fail": "clang!",
+            "ter_set": "t_null",
+            "items": [
+                { "item": "spike", "count": [2, 4] },
+                { "item": "scrap", "count": [3, 6] }
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_m_frame",
+        "name": "empty metal window frame",
         "symbol": ".",
         "color": "dkgray",
         "move_cost": 2,
