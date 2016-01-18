@@ -466,6 +466,8 @@ class cata_tiles
         // measured in map coordinates, *not* in pixels.
         int screentile_width, screentile_height;
         float tile_ratiox, tile_ratioy;
+        // multiplier for pixel-doubling tilesets
+        int tile_pixelscale;
 
         bool in_animation;
 
