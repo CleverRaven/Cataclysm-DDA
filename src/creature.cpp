@@ -836,8 +836,7 @@ void Creature::add_effect( const efftype_id &eff_id, int dur, body_part bp,
         }
 
         // Now we can make the new effect for application
-        effect new_eff(&type, dur, bp, permanent, intensity, calendar::turn);
-        effect &e = new_eff;
+        effect e(&type, dur, bp, permanent, intensity, calendar::turn);
         // Bound to max duration
         if (e.get_max_duration() > 0 && e.get_duration() > e.get_max_duration()) {
             e.set_duration(e.get_max_duration());
@@ -849,13 +848,13 @@ void Creature::add_effect( const efftype_id &eff_id, int dur, body_part bp,
              e.set_intensity( ( e.get_duration() / e.get_int_dur_factor() ) + 1 );
         }
         // Bound new effect intensity by [1, max intensity]
-        if (new_eff.get_intensity() < 1) {
-            add_msg( m_debug, "Bad intensity, ID: %s", new_eff.get_id().c_str() );
-            new_eff.set_intensity(1);
-        } else if (new_eff.get_intensity() > new_eff.get_max_intensity()) {
-            new_eff.set_intensity(new_eff.get_max_intensity());
+        if (e.get_intensity() < 1) {
+            add_msg( m_debug, "Bad intensity, ID: %s", e.get_id().c_str() );
+            e.set_intensity(1);
+        } else if (e.get_intensity() > e.get_max_intensity()) {
+            e.set_intensity(e.get_max_intensity());
         }
-        effects[eff_id][bp] = new_eff;
+        effects[eff_id][bp] = e;
         if (is_player()) {
             // Only print the message if we didn't already have it
             if(type.get_apply_message() != "") {
