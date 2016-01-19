@@ -358,21 +358,31 @@ The syntax listed here is still valid.
 ```
 #raw/items jsons
 
+###GENERIC ITEMS
+```C++
+"type" : "GENERIC",               // Defines this as some generic item
+"id" : "socks",                   // Unique ID. Must be one continuous word, use underscores if necessary
+"name" : "socks",                 // The name appearing in the examine box.  Can be more than one word separated by spaces
+"name_plural" : "pairs of socks", // (Optional)
+"color" : "blue",                 // ASCII character color
+"symbol" : "[",                   // ASCII character used in-game
+"description" : "Socks. Put 'em on your feet.", // Description of the item
+"phase" : "solid",                // (Optional, default = "solid") What phase it is
+"weight" : 350,                   // Weight of the item in grams
+"volume" : 1,                     // Volume, measured in 1/4 liters
+"price" : 100,                    // Used when bartering with NPCs
+"material" : ["COTTON"],          // Material types, can be as many as you want.  See materials.json for possible options
+"cutting" : 0,                    // (Optional, default = 0) Cutting damage caused by using it as a melee weapon
+"bashing" : -5,                   // (Optional, default = 0) Bashing damage caused by using it as a melee weapon
+"to_hit" : 0,                     // (Optional, default = 0) To-hit bonus if using it as a melee weapon (whatever for?)
+"flags" : ["VARSIZE"]             // Indicates special effects, see JSON_FLAGS.md
+```
+
 ###AMMO
 ```C++
 "type" : "AMMO",      // Defines this as ammo
-"id" : "shot_bird",   // Unique ID. Must be one continuous word, use underscores if necessary
-"price" : 500,        // Used when bartering with NPC's
-"name" : "birdshot",  // In-game name displayed
-"symbol" : "=",       // ASCII character used in-game
-"color" : "red",      // ASCII character color
-"description" : "Weak shotgun ammunition. Designed for hunting birds and other small game, its applications in combat are very limited.", // In-game description
-"material" : "plastic", // Material types.  See materials.json for possible options
-"volume" : 2,         // Volume, measured in 1/4 liters
-"weight" : 34,        // Weight, measured in grams
-"bashing" : 1,        // (Optional, default = 0) Bashing damage caused by using it as a melee weapon.
-"cutting" : 0,        // (Optional, default = 0) Cutting damage caused by using it as a melee weapon.
-"to_hit" : 0,         // (Optional, default = 0) To-hit bonus if using it as a melee weapon
+...                   // same entries as above for the generic item.
+                      // additional some ammo specific entries:
 "ammo_type" : "shot", // Determines what it can be loaded in
 "damage" : 18,        // Ranged damage when fired
 "pierce" : 0,         // Armor piercing ability when fired
@@ -383,24 +393,7 @@ The syntax listed here is still valid.
 "stack_size" : 50,    // (Optional) How many rounds are in the above-defined volume. If omitted, is the same as 'count'
 "effects" : ["COOKOFF", "SHOT"] // Special effects
 ```
-###GENERIC ITEMS
-```C++
-"type" : "GENERIC",   // Defines this as some generic item
-"id" : "socks",       // Unique ID. Must be one continuous word, use underscores if necessary
-"name" : "socks",     // The name appearing in the examine box.  Can be more than one word separated by spaces
-"weight" : 350,       // Weight of the item in grams
-"color" : "blue",     // ASCII character color
-"to_hit" : 0,         // To-hit bonus if using it as a melee weapon (whatever for?)
-"symbol" : "[",       // ASCII character used in-game
-"description" : "Socks. Put 'em on your feet.", // Description of the item
-"price" : 100,        // Used when bartering with NPCs
-"material" : ["COTTON"],    // Material types, can be as many as you want.  See materials.json for possible options
-"volume" : 1,         // Volume, measured in 1/4 liters
-"cutting" : 0,        // Cutting damage caused by using it as a melee weapon
-"phase" : "solid",    // What phase it is
-"bashing" : -5,       // Bashing damage caused by using it as a melee weapon
-"flags" : ["VARSIZE"] // Indicates special effects, see JSON_FLAGS.md
-```
+
 ###ARMOR
 Armor can be define like this:
 ```C++
@@ -408,9 +401,9 @@ Armor can be define like this:
 ...                   // same entries as above for the generic item.
                       // additional some armor specific entries:
 "covers" : ["FEET"],  // Where it covers.  Possible options are TORSO, HEAD, EYES, MOUTH, ARMS, HANDS, LEGS, FEET
-"storage" : 0,        // How many volume storage slots it adds
-"warmth" : 10,        // How much warmth clothing provides
-"environmental_protection" : 0,  // How much environmental protection it affords
+"storage" : 0,        //  (Optional, default = 0) How many volume storage slots it adds
+"warmth" : 10,        //  (Optional, default = 0) How much warmth clothing provides
+"environmental_protection" : 0,  //  (Optional, default = 0) How much environmental protection it affords
 "encumbrance" : 0,    // Base encumbrance (unfitted value)
 "coverage" : 80,      // What percentage of body part
 "material_thickness" : 1  // Thickness of material, in millimetre units (approximately).  Generally ranges between 1 - 5, more unusual armor types go up to 10 or more
@@ -431,6 +424,7 @@ Alternately, every item (book, tool, gun, even food) can be used as armor if it 
     "power_armor" : false
 }
 ```
+
 ###BOOKS
 Books can be define like this:
 ```C++
@@ -478,35 +472,25 @@ Never use `yellow` and `red`, those colors are reserved for sounds and infrared 
 
 ###COMESTIBLES
 ```C++
-"type" : "COMESTIBLE",  // Defines this as a COMESTIBLE
-"id" : "crack",         // Unique ID. Must be one continuous word, use underscores if necessary
-"name" : "crack",       // In-game name displayed
-"weight" : 1,           // Weight, measured in grams
-"color" : "white",      // ASCII character color
+"type" : "COMESTIBLE",      // Defines this as a COMESTIBLE
+...                         // same entries as above for the generic item.
+                            // additional some comestible specific entries:
 "addiction_type" : "crack", // Addiction type
-"spoils_in" : 0,        // How long a comestible is good for. 0 = no spoilage
-"use_action" : "CRACK", // What effects a comestible has when used, see special definitions below
-"stim" : 40,            // Stimulant effect
-"container" : "null",   // What container stores this
-"to_hit" : 0,           // To-hit bonus if using it as a melee weapon
-"comestible_type" : "MED", // Comestible type, used for inventory sorting
-"symbol" : "!",         // ASCII character used in-game
-"quench" : 0,           // Thirst quenched
-"heal" : -2,            // Health effects (used for sickness chances)
+"spoils_in" : 0,            // How long a comestible is good for. 0 = no spoilage
+"use_action" : "CRACK",     // What effects a comestible has when used, see special definitions below
+"stim" : 40,                // Stimulant effect
+"container" : "null",       // What container stores this
+"comestible_type" : "MED",  // Comestible type, used for inventory sorting
+"quench" : 0,               // Thirst quenched
+"heal" : -2,                // Health effects (used for sickness chances)
 "addiction_potential" : 80, // Ability to cause addictions
-"nutrition" : 0,        // Hunger satisfied
-"description" : "Refined cocaine, incredibly addictive.", // In-game description
-"price" : 420,          // Used when bartering with NPCs
-"material" : "powder",  // Material types.  See materials.json for possible options
-"tool" : "apparatus",   // Tool required to be eaten/drank
-"volume" : 1,           // Volume, measured in 1/4 liters
-"cutting" : 0,          // Cutting damage caused by using it as a melee weapon
-"phase" : "solid",      // What phase it is
-"charges" : 4,          // Number of uses when spawned
-"stack_size" : 8,       // (Optional) How many uses are in the above-defined volume. If omitted, is the same as 'charges'
-"bashing" : 0,          // Bashing damage caused by using it as a melee weapon
-"fun" : 50,             // Morale effects when used
+"nutrition" : 0,            // Hunger satisfied
+"tool" : "apparatus",       // Tool required to be eaten/drank
+"charges" : 4,              // Number of uses when spawned
+"stack_size" : 8,           // (Optional) How many uses are in the above-defined volume. If omitted, is the same as 'charges'
+"fun" : 50                  // Morale effects when used
 ```
+
 ###CONTAINERS
 ```C++
 "type": "CONTAINER",  // Defines this as a container
@@ -527,6 +511,7 @@ Alternately, every item can be used as container:
 ```
 This defines a armor (you need to add all the armor specific entries), but makes it usable as container.
 It could also be written as a generic item ("type": "GENERIC") with "armor_data" and "container_data" entries.
+
 ###MELEE
 ```C++
 "id": "hatchet",       // Unique ID. Must be one continuous word, use underscores if necessary
@@ -543,6 +528,7 @@ It could also be written as a generic item ("type": "GENERIC") with "armor_data"
 "flags" : ["CHOP"],    // Indicates special effects
 "to_hit": 1            // To-hit bonus if using it as a melee weapon
 ```
+
 ###GUN
 Guns can be define like this:
 ```C++
@@ -578,6 +564,7 @@ Alternately, every item (book, tool, armor, even food) can be used as gun if it 
     ...
 }
 ```
+
 ###TOOLS
 ```C++
 "id": "torch_lit",    // Unique ID. Must be one continuous word, use underscores if necessary
@@ -603,6 +590,7 @@ Alternately, every item (book, tool, armor, even food) can be used as gun if it 
 "revert_to": "torch_done", // Transforms into item when charges are expended
 "use_action": "TORCH_LIT" // Action performed when tool is used, see special definition below
 ```
+
 ###SPAWN DATA
 Every item type can have optional spawn data:
 ```
