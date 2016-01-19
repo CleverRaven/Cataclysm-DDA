@@ -157,6 +157,9 @@
             "/": "t_open_air",
             ">": "t_stairs_down"
             },
+            "add": [
+                { "item": "note_chalice",  "x": [8, 15], "y": [8, 15], "amount":1 }
+            ],
             "set": [
                 { "point": "trap", "id": "tr_glow", "x": [ 4, 10 ], "y": [ 2, 3 ], "repeat": [ 2, 6 ] },
                 { "point": "trap", "id": "tr_hum", "x": [ 13, 19 ], "y": [ 20, 21 ], "repeat": [ 2, 6 ] }

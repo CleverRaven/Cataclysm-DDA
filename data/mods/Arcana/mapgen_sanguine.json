@@ -334,6 +334,9 @@
                 "B": "f_bed",
                 "d": "f_dresser"
             },
+            "add": [
+                { "item": "note_sanguine",  "x": [22, 23], "y": [22, 23], "amount":1 }
+            ],
             "place_items": [
                 { "item": "cult_sacrifice", "chance": 25, "x": 22, "y": 18 },
                 { "item": "cult_sacrifice", "chance": 25, "x": 18, "y": 22 },

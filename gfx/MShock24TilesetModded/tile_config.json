@@ -9578,6 +9578,30 @@
           "rotates": false
         },
         {
+          "id": "note_grove",
+          "fg": 557,
+          "bg": 505,
+          "rotates": false
+        },
+        {
+          "id": "note_sanguine",
+          "fg": 557,
+          "bg": 505,
+          "rotates": false
+        },
+        {
+          "id": "note_chalice",
+          "fg": 557,
+          "bg": 505,
+          "rotates": false
+        },
+        {
+          "id": "note_flame",
+          "fg": 557,
+          "bg": 505,
+          "rotates": false
+        },
+        {
           "id": "spider_egg",
           "fg": 835,
           "bg": 505,

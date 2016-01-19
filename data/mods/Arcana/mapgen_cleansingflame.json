@@ -126,7 +126,8 @@
                 "                        "
             ],
             "add": [
-                { "item": "holy_symbol",  "x": 12, "y": 9, "amount":1 }
+                { "item": "holy_symbol",  "x": 12, "y": 9, "amount":1 },
+                { "item": "note_flame",  "x": [4, 20], "y": [9, 14], "amount":1 }
             ],
             "terrain": {
                 " ": [ "t_grass", "t_grass", "t_grass", "t_dirt" ],

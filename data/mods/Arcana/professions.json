@@ -185,7 +185,7 @@
     },{
         "type": "profession",
         "ident": "arcanist_oathkeeper",
-        "name": "Oath Keeper",
+        "name": "Dark Priest",
         "description": "He From Beyond The Veil calls to you, to your brothers and sisters.  And the faithful, those who remain at least, shall bring him into this world.",
         "points": 6,
         "skills": [
