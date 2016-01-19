@@ -1588,6 +1588,95 @@
   ]
 },{
   "type" : "recipe",
+  "result": "surv_levershotgun",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_RANGED",
+  "skill_used": "mechanics",
+  "skills_required": [ "gun", 5 ],
+  "difficulty": 7,
+  "time": 480000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"SAW_M_FINE","level":1,"amount":1},
+    {"id":"SCREW_FINE","level":1,"amount":1},
+    {"id":"WRENCH_FINE","level":1,"amount":1}
+  ], "tools": [
+    [ ["goggles_welding", -1] ],
+    [
+      ["oxy_torch", 60],
+      ["welder", 300],
+      ["large_repairkit", 150],
+      ["small_repairkit", 300],
+      ["welder_crude", 450],
+      ["toolset", 450]
+    ]
+  ], "components": [
+    [ [ "pipe", 2 ] ],
+    [ [ "spring", 1 ] ],
+    [ [ "steel_chunk", 3 ] ],
+    [ [ "2x4", 1 ] ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "rifle_3006",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_RANGED",
+  "skill_used": "mechanics",
+  "skills_required": [ "gun", 4 ],
+  "difficulty": 6,
+  "time": 240000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [ ["goggles_welding", -1] ],
+    [
+      ["oxy_torch", 30],
+      ["welder", 150],
+      ["large_repairkit", 75],
+      ["small_repairkit", 150],
+      ["welder_crude", 225],
+      ["toolset", 225]
+    ]
+  ], "components": [
+    [ [ "pipe", 3 ] ],
+    [ [ "spring", 2 ] ],
+    [ [ "steel_chunk", 3 ] ],
+    [ [ "2x4", 1 ] ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "triple_launcher_simple",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_RANGED",
+  "skill_used": "mechanics",
+  "skills_required": [ "launcher", 4 ],
+  "difficulty": 7,
+  "time": 240000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"SAW_M_FINE","level":1,"amount":1},
+    {"id":"SCREW_FINE","level":1,"amount":1},
+    {"id":"WRENCH_FINE","level":1,"amount":1}
+  ], "tools": [
+    [ ["goggles_welding", -1] ],
+    [
+      ["oxy_torch", 40],
+      ["welder", 200],
+      ["large_repairkit", 100],
+      ["small_repairkit", 200],
+      ["welder_crude", 300],
+      ["toolset", 300]
+    ]
+  ], "components": [
+    [ [ "pipe", 3 ] ],
+    [ [ "nail", 3 ] ],
+    [ [ "scrap", 3 ] ],
+    [ [ "2x4", 1 ] ]
+  ]
+},{
+  "type" : "recipe",
   "result": "flamethrower_simple",
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_RANGED",
