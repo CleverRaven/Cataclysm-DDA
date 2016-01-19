@@ -142,6 +142,9 @@
                 "Z": "f_bed",
                 "r": "f_rack"
             },
+            "add": [
+                { "item": "note_grove",  "x": [11, 15], "y": [13, 15], "amount":1 }
+            ],
             "set": [
                 { "point": "trap", "id": "tr_portal", "x": 9, "y": 5},
                 { "point": "trap", "id": "tr_portal", "x": 4, "y": 15},
@@ -162,8 +165,7 @@
                 }
             },
             "place_monsters": [
-                { "monster": "GROUP_NETHER", "x": [ 2, 22 ], "y": [ 2, 22 ], "density": 0.15 },
-                { "monster": "GROUP_TRIFFID", "x": [ 2, 22 ], "y": [ 2, 22 ], "density": 0.15 }
+                { "monster": "GROUP_GROVEBASEMENT", "x": [ 2, 22 ], "y": [ 2, 22 ], "density": 0.2 }
             ],
             "place_monster": [
                 { "x": 2, "y": 8, "monster": "mon_moruboru" }

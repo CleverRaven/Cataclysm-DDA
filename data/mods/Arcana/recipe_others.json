@@ -10,6 +10,7 @@
   "time": 60000,
   "reversible": false,
   "autolearn": false,
+  "flags": ["BLIND_EASY"],
   "book_learn": [[ "book_sacrifice", 6 ]],
   "tools": [
     [ [ "book_sacrifice", -1 ] ],
@@ -39,6 +40,7 @@
   "time": 60000,
   "reversible": false,
   "autolearn": false,
+  "flags": ["BLIND_EASY"],
   "book_learn": [[ "book_sacrifice", 7 ]],
   "tools": [
     [ [ "book_sacrifice", -1 ] ],
@@ -109,6 +111,7 @@
   "time": 1000,
   "reversible": false,
   "autolearn": false,
+  "flags": ["BLIND_HARD"],
   "book_learn": [[ "book_sacrifice", 1 ], [ "book_bloodmagic", 2 ]],
   "byproducts": { "id" : "essence_blood", "amount" : 3 },
   "tools": [
@@ -129,6 +132,7 @@
   "time": 10000,
   "reversible": false,
   "autolearn": false,
+  "flags": ["BLIND_EASY"],
   "book_learn": [[ "book_bloodmagic", 1 ]],
   "tools": [
     [ [ "book_bloodmagic", -1 ] ],
@@ -159,6 +163,7 @@
   "time": 10000,
   "reversible": false,
   "autolearn": false,
+  "flags": ["BLIND_EASY"],
   "book_learn": [[ "book_bloodmagic", 2 ]],
   "tools": [
     [ [ "book_bloodmagic", -1 ] ],
@@ -206,6 +211,7 @@
   "time": 60000,
   "reversible": false,
   "autolearn": false,
+  "flags": ["BLIND_EASY"],
   "book_learn": [[ "book_summoning", 6 ]],
   "qualities":[ {"id":"CUT","level":1,"amount":1} ],
   "tools": [
@@ -237,6 +243,7 @@
   "time": 60000,
   "reversible": false,
   "autolearn": false,
+  "flags": ["BLIND_EASY"],
   "book_learn": [[ "book_summoning", 6 ]],
   "qualities":[ {"id":"CUT","level":1,"amount":1} ],
   "tools": [
@@ -265,6 +272,7 @@
   "time": 60000,
   "reversible": false,
   "autolearn": false,
+  "flags": ["BLIND_EASY"],
   "book_learn": [[ "book_summoning", 7 ]],
   "qualities":[ {"id":"CUT","level":1,"amount":1} ],
   "tools": [
@@ -293,6 +301,7 @@
   "time": 60000,
   "reversible": false,
   "autolearn": false,
+  "flags": ["BLIND_EASY"],
   "book_learn": [[ "book_summoning", 7 ]],
   "qualities":[ {"id":"CUT","level":1,"amount":1} ],
   "tools": [
@@ -324,6 +333,7 @@
   "time": 60000,
   "reversible": false,
   "autolearn": false,
+  "flags": ["BLIND_EASY"],
   "book_learn": [[ "book_summoning", 8 ]],
   "qualities":[ {"id":"CUT","level":1,"amount":1} ],
   "tools": [
@@ -356,6 +366,7 @@
   "time": 60000,
   "reversible": false,
   "autolearn": false,
+  "flags": ["BLIND_EASY"],
   "book_learn": [[ "book_summoning", 8 ]],
   "qualities":[ {"id":"CUT","level":1,"amount":1} ],
   "tools": [
@@ -389,6 +400,7 @@
   "time": 60000,
   "reversible": false,
   "autolearn": false,
+  "flags": ["BLIND_EASY"],
   "book_learn": [[ "book_summoning", 9 ]],
   "qualities":[ {"id":"CUT","level":1,"amount":1} ],
   "tools": [
@@ -417,6 +429,7 @@
   "time": 60000,
   "reversible": false,
   "autolearn": false,
+  "flags": ["BLIND_EASY"],
   "book_learn": [[ "book_summoning", 9 ]],
   "qualities":[ {"id":"CUT","level":1,"amount":1} ],
   "tools": [
@@ -445,6 +458,7 @@
   "time": 60000,
   "reversible": false,
   "autolearn": false,
+  "flags": ["BLIND_EASY"],
   "book_learn": [[ "book_summoning", 10 ]],
   "qualities":[ {"id":"CUT","level":1,"amount":1} ],
   "tools": [
@@ -478,6 +492,7 @@
   "time": 60000,
   "reversible": false,
   "autolearn": false,
+  "flags": ["BLIND_EASY"],
   "book_learn": [[ "book_summoning", 10 ]],
   "qualities":[ {"id":"CUT","level":1,"amount":1} ],
   "tools": [
@@ -527,6 +542,7 @@
   "time": 20000,
   "reversible": false,
   "autolearn": false,
+  "flags": ["BLIND_EASY"],
   "book_learn": [[ "book_scrollcraft", 3 ]],
   "tools": [
     [ [ "book_scrollcraft", -1 ] ],
@@ -555,6 +571,7 @@
   "time": 20000,
   "reversible": false,
   "autolearn": false,
+  "flags": ["BLIND_EASY"],
   "book_learn": [[ "book_scrollcraft", 3 ]],
   "tools": [
     [ [ "book_scrollcraft", -1 ] ],
@@ -583,6 +600,7 @@
   "time": 20000,
   "reversible": false,
   "autolearn": false,
+  "flags": ["BLIND_EASY"],
   "book_learn": [[ "book_scrollcraft", 4 ]],
   "tools": [
     [ [ "book_scrollcraft", -1 ] ],
@@ -611,6 +629,7 @@
   "time": 20000,
   "reversible": false,
   "autolearn": false,
+  "flags": ["BLIND_EASY"],
   "book_learn": [[ "book_scrollcraft", 4 ]],
   "tools": [
     [ [ "book_scrollcraft", -1 ] ],
@@ -639,6 +658,7 @@
   "time": 20000,
   "reversible": false,
   "autolearn": false,
+  "flags": ["BLIND_EASY"],
   "book_learn": [[ "book_scrollcraft", 5 ]],
   "tools": [
     [ [ "book_scrollcraft", -1 ] ],
@@ -667,6 +687,7 @@
   "time": 20000,
   "reversible": false,
   "autolearn": false,
+  "flags": ["BLIND_EASY"],
   "book_learn": [[ "book_scrollcraft", 5 ]],
   "tools": [
     [ [ "book_scrollcraft", -1 ] ],

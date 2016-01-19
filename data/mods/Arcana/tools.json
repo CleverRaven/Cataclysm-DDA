@@ -1055,7 +1055,7 @@
     "description": "A two-handed sword, blade is made of a dark metal, engraved with exotic runes.  You feel as if the blade thirsts for blood, refusing to leave your grasp until it is sated.",
     "price": 160000,
     "material": ["hardsteel", "essencemat"],
-    "flags" : ["CHOP", "UNBREAKABLE_MELEE", "NO_UNWIELD"],
+    "flags" : ["CHOP", "UNBREAKABLE_MELEE", "NO_UNWIELD", "NON_STUCK"],
     "techniques": ["WBLOCK_1", "WIDE", "BRUTAL", "VORPAL"],
     "weight": 3176,
     "volume": 13,

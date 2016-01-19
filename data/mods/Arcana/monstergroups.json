@@ -28,6 +28,20 @@
       { "monster" : "mon_flying_polyp", "freq" : 75, "cost_multiplier" : 0 },
       { "monster" : "mon_flaming_eye", "freq" : 120, "cost_multiplier" : 0 }
     ]
+  },{
+    "type":"monstergroup",
+    "name" : "GROUP_GROVEBASEMENT",
+    "default" : "mon_triffid",
+    "monsters" : [
+      { "monster" : "mon_triffid_young", "freq" : 300, "cost_multiplier" : 0 },
+      { "monster" : "mon_fungal_fighter", "freq" : 160, "cost_multiplier" : 0 },
+      { "monster" : "mon_vinebeast", "freq" : 160, "cost_multiplier" : 10 },
+      { "monster" : "mon_flying_polyp", "freq" : 25, "cost_multiplier" : 0 },
+      { "monster" : "mon_hunting_horror", "freq" : 240, "cost_multiplier" : 0 },
+      { "monster" : "mon_yugg", "freq" : 70, "cost_multiplier" : 0 },
+      { "monster" : "mon_kreck", "freq" : 210, "cost_multiplier" : 0 },
+      { "monster" : "mon_gozu", "freq" : 25, "cost_multiplier" : 0 }
+    ]
   }
 ]
 

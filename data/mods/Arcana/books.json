@@ -19,8 +19,7 @@
         "skill" : "magic",
         "price" : 40000,
         "required_level" : 0
-    },
-    {
+    },{
         "type" : "BOOK",
         "id" : "book_potioncraft",
         "name" : "History of Alchemy",
@@ -40,8 +39,7 @@
         "skill" : "magic",
         "price" : 40000,
         "required_level" : 0
-    },
-    {
+    },{
         "type" : "BOOK",
         "id" : "book_scrollcraft",
         "name" : "The Six Pillars",
@@ -62,8 +60,7 @@
         "skill" : "magic",
         "price" : 40000,
         "required_level" : 2
-    },
-    {
+    },{
         "type" : "BOOK",
         "id" : "book_hexenhammer",
         "name" : "The Cleansing Flame",
@@ -84,8 +81,7 @@
         "price" : 40000,
         "required_level" : 4,
         "flags" : "INSPIRATIONAL"
-    },
-    {
+    },{
         "type" : "BOOK",
         "id" : "book_sacrifice",
         "name" : "Oaths to the Chalice",
@@ -106,8 +102,7 @@
         "price" : 40000,
         "required_level" : 5,
         "flags" : "INSPIRATIONAL"
-    },
-    {
+    },{
         "type" : "BOOK",
         "id" : "book_bloodmagic",
         "name" : "Sanguine Codex",
@@ -127,8 +122,7 @@
         "skill" : "magic",
         "price" : 40000,
         "required_level" : 3
-    },
-    {
+    },{
         "type" : "BOOK",
         "id" : "book_summoning",
         "name" : "To Master the Unknown",
@@ -148,5 +142,65 @@
         "skill" : "magic",
         "price" : 40000,
         "required_level" : 6
+    },{
+        "type":"GENERIC",
+        "id": "note_grove",
+        "category": "books",
+        "symbol": ",",
+        "color": "white",
+        "name": "tattered note",
+        "plural-name": "tattered notes",
+        "snippet_category": "note_grove",
+        "description": "An old, worn scrap of paper with writing scrawled on it.",
+        "price": 0,
+        "material": "paper",
+        "weight": 3,
+        "volume": 0,
+        "to_hit": 0
+    },{
+        "type":"GENERIC",
+        "id": "note_sanguine",
+        "category": "books",
+        "symbol": ",",
+        "color": "white",
+        "name": "blood-stained note",
+        "plural-name": "blood-stained notes",
+        "snippet_category": "note_sanguine",
+        "description": "A scrap of paper marred by old, dried blood.",
+        "price": 0,
+        "material": "paper",
+        "weight": 3,
+        "volume": 0,
+        "to_hit": 0
+    },{
+        "type":"GENERIC",
+        "id": "note_chalice",
+        "category": "books",
+        "symbol": ",",
+        "color": "white",
+        "name": "strange note",
+        "plural-name": "strange notes",
+        "snippet_category": "note_chalice",
+        "description": "A sheet of paper, with peculiar writing on it.",
+        "price": 0,
+        "material": "paper",
+        "weight": 3,
+        "volume": 0,
+        "to_hit": 0
+    },{
+        "type":"GENERIC",
+        "id": "note_flame",
+        "category": "books",
+        "symbol": ",",
+        "color": "white",
+        "name": "singed note",
+        "plural-name": "singed notes",
+        "snippet_category": "note_flame",
+        "description": "A piece of paper with writing on it, edges scorched as if it was hastily rescued from the fireplace.",
+        "price": 0,
+        "material": "paper",
+        "weight": 3,
+        "volume": 0,
+        "to_hit": 0
     }
 ]
