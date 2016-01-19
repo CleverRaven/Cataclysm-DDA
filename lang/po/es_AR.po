@@ -1,13 +1,13 @@
 #
 # Translators:
-# Noctivagante <noctivagante@yahoo.com>, 2014-2015
+# Noctivagante <noctivagante@yahoo.com>, 2014-2016
 # Vlasov Vitaly <vnigtha@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: Cataclysm-DDA\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-12-15 19:00+0300\n"
-"PO-Revision-Date: 2015-12-21 18:39+0000\n"
+"PO-Revision-Date: 2016-01-19 06:02+0000\n"
 "Last-Translator: Noctivagante <noctivagante@yahoo.com>\n"
 "Language-Team: Spanish (Argentina) (http://www.transifex.com/cataclysm-dda-"
 "translators/cataclysm-dda/language/es_AR/)\n"
@@ -2626,8 +2626,6 @@ msgid ""
 "A small bottle of liquid.  The liquid is made up of propylene glycol, "
 "vegetable glycerine, flavorings and nicotine."
 msgstr ""
-"Una botellita con líquido. El líquido está compuesto de glicol, glicerina "
-"vegetal, aromatizantes y nicotina."
 
 #. ~ Description for thread
 #: lang/json/AMMO_from_json.py
@@ -6738,8 +6736,6 @@ msgid ""
 "A common belt with pockets and a small belt loop. Widely used by handymen "
 "and electricians"
 msgstr ""
-"Es un cinturón normal con bolsillos y una presilla. Muy utilizado por "
-"electricistas y personal de mantenimiento."
 
 #. ~ Description for conical helm
 #: lang/json/ARMOR_from_json.py
@@ -7488,8 +7484,6 @@ msgid ""
 "A high, black cap with a very narrow top.  Tradionally worn by Shinto "
 "priests."
 msgstr ""
-"Un gorro alto y negro con la parte de arriba muy angosta. Es utilizado "
-"tradicionalmente por los monjes sintoístas."
 
 #: lang/json/ARMOR_from_json.py
 msgid ""
@@ -7699,10 +7693,6 @@ msgid ""
 "strapped to the back and very difficult to draw from without considerable "
 "practice.  Activate to sheath/draw a sword"
 msgstr ""
-"Es una vaina de cuero lo suficientemente grande para poner cualquier espada. "
-"Diseñada para ser colgada en la espalda, pero es bastante difícil de usar "
-"sin tener una práctica considerable. Hay que activarla para enfundar y "
-"desenfundar la espada."
 
 #. ~ Description for baldric
 #: lang/json/ARMOR_from_json.py
@@ -8513,7 +8503,7 @@ msgstr "Es un par de guantes acolchados. Incómodos pero abrigados."
 #. ~ Description for pair of army winter gloves
 #: lang/json/ARMOR_from_json.py
 msgid "A pair of padded gloves.  Favored by the military"
-msgstr "Es un par de guantes acolchados. Los favoritos de los militares."
+msgstr ""
 
 #. ~ Description for motorcycle pants
 #: lang/json/ARMOR_from_json.py
@@ -9143,8 +9133,6 @@ msgid ""
 "A small concealed holster worn on the ankle.  It is awkward to use without "
 "practice.  Activate to holster/draw a small pistol"
 msgstr ""
-"Es una pequeña funda que se oculta en el tobillo. Es difícil usarla si no "
-"estás acostumbrado. Hay que activarla para enfundar o desenfundar la pistola."
 
 #. ~ Description for ankle sheath
 #: lang/json/ARMOR_from_json.py
@@ -10241,8 +10229,6 @@ msgstr[1] "capas ópticas FB51"
 msgid ""
 "Fake golden teeth, worn over the teeth.  Fits horribly, but looks very shiny"
 msgstr ""
-"Dientes falsos de oro que se usan sobre los dientes verdaderos. Quedan "
-"horribles, pero son muy brillantes."
 
 #. ~ Description for diamond dental grill
 #: lang/json/ARMOR_from_json.py
@@ -11006,7 +10992,7 @@ msgstr ""
 #. ~ Description for boxer briefs
 #: lang/json/ARMOR_from_json.py
 msgid "The age-old question, boxers or briefs? Your answer? Yes."
-msgstr "La clásica pregunta: ¿bóxer o slip? ¿Tu respuesta? Sí."
+msgstr ""
 
 #. ~ Description for runner pack
 #: lang/json/ARMOR_from_json.py
@@ -11277,7 +11263,7 @@ msgstr ""
 #. ~ Use action activate_msg for FB51 optical cloak.
 #: lang/json/ARMOR_from_json.py
 msgid "Your optical cloak flickers as it becomes transparent"
-msgstr "Tu capa óptica parpadea a medida que se va haciendo transparente."
+msgstr ""
 
 #. ~ Use action deactive_msg for FB51 optical cloak.
 #: lang/json/ARMOR_from_json.py src/player.cpp
@@ -15852,9 +15838,6 @@ msgid ""
 "them, negating any glare penalties and protecting you from bright flashes "
 "including those of a welder."
 msgstr ""
-"Tus ojos tienen lentes de gran poder y transición de reacción rápida "
-"instalados, lo que te hace negar las penalidades de los reflejos, y te "
-"protege de los destellos brillantes, incluso los de una soldadora."
 
 #. ~ Description for Terranian Sonar
 #. ~ Description for Terranian Sonar CBM
@@ -18491,11 +18474,6 @@ msgid ""
 "are well-fed and in good  health, as the concentrated serums draw heavily on "
 "subjects' bodies."
 msgstr ""
-"Este manual detalla diversas variedades de experimentos con mutágenos, así "
-"como también describe los protocolos utilizados para concentrar mutágenos "
-"para resultados más rápidos. Los autores recomiendan que los investigadores "
-"aseguran que sus sujetos están bien alimentados y en buen estado de salud, "
-"porque el suero concentrado dependen del cuerpo del sujeto."
 
 #. ~ Description for The Tao of the Handgun
 #: lang/json/BOOK_from_json.py
@@ -20558,10 +20536,6 @@ msgid ""
 "towards creating the elixer of life, allegedly.  Drinking this will numb the "
 "body greatly, but it isn't at all healthy."
 msgstr ""
-"Es un extraño líquido negro que tiene el olor a la muerte misma. "
-"Presuntamente, el primer paso hacia la creación del elíxir de la vida. Si "
-"tomás esto se te va a adormecer mucho el cuerpo, pero no es para nada "
-"saludable."
 
 #. ~ Description for red potion
 #: lang/json/COMESTIBLE_from_json.py
@@ -20570,10 +20544,6 @@ msgid ""
 "or merely a mimicry?  Drinking this will cure a number of things, but can't "
 "mend existing damage, and taxes your body to do so."
 msgstr ""
-"Es un extraño líquido rojizo que expele un aroma dulce. ¿El elíxir de la "
-"vida, o meramente una imitación? Si te tomás esto te vas a curar varias "
-"cosas, pero no podés reparar el daño existente, y hacerlo le va a costar a "
-"tu cuerpo."
 
 #. ~ Description for white potion
 #: lang/json/COMESTIBLE_from_json.py
@@ -20582,9 +20552,6 @@ msgid ""
 "step towards creating the elixer of life, allegedly.  Drinking this will "
 "strengthen the body, but at some cost."
 msgstr ""
-"Es un extraño líquido blanco con un olor que te hace picar la nariz. "
-"Presuntamente, el segundo paso hacia la creación del elíxir de la vida. Si "
-"tomás esto, vas a fortalecer el cuerpo, pero con algún costo."
 
 #. ~ Description for yellow potion
 #: lang/json/COMESTIBLE_from_json.py
@@ -20603,8 +20570,6 @@ msgid ""
 "A strong benzodiazepine drug used to treat muscle spasms, anxiety, seizures, "
 "and panic attacks"
 msgstr ""
-"Una poderosa droga benzodiazepina utilizada para tratar los espasmos "
-"musculares, la ansiedad, las convulsiones y los ataques de pánico."
 
 #. ~ Description for oxycodone
 #: lang/json/COMESTIBLE_from_json.py
@@ -20870,8 +20835,6 @@ msgid ""
 "A traditional Mexican dish composed of a corn or wheat tortilla folded or "
 "rolled around a meat filling."
 msgstr ""
-"Una comida tradicional mexicana que consiste en una tortilla de maíz o trigo "
-"doblada o arrollada con un relleno de carne."
 
 #. ~ Description for royal jelly
 #: lang/json/COMESTIBLE_from_json.py
@@ -21185,8 +21148,6 @@ msgid ""
 "An irradiated cucumber will remain edible nearly forever.  Sterilized using "
 "radiation, so it's safe to eat.."
 msgstr ""
-"Un pepino irradiado se va a mantener apto para comer casi para siempre. Está "
-"esterilizado con radiación, así que es seguro comerlo."
 
 #. ~ Description for irradiated corn
 #: lang/json/COMESTIBLE_from_json.py
@@ -21613,8 +21574,6 @@ msgstr "Almejas molidas en agua."
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Clear juice obtained by cooking fruit in a large volume of water"
 msgstr ""
-"Es un jugo transparente que se obtiene cocinando la fruta en mucha cantidad "
-"de agua."
 
 #. ~ Description for garlic clove
 #: lang/json/COMESTIBLE_from_json.py
@@ -21739,8 +21698,6 @@ msgid ""
 "edible for an incredibly long time.  They are useful for several cooking "
 "recipes"
 msgstr ""
-"Trozos de fruta deshidratada. Si se la guarda adecuadamente, esta comida "
-"desecada puede durar por muchísimo tiempo. Son útiles para varias recetas."
 
 #. ~ Description for dried beans
 #: lang/json/COMESTIBLE_from_json.py
@@ -22079,8 +22036,6 @@ msgstr ""
 msgid ""
 "Fish fillets cured in brine and vacuum-packed.  Salty but tasty in a pinch.  "
 msgstr ""
-"Son filetes de pescado curados en salmuera y cerrados al vacío. Son salados "
-"pero sabrosos cuando hay hambre."
 
 #. ~ Description for pickled herring
 #: lang/json/COMESTIBLE_from_json.py
@@ -22340,8 +22295,6 @@ msgid ""
 "Human flesh slices cured in brine and vacuum-packed.  Salty but tasty in a "
 "pinch.  "
 msgstr ""
-"Fetas de carne humana curadas en escabeche y cerradas al vacío. Saldas pero "
-"sabrosas cuando hay hambre."
 
 #. ~ Description for mycus fruit
 #: lang/json/COMESTIBLE_from_json.py
@@ -22350,9 +22303,6 @@ msgid ""
 "better than the Marloss.  If they didn't reject it for its alien origins.  "
 "But we know better."
 msgstr ""
-"Los humanos podrían llamar a esto la Deliciosa Manzana Gris: grande, gris y "
-"huele mejor que el marloss, si no lo hubieran rechazado por su origen "
-"extraterrestre. Pero nosotros tenemos la posta."
 
 #. ~ Description for berry-shaped anomaly
 #: lang/json/COMESTIBLE_from_json.py
@@ -22528,8 +22478,6 @@ msgid ""
 "Low-sodium preserved fish.  It was boiled and canned.  Contains all of the "
 "nutrition, but little of the savor of cooked fish.  "
 msgstr ""
-"Pescado preservado con bajo sodio. Fue hervido y enlatado. Contiene todo lo "
-"nutritivo del pescado cocinado, pero muy poco de su sabor."
 
 #. ~ Description for soylent slice
 #: lang/json/COMESTIBLE_from_json.py
@@ -22537,8 +22485,6 @@ msgid ""
 "Low-sodium preserved human meat.  It was boiled and canned.  Contains all of "
 "the nutrition, but little of the savor of cooked meat.  "
 msgstr ""
-"Carne humana preservada con bajo sodio. Fue hervida y enlatada. Contiene "
-"todo el valor nutritivo, pero muy poco del sabor de la carne cocinada."
 
 #. ~ Description for canned meat
 #: lang/json/COMESTIBLE_from_json.py
@@ -22546,8 +22492,6 @@ msgid ""
 "Low-sodium preserved meat.  It was boiled and canned.  Contains all of the "
 "nutrition, but little of the savor of cooked meat.  "
 msgstr ""
-"Carne preservada con bajo sodio. Fue hervida y enlatada. Contiene todo el "
-"valor nutritivo, pero muy poco del sabor de la carne cocinada."
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Luigi lasagne"
@@ -22619,8 +22563,6 @@ msgstr ""
 msgid ""
 "Meat slices cured in brine and vacuum-packed.  Salty but tasty in a pinch.  "
 msgstr ""
-"Fetas de carne curadas en escabeche y cerradas al vacío. Saldas pero "
-"sabrosas cuando hay hambre."
 
 #. ~ Description for tainted meat
 #: lang/json/COMESTIBLE_from_json.py
@@ -22919,8 +22861,6 @@ msgid ""
 "Potassium iodide tablets.  They might help mitigate some of the detrimental "
 "effects caused by irradiation."
 msgstr ""
-"Comprimidos de yoduro de potasio. Te puede ayudar a mitigar algunos de los "
-"efectos perjudiciales que causa la radiación."
 
 #. ~ Description for poppy painkiller
 #: lang/json/COMESTIBLE_from_json.py
@@ -23001,8 +22941,8 @@ msgid ""
 "Raw, refined protein.  While quite nutritious, it is difficult to enjoy in "
 "its pure form."
 msgstr ""
-"Proteína refinada y cruda. Aunque es bastante nutritiva, no se disfruta así "
-"en este estado."
+"Proteína refinada y cruda. Aunque es bastante nutritiva, es difícil "
+"disfrutarla así en este estado."
 
 #. ~ Description for raw beans
 #: lang/json/COMESTIBLE_from_json.py
@@ -23131,8 +23071,6 @@ msgstr ""
 msgid ""
 "Salted corn chips, with human flesh.  Some cheese might make it even better"
 msgstr ""
-"Nachos de maíz salados, con carne humana. Incluso, un poco de queso lo haría "
-"mejor todavía."
 
 #. ~ Description for salted fish
 #: lang/json/COMESTIBLE_from_json.py
@@ -23182,8 +23120,6 @@ msgstr ""
 msgid ""
 "Sealed glass jar containing preserved fruit.  Bland, mushy and losing color."
 msgstr ""
-"Un frasco sellado de fruta preservada. Insípido, blando y está perdiendo el "
-"color."
 
 #. ~ Description for buckwheat
 #: lang/json/COMESTIBLE_from_json.py
@@ -23528,18 +23464,16 @@ msgid ""
 "Spaghetti covered with a thick human flesh sauce.  Tastes great if you enjoy "
 "that kind of thing.  "
 msgstr ""
-"Espagueti recubierto con abundante tuco hecho con carne humana. Tiene buen "
-"sabor, si es que te gustan estas cosas."
 
 #. ~ Description for spaghetti bolognese
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Spaghetti covered with a thick meat sauce.  Yum!  "
-msgstr "Espagueti recubierto con abundante tuco. ¡Rico!"
+msgstr ""
 
 #. ~ Description for spaghetti al pesto
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Spaghetti, with a generous helping of pesto on top.  Yum!  "
-msgstr "Espagueti con una generosa porción de pesto encima. ¡Rico!"
+msgstr ""
 
 #. ~ Description for riesling
 #: lang/json/COMESTIBLE_from_json.py
@@ -24945,10 +24879,11 @@ msgstr[0] "lata de pescado"
 msgstr[1] "latas de pescado"
 
 #: lang/json/COMESTIBLE_from_json.py
+#, fuzzy
 msgid "canned fruit"
 msgid_plural "canned fruits"
-msgstr[0] "frasco de frutas"
-msgstr[1] "frascos de frutas"
+msgstr[0] "lata de fruta"
+msgstr[1] "latas de fruta"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "canned meat"
@@ -25143,10 +25078,11 @@ msgstr[0] "cereza"
 msgstr[1] "cerezas"
 
 #: lang/json/COMESTIBLE_from_json.py
+#, fuzzy
 msgid "chewing gum"
 msgid_plural "chewing gums"
 msgstr[0] "chicle"
-msgstr[1] "chicles"
+msgstr[1] "chicle"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "chewing tobacco"
@@ -25229,8 +25165,8 @@ msgstr[1] "golosinas de chocolate"
 #: lang/json/COMESTIBLE_from_json.py
 msgid "chocolate covered pretzels"
 msgid_plural "chocolate covered pretzels"
-msgstr[0] "pretzels con chocolate"
-msgstr[1] "pretzels con chocolate"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "chocolate drink"
@@ -25311,6 +25247,7 @@ msgstr[0] "cloutie dumpling"
 msgstr[1] "cloutie dumplings"
 
 #: lang/json/COMESTIBLE_from_json.py src/addiction.cpp
+#, fuzzy
 msgid "cocaine"
 msgid_plural "cocaines"
 msgstr[0] "cocaína"
@@ -25329,16 +25266,18 @@ msgstr[0] "leche de coco"
 msgstr[1] "leches de coco"
 
 #: lang/json/COMESTIBLE_from_json.py
+#, fuzzy
 msgid "codeine"
 msgid_plural "codeines"
 msgstr[0] "codeína"
-msgstr[1] "codeínas"
+msgstr[1] "codeína"
 
 #: lang/json/COMESTIBLE_from_json.py
+#, fuzzy
 msgid "coffee"
 msgid_plural "coffees"
 msgstr[0] "café"
-msgstr[1] "cafés"
+msgstr[1] "café"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "coffee beans"
@@ -25567,10 +25506,11 @@ msgstr[0] "semilla de algodón"
 msgstr[1] "semillas de algodón"
 
 #: lang/json/COMESTIBLE_from_json.py
+#, fuzzy
 msgid "cough syrup"
 msgid_plural "cough syrups"
 msgstr[0] "jarabe para la tos"
-msgstr[1] "jarabes para la tos"
+msgstr[1] "jarabe para la tos"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "crack"
@@ -26341,8 +26281,8 @@ msgstr[1] "ensaladas instantáneas"
 #: lang/json/COMESTIBLE_from_json.py
 msgid "iodine tablet"
 msgid_plural "iodine tablets"
-msgstr[0] "comprimido de yodo"
-msgstr[1] "comprimidos de yodo"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "irradiated apple"
@@ -26687,10 +26627,11 @@ msgstr[0] "gaseosa de lima-limón"
 msgstr[1] "gaseosas de lima-limón"
 
 #: lang/json/COMESTIBLE_from_json.py
+#, fuzzy
 msgid "lemonade"
 msgid_plural "lemonades"
 msgstr[0] "limonada"
-msgstr[1] "limonadas"
+msgstr[1] "limonada"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "lemonade drink mix"
@@ -26729,10 +26670,11 @@ msgstr[0] "suero de lagarto"
 msgstr[1] "sueros de lagarto"
 
 #: lang/json/COMESTIBLE_from_json.py
+#, fuzzy
 msgid "low-grade methamphetamine"
 msgid_plural "low-grade methamphetamines"
 msgstr[0] "metanfetamina de baja calidad"
-msgstr[1] "metanfetaminas de baja calidad"
+msgstr[1] "metanfetamina de baja calidad"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "lunch meat"
@@ -27059,10 +27001,11 @@ msgstr[0] "nachos niño con queso"
 msgstr[1] "nachos niño con queso"
 
 #: lang/json/COMESTIBLE_from_json.py
+#, fuzzy
 msgid "non-drowsy cough syrup"
 msgid_plural "non-drowsy cough syrups"
 msgstr[0] "jarabe para la tos que no causa sueño"
-msgstr[1] "jarabes para la tos que no causa sueño"
+msgstr[1] "jarabe para la tos que no causa sueño"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "oat seed"
@@ -27335,10 +27278,11 @@ msgstr[0] "maíz pisingallo"
 msgstr[1] "maíz pisingallo"
 
 #: lang/json/COMESTIBLE_from_json.py
+#, fuzzy
 msgid "poppy cough syrup"
 msgid_plural "poppy cough syrups"
 msgstr[0] "jarabe de amapola para la tos"
-msgstr[1] "jarabes de amapola para la tos"
+msgstr[1] "jarabe de amapola para la tos"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "poppy painkiller"
@@ -27615,10 +27559,11 @@ msgstr[0] "riesling"
 msgstr[1] "rieslings"
 
 #: lang/json/COMESTIBLE_from_json.py
+#, fuzzy
 msgid "roasted coffee beans"
 msgid_plural "coffee beans"
 msgstr[0] "granos de café tostados"
-msgstr[1] "granos de café"
+msgstr[1] "granos de café tostados"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "rolling tobacco"
@@ -28049,8 +27994,8 @@ msgstr[1] "grasas contaminadas"
 #: lang/json/COMESTIBLE_from_json.py
 msgid "tainted meat"
 msgid_plural "tainted meats"
-msgstr[0] "carne contaminada"
-msgstr[1] "carnes contaminadas"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "tainted tallow"
@@ -28549,7 +28494,7 @@ msgstr ""
 #. ~ Description for small metal tank
 #: lang/json/CONTAINER_from_json.py
 msgid "A gas tank from a motorcycle.  Useful for crafting."
-msgstr "Un tanque de nafta para una moto. Se usa para fabricar otras cosas."
+msgstr ""
 
 #. ~ Description for aluminum foil wrap
 #: lang/json/CONTAINER_from_json.py
@@ -28615,7 +28560,7 @@ msgstr ""
 #. ~ Description for little metal tank
 #: lang/json/CONTAINER_from_json.py
 msgid "A little gas tank.  Useful for crafting."
-msgstr "Un tanque chico de nafta. Se usa para fabricar otras cosas."
+msgstr ""
 
 #. ~ Description for 55 gallon drum
 #: lang/json/CONTAINER_from_json.py
@@ -30419,8 +30364,6 @@ msgid ""
 "A large log, cut from a tree.  (a)ctivate a wood axe or wood saw to cut it "
 "into planks"
 msgstr ""
-"Un tronco largo, cortado de un árbol. (a)ctivá un hacha de madera o sierra "
-"de madera para cortarlo en tablas."
 
 #. ~ Description for blood soaked rag
 #: lang/json/GENERIC_from_json.py
@@ -30454,9 +30397,6 @@ msgid ""
 "storage battery case for easy removal from a vehicle, or just welded "
 "straight in."
 msgstr ""
-"Una batería grande de almacenamiento. Útil para armar un vehículo. Puede ser "
-"instalada en una caja para baterías de almacenamiento para que sea más fácil "
-"desmontarla del vehículo, o si no puede ser soldada."
 
 #. ~ Description for folding wire basket
 #: lang/json/GENERIC_from_json.py
@@ -31197,8 +31137,6 @@ msgstr ""
 #: lang/json/GENERIC_from_json.py
 msgid "A six-foot long piece of rope.  Too small to be of much use.  "
 msgstr ""
-"Es un pedazo de cuerda de nailon de 1,80 metros. Su tamaño no la hace muy "
-"útil, pero sirve para algunas cosas."
 
 #. ~ Description for bee sting
 #: lang/json/GENERIC_from_json.py
@@ -31373,8 +31311,6 @@ msgid ""
 "A small tent, just big enough to fit a person comfortably.  This tent is "
 "broken and cannot be deployed"
 msgstr ""
-"Es una pequeña carpa, donde entra cómodamente una sola persona. Esta carpa "
-"está rota y no puede ser armada."
 
 #. ~ Description for toaster
 #: lang/json/GENERIC_from_json.py
@@ -31493,7 +31429,7 @@ msgstr ""
 #. ~ Description for splintered wood
 #: lang/json/GENERIC_from_json.py
 msgid "A splintered piece of wood, useless as anything but kindling"
-msgstr "Es un pedazo de madera astillada que sólo sirve como leña."
+msgstr ""
 
 #. ~ Description for pipe
 #: lang/json/GENERIC_from_json.py
@@ -31711,10 +31647,6 @@ msgid ""
 "inventory will double the distance that is mapped around you during your "
 "travels.  You could also use them to focus the sunlight."
 msgstr ""
-"Una herramienta útil para ver a grandes distancias. Con solo llevar este "
-"elemento en tu inventario, duplicarás la distancia que ves del mapa a tu "
-"alrededor durante los viajes. También lo podés usar para focalizar la luz "
-"del sol."
 
 #. ~ Description for burnt out torch
 #: lang/json/GENERIC_from_json.py
@@ -32117,8 +32049,6 @@ msgid ""
 "An improvised weapon, made from two spikes attached to a bowling pin in the "
 "shape of a 'T'"
 msgstr ""
-"Es una arma improvisada hecha con dos puntas adheridas a un pino de bowling "
-"formando una 'T'. Llamado así por los pinos 7 y 10 que son los de las puntas."
 
 #. ~ Description for recharging station
 #: lang/json/GENERIC_from_json.py
@@ -32129,12 +32059,6 @@ msgid ""
 "that space.  The system can only be installed in existing storage "
 "compartments."
 msgstr ""
-"Un sistema de carga basada en inducción, diseñado para funcionar con la "
-"energía de un vehículo. Una vez instalado en el lugar de almacenamiento del "
-"vehículo y encendido desde los controles del vehículo, irá lentamente "
-"cargando todas las herramientas con baterías recargables que estén en ese "
-"lugar. Este sistema solo puede ser instalado en un compartimiento de "
-"almacenamiento."
 
 #. ~ Description for iron javelin
 #: lang/json/GENERIC_from_json.py
@@ -33007,8 +32931,6 @@ msgid ""
 "This is a dull, chealy-made replica of the classic medieval longsword.  It "
 "requires a larger baldric or scabbard, compared to smaller swords."
 msgstr ""
-"Es una réplica berreta de la clásica espada larga medieval. Necesita un gran "
-"tahalí o una vaina, a diferencia de otras espadas más chicas."
 
 #. ~ Description for kris
 #: lang/json/GENERIC_from_json.py
@@ -35384,8 +35306,8 @@ msgstr[1] "rejas de varillas"
 #: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
 msgid "recharging station"
 msgid_plural "recharging stations"
-msgstr[0] "estación de recarga"
-msgstr[1] "estaciones de recarga"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
 msgid "reinforced head light"
@@ -36495,9 +36417,6 @@ msgid ""
 "increase in noise, but also reduces recoil greatly as a result of the "
 "improved manageability of the firearm."
 msgstr ""
-"Un cañón recortado reduce marcadamente la precisión, y un pequeño aumento "
-"del ruido, pero también reduce mucho el retroceso como resultado de la "
-"manejabilidad mejorada del arma de fuego."
 
 #. ~ Description for shoulder strap
 #: lang/json/GUNMOD_from_json.py
@@ -40095,8 +40014,8 @@ msgstr[1] "Minigun M134D-H"
 #: lang/json/GUN_from_json.py
 msgid "M14"
 msgid_plural "M14"
-msgstr[0] "M14"
-msgstr[1] "M14"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/GUN_from_json.py
 msgid "M14 EBR-RI"
@@ -41241,8 +41160,6 @@ msgid ""
 "The child of the M1 Garand World War 2 rifle, the M14 is a semi-automatic "
 "rifle favored for its accuracy and modular use."
 msgstr ""
-"El descendiente del rifle M1 Garand de la Segunda Guerra Mundial. El M14 es "
-"un rifle semi-automático preferido por su precisión y uso modular."
 
 #. ~ Description for SVS-24C
 #: lang/json/GUN_from_json.py
@@ -45957,13 +45874,6 @@ msgid ""
 "The dancer doens't even notice you, it seems like something nearby is "
 "controlling it."
 msgstr ""
-"The foulest stench is in the air, \n"
-"The funk of forty thousand years, \n"
-"And grisly ghouls from every tomb, \n"
-"Are closing in to seal your doom!\n"
-"\n"
-"El bailarín ni siquiera nota tu presencia, parece como si algo lo estuviera "
-"controlando."
 
 #. ~ Description for zombie dancer
 #: lang/json/MONSTER_from_json.py
@@ -48098,9 +48008,6 @@ msgid ""
 "patches of fur, dyed in a simple dark grey.  Using it will grant "
 "invisibility, draining essence quickly."
 msgstr ""
-"Es una túnica suelta de alguna clase, muy modificada y decorada con pedazos "
-"de piel, teñida de un gris oscuro. Usarla te hará invisible, consumiendo "
-"esencia rápidamente."
 
 #. ~ Description for mantle of shadows (on)
 #: lang/json/TOOL_ARMOR_from_json.py
@@ -48119,10 +48026,6 @@ msgid ""
 "unknown divine figure.  Fueling it with consecrated essence will grant the "
 "wearer sight beyond sight, within a limited range."
 msgstr ""
-"Es una máscara recubierta con hierro y decorada con cobre, que representa la "
-"cara de alguna figura divina desconocida. Alimentándola con esencia "
-"consagrada hará que quien la utilice pueda ver más allá de la vista, dentro "
-"de un rango limitado."
 
 #. ~ Description for mask of insight (on)
 #: lang/json/TOOL_ARMOR_from_json.py
@@ -48609,7 +48512,6 @@ msgstr ""
 msgid ""
 "The robe's fabric returns to its normal grey color, dispeling the illusion."
 msgstr ""
-"La tela de la túnica vuelve a su color gris normal, disipando la ilusión."
 
 #. ~ Use action need_charges_msg for survivor head torch.
 #: lang/json/TOOL_ARMOR_from_json.py
@@ -49708,9 +49610,6 @@ msgid ""
 "weapon scope, but carrying this item in your inventory will double the "
 "distance that is mapped around you during your travels."
 msgstr ""
-"Es un telescopio casero y plegable. Es demasiado largo y poco preciso para "
-"usarlo como mira para un arma, pero tener este objeto en tu inventario "
-"duplica la distancia que ves en el mapa."
 
 #. ~ Description for survivor mess kit
 #: lang/json/TOOL_from_json.py
@@ -50808,12 +50707,6 @@ msgid ""
 "batteries last longer than other light sources.  The staff is glowing "
 "brightly, which is slowly draining the batteries"
 msgstr ""
-"Producido por la empresa Light, este elegante palo no solo funciona como "
-"fuente de luz, sino que también es un arma liviana debido a los materiales "
-"de superaleación con los que está hecho. Dado sus mejoras de eficiencia "
-"sobre las fuentes de luz comunes, el palo-L o palo luz como también se lo "
-"llama, las baterías duran más que en otros aparatos. El palo está brillando "
-"fuertemente, lo que hace que sus baterías se consuman."
 
 #: lang/json/TOOL_from_json.py
 msgid "RC car"
@@ -51139,7 +51032,7 @@ msgstr ""
 #. ~ Use action msg for L-stick (on).
 #: lang/json/TOOL_from_json.py
 msgid "The l-stick(tm)'s light fades away"
-msgstr "El Palo-L(®) se apaga lentamente."
+msgstr ""
 
 #. ~ Use action need_charges_msg for gasoline lantern (off).
 #. ~ Use action need_charges_msg for oil lamp (off).
@@ -51498,9 +51391,6 @@ msgid ""
 "Unified Power System instead.  Having the UPS on will slowly charge a tool "
 "in your inventory."
 msgstr ""
-"Este dispositivo modifica las conexiones normales de batería para que "
-"funcionen con un sistema de alimentación ininterrumpida. Al tener un UPS "
-"encendido se irá cargando la herramienta en tu inventario."
 
 #. ~ Description for noise emitter (on)
 #: lang/json/TOOL_from_json.py
@@ -51983,9 +51873,6 @@ msgid ""
 "contains a battery draining attachment so the drill can be charged in lieu "
 "of mains power."
 msgstr ""
-"Es un taladro inalámbrico con una selección de mechas. La base del cargador "
-"contiene una batería para que el taladro pueda ser cargado en lugar de usar "
-"la red eléctrica."
 
 #. ~ Description for booby trap
 #: lang/json/TOOL_from_json.py
@@ -52443,10 +52330,6 @@ msgid ""
 "gas burners attached to this blade can really turn up the heat on your "
 "foes.  Use to ignite."
 msgstr ""
-"Es una katana con una boquilla justo debajo de la punta de la cuchilla. A la "
-"gente le encanta el fuego, y las katanas, así que ¿por qué no juntarlos? Los "
-"quemadores de gas agregados a esta espada pueden hacer entrar en calor a tus "
-"enemigos. Usala para encenderla."
 
 #. ~ Description for heavy snare kit
 #: lang/json/TOOL_from_json.py
@@ -52522,8 +52405,6 @@ msgid ""
 "This is a large emergency fire extinguisher.  It would be useful for putting "
 "out adjacent fires."
 msgstr ""
-"Es un extintor grande de emergencia. Puede ser útil si necesitás apagar "
-"algún fuego."
 
 #. ~ Description for active ANFO charge
 #: lang/json/TOOL_from_json.py
@@ -53128,9 +53009,6 @@ msgid ""
 "Using it will warp the fabric of space, teleporting you at random.  "
 "Something might follow you through the gateway."
 msgstr ""
-"Este es un pergamino con unas escrituras extrañas y peculiares símbolos "
-"arremolinados. Usarlo hará torcer el tejido del espacio, teletransportándote "
-"aleatoriamente. Te puede seguir algo a través de la entrada."
 
 #. ~ Description for scroll of sundering
 #: lang/json/TOOL_from_json.py
@@ -53414,8 +53292,6 @@ msgid ""
 "This is a small emergency fire extinguisher.  It would be useful for putting "
 "out adjacent fires."
 msgstr ""
-"Es un pequeño extintor de emergencia. Puede ser útil si necesitás apagar "
-"algún fuego."
 
 #. ~ Description for gasoline lantern (on)
 #: lang/json/TOOL_from_json.py
@@ -53928,8 +53804,6 @@ msgid ""
 "This is a wooden needle whittled down to a sharp point.  It has a narrow "
 "hole carved into the head for threading."
 msgstr ""
-"Es una aguja de madera tallada con una punta filosa. Tiene un angosto "
-"agujero hecho en la cabeza, para pasarle el hilo."
 
 #. ~ Description for stepladder
 #: lang/json/TOOL_from_json.py
@@ -54387,8 +54261,6 @@ msgid ""
 "This is sharp needle made from a bone.  It would be useful for making rough "
 "clothing and items"
 msgstr ""
-"Es una aguja filosa hecha de hueso. Es útil para confeccionar simple ropa y "
-"otros objetos."
 
 #. ~ Description for zombie pheromone
 #: lang/json/TOOL_from_json.py
@@ -56186,8 +56058,8 @@ msgstr[1] "arcos de rodamiento"
 #: lang/json/TOOL_from_json.py
 msgid "fire extinguisher"
 msgid_plural "fire extinguishers"
-msgstr[0] "extintor"
-msgstr[1] "extintores"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/TOOL_from_json.py
 msgid "firearm repair kit"
@@ -60088,8 +59960,6 @@ msgstr "Soñás con un hogar en los bosques."
 #: lang/json/dream_from_json.py
 msgid "You dream of a strange quest for a bush that grows grey apples."
 msgstr ""
-"Soñás con una misión extraña en búsqueda de un arbusto del que crecen "
-"manzanas grises."
 
 #: lang/json/dream_from_json.py
 msgid ""
@@ -62445,8 +62315,7 @@ msgstr "¡crash!"
 msgid "crate"
 msgstr "caja"
 
-#: lang/json/furniture_from_json.py lang/json/terrain_from_json.py
-#: src/iuse.cpp
+#: lang/json/furniture_from_json.py lang/json/terrain_from_json.py src/iuse.cpp
 msgid "crunch!"
 msgstr "¡crunch!"
 
@@ -62534,8 +62403,8 @@ msgstr "masa fúngica"
 msgid "glass breaking"
 msgstr "vidrio rompiéndose"
 
-#: lang/json/furniture_from_json.py lang/json/terrain_from_json.py
-#: src/iuse.cpp src/map.cpp src/ranged.cpp
+#: lang/json/furniture_from_json.py lang/json/terrain_from_json.py src/iuse.cpp
+#: src/map.cpp src/ranged.cpp
 msgid "glass breaking!"
 msgstr "¡vidrio rompiéndose!"
 
@@ -62794,11 +62663,11 @@ msgstr "tatami"
 
 #: lang/json/furniture_from_json.py src/map.cpp src/mapdata.cpp
 msgid "thump!"
-msgstr "¡thump!"
+msgstr "¡tomp!"
 
 #: lang/json/furniture_from_json.py
 msgid "thump."
-msgstr "thump."
+msgstr "tomp."
 
 #: lang/json/furniture_from_json.py lang/json/terrain_from_json.py
 msgid "thunk."
@@ -67588,9 +67457,6 @@ msgid ""
 "Dense grey fur has grown to cover your entire body, providing a marginal "
 "protection against attacks, and considerable protection from cold."
 msgstr ""
-"Un pelaje denso y gris te ha crecido y cubre todo tu cuerpo, lo que te "
-"brinda una mínima protección contra los ataques, y una protección "
-"considerable contra el frío."
 
 #: lang/json/mutation_from_json.py
 msgid "Deterioration"
@@ -67925,7 +67791,7 @@ msgstr "Pastador/a"
 
 #: lang/json/mutation_from_json.py
 msgid "Grey Fur"
-msgstr "Pelaje Gris"
+msgstr ""
 
 #: lang/json/mutation_from_json.py src/artifact.cpp
 msgid "Grotesque"
@@ -84873,7 +84739,7 @@ msgstr "cabina de telecomunicación"
 
 #: lang/json/terrain_from_json.py
 msgid "thump"
-msgstr "thump"
+msgstr "tomp"
 
 #: lang/json/terrain_from_json.py
 msgid "ting."
@@ -86981,7 +86847,7 @@ msgstr "Con un ruido metálico y una sacudida, la bomba se queda silenciosa."
 
 #: src/activity_handlers.cpp
 msgid "You butcher the corpse."
-msgstr "Carneás el cadáver."
+msgstr ""
 
 #: src/activity_handlers.cpp src/game.cpp
 #, c-format
@@ -88745,8 +88611,7 @@ msgstr "¡Primero cargá un personaje antes de usar esto!"
 msgid "Rules"
 msgstr "Reglas"
 
-#: src/auto_pickup.cpp src/color.cpp src/game.cpp src/input.cpp
-#: src/options.cpp
+#: src/auto_pickup.cpp src/color.cpp src/game.cpp src/input.cpp src/options.cpp
 msgid "Save changes?"
 msgstr "¿Guardar cambios?"
 
@@ -88964,7 +88829,7 @@ msgstr ""
 
 #: src/bionics.cpp
 msgid "Iodine"
-msgstr "Yodo"
+msgstr ""
 
 #: src/bionics.cpp
 msgid "Irradiated"
@@ -89195,7 +89060,7 @@ msgstr ""
 #: src/bionics.cpp src/iuse.cpp
 #, c-format
 msgid "Wind Speed: %s."
-msgstr "Velocidad del Viento: %s."
+msgstr ""
 
 #: src/bionics.cpp src/iuse_actor.cpp src/mutation.cpp
 #, c-format
@@ -91361,7 +91226,7 @@ msgstr ""
 
 #: src/crafting.cpp
 msgid "This item cannot be disassembled!"
-msgstr "¡Este objeto no se puede desarmar!"
+msgstr ""
 
 #: src/crafting.cpp
 msgid "Use which component?"
@@ -91440,14 +91305,14 @@ msgstr "Tal vez puedas aprender la receta si desarmás otro más."
 #: src/crafting.cpp
 #, c-format
 msgid "You need a %s to disassemble this."
-msgstr "Necesitás un/a %s para desarmar esto."
+msgstr ""
 
 #: src/crafting.cpp
 #, c-format
 msgid "You need a %s with %d charge to disassemble this."
 msgid_plural "You need a %s with %d charges to disassemble this."
-msgstr[0] "Necesitás un/a %s con %d carga para desarmar esto."
-msgstr[1] "Necesitás un/a %s con %d cargas para desarmar esto."
+msgstr[0] ""
+msgstr[1] ""
 
 #: src/crafting.cpp src/iuse.cpp
 #, c-format
@@ -91458,8 +91323,8 @@ msgstr "Necesitás un objeto con 1 punto o más de %s para desarmar esto."
 #, c-format
 msgid "You need at least %d charge of that item to disassemble it."
 msgid_plural "You need at least %d charges of that item to disassemble it."
-msgstr[0] "Necesitás por lo menos %d carga en ese objeto para desarmarlo."
-msgstr[1] "Necesitás por lo menos %d cargas en ese objeto para desarmarlo."
+msgstr[0] ""
+msgstr[1] ""
 
 #: src/crafting.cpp src/iuse.cpp
 msgid "Your morale is too low to craft..."
@@ -95056,7 +94921,7 @@ msgstr "Comprobar estado del juego..."
 
 #: src/game.cpp
 msgid "Choose corpse to butcher"
-msgstr "Elegí un cadáver para carnear"
+msgstr ""
 
 #: src/game.cpp
 msgid "Choose corpse to butcher / item to disassemble"
@@ -95064,7 +94929,7 @@ msgstr "Elegí un cadáver para carnear / objeto para desarmar"
 
 #: src/game.cpp
 msgid "Choose item to disassemble"
-msgstr "Elegí un objeto para desarmar"
+msgstr ""
 
 #: src/game.cpp
 msgid "Choose mission type"
@@ -95760,7 +95625,7 @@ msgstr "¡Te quedaste sin %s!"
 
 #: src/game.cpp
 msgid "Out of ammo!"
-msgstr "¡Sin munición!"
+msgstr ""
 
 #: src/game.cpp
 msgid "Overmap editor"
@@ -97692,7 +97557,7 @@ msgstr ""
 
 #: src/game.cpp
 msgid "You're not strong enough to draw the bow!"
-msgstr "¡No sos lo suficientemente fuerte para tensar el arco!"
+msgstr ""
 
 #: src/game.cpp
 msgid "You're not wielding anything."
@@ -97717,8 +97582,6 @@ msgstr "Tu %1$s no puede contener %2$s."
 msgid ""
 "Your %s does not need to be reloaded, it reloads and fires a single motion."
 msgstr ""
-"Tu %s no necesita ser recargado/a, se recarga y dispara en un solo "
-"movimiento."
 
 #: src/game.cpp
 #, c-format
@@ -99302,11 +99165,6 @@ msgid ""
 "more and more. While in radiation-free areas, your radiation level will "
 "slowly decrease. Taking iodine tablets will help speed the process."
 msgstr ""
-"A pesar de ser relativamente raro, algunas áreas del mundo pueden estar "
-"contaminadas con radiación. La radiación se irá acumulando en tu cuerpo "
-"gradualmente, debilitándote cada vez más. Mientras que en áreas libres de "
-"radiación, tu nivel de radiación irá disminuyendo lentamente. Las tabletas "
-"de yodo acelerarán el proceso de disminución de radiación."
 
 #: src/help.cpp
 msgid ""
@@ -100042,7 +99900,7 @@ msgstr "En poco tiempo va a estar listo para embotellar."
 #: src/iexamine.cpp
 #, c-format
 msgid "It will take around %d minutes to fill that container."
-msgstr "Te va a llevar unos %d minutos llenar ese recipiente."
+msgstr ""
 
 #: src/iexamine.cpp
 msgid "It's been set recently, and will take some time to ferment."
@@ -101107,7 +100965,7 @@ msgstr "Soltar objetos:"
 
 #: src/inventory_ui.cpp
 msgid "NEARBY:"
-msgstr "CERCANO:"
+msgstr ""
 
 #: src/inventory_ui.cpp
 #, c-format
@@ -101124,7 +100982,7 @@ msgstr "Para soltar más de un mismo objeto, poné el número y el atajo."
 
 #: src/inventory_ui.cpp
 msgid "VEHICLE:"
-msgstr "VEHÍCULO:"
+msgstr ""
 
 #: src/inventory_ui.cpp
 msgid "Volume: "
@@ -103262,7 +103120,7 @@ msgstr "¿A qué le querés desconectar las modificaciones de energía?"
 
 #: src/iuse.cpp
 msgid "Disassemble what?"
-msgstr "¿Qué querés desarmar?"
+msgstr ""
 
 #: src/iuse.cpp
 msgid "Do what with quiver?"
@@ -103479,7 +103337,7 @@ msgstr "¡Ka-BOOM!"
 
 #: src/iuse.cpp
 msgid "Kevlar plates"
-msgstr "placas de kevlar"
+msgstr ""
 
 #: src/iuse.cpp
 msgid "Line it with fur"
@@ -103756,7 +103614,7 @@ msgstr "¿Qué querés reparar?"
 
 #: src/iuse.cpp
 msgid "Repair/fit in"
-msgstr "Reparar/ajustar"
+msgstr ""
 
 #: src/iuse.cpp
 msgid "Replace your current lenses?"
@@ -104043,7 +103901,7 @@ msgstr "El %s está cerrado fuertemente en tus muñecas. No te lo podés sacar."
 #: src/iuse.cpp
 #, c-format
 msgid "The %s burns white-hot inside you, and you collapse to the ground!"
-msgstr "¡El %s arde incandescentemente adentro tuyo, y caés al suelo!"
+msgstr ""
 
 #: src/iuse.cpp
 #, c-format
@@ -104979,7 +104837,7 @@ msgstr "¡No ves nada, no podés coser!"
 
 #: src/iuse.cpp
 msgid "You can't see to solder!"
-msgstr "¡No ves nada, no podés soldar!"
+msgstr ""
 
 #: src/iuse.cpp
 msgid "You can't use a tailor's kit on a firearm!"
@@ -104987,7 +104845,7 @@ msgstr "¡No podés usar un equipo de sastre en un arma de fuego!"
 
 #: src/iuse.cpp
 msgid "You cannot disassemble that."
-msgstr "No podés desarmar eso."
+msgstr ""
 
 #: src/iuse.cpp
 #, c-format
@@ -105093,7 +104951,7 @@ msgstr "¡No tenés nada para encenderlo!"
 #: src/iuse.cpp
 #, c-format
 msgid "You don't have enough %s to do that."
-msgstr "No tenés suficiente %s para hacer eso."
+msgstr ""
 
 #: src/iuse.cpp
 #, c-format
@@ -105109,12 +104967,12 @@ msgstr ""
 #: src/iuse.cpp
 #, c-format
 msgid "You don't repair your %s, and you waste lots of charge."
-msgstr "No pudiste reparar tu %s, y desperdiciaste muchas cargas."
+msgstr ""
 
 #: src/iuse.cpp
 #, c-format
 msgid "You don't repair your %s, but you waste lots of thread."
-msgstr "No pudiste reparar tu %s, y perdiste mucha cantidad de hilo."
+msgstr ""
 
 #: src/iuse.cpp
 #, c-format
@@ -105481,8 +105339,6 @@ msgid ""
 "You need to be at least level 2 in the firearms skill before you can "
 "disassemble ammunition."
 msgstr ""
-"Necesitás tener, como mínimo, nivel 2 en la habilidad armas de fuego antes "
-"de poder desarmar munición."
 
 #: src/iuse.cpp
 msgid "You need welding goggles to do that."
@@ -105547,11 +105403,11 @@ msgstr "Abrís la caja."
 
 #: src/iuse.cpp
 msgid "You practice your sewing."
-msgstr "Practicás tu costura."
+msgstr ""
 
 #: src/iuse.cpp
 msgid "You practice your soldering."
-msgstr "Practicás tu habilidad para soldar."
+msgstr ""
 
 #: src/iuse.cpp
 msgid "You pry open the door."
@@ -105677,12 +105533,12 @@ msgstr "¡Reparaste tu %s!"
 #: src/iuse.cpp
 #, c-format
 msgid "You repair your %s, but waste lots of thread."
-msgstr "Reparaste tu %s, pero desperdiciaste mucha cantidad de hilo."
+msgstr ""
 
 #: src/iuse.cpp
 #, c-format
 msgid "You repair your %s, but you waste lots of charge."
-msgstr "Reparaste tu %s, pero desperdiciaste muchas cargas."
+msgstr ""
 
 #: src/iuse.cpp
 #, c-format
@@ -105857,11 +105713,11 @@ msgstr "Usás tu inhalador."
 
 #: src/iuse.cpp
 msgid "You take an iodine tablet."
-msgstr "Te tomás un comprimido de yodo."
+msgstr ""
 
 #: src/iuse.cpp
 msgid "You take apart the ammunition."
-msgstr "Desmontás la munición."
+msgstr ""
 
 #: src/iuse.cpp
 msgid "You take control of the RC car."
@@ -106088,7 +105944,7 @@ msgstr "¡Sos analfabeto!"
 #: src/iuse.cpp
 #, c-format
 msgid "You're not bleeding enough to need your %s."
-msgstr "No estás sangrando tanto como para necesitar tu %s."
+msgstr ""
 
 #: src/iuse.cpp
 msgid "You're not even chained to a boiler."
@@ -106126,7 +105982,7 @@ msgstr ""
 #: src/iuse.cpp
 #, c-format
 msgid "Your %s already reinforced."
-msgstr "Tu %s ya está reforzado."
+msgstr ""
 
 #: src/iuse.cpp
 #, c-format
@@ -106168,12 +106024,12 @@ msgstr ""
 #: src/iuse.cpp
 #, c-format
 msgid "Your %s is not made of fabric, leather, fur, or wool."
-msgstr "Tu %s no está hecho de tela, ni cuero, ni piel ni lana."
+msgstr ""
 
 #: src/iuse.cpp
 #, c-format
 msgid "Your %s is not made of plastic, metal, or Kevlar."
-msgstr "Tu %s no está hecho de plástico, ni metal ni kevlar."
+msgstr ""
 
 #: src/iuse.cpp
 #, c-format
@@ -106353,7 +106209,7 @@ msgstr "un dulce solo de guitarra!"
 
 #: src/iuse.cpp
 msgid "aluminum ingots"
-msgstr "lingotes de aluminio"
+msgstr ""
 
 #: src/iuse.cpp
 msgid "awful"
@@ -106443,7 +106299,7 @@ msgstr "no está mal"
 
 #: src/iuse.cpp
 msgid "plastic chunks"
-msgstr "pedazos de plástico"
+msgstr ""
 
 #: src/iuse.cpp
 #, c-format
@@ -109190,7 +109046,7 @@ msgstr "Corneás al %s con tus astas"
 
 #: src/melee.cpp
 msgid "You can't hit reliably without your glasses."
-msgstr "No podés acertar muchos golpes si tus lentes."
+msgstr ""
 
 #: src/melee.cpp
 #, c-format
@@ -111361,7 +111217,7 @@ msgstr ""
 
 #: src/mission.cpp
 msgid "Thank you, a diary is exactly what I was looking for."
-msgstr "Gracias, un diario es exactamente lo que estaba buscando."
+msgstr "Gracias, un diario es exactamente lo que estaba buscando. "
 
 #: src/mission.cpp
 msgid ""
@@ -113561,8 +113417,8 @@ msgid "Description: [NONE]\n"
 msgstr "Descripción: [NINGUNA]\n"
 
 #: src/mod_manager_ui.cpp
-msgid "This mod requires Lua but your CDDA build doesn't support it!"
-msgstr "¡Este mod necesita Lua pero tu versión de CDDA no lo soporta!"
+msgid "This mod requires Lua but your CDDA build not support it!"
+msgstr ""
 
 #: src/monattack.cpp
 msgid "\"Do not fear\""
@@ -113729,12 +113585,12 @@ msgstr "¡Una sombra se separa desde el %s!"
 #: src/monattack.cpp
 #, c-format
 msgid "A tree bursts forth from the earth and pierces %1$s's %2$s!"
-msgstr "¡Un árbol sale despedido de la tierra y atraviesa el %2$s de %1$s!"
+msgstr ""
 
 #: src/monattack.cpp
 #, c-format
 msgid "A tree bursts forth from the earth and pierces the %s!"
-msgstr "¡Un árbol sale despedido de la tierra y atraviesa el %s!"
+msgstr ""
 
 #. ~ %s is bodypart name in accusative.
 #: src/monattack.cpp
@@ -113963,13 +113819,13 @@ msgstr "El %1$s cae sobre tu %2$s, pero no puede penetrar tu armadura."
 #: src/monattack.cpp
 #, c-format
 msgid "The %1$s lashes %2$s!"
-msgstr "¡El %1$s le pega un latigazo a %2$s!"
+msgstr ""
 
 #. ~ shooter, 2$s - target, 3$s bodypart in accusative
 #: src/monattack.cpp
 #, c-format
 msgid "The %1$s lashes %2$s's %3$s!"
-msgstr "¡El %1$s le pega un latigazo al %3$s de %2$s!"
+msgstr ""
 
 #: src/monattack.cpp
 #, c-format
@@ -114684,13 +114540,13 @@ msgstr "Esos puntos láser no parecen muy amistosos..."
 #: src/monattack.cpp
 #, c-format
 msgid "Underbrush forms into a tree, and it pierces the %s!"
-msgstr "¡La maleza se transforma en un árbol, y atraviesa el %s!"
+msgstr ""
 
 #. ~ 1$s is NPC name, 2$s is bodypart name in accusative
 #: src/monattack.cpp
 #, c-format
 msgid "Underbrush grows into a tree, and it pierces %1$s's %2$s!"
-msgstr "¡La maleza se transforma en un árbol, y atraviesa el %2$s de %1$s!"
+msgstr ""
 
 #. ~Sound of a giant fungal blossom inhaling
 #: src/monattack.cpp
@@ -114900,7 +114756,7 @@ msgstr "¡un alarido terrible!"
 
 #: src/monattack.cpp
 msgid "a terrifying roar that nearly deafens you!"
-msgstr "un rugido terrorífico que casi te deja sordo!"
+msgstr ""
 
 #: src/monattack.cpp
 msgid "an ear-piercing howl!"
@@ -114965,7 +114821,7 @@ msgstr "fzzzzzt"
 
 #: src/monattack.cpp
 msgid "thu-THUMP."
-msgstr "thu-THUMP."
+msgstr "to-TOMP."
 
 #. ~ Sound of a tank turret swiveling into place
 #: src/monattack.cpp
@@ -115641,7 +115497,7 @@ msgstr "¡Tu %s está destruido/a!"
 #: src/mutation.cpp
 #, c-format
 msgid "Your %s is pushed off."
-msgstr "Tu %s se cae."
+msgstr ""
 
 #: src/mutation.cpp
 msgid "Your freshly-detached vine is too heavy to carry, so you drop it."
@@ -115840,7 +115696,7 @@ msgstr "Algunas"
 #: src/newcharacter.cpp
 #, c-format
 msgid "Melee damage: %d"
-msgstr "Daño de cuerpo a cuerpo: %d"
+msgstr ""
 
 #: src/newcharacter.cpp
 #, c-format
@@ -120750,7 +120606,7 @@ msgstr "me cago"
 
 #: src/npctalk.cpp
 msgid "goddamn"
-msgstr "cornudo"
+msgstr "cornudo/a"
 
 #: src/npctalk.cpp
 msgid "got it"
@@ -121025,9 +120881,6 @@ msgid ""
 "A number determining how large cities are. Warning, large numbers lead to "
 "very slow mapgen. 0 disables cities and roads."
 msgstr ""
-"Este número determina qué tan grandes son las ciudades. Tené cuidado, con un "
-"número alto vas a tener una generación del mapa muy lenta. 0 desactiva "
-"ciudades y rutas."
 
 #: src/options.cpp
 msgid "A scaling factor that determines density of dynamic NPC spawns."
@@ -121356,8 +121209,6 @@ msgid ""
 "Height of pixel-detail minimap, measured in terminal rows. Set to 0 for "
 "default spacing. Requires restart."
 msgstr ""
-"Es la altura del minimapa, medida en filas. Ponela en 0 para tener el "
-"espacio predeterminado. Necesita reiniciar el juego."
 
 #. ~ hide mouse cursor
 #: src/options.cpp
@@ -121418,8 +121269,6 @@ msgstr ""
 #: src/options.cpp
 msgid "If true, a pixel-detail minimap is drawn in the game. Requires restart."
 msgstr ""
-"Si está activado, vas a tener un minimapa detallado. Necesita reiniciar el "
-"juego."
 
 #: src/options.cpp
 msgid "If true, auto-safemode will be on after starting a new game or loading."
@@ -122156,72 +122005,72 @@ msgstr "mph"
 #. ~ item health bars
 #: src/output.cpp
 msgid "(++)"
-msgstr "(++)"
+msgstr ""
 
 #: src/output.cpp
 msgid "(-----)"
-msgstr "(-----)"
+msgstr ""
 
 #: src/output.cpp
 msgid "(..)"
-msgstr "(..)"
+msgstr ""
 
 #: src/output.cpp
 msgid "(:)"
-msgstr "(:)"
+msgstr ""
 
 #: src/output.cpp
 msgid "(??)"
-msgstr "(??)"
+msgstr ""
 
 #: src/output.cpp
 msgid "(\\)"
-msgstr "(\\)"
+msgstr ""
 
 #: src/output.cpp
 msgid "(\\.)"
-msgstr "(\\.)"
+msgstr ""
 
 #: src/output.cpp
 msgid "(|)"
-msgstr "(|)"
+msgstr ""
 
 #: src/output.cpp
 msgid "(|.)"
-msgstr "(|.)"
+msgstr ""
 
 #: src/output.cpp
 msgid "(|\\)"
-msgstr "(|\\)"
+msgstr ""
 
 #: src/output.cpp
 msgid "(||)"
-msgstr "(||)"
+msgstr ""
 
 #: src/output.cpp
 msgid "(||\\)"
-msgstr "(||\\)"
+msgstr ""
 
 #: src/output.cpp
 msgid "(|||)"
-msgstr "(|||)"
+msgstr ""
 
 #: src/output.cpp
 msgid "(|||\\)"
-msgstr "(|||\\)"
+msgstr ""
 
 #: src/output.cpp
 msgid "(||||)"
-msgstr "(||||)"
+msgstr ""
 
 #: src/output.cpp
 msgid "(||||\\)"
-msgstr "(||||\\)"
+msgstr ""
 
 #. ~ creature health bars
 #: src/output.cpp
 msgid "(|||||)"
-msgstr "(|||||)"
+msgstr ""
 
 #: src/output.cpp
 msgid "Case Sensitive"
@@ -126638,7 +126487,7 @@ msgstr "¡Tsewww!"
 #: src/ranged.cpp
 #, c-format
 msgid "You disarm %1$s's %2$s using your whip!"
-msgstr "¡Desarmás el %2$s de %1$s usando tu látigo!"
+msgstr ""
 
 #: src/ranged.cpp
 msgid "You'll need a more accurate gun to keep improving your aim."
@@ -127692,8 +127541,6 @@ msgid ""
 "Needs <color_%1$s>%2$s</color>, a <color_%3$s>wrench</color> and level "
 "<color_%4$s>%5$d</color> skill in mechanics.%6$s%7$s%8$s"
 msgstr ""
-"Necesita <color_%1$s>%2$s</color>, una <color_%3$s>llave</color> y nivel "
-"<color_%4$s>%5$d</color> de habilidad en mecánica.%6$s%7$s%8$s"
 
 #: src/veh_interact.cpp
 #, c-format
@@ -127967,8 +127814,6 @@ msgid ""
 "You need a <color_%1$s>wrench</color> and <color_%2$s>level %3$d</color> "
 "mechanics skill to remove this part."
 msgstr ""
-"Necesitás una <color_%1$s>llave</color> y <color_%2$s>nivel %3$d</color> de "
-"habilidad en mecánica para sacar esta parte."
 
 #: src/veh_interact.cpp
 #, c-format
@@ -128982,7 +128827,7 @@ msgstr "pila de patrullas"
 #: src/weather.cpp
 #, c-format
 msgid "%s %%"
-msgstr "%s %%"
+msgstr ""
 
 #: src/weather.cpp
 #, c-format
@@ -128992,12 +128837,12 @@ msgstr "%s kPa"
 #: src/weather.cpp
 #, c-format
 msgid "%s m/s"
-msgstr "%s m/s"
+msgstr ""
 
 #: src/weather.cpp
 #, c-format
 msgid "%s mph"
-msgstr "%s mph"
+msgstr ""
 
 #: src/weather.cpp
 #, c-format
@@ -129422,3 +129267,1608 @@ msgstr "Nombre del mundo:"
 #: src/worldfactory.cpp
 msgid "_______NO NAME ENTERED!!!!______"
 msgstr "____¡¡¡¡NO INGRESASTE NOMBRE!!!!___"
+
+#~ msgid "%.*s"
+#~ msgstr "%.*s"
+
+#~ msgid "%s%%"
+#~ msgstr "%s%%"
+
+#~ msgid ""
+#~ "You need a <color_%1$s>screwdriver</color> or <color_%2$s>hacksaw, "
+#~ "cutting torch and welding goggles, or circular saw (off)</color> and "
+#~ "<color_%3$s>level %4$d</color> mechanics skill to remove this part."
+#~ msgstr ""
+#~ "Necesitás un <color_%1$s>destornillador</color> o una <color_%2$s>sierra "
+#~ "de arco, soplete y anteojos de soldar, o una sierra circular (apagada)</"
+#~ "color> y <color_%3$s>nivel %4$d</color> de habilidad en mecánica para "
+#~ "sacar esta parte."
+
+#~ msgid ""
+#~ "You need a <color_%1$s>wrench</color> or <color_%2$s>hacksaw, cutting "
+#~ "torch and welding goggles, or circular saw (off)</color> and <color_"
+#~ "%3$s>level %4$d</color> mechanics skill to remove this part."
+#~ msgstr ""
+#~ "Necesitás una <color_%1$s>llave</color> o <color_%2$s>sierra de arco, "
+#~ "soplete y anteojos de soldar, o sierra circular (apagada)</color> y "
+#~ "<color_%3$s>nivel %4$d</color> de habilidad en mecánica para sacar esta "
+#~ "parte."
+
+#~ msgid ""
+#~ "Needs <color_%1$s>%2$s</color>, a <color_%3$s>screwdriver</color> or "
+#~ "<color_%4$s>duct tape</color> and level <color_%5$s>%6$d</color> skill in "
+#~ "mechanics.%7$s%8$s%9$s"
+#~ msgstr ""
+#~ "Necesita <color_%1$s>%2$s</color>, un <color_%3$s>destornillador</color> "
+#~ "o <color_%4$s>cinta adhesiva</color> y nivel <color_%5$s>%6$d</color> de "
+#~ "habilidad en mecánica.%7$s%8$s%9$s"
+
+#~ msgid ""
+#~ "Needs <color_%1$s>%2$s</color>, a <color_%3$s>wrench</color> or <color_"
+#~ "%4$s>duct tape</color> and level <color_%5$s>%6$d</color> skill in "
+#~ "mechanics.%7$s%8$s%9$s"
+#~ msgstr ""
+#~ "Necesita <color_%1$s>%2$s</color>, una <color_%3$s>llave</color> o <color_"
+#~ "%4$s>cinta adhesiva</color> y nivel <color_%5$s>%6$d</color> de habilidad "
+#~ "en mecánica.%7$s%8$s%9$s"
+
+#~ msgid " Stop repairing?"
+#~ msgstr "¿Querés dejar de reparar?"
+
+#~ msgid " Stop cracking?"
+#~ msgstr "¿Querés dejar de crackear?"
+
+#~ msgid "You lack the skill in %s to use the %s"
+#~ msgstr "No tenés la habilidad en %s para usar el/a %s"
+
+#~ msgid "You lack the %s to use the %s"
+#~ msgstr "No tenés %s para usar el/a %s"
+
+#~ msgid "??"
+#~ msgstr "??"
+
+#~ msgid ".."
+#~ msgstr ".."
+
+#~ msgid "\\."
+#~ msgstr "\\."
+
+#~ msgid "|."
+#~ msgstr "|."
+
+#~ msgid "++"
+#~ msgstr "++"
+
+#~ msgid "-----"
+#~ msgstr "-----"
+
+#~ msgid ":"
+#~ msgstr ":"
+
+#~ msgid "\\"
+#~ msgstr "\\"
+
+#~ msgid "|"
+#~ msgstr "|"
+
+#~ msgid "|\\"
+#~ msgstr "|\\"
+
+#~ msgid "||"
+#~ msgstr "||"
+
+#~ msgid "||\\"
+#~ msgstr "||\\"
+
+#~ msgid "|||"
+#~ msgstr "|||"
+
+#~ msgid "|||\\"
+#~ msgstr "|||\\"
+
+#~ msgid "||||"
+#~ msgstr "||||"
+
+#~ msgid "||||\\"
+#~ msgstr "||||\\"
+
+#~ msgid "|||||"
+#~ msgstr "|||||"
+
+#~ msgid ""
+#~ "A number determining how far apart cities are. Warning, small numbers "
+#~ "lead to very slow mapgen."
+#~ msgstr ""
+#~ "Este número determina cuán separadas están las ciudades entre sí. Tené "
+#~ "cuidado, con un número bajo vas a tener una generación del mapa muy lenta."
+
+#~ msgid "City spacing"
+#~ msgstr "Separación de ciudades"
+
+#~ msgid ""
+#~ "A number determining how large cities are. 0 disables cities and roads."
+#~ msgstr ""
+#~ "Este número determina qué tan grandes son las ciudades. 0 desactiva "
+#~ "ciudades y rutas."
+
+#~ msgid ""
+#~ "If false, vision is limited to current z-level. If true and the world is "
+#~ "in z-level mode, the vision will extend beyond current z-level. Currently "
+#~ "very bugged!"
+#~ msgstr ""
+#~ "Si está desactivado, la visión está limitada al nivel z actual. Si está "
+#~ "activada y el mundo tiene el modo de niveles z, la visión se extiende más "
+#~ "allá del nivel z actual. ¡Por ahora tiene muchos bugs!"
+
+#~ msgid "Experimental 3D Field of Vision"
+#~ msgstr "Campo Visual 3D Experimental"
+
+#~ msgid ""
+#~ "Controls how fast the enemy beacons blink on the pixel minimap. Value is "
+#~ "multiplied by 200 ms. Set to 0 to disable."
+#~ msgstr ""
+#~ "Controla qué tan rápido van a parpadear las radiobalizas enemigas en el "
+#~ "minimapa. El valor se multiplica por 200 ms. Ponelo en 0 para "
+#~ "desactivarlo."
+
+#~ msgid "Enemy beacon blink speed"
+#~ msgstr "Velocidad de parpadeo de radiobaliza enemiga"
+
+#~ msgid "Preserves the square shape of tiles shown on the pixel minimap."
+#~ msgstr "Mantiene la forma cuadrada de lo que se ve en el minimapa."
+
+#~ msgid "Maintain Pixel Minimap aspect ratio"
+#~ msgstr "Mantener relación de aspecto de minimapa"
+
+#~ msgid ""
+#~ "Height of pixel-detail minimap, measured in terminal rows. Set to 0 for "
+#~ "default spacing."
+#~ msgstr ""
+#~ "Es la altura del minimapa, medida en filas. Ponela en 0 para tener el "
+#~ "espacio predeterminado."
+
+#~ msgid ""
+#~ "If true, shows the pixel-detail minimap in game after the save is loaded. "
+#~ "Use the 'Toggle Pixel Minimap' action key to change its visibility during "
+#~ "gameplay."
+#~ msgstr ""
+#~ "Si está activado, muestra el minimapa de pixeles luego de que se carga "
+#~ "una partida. Con la tecla de \"Activar/desactivar minimapa\" podés "
+#~ "cambiar la visibilidad durante el juego."
+
+#~ msgid "Here we go..."
+#~ msgstr "Ahí vamos..."
+
+#~ msgid "How?"
+#~ msgstr "¿Cómo?"
+
+#~ msgid "It doesn't look like a good idea to consume this.."
+#~ msgstr "No parece una buena idea consumir esto..."
+
+#~ msgid "I need a %s to consume that!"
+#~ msgstr "¡Necesito un/a %s para consumir eso!"
+
+#~ msgid "It doesn't look like a good idea to consume this..."
+#~ msgstr "No parece una buena idea consumir esto..."
+
+#~ msgid "I don't <swear> trust you enough to eat from your hand..."
+#~ msgstr "<swear>, no confío lo suficiente en vos para comer de tu mano..."
+
+#~ msgid "Melee damage bonus: %.1f"
+#~ msgstr "Bonus al daño cpo a cpo: %.1f"
+
+#~ msgid "<npcname> loses their %s mutation."
+#~ msgstr "<npcname> pierde su mutación de %s."
+
+#~ msgid "<npcname>'s %1$s mutation turns into %2$s."
+#~ msgstr "La mutación %1$s de <npcname> se convierte en %2$s."
+
+#~ msgid "<npcname> gains a mutation called %s!"
+#~ msgstr "¡<npcname> obtiene una mutación que se llama %s!"
+
+#~ msgid "<npcname>'s innate %1$s trait turns into %2$s!"
+#~ msgstr "¡El atributo innato %1$s de <npcname> se convierte en %2$s!"
+
+#~ msgid "<npcname>'s %1$s mutation turns into %2$s!"
+#~ msgstr "¡La mutación %1$s de <npcname> se convierte en %2$s!"
+
+#~ msgid "<npcname>'s %s is pushed off!"
+#~ msgstr "¡El/a %s de <npcname> se cae!"
+
+#~ msgid "Your %s is pushed off!"
+#~ msgstr "¡Tu %s se cae!"
+
+#~ msgid "<npcname>'s %s is destroyed!"
+#~ msgstr "¡El %s de <npcname> es destruido!"
+
+#~ msgid "<npcname> rips out of their clothing!"
+#~ msgstr "¡<npcname> se arranca la ropa!"
+
+#~ msgid "The robot carefully scans <npcname>."
+#~ msgstr "El robot escanea cuidadosamente a <npcname>."
+
+#~ msgid "a terrifying roar!"
+#~ msgstr "¡un rugido aterrador!"
+
+#~ msgid "%s is engulfed by %s!"
+#~ msgstr "¡%s es sepultado por %s!"
+
+#~ msgid "The %1$s lashes <npcname>'s %2$s!"
+#~ msgstr "¡El/a %1$s le pega un latigazo al/a %2$s de <npcname>!"
+
+#~ msgid "Underbrush grows into a tree, and it pierces <npcname>'s %s!"
+#~ msgstr ""
+#~ "¡La maleza se transforma en un árbol y atraviesa el/a %s de <npcname>!"
+
+#~ msgid "A tree bursts forth from the earth and pierces <npcname>'s %s!"
+#~ msgstr ""
+#~ "¡Un árbol sale despedido desde la tierra y atraviesa el/a %s de <npcname>!"
+
+#~ msgid "This mod requires Lua but your CDDA build doesn't support it!"
+#~ msgstr "¡Este mod necesita Lua pero tu versión de CDDA no lo soporta!"
+
+#~ msgid "The bugs attack %s"
+#~ msgstr "Los insectos atacan %s"
+
+#~ msgid "You can't hit reliably due to your farsightedness."
+#~ msgstr "No podés acertarle a nada confiablemente debido a tu hipermetropía."
+
+#~ msgid "%s (repaired using %s)"
+#~ msgstr "%s (se repara con %s)"
+
+#~ msgid "Your %s is not made of any of:"
+#~ msgstr "Tu %s no está hecho de: "
+
+#~ msgid "You can't see to do that!"
+#~ msgstr "¡No ves nada, no podés hacer eso!"
+
+#~ msgid "I need a %1$s to consume %2$s!"
+#~ msgstr "¡Necesito un/a %1$s para consumir %2$s!"
+
+#~ msgid "You saw down the barrel of your %s"
+#~ msgstr "Recortaste el cañón de tu %s"
+
+#~ msgid "Can't saw down the barrel of your %s"
+#~ msgstr "No podés recortar el cañón de tu %s"
+
+#~ msgid "Saw barrel?"
+#~ msgstr "¿Querés recortar el cañón?"
+
+#~ msgid "It says I'm not irradiated"
+#~ msgstr "Dice que no estoy irradiado"
+
+#~ msgid "It says here that my radiation level is %d"
+#~ msgstr "Acá dice que el nivel de mi radiación es de %d"
+
+#~ msgid "<npcname> suddenly falls over!"
+#~ msgstr "¡<npcname> se cae súbitamente!"
+
+#~ msgid "<npcname> writhes and collapses to the ground."
+#~ msgstr "<npcname> se retuerce y colapas al suelo."
+
+#~ msgid "an agonized scream!"
+#~ msgstr "¡un grito agonizante!"
+
+#~ msgid "<npcname> suddenly collapses to the ground!"
+#~ msgstr "¡<npcname> colapsa al suelo súbitamente!"
+
+#~ msgid "<npcname> suddenly collapses!"
+#~ msgstr "¡<npcname> colapsa súbitamente!"
+
+#~ msgid "<npcname> writhes in agony and collapses to the ground!"
+#~ msgstr "¡<npcname> se retuerce agónicamente y colapsa al suelo!"
+
+#~ msgid "Are you sure you want to eat this? It looks poisonous..."
+#~ msgstr "¿Seguro que te querés comer esto? Parece venenoso..."
+
+#~ msgid "<npcname> uses some fungicide"
+#~ msgstr "<npcname> usa un poco de fungicida."
+
+#~ msgid "<npcname> takes some antibiotics."
+#~ msgstr "<npcname> se toma unos antibióticos."
+
+#~ msgid "Are you sure you want to drink... this?"
+#~ msgstr "¿Seguro que te querés tomar... esto?"
+
+#~ msgid "sawn-off "
+#~ msgstr "recortado/a"
+
+#~ msgid "Fire: "
+#~ msgstr "Fuego:"
+
+#~ msgid "VEHICLE"
+#~ msgstr "VEHÍCULO"
+
+#~ msgid "GROUND"
+#~ msgstr "SUELO"
+
+#~ msgid ""
+#~ "Though it is relatively rare, certain areas of the world may be "
+#~ "contaminated with radiation. It will gradually accumulate in your body, "
+#~ "weakening you more and more. While in radiation-free areas, your "
+#~ "radiation level will slowly decrease. Taking Prussian blue tablets will "
+#~ "help speed the process."
+#~ msgstr ""
+#~ "A pesar de ser relativamente raro, algunas áreas del mundo pueden estar "
+#~ "contaminadas con radiación. La radiación se irá acumulando en tu cuerpo "
+#~ "gradualmente, debilitándote cada vez más. Mientras que en áreas libre de "
+#~ "radiación, tu nivel de radiación irá disminuyendo lentamente. Las "
+#~ "tabletas de azul de Prusia acelerarán esa disminución."
+
+#~ msgid "Unload what?"
+#~ msgstr "¿Qué querés descargar?"
+
+#~ msgid ""
+#~ "Your %s does not need to be reloaded, it reloads and fires in a single "
+#~ "motion."
+#~ msgstr ""
+#~ "Tu %s no necesita ser recargado/a, se recarga y dispara en un solo "
+#~ "movimiento."
+
+#~ msgid "Disassemble everything"
+#~ msgstr "Desarmar todo"
+
+#~ msgid "Disassemble everything once"
+#~ msgstr "Desarmar todo una sola vez"
+
+#~ msgid "Butcher everything"
+#~ msgstr "Carnear todo"
+
+#~ msgid "You don't have the necessary tools to disassemble any items here."
+#~ msgstr "No tenés las herramientas necesarias para desarmar un objeto acá."
+
+#~ msgid "You're lying in fire!"
+#~ msgstr "¡Estás tirado en el fuego!"
+
+#~ msgid "You're surrounded by raging fire!"
+#~ msgstr "¡Estás rodeado por un fuego arrasador!"
+
+#~ msgid "You're waist-deep in a fire!"
+#~ msgstr "¡Estás en un fuego que te llega a la cintura!"
+
+#~ msgid "You're standing in a fire!"
+#~ msgstr "¡Estás parado arriba de un fuego!"
+
+#~ msgid "slow"
+#~ msgstr "lento"
+
+#~ msgid "Impossible"
+#~ msgstr "Imposible"
+
+#~ msgid "The %s cannot be disassembled!"
+#~ msgstr "¡El/a %s no puede ser desarmado!"
+
+#~ msgid "You need a %s with %d charge to disassemble %s."
+#~ msgid_plural "You need a %s with %d charges to disassemble %s."
+#~ msgstr[0] "Necesitás un/a %s con %d carga para desarmar el/a %s."
+#~ msgstr[1] "Necesitás un/a %s con %d cargas para desarmar el/a %s."
+
+#~ msgid "You need a %s to disassemble %s."
+#~ msgstr "Necesitás un/a %s para desarmar el/a %s."
+
+#~ msgid "To disassemble %s, you need %s"
+#~ msgstr "Para desarmar el/a %s, necesitás un/a %s"
+
+#~ msgid "You need at least %d charge of %s to disassemble it."
+#~ msgid_plural "You need at least %d charges of %s to disassemble it."
+#~ msgstr[0] "Necesitás por lo menos %d carga en %s para poder desarmarlo."
+#~ msgstr[1] "Necesitás por lo menos %d cargas en %s para poder desarmarlo."
+
+#~ msgid "m/s"
+#~ msgstr "m/s"
+
+#~ msgid "Legs"
+#~ msgstr "Piernas"
+
+#~ msgid "Feet"
+#~ msgstr "Pies"
+
+#~ msgid "Hands"
+#~ msgstr "Manos"
+
+#~ msgid "Arms"
+#~ msgstr "Brazos"
+
+#~ msgid ""
+#~ "You must remove the Anti-glare Compensators bionic to remove the Optical "
+#~ "Dampers."
+#~ msgstr ""
+#~ "Tenés que extraer el biónico de Compensadores Anti-reflejo para poder "
+#~ "extraer los Reguladores Ópticos."
+
+#~ msgid ""
+#~ "The Telescopic Lenses are part of your eyes now.  Removing them would "
+#~ "leave you blind."
+#~ msgstr ""
+#~ "Los Lentes Telescópicos ahora son parte de tus ojos. Quitarlos te dejará "
+#~ "ciego."
+
+#~ msgid "Wind Speed: %.1f %s."
+#~ msgstr "Velocidad del Viento: %.1f %s."
+
+#~ msgid "Potassium Iodide"
+#~ msgstr "Yoduro de Potasio"
+
+#~ msgid "Prussian Blue"
+#~ msgstr "Azul de Prusia"
+
+#~ msgid "Your %s ran out of charges"
+#~ msgstr "Tu %s se quedó sin cargas"
+
+#~ msgid "Repeat until success/failure/level up"
+#~ msgstr "Repetir hasta que se consiga/se falle/se mejore"
+
+#~ msgid "Repeat until fully repaired, but don't reinforce"
+#~ msgstr "Repetir hasta que esté reparado, pero no reforzar"
+
+#~ msgid "Repeat as long as you can"
+#~ msgstr "Repetir todas las veces que se pueda"
+
+#~ msgid "Repeat once"
+#~ msgstr "Repetir una vez"
+
+#~ msgid "Repeat repairing?"
+#~ msgstr "¿Querés repetir la reparación?"
+
+#~ msgid "You finish butchering the %s."
+#~ msgstr "Terminaste de carnear el %s."
+
+#~ msgid "You harvest some meat."
+#~ msgstr "Conseguís extraer un poco de carne."
+
+#~ msgid "Water Cart"
+#~ msgstr "Carro de Agua"
+
+#~ msgid "heavy pipe"
+#~ msgstr "caño reforzado"
+
+#~ msgid "chemical mixer"
+#~ msgstr "mezclador químico"
+
+#~ msgid "robotic assembler"
+#~ msgstr "ensamblador robótico"
+
+#~ msgid "power lathe"
+#~ msgstr "torno eléctrico"
+
+#~ msgid "hydraulic press"
+#~ msgstr "prensa hidráulica"
+
+#~ msgid "industrial drill"
+#~ msgstr "taladro industrial"
+
+#~ msgid "electro furnace"
+#~ msgstr "horno eléctrico"
+
+#~ msgid "stone rock"
+#~ msgstr "piedra roca"
+
+#~ msgid "empty metal window frame"
+#~ msgstr "marco de metal vacío de ventana"
+
+#~ msgid "reinforced glass with open shutters"
+#~ msgstr "vidrio reforzado con persiana abierta"
+
+#~ msgid "reinforced glass with closed shutters"
+#~ msgstr "vidrio reforzado con persiana cerrada"
+
+#~ msgid "white grass"
+#~ msgstr "pasto blanco"
+
+#~ msgid "Smash the Bots!"
+#~ msgstr "¡Destruyan a los robots!"
+
+#~ msgid "We want our old factory!"
+#~ msgstr "¡Queremos recuperar nuestra fábrica!"
+
+#~ msgid "Human labor"
+#~ msgstr "Trabajo humano"
+
+#~ msgid "Robots go home!"
+#~ msgstr "¡Que los robos se vuelvan a su lugar!"
+
+#~ msgid "Bring back our jobs!"
+#~ msgstr "¡Devuélvannos nuestros trabajos!"
+
+#~ msgid "robot labor=slave labor"
+#~ msgstr "trabajo robot=trabajo esclavo"
+
+#~ msgid "Robots stole my job!"
+#~ msgstr "¡Los robots se quedaron con mi trabajo!"
+
+#~ msgid "Strike!"
+#~ msgstr "¡Golpe!"
+
+#~ msgid "Real work for real people!"
+#~ msgstr "¡Es trabajo serio para gente seria!"
+
+#~ msgctxt "prof_desc_female"
+#~ msgid ""
+#~ "Ever since you were a child you loved hunting, and you soon took a liking "
+#~ "to the challenge of hunting with a crossbow.  Why, if the world ended "
+#~ "there's nothing you'd want at your side more than your trusty crossbow.  "
+#~ "So when it did, you made sure to bring it along."
+#~ msgstr ""
+#~ "Desde que eras chiquita te encantaba cazar, e inmediatamente te interesó "
+#~ "el desafío de cazar con una ballesta. Por eso, si el mundo termina no hay "
+#~ "otra cosa que quieras más tener con vos que tu fiel ballesta. Así que "
+#~ "cuando sucedió, te aseguraste de tenerlo encima."
+
+#~ msgctxt "profession_female"
+#~ msgid "Crossbow Hunter"
+#~ msgstr "Ballestera Cazadora"
+
+#~ msgctxt "prof_desc_male"
+#~ msgid ""
+#~ "Ever since you were a child you loved hunting, and you soon took a liking "
+#~ "to the challenge of hunting with a crossbow.  Why, if the world ended "
+#~ "there's nothing you'd want at your side more than your trusty crossbow.  "
+#~ "So when it did, you made sure to bring it along."
+#~ msgstr ""
+#~ "Desde que eras chiquito te encantaba cazar, e inmediatamente te interesó "
+#~ "el desafío de cazar con una ballesta. Por eso, si el mundo termina no hay "
+#~ "otra cosa que quieras más tener con vos que tu fiel ballesta. Así que "
+#~ "cuando sucedió, te aseguraste de tenerlo encima."
+
+#~ msgctxt "profession_male"
+#~ msgid "Crossbow Hunter"
+#~ msgstr "Ballestero Cazador"
+
+#~ msgid "attached garage"
+#~ msgstr "garage adjunto"
+
+#~ msgid "house roof"
+#~ msgstr "techo de casa"
+
+#~ msgid "house basement"
+#~ msgstr "sótano de casa"
+
+#~ msgid "gate"
+#~ msgstr "verja"
+
+#~ msgid "mine field"
+#~ msgstr "campo de minas"
+
+#~ msgid "factory"
+#~ msgstr "fábrica"
+
+#~ msgid "football field"
+#~ msgstr "cancha de fútbol americano"
+
+#~ msgid ""
+#~ "Dense gray fur has grown to cover your entire body, providing a marginal "
+#~ "protection against attacks, and considerable protection from cold."
+#~ msgstr ""
+#~ "Es un pelaje denso y gris te ha crecido y cubre todo tu cuerpo, lo que te "
+#~ "brinda una mínima protección contra los ataques, y una protección "
+#~ "considerable contra el frío."
+
+#~ msgid "Gray Fur"
+#~ msgstr "Pelaje Gris"
+
+#~ msgid "budget steel"
+#~ msgstr "acero berreta"
+
+#~ msgid "Toggle Pixel Minimap"
+#~ msgstr "Actviar/Desactivar Minimapa"
+
+#~ msgid "Saw down barrel"
+#~ msgstr "barril serruchado"
+
+#~ msgid "Repair cotton/leather/wool/Nomex/fur"
+#~ msgstr "Reparar algodón/cuero/lana/nomex/piel"
+
+#~ msgid "water heater"
+#~ msgstr "termotanque"
+
+#~ msgid "air conditioning unit"
+#~ msgstr "unidad de aire acondicionado"
+
+#~ msgid "furnace"
+#~ msgstr "horno industrial"
+
+#~ msgid "filing cabinet"
+#~ msgstr "fichero"
+
+#~ msgid ""
+#~ "These are hapless survivors who have been captured by raiders, slavers, "
+#~ "mutants, or worse.  Without your help, the remainder of their lives will "
+#~ "be short and gruesome."
+#~ msgstr ""
+#~ "Son desafortunados sobrevivientes que han sido capturados por piratas, "
+#~ "esclavistas, mutantes o algo peor.  Sin tu ayuda, lo que queda de sus "
+#~ "vidas será corto y espantoso."
+
+#~ msgid "Captives"
+#~ msgstr "Cautivos"
+
+#~ msgid "You dream of a strange quest for a bush that grows gray apples."
+#~ msgstr ""
+#~ "Soñás con una misión extraña en búsqueda de un arbusto del que crecen "
+#~ "manzanas grises."
+
+#~ msgid "Build Reinforced Glass Window"
+#~ msgstr "Construir Ventana de Vidrio Reforzado"
+
+#~ msgid "Telescopic Eyes"
+#~ msgstr "Ojos Telescópicos"
+
+#~ msgid ""
+#~ "The lenses installed over your eyes can be tinted to block out incoming "
+#~ "light."
+#~ msgstr ""
+#~ "Los lentes instalados sobre tus ojos pueden ser teñidos para bloquear "
+#~ "toda la luz entrante."
+
+#~ msgid "Optical Dampers"
+#~ msgstr "Reguladores Ópticos"
+
+#~ msgid ""
+#~ "This is a scroll, with odd writing and peculiar swirling symbols on it.  "
+#~ "Using it will warp the fabric of space, teleporting you at random.  The "
+#~ "trip is a bit nauseating, and you might be followed."
+#~ msgstr ""
+#~ "Este es un pergamino con unas escrituras extrañas y peculiares símbolos "
+#~ "arremolinados. Usarlo hará torcer el tejido del espacio, "
+#~ "teletransportándote aleatoriamente. El viaje es un poco nauseabundo y tal "
+#~ "vez algo te siga."
+
+#~ msgid ""
+#~ "Produced by the Light corporation, this stylish staff not only functions "
+#~ "as a light source, but doubles as a light-weight weapon, due to the "
+#~ "superalloy materials it is made of.  Due to proprietary efficiency "
+#~ "improvements over standard light sources, the l-stick or light stick as "
+#~ "it is commonly called, batteries last longer than other light sources.  "
+#~ "The staff is glowing brightly, which is slowly draining the batteries."
+#~ msgstr ""
+#~ "Producido por la empresa Light, este elegante palo no solo funciona como "
+#~ "fuente de luz, sino que también es un arma liviana debido a los "
+#~ "materiales de superaleación con los que está hecho. Dado sus mejoras de "
+#~ "eficiencia sobre las fuentes de luz comunes, el palo-L o palo luz como "
+#~ "también se lo llama, las baterías duran más que en otros aparatos. El "
+#~ "palo está brillando fuertemente, lo que hace que sus baterías se consuman."
+
+#~ msgid "The l-stick(tm)'s light fades away."
+#~ msgstr "El Palo-L(®) se apaga lentamente."
+
+#~ msgid ""
+#~ "This device replaces conventional battery connections with a rechargeable "
+#~ "power cell that runs off of a Unified Power System.  Having the UPS on or "
+#~ "placing a tool in a special recharging station will slowly charge it."
+#~ msgstr ""
+#~ "Este dispositivo reemplaza las conexiones convencionales de batería con "
+#~ "una celda recargable de energía que funciona con un UPS. Para cargar "
+#~ "lentamente una herramienta, hay que tener un UPS encendido o ponerla en "
+#~ "la estación de recarga."
+
+#~ msgid ""
+#~ "This is a hand held fire extinguisher containing a liter of highly "
+#~ "compressed C02 gas.  It would be useful for putting out adjacent fires."
+#~ msgstr ""
+#~ "Es un extintor portátil que contiene un litro de gas CO2 comprimido. Es "
+#~ "útil para apagar fuegos cercanos."
+
+#~ msgid ""
+#~ "This is a cordless battery-powered drill with a selection of drill bits."
+#~ msgstr ""
+#~ "Esto es un taladro sin cable, alimentado con baterías, con una variedad "
+#~ "de puntas para el taladro."
+
+#~ msgid ""
+#~ "This is a wooden needle whittled down to a sharp point.  It has a narrow "
+#~ "hole carved into the head for threading.  Its low quality makes it rather "
+#~ "unsuitable for anything requiring speed or precision."
+#~ msgstr ""
+#~ "Es una aguja de madera tallada con una punta filosa. Tiene un angosto "
+#~ "agujero hecho en la cabeza, para pasarle el hilo. Pero su baja calidad la "
+#~ "hace poco adecuada para trabajos que requieran velocidad o precisión."
+
+#~ msgid ""
+#~ "This is sharp needle made from a bone.  It would be useful for making "
+#~ "rough clothing and items.  Its low quality makes it rather unsuitable for "
+#~ "anything requiring speed or precision."
+#~ msgstr ""
+#~ "Es una aguja filosa hecha de hueso. Es útil para confeccionar simple ropa "
+#~ "y otros objetos. Pero su baja calidad la hace poco adecuada para trabajos "
+#~ "que requieran velocidad o precisión."
+
+#~ msgid ""
+#~ "This is a katana with a nozzle just behind the cutting edge of the "
+#~ "blade.  People love fire, and people love katanas, so why not put them "
+#~ "together?  The gas burners attached to this blade can really turn up the "
+#~ "heat on your foes.  Use to ignite."
+#~ msgstr ""
+#~ "Es una katana con una boquilla justo debajo de la punta de la cuchilla. A "
+#~ "la gente le encanta el fuego, y las katanas, así que ¿por qué no "
+#~ "juntarlos? Los quemadores de gas agregados a esta espada pueden hacer "
+#~ "entrar en calor a tus enemigos. Usala para encenderla."
+
+#~ msgid ""
+#~ "This is an emergency fire extinguisher containing three gallons of fire "
+#~ "retardant foam.  It would be useful for putting out adjacent fires."
+#~ msgstr ""
+#~ "Es un extintor de emergencia que contiene unos 12 litros de espuma "
+#~ "retardante de fuego. Es útil para apagar fuegos cercanos."
+
+#~ msgid "large fire extinguisher"
+#~ msgid_plural "large fire extinguishers"
+#~ msgstr[0] "extintor grande"
+#~ msgstr[1] "extintores grandes"
+
+#~ msgid ""
+#~ "A homemade collapsible telescope.  Too large and inaccurate to use as a "
+#~ "weapon scope, but carrying this item in your inventory will double the "
+#~ "distance that is mapped around you during your travels."
+#~ msgstr ""
+#~ "Es un telescopio casero y plegable. Es demasiado largo y poco preciso "
+#~ "para usarlo como mira para un arma, pero tener este objeto en tu "
+#~ "inventario duplica la distancia que ves en el mapa."
+
+#~ msgid ""
+#~ "This is a classic medieval sword, just the right size to use one-handed.  "
+#~ "This one doesn't seem to have been made right."
+#~ msgstr ""
+#~ "Es una clásica espada medieval, del tamaño justo para ser usada con una "
+#~ "sola mano. Esta en particular no parece estar bien hecha."
+
+#~ msgid ""
+#~ "This is a classic medieval sword, in between the lighter arming sword and "
+#~ "later two-handed swords in size.  You feel like the pommel could just "
+#~ "snap off if you used it."
+#~ msgstr ""
+#~ "Es una clásica espada medieval, de un tamaño medio entre la espada de "
+#~ "caballero que es más liviana, y las espadas de dos manos. Aunque te "
+#~ "parece que el pomo se podría salir en cualquier momento si la usás."
+
+#~ msgid ""
+#~ "This is a curved sword associated with various middle eastern and central "
+#~ "asian countries.  This one seems oddly dull and worn."
+#~ msgstr ""
+#~ "Esta es una espada curvada, asociada a varios países de Medio Oriente y "
+#~ "de Asia Central. Esta en particular parece no tener filo y estar gastada."
+
+#~ msgid ""
+#~ "This is an ancient Chinese doubled-edged straight sword.  The sword is "
+#~ "quite worn, and bent at an odd angle."
+#~ msgstr ""
+#~ "Esta es una antigua espada china recta de doble filo. La espada está "
+#~ "bastante gastada y torcida en un ángulo extraño."
+
+#~ msgid ""
+#~ "This is a huge axe designed for warfare.  You notice that the axe heads "
+#~ "aren't seated properly at all."
+#~ msgstr ""
+#~ "Es una enorme hacha diseñada para la guerra. Aunque te das cuenta de que "
+#~ "la cabeza del hacha no está bien asentada."
+
+#~ msgid ""
+#~ "This is a comparatively-common Japanese short sword.  There's something "
+#~ "not quite right about this sword."
+#~ msgstr ""
+#~ "Esta es una relativamente común espada corta japonesa. Aunque hay algo "
+#~ "que no está bien en esta espada."
+
+#~ msgid ""
+#~ "This is a huge two-handed sword from Germany.  You're not quite sure it's "
+#~ "supposed to be that bendy."
+#~ msgstr ""
+#~ "Es una enorme espada de dos manos alemana. Aunque no estás muy seguro de "
+#~ "que tenga que ser así de flexible."
+
+#~ msgid ""
+#~ "This is a rare sword from Japan.  While it's got the right edge and "
+#~ "weight, the pommel just snaps off, and the blade seems pretty worn."
+#~ msgstr ""
+#~ "Es una extraña espada japonesa. Aunque tiene un filo y un peso adecuados, "
+#~ "el pomo se sale y la cuchilla parece bastante gastada."
+
+#~ msgid ""
+#~ "This is a broad saber known for its use by sailors and pirates.  This "
+#~ "sword appears to be made very poorly, but it should still stand up to a "
+#~ "few swings."
+#~ msgstr ""
+#~ "Es un sable ancho conocido por ser usado por marineros y piratas. Esta "
+#~ "espada parece estar muy mal hecha pero igual se debe bancar un par de "
+#~ "golpes."
+
+#~ msgid ""
+#~ "This is an early modern sword seeing use in the 16th, 17th, and 18th "
+#~ "centuries.  This sword appears to be made very poorly, but it should "
+#~ "still stand up to a few swings."
+#~ msgstr ""
+#~ "Es una espada de principios de la edad moderna, usada en los siglos XVI, "
+#~ "XVII y XVIII. Esta espada parece estar muy mal hecha pero igual se debe "
+#~ "bancar un par de golpes."
+
+#~ msgid ""
+#~ "The robe's fabric returns to its normal gray color, dispeling the "
+#~ "illusion."
+#~ msgstr ""
+#~ "La tela de la túnica vuelve a su color gris normal, disipando la ilusión."
+
+#~ msgid ""
+#~ "A loose-fitting robe of some sort, heavily altered and decorated with "
+#~ "patches of fur, dyed in a simple dark gray.  Using it will grant "
+#~ "invisibility, draining essence quickly."
+#~ msgstr ""
+#~ "Es una túnica suelta de alguna clase, muy modificada y decorada con "
+#~ "pedazos de piel, teñida de un gris oscuro. Usarla te hará invisible, "
+#~ "consumiendo esencia rápidamente."
+
+#~ msgid ""
+#~ "A mask faced with iron and decorated with copper, depicting the face of "
+#~ "some unknown divine figure.  Fueling it with consecrated essence will "
+#~ "grant the wearer clairvoyance within a limited range, in exchange for "
+#~ "blindness."
+#~ msgstr ""
+#~ "Es una máscara recubierta con hierro y decorada con cobre, que representa "
+#~ "la cara de alguna figura divina desconocida. Alimentándola con esencia "
+#~ "consagrada le dará clarividencia a quien la utilice, dentro de un rango "
+#~ "limitado, a cambio de ceguera."
+
+#~ msgid ""
+#~ "A pair of optics with a neck strap attached.  Useful for seeing long "
+#~ "distances.  Simply carrying or wearing this item in your inventory will "
+#~ "double the distance that is mapped around you during your travels.  You "
+#~ "could also use them to focus the sunlight."
+#~ msgstr ""
+#~ "Son un par de ópticas con una correa para el colgar del cuello. Es útil "
+#~ "para observar a grandes distancias. Con solo llevarlo en el inventario o "
+#~ "tenerlo puesto, este objeto duplica la distancia que ves en el mapa a tu "
+#~ "alrededor. También los podés usar para focalizar la luz del sol."
+
+#~ msgid ""
+#~ "This swollen, gooey looking mutant child looks bad, even for a zombie.  "
+#~ "Maybe that's why it seems to want a hug so badly."
+#~ msgstr ""
+#~ "Este niño mutante, hinchado y viscoso parece estar en mal estado... "
+#~ "incluso para un zombi. Quizás sea por eso que parece necesitar tanto un "
+#~ "abrazo."
+
+#~ msgid "snotgobbler"
+#~ msgid_plural "snotgobblers"
+#~ msgstr[0] "mocoso"
+#~ msgstr[1] "mocosos"
+
+#~ msgid ""
+#~ "What was once a child is now a mutant beast with blackened skin and "
+#~ "massive eyes.  This abomination's vile form makes mockery of its human "
+#~ "origin."
+#~ msgstr ""
+#~ "Lo que alguna vez fue un pibe, ahora es una bestia mutada con la piel "
+#~ "ennegrecida y ojos enormes. La vil forma de esta abominación se burla de "
+#~ "sus orígenes humanos."
+
+#~ msgid "creepy crawler"
+#~ msgid_plural "creepy crawlers"
+#~ msgstr[0] "sabandija"
+#~ msgstr[1] "sabandijas"
+
+#~ msgid ""
+#~ "This heavily mutated child zombie twitches and flails its limbs in "
+#~ "painful looking spasms as it runs about."
+#~ msgstr ""
+#~ "Este zombi pibe ha sufrido varias mutaciones, retuerce y sacude sus "
+#~ "miembros con espasmos dolorosos mientras va corriendo."
+
+#~ msgid "shriekling"
+#~ msgid_plural "shrieklings"
+#~ msgstr[0] "pendejo aullador"
+#~ msgstr[1] "pendejos aulladores"
+
+#~ msgid ""
+#~ "This crouching child-mutant's face is dominated by a pair of huge black "
+#~ "eyes and its fingertips end in sharp claws."
+#~ msgstr ""
+#~ "La cara de este niño mutante encorvado está dominada por un par de ojos "
+#~ "negros enormes, y sus dedos terminan en unas garras filosas."
+
+#~ msgid "sproglodyte"
+#~ msgid_plural "sproglodytes"
+#~ msgstr[0] "vastaglodita"
+#~ msgstr[1] "vastagloditas"
+
+#~ msgid ""
+#~ "Undeath has not been kind to the children of the apocalypse.  This one is "
+#~ "little more than a reanimated membrane of skin stretched across tiny "
+#~ "brittle bones."
+#~ msgstr ""
+#~ "Esta muerte viviente no ha sido nada generosa con los niños del "
+#~ "apocalipsis. Este es poco más que una membrana de piel reanimada estirada "
+#~ "por los pequeños y frágiles huesos."
+
+#~ msgid "howling waif"
+#~ msgid_plural "howling waifs"
+#~ msgstr[0] "huérfano aullante"
+#~ msgstr[1] "huérfanos aullantes"
+
+#~ msgid ""
+#~ "This horrifying little mutated wretch looks to have once been a child, "
+#~ "but its massive gaping jaws are now far more suggestive of a predatory "
+#~ "beast."
+#~ msgstr ""
+#~ "Este horroroso y despreciable pequeño mutado parece haber sido un niño "
+#~ "alguna vez, pero sus inmensas mandíbulas ahora son más propias de una "
+#~ "bestia depredadora."
+
+#~ msgid "anklebiter"
+#~ msgid_plural "anklebiters"
+#~ msgstr[0] "pendejo"
+#~ msgstr[1] "pendejos"
+
+#~ msgid ""
+#~ "An uncanny shadow envelops this creature, as if light itself were too "
+#~ "repulsed to touch it.  All you can make out is its shambling, human "
+#~ "shaped outline."
+#~ msgstr ""
+#~ "Una extraña sombra envuelve a esta criatura, como si la misma luz evitara "
+#~ "tocarla. Todo lo que ves es una silueta humana desordenada."
+
+#~ msgid "shady zombie"
+#~ msgid_plural "shady zombies"
+#~ msgstr[0] "zombi sombrío"
+#~ msgstr[1] "zombis sombríos"
+
+#~ msgid ""
+#~ "Adds new Z-level buildings and dungeons. Still unpolished. Before "
+#~ "generating a world, you can remove subfolders to nix unwanted locations."
+#~ msgstr ""
+#~ "Agrega nuevos edificios con niveles Z y calabozos. Todavía está sin "
+#~ "pulir. Antes de generar el mundo, podés quitar borrar los subdirectorios "
+#~ "para evitar los lugares que no querés."
+
+#~ msgid "More Locations"
+#~ msgstr "Más Lugares"
+
+#~ msgid ""
+#~ "The child of the M1 Garand World War 2 rifle, the M1A is a semi-automatic "
+#~ "variant of the M14, favored for its accuracy and modular use."
+#~ msgstr ""
+#~ "Es el descendiente del M1 Garand de la Segunda Guerra Mundial. El M1A es "
+#~ "una variante semiautomática del M14, reconocido por su precisión y uso "
+#~ "modular."
+
+#~ msgid "M1A"
+#~ msgid_plural "M1A"
+#~ msgstr[0] "M1A"
+#~ msgstr[1] "M1A"
+
+#~ msgid ""
+#~ "A shortened barrel results in markedly reduced accuracy, and a minor "
+#~ "increase in noise, but also greatly improves the ease with which the "
+#~ "weapon can be carried and wielded."
+#~ msgstr ""
+#~ "Un cañón recortado reduce marcadamente la precisión, y un pequeño aumento "
+#~ "del ruido, pero también mejora mucho la facilidad de llevar y empuñar el "
+#~ "arma."
+
+#~ msgid ""
+#~ "This is a dull, cheaply-made replica of the classic medieval longsword.  "
+#~ "It requires a larger baldric or scabbard, compared to smaller swords."
+#~ msgstr ""
+#~ "Es una réplica berreta de la clásica espada larga medieval. Necesita un "
+#~ "gran tahalí o una vaina, a diferencia de otras espadas más chicas."
+
+#~ msgid ""
+#~ "An Unified Power System recharging station designed to operate on vehicle "
+#~ "power.  Once installed in a vehicle storage space and turned on from "
+#~ "vehicle controls, it will slowly charge all tools with rechargeable "
+#~ "batteries in that space.  The system can only be installed in existing "
+#~ "storage compartments."
+#~ msgstr ""
+#~ "Es una estación de recarga UPS, diseñada para funcionar con la energía de "
+#~ "un vehículo. Una vez instalada en el lugar de almacenamiento del vehículo "
+#~ "y encendida desde los controles del vehículo, irá cargando lentamente "
+#~ "todas las herramientas con baterías recargables que estén en ese lugar. "
+#~ "Este sistema solo puede ser instalado en un compartimiento de "
+#~ "almacenamiento."
+
+#~ msgid "UPS-compatible recharging station"
+#~ msgid_plural "UPS-compatible recharging stations"
+#~ msgstr[0] "estación de recarga compatible UPS"
+#~ msgstr[1] "estaciones de recarga compatible UPS"
+
+#~ msgid ""
+#~ "A large storage battery.  Could be installed into a storage battery case "
+#~ "for easy removal from a vehicle, or just welded straight in."
+#~ msgstr ""
+#~ "Una batería grande de almacenamiento. Puede ser instalada en una caja "
+#~ "para baterías de almacenamiento para que sea más fácil desmontarla del "
+#~ "vehículo, o si no puede ser soldada."
+
+#~ msgid ""
+#~ "A hand crank powered cast aluminum machine designed to automatically seal "
+#~ "tin cans."
+#~ msgstr ""
+#~ "Es una máquina de aluminio que se usa con una manija manual y está "
+#~ "diseñada para sellar latas de estaño automáticamente."
+
+#~ msgid "can sealer"
+#~ msgid_plural "can sealers"
+#~ msgstr[0] "enlatadora"
+#~ msgstr[1] "enlatadoras"
+
+#~ msgid ""
+#~ "An improvised weapon, made from two spikes attached to a bowling pin in "
+#~ "the shape of a 'T'."
+#~ msgstr ""
+#~ "Es una arma improvisada hecha con dos puntas adheridas a un pino de "
+#~ "bowling formando una 'T'. Llamado así por los pinos 7 y 10 que son los de "
+#~ "las puntas."
+
+#~ msgid ""
+#~ "A small tent, just big enough to fit a person comfortably.  This tent is "
+#~ "broken and cannot be deployed."
+#~ msgstr ""
+#~ "Una pequeña carpa, donde entra cómodamente una sola persona. Esta carpa "
+#~ "está rota y no puede ser armada."
+
+#~ msgid "A splintered piece of wood, useless as anything but kindling."
+#~ msgstr "Un pedazo de madera astillada, que sólo sirve como leña."
+
+#~ msgid ""
+#~ "A large log, cut from a tree.  (a)ctivate a wood axe or wood saw to cut "
+#~ "it into planks."
+#~ msgstr ""
+#~ "Un tronco largo, cortado de un árbol. (a)ctivá un hacha de madera o "
+#~ "sierra de madera para cortarlo en tablas."
+
+#~ msgid "A six-foot long piece of rope.  Too small to be of much use."
+#~ msgstr ""
+#~ "Es un pedazo de cuerda de nailon de 1,80 metros. Su tamaño no la hace muy "
+#~ "útil, pero sirve para algunas cosas."
+
+#~ msgid ""
+#~ "A little metal tank for holding gas or liquids.  Useful for crafting."
+#~ msgstr ""
+#~ "Un tanque pequeño de metal que puede llevar líquidos o gas. Se usa para "
+#~ "fabricar otras cosas."
+
+#~ msgid "A small metal tank for holding gas or liquids.  Useful for crafting."
+#~ msgstr ""
+#~ "Un tanque chico de metal que puede llevar líquidos o gas. Se usa para "
+#~ "fabricar otras cosas."
+
+#~ msgid ""
+#~ "A strange reddish liquid that gives off a sweet smell.  The elixir of "
+#~ "life, or merely a mimicry?  Drinking this will cure a number of things, "
+#~ "but can't mend existing damage. It can heal bleeding, cleanse wounds, "
+#~ "stave off infection, and purge a handful of mundane diseases."
+#~ msgstr ""
+#~ "Es un extraño líquido rojizo que expele un aroma dulce. ¿El elíxir de la "
+#~ "vida, o meramente una imitación? Si te tomás esto te vas a curar varias "
+#~ "cosas, pero no podés reparar el daño existente. Puede frenar el sangrado, "
+#~ "limpiar heridas, prevenir infecciones y purgar un puñado de enfermedades "
+#~ "comunes."
+
+#~ msgid ""
+#~ "A strange white liquid with a scent that makes your nose itch.  The "
+#~ "second step towards creating the elixer of life, allegedly.  Drinking "
+#~ "this will strengthen the body, at the cost of minor pain and other side "
+#~ "effects."
+#~ msgstr ""
+#~ "Es un extraño líquido blanco con un olor que te hace picar la nariz. "
+#~ "Presuntamente, el segundo paso hacia la creación del elíxir de la vida. "
+#~ "Si tomás esto, vas a fortalecer el cuerpo, pero con un poco de dolor y "
+#~ "otros efectos secundarios."
+
+#~ msgid ""
+#~ "A strange black liquid that smells like death itself.  The first step "
+#~ "towards creating the elixer of life, allegedly.  Drinking this will numb "
+#~ "the body greatly, but leave you a bit sluggish."
+#~ msgstr ""
+#~ "Es un extraño líquido negro que tiene el olor a la muerte misma. "
+#~ "Presuntamente, el primer paso hacia la creación del elíxir de la vida. Si "
+#~ "tomás esto se te va a adormecer mucho el cuerpo, pero te va a dejar un "
+#~ "poco atontado."
+
+#~ msgid ""
+#~ "Smooth and rich, this spoon-coating mixture of milk, cream, eggs, and "
+#~ "booze is a popular traditional holiday drink.  Having been fortified with "
+#~ "alcohol, it will keep for a long time."
+#~ msgstr ""
+#~ "Suave y sabroso, esta mezcla de leche, crema, huevos y alcohol es una "
+#~ "bebida tradicional de las fiestas. Al haber sido fortificada con alcohol, "
+#~ "se conservará por más tiempo."
+
+#~ msgid "spiked eggnog"
+#~ msgid_plural "spiked eggnogs"
+#~ msgstr[0] "candeal con alcohol"
+#~ msgstr[1] "candeales con alcohol"
+
+#~ msgid ""
+#~ "Smooth and rich, this spoon-coating mix of milk, cream, and eggs is a "
+#~ "popular traditional holiday drink.  While often spiked, it is still "
+#~ "delicious on its own.  Meant to be stored cold, it will spoil rapidly."
+#~ msgstr ""
+#~ "Suave y sabroso, esta mezcla de leche, crema y huevos es una bebida "
+#~ "tradicional de las fiestas. Aunque a menudo se le agrega alcohol, igual "
+#~ "es sabrosa así nomás. Debe ser mantenida fresca porque se pudre rápido."
+
+#~ msgid "eggnog"
+#~ msgid_plural "eggnogs"
+#~ msgstr[0] "candeal"
+#~ msgstr[1] "candeales"
+
+#~ msgid "A debug item that lets you put NPCs (or yourself) to sleep."
+#~ msgstr ""
+#~ "Es un objeto debug que te permite dormir a los PNJs (o a vos mismo)."
+
+#~ msgid "chloroform soaked rag"
+#~ msgid_plural "chloroform soaked rags"
+#~ msgstr[0] "trapo empapado con cloroformo"
+#~ msgstr[1] "trapos empapados con cloroformo"
+
+#~ msgid "sunflower"
+#~ msgstr "girasol"
+
+#~ msgid "Some raw sunflower seeds.  Could be pressed into oil."
+#~ msgstr ""
+#~ "Son unas semillas crudas de girasol. Pueden ser exprimidas para hacer "
+#~ "aceite."
+
+#~ msgid "sunflower seed"
+#~ msgid_plural "sunflower seeds"
+#~ msgstr[0] "semilla de girasol"
+#~ msgstr[1] "semillas de girasol"
+
+#~ msgid "Some raw pumpkin seeds.  Could be fried and eaten or planted."
+#~ msgstr ""
+#~ "Son unas semillas crudas de calabaza. Pueden ser fritas y comidas o se "
+#~ "pueden plantar."
+
+#~ msgid "pumpkin seed"
+#~ msgid_plural "pumpkin seeds"
+#~ msgstr[0] "semilla de calabaza"
+#~ msgstr[1] "semillas de calabaza"
+
+#~ msgid "A traditional south Asian mixed-spice tea with milk."
+#~ msgstr "Es una mezcla tradicional del sur asiático, de leche y té."
+
+#~ msgid "chai tea"
+#~ msgid_plural "chai teas"
+#~ msgstr[0] "té chai"
+#~ msgstr[1] "tés chai"
+
+#~ msgid ""
+#~ "A carefully folded raw skin harvested from a fur-bearing unnatural "
+#~ "creature.  It still has the fur attached and is poisonous.  You can cure "
+#~ "it for storage and tanning."
+#~ msgstr ""
+#~ "Es un pelaje crudo cuidadosamente doblado de un criatura no natural con "
+#~ "piel. Todavía tiene la piel pegada y es venenoso. La podés curar para "
+#~ "almacenarla y para curtirla."
+
+#~ msgid "tainted pelt"
+#~ msgid_plural "tainted pelts"
+#~ msgstr[0] "pelaje contaminado"
+#~ msgstr[1] "pelajes contaminados"
+
+#~ msgid ""
+#~ "A carefully folded poisonous raw skin harvested from an unnatural "
+#~ "creature.  You can cure it for storage and tanning."
+#~ msgstr ""
+#~ "Es un pellejo crudo y venenoso de una criatura no natural, cuidadosamente "
+#~ "doblado. Lo podés curar para almacenarlo y para curtirlo."
+
+#~ msgid "tainted hide"
+#~ msgid_plural "tainted hides"
+#~ msgstr[0] "pellejo contaminado"
+#~ msgstr[1] "pellejos contaminados"
+
+#~ msgid ""
+#~ "An irradiated cucumber will remain edible nearly forever.  Sterilized "
+#~ "using radiation, so it's safe to eat."
+#~ msgstr ""
+#~ "Un pepino irradiado se va a mantener apto para comer casi para siempre. "
+#~ "Está esterilizado con radiación, así que es seguro comerlo."
+
+#~ msgid ""
+#~ "A strong benzodiazepine drug used to treat muscle spasms, anxiety, "
+#~ "seizures, and panic attacks."
+#~ msgstr ""
+#~ "Una poderosa droga benzodiazepina utilizada para tratar los espasmos "
+#~ "musculares, la ansiedad, las convulsiones y los ataques de pánico."
+
+#~ msgid ""
+#~ "Dehydrated fruit flakes.  With proper storage, this dried food will "
+#~ "remain edible for an incredibly long time.  They are useful for several "
+#~ "cooking recipes."
+#~ msgstr ""
+#~ "Trozos de fruta deshidratada. Si se la guarda adecuadamente, esta comida "
+#~ "desecada puede durar por muchísimo tiempo. Son útiles para varias recetas."
+
+#~ msgid ""
+#~ "A thick and tasty beverage made from pure refined human protein and "
+#~ "nutritious fruit."
+#~ msgstr ""
+#~ "Es una bebida sabrosa y espesa hecha con proteína humana refinada y "
+#~ "alguna fruta nutritiva."
+
+#~ msgid "soylent green shake"
+#~ msgid_plural "soylent green shakes"
+#~ msgstr[0] "licuado de soylent verde"
+#~ msgstr[1] "licuados de soylent verde"
+
+#~ msgid ""
+#~ "A thin slurry of refined human protein mixed with water.  While quite "
+#~ "nutritious, it is not particularly tasty."
+#~ msgstr ""
+#~ "Es un líquido espeso hecho de proteína humana refinada mezclada con agua. "
+#~ "Aunque es bastante nutritivo, no es sabroso."
+
+#~ msgid "soylent green"
+#~ msgid_plural "soylent green drinks"
+#~ msgstr[0] "bebida de soylent verde"
+#~ msgstr[1] "bebidas de soylent verde"
+
+#~ msgid ""
+#~ "Raw, refined protein made out of people!  While quite nutritious, it is "
+#~ "difficult to enjoy in its pure form."
+#~ msgstr ""
+#~ "Es proteína refinada y cruda ¡hecha con humanos! Aunque es bastante "
+#~ "nutritiva, es difícil disfrutarla así en este estado."
+
+#~ msgid "soylent green powder"
+#~ msgid_plural "servings of soylent green powder"
+#~ msgstr[0] "soylent verde en polvo"
+#~ msgstr[1] "raciones de soylent verde en polvo"
+
+#~ msgid ""
+#~ "A traditional Mexican dish composed of a corn tortilla folded or rolled "
+#~ "around a meat filling."
+#~ msgstr ""
+#~ "Es una comida tradicional mexicana que consiste en una tortilla de maíz "
+#~ "doblada o arrollada con un relleno de carne."
+
+#~ msgid ""
+#~ "Tablets containing oxidized ferrous ferrocyanide salts.  Capable of "
+#~ "purging nuclear contaminants from the body if taken after radiation "
+#~ "exposure."
+#~ msgstr ""
+#~ "Son pastillas con sales ferrocianuras ferrosas oxidadas. Son capaces de "
+#~ "purgar del cuerpo los contaminantes nucleares si son tomadas luego de la "
+#~ "exposición a la radiación."
+
+#~ msgid "You take some Prussian blue."
+#~ msgstr "Te tomás un comprimido de azul de Prusia."
+
+#~ msgid "Prussian blue tablet"
+#~ msgid_plural "Prussian blue tablets"
+#~ msgstr[0] "comprimido de azul de Prusia"
+#~ msgstr[1] "comprimidos de azul de Prusia"
+
+#~ msgid ""
+#~ "Potassium iodide tablets.  If taken prior to exposure, they help to "
+#~ "mitigate injury caused by radiation absorption."
+#~ msgstr ""
+#~ "Son pastillas de yoduro de potasio. Si las tomás antes de estar expuesto "
+#~ "a la radiación, te pueden ayudar a mitigar el daño y la absorción."
+
+#~ msgid "You take some potassium iodide."
+#~ msgstr "Te tomás un comprimido de yoduro de potasio."
+
+#~ msgid "potassium iodide tablet"
+#~ msgid_plural "potassium iodide tablets"
+#~ msgstr[0] "comprimido de yoduro de potasio"
+#~ msgstr[1] "comprimidos de yoduro de potasio"
+
+#~ msgid "Spaghetti, with a generous helping of pesto on top.  Yum!"
+#~ msgstr "Espagueti con una generosa porción de pesto encima. ¡Rico!"
+
+#~ msgid ""
+#~ "Spaghetti covered with a thick human flesh sauce.  Tastes great if you "
+#~ "enjoy that kind of thing."
+#~ msgstr ""
+#~ "Espagueti recubierto con abundante tuco hecho con carne humana. Tiene "
+#~ "buen sabor, si es que te gustan estas cosas."
+
+#~ msgid "Spaghetti covered with a thick meat sauce.  Yum!"
+#~ msgstr "Espagueti recubierto con abundante tuco. ¡Rico!"
+
+#~ msgid ""
+#~ "Human flesh slices cured in brine and vacuum-packed.  Salty but tasty in "
+#~ "a pinch."
+#~ msgstr ""
+#~ "Fetas de carne humana curadas en escabeche y cerradas al vacío. Saldas "
+#~ "pero sabrosas cuando hay hambre."
+
+#~ msgid ""
+#~ "Meat slices cured in brine and vacuum-packed.  Salty but tasty in a pinch."
+#~ msgstr ""
+#~ "Fetas de carne curadas en escabeche y cerradas al vacío. Saldas pero "
+#~ "sabrosas cuando hay hambre."
+
+#~ msgid ""
+#~ "Low-sodium preserved human meat.  It was boiled and canned.  Contains all "
+#~ "of the nutrition, but little of the savor of cooked meat."
+#~ msgstr ""
+#~ "Carne humana preservada con bajo sodio. Fue hervida y enlatada. Contiene "
+#~ "todo el valor nutritivo, pero muy poco del sabor de la carne cocinada."
+
+#~ msgid ""
+#~ "This sodden mass of preserved fruit was boiled and canned in an earlier "
+#~ "life.  Bland, mushy and losing color."
+#~ msgstr ""
+#~ "Esta empapada masa de fruta en conserva, ha sido hervida y enlatada en "
+#~ "una vida anterior. Insulsa, floja y decolorándose."
+
+#~ msgid ""
+#~ "Low-sodium preserved meat.  It was boiled and canned.  Contains all of "
+#~ "the nutrition, but little of the savor of cooked meat."
+#~ msgstr ""
+#~ "Carne preservada con bajo sodio. Fue hervida y enlatada. Contiene todo el "
+#~ "valor nutritivo, pero muy poco del sabor de la carne cocinada."
+
+#~ msgid "Slices of bread dipped in a milk and egg mixture then fried."
+#~ msgstr ""
+#~ "Son rebanadas de pan mojadas en una mezcla de leche y huevo y luego "
+#~ "fritas."
+
+#~ msgid "French toast"
+#~ msgid_plural "French toasts"
+#~ msgstr[0] "tostada francesa"
+#~ msgstr[1] "tostadas francesas"
+
+#~ msgid "A round, thin flatbread made from finely ground corn flour."
+#~ msgstr ""
+#~ "Es una masa plana y redonda hecha de harina de maíz finamente molida."
+
+#~ msgid "corn tortilla"
+#~ msgid_plural "corn tortillas"
+#~ msgstr[0] "tortilla de maíz"
+#~ msgstr[1] "tortillas de maíz"
+
+#~ msgid ""
+#~ "This is a simple dish made by cooking the pumpkin pulp and then mashing."
+#~ msgstr ""
+#~ "Esto es una comida muy simple que se hace cocinando la pulpa de la "
+#~ "calabaza y luego se la aplasta."
+
+#~ msgid "mashed pumpkin"
+#~ msgid_plural "mashed pumpkins"
+#~ msgstr[0] "puré de calabaza"
+#~ msgstr[1] "puré de calabaza"
+
+#~ msgid ""
+#~ "An irradiated pumpkin will remain edible nearly forever.  Sterilized "
+#~ "using radiation, so it's safe to eat."
+#~ msgstr ""
+#~ "Una calabaza irradiada se va a mantener apta para comer casi para "
+#~ "siempre. Está esterilizada con radiación, así que es seguro comerla."
+
+#~ msgid "irradiated pumpkin"
+#~ msgid_plural "irradiated pumpkins"
+#~ msgstr[0] "calabaza irradiada"
+#~ msgstr[1] "calabazas irradiadas"
+
+#~ msgid ""
+#~ "A large vegetable, about the size of your head.  Not very tasty raw, but "
+#~ "is great for cooking."
+#~ msgstr ""
+#~ "Es una verdura grande, más o menos del tamaño de tu cabeza. No es muy "
+#~ "rica así cruda, pero está buenísima para cocinar."
+
+#~ msgid "pumpkin"
+#~ msgid_plural "pumpkins"
+#~ msgstr[0] "calabaza"
+#~ msgstr[1] "calabazas"
+
+#~ msgid "Ground cinnamon bark with a sweet but slightly spicy aroma."
+#~ msgstr "Es canela molida en rama con un aroma dulce y un poquito picante."
+
+#~ msgid "cinnamon"
+#~ msgid_plural "cinnamon"
+#~ msgstr[0] "canela"
+#~ msgstr[1] "canela"
+
+#~ msgid ""
+#~ "Humans might call this a Gray Delicious apple: large, gray, and smells "
+#~ "even better than the Marloss.  If they didn't reject it for its alien "
+#~ "origins.  But we know better."
+#~ msgstr ""
+#~ "Los humanos podrían llamar a esto la Deliciosa Manzana Gris: grande, gris "
+#~ "y huele mejor que el marloss, si no lo hubieran rechazado por su origen "
+#~ "extraterrestre. Pero nosotros tenemos la posta."
+
+#~ msgid "chocolate-covered pretzel"
+#~ msgid_plural "chocolate-covered pretzels"
+#~ msgstr[0] "pretzel con chocolate"
+#~ msgstr[1] "pretzels con chocolate"
+
+#~ msgid ""
+#~ "Salted corn chips, with human flesh.  Some cheese might make it even "
+#~ "better."
+#~ msgstr ""
+#~ "Nachos de maíz salados, con carne humana. Incluso, un poco de queso lo "
+#~ "haría mejor todavía."
+
+#~ msgid ""
+#~ "Some fried seeds of a sunflower, pumpkin or other plant.  Quite "
+#~ "nutritious and tasty."
+#~ msgstr ""
+#~ "Son unas semillas fritas de girasol, zapallo o alguna otra planta. "
+#~ "Bastante nutritivas y sabrosas."
+
+#~ msgid "fried seeds"
+#~ msgid_plural "fried seeds"
+#~ msgstr[0] "semillas fritas"
+#~ msgstr[1] "semillas fritas"
+
+#~ msgid "chunk of tainted meat"
+#~ msgid_plural "chunks of tainted meat"
+#~ msgstr[0] "pedazo de carne contaminada"
+#~ msgstr[1] "pedazos de carne contaminada"
+
+#~ msgid ""
+#~ "Fish fillets cured in brine and vacuum-packed.  Salty but tasty in a "
+#~ "pinch."
+#~ msgstr ""
+#~ "Son filetes de pescado curados en salmuera y cerrados al vacío. Son "
+#~ "salados pero sabrosos cuando hay hambre."
+
+#~ msgid ""
+#~ "Low-sodium preserved fish.  It was boiled and canned.  Contains all of "
+#~ "the nutrition, but little of the savor of cooked fish."
+#~ msgstr ""
+#~ "Pescado preservado con bajo sodio. Fue hervido y enlatado. Contiene todo "
+#~ "lo nutritivo del pescado cocinado, pero muy poco de su sabor."
+
+#~ msgid "Clear juice obtained by cooking fruit in a large volume of water."
+#~ msgstr ""
+#~ "Es un jugo transparente que se obtiene cocinando la fruta en mucha "
+#~ "cantidad de agua."
+
+#~ msgid ""
+#~ "Not very nutritious.  Warning: contains calories, unsuitable for "
+#~ "breatharians."
+#~ msgstr ""
+#~ "No son muy nutritivas que digamos. Advertencia: contiene calorías, "
+#~ "inapropiado para los respiracionistas."
+
+#~ msgid "diet pill"
+#~ msgid_plural "diet pills"
+#~ msgstr[0] "pastilla dietética"
+#~ msgstr[1] "pastillas dietéticas"
+
+#~ msgid ""
+#~ "This internal manual details several varieties of mutagenic experiments, "
+#~ "as well as describing the protocols used to concentrate mutagens for "
+#~ "quicker results.  The authors recommend that researchers ensure that "
+#~ "their subjects are well-fed and in good health, as the concentrated "
+#~ "serums draw heavily on subjects' bodies."
+#~ msgstr ""
+#~ "Este manual detalla diversas variedades de experimentos con mutágenos, "
+#~ "así como también describe los protocolos utilizados para concentrar "
+#~ "mutágenos para resultados más rápidos. Los autores recomiendan que los "
+#~ "investigadores aseguran que sus sujetos están bien alimentados y en buen "
+#~ "estado de salud, porque el suero concentrado dependen del cuerpo del "
+#~ "sujeto."
+
+#~ msgid ""
+#~ "Much of the material in your inner eye has been removed and replaced with "
+#~ "an array of high-powered, auto-focusing lenses.  You can now see much "
+#~ "farther and more clearer than before, any vision problems you might have "
+#~ "had are now gone."
+#~ msgstr ""
+#~ "La mayoría del material de tu ojo ha sido quitada y reemplazada con una "
+#~ "variedad de lentes de alta potencia y auto-enfoque. Ahora podés ver mucho "
+#~ "más lejos y más claro que antes, y los problemas en la vista que podrías "
+#~ "haber tenido han desaparecido."
+
+#~ msgid "Telescopic Eyes CBM"
+#~ msgid_plural "Telescopic Eyes CBMs"
+#~ msgstr[0] "MCB Ojos Telescópicos"
+#~ msgstr[1] "MCB Ojos Telescópicos"
+
+#~ msgid ""
+#~ "Your eyes have high-power, quick-reacting transition lenses installed "
+#~ "over them, negating any glare penalties and protecting you from bright "
+#~ "flashes including those of a welder.  Additionally you can toggle them to "
+#~ "block out all light."
+#~ msgstr ""
+#~ "Tus ojos tienen lentes de gran poder y transición de reacción rápida "
+#~ "instalados, lo que te hace negar las penalidades de los reflejos, y te "
+#~ "protege de los destellos brillantes, incluso los de una soldadora. "
+#~ "Además, las podés usar para bloquear toda la luz."
+
+#~ msgid ""
+#~ "Fake golden teeth, worn over the teeth.  Fits horribly, but looks very "
+#~ "shiny."
+#~ msgstr ""
+#~ "Dientes falsos de oro que se usan sobre los dientes verdaderos. Quedan "
+#~ "horribles, pero son muy brillantes."
+
+#~ msgid "Your optical cloak flickers as it becomes transparent."
+#~ msgstr "Tu capa óptica parpadea a medida que se va haciendo transparente."
+
+#~ msgid ""
+#~ "A leather scabbard, big enough for almost any sword.  Designed to be "
+#~ "strapped to the back and very difficult to draw from without considerable "
+#~ "practice.  Activate to sheath/draw a sword."
+#~ msgstr ""
+#~ "Es una vaina de cuero lo suficientemente grande para poner cualquier "
+#~ "espada. Diseñada para ser colgada en la espalda, pero es bastante difícil "
+#~ "de usar sin tener una práctica considerable. Hay que activarla para "
+#~ "enfundar y desenfundar la espada."
+
+#~ msgid ""
+#~ "A small concealed holster worn on the ankle.  It is awkward to use "
+#~ "without practice.  Activate to holster/draw a small pistol."
+#~ msgstr ""
+#~ "Es una pequeña funda que se oculta en el tobillo. Es difícil usarla si no "
+#~ "estás acostumbrado. Hay que activarla para enfundar o desenfundar la "
+#~ "pistola."
+
+#~ msgid ""
+#~ "A holster for larger sidearms.  Slightly more cumbersome than a standard "
+#~ "holster due to the straps that hold it flat against your leg, but has the "
+#~ "benefit of accommodating heavily modified handguns and small shoulder-"
+#~ "fired weapons.  Activate to holster/draw a gun."
+#~ msgstr ""
+#~ "Es una funda para armas grandes de mano. Es un poco más incómoda que una "
+#~ "funda normal debido a las correas que la mantienen contra la pierna, pero "
+#~ "tiene la ventaja de poder acomodar armas muy modificadas y pequeñas armas "
+#~ "largas. Hay que activarla para enfundar y desenfundar el arma."
+
+#~ msgid "XL holster"
+#~ msgid_plural "XL holsters"
+#~ msgstr[0] "funda XL de pistola"
+#~ msgstr[1] "fundas XL de pistola"
+
+#~ msgid ""
+#~ "A pair of arm guards made from leather, reinforced by bone.  Light and "
+#~ "strong."
+#~ msgstr ""
+#~ "Es un par de mangas hechas de cuero y reforzadas con hueso. Livianas y "
+#~ "resistentes."
+
+#~ msgid "pair of bone arm guards"
+#~ msgid_plural "pairs of bone arm guards"
+#~ msgstr[0] "par de mangas de hueso"
+#~ msgstr[1] "pares de mangas de hueso"
+
+#~ msgid "A pair of tough leather arm guards.  Light and comfortable."
+#~ msgstr "Es un par de mangas de cuero resistente. Livianas y cómodas."
+
+#~ msgid "pair of leather arm guards"
+#~ msgid_plural "pairs of arm guardss"
+#~ msgstr[0] "par de mangas de cuero"
+#~ msgstr[1] "pares de mangas de cuero"
+
+#~ msgid "A pair of light leather arm guards, made for archery."
+#~ msgstr ""
+#~ "Es un par de protecciones ligeras de cuero para los brazos, hechas para "
+#~ "los arqueros."
+
+#~ msgid "pair of leather vambraces"
+#~ msgid_plural "pairs of leather vambraces"
+#~ msgstr[0] "par de avambrazos de cuero"
+#~ msgstr[1] "pares de avambrazos de cuero"
+
+#~ msgid ""
+#~ "A common belt with pockets and a small belt loop.  Widely used by "
+#~ "handymen and electricians."
+#~ msgstr ""
+#~ "Es un cinturón normal con bolsillos y una presilla. Muy utilizado por "
+#~ "electricistas y personal de mantenimiento."
+
+#~ msgid ""
+#~ "A high, black cap with a very narrow top.  Traditionally worn by Shinto "
+#~ "priests."
+#~ msgstr ""
+#~ "Un gorro alto y negro con la parte de arriba muy angosta. Es utilizado "
+#~ "tradicionalmente por los monjes sintoístas."
+
+#~ msgid "The age-old question, boxers or briefs?  Your answer?  Yes."
+#~ msgstr "La clásica pregunta: ¿bóxer o slip? ¿Tu respuesta? Sí."
+
+#~ msgid "A pair of padded gloves.  Favored by the military."
+#~ msgstr "Es un par de guantes acolchados. Los favoritos de los militares."
+
+#~ msgid ""
+#~ "A liquid is made up of propylene glycol, vegetable glycerine, flavorings "
+#~ "and nicotine."
+#~ msgstr ""
+#~ "Es un líquido compuesto de glicol, glicerina vegetal, aromatizantes y "
+#~ "nicotina."
