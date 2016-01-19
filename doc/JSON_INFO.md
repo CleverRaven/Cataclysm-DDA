@@ -130,42 +130,42 @@ The syntax listed here is still valid.
 "friendly" : ["blob"],      // Always be friendly towards this faction. By default a faction is friendly towards itself
 ###MONSTERS
 ```C++
-"type" : "MONSTER",					// Should always be "MONSTER"
-"id" : "mon_bat",					// Unique ID. Must be one continuous word, use underscores when necessary. Standard is to preface the ID with "mon"
-"name" : "bat",						// Name displayed in-game
-"species" : "MAMMAL",				// Monster species
-"symbol" : "r",						// Symbol representing monster in-game
-"color" : "brown",					// Color of symbol in-game
-"size" : "TINY",					// Size flag, can be TINY, SMALL, MEDIUM, LARGE, or HUGE. See JSON_FLAGS.md for reference
-"material" : "flesh",				// The material the monster is primarily composed of
-"diff" : 4,							// Monster difficulty. Impacts the shade used to label the monster, and if it is above 30 a kill will be recorded in the memorial log. Some example values: (Zombie, 3) (Mi-go, 26) (Zombie Hulk, 50) 
-"aggression" : -25,					// Defines how aggressive the monster is. Ranges from -99 (totally passive) to 100 (guaranteed hostility on detection)
-"morale" : 5,						// Monster morale
-"speed" : 230,						// Monster speed. 100 is the normal speed for a human being - higher values are faster and lower values are slower.
-"melee_skill" : 4,					// Monster melee skill, ranges from 0 - 10, with 4 being an average mob. See GAME_BALANCE.txt for more examples
-"melee_dice" : 1,					// Number of dice rolled on monster melee attack
-"melee_dice_sides" : 1,				// Number of faces of dice rolled on monster melee attack
-"melee_cut" : 1,					// Amount of cutting damage added to die roll on monster melee attack
-"dodge" : 8,						// Monster dodge skill. See GAME_BALANCE.txt for an explanation of dodge mechanics
-"armor_bash" : 0,					// Monster protection from bashing damage
-"armor_cut" : 0,					// Monster protection from cutting damage
-"vision_day" : 10,                  // Vision range in full daylight
-"vision_night" : 1,                 // Vision range in total darkness
-"luminance" : 0,					// Amount of light passively output by monster. Ranges from 0 to 10.
-"hp" : 10,							// Monster hit points
+"type" : "MONSTER",         // Should always be "MONSTER"
+"id" : "mon_bat",           // Unique ID. Must be one continuous word, use underscores when necessary. Standard is to preface the ID with "mon"
+"name" : "bat",             // Name displayed in-game
+"species" : "MAMMAL",       // Monster species
+"symbol" : "r",             // Symbol representing monster in-game
+"color" : "brown",          // Color of symbol in-game
+"size" : "TINY",            // Size flag, can be TINY, SMALL, MEDIUM, LARGE, or HUGE. See JSON_FLAGS.md for reference
+"material" : "flesh",       // The material the monster is primarily composed of
+"diff" : 4,                 // Monster difficulty. Impacts the shade used to label the monster, and if it is above 30 a kill will be recorded in the memorial log. Some example values: (Zombie, 3) (Mi-go, 26) (Zombie Hulk, 50) 
+"aggression" : -25,         // Defines how aggressive the monster is. Ranges from -99 (totally passive) to 100 (guaranteed hostility on detection)
+"morale" : 5,               // Monster morale
+"speed" : 230,              // Monster speed. 100 is the normal speed for a human being - higher values are faster and lower values are slower.
+"melee_skill" : 4,          // Monster melee skill, ranges from 0 - 10, with 4 being an average mob. See GAME_BALANCE.txt for more examples
+"melee_dice" : 1,           // Number of dice rolled on monster melee attack
+"melee_dice_sides" : 1,     // Number of faces of dice rolled on monster melee attack
+"melee_cut" : 1,            // Amount of cutting damage added to die roll on monster melee attack
+"dodge" : 8,                // Monster dodge skill. See GAME_BALANCE.txt for an explanation of dodge mechanics
+"armor_bash" : 0,           // Monster protection from bashing damage
+"armor_cut" : 0,            // Monster protection from cutting damage
+"vision_day" : 10,          // Vision range in full daylight
+"vision_night" : 1,         // Vision range in total darkness
+"luminance" : 0,            // Amount of light passively output by monster. Ranges from 0 to 10.
+"hp" : 10,                  // Monster hit points
 "death_drops": "some-group-id",     // An item group that is used to spawn items when the monster dies. This can be an inlined item group, see ITEM_SPAWN.md. The default subtype is "distribution".
-"special_freq" : 0,					// Number of turns required to "charge" a monster's special attack
-"death_function" : "NORMAL",		// How the monster behaves on death. See JSON_FLAGS.md for a list of possible functions. Supports multiple death functions
-"special_attack" : "BITE",			// Monster's special attack. See JSON_FLAGS.md for a list of possible special attacks. A monster can have only one special attack
-"description": "One of the vesper bats, a family of winged insect-eating mammals. It roosts in caves and other hollows, and uses a form of echolocation to aerially navigate through tricky terrain at rapid speeds.",	
-									// In-game description for the monster
-"flags" : ["SEES", "HEARS", etc],	// Monster flags. See JSON_FLAGS.md for a full list
-"fear_triggers" : ["SOUND", etc],	// What makes the monster afraid. See JSON_FLAGS.md for a full list
+"special_freq" : 0,          // Number of turns required to "charge" a monster's special attack
+"death_function" : "NORMAL", // How the monster behaves on death. See JSON_FLAGS.md for a list of possible functions. Supports multiple death functions
+"special_attack" : "BITE",   // Monster's special attack. See JSON_FLAGS.md for a list of possible special attacks. A monster can have only one special attack
+"description": "One of the vesper bats, a family of winged insect-eating mammals. It roosts in caves and other hollows, and uses a form of echolocation to aerially navigate through tricky terrain at rapid speeds.",  
+                  // In-game description for the monster
+"flags" : ["SEES", "HEARS", etc],  // Monster flags. See JSON_FLAGS.md for a full list
+"fear_triggers" : ["SOUND", etc],  // What makes the monster afraid. See JSON_FLAGS.md for a full list
 "anger_triggers" : ["PLAYER_CLOSE"],// What makes the monster angry. See JSON_FLAGS.md for a full list
-"placate_triggers" : ["MEAT"],		// What calms the monster. See JSON_FLAGS.md for a full list
+"placate_triggers" : ["MEAT"],    // What calms the monster. See JSON_FLAGS.md for a full list
 "revert_to_itype": "bot_turret",    // (optional) if not empty and a valid item id, the monster (usually a robot) can be converted into this item by the player (only when it's already friendly).
-"categories" : ["WILDLIFE"]			// Monster categories. Can be NULL, CLASSIC (only mobs found in classic zombie movies) or WILDLIFE (natural animals). If they are not CLASSIC or WILDLIFE, they will not spawn in classic mode
-```	
+"categories" : ["WILDLIFE"]      // Monster categories. Can be NULL, CLASSIC (only mobs found in classic zombie movies) or WILDLIFE (natural animals). If they are not CLASSIC or WILDLIFE, they will not spawn in classic mode
+```  
 ###NAMES
 ```C++
 { "name" : "Aaliyah", "gender" : "female", "usage" : "given" }, // Name, gender, "given"/"family"/"city" (first/last/city name).
@@ -188,17 +188,17 @@ The syntax listed here is still valid.
 "points":2,            // Point cost of profession. Positive values cost points and negative values grant points
 "addictions" : [       // Optional list of starting addictions.
  {
-	"type": "nicotine", // ID of addiction
-	"intensity" : 10,  // Intensity of starting addiction
+  "type": "nicotine", // ID of addiction
+  "intensity" : 10,  // Intensity of starting addiction
  }
 "skills":[             // Skills that the player starts with when selecting this profession, stacks with purchased skills
  {
-	"level":1,         // Skill level granted
-	"name":"archery"   // ID of granted skill
+  "level":1,         // Skill level granted
+  "name":"archery"   // ID of granted skill
  },
  {
-	"level":1,
-	"name":"survival"
+  "level":1,
+  "name":"survival"
  }
 ]
 ```
@@ -358,21 +358,31 @@ The syntax listed here is still valid.
 ```
 #raw/items jsons
 
+###GENERIC ITEMS
+```C++
+"type" : "GENERIC",               // Defines this as some generic item
+"id" : "socks",                   // Unique ID. Must be one continuous word, use underscores if necessary
+"name" : "socks",                 // The name appearing in the examine box.  Can be more than one word separated by spaces
+"name_plural" : "pairs of socks", // (Optional)
+"color" : "blue",                 // ASCII character color
+"symbol" : "[",                   // ASCII character used in-game
+"description" : "Socks. Put 'em on your feet.", // Description of the item
+"phase" : "solid",                // (Optional, default = "solid") What phase it is
+"weight" : 350,                   // Weight of the item in grams
+"volume" : 1,                     // Volume, measured in 1/4 liters
+"price" : 100,                    // Used when bartering with NPCs
+"material" : ["COTTON"],          // Material types, can be as many as you want.  See materials.json for possible options
+"cutting" : 0,                    // (Optional, default = 0) Cutting damage caused by using it as a melee weapon
+"bashing" : -5,                   // (Optional, default = 0) Bashing damage caused by using it as a melee weapon
+"to_hit" : 0,                     // (Optional, default = 0) To-hit bonus if using it as a melee weapon (whatever for?)
+"flags" : ["VARSIZE"]             // Indicates special effects, see JSON_FLAGS.md
+```
+
 ###AMMO
 ```C++
 "type" : "AMMO",      // Defines this as ammo
-"id" : "shot_bird",   // Unique ID. Must be one continuous word, use underscores if necessary
-"price" : 500,        // Used when bartering with NPC's
-"name" : "birdshot",  // In-game name displayed
-"symbol" : "=",       // ASCII character used in-game
-"color" : "red",      // ASCII character color
-"description" : "Weak shotgun ammunition. Designed for hunting birds and other small game, its applications in combat are very limited.", // In-game description
-"material" : "plastic", // Material types.  See materials.json for possible options
-"volume" : 2,         // Volume, measured in 1/4 liters
-"weight" : 34,        // Weight, measured in grams
-"bashing" : 1,        // (Optional, default = 0) Bashing damage caused by using it as a melee weapon.
-"cutting" : 0,        // (Optional, default = 0) Cutting damage caused by using it as a melee weapon.
-"to_hit" : 0,         // (Optional, default = 0) To-hit bonus if using it as a melee weapon
+...                   // same entries as above for the generic item.
+                      // additional some ammo specific entries:
 "ammo_type" : "shot", // Determines what it can be loaded in
 "damage" : 18,        // Ranged damage when fired
 "pierce" : 0,         // Armor piercing ability when fired
@@ -383,24 +393,7 @@ The syntax listed here is still valid.
 "stack_size" : 50,    // (Optional) How many rounds are in the above-defined volume. If omitted, is the same as 'count'
 "effects" : ["COOKOFF", "SHOT"] // Special effects
 ```
-###GENERIC ITEMS
-```C++
-"type" : "GENERIC",   // Defines this as some generic item
-"id" : "socks",       // Unique ID. Must be one continuous word, use underscores if necessary
-"name" : "socks",     // The name appearing in the examine box.  Can be more than one word separated by spaces
-"weight" : 350,       // Weight of the item in grams
-"color" : "blue",     // ASCII character color
-"to_hit" : 0,         // To-hit bonus if using it as a melee weapon (whatever for?)
-"symbol" : "[",       // ASCII character used in-game
-"description" : "Socks. Put 'em on your feet.", // Description of the item
-"price" : 100,        // Used when bartering with NPCs
-"material" : ["COTTON"],    // Material types, can be as many as you want.  See materials.json for possible options
-"volume" : 1,         // Volume, measured in 1/4 liters
-"cutting" : 0,        // Cutting damage caused by using it as a melee weapon
-"phase" : "solid",    // What phase it is
-"bashing" : -5,       // Bashing damage caused by using it as a melee weapon
-"flags" : ["VARSIZE"] // Indicates special effects, see JSON_FLAGS.md
-```
+
 ###ARMOR
 Armor can be define like this:
 ```C++
@@ -408,10 +401,10 @@ Armor can be define like this:
 ...                   // same entries as above for the generic item.
                       // additional some armor specific entries:
 "covers" : ["FEET"],  // Where it covers.  Possible options are TORSO, HEAD, EYES, MOUTH, ARMS, HANDS, LEGS, FEET
-"storage" : 0,        // How many volume storage slots it adds
-"warmth" : 10,        // How much warmth clothing provides
-"environmental_protection" : 0,  // How much environmental protection it affords
-"encumbrance" : 0,   // Base encumbrance (unfitted value)
+"storage" : 0,        //  (Optional, default = 0) How many volume storage slots it adds
+"warmth" : 10,        //  (Optional, default = 0) How much warmth clothing provides
+"environmental_protection" : 0,  //  (Optional, default = 0) How much environmental protection it affords
+"encumbrance" : 0,    // Base encumbrance (unfitted value)
 "coverage" : 80,      // What percentage of body part
 "material_thickness" : 1  // Thickness of material, in millimetre units (approximately).  Generally ranges between 1 - 5, more unusual armor types go up to 10 or more
 "power_armor" : false, // If this is a power armor item (those are special).
@@ -431,6 +424,7 @@ Alternately, every item (book, tool, gun, even food) can be used as armor if it 
     "power_armor" : false
 }
 ```
+
 ###BOOKS
 Books can be define like this:
 ```C++
@@ -478,35 +472,25 @@ Never use `yellow` and `red`, those colors are reserved for sounds and infrared 
 
 ###COMESTIBLES
 ```C++
-"type" : "COMESTIBLE", // Defines this as a COMESTIBLE
-"id" : "crack",       // Unique ID. Must be one continuous word, use underscores if necessary
-"name" : "crack",     // In-game name displayed
-"weight" : 1,         // Weight, measured in grams
-"color" : "white",    // ASCII character color
+"type" : "COMESTIBLE",      // Defines this as a COMESTIBLE
+...                         // same entries as above for the generic item.
+                            // additional some comestible specific entries:
 "addiction_type" : "crack", // Addiction type
-"spoils_in" : 0,      // How long a comestible is good for. 0 = no spoilage
-"use_action" : "CRACK", // What effects a comestible has when used, see special definitions below
-"stim" : 40,          // Stimulant effect
-"container" : "null", // What container stores this
-"to_hit" : 0,         // To-hit bonus if using it as a melee weapon
-"comestible_type" : "MED", // Comestible type, used for inventory sorting
-"symbol" : "!",       // ASCII character used in-game
-"quench" : 0,         // Thirst quenched
-"heal" : -2,          // Health effects (used for sickness chances)
+"spoils_in" : 0,            // How long a comestible is good for. 0 = no spoilage
+"use_action" : "CRACK",     // What effects a comestible has when used, see special definitions below
+"stim" : 40,                // Stimulant effect
+"container" : "null",       // What container stores this
+"comestible_type" : "MED",  // Comestible type, used for inventory sorting
+"quench" : 0,               // Thirst quenched
+"heal" : -2,                // Health effects (used for sickness chances)
 "addiction_potential" : 80, // Ability to cause addictions
-"nutrition" : 0,      // Hunger satisfied
-"description" : "Refined cocaine, incredibly addictive.", // In-game description
-"price" : 420,        // Used when bartering with NPCs
-"material" : "powder", // Material types.  See materials.json for possible options
-"tool" : "apparatus", // Tool required to be eaten/drank
-"volume" : 1,         // Volume, measured in 1/4 liters
-"cutting" : 0,        // Cutting damage caused by using it as a melee weapon
-"phase" : "solid",    // What phase it is
-"charges" : 4,        // Number of uses when spawned
-"stack_size" : 8,     // (Optional) How many uses are in the above-defined volume. If omitted, is the same as 'charges'
-"bashing" : 0,        // Bashing damage caused by using it as a melee weapon
-"fun" : 50,            // Morale effects when used
+"nutrition" : 0,            // Hunger satisfied
+"tool" : "apparatus",       // Tool required to be eaten/drank
+"charges" : 4,              // Number of uses when spawned
+"stack_size" : 8,           // (Optional) How many uses are in the above-defined volume. If omitted, is the same as 'charges'
+"fun" : 50                  // Morale effects when used
 ```
+
 ###CONTAINERS
 ```C++
 "type": "CONTAINER",  // Defines this as a container
@@ -527,22 +511,24 @@ Alternately, every item can be used as container:
 ```
 This defines a armor (you need to add all the armor specific entries), but makes it usable as container.
 It could also be written as a generic item ("type": "GENERIC") with "armor_data" and "container_data" entries.
+
 ###MELEE
 ```C++
-"id": "hatchet",      // Unique ID. Must be one continuous word, use underscores if necessary
-"symbol": ";",        // ASCII character used in-game
+"id": "hatchet",       // Unique ID. Must be one continuous word, use underscores if necessary
+"symbol": ";",         // ASCII character used in-game
 "color": "light_gray", // ASCII character color
-"name": "hatchet",    // In-game name displayed
+"name": "hatchet",     // In-game name displayed
 "description": "A one-handed hatchet. Makes a great melee weapon, and is useful both for cutting wood, and for use as a hammer.", // In-game description
-"price": 95,          // Used when bartering with NPCs
+"price": 95,           // Used when bartering with NPCs
 "material": ["iron", "wood"], // Material types.  See materials.json for possible options
-"weight": 907,        // Weight, measured in grams
-"volume": 6,          // Volume, measured in 1/4 liters
-"bashing": 12,        // Bashing damage caused by using it as a melee weapon
-"cutting": 12,        // Cutting damage caused by using it as a melee weapon
-"flags" : ["CHOP"],   // Indicates special effects
-"to_hit": 1           // To-hit bonus if using it as a melee weapon
+"weight": 907,         // Weight, measured in grams
+"volume": 6,           // Volume, measured in 1/4 liters
+"bashing": 12,         // Bashing damage caused by using it as a melee weapon
+"cutting": 12,         // Cutting damage caused by using it as a melee weapon
+"flags" : ["CHOP"],    // Indicates special effects
+"to_hit": 1            // To-hit bonus if using it as a melee weapon
 ```
+
 ###GUN
 Guns can be define like this:
 ```C++
@@ -572,12 +558,13 @@ Alternately, every item (book, tool, armor, even food) can be used as gun if it 
 ```C++
 "type" : "TOOL",      // Or any other item type
 ...                   // same entries as for the type (e.g. same entries as for any tool),
-"gun_data" : {       // additionally the same gun data like above
+"gun_data" : {        // additionally the same gun data like above
     "skill": ...,
     "recoil": ...,
     ...
 }
 ```
+
 ###TOOLS
 ```C++
 "id": "torch_lit",    // Unique ID. Must be one continuous word, use underscores if necessary
@@ -603,6 +590,7 @@ Alternately, every item (book, tool, armor, even food) can be used as gun if it 
 "revert_to": "torch_done", // Transforms into item when charges are expended
 "use_action": "TORCH_LIT" // Action performed when tool is used, see special definition below
 ```
+
 ###SPAWN DATA
 Every item type can have optional spawn data:
 ```
