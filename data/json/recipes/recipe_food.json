@@ -10807,6 +10807,7 @@
 },{
   "type" : "recipe",
   "result": "soup_woods",
+  "id_suffix" : "canned",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
   "skill_used": "cooking",
@@ -10880,6 +10881,7 @@
 },{
   "type" : "recipe",
   "result": "soup_veggy",
+  "id_suffix" : "canned",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_VEGGI",
   "skill_used": "cooking",
@@ -10960,6 +10962,7 @@
 },{
   "type" : "recipe",
   "result": "soup_meat",
+  "id_suffix" : "canned",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
   "skill_used": "cooking",
@@ -11026,6 +11029,7 @@
 },{
   "type" : "recipe",
   "result": "soup_fish",
+  "id_suffix" : "canned",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
   "skill_used": "cooking",
