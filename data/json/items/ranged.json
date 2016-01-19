@@ -373,7 +373,7 @@
     "description": "A custom built 9mm submachine gun camouflaged to look as the average businessman suitcase, panes of cutting edge materials and its clever internal construction allowed it to bypass even the most scrupulous of security checkpoints.  Due to the fact that the average security guard is now only concerned in eating you, this million dollar baby has been reduced to little more than a novelty item.",
     "price": 400000,
     "material": ["steel", "leather"],
-    "flags": "MODE_BURST",
+    "flags": ["MODE_BURST", "OVERSIZE", "BELTED", "FANCY"],
     "skill": "smg",
     "ammo": "9mm",
     "weight": 2900,
@@ -382,8 +382,9 @@
     "cutting": 0,
     "to_hit": 0,
     "armor_data" : {
-        "covers" : ["ARMS", "HANDS"],
+        "covers" : ["ARM_EITHER", "HAND_EITHER"],
         "coverage" : 10,
+		"storage" : 18,
         "material_thickness" : 1,
         "encumbrance" : 15,
         "warmth" : 0
