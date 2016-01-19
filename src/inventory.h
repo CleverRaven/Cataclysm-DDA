@@ -160,11 +160,12 @@ class inventory
         bool has_item(const item *it) const;
         bool has_items_with_quality(std::string id, int level, int amount) const;
 
+        // Returns max required quality in player's items, INT_MIN if player has no such items
+        int max_quality( const std::string &quality_id ) const;
+
         static int num_items_at_position( int position );
 
         int leak_level(std::string flag) const; // level of leaked bad stuff from items
-
-        int butcher_factor() const;
 
         // NPC/AI functions
         int worst_item_value(npc *p) const;

@@ -91,5 +91,9 @@
         "type" : "tool_quality",
         "id" : "DRILL",
         "name" : "drilling"
+    },{
+        "type" : "tool_quality",
+        "id" : "PRY",
+        "name" : "prying"
     }
 ]

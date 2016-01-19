@@ -11107,7 +11107,7 @@ void game::butcher()
         return;
     }
 
-    const int factor = u.butcher_factor();
+    const int factor = u.max_quality( "BUTCHER" );
     const item *first_item_without_tools = nullptr;
     // Indices of relevant items
     std::vector<int> corpses;

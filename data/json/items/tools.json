@@ -1965,7 +1965,8 @@
     "ammo": "NULL",
     "revert_to": "null",
     "flags": ["BELT_CLIP"],
-    "use_action": "CROWBAR"
+    "use_action": "CROWBAR",
+    "qualities": [["PRY", 2]]
   },
 
   {
@@ -1990,7 +1991,8 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "CROWBAR"
+    "use_action": "CROWBAR",
+    "qualities": [["PRY", 4], ["HAMMER", 2], ["DIG", 1]]
   },
 
   {
@@ -2014,7 +2016,8 @@
     "ammo": "NULL",
     "revert_to": "null",
     "flags": ["BELT_CLIP"],
-    "use_action": "CROWBAR"
+    "use_action": "CROWBAR",
+    "qualities": [["PRY", 1]]
   },
 
   {
@@ -6361,28 +6364,28 @@
     }
   },
 
-    {
-        "id": "pseuso_bio_picklock",
-        "type": "TOOL",
-        "symbol": ";",
-        "color": "light_gray",
-        "name": "bio lockpick",
-        "description": "this a pseudo item",
-        "price": 0,
-        "weight": 0,
-        "volume": 0,
-        "to_hit": 0,
-        "max_charges": 1,
-        "initial_charges": 1,
-        "charges_per_use": 1,
-        "turns_per_charge": 0,
-        "ammo": "NULL",
-        "revert_to": "null",
-        "use_action": {
-            "type": "picklock",
-            "pick_quality": 40
-        }
-    },
+  {
+    "id": "pseuso_bio_picklock",
+    "type": "TOOL",
+    "symbol": ";",
+    "color": "light_gray",
+    "name": "bio lockpick",
+    "description": "this a pseudo item",
+    "price": 0,
+    "weight": 0,
+    "volume": 0,
+    "to_hit": 0,
+    "max_charges": 1,
+    "initial_charges": 1,
+    "charges_per_use": 1,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "use_action": {
+        "type": "picklock",
+        "pick_quality": 40
+    }
+  },
 
   {
     "id": "safe_box",
@@ -9559,9 +9562,10 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": [ "HAMMER", "HACKSAW", "LUMBER", "REMOVE_ALL_MODS", { "type": "knife" } ],
-    "qualities": [["HAMMER", 3], ["HAMMER_FINE", 1], ["CUT", 1], ["SAW_W", 1], ["SAW_M", 1],
+    "use_action": [ "HAMMER", "HACKSAW", "LUMBER", "CROWBAR", "REMOVE_ALL_MODS", { "type": "knife" } ],
+    "qualities": [["HAMMER", 3], ["HAMMER_FINE", 1], ["CUT", 2], ["SAW_W", 1], ["SAW_M", 1],
      ["SAW_M_FINE", 1], ["WRENCH", 1], ["WRENCH_FINE", 1], ["SCREW", 1], ["SCREW_FINE", 1],
+     ["PRY", 1], ["DRILL", 1],
      ["BUTCHER", -100]]
   },
   {
@@ -11098,7 +11102,7 @@
     "ammo": "NULL",
     "revert_to": "null",
     "use_action": "CROWBAR",
-    "qualities": [["HAMMER", 2], ["HAMMER_FINE", 1]]
+    "qualities": [["HAMMER", 2], ["HAMMER_FINE", 1], ["PRY", 2]]
   },
   {
     "id": "l-stick",

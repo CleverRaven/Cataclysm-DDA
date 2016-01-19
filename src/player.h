@@ -897,7 +897,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         const martialart &get_combat_style() const; // Returns the combat style object
         std::vector<item *> inv_dump(); // Inventory + weapon + worn (for death, etc)
         void place_corpse(); // put corpse+inventory on map at the place where this is.
-        int butcher_factor() const; // Automatically picks our best butchering tool
         item  *pick_usb(); // Pick a usb drive, interactively if it matters
 
         bool covered_with_flag( const std::string &flag, const std::bitset<num_bp> &parts ) const;
@@ -925,6 +924,9 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool has_item_with_flag( std::string flag ) const;
         // Has amount (or more) items with at least the required quality level.
         bool has_items_with_quality( const std::string &quality_id, int level, int amount ) const;
+        // Returns max required quality in player's items, INT_MIN if player has no such items
+        int max_quality( const std::string &quality_id ) const;
+
         bool has_item(int position);
         /**
          * Check whether a specific item is in the players possession.
