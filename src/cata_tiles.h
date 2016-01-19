@@ -467,7 +467,7 @@ class cata_tiles
         int screentile_width, screentile_height;
         float tile_ratiox, tile_ratioy;
         // multiplier for pixel-doubling tilesets
-        int tile_pixelscale;
+        float tile_pixelscale;
 
         bool in_animation;
 
