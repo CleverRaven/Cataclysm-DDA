@@ -452,6 +452,8 @@ void WinDestroy()
     cleanup_sound();
     Mix_CloseAudio();
 #endif
+    clear_texture_pool();
+
     if(joystick) {
         SDL_JoystickClose(joystick);
         joystick = 0;

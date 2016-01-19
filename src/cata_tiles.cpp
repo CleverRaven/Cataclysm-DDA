@@ -115,6 +115,14 @@ void cata_tiles::clear()
     night_tile_values.clear();
     overexposed_tile_values.clear();
     tile_ids.clear();
+    // release minimap
+    minimap_cache.clear();
+    tex_pool.texture_pool.clear();
+}
+
+void clear_texture_pool()
+{
+    tex_pool.texture_pool.clear();
 }
 
 void cata_tiles::init()
