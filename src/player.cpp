@@ -9473,26 +9473,26 @@ std::list<item> player::use_charges(itype_id it, long quantity)
     return ret;
 }
 
-int player::max_quality( const std::string &quality_id) const
+int player::max_quality( const std::string &quality_id ) const
 {
     int result = INT_MIN;
     if( has_bionic( "bio_tools" ) ) {
         item tmp( "toolset", 0 );
-        result = std::max( result, tmp.get_quality(quality_id) );
+        result = std::max( result, tmp.get_quality( quality_id ) );
     }
-    if(quality_id == "BUTCHER") {
-        if(has_bionic( "bio_razor" ) || has_trait("CLAWS_ST")){
+    if( quality_id == "BUTCHER" ) {
+        if( has_bionic( "bio_razor" ) || has_trait( "CLAWS_ST" ) ){
             result = std::max( result, 8 );
-        }
-        else if(has_trait("TALONS") || has_trait("MANDIBLES") || has_trait("CLAWS") || has_trait("CLAWS_RETRACT") || has_trait("CLAWS_RAT")){
+        } else if( has_trait( "TALONS" ) || has_trait( "MANDIBLES" ) || has_trait( "CLAWS" ) ||
+                   has_trait( "CLAWS_RETRACT" ) || has_trait( "CLAWS_RAT" ) ) {
             result = std::max( result, 4 );
         }
     }
 
-    result = std::max( result, inv.max_quality(quality_id) );
-    result = std::max( result, weapon.get_quality(quality_id) );
+    result = std::max( result, inv.max_quality( quality_id ) );
+    result = std::max( result, weapon.get_quality( quality_id ) );
     for( const auto &elem : worn ) {
-        result = std::max( result, elem.get_quality(quality_id) );
+        result = std::max( result, elem.get_quality( quality_id ) );
     }
     return result;
 }

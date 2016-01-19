@@ -394,12 +394,12 @@ public:
     void add_rain_to_container(bool acid, int charges = 1);
     /*@}*/
 
- int get_quality(const std::string &quality_id) const;
- bool has_quality(std::string quality_id) const;
- bool has_quality(std::string quality_id, int quality_value) const;
- bool count_by_charges() const;
- bool craft_has_charges();
- long num_charges();
+    int get_quality( const std::string &quality_id ) const;
+    bool has_quality( std::string quality_id ) const;
+    bool has_quality( std::string quality_id, int quality_value ) const;
+    bool count_by_charges() const;
+    bool craft_has_charges();
+    long num_charges();
 
     /**
      * Reduce the charges of this item, only use for items counted by charges!

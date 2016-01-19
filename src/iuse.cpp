@@ -3846,12 +3846,13 @@ int iuse::set_trap(player *p, item *it, bool, const tripoint& )
         return 0;
     }
 
-    if (buried) {
-        if (!p->has_items_with_quality( "DIG", 2, 1 )) {
-            p->add_msg_if_player(m_info, _("You need a shovel."));
+    if( buried ) {
+        if( !p->has_items_with_quality( "DIG", 2, 1 ) ) {
+            p->add_msg_if_player( m_info, _( "You need a shovel." ) );
             return 0;
-        } else if (!g->m.has_flag("DIGGABLE", posx, posy)) {
-            p->add_msg_if_player(m_info, _("You can't dig in that %s."), g->m.tername(posx, posy).c_str());
+        } else if( !g->m.has_flag( "DIGGABLE", posx, posy ) ) {
+            p->add_msg_if_player( m_info, _( "You can't dig in that %s." ),
+                                  g->m.tername( posx, posy ).c_str() );
             return 0;
         }
     }

@@ -966,12 +966,12 @@ bool inventory::has_items_with_quality(std::string id, int level, int amount) co
     }
 }
 
-int inventory::max_quality( const std::string &quality_id) const
+int inventory::max_quality( const std::string &quality_id ) const
 {
     int result = INT_MIN;
     for( const auto &elem : items ) {
         for( const auto &cur_item : elem ) {
-            result = std::max( result, cur_item.get_quality(quality_id) );
+            result = std::max( result, cur_item.get_quality( quality_id ) );
         }
     }
     return result;

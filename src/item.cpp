@@ -2514,7 +2514,7 @@ long item::get_property_long( const std::string& prop, long def ) const
     return def;
 }
 
-int item::get_quality(const std::string &quality_id) const
+int item::get_quality( const std::string &quality_id ) const
 {
     int return_quality = INT_MIN;
     for( const auto &quality : type->qualities ) {
@@ -2523,20 +2523,20 @@ int item::get_quality(const std::string &quality_id) const
         }
     }
     for( auto &itm : contents ) {
-        return_quality = std::max(return_quality, itm.get_quality(quality_id));
+        return_quality = std::max( return_quality, itm.get_quality( quality_id ) );
     }
 
     return return_quality;
 }
 
-bool item::has_quality(std::string quality_id) const
+bool item::has_quality( std::string quality_id ) const
 {
-    return has_quality(quality_id, 1);
+    return has_quality( quality_id, 1 );
 }
 
-bool item::has_quality(std::string quality_id, int quality_value) const
+bool item::has_quality( std::string quality_id, int quality_value ) const
 {
-    if( get_quality(quality_id) >= quality_value ) {
+    if( get_quality( quality_id ) >= quality_value ) {
         return true;
     }
     return false;
