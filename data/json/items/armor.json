@@ -7334,7 +7334,7 @@
         "cutting" : 0,
         "warmth" : 0,
         "phase" : "solid",
-        "encumbrance" : 50,
+        "encumbrance" : 100,
         "bashing" : -4,
         "coverage" : 5, "//" : "You drag it along with you, so it taking a hit is Rare.",
         "material_thickness" : 3
@@ -7357,7 +7357,7 @@
         "cutting" : 0,
         "warmth" : 0,
         "phase" : "solid",
-        "encumbrance" : 50,
+        "encumbrance" : 100,
         "bashing" : -4,
         "coverage" : 5,
         "material_thickness" : 3
@@ -10922,7 +10922,7 @@
         "cutting" : 0,
         "warmth" : 0,
         "phase" : "solid",
-        "encumbrance" : 50,
+        "encumbrance" : 100,
         "bashing" : -3,
         "coverage" : 5,
         "material_thickness" : 1
@@ -10944,7 +10944,7 @@
         "cutting" : 0,
         "warmth" : 0,
         "phase" : "solid",
-        "encumbrance" : 15,
+        "encumbrance" : 30,
         "bashing" : 5,
         "coverage" : 10,
         "material_thickness" : 2,
@@ -10967,7 +10967,7 @@
         "cutting" : 0,
         "warmth" : 0,
         "phase" : "solid",
-        "encumbrance" : 20,
+        "encumbrance" : 40,
         "bashing" : 4,
         "coverage" : 4,
         "material_thickness" : 1,
@@ -10991,7 +10991,7 @@
         "cutting" : 0,
         "warmth" : 0,
         "phase" : "solid",
-        "encumbrance" : 30,
+        "encumbrance" : 60,
         "bashing" : 0,
         "coverage" : 4,
         "material_thickness" : 1
@@ -11871,7 +11871,7 @@
         "cutting" : 0,
         "warmth" : 0,
         "phase" : "solid",
-        "encumbrance" : 15,
+        "encumbrance" : 30,
         "bashing" : 0,
         "coverage" : 4,
         "material_thickness" : 2
