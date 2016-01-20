@@ -1687,7 +1687,7 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
                     oter = rotate( oter, uistate.omedit_rotation );
                 }
 
-                special_cache.insert( std::make_pair( 
+                special_cache.insert( std::make_pair(
                     point( rp.x, rp.y ),
                     std::make_pair( oter.t().sym, oter.t().color ) ) );
 
@@ -1841,7 +1841,7 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
                     }
                 }
                 // Highlight areas that already have been generated
-                if( MAPBUFFER.lookup_submap( 
+                if( MAPBUFFER.lookup_submap(
                         overmapbuffer::omt_to_sm_copy( tripoint( omx, omy, z ) ) ) ) {
                     ter_color = red_background( ter_color );
                 }
@@ -2645,7 +2645,7 @@ void overmap::place_forest()
                 cities.begin(),
                 cities.end(),
                 [&](const city &c) {
-                    return 
+                    return
                         // is this city too close?
                         trig_dist(forx, fory, c.x, c.y) - fors / 2 < c.s &&
                         // occasionally accept near a city if we've been failing
@@ -2653,7 +2653,7 @@ void overmap::place_forest()
                 }
             );
             if(iter == cities.end()) { // every city was too close
-                break; 
+                break;
             }
         } while( tries-- );
 
@@ -2825,7 +2825,7 @@ void overmap::place_cities()
     const double omts_per_city = (op_city_size*2+1) * (op_city_size*2+1) * 3 / 4;
 
     // how many cities on this overmap?
-    const int NUM_CITIES = 
+    const int NUM_CITIES =
         roll_remainder(omts_per_overmap * city_map_coverage_ratio / omts_per_city);
 
     // place a seed for NUM_CITIES cities, and maybe one more
@@ -2858,6 +2858,20 @@ void overmap::place_cities()
             for (int j = 0; j < 4; j++) {
                 make_road(cx, cy, size, (start_dir + j) % 4, tmp);
             }
+        }
+    }
+
+    // create extra junction points for make up for more spread out cities
+    while(cities.size() < 34){
+        int cx = rng(7, OMAPX - 8);
+        int cy = rng(7, OMAPY - 8);
+        if (ter(cx, cy, 0) == settings.default_oter ) {
+            ter(cx, cy, 0) = "road_nesw"; // every city starts with an intersection
+            city tmp;
+            tmp.x = cx;
+            tmp.y = cy;
+            tmp.s = 0;
+            cities.push_back(tmp);
         }
     }
 }
