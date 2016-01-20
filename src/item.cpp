@@ -3022,6 +3022,9 @@ int item::chip_resistance( bool worst ) const
 int item::damage_resist( damage_type dt, bool to_self ) const
 {
     switch( dt ) {
+        case DT_NULL:
+        case NUM_DT:
+            return 0;
         case DT_TRUE:
         case DT_BIOLOGICAL:
         case DT_ELECTRIC:
