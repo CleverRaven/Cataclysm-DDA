@@ -2946,6 +2946,11 @@ int item::stab_resist(bool to_self) const
 
 int item::acid_resist( bool to_self ) const
 {
+    if( to_self ) {
+        // Currently no items are damaged by acid
+        return INT_MAX;
+    }
+
     float resist = 0.0;
     if( is_null() ) {
         return 0.0;
