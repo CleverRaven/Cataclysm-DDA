@@ -22,6 +22,8 @@ struct visibility_variables;
 
 extern void set_displaybuffer_rendertarget();
 
+void clear_texture_pool();
+
 /** Structures */
 struct tile_type
 {
