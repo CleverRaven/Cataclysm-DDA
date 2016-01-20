@@ -1004,12 +1004,11 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
                              {g->ter_view_x, g->ter_view_y, center.z}, 0, 0, LL_LIT, false );
     }
     if( g->u.controlling_vehicle ) {
-        // TODO: interaction with look_around cursor is a little weird.
         tripoint indicator_offset = g->get_veh_dir_indicator_location();
         if( indicator_offset != tripoint_min ) {
             draw_from_id_string( "cursor", C_NONE, empty_string,
-                                 { indicator_offset.x + g->u.posx() + g->u.view_offset.x,
-                                   indicator_offset.y + g->u.posy() + g->u.view_offset.y, center.z },
+                                 { indicator_offset.x + g->u.posx(),
+                                   indicator_offset.y + g->u.posy(), center.z },
                                  0, 0, LL_LIT, false );
         }
     }
