@@ -30,7 +30,7 @@ npc create_model()
     model_npc.set_hunger( 0 );
     model_npc.thirst = 0;
     model_npc.fatigue = 0;
-    model_npc.remove_effect( "sleep" );
+    model_npc.remove_effect( efftype_id( "sleep" ) );
     // An ugly hack to prevent NPC falling asleep during testing due to massive fatigue
     model_npc.set_mutation( "WEB_WEAVER" );
     return model_npc;
@@ -71,7 +71,7 @@ TEST_CASE("on_load-sane-values")
 
     SECTION("Sleeping for 6 hours, gaining hunger/thirst (not testing fatigue due to lack of effects processing)") {
         npc test_npc = model_npc;
-        test_npc.add_effect( "sleep", HOURS(6) );
+        test_npc.add_effect( efftype_id( "sleep" ), HOURS(6) );
         test_npc.fatigue = 1000;
         const int five_min_ticks = 12 * 6;
         const float expected_rate = 0.5f;
