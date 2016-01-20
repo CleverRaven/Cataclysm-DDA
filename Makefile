@@ -104,7 +104,6 @@ LUA_DIR = lua
 LUASRC_DIR = src/lua
 # if you have LUAJIT installed, try make LUA_BINARY=luajit for extra speed
 LUA_BINARY = lua
-LUA_CANDIDATES = luajit lua5.2 lua-5.2 lua5.1 lua-5.1 lua
 LOCALIZE = 1
 ASTYLE_BINARY = astyle
 
