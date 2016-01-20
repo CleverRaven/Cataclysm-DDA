@@ -68,6 +68,13 @@ no connection at all to the monster.
 --]]
 
 classes = {
+    effect_type = {
+        string_id = "efftype_id",
+        attributes = {
+        },
+        functions = {
+        }
+    },
     Character = {
         parent = "Creature",
         attributes = {
@@ -84,6 +91,11 @@ classes = {
             nv_cached = { type = "bool", writable = true },
         },
         functions = {
+            { name = "add_effect", rval = nil, args = { "efftype_id", "int" } },
+            { name = "add_effect", rval = nil, args = { "efftype_id", "int", "body_part" } },
+            { name = "add_effect", rval = nil, args = { "efftype_id", "int", "body_part", "bool" } },
+            { name = "add_effect", rval = nil, args = { "efftype_id", "int", "body_part", "bool", "int" } },
+            { name = "add_effect", rval = nil, args = { "efftype_id", "int", "body_part", "bool", "int", "bool" } },
             { name = "add_traits", rval = nil, args = { } },
             { name = "bloodType", rval = "field_id", args = { } },
             { name = "can_pickVolume", rval = "bool", args = { "int" } },
@@ -1178,6 +1190,16 @@ classes = {
             pain = { type = "int", writable = true }
         },
         functions = {
+            { name = "add_effect", rval = nil, args = { "efftype_id", "int" } },
+            { name = "add_effect", rval = nil, args = { "efftype_id", "int", "body_part" } },
+            { name = "add_effect", rval = nil, args = { "efftype_id", "int", "body_part", "bool" } },
+            { name = "add_effect", rval = nil, args = { "efftype_id", "int", "body_part", "bool", "int" } },
+            { name = "add_effect", rval = nil, args = { "efftype_id", "int", "body_part", "bool", "int", "bool" } },
+            { name = "add_env_effect", rval = "bool", args = { "efftype_id", "body_part", "int", "int" } },
+            { name = "add_env_effect", rval = "bool", args = { "efftype_id", "body_part", "int", "int", "body_part" } },
+            { name = "add_env_effect", rval = "bool", args = { "efftype_id", "body_part", "int", "int", "body_part", "bool" } },
+            { name = "add_env_effect", rval = "bool", args = { "efftype_id", "body_part", "int", "int", "body_part", "bool", "int" } },
+            { name = "add_env_effect", rval = "bool", args = { "efftype_id", "body_part", "int", "int", "body_part", "bool", "int", "bool" } },
             { name = "apply_damage", rval = nil, args = { "Creature", "body_part", "int" } },
             { name = "basic_symbol_color", rval = "int", args = { } },
             { name = "bloodType", rval = "field_id", args = { } },
@@ -1203,6 +1225,10 @@ classes = {
             { name = "get_dodge", rval = "int", args = { } },
             { name = "get_dodge_base", rval = "int", args = { } },
             { name = "get_dodge_bonus", rval = "int", args = { } },
+            { name = "get_effect_dur", rval = "int", args = { "efftype_id" } },
+            { name = "get_effect_dur", rval = "int", args = { "efftype_id", "body_part" } },
+            { name = "get_effect_int", rval = "int", args = { "efftype_id" } },
+            { name = "get_effect_int", rval = "int", args = { "efftype_id", "body_part" } },
             { name = "get_env_resist", rval = "int", args = { "body_part" } },
             { name = "get_grab_resist", rval = "int", args = { } },
             { name = "get_hit", rval = "int", args = { } },
@@ -1226,6 +1252,8 @@ classes = {
             { name = "get_throw_resist", rval = "int", args = { } },
             { name = "get_value", rval = "string", args = { "string" } },
             { name = "gibType", rval = "field_id", args = { } },
+            { name = "has_effect", rval = "bool", args = { "efftype_id" } },
+            { name = "has_effect", rval = "bool", args = { "efftype_id", "body_part" } },
             { name = "has_grab_break_tec", rval = "bool", args = { } },
             { name = "has_trait", rval = "bool", args = { "string" } },
             { name = "has_weapon", rval = "bool", args = { } },
@@ -1237,6 +1265,7 @@ classes = {
             { name = "is_elec_immune", rval = "bool", args = { } },
             { name = "is_fake", rval = "bool", args = { } },
             { name = "is_hallucination", rval = "bool", args = { } },
+            { name = "is_immune_effect", rval = "bool", args = { "efftype_id" } },
             { name = "is_monster", rval = "bool", args = { } },
             { name = "is_npc", rval = "bool", args = { } },
             { name = "is_on_ground", rval = "bool", args = { } },
@@ -1268,6 +1297,8 @@ classes = {
             { name = "power_rating", rval = "float", args = { } },
             { name = "process_effects", rval = nil, args = { } },
             { name = "process_turn", rval = nil, args = { } },
+            { name = "remove_effect", rval = "bool", args = { "efftype_id" } },
+            { name = "remove_effect", rval = "bool", args = { "efftype_id", "body_part" } },
             { name = "remove_value", rval = nil, args = { "string" } },
             { name = "reset", rval = nil, args = { } },
             { name = "reset_bonuses", rval = nil, args = { } },
@@ -1325,6 +1356,11 @@ classes = {
             wandf = { type = "int", writable = true },
         },
         functions = {
+            { name = "add_effect", rval = nil, args = { "efftype_id", "int" } },
+            { name = "add_effect", rval = nil, args = { "efftype_id", "int", "body_part" } },
+            { name = "add_effect", rval = nil, args = { "efftype_id", "int", "body_part", "bool" } },
+            { name = "add_effect", rval = nil, args = { "efftype_id", "int", "body_part", "bool", "int" } },
+            { name = "add_effect", rval = nil, args = { "efftype_id", "int", "body_part", "bool", "int", "bool" } },
             { name = "apply_damage", rval = nil, args = { "Creature", "body_part", "int" } },
             { name = "attack_at", rval = "bool", args = { "tripoint" } },
             { name = "attack_target", rval = "Creature", args = { } },
