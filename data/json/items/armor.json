@@ -1173,7 +1173,7 @@
         "phase" : "solid",
         "encumbrance" : 17,
         "bashing" : -2,
-        "flags" : ["VARSIZE", "POCKETS"],
+        "flags" : ["VARSIZE"],
         "coverage" : 95,
         "material_thickness" : 2
     },
@@ -2334,7 +2334,7 @@
         "phase" : "solid",
         "encumbrance" : 15,
         "bashing" : -3,
-        "flags" : ["VARSIZE", "POCKETS"],
+        "flags" : ["VARSIZE"],
         "coverage" : 95,
         "material_thickness" : 2
     },
@@ -5038,7 +5038,7 @@
         "phase" : "solid",
         "encumbrance" : 5,
         "bashing" : -3,
-        "flags" : ["VARSIZE", "POCKETS", "WATER_FRIENDLY", "WAIST"],
+        "flags" : ["VARSIZE", "WATER_FRIENDLY", "WAIST"],
         "coverage" : 20,
         "material_thickness" : 2
     },
@@ -9290,7 +9290,7 @@
         "storage" : 3,
         "symbol" : "[",
         "description" : "In a pinch, these pants can be used for an impromptu game of checkers.",
-        "flags" : ["POCKETS", "VARSIZE"],
+        "flags" : ["VARSIZE"],
         "price" : 4000,
         "material" : ["cotton", "null"],
         "volume" : 5,
