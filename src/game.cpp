@@ -10381,6 +10381,9 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
                 int charges_consumed = u.drink_from_hands(liquid);
                 if (!infinite) {
                     liquid.charges -= charges_consumed;
+                    if ( liquid.charges <= 0 ) {
+                        return true;
+                    }
                 }
             }
 
