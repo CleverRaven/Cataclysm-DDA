@@ -13,6 +13,9 @@
 #include <vector>
 #include <cassert>
 
+const efftype_id effect_controlled( "controlled" );
+const efftype_id effect_pet( "pet" );
+
 bool game::make_drop_activity( enum activity_type act, const tripoint &target, bool to_vehicle )
 {
     std::list<std::pair<int, int> > dropped = multidrop();
@@ -134,7 +137,7 @@ static void stash_on_pet( item *item_to_stash, monster *pet )
     bool too_big = max_cap - vol < 0;
 
     // Stay still you little...
-    pet->add_effect("controlled", 5);
+    pet->add_effect( effect_controlled, 5);
 
     if( !too_heavy && !too_big ) {
         pet->inv.push_back( *item_to_stash );
@@ -158,7 +161,7 @@ static void stash_on_pet( std::vector<item> &dropped_items, std::vector<item> &d
         return;
     }
     monster *pet = dynamic_cast<monster *>(critter);
-    if( pet == NULL || !pet->has_effect("pet") ) {
+    if( pet == NULL || !pet->has_effect( effect_pet) ) {
         return;
     }
 
@@ -250,7 +253,7 @@ static void activity_on_turn_drop_or_stash( enum activity_type act )
         return;
     }
     // If we make it here load anything left into a new activity.
-    make_drop_activity( act, drop_target, selected_items, item_quantities, selected_worn_items, 
+    make_drop_activity( act, drop_target, selected_items, item_quantities, selected_worn_items,
             worn_item_quantities, ignoring_interruptions, to_vehicle );
 }
 
@@ -308,7 +311,7 @@ void activity_on_turn_pickup()
 
 // I'd love to have this not duplicate so much code from Pickup::pick_one_up(),
 // but I don't see a clean way to do that.
-static void move_items( const tripoint &src, bool from_vehicle, 
+static void move_items( const tripoint &src, bool from_vehicle,
                         const tripoint &dest, bool to_vehicle,
                         std::list<int> &indices, std::list<int> &quantities )
 {
@@ -473,4 +476,3 @@ void activity_on_turn_move_items()
 void activity_on_turn_move_all_items()
 {
 }
-

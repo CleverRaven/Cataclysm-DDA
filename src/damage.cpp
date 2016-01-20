@@ -101,12 +101,12 @@ int dealt_damage_instance::total_damage() const
 resistances::resistances() : resist_vals( NUM_DT, 0 ) { }
 resistances::resistances( item &armor, bool to_self ) : resist_vals( NUM_DT, 0 )
 {
-    if( armor.is_armor() ) {
-        set_resist( DT_BASH, armor.bash_resist( to_self ) );
-        set_resist( DT_CUT,  armor.cut_resist( to_self ) );
-        set_resist( DT_STAB, armor.stab_resist( to_self ) );
-        set_resist( DT_ACID, armor.acid_resist( to_self ) );
-        set_resist( DT_HEAT, armor.fire_resist( to_self ) );
+    // Armors protect, but all items can resist
+    if( to_self || armor.is_armor() ) {
+        for( int i = 0; i < NUM_DT; i++ ) {
+            damage_type dt = static_cast<damage_type>( i );
+            set_resist( dt, armor.damage_resist( dt, to_self ) );
+        }
     }
 }
 resistances::resistances( monster &monster ) : resist_vals( NUM_DT, 0 )

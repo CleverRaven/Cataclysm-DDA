@@ -33,6 +33,9 @@ const skill_id skill_throw( "throw" );
 const skill_id skill_gun( "gun" );
 const skill_id skill_melee( "melee" );
 
+const efftype_id effect_on_roof( "on_roof" );
+const efftype_id effect_bounced( "bounced" );
+
 static projectile make_gun_projectile( const item &gun );
 int time_to_fire(player &p, const itype &firing);
 static inline void eject_casing( player& p, item& weap );
@@ -142,7 +145,7 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
     tripoint prev_point = source;
 
     // If this is a vehicle mounted turret, which vehicle is it mounted on?
-    const vehicle *in_veh = has_effect( "on_roof" ) ?
+    const vehicle *in_veh = has_effect( effect_on_roof ) ?
                             g->m.veh_at( pos() ) : nullptr;
 
     //Start this now in case we hit something early
@@ -248,9 +251,9 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
             if( rl_dist( z.pos(), tp ) <= 4 &&
                 g->m.sees( z.pos(), tp, -1 ) ) {
                 // don't hit targets that have already been hit
-                if (!z.has_effect("bounced")) {
+                if( !z.has_effect( effect_bounced ) ) {
                     add_msg(_("The attack bounced to %s!"), z.name().c_str());
-                    z.add_effect("bounced", 1);
+                    z.add_effect( effect_bounced, 1 );
                     projectile_attack( proj, tp, z.pos(), shot_dispersion );
                     sfx::play_variant_sound( "fire_gun", "bio_lightning_tail", sfx::get_heard_volume(z.pos()), sfx::get_heard_angle(z.pos()));
                     break;
@@ -443,9 +446,9 @@ void player::fire_gun( const tripoint &target, bool burst, item& gun )
         }
 
         if (curshot > 0) {
-            recoil += recoil_add( *this, gun ) / ( has_effect( "on_roof" ) ? 90 : 2 );
+            recoil += recoil_add( *this, gun ) / ( has_effect( effect_on_roof ) ? 90 : 2 );
         } else {
-            recoil += recoil_add( *this, gun ) / ( has_effect( "on_roof" ) ? 30 : 1 );
+            recoil += recoil_add( *this, gun ) / ( has_effect( effect_on_roof ) ? 30 : 1 );
         }
 
         auto dealt = projectile_attack( make_gun_projectile( gun ), targ, total_dispersion );

@@ -83,6 +83,26 @@ const species_id FUNGUS( "FUNGUS" );
 const species_id INSECT( "INSECT" );
 const species_id MAMMAL( "MAMMAL" );
 
+const efftype_id effect_beartrap( "beartrap" );
+const efftype_id effect_blind( "blind" );
+const efftype_id effect_bouldering( "bouldering" );
+const efftype_id effect_crushed( "crushed" );
+const efftype_id effect_deaf( "deaf" );
+const efftype_id effect_docile( "docile" );
+const efftype_id effect_downed( "downed" );
+const efftype_id effect_grabbed( "grabbed" );
+const efftype_id effect_heavysnare( "heavysnare" );
+const efftype_id effect_hit_by_player( "hit_by_player" );
+const efftype_id effect_in_pit( "in_pit" );
+const efftype_id effect_lightsnare( "lightsnare" );
+const efftype_id effect_onfire( "onfire" );
+const efftype_id effect_pacified( "pacified" );
+const efftype_id effect_run( "run" );
+const efftype_id effect_shrieking( "shrieking" );
+const efftype_id effect_stunned( "stunned" );
+const efftype_id effect_tied( "tied" );
+const efftype_id effect_webbed( "webbed" );
+
 monster::monster()
 {
     position.x = 20;
@@ -367,15 +387,15 @@ int monster::print_info(WINDOW* w, int vStart, int vLines, int column) const
     get_Attitude(color, attitude);
     wprintz(w, color, "%s", attitude.c_str());
 
-    if (has_effect("downed")) {
+    if (has_effect( effect_downed)) {
         wprintz(w, h_white, _("On ground"));
-    } else if (has_effect("stunned")) {
+    } else if (has_effect( effect_stunned)) {
         wprintz(w, h_white, _("Stunned"));
-    } else if (has_effect("lightsnare") || has_effect("heavysnare") || has_effect("beartrap")) {
+    } else if( has_effect( effect_lightsnare ) || has_effect( effect_heavysnare ) || has_effect( effect_beartrap ) ) {
         wprintz(w, h_white, _("Trapped"));
-    } else if (has_effect("tied")) {
+    } else if (has_effect( effect_tied)) {
         wprintz(w, h_white, _("Tied"));
-    } else if (has_effect("shrieking")) {
+    } else if (has_effect( effect_shrieking)) {
         wprintz(w, h_white, _("Shrieking"));
     }
     std::string damage_info;
@@ -433,14 +453,14 @@ bool monster::is_symbol_highlighted() const
 nc_color monster::color_with_effects() const
 {
     nc_color ret = type->color;
-    if (has_effect("beartrap") || has_effect("stunned") || has_effect("downed") || has_effect("tied") ||
-          has_effect("lightsnare") || has_effect("heavysnare")) {
+    if (has_effect( effect_beartrap ) || has_effect( effect_stunned ) || has_effect( effect_downed ) || has_effect( effect_tied ) ||
+          has_effect( effect_lightsnare) || has_effect( effect_heavysnare ) ) {
         ret = hilite(ret);
     }
-    if (has_effect("pacified")) {
+    if (has_effect( effect_pacified)) {
         ret = invert_color(ret);
     }
-    if (has_effect("onfire")) {
+    if (has_effect( effect_onfire)) {
         ret = red_background(ret);
     }
     return ret;
@@ -464,12 +484,12 @@ bool monster::has_flag(const m_flag f) const
 
 bool monster::can_see() const
 {
- return has_flag(MF_SEES) && !has_effect("blind");
+ return has_flag(MF_SEES) && !has_effect( effect_blind);
 }
 
 bool monster::can_hear() const
 {
- return has_flag(MF_HEARS) && !has_effect("deaf");
+ return has_flag(MF_HEARS) && !has_effect( effect_deaf);
 }
 
 bool monster::can_submerge() const
@@ -493,7 +513,7 @@ bool monster::can_act() const
 {
     return moves > 0 &&
         ( effects.empty() ||
-          ( !has_effect("stunned") && !has_effect("downed") && !has_effect("webbed") ) );
+          ( !has_effect( effect_stunned) && !has_effect( effect_downed ) && !has_effect( effect_webbed ) ) );
 }
 
 
@@ -569,7 +589,7 @@ Creature *monster::attack_target()
 
 bool monster::is_fleeing(player &u) const
 {
-    if( has_effect("run") ) {
+    if( has_effect( effect_run) ) {
         return true;
     }
     monster_attitude att = attitude(&u);
@@ -622,7 +642,7 @@ Creature::Attitude monster::attitude_to( const Creature &other ) const
 monster_attitude monster::attitude(player *u) const
 {
     if( friendly != 0 ) {
-        if( has_effect( "docile" ) ) {
+        if( has_effect( effect_docile ) ) {
             return MATT_FPASSIVE;
         }
         if( u == &g->u ) {
@@ -634,10 +654,10 @@ monster_attitude monster::attitude(player *u) const
             return MATT_FRIEND;
         }
     }
-    if (has_effect("run")) {
+    if (has_effect( effect_run)) {
         return MATT_FLEE;
     }
-    if (has_effect("pacified")) {
+    if (has_effect( effect_pacified)) {
         return MATT_ZLAVE;
     }
 
@@ -823,7 +843,7 @@ bool monster::is_elec_immune() const
 
 bool monster::is_immune_effect( const efftype_id &effect ) const
 {
-    if( effect == "onfire" ) {
+    if( effect == effect_onfire ) {
         return is_immune_damage( DT_HEAT ) ||
             made_of(LIQUID) ||
             made_of("stone") ||
@@ -882,10 +902,10 @@ void monster::melee_attack(Creature &target, bool, const matec_id&) {
     if (type->melee_dice == 0) { // We don't attack, so just return
         return;
     }
-    add_effect("hit_by_player", 3); // Make us a valid target for a few turns
+    add_effect( effect_hit_by_player, 3); // Make us a valid target for a few turns
 
     if (has_flag(MF_HIT_AND_RUN)) {
-        add_effect("run", 4);
+        add_effect( effect_run, 4);
     }
 
     bool u_see_me = g->u.sees(*this);
@@ -1045,7 +1065,7 @@ void monster::deal_projectile_attack( Creature *source, dealt_projectile_attack 
 
     // Whip has a chance to scare wildlife even if it misses
     if( effects.count("WHIP") && type->in_category("WILDLIFE") && one_in(3) ) {
-        add_effect("run", rng(3, 5));
+        add_effect( effect_run, rng(3, 5));
     }
 
     if( missed_by > 1.0 ) {
@@ -1163,28 +1183,28 @@ void monster::die_in_explosion(Creature* source)
 bool monster::move_effects(bool attacking)
 {
     bool u_see_me = g->u.sees(*this);
-    if (has_effect("tied")) {
+    if (has_effect( effect_tied)) {
         return false;
     }
-    if (has_effect("downed")) {
-        remove_effect("downed");
+    if (has_effect( effect_downed)) {
+        remove_effect( effect_downed);
         if (u_see_me) {
             add_msg(_("The %s climbs to its feet!"), name().c_str());
         }
         return false;
     }
-    if (has_effect("webbed")) {
-        if (x_in_y(type->melee_dice * type->melee_sides, 6 * get_effect_int("webbed"))) {
+    if (has_effect( effect_webbed)) {
+        if (x_in_y(type->melee_dice * type->melee_sides, 6 * get_effect_int( effect_webbed ) ) ) {
             if (u_see_me) {
                 add_msg(_("The %s breaks free of the webs!"), name().c_str());
             }
-            remove_effect("webbed");
+            remove_effect( effect_webbed);
         }
         return false;
     }
-    if (has_effect("lightsnare")) {
+    if (has_effect( effect_lightsnare)) {
         if(x_in_y(type->melee_dice * type->melee_sides, 12)) {
-            remove_effect("lightsnare");
+            remove_effect( effect_lightsnare);
             g->m.spawn_item(posx(), posy(), "string_36");
             g->m.spawn_item(posx(), posy(), "snare_trigger");
             if (u_see_me) {
@@ -1193,10 +1213,10 @@ bool monster::move_effects(bool attacking)
         }
         return false;
     }
-    if (has_effect("heavysnare")) {
+    if (has_effect( effect_heavysnare)) {
         if (type->melee_dice * type->melee_sides >= 7) {
             if(x_in_y(type->melee_dice * type->melee_sides, 32)) {
-                remove_effect("heavysnare");
+                remove_effect( effect_heavysnare);
                 g->m.spawn_item(posx(), posy(), "rope_6");
                 g->m.spawn_item(posx(), posy(), "snare_trigger");
                 if (u_see_me) {
@@ -1206,10 +1226,10 @@ bool monster::move_effects(bool attacking)
         }
         return false;
     }
-    if (has_effect("beartrap")) {
+    if (has_effect( effect_beartrap)) {
         if (type->melee_dice * type->melee_sides >= 18) {
             if(x_in_y(type->melee_dice * type->melee_sides, 200)) {
-                remove_effect("beartrap");
+                remove_effect( effect_beartrap);
                 g->m.spawn_item(posx(), posy(), "beartrap");
                 if (u_see_me) {
                     add_msg(_("The %s escapes the bear trap!"), name().c_str());
@@ -1218,10 +1238,10 @@ bool monster::move_effects(bool attacking)
         }
         return false;
     }
-    if (has_effect("crushed")) {
+    if (has_effect( effect_crushed)) {
         // Strength helps in getting free, but dex also helps you worm your way out of the rubble
         if(x_in_y(type->melee_dice * type->melee_sides, 100)) {
-            remove_effect("crushed");
+            remove_effect( effect_crushed);
             if (u_see_me) {
                 add_msg(_("The %s frees itself from the rubble!"), name().c_str());
             }
@@ -1231,24 +1251,24 @@ bool monster::move_effects(bool attacking)
 
     // If we ever get more effects that force movement on success this will need to be reworked to
     // only trigger success effects if /all/ rolls succeed
-    if (has_effect("in_pit")) {
+    if (has_effect( effect_in_pit)) {
         if (rng(0, 40) > type->melee_dice * type->melee_sides) {
             return false;
         } else {
             if (u_see_me) {
                 add_msg(_("The %s escapes the pit!"), name().c_str());
             }
-            remove_effect("in_pit");
+            remove_effect( effect_in_pit);
         }
     }
-    if (has_effect("grabbed")){
-        if ( (dice(type->melee_dice + type->melee_sides, 3) < get_effect_int("grabbed")) || !one_in(4) ){
+    if (has_effect( effect_grabbed)){
+        if ( (dice(type->melee_dice + type->melee_sides, 3) < get_effect_int( effect_grabbed ) ) || !one_in(4) ){
             return false;
         } else {
             if (u_see_me) {
                 add_msg(_("The %s breaks free from the grab!"), name().c_str());
             }
-            remove_effect("grabbed");
+            remove_effect( effect_grabbed);
         }
     }
     return Creature::move_effects(attacking);
@@ -1264,7 +1284,7 @@ void monster::add_eff_effects(effect e, bool reduced)
     }
     Creature::add_eff_effects(e, reduced);
 }
-void monster::add_effect( efftype_id eff_id, int dur, body_part bp,
+void monster::add_effect( const efftype_id &eff_id, int dur, body_part bp,
                           bool permanent, int intensity, bool force )
 {
     bp = num_bp;
@@ -1317,7 +1337,7 @@ int monster::get_armor_type( damage_type dt, body_part bp ) const
 
 int monster::hit_roll() const {
     //Unstable ground chance of failure
-    if (has_effect("bouldering")) {
+    if (has_effect( effect_bouldering)) {
         if(one_in(type->melee_skill)) {
             return 0;
         }
@@ -1352,7 +1372,7 @@ int monster::stability_roll() const
     }
 
     int stability = dice(type->melee_sides, type->melee_dice) + size_bonus;
-    if( has_effect( "stunned" ) ) {
+    if( has_effect( effect_stunned ) ) {
         stability -= rng( 1, 5 );
     }
     return stability;
@@ -1360,11 +1380,11 @@ int monster::stability_roll() const
 
 int monster::get_dodge() const
 {
-    if (has_effect("downed")) {
+    if (has_effect( effect_downed)) {
         return 0;
     }
     int ret = type->sk_dodge;
-    if (has_effect("lightsnare") || has_effect("heavysnare") || has_effect("beartrap") || has_effect("tied")) {
+    if( has_effect( effect_lightsnare ) || has_effect( effect_heavysnare ) || has_effect( effect_beartrap ) || has_effect( effect_tied ) ) {
         ret /= 2;
     }
     if (moves <= 0 - 100 - get_speed()) {
@@ -1380,7 +1400,7 @@ int monster::get_melee() const
 
 int monster::dodge_roll()
 {
-    if (has_effect("bouldering")) {
+    if (has_effect( effect_bouldering)) {
         if(one_in(type->sk_dodge)) {
             return 0;
         }
@@ -1449,7 +1469,7 @@ int monster::impact( const int force, const tripoint &p )
     apply_damage( nullptr, bp_torso, bash_damage );
     total_dealt += force * mod;
 
-    add_effect( "downed", rng( 0, mod * 3 + 1 ) );
+    add_effect( effect_downed, rng( 0, mod * 3 + 1 ) );
 
     return total_dealt;
 }
@@ -1590,19 +1610,19 @@ void monster::die(Creature* nkiller) {
         }
     }
     // We were tied up at the moment of death, add a short rope to inventory
-    if ( has_effect("tied") ) {
+    if ( has_effect( effect_tied) ) {
         item rope_6("rope_6", 0);
         add_item(rope_6);
     }
-    if( has_effect( "lightsnare" ) ) {
+    if( has_effect( effect_lightsnare ) ) {
         add_item( item( "string_36", 0 ) );
         add_item( item( "snare_trigger", 0 ) );
     }
-    if( has_effect( "heavysnare" ) ) {
+    if( has_effect( effect_heavysnare ) ) {
         add_item( item( "rope_6", 0 ) );
         add_item( item( "snare_trigger", 0 ) );
     }
-    if( has_effect( "beartrap" ) ) {
+    if( has_effect( effect_beartrap ) ) {
         add_item( item( "beartrap", 0 ) );
     }
 
@@ -1702,9 +1722,9 @@ void monster::process_effects()
                 }
             }
 
-            std::string id = _effect_it.second.get_id();
+            const efftype_id &id = _effect_it.second.get_id();
             // MATERIALS-TODO: use fire resistance
-            if (id == "onfire") {
+            if( id == effect_onfire ) {
                 if (made_of("flesh") || made_of("iflesh"))
                     apply_damage( nullptr, bp_torso, rng( 3, 8 ) );
                 if (made_of("veggy"))
@@ -2059,4 +2079,3 @@ void monster::on_load()
     const int healed = heal( heal_amount );
     add_msg( m_debug, "on_load() by %s, %d turns, healed %d", name().c_str(), dt, healed );
 }
-

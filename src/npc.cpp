@@ -54,6 +54,13 @@ const skill_id skill_smg( "smg" );
 const skill_id skill_launcher( "launcher" );
 const skill_id skill_cutting( "cutting" );
 
+const efftype_id effect_drunk( "drunk" );
+const efftype_id effect_high( "high" );
+const efftype_id effect_pkill1( "pkill1" );
+const efftype_id effect_pkill2( "pkill2" );
+const efftype_id effect_pkill3( "pkill3" );
+const efftype_id effect_pkill_l( "pkill_l" );
+
 std::list<item> starting_clothes(npc_class type, bool male);
 std::list<item> starting_inv(npc *me, npc_class type);
 
@@ -1289,7 +1296,7 @@ void npc::form_opinion(player *u)
  if (u->stim > 20)
   op_of_u.fear++;
 
- if (u->has_effect("drunk"))
+ if (u->has_effect( effect_drunk))
   op_of_u.fear -= 2;
 
 // TRUST
@@ -1303,9 +1310,9 @@ void npc::form_opinion(player *u)
  else if (u->unarmed_attack())
   op_of_u.trust += 2;
 
- if (u->has_effect("high"))
+ if (u->has_effect( effect_high))
   op_of_u.trust -= 1;
- if (u->has_effect("drunk"))
+ if (u->has_effect( effect_drunk))
   op_of_u.trust -= 2;
  if (u->stim > 20 || u->stim < -20)
   op_of_u.trust -= 1;
@@ -1415,7 +1422,7 @@ int npc::player_danger(player *u) const
  if (u->stim > 20)
   ret++;
 
- if (u->has_effect("drunk"))
+ if (u->has_effect( effect_drunk))
   ret -= 2;
 
  return ret;
@@ -1818,8 +1825,8 @@ bool npc::has_painkiller()
 
 bool npc::took_painkiller() const
 {
- return (has_effect("pkill1") || has_effect("pkill2") ||
-         has_effect("pkill3") || has_effect("pkill_l"));
+ return (has_effect( effect_pkill1 ) || has_effect( effect_pkill2 ) ||
+         has_effect( effect_pkill3 ) || has_effect( effect_pkill_l ));
 }
 
 bool npc::is_friend() const

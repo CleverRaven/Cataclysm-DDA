@@ -1768,7 +1768,7 @@ void Creature::store( JsonOut &jsout ) const
         for (auto i : maps.second) {
             std::ostringstream convert;
             convert << i.first;
-            tmp_map[maps.first][convert.str()] = i.second;
+            tmp_map[maps.first.str()][convert.str()] = i.second;
         }
     }
     jsout.member( "effects", tmp_map );
@@ -1819,15 +1819,16 @@ void Creature::load( JsonObject &jsin )
             jsin.read( "effects", tmp_map );
             int key_num;
             for (auto maps : tmp_map) {
-                if (effect_types.find(maps.first) == effect_types.end()) {
-                    debugmsg("Invalid effect: %s", maps.first.c_str());
+                const efftype_id id( maps.first );
+                if( !id.is_valid() ) {
+                    debugmsg( "Invalid effect: %s", id.c_str() );
                     continue;
                 }
                 for (auto i : maps.second) {
                     if ( !(std::istringstream(i.first) >> key_num) ) {
                         key_num = 0;
                     }
-                    effects[maps.first][(body_part)key_num] = i.second;
+                    effects[id][(body_part)key_num] = i.second;
                 }
             }
         }

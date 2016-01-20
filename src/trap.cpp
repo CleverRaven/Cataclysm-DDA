@@ -66,6 +66,8 @@ int_id<trap>::int_id( const string_id<trap> &id )
 
 const skill_id skill_traps( "traps" );
 
+const efftype_id effect_lack_sleep( "lack_sleep" );
+
 static std::vector<const trap*> funnel_traps;
 const std::vector<const trap*> trap::get_funnels()
 {
@@ -140,7 +142,7 @@ bool trap::detect_trap( const tripoint &pos, const player &p ) const
            // ...luck, might be good, might be bad...
            rng(-4, 4) -
            // ...malus if we are tired...
-           (p.has_effect("lack_sleep") ? rng(1, 5) : 0) -
+           (p.has_effect( effect_lack_sleep) ? rng(1, 5) : 0) -
            // ...malus farther we are from trap...
            rl_dist( p.pos(), pos ) +
            // Police are trained to notice Something Wrong.

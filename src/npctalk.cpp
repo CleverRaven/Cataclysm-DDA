@@ -28,6 +28,21 @@
 const skill_id skill_speech( "speech" );
 const skill_id skill_barter( "barter" );
 
+const efftype_id effect_allow_sleep( "allow_sleep" );
+const efftype_id effect_asked_for_item( "asked_for_item" );
+const efftype_id effect_asked_personal_info( "asked_personal_info" );
+const efftype_id effect_asked_to_follow( "asked_to_follow" );
+const efftype_id effect_asked_to_lead( "asked_to_lead" );
+const efftype_id effect_asked_to_train( "asked_to_train" );
+const efftype_id effect_bite( "bite" );
+const efftype_id effect_bleed( "bleed" );
+const efftype_id effect_currently_busy( "currently_busy" );
+const efftype_id effect_gave_quest_item( "gave_quest_item" );
+const efftype_id effect_infected( "infected" );
+const efftype_id effect_infection( "infection" );
+const efftype_id effect_lying_down( "lying_down" );
+const efftype_id effect_sleep( "sleep" );
+
 std::string talk_needs[num_needs][5];
 std::string talk_okay[10];
 std::string talk_no[10];
@@ -608,7 +623,7 @@ void npc::talk_to_u()
 
     // Needs
     // TODO: Use talk_needs for food and drinks
-    if( has_effect( "sleep" ) || has_effect( "lying_down" ) ) {
+    if( has_effect( effect_sleep ) || has_effect( effect_lying_down ) ) {
         d.topic_stack.push_back( "TALK_WAKE_UP" );
     }
 
@@ -1138,7 +1153,7 @@ std::string dialogue::dynamic_line( const std::string &topic ) const
                       "are a trader there isn't much work there and food was really becoming scarce when I left.");
 
     } else if( topic == "TALK_RANCH_CONSTRUCTION_2_HIRE" ) {
-             if (p->has_effect(_("currently_busy"))){
+             if( p->has_effect( effect_currently_busy ) ) {
                 return _("Come back later, I need to take care of a few things first.");
              } else {
                 return _("I'm tasked out to the construction party but I might be able to show you a few pointers that "
@@ -1155,7 +1170,7 @@ std::string dialogue::dynamic_line( const std::string &topic ) const
                       "kingdom come.");
 
     } else if( topic == "TALK_RANCH_WOODCUTTER_HIRE" ) {
-             if (p->has_effect(_("currently_busy"))){
+             if( p->has_effect( effect_currently_busy ) ) {
                 return _("Come back later, I need to take care of a few things first.");
              } else {
                 return _("The rate is a bit steep but I still have my quotas that I need to fulfill.  The logs will "
@@ -1231,7 +1246,7 @@ std::string dialogue::dynamic_line( const std::string &topic ) const
                       "I also have a few miscellaneous jobs from time to time.");
 
     } else if( topic == "TALK_RANCH_NURSE_AID" ) {
-             if (p->has_effect(_("currently_busy"))){
+             if( p->has_effect( effect_currently_busy ) ) {
                 return _("Come back later, I need to take care of a few things first.");
              } else {
                 return _("I can take a look at you or your companions if you are injured.");
@@ -1318,7 +1333,7 @@ std::string dialogue::dynamic_line( const std::string &topic ) const
         }
 
     } else if( topic == "TALK_SHARE_EQUIPMENT" ) {
-        if (p->has_effect(_("asked_for_item"))) {
+        if( p->has_effect( effect_asked_for_item ) ) {
             return _("You just asked me for stuff; ask later.");
         }
         return _("Why should I share my equipment with you?");
@@ -1333,7 +1348,7 @@ std::string dialogue::dynamic_line( const std::string &topic ) const
             return _("<no><punc> <fuck_you>!");
         }
 
-    } 
+    }
     if( topic == "TALK_TRAIN" ) {
         if( !g->u.backlog.empty() && g->u.backlog.front().type == ACT_TRAIN ) {
             return _("Shall we resume?");
@@ -1359,10 +1374,10 @@ std::string dialogue::dynamic_line( const std::string &topic ) const
         return _("Alright, let's begin.");
 
     } else if( topic == "TALK_SUGGEST_FOLLOW" ) {
-        if (p->has_effect(_("infection"))) {
+        if( p->has_effect( effect_infection ) ) {
             return _("Not until I get some antibiotics...");
         }
-        if (p->has_effect(_("asked_to_follow"))) {
+        if( p->has_effect( effect_asked_to_follow ) ) {
             return _("You asked me recently; ask again later.");
         }
         return _("Why should I travel with you?");
@@ -1620,7 +1635,7 @@ std::string dialogue::dynamic_line( const std::string &topic ) const
         return opinion.str();
 
     } else if( topic == "TALK_WAKE_UP" ) {
-        if( p->has_effect( "sleep" ) ) {
+        if( p->has_effect( effect_sleep ) ) {
             if( p->fatigue > EXHAUSTED ) {
                 return _("No, just <swear> no...");
             } else if( p->fatigue > DEAD_TIRED) {
@@ -2080,7 +2095,7 @@ void dialogue::gen_responses( const std::string &topic )
     } else if( topic == "TALK_OLD_GUARD_NEC_COMMO" ) {
             if (g->u.has_trait("PROF_FED")){
                 for( auto miss_it : g->u.get_active_missions() ) {
-                    if( miss_it->name() == "Locate Commo Team" && !p->has_effect(_("gave_quest_item"))){
+                    if( miss_it->name() == "Locate Commo Team" && !p->has_effect( effect_gave_quest_item ) ) {
                         add_response( _("[MISSION] The captain sent me to get a frequency list from you."),
                                           "TALK_OLD_GUARD_NEC_COMMO_FREQ" );
                     }
@@ -2101,7 +2116,7 @@ void dialogue::gen_responses( const std::string &topic )
     } else if( topic == "TALK_OLD_GUARD_NEC_COMMO_FREQ" ) {
             popup(_("%1$s gives you a %2$s"), p->name.c_str(), item("necropolis_freq", 0).tname().c_str());
             g->u.i_add( item("necropolis_freq", 0) );
-            p->add_effect("gave_quest_item", 9999);
+            p->add_effect( effect_gave_quest_item, 9999);
             add_response( _("Thanks."), "TALK_OLD_GUARD_NEC_COMMO" );
 
     } else if( topic == "TALK_SCAVENGER_MERC" ) {
@@ -2205,7 +2220,7 @@ void dialogue::gen_responses( const std::string &topic )
             add_response( _("You might be seeing more of me..."), "TALK_FREE_MERCHANT_STOCKS" );
     } else if( topic == "TALK_RANCH_FOREMAN" ) {
             for( auto miss_it : g->u.get_active_missions() ) {
-                if( miss_it->name() == "Retrieve Prospectus" && !p->has_effect(_("gave_quest_item"))){
+                if( miss_it->name() == "Retrieve Prospectus" && !p->has_effect( effect_gave_quest_item ) ) {
                     add_response( _("[MISSION] The merchant at the Refugee Center sent me to get a prospectus from you."), "TALK_RANCH_FOREMAN_PROSPECTUS" );
                 }
             }
@@ -2223,7 +2238,7 @@ void dialogue::gen_responses( const std::string &topic )
     } else if( topic == "TALK_RANCH_FOREMAN_PROSPECTUS" ) {
             popup(_("%1$s gives you a %2$s"), p->name.c_str(), item("commune_prospectus", 0).tname().c_str());
             g->u.i_add( item("commune_prospectus", 0) );
-            p->add_effect("gave_quest_item", 9999);
+            p->add_effect( effect_gave_quest_item, 9999);
             add_response( _("Thanks."), "TALK_RANCH_FOREMAN" );
     } else if( topic == "TALK_RANCH_FOREMAN_OUTPOST" ) {
             add_response( _("How many refugees are you expecting?"), "TALK_RANCH_FOREMAN_REFUGEES" );
@@ -2240,7 +2255,7 @@ void dialogue::gen_responses( const std::string &topic )
     } else if( topic == "TALK_RANCH_CONSTRUCTION_2_JOB" ) {
             add_response( _("..."), "TALK_RANCH_CONSTRUCTION_2" );
     } else if( topic == "TALK_RANCH_CONSTRUCTION_2_HIRE" ) {
-            if (g->u.cash >= 2000 && !p->has_effect(_("currently_busy"))){
+            if (g->u.cash >= 2000 && !p->has_effect( effect_currently_busy ) ) {
                 add_response( _("[$20,1h] Sure, I could use a bit of help..."), "TALK_DONE" );
                 SUCCESS_ACTION(&talk_function::construction_tips);
             }
@@ -2252,7 +2267,7 @@ void dialogue::gen_responses( const std::string &topic )
     } else if( topic == "TALK_RANCH_WOODCUTTER_JOB" ) {
             add_response( _("..."), "TALK_RANCH_WOODCUTTER" );
     } else if( topic == "TALK_RANCH_WOODCUTTER_HIRE" ) {
-            if (!p->has_effect(_("currently_busy"))){
+            if( !p->has_effect( effect_currently_busy ) ) {
                 if (g->u.cash >= 200000){
                     add_response( _("[$2000,1d] 10 logs"), "TALK_DONE" );
                     SUCCESS_ACTION(&talk_function::buy_10_logs);
@@ -2330,11 +2345,11 @@ void dialogue::gen_responses( const std::string &topic )
             talk_function::bulk_trade_accept(p, "bandages");
             add_response( _("Works for me."), "TALK_RANCH_NURSE" );
     } else if( topic == "TALK_RANCH_NURSE_AID" ) {
-            if (g->u.cash >= 20000 && !p->has_effect(_("currently_busy")) ){
+            if (g->u.cash >= 20000 && !p->has_effect( effect_currently_busy ) ) {
                 add_response( _("[$200, 30m] I need you to patch me up..."), "TALK_RANCH_NURSE_AID_DONE" );
                 SUCCESS_ACTION(&talk_function::give_aid);
             }
-            if (g->u.cash >= 50000 && !p->has_effect(_("currently_busy")) ){
+            if (g->u.cash >= 50000 && !p->has_effect( effect_currently_busy ) ) {
                 add_response( _("[$500, 1h] Could you look at me and my companions?"), "TALK_RANCH_NURSE_AID_DONE" );
                 SUCCESS_ACTION(&talk_function::give_all_aid);
             }
@@ -2415,7 +2430,7 @@ void dialogue::gen_responses( const std::string &topic )
             add_response( _("Maybe another time..."), "TALK_DONE" );
     } else if( topic == "TALK_RANCH_BARBER_JOB" ) {
             add_response( _("..."), "TALK_RANCH_BARBER" );
-    } 
+    }
     if( topic == "TALK_RANCH_BARBER_HIRE" ) {
             add_response( _("..."), "TALK_RANCH_BARBER" );
     } else if( topic == "TALK_RANCH_BARBER_CUT" ) {
@@ -2435,7 +2450,7 @@ void dialogue::gen_responses( const std::string &topic )
             add_response_none( _("Hmm, okay.") );
 
     } else if( topic == "TALK_SHARE_EQUIPMENT" ) {
-            if (p->has_effect(_("asked_for_item"))) {
+            if( p->has_effect( effect_asked_for_item ) ) {
                 add_response_none( _("Okay, fine.") );
             } else {
                 int score = p->op_of_u.trust + p->op_of_u.value * 3 +
@@ -2548,9 +2563,9 @@ void dialogue::gen_responses( const std::string &topic )
             add_response_none( _("On second thought, never mind.") );
 
     } else if( topic == "TALK_SUGGEST_FOLLOW" ) {
-            if (p->has_effect(_("infection"))) {
+            if( p->has_effect( effect_infection ) ) {
                 add_response_none( _("Understood.  I'll get those antibiotics.") );
-            } else if (p->has_effect(_("asked_to_follow"))) {
+            } else if( p->has_effect( effect_asked_to_follow ) ) {
                 add_response_none( _("Right, right, I'll ask later.") );
             } else {
                 int strength = 3 * p->op_of_u.fear + p->op_of_u.value + p->op_of_u.trust +
@@ -2606,7 +2621,7 @@ void dialogue::gen_responses( const std::string &topic )
                 add_response( _("How much further?"), "TALK_HOW_MUCH_FURTHER" );
             }
             add_response( _("I'm going to go my own way for a while."), "TALK_LEAVE" );
-            if (!p->has_effect(_("asked_to_lead"))) {
+            if( !p->has_effect( effect_asked_to_lead ) ) {
                 RESPONSE(_("I'd like to lead for a while."));
                     TRIAL(TALK_TRIAL_PERSUADE, persuade);
                         SUCCESS("TALK_PLAYER_LEADS");
@@ -2648,7 +2663,7 @@ void dialogue::gen_responses( const std::string &topic )
             add_response( _("Combat commands..."), "TALK_COMBAT_COMMANDS" );
             add_response( _("Can I do anything for you?"), "TALK_MISSION_LIST" );
             RESPONSE(_("Can you teach me anything?"));
-            if (!p->has_effect("asked_to_train")) {
+            if( !p->has_effect( effect_asked_to_train ) ) {
                 int commitment = 2 * p->op_of_u.trust + 1 * p->op_of_u.value -
                                   3 * p->op_of_u.anger + p->op_of_u.owed / 50;
                 TRIAL(TALK_TRIAL_PERSUADE, commitment * 2);
@@ -2674,7 +2689,7 @@ void dialogue::gen_responses( const std::string &topic )
             }
             if (p->is_following()) {
                 RESPONSE(_("I'd like to know a bit more about you..."));
-                if (!p->has_effect("asked_personal_info")) {
+                if( !p->has_effect( effect_asked_personal_info ) ) {
                     int loyalty = 3 * p->op_of_u.trust + 1 * p->op_of_u.value -
                                     3 * p->op_of_u.anger + p->op_of_u.owed / 25;
                     TRIAL(TALK_TRIAL_PERSUADE, loyalty * 2);
@@ -3259,9 +3274,9 @@ void talk_function::stop_guard(npc *p)
 void talk_function::wake_up(npc *p)
 {
     p->rules.allow_sleep = false;
-    p->remove_effect( "allow_sleep" );
-    p->remove_effect( "lying_down" );
-    p->remove_effect( "sleep" );
+    p->remove_effect( effect_allow_sleep );
+    p->remove_effect( effect_lying_down );
+    p->remove_effect( effect_sleep );
     // TODO: Get mad at player for waking us up unless we're in danger
 }
 
@@ -3327,25 +3342,25 @@ void talk_function::give_equipment(npc *p)
 
     g->u.i_add( it );
     p->op_of_u.owed -= giving[chosen].price;
-    p->add_effect("asked_for_item", 1800);
+    p->add_effect( effect_asked_for_item, 1800 );
 }
 
 void talk_function::give_aid(npc *p)
 {
     g->u.cash -= 20000;
-    p->add_effect("currently_busy", 300);
+    p->add_effect( effect_currently_busy, 300 );
     body_part bp_healed;
     for (int i = 0; i < num_hp_parts; i++) {
         bp_healed = player::hp_to_bp( hp_part(i) );
         g->u.heal(hp_part(i), 5*rng(2,5));
-        if (g->u.has_effect("bite", bp_healed)) {
-            g->u.remove_effect("bite", bp_healed);
+        if( g->u.has_effect( effect_bite, bp_healed ) ) {
+            g->u.remove_effect( effect_bite, bp_healed);
         }
-        if (g->u.has_effect("bleed", bp_healed)) {
-            g->u.remove_effect("bleed", bp_healed);
+        if( g->u.has_effect( effect_bleed, bp_healed ) ) {
+            g->u.remove_effect( effect_bleed, bp_healed );
         }
-        if (g->u.has_effect("infected", bp_healed)) {
-            g->u.remove_effect("infected", bp_healed);
+        if( g->u.has_effect( effect_infected, bp_healed ) ) {
+            g->u.remove_effect( effect_infected, bp_healed );
         }
     }
     g->u.assign_activity(ACT_WAIT_NPC, 10000);
@@ -3355,7 +3370,7 @@ void talk_function::give_aid(npc *p)
 void talk_function::give_all_aid(npc *p)
 {
     g->u.cash -= 30000;
-    p->add_effect("currently_busy", 300);
+    p->add_effect( effect_currently_busy, 300);
     give_aid(p);
     body_part bp_healed;
     for( auto &elem : g->active_npc ) {
@@ -3363,14 +3378,14 @@ void talk_function::give_all_aid(npc *p)
             for (int i = 0; i < num_hp_parts; i++) {
                 bp_healed = player::hp_to_bp( hp_part(i) );
                 elem->heal(hp_part(i), 5*rng(2,5));
-                if (elem->has_effect("bite", bp_healed)) {
-                    elem->remove_effect("bite", bp_healed);
+                if (elem->has_effect( effect_bite, bp_healed)) {
+                    elem->remove_effect( effect_bite, bp_healed);
                 }
-                if (elem->has_effect("bleed", bp_healed)) {
-                    elem->remove_effect("bleed", bp_healed);
+                if (elem->has_effect( effect_bleed, bp_healed)) {
+                    elem->remove_effect( effect_bleed, bp_healed);
                 }
-                if (elem->has_effect("infected", bp_healed)) {
-                    elem->remove_effect("infected", bp_healed);
+                if (elem->has_effect( effect_infected, bp_healed)) {
+                    elem->remove_effect( effect_infected, bp_healed);
                 }
             }
         }
@@ -3383,7 +3398,7 @@ void talk_function::construction_tips(npc *p)
     g->u.practice( skill_id( "carpentry" ), 30 );
     g->u.assign_activity(ACT_WAIT_NPC, 600);
     g->u.activity.str_values.push_back(p->name);
-    p->add_effect("currently_busy", 600);
+    p->add_effect( effect_currently_busy, 600);
 }
 
 void talk_function::buy_beer(npc *p)
@@ -3469,7 +3484,7 @@ void talk_function::buy_10_logs(npc *p)
     bay.spawn_item( 7, 15, "log", 10);
     bay.save();
 
-    p->add_effect("currently_busy", 14400);
+    p->add_effect( effect_currently_busy, 14400);
     g->u.cash -= 200000;
     add_msg(m_good, _("%s drops the logs off in the garage..."), p->name.c_str());
 }
@@ -3495,7 +3510,7 @@ void talk_function::buy_100_logs(npc *p)
     bay.spawn_item( 7, 15, "log", 100);
     bay.save();
 
-    p->add_effect("currently_busy", 100800);
+    p->add_effect( effect_currently_busy, 100800);
     g->u.cash -= 1200000;
     add_msg(m_good, _("%s drops the logs off in the garage..."), p->name.c_str());
 }
@@ -3508,27 +3523,27 @@ void talk_function::follow(npc *p)
 
 void talk_function::deny_follow(npc *p)
 {
-    p->add_effect("asked_to_follow", 3600);
+    p->add_effect( effect_asked_to_follow, 3600);
 }
 
 void talk_function::deny_lead(npc *p)
 {
- p->add_effect("asked_to_lead", 3600);
+ p->add_effect( effect_asked_to_lead, 3600);
 }
 
 void talk_function::deny_equipment(npc *p)
 {
- p->add_effect("asked_for_item", 600);
+ p->add_effect( effect_asked_for_item, 600);
 }
 
 void talk_function::deny_train(npc *p)
 {
- p->add_effect("asked_to_train", 3600);
+ p->add_effect( effect_asked_to_train, 3600);
 }
 
 void talk_function::deny_personal_info(npc *p)
 {
- p->add_effect("asked_personal_info", 1800);
+ p->add_effect( effect_asked_personal_info, 1800);
 }
 
 void talk_function::hostile(npc *p)
@@ -3666,7 +3681,7 @@ void talk_function::start_training( npc *p )
         return;
     }
     g->u.assign_activity( ACT_TRAIN, time * 100, 0, 0, name );
-    p->add_effect( "asked_to_train", 3600 );
+    p->add_effect( effect_asked_to_train, 3600 );
 }
 
 void parse_tags(std::string &phrase, const player *u, const npc *me)

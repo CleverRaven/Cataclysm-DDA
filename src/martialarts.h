@@ -18,6 +18,8 @@ class ma_buff;
 using mabuff_id = string_id<ma_buff>;
 class ma_technique;
 using matec_id = string_id<ma_technique>;
+class effect_type;
+using efftype_id = string_id<effect_type>;
 
 struct ma_requirements {
     bool unarmed_allowed; // does this bonus work when unarmed?
@@ -165,8 +167,8 @@ class ma_buff
         bool can_melee() const;
 
         // The ID of the effect that is used to store this buff
-        std::string get_effect_id() const;
-        // If the effects represents an ma_buff effect, return the ma_buff, otherwise retur null.
+        efftype_id get_effect_id() const;
+        // If the effects represents an ma_buff effect, return the ma_buff, otherwise return null.
         static const ma_buff *from_effect( const effect &eff );
 
         mabuff_id id;

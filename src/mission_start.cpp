@@ -28,6 +28,8 @@ const mtype_id mon_zombie_hulk( "mon_zombie_hulk" );
 const mtype_id mon_zombie_master( "mon_zombie_master" );
 const mtype_id mon_zombie_necro( "mon_zombie_necro" );
 
+const efftype_id effect_infection( "infection" );
+
 /* These functions are responsible for making changes to the game at the moment
  * the mission is accepted by the player.  They are also responsible for
  * updating *miss with the target and any other important information.
@@ -127,7 +129,7 @@ void mission_start::infect_npc( mission *miss )
         debugmsg( "mission_start::infect_npc() couldn't find an NPC!" );
         return;
     }
-    p->add_effect( "infection", 1, num_bp, 1, true );
+    p->add_effect( effect_infection, 1, num_bp, 1, true );
     // make sure they don't have any antibiotics
     p->remove_items_with( []( const item & it ) {
         return it.typeId() == "antibiotics";

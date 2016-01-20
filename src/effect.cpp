@@ -8,10 +8,32 @@
 #include <map>
 #include <sstream>
 
-std::map<std::string, effect_type> effect_types;
+namespace {
+std::map<efftype_id, effect_type> effect_types;
+}
+
+template<>
+const effect_type& string_id<effect_type>::obj() const
+{
+    const auto iter = effect_types.find( *this );
+    if( iter == effect_types.end() ) {
+        debugmsg( "invalid effect type id %s", c_str() );
+        const effect_type dummy{};
+        return dummy;
+    }
+    return iter->second;
+}
+
+template<>
+bool string_id<effect_type>::is_valid() const
+{
+    return effect_types.count( *this ) > 0;
+}
+
+const efftype_id effect_weed_high( "weed_high" );
 
 void weed_msg(player *p) {
-    int howhigh = p->get_effect_dur("weed_high");
+    int howhigh = p->get_effect_dur( effect_weed_high );
     ///\EFFECT_INT changes messages when smoking weed
     int smarts = p->get_int();
     if(howhigh > 125 && one_in(7)) {
@@ -631,7 +653,7 @@ std::string effect::disp_desc(bool reduced) const
     return ret.str();
 }
 
-void effect::decay(std::vector<std::string> &rem_ids, std::vector<body_part> &rem_bps,
+void effect::decay(std::vector<efftype_id> &rem_ids, std::vector<body_part> &rem_bps,
                    unsigned int turn, bool player)
 {
     // Decay duration if not permanent
@@ -776,17 +798,17 @@ const std::vector<std::string> &effect::get_resist_traits() const
 {
     return eff_type->resist_traits;
 }
-const std::vector<std::string> &effect::get_resist_effects() const
+const std::vector<efftype_id> &effect::get_resist_effects() const
 {
     return eff_type->resist_effects;
 }
-const std::vector<std::string> &effect::get_removes_effects() const
+const std::vector<efftype_id> &effect::get_removes_effects() const
 {
     return eff_type->removes_effects;
 }
-const std::vector<std::string> effect::get_blocks_effects() const
+const std::vector<efftype_id> effect::get_blocks_effects() const
 {
-    std::vector<std::string> ret = eff_type->removes_effects;
+    std::vector<efftype_id> ret = eff_type->removes_effects;
     ret.insert(ret.end(), eff_type->blocks_effects.begin(), eff_type->blocks_effects.end());
     return ret;
 }
@@ -1107,7 +1129,7 @@ std::string effect::get_speed_name() const
     }
 }
 
-effect_type *effect::get_effect_type() const
+const effect_type *effect::get_effect_type() const
 {
     return eff_type;
 }
@@ -1115,7 +1137,7 @@ effect_type *effect::get_effect_type() const
 void load_effect_type(JsonObject &jo)
 {
     effect_type new_etype;
-    new_etype.id = jo.get_string("id");
+    new_etype.id = efftype_id( jo.get_string( "id" ) );
 
     if(jo.has_member("name")) {
         JsonArray jsarr = jo.get_array("name");
@@ -1172,9 +1194,15 @@ void load_effect_type(JsonObject &jo)
     new_etype.remove_memorial_log = jo.get_string("remove_memorial_log", "");
 
     new_etype.resist_traits = jo.get_string_array("resist_traits");
-    new_etype.resist_effects = jo.get_string_array("resist_effects");
-    new_etype.removes_effects = jo.get_string_array("removes_effects");
-    new_etype.blocks_effects = jo.get_string_array("blocks_effects");
+    for( auto &&f : jo.get_string_array( "resist_effects" ) ) {
+        new_etype.resist_effects.push_back( efftype_id( f ) );
+    }
+    for( auto &&f : jo.get_string_array( "removes_effects" ) ) {
+        new_etype.removes_effects.push_back( efftype_id( f ) );
+    }
+    for( auto &&f : jo.get_string_array( "blocks_effects" ) ) {
+        new_etype.blocks_effects.push_back( efftype_id( f ) );
+    }
 
     new_etype.max_intensity = jo.get_int("max_intensity", 1);
     new_etype.max_duration = jo.get_int("max_duration", 0);
@@ -1198,6 +1226,7 @@ void load_effect_type(JsonObject &jo)
     new_etype.load_mod_data(jo, "scaling_mods");
 
     effect_types[new_etype.id] = new_etype;
+
 }
 
 void reset_effect_types()
@@ -1205,10 +1234,19 @@ void reset_effect_types()
     effect_types.clear();
 }
 
+void effect_type::register_ma_buff_effect( const effect_type &eff )
+{
+    if( eff.id.is_valid() ) {
+        debugmsg( "effect id %s of a martial art buff is already used as id for an effect" );
+        return;
+    }
+    effect_types.insert( std::make_pair( eff.id, eff ) );
+}
+
 void effect::serialize(JsonOut &json) const
 {
     json.start_object();
-    json.member("eff_type", eff_type != NULL ? eff_type->id : "");
+    json.member("eff_type", eff_type != NULL ? eff_type->id.str() : "");
     json.member("duration", duration);
     json.member("bp", (int)bp);
     json.member("permanent", permanent);
@@ -1219,7 +1257,8 @@ void effect::serialize(JsonOut &json) const
 void effect::deserialize(JsonIn &jsin)
 {
     JsonObject jo = jsin.get_object();
-    eff_type = &effect_types[jo.get_string("eff_type")];
+    const efftype_id id( jo.get_string( "eff_type" ) );
+    eff_type = &id.obj();
     duration = jo.get_int("duration");
     bp = (body_part)jo.get_int("bp");
     permanent = jo.get_bool("permanent");

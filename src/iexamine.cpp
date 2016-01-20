@@ -44,6 +44,9 @@ const skill_id skill_carpentry( "carpentry" );
 const skill_id skill_cooking( "cooking" );
 const skill_id skill_survival( "survival" );
 
+const efftype_id effect_pkill2( "pkill2" );
+const efftype_id effect_teleglow( "teleglow" );
+
 static void pick_plant( player *p, map *m, const tripoint &examp, std::string itemType, ter_id new_ter,
                         bool seeds = false );
 
@@ -1274,7 +1277,7 @@ void iexamine::flower_poppy(player *p, map *m, const tripoint &examp)
         p->moves -= 150; // You take your time...
         add_msg(_("You slowly suck up the nectar."));
         p->mod_hunger(-25);
-        p->add_effect("pkill2", 70);
+        p->add_effect( effect_pkill2, 70);
         p->fatigue += 20;
         // Please drink poppy nectar responsibly.
         if (one_in(20)) {
@@ -1427,7 +1430,7 @@ void iexamine::flower_marloss(player *p, map *m, const tripoint &examp)
             p->moves -= 50; // Takes 30 seconds
             add_msg(m_bad, _("This flower tastes very wrong..."));
             // If you can drink flowers, you're post-thresh and the Mycus does not want you.
-            p->add_effect("teleglow", 100);
+            p->add_effect( effect_teleglow, 100);
         }
     }
     if(!query_yn(_("Pick %s?"), m->furnname(examp).c_str())) {

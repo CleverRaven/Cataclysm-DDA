@@ -32,6 +32,14 @@ const skill_id skill_fabrication( "fabrication" );
 
 const species_id ZOMBIE( "ZOMBIE" );
 
+const efftype_id effect_bite( "bite" );
+const efftype_id effect_bleed( "bleed" );
+const efftype_id effect_infected( "infected" );
+const efftype_id effect_music( "music" );
+const efftype_id effect_playing_instrument( "playing_instrument" );
+const efftype_id effect_recover( "recover" );
+const efftype_id effect_sleep( "sleep" );
+
 iuse_transform::~iuse_transform()
 {
 }
@@ -349,7 +357,7 @@ iuse_actor *consume_drug_iuse::clone() const
 
 static effect_data load_effect_data( JsonObject &e )
 {
-    return effect_data( e.get_string( "id", "null" ), e.get_int( "duration", 0 ),
+    return effect_data( efftype_id( e.get_string( "id" ) ), e.get_int( "duration", 0 ),
         get_body_part_token( e.get_string( "bp", "NUM_BP" ) ), e.get_bool( "permanent", false ) );
 }
 
@@ -398,10 +406,6 @@ long consume_drug_iuse::use(player *p, item *it, bool, const tripoint& ) const
     }
     // Apply the various effects.
     for( auto eff : effects ) {
-        if (eff.id == "null") {
-            continue;
-        }
-
         int dur = eff.duration;
         if (p->has_trait("TOLERANCE")) {
             dur *= .8;
@@ -1339,8 +1343,8 @@ bool cauterize_actor::cauterize_effect( player *p, item *it, bool force )
             p->add_msg_if_player(m_neutral, _("It itches a little."));
         }
         const body_part bp = player::hp_to_bp( hpart );
-        if (p->has_effect("bite", bp)) {
-            p->add_effect("bite", 2600, bp, true);
+        if (p->has_effect( effect_bite, bp)) {
+            p->add_effect( effect_bite, 2600, bp, true);
         }
         return true;
     }
@@ -1354,7 +1358,7 @@ long cauterize_actor::use( player *p, item *it, bool t, const tripoint& ) const
         return 0;
     }
 
-    bool has_disease = p->has_effect("bite") || p->has_effect("bleed");
+    bool has_disease = p->has_effect( effect_bite ) || p->has_effect( effect_bleed );
     bool did_cauterize = false;
     if( flame && !p->has_charges("fire", 4) ) {
         p->add_msg_if_player( m_info, _("You need a source of flame (4 charges worth) before you can cauterize yourself.") );
@@ -1396,7 +1400,7 @@ bool cauterize_actor::can_use( const player *p, const item *it, bool, const trip
         return false;
     } else if( p->is_underwater() ) {
         return false;
-    } else if( p->has_effect( "bite" ) || p->has_effect( "bleed" ) ) {
+    } else if( p->has_effect( effect_bite ) || p->has_effect( effect_bleed ) ) {
         return true;
     } else if( p->has_trait("MASOCHIST") || p->has_trait("MASOCHIST_MED") || p->has_trait("CENOBITE") ) {
         return true;
@@ -1706,7 +1710,7 @@ long musical_instrument_actor::use( player *p, item *it, bool t, const tripoint&
 
     if( !t ) {
         // TODO: Make the player stop playing music when paralyzed/choking
-        if( it->active || p->has_effect("sleep") ) {
+        if( it->active || p->has_effect( effect_sleep) ) {
             p->add_msg_if_player( _("You stop playing your %s"), it->display_name().c_str() );
             it->active = false;
             return 0;
@@ -1735,9 +1739,9 @@ long musical_instrument_actor::use( player *p, item *it, bool t, const tripoint&
         it->active = true;
     }
 
-    if( p->get_effect_int( "playing_instrument" ) <= speed_penalty ) {
+    if( p->get_effect_int( effect_playing_instrument ) <= speed_penalty ) {
         // Only re-apply the effect if it wouldn't lower the intensity
-        p->add_effect( "playing_instrument", 2, num_bp, false, speed_penalty );
+        p->add_effect( effect_playing_instrument, 2, num_bp, false, speed_penalty );
     }
 
     std::string desc = "";
@@ -1754,8 +1758,8 @@ long musical_instrument_actor::use( player *p, item *it, bool t, const tripoint&
 
     sounds::ambient_sound( p->pos(), volume, desc );
 
-    if( !p->has_effect( "music" ) && p->can_hear( p->pos(), volume ) ) {
-        p->add_effect( "music", 1 );
+    if( !p->has_effect( effect_music ) && p->can_hear( p->pos(), volume ) ) {
+        p->add_effect( effect_music, 1 );
         const int sign = morale_effect > 0 ? 1 : -1;
         p->add_morale( MORALE_MUSIC, sign, morale_effect, 5, 2 );
     }
@@ -2372,27 +2376,27 @@ long heal_actor::finish_using( player &healer, player &patient, item &it, hp_par
         }
     };
 
-    if( patient.has_effect( "bleed", bp_healed ) ) {
+    if( patient.has_effect( effect_bleed, bp_healed ) ) {
         if( x_in_y( bleed, 1.0f ) ) {
-            patient.remove_effect("bleed", bp_healed);
+            patient.remove_effect( effect_bleed, bp_healed);
             heal_msg( m_good, _("You stop the bleeding."), _("The bleeding is stopped.") );
         } else {
             heal_msg( m_warning, _("You fail to stop the bleeding."), _("The wound still bleeds.") );
         }
     }
-    if( patient.has_effect( "bite", bp_healed ) ) {
+    if( patient.has_effect( effect_bite, bp_healed ) ) {
         if( x_in_y( bite, 1.0f ) ) {
-            patient.remove_effect("bite", bp_healed);
+            patient.remove_effect( effect_bite, bp_healed);
             heal_msg( m_good, _("You clean the wound."), _("The wound is cleaned.") );
         } else {
             heal_msg( m_warning, _("Your wound still aches."), _("The wound still looks bad.") );
         }
     }
-    if( patient.has_effect( "infected", bp_healed ) ) {
+    if( patient.has_effect( effect_infected, bp_healed ) ) {
         if( x_in_y( infect, 1.0f ) ) {
-            int infected_dur = patient.get_effect_dur("infected", bp_healed);
-            patient.remove_effect("infected", bp_healed);
-            patient.add_effect("recover", infected_dur);
+            int infected_dur = patient.get_effect_dur( effect_infected, bp_healed );
+            patient.remove_effect( effect_infected, bp_healed);
+            patient.add_effect( effect_recover, infected_dur);
             heal_msg( m_good, _("You disinfect the wound."), _("The wound is disinfected.") );
         } else {
             heal_msg( m_warning, _("Your wound still hurts."), _("The wound still looks nasty.") );
@@ -2404,10 +2408,6 @@ long heal_actor::finish_using( player &healer, player &patient, item &it, hp_par
     }
 
     for( auto eff : effects ) {
-        if( eff.id == "null" ) {
-            continue;
-        }
-
         patient.add_effect( eff.id, eff.duration, eff.bp, eff.permanent );
     }
 
@@ -2450,9 +2450,9 @@ hp_part pick_part_to_heal(
         }
 
         body_part bp = player::hp_to_bp( healed_part );
-        if( ( infect && patient.has_effect( "infected", bp ) ) ||
-            ( bite && patient.has_effect( "bite", bp ) ) ||
-            ( bleed && patient.has_effect( "bleed", bp ) ) ) {
+        if( ( infect && patient.has_effect( effect_infected, bp ) ) ||
+            ( bite && patient.has_effect( effect_bite, bp ) ) ||
+            ( bleed && patient.has_effect( effect_bleed, bp ) ) ) {
             return healed_part;
         }
 
@@ -2498,9 +2498,9 @@ hp_part heal_actor::use_healing_item( player &healer, player &patient, item &it,
             // Consider states too
             // Weights are arbitrary, may need balancing
             const body_part i_bp = player::hp_to_bp( hp_part( i ) );
-            damage += bleed * patient.get_effect_dur( "bleed", i_bp ) / 50;
-            damage += bite * patient.get_effect_dur( "bite", i_bp ) / 100;
-            damage += infect * patient.get_effect_dur( "infected", i_bp ) / 100;
+            damage += bleed * patient.get_effect_dur( effect_bleed, i_bp ) / 50;
+            damage += bite * patient.get_effect_dur( effect_bite, i_bp ) / 100;
+            damage += infect * patient.get_effect_dur( effect_infected, i_bp ) / 100;
             if (damage > highest_damage) {
                 highest_damage = damage;
                 healed = hp_part(i);

@@ -21,6 +21,8 @@
 #define LIGHTMAP_CACHE_X SEEX * MAPSIZE
 #define LIGHTMAP_CACHE_Y SEEY * MAPSIZE
 
+const efftype_id effect_onfire( "onfire" );
+
 constexpr double PI     = 3.14159265358979323846;
 constexpr double HALFPI = 1.57079632679489661923;
 constexpr double SQRT_2 = 1.41421356237309504880;
@@ -281,7 +283,7 @@ void map::generate_lightmap( const int zlev )
         }
         const tripoint &mp = critter.pos();
         if( inbounds( mp ) ) {
-            if (critter.has_effect("onfire")) {
+            if (critter.has_effect( effect_onfire)) {
                 apply_light_source( mp, 8 );
             }
             // TODO: [lightmap] Attach natural light brightness to creatures

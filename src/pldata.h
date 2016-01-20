@@ -16,8 +16,6 @@ using mabuff_id = string_id<ma_buff>;
 class ma_technique;
 using matec_id = string_id<ma_technique>;
 
-typedef std::string efftype_id;
-
 typedef std::string dis_type;
 
 enum character_type : int {

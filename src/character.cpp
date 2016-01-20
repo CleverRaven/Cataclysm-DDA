@@ -12,6 +12,22 @@
 #include "monster.h"
 #include "mtype.h"
 
+const efftype_id effect_beartrap( "beartrap" );
+const efftype_id effect_bite( "bite" );
+const efftype_id effect_bleed( "bleed" );
+const efftype_id effect_blind( "blind" );
+const efftype_id effect_boomered( "boomered" );
+const efftype_id effect_contacts( "contacts" );
+const efftype_id effect_crushed( "crushed" );
+const efftype_id effect_darkness( "darkness" );
+const efftype_id effect_downed( "downed" );
+const efftype_id effect_grabbed( "grabbed" );
+const efftype_id effect_heavysnare( "heavysnare" );
+const efftype_id effect_infected( "infected" );
+const efftype_id effect_in_pit( "in_pit" );
+const efftype_id effect_lightsnare( "lightsnare" );
+const efftype_id effect_webbed( "webbed" );
+
 Character::Character()
 {
     str_max = 0;
@@ -101,7 +117,7 @@ void Character::mod_stat( const std::string &stat, int modifier )
 
 bool Character::move_effects(bool attacking)
 {
-    if (has_effect("downed")) {
+    if (has_effect( effect_downed )) {
         ///\EFFECT_DEX increases chance to stand up when knocked down
 
         ///\EFFECT_STR increases chance to stand up when knocked down, slightly
@@ -110,27 +126,27 @@ bool Character::move_effects(bool attacking)
         } else {
             add_msg_player_or_npc(m_good, _("You stand up."),
                                     _("<npcname> stands up."));
-            remove_effect("downed");
+            remove_effect( effect_downed);
         }
         return false;
     }
-    if (has_effect("webbed")) {
+    if (has_effect( effect_webbed )) {
         ///\EFFECT_STR increases chance to escape webs
-        if (x_in_y(get_str(), 6 * get_effect_int("webbed"))) {
+        if (x_in_y(get_str(), 6 * get_effect_int( effect_webbed ))) {
             add_msg_player_or_npc(m_good, _("You free yourself from the webs!"),
                                     _("<npcname> frees themselves from the webs!"));
-            remove_effect("webbed");
+            remove_effect( effect_webbed);
         } else {
             add_msg_if_player(_("You try to free yourself from the webs, but can't get loose!"));
         }
         return false;
     }
-    if (has_effect("lightsnare")) {
+    if (has_effect( effect_lightsnare )) {
         ///\EFFECT_STR increases chance to escape light snare
 
         ///\EFFECT_DEX increases chance to escape light snare
         if(x_in_y(get_str(), 12) || x_in_y(get_dex(), 8)) {
-            remove_effect("lightsnare");
+            remove_effect( effect_lightsnare);
             add_msg_player_or_npc(m_good, _("You free yourself from the light snare!"),
                                     _("<npcname> frees themselves from the light snare!"));
             item string("string_36", calendar::turn);
@@ -142,12 +158,12 @@ bool Character::move_effects(bool attacking)
         }
         return false;
     }
-    if (has_effect("heavysnare")) {
+    if (has_effect( effect_heavysnare )) {
         ///\EFFECT_STR increases chance to escape heavy snare, slightly
 
         ///\EFFECT_DEX increases chance to escape light snare
         if(x_in_y(get_str(), 32) || x_in_y(get_dex(), 16)) {
-            remove_effect("heavysnare");
+            remove_effect( effect_heavysnare);
             add_msg_player_or_npc(m_good, _("You free yourself from the heavy snare!"),
                                     _("<npcname> frees themselves from the heavy snare!"));
             item rope("rope_6", calendar::turn);
@@ -159,7 +175,7 @@ bool Character::move_effects(bool attacking)
         }
         return false;
     }
-    if (has_effect("beartrap")) {
+    if (has_effect( effect_beartrap )) {
         /* Real bear traps can't be removed without the proper tools or immense strength; eventually this should
            allow normal players two options: removal of the limb or removal of the trap from the ground
            (at which point the player could later remove it from the leg with the right tools).
@@ -167,7 +183,7 @@ bool Character::move_effects(bool attacking)
         */
         ///\EFFECT_STR increases chance to escape bear trap
         if(x_in_y(get_str(), 100)) {
-            remove_effect("beartrap");
+            remove_effect( effect_beartrap);
             add_msg_player_or_npc(m_good, _("You free yourself from the bear trap!"),
                                     _("<npcname> frees themselves from the bear trap!"));
             item beartrap("beartrap", calendar::turn);
@@ -177,12 +193,12 @@ bool Character::move_effects(bool attacking)
         }
         return false;
     }
-    if (has_effect("crushed")) {
+    if (has_effect( effect_crushed )) {
         ///\EFFECT_STR increases chance to escape crushing rubble
 
         ///\EFFECT_DEX increases chance to escape crushing rubble, slightly
         if(x_in_y(get_str() + get_dex() / 4, 100)) {
-            remove_effect("crushed");
+            remove_effect( effect_crushed);
             add_msg_player_or_npc(m_good, _("You free yourself from the rubble!"),
                                     _("<npcname> frees themselves from the rubble!"));
         } else {
@@ -194,7 +210,7 @@ bool Character::move_effects(bool attacking)
 
     // Currently we only have one thing that forces movement if you succeed, should we get more
     // than this will need to be reworked to only have success effects if /all/ checks succeed
-    if (has_effect("in_pit")) {
+    if (has_effect( effect_in_pit )) {
         ///\EFFECT_STR increases chance to escape pit
 
         ///\EFFECT_DEX increases chance to escape pit, slightly
@@ -204,10 +220,10 @@ bool Character::move_effects(bool attacking)
         } else {
             add_msg_player_or_npc(m_good, _("You escape the pit!"),
                                     _("<npcname> escapes the pit!"));
-            remove_effect("in_pit");
+            remove_effect( effect_in_pit);
         }
     }
-    if( has_effect( "grabbed" ) && !attacking ) {
+    if( has_effect( effect_grabbed ) && !attacking ) {
         int zed_number = 0;
         for( auto &&dest : g->m.points_in_radius( pos(), 1, 0 ) ){
             if( g->mon_at( dest ) != -1 &&
@@ -219,11 +235,11 @@ bool Character::move_effects(bool attacking)
         if( zed_number == 0 ) {
             add_msg_player_or_npc( m_good, _( "You find yourself no longer grabbed." ),
                                    _( "<npcname> finds themselves no longer grabbed." ) );
-            remove_effect( "grabbed" );
+            remove_effect( effect_grabbed );
         ///\EFFECT_DEX increases chance to escape grab, if >STR
 
         ///\EFFECT_STR increases chance to escape grab, if >DEX
-        } else if( rng( 0, std::max( get_dex(), get_str() ) ) < rng( get_effect_int( "grabbed" ), 8 ) ) {
+        } else if( rng( 0, std::max( get_dex(), get_str() ) ) < rng( get_effect_int( effect_grabbed ), 8 ) ) {
             // Randomly compare higher of dex or str to grab intensity.
             add_msg_player_or_npc( m_bad, _( "You try break out of the grab, but fail!" ),
                                    _( "<npcname> tries to break out of the grab, but fails!" ) );
@@ -231,13 +247,13 @@ bool Character::move_effects(bool attacking)
         } else {
             add_msg_player_or_npc( m_good, _( "You break out of the grab!" ),
                                    _( "<npcname> breaks out of the grab!" ) );
-            remove_effect( "grabbed" );
+            remove_effect( effect_grabbed );
         }
     }
     return Creature::move_effects( attacking );
 }
 
-void Character::add_effect( efftype_id eff_id, int dur, body_part bp,
+void Character::add_effect( const efftype_id &eff_id, int dur, body_part bp,
                             bool permanent, int intensity, bool force )
 {
     Creature::add_effect( eff_id, dur, bp, permanent, intensity, force );
@@ -317,12 +333,12 @@ void Character::recalc_sight_limits()
     vision_mode_cache.reset();
 
     // Set sight_max.
-    if (has_effect("blind") || worn_with_flag("BLIND") || has_active_bionic("bio_blindfold")) {
+    if (has_effect( effect_blind ) || worn_with_flag("BLIND") || has_active_bionic("bio_blindfold")) {
         sight_max = 0;
-    } else if( has_effect("boomered") && (!(has_trait("PER_SLIME_OK"))) ) {
+    } else if( has_effect( effect_boomered ) && (!(has_trait("PER_SLIME_OK"))) ) {
         sight_max = 1;
         vision_mode_cache.set( BOOMERED );
-    } else if (has_effect("in_pit") ||
+    } else if (has_effect( effect_in_pit ) ||
             (underwater && !has_bionic("bio_membrane") &&
                 !has_trait("MEMBRANE") && !worn_with_flag("SWIM_GOGGLES") &&
                 !has_trait("CEPH_EYES") && !has_trait("PER_SLIME_OK") ) ) {
@@ -332,11 +348,11 @@ void Character::recalc_sight_limits()
         sight_max = 2;
     } else if ( (has_trait("MYOPIC") || has_trait("URSINE_EYE")) &&
             !is_wearing("glasses_eye") && !is_wearing("glasses_monocle") &&
-            !is_wearing("glasses_bifocal") && !has_effect("contacts")) {
+            !is_wearing("glasses_bifocal") && !has_effect( effect_contacts )) {
         sight_max = 4;
     } else if (has_trait("PER_SLIME")) {
         sight_max = 6;
-    } else if( has_effect( "darkness" ) ) {
+    } else if( has_effect( effect_darkness ) ) {
         vision_mode_cache.set( DARKNESS );
         sight_max = 10;
     }
@@ -914,15 +930,15 @@ void Character::die(Creature* nkiller)
 {
     set_killer( nkiller );
     set_turn_died(int(calendar::turn));
-    if( has_effect( "lightsnare" ) ) {
+    if( has_effect( effect_lightsnare ) ) {
         inv.add_item( item( "string_36", 0 ) );
         inv.add_item( item( "snare_trigger", 0 ) );
     }
-    if( has_effect( "heavysnare" ) ) {
+    if( has_effect( effect_heavysnare ) ) {
         inv.add_item( item( "rope_6", 0 ) );
         inv.add_item( item( "snare_trigger", 0 ) );
     }
-    if( has_effect( "beartrap" ) ) {
+    if( has_effect( effect_beartrap ) ) {
         inv.add_item( item( "beartrap", 0 ) );
     }
     mission::on_creature_death( *this );
@@ -1427,13 +1443,13 @@ nc_color Character::limb_color( body_part bp, bool bleed, bool bite, bool infect
 
     int color_bit = 0;
     nc_color i_color = c_ltgray;
-    if( bleed && has_effect( "bleed", bp ) ) {
+    if( bleed && has_effect( effect_bleed, bp ) ) {
         color_bit += 1;
     }
-    if( bite && has_effect( "bite", bp ) ) {
+    if( bite && has_effect( effect_bite, bp ) ) {
         color_bit += 10;
     }
-    if( infect && has_effect( "infected", bp ) ) {
+    if( infect && has_effect( effect_infected, bp ) ) {
         color_bit += 100;
     }
     switch( color_bit ) {

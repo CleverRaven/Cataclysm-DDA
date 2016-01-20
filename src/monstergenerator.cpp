@@ -482,7 +482,7 @@ void mtype::load( JsonObject &jo )
         JsonArray jsarr = jo.get_array( "attack_effs" );
         while( jsarr.has_more() ) {
             JsonObject e = jsarr.next_object();
-            mon_effect_data new_eff( e.get_string( "id", "null" ), e.get_int( "duration", 0 ),
+            mon_effect_data new_eff( efftype_id( e.get_string( "id" ) ), e.get_int( "duration", 0 ),
                                      get_body_part_token( e.get_string( "bp", "NUM_BP" ) ), e.get_bool( "permanent", false ),
                                      e.get_int( "chance", 100 ) );
             atk_effs.push_back( new_eff );
@@ -714,6 +714,11 @@ void MonsterGenerator::check_monster_definitions() const
         for( auto & s : mon->starting_ammo ) {
             if( !item::type_is_defined( s.first ) ) {
                 debugmsg( "starting ammo %s of monster %s is unknown", s.first.c_str(), mon->id.c_str() );
+            }
+        }
+        for( auto & e : mon->atk_effs ) {
+            if( !e.id.is_valid() ) {
+                debugmsg( "attack effect %s of monster %s is unknown", e.id.c_str(), mon->id.c_str() );
             }
         }
         if( mon->upgrades ) {

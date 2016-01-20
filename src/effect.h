@@ -4,6 +4,7 @@
 #include "pldata.h"
 #include "json.h"
 #include "enums.h"
+#include "string_id.h"
 #include <unordered_map>
 #include <tuple>
 
@@ -11,8 +12,7 @@ class effect_type;
 class Creature;
 class player;
 enum game_message_type : int;
-
-extern std::map<std::string, effect_type> effect_types;
+using efftype_id = string_id<effect_type>;
 
 /** Handles the large variety of weed messages. */
 void weed_msg(player *p);
@@ -68,6 +68,9 @@ class effect_type
         bool load_miss_msgs(JsonObject &jsobj, std::string member);
         bool load_decay_msgs(JsonObject &jsobj, std::string member);
 
+        /** Registers the effect in the global map */
+        static void register_ma_buff_effect( const effect_type &eff );
+
     protected:
         int max_intensity;
         int max_duration;
@@ -82,9 +85,9 @@ class effect_type
         bool main_parts_only;
 
         std::vector<std::string> resist_traits;
-        std::vector<std::string> resist_effects;
-        std::vector<std::string> removes_effects;
-        std::vector<std::string> blocks_effects;
+        std::vector<efftype_id> resist_effects;
+        std::vector<efftype_id> removes_effects;
+        std::vector<efftype_id> blocks_effects;
 
         std::vector<std::pair<std::string, int>> miss_msgs;
 
@@ -125,7 +128,7 @@ class effect : public JsonSerializer, public JsonDeserializer
             intensity(1),
             start_turn(0)
         { }
-        effect(effect_type *peff_type, int dur, body_part part, bool perm, int nintensity, int nstart_turn) :
+        effect(const effect_type *peff_type, int dur, body_part part, bool perm, int nintensity, int nstart_turn) :
             eff_type(peff_type),
             duration(dur),
             bp(part),
@@ -150,12 +153,12 @@ class effect : public JsonSerializer, public JsonDeserializer
         bool use_part_descs() const;
 
         /** Returns the effect's matching effect_type. */
-        effect_type *get_effect_type() const;
+        const effect_type *get_effect_type() const;
 
         /** Decays effect durations, pushing their id and bp's back to rem_ids and rem_bps for removal later
          *  if their duration is <= 0. This is called in the middle of a loop through all effects, which is
          *  why we aren't allowed to remove the effects here. */
-        void decay(std::vector<std::string> &rem_ids, std::vector<body_part> &rem_bps, unsigned int turn, bool player);
+        void decay(std::vector<efftype_id> &rem_ids, std::vector<body_part> &rem_bps, unsigned int turn, bool player);
 
         /** Returns the remaining duration of an effect. */
         int get_duration() const;
@@ -195,11 +198,11 @@ class effect : public JsonSerializer, public JsonDeserializer
         /** Returns the string id of the resist trait to be used in has_trait("id"). */
         const std::vector<std::string> &get_resist_traits() const;
         /** Returns the string id of the resist effect to be used in has_effect("id"). */
-        const std::vector<std::string> &get_resist_effects() const;
+        const std::vector<efftype_id> &get_resist_effects() const;
         /** Returns the string ids of the effects removed by this effect to be used in remove_effect("id"). */
-        const std::vector<std::string> &get_removes_effects() const;
+        const std::vector<efftype_id> &get_removes_effects() const;
         /** Returns the string ids of the effects blocked by this effect to be used in add_effect("id"). */
-        const std::vector<std::string> get_blocks_effects() const;
+        const std::vector<efftype_id> get_blocks_effects() const;
 
         /** Returns the matching modifier type from an effect, used for getting actual effect effects. */
         int get_mod(std::string arg, bool reduced = false) const;
@@ -237,7 +240,7 @@ class effect : public JsonSerializer, public JsonDeserializer
         std::string get_speed_name() const;
 
         /** Returns the effect's matching effect_type id. */
-        efftype_id get_id() const
+        const efftype_id &get_id() const
         {
             return eff_type->id;
         }
@@ -248,7 +251,7 @@ class effect : public JsonSerializer, public JsonDeserializer
         void deserialize(JsonIn &jsin) override;
 
     protected:
-        effect_type *eff_type;
+        const effect_type *eff_type;
         int duration;
         body_part bp;
         bool permanent;

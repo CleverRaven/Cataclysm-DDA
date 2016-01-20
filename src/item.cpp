@@ -56,6 +56,10 @@ const species_id BIRD( "BIRD" );
 const species_id INSECT( "INSECT" );
 const species_id ROBOT( "ROBOT" );
 
+const efftype_id effect_cig( "cig" );
+const efftype_id effect_shakes( "shakes" );
+const efftype_id effect_weed_high( "weed_high" );
+
 enum item::LIQUID_FILL_ERROR : int {
     L_ERR_NONE, L_ERR_NO_MIX, L_ERR_NOT_CONTAINER, L_ERR_NOT_WATERTIGHT,
     L_ERR_NOT_SEALED, L_ERR_FULL
@@ -2952,6 +2956,11 @@ int item::stab_resist(bool to_self) const
 
 int item::acid_resist( bool to_self ) const
 {
+    if( to_self ) {
+        // Currently no items are damaged by acid
+        return INT_MAX;
+    }
+
     float resist = 0.0;
     if( is_null() ) {
         return 0.0;
@@ -3028,6 +3037,9 @@ int item::chip_resistance( bool worst ) const
 int item::damage_resist( damage_type dt, bool to_self ) const
 {
     switch( dt ) {
+        case DT_NULL:
+        case NUM_DT:
+            return 0;
         case DT_TRUE:
         case DT_BIOLOGICAL:
         case DT_ELECTRIC:
@@ -5042,15 +5054,15 @@ bool item::process_litcig( player *carrier, const tripoint &pos )
             }
             carrier->add_msg_if_player( m_neutral, _( "You take a puff of your %s." ), tname().c_str() );
             if( has_flag( "TOBACCO" ) ) {
-                carrier->add_effect( "cig", duration );
+                carrier->add_effect( effect_cig, duration );
             } else {
-                carrier->add_effect( "weed_high", duration / 2 );
+                carrier->add_effect( effect_weed_high, duration / 2 );
             }
             g->m.add_field( tripoint( pos.x + rng( -1, 1 ), pos.y + rng( -1, 1 ), pos.z ), smoke_type, 2, 0 );
             carrier->moves -= 15;
         }
 
-        if( ( carrier->has_effect( "shakes" ) && one_in( 10 ) ) ||
+        if( ( carrier->has_effect( effect_shakes ) && one_in( 10 ) ) ||
             ( carrier->has_trait( "JITTERY" ) && one_in( 200 ) ) ) {
             carrier->add_msg_if_player( m_bad, _( "Your shaking hand causes you to drop your %s." ),
                                         tname().c_str() );
@@ -5084,7 +5096,7 @@ bool item::process_litcig( player *carrier, const tripoint &pos )
         } else { // joint
             make( "joint_roach" );
             if( carrier != nullptr ) {
-                carrier->add_effect( "weed_high", 10 ); // one last puff
+                carrier->add_effect( effect_weed_high, 10 ); // one last puff
                 g->m.add_field( tripoint( pos.x + rng( -1, 1 ), pos.y + rng( -1, 1 ), pos.z ), fd_weedsmoke, 2, 0 );
                 weed_msg( carrier );
             }
