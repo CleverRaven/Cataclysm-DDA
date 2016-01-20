@@ -44,6 +44,7 @@
 					<Add option="-DSDLTILES" />
 					<Add option="-DRELEASE=1" />
 					<Add directory="WinDepend/include" />
+					<Add directory="WinDepend/include/SDL2" />
 				</Compiler>
 				<Linker>
 					<Add library="libSDL2.dll.a" />
@@ -87,6 +88,7 @@
 					<Add option="-DSDL_SOUND" />
 					<Add option="-DRELEASE=1" />
 					<Add directory="WinDepend/include" />
+					<Add directory="WinDepend/include/SDL2" />
 				</Compiler>
 				<Linker>
 					<Add library="libSDL2.dll.a" />
@@ -109,6 +111,7 @@
 					<Add option="-DSDLTILES" />
 					<Add option="-DRELEASE=1" />
 					<Add directory="WinDepend/include" />
+					<Add directory="WinDepend/include/SDL2" />
 				</Compiler>
 				<Linker>
 					<Add library="libintl.dll.a" />
@@ -135,6 +138,7 @@
 					<Add option="-DRELEASE=1" />
 					<Add directory="WinDepend/include" />
 					<Add directory="WinDepend/include/lua5.1" />
+					<Add directory="WinDepend/include/SDL2" />
 				</Compiler>
 				<Linker>
 					<Add library="libintl.dll.a" />
@@ -188,10 +192,12 @@
 				<Option type="0" />
 				<Option compiler="gcc" />
 				<Compiler>
+					<Add option="-pg" />
 					<Add option="-pg -g" />
 					<Add option="-DTILES" />
 					<Add option="-DSDLTILES" />
 					<Add directory="WinDepend/include" />
+					<Add directory="WinDepend/include/SDL2" />
 				</Compiler>
 				<Linker>
 					<Add option="-pg -lgmon" />
@@ -230,11 +236,13 @@
 				<Option type="0" />
 				<Option compiler="gcc" />
 				<Compiler>
+					<Add option="-pg" />
 					<Add option="-pg -g" />
 					<Add option="-DTILES" />
 					<Add option="-DSDLTILES" />
 					<Add option="-DSDL_SOUND" />
 					<Add directory="WinDepend/include" />
+					<Add directory="WinDepend/include/SDL2" />
 				</Compiler>
 				<Linker>
 					<Add option="-pg -lgmon" />
@@ -252,11 +260,13 @@
 				<Option type="0" />
 				<Option compiler="gcc" />
 				<Compiler>
+					<Add option="-pg" />
 					<Add option="-pg -g" />
 					<Add option="-DLOCALIZE" />
 					<Add option="-DSDLTILES" />
 					<Add option="-DTILES" />
 					<Add directory="WinDepend/include" />
+					<Add directory="WinDepend/include/SDL2" />
 				</Compiler>
 				<Linker>
 					<Add option="-pg -lgmon" />
@@ -275,6 +285,7 @@
 				<Option type="0" />
 				<Option compiler="gcc" />
 				<Compiler>
+					<Add option="-pg" />
 					<Add option="-pg -g" />
 					<Add option="-DLOCALIZE" />
 					<Add option="-DTILES" />
@@ -283,6 +294,7 @@
 					<Add option="-DLUA" />
 					<Add directory="WinDepend/include" />
 					<Add directory="WinDepend/include/lua5.1" />
+					<Add directory="WinDepend/include/SDL2" />
 				</Compiler>
 				<Linker>
 					<Add option="-pg -lgmon" />
@@ -568,9 +580,9 @@
 		<Unit filename="src/scenario.cpp" />
 		<Unit filename="src/scenario.h" />
 		<Unit filename="src/sdltiles.cpp" />
+		<Unit filename="src/shadowcasting.h" />
 		<Unit filename="src/simplexnoise.cpp" />
 		<Unit filename="src/simplexnoise.h" />
-        <Unit filename="src/shadowcasting.h" />
 		<Unit filename="src/skill.cpp" />
 		<Unit filename="src/skill.h" />
 		<Unit filename="src/sounds.cpp" />
