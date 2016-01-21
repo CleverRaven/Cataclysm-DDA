@@ -29,11 +29,10 @@ struct byproduct {
     int charges_mult;
     int amount;
 
-    byproduct() : byproduct("null") {}
+    byproduct() : byproduct( "null" ) {}
 
-    byproduct(itype_id res, int mult = 1, int amnt = 1)
-        : result(res), charges_mult(mult), amount(amnt)
-    {
+    byproduct( itype_id res, int mult = 1, int amnt = 1 )
+        : result( res ), charges_mult( mult ), amount( amnt ) {
     }
 };
 
@@ -81,60 +80,60 @@ struct recipe {
     // Create an item instance as if the recipe was just finished,
     // Contain charges multiplier
     item create_result() const;
-    std::vector<item> create_results(int batch = 1) const;
+    std::vector<item> create_results( int batch = 1 ) const;
 
     // Create byproduct instances as if the recipe was just finished
-    std::vector<item> create_byproducts(int batch = 1) const;
+    std::vector<item> create_byproducts( int batch = 1 ) const;
 
     bool has_byproducts() const;
 
-    bool can_make_with_inventory(const inventory &crafting_inv, int batch = 1) const;
-    bool check_eligible_containers_for_crafting(int batch = 1) const;
+    bool can_make_with_inventory( const inventory &crafting_inv, int batch = 1 ) const;
+    bool check_eligible_containers_for_crafting( int batch = 1 ) const;
 
     // Can this recipe be memorized?
     bool valid_learn() const;
 
-    int print_items(WINDOW *w, int ypos, int xpos, nc_color col, int batch = 1) const;
-    void print_item(WINDOW *w, int ypos, int xpos, nc_color col,
-                    const byproduct &bp, int batch = 1) const;
-    int print_time(WINDOW *w, int ypos, int xpos, int width, nc_color col,
-                   int batch = 1) const;
+    int print_items( WINDOW *w, int ypos, int xpos, nc_color col, int batch = 1 ) const;
+    void print_item( WINDOW *w, int ypos, int xpos, nc_color col,
+                     const byproduct &bp, int batch = 1 ) const;
+    int print_time( WINDOW *w, int ypos, int xpos, int width, nc_color col,
+                    int batch = 1 ) const;
 
-    int batch_time(int batch = 1) const;
+    int batch_time( int batch = 1 ) const;
 
-    bool has_flag(const std::string &flag_name) const;
+    bool has_flag( const std::string &flag_name ) const;
 
 };
 
 // removes any (removable) ammo from the item and stores it in the
 // players inventory.
-void remove_ammo(item *dis_item, player &p);
+void remove_ammo( item *dis_item, player &p );
 // same as above but for each item in the list
-void remove_ammo(std::list<item> &dis_items, player &p);
+void remove_ammo( std::list<item> &dis_items, player &p );
 
-void load_recipe(JsonObject &jsobj);
+void load_recipe( JsonObject &jsobj );
 void reset_recipes();
-const recipe *recipe_by_index(int index);
-const recipe *recipe_by_name(const std::string &name);
-const recipe *get_disassemble_recipe(const itype_id &type);
+const recipe *recipe_by_index( int index );
+const recipe *recipe_by_name( const std::string &name );
+const recipe *get_disassemble_recipe( const itype_id &type );
 void finalize_recipes();
 // Show the "really disassemble?" query along with a list of possible results.
 // Returns false if the player answered no to the query.
-bool query_dissamble(const item &dis_item);
-const recipe *select_crafting_recipe(int &batch_size);
-void pick_recipes(const inventory &crafting_inv,
-                  std::vector<const recipe *> &current,
-                  std::vector<bool> &available, std::string tab,
-                  std::string subtab, std::string filter);
-void batch_recipes(const inventory &crafting_inv,
+bool query_dissamble( const item &dis_item );
+const recipe *select_crafting_recipe( int &batch_size );
+void pick_recipes( const inventory &crafting_inv,
                    std::vector<const recipe *> &current,
-                   std::vector<bool> &available, const recipe* r);
+                   std::vector<bool> &available, std::string tab,
+                   std::string subtab, std::string filter );
+void batch_recipes( const inventory &crafting_inv,
+                    std::vector<const recipe *> &current,
+                    std::vector<bool> &available, const recipe *r );
 
 void check_recipe_definitions();
 
-void set_item_spoilage(item &newit, float used_age_tally, int used_age_count);
-void set_item_food(item &newit);
-void set_item_inventory(item &newit);
-void finalize_crafted_item(item &newit, float used_age_tally, int used_age_count);
+void set_item_spoilage( item &newit, float used_age_tally, int used_age_count );
+void set_item_food( item &newit );
+void set_item_inventory( item &newit );
+void finalize_crafted_item( item &newit, float used_age_tally, int used_age_count );
 
 #endif
