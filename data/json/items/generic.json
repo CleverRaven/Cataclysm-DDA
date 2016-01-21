@@ -390,8 +390,7 @@
         "material": ["paper", "null"],
         "weight": 80,
         "volume": 2,
-        "bashing": -3,
-        "to_hit": 0
+        "bashing": -3
     },
     {
         "type":"GENERIC",
@@ -405,8 +404,7 @@
         "weight": 514,
         "volume": 4,
         "bashing": -8,
-        "category": "spare_parts",
-        "to_hit": 0
+        "category": "other"
     },
     {
         "type":"GENERIC",
@@ -420,8 +418,7 @@
         "weight": 514,
         "volume": 4,
         "bashing": -8,
-        "category": "spare_parts",
-        "to_hit": 0
+        "category": "other"
     },
     {
         "type":"GENERIC",

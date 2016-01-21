@@ -1200,8 +1200,6 @@
         "description":"An assembly of motors and sheet metal that allows a vehicle to clean the road surface by removing debris and contaminants.",
         "weight":22666,
         "bashing":1,
-        "cutting":0,
-        "to_hit":0,
         "material":"steel",
         "category": "veh_parts",
         "price": 3500,
@@ -1217,9 +1215,8 @@
         "description":"An assembly of tubes, spikes, and wheels, that when dragged along the ground, allows a vehicle to plant seeds automatically in suitably tilled land.",
         "weight":22666,
         "bashing":1,
-        "cutting":0,
-        "to_hit":0,
         "material":["steel","plastic"],
+        "category": "veh_parts",
         "price":3500,
         "volume":28
     },{
@@ -1232,9 +1229,8 @@
         "description":"An assembly of a blade, wheels, and a small lever for engaging/disengaging used to cut down crops prior to picking them up.",
         "weight":22666,
         "bashing":1,
-        "cutting":0,
-        "to_hit":0,
         "material":["steel","plastic"],
+        "category": "veh_parts",
         "price":3500,
         "volume":28
     },{
@@ -1247,9 +1243,8 @@
         "description":"An assembly of tubes, spikes, and wheels, that when dragged along the ground, allows a vehicle to plant seeds automatically in suitably tilled land.  This one is more advanced.",
         "weight":32666,
         "bashing":1,
-        "cutting":0,
-        "to_hit":0,
         "material":["steel","plastic"],
+        "category": "veh_parts",
         "price":3500,
         "volume":29
     },{
@@ -1262,9 +1257,8 @@
         "description":"A heavy assembly of wheels and steel blades that turn up the ground.",
         "weight":32666,
         "bashing":1,
-        "cutting":0,
-        "to_hit":0,
         "material":["steel","plastic"],
+        "category": "veh_parts",
         "price":3500,
         "volume":29
     }
