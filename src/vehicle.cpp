@@ -106,6 +106,7 @@ enum vehicle_controls {
  toggle_camera,
  release_remote_control,
  toggle_chimes,
+ toggle_chainsaw,
  toggle_plow,
  toggle_planter,
  toggle_reaper,
@@ -969,6 +970,7 @@ void vehicle::use_controls(const tripoint &pos)
     bool has_camera_control = false;
     bool has_aisle_lights = false;
     bool has_dome_lights = false;
+    bool has_chainsaw = false;
     bool has_plow = false;
     bool has_planter = false;
     bool has_scoop = false;
@@ -1027,6 +1029,8 @@ void vehicle::use_controls(const tripoint &pos)
             } else {
                 has_camera = true;
             }
+        } else if( part_flag( p, "CHAINSAW" ) ) {
+            has_chainsaw = true;
         } else if( part_flag(p,"PLOW") ) {
             has_plow = true;
         } else if( part_flag(p,"PLANTER") ) {
@@ -1146,6 +1150,10 @@ void vehicle::use_controls(const tripoint &pos)
     if( has_electronic_controls && (camera_on || ( has_camera && has_camera_control )) ) {
         menu.addentry( toggle_camera, true, 'M', camera_on ?
                        _("Turn off camera system") : _("Turn on camera system") );
+    }
+    if( has_electronic_controls && has_chainsaw ){
+        menu.addentry( toggle_chainsaw, true, MENU_AUTOASSIGN, chainsaw_on ?
+                       _( "Turn chainsaw off" ) : _( "Turn chainsaw on" ) );
     }
     if( has_electronic_controls && has_plow ){
         menu.addentry( toggle_plow, true, MENU_AUTOASSIGN, plow_on ?
@@ -1350,6 +1358,35 @@ void vehicle::use_controls(const tripoint &pos)
             add_msg( _("Camera system won't turn on") );
         }
         break;
+    case toggle_chainsaw:
+        chainsaw_on = !chainsaw_on;
+
+        if( chainsaw_on ) {
+            bool msg_shown = false;
+            for( auto &index : all_parts_with_feature( "CHAINSAW", true ) ) {
+                auto &ftype = part_info( index ).fuel_type;
+                // TODO: take into account supplemental_consumption( ftype ) and fuel coeff
+                if( fuel_left( ftype ) == 0 ) {
+                    //~ %1$s is vehicle name and %2$s is fuel type
+                    add_msg( _("Looks like the %1$s is out of %2$s."),
+                              name.c_str(), item::nname( ftype ).c_str() );
+                    chainsaw_on = false;
+                    break;
+                } else {
+                    toggle_specific_part( index, true );
+                    tripoint part_pos = global_part_pos3( index );
+                    // emit noise for all found chainsaws but show onomatopoeia in log only once
+                    //~ sound of starting chainsaw
+                    sounds::sound( part_pos, 30, msg_shown ? "" : _( "brum-brum-graGRAHHHN!" ) );
+                    msg_shown = true;
+                }
+            }
+        } else {
+            for( auto &index : all_parts_with_feature( "CHAINSAW" ) ) {
+                toggle_specific_part( index, false );
+            }
+        }
+        break;
     case toggle_plow:
         add_msg( plow_on ? _("Plow system stopped"): _("Plow system started"));
         plow_on = !plow_on;
@@ -1499,7 +1536,7 @@ bool vehicle::start_engine( const int e )
         if( einfo.fuel_type == fuel_type_gasoline && dmg > 0.75 && one_in( 20 ) ) {
             backfire( e );
         } else {
-            const tripoint pos = global_pos3() + parts[engines[e]].precalc[0];
+            const tripoint pos = global_part_pos3( engines[e] );
             sounds::ambient_sound( pos, engine_start_time( e ) / 10, "" );
         }
     }
@@ -1556,7 +1593,7 @@ void vehicle::start_engines( const bool take_control )
 void vehicle::backfire( const int e )
 {
     const int power = part_power( engines[e], true );
-    const tripoint pos = global_pos3() + parts[engines[e]].precalc[0];
+    const tripoint pos = global_part_pos3( engines[e] );
     sounds::ambient_sound( pos, 40 + (power / 30), "BANG!" );
 }
 
@@ -1579,7 +1616,7 @@ void vehicle::honk_horn()
             honked = true;
         }
         //Get global position of horn
-        const auto horn_pos = global_pos3() + parts[p].precalc[0];
+        const auto horn_pos = global_part_pos3( p );
         //Determine sound
         if( horn_type.bonus >= 40 ) {
             sounds::sound( horn_pos, horn_type.bonus, _("HOOOOORNK!") );
@@ -1613,10 +1650,8 @@ void vehicle::beeper_sound()
         }
 
         const vpart_info &beeper_type = part_info( p );
-        //Get global position of backup beeper
-        const tripoint beeper_pos = global_pos3() + parts[p].precalc[0];
         //Determine sound
-        sounds::sound( beeper_pos, beeper_type.bonus, _("beep!") );
+        sounds::sound( global_part_pos3( p ), beeper_type.bonus, _("beep!") );
     }
 }
 
@@ -1667,7 +1702,8 @@ const vpart_info& vehicle::part_info (int index, bool include_removed) const
 int vehicle::part_power(int const index, bool const at_full_hp) const
 {
     if( !part_flag(index, VPFLAG_ENGINE) &&
-        !part_flag(index, VPFLAG_ALTERNATOR) ) {
+        !part_flag(index, VPFLAG_ALTERNATOR) &&
+        !part_flag(index, "CHAINSAW") ) {
        return 0; // not an engine.
     }
     int pwr;
@@ -2786,7 +2822,9 @@ int vehicle::print_part_desc(WINDOW *win, int y1, int width, int p, int hl /*= -
  */
 bool vehicle::should_print_fuel_indicator (itype_id fuel_type, bool fullsize) const
 {
-    return fuel_capacity( fuel_type ) > 0 && ( basic_consumption( fuel_type ) > 0 || fullsize );
+    bool consumer_exists = ( basic_consumption( fuel_type ) > 0 ||
+                             supplemental_consumption( fuel_type ) > 0 );
+    return fuel_capacity( fuel_type ) > 0 && ( consumer_exists || fullsize );
 }
 
 /**
@@ -2973,6 +3011,11 @@ point vehicle::global_pos() const
 tripoint vehicle::global_pos3() const
 {
     return tripoint( smx * SEEX + posx, smy * SEEY + posy, smz );
+}
+
+tripoint vehicle::global_part_pos3( const int &index ) const
+{
+    return global_pos3() + parts[index].precalc[0];
 }
 
 point vehicle::real_global_pos() const
@@ -3196,6 +3239,54 @@ int vehicle::basic_consumption(const itype_id &ftype) const
     return fcon;
 }
 
+int vehicle::supplemental_consumption( const itype_id &ftype ) const
+{
+    int fcon = 0;
+    if( chainsaw_on ) {
+        for( auto &part : all_parts_with_feature( "CHAINSAW", true ) ) {
+            if( part_info( part ).fuel_type == ftype && parts[ part ].enabled ) {
+                fcon += part_power( part );
+            }
+        }
+    }
+    return fcon;
+}
+
+void vehicle::disable_chainsaws( const itype_id &ftype )
+{
+    //fixme: running out of any fuel type used by chainsaw(s) disables all chainsaws
+    if( chainsaw_on ) {
+        bool shown = false;
+        for( auto &part : all_parts_with_feature( "CHAINSAW" ) ) {
+            if( part_info( part ).fuel_type == ftype ) {
+                chainsaw_on = false;
+                toggle_specific_part( part, false );
+                if( g->m.veh_at( g->u.pos() ) == this && !shown ) {
+                    //~ %1$s is vehicle name and %2$s is fuel type
+                    add_msg( _( "The %1$s's ran out of %2$s!" ),
+                                name.c_str(), item::nname( ftype ).c_str() );
+                    shown = true;
+                }
+            }
+        }
+    }
+}
+
+int vehicle::damage_from_chainsaw( int part_index, std::string target_material_id )
+{
+    int dmg = 0;
+    if( part_info( part_index ).has_flag( "CHAINSAW" ) ) {
+        material_type *mtype = material_type::find_material( target_material_id );
+        int target_hardness = mtype->cut_resist();
+        // it's too hard to cut it without self-damage
+        if( target_hardness > 3 ) {
+            damage_direct( part_index, 33 * ( target_hardness - 3 ) , DT_TRUE );
+        }
+        dmg = std::max( 70 - 10 * target_hardness, 0 );
+    }
+    return dmg;
+}
+
 int vehicle::total_power(bool const fueled) const
 {
     int pwr = 0;
@@ -3251,7 +3342,7 @@ bool vehicle::do_environmental_effects()
     bool needed = false;
     // check for smoking parts
     for( size_t p = 0; p < parts.size(); p++ ) {
-        auto part_pos = global_pos3() + parts[p].precalc[0];
+        auto part_pos = global_part_pos3( p );
 
         /* Only lower blood level if:
          * - The part is outside.
@@ -3606,15 +3697,17 @@ void vehicle::consume_fuel( double load = 1.0 )
 {
     float st = strain();
     for( auto &ft : get_fuel_types() ) {
-        // if no engines use this fuel, skip
-        int amnt_fuel_use = basic_consumption( ft.id );
-        if (amnt_fuel_use == 0) continue;
-
         //get exact amount of fuel needed
-        double amnt_precise = double(amnt_fuel_use) / ft.coeff;
+        double amnt_precise = double( basic_consumption( ft.id ) ) / ft.coeff;
 
-        amnt_precise *= load * (1.0 + st * st * 100);
-        int amnt = int(amnt_precise);
+        amnt_precise *= load * ( 1.0 + st * st * 100.0 );
+        // supplemental consumption doesn't take into account load & strain
+        amnt_precise += double( supplemental_consumption( ft.id ) ) / ft.coeff;
+
+        int amnt = int( amnt_precise );
+        if( amnt == 0 ) {
+            continue;
+        }
         // consumption remainder results in chance at additional fuel consumption
         if( x_in_y(int(amnt_precise*1000) % 1000, 1000) ) {
             amnt += 1;
@@ -3624,11 +3717,23 @@ void vehicle::consume_fuel( double load = 1.0 )
                 if( parts[elem].amount >= amnt ) {
                     // enough fuel located in this part
                     parts[elem].amount -= amnt;
+                    amnt = 0;
                     break;
                 } else {
                     amnt -= parts[elem].amount;
                     parts[elem].amount = 0;
                 }
+            }
+        }
+        if( amnt > 0 ) {
+            disable_chainsaws( ft.id );
+        } else if( chainsaw_on ) {
+            //~ sounds of working chainsaw
+            const char *sound_msgs[] = { _( "brrr!" ), _( "grrr!" ), _( "GRRZRRZ!" ) };
+            for( auto &part : all_parts_with_feature( "CHAINSAW" ) ) {
+                // show onomatopoeia rarely but emit noise all time
+                sounds::sound( global_part_pos3( part ), 20,
+                               one_in( 15 ) ? sound_msgs[rng( 0, 2 )] : "" );
             }
         }
     }
@@ -4007,7 +4112,7 @@ void vehicle::on_move(){
 
 void vehicle::operate_plow(){
     for( const int plow_id : all_parts_with_feature( "PLOW" ) ){
-        const tripoint start_plow = global_pos3() + parts[plow_id].precalc[0];
+        const tripoint start_plow = global_part_pos3( plow_id );
         if( g->m.has_flag("DIGGABLE", start_plow) ){
             g->m.ter_set( start_plow, t_dirtmound );
         } else {
@@ -4044,7 +4149,7 @@ void vehicle::operate_reaper(){
 void vehicle::operate_planter(){
     std::vector<int> planters = all_parts_with_feature("PLANTER");
     for( int planter_id : planters ){
-        const tripoint &loc = global_pos3() + parts[planter_id].precalc[0];
+        const tripoint &loc = global_part_pos3( planter_id );
         vehicle_stack v = get_items(planter_id);
         for( auto i = v.begin(); i != v.end(); i++ ){
             if( i->is_seed() ){
@@ -4083,11 +4188,11 @@ void vehicle::operate_scoop()
         const int chance_to_damage_item = 9;
         int max_pickup_size = parts[scoop].info().size / 10;
         const char *sound_msgs[] = {_("Whirrrr"), _("Ker-chunk"), _("Swish"), _("Cugugugugug")};
-        sounds::sound( global_pos3() + parts[scoop].precalc[0], rng( 20, 35 ),
+        sounds::sound( global_part_pos3( scoop ), rng( 20, 35 ),
                        sound_msgs[rng( 0, 3 )] );
         std::vector<tripoint> parts_points;
         for( const tripoint &current :
-                 g->m.points_in_radius( global_pos3() + parts[scoop].precalc[0], 1 ) ) {
+                 g->m.points_in_radius( global_part_pos3( scoop ), 1 ) ) {
             parts_points.push_back( current );
         }
         for( const tripoint &position : parts_points ) {
@@ -4696,7 +4801,11 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
                 }
             }
         } else if( ret.type == veh_coll_body ) {
-            int dam = obj_dmg*dmg_mod/100;
+            int dam = obj_dmg * dmg_mod / 100;
+
+            if( is_body_collision && parts[ret.part].enabled ) {
+                dam += damage_from_chainsaw( ret.part, critter->get_material() );
+            }
 
             // No blood from hallucinations
             if( !critter->is_hallucination() ) {
@@ -4723,7 +4832,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
                     critter->get_armor_bash( bp_torso );
                 dam = std::max( 0, dam - armor );
                 critter->apply_damage( driver, bp_torso, dam );
-                add_msg( m_debug, "Critter collision damage: %d", dam );
+                add_msg( "Critter collision damage: %d", dam );
             }
 
             // Don't fling if vertical - critter got smashed into the ground
@@ -5418,7 +5527,7 @@ void vehicle::remove_remote_part(int part_num) {
 
     // If the target vehicle is still there, ask it to remove its part
     if (veh != nullptr) {
-        auto pos = global_pos3() + parts[part_num].precalc[0];
+        auto pos = global_part_pos3( part_num );
         tripoint local_abs = g->m.getabs( pos );
 
         for( size_t j = 0; j < veh->loose_parts.size(); j++) {
@@ -5902,7 +6011,7 @@ turret_fire_ability vehicle::turret_can_shoot( const int p, const tripoint &pos 
     }
 
     const int turrange = get_turret_range( p, true );
-    tripoint tpos( global_pos3() + parts[p].precalc[0] );
+    tripoint tpos( global_part_pos3( p ) );
     if( rl_dist( tpos, pos ) > turrange ) {
         return turret_out_of_range;
     }
@@ -5945,7 +6054,7 @@ bool vehicle::aim_turrets()
             continue;
         }
 
-        tripoint tpos = global_pos3() + parts[turret_index].precalc[0];
+        tripoint tpos = global_part_pos3( turret_index );
         bounds.push_back( { tpos.x + turrange, tpos.y, tpos.z } );
         bounds.push_back( { tpos.x - turrange, tpos.y, tpos.z } );
         bounds.push_back( { tpos.x, tpos.y + turrange, tpos.z } );

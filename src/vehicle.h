@@ -392,12 +392,14 @@ public:
     // Engine backfire, making a loud noise
     void backfire( const int e );
 
-    // Honk the vehicle's horn, if there are any
     void honk_horn();
     void beeper_sound();
     void play_music();
     void play_chimes();
     void operate_planter();
+    void disable_chainsaws( const itype_id &ftype );
+    int damage_from_chainsaw( int part_index, std::string target_material_id );
+
     // get vpart type info for part number (part at given vector index)
     const vpart_info& part_info (int index, bool include_removed = false) const;
 
@@ -527,6 +529,7 @@ public:
     int global_y() const;
     point global_pos() const;
     tripoint global_pos3() const;
+    tripoint global_part_pos3( const int &index ) const;
     /**
      * Really global absolute coordinates in map squares.
      * This includes the overmap, the submap, and the map square.
@@ -555,8 +558,10 @@ public:
     // fuel consumption of vehicle engines of given type, in one-hundreth of fuel
     int basic_consumption (const itype_id &ftype) const;
 
-    void consume_fuel( double load );
+    //fuel consumption by various units (non-engines)
+    int supplemental_consumption( const itype_id &ftype ) const;
 
+    void consume_fuel( double load );
     void power_parts();
 
     /**
@@ -950,6 +955,7 @@ public:
     bool check_environmental_effects= false; // has bloody or smoking parts
     bool insides_dirty              = true;  // "inside" flags are outdated and need refreshing
     bool falling                    = false; // Is the vehicle hanging in the air and expected to fall down in the next turn?
+    bool chainsaw_on                = false; // Is the vehicle running a chainsaw?
     bool plow_on                    = false; // Is the vehicle running a plow?
     bool planter_on                 = false; // Is the vehicle sprawing seeds everywhere?
     bool scoop_on                   = false; //Does the vehicle have a scoop? Which picks up items.
