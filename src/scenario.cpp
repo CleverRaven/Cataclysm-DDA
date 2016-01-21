@@ -135,7 +135,7 @@ void scenario::check_definitions()
     }
 }
 
-void check_traits( const std::set<std::string> &traits, const string_id<scenario> &ident )
+void check_traits( const std::set<trait_id> &traits, const string_id<scenario> &ident )
 {
     for( auto &t : traits ) {
         if( !mutation_branch::has( t ) ) {
@@ -272,23 +272,23 @@ std::string scenario::start_name() const
     return _start_name;
 }
 
-bool scenario::traitquery( std::string trait ) const
+bool scenario::traitquery( const trait_id &trait ) const
 {
     return _allowed_traits.count( trait ) != 0 || is_locked_trait( trait ) ||
            ( !is_forbidden_trait( trait ) && mutation_branch::get( trait ).startingtrait );
 }
 
-std::set<std::string> scenario::get_locked_traits() const
+std::set<trait_id> scenario::get_locked_traits() const
 {
     return _forced_traits;
 }
 
-bool scenario::is_locked_trait( std::string trait ) const
+bool scenario::is_locked_trait( const trait_id &trait ) const
 {
     return _forced_traits.count( trait ) != 0;
 }
 
-bool scenario::is_forbidden_trait( std::string trait ) const
+bool scenario::is_forbidden_trait( const trait_id &trait ) const
 {
     return _forbidden_traits.count( trait ) != 0;
 }

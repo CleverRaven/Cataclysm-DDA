@@ -286,17 +286,17 @@ void Character::load(JsonObject &data)
     }
 
     if( savegame_loading_version <= 23 ) {
-        std::unordered_set<std::string> old_my_mutations;
+        std::unordered_set<trait_id> old_my_mutations;
         data.read( "mutations", old_my_mutations );
         for( const auto & mut : old_my_mutations ) {
             my_mutations[mut]; // Creates a new entry with default values
         }
-        std::map<std::string, char> trait_keys;
+        std::map<trait_id, char> trait_keys;
         data.read( "mutation_keys", trait_keys );
         for( const auto & k : trait_keys ) {
             my_mutations[k.first].key = k.second;
         }
-        std::set<std::string> active_muts;
+        std::set<trait_id> active_muts;
         data.read( "active_mutations_hacky", active_muts );
         for( const auto & mut : active_muts ) {
             my_mutations[mut].powered = true;

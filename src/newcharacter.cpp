@@ -964,7 +964,7 @@ tab_direction set_traits(WINDOW *w, player *u, points_left &points)
     // Track how many good / bad POINTS we have; cap both at MAX_TRAIT_POINTS
     int num_good = 0, num_bad = 0;
 
-    std::vector<std::string> vStartingTraits[2];
+    std::vector<trait_id> vStartingTraits[2];
 
     for( auto &traits_iter : mutation_branch::get_all() ) {
         // We show all starting traits, even if we can't pick them, to keep the interface consistent.
@@ -1131,7 +1131,7 @@ tab_direction set_traits(WINDOW *w, player *u, points_left &points)
             }
         } else if (action == "CONFIRM") {
             int inc_type = 0;
-            std::string cur_trait = vStartingTraits[iCurWorkingPage][iCurrentLine[iCurWorkingPage]];
+            const trait_id cur_trait = vStartingTraits[iCurWorkingPage][iCurrentLine[iCurWorkingPage]];
             const auto &mdata = mutation_branch::get( cur_trait );
             if (u->has_trait(cur_trait)) {
 
@@ -2118,7 +2118,7 @@ tab_direction set_description(WINDOW *w, player *u, const bool allow_reroll, poi
             wrefresh(w_stats);
 
             mvwprintz(w_traits, 0, 0, COL_HEADER, _("Traits: "));
-            std::vector<std::string> current_traits = u->get_base_traits();
+            std::vector<trait_id> current_traits = u->get_base_traits();
             if (current_traits.empty()) {
                 wprintz(w_traits, c_ltred, _("None!"));
             } else {
@@ -2342,14 +2342,14 @@ tab_direction set_description(WINDOW *w, player *u, const bool allow_reroll, poi
     } while (true);
 }
 
-std::vector<std::string> Character::get_base_traits() const
+std::vector<trait_id> Character::get_base_traits() const
 {
-    return std::vector<std::string>( my_traits.begin(), my_traits.end() );
+    return std::vector<trait_id>( my_traits.begin(), my_traits.end() );
 }
 
-std::vector<std::string> Character::get_mutations() const
+std::vector<trait_id> Character::get_mutations() const
 {
-    std::vector<std::string> result;
+    std::vector<trait_id> result;
     for( auto &t : my_mutations ) {
         result.push_back( t.first );
     }
@@ -2386,9 +2386,9 @@ void Character::add_traits()
     }
 }
 
-std::string Character::random_good_trait()
+trait_id Character::random_good_trait()
 {
-    std::vector<std::string> vTraitsGood;
+    std::vector<trait_id> vTraitsGood;
 
     for( auto &traits_iter : mutation_branch::get_all() ) {
         if( traits_iter.second.points >= 0 && g->scen->traitquery( traits_iter.first ) ) {
@@ -2399,9 +2399,9 @@ std::string Character::random_good_trait()
     return random_entry( vTraitsGood );
 }
 
-std::string Character::random_bad_trait()
+trait_id Character::random_bad_trait()
 {
-    std::vector<std::string> vTraitsBad;
+    std::vector<trait_id> vTraitsBad;
 
     for( auto &traits_iter : mutation_branch::get_all() ) {
         if( traits_iter.second.points < 0 && g->scen->traitquery( traits_iter.first ) ) {

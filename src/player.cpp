@@ -2718,12 +2718,12 @@ void player::disp_status( WINDOW *w, WINDOW *w2 )
     }
 }
 
-bool player::has_conflicting_trait( const std::string &flag ) const
+bool player::has_conflicting_trait( const trait_id &flag ) const
 {
     return ( has_opposite_trait( flag ) || has_lower_trait( flag ) || has_higher_trait( flag ) );
 }
 
-bool player::has_opposite_trait( const std::string &flag ) const
+bool player::has_opposite_trait( const trait_id &flag ) const
 {
     for( auto &i : mutation_branch::get( flag ).cancels ) {
         if( has_trait( i ) ) {
@@ -2733,7 +2733,7 @@ bool player::has_opposite_trait( const std::string &flag ) const
     return false;
 }
 
-bool player::has_lower_trait( const std::string &flag ) const
+bool player::has_lower_trait( const trait_id &flag ) const
 {
     for( auto &i : mutation_branch::get( flag ).prereqs ) {
         if( has_trait( i ) || has_lower_trait( i ) ) {
@@ -2743,7 +2743,7 @@ bool player::has_lower_trait( const std::string &flag ) const
     return false;
 }
 
-bool player::has_higher_trait( const std::string &flag ) const
+bool player::has_higher_trait( const trait_id &flag ) const
 {
     for( auto &i : mutation_branch::get( flag ).replacements ) {
         if( has_trait( i ) || has_higher_trait( i ) ) {
@@ -2763,12 +2763,12 @@ bool player::crossed_threshold() const
     return false;
 }
 
-bool player::purifiable( const std::string &flag ) const
+bool player::purifiable( const trait_id &flag ) const
 {
     return mutation_branch::get( flag ).purifiable;
 }
 
-void player::set_cat_level_rec( const std::string &sMut )
+void player::set_cat_level_rec( const trait_id &sMut )
 {
     if( !has_base_trait( sMut ) ) { //Skip base traits
         const auto &mdata = mutation_branch::get( sMut );

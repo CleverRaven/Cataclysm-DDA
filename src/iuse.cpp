@@ -1150,7 +1150,7 @@ static void test_crossing_threshold(player *p, const mutation_category_trait &m_
     // Threshold-check.  You only get to cross once!
     if (!p->crossed_threshold()) {
         std::string mutation_category = "MUTCAT_" + m_category.category;
-        std::string mutation_thresh = "THRESH_" + m_category.category;
+        const trait_id mutation_thresh = "THRESH_" + m_category.category;
         int total = 0;
         for (auto& iter : mutation_category_traits){
             total += p->mutation_category_level["MUTCAT_" + iter.second.category];
@@ -1366,7 +1366,7 @@ int iuse::mut_iv(player *p, item *it, bool, const tripoint& )
 // Helper to handle the logic of removing some random mutations.
 static void do_purify( player *p )
 {
-    std::vector<std::string> valid; // Which flags the player has
+    std::vector<trait_id> valid; // Which flags the player has
     for( auto &traits_iter : mutation_branch::get_all() ) {
         if( p->has_trait( traits_iter.first ) && !p->has_base_trait( traits_iter.first ) ) {
             //Looks for active mutation
@@ -1380,7 +1380,7 @@ static void do_purify( player *p )
     int num_cured = rng( 1, valid.size() );
     num_cured = std::min( 4, num_cured );
     for( int i = 0; i < num_cured && !valid.empty(); i++ ) {
-        const std::string id = random_entry_removed( valid );
+        const trait_id id = random_entry_removed( valid );
         if( p->purifiable( id ) ) {
             p->remove_mutation( id );
         } else {
@@ -1426,7 +1426,7 @@ int iuse::purify_iv(player *p, item *it, bool, const tripoint& )
         return it->type->charges_to_use();
     }
 
-    std::vector<std::string> valid; // Which flags the player has
+    std::vector<trait_id> valid; // Which flags the player has
     for( auto &traits_iter : mutation_branch::get_all() ) {
         if( p->has_trait( traits_iter.first ) && !p->has_base_trait( traits_iter.first ) ) {
             //Looks for active mutation
@@ -1443,7 +1443,7 @@ int iuse::purify_iv(player *p, item *it, bool, const tripoint& )
         num_cured = 8;
     }
     for (int i = 0; i < num_cured && !valid.empty(); i++) {
-        const std::string id = random_entry_removed( valid );
+        const trait_id id = random_entry_removed( valid );
         if (p->purifiable( id )) {
             p->remove_mutation( id );
         } else {

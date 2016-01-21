@@ -27,12 +27,12 @@ class wish_mutate_callback: public uimenu_callback
         int lastlen;           // last menu entry
         std::string msg;       // feedback message
         bool started;
-        std::vector<std::string> vTraits;
-        std::map<std::string, bool> pTraits;
+        std::vector<trait_id> vTraits;
+        std::map<trait_id, bool> pTraits;
         player *p;
         std::string padding;
 
-        nc_color mcolor( std::string m ) {
+        nc_color mcolor( const trait_id &m ) {
             if( pTraits[ m ] == true ) {
                 return c_green;
             }
@@ -209,7 +209,7 @@ void debug_menu::wishmutate( player *p )
         wmenu.query();
         if( wmenu.ret >= 0 ) {
             int rc = 0;
-            std::string mstr = cb.vTraits[ wmenu.ret ];
+            const trait_id mstr = cb.vTraits[ wmenu.ret ];
             const auto &mdata = mutation_branch::get( mstr );
             bool threshold = mdata.threshold;
             bool profession = mdata.profession;

@@ -750,7 +750,7 @@ int effect::mod_intensity( int mod, bool alert )
     return set_intensity( intensity + mod, alert );
 }
 
-const std::vector<std::string> &effect::get_resist_traits() const
+const std::vector<trait_id> &effect::get_resist_traits() const
 {
     return eff_type->resist_traits;
 }

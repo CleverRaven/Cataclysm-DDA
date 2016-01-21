@@ -10,9 +10,9 @@
 #include <map>
 
 std::vector<dream> dreams;
-std::map<std::string, std::vector<std::string> > mutations_category;
+std::map<std::string, std::vector<trait_id> > mutations_category;
 std::map<std::string, mutation_category_trait> mutation_category_traits;
-std::unordered_map<std::string, mutation_branch> mutation_data;
+std::unordered_map<trait_id, mutation_branch> mutation_data;
 
 static void extract_mod(JsonObject &j, std::unordered_map<std::pair<bool, std::string>, int> &data,
                         std::string mod_type, bool active, std::string type_key)
@@ -124,7 +124,7 @@ static mut_attack load_mutation_attack( JsonObject &jo )
 
 void mutation_branch::load( JsonObject &jsobj )
 {
-    const std::string id = jsobj.get_string( "id" );
+    const trait_id id = jsobj.get_string( "id" );
     mutation_branch &new_mut = mutation_data[id];
 
     JsonArray jsarr;
@@ -267,7 +267,7 @@ void mutation_branch::load( JsonObject &jsobj )
     }
 }
 
-static void check_consistency( const std::vector<std::string> &mvec, const std::string &mid, const std::string &what )
+static void check_consistency( const std::vector<trait_id> &mvec, const trait_id &mid, const std::string &what )
 {
     for( const auto &m : mvec ) {
         if( !mutation_branch::has( m ) ) {
@@ -310,12 +310,12 @@ nc_color mutation_branch::get_display_color() const
     }
 }
 
-bool mutation_branch::has( const std::string &mutation_id )
+bool mutation_branch::has( const trait_id &mutation_id )
 {
     return mutation_data.count( mutation_id ) > 0;
 }
 
-const mutation_branch &mutation_branch::get( const std::string &mutation_id )
+const mutation_branch &mutation_branch::get( const trait_id &mutation_id )
 {
     const auto iter = mutation_data.find( mutation_id );
     if( iter != mutation_data.end() ) {
@@ -326,7 +326,7 @@ const mutation_branch &mutation_branch::get( const std::string &mutation_id )
     return dummy;
 }
 
-const std::string &mutation_branch::get_name( const std::string &mutation_id )
+const std::string &mutation_branch::get_name( const trait_id &mutation_id )
 {
     return get( mutation_id ).name;
 }
@@ -357,7 +357,7 @@ void load_dream(JsonObject &jsobj)
     dreams.push_back(newdream);
 }
 
-bool trait_display_sort( const std::string &a, const std::string &b ) noexcept
+bool trait_display_sort( const trait_id &a, const trait_id &b ) noexcept
 {
     return mutation_data[a].name < mutation_data[b].name;
 }

@@ -392,7 +392,7 @@ std::vector<std::string> profession::CBMs() const
     return _starting_CBMs;
 }
 
-std::vector<std::string> profession::get_locked_traits() const
+std::vector<trait_id> profession::get_locked_traits() const
 {
     return _starting_traits;
 }
