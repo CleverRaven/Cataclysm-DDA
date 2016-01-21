@@ -384,7 +384,6 @@
     "armor_data" : {
         "covers" : ["ARM_EITHER", "HAND_EITHER"],
         "coverage" : 10,
-        "storage" : 18,
         "material_thickness" : 1,
         "encumbrance" : 30,
         "warmth" : 0
