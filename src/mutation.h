@@ -181,4 +181,6 @@ struct mutation_branch {
 void load_mutation_category( JsonObject &jsobj );
 void load_dream( JsonObject &jsobj );
 
+bool trait_display_sort( const std::string &a, const std::string &b ) noexcept;
+
 #endif
