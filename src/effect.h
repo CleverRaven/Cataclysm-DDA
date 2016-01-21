@@ -30,7 +30,6 @@ class effect_type
         friend class effect;
     public:
         effect_type();
-        effect_type(const effect_type &rhs);
 
         efftype_id id;
 
