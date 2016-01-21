@@ -18,7 +18,7 @@ const effect_type& string_id<effect_type>::obj() const
     const auto iter = effect_types.find( *this );
     if( iter == effect_types.end() ) {
         debugmsg( "invalid effect type id %s", c_str() );
-        const effect_type dummy{};
+        static const effect_type dummy{};
         return dummy;
     }
     return iter->second;
@@ -319,7 +319,6 @@ bool effect_type::load_mod_data(JsonObject &jsobj, std::string member) {
 }
 
 effect_type::effect_type() {}
-effect_type::effect_type(const effect_type &) {}
 
 effect_rating effect_type::get_rating() const
 {

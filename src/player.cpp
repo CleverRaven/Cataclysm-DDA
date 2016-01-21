@@ -10530,6 +10530,8 @@ bool player::wield( item& target )
     if( target.is_null() ) {
         uimenu prompt;
         prompt.text = string_format( _( "Stop wielding %s?" ), weapon.tname().c_str() );
+        prompt.return_invalid = true;
+
         std::vector<std::function<void()>> actions;
 
         prompt.addentry( -1, volume_carried() + weapon.volume() <= volume_capacity(), '1', _( "Store in inventory" ) );
