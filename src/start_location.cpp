@@ -56,16 +56,17 @@ std::string start_location::target() const
     return _target;
 }
 
-std::vector<const start_location*> start_location::get_all()
+std::vector<const start_location *> start_location::get_all()
 {
-    std::vector<const start_location*> result;
+    std::vector<const start_location *> result;
     for( auto &p : _locations ) {
         result.push_back( &p.second );
-}
+    }
     return result;
 }
 
-const std::set<std::string> &start_location::flags() const {
+const std::set<std::string> &start_location::flags() const
+{
     return _flags;
 }
 
@@ -74,9 +75,9 @@ void start_location::load_location( JsonObject &jsonobj )
     start_location new_location;
 
     new_location.id = string_id<start_location>( jsonobj.get_string( "ident" ) );
-    new_location._name = jsonobj.get_string("name");
-    new_location._target = jsonobj.get_string("target");
-    new_location._flags = jsonobj.get_tags("flags");
+    new_location._name = jsonobj.get_string( "name" );
+    new_location._target = jsonobj.get_string( "target" );
+    new_location._flags = jsonobj.get_tags( "flags" );
 
     _locations[new_location.id] = new_location;
 }
@@ -231,7 +232,7 @@ tripoint start_location::setup() const
  */
 int rate_location( map &m, const tripoint &p, const bool must_be_inside,
                    const int bash_str, const int attempt,
-                   int (&checked)[MAPSIZE*SEEX][MAPSIZE*SEEY] )
+                   int ( &checked )[MAPSIZE * SEEX][MAPSIZE * SEEY] )
 {
     if( ( must_be_inside && m.is_outside( p ) ) ||
         m.impassable( p ) ||
@@ -241,12 +242,12 @@ int rate_location( map &m, const tripoint &p, const bool must_be_inside,
 
     // Vector that will be used as a stack
     std::vector<tripoint> st;
-    st.reserve( MAPSIZE*SEEX * MAPSIZE*SEEY );
+    st.reserve( MAPSIZE * SEEX * MAPSIZE * SEEY );
     st.push_back( p );
 
     // If not checked yet and either can be moved into, can be bashed down or opened,
     // add it on the top of the stack.
-    const auto maybe_add = [&]( const int x, const int y, const tripoint &from ) {
+    const auto maybe_add = [&]( const int x, const int y, const tripoint & from ) {
         if( checked[x][y] >= attempt ) {
             return;
         }
@@ -312,7 +313,7 @@ void start_location::place_player( player &u ) const
     // Try some random points at start
 
     int tries = 0;
-    const auto check_spot = [&]( const tripoint &pt ) {
+    const auto check_spot = [&]( const tripoint & pt ) {
         tries++;
         const int rate = rate_location( m, pt, must_be_inside, bash, tries, checked );
         if( best_rate < rate ) {
@@ -349,37 +350,40 @@ void start_location::place_player( player &u ) const
 }
 
 void start_location::burn( const tripoint &omtstart,
-                           const size_t count, const int rad ) const {
+                           const size_t count, const int rad ) const
+{
     const tripoint player_location = overmapbuffer::omt_to_sm_copy( omtstart );
     tinymap m;
     m.load( player_location.x, player_location.y, player_location.z, false );
     m.build_outside_cache( m.get_abs_sub().z );
-    const int ux = g->u.posx() % (SEEX * int( MAPSIZE / 2 ));
-    const int uy = g->u.posy() % (SEEY * int( MAPSIZE / 2 ));
+    const int ux = g->u.posx() % ( SEEX * int( MAPSIZE / 2 ) );
+    const int uy = g->u.posy() % ( SEEY * int( MAPSIZE / 2 ) );
     std::vector<tripoint> valid;
     tripoint p = player_location;
     int &x = p.x;
     int &y = p.y;
     for( x = 0; x < m.getmapsize() * SEEX; x++ ) {
-        for ( y = 0; y < m.getmapsize() * SEEY; y++ ) {
-            if ( !(m.has_flag_ter( "DOOR", p ) ||
+        for( y = 0; y < m.getmapsize() * SEEY; y++ ) {
+            if( !( m.has_flag_ter( "DOOR", p ) ||
                    m.has_flag_ter( "OPENCLOSE_INSIDE", p ) ||
                    m.is_outside( p ) ||
-                   (x >= ux - rad && x <= ux + rad && y >= uy - rad && y <= uy + rad )) ) {
-                if ( m.has_flag( "FLAMMABLE", p ) || m.has_flag("FLAMMABLE_ASH", p ) ) {
+                   ( x >= ux - rad && x <= ux + rad && y >= uy - rad && y <= uy + rad ) ) ) {
+                if( m.has_flag( "FLAMMABLE", p ) || m.has_flag( "FLAMMABLE_ASH", p ) ) {
                     valid.push_back( p );
                 }
             }
         }
     }
     random_shuffle( valid.begin(), valid.end() );
-    for ( size_t i = 0; i < std::min( count, valid.size() ); i++ ) {
+    for( size_t i = 0; i < std::min( count, valid.size() ); i++ ) {
         m.add_field( valid[i], fd_fire, 3, 0 );
     }
     m.save();
 }
 
-void start_location::add_map_special( const tripoint &omtstart, const std::string& map_special ) const {
+void start_location::add_map_special( const tripoint &omtstart,
+                                      const std::string &map_special ) const
+{
     const tripoint player_location = overmapbuffer::omt_to_sm_copy( omtstart );
     tinymap m;
     m.load( player_location.x, player_location.y, player_location.z, false );
@@ -390,23 +394,23 @@ void start_location::add_map_special( const tripoint &omtstart, const std::strin
     m.save();
 }
 
-void start_location::handle_heli_crash( player &u ) const {
-    for (int i = 2; i < num_hp_parts; i++) { // Skip head + torso for balance reasons.
-        auto part = hp_part(i);
-        auto bp_part = u.hp_to_bp(part);
-        int roll = int(rng(1, 8));
-        switch (roll) {
+void start_location::handle_heli_crash( player &u ) const
+{
+    for( int i = 2; i < num_hp_parts; i++ ) { // Skip head + torso for balance reasons.
+        auto part = hp_part( i );
+        auto bp_part = u.hp_to_bp( part );
+        int roll = int( rng( 1, 8 ) );
+        switch( roll ) {
             case 1:
             case 2:// Damage + Bleed
-                u.add_effect( effect_bleed, 60, bp_part);
+                u.add_effect( effect_bleed, 60, bp_part );
             case 3:
             case 4:
-            case 5:// Just damage
-            {
-                auto maxHp = u.get_hp_max(part);
+            case 5: { // Just damage
+                auto maxHp = u.get_hp_max( part );
                 // Body part health will range from 33% to 66% with occasional bleed
-                int dmg = int(rng(maxHp / 3, maxHp * 2 / 3));
-                u.apply_damage(nullptr, bp_part, dmg);
+                int dmg = int( rng( maxHp / 3, maxHp * 2 / 3 ) );
+                u.apply_damage( nullptr, bp_part, dmg );
                 break;
             }
             default: // No damage
