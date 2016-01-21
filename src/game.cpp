@@ -11434,9 +11434,7 @@ void game::takeoff(int pos)
         return;
     }
 
-    if (!u.takeoff(pos)) {
-        add_msg(m_info, _("Invalid selection."));
-    }
+    u.takeoff( pos );
 }
 
 void game::change_side(int pos)
