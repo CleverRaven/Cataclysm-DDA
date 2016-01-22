@@ -486,6 +486,9 @@ void Item_factory::check_definitions() const
             if( type->magazine->capacity < 0 ) {
                 msg << string_format("invalid capacity %i", type->magazine->capacity) << "\n";
             }
+            if( type->magazine->count < 0 || type->magazine->count > type->magazine->capacity ) {
+                msg << string_format("invalid count %i", type->magazine->count) << "\n";
+            }
             if( type->magazine->reliability < 0 || type->magazine->reliability > 100) {
                 msg << string_format("invalid reliability %i", type->magazine->reliability) << "\n";
             }
@@ -902,6 +905,7 @@ void Item_factory::load( islot_magazine &slot, JsonObject &jo )
 {
     slot.type = jo.get_string( "ammo_type" );
     slot.capacity = jo.get_int( "capacity" );
+    slot.count = jo.get_int( "count", 0 );
     slot.reliability = jo.get_int( "reliability" );
     slot.reload_time = jo.get_int( "reload_time" );
 }

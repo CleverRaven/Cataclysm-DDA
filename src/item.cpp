@@ -134,6 +134,13 @@ item::item(const std::string new_type, int turn, bool rand)
     if( type->ammo ) {
         charges = type->ammo->def_charges;
     }
+    if( type->magazine ) {
+        if( type->magazine->count > 0 ) {
+            item ammo ( default_ammo( type->magazine->type ), calendar::turn );
+            ammo.charges = type->magazine->count;
+            contents.push_back( ammo );
+        }
+    }
     if( type->is_food() ) {
         const auto comest = dynamic_cast<const it_comest*>(type);
         active = goes_bad() && !rotten();
