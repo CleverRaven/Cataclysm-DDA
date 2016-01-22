@@ -2487,7 +2487,7 @@ bool item::has_flag( const std::string &f ) const
         } else {
             for( auto &elem : contents ) {
                 // Don't report flags from active gunmods for the gun.
-                if( elem.has_flag( f ) && !elem.is_auxiliary_gunmod() ) {
+                if( elem.has_flag( f ) && !( elem.is_auxiliary_gunmod() || elem.is_magazine() ) ) {
                     ret = true;
                     return ret;
                 }
