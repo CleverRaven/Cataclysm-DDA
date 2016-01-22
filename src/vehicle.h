@@ -528,6 +528,10 @@ public:
     point global_pos() const;
     tripoint global_pos3() const;
     /**
+     * Get the coordinates of the studied part of the vehicle
+     */
+    tripoint global_part_pos3( const int &index ) const;
+    /**
      * Really global absolute coordinates in map squares.
      * This includes the overmap, the submap, and the map square.
      */
