@@ -3393,7 +3393,7 @@ int player::print_aim_bars( WINDOW *w, int line_number, item *weapon, Creature *
     // This simplifies the calculation greatly, that's intentional.
     const std::array<std::pair<double, char>, 3> ratings =
         {{ std::make_pair(0.1, '*'), std::make_pair(0.4, '+'), std::make_pair(0.6, '|') }};
-    const std::string confidence_label = _("Confidence: ");
+    const std::string confidence_label = _("Confidence ");
     const int confidence_width = window_width - utf8_width( confidence_label ) - 2;
     int used_width = 0;
     std::string confidence_meter("[");
@@ -3414,7 +3414,7 @@ int player::print_aim_bars( WINDOW *w, int line_number, item *weapon, Creature *
     const double steady_score = predicted_recoil - weapon->sight_dispersion( -1 );
     // Fairly arbitrary cap on steadiness...
     const double steadiness = std::max( 0.0, 1.0 - (steady_score / 250) );
-    const std::string steadiness_label = _("Steadiness: ");
+    const std::string steadiness_label = _("Steadiness ");
     const int steadiness_width = window_width - utf8_width( steadiness_label ) - 2;
     const int steadiness_meter_width = steadiness_width * steadiness;
     std::string steadiness_meter("[");
