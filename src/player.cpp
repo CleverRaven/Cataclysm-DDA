@@ -10484,8 +10484,7 @@ bool player::can_wield( const item &it, bool alert ) const
                 add_msg( m_info, _("The %s can't be wielded with only one arm."), it.tname().c_str() );
             }
             if( worn_with_flag("RESTRICT_HANDS") ) {
-                add_msg( m_info, _("The %s you are wearing hinders the use of both hands."),
-                         it.tname().c_str() );
+                add_msg( m_info, _("Something you are wearing hinders the use of both hands."),
             }
         } else {
             if( alert ) {
@@ -10493,8 +10492,7 @@ bool player::can_wield( const item &it, bool alert ) const
                          it.tname().c_str() );
             }
             if( worn_with_flag("RESTRICT_HANDS") ) {
-                add_msg( m_info, _("The %s you are wearing hinders the use of both hands."),
-                         it.tname().c_str() );
+                add_msg( m_info, _("Something you are wearing hinders the use of both hands."),
             }
         }
         return false;
@@ -11016,7 +11014,7 @@ bool player::wear_item( const item &to_wear, bool interactive )
     // Check if we don't have both hands available before wearing a briefcase, shield, etc. Also occurs if we're already wearing one.
     if (to_wear.has_flag("RESTRICT_HANDS") && !has_two_arms()) {
         if(interactive) {
-            add_msg_if_player(m_info, _("You don't have a hand free to wear the %s")),
+            add_msg_if_player(m_info, _("You don't have a hand free to wear the %s.")),
                     to_wear.type_name().c_str();
         }
         return false;

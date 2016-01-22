@@ -1399,7 +1399,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         }
         if( is_armor() && has_flag( "RESTRICT_HANDS" ) ) {
             info.push_back( iteminfo( "DESCRIPTION",
-                                      _( "* This piece of clothing hinders using both hands when wielding weapons." ) ) );
+                                      _( "* This piece of clothing hinders the use of two-handed weapons." ) ) );
         }
         if( is_armor() && has_flag( "SUN_GLASSES" ) ) {
             info.push_back( iteminfo( "DESCRIPTION",
