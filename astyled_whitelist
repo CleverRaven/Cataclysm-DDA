@@ -32,6 +32,7 @@ src/speech.cpp
 src/start_location.cpp
 src/submap.cpp
 src/text_snippets.cpp
+src/translations.cpp
 src/trapfunc.cpp
 src/version.cpp
 src/action.h
@@ -45,6 +46,7 @@ src/auto_pickup.h
 src/basecamp.h
 src/bionics.h
 src/bodypart.h
+src/calendar.h
 src/cata_utility.h
 src/catalua.h
 src/char_validity_check.h
@@ -57,6 +59,7 @@ src/craft_command.h
 src/crafting_gui.h
 src/creature_tracker.h
 src/cursesdef.h
+src/damage.h
 src/debug.h
 src/dependency_tree.h
 src/drawing_primitives.h
@@ -88,6 +91,7 @@ src/martialarts.h
 src/material.h
 src/mattack_actors.h
 src/mod_manager.h
+src/mondeath.h
 src/mondefense.h
 src/monfaction.h
 src/morale.h
