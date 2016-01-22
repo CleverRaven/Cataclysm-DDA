@@ -721,11 +721,14 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         const auto skill = &mod->gun_skill().obj();
 
         info.push_back( iteminfo( "GUN", _( "Skill used: " ), "<info>" + skill->name() + "</info>" ) );
-        info.push_back( iteminfo( "GUN", _( "<bold>Ammunition</bold>: " ),
-                                  string_format( ngettext( "<num> <stat>round of %s</stat>",
-                                          "<num> <stat>rounds of %s</stat>",
-                                          mod->ammo_capacity() ),
-                                          ammo_name( mod->ammo_type() ).c_str() ), mod->ammo_capacity(), true ) );
+
+        if( magazine_integral() ) {
+            info.emplace_back( "GUN", _( "<bold>Ammunition</bold>: " ),
+                               string_format( ngettext( "<num> <stat>round of %s</stat>", "<num> <stat>rounds of %s</stat>", mod->ammo_capacity() ),
+                                              ammo_name( mod->ammo_type() ).c_str() ), mod->ammo_capacity(), true );
+        } else {
+            info.emplace_back( "GUN", string_format( "%s<stat>%s</stat>", _( "<bold>Ammunition</bold>: " ), ammo_name( mod->ammo_type() ).c_str() ) );
+        }
 
         info.push_back( iteminfo( "GUN", _( "Damage: " ), "", mod->gun_damage( false ), true, "", false, false ) );
 
@@ -808,6 +811,18 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                 info.push_back( iteminfo( "GUN", _( "Fire mode: <info>Fully-automatic</info> (burst only)." ) ) );
             }
             info.push_back( iteminfo( "GUN", _( "Burst size: " ), "", mod->burst_size() ) );
+        }
+
+        if( !magazine_integral() ) {
+            insert_separation_line();
+            std::string mags = _( "<bold>Compatible magazines:</bold> " );
+            for( auto iter = type->magazines.cbegin(); iter != type->magazines.cend(); ++iter ) {
+                if( iter != type->magazines.cbegin() ) {
+                    mags += ", ";
+                }
+                mags += item_controller->find_template( *iter )->nname( 1 );
+            }
+            info.emplace_back( "DESCRIPTION", mags );
         }
 
         if( !gun->valid_mod_locations.empty() ) {
@@ -1173,7 +1188,16 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
 
             info.push_back( iteminfo( "TOOL", string_format( _( "<bold>Charges</bold>: %d" ), ammo_remaining() ) ) );
 
-            if( has_flag( "DOUBLE_AMMO" ) ) {
+            if( !magazine_integral() ) {
+                insert_separation_line();
+                temp_fmt += _( "<bold>Compatible magazines:</bold> " );
+                for( auto iter = type->magazines.cbegin(); iter != type->magazines.cend(); ++iter ) {
+                    if( iter != type->magazines.cbegin() ) {
+                        temp_fmt += ", ";
+                    }
+                    temp_fmt += item_controller->find_template( *iter )->nname( 1 );
+                }
+            } else if( has_flag( "DOUBLE_AMMO" ) ) {
                 if( tool->ammo_id != "NULL" ) {
                     //~ "%s" is ammunition type. This types can't be plural.
                     temp_fmt = ngettext( "Maximum <num> charge (doubled) of %s.",
