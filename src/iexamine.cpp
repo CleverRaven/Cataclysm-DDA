@@ -1365,9 +1365,6 @@ void iexamine::flower_dahlia(player *p, map *m, const tripoint &examp)
     }
 
     if( drink_nectar( *p ) ) {
-        // No picking until you are full of nectar
-        // Otherwise the prompt would be annoying
-        // Or just put a scarf over that proboscis
         return;
     }
 
@@ -1530,31 +1527,44 @@ void iexamine::dirtmound(player *p, map *m, const tripoint &examp)
     }
 
     // Make lists of unique seed types and names for the menu(no multiple hemp seeds etc)
-    std::vector<itype_id> seed_types;
-    std::vector<std::string> seed_names;
+    std::map<itype_id, int> seed_map;
     for( auto &seed : seed_inv ) {
-        if( std::find( seed_types.begin(), seed_types.end(), seed->typeId() ) == seed_types.end() ) {
-            seed_types.push_back( seed->typeId() );
-            seed_names.push_back( seed->tname() );
-        }
+        seed_map[seed->typeId()] += (seed->charges > 0 ? seed->charges : 1);
     }
+
+    using seed_tuple = std::tuple<itype_id, std::string, int>;
+    std::vector<seed_tuple> seed_entries;
+    for( const auto &pr : seed_map ) {
+        seed_entries.emplace_back(
+            pr.first, item::nname( pr.first, pr.second ), pr.second );
+    }
+
+    // Sort by name
+    std::sort( seed_entries.begin(), seed_entries.end(),
+        []( const seed_tuple &l, const seed_tuple &r ) {
+            return std::get<1>( l ).compare( std::get<1>( r ) ) < 0;
+    } );
 
     // Choose seed
     // Don't use y/n prompt, stick with one kind of menu
-    int seed_index = 0;
-    seed_names.push_back(_("Cancel"));
-    seed_index = menu_vec(false, _("Use which seed?"),
-                          seed_names) - 1; // TODO: make cancelable using ESC
-    if (seed_index == (int)seed_names.size() - 1) {
-        seed_index = -1;
+    uimenu smenu;
+    smenu.return_invalid = true;
+    smenu.text = _("Use which seed?");
+    int count = 0;
+    for( const auto &entry : seed_entries ) {
+        smenu.addentry( count++, true, MENU_AUTOASSIGN, _("%s (%d)"),
+            std::get<1>( entry ).c_str(), std::get<2>( entry ) );
     }
+    smenu.query();
+
+    int seed_index = smenu.ret;
 
     // Did we cancel?
-    if (seed_index < 0) {
-        add_msg(_("You saved your seeds for later.")); // huehuehue
+    if( seed_index < 0 || seed_index >= (int)seed_entries.size() ) {
+        add_msg(_("You saved your seeds for later."));
         return;
     }
-    const auto &seed_id = seed_types[seed_index];
+    const auto &seed_id = std::get<0>( seed_entries[seed_index] );
 
     // Actual planting
     std::list<item> used_seed;
@@ -1565,9 +1575,9 @@ void iexamine::dirtmound(player *p, map *m, const tripoint &examp)
     }
     used_seed.front().bday = calendar::turn;
     m->add_item_or_charges( examp, used_seed.front() );
-    m->set(examp, t_dirt, f_plant_seed);
+    m->set( examp, t_dirt, f_plant_seed );
     p->moves -= 500;
-    add_msg(_("Planted %s"), seed_names[seed_index].c_str());
+    add_msg(_("Planted %s"), std::get<1>( seed_entries[seed_index] ).c_str() );
 }
 
 std::list<item> iexamine::get_harvest_items( const itype &type, const int plant_count,
@@ -1635,7 +1645,6 @@ void iexamine::aggie_plant(player *p, map *m, const tripoint &examp)
                 add_msg(m_info, _("We have altered this unit's configuration to extract and provide local nutriment.  The Mycus provides."));
             } else if ( (p->has_trait("M_DEFENDER")) || ( (p->has_trait("M_SPORES") || p->has_trait("M_FERTILE")) &&
                 one_in(2)) ) {
-                // Note: not Z-level-friendly!
                 g->summon_mon( mon_fungal_blossom, examp );
                 add_msg(m_info, _("The seed blooms forth!  We have brought true beauty to this world."));
             } else if ( (p->has_trait("THRESH_MYCUS")) || one_in(4)) {
