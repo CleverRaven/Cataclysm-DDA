@@ -27,7 +27,6 @@
         "material" : "null",
         "tool" : "null",
         "volume" : 1,
-        "cutting" : 0,
         "phase" : "solid",
         "charges" : 1,
         "bashing" : 0,
@@ -94,7 +93,6 @@
         "material" : "null",
         "tool" : "null",
         "volume" : 1,
-        "cutting" : 0,
         "phase" : "liquid",
         "charges" : 1,
         "bashing" : 0,
@@ -133,7 +131,6 @@
         "material" : "null",
         "tool" : "null",
         "volume" : 1,
-        "cutting" : 0,
         "phase" : "liquid",
         "charges" : 1,
         "bashing" : 0,
@@ -163,7 +160,6 @@
         "material" : "null",
         "tool" : "null",
         "volume" : 1,
-        "cutting" : 0,
         "phase" : "liquid",
         "charges" : 1,
         "bashing" : 0,
@@ -193,7 +189,6 @@
         "material" : "null",
         "tool" : "null",
         "volume" : 1,
-        "cutting" : 0,
         "phase" : "liquid",
         "charges" : 1,
         "bashing" : 0,
@@ -222,7 +217,6 @@
         "material" : "fruit",
         "tool" : "null",
         "volume" : 1,
-        "cutting" : 0,
         "phase" : "liquid",
         "charges" : 1,
         "bashing" : 0,
@@ -251,7 +245,6 @@
         "material" : "fruit",
         "tool" : "null",
         "volume" : 1,
-        "cutting" : 0,
         "phase" : "liquid",
         "charges" : 1,
         "bashing" : 0,
@@ -281,7 +274,6 @@
         "material" : "fruit",
         "tool" : "null",
         "volume" : 1,
-        "cutting" : 0,
         "phase" : "liquid",
         "charges" : 1,
         "bashing" : 0,
@@ -310,7 +302,6 @@
         "material" : "fruit",
         "tool" : "null",
         "volume" : 1,
-        "cutting" : 0,
         "phase" : "liquid",
         "charges" : 1,
         "bashing" : 0,
@@ -339,7 +330,6 @@
         "material" : "null",
         "tool" : "null",
         "volume" : 1,
-        "cutting" : 0,
         "phase" : "liquid",
         "charges" : 1,
         "bashing" : 0,
@@ -369,7 +359,6 @@
         "material" : "junk",
         "tool" : "null",
         "volume" : 1,
-        "cutting" : 0,
         "phase" : "liquid",
         "charges" : 1,
         "bashing" : 0,
@@ -399,7 +388,6 @@
         "material" : "junk",
         "tool" : "null",
         "volume" : 1,
-        "cutting" : 0,
         "phase" : "liquid",
         "charges" : 1,
         "bashing" : 0,
@@ -429,7 +417,6 @@
         "material" : "junk",
         "tool" : "null",
         "volume" : 1,
-        "cutting" : 0,
         "phase" : "liquid",
         "charges" : 1,
         "bashing" : 0,
@@ -459,7 +446,6 @@
         "material" : "junk",
         "tool" : "null",
         "volume" : 1,
-        "cutting" : 0,
         "phase" : "liquid",
         "charges" : 1,
         "bashing" : 0,
@@ -17902,7 +17888,6 @@
         "phase" : "solid",
         "charges" : 2,
         "stack_size" : 40,
-        "bashing" : 0,
         "fun" : 9
     },
     {
@@ -17929,7 +17914,6 @@
         "volume" : 0,
         "phase" : "solid",
         "charges" : 6,
-        "bashing" : 0,
         "fun" : 4
     },
     {
@@ -17956,7 +17940,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 1,
-        "bashing" : 0,
         "fun" : 5
     },
     {
@@ -17983,7 +17966,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 1,
-        "bashing" : 0,
         "fun" : 3
     },
     {
@@ -18010,7 +17992,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 1,
-        "bashing" : 0,
         "fun" : 3
     },
     {
@@ -18037,7 +18018,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 1,
-        "bashing" : 0,
         "fun" : 5
     },
     {
@@ -18064,7 +18044,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 1,
-        "bashing" : 0,
         "fun" : 3
     },
     {
@@ -18091,7 +18070,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 1,
-        "bashing" : 0,
         "fun" : 3
     },
     {
@@ -18121,7 +18099,6 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 7,
-        "bashing" : 0,
         "fun" : 17
     },
     {
@@ -18151,7 +18128,6 @@
         "phase" : "solid",
         "charges" : 6,
         "stack_size" : 36,
-        "bashing" : 0,
         "fun" : 0
     },
     {
@@ -18178,7 +18154,6 @@
         "volume" : 3,
         "phase" : "solid",
         "charges" : 6,
-        "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 6
     },
@@ -18207,7 +18182,6 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 5,
-        "bashing" : 0,
         "fun" : 0
     },
     {
@@ -18234,7 +18208,6 @@
         "volume" : 0,
         "phase" : "solid",
         "charges" : 6,
-        "bashing" : 0,
         "fun" : 4
     },{
         "type" : "COMESTIBLE",
@@ -18261,7 +18234,6 @@
         "phase" : "solid",
         "charges" : 1,
         "stack_size" : 4,
-        "bashing" : 0,
         "fun" : -8
     },{
         "type" : "COMESTIBLE",
@@ -18288,7 +18260,6 @@
         "phase" : "solid",
         "charges" : 1,
         "stack_size" : 4,
-        "bashing" : 0,
         "fun" : -12
     },{
         "type" : "COMESTIBLE",
@@ -18316,7 +18287,6 @@
         "phase" : "solid",
         "charges" : 40,
         "stack_size" : 40,
-        "bashing" : 0,
         "fun" : 8
     },
     {   "type" : "COMESTIBLE",
@@ -18346,7 +18316,6 @@
         "phase" : "solid",
         "charges" : 4,
         "stack_size" : 100,
-        "bashing" : 0,
         "fun" : -1,
         "seed_data": {
             "plant_name": "datura",
@@ -18382,7 +18351,6 @@
         "phase" : "solid",
         "charges" : 10,
         "stack_size" : 100,
-        "bashing" : 0,
         "fun" : 8
     },{
         "type" : "COMESTIBLE",
@@ -18408,7 +18376,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 1,
-        "bashing" : 0,
         "fun" : 1
     },{
         "type" : "COMESTIBLE",
@@ -18434,7 +18401,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 1,
-        "bashing" : 0,
         "fun" : -2
     },{
         "type" : "COMESTIBLE",
@@ -18460,7 +18426,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 1,
-        "bashing" : 0,
         "fun" : 0
     },{
         "type" : "COMESTIBLE",
@@ -18486,7 +18451,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 1,
-        "bashing" : 0,
         "fun" : 0
     },{
         "type" : "COMESTIBLE",
@@ -18504,7 +18468,6 @@
         "addiction_type": "none",
         "volume" : 1,
         "weight" : 1,
-        "bashing" : 0,
         "to_hit" : 0,
         "charges" : 4,
         "stack_size" : 100,
@@ -18538,7 +18501,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 1,
-        "bashing" : 0,
         "fun" : 0
     },{
         "type" : "COMESTIBLE",
@@ -18564,7 +18526,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 1,
-        "bashing" : 0,
         "fun" : 0
     },
     {
@@ -18583,7 +18544,6 @@
         "addiction_type": "none",
         "volume" : 1,
         "weight" : 1,
-        "bashing" : 0,
         "to_hit" : 0,
         "charges" : 4,
         "stack_size" : 100,
@@ -18618,7 +18578,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 1,
-        "bashing" : 0,
         "fun" : -4
     },
     {
@@ -18645,7 +18604,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 1,
-        "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 2
     },{
@@ -18672,7 +18630,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 1,
-        "bashing" : 0,
         "fun" : 0
     },
     {
@@ -18758,7 +18715,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 2,
-        "bashing" : 0,
         "fun" : 3
     },
     {
@@ -18786,7 +18742,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 2,
-        "bashing" : 0,
         "fun" : 8
     },
     {
@@ -18814,7 +18769,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 2,
-        "bashing" : 0,
         "fun" : 12
     },
     {
@@ -18842,7 +18796,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 2,
-        "bashing" : 0,
         "fun" : 14
     },
     {
@@ -18870,7 +18823,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 2,
-        "bashing" : 0,
         "fun" : 13
     },
     {
@@ -18898,7 +18850,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 4,
-        "bashing" : 0,
         "fun" : 7
     },{
         "type" : "COMESTIBLE",
@@ -18925,7 +18876,6 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 1,
-        "bashing" : 0,
         "fun" : 2
     },
     {
@@ -18953,7 +18903,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 1,
-        "bashing" : 0,
         "fun" : 2
     },
     {
@@ -18982,7 +18931,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 2,
-        "bashing" : 0,
         "fun" : -4
     },
     {
@@ -19012,7 +18960,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 2,
-        "bashing" : 0,
         "fun" : 0
     },
     {
@@ -19041,7 +18988,6 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 5,
-        "bashing" : 0,
         "fun" : 0
     },
     {
@@ -19071,7 +19017,6 @@
         "phase" : "solid",
         "charges" : 1,
         "stack_size" : 1,
-        "bashing" : 0,
         "fun" : -12
     },{
         "type" : "COMESTIBLE",
@@ -19100,7 +19045,6 @@
         "phase" : "solid",
         "charges" : 1,
         "stack_size" : 1,
-        "bashing" : 0,
         "fun" : -12
     },
     {
@@ -19130,7 +19074,6 @@
         "phase" : "solid",
         "charges" : 1,
         "stack_size" : 1,
-        "bashing" : 0,
         "fun" : -12
     },
     {
@@ -19161,7 +19104,6 @@
         "phase" : "solid",
         "charges" : 1,
         "stack_size" : 1,
-        "bashing" : 0,
         "fun" : -24
     },
     {
@@ -19192,7 +19134,6 @@
         "phase" : "solid",
         "charges" : 1,
         "stack_size" : 1,
-        "bashing" : 0,
         "fun" : -24
     },{
         "type" : "COMESTIBLE",
@@ -19218,7 +19159,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 1,
-        "bashing" : 0,
         "fun" : 0
     },
     {
@@ -19246,7 +19186,6 @@
         "volume" : 2,
         "phase" : "liquid",
         "charges" : 2,
-        "bashing" : 0,
         "flags" : ["EATEN_COLD", "MUTAGEN_WEAK"],
         "fun" : -15
     },
@@ -19284,7 +19223,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 25,
-        "bashing" : 0,
         "fun" : 4
     },
     {
@@ -19311,7 +19249,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 25,
-        "bashing" : 0,
         "fun" : 6
     },
     {
@@ -19339,7 +19276,6 @@
         "volume" : 2,
         "phase" : "liquid",
         "charges" : 1,
-        "bashing" : 0,
         "flags" : ["EATEN_COLD"],
         "fun" : 20
     },
@@ -19368,7 +19304,6 @@
         "volume" : 2,
         "phase" : "liquid",
         "charges" : 2,
-        "bashing" : 0,
         "flags" : ["EATEN_COLD"],
         "fun" : 20
     },
@@ -19397,7 +19332,6 @@
         "volume" : 2,
         "phase" : "liquid",
         "charges" : 1,
-        "bashing" : 0,
         "flags" : ["EATEN_COLD"],
         "fun" : 20
     },
@@ -19426,7 +19360,6 @@
         "volume" : 2,
         "phase" : "liquid",
         "charges" : 1,
-        "bashing" : 0,
         "flags" : ["EATEN_COLD"],
         "fun" : 20
     },
@@ -19455,7 +19388,6 @@
         "volume" : 2,
         "phase" : "liquid",
         "charges" : 2,
-        "bashing" : 0,
         "fun" : 10
     },
     {
@@ -19483,7 +19415,6 @@
         "volume" : 2,
         "phase" : "liquid",
         "charges" : 2,
-        "bashing" : 0,
         "fun" : 10
     },
     {
@@ -19511,7 +19442,6 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 1,
-        "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 14
     },
@@ -19540,7 +19470,6 @@
         "volume" : 2,
         "phase" : "liquid",
         "charges" : 1,
-        "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : -5
     },
@@ -19569,7 +19498,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 1,
-        "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 10
     },
@@ -19598,7 +19526,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 1,
-        "bashing" : 0,
         "fun" : 8
     },
     {
@@ -19626,7 +19553,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 1,
-        "bashing" : 0,
         "fun" : 15
     },
     {
@@ -19654,7 +19580,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 1,
-        "bashing" : 0,
         "fun" : 2
     },
     {
@@ -19682,7 +19607,6 @@
         "phase" : "solid",
         "charges" : 10,
         "stack_size" : 20,
-        "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : -1
     },
@@ -19711,7 +19635,6 @@
         "volume" : 2,
         "phase" : "liquid",
         "charges" : 2,
-        "bashing" : 0,
         "flags" : ["EATEN_COLD"],
         "fun" : 10
     },
@@ -19741,7 +19664,6 @@
         "phase" : "solid",
         "charges" : 1,
         "stack_size" : 20,
-        "bashing" : 0,
         "fun" : -1
     },
     {
@@ -19768,7 +19690,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 2,
-        "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 6
     },{
@@ -19811,7 +19732,6 @@
         "material" : "veggy",
         "volume" : 1,
         "weight" : 1,
-        "bashing" : 0,
         "to_hit" : 0,
         "phase": "solid",
         "charges" : 2,
@@ -19869,7 +19789,6 @@
         "material" : "veggy",
         "volume" : 1,
         "weight" : 1,
-        "bashing" : 0,
         "to_hit" : 0,
         "phase": "solid",
         "charges" : 2,
@@ -19907,7 +19826,6 @@
         "phase" : "solid",
         "charges" : 2,
         "stack_size" : 100,
-        "bashing" : 0,
         "fun" : 0,
         "seed_data": {
             "plant_name": "pumpkin",
@@ -19943,7 +19861,6 @@
         "phase" : "solid",
         "charges" : 2,
         "stack_size" : 100,
-        "bashing" : 0,
         "fun" : 0,
         "seed_data": {
             "plant_name": "sunflower",
@@ -20016,7 +19933,6 @@
         "material" : "veggy",
         "volume" : 1,
         "weight" : 1,
-        "bashing" : 0,
         "to_hit" : 0,
         "phase": "solid",
         "charges" : 2,
@@ -20068,7 +19984,6 @@
         "material" : "veggy",
         "volume" : 1,
         "weight" : 1,
-        "bashing" : 0,
         "to_hit" : 0,
         "phase": "solid",
         "charges" : 2,
@@ -20150,7 +20065,6 @@
         "material" : "veggy",
         "volume" : 1,
         "weight" : 1,
-        "bashing" : 0,
         "to_hit" : 0,
         "phase": "solid",
         "charges" : 2,
@@ -20201,7 +20115,6 @@
         "material" : "veggy",
         "volume" : 1,
         "weight" : 1,
-        "bashing" : 0,
         "to_hit" : 0,
         "phase": "solid",
         "charges" : 2,
@@ -20228,7 +20141,6 @@
         "material" : "veggy",
         "volume" : 1,
         "weight" : 1,
-        "bashing" : 0,
         "to_hit" : 0,
         "phase": "solid",
         "charges" : 2,
@@ -20254,7 +20166,6 @@
         "material" : "veggy",
         "volume" : 1,
         "weight" : 1,
-        "bashing" : 0,
         "to_hit" : 0,
         "phase": "solid",
         "charges" : 2,
@@ -20281,7 +20192,6 @@
         "material" : "veggy",
         "volume" : 1,
         "weight" : 1,
-        "bashing" : 0,
         "to_hit" : 0,
         "phase": "solid",
         "charges" : 2,
@@ -20307,7 +20217,6 @@
         "material" : "veggy",
         "volume" : 1,
         "weight" : 1,
-        "bashing" : 0,
         "to_hit" : 0,
         "phase": "solid",
         "charges" : 2,
@@ -20334,7 +20243,6 @@
         "material" : "veggy",
         "volume" : 1,
         "weight" : 1,
-        "bashing" : 0,
         "to_hit" : 0,
         "phase": "solid",
         "charges" : 2,
@@ -20360,7 +20268,6 @@
         "material" : "veggy",
         "volume" : 1,
         "weight" : 1,
-        "bashing" : 0,
         "to_hit" : 0,
         "phase": "solid",
         "charges" : 2,
@@ -20386,7 +20293,6 @@
         "material" : "veggy",
         "volume" : 1,
         "weight" : 1,
-        "bashing" : 0,
         "to_hit" : 0,
         "phase": "solid",
         "charges" : 2,
@@ -20413,7 +20319,6 @@
         "material" : "veggy",
         "volume" : 1,
         "weight" : 1,
-        "bashing" : 0,
         "to_hit" : 0,
         "phase": "solid",
         "charges" : 2,
@@ -20449,7 +20354,6 @@
         "phase" : "solid",
         "charges" : 1,
         "stack_size" : 1,
-        "bashing" : 0,
         "flags" : ["USE_ON_NPC"],
         "fun" : 0,
         "use_action" : {
@@ -20488,7 +20392,6 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 2,
-        "bashing" : 0,
         "flags" : ["EATEN_COLD"],
         "fun" : 15
     },{
@@ -20516,7 +20419,6 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 2,
-        "bashing" : 0,
         "flags" : ["EATEN_COLD"],
         "fun" : 20
     }
