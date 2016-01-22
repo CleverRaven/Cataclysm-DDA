@@ -13764,7 +13764,7 @@ std::string player::weapname() const
         if( weapon.ammo_capacity() > 0 && !weapon.has_flag( "RELOAD_AND_SHOOT" ) ) {
             str << " (" << weapon.ammo_remaining();
 
-            if( !weapon.has_flag( "NO_RELOAD" ) ) {
+            if( !weapon.magazine_current() || !weapon.magazine_current()->has_flag( "NO_RELOAD" ) ) {
                 str << "/" << weapon.ammo_capacity();
             }
 
