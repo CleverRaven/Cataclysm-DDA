@@ -2045,8 +2045,8 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
     else if (is_gun() && !contents.empty() ) {
         ret.str("");
         ret << label(quantity);
-        for( size_t i = 0; i < contents.size(); ++i ) {
-            if( !contents.at(i).has_flag("IRREMOVABLE") ){
+        for( const auto& e : contents ) {
+            if( e.is_gunmod() && !e.has_flag( "IRREMOVABLE" ) ) {
                 ret << "+";
             }
         }
