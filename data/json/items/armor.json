@@ -1005,7 +1005,7 @@
         "phase" : "solid",
         "encumbrance" : 5,
         "bashing" : -4,
-        "flags" : ["VARSIZE", "POCKETS"],
+        "flags" : ["VARSIZE"],
         "coverage" : 40,
         "material_thickness" : 2
     },
@@ -1029,7 +1029,7 @@
         "phase" : "solid",
         "encumbrance" : 0,
         "bashing" : -4,
-        "flags" : ["VARSIZE", "POCKETS"],
+        "flags" : ["VARSIZE"],
         "coverage" : 50,
         "material_thickness" : 1
     },
@@ -1053,7 +1053,7 @@
         "phase" : "solid",
         "encumbrance" : 0,
         "bashing" : -4,
-        "flags" : ["VARSIZE", "POCKETS"],
+        "flags" : ["VARSIZE"],
         "coverage" : 40,
         "material_thickness" : 2
     },
@@ -3344,7 +3344,7 @@
         "phase" : "solid",
         "encumbrance" : 0,
         "bashing" : -5,
-        "flags" : ["VARSIZE", "POCKETS"],
+        "flags" : ["VARSIZE"],
         "coverage" : 90,
         "material_thickness" : 1
     },
@@ -4351,7 +4351,7 @@
         "phase" : "solid",
         "encumbrance" : 15,
         "bashing" : 6,
-        "flags" : ["VARSIZE", "POCKETS", "STURDY", "OUTER"],
+        "flags" : ["VARSIZE", "STURDY", "OUTER"],
         "coverage" : 85,
         "material_thickness" : 4
     },
@@ -4376,7 +4376,7 @@
         "phase" : "solid",
         "encumbrance" : 25,
         "bashing" : 8,
-        "flags" : ["VARSIZE", "POCKETS", "STURDY", "OUTER"],
+        "flags" : ["VARSIZE", "STURDY", "OUTER"],
         "coverage" : 85,
         "material_thickness" : 5
     },
@@ -4401,7 +4401,7 @@
         "phase" : "solid",
         "encumbrance" : 40,
         "bashing" : 8,
-        "flags" : ["VARSIZE", "POCKETS", "STURDY", "OUTER"],
+        "flags" : ["VARSIZE", "STURDY", "OUTER"],
         "coverage" : 85,
         "material_thickness" : 5
     },
@@ -4426,7 +4426,7 @@
         "phase" : "solid",
         "encumbrance" : 25,
         "bashing" : 6,
-        "flags" : ["VARSIZE", "POCKETS", "STURDY", "OUTER"],
+        "flags" : ["VARSIZE", "STURDY", "OUTER"],
         "coverage" : 85,
         "material_thickness" : 5
     },
@@ -4451,7 +4451,7 @@
         "phase" : "solid",
         "encumbrance" : 17,
         "bashing" : 6,
-        "flags" : ["VARSIZE", "POCKETS", "STURDY", "OUTER"],
+        "flags" : ["VARSIZE", "STURDY", "OUTER"],
         "coverage" : 85,
         "material_thickness" : 5
     },
@@ -4476,7 +4476,7 @@
         "phase" : "solid",
         "encumbrance" : 55,
         "bashing" : 6,
-        "flags" : ["VARSIZE", "POCKETS", "STURDY", "OUTER"],
+        "flags" : ["VARSIZE", "STURDY", "OUTER"],
         "coverage" : 85,
         "material_thickness" : 4
     },
