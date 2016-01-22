@@ -5865,7 +5865,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 1,
-        "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 0
     },
@@ -5894,7 +5893,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 1,
-        "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 0
     },
@@ -5922,7 +5920,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 1,
-        "bashing" : 0,
         "fun" : 3
     },
     {
@@ -5976,7 +5973,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 1,
-        "bashing" : 0,
         "fun" : 3
     },
     {
@@ -6003,7 +5999,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 1,
-        "bashing" : 0,
         "fun" : -4
     },
     {
@@ -6030,7 +6025,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 1,
-        "bashing" : 0,
         "fun" : 3
     },
     {
@@ -6084,7 +6078,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 1,
-        "bashing" : 0,
         "fun" : 3
     },
     {
@@ -6111,7 +6104,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 1,
-        "bashing" : 0,
         "fun" : -4
     },
     {
@@ -6138,7 +6130,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 3,
-        "bashing" : 0,
         "fun" : 3
     },
     {
@@ -6166,7 +6157,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 3,
-        "bashing" : 0,
         "fun" : 6
     },
     {
@@ -6194,7 +6184,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 4,
-        "bashing" : 0,
         "fun" : 3
     },{
         "type" : "COMESTIBLE",
@@ -6220,7 +6209,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 12,
-        "bashing" : 0,
         "fun" : 10
     },
     {
@@ -6247,7 +6235,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 12,
-        "bashing" : 0,
         "fun" : 8
     },
     {
@@ -6274,7 +6261,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 12,
-        "bashing" : 0,
         "fun" : 6
     },
     {
@@ -6301,7 +6287,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 8,
-        "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 25
     },
@@ -6329,7 +6314,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 8,
-        "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 18
     },
@@ -6357,7 +6341,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 8,
-        "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 10
     },
@@ -6386,7 +6369,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 4,
-        "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : -10
     },
@@ -6415,7 +6397,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 2,
-        "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 30
     },
@@ -6444,7 +6425,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 3,
-        "bashing" : 0,
         "fun" : 3
     },
     {
@@ -6472,7 +6452,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 3,
-        "bashing" : 0,
         "fun" : 12
     },
     {
@@ -6500,7 +6479,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 3,
-        "bashing" : 0,
         "fun" : 8
     },
     {
@@ -6528,7 +6506,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 3,
-        "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 16
     },
@@ -6557,7 +6534,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 3,
-        "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 16
     },
@@ -6586,7 +6562,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 3,
-        "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 16
     },
@@ -6615,7 +6590,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 3,
-        "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 20
     },
@@ -6644,7 +6618,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 3,
-        "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 20
     },
@@ -6673,7 +6646,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 1,
-        "bashing" : 0,
         "fun" : -6
     },
     {
@@ -6701,7 +6673,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 3,
-        "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 4
     },
@@ -6730,7 +6701,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 3,
-        "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 8
     },
@@ -6759,7 +6729,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 3,
-        "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 10
     },
@@ -6788,7 +6757,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 3,
-        "bashing" : 0,
         "fun" : 4
     },
     {
@@ -6815,7 +6783,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 3,
-        "bashing" : 0,
         "fun" : 6
     },
     {
@@ -6842,7 +6809,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 1,
-        "bashing" : 0,
         "fun" : 10
     },
     {
@@ -6870,7 +6836,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 8,
-        "bashing" : 0,
         "fun" : 10
     },
     {
@@ -6898,7 +6863,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 4,
-        "bashing" : 0,
         "fun" : 30
     },
     {
@@ -6925,7 +6889,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 2,
-        "bashing" : 0,
         "flags" : ["EATEN_COLD"],
         "fun" : 0
     },
@@ -6953,7 +6916,6 @@
         "volume" : 2,
         "phase" : "solid",
         "charges" : 2,
-        "bashing" : 0,
         "flags" : ["EATEN_COLD"],
         "fun" : 0
     },
@@ -6981,7 +6943,6 @@
         "volume" : 2,
         "phase" : "solid",
         "charges" : 2,
-        "bashing" : 0,
         "flags" : ["EATEN_COLD"],
         "fun" : 0
     },
@@ -7010,7 +6971,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 3,
-        "bashing" : 0,
         "fun" : 4
     },
     {
@@ -7038,7 +6998,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 2,
-        "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 4
     },
@@ -7066,7 +7025,6 @@
         "volume" : 2,
         "phase" : "solid",
         "charges" : 8, "//" : "About 4 meats, depending on which gets used.",
-        "bashing" : 0,
         "fun" : 3
     },
     {
@@ -7093,7 +7051,6 @@
         "volume" : 2,
         "phase" : "solid",
         "charges" : 8,
-        "bashing" : 0,
         "fun" : 3
     },
     {
@@ -7120,7 +7077,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 4,
-        "bashing" : 0,
         "fun" : 4
     },
     {
@@ -7148,7 +7104,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 4,
-        "bashing" : 0,
         "fun" : 4
     },
     {
@@ -7176,7 +7131,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 3,
-        "bashing" : 0,
         "fun" : 2
     },
     {
@@ -7204,7 +7158,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 3,
-        "bashing" : 0,
         "fun" : 2
     },
     {
@@ -7232,7 +7185,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 1,
-        "bashing" : 0,
         "fun" : 3
     },
     {
@@ -7260,7 +7212,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 1,
-        "bashing" : 0,
         "fun" : 6
     },
     {
@@ -7288,7 +7239,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 1,
-        "bashing" : 0,
         "fun" : 6
     },
     {
@@ -7316,7 +7266,6 @@
         "volume" : 0,
         "phase" : "solid",
         "charges" : 3,
-        "bashing" : 0,
         "fun" : 4
     },
     {
@@ -7344,7 +7293,6 @@
         "volume" : 0,
         "phase" : "solid",
         "charges" : 3,
-        "bashing" : 0,
         "fun" : 3
     },
     {
@@ -7372,7 +7320,6 @@
         "volume" : 0,
         "phase" : "solid",
         "charges" : 3,
-        "bashing" : 0,
         "fun" : 3
     },
     {
@@ -7400,7 +7347,6 @@
         "volume" : 0,
         "phase" : "solid",
         "charges" : 5,
-        "bashing" : 0,
         "fun" : 6
     },
     {
@@ -7428,7 +7374,6 @@
         "volume" : 0,
         "phase" : "solid",
         "charges" : 1,
-        "bashing" : 0,
         "fun" : -5
     },
     {
@@ -7456,7 +7401,6 @@
         "volume" : 0,
         "phase" : "solid",
         "charges" : 1,
-        "bashing" : 0,
         "fun" : -5
     },
     {
@@ -7483,7 +7427,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 1,
-        "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 0
     },
@@ -7512,7 +7455,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 1,
-        "bashing" : 0,
         "flags" : ["EATEN_HOT", "HIDDEN_POISON"],
         "fun" : 0
     },
@@ -7541,7 +7483,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 1,
-        "bashing" : 0,
         "flags" : ["EATEN_HOT", "HIDDEN_HALLU"],
         "fun" : 0
     },
@@ -7570,7 +7511,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 1,
-        "bashing" : 0,
         "fun" : 1
     },
     {
@@ -7597,7 +7537,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 1,
-        "bashing" : 0,
         "fun" : 4
     },
     {
@@ -7624,7 +7563,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 2,
-        "bashing" : 0,
         "fun" : 12,
         "flags" : ["EATEN_HOT"]
     },
@@ -7652,7 +7590,6 @@
         "volume" : 0,
         "phase" : "solid",
         "charges" : 4,
-        "bashing" : 0,
         "fun" : 1
     },
     {
@@ -7680,7 +7617,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 1,
-        "bashing" : 0,
         "fun" : 0
     },
     {
@@ -7728,7 +7664,6 @@
         "material" : "fruit",
         "volume" : 1,
         "weight" : 1,
-        "bashing" : 0,
         "to_hit" : 0,
         "phase": "solid",
         "charges" : 4,
@@ -7765,7 +7700,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 1,
-        "bashing" : 0,
         "fun" : 0
     },
     {
@@ -7821,7 +7755,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 2,
-        "bashing" : 0,
         "fun" : 0
     },
     {   "type" : "COMESTIBLE",
@@ -7839,7 +7772,6 @@
         "addiction_type": "none",
         "volume" : 1,
         "weight" : 1,
-        "bashing" : 0,
         "to_hit" : 0,
         "charges" : 4,
         "stack_size" : 100,
@@ -7865,7 +7797,6 @@
         "addiction_type": "none",
         "volume" : 1,
         "weight" : 1,
-        "bashing" : 0,
         "to_hit" : 0,
         "charges" : 4,
         "stack_size" : 100,
@@ -7891,7 +7822,6 @@
         "addiction_type": "none",
         "volume" : 1,
         "weight" : 1,
-        "bashing" : 0,
         "to_hit" : 0,
         "charges" : 4,
         "stack_size" : 100,
@@ -7917,7 +7847,6 @@
         "addiction_type": "none",
         "volume" : 1,
         "weight" : 1,
-        "bashing" : 0,
         "to_hit" : 0,
         "charges" : 4,
         "stack_size" : 100,
@@ -7953,7 +7882,6 @@
         "volume" : 4,
         "phase" : "solid",
         "charges" : 4,
-        "bashing" : 0,
         "fun" : -10
     },
     {
@@ -7972,7 +7900,6 @@
         "addiction_type": "none",
         "volume" : 1,
         "weight" : 5,
-        "bashing" : 0,
         "to_hit" : 0,
         "charges" : 4,
         "stack_size" : 40,
@@ -8009,7 +7936,6 @@
         "volume" : 2,
         "phase" : "solid",
         "charges" : 2,
-        "bashing" : 0,
         "fun" : -10
     },
     {
@@ -8037,7 +7963,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 1,
-        "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 0
     },
@@ -8066,7 +7991,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 2,
-        "bashing" : 0,
         "fun" : 2
     },
     {
@@ -8094,7 +8018,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 1,
-        "bashing" : 0,
         "fun" : 0
     },
     {
@@ -8122,7 +8045,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 1,
-        "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 2
     },
@@ -8150,7 +8072,6 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 4,
-        "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 5
     },
@@ -8179,7 +8100,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 4,
-        "bashing" : 0,
         "fun" : -15
     },
     {
@@ -8198,7 +8118,6 @@
         "addiction_type": "none",
         "volume" : 1,
         "weight" : 152,
-        "bashing" : 0,
         "to_hit" : 0,
         "charges" : 2,
         "stack_size" : 8,
@@ -8233,7 +8152,6 @@
         "volume" : 4,
         "phase" : "solid",
         "charges" : 4,
-        "bashing" : 0,
         "fun" : -15
     },
     {
@@ -8252,7 +8170,6 @@
         "addiction_type": "none",
         "volume" : 1,
         "weight" : 5,
-        "bashing" : 0,
         "to_hit" : 0,
         "charges" : 2,
         "stack_size" : 40,
@@ -8287,7 +8204,6 @@
         "volume" : 4,
         "phase" : "solid",
         "charges" : 4,
-        "bashing" : 0,
         "fun" : -10
     },
     {   "type" : "COMESTIBLE",
@@ -8305,7 +8221,6 @@
         "addiction_type": "none",
         "volume" : 0,
         "weight" : 5,
-        "bashing" : 0,
         "to_hit" : 0,
         "charges" : 4,
         "stack_size" : 40,
@@ -8339,7 +8254,6 @@
         "volume" : 3,
         "phase" : "solid",
         "charges" : 4,
-        "bashing" : 0,
         "fun" : 0
     },
     {
@@ -8358,7 +8272,6 @@
         "addiction_type": "none",
         "volume" : 1,
         "weight" : 1,
-        "bashing" : 0,
         "to_hit" : 0,
         "charges" : 4,
         "stack_size" : 100,
@@ -8393,7 +8306,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 1,
-        "bashing" : 0,
         "fun" : -2
     },
     {
@@ -8412,7 +8324,6 @@
         "addiction_type": "none",
         "volume" : 1,
         "weight" : 1,
-        "bashing" : 0,
         "to_hit" : 0,
         "charges" : 4,
         "stack_size" : 100,
@@ -8448,7 +8359,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 1,
-        "bashing" : 0,
         "fun" : 0
     },
     {
@@ -8467,7 +8377,6 @@
         "addiction_type": "none",
         "volume" : 1,
         "weight" : 1,
-        "bashing" : 0,
         "to_hit" : 0,
         "charges" : 4,
         "stack_size" : 100,
@@ -8494,7 +8403,6 @@
         "addiction_type": "none",
         "volume" : 1,
         "weight" : 5,
-        "bashing" : 0,
         "to_hit" : 0,
         "charges" : 8,
         "stack_size" : 40,
@@ -8531,7 +8439,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 4,
-        "bashing" : 0,
         "fun" : -10
     },
     {
@@ -8560,7 +8467,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 2,
-        "bashing" : 0,
         "flags" : ["USE_ON_NPC"],
         "fun" : 0,
         "use_action" : {
