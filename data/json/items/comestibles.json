@@ -3810,7 +3810,6 @@
         "tool": "null",
         "volume": 1,
         "to_hit": -1,
-        "phase": "solid",
         "charges": 1,
         "fun": -15
     },
@@ -3837,7 +3836,6 @@
         "tool": "null",
         "volume": 1,
         "to_hit": -1,
-        "phase": "solid",
         "charges": 1,
         "fun": -15
     },
@@ -3864,7 +3862,6 @@
         "tool": "null",
         "volume": 2,
         "to_hit": -1,
-        "phase": "solid",
         "charges": 1,
         "fun": -15
     },
@@ -3891,7 +3888,6 @@
         "tool": "null",
         "volume": 2,
         "to_hit": -1,
-        "phase": "solid",
         "charges": 1,
         "fun": -15
     },
@@ -7045,7 +7041,6 @@
         "material": "fruit",
         "tool": "null",
         "volume": 1,
-        "phase": "solid",
         "charges": 1,
         "fun": 0
     },
@@ -7065,7 +7060,6 @@
         "material" : "fruit",
         "volume" : 1,
         "weight" : 1,
-        "phase": "solid",
         "charges" : 4,
         "stack_size" : 100,
         "seed_data": {
@@ -7122,7 +7116,6 @@
         "material": "fruit",
         "tool": "null",
         "volume": 1,
-        "phase": "solid",
         "charges": 1,
         "fun": 0
     },
@@ -13522,8 +13515,7 @@
         "charges": 5,
         "healthy" : 1,
         "fun": 2,
-        "stim": 0,
-        "phase": "solid"
+        "stim": 0
     },
     {
         "id": "peanutbutter",
@@ -14777,7 +14769,6 @@
         "material": "fruit",
         "tool": "null",
         "volume": 1,
-        "phase": "solid",
         "charges": 1,
         "fun": 2
     },
@@ -14889,7 +14880,6 @@
         "material": "fruit",
         "tool": "null",
         "volume": 1,
-        "phase": "solid",
         "charges": 1,
         "fun": 3
     },
@@ -14988,7 +14978,6 @@
         "material": "fruit",
         "tool": "null",
         "volume": 1,
-        "phase": "solid",
         "charges": 2,
         "fun": 4
     },
@@ -15189,7 +15178,6 @@
         "material": "fruit",
         "tool": "null",
         "volume": 1,
-        "phase": "solid",
         "charges": 3,
         "fun": 0
     },
@@ -15599,7 +15587,6 @@
         "material": "fruit",
         "tool": "null",
         "volume": 1,
-        "phase": "solid",
         "charges": 1,
         "fun": 4
     },
@@ -15674,7 +15661,6 @@
         "material": "fruit",
         "tool": "null",
         "volume": 1,
-        "phase": "solid",
         "charges": 1,
         "fun": 4
     },
@@ -17974,7 +17960,6 @@
         "material" : "veggy",
         "volume" : 1,
         "weight" : 1,
-        "phase": "solid",
         "charges" : 2,
         "stack_size" : 100,
         "seed_data": {
@@ -18030,7 +18015,6 @@
         "material" : "veggy",
         "volume" : 1,
         "weight" : 1,
-        "phase": "solid",
         "charges" : 2,
         "stack_size" : 100,
         "seed_data": {
