@@ -885,8 +885,8 @@ std::vector<tripoint> game::target( tripoint &p, const tripoint &low, const trip
         const int threshold_step = 30;
         // Aiming thresholds are dependent on weapon sight dispersion, attempting to place thresholds
         // at 66%, 33% and 0% of the difference between MIN_RECOIL and sight dispersion. The thresholds
-        // are then floored to multiples of th_step.
-        // With a MIN_RECOIL of 150 and th_step of 30, this means:-
+        // are then floored to multiples of threshold_step.
+        // With a MIN_RECOIL of 150 and threshold_step of 30, this means:-
         // Weapons with <90 s_d can be aimed 'precisely'
         // Weapons with <120 s_d can be aimed 'carefully'
         // All other weapons can only be 'aimed'
