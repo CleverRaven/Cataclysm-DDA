@@ -11365,23 +11365,25 @@ void player::use_wielded() {
 
 hint_rating player::rate_action_reload( const item &it ) const
 {
+    hint_rating res = HINT_CANT;
+
     // Guns may contain additional reloadable mods so check these first
-    if( it.is_gun() ) {
-        for( const auto& mod : it.contents ) {
-            // @todo deprecate spare magazine
-            if( mod.typeId() == "spare_mag" && mod.charges < it.ammo_capacity() ) {
-                return HINT_GOOD;
-            }
+    for( const auto& mod : it.contents ) {
+        // @todo deprecate spare magazine
+        if( mod.typeId() == "spare_mag" && mod.charges < it.ammo_capacity() ) {
+            return HINT_GOOD;
+        }
 
-            if( mod.ammo_capacity() <= 0 ||
-                mod.ammo_type() == "NULL" ||
-                mod.has_flag( "NO_RELOAD" ) ||
-                mod.has_flag( "RELOAD_AND_SHOOT" ) ) {
-                continue;
-            }
+        if( mod.is_auxiliary_gunmod() ) {
+            switch( rate_action_reload( mod ) ) {
+                case HINT_GOOD:
+                    return HINT_GOOD;
 
-            if (mod.is_auxiliary_gunmod() && mod.ammo_remaining() < mod.ammo_capacity() ) {
-                return HINT_GOOD;
+                case HINT_CANT:
+                    continue;
+
+                case HINT_IFFY:
+                    res = HINT_IFFY;
             }
         }
     }
@@ -11391,7 +11393,7 @@ hint_rating player::rate_action_reload( const item &it ) const
         it.ammo_type() == "NULL" ||
         it.has_flag( "NO_RELOAD" ) ||
         it.has_flag( "RELOAD_AND_SHOOT" ) ) {
-        return HINT_CANT;
+        return res;
     }
 
     return it.ammo_remaining() < it.ammo_capacity() ? HINT_GOOD : HINT_IFFY;
