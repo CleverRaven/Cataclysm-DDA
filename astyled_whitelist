@@ -10,6 +10,7 @@ src/crafting_gui.cpp
 src/creature_tracker.cpp
 src/damage.cpp
 src/debug.cpp
+src/drawing_primitives.cpp
 src/gamemode.cpp
 src/itype.cpp
 src/iuse_software.cpp
@@ -28,6 +29,7 @@ src/pathfinding.cpp
 src/recipe_dictionary.cpp
 src/rng.cpp
 src/speech.cpp
+src/start_location.cpp
 src/submap.cpp
 src/text_snippets.cpp
 src/trapfunc.cpp
@@ -57,11 +59,13 @@ src/creature_tracker.h
 src/cursesdef.h
 src/debug.h
 src/dependency_tree.h
+src/drawing_primitives.h
 src/editmap.h
 src/event.h
 src/faction.h
 src/filesystem.h
 src/game_constants.h
+src/generic_factory.h
 src/get_version.h
 src/help.h
 src/iexamine.h
@@ -82,8 +86,8 @@ src/mapbuffer.h
 src/mapsharing.h
 src/martialarts.h
 src/material.h
-src/mod_manager.h
 src/mattack_actors.h
+src/mod_manager.h
 src/mondefense.h
 src/monfaction.h
 src/morale.h
@@ -100,6 +104,7 @@ src/posix_time.h
 src/profession.h
 src/recipe_dictionary.h
 src/rng.h
+src/shadowcasting.h
 src/speech.h
 src/start_location.h
 src/string_id.h

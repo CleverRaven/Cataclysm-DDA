@@ -49,7 +49,7 @@ make astyle-all
 # |             |           |           |           |                 Revert the listed files to the upstream version.
 git diff --stat | sort -k 3 | tail -201 | head -200 | cut -d ' ' -f 2 | xargs git checkout
 # Refresh astyle whitelist with all the files that pass now.
-astyle --dry-run --options=.astylerc src/*.cpp src/*.h | grep Unchanged | cut -d ' ' -f 3 > data/astyled_whitelist
+astyle --dry-run --options=.astylerc src/*.cpp src/*.h | grep Unchanged | cut -d ' ' -f 3 > astyled_whitelist
 # Add the changed files, please examine the changes to make sure they make sense, astyle occasionally messes up.
 git add -p
 # commit and push!
