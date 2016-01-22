@@ -1397,6 +1397,10 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
             info.push_back( iteminfo( "DESCRIPTION",
                                       _( "* This piece of clothing is designed to keep you <info>dry</info> in the rain." ) ) );
         }
+        if( is_armor() && has_flag( "RESTRICT_HANDS" ) ) {
+            info.push_back( iteminfo( "DESCRIPTION",
+                                      _( "* This piece of clothing hinders using both hands when wielding weapons." ) ) );
+        }
         if( is_armor() && has_flag( "SUN_GLASSES" ) ) {
             info.push_back( iteminfo( "DESCRIPTION",
                                       _( "* This piece of clothing keeps the <info>glare</info> out of your eyes." ) ) );
