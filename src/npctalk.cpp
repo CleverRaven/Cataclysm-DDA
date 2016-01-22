@@ -1642,7 +1642,7 @@ std::string dialogue::dynamic_line( const std::string &topic ) const
                 return _("Just let me sleep, <name_b>!");
             } else if( p->fatigue > TIRED ) {
                 return _("Make it quick, I want to go back to sleep.");
-            } else if( p->fatigue > 100 ) {
+            } else {
                 return _("Just few minutes more...");
             }
         } else {
@@ -1668,6 +1668,12 @@ std::string dialogue::dynamic_line( const std::string &topic ) const
             status << string_format(_(" %s will sleep when tired."), npcstr.c_str());
         } else {
             status << string_format(_(" %s will sleep only when exhausted."), npcstr.c_str());
+        }
+
+        if( p->rules.allow_complain ) {
+            status << string_format(_(" %s will complain about wounds and needs."), npcstr.c_str());
+        } else {
+            status << string_format(_(" %s will only complain in an emergency."), npcstr.c_str());
         }
 
         return status.str();
@@ -2907,6 +2913,14 @@ void dialogue::gen_responses( const std::string &topic )
                               &talk_function::toggle_allow_sleep );
             }
 
+            if( p->rules.allow_complain ) {
+                add_response( _("Stay quiet."), "TALK_MISC_RULES",
+                              &talk_function::toggle_allow_complain );
+            } else {
+                add_response( _("Tell me when you need something."), "TALK_MISC_RULES",
+                              &talk_function::toggle_allow_complain );
+            }
+
             add_response_none( _("Never mind.") );
 
     }
@@ -3293,6 +3307,11 @@ void talk_function::toggle_bashing( npc *p )
 void talk_function::toggle_allow_sleep( npc *p )
 {
     p->rules.allow_sleep = !p->rules.allow_sleep;
+}
+
+void talk_function::toggle_allow_complain( npc *p )
+{
+    p->rules.allow_complain = !p->rules.allow_complain;
 }
 
 void talk_function::reveal_stats (npc *p)
