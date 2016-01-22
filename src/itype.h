@@ -372,6 +372,10 @@ struct islot_magazine {
      * How long it takes to load each unit of ammo into the magazine
      */
     int reload_time;
+    /**
+     * Volume increases proportional to contained ammo for non-rigid magazines
+     */
+    bool rigid;
 };
 
 struct islot_ammo : common_ranged_data {

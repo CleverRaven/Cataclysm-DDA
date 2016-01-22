@@ -908,6 +908,7 @@ void Item_factory::load( islot_magazine &slot, JsonObject &jo )
     slot.count = jo.get_int( "count", 0 );
     slot.reliability = jo.get_int( "reliability" );
     slot.reload_time = jo.get_int( "reload_time" );
+    slot.rigid = jo.get_bool( "rigid", true );
 }
 
 void Item_factory::load_magazine(JsonObject &jo)

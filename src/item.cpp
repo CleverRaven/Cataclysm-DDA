@@ -2383,6 +2383,14 @@ int item::volume(bool unit_value, bool precise_value ) const
         ret += tmpvol;
     }
 
+    if( is_magazine() && !type->magazine->rigid && ammo_remaining() > 0 && ammo_data() ) {
+        int tmpvol = 0;
+        tmpvol += ammo_remaining() / ammo_data()->stack_size;
+        tmpvol += ammo_remaining() % ammo_data()->stack_size != 0;
+        tmpvol *= precise_value ? 1000 : 1;
+        ret += tmpvol;
+    }
+
     if (count_by_charges() || made_of(LIQUID)) {
         if ( unit_value == false ) {
             ret *= charges;
