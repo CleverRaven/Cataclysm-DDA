@@ -8597,7 +8597,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 1,
-        "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 0
     },
@@ -8617,7 +8616,6 @@
         "addiction_type": "none",
         "volume" : 1,
         "weight" : 1,
-        "bashing" : 0,
         "to_hit" : 0,
         "charges" : 4,
         "stack_size" : 100,
@@ -8652,7 +8650,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 1,
-        "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 0
     },
@@ -8672,7 +8669,6 @@
         "addiction_type": "none",
         "volume" : 1,
         "weight" : 1,
-        "bashing" : 0,
         "to_hit" : 0,
         "charges" : 4,
         "stack_size" : 100,
@@ -8707,7 +8703,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 1,
-        "bashing" : 0,
         "fun" : -1,
         "fun_comment" : "Raw onions probably aren't all that tasty to most people."
     },
@@ -8727,7 +8722,6 @@
         "addiction_type": "none",
         "volume" : 1,
         "weight" : 1,
-        "bashing" : 0,
         "to_hit" : 0,
         "charges" : 4,
         "stack_size" : 100,
@@ -8762,7 +8756,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 1,
-        "bashing" : 0,
         "fun" : -18,
         "fun_comment" : "Who in their right mind would eat an entire garlic bulb raw?"
     },
@@ -8786,7 +8779,6 @@
         "nutrition" : 3,
         "volume" : 1,
         "weight" : 1,
-        "bashing" : 0,
         "to_hit" : 0,
         "charges" : 6,
         "stack_size" : 6,
@@ -8823,7 +8815,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 6,
-        "bashing" : 0,
         "fun" : -1
     },
     {
@@ -8842,7 +8833,6 @@
         "addiction_type": "none",
         "volume" : 1,
         "weight" : 1,
-        "bashing" : 0,
         "to_hit" : 0,
         "charges" : 4,
         "stack_size" : 100,
@@ -8878,7 +8868,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 1,
-        "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 0
     },
@@ -8898,7 +8887,6 @@
         "addiction_type": "none",
         "volume" : 1,
         "weight" : 1,
-        "bashing" : 0,
         "to_hit" : 0,
         "charges" : 4,
         "stack_size" : 100,
@@ -8933,7 +8921,6 @@
         "volume" : 3,
         "phase" : "solid",
         "charges" : 4,
-        "bashing" : 0,
         "fun" : 0
     },
     {
@@ -8960,7 +8947,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 1,
-        "bashing" : 0,
         "fun" : -2
     },
     {
@@ -8988,7 +8974,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 1,
-        "bashing" : 0,
         "fun" : 0
     },
     {
@@ -9016,7 +9001,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 1,
-        "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 0
     },
@@ -9044,7 +9028,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 1,
-        "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 0
     },
@@ -9072,7 +9055,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 1,
-        "bashing" : 0,
         "fun" : -1,
         "fun_comment" : "Raw onions probably aren't all that tasty to most people."
     },
@@ -9100,7 +9082,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 6,
-        "bashing" : 0,
         "fun" : -1
     },
     {
@@ -9128,7 +9109,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 1,
-        "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 0
     },
@@ -9156,7 +9136,6 @@
         "volume" : 5,
         "phase" : "solid",
         "charges" : 1,
-        "bashing" : 0,
         "fun" : -3
     },
     {
@@ -9183,7 +9162,6 @@
         "volume" : 5,
         "phase" : "solid",
         "charges" : 2,
-        "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 2
     },
@@ -9211,7 +9189,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 1,
-        "bashing" : 0,
         "fun" : -3
     },
     {
@@ -9238,7 +9215,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 1,
-        "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 5
     },
@@ -9267,7 +9243,6 @@
         "volume" : 3,
         "phase" : "solid",
         "charges" : 1,
-        "bashing" : 0,
         "fun" : -8
     },
     {
@@ -9294,7 +9269,6 @@
         "volume" : 3,
         "phase" : "solid",
         "charges" : 1,
-        "bashing" : 0,
         "fun" : -8
     },
     {
@@ -9322,7 +9296,6 @@
         "volume" : 6,
         "phase" : "solid",
         "charges" : 2,
-        "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 0
     },
@@ -9350,7 +9323,6 @@
         "volume" : 8,
         "phase" : "solid",
         "charges" : 2,
-        "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 0
     },
@@ -9379,7 +9351,6 @@
         "volume" : 3,
         "phase" : "solid",
         "charges" : 1,
-        "bashing" : 0,
         "fun" : -6
     },
     {
@@ -9407,7 +9378,6 @@
         "volume" : 4,
         "phase" : "solid",
         "charges" : 2,
-        "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 5
     },
@@ -9435,7 +9405,6 @@
         "volume" : 4,
         "phase" : "solid",
         "charges" : 4,
-        "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 5
     },
@@ -9463,7 +9432,6 @@
         "volume" : 4,
         "phase" : "solid",
         "charges" : 4,
-        "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 5
     },
@@ -9491,7 +9459,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 1,
-        "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 0
     },
@@ -9519,7 +9486,6 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 1,
-        "bashing" : 0,
         "fun" : 15
     },
     {
@@ -9546,7 +9512,6 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 1,
-        "bashing" : 0,
         "fun" : 20
     },
     {
@@ -9573,7 +9538,6 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 1,
-        "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 1
     },
@@ -9602,7 +9566,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 2,
-        "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 5
     },
@@ -9631,7 +9594,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 2,
-        "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 5
     },
@@ -9659,7 +9621,6 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 1,
-        "bashing" : 0,
         "fun" : 4
     },
     {
@@ -9687,7 +9648,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 1,
-        "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 0
     },
@@ -9716,7 +9676,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 1,
-        "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 5
     },
@@ -9745,7 +9704,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 1,
-        "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 0
     },
@@ -9773,7 +9731,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 1,
-        "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : -8
     },
@@ -9801,7 +9758,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 1,
-        "bashing" : 0,
         "fun" : 7
     },
     {
@@ -9828,7 +9784,6 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 1,
-        "bashing" : 0,
         "fun" : 1
     },
     {
@@ -9855,7 +9810,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 1,
-        "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 1
     },
@@ -9884,7 +9838,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 1,
-        "bashing" : 0,
         "fun" : 2
     },
     {
@@ -9911,7 +9864,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 1,
-        "bashing" : 0,
         "fun" : 1
     },
     {
@@ -9938,7 +9890,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 1,
-        "bashing" : 0,
         "fun" : 1
     },
     {
@@ -9965,7 +9916,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 1,
-        "bashing" : 0,
         "fun" : 3
     },
     {
@@ -9993,7 +9943,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 1,
-        "bashing" : 0,
         "fun" : 2
     },
     {
@@ -10020,7 +9969,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 2,
-        "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 6
     },
@@ -10049,7 +9997,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 1,
-        "bashing" : 0,
         "fun" : 9
     },
     {
@@ -10077,7 +10024,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 1,
-        "bashing" : 0,
         "fun" : -5
     },
     {
@@ -10107,7 +10053,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 1,
-        "bashing" : 0,
         "fun" : 7
     },
     {
@@ -10135,7 +10080,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 1,
-        "bashing" : 0,
         "fun" : 7
     },
     {
@@ -10166,7 +10110,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 1,
-        "bashing" : 0,
         "fun" : -60
     },
     {
@@ -10196,7 +10139,6 @@
         "volume" : 8,
         "phase" : "solid",
         "charges" : 1,
-        "bashing" : 0,
         "fun" : -20
     },
     {
@@ -10226,7 +10168,6 @@
         "volume" : 20,
         "phase" : "solid",
         "charges" : 1,
-        "bashing" : 0,
         "fun" : -20
     },
     {
@@ -10253,7 +10194,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 1,
-        "bashing" : 0,
         "fun" : -10
     },
 {
@@ -10280,7 +10220,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 1,
-        "bashing" : 0,
         "fun" : -20
     },
     {
@@ -10310,7 +10249,6 @@
         "phase" : "solid",
         "charges" : 1,
         "stack_size" : 4,
-        "bashing" : 0,
         "fun" : 30
     },
     {
@@ -10340,7 +10278,6 @@
         "phase" : "solid",
         "charges" : 1,
         "stack_size" : 10,
-        "bashing" : 0,
         "fun" : 30,
         "seed_data": {
             "fruit": "null", "//": "dummy entry, results are hardcoded",
@@ -10375,7 +10312,6 @@
         "phase" : "solid",
         "charges" : 1,
         "stack_size" : 10,
-        "bashing" : 0,
         "fun" : 30
     },
     {
@@ -10405,7 +10341,6 @@
         "phase" : "solid",
         "charges" : 1,
         "stack_size" : 4,
-        "bashing" : 0,
         "fun" : 30
     },
     {
@@ -10433,7 +10368,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 10,
-        "bashing" : 0,
         "fun" : -5
     },
     {
@@ -10460,7 +10394,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 12,
-        "bashing" : 0,
         "fun" : -5
     },
     {
@@ -10487,7 +10420,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 16,
-        "bashing" : 0,
         "fun" : -2
     },
     {
@@ -10515,7 +10447,6 @@
         "volume" : 4,
         "phase" : "solid",
         "charges" : 4,
-        "bashing" : 0,
         "fun" : -10
     },
     {
@@ -10534,7 +10465,6 @@
         "addiction_type": "none",
         "volume" : 1,
         "weight" : 5,
-        "bashing" : 0,
         "to_hit" : 0,
         "charges" : 4,
         "stack_size" : 40,
@@ -10570,7 +10500,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 8,
-        "bashing" : 0,
         "fun" : -6
     },
     {
@@ -10598,7 +10527,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 1,
-        "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 1
     },
@@ -10627,7 +10555,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 4, "//" : "One beans + one protein/veg = 2 servings",
-        "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 4
     },
@@ -10656,7 +10583,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 4, "//" : "One beans + one protein/veg = 2 servings",
-        "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 4
     },
@@ -10685,7 +10611,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 16,
-        "bashing" : 0,
         "fun" : -5
     },
     {
@@ -10713,7 +10638,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 1,
-        "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 2
     },
@@ -10742,7 +10666,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 4, "//" : "One rice + one protein/veg = 2 servings",
-        "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 5
     },
@@ -10771,7 +10694,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 4,
-        "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 5
     },
@@ -10800,7 +10722,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 4,
-        "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 2
     },
@@ -10829,7 +10750,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 6,
-        "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 4
     },
@@ -10858,7 +10778,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 6,
-        "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 4
     },
@@ -10886,7 +10805,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 1,
-        "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 2
     },
@@ -10914,7 +10832,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 2,
-        "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 3
     },
@@ -10943,7 +10860,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 8,
-        "bashing" : 0,
         "fun" : 1
     },
     {
@@ -10971,7 +10887,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 8,
-        "bashing" : 0,
         "fun" : -12
     },
     {
@@ -10998,7 +10913,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 25,
-        "bashing" : 0,
         "fun" : -10
     },
     {
@@ -11025,7 +10939,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 4,
-        "bashing" : 0,
         "fun" : -10
     },
     {
@@ -11053,7 +10966,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 4,
-        "bashing" : 0,
         "fun" : -10
     },
     {
@@ -11081,7 +10993,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 4,
-        "bashing" : 0,
         "fun" : -10
     },
     {
@@ -11109,7 +11020,6 @@
         "volume" : 0,
         "phase" : "solid",
         "charges" : 100,
-        "bashing" : 0,
         "fun" : -1
     },
     {
@@ -11138,7 +11048,6 @@
         "phase" : "solid",
         "charges" : 20,
         "stack_size" : 100,
-        "bashing" : 0,
         "fun" : -1
     },
     {
@@ -11167,7 +11076,6 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 1,
-        "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 4
     },
@@ -11196,7 +11104,6 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 1,
-        "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 1
     },
@@ -11225,7 +11132,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 2,
-        "bashing" : 0,
         "fun" : -20
     },
     {
@@ -11253,7 +11159,6 @@
         "volume" : 1,
         "charges" : 1,
         "phase" : "solid",
-        "bashing" : 0,
         "fun" : 0
     },
     {
