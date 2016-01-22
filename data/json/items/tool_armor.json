@@ -88,7 +88,7 @@
         "encumbrance" : 0,
         "price" : 6000,
         "material" : ["plastic", "null"],
-        "flags" : ["WATCH", "WATER_FRIENDLY", "BELTED", "FRAGILE"],
+        "flags" : ["WATCH", "WATER_FRIENDLY", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS"],
         "coverage" : 15,
         "symbol" : "[",
         "ammo": "battery",
