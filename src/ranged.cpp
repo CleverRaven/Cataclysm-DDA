@@ -1077,7 +1077,7 @@ std::vector<tripoint> game::target( tripoint &p, const tripoint &low, const trip
                 targ.y = 0;
             }
         }
-        if( action == "FIRE" && aim_mode->has_threshold ) {
+        if( action == "FIRE" && mode == TARGET_MODE_FIRE && aim_mode->has_threshold ) {
             action = aim_mode->action;
         }
 
