@@ -1557,7 +1557,8 @@ void vehicle::backfire( const int e )
 {
     const int power = part_power( engines[e], true );
     const tripoint pos = global_part_pos3( engines[e] );
-    sounds::ambient_sound( pos, 40 + (power / 30), "BANG!" );
+    //~ backfire sound
+    sounds::ambient_sound( pos, 40 + (power / 30), _( "BANG!" ) );
 }
 
 void vehicle::honk_horn()
@@ -1582,10 +1583,13 @@ void vehicle::honk_horn()
         const auto horn_pos = global_part_pos3( p );
         //Determine sound
         if( horn_type.bonus >= 40 ) {
+            //~ Loud horn sound
             sounds::sound( horn_pos, horn_type.bonus, _("HOOOOORNK!") );
         } else if( horn_type.bonus >= 20 ) {
+            //~ Moderate horn sound
             sounds::sound( horn_pos, horn_type.bonus, _("BEEEP!") );
         } else {
+            //~ Weak horn sound
             sounds::sound( horn_pos, horn_type.bonus, _("honk.") );
         }
     }
@@ -1613,7 +1617,7 @@ void vehicle::beeper_sound()
         }
 
         const vpart_info &beeper_type = part_info( p );
-        //Determine sound
+        //~ Beeper sound
         sounds::sound( global_part_pos3( p ), beeper_type.bonus, _( "beep!" ) );
     }
 }
