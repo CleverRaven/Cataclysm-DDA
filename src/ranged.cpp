@@ -882,7 +882,7 @@ std::vector<tripoint> game::target( tripoint &p, const tripoint &low, const trip
         ctxt.register_action("AIM");
         ctxt.register_action("SWITCH_AIM");
         aim_types.push_back( aim_type { "", "", "", false, 0 } ); // dummy aim type for unaimed shots
-        const int th_step = 30;
+        const int threshold_step = 30;
         // Aiming thresholds are dependent on weapon sight dispersion, attempting to place thresholds
         // at 66%, 33% and 0% of the difference between MIN_RECOIL and sight dispersion. The thresholds
         // are then floored to multiples of th_step.
@@ -890,28 +890,33 @@ std::vector<tripoint> game::target( tripoint &p, const tripoint &low, const trip
         // Weapons with <90 s_d can be aimed 'precisely'
         // Weapons with <120 s_d can be aimed 'carefully'
         // All other weapons can only be 'aimed'
-        std::vector<int> th = {
-            (int) floor( ( ( MIN_RECOIL - sight_dispersion ) * 2 / 3 + sight_dispersion ) / th_step ) * th_step,
-            (int) floor( ( ( MIN_RECOIL - sight_dispersion ) / 3 + sight_dispersion ) / th_step ) * th_step,
-            (int) floor( sight_dispersion / th_step ) * th_step };
-        std::vector<int>::iterator th_it;
+        std::vector<int> thresholds = {
+            (int) floor( ( ( MIN_RECOIL - sight_dispersion ) * 2 / 3 + sight_dispersion ) /
+                         threshold_step ) * threshold_step,
+            (int) floor( ( ( MIN_RECOIL - sight_dispersion ) / 3 + sight_dispersion ) /
+                         threshold_step ) * threshold_step,
+            (int) floor( sight_dispersion / threshold_step ) * threshold_step };
+        std::vector<int>::iterator thresholds_it;
         // Remove duplicate thresholds.
-        th_it = std::adjacent_find( th.begin(), th.end() );
-        while( th_it != th.end() ) {
-            th.erase( th_it );
-            th_it = std::adjacent_find( th.begin(), th.end() );
+        thresholds_it = std::adjacent_find( thresholds.begin(), thresholds.end() );
+        while( thresholds_it != thresholds.end() ) {
+            thresholds.erase( thresholds_it );
+            thresholds_it = std::adjacent_find( thresholds.begin(), thresholds.end() );
         }
-        th_it = th.begin();
+        thresholds_it = thresholds.begin();
         aim_types.push_back( aim_type { _("Aim"), "AIMED_SHOT",
-                             _("%c to aim and fire."), true, *th_it } );
-        th_it++;
-        if( th_it != th.end() ) {
+                             _("%c to aim and fire."), true,
+                             *thresholds_it } );
+        thresholds_it++;
+        if( thresholds_it != thresholds.end() ) {
             aim_types.push_back( aim_type { _("Careful Aim"), "CAREFUL_SHOT",
-                                 _("%c to take careful aim and fire."), true, *th_it } );
-            th_it++;
-            if( th_it != th.end() ) {
+                                 _("%c to take careful aim and fire."), true,
+                                 *thresholds_it } );
+            thresholds_it++;
+            if( thresholds_it != thresholds.end() ) {
                 aim_types.push_back( aim_type { _("Precise Aim"), "PRECISE_SHOT",
-                                     _("%c to take precise aim and fire."), true, *th_it } );
+                                     _("%c to take precise aim and fire."), true,
+                                     *thresholds_it } );
             }
         }
         for( std::vector<aim_type>::iterator it = aim_types.begin(); it != aim_types.end(); it++ ) {
