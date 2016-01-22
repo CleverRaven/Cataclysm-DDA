@@ -914,8 +914,10 @@ std::vector<tripoint> game::target( tripoint &p, const tripoint &low, const trip
                                      _("%c to take precise aim and fire."), true, *th_it } );
             }
         }
-        for( std::vector<aim_type>::iterator it = aim_types.begin(); it != aim_types.end(); ++it ) {
-            ctxt.register_action( it->action );
+        for( std::vector<aim_type>::iterator it = aim_types.begin(); it != aim_types.end(); it++ ) {
+            if( it->has_threshold ) {
+                ctxt.register_action( it->action );
+            }
         }
         aim_mode = aim_types.begin();
     }

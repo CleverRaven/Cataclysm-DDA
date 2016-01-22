@@ -937,6 +937,10 @@
             {
                 "input_method":"keyboard",
                 "key":"."
+            },
+            {
+                "input_method":"keyboard",
+                "key":"5"
             }
         ]
     },
