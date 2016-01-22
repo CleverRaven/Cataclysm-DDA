@@ -3409,7 +3409,8 @@
         "cancels" : ["BEAK", "BEAK_HUM", "BEAK_PECK", "MINOTAUR", "MUZZLE_LONG", "MUZZLE", "MUZZLE_BEAR", "MANDIBLES", "MOUTH_TENTACLES"],
         "prereqs" : ["EYEBULGE", "COMPOUND_EYES"],
         "threshreq" : ["THRESH_INSECT"],
-        "category" : ["MUTCAT_INSECT"]
+        "category" : ["MUTCAT_INSECT"],
+        "active" : true
     },{
         "type" : "mutation",
         "id" : "HOLLOW_BONES",
@@ -3690,7 +3691,8 @@
         "category" : ["MUTCAT_BIRD"],
         "wet_protection" : [
             { "part" : "MOUTH", "ignored" : 2 }
-        ]
+        ],
+        "active" : true
     },{
         "type" : "mutation",
         "id" : "UNSTABLE",

@@ -1262,15 +1262,48 @@ void iexamine::fswitch(player *p, map *m, const tripoint &examp)
     g->add_event(EVENT_TEMPLE_SPAWN, calendar::turn + 3);
 }
 
-void iexamine::flower_poppy(player *p, map *m, const tripoint &examp)
+bool dead_plant( bool flower, player &p, map &m, const tripoint &examp )
 {
     if (calendar::turn.get_season() == WINTER) {
-        add_msg(m_info, _("This flower is dead. You can't get it."));
-        none(p, m, examp);
+        if( flower ) {
+            add_msg( m_info, _("This flower is dead. You can't get it.") );
+        } else {
+            add_msg( m_info, _("This plant is dead. You can't get it.") );
+        }
+
+        iexamine::none( &p, &m, examp );
+        return true;
+    }
+
+    return false;
+}
+
+bool can_drink_nectar( const player &p )
+{
+    return ((p.has_active_mutation("PROBOSCIS")) || (p.has_active_mutation("BEAK_HUM"))) &&
+        ((p.get_hunger()) > 0) && (!(p.wearing_something_on(bp_mouth)));
+}
+
+bool drink_nectar( player &p )
+{
+    if( can_drink_nectar( p ) ) {
+        p.moves -= 50; // Takes 30 seconds
+        add_msg(_("You drink some nectar."));
+        p.mod_hunger(-15);
+        return true;
+    }
+
+    return false;
+}
+
+void iexamine::flower_poppy(player *p, map *m, const tripoint &examp)
+{
+    if( dead_plant( true, *p, *m, examp ) ) {
         return;
     }
-    if ( ((p->has_trait("PROBOSCIS")) || (p->has_trait("BEAK_HUM"))) && ((p->get_hunger()) > 0) &&
-         (!(p->wearing_something_on(bp_mouth))) ) {
+    // TODO: Get rid of this section and move it to eating
+    // Two y/n prompts is just too much
+    if( can_drink_nectar( *p ) ) {
         if (!query_yn(_("You feel woozy as you explore the %s. Drink?"), m->furnname(examp).c_str())) {
             return;
         }
@@ -1308,72 +1341,63 @@ void iexamine::flower_poppy(player *p, map *m, const tripoint &examp)
     }
 
     m->furn_set(examp, f_null);
-    m->spawn_item(examp, "poppy_flower");
     m->spawn_item(examp, "poppy_bud");
 }
 
 void iexamine::flower_bluebell(player *p, map *m, const tripoint &examp)
 {
-    if (calendar::turn.get_season() == WINTER) {
-        add_msg(m_info, _("This flower is dead. You can't get it."));
-        none(p, m, examp);
+    if( dead_plant( true, *p, *m, examp ) ) {
         return;
     }
-    if ( ((p->has_trait("PROBOSCIS")) || (p->has_trait("BEAK_HUM"))) &&
-         ((p->get_hunger()) > 0) && (!(p->wearing_something_on(bp_mouth))) ) {
-        p->moves -= 50; // Takes 30 seconds
-        add_msg(_("You drink some nectar."));
-        p->mod_hunger(-15);
-    }
-    if(!query_yn(_("Pick %s?"), m->furnname(examp).c_str())) {
-        none(p, m, examp);
-        return;
-    }
-    m->furn_set(examp, f_null);
-    m->spawn_item(examp, "bluebell_flower");
-    m->spawn_item(examp, "bluebell_bud");
+
+    drink_nectar( *p );
+
+    // There was a bud and flower spawn here
+    // But those were useless, don't re-add until they get useful
+    none( p, m, examp );
+    return;
 }
 
 void iexamine::flower_dahlia(player *p, map *m, const tripoint &examp)
 {
-    if (calendar::turn.get_season() == WINTER) {
-        add_msg(m_info, _("This flower is dead. You can't get it."));
-        none(p, m, examp);
+    if( dead_plant( true, *p, *m, examp ) ) {
         return;
     }
-    if ( ((p->has_trait("PROBOSCIS")) || (p->has_trait("BEAK_HUM"))) &&
-         ((p->get_hunger()) > 0) && (!(p->wearing_something_on(bp_mouth))) ) {
-        p->moves -= 50; // Takes 30 seconds
-        add_msg(_("You drink some nectar."));
-        p->mod_hunger(-15);
-    }
-    if(!query_yn(_("Pick %s?"), m->furnname(examp).c_str())) {
-        none(p, m, examp);
+
+    if( drink_nectar( *p ) ) {
+        // No picking until you are full of nectar
+        // Otherwise the prompt would be annoying
+        // Or just put a scarf over that proboscis
         return;
     }
-    m->furn_set(examp, f_null);
-    m->spawn_item(examp, "dahlia_flower");
-    m->spawn_item(examp, "dahlia_bud");
-    if( p->has_items_with_quality( "DIG", 1, 1 ) ) {
-        m->spawn_item(examp, "dahlia_root");
-    } else {
+
+    if( !p->has_items_with_quality( "DIG", 1, 1 ) ) {
+        none(p, m, examp);
         add_msg( m_info, _( "If only you had a shovel to dig up those roots..." ) );
+        return;
     }
+
+    if( !query_yn( _("Pick %s?"), m->furnname(examp).c_str() ) ) {
+        none(p, m, examp);
+        return;
+    }
+
+    m->furn_set(examp, f_null);
+    m->spawn_item(examp, "dahlia_root");
+    // There was a bud and flower spawn here
+    // But those were useless, don't re-add until they get useful
 }
 
 void iexamine::flower_datura(player *p, map *m, const tripoint &examp)
 {
-    if (calendar::turn.get_season() == WINTER) {
-        add_msg(m_info, _("This plant is dead. You can't get it."));
-        none(p, m, examp);
+    if( dead_plant( false, *p, *m, examp ) ) {
         return;
     }
-    if ( ((p->has_trait("PROBOSCIS")) || (p->has_trait("BEAK_HUM"))) &&
-         ((p->get_hunger()) > 0) && (!(p->wearing_something_on(bp_mouth))) ) {
-        p->moves -= 50; // Takes 30 seconds
-        add_msg(_("You drink some nectar."));
-        p->mod_hunger(-15);
+
+    if( drink_nectar( *p ) ) {
+        return;
     }
+
     if(!query_yn(_("Pick %s?"), m->furnname(examp).c_str())) {
         none(p, m, examp);
         return;
@@ -1384,21 +1408,19 @@ void iexamine::flower_datura(player *p, map *m, const tripoint &examp)
 
 void iexamine::flower_dandelion(player *p, map *m, const tripoint &examp)
 {
-    if (calendar::turn.get_season() == WINTER) {
-        add_msg(m_info, _("This plant is dead. You can't get it."));
-        none(p, m, examp);
+    if( dead_plant( false, *p, *m, examp ) ) {
         return;
     }
-    if ( ((p->has_trait("PROBOSCIS")) || (p->has_trait("BEAK_HUM"))) &&
-         ((p->get_hunger()) > 0) && (!(p->wearing_something_on(bp_mouth))) ) {
-        p->moves -= 50; // Takes 30 seconds
-        add_msg(_("You drink some nectar."));
-        p->mod_hunger(-15);
+
+    if( drink_nectar( *p ) ) {
+        return;
     }
+
     if(!query_yn(_("Pick %s?"), m->furnname(examp).c_str())) {
         none(p, m, examp);
         return;
     }
+
     m->furn_set(examp, f_null);
     m->spawn_item(examp, "raw_dandelion", rng( 1, 4 ) );
 }
@@ -1421,17 +1443,14 @@ void iexamine::flower_marloss(player *p, map *m, const tripoint &examp)
     if (calendar::turn.get_season() == WINTER) {
         add_msg(m_info, _("This flower is still alive, despite the harsh conditions..."));
     }
-    if ( ((p->has_trait("PROBOSCIS")) || (p->has_trait("BEAK_HUM"))) &&
-         ((p->get_hunger()) > 0) ) {
-            if (!(p->wearing_something_on(bp_mouth))) {
-                if (!query_yn(_("You feel out of place as you explore the %s. Drink?"), m->furnname(examp).c_str())) {
+    if( can_drink_nectar( *p ) ) {
+        if (!query_yn(_("You feel out of place as you explore the %s. Drink?"), m->furnname(examp).c_str())) {
             return;
         }
-            p->moves -= 50; // Takes 30 seconds
-            add_msg(m_bad, _("This flower tastes very wrong..."));
-            // If you can drink flowers, you're post-thresh and the Mycus does not want you.
-            p->add_effect( effect_teleglow, 100);
-        }
+        p->moves -= 50; // Takes 30 seconds
+        add_msg(m_bad, _("This flower tastes very wrong..."));
+        // If you can drink flowers, you're post-thresh and the Mycus does not want you.
+        p->add_effect( effect_teleglow, 100 );
     }
     if(!query_yn(_("Pick %s?"), m->furnname(examp).c_str())) {
         none(p, m, examp);
@@ -1520,19 +1539,14 @@ void iexamine::dirtmound(player *p, map *m, const tripoint &examp)
         }
     }
 
-    // Choose seed if applicable
+    // Choose seed
+    // Don't use y/n prompt, stick with one kind of menu
     int seed_index = 0;
-    if (seed_types.size() > 1) {
-        seed_names.push_back(_("Cancel"));
-        seed_index = menu_vec(false, _("Use which seed?"),
-                              seed_names) - 1; // TODO: make cancelable using ESC
-        if (seed_index == (int)seed_names.size() - 1) {
-            seed_index = -1;
-        }
-    } else {
-        if (!query_yn(_("Plant %s here?"), seed_names[0].c_str())) {
-            seed_index = -1;
-        }
+    seed_names.push_back(_("Cancel"));
+    seed_index = menu_vec(false, _("Use which seed?"),
+                          seed_names) - 1; // TODO: make cancelable using ESC
+    if (seed_index == (int)seed_names.size() - 1) {
+        seed_index = -1;
     }
 
     // Did we cancel?

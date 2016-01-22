@@ -76,12 +76,7 @@
             "items" : [
                 ["trimmer_off", 30],
                 ["fertilizer_liquid", 50],
-                ["poppy_flower", 25],
-                ["poppy_bud", 10],
-                ["dahlia_flower", 75],
-                ["dahlia_bud", 40],
-                ["bluebell_flower", 75],
-                ["bluebell_bud", 45],
+                ["dahlia_root", 30],
                 ["fertilizer_commercial", 25]
             ]
     },{

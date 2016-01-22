@@ -314,9 +314,6 @@
   "components": [
     [
       [ "poppy_bud", 2 ]
-    ],
-    [
-      [ "poppy_flower", 2 ]
     ]
   ]
 },{
@@ -344,9 +341,6 @@
   "components": [
     [
       [ "poppy_bud", 2 ]
-    ],
-    [
-      [ "poppy_flower", 2 ]
     ]
   ]
 },{
@@ -2600,9 +2594,6 @@
   "components": [
     [
       [ "poppy_bud", 2 ]
-    ],
-    [
-      [ "poppy_flower", 2 ]
     ]
   ]
 },{
