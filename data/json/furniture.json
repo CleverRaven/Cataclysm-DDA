@@ -358,6 +358,12 @@
                 { "item": "scrap", "count": [3, 6] },
                 { "item": "pipe", "prob": 50}
             ]
+        },
+        "deconstruct": {
+            "items": [
+                { "item": "metal_tank", "count": 1 },
+                { "item": "pipe", "count": 1 }
+            ]
         }
     },{
         "type" : "furniture",
