@@ -3393,10 +3393,10 @@ int player::print_aim_bars( WINDOW *w, int line_number, item *weapon, Creature *
     // This simplifies the calculation greatly, that's intentional.
     const std::array<std::pair<double, char>, 3> ratings =
         {{ std::make_pair(0.1, '*'), std::make_pair(0.4, '+'), std::make_pair(0.6, '|') }};
-    const std::string confidence_label = _("Confidence :");
-    const int confidence_width = window_width - utf8_width( confidence_label ) - 1;
+    const std::string confidence_label = _("Confidence: ");
+    const int confidence_width = window_width - utf8_width( confidence_label ) - 2;
     int used_width = 0;
-    std::string confidence_meter;
+    std::string confidence_meter("[");
     for( auto threshold : ratings ) {
         const double confidence =
             std::min( 1.0, std::max( 0.0, threshold.first / hit_rating ) );
@@ -3405,7 +3405,7 @@ int player::print_aim_bars( WINDOW *w, int line_number, item *weapon, Creature *
         confidence_meter += std::string( confidence_meter_width, threshold.second );
     }
     confidence_meter += std::string( confidence_width - used_width, ' ' );
-    confidence_meter += std::string( ":" );
+    confidence_meter += std::string( "]" );
     mvwprintw(w, line_number++, 1, "%s%s",
               confidence_label.c_str(), confidence_meter.c_str() );
 
@@ -3414,12 +3414,13 @@ int player::print_aim_bars( WINDOW *w, int line_number, item *weapon, Creature *
     const double steady_score = predicted_recoil - weapon->sight_dispersion( -1 );
     // Fairly arbitrary cap on steadiness...
     const double steadiness = std::max( 0.0, 1.0 - (steady_score / 250) );
-    const std::string steadiness_label = _("Steadiness :");
-    const int steadiness_width = window_width - utf8_width( steadiness_label ) - 1;
+    const std::string steadiness_label = _("Steadiness: ");
+    const int steadiness_width = window_width - utf8_width( steadiness_label ) - 2;
     const int steadiness_meter_width = steadiness_width * steadiness;
-    std::string steadiness_meter = std::string( steadiness_meter_width, '*' );
+    std::string steadiness_meter("[");
+    steadiness_meter += std::string( steadiness_meter_width, '*' );
     steadiness_meter += std::string( steadiness_width - steadiness_meter_width, ' ' );
-    steadiness_meter += std::string( ":" );
+    steadiness_meter += std::string( "]" );
     mvwprintw(w, line_number++, 1, "%s%s",
               steadiness_label.c_str(), steadiness_meter.c_str() );
     return line_number;
