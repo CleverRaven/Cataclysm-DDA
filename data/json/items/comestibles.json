@@ -11845,7 +11845,6 @@
         "material" : "veggy",
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 2,
         "fun" : 0
     },
@@ -11870,7 +11869,6 @@
         "material" : "fruit",
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 4,
         "fun" : 3
     },
@@ -11896,7 +11894,6 @@
         "material" : ["wheat", "flesh"],
         "tool" : "null",
         "volume" : 7,
-        "phase" : "solid",
         "charges" : 8,
         "flags" : ["EATEN_HOT"],
         "fun" : 4
@@ -11923,7 +11920,6 @@
         "material" : ["wheat", "hflesh"],
         "tool" : "null",
         "volume" : 7,
-        "phase" : "solid",
         "charges" : 8,
         "flags" : ["EATEN_HOT"],
         "fun" : 4
@@ -11950,7 +11946,6 @@
         "material" : ["wheat", "veggy"],
         "tool" : "null",
         "volume" : 7,
-        "phase" : "solid",
         "charges" : 2,
         "flags" : ["EATEN_HOT"],
         "fun" : 15
@@ -11976,7 +11971,6 @@
         "material" : ["flesh", "wheat"],
         "tool" : "null",
         "volume" : 12,
-        "phase" : "solid",
         "charges" : 8,
         "flags" : ["EATEN_HOT"],
         "fun" : 15
@@ -12002,7 +11996,6 @@
         "material" : ["hflesh", "wheat"],
         "tool" : "null",
         "volume" : 12,
-        "phase" : "solid",
         "charges" : 8,
         "flags" : ["EATEN_HOT"],
         "fun" : 15
@@ -12028,7 +12021,6 @@
         "material" : "cotton",
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 3,
         "stack_size": 9,
         "flags" : ["USE_ON_NPC"],
@@ -12063,7 +12055,6 @@
         "material" : "plastic",
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 2,
         "stack_size" : 6,
         "flags" : ["USE_ON_NPC"],
@@ -12108,7 +12099,6 @@
         "material" : "null",
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 20,
         "stack_size" : 100,
         "fun" : 0
@@ -12135,7 +12125,6 @@
         "material" : "null",
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 10,
         "stack_size" : 100,
         "fun" : 2
@@ -12162,7 +12151,6 @@
         "material" : "plastic",
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 1,
         "stack_size" : 40,
         "fun" : 0
@@ -12189,7 +12177,6 @@
         "material" : "plastic",
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 1,
         "stack_size" : 40,
         "fun" : 0
@@ -12218,7 +12205,6 @@
         "tool" : "null",
         "volume" : 1,
         "cutting" : 6,
-        "phase" : "solid",
         "charges" : 1,
         "stack_size" : 10,
         "bashing" : -4,
@@ -12256,7 +12242,6 @@
         "material" : "null",
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 20,
         "stack_size" : 200,
         "fun" : 0
@@ -12283,7 +12268,6 @@
         "material" : "null",
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 10,
         "stack_size" : 200,
         "fun" : 0
@@ -12310,7 +12294,6 @@
         "material" : "null",
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 10,
         "stack_size" : 200,
         "fun" : 5
@@ -12345,7 +12328,6 @@
         "material" : "null",
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 10,
         "stack_size" : 200,
         "fun" : 0
@@ -12380,7 +12362,6 @@
         "material" : "null",
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 10,
         "stack_size" : 200,
         "fun" : 0
@@ -12471,7 +12452,6 @@
         "material" : "null",
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 10,
         "stack_size" : 200,
         "fun" : 10
@@ -12511,7 +12491,6 @@
         "material" : "null",
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 10,
         "stack_size" : 200,
         "fun" : 18
@@ -12547,7 +12526,6 @@
         "material" : "null",
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 10,
         "stack_size" : 200,
         "fun" : 6
@@ -12575,7 +12553,6 @@
         "material" : "null",
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 10,
         "stack_size" : 200,
         "fun" : 20
@@ -12601,7 +12578,6 @@
         "material" : "null",
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 10,
         "stack_size" : 200,
         "fun" : 10
@@ -12628,7 +12604,6 @@
         "material" : "null",
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 10,
         "stack_size" : 200,
         "fun" : 0
@@ -12655,7 +12630,6 @@
         "material" : "null",
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 15,
         "stack_size" : 200,
         "fun" : 0
@@ -12682,7 +12656,6 @@
         "material" : "null",
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 20,
         "stack_size" : 60,
         "fun" : 5
@@ -12709,7 +12682,6 @@
         "material" : "null",
         "tool" : "null",
         "volume" : 0,
-        "phase" : "solid",
         "charges" : 1,
         "stack_size" : 60,
         "fun" : 5
@@ -12753,7 +12725,6 @@
         "material" : "null",
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 20,
         "stack_size" : 60,
         "fun" : 5
@@ -12772,7 +12743,6 @@
         "description" : "Smoke swirls from the lit end of this cigarette, filling the air with the thrilling smell of burning chemicals.",
         "price" : 0,
         "material" : "null",
-        "phase" : "solid",
         "category": "drugs",
         "flags" : ["LITCIG", "TOBACCO", "LIGHT_4"]
     },
@@ -12798,7 +12768,6 @@
         "material" : "null",
         "tool" : "null",
         "volume" : 0,
-        "phase" : "solid",
         "charges" : 1,
         "stack_size" : 1000,
         "fun" : 2,
@@ -12848,7 +12817,6 @@
         "material" : "null",
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 5,
         "stack_size" : 100,
         "fun" : 15
@@ -12876,7 +12844,6 @@
         "material" : "veggy",
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 1,
         "stack_size" : 100,
         "fun" : 1,
@@ -12910,7 +12877,6 @@
         "material" : "powder",
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 8,
         "stack_size" : 100,
         "fun" : 25
@@ -12938,7 +12904,6 @@
         "material" : "powder",
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 6,
         "stack_size" : 100,
         "fun" : 30
@@ -12979,7 +12944,6 @@
         "material" : "powder",
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 4,
         "stack_size" : 100,
         "fun" : 50
@@ -13020,7 +12984,6 @@
         "material" : "powder",
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 4,
         "stack_size" : 100,
         "fun" : 25
@@ -13047,7 +13010,6 @@
         "material" : "null",
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 5,
         "fun" : 15
     },
@@ -13065,7 +13027,6 @@
         "description" : "The smoke billowing from this cigar has a sweet, musty odor.",
         "price" : 0,
         "material" : "null",
-        "phase" : "solid",
         "category": "drugs",
         "flags" : ["LITCIG", "TOBACCO", "LIGHT_4"]
     },
@@ -13083,7 +13044,6 @@
         "description" : "A true gentleman always finishes his cigars.",
         "price" : 0,
         "material" : "null",
-        "phase" : "solid",
         "category": "other"
     },
     {
@@ -13108,7 +13068,6 @@
         "material" : "null",
         "tool" : "null",
         "volume" : 0,
-        "phase" : "solid",
         "charges" : 1,
         "stack_size" : 100,
         "fun" : 15
@@ -13127,7 +13086,6 @@
         "description" : "The smell of skunk permeates the air as a thin trail of smoke floats off of this joint.",
         "price" : 0,
         "material" : "null",
-        "phase" : "solid",
         "category": "drugs",
         "flags" : ["LITCIG", "LIGHT_4"]
     },
@@ -13155,7 +13113,6 @@
         "tool" : "null",
         "volume" : 0,
         "cutting" : -1,
-        "phase" : "solid",
         "charges" : 1,
         "stack_size" : 1000,
         "bashing" : -1,
@@ -13184,7 +13141,6 @@
         "material" : "null",
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 15,
         "stack_size" : 200,
         "fun" : 0
@@ -13213,7 +13169,6 @@
         "material" : "powder",
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 400, "//" : "Previously 10 doses to a gram, so about 400 to the pound.",
         "stack_size" : 400,
         "fun" : -15
@@ -13241,7 +13196,6 @@
         "material" : "powder",
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 5,
         "stack_size" : 100,
         "fun" : 0
@@ -13269,7 +13223,6 @@
         "material" : "powder",
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 5,
         "stack_size" : 100,
         "fun" : 0
@@ -13296,7 +13249,6 @@
         "material" : "powder",
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 10,
         "stack_size" : 100,
         "fun" : 0
@@ -13332,7 +13284,6 @@
         "material" : "powder",
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 10,
         "stack_size" : 100,
         "fun" : 0
@@ -13373,7 +13324,6 @@
         "material" : "powder",
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 4,
         "stack_size" : 100,
         "fun" : 50
@@ -13622,7 +13572,6 @@
         "material" : "veggy",
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 1,
         "fun" : 5
     },
@@ -13648,7 +13597,6 @@
         "material" : "veggy",
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 1,
         "fun" : -2
     },
@@ -13674,7 +13622,6 @@
         "material" : "veggy",
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 1,
         "flags" : ["EATEN_HOT"],
         "fun" : 5
@@ -13701,7 +13648,6 @@
         "material" : "paper",
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 50,
         "fun" : -20
     },
@@ -13726,7 +13672,6 @@
         "material" : "flesh",
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 2,
         "flags" : ["EATEN_HOT"],
         "fun" : 8
@@ -13967,7 +13912,6 @@
         "material" : "flesh",
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 4,
         "flags" : ["EATEN_HOT"],
         "fun" : 5
@@ -13993,7 +13937,6 @@
         "material" : "hflesh",
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 4,
         "flags" : ["EATEN_HOT"],
         "fun" : 5
@@ -14019,7 +13962,6 @@
         "material" : "flesh",
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 4,
         "flags" : ["EATEN_HOT"],
         "fun" : 4
@@ -14045,7 +13987,6 @@
         "material" : "hflesh",
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 4,
         "flags" : ["EATEN_HOT"],
         "fun" : 4
@@ -14071,7 +14012,6 @@
         "material" : ["flesh", "veggy"],
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 4,
         "flags" : ["EATEN_HOT"],
         "fun" : 4
@@ -14098,7 +14038,6 @@
         "material" : "hflesh",
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 4,
         "flags" : ["EATEN_HOT"],
         "fun" : 4
@@ -14124,7 +14063,6 @@
         "material" : "flesh",
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 3,
         "fun" : 8
     },
@@ -14149,7 +14087,6 @@
         "material" : "hflesh",
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 3,
         "fun" : 8
     },
@@ -14174,7 +14111,6 @@
         "material" : "flesh",
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 4,
         "flags" : ["EATEN_HOT"],
         "fun" : 5
@@ -14201,7 +14137,6 @@
         "material" : "milk",
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 4,
         "fun" : 7
     },
@@ -14226,7 +14161,6 @@
         "material" : ["milk", "junk"],
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 3,
         "flags" : ["EATEN_HOT"],
         "fun" : 6
@@ -14305,7 +14239,6 @@
         "material" : "milk",
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 3,
         "fun" : 5
     },
@@ -14340,7 +14273,6 @@
         "material" : "null",
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 5,
         "stack_size" : 100,
         "fun" : 25
@@ -14369,7 +14301,6 @@
         "material" : "junk",
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 10,
         "stack_size" : 100,
         "fun" : 2
@@ -14396,7 +14327,6 @@
         "material" : "null",
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 10,
         "stack_size" : 100,
         "fun" : 1
@@ -14423,7 +14353,6 @@
         "material" : "null",
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 20,
         "stack_size" : 60,
         "fun" : 4
@@ -14451,7 +14380,6 @@
         "material" : "junk",
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 10,
         "stack_size" : 100,
         "fun" : 1
@@ -14557,7 +14485,6 @@
         "material" : "veggy",
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 2,
         "fun" : 7
     },
@@ -14582,7 +14509,6 @@
         "material" : "flesh",
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 2,
         "fun" : 6
     },
@@ -14607,7 +14533,6 @@
         "material" : "hflesh",
         "tool" : "null",
         "volume" : 4,
-        "phase" : "solid",
         "charges" : 2,
         "fun" : 6
     },
@@ -14634,7 +14559,6 @@
         "material" : "null",
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 15,
         "stack_size" : 100,
         "fun" : 0
@@ -14661,7 +14585,6 @@
         "material" : "powder",
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 6,
         "stack_size" : 60,
         "flags" : ["USE_ON_NPC"],
@@ -14697,7 +14620,6 @@
         "material" : "powder",
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 4,
         "stack_size" : 40,
         "flags" : ["USE_ON_NPC"],
@@ -14757,7 +14679,6 @@
         "material" : ["veggy", "junk"],
         "tool" : "null",
         "volume" : 0,
-        "phase" : "solid",
         "charges" : 5,
         "stack_size" : 30,
         "fun" : 2
@@ -14784,7 +14705,6 @@
         "material" : "wheat",
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 1,
         "fun" : 0
     },
@@ -14809,7 +14729,6 @@
         "material" : "fruit",
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 1,
         "fun" : 4
     },
@@ -14834,7 +14753,6 @@
         "material" : "fruit",
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 1,
         "fun" : 2
     },
@@ -14884,7 +14802,6 @@
         "material" : "fruit",
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 1,
         "fun" : 4
     },{
@@ -14947,7 +14864,6 @@
         "material" : "fruit",
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 1,
         "fun" : 3
     },
@@ -14998,7 +14914,6 @@
         "material" : "fruit",
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 1,
         "fun" : 3
     },
@@ -18252,7 +18167,6 @@
         "material" : "veggy",
         "volume" : 1,
         "weight" : 1,
-        "phase": "solid",
         "charges" : 2,
         "stack_size" : 100,
         "seed_data": {
@@ -18274,7 +18188,6 @@
        "nutrition" : 1,
        "fun" : -5,
        "tool" : "null",
-       "phase" : "solid",
        "healthy" : 0,
        "weight" : 40,
        "to_hit" : -3,
@@ -18301,7 +18214,6 @@
         "material" : "veggy",
         "volume" : 1,
         "weight" : 1,
-        "phase": "solid",
         "charges" : 2,
         "stack_size" : 100,
         "seed_data": {
@@ -18351,7 +18263,6 @@
        "nutrition" : 1,
        "fun" : -8,
        "tool" : "null",
-       "phase" : "solid",
        "healthy" : 0,
        "weight" : 40,
        "to_hit" : -3,
@@ -18378,7 +18289,6 @@
         "material" : "veggy",
         "volume" : 1,
         "weight" : 1,
-        "phase": "solid",
         "charges" : 2,
         "stack_size" : 100,
         "seed_data": {
@@ -18427,7 +18337,6 @@
         "material" : "veggy",
         "volume" : 1,
         "weight" : 1,
-        "phase": "solid",
         "charges" : 2,
         "stack_size" : 100,
         "seed_data": {
@@ -18452,7 +18361,6 @@
         "material" : "veggy",
         "volume" : 1,
         "weight" : 1,
-        "phase": "solid",
         "charges" : 2,
         "stack_size" : 100,
         "seed_data": {
@@ -18476,7 +18384,6 @@
         "material" : "veggy",
         "volume" : 1,
         "weight" : 1,
-        "phase": "solid",
         "charges" : 2,
         "stack_size" : 100,
         "seed_data": {
@@ -18501,7 +18408,6 @@
         "material" : "veggy",
         "volume" : 1,
         "weight" : 1,
-        "phase": "solid",
         "charges" : 2,
         "stack_size" : 100,
         "seed_data": {
@@ -18525,7 +18431,6 @@
         "material" : "veggy",
         "volume" : 1,
         "weight" : 1,
-        "phase": "solid",
         "charges" : 2,
         "stack_size" : 100,
         "seed_data": {
@@ -18550,7 +18455,6 @@
         "material" : "veggy",
         "volume" : 1,
         "weight" : 1,
-        "phase": "solid",
         "charges" : 2,
         "stack_size" : 100,
         "seed_data": {
@@ -18574,7 +18478,6 @@
         "material" : "veggy",
         "volume" : 1,
         "weight" : 1,
-        "phase": "solid",
         "charges" : 2,
         "stack_size" : 100,
         "seed_data": {
@@ -18598,7 +18501,6 @@
         "material" : "veggy",
         "volume" : 1,
         "weight" : 1,
-        "phase": "solid",
         "charges" : 2,
         "stack_size" : 100,
         "flags" : ["HIDDEN_HALLU"],
@@ -18623,7 +18525,6 @@
         "material" : "veggy",
         "volume" : 1,
         "weight" : 1,
-        "phase": "solid",
         "charges" : 2,
         "stack_size" : 100,
         "flags" : ["HIDDEN_POISON"],
