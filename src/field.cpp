@@ -38,6 +38,8 @@ const efftype_id effect_stunned( "stunned" );
 const efftype_id effect_teargas( "teargas" );
 const efftype_id effect_webbed( "webbed" );
 
+const trait_id trait_M_SKIN2( "M_SKIN2" );
+
 #define INBOUNDS(x, y) \
  (x >= 0 && x < SEEX * my_MAPSIZE && y >= 0 && y < SEEY * my_MAPSIZE)
 
@@ -1778,7 +1780,7 @@ void map::player_in_field( player &u )
 
         case fd_fire:
             if( u.has_active_bionic("bio_heatsink") || u.is_wearing("rm13_armor_on") ||
-                u.has_trait("M_SKIN2") ) {
+                u.has_trait( trait_M_SKIN2 ) ) {
                 //heatsink, suit, or internal restructuring prevents ALL fire damage.
                 break;
             }
@@ -1954,7 +1956,7 @@ void map::player_in_field( player &u )
             //A burst of flame? Only hits the legs and torso.
             if (inside) break; //fireballs can't touch you inside a car.
             if (!u.has_active_bionic("bio_heatsink") && !u.is_wearing("rm13_armor_on") &&
-                !u.has_trait("M_SKIN2")) { //heatsink, suit, or Mycus fireproofing stops fire.
+                !u.has_trait( trait_M_SKIN2 )) { //heatsink, suit, or Mycus fireproofing stops fire.
                 u.add_msg_player_or_npc(m_bad, _("You're torched by flames!"), _("<npcname> is torched by flames!"));
                 u.deal_damage( nullptr, bp_leg_l, damage_instance( DT_HEAT, rng( 2, 6 ) ) );
                 u.deal_damage( nullptr, bp_leg_r, damage_instance( DT_HEAT, rng( 2, 6 ) ) );
@@ -2055,7 +2057,7 @@ void map::player_in_field( player &u )
 
         case fd_incendiary:
             // Mysterious incendiary substance melts you horribly.
-            if (u.has_trait("M_SKIN2") || cur->getFieldDensity() == 1) {
+            if (u.has_trait( trait_M_SKIN2 ) || cur->getFieldDensity() == 1) {
                 u.add_msg_player_or_npc(m_bad, _("The incendiary burns you!"), _("The incendiary burns <npcname>!"));
                 u.hurtall(rng(1, 3), nullptr);
             } else {

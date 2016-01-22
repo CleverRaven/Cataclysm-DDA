@@ -37,6 +37,12 @@ static const skill_id skill_electronics( "electronics" );
 static const skill_id skill_unarmed( "unarmed" );
 static const skill_id skill_throw( "throw" );
 
+const trait_id trait_DEBUG_HS( "DEBUG_HS" );
+const trait_id trait_NOPAIN( "NOPAIN" );
+const trait_id trait_PAINRESIST_TROGLO( "PAINRESIST_TROGLO" );
+const trait_id trait_STOCKY_TROGLO( "STOCKY_TROGLO" );
+const trait_id trait_WEB_ROPE( "WEB_ROPE" );
+
 // Construction functions.
 namespace construct
 {
@@ -649,7 +655,7 @@ bool character_has_skill_for( const Character &c, const construction &con )
 
 bool player_can_build( player &p, const inventory &pinv, const construction &con )
 {
-    if( p.has_trait( "DEBUG_HS" ) ) {
+    if( p.has_trait( trait_DEBUG_HS ) ) {
         return true;
     }
 
@@ -990,7 +996,7 @@ void construct::done_digormine_stair( const tripoint &p, bool dig )
     tmpmap.load( pos_sm.x, pos_sm.y, pos_sm.z - 1, false );
     tripoint const local_tmp = tmpmap.getlocal( abs_pos );
 
-    bool dig_muts = g->u.has_trait( "PAINRESIST_TROGLO" ) || g->u.has_trait( "STOCKY_TROGLO" );
+    bool dig_muts = g->u.has_trait( trait_PAINRESIST_TROGLO ) || g->u.has_trait( trait_STOCKY_TROGLO );
 
     int no_mut_penalty = dig_muts ? 10 : 0;
     int mine_penalty = dig ? 0 : 10;
@@ -1063,7 +1069,7 @@ void construct::done_mine_upstair( const tripoint &p )
         return;
     }
 
-    bool dig_muts = g->u.has_trait( "PAINRESIST_TROGLO" ) || g->u.has_trait( "STOCKY_TROGLO" );
+    bool dig_muts = g->u.has_trait( trait_PAINRESIST_TROGLO ) || g->u.has_trait( trait_STOCKY_TROGLO );
 
     int no_mut_penalty = dig_muts ? 15 : 0;
     g->u.mod_hunger( 20 + no_mut_penalty );

@@ -21,6 +21,11 @@
 const efftype_id effect_glare( "glare" );
 const efftype_id effect_blind( "blind" );
 
+static const trait_id trait_CEPH_VISION( "CEPH_VISION" );
+static const trait_id trait_FEATHERS( "FEATHERS" );
+static const trait_id trait_GOODHEARING( "GOODHEARING" );
+static const trait_id trait_BADHEARING( "BADHEARING" );
+
 /**
  * \defgroup Weather "Weather and its implications."
  * @{
@@ -40,13 +45,13 @@ void weather_effect::glare()
         !g->u.worn_with_flag( "SUN_GLASSES" ) && !g->u.is_blind() &&
         !g->u.has_bionic( "bio_sunglasses" ) ) {
         if( !g->u.has_effect( effect_glare ) ) {
-            if( g->u.has_trait( "CEPH_VISION" ) ) {
+            if( g->u.has_trait( trait_CEPH_VISION ) ) {
                 g->u.add_env_effect( effect_glare, bp_eyes, 2, 4 );
             } else {
                 g->u.add_env_effect( effect_glare, bp_eyes, 2, 2 );
             }
         } else {
-            if( g->u.has_trait( "CEPH_VISION" ) ) {
+            if( g->u.has_trait( trait_CEPH_VISION ) ) {
                 g->u.add_env_effect( effect_glare, bp_eyes, 2, 2 );
             } else {
                 g->u.add_env_effect( effect_glare, bp_eyes, 2, 1 );
@@ -322,7 +327,7 @@ void fill_water_collectors(int mmPerHour, bool acid)
 void wet_player( int amount )
 {
     if( !PLAYER_OUTSIDE ||
-        g->u.has_trait("FEATHERS") ||
+        g->u.has_trait( trait_FEATHERS ) ||
         g->u.weapon.has_flag("RAIN_PROTECT") ||
         ( !one_in(50) && g->u.worn_with_flag("RAINPROOF") ) ) {
         return;
@@ -399,10 +404,10 @@ void weather_effect::thunder()
         if (g->get_levz() >= 0) {
             add_msg(_("You hear a distant rumble of thunder."));
             sfx::play_variant_sound("environment", "thunder_far", 80, rng(0, 359));
-        } else if (g->u.has_trait("GOODHEARING") && one_in(1 - 2 * g->get_levz())) {
+        } else if (g->u.has_trait( trait_GOODHEARING ) && one_in(1 - 2 * g->get_levz())) {
             add_msg(_("You hear a rumble of thunder from above."));
             sfx::play_variant_sound("environment", "thunder_far", 100, rng(0, 359));
-        } else if (!g->u.has_trait("BADHEARING") && one_in(1 - 3 * g->get_levz())) {
+        } else if (!g->u.has_trait( trait_BADHEARING ) && one_in(1 - 3 * g->get_levz())) {
             add_msg(_("You hear a rumble of thunder from above."));
             sfx::play_variant_sound("environment", "thunder_far", 60, rng(0, 359));
         }

@@ -43,6 +43,66 @@ const efftype_id effect_webbed( "webbed" );
 const skill_id skill_dodge( "dodge" );
 const skill_id skill_throw( "throw" );
 
+const trait_id trait_ACIDBLOOD( "ACIDBLOOD" );
+const trait_id trait_ARACHNID_ARMS( "ARACHNID_ARMS" );
+const trait_id trait_ARM_TENTACLES_4( "ARM_TENTACLES_4" );
+const trait_id trait_ARM_TENTACLES_8( "ARM_TENTACLES_8" );
+const trait_id trait_ARM_TENTACLES( "ARM_TENTACLES" );
+const trait_id trait_BADBACK( "BADBACK" );
+const trait_id trait_BENDY2( "BENDY2" );
+const trait_id trait_BENDY3( "BENDY3" );
+const trait_id trait_BIRD_EYE( "BIRD_EYE" );
+const trait_id trait_CEPH_EYES( "CEPH_EYES" );
+const trait_id trait_CEPH_VISION( "CEPH_VISION" );
+const trait_id trait_CHITIN2( "CHITIN2" );
+const trait_id trait_CHITIN3( "CHITIN3" );
+const trait_id trait_CHITIN_FUR3( "CHITIN_FUR3" );
+const trait_id trait_DEBUG_NIGHTVISION( "DEBUG_NIGHTVISION" );
+const trait_id trait_DISORGANIZED( "DISORGANIZED" );
+const trait_id trait_ELFA_FNV( "ELFA_FNV" );
+const trait_id trait_ELFA_NV( "ELFA_NV" );
+const trait_id trait_FEL_NV( "FEL_NV" );
+const trait_id trait_FLIMSY2( "FLIMSY2" );
+const trait_id trait_FLIMSY3( "FLIMSY3" );
+const trait_id trait_FLIMSY( "FLIMSY" );
+const trait_id trait_GLASSJAW( "GLASSJAW" );
+const trait_id trait_HOLLOW_BONES( "HOLLOW_BONES" );
+const trait_id trait_HUGE( "HUGE" );
+const trait_id trait_INSECT_ARMS( "INSECT_ARMS" );
+const trait_id trait_LIGHT_BONES( "LIGHT_BONES" );
+const trait_id trait_MEMBRANE( "MEMBRANE" );
+const trait_id trait_MUT_TOUGH2( "MUT_TOUGH2" );
+const trait_id trait_MUT_TOUGH3( "MUT_TOUGH3" );
+const trait_id trait_MUT_TOUGH( "MUT_TOUGH" );
+const trait_id trait_MYOPIC( "MYOPIC" );
+const trait_id trait_NIGHTVISION2( "NIGHTVISION2" );
+const trait_id trait_NIGHTVISION3( "NIGHTVISION3" );
+const trait_id trait_NIGHTVISION( "NIGHTVISION" );
+const trait_id trait_PACKMULE( "PACKMULE" );
+const trait_id trait_PER_SLIME_OK( "PER_SLIME_OK" );
+const trait_id trait_PER_SLIME( "PER_SLIME" );
+const trait_id trait_SHELL2( "SHELL2" );
+const trait_id trait_SHELL( "SHELL" );
+const trait_id trait_STRONGBACK( "STRONGBACK" );
+const trait_id trait_TAIL_CATTLE( "TAIL_CATTLE" );
+const trait_id trait_TAIL_FLUFFY( "TAIL_FLUFFY" );
+const trait_id trait_TAIL_LONG( "TAIL_LONG" );
+const trait_id trait_TAIL_RAPTOR( "TAIL_RAPTOR" );
+const trait_id trait_TAIL_RAT( "TAIL_RAT" );
+const trait_id trait_TAIL_THICK( "TAIL_THICK" );
+const trait_id trait_THICK_SCALES( "THICK_SCALES" );
+const trait_id trait_THRESH_CEPHALOPOD( "THRESH_CEPHALOPOD" );
+const trait_id trait_THRESH_INSECT( "THRESH_INSECT" );
+const trait_id trait_THRESH_PLANT( "THRESH_PLANT" );
+const trait_id trait_THRESH_SPIDER( "THRESH_SPIDER" );
+const trait_id trait_TOUGH2( "TOUGH2" );
+const trait_id trait_TOUGH3( "TOUGH3" );
+const trait_id trait_TOUGH( "TOUGH" );
+const trait_id trait_URSINE_EYE( "URSINE_EYE" );
+const trait_id trait_WEBBED( "WEBBED" );
+const trait_id trait_WINGS_BAT( "WINGS_BAT" );
+const trait_id trait_WINGS_BUTTERFLY( "WINGS_BUTTERFLY" );
+
 const std::string debug_nodmg( "DEBUG_NODMG" );
 
 Character::Character() : Creature(), visitable<Character>()
@@ -74,13 +134,13 @@ Character::Character() : Creature(), visitable<Character>()
 
 field_id Character::bloodType() const
 {
-    if (has_trait("ACIDBLOOD"))
+    if (has_trait( trait_ACIDBLOOD ))
         return fd_acid;
-    if (has_trait("THRESH_PLANT"))
+    if (has_trait( trait_THRESH_PLANT ))
         return fd_blood_veggy;
-    if (has_trait("THRESH_INSECT") || has_trait("THRESH_SPIDER"))
+    if (has_trait( trait_THRESH_INSECT ) || has_trait( trait_THRESH_SPIDER ))
         return fd_blood_insect;
-    if (has_trait("THRESH_CEPHALOPOD"))
+    if (has_trait( trait_THRESH_CEPHALOPOD ))
         return fd_blood_invertebrate;
     return fd_blood;
 }
@@ -348,7 +408,7 @@ void Character::recalc_hp()
         elem = 60 + str_max * 3 + hp_adjustment;
         elem *= hp_mod;
     }
-    if( has_trait( "GLASSJAW" ) ) {
+    if( has_trait( trait_GLASSJAW ) ) {
         new_max_hp[hp_head] *= 0.8;
     }
     for( int i = 0; i < num_hp_parts; i++ ) {
@@ -376,22 +436,22 @@ void Character::recalc_sight_limits()
     // Set sight_max.
     if( is_blind() ) {
         sight_max = 0;
-    } else if( has_effect( effect_boomered ) && (!(has_trait("PER_SLIME_OK"))) ) {
+    } else if( has_effect( effect_boomered ) && (!(has_trait( trait_PER_SLIME_OK ))) ) {
         sight_max = 1;
         vision_mode_cache.set( BOOMERED );
     } else if (has_effect( effect_in_pit ) ||
             (underwater && !has_bionic("bio_membrane") &&
-                !has_trait("MEMBRANE") && !worn_with_flag("SWIM_GOGGLES") &&
-                !has_trait("CEPH_EYES") && !has_trait("PER_SLIME_OK") ) ) {
+                !has_trait( trait_MEMBRANE ) && !worn_with_flag("SWIM_GOGGLES") &&
+                !has_trait( trait_CEPH_EYES ) && !has_trait( trait_PER_SLIME_OK ) ) ) {
         sight_max = 1;
-    } else if (has_active_mutation("SHELL2")) {
+    } else if (has_active_mutation( trait_SHELL2 )) {
         // You can kinda see out a bit.
         sight_max = 2;
-    } else if ( (has_trait("MYOPIC") || has_trait("URSINE_EYE")) &&
+    } else if ( (has_trait( trait_MYOPIC ) || has_trait( trait_URSINE_EYE )) &&
             !is_wearing("glasses_eye") && !is_wearing("glasses_monocle") &&
             !is_wearing("glasses_bifocal") && !has_effect( effect_contacts )) {
         sight_max = 4;
-    } else if (has_trait("PER_SLIME")) {
+    } else if (has_trait( trait_PER_SLIME )) {
         sight_max = 6;
     } else if( has_effect( effect_darkness ) ) {
         vision_mode_cache.set( DARKNESS );
@@ -399,37 +459,37 @@ void Character::recalc_sight_limits()
     }
 
     // Debug-only NV, by vache's request
-    if( has_trait("DEBUG_NIGHTVISION") ) {
+    if( has_trait( trait_DEBUG_NIGHTVISION ) ) {
         vision_mode_cache.set( DEBUG_NIGHTVISION );
     }
     if( has_nv() ) {
         vision_mode_cache.set( NV_GOGGLES );
     }
-    if( has_active_mutation("NIGHTVISION3") || is_wearing("rm13_armor_on") ) {
+    if( has_active_mutation( trait_NIGHTVISION3 ) || is_wearing("rm13_armor_on") ) {
         vision_mode_cache.set( NIGHTVISION_3 );
     }
-    if( has_active_mutation("ELFA_FNV") ) {
+    if( has_active_mutation( trait_ELFA_FNV ) ) {
         vision_mode_cache.set( FULL_ELFA_VISION );
     }
-    if( has_active_mutation("CEPH_VISION") ) {
+    if( has_active_mutation( trait_CEPH_VISION ) ) {
         vision_mode_cache.set( CEPH_VISION );
     }
-    if (has_active_mutation("ELFA_NV")) {
+    if (has_active_mutation( trait_ELFA_NV )) {
         vision_mode_cache.set( ELFA_VISION );
     }
-    if( has_active_mutation("NIGHTVISION2") ) {
+    if( has_active_mutation( trait_NIGHTVISION2 ) ) {
         vision_mode_cache.set( NIGHTVISION_2 );
     }
-    if( has_active_mutation("FEL_NV") ) {
+    if( has_active_mutation( trait_FEL_NV ) ) {
         vision_mode_cache.set( FELINE_VISION );
     }
-    if( has_active_mutation("URSINE_EYE") ) {
+    if( has_active_mutation( trait_URSINE_EYE ) ) {
         vision_mode_cache.set( URSINE_VISION );
     }
-    if (has_active_mutation("NIGHTVISION")) {
+    if (has_active_mutation( trait_NIGHTVISION )) {
         vision_mode_cache.set(NIGHTVISION_1);
     }
-    if( has_trait("BIRD_EYE") ) {
+    if( has_trait( trait_BIRD_EYE ) ) {
         vision_mode_cache.set( BIRD_EYE);
     }
 
@@ -843,16 +903,16 @@ units::volume Character::volume_capacity_reduced_by( units::volume mod ) const
     if (has_bionic("bio_storage")) {
         ret += 2000_ml;
     }
-    if (has_trait("SHELL")) {
+    if( has_trait( trait_SHELL ) ) {
         ret += 4000_ml;
     }
-    if (has_trait("SHELL2") && !has_active_mutation("SHELL2")) {
+    if( has_trait( trait_SHELL2 ) && !has_active_mutation( trait_SHELL2 ) ) {
         ret += 6000_ml;
     }
-    if (has_trait("PACKMULE")) {
+    if( has_trait( trait_PACKMULE ) ) {
         ret = ret * 1.4;
     }
-    if (has_trait("DISORGANIZED")) {
+    if( has_trait( trait_DISORGANIZED ) ) {
         ret = ret * 0.6;
     }
     return std::max( ret, 0_ml );
@@ -1110,52 +1170,52 @@ void Character::reset_stats()
         mod_dex_bonus(2);
 
     // Trait / mutation buffs
-    if (has_trait("THICK_SCALES")) {
+    if (has_trait( trait_THICK_SCALES )) {
         mod_dex_bonus(-2);
     }
-    if (has_trait("CHITIN2") || has_trait("CHITIN3") || has_trait("CHITIN_FUR3")) {
+    if (has_trait( trait_CHITIN2 ) || has_trait( trait_CHITIN3 ) || has_trait( trait_CHITIN_FUR3 )) {
         mod_dex_bonus(-1);
     }
-    if (has_trait("BIRD_EYE")) {
+    if (has_trait( trait_BIRD_EYE )) {
         mod_per_bonus(4);
     }
-    if (has_trait("INSECT_ARMS")) {
+    if (has_trait( trait_INSECT_ARMS )) {
         mod_dex_bonus(-2);
     }
-    if (has_trait("WEBBED")) {
+    if (has_trait( trait_WEBBED )) {
         mod_dex_bonus(-1);
     }
-    if (has_trait("ARACHNID_ARMS")) {
+    if (has_trait( trait_ARACHNID_ARMS )) {
         mod_dex_bonus(-4);
     }
-    if (has_trait("ARM_TENTACLES") || has_trait("ARM_TENTACLES_4") ||
-            has_trait("ARM_TENTACLES_8")) {
+    if (has_trait( trait_ARM_TENTACLES ) || has_trait( trait_ARM_TENTACLES_4 ) ||
+            has_trait( trait_ARM_TENTACLES_8 )) {
         mod_dex_bonus(1);
     }
 
     // Dodge-related effects
-    if (has_trait("TAIL_LONG")) {
+    if (has_trait( trait_TAIL_LONG )) {
         mod_dodge_bonus(2);
     }
-    if (has_trait("TAIL_CATTLE")) {
+    if (has_trait( trait_TAIL_CATTLE )) {
         mod_dodge_bonus(1);
     }
-    if (has_trait("TAIL_RAT")) {
+    if (has_trait( trait_TAIL_RAT )) {
         mod_dodge_bonus(2);
     }
-    if (has_trait("TAIL_THICK") && !(has_active_mutation("TAIL_THICK")) ) {
+    if (has_trait( trait_TAIL_THICK ) && !(has_active_mutation( trait_TAIL_THICK )) ) {
         mod_dodge_bonus(1);
     }
-    if (has_trait("TAIL_RAPTOR")) {
+    if (has_trait( trait_TAIL_RAPTOR )) {
         mod_dodge_bonus(3);
     }
-    if (has_trait("TAIL_FLUFFY")) {
+    if (has_trait( trait_TAIL_FLUFFY )) {
         mod_dodge_bonus(4);
     }
-    if (has_trait("WINGS_BAT")) {
+    if (has_trait( trait_WINGS_BAT )) {
         mod_dodge_bonus(-3);
     }
-    if (has_trait("WINGS_BUTTERFLY")) {
+    if (has_trait( trait_WINGS_BUTTERFLY )) {
         mod_dodge_bonus(-4);
     }
 

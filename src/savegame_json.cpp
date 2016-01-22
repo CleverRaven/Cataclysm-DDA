@@ -45,6 +45,9 @@
 #include "debug.h"
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
+const trait_id trait_HYPEROPIC( "HYPEROPIC" );
+const trait_id trait_MYOPIC( "MYOPIC" );
+
 const std::string obj_type_name[11]={ "OBJECT_NONE", "OBJECT_ITEM", "OBJECT_ACTOR", "OBJECT_PLAYER",
     "OBJECT_NPC", "OBJECT_MONSTER", "OBJECT_VEHICLE", "OBJECT_TRAP", "OBJECT_FIELD",
     "OBJECT_TERRAIN", "OBJECT_FURNITURE"
@@ -490,12 +493,12 @@ void player::load(JsonObject &data)
     }
 
     // Fixes bugged characters for telescopic eyes CBM.
-    if( has_bionic( "bio_eye_optic" ) && has_trait( "HYPEROPIC" ) ) {
-        remove_mutation( "HYPEROPIC" );
+    if( has_bionic( "bio_eye_optic" ) && has_trait( trait_HYPEROPIC ) ) {
+        remove_mutation( trait_HYPEROPIC );
     }
 
-    if( has_bionic( "bio_eye_optic" ) && has_trait( "MYOPIC" ) ) {
-        remove_mutation( "MYOPIC" );
+    if( has_bionic( "bio_eye_optic" ) && has_trait( trait_MYOPIC ) ) {
+        remove_mutation( trait_MYOPIC );
     }
 
     on_stat_change( "pkill", pkill );

@@ -49,6 +49,50 @@ const efftype_id effect_lightsnare( "lightsnare" );
 const efftype_id effect_poison( "poison" );
 const efftype_id effect_stunned( "stunned" );
 
+const trait_id trait_ANTLERS( "ANTLERS" );
+const trait_id trait_ARM_TENTACLES_4( "ARM_TENTACLES_4" );
+const trait_id trait_ARM_TENTACLES_8( "ARM_TENTACLES_8" );
+const trait_id trait_ARM_TENTACLES( "ARM_TENTACLES" );
+const trait_id trait_BEAK( "BEAK" );
+const trait_id trait_BEAK_PECK( "BEAK_PECK" );
+const trait_id trait_CLAWS( "CLAWS" );
+const trait_id trait_CLAWS_RAT( "CLAWS_RAT" );
+const trait_id trait_CLAWS_RETRACT( "CLAWS_RETRACT" );
+const trait_id trait_CLAWS_ST( "CLAWS_ST" );
+const trait_id trait_CLAWS_TENTACLE( "CLAWS_TENTACLE" );
+const trait_id trait_CLUMSY( "CLUMSY" );
+const trait_id trait_DEFT( "DEFT" );
+const trait_id trait_DRUNKEN( "DRUNKEN" );
+const trait_id trait_FANGS( "FANGS" );
+const trait_id trait_FANGS_SPIDER( "FANGS_SPIDER" );
+const trait_id trait_HOLLOW_BONES( "HOLLOW_BONES" );
+const trait_id trait_HOOVES( "HOOVES" );
+const trait_id trait_HORNS_CURLED( "HORNS_CURLED" );
+const trait_id trait_HORNS( "HORNS" );
+const trait_id trait_HORNS_POINTED( "HORNS_POINTED" );
+const trait_id trait_HYPEROPIC( "HYPEROPIC" );
+const trait_id trait_INCISORS( "INCISORS" );
+const trait_id trait_LIGHT_BONES( "LIGHT_BONES" );
+const trait_id trait_MANDIBLES( "MANDIBLES" );
+const trait_id trait_MUZZLE_BEAR( "MUZZLE_BEAR" );
+const trait_id trait_MUZZLE_LONG( "MUZZLE_LONG" );
+const trait_id trait_MUZZLE( "MUZZLE" );
+const trait_id trait_MUZZLE_RAT( "MUZZLE_RAT" );
+const trait_id trait_NAILS( "NAILS" );
+const trait_id trait_POISONOUS2( "POISONOUS2" );
+const trait_id trait_POISONOUS( "POISONOUS" );
+const trait_id trait_PROF_SKATER( "PROF_SKATER" );
+const trait_id trait_RAP_TALONS( "RAP_TALONS" );
+const trait_id trait_SABER_TEETH( "SABER_TEETH" );
+const trait_id trait_SLIME_HANDS( "SLIME_HANDS" );
+const trait_id trait_TAIL_CLUB( "TAIL_CLUB" );
+const trait_id trait_TAIL_STING( "TAIL_STING" );
+const trait_id trait_TAIL_THICK( "TAIL_THICK" );
+const trait_id trait_TALONS( "TALONS" );
+const trait_id trait_THORNS( "THORNS" );
+const trait_id trait_VINES2( "VINES2" );
+const trait_id trait_VINES3( "VINES3" );
+
 void player_hit_message(player* attacker, std::string message,
                         Creature &t, int dam, bool crit = false);
 void melee_practice( player &u, bool hit, bool unarmed, bool bashing, bool cutting, bool stabbing);
@@ -169,12 +213,12 @@ float player::hit_roll() const
     // Dexterity, skills, weapon and martial arts
     float hit = get_hit();
     // Drunken master makes us hit better
-    if( has_trait( "DRUNKEN" ) ) {
+    if( has_trait( trait_DRUNKEN ) ) {
         hit += get_effect_dur( effect_drunk ) / ( is_armed() ? 300.0f : 400.0f );
     }
 
     // Farsightedness makes us hit worse
-    if( has_trait( "HYPEROPIC" ) && !is_wearing( "glasses_reading" )
+    if( has_trait( trait_HYPEROPIC ) && !is_wearing( "glasses_reading" )
         && !is_wearing( "glasses_bifocal" ) && !has_effect( effect_contacts ) ) {
         hit -= 2.0f;
     }
@@ -208,7 +252,7 @@ const char *player::get_miss_reason()
     add_miss_reason(
         _("Your torso encumbrance throws you off-balance."),
         divide_roll_remainder( encumb( bp_torso ), 10.0f ) );
-    const int farsightedness = 2 * ( has_trait("HYPEROPIC") &&
+    const int farsightedness = 2 * ( has_trait( trait_HYPEROPIC ) &&
                                !is_wearing("glasses_reading") &&
                                !is_wearing("glasses_bifocal") &&
                                !has_effect( effect_contacts) );
@@ -395,7 +439,7 @@ void player::melee_attack(Creature &t, bool allow_special, const matec_id &force
     /** @EFFECT_STR reduces stamina cost for melee attack with heavier weapons */
     const int weight_cost = weapon.weight() / ( 20 * std::max( 1, str_cur ) );
     const int encumbrance_cost = roll_remainder( ( encumb( bp_arm_l ) + encumb( bp_arm_r ) ) / 5.0f );
-    const int deft_bonus = hit_spread < 0 && has_trait( "DEFT" ) ? 5 : 0;
+    const int deft_bonus = hit_spread < 0 && has_trait( trait_DEFT ) ? 5 : 0;
     /** @EFFECT_MELEE reduces stamina cost of melee attacks */
     const int mod_sta = ( weight_cost + encumbrance_cost - melee - deft_bonus + 10 ) * -1;
     mod_stat( "stamina", std::min( -5, mod_sta ) );
@@ -464,7 +508,7 @@ void player::reach_attack( const tripoint &p )
 
 int stumble(player &u)
 {
-    if( u.has_trait("DEFT") ) {
+    if( u.has_trait( trait_DEFT ) ) {
         return 0;
     }
 
@@ -576,7 +620,7 @@ float player::get_dodge() const
 
     // @todo What about the skates?
     if( is_wearing("roller_blades") ) {
-        ret /= has_trait( "PROF_SKATER" ) ? 2 : 5;
+        ret /= has_trait( trait_PROF_SKATER ) ? 2 : 5;
     }
 
     if( has_effect( effect_bouldering ) ) {
@@ -633,7 +677,7 @@ void player::roll_bash_damage( bool crit, damage_instance &di, bool average, con
     stat_bonus += mabuff_damage_bonus( DT_BASH );
 
     // Drunken Master damage bonuses
-    if( has_trait("DRUNKEN") && has_effect( effect_drunk) ) {
+    if( has_trait( trait_DRUNKEN ) && has_effect( effect_drunk) ) {
         // Remember, a single drink gives 600 levels of "drunk"
         int mindrunk = 0;
         int maxdrunk = 0;
@@ -713,23 +757,23 @@ void player::roll_cut_damage( bool crit, damage_instance &di, bool average, cons
             !is_armed();
         if( left_empty || right_empty ) {
             float per_hand = 0.0f;
-            if (has_trait("CLAWS") || (has_active_mutation("CLAWS_RETRACT")) ) {
+            if (has_trait( trait_CLAWS ) || (has_active_mutation( trait_CLAWS_RETRACT )) ) {
                 per_hand += 3;
             }
             if (has_bionic("bio_razors")) {
                 per_hand += 2;
             }
-            if (has_trait("TALONS")) {
+            if (has_trait( trait_TALONS )) {
                 /** @EFFECT_UNARMED increases cutting damage with TALONS */
                 per_hand += 3 + (unarmed_skill > 8 ? 4 : unarmed_skill / 2);
             }
             // Stainless Steel Claws do stabbing damage, too.
-            if (has_trait("CLAWS_RAT") || has_trait("CLAWS_ST")) {
+            if (has_trait( trait_CLAWS_RAT ) || has_trait( trait_CLAWS_ST )) {
                 /** @EFFECT_UNARMED increases cutting damage with CLAWS_RAT and CLAWS_ST */
                 per_hand += 1 + (unarmed_skill > 8 ? 4 : unarmed_skill / 2);
             }
             //TODO: add acidproof check back to slime hands (probably move it elsewhere)
-            if (has_trait("SLIME_HANDS")) {
+            if (has_trait( trait_SLIME_HANDS )) {
                 /** @EFFECT_UNARMED increases cutting damage with SLIME_HANDS */
                 per_hand += average ? 2.5f : rng(2, 3);
             }
@@ -785,11 +829,11 @@ void player::roll_stab_damage( bool crit, damage_instance &di, bool average, con
             !is_armed();
         if( left_empty || right_empty ) {
             float per_hand = 0.0f;
-            if( has_trait("CLAWS") || has_active_mutation("CLAWS_RETRACT") ) {
+            if( has_trait( trait_CLAWS ) || has_active_mutation( trait_CLAWS_RETRACT ) ) {
                 per_hand += 3;
             }
 
-            if( has_trait("NAILS") ) {
+            if( has_trait( trait_NAILS ) ) {
                 per_hand += .5;
             }
 
@@ -797,11 +841,11 @@ void player::roll_stab_damage( bool crit, damage_instance &di, bool average, con
                 per_hand += 2;
             }
 
-            if( has_trait("THORNS") ) {
+            if( has_trait( trait_THORNS ) ) {
                 per_hand += 2;
             }
 
-            if( has_trait("CLAWS_ST") ) {
+            if( has_trait( trait_CLAWS_ST ) ) {
                 /** @EFFECT_UNARMED increases stabbing damage with CLAWS_ST */
                 per_hand += 3 + (unarmed_skill / 2);
             }
@@ -1446,11 +1490,11 @@ void player::perform_special_attacks(Creature &t)
             dealt_dam.type_damage( DT_STAB ) > 0;
     }
 
-    if( can_poison && (has_trait("POISONOUS") || has_trait("POISONOUS2")) ) {
-        if( has_trait("POISONOUS") ) {
+    if( can_poison && (has_trait( trait_POISONOUS ) || has_trait( trait_POISONOUS2 )) ) {
+        if( has_trait( trait_POISONOUS ) ) {
             add_msg_if_player(m_good, _("You poison %s!"), target.c_str());
             t.add_effect( effect_poison, 6);
-        } else if( has_trait("POISONOUS2") ) {
+        } else if( has_trait( trait_POISONOUS2 ) ) {
             add_msg_if_player(m_good, _("You inject your venom into %s!"), target.c_str());
             t.add_effect( effect_badpoison, 6);
         }
@@ -1594,7 +1638,7 @@ damage_instance hardcoded_mutation_attack( const player &u, const std::string &i
             return damage_instance();
         }
 
-        const bool rake = u.has_trait( "CLAWS_TENTACLE" );
+        const bool rake = u.has_trait( trait_CLAWS_TENTACLE );
 
         /** @EFFECT_STR increases damage with ARM_TENTACLES* */
         damage_instance ret;
@@ -1864,9 +1908,9 @@ int player::attack_speed( const item &weap ) const
     move_cost *= ma_mult;
     move_cost += ma_move_cost;
 
-    if( has_trait( "HOLLOW_BONES" ) ) {
+    if( has_trait( trait_HOLLOW_BONES ) ) {
         move_cost *= 0.8f;
-    } else if( has_trait( "LIGHT_BONES" ) ) {
+    } else if( has_trait( trait_LIGHT_BONES ) ) {
         move_cost *= 0.9f;
     }
 
@@ -2031,10 +2075,10 @@ void player::steal( npc &target )
     if( !is_armed() ) {
         my_roll += dice( 4, 3 );
     }
-    if( has_trait( "DEFT" ) ) {
+    if( has_trait( trait_DEFT ) ) {
         my_roll += dice( 2, 6 );
     }
-    if( has_trait( "CLUMSY" ) ) {
+    if( has_trait( trait_CLUMSY ) ) {
         my_roll -= dice( 4, 6 );
     }
 

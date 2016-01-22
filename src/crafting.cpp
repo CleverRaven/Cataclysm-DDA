@@ -35,6 +35,10 @@ const efftype_id effect_contacts( "contacts" );
 void remove_from_component_lookup( recipe *r );
 void drop_or_handle( const item &newit, player &p );
 
+const trait_id trait_DEBUG_HS( "DEBUG_HS" );
+const trait_id trait_PAWS_LARGE( "PAWS_LARGE" );
+const trait_id trait_PAWS( "PAWS" );
+
 static bool crafting_allowed( const player &p, const recipe &rec )
 {
     if( !p.has_morale_to_craft() ) {
@@ -399,9 +403,9 @@ void player::complete_craft()
 
     // It's tough to craft with paws.  Fortunately it's just a matter of grip and fine-motor,
     // not inability to see what you're doing
-    if( has_trait( "PAWS" ) || has_trait( "PAWS_LARGE" ) ) {
+    if( has_trait( trait_PAWS ) || has_trait( trait_PAWS_LARGE ) ) {
         int paws_rank_penalty = 0;
-        if( has_trait( "PAWS_LARGE" ) ) {
+        if( has_trait( trait_PAWS_LARGE ) ) {
             paws_rank_penalty += 1;
         }
         if( making->skill_used == skill_id( "electronics" )
@@ -759,7 +763,7 @@ std::list<item> player::consume_items( const comp_selection<item_comp> &is, int 
 {
     std::list<item> ret;
 
-    if( has_trait( "DEBUG_HS" ) ) {
+    if( has_trait( trait_DEBUG_HS ) ) {
         return ret;
     }
 
@@ -901,7 +905,7 @@ player::select_tool_component( const std::vector<tool_comp> &tools, int batch, i
 /* we use this if we selected the tool earlier */
 void player::consume_tools( const comp_selection<tool_comp> &tool, int batch )
 {
-    if( has_trait( "DEBUG_HS" ) ) {
+    if( has_trait( trait_DEBUG_HS ) ) {
         return;
     }
 

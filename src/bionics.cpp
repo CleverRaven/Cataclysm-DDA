@@ -63,6 +63,10 @@ const efftype_id effect_took_xanax( "took_xanax" );
 const efftype_id effect_visuals( "visuals" );
 const efftype_id effect_weed_high( "weed_high" );
 
+const trait_id trait_HYPEROPIC( "HYPEROPIC" );
+const trait_id trait_MYOPIC( "MYOPIC" );
+const trait_id trait_PROF_MED( "PROF_MED" );
+
 namespace
 {
 std::map<std::string, bionic_data> bionics;
@@ -765,7 +769,7 @@ int bionic_manip_cos( int p_int, int s_electronics, int s_firstaid, int s_mechan
                    s_mechanics   * 1;
 
     // Medical residents have some idea what they're doing
-    if( g->u.has_trait( "PROF_MED" ) ) {
+    if( g->u.has_trait( trait_PROF_MED ) ) {
         pl_skill += 3;
         add_msg( m_neutral, _( "You prep yourself to begin surgery." ) );
     }
@@ -1010,7 +1014,7 @@ void bionics_install_failure( player *u, int difficulty, int success )
                    u->get_skill_level( skilll_firstaid )    * 3 +
                    u->get_skill_level( skilll_mechanics )   * 1;
     // Medical residents get a substantial assist here
-    if( u->has_trait( "PROF_MED" ) ) {
+    if( u->has_trait( trait_PROF_MED ) ) {
         pl_skill += 6;
     }
 
@@ -1048,7 +1052,7 @@ void bionics_install_failure( player *u, int difficulty, int success )
             break;
     }
 
-    if( u->has_trait( "PROF_MED" ) ) {
+    if( u->has_trait( trait_PROF_MED ) ) {
         //~"Complications" is USian medical-speak for "unintended damage from a medical procedure".
         add_msg( m_neutral, _( "Your training helps you minimize the complications." ) );
         // In addition to the bonus, medical residents know enough OR protocol to avoid botching.

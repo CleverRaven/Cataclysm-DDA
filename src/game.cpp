@@ -167,6 +167,23 @@ const efftype_id effect_tied( "tied" );
 const efftype_id effect_visuals( "visuals" );
 const efftype_id effect_winded( "winded" );
 
+const trait_id trait_GRAZER( "GRAZER" );
+const trait_id trait_HIBERNATE( "HIBERNATE" );
+const trait_id trait_INCONSPICUOUS( "INCONSPICUOUS" );
+const trait_id trait_INFIMMUNE( "INFIMMUNE" );
+const trait_id trait_INFRESIST( "INFRESIST" );
+const trait_id trait_LEG_TENT_BRACE( "LEG_TENT_BRACE" );
+const trait_id trait_PARKOUR( "PARKOUR" );
+const trait_id trait_PER_SLIME_OK( "PER_SLIME_OK" );
+const trait_id trait_PER_SLIME( "PER_SLIME" );
+const trait_id trait_PRED2( "PRED2" );
+const trait_id trait_PRED3( "PRED3" );
+const trait_id trait_PRED4( "PRED4" );
+const trait_id trait_RUMINANT( "RUMINANT" );
+const trait_id trait_SHELL2( "SHELL2" );
+const trait_id trait_VINES2( "VINES2" );
+const trait_id trait_VINES3( "VINES3" );
+
 void advanced_inv(); // player_activity.cpp
 void intro();
 
@@ -1441,8 +1458,8 @@ bool game::do_turn()
     reset_light_level();
 
     // The following happens when we stay still; 10/40 minutes overdue for spawn
-    if ((!u.has_trait("INCONSPICUOUS") && calendar::turn > nextspawn + 100) ||
-        (u.has_trait("INCONSPICUOUS") && calendar::turn > nextspawn + 400)) {
+    if ((!u.has_trait( trait_INCONSPICUOUS ) && calendar::turn > nextspawn + 100) ||
+        (u.has_trait( trait_INCONSPICUOUS ) && calendar::turn > nextspawn + 400)) {
         spawn_mon(-1 + 2 * rng(0, 1), -1 + 2 * rng(0, 1));
         nextspawn = calendar::turn;
     }
@@ -2769,7 +2786,7 @@ bool game::handle_action()
             break;
 
         case ACTION_OPEN:
-            if (u.has_active_mutation("SHELL2")) {
+            if (u.has_active_mutation( trait_SHELL2 )) {
                 add_msg(m_info, _("You can't open things while you're in your shell."));
             } else {
                 open();
@@ -2777,7 +2794,7 @@ bool game::handle_action()
             break;
 
         case ACTION_CLOSE:
-            if( u.has_active_mutation( "SHELL2" ) ) {
+            if( u.has_active_mutation( trait_SHELL2 ) ) {
                 add_msg(m_info, _("You can't close things while you're in your shell."));
             } else if( mouse_target != tripoint_min ) {
                 doors::close_door( m, u, mouse_target );
@@ -2789,7 +2806,7 @@ bool game::handle_action()
         case ACTION_SMASH:
             if (veh_ctrl) {
                 handbrake();
-            } else if (u.has_active_mutation("SHELL2")) {
+            } else if (u.has_active_mutation( trait_SHELL2 )) {
                 add_msg(m_info, _("You can't smash things while you're in your shell."));
             } else {
                 smash();
@@ -2797,7 +2814,7 @@ bool game::handle_action()
             break;
 
         case ACTION_EXAMINE:
-            if (u.has_active_mutation("SHELL2")) {
+            if (u.has_active_mutation( trait_SHELL2 )) {
                 add_msg(m_info, _("You can't examine your surroundings while you're in your shell."));
             } else if( mouse_target != tripoint_min ) {
                 examine( mouse_target );
@@ -2807,7 +2824,7 @@ bool game::handle_action()
             break;
 
         case ACTION_ADVANCEDINV:
-            if (u.has_active_mutation("SHELL2")) {
+            if (u.has_active_mutation( trait_SHELL2 )) {
                 add_msg(m_info, _("You can't move mass quantities while you're in your shell."));
             } else {
                 advanced_inv();
@@ -2819,7 +2836,7 @@ bool game::handle_action()
             break;
 
         case ACTION_GRAB:
-            if (u.has_active_mutation("SHELL2")) {
+            if (u.has_active_mutation( trait_SHELL2 )) {
                 add_msg(m_info, _("You can't grab things while you're in your shell."));
             } else {
                 grab();
@@ -2827,7 +2844,7 @@ bool game::handle_action()
             break;
 
         case ACTION_BUTCHER:
-            if (u.has_active_mutation("SHELL2")) {
+            if (u.has_active_mutation( trait_SHELL2 )) {
                 add_msg(m_info, _("You can't butcher while you're in your shell."));
             } else {
                 butcher();
@@ -2839,7 +2856,7 @@ bool game::handle_action()
             break;
 
         case ACTION_PEEK:
-            if (u.has_active_mutation("SHELL2")) {
+            if (u.has_active_mutation( trait_SHELL2 )) {
                 add_msg(m_info, _("You can't peek around corners while you're in your shell."));
             } else {
                 peek();
@@ -3056,7 +3073,7 @@ bool game::handle_action()
             break;
 
         case ACTION_DIR_DROP:
-            if (u.has_active_mutation("SHELL2")) {
+            if (u.has_active_mutation( trait_SHELL2 )) {
                 add_msg(m_info, _("You can't drop things to another tile while you're in your shell."));
             } else {
                 drop_in_direction();
@@ -3081,7 +3098,7 @@ bool game::handle_action()
             break;
 
         case ACTION_CRAFT:
-            if (u.has_active_mutation("SHELL2")) {
+            if (u.has_active_mutation( trait_SHELL2 )) {
                 add_msg(m_info, _("You can't craft while you're in your shell."));
             } else {
                 u.craft();
@@ -3089,7 +3106,7 @@ bool game::handle_action()
             break;
 
         case ACTION_RECRAFT:
-            if (u.has_active_mutation("SHELL2")) {
+            if (u.has_active_mutation( trait_SHELL2 )) {
                 add_msg(m_info, _("You can't craft while you're in your shell."));
             } else {
                 u.recraft();
@@ -3097,7 +3114,7 @@ bool game::handle_action()
             break;
 
         case ACTION_LONGCRAFT:
-            if (u.has_active_mutation("SHELL2")) {
+            if (u.has_active_mutation( trait_SHELL2 )) {
                 add_msg(m_info, _("You can't craft while you're in your shell."));
             } else {
                 u.long_craft();
@@ -3116,7 +3133,7 @@ bool game::handle_action()
         case ACTION_CONSTRUCT:
             if (u.in_vehicle) {
                 add_msg(m_info, _("You can't construct while in a vehicle."));
-            } else if (u.has_active_mutation("SHELL2")) {
+            } else if (u.has_active_mutation( trait_SHELL2 )) {
                 add_msg(m_info, _("You can't construct while you're in your shell."));
             } else {
                 construction_menu();
@@ -3144,7 +3161,7 @@ bool game::handle_action()
                 as_m.entries.push_back(uimenu_entry(2, true, (get_option<bool>( "FORCE_CAPITAL_YN" ) ?
                                                     'N' : 'n'), _("No.")));
 
-                if( u.has_alarm_clock() && u.get_hunger() < -60 && u.has_active_mutation( "HIBERNATE" ) ) {
+                if( u.has_alarm_clock() && u.get_hunger() < -60 && u.has_active_mutation( trait_HIBERNATE ) ) {
                     as_m.text =
                         _("You're engorged to hibernate. The alarm would only attract attention. Enter hibernation?");
                 }
@@ -3189,7 +3206,7 @@ bool game::handle_action()
                     as_m.text = data.str();
                 }
                 if( u.has_alarm_clock() &&
-                    !( u.get_hunger() < -60 && u.has_active_mutation( "HIBERNATE" ) ) ) {
+                    !( u.get_hunger() < -60 && u.has_active_mutation( trait_HIBERNATE ) ) ) {
                     as_m.entries.push_back(uimenu_entry(3, true, '3',
                                                         _("Set alarm to wake up in 3 hours.")));
                     as_m.entries.push_back(uimenu_entry(4, true, '4',
@@ -3228,7 +3245,7 @@ bool game::handle_action()
             break;
 
         case ACTION_CONTROL_VEHICLE:
-            if (u.has_active_mutation("SHELL2")) {
+            if (u.has_active_mutation( trait_SHELL2 )) {
                 add_msg(m_info, _("You can't operate a vehicle while you're in your shell."));
             } else {
                 control_vehicle();
@@ -6079,11 +6096,11 @@ void game::flashbang( const tripoint &p, bool player_immune)
         }
         if( m.sees( u.pos(), p, 8 ) ) {
             int flash_mod = 0;
-            if( u.has_trait( "PER_SLIME" ) ) {
+            if( u.has_trait( trait_PER_SLIME ) ) {
                 if (one_in(2)) {
                     flash_mod = 3; // Yay, you weren't looking!
                 }
-            } else if( u.has_trait( "PER_SLIME_OK" ) ) {
+            } else if( u.has_trait( trait_PER_SLIME_OK ) ) {
                 flash_mod = 8; // Just retract those and extrude fresh eyes
             } else if( u.has_bionic( "bio_sunglasses" ) || u.is_wearing( "rm13_armor_on" ) ) {
                 flash_mod = 6;
@@ -6132,7 +6149,7 @@ void game::shockwave( const tripoint &p, int radius, int force, int stun, int da
         }
     }
     if( rl_dist(u.pos(), p ) <= radius && !ignore_player &&
-          (!u.has_trait( "LEG_TENT_BRACE" ) || u.footwear_factor() == 1 ||
+          (!u.has_trait( trait_LEG_TENT_BRACE ) || u.footwear_factor() == 1 ||
           (u.footwear_factor() == .5 && one_in( 2 ) ) ) ) {
         add_msg( m_bad, _("You're caught in the shockwave!") );
         knockback( p, u.pos(), force, stun, dam_mult);
@@ -6287,7 +6304,7 @@ void game::knockback( std::vector<tripoint> &traj, int force, int stun, int dam_
                                 targ->name.c_str());
                     }
                 } else if (u.posx() == traj.front().x && u.posy() == traj.front().y &&
-                           (u.has_trait("LEG_TENT_BRACE") && (!u.footwear_factor() ||
+                           (u.has_trait( trait_LEG_TENT_BRACE ) && (!u.footwear_factor() ||
                             (u.footwear_factor() == .5 && one_in(2))))) {
                     add_msg(_("%s collided with you, and barely dislodges your tentacles!"), targ->name.c_str());
                     force_remaining = 1;
@@ -9946,7 +9963,7 @@ void game::drop_in_direction()
 
 void game::plthrow(int pos)
 {
-    if (u.has_active_mutation("SHELL2")) {
+    if (u.has_active_mutation( trait_SHELL2 )) {
         add_msg(m_info, _("You can't effectively throw while you're in your shell."));
         return;
     }
@@ -10468,7 +10485,7 @@ void game::butcher()
 
 void game::eat(int pos)
 {
-    if( ( u.has_active_mutation( "RUMINANT" ) || u.has_active_mutation( "GRAZER" ) ) &&
+    if( ( u.has_active_mutation( trait_RUMINANT ) || u.has_active_mutation( trait_GRAZER ) ) &&
         m.ter( u.pos() ) == t_underbrush ) {
         if( u.get_hunger() < 20 ) {
             add_msg( _( "You're too full to eat the undershrub." ) );
@@ -10480,7 +10497,7 @@ void game::eat(int pos)
             return;
         }
     }
-    if( u.has_active_mutation( "GRAZER" ) && m.ter( u.pos() ) == t_grass ) {
+    if( u.has_active_mutation( trait_GRAZER ) && m.ter( u.pos() ) == t_grass ) {
         if( u.get_hunger() < 8 ) {
             add_msg( _( "You're too full to graze." ) );
         } else {
@@ -11234,8 +11251,8 @@ bool game::prompt_dangerous_tile( const tripoint &dest_loc ) const
 
 bool game::plmove(int dx, int dy, int dz)
 {
-    if( (!check_safe_mode_allowed()) || u.has_active_mutation("SHELL2") ) {
-        if ( u.has_active_mutation("SHELL2")) {
+    if( (!check_safe_mode_allowed()) || u.has_active_mutation( trait_SHELL2 ) ) {
+        if( u.has_active_mutation( trait_SHELL2 ) ) {
             add_msg(m_warning, _("You can't move while in your shell.  Deactivate it to go mobile."));
         }
 
@@ -11707,16 +11724,16 @@ void game::place_player( const tripoint &dest_loc )
     }
     ///\EFFECT_DEX increases chance of avoiding cuts on sharp terrain
     if( m.has_flag("SHARP", dest_loc) && !one_in(3) && !x_in_y(1+u.dex_cur/2, 40) &&
-        (!u.in_vehicle) && (!u.has_trait("PARKOUR") || one_in(4)) ) {
+        (!u.in_vehicle) && (!u.has_trait( trait_PARKOUR ) || one_in(4)) ) {
         body_part bp = random_body_part();
         if(u.deal_damage( nullptr, bp, damage_instance( DT_CUT, rng( 1, 10 ) ) ).total_damage() > 0) {
             //~ 1$s - bodypart name in accusative, 2$s is terrain name.
             add_msg(m_bad, _("You cut your %1$s on the %2$s!"),
                     body_part_name_accusative(bp).c_str(),
                     m.has_flag_ter( "SHARP", dest_loc ) ? m.tername(dest_loc).c_str() : m.furnname(dest_loc).c_str() );
-            if ((u.has_trait("INFRESIST")) && (one_in(1024))) {
+            if ((u.has_trait( trait_INFRESIST )) && (one_in(1024))) {
             u.add_effect( effect_tetanus, 1, num_bp, true);
-            } else if ((!u.has_trait("INFIMMUNE") || !u.has_trait("INFRESIST")) && (one_in(256))) {
+            } else if ((!u.has_trait( trait_INFIMMUNE ) || !u.has_trait( trait_INFRESIST )) && (one_in(256))) {
               u.add_effect( effect_tetanus, 1, num_bp, true);
              }
         }
@@ -12742,9 +12759,9 @@ tripoint game::find_or_make_stairs( map &mp, const int z_after, bool &rope_ladde
         } else {
             return tripoint_min;
         }
-    } else if (u.has_trait("VINES2") || u.has_trait("VINES3")) {
+    } else if (u.has_trait( trait_VINES2 ) || u.has_trait( trait_VINES3 )) {
         if (query_yn(_("There is a sheer drop halfway down.  Use your vines to descend?"))) {
-            if (u.has_trait("VINES2")) {
+            if (u.has_trait( trait_VINES2 )) {
                 if (query_yn(_("Detach a vine?  It'll hurt, but you'll be able to climb back up..."))) {
                     rope_ladder = true;
                     add_msg(m_bad, _("You descend on your vines, though leaving a part of you behind stings."));
@@ -13122,7 +13139,7 @@ void game::update_stair_monsters()
                 if ((pushx != 0 || pushy != 0) && (mon_at(pos) == -1) &&
                     critter.can_move_to( pos )) {
                     bool resiststhrow = (u.is_throw_immune()) ||
-                                        (u.has_trait("LEG_TENT_BRACE"));
+                                        (u.has_trait( trait_LEG_TENT_BRACE ));
                     if (resiststhrow && one_in(player_throw_resist_chance)) {
                         u.moves -= 25; // small charge for avoiding the push altogether
                         add_msg(_("The %s fails to push you back!"),

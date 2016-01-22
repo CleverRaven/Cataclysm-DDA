@@ -15,6 +15,62 @@
 #include "vitamin.h"
 #include <algorithm>
 
+const trait_id trait_ROBUST( "ROBUST" );
+const trait_id trait_TOUGH( "TOUGH" );
+const trait_id trait_TOUGH3( "TOUGH3" );
+const trait_id trait_GLASSJAW( "GLASSJAW" );
+const trait_id trait_FLIMSY( "FLIMSY" );
+const trait_id trait_FLIMSY2( "FLIMSY2" );
+const trait_id trait_FLIMSY3( "FLIMSY3" );
+const trait_id trait_MUT_TOUGH( "MUT_TOUGH" );
+const trait_id trait_MUT_TOUGH2( "MUT_TOUGH2" );
+const trait_id trait_MUT_TOUGH3( "MUT_TOUGH3" );
+const trait_id trait_WEBBED( "WEBBED" );
+const trait_id trait_PAWS( "PAWS" );
+const trait_id trait_PAWS_LARGE( "PAWS_LARGE" );
+const trait_id trait_ARM_TENTACLES( "ARM_TENTACLES" );
+const trait_id trait_ARM_TENTACLES_4( "ARM_TENTACLES_4" );
+const trait_id trait_ARM_TENTACLES_8( "ARM_TENTACLES_8" );
+const trait_id trait_TALONS( "TALONS" );
+const trait_id trait_BEAK( "BEAK" );
+const trait_id trait_BEAK_PECK( "BEAK_PECK" );
+const trait_id trait_BEAK_HUM( "BEAK_HUM" );
+const trait_id trait_MANDIBLES( "MANDIBLES" );
+const trait_id trait_SABER_TEETH( "SABER_TEETH" );
+const trait_id trait_MINOTAUR( "MINOTAUR" );
+const trait_id trait_MUZZLE( "MUZZLE" );
+const trait_id trait_MUZZLE_BEAR( "MUZZLE_BEAR" );
+const trait_id trait_MUZZLE_LONG( "MUZZLE_LONG" );
+const trait_id trait_PROBOSCIS( "PROBOSCIS" );
+const trait_id trait_MUZZLE_RAT( "MUZZLE_RAT" );
+const trait_id trait_HOOVES( "HOOVES" );
+const trait_id trait_TOUGH2( "TOUGH2" );
+const trait_id trait_BURROW( "BURROW" );
+const trait_id trait_SLIMESPAWNER( "SLIMESPAWNER" );
+const trait_id trait_NAUSEA( "NAUSEA" );
+const trait_id trait_VOMITOUS( "VOMITOUS" );
+const trait_id trait_M_FERTILE( "M_FERTILE" );
+const trait_id trait_M_BLOOM( "M_BLOOM" );
+const trait_id trait_VINES3( "VINES3" );
+const trait_id trait_SELFAWARE( "SELFAWARE" );
+const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
+const trait_id trait_RAP_TALONS( "RAP_TALONS" );
+const trait_id trait_SHELL( "SHELL" );
+const trait_id trait_INSECT_ARMS( "INSECT_ARMS" );
+const trait_id trait_ARACHNID_ARMS( "ARACHNID_ARMS" );
+const trait_id trait_WINGS_BUTTERFLY( "WINGS_BUTTERFLY" );
+const trait_id trait_HORNS_CURLED( "HORNS_CURLED" );
+const trait_id trait_CHITIN3( "CHITIN3" );
+const trait_id trait_HORNS_POINTED( "HORNS_POINTED" );
+const trait_id trait_ANTENNAE( "ANTENNAE" );
+const trait_id trait_ANTLERS( "ANTLERS" );
+const trait_id trait_HUGE( "HUGE" );
+const trait_id trait_STR_ALPHA( "STR_ALPHA" );
+const trait_id trait_DEX_ALPHA( "DEX_ALPHA" );
+const trait_id trait_INT_ALPHA( "INT_ALPHA" );
+const trait_id trait_INT_SLIME( "INT_SLIME" );
+const trait_id trait_PER_ALPHA( "PER_ALPHA" );
+
 bool Character::has_trait( const trait_id &b ) const
 {
     return my_mutations.count( b ) > 0;
@@ -148,7 +204,7 @@ void Character::mutation_effect( const trait_id &mut )
     if( mut == "GLASSJAW" ) {
         recalc_hp();
 
-    } else if (mut == "STR_ALPHA") {
+    } else if (mut == trait_STR_ALPHA) {
         ///\EFFECT_STR_MAX determines bonus from STR mutation
         if (str_max <= 6) {
             str_max = 8;
@@ -160,7 +216,7 @@ void Character::mutation_effect( const trait_id &mut )
             str_max = 18;
         }
         recalc_hp();
-    } else if (mut == "DEX_ALPHA") {
+    } else if (mut == trait_DEX_ALPHA) {
         ///\EFFECT_DEX_MAX determines bonus from DEX mutation
         if (dex_max <= 6) {
             dex_max = 8;
@@ -171,7 +227,7 @@ void Character::mutation_effect( const trait_id &mut )
         } else {
             dex_max = 18;
         }
-    } else if (mut == "INT_ALPHA") {
+    } else if (mut == trait_INT_ALPHA) {
         ///\EFFECT_INT_MAX determines bonus from INT mutation
         if (int_max <= 6) {
             int_max = 8;
@@ -182,10 +238,10 @@ void Character::mutation_effect( const trait_id &mut )
         } else {
             int_max = 18;
         }
-    } else if (mut == "INT_SLIME") {
+    } else if (mut == trait_INT_SLIME) {
         int_max *= 2; // Now, can you keep it? :-)
 
-    } else if (mut == "PER_ALPHA") {
+    } else if (mut == trait_PER_ALPHA) {
         ///\EFFECT_PER_MAX determines bonus from PER mutation
         if (per_max <= 6) {
             per_max = 8;
@@ -244,7 +300,7 @@ void Character::mutation_loss_effect( const trait_id &mut )
     if( mut == "GLASSJAW" ) {
         recalc_hp();
 
-    } else if (mut == "STR_ALPHA") {
+    } else if (mut == trait_STR_ALPHA) {
         ///\EFFECT_STR_MAX determines penalty from STR mutation loss
         if (str_max == 18) {
             str_max = 15;
@@ -256,7 +312,7 @@ void Character::mutation_loss_effect( const trait_id &mut )
             str_max = 4;
         }
         recalc_hp();
-    } else if (mut == "DEX_ALPHA") {
+    } else if (mut == trait_DEX_ALPHA) {
         ///\EFFECT_DEX_MAX determines penalty from DEX mutation loss
         if (dex_max == 18) {
             dex_max = 15;
@@ -267,7 +323,7 @@ void Character::mutation_loss_effect( const trait_id &mut )
         } else {
             dex_max = 4;
         }
-    } else if (mut == "INT_ALPHA") {
+    } else if (mut == trait_INT_ALPHA) {
         ///\EFFECT_INT_MAX determines penalty from INT mutation loss
         if (int_max == 18) {
             int_max = 15;
@@ -278,10 +334,10 @@ void Character::mutation_loss_effect( const trait_id &mut )
         } else {
             int_max = 4;
         }
-    } else if (mut == "INT_SLIME") {
+    } else if (mut == trait_INT_SLIME) {
         int_max /= 2; // In case you have a freak accident with the debug menu ;-)
 
-    } else if (mut == "PER_ALPHA") {
+    } else if (mut == trait_PER_ALPHA) {
         ///\EFFECT_PER_MAX determines penalty from PER mutation loss
         if (per_max == 18) {
             per_max = 15;
@@ -348,7 +404,7 @@ void player::activate_mutation( const trait_id &mut )
         recalc_sight_limits();
     }
 
-    if( mut == "WEB_WEAVER" ) {
+    if( mut == trait_WEB_WEAVER ) {
         g->m.add_field(pos(), fd_web, 1, 0);
         add_msg_if_player(_("You start spinning web with your spinnerets!"));
     } else if( mut == "WEB_ROPE" ) {
@@ -394,7 +450,7 @@ void player::activate_mutation( const trait_id &mut )
                           g->m.tername(dirp).c_str());
         tdata.powered = false;
         return; // handled when the activity finishes
-    } else if (mut == "SLIMESPAWNER") {
+    } else if( mut == trait_SLIMESPAWNER ) {
         std::vector<tripoint> valid;
         for (int x = posx() - 1; x <= posx() + 1; x++) {
             for (int y = posy() - 1; y <= posy() + 1; y++) {
@@ -431,15 +487,15 @@ void player::activate_mutation( const trait_id &mut )
         }
         tdata.powered = false;
         return;
-    } else if ((mut == "NAUSEA") || (mut == "VOMITOUS") ){
+    } else if( mut == trait_NAUSEA || mut == trait_VOMITOUS ) {
         vomit();
         tdata.powered = false;
         return;
-    } else if (mut == "M_FERTILE"){
+    } else if( mut == trait_M_FERTILE ) {
         spores();
         tdata.powered = false;
         return;
-    } else if (mut == "M_BLOOM"){
+    } else if( mut == trait_M_BLOOM ) {
         blossoms();
         tdata.powered = false;
         return;
@@ -458,7 +514,7 @@ void player::activate_mutation( const trait_id &mut )
         }
         tdata.powered = false;
         return;
-    } else if( mut == "SELFAWARE" ) {
+    } else if( mut == trait_SELFAWARE ) {
         print_health();
         tdata.powered = false;
         return;
@@ -536,7 +592,7 @@ void player::mutate()
 {
     bool force_bad = one_in(3);
     bool force_good = false;
-    if (has_trait("ROBUST") && force_bad) {
+    if (has_trait( trait_ROBUST ) && force_bad) {
         // Robust Genetics gives you a 33% chance for a good mutation,
         // instead of the 33% chance of a bad one.
         force_bad = false;
@@ -685,7 +741,7 @@ void player::mutate_category( const std::string &cat )
 {
     bool force_bad = one_in(3);
     bool force_good = false;
-    if (has_trait("ROBUST") && force_bad) {
+    if (has_trait( trait_ROBUST ) && force_bad) {
         // Robust Genetics gives you a 33% chance for a good mutation,
         // instead of the 33% chance of a bad one.
         force_bad = false;
