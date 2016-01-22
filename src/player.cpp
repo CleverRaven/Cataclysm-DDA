@@ -10484,15 +10484,14 @@ bool player::can_wield( const item &it, bool alert ) const
                 add_msg( m_info, _("The %s can't be wielded with only one arm."), it.tname().c_str() );
             }
             if( worn_with_flag("RESTRICT_HANDS") ) {
-                add_msg( m_info, _("Something you are wearing hinders the use of both hands.");
-            }
+                add_msg( m_info, _("Something you are wearing hinders the use of both hands."));
         } else {
             if( alert ) {
                 add_msg( m_info, _("You are too weak to wield %s with only one arm."),
                          it.tname().c_str() );
             }
             if( worn_with_flag("RESTRICT_HANDS") ) {
-                add_msg( m_info, _("Something you are wearing hinders the use of both hands.");
+                add_msg( m_info, _("Something you are wearing hinders the use of both hands."));
             }
         }
         return false;
