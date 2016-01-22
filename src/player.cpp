@@ -341,7 +341,6 @@ static const trait_id trait_RADIOGENIC( "RADIOGENIC" );
 static const trait_id trait_RAP_TALONS( "RAP_TALONS" );
 static const trait_id trait_REGEN( "REGEN" );
 static const trait_id trait_REGEN_LIZ( "REGEN_LIZ" );
-static const trait_id trait_ROOTS( "ROOTS" );
 static const trait_id trait_ROOTS2( "ROOTS2" );
 static const trait_id trait_ROOTS3( "ROOTS3" );
 static const trait_id trait_ROT2( "ROT2" );

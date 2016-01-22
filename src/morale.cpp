@@ -225,7 +225,7 @@ player_morale::player_morale() :
                                      std::bind( set_stylish, _1, true ),
                                      std::bind( set_stylish, _1, false ) );
     mutations[trait_id( "FLOWERS" )]       = mutation_data( update_constrained );
-    mutations[trait_id( "ROOTS" )]         = mutation_data( update_constrained );
+    mutations[trait_id( "ROOTS1" )]         = mutation_data( update_constrained );
     mutations[trait_id( "ROOTS2" )]        = mutation_data( update_constrained );
     mutations[trait_id( "ROOTS3" )]        = mutation_data( update_constrained );
     mutations[trait_id( "MASOCHIST" )]     = mutation_data( update_masochist );
@@ -697,7 +697,7 @@ void player_morale::update_constrained_penalty()
     if( has_mutation( trait_id( "FLOWERS" ) ) ) {
         pen += bp_pen( bp_head, 10 );
     }
-    if( has_mutation( trait_id( "ROOTS" ) ) || has_mutation( trait_id( "ROOTS2" ) ) || has_mutation( trait_id( "ROOTS3" ) ) ) {
+    if( has_mutation( trait_id( "ROOTS1" ) ) || has_mutation( trait_id( "ROOTS2" ) ) || has_mutation( trait_id( "ROOTS3" ) ) ) {
         pen += bp_pen( bp_foot_l, 5 );
         pen += bp_pen( bp_foot_r, 5 );
     }
