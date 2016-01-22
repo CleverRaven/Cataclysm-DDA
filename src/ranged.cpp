@@ -891,9 +891,9 @@ std::vector<tripoint> game::target( tripoint &p, const tripoint &low, const trip
         // Weapons with <120 s_d can be aimed 'carefully'
         // All other weapons can only be 'aimed'
         std::vector<int> th = {
-            floor( ( (float)( MIN_RECOIL - sight_dispersion ) * 2 / 3 + sight_dispersion ) / th_step ) * th_step,
-            floor( ( (float)( MIN_RECOIL - sight_dispersion ) / 3 + sight_dispersion ) / th_step ) * th_step,
-            floor( sight_dispersion / th_step ) * th_step };
+            (int) floor( ( ( MIN_RECOIL - sight_dispersion ) * 2 / 3 + sight_dispersion ) / th_step ) * th_step,
+            (int) floor( ( ( MIN_RECOIL - sight_dispersion ) / 3 + sight_dispersion ) / th_step ) * th_step,
+            (int) floor( sight_dispersion / th_step ) * th_step };
         std::vector<int>::iterator th_it;
         // Remove duplicate thresholds.
         th_it = std::adjacent_find( th.begin(), th.end() );
@@ -1024,7 +1024,6 @@ std::vector<tripoint> game::target( tripoint &p, const tripoint &low, const trip
             int predicted_recoil = u.recoil;
             int predicted_delay = 0;
             if( aim_mode->has_threshold && aim_mode->threshold < u.recoil ) {
-                int sight_dispersion = u.weapon.sight_dispersion( -1 );
                 do{
                     const int aim_amount = u.aim_per_time( &u.weapon, predicted_recoil );
                     if( aim_amount > 0 ) {
@@ -1032,7 +1031,7 @@ std::vector<tripoint> game::target( tripoint &p, const tripoint &low, const trip
                         predicted_recoil = std::max( predicted_recoil - aim_amount , 0);
                     }
                 } while( predicted_recoil > aim_mode->threshold &&
-                          predicted_recoil - u.weapon.sight_dispersion( -1 ) > 0 );
+                          predicted_recoil - sight_dispersion > 0 );
             } else {
                 predicted_recoil = u.recoil;
             }
@@ -1140,20 +1139,20 @@ std::vector<tripoint> game::target( tripoint &p, const tripoint &low, const trip
                 }
             }
             if( it == aim_types.end() ) {
-                debugmsg( "Could not find a valid aim_type for %s", action );
-                aim_mode == aim_types.begin();
+                debugmsg( "Could not find a valid aim_type for %s", action.c_str() );
+                aim_mode = aim_types.begin();
             }
             aim_threshold = it->threshold;
             do {
                 do_aim( &u, t, target, relevant, p );
             } while( target != -1 && u.moves > 0 && u.recoil > aim_threshold &&
-                     u.recoil - u.weapon.sight_dispersion( -1 ) > 0 );
+                     u.recoil - sight_dispersion > 0 );
             if( target == -1 ) {
                 // Bail out if there's no target.
                 continue;
             }
             if( u.recoil <= aim_threshold ||
-                u.recoil - u.weapon.sight_dispersion( -1 ) == 0) {
+                u.recoil - sight_dispersion == 0) {
                 // If we made it under the aim threshold, go ahead and fire.
                 // Also fire if we're at our best aim level already.
                 werase( w_target );
