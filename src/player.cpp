@@ -4279,8 +4279,9 @@ bool player::sight_impaired() const
 bool player::has_two_arms() const
 {
  if ((has_bionic("bio_blaster") || hp_cur[hp_arm_l] < 10 || hp_cur[hp_arm_r] < 10) ||
-   has_active_mutation("SHELL2")) {
+   has_active_mutation("SHELL2") || worn_with_flag("RESTRICT_HANDS")) {
     // You can't effectively use both arms to wield something when they're in your shell
+    // Some worn items may restrict use of a hand
     return false;
  }
  return true;
@@ -10498,9 +10499,17 @@ bool player::can_wield( const item &it, bool alert ) const
             if( alert ) {
                 add_msg( m_info, _("The %s can't be wielded with only one arm."), it.tname().c_str() );
             }
+            if( worn_with_flag("RESTRICT_HANDS") ) {
+                add_msg( m_info, _("The %s you are wearing hinders the use of both hands."),
+                         it.tname().c_str() );
+            }
         } else {
             if( alert ) {
                 add_msg( m_info, _("You are too weak to wield %s with only one arm."),
+                         it.tname().c_str() );
+            }
+            if( worn_with_flag("RESTRICT_HANDS") ) {
+                add_msg( m_info, _("The %s you are wearing hinders the use of both hands."),
                          it.tname().c_str() );
             }
         }
@@ -10766,6 +10775,11 @@ hint_rating player::rate_action_wear( const item &it ) const
         }
     }
 
+    // Check if we have a hand free to wear a briefcase or shield, including if we're already wearing such a thing.
+    if (it.has_flag("RESTRICT_HANDS") &&  !has_two_arms()) {
+        return HINT_IFFY;
+    }
+
     // Make sure we're not wearing 2 of the item already
     int count = 0;
     for (auto &i : worn) {
@@ -11015,12 +11029,21 @@ bool player::wear_item( const item &to_wear, bool interactive )
         }
     }
 
+    // Check if we don't have both hands available before wearing a briefcase, shield, etc. Also occurs if we're already wearing one.
+    if (to_wear.has_flag("RESTRICT_HANDS") && !has_two_arms()) {
+        if(interactive) {
+            add_msg_if_player(m_info, _("You don't have a hand free to wear an %s")),
+                    to_wear.type_name().c_str();
+        }
+        return false;
+    }
+
     // Make sure we're not wearing 2 of the item already
     int count = amount_worn(to_wear.typeId());
     if (count == MAX_WORN_PER_TYPE) {
         if(interactive) {
             add_msg_if_player(m_info, _("You can't wear more than two %s at once."),
-                    to_wear.tname(count).c_str());
+                        to_wear.tname(count).c_str());
         }
         return false;
     }
