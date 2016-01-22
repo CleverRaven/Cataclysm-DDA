@@ -11622,6 +11622,22 @@ void game::unload( item &it )
         return;
     }
 
+    // Handle magazines as a special case
+    if( target->is_magazine() ) {
+        // Remove all contained ammo consuming half as much time as required to load the magazine
+        target->contents.erase( std::remove_if( target->contents.begin(), target->contents.end(), [&]( item& e ) {
+            int unload_time = target->type->magazine->reload_time * e.charges / 2;
+            if( !add_or_drop_with_msg( u, e ) ) {
+                return false;
+            }
+            u.moves -= unload_time;
+            return true;
+        } ), it.contents.end() );
+
+        add_msg( _( "You unload your %s." ), target->tname().c_str() );
+        return;
+    }
+
     // By default we remove all remaining ammo
     long qty = target->ammo_remaining();
 
