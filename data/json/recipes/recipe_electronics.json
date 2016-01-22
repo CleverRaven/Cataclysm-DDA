@@ -821,31 +821,6 @@
   ]
 },{
   "type" : "recipe",
-  "result": "veh_tracker",
-  "category": "CC_ELECTRONIC",
-  "subcategory": "CSC_ELECTRONIC_PARTS",
-  "skill_used": "electronics",
-  "difficulty": 4,
-  "time": 30000,
-  "reversible": true,
-  "decomp_learn": 4,
-  "autolearn": false,
-  "book_learn": [[ "mag_electronics", 2 ] , [ "textbook_anarch", 4 ]],
-  "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
-  "tools": [
-    [
-      [ "soldering_iron", 14 ],
-      [ "toolset", 14 ]
-    ]
-  ],
-  "components": [
-    [ [ "amplifier", 1 ] ],
-    [ [ "transponder", 1 ] ],
-    [ [ "scrap", 5 ] ],
-    [ [ "cable", 10 ] ]
-  ]
-},{
-  "type" : "recipe",
   "result": "beeper",
   "category": "CC_ELECTRONIC",
   "subcategory": "CSC_ELECTRONIC_PARTS",
