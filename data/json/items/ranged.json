@@ -535,10 +535,12 @@
     "aim_speed" : 4,
     "recoil": 90,
     "durability": 6,
-    "clip_size": 15,
+    "clip_size": 0,
     "reload": 300,
     "loudness" : 150,
-    "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
+    "magazines": [ "glockmag" ],
+    "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
+    "default_mods": [ "glockmag" ]
   },
   {
     "id": "usp_9mm",
@@ -1023,10 +1025,12 @@
     "aim_speed" : 4,
     "recoil": 120,
     "durability": 9,
-    "clip_size": 12,
+    "clip_size": 0,
     "reload": 350,
     "loudness" : 150,
-    "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
+    "magazines" : [ "usp45mag" ],
+    "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
+    "default_mods": [ "usp45mag" ]
   },
   {
     "id": "surv_hand_cannon",
@@ -1917,7 +1921,7 @@
     "color": "dark_gray",
     "name": "Cx4 Storm",
     "name_plural": "Cx4 Storm",
-    "description": "A small pistol caliber carbine designed for police use and civilian self-defense, the CX4 Storm uses magazines that are interchangeable with handguns of the same series.",
+    "description": "A small pistol caliber carbine designed for police use and civilian self-defense, the CX4 Storm uses magazines that are interchangeable with handguns from the Glock series.",
     "price": 90000,
     "material": ["steel", "plastic"],
     "skill": "rifle",
@@ -1933,11 +1937,13 @@
     "aim_speed" : 5,
     "recoil": -15,
     "durability": 10,
-    "clip_size": 15,
+    "clip_size": 0,
     "reload": 300,
     "loudness" : 150,
     "barrel_length" : 1,
-    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
+    "magazines": [ "glockmag" ],
+    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
+    "default_mods": [ "glockmag" ]
   },
   {
     "id": "browning_blr",
