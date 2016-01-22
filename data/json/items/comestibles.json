@@ -9211,7 +9211,6 @@
         "material" : "null",
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 1,
         "fun" : 7
     },
@@ -9237,7 +9236,6 @@
         "material" : "flesh",
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 1,
         "fun" : 7
     },
@@ -9266,7 +9264,6 @@
         "material" : "hflesh",
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 1,
         "fun" : -60
     },
@@ -9294,7 +9291,6 @@
         "material" : "hflesh",
         "tool" : "null",
         "volume" : 8,
-        "phase" : "solid",
         "charges" : 1,
         "fun" : -20
     },
@@ -9322,7 +9318,6 @@
         "material" : "hflesh",
         "tool" : "null",
         "volume" : 20,
-        "phase" : "solid",
         "charges" : 1,
         "fun" : -20
     },
@@ -9347,7 +9342,6 @@
         "material" : "egg",
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 1,
         "fun" : -10
     },
@@ -9372,7 +9366,6 @@
         "material" : "egg",
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 1,
         "fun" : -20
     },
@@ -9399,7 +9392,6 @@
         "material" : "fruit",
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 1,
         "stack_size" : 4,
         "fun" : 30
@@ -9427,7 +9419,6 @@
         "material" : "fruit",
         "tool" : "null",
         "volume" : 0,
-        "phase" : "solid",
         "charges" : 1,
         "stack_size" : 10,
         "fun" : 30,
@@ -9460,7 +9451,6 @@
         "material" : "fruit",
         "tool" : "null",
         "volume" : 0,
-        "phase" : "solid",
         "charges" : 1,
         "stack_size" : 10,
         "fun" : 30
@@ -9488,7 +9478,6 @@
         "material" : "fruit",
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 1,
         "stack_size" : 4,
         "fun" : 30
@@ -9515,7 +9504,6 @@
         "material" : ["wheat", "powder"],
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 10,
         "fun" : -5
     },
@@ -9540,7 +9528,6 @@
         "material" : "powder",
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 12,
         "fun" : -5
     },
@@ -9565,7 +9552,6 @@
         "material" : "wheat",
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 16,
         "fun" : -2
     },
@@ -9591,7 +9577,6 @@
         "material" : "wheat",
         "tool" : "null",
         "volume" : 4,
-        "phase" : "solid",
         "charges" : 4,
         "fun" : -10
     },
@@ -9642,7 +9627,6 @@
         "material" : "veggy",
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 8,
         "fun" : -6
     },
@@ -9668,7 +9652,6 @@
         "material" : "veggy",
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 1,
         "flags" : ["EATEN_HOT"],
         "fun" : 1
@@ -9695,7 +9678,6 @@
         "material" : ["veggy", "flesh"],
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 4, "//" : "One beans + one protein/veg = 2 servings",
         "flags" : ["EATEN_HOT"],
         "fun" : 4
@@ -9722,7 +9704,6 @@
         "material" : "veggy",
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 4, "//" : "One beans + one protein/veg = 2 servings",
         "flags" : ["EATEN_HOT"],
         "fun" : 4
@@ -9749,7 +9730,6 @@
         "material" : "veggy",
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 16,
         "fun" : -5
     },
@@ -9775,7 +9755,6 @@
         "material" : "veggy",
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 1,
         "flags" : ["EATEN_HOT"],
         "fun" : 2
@@ -9802,7 +9781,6 @@
         "material" : ["veggy", "flesh"],
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 4, "//" : "One rice + one protein/veg = 2 servings",
         "flags" : ["EATEN_HOT"],
         "fun" : 5
@@ -9829,7 +9807,6 @@
         "material" : "veggy",
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 4,
         "flags" : ["EATEN_HOT"],
         "fun" : 5
@@ -9856,7 +9833,6 @@
         "material" : "veggy",
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 4,
         "flags" : ["EATEN_HOT"],
         "fun" : 2
@@ -9883,7 +9859,6 @@
         "material" : ["veggy", "flesh"],
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 6,
         "flags" : ["EATEN_HOT"],
         "fun" : 4
@@ -9910,7 +9885,6 @@
         "material" : "veggy",
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 6,
         "flags" : ["EATEN_HOT"],
         "fun" : 4
@@ -9936,7 +9910,6 @@
         "material" : "wheat",
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 1,
         "flags" : ["EATEN_HOT"],
         "fun" : 2
@@ -9962,7 +9935,6 @@
         "material" : "wheat",
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 2,
         "flags" : ["EATEN_HOT"],
         "fun" : 3
@@ -9989,7 +9961,6 @@
         "material" : "powder",
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 8,
         "fun" : 1
     },
@@ -10015,7 +9986,6 @@
         "material" : "powder",
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 8,
         "fun" : -12
     },
@@ -10040,7 +10010,6 @@
         "material" : "powder",
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 25,
         "fun" : -10
     },
@@ -10065,7 +10034,6 @@
         "material" : "powder",
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 4,
         "fun" : -10
     },
@@ -10091,7 +10059,6 @@
         "material" : "powder",
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 4,
         "fun" : -10
     },
@@ -10117,7 +10084,6 @@
         "material" : "powder",
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 4,
         "fun" : -10
     },
@@ -10143,7 +10109,6 @@
         "material" : "powder",
         "tool" : "null",
         "volume" : 0,
-        "phase" : "solid",
         "charges" : 100,
         "fun" : -1
     },
@@ -10169,7 +10134,6 @@
         "material" : "veggy",
         "tool" : "null",
         "volume" : 0,
-        "phase" : "solid",
         "charges" : 20,
         "stack_size" : 100,
         "fun" : -1
@@ -10251,7 +10215,6 @@
         "material" : "null",
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 2,
         "fun" : -20
     },
@@ -10278,7 +10241,6 @@
         "tool" : "null",
         "volume" : 1,
         "charges" : 1,
-        "phase" : "solid",
         "fun" : 0
     },
     {
@@ -10303,7 +10265,6 @@
         "material" : "powder",
         "tool" : "null",
         "volume" : 0,
-        "phase" : "solid",
         "charges" : 100,
         "fun" : -5
     },
@@ -10329,7 +10290,6 @@
         "material" : "powder",
         "tool" : "null",
         "volume" : 0,
-        "phase" : "solid",
         "charges" : 100,
         "fun" : -5
     },
@@ -10355,7 +10315,6 @@
         "material" : "powder",
         "tool" : "null",
         "volume" : 0,
-        "phase" : "solid",
         "charges" : 100,
         "fun" : -5
     },
@@ -10381,7 +10340,6 @@
         "material" : [ "powder", "egg" ],
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 100,
         "fun" : -4
     },
@@ -10407,7 +10365,6 @@
         "material" : "egg",
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 2,
         "flags" : ["EATEN_HOT"],
         "fun" : 3
@@ -10434,7 +10391,6 @@
         "material" : ["egg", "flesh"],
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 3,
         "flags" : ["EATEN_HOT"],
         "fun" : 4
@@ -10461,7 +10417,6 @@
         "material" : "egg",
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 1,
         "fun" : 2
     },
@@ -10487,7 +10442,6 @@
         "material" : "flesh",
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 8,
         "flags" : ["EATEN_HOT"],
         "fun" : 5
@@ -10514,7 +10468,6 @@
         "material" : "veggy",
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 1,
         "fun" : -3
     },
@@ -10539,7 +10492,6 @@
         "material" : "veggy",
         "tool" : "null",
         "volume" : 12,
-        "phase" : "solid",
         "charges" : 8,
         "bashing" : 2,
         "fun" : -1
@@ -10564,7 +10516,6 @@
         "material" : "veggy",
         "tool" : "null",
         "volume" : 12,
-        "phase" : "solid",
         "charges" : 8,
         "bashing" : 2,
         "fun" : -1
@@ -10590,7 +10541,6 @@
         "material" : "veggy",
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 1,
         "fun" : -1,
         "seed_data": {
@@ -10647,7 +10597,6 @@
         "material" : "veggy",
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 1,
         "fun" : -3
     },
@@ -10673,7 +10622,6 @@
         "material" : "veggy",
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 1,
         "flags" : ["EATEN_HOT"],
         "fun" : 3
@@ -10699,7 +10647,6 @@
         "material" : "veggy",
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 1,
         "fun" : 0
     },
@@ -10724,7 +10671,6 @@
         "material" : "wheat",
         "tool" : "null",
         "volume" : 2,
-        "phase" : "solid",
         "charges" : 6,
         "flags" : ["EATEN_HOT"],
         "fun" : 0
@@ -10750,7 +10696,6 @@
         "material" : "wheat",
         "tool" : "null",
         "volume" : 3,
-        "phase" : "solid",
         "charges" : 8,
         "flags" : ["EATEN_HOT"],
         "fun" : 1
@@ -10776,7 +10721,6 @@
         "material" : "veggy",
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 4,
         "flags" : ["EATEN_HOT"],
         "fun" : 2
@@ -10802,7 +10746,6 @@
         "material" : "veggy",
         "tool" : "null",
         "volume" : 3,
-        "phase" : "solid",
         "charges" : 6,
         "flags" : ["EATEN_HOT"],
         "fun" : 1
@@ -10826,7 +10769,6 @@
         "material" : ["milk"],
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 2,
         "flags" : ["EATEN_HOT"],
         "fun" : 6
@@ -10852,7 +10794,6 @@
         "material" : "wheat",
         "tool" : "null",
         "volume" : 3,
-        "phase" : "solid",
         "charges" : 8,
         "flags" : ["EATEN_HOT"],
         "fun" : 15
@@ -10878,7 +10819,6 @@
         "material" : "veggy",
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 4,
         "flags" : ["EATEN_HOT"],
         "fun" : 2
@@ -10905,7 +10845,6 @@
         "material" : "wheat",
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 4,
         "flags" : ["EATEN_HOT"],
         "fun" : 3
@@ -10932,7 +10871,6 @@
         "material" : ["wheat", "fruit"],
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 4,
         "flags" : ["EATEN_HOT"],
         "fun" : 3
@@ -10959,7 +10897,6 @@
         "material" : ["wheat", "junk"],
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 4,
         "flags" : ["EATEN_HOT"],
         "fun" : 6
@@ -10986,7 +10923,6 @@
         "material" : [ "wheat", "milk", "egg" ],
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 2,
         "flags" : ["EATEN_HOT"],
         "fun" : 8
@@ -11012,7 +10948,6 @@
         "material" : "wheat",
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 4,
         "flags" : ["EATEN_HOT"],
         "fun" : 5
@@ -11038,7 +10973,6 @@
         "material" : ["wheat", "fruit"],
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 4,
         "flags" : ["EATEN_HOT"],
         "fun" : 6
@@ -11064,7 +10998,6 @@
         "material" : ["wheat", "junk"],
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 4,
         "flags" : ["EATEN_HOT"],
         "fun" : 12
@@ -11090,7 +11023,6 @@
         "material" : "wheat",
         "tool" : "null",
         "volume" : 3,
-        "phase" : "solid",
         "charges" : 8,
         "fun" : 2
     },
@@ -11115,7 +11047,6 @@
         "material" : ["wheat", "junk"],
         "tool" : "null",
         "volume" : 3,
-        "phase" : "solid",
         "charges" : 8,
         "fun" : 2
     },
@@ -11140,7 +11071,6 @@
         "material" : ["wheat", "junk"],
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 4,
         "stack_size" : 20,
         "fun" : 7
@@ -11218,7 +11148,6 @@
         "material" : "wheat",
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 8,
         "stack_size" : 20,
         "fun" : -1
@@ -11244,7 +11173,6 @@
         "material" : "wheat",
         "tool" : "null",
         "volume" : 4,
-        "phase" : "solid",
         "charges" : 8,
         "flags" : ["EATEN_HOT"],
         "fun" : 1
@@ -11270,7 +11198,6 @@
         "material" : ["wheat", "fruit"],
         "tool" : "null",
         "volume" : 5,
-        "phase" : "solid",
         "charges" : 6,
         "flags" : ["EATEN_HOT"],
         "fun" : 3
@@ -11296,7 +11223,6 @@
         "material" : ["wheat", "veggy"],
         "tool" : "null",
         "volume" : 5,
-        "phase" : "solid",
         "charges" : 6,
         "flags" : ["EATEN_HOT"],
         "fun" : 3
@@ -11322,7 +11248,6 @@
         "material" : ["wheat", "flesh"],
         "tool" : "null",
         "volume" : 5,
-        "phase" : "solid",
         "charges" : 6,
         "flags" : ["EATEN_HOT"],
         "fun" : 3
@@ -11348,7 +11273,6 @@
         "material" : ["wheat", "hflesh"],
         "tool" : "null",
         "volume" : 5,
-        "phase" : "solid",
         "charges" : 6,
         "flags" : ["EATEN_HOT"],
         "fun" : 3
@@ -11374,7 +11298,6 @@
         "material" : ["wheat", "veggy"],
         "tool" : "null",
         "volume" : 8,
-        "phase" : "solid",
         "charges" : 4,
         "flags" : ["EATEN_HOT"],
         "fun" : 10
@@ -11400,7 +11323,6 @@
         "material" : ["wheat", "milk"],
         "tool" : "null",
         "volume" : 8,
-        "phase" : "solid",
         "charges" : 4,
         "flags" : ["EATEN_HOT"],
         "fun" : 10
@@ -11426,7 +11348,6 @@
         "material" : ["wheat", "flesh"],
         "tool" : "null",
         "volume" : 8,
-        "phase" : "solid",
         "charges" : 4,
         "flags" : ["EATEN_HOT"],
         "fun" : 10
@@ -11452,7 +11373,6 @@
         "material" : ["wheat", "hflesh"],
         "tool" : "null",
         "volume" : 8,
-        "phase" : "solid",
         "charges" : 4,
         "flags" : ["EATEN_HOT"],
         "fun" : 10
@@ -11478,7 +11398,6 @@
         "material" : "flesh",
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 4,
         "flags" : ["EATEN_HOT"],
         "fun" : -1
@@ -11504,7 +11423,6 @@
         "material" : "veggy",
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 4,
         "flags" : ["EATEN_HOT"],
         "fun" : -1
@@ -11530,7 +11448,6 @@
         "material" : "flesh",
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 4,
         "flags" : ["EATEN_HOT"],
         "fun" : -1
@@ -11556,7 +11473,6 @@
         "material" : ["flesh", "junk"],
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 4,
         "flags" : ["EATEN_HOT"],
         "fun" : -6
@@ -11582,7 +11498,6 @@
         "material" : ["flesh", "wheat"],
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 4,
         "flags" : ["EATEN_HOT"],
         "fun" : 1
@@ -11610,7 +11525,6 @@
         "material" : "null",
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 20,
         "fun" : -1
     },
@@ -11637,7 +11551,6 @@
         "material" : "null",
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 20,
         "fun" : -5
     },
@@ -11662,7 +11575,6 @@
         "material" : [ "powder", "milk" ],
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 10,
         "fun" : -5
     },
@@ -11714,7 +11626,6 @@
         "material" : ["wheat", "junk"],
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 1,
         "fun" : 20
     },
@@ -11739,7 +11650,6 @@
         "material" : ["wheat", "junk"],
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 1,
         "fun" : 20
     },
@@ -11764,7 +11674,6 @@
         "material" : ["wheat", "junk"],
         "tool" : "null",
         "volume" : 3,
-        "phase" : "solid",
         "charges" : 1,
         "fun" : 30
     },
@@ -11789,7 +11698,6 @@
         "material" : "flesh",
         "tool" : "null",
         "volume" : 2,
-        "phase" : "solid",
         "charges" : 1,
         "fun" : 2
     },
@@ -11815,7 +11723,6 @@
         "material" : "veggy",
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 1,
         "fun" : 0
     },
@@ -11841,7 +11748,6 @@
         "material" : "fruit",
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 1,
         "fun" : 1
     },
@@ -11867,7 +11773,6 @@
         "material" : "hflesh",
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 1,
         "fun" : 2
     },
@@ -11892,7 +11797,6 @@
         "material" : "flesh",
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 2,
         "fun" : 2
     },
@@ -11917,7 +11821,6 @@
         "material" : "hflesh",
         "tool" : "null",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 2,
         "fun" : 2
     },
