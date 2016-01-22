@@ -3788,6 +3788,29 @@
   ]
 },{
   "type" : "recipe",
+  "result": "chemistry_set_basic",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_TOOLS",
+  "skill_used" : "fabrication",
+  "skills_required" : ["cooking", 2],
+  "difficulty" : 2,
+  "time": 5000,
+  "reversible": true,
+  "decomp_learn": 2,
+  "autolearn": false,
+  "flags": ["BLIND_EASY"],
+  "book_learn": [["adv_chemistry", 1] , ["textbook_chemistry", 1]],
+  "components": [
+    [ ["glasses_safety", 1] ],
+    [ ["hose", 3] ],
+    [
+      ["flask_glass", 4],
+      ["jar_glass", 4],
+      ["bottle_glass", 4]
+    ]
+  ]
+},{
+  "type" : "recipe",
   "result": "chemistry_set",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TOOLS",
@@ -3796,7 +3819,9 @@
   "difficulty" : 2,
   "time": 5000,
   "reversible": true,
+  "decomp_learn": 2,
   "autolearn": false,
+  "flags": ["BLIND_EASY"],
   "book_learn": [["adv_chemistry", 1] , ["textbook_chemistry", 1]],
   "components": [
     [
@@ -3814,6 +3839,7 @@
     ],
     [
       ["flask_glass", 4],
+      ["jar_glass", 4],
       ["bottle_glass", 4]
     ],
     [

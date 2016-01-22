@@ -7978,7 +7978,21 @@
     "revert_to": "null",
     "ammo": "NULL"
   },
-
+  {
+    "id": "chemistry_set_basic",
+    "type": "GENERIC",
+    "color": "light_gray",
+    "symbol": ";",
+    "name": "basic chemistry set",
+    "description": "This is a basic chemistry set which includes glass containers, hoses and safety glasses.  It might be used to craft some chemistry projects if you're so inclined, but you'll need a source of heat.",
+    "price": 3200,
+    "material": ["glass", "cotton"],
+    "weight": 1884,
+    "volume": 11,
+    "to_hit": -5,
+    "bashing": -8,
+    "qualities":[["BREW", 1], ["CHEM", 2]]
+  },
   {
     "id": "chemistry_set",
     "sub": "hotplate",
