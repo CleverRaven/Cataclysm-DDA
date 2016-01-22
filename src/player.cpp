@@ -11388,11 +11388,16 @@ hint_rating player::rate_action_reload( const item &it ) const
         }
     }
 
-    // Now check the base item
-    if( it.ammo_capacity() <= 0 ||
-        it.ammo_type() == "NULL" ||
-        it.has_flag( "NO_RELOAD" ) ||
-        it.has_flag( "RELOAD_AND_SHOOT" ) ) {
+    if( it.has_flag( "NO_RELOAD" ) || it.has_flag( "RELOAD_AND_SHOOT" ) ) {
+        return res;
+    }
+
+    // if item uses detachable magazines do we already have one loaded?
+    if( !it.magazine_integral() ) {
+        return it.magazine_current() ? HINT_IFFY : HINT_GOOD;
+    }
+
+    if( it.ammo_capacity() <= 0 || it.ammo_type() == "NULL" ) {
         return res;
     }
 

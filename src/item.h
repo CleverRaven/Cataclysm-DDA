@@ -1086,6 +1086,23 @@ public:
          * ammo type can not be reloaded.
          */
         ammotype ammo_type() const;
+
+        /** Does item have an integral magazine (as opposed to allowing detachable magazines) */
+        bool magazine_integral() const;
+
+        /** Whether the specified magazine is comaptible with this item
+         *  @return magazine compatibility which is always false if item has integral magazine
+         *  @see item::magazine_integral
+         */
+        bool magazine_compatible( const itype_id& mag ) const;
+
+        /** Currently loaded magazine (if any)
+         *  @return current magazine or nullptr if either no magazine loaded or item has integral magazine
+         *  @see item::magazine_integral
+         */
+        item * magazine_current();
+        const item * magazine_current() const;
+
         /**
          * Number of charges this gun can hold. Includes effects from installed gunmods.
          * This does use the auxiliary gunmod (if any).

@@ -665,7 +665,7 @@ void Item_factory::load( islot_gun &slot, JsonObject &jo )
     slot.recoil = jo.get_int( "recoil" );
     slot.durability = jo.get_int( "durability" );
     slot.burst = jo.get_int( "burst", 0 );
-    slot.clip = jo.get_int( "clip_size" );
+    slot.clip = jo.get_int( "clip_size", 0 );
     slot.reload_time = jo.get_int( "reload" );
     slot.reload_noise = jo.get_string( "reload_noise", _ ("click.") );
     slot.reload_noise_volume = jo.get_int( "reload_noise_volume", -1 );
@@ -760,7 +760,7 @@ void Item_factory::load_tool(JsonObject &jo)
 {
     it_tool *tool_template = new it_tool();
     tool_template->ammo_id = jo.get_string("ammo");
-    tool_template->max_charges = jo.get_long("max_charges");
+    tool_template->max_charges = jo.get_long("max_charges", 0);
     tool_template->def_charges = jo.get_long("initial_charges");
     tool_template->charges_per_use = jo.get_int("charges_per_use");
     tool_template->turns_per_charge = jo.get_int("turns_per_charge");
@@ -777,7 +777,7 @@ void Item_factory::load_tool_armor(JsonObject &jo)
     it_tool *tool_template = new it_tool();
 
     tool_template->ammo_id = jo.get_string("ammo");
-    tool_template->max_charges = jo.get_int("max_charges");
+    tool_template->max_charges = jo.get_int("max_charges", 0);
     tool_template->def_charges = jo.get_int("initial_charges");
     tool_template->charges_per_use = jo.get_int("charges_per_use");
     tool_template->turns_per_charge = jo.get_int("turns_per_charge");
@@ -995,6 +995,11 @@ void Item_factory::load_basic_info(JsonObject &jo, itype *new_item_template)
     new_item_template->melee_dam = jo.get_int( "bashing", 0 );
     new_item_template->melee_cut = jo.get_int( "cutting", 0 );
     new_item_template->m_to_hit = jo.get_int( "to_hit", 0 );
+
+    JsonArray mags = jo.get_array( "magazines" );
+    while( mags.has_more() ) {
+        new_item_template->magazines.emplace( mags.next_string() );
+    }
 
     new_item_template->min_str = jo.get_int( "min_strength",     0 );
     new_item_template->min_dex = jo.get_int( "min_dexterity",    0 );

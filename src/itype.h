@@ -549,6 +549,9 @@ public:
     nc_color color = c_white; // Color on the map (color.h)
     char sym = '#';       // Symbol on the ma
 
+    /** Magazine types (if any) that can be used to reload this item */
+    std::set<itype_id> magazines;
+
     bool explode_in_fire() const
     {
         return explosion_on_fire_data.power >= 0;

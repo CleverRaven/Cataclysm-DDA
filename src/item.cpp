@@ -817,16 +817,17 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                 temp1 << "<bold>" << free_slots << "/" << ( elem ).second << "</bold> " << _( (
                             elem ).first.c_str() );
                 bool first_mods = true;
-                for( auto &_mn : contents ) {
-                    const auto mod = _mn.type->gunmod.get();
-                    if( mod->location == ( elem ).first ) { // if mod for this location
-                        if( first_mods ) {
-                            temp1 << ": ";
-                            first_mods = false;
-                        } else {
-                            temp1 << ", ";
+                for( auto &mod : contents ) {
+                    if( mod.is_gunmod() ) {
+                        if( mod.type->gunmod->location == ( elem ).first ) { // if mod for this location
+                            if( first_mods ) {
+                                temp1 << ": ";
+                                first_mods = false;
+                            } else {
+                                temp1 << ", ";
+                            }
+                            temp1 << "<stat>" << mod.tname() << "</stat>";
                         }
-                        temp1 << "<stat>" << _mn.tname() << "</stat>";
                     }
                 }
                 iternum++;
@@ -1672,17 +1673,18 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         // describe contents
         if( !contents.empty() ) {
             if( is_gun() ) { //Mods description
-                for( auto &elem : contents ) {
-                    const auto mod = elem.type->gunmod.get();
-                    temp1.str( "" );
-                    if( elem.has_flag( "IRREMOVABLE" ) ) {
-                        temp1 << _( "[Integrated]" );
+                for( const auto &mod : contents ) {
+                    if( mod.is_gunmod() ) {
+                        temp1.str( "" );
+                        if( mod.has_flag( "IRREMOVABLE" ) ) {
+                            temp1 << _( "[Integrated]" );
+                        }
+                        temp1 << _( "Mod: " ) << "<bold>" << mod.tname() << "</bold> (" << _( mod.type->gunmod->location.c_str() ) <<
+                              ")";
+                        insert_separation_line();
+                        info.push_back( iteminfo( "DESCRIPTION", temp1.str() ) );
+                        info.push_back( iteminfo( "DESCRIPTION", mod.type->description ) );
                     }
-                    temp1 << _( "Mod: " ) << "<bold>" << elem.tname() << "</bold> (" << _( mod->location.c_str() ) <<
-                          ")";
-                    insert_separation_line();
-                    info.push_back( iteminfo( "DESCRIPTION", temp1.str() ) );
-                    info.push_back( iteminfo( "DESCRIPTION", elem.type->description ) );
                 }
             } else {
                 info.push_back( iteminfo( "DESCRIPTION", contents[0].type->description ) );
@@ -3880,13 +3882,13 @@ int item::gun_range( const player *p ) const
 
 long item::ammo_remaining() const
 {
-    if( is_tool() ) {
-        return charges;
+    const item *mag = magazine_current();
+    if( mag ) {
+        return mag->ammo_remaining();
     }
 
-    if( is_gun() ) {
+    if( is_tool() || is_gun() ) {
         // includes auxiliary gunmods
-        // @todo handle magazines
         return charges;
     }
 
@@ -3905,6 +3907,11 @@ long item::ammo_capacity() const
 {
     long res = 0;
 
+    const item *mag = magazine_current();
+    if( mag ) {
+        return mag->ammo_capacity();
+    }
+
     if( is_tool() ) {
         res = type->maximum_charges();
 
@@ -3917,7 +3924,6 @@ long item::ammo_capacity() const
     }
 
     if( is_gun() ) {
-        // @todo handle magazines
         res = type->gun->clip;
 
         for( auto &e : contents ) {
@@ -3968,21 +3974,30 @@ bool item::ammo_consume( int qty ) {
         return false;
     }
 
+    item *mag = magazine_current();
+    if( mag ) {
+        return mag->ammo_consume( qty );
+    }
+
     if( qty > ammo_remaining() ) {
         return false;
     }
 
-    if( is_tool() ) {
-        charges -= qty;
-        if( charges == 0 ) {
-            unset_curammo();
+    if( is_magazine() ) {
+        while( contents.size() ) {
+            auto& e = *contents.rbegin();
+            if( qty > e.charges ) {
+                qty -= e.charges;
+                contents.pop_back();
+            } else {
+                e.charges -= qty;
+                break;
+            }
         }
         return true;
     }
 
-    if( is_gun() ) {
-        // includes auxiliary gunmods
-        // @todo handle magazines
+    if( is_tool() || is_gun() ) {
         charges -= qty;
         if( charges == 0 ) {
             unset_curammo();
@@ -3995,6 +4010,11 @@ bool item::ammo_consume( int qty ) {
 
 const itype * item::ammo_data() const
 {
+    const item *mag = magazine_current();
+    if( mag ) {
+        return mag->ammo_data();
+    }
+
     if( is_ammo() ) {
         return type;
     }
@@ -4038,6 +4058,28 @@ ammotype item::ammo_type() const
         return type->gunmod->newtype;
     }
     return "NULL";
+}
+
+bool item::magazine_integral() const {
+    return type->magazines.empty();
+}
+
+bool item::magazine_compatible( const itype_id& mag ) const
+{
+    return type->magazines.count( mag );
+}
+
+item * item::magazine_current()
+{
+    auto iter = std::find_if( contents.begin(), contents.end(), []( const item& it ) {
+        return it.is_magazine();
+    });
+    return iter != contents.end() ? &*iter : nullptr;
+}
+
+const item * item::magazine_current() const
+{
+    return const_cast<item *>(this)->magazine_current();
 }
 
 const use_function *item::get_use( const std::string &use_name ) const
@@ -4094,27 +4136,28 @@ item_location item::pick_reload_ammo( player &u, bool interactive ) const
 
     // checks if item reloadable and if so appends to either ammo_type or item_type
     auto wants_ammo = [&ammo_types,&item_types](const item& it) {
-        if( it.ammo_remaining() < it.ammo_capacity() && !it.has_flag( "NO_RELOAD" ) ) {
-            if( it.ammo_remaining() > 0 ) {
-                item_types.insert( it.ammo_current() ); // partially loaded
-            } else {
-                ammo_types.insert( it.ammo_type() ); // not loaded
+        if( !it.has_flag( "NO_RELOAD") ) {
+            if( it.magazine_integral() && it.ammo_remaining() > 0 ) {
+                if( it.ammo_remaining() < it.ammo_capacity() ) {
+                    item_types.insert( it.ammo_current() ); // detachable or integral magazine is partially loaded
+                }
+            } else if( !it.magazine_current() ) {
+                ammo_types.insert( it.ammo_type() ); // empty integral magazine or item uses detachable magazines
             }
         }
     };
 
     // consider both the item and any attached gunmods
     wants_ammo( *this );
-    std::for_each( contents.begin(), contents.end(), wants_ammo );
-
-    // magazines always use loose ammo, for guns it depends on whether the magazine is integral or detachable
-    bool use_ammo = true;
-    bool use_mags = false;
+    if( is_gun() ) {
+        std::for_each( contents.begin(), contents.end(), wants_ammo );
+    }
 
     // first check the inventory for suitable ammo
     std::vector<item_location> ammo_list;
     u.visit_items( [&]( const item& it ) {
-        if( ( it.is_ammo() && use_ammo ) || ( it.is_magazine() && use_mags ) ) {
+        // magazines always use loose ammo, for tools/guns it depends on whether detachable magazines are supported
+        if( ( it.is_ammo() && ( is_magazine() || magazine_integral() ) ) || ( it.is_magazine() && magazine_compatible( it.typeId() ) ) ) {
             if( item_types.count( it.ammo_current() ) || ammo_types.count( it.ammo_type() ) ) {
                 auto loc = item_location::on_character( u, &it );
                 ammo_list.push_back( std::move( loc ) );
@@ -4162,16 +4205,27 @@ item_location item::pick_reload_ammo( player &u, bool interactive ) const
     int i = 0;
     for( auto& e : ammo_list ) {
         const item *it = e.get_item();
-        const auto& ammo_def = *it->type->ammo;
-        std::string row = it->type->nname( it->charges ) + string_format( " (%d)", it->charges );
+        const auto curammo = it->ammo_data(); // nullptr for empty magazines
+
+        std::string row;
+        if( it->is_magazine() && curammo ) {
+            long qty = it->ammo_remaining();
+            row = string_format( "%s with %s (%d)", it->type->nname( 1 ).c_str(), curammo->nname( qty ).c_str(), qty );
+        } else {
+            row = it->display_name();
+        }
         if( utf8_width(row) < namelen ) {
             row += std::string( namelen - utf8_width(row), ' ' );
         } else {
             utf8_truncate( row, utf8_width(row) - namelen );
         }
-        row += string_format( "| %-7d | %-7d | %-7d | %-7d",
-                              ammo_def.damage, ammo_def.pierce,
-                              ammo_def.range, 100 - ammo_def.dispersion );
+
+        const auto ammo_damage     = curammo ? curammo->ammo->damage : 0;
+        const auto ammo_pierce     = curammo ? curammo->ammo->pierce : 0;
+        const auto ammo_range      = curammo ? curammo->ammo->range  : 0;
+        const auto ammo_dispersion = curammo ? 100 - curammo->ammo->dispersion : 0;
+        row += string_format( "| %-7d | %-7d | %-7d | %-7d", ammo_damage, ammo_pierce, ammo_range, ammo_dispersion );
+
         amenu.addentry( i, true, i + 'a', row );
         if( lastreload == it->type->id ) {
             amenu.selected = i;
@@ -4281,12 +4335,17 @@ bool item::reload( player &u, item_location loc )
                     target = e;
                     break;
                 } // handle everything else (gun and auxiliary gunmods)
-                if( e->ammo_type() == ammo->ammo_type() &&
-                    (!e->ammo_remaining() || e->ammo_current() == ammo->typeId()) &&
-                    e->ammo_remaining() < e->ammo_capacity() ) {
-                    qty = e->ammo_capacity() - e->ammo_remaining();
 
-                    qty = e->has_flag("RELOAD_ONE") ? 1 : e->ammo_capacity() - e->ammo_remaining();
+                if( magazine_integral() ) {
+                    if( e->ammo_type() == ammo->ammo_type() &&
+                        (!e->ammo_remaining() || e->ammo_current() == ammo->typeId()) &&
+                        e->ammo_remaining() < e->ammo_capacity() ) {
+
+                        qty = e->has_flag( "RELOAD_ONE" ) ? 1 : e->ammo_capacity() - e->ammo_remaining();
+                        target = e;
+                        break;
+                    }
+                } else if( !magazine_current() ) {
                     target = e;
                     break;
                 }
@@ -4309,6 +4368,11 @@ bool item::reload( player &u, item_location loc )
             target->contents.emplace_back( *ammo );
             target->contents.back().charges = qty;
             ammo->charges -= qty;
+
+        } else if ( !target->magazine_integral() ) {
+            target->contents.emplace_back( *ammo );
+            loc.remove_item();
+
         } else {
             target->set_curammo( *ammo );
 
@@ -5586,7 +5650,7 @@ int item::get_gun_ups_drain() const
     if( type->gun.get() != nullptr ){
         draincount += type->gun->ups_charges;
         for( auto &mod : contents ){
-            if( mod.type->gunmod->ups_charges > 0 ){
+            if( mod.is_gunmod() && mod.type->gunmod->ups_charges > 0 ){
                 draincount += mod.type->gunmod->ups_charges;
             }
         }
