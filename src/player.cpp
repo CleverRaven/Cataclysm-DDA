@@ -3383,7 +3383,7 @@ int player::print_aim_bars( WINDOW *w, int line_number, item *weapon, Creature *
     // Creature::projectile_attack() into shared methods.
     // Dodge is intentionally not accounted for.
 
-    mvwprintw(w, line_number++, 1, _("Symbols: * = Headshot + = Hit | = Glance"));
+    mvwprintw(w, line_number++, 1, _("Symbols: * = Headshot + = Hit | = Graze"));
     const double aim_level =
         predicted_recoil + driving_recoil + get_weapon_dispersion( weapon, false );
     const double range = rl_dist( pos(), target->pos() );
