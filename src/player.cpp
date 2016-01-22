@@ -13762,7 +13762,11 @@ std::string player::weapname() const
         str << weapon.type_name();
 
         if( weapon.ammo_capacity() > 0 && !weapon.has_flag( "RELOAD_AND_SHOOT" ) ) {
-            str << " (" << weapon.ammo_remaining() << "/" << weapon.ammo_capacity();
+            str << " (" << weapon.ammo_remaining();
+
+            if( !weapon.has_flag( "NO_RELOAD" ) ) {
+                str << "/" << weapon.ammo_capacity();
+            }
 
             // @todo deprecate handling of spare magazine
             int spare_mag = weapon.has_gunmod( "spare_mag" );
