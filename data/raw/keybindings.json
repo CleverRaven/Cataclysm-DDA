@@ -975,6 +975,17 @@
     },
     {
         "type" : "keybinding",
+        "id":"SWITCH_AIM",
+        "name":"Switch Aiming Mode",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"m"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
         "id":"SELECT",
         "name":"Select",
         "bindings":[

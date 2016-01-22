@@ -3375,16 +3375,17 @@ void player::disp_morale()
     delwin(w);
 }
 
-int player::print_aim_bars( WINDOW *w, int line_number, item *weapon, Creature *target )
-{
+int player::print_aim_bars( WINDOW *w, int line_number, item *weapon, Creature *target, int predicted_recoil ) {
     // Window width minus borders.
     const int window_width = getmaxx( w ) - 2;
     // This is absolute accuracy for the player.
     // TODO: push the calculations duplicated from Creature::deal_projectile_attack() and
     // Creature::projectile_attack() into shared methods.
     // Dodge is intentionally not accounted for.
+
+    mvwprintw(w, line_number++, 1, _("Symbols: * = Headshot + = Hit | = Glance"));
     const double aim_level =
-        recoil + driving_recoil + get_weapon_dispersion( weapon, false );
+        predicted_recoil + driving_recoil + get_weapon_dispersion( weapon, false );
     const double range = rl_dist( pos(), target->pos() );
     const double missed_by = aim_level * 0.00021666666666666666 * range;
     const double hit_rating = missed_by / std::max(double(get_speed()) / 80., 1.0);
@@ -3392,8 +3393,8 @@ int player::print_aim_bars( WINDOW *w, int line_number, item *weapon, Creature *
     // This simplifies the calculation greatly, that's intentional.
     const std::array<std::pair<double, char>, 3> ratings =
         {{ std::make_pair(0.1, '*'), std::make_pair(0.4, '+'), std::make_pair(0.6, '|') }};
-    const std::string confidence_label = _("Confidence: ");
-    const int confidence_width = window_width - utf8_width( confidence_label );
+    const std::string confidence_label = _("Confidence :");
+    const int confidence_width = window_width - utf8_width( confidence_label ) - 1;
     int used_width = 0;
     std::string confidence_meter;
     for( auto threshold : ratings ) {
@@ -3403,17 +3404,22 @@ int player::print_aim_bars( WINDOW *w, int line_number, item *weapon, Creature *
         used_width += confidence_meter_width;
         confidence_meter += std::string( confidence_meter_width, threshold.second );
     }
+    confidence_meter += std::string( confidence_width - used_width, ' ' );
+    confidence_meter += std::string( ":" );
     mvwprintw(w, line_number++, 1, "%s%s",
               confidence_label.c_str(), confidence_meter.c_str() );
 
     // This is a relative measure of how steady the player's aim is,
     // 0 it is the best the player can do.
-    const double steady_score = recoil - weapon->sight_dispersion( -1 );
+    const double steady_score = predicted_recoil - weapon->sight_dispersion( -1 );
     // Fairly arbitrary cap on steadiness...
     const double steadiness = std::max( 0.0, 1.0 - (steady_score / 250) );
-    const std::string steadiness_label = _("Steadiness: ");
-    const int steadiness_width = window_width - utf8_width( steadiness_label );
-    const std::string steadiness_meter = std::string( steadiness_width * steadiness, '*' );
+    const std::string steadiness_label = _("Steadiness :");
+    const int steadiness_width = window_width - utf8_width( steadiness_label ) - 1;
+    const int steadiness_meter_width = steadiness_width * steadiness;
+    std::string steadiness_meter = std::string( steadiness_meter_width, '*' );
+    steadiness_meter += std::string( steadiness_width - steadiness_meter_width, ' ' );
+    steadiness_meter += std::string( ":" );
     mvwprintw(w, line_number++, 1, "%s%s",
               steadiness_label.c_str(), steadiness_meter.c_str() );
     return line_number;
@@ -4527,7 +4533,7 @@ int player::throw_dex_mod(bool return_stat_effect) const
 // and number of moves per MOC is too slow. (fastest is one MOC/move)
 // A worst case of 1 MOC per 10 moves is acceptable, and it scales up
 // indefinitely, though the smallest unit of aim time is 10 moves.
-int player::aim_per_time( item *gun ) const
+int player::aim_per_time( item *gun, int for_recoil ) const
 {
     // Account for Dexterity, weapon skill, weapon mods and flags,
     int speed_penalty = 0;
@@ -4537,13 +4543,19 @@ int player::aim_per_time( item *gun ) const
     // Ranges from 0 - 12 after adjustment.
     speed_penalty += ranged_dex_mod() / 15;
     // Ranges from 0 - 10
-    speed_penalty += gun->aim_speed( recoil );
+    speed_penalty += gun->aim_speed( for_recoil );
     // TODO: should any conditions, mutations, etc affect this?
     // Probably CBMs too.
     int improvement_amount = std::max( 1, 32 - speed_penalty );
     // Improvement rate is capped by the max aim level of the gun sight being used.
-    return std::min( improvement_amount, recoil - gun->sight_dispersion( recoil ) );
+    return std::min( improvement_amount, for_recoil - gun->sight_dispersion( for_recoil ) );
 }
+
+int player::aim_per_time( item *gun ) const
+{
+    return aim_per_time( gun, recoil );
+}
+
 
 int player::read_speed(bool return_stat_effect) const
 {
