@@ -31,6 +31,7 @@ static const std::string category_id_drugs("drugs");
 static const std::string category_id_food("food");
 static const std::string category_id_books("books");
 static const std::string category_id_mods("mods");
+static const std::string category_id_magazines("magazines");
 static const std::string category_id_cbm("bionics");
 static const std::string category_id_mutagen("mutagen");
 static const std::string category_id_other("other");
@@ -325,7 +326,8 @@ void Item_factory::create_inital_categories()
     // (simply define a category in json with the id
     // taken from category_id_* and that definition will get
     // used - see load_item_category)
-    add_category(category_id_guns, -21, _("GUNS"));
+    add_category(category_id_guns, -22, _("GUNS"));
+    add_category(category_id_magazines, -21, _("MAGAZINES"));
     add_category(category_id_ammo, -20, _("AMMO"));
     add_category(category_id_weapons, -19, _("WEAPONS"));
     add_category(category_id_tools, -18, _("TOOLS"));
@@ -477,6 +479,18 @@ void Item_factory::check_definitions() const
             check_ammo_type( msg, type->gunmod->newtype );
             if( type->gunmod->skill_used && !type->gunmod->skill_used.is_valid() ) {
                 msg << string_format("uses invalid gunmod skill.") << "\n";
+            }
+        }
+        if( type->magazine ) {
+            check_ammo_type( msg, type->magazine->type );
+            if( type->magazine->capacity < 0 ) {
+                msg << string_format("invalid capacity %i", type->magazine->capacity) << "\n";
+            }
+            if( type->magazine->reliability < 0 || type->magazine->reliability > 100) {
+                msg << string_format("invalid reliability %i", type->magazine->reliability) << "\n";
+            }
+            if( type->magazine->reload_time < 0 ) {
+                msg << string_format("invalid reload_time %i", type->magazine->reload_time) << "\n";
             }
         }
         const it_tool *tool = dynamic_cast<const it_tool *>(type);
@@ -881,6 +895,21 @@ void Item_factory::load_gunmod(JsonObject &jo)
 {
     itype *new_item_template = new itype();
     load_slot( new_item_template->gunmod, jo );
+    load_basic_info( jo, new_item_template );
+}
+
+void Item_factory::load( islot_magazine &slot, JsonObject &jo )
+{
+    slot.type = jo.get_string( "ammo_type" );
+    slot.capacity = jo.get_int( "capacity" );
+    slot.reliability = jo.get_int( "reliability" );
+    slot.reload_time = jo.get_int( "reload_time" );
+}
+
+void Item_factory::load_magazine(JsonObject &jo)
+{
+    itype *new_item_template = new itype();
+    load_slot( new_item_template->magazine, jo );
     load_basic_info( jo, new_item_template );
 }
 
@@ -1605,6 +1634,9 @@ const std::string &Item_factory::calc_category( const itype *it )
 {
     if( it->gun && !it->gunmod ) {
         return category_id_guns;
+    }
+    if( it->magazine ) {
+        return category_id_magazines;
     }
     if( it->ammo ) {
         return category_id_ammo;

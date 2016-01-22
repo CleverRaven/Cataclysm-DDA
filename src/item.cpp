@@ -2048,6 +2048,8 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
         ret << label(quantity);
         ret << "+";
         maintext = ret.str();
+    } else if( is_magazine() ) {
+        maintext = label( quantity );
     } else if (contents.size() == 1) {
         if(contents[0].made_of(LIQUID)) {
             maintext = rmp_format(_("<item_name>%s of %s"), label(quantity).c_str(), contents[0].tname( quantity, with_prefix ).c_str());
@@ -3198,6 +3200,11 @@ bool item::is_bionic() const
     return type->bionic.get() != nullptr;
 }
 
+bool item::is_magazine() const
+{
+    return type->magazine.get() != nullptr;
+}
+
 bool item::is_ammo() const
 {
     return type->ammo.get() != nullptr;
@@ -3883,6 +3890,14 @@ long item::ammo_remaining() const
         return charges;
     }
 
+    if( is_magazine() ) {
+        long res = 0;
+        for( const auto& e : contents ) {
+            res += e.charges;
+        }
+        return res;
+    }
+
     return 0;
 }
 
@@ -3910,6 +3925,10 @@ long item::ammo_capacity() const
                 res += res * e.type->gunmod->clip / 100;
             }
         }
+    }
+
+    if( is_magazine() ) {
+        res = type->magazine->capacity;
     }
 
     if( has_flag("NO_AMMO") ) {
@@ -3982,6 +4001,13 @@ const itype * item::ammo_data() const
         return type;
     }
 
+    if( is_magazine() ) {
+        return !contents.empty() ? contents[0].type : nullptr;
+    }
+
+    return curammo;
+}
+
     return curammo;
 }
 
@@ -4009,6 +4035,8 @@ ammotype item::ammo_type() const
             return "plutonium";
         }
         return tool->ammo_id;
+    } else if (is_magazine()) {
+        return type->magazine->type;
     } else if (is_ammo()) {
         return type->ammo->type;
     } else if (is_gunmod()) {
@@ -4084,15 +4112,20 @@ item_location item::pick_reload_ammo( player &u, bool interactive ) const
     wants_ammo( *this );
     std::for_each( contents.begin(), contents.end(), wants_ammo );
 
+    // magazines always use loose ammo, for guns it depends on whether the magazine is integral or detachable
+    bool use_ammo = true;
+    bool use_mags = false;
+
     // first check the inventory for suitable ammo
     std::vector<item_location> ammo_list;
     u.visit_items( [&]( const item& it ) {
-        // @todo handle magazines
-        if( it.is_ammo() && ( item_types.count( it.typeId() ) || ammo_types.count( it.ammo_type() ) ) ) {
-            auto loc = item_location::on_character( u, &it );
-            ammo_list.push_back( std::move( loc ) );
+        if( ( it.is_ammo() && use_ammo ) || ( it.is_magazine() && use_mags ) ) {
+            if( item_types.count( it.ammo_current() ) || ammo_types.count( it.ammo_type() ) ) {
+                auto loc = item_location::on_character( u, &it );
+                ammo_list.push_back( std::move( loc ) );
+            }
         }
-        return VisitResponse::NEXT;
+        return it.is_magazine() ? VisitResponse::SKIP : VisitResponse::NEXT;
     });
 
     if( ammo_list.empty() ) {
@@ -4264,7 +4297,7 @@ bool item::reload( player &u, item_location loc )
                 }
             }
         }
-    } else if( is_tool() ) {
+    } else if( is_tool() || is_magazine() ) {
         qty = ammo_capacity() - ammo_remaining();
         if( ammo_type() == ammo->ammo_type() && qty > 0 ) {
             target = this;
@@ -4276,18 +4309,25 @@ bool item::reload( player &u, item_location loc )
 
         eject_casings( u, *target );
 
-        target->set_curammo( *ammo );
-
-        if( ammo_type() == "plutonium" ) {
-            // always consume at least one cell but never more than actually available
-            auto cells = std::min(qty / PLUTONIUM_CHARGES + (qty % PLUTONIUM_CHARGES != 0), ammo->charges);
-            ammo->charges -= cells;
-            // any excess is wasted rather than overfilling the target
-            target->charges += std::min(cells * PLUTONIUM_CHARGES, qty);
-        } else {
+        if( target->is_magazine() ) {
             qty = std::min(qty, ammo->charges);
-            ammo->charges   -= qty;
-            target->charges += qty;
+            target->contents.emplace_back( *ammo );
+            target->contents.back().charges = qty;
+            ammo->charges -= qty;
+        } else {
+            target->set_curammo( *ammo );
+
+            if( ammo_type() == "plutonium" ) {
+                // always consume at least one cell but never more than actually available
+                auto cells = std::min(qty / PLUTONIUM_CHARGES + (qty % PLUTONIUM_CHARGES != 0), ammo->charges);
+                ammo->charges -= cells;
+                // any excess is wasted rather than overfilling the target
+                target->charges += std::min(cells * PLUTONIUM_CHARGES, qty);
+            } else {
+                qty = std::min(qty, ammo->charges);
+                ammo->charges   -= qty;
+                target->charges += qty;
+            }
         }
 
         if( ammo->charges == 0 ) {
