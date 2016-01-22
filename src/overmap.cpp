@@ -2978,6 +2978,7 @@ bool overmap::build_lab( int x, int y, int z, int s, bool ice )
     std::vector<point> generated_lab;
     std::string labt = ice ? "ice_lab" : "lab";
     ter( x, y, z ) = labt;
+    generated_lab.push_back( point( x, y ) );
 
     // maintain a list of potential new lab maps
     // grows outwards from previously placed lab maps
