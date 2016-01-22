@@ -11281,7 +11281,6 @@
         "volume" : 0,
         "phase" : "solid",
         "charges" : 100,
-        "bashing" : 0,
         "fun" : -5
     },
     {
@@ -11309,7 +11308,6 @@
         "volume" : 0,
         "phase" : "solid",
         "charges" : 100,
-        "bashing" : 0,
         "fun" : -5
     },
     {
@@ -11337,7 +11335,6 @@
         "volume" : 0,
         "phase" : "solid",
         "charges" : 100,
-        "bashing" : 0,
         "fun" : -5
     },
     {
@@ -11365,7 +11362,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 100,
-        "bashing" : 0,
         "fun" : -4
     },
     {
@@ -11393,7 +11389,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 2,
-        "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 3
     },
@@ -11422,7 +11417,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 3,
-        "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 4
     },
@@ -11451,7 +11445,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 1,
-        "bashing" : 0,
         "fun" : 2
     },
     {
@@ -11479,7 +11472,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 8,
-        "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 5
     },
@@ -11508,7 +11500,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 1,
-        "bashing" : 0,
         "fun" : -3
     },
     {
@@ -11588,7 +11579,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 1,
-        "bashing" : 0,
         "fun" : -1,
         "seed_data": {
             "plant_name": "beans",
@@ -11613,7 +11603,6 @@
         "addiction_type": "none",
         "volume" : 1,
         "weight" : 20,
-        "bashing" : 0,
         "to_hit" : 0,
         "charges" : 4,
         "stack_size" : 10,
@@ -11649,7 +11638,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 1,
-        "bashing" : 0,
         "fun" : -3
     },
     {
@@ -11677,7 +11665,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 1,
-        "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 3
     },
@@ -11705,7 +11692,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 1,
-        "bashing" : 0,
         "fun" : 0
     },
     {
@@ -11732,7 +11718,6 @@
         "volume" : 2,
         "phase" : "solid",
         "charges" : 6,
-        "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 0
     },
@@ -11760,7 +11745,6 @@
         "volume" : 3,
         "phase" : "solid",
         "charges" : 8,
-        "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 1
     },
@@ -11788,7 +11772,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 4,
-        "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 2
     },
@@ -11816,7 +11799,6 @@
         "volume" : 3,
         "phase" : "solid",
         "charges" : 6,
-        "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 1
     },
@@ -11868,7 +11850,6 @@
         "volume" : 3,
         "phase" : "solid",
         "charges" : 8,
-        "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 15
     },
@@ -11896,7 +11877,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 4,
-        "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 2
     },
@@ -11925,7 +11905,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 4,
-        "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 3
     },
@@ -11954,7 +11933,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 4,
-        "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 3
     },
@@ -11983,7 +11961,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 4,
-        "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 6
     },
@@ -12012,7 +11989,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 2,
-        "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 8
     },
@@ -12040,7 +12016,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 4,
-        "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 5
     },
@@ -12068,7 +12043,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 4,
-        "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 6
     },
@@ -12096,7 +12070,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 4,
-        "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 12
     },
@@ -12124,7 +12097,6 @@
         "volume" : 3,
         "phase" : "solid",
         "charges" : 8,
-        "bashing" : 0,
         "fun" : 2
     },
     {
@@ -12151,7 +12123,6 @@
         "volume" : 3,
         "phase" : "solid",
         "charges" : 8,
-        "bashing" : 0,
         "fun" : 2
     },
     {
@@ -12179,7 +12150,6 @@
         "phase" : "solid",
         "charges" : 4,
         "stack_size" : 20,
-        "bashing" : 0,
         "fun" : 7
     },
     {
@@ -12207,7 +12177,6 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 7,
-        "bashing" : 0,
         "fun" : 6
     },
     {
@@ -12235,7 +12204,6 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 7,
-        "bashing" : 0,
         "fun" : 0
     },
     {
@@ -12263,7 +12231,6 @@
         "phase" : "solid",
         "charges" : 8,
         "stack_size" : 20,
-        "bashing" : 0,
         "fun" : -1
     },
     {
@@ -12290,7 +12257,6 @@
         "volume" : 4,
         "phase" : "solid",
         "charges" : 8,
-        "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 1
     },
@@ -12318,7 +12284,6 @@
         "volume" : 5,
         "phase" : "solid",
         "charges" : 6,
-        "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 3
     },
@@ -12346,7 +12311,6 @@
         "volume" : 5,
         "phase" : "solid",
         "charges" : 6,
-        "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 3
     },
@@ -12374,7 +12338,6 @@
         "volume" : 5,
         "phase" : "solid",
         "charges" : 6,
-        "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 3
     },
@@ -12402,7 +12365,6 @@
         "volume" : 5,
         "phase" : "solid",
         "charges" : 6,
-        "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 3
     },
@@ -12430,7 +12392,6 @@
         "volume" : 8,
         "phase" : "solid",
         "charges" : 4,
-        "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 10
     },
@@ -12458,7 +12419,6 @@
         "volume" : 8,
         "phase" : "solid",
         "charges" : 4,
-        "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 10
     },
@@ -12486,7 +12446,6 @@
         "volume" : 8,
         "phase" : "solid",
         "charges" : 4,
-        "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 10
     },
@@ -12514,7 +12473,6 @@
         "volume" : 8,
         "phase" : "solid",
         "charges" : 4,
-        "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 10
     },
@@ -12542,7 +12500,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 4,
-        "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : -1
     },
@@ -12570,7 +12527,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 4,
-        "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : -1
     },
@@ -12598,7 +12554,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 4,
-        "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : -1
     },
@@ -12626,7 +12581,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 4,
-        "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : -6
     },
@@ -12654,7 +12608,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 4,
-        "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 1
     },
@@ -12684,7 +12637,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 20,
-        "bashing" : 0,
         "fun" : -1
     },
     {
@@ -12713,7 +12665,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 20,
-        "bashing" : 0,
         "fun" : -5
     },
     {
@@ -12740,7 +12691,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 10,
-        "bashing" : 0,
         "fun" : -5
     },
     {
@@ -12769,7 +12719,6 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 5,
-        "bashing" : 0,
         "fun" : 6
     },
     {
@@ -12796,7 +12745,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 1,
-        "bashing" : 0,
         "fun" : 20
     },
     {
@@ -12823,7 +12771,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 1,
-        "bashing" : 0,
         "fun" : 20
     },
     {
@@ -12850,7 +12797,6 @@
         "volume" : 3,
         "phase" : "solid",
         "charges" : 1,
-        "bashing" : 0,
         "fun" : 30
     },
     {
@@ -12877,7 +12823,6 @@
         "volume" : 2,
         "phase" : "solid",
         "charges" : 1,
-        "bashing" : 0,
         "fun" : 2
     },
     {
@@ -12905,7 +12850,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 1,
-        "bashing" : 0,
         "fun" : 0
     },
     {
@@ -12933,7 +12877,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 1,
-        "bashing" : 0,
         "fun" : 1
     },
     {
@@ -12961,7 +12904,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 1,
-        "bashing" : 0,
         "fun" : 2
     },
     {
@@ -12988,7 +12930,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 2,
-        "bashing" : 0,
         "fun" : 2
     },
     {
@@ -13015,7 +12956,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 2,
-        "bashing" : 0,
         "fun" : 2
     },
     {
@@ -13042,7 +12982,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 2,
-        "bashing" : 0,
         "fun" : 0
     },
     {
@@ -13069,7 +13008,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 4,
-        "bashing" : 0,
         "fun" : 3
     },
     {
@@ -13097,7 +13035,6 @@
         "volume" : 7,
         "phase" : "solid",
         "charges" : 8,
-        "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 4
     },
@@ -13126,7 +13063,6 @@
         "volume" : 7,
         "phase" : "solid",
         "charges" : 8,
-        "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 4
     },
@@ -13155,7 +13091,6 @@
         "volume" : 7,
         "phase" : "solid",
         "charges" : 2,
-        "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 15
     },
@@ -13183,7 +13118,6 @@
         "volume" : 12,
         "phase" : "solid",
         "charges" : 8,
-        "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 15
     },
@@ -13211,7 +13145,6 @@
         "volume" : 12,
         "phase" : "solid",
         "charges" : 8,
-        "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 15
     },
@@ -13240,7 +13173,6 @@
         "phase" : "solid",
         "charges" : 3,
         "stack_size": 9,
-        "bashing" : 0,
         "flags" : ["USE_ON_NPC"],
         "fun" : 0,
         "use_action" : {
@@ -13277,7 +13209,6 @@
         "phase" : "solid",
         "charges" : 2,
         "stack_size" : 6,
-        "bashing" : 0,
         "flags" : ["USE_ON_NPC"],
         "fun" : 0,
         "use_action" : {
@@ -13324,7 +13255,6 @@
         "phase" : "solid",
         "charges" : 20,
         "stack_size" : 100,
-        "bashing" : 0,
         "fun" : 0
     },
     {
@@ -13353,7 +13283,6 @@
         "phase" : "solid",
         "charges" : 10,
         "stack_size" : 100,
-        "bashing" : 0,
         "fun" : 2
     },
     {
@@ -13382,7 +13311,6 @@
         "phase" : "solid",
         "charges" : 1,
         "stack_size" : 40,
-        "bashing" : 0,
         "fun" : 0
     },
     {
@@ -13411,7 +13339,6 @@
         "phase" : "solid",
         "charges" : 1,
         "stack_size" : 40,
-        "bashing" : 0,
         "fun" : 0
     },
     {
@@ -13480,7 +13407,6 @@
         "phase" : "solid",
         "charges" : 20,
         "stack_size" : 200,
-        "bashing" : 0,
         "fun" : 0
     },
     {
@@ -13509,7 +13435,6 @@
         "phase" : "solid",
         "charges" : 10,
         "stack_size" : 200,
-        "bashing" : 0,
         "fun" : 0
     },
     {
@@ -13538,7 +13463,6 @@
         "phase" : "solid",
         "charges" : 10,
         "stack_size" : 200,
-        "bashing" : 0,
         "fun" : 5
     },
     {
@@ -13575,7 +13499,6 @@
         "phase" : "solid",
         "charges" : 10,
         "stack_size" : 200,
-        "bashing" : 0,
         "fun" : 0
     },
     {
@@ -13612,7 +13535,6 @@
         "phase" : "solid",
         "charges" : 10,
         "stack_size" : 200,
-        "bashing" : 0,
         "fun" : 0
     },
     {
@@ -13641,7 +13563,6 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 5,
-        "bashing" : 0,
         "fun" : 0
     },
     {
@@ -13670,7 +13591,6 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 5,
-        "bashing" : 0,
         "fun" : 0
     },
     {
@@ -13709,7 +13629,6 @@
         "phase" : "solid",
         "charges" : 10,
         "stack_size" : 200,
-        "bashing" : 0,
         "fun" : 10
     },
     {
@@ -13751,7 +13670,6 @@
         "phase" : "solid",
         "charges" : 10,
         "stack_size" : 200,
-        "bashing" : 0,
         "fun" : 18
     },
     {
@@ -13789,7 +13707,6 @@
         "phase" : "solid",
         "charges" : 10,
         "stack_size" : 200,
-        "bashing" : 0,
         "fun" : 6
     },
     {
@@ -13819,7 +13736,6 @@
         "phase" : "solid",
         "charges" : 10,
         "stack_size" : 200,
-        "bashing" : 0,
         "fun" : 20
     },
     {
@@ -13847,7 +13763,6 @@
         "phase" : "solid",
         "charges" : 10,
         "stack_size" : 200,
-        "bashing" : 0,
         "fun" : 10
     },
     {
@@ -13876,7 +13791,6 @@
         "phase" : "solid",
         "charges" : 10,
         "stack_size" : 200,
-        "bashing" : 0,
         "fun" : 0
     },
     {
@@ -13905,7 +13819,6 @@
         "phase" : "solid",
         "charges" : 15,
         "stack_size" : 200,
-        "bashing" : 0,
         "fun" : 0
     },
     {
@@ -13934,7 +13847,6 @@
         "phase" : "solid",
         "charges" : 20,
         "stack_size" : 60,
-        "bashing" : 0,
         "fun" : 5
     },
     {
@@ -13963,7 +13875,6 @@
         "phase" : "solid",
         "charges" : 1,
         "stack_size" : 60,
-        "bashing" : 0,
         "fun" : 5
     },
     {
@@ -14009,7 +13920,6 @@
         "phase" : "solid",
         "charges" : 20,
         "stack_size" : 60,
-        "bashing" : 0,
         "fun" : 5
     },
     {
@@ -14055,7 +13965,6 @@
         "phase" : "solid",
         "charges" : 1,
         "stack_size" : 1000,
-        "bashing" : 0,
         "fun" : 2,
         "category": "other"
     },
@@ -14107,7 +14016,6 @@
         "phase" : "solid",
         "charges" : 5,
         "stack_size" : 100,
-        "bashing" : 0,
         "fun" : 15
     },
     {
@@ -14137,7 +14045,6 @@
         "phase" : "solid",
         "charges" : 1,
         "stack_size" : 100,
-        "bashing" : 0,
         "fun" : 1,
         "seed_data": {
             "plant_name": "cannabis",
@@ -14173,7 +14080,6 @@
         "phase" : "solid",
         "charges" : 8,
         "stack_size" : 100,
-        "bashing" : 0,
         "fun" : 25
     },
     {
@@ -14203,7 +14109,6 @@
         "phase" : "solid",
         "charges" : 6,
         "stack_size" : 100,
-        "bashing" : 0,
         "fun" : 30
     },
     {
@@ -14246,7 +14151,6 @@
         "phase" : "solid",
         "charges" : 4,
         "stack_size" : 100,
-        "bashing" : 0,
         "fun" : 50
     },
     {
@@ -14289,7 +14193,6 @@
         "phase" : "solid",
         "charges" : 4,
         "stack_size" : 100,
-        "bashing" : 0,
         "fun" : 25
     },
     {
@@ -14317,7 +14220,6 @@
         "volume" : 1,
         "phase" : "solid",
         "charges" : 5,
-        "bashing" : 0,
         "fun" : 15
     },
     {
