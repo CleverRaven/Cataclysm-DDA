@@ -3002,10 +3002,10 @@
     "recoil": 90,
     "durability": 7,
     "burst": 30,
-    "clip_size": 200,
     "reload": 750,
     "loudness" : 160,
-    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ]]
+    "magazines" : [ "stanag30", "belt223" ],
+    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ]]
   },
   {
     "id": "m240",

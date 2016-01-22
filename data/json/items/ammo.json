@@ -1363,8 +1363,9 @@
         "range" : 36,
         "dispersion" : 80,
         "recoil" : 450,
-        "count" : 40,
-        "effects" : ["COOKOFF"]
+        "count" : 30,
+        "effects" : ["COOKOFF"],
+        "stack_size": 20
     },
     {   "type" : "AMMO",
         "id" : "556",

@@ -16,5 +16,26 @@
         "capacity" : 30,
         "reliability" : 10,
         "reload_time" : 30
+    },
+    {   "type" : "MAGAZINE",
+        "id" : "belt223",
+        "price" : 0,
+        "name" : ".223 ammo belt",
+        "symbol" : "#",
+        "color" : "grey",
+        "description" : "An ammo belt consisting of metal linkages which disintegrate upon firing.",
+        "material" : "steel",
+        "volume" : 0,
+        "weight" : 0,
+        "bashing" : 0,
+        "cutting" : 0,
+        "to_hit" : -4,
+        "rigid": false,
+        "ammo_type" : "223",
+        "capacity" : 200,
+        "count" : 100,
+        "reliability" : 8,
+        "reload_time" : 80,
+        "flags": [ "NO_RELOAD", "NO_UNLOAD" ]
     }
 ]
