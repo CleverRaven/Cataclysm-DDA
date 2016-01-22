@@ -909,6 +909,16 @@ void Item_factory::load( islot_magazine &slot, JsonObject &jo )
     slot.reliability = jo.get_int( "reliability" );
     slot.reload_time = jo.get_int( "reload_time" );
     slot.rigid = jo.get_bool( "rigid", true );
+
+    JsonArray alt = jo.get_array( "alternatives" );
+    while( alt.has_more() ) {
+        JsonArray arr = alt.next_array();
+        ammotype ammo = arr.get_string( 0 );
+        arr = arr.get_array( 1 );
+        while( arr.has_more() ) {
+            slot.alternatives[ammo].emplace( arr.next_string() );
+        }
+    }
 }
 
 void Item_factory::load_magazine(JsonObject &jo)

@@ -1090,7 +1090,7 @@ public:
         /** Does item have an integral magazine (as opposed to allowing detachable magazines) */
         bool magazine_integral() const;
 
-        /** Whether the specified magazine is comaptible with this item
+        /** Checks magazine is comaptible with this item accounting for any applied ammo conversion mods
          *  @return magazine compatibility which is always false if item has integral magazine
          *  @see item::magazine_integral
          */

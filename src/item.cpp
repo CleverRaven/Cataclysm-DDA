@@ -4111,7 +4111,15 @@ bool item::magazine_integral() const {
 
 bool item::magazine_compatible( const itype_id& mag ) const
 {
-    return type->magazines.count( mag );
+    for( const auto& e : type->magazines ) {
+        const itype *obj = item_controller->find_template( e );
+        if( obj->magazine->type == ammo_type() && obj->id == mag ) {
+            return true; // no ammo conversion with match against magazines
+        } else if( obj->magazine->alternatives[ ammo_type() ].count(mag) ) {
+            return true; // ammo conversion with match against alternatives
+        }
+    }
+    return false;
 }
 
 item * item::magazine_current()

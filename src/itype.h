@@ -376,6 +376,10 @@ struct islot_magazine {
      * Volume increases proportional to contained ammo for non-rigid magazines
      */
     bool rigid;
+    /**
+     * Alternative magazines (if any) for use with ammo conversion mods
+     */
+    std::map< ammotype, std::set<itype_id> > alternatives;
 };
 
 struct islot_ammo : common_ranged_data {
