@@ -705,7 +705,7 @@ monster_attitude monster::attitude( const Character *u ) const
         const string_id<monfaction> faction_bee( "bee" );
         const trait_id pheromone_mammal( "PHEROMONE_MAMMAL" );
         const trait_id pheromone_insect( "PHEROMONE_INSECT" );
-        const trait_id mycus_thresh( "MYCUS_THRESH" );
+        const trait_id mycus_thresh( "THRESH_MYCUS" );
         const trait_id terrifying( "TERRIFYING" );
         if( faction == faction_bee ) {
             if( u->has_trait( trait_BEE ) ) {
