@@ -1069,7 +1069,7 @@ void bionics_install_failure( player *u, int difficulty, int success )
     switch( fail_type ) {
 
         case 1:
-            if( !( u->has_trait( "NOPAIN" ) ) ) {
+            if( !( u->has_trait( trait_id( "NOPAIN" ) ) ) ) {
                 add_msg( m_bad, _( "It really hurts!" ) );
                 u->mod_pain( rng( failure_level * 3, failure_level * 6 ) );
             }
@@ -1163,7 +1163,7 @@ int player::get_used_bionics_slots( const body_part bp ) const
 std::map<body_part, int> player::bionic_installation_issues( const std::string &bioid )
 {
     std::map<body_part, int> issues;
-    if( !has_trait( "DEBUG_CBM_SLOTS" ) ) {
+    if( !has_trait( trait_id( "DEBUG_CBM_SLOTS" ) ) ) {
         return issues;
     }
     for( auto &elem : bionics[ bioid ].occupied_bodyparts ) {
@@ -1396,7 +1396,7 @@ void check_bionics()
                       bio.first.c_str(), bio.second.fake_item.c_str() );
         }
         for( const auto &mid : bio.second.canceled_mutations ) {
-            if( !mutation_branch::has( mid ) ) {
+            if( !mid.is_valid() ) {
                 debugmsg( "Bionic %s cancels undefined mutation %s",
                           bio.first.c_str(), mid.c_str() );
             }

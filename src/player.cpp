@@ -1683,8 +1683,8 @@ int player::bodytemp_modifier_traits( bool overheated ) const
 {
     int mod = 0;
     for( auto &iter : my_mutations ) {
-        mod += overheated ? mutation_branch::get( iter.first ).bodytemp_min :
-               mutation_branch::get( iter.first ).bodytemp_max;
+        mod += overheated ? iter.first->bodytemp_min :
+               iter.first->bodytemp_max;
     }
     return mod;
 }
@@ -1693,7 +1693,7 @@ int player::bodytemp_modifier_traits_floor() const
 {
     int mod = 0;
     for( auto &iter : my_mutations ) {
-        mod +=  mutation_branch::get( iter.first ).bodytemp_sleep;
+        mod += iter.first.obj().bodytemp_sleep;
     }
     return mod;
 }
@@ -1924,7 +1924,7 @@ int player::run_cost( int base_cost, bool diag ) const
     if( has_trait( trait_HOLLOW_BONES ) ) {
         movecost *= .8f;
     }
-    if( has_active_mutation( "WINGS_INSECT" ) ) {
+    if( has_active_mutation( trait_id( "WINGS_INSECT" ) ) ) {
         movecost *= .75f;
     }
     if( has_trait( trait_WINGS_BUTTERFLY ) ) {
@@ -2192,7 +2192,7 @@ nc_color player::basic_symbol_color() const
     if( has_effect( effect_boomered ) ) {
         return c_pink;
     }
-    if( has_active_mutation( "SHELL2" ) ) {
+    if( has_active_mutation( trait_id( "SHELL2" ) ) ) {
         return c_magenta;
     }
     if( underwater ) {
@@ -2994,7 +2994,7 @@ bool player::has_conflicting_trait( const trait_id &flag ) const
 
 bool player::has_opposite_trait( const trait_id &flag ) const
 {
-    for( auto &i : mutation_branch::get( flag ).cancels ) {
+    for( auto &i : flag->cancels ) {
         if( has_trait( i ) ) {
             return true;
         }
@@ -3004,7 +3004,7 @@ bool player::has_opposite_trait( const trait_id &flag ) const
 
 bool player::has_lower_trait( const trait_id &flag ) const
 {
-    for( auto &i : mutation_branch::get( flag ).prereqs ) {
+    for( auto &i : flag->prereqs ) {
         if( has_trait( i ) || has_lower_trait( i ) ) {
             return true;
         }
@@ -3014,7 +3014,7 @@ bool player::has_lower_trait( const trait_id &flag ) const
 
 bool player::has_higher_trait( const trait_id &flag ) const
 {
-    for( auto &i : mutation_branch::get( flag ).replacements ) {
+    for( auto &i : flag->replacements ) {
         if( has_trait( i ) || has_higher_trait( i ) ) {
             return true;
         }
@@ -3025,7 +3025,7 @@ bool player::has_higher_trait( const trait_id &flag ) const
 bool player::crossed_threshold() const
 {
     for( auto &mut : my_mutations ) {
-        if( mutation_branch::get( mut.first ).threshold ) {
+        if( mut.first.obj().threshold ) {
             return true;
         }
     }
@@ -3034,13 +3034,13 @@ bool player::crossed_threshold() const
 
 bool player::purifiable( const trait_id &flag ) const
 {
-    return mutation_branch::get( flag ).purifiable;
+    return flag->purifiable;
 }
 
 void player::set_cat_level_rec( const trait_id &sMut )
 {
     if( !has_base_trait( sMut ) ) { //Skip base traits
-        const auto &mdata = mutation_branch::get( sMut );
+        const auto &mdata = sMut.obj();
         for( auto &elem : mdata.category ) {
             mutation_category_level[elem] += 8;
         }
@@ -3341,7 +3341,7 @@ bool player::has_two_arms() const
     // If you've got a blaster arm, low hp arm, or you're inside a shell then you don't have two
     // arms to use.
     return !( ( has_bionic( "bio_blaster" ) || hp_cur[hp_arm_l] < 10 || hp_cur[hp_arm_r] < 10 ) ||
-              has_active_mutation( "SHELL2" ) );
+              has_active_mutation( trait_id( "SHELL2" ) ) );
 }
 
 bool player::avoid_trap( const tripoint &pos, const trap &tr ) const
@@ -4938,7 +4938,7 @@ bool player::is_hibernating() const
     // a little, and came out of it well into Parched.  Hibernating shouldn't endanger your
     // life like that--but since there's much less fluid reserve than food reserve,
     // simply using the same numbers won't work.
-    return has_effect( effect_sleep ) && get_hunger() <= -60 && get_thirst() <= 80 && has_active_mutation("HIBERNATE");
+    return has_effect( effect_sleep ) && get_hunger() <= -60 && get_thirst() <= 80 && has_active_mutation( trait_id( "HIBERNATE" ) );
 }
 
 void player::add_addiction(add_type type, int strength)
@@ -5507,7 +5507,7 @@ void player::suffer()
         if (!tdata.powered ) {
             continue;
         }
-        const auto &mdata = mutation_branch::get( mut.first );
+        const auto &mdata = mut.first.obj();
         if (tdata.powered && tdata.charge > 0) {
         // Already-on units just lose a bit of charge
         tdata.charge--;
@@ -5563,7 +5563,7 @@ void player::suffer()
         }
     }
 
-    if(has_active_mutation("WINGS_INSECT")){
+    if( has_active_mutation( trait_id( "WINGS_INSECT" ) ) ) {
         //~Sound of buzzing Insect Wings
         sounds::sound( pos(), 10, _("BZZZZZ"));
     }
@@ -6430,7 +6430,7 @@ void player::drench( int saturation, int flags, bool ignore_waterproof )
     }
 
     // OK, water gets in your AEP suit or whatever.  It wasn't built to keep you dry.
-    if( has_trait( trait_DEBUG_NOTEMP ) || has_active_mutation("SHELL2") ||
+    if( has_trait( trait_DEBUG_NOTEMP ) || has_active_mutation( trait_id( "SHELL2" ) ) ||
         ( !ignore_waterproof && is_waterproof(flags) ) ) {
         return;
     }
@@ -6471,7 +6471,7 @@ void player::drench_mut_calc()
         int good = 0;
 
         for( const auto &iter : my_mutations ) {
-            const auto &mdata = mutation_branch::get( iter.first );
+            const mutation_branch &mdata = iter.first.obj();
             const auto wp_iter = mdata.protection.find( bp );
             if( wp_iter != mdata.protection.end() ) {
                 ignored += wp_iter->second.x;
@@ -7717,8 +7717,8 @@ bool player::can_wear( const item& it, bool alert ) const
     }
 
     if( !it.has_flag( "OVERSIZE" ) ) {
-        for( const std::string &mut : get_mutations() ) {
-            const auto &branch = mutation_branch::get( mut );
+        for( const trait_id &mut : get_mutations() ) {
+            const auto &branch = mut.obj();
             if( branch.conflicts_with_item( it ) ) {
                 if( alert ) {
                     add_msg( m_info, _( "Your mutation %s prevents you from wearing that %s." ),
@@ -11632,12 +11632,12 @@ bool player::has_item_with_flag( const std::string &flag ) const
     } );
 }
 
-void player::on_mutation_gain( const std::string &mid )
+void player::on_mutation_gain( const trait_id &mid )
 {
     morale->on_mutation_gain( mid );
 }
 
-void player::on_mutation_loss( const std::string &mid )
+void player::on_mutation_loss( const trait_id &mid )
 {
     morale->on_mutation_loss( mid );
 }

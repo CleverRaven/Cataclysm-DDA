@@ -1057,7 +1057,7 @@ bool game::cleanup_at_end()
 
         if (u.has_amount("holybook_bible1", 1) || u.has_amount("holybook_bible2", 1) ||
             u.has_amount("holybook_bible3", 1)) {
-            if (!(u.has_trait("CANNIBAL") || u.has_trait("PSYCHOPATH"))) {
+            if( !( u.has_trait( trait_id( "CANNIBAL" ) ) || u.has_trait( trait_id( "PSYCHOPATH" ) ) ) ) {
                 vRip.push_back("               _______  ___");
                 vRip.push_back("              <       `/   |");
                 vRip.push_back("               >  _     _ (");
@@ -1514,7 +1514,7 @@ bool game::do_turn()
 
     // No-scent debug mutation has to be processed here or else it takes time to start working
     if( !u.has_active_bionic( "bio_scent_mask" ) &&
-        !u.has_trait( "DEBUG_NOSCENT" ) ) {
+        !u.has_trait( trait_id( "DEBUG_NOSCENT" ) ) ) {
         scent.set( u.pos(), u.scent );
         overmap_buffer.set_scent( u.global_omt_location(),  u.scent );
     }
@@ -1609,9 +1609,9 @@ void game::rustCheck()
         }
 
         if (aSkill.is_combat_skill() &&
-            ((u.has_trait("PRED2") && one_in(4)) ||
-             (u.has_trait("PRED3") && one_in(2)) ||
-             (u.has_trait("PRED4") && x_in_y(2, 3)))) {
+            ((u.has_trait( trait_id( "PRED2" ) ) && one_in(4)) ||
+             (u.has_trait( trait_id( "PRED3" ) ) && one_in(2)) ||
+             (u.has_trait( trait_id( "PRED4" ) ) && x_in_y(2, 3)))) {
             // Their brain is optimized to remember this
             if (one_in(15600)) {
                 // They've already passed the roll to avoid rust at
@@ -3190,7 +3190,7 @@ bool game::handle_action()
                     }
                 }
                 for ( auto &mut : g->u.get_mutations() ) {
-                    const auto &mdata = mutation_branch::get( mut );
+                    const auto &mdata = mut.obj();
                     if( mdata.cost > 0 && u.has_active_mutation( mut ) ) {
                         active.push_back( mdata.name );
                     }
@@ -5200,7 +5200,7 @@ void game::draw_HP()
     int hpy = wide ? 0 : 1;
     int dy = wide ? 1 : 2;
 
-    bool const is_self_aware = u.has_trait("SELFAWARE");
+    bool const is_self_aware = u.has_trait( trait_id( "SELFAWARE" ) );
 
     for (int i = 0; i < num_hp_parts; i++) {
         auto const &hp = get_hp_bar(u.hp_cur[i], u.hp_max[i]);
@@ -5741,7 +5741,7 @@ int game::mon_info(WINDOW *w)
             if (!new_seen_mon.empty()) {
                 monster &critter = critter_tracker->find(new_seen_mon.back());
                 cancel_activity_query(_("%s spotted!"), critter.name().c_str());
-                if (u.has_trait("M_DEFENDER") && critter.type->in_species( PLANT )) {
+                if (u.has_trait( trait_id( "M_DEFENDER" ) ) && critter.type->in_species( PLANT )) {
                     add_msg(m_warning, _("We have detected a %s."), critter.name().c_str());
                     if (!u.has_effect( effect_adrenaline_mycus)){
                         u.add_effect( effect_adrenaline_mycus, 300 );
@@ -6399,7 +6399,7 @@ void game::knockback( std::vector<tripoint> &traj, int force, int stun, int dam_
 
 void game::use_computer( const tripoint &p )
 {
-    if (u.has_trait("ILLITERATE")) {
+    if( u.has_trait( trait_id( "ILLITERATE" ) ) ) {
         add_msg(m_info, _("You can not read a computer screen!"));
         return;
     }
@@ -6408,7 +6408,7 @@ void game::use_computer( const tripoint &p )
         add_msg( m_info, _( "You can not see a computer screen!" ) );
         return;
     }
-    if (u.has_trait("HYPEROPIC") && !u.is_wearing("glasses_reading")
+    if (u.has_trait( trait_id( "HYPEROPIC" ) ) && !u.is_wearing("glasses_reading")
         && !u.is_wearing("glasses_bifocal") && !u.has_effect( effect_contacts)) {
         add_msg(m_info, _("You'll need to put on reading glasses before you can see the screen."));
         return;
@@ -8488,7 +8488,7 @@ tripoint game::look_around( WINDOW *w_info, const tripoint &start_point,
     bVMonsterLookFire = false;
     // TODO: Make this `true`
     const bool allow_zlev_move = m.has_zlevels() &&
-        ( debug_mode || fov_3d || u.has_trait( "DEBUG_NIGHTVISION" ) );
+        ( debug_mode || fov_3d || u.has_trait( trait_id( "DEBUG_NIGHTVISION" ) ) );
 
     temp_exit_fullscreen();
 
@@ -11621,7 +11621,7 @@ bool game::walk_move( const tripoint &dest_loc )
 
     // Print a message if movement is slow
     const int mcost_to = m.move_cost( dest_loc ); //calculate this _after_ calling grabbed_move
-    const bool slowed = ( !u.has_trait( "PARKOUR" ) && ( mcost_to > 2 || mcost_from > 2 ) ) ||
+    const bool slowed = ( !u.has_trait( trait_id( "PARKOUR" ) ) && ( mcost_to > 2 || mcost_from > 2 ) ) ||
                   mcost_to > 4 || mcost_from > 4;
     if( slowed ) {
         // Unless u.pos() has a higher movecost than dest_loc, state that dest_loc is the cause
@@ -11643,7 +11643,7 @@ bool game::walk_move( const tripoint &dest_loc )
         sfx::play_variant_sound( "plmove", "clear_obstacle", sfx::get_heard_volume(u.pos()) );
     }
 
-    if( u.has_trait( "LEG_TENT_BRACE" ) && ( !u.footwear_factor() ||
+    if( u.has_trait( trait_id( "LEG_TENT_BRACE" ) ) && ( !u.footwear_factor() ||
                                              ( u.footwear_factor() == .5 && one_in( 2 ) ) ) ) {
         // DX and IN are long suits for Cephalopods,
         // so this shouldn't cause too much hardship
@@ -11658,12 +11658,12 @@ bool game::walk_move( const tripoint &dest_loc )
         }
     }
 
-    if( !u.has_artifact_with( AEP_STEALTH ) && !u.has_trait( "DEBUG_SILENT" ) ) {
-        if( !u.has_trait( "LEG_TENTACLES" ) ) {
-            if( u.has_trait("LIGHTSTEP") || u.is_wearing( "rm13_armor_on" ) ) {
+    if( !u.has_artifact_with( AEP_STEALTH ) && !u.has_trait( trait_id( "DEBUG_SILENT" ) ) ) {
+        if( !u.has_trait( trait_id( "LEG_TENTACLES" ) ) ) {
+            if( u.has_trait( trait_id( "LIGHTSTEP" ) ) || u.is_wearing( "rm13_armor_on" ) ) {
                 sounds::sound( dest_loc, 2, "", true, "none", "none" );    // Sound of footsteps may awaken nearby monsters
                 sfx::do_footstep();
-            } else if( u.has_trait( "CLUMSY" ) ) {
+            } else if( u.has_trait( trait_id( "CLUMSY" ) ) ) {
                 sounds::sound( dest_loc, 10, "", true, "none", "none" );
                 sfx::do_footstep();
             } else if( u.has_bionic( "bio_ankles" ) ) {
@@ -12748,7 +12748,7 @@ tripoint game::find_or_make_stairs( map &mp, const int z_after, bool &rope_ladde
         return tripoint_min;
     }
 
-    if( u.has_trait( "WEB_RAPPEL" ) ) {
+    if( u.has_trait( trait_id( "WEB_RAPPEL" ) ) ) {
         if (query_yn(_("There is a sheer drop halfway down. Web-descend?"))) {
             rope_ladder = true;
             if ((rng(4, 8)) < u.get_skill_level( skill_dodge )) {

@@ -102,8 +102,7 @@ const trait_id trait_URSINE_EYE( "URSINE_EYE" );
 const trait_id trait_WEBBED( "WEBBED" );
 const trait_id trait_WINGS_BAT( "WINGS_BAT" );
 const trait_id trait_WINGS_BUTTERFLY( "WINGS_BUTTERFLY" );
-
-const std::string debug_nodmg( "DEBUG_NODMG" );
+const trait_id debug_nodmg( "DEBUG_NODMG" );
 
 Character::Character() : Creature(), visitable<Character>()
 {
@@ -495,8 +494,8 @@ void Character::recalc_sight_limits()
 
     // Not exactly a sight limit thing, but related enough
     if( has_active_bionic( "bio_infrared" ) ||
-        has_trait( "INFRARED" ) ||
-        has_trait( "LIZ_IR" ) ||
+        has_trait( trait_id( "INFRARED" ) ) ||
+        has_trait( trait_id( "LIZ_IR" ) ) ||
         worn_with_flag( "IR_EFFECT" ) ) {
         vision_mode_cache.set( IR_VISION );
     }
@@ -855,7 +854,7 @@ units::volume Character::volume_carried() const
 
 int Character::weight_capacity() const
 {
-    if( has_trait( "DEBUG_STORAGE" ) ) {
+    if( has_trait( trait_id( "DEBUG_STORAGE" ) ) ) {
         // Infinite enough
         return INT_MAX >> 2;
     }
@@ -864,16 +863,16 @@ int Character::weight_capacity() const
     int ret = Creature::weight_capacity();
     /** @EFFECT_STR increases carrying capacity */
     ret += get_str() * 4000;
-    if (has_trait("BADBACK")) {
+    if( has_trait( trait_id( "BADBACK" ) ) ) {
         ret = int(ret * .65);
     }
-    if (has_trait("STRONGBACK")) {
+    if( has_trait( trait_id( "STRONGBACK" ) ) ) {
         ret = int(ret * 1.35);
     }
-    if (has_trait("LIGHT_BONES")) {
+    if( has_trait( trait_id( "LIGHT_BONES" ) ) ) {
         ret = int(ret * .80);
     }
-    if (has_trait("HOLLOW_BONES")) {
+    if( has_trait( trait_id( "HOLLOW_BONES" ) ) ) {
         ret = int(ret * .60);
     }
     if (has_artifact_with(AEP_CARRY_MORE)) {
@@ -892,7 +891,7 @@ units::volume Character::volume_capacity() const
 
 units::volume Character::volume_capacity_reduced_by( units::volume mod ) const
 {
-    if( has_trait( "DEBUG_STORAGE" ) ) {
+    if( has_trait( trait_id( "DEBUG_STORAGE" ) ) ) {
         return units::volume_max;
     }
 
@@ -1436,7 +1435,7 @@ void Character::mut_cbm_encumb( std::array<encumbrance_data, num_bp> &vals ) con
     // Lower penalty for bps covered only by XL armor
     const auto oversize = exclusive_flag_coverage( "OVERSIZE" );
     for( const auto &mut_pair : my_mutations ) {
-        const auto &branch = mutation_branch::get( mut_pair.first );
+        const auto &branch = mut_pair.first.obj();
         apply_mut_encumbrance( vals, branch, oversize );
     }
 }
@@ -1992,12 +1991,12 @@ bool Character::is_immune_field( const field_id fid ) const
         case fd_relax_gas:
             return get_env_resist( bp_mouth ) >= 15;
         case fd_fungal_haze:
-            return has_trait("M_IMMUNE") || (get_env_resist( bp_mouth ) >= 15 &&
+            return has_trait( trait_id( "M_IMMUNE" ) ) || (get_env_resist( bp_mouth ) >= 15 &&
                    get_env_resist( bp_eyes ) >= 15);
         case fd_electricity:
             return is_elec_immune();
         case fd_acid:
-            return has_trait("ACIDPROOF") ||
+            return has_trait( trait_id( "ACIDPROOF" ) ) ||
                    (!is_on_ground() && get_env_resist( bp_foot_l ) >= 15 &&
                    get_env_resist( bp_foot_r ) >= 15 &&
                    get_env_resist( bp_leg_l ) >= 15 &&
@@ -2007,7 +2006,7 @@ bool Character::is_immune_field( const field_id fid ) const
                    get_armor_type( DT_ACID, bp_leg_l ) >= 5 &&
                    get_armor_type( DT_ACID, bp_leg_r ) >= 5);
         case fd_web:
-            return has_trait( "WEB_WALKER" );
+            return has_trait( trait_id( "WEB_WALKER" ) );
         default:
             // Suppress warning
             break;
@@ -2123,7 +2122,7 @@ resistances Character::mutation_armor( body_part bp ) const
 {
     resistances res;
     for( auto &iter : my_mutations ) {
-        const mutation_branch &mb = mutation_branch::get( iter.first );
+        const mutation_branch &mb = iter.first.obj();
         res += mb.damage_resistance( bp );
     }
 

@@ -1683,7 +1683,7 @@ void map::player_in_field( player &u )
         case fd_web: {
             //If we are in a web, can't walk in webs or are in a vehicle, get webbed maybe.
             //Moving through multiple webs stacks the effect.
-            if (!u.has_trait("WEB_WALKER") && !u.in_vehicle) {
+            if (!u.has_trait( trait_id( "WEB_WALKER" ) ) && !u.in_vehicle) {
                 //between 5 and 15 minus your current web level.
                 u.add_effect( effect_webbed, 1, num_bp, true, cur->getFieldDensity());
                 cur->setFieldDensity( 0 ); //Its spent.
@@ -1704,7 +1704,7 @@ void map::player_in_field( player &u )
                 break;
             }
 
-            if( u.has_trait( "ACIDPROOF" ) ) {
+            if( u.has_trait( trait_id( "ACIDPROOF" ) ) ) {
                 // No need for warnings
                 break;
             }
@@ -1907,7 +1907,7 @@ void map::player_in_field( player &u )
             break;
 
         case fd_fungal_haze:
-            if (!u.has_trait("M_IMMUNE") && (!inside || (inside && one_in(4))) ) {
+            if (!u.has_trait( trait_id( "M_IMMUNE" ) ) && (!inside || (inside && one_in(4))) ) {
                 u.add_env_effect( effect_fungus, bp_mouth, 4, 100, num_bp, true );
                 u.add_env_effect( effect_fungus, bp_eyes, 4, 100, num_bp, true );
             }
@@ -2081,7 +2081,7 @@ void map::player_in_field( player &u )
                 bool inhaled = false;
                 const int density = cur->getFieldDensity();
                 inhaled = u.add_env_effect( effect_poison, bp_mouth, 5, density * 10 );
-                if( u.has_trait("THRESH_MYCUS") || u.has_trait("THRESH_MARLOSS") ) {
+                if( u.has_trait( trait_id( "THRESH_MYCUS" ) ) || u.has_trait( trait_id( "THRESH_MARLOSS" ) ) ) {
                     inhaled |= u.add_env_effect( effect_badpoison, bp_mouth, 5, density * 10 );
                     u.hurtall( rng( density, density * 2 ), nullptr );
                     u.add_msg_if_player( m_bad, _("The %s burns your skin."), cur->name().c_str() );

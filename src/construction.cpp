@@ -142,7 +142,7 @@ void draw_grid( WINDOW *w, const int list_width )
 nc_color construction_color( std::string &con_name, bool highlight )
 {
     nc_color col = c_dkgray;
-    if( g->u.has_trait( "DEBUG_HS" ) ) {
+    if( g->u.has_trait( trait_id( "DEBUG_HS" ) ) ) {
         col = c_white;
     } else if( can_construct( con_name ) ) {
         construction *con_first = nullptr;

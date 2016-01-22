@@ -390,7 +390,7 @@ void player::complete_craft()
 
     // farsightedness can impose a penalty on electronics and tailoring success
     // it's equivalent to a 2-rank electronics penalty, 1-rank tailoring
-    if( has_trait( "HYPEROPIC" ) && !is_wearing( "glasses_reading" ) &&
+    if( has_trait( trait_id( "HYPEROPIC" ) ) && !is_wearing( "glasses_reading" ) &&
         !is_wearing( "glasses_bifocal" ) && !has_effect( effect_contacts ) ) {
         int main_rank_penalty = 0;
         if( making->skill_used == skill_id( "electronics" ) ) {
@@ -498,7 +498,7 @@ void player::complete_craft()
         // This should fail and return, but currently crafting_command isn't saved
         // Meaning there are still cases where has_cached_selections will be false
         // @todo Allow saving last_craft and debugmsg+fail craft if selection isn't cached
-        if( !has_trait( "DEBUG_HS" ) ) {
+        if( !has_trait( trait_id( "DEBUG_HS" ) ) ) {
             const auto &req = making->requirements();
             for( const auto &it : req.get_components() ) {
                 std::list<item> tmp = consume_items( it, batch_size );
@@ -508,7 +508,7 @@ void player::complete_craft()
                 consume_tools( it, batch_size );
             }
         }
-    } else if( !has_trait( "DEBUG_HS" ) ) {
+    } else if( !has_trait( trait_id( "DEBUG_HS" ) ) ) {
         used = last_craft->consume_components();
         if( used.empty() ) {
             return;
@@ -700,7 +700,7 @@ comp_selection<item_comp> player::select_item_component( const std::vector<item_
 
         // Unlike with tools, it's a bad thing if there aren't any components available
         if( cmenu.entries.empty() ) {
-            if( has_trait( "DEBUG_HS" ) ) {
+            if( has_trait( trait_id( "DEBUG_HS" ) ) ) {
                 selected.use_from = use_from_player;
                 return selected;
             }

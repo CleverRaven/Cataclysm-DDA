@@ -32,7 +32,7 @@ struct projectile;
 struct trap;
 
 using material_id = string_id<material_type>;
-using trait_id = std::string;
+using trait_id = string_id<mutation_branch>;
 
 enum m_size : int {
     MS_TINY = 0,    // Squirrel

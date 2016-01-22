@@ -1186,7 +1186,7 @@ static void test_crossing_threshold(player *p, const mutation_category_trait &m_
     // Threshold-check.  You only get to cross once!
     if (!p->crossed_threshold()) {
         std::string mutation_category = "MUTCAT_" + m_category.category;
-        const trait_id mutation_thresh = "THRESH_" + m_category.category;
+        const trait_id mutation_thresh( "THRESH_" + m_category.category );
         int total = 0;
         for (auto& iter : mutation_category_traits){
             total += p->mutation_category_level["MUTCAT_" + iter.second.category];

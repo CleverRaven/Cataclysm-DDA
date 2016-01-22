@@ -72,7 +72,7 @@ class wish_mutate_callback: public uimenu_callback
                     pTraits[traits_iter.first] = ( p->has_trait( traits_iter.first ) );
                 }
             }
-            auto &mdata = mutation_branch::get( vTraits[entnum] );
+            const mutation_branch &mdata = vTraits[entnum].obj();
 
             int startx = menu->w_width - menu->pad_right;
             for( int i = 2; i < lastlen; i++ ) {
@@ -210,7 +210,7 @@ void debug_menu::wishmutate( player *p )
         if( wmenu.ret >= 0 ) {
             int rc = 0;
             const trait_id mstr = cb.vTraits[ wmenu.ret ];
-            const auto &mdata = mutation_branch::get( mstr );
+            const auto &mdata = mstr.obj();
             bool threshold = mdata.threshold;
             bool profession = mdata.profession;
             //Manual override for the threshold-gaining

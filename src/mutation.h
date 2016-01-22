@@ -20,10 +20,10 @@ using matype_id = string_id<martialart>;
 struct dream;
 struct mutation_branch;
 class item;
-using trait_id = std::string;
+using trait_id = string_id<mutation_branch>;
 
 extern std::vector<dream> dreams;
-extern std::map<std::string, std::vector<std::string> > mutations_category;
+extern std::map<std::string, std::vector<trait_id> > mutations_category;
 
 struct dream {
     std::vector<std::string> messages; // The messages that the dream will give
@@ -42,9 +42,9 @@ struct mut_attack {
     /** As above, but for npc */
     std::string attack_text_npc;
     /** Need all of those to qualify for this attack */
-    std::set<std::string> required_mutations;
+    std::set<trait_id> required_mutations;
     /** Need none of those to qualify for this attack */
-    std::set<std::string> blocker_mutations;
+    std::set<trait_id> blocker_mutations;
 
     /** If not num_bp, this body part needs to be uncovered for the attack to proc */
     body_part bp = num_bp;
@@ -153,14 +153,6 @@ struct mutation_branch {
      * Returns damage resistance on a given body part granted by this mutation.
      */
     const resistances &damage_resistance( body_part bp ) const;
-    /**
-     * Check whether the given id is a valid mutation id (refers to a known mutation).
-     */
-    static bool has( const trait_id &mutation_id );
-    /**
-     * Get the mutation data of a given mutation id. The id *must* be valid.
-     */
-    static const mutation_branch &get( const trait_id &mutation_id );
     /**
      * Shortcut for getting the name of a (translated) mutation, same as
      * @code get( mutation_id ).name @endcode

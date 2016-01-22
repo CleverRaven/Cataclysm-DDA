@@ -80,7 +80,7 @@ bool Character::has_trait_flag( const std::string &b ) const
 {
     // UGLY, SLOW, should be cached as my_mutation_flags or something
     for( const auto &mut : my_mutations ) {
-        auto &mut_data = mutation_branch::get( mut.first );
+        auto &mut_data = mut.first.obj();
         if( mut_data.flags.count( b ) > 0 ) {
             return true;
         }
@@ -118,7 +118,7 @@ void Character::set_mutation( const trait_id &flag )
     const auto iter = my_mutations.find( flag );
     if( iter == my_mutations.end() ) {
         my_mutations[flag]; // Creates a new entry with default values
-        cached_mutations.push_back( &mutation_branch::get( flag ) );
+        cached_mutations.push_back( &flag.obj() );
     } else {
         return;
     }
@@ -131,7 +131,7 @@ void Character::unset_mutation( const trait_id &flag )
     const auto iter = my_mutations.find( flag );
     if( iter != my_mutations.end() ) {
         my_mutations.erase( iter );
-        const mutation_branch *mut = &mutation_branch::get( flag );
+        const mutation_branch *mut = &flag.obj();
         cached_mutations.erase( std::remove( cached_mutations.begin(), cached_mutations.end(), mut ),
                                 cached_mutations.end() );
     } else {
@@ -143,7 +143,7 @@ void Character::unset_mutation( const trait_id &flag )
 
 int Character::get_mod( const trait_id &mut, std::string arg ) const
 {
-    auto &mod_data = mutation_branch::get( mut ).mods;
+    auto &mod_data = mut.obj().mods;
     int ret = 0;
     auto found = mod_data.find(std::make_pair(false, arg));
     if (found != mod_data.end()) {
@@ -256,7 +256,7 @@ void Character::mutation_effect( const trait_id &mut )
         apply_mods(mut, true);
     }
 
-    const auto &branch = mutation_branch::get( mut );
+    const auto &branch = mut.obj();
     if( branch.hp_modifier != 0.0f || branch.hp_modifier_secondary != 0.0f ||
         branch.hp_adjustment != 0.0f ) {
         recalc_hp();
@@ -352,7 +352,7 @@ void Character::mutation_loss_effect( const trait_id &mut )
         apply_mods(mut, false);
     }
 
-    const auto &branch = mutation_branch::get( mut );
+    const auto &branch = mut.obj();
     if( branch.hp_modifier != 0.0f || branch.hp_modifier_secondary != 0.0f ||
         branch.hp_adjustment != 0.0f ) {
         recalc_hp();
@@ -369,7 +369,7 @@ bool Character::has_active_mutation( const trait_id &b ) const
 
 void player::activate_mutation( const trait_id &mut )
 {
-    const auto &mdata = mutation_branch::get( mut );
+    const mutation_branch &mdata = mut.obj();
     auto &tdata = my_mutations[mut];
     int cost = mdata.cost;
     // You can take yourself halfway to Near Death levels of hunger/thirst.
@@ -565,7 +565,7 @@ trait_id Character::trait_by_invlet( const long ch ) const
             return mut.first;
         }
     }
-    return trait_id();
+    return trait_id::NULL_ID;
 }
 
 bool player::mutation_ok( const trait_id &mutation, bool force_good, bool force_bad ) const
@@ -574,7 +574,7 @@ bool player::mutation_ok( const trait_id &mutation, bool force_good, bool force_
         // We already have this mutation or something that replaces it.
         return false;
     }
-    const auto &mdata = mutation_branch::get( mutation );
+    const mutation_branch &mdata = mutation.obj();
     if (force_bad && mdata.points > 0) {
         // This is a good mutation, and we're due for a bad one.
         return false;
@@ -620,7 +620,7 @@ void player::mutate()
         if (has_trait(base_mutation)) {
             // ...consider the mutations that replace it.
             for( auto &mutation : base_mdata.replacements ) {
-                bool valid_ok = mutation_branch::get( mutation ).valid;
+                bool valid_ok = mutation.obj().valid;
 
                 if ( (mutation_ok(mutation, force_good, force_bad)) &&
                      (valid_ok) ) {
@@ -630,7 +630,7 @@ void player::mutate()
 
             // ...consider the mutations that add to it.
             for( auto &mutation : base_mdata.additions ) {
-                bool valid_ok = mutation_branch::get( mutation ).valid;
+                bool valid_ok = mutation.obj().valid;
 
                 if ( (mutation_ok(mutation, force_good, force_bad)) &&
                      (valid_ok) ) {
@@ -712,7 +712,7 @@ void player::mutate()
         // goes against our intention of a good/bad mutation
         for (size_t i = 0; i < valid.size(); i++) {
             if ( (!mutation_ok(valid[i], force_good, force_bad)) ||
-                 (!(mutation_branch::get( valid[i] ).valid)) ) {
+                 (!valid[i].obj().valid) ) {
                 valid.erase(valid.begin() + i);
                 i--;
             }
@@ -780,7 +780,7 @@ bool player::mutate_towards( const trait_id &mut )
         remove_child_flag(mut);
         return true;
     }
-    const auto &mdata = mutation_branch::get( mut );
+    const mutation_branch &mdata = mut.obj();
 
     bool has_prereqs = false;
     bool prereq1 = false;
@@ -868,13 +868,13 @@ bool player::mutate_towards( const trait_id &mut )
     }
 
     // Check if one of the prereqs that we have TURNS INTO this one
-    trait_id replacing = "";
+    trait_id replacing = trait_id::NULL_ID;
     prereq = mdata.prereqs; // Reset it
     for( auto &elem : prereq ) {
         if( has_trait( elem ) ) {
             trait_id pre = elem;
-            const auto &p = mutation_branch::get( pre );
-            for (size_t j = 0; replacing == "" && j < p.replacements.size(); j++) {
+            const auto &p = pre.obj();
+            for (size_t j = 0; !replacing && j < p.replacements.size(); j++) {
                 if (p.replacements[j] == mut) {
                     replacing = pre;
                 }
@@ -883,13 +883,13 @@ bool player::mutate_towards( const trait_id &mut )
     }
 
     // Loop through again for prereqs2
-    trait_id replacing2 = "";
+    trait_id replacing2 = trait_id::NULL_ID;
     prereq = mdata.prereqs2; // Reset it
     for( auto &elem : prereq ) {
         if( has_trait( elem ) ) {
             trait_id pre2 = elem;
-            const auto &p = mutation_branch::get( pre2 );
-            for (size_t j = 0; replacing2 == "" && j < p.replacements.size(); j++) {
+            const auto &p = pre2.obj();
+            for (size_t j = 0; !replacing2 && j < p.replacements.size(); j++) {
                 if (p.replacements[j] == mut) {
                     replacing2 = pre2;
                 }
@@ -903,8 +903,8 @@ bool player::mutate_towards( const trait_id &mut )
 
     game_message_type rating;
 
-    if (replacing != "") {
-        const auto &replace_mdata = mutation_branch::get( replacing );
+    if( replacing ) {
+        const auto &replace_mdata = replacing.obj();
         if(mdata.mixed_effect || replace_mdata.mixed_effect) {
             rating = m_mixed;
         } else if(replace_mdata.points - mdata.points < 0) {
@@ -929,8 +929,8 @@ bool player::mutate_towards( const trait_id &mut )
         mutation_effect(mut);
         mutation_replaced = true;
     }
-    if (replacing2 != "") {
-        const auto &replace_mdata = mutation_branch::get( replacing2 );
+    if( replacing2 ) {
+        const auto &replace_mdata = replacing2.obj();
         if(mdata.mixed_effect || replace_mdata.mixed_effect) {
             rating = m_mixed;
         } else if(replace_mdata.points - mdata.points < 0) {
@@ -953,7 +953,7 @@ bool player::mutate_towards( const trait_id &mut )
         mutation_replaced = true;
     }
     for (size_t i = 0; i < canceltrait.size(); i++) {
-        const auto &cancel_mdata = mutation_branch::get( canceltrait[i] );
+        const auto &cancel_mdata = canceltrait[i].obj();
         if(mdata.mixed_effect || cancel_mdata.mixed_effect) {
             rating = m_mixed;
         } else if(mdata.points < cancel_mdata.points) {
@@ -1006,26 +1006,26 @@ bool player::mutate_towards( const trait_id &mut )
 
 void player::remove_mutation( const trait_id &mut )
 {
-    const auto &mdata = mutation_branch::get( mut );
+    const auto &mdata = mut.obj();
     // Check if there's a prereq we should shrink back into
-    trait_id replacing = "";
+    trait_id replacing = trait_id::NULL_ID;
     std::vector<trait_id> originals = mdata.prereqs;
-    for (size_t i = 0; replacing == "" && i < originals.size(); i++) {
+    for (size_t i = 0; !replacing && i < originals.size(); i++) {
         trait_id pre = originals[i];
-        const auto &p = mutation_branch::get( pre );
-        for (size_t j = 0; replacing == "" && j < p.replacements.size(); j++) {
+        const auto &p = pre.obj();
+        for (size_t j = 0; !replacing && j < p.replacements.size(); j++) {
             if (p.replacements[j] == mut) {
                 replacing = pre;
             }
         }
     }
 
-    trait_id replacing2 = "";
+    trait_id replacing2 = trait_id::NULL_ID;
     std::vector<trait_id> originals2 = mdata.prereqs2;
-    for (size_t i = 0; replacing2 == "" && i < originals2.size(); i++) {
+    for (size_t i = 0; !replacing2 && i < originals2.size(); i++) {
         trait_id pre2 = originals2[i];
-        const auto &p = mutation_branch::get( pre2 );
-        for (size_t j = 0; replacing2 == "" && j < p.replacements.size(); j++) {
+        const auto &p = pre2.obj();
+        for (size_t j = 0; !replacing2 && j < p.replacements.size(); j++) {
             if (p.replacements[j] == mut) {
                 replacing2 = pre2;
             }
@@ -1034,7 +1034,7 @@ void player::remove_mutation( const trait_id &mut )
 
     // See if this mutation is cancelled by a base trait
     //Only if there's no prereq to shrink to, thus we're at the bottom of the trait line
-    if (replacing == "") {
+    if( !replacing ) {
         //Check each mutation until we reach the end or find a trait to revert to
         for( auto &iter : mutation_branch::get_all() ) {
             //See if it's in our list of base traits but not active
@@ -1042,21 +1042,21 @@ void player::remove_mutation( const trait_id &mut )
                 //See if that base trait cancels the mutation we are using
                 std::vector<trait_id> traitcheck = iter.second.cancels;
                 if (!traitcheck.empty()) {
-                    for (size_t j = 0; replacing == "" && j < traitcheck.size(); j++) {
+                    for (size_t j = 0; !replacing && j < traitcheck.size(); j++) {
                         if (traitcheck[j] == mut) {
                             replacing = (iter.first);
                         }
                     }
                 }
             }
-            if( !replacing.empty() ) {
+            if( replacing ) {
                 break;
             }
         }
     }
 
     // Duplicated for prereq2
-    if (replacing2 == "") {
+    if( !replacing2 ) {
         //Check each mutation until we reach the end or find a trait to revert to
         for( auto &iter : mutation_branch::get_all() ) {
             //See if it's in our list of base traits but not active
@@ -1064,14 +1064,14 @@ void player::remove_mutation( const trait_id &mut )
                 //See if that base trait cancels the mutation we are using
                 std::vector<trait_id> traitcheck = iter.second.cancels;
                 if (!traitcheck.empty()) {
-                    for (size_t j = 0; replacing2 == "" && j < traitcheck.size(); j++) {
+                    for (size_t j = 0; !replacing2 && j < traitcheck.size(); j++) {
                         if (traitcheck[j] == mut && (iter.first) != replacing) {
                             replacing2 = (iter.first);
                         }
                     }
                 }
             }
-            if( !replacing2.empty() ) {
+            if( replacing2 ) {
                 break;
             }
         }
@@ -1079,7 +1079,7 @@ void player::remove_mutation( const trait_id &mut )
 
     // make sure we don't toggle a mutation or trait twice, or it will cancel itself out.
     if(replacing == replacing2) {
-        replacing2 = "";
+        replacing2 = trait_id::NULL_ID;
     }
 
     // This should revert back to a removed base trait rather than simply removing the mutation
@@ -1089,8 +1089,8 @@ void player::remove_mutation( const trait_id &mut )
 
     game_message_type rating;
 
-    if (replacing != "") {
-        const auto &replace_mdata = mutation_branch::get( replacing );
+    if( replacing ) {
+        const auto &replace_mdata = replacing.obj();
         if(mdata.mixed_effect || replace_mdata.mixed_effect) {
             rating = m_mixed;
         } else if(replace_mdata.points - mdata.points > 0) {
@@ -1109,8 +1109,8 @@ void player::remove_mutation( const trait_id &mut )
         mutation_effect(replacing);
         mutation_replaced = true;
     }
-    if (replacing2 != "") {
-        const auto &replace_mdata = mutation_branch::get( replacing2 );
+    if( replacing2 ) {
+        const auto &replace_mdata = replacing2.obj();
         if(mdata.mixed_effect || replace_mdata.mixed_effect) {
             rating = m_mixed;
         } else if(replace_mdata.points - mdata.points > 0) {
@@ -1152,7 +1152,7 @@ void player::remove_mutation( const trait_id &mut )
 
 bool player::has_child_flag( const trait_id &flag ) const
 {
-    for( auto &elem : mutation_branch::get( flag ).replacements ) {
+    for( auto &elem : flag.obj().replacements ) {
         trait_id tmp = elem;
         if (has_trait(tmp) || has_child_flag(tmp)) {
             return true;
@@ -1163,7 +1163,7 @@ bool player::has_child_flag( const trait_id &flag ) const
 
 void player::remove_child_flag( const trait_id &flag )
 {
-    for( auto &elem : mutation_branch::get( flag ).replacements ) {
+    for( auto &elem : flag.obj().replacements ) {
         trait_id tmp = elem;
         if (has_trait(tmp)) {
             remove_mutation(tmp);

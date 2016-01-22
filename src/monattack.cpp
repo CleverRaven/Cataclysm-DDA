@@ -2592,7 +2592,7 @@ bool mattack::photograph(monster *z)
     // Badges should NOT be swappable between roles.
     // Hence separate checking.
     // If you are in fact listed as a police officer
-    if (g->u.has_trait("PROF_POLICE")) {
+    if( g->u.has_trait( trait_id( "PROF_POLICE" ) ) ) {
         // And you're wearing your badge
         if (g->u.is_wearing("badge_deputy")) {
             if (one_in(3)) {
@@ -2609,7 +2609,7 @@ bool mattack::photograph(monster *z)
         }
     }
 
-    if (g->u.has_trait("PROF_PD_DET")) {
+    if( g->u.has_trait( trait_id( "PROF_PD_DET" ) ) ) {
         // And you have your shield on
         if (g->u.is_wearing("badge_detective")) {
             if (one_in(4)) {
@@ -2624,7 +2624,7 @@ bool mattack::photograph(monster *z)
                 return true;
             }
         }
-    } else if (g->u.has_trait("PROF_SWAT")) {
+    } else if( g->u.has_trait( trait_id( "PROF_SWAT" ) ) ) {
         // And you're wearing your badge
         if (g->u.is_wearing("badge_swat")) {
             if (one_in(3)) {
@@ -2639,7 +2639,7 @@ bool mattack::photograph(monster *z)
                 return true;
             }
         }
-    } else if (g->u.has_trait("PROF_CYBERCOP")) {
+    } else if( g->u.has_trait( trait_id( "PROF_CYBERCOP" ) ) ) {
         // And you're wearing your badge
         if (g->u.is_wearing("badge_cybercop")) {
             if (one_in(3)) {
@@ -2656,7 +2656,7 @@ bool mattack::photograph(monster *z)
         }
     }
 
-    if (g->u.has_trait("PROF_FED")) {
+    if( g->u.has_trait( trait_id( "PROF_FED" ) ) ) {
         // And you're wearing your badge
         if (g->u.is_wearing("badge_marshal")) {
             add_msg(m_info, _("The %s flashes a LED and departs.  The Feds have this."), z->name().c_str());

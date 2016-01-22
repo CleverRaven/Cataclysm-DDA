@@ -4098,7 +4098,10 @@ dynamic_line_t::dynamic_line_t( JsonObject jo )
             return ( wearing ? yes : no )( d );
         };
     } else if( jo.has_member( "u_has_any_trait" ) ) {
-        const std::vector<std::string> traits_to_check = jo.get_string_array( "u_has_any_trait" );
+        std::vector<trait_id> traits_to_check;
+        for( auto &&f : jo.get_string_array( "u_has_any_trait" ) ) {
+            traits_to_check.emplace_back( f );
+        }
         const dynamic_line_t yes = from_member( jo, "yes" );
         const dynamic_line_t no = from_member( jo, "no" );
         function = [traits_to_check, yes, no]( const dialogue &d ) {

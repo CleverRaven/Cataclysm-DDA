@@ -1752,8 +1752,8 @@ int npc::print_info(WINDOW* w, int line, int vLines, int column) const
 
     const int visibility_cap = g->u.get_per() - rl_dist( g->u.pos(), pos() );
     const std::string trait_str = enumerate_as_string( my_mutations.begin(), my_mutations.end(),
-        [ this, visibility_cap ]( const std::pair<std::string, trait_data> &pr ) -> std::string {
-        const auto &mut_branch = mutation_branch::get( pr.first );
+        [ this, visibility_cap ]( const std::pair<trait_id, trait_data> &pr ) -> std::string {
+        const auto &mut_branch = pr.first.obj();
         // Finally some use for visibility trait of mutations
         // @todo Balance this formula
         if( mut_branch.visibility > 0 && mut_branch.visibility >= visibility_cap ) {

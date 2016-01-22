@@ -1611,7 +1611,7 @@ std::string player::melee_special_effects(Creature &t, damage_instance &d, const
     return dump.str();
 }
 
-damage_instance hardcoded_mutation_attack( const player &u, const std::string &id )
+damage_instance hardcoded_mutation_attack( const player &u, const trait_id &id )
 {
     if( id == "BEAK_PECK" ) {
         // method open to improvement, please feel free to suggest
@@ -1673,7 +1673,7 @@ std::vector<special_attack> player::mutation_attacks(Creature &t) const
     const auto &unarmed = (int)get_skill_level( skill_unarmed );
 
     for( const auto &pr : my_mutations ) {
-        const auto &branch = mutation_branch::get( pr.first );
+        const auto &branch = pr.first.obj();
         for( const auto &mut_atk : branch.attacks_granted ) {
             // Covered body part
             if( mut_atk.bp != num_bp && !usable_body_parts[ mut_atk.bp ] ) {
@@ -1693,7 +1693,7 @@ std::vector<special_attack> player::mutation_attacks(Creature &t) const
 
             // If player has any blocker, bail out
             if( std::any_of( mut_atk.blocker_mutations.begin(), mut_atk.blocker_mutations.end(),
-                [this]( const std::string &blocker ) {
+                [this]( const trait_id &blocker ) {
                     return has_trait( blocker );
                 } ) ) {
                 add_msg( m_debug, "%s not procing: blocked", pr.first.c_str() );
@@ -1702,7 +1702,7 @@ std::vector<special_attack> player::mutation_attacks(Creature &t) const
 
             // Player must have all needed traits
             if( !std::all_of( mut_atk.required_mutations.begin(), mut_atk.required_mutations.end(),
-                [this]( const std::string &need ) {
+                [this]( const trait_id &need ) {
                     return has_trait( need );
                 } ) ) {
                 add_msg( m_debug, "%s not procing: unmet req", pr.first.c_str() );

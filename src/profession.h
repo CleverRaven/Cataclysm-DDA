@@ -18,7 +18,8 @@ class player;
 class JsonArray;
 class JsonObject;
 class addiction;
-using trait_id = std::string;
+struct mutation_branch;
+using trait_id = string_id<mutation_branch>;
 enum add_type : int;
 
     // The weird indentation is thanks to astyle; don't fix it unless you feel like
@@ -97,7 +98,7 @@ enum add_type : int;
         std::string gender_appropriate_name( bool male ) const;
         std::string description( bool male ) const;
         signed int point_cost() const;
-        std::list<item> items( bool male, const std::vector<std::string> &traits ) const;
+        std::list<item> items( bool male, const std::vector<trait_id> &traits ) const;
         std::vector<addiction> addictions() const;
         std::vector<std::string> CBMs() const;
         const StartingSkillList skills() const;

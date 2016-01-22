@@ -564,8 +564,8 @@ class Character : public Creature, public visitable<Character>
 
     protected:
         void on_stat_change( const std::string &, int ) override {};
-        virtual void on_mutation_gain( const std::string & ) {};
-        virtual void on_mutation_loss( const std::string & ) {};
+        virtual void on_mutation_gain( const trait_id & ) {};
+        virtual void on_mutation_loss( const trait_id & ) {};
 
     public:
         virtual void on_item_wear( const item & ) {};

@@ -269,7 +269,7 @@ void player::randomize( const bool random_scenario, points_left &points )
     std::string rn = "";
     add_traits(); // adds mandatory prof/scen traits.
     for( const auto &mut : my_mutations ) {
-        const mutation_branch &mut_info = mutation_branch::get( mut.first );
+        const mutation_branch &mut_info = mut.first.obj();
         if( mut_info.profession ) {
             continue;
         }
@@ -287,18 +287,19 @@ void player::randomize( const bool random_scenario, points_left &points )
 
     while( loops <= 100000 && ( !points.is_valid() || rng(-3, 20) > points.skill_points_left() ) ) {
         loops++;
+        trait_id rn;
         if (num_btraits < max_trait_points && one_in(3)) {
             tries = 0;
             do {
                 rn = random_bad_trait();
                 tries++;
-            } while( ( has_trait( rn ) || num_btraits - mutation_branch::get( rn ).points > max_trait_points ) &&
+            } while( ( has_trait( rn ) || num_btraits - rn->points > max_trait_points ) &&
                      tries < 5 );
 
             if (tries < 5 && !has_conflicting_trait(rn)) {
                 toggle_trait(rn);
-                points.trait_points -= mutation_branch::get( rn ).points;
-                num_btraits -= mutation_branch::get( rn ).points;
+                points.trait_points -= rn->points;
+                num_btraits -= rn->points;
             }
         } else {
             switch (rng(1, 4)) {
@@ -335,6 +336,7 @@ void player::randomize( const bool random_scenario, points_left &points )
         const bool allow_stats = points.stat_points_left() > 0;
         const bool allow_traits = points.trait_points_left() > 0 && num_gtraits < max_trait_points;
         int r = rng( 1, 9 );
+        trait_id rn;
         switch( r ) {
         case 1:
         case 2:
@@ -342,7 +344,7 @@ void player::randomize( const bool random_scenario, points_left &points )
         case 4:
             if( allow_traits ) {
                 rn = random_good_trait();
-                auto &mdata = mutation_branch::get( rn );
+                auto &mdata = rn.obj();
                 if( !has_trait(rn) && points.trait_points_left() >= mdata.points &&
                     num_gtraits + mdata.points <= max_trait_points && !has_conflicting_trait( rn ) ) {
                     toggle_trait(rn);
@@ -512,10 +514,10 @@ bool player::create(character_type type, std::string tempname)
         hp_cur[i] = hp_max[i];
     }
 
-    if (has_trait("SMELLY")) {
+    if( has_trait( trait_id( "SMELLY" ) ) ) {
         scent = 800;
     }
-    if (has_trait("WEAKSCENT")) {
+    if( has_trait( trait_id( "WEAKSCENT" ) ) ) {
         scent = 300;
     }
 
@@ -572,7 +574,7 @@ bool player::create(character_type type, std::string tempname)
 
     for( auto &t : get_base_traits() ) {
         std::vector<matype_id> styles;
-        for( auto &s : mutation_branch::get( t ).initial_ma_styles ) {
+        for( auto &s : t.obj().initial_ma_styles ) {
             if( !has_martialart( s ) ) {
                 styles.push_back( s );
             }
@@ -585,8 +587,8 @@ bool player::create(character_type type, std::string tempname)
     }
 
     // Activate some mutations right from the start.
-    for( const std::string &mut : get_mutations() ) {
-        const auto branch = mutation_branch::get( mut );
+    for( const trait_id &mut : get_mutations() ) {
+        const auto &branch = mut.obj();
         if( branch.starts_active ) {
             my_mutations[mut].powered = true;
         }
@@ -1054,7 +1056,7 @@ tab_direction set_traits(WINDOW *w, player *u, points_left &points)
                 if (i >= iStartPos[iCurrentPage] && i < iStartPos[iCurrentPage] +
                     (int)((iContentHeight > traits_size[iCurrentPage]) ?
                           traits_size[iCurrentPage] : iContentHeight)) {
-                    auto &mdata = mutation_branch::get( vStartingTraits[iCurrentPage][i] );
+                    auto &mdata = vStartingTraits[iCurrentPage][i].obj();
                     if (iCurrentLine[iCurrentPage] == i && iCurrentPage == iCurWorkingPage) {
                         mvwprintz(w,  3, 41, c_ltgray,
                                   "                                      ");
@@ -1137,7 +1139,7 @@ tab_direction set_traits(WINDOW *w, player *u, points_left &points)
         } else if (action == "CONFIRM") {
             int inc_type = 0;
             const trait_id cur_trait = vStartingTraits[iCurWorkingPage][iCurrentLine[iCurWorkingPage]];
-            const auto &mdata = mutation_branch::get( cur_trait );
+            const mutation_branch &mdata = cur_trait.obj();
             if (u->has_trait(cur_trait)) {
 
                 inc_type = -1;
@@ -1474,7 +1476,7 @@ tab_direction set_profession(WINDOW *w, player *u, points_left &points)
             }
         } else if (action == "CONFIRM") {
             // Remove old profession-specific traits (e.g. pugilist for boxers)
-            for( const std::string &old_trait : u->prof->get_locked_traits() ) {
+            for( const trait_id &old_trait : u->prof->get_locked_traits() ) {
                 u->toggle_trait( old_trait );
             }
             u->prof = &sorted_profs[cur_id].obj();
@@ -2129,7 +2131,7 @@ tab_direction set_description(WINDOW *w, player *u, const bool allow_reroll, poi
             } else {
                 for( auto &current_trait : current_traits ) {
                     wprintz(w_traits, c_ltgray, "\n");
-                    const auto &mdata = mutation_branch::get( current_trait );
+                    const auto &mdata = current_trait.obj();
                     wprintz( w_traits, mdata.get_display_color(), mdata.name.c_str() );
                 }
             }
@@ -2379,12 +2381,12 @@ void Character::empty_skills()
 
 void Character::add_traits()
 {
-    for( const std::string &tr : g->u.prof->get_locked_traits() ) {
+    for( const trait_id &tr : g->u.prof->get_locked_traits() ) {
         if( !has_trait( tr ) ) {
             toggle_trait( tr );
         }
     }
-    for( const std::string &tr : g->scen->get_locked_traits() ) {
+    for( const trait_id &tr : g->scen->get_locked_traits() ) {
         if( !has_trait( tr ) ) {
             toggle_trait( tr );
         }

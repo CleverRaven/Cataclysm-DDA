@@ -14,7 +14,8 @@ class Creature;
 class player;
 enum game_message_type : int;
 using efftype_id = string_id<effect_type>;
-using trait_id = std::string;
+struct mutation_branch;
+using trait_id = string_id<mutation_branch>;
 
 /** Handles the large variety of weed messages. */
 void weed_msg(player *p);

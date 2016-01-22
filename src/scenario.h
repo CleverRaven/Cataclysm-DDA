@@ -20,7 +20,8 @@ class start_location;
 using start_location_id = string_id<start_location>;
 template<typename T>
 class generic_factory;
-using trait_id = std::string;
+struct mutation_branch;
+using trait_id = string_id<mutation_branch>;
 
 class scenario
 {
