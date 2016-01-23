@@ -708,7 +708,7 @@
     "symbol":"D",
     "color":"dkgray",
     "size":"HUGE",
-    "material":"bone",
+    "material":"flesh",
     "diff":60,
     "aggression":75,
     "morale":500,
@@ -721,7 +721,7 @@
     "armor_bash":12,
     "armor_cut":8,
     "vision_day":50,
-    "vision_night":50,
+    "vision_night":30,
     "death_drops": {
         "subtype": "collection",
         "//": "Nope, no dragon's blood here.",
@@ -729,7 +729,7 @@
             [ "essence_boss", 100 ]
         ]
     },
-    "hp":1200,
+    "hp":990,
     "death_function":"NORMAL",
     "special_attacks":[["FLESH_GOLEM", 5], ["BITE", 10], ["FLAMETHROWER", 10]],
     "description":"A massive, reptilian creature with batlike wings.  Its body is withered and rotten, large chunks of flesh stripped to the bone, and the membranes of its wings are in tatters.  You wonder how such a large beast could fly in the first place, let alone in that condition.",
