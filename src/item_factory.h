@@ -27,6 +27,7 @@ struct islot_armor;
 struct islot_book;
 struct islot_gun;
 struct islot_gunmod;
+struct islot_magazine;
 struct islot_variable_bigness;
 struct islot_bionic;
 struct islot_spawn;
@@ -276,6 +277,7 @@ class Item_factory
         void load( islot_book &slot, JsonObject &jo );
         void load( islot_gun &slot, JsonObject &jo );
         void load( islot_gunmod &slot, JsonObject &jo );
+        void load( islot_magazine &slot, JsonObject &jo );
         void load( islot_variable_bigness &slot, JsonObject &jo );
         void load( islot_bionic &slot, JsonObject &jo );
         void load( islot_spawn &slot, JsonObject &jo );

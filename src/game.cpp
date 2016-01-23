@@ -11467,7 +11467,11 @@ void game::reload( int pos )
 
     switch( u.rate_action_reload( *it ) ) {
         case HINT_IFFY:
-            add_msg( m_info, _( "Your %s is fully loaded!" ), it->tname().c_str() );
+            if( it->magazine_current() && it->ammo_remaining() == 0 ) {
+                add_msg( m_info, _( "Your %s is loaded with an empty magazine!" ), it->tname().c_str() );
+            } else {
+                add_msg( m_info, _( "Your %s is already loaded!" ), it->tname().c_str() );
+            }
             return;
 
         case HINT_CANT:
@@ -11574,8 +11578,14 @@ void game::unload( item &it )
 
     if( it.is_gun() ) {
         for( auto &e : it.contents ) {
-            if( (e.ammo_remaining() > 0 && !e.has_flag("NO_UNLOAD")) ||
-                (e.typeId() == "spare_mag" && e.charges > 0) ) {
+            // @todo deprecate handling of spare magazine
+            if( e.typeId() == "spare_mag" && e.charges > 0 ) {
+                msgs.emplace_back( e.tname() );
+                opts.emplace_back( &e );
+            }
+
+            if( e.is_auxiliary_gunmod() && !e.has_flag( "NO_UNLOAD" ) &&
+                ( e.magazine_current() || e.ammo_remaining() > 0 ) ) {
                 msgs.emplace_back( e.tname() );
                 opts.emplace_back( &e );
             }
@@ -11611,7 +11621,7 @@ void game::unload( item &it )
         return;
     }
 
-    if( target->ammo_remaining() <= 0 ) {
+    if( !target->magazine_current() && target->ammo_remaining() <= 0 ) {
         if( target->is_tool() ) {
             add_msg( m_info, _( "Your %s isn't charged." ), target->tname().c_str() );
         } else {
@@ -11620,40 +11630,63 @@ void game::unload( item &it )
         return;
     }
 
-    // By default we remove all remaining ammo
-    long qty = target->ammo_remaining();
+    if( target->is_magazine() ) {
+        // Remove all contained ammo consuming half as much time as required to load the magazine
+        target->contents.erase( std::remove_if( target->contents.begin(), target->contents.end(), [&]( item& e ) {
+            int unload_time = target->type->magazine->reload_time * e.charges / 2;
+            if( !add_or_drop_with_msg( u, e ) ) {
+                return false;
+            }
+            u.moves -= unload_time;
+            return true;
+        } ), it.contents.end() );
 
-    if( target->ammo_type() == "plutonium" ) {
-        qty = target->ammo_remaining() / PLUTONIUM_CHARGES;
-        if( qty > 0 ) {
-            add_msg( _( "You recover %i unused plutonium." ), qty );
-        } else {
-            add_msg( m_info, _( "You can't remove partially depleted plutonium!" ) );
+        add_msg( _( "You unload your %s." ), target->tname().c_str() );
+        return;
+
+    } else if( target->magazine_current() ) {
+        if( !add_or_drop_with_msg( u, *target->magazine_current() ) ) {
             return;
         }
-    }
+        target->contents.erase( std::remove_if( target->contents.begin(), target->contents.end(), [&target]( const item& e ) {
+            return target->magazine_current() == &e;
+        } ) );
 
-    // Construct a new ammo item and try to drop it
-    item ammo( target->ammo_current(), calendar::turn );
-    ammo.charges = qty;
+    } else {
+        long qty = target->ammo_remaining();
 
-    if( !add_or_drop_with_msg( u, ammo ) ) {
-        return;
-    }
-
-    // If we succeeded remove appropriate qty of ammo from the item
-    if( target->ammo_type() == "plutonium" ) {
-        qty *= PLUTONIUM_CHARGES;
-    }
-
-    target->charges -= qty;
-
-    // Unset curammo and turn off any active tools
-    if( target->ammo_remaining() == 0 ) {
-        target->unset_curammo();
-        if( target->is_tool() && target->active ) {
-            target->type->invoke( &u, target, u.pos() );
+        if( target->ammo_type() == "plutonium" ) {
+            qty = target->ammo_remaining() / PLUTONIUM_CHARGES;
+            if( qty > 0 ) {
+                add_msg( _( "You recover %i unused plutonium." ), qty );
+            } else {
+                add_msg( m_info, _( "You can't remove partially depleted plutonium!" ) );
+                return;
+            }
         }
+
+        // Construct a new ammo item and try to drop it
+        item ammo( target->ammo_current(), calendar::turn );
+        ammo.charges = qty;
+
+        if( !add_or_drop_with_msg( u, ammo ) ) {
+            return;
+        }
+
+        // If we succeeded remove appropriate qty of ammo from the item
+        if( target->ammo_type() == "plutonium" ) {
+            qty *= PLUTONIUM_CHARGES;
+        }
+
+        target->charges -= qty;
+        if( target->ammo_remaining() == 0 ) {
+            target->unset_curammo();
+        }
+    }
+
+    // Turn off any active tools
+    if( target->is_tool() && target->active && target->ammo_remaining() == 0 ) {
+        target->type->invoke( &u, target, u.pos() );
     }
 
     // Notify the player and consume moves
