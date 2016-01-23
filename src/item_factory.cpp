@@ -1013,7 +1013,7 @@ void Item_factory::load_basic_info(JsonObject &jo, itype *new_item_template)
 
     JsonArray mags = jo.get_array( "magazines" );
     while( mags.has_more() ) {
-        new_item_template->magazines.emplace( mags.next_string() );
+        new_item_template->magazines.insert( mags.next_string() );
     }
 
     new_item_template->min_str = jo.get_int( "min_strength",     0 );
