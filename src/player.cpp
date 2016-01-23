@@ -11352,33 +11352,40 @@ void player::use_wielded() {
 
 hint_rating player::rate_action_reload( const item &it ) const
 {
+    hint_rating res = HINT_CANT;
+
     // Guns may contain additional reloadable mods so check these first
-    if( it.is_gun() ) {
-        for( const auto& mod : it.contents ) {
-            // @todo deprecate spare magazine
-            if( mod.typeId() == "spare_mag" && mod.charges < it.ammo_capacity() ) {
-                return HINT_GOOD;
-            }
+    for( const auto& mod : it.contents ) {
+        // @todo deprecate spare magazine
+        if( mod.typeId() == "spare_mag" && mod.charges < it.ammo_capacity() ) {
+            return HINT_GOOD;
+        }
 
-            if( mod.ammo_capacity() <= 0 ||
-                mod.ammo_type() == "NULL" ||
-                mod.has_flag( "NO_RELOAD" ) ||
-                mod.has_flag( "RELOAD_AND_SHOOT" ) ) {
-                continue;
-            }
+        if( mod.is_auxiliary_gunmod() ) {
+            switch( rate_action_reload( mod ) ) {
+                case HINT_GOOD:
+                    return HINT_GOOD;
 
-            if (mod.is_auxiliary_gunmod() && mod.ammo_remaining() < mod.ammo_capacity() ) {
-                return HINT_GOOD;
+                case HINT_CANT:
+                    continue;
+
+                case HINT_IFFY:
+                    res = HINT_IFFY;
             }
         }
     }
 
-    // Now check the base item
-    if( it.ammo_capacity() <= 0 ||
-        it.ammo_type() == "NULL" ||
-        it.has_flag( "NO_RELOAD" ) ||
-        it.has_flag( "RELOAD_AND_SHOOT" ) ) {
-        return HINT_CANT;
+    if( it.has_flag( "NO_RELOAD" ) || it.has_flag( "RELOAD_AND_SHOOT" ) ) {
+        return res;
+    }
+
+    // if item uses detachable magazines do we already have one loaded?
+    if( !it.magazine_integral() ) {
+        return it.magazine_current() ? HINT_IFFY : HINT_GOOD;
+    }
+
+    if( it.ammo_capacity() <= 0 || it.ammo_type() == "NULL" ) {
+        return res;
     }
 
     return it.ammo_remaining() < it.ammo_capacity() ? HINT_GOOD : HINT_IFFY;
@@ -13741,21 +13748,38 @@ std::string player::weapname() const
         std::stringstream str;
         str << weapon.type_name();
 
-        if( weapon.ammo_capacity() > 0 && !weapon.has_flag( "RELOAD_AND_SHOOT" ) ) {
-            str << " (" << weapon.ammo_remaining() << "/" << weapon.ammo_capacity();
+        // Is either the base item or at least one auxiliary gunmod loaded (includes empty magazines)
+        bool base = weapon.ammo_capacity() > 0 && !weapon.has_flag( "RELOAD_AND_SHOOT" );
+        bool aux = std::any_of( weapon.contents.begin(), weapon.contents.end(), [&]( const item& e ) {
+            return e.is_auxiliary_gunmod() && e.ammo_capacity() > 0 && !e.has_flag( "RELOAD_AND_SHOOT" );
+        } );
 
-            // @todo deprecate handling of spare magazine
-            int spare_mag = weapon.has_gunmod( "spare_mag" );
-            if( spare_mag != -1 ) {
-                str << " +" << weapon.contents[spare_mag].charges;
-            }
-
-            for( const auto& mod : weapon.contents ) {
-                if( mod.is_auxiliary_gunmod() ) {
-                    str << " +" << mod.ammo_remaining();
+        if( base || aux ) {
+            str << " (";
+            if( base ) {
+                str << weapon.ammo_remaining();
+                if( weapon.magazine_integral() ) {
+                    str << "/" << weapon.ammo_capacity();
                 }
+                // @todo deprecate handling of spare magazine
+                int spare_mag = weapon.has_gunmod( "spare_mag" );
+                if( spare_mag != -1 ) {
+                    str << " +" << weapon.contents[spare_mag].charges;
+                }
+            } else {
+                str << "---";
             }
             str << ")";
+
+            for( const auto& mod : weapon.contents ) {
+                if( mod.is_auxiliary_gunmod() && mod.ammo_capacity() > 0 && !mod.has_flag( "RELOAD_AND_SHOOT" ) ) {
+                    str << " (" << mod.ammo_remaining();
+                    if( mod.magazine_integral() ) {
+                        str << "/" << mod.ammo_capacity();
+                    }
+                    str << ")";
+                }
+            }
         }
         return str.str();
 

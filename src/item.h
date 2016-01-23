@@ -631,6 +631,7 @@ public:
  bool is_food_container() const;      // Ignoring the ability to eat batteries, etc.
  bool is_ammo_container() const;
  bool is_bionic() const;
+ bool is_magazine() const;
  bool is_ammo() const;
  bool is_armor() const;
  bool is_book() const;
@@ -1079,12 +1080,28 @@ public:
         const itype * ammo_data() const;
         /** Specific ammo type, returns "null" if item is neither ammo nor loaded with any */
         itype_id ammo_current() const;
-        /**
-         * The id of the ammo type (@ref ammunition_type) that can be used by this item.
-         * Will return "NULL" if the item does not use a specific ammo type. Items without
-         * ammo type can not be reloaded.
+        /** Ammo type (@ref ammunition_type) used by item
+         *  @param conversion whether to include the effect of any flags or mods which convert the type
+         *  @return NULL if item does not use a specific ammo type (and is consequently not reloadable) */
+        ammotype ammo_type( bool conversion = true ) const;
+
+        /** Does item have an integral magazine (as opposed to allowing detachable magazines) */
+        bool magazine_integral() const;
+
+        /** Get compatible magazines (if any) for this item
+         *  @param conversion whether to include the effect of any flags or mods which convert the type
+         *  @return magazine compatibility which is always empty if item has integral magazine
+         *  @see item::magazine_integral
          */
-        ammotype ammo_type() const;
+        std::set<itype_id> magazine_compatible( bool conversion = true ) const;
+
+        /** Currently loaded magazine (if any)
+         *  @return current magazine or nullptr if either no magazine loaded or item has integral magazine
+         *  @see item::magazine_integral
+         */
+        item * magazine_current();
+        const item * magazine_current() const;
+
         /**
          * Number of charges this gun can hold. Includes effects from installed gunmods.
          * This does use the auxiliary gunmod (if any).

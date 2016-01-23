@@ -351,6 +351,37 @@ struct islot_gunmod : common_firing_data {
     int ups_charges = 0;
 };
 
+struct islot_magazine {
+    /**
+     * What type of ammo this magazine can be loaded with
+     */
+    std::string type;
+    /**
+     * Capacity of magazine (in equivalent units to ammo charges)
+     */
+    int capacity;
+    /**
+     * Default amount of ammo contained by a magazine
+     */
+    int count;
+    /**
+     * Percentage chance each round is fed without causing a jam
+     */
+    int reliability;
+    /**
+     * How long it takes to load each unit of ammo into the magazine
+     */
+    int reload_time;
+    /**
+     * Volume increases proportional to contained ammo for non-rigid magazines
+     */
+    bool rigid;
+    /**
+     * Alternative magazines (if any) for use with ammo conversion mods
+     */
+    std::map< ammotype, std::set<itype_id> > alternatives;
+};
+
 struct islot_ammo : common_ranged_data {
     /**
      * Ammo type, basically the "form" of the ammo that fits into the gun/tool.
@@ -473,6 +504,7 @@ struct itype {
     std::unique_ptr<islot_book> book;
     std::unique_ptr<islot_gun> gun;
     std::unique_ptr<islot_gunmod> gunmod;
+    std::unique_ptr<islot_magazine> magazine;
     std::unique_ptr<islot_variable_bigness> variable_bigness;
     std::unique_ptr<islot_bionic> bionic;
     std::unique_ptr<islot_software> software;
@@ -528,6 +560,9 @@ public:
 
     nc_color color = c_white; // Color on the map (color.h)
     char sym = '#';       // Symbol on the ma
+
+    /** Magazine types (if any) that can be used to reload this item */
+    std::set<itype_id> magazines;
 
     bool explode_in_fire() const
     {
