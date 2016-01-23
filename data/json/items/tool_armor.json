@@ -2329,7 +2329,7 @@
         "revert_to": "null",
         "use_action": {
             "type": "transform",
-            "msg": "You turn the helmet on.",
+            "msg": "You turn the earmuffs on.",
             "target": "powered_earmuffs_on",
             "active": true,
             "need_charges": 1,
