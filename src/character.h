@@ -247,6 +247,15 @@ class Character : public Creature
         VisitResponse visit_items( const std::function<VisitResponse(const item *, const item *)>& func ) const;
 
         /**
+         *  Determine the parent container (if any) for an item.
+         *  Wielded and worn items are checked first as these are typically the most frequently requested
+         *  @param it item to search for which must be in the characters possession
+         *  @return parent container or nullptr if the item is not within a container
+         */
+        item * find_parent( item& it );
+        const item * find_parent( const item& it ) const;
+
+        /**
          * Test whether an item in the playerts possession matches a certain filter.
          * The items might be inside other items (containers / quiver / etc.),
          * the filter is recursively applied to all item contents.

@@ -489,6 +489,26 @@ VisitResponse Character::visit_items( const std::function<VisitResponse( const i
     return const_cast<Character *>( this )->visit_items( static_cast<const std::function<VisitResponse(item *, item *)>&>( func ) );
 }
 
+item * Character::find_parent( item& it )
+{
+    item *res = nullptr;
+    if( visit_items( [&]( item *node, item *parent ){
+        if( node == &it ) {
+            res = parent;
+            return VisitResponse::ABORT;
+        }
+        return VisitResponse::NEXT;
+    } ) != VisitResponse::ABORT ) {
+        debugmsg( "Tried to find item parent using character who doesn't have the item" );
+    }
+    return res;
+}
+
+const item * Character::find_parent( const item& it ) const
+{
+    return const_cast<Character *>( this )->find_parent( const_cast<item&>( it ) );
+}
+
 std::vector<item *> Character::items_with( const std::function<bool(const item&)>& filter )
 {
     auto res = inv.items_with( filter );
