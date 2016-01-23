@@ -10,10 +10,12 @@ function initialize_new_player()
         return
     }
 
-    base_str = player.str_max
-    base_dex = player.dex_max
-    base_int = player.int_max
-    base_per = player.per_max
+    is_old_save = get_calendar_turn:days() > 1
+
+    base_str = is_old_save ? 8 : player.str_max
+    base_dex = is_old_save ? 8 : player.dex_max
+    base_int = is_old_save ? 8 : player.int_max
+    base_per = is_old_save ? 8 : player.per_max
 
     player:set_value("base_str", tostring(base_str))
     player:set_value("base_dex", tostring(base_dex))

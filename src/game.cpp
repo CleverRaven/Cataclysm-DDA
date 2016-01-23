@@ -830,6 +830,7 @@ void game::start_game(std::string worldname)
     u.add_memorial_log(pgettext("memorial_male", "%s began their journey into the Cataclysm."),
                        pgettext("memorial_female", "%s began their journey into the Cataclysm."),
                        u.name.c_str());
+   lua_callback("new_player_created");
 }
 
 void game::create_factions()
