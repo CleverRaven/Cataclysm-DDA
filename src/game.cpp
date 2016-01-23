@@ -11482,21 +11482,12 @@ void game::reload( int pos )
             break;
     }
 
-    // pick ammo
     auto loc = it->pick_reload_ammo( u, true );
-    auto ammo = loc.get_item();
-    if( ammo ) {
-        // move ammo to inventory if necessary
-        int am_pos = u.get_item_position( ammo );
-        if( am_pos == INT_MIN ) {
-            am_pos = u.get_item_position( &u.i_add( *ammo ) );
-            loc.remove_item();
-        }
-
-        // do the actual reloading
+    if( loc.get_item() ) {
         std::stringstream ss;
         ss << pos;
-        u.assign_activity( ACT_RELOAD, it->reload_time( u ), -1, am_pos, ss.str() );
+        u.assign_activity( ACT_RELOAD, it->reload_time( u ), -1, loc.obtain( u ), ss.str() );
+        u.inv.restack( &u );
     }
 
     refresh_all();
