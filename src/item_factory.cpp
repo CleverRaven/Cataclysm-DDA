@@ -916,7 +916,7 @@ void Item_factory::load( islot_magazine &slot, JsonObject &jo )
         ammotype ammo = arr.get_string( 0 );
         arr = arr.get_array( 1 );
         while( arr.has_more() ) {
-            slot.alternatives[ammo].emplace( arr.next_string() );
+            slot.alternatives[ammo].insert( arr.next_string() );
         }
     }
 }
