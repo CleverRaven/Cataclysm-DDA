@@ -42,6 +42,7 @@
 #include "weather_gen.h"
 #include "cata_utility.h"
 #include "iuse_actor.h"
+#include "catalua.h"
 
 #include <map>
 
@@ -13580,6 +13581,7 @@ void player::practice( const Skill* s, int amount, int cap )
         int newLevel = get_skill_level(s);
         if (is_player() && newLevel > oldLevel) {
             add_msg(m_good, _("Your skill in %s has increased to %d!"), s->name().c_str(), newLevel);
+            lua_callback("on_skill_increased");
         }
         if(is_player() && newLevel > cap) {
             //inform player immediately that the current recipe can't be used to train further
