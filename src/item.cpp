@@ -4220,18 +4220,34 @@ item_location item::pick_reload_ammo( player &u, bool interactive ) const
         std::for_each( contents.begin(), contents.end(), wants_ammo );
     }
 
-    // first check the inventory for suitable ammo
     std::vector<item_location> ammo_list;
-    u.visit_items( [&]( const item *node, const item * ) {
-        if( ( node->is_ammo() && ( item_types.count( node->ammo_current() ) || ammo_types.count( node->ammo_type() ) ) ) ||
-            ( node->is_magazine() && compat_mag.count( node->typeId() ) ) ) {
 
-            auto loc = item_location::on_character( u, node );
-            ammo_list.push_back( std::move( loc ) );
+    auto filter = [&item_types,&ammo_types,&compat_mag]( const item *e ) {
+        return ( e->is_ammo() && ( item_types.count( e->ammo_current() ) || ammo_types.count( e->ammo_type() ) ) ) ||
+               ( e->is_magazine() && compat_mag.count( e->typeId() ) );
+    };
+
+    // first check the inventory for suitable ammo
+    u.visit_items( [&ammo_list,&filter,&u]( const item *node, const item * ) {
+        if( filter( node ) ) {
+            ammo_list.emplace_back( item_location::on_character( u, node ) );
         }
-
         return ( node->is_magazine() || node->is_gun() || node->is_tool() ) ? VisitResponse::SKIP : VisitResponse::NEXT;
     });
+
+    for( const auto &pos : closest_tripoints_first( 1, u.pos() ) ) {
+        // next check for items on adjacent map tiles
+        if( g->m.accessible_items( u.pos(), pos, 1 ) ) {
+            for( auto& e : g->m.i_at( pos ) ) {
+                e.visit_items( [&ammo_list,&filter,&pos]( const item *node, const item * ) {
+                    if( filter( node ) ) {
+                        ammo_list.emplace_back( item_location::on_map( pos, node ) );
+                    }
+                    return ( node->is_magazine() || node->is_gun() || node->is_tool() ) ? VisitResponse::SKIP : VisitResponse::NEXT;
+                });
+            }
+        }
+    }
 
     if( ammo_list.empty() ) {
         if( interactive ) {
