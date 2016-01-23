@@ -5620,7 +5620,7 @@
     "price": 50000,
     "material": ["steel", "wood"],
     "flags": ["CHOP", "DURABLE_MELEE", "REACH_ATTACK"],
-    "techniques" : ["IMPALE", "WBLOCK_2"],
+    "techniques" : "WBLOCK_2",
     "weight": 2100,
     "volume": 10,
     "bashing": 8,
