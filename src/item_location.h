@@ -35,6 +35,10 @@ class item_location
         static item_location on_vehicle( vehicle &v, const point &where, const item *which );
         /*@}*/
 
+        /** Describes the item location
+         *  @param ch if set description is relative to character location */
+        std::string describe( const Character *ch = nullptr ) const;
+
         /** Removes the selected item from the game */
         void remove_item();
         /** Gets the selected item or nullptr */

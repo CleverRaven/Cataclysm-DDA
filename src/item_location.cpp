@@ -7,6 +7,7 @@
 #include "character.h"
 #include "player.h"
 #include "vehicle.h"
+#include "veh_type.h"
 #include <climits>
 
 class item_location::impl
@@ -15,6 +16,11 @@ protected:
     const item *what;
 public:
     virtual ~impl() = default;
+
+    virtual std::string describe( const Character * ) const {
+        return std::string();
+    }
+
     /** Removes the selected item from the game */
     virtual void remove_item() = 0;
     /** Gets the selected item or nullptr */
@@ -63,6 +69,14 @@ public:
                   location.x, location.y, location.z );
     }
 
+    std::string describe( const Character *ch ) const override {
+        std::string res = g->m.name( location );
+        if( ch ) {
+            res += std::string(" ") += direction_suffix( ch->pos(), location );
+        }
+        return res;
+    }
+
     void remove_item() override
     {
         if( what == nullptr ) {
@@ -109,6 +123,29 @@ public:
         } else {
             debugmsg( "Tried to get an item from a character who doesn't have it" );
             what = nullptr;
+        }
+    }
+
+    std::string describe( const Character *ch ) const override {
+        if( !what ) {
+            return std::string();
+        }
+
+        if( ch == who ) {
+            if( ch->is_worn( *what ) ) {
+                return _( "worn" );
+            }
+
+            // @todo recurse upwards through nested containers
+            const item *parent = ch->find_parent( *what );
+            if( parent ) {
+                return parent->type_name();
+            } else {
+                return _( "inventory" );
+            }
+
+        } else {
+            return ch ? ch->name : _( "npc" );
         }
     }
 
@@ -169,15 +206,16 @@ class item_location::item_on_vehicle : public item_location::impl {
 private:
     vehicle *veh;
     point local_coords;
+    int partnum;
 public:
     item_on_vehicle( vehicle &v, const point &where, const item *which )
     {
         veh = &v;
         local_coords = where;
-        const auto parts = v.parts_at_relative( where.x, where.y );
-        for( const int i : parts ) {
+        for( const int i : v.parts_at_relative( where.x, where.y ) ) {
             for( item &it : v.get_items( i ) ) {
                 if( &it == which ) {
+                    partnum = i;
                     what = &it;
                     return;
                 }
@@ -187,6 +225,14 @@ public:
         debugmsg( "Tried to find an item on vehicle %s, tile %d:%d, but it wasn't there",
                   veh->name.c_str(), local_coords.x, local_coords.y );
         what = nullptr;
+    }
+
+    std::string describe( const Character *ch ) const override {
+        std::string res = veh->parts[partnum].info().name;
+        if( ch ) {
+            ; // @todo implement relative decriptions
+        }
+        return res;
     }
 
     void remove_item() override
@@ -236,6 +282,11 @@ item_location::item_location( item_location &&other )
 
 item_location::~item_location()
 {
+}
+
+std::string item_location::describe( const Character *ch ) const
+{
+    return ptr->describe( ch );
 }
 
 void item_location::remove_item()
