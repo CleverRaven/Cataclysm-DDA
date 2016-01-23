@@ -163,6 +163,7 @@ void cata_tiles::reinit()
     clear_buffer();
     clear();
     init();
+    reinit_minimap();
 }
 
 void cata_tiles::reinit_minimap()

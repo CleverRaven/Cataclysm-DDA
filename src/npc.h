@@ -253,6 +253,7 @@ struct npc_follower_rules : public JsonSerializer, public JsonDeserializer
     bool allow_pick_up;
     bool allow_bash;
     bool allow_sleep;
+    bool allow_complain;
 
     npc_follower_rules()
     {
@@ -264,6 +265,7 @@ struct npc_follower_rules : public JsonSerializer, public JsonDeserializer
         allow_pick_up = true;
         allow_bash = true;
         allow_sleep = false;
+        allow_complain = true;
     };
 
     using JsonSerializer::serialize;
@@ -701,6 +703,7 @@ public:
     void die(Creature* killer) override;
     bool is_dead() const;
     int smash_ability() const; // How well we smash terrain (not corpses!)
+    bool complain(); // Finds something to complain about and complains. Returns if complained.
 /* shift() works much like monster::shift(), and is called when the player moves
  * from one submap to an adjacent submap.  It updates our position (shifting by
  * 12 tiles), as well as our plans.
@@ -802,6 +805,8 @@ private:
      * (mapx,mapy) defines the overmap the npc is stored on.
      */
     int mapx, mapy;
+    // Type of complaint->last time we complainted about this type
+    std::map<std::string, int> complaints;
 public:
 
     static npc_map _all_npc;

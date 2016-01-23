@@ -719,6 +719,7 @@ void npc_follower_rules::serialize(JsonOut &json) const
     json.member( "allow_pick_up", allow_pick_up );
     json.member( "allow_bash", allow_bash );
     json.member( "allow_sleep", allow_sleep );
+    json.member( "allow_complain", allow_complain );
     json.end_object();
 }
 
@@ -959,6 +960,9 @@ void npc::load(JsonObject &data)
     }
 
     last_updated = data.get_int( "last_updated", calendar::turn );
+    if( data.has_object( "complaints" ) ) {
+        data.read( "complaints", complaints );
+    }
 }
 
 /*
@@ -1021,6 +1025,7 @@ void npc::store(JsonOut &json) const
     json.member("restock", restock);
 
     json.member("last_updated", last_updated);
+    json.member("complaints", complaints);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////

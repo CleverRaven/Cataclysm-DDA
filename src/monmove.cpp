@@ -621,7 +621,7 @@ void monster::move()
             }
             // Bail out if we can't move there and we can't bash.
             if( !can_move_to( candidate ) &&
-                !( can_bash && g->m.bash_rating( bash_estimate(), candidate ) >= 0 ) ) {
+                !( can_bash && g->m.bash_rating( bash_estimate(), candidate ) >= 1 ) ) {
                 continue;
             }
             // Bail out if there's a non-hostile monster in the way and we're not pushy.

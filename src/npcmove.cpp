@@ -25,12 +25,14 @@ const skill_id skill_firstaid( "firstaid" );
 const skill_id skill_gun( "gun" );
 const skill_id skill_throw( "throw" );
 
+const efftype_id effect_bleed( "bleed" );
+const efftype_id effect_bite( "bite" );
 const efftype_id effect_bouldering( "bouldering" );
 const efftype_id effect_catch_up( "catch_up" );
 const efftype_id effect_hit_by_player( "hit_by_player" );
 const efftype_id effect_infection( "infection" );
+const efftype_id effect_infected( "infected" );
 const efftype_id effect_lying_down( "lying_down" );
-const efftype_id effect_npc_said( "npc_said" );
 const efftype_id effect_stunned( "stunned" );
 
 // A list of items used for escape, in order from least to most valuable
@@ -448,6 +450,8 @@ void npc::execute_action(npc_action action, int target)
         } else {
             move_pause();
         }
+        // TODO: Make it only happen when it's safe
+        complain();
         break;
 
     case npc_follow_embarked:
@@ -575,6 +579,7 @@ void npc::execute_action(npc_action action, int target)
         break;
 
     case npc_undecided:
+        complain();
         move_pause();
         break;
 
@@ -831,10 +836,6 @@ npc_action npc::address_needs(int danger)
         } else if( g->u.in_sleep_state() ) {
             // TODO: "Guard me while I sleep" command
             return npc_sleep;
-        } else if( g->u.sees( *this ) && !has_effect( effect_npc_said ) &&
-                   one_in( 10000 / ( fatigue + 1 ) ) ) {
-            say( "<yawn>" );
-            add_effect( effect_npc_said, 10 );
         }
     }
 
@@ -2569,4 +2570,70 @@ Creature *npc::get_target( int target ) const
 
     // Should actually return a NPC, but those aren't well supported yet
     return nullptr;
+}
+
+// Maybe TODO: Move to Character method and use map methods
+body_part bp_affected( npc &who, const efftype_id &effect_type )
+{
+    body_part ret = num_bp;
+    int highest_intensity = INT_MIN;
+    for( int i = 0; i < num_bp; i++ ) {
+        body_part bp = body_part( i );
+        const auto &eff = who.get_effect( effect_type, bp );
+        if( !eff.is_null() && eff.get_intensity() > highest_intensity ) {
+            ret = bp;
+            highest_intensity = eff.get_intensity();
+        }
+    }
+
+    return ret;
+}
+
+bool npc::complain()
+{
+    static const std::string infected_string = "infected";
+    static const std::string fatigue_string = "fatigue";
+    static const std::string bite_string = "bite";
+    static const std::string bleed_string = "bleed";
+    // TODO: Allow calling for help when scared
+    if( !is_following() || !g->u.sees( *this ) ) {
+        return false;
+    }
+
+    // When infected, complain every (4-intensity) hours
+    // At intensity 3, ignore player wanting us to shut up
+    if( has_effect( effect_infected ) ) {
+        body_part bp = bp_affected( *this, effect_infected );
+        const auto &eff = get_effect( effect_infected, bp );
+        if( complaints[infected_string] < calendar::turn - HOURS(4 - eff.get_intensity()) &&
+            (rules.allow_complain || eff.get_intensity() >= 3) ) {
+            say( _("My %s wound is infected..."), body_part_name( bp ).c_str() );
+            complaints[infected_string] = calendar::turn;
+            // Only one complaint per turn
+            return true;
+        }
+    }
+
+    // When bitten, complain every hour, but respect restrictions
+    if( has_effect( effect_bite ) ) {
+        body_part bp = bp_affected( *this, effect_bite );
+        if( rules.allow_complain &&
+            complaints[bite_string] < calendar::turn - HOURS(1) ) {
+            say( _("The bite wound on my %s looks bad."), body_part_name( bp ).c_str() );
+            complaints[bite_string] = calendar::turn;
+            return true;
+        }
+    }
+
+    // When tired, complain every 30 minutes
+    // If massively tired, ignore restrictions
+    if( complaints[fatigue_string] < calendar::turn - MINUTES(30) &&
+        (rules.allow_complain || fatigue > MASSIVE_FATIGUE - 100) ) {
+        say( "<yawn>" );
+        complaints[fatigue_string] = calendar::turn;
+        return true;
+    }
+
+    // TODO: Complain about hunger and thirst, when NPCs can have those
+    return false;
 }

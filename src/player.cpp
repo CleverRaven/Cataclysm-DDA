@@ -12344,13 +12344,13 @@ void player::try_to_sleep()
               ter_at_pos == t_dirtmound || ter_at_pos == t_pit_shallow ||
               ter_at_pos == t_grass) && !veh &&
               furn_at_pos == f_null ) {
-            add_msg(m_good, _("You relax as your roots embrace the soil."));
+            add_msg_if_player(m_good, _("You relax as your roots embrace the soil."));
         } else if (veh) {
-            add_msg(m_bad, _("It's impossible to sleep in this wheeled pot!"));
+            add_msg_if_player(m_bad, _("It's impossible to sleep in this wheeled pot!"));
         } else if (furn_at_pos != f_null) {
-            add_msg(m_bad, _("The humans' furniture blocks your roots. You can't get comfortable."));
+            add_msg_if_player(m_bad, _("The humans' furniture blocks your roots. You can't get comfortable."));
         } else { // Floor problems
-            add_msg(m_bad, _("Your roots scrabble ineffectively at the unyielding surface."));
+            add_msg_if_player(m_bad, _("Your roots scrabble ineffectively at the unyielding surface."));
         }
     }
     if (has_trait("WEB_WALKER")) {
@@ -12365,22 +12365,20 @@ void player::try_to_sleep()
             if (!webforce) {
             // At this point, it's kinda weird, but surprisingly comfy...
             if (web >= 3) {
-                add_msg(m_good, _("These thick webs support your weight, and are strangely comfortable..."));
+                add_msg_if_player(m_good, _("These thick webs support your weight, and are strangely comfortable..."));
                 websleeping = true;
-            }
-            else if (web > 0) {
-                add_msg(m_info, _("You try to sleep, but the webs get in the way.  You brush them aside."));
+            } else if( web > 0 ) {
+                add_msg_if_player(m_info, _("You try to sleep, but the webs get in the way.  You brush them aside."));
                 g->m.remove_field( pos(), fd_web );
             }
         } else {
             // Here, you're just not comfortable outside a nice thick web.
             if (web >= 3) {
-                add_msg(m_good, _("You relax into your web."));
+                add_msg_if_player(m_good, _("You relax into your web."));
                 websleeping = true;
-            }
-            else {
-                add_msg(m_bad, _("You try to sleep, but you feel exposed and your spinnerets keep twitching."));
-                add_msg(m_info, _("Maybe a nice thick web would help you sleep."));
+            } else {
+                add_msg_if_player(m_bad, _("You try to sleep, but you feel exposed and your spinnerets keep twitching."));
+                add_msg_if_player(m_info, _("Maybe a nice thick web would help you sleep."));
             }
         }
     }
@@ -12395,9 +12393,9 @@ void player::try_to_sleep()
          ter_at_pos == t_improvised_shelter || (in_shell) || (websleeping) ||
          (veh && veh->part_with_feature (vpart, "SEAT") >= 0) ||
          (veh && veh->part_with_feature (vpart, "BED") >= 0)) ) {
-        add_msg(m_good, _("This is a comfortable place to sleep."));
+        add_msg_if_player(m_good, _("This is a comfortable place to sleep."));
     } else if (ter_at_pos != t_floor && !plantsleep) {
-        add_msg( ter_at_pos.obj().movecost <= 2 ?
+        add_msg_if_player( ter_at_pos.obj().movecost <= 2 ?
                  _("It's a little hard to get to sleep on this %s.") :
                  _("It's hard to get to sleep on this %s."),
                  ter_at_pos.obj().name.c_str() );

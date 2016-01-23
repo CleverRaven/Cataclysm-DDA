@@ -1489,7 +1489,7 @@ bool vehicle::start_engine( const int e )
         if( einfo.fuel_type == fuel_type_gasoline && dmg > 0.75 && one_in( 20 ) ) {
             backfire( e );
         } else {
-            const tripoint pos = global_pos3() + parts[engines[e]].precalc[0];
+            const tripoint pos = global_part_pos3( engines[e] );
             sounds::ambient_sound( pos, engine_start_time( e ) / 10, "" );
         }
     }
@@ -1546,8 +1546,9 @@ void vehicle::start_engines( const bool take_control )
 void vehicle::backfire( const int e )
 {
     const int power = part_power( engines[e], true );
-    const tripoint pos = global_pos3() + parts[engines[e]].precalc[0];
-    sounds::ambient_sound( pos, 40 + (power / 30), "BANG!" );
+    const tripoint pos = global_part_pos3( engines[e] );
+    //~ backfire sound
+    sounds::ambient_sound( pos, 40 + (power / 30), _( "BANG!" ) );
 }
 
 void vehicle::honk_horn()
@@ -1569,13 +1570,16 @@ void vehicle::honk_horn()
             honked = true;
         }
         //Get global position of horn
-        const auto horn_pos = global_pos3() + parts[p].precalc[0];
+        const auto horn_pos = global_part_pos3( p );
         //Determine sound
         if( horn_type.bonus >= 40 ) {
+            //~ Loud horn sound
             sounds::sound( horn_pos, horn_type.bonus, _("HOOOOORNK!") );
         } else if( horn_type.bonus >= 20 ) {
+            //~ Moderate horn sound
             sounds::sound( horn_pos, horn_type.bonus, _("BEEEP!") );
         } else {
+            //~ Weak horn sound
             sounds::sound( horn_pos, horn_type.bonus, _("honk.") );
         }
     }
@@ -1603,10 +1607,8 @@ void vehicle::beeper_sound()
         }
 
         const vpart_info &beeper_type = part_info( p );
-        //Get global position of backup beeper
-        const tripoint beeper_pos = global_pos3() + parts[p].precalc[0];
-        //Determine sound
-        sounds::sound( beeper_pos, beeper_type.bonus, _("beep!") );
+        //~ Beeper sound
+        sounds::sound( global_part_pos3( p ), beeper_type.bonus, _( "beep!" ) );
     }
 }
 
@@ -2946,6 +2948,11 @@ point vehicle::global_pos() const
 tripoint vehicle::global_pos3() const
 {
     return tripoint( smx * SEEX + posx, smy * SEEY + posy, smz );
+}
+
+tripoint vehicle::global_part_pos3( const int &index ) const
+{
+    return global_pos3() + parts[index].precalc[0];
 }
 
 point vehicle::real_global_pos() const

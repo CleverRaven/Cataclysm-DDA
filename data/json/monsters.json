@@ -1142,7 +1142,7 @@
     "hp":40,
     "death_function":"NORMAL",
     "description":"A cunning pack predator, once extinct in the New England area, the wolf was successfully reintroduced and their numbers reached record highs in the decade before the cataclysm.  Lucky you.",
-    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FUR", "KEENNOSE", "BLEED", "ATTACKMON", "BONES", "FAT"],
+    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FUR", "KEENNOSE", "BLEED", "BONES", "FAT"],
     "anger_triggers":["STALK", "FRIEND_ATTACKED", "FRIEND_DIED", "PLAYER_WEAK", "PLAYER_CLOSE"],
     "placate_triggers":["MEAT"],
     "categories":["WILDLIFE"]
@@ -5908,7 +5908,7 @@
     "death_function":"BROKEN",
     "special_attacks":[["TAZER", 5]],
     "description":"A insectoid robot the size of a small dog, designed for home security.  Armed with two close-range tazers, it can skate across the ground with great speed.",
-    "flags":["SEES", "HEARS", "GOODHEARING", "ATTACKMON", "ELECTRONIC", "NO_BREATHE"]
+    "flags":["SEES", "HEARS", "GOODHEARING", "ELECTRONIC", "NO_BREATHE"]
     },{
     "type" : "MONSTER",
     "id" : "mon_secubot",
@@ -5942,7 +5942,7 @@
     "special_attacks":[["SMG", 2]],
     "starting_ammo" : {"9mm":100},
     "description":"The Northrop Watchman X-1 is a production series of heavily armored combat robots.  Initially designed for military patrol and escort service, it rolls on a set of hydraulic treads and is armed with a 3\"/50 caliber gun.",
-    "flags":["SEES", "HEARS", "BASHES", "ATTACKMON", "ELECTRONIC", "NO_BREATHE"]
+    "flags":["SEES", "HEARS", "BASHES", "ELECTRONIC", "NO_BREATHE"]
     },{
     "type" : "MONSTER",
     "id" : "mon_hazmatbot",
@@ -6132,7 +6132,7 @@
     "special_attacks":[["MULTI_ROBOT", 3]],
     "starting_ammo" : {"556":1000, "40mm_frag":100, "120mm_HEAT":40},
     "description":"The Northrup Emancipator is the first and only automated tank ever produced, made shortly after the split-up of Northrup Grumman.  Clad in depleted uranium plating, and armed with advanced munitions and a 120-mm gun, it is capable of delivering extraordinary firepower.",
-    "flags":["SEES", "HEARS", "GOODHEARING", "NOHEAD", "BASHES", "DESTROYS", "ATTACKMON", "NO_BREATHE", "ELECTRONIC"]
+    "flags":["SEES", "HEARS", "GOODHEARING", "NOHEAD", "BASHES", "DESTROYS", "NO_BREATHE", "ELECTRONIC"]
     },{
     "type" : "MONSTER",
     "id" : "mon_turret",

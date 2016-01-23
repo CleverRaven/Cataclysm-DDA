@@ -5906,7 +5906,7 @@ void map::draw( WINDOW* w, const tripoint &center )
 void map::drawsq( WINDOW* w, player &u, const tripoint &p,
                   const bool invert, const bool show_items ) const
 {
-    drawsq( w, u, p, invert, show_items, u.pos(), false, false, false );
+    drawsq( w, u, p, invert, show_items, u.pos() + u.view_offset, false, false, false );
 }
 
 void map::drawsq( WINDOW* w, player &u, const tripoint &p, const bool invert_arg,

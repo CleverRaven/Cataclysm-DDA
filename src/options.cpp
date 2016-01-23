@@ -1631,9 +1631,6 @@ void options_manager::show(bool ingame)
         //try and keep SDL calls limited to source files that deal specifically with them
         try {
             tilecontext->reinit();
-            if (pixel_minimap_height_changed) {
-                tilecontext->reinit_minimap();
-            }
             //g->init_ui is called when zoom is changed
             g->reset_zoom();
             if( ingame ) {
