@@ -214,11 +214,11 @@ class inventory
         }
 
         /** Traverses each item in the inventory using a visitor function
-         * @return Similar to item::visit returns only VisitResponse::Next or VisitResponse::Abort
-         * @see item::visit
+         * @return Similar to item::visit_items returns only VisitResponse::Next or VisitResponse::Abort
+         * @see item::visit_items
          **/
-        VisitResponse visit_items( const std::function<VisitResponse(item *)>& func );
-        VisitResponse visit_items( const std::function<VisitResponse(const item *)>& func ) const;
+        VisitResponse visit_items( const std::function<VisitResponse(item *, item *)>& func );
+        VisitResponse visit_items( const std::function<VisitResponse(const item *, const item *)>& func ) const;
 
         /** Returns true if any item (including those within a container) matches the filter */
         bool has_item_with( const std::function<bool(const item&)>& filter ) const;

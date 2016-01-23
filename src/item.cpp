@@ -4222,15 +4222,15 @@ item_location item::pick_reload_ammo( player &u, bool interactive ) const
 
     // first check the inventory for suitable ammo
     std::vector<item_location> ammo_list;
-    u.visit_items( [&]( const item *it ) {
-        if( ( it->is_ammo() && ( item_types.count( it->ammo_current() ) || ammo_types.count( it->ammo_type() ) ) ) ||
-            ( it->is_magazine() && compat_mag.count( it->typeId() ) ) ) {
+    u.visit_items( [&]( const item *node, const item * ) {
+        if( ( node->is_ammo() && ( item_types.count( node->ammo_current() ) || ammo_types.count( node->ammo_type() ) ) ) ||
+            ( node->is_magazine() && compat_mag.count( node->typeId() ) ) ) {
 
-            auto loc = item_location::on_character( u, it );
+            auto loc = item_location::on_character( u, node );
             ammo_list.push_back( std::move( loc ) );
         }
 
-        return ( it->is_magazine() || it->is_gun() || it->is_tool() ) ? VisitResponse::SKIP : VisitResponse::NEXT;
+        return ( node->is_magazine() || node->is_gun() || node->is_tool() ) ? VisitResponse::SKIP : VisitResponse::NEXT;
     });
 
     if( ammo_list.empty() ) {
@@ -4991,14 +4991,14 @@ void item::mark_as_used_by_player(const player &p)
     used_by_ids += string_format( "%d;", p.getID() );
 }
 
-VisitResponse item::visit_items( const std::function<VisitResponse(item *)>& func ) {
-    switch( func( this ) ) {
+static inline VisitResponse visit_internal( const std::function<VisitResponse(item *, item *)>& func, item *node, item *parent ) {
+    switch( func( node, parent ) ) {
         case VisitResponse::ABORT:
             return VisitResponse::ABORT;
 
         case VisitResponse::NEXT:
-            for( auto& e : contents ) {
-                if( e.visit_items( func ) == VisitResponse::ABORT ) {
+            for( auto& e : node->contents ) {
+                if( visit_internal( func, &e, node ) == VisitResponse::ABORT ) {
                     return VisitResponse::ABORT;
                 }
             }
@@ -5012,13 +5012,19 @@ VisitResponse item::visit_items( const std::function<VisitResponse(item *)>& fun
     return VisitResponse::ABORT;
 }
 
-VisitResponse item::visit_items( const std::function<VisitResponse(const item *)>& func ) const {
-    return const_cast<item *>( this )->visit_items( static_cast<const std::function<VisitResponse(item *)>&>( func ) );
+VisitResponse item::visit_items( const std::function<VisitResponse(item *, item *)>& func )
+{
+    return visit_internal( func, this, nullptr );
+}
+
+VisitResponse item::visit_items( const std::function<VisitResponse(const item *, const item *)>& func ) const
+{
+    return visit_internal( func, const_cast<item *>( this ), nullptr );
 }
 
 bool item::contains( const std::function<bool(const item&)>& filter ) const {
-    return visit_items( [&filter] ( const item *e ) {
-        return filter( *e ) ? VisitResponse::ABORT : VisitResponse::NEXT;
+    return visit_items( [&filter] ( const item *node, const item * ) {
+        return filter( *node ) ? VisitResponse::ABORT : VisitResponse::NEXT;
     }) == VisitResponse::ABORT;
 }
 
