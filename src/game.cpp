@@ -11469,7 +11469,11 @@ void game::reload( int pos )
 
     switch( u.rate_action_reload( *it ) ) {
         case HINT_IFFY:
-            add_msg( m_info, _( "Your %s is fully loaded!" ), it->tname().c_str() );
+            if( it->magazine_current() && it->ammo_remaining() == 0 ) {
+                add_msg( m_info, _( "Your %s is loaded with an empty magazine!" ), it->tname().c_str() );
+            } else {
+                add_msg( m_info, _( "Your %s is already loaded!" ), it->tname().c_str() );
+            }
             return;
 
         case HINT_CANT:
