@@ -34,7 +34,7 @@
         "volume": 1,
         "bashing": 1,
         "to_hit": -2,
-        "flags": [ "IS_ARMOR", "BELTED" ],
+        "flags": [ "IS_ARMOR", "BELTED", "OVERSIZE" ],
         "mod_targets": ["rifle", "shotgun", "smg", "crossbow", "launcher"]
     },
     {

@@ -11081,7 +11081,7 @@ void game::plfire( bool burst, const tripoint &default_target )
     if( reach_attack ) {
         u.reach_attack( p );
     } else {
-        u.fire_gun( p, burst );
+        u.fire_gun( p, burst, gun );
     }
 
     reenter_fullscreen();
@@ -11434,9 +11434,7 @@ void game::takeoff(int pos)
         return;
     }
 
-    if (!u.takeoff(pos)) {
-        add_msg(m_info, _("Invalid selection."));
-    }
+    u.takeoff( pos );
 }
 
 void game::change_side(int pos)

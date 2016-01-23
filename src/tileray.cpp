@@ -6,31 +6,31 @@
 static const int sx[4] = { 1, -1, -1, 1 };
 static const int sy[4] = { 1, 1, -1, -1 };
 
-tileray::tileray (): deltax(0), deltay(0),  leftover(0), direction(0),
-    last_dx(0), last_dy(0), steps(0), infinite (false)
+tileray::tileray(): deltax( 0 ), deltay( 0 ),  leftover( 0 ), direction( 0 ),
+    last_dx( 0 ), last_dy( 0 ), steps( 0 ), infinite( false )
 {
 }
 
-tileray::tileray (int adx, int ady)
+tileray::tileray( int adx, int ady )
 {
-    init (adx, ady);
+    init( adx, ady );
 }
 
-tileray::tileray (int adir): direction (adir)
+tileray::tileray( int adir ): direction( adir )
 {
-    init (adir);
+    init( adir );
 }
 
-void tileray::init (int adx, int ady)
+void tileray::init( int adx, int ady )
 {
     deltax = adx;
     deltay = ady;
     leftover = 0;
-    if (!adx && !ady) {
+    if( !adx && !ady ) {
         direction = 0;
     } else {
-        direction = (int) (atan2 ((double)deltay, (double)deltax) * 180.0 / M_PI);
-        if (direction < 0) {
+        direction = ( int )( atan2( ( double )deltay, ( double )deltax ) * 180.0 / M_PI );
+        if( direction < 0 ) {
             direction += 360;
         }
     }
@@ -40,57 +40,57 @@ void tileray::init (int adx, int ady)
     infinite = false;
 }
 
-void tileray::init (int adir)
+void tileray::init( int adir )
 {
     deltax = 0;
     deltay = 0;
     leftover = 0;
     // Clamp adir to the range [0, 359]
-    direction = (adir < 0 ? 360 - ((-adir) % 360) : adir % 360);
+    direction = ( adir < 0 ? 360 - ( ( -adir ) % 360 ) : adir % 360 );
     last_dx = 0;
     last_dy = 0;
-    deltax = abs((int) (cos ((float) direction * M_PI / 180.0) * 100));
-    deltay = abs((int) (sin ((float) direction * M_PI / 180.0) * 100));
+    deltax = abs( ( int )( cos( ( float ) direction * M_PI / 180.0 ) * 100 ) );
+    deltay = abs( ( int )( sin( ( float ) direction * M_PI / 180.0 ) * 100 ) );
     steps = 0;
     infinite = true;
 }
 
-int tileray::dx () const
+int tileray::dx() const
 {
     return last_dx;
 }
 
-int tileray::dy () const
+int tileray::dy() const
 {
     return last_dy;
 }
 
-int tileray::dir () const
+int tileray::dir() const
 {
     return direction;
 }
 
-int tileray::dir4 () const
+int tileray::dir4() const
 {
-    if (direction >= 45 && direction <= 135) {
+    if( direction >= 45 && direction <= 135 ) {
         return 1;
-    } else if (direction > 135 && direction < 225) {
+    } else if( direction > 135 && direction < 225 ) {
         return 2;
-    } else if (direction >= 225 && direction <= 315) {
+    } else if( direction >= 225 && direction <= 315 ) {
         return 3;
     } else {
         return 0;
     }
 }
 
-int tileray::dir8 () const
+int tileray::dir8() const
 {
     int oct = 0;
     int dir = direction;
-    if (dir < 23 || dir > 337) {
+    if( dir < 23 || dir > 337 ) {
         return 0;
     }
-    while (dir > 22) {
+    while( dir > 22 ) {
         dir -= 45;
         oct += 1;
     }
@@ -99,10 +99,9 @@ int tileray::dir8 () const
 
 // This function assumes a vehicle is being drawn.
 // It assumes horizontal lines are never skewed, vertical lines often skewed.
-long tileray::dir_symbol (long sym) const
+long tileray::dir_symbol( long sym ) const
 {
-    switch (sym)
-    {
+    switch( sym ) {
         // output.cpp special_symbol() converts yubn to corners, hj to lines, c to cross
         case 'j': // vertical line
             return "h\\j/h\\j/"[dir8()];
@@ -151,36 +150,36 @@ long tileray::dir_symbol (long sym) const
     return sym;
 }
 
-int tileray::ortho_dx (int od) const
+int tileray::ortho_dx( int od ) const
 {
-    int quadr = (direction / 90) % 4;
+    int quadr = ( direction / 90 ) % 4;
     od *= -sy[quadr];
     return mostly_vertical() ? od : 0;
 }
 
-int tileray::ortho_dy (int od) const
+int tileray::ortho_dy( int od ) const
 {
-    int quadr = (direction / 90) % 4;
+    int quadr = ( direction / 90 ) % 4;
     od *= sx[quadr];
     return mostly_vertical() ? 0 : od;
 }
 
-bool tileray::mostly_vertical () const
+bool tileray::mostly_vertical() const
 {
-    return abs(deltax) <= abs(deltay);
+    return abs( deltax ) <= abs( deltay );
 }
 
-void tileray::advance (int num)
+void tileray::advance( int num )
 {
     last_dx = last_dy = 0;
-    int ax = abs(deltax);
-    int ay = abs(deltay);
-    int anum = abs (num);
-    for (int i = 0; i < anum; i++) {
-        if (mostly_vertical ()) {
+    int ax = abs( deltax );
+    int ay = abs( deltay );
+    int anum = abs( num );
+    for( int i = 0; i < anum; i++ ) {
+        if( mostly_vertical() ) {
             // mostly vertical line
             leftover += ax;
-            if (leftover >= ay) {
+            if( leftover >= ay ) {
                 last_dx++;
                 leftover -= ay;
             }
@@ -188,7 +187,7 @@ void tileray::advance (int num)
         } else {
             // mostly horizontal line
             leftover += ay;
-            if (leftover >= ax) {
+            if( leftover >= ax ) {
                 last_dy++;
                 leftover -= ax;
             }
@@ -198,21 +197,21 @@ void tileray::advance (int num)
     }
 
     // offset calculated for 0-90 deg quadrant, we need to adjust if direction is other
-    int quadr = (direction / 90) % 4;
+    int quadr = ( direction / 90 ) % 4;
     last_dx *= sx[quadr];
     last_dy *= sy[quadr];
-    if (num < 0) {
+    if( num < 0 ) {
         last_dx = -last_dx;
         last_dy = -last_dy;
     }
 }
 
-bool tileray::end ()
+bool tileray::end()
 {
-    if (infinite) {
+    if( infinite ) {
         return true;
     }
-    return mostly_vertical() ? steps >= abs(deltay) - 1 : steps >= abs(deltax) - 1;
+    return mostly_vertical() ? steps >= abs( deltay ) - 1 : steps >= abs( deltax ) - 1;
 }
 
 

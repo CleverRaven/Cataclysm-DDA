@@ -20,7 +20,7 @@
         "ammo": "essence_dull_type",
         "use_action" : "ARTIFACT",
         "artifact_data" : {
-          "effects_activated": ["AEA_HEAL", "AEA_PAIN"]
+          "effects_activated": ["AEA_PAIN", "AEA_HEAL", "AEA_HEAL", "AEA_HEAL"]
         },
         "revert_to": "null",
         "covers" : ["TORSO", "HEAD", "ARMS", "LEGS"],

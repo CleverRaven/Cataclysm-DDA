@@ -1765,16 +1765,16 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
                 }
                 // Nope, look in the hash map next
                 if (!info) {
-                    auto const it = otermap.find(cur_ter);
-                    if (it == otermap.end()) {
-                        debugmsg("Bad ter %s (%d, %d)", cur_ter.c_str(), omx, omy);
+                    auto const it = otermap.find( cur_ter );
+                    if( it == otermap.end() ) {
+                        debugmsg( "Bad ter %s (%d, %d)", cur_ter.c_str(), omx, omy );
                         ter_color = c_red;
                         ter_sym   = '?';
                     } else {
                         // cache the new value
                         info = &it->second;
-                        cache[cache_next] = std::make_pair(cur_ter, info);
-                        cache_next = (cache_next + 1) % cache_size;
+                        cache[cache_next] = std::make_pair( cur_ter, info );
+                        cache_next = ( cache_next + 1 ) % cache_size;
                     }
                 }
                 // Ok, we found something
@@ -2978,6 +2978,7 @@ bool overmap::build_lab( int x, int y, int z, int s, bool ice )
     std::vector<point> generated_lab;
     std::string labt = ice ? "ice_lab" : "lab";
     ter( x, y, z ) = labt;
+    generated_lab.push_back( point( x, y ) );
 
     // maintain a list of potential new lab maps
     // grows outwards from previously placed lab maps

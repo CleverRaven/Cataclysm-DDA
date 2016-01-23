@@ -33,8 +33,7 @@ struct species_type {
     std::set<m_flag> flags;
     std::set<monster_trigger> anger_trig, fear_trig, placate_trig;
 
-    species_type(): id( NULL_ID )
-    {
+    species_type(): id( NULL_ID ) {
 
     }
 
@@ -44,8 +43,7 @@ struct species_type {
 class MonsterGenerator
 {
     public:
-        static MonsterGenerator &generator()
-        {
+        static MonsterGenerator &generator() {
             static MonsterGenerator generator;
 
             return generator;
@@ -56,8 +54,8 @@ class MonsterGenerator
         void reset();
 
         // JSON loading functions
-        void load_monster(JsonObject &jo);
-        void load_species(JsonObject &jo);
+        void load_monster( JsonObject &jo );
+        void load_species( JsonObject &jo );
 
         // combines mtype and species information, sets bitflags
         void finalize_mtypes();
@@ -86,21 +84,21 @@ class MonsterGenerator
         void init_mf_attitude();
 
         // data acquisition
-        std::set<std::string> get_tags(JsonObject &jo, std::string member);
-        std::vector<mon_action_death> get_death_functions(JsonObject &jo, std::string member);
-        void load_special_defense(mtype *m, JsonObject &jo, std::string member);
-        void load_special_attacks(mtype *m, JsonObject &jo, std::string member);
-        template <typename T> std::set<T> get_set_from_tags(std::set<std::string> tags,
-                std::map<std::string, T> conversion_map, T fallback);
-        template <typename T> T get_from_string(std::string tag, std::map<std::string, T> conversion_map,
-                                                T fallback);
+        std::set<std::string> get_tags( JsonObject &jo, std::string member );
+        std::vector<mon_action_death> get_death_functions( JsonObject &jo, std::string member );
+        void load_special_defense( mtype *m, JsonObject &jo, std::string member );
+        void load_special_attacks( mtype *m, JsonObject &jo, std::string member );
+        template <typename T> std::set<T> get_set_from_tags( std::set<std::string> tags,
+                std::map<std::string, T> conversion_map, T fallback );
+        template <typename T> T get_from_string( std::string tag, std::map<std::string, T> conversion_map,
+                T fallback );
 
         // finalization
         void apply_species_attributes( mtype &mon );
         void set_mtype_flags( mtype &mon );
         void set_species_ids( mtype &mon );
 
-        template <typename T> void apply_set_to_set(std::set<T> from, std::set<T> &to);
+        template <typename T> void apply_set_to_set( std::set<T> from, std::set<T> &to );
 
         friend class string_id<mtype>;
         friend class string_id<species_type>;

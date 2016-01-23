@@ -340,8 +340,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Picks a random body part, adjusting for mutations, broken body parts etc. */
         body_part get_random_body_part( bool main ) const override;
 
-        /** Returns true if the player has a pda */
-        bool has_pda();
         /** Returns true if the player or their vehicle has an alarm clock */
         bool has_alarm_clock() const;
         /** Returns true if the player or their vehicle has a watch */
@@ -1088,7 +1086,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int movecounter;
         std::array<int, num_bp> temp_cur, frostbite_timer, temp_conv;
         void temp_equalizer(body_part bp1, body_part bp2); // Equalizes heat between body parts
-        bool pda_cached;
 
         // Drench cache
         enum water_tolerance {

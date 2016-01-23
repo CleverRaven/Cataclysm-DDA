@@ -258,14 +258,9 @@ bool overmapbuffer::has_npc(int const x, int const y, int const z)
     return false;
 }
 
-bool overmapbuffer::has_vehicle(int x, int y, int z, bool require_pda)
+bool overmapbuffer::has_vehicle( int x, int y, int z )
 {
     if (z) {
-        return false;
-    }
-
-    // if the player is not carrying a PDA then he cannot see the vehicle.
-    if (require_pda && !g->u.has_pda()) {
         return false;
     }
 
@@ -283,14 +278,10 @@ bool overmapbuffer::has_vehicle(int x, int y, int z, bool require_pda)
     return false;;
 }
 
-std::vector<om_vehicle> overmapbuffer::get_vehicle(int x, int y, int z, bool require_pda)
+std::vector<om_vehicle> overmapbuffer::get_vehicle( int x, int y, int z )
 {
     std::vector<om_vehicle> result;
     if( z != 0 ) {
-        return result;
-    }
-    // if the player is not carrying a PDA then he cannot see the vehicle.
-    if( require_pda && !g->u.has_pda() ) {
         return result;
     }
     overmap *om = get_existing_om_global(x, y);

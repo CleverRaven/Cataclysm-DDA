@@ -319,7 +319,6 @@ bool effect_type::load_mod_data(JsonObject &jsobj, std::string member) {
 }
 
 effect_type::effect_type() {}
-effect_type::effect_type(const effect_type &) {}
 
 effect_rating effect_type::get_rating() const
 {
