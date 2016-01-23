@@ -243,8 +243,8 @@ class Character : public Creature
          * @return Similar to item::visit returns only VisitResponse::Next or VisitResponse::Abort
          * @see item::visit
          **/
-        VisitResponse visit_items( const std::function<VisitResponse(item&)>& func );
-        VisitResponse visit_items( const std::function<VisitResponse(const item&)>& func ) const;
+        VisitResponse visit_items( const std::function<VisitResponse(item *)>& func );
+        VisitResponse visit_items( const std::function<VisitResponse(const item *)>& func ) const;
 
         /**
          * Test whether an item in the playerts possession matches a certain filter.

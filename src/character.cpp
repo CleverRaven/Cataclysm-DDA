@@ -469,7 +469,7 @@ bool Character::has_active_bionic(const std::string & b) const
     return false;
 }
 
-VisitResponse Character::visit_items( const std::function<VisitResponse( item& )>& func )
+VisitResponse Character::visit_items( const std::function<VisitResponse( item * )>& func )
 {
     if( !weapon.is_null() && weapon.visit_items( func ) == VisitResponse::ABORT ) {
         return VisitResponse::ABORT;
@@ -484,26 +484,26 @@ VisitResponse Character::visit_items( const std::function<VisitResponse( item& )
     return inv.visit_items( func );
 }
 
-VisitResponse Character::visit_items( const std::function<VisitResponse( const item& )>& func ) const
+VisitResponse Character::visit_items( const std::function<VisitResponse( const item * )>& func ) const
 {
-    return const_cast<Character *>( this )->visit_items( static_cast<const std::function<VisitResponse(item&)>&>( func ) );
+    return const_cast<Character *>( this )->visit_items( static_cast<const std::function<VisitResponse(item *)>&>( func ) );
 }
 
 std::vector<item *> Character::items_with( const std::function<bool(const item&)>& filter )
 {
     auto res = inv.items_with( filter );
 
-    weapon.visit_items( [&res, &filter]( item& it ) {
-        if( filter( it ) ) {
-            res.emplace_back( &it );
+    weapon.visit_items( [&res, &filter]( item *it ) {
+        if( filter( *it ) ) {
+            res.emplace_back( it );
         }
         return VisitResponse::NEXT;
     });
 
     for( auto &e : worn ) {
-        e.visit_items( [&res, &filter]( item& it ) {
-            if( filter( it ) ) {
-                res.emplace_back( &it );
+        e.visit_items( [&res, &filter]( item *it ) {
+            if( filter( *it ) ) {
+                res.emplace_back( it );
             }
             return VisitResponse::NEXT;
         });
@@ -516,17 +516,17 @@ std::vector<const item *> Character::items_with( const std::function<bool(const 
 {
     auto res = inv.items_with( filter );
 
-    weapon.visit_items( [&res, &filter]( const item& it ) {
-        if( filter( it ) ) {
-            res.emplace_back( &it );
+    weapon.visit_items( [&res, &filter]( const item *it ) {
+        if( filter( *it ) ) {
+            res.emplace_back( it );
         }
         return VisitResponse::NEXT;
     });
 
     for( const auto &e : worn ) {
-        e.visit_items( [&res, &filter]( const item& it ) {
-            if( filter( it ) ) {
-                res.emplace_back( &it );
+        e.visit_items( [&res, &filter]( const item *it ) {
+            if( filter( *it ) ) {
+                res.emplace_back( it );
             }
             return VisitResponse::NEXT;
         });
@@ -537,8 +537,8 @@ std::vector<const item *> Character::items_with( const std::function<bool(const 
 
 bool Character::has_item_with( const std::function<bool(const item&)>& filter ) const
 {
-    return visit_items( [&filter]( const item& it ) {
-        return filter( it ) ? VisitResponse::ABORT : VisitResponse::NEXT;
+    return visit_items( [&filter]( const item *it ) {
+        return filter( *it ) ? VisitResponse::ABORT : VisitResponse::NEXT;
     }) == VisitResponse::ABORT;
 }
 
