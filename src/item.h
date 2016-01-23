@@ -1080,12 +1080,10 @@ public:
         const itype * ammo_data() const;
         /** Specific ammo type, returns "null" if item is neither ammo nor loaded with any */
         itype_id ammo_current() const;
-        /**
-         * The id of the ammo type (@ref ammunition_type) that can be used by this item.
-         * Will return "NULL" if the item does not use a specific ammo type. Items without
-         * ammo type can not be reloaded.
-         */
-        ammotype ammo_type() const;
+        /** Ammo type (@ref ammunition_type) used by item
+         *  @param conversion whether to include the effect of any flags or mods which convert the type
+         *  @return NULL if item does not use a specific ammo type (and is consequently not reloadable) */
+        ammotype ammo_type( bool conversion = true ) const;
 
         /** Does item have an integral magazine (as opposed to allowing detachable magazines) */
         bool magazine_integral() const;

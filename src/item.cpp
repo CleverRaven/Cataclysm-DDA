@@ -4077,29 +4077,28 @@ itype_id item::ammo_current() const
     return ammo ? ammo->id : "null";
 }
 
-ammotype item::ammo_type() const
+ammotype item::ammo_type( bool conversion ) const
 {
-    if (is_gun()) {
-        ammotype ret = type->gun->ammo;
-        for( auto &elem : contents ) {
-            if( elem.is_gunmod() && !elem.is_auxiliary_gunmod() ) {
-                const auto mod = elem.type->gunmod.get();
-                if (mod->newtype != "NULL")
-                    ret = mod->newtype;
-            }
-        }
-        return ret;
-    } else if (is_tool()) {
-        const auto tool = dynamic_cast<const it_tool*>(type);
-        if (has_flag("ATOMIC_AMMO")) {
+    if( conversion ) {
+        if( has_flag( "ATOMIC_AMMO" ) ) {
             return "plutonium";
         }
-        return tool->ammo_id;
-    } else if (is_magazine()) {
+        for( const auto &mod : contents ) {
+            if( mod.is_gunmod() && !mod.is_auxiliary_gunmod() && mod.ammo_type() != "NULL" ) {
+                return mod.ammo_type();
+            }
+        }
+    }
+
+    if( is_gun() ) {
+        return type->gun->ammo;
+    } else if( is_tool() ) {
+        return dynamic_cast<const it_tool*>( type )->ammo_id;
+    } else if( is_magazine() ) {
         return type->magazine->type;
-    } else if (is_ammo()) {
+    } else if( is_ammo() ) {
         return type->ammo->type;
-    } else if (is_gunmod()) {
+    } else if( is_gunmod() ) {
         return type->gunmod->newtype;
     }
     return "NULL";
