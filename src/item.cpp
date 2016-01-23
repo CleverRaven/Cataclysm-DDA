@@ -4249,10 +4249,11 @@ item_location item::pick_reload_ammo( player &u, bool interactive ) const
     amenu.w_y = 0;
     amenu.w_x = 0;
     amenu.w_width = TERMX;
+    // 40: item location
     // 40: = 4 * ammo stats colum (10 chars each)
     // 2: prefix from uimenu: hotkey + space in front of name
     // 4: borders: 2 char each ("| " and " |")
-    const int namelen = TERMX - 2 - 40 - 4;
+    const int namelen = TERMX - 40 - 40 - 2 - 4;
 
     std::string lastreload = "";
     if( uistate.lastreload.find( ammo_type() ) != uistate.lastreload.end() ) {
@@ -4267,8 +4268,8 @@ item_location item::pick_reload_ammo( player &u, bool interactive ) const
     }
     // To cover the space in the header that is used by the hotkeys created by uimenu
     amenu.text.insert( 0, "  " );
-    //~ header of table that appears when reloading, each colum must contain exactly 10 characters
-    amenu.text += _( "| Damage  | Pierce  | Range   | Accuracy" );
+    //~ header of table that appears when reloading
+    amenu.text += _( "| Location                              | Damage  | Pierce  | Range   | Accuracy" );
     int i = 0;
     for( auto& e : ammo_list ) {
         const item *it = e.get_item();
@@ -4291,7 +4292,10 @@ item_location item::pick_reload_ammo( player &u, bool interactive ) const
         const auto ammo_pierce     = curammo ? curammo->ammo->pierce : 0;
         const auto ammo_range      = curammo ? curammo->ammo->range  : 0;
         const auto ammo_dispersion = curammo ? 100 - curammo->ammo->dispersion : 0;
-        row += string_format( "| %-7d | %-7d | %-7d | %-7d", ammo_damage, ammo_pierce, ammo_range, ammo_dispersion );
+
+       row += string_format( "| %-37s | %-7d | %-7d | %-7d | %-7d",
+                              utf8_truncate( e.describe( &g->u ), 37 ).c_str(),
+                              ammo_damage, ammo_pierce, ammo_range, ammo_dispersion );
 
         amenu.addentry( i, true, i + 'a', row );
         if( lastreload == it->type->id ) {
