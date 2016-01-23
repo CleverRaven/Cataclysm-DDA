@@ -3,12 +3,38 @@ local MOD = {}
 
 mods["StatsThoughSkills"] = MOD
 
+function initialize_new_player()
+    initialized = player:get_value("StatsThoughSkills")
+
+    if(initialized == "true") {
+        return
+    }
+
+    base_str = player.str_max
+    base_dex = player.dex_max
+    base_int = player.int_max
+    base_per = player.per_max
+
+    player:set_value("base_str", tostring(base_str))
+    player:set_value("base_dex", tostring(base_dex))
+    player:set_value("base_int", tostring(base_int))
+    player:set_value("base_per", tostring(base_per))
+
+    player:set_value("StatsThoughSkills", "true")
+end
+
+-- function MOD.new_player_created()
+--     initialize_new_player();
+-- end
+
 function MOD.on_day_passed()
+    initialize_new_player()
     game.add_msg("Calculating new stats based off skills")
-    str_bonus = 8
-    dex_bonus = 8
-    int_bonus = 8
-    per_bonus = 8
+
+    str_bonus = 0
+    dex_bonus = 0
+    int_bonus = 0
+    per_bonus = 0
 
     --Str based skills
     str_bonus = calc_bonus(str_bonus,"carpentry")
@@ -18,7 +44,22 @@ function MOD.on_day_passed()
     str_bonus = calc_bonus(str_bonus,"cutting")
     str_bonus = calc_bonus(str_bonus,"melee")
     str_bonus = calc_bonus(str_bonus,"throw")
-
+    if (str_bonus >= 21) then
+        str_bonus = 6
+    elseif (str_bonus >= 15) then
+        str_bonus = 5
+    elseif (str_bonus >= 10) then
+        str_bonus = 4
+    elseif (str_bonus >=6) then
+        str_bonus = 3
+    elseif (str_bonus >=3) then
+        str_bonus = 2
+    elseif (str_bonus >=1) then
+        str_bonus = 1
+    else
+        str_bonus = 0
+    end
+    
     --Dex based skills
     dex_bonus = calc_bonus(dex_bonus,"driving")
     dex_bonus = calc_bonus(dex_bonus,"survival")
@@ -27,6 +68,21 @@ function MOD.on_day_passed()
     dex_bonus = calc_bonus(dex_bonus,"dodge")
     dex_bonus = calc_bonus(dex_bonus,"stabbing")
     dex_bonus = calc_bonus(dex_bonus,"unarmed")
+    if (dex_bonus >= 21) then
+        dex_bonus = 6
+    elseif (dex_bonus >= 15) then
+        dex_bonus = 5
+    elseif (dex_bonus >= 10) then
+        dex_bonus = 4
+    elseif (dex_bonus >=6) then
+        dex_bonus = 3
+    elseif (dex_bonus >=3) then
+        dex_bonus = 2
+    elseif (dex_bonus >=1) then
+        dex_bonus = 1
+    else
+        dex_bonus = 0
+    end
 
     --Int based skills
     int_bonus = calc_bonus(int_bonus,"barter")
@@ -36,6 +92,21 @@ function MOD.on_day_passed()
     int_bonus = calc_bonus(int_bonus,"fabrication")
     int_bonus = calc_bonus(int_bonus,"firstaid")
     int_bonus = calc_bonus(int_bonus,"speech")
+    if (int_bonus >= 21) then
+        int_bonus = 6
+    elseif (int_bonus >= 15) then
+        int_bonus = 5
+    elseif (int_bonus >= 10) then
+        int_bonus = 4
+    elseif (int_bonus >=6) then
+        int_bonus = 3
+    elseif (int_bonus >=3) then
+        int_bonus = 2
+    elseif (int_bonus >=1) then
+        int_bonus = 1
+    else
+        int_bonus = 0
+    end
 
     --Per based skills
     per_bonus = calc_bonus(per_bonus,"archery")
@@ -45,57 +116,30 @@ function MOD.on_day_passed()
     per_bonus = calc_bonus(per_bonus,"rifle")
     per_bonus = calc_bonus(per_bonus,"shotgun")
     per_bonus = calc_bonus(per_bonus,"smg")
+    if (per_bonus >= 21) then
+        per_bonus = 6
+    elseif (per_bonus >= 15) then
+        per_bonus = 5
+    elseif (per_bonus >= 10) then
+        per_bonus = 4
+    elseif (per_bonus >=6) then
+        per_bonus = 3
+    elseif (per_bonus >=3) then
+        per_bonus = 2
+    elseif (per_bonus >=1) then
+        per_bonus = 1
+    else
+        per_bonus = 0
+    end
 
-    --Checking for mutations
-    if player:has_trait("BENDY1") then dex_bonus = dex_bonus + 1 end
-    if player:has_trait("BENDY2") then 
-        dex_bonus = dex_bonus + 3 
-        str_bonus = str_bonus - 2 
-    end
-    if player:has_trait("BENDY3") then 
-        dex_bonus = dex_bonus + 4 
-        str_bonus = str_bonus - 4 
-    end
-    if player:has_trait("STOCKY_TROGLO") then 
-        str_bonus = str_bonus + 2 
-        dex_bonus = dex_bonus - 2 
-    end
-    if player:has_trait("PRED3") then int_bonus = int_bonus - 1 end
-    if player:has_trait("PRED4") then int_bonus = int_bonus - 3 end
-    if player:has_trait("LARGE") then str_bonus = str_bonus + 2 end
-    if player:has_trait("LARGE_OK") then str_bonus = str_bonus + 2 end
-    if player:has_trait("HUGE") then str_bonus = str_bonus + 4 end
-    if player:has_trait("HUGE_OK") then str_bonus = str_bonus + 4 end
-    if player:has_trait("STR_UP") then str_bonus = str_bonus + 1 end
-    if player:has_trait("STR_UP_2") then str_bonus = str_bonus + 2 end
-    if player:has_trait("STR_UP_3") then str_bonus = str_bonus + 4 end
-    if player:has_trait("STR_UP_4") then str_bonus = str_bonus + 7 end
-    if player:has_trait("DEX_UP") then dex_bonus = dex_bonus + 1 end
-    if player:has_trait("DEX_UP_2") then dex_bonus = dex_bonus + 2 end
-    if player:has_trait("DEX_UP_3") then dex_bonus = dex_bonus + 4 end
-    if player:has_trait("DEX_UP_4") then dex_bonus = dex_bonus + 7 end
-    if player:has_trait("INT_UP") then int_bonus = int_bonus + 1 end
-    if player:has_trait("INT_UP_2") then int_bonus = int_bonus + 2 end
-    if player:has_trait("INT_UP_3") then int_bonus = int_bonus + 4 end
-    if player:has_trait("INT_UP_4") then int_bonus = int_bonus + 7 end
-    if player:has_trait("PER_UP") then per_bonus = per_bonus + 1 end
-    if player:has_trait("PER_UP_2") then per_bonus = per_bonus + 2 end
-    if player:has_trait("PER_UP_3") then per_bonus = per_bonus + 4 end
-    if player:has_trait("PER_UP_4") then per_bonus = per_bonus + 7 end
-    if player:has_trait("PER_SLIME") then per_bonus = per_bonus - 8 end
-    if player:has_trait("PER_SLIME_OK") then per_bonus = per_bonus + 5 end
-
+    player.str_max = tonumber(player:get_value("base_str")) + str_bonus
+    player.dex_max = tonumber(player:get_value("base_dex")) + dex_bonus
+    player.int_max = tonumber(player:get_value("base_int")) + int_bonus
+    player.per_max = tonumber(player:get_value("base_per")) + per_bonus
     print_results(str_bonus,"Str",player.str_max)
-    player.str_max = str_bonus
-
     print_results(dex_bonus,"Dex",player.dex_max)
-    player.dex_max = dex_bonus
-
     print_results(int_bonus,"Int",player.int_max)
-    player.int_max = int_bonus
-
     print_results(per_bonus,"Per",player.per_max)
-    player.per_max = per_bonus
 
     player:recalc_hp()
 end
