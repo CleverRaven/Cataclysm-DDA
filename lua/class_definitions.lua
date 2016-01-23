@@ -1915,7 +1915,7 @@ global_functions = {
         rval = "it_tool"
     },
     get_calendar_turn = {
-        cpp_name = "get_calendar_turn",
+        cpp_name = "get_calendar_turn_wrapper",
         args = {},
         rval = "calendar"
     }

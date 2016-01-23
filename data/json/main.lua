@@ -1,5 +1,10 @@
 -- Main mod file that will be executed by the game.
 
+function testcalendar()
+    local cal = game.get_calendar_turn()
+    game.add_msg("The day is: "..cal:days())
+end
+
 function testui()
     local ui = game.create_uimenu()
 

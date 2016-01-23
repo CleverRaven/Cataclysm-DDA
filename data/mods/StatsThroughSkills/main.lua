@@ -25,24 +25,19 @@ function calculate_bonuses()
 
     handle_previous_version()
 
-    prev_str = player.str_max
-    prev_dex = player.dex_max
-    prev_int = player.int_max
-    prev_per = player.per_max
+    local prev_str = player.str_max
+    local prev_dex = player.dex_max
+    local prev_int = player.int_max
+    local prev_per = player.per_max
 
     remove_existing_bonuses()
 
-    str_bonus = 0
-    dex_bonus = 0
-    int_bonus = 0
-    per_bonus = 0
+    local str_bonus = calc_bonus(str_skills)
+    local dex_bonus = calc_bonus(dex_skills)
+    local int_bonus = calc_bonus(dex_skills)
+    local per_bonus = calc_bonus(per_skills)
 
-    str_bonus = calc_bonus(str_skills)
-    dex_bonus = calc_bonus(dex_skills)
-    int_bonus = calc_bonus(dex_skills)
-    per_bonus = calc_bonus(per_skills)
-
-    player:set_value("str_bonus", tostring(str_bonux))
+    player:set_value("str_bonus", tostring(str_bonus))
     player:set_value("dex_bonus", tostring(dex_bonus))
     player:set_value("int_bonus", tostring(int_bonus))
     player:set_value("per_bonus", tostring(per_bonus))
@@ -60,26 +55,26 @@ function calculate_bonuses()
     player:recalc_hp()
 end
 
-function remove_existing_bonuses() 
-    str_bonus = tonumber(player:get_value("str_bonus"))
-    dex_bonus = tonumber(player:get_value("dex_bonus"))
-    int_bonus = tonumber(player:get_value("int_bonus"))
-    per_bonus = tonumber(player:get_value("per_bonus"))
+function remove_existing_bonuses()
+    local str_bonus = tonumber(player:get_value("str_bonus"))
+    local dex_bonus = tonumber(player:get_value("dex_bonus"))
+    local int_bonus = tonumber(player:get_value("int_bonus"))
+    local per_bonus = tonumber(player:get_value("per_bonus"))
 
-    player.str_max = player.str_max - str_bonus
-    player.dex_max = player.dex_max - dex_bonus
-    player.int_max = player.int_max - int_bonus
-    player.per_max = player.per_max - per_bonus
+    if(str_bonus) then player.str_max = player.str_max - str_bonus end
+    if(dex_bonus) then player.dex_max = player.dex_max - dex_bonus end
+    if(int_bonus) then player.int_max = player.int_max - int_bonus end
+    if(per_bonus) then player.per_max = player.per_max - per_bonus end
 end
 
 function calc_bonus(skills_set)
-    skill_total = 0
+    local skill_total = 0
     for _,s in ipairs(skills_set) do
-        skill_total += player:get_skill_level(skill_id(s))
+        skill_total = skill_total + player:get_skill_level(skill_id(s))
     end
 
-    skill_total /= 4
-
+    skill_total = skill_total / 4
+    local skill_bonus = 0
     if (skill_total >= 21) then
         skill_bonus = 6
     elseif (skill_total >= 15) then
@@ -108,15 +103,15 @@ function print_results(cur_stat,stat,prev_stat)
 end
 
 function handle_previous_version()
-    loaded_version = tonumber(player:get_value("StatsThroughSkills"))
-    is_older_than_day = get_calendar_turn:days() >= 1
-    if(loaded_version < 2 && is_older_than_day) then --handle upgrading from original StatsThroughSkills to version 2
+    local loaded_version = tonumber(player:get_value("StatsThroughSkills"))
+    local is_older_than_day = game.get_calendar_turn():days() >= 1
+    if( (not loaded_version or loaded_version < 2) and is_older_than_day) then --handle upgrading from original StatsThroughSkills to version 2
         game.add_msg("Migrating from version 1")
 
-        str_bonus = get_stat_bonus_for_skills_version_1(str_skills)
-        dex_bonus = get_stat_bonus_for_skills_version_1(dex_skills)
-        int_bonus = get_stat_bonus_for_skills_version_1(int_skills)
-        per_bonus = get_stat_bonus_for_skills_version_1(per_skills)
+        local str_bonus = get_stat_bonus_for_skills_version_1(str_skills)
+        local dex_bonus = get_stat_bonus_for_skills_version_1(dex_skills)
+        local int_bonus = get_stat_bonus_for_skills_version_1(int_skills)
+        local per_bonus = get_stat_bonus_for_skills_version_1(per_skills)
 
         player.str_max = player.str_max - str_bonus
         player.dex_max = player.dex_max - dex_bonus
@@ -128,9 +123,10 @@ function handle_previous_version()
 end
 
 function get_stat_bonus_for_skills_version_1(skill_set)
-    total_bonus = 0
+    local total_bonus = 0
     for _,v in ipairs(skill_set) do
-        skill_level = player:get_skill_level(skill_id(skill))
+        local skill_level = player:get_skill_level(skill_id(v))
+        local stat_bonus
         if (skill_level / 3 < 3) then
             stat_bonus = stat_bonus + skill_level / 3
         else
