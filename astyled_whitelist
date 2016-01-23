@@ -14,6 +14,7 @@ src/drawing_primitives.cpp
 src/gamemode.cpp
 src/itype.cpp
 src/iuse_software.cpp
+src/live_view.cpp
 src/lua_console.cpp
 src/mapsharing.cpp
 src/mattack_actors.cpp
@@ -48,6 +49,7 @@ src/bionics.h
 src/bodypart.h
 src/calendar.h
 src/cata_utility.h
+src/catacharset.h
 src/catalua.h
 src/char_validity_check.h
 src/color.h
@@ -116,7 +118,9 @@ src/text_snippets.h
 src/tile_id_data.h
 src/tileray.h
 src/translations.h
+src/trap.h
 src/tutorial.h
+src/ui.h
 src/veh_interact.h
 src/version.h
 src/weather.h

@@ -41,28 +41,27 @@ struct uimenu_entry {
     mvwzstr extratxt;
 
     //std::string filtertxt; // possibly useful
-    uimenu_entry(std::string T) : retval(-1), enabled(true), hotkey(-1), txt(T)
-    {
+    uimenu_entry( std::string T ) : retval( -1 ), enabled( true ), hotkey( -1 ), txt( T ) {
         text_color = c_red_red;
     };
-    uimenu_entry(std::string T, std::string D) : retval(-1), enabled(true), hotkey(-1), txt(T), desc(D)
-    {
+    uimenu_entry( std::string T, std::string D ) : retval( -1 ), enabled( true ), hotkey( -1 ),
+        txt( T ), desc( D ) {
         text_color = c_red_red;
     };
-    uimenu_entry(std::string T, int K) : retval(-1), enabled(true), hotkey(K), txt(T)
-    {
+    uimenu_entry( std::string T, int K ) : retval( -1 ), enabled( true ), hotkey( K ), txt( T ) {
         text_color = c_red_red;
     };
-    uimenu_entry(int R, bool E, int K, std::string T) : retval(R), enabled(E), hotkey(K), txt(T)
-    {
+    uimenu_entry( int R, bool E, int K, std::string T ) : retval( R ), enabled( E ), hotkey( K ),
+        txt( T ) {
         text_color = c_red_red;
     };
-    uimenu_entry(int R, bool E, int K, std::string T, std::string D) : retval(R), enabled(E), hotkey(K), txt(T), desc(D)
-    {
+    uimenu_entry( int R, bool E, int K, std::string T, std::string D ) : retval( R ), enabled( E ),
+        hotkey( K ), txt( T ), desc( D ) {
         text_color = c_red_red;
     };
-    uimenu_entry(int R, bool E, int K, std::string T, nc_color H, nc_color C) : retval(R), enabled(E), hotkey(K), txt(T),
-        hotkey_color(H), text_color(C) {};
+    uimenu_entry( int R, bool E, int K, std::string T, nc_color H, nc_color C ) : retval( R ),
+        enabled( E ), hotkey( K ), txt( T ),
+        hotkey_color( H ), text_color( C ) {};
 };
 
 /*
@@ -109,17 +108,15 @@ class uimenu_callback
 {
     public:
         void *myptr;
-        void setptr(void *ptr)
-        {
+        void setptr( void *ptr ) {
             myptr = ptr;
         }
-        virtual void select(int /*entnum*/, uimenu *) {};
-        virtual bool key(int /*key*/, int /*entnum*/, uimenu *)
-        {
+        virtual void select( int /*entnum*/, uimenu * ) {};
+        virtual bool key( int /*key*/, int /*entnum*/, uimenu * ) {
             return false;
         };
-        virtual void refresh(uimenu *) {};
-        virtual void redraw(uimenu *) {};
+        virtual void refresh( uimenu * ) {};
+        virtual void redraw( uimenu * ) {};
         virtual ~uimenu_callback() {};
 };
 /*
@@ -175,34 +172,36 @@ class uimenu: public ui_container
 
         uimenu( const std::string &hotkeys = "" ); // bare init
 
-        uimenu(bool cancancel, const char *message, ...);  // legacy menu()
-        uimenu(bool cancelable, const char *mes, const std::vector<std::string> options); // legacy menu_vec
-        uimenu(bool cancelable, const char *mes, const std::vector<std::string> &options, const std::string &hotkeys);
-        uimenu(bool cancelable, int startx, int width, int starty, std::string title,
-               std::vector<uimenu_entry> ents);
-        uimenu(int startx, int width, int starty, std::string title, std::vector<uimenu_entry> ents);
+        uimenu( bool cancancel, const char *message, ... ); // legacy menu()
+        uimenu( bool cancelable, const char *mes,
+                const std::vector<std::string> options ); // legacy menu_vec
+        uimenu( bool cancelable, const char *mes, const std::vector<std::string> &options,
+                const std::string &hotkeys );
+        uimenu( bool cancelable, int startx, int width, int starty, std::string title,
+                std::vector<uimenu_entry> ents );
+        uimenu( int startx, int width, int starty, std::string title, std::vector<uimenu_entry> ents );
 
         void init();
         void setup();
         void show();
-        bool scrollby(int scrollby = 0, const int key = 0 );
-        void query(bool loop = true);
+        bool scrollby( int scrollby = 0, const int key = 0 );
+        void query( bool loop = true );
         void filterlist();
         void apply_scrollbar();
         std::string inputfilter();
-        void refresh(bool refresh_callback = true) override;
-        void redraw(bool redraw_callback = true);
-        void addentry(std::string str);
-        void addentry(const char *format, ...);
-        void addentry(int r, bool e, int k, std::string str);
-        void addentry(int r, bool e, int k, const char *format, ...);
-        void addentry_desc(std::string str, std::string desc);
-        void addentry_desc(int r, bool e, int k, std::string str, std::string desc);
-        void settext(std::string str);
-        void settext(const char *format, ...);
+        void refresh( bool refresh_callback = true ) override;
+        void redraw( bool redraw_callback = true );
+        void addentry( std::string str );
+        void addentry( const char *format, ... );
+        void addentry( int r, bool e, int k, std::string str );
+        void addentry( int r, bool e, int k, const char *format, ... );
+        void addentry_desc( std::string str, std::string desc );
+        void addentry_desc( int r, bool e, int k, std::string str, std::string desc );
+        void settext( std::string str );
+        void settext( const char *format, ... );
 
         void reset();
-        ~uimenu ();
+        ~uimenu();
 
         operator int() const;
 
@@ -217,7 +216,8 @@ class uimenu: public ui_container
 
 // Callback for uimenu that pairs menu entries with points
 // When an entry is selected, view will be centered on the paired point
-class pointmenu_cb : public uimenu_callback {
+class pointmenu_cb : public uimenu_callback
+{
     private:
         const std::vector< tripoint > &points;
         int last; // to suppress redrawing
