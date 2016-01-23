@@ -677,8 +677,10 @@ class game
         void change_side(int pos = INT_MIN); // Change the side on which an item is worn 'c'
         void reload(); // Reload a wielded gun/tool  'r'
         void reload(int pos);
+public:
         void unload(item &it); // Unload a gun/tool  'U'
         void unload(int pos = INT_MIN);
+private:
         void wield(int pos = INT_MIN); // Wield a weapon  'w'
         void read(); // Read a book  'R' (or 'a')
         void chat(); // Talk to a nearby NPC  'C'
