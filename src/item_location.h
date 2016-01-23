@@ -39,6 +39,12 @@ class item_location
          *  @param ch if set description is relative to character location */
         std::string describe( const Character *ch = nullptr ) const;
 
+        /** Move an item from the location to the character inventory
+         *  @warning caller should restack inventory if item is to remain in it
+         *  @warning all further operations using this class are invalid
+         *  @return inventory position for the item */
+        int obtain( Character &ch );
+
         /** Removes the selected item from the game */
         void remove_item();
         /** Gets the selected item or nullptr */
