@@ -2497,7 +2497,8 @@
       ["survnote", 1],
       ["slingshot", 10],
       ["wristrocket", 5],
-      ["iceaxe", 30]
+      ["iceaxe", 30],
+      ["powered_earmuffs", 80]
     ]
   },{
     "type" : "item_group",
@@ -2735,7 +2736,8 @@
       ["large_repairkit", 1],
       ["improve_sights", 20],
       ["survnote", 1],
-      ["shoulder_strap", 24]
+      ["shoulder_strap", 24],
+      ["powered_earmuffs",40]
     ]
   },{
     "type" : "item_group",
@@ -4814,6 +4816,7 @@
       ["cestus", 2],
       ["mace", 20],
       ["morningstar", 10],
+      ["glaive", 10],
       ["rapier", 3],
       ["cutlass", 3],
       ["cutlass_inferior", 3],
@@ -5158,6 +5161,7 @@
       ["broadsword", 1],
       ["broadsword_inferior", 20],
       ["zweihander", 1],
+      ["glaive", 1],
       ["cutlass", 1],
       ["rapier", 1],
       ["wakizashi", 1],
@@ -9074,6 +9078,7 @@
       ["katana", 2],
       ["kris", 2],
       ["rapier", 2],
+      ["glaive", 2],
       ["katana_fake", 4],
       ["katana_inferior", 8],
       ["zweihander_fake", 4],
@@ -9210,6 +9215,7 @@
       ["wakizashi_inferior", 10],
       ["q_staff", 8],
       ["i_staff", 6],
+      ["glaive", 3],
       ["battleaxe", 2],
       ["battleaxe_fake", 6],
       ["battleaxe_inferior", 10],

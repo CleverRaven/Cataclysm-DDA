@@ -5587,7 +5587,7 @@
   {
     "comment": "Name changed to glaive, but changing the id would break e.g.  tilesets.",
     "id": "makeshift_halberd",
-    "type": "TOOL",
+    "type": "GENERIC",
     "symbol": "/",
     "color": "light_gray",
     "name": "makeshift glaive",
@@ -5600,17 +5600,8 @@
     "volume": 12,
     "bashing": 6,
     "cutting": 20,
-    "to_hit": 2,
-    "max_charges": 0,
-    "initial_charges": 0,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
-    "ammo": "NULL",
-    "revert_to": "null",
-    "category" : "weapons",
-    "use_action": { "type": "knife" }
+    "to_hit": 2
   },
-
   {
     "id": "knife_steak",
     "type": "TOOL",

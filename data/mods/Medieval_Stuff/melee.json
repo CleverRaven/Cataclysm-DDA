@@ -163,22 +163,6 @@
         "qualities": [["COOK", 1]]
     },{
         "type":"GENERIC",
-        "id" : "glaive",
-        "name" : "glaive",
-        "description" : "A sturdy polearm with a sizable, single-edged blade on the end.",
-        "weight" : 2100,
-        "to_hit" : 2,
-        "color" : "light_gray",
-        "symbol" : "/",
-        "material" : ["steel", "wood"],
-        "techniques" : ["IMPALE", "WBLOCK_2"],
-        "volume" : 10,
-        "bashing" : 8,
-        "cutting" : 30,
-        "flags" : ["CHOP", "DURABLE_MELEE", "REACH_ATTACK"],
-        "price" : 50000
-    },{
-        "type":"GENERIC",
         "id" : "naginata",
         "name" : "naginata",
         "name_plural": "naginata",

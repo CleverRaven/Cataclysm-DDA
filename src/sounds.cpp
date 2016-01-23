@@ -193,9 +193,10 @@ void sounds::process_sound_markers( player *p )
 {
     bool is_deaf = p->is_deaf();
     const float volume_multiplier = p->hearing_ability();
+    const int safe_volume = p->worn_with_flag("PARTIAL_DEAF") ? 100 : 9999;
     const int weather_vol = weather_data( g->weather ).sound_attn;
     for( const auto &sound_event_pair : sounds_since_last_turn ) {
-        const int volume = sound_event_pair.second.volume * volume_multiplier;
+        const int volume = std::min(safe_volume, (int)(sound_event_pair.second.volume * volume_multiplier));
         const std::string& sfx_id = sound_event_pair.second.id;
         const std::string& sfx_variant = sound_event_pair.second.variant;
         const int max_volume = std::max( volume, sound_event_pair.second.volume );  // For deafness checks

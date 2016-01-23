@@ -485,47 +485,6 @@
   ]
 },{
   "type" : "recipe",
-  "result": "glaive",
-  "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_CUTTING",
-  "skill_used": "fabrication",
-  "difficulty": 7,
-  "time": 460000,
-  "reversible": false,
-  "autolearn": false,
-  "book_learn": [[ "textbook_weapwest", 6 ]],
-  "qualities" : [
-    {"id":"HAMMER","level":1,"amount":1},
-    {"id":"SAW_M","level":1,"amount":1}
-  ],
-  "tools": [
-    [ [ "tongs", -1 ] ],
-    [ [ "chisel", -1 ] ],
-    [ [ "anvil", -1 ] ],
-    [ [ "swage", -1 ] ],
-    [
-      [ "forge", 450],
-      [ "char_forge", 90],
-      [ "oxy_torch", 90]
-    ]
-  ],
-  "components": [
-    [
-     [ "steel_lump", 2 ],
-     [ "steel_chunk", 8 ],
-     [ "scrap", 24 ]
-    ],
-    [
-      [ "2x4", 3 ],
-      [ "stick", 6 ]
-    ],
-    [
-      [ "fur", 2 ],
-      [ "leather", 2 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
   "result": "naginata",
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_CUTTING",
