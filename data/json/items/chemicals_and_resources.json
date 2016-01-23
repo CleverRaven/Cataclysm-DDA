@@ -428,7 +428,7 @@
    {
     "type" : "AMMO",
     "id" : "chem_zinc_powder",
-    "category" : "spare_parts",
+    "category" : "chems",
     "price" : 600,
     "name" : "zinc powder",
     "name_plural" : "zinc powder",
@@ -450,7 +450,7 @@
 {
     "type" : "AMMO",
     "id" : "chem_sulphuric_acid",
-    "category" : "spare_parts",
+    "category" : "chems",
     "price" : 250,
     "name" : "sulfuric acid",
     "name_plural" : "sulfuric acid",
@@ -474,7 +474,7 @@
 {
     "type" : "AMMO",
     "id" : "chem_acetone",
-    "category" : "spare_parts",
+    "category" : "chems",
     "price" : 50,
     "name" : "acetone",
     "name_plural" : "acetone",
@@ -498,7 +498,7 @@
 {
     "type" : "AMMO",
     "id" : "chem_nitric_acid",
-    "category" : "spare_parts",
+    "category" : "chems",
     "price" : 300,
     "name" : "nitric acid",
     "name_plural" : "nitric acid",
@@ -522,7 +522,7 @@
 {
     "type" : "AMMO",
     "id" : "chem_chromium_oxide",
-    "category" : "spare_parts",
+    "category" : "chems",
     "price" : 500,
     "name" : "chromium oxide",
     "name_plural" : "chromium oxide",
@@ -544,7 +544,7 @@
 {
     "type" : "AMMO",
     "id" : "chem_carbide",
-    "category" : "spare_parts",
+    "category" : "chems",
     "price" : 75,
     "name" : "calcium carbide",
     "name_plural" : "calcium carbide",
@@ -566,7 +566,7 @@
    {
     "type" : "AMMO",
     "id" : "chem_hexamine",
-    "category" : "spare_parts",
+    "category" : "chems",
     "price" : 900,
     "name" : "hexamine",
     "name_plural" : "hexamine",
@@ -588,7 +588,7 @@
 {
     "type" : "AMMO",
     "id" : "chem_hydrogen_peroxide_conc",
-    "category" : "spare_parts",
+    "category" : "chems",
     "price" : 1000,
     "name" : "hydrogen peroxide (concentrated)",
     "name_plural" : "hydrogen peroxide (concentrated)",
@@ -612,7 +612,7 @@
    {
     "type" : "AMMO",
     "id" : "chem_ammonium_nitrate",
-    "category" : "spare_parts",
+    "category" : "chems",
     "price" : 100,
     "name" : "ammonium nitrate",
     "name_plural" : "ammonium nitrate",
@@ -634,7 +634,7 @@
    {
     "type" : "AMMO",
     "id" : "chem_saltpetre",
-    "category" : "spare_parts",
+    "category" : "chems",
     "price" : 200,
     "name" : "saltpeter",
     "name_plural" : "saltpeter",
@@ -656,7 +656,7 @@
 {
     "type" : "AMMO",
     "id" : "chem_aluminium_sulphate",
-    "category" : "spare_parts",
+    "category" : "chems",
     "price" : 300,
     "name" : "aluminum sulfate",
     "name_plural" : "aluminum sulfate",
@@ -678,7 +678,7 @@
 {
     "type" : "AMMO",
     "id" : "chem_acetic_acid",
-    "category" : "spare_parts",
+    "category" : "chems",
     "price" : 200,
     "name" : "acetic acid",
     "name_plural" : "acetic acid",
