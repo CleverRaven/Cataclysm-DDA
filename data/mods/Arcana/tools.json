@@ -903,7 +903,7 @@
     "revert_to": "scroll_blank",
     "use_action" : "ARTIFACT",
         "artifact_data" : {
-            "effects_activated": ["AEA_HEAL", "AEA_GROWTH", "AEA_MUTATE"]
+            "effects_activated": ["AEA_GROWTH", "AEA_MUTATE", "AEA_HEAL", "AEA_HEAL", "AEA_HEAL", "AEA_HEAL", "AEA_HEAL", "AEA_HEAL"]
         }
   },{
     "id": "scroll_destruction",
