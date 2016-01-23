@@ -4216,7 +4216,7 @@ item_location item::pick_reload_ammo( player &u, bool interactive ) const
                 ammo_list.push_back( std::move( loc ) );
             }
         }
-        return it.is_magazine() ? VisitResponse::SKIP : VisitResponse::NEXT;
+        return ( it.is_magazine() || it.is_gun() || it.is_tool() ) ? VisitResponse::SKIP : VisitResponse::NEXT;
     });
 
     if( ammo_list.empty() ) {
