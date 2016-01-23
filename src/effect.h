@@ -120,7 +120,7 @@ class effect : public JsonSerializer, public JsonDeserializer
 {
     public:
         effect() : eff_type( NULL ), duration( 0 ), bp( num_bp ),
-        permanent( false ), intensity( 1 ), start_turn( 0 ) {
+            permanent( false ), intensity( 1 ), start_turn( 0 ) {
         }
         effect( const effect_type *peff_type, int dur, body_part part,
                 bool perm, int nintensity, int nstart_turn ) :
