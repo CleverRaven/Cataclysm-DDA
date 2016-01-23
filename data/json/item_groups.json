@@ -2735,7 +2735,8 @@
       ["large_repairkit", 1],
       ["improve_sights", 20],
       ["survnote", 1],
-      ["shoulder_strap", 24]
+      ["shoulder_strap", 24],
+      ["powered_earmuffs",40]
     ]
   },{
     "type" : "item_group",
