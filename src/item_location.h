@@ -45,8 +45,10 @@ class item_location
          *  @return inventory position for the item */
         int obtain( Character &ch );
 
-        /** Removes the selected item from the game */
+        /** Removes the selected item from the game
+         *  @warning all further operations using this class are invalid */
         void remove_item();
+
         /** Gets the selected item or nullptr */
         item *get_item();
         /** Gets the position of item in character's inventory or INT_MIN */
