@@ -798,6 +798,8 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```QUIVER_n``` Item can hold n arrows (will parse number as integer)
 - ```ALWAYS_TWOHAND``` Item is always wielded with two hands. Without this, the items volume and weight are used to calculate this.
 - ```BAYONET``` If the item is attached to a gun (as gunmod), the gun will use the cutting damage from the mod instead of its own.
+- ```COMPACT_MAG``` Item can be stashed in an appropriate ammo pouch (intended for compact magazines)
+- ```BULKY_MAG``` Item can be stashed in an appropriate ammo pouch (intended for bulky or awkwardly shaped magazines)
 
 ## Guns
 
