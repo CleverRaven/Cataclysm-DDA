@@ -4177,8 +4177,9 @@ item *item::get_usable_item( const std::string &use_name )
 
 item_location item::pick_reload_ammo( player &u, bool interactive ) const
 {
-    std::set<std::string> ammo_types; // for unloaded items any ammo will do
-    std::set<std::string> item_types; // for partially loaded require matching type
+    std::set<ammotype> ammo_types; // any ammo for empty detachable or integral magazines
+    std::set<itype_id> item_types; // specific ammo for partially loaded detachable or integral magazines
+    std::set<itype_id> compat_mag; // compatible magazine types for items that reload using them
 
     // @todo deprecate handling of spare magazine as special case
     auto spare = has_gunmod( "spare_mag" );
@@ -4196,14 +4197,19 @@ item_location item::pick_reload_ammo( player &u, bool interactive ) const
     }
 
     // checks if item reloadable and if so appends to either ammo_type or item_type
-    auto wants_ammo = [&ammo_types,&item_types](const item& it) {
-        if( !it.has_flag( "NO_RELOAD") ) {
-            if( it.magazine_integral() && it.ammo_remaining() > 0 ) {
+    auto wants_ammo = [&ammo_types,&item_types,&compat_mag]( const item& it ) {
+        if( !it.has_flag( "NO_RELOAD" ) ) {
+            if( it.magazine_integral() || it.is_magazine() ) {
                 if( it.ammo_remaining() < it.ammo_capacity() ) {
-                    item_types.insert( it.ammo_current() ); // detachable or integral magazine is partially loaded
+                    if( it.ammo_remaining() > 0 ) {
+                        item_types.insert( it.ammo_current() );
+                    } else {
+                        ammo_types.insert( it.ammo_type() );
+                    }
                 }
             } else if( !it.magazine_current() ) {
-                ammo_types.insert( it.ammo_type() ); // empty integral magazine or item uses detachable magazines
+                const auto mags = it.magazine_compatible();
+                compat_mag.insert( mags.begin(), mags.end() );
             }
         }
     };
@@ -4217,13 +4223,13 @@ item_location item::pick_reload_ammo( player &u, bool interactive ) const
     // first check the inventory for suitable ammo
     std::vector<item_location> ammo_list;
     u.visit_items( [&]( const item& it ) {
-        // magazines always use loose ammo, for tools/guns it depends on whether detachable magazines are supported
-        if( ( it.is_ammo() && ( is_magazine() || magazine_integral() ) ) || ( it.is_magazine() && magazine_compatible().count( it.typeId() ) ) ) {
-            if( item_types.count( it.ammo_current() ) || ammo_types.count( it.ammo_type() ) ) {
-                auto loc = item_location::on_character( u, &it );
-                ammo_list.push_back( std::move( loc ) );
-            }
+        if( ( it.is_ammo() && ( item_types.count( it.ammo_current() ) || ammo_types.count( it.ammo_type() ) ) ) ||
+            ( it.is_magazine() && compat_mag.count( it.typeId() ) ) ) {
+
+            auto loc = item_location::on_character( u, &it );
+            ammo_list.push_back( std::move( loc ) );
         }
+
         return ( it.is_magazine() || it.is_gun() || it.is_tool() ) ? VisitResponse::SKIP : VisitResponse::NEXT;
     });
 
@@ -4397,7 +4403,7 @@ bool item::reload( player &u, item_location loc )
                     break;
                 } // handle everything else (gun and auxiliary gunmods)
 
-                if( magazine_integral() ) {
+                if( e->magazine_integral() ) {
                     if( e->ammo_type() == ammo->ammo_type() &&
                         (!e->ammo_remaining() || e->ammo_current() == ammo->typeId()) &&
                         e->ammo_remaining() < e->ammo_capacity() ) {
@@ -4406,7 +4412,7 @@ bool item::reload( player &u, item_location loc )
                         target = e;
                         break;
                     }
-                } else if( !magazine_current() ) {
+                } else if( !e->magazine_current() && e->ammo_type() == ammo->ammo_type() ) {
                     target = e;
                     break;
                 }
