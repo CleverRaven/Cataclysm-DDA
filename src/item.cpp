@@ -1421,6 +1421,10 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
             info.push_back( iteminfo( "DESCRIPTION",
                                       _( "* This gear <bad>prevents</bad> you from <info>hearing any sounds</info>." ) ) );
         }
+        if( is_armor() && has_flag( "PARTIAL_DEAF" ) ) {
+            info.push_back( iteminfo( "DESCRIPTION",
+                                      _( "* This gear <good>reduces</good> the volume of <info>sounds</info> to a safe level." ) ) );
+        }
         if( is_armor() && has_flag( "BLIND" ) ) {
             info.push_back( iteminfo( "DESCRIPTION",
                                       _( "* This gear <bad>prevents</bad> you from <info>seeing</info> anything." ) ) );
