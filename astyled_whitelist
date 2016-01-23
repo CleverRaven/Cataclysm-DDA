@@ -33,6 +33,7 @@ src/speech.cpp
 src/start_location.cpp
 src/submap.cpp
 src/text_snippets.cpp
+src/tileray.cpp
 src/translations.cpp
 src/trapfunc.cpp
 src/version.cpp
@@ -77,6 +78,7 @@ src/iexamine.h
 src/init.h
 src/int_id.h
 src/item_action.h
+src/item_factory.h
 src/item_location.h
 src/item_stack.h
 src/iuse_software.h
@@ -122,6 +124,7 @@ src/trap.h
 src/tutorial.h
 src/ui.h
 src/veh_interact.h
+src/veh_type.h
 src/version.h
 src/weather.h
 src/weighted_list.h
