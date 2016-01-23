@@ -1088,11 +1088,12 @@ public:
         /** Does item have an integral magazine (as opposed to allowing detachable magazines) */
         bool magazine_integral() const;
 
-        /** Checks magazine is comaptible with this item accounting for any applied ammo conversion mods
-         *  @return magazine compatibility which is always false if item has integral magazine
+        /** Get compatible magazines (if any) for this item
+         *  @param conversion whether to include the effect of any flags or mods which convert the type
+         *  @return magazine compatibility which is always empty if item has integral magazine
          *  @see item::magazine_integral
          */
-        bool magazine_compatible( const itype_id& mag ) const;
+        std::set<itype_id> magazine_compatible( bool conversion = true ) const;
 
         /** Currently loaded magazine (if any)
          *  @return current magazine or nullptr if either no magazine loaded or item has integral magazine

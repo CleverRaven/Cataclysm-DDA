@@ -816,8 +816,9 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         if( !magazine_integral() ) {
             insert_separation_line();
             std::string mags = _( "<bold>Compatible magazines:</bold> " );
-            for( auto iter = type->magazines.cbegin(); iter != type->magazines.cend(); ++iter ) {
-                if( iter != type->magazines.cbegin() ) {
+            const auto compat = magazine_compatible();
+            for( auto iter = compat.cbegin(); iter != compat.cend(); ++iter ) {
+                if( iter != compat.cbegin() ) {
                     mags += ", ";
                 }
                 mags += item_controller->find_template( *iter )->nname( 1 );
@@ -1191,8 +1192,9 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
             if( !magazine_integral() ) {
                 insert_separation_line();
                 temp_fmt += _( "<bold>Compatible magazines:</bold> " );
-                for( auto iter = type->magazines.cbegin(); iter != type->magazines.cend(); ++iter ) {
-                    if( iter != type->magazines.cbegin() ) {
+                const auto compat = magazine_compatible();
+                for( auto iter = compat.cbegin(); iter != compat.cend(); ++iter ) {
+                    if( iter != compat.cbegin() ) {
                         temp_fmt += ", ";
                     }
                     temp_fmt += item_controller->find_template( *iter )->nname( 1 );
@@ -4108,17 +4110,24 @@ bool item::magazine_integral() const {
     return type->magazines.empty();
 }
 
-bool item::magazine_compatible( const itype_id& mag ) const
+std::set<itype_id> item::magazine_compatible( bool conversion ) const
 {
+    if( ( ammo_type( false ) == ammo_type( true ) ) || !conversion ) {
+        return type->magazines;
+    }
+
+    // an ammo conversion is applied
+    std::set<itype_id> res;
     for( const auto& e : type->magazines ) {
-        const itype *obj = item_controller->find_template( e );
-        if( obj->magazine->type == ammo_type() && obj->id == mag ) {
-            return true; // no ammo conversion with match against magazines
-        } else if( obj->magazine->alternatives[ ammo_type() ].count(mag) ) {
-            return true; // ammo conversion with match against alternatives
+        const itype *mag = item_controller->find_template( e );
+        if( mag->magazine ) {
+            auto iter = mag->magazine->alternatives.find( ammo_type( true ) );
+            if( iter != mag->magazine->alternatives.end() ) {
+                res.insert( iter->second.begin(), iter->second.end() );
+            }
         }
     }
-    return false;
+    return res;
 }
 
 item * item::magazine_current()
@@ -4209,7 +4218,7 @@ item_location item::pick_reload_ammo( player &u, bool interactive ) const
     std::vector<item_location> ammo_list;
     u.visit_items( [&]( const item& it ) {
         // magazines always use loose ammo, for tools/guns it depends on whether detachable magazines are supported
-        if( ( it.is_ammo() && ( is_magazine() || magazine_integral() ) ) || ( it.is_magazine() && magazine_compatible( it.typeId() ) ) ) {
+        if( ( it.is_ammo() && ( is_magazine() || magazine_integral() ) ) || ( it.is_magazine() && magazine_compatible().count( it.typeId() ) ) ) {
             if( item_types.count( it.ammo_current() ) || ammo_types.count( it.ammo_type() ) ) {
                 auto loc = item_location::on_character( u, &it );
                 ammo_list.push_back( std::move( loc ) );
