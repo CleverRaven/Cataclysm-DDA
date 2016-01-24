@@ -10620,8 +10620,8 @@
     {
         "type" : "ARMOR",
         "id" : "legpouch",
-        "name" : "drop leg ammo pouch",
-        "name_plural" : "drop leg ammo pouches",
+        "name" : "leg ammo pouch",
+        "name_plural" : "leg ammo pouches",
         "weight" : 100,
         "color" : "dark_gray",
         "covers" : ["LEG_EITHER"],
@@ -10632,7 +10632,6 @@
         "material" : ["cotton", "null"],
         "volume" : 1,
         "warmth" : 0,
-        "phase" : "solid",
         "encumbrance" : 3,
         "flags" : ["VARSIZE", "WATER_FRIENDLY", "BELTED"],
         "coverage" : 15,
@@ -10640,7 +10639,7 @@
         "use_action" : {
             "type": "holster",
             "holster_prompt": "Stash ammo",
-            "holster_msg": "You stash your %s",
+            "holster_msg": "You stash your %s.",
             "max_volume": 2,
             "draw_cost": 5,
             "flags": [ "COMPACT_MAG" ]
