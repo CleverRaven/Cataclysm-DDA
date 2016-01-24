@@ -26,36 +26,6 @@
     "qualities": [["CUT", 1], ["BUTCHER", 8]]
   },
   {
-    "id": "longsword",
-    "type": "TOOL",
-    "symbol": "/",
-    "color": "light_gray",
-    "name": "longsword",
-    "description": "This is a classic medieval sword, in between the lighter arming sword and later two-handed swords in size.  It requires a larger baldric or scabbard, compared to smaller swords.",
-    "price": 130000,
-    "material": "steel",
-    "flags" : ["CHOP", "DURABLE_MELEE", "SHEATH_SWORD"],
-    "techniques": ["WBLOCK_1"],
-    "weight": 2948,
-    "volume": 11,
-    "bashing": 16,
-    "cutting": 38,
-    "to_hit": 1,
-    "max_charges": 0,
-    "initial_charges": 0,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
-    "ammo": "NULL",
-    "revert_to": "null",
-    "use_action": [
-        {
-            "type": "knife"
-        }
-    ],
-    "category" : "weapons",
-    "qualities": [["CUT", 1], ["BUTCHER", 8]]
-  },
-  {
     "id": "dusksword", "//" : "Blame Kadian. 3:",
     "type": "TOOL",
     "symbol": "/",

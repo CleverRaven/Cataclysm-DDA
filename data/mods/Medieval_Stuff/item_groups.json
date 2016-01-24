@@ -4,7 +4,6 @@
     "id" : "medieval",
     "items":[
       ["arming_sword", 25],
-      ["longsword", 25],
       ["estoc", 15],
       ["halberd", 20],
       ["scimitar", 20],
@@ -22,7 +21,6 @@
     "id" : "pawn",
     "items":[
       ["arming_sword", 25],
-      ["longsword", 25],
       ["estoc", 15],
       ["halberd", 20],
       ["scimitar", 20],
@@ -36,8 +34,6 @@
     "items" : [
       ["arming_sword", 4],
       ["arming_sword_fake", 8],
-      ["longsword", 4],
-      ["longsword_fake", 8],
       ["estoc", 3],
       ["estoc_fake", 6],
       ["halberd", 3],
@@ -63,8 +59,6 @@
     "items" : [
       ["arming_sword", 5],
       ["arming_sword_fake", 7],
-      ["longsword", 5],
-      ["longsword_fake", 7],
       ["estoc", 3],
       ["estoc_fake", 5],
       ["halberd", 4],
