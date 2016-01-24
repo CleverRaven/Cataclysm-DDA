@@ -696,7 +696,7 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
 // Draws the static portions of the targeting menu,
 // returns the number of lines used to draw instructions.
 static int draw_targeting_window( WINDOW *w_target, item *relevant, player &p, target_mode mode,
-                                  input_context &ctxt, std::vector<aim_type> *aim_types )
+                                  input_context &ctxt, const std::vector<aim_type> &aim_types )
 {
     draw_border(w_target);
     // Draw the "title" of the window.
@@ -736,7 +736,7 @@ static int draw_targeting_window( WINDOW *w_target, item *relevant, player &p, t
     if( relevant ) {
         if( mode == TARGET_MODE_FIRE ) {
             // Reserve lines for aiming and firing instructions.
-            text_y -= ( 3 + aim_types->size() );
+            text_y -= ( 3 + aim_types.size() );
         } else {
             text_y -= 2;
         }
@@ -759,7 +759,7 @@ static int draw_targeting_window( WINDOW *w_target, item *relevant, player &p, t
         if( mode == TARGET_MODE_FIRE ) {
             mvwprintz( w_target, text_y++, 1, c_white, _("%c to steady your aim. "),
                        front_or("AIM", ' ') );
-            for( std::vector<aim_type>::iterator it = aim_types->begin(); it != aim_types->end(); it++ ) {
+            for( std::vector<aim_type>::const_iterator it = aim_types.begin(); it != aim_types.end(); it++ ) {
                 if(it->has_threshold){
                     mvwprintz( w_target, text_y++, 1, c_white, it->help.c_str(), front_or( it->action, ' ') );
                 }
@@ -924,7 +924,7 @@ std::vector<tripoint> game::target( tripoint &p, const tripoint &low, const trip
     ctxt.register_action("TOGGLE_SNAP_TO_TARGET");
     ctxt.register_action("HELP_KEYBINDINGS");
     ctxt.register_action("QUIT");
-    int num_instruction_lines = draw_targeting_window( w_target, relevant, u, mode, ctxt, &aim_types );
+    int num_instruction_lines = draw_targeting_window( w_target, relevant, u, mode, ctxt, aim_types );
     bool snap_to_target = OPTIONS["SNAP_TO_TARGET"];
 
     std::string enemiesmsg;
@@ -1038,7 +1038,7 @@ std::vector<tripoint> game::target( tripoint &p, const tripoint &low, const trip
             }
             line_number = u.print_aim_bars( w_target, line_number, relevant, critter, predicted_recoil );
             if( aim_mode->has_threshold ) {
-                mvwprintw(w_target, line_number++, 1, _("%s Delay: %i"), aim_mode->name.c_str(), predicted_delay, predicted_recoil );
+                mvwprintw(w_target, line_number++, 1, _("%s Delay: %i"), aim_mode->name.c_str(), predicted_delay );
             }
         } else if( mode == TARGET_MODE_TURRET ) {
             line_number = u.draw_turret_aim( w_target, line_number, p );
