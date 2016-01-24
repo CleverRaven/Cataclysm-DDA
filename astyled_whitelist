@@ -1,5 +1,6 @@
 src/action.cpp
 src/active_item_cache.cpp
+src/activity_item_handling.cpp
 src/ammo.cpp
 src/basecamp.cpp
 src/cata_utility.cpp
@@ -36,6 +37,7 @@ src/submap.cpp
 src/text_snippets.cpp
 src/tileray.cpp
 src/translations.cpp
+src/trap.cpp
 src/trapfunc.cpp
 src/version.cpp
 src/action.h
