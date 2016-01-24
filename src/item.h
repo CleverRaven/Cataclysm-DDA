@@ -701,8 +701,10 @@ public:
             return contains( [&it]( const item& e ){ return &e == it; } );
         }
 
-        /** Checks if item is a holster and currently capable of storing obj */
-        bool can_holster ( const item& obj ) const;
+        /** Checks if item is a holster and currently capable of storing obj
+         *  @param ignore only check item is compatible and ignore any existing contents */
+        bool can_holster ( const item& obj, bool ignore = false ) const;
+
         /**
          * Returns @ref curammo, the ammo that is currently load in this item.
          * May return a null pointer.

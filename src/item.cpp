@@ -5048,7 +5048,7 @@ bool item::contains( const std::function<bool(const item&)>& filter ) const {
     }) == VisitResponse::ABORT;
 }
 
-bool item::can_holster ( const item& obj ) const {
+bool item::can_holster ( const item& obj, bool ignore ) const {
     if( !type->can_use("holster") ) {
         return false; // item is not a holster
     }
@@ -5058,7 +5058,7 @@ bool item::can_holster ( const item& obj ) const {
         return false; // item is not a suitable holster for obj
     }
 
-    if( (int) contents.size() >= ptr->multi ) {
+    if( !ignore && (int) contents.size() >= ptr->multi ) {
         return false; // item is already full
     }
 
