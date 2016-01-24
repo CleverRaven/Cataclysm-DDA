@@ -87,6 +87,7 @@
         "capacity" : 20,
         "reliability" : 9,
         "reload_time" : 100,
+        "flags": [ "COMPACT_MAG" ],
         "alternatives" : [
             [ "223", [ "stanag30" ] ]
         ]
@@ -106,6 +107,7 @@
         "capacity" : 30,
         "reliability" : 7,
         "reload_time" : 120,
+        "flags": [ "COMPACT_MAG" ],
         "alternatives" : [
             [ "223", [ "stanag30" ] ]
         ]
@@ -124,7 +126,8 @@
         "ammo_type" : "545x39",
         "capacity" : 30,
         "reliability" : 9,
-        "reload_time" : 100
+        "reload_time" : 100,
+        "flags": [ "COMPACT_MAG" ]
     },{
         "type" : "MAGAZINE",
         "id" : "rpk_74_mag_45",
@@ -141,7 +144,8 @@
         "ammo_type" : "545x39",
         "capacity" : 45,
         "reliability" : 8,
-        "reload_time" : 130
+        "reload_time" : 130,
+        "flags": [ "BULKY_MAG" ]
     },{
         "type" : "MAGAZINE",
         "id" : "belt308",
@@ -175,7 +179,8 @@
         "ammo_type" : "9x18",
         "capacity" : 8,
         "reliability" : 9,
-        "reload_time" : 100
+        "reload_time" : 100,
+        "flags": [ "COMPACT_MAG" ]
     },{
         "type" : "MAGAZINE",
         "id" : "skorpion_61_mag",
@@ -191,7 +196,8 @@
         "ammo_type" : "32",
         "capacity" : 8,
         "reliability" : 8,
-        "reload_time" : 100
+        "reload_time" : 100,
+        "flags": [ "COMPACT_MAG" ]
     },{
         "type" : "MAGAZINE",
         "id" : "skorpion_82_mag",
@@ -207,7 +213,8 @@
         "ammo_type" : "9x18",
         "capacity" : 8,
         "reliability" : 8,
-        "reload_time" : 100
+        "reload_time" : 100,
+        "flags": [ "COMPACT_MAG" ]
     },{
         "type" : "MAGAZINE",
         "id" : "thompson_mag",
@@ -223,7 +230,8 @@
         "ammo_type" : "45",
         "capacity" : 20,
         "reliability" : 8,
-        "reload_time" : 100
+        "reload_time" : 100,
+        "flags": [ "COMPACT_MAG" ]
     },{
         "type" : "MAGAZINE",
         "id" : "thompson_mag_30",
@@ -239,7 +247,8 @@
         "ammo_type" : "45",
         "capacity" : 30,
         "reliability" : 8,
-        "reload_time" : 120
+        "reload_time" : 120,
+        "flags": [ "COMPACT_MAG" ]
     },{
         "type" : "MAGAZINE",
         "id" : "thompson_drum",
@@ -255,12 +264,13 @@
         "ammo_type" : "45",
         "capacity" : 50,
         "reliability" : 7,
-        "reload_time" : 150
+        "reload_time" : 150,
+        "flags": [ "BULKY_MAG" ]
     },{
         "type" : "MAGAZINE",
         "id" : "sten_mag",
         "price" : 4000,
-        "name" : "STEN 32-round magazine",
+        "name" : "STEN magazine",
         "symbol" : "#",
         "color" : "ltgray",
         "description" : "A double-column, single-feed 9x19mm magazine used by the STEN submachine gun, based of the magazines for the German MP-28 and later MP-40.",
@@ -271,7 +281,8 @@
         "ammo_type" : "9mm",
         "capacity" : 32,
         "reliability" : 6,
-        "reload_time" : 100
+        "reload_time" : 100,
+        "flags": [ "COMPACT_MAG" ]
     },{
         "type" : "MAGAZINE",
         "id" : "survivor9mm_mag",
@@ -287,6 +298,7 @@
         "ammo_type" : "9mm",
         "capacity" : 20,
         "reliability" : 5,
-        "reload_time" : 120
+        "reload_time" : 120,
+        "flags": [ "COMPACT_MAG" ]
     }
 ]
