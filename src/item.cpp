@@ -5022,6 +5022,26 @@ VisitResponse item::visit_items( const std::function<VisitResponse(const item *,
     return visit_internal( func, const_cast<item *>( this ), nullptr );
 }
 
+item * item::find_parent( item& it )
+{
+    item *res = nullptr;
+    if( visit_items( [&]( item *node, item *parent ){
+        if( node == &it ) {
+            res = parent;
+            return VisitResponse::ABORT;
+        }
+        return VisitResponse::NEXT;
+    } ) != VisitResponse::ABORT ) {
+        debugmsg( "Tried to find item parent using an item that doesn't contain it" );
+    }
+    return res;
+}
+
+const item * item::find_parent( const item& it ) const
+{
+    return const_cast<item *>( this )->find_parent( const_cast<item&>( it ) );
+}
+
 bool item::contains( const std::function<bool(const item&)>& filter ) const {
     return visit_items( [&filter] ( const item *node, const item * ) {
         return filter( *node ) ? VisitResponse::ABORT : VisitResponse::NEXT;

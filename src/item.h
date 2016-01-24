@@ -684,6 +684,15 @@ public:
         VisitResponse visit_items( const std::function<VisitResponse(item *, item *)>& func );
         VisitResponse visit_items( const std::function<VisitResponse(const item *, const item *)>& func ) const;
 
+        /**
+         *  Returns the the parent container for an item.
+         *  @param it item to search for which must be contained by this item
+         *  @see item::contains
+	 *  @see Character::find_parent
+         */
+        item * find_parent( item& it );
+        const item * find_parent( const item& it ) const;
+
         /** Check if this item contains one or more items matching filter */
         bool contains( const std::function<bool(const item&)>& filter ) const;
 
