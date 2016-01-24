@@ -77,53 +77,60 @@ constexpr explosion_neighbors operator ^ ( explosion_neighbors lhs, explosion_ne
     return static_cast<explosion_neighbors>( static_cast< int >( lhs ) ^ static_cast< int >( rhs ) );
 }
 
-void draw_custom_explosion_curses( game &g, const std::list< std::map<tripoint, explosion_tile> > &layers )
+void draw_custom_explosion_curses( game &g,
+                                   const std::list< std::map<tripoint, explosion_tile> > &layers )
 {
+    // calculate screen offset relative to player + view offset position
+    const tripoint center = g.u.pos() + g.u.view_offset;
+    const tripoint topleft( center.x - getmaxx( g.w_terrain ) / 2, center.y - getmaxy( g.w_terrain ) / 2, 0 );
+
     for( const auto &layer : layers ) {
         for( const auto &pr : layer ) {
-            const tripoint &p = pr.first;
+            // update tripoint in relation to top left corner of curses window
+            // mvwputch already filters out of bounds coordinates
+            const tripoint p = pr.first - topleft;
             const explosion_neighbors ngh = pr.second.neighborhood;
             const nc_color col = pr.second.color;
 
             switch( ngh ) {
-            // '^', 'v', '<', '>'
-            case N_NORTH:
-                mvwputch( g.w_terrain, p.y, p.x, col, '^' );
-                break;
-            case N_SOUTH:
-                mvwputch( g.w_terrain, p.y, p.x, col, 'v' );
-                break;
-            case N_WEST:
-                mvwputch( g.w_terrain, p.y, p.x, col, '<' );
-                break;
-            case N_EAST:
-                mvwputch( g.w_terrain, p.y, p.x, col, '>' );
-                break;
-            // '|' and '-'
-            case N_NORTH | N_SOUTH:
-            case N_NORTH | N_SOUTH | N_WEST:
-            case N_NORTH | N_SOUTH | N_EAST:
-                mvwputch( g.w_terrain, p.y, p.x, col, '|' );
-                break;
-            case N_WEST | N_EAST:
-            case N_WEST | N_EAST | N_NORTH:
-            case N_WEST | N_EAST | N_SOUTH:
-                mvwputch( g.w_terrain, p.y, p.x, col, '-' );
-                break;
-            // '/' and '\'
-            case N_NORTH | N_WEST:
-            case N_SOUTH | N_EAST:
-                mvwputch( g.w_terrain, p.y, p.x, col, '/' );
-                break;
-            case N_SOUTH | N_WEST:
-            case N_NORTH | N_EAST:
-                mvwputch( g.w_terrain, p.y, p.x, col, '\\' );
-                break;
-            case N_NO_NEIGHBORS:
-                mvwputch( g.w_terrain, p.y, p.x, col, '*' );
-                break;
-            case N_WEST | N_EAST | N_NORTH | N_SOUTH:
-                break;
+                // '^', 'v', '<', '>'
+                case N_NORTH:
+                    mvwputch( g.w_terrain, p.y, p.x, col, '^' );
+                    break;
+                case N_SOUTH:
+                    mvwputch( g.w_terrain, p.y, p.x, col, 'v' );
+                    break;
+                case N_WEST:
+                    mvwputch( g.w_terrain, p.y, p.x, col, '<' );
+                    break;
+                case N_EAST:
+                    mvwputch( g.w_terrain, p.y, p.x, col, '>' );
+                    break;
+                // '|' and '-'
+                case N_NORTH | N_SOUTH:
+                case N_NORTH | N_SOUTH | N_WEST:
+                case N_NORTH | N_SOUTH | N_EAST:
+                    mvwputch( g.w_terrain, p.y, p.x, col, '|' );
+                    break;
+                case N_WEST | N_EAST:
+                case N_WEST | N_EAST | N_NORTH:
+                case N_WEST | N_EAST | N_SOUTH:
+                    mvwputch( g.w_terrain, p.y, p.x, col, '-' );
+                    break;
+                // '/' and '\'
+                case N_NORTH | N_WEST:
+                case N_SOUTH | N_EAST:
+                    mvwputch( g.w_terrain, p.y, p.x, col, '/' );
+                    break;
+                case N_SOUTH | N_WEST:
+                case N_NORTH | N_EAST:
+                    mvwputch( g.w_terrain, p.y, p.x, col, '\\' );
+                    break;
+                case N_NO_NEIGHBORS:
+                    mvwputch( g.w_terrain, p.y, p.x, col, '*' );
+                    break;
+                case N_WEST | N_EAST | N_NORTH | N_SOUTH:
+                    break;
             }
         }
 
