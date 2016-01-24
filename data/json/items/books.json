@@ -3297,7 +3297,7 @@
         "symbol" : "?",
         "material" : ["paper", "null"],
         "bashing" : 2,
-        "to_hit" : -2,
+        "to_hit" : -2
     },
     {
         "type" : "BOOK",
@@ -3338,7 +3338,7 @@
         "symbol" : "?",
         "material" : ["paper", "null"],
         "bashing" : -3,
-        "to_hit" : -2,
+        "to_hit" : -2
     },
     {
         "type" : "BOOK",
@@ -3380,7 +3380,7 @@
         "symbol" : "?",
         "material" : ["paper", "null"],
         "bashing" : -3,
-        "to_hit" : -2,
+        "to_hit" : -2
     },
     {
         "type" : "BOOK",
@@ -3401,7 +3401,7 @@
         "symbol" : "?",
         "material" : ["paper", "null"],
         "bashing" : -3,
-        "to_hit" : -2,
+        "to_hit" : -2
     },
     {
         "type" : "BOOK",
@@ -3422,7 +3422,7 @@
         "symbol" : "?",
         "material" : ["paper", "null"],
         "bashing" : -3,
-        "to_hit" : -2,
+        "to_hit" : -2
     },
     {
         "type" : "BOOK",
@@ -3443,7 +3443,7 @@
         "symbol" : "?",
         "material" : ["paper", "null"],
         "bashing" : -3,
-        "to_hit" : -2,
+        "to_hit" : -2
     },
     {
         "type" : "BOOK",
@@ -3464,7 +3464,7 @@
         "symbol" : "?",
         "material" : ["paper", "null"],
         "bashing" : -3,
-        "to_hit" : -2,
+        "to_hit" : -2
     },
     {
         "type" : "BOOK",
@@ -3485,7 +3485,7 @@
         "symbol" : "?",
         "material" : ["paper", "null"],
         "bashing" : -3,
-        "to_hit" : -2,
+        "to_hit" : -2
     },
     {
         "type" : "BOOK",
@@ -3506,7 +3506,7 @@
         "symbol" : "?",
         "material" : ["paper", "null"],
         "bashing" : -3,
-        "to_hit" : -2,
+        "to_hit" : -2
     },
     {
         "type" : "BOOK",
@@ -3527,7 +3527,7 @@
         "symbol" : "?",
         "material" : ["paper", "null"],
         "bashing" : -3,
-        "to_hit" : -2,
+        "to_hit" : -2
     },
     {
         "type" : "BOOK",
@@ -3548,7 +3548,7 @@
         "symbol" : "?",
         "material" : ["paper", "null"],
         "bashing" : -3,
-        "to_hit" : -2,
+        "to_hit" : -2
     },
     {
         "type" : "BOOK",
@@ -3569,7 +3569,7 @@
         "symbol" : "?",
         "material" : ["paper", "null"],
         "bashing" : -3,
-        "to_hit" : -2,
+        "to_hit" : -2
     },
     {
         "type" : "BOOK",
@@ -3590,7 +3590,7 @@
         "symbol" : "?",
         "material" : ["paper", "null"],
         "bashing" : -3,
-        "to_hit" : -2,
+        "to_hit" : -2
     },
     {
         "type" : "BOOK",
@@ -3611,7 +3611,7 @@
         "symbol" : "?",
         "material" : ["paper", "null"],
         "bashing" : -3,
-        "to_hit" : -2,
+        "to_hit" : -2
     },
     {
         "type" : "BOOK",
@@ -3632,7 +3632,7 @@
         "symbol" : "?",
         "material" : ["paper", "null"],
         "bashing" : -3,
-        "to_hit" : -2,
+        "to_hit" : -2
     },
     {
         "type" : "BOOK",
@@ -3652,7 +3652,7 @@
         "symbol" : "?",
         "material" : ["paper", "plastic"],
         "bashing" : -3,
-        "to_hit" : -2,
+        "to_hit" : -2
     },
     {
         "type" : "BOOK",
@@ -3672,7 +3672,7 @@
         "symbol" : "?",
         "material" : ["paper", "plastic"],
         "bashing" : -3,
-        "to_hit" : -2,
+        "to_hit" : -2
     },
     {
         "type" : "BOOK",
@@ -3714,7 +3714,7 @@
         "symbol" : "?",
         "material" : ["paper", "null"],
         "bashing" : -3,
-        "to_hit" : -2,
+        "to_hit" : -2
     },
     {
         "type" : "BOOK",
@@ -4144,7 +4144,7 @@
         "symbol" : "?",
         "material" : ["paper", "null"],
         "bashing" : -3,
-        "to_hit" : -2,
+        "to_hit" : -2
     },
     {
         "type" : "BOOK",
