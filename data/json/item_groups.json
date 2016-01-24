@@ -2737,7 +2737,9 @@
       ["improve_sights", 20],
       ["survnote", 1],
       ["shoulder_strap", 24],
-      ["powered_earmuffs",40]
+      ["powered_earmuffs",40],
+      ["stanag10", 10],
+      ["stanag30", 5]
     ]
   },{
     "type" : "item_group",
@@ -3676,7 +3678,9 @@
       ["shot_beanbag", 14],
       ["223", 10],
       ["3006", 10],
-      ["survnote", 1]
+      ["survnote", 1],
+      ["stanag10", 6],
+      ["lw223mag", 2]
     ]
   },{
     "type" : "item_group",
@@ -3757,7 +3761,9 @@
       ["fn_p90", 3],
       ["l_mp_9mm", 2],
       ["tazer", 15],
-      ["l-stick", 1]
+      ["l-stick", 1],
+      ["stanag10", 6],
+      ["lw223mag", 2]
     ]
   },{
     "type" : "item_group",
@@ -3887,7 +3893,10 @@
       ["tac_helmet", 20],
       ["helmet_lobster", 10],
       ["goggles_nv", 5],
-      ["UPS_off", 10]
+      ["UPS_off", 10],
+      ["stanag30", 10],
+      ["stanag10", 5],
+      ["lw223mag", 5]
     ]
   },{
     "type" : "item_group",
@@ -4739,7 +4748,8 @@
       ["rail_laser_sight", 10],
       ["rifle_scope", 17],
       ["pistol_scope", 14],
-      ["improve_sights", 20]
+      ["improve_sights", 20],
+      ["survivor223mag", 20]
     ]
   },{
     "type" : "item_group",
@@ -5216,7 +5226,8 @@
       ["eboshi", 1],
       ["kariginu", 2],
       ["kimono", 3],
-      ["l-stick", 1]
+      ["l-stick", 1],
+      ["stanag10", 2]
     ]
   },{
     "type" : "item_group",
@@ -5297,7 +5308,10 @@
       ["bfipowder", 20],
       ["sheath", 10],
       ["bootsheath", 10],
-      ["survnote", 1]
+      ["survnote", 1],
+      ["stanag10", 8],
+      ["stanag30", 6],
+      ["lw223mag", 6]
     ]
   },{
     "type" : "item_group",
@@ -6278,7 +6292,9 @@
       ["20x66_exp", 2],
       ["20x66_frag", 2],
       ["20x66_flare", 4],
-      ["20x66_inc", 2]
+      ["20x66_inc", 2],
+      ["lw223mag", 20],
+      ["lw223bigmag", 10]
     ]
   },{
     "type" : "item_group",
@@ -6342,7 +6358,9 @@
       ["20x66_flechette", 3],
       ["waterproof_gunmod", 2],
       ["improve_sights", 5],
-      ["rm11b_sniper_rifle", 1]
+      ["rm11b_sniper_rifle", 1],
+      ["lw223mag", 8],
+      ["lw223bigmag", 4]
     ]
   },{
     "type" : "item_group",
@@ -7633,7 +7651,9 @@
       ["grapnel", 1],
       ["briefcase", 5],
       ["survnote", 2],
-      ["robot_controls", 3]
+      ["robot_controls", 3],
+      ["stanag30", 10],
+      ["lw223mag", 5]
     ]
   },{
     "type" : "item_group",
@@ -7864,7 +7884,11 @@
       ["shoulder_strap", 16],
       ["bot_manhack", 1],
       ["bot_grenade_hack", 1],
-      ["l-stick", 1]
+      ["l-stick", 1],
+      ["stanag30", 20],
+      ["stanag50", 10],
+      ["lw223mag", 20],
+      ["lw223bigmag", 10]
     ]
   },{
     "type" : "item_group",
@@ -8058,7 +8082,10 @@
       ["scrap_copper", 5],
       ["signal_flare", 5],
       ["8mm_inc", 2],
-      ["survnote", 1]
+      ["survnote", 1],
+      ["stanag10", 4],
+      ["stanag30", 2],
+      ["lw223mag", 1]
     ]
   },{
     "type" : "item_group",
