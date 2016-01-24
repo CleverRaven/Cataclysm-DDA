@@ -10632,7 +10632,7 @@
         "material" : ["cotton", "null"],
         "volume" : 1,
         "warmth" : 0,
-        "encumbrance" : 3,
+        "encumbrance" : 2,
         "flags" : ["VARSIZE", "WATER_FRIENDLY", "BELTED"],
         "coverage" : 15,
         "material_thickness" : 2,
