@@ -937,6 +937,10 @@
             {
                 "input_method":"keyboard",
                 "key":"."
+            },
+            {
+                "input_method":"keyboard",
+                "key":"5"
             }
         ]
     },
@@ -970,6 +974,17 @@
             {
                 "input_method":"keyboard",
                 "key":"p"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id":"SWITCH_AIM",
+        "name":"Switch Aiming Mode",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"m"
             }
         ]
     },

@@ -46,6 +46,14 @@ void drop_or_embed_projectile( const dealt_projectile_attack &attack );
 
 void splatter( const std::vector<tripoint> &trajectory, int dam, const Creature *target = nullptr );
 
+struct aim_type {
+    std::string name;
+    std::string action;
+    std::string help;
+    bool has_threshold;
+    int threshold;
+};
+
 dealt_projectile_attack Creature::projectile_attack( const projectile &proj, const tripoint &target,
                                                      double shot_dispersion )
 {
@@ -68,6 +76,7 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj, con
  * As a simple tweak, we're shifting the ranges so they match,
  * so if you acquire the best of a weapon type you can reach max skill with it.
  */
+
 int ranged_skill_offset( const skill_id &skill )
 {
     if( skill == skill_pistol ) {
@@ -687,7 +696,7 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
 // Draws the static portions of the targeting menu,
 // returns the number of lines used to draw instructions.
 static int draw_targeting_window( WINDOW *w_target, item *relevant, player &p, target_mode mode,
-                                  input_context &ctxt )
+                                  input_context &ctxt, std::vector<aim_type> *aim_types )
 {
     draw_border(w_target);
     // Draw the "title" of the window.
@@ -727,7 +736,7 @@ static int draw_targeting_window( WINDOW *w_target, item *relevant, player &p, t
     if( relevant ) {
         if( mode == TARGET_MODE_FIRE ) {
             // Reserve lines for aiming and firing instructions.
-            text_y -= 6;
+            text_y -= ( 3 + aim_types->size() );
         } else {
             text_y -= 2;
         }
@@ -748,14 +757,15 @@ static int draw_targeting_window( WINDOW *w_target, item *relevant, player &p, t
         mvwprintz( w_target, text_y++, 1, c_white, _("%c target self; %c toggle snap-to-target"),
                    front_or("CENTER", ' ' ), front_or("TOGGLE_SNAP_TO_TARGET", ' ') );
         if( mode == TARGET_MODE_FIRE ) {
-            mvwprintz( w_target, text_y++, 1, c_white, _("%c to steady your aim."),
+            mvwprintz( w_target, text_y++, 1, c_white, _("%c to steady your aim. "),
                        front_or("AIM", ' ') );
-            mvwprintz( w_target, text_y++, 1, c_white, _("%c to aim and fire."),
-                       front_or("AIMED_SHOT", ' ') );
-            mvwprintz( w_target, text_y++, 1, c_white, _("%c to take careful aim and fire."),
-                       front_or("CAREFUL_SHOT", ' ') );
-            mvwprintz( w_target, text_y++, 1, c_white, _("%c to take precise aim and fire."),
-                       front_or("PRECISE_SHOT", ' ') );
+            for( std::vector<aim_type>::iterator it = aim_types->begin(); it != aim_types->end(); it++ ) {
+                if(it->has_threshold){
+                    mvwprintz( w_target, text_y++, 1, c_white, it->help.c_str(), front_or( it->action, ' ') );
+                }
+            }
+            mvwprintz( w_target, text_y++, 1, c_white, _("%c to switch aiming modes."),
+                       front_or("SWITCH_AIM", ' ') );
         }
     }
 
@@ -833,10 +843,11 @@ std::vector<tripoint> game::target( tripoint &p, const tripoint &low, const trip
     }
 
     bool sideStyle = use_narrow_sidebar();
-    int height = 25;
+    bool compact_window = TERMY < 34;
+    int height = compact_window ? 18 : 25;
     int width  = getmaxx(w_messages);
     // Overlap the player info window.
-    int top    = -1 + (sideStyle ? getbegy(w_messages) : (getbegy(w_minimap) + getmaxy(w_minimap)) );
+    int top    = ( compact_window ? -4 : -1 ) + (sideStyle ? getbegy(w_messages) : (getbegy(w_minimap) + getmaxy(w_minimap)) );
     int left   = getbegx(w_messages);
 
     // Keeping the target menu window around between invocations,
@@ -845,6 +856,10 @@ std::vector<tripoint> game::target( tripoint &p, const tripoint &low, const trip
     if( w_target == nullptr ) {
         w_target = newwin(height, width, top, left);
     }
+
+    std::vector<aim_type> aim_types;
+    std::vector<aim_type>::iterator aim_mode;
+    int sight_dispersion = u.weapon.sight_dispersion( -1 );
 
     input_context ctxt("TARGET");
     ctxt.set_iso(true);
@@ -859,21 +874,61 @@ std::vector<tripoint> game::target( tripoint &p, const tripoint &low, const trip
     ctxt.register_action("PREV_TARGET");
     if( mode == TARGET_MODE_FIRE ) {
         ctxt.register_action("AIM");
-        ctxt.register_action("AIMED_SHOT");
-        ctxt.register_action("CAREFUL_SHOT");
-        ctxt.register_action("PRECISE_SHOT");
+        ctxt.register_action("SWITCH_AIM");
+        aim_types.push_back( aim_type { "", "", "", false, 0 } ); // dummy aim type for unaimed shots
+        const int threshold_step = 30;
+        // Aiming thresholds are dependent on weapon sight dispersion, attempting to place thresholds
+        // at 66%, 33% and 0% of the difference between MIN_RECOIL and sight dispersion. The thresholds
+        // are then floored to multiples of threshold_step.
+        // With a MIN_RECOIL of 150 and threshold_step of 30, this means:-
+        // Weapons with <90 s_d can be aimed 'precisely'
+        // Weapons with <120 s_d can be aimed 'carefully'
+        // All other weapons can only be 'aimed'
+        std::vector<int> thresholds = {
+            (int) floor( ( ( MIN_RECOIL - sight_dispersion ) * 2 / 3 + sight_dispersion ) /
+                         threshold_step ) * threshold_step,
+            (int) floor( ( ( MIN_RECOIL - sight_dispersion ) / 3 + sight_dispersion ) /
+                         threshold_step ) * threshold_step,
+            (int) floor( sight_dispersion / threshold_step ) * threshold_step };
+        std::vector<int>::iterator thresholds_it;
+        // Remove duplicate thresholds.
+        thresholds_it = std::adjacent_find( thresholds.begin(), thresholds.end() );
+        while( thresholds_it != thresholds.end() ) {
+            thresholds.erase( thresholds_it );
+            thresholds_it = std::adjacent_find( thresholds.begin(), thresholds.end() );
+        }
+        thresholds_it = thresholds.begin();
+        aim_types.push_back( aim_type { _("Aim"), "AIMED_SHOT",
+                             _("%c to aim and fire."), true,
+                             *thresholds_it } );
+        thresholds_it++;
+        if( thresholds_it != thresholds.end() ) {
+            aim_types.push_back( aim_type { _("Careful Aim"), "CAREFUL_SHOT",
+                                 _("%c to take careful aim and fire."), true,
+                                 *thresholds_it } );
+            thresholds_it++;
+            if( thresholds_it != thresholds.end() ) {
+                aim_types.push_back( aim_type { _("Precise Aim"), "PRECISE_SHOT",
+                                     _("%c to take precise aim and fire."), true,
+                                     *thresholds_it } );
+            }
+        }
+        for( std::vector<aim_type>::iterator it = aim_types.begin(); it != aim_types.end(); it++ ) {
+            if( it->has_threshold ) {
+                ctxt.register_action( it->action );
+            }
+        }
+        aim_mode = aim_types.begin();
     }
     ctxt.register_action("CENTER");
     ctxt.register_action("TOGGLE_SNAP_TO_TARGET");
     ctxt.register_action("HELP_KEYBINDINGS");
     ctxt.register_action("QUIT");
-
-    int num_instruction_lines = draw_targeting_window( w_target, relevant, u, mode, ctxt );
-
+    int num_instruction_lines = draw_targeting_window( w_target, relevant, u, mode, ctxt, &aim_types );
     bool snap_to_target = OPTIONS["SNAP_TO_TARGET"];
 
     std::string enemiesmsg;
-    if (t.empty()) {
+    if( t.empty() ) {
         enemiesmsg = _("No targets in range.");
     } else {
         enemiesmsg = string_format(ngettext("%d target in range.", "%d targets in range.",
@@ -886,10 +941,10 @@ std::vector<tripoint> game::target( tripoint &p, const tripoint &low, const trip
         // This chunk of code handles shifting the aim point around
         // at maximum range when using circular distance.
         // The range > 1 check ensures that you can alweays at least hit adjacent squares.
-        if(trigdist && range > 1 && round(trig_dist( from, p )) > range) {
+        if( trigdist && range > 1 && round(trig_dist( from, p )) > range ) {
             bool cont = true;
             tripoint cp = p;
-            for (size_t i = 0; i < ret.size() && cont; i++) {
+            for( size_t i = 0; i < ret.size() && cont; i++ ) {
                 if( round(trig_dist( from, ret[i] )) > range ) {
                     ret.resize(i);
                     cont = false;
@@ -900,16 +955,16 @@ std::vector<tripoint> game::target( tripoint &p, const tripoint &low, const trip
             p = cp;
         }
         tripoint center;
-        if (snap_to_target) {
+        if( snap_to_target ) {
             center = p;
         } else {
             center = u.pos() + u.view_offset;
         }
         // Clear the target window.
-        for (int i = 1; i <= getmaxy(w_target) - num_instruction_lines - 2; i++) {
+        for( int i = 1; i <= getmaxy(w_target) - num_instruction_lines - 2; i++ ) {
             // Clear width excluding borders.
-            for (int j = 1; j <= getmaxx(w_target) - 2; j++) {
-                mvwputch(w_target, i, j, c_white, ' ');
+            for( int j = 1; j <= getmaxx(w_target) - 2; j++ ) {
+                mvwputch( w_target, i, j, c_white, ' ' );
             }
         }
         draw_ter(center, true);
@@ -922,51 +977,69 @@ std::vector<tripoint> game::target( tripoint &p, const tripoint &low, const trip
             draw_line( p, center, ret );
 
             // Print to target window
-            if (!relevant) {
+            if( !relevant ) {
                 // currently targetting vehicle to refill with fuel
                 vehicle *veh = m.veh_at(p);
                 if( veh != nullptr && u.sees( p ) ) {
                     mvwprintw(w_target, line_number++, 1, _("There is a %s"),
                               veh->name.c_str());
                 }
-            } else if (relevant == &u.weapon && relevant->is_gun()) {
+            } else if( relevant == &u.weapon && relevant->is_gun() ) {
                 // firing a gun
                 mvwprintw(w_target, line_number, 1, _("Range: %d/%d, %s"),
                           rl_dist(from, p), range, enemiesmsg.c_str());
                 // get the current weapon mode or mods
                 std::string mode = "";
-                if (u.weapon.get_gun_mode() == "MODE_BURST") {
+                if( u.weapon.get_gun_mode() == "MODE_BURST" ) {
                     mode = _("Burst");
                 } else {
                     item *gunmod = u.weapon.active_gunmod();
-                    if (gunmod != NULL) {
+                    if( gunmod != NULL ) {
                         mode = gunmod->type_name();
                     }
                 }
-                if (mode != "") {
-                    mvwprintw(w_target, line_number, 14, _("Firing mode: %s"),
-                              mode.c_str());
+                if( mode != "" ) {
+                    mvwprintw( w_target, line_number, 14, _("Firing mode: %s"),
+                               mode.c_str() );
                 }
                 line_number++;
             } else {
                 // throwing something or setting turret's target
-                mvwprintw(w_target, line_number++, 1, _("Range: %d/%d, %s"),
-                          rl_dist(from, p), range, enemiesmsg.c_str());
+                mvwprintw( w_target, line_number++, 1, _("Range: %d/%d, %s"),
+                          rl_dist(from, p), range, enemiesmsg.c_str() );
             }
 
             if( critter != nullptr && u.sees( *critter ) ) {
-                // The 4 is 2 for the border and 2 for aim bars.
-                int available_lines = height - num_instruction_lines - line_number - 4;
+                // The 6 is 2 for the border and 4 for aim bars.
+                int available_lines = compact_window ? 1 :
+                                      ( height - num_instruction_lines - line_number - 6 );
                 line_number = critter->print_info( w_target, line_number, available_lines, 1);
             } else {
                 mvwputch(w_terrain, POSY + p.y - center.y, POSX + p.x - center.x, c_red, '*');
             }
         } else {
-            mvwprintw(w_target, line_number++, 1, _("Range: %d, %s"), range, enemiesmsg.c_str());
+            mvwprintw( w_target, line_number++, 1, _("Range: %d, %s"), range, enemiesmsg.c_str() );
         }
 
         if( mode == TARGET_MODE_FIRE && critter != nullptr && u.sees( *critter ) ) {
-            line_number = u.print_aim_bars( w_target, line_number, relevant, critter );
+            int predicted_recoil = u.recoil;
+            int predicted_delay = 0;
+            if( aim_mode->has_threshold && aim_mode->threshold < u.recoil ) {
+                do{
+                    const int aim_amount = u.aim_per_time( &u.weapon, predicted_recoil );
+                    if( aim_amount > 0 ) {
+                        predicted_delay += 10;
+                        predicted_recoil = std::max( predicted_recoil - aim_amount , 0);
+                    }
+                } while( predicted_recoil > aim_mode->threshold &&
+                          predicted_recoil - sight_dispersion > 0 );
+            } else {
+                predicted_recoil = u.recoil;
+            }
+            line_number = u.print_aim_bars( w_target, line_number, relevant, critter, predicted_recoil );
+            if( aim_mode->has_threshold ) {
+                mvwprintw(w_target, line_number++, 1, _("%s Delay: %i"), aim_mode->name.c_str(), predicted_delay, predicted_recoil );
+            }
         } else if( mode == TARGET_MODE_TURRET ) {
             line_number = u.draw_turret_aim( w_target, line_number, p );
         }
@@ -989,8 +1062,8 @@ std::vector<tripoint> game::target( tripoint &p, const tripoint &low, const trip
         tripoint targ( 0, 0, p.z );
         // Our coordinates will either be determined by coordinate input(mouse),
         // by a direction key, or by the previous value.
-        if (action == "SELECT" && ctxt.get_coordinates(g->w_terrain, targ.x, targ.y)) {
-            if (!OPTIONS["USE_TILES"] && snap_to_target) {
+        if( action == "SELECT" && ctxt.get_coordinates(g->w_terrain, targ.x, targ.y) ) {
+            if( !OPTIONS["USE_TILES"] && snap_to_target ) {
                 // Snap to target doesn't currently work with tiles.
                 targ.x += p.x - from.x;
                 targ.y += p.y - from.y;
@@ -999,74 +1072,88 @@ std::vector<tripoint> game::target( tripoint &p, const tripoint &low, const trip
             targ.y -= p.y;
         } else {
             ctxt.get_direction(targ.x, targ.y, action);
-            if(targ.x == -2) {
+            if( targ.x == -2 ) {
                 targ.x = 0;
                 targ.y = 0;
             }
         }
+        if( action == "FIRE" && mode == TARGET_MODE_FIRE && aim_mode->has_threshold ) {
+            action = aim_mode->action;
+        }
 
         /* More drawing to terrain */
         // TODO: Allow aiming up/down
-        if (targ.x != 0 || targ.y != 0) {
+        if( targ.x != 0 || targ.y != 0 ) {
             const Creature *critter = critter_at( p, true );
             if( critter != nullptr ) {
                 draw_critter( *critter, center );
             } else if( m.sees(u.pos(), p, -1 )) {
                 m.drawsq( w_terrain, u, p, false, true, center );
             } else {
-                mvwputch(w_terrain, POSY, POSX, c_black, 'X');
+                mvwputch( w_terrain, POSY, POSX, c_black, 'X' );
             }
             p.x += targ.x;
             p.y += targ.y;
-            if (p.x < low.x) {
+            if( p.x < low.x ) {
                 p.x = low.x;
-            } else if (p.x > high.x) {
+            } else if ( p.x > high.x ) {
                 p.x = high.x;
             }
-            if (p.y < low.y) {
+            if ( p.y < low.y ) {
                 p.y = low.y;
-            } else if (p.y > high.y) {
+            } else if ( p.y > high.y ) {
                 p.y = high.y;
             }
-        } else if ((action == "PREV_TARGET") && (target != -1)) {
+        } else if( (action == "PREV_TARGET") && (target != -1) ) {
             int newtarget = find_target( t, p ) - 1;
             if( newtarget < 0 ) {
                 newtarget = t.size() - 1;
             }
             p = t[newtarget]->pos();
-        } else if ((action == "NEXT_TARGET") && (target != -1)) {
+        } else if( (action == "NEXT_TARGET") && (target != -1) ) {
             int newtarget = find_target( t, p ) + 1;
             if( newtarget == (int)t.size() ) {
                 newtarget = 0;
             }
             p = t[newtarget]->pos();
-        } else if ((action == "AIM") && target != -1) {
+        } else if( (action == "AIM") && target != -1 ) {
             do_aim( &u, t, target, relevant, p );
-            if(u.moves <= 0) {
+            if( u.moves <= 0 ) {
                 // We've run out of moves, clear target vector, but leave target selected.
                 u.assign_activity( ACT_AIM, 0, 0 );
                 u.activity.str_values.push_back( "AIM" );
                 ret.clear();
                 return ret;
             }
+        } else if( action == "SWITCH_AIM" ) {
+            aim_mode++;
+            if( aim_mode == aim_types.end() ) {
+                aim_mode = aim_types.begin();
+            }
         } else if( (action == "AIMED_SHOT" || action == "CAREFUL_SHOT" || action == "PRECISE_SHOT") &&
                    target != -1 ) {
-            int aim_threshold = 20;
-            if( action == "CAREFUL_SHOT" ) {
-                aim_threshold = 10;
-            } else if( action == "PRECISE_SHOT" ) {
-                aim_threshold = 0;
+            int aim_threshold;
+            std::vector<aim_type>::iterator it;
+            for( it = aim_types.begin(); it != aim_types.end(); it++ ) {
+                if ( action == it->action ) {
+                    break;
+                }
             }
+            if( it == aim_types.end() ) {
+                debugmsg( "Could not find a valid aim_type for %s", action.c_str() );
+                aim_mode = aim_types.begin();
+            }
+            aim_threshold = it->threshold;
             do {
                 do_aim( &u, t, target, relevant, p );
             } while( target != -1 && u.moves > 0 && u.recoil > aim_threshold &&
-                     u.recoil - u.weapon.sight_dispersion( -1 ) > 0 );
+                     u.recoil - sight_dispersion > 0 );
             if( target == -1 ) {
                 // Bail out if there's no target.
                 continue;
             }
             if( u.recoil <= aim_threshold ||
-                u.recoil - u.weapon.sight_dispersion( -1 ) == 0) {
+                u.recoil - sight_dispersion == 0) {
                 // If we made it under the aim threshold, go ahead and fire.
                 // Also fire if we're at our best aim level already.
                 werase( w_target );
@@ -1085,16 +1172,16 @@ std::vector<tripoint> game::target( tripoint &p, const tripoint &low, const trip
                 ret.clear();
                 return ret;
             }
-        } else if (action == "FIRE") {
+        } else if( action == "FIRE" ) {
             target = find_target( t, p );
             if( from == p ) {
                 ret.clear();
             }
             break;
-        } else if (action == "CENTER") {
+        } else if( action == "CENTER" ) {
             p = from;
             ret.clear();
-        } else if (action == "TOGGLE_SNAP_TO_TARGET") {
+        } else if( action == "TOGGLE_SNAP_TO_TARGET" ) {
             snap_to_target = !snap_to_target;
         } else if (action == "QUIT") { // return empty vector (cancel)
             ret.clear();
@@ -1526,3 +1613,4 @@ void drop_or_embed_projectile( const dealt_projectile_attack &attack )
         }
     }
 }
+
