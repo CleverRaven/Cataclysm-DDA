@@ -1615,7 +1615,6 @@
     "qualities": [["BOIL", 1]]
   },
   {
-  {
     "type":"GENERIC",
     "id": "teapot",
     "symbol": ")",
@@ -1678,7 +1677,6 @@
     "weight": 56,
     "volume": 0,
     "cutting": 1,
-    "to_hit": 0,
     "flags" : ["STAB"]
   },
   {
@@ -1729,7 +1727,6 @@
     "weight": 362,
     "volume": 2,
     "bashing": 4,
-    "to_hit": 0,
     "max_charges": 0,
     "initial_charges": 0,
     "charges_per_use": 0,
