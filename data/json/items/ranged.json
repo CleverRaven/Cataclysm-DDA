@@ -2121,8 +2121,7 @@
     "loudness" : 150,
     "barrel_length" : 4,
     "magazines": [ "m1918mag", "m1918mag_30" ],
-    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
-    "default_mods": [ "m1918mag" ]
+    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "ruger_mini",
@@ -2413,8 +2412,7 @@
     "loudness": 140,
     "barrel_length" : 1,
     "magazines": [ "ak74_mag_30", "rpk_74_mag_45" ],
-    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
-    "default_mods": [ "ak74_mag_30" ]
+    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "an94",
@@ -2444,8 +2442,7 @@
     "loudness": 140,
     "barrel_length" : 1,
     "magazines": [ "ak74_mag_30", "rpk_74_mag_45" ],
-    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
-    "default_mods": [ "ak74_mag_30" ]
+    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "sks",
@@ -4998,8 +4995,7 @@
     "loudness" : 150,
     "//": "10 and 12-round magazines exist, but were made for the newer PMM, might not be compatible with the old PM.",
     "magazines": [ "makarovmag" ],
-    "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
-    "default_mods": [ "makarovmag" ]
+    "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "skorpion_61",
@@ -5029,8 +5025,7 @@
     "reload": 400,
     "loudness" : 150,
     "magazines": [ "skorpion_61_mag" ],
-    "valid_mod_locations": [[ "accessories", 3 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
-    "default_mods": [ "skorpion_61_mag" ]
+    "valid_mod_locations": [[ "accessories", 3 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "skorpion_82",
@@ -5060,8 +5055,7 @@
     "reload": 400,
     "loudness" : 150,
     "magazines": [ "skorpion_82_mag" ],
-    "valid_mod_locations": [[ "accessories", 3 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
-    "default_mods": [ "skorpion_82_mag" ]
+    "valid_mod_locations": [[ "accessories", 3 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "ppsh",
@@ -5122,8 +5116,7 @@
     "barrel_length" : 2,
     "//" : "Not all variants of the Thompson can even accept drum mags",
     "magazines": [ "thompson_mag", "thompson_mag_30", "thompson_drum" ],
-    "valid_mod_locations": [[ "accessories", 3 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
-    "default_mods": [ "thompson_mag" ]
+    "valid_mod_locations": [[ "accessories", 3 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "sten",
@@ -5153,8 +5146,7 @@
     "loudness" : 150,
     "//" : "If we had MP-40s, it would also accept them.",
     "magazines": [ "sten_mag", "survivor9mm_mag" ],
-    "valid_mod_locations": [[ "muzzle", 1 ],[ "stock", 1 ]],
-    "default_mods": [ "sten_mag" ]
+    "valid_mod_locations": [[ "muzzle", 1 ],[ "stock", 1 ]]
   },
   {
     "id": "walther_ppk",
