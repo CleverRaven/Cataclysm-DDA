@@ -11572,7 +11572,7 @@ void player::use(int inventory_position)
         } );
 
         if( gunpos == INT_MIN ) {
-            add_msg_if_player( m_info, "Never mind." );
+            add_msg_if_player( m_info, _( "Never mind." ) );
             return;
         }
 
