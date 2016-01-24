@@ -2117,7 +2117,7 @@
     "recoil": 30,
     "durability": 8,
     "burst": 5,
-    "reload": 550,
+    "reload": 100,
     "loudness" : 150,
     "barrel_length" : 4,
     "magazines": [ "m1918mag", "m1918mag_30" ],

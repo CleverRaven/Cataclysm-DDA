@@ -31,7 +31,6 @@
         "capacity" : 200,
         "count" : 100,
         "reliability" : 8,
-        "reload_time" : 80,
         "flags": [ "NO_RELOAD", "NO_UNLOAD" ]
     },
     {   "type" : "MAGAZINE",
@@ -87,7 +86,10 @@
         "ammo_type" : "3006",
         "capacity" : 20,
         "reliability" : 9,
-        "reload_time" : 30
+        "reload_time" : 100,
+        "alternatives" : [
+            [ "223", [ "stanag30" ] ]
+        ]
     },{
         "type" : "MAGAZINE",
         "id" : "m1918mag_30",
@@ -102,8 +104,11 @@
         "to_hit" : -2,
         "ammo_type" : "3006",
         "capacity" : 30,
-        "reliability" : 8,
-        "reload_time" : 35
+        "reliability" : 7,
+        "reload_time" : 120,
+        "alternatives" : [
+            [ "223", [ "stanag30" ] ]
+        ]
     },{
         "type" : "MAGAZINE",
         "id" : "ak74_mag_30",
@@ -119,7 +124,7 @@
         "ammo_type" : "545x39",
         "capacity" : 30,
         "reliability" : 9,
-        "reload_time" : 30
+        "reload_time" : 100
     },{
         "type" : "MAGAZINE",
         "id" : "rpk_74_mag_45",
@@ -136,7 +141,7 @@
         "ammo_type" : "545x39",
         "capacity" : 45,
         "reliability" : 8,
-        "reload_time" : 40
+        "reload_time" : 130
     },{
         "type" : "MAGAZINE",
         "id" : "belt308",
@@ -153,8 +158,7 @@
         "ammo_type" : "308",
         "capacity" : 200,
         "count" : 100,
-        "reliability" : 8,
-        "reload_time" : 80,
+        "reliability" : 7,
         "flags": [ "NO_RELOAD", "NO_UNLOAD" ]
     },{
         "type" : "MAGAZINE",
@@ -171,7 +175,7 @@
         "ammo_type" : "9x18",
         "capacity" : 8,
         "reliability" : 9,
-        "reload_time" : 40
+        "reload_time" : 100
     },{
         "type" : "MAGAZINE",
         "id" : "skorpion_61_mag",
@@ -187,7 +191,7 @@
         "ammo_type" : "32",
         "capacity" : 8,
         "reliability" : 8,
-        "reload_time" : 35
+        "reload_time" : 100
     },{
         "type" : "MAGAZINE",
         "id" : "skorpion_82_mag",
@@ -203,7 +207,7 @@
         "ammo_type" : "9x18",
         "capacity" : 8,
         "reliability" : 8,
-        "reload_time" : 30
+        "reload_time" : 100
     },{
         "type" : "MAGAZINE",
         "id" : "thompson_mag",
@@ -219,7 +223,7 @@
         "ammo_type" : "45",
         "capacity" : 20,
         "reliability" : 8,
-        "reload_time" : 30
+        "reload_time" : 100
     },{
         "type" : "MAGAZINE",
         "id" : "thompson_mag_30",
@@ -235,7 +239,7 @@
         "ammo_type" : "45",
         "capacity" : 30,
         "reliability" : 8,
-        "reload_time" : 30
+        "reload_time" : 120
     },{
         "type" : "MAGAZINE",
         "id" : "thompson_drum",
@@ -251,7 +255,7 @@
         "ammo_type" : "45",
         "capacity" : 50,
         "reliability" : 7,
-        "reload_time" : 45
+        "reload_time" : 150
     },{
         "type" : "MAGAZINE",
         "id" : "sten_mag",
@@ -267,7 +271,7 @@
         "ammo_type" : "9mm",
         "capacity" : 32,
         "reliability" : 6,
-        "reload_time" : 30
+        "reload_time" : 100
     },{
         "type" : "MAGAZINE",
         "id" : "survivor9mm_mag",
@@ -283,6 +287,6 @@
         "ammo_type" : "9mm",
         "capacity" : 20,
         "reliability" : 5,
-        "reload_time" : 30
+        "reload_time" : 120
     }
 ]
