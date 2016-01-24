@@ -2497,7 +2497,8 @@
       ["survnote", 1],
       ["slingshot", 10],
       ["wristrocket", 5],
-      ["iceaxe", 30]
+      ["iceaxe", 30],
+      ["powered_earmuffs", 80]
     ]
   },{
     "type" : "item_group",
