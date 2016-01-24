@@ -82,15 +82,18 @@ classes = {
             { name = "get_turn", rval = "int", args = { } },
             { name = "minutes_past_midnight", rval = "int", args = { } },
             { name = "seconds_past_midnight", rval = "int", args = { } },
-            { name = "sunrise", rval = "calendar", args = { } },
-            { name = "sunset", rval = "calendar", args = { } },
             { name = "is_night", rval = "bool", args = { } },
-            { name = "sunlight", rval = "calendar", args = { } },
             { name = "seconds", rval = "int", args = { } },
             { name = "minutes", rval = "int", args = { } },
             { name = "hours", rval = "int", args = { } },
             { name = "days", rval = "int", args = { } },
             { name = "years", rval = "int", args = { } }
+            --[[
+            TODO: Once return value as reference is done, re add these
+            { name = "sunlight", rval = "calendar", args = { } },
+            { name = "sunset", rval = "calendar", args = { } },
+            { name = "sunrise", rval = "calendar", args = { } },
+            --]]
         }
     },
     Character = {
