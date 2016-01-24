@@ -1102,6 +1102,9 @@ public:
         item * magazine_current();
         const item * magazine_current() const;
 
+        /** Checks if mod can be applied to this item considering any current state (jammed, loaded etc.) */
+        bool gunmod_compatible( const item& mod, bool alert = true ) const;
+
         /**
          * Number of charges this gun can hold. Includes effects from installed gunmods.
          * This does use the auxiliary gunmod (if any).
