@@ -220,6 +220,14 @@ class inventory
         VisitResponse visit_items( const std::function<VisitResponse(item *, item *)>& func );
         VisitResponse visit_items( const std::function<VisitResponse(const item *, const item *)>& func ) const;
 
+        /**
+         *  Determine the parent container (if any) for an item.
+         *  @param it item to search for which must be contained in the inventory
+         *  @return parent container or nullptr if the item is not within a container
+         */
+        item * find_parent( item& it );
+        const item * find_parent( const item& it ) const;
+
         /** Returns true if any item (including those within a container) matches the filter */
         bool has_item_with( const std::function<bool(const item&)>& filter ) const;
 
