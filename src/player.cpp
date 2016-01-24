@@ -12218,6 +12218,7 @@ void player::do_read( item *book )
                                    pgettext("memorial_female", "Reached skill level %1$d in %2$s."),
                                    new_skill_level, skill.obj().name().c_str());
             }
+            lua_callback("on_skill_increased");
         }
 
         if( skill_level == reading->level || !skill_level.can_train() ) {

@@ -126,7 +126,7 @@ function get_stat_bonus_for_skills_version_1(skill_set)
     local total_bonus = 0
     for _,v in ipairs(skill_set) do
         local skill_level = player:get_skill_level(skill_id(v))
-        local stat_bonus
+        local stat_bonus = 0
         if (skill_level / 3 < 3) then
             stat_bonus = stat_bonus + skill_level / 3
         else
