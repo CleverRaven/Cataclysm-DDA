@@ -757,7 +757,8 @@
         "dispersion" : 150,
         "recoil" : 195,
         "count" : 50,
-        "effects" : ["COOKOFF"]
+        "effects" : ["COOKOFF"],
+        "stack_size" : 50
     },
     {   "type" : "AMMO",
         "id" : "9mmP",
@@ -827,7 +828,8 @@
         "dispersion" : 155,
         "recoil" : 195,
         "count" : 50,
-        "effects" : ["COOKOFF"]
+        "effects" : ["COOKOFF"],
+        "stack_size" : 50
     },
     {   "type" : "AMMO",
         "id" : "9x18mm",
