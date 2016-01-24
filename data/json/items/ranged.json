@@ -376,8 +376,8 @@
     "flags": ["MODE_BURST", "OVERSIZE", "BELTED", "FANCY"],
     "skill": "smg",
     "ammo": "9mm",
-    "weight": 2900,
-    "volume": 7,
+    "weight": 2640,
+    "volume": 5,
     "bashing": 15,
     "cutting": 0,
     "to_hit": 0,
@@ -395,9 +395,9 @@
     "recoil": 0,
     "durability": 8,
     "burst": 3,
-    "clip_size": 30,
-    "reload": 800,
-    "loudness" : 175
+    "reload": 100,
+    "loudness" : 175,
+    "magazines" : [ "stenmag", "survivor9mm_mag" ]
   },
   {
     "id": "ruger_lcr_38",
@@ -535,12 +535,11 @@
     "aim_speed" : 4,
     "recoil": 90,
     "durability": 6,
-    "clip_size": 0,
     "reload": 300,
     "loudness" : 150,
-    "magazines": [ "glockmag" ],
-    "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
-    "default_mods": [ "glockmag" ]
+    "magazine_well" : 1,
+    "magazines": [ "glockmag", "glockbigmag" ],
+    "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "usp_9mm",
@@ -554,7 +553,7 @@
     "material": ["steel", "plastic"],
     "skill": "pistol",
     "ammo": "9mm",
-    "weight": 725,
+    "weight": 520,
     "volume": 2,
     "bashing": 8,
     "cutting": 0,
@@ -565,10 +564,11 @@
     "aim_speed" : 4,
     "recoil": 75,
     "durability": 9,
-    "clip_size": 15,
-    "reload": 350,
+    "reload": 100,
     "loudness" : 150,
-    "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
+    "magazine_well": 1,
+    "magazines" : [ "usp9mag" ],
+    "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "l_sp_9mm",
@@ -583,8 +583,8 @@
     "material": ["steel", "plastic"],
     "skill": "pistol",
     "ammo": "9mm",
-    "weight": 1140,
-    "volume": 3,
+    "weight": 935,
+    "volume": 2,
     "bashing": 8,
     "cutting": 0,
     "to_hit": -2,
@@ -595,10 +595,11 @@
     "aim_speed" : 4,
     "recoil": 60,
     "durability": 9,
-    "clip_size": 20,
-    "reload": 400,
+    "reload": 100,
     "loudness" : 125,
-    "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
+    "magazine_well" : 1,
+    "magazines" : [ "lw21mag" ],
+    "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "l_mp_9mm",
@@ -613,8 +614,8 @@
     "material": ["steel", "plastic"],
     "skill": "pistol",
     "ammo": "9mm",
-    "weight": 1170,
-    "volume": 3,
+    "weight": 1065,
+    "volume": 2,
     "bashing": 8,
     "cutting": 0,
     "to_hit": -2,
@@ -627,10 +628,11 @@
     "durability": 8,
     "//": "The M93R can go through up to 110 rounds in six seconds, FWIW.",
     "burst": 3,
-    "clip_size": 21,
-    "reload": 425,
+    "reload": 100,
     "loudness" : 125,
-    "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
+    "magazine_well" : 1,
+    "magazines" : [ "lw21mag" ],
+    "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "l_lookout_9mm",
@@ -1604,7 +1606,7 @@
     "flags": "MODE_BURST",
     "skill": "smg",
     "ammo": "9mm",
-    "weight": 3500,
+    "weight": 3280,
     "volume": 5,
     "bashing": 10,
     "cutting": 0,
@@ -1615,10 +1617,10 @@
     "recoil": -15,
     "durability": 7,
     "burst": 12,
-    "clip_size": 32,
-    "reload": 450,
+    "reload": 100,
     "loudness" : 150,
-    "valid_mod_locations": [[ "accessories", 3 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
+    "magazines" : [ "uzimag" ],
+    "valid_mod_locations": [[ "accessories", 3 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "tec9",
@@ -1693,8 +1695,8 @@
     "flags": "MODE_BURST",
     "skill": "smg",
     "ammo": "9mm",
-    "weight": 2900,
-    "volume": 7,
+    "weight": 2550,
+    "volume": 5,
     "bashing": 10,
     "cutting": 0,
     "to_hit": -2,
@@ -1705,10 +1707,10 @@
     "recoil": -45,
     "durability": 8,
     "burst": 8,
-    "clip_size": 30,
     "reload": 400,
     "loudness" : 150,
-    "valid_mod_locations": [[ "accessories", 3 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
+    "magazines" : [ "mp5mag", "mp5bigmag" ],
+    "valid_mod_locations": [[ "accessories", 3 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "mac_10",
@@ -1921,13 +1923,13 @@
     "color": "dark_gray",
     "name": "Cx4 Storm",
     "name_plural": "Cx4 Storm",
-    "description": "A small pistol caliber carbine designed for police use and civilian self-defense, the CX4 Storm uses magazines that are interchangeable with handguns from the Glock series.",
+    "description": "A small pistol caliber carbine designed for police use and civilian self-defense, the Cx4 Storm uses magazines that are interchangeable with other Beretta 9mm handguns.",
     "price": 90000,
     "material": ["steel", "plastic"],
     "skill": "rifle",
     "ammo": "9mm",
-    "weight": 2575,
-    "volume": 7,
+    "weight": 2300,
+    "volume": 6,
     "bashing": 8,
     "cutting": 0,
     "to_hit": -1,
@@ -1937,13 +1939,12 @@
     "aim_speed" : 5,
     "recoil": -15,
     "durability": 10,
-    "clip_size": 0,
     "reload": 300,
     "loudness" : 150,
     "barrel_length" : 1,
-    "magazines": [ "glockmag" ],
-    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
-    "default_mods": [ "glockmag" ]
+    "magazine_well" : 1,
+    "magazines": [ "m9bigmag", "m9mag" ],
+    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "browning_blr",
@@ -2935,7 +2936,7 @@
     "material": ["steel", "plastic"],
     "skill": "pistol",
     "ammo": "9mm",
-    "weight": 725,
+    "weight": 590,
     "volume": 2,
     "bashing": 8,
     "cutting": 0,
@@ -2947,10 +2948,11 @@
     "aim_speed" : 4,
     "recoil": 90,
     "durability": 6,
-    "clip_size": 15,
-    "reload": 350,
+    "reload": 100,
     "loudness" : 150,
-    "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
+    "magazine_well" : 1,
+    "magazines" : [ "m9mag", "m9bigmag" ],
+    "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "steyr_aug",
@@ -5128,7 +5130,7 @@
     "flags": "MODE_BURST",
     "skill": "smg",
     "ammo": "9mm",
-    "weight": 3200,
+    "weight": 2945,
     "volume": 7,
     "bashing": 10,
     "cutting": 0,
@@ -5140,9 +5142,9 @@
     "recoil": 0,
     "durability": 5,
     "burst": 3,
-    "clip_size": 32,
     "reload": 800,
     "loudness" : 150,
+    "magazines" : [ "sten_mag", "survivor9mm_mag" ],
     "valid_mod_locations": [[ "muzzle", 1 ],[ "stock", 1 ]]
   },
   {
