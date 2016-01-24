@@ -1997,25 +1997,25 @@
   ],
   "components": [
     [
-      [ "223_casing", 40 ]
+      [ "223_casing", 30 ]
     ],
     [
-      [ "smrifle_primer", 40 ]
+      [ "smrifle_primer", 30 ]
     ],
     [
-      [ "gunpowder", 160 ]
+      [ "gunpowder", 120 ]
     ],
     [
-      ["22_casing", 40 ],
+      ["22_casing", 30 ],
       ["cu_pipe", 2]
     ],
     [
-      [ "lead", 80 ],
-      [ "gold_small", 80 ] ,
-      [ "silver_small", 80 ],
-      [ "tin", 80 ],
-      [ "bismuth", 80 ],
-      [ "solder_wire", 80 ]
+      [ "lead", 60 ],
+      [ "gold_small", 60 ] ,
+      [ "silver_small", 60 ],
+      [ "tin", 60 ],
+      [ "bismuth", 60 ],
+      [ "solder_wire", 60 ]
 
     ]
   ]
@@ -2043,25 +2043,25 @@
   ],
   "components": [
     [
-      [ "223_casing", 40 ]
+      [ "223_casing", 30 ]
     ],
     [
-      [ "smrifle_primer", 40 ]
+      [ "smrifle_primer", 30 ]
     ],
     [
-      [ "gunpowder", 240 ]
+      [ "gunpowder", 180 ]
     ],
     [
-      [ "22_casing", 40 ],
+      [ "22_casing", 30 ],
       [ "cu_pipe", 4]
     ],
     [
-      [ "lead", 80 ],
-      [ "gold_small", 80 ] ,
-      [ "silver_small", 80 ],
-      [ "tin", 80 ],
-      [ "bismuth", 80 ],
-      [ "solder_wire", 80 ]
+      [ "lead", 60 ],
+      [ "gold_small", 60 ] ,
+      [ "silver_small", 60 ],
+      [ "tin", 60 ],
+      [ "bismuth", 60 ],
+      [ "solder_wire", 60 ]
 
     ]
   ]
