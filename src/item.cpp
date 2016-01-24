@@ -2292,7 +2292,7 @@ int item::weight() const
     if( count_by_charges() ) {
         ret *= charges;
 
-    } else if( ammo_capacity() > 0 ) {
+    } else if( magazine_integral() && !is_magazine() ) {
         if ( ammo_type() == "plutonium" ) {
             ret += ammo_remaining() * find_type( default_ammo( ammo_type() ) )->weight / PLUTONIUM_CHARGES;
         } else if( ammo_data() ) {
@@ -2317,23 +2317,19 @@ int item::weight() const
         }
     }
 
-    for( auto &elem : contents ) {
-        ret += elem.weight();
-        if( elem.is_gunmod() && elem.ammo_data() ) {
-            ret += elem.ammo_data()->weight * elem.ammo_remaining();
-        }
-    }
-
     // reduce weight for sawn-off weepons capped to the apportioned weight of the barrel
     if( has_gunmod( "barrel_small" ) != -1 ) {
         float b = type->gun->barrel_length;
         ret -= std::min( b * 250, b / type->volume * type->weight );
     }
 
-
     // tool mods also add about a pound of weight
     if( has_flag("ATOMIC_AMMO") ) {
         ret += 250;
+    }
+
+    for( auto &elem : contents ) {
+        ret += elem.weight();
     }
 
     return ret;
