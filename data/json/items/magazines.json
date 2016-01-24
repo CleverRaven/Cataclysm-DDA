@@ -204,6 +204,7 @@
         "capacity" : 15,
         "reliability" : 10,
         "reload_time" : 100,
+        "flags" : [ "COMPACT_MAG" ],
         "alternatives" : [
             [ "45", [ "usp45mag" ] ]
         ]
@@ -237,7 +238,8 @@
         "ammo_type" : "9mm",
         "capacity" : 30,
         "reliability" : 9,
-        "reload_time" : 100
+        "reload_time" : 100,
+        "flags" : [ "COMPACT_MAG" ],
     },
     {   "type" : "MAGAZINE",
         "id" : "mp5mag",
@@ -252,7 +254,8 @@
         "ammo_type" : "9mm",
         "capacity" : 50,
         "reliability" : 8,
-        "reload_time" : 160
+        "reload_time" : 160,
+        "flags" : [ "BULKY_MAG" ],
     },
     {   "type" : "MAGAZINE",
         "id" : "usp45mag",
