@@ -61,6 +61,12 @@
 #define MIN_HANDLING_COST 40
 /** Maximum move cost when handling an item */
 #define MAX_HANDLING_COST 800
+/** Factor for item handling costs when item found in inventory */
+#define INVENTORY_HANDLING_FACTOR 2
+/** Factor for item handling costs when item found on map tile */
+#define MAP_HANDLING_FACTOR 5
+/** Factor for item handling costs when item found in vehicle */
+#define VEHICLE_HANDLING_FACTOR 4
 
 /** Minimum amount of damage to an item (state of maximum repair) */
 #define MIN_ITEM_DAMAGE -1

@@ -10577,7 +10577,7 @@ bool player::wield( item& target )
     if( is_worn( target ) ) {
         target.on_takeoff( *this );
     } else {
-        mv *= 2;
+        mv *= INVENTORY_HANDLING_FACTOR;
     }
 
     moves -= mv;
