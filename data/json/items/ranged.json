@@ -2868,7 +2868,7 @@
     "color": "dark_gray",
     "name": "M27 IAR",
     "name_plural": "M27 IAR",
-    "description": "A H&K416 carbine outfitted with a heavier barrel and an extended magazine to enable higher amounts of suppressive fire while retaining a good degree of mobility.",
+    "description": "A H&K416 carbine outfitted with a heavier barrel to enable higher amounts of suppressive fire while retaining a good degree of mobility.",
     "price": 540000,
     "material": ["steel", "plastic"],
     "flags": "MODE_BURST",
