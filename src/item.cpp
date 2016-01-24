@@ -4171,6 +4171,9 @@ bool item::gunmod_compatible( const item& mod, bool alert ) const
     } else if( get_free_mod_locations( mod.type->gunmod->location ) <= 0 ) {
         msg = string_format( _( "Your %1$s doesn't have enough room for another %2$s mod." ), tname().c_str(), _( mod.type->gunmod->location.c_str() ) );
 
+    } else if( ammo_remaining() > 0 || magazine_current() ) {
+        msg = string_format( _( "Unload your %s before trying to modify it." ), tname().c_str() );
+
     } else if( gun_skill() == skill_id( "pistol" ) && !mod.type->gunmod->used_on_pistol ) {
         msg = string_format( _( "That %s cannot be attached to a handgun." ), mod.tname().c_str() );
 

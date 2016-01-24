@@ -11595,15 +11595,13 @@ void player::use(int inventory_position)
         read(inventory_position);
         return;
     } else if (used->is_gun()) {
-        std::vector<item> &mods = used->contents;
-        unsigned imodcount = 0;
-        for( auto &gm : mods ){
-            if( gm.has_flag("IRREMOVABLE") ){
-                imodcount++;
-            }
-        }
-        // Get weapon mod names.
-        if (mods.empty() || mods.size() == imodcount ) {
+
+        auto& mods = used->contents;
+
+        bool can_remove = std::any_of( mods.begin(), mods.end(), []( const item& e ) {
+            return e.is_gunmod() && !e.has_flag( "IRREMOVABLE" );
+        } );
+        if( !can_remove ) {
             add_msg(m_info, _("Your %s doesn't appear to be modded."), used->tname().c_str());
             return;
         }
@@ -11612,40 +11610,50 @@ void player::use(int inventory_position)
             add_msg( _( "You can not modify your %s while it's worn." ), used->tname().c_str() );
             return;
         }
-        // Create menu.
-        int choice = -1;
-
-        uimenu kmenu;
-        kmenu.selected = 0;
-        kmenu.text = _("Remove which modification?");
-        for (size_t i = 0; i < mods.size(); i++) {
-            if( !mods[i].has_flag("IRREMOVABLE") ){
-                kmenu.addentry( i, true, -1, mods[i].tname() );
-            }
-        }
-        kmenu.addentry( mods.size(), true, 'r', _("Remove all") );
-        kmenu.addentry( mods.size() + 1, true, 'q', _("Cancel") );
-        kmenu.query();
-        choice = kmenu.ret;
-
-        if (choice < int(mods.size())) {
-            const std::string mod = used->contents[choice].tname();
-            remove_gunmod(used, unsigned(choice));
-            add_msg(_("You remove your %1$s from your %2$s."), mod.c_str(), used->tname().c_str());
-        } else if (choice == int(mods.size())) {
-            for (int i = used->contents.size() - 1; i >= 0; i--) {
-                if( !used->contents[i].has_flag("IRREMOVABLE") ){
-                    remove_gunmod(used, i);
-                }
-            }
-            add_msg(_("You remove all the modifications from your %s."), used->tname().c_str());
-        } else {
-            add_msg(_("Never mind."));
+        if( used->ammo_remaining() > 0 || used->magazine_current() ) {
+            // Prevent removal of a ammo type conversion whilst the gun is loaded
+            add_msg( _( "Unload your %s before trying to modify it." ), used->tname().c_str() );
             return;
         }
-        // Removing stuff from a gun takes time.
-        moves -= int(used->reload_time(*this) / 2);
+
+        uimenu prompt;
+        prompt.selected = 0;
+        prompt.text = _( "Remove which modification?" );
+        prompt.return_invalid = true;
+
+        for( decltype( mods.size() ) i = 0; i != mods.size(); ++i ) {
+            if( mods[i].is_gunmod() && !mods[i].has_flag( "IRREMOVABLE" ) ) {
+                prompt.addentry( i + 1, true, -1, mods[i].tname() );
+            }
+        }
+
+        prompt.addentry( 0, true, 'r', _("Remove all") );
+        prompt.query();
+
+        if( prompt.ret > 0 ) {
+            add_msg( _( "You remove your %1$s from your %2$s." ),
+                     mods[ prompt.ret - 1 ].tname().c_str(), used->tname().c_str() );
+
+            remove_gunmod( used, prompt.ret - 1 );
+
+        } else if( prompt.ret == 0 ) {
+            add_msg( _( "You remove all the modifications from your %s." ), used->tname().c_str() );
+
+            for( int i = mods.size() - 1; i >= 0; --i ) {
+                if( mods[i].is_gunmod() && !mods[i].has_flag( "IRREMOVABLE" ) ) {
+                    remove_gunmod( used, i );
+                }
+            }
+
+        } else {
+            add_msg( _( "Never mind." ) );
+            return;
+        }
+
+        // @todo implement sensible time penalty
+        moves -= int( used->reload_time( *this ) / 2 );
         return;
+
     } else if ( used->type->has_use() ) {
         invoke_item( used );
         return;
