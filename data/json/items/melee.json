@@ -3693,47 +3693,6 @@
         "category": "weapons"
     },{
         "type": "GENERIC",
-        "id": "clay_pot",
-        "symbol": ")",
-        "color": "brown",
-        "name": "clay pot",
-        "description": "A crude clay pot with lid used for cooking.",
-        "price": 2500,
-        "material": "clay",
-        "weight": 480,
-        "volume": 8,
-        "bashing": 1,
-        "category": "tools",
-        "qualities": [["COOK", 3], ["BOIL", 2], ["CONTAIN", 1], ["CHEM", 1]]
-    },{
-        "type": "GENERIC",
-        "id": "clay_quern",
-        "symbol": ":",
-        "color": "brown",
-        "name": "clay quern",
-        "description": "This is a simple hand-powered clay quern for grinding grain.",
-        "price": 3000,
-        "material": "clay",
-        "weight": 2264,
-        "volume": 6,
-        "category": "tools"
-    },{
-        "type": "GENERIC",
-        "id": "clay_teapot",
-        "symbol": ")",
-        "color": "brown",
-        "name": "clay teapot",
-        "description": "A clay teapot.  Now all you need is tea and water.",
-        "category": "tools",
-        "price": 2000,
-        "material": "clay",
-        "weight": 429,
-        "volume": 3,
-        "bashing": 1,
-        "to_hit": 1,
-        "qualities": [["BOIL", 1]]
-    },{
-        "type": "GENERIC",
         "id": "clay_lump",
         "symbol": ",",
         "color": "brown",
