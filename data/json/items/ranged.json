@@ -2146,7 +2146,7 @@
     "aim_speed" : 6,
     "recoil": -60,
     "durability": 8,
-    "reload": 500,
+    "reload": 100,
     "loudness" : 150,
     "barrel_length" : 2,
     "magazines": [ "stanag10", "survivor223mag" ],
@@ -2349,7 +2349,7 @@
     "recoil": 75,
     "durability": 8,
     "burst": 15,
-    "reload": 500,
+    "reload": 100,
     "loudness" : 150,
     "magazines": [ "stanag30", "stanag10", "stanag50", "survivor223mag" ],
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
@@ -2530,7 +2530,7 @@
     "recoil": 60,
     "durability": 3,
     "burst": 3,
-    "reload": 500,
+    "reload": 100,
     "loudness" : 150,
     "magazines" : [ "lw223mag", "lw223bigmag" ],
     "valid_mod_locations": [[ "accessories", 4 ]]
@@ -2561,7 +2561,7 @@
     "recoil": -180,
     "durability": 7,
     "burst": 5,
-    "reload": 500,
+    "reload": 100,
     "loudness" : 150,
     "magazines" : [ "lw223mag", "lw223bigmag" ],
     "valid_mod_locations": [[ "accessories", 2 ]]
@@ -2591,7 +2591,7 @@
     "recoil": -15,
     "durability": 8,
     "burst": 3,
-    "reload": 475,
+    "reload": 100,
     "loudness" : 150,
     "barrel_length" : 1,
     "magazines" : [ "stanag30", "stanag10", "stanag50", "survivor223mag" ],
@@ -2619,7 +2619,7 @@
     "aim_speed" : 6,
     "recoil": 0,
     "durability": 7,
-    "reload": 500,
+    "reload": 100,
     "loudness" : 150,
     "magazines" : [ "stanag30", "stanag10", "stanag50", "survivor223mag" ],
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
@@ -2649,7 +2649,7 @@
     "recoil": 30,
     "durability": 6,
     "burst": 10,
-    "reload": 475,
+    "reload": 100,
     "loudness" : 150,
     "magazines" : [ "stanag30", "stanag10", "survivor223mag" ],
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
@@ -2678,7 +2678,7 @@
     "recoil": -90,
     "durability": 7,
     "burst": 3,
-    "reload": 500,
+    "reload": 100,
     "loudness" : 150,
     "magazines" : [ "lw223mag", "lw223bigmag" ],
     "valid_mod_locations": [[ "accessories", 2 ]]
@@ -2708,7 +2708,7 @@
     "recoil": -60,
     "durability": 8,
     "burst": 10,
-    "reload": 500,
+    "reload": 100,
     "loudness" : 150,
     "magazines" : [ "stanag30", "stanag10", "stanag50", "survivor223mag" ],
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
@@ -2827,7 +2827,7 @@
     "recoil": 30,
     "durability": 8,
     "burst": 6,
-    "reload": 600,
+    "reload": 100,
     "loudness" : 150,
     "magazines" : [ "stanag30", "stanag10", "survivor223mag" ],
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
@@ -2856,7 +2856,7 @@
     "aim_speed" : 9,
     "recoil": -150,
     "durability": 7,
-    "reload": 500,
+    "reload": 100,
     "loudness" : 150,
     "magazines" : [ "lw223mag", "lw223bigmag" ],
     "valid_mod_locations": [[ "accessories", 2 ]]
@@ -2887,7 +2887,7 @@
     "recoil": 120,
     "durability": 8,
     "burst": 15,
-    "reload": 600,
+    "reload": 100,
     "loudness" : 150,
     "magazines" : [ "stanag50", "stanag30", "stanag10" ],
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
@@ -2918,7 +2918,7 @@
     "recoil": -165,
     "durability": 7,
     "burst": 20,
-    "reload": 2000,
+    "reload": 100,
     "loudness" : 150,
     "magazines" : [ "lw223bigmag", "lw223mag" ],
     "valid_mod_locations": [[ "accessories", 2 ]]
@@ -2977,7 +2977,7 @@
     "recoil": -120,
     "durability": 8,
     "burst": 6,
-    "reload": 550,
+    "reload": 100,
     "loudness" : 150,
     "magazines" : [ "stanag30", "stanag10", "survivor223mag" ],
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
@@ -3007,7 +3007,7 @@
     "recoil": 90,
     "durability": 7,
     "burst": 30,
-    "reload": 750,
+    "reload": 400,
     "loudness" : 160,
     "magazines" : [ "stanag50", "stanag30", "belt223" ],
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ]]
