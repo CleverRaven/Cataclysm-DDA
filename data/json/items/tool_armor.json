@@ -2360,7 +2360,7 @@
         "charges_per_use": 0,
         "turns_per_charge": 60,
         "ammo": "battery",
-        "revert_to": "null",
+        "revert_to": "powered_earmuffs",
         "use_action": {
             "type": "transform",
             "msg": "The %s flicks off.",
