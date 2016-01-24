@@ -69,8 +69,6 @@ int set_description(WINDOW *w, player *u, character_type type, int &points);
 
 void save_template(player *u);
 
-bool lcmatch(const std::string &str, const std::string &findstr); // ui.cpp
-
 void Character::pick_name(bool bUseDefault)
 {
     if (bUseDefault && OPTIONS["DEF_CHAR_NAME"]) {
@@ -588,6 +586,9 @@ int set_stats(WINDOW *w, player *u, int &points)
     int read_spd;
     WINDOW *w_description = newwin(8, FULL_SCREEN_WIDTH - iSecondColumn - 1, 6 + getbegy(w),
                                    iSecondColumn + getbegx(w));
+
+    ctxt.assign_windows({&w, &w_description});
+
     // There is no map loaded currently, so any access to the map will
     // fail (player::suffer, called from player::reset_stats), might access
     // the map:
@@ -842,6 +843,7 @@ int set_traits(WINDOW *w, player *u, int &points, int max_trait_points)
     ctxt.register_action("NEXT_TAB");
     ctxt.register_action("HELP_KEYBINDINGS");
     ctxt.register_action("QUIT");
+    ctxt.assign_windows({&w, &w_description});
 
     do {
         mvwprintz(w, 3, 2, c_ltgray, _("Points left:%4d "), points);
@@ -1076,6 +1078,7 @@ int set_profession(WINDOW *w, player *u, int &points)
     ctxt.register_action("HELP_KEYBINDINGS");
     ctxt.register_action("FILTER");
     ctxt.register_action("QUIT");
+    ctxt.assign_windows({&w, &w_description, &w_items, &w_genderswap});
 
     bool recalc_profs = true;
     int profs_length = 0;
@@ -1370,6 +1373,7 @@ int set_skills(WINDOW *w, player *u, int &points)
     ctxt.register_action("NEXT_TAB");
     ctxt.register_action("HELP_KEYBINDINGS");
     ctxt.register_action("QUIT");
+    ctxt.assign_windows({&w, &w_description});
 
     do {
         mvwprintz(w, 3, 2, c_ltgray, _("Points left:%4d "), points);
@@ -1600,6 +1604,7 @@ int set_scenario(WINDOW *w, player *u, int &points)
     ctxt.register_action("HELP_KEYBINDINGS");
     ctxt.register_action("FILTER");
     ctxt.register_action("QUIT");
+    ctxt.assign_windows({&w, &w_description, &w_profession, &w_location, &w_flags});
 
     bool recalc_scens = true;
     int scens_length = 0;
@@ -1892,6 +1897,8 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
     ctxt.register_action("REROLL_CHARACTER_WITH_SCENARIO");
     ctxt.register_action("ANY_INPUT");
     ctxt.register_action("QUIT");
+    ctxt.assign_windows({&w, &w_name,
+            &w_gender, &w_location, &w_stats, &w_traits, &w_scenario, &w_profession, &w_skills, &w_guide});
 
     uimenu select_location;
     select_location.text = _("Select a starting location.");

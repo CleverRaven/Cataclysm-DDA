@@ -114,6 +114,9 @@ typedef std::vector< const std::list<item>* > const_invslice;
 typedef std::vector< std::pair<std::list<item>*, int> > indexed_invslice;
 typedef std::function<bool(const item &)> item_filter;
 
+// Helper functions
+bool lcmatch(const std::string &str, const std::string &findstr);
+
 class game
 {
         friend class editmap;

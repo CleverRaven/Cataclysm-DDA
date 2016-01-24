@@ -163,6 +163,18 @@ bool is_valid_in_w_terrain(int x, int y)
     return x >= 0 && x < TERRAIN_WINDOW_WIDTH && y >= 0 && y < TERRAIN_WINDOW_HEIGHT;
 }
 
+/*
+ * case insensitive string::find( string::findstr ). findstr must be lowercased
+ */
+bool lcmatch(const std::string &str, const std::string &findstr)
+{
+    std::string ret = "";
+    ret.reserve( str.size() );
+    transform( str.begin(), str.end(), std::back_inserter(ret), tolower );
+    return ( (int)ret.find( findstr ) != -1 );
+}
+
+
 // This is the main game set-up process.
 game::game() :
     map_ptr( new map() ),

@@ -38,7 +38,16 @@ const skill_id skill_mechanics( "mechanics" );
  * Creates a blank veh_interact window.
  */
 veh_interact::veh_interact ()
-    : main_context("VEH_INTERACT")
+    : w_grid(nullptr)
+    , w_mode(nullptr)
+    , w_msg(nullptr)
+    , w_disp(nullptr)
+    , w_parts(nullptr)
+    , w_stats(nullptr)
+    , w_list(nullptr)
+    , w_details(nullptr)
+    , w_name(nullptr)
+    , main_context("VEH_INTERACT")
 {
     cpart = -1;
     ddx = 0;
@@ -78,6 +87,10 @@ veh_interact::veh_interact ()
     main_context.register_action("NEXT_TAB");
     main_context.register_action("CONFIRM");
     main_context.register_action("HELP_KEYBINDINGS");
+    main_context.register_action("FILTER");
+
+    main_context.assign_windows({&w_grid, &w_mode, &w_msg, &w_disp,
+            &w_parts, &w_stats, &w_list, &w_details, &w_name});
 }
 
 /**
@@ -293,6 +306,7 @@ void veh_interact::do_main_loop()
         } else if (action == "PREV_TAB") {
             move_fuel_cursor(-1);
         }
+
         if (sel_cmd != ' ') {
             finish = true;
         }
@@ -811,6 +825,17 @@ void veh_interact::do_install()
 
     int pos = 0;
     size_t tab = 0;
+
+    std::string sFilter;
+    std::function<bool(const vpart_info*)> user_filter = [&](const vpart_info *p) {
+        return lcmatch(p->name, sFilter);
+    };
+
+    std::function<bool(const vpart_info*)> part_filter = [&](const vpart_info *p) {
+        return user_filter(p) && tab_filters[tab](p);
+    };
+
+
     while (true) {
         display_list(pos, tab_vparts, 2);
 
@@ -873,9 +898,15 @@ void veh_interact::do_install()
                 tab = ( tab < tab_list.size() - 1 ) ? tab + 1 : 0;
             }
 
-            copy_if(can_mount.begin(), can_mount.end(), back_inserter(tab_vparts), tab_filters[tab]);
-        }
-        else {
+            copy_if(can_mount.begin(), can_mount.end(), back_inserter(tab_vparts), part_filter);
+        } else if (action == "FILTER") {
+            sFilter = string_input_popup(_("Name filter:"), 55, sFilter,
+                    _("UP: history, CTRL-U clear line, ESC: abort, ENTER: save"), "veh_part_filter", 256);
+            main_context.redraw_windows();
+            pos = 0;
+            tab_vparts.clear();
+            copy_if(can_mount.begin(), can_mount.end(), back_inserter(tab_vparts), part_filter);
+        } else {
             move_in_list(pos, action, tab_vparts.size(), 2);
         }
     }
@@ -889,6 +920,7 @@ void veh_interact::do_install()
     display_stats();
     display_name();
 }
+
 
 bool veh_interact::move_in_list(int &pos, const std::string &action, const int size, const int header) const
 {

@@ -666,9 +666,6 @@ int recipe::print_time( WINDOW *w, int ypos, int xpos, int width,
     return fold_and_print( w, ypos, xpos, width, col, text );
 }
 
-// ui.cpp
-extern bool lcmatch( const std::string &str, const std::string &findstr );
-
 template<typename T>
 bool lcmatch_any( const std::vector< std::vector<T> > &list_of_list, const std::string &filter )
 {

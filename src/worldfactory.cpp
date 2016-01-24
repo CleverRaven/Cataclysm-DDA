@@ -454,6 +454,7 @@ WORLDPTR worldfactory::pick_world( bool show_prompt )
     ctxt.register_action("NEXT_TAB");
     ctxt.register_action("PREV_TAB");
     ctxt.register_action("CONFIRM");
+    ctxt.assign_windows({&w_worlds_border, &w_worlds_tooltip, &w_worlds_header, &w_worlds});
 
     std::stringstream sTemp;
 
@@ -642,6 +643,9 @@ int worldfactory::show_worldgen_tab_options(WINDOW *win, WORLDPTR world)
     ctxt.register_action("QUIT");
     ctxt.register_action("NEXT_TAB");
     ctxt.register_action("PREV_TAB");
+
+    ctxt.assign_windows({&win, &w_options, &w_options_tooltip, &w_options_header});
+
     int iStartPos = 0;
     int iCurrentLine = 0;
 
@@ -900,6 +904,8 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
     w_active  = newwin(11, FULL_SCREEN_WIDTH / 2 - 4, 5 + iOffsetY,
                        FULL_SCREEN_WIDTH / 2 + 2 + iOffsetX);
     w_description = newwin(4, FULL_SCREEN_WIDTH - 2, 19 + iOffsetY, 1 + iOffsetX);
+
+    ctxt.assign_windows({&win, &w_header1, &w_header2, &w_shift, &w_list, &w_active, &w_description});
 
     draw_modselection_borders(win, &ctxt);
     std::vector<std::string> headers;
@@ -1197,6 +1203,7 @@ int worldfactory::show_worldgen_tab_confirm(WINDOW *win, WORLDPTR world)
     ctxt.register_action("NEXT_TAB");
     ctxt.register_action("PREV_TAB");
     ctxt.register_action("PICK_RANDOM_WORLDNAME");
+    ctxt.assign_windows({&win, &w_confirmation});
 
     std::string worldname = world->world_name;
     do {

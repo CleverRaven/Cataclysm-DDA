@@ -198,17 +198,6 @@ void uimenu::init()
 }
 
 /*
- * case insensitive string::find( string::findstr ). findstr must be lowercased
- */
-bool lcmatch(const std::string &str, const std::string &findstr)
-{
-    std::string ret = "";
-    ret.reserve( str.size() );
-    transform( str.begin(), str.end(), std::back_inserter(ret), tolower );
-    return ( (int)ret.find( findstr ) != -1 );
-}
-
-/*
  * repopulate filtered entries list (fentries) and set fselected accordingly
  */
 void uimenu::filterlist()
@@ -915,4 +904,3 @@ void pointmenu_cb::refresh( uimenu *menu ) {
     menu->redraw( false );
     menu->show();
 }
-

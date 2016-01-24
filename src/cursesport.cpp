@@ -266,6 +266,13 @@ int wrefresh(WINDOW *win)
     if( win != nullptr && win->draw ) {
         curses_drawwindow(win);
     }
+
+#ifdef TILES
+    void try_update();
+    if (win == mainwin) {
+        try_update();
+    }
+#endif
     return 1;
 }
 
@@ -617,6 +624,19 @@ int clearok(WINDOW *win)
     }
     return 1;
 }
+
+int redrawwin(WINDOW* win)
+{
+    if (! win) {
+        return 0;
+    }
+    win->draw = true;
+    for (int i = 0; i < win->height; i++) {
+        win->line[i].touched = true;
+    }
+    return 1;
+}
+
 
 //gets the max x of a window (the width)
 int getmaxx(WINDOW *win)

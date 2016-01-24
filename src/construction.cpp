@@ -199,7 +199,7 @@ void construction_menu()
     ctxt.register_action("QUIT");
     ctxt.register_action("ANY_INPUT");
     ctxt.register_action("HELP_KEYBINDINGS");
-
+    ctxt.assign_windows({(&w_con)});
     std::string hotkeys = ctxt.get_available_single_char_hotkeys();
 
     do {

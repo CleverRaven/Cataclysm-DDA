@@ -2658,6 +2658,11 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
     ctxt.register_action("QUIT");
     ctxt.register_action("CONFIRM", _("Toggle skill training"));
     ctxt.register_action("HELP_KEYBINDINGS");
+    ctxt.assign_windows({&w_grid_top, &w_grid_skill, &w_grid_effect, &w_grid_trait,
+        &w_tip, &w_stats, &w_traits, &w_encumb, &w_effects, &w_speed, &w_skills, &w_info,
+        });
+
+
     std::string action;
 
     std::string help_msg = string_format(_("Press %s for help."), ctxt.get_desc("HELP_KEYBINDINGS").c_str());
