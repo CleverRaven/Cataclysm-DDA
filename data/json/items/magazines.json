@@ -239,7 +239,7 @@
         "capacity" : 30,
         "reliability" : 9,
         "reload_time" : 100,
-        "flags" : [ "COMPACT_MAG" ],
+        "flags" : [ "COMPACT_MAG" ]
     },
     {   "type" : "MAGAZINE",
         "id" : "mp5mag",
@@ -255,7 +255,7 @@
         "capacity" : 50,
         "reliability" : 8,
         "reload_time" : 160,
-        "flags" : [ "BULKY_MAG" ],
+        "flags" : [ "BULKY_MAG" ]
     },
     {   "type" : "MAGAZINE",
         "id" : "usp45mag",
