@@ -5,7 +5,6 @@
     "items":[
       ["arming_sword", 25],
       ["estoc", 15],
-      ["halberd", 20],
       ["scimitar", 20],
       ["helmet_nasal", 1],
       ["helmet_galea", 1],
@@ -22,7 +21,6 @@
     "items":[
       ["arming_sword", 25],
       ["estoc", 15],
-      ["halberd", 20],
       ["scimitar", 20],
       ["armor_lamellar", 2],
       ["helmet_conical", 1],
@@ -36,8 +34,6 @@
       ["arming_sword_fake", 8],
       ["estoc", 3],
       ["estoc_fake", 6],
-      ["halberd", 3],
-      ["halberd_fake", 7],
       ["qiang", 3],
       ["ji", 1],
       ["jian", 2],
@@ -61,8 +57,6 @@
       ["arming_sword_fake", 7],
       ["estoc", 3],
       ["estoc_fake", 5],
-      ["halberd", 4],
-      ["halberd_fake", 6],
       ["qiang", 3],
       ["ji", 2],
       ["jian", 2],
