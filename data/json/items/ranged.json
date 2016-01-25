@@ -3465,7 +3465,6 @@
     "reload": 500,
     "loudness" : 125,
     "magazines" : ["360_200_mag", "360_400_mag"],
-    "default_mods": [ "360_200_mag" ],
     "valid_mod_locations": [[ "accessories", 3 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
@@ -3837,7 +3836,6 @@
     "loudness" : 150,
     "magazines" : ["8x40_50_mag", "8x40_100_mag"],
     "magazine_well" : 2,
-    "default_mods": [ "8x40_50_mag" ],
     "valid_mod_locations": [[ "accessories", 4 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
@@ -3869,7 +3867,6 @@
     "barrel_length" : 2,
     "magazines" : ["8x40_100_mag", "8x40_50_mag", "8x40_250_mag"],
     "magazine_well" : 2,
-    "default_mods": [ "8x40_100_mag" ],
     "valid_mod_locations": [[ "accessories", 4 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
@@ -3902,7 +3899,6 @@
     "barrel_length" : 2,
     "magazines" : ["8x40_250_mag", "8x40_500_mag"],
     "magazine_well" : 2,
-    "default_mods": [ "8x40_250_mag" ],
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
@@ -3932,7 +3928,6 @@
     "loudness" : 125,
     "magazines" : ["8x40_25_mag", "8x40_10_mag"],
     "magazine_well" : 1,
-    "default_mods": [ "8x40_25_mag" ],
     "valid_mod_locations": [[ "accessories", 3 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
@@ -3989,7 +3984,6 @@
     "loudness" : 150,
     "magazines" : ["8x40_10_mag", "8x40_25_mag"],
     "magazine_well" : 1,
-    "default_mods": [ "8x40_10_mag" ],
     "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
@@ -4021,7 +4015,6 @@
     "loudness" : 25,
     "barrel_length" : 3,
     "magazines" : ["8x40_10_mag", "8x40_25_mag"],
-    "default_mods": [ "8x40_10_mag" ],
     "valid_mod_locations": [[ "accessories", 4 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
@@ -4369,7 +4362,6 @@
     "barrel_length" : 1,
     "magazines" : ["5x50_100_mag", "5x50_50_mag"],
     "magazine_well" : 1,
-    "default_mods": [ "5x50_100_mag" ],
     "valid_mod_locations": [[ "accessories", 3 ],[ "barrel", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
@@ -4400,7 +4392,6 @@
     "loudness" : 75,
     "magazines" : ["5x50_50_mag", "5x50_100_mag"],
     "magazine_well" : 1,
-    "default_mods": [ "5x50_50_mag" ],
     "valid_mod_locations": [[ "accessories", 3 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
@@ -4519,7 +4510,6 @@
     "loudness" : 175,
     "magazines" : ["20x66_20_mag", "20x66_40_mag"],
     "magazine_well" : 2,
-    "default_mods": [ "20x66_20_mag" ],
     "valid_mod_locations": [[ "accessories", 4 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
@@ -5713,7 +5703,6 @@
     "barrel_length" : 6,
     "magazines" : ["8x40_500_mag", "8x40_250_mag"],
     "magazine_well" : 6,
-    "default_mods": [ "8x40_500_mag" ],
     "valid_mod_locations": [[ "barrel", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ]]
   },
   {
