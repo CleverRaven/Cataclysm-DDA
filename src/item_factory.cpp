@@ -1016,6 +1016,8 @@ void Item_factory::load_basic_info(JsonObject &jo, itype *new_item_template)
         new_item_template->magazines.insert( mags.next_string() );
     }
 
+    new_item_template->magazine_well = jo.get_int( "magazine_well", 0 );
+
     new_item_template->min_str = jo.get_int( "min_strength",     0 );
     new_item_template->min_dex = jo.get_int( "min_dexterity",    0 );
     new_item_template->min_int = jo.get_int( "min_intelligence", 0 );
