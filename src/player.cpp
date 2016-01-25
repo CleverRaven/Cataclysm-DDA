@@ -14143,14 +14143,16 @@ int player::get_stamina_max() const
 void player::burn_move_stamina( int moves )
 {
     int overburden_percentage = 0;
-    if (weight_carried() > weight_capacity()) {
-        overburden_percentage = (weight_carried() - weight_capacity()) * 100 / weight_capacity();
+    int current_weight = weight_carried();
+    int max_weight = weight_capacity();
+    if (current_weight > max_weight) {
+        overburden_percentage = (current_weight - max_weight) * 100 / max_weight;
         // Chance to suffer pain if stamina runs out or has trait BADBACK
         // Starts at 1 in 25, goes down by 5 for every 50% more carried
-        if ((has_trait("BADBACK") || stamina <= 0) && one_in(35 - 5 * weight_carried() / (weight_capacity() / 2))) {
+        if ((has_trait("BADBACK") || stamina <= 0) && one_in(35 - 5 * current_weight / (max_weight / 2))) {
             add_msg_if_player(m_bad, _("Your body strains under the weight!"));
             // 1 more pain for every 800 grams more (5 per extra STR needed)
-            if ( ((weight_carried() - weight_capacity()) / 800 > pain && pain < 100)) {
+            if ( ((current_weight - max_weight) / 800 > pain && pain < 100)) {
                 mod_pain(1);
             }
         }
