@@ -82,6 +82,7 @@ automatically_convertible = {
     "ITEM_CATEGORY",
     "keybinding",
     "lab_note",
+    "MAGAZINE",
     "MOD_INFO",
     "MONSTER",
     "mutation",
