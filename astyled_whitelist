@@ -2,6 +2,7 @@ src/action.cpp
 src/active_item_cache.cpp
 src/activity_item_handling.cpp
 src/ammo.cpp
+src/armor_layers.cpp
 src/basecamp.cpp
 src/cata_utility.cpp
 src/char_validity_check.cpp
@@ -13,6 +14,7 @@ src/damage.cpp
 src/debug.cpp
 src/drawing_primitives.cpp
 src/gamemode.cpp
+src/item_action.cpp
 src/itype.cpp
 src/iuse_software.cpp
 src/live_view.cpp

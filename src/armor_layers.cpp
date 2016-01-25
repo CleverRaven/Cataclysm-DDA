@@ -340,7 +340,7 @@ void player::sort_armor()
         }
 
         mvwprintz( w_encumb, 0, 1, c_white, _( "Encumbrance and Warmth" ) );
-        print_encumbrance( w_encumb, -1, (leftListSize > 0) ? tmp_worn[leftListIndex] : nullptr );
+        print_encumbrance( w_encumb, -1, ( leftListSize > 0 ) ? tmp_worn[leftListIndex] : nullptr );
 
         // Right header
         mvwprintz( w_sort_right, 0, 0, c_ltgray, _( "(Innermost)" ) );
@@ -357,7 +357,7 @@ void player::sort_armor()
             }
             if( rightListSize >= rightListOffset && pos <= cont_h - 2 ) {
                 mvwprintz( w_sort_right, pos, 1, ( cover == tabindex ? c_yellow : c_white ),
-                "%s:", ( combined ? bpp_asText[cover] : bp_asText[cover] ).c_str() );
+                           "%s:", ( combined ? bpp_asText[cover] : bp_asText[cover] ).c_str() );
                 pos++;
             }
             rightListSize++;
@@ -377,9 +377,10 @@ void player::sort_armor()
         }
 
         // Right footer
-        mvwprintz(w_sort_right, cont_h - 1, 0, c_ltgray, _("(Outermost)"));
-        if (rightListSize > cont_h - 2) {
-            mvwprintz(w_sort_right, cont_h - 1, right_w - utf8_width(_("<more>")), c_ltblue, _("<more>"));
+        mvwprintz( w_sort_right, cont_h - 1, 0, c_ltgray, _( "(Outermost)" ) );
+        if( rightListSize > cont_h - 2 ) {
+            mvwprintz( w_sort_right, cont_h - 1, right_w - utf8_width( _( "<more>" ) ), c_ltblue,
+                       _( "<more>" ) );
         }
         // F5
         wrefresh( w_sort_cat );
@@ -426,17 +427,18 @@ void player::sort_armor()
 
                 selected = leftListIndex;
             }
-        } else if (action == "DOWN" && leftListSize > 0) {
-            leftListIndex = (leftListIndex + 1) % tmp_worn.size();
+        } else if( action == "DOWN" && leftListSize > 0 ) {
+            leftListIndex = ( leftListIndex + 1 ) % tmp_worn.size();
 
             // Scrolling logic
-            if (!((leftListIndex >= leftListOffset) && (leftListIndex < leftListOffset + leftListSize))) {
+            if( !( ( leftListIndex >= leftListOffset ) &&
+                   ( leftListIndex < leftListOffset + leftListSize ) ) ) {
                 leftListOffset = leftListIndex - leftListSize + 1;
-                leftListOffset = (leftListOffset > 0) ? leftListOffset : 0;
+                leftListOffset = ( leftListOffset > 0 ) ? leftListOffset : 0;
             }
 
             // move selected item
-            if (selected >= 0) {
+            if( selected >= 0 ) {
                 if( leftListIndex > selected ) {
                     std::swap( *tmp_worn[leftListIndex], *tmp_worn[selected] );
                 } else {
@@ -447,85 +449,85 @@ void player::sort_armor()
 
                 selected = leftListIndex;
             }
-        } else if (action == "LEFT") {
+        } else if( action == "LEFT" ) {
             tabindex--;
-            if (tabindex < 0) {
+            if( tabindex < 0 ) {
                 tabindex = tabcount - 1;
             }
             leftListIndex = leftListOffset = 0;
             selected = -1;
-        } else if (action == "RIGHT") {
-            tabindex = (tabindex + 1) % tabcount;
+        } else if( action == "RIGHT" ) {
+            tabindex = ( tabindex + 1 ) % tabcount;
             leftListIndex = leftListOffset = 0;
             selected = -1;
-        } else if (action == "NEXT_TAB") {
+        } else if( action == "NEXT_TAB" ) {
             rightListOffset++;
-            if (rightListOffset + cont_h - 2 > rightListSize) {
+            if( rightListOffset + cont_h - 2 > rightListSize ) {
                 rightListOffset = rightListSize - cont_h + 2;
             }
-        } else if (action == "PREV_TAB") {
+        } else if( action == "PREV_TAB" ) {
             rightListOffset--;
-            if (rightListOffset < 0) {
+            if( rightListOffset < 0 ) {
                 rightListOffset = 0;
             }
-        } else if (action == "MOVE_ARMOR") {
-            if (selected >= 0) {
+        } else if( action == "MOVE_ARMOR" ) {
+            if( selected >= 0 ) {
                 selected = -1;
             } else {
                 selected = leftListIndex;
             }
-        } else if (action == "CHANGE_SIDE") {
-             if (leftListIndex < (int) tmp_worn.size() && tmp_worn[leftListIndex]->is_sided()) {
-                 if (query_yn(_("Swap side for %s?"), tmp_worn[leftListIndex]->tname().c_str())) {
-                     change_side(tmp_worn[leftListIndex]);
-                     wrefresh(w_sort_armor);
+        } else if( action == "CHANGE_SIDE" ) {
+            if( leftListIndex < ( int ) tmp_worn.size() && tmp_worn[leftListIndex]->is_sided() ) {
+                if( query_yn( _( "Swap side for %s?" ), tmp_worn[leftListIndex]->tname().c_str() ) ) {
+                    change_side( tmp_worn[leftListIndex] );
+                    wrefresh( w_sort_armor );
                 }
             }
-        } else if (action == "EQUIP_ARMOR") {
+        } else if( action == "EQUIP_ARMOR" ) {
             // filter inventory for all items that are armor/clothing
-            int pos = g->inv_for_unequipped(_("Put on:"), [](const item &it) {
-                        return it.is_armor();
-                    });
+            int pos = g->inv_for_unequipped( _( "Put on:" ), []( const item & it ) {
+                return it.is_armor();
+            } );
             // only equip if something valid selected!
-            if(pos != INT_MIN) {
+            if( pos != INT_MIN ) {
                 // wear the item
-                if(wear(pos)) {
+                if( wear( pos ) ) {
                     // reorder `worn` vector to place new item at cursor
                     auto iter = worn.end();
-                    item new_equip  = *(--iter);
+                    item new_equip  = *( --iter );
                     // remove the item
-                    worn.erase(iter);
+                    worn.erase( iter );
                     iter = worn.begin();
                     // advance the iterator to cursor's position
-                    std::advance(iter, leftListIndex);
+                    std::advance( iter, leftListIndex );
                     // inserts at position before iter (no b0f, phew)
-                    worn.insert(iter, new_equip);
+                    worn.insert( iter, new_equip );
                 }
             }
             // TODO: fix up along with hack below
-            draw_border(w_sort_armor);
-            wrefresh(w_sort_armor);
-        } else if (action == "REMOVE_ARMOR") {
+            draw_border( w_sort_armor );
+            wrefresh( w_sort_armor );
+        } else if( action == "REMOVE_ARMOR" ) {
             // query (for now)
-            if (leftListIndex < (int) tmp_worn.size()) {
-                if (query_yn(_("Remove selected armor?"))) {
+            if( leftListIndex < ( int ) tmp_worn.size() ) {
+                if( query_yn( _( "Remove selected armor?" ) ) ) {
                     // remove the item, asking to drop it if necessary
-                    takeoff(tmp_worn[leftListIndex]);
-                    wrefresh(w_sort_armor);
+                    takeoff( tmp_worn[leftListIndex] );
+                    wrefresh( w_sort_armor );
                 }
             }
-        } else if (action == "ASSIGN_INVLETS") {
+        } else if( action == "ASSIGN_INVLETS" ) {
             // prompt first before doing this (yes yes, more popups...)
-            if(query_yn(_("Reassign invlets for armor?"))) {
+            if( query_yn( _( "Reassign invlets for armor?" ) ) ) {
                 // Start with last armor (the most unimportant one?)
                 auto iiter = inv_chars.rbegin();
                 auto witer = worn.rbegin();
                 while( witer != worn.rend() && iiter != inv_chars.rend() ) {
                     const char invlet = *iiter;
                     item &w = *witer;
-                    if (invlet == w.invlet) {
+                    if( invlet == w.invlet ) {
                         ++witer;
-                    } else if (invlet_to_position(invlet) != INT_MIN) {
+                    } else if( invlet_to_position( invlet ) != INT_MIN ) {
                         ++iiter;
                     } else {
                         w.invlet = invlet;
@@ -534,8 +536,8 @@ void player::sort_armor()
                     }
                 }
             }
-        } else if (action == "HELP") {
-            popup_getkey(_("\
+        } else if( action == "HELP" ) {
+            popup_getkey( _( "\
 Use the arrow- or keypad keys to navigate the left list.\n\
 Press [%s] to select highlighted armor for reordering.\n\
 Use   [%s] / [%s] to scroll the right list.\n\
@@ -547,19 +549,19 @@ Press [%s] to remove selected armor from oneself.\n\
 [Encumbrance and Warmth] explanation:\n\
 The first number is the summed encumbrance from all clothing on that bodypart.\n\
 The second number is the encumbrance caused by the number of clothing on that bodypart.\n\
-The sum of these values is the effective encumbrance value your character has for that bodypart."),
-                         ctxt.get_desc("MOVE_ARMOR").c_str(),
-                         ctxt.get_desc("PREV_TAB").c_str(),
-                         ctxt.get_desc("NEXT_TAB").c_str(),
-                         ctxt.get_desc("ASSIGN_INVLETS").c_str(),
-                         ctxt.get_desc("CHANGE_SIDE").c_str(),
-                         ctxt.get_desc("EQUIP_ARMOR").c_str(),
-                         ctxt.get_desc("REMOVE_ARMOR").c_str()
+The sum of these values is the effective encumbrance value your character has for that bodypart." ),
+                          ctxt.get_desc( "MOVE_ARMOR" ).c_str(),
+                          ctxt.get_desc( "PREV_TAB" ).c_str(),
+                          ctxt.get_desc( "NEXT_TAB" ).c_str(),
+                          ctxt.get_desc( "ASSIGN_INVLETS" ).c_str(),
+                          ctxt.get_desc( "CHANGE_SIDE" ).c_str(),
+                          ctxt.get_desc( "EQUIP_ARMOR" ).c_str(),
+                          ctxt.get_desc( "REMOVE_ARMOR" ).c_str()
                         );
             //TODO: refresh the window properly. Current method erases the intersection symbols
-            draw_border(w_sort_armor); // hack to mark whole window for redrawing
-            wrefresh(w_sort_armor);
-        } else if (action == "QUIT") {
+            draw_border( w_sort_armor ); // hack to mark whole window for redrawing
+            wrefresh( w_sort_armor );
+        } else if( action == "QUIT" ) {
             exit = true;
         }
     }
