@@ -1366,7 +1366,7 @@ int blocking_ability( const item &shield )
     return block_bonus;
 }
 
-item &player::best_shield() const
+item &player::best_shield()
 {
     int weapon_block = blocking_ability( weapon );
     for( item &shield : worn ) {
@@ -1397,7 +1397,7 @@ bool player::block_hit(Creature *source, body_part &bp_hit, damage_instance &dam
     // but it still counts as a block even if it absorbs all the damage.
     float total_phys_block = mabuff_block_bonus();
     // Extract this to make it easier to implement shields/multiwield later
-    item &shield = best_shield;
+    item &shield = best_shield();
     bool conductive_shield = shield.conductive();
     bool unarmed = unarmed_attack();
 
