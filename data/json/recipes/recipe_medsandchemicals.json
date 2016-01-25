@@ -1670,6 +1670,7 @@
       [ "vitamins", 5 ],
       [ "iodine", 5 ],
       [ "disinfectant", 5 ],
+      [ "hflesh_powder", 10 ],
       [ "protein_powder", 10 ]
     ]
   ]
@@ -2658,6 +2659,7 @@
       [ "fire", -1 ],
       [ "toolset", 10 ],
       [ "hotplate", 10 ]
+    ]
     ],
     "components": [
         [[ "water_clean", 1 ], [ "water", 1 ]],
@@ -2723,6 +2725,7 @@
       [ "fire", -1 ],
       [ "toolset", 25 ],
       [ "hotplate", 25 ]
+    ]
     ],
   "components": [ [ [ "chem_hydrogen_peroxide", 5 ] ] ]
 },
