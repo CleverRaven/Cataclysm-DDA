@@ -5184,7 +5184,7 @@
         "phase" : "solid",
         "encumbrance" : 23,
         "bashing" : -5,
-        "flags" : ["VARSIZE", "STURDY"],
+        "flags" : ["VARSIZE", "STURDY", "BLOCK_WHILE_WORN"],
         "coverage" : 90,
         "material_thickness" : 4
     },
@@ -5209,7 +5209,7 @@
         "environmental_protection" : 1,
         "encumbrance" : 37,
         "bashing" : -5,
-        "flags" : ["VARSIZE", "STURDY"],
+        "flags" : ["VARSIZE", "STURDY", "BLOCK_WHILE_WORN"],
         "coverage" : 95,
         "material_thickness" : 4
     },
@@ -5234,7 +5234,7 @@
         "environmental_protection" : 2,
         "encumbrance" : 10,
         "bashing" : -5,
-        "flags" : ["STURDY", "BELTED"],
+        "flags" : ["STURDY", "BELTED", "BLOCK_WHILE_WORN"],
         "coverage" : 75,
         "material_thickness" : 4
     },
@@ -5250,7 +5250,7 @@
         "to_hit" : 1,
         "symbol" : "[",
         "description" : "A pair of arm guards hammered out from metal.  Perfect for the Post-Apocalyptic Warrior look.",
-        "flags" : ["BELTED"],
+        "flags" : ["BELTED", "BLOCK_WHILE_WORN"],
         "//" : "They're not actually FANCY, so calling them 'very stylish' seemed inaccurate.",
         "price" : 30000,
         "material" : ["iron", "null"],
