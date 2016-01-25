@@ -2737,6 +2737,11 @@
       ["improve_sights", 20],
       ["survnote", 1],
       ["shoulder_strap", 24],
+      ["8x40_10_mag", 4],
+      ["8x40_25_mag", 3],
+      ["8x40_50_mag", 3],
+      ["8x40_100_mag", 2],
+      ["8x40_250_mag", 1],
       ["powered_earmuffs",40]
     ]
   },{
@@ -3757,6 +3762,8 @@
       ["fn_p90", 3],
       ["l_mp_9mm", 2],
       ["tazer", 15],
+      ["8x40_10_mag", 2],
+      ["8x40_25_mag", 1],
       ["l-stick", 1]
     ]
   },{
@@ -4739,6 +4746,11 @@
       ["rail_laser_sight", 10],
       ["rifle_scope", 17],
       ["pistol_scope", 14],
+      ["8x40_10_mag", 3],
+      ["8x40_25_mag", 3],
+      ["8x40_50_mag", 2],
+      ["8x40_100_mag", 2],
+      ["8x40_250_mag", 1],
       ["improve_sights", 20]
     ]
   },{
@@ -6273,6 +6285,9 @@
       ["20x66_exp", 2],
       ["20x66_frag", 2],
       ["20x66_flare", 4],
+      ["8x40_50_mag", 1],
+      ["8x40_100_mag", 2],
+      ["8x40_250_mag", 3],
       ["20x66_inc", 2]
     ]
   },{
@@ -6337,6 +6352,11 @@
       ["20x66_flechette", 3],
       ["waterproof_gunmod", 2],
       ["improve_sights", 5],
+      ["8x40_10_mag", 1],
+      ["8x40_25_mag", 2],
+      ["8x40_50_mag", 3],
+      ["8x40_100_mag", 2],
+      ["8x40_250_mag", 1],
       ["rm11b_sniper_rifle", 1]
     ]
   },{
@@ -7628,6 +7648,11 @@
       ["grapnel", 1],
       ["briefcase", 5],
       ["survnote", 2],
+      ["8x40_10_mag", 3],
+      ["8x40_25_mag", 2],
+      ["8x40_50_mag", 3],
+      ["8x40_100_mag", 2],
+      ["8x40_250_mag", 1],
       ["robot_controls", 3]
     ]
   },{
@@ -7859,6 +7884,11 @@
       ["shoulder_strap", 16],
       ["bot_manhack", 1],
       ["bot_grenade_hack", 1],
+      ["8x40_10_mag", 4],
+      ["8x40_25_mag", 4],
+      ["8x40_50_mag", 4],
+      ["8x40_100_mag", 3],
+      ["8x40_250_mag", 2],
       ["l-stick", 1]
     ]
   },{
@@ -8053,6 +8083,11 @@
       ["scrap_copper", 5],
       ["signal_flare", 5],
       ["8mm_inc", 2],
+      ["8x40_10_mag", 4],
+      ["8x40_25_mag", 3],
+      ["8x40_50_mag", 3],
+      ["8x40_100_mag", 2],
+      ["8x40_250_mag", 1],
       ["survnote", 1]
     ]
   },{
