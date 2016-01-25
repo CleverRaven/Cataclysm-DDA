@@ -25,6 +25,7 @@ src/mondefense.cpp
 src/monfaction.cpp
 src/monmove.cpp
 src/mtype.cpp
+src/name.cpp
 src/nonplayer.cpp
 src/pathfinding.cpp
 src/recipe_dictionary.cpp
@@ -41,6 +42,7 @@ src/action.h
 src/active_item_cache.h
 src/activity_handlers.h
 src/addiction.h
+src/advanced_inv.h
 src/ammo.h
 src/animation.h
 src/artifact.h
@@ -111,6 +113,7 @@ src/pldata.h
 src/posix_time.h
 src/profession.h
 src/recipe_dictionary.h
+src/requirements.h
 src/rng.h
 src/shadowcasting.h
 src/speech.h
