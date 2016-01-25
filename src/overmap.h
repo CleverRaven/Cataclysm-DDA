@@ -7,18 +7,20 @@
 #include "weighted_list.h"
 #include "game_constants.h"
 #include "monster.h"
-#include <vector>
-#include <iosfwd>
-#include <string>
-#include <array>
-#include <map>
-#include <unordered_map>
 
-class overmapbuffer;
-class npc;
-struct mongroup;
-class JsonObject;
+#include <array>
+#include <iosfwd>
+#include <list>
+#include <map>
+#include <string>
+#include <unordered_map>
+#include <vector>
+
 class input_context;
+class JsonObject;
+struct mongroup;
+class npc;
+class overmapbuffer;
 
 // base oters: exactly what's defined in json before things are split up into blah_east or roadtype_ns, etc
 extern std::unordered_map<std::string, oter_t> obasetermap;

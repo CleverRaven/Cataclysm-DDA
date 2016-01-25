@@ -1729,7 +1729,7 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
                     oter = rotate( oter, uistate.omedit_rotation );
                 }
 
-                special_cache.insert( std::make_pair( 
+                special_cache.insert( std::make_pair(
                     point( rp.x, rp.y ),
                     std::make_pair( oter.t().sym, oter.t().color ) ) );
 
@@ -1884,7 +1884,7 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
                     }
                 }
                 // Highlight areas that already have been generated
-                if( MAPBUFFER.lookup_submap( 
+                if( MAPBUFFER.lookup_submap(
                         overmapbuffer::omt_to_sm_copy( tripoint( omx, omy, z ) ) ) ) {
                     ter_color = red_background( ter_color );
                 }

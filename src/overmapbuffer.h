@@ -9,15 +9,15 @@
 #include <vector>
 #include <unordered_map>
 
+struct mongroup;
 class monster;
-class overmap;
-struct radio_tower;
-struct oter_id;
-struct regional_settings;
-class vehicle;
 class npc;
 struct om_vehicle;
-struct mongroup;
+struct oter_id;
+class overmap;
+struct radio_tower;
+struct regional_settings;
+class vehicle;
 
 struct radio_tower_reference {
     /** Overmap the radio tower is on. */
@@ -269,11 +269,11 @@ public:
      * The parameters x and y will be cropped to be local to the
      * returned overmap, the parameter p will not be changed.
      */
-    overmap* get_existing_om_global(int& x, int& y);
-    overmap* get_existing_om_global(const point& p);
+    overmap* get_existing_om_global( int& x, int& y );
+    overmap* get_existing_om_global( const point& p );
     overmap* get_existing_om_global( const tripoint& p );
-    overmap& get_om_global(int& x, int& y);
-    overmap& get_om_global(const point& p);
+    overmap& get_om_global( int& x, int& y );
+    overmap& get_om_global( const point& p );
     overmap& get_om_global( const tripoint& p );
     /**
      * (x,y) are global overmap coordinates (same as @ref get).
@@ -287,7 +287,7 @@ public:
      * exist.
      * (x,y) are global overmap coordinates (same as @ref get).
      */
-    overmap *get_existing(int x, int y);
+    overmap *get_existing( int x, int y );
 
     typedef std::pair<point, std::string> t_point_with_note;
     typedef std::vector<t_point_with_note> t_notes_vector;
@@ -429,7 +429,7 @@ private:
      */
     mutable std::set<point> known_non_existing;
     // Cached result of previous call to overmapbuffer::get_existing
-    overmap mutable * last_requested_overmap;
+    overmap mutable *last_requested_overmap;
 
     /**
      * Get a list of notes in the (loaded) overmaps.

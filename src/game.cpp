@@ -5579,33 +5579,33 @@ void game::draw_minimap()
     }
 
     // Print arrow to mission if we have one!
-    if (!drew_mission) {
-        double slope = (cursx != targ.x) ? double(targ.y - cursy) / double(targ.x - cursx) : 4; 
+    if( !drew_mission ) {
+        double slope = ( cursx != targ.x ) ? double( targ.y - cursy ) / double( targ.x - cursx ) : 4;
 
-        if (cursx == targ.x || fabs(slope) > 3.5) { // Vertical slope
-            if (targ.y > cursy) {
-                mvwputch(w_minimap, 6, 3, c_red, '*');
+        if( cursx == targ.x || fabs( slope ) > 3.5 ) { // Vertical slope
+            if( targ.y > cursy ) {
+                mvwputch( w_minimap, 6, 3, c_red, '*' );
             } else {
-                mvwputch(w_minimap, 0, 3, c_red, '*');
+                mvwputch( w_minimap, 0, 3, c_red, '*' );
             }
         } else {
             int arrowx = 3, arrowy = 3;
-            if (fabs(slope) >= 1.) { // y diff is bigger!
-                arrowy = (targ.y > cursy ? 6 : 0);
-                arrowx = int(3 + 3 * (targ.y > cursy ? slope : (0 - slope)));
-                if (arrowx < 0) {
+            if( fabs( slope ) >= 1. ) { // y diff is bigger!
+                arrowy = ( targ.y > cursy ? 6 : 0 );
+                arrowx = int( 3 + 3 * ( targ.y > cursy ? slope : ( 0 - slope ) ) );
+                if( arrowx < 0 ) {
                     arrowx = 0;
                 }
-                if (arrowx > 6) {
+                if( arrowx > 6 ) {
                     arrowx = 6;
                 }
             } else {
-                arrowx = (targ.x > cursx ? 6 : 0);
-                arrowy = int(3 + 3 * (targ.x > cursx ? slope : (0 - slope)));
-                if (arrowy < 0) {
+                arrowx = ( targ.x > cursx ? 6 : 0 );
+                arrowy = int( 3 + 3 * ( targ.x > cursx ? slope : ( 0 - slope ) ) );
+                if( arrowy < 0 ) {
                     arrowy = 0;
                 }
-                if (arrowy > 6) {
+                if( arrowy > 6 ) {
                     arrowy = 6;
                 }
             }
@@ -5619,7 +5619,7 @@ void game::draw_minimap()
             mvwputch( w_minimap, arrowy, arrowx, c_red, glyph );
         }
     }
-    wrefresh(w_minimap);
+    wrefresh( w_minimap );
 }
 
 void game::hallucinate( const tripoint &center )
