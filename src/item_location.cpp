@@ -196,7 +196,7 @@ public:
         } else {
             // Unpack the object followed by any nested containers starting with the innermost
             mv += dynamic_cast<player *>( who )->item_handling_cost( *it );
-            for( auto obj = who->find_parent( *it ); who->find_parent( *obj ); obj = who->find_parent( *obj ) ) {
+            for( auto obj = who->find_parent( *it ); obj && who->find_parent( *obj ); obj = who->find_parent( *obj ) ) {
                 mv += dynamic_cast<player *>( who )->item_handling_cost( *obj );
             }
         }
