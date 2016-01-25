@@ -12,7 +12,7 @@ mods["StatsThroughSkills"] = MOD
 
 function MOD.on_new_player_created()
     game.add_msg("New player starting with StatsThroughSkills")
-    player:set_value("StatsThoughSkills", tostring(version))
+    player:set_value("StatsThroughSkills", tostring(version))
     calculate_bonuses()
 end
 
@@ -118,7 +118,7 @@ function handle_previous_version()
         player.int_max = player.int_max - int_bonus
         player.per_max = player.per_max - per_bonus
 
-        player:set_value("StatsThoughSkills", tostring(2))
+        player:set_value("StatsThroughSkills", tostring(2))
     end
 end
 
