@@ -2690,7 +2690,6 @@
       {"id":"BREW","level":2,"amount":1}
    ],
     "tools": [ [
-        [ "fire", -1 ],
         [ "hotplate", 15 ],
         [ "char_smoker", 2 ],
         [ "toolset", 15 ]
