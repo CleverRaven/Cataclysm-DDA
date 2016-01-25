@@ -194,7 +194,7 @@
         "weight" : 170,
         "to_hit" : -2,
         "ammo_type" : "32",
-        "capacity" : 8,
+        "capacity" : 20,
         "reliability" : 8,
         "reload_time" : 100,
         "flags": [ "COMPACT_MAG" ]
@@ -211,7 +211,7 @@
         "weight" : 170,
         "to_hit" : -2,
         "ammo_type" : "9x18",
-        "capacity" : 8,
+        "capacity" : 20,
         "reliability" : 8,
         "reload_time" : 100,
         "flags": [ "COMPACT_MAG" ]
