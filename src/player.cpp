@@ -7981,16 +7981,6 @@ void player::suffer()
     }
 
     if (!in_sleep_state()) {
-        if (weight_carried() > weight_capacity()) {
-            // Starts at 1 in 25, goes down by 5 for every 50% more carried
-            if (one_in(35 - 5 * weight_carried() / (weight_capacity() / 2))) {
-                add_msg_if_player(m_bad, _("Your body strains under the weight!"));
-                // 1 more pain for every 800 grams more (5 per extra STR needed)
-                if ( ((weight_carried() - weight_capacity()) / 800 > pain && pain < 100)) {
-                    mod_pain(1);
-                }
-            }
-        }
         if (weight_carried() > 4 * weight_capacity()) {
             if (has_effect( effect_downed )) {
                 add_effect( effect_downed, 1, num_bp, false, 0, true );
@@ -14149,6 +14139,16 @@ int player::get_stamina_max() const
 
 void player::burn_move_stamina( int moves )
 {
+    if (weight_carried() > weight_capacity()) {
+        // Starts at 1 in 25, goes down by 5 for every 50% more carried
+        if (one_in(35 - 5 * weight_carried() / (weight_capacity() / 2))) {
+            add_msg_if_player(m_bad, _("Your body strains under the weight!"));
+            // 1 more pain for every 800 grams more (5 per extra STR needed)
+            if ( ((weight_carried() - weight_capacity()) / 800 > pain && pain < 100)) {
+                mod_pain(1);
+            }
+        }
+    }
     // Regain 10 stamina / turn
     // 7/turn walking
     // 20/turn running
@@ -14157,6 +14157,7 @@ void player::burn_move_stamina( int moves )
         burn_ratio = 20;
     }
     mod_stat( "stamina", -((moves * burn_ratio) / 100) );
+
 }
 
 field_id player::playerBloodType() const
