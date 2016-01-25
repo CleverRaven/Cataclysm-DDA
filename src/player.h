@@ -458,7 +458,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         // melee.cpp
         /** Returns the best item for blocking with */
-        item &player::best_shield() const;
+        item best_shield() const;
         /** Returns true if the player has a weapon with a block technique */
         bool can_weapon_block() const;
         using Creature::melee_attack;
