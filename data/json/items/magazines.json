@@ -75,7 +75,7 @@
         "name" : "L39 magazine",
         "symbol" : "#",
         "color" : "ltgray",
-        "description" : "A compact light-weight magazine for use with L39-45 and L39B-45 pistols.",
+        "description" : "A compact light-weight magazine for use with L39 and L39B pistols.",
         "material": ["steel", "plastic"],
         "volume" : 1,
         "weight" : 80,
