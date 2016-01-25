@@ -1280,7 +1280,7 @@ void overmap::generate( const overmap *north, const overmap *east,
     place_forest();
 
     // Ideally we should have at least two exit points for roads, on different sides
-    if( roads_out.size() < 2 ) {
+    if( roads_out.size() < 4 ) {
         std::vector<city> viable_roads;
         int tmp;
         // Populate viable_roads with one point for each neighborless side.
@@ -1314,35 +1314,45 @@ void overmap::generate( const overmap *north, const overmap *east,
                      is_river( ter( 0, tmp + 1, 0 ) ) );
             viable_roads.push_back( city( 0, tmp, 0 ) );
         }
-        while( roads_out.size() < 2 && !viable_roads.empty() ) {
+        while( roads_out.size() < 4 && !viable_roads.empty() ) {
             roads_out.push_back( random_entry_removed( viable_roads ) );
         }
     }
 
-    // choose two roads_out points, preferably on different map edges
-    // draw a highway from one point to the other before cities are connected
-    // the highway will appear to be continuous on the overmap
     std::vector<city> overhiwaycandidates;
     for( auto &i : roads_out ) {
         overhiwaycandidates.push_back( i );
     }
-    std::vector<city> overhiway;
-    if( roads_out.size() == 2 ) {
-        overhiway.push_back( roads_out[0] );
-        overhiway.push_back( roads_out[1] );
-    } else if( roads_out.size() > 2 ) {
-        overhiway.push_back( random_entry_removed( overhiwaycandidates ) );
-        int rngtries = 10;
-        while( overhiway.size() < 2 && rngtries > 0 ) {
-            rngtries--;
-            city c = random_entry( overhiwaycandidates );
-            if( c.x != overhiway[0].x && c.y != overhiway[0].y ) {
-                overhiway.push_back( c );
+
+    // try to make 2 sets of continuous roads from the given road points
+    // roads points are picked at random
+    std::vector<std::vector<city> > bezroads;
+    for( int i = 0; i < 2; i++ ) {
+        std::vector<city> overhiway;
+        // choose two roads_out points, preferably on different map edges
+        if( overhiwaycandidates.size() >= 2 ) {
+            overhiway.push_back( random_entry_removed( overhiwaycandidates ) );
+            int rngtries = 10;
+            while( overhiway.size() < 2 && rngtries > 0 ) {
+                rngtries--;
+                city c = random_entry_removed( overhiwaycandidates );
+                if( c.x != overhiway[0].x && c.y != overhiway[0].y ) {
+                    overhiway.push_back( c );
+                } else {
+                    overhiwaycandidates.push_back( c );
+                }
+            }
+        }
+        if( overhiway.size() == 2 ) {
+            // draw a highway from one point to the other before cities are connected
+            // the highway will appear to be continuous on the overmap
+            std::vector<city> bezroad;
+            generate_bezier_hiway( overhiway, bezroad, cities );
+            if( !bezroad.empty() ) {
+                bezroads.push_back( bezroad );
             }
         }
     }
-    std::vector<city> bezroad;
-    bool bezresult = generate_bezier_hiway( overhiway, bezroad, cities );
 
     // Compile our master list of roads; it's less messy if roads_out is first
     for( auto &i : roads_out ) {
@@ -1358,9 +1368,11 @@ void overmap::generate( const overmap *north, const overmap *east,
     int actual_city_count = cities.size();
 
     //use bezier highway points as connection points for specials only
-    if( bezresult ) {
-        for( auto &i : bezroad ) {
-            cities.push_back( i );
+    if( !bezroads.empty() ) {
+        for( auto &i : bezroads ) {
+            for( auto &j : i ) {
+                cities.push_back( j );
+            }
         }
     }
 
@@ -1401,7 +1413,7 @@ bool overmap::generate_bezier_hiway( std::vector<city> &roads_out,
     // the amount of connection points on the curve, going 16? or above causes more loose road ends
     // from make_hiway perferring to move backwards onto an existing road
     // these same points are used as pathing connections for special terrains
-    int total_points_to_generate = 9;
+    int total_points_to_generate = 11;
 
     // a general guess at how much variation the control points can have
     int x_variation = OMAPX / 10;
@@ -3550,11 +3562,71 @@ void overmap::place_hiways(std::vector<city> cities, int z, const std::string &b
     }
 }
 
+// currently only consider fields, forest and river as boring
+// roads with these on 3 cardinal sides should be considered a dead end
+bool overmap::has_interesting_feature( const int x, const int y, const int z )
+{
+    if( ter( x, y, z ) == settings.default_oter ||
+        check_ot_type( "forest", x, y, z ) ||
+        check_ot_type( "river", x, y, z ) ) {
+        return false;
+    }
+    return true;
+}
+
+// checks for a dead end and continues on the dead end path until road has two interesting points
+void overmap::prune_segment( const int x, const int y, const int z )
+{
+    tripoint last_side;
+    int adjacent_count = 0;
+    if( has_interesting_feature( x + 1, y, z ) ) {
+        adjacent_count++;
+        last_side = tripoint( x + 1, y, z );
+    }
+    if( has_interesting_feature( x - 1, y, z ) ) {
+        adjacent_count++;
+        last_side = tripoint( x - 1, y, z );
+    }
+    if( has_interesting_feature( x, y + 1, z ) ) {
+        adjacent_count++;
+        last_side = tripoint( x, y + 1, z );
+    }
+    if( has_interesting_feature( x, y - 1, z ) ) {
+        adjacent_count++;
+        last_side = tripoint( x, y - 1, z );
+    }
+    // the rest of the dead end is behind the one road connection that was found
+    if( adjacent_count == 1 ) {
+        ter( x, y, z ) = settings.default_oter;
+        prune_segment( last_side.x, last_side.y, last_side.z );
+    }
+}
+
+// loop to clear dead end roads that aren't on the edge of map
+// usually the side effect of the bezier road point pathing
+void overmap::prune_roads( const int z )
+{
+    if( z != 0 ) {
+        return;
+    }
+    for( int x = 1; x < OMAPX - 1; x++ ) {
+        for( int y = 1; y < OMAPY - 1; y++ ) {
+            if( check_ot_type( "road", x, y, z ) ) {
+                prune_segment( x, y, z );
+            }
+        }
+    }
+}
+
 // Polish does both good_roads and good_rivers (and any future polishing) in
 // a single loop; much more efficient
 void overmap::polish(const int z, const std::string &terrain_type)
 {
     const bool check_all = (terrain_type == "all");
+
+    // prune dead end roads first
+    prune_roads( z );
+
     // Main loop--checks roads and rivers that aren't on the borders of the map
     for (int x = 0; x < OMAPX; x++) {
         for (int y = 0; y < OMAPY; y++) {
