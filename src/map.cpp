@@ -3873,6 +3873,12 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
                 ter_set(p, t_window_frame);
             }
         }
+    } else if( terrain == t_window_bars_alarm ) {
+        dam -= rng(1,3);
+        if (dam > 0) {
+                sounds::sound(p, 16, _("glass breaking!"), false, "smash", "glass");
+            ter_set(p, t_window_bars);
+        }
     } else if( terrain == t_window_boarded ) {
         dam -= rng(10, 30);
         if (dam > 0) {
