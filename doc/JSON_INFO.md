@@ -375,7 +375,9 @@ The syntax listed here is still valid.
 "cutting" : 0,                    // (Optional, default = 0) Cutting damage caused by using it as a melee weapon
 "bashing" : -5,                   // (Optional, default = 0) Bashing damage caused by using it as a melee weapon
 "to_hit" : 0,                     // (Optional, default = 0) To-hit bonus if using it as a melee weapon (whatever for?)
-"flags" : ["VARSIZE"]             // Indicates special effects, see JSON_FLAGS.md
+"flags" : ["VARSIZE"],            // Indicates special effects, see JSON_FLAGS.md
+"magazines" : [ "stanag30"],      // Magazine types (if any) that can be used to reload this item
+"magazine_well" : 0               // Volume above which the magazine starts to protrude from the item and add extra volume
 ```
 
 ###AMMO
