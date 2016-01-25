@@ -9,6 +9,7 @@
 #include <queue>
 
 #include "overmap.h"
+#include "overmap_types.h"
 #include "rng.h"
 #include "line.h"
 #include "game.h"
@@ -1114,6 +1115,22 @@ point overmap::display_notes(int z)
     return result;
 }
 
+const scent_trace &overmap::scent_at( const tripoint &loc ) const
+{
+    const static scent_trace null_scent;
+    const auto &scent_found = scents.find( loc );
+    if( scent_found != scents.end() ) {
+        return scent_found->second;
+    }
+    return null_scent;
+}
+
+void overmap::set_scent( const tripoint &loc, scent_trace &new_scent )
+{
+    // TODO: increase strength of scent trace when applied repeatedlu in a short timespan.
+    scents[loc] = new_scent;
+}
+
 void overmap::generate(const overmap *north, const overmap *east,
                        const overmap *south, const overmap *west)
 {
@@ -1563,7 +1580,7 @@ std::tuple<char, nc_color, size_t> get_note_display_info(std::string const &note
     return result;
 }
 
-bool get_weather_glyph( point const &pos, nc_color &ter_color, long &ter_sym )
+static bool get_weather_glyph( point const &pos, nc_color &ter_color, long &ter_sym )
 {
     // Weather calculation is a bit expensive, so it's cached here.
     static std::map<point, weather_type> weather_cache;
@@ -1615,6 +1632,31 @@ bool get_weather_glyph( point const &pos, nc_color &ter_color, long &ter_sym )
             break;
     }
     return true;
+}
+
+static bool get_scent_glyph( const tripoint &pos, nc_color &ter_color, long &ter_sym )
+{
+    auto possible_scent = overmap_buffer.scent_at( pos );
+    if( possible_scent.creation_turn >= 0 ) {
+        color_manager &color_list = get_all_colors();
+        int i = 0;
+        int scent_age = calendar::turn - possible_scent.creation_turn;
+        while( i < num_colors && scent_age > 0 ) {
+            i++;
+            scent_age /= 10;
+        }
+        ter_color = color_list.get( (color_id)i );
+        int scent_strength = possible_scent.initial_strength;
+        char c = '0';
+        while( c <= '9' && scent_strength > 0 ) {
+            c++;
+            scent_strength /= 10;
+        }
+        ter_sym = c;
+        return true;
+    }
+    // but it makes no scents!
+    return false;
 }
 
 void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
@@ -1720,6 +1762,7 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
                 ter_sym   = '@';
             } else if( data.debug_weather && get_weather_glyph( point( omx, omy ), ter_color, ter_sym ) ) {
                 // ter_color and ter_sym have been set by get_weather_glyph
+            } else if( data.debug_scent && get_scent_glyph( cur_pos, ter_color, ter_sym ) ) {
             } else if( blink && has_target && omx == target.x && omy == target.y ) {
                 // Mission target, display always, player should know where it is anyway.
                 ter_color = c_red;
@@ -2060,6 +2103,13 @@ tripoint overmap::draw_weather()
 {
     draw_data_t data;
     data.debug_weather = true;
+    return draw_overmap( g->u.global_omt_location(), data );
+}
+
+tripoint overmap::draw_scents()
+{
+    draw_data_t data;
+    data.debug_scent = true;
     return draw_overmap( g->u.global_omt_location(), data );
 }
 

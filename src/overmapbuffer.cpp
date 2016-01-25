@@ -1,6 +1,7 @@
 #include <stdlib.h>
 
 #include "overmapbuffer.h"
+#include "overmap_types.h"
 #include "overmap.h"
 #include "game.h"
 #include "map.h"
@@ -361,6 +362,38 @@ std::vector<mongroup*> overmapbuffer::groups_at(int x, int y, int z)
         result.push_back( &mg );
     }
     return result;
+}
+
+std::array<std::array<scent_trace, 3>, 3> overmapbuffer::scents_near( const tripoint &origin )
+{
+    std::array<std::array<scent_trace, 3>, 3> found_traces;
+    tripoint iter;
+    int x;
+    int y;
+
+    for( x = 0, iter.x = origin.x - 1; x <= 2 ; ++iter.x, ++x ) {
+        for( y = 0, iter.y = origin.y - 1; y <= 2; ++iter.y, ++y ) {
+            found_traces[x][y] = scent_at( iter );
+        }
+    }
+
+    return found_traces;
+}
+
+scent_trace overmapbuffer::scent_at( const tripoint &pos )
+{
+    overmap *found_omap = get_existing_om_global( pos );
+    if( found_omap != nullptr ) {
+        return found_omap->scent_at( pos );
+    }
+    return scent_trace();
+}
+
+void overmapbuffer::set_scent( const tripoint &loc, int strength )
+{
+    overmap &found_omap = get_om_global( loc );
+    scent_trace new_scent( calendar::turn, strength );
+    found_omap.set_scent( loc, new_scent );
 }
 
 void overmapbuffer::move_vehicle( vehicle *veh, const point &old_msp )

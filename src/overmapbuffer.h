@@ -2,6 +2,7 @@
 #define OVERMAPBUFFER_H
 
 #include "enums.h"
+#include "overmap_types.h"
 #include <set>
 #include <list>
 #include <memory>
@@ -135,6 +136,26 @@ public:
     std::vector<om_vehicle> get_vehicle( int x, int y, int z );
     const regional_settings& get_settings(int x, int y, int z);
 
+    /**
+     * Accessors for horde introspection into overmaps.
+     * Probably also useful for NPC overmap-scale navigation.
+     */
+    /**
+     * Returns the 3x3 array of scent values surrounding the origin point.
+     * @param origin is in world-global omt coordinates.
+     */
+    std::array<std::array<scent_trace, 3>, 3> scents_near( const tripoint &origin );
+    /**
+     * Method to retrieve the scent at a given location.
+     **/
+    scent_trace scent_at( const tripoint &pos );
+    /**
+     * Method to set a scent trace.
+     * @param loc is in world-global omt coordinates.
+     * @param strength sets the intensity of the scent trace,
+     *     used for determining if a monster can detect the scent.
+     */
+    void set_scent( const tripoint &loc, int strength );
     /**
      * Check for any dangerous monster groups at the global overmap terrain coordinates.
      * If there are any, it's not safe.
