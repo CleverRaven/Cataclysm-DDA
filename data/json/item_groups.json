@@ -2739,7 +2739,15 @@
       ["shoulder_strap", 24],
       ["powered_earmuffs",40],
       ["stanag10", 10],
-      ["stanag30", 5]
+      ["stanag30", 5],
+      ["stanag10", 10],
+      ["glockmag", 20],
+      ["glockbigmag", 3],
+      ["m9mag", 10],
+      ["m9bigmag", 1],
+      ["usp9mag", 10],
+      ["uzimag", 8],
+      ["sten_mag", 20]
     ]
   },{
     "type" : "item_group",
@@ -3680,7 +3688,10 @@
       ["3006", 10],
       ["survnote", 1],
       ["stanag10", 6],
-      ["lw223mag", 2]
+      ["lw223mag", 2],
+      ["glockmag", 10],
+      ["mp5mag", 5],
+      ["lw21mag", 2]
     ]
   },{
     "type" : "item_group",
@@ -3763,7 +3774,9 @@
       ["tazer", 15],
       ["l-stick", 1],
       ["stanag10", 6],
-      ["lw223mag", 2]
+      ["lw223mag", 2],
+      ["lw21mag", 2],
+      ["lw12mag", 2]
     ]
   },{
     "type" : "item_group",
@@ -3896,7 +3909,15 @@
       ["UPS_off", 10],
       ["stanag30", 10],
       ["stanag10", 5],
-      ["lw223mag", 5]
+      ["lw223mag", 5],
+      ["lw21mag", 5],
+      ["glockmag", 5],
+      ["glockbigmag", 5],
+      ["m9mag", 5],
+      ["m9bigmag", 5],
+      ["usp9mag", 5],
+      ["mp5mag", 15],
+      ["mp5bigmag", 5]
     ]
   },{
     "type" : "item_group",
@@ -4749,7 +4770,8 @@
       ["rifle_scope", 17],
       ["pistol_scope", 14],
       ["improve_sights", 20],
-      ["survivor223mag", 20]
+      ["survivor223mag", 20],
+      ["survivor9mm_mag", 20]
     ]
   },{
     "type" : "item_group",
@@ -5227,7 +5249,10 @@
       ["kariginu", 2],
       ["kimono", 3],
       ["l-stick", 1],
-      ["stanag10", 2]
+      ["stanag10", 2],
+      ["glockmag", 2],
+      ["uzimag", 2],
+      ["sten_mag", 2]
     ]
   },{
     "type" : "item_group",
@@ -5311,7 +5336,12 @@
       ["survnote", 1],
       ["stanag10", 8],
       ["stanag30", 6],
-      ["lw223mag", 6]
+      ["lw223mag", 6],
+      ["lw21mag", 6],
+      ["m9mag", 20],
+      ["m9bigmag", 5],
+      ["usp9mag", 20],
+      ["sten_mag", 40]
     ]
   },{
     "type" : "item_group",
@@ -6294,7 +6324,10 @@
       ["20x66_flare", 4],
       ["20x66_inc", 2],
       ["lw223mag", 20],
-      ["lw223bigmag", 10]
+      ["lw223bigmag", 10],
+      ["lw21mag", 10],
+      ["mp5mag", 5],
+      ["mp5bigmag", 3]
     ]
   },{
     "type" : "item_group",
@@ -7653,7 +7686,10 @@
       ["survnote", 2],
       ["robot_controls", 3],
       ["stanag30", 10],
-      ["lw223mag", 5]
+      ["lw223mag", 5],
+      ["lw21mag", 5],
+      ["m9mag", 5],
+      ["usp9mag", 5]
     ]
   },{
     "type" : "item_group",
@@ -7888,7 +7924,11 @@
       ["stanag30", 20],
       ["stanag50", 10],
       ["lw223mag", 20],
-      ["lw223bigmag", 10]
+      ["lw223bigmag", 10],
+      ["lw21mag", 20],
+      ["m9mag", 20],
+      ["m9bigmag", 5],
+      ["usp9mag", 10]
     ]
   },{
     "type" : "item_group",
@@ -8085,7 +8125,14 @@
       ["survnote", 1],
       ["stanag10", 4],
       ["stanag30", 2],
-      ["lw223mag", 1]
+      ["lw223mag", 1],
+      ["lw21mag", 1],
+      ["usp9mag", 2],
+      ["m9mag", 2],
+      ["glockmag", 6],
+      ["glockbigmag", 1],
+      ["uzimag", 3],
+      ["sten_mag", 10]
     ]
   },{
     "type" : "item_group",
