@@ -67,7 +67,8 @@
         "ammo_type" : "45",
         "capacity" : 12,
         "reliability" : 10,
-        "reload_time" : 50
+        "reload_time" : 100,
+        "flags": [ "COMPACT_MAG" ]
     },
     {   "type" : "MAGAZINE",
         "id" : "lp_9mm_mag",
@@ -83,7 +84,8 @@
         "ammo_type" : "9mm",
         "capacity" : 21,
         "reliability" : 10,
-        "reload_time" : 50
+        "reload_time" : 100,
+        "flags": [ "COMPACT_MAG" ]
     },
     {   "type" : "MAGAZINE",
         "id" : "usp45mag",

@@ -598,7 +598,6 @@
     "reload": 75,
     "loudness" : 125,
     "magazines" : [ "lp_9mm_mag" ],
-    "default_mods": [ "lp_9mm_mag" ],
     "magazine_well" : 1,
     "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
@@ -632,7 +631,6 @@
     "reload": 75,
     "loudness" : 125,
     "magazines" : [ "lp_9mm_mag" ],
-    "default_mods": [ "lp_9mm_mag" ],
     "magazine_well" : 1,
     "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
@@ -1121,7 +1119,6 @@
     "reload": 100,
     "loudness" : 150,
     "magazines" : [ "lp_45_mag" ],
-    "default_mods": [ "lp_45_mag" ],
     "magazine_well" : 1,
     "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
@@ -1154,7 +1151,6 @@
     "reload": 100,
     "loudness" : 150,
     "magazines" : [ "lp_45_mag" ],
-    "default_mods": [ "lp_45_mag" ],
     "magazine_well" : 1,
     "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
