@@ -55,6 +55,7 @@ src/basecamp.h
 src/bionics.h
 src/bodypart.h
 src/calendar.h
+src/cata_tiles.h
 src/cata_utility.h
 src/catacharset.h
 src/catalua.h
