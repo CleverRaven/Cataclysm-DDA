@@ -575,7 +575,7 @@
         "funnel_radius": 85
     },{
         "type" : "trap",
-        "id": "tr_funnel",
+        "id": "tr_metal_funnel",
         "identstring" : "METAL_FUNNEL",
         "legacy_id": 42,
         "name" : "metal funnel",
