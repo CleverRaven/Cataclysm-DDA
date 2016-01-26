@@ -2154,7 +2154,7 @@ repair_item_actor::attempt_hint repair_item_actor::repair( player &pl, item &too
     const int difficulty = fix.damage == 0 ? 4 : fix.damage;
     float repair_chance = (5 + pl.get_skill_level( used_skill ) - difficulty) / 100.0f;
     ///\EFFECT_DEX randomly reduces the chances of damaging an item when repairing
-    float damage_chance = (5 - (pl.dex_cur - tool_quality) / 5.0f) / 100.0f;
+    float damage_chance = (5 - (pl.dex_cur + tool_quality) / 5.0f) / 100.0f;
     float roll_value = rng_float( 0.0, 1.0 );
     enum roll_result {
         SUCCESS,
