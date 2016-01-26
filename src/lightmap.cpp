@@ -1068,6 +1068,7 @@ void map::apply_light_arc( const tripoint &p, int angle, float luminance, int wi
 void map::calc_ray_end(int angle, int range, const tripoint &p, tripoint &out ) const
 {
     double rad = (PI * angle) / 180;
+    out.z = p.z;
     if (trigdist) {
         out.x = p.x + range * cos(rad);
         out.y = p.y + range * sin(rad);
