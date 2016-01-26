@@ -110,6 +110,7 @@ src/morale.h
 src/mutation.h
 src/name.h
 src/nonplayer.h
+src/omdata.h
 src/options.h
 src/path_info.h
 src/pickup.h
