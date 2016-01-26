@@ -71,7 +71,7 @@
         "action" : "none",
         "drops" : ["funnel"],
         "benign" : true,
-        "funnel_radius": 380
+        "funnel_radius": 300
     },
     {
         "type" : "trap",
@@ -573,6 +573,21 @@
         "drops" : ["leather_funnel"],
         "benign" : true,
         "funnel_radius": 85
+    },{
+        "type" : "trap",
+        "id": "tr_metal_funnel",
+        "identstring" : "METAL_FUNNEL",
+        "legacy_id": 42,
+        "name" : "metal funnel",
+        "color" : "dark_gray",
+        "symbol" : "V",
+        "visibility" : -1,
+        "avoidance" : 0,
+        "difficulty" : 0,
+        "action" : "none",
+        "drops" : ["metal_funnel"],
+        "benign" : true,
+        "funnel_radius": 400
     }
 
 ]

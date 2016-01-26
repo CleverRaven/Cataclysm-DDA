@@ -6216,6 +6216,26 @@
     "ammo": "NULL",
     "revert_to": "null",
     "use_action": "SET_TRAP"
+  },{
+    "id": "metal_funnel",
+    "type": "TOOL",
+    "symbol": ";",
+    "color": "yellow",
+    "name": "metal funnel",
+    "description": "This is a large metal funnel used to collect rainwater.  Less portable than plastic funnels, but collects more water.  Use it outside and place a container beneath it to collect water when it rains.",
+    "price": 1500,
+    "material": "steel",
+    "weight": 4017,
+    "volume": 16,
+    "bashing": 4,
+    "to_hit": 1,
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "use_action": "SET_TRAP"
   },
 
   {
