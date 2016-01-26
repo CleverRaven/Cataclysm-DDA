@@ -15047,7 +15047,7 @@
         "quench" : 0,
         "healthy" : -1,
         "addiction_potential" : 0,
-        "nutrition" : 9,
+        "nutrition" : 8,
         "description" : "A box of fast-food fried onions.  Crunchy and delicious.",
         "price" : 400,
         "material" : ["veggy", "junk"],
