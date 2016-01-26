@@ -2019,28 +2019,21 @@
         "qualities": [["COOK", 1]]
     },{
         "id": "halberd",
-        "type": "TOOL",
+        "type": "GENERIC",
         "symbol": "/",
         "color": "light_gray",
         "name": "halberd",
         "description": "This is a versatile polearm with an axe blade, a spike, and other fun things attached to a long stick.",
         "price": 50000,
         "material": ["wood", "steel"],
-        "flags": ["CHOP", "DURABLE_MELEE", "REACH_ATTACK", "REACH3"],
-        "techniques": ["WBLOCK_1", "IMPALE", "WIDE"],
+        "flags": ["CHOP", "DURABLE_MELEE", "REACH_ATTACK", "NON_STUCK"],
+        "techniques": ["WBLOCK_1", "WIDE"],
         "weight": 3175,
         "volume": 15,
         "bashing": 16,
         "cutting": 35,
         "to_hit": 2,
-        "max_charges": 0,
-        "initial_charges": 0,
-        "charges_per_use": 0,
-        "turns_per_charge": 0,
-        "ammo": "NULL",
-        "revert_to": "null",
-        "qualities": [["AXE", 2], ["COOK", 1]],
-        "use_action": "LUMBER"
+        "qualities": [["COOK", 1]]
   },{
         "id": "halberd_fake",
         "type": "GENERIC",
