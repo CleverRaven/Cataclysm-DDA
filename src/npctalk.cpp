@@ -1544,6 +1544,8 @@ std::string dialogue::dynamic_line( const std::string &topic ) const
                         return _("I'm just watching the world burn.");
                     case NC_HUNTER:
                         return _("I'm tracking game.");
+                    case NC_BARTENDER:
+                        return _("I'm looking for new drink recipes.");
                     case NC_MAX:
                         return _("I should not be able to exist!");
                     case NC_NONE:
