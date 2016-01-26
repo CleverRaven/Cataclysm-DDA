@@ -838,6 +838,7 @@ void player::roll_cut_damage( bool crit, damage_instance &di, bool average, cons
     }
 
     int arpen = 0;
+    float armor_mult = 1.0f;
 
     // 80%, 88%, 96%, 104%, 112%, 116%, 120%, 124%, 128%, 132%
     ///\EFFECT_CUTTING increases cutting damage multiplier
@@ -851,9 +852,10 @@ void player::roll_cut_damage( bool crit, damage_instance &di, bool average, cons
     if( crit ) {
         cut_mul *= 1.25f;
         arpen += 5;
+        armor_mult = 0.75f; //25% arpen
     }
 
-    di.add_damage( DT_CUT, cut_dam, arpen, 0.0f, cut_mul );
+    di.add_damage( DT_CUT, cut_dam, arpen, armor_mult, cut_mul );
 }
 
 void player::roll_stab_damage( bool crit, damage_instance &di, bool average, const item &weap ) const
