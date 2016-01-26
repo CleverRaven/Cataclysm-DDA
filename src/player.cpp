@@ -4276,7 +4276,7 @@ bool player::sight_impaired() const
 bool player::has_two_arms() const
 {
  if ((has_bionic("bio_blaster") || hp_cur[hp_arm_l] < 10 || hp_cur[hp_arm_r] < 10) ||
-   has_active_mutation("SHELL2") || worn_with_flag("RESTRICT_HANDS")) {
+   has_active_mutation("SHELL2")) {
     // You can't effectively use both arms to wield something when they're in your shell
     return false;
  }
@@ -10478,7 +10478,7 @@ void player::rooted()
 
 bool player::can_wield( const item &it, bool alert ) const
 {
-    if( it.is_two_handed(*this) && !has_two_arms() ) {
+    if( it.is_two_handed(*this) && ( !has_two_arms() || worn_with_flag("RESTRICT_HANDS") ) ) {
         if( it.has_flag("ALWAYS_TWOHAND") ) {
             if( alert ) {
                 add_msg( m_info, _("The %s can't be wielded with only one arm."), it.tname().c_str() );
@@ -10758,7 +10758,7 @@ hint_rating player::rate_action_wear( const item &it ) const
     }
 
     // Check if we have a hand free to wear a briefcase or shield, including if we're already wearing such a thing.
-    if (it.has_flag("RESTRICT_HANDS") &&  !has_two_arms()) {
+    if (it.has_flag("RESTRICT_HANDS") &&  ( !has_two_arms() || worn_with_flag("RESTRICT_HANDS") )) {
         return HINT_IFFY;
     }
 
@@ -11012,7 +11012,7 @@ bool player::wear_item( const item &to_wear, bool interactive )
     }
 
     // Check if we don't have both hands available before wearing a briefcase, shield, etc. Also occurs if we're already wearing one.
-    if (to_wear.has_flag("RESTRICT_HANDS") && !has_two_arms()) {
+    if (to_wear.has_flag("RESTRICT_HANDS") && ( !has_two_arms() || worn_with_flag("RESTRICT_HANDS") )) {
         if(interactive) {
             add_msg_if_player(m_info, _("You don't have a hand free to wear the %s.")),
                     to_wear.type_name().c_str();
