@@ -849,9 +849,13 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "textbook_anarch", 5 ] , [ "adv_chemistry", 6 ] , [ "textbook_chemistry", 6 ]],
-  "tools": [
+  "qualities":[
+    {"id":"CHEM","level":2,"amount":1}
+  ], "tools": [
     [
-      [ "chemistry_set", 25 ]
+      [ "hotplate", 25 ],
+      [ "toolset", 25 ],
+      [ "fire", -1 ]
     ]
   ],
   "components": [
@@ -867,6 +871,8 @@
     ],
     [
       [ "soap", 3 ],
+      [ "tallow", 1 ],
+      [ "lard", 1 ],
       [ "cooking_oil", 1 ]
     ]
   ]
