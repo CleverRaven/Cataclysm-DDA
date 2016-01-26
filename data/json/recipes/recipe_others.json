@@ -6692,6 +6692,35 @@
   ]
 },{
   "type" : "recipe",
+  "result": "metal_funnel",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_TOOLS",
+  "skill_used": "fabrication",
+  "difficulty": 3,
+  "time": 30000,
+  "reversible": true,
+  "autolearn": true,
+  "qualities":[
+    {"id":"HAMMER","level":2,"amount":1},
+    {"id":"SAW_M","level":1,"amount":1}
+  ], "tools": [
+    [ [ "goggles_welding", -1 ] ],
+    [
+      [ "welder", 30 ],
+      [ "welder_crude", 45 ],
+      [ "toolset", 45 ],
+      [ "oxy_torch", 3 ]
+    ]
+    ],
+    "components": [
+    [ ["sheet_metal", 3 ] ],
+    [
+      ["steel_chunk", 3 ],
+      ["scrap", 9 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
   "result": "funnel",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TOOLS",
