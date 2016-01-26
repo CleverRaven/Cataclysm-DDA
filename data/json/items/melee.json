@@ -2043,7 +2043,7 @@
         "description": "This is a dull, cheaply made replica of a polearm with an axe blade, a spike, and other fun things attached to a long stick.",
         "price": 5000,
         "material": ["wood", "aluminum"],
-        "flags": ["BASH", "REACH_ATTACK", "REACH3"],
+        "flags": ["BASH", "REACH_ATTACK"],
         "techniques": ["WBLOCK_1"],
         "weight": 1644,
         "volume": 15,
