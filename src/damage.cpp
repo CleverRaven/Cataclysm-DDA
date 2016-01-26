@@ -305,15 +305,17 @@ damage_type dt_by_name( const std::string &name )
     return iter->second;
 }
 
-std::string name_by_dt( const damage_type &dt ) {
+const std::string &name_by_dt( const damage_type &dt )
+{
     auto iter = dt_map.cbegin();
-    while(iter != dt_map.cend()) {
-        if(iter->second == dt) {
+    while( iter != dt_map.cend() ) {
+        if( iter->second == dt ) {
             return iter->first;
         }
         iter++;
     }
-    return "dt_not_found";
+    static const std::string err_msg( "dt_not_found" );
+    return err_msg;
 }
 
 projectile::projectile() :
