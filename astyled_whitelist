@@ -96,6 +96,7 @@ src/iuse_software_sokoban.h
 src/lightmap.h
 src/live_view.h
 src/lua_console.h
+src/map_iterator.h
 src/mapbuffer.h
 src/mapsharing.h
 src/martialarts.h
