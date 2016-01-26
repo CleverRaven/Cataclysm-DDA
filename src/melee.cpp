@@ -1377,7 +1377,7 @@ item &player::best_shield()
     if( can_weapon_block() ) {
         return weapon;
     }
-return ret_null;
+    return ret_null;
 }
 
 bool player::block_hit(Creature *source, body_part &bp_hit, damage_instance &dam) {

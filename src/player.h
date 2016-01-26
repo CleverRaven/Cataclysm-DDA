@@ -332,7 +332,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool is_armed() const;
         /** Calculates melee weapon wear-and-tear through use, returns true if item is destroyed. */
         bool handle_melee_wear( float wear_multiplier = 1.0f );
-        bool handle_melee_wear( item &best_shield, float wear_multiplier = 1.0f );
+        bool handle_melee_wear( item &shield, float wear_multiplier = 1.0f );
         /** True if unarmed or wielding a weapon with the UNARMED_WEAPON flag */
         bool unarmed_attack() const;
         /** Called when a player triggers a trap, returns true if they don't set it off */
