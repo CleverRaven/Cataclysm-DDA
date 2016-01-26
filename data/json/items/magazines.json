@@ -89,7 +89,8 @@
         "reload_time" : 100,
         "flags": [ "COMPACT_MAG" ],
         "alternatives" : [
-            [ "223", [ "stanag30" ] ]
+            [ "223", [ "stanag30" ] ],
+            [ "545x39", [ "ak74_mag_30" ] ]
         ]
     },{
         "type" : "MAGAZINE",
@@ -109,7 +110,8 @@
         "reload_time" : 120,
         "flags": [ "COMPACT_MAG" ],
         "alternatives" : [
-            [ "223", [ "stanag30" ] ]
+            [ "223", [ "stanag50" ] ],
+            [ "545x39", [ "rpk_74_mag_45" ] ]
         ]
     },{
         "type" : "MAGAZINE",
@@ -127,7 +129,11 @@
         "capacity" : 30,
         "reliability" : 9,
         "reload_time" : 100,
-        "flags": [ "COMPACT_MAG" ]
+        "flags": [ "COMPACT_MAG" ],
+        "alternatives" : [
+            [ "223", [ "stanag50" ] ],
+            [ "3006", [ "m1918mag_30" ] ]
+        ]
     },{
         "type" : "MAGAZINE",
         "id" : "rpk_74_mag_45",
@@ -145,7 +151,11 @@
         "capacity" : 45,
         "reliability" : 8,
         "reload_time" : 130,
-        "flags": [ "BULKY_MAG" ]
+        "flags": [ "BULKY_MAG" ],
+        "alternatives" : [
+            [ "223", [ "stanag50" ] ],
+            [ "3006", [ "m1918mag_30" ] ]
+        ]
     },{
         "type" : "MAGAZINE",
         "id" : "belt308",
@@ -163,7 +173,31 @@
         "capacity" : 200,
         "count" : 100,
         "reliability" : 7,
-        "flags": [ "NO_RELOAD", "NO_UNLOAD" ]
+        "flags": [ "NO_RELOAD", "NO_UNLOAD" ],
+        "alternatives" : [
+            [ "223", [ "belt223" ] ]
+        ]
+    },{
+        "type" : "MAGAZINE",
+        "id" : "belt308_reusable",
+        "price" : 0,
+        "name" : "DM1 7.62x51mm ammo belt",
+        "symbol" : "#",
+        "color" : "ltgray",
+        "description" : "An ammo belt consisting of non-disintegrating metal linkages, designed for the M240 machine gun.",
+        "material" : "steel",
+        "volume" : 0,
+        "weight" : 0,
+        "to_hit" : -4,
+        "rigid": false,
+        "ammo_type" : "308",
+        "capacity" : 200,
+        "count" : 100,
+        "reload_time" : 200,
+        "reliability" : 7,
+        "alternatives" : [
+            [ "223", [ "belt223" ] ]
+        ]
     },{
         "type" : "MAGAZINE",
         "id" : "makarovmag",
@@ -197,7 +231,12 @@
         "capacity" : 20,
         "reliability" : 8,
         "reload_time" : 100,
-        "flags": [ "COMPACT_MAG" ]
+        "flags": [ "COMPACT_MAG" ],
+        "alternatives" : [
+            [ "9x18", [ "skorpion_82_mag" ] ],
+            [ "45", [ "thompson_mag", "thompson_mag_30", "thompson_drum" ] ],
+            [ "9mm", [ "stenmag", "survivor9mm_mag" ] ]
+        ]
     },{
         "type" : "MAGAZINE",
         "id" : "skorpion_82_mag",
@@ -214,7 +253,12 @@
         "capacity" : 20,
         "reliability" : 8,
         "reload_time" : 100,
-        "flags": [ "COMPACT_MAG" ]
+        "flags": [ "COMPACT_MAG" ],
+        "alternatives" : [
+            [ "32", [ "skorpion_61_mag" ] ],
+            [ "45", [ "thompson_mag", "thompson_mag_30", "thompson_drum" ] ],
+            [ "9mm", [ "stenmag", "survivor9mm_mag" ] ]
+        ]
     },{
         "type" : "MAGAZINE",
         "id" : "thompson_mag",
@@ -231,7 +275,12 @@
         "capacity" : 20,
         "reliability" : 8,
         "reload_time" : 100,
-        "flags": [ "COMPACT_MAG" ]
+        "flags": [ "COMPACT_MAG" ],
+        "alternatives" : [
+            [ "32", [ "skorpion_61_mag" ] ],
+            [ "9x18", [ "skorpion_82_mag" ] ],
+            [ "9mm", [ "survivor9mm_mag" ] ]
+        ]
     },{
         "type" : "MAGAZINE",
         "id" : "thompson_mag_30",
@@ -248,7 +297,12 @@
         "capacity" : 30,
         "reliability" : 8,
         "reload_time" : 120,
-        "flags": [ "COMPACT_MAG" ]
+        "flags": [ "COMPACT_MAG" ],
+        "alternatives" : [
+            [ "32", [ "skorpion_61_mag" ] ],
+            [ "9x18", [ "skorpion_82_mag" ] ],
+            [ "9mm", [ "sten_mag" ] ]
+        ]
     },{
         "type" : "MAGAZINE",
         "id" : "thompson_drum",
@@ -265,7 +319,12 @@
         "capacity" : 50,
         "reliability" : 7,
         "reload_time" : 150,
-        "flags": [ "BULKY_MAG" ]
+        "flags": [ "BULKY_MAG" ],
+        "alternatives" : [
+            [ "32", [ "skorpion_61_mag" ] ],
+            [ "9x18", [ "skorpion_82_mag" ] ],
+            [ "9mm", [ "sten_mag" ] ]
+        ]
     },{
         "type" : "MAGAZINE",
         "id" : "sten_mag",
@@ -282,7 +341,12 @@
         "capacity" : 32,
         "reliability" : 6,
         "reload_time" : 100,
-        "flags": [ "COMPACT_MAG" ]
+        "flags": [ "COMPACT_MAG" ],
+        "alternatives" : [
+            [ "32", [ "skorpion_61_mag" ] ],
+            [ "9x18", [ "skorpion_82_mag" ] ],
+            [ "45", [ "thompson_mag" ] ]
+        ]
     },{
         "type" : "MAGAZINE",
         "id" : "survivor9mm_mag",
@@ -299,6 +363,11 @@
         "capacity" : 20,
         "reliability" : 5,
         "reload_time" : 120,
-        "flags": [ "COMPACT_MAG" ]
+        "flags": [ "COMPACT_MAG" ],
+        "alternatives" : [
+            [ "32", [ "skorpion_61_mag" ] ],
+            [ "9x18", [ "skorpion_82_mag" ] ],
+            [ "45", [ "thompson_mag_30", "thompson_drum" ] ]
+        ]
     }
 ]
