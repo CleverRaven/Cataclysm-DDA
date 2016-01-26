@@ -759,11 +759,16 @@ void curses_drawwindow(WINDOW *win)
         int partial_width = std::max(TERRAIN_WINDOW_TERM_WIDTH * fontwidth - TERRAIN_WINDOW_WIDTH * map_font->fontwidth, 0);
         int partial_height = std::max(TERRAIN_WINDOW_TERM_HEIGHT * fontheight - TERRAIN_WINDOW_HEIGHT * map_font->fontheight, 0);
         //Gap between terrain and lower window edge
-        FillRectDIB(win->x * map_font->fontwidth, (win->y + TERRAIN_WINDOW_HEIGHT) * map_font->fontheight,
-                    TERRAIN_WINDOW_WIDTH * map_font->fontwidth + partial_width, partial_height, COLOR_BLACK);
+        if( partial_height > 0 ) {
+            FillRectDIB( win->x * map_font->fontwidth,
+                         ( win->y + TERRAIN_WINDOW_HEIGHT ) * map_font->fontheight,
+                         TERRAIN_WINDOW_WIDTH * map_font->fontwidth + partial_width, partial_height, COLOR_BLACK );
+        }
         //Gap between terrain and sidebar
-        FillRectDIB((win->x + TERRAIN_WINDOW_WIDTH) * map_font->fontwidth, win->y * map_font->fontheight,
-                    partial_width, TERRAIN_WINDOW_HEIGHT * map_font->fontheight + partial_height, COLOR_BLACK);
+        if( partial_width > 0 ) {
+            FillRectDIB( ( win->x + TERRAIN_WINDOW_WIDTH ) * map_font->fontwidth, win->y * map_font->fontheight,
+                         partial_width, TERRAIN_WINDOW_HEIGHT * map_font->fontheight + partial_height, COLOR_BLACK );
+        }
         // Special font for the terrain window
         update = map_font->draw_window(win);
     } else if (g && win == g->w_overmap && overmap_font != NULL) {
