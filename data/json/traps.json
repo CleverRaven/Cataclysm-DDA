@@ -71,7 +71,7 @@
         "action" : "none",
         "drops" : ["funnel"],
         "benign" : true,
-        "funnel_radius": 380
+        "funnel_radius": 300
     },
     {
         "type" : "trap",
@@ -587,7 +587,7 @@
         "action" : "none",
         "drops" : ["metal_funnel"],
         "benign" : true,
-        "funnel_radius": 950
+        "funnel_radius": 400
     }
 
 ]
