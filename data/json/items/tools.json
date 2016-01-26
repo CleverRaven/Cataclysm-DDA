@@ -6044,7 +6044,7 @@
     "description": "This is a large metal funnel used to collect rainwater.  Less portable than plastic funnels, but collects more water.  Use it outside and place a container beneath it to collect water when it rains.",
     "price": 500,
     "material": "steel",
-    "weight": 606,
+    "weight": 4017,
     "volume": 16,
     "bashing": 4,
     "to_hit": 1,
