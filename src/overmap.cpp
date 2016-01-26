@@ -2196,7 +2196,7 @@ tripoint overmap::draw_overmap(const tripoint &orig, const draw_data_t &data)
             if(term.empty()) {
                 continue;
             }
-            std::transform( term.begin(), term.end(), term.begin(), tolower );
+            term = str_tolower(term);
 
             // This is on purpose only the current overmap, otherwise
             // it would contain way to many entries

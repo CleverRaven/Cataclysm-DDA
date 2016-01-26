@@ -140,6 +140,9 @@ RC  = $(CROSS)windres
 CXXFLAGS += -ffast-math
 LDFLAGS += $(PROFILE)
 
+# Add ICU library (Unicode support)
+LDFLAGS += -licuuc
+
 # enable optimizations. slow to build
 ifdef RELEASE
   ifeq ($(NATIVE), osx)

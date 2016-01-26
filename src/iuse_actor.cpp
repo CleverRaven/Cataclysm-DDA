@@ -21,6 +21,7 @@
 #include "field.h"
 #include "weather.h"
 #include "pldata.h"
+#include "catacharset.h"
 
 #include <sstream>
 #include <algorithm>
@@ -1209,8 +1210,7 @@ bool inscribe_actor::item_inscription( item *cut ) const
     }
 
     if( material_restricted && !cut->made_of_any( material_whitelist ) ) {
-        std::string lower_verb = verb;
-        std::transform(lower_verb.begin(), lower_verb.end(), lower_verb.begin(), ::tolower);
+        std::string lower_verb = str_tolower(verb);
         add_msg(m_info, _("You can't %1$s %2$s because of the material it is made of."),
                 lower_verb.c_str(), cut->display_name().c_str());
         return false;

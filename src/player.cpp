@@ -4429,8 +4429,7 @@ void player::shout( std::string msg )
     constexpr int minimum_noise = 2;
 
     if ( noise <= base ) {
-        std::string dampened_shout;
-        std::transform( msg.begin(), msg.end(), std::back_inserter(dampened_shout), tolower );
+        std::string dampened_shout = str_tolower(msg);
         noise = std::max( minimum_noise, noise );
         msg = std::move( dampened_shout );
     }

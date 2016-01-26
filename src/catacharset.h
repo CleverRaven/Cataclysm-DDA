@@ -17,6 +17,8 @@ int erease_utf8_by_cw( char *t, int cw, int len, int maxlen );
 int utf8_width( const char *s, const bool ignore_tags = false );
 int utf8_width( const std::string &str, const bool ignore_tags = false );
 
+std::string str_tolower( const std::string& source );
+
 /**
  * Center text inside whole line.
  * @param Text to be centered.
