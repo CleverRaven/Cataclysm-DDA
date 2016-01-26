@@ -564,6 +564,9 @@ public:
     /** Magazine types (if any) that can be used to reload this item */
     std::set<itype_id> magazines;
 
+    /** Volume above which the magazine starts to protrude from the item and add extra volume */
+    int magazine_well;
+
     bool explode_in_fire() const
     {
         return explosion_on_fire_data.power >= 0;

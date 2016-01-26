@@ -1,6 +1,8 @@
 src/action.cpp
 src/active_item_cache.cpp
+src/activity_item_handling.cpp
 src/ammo.cpp
+src/armor_layers.cpp
 src/basecamp.cpp
 src/cata_utility.cpp
 src/char_validity_check.cpp
@@ -12,6 +14,7 @@ src/damage.cpp
 src/debug.cpp
 src/drawing_primitives.cpp
 src/gamemode.cpp
+src/item_action.cpp
 src/itype.cpp
 src/iuse_software.cpp
 src/live_view.cpp
@@ -25,6 +28,7 @@ src/mondefense.cpp
 src/monfaction.cpp
 src/monmove.cpp
 src/mtype.cpp
+src/name.cpp
 src/nonplayer.cpp
 src/pathfinding.cpp
 src/recipe_dictionary.cpp
@@ -35,12 +39,14 @@ src/submap.cpp
 src/text_snippets.cpp
 src/tileray.cpp
 src/translations.cpp
+src/trap.cpp
 src/trapfunc.cpp
 src/version.cpp
 src/action.h
 src/active_item_cache.h
 src/activity_handlers.h
 src/addiction.h
+src/advanced_inv.h
 src/ammo.h
 src/animation.h
 src/artifact.h
@@ -76,6 +82,7 @@ src/get_version.h
 src/help.h
 src/iexamine.h
 src/init.h
+src/input.h
 src/int_id.h
 src/item_action.h
 src/item_factory.h
@@ -98,6 +105,7 @@ src/mod_manager.h
 src/mondeath.h
 src/mondefense.h
 src/monfaction.h
+src/mongroup.h
 src/morale.h
 src/mutation.h
 src/name.h
@@ -111,6 +119,7 @@ src/pldata.h
 src/posix_time.h
 src/profession.h
 src/recipe_dictionary.h
+src/requirements.h
 src/rng.h
 src/shadowcasting.h
 src/speech.h

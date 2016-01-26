@@ -911,6 +911,7 @@ bool player::activate_bionic(int b, bool eff_only)
             }
         }
     } else if(bio.id == "bio_lighter") {
+        g->refresh_all();
         if(!choose_adjacent(_("Start a fire where?"), dirp) ||
            (!g->m.add_field(dirp, fd_fire, 1, 0))) {
             add_msg_if_player(m_info, _("You can't light a fire there."));
@@ -961,6 +962,7 @@ bool player::activate_bionic(int b, bool eff_only)
         }
         weapon = tmp_item;
     } else if (bio.id == "bio_emp") {
+        g->refresh_all();
         if(choose_adjacent(_("Create an EMP where?"), dirx, diry)) {
             g->emp_blast( tripoint( dirx, diry, posz() ) );
         } else {
@@ -1044,6 +1046,7 @@ bool player::activate_bionic(int b, bool eff_only)
         moves -= 100;
     } else if(bio.id == "bio_lockpick") {
         tmp_item = item( "pseuso_bio_picklock", 0 );
+        g->refresh_all();
         if( invoke_item( &tmp_item ) == 0 ) {
             if (tmp_item.charges > 0) {
                 // restore the energy since CBM wasn't used

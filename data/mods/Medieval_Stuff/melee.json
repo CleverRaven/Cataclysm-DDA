@@ -24,24 +24,6 @@
         "category" : "weapons"
     },
   {
-    "id": "longsword_fake",
-    "type": "GENERIC",
-    "symbol": "/",
-    "color": "light_gray",
-    "name": "longsword",
-    "description": "This is a dull, cheaply-made replica of the classic medieval longsword.  It requires a larger baldric or scabbard, compared to smaller swords.",
-    "price": 13000,
-    "material": "aluminum",
-    "flags" : ["BASH", "SHEATH_SWORD"],
-    "techniques": ["WBLOCK_1"],
-    "weight": 1526,
-    "volume": 11,
-    "bashing": 16,
-    "cutting": 2,
-    "to_hit": 2,
-    "category" : "weapons"
-  },
-  {
     "id": "estoc",
     "type": "GENERIC",
     "symbol": "/",

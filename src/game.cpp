@@ -5574,10 +5574,8 @@ void game::draw_minimap()
 
     // Print arrow to mission if we have one!
     if (!drew_mission) {
-        double slope;
-        if (cursx != targ.x) {
-            slope = double(targ.y - cursy) / double(targ.x - cursx);
-        }
+        double slope = (cursx != targ.x) ? double(targ.y - cursy) / double(targ.x - cursx) : 4; 
+
         if (cursx == targ.x || fabs(slope) > 3.5) { // Vertical slope
             if (targ.y > cursy) {
                 mvwputch(w_minimap, 6, 3, c_red, '*');

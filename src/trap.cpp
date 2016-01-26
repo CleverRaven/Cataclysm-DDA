@@ -54,7 +54,7 @@ bool string_id<trap>::is_valid() const
 
 template<>
 int_id<trap>::int_id( const string_id<trap> &id )
-: _id( id.id() )
+    : _id( id.id() )
 {
 }
 
@@ -68,8 +68,8 @@ const skill_id skill_traps( "traps" );
 
 const efftype_id effect_lack_sleep( "lack_sleep" );
 
-static std::vector<const trap*> funnel_traps;
-const std::vector<const trap*> trap::get_funnels()
+static std::vector<const trap *> funnel_traps;
+const std::vector<const trap *> trap::get_funnels()
 {
     return funnel_traps;
 }
@@ -133,21 +133,21 @@ bool trap::detect_trap( const tripoint &pos, const player &p ) const
     //   noticing a buried landmine if standing right next to it.
     // Effective Perception...
     ///\EFFECT_PER increases chance of detecting a trap
-    return (p.per_cur - (p.encumb(bp_eyes) / 10)) +
+    return ( p.per_cur - ( p.encumb( bp_eyes ) / 10 ) ) +
            // ...small bonus from stimulants...
-           (p.stim > 10 ? rng(1, 2) : 0) +
+           ( p.stim > 10 ? rng( 1, 2 ) : 0 ) +
            // ...bonus from trap skill...
            ///\EFFECT_TRAPS increases chance of detecting a trap
-           (p.get_skill_level( skill_traps ) * 2) +
+           ( p.get_skill_level( skill_traps ) * 2 ) +
            // ...luck, might be good, might be bad...
-           rng(-4, 4) -
+           rng( -4, 4 ) -
            // ...malus if we are tired...
-           (p.has_effect( effect_lack_sleep) ? rng(1, 5) : 0) -
+           ( p.has_effect( effect_lack_sleep ) ? rng( 1, 5 ) : 0 ) -
            // ...malus farther we are from trap...
            rl_dist( p.pos(), pos ) +
            // Police are trained to notice Something Wrong.
-           (p.has_trait("PROF_POLICE") ? 1 : 0) +
-           (p.has_trait("PROF_PD_DET") ? 2 : 0) >
+           ( p.has_trait( "PROF_POLICE" ) ? 1 : 0 ) +
+           ( p.has_trait( "PROF_PD_DET" ) ? 2 : 0 ) >
            // ...must all be greater than the trap visibility.
            visibility;
 }
@@ -166,7 +166,7 @@ void trap::trigger( const tripoint &pos, Creature *creature ) const
 {
     if( act != nullptr ) {
         trapfunc f;
-        (f.*act)( creature, pos );
+        ( f.*act )( creature, pos );
     }
 }
 
@@ -194,7 +194,7 @@ bool trap::is_3x3_trap() const
 void trap::on_disarmed( const tripoint &p ) const
 {
     map &m = g->m;
-    for( auto & i : components ) {
+    for( auto &i : components ) {
         m.spawn_item( p.x, p.y, i, 1, 1 );
     }
     // TODO: make this a flag, or include it into the components.
@@ -259,8 +259,8 @@ tr_glass_pit;
 
 void trap::check_consistency()
 {
-    for( auto & tptr : traplist ) {
-        for( auto & i : tptr->components ) {
+    for( auto &tptr : traplist ) {
+        for( auto &i : tptr->components ) {
             if( !item::type_is_defined( i ) ) {
                 debugmsg( "trap %s has unknown item as component %s", tptr->id.c_str(), i.c_str() );
             }
@@ -270,7 +270,7 @@ void trap::check_consistency()
 
 void trap::finalize()
 {
-    for( auto & tptr : traplist ) {
+    for( auto &tptr : traplist ) {
         if( tptr->is_funnel() ) {
             funnel_traps.push_back( tptr.get() );
         }
@@ -279,44 +279,44 @@ void trap::finalize()
         return trap_str_id( id ).id();
     };
     tr_null = trap_str_id::NULL_ID.id();
-    tr_bubblewrap = trapfind("tr_bubblewrap");
-    tr_cot = trapfind("tr_cot");
-    tr_brazier = trapfind("tr_brazier");
-    tr_funnel = trapfind("tr_funnel");
-    tr_makeshift_funnel = trapfind("tr_makeshift_funnel");
-    tr_leather_funnel = trapfind("tr_leather_funnel");
-    tr_rollmat = trapfind("tr_rollmat");
-    tr_fur_rollmat = trapfind("tr_fur_rollmat");
-    tr_beartrap = trapfind("tr_beartrap");
-    tr_beartrap_buried = trapfind("tr_beartrap_buried");
-    tr_nailboard = trapfind("tr_nailboard");
-    tr_caltrops = trapfind("tr_caltrops");
-    tr_tripwire = trapfind("tr_tripwire");
-    tr_crossbow = trapfind("tr_crossbow");
-    tr_shotgun_2 = trapfind("tr_shotgun_2");
-    tr_shotgun_1 = trapfind("tr_shotgun_1");
-    tr_engine = trapfind("tr_engine");
-    tr_blade = trapfind("tr_blade");
-    tr_light_snare = trapfind("tr_light_snare");
-    tr_heavy_snare = trapfind("tr_heavy_snare");
-    tr_landmine = trapfind("tr_landmine");
-    tr_landmine_buried = trapfind("tr_landmine_buried");
-    tr_telepad = trapfind("tr_telepad");
-    tr_goo = trapfind("tr_goo");
-    tr_dissector = trapfind("tr_dissector");
-    tr_sinkhole = trapfind("tr_sinkhole");
-    tr_pit = trapfind("tr_pit");
-    tr_spike_pit = trapfind("tr_spike_pit");
-    tr_lava = trapfind("tr_lava");
-    tr_portal = trapfind("tr_portal");
-    tr_ledge = trapfind("tr_ledge");
-    tr_boobytrap = trapfind("tr_boobytrap");
-    tr_temple_flood = trapfind("tr_temple_flood");
-    tr_temple_toggle = trapfind("tr_temple_toggle");
-    tr_glow = trapfind("tr_glow");
-    tr_hum = trapfind("tr_hum");
-    tr_shadow = trapfind("tr_shadow");
-    tr_drain = trapfind("tr_drain");
-    tr_snake = trapfind("tr_snake");
-    tr_glass_pit = trapfind("tr_glass_pit");
+    tr_bubblewrap = trapfind( "tr_bubblewrap" );
+    tr_cot = trapfind( "tr_cot" );
+    tr_brazier = trapfind( "tr_brazier" );
+    tr_funnel = trapfind( "tr_funnel" );
+    tr_makeshift_funnel = trapfind( "tr_makeshift_funnel" );
+    tr_leather_funnel = trapfind( "tr_leather_funnel" );
+    tr_rollmat = trapfind( "tr_rollmat" );
+    tr_fur_rollmat = trapfind( "tr_fur_rollmat" );
+    tr_beartrap = trapfind( "tr_beartrap" );
+    tr_beartrap_buried = trapfind( "tr_beartrap_buried" );
+    tr_nailboard = trapfind( "tr_nailboard" );
+    tr_caltrops = trapfind( "tr_caltrops" );
+    tr_tripwire = trapfind( "tr_tripwire" );
+    tr_crossbow = trapfind( "tr_crossbow" );
+    tr_shotgun_2 = trapfind( "tr_shotgun_2" );
+    tr_shotgun_1 = trapfind( "tr_shotgun_1" );
+    tr_engine = trapfind( "tr_engine" );
+    tr_blade = trapfind( "tr_blade" );
+    tr_light_snare = trapfind( "tr_light_snare" );
+    tr_heavy_snare = trapfind( "tr_heavy_snare" );
+    tr_landmine = trapfind( "tr_landmine" );
+    tr_landmine_buried = trapfind( "tr_landmine_buried" );
+    tr_telepad = trapfind( "tr_telepad" );
+    tr_goo = trapfind( "tr_goo" );
+    tr_dissector = trapfind( "tr_dissector" );
+    tr_sinkhole = trapfind( "tr_sinkhole" );
+    tr_pit = trapfind( "tr_pit" );
+    tr_spike_pit = trapfind( "tr_spike_pit" );
+    tr_lava = trapfind( "tr_lava" );
+    tr_portal = trapfind( "tr_portal" );
+    tr_ledge = trapfind( "tr_ledge" );
+    tr_boobytrap = trapfind( "tr_boobytrap" );
+    tr_temple_flood = trapfind( "tr_temple_flood" );
+    tr_temple_toggle = trapfind( "tr_temple_toggle" );
+    tr_glow = trapfind( "tr_glow" );
+    tr_hum = trapfind( "tr_hum" );
+    tr_shadow = trapfind( "tr_shadow" );
+    tr_drain = trapfind( "tr_drain" );
+    tr_snake = trapfind( "tr_snake" );
+    tr_glass_pit = trapfind( "tr_glass_pit" );
 }

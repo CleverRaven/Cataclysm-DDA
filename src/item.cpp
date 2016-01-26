@@ -1411,6 +1411,10 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
             info.push_back( iteminfo( "DESCRIPTION",
                                       _( "* This piece of clothing is large enough to accommodate <info>mutated anatomy</info>." ) ) );
         }
+        if( is_armor() && has_flag( "BLOCK_WHILE_WORN" ) ) {
+            info.push_back( iteminfo( "DESCRIPTION",
+                                      _( "* This piece of clothing can be used to block attacks when worn." ) ) );
+        }
         if( is_armor() && has_flag( "ALLOWS_NATURAL_ATTACKS" ) ) {
             info.push_back( iteminfo( "DESCRIPTION",
                                       _( "* This piece of clothing won't hinder special attacks that involve <info>mutated anatomy</info>." ) ) );
@@ -2428,9 +2432,17 @@ int item::volume(bool unit_value, bool precise_value ) const
         ret /= type->stack_size;
     }
 
+    // Some magazines sit (partly) flush with the item so add less extra volume
+    auto mag = magazine_current();
+    if( mag ) {
+        ret += std::max( mag->volume() - type->magazine_well, 0 );
+    }
+
     if (is_gun()) {
         for( auto &elem : contents ) {
-            ret += elem.volume( false, precise_value );
+            if( elem.is_gunmod() ) {
+                ret += elem.volume( false, precise_value );
+            }
         }
 
         if (has_flag("COLLAPSIBLE_STOCK")) {

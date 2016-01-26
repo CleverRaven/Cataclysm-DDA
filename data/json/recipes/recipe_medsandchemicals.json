@@ -1670,6 +1670,7 @@
       [ "vitamins", 5 ],
       [ "iodine", 5 ],
       [ "disinfectant", 5 ],
+      [ "hflesh_powder", 10 ],
       [ "protein_powder", 10 ]
     ]
   ]
@@ -2652,10 +2653,17 @@
     "reversible": false,
     "autolearn": false,
     "book_learn": [["textbook_biodiesel", 5]],
-    "tools": [[[ "chemistry_set", 10 ]]],
+    "qualities":[ {"id":"CHEM","level":2,"amount":1} ],
+    "tools": [
+    [
+      [ "fire", -1 ],
+      [ "toolset", 10 ],
+      [ "hotplate", 10 ]
+    ]
+    ],
     "components": [
         [[ "water_clean", 1 ], [ "water", 1 ]],
-        [[ "chem_ethanol", 14 ]],
+        [[ "chem_ethanol", 14 ], ["denat_alcohol", 14 ]],
         [[ "cooking_oil", 2 ],
          [ "lard", 2 ],
          [ "tallow", 2 ],
@@ -2711,7 +2719,13 @@
   "autolearn": false,
   "book_learn": [[ "recipe_labchem", 7 ], ["textbook_chemistry", 7]],
   "qualities":[ {"id":"BOIL","level":2,"amount":1} ],
-  "tools": [ [ [ "chemistry_set", 25 ] ] ],
+    "tools": [
+    [
+      [ "fire", -1 ],
+      [ "toolset", 25 ],
+      [ "hotplate", 25 ]
+    ]
+    ],
   "components": [ [ [ "chem_hydrogen_peroxide", 5 ] ] ]
 },
 {
@@ -2749,10 +2763,13 @@
 "reversible": false,
 "autolearn": true,
 "qualities":[
-{"id":"BOIL","level":2,"amount":1}
+{"id":"BOIL","level":2,"amount":1},
+{"id":"CHEM","level":2,"amount":1}
 ], "tools": [
 [
-[ "chemistry_set", 50 ]
+[ "fire", -1 ],
+[ "toolset", 50 ],
+[ "hotplate", 50 ]
 ]
 ],
 "components": [
@@ -2775,10 +2792,13 @@
 "reversible": false,
 "autolearn": true,
 "qualities":[
-{"id":"BOIL","level":2,"amount":1}
+{"id":"BOIL","level":2,"amount":1},
+{"id":"CHEM","level":2,"amount":1}
 ], "tools": [
 [
-[ "chemistry_set", 25 ]
+[ "fire", -1 ],
+[ "toolset", 25 ],
+[ "hotplate", 25 ]
 ]
 ],
 "components": [
@@ -2805,10 +2825,13 @@
 "reversible": false,
 "autolearn": true,
 "qualities":[
-{"id":"BOIL","level":2,"amount":1}
+{"id":"BOIL","level":2,"amount":1},
+{"id":"CHEM","level":2,"amount":1}
 ], "tools": [
 [
-[ "chemistry_set", 25 ]
+[ "fire", -1 ],
+[ "toolset", 25 ],
+[ "hotplate", 25 ]
 ]
 ],
 "components": [
@@ -2867,6 +2890,7 @@
 [ "chem_ammonium_nitrate", 90 ]
 ],
 [
+[ "diesel", 500 ],
 [ "gasoline", 500 ]
 ]
 ]
@@ -2885,7 +2909,9 @@
 {"id":"BOIL","level":2,"amount":1}
 ], "tools": [
 [
-[ "chemistry_set", 10 ]
+[ "fire", -1 ],
+[ "toolset", 10 ],
+[ "hotplate", 10 ]
 ]
 ],
 "components": [
@@ -2906,10 +2932,13 @@
 "autolearn": false,
 "book_learn": [[ "recipe_labchem", 8 ], ["textbook_anarch", 10]],
 "qualities":[
-{"id":"BOIL","level":2,"amount":1}
+{"id":"BOIL","level":2,"amount":1},
+{"id":"CHEM","level":2,"amount":1}
 ], "tools": [
 [
-[ "chemistry_set", 20 ]
+[ "fire", -1 ],
+[ "toolset", 20 ],
+[ "hotplate", 20 ]
 ]
 ],
 "components": [

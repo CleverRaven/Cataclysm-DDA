@@ -503,6 +503,59 @@
     "ammo": "NULL",
     "revert_to": "null"
 },
+{
+    "type":"GENERIC",
+    "id": "grapnel",
+    "symbol": ";",
+    "color": "light_gray",
+    "name": "grappling hook",
+    "description": "A folding grappling hook attached to a stout 30-foot long piece of lightweight cord.  Useful for keeping yourself safe from falls.",
+    "category": "tools",
+    "techniques" : ["RAPID", "SPIN"],
+    "flags" : ["WRAP", "DURABLE_MELEE"],
+    "price": 25000,
+    "material": ["cotton", "steel"],
+    "weight": 760,
+    "volume": 3,
+    "bashing": 12,
+    "cutting": 6,
+    "to_hit": -2
+},
+{
+    "type":"GENERIC",
+    "id" : "umbrella",
+    "symbol" : "/",
+    "color": "magenta",
+    "name": "umbrella",
+    "category": "tools",
+    "description": "An umbrella with a pointy end, useful for keeping dry when wielded.",
+    "material": ["plastic","aluminum"],
+    "price": 2400,
+    "volume": 6,
+    "weight": 141,
+    "bashing": 6,
+    "cutting": 4,
+    "to_hit": 1,
+    "flags": ["STAB","RAIN_PROTECT","SHEATH_SWORD","IAIJUTSU"],
+    "techniques": ["WBLOCK_1"]
+},
+{
+    "type":"GENERIC",
+    "id" : "teleumbrella",
+    "symbol" : ",",
+    "color": "dark_gray",
+    "name": "telescoping umbrella",
+    "category": "tools",
+    "description": "A telescoping umbrella which collapses down for easy storage, useful for keeping dry when wielded.",
+    "material": ["plastic", "aluminum"],
+    "price": 12000,
+    "volume": 2,
+    "weight": 118,
+    "bashing": 1,
+    "to_hit": 1,
+    "flags": ["RAIN_PROTECT"],
+    "techniques": ["WBLOCK_1"]
+},
   {
     "id": "oxygen_tank",
     "type": "TOOL",
@@ -764,7 +817,6 @@
         "need_charges_msg": "The lantern has no batteries."
     }
   },
-
   {
     "id": "electric_lantern_on",
     "type": "TOOL",
@@ -792,7 +844,94 @@
         "msg": "The lantern is extinguished."
     }
   },
-
+  {
+    "type":"GENERIC",
+    "id": "atomic_light",
+    "category" : "tools",
+    "symbol": ",",
+    "color": "light_green",
+    "name": "atomic nightlight",
+    "description": "Enjoy the serene Cherenkov-blue glow of the Rivtech atomic nightlight, and feel confident that you won't have to worry about depleting its power supply for at least 160 million years of faithful service.  Use it to close the cover and hide the light.",
+    "price": 125000,
+    "material": ["plastic", "aluminum"],
+    "flags": ["LIGHT_5", "LEAK_DAM", "RADIOACTIVE", "DURABLE_MELEE"],
+    "weight": 3714,
+    "volume": 1,
+    "bashing": 4,
+    "to_hit": -2,
+    "revert_to": "null",
+    "use_action": {
+        "type": "transform",
+        "target": "atomic_light_off",
+        "msg": "You close the nightlight's cover."
+  }
+  },
+  {
+    "type":"GENERIC",
+    "id": "atomic_light_off",
+    "category" : "tools",
+    "symbol": ",",
+    "color": "light_green",
+    "name": "atomic nightlight (covered)",
+    "description": "Enjoy the serene Cherenkov-blue glow of the Rivtech atomic nightlight, and feel confident that you won't have to worry about depleting its power supply for at least 160 million years of faithful service.  The cover is closed.  Use it to open the cover and show the light.",
+    "price": 125000,
+    "material": ["plastic", "aluminum"],
+    "flags": ["LEAK_DAM", "RADIOACTIVE", "DURABLE_MELEE"],
+    "weight": 3714,
+    "volume": 1,
+    "bashing": 4,
+    "to_hit": -2,
+    "revert_to": "null",
+    "use_action": {
+        "type": "transform",
+        "target": "atomic_light",
+        "msg": "You open the nightlight's cover."
+    }
+  },
+  {
+    "type":"GENERIC",
+    "id": "atomic_lamp",
+    "category" : "tools",
+    "symbol": ",",
+    "color": "light_green",
+    "name": "atomic lamp",
+    "description": "Enjoy the serene Cherenkov-blue glow of the Rivtech atomic desk lamp, and feel confident that you won't have to worry about depleting its power supply for at least 40 million years of faithful service.  Use it to close the cover and hide the light.",
+    "price": 175000,
+    "material": ["plastic", "aluminum"],
+    "flags": ["LIGHT_15", "LEAK_DAM", "RADIOACTIVE", "DURABLE_MELEE"],
+    "weight": 5438,
+    "volume": 4,
+    "bashing": 8,
+    "to_hit": -2,
+    "revert_to": "null",
+    "use_action": {
+        "type": "transform",
+        "target": "atomic_lamp_off",
+        "msg": "You close the lamp's cover."
+    }
+  },
+  {
+    "type":"GENERIC",
+    "id": "atomic_lamp_off",
+    "category" : "tools",
+    "symbol": ",",
+    "color": "light_green",
+    "name": "atomic lamp (covered)",
+    "description": "Enjoy the serene Cherenkov-blue glow of the Rivtech atomic desk lamp, and feel confident that you won't have to worry about depleting its power supply for at least 40 million years of faithful service.  The cover is closed.  Use it to open the cover and show the light.",
+    "price": 175000,
+    "material": ["plastic", "aluminum"],
+    "flags": ["LEAK_DAM", "RADIOACTIVE", "DURABLE_MELEE"],
+    "weight": 5438,
+    "volume": 4,
+    "bashing": 8,
+    "to_hit": -2,
+    "revert_to": "null",
+    "use_action": {
+        "type": "transform",
+        "target": "atomic_lamp",
+        "msg": "You open the lamp's cover."
+    }
+  },
   {
     "id": "flashlight",
     "type": "TOOL",
@@ -1432,6 +1571,50 @@
     "to_hit": 2
   },
   {
+    "type": "GENERIC",
+    "id": "clay_pot",
+    "symbol": ")",
+    "color": "brown",
+    "name": "clay pot",
+    "description": "A crude clay pot with lid used for cooking.",
+    "price": 2500,
+    "material": "clay",
+    "weight": 480,
+    "volume": 8,
+    "bashing": 1,
+    "category": "tools",
+    "qualities": [["COOK", 3], ["BOIL", 2], ["CONTAIN", 1], ["CHEM", 1]]
+  },
+  {
+    "type": "GENERIC",
+    "id": "clay_quern",
+    "symbol": ":",
+    "color": "brown",
+    "name": "clay quern",
+    "description": "This is a simple hand-powered clay quern for grinding grain.",
+    "price": 3000,
+    "material": "clay",
+    "weight": 2264,
+    "volume": 6,
+    "category": "tools"
+  },
+  {
+    "type": "GENERIC",
+    "id": "clay_teapot",
+    "symbol": ")",
+    "color": "brown",
+    "name": "clay teapot",
+    "description": "A clay teapot.  Now all you need is tea and water.",
+    "category": "tools",
+    "price": 2000,
+    "material": "clay",
+    "weight": 429,
+    "volume": 3,
+    "bashing": 1,
+    "to_hit": 1,
+    "qualities": [["BOIL", 1]]
+  },
+  {
     "type":"GENERIC",
     "id": "teapot",
     "symbol": ")",
@@ -1494,7 +1677,6 @@
     "weight": 56,
     "volume": 0,
     "cutting": 1,
-    "to_hit": 0,
     "flags" : ["STAB"]
   },
   {
@@ -1545,7 +1727,6 @@
     "weight": 362,
     "volume": 2,
     "bashing": 4,
-    "to_hit": 0,
     "max_charges": 0,
     "initial_charges": 0,
     "charges_per_use": 0,
@@ -6027,6 +6208,26 @@
     "weight": 5066,
     "volume": 6,
     "bashing": 7,
+    "to_hit": 1,
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "use_action": "SET_TRAP"
+  },{
+    "id": "metal_funnel",
+    "type": "TOOL",
+    "symbol": ";",
+    "color": "yellow",
+    "name": "metal funnel",
+    "description": "This is a large metal funnel used to collect rainwater.  Less portable than plastic funnels, but collects more water.  Use it outside and place a container beneath it to collect water when it rains.",
+    "price": 1500,
+    "material": "steel",
+    "weight": 4017,
+    "volume": 16,
+    "bashing": 4,
     "to_hit": 1,
     "max_charges": 0,
     "initial_charges": 0,

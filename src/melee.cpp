@@ -838,6 +838,7 @@ void player::roll_cut_damage( bool crit, damage_instance &di, bool average, cons
     }
 
     int arpen = 0;
+    float armor_mult = 1.0f;
 
     // 80%, 88%, 96%, 104%, 112%, 116%, 120%, 124%, 128%, 132%
     ///\EFFECT_CUTTING increases cutting damage multiplier
@@ -851,9 +852,10 @@ void player::roll_cut_damage( bool crit, damage_instance &di, bool average, cons
     if( crit ) {
         cut_mul *= 1.25f;
         arpen += 5;
+        armor_mult = 0.75f; //25% arpen
     }
 
-    di.add_damage( DT_CUT, cut_dam, arpen, 0.0f, cut_mul );
+    di.add_damage( DT_CUT, cut_dam, arpen, armor_mult, cut_mul );
 }
 
 void player::roll_stab_damage( bool crit, damage_instance &di, bool average, const item &weap ) const
@@ -1353,6 +1355,33 @@ bool player::can_weapon_block() const
             weapon.has_technique( WBLOCK_3 ));
 }
 
+int blocking_ability( const item &shield )
+{
+    int block_bonus = 2;
+    if (shield.has_technique( WBLOCK_3 )) {
+        block_bonus = 10;
+    } else if (shield.has_technique( WBLOCK_2 )) {
+        block_bonus = 6;
+    } else if (shield.has_technique( WBLOCK_1 )) {
+        block_bonus = 4;
+    }
+    return block_bonus;
+}
+
+item &player::best_shield()
+{
+    int weapon_block = blocking_ability( weapon );
+    for( item &shield : worn ) {
+        if( shield.has_flag( "BLOCK_WHILE_WORN" ) && blocking_ability( shield ) >= weapon_block ) {
+            return shield;
+        }
+    }
+    if( can_weapon_block() ) {
+        return weapon;
+    }
+    return ret_null;
+}
+
 bool player::block_hit(Creature *source, body_part &bp_hit, damage_instance &dam) {
 
     // Shouldn't block if player is asleep; this only seems to be used by player.
@@ -1370,7 +1399,7 @@ bool player::block_hit(Creature *source, body_part &bp_hit, damage_instance &dam
     // but it still counts as a block even if it absorbs all the damage.
     float total_phys_block = mabuff_block_bonus();
     // Extract this to make it easier to implement shields/multiwield later
-    item &shield = weapon;
+    item &shield = best_shield();
     bool conductive_shield = shield.conductive();
     bool unarmed = unarmed_attack();
 
@@ -1380,19 +1409,12 @@ bool player::block_hit(Creature *source, body_part &bp_hit, damage_instance &dam
     int block_score = 1;
     // Remember if we're using a weapon or a limb to block.
     // So that we don't suddenly switch that for any reason.
-    const bool weapon_blocking = can_weapon_block();
+    const bool weapon_blocking = !shield.is_null();
     if( weapon_blocking ) {
-        int block_bonus = 2;
-        if (shield.has_technique( WBLOCK_3 )) {
-            block_bonus = 10;
-        } else if (shield.has_technique( WBLOCK_2 )) {
-            block_bonus = 6;
-        } else if (shield.has_technique( WBLOCK_1 )) {
-            block_bonus = 4;
-        }
         ///\EFFECT_STR increases attack blocking effectiveness with a weapon
 
         ///\EFFECT_MELEE increases attack blocking effectiveness with a weapon
+        block_bonus = blocking_ability( shield );
         block_score = str_cur + block_bonus + (int)get_skill_level( skill_melee );
     } else if( can_limb_block() ) {
         ///\EFFECT_STR increases attack blocking effectiveness with a limb

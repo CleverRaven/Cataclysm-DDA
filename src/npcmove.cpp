@@ -1043,6 +1043,11 @@ int npc::confident_range( int position )
 bool npc::wont_hit_friend( const tripoint &tar, int weapon_index )
 {
     int confident = confident_range(weapon_index);
+    // if there is no confidence at using weapon, it's not used at range
+    // zero confidence leads to divide by zero otherwise
+    if( confident < 1 ) {
+        return true;
+    }
     if( rl_dist( pos(), tar ) == 1 ) {
         return true;    // If we're *really* sure that our aim is dead-on
     }
