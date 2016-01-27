@@ -9074,5 +9074,80 @@
         [["duct_tape", 35], ["superglue", 5]],
         [["jerrycan", 1]]
     ]
-  }
+  },{
+  "type" : "recipe",
+  "result": "wetsuit",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_SUIT",
+  "skill_used": "tailor",
+  "skills_required" : [ "tailor", 4 ],
+  "difficulty": 4,
+  "time": 8000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "textbook_tailor", 4 ] , [ "manual_tailor", 5 ] , ["tailor_portfolio", 4]],
+  "tools": [
+    [
+      [ "sewing_kit", 50 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "neoprene", 6 ]
+    ],
+    [
+      [ "rag", 2 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "wetsuit_spring",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_SUIT",
+  "skill_used": "tailor",
+  "skills_required" : [ "tailor", 3 ],
+  "difficulty": 3,
+  "time": 6000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "textbook_tailor", 3 ] , [ "manual_tailor", 4 ] , ["tailor_portfolio", 3]],
+  "tools": [
+    [
+      [ "sewing_kit", 40 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "neoprene", 4 ]
+    ],
+    [
+      [ "rag", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "armguard_soft",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_SUIT",
+  "skill_used": "tailor",
+  "skills_required" : [ "tailor", 3 ],
+  "difficulty": 3,
+  "time": 2500,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "textbook_tailor", 3 ] , [ "manual_tailor", 4 ] , ["tailor_portfolio", 3]],
+  "tools": [
+    [
+      [ "sewing_kit", 20 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "neoprene", 2 ]
+    ],
+    [
+      [ "rag", 1 ]
+    ]
+  ]
+}
 ]
