@@ -754,7 +754,6 @@
         "flags": ["NO_SALVAGE"],
         "weight": 80,
         "volume": 1,
-        "bashing": -8,
         "category": "spare_parts"
     }
 ]
