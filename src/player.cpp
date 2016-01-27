@@ -11014,8 +11014,7 @@ bool player::wear_item( const item &to_wear, bool interactive )
     // Check if we don't have both hands available before wearing a briefcase, shield, etc. Also occurs if we're already wearing one.
     if (to_wear.has_flag("RESTRICT_HANDS") && ( !has_two_arms() || worn_with_flag("RESTRICT_HANDS") )) {
         if(interactive) {
-            add_msg_if_player(m_info, _("You don't have a hand free to wear the %s.")),
-                    to_wear.type_name().c_str();
+            add_msg_if_player( m_info, _("You don't have a hand free to wear that.") );
         }
         return false;
     }
