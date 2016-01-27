@@ -1677,10 +1677,6 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
     // seen status & terrain of center position
     bool csee = false;
     oter_id ccur_ter = "";
-    // used inside the loop
-    oter_id cur_ter = ot_null;
-    nc_color ter_color;
-    long ter_sym;
     // sight_points is hoisted for speed reasons.
     int sight_points = g->u.overmap_sight_range( g->light_level( g->u.posz() ) );
 
@@ -1745,6 +1741,10 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
         for (int j = 0; j < om_map_height; ++j) {
             const int omx = i + offset_x;
             const int omy = j + offset_y;
+
+            oter_id cur_ter = ot_null;
+            nc_color ter_color = c_black;
+            long ter_sym = ' ';
 
             const bool see = overmap_buffer.seen(omx, omy, z);
             if (see) {
