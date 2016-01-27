@@ -12680,6 +12680,12 @@
           "rotates": false
         },
         {
+          "id": "t_wall_wood_line",
+          "fg": 2006,
+          "bg": 513,
+          "rotates": false
+        },
+        {
           "id": "t_wall_wood_broken",
           "fg": 2007,
           "bg": 513,
@@ -14778,6 +14784,45 @@
           ]
         },
         {
+          "id": "t_ind_pipe",
+          "fg": 1889,
+          "bg": 534,
+          "rotates": false,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "center",
+              "fg": 1890,
+              "bg": 534
+            },
+            {
+              "id": "corner",
+              "fg": 1891,
+              "bg": 534
+            },
+            {
+              "id": "edge",
+              "fg": 1892,
+              "bg": 534
+            },
+            {
+              "id": "t_connection",
+              "fg": 1894,
+              "bg": 534
+            },
+            {
+              "id": "end_piece",
+              "fg": 1893,
+              "bg": 534
+            },
+            {
+              "id": "unconnected",
+              "fg": 1889,
+              "bg": 534
+            }
+          ]
+        },
+        {
           "id": "t_sewage_pump",
           "bg": 534,
           "rotates": false,
@@ -14912,6 +14957,12 @@
         },
         {
           "id": "t_rock_wall",
+          "fg": 2906,
+          "bg": 533,
+          "rotates": false
+        },
+        {
+          "id": "t_stone_wall_line",
           "fg": 2906,
           "bg": 533,
           "rotates": false
@@ -16104,7 +16155,7 @@
           "id": "vp_craft_rig",
           "fg": 2365,
           "bg": 551,
-          "rotates": false
+          "rotates": true
         },
         {
           "id": "vp_floodlight",
@@ -20455,6 +20506,12 @@
           "rotates": false
         },
         {
+          "id": "t_brick_wall_line",
+          "fg": 2954,
+          "bg": 2637,
+          "rotates": false
+        },
+        {
           "id": "t_pontoon_dp",
           "fg": 1742,
           "rotates": false,
@@ -20493,6 +20550,11 @@
         },
         {
           "id": "t_thconc_floor",
+          "fg": 534,
+          "rotates": false
+        },
+        {
+          "id": "t_concrete_floor",
           "fg": 534,
           "rotates": false
         },
@@ -24056,6 +24118,152 @@
         {
           "id": "shield_buckler",
           "fg": 3073,
+          "rotates": false
+        },
+        {
+          "id": "t_ind_furnace",
+          "fg": 2365,
+          "bg": 533,
+          "rotates": false
+        },
+        {
+          "id": "stanag10",
+          "fg": 3074,
+          "rotates": false
+        },
+        {
+          "id": "m1918mag",
+          "fg": 3074,
+          "rotates": false
+        },
+        {
+          "id": "survivor223mag",
+          "fg": 3074,
+          "rotates": false
+        },
+        {
+          "id": "stanag30",
+          "fg": 3075,
+          "rotates": false
+        },
+        {
+          "id": "lw223mag",
+          "fg": 3075,
+          "rotates": false
+        },
+        {
+          "id": "stanag50",
+          "fg": 3076,
+          "rotates": false
+        },
+        {
+          "id": "belt223",
+          "fg": 3077,
+          "rotates": false
+        },
+        {
+          "id": "belt308",
+          "fg": 3077,
+          "rotates": false
+        },
+        {
+          "id": "m1918mag_30",
+          "fg": 3078,
+          "rotates": false
+        },
+        {
+          "id": "ak74_mag_30",
+          "fg": 3079,
+          "rotates": false
+        },
+        {
+          "id": "rpk_74_mag_45",
+          "fg": 3080,
+          "rotates": false
+        },
+        {
+          "id": "lw223bigmag",
+          "fg": 3081,
+          "rotates": false
+        },
+        {
+          "id": "makarovmag",
+          "fg": 3082,
+          "rotates": false
+        },
+        {
+          "id": "glockmag",
+          "fg": 3083,
+          "rotates": false
+        },
+        {
+          "id": "usp45mag",
+          "fg": 3083,
+          "rotates": false
+        },
+        {
+          "id": "m9mag",
+          "fg": 3083,
+          "rotates": false
+        },
+        {
+          "id": "usp9mag",
+          "fg": 3083,
+          "rotates": false
+        },
+        {
+          "id": "skorpion_61_mag",
+          "fg": 3083,
+          "rotates": false
+        },
+        {
+          "id": "skorpion_82_mag",
+          "fg": 3083,
+          "rotates": false
+        },
+        {
+          "id": "thompson_mag",
+          "fg": 3083,
+          "rotates": false
+        },
+        {
+          "id": "survivor9mm_mag",
+          "fg": 3083,
+          "rotates": false
+        },
+        {
+          "id": "glockbigmag",
+          "fg": 3084,
+          "rotates": false
+        },
+        {
+          "id": "m9bigmag",
+          "fg": 3084,
+          "rotates": false
+        },
+        {
+          "id": "thompson_mag_30",
+          "fg": 3084,
+          "rotates": false
+        },
+        {
+          "id": "sten_mag",
+          "fg": 3084,
+          "rotates": false
+        },
+        {
+          "id": "thompson_drum",
+          "fg": 3085,
+          "rotates": false
+        },
+        {
+          "id": "mp5bigmag",
+          "fg": 3085,
+          "rotates": false
+        },
+        {
+          "id": "mp5mag",
+          "fg": 3086,
           "rotates": false
         }
       ]
