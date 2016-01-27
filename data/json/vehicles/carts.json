@@ -1,6 +1,20 @@
 [
     {
         "type" : "vehicle",
+        "id" : "gurney",
+        "name" : "Gurney",
+		"blueprint" : "##",
+        "parts"	: [
+		    {"x": 0, "y": 0, "part": "folding_frame"},
+			{"x": 0, "y": 0, "part": "folding_seat"},
+			{"x": 0, "y": 0, "part": "wheel_caster"},
+			{"x": 0, "y": 0, "part": "controls"},
+			{"x": -1, "y": 0, "part": "folding_frame"},
+			{"x": -1, "y": 0, "part": "folding_seat"},
+			{"x": -1, "y": 0, "part": "wheel_caster"}
+			]
+	},{
+        "type" : "vehicle",
         "id" : "wheelchair",
         "name" : "Foldable wheelchair",
         "blueprint" : "#",
