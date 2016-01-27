@@ -128,7 +128,7 @@ bool leap_actor::call( monster &z ) const
 
 bite_actor::bite_actor()
 {
-    damage_max_instance = damage_instance::physical( 10, 0, 0, 0 );
+    damage_max_instance = damage_instance::physical( 9, 0, 0, 0 );
     min_mul = 0.5f;
     max_mul = 1.0f;
     move_cost = 100;
