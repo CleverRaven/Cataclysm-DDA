@@ -140,9 +140,6 @@ RC  = $(CROSS)windres
 CXXFLAGS += -ffast-math
 LDFLAGS += $(PROFILE)
 
-# Add ICU library (Unicode support)
-LDFLAGS += -licuuc
-
 # enable optimizations. slow to build
 ifdef RELEASE
   ifeq ($(NATIVE), osx)
@@ -196,6 +193,10 @@ W32BINDIST = cataclysmdda-$(VERSION).zip
 BINDIST_CMD    = tar --transform=s@^$(BINDIST_DIR)@cataclysmdda-$(VERSION)@ -czvf $(BINDIST) $(BINDIST_DIR)
 W32BINDIST_CMD = cd $(BINDIST_DIR) && zip -r ../$(W32BINDIST) * && cd $(BUILD_DIR)
 
+ifeq ($(LOCALIZE), 1)
+  # Add ICU library (Unicode support)
+  LDFLAGS += -licuuc
+endif
 
 # Check if called without a special build target
 ifeq ($(NATIVE),)

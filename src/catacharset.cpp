@@ -4,7 +4,11 @@
 #include "cursesdef.h"
 #include "wcwidth.h"
 
+#ifdef LOCALIZE
 #include <unicode/unistr.h>
+#else
+#include <locale>
+#endif
 
 //copied from SDL2_ttf code
 //except type changed from unsigned to uint32_t
@@ -424,10 +428,15 @@ int center_text_pos(const char *text, int start_pos, int end_pos)
 
 std::string str_tolower( const std::string& source )
 {
-    icu::UnicodeString ustr = icu::UnicodeString::fromUTF8(source);
-    ustr.toLower();
     std::string ret = "";
-    ustr.toUTF8String(ret);
+#ifdef LOCALIZE
+    icu::UnicodeString ustr = icu::UnicodeString::fromUTF8( source );
+    ustr.toLower();
+    ustr.toUTF8String( ret );
+#else
+    ret.reserve( source.size() );
+    std::transform( source.begin(), source.end(), std::back_inserter(ret), ::tolower );
+#endif
     return ret;
 }
 
