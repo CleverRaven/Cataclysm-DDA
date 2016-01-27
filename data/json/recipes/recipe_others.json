@@ -7904,5 +7904,48 @@
     [ [ "wheel", 1 ] ],
     [ [ "motor", 1 ] ]
   ]
+},{
+  "type" : "recipe",
+  "result": "neoprene",
+  "category": "CC_CHEM",
+  "subcategory": "CSC_CHEM_OTHER",
+  "skill_used": "cooking",
+  "skills_required": [ "cooking", 4 ],
+  "difficulty": 4,
+  "time": 25000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [["adv_chemistry", 1] , ["textbook_chemistry", 1]],
+  "tools": [
+    [
+      [ "chemistry_set_basic", -1 ]
+    ],
+    [
+      [ "hotplate", 100 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 100 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "chem_ethanol", 2 ]
+    ],
+    [
+      [ "scrap_copper", 1 ]
+    ],
+    [
+      [ "acid", 1 ]
+    ],
+    [
+      [ "bleach", 2 ]
+    ],
+    [
+      [ "oxy_powder", 2 ]
+    ],
+    [
+      [ "scrap", 1 ]
+    ]
+  ]
 }
 ]
