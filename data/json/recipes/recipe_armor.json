@@ -9080,7 +9080,6 @@
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_SUIT",
   "skill_used": "tailor",
-  "skills_required" : [ "tailor", 4 ],
   "difficulty": 4,
   "time": 8000,
   "reversible": false,
@@ -9089,6 +9088,11 @@
   "tools": [
     [
       [ "sewing_kit", 50 ]
+    ],
+    [
+      [ "soldering_iron", 20 ],
+      [ "welder", 20 ],
+      [ "hotplate", 20 ]
     ]
   ],
   "components": [
@@ -9105,7 +9109,6 @@
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_SUIT",
   "skill_used": "tailor",
-  "skills_required" : [ "tailor", 3 ],
   "difficulty": 3,
   "time": 6000,
   "reversible": false,
@@ -9114,6 +9117,11 @@
   "tools": [
     [
       [ "sewing_kit", 40 ]
+    ],
+    [
+      [ "soldering_iron", 15],
+      [ "welder", 15 ],
+      [ "hotplate", 15 ]
     ]
   ],
   "components": [
@@ -9130,7 +9138,6 @@
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_SUIT",
   "skill_used": "tailor",
-  "skills_required" : [ "tailor", 3 ],
   "difficulty": 3,
   "time": 2500,
   "reversible": false,
@@ -9139,6 +9146,11 @@
   "tools": [
     [
       [ "sewing_kit", 20 ]
+    ],
+    [
+      [ "soldering_iron", 10],
+      [ "welder", 10 ],
+      [ "hotplate", 10 ]
     ]
   ],
   "components": [
