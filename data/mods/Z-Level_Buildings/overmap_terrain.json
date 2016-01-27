@@ -264,6 +264,222 @@
         "see_cost" : 5,
         "mondensity" : 2,
         "sidewalk" : true
-    }
+    },{
+	    "type" : "overmap_terrain",
+		"id" : "precinct_b_1",
+		"name" : "Precinct",
+		"sym" : 80,
+		"color" : "blue",
+		"see_cost" : 5,
+		"mondensity" : 2,
+		"sidewalk" : true
+	},{
+	    "type" : "overmap_terrain",
+		"id" : "precinct_b_2",
+		"name" : "Precinct",
+		"sym" : 80,
+		"color" : "blue",
+		"see_cost" : 5,
+		"mondensity" : 2,
+		"sidewalk" : true
+	},{
+	    "type" : "overmap_terrain",
+		"id" : "precinct_b_3",
+		"name" : "Precinct",
+		"sym" : 80,
+		"color" : "blue",
+		"see_cost" : 5,
+		"mondensity" : 2,
+		"sidewalk" : true
+	},{
+	    "type" : "overmap_terrain",
+		"id" : "precinct_b_4",
+		"name" : "Precinct",
+		"sym" : 80,
+		"color" : "blue",
+		"see_cost" : 5,
+		"mondensity" : 2,
+		"sidewalk" : true
+	},{
+	    "type" : "overmap_terrain",
+		"id" : "precinct_b_5",
+		"name" : "Precinct",
+		"sym" : 80,
+		"color" : "blue",
+		"see_cost" : 5,
+		"mondensity" : 2,
+		"sidewalk" : true
+	},{
+	    "type" : "overmap_terrain",
+		"id" : "precinct_b_6",
+		"name" : "Precinct",
+		"sym" : 80,
+		"color" : "blue",
+		"see_cost" : 5,
+		"mondensity" : 2,
+		"sidewalk" : true
+	},{
+	    "type" : "overmap_terrain",
+		"id" : "precinct_7",
+		"name" : "Precinct",
+		"sym" : 80,
+		"color" : "blue",
+		"see_cost" : 5,
+		"mondensity" : 2,
+		"sidewalk" : true
+	},{
+	    "type" : "overmap_terrain",
+		"id" : "precinct_8",
+		"name" : "Precinct",
+		"sym" : 80,
+		"color" : "blue",
+		"see_cost" : 5,
+		"mondensity" : 2,
+		"sidewalk" : true
+	},{
+	    "type" : "overmap_terrain",
+		"id" : "precinct_9",
+		"name" : "Precinct",
+		"sym" : 80,
+		"color" : "blue",
+		"see_cost" : 5,
+		"mondensity" : 2,
+		"sidewalk" : true
+	},{
+	    "type" : "overmap_terrain",
+		"id" : "precinct_10",
+		"name" : "Precinct",
+		"sym" : 80,
+		"color" : "blue",
+		"see_cost" : 5,
+		"mondensity" : 2,
+		"sidewalk" : true
+	},{
+	    "type" : "overmap_terrain",
+		"id" : "precinct_11",
+		"name" : "Precinct",
+		"sym" : 80,
+		"color" : "blue",
+		"see_cost" : 5,
+		"mondensity" : 2,
+		"sidewalk" : true
+	},{
+	    "type" : "overmap_terrain",
+		"id" : "precinct_12",
+		"name" : "Precinct",
+		"sym" : 80,
+		"color" : "blue",
+		"see_cost" : 5,
+		"mondensity" : 2,
+		"sidewalk" : true
+	},{
+	    "type" : "overmap_terrain",
+		"id" : "precinct_13",
+		"name" : "Precinct",
+		"sym" : 80,
+		"color" : "blue",
+		"see_cost" : 5,
+		"mondensity" : 2,
+		"sidewalk" : true
+	},{
+	    "type" : "overmap_terrain",
+		"id" : "precinct_14",
+		"name" : "Precinct",
+		"sym" : 80,
+		"color" : "blue",
+		"see_cost" : 5,
+		"mondensity" : 2,
+		"sidewalk" : true
+	},{
+	    "type" : "overmap_terrain",
+		"id" : "precinct_15",
+		"name" : "Precinct",
+		"sym" : 80,
+		"color" : "blue",
+		"see_cost" : 5,
+		"mondensity" : 2,
+		"sidewalk" : true
+	},{
+	    "type" : "overmap_terrain",
+		"id" : "precinct_16",
+		"name" : "Precinct",
+		"sym" : 80,
+		"color" : "blue",
+		"see_cost" : 5,
+		"mondensity" : 2,
+		"sidewalk" : true
+	},{
+	    "type" : "overmap_terrain",
+		"id" : "precinct_17",
+		"name" : "Precinct",
+		"sym" : 80,
+		"color" : "blue",
+		"see_cost" : 5,
+		"mondensity" : 2,
+		"sidewalk" : true
+	},{
+	    "type" : "overmap_terrain",
+		"id" : "precinct_18",
+		"name" : "Precinct",
+		"sym" : 80,
+		"color" : "blue",
+		"see_cost" : 5,
+		"mondensity" : 2,
+		"sidewalk" : true
+	},{
+	    "type" : "overmap_terrain",
+		"id" : "precinct_19",
+		"name" : "Precinct",
+		"sym" : 80,
+		"color" : "blue",
+		"see_cost" : 5,
+		"mondensity" : 2,
+		"sidewalk" : true
+	},{
+	    "type" : "overmap_terrain",
+		"id" : "precinct_20",
+		"name" : "Precinct",
+		"sym" : 80,
+		"color" : "blue",
+		"see_cost" : 5,
+		"mondensity" : 2,
+		"sidewalk" : true
+	},{
+	    "type" : "overmap_terrain",
+		"id" : "precinct_21",
+		"name" : "Precinct",
+		"sym" : 80,
+		"color" : "blue",
+		"see_cost" : 5,
+		"mondensity" : 2,
+		"sidewalk" : true
+	},{
+	    "type" : "overmap_terrain",
+		"id" : "precinct_22",
+		"name" : "Precinct",
+		"sym" : 80,
+		"color" : "blue",
+		"see_cost" : 5,
+		"mondensity" : 2,
+		"sidewalk" : true
+	},{
+	    "type" : "overmap_terrain",
+		"id" : "precinct_23",
+		"name" : "Precinct",
+		"sym" : 80,
+		"color" : "blue",
+		"see_cost" : 5,
+		"mondensity" : 2,
+		"sidewalk" : true
+	},{
+	    "type" : "overmap_terrain",
+		"id" : "precinct_24",
+		"name" : "Precinct",
+		"sym" : 80,
+		"color" : "blue",
+		"see_cost" : 5,
+		"mondensity" : 2,
+		"sidewalk" : true
+	}
 ]
 
