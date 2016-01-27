@@ -271,7 +271,6 @@ void MonsterGenerator::init_attack()
     attack_map["GENERATOR"] = &mattack::generator;
     attack_map["UPGRADE"] = &mattack::upgrade;
     attack_map["BREATHE"] = &mattack::breathe;
-    attack_map["BITE"] = &mattack::bite;
     attack_map["IMPALE"] = &mattack::impale;
     attack_map["BRANDISH"] = &mattack::brandish;
     attack_map["FLESH_GOLEM"] = &mattack::flesh_golem;
@@ -609,6 +608,8 @@ void set_attack_from_object(
 
     if( type == "leap" ) {
         special_attacks[type] = load_actor<leap_actor>( obj, cooldown );
+    } else if( type == "bite" ) {
+        special_attacks[type] = load_actor<bite_actor>( obj, cooldown );
     } else {
         obj.throw_error( "unknown monster attack", "type" );
         return;

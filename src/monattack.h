@@ -68,7 +68,6 @@ bool ratking            (monster *z);
 bool generator          (monster *z);
 bool upgrade            (monster *z);
 bool breathe            (monster *z);
-bool bite               (monster *z);
 bool brandish           (monster *z);
 bool flesh_golem        (monster *z);
 bool lunge              (monster *z);

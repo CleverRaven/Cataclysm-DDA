@@ -28,4 +28,30 @@ class leap_actor : public mattack_actor
         virtual mattack_actor *clone() const override;
 };
 
+class bite_actor : public mattack_actor
+{
+    public:
+        // Maximum damage (and possible tags) from the attack
+        damage_instance damage_max_instance;
+        // Minimum multiplier on damage above (rolled per attack)
+        float min_mul;
+        // Maximum multiplier on damage above (also per attack)
+        float max_mul;
+        // Cost in moves (for attacker)
+        int move_cost;
+        // If set, the attack will use a different accuracy from mon's
+        // regular melee attack.
+        int accuracy;
+        // one_in( this - damage dealt ) chance of getting infected
+        // ie. the higher is this, the lower chance of infection
+        int no_infection_chance;
+
+        bite_actor();
+        ~bite_actor() { }
+
+        void load( JsonObject &jo );
+        bool call( monster & ) const override;
+        virtual mattack_actor *clone() const override;
+};
+
 #endif
