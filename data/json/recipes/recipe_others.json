@@ -7928,24 +7928,12 @@
     ]
   ],
   "components": [
-    [
-      [ "chem_ethanol", 2 ]
-    ],
-    [
-      [ "scrap_copper", 1 ]
-    ],
-    [
-      [ "acid", 1 ]
-    ],
-    [
-      [ "bleach", 2 ]
-    ],
-    [
-      [ "oxy_powder", 50 ]
-    ],
-    [
-      [ "scrap", 1 ]
-    ]
+    [ [ "chem_ethanol", 2 ] ],
+    [ [ "scrap_copper", 1 ] ],
+    [ [ "acid", 1 ] ],
+    [ [ "bleach", 2 ] ],
+    [ [ "oxy_powder", 50 ] ],
+    [ [ "scrap", 1 ] ]
   ]
 }
 ]
