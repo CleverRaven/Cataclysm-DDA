@@ -689,6 +689,7 @@ void set_ter_ids() {
     t_window_enhanced=terfind("t_window_enhanced");
     t_window_enhanced_noglass=terfind("t_window_enhanced_noglass");
     t_window_bars_alarm=terfind("t_window_bars_alarm");
+    t_window_bars=terfind("t_window_bars");
     t_window_stained_green=terfind("t_window_stained_green");
     t_window_stained_red=terfind("t_window_stained_red");
     t_window_stained_blue=terfind("t_window_stained_blue");
