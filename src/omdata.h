@@ -16,17 +16,17 @@ using mongroup_id = string_id<MonsterGroup>;
 class overmap;
 
 struct overmap_spawns {
-    overmap_spawns(): group( NULL_ID ), min_population(0), max_population(0),
-        chance(0) {};
+    overmap_spawns(): group( NULL_ID ), min_population( 0 ), max_population( 0 ),
+        chance( 0 ) {};
     mongroup_id group;
     int min_population;
     int max_population;
     int chance;
 };
- //terrain flags enum! this is for tracking the indices of each flag.
-    //is_asphalt, is_building, is_subway, is_sewer, is_ants,
-    //is_base_terrain, known_down, known_up, is_river,
-    //is_road, has_sidewalk, allow_road, rotates, line_drawing
+//terrain flags enum! this is for tracking the indices of each flag.
+//is_asphalt, is_building, is_subway, is_sewer, is_ants,
+//is_base_terrain, known_down, known_up, is_river,
+//is_road, has_sidewalk, allow_road, rotates, line_drawing
 enum oter_flags {
     is_asphalt = 0,
     is_building,
@@ -34,11 +34,11 @@ enum oter_flags {
     is_sewer,
     is_ants,
     is_base_terrain,
-    known_down, 
-    known_up, 
-    river_tile, 
-    road_tile, 
-    has_sidewalk, 
+    known_down,
+    known_up,
+    river_tile,
+    road_tile,
+    has_sidewalk,
     allow_road,
     rotates, // does this tile have four versions, one for each direction?
     line_drawing, // does this tile have 8 versions, including straights, bends, tees, and a fourway?
@@ -46,38 +46,39 @@ enum oter_flags {
 };
 
 struct oter_t {
-    std::string id;      // definitive identifier
-    unsigned loadid;          // position in termap / terlist
-    std::string name;
-    long sym; // This is a long, so we can support curses linedrawing
-    nc_color color;
-    unsigned char see_cost; // Affects how far the player can see in the overmap
-    std::string extras;
-    int mondensity;
-    // bool disable_default_mapgen;
-    // automatically set. We can be wasteful of memory here for num_oters * sizeof(extrastuff), if it'll save us from thousands of string ops
-    std::string
-    id_base; // base identifier; either the same as id, or id without directional variations. (ie, 'house' / 'house_west' )
-    unsigned loadid_base; // self || directional_peers[0]? or seperate base_oter_map ?
-    std::vector<int> directional_peers; // fast reliable (?) method of determining whatever_west, etc.
-    std::string id_mapgen;  // *only* for mapgen and almost always == id_base. Unless line_drawing / road.
+        std::string id;      // definitive identifier
+        unsigned loadid;          // position in termap / terlist
+        std::string name;
+        long sym; // This is a long, so we can support curses linedrawing
+        nc_color color;
+        unsigned char see_cost; // Affects how far the player can see in the overmap
+        std::string extras;
+        int mondensity;
+        // bool disable_default_mapgen;
+        // automatically set. We can be wasteful of memory here for num_oters * sizeof(extrastuff), if it'll save us from thousands of string ops
+        std::string
+        id_base; // base identifier; either the same as id, or id without directional variations. (ie, 'house' / 'house_west' )
+        unsigned loadid_base; // self || directional_peers[0]? or seperate base_oter_map ?
+        std::vector<int> directional_peers; // fast reliable (?) method of determining whatever_west, etc.
+        std::string
+        id_mapgen;  // *only* for mapgen and almost always == id_base. Unless line_drawing / road.
 
-    // Spawns are added to the submaps *once* upon mapgen of the submaps
-    overmap_spawns static_spawns;
-    //this bitset contains boolean values for:
-    //is_asphalt, is_building, is_subway, is_sewer, is_ants,
-    //is_base_terrain, known_down, known_up, is_river,
-    //is_road, has_sidewalk, allow_road, rotates, line_drawing
-  private:
-    std::bitset<num_oter_flags> flags; //contains a bitset for all the bools this terrain might have.
-  public:
-      bool has_flag(oter_flags flag) const {
-          return flags[flag];
-      }
+        // Spawns are added to the submaps *once* upon mapgen of the submaps
+        overmap_spawns static_spawns;
+        //this bitset contains boolean values for:
+        //is_asphalt, is_building, is_subway, is_sewer, is_ants,
+        //is_base_terrain, known_down, known_up, is_river,
+        //is_road, has_sidewalk, allow_road, rotates, line_drawing
+    private:
+        std::bitset<num_oter_flags> flags; //contains a bitset for all the bools this terrain might have.
+    public:
+        bool has_flag( oter_flags flag ) const {
+            return flags[flag];
+        }
 
-      void set_flag(oter_flags flag, bool value = true) {
-          flags[flag] = value;
-      }
+        void set_flag( oter_flags flag, bool value = true ) {
+            flags[flag] = value;
+        }
 };
 
 struct oter_id {
@@ -86,37 +87,37 @@ struct oter_id {
     // Hi, I'm an
     operator int() const;
     // pretending to be a
-    operator std::string const&() const;
+    operator std::string const &() const;
     // in order to map
     operator oter_t() const;
 
     const oter_t &t() const;
 
     // set and compare by string
-    const unsigned &operator=(const int &i);
-    bool operator!=(const char *v) const;
-    bool operator==(const char *v) const;
-    bool operator>=(const char *v) const;
-    bool operator<=(const char *v) const;
+    const unsigned &operator=( const int &i );
+    bool operator!=( const char *v ) const;
+    bool operator==( const char *v ) const;
+    bool operator>=( const char *v ) const;
+    bool operator<=( const char *v ) const;
 
     // or faster, with another oter_id
-    bool operator!=(const oter_id &v) const;
-    bool operator==(const oter_id &v) const;
+    bool operator!=( const oter_id &v ) const;
+    bool operator==( const oter_id &v ) const;
 
 
     // initialize as raw value
-    oter_id() : _val(0) { };
-    oter_id(int i) : _val(i) { };
+    oter_id() : _val( 0 ) { };
+    oter_id( int i ) : _val( i ) { };
     // or as "something" by consulting otermap
-    oter_id(const std::string &v);
-    oter_id(const char *v);
+    oter_id( const std::string &v );
+    oter_id( const char *v );
 
     // these std::string functions are provided for convenience, for others,
     //  best invoke as actual string; std::string( ter(1, 2, 3) ).substr(...
     const char *c_str() const;
     size_t size() const;
-    int find(const std::string &v, const int start, const int end) const;
-    int compare(size_t pos, size_t len, const char *s, size_t n = 0) const;
+    int find( const std::string &v, const int start, const int end ) const;
+    int compare( size_t pos, size_t len, const char *s, size_t n = 0 ) const;
 };
 
 
@@ -138,8 +139,8 @@ typedef oter_id oter_iid;
 #define OMSPEC_FREQ 15
 
 struct overmap_special_spawns {
-    overmap_special_spawns(): group( NULL_ID ), min_population(0), max_population(0),
-        min_radius(0), max_radius(0) {};
+    overmap_special_spawns(): group( NULL_ID ), min_population( 0 ), max_population( 0 ),
+        min_radius( 0 ), max_radius( 0 ) {};
     mongroup_id group;
     int min_population;
     int max_population;
@@ -158,9 +159,8 @@ struct overmap_special_terrain {
 class overmap_special
 {
     public:
-        bool operator<(const overmap_special &right) const
-        {
-            return (this->id.compare(right.id) < 0);
+        bool operator<( const overmap_special &right ) const {
+            return ( this->id.compare( right.id ) < 0 );
         }
         std::string id;
         std::list<overmap_special_terrain> terrains;
@@ -174,7 +174,7 @@ class overmap_special
         std::set<std::string> flags;
 };
 
-void load_overmap_specials(JsonObject &jo);
+void load_overmap_specials( JsonObject &jo );
 
 void clear_overmap_specials();
 
