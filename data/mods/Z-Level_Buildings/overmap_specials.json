@@ -55,6 +55,46 @@
     "unique" : false, "//":"only allow one per city",
     "required" : false, "//":"is this special required for valid city sizes",
     "flags" : [ "CLASSIC" ]
+  },{
+    "type" : "overmap_special",
+    "id" : "Precinct",
+    "overmaps" : [
+      { "point":[0,0,0], "overmap": "precinct_7"},
+      { "point":[1,0,0], "overmap": "precinct_8", "connect": "road"},
+      { "point":[2,0,0], "overmap": "precinct_9"},
+      { "point":[0,1,0], "overmap": "precinct_10", "connect": "road"},
+	  { "point":[1,1,0], "overmap": "precinct_11", "connect": "road"},
+	  { "point":[2,1,0], "overmap": "precinct_12", "connect": "road"},
+
+      { "point":[0,0,-1], "overmap": "precinct_b_1"},
+      { "point":[1,0,-1], "overmap": "precinct_b_2"},
+      { "point":[2,0,-1], "overmap": "precinct_b_3"},
+      { "point":[0,1,-1], "overmap": "precinct_b_4"},
+	  { "point":[1,1,-1], "overmap": "precinct_b_5"},
+	  { "point":[2,1,-1], "overmap": "precinct_b_6"},
+
+      { "point":[0,0,1], "overmap": "precinct_13"},
+      { "point":[1,0,1], "overmap": "precinct_14"},
+      { "point":[2,0,1], "overmap": "precinct_15"},
+      { "point":[0,1,1], "overmap": "precinct_16"},
+	  { "point":[1,1,1], "overmap": "precinct_17"},
+	  { "point":[2,1,1], "overmap": "precinct_18"},
+
+      { "point":[0,0,2], "overmap": "precinct_19"},
+      { "point":[1,0,2], "overmap": "precinct_20"},
+      { "point":[2,0,2], "overmap": "precinct_21"},
+      { "point":[0,1,2], "overmap": "precinct_22"},
+	  { "point":[1,1,2], "overmap": "precinct_23"},
+	  { "point":[2,1,2], "overmap": "precinct_24"}
+    ],
+    "locations" : [ "wilderness" ], "//":"what special locations does it spawn",
+    "city_distance" : [-1, 3], "//":"how far from a city it should be",
+    "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
+    "occurrences" : [1, 1], "//":"how many per overmap",
+    "rotate" : false, "//":"allow rotation",
+    "unique" : true, "//":"only allow one per city",
+    "required" : false, "//":"is this special required for valid city sizes",
+    "flags" : ["CLASSIC", "ROTATE"]
   }
 ]
 
