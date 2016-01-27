@@ -242,7 +242,7 @@
         "flags" : [ "COMPACT_MAG" ]
     },
     {   "type" : "MAGAZINE",
-        "id" : "mp5mag",
+        "id" : "mp5bigmag",
         "price" : 6920,
         "name" : "MP5 extended magazine",
         "symbol" : "#",
