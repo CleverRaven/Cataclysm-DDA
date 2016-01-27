@@ -1565,9 +1565,6 @@ void player::recalc_speed_bonus()
     int carry_penalty = 0;
     if (weight_carried() > weight_capacity()) {
         carry_penalty = 25 * (weight_carried() - weight_capacity()) / (weight_capacity());
-        if( move_mode == "run" ) {
-            carry_penalty *= 2;
-        }
     }
     mod_speed_bonus(-carry_penalty);
 
