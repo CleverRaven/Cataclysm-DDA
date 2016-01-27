@@ -4236,18 +4236,34 @@ item_location item::pick_reload_ammo( player &u, bool interactive ) const
         std::for_each( contents.begin(), contents.end(), wants_ammo );
     }
 
-    // first check the inventory for suitable ammo
     std::vector<item_location> ammo_list;
-    u.visit_items( [&]( const item& it ) {
-        if( ( it.is_ammo() && ( item_types.count( it.ammo_current() ) || ammo_types.count( it.ammo_type() ) ) ) ||
-            ( it.is_magazine() && compat_mag.count( it.typeId() ) ) ) {
 
-            auto loc = item_location::on_character( u, &it );
-            ammo_list.push_back( std::move( loc ) );
+    auto filter = [&item_types,&ammo_types,&compat_mag]( const item *e ) {
+        return ( e->is_ammo() && ( item_types.count( e->ammo_current() ) || ammo_types.count( e->ammo_type() ) ) ) ||
+               ( e->is_magazine() && compat_mag.count( e->typeId() ) );
+    };
+
+    // first check the inventory for suitable ammo
+    u.visit_items( [&ammo_list,&filter,&u]( const item *node, const item * ) {
+        if( filter( node ) ) {
+            ammo_list.emplace_back( item_location::on_character( u, node ) );
         }
-
-        return ( it.is_magazine() || it.is_gun() || it.is_tool() ) ? VisitResponse::SKIP : VisitResponse::NEXT;
+        return ( node->is_magazine() || node->is_gun() || node->is_tool() ) ? VisitResponse::SKIP : VisitResponse::NEXT;
     });
+
+    for( const auto &pos : closest_tripoints_first( 1, u.pos() ) ) {
+        // next check for items on adjacent map tiles
+        if( g->m.accessible_items( u.pos(), pos, 1 ) ) {
+            for( auto& e : g->m.i_at( pos ) ) {
+                e.visit_items( [&ammo_list,&filter,&pos]( const item *node, const item * ) {
+                    if( filter( node ) ) {
+                        ammo_list.emplace_back( item_location::on_map( pos, node ) );
+                    }
+                    return ( node->is_magazine() || node->is_gun() || node->is_tool() ) ? VisitResponse::SKIP : VisitResponse::NEXT;
+                });
+            }
+        }
+    }
 
     if( ammo_list.empty() ) {
         if( interactive ) {
@@ -4265,10 +4281,11 @@ item_location item::pick_reload_ammo( player &u, bool interactive ) const
     amenu.w_y = 0;
     amenu.w_x = 0;
     amenu.w_width = TERMX;
+    // 40: item location
     // 40: = 4 * ammo stats colum (10 chars each)
     // 2: prefix from uimenu: hotkey + space in front of name
     // 4: borders: 2 char each ("| " and " |")
-    const int namelen = TERMX - 2 - 40 - 4;
+    const int namelen = TERMX - 40 - 40 - 2 - 4;
 
     std::string lastreload = "";
     if( uistate.lastreload.find( ammo_type() ) != uistate.lastreload.end() ) {
@@ -4283,8 +4300,8 @@ item_location item::pick_reload_ammo( player &u, bool interactive ) const
     }
     // To cover the space in the header that is used by the hotkeys created by uimenu
     amenu.text.insert( 0, "  " );
-    //~ header of table that appears when reloading, each colum must contain exactly 10 characters
-    amenu.text += _( "| Damage  | Pierce  | Range   | Accuracy" );
+    //~ header of table that appears when reloading
+    amenu.text += _( "| Location                              | Damage  | Pierce  | Range   | Accuracy" );
     int i = 0;
     for( auto& e : ammo_list ) {
         const item *it = e.get_item();
@@ -4307,7 +4324,10 @@ item_location item::pick_reload_ammo( player &u, bool interactive ) const
         const auto ammo_pierce     = curammo ? curammo->ammo->pierce : 0;
         const auto ammo_range      = curammo ? curammo->ammo->range  : 0;
         const auto ammo_dispersion = curammo ? 100 - curammo->ammo->dispersion : 0;
-        row += string_format( "| %-7d | %-7d | %-7d | %-7d", ammo_damage, ammo_pierce, ammo_range, ammo_dispersion );
+
+       row += string_format( "| %-37s | %-7d | %-7d | %-7d | %-7d",
+                              utf8_truncate( e.describe( &g->u ), 37 ).c_str(),
+                              ammo_damage, ammo_pierce, ammo_range, ammo_dispersion );
 
         amenu.addentry( i, true, i + 'a', row );
         if( lastreload == it->type->id ) {
@@ -5007,14 +5027,14 @@ void item::mark_as_used_by_player(const player &p)
     used_by_ids += string_format( "%d;", p.getID() );
 }
 
-VisitResponse item::visit_items( const std::function<VisitResponse(item&)>& func ) {
-    switch( func( *this ) ) {
+static inline VisitResponse visit_internal( const std::function<VisitResponse(item *, item *)>& func, item *node, item *parent ) {
+    switch( func( node, parent ) ) {
         case VisitResponse::ABORT:
             return VisitResponse::ABORT;
 
         case VisitResponse::NEXT:
-            for( auto& e : contents ) {
-                if( e.visit_items( func ) == VisitResponse::ABORT ) {
+            for( auto& e : node->contents ) {
+                if( visit_internal( func, &e, node ) == VisitResponse::ABORT ) {
                     return VisitResponse::ABORT;
                 }
             }
@@ -5028,17 +5048,43 @@ VisitResponse item::visit_items( const std::function<VisitResponse(item&)>& func
     return VisitResponse::ABORT;
 }
 
-VisitResponse item::visit_items( const std::function<VisitResponse(const item&)>& func ) const {
-    return const_cast<item *>( this )->visit_items( static_cast<const std::function<VisitResponse(item&)>&>( func ) );
+VisitResponse item::visit_items( const std::function<VisitResponse(item *, item *)>& func )
+{
+    return visit_internal( func, this, nullptr );
+}
+
+VisitResponse item::visit_items( const std::function<VisitResponse(const item *, const item *)>& func ) const
+{
+    return visit_internal( func, const_cast<item *>( this ), nullptr );
+}
+
+item * item::find_parent( item& it )
+{
+    item *res = nullptr;
+    if( visit_items( [&]( item *node, item *parent ){
+        if( node == &it ) {
+            res = parent;
+            return VisitResponse::ABORT;
+        }
+        return VisitResponse::NEXT;
+    } ) != VisitResponse::ABORT ) {
+        debugmsg( "Tried to find item parent using an item that doesn't contain it" );
+    }
+    return res;
+}
+
+const item * item::find_parent( const item& it ) const
+{
+    return const_cast<item *>( this )->find_parent( const_cast<item&>( it ) );
 }
 
 bool item::contains( const std::function<bool(const item&)>& filter ) const {
-    return visit_items( [&filter] ( const item& e ) {
-        return filter( e ) ? VisitResponse::ABORT : VisitResponse::NEXT;
+    return visit_items( [&filter] ( const item *node, const item * ) {
+        return filter( *node ) ? VisitResponse::ABORT : VisitResponse::NEXT;
     }) == VisitResponse::ABORT;
 }
 
-bool item::can_holster ( const item& obj ) const {
+bool item::can_holster ( const item& obj, bool ignore ) const {
     if( !type->can_use("holster") ) {
         return false; // item is not a holster
     }
@@ -5048,7 +5094,7 @@ bool item::can_holster ( const item& obj ) const {
         return false; // item is not a suitable holster for obj
     }
 
-    if( (int) contents.size() >= ptr->multi ) {
+    if( !ignore && (int) contents.size() >= ptr->multi ) {
         return false; // item is already full
     }
 

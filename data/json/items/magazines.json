@@ -13,7 +13,8 @@
         "ammo_type" : "223",
         "capacity" : 30,
         "reliability" : 10,
-        "reload_time" : 30
+        "reload_time" : 30,
+        "flags": [ "COMPACT_MAG" ]
     },
     {   "type" : "MAGAZINE",
         "id" : "belt223",
@@ -49,6 +50,7 @@
         "capacity" : 15,
         "reliability" : 10,
         "reload_time" : 40,
+        "flags": [ "COMPACT_MAG" ],
         "alternatives" : [
             [ "45", [ "usp45mag" ] ]
         ]
@@ -68,6 +70,7 @@
         "capacity" : 12,
         "reliability" : 10,
         "reload_time" : 35,
+        "flags": [ "COMPACT_MAG" ],
         "alternatives" : [
             [ "9mm", [ "glockmag" ] ]
         ]

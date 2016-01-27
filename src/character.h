@@ -240,11 +240,20 @@ class Character : public Creature
         }
 
         /** Traverses wielded, worn and inventory items and using a visitor function
-         * @return Similar to item::visit returns only VisitResponse::Next or VisitResponse::Abort
-         * @see item::visit
+         * @return Similar to item::visit_items returns only VisitResponse::Next or VisitResponse::Abort
+         * @see item::visit_items
          **/
-        VisitResponse visit_items( const std::function<VisitResponse(item&)>& func );
-        VisitResponse visit_items( const std::function<VisitResponse(const item&)>& func ) const;
+        VisitResponse visit_items( const std::function<VisitResponse(item *, item *)>& func );
+        VisitResponse visit_items( const std::function<VisitResponse(const item *, const item *)>& func ) const;
+
+        /**
+         *  Determine the parent container (if any) for an item.
+         *  Wielded and worn items are checked first as these are typically the most frequently requested
+         *  @param it item to search for which must be in the characters possession
+         *  @return parent container or nullptr if the item is not within a container
+         */
+        item * find_parent( item& it );
+        const item * find_parent( const item& it ) const;
 
         /**
          * Test whether an item in the playerts possession matches a certain filter.
