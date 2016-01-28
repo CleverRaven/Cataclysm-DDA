@@ -134,7 +134,7 @@ Pickup::interact_results Pickup::interact_with_vehicle( vehicle *veh, const trip
     case DRINK: {
         veh->drain("water_clean", 1);
         item water( "water_clean", 0 );
-        g->u.eat(&water, dynamic_cast<const it_comest *>(water.type));
+        g->u.eat( water );
         g->u.moves -= 250;
         return DONE;
         }

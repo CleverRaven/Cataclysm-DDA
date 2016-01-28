@@ -707,19 +707,18 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Used for eating a particular item that doesn't need to be in inventory.
          *  Returns true if the item is to be removed (doesn't remove). */
         bool consume_item( item &eat );
-        /** Used for eating entered comestible, returns true if comestible is successfully eaten */
-        bool eat( item &eat );
 
         /** This block is to be moved to character.h */
         bool is_allergic( const item &food ) const;
         /** Returns allergy type or MORALE_NULL if not allergic for this player */
         morale_type allergy_type( const item &food ) const;
-        bool eat( const item &food, bool force = false );
+        /** Used for eating entered comestible, returns true if comestible is successfully eaten */
+        bool eat( item &food, bool force = false );
         edible_rating can_eat( const item &food,
             bool interactive = false, bool force = false ) const;
 
         /** Handles the nutrition value for a comestible **/
-        int nutrition_for(const it_comest *comest);
+        int nutrition_for(const it_comest *comest) const;
         /** Handles the effects of consuming an item */
         void consume_effects( item &eaten, bool rotten = false );
         /** Handles rooting effects */
@@ -1108,6 +1107,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool last_climate_control_ret;
         std::string move_mode;
         int power_level, max_power_level;
+        int thirst;
         int fatigue;
         int tank_plut, reactor_plut, slow_rad;
         int oxygen;

@@ -2132,7 +2132,7 @@ void iexamine::keg(player *p, map *m, const tripoint &examp)
             return;
 
         case HAVE_A_DRINK:
-            if( !p->eat( &*drink, dynamic_cast<const it_comest *>(drink->type) ) ) {
+            if( !p->eat( *drink ) ) {
                 return; // They didn't actually drink
             }
 
