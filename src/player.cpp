@@ -9764,7 +9764,7 @@ bool player::consume_item( item &target )
     int amount_used = 1;
     if (comest != NULL) {
         if (comest->comesttype == "FOOD" || comest->comesttype == "DRINK") {
-            if( !eat( *to_eat, comest ) ) {
+            if( !eat( *to_eat ) ) {
                 return false;
             }
         } else if (comest->comesttype == "MED") {
@@ -9881,38 +9881,6 @@ bool player::consume(int target_position)
     }
 
     return true;
-}
-
-int player::nutrition_for(const it_comest *comest) const
-{
-    // First value is hunger, second is nutrition multiplier
-    using threshold_pair = std::pair<int, float>;
-    static const std::array<threshold_pair, 7> thresholds = {{
-        { INT_MIN, 1.0f },
-        { 100, 1.0f },
-        { 300, 2.0f },
-        { 1400, 4.0f },
-        { 2800, 6.0f },
-        { 6000, 10.0f },
-        { INT_MAX, 10.0f }
-    }};
-
-    const int hng = get_hunger();
-    // Find the first threshold > hunger
-    int i = 1;
-    while( thresholds[i].first <= hng ) {
-        i++;
-    }
-
-    // How far are we along the way from last threshold to current one
-    const float t = (hng - thresholds[i - 1].first) /
-            (thresholds[i].first - thresholds[i - 1].first);
-
-    // Linear interpolation of values at relevant thresholds
-    const float modifier = (t * thresholds[i].second) +
-        ((1 - t) * thresholds[i - 1].second);
-
-    return (int)(comest->get_nutrition() * modifier);
 }
 
 void player::rooted_message() const

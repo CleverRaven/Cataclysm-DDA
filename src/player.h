@@ -717,6 +717,9 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         edible_rating can_eat( const item &food,
             bool interactive = false, bool force = false ) const;
 
+        /** Gets player's minimum hunger and thirst */
+        int stomach_capacity() const;
+
         /** Handles the nutrition value for a comestible **/
         int nutrition_for(const it_comest *comest) const;
         /** Handles the effects of consuming an item */
