@@ -4505,6 +4505,12 @@
           "rotates": false
         },
         {
+          "id": "broadsword_inferior",
+          "fg": 2062,
+          "bg": 505,
+          "rotates": false
+        },
+        {
           "id": "broccoli",
           "fg": 634,
           "bg": 505,
@@ -6456,6 +6462,12 @@
         },
         {
           "id": "katana_fake",
+          "fg": 2161,
+          "bg": 505,
+          "rotates": false
+        },
+        {
+          "id": "katana_inferior",
           "fg": 2161,
           "bg": 505,
           "rotates": false
@@ -9665,6 +9677,12 @@
         },
         {
           "id": "zweihander_fake",
+          "fg": 2283,
+          "bg": 505,
+          "rotates": false
+        },
+        {
+          "id": "zweihander_inferior",
           "fg": 2283,
           "bg": 505,
           "rotates": false
@@ -21522,6 +21540,11 @@
           "rotates": false
         },
         {
+          "id": "cutlass_inferior",
+          "fg": 2623,
+          "rotates": false
+        },
+        {
           "id": "m60",
           "fg": 2624,
           "rotates": false
@@ -22235,6 +22258,16 @@
           "rotates": false
         },
         {
+          "id": "battleaxe_fake",
+          "fg": 2729,
+          "rotates": false
+        },
+        {
+          "id": "battleaxe_inferior",
+          "fg": 2729,
+          "rotates": false
+        },
+        {
           "id": "primitive_axe",
           "fg": 2730,
           "rotates": false
@@ -22436,6 +22469,11 @@
           "rotates": false
         },
         {
+          "id": "scimitar_inferior",
+          "fg": 2762,
+          "rotates": false
+        },
+        {
           "id": "sword_xiphos",
           "fg": 2763,
           "rotates": false
@@ -22456,6 +22494,11 @@
           "rotates": false
         },
         {
+          "id": "jian_inferior",
+          "fg": 2765,
+          "rotates": false
+        },
+        {
           "id": "arming_sword",
           "fg": 2766,
           "rotates": false
@@ -22466,12 +22509,22 @@
           "rotates": false
         },
         {
+          "id": "arming_sword_inferior",
+          "fg": 2766,
+          "rotates": false
+        },
+        {
           "id": "longsword",
           "fg": 2767,
           "rotates": false
         },
         {
           "id": "longsword_fake",
+          "fg": 2767,
+          "rotates": false
+        },
+        {
+          "id": "longsword_inferior",
           "fg": 2767,
           "rotates": false
         },
@@ -23155,6 +23208,11 @@
         },
         {
           "id": "wakizashi_fake",
+          "fg": 2867,
+          "rotates": false
+        },
+        {
+          "id": "wakizashi_inferior",
           "fg": 2867,
           "rotates": false
         },
