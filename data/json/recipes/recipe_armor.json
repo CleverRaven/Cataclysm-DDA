@@ -9097,10 +9097,10 @@
   ],
   "components": [
     [
-      [ "neoprene", 20 ]
+      [ "neoprene", 12 ]
     ],
     [
-      [ "rag", 20 ]
+      [ "rag", 12 ]
     ]
   ]
 },{
@@ -9126,10 +9126,10 @@
   ],
   "components": [
     [
-      [ "neoprene", 14 ]
+      [ "neoprene", 8 ]
     ],
     [
-      [ "rag", 14 ]
+      [ "rag", 8 ]
     ]
   ]
 },{
@@ -9155,10 +9155,155 @@
   ],
   "components": [
     [
-      [ "neoprene", 6 ]
+      [ "neoprene", 4 ]
     ],
     [
       [ "rag", 2 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "armguard_hard",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_SUIT",
+  "skill_used": "tailor",
+  "difficulty": 3,
+  "time": 25000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "textbook_tailor", 3 ] , [ "manual_tailor", 4 ] , ["tailor_portfolio", 3]],
+  "tools": [
+    [
+      [ "sewing_kit", 25 ]
+    ],
+    [
+      [ "soldering_iron", 15],
+      [ "welder", 15 ],
+      [ "hotplate", 15 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "neoprene", 6 ]
+    ],
+    [
+      [ "plastic_chunk", 8 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "legguard_hard",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_SUIT",
+  "skill_used": "tailor",
+  "difficulty": 3,
+  "time": 15000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "textbook_tailor", 3 ] , [ "manual_tailor", 4 ] , ["tailor_portfolio", 3]],
+  "tools": [
+    [
+      [ "sewing_kit", 25 ]
+    ],
+    [
+      [ "soldering_iron", 15],
+      [ "welder", 15 ],
+      [ "hotplate", 15 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "neoprene", 6 ]
+    ],
+    [
+      [ "plastic_chunk", 8 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "wetsuit_hood",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_SUIT",
+  "skill_used": "tailor",
+  "difficulty": 4,
+  "time": 120000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "textbook_tailor", 4 ] , [ "manual_tailor", 5 ] , ["tailor_portfolio", 4]],
+  "tools": [
+    [
+      [ "sewing_kit", 10 ]
+    ],
+    [
+      [ "soldering_iron", 5 ],
+      [ "welder", 5 ],
+      [ "hotplate", 5 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "neoprene", 2 ]
+    ],
+    [
+      [ "rag", 2 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "wetsuit_booties",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_SUIT",
+  "skill_used": "tailor",
+  "difficulty": 4,
+  "time": 120000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "textbook_tailor", 4 ] , [ "manual_tailor", 5 ] , ["tailor_portfolio", 4]],
+  "tools": [
+    [
+      [ "sewing_kit", 10 ]
+    ],
+    [
+      [ "soldering_iron", 5 ],
+      [ "welder", 5 ],
+      [ "hotplate", 5 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "neoprene", 2 ]
+    ],
+    [
+      [ "rag", 2 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "wetsuit_gloves",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_SUIT",
+  "skill_used": "tailor",
+  "difficulty": 4,
+  "time": 60000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "textbook_tailor", 4 ] , [ "manual_tailor", 5 ] , ["tailor_portfolio", 4]],
+  "tools": [
+    [
+      [ "sewing_kit", 5 ]
+    ],
+    [
+      [ "soldering_iron", 3 ],
+      [ "welder", 3 ],
+      [ "hotplate", 3 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "neoprene", 1 ]
+    ],
+    [
+      [ "rag", 1 ]
     ]
   ]
 }
