@@ -51,7 +51,12 @@
     "vision_night":20,
     "hp":10,
     "death_function":"NORMAL",
-    "special_attacks":[["BITE", 0]],
+    "special_attacks":[
+        {
+            "type" : "bite",
+            "cooldown" : 0
+        }
+    ],
     "description":"One of the vesper bats, a family of winged insect-eating mammals.  It roosts in caves and other hollows, and uses a form of echolocation to aerially navigate through tricky terrain at rapid speeds.",
     "flags":["SEES", "SMELLS", "HEARS", "GOODHEARING", "WARM", "FLIES", "ANIMAL", "BONES", "LEATHER"],
     "fear_triggers":["SOUND", "PLAYER_CLOSE"],
@@ -170,7 +175,13 @@
     "death_function":"SMOKEBURST",
     "description":"A smoking husk is all that remains of this once proud bear.  Its black eyes gaze at you with malice... and hunger.",
     "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FUR", "BLEED", "BASHES", "ATTACKMON", "BONES", "FAT", "FIREPROOF", "NO_BREATHE", "POISON"],
-    "special_attacks":[["SMOKECLOUD", 1], ["BITE", 5]],
+    "special_attacks":[
+        ["SMOKECLOUD", 1],
+        {
+            "type" : "bite",
+            "cooldown" : 5
+        }
+    ],
     "anger_triggers":["HURT", "PLAYER_CLOSE"],
     "placate_triggers":["MEAT"],
     "categories":["WILDLIFE"]
@@ -1541,7 +1552,13 @@
     },
     "hp":80,
     "death_function":"NORMAL",
-    "special_attacks":[["BITE", 5], ["GRAB", 7]],
+    "special_attacks":[
+        {
+            "type" : "bite",
+            "cooldown" : 5
+        },
+        ["GRAB", 7]
+    ],
     "description":"A human body, swaying as it moves, an unstoppable rage is visible in its oily black eyes.",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "BLEED", "NO_BREATHE", "REVIVES", "BONES", "PUSH_MON"],
     "categories":["CLASSIC"]
@@ -1575,7 +1592,13 @@
     },
     "hp":95,
     "death_function":["NORMAL"],
-    "special_attacks":[["BITE", 5]],
+    "special_attacks":[
+        {
+            "type" : "bite",
+            "cooldown" : 5,
+            "min_mul" : 0.75, "//" : "Fat zombies have stronger jaws"
+        }
+    ],
     "description":"Stumbling as it moves, this corpse of an overweight human regards its surroundings with an empty black gaze.",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "BLEED", "NO_BREATHE", "REVIVES", "BONES", "FAT", "PUSH_MON"],
     "categories":["CLASSIC"]
@@ -1605,7 +1628,14 @@
     "death_drops": "default_zombie_death_drops",
     "hp":100,
     "death_function":["NORMAL"],
-    "special_attacks":[["BITE", 5], ["GRAB", 7]],
+    "special_attacks":[
+        {
+            "type" : "bite",
+            "cooldown" : 5,
+            "min_mul" : 0.7
+        },
+        ["GRAB", 7]
+    ],
     "description":"Once an athletic human, now a brutal monster.  Its facial features are twisted into an expression of pure rage.",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "BLEED", "NO_BREATHE", "REVIVES", "BONES", "PUSH_MON"],
     "categories":["CLASSIC"]
@@ -1635,7 +1665,12 @@
     "death_drops": "default_zombie_death_drops",
     "hp":60,
     "death_function":["NORMAL"],
-    "special_attacks":[["BITE", 5]],
+    "special_attacks":[
+        {
+            "type" : "bite",
+            "cooldown" : 5
+        }
+    ],
     "description":"This human corpse drags itself along slowly with its arms.  Its legs are damaged beyond repair.",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GRABS", "POISON", "BLEED", "NO_BREATHE", "REVIVES", "BONES"],
     "categories":["CLASSIC"]
@@ -1728,7 +1763,15 @@
     "death_drops": "mon_zombie_survivor_death_drops",
     "hp":120,
     "death_function":["NORMAL"],
-    "special_attacks":[["SHRIEK", 20], ["BITE", 5], ["GRAB", 7]],
+    "special_attacks":[
+        ["SHRIEK", 20],
+        {
+            "type" : "bite",
+            "cooldown" : 5,
+            "min_mul" : 1.0
+        },
+        ["GRAB", 7]
+    ],
     "description":"Still wearing the tattered remnants of improvised armor and weaponry, it is plain to see that this zombie was once a survivor like you.",
     "flags":["SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "BONES", "PUSH_MON"]
     },{
@@ -1745,7 +1788,7 @@
     "aggression":100,
     "morale":100,
     "speed":70,
-    "melee_skill":3,
+    "melee_skill":1,
     "melee_dice":2,
     "melee_dice_sides":2,
     "melee_cut":0,
@@ -1757,7 +1800,15 @@
     "death_drops": "default_zombie_death_drops",
     "hp":55,
     "death_function":["NORMAL"],
-    "special_attacks":[["BITE", 2], ["GRAB", 7]],
+    "special_attacks":[
+        {
+            "type" : "bite",
+            "cooldown" : 2,
+            "accuracy" : 3,
+            "no_infection_chance" : 10
+        },
+        ["GRAB", 7]
+    ],
     "description":"A once-dead human corpse.  Its discolored swollen flesh is riddled with festering wounds and open sores.",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "BLEED", "NO_BREATHE", "REVIVES", "BONES", "PUSH_MON"],
     "categories":["CLASSIC"]
@@ -1979,7 +2030,13 @@
     "luminance":8,
     "hp":85,
     "death_function":["NORMAL"],
-    "special_attacks":[["SHOCKSTORM", 25], ["BITE", 5]],
+    "special_attacks":[
+        ["SHOCKSTORM", 25],
+        {
+            "type" : "bite",
+            "cooldown" : 5
+        }
+    ],
     "special_when_hit":["ZAPBACK", 100],
     "description":"A human body with pale blue flesh, crackling with electrical energy.",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "ELECTRIC", "CBM_CIV", "NO_BREATHE",  "REVIVES", "BONES", "PUSH_MON"]
@@ -2009,7 +2066,13 @@
     "vision_night":3,
     "hp":75,
     "death_function":"SMOKEBURST",
-    "special_attacks":[["SMOKECLOUD", 1], ["BITE", 5]],
+    "special_attacks":[
+        ["SMOKECLOUD", 1],
+        {
+            "type" : "bite",
+            "cooldown" : 5
+        }
+    ],
     "description":"A blackened and twisted naked human body, strips of flesh hang from its body, and it emits a constant haze of thick black smoke.",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "HARDTOSHOOT", "NO_BREATHE", "REVIVES", "BONES", "PUSH_MON"]
     },{
@@ -2038,7 +2101,13 @@
     "death_drops": "default_zombie_death_drops",
     "hp":80,
     "death_function":"NORMAL",
-    "special_attacks":[["BITE", 5], ["GRAB", 7]],
+    "special_attacks":[
+        {
+            "type" : "bite",
+            "cooldown" : 5
+        },
+        ["GRAB", 7]
+    ],
     "description":"An uncanny shadow envelops this creature, as if light itself were too repulsed to touch it.  All you can make out is its shambling, human shaped outline.",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "BLEED", "NO_BREATHE", "REVIVES", "BONES", "PUSH_MON", "NIGHT_INVISIBILITY"],
     "categories":["CLASSIC"]
@@ -2068,7 +2137,13 @@
     "death_drops": "mon_zombie_swimmer_death_drops",
     "hp":70,
     "death_function":["NORMAL"],
-    "special_attacks":[["BITE", 5], ["GRAB", 7]],
+    "special_attacks":[
+        {
+            "type" : "bite",
+            "cooldown" : 5
+        },
+        ["GRAB", 7]
+    ],
     "description":"A slick and glistening human body.  Its hands and feet are webbed, and it is clad in swimwear.",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "BLEED", "SWIMS", "REVIVES", "BONES", "PUSH_MON"]
     },{
@@ -2096,7 +2171,12 @@
     "vision_night":4,
     "hp":36,
     "death_function":"NORMAL",
-    "special_attacks":[["BITE", 5]],
+    "special_attacks":[
+        {
+            "type" : "bite",
+            "cooldown" : 5
+        }
+    ],
     "description":"The deformed, animated corpse of a canine, a sinewy beast which can easily outpace its two-legged friends.",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "FUR", "BONES"]
     },{
@@ -2126,7 +2206,12 @@
     "vision_night":3,
     "hp":12,
     "death_function":"NORMAL",
-    "special_attacks":[["BITE", 5]],
+    "special_attacks":[
+        {
+            "type" : "bite",
+            "cooldown" : 5
+        }
+    ],
     "description":"This canines see-through thin, black veined and scab riddled skin, is tightly compressed around its skeletal frame.",
     "flags":["SEES", "HEARS", "NO_BREATHE", "HARDTOSHOOT", "REVIVES"]
     },{
@@ -2161,7 +2246,12 @@
     },
     "hp":42,
     "death_function":"NORMAL",
-    "special_attacks":[["BITE", 5]],
+    "special_attacks":[
+        {
+            "type" : "bite",
+            "cooldown" : 5
+        }
+    ],
     "description":"A zombified version of one of the German shepherd dogs used in law enforcement.  Its deformed body is encased in a protective Kevlar harness.",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "FUR", "BONES", "PUSH_MON"],
     "categories":["CLASSIC"]
@@ -2179,7 +2269,7 @@
     "aggression":100,
     "morale":100,
     "speed":105,
-    "melee_skill":4,
+    "melee_skill":1,
     "melee_dice":1,
     "melee_dice_sides":4,
     "melee_cut":2,
@@ -2190,7 +2280,14 @@
     "vision_night":4,
     "hp":24,
     "death_function":"NORMAL",
-    "special_attacks":[["BITE", 2]],
+    "special_attacks":[
+        {
+            "type" : "bite",
+            "cooldown" : 2,
+            "accuracy" : 4,
+            "no_infection_chance" : 12
+        }
+    ],
     "description":"Acrid smell accompanies this corpse of canine.  Its whole body is covered in chains of pulsing cysts and slime dribbling ulcers.",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "BONES", "PUSH_MON"]
     },{
@@ -2277,7 +2374,13 @@
     "death_drops": "default_zombie_death_drops",
     "hp":60,
     "death_function":["NORMAL"],
-    "special_attacks":[["FUNGUS", 200], ["BITE", 5]],
+    "special_attacks":[
+        ["FUNGUS", 200],
+        {
+            "type" : "bite",
+            "cooldown" : 5
+        }
+    ],
     "description":"Once human, fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together a shambling mass of mold-covered flesh.",
     "flags":["SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "BONES", "PUSH_MON"]
     },{
@@ -2428,7 +2531,12 @@
     "death_drops": "default_zombie_clothes",
     "hp":30,
     "death_function":["NORMAL"],
-    "special_attacks":[["BITE", 5]],
+    "special_attacks":[
+        {
+            "type" : "bite",
+            "cooldown" : 5
+        }
+    ],
     "description":"With its skin so tight the cracked bones are visible beneath it, covered in scar tissue and coils of scabbed black liquid and with eyes so deeply sunken into its skull they are barely visible, it's a wonder this once-human creature can move at all.",
     "flags":["SEES", "HEARS", "BLEED", "HARDTOSHOOT", "REVIVES", "NO_BREATHE"]
     },{
@@ -2517,7 +2625,13 @@
     "death_drops": "mon_zombie_soldier_death_drops",
     "hp":100,
     "death_function":["NORMAL"],
-    "special_attacks":[["BITE", 5]],
+    "special_attacks":[
+        {
+            "type" : "bite",
+            "cooldown" : 5,
+            "min_mul" : 0.8
+        }
+    ],
     "description":"Once a soldier, it is dressed head to toe in combat gear and carries itself rather steadily for a zombie.",
     "flags":["SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "BLEED", "NO_BREATHE", "REVIVES", "BONES", "PUSH_MON"],
     "categories":["CLASSIC"]
@@ -2623,7 +2737,12 @@
     },
     "hp":95,
     "death_function":["NORMAL"],
-    "special_attacks":[["BITE", 5]],
+    "special_attacks":[
+        {
+            "type" : "bite",
+            "cooldown" : 5
+        }
+    ],
     "description":"A deformed human body, once living.  Its arms dangle from its sides like the limbs of some skinless ape, mindlessly groping at their surroundings.",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "BLEED", "GRABS", "NO_BREATHE", "REVIVES", "BONES", "PUSH_MON"]
     },{
@@ -2653,7 +2772,14 @@
     "luminance":0,
     "hp":110,
     "death_function":["NORMAL"],
-    "special_attacks":[["RANGED_PULL", 20], ["GRAB_DRAG", 3], ["BITE", 5]],
+    "special_attacks":[
+        ["RANGED_PULL", 20],
+        ["GRAB_DRAG", 3],
+        {
+            "type" : "bite",
+            "cooldown" : 5
+        }
+    ],
     "description":"An undead humanoid, its elongated arms drag along the ground as it moves.  It looks to almost have a hunch from the swollen back and shoulder muscles tearing though its skin.",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "BLEED", "NO_BREATHE", "REVIVES", "BONES", "PUSH_MON"]
     },{
@@ -2670,7 +2796,7 @@
     "aggression":100,
     "morale":100,
     "speed":100,
-    "melee_skill":5,
+    "melee_skill":4,
     "melee_dice":3,
     "melee_dice_sides":6,
     "melee_cut":1,
@@ -2682,7 +2808,18 @@
     "death_drops": "default_zombie_death_drops",
     "hp":100,
     "death_function":["NORMAL"],
-    "special_attacks":[["BITE", 2], ["GRAB", 4]],
+    "special_attacks":[
+        {
+            "type" : "bite",
+            "cooldown" : 4,
+            "accuracy" : 5,
+            "damage_max_instance" : [
+                {"damage_type" : "stab", "amount" : 10, "armor_multiplier" : 0.3},
+                {"damage_type" : "bash", "amount" : 10, "armor_multiplier" : 0.3}
+            ]
+        },
+        ["GRAB", 4]
+    ],
     "description":"A distorted and swollen human body.  Its jaws have elongated into a crocodile like snout, dripping with foul smelling saliva.",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "BLEED", "GRABS", "NO_BREATHE", "REVIVES", "BONES", "PUSH_MON"]
     },{
@@ -2746,7 +2883,12 @@
     },
     "hp":70,
     "death_function":["NORMAL"],
-    "special_attacks":[["BITE", 5]],
+    "special_attacks":[
+        {
+            "type" : "bite",
+            "cooldown" : 5
+        }
+    ],
     "description":"A deformed human body, its skin has been transformed into one thick, calloused envelope of scar tissue.",
     "flags":["HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "BONES", "PUSH_MON"]
     },{
@@ -2780,7 +2922,15 @@
     },
     "hp":70,
     "death_function":["NORMAL"],
-    "special_attacks":[ ["BITE", 5]],
+    "special_attacks":[
+        {
+            "type" : "bite",
+            "cooldown" : 5,
+            "damage_max_instance" : [
+                {"damage_type" : "stab", "amount" : 10, "armor_multiplier" : 0.7}
+            ]
+        }
+    ],
     "description":"This recently-risen body moves quickly, darting its head back and forth and gnawing at its hands.",
     "flags":["SEES", "HEARS", "SMELLS", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "BONES", "PUSH_MON"]
     },{
@@ -2819,7 +2969,13 @@
             "cooldown" : 5,
             "max_range" : 5
         },
-        ["BITE", 5]
+        {
+            "type" : "bite",
+            "cooldown" : 10,
+            "damage_max_instance" : [
+                {"damage_type" : "stab", "amount" : 12, "armor_multiplier" : 0.7}
+            ]
+        }
     ],
     "description":"This once-human body is barely recognizable, scrambling about on all fours, its nails and teeth both sharpened into dangerous looking spikes.",
     "flags":["SEES", "HEARS", "SMELLS", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "BONES", "CLIMBS", "PUSH_MON"]
@@ -2859,7 +3015,15 @@
             "max_consider_range" : 7,
             "allow_no_target" : false
         },
-        ["BITE", 5],
+        {
+            "type" : "bite",
+            "cooldown" : 10,
+            "damage_max_instance" : {
+                "type" : "stab",
+                "amount" : 10,
+                "armor_multiplier" : 0.2
+            }
+        },
         ["IMPALE", 25]
     ],
     "description":"With its joints in odd places and angles, this humanoid creature prowls across the landscape with suprising speed.  Its teeth and arms are sharpened into fine points, and black ooze seeps out from cuts between its muscles.",
@@ -2967,7 +3131,12 @@
     },
     "hp":35,
     "death_function":["NORMAL"],
-    "special_attacks":[["BITE", 2]],
+    "special_attacks":[
+        {
+            "type" : "bite",
+            "cooldown" : 2
+        }
+    ],
     "description":"This horrifying little mutated wretch looks to have once been a child, but its massive gaping jaws are now far more suggestive of a predatory beast.",
     "//": "no GUILT because it no longer looks enough like a child to evoke pity",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "BLEED", "POISON", "NO_BREATHE", "REVIVES", "BONES"]
@@ -5477,7 +5646,13 @@
     "vision_night":5,
     "hp":200,
     "death_function":"NORMAL",
-    "special_attacks":[["BITE", 15],["IMPALE",20]],
+    "special_attacks":[
+        {
+            "type" : "bite",
+            "cooldown" : 15
+        },
+        ["IMPALE",20]
+    ],
     "description":"Eight-feet-tall ghastly white penguins.  Placid unless otherwise provoked.",
     "flags":["HEARS", "KEENNOSE", "GOODHEARING", "SMELLS", "ANIMAL", "WARM", "BONES", "FEATHER", "FAT", "SWIMS", "SUNDEATH"],
     "anger_triggers":["HURT", "FRIEND_DIED", "FRIEND_ATTACKED"],
@@ -5558,7 +5733,13 @@
     "death_drops": "default_zombie_clothes",
     "hp":40,
     "death_function":["NORMAL"],
-    "special_attacks":[["FEAR_PARALYZE", 0], ["BITE", 5]],
+    "special_attacks":[
+        ["FEAR_PARALYZE", 0],
+        {
+            "type" : "bite",
+            "cooldown" : 5
+        }
+    ],
     "description":"A defiled human body, once living.  Tortured to death long ago, it remains chained to the altar, the putrescent flays of its peeled skin quivering like so much flotsam upon a murky pond.",
     "flags":["SEES", "HEARS", "SMELLS", "WARM", "BLEED", "IMMOBILE", "GUILT", "POISON", "REVIVES", "BONES"]
     },{
@@ -5585,7 +5766,13 @@
     "death_drops": "default_zombie_clothes",
     "hp":200,
     "death_function":["NORMAL"],
-    "special_attacks":[["FEAR_PARALYZE", 0], ["BITE", 5]],
+    "special_attacks":[
+        ["FEAR_PARALYZE", 0],
+        {
+            "type" : "bite",
+            "cooldown" : 5
+        }
+    ],
     "description":"A tall and slender man lacking skin and any normalcy of countenance.  Wings of muscle curl forth from its back and a third eye dominates the forehead.",
     "flags":["SEES", "HEARS", "SMELLS", "WARM", "BLEED", "HARDTOSHOOT", "ATTACKMON", "HUMAN", "POISON", "REVIVES", "BONES"]
     },{
@@ -6801,7 +6988,12 @@
     "vision_day":50,
     "hp":55,
     "death_function":"NORMAL",
-    "special_attacks":[["BITE", 2]],
+    "special_attacks":[
+        {
+            "type" : "bite",
+            "cooldown" : 2
+        }
+    ],
     "description":"A zombified omnivore descended from the wild boar.  Now it's got black goo all over it, instead of mud.",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "KEENNOSE", "BLEED", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "BONES", "LEATHER", "FAT"],
     "anger_triggers":["PLAYER_WEAK", "PLAYER_CLOSE"],
@@ -6951,7 +7143,13 @@
     "death_drops": "mon_zombie_technician_death_drops",
     "hp":85,
     "death_function":["NORMAL"],
-    "special_attacks":[["PULL_METAL_WEAPON", 25], ["BITE", 20]],
+    "special_attacks":[
+        ["PULL_METAL_WEAPON", 25],
+        {
+            "type" : "bite",
+            "cooldown" : 20
+        }
+    ],
     "description":"Still wearing its work clothes and hardhat, this zombie likely used to work on power lines or other electrical equipment.",
     "flags":["SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "CBM_TECH", "BONES"]
     },{

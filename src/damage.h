@@ -16,6 +16,7 @@ struct tripoint;
 class item;
 class monster;
 class Creature;
+class JsonObject;
 
 enum damage_type : int {
     DT_NULL = 0, // null damage, doesn't exist
@@ -123,5 +124,8 @@ int aoe_size( const std::set<std::string> &effects );
 
 damage_type dt_by_name( const std::string &name );
 const std::string &name_by_dt( const damage_type &dt );
+
+damage_instance load_damage_instance( JsonObject &jo );
+damage_instance load_damage_instance( JsonArray &jarr );
 
 #endif
