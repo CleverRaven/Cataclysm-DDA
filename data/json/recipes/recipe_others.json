@@ -7910,8 +7910,7 @@
   "category": "CC_CHEM",
   "subcategory": "CSC_CHEM_OTHER",
   "skill_used": "cooking",
-  "skills_required": [ "cooking", 4 ],
-  "difficulty": 4,
+  "difficulty": 5,
   "time": 25000,
   "reversible": false,
   "autolearn": false,
@@ -7924,12 +7923,12 @@
       [ "char_smoker", 1 ],
       [ "toolset", 100 ],
       [ "fire", -1 ],
-      [ "chemistry_set", 100]
+      [ "toolset", 100]
     ]
   ],
   "components": [
     [ [ "chem_ethanol", 2 ] ],
-    [ [ "scrap_copper", 1 ] ],
+    [ [ "copper", 50 ] ],
     [ [ "acid", 1 ] ],
     [ [ "bleach", 2 ] ],
     [ [ "oxy_powder", 50 ] ],
