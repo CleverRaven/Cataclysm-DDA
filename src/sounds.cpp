@@ -249,7 +249,7 @@ void sounds::process_sound_markers( player *p )
         if( is_deaf ) {
             if( is_sound_deafening && !p->is_immune_effect( effect_deaf ) ) {
                 p->add_effect( effect_deaf, std::min( 40, ( felt_volume - 130 ) / 8 ) );
-                if( !p->has_trait( trait_id( "DEADENED" ) ) ) {
+                if( !p->has_trait( trait_id( "NOPAIN" ) ) ) {
                     p->add_msg_if_player( m_bad, _( "Your eardrums suddenly ache!" ) );
                     if( p->get_pain() < 10 ) {
                         p->mod_pain( rng( 0, 2 ) );
