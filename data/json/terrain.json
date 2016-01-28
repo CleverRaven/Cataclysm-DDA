@@ -54,10 +54,11 @@
         "type" : "terrain",
         "id" : "t_scrap_wall",
         "name": "simple metal wall",
-        "symbol": "#",
+        "symbol": "LINE_OXOX",
         "color": "dkgray",
         "move_cost": 0,
-        "flags": ["NOITEM", "SUPPORTS_ROOF", "WALL"],
+        "flags": ["NOITEM", "SUPPORTS_ROOF", "WALL", "AUTO_WALL_SYMBOL"],
+        "connects_to": "WALL",
         "bash": {
             "str_min": 80, "str_max": 200,
             "sound": "metal screeching!",
@@ -75,7 +76,6 @@
         "color": "dkgray",
         "move_cost": 4,
         "flags": ["NOITEM", "TRANSPARENT", "MOUNTABLE", "REDUCE_SCENT"],
-        "connects_to": "WALL",
         "bash": {
             "str_min": 50, "str_max": 130,
             "sound": "metal screeching!",
