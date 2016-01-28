@@ -7920,8 +7920,7 @@
   ], "tools": [
     [
       [ "hotplate", 100 ],
-      [ "toolset", 100 ],
-      [ "fire", -1 ]
+      [ "toolset", 100 ]
     ]
   ],
   "components": [
