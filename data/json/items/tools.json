@@ -5618,6 +5618,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
+    "category": "weapons",
     "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 25]],
     "flags": ["CHOP", "SHEATH_KNIFE"]
