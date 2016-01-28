@@ -104,3 +104,6 @@ cataclysm.a
 
 # coredumps
 *.core
+
+# sublime-text workspace
+*.sublime-workspace
