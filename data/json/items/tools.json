@@ -358,7 +358,7 @@
             "type": "repair_item",
             "item_action_type" : "repair_fabric",
             "materials": [
-                "cotton", "leather", "wool", "fur", "nomex"
+                "cotton", "leather", "wool", "fur", "nomex", "neoprene"
             ],
             "skill": "tailor",
             "cost_scaling": 0,
@@ -11369,6 +11369,39 @@
         "type": "transform",
         "msg": "The l-stick(tm)'s light fades away.",
         "target": "l-stick"
+    }
+  },
+
+   {
+    "id": "needle_curved",
+    "sub": "sewing_kit",
+    "type": "TOOL",
+    "symbol": ";",
+    "color": "light_gray",
+    "name": "curved needle",
+    "description": "A curved sharp needle made of steel.  Its rounded shape allows it to make stitches that only pierce one side of the material.  While unsuitable for most tailoring projects, it's a necessity for stitching neoprene.",
+    "price": 0,
+    "material": "steel",
+    "flags": "STAB",
+    "weight": 85,
+    "volume": 1,
+    "to_hit": 0,
+    "max_charges": 200,
+    "initial_charges": 0,
+    "charges_per_use": 1,
+    "turns_per_charge": 0,
+    "ammo": "thread",
+    "revert_to": "null",
+    "use_action": {
+        "type": "repair_item",
+        "item_action_type" : "repair_fabric",
+        "materials": [
+            "neoprene", "nomex"
+        ],
+        "skill": "tailor",
+        "cost_scaling": 0,
+        "tool_quality": 0,
+        "move_cost": 1200
     }
   }
 ]

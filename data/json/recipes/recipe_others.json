@@ -7934,5 +7934,26 @@
     [ [ "oxy_powder", 50 ] ],
     [ [ "scrap", 1 ] ]
   ]
+},{
+  "type" : "recipe",
+  "result": "needle_curved",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_TOOLS",
+  "skill_used": "tailor",
+  "difficulty": 3,
+  "time": 5000,
+  "reversible": true,
+  "autolearn": false,
+  "book_learn": [[ "textbook_tailor", 3 ] , [ "manual_tailor", 3 ]],
+  "qualities":[
+    {"id":"HAMMER","level":3,"amount":1}
+  ],
+  "components": [
+    [
+      [ "sewing_kit", 1 ],
+      [ "knitting_needles", 1 ],
+      [ "tailors_kit", 1 ]
+    ]
+  ]
 }
 ]
