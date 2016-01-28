@@ -6513,7 +6513,6 @@ int iuse::robotcontrol(player *p, item *it, bool, const tripoint& )
                 return 0;
             }
             return it->type->charges_to_use();
-            break;
         }
         case 3: { //make all friendly robots terminate (un)life with extreme prejudice
             p->moves -= 100;
@@ -6531,7 +6530,6 @@ int iuse::robotcontrol(player *p, item *it, bool, const tripoint& )
                 return 0;
             }
             return it->type->charges_to_use();
-            break;
         }
 
     }
