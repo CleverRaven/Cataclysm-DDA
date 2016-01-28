@@ -825,5 +825,25 @@
         "fire_resist" : 0,
         "chip_resist" : 0,
         "density" : 1
+    },{
+        "type" : "material",
+        "ident" : "neoprene",
+        "name" : "Neoprene",
+        "salvage_id": "neoprene",
+        "bash_resist" : 2,
+        "cut_resist" : 2,
+        "bash_dmg_verb" : "ripped",
+        "cut_dmg_verb" : "sliced",
+        "dmg_adj" : [
+            "scratched",
+            "cut",
+            "shredded",
+            "tattered"
+        ],
+        "acid_resist" : 4,
+        "elec_resist" : 2,
+        "fire_resist" : 2,
+        "chip_resist" : 10,
+        "density" : 6
     }
 ]
