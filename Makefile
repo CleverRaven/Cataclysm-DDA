@@ -136,6 +136,11 @@ else
 endif
 RC  = $(CROSS)windres
 
+# Capture CXXVERSION if using MXE - used later for ICE workaround
+ifdef CROSS
+  CXXVERSION := $(shell ${OS_COMPILER} --version | grep -i gcc | sed 's/^.* //g')
+endif
+
 # We don't need scientific precision for our math functions, this lets them run much faster.
 CXXFLAGS += -ffast-math
 LDFLAGS += $(PROFILE)
@@ -149,7 +154,12 @@ ifdef RELEASE
       CXXFLAGS += -O3
     endif
   else
-    CXXFLAGS += -Os
+    # MXE ICE Workaround
+  	ifeq (${CXXVERSION}, 4.9.3)
+	    CXXFLAGS += -O3
+  	else
+  		CXXFLAGS += -Os
+  	endif
     LDFLAGS += -s
   endif
   # OTHERS += -mmmx -m3dnow -msse -msse2 -msse3 -mfpmath=sse -mtune=native

@@ -39,6 +39,8 @@ const efftype_id effect_music( "music" );
 const efftype_id effect_playing_instrument( "playing_instrument" );
 const efftype_id effect_recover( "recover" );
 const efftype_id effect_sleep( "sleep" );
+const efftype_id effect_stunned( "stunned" );
+const efftype_id effect_asthma( "asthma" );
 
 iuse_transform::~iuse_transform()
 {
@@ -1708,13 +1710,18 @@ long musical_instrument_actor::use( player *p, item *it, bool t, const tripoint&
         return 0;
     }
 
-    if( !t ) {
-        // TODO: Make the player stop playing music when paralyzed/choking
-        if( it->active || p->has_effect( effect_sleep) ) {
-            p->add_msg_if_player( _("You stop playing your %s"), it->display_name().c_str() );
-            it->active = false;
-            return 0;
-        }
+    // Stop playing a wind instrument when winded or even eventually become winded while playing it?
+    // It's impossible to distinguish instruments for now anyways.
+    if( p->has_effect( effect_sleep ) || p->has_effect( effect_stunned ) || p->has_effect( effect_asthma ) ) {
+        p->add_msg_if_player( m_bad, _("You stop playing your %s"), it->display_name().c_str() );
+        it->active = false;
+        return 0;
+    }
+
+    if( !t && it->active ) {
+        p->add_msg_if_player( _("You stop playing your %s"), it->display_name().c_str() );
+        it->active = false;
+        return 0;
     }
 
     // Check for worn or wielded - no "floating"/bionic instruments for now

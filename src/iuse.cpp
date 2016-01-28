@@ -5143,7 +5143,8 @@ int iuse::oxytorch(player *p, item *it, bool, const tripoint& )
     } else if( ter == t_window_enhanced || ter == t_window_enhanced_noglass ) {
         moves = 500;
     } else if( ter == t_chainfence_v || ter == t_chainfence_h || ter == t_chaingate_c ||
-               ter == t_chaingate_l  || ter == t_bars || ter == t_window_bars_alarm ) {
+               ter == t_chaingate_l  || ter == t_bars || ter == t_window_bars_alarm ||
+               ter == t_window_bars ) {
         moves = 1000;
     } else if( ter == t_door_metal_locked || ter == t_door_metal_c || ter == t_door_bar_c ||
                ter == t_door_bar_locked || ter == t_door_metal_pickable ) {
@@ -6515,7 +6516,6 @@ int iuse::robotcontrol(player *p, item *it, bool, const tripoint& )
                 return 0;
             }
             return it->type->charges_to_use();
-            break;
         }
         case 3: { //make all friendly robots terminate (un)life with extreme prejudice
             p->moves -= 100;
@@ -6533,7 +6533,6 @@ int iuse::robotcontrol(player *p, item *it, bool, const tripoint& )
                 return 0;
             }
             return it->type->charges_to_use();
-            break;
         }
 
     }

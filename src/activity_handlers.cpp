@@ -1261,7 +1261,7 @@ void activity_handlers::oxytorch_finish( player_activity *act, player *p )
             g->m.ter_set( pos, t_floor );
             g->m.spawn_item( p->pos(), "pipe", rng(1, 2) );
         }
-    } else if( ter == t_window_bars_alarm ) {
+    } else if( ter == t_window_bars_alarm || ter == t_window_bars ) {
         g->m.ter_set( pos, t_window_empty );
         g->m.spawn_item( p->pos(), "pipe", rng(1, 2) );
     }
