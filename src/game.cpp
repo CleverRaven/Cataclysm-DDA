@@ -3210,6 +3210,8 @@ void game::update_scent()
         player_last_moved = calendar::turn;
     }
 
+    overmap_buffer.set_scent( u.global_omt_location(), u.scent );
+
     // note: the next four intermediate matrices need to be at least
     // [2*SCENT_RADIUS+3][2*SCENT_RADIUS+1] in size to hold enough data
     // The code I'm modifying used [SEEX * MAPSIZE]. I'm staying with that to avoid new bugs.
@@ -3846,10 +3848,11 @@ void game::debug()
                        _( "Show Sound Clustering" ),  // 23
                        _( "Lua Console" ),            // 24
                        _( "Display weather" ),        // 25
-                       _( "Change time" ),            // 26
-                       _( "Set automove route" ),     // 27
-                       _( "Show mutation category levels" ), // 28
-                       _( "Overmap editor" ),         // 29
+                       _( "Display overmap scents" ), // 26
+                       _( "Change time" ),            // 27
+                       _( "Set automove route" ),     // 28
+                       _( "Show mutation category levels" ), // 29
+                       _( "Overmap editor" ),         // 30
                        _( "Cancel" ),
                        NULL );
     int veh_num;
@@ -4422,7 +4425,10 @@ void game::debug()
         case 25:
             overmap::draw_weather();
             break;
-        case 26: {
+        case 26:
+            overmap::draw_scents();
+            break;
+        case 27: {
             auto set_turn = [&]( const int initial, const int factor, const char * const msg ) {
                 const auto text = string_input_popup( msg, 20, to_string( initial ), "", "", 20, true );
                 if( text.empty() ) {
@@ -4475,7 +4481,7 @@ void game::debug()
             } while( smenu.ret != 6 && smenu.ret != UIMENU_INVALID );
         }
         break;
-        case 27: {
+        case 28: {
             tripoint dest = look_around();
             if( dest == tripoint_min || dest == u.pos() ) {
                 break;
@@ -4488,13 +4494,13 @@ void game::debug()
             }
         }
         break;
-        case 28: {
+        case 29: {
             for( const auto & elem : u.mutation_category_level ) {
                 add_msg( "%s: %d", elem.first.c_str(), elem.second );
             }
         }
         break;
-        case 29: {
+        case 30: {
             overmap::draw_editor();
         }
         break;
@@ -5573,33 +5579,33 @@ void game::draw_minimap()
     }
 
     // Print arrow to mission if we have one!
-    if (!drew_mission) {
-        double slope = (cursx != targ.x) ? double(targ.y - cursy) / double(targ.x - cursx) : 4; 
+    if( !drew_mission ) {
+        double slope = ( cursx != targ.x ) ? double( targ.y - cursy ) / double( targ.x - cursx ) : 4;
 
-        if (cursx == targ.x || fabs(slope) > 3.5) { // Vertical slope
-            if (targ.y > cursy) {
-                mvwputch(w_minimap, 6, 3, c_red, '*');
+        if( cursx == targ.x || fabs( slope ) > 3.5 ) { // Vertical slope
+            if( targ.y > cursy ) {
+                mvwputch( w_minimap, 6, 3, c_red, '*' );
             } else {
-                mvwputch(w_minimap, 0, 3, c_red, '*');
+                mvwputch( w_minimap, 0, 3, c_red, '*' );
             }
         } else {
             int arrowx = 3, arrowy = 3;
-            if (fabs(slope) >= 1.) { // y diff is bigger!
-                arrowy = (targ.y > cursy ? 6 : 0);
-                arrowx = int(3 + 3 * (targ.y > cursy ? slope : (0 - slope)));
-                if (arrowx < 0) {
+            if( fabs( slope ) >= 1. ) { // y diff is bigger!
+                arrowy = ( targ.y > cursy ? 6 : 0 );
+                arrowx = int( 3 + 3 * ( targ.y > cursy ? slope : ( 0 - slope ) ) );
+                if( arrowx < 0 ) {
                     arrowx = 0;
                 }
-                if (arrowx > 6) {
+                if( arrowx > 6 ) {
                     arrowx = 6;
                 }
             } else {
-                arrowx = (targ.x > cursx ? 6 : 0);
-                arrowy = int(3 + 3 * (targ.x > cursx ? slope : (0 - slope)));
-                if (arrowy < 0) {
+                arrowx = ( targ.x > cursx ? 6 : 0 );
+                arrowy = int( 3 + 3 * ( targ.x > cursx ? slope : ( 0 - slope ) ) );
+                if( arrowy < 0 ) {
                     arrowy = 0;
                 }
-                if (arrowy > 6) {
+                if( arrowy > 6 ) {
                     arrowy = 6;
                 }
             }
@@ -5613,7 +5619,7 @@ void game::draw_minimap()
             mvwputch( w_minimap, arrowy, arrowx, c_red, glyph );
         }
     }
-    wrefresh(w_minimap);
+    wrefresh( w_minimap );
 }
 
 void game::hallucinate( const tripoint &center )

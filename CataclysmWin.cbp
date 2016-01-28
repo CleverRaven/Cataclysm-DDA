@@ -547,6 +547,7 @@
 		<Unit filename="src/output.h" />
 		<Unit filename="src/overmap.cpp" />
 		<Unit filename="src/overmap.h" />
+		<Unit filename="src/overmap_types.h" />
 		<Unit filename="src/overmapbuffer.cpp" />
 		<Unit filename="src/overmapbuffer.h" />
 		<Unit filename="src/path_info.cpp" />
