@@ -256,9 +256,9 @@ edible_rating player::can_eat( const item &food, bool interactive, bool force ) 
                !maybe_query( _( "You're fed.  Try to pack more in anyway?" ) ) ) {
         return TOO_FULL;
     } else if( ( ( nutr > 0 && temp_hunger < capacity ) ||
-          ( comest->quench > 0 && temp_thirst < capacity ) ) &&
-        !eathealth && !slimespawner &&
-        !maybe_query( _( "You will not be able to finish it all.  Consume it?" ) ) ) {
+                 ( comest->quench > 0 && temp_thirst < capacity ) ) &&
+               !eathealth && !slimespawner &&
+               !maybe_query( _( "You will not be able to finish it all.  Consume it?" ) ) ) {
         return TOO_FULL;
     }
 
