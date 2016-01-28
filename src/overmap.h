@@ -400,6 +400,11 @@ public:
   void place_hiways(std::vector<city> cities, int z, const std::string &base);
   void place_subways(std::vector<point> stations);
   void make_hiway(int x1, int y1, int x2, int y2, int z, const std::string &base);
+  bool generate_bezier_hiway( std::vector<city> &roads_out, std::vector<city> &bez_points_out,
+                              std::vector<city> &city_in );
+  void prune_roads( const int z );
+  void prune_segment( const int x, const int y, const int z );
+  bool has_interesting_feature( const int x, const int y, const int z );
   void building_on_hiway(int x, int y, int dir);
   // Polishing
   bool check_ot_type(const std::string &otype, int x, int y, int z) const;
