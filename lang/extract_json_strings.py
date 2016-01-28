@@ -141,18 +141,23 @@ def extract_material(item):
 
 def extract_martial_art(item):
     outfile = get_outfile("martial_art")
-    writestr(outfile, item["name"])
-    writestr(outfile, item["description"],
-             comment="Description for martial art '%s'" % item["name"])
+    if "name" in item:
+        name = item["name"]
+        writestr(outfile, name)
+    else:
+        name = item["id"]
+    if "description" in item:
+        writestr(outfile, item["description"],
+             comment="Description for martial art '%s'" % name)
     onhit_buffs = item.get("onhit_buffs", list())
     static_buffs = item.get("static_buffs", list())
     buffs = onhit_buffs + static_buffs
     for buff in buffs:
         writestr(outfile, buff["name"])
         if buff["name"] == item["name"]:
-            c="Description of buff for martial art '%s'" % item["name"]
+            c="Description of buff for martial art '%s'" % name
         else:
-            c="Description of buff '%s' for martial art '%s'" % (buff["name"], item["name"])
+            c="Description of buff '%s' for martial art '%s'" % (buff["name"], name)
         writestr(outfile, buff["description"], comment=c)
 
 def extract_effect_type(item):

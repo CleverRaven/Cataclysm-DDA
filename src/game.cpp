@@ -13859,9 +13859,9 @@ void game::update_stair_monsters()
             if( critter.staircount > 4 ) {
                 dump << string_format(_("You see a %s on the stairs"), critter.name().c_str());
             } else {
-                //~ The <monster> is almost at the <bottom/top> of the <terrain type>!
                 if( critter.staircount > 0 ) {
                     dump << (from_below ?
+                             //~ The <monster> is almost at the <bottom/top> of the <terrain type>!
                              string_format(_("The %1$s is almost at the top of the %2$s!"),
                                            critter.name().c_str(),
                                            m.tername(dest).c_str()) :
