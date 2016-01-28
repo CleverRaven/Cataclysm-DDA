@@ -2296,7 +2296,7 @@ int item::weight() const
     if( count_by_charges() ) {
         ret *= charges;
 
-    } else if( ammo_capacity() > 0 ) {
+    } else if( magazine_integral() && !is_magazine() ) {
         if ( ammo_type() == "plutonium" ) {
             ret += ammo_remaining() * find_type( default_ammo( ammo_type() ) )->weight / PLUTONIUM_CHARGES;
         } else if( ammo_data() ) {
@@ -2321,23 +2321,19 @@ int item::weight() const
         }
     }
 
-    for( auto &elem : contents ) {
-        ret += elem.weight();
-        if( elem.is_gunmod() && elem.ammo_data() ) {
-            ret += elem.ammo_data()->weight * elem.ammo_remaining();
-        }
-    }
-
     // reduce weight for sawn-off weepons capped to the apportioned weight of the barrel
     if( has_gunmod( "barrel_small" ) != -1 ) {
         float b = type->gun->barrel_length;
         ret -= std::min( b * 250, b / type->volume * type->weight );
     }
 
-
     // tool mods also add about a pound of weight
     if( has_flag("ATOMIC_AMMO") ) {
         ret += 250;
+    }
+
+    for( auto &elem : contents ) {
+        ret += elem.weight();
     }
 
     return ret;
@@ -4157,6 +4153,91 @@ item * item::magazine_current()
 const item * item::magazine_current() const
 {
     return const_cast<item *>(this)->magazine_current();
+}
+
+bool item::gunmod_compatible( const item& mod, bool alert ) const
+{
+    if( !mod.is_gunmod() ) {
+        debugmsg( "Tried checking compatibility of non-gunmod" );
+        return false;
+    }
+
+    std::string msg;
+
+    if( !is_gun() ) {
+        msg = string_format( _( "That %s is not a weapon." ), tname().c_str() );
+
+    } else if( is_gunmod() ) {
+        msg = string_format( _( "That %s is a gunmod, it can not be modded." ), tname().c_str() );
+
+    } else if( has_gunmod( mod.typeId() ) != -1 ) {
+        msg = string_format( _( "Your %1$s already has a %2$s." ), tname().c_str(), mod.tname( 1 ).c_str() );
+
+    } else if( !type->gun->valid_mod_locations.count( mod.type->gunmod->location ) ) {
+        msg = string_format( _( "Your %s doesn't have a slot for this mod." ), tname().c_str() );
+
+    } else if( get_free_mod_locations( mod.type->gunmod->location ) <= 0 ) {
+        msg = string_format( _( "Your %1$s doesn't have enough room for another %2$s mod." ), tname().c_str(), _( mod.type->gunmod->location.c_str() ) );
+
+    } else if( ammo_remaining() > 0 || magazine_current() ) {
+        msg = string_format( _( "Unload your %s before trying to modify it." ), tname().c_str() );
+
+    } else if( gun_skill() == skill_id( "pistol" ) && !mod.type->gunmod->used_on_pistol ) {
+        msg = string_format( _( "That %s cannot be attached to a handgun." ), mod.tname().c_str() );
+
+    } else if( gun_skill() == skill_id( "shotgun" ) && !mod.type->gunmod->used_on_shotgun ) {
+        msg = string_format( _( "That %s cannot be attached to a shotgun." ), mod.tname().c_str() );
+
+    } else if( gun_skill() == skill_id( "smg" ) && !mod.type->gunmod->used_on_smg ) {
+        msg = string_format( _( "That %s cannot be attached to a submachine gun." ), mod.tname().c_str() );
+
+    } else if( gun_skill() == skill_id( "rifle" ) && !mod.type->gunmod->used_on_rifle ) {
+        msg = string_format( _( "That %s cannot be attached to a rifle." ), mod.tname().c_str() );
+
+    } else if( gun_skill() == skill_id( "archery" ) && !mod.type->gunmod->used_on_bow && ammo_type() == "arrow" ) {
+        msg = string_format( _( "That %s cannot be attached to a bow." ), mod.tname().c_str() );
+
+    } else if( gun_skill() == skill_id( "archery" ) && !mod.type->gunmod->used_on_crossbow && ( ammo_type() == "bolt" || typeId() == "bullet_crossbow" ) ) {
+        msg = string_format( _( "That %s cannot be attached to a crossbow." ), mod.tname().c_str() );
+
+    } else if( gun_skill() == skill_id( "launcher" ) && !mod.type->gunmod->used_on_launcher ) {
+        msg = string_format( _( "That %s cannot be attached to a launcher." ), mod.tname().c_str() );
+
+    } else if( typeId() == "hand_crossbow" && !mod.type->gunmod->used_on_pistol ) {
+        msg = string_format( _("Your %s isn't big enough to use that mod.'"), tname().c_str() );
+
+    } else if ( !mod.type->gunmod->acceptable_ammo_types.empty() && !mod.type->gunmod->acceptable_ammo_types.count( ammo_type( false ) ) ) {
+        msg = string_format( _( "That %1$s cannot be used on a %2$s." ), mod.tname( 1 ).c_str(), ammo_name( ammo_type( false ) ).c_str() );
+
+    } else if( mod.typeId() == "spare_mag" && has_flag( "RELOAD_ONE" ) ) {
+        msg = string_format( _( "You can not use a spare magazine in your %s." ), tname().c_str() );
+
+    } else if( mod.type->gunmod->location == "magazine" && clip_size() <= 2 ) {
+        msg = string_format( _( "You can not extend the ammo capacity of your %s." ), tname().c_str() );
+
+    } else if( mod.typeId() == "waterproof_gunmod" && has_flag( "WATERPROOF_GUN" ) ) {
+        msg = string_format( _( "Your %s is already waterproof." ), tname().c_str() );
+
+    } else if( mod.typeId() == "tuned_mechanism" && has_flag( "NEVER_JAMS" ) ) {
+        msg = string_format( _( "This %s is eminently reliable. You can't improve upon it this way." ), tname().c_str() );
+
+    } else if( mod.typeId() == "brass_catcher" && has_flag( "RELOAD_EJECT" ) ) {
+        msg = string_format( _( "You cannot attach a brass catcher to your %s." ), tname().c_str() );
+
+    } else if ( mod.typeId() == "clip" && ( has_gunmod( "clip" ) != -1 || has_gunmod( "clip2" ) != -1 ) ) {
+        msg = string_format( _( "Your %s already has an extended magazine." ), tname().c_str() );
+
+    } else if ( mod.typeId() == "clip2" && ( has_gunmod( "clip" ) != -1 || has_gunmod( "clip2" ) != -1 ) ) {
+        msg = string_format( _( "Your %s already has an extended magazine." ), tname().c_str() );
+
+    } else {
+        return true;
+    }
+
+    if( alert ) {
+        add_msg( m_info, msg.c_str() );
+    }
+    return false;
 }
 
 const use_function *item::get_use( const std::string &use_name ) const

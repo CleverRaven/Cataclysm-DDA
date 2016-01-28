@@ -11559,113 +11559,28 @@ void player::use(int inventory_position)
 
         invoke_item( used );
     } else if (used->is_gunmod()) {
-        const auto mod = used->type->gunmod.get();
+
         ///\EFFECT_GUN allows installation of more difficult gun mods
-        if (!(get_skill_level( skill_gun ) >= mod->req_skill)) {
-            add_msg(m_info, _("You need to be at least level %d in the marksmanship skill before you \
-can install this mod."), mod->req_skill);
+        if( !( get_skill_level( skill_gun ) >= used->type->gunmod->req_skill ) ) {
+            add_msg( m_info, _( "You need to be at least level %d in the marksmanship skill "
+                                "before you can install this mod." ), used->type->gunmod->req_skill);
             return;
         }
-        int gunpos = g->inv(_("Select gun to modify:"));
-        item* gun = &(i_at(gunpos));
-        if (gun->is_null()) {
-            add_msg(m_info, _("You do not have that item."));
-            return;
-        } else if (!gun->is_gun()) {
-            add_msg(m_info, _("That %s is not a weapon."), gun->tname().c_str());
-            return;
-        } else if( gun->is_gunmod() ) {
-            add_msg(m_info, _("That %s is a gunmod, it can not be modded."), gun->tname().c_str());
+
+        int gunpos = g->inv_for_filter( _("Select gun to modify:" ), [&used]( const item& e ) {
+            return e.gunmod_compatible( *used, false );
+        } );
+
+        if( gunpos == INT_MIN ) {
+            add_msg_if_player( m_info, _( "Never mind." ) );
             return;
         }
-        islot_gun* guntype = gun->type->gun.get();
-        if (guntype->skill_used == skill_id("pistol") && !mod->used_on_pistol) {
-            add_msg(m_info, _("That %s cannot be attached to a handgun."),
-                       used->tname().c_str());
-            return;
-        } else if (guntype->skill_used == skill_id("shotgun") && !mod->used_on_shotgun) {
-            add_msg(m_info, _("That %s cannot be attached to a shotgun."),
-                       used->tname().c_str());
-            return;
-        } else if (guntype->skill_used == skill_id("smg") && !mod->used_on_smg) {
-            add_msg(m_info, _("That %s cannot be attached to a submachine gun."),
-                       used->tname().c_str());
-            return;
-        } else if (guntype->skill_used == skill_id("rifle") && !mod->used_on_rifle) {
-            add_msg(m_info, _("That %s cannot be attached to a rifle."),
-                       used->tname().c_str());
-            return;
-        } else if (guntype->skill_used == skill_id("archery") && !mod->used_on_bow && guntype->ammo == "arrow") {
-            add_msg(m_info, _("That %s cannot be attached to a bow."),
-                       used->tname().c_str());
-            return;
-        } else if (guntype->skill_used == skill_id("archery") && !mod->used_on_crossbow && (guntype->ammo == "bolt" || gun->typeId() == "bullet_crossbow")) {
-            add_msg(m_info, _("That %s cannot be attached to a crossbow."),
-                       used->tname().c_str());
-            return;
-        } else if (guntype->skill_used == skill_id("launcher") && !mod->used_on_launcher) {
-            add_msg(m_info, _("That %s cannot be attached to a launcher."),
-                       used->tname().c_str());
-            return;
-        } else if ( !mod->acceptable_ammo_types.empty() &&
-                    mod->acceptable_ammo_types.count(guntype->ammo) == 0 ) {
-                add_msg(m_info, _("That %1$s cannot be used on a %2$s."), used->tname().c_str(),
-                       ammo_name(guntype->ammo).c_str());
-                return;
-        } else if (guntype->valid_mod_locations.count(mod->location) == 0) {
-            add_msg(m_info, _("Your %s doesn't have a slot for this mod."), gun->tname().c_str());
-            return;
-        } else if (gun->get_free_mod_locations(mod->location) <= 0) {
-            add_msg(m_info, _("Your %1$s doesn't have enough room for another %2$s mod. To remove the mods, \
-activate your weapon."), gun->tname().c_str(), _(mod->location.c_str()));
-            return;
+
+        item& gun = i_at( gunpos );
+        if( gun.gunmod_compatible( *used ) ) {
+            add_msg( _( "You attach the %1$s to your %2$s." ), used->tname().c_str(), gun.tname().c_str() );
+            gun.contents.push_back( i_rem( used ) );
         }
-        if (used->typeId() == "spare_mag" && gun->has_flag("RELOAD_ONE")) {
-            add_msg(m_info, _("You can not use a spare magazine in your %s."),
-                       gun->tname().c_str());
-            return;
-        }
-        if (mod->location == "magazine" &&
-            gun->clip_size() <= 2) {
-            add_msg(m_info, _("You can not extend the ammo capacity of your %s."),
-                       gun->tname().c_str());
-            return;
-        }
-        if (used->typeId() == "waterproof_gunmod" && gun->has_flag("WATERPROOF_GUN")) {
-            add_msg(m_info, _("Your %s is already waterproof."),
-                       gun->tname().c_str());
-            return;
-        }
-        if (used->typeId() == "tuned_mechanism" && gun->has_flag("NEVER_JAMS")) {
-            add_msg(m_info, _("This %s is eminently reliable. You can't improve upon it this way."),
-                       gun->tname().c_str());
-            return;
-        }
-        if (gun->typeId() == "hand_crossbow" && !mod->used_on_pistol) {
-          add_msg(m_info, _("Your %s isn't big enough to use that mod.'"), gun->tname().c_str(),
-          used->tname().c_str());
-          return;
-        }
-        if (used->typeId() == "brass_catcher" && gun->has_flag("RELOAD_EJECT")) {
-            add_msg(m_info, _("You cannot attach a brass catcher to your %s."),
-                       gun->tname().c_str());
-            return;
-        }
-        for (auto &i : gun->contents) {
-            if (i.type->id == used->type->id) {
-                add_msg(m_info, _("Your %1$s already has a %2$s."), gun->tname().c_str(),
-                           used->tname().c_str());
-                return;
-            } else if ((used->typeId() == "clip" || used->typeId() == "clip2") &&
-                       (i.type->id == "clip" || i.type->id == "clip2")) {
-                add_msg(m_info, _("Your %s already has an extended magazine."),
-                           gun->tname().c_str());
-                return;
-            }
-        }
-        add_msg(_("You attach the %1$s to your %2$s."), used->tname().c_str(),
-                   gun->tname().c_str());
-        gun->contents.push_back(i_rem(used));
         return;
 
     } else if (used->is_bionic()) {
@@ -11680,15 +11595,13 @@ activate your weapon."), gun->tname().c_str(), _(mod->location.c_str()));
         read(inventory_position);
         return;
     } else if (used->is_gun()) {
-        std::vector<item> &mods = used->contents;
-        unsigned imodcount = 0;
-        for( auto &gm : mods ){
-            if( gm.has_flag("IRREMOVABLE") ){
-                imodcount++;
-            }
-        }
-        // Get weapon mod names.
-        if (mods.empty() || mods.size() == imodcount ) {
+
+        auto& mods = used->contents;
+
+        bool can_remove = std::any_of( mods.begin(), mods.end(), []( const item& e ) {
+            return e.is_gunmod() && !e.has_flag( "IRREMOVABLE" );
+        } );
+        if( !can_remove ) {
             add_msg(m_info, _("Your %s doesn't appear to be modded."), used->tname().c_str());
             return;
         }
@@ -11697,40 +11610,50 @@ activate your weapon."), gun->tname().c_str(), _(mod->location.c_str()));
             add_msg( _( "You can not modify your %s while it's worn." ), used->tname().c_str() );
             return;
         }
-        // Create menu.
-        int choice = -1;
-
-        uimenu kmenu;
-        kmenu.selected = 0;
-        kmenu.text = _("Remove which modification?");
-        for (size_t i = 0; i < mods.size(); i++) {
-            if( !mods[i].has_flag("IRREMOVABLE") ){
-                kmenu.addentry( i, true, -1, mods[i].tname() );
-            }
-        }
-        kmenu.addentry( mods.size(), true, 'r', _("Remove all") );
-        kmenu.addentry( mods.size() + 1, true, 'q', _("Cancel") );
-        kmenu.query();
-        choice = kmenu.ret;
-
-        if (choice < int(mods.size())) {
-            const std::string mod = used->contents[choice].tname();
-            remove_gunmod(used, unsigned(choice));
-            add_msg(_("You remove your %1$s from your %2$s."), mod.c_str(), used->tname().c_str());
-        } else if (choice == int(mods.size())) {
-            for (int i = used->contents.size() - 1; i >= 0; i--) {
-                if( !used->contents[i].has_flag("IRREMOVABLE") ){
-                    remove_gunmod(used, i);
-                }
-            }
-            add_msg(_("You remove all the modifications from your %s."), used->tname().c_str());
-        } else {
-            add_msg(_("Never mind."));
+        if( used->ammo_remaining() > 0 || used->magazine_current() ) {
+            // Prevent removal of a ammo type conversion whilst the gun is loaded
+            add_msg( _( "Unload your %s before trying to modify it." ), used->tname().c_str() );
             return;
         }
-        // Removing stuff from a gun takes time.
-        moves -= int(used->reload_time(*this) / 2);
+
+        uimenu prompt;
+        prompt.selected = 0;
+        prompt.text = _( "Remove which modification?" );
+        prompt.return_invalid = true;
+
+        for( decltype( mods.size() ) i = 0; i != mods.size(); ++i ) {
+            if( mods[i].is_gunmod() && !mods[i].has_flag( "IRREMOVABLE" ) ) {
+                prompt.addentry( i + 1, true, -1, mods[i].tname() );
+            }
+        }
+
+        prompt.addentry( 0, true, 'r', _("Remove all") );
+        prompt.query();
+
+        if( prompt.ret > 0 ) {
+            add_msg( _( "You remove your %1$s from your %2$s." ),
+                     mods[ prompt.ret - 1 ].tname().c_str(), used->tname().c_str() );
+
+            remove_gunmod( used, prompt.ret - 1 );
+
+        } else if( prompt.ret == 0 ) {
+            add_msg( _( "You remove all the modifications from your %s." ), used->tname().c_str() );
+
+            for( int i = mods.size() - 1; i >= 0; --i ) {
+                if( mods[i].is_gunmod() && !mods[i].has_flag( "IRREMOVABLE" ) ) {
+                    remove_gunmod( used, i );
+                }
+            }
+
+        } else {
+            add_msg( _( "Never mind." ) );
+            return;
+        }
+
+        // @todo implement sensible time penalty
+        moves -= int( used->reload_time( *this ) / 2 );
         return;
+
     } else if ( used->type->has_use() ) {
         invoke_item( used );
         return;
