@@ -18,7 +18,7 @@
         "encumbrance" : 12,
         "bashing" : 3,
         "symbol" : "[",
-        "flags" : ["OVERSIZE", BELTED", "RESTRICT_HANDS", "BLOCK_WHILE_WORN"],
+        "flags" : ["OVERSIZE", "BELTED", "RESTRICT_HANDS", "BLOCK_WHILE_WORN"],
         "techniques" : ["WBLOCK_1"],
         "coverage" : 30,
         "material_thickness" : 2
