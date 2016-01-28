@@ -7981,16 +7981,6 @@ void player::suffer()
     }
 
     if (!in_sleep_state()) {
-        if (weight_carried() > weight_capacity()) {
-            // Starts at 1 in 25, goes down by 5 for every 50% more carried
-            if (one_in(35 - 5 * weight_carried() / (weight_capacity() / 2))) {
-                add_msg_if_player(m_bad, _("Your body strains under the weight!"));
-                // 1 more pain for every 800 grams more (5 per extra STR needed)
-                if ( ((weight_carried() - weight_capacity()) / 800 > pain && pain < 100)) {
-                    mod_pain(1);
-                }
-            }
-        }
         if (weight_carried() > 4 * weight_capacity()) {
             if (has_effect( effect_downed )) {
                 add_effect( effect_downed, 1, num_bp, false, 0, true );
@@ -14072,14 +14062,30 @@ int player::get_stamina_max() const
 
 void player::burn_move_stamina( int moves )
 {
+    int overburden_percentage = 0;
+    int current_weight = weight_carried();
+    int max_weight = weight_capacity();
+    if (current_weight > max_weight) {
+        overburden_percentage = (current_weight - max_weight) * 100 / max_weight;
+    }
     // Regain 10 stamina / turn
     // 7/turn walking
     // 20/turn running
     int burn_ratio = 7;
+    burn_ratio += overburden_percentage;
     if( move_mode == "run" ) {
-        burn_ratio = 20;
+        burn_ratio = burn_ratio * 3 - 1;
     }
     mod_stat( "stamina", -((moves * burn_ratio) / 100) );
+    // Chance to suffer pain if overburden and stamina runs out or has trait BADBACK
+    // Starts at 1 in 25, goes down by 5 for every 50% more carried
+    if ((current_weight > max_weight) && (has_trait("BADBACK") || stamina == 0) && one_in(35 - 5 * current_weight / (max_weight / 2))) {
+        add_msg_if_player(m_bad, _("Your body strains under the weight!"));
+        // 1 more pain for every 800 grams more (5 per extra STR needed)
+        if ( ((current_weight - max_weight) / 800 > pain && pain < 100)) {
+            mod_pain(1);
+        }
+    }
 }
 
 field_id player::playerBloodType() const
