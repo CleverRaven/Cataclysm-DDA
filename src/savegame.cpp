@@ -593,6 +593,25 @@ void overmap::unserialize( std::ifstream &fin ) {
                 }
                 vehicles[id] = new_tracker;
             }
+        } else if( name == "scent_traces" ) {
+            jsin.start_array();
+            while( !jsin.end_array() ) {
+                jsin.start_object();
+                tripoint pos;
+                int time;
+                int strength;
+                while( !jsin.end_object() ) {
+                    std::string scent_member_name = jsin.get_member_name();
+                    if( scent_member_name == "pos" ) {
+                        jsin.read( pos );
+                    } else if( scent_member_name == "time" ) {
+                        jsin.read( time );
+                    } else if( scent_member_name == "strength" ) {
+                        jsin.read( strength );
+                    }
+                }
+                scents[pos] = scent_trace( time, strength );
+            }
         } else if( name == "npcs" ) {
             jsin.start_array();
             while( !jsin.end_array() ) {
@@ -863,6 +882,18 @@ void overmap::serialize( std::ofstream &fout ) const
         json.member("name", i.second.name);
         json.member("x", i.second.x);
         json.member("y", i.second.y);
+        json.end_object();
+    }
+    json.end_array();
+    fout << std::endl;
+
+    json.member("scent_traces");
+    json.start_array();
+    for( const auto &scent : scents ) {
+        json.start_object();
+        json.member( "pos", scent.first );
+        json.member( "time", scent.second.creation_turn );
+        json.member( "strength", scent.second.initial_strength );
         json.end_object();
     }
     json.end_array();

@@ -215,8 +215,8 @@ int player::hit_roll() const
     }
 
     // Farsightedness makes us hit worse
-    if( has_trait("HYPEROPIC") &&
-        !is_wearing("glasses_reading") && !is_wearing("glasses_bifocal") ) {
+    if( has_trait( "HYPEROPIC" ) && !is_wearing( "glasses_reading" )
+        && !is_wearing( "glasses_bifocal" ) && !has_effect( effect_contacts ) ) {
         numdice -= 2;
     }
 
@@ -2016,10 +2016,10 @@ std::vector<special_attack> player::mutation_attacks(Creature &t) const
                                          name.c_str(), target.c_str());
             }
         }
-        //~"jackhammering" with the beak is metaphor for the rapid-peck
-        //~commonly employed by a woodpecker drilling into wood
         else {
             if (is_player()) {
+                //~"jackhammering" with the beak is metaphor for the rapid-peck
+                //~commonly employed by a woodpecker drilling into wood
                 tmp.text = string_format(_("You jackhammer into %s with your beak"),
                                          target.c_str());
             } else if (male) {

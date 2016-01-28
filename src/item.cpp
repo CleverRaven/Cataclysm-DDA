@@ -2296,7 +2296,7 @@ int item::weight() const
     if( count_by_charges() ) {
         ret *= charges;
 
-    } else if( ammo_capacity() > 0 ) {
+    } else if( magazine_integral() && !is_magazine() ) {
         if ( ammo_type() == "plutonium" ) {
             ret += ammo_remaining() * find_type( default_ammo( ammo_type() ) )->weight / PLUTONIUM_CHARGES;
         } else if( ammo_data() ) {
@@ -2321,23 +2321,19 @@ int item::weight() const
         }
     }
 
-    for( auto &elem : contents ) {
-        ret += elem.weight();
-        if( elem.is_gunmod() && elem.ammo_data() ) {
-            ret += elem.ammo_data()->weight * elem.ammo_remaining();
-        }
-    }
-
     // reduce weight for sawn-off weepons capped to the apportioned weight of the barrel
     if( has_gunmod( "barrel_small" ) != -1 ) {
         float b = type->gun->barrel_length;
         ret -= std::min( b * 250, b / type->volume * type->weight );
     }
 
-
     // tool mods also add about a pound of weight
     if( has_flag("ATOMIC_AMMO") ) {
         ret += 250;
+    }
+
+    for( auto &elem : contents ) {
+        ret += elem.weight();
     }
 
     return ret;
@@ -4159,6 +4155,91 @@ const item * item::magazine_current() const
     return const_cast<item *>(this)->magazine_current();
 }
 
+bool item::gunmod_compatible( const item& mod, bool alert ) const
+{
+    if( !mod.is_gunmod() ) {
+        debugmsg( "Tried checking compatibility of non-gunmod" );
+        return false;
+    }
+
+    std::string msg;
+
+    if( !is_gun() ) {
+        msg = string_format( _( "That %s is not a weapon." ), tname().c_str() );
+
+    } else if( is_gunmod() ) {
+        msg = string_format( _( "That %s is a gunmod, it can not be modded." ), tname().c_str() );
+
+    } else if( has_gunmod( mod.typeId() ) != -1 ) {
+        msg = string_format( _( "Your %1$s already has a %2$s." ), tname().c_str(), mod.tname( 1 ).c_str() );
+
+    } else if( !type->gun->valid_mod_locations.count( mod.type->gunmod->location ) ) {
+        msg = string_format( _( "Your %s doesn't have a slot for this mod." ), tname().c_str() );
+
+    } else if( get_free_mod_locations( mod.type->gunmod->location ) <= 0 ) {
+        msg = string_format( _( "Your %1$s doesn't have enough room for another %2$s mod." ), tname().c_str(), _( mod.type->gunmod->location.c_str() ) );
+
+    } else if( ammo_remaining() > 0 || magazine_current() ) {
+        msg = string_format( _( "Unload your %s before trying to modify it." ), tname().c_str() );
+
+    } else if( gun_skill() == skill_id( "pistol" ) && !mod.type->gunmod->used_on_pistol ) {
+        msg = string_format( _( "That %s cannot be attached to a handgun." ), mod.tname().c_str() );
+
+    } else if( gun_skill() == skill_id( "shotgun" ) && !mod.type->gunmod->used_on_shotgun ) {
+        msg = string_format( _( "That %s cannot be attached to a shotgun." ), mod.tname().c_str() );
+
+    } else if( gun_skill() == skill_id( "smg" ) && !mod.type->gunmod->used_on_smg ) {
+        msg = string_format( _( "That %s cannot be attached to a submachine gun." ), mod.tname().c_str() );
+
+    } else if( gun_skill() == skill_id( "rifle" ) && !mod.type->gunmod->used_on_rifle ) {
+        msg = string_format( _( "That %s cannot be attached to a rifle." ), mod.tname().c_str() );
+
+    } else if( gun_skill() == skill_id( "archery" ) && !mod.type->gunmod->used_on_bow && ammo_type() == "arrow" ) {
+        msg = string_format( _( "That %s cannot be attached to a bow." ), mod.tname().c_str() );
+
+    } else if( gun_skill() == skill_id( "archery" ) && !mod.type->gunmod->used_on_crossbow && ( ammo_type() == "bolt" || typeId() == "bullet_crossbow" ) ) {
+        msg = string_format( _( "That %s cannot be attached to a crossbow." ), mod.tname().c_str() );
+
+    } else if( gun_skill() == skill_id( "launcher" ) && !mod.type->gunmod->used_on_launcher ) {
+        msg = string_format( _( "That %s cannot be attached to a launcher." ), mod.tname().c_str() );
+
+    } else if( typeId() == "hand_crossbow" && !mod.type->gunmod->used_on_pistol ) {
+        msg = string_format( _("Your %s isn't big enough to use that mod.'"), tname().c_str() );
+
+    } else if ( !mod.type->gunmod->acceptable_ammo_types.empty() && !mod.type->gunmod->acceptable_ammo_types.count( ammo_type( false ) ) ) {
+        msg = string_format( _( "That %1$s cannot be used on a %2$s." ), mod.tname( 1 ).c_str(), ammo_name( ammo_type( false ) ).c_str() );
+
+    } else if( mod.typeId() == "spare_mag" && has_flag( "RELOAD_ONE" ) ) {
+        msg = string_format( _( "You can not use a spare magazine in your %s." ), tname().c_str() );
+
+    } else if( mod.type->gunmod->location == "magazine" && clip_size() <= 2 ) {
+        msg = string_format( _( "You can not extend the ammo capacity of your %s." ), tname().c_str() );
+
+    } else if( mod.typeId() == "waterproof_gunmod" && has_flag( "WATERPROOF_GUN" ) ) {
+        msg = string_format( _( "Your %s is already waterproof." ), tname().c_str() );
+
+    } else if( mod.typeId() == "tuned_mechanism" && has_flag( "NEVER_JAMS" ) ) {
+        msg = string_format( _( "This %s is eminently reliable. You can't improve upon it this way." ), tname().c_str() );
+
+    } else if( mod.typeId() == "brass_catcher" && has_flag( "RELOAD_EJECT" ) ) {
+        msg = string_format( _( "You cannot attach a brass catcher to your %s." ), tname().c_str() );
+
+    } else if ( mod.typeId() == "clip" && ( has_gunmod( "clip" ) != -1 || has_gunmod( "clip2" ) != -1 ) ) {
+        msg = string_format( _( "Your %s already has an extended magazine." ), tname().c_str() );
+
+    } else if ( mod.typeId() == "clip2" && ( has_gunmod( "clip" ) != -1 || has_gunmod( "clip2" ) != -1 ) ) {
+        msg = string_format( _( "Your %s already has an extended magazine." ), tname().c_str() );
+
+    } else {
+        return true;
+    }
+
+    if( alert ) {
+        add_msg( m_info, msg.c_str() );
+    }
+    return false;
+}
+
 const use_function *item::get_use( const std::string &use_name ) const
 {
     if( type != nullptr && type->get_use( use_name ) != nullptr ) {
@@ -4236,18 +4317,34 @@ item_location item::pick_reload_ammo( player &u, bool interactive ) const
         std::for_each( contents.begin(), contents.end(), wants_ammo );
     }
 
-    // first check the inventory for suitable ammo
     std::vector<item_location> ammo_list;
-    u.visit_items( [&]( const item& it ) {
-        if( ( it.is_ammo() && ( item_types.count( it.ammo_current() ) || ammo_types.count( it.ammo_type() ) ) ) ||
-            ( it.is_magazine() && compat_mag.count( it.typeId() ) ) ) {
 
-            auto loc = item_location::on_character( u, &it );
-            ammo_list.push_back( std::move( loc ) );
+    auto filter = [&item_types,&ammo_types,&compat_mag]( const item *e ) {
+        return ( e->is_ammo() && ( item_types.count( e->ammo_current() ) || ammo_types.count( e->ammo_type() ) ) ) ||
+               ( e->is_magazine() && compat_mag.count( e->typeId() ) );
+    };
+
+    // first check the inventory for suitable ammo
+    u.visit_items( [&ammo_list,&filter,&u]( const item *node, const item * ) {
+        if( filter( node ) ) {
+            ammo_list.emplace_back( item_location::on_character( u, node ) );
         }
-
-        return ( it.is_magazine() || it.is_gun() || it.is_tool() ) ? VisitResponse::SKIP : VisitResponse::NEXT;
+        return ( node->is_magazine() || node->is_gun() || node->is_tool() ) ? VisitResponse::SKIP : VisitResponse::NEXT;
     });
+
+    for( const auto &pos : closest_tripoints_first( 1, u.pos() ) ) {
+        // next check for items on adjacent map tiles
+        if( g->m.accessible_items( u.pos(), pos, 1 ) ) {
+            for( auto& e : g->m.i_at( pos ) ) {
+                e.visit_items( [&ammo_list,&filter,&pos]( const item *node, const item * ) {
+                    if( filter( node ) ) {
+                        ammo_list.emplace_back( item_location::on_map( pos, node ) );
+                    }
+                    return ( node->is_magazine() || node->is_gun() || node->is_tool() ) ? VisitResponse::SKIP : VisitResponse::NEXT;
+                });
+            }
+        }
+    }
 
     if( ammo_list.empty() ) {
         if( interactive ) {
@@ -4265,10 +4362,11 @@ item_location item::pick_reload_ammo( player &u, bool interactive ) const
     amenu.w_y = 0;
     amenu.w_x = 0;
     amenu.w_width = TERMX;
+    // 40: item location
     // 40: = 4 * ammo stats colum (10 chars each)
     // 2: prefix from uimenu: hotkey + space in front of name
     // 4: borders: 2 char each ("| " and " |")
-    const int namelen = TERMX - 2 - 40 - 4;
+    const int namelen = TERMX - 40 - 40 - 2 - 4;
 
     std::string lastreload = "";
     if( uistate.lastreload.find( ammo_type() ) != uistate.lastreload.end() ) {
@@ -4283,8 +4381,8 @@ item_location item::pick_reload_ammo( player &u, bool interactive ) const
     }
     // To cover the space in the header that is used by the hotkeys created by uimenu
     amenu.text.insert( 0, "  " );
-    //~ header of table that appears when reloading, each colum must contain exactly 10 characters
-    amenu.text += _( "| Damage  | Pierce  | Range   | Accuracy" );
+    //~ header of table that appears when reloading
+    amenu.text += _( "| Location                              | Damage  | Pierce  | Range   | Accuracy" );
     int i = 0;
     for( auto& e : ammo_list ) {
         const item *it = e.get_item();
@@ -4307,7 +4405,10 @@ item_location item::pick_reload_ammo( player &u, bool interactive ) const
         const auto ammo_pierce     = curammo ? curammo->ammo->pierce : 0;
         const auto ammo_range      = curammo ? curammo->ammo->range  : 0;
         const auto ammo_dispersion = curammo ? 100 - curammo->ammo->dispersion : 0;
-        row += string_format( "| %-7d | %-7d | %-7d | %-7d", ammo_damage, ammo_pierce, ammo_range, ammo_dispersion );
+
+       row += string_format( "| %-37s | %-7d | %-7d | %-7d | %-7d",
+                              utf8_truncate( e.describe( &g->u ), 37 ).c_str(),
+                              ammo_damage, ammo_pierce, ammo_range, ammo_dispersion );
 
         amenu.addentry( i, true, i + 'a', row );
         if( lastreload == it->type->id ) {
@@ -5007,14 +5108,14 @@ void item::mark_as_used_by_player(const player &p)
     used_by_ids += string_format( "%d;", p.getID() );
 }
 
-VisitResponse item::visit_items( const std::function<VisitResponse(item&)>& func ) {
-    switch( func( *this ) ) {
+static inline VisitResponse visit_internal( const std::function<VisitResponse(item *, item *)>& func, item *node, item *parent ) {
+    switch( func( node, parent ) ) {
         case VisitResponse::ABORT:
             return VisitResponse::ABORT;
 
         case VisitResponse::NEXT:
-            for( auto& e : contents ) {
-                if( e.visit_items( func ) == VisitResponse::ABORT ) {
+            for( auto& e : node->contents ) {
+                if( visit_internal( func, &e, node ) == VisitResponse::ABORT ) {
                     return VisitResponse::ABORT;
                 }
             }
@@ -5028,17 +5129,43 @@ VisitResponse item::visit_items( const std::function<VisitResponse(item&)>& func
     return VisitResponse::ABORT;
 }
 
-VisitResponse item::visit_items( const std::function<VisitResponse(const item&)>& func ) const {
-    return const_cast<item *>( this )->visit_items( static_cast<const std::function<VisitResponse(item&)>&>( func ) );
+VisitResponse item::visit_items( const std::function<VisitResponse(item *, item *)>& func )
+{
+    return visit_internal( func, this, nullptr );
+}
+
+VisitResponse item::visit_items( const std::function<VisitResponse(const item *, const item *)>& func ) const
+{
+    return visit_internal( func, const_cast<item *>( this ), nullptr );
+}
+
+item * item::find_parent( item& it )
+{
+    item *res = nullptr;
+    if( visit_items( [&]( item *node, item *parent ){
+        if( node == &it ) {
+            res = parent;
+            return VisitResponse::ABORT;
+        }
+        return VisitResponse::NEXT;
+    } ) != VisitResponse::ABORT ) {
+        debugmsg( "Tried to find item parent using an item that doesn't contain it" );
+    }
+    return res;
+}
+
+const item * item::find_parent( const item& it ) const
+{
+    return const_cast<item *>( this )->find_parent( const_cast<item&>( it ) );
 }
 
 bool item::contains( const std::function<bool(const item&)>& filter ) const {
-    return visit_items( [&filter] ( const item& e ) {
-        return filter( e ) ? VisitResponse::ABORT : VisitResponse::NEXT;
+    return visit_items( [&filter] ( const item *node, const item * ) {
+        return filter( *node ) ? VisitResponse::ABORT : VisitResponse::NEXT;
     }) == VisitResponse::ABORT;
 }
 
-bool item::can_holster ( const item& obj ) const {
+bool item::can_holster ( const item& obj, bool ignore ) const {
     if( !type->can_use("holster") ) {
         return false; // item is not a holster
     }
@@ -5048,7 +5175,7 @@ bool item::can_holster ( const item& obj ) const {
         return false; // item is not a suitable holster for obj
     }
 
-    if( (int) contents.size() >= ptr->multi ) {
+    if( !ignore && (int) contents.size() >= ptr->multi ) {
         return false; // item is already full
     }
 

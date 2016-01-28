@@ -1293,8 +1293,8 @@ bool mattack::vine(monster *z)
             }
 
             body_part bphit = critter->get_random_body_part();
-            //~ 1$s monster name(vine), 2$s bodypart in accusative
             critter->add_msg_player_or_npc( m_bad,
+                //~ 1$s monster name(vine), 2$s bodypart in accusative
                 _("The %1$s lashes your %2$s!"),
                 _("The %1$s lashes <npcname>'s %2$s!"),
                 z->name().c_str(),
@@ -4182,16 +4182,18 @@ bool mattack::slimespring(monster *z)
     // This morale buff effect could get spammy
     if (g->u.morale_level() <= 1) {
         switch (rng(1, 3)) { //~ Your slimes try to cheer you up!
-        //~ Lowercase is intended: they're small voices.
         case 1:
+            //~ Lowercase is intended: they're small voices.
             add_msg(m_good, _("\"hey, it's gonna be all right!\""));
             g->u.add_morale(MORALE_SUPPORT, 10, 50);
             break;
         case 2:
+            //~ Lowercase is intended: they're small voices.
             add_msg(m_good, _("\"we'll get through this!\""));
             g->u.add_morale(MORALE_SUPPORT, 10, 50);
             break;
         case 3:
+            //~ Lowercase is intended: they're small voices.
             add_msg(m_good, _("\"i'm here for you!\""));
             g->u.add_morale(MORALE_SUPPORT, 10, 50);
             break;
@@ -4199,6 +4201,7 @@ bool mattack::slimespring(monster *z)
     }
     if( rl_dist( z->pos(), g->u.pos() ) <= 3 && z->sees( g->u ) ) {
         if ( (g->u.has_effect( effect_bleed )) || (g->u.has_effect( effect_bite )) ) {
+            //~ Lowercase is intended: they're small voices.
             add_msg(_("\"let me help!\""));
             // Yes, your slimespring(s) handle/don't all Bad Damage at the same time.
             if (g->u.has_effect( effect_bite )) {

@@ -2,22 +2,25 @@
 #define OVERMAP_H
 
 #include "omdata.h"
+#include "overmap_types.h"
 #include "mapdata.h"
 #include "weighted_list.h"
 #include "game_constants.h"
 #include "monster.h"
-#include <vector>
-#include <iosfwd>
-#include <string>
-#include <array>
-#include <map>
-#include <unordered_map>
 
-class overmapbuffer;
-class npc;
-struct mongroup;
-class JsonObject;
+#include <array>
+#include <iosfwd>
+#include <list>
+#include <map>
+#include <string>
+#include <unordered_map>
+#include <vector>
+
 class input_context;
+class JsonObject;
+struct mongroup;
+class npc;
+class overmapbuffer;
 
 // base oters: exactly what's defined in json before things are split up into blah_east or roadtype_ns, etc
 extern std::unordered_map<std::string, oter_t> obasetermap;
@@ -224,6 +227,16 @@ class overmap
     void delete_note(int x, int y, int z);
 
     /**
+     * Getter for overmap scents.
+     * @returns a reference to a scent_trace from the requested location.
+     */
+    const scent_trace &scent_at( const tripoint &loc ) const;
+    /**
+     * Setter for overmap scents, stores the provided scent at the provided location.
+     */
+    void set_scent( const tripoint &loc, scent_trace &new_scent );
+
+    /**
      * Display a list of all notes on this z-level. Let the user choose
      * one or none of them.
      * @returns The location of the chosen note (absolute overmap terrain
@@ -258,6 +271,10 @@ class overmap
      * Draw overmap like with @ref draw_overmap() and display the weather.
      */
     static tripoint draw_weather();
+    /**
+     * Draw overmap like with @ref draw_overmap() and display scent traces.
+     */
+    static tripoint draw_scents();
     /**
      * Draw overmap like with @ref draw_overmap() and display the given zone.
      */
@@ -320,6 +337,8 @@ public:
   oter_id nullret;
   bool nullbool;
 
+        std::unordered_map<tripoint, scent_trace> scents;
+
     /**
      * When monsters despawn during map-shifting they will be added here.
      * map::spawn_monsters will load them and place them into the reality bubble
@@ -357,15 +376,17 @@ public:
     static bool obsolete_terrain( const std::string &ter );
     void convert_terrain( const std::unordered_map<tripoint, std::string> &needs_conversion );
 
-    // drawing relevant data, e.g. what to draw
+    // drawing relevant data, e.g. what to draw.
     struct draw_data_t {
-        // draw monster groups on the overmap
+        // draw monster groups on the overmap.
         bool debug_mongroup = false;
         // draw weather, e.g. clouds etc.
         bool debug_weather = false;
-        // draw editor
+        // draw editor.
         bool debug_editor = false;
-        // draw zone location
+        // draw scent traces.
+        bool debug_scent = false;
+        // draw zone location.
         tripoint select = tripoint(-1, -1, -1);
         int iZoneIndex = -1;
     };

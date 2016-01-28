@@ -675,14 +675,23 @@ public:
  std::vector<item> contents;
 
         /** Traverses this item and any child items contained using a visitor pattern
-         * @pram func visitor function called for each node which controls whether traversal continues.
-         * Typically a lambda making use of captured state it should return VisitResponse::Next to
-         * recursively process child items, VisitResponse::Skip to ignore children of the current node
-         * or VisitResponse::Abort to skip further processing of any nodes.
+         * @param func visitor function called for each node which controls whether traversal continues.
+         * Typically a lambda making use of captured state. The first argument is the node and the second is
+         * the parent node (if any). It should return VisitResponse::Next to recursively process child items,
+         * VisitResponse::Skip to ignore children of the current node or VisitResponse::Abort to skip all remaining nodes
          * @return This method itself only ever returns VisitResponse::Next or VisitResponse::Abort.
          */
-        VisitResponse visit_items( const std::function<VisitResponse(item&)>& func );
-        VisitResponse visit_items( const std::function<VisitResponse(const item&)>& func ) const;
+        VisitResponse visit_items( const std::function<VisitResponse(item *, item *)>& func );
+        VisitResponse visit_items( const std::function<VisitResponse(const item *, const item *)>& func ) const;
+
+        /**
+         *  Returns the the parent container for an item.
+         *  @param it item to search for which must be contained by this item
+         *  @see item::contains
+	 *  @see Character::find_parent
+         */
+        item * find_parent( item& it );
+        const item * find_parent( const item& it ) const;
 
         /** Check if this item contains one or more items matching filter */
         bool contains( const std::function<bool(const item&)>& filter ) const;
@@ -692,8 +701,10 @@ public:
             return contains( [&it]( const item& e ){ return &e == it; } );
         }
 
-        /** Checks if item is a holster and currently capable of storing obj */
-        bool can_holster ( const item& obj ) const;
+        /** Checks if item is a holster and currently capable of storing obj
+         *  @param ignore only check item is compatible and ignore any existing contents */
+        bool can_holster ( const item& obj, bool ignore = false ) const;
+
         /**
          * Returns @ref curammo, the ammo that is currently load in this item.
          * May return a null pointer.
@@ -1101,6 +1112,9 @@ public:
          */
         item * magazine_current();
         const item * magazine_current() const;
+
+        /** Checks if mod can be applied to this item considering any current state (jammed, loaded etc.) */
+        bool gunmod_compatible( const item& mod, bool alert = true ) const;
 
         /**
          * Number of charges this gun can hold. Includes effects from installed gunmods.

@@ -784,6 +784,10 @@ const ter_t &get_terrain_type(int id)
     return ter_id( id ).obj();
 }
 
+static calendar &get_calendar_turn_wrapper() {
+    return calendar::turn;
+}
+
 /** Create a new monster of the given type. */
 monster *create_monster( const mtype_id &mon_type, const tripoint &p )
 {
