@@ -1943,7 +1943,8 @@ const itype_id &material_component( const std::string &material_id )
         { "leather", "leather" },
         { "fur", "fur" },
         { "nomex", "nomex" },
-        { "wool", "felt_patch" }
+        { "wool", "felt_patch" },
+        { "neoprene", "neoprene" }
     };
 
     static const itype_id null_material = "";

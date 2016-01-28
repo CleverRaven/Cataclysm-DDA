@@ -843,6 +843,7 @@
         "elec_resist" : 4,
         "fire_resist" : 2,
         "chip_resist" : 5,
+        "acid_resist" : 1,
         "density" : 4
     }
 ]
