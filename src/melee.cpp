@@ -215,8 +215,8 @@ int player::hit_roll() const
     }
 
     // Farsightedness makes us hit worse
-    if( has_trait("HYPEROPIC") &&
-        !is_wearing("glasses_reading") && !is_wearing("glasses_bifocal") ) {
+    if( has_trait( "HYPEROPIC" ) && !is_wearing( "glasses_reading" )
+        && !is_wearing( "glasses_bifocal" ) && !has_effect( effect_contacts ) ) {
         numdice -= 2;
     }
 
