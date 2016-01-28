@@ -2057,9 +2057,9 @@ void player::memorial( std::ofstream &memorial_file, std::string epitaph )
         memorial_file << string_format(pgettext("epitaph","\"%s\""), epitaph.c_str()) << "\n\n";
     }
     //~ First parameter: Pronoun, second parameter: a profession name (with article)
-    memorial_file << string_format("%1$s was %2$s when the apocalypse began.",
+    memorial_file << string_format(_("%1$s was %2$s when the apocalypse began."),
                                    pronoun.c_str(), profession_name.c_str()) << "\n";
-    memorial_file << string_format("%1$s died on %2$s of year %3$d, day %4$d, at %5$s.",
+    memorial_file << string_format(_("%1$s died on %2$s of year %3$d, day %4$d, at %5$s."),
                      pronoun.c_str(), season_name_upper(calendar::turn.get_season()).c_str(), (calendar::turn.years() + 1),
                      (calendar::turn.days() + 1), calendar::turn.print_time().c_str()) << "\n";
     memorial_file << kill_place << "\n";
