@@ -9081,7 +9081,7 @@
   "subcategory": "CSC_ARMOR_SUIT",
   "skill_used": "tailor",
   "difficulty": 4,
-  "time": 8000,
+  "time": 600000,
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "textbook_tailor", 4 ] , [ "manual_tailor", 5 ] , ["tailor_portfolio", 4]],
@@ -9097,10 +9097,10 @@
   ],
   "components": [
     [
-      [ "neoprene", 6 ]
+      [ "neoprene", 20 ]
     ],
     [
-      [ "rag", 2 ]
+      [ "rag", 20 ]
     ]
   ]
 },{
@@ -9110,7 +9110,7 @@
   "subcategory": "CSC_ARMOR_SUIT",
   "skill_used": "tailor",
   "difficulty": 3,
-  "time": 6000,
+  "time": 450000,
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "textbook_tailor", 3 ] , [ "manual_tailor", 4 ] , ["tailor_portfolio", 3]],
@@ -9126,10 +9126,10 @@
   ],
   "components": [
     [
-      [ "neoprene", 4 ]
+      [ "neoprene", 14 ]
     ],
     [
-      [ "rag", 1 ]
+      [ "rag", 14 ]
     ]
   ]
 },{
@@ -9139,7 +9139,7 @@
   "subcategory": "CSC_ARMOR_SUIT",
   "skill_used": "tailor",
   "difficulty": 3,
-  "time": 2500,
+  "time": 15000,
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "textbook_tailor", 3 ] , [ "manual_tailor", 4 ] , ["tailor_portfolio", 3]],
@@ -9155,10 +9155,10 @@
   ],
   "components": [
     [
-      [ "neoprene", 2 ]
+      [ "neoprene", 6 ]
     ],
     [
-      [ "rag", 1 ]
+      [ "rag", 2 ]
     ]
   ]
 }
