@@ -40,5 +40,26 @@
         "price" : 20000,
         "skill_required": 5,
         "ups_charges": 5
+    },
+    {
+        "type" : "GUNMOD",
+        "id" : "burst_reducer",
+        "name" : "burst reducer",
+        "location": "conversion",
+        "dispersion_modifier" : -5,
+        "description" : "Tweaked high quality internals reduces the burst size of a gun, allowing for more ammo efficient weapons.  The high quality of the parts also increases accuracy slightly by ensuring same firing conditions every time.",
+        "weight" : 450,
+        "to_hit" : -1,
+        "color" : "magenta",
+        "symbol" : ":",
+        "material" : ["steel", "null"],
+        "mod_targets" : ["rifle","smg"],
+        "volume" : 2,
+        "bashing" : 6,
+        "burst_modifier" : -2,
+        "recoil_modifier" : 60,
+        "price" : 68000,
+        "skill_required": 7,
+        "loudness_modifier" : 4
     }
 ]
