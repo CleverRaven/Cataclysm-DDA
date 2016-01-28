@@ -437,12 +437,14 @@ void player::activate_mutation( const std::string &mut )
                 slime->friendly = -1;
             }
         }
-        //~ Usual enthusiastic slimespring small voices! :D
         if (one_in(3)) {
+            //~ Usual enthusiastic slimespring small voices! :D
             add_msg_if_player(m_good, _("wow! you look just like me! we should look out for each other!"));
         } else if (one_in(2)) {
+            //~ Usual enthusiastic slimespring small voices! :D
             add_msg_if_player(m_good, _("come on, big me, let's go!"));
         } else {
+            //~ Usual enthusiastic slimespring small voices! :D
             add_msg_if_player(m_good, _("we're a team, we've got this!"));
         }
         tdata.powered = false;

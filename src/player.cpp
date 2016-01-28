@@ -14461,7 +14461,8 @@ std::vector<std::string> player::get_overlay_ids() const {
 
 void player::spores()
 {
-    sounds::sound( pos(), 10, _("Pouf!")); //~spore-release sound
+    //~spore-release sound
+    sounds::sound( pos(), 10, _("Pouf!"));
     for (int i = -1; i <= 1; i++) {
         for (int j = -1; j <= 1; j++) {
             if (i == 0 && j == 0) {
