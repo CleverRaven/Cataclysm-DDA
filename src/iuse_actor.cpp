@@ -974,6 +974,7 @@ void salvage_actor::load( JsonObject &obj )
         material_whitelist.push_back("plastic");
         material_whitelist.push_back("wood");
         material_whitelist.push_back("wool");
+        material_whitelist.push_back("neoprene");
     }
 }
 
