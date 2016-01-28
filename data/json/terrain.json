@@ -2504,15 +2504,14 @@
         "move_cost": 0,
         "flags": ["TRANSPARENT", "NOITEM", "REDUCE_SCENT", "ALARMED", "CONNECT_TO_WALL"],
         "bash": {
-            "str_min": 60, "str_max": 250,
-            "sound": "metal screeching!",
-            "sound_fail": "clang!",
-            "ter_set": "t_window_empty",
+            "str_min": 3, "str_max": 6,
+            "sound": "glass breaking!",
+            "sound_fail": "whack!",
+            "sound_vol": 16,
+            "sound_fail_vol": 10,
+            "ter_set": "t_window_bars",
             "items": [
-                { "item": "steel_lump", "prob": 25 },
-                { "item": "steel_chunk", "count": [1, 4] },
-                { "item": "scrap", "count": [1, 5] },
-                { "item": "glass_shard", "count": 3 }
+                { "item": "glass_shard", "count": 5 }
             ]
         }
     },{
