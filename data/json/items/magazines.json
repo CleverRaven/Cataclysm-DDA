@@ -293,7 +293,7 @@
     },
     {
         "type" : "MAGAZINE",
-        "id" : "sten_mag",
+        "id" : "stenmag",
         "price" : 4000,
         "name" : "STEN magazine",
         "symbol" : "#",
@@ -473,7 +473,7 @@
         "reload_time" : 100,
         "flags": [ "COMPACT_MAG" ],
         "alternatives" : [
-            [ "9mm", [ "sten_mag", "survivor9mm_mag" ] ]
+            [ "9mm", [ "stenmag", "survivor9mm_mag" ] ]
         ]
     },
     {
@@ -493,7 +493,7 @@
         "reload_time" : 120,
         "flags": [ "COMPACT_MAG" ],
         "alternatives" : [
-            [ "9mm", [ "sten_mag", "survivor9mm_mag" ] ]
+            [ "9mm", [ "stenmag", "survivor9mm_mag" ] ]
         ]
     },
     {

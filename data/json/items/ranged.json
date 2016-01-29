@@ -5151,7 +5151,7 @@
     "burst": 3,
     "reload": 800,
     "loudness" : 150,
-    "magazines" : [ "sten_mag", "survivor9mm_mag" ],
+    "magazines" : [ "stenmag", "survivor9mm_mag" ],
     "valid_mod_locations": [[ "muzzle", 1 ],[ "stock", 1 ]]
   },
   {
