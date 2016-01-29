@@ -149,7 +149,11 @@ ifdef RELEASE
       CXXFLAGS += -O3
     endif
   else
-    CXXFLAGS += -Os
+  	ifdef CROSS
+	    CXXFLAGS += -O3
+  	else
+  		CXXFLAGS += -Os
+  	endif
     LDFLAGS += -s
   endif
   # OTHERS += -mmmx -m3dnow -msse -msse2 -msse3 -mfpmath=sse -mtune=native
