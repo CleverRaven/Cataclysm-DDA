@@ -5278,6 +5278,7 @@
       ["tdi_mag", 2],
       ["thompson_mag", 2],
       ["makarovmag", 2],
+      ["skorpion61mag", 2],
       ["skorpion82mag", 2],
       ["m1918mag", 2]
     ]
@@ -8182,6 +8183,7 @@
       ["tdi_mag", 3],
       ["makarovmag", 3],
       ["skorpion82mag", 3]
+      ["skorpion61mag", 5]
       ["thompson_mag", 4],
       ["thompson_bigmag", 2],
       ["thompson_drum", 1],
