@@ -2111,8 +2111,8 @@
     "flags": "MODE_BURST",
     "skill": "rifle",
     "ammo": "3006",
-    "weight": 7250,
-    "volume": 12,
+    "weight": 7050,
+    "volume": 10,
     "bashing": 12,
     "cutting": 0,
     "to_hit": -1,
@@ -2123,11 +2123,11 @@
     "recoil": 30,
     "durability": 8,
     "burst": 5,
-    "clip_size": 20,
-    "reload": 550,
+    "reload": 100,
     "loudness" : 150,
     "barrel_length" : 4,
-    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
+    "magazines" : [ "m1918mag", "m1918bigmag" ],
+    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "ruger_mini",
