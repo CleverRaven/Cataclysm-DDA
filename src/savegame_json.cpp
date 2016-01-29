@@ -1353,6 +1353,34 @@ void item::io( Archive& archive )
         // only for backward compatibility (nowadays mode is stored in item_vars)
         set_gun_mode( mode );
     }
+
+    if( !magazine_integral() ) {
+        // items with detachable magazines shouldn't have charges or curammo set
+        if( curammo || charges != 0 ) {
+            if( curammo && charges > 0 ) {
+                item mag( type->magazine_default, calendar::turn );
+                item ammo( curammo->id, calendar::turn );
+
+                ammo.charges = std::min( charges, mag.ammo_capacity() );
+                mag.contents.push_back( ammo );
+
+                contents.push_back( mag );
+            }
+            charges = 0;
+            curammo = nullptr;
+        }
+
+        // remove incompatible magazine mods
+        if( has_gunmod( "spare_mag" ) >= 0 ) {
+            contents.erase( contents.begin() + has_gunmod( "spare_mag" ) );
+        }
+        if( has_gunmod( "clip" ) >= 0 ) {
+            contents.erase( contents.begin() + has_gunmod( "clip" ) );
+        }
+        if( has_gunmod( "clip2" ) >= 0 ) {
+            contents.erase( contents.begin() + has_gunmod( "clip2" ) );
+        }
+    }
 }
 
 void item::deserialize(JsonObject &data)
