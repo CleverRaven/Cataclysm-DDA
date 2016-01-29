@@ -127,6 +127,8 @@ src/recipe_dictionary.h
 src/requirements.h
 src/rng.h
 src/shadowcasting.h
+src/skill.h
+src/sounds.h
 src/speech.h
 src/start_location.h
 src/string_id.h
