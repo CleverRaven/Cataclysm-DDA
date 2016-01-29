@@ -182,7 +182,7 @@ bool bite_actor::call( monster &z ) const
     dealt_damage_instance dealt_damage;
     body_part hit;
 
-    double multiplier = rng_float(min_mul, max_mul );
+    double multiplier = rng_float( min_mul, max_mul );
     damage.mult_damage( multiplier );
 
     target->deal_melee_hit( &z, hitspread, false, damage, dealt_damage );
