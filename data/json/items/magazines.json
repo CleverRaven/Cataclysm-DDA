@@ -511,7 +511,10 @@
         "capacity" : 50,
         "reliability" : 7,
         "reload_time" : 150,
-        "flags": [ "BULKY_MAG" ]
+        "flags": [ "BULKY_MAG" ],
+        "alternatives" : [
+            [ "9mm", [ "stenmag", "survivor9mm_mag" ] ]
+        ]
     },
     {
         "type" : "MAGAZINE",
