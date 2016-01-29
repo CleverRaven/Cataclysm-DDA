@@ -115,7 +115,7 @@
         "flags" : ["OVERSIZE", "BELTED", "RESTRICT_HANDS", "BLOCK_WHILE_WORN"],
         "techniques" : ["WBLOCK_1"],
         "coverage" : 45,
-        "material_thickness" : 4
+        "material_thickness" : 3
     },{
         "type" : "ARMOR",
         "id" : "shield_hoplon",
@@ -185,6 +185,6 @@
         "flags" : ["OVERSIZE", "STURDY", "BELTED", "RESTRICT_HANDS", "BLOCK_WHILE_WORN"],
         "techniques" : ["WBLOCK_2"],
         "coverage" : 30,
-        "material_thickness" : 4
+        "material_thickness" : 3
     }
 ]
