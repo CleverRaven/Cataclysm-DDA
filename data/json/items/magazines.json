@@ -582,5 +582,40 @@
         "reliability" : 8,
         "reload_time" : 130,
         "flags": [ "BULKY_MAG" ]
+    },
+    {
+        "type" : "MAGAZINE",
+        "id" : "m1918mag",
+        "//" : "Compatable magazines made for reproductions exist, and the standard-capacity mags are fairly cheap compared to variants.",
+        "price" : 3600,
+        "name" : "BAR magazine",
+        "symbol" : "#",
+        "color" : "ltgray",
+        "description" : "A standard capacity magazine for use with the Browning Automatic Rifle, holds 20 rounds.",
+        "material" : "steel",
+        "volume" : 2,
+        "weight" : 200,
+        "ammo_type" : "3006",
+        "capacity" : 20,
+        "reliability" : 9,
+        "reload_time" : 100,
+        "flags": [ "COMPACT_MAG" ]
+    },
+    {
+        "type" : "MAGAZINE",
+        "id" : "m1918bigmag",
+        "price" : 8500,
+        "name" : "BAR extended magazine",
+        "symbol" : "#",
+        "color" : "ltgray",
+        "description" : "An aftermarket magazine for use with the Browning Automatic Rifle, holds 30 rounds.",
+        "material" : "steel",
+        "volume" : 3,
+        "weight" : 300,
+        "ammo_type" : "3006",
+        "capacity" : 30,
+        "reliability" : 7,
+        "reload_time" : 120,
+        "flags": [ "COMPACT_MAG" ]
     }
 ]
