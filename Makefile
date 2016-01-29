@@ -149,11 +149,11 @@ ifdef RELEASE
       CXXFLAGS += -O3
     endif
   else
-  	ifdef CROSS
-	    CXXFLAGS += -O3
-  	else
-  		CXXFLAGS += -Os
-  	endif
+    ifdef CROSS
+      CXXFLAGS += -O3
+    else
+      CXXFLAGS += -Os
+    endif
     LDFLAGS += -s
   endif
   # OTHERS += -mmmx -m3dnow -msse -msse2 -msse3 -mfpmath=sse -mtune=native
@@ -328,7 +328,7 @@ ifdef SOUND
     ifdef FRAMEWORK
       CXXFLAGS += -I$(FRAMEWORKSDIR)/SDL2_mixer.framework/Headers
       LDFLAGS += -F$(FRAMEWORKSDIR)/SDL2_mixer.framework/Frameworks \
-		 -framework SDL2_mixer -framework Vorbis -framework Ogg
+     -framework SDL2_mixer -framework Vorbis -framework Ogg
     else # libsdl build
       ifeq ($(MACPORTS), 1)
         LDFLAGS += -lSDL2_mixer -lvorbisfile -lvorbis -logg
@@ -361,10 +361,10 @@ ifdef LUA
       LDFLAGS += $(shell $(PKG_CONFIG) --silence-errors --libs $(LUA_PKG))
       CXXFLAGS += $(shell $(PKG_CONFIG) --silence-errors --cflags $(LUA_PKG))
       LUA_BINARY = $(LUA_PKG)
-	else
+  else
       # Windows expects to have lua unpacked at a specific location
       LDFLAGS += -llua
-	endif
+  endif
   else
     LUA_CANDIDATES = lua5.2 lua-5.2 lua5.1 lua-5.1 lua
     LUA_FOUND = $(firstword $(foreach lua,$(LUA_CANDIDATES),\
@@ -390,17 +390,17 @@ ifdef TILES
   ifeq ($(NATIVE),osx)
     ifdef FRAMEWORK
       OSX_INC = -F$(FRAMEWORKSDIR) \
-		-I$(FRAMEWORKSDIR)/SDL2.framework/Headers \
-		-I$(FRAMEWORKSDIR)/SDL2_image.framework/Headers \
-		-I$(FRAMEWORKSDIR)/SDL2_ttf.framework/Headers
+    -I$(FRAMEWORKSDIR)/SDL2.framework/Headers \
+    -I$(FRAMEWORKSDIR)/SDL2_image.framework/Headers \
+    -I$(FRAMEWORKSDIR)/SDL2_ttf.framework/Headers
       LDFLAGS += -F$(FRAMEWORKSDIR) \
-		 -framework SDL2 -framework SDL2_image -framework SDL2_ttf -framework Cocoa
+     -framework SDL2 -framework SDL2_image -framework SDL2_ttf -framework Cocoa
       CXXFLAGS += $(OSX_INC)
     else # libsdl build
       DEFINES += -DOSX_SDL2_LIBS
       # handle #include "SDL2/SDL.h" and "SDL.h"
       CXXFLAGS += $(shell sdl2-config --cflags) \
-		  -I$(shell dirname $(shell sdl2-config --cflags | sed 's/-I\(.[^ ]*\) .*/\1/'))
+      -I$(shell dirname $(shell sdl2-config --cflags | sed 's/-I\(.[^ ]*\) .*/\1/'))
       LDFLAGS += -framework Cocoa $(shell sdl2-config --libs) -lSDL2_ttf
       LDFLAGS += -lSDL2_image
     endif
@@ -539,69 +539,69 @@ ifeq ($(USE_XDG_DIR),1)
 endif
 
 all: version $(ASTYLE) $(TARGET) $(L10N) tests
-	@
+  @
 
 $(TARGET): $(ODIR) $(DDIR) $(OBJS)
-	$(LD) $(W32FLAGS) -o $(TARGET) $(OBJS) $(LDFLAGS)
+  $(LD) $(W32FLAGS) -o $(TARGET) $(OBJS) $(LDFLAGS)
 
 cataclysm.a: $(ODIR) $(DDIR) $(OBJS)
-	ar rcs cataclysm.a $(filter-out $(ODIR)/main.o $(ODIR)/messages.o,$(OBJS))
+  ar rcs cataclysm.a $(filter-out $(ODIR)/main.o $(ODIR)/messages.o,$(OBJS))
 
 .PHONY: version json-verify
 version:
-	@( VERSION_STRING=$(VERSION) ; \
+  @( VERSION_STRING=$(VERSION) ; \
             [ -e ".git" ] && GITVERSION=$$( git describe --tags --always --dirty --match "[0-9A-Z]*.[0-9A-Z]*" ) && VERSION_STRING=$$GITVERSION ; \
             [ -e "$(SRC_DIR)/version.h" ] && OLDVERSION=$$(grep VERSION $(SRC_DIR)/version.h|cut -d '"' -f2) ; \
             if [ "x$$VERSION_STRING" != "x$$OLDVERSION" ]; then echo "#define VERSION \"$$VERSION_STRING\"" | tee $(SRC_DIR)/version.h ; fi \
          )
 json-verify:
-	$(LUA_BINARY) lua/json_verifier.lua
+  $(LUA_BINARY) lua/json_verifier.lua
 
 $(ODIR):
-	mkdir -p $(ODIR)
+  mkdir -p $(ODIR)
 
 $(DDIR):
-	@mkdir $(DDIR)
+  @mkdir $(DDIR)
 
 $(ODIR)/%.o: $(SRC_DIR)/%.cpp
-	$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) -c $< -o $@
+  $(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) -c $< -o $@
 
 $(ODIR)/%.o: $(SRC_DIR)/%.rc
-	$(RC) $(RFLAGS) $< -o $@
+  $(RC) $(RFLAGS) $< -o $@
 
 src/version.h: version
 
 src/version.cpp: src/version.h
 
 $(LUASRC_DIR)/catabindings.cpp: $(LUA_DIR)/class_definitions.lua $(LUASRC_DIR)/generate_bindings.lua
-	cd $(LUASRC_DIR) && $(LUA_BINARY) generate_bindings.lua
+  cd $(LUASRC_DIR) && $(LUA_BINARY) generate_bindings.lua
 
 $(SRC_DIR)/catalua.cpp: $(LUA_DEPENDENCIES)
 
 localization:
-	lang/compile_mo.sh $(LANGUAGES)
+  lang/compile_mo.sh $(LANGUAGES)
 
 $(CHKJSON_BIN): src/chkjson/chkjson.cpp src/json.cpp
-	$(CXX) $(CXXFLAGS) -Isrc/chkjson -Isrc src/chkjson/chkjson.cpp src/json.cpp -o $(CHKJSON_BIN)
+  $(CXX) $(CXXFLAGS) -Isrc/chkjson -Isrc src/chkjson/chkjson.cpp src/json.cpp -o $(CHKJSON_BIN)
 
 json-check: $(CHKJSON_BIN)
-	./$(CHKJSON_BIN)
+  ./$(CHKJSON_BIN)
 
 clean: clean-tests
-	rm -rf $(TARGET) $(TILESTARGET) $(W32TILESTARGET) $(W32TARGET) cataclysm.a
-	rm -rf $(ODIR) $(W32ODIR) $(W32ODIRTILES)
-	rm -rf $(BINDIST) $(W32BINDIST) $(BINDIST_DIR)
-	rm -f $(SRC_DIR)/version.h $(LUASRC_DIR)/catabindings.cpp
-	rm -f $(CHKJSON_BIN)
+  rm -rf $(TARGET) $(TILESTARGET) $(W32TILESTARGET) $(W32TARGET) cataclysm.a
+  rm -rf $(ODIR) $(W32ODIR) $(W32ODIRTILES)
+  rm -rf $(BINDIST) $(W32BINDIST) $(BINDIST_DIR)
+  rm -f $(SRC_DIR)/version.h $(LUASRC_DIR)/catabindings.cpp
+  rm -f $(CHKJSON_BIN)
 
 distclean:
-	rm -rf $(BINDIST_DIR)
-	rm -rf save
-	rm -rf lang/mo
-	rm -f data/options.txt
-	rm -f data/keymap.txt
-	rm -f data/auto_pickup.txt
-	rm -f data/fontlist.txt
+  rm -rf $(BINDIST_DIR)
+  rm -rf save
+  rm -rf lang/mo
+  rm -f data/options.txt
+  rm -f data/keymap.txt
+  rm -f data/auto_pickup.txt
+  rm -f data/fontlist.txt
 
 bindist: $(BINDIST)
 
@@ -610,33 +610,33 @@ DATA_PREFIX=$(DESTDIR)$(PREFIX)/share/cataclysm-dda/
 BIN_PREFIX=$(DESTDIR)$(PREFIX)/bin
 LOCALE_DIR=$(DESTDIR)$(PREFIX)/share/locale
 install: version $(TARGET)
-	mkdir -p $(DATA_PREFIX)
-	mkdir -p $(BIN_PREFIX)
-	install --mode=755 $(TARGET) $(BIN_PREFIX)
-	cp -R --no-preserve=ownership data/font $(DATA_PREFIX)
-	cp -R --no-preserve=ownership data/json $(DATA_PREFIX)
-	cp -R --no-preserve=ownership data/mods $(DATA_PREFIX)
-	cp -R --no-preserve=ownership data/names $(DATA_PREFIX)
-	cp -R --no-preserve=ownership data/raw $(DATA_PREFIX)
-	cp -R --no-preserve=ownership data/recycling $(DATA_PREFIX)
-	cp -R --no-preserve=ownership data/motd $(DATA_PREFIX)
-	cp -R --no-preserve=ownership data/credits $(DATA_PREFIX)
-	cp -R --no-preserve=ownership data/title $(DATA_PREFIX)
+  mkdir -p $(DATA_PREFIX)
+  mkdir -p $(BIN_PREFIX)
+  install --mode=755 $(TARGET) $(BIN_PREFIX)
+  cp -R --no-preserve=ownership data/font $(DATA_PREFIX)
+  cp -R --no-preserve=ownership data/json $(DATA_PREFIX)
+  cp -R --no-preserve=ownership data/mods $(DATA_PREFIX)
+  cp -R --no-preserve=ownership data/names $(DATA_PREFIX)
+  cp -R --no-preserve=ownership data/raw $(DATA_PREFIX)
+  cp -R --no-preserve=ownership data/recycling $(DATA_PREFIX)
+  cp -R --no-preserve=ownership data/motd $(DATA_PREFIX)
+  cp -R --no-preserve=ownership data/credits $(DATA_PREFIX)
+  cp -R --no-preserve=ownership data/title $(DATA_PREFIX)
 ifdef TILES
-	cp -R --no-preserve=ownership gfx $(DATA_PREFIX)
+  cp -R --no-preserve=ownership gfx $(DATA_PREFIX)
 endif
 ifdef SOUND
-	cp -R --no-preserve=ownership data/sound $(DATA_PREFIX)
+  cp -R --no-preserve=ownership data/sound $(DATA_PREFIX)
 endif
 ifdef LUA
-	mkdir -p $(DATA_PREFIX)/lua
-	install --mode=644 lua/autoexec.lua $(DATA_PREFIX)/lua
-	install --mode=644 lua/class_definitions.lua $(DATA_PREFIX)/lua
+  mkdir -p $(DATA_PREFIX)/lua
+  install --mode=644 lua/autoexec.lua $(DATA_PREFIX)/lua
+  install --mode=644 lua/class_definitions.lua $(DATA_PREFIX)/lua
 endif
-	install --mode=644 data/changelog.txt data/cataicon.ico data/fontdata.json \
+  install --mode=644 data/changelog.txt data/cataicon.ico data/fontdata.json \
                    LICENSE.txt -t $(DATA_PREFIX)
-	mkdir -p $(LOCALE_DIR)
-	LOCALE_DIR=$(LOCALE_DIR) lang/compile_mo.sh
+  mkdir -p $(LOCALE_DIR)
+  LOCALE_DIR=$(LOCALE_DIR) lang/compile_mo.sh
 endif
 
 ifeq ($(TARGETSYSTEM), CYGWIN)
@@ -644,33 +644,33 @@ DATA_PREFIX=$(DESTDIR)$(PREFIX)/share/cataclysm-dda/
 BIN_PREFIX=$(DESTDIR)$(PREFIX)/bin
 LOCALE_DIR=$(DESTDIR)$(PREFIX)/share/locale
 install: version $(TARGET)
-	mkdir -p $(DATA_PREFIX)
-	mkdir -p $(BIN_PREFIX)
-	install --mode=755 $(TARGET) $(BIN_PREFIX)
-	cp -R --no-preserve=ownership data/font $(DATA_PREFIX)
-	cp -R --no-preserve=ownership data/json $(DATA_PREFIX)
-	cp -R --no-preserve=ownership data/mods $(DATA_PREFIX)
-	cp -R --no-preserve=ownership data/names $(DATA_PREFIX)
-	cp -R --no-preserve=ownership data/raw $(DATA_PREFIX)
-	cp -R --no-preserve=ownership data/recycling $(DATA_PREFIX)
-	cp -R --no-preserve=ownership data/motd $(DATA_PREFIX)
-	cp -R --no-preserve=ownership data/credits $(DATA_PREFIX)
-	cp -R --no-preserve=ownership data/title $(DATA_PREFIX)
+  mkdir -p $(DATA_PREFIX)
+  mkdir -p $(BIN_PREFIX)
+  install --mode=755 $(TARGET) $(BIN_PREFIX)
+  cp -R --no-preserve=ownership data/font $(DATA_PREFIX)
+  cp -R --no-preserve=ownership data/json $(DATA_PREFIX)
+  cp -R --no-preserve=ownership data/mods $(DATA_PREFIX)
+  cp -R --no-preserve=ownership data/names $(DATA_PREFIX)
+  cp -R --no-preserve=ownership data/raw $(DATA_PREFIX)
+  cp -R --no-preserve=ownership data/recycling $(DATA_PREFIX)
+  cp -R --no-preserve=ownership data/motd $(DATA_PREFIX)
+  cp -R --no-preserve=ownership data/credits $(DATA_PREFIX)
+  cp -R --no-preserve=ownership data/title $(DATA_PREFIX)
 ifdef TILES
-	cp -R --no-preserve=ownership gfx $(DATA_PREFIX)
+  cp -R --no-preserve=ownership gfx $(DATA_PREFIX)
 endif
 ifdef SOUND
-	cp -R --no-preserve=ownership data/sound $(DATA_PREFIX)
+  cp -R --no-preserve=ownership data/sound $(DATA_PREFIX)
 endif
 ifdef LUA
-	mkdir -p $(DATA_PREFIX)/lua
-	install --mode=644 lua/autoexec.lua $(DATA_PREFIX)/lua
-	install --mode=644 lua/class_definitions.lua $(DATA_PREFIX)/lua
+  mkdir -p $(DATA_PREFIX)/lua
+  install --mode=644 lua/autoexec.lua $(DATA_PREFIX)/lua
+  install --mode=644 lua/class_definitions.lua $(DATA_PREFIX)/lua
 endif
-	install --mode=644 data/changelog.txt data/cataicon.ico data/fontdata.json \
+  install --mode=644 data/changelog.txt data/cataicon.ico data/fontdata.json \
                    LICENSE.txt -t $(DATA_PREFIX)
-	mkdir -p $(LOCALE_DIR)
-	LOCALE_DIR=$(LOCALE_DIR) lang/compile_mo.sh
+  mkdir -p $(LOCALE_DIR)
+  LOCALE_DIR=$(LOCALE_DIR) lang/compile_mo.sh
 endif
 
 ifdef TILES
@@ -683,93 +683,93 @@ SDLLIBSDIR=$(shell sdl2-config --libs | sed -n 's/.*-L\([^ ]*\) .*/\1/p')
 endif  # ifndef FRAMEWORK
 
 appclean:
-	rm -rf $(APPTARGETDIR)
+  rm -rf $(APPTARGETDIR)
 
 data/osx/AppIcon.icns: data/osx/AppIcon.iconset
-	iconutil -c icns $<
+  iconutil -c icns $<
 
 app: appclean version data/osx/AppIcon.icns $(TILESTARGET)
-	mkdir -p $(APPTARGETDIR)/Contents
-	cp data/osx/Info.plist $(APPTARGETDIR)/Contents/
-	mkdir -p $(APPTARGETDIR)/Contents/MacOS
-	cp data/osx/Cataclysm.sh $(APPTARGETDIR)/Contents/MacOS/
-	mkdir -p $(APPRESOURCESDIR)
-	cp $(TILESTARGET) $(APPRESOURCESDIR)/
-	cp data/osx/AppIcon.icns $(APPRESOURCESDIR)/
-	mkdir -p $(APPDATADIR)
-	cp data/fontdata.json $(APPDATADIR)
-	cp -R data/font $(APPDATADIR)
-	cp -R data/json $(APPDATADIR)
-	cp -R data/mods $(APPDATADIR)
-	cp -R data/names $(APPDATADIR)
-	cp -R data/raw $(APPDATADIR)
-	cp -R data/recycling $(APPDATADIR)
-	cp -R data/motd $(APPDATADIR)
-	cp -R data/credits $(APPDATADIR)
-	cp -R data/title $(APPDATADIR)
-	# bundle libc++ to fix bad buggy version on osx 10.7
-	LIBCPP=$$(otool -L $(TILESTARGET) | grep libc++ | sed -n 's/\(.*\.dylib\).*/\1/p') && cp $$LIBCPP $(APPRESOURCESDIR)/ && cp $$(otool -L $$LIBCPP | grep libc++abi | sed -n 's/\(.*\.dylib\).*/\1/p') $(APPRESOURCESDIR)/
+  mkdir -p $(APPTARGETDIR)/Contents
+  cp data/osx/Info.plist $(APPTARGETDIR)/Contents/
+  mkdir -p $(APPTARGETDIR)/Contents/MacOS
+  cp data/osx/Cataclysm.sh $(APPTARGETDIR)/Contents/MacOS/
+  mkdir -p $(APPRESOURCESDIR)
+  cp $(TILESTARGET) $(APPRESOURCESDIR)/
+  cp data/osx/AppIcon.icns $(APPRESOURCESDIR)/
+  mkdir -p $(APPDATADIR)
+  cp data/fontdata.json $(APPDATADIR)
+  cp -R data/font $(APPDATADIR)
+  cp -R data/json $(APPDATADIR)
+  cp -R data/mods $(APPDATADIR)
+  cp -R data/names $(APPDATADIR)
+  cp -R data/raw $(APPDATADIR)
+  cp -R data/recycling $(APPDATADIR)
+  cp -R data/motd $(APPDATADIR)
+  cp -R data/credits $(APPDATADIR)
+  cp -R data/title $(APPDATADIR)
+  # bundle libc++ to fix bad buggy version on osx 10.7
+  LIBCPP=$$(otool -L $(TILESTARGET) | grep libc++ | sed -n 's/\(.*\.dylib\).*/\1/p') && cp $$LIBCPP $(APPRESOURCESDIR)/ && cp $$(otool -L $$LIBCPP | grep libc++abi | sed -n 's/\(.*\.dylib\).*/\1/p') $(APPRESOURCESDIR)/
 ifdef LANGUAGES
-	ditto lang/mo $(APPRESOURCESDIR)/lang/mo
+  ditto lang/mo $(APPRESOURCESDIR)/lang/mo
 endif
 ifeq ($(LOCALIZE), 1)
-	LIBINTL=$$(otool -L $(TILESTARGET) | grep libintl | sed -n 's/\(.*\.dylib\).*/\1/p') && cp $$LIBINTL $(APPRESOURCESDIR)/
+  LIBINTL=$$(otool -L $(TILESTARGET) | grep libintl | sed -n 's/\(.*\.dylib\).*/\1/p') && cp $$LIBINTL $(APPRESOURCESDIR)/
 endif
 ifdef SOUND
-	cp -R data/sound $(APPDATADIR)
+  cp -R data/sound $(APPDATADIR)
 endif  # ifdef SOUND
 ifdef LUA
-	cp -R lua $(APPRESOURCESDIR)/
-	LIBLUA=$$(otool -L $(TILESTARGET) | grep liblua | sed -n 's/\(.*\.dylib\).*/\1/p') && cp $$LIBLUA $(APPRESOURCESDIR)/
+  cp -R lua $(APPRESOURCESDIR)/
+  LIBLUA=$$(otool -L $(TILESTARGET) | grep liblua | sed -n 's/\(.*\.dylib\).*/\1/p') && cp $$LIBLUA $(APPRESOURCESDIR)/
 endif # ifdef LUA
-	cp -R gfx $(APPRESOURCESDIR)/
+  cp -R gfx $(APPRESOURCESDIR)/
 ifdef FRAMEWORK
-	cp -R $(FRAMEWORKSDIR)/SDL2.framework $(APPRESOURCESDIR)/
-	cp -R $(FRAMEWORKSDIR)/SDL2_image.framework $(APPRESOURCESDIR)/
-	cp -R $(FRAMEWORKSDIR)/SDL2_ttf.framework $(APPRESOURCESDIR)/
+  cp -R $(FRAMEWORKSDIR)/SDL2.framework $(APPRESOURCESDIR)/
+  cp -R $(FRAMEWORKSDIR)/SDL2_image.framework $(APPRESOURCESDIR)/
+  cp -R $(FRAMEWORKSDIR)/SDL2_ttf.framework $(APPRESOURCESDIR)/
 ifdef SOUND
-	cp -R $(FRAMEWORKSDIR)/SDL2_mixer.framework $(APPRESOURCESDIR)/
-	cd $(APPRESOURCESDIR)/ && ln -s SDL2_mixer.framework/Frameworks/Vorbis.framework Vorbis.framework
-	cd $(APPRESOURCESDIR)/ && ln -s SDL2_mixer.framework/Frameworks/Ogg.framework Ogg.framework
-	cd $(APPRESOURCESDIR)/SDL2_mixer.framework/Frameworks && find . -type d -maxdepth 1 -not -name '*Vorbis.framework' -not -name '*Ogg.framework' -not -name '.' | xargs rm -rf
+  cp -R $(FRAMEWORKSDIR)/SDL2_mixer.framework $(APPRESOURCESDIR)/
+  cd $(APPRESOURCESDIR)/ && ln -s SDL2_mixer.framework/Frameworks/Vorbis.framework Vorbis.framework
+  cd $(APPRESOURCESDIR)/ && ln -s SDL2_mixer.framework/Frameworks/Ogg.framework Ogg.framework
+  cd $(APPRESOURCESDIR)/SDL2_mixer.framework/Frameworks && find . -type d -maxdepth 1 -not -name '*Vorbis.framework' -not -name '*Ogg.framework' -not -name '.' | xargs rm -rf
 endif  # ifdef SOUND
 else # libsdl build
-	cp $(SDLLIBSDIR)/libSDL2.dylib $(APPRESOURCESDIR)/
-	cp $(SDLLIBSDIR)/libSDL2_image.dylib $(APPRESOURCESDIR)/
-	cp $(SDLLIBSDIR)/libSDL2_ttf.dylib $(APPRESOURCESDIR)/
+  cp $(SDLLIBSDIR)/libSDL2.dylib $(APPRESOURCESDIR)/
+  cp $(SDLLIBSDIR)/libSDL2_image.dylib $(APPRESOURCESDIR)/
+  cp $(SDLLIBSDIR)/libSDL2_ttf.dylib $(APPRESOURCESDIR)/
 endif  # ifdef FRAMEWORK
 
 dmgdistclean:
-	rm -f Cataclysm.dmg
+  rm -f Cataclysm.dmg
 
 dmgdist: app dmgdistclean
-	dmgbuild -s data/osx/dmgsettings.py "Cataclysm DDA" Cataclysm.dmg
+  dmgbuild -s data/osx/dmgsettings.py "Cataclysm DDA" Cataclysm.dmg
 
 endif  # ifeq ($(NATIVE), osx)
 endif  # ifdef TILES
 
 $(BINDIST): distclean version $(TARGET) $(L10N) $(BINDIST_EXTRAS) $(BINDIST_LOCALE)
-	mkdir -p $(BINDIST_DIR)
-	cp -R $(TARGET) $(BINDIST_EXTRAS) $(BINDIST_DIR)
+  mkdir -p $(BINDIST_DIR)
+  cp -R $(TARGET) $(BINDIST_EXTRAS) $(BINDIST_DIR)
 ifdef LANGUAGES
-	cp -R --parents lang/mo $(BINDIST_DIR)
+  cp -R --parents lang/mo $(BINDIST_DIR)
 endif
-	$(BINDIST_CMD)
+  $(BINDIST_CMD)
 
 export ODIR _OBJS LDFLAGS CXX W32FLAGS DEFINES CXXFLAGS
 
 ctags: $(SOURCES) $(HEADERS)
-	ctags $(SOURCES) $(HEADERS)
+  ctags $(SOURCES) $(HEADERS)
 
 etags: $(SOURCES) $(HEADERS)
-	etags $(SOURCES) $(HEADERS)
-	find data -name "*.json" -print0 | xargs -0 -L 50 etags --append
+  etags $(SOURCES) $(HEADERS)
+  find data -name "*.json" -print0 | xargs -0 -L 50 etags --append
 
 astyle:
-	$(ASTYLE_BINARY) --options=.astylerc -n $(shell cat astyled_whitelist)
+  $(ASTYLE_BINARY) --options=.astylerc -n $(shell cat astyled_whitelist)
 
 astyle-all: $(SOURCES) $(HEADERS)
-	$(ASTYLE_BINARY) --options=.astylerc -n $(SOURCES) $(HEADERS)
+  $(ASTYLE_BINARY) --options=.astylerc -n $(SOURCES) $(HEADERS)
 
 # Test whether the system has a version of astyle that supports --dry-run
 ifeq ($(shell if $(ASTYLE_BINARY) -Q -X --dry-run src/game.h > /dev/null; then echo foo; fi),foo)
@@ -778,20 +778,20 @@ endif
 
 astyle-check: $(SOURCES) $(HEADERS)
 ifdef ASTYLE_CHECK
-	@if [ "$(findstring Formatted,$(ASTYLE_CHECK))" = "" ]; then echo "no astyle regressions";\
+  @if [ "$(findstring Formatted,$(ASTYLE_CHECK))" = "" ]; then echo "no astyle regressions";\
         else printf "astyle regressions found.\n$(ASTYLE_CHECK)\n" && false; fi
 else
-	@echo Cannot run an astyle check, your system either does not have astyle, or it is too old.
+  @echo Cannot run an astyle check, your system either does not have astyle, or it is too old.
 endif
 
 tests: version cataclysm.a
-	$(MAKE) -C tests
+  $(MAKE) -C tests
 
 check: version cataclysm.a
-	$(MAKE) -C tests check
+  $(MAKE) -C tests check
 
 clean-tests:
-	$(MAKE) -C tests clean
+  $(MAKE) -C tests clean
 
 .PHONY: tests check ctags etags clean-tests install
 
