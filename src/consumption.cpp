@@ -186,17 +186,17 @@ edible_rating player::can_eat( const item &food, bool interactive, bool force ) 
     const bool slimespawner = has_trait( "SLIMESPAWNER" );
     const int nutr = nutrition_for( comest );
     const int quench = comest->quench;
-    // Hibernate on, but we aren't full enough
-    bool hiberfood = hibernate && ( get_hunger() >= -60 && thirst >= -60 );
     bool spoiled = food.rotten();
 
     const int temp_hunger = get_hunger() - nutr;
     const int temp_thirst = thirst - quench;
 
-    const bool overeating = get_hunger() < 0 && nutr >= 5 && !gourmand && !eathealth && !slimespawner;
+    const bool overeating = get_hunger() < 0 && nutr >= 5 && !gourmand && !eathealth && !slimespawner &&
+                            !hibernate;
 
-    if( interactive && hiberfood &&
-        ( get_hunger() - nutr < -60 || thirst - quench < -60 ) ) {
+    if( interactive && hibernate &&
+        ( get_hunger() >= -60 && thirst >= -60 ) &&
+        ( temp_hunger < -60 || temp_thirst < -60 ) ) {
         if( !maybe_query( _( "You're adequately fueled. Prepare for hibernation?" ) ) ) {
             return TOO_FULL;
         }
@@ -250,15 +250,17 @@ edible_rating player::can_eat( const item &food, bool interactive, bool force ) 
         return ROTTEN;
     }
 
-    if( overeating && !maybe_query( _( "You're full.  Force yourself to eat?" ) ) ) {
-        return TOO_FULL;
-    } else if( get_hunger() < 0 && nutr >= 5 &&
-               !maybe_query( _( "You're fed.  Try to pack more in anyway?" ) ) ) {
-        return TOO_FULL;
+    // Print at most one of those
+    bool overfull = false;
+    if( overeating ) {
+        overfull = !maybe_query( _( "You're full.  Force yourself to eat?" ) );
     } else if( ( ( nutr > 0 && temp_hunger < capacity ) ||
                  ( comest->quench > 0 && temp_thirst < capacity ) ) &&
-               !eathealth && !slimespawner &&
-               !maybe_query( _( "You will not be able to finish it all.  Consume it?" ) ) ) {
+               !eathealth && !slimespawner ) {
+        overfull = !maybe_query( _( "You will not be able to finish it all.  Consume it?" ) );
+    }
+
+    if( overfull ) {
         return TOO_FULL;
     }
 
@@ -279,14 +281,10 @@ bool player::eat( item &food, bool force )
     // No coming back from here
 
     const auto comest = dynamic_cast<const it_comest *>( food.type );
-    const bool gourmand = has_trait( "GOURMAND" );
     const bool hibernate = has_active_mutation( "HIBERNATE" );
-    const bool eathealth = has_trait( "EATHEALTH" );
     const int nutr = nutrition_for( comest );
     const int quench = comest->quench;
     const bool spoiled = food.rotten();
-    bool overeating = !gourmand && !eathealth && get_hunger() < 0 && nutr >= 5;
-    bool hiberfood = hibernate && ( get_hunger() > -60 && thirst > -60 );
 
     // The item is solid food
     const bool chew = comest->comesttype == "FOOD" || food.has_flag( "USE_EAT_VERB" );
@@ -294,7 +292,9 @@ bool player::eat( item &food, bool force )
     const bool drinkable = !chew && comest->comesttype == "DRINK";
     // If neither of the above is true then it's a drug and shouldn't get mealtime penalty/bonus
 
-    if( hiberfood && ( get_hunger() - nutr < -60 || thirst - quench < -60 ) ) {
+    if( hibernate &&
+        ( get_hunger() > -60 && thirst > -60 ) &&
+        ( get_hunger() - nutr < -60 || thirst - quench < -60 ) ) {
         add_memorial_log( pgettext( "memorial_male", "Began preparing for hibernation." ),
                           pgettext( "memorial_female", "Began preparing for hibernation." ) );
         add_msg_if_player(
@@ -323,8 +323,10 @@ bool player::eat( item &food, bool force )
         consume_effects( food, spoiled );
     }
 
-    if( !gourmand && !hibernate && !eathealth &&
-        ( overeating && rng( -200, 0 ) > get_hunger() ) ) {
+    const bool eathealth = has_trait( "EATHEALTH" );
+    if( get_hunger() < 0 && nutr >= 5 && !has_trait( "GOURMAND" ) && !hibernate && !eathealth &&
+        !has_trait( "SLIMESPAWNER" ) &&
+        rng( -200, 0 ) > get_hunger() ) {
         vomit();
     }
 
