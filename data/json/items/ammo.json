@@ -3867,6 +3867,7 @@
         "dispersion" : 150,
         "recoil" : 120,
         "count" : 50,
+        "stack_size" : 60,
         "effects" : ["COOKOFF"]
     },
     {
