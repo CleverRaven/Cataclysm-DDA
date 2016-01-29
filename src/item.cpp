@@ -1859,21 +1859,39 @@ nc_color item::color_in_inventory() const
         ammotype amtype = ammo_type();
         if (u->get_ammo(amtype).size() > 0)
             ret = c_green;
-    } else if (is_food()) { // Rotten food shows up as a brown color
-        if (rotten()) {
-            ret = c_brown;
-        } else if (is_going_bad()) {
-            ret = c_yellow;
-        } else if (goes_bad()) {
-            ret = c_cyan;
-        }
-    } else if (is_food_container()) {
-        if (contents[0].rotten()) {
-            ret = c_brown;
-        } else if (contents[0].is_going_bad()) {
-            ret = c_yellow;
-        } else if (contents[0].goes_bad()) {
-            ret = c_cyan;
+    } else if( is_food() || is_food_container() ) {
+        const item &to_color = is_food() ? *this : contents[0];
+        // Default: permafood, drugs
+        // Brown: rotten (for non-saprophages) or non-rotten (for saprophages)
+        // Dark gray: inedible
+        // Red: morale penalty
+        // Yellow: will rot soon
+        // Cyan: will rot eventually
+        const auto rating = u->can_eat( to_color );
+        // TODO: More colors
+        switch( rating ) {
+            case EDIBLE:
+            case TOO_FULL:
+                if( is_going_bad() ) {
+                    ret = c_yellow;
+                } else if( goes_bad() ) {
+                    ret = c_cyan;
+                }
+                break;
+            case INEDIBLE:
+            case INEDIBLE_MUTATION:
+                ret = c_dkgray;
+                break;
+            case ALLERGY:
+            case ALLERGY_WEAK:
+            case CANNIBALISM:
+                ret = c_red;
+                break;
+            case ROTTEN:
+                ret = c_brown;
+                break;
+            case NO_TOOL:
+                break;
         }
     } else if (is_ammo()) { // Likewise, ammo is green if you have guns that use it
         ammotype amtype = ammo_type();

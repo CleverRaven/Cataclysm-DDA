@@ -9707,16 +9707,6 @@ bool player::has_mission_item(int mission_id) const
     return mission_id != -1 && has_item_with( has_mission_item_filter{ mission_id } );
 }
 
-hint_rating player::rate_action_eat( const item &it ) const
-{
-    //TODO more cases, for HINT_IFFY
-    if( it.is_food_container() || it.is_food() ) {
-        return HINT_GOOD;
-    }
-
-    return HINT_CANT;
-}
-
 //Returns the amount of charges that were consumed by the player
 int player::drink_from_hands(item& water) {
     int charges_consumed = 0;

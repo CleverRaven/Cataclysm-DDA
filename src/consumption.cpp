@@ -211,7 +211,7 @@ edible_rating player::can_eat( const item &food, bool interactive, bool force ) 
     if( ( has_trait( "HERBIVORE" ) || has_trait( "RUMINANT" ) ) &&
         food.made_of_any( herbivore_blacklist ) ) {
         // Like non-cannibal, but more strict!
-        maybe_query( _( "The thought of eating that makes you feel sick.  You decide not to." ) );
+        maybe_print( m_info, _( "The thought of eating that makes you feel sick.  You decide not to." ) );
         return INEDIBLE_MUTATION;
     }
 
@@ -652,4 +652,20 @@ void player::consume_effects( item &food, bool rotten )
     if( thirst < capacity ) {
         thirst = capacity;
     }
+}
+
+hint_rating player::rate_action_eat( const item &it ) const
+{
+    if( !it.is_food_container( this ) && !it.is_food( this ) ) {
+        return HINT_CANT;
+    }
+
+    const auto rating = can_eat( it );
+    if( rating == EDIBLE ) {
+        return HINT_GOOD;
+    } else if( rating == INEDIBLE || rating == INEDIBLE_MUTATION ) {
+        return HINT_CANT;
+    }
+
+    return HINT_IFFY;
 }
