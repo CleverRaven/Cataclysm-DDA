@@ -316,6 +316,9 @@ bool player::eat( item &food, bool force )
             _( "You've begun stockpiling calories and liquid for hibernation.  You get the feeling that you should prepare for bed, just in case, but...you're hungry again, and you could eat a whole week's worth of food RIGHT NOW." ) );
     }
 
+    const bool will_vomit = get_hunger() < 0 && nutr >= 5 && !has_trait( "GOURMAND" ) && !hibernate &&
+                            !has_trait( "SLIMESPAWNER" ) && !has_trait( "EATHEALTH" ) &&
+                            rng( -200, 0 ) > get_hunger() - nutr;
     const bool saprophage = has_trait( "SAPROPHAGE" );
     if( spoiled && !saprophage ) {
         add_msg_if_player( m_bad, _( "Ick, this %s doesn't taste so good..." ), food.tname().c_str() );
@@ -329,12 +332,6 @@ bool player::eat( item &food, bool force )
         consume_effects( food, spoiled );
     } else {
         consume_effects( food, spoiled );
-    }
-
-    if( get_hunger() < 0 && nutr >= 5 && !has_trait( "GOURMAND" ) && !hibernate &&
-        !has_trait( "SLIMESPAWNER" ) && !has_trait( "EATHEALTH" ) &&
-        rng( -200, 0 ) > get_hunger() ) {
-        vomit();
     }
 
     const bool amorphous = has_trait( "AMORPHOUS" );
@@ -399,10 +396,7 @@ bool player::eat( item &food, bool force )
     if( has_bionic( "bio_ethanol" ) && comest->can_use( "ALCOHOL_STRONG" ) ) {
         charge_power( rng( 75, 300 ) );
     }
-    // Eating plant fertilizer stops here
-    if( comest->can_use( "PLANTBLECH" ) && has_trait( "THRESH_PLANT" ) ) {
-        return true;
-    }
+
     if( food.made_of( "hflesh" ) ) {
         // Sapiovores don't recognize humans as the same species.
         // But let them possibly feel cool about eating sapient stuff - treat like psycho
@@ -472,6 +466,10 @@ bool player::eat( item &food, bool force )
         add_morale( MORALE_HONEY, honey_fun, 100 );
     }
 
+    if( will_vomit ) {
+        vomit();
+    }
+
     return true;
 }
 
@@ -511,12 +509,12 @@ void player::consume_effects( item &food, bool rotten )
         // No good can come of this.
         return;
     }
-    float factor = 1.0;
-    float hunger_factor = 1.0;
+    float factor = 1.0f;
+    float hunger_factor = 1.0f;
     bool unhealthy_allowed = true;
 
     if( has_trait( "GIZZARD" ) ) {
-        factor *= .6;
+        factor *= 0.6f;
     }
 
     if( has_trait( "CARNIVORE" ) && food.made_of_any( carnivore_whitelist ) ) {
@@ -524,7 +522,7 @@ void player::consume_effects( item &food, bool rotten )
         if( food.made_of_any( carnivore_blacklist ) ) {
             // Other things are in it, we only get partial benefits
             add_msg_if_player( _( "You pick out the edible parts and throw away the rest." ) );
-            factor *= .5;
+            factor *= 0.5f;
         } else {
             // Carnivores don't get unhealthy off pure meat diets
             unhealthy_allowed = false;
@@ -551,17 +549,17 @@ void player::consume_effects( item &food, bool rotten )
     mod_stomach_food( nutr * factor * hunger_factor );
     mod_stomach_water( comest->quench * factor );
     if( unhealthy_allowed || comest->healthy > 0 ) {
-        // Effectively no upper cap on healthy food, moderate cap on unhealthy food.
-        mod_healthy_mod( comest->healthy, ( comest->healthy >= 0 ) ? 200 : -50 );
+        // Effectively no cap on health modifiers from food
+        mod_healthy_mod( comest->healthy, ( comest->healthy >= 0 ) ? 200 : -200 );
     }
 
-    if( comest->stim != 0 ) {
-        if( abs( stim ) < ( abs( comest->stim ) * 3 ) ) {
-            if( comest->stim < 0 ) {
-                stim = std::max( comest->stim * 3, stim + comest->stim );
-            } else {
-                stim = std::min( comest->stim * 3, stim + comest->stim );
-            }
+    if( comest->stim != 0 &&
+        ( abs( stim ) < ( abs( comest->stim ) * 3 ) ||
+          sgn( stim ) != sgn( comest->stim ) ) ) {
+        if( comest->stim < 0 ) {
+            stim = std::max( comest->stim * 3, stim + comest->stim );
+        } else {
+            stim = std::min( comest->stim * 3, stim + comest->stim );
         }
     }
     add_addiction( comest->add, comest->addict );
@@ -620,8 +618,7 @@ void player::consume_effects( item &food, bool rotten )
                 fatigue += nutr;
             }
         }
-        if( ( nutrition_for( comest ) > 0 && get_hunger() < -600 ) || ( comest->quench > 0 &&
-                thirst < -600 ) ) {
+        if( ( nutr > 0 && get_hunger() < -600 ) || ( comest->quench > 0 && thirst < -600 ) ) {
             add_msg_if_player( _( "That filled a hole!  Time for bed..." ) );
             // At this point, you're done.  Schlaf gut.
             fatigue += nutr;
