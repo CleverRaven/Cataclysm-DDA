@@ -549,6 +549,23 @@
     },
     {
         "type" : "MAGAZINE",
+        "id" : "skorpion61mag",
+        "price" : 2300,
+        "name" : "Skorpion Vz. 61 magazine",
+        "symbol" : "#",
+        "color" : "ltgray",
+        "description" : "A standard 20-round magazine for the Skorpion Vz. 61, in .32 ACP.",
+        "material" : "steel",
+        "volume" : 1,
+        "weight" : 120,
+        "ammo_type" : "32",
+        "capacity" : 20,
+        "reliability" : 8,
+        "reload_time" : 100,
+        "flags": [ "COMPACT_MAG" ]
+    },
+    {
+        "type" : "MAGAZINE",
         "id" : "ak74mag",
         "price" : 1500,
         "name" : "AK-74M magazine",
