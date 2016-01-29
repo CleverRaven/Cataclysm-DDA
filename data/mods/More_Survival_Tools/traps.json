@@ -2,7 +2,6 @@
     {
         "type" : "trap",
         "id": "tr_raincatcher",
-        "identstring" : "FUNNEL",
         "name" : "raincatcher",
         "color" : "blue",
         "symbol" : "V",

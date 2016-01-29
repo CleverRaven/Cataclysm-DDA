@@ -2,7 +2,6 @@
     {
         "type" : "trap",
         "id": "tr_null",
-        "identstring" : "NONE",
         "name" : "none",
         "color" : "white",
         "symbol" : "?",
@@ -15,7 +14,6 @@
     {
         "type" : "trap",
         "id": "tr_bubblewrap",
-        "identstring" : "BUBBLEWRAP",
         "name" : "bubble wrap",
         "color" : "light_cyan",
         "symbol" : "_",
@@ -28,7 +26,6 @@
     {
         "type" : "trap",
         "id": "tr_cot",
-        "identstring" : "COT",
         "name" : "cot",
         "color" : "green",
         "symbol" : "#",
@@ -42,7 +39,6 @@
     {
         "type" : "trap",
         "id": "tr_brazier",
-        "identstring" : "BRAZIER",
         "name" : "brazier",
         "color" : "red",
         "symbol" : "#",
@@ -56,7 +52,6 @@
     {
         "type" : "trap",
         "id": "tr_funnel",
-        "identstring" : "FUNNEL",
         "name" : "funnel",
         "color" : "yellow",
         "symbol" : "V",
@@ -71,7 +66,6 @@
     {
         "type" : "trap",
         "id": "tr_makeshift_funnel",
-        "identstring" : "MAKESHIFT_FUNNEL",
         "name" : "makeshift funnel",
         "color" : "yellow",
         "symbol" : "v",
@@ -86,7 +80,6 @@
     {
         "type" : "trap",
         "id": "tr_rollmat",
-        "identstring" : "ROLLMAT",
         "name" : "roll mat",
         "color" : "blue",
         "symbol" : "#",
@@ -100,7 +93,6 @@
     {
         "type" : "trap",
         "id": "tr_fur_rollmat",
-        "identstring" : "FUR_ROLLMAT",
         "name" : "fur roll mat",
         "color" : "brown",
         "symbol" : "#",
@@ -114,7 +106,6 @@
     {
         "type" : "trap",
         "id": "tr_beartrap",
-        "identstring" : "BEARTRAP",
         "trigger_weight": 200,
         "name" : "bear trap",
         "color" : "blue",
@@ -128,7 +119,6 @@
     {
         "type" : "trap",
         "id": "tr_beartrap_buried",
-        "identstring" : "BEARTRAP_BURIED",
         "trigger_weight": 200,
         "name" : "buried bear trap",
         "color" : "blue",
@@ -142,7 +132,6 @@
     {
         "type" : "trap",
         "id": "tr_nailboard",
-        "identstring" : "NAILBOARD",
         "name" : "spiked board",
         "color" : "light_gray",
         "symbol" : "_",
@@ -155,7 +144,6 @@
     {
         "type" : "trap",
         "id": "tr_caltrops",
-        "identstring" : "CALTROPS",
         "name" : "caltrops",
         "color" : "dark_gray",
         "symbol" : "_",
@@ -168,7 +156,6 @@
     {
         "type" : "trap",
         "id": "tr_tripwire",
-        "identstring" : "TRIPWIRE",
         "name" : "tripwire",
         "color" : "light_red",
         "symbol" : "^",
@@ -181,7 +168,6 @@
     {
         "type" : "trap",
         "id": "tr_crossbow",
-        "identstring" : "CROSSBOW_TRAP",
         "trigger_weight": 200,
         "name" : "crossbow trap",
         "color" : "green",
@@ -195,7 +181,6 @@
     {
         "type" : "trap",
         "id": "tr_shotgun_2",
-        "identstring" : "SHOTGUN_2",
         "trigger_weight": 200,
         "name" : "shotgun trap",
         "color" : "red",
@@ -209,7 +194,6 @@
     {
         "type" : "trap",
         "id": "tr_shotgun_1",
-        "identstring" : "SHOTGUN_1",
         "trigger_weight": 200,
         "name" : "shotgun trap",
         "color" : "red",
@@ -223,7 +207,6 @@
     {
         "type" : "trap",
         "id": "tr_engine",
-        "identstring" : "ENGINE",
         "trigger_weight": 200,
         "name" : "spinning blade engine",
         "color" : "light_red",
@@ -237,7 +220,6 @@
     {
         "type" : "trap",
         "id": "tr_blade",
-        "identstring" : "BLADE",
         "name" : "spinning blade",
         "color" : "cyan",
         "symbol" : "\\",
@@ -249,7 +231,6 @@
     {
         "type" : "trap",
         "id": "tr_light_snare",
-        "identstring" : "LIGHT_SNARE",
         "name" : "light snare trap",
         "color" : "brown",
         "symbol" : "^",
@@ -262,7 +243,6 @@
     {
         "type" : "trap",
         "id": "tr_heavy_snare",
-        "identstring" : "LIGHT_SNARE",
         "name" : "heavy snare trap",
         "color" : "brown",
         "symbol" : "^",
@@ -275,7 +255,6 @@
     {
         "type" : "trap",
         "id": "tr_landmine",
-        "identstring" : "LANDMINE",
         "trigger_weight": 200,
         "name" : "land mine",
         "color" : "red",
@@ -289,7 +268,6 @@
     {
         "type" : "trap",
         "id": "tr_landmine_buried",
-        "identstring" : "LANDMINE_BURIED",
         "trigger_weight": 200,
         "name" : "buried land mine",
         "color" : "red",
@@ -303,7 +281,6 @@
     {
         "type" : "trap",
         "id": "tr_telepad",
-        "identstring" : "TELEPAD",
         "trigger_weight": 200,
         "name" : "teleport pad",
         "color" : "magenta",
@@ -317,7 +294,6 @@
     {
         "type" : "trap",
         "id": "tr_goo",
-        "identstring" : "GOO",
         "name" : "goo pit",
         "color" : "dark_gray",
         "symbol" : "_",
@@ -329,7 +305,6 @@
     {
         "type" : "trap",
         "id": "tr_dissector",
-        "identstring" : "DISSECTOR",
         "name" : "dissector",
         "color" : "cyan",
         "symbol" : "7",
@@ -341,7 +316,6 @@
     {
         "type" : "trap",
         "id": "tr_sinkhole",
-        "identstring" : "SINKHOLE",
         "name" : "sinkhole",
         "color" : "brown",
         "symbol" : "_",
@@ -353,7 +327,6 @@
     {
         "type" : "trap",
         "id": "tr_pit",
-        "identstring" : "PIT",
         "name" : "pit",
         "color" : "brown",
         "symbol" : "0",
@@ -365,7 +338,6 @@
     {
         "type" : "trap",
         "id": "tr_spike_pit",
-        "identstring" : "SPIKE_PIT",
         "name" : "spiked pit",
         "color" : "blue",
         "symbol" : "0",
@@ -377,7 +349,6 @@
     {
         "type" : "trap",
         "id": "tr_lava",
-        "identstring" : "LAVA",
         "name" : "lava",
         "color" : "red",
         "symbol" : "~",
@@ -389,7 +360,6 @@
     {
         "type" : "trap",
         "id": "tr_portal",
-        "identstring" : "PORTAL",
         "name" : "shimmering portal",
         "color" : "magenta",
         "symbol" : "%",
@@ -401,7 +371,6 @@
     {
         "type" : "trap",
         "id": "tr_ledge",
-        "identstring" : "LEDGE",
         "name" : "ledge",
         "color" : "i_cyan",
         "symbol" : " ",
@@ -413,7 +382,6 @@
     {
         "type" : "trap",
         "id": "tr_boobytrap",
-        "identstring" : "BOOBY_TRAP",
         "trigger_weight": 200,
         "name" : "booby trap",
         "color" : "light_cyan",
@@ -427,7 +395,6 @@
     {
         "type" : "trap",
         "id": "tr_temple_flood",
-        "identstring" : "RAISED_TILE",
         "name" : "ledge",
         "color" : "light_gray",
         "symbol" : "^",
@@ -439,7 +406,6 @@
     {
         "type" : "trap",
         "id": "tr_temple_toggle",
-        "identstring" : "TOGGLE_BLOCK",
         "name" : "",
         "color" : "white",
         "symbol" : "^",
@@ -451,7 +417,6 @@
     {
         "type" : "trap",
         "id": "tr_glow",
-        "identstring" : "GLOW_TRAP",
         "name" : "",
         "color" : "white",
         "symbol" : "^",
@@ -463,7 +428,6 @@
     {
         "type" : "trap",
         "id": "tr_hum",
-        "identstring" : "HUM_TRAP",
         "name" : "",
         "color" : "white",
         "symbol" : "^",
@@ -475,7 +439,6 @@
     {
         "type" : "trap",
         "id": "tr_shadow",
-        "identstring" : "SHADOW_TRAP",
         "name" : "",
         "color" : "white",
         "symbol" : "^",
@@ -487,7 +450,6 @@
     {
         "type" : "trap",
         "id": "tr_drain",
-        "identstring" : "DRAIN_TRAP",
         "name" : "",
         "color" : "white",
         "symbol" : "^",
@@ -499,7 +461,6 @@
     {
         "type" : "trap",
         "id": "tr_snake",
-        "identstring" : "SNAKE_TRAP",
         "name" : "",
         "color" : "white",
         "symbol" : "^",
@@ -510,7 +471,6 @@
     },{
         "type" : "trap",
         "id": "tr_glass_pit",
-        "identstring" : "GLASS_PIT",
         "name" : "glass pit",
         "color" : "cyan",
         "symbol" : "0",
@@ -521,7 +481,6 @@
     },{
         "type" : "trap",
         "id": "tr_leather_funnel",
-        "identstring" : "LEATHER_FUNNEL",
         "name" : "leather funnel",
         "color" : "brown",
         "symbol" : "v",
@@ -535,7 +494,6 @@
     },{
         "type" : "trap",
         "id": "tr_metal_funnel",
-        "identstring" : "METAL_FUNNEL",
         "name" : "metal funnel",
         "color" : "dark_gray",
         "symbol" : "V",
