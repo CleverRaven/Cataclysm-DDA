@@ -13760,8 +13760,14 @@ bool player::wield_contents( item *container, int pos, int factor, bool effects 
     last_item = itype_id( weapon.type->id );
     container->contents.erase( container->contents.begin() + pos );
 
-    // TODO Doxygen comment covering all possible gun and weapon skills
-    // documenting decrease in time spent wielding from a container
+    ///\EFFECT_PISTOL decreases time taken to draw pistols from holsters
+    ///\EFFECT_SMG decreases time taken to draw smgs from holsters
+    ///\EFFECT_RIFLE decreases time taken to draw rifles from holsters
+    ///\EFFECT_SHOTGUN decreases time taken to draw shotguns from holsters
+    ///\EFFECT_LAUNCHER decreases time taken to draw launchers from holsters
+    ///\EFFECT_STABBING decreases time taken to draw stabbing weapons from sheathes
+    ///\EFFECT_CUTTING decreases time taken to draw cutting weapons from scabbards
+    ///\EFFECT_BASHING decreases time taken to draw bashing weapons from holsters
     int lvl = get_skill_level( weapon.is_gun() ? weapon.gun_skill() : weapon.weap_skill() );
     mv += item_handling_cost( weapon, effects, factor ) / std::max( sqrt( ( lvl + 3 ) / 3 ), 1.0 );
 
@@ -13774,6 +13780,14 @@ bool player::wield_contents( item *container, int pos, int factor, bool effects 
 
 void player::store(item* container, item* put, int factor, bool effects)
 {
+    ///\EFFECT_PISTOL decreases time taken to holster a pistol
+    ///\EFFECT_SMG decreases time taken to holster an SMG
+    ///\EFFECT_RIFLE decreases time taken to holster a rifle
+    ///\EFFECT_SHOTGUN decreases time taken to holster a shotgun
+    ///\EFFECT_LAUNCHER decreases time taken to holster a launcher
+    ///\EFFECT_STABBING decreases time taken to sheath a stabbing weapon
+    ///\EFFECT_CUTTING decreases time taken to sheath a cutting weapon
+    ///\EFFECT_BASHING decreases time taken to holster a bashing weapon
     int lvl = get_skill_level( put->is_gun() ? put->gun_skill() : put->weap_skill() );
     moves -= item_handling_cost( *put, effects, factor ) / std::max( sqrt( ( lvl + 3 ) / 3 ), 1.0 );
     container->put_in(i_rem(put));
