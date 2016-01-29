@@ -162,31 +162,35 @@ bool bite_actor::call( monster &z ) const
         return false;
     }
 
-    z.moves -= move_cost;
-    bool uncanny = target->uncanny_dodge();
-    // Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
-    int acc = accuracy > INT_MIN ? accuracy : z.type->melee_skill;
-    if( uncanny || dodge_check( acc, *target ) ) {
+    z.mod_moves( move_cost );
+
+    add_msg( m_debug, "%s attempting to bite %s", z.name().c_str(), target->disp_name().c_str() );
+
+    int hitspread = target->deal_melee_attack( &z, z.hit_roll() );
+
+    if( hitspread < 0 ) {
         auto msg_type = target == &g->u ? m_warning : m_info;
         sfx::play_variant_sound( "mon_bite", "bite_miss", sfx::get_heard_volume( z.pos() ),
                                  sfx::get_heard_angle( z.pos() ) );
         target->add_msg_player_or_npc( msg_type, _( "The %s lunges at you, but you dodge!" ),
                                        _( "The %s lunges at <npcname>, but they dodge!" ),
                                        z.name().c_str() );
-        if( !uncanny ) {
-            target->on_dodge( &z, z.type->melee_skill * 2 );
-        }
         return true;
     }
 
-    body_part hit = target->get_random_body_part();
-    float multiplier = rng_float( min_mul, max_mul );
-    // Copy the damage instance for the attack
-    damage_instance di = damage_max_instance;
-    di.mult_damage( multiplier );
-    int dam = target->deal_damage( &z, hit, di ).total_damage();
+    damage_instance damage = damage_max_instance;
+    dealt_damage_instance dealt_damage;
+    body_part hit;
 
-    if( dam > 0 ) {
+    double multiplier = rng_float(min_mul, max_mul );
+    damage.mult_damage( multiplier );
+
+    target->deal_melee_hit( &z, hitspread, false, damage, dealt_damage );
+
+    hit = dealt_damage.bp_hit;
+    int damage_total = dealt_damage.total_damage();
+    add_msg( m_debug, "%s's bite did %d damage", z.name().c_str(), damage_total );
+    if( damage_total > 0 ) {
         auto msg_type = target == &g->u ? m_bad : m_info;
         //~ 1$s is monster name, 2$s bodypart in accusative
         if( target->is_player() ) {
@@ -199,7 +203,7 @@ bool bite_actor::call( monster &z ) const
                                        _( "The %1$s bites <npcname>'s %2$s!" ),
                                        z.name().c_str(),
                                        body_part_name_accusative( hit ).c_str() );
-        if( one_in( no_infection_chance - dam ) ) {
+        if( one_in( no_infection_chance - damage_total ) ) {
             if( target->has_effect( effect_bite, hit ) ) {
                 target->add_effect( effect_bite, 400, hit, true );
             } else if( target->has_effect( effect_infected, hit ) ) {
@@ -216,8 +220,6 @@ bool bite_actor::call( monster &z ) const
                                        z.name().c_str(),
                                        body_part_name_accusative( hit ).c_str() );
     }
-
-    target->on_hit( &z, hit, z.type->melee_skill );
 
     return true;
 }
