@@ -2753,6 +2753,12 @@ int item::get_encumber() const
     // it_armor::encumber is signed char
     int encumber = static_cast<int>( t->encumber );
 
+    // Ammo belts add encumbrance proportional to their length
+    if( is_magazine() && !type->magazine->rigid && ammo_data() ) {
+        encumber += ammo_remaining() / ammo_data()->stack_size;
+        encumber += ammo_remaining() % ammo_data()->stack_size != 0;
+    }
+
     // Fit checked before changes, fitting shouldn't reduce penalties from patching.
     if( item::item_tags.count("FIT") ) {
         encumber = std::max( encumber / 2, encumber - 10 );
