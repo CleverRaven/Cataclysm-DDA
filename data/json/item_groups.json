@@ -2737,7 +2737,11 @@
       ["improve_sights", 20],
       ["survnote", 1],
       ["shoulder_strap", 24],
-      ["powered_earmuffs",40]
+      ["powered_earmuffs",40],
+      ["m1918mag", 4],
+      ["m1918mag_30", 2],
+      ["ak74_mag_30", 5],
+      ["makarovmag", 10]
     ]
   },{
     "type" : "item_group",
@@ -4739,7 +4743,8 @@
       ["rail_laser_sight", 10],
       ["rifle_scope", 17],
       ["pistol_scope", 14],
-      ["improve_sights", 20]
+      ["improve_sights", 20],
+      ["sten_mag", 10]
     ]
   },{
     "type" : "item_group",
@@ -5297,7 +5302,18 @@
       ["bfipowder", 20],
       ["sheath", 10],
       ["bootsheath", 10],
-      ["survnote", 1]
+      ["survnote", 1],
+      ["m1918mag", 6],
+      ["m1918mag_30", 4],
+      ["ak74_mag_30", 7],
+      ["rpk_74_mag_45", 5],
+      ["makarovmag", 8],
+      ["skorpion_61_mag", 4],
+      ["skorpion_82_mag", 2],
+      ["thompson_mag", 4],
+      ["thompson_mag_30", 2],
+      ["thompson_drum", 1],
+      ["sten_mag", 2]
     ]
   },{
     "type" : "item_group",
@@ -8058,7 +8074,19 @@
       ["scrap_copper", 5],
       ["signal_flare", 5],
       ["8mm_inc", 2],
-      ["survnote", 1]
+      ["survnote", 1],
+      ["m1918mag", 2],
+      ["m1918mag_30", 1],
+      ["ak74_mag_30", 3],
+      ["rpk_74_mag_45", 2],
+      ["makarovmag", 3],
+      ["skorpion_61_mag", 1],
+      ["skorpion_82_mag", 1],
+      ["thompson_mag", 3],
+      ["thompson_mag_30", 2],
+      ["thompson_drum", 1],
+      ["sten_mag", 1],
+      ["survivor9mm_mag", 2]
     ]
   },{
     "type" : "item_group",
