@@ -2403,8 +2403,8 @@
     "flags": ["MODE_BURST", "NEVER_JAMS"],
     "skill": "rifle",
     "ammo": "545x39",
-    "weight": 3300,
-    "volume": 9,
+    "weight": 3070,
+    "volume": 7,
     "bashing": 11,
     "cutting": 0,
     "to_hit": -1,
@@ -2414,11 +2414,11 @@
     "recoil": 0,
     "durability": 8,
     "burst": 8,
-    "clip_size": 30,
-    "reload": 475,
+    "reload": 100,
     "loudness": 140,
     "barrel_length" : 1,
-    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
+    "magazines" : [ "ak74mag", "rpk74mag" ],
+    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "an94",
@@ -2433,8 +2433,8 @@
     "flags": ["MODE_BURST"],
     "skill": "rifle",
     "ammo": "545x39",
-    "weight": 3850,
-    "volume": 9,
+    "weight": 3620,
+    "volume": 7,
     "bashing": 11,
     "cutting": 0,
     "to_hit": -1,
@@ -2444,11 +2444,11 @@
     "recoil": -10,
     "durability": 7,
     "burst": 2,
-    "clip_size": 30,
-    "reload": 475,
+    "reload": 100,
     "loudness": 140,
     "barrel_length" : 1,
-    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
+    "magazines" : [ "ak74mag", "rpk74mag" ],
+    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "sks",
