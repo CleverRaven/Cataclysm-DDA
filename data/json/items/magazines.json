@@ -616,7 +616,10 @@
         "capacity" : 20,
         "reliability" : 9,
         "reload_time" : 100,
-        "flags": [ "COMPACT_MAG" ]
+        "flags": [ "COMPACT_MAG" ],
+        "alternatives" : [
+            [ "223", [ "stanag30", "stanag10", "survivor223mag" ] ]
+        ]
     },
     {
         "type" : "MAGAZINE",
@@ -633,7 +636,10 @@
         "capacity" : 30,
         "reliability" : 7,
         "reload_time" : 120,
-        "flags": [ "COMPACT_MAG" ]
+        "flags": [ "COMPACT_MAG" ],
+        "alternatives" : [
+            [ "223", [ "stanag30", "stanag10", "survivor223mag" ] ]
+        ]
     },
     {
         "type" : "MAGAZINE",
@@ -651,6 +657,9 @@
         "capacity" : 200,
         "count" : 100,
         "reliability" : 7,
-        "flags": [ "NO_RELOAD", "NO_UNLOAD" ]
+        "flags": [ "NO_RELOAD", "NO_UNLOAD" ],
+        "alternatives" : [
+            [ "223", [ "belt223" ] ]
+        ]
     }
 ]
