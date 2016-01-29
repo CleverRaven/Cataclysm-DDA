@@ -139,7 +139,7 @@
         "reload_time" : 100,
         "flags" : [ "COMPACT_MAG" ],
         "alternatives" : [
-            [ "45", [ "usp45mag" ] ]
+            [ "45", [ "m1911mag" ] ]
         ]
     },
     {   "type" : "MAGAZINE",
@@ -156,7 +156,10 @@
         "capacity" : 30,
         "reliability" : 7,
         "reload_time" : 140,
-        "flags" : [ "COMPACT_MAG" ]
+        "flags" : [ "COMPACT_MAG" ],
+        "alternatives" : [
+            [ "45", [ "m1911bigmag" ] ]
+        ]
     },
     {   "type" : "MAGAZINE",
         "id" : "m9mag",
@@ -172,7 +175,10 @@
         "capacity" : 15,
         "reliability" : 8,
         "reload_time" : 100,
-        "flags" : [ "COMPACT_MAG" ]
+        "flags" : [ "COMPACT_MAG" ],
+        "alternatives" : [
+            [ "45", [ "m1911mag" ] ]
+        ]
     },
     {   "type" : "MAGAZINE",
         "id" : "m9bigmag",
@@ -188,7 +194,10 @@
         "capacity" : 30,
         "reliability" : 7,
         "reload_time" : 140,
-        "flags" : [ "COMPACT_MAG" ]
+        "flags" : [ "COMPACT_MAG" ],
+        "alternatives" : [
+            [ "45", [ "m1911bigmag" ] ]
+        ]
     },
     {   "type" : "MAGAZINE",
         "id" : "usp9mag",
@@ -239,7 +248,10 @@
         "capacity" : 30,
         "reliability" : 9,
         "reload_time" : 100,
-        "flags" : [ "COMPACT_MAG" ]
+        "flags" : [ "COMPACT_MAG" ],
+        "alternatives" : [
+            [ "45", [ "ump45mag" ] ]
+        ]
     },
     {   "type" : "MAGAZINE",
         "id" : "mp5bigmag",
@@ -255,7 +267,10 @@
         "capacity" : 50,
         "reliability" : 8,
         "reload_time" : 160,
-        "flags" : [ "BULKY_MAG" ]
+        "flags" : [ "BULKY_MAG" ],
+        "alternatives" : [
+            [ "45", [ "ump45mag" ] ]
+        ]
     },
     {   "type" : "MAGAZINE",
         "id" : "uzimag",
@@ -271,7 +286,10 @@
         "capacity" : 32,
         "reliability" : 8,
         "reload_time" : 100,
-        "flags" : [ "COMPACT_MAG" ]
+        "flags" : [ "COMPACT_MAG" ],
+        "alternatives" : [
+            [ "45", [ "mac10mag" ] ]
+        ]
     },
     {
         "type" : "MAGAZINE",
@@ -308,6 +326,7 @@
         "flags": [ "COMPACT_MAG" ]
     },
     {
+        "type" : "MAGAZINE",
         "id" : "lw12mag",
         "price" : 5800,
         "name" : "LW-12 magazine",
@@ -320,7 +339,7 @@
         "ammo_type" : "45",
         "capacity" : 12,
         "reliability" : 10,
-        "reload_time" : 140
+        "reload_time" : 140,
         "flags" : [ "COMPACT_MAG" ]
     },
     {   "type" : "MAGAZINE",
@@ -333,14 +352,108 @@
         "material" : "plastic",
         "volume" : 1,
         "weight" : 60,
-        "to_hit" : -2,
         "ammo_type" : "45",
         "capacity" : 12,
         "reliability" : 10,
-        "reload_time" : 35,
+        "reload_time" : 100,
         "flags": [ "COMPACT_MAG" ],
         "alternatives" : [
             [ "9mm", [ "usp9mag" ] ]
+        ]
+    },
+    {   "type" : "MAGAZINE",
+        "id" : "m1911mag",
+        "price" : 2980,
+        "name" : "M1911 magazine",
+        "symbol" : "#",
+        "color" : "ltgray",
+        "description" : "A military issue 7-round magazine for use with the M1911 handgun.",
+        "material" : "steel",
+        "volume" : 1,
+        "weight" : 70,
+        "ammo_type" : "45",
+        "capacity" : 7,
+        "reliability" : 10,
+        "reload_time" : 100,
+        "flags": [ "COMPACT_MAG" ],
+        "alternatives" : [
+            [ "9mm", [ "m9mag" ] ]
+        ]
+    },
+    {   "type" : "MAGAZINE",
+        "id" : "m1911bigmag",
+        "price" : 3720,
+        "name" : "M1911 extended magazine",
+        "symbol" : "#",
+        "color" : "ltgray",
+        "description" : "An extended 10-round magazine for use with the M1911 handgun.",
+        "material" : "steel",
+        "volume" : 2,
+        "weight" : 100,
+        "ammo_type" : "45",
+        "capacity" : 10,
+        "reliability" : 9,
+        "reload_time" : 100,
+        "flags": [ "COMPACT_MAG" ],
+        "alternatives" : [
+            [ "9mm", [ "m9bigmag" ] ]
+        ]
+    },
+    {   "type" : "MAGAZINE",
+        "id" : "mac10mag",
+        "price" : 1800,
+        "name" : "MAC-10 magazine",
+        "symbol" : "#",
+        "color" : "ltgray",
+        "description" : "A cheap 30-round steel box magazine for use with the MAC-10 SMG.",
+        "material" : "steel",
+        "volume" : 2,
+        "weight" : 210,
+        "ammo_type" : "45",
+        "capacity" : 30,
+        "reliability" : 7,
+        "reload_time" : 100,
+        "flags" : [ "COMPACT_MAG" ],
+        "alternatives" : [
+            [ "9mm", [ "uzimag" ] ]
+        ]
+    },
+    {   "type" : "MAGAZINE",
+        "id" : "tdi_mag",
+        "price" : 1800,
+        "name" : "TDI Vector magazine",
+        "symbol" : "#",
+        "color" : "ltgray",
+        "description" : "A 30-round steel box magazine for use with the TDI Vector",
+        "material" : "steel",
+        "volume" : 2,
+        "weight" : 210,
+        "ammo_type" : "45",
+        "capacity" : 30,
+        "reliability" : 9,
+        "reload_time" : 100,
+        "flags" : [ "COMPACT_MAG" ],
+        "alternatives" : [
+            [ "9mm", [ "uzimag" ] ]
+        ]
+    },
+    {   "type" : "MAGAZINE",
+        "id" : "ump45mag",
+        "price" : 4950,
+        "name" : "UMP45 magazine",
+        "symbol" : "#",
+        "color" : "ltgray",
+        "description" : "A standard 30-round box magazine for use with the H&K UMP45 SMG.",
+        "material" : "steel",
+        "volume" : 2,
+        "weight" : 200,
+        "ammo_type" : "45",
+        "capacity" : 25,
+        "reliability" : 9,
+        "reload_time" : 100,
+        "flags" : [ "COMPACT_MAG" ],
+        "alternatives" : [
+            [ "9mm", [ "mp5mag" ] ]
         ]
     },
     {
@@ -358,7 +471,10 @@
         "capacity" : 20,
         "reliability" : 8,
         "reload_time" : 100,
-        "flags": [ "COMPACT_MAG" ]
+        "flags": [ "COMPACT_MAG" ],
+        "alternatives" : [
+            [ "9mm", [ "sten_mag", "survivor9mm_mag" ] ]
+        ]
     },
     {
         "type" : "MAGAZINE",
@@ -375,8 +491,12 @@
         "capacity" : 30,
         "reliability" : 8,
         "reload_time" : 120,
-        "flags": [ "COMPACT_MAG" ]
-    },{
+        "flags": [ "COMPACT_MAG" ],
+        "alternatives" : [
+            [ "9mm", [ "sten_mag", "survivor9mm_mag" ] ]
+        ]
+    },
+    {
         "type" : "MAGAZINE",
         "id" : "thompson_drum",
         "price" : 8000,
