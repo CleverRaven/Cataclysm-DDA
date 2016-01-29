@@ -512,5 +512,39 @@
         "reliability" : 7,
         "reload_time" : 150,
         "flags": [ "BULKY_MAG" ]
+    },
+    {
+        "type" : "MAGAZINE",
+        "id" : "makarovmag",
+        "price" : 2300,
+        "name" : "Makarov PM magazine",
+        "symbol" : "#",
+        "color" : "ltgray",
+        "description" : "The standard magazine for the Pistolet Makarova, holds 8 rounds.",
+        "material" : "steel",
+        "volume" : 1,
+        "weight" : 60,
+        "ammo_type" : "9x18",
+        "capacity" : 8,
+        "reliability" : 9,
+        "reload_time" : 100,
+        "flags": [ "COMPACT_MAG" ]
+    },
+    {
+        "type" : "MAGAZINE",
+        "id" : "skorpion82mag",
+        "price" : 2300,
+        "name" : "Skorpion Vz. 82 magazine",
+        "symbol" : "#",
+        "color" : "ltgray",
+        "description" : "A standard 20-round magazine for the Skorpion Vz. 82, in 9x18mm Makarov.",
+        "material" : "steel",
+        "volume" : 2,
+        "weight" : 170,
+        "ammo_type" : "9x18",
+        "capacity" : 20,
+        "reliability" : 8,
+        "reload_time" : 100,
+        "flags": [ "COMPACT_MAG" ]
     }
 ]
