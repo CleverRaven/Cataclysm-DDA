@@ -31,6 +31,7 @@ src/mtype.cpp
 src/name.cpp
 src/nonplayer.cpp
 src/pathfinding.cpp
+src/posix_time.cpp
 src/recipe_dictionary.cpp
 src/rng.cpp
 src/speech.cpp
@@ -114,6 +115,7 @@ src/name.h
 src/nonplayer.h
 src/omdata.h
 src/options.h
+src/overmap_types.h
 src/path_info.h
 src/pickup.h
 src/platform_win.h
