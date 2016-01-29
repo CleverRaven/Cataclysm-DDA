@@ -852,6 +852,7 @@
         "dispersion" : 140,
         "recoil" : 185,
         "count" : 50,
+        "stack_size" : 50,
         "effects" : ["COOKOFF"]
     },
     {   "type" : "AMMO",
@@ -899,6 +900,7 @@
         "dispersion" : 140,
         "recoil" : 185,
         "count" : 50,
+        "stack_size" : 50,
         "effects" : ["COOKOFF"]
     },
     {   "type" : "AMMO",
