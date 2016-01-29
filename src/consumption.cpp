@@ -46,6 +46,9 @@ int player::stomach_capacity() const
     return -20;
 }
 
+// TODO: Move pizza scraping here
+// This would require carnivore check to be doable on it_comest alone
+// For example, by using tags rather than materials
 int player::nutrition_for( const it_comest *comest ) const
 {
     // First value is hunger, second is nutrition multiplier
@@ -76,7 +79,7 @@ int player::nutrition_for( const it_comest *comest ) const
     const float modifier = ( t * thresholds[i].second ) +
                            ( ( 1 - t ) * thresholds[i - 1].second );
 
-    return ( int )( comest->get_nutrition() * modifier );
+    return lround( comest->get_nutrition() * modifier );
 }
 
 morale_type player::allergy_type( const item &food ) const
@@ -203,7 +206,8 @@ edible_rating player::can_eat( const item &food, bool interactive, bool force ) 
     }
 
     const bool carnivore = has_trait( "CARNIVORE" );
-    if( carnivore && food.made_of_any( carnivore_blacklist ) && nutr > 0 ) {
+    if( carnivore && nutr > 0 &&
+        food.made_of_any( carnivore_blacklist ) && !food.made_of_any( carnivore_whitelist ) ) {
         maybe_print( m_info, _( "Eww.  Inedible plant stuff!" ) );
         return INEDIBLE_MUTATION;
     }
@@ -237,13 +241,17 @@ edible_rating player::can_eat( const item &food, bool interactive, bool force ) 
     }
 
     const bool saprophage = has_trait( "SAPROPHAGE" );
+    // The item is solid food
+    const bool chew = comest->comesttype == "FOOD" || food.has_flag( "USE_EAT_VERB" );
     if( spoiled ) {
         if( !saprophage && !has_trait( "SAPROVORE" ) &&
             !maybe_query( _( "This %s smells awful!  Eat it?" ) ) ) {
             return ROTTEN;
         }
-    } else if( saprophage && !drinkable &&
+    } else if( saprophage && chew && !food.has_flag( "FERTILIZER" ) &&
                !maybe_query( _( "Really eat that %s?  Your stomach won't be happy." ) ) ) {
+        // Note: We're allowing all non-solid "food". This includes drugs
+        // Hardcoding fertilizer for now - should be a separate flag later
         //~ No, we don't eat "rotten" food. We eat properly aged food, like a normal person.
         //~ Semantic difference, but greatly facilitates people being proud of their character.
         maybe_print( m_info, _( "It's too fresh, let it age a little first." ) );
@@ -277,10 +285,17 @@ bool player::eat( item &food, bool force )
         return false;
     }
 
+    const auto comest = dynamic_cast<const it_comest *>( food.type );
+    if( comest->has_use() ) {
+        const auto charges_consumed = comest->invoke( this, &food, pos() );
+        if( charges_consumed <= 0 ) {
+            return false;
+        }
+    }
+
     // Note: the block below assumes we decided to eat it
     // No coming back from here
 
-    const auto comest = dynamic_cast<const it_comest *>( food.type );
     const bool hibernate = has_active_mutation( "HIBERNATE" );
     const int nutr = nutrition_for( comest );
     const int quench = comest->quench;
@@ -301,13 +316,6 @@ bool player::eat( item &food, bool force )
             _( "You've begun stockpiling calories and liquid for hibernation.  You get the feeling that you should prepare for bed, just in case, but...you're hungry again, and you could eat a whole week's worth of food RIGHT NOW." ) );
     }
 
-    if( comest->has_use() ) {
-        const auto charges_consumed = comest->invoke( this, &food, pos() );
-        if( charges_consumed <= 0 ) {
-            return false;
-        }
-    }
-
     const bool saprophage = has_trait( "SAPROPHAGE" );
     if( spoiled && !saprophage ) {
         add_msg_if_player( m_bad, _( "Ick, this %s doesn't taste so good..." ), food.tname().c_str() );
@@ -323,9 +331,8 @@ bool player::eat( item &food, bool force )
         consume_effects( food, spoiled );
     }
 
-    const bool eathealth = has_trait( "EATHEALTH" );
-    if( get_hunger() < 0 && nutr >= 5 && !has_trait( "GOURMAND" ) && !hibernate && !eathealth &&
-        !has_trait( "SLIMESPAWNER" ) &&
+    if( get_hunger() < 0 && nutr >= 5 && !has_trait( "GOURMAND" ) && !hibernate &&
+        !has_trait( "SLIMESPAWNER" ) && !has_trait( "EATHEALTH" ) &&
         rng( -200, 0 ) > get_hunger() ) {
         vomit();
     }
@@ -376,23 +383,6 @@ bool player::eat( item &food, bool force )
     } else if( chew ) {
         add_msg_player_or_npc( _( "You eat your %s." ), _( "<npcname> eats a %s." ),
                                food.tname().c_str() );
-    }
-
-    // Moved this later in the process, so you actually eat it before converting to HP
-    if( eathealth && nutr > 0 && get_hunger() < 0 ) {
-        int excess_food = -get_hunger();
-        add_msg_player_or_npc( _( "You feel the %s filling you out." ),
-                               _( "<npcname> looks better after eating the %s." ),
-                               food.tname().c_str() );
-        // Guaranteed 1 HP healing, no matter what.  You're welcome.  ;-)
-        if( excess_food <= 5 ) {
-            healall( 1 );
-        } else {
-            // Straight conversion, except it's divided amongst all your body parts.
-            healall( excess_food /= 5 );
-        }
-
-        set_hunger( 0 );
     }
 
     if( item::find_type( comest->tool )->is_tool() ) {
@@ -463,7 +453,7 @@ bool player::eat( item &food, bool force )
         add_msg_if_player( m_bad, _( "Your stomach begins gurgling and you feel bloated and ill." ) );
         add_morale( MORALE_NO_DIGEST, -25, -125, 300, 240 );
     }
-    if( !spoiled && !drinkable && has_trait( "SAPROPHAGE" ) ) {
+    if( !spoiled && chew && has_trait( "SAPROPHAGE" ) ) {
         // It's OK to *drink* things that haven't rotted.  Alternative is to ban water.  D:
         add_msg_if_player( m_bad, _( "Your stomach begins gurgling and you feel bloated and ill." ) );
         add_morale( MORALE_NO_DIGEST, -75, -400, 300, 240 );
@@ -485,10 +475,35 @@ bool player::eat( item &food, bool force )
     return true;
 }
 
+// Caps both actual nutrition/thirst and stomach capacity
+void cap_nutrition_thirst( player &p, int capacity, bool food, bool water )
+{
+    if( ( food && p.get_hunger() < capacity ) ||
+        ( water && p.thirst < capacity ) ) {
+        p.add_msg_if_player( _( "You can't finish it all!" ) );
+    }
+
+    if( p.get_hunger() < capacity ) {
+        p.mod_stomach_food( p.get_hunger() - capacity );
+        p.set_hunger( capacity );
+    }
+
+    if( p.thirst < capacity ) {
+        p.mod_stomach_water( p.thirst - capacity );
+        p.thirst = capacity;
+    }
+
+    add_msg( m_debug, "%s nutrition cap: hunger %d, thirst %d, stomach food %d, stomach water %d",
+             p.disp_name().c_str(), p.get_hunger(), p.thirst, p.get_stomach_food(), p.get_stomach_water() );
+}
+
 void player::consume_effects( item &food, bool rotten )
 {
+    const int capacity = stomach_capacity();
     const auto comest = dynamic_cast<const it_comest *>( food.type );
     if( has_trait( "THRESH_PLANT" ) && comest->can_use( "PLANTBLECH" ) ) {
+        // Just keep nutrition capped, to prevent vomiting
+        cap_nutrition_thirst( *this, capacity, true, true );
         return;
     }
     if( food.made_of_any( herbivore_blacklist ) &&
@@ -508,6 +523,7 @@ void player::consume_effects( item &food, bool rotten )
         // At least partially edible
         if( food.made_of_any( carnivore_blacklist ) ) {
             // Other things are in it, we only get partial benefits
+            add_msg_if_player( _( "You pick out the edible parts and throw away the rest." ) );
             factor *= .5;
         } else {
             // Carnivores don't get unhealthy off pure meat diets
@@ -566,13 +582,16 @@ void player::consume_effects( item &food, bool rotten )
 
     const bool gourmand = has_trait( "GOURMAND" );
     const bool hibernate = has_active_mutation( "HIBERNATE" );
-    const int capacity = stomach_capacity();
     if( gourmand ) {
         if( fun < -2 ) {
             add_morale( MORALE_FOOD_BAD, fun * 0.5, fun, 60, 30, false, comest );
         } else if( fun > 0 ) {
             add_morale( MORALE_FOOD_GOOD, fun * 3, fun * 6, 60, 30, false, comest );
         }
+    } else if( fun < 0 ) {
+        add_morale( MORALE_FOOD_BAD, fun, fun * 6, 60, 30, false, comest );
+    } else if( fun > 0 ) {
+        add_morale( MORALE_FOOD_GOOD, fun, fun * 4, 60, 30, false, comest );
     }
 
     if( hibernate ) {
@@ -607,12 +626,6 @@ void player::consume_effects( item &food, bool rotten )
             // At this point, you're done.  Schlaf gut.
             fatigue += nutr;
         }
-    } else {
-        if( fun < 0 ) {
-            add_morale( MORALE_FOOD_BAD, fun, fun * 6, 60, 30, false, comest );
-        } else if( fun > 0 ) {
-            add_morale( MORALE_FOOD_GOOD, fun, fun * 4, 60, 30, false, comest );
-        }
     }
 
     // Moved here and changed a bit - it was too complex
@@ -643,17 +656,25 @@ void player::consume_effects( item &food, bool rotten )
         add_msg_if_player( m_good, _( "hey, you look like me! let's work together!" ) );
     }
 
-    if( ( nutr > 0 && get_hunger() < capacity ) ||
-        ( comest->quench > 0 && thirst < capacity ) ) {
-        add_msg_if_player( _( "You can't finish it all!" ) );
-    }
+    // Last thing that happens before capping hunger
+    if( get_hunger() < capacity && has_trait( "EATHEALTH" ) ) {
+        int excess_food = capacity - get_hunger();
+        add_msg_player_or_npc( _( "You feel the %s filling you out." ),
+                               _( "<npcname> looks better after eating the %s." ),
+                               food.tname().c_str() );
+        // Guaranteed 1 HP healing, no matter what.  You're welcome.  ;-)
+        if( excess_food <= 5 ) {
+            healall( 1 );
+        } else {
+            // Straight conversion, except it's divided amongst all your body parts.
+            healall( excess_food /= 5 );
+        }
 
-    if( get_hunger() < capacity ) {
+        // Note: We want this here to prevent "you can't finish this" messages
         set_hunger( capacity );
     }
-    if( thirst < capacity ) {
-        thirst = capacity;
-    }
+
+    cap_nutrition_thirst( *this, capacity, nutr > 0, comest->quench > 0 );
 }
 
 hint_rating player::rate_action_eat( const item &it ) const
