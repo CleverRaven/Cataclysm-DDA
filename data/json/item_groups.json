@@ -5274,7 +5274,7 @@
       ["m1911mag", 2],
       ["uzimag", 2],
       ["mac10mag", 2],
-      ["sten_mag", 2]
+      ["sten_mag", 2],
       ["tdi_mag", 2],
       ["thompson_mag", 2],
       ["makarovmag", 2],
@@ -7967,7 +7967,7 @@
       ["lw12mag", 5],
       ["m9mag", 20],
       ["m9bigmag", 5],
-      ["usp9mag", 10]
+      ["usp9mag", 10],
       ["usp45mag", 5]
     ]
   },{
@@ -8182,8 +8182,8 @@
       ["sten_mag", 10],
       ["tdi_mag", 3],
       ["makarovmag", 3],
-      ["skorpion82mag", 3]
-      ["skorpion61mag", 5]
+      ["skorpion82mag", 3],
+      ["skorpion61mag", 5],
       ["thompson_mag", 4],
       ["thompson_bigmag", 2],
       ["thompson_drum", 1],
