@@ -1028,11 +1028,11 @@
     "recoil": 120,
     "durability": 9,
     "clip_size": 0,
-    "reload": 350,
+    "reload": 100,
     "loudness" : 150,
     "magazines" : [ "usp45mag" ],
-    "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
-    "default_mods": [ "usp45mag" ]
+    "magazine_well" : 1,
+    "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "surv_hand_cannon",
@@ -1075,7 +1075,7 @@
     "material": ["steel", "plastic"],
     "skill": "pistol",
     "ammo": "45",
-    "weight": 1105,
+    "weight": 1035,
     "volume": 2,
     "bashing": 12,
     "cutting": 0,
@@ -1086,10 +1086,11 @@
     "aim_speed" : 4,
     "recoil": 130,
     "durability": 7,
-    "clip_size": 7,
-    "reload": 300,
+    "reload": 100,
     "loudness" : 150,
-    "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
+    "magazine_well": 1,
+    "magazines" : [ "m1911mag", "m1911bigmag" ],
+    "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "l_sp_45",
@@ -1104,7 +1105,7 @@
     "flags": "DURABLE_MELEE",
     "skill": "pistol",
     "ammo": "45",
-    "weight": 1405,
+    "weight": 1265,
     "volume": 3,
     "bashing": 12,
     "cutting": 0,
@@ -1116,10 +1117,11 @@
     "aim_speed" : 4,
     "recoil": 135,
     "durability": 9,
-    "clip_size": 12,
-    "reload": 500,
+    "reload": 100,
     "loudness" : 150,
-    "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "bore", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
+    "magazines" : [ "lw12mag" ],
+    "magazine_well" : 1,
+    "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "l_mp_45",
@@ -1134,7 +1136,7 @@
     "flags": "MODE_BURST",
     "skill": "pistol",
     "ammo": "45",
-    "weight": 1405,
+    "weight": 1335,
     "volume": 3,
     "bashing": 12,
     "cutting": 0,
@@ -1147,10 +1149,11 @@
     "recoil": 150,
     "durability": 7,
     "burst": 3,
-    "clip_size": 12,
-    "reload": 500,
+    "reload": 100,
     "loudness" : 150,
-    "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "bore", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
+    "magazines" : [ "lw12mag" ],
+    "magazine_well" : 1,
+    "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "l_enforcer_45",
@@ -1725,8 +1728,8 @@
     "flags": "MODE_BURST",
     "skill": "smg",
     "ammo": "45",
-    "weight": 2840,
-    "volume": 4,
+    "weight": 2630,
+    "volume": 3,
     "bashing": 8,
     "cutting": 0,
     "to_hit": -2,
@@ -1737,10 +1740,11 @@
     "recoil": 0,
     "durability": 7,
     "burst": 30,
-    "clip_size": 30,
     "reload": 450,
     "loudness" : 150,
-    "valid_mod_locations": [[ "accessories", 3 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
+    "magazines" : [ "mac10mag" ],
+    "magazine_well" : 1,
+    "valid_mod_locations": [[ "accessories", 3 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "hk_ump45",
@@ -1755,8 +1759,8 @@
     "flags": "MODE_BURST",
     "skill": "smg",
     "ammo": "45",
-    "weight": 2500,
-    "volume": 7,
+    "weight": 2300,
+    "volume": 5,
     "bashing": 11,
     "cutting": 0,
     "to_hit": -2,
@@ -1766,10 +1770,10 @@
     "recoil": -45,
     "durability": 8,
     "burst": 4,
-    "clip_size": 25,
-    "reload": 450,
+    "reload": 100,
     "loudness" : 150,
-    "valid_mod_locations": [[ "accessories", 3 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
+    "magazines" : [ "ump45mag" ],
+    "valid_mod_locations": [[ "accessories", 3 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "TDI",
@@ -1796,10 +1800,11 @@
     "recoil": -150,
     "durability": 7,
     "burst": 8,
-    "clip_size": 30,
     "reload": 450,
     "loudness" : 150,
-    "valid_mod_locations": [[ "accessories", 3 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
+    "magazine_well" : 2,
+    "magazines" : [ "tdi_mag" ],
+    "valid_mod_locations": [[ "accessories", 3 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "fn_p90",
