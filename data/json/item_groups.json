@@ -2746,6 +2746,8 @@
       ["m9mag", 10],
       ["m1911mag", 20],
       ["m1911bigmag", 5],
+      ["m1918mag", 8],
+      ["m1918bigmag", 4],
       ["m9bigmag", 1],
       ["usp9mag", 10],
       ["usp45mag", 8],
@@ -5272,7 +5274,8 @@
       ["mac10mag", 2],
       ["sten_mag", 2]
       ["tdi_mag", 2],
-      ["thompson_mag", 2]
+      ["thompson_mag", 2],
+      ["m1918mag", 2]
     ]
   },{
     "type" : "item_group",
@@ -8166,6 +8169,8 @@
       ["glockmag", 6],
       ["m1911mag", 8],
       ["m1911bigmag", 3],
+      ["m1918mag", 8],
+      ["m1918bigmag", 3],
       ["glockbigmag", 1],
       ["uzimag", 3],
       ["mac10mag", 3],
