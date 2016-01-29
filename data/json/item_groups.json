@@ -2744,10 +2744,18 @@
       ["glockmag", 20],
       ["glockbigmag", 3],
       ["m9mag", 10],
+      ["m1911mag", 20],
+      ["m1911bigmag", 5],
       ["m9bigmag", 1],
       ["usp9mag", 10],
+      ["usp45mag", 8],
       ["uzimag", 8],
-      ["sten_mag", 20]
+      ["mac10mag", 6],
+      ["sten_mag", 20],
+      ["tdi_mag", 5],
+      ["thompson_mag", 10],
+      ["thompson_bigmag", 5],
+      ["thompson_drum", 5]
     ]
   },{
     "type" : "item_group",
@@ -3690,8 +3698,11 @@
       ["stanag10", 6],
       ["lw223mag", 2],
       ["glockmag", 10],
+      ["m1911mag", 7],
       ["mp5mag", 5],
-      ["lw21mag", 2]
+      ["ump45mag", 3],
+      ["lw21mag", 2],
+      ["lw12mag", 2]
     ]
   },{
     "type" : "item_group",
@@ -3911,11 +3922,16 @@
       ["stanag10", 5],
       ["lw223mag", 5],
       ["lw21mag", 5],
+      ["lw12mag", 5],
       ["glockmag", 5],
       ["glockbigmag", 5],
       ["m9mag", 5],
+      ["m1911mag", 5],
+      ["m1911bigmag", 2],
       ["m9bigmag", 5],
       ["usp9mag", 5],
+      ["usp45mag", 3],
+      ["ump45mag", 8],
       ["mp5mag", 15],
       ["mp5bigmag", 5]
     ]
@@ -5251,8 +5267,12 @@
       ["l-stick", 1],
       ["stanag10", 2],
       ["glockmag", 2],
+      ["m1911mag", 2],
       ["uzimag", 2],
+      ["mac10mag", 2],
       ["sten_mag", 2]
+      ["tdi_mag", 2],
+      ["thompson_mag", 2]
     ]
   },{
     "type" : "item_group",
@@ -5337,11 +5357,17 @@
       ["stanag10", 8],
       ["stanag30", 6],
       ["lw223mag", 6],
-      ["lw21mag", 6],
+      ["lw21mag", 8],
+      ["lw12mag", 2],
       ["m9mag", 20],
+      ["m1911mag", 20],
       ["m9bigmag", 5],
       ["usp9mag", 20],
-      ["sten_mag", 40]
+      ["usp45mag", 8],
+      ["sten_mag", 40],
+      ["thompson_mag", 12],
+      ["thompson_bigmag", 8],
+      ["thompson_drum", 4]
     ]
   },{
     "type" : "item_group",
@@ -6326,6 +6352,8 @@
       ["lw223mag", 20],
       ["lw223bigmag", 10],
       ["lw21mag", 10],
+      ["lw12mag", 3],
+      ["ump45mag", 3],
       ["mp5mag", 5],
       ["mp5bigmag", 3]
     ]
@@ -7688,8 +7716,10 @@
       ["stanag30", 10],
       ["lw223mag", 5],
       ["lw21mag", 5],
+      ["lw12mag", 3],
       ["m9mag", 5],
-      ["usp9mag", 5]
+      ["usp9mag", 5],
+      ["usp45mag", 3]
     ]
   },{
     "type" : "item_group",
@@ -7926,9 +7956,11 @@
       ["lw223mag", 20],
       ["lw223bigmag", 10],
       ["lw21mag", 20],
+      ["lw12mag", 5],
       ["m9mag", 20],
       ["m9bigmag", 5],
       ["usp9mag", 10]
+      ["usp45mag", 5]
     ]
   },{
     "type" : "item_group",
@@ -8127,12 +8159,21 @@
       ["stanag30", 2],
       ["lw223mag", 1],
       ["lw21mag", 1],
+      ["lw12mag", 1],
       ["usp9mag", 2],
+      ["usp45mag", 4],
       ["m9mag", 2],
       ["glockmag", 6],
+      ["m1911mag", 8],
+      ["m1911bigmag", 3],
       ["glockbigmag", 1],
       ["uzimag", 3],
-      ["sten_mag", 10]
+      ["mac10mag", 3],
+      ["sten_mag", 10],
+      ["tdi_mag", 3],
+      ["thompson_mag", 4],
+      ["thompson_bigmag", 2],
+      ["thompson_drum", 1]
     ]
   },{
     "type" : "item_group",
