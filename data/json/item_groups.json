@@ -2757,7 +2757,9 @@
       ["tdi_mag", 5],
       ["thompson_mag", 10],
       ["thompson_bigmag", 5],
-      ["thompson_drum", 5]
+      ["thompson_drum", 5],
+      ["ak74mag", 10],
+      ["rpk74mag", 5]
     ]
   },{
     "type" : "item_group",
@@ -8182,7 +8184,9 @@
       ["skorpion82mag", 3]
       ["thompson_mag", 4],
       ["thompson_bigmag", 2],
-      ["thompson_drum", 1]
+      ["thompson_drum", 1],
+      ["ak74mag", 4],
+      ["rpk74mag", 2]
     ]
   },{
     "type" : "item_group",
