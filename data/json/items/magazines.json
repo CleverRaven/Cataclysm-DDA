@@ -617,5 +617,23 @@
         "reliability" : 7,
         "reload_time" : 120,
         "flags": [ "COMPACT_MAG" ]
+    },
+    {
+        "type" : "MAGAZINE",
+        "id" : "belt308",
+        "price" : 0,
+        "name" : "M13 7.62x51mm ammo belt",
+        "symbol" : "#",
+        "color" : "ltgray",
+        "description" : "An ammo belt consisting of metal linkages which disintegrate upon firing.  Designed for the M60 machine gun, and additionally compatible with the M240 machine gun.",
+        "material" : "steel",
+        "volume" : 0,
+        "weight" : 0,
+        "rigid": false,
+        "ammo_type" : "308",
+        "capacity" : 200,
+        "count" : 100,
+        "reliability" : 7,
+        "flags": [ "NO_RELOAD", "NO_UNLOAD" ]
     }
 ]
