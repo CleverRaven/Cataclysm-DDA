@@ -13762,8 +13762,8 @@ bool player::wield_contents( item *container, int pos, int factor, bool effects 
 
     // TODO Doxygen comment covering all possible gun and weapon skills
     // documenting decrease in time spent wielding from a container
-    int lvl = std::max( (int) get_skill_level( weapon.is_gun() ? weapon.gun_skill() : weapon.weap_skill() ), 1);
-    mv += item_handling_cost( weapon, effects, factor ) / lvl;
+    int lvl = get_skill_level( weapon.is_gun() ? weapon.gun_skill() : weapon.weap_skill() );
+    mv += item_handling_cost( weapon, effects, factor ) / std::max( sqrt( ( lvl + 3 ) / 3 ), 1.0 );
 
     moves -= mv;
 
@@ -13774,8 +13774,8 @@ bool player::wield_contents( item *container, int pos, int factor, bool effects 
 
 void player::store(item* container, item* put, int factor, bool effects)
 {
-    int lvl = std::max( (int) get_skill_level( put->is_gun() ? put->gun_skill() : put->weap_skill() ), 1 );
-    moves -= item_handling_cost( *put, effects, factor ) / lvl;
+    int lvl = get_skill_level( put->is_gun() ? put->gun_skill() : put->weap_skill() );
+    moves -= item_handling_cost( *put, effects, factor ) / std::max( sqrt( ( lvl + 3 ) / 3 ), 1.0 );
     container->put_in(i_rem(put));
 }
 
