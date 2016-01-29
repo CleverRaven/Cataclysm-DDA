@@ -2737,6 +2737,8 @@
       ["improve_sights", 20],
       ["survnote", 1],
       ["shoulder_strap", 24],
+      ["lp_45_mag", 2],
+      ["lp_9mm_mag", 2],
       ["powered_earmuffs",40]
     ]
   },{
@@ -3757,6 +3759,8 @@
       ["fn_p90", 3],
       ["l_mp_9mm", 2],
       ["tazer", 15],
+      ["lp_45_mag", 2],
+      ["lp_9mm_mag", 2],
       ["l-stick", 1]
     ]
   },{
@@ -8058,6 +8062,8 @@
       ["scrap_copper", 5],
       ["signal_flare", 5],
       ["8mm_inc", 2],
+      ["lp_45_mag", 2],
+      ["lp_9mm_mag", 2],
       ["survnote", 1]
     ]
   },{
