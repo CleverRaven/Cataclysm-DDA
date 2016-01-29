@@ -7569,7 +7569,7 @@ int iuse::radiocaron(player *p, item *it, bool t, const tripoint &pos)
         return 0;
     }
 
-    int choice = menu(true, _("What do with activated RC car:"), _("Turn off"),
+    int choice = menu(true, _("What to do with activated RC car?"), _("Turn off"),
                       _("Cancel"), NULL);
 
     if (choice == 2) {
@@ -7638,12 +7638,12 @@ int iuse::radiocontrol(player *p, item *it, bool t, const tripoint& )
     const char *car_action = NULL;
 
     if (!it->active) {
-        car_action = _("Take control of RC car.");
+        car_action = _("Take control of RC car");
     } else {
-        car_action = _("Stop controlling RC car.");
+        car_action = _("Stop controlling RC car");
     }
 
-    choice = menu(true, _("What do with radio control:"), _("Nothing"), car_action,
+    choice = menu(true, _("What to do with radio control?"), _("Nothing"), car_action,
                   _("Press red button"), _("Press blue button"), _("Press green button"), NULL);
 
     if (choice == 1) {
