@@ -1306,7 +1306,7 @@
         "description" : "5.45x39mm 7N10 ammunition with 56gr FMJ bullets.  The 5.45x39mm round was introduced along with the AK-74 in 1974.  It has superior wounding potential to the older 7.62x39mm round and quickly replaced it in Soviet military use.",
         "material" : "steel",
         "volume" : 1,
-        "weight" : 4,
+        "weight" : 10,
         "bashing" : 1,
         "to_hit" : 0,
         "ammo_type" : "545x39",
@@ -1317,6 +1317,7 @@
         "dispersion" : 5,
         "recoil" : 360,
         "count" : 30,
+        "stack_size" : 30,
         "effects" : ["COOKOFF"]
     },
     {
@@ -1330,7 +1331,7 @@
         "description" : "Armor piercing 5.45x39mm ammunition with 57gr bullets containing a steel penetrator.  Developed in 1998 by the Russian military.",
         "material" : "steel",
         "volume" : 1,
-        "weight" : 4,
+        "weight" : 10,
         "bashing" : 1,
         "to_hit" : 0,
         "ammo_type" : "545x39",
@@ -1341,6 +1342,7 @@
         "dispersion" : 5,
         "recoil" : 390,
         "count" : 30,
+        "stack_size" : 30,
         "effects" : ["COOKOFF"]
     },
     {   "type" : "AMMO",
