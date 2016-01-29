@@ -1107,6 +1107,7 @@
         "dispersion" : 180,
         "recoil" : 270,
         "count" : 50,
+        "stack_size" : 30,
         "effects" : ["COOKOFF"]
     },
     {   "type" : "AMMO",
@@ -1130,7 +1131,7 @@
         "dispersion" : 180,
         "recoil" : 270,
         "count" : 25,
-        "stack_size" : 50,
+        "stack_size" : 30,
         "effects" : ["COOKOFF"]
     },
     {   "type" : "AMMO",
@@ -1143,7 +1144,7 @@
         "description" : "Overpressure .45 ACP ammunition with 200gr JHP bullets.  This +P ammunition has higher muzzle energy than typical loads leading to greater damage, accuracy and recoil.",
         "material" : ["steel", "powder"],
         "volume" : 1,
-        "weight" : 15,
+        "weight" : 14,
         "bashing" : 1,
         "to_hit" : 0,
         "ammo_type" : "45",
@@ -1154,7 +1155,7 @@
         "dispersion" : 150,
         "recoil" : 300,
         "count" : 10,
-        "stack_size" : 50,
+        "stack_size" : 30,
         "effects" : ["COOKOFF"]
     },
     {   "type" : "AMMO",
