@@ -4988,7 +4988,7 @@
     "material": ["steel", "plastic"],
     "skill": "pistol",
     "ammo": "9x18",
-    "weight": 730,
+    "weight": 570,
     "volume": 2,
     "bashing": 9,
     "cutting": 0,
@@ -4998,10 +4998,12 @@
     "aim_speed" : 4,
     "recoil": 60,
     "durability": 6,
-    "clip_size": 8,
-    "reload": 300,
+    "reload": 100,
     "loudness" : 150,
-    "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
+    "//": "10 and 12-round magazines exist, but were made for the newer PMM, might not be compatible with the old PM.",
+    "magazines": [ "makarovmag" ],
+    "magazine_well" : 1,
+    "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "skorpion_61",
@@ -5046,7 +5048,7 @@
     "flags": "MODE_BURST",
     "skill": "smg",
     "ammo": "9x18",
-    "weight": 1440,
+    "weight": 1270,
     "volume": 3,
     "bashing": 9,
     "cutting": 0,
@@ -5058,10 +5060,10 @@
     "recoil": -15,
     "durability": 6,
     "burst": 8,
-    "clip_size": 20,
-    "reload": 400,
+    "reload": 100,
     "loudness" : 150,
-    "valid_mod_locations": [[ "accessories", 3 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
+    "magazines" : [ "skorpion82mag" ],
+    "valid_mod_locations": [[ "accessories", 3 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "ppsh",
