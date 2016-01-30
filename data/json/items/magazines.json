@@ -68,7 +68,7 @@
         "capacity" : 10,
         "reliability" : 10,
         "reload_time" : 40,
-        "flags" : [ "COMPACT_MAG" ]
+        "flags" : [ "MAG_COMPACT" ]
     },
     {   "type" : "MAGAZINE",
         "id" : "8x40_25_mag",
@@ -85,7 +85,7 @@
         "capacity" : 25,
         "reliability" : 10,
         "reload_time" : 50,
-        "flags" : [ "COMPACT_MAG" ]
+        "flags" : [ "MAG_COMPACT" ]
     },
     {   "type" : "MAGAZINE",
         "id" : "8x40_50_mag",
@@ -102,7 +102,7 @@
         "capacity" : 50,
         "reliability" : 10,
         "reload_time" : 50,
-        "flags" : [ "COMPACT_MAG" ]
+        "flags" : [ "MAG_COMPACT" ]
     },
     {   "type" : "MAGAZINE",
         "id" : "8x40_100_mag",
@@ -119,7 +119,7 @@
         "capacity" : 100,
         "reliability" : 10,
         "reload_time" : 50,
-        "flags" : [ "BULKY_MAG" ]
+        "flags" : [ "MAG_BULKY" ]
     },
     {   "type" : "MAGAZINE",
         "id" : "8x40_250_mag",
@@ -168,7 +168,7 @@
         "capacity" : 10,
         "reliability" : 10,
         "reload_time" : 60,
-        "flags" : [ "COMPACT_MAG" ]
+        "flags" : [ "MAG_COMPACT" ]
     },
     {   "type" : "MAGAZINE",
         "id" : "20x66_20_mag",
@@ -185,7 +185,7 @@
         "capacity" : 20,
         "reliability" : 10,
         "reload_time" : 60,
-        "flags" : [ "COMPACT_MAG" ]
+        "flags" : [ "MAG_COMPACT" ]
     },
     {   "type" : "MAGAZINE",
         "id" : "20x66_40_mag",
@@ -202,7 +202,7 @@
         "capacity" : 40,
         "reliability" : 10,
         "reload_time" : 70,
-        "flags" : [ "BULKY_MAG" ]
+        "flags" : [ "MAG_BULKY" ]
     },
     {   "type" : "MAGAZINE",
         "id" : "360_200_mag",
@@ -219,7 +219,7 @@
         "capacity" : 200,
         "reliability" : 10,
         "reload_time" : 60,
-        "flags" : [ "COMPACT_MAG" ]
+        "flags" : [ "MAG_COMPACT" ]
     },
     {   "type" : "MAGAZINE",
         "id" : "360_400_mag",
@@ -236,7 +236,7 @@
         "capacity" : 400,
         "reliability" : 10,
         "reload_time" : 60,
-        "flags" : [ "BULKY_MAG" ]
+        "flags" : [ "MAGBULKY" ]
     },
     {   "type" : "MAGAZINE",
         "id" : "5x50_50_mag",
@@ -253,7 +253,7 @@
         "capacity" : 50,
         "reliability" : 10,
         "reload_time" : 50,
-        "flags" : [ "COMPACT_MAG" ]
+        "flags" : [ "MAG_COMPACT" ]
     },
     {   "type" : "MAGAZINE",
         "id" : "5x50_100_mag",
@@ -270,7 +270,7 @@
         "capacity" : 100,
         "reliability" : 10,
         "reload_time" : 60,
-        "flags" : [ "COMPACT_MAG" ]
+        "flags" : [ "MAG_COMPACT" ]
     },
     {   "type" : "MAGAZINE",
         "id" : "usp45mag",
