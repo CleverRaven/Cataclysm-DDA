@@ -655,6 +655,8 @@ class repair_item_actor : public iuse_actor
         int tool_quality;
         /** Move cost for every attempt */
         int move_cost;
+        /** Charges required to use */
+        int charges_to_use;
 
         enum attempt_hint : int {
             AS_SUCCESS = 0,     // Success, but can retry
@@ -672,11 +674,30 @@ class repair_item_actor : public iuse_actor
         /** Returns if components are available. Consumes them if `just_check` is false. */
         bool handle_components( player &pl, const item &fix, bool print_msg, bool just_check ) const;
 
+        virtual bool can_use( const player*, const item*, bool, const tripoint& ) const override;
+
         repair_item_actor() : iuse_actor() { }
         virtual ~repair_item_actor() { }
         virtual void load( JsonObject &jo );
         virtual long use( player *, item *, bool, const tripoint & ) const override;
         virtual iuse_actor *clone() const override;
+};
+
+class sew_advanced_actor : public iuse_actor
+{
+    public:
+    /** Charges required to use */
+    int charges_to_use;
+
+
+    virtual bool can_use( const player*, const item*, bool, const tripoint& ) const override;
+
+    sew_advanced_actor() : iuse_actor() { }
+    virtual ~sew_advanced_actor() { }
+    virtual void load( JsonObject &jo );
+    virtual long use( player *, item *, bool, const tripoint & ) const override;
+    virtual iuse_actor *clone() const override;
+
 };
 
 class heal_actor : public iuse_actor

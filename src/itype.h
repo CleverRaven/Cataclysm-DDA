@@ -710,6 +710,7 @@ struct it_tool : itype {
     long def_charges = 0;
     unsigned char charges_per_use = 0;
     unsigned char turns_per_charge = 0;
+    bool remove_on_no_charge = true;
 
     it_tool() = default;
 
