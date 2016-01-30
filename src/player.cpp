@@ -591,6 +591,12 @@ void player::process_turn()
     }
 }
 
+void player::drop_inventory_overflow() {
+    if( activity.type == ACT_NULL ) {
+        Character::drop_inventory_overflow();
+    }
+}
+
 void player::action_taken()
 {
     nv_cached = false;

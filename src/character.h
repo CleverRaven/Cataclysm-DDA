@@ -375,7 +375,7 @@ class Character : public Creature
         bool can_pickVolume(int volume, bool safe = false) const;
         bool can_pickWeight(int weight, bool safe = true) const;
 
-        void drop_inventory_overflow();
+        virtual void drop_inventory_overflow();
 
         bool has_artifact_with(const art_effect_passive effect) const;
 
