@@ -15,7 +15,6 @@
         "bashing" : 1,
         "to_hit" : 0,
         "ammo_type" : "battery",
-        "range" : 0,
         "dispersion" : 0,
         "count" : 100,
         "effects" : ["NEVER_MISFIRES"]
@@ -36,7 +35,6 @@
         "bashing" : 1,
         "to_hit" : 0,
         "ammo_type" : "components",
-        "range" : 0,
         "dispersion" : 0,
         "count" : 200
     },
@@ -53,7 +51,6 @@
         "weight" : 0,
         "to_hit" : 0,
         "ammo_type" : "money",
-        "range" : 0,
         "dispersion" : 0,
         "count" : 1
     },
@@ -92,7 +89,6 @@
         "bashing" : -20,
         "to_hit" : 1,
         "ammo_type" : "components",
-        "range" : 0,
         "dispersion" : 0,
         "count" : 1,
         "stack_size" : 18
@@ -112,7 +108,6 @@
         "bashing" : -5,
         "to_hit" : 1,
         "ammo_type" : "components",
-        "range" : 0,
         "dispersion" : 0,
         "count" : 1,
         "stack_size" : 3
@@ -132,7 +127,6 @@
         "bashing" : 1,
         "to_hit" : 0,
         "ammo_type" : "thread",
-        "range" : 0,
         "dispersion" : 0,
         "count" : 50,
         "stack_size" : 200
@@ -151,7 +145,6 @@
         "bashing" : 1,
         "to_hit" : 0,
         "ammo_type" : "thread",
-        "range" : 0,
         "dispersion" : 0,
         "count" : 10,
         "stack_size" : 200
@@ -171,7 +164,6 @@
         "to_hit" : 0,
         "ammo_type" : "thread",
         "damage" : 1,
-        "range" : 0,
         "dispersion" : 0,
         "count" : 10,
         "stack_size" : 200
@@ -191,7 +183,6 @@
         "to_hit" : 0,
         "ammo_type" : "thread",
         "damage" : 1,
-        "range" : 0,
         "dispersion" : 0,
         "count" : 10,
         "stack_size" : 200
@@ -211,7 +202,6 @@
         "to_hit" : 0,
         "ammo_type" : "soap",
         "damage" : 1,
-        "range" : 0,
         "dispersion" : 0,
         "count" : 10,
         "stack_size" : 10
@@ -230,7 +220,6 @@
         "bashing" : 1,
         "to_hit" : 0,
         "ammo_type" : "tape",
-        "range" : 0,
         "dispersion" : 0,
         "count" : 200,
         "flags" : ["UNRECOVERABLE"]
@@ -249,7 +238,6 @@
         "volume": 0,
         "to_hit": 0,
         "ammo_type" : "components",
-        "range" : 0,
         "dispersion" : 0,
         "count" : 32,
         "flags" : ["UNRECOVERABLE"]
@@ -268,7 +256,6 @@
         "bashing" : 1,
         "to_hit" : 0,
         "ammo_type" : "components",
-        "range" : 0,
         "dispersion" : 0,
         "count" : 200
     },
@@ -287,7 +274,6 @@
         "bashing" : 1,
         "to_hit" : 0,
         "ammo_type" : "plutonium",
-        "range" : 0,
         "dispersion" : 0,
         "count" : 5,
         "effects" : ["COOKOFF", "NEVER_MISFIRES"]
@@ -309,7 +295,6 @@
         "bashing" : 1,
         "to_hit" : 0,
         "ammo_type" : "reactor_slurry",
-        "range" : 0,
         "dispersion" : 0,
         "phase" : "liquid",
         "container" : "metal_tank_little",
@@ -332,7 +317,6 @@
         "bashing" : 1,
         "to_hit" : 0,
         "ammo_type" : "reactor_slurry",
-        "range" : 0,
         "dispersion" : 0,
         "phase" : "liquid",
         "container" : "metal_tank_little",
@@ -470,7 +454,6 @@
         "weight" : 1,
         "to_hit" : 0,
         "ammo_type" : "components",
-        "range" : 0,
         "dispersion" : 0,
         "stack_size" : 100,
         "count" : 20
@@ -489,7 +472,6 @@
         "weight" : 1,
         "to_hit" : 0,
         "ammo_type" : "components",
-        "range" : 0,
         "dispersion" : 0,
         "stack_size" : 100,
         "count" : 20
@@ -1934,7 +1916,6 @@
         "bashing" : 1,
         "to_hit" : 0,
         "ammo_type" : "components",
-        "range" : 0,
         "dispersion" : 0,
         "count" : 200
     },
@@ -1952,7 +1933,6 @@
         "bashing" : 1,
         "to_hit" : 0,
         "ammo_type" : "components",
-        "range" : 0,
         "dispersion" : 0,
         "count" : 100
     },
@@ -1970,7 +1950,6 @@
         "bashing" : 1,
         "to_hit" : 0,
         "ammo_type" : "components",
-        "range" : 0,
         "dispersion" : 0,
         "count" : 100
     },
@@ -1988,7 +1967,6 @@
         "bashing" : 1,
         "to_hit" : 0,
         "ammo_type" : "components",
-        "range" : 0,
         "dispersion" : 0,
         "count" : 200
     },
@@ -2006,7 +1984,6 @@
         "bashing" : 1,
         "to_hit" : 0,
         "ammo_type" : "components",
-        "range" : 0,
         "dispersion" : 0,
         "count" : 200,
         "effects" : ["COOKOFF"]
@@ -2025,7 +2002,6 @@
         "bashing" : 1,
         "to_hit" : 0,
         "ammo_type" : "components",
-        "range" : 0,
         "dispersion" : 0,
         "count" : 200
     },
@@ -2043,7 +2019,6 @@
         "bashing" : 1,
         "to_hit" : 0,
         "ammo_type" : "components",
-        "range" : 0,
         "dispersion" : 0,
         "count" : 200
     },
@@ -2061,7 +2036,6 @@
         "bashing" : 1,
         "to_hit" : 0,
         "ammo_type" : "components",
-        "range" : 0,
         "dispersion" : 0,
         "count" : 200
     },
@@ -2079,7 +2053,6 @@
         "bashing" : 1,
         "to_hit" : 0,
         "ammo_type" : "components",
-        "range" : 0,
         "dispersion" : 0,
         "count" : 200
     },
@@ -2097,7 +2070,6 @@
         "bashing" : 1,
         "to_hit" : 0,
         "ammo_type" : "components",
-        "range" : 0,
         "dispersion" : 0,
         "count" : 50
     },
@@ -2115,7 +2087,6 @@
         "bashing" : 1,
         "to_hit" : 0,
         "ammo_type" : "components",
-        "range" : 0,
         "dispersion" : 0,
         "count" : 50
     },
@@ -2133,7 +2104,6 @@
         "bashing" : 1,
         "to_hit" : 0,
         "ammo_type" : "components",
-        "range" : 0,
         "dispersion" : 0,
         "count" : 200
     },
@@ -2151,7 +2121,6 @@
         "bashing" : 1,
         "to_hit" : 0,
         "ammo_type" : "components",
-        "range" : 0,
         "dispersion" : 0,
         "count" : 200
     },
@@ -2169,7 +2138,6 @@
         "bashing" : 1,
         "to_hit" : 0,
         "ammo_type" : "components",
-        "range" : 0,
         "dispersion" : 0,
         "count" : 200
     },
@@ -2188,7 +2156,6 @@
         "bashing" : 1,
         "to_hit" : 0,
         "ammo_type" : "components",
-        "range" : 0,
         "dispersion" : 0,
         "count" : 200
     },
@@ -2206,7 +2173,6 @@
         "bashing" : 1,
         "to_hit" : 0,
         "ammo_type" : "components",
-        "range" : 0,
         "dispersion" : 0,
         "count" : 200
     },
@@ -2224,7 +2190,6 @@
         "bashing" : 1,
         "to_hit" : 0,
         "ammo_type" : "components",
-        "range" : 0,
         "dispersion" : 0,
         "count" : 200
     },
@@ -2242,7 +2207,6 @@
         "bashing" : 1,
         "to_hit" : 0,
         "ammo_type" : "components",
-        "range" : 0,
         "dispersion" : 0,
         "count" : 200
     },
@@ -2260,7 +2224,6 @@
         "bashing" : 1,
         "to_hit" : 0,
         "ammo_type" : "components",
-        "range" : 0,
         "dispersion" : 0,
         "count" : 20
     },
@@ -2280,7 +2243,6 @@
         "bashing" : 1,
         "to_hit" : 0,
         "ammo_type" : "components",
-        "range" : 0,
         "dispersion" : 0,
         "count" : 200,
         "effects" : ["COOKOFF"]
@@ -2301,7 +2263,6 @@
         "bashing" : 1,
         "to_hit" : 0,
         "ammo_type" : "components",
-        "range" : 0,
         "dispersion" : 0,
         "count" : 200,
         "effects" : ["COOKOFF"]
@@ -2322,7 +2283,6 @@
         "bashing" : 1,
         "to_hit" : 0,
         "ammo_type" : "components",
-        "range" : 0,
         "dispersion" : 0,
         "count" : 200
     },
@@ -2340,7 +2300,6 @@
         "bashing" : 1,
         "to_hit" : 0,
         "ammo_type" : "components",
-        "range" : 0,
         "dispersion" : 0,
         "count" : 200,
         "effects" : ["COOKOFF"]
@@ -2359,7 +2318,6 @@
         "bashing" : 1,
         "to_hit" : 0,
         "ammo_type" : "components",
-        "range" : 0,
         "dispersion" : 0,
         "count" : 200,
         "effects" : ["COOKOFF"]
@@ -2378,7 +2336,6 @@
         "bashing" : 1,
         "to_hit" : 0,
         "ammo_type" : "components",
-        "range" : 0,
         "dispersion" : 0,
         "count" : 200,
         "effects" : ["COOKOFF"]
@@ -2397,7 +2354,6 @@
         "bashing" : 1,
         "to_hit" : 0,
         "ammo_type" : "components",
-        "range" : 0,
         "dispersion" : 0,
         "count" : 200,
         "effects" : ["COOKOFF"]
@@ -2416,7 +2372,6 @@
         "bashing" : 1,
         "to_hit" : 0,
         "ammo_type" : "components",
-        "range" : 0,
         "dispersion" : 0,
         "count" : 200,
         "effects" : ["COOKOFF"]
@@ -2435,7 +2390,6 @@
         "bashing" : 1,
         "to_hit" : 0,
         "ammo_type" : "components",
-        "range" : 0,
         "dispersion" : 0,
         "count" : 25
     },
@@ -2453,7 +2407,6 @@
         "bashing" : 1,
         "to_hit" : 0,
         "ammo_type" : "components",
-        "range" : 0,
         "dispersion" : 0,
         "count" : 200
     },
@@ -2472,7 +2425,6 @@
         "bashing" : 1,
         "to_hit" : 0,
         "ammo_type" : "components",
-        "range" : 0,
         "dispersion" : 0,
         "count" : 200
     },
@@ -2491,7 +2443,6 @@
         "bashing" : 1,
         "to_hit" : 0,
         "ammo_type" : "components",
-        "range" : 0,
         "dispersion" : 0,
         "count" : 200
     },
@@ -2510,7 +2461,6 @@
         "bashing" : 1,
         "to_hit" : 0,
         "ammo_type" : "components",
-        "range" : 0,
         "dispersion" : 0,
         "count" : 200
     },
@@ -2529,7 +2479,6 @@
         "bashing" : 1,
         "to_hit" : 0,
         "ammo_type" : "components",
-        "range" : 0,
         "dispersion" : 0,
         "count" : 200
     },
@@ -2548,7 +2497,6 @@
         "bashing" : 1,
         "to_hit" : 0,
         "ammo_type" : "components",
-        "range" : 0,
         "dispersion" : 0,
         "count" : 200
     },
@@ -2567,7 +2515,6 @@
         "bashing" : 1,
         "to_hit" : 0,
         "ammo_type" : "components",
-        "range" : 0,
         "dispersion" : 0,
         "count" : 200
     },
@@ -2586,7 +2533,6 @@
         "bashing" : 1,
         "to_hit" : 0,
         "ammo_type" : "components",
-        "range" : 0,
         "dispersion" : 0,
         "count" : 200,
         "effects" : ["COOKOFF"]
@@ -2677,7 +2623,6 @@
         "bashing" : 0,
         "to_hit" : 0,
         "ammo_type" : "components",
-        "range" : 0,
         "dispersion" : 0,
         "count" : 35
     },
@@ -3027,7 +2972,6 @@
         "bashing" : 0,
         "to_hit" : 0,
         "ammo_type" : "NULL",
-        "range" : 0,
         "dispersion" : 0,
         "count" : 1,
         "flags" : ["UNRECOVERABLE"]
@@ -3092,7 +3036,6 @@
         "bashing" : 1,
         "to_hit" : 0,
         "ammo_type" : "components",
-        "range" : 0,
         "dispersion" : 0,
         "count" : 200
     },
@@ -3113,7 +3056,6 @@
         "bashing" : 1,
         "to_hit" : 0,
         "ammo_type" : "charcoal",
-        "range" : 0,
         "dispersion" : 0,
         "count" : 10
     },
@@ -3134,7 +3076,6 @@
         "bashing" : 1,
         "to_hit" : 0,
         "ammo_type" : "small_charcoal",
-        "range" : 0,
         "dispersion" : 0,
         "count" : 10,
         "stack_size" : 20
@@ -3289,7 +3230,6 @@
         "to_hit" : 0,
         "ammo_type" : "mininuke_mod",
         "damage" : 14,
-        "range" : 0,
         "dispersion" : 0,
         "count" : 1,
         "stack_size" : 2,
@@ -3551,7 +3491,6 @@
         "bashing" : 0,
         "to_hit" : 0,
         "ammo_type" : "ampoule",
-        "range" : 0,
         "dispersion" : 0,
         "count" : 2,
         "stack_size" : 20
@@ -3571,7 +3510,6 @@
         "bashing" : 0,
         "to_hit" : 0,
         "ammo_type" : "stimpack_ammo",
-        "range" : 0,
         "dispersion" : 0,
         "count" : 5,
         "stack_size" : 10
@@ -3590,7 +3528,6 @@
         "bashing" : 1,
         "to_hit" : 0,
         "ammo_type" : "components",
-        "range" : 0,
         "dispersion" : 0,
         "count" : 30
     },
@@ -3631,7 +3568,6 @@
         "bashing" : 1,
         "to_hit" : 0,
         "ammo_type" : "rebreather_filter",
-        "range" : 0,
         "dispersion" : 0,
         "count" : 30
     },
@@ -3649,7 +3585,6 @@
         "bashing" : 1,
         "to_hit" : 0,
         "ammo_type" : "components",
-        "range" : 0,
         "dispersion" : 0,
         "count" : 30
     },
@@ -3692,7 +3627,6 @@
         "bashing" : 1,
         "to_hit" : 0,
         "ammo_type" : "components",
-        "range" : 0,
         "dispersion" : 0,
         "count" : 200
     },
@@ -3867,7 +3801,6 @@
         "bashing" : 1,
         "to_hit" : 0,
         "ammo_type" : "components",
-        "range" : 0,
         "dispersion" : 0,
         "count" : 200
     },
@@ -3886,7 +3819,6 @@
         "bashing" : 1,
         "to_hit" : 0,
         "ammo_type" : "components",
-        "range" : 0,
         "dispersion" : 0,
         "count" : 200
     },
@@ -3906,7 +3838,6 @@
         "bashing" : 0,
         "to_hit" : 0,
         "ammo_type" : "components",
-        "range" : 0,
         "dispersion" : 0,
         "count" : 50
     },
@@ -3924,7 +3855,6 @@
         "bashing" : 1,
         "to_hit" : 0,
         "ammo_type" : "fish_bait",
-        "range" : 0,
         "dispersion" : 0,
         "count" : 20,
         "stack_size" : 50
@@ -3943,7 +3873,6 @@
         "bashing" : 1,
         "to_hit" : 0,
         "ammo_type" : "fish_bait",
-        "range" : 0,
         "dispersion" : 0,
         "count" : 20,
         "stack_size" : 50
@@ -3962,7 +3891,6 @@
         "bashing" : 1,
         "to_hit" : 0,
         "ammo_type" : "fish_bait",
-        "range" : 0,
         "dispersion" : 0,
         "count" : 10,
         "stack_size" : 50
@@ -3981,7 +3909,6 @@
         "bashing" : 1,
         "to_hit" : 0,
         "ammo_type" : "fish_bait",
-        "range" : 0,
         "dispersion" : 0,
         "count" : 20,
         "stack_size" : 50
@@ -4020,7 +3947,6 @@
         "bashing" : 1,
         "to_hit" : 0,
         "ammo_type" : "components",
-        "range" : 0,
         "dispersion" : 0,
         "count" : 10
     },
@@ -4129,7 +4055,6 @@
         "bashing" : 1,
         "to_hit" : 0,
         "ammo_type" : "unfinished_char",
-        "range" : 0,
         "dispersion" : 0,
         "count" : 1
     },
@@ -4146,7 +4071,6 @@
         "weight" : 0,
         "to_hit" : 0,
         "ammo_type" : "pointer_fake_ammo",
-        "range" : 0,
         "dispersion" : 0,
         "count" : 1
     },
