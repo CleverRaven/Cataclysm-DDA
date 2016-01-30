@@ -3316,6 +3316,9 @@ iexamine_function iexamine_function_from_string(std::string const &function_name
     if ("egg_sackbw" == function_name) {
         return &iexamine::egg_sackbw;
     }
+    if ("egg_sackcs" == function_name) {
+        return &iexamine::egg_sackcs;
+    }
     if ("egg_sackws" == function_name) {
         return &iexamine::egg_sackws;
     }
