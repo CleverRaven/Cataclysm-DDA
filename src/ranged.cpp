@@ -164,7 +164,7 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
     std::vector<tripoint> blood_traj = std::vector<tripoint>();
     const float projectile_skip_multiplier = 0.1;
     // Randomize the skip so that bursts look nicer
-    const int projectile_skip_calculation = range * projectile_skip_multiplier;
+    int projectile_skip_calculation = range * projectile_skip_multiplier;
     int projectile_skip_current_frame = rng( 0, projectile_skip_calculation );
     bool has_momentum = true;
     size_t i = 0; // Outside loop, because we want it for line drawing
@@ -179,6 +179,8 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
             if( projectile_skip_current_frame >= projectile_skip_calculation ) {
                 g->draw_bullet(g->u, tp, (int)i, trajectory, stream ? '#' : '*');
                 projectile_skip_current_frame = 0;
+                // If we missed recalculate the skip factor so they spread out.
+                projectile_skip_calculation = std::max( (size_t)range, i ) * projectile_skip_multiplier;
             } else {
                 projectile_skip_current_frame++;
             }
