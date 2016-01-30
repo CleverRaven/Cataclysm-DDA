@@ -11385,7 +11385,6 @@
     "flags": "STAB",
     "weight": 85,
     "volume": 1,
-    "to_hit": 0,
     "max_charges": 200,
     "initial_charges": 0,
     "charges_per_use": 1,
