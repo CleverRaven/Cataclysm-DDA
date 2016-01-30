@@ -246,9 +246,8 @@ void npc::move()
         if (mission == NPC_MISSION_SHELTER || mission == NPC_MISSION_BASE || mission == NPC_MISSION_SHOPKEEP
             || mission == NPC_MISSION_GUARD || has_effect( effect_infection ) ) {
             action = npc_pause;
-        } else if( has_new_items ) {
-            action = scan_new_items();
-            print_action( "scan_new_items %s", action );
+        } else if( has_new_items && scan_new_items() ) {
+            return;
         } else if( !fetching_item ) {
             find_item();
             print_action( "find_item %s", action );
@@ -809,9 +808,8 @@ npc_action npc::method_of_attack()
         }
     }
 
-    npc_action wield_better = wield_better_weapon();
-    if( wield_better != npc_undecided ) {
-        return wield_better;
+    if( wield_better_weapon() ) {
+        return npc_noop;
     }
 
     if (in_vehicle && dist > 1) {
@@ -1569,10 +1567,10 @@ void npc::find_item()
 
     fetching_item = false;
     int best_value = minimum_item_value();
-    int range = sight_range( g->light_level( posz() ) );
-    if( range > 12 ) {
-        range = 12;
-    }
+    // For some reason range limiting by vision doesn't work properly
+    const int range = 9;
+    //int range = sight_range( g->light_level( posz() ) );
+    //range = std::max( 1, std::min( 12, range ) );
 
     static const std::string no_pickup( "NO_NPC_PICKUP" );
 
@@ -1709,6 +1707,8 @@ void npc::pick_up_item()
             j--;
         }
     }
+
+    has_new_items = true;
 }
 
 void npc::drop_items(int weight, int volume)
@@ -1811,7 +1811,7 @@ void npc::drop_items(int weight, int volume)
     update_worst_item_value();
 }
 
-npc_action npc::wield_better_weapon()
+bool npc::wield_better_weapon()
 {
     // TODO: Allow wielding weaker weapons against weaker targets
     bool can_use_gun = (!is_following() || rules.use_guns);
@@ -1819,46 +1819,64 @@ npc_action npc::wield_better_weapon()
     invslice slice = inv.slice();
 
     // Check if there's something better to wield
-    bool has_empty_gun = false, has_better_melee = false;
+    item *best = &weapon;
+    double best_value = -100.0;
+
+    const auto compare_weapon = [&best, &best_value, can_use_gun, use_silent, this]( item &it ) {
+        double val = ( (can_use_gun || !weapon.is_gun()) &&
+          (!use_silent && weapon.is_silent()) ) ?
+            weapon_value( weapon ) :
+            melee_value( weapon );
+        if( val > best_value ) {
+            best = &it;
+            best_value = val;
+        }
+    };
+
+    compare_weapon( weapon );
+    // To prevent changing to barely better stuff
+    best_value *= 1.1;
+    
     std::vector<item *> empty_guns;
     for( auto &i : slice ) {
         item &it = i->front();
         bool allowed = can_use_gun && it.is_gun() && (!use_silent || it.is_silent());
         if( allowed && it.ammo_remaining() > it.ammo_required() ) {
-            return npc_wield_loaded_gun;
+            compare_weapon( it );
         } else if( allowed && enough_time_to_reload( it ) ) {
-            has_empty_gun = true;
-            empty_guns.push_back(&it);
-        } else if( !has_better_melee && melee_value( it ) > melee_value( weapon ) * 1.1 ) {
-            has_better_melee = true;
+            empty_guns.push_back( &it );
+        } else {
+            compare_weapon( weapon );
         }
     }
 
-    bool has_ammo_for_empty_gun = false;
-    for (auto &i : empty_guns) {
-        for (auto &j : slice) {
+    for( auto &i : empty_guns ) {
+        for( auto &j : slice ) {
             item &it = j->front();
             if (it.is_ammo() &&
                 it.ammo_type() == i->ammo_type()) {
-                has_ammo_for_empty_gun = true;
+                compare_weapon( *i );
             }
         }
     }
 
-    if( has_empty_gun && has_ammo_for_empty_gun ) {
-        return npc_wield_empty_gun;
-    } else if( has_better_melee ) {
-        return npc_wield_melee;
-    } if( unarmed_value() > melee_value( weapon ) * 1.1 ) {
-        return npc_wield_melee;
+    if( best == &weapon ) {
+        return false;
     }
 
-    return npc_undecided;
+    wield( *best );
+    return true;
 }
 
-npc_action npc::scan_new_items()
+bool npc::scan_new_items()
 {
-    return wield_better_weapon();
+    if( !wield_better_weapon() ) {
+        // Stop "having new items" when you no longer do anything with them
+        has_new_items = false;
+        return true;
+    }
+
+    return false;
     // TODO: Armor?
 }
 
@@ -2559,7 +2577,7 @@ bool npc::complain()
 
     // When tired, complain every 30 minutes
     // If massively tired, ignore restrictions
-    if( fatigue < TIRED &&
+    if( fatigue > TIRED &&
         complaints[fatigue_string] < calendar::turn - MINUTES(30) &&
         (rules.allow_complain || fatigue > MASSIVE_FATIGUE - 100) ) {
         say( "<yawn>" );

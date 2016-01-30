@@ -80,7 +80,7 @@ npc::npc()
     fatigue = 0;
     thirst = 0;
     fetching_item = false;
-    has_new_items = false;
+    has_new_items = true;
     worst_item_value = 0;
     str_max = 0;
     dex_max = 0;

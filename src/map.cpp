@@ -4940,8 +4940,9 @@ bool map::sees_some_items( const tripoint &p, const Creature &who ) const
 
 bool map::could_see_items( const tripoint &p, const Creature &who ) const
 {
-    const bool container = has_flag_ter_or_furn( "CONTAINER", p );
-    const bool sealed = has_flag_ter_or_furn( "SEALED", p );
+    static const std::string container_string( "CONTAINER" );
+    const bool container = has_flag_ter_or_furn( container_string, p );
+    const bool sealed = has_flag_ter_or_furn( TFLAG_SEALED, p );
     if( sealed && container ) {
         // never see inside of sealed containers
         return false;

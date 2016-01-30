@@ -740,7 +740,10 @@ public:
     npc_action address_needs( int danger );
     npc_action address_player();
     npc_action long_term_goal_action();
-    npc_action wield_better_weapon();
+    // Returns true if did something and we should end turn
+    bool scan_new_items();
+    // Returns true if did wield it
+    bool wield_better_weapon();
  bool alt_attack_available(); // Do we have grenades, molotov, etc?
  int choose_escape_item(); // Returns item position of our best escape aid
 
@@ -767,7 +770,6 @@ public:
  void find_item  (); // Look around and pick an item
  void pick_up_item (); // Move to, or grab, our targeted item
  void drop_items (int weight, int volume); // Drop wgt and vol
- npc_action scan_new_items();
 
 // Combat functions and player interaction functions
     Creature *get_target( int target ) const;
