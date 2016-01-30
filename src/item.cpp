@@ -4030,7 +4030,7 @@ bool item::ammo_consume( int qty ) {
     item *mag = magazine_current();
     if( mag ) {
         auto res = mag->ammo_consume( qty );
-        if( res && ammo_remaining() == 0 && mag->has_flag( "NO_RELOAD" ) ) {
+        if( res && ammo_remaining() == 0 && mag->has_flag( "MAG_DESTROY" ) ) {
             contents.erase( std::remove_if( contents.begin(), contents.end(), [&mag]( const item& e ) {
                 return mag == &e;
             } ) );
