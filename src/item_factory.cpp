@@ -637,7 +637,7 @@ void Item_factory::load( islot_ammo &slot, JsonObject &jo )
 {
     slot.type = jo.get_string( "ammo_type" );
     slot.casing = jo.get_string( "casing", "NULL" );
-    slot.damage = jo.get_int( "damage" );
+    slot.damage = jo.get_int( "damage", 0 );
     slot.pierce = jo.get_int( "pierce", 0 );
     slot.range = jo.get_int( "range" );
     slot.dispersion = jo.get_int( "dispersion" );
