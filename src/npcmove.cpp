@@ -1824,7 +1824,7 @@ npc_action npc::wield_better_weapon()
     for( auto &i : slice ) {
         item &it = i->front();
         bool allowed = can_use_gun && it.is_gun() && (!use_silent || it.is_silent());
-        if( allowed && it.charges > 0 ) {
+        if( allowed && it.ammo_remaining() > it.ammo_required() ) {
             return npc_wield_loaded_gun;
         } else if( allowed && enough_time_to_reload( it ) ) {
             has_empty_gun = true;
@@ -2167,94 +2167,71 @@ void npc::mug_player(player &mark)
     if( rl_dist( pos(), mark.pos() ) > 1 ) { // We have to travel
         update_path( mark.pos() );
         move_to_next();
-    } else {
-        bool u_see_me   = g->u.sees( *this ),
-             u_see_mark = g->u.sees( mark );
-        if (mark.cash > 0) {
-            cash += mark.cash;
-            mark.cash = 0;
-            moves = 0;
-            // Describe the action
-            if (mark.is_npc()) {
-                if (u_see_me) {
-                    if (u_see_mark) {
-                        add_msg(_("%1$s takes %2$s's money!"),
-                                name.c_str(), mark.name.c_str());
-                    } else {
-                        add_msg(_("%s takes someone's money!"),
-                                name.c_str());
-                    }
-                } else if (u_see_mark) {
-                    add_msg(_("Someone takes %s's money!"),
-                            mark.name.c_str());
-                }
-            } else {
-                if (u_see_me) {
-                    add_msg(m_bad, _("%s takes your money!"), name.c_str());
-                } else {
-                    add_msg(m_bad, _("Someone takes your money!"));
-                }
+        return;
+    }
+
+    const bool u_see = g->u.sees( *this ) || g->u.sees( mark );
+    if (mark.cash > 0) {
+        cash += mark.cash;
+        mark.cash = 0;
+        moves = 0;
+        // Describe the action
+        if( mark.is_npc() ) {
+            if( u_see ) {
+                add_msg(_("%1$s takes %2$s's money!"),
+                        name.c_str(), mark.name.c_str());
             }
-        } else { // We already have their money; take some goodies!
-            // value_mod affects at what point we "take the money and run"
-            // A lower value means we'll take more stuff
-            double value_mod = 1 - double((10 - personality.bravery)    * .05) -
-                               double((10 - personality.aggression) * .04) -
-                               double((10 - personality.collector)  * .06);
-            if (!mark.is_npc()) {
-                value_mod += double(op_of_u.fear * .08);
-                value_mod -= double((8 - op_of_u.value) * .07);
-            }
-            int best_value = minimum_item_value() * value_mod;
-            int item_index = INT_MIN;
-            invslice slice = mark.inv.slice();
-            for (size_t i = 0; i < slice.size(); i++) {
-                if( value(slice[i]->front()) >= best_value &&
-                    can_pickVolume( slice[i]->front().volume(), true ) &&
-                    can_pickWeight( slice[i]->front().weight(), true ) ) {
-                    best_value = value(slice[i]->front());
-                    item_index = i;
-                }
-            }
-            if (item_index == INT_MIN) { // Didn't find anything worthwhile!
-                attitude = NPCATT_FLEE;
-                if (!one_in(3)) {
-                    say("<done_mugging>");
-                }
-                moves -= 100;
-            } else {
-                bool u_see_me   = g->u.sees( *this ),
-                     u_see_mark = g->u.sees( mark );
-                item stolen = mark.i_rem(item_index);
-                if (mark.is_npc()) {
-                    if (u_see_me) {
-                        if (u_see_mark)
-                            add_msg(_("%1$s takes %2$s's %3$s."), name.c_str(),
-                                    mark.name.c_str(),
-                                    stolen.tname().c_str());
-                        else {
-                            add_msg(_("%s takes something from somebody."),
-                                    name.c_str());
-                        }
-                    } else if (u_see_mark)
-                        add_msg(_("Someone takes %1$s's %2$s."),
-                                mark.name.c_str(), stolen.tname().c_str());
-                } else {
-                    if (u_see_me) {
-                        add_msg(m_bad, _("%1$s takes your %2$s."),
-                                name.c_str(), stolen.tname().c_str());
-                    } else {
-                        add_msg(m_bad, _("Someone takes your %s."),
-                                stolen.tname().c_str());
-                    }
-                }
-                i_add(stolen);
-                moves -= 100;
-                if (!mark.is_npc()) {
-                    op_of_u.value -= rng(0, 1);    // Decrease the value of the player
-                }
-            }
+        } else {
+            add_msg(m_bad, _("%s takes your money!"), name.c_str());
         }
+        return;
+    }
+
+    // We already have their money; take some goodies!
+    // value_mod affects at what point we "take the money and run"
+    // A lower value means we'll take more stuff
+    double value_mod = 1 - double((10 - personality.bravery)    * .05) -
+                       double((10 - personality.aggression) * .04) -
+                       double((10 - personality.collector)  * .06);
+    if (!mark.is_npc()) {
+        value_mod += double(op_of_u.fear * .08);
+        value_mod -= double((8 - op_of_u.value) * .07);
+    }
+    int best_value = minimum_item_value() * value_mod;
+    int item_index = INT_MIN;
+    invslice slice = mark.inv.slice();
+    for (size_t i = 0; i < slice.size(); i++) {
+        if( value(slice[i]->front()) >= best_value &&
+            can_pickVolume( slice[i]->front().volume(), true ) &&
+            can_pickWeight( slice[i]->front().weight(), true ) ) {
+            best_value = value(slice[i]->front());
+            item_index = i;
+        }
+    }
+    if (item_index == INT_MIN) { // Didn't find anything worthwhile!
+        attitude = NPCATT_FLEE;
+        if (!one_in(3)) {
+            say("<done_mugging>");
+        }
+        moves -= 100;
+        return;
+    }
+
+    item stolen = mark.i_rem(item_index);
+    if (mark.is_npc()) {
+        if (u_see) {
+            add_msg(_("%1$s takes %2$s's %3$s."), name.c_str(),
+                    mark.name.c_str(),
+                    stolen.tname().c_str());
+        }
+    } else {
+        add_msg(m_bad, _("%1$s takes your %2$s."),
+                name.c_str(), stolen.tname().c_str());
+    }
+    i_add(stolen);
+    moves -= 100;
+    if (!mark.is_npc()) {
+        op_of_u.value -= rng(0, 1);    // Decrease the value of the player
     }
 }
 
@@ -2582,7 +2559,8 @@ bool npc::complain()
 
     // When tired, complain every 30 minutes
     // If massively tired, ignore restrictions
-    if( complaints[fatigue_string] < calendar::turn - MINUTES(30) &&
+    if( fatigue < TIRED &&
+        complaints[fatigue_string] < calendar::turn - MINUTES(30) &&
         (rules.allow_complain || fatigue > MASSIVE_FATIGUE - 100) ) {
         say( "<yawn>" );
         complaints[fatigue_string] = calendar::turn;

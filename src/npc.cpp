@@ -2616,3 +2616,11 @@ bool npc::query_yn( const char *, ... ) const
     // NPCs don't like queries - most of them are in the form of "Do you want to get hurt?".
     return false;
 }
+
+float npc::speed_rating() const
+{
+    float ret = 1.0f / get_speed();
+    ret *= 100.0f / run_cost( 100, false );
+
+    return ret;
+}
