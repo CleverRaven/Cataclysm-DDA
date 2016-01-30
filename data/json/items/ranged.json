@@ -3032,10 +3032,9 @@
     "flags": "MODE_BURST",
     "skill": "rifle",
     "ammo": "308",
-    "weight": 12500,
-    "volume": 16,
+    "weight": 9200,
+    "volume": 12,
     "bashing": 13,
-    "cutting": 0,
     "to_hit": -1,
     "ranged_damage": -2,
     "dispersion": 170,
@@ -3044,10 +3043,10 @@
     "recoil": 120,
     "durability": 7,
     "burst": 25,
-    "clip_size": 200,
-    "reload": 750,
+    "reload" : 400,
     "loudness" : 160,
-    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ]]
+    "magazines" : [ "belt308" ],
+    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ]]
   },
   {
     "id": "m60",
@@ -3062,10 +3061,9 @@
     "flags": "MODE_BURST",
     "skill": "rifle",
     "ammo": "308",
-    "weight": 10500,
-    "volume": 16,
+    "weight": 8700,
+    "volume": 12,
     "bashing": 15,
-    "cutting": 0,
     "to_hit": -1,
     "ranged_damage": 0,
     "dispersion": 180,
@@ -3074,10 +3072,10 @@
     "recoil": 140,
     "durability": 7,
     "burst": 20,
-    "clip_size": 200,
-    "reload": 750,
+    "reload": 400,
     "loudness" : 160,
-    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ]]
+    "magazines": [ "belt308" ],
+    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ]]
   },
   {
     "id": "v29",
