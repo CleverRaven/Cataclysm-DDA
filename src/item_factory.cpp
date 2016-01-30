@@ -398,6 +398,8 @@ void Item_factory::check_ammo_type(std::ostream &msg, const std::string &ammo) c
 void Item_factory::check_definitions() const
 {
     std::ostringstream main_stream;
+    std::set<itype_id> magazines_used;
+    std::set<itype_id> magazines_defined;
     for( const auto &elem : m_templates ) {
         std::ostringstream msg;
         const itype *type = elem.second;
@@ -474,6 +476,12 @@ void Item_factory::check_definitions() const
                     msg << string_format("invalid built-in mod.") << "\n";
                 }
             }
+            for( auto &mag : type->magazines ) {
+                magazines_used.insert( mag );
+                if( !has_template( mag ) ){
+                    msg << string_format("invalid magazine.") << "\n";
+                }
+            }
         }
         if( type->gunmod ) {
             check_ammo_type( msg, type->gunmod->newtype );
@@ -482,6 +490,7 @@ void Item_factory::check_definitions() const
             }
         }
         if( type->magazine ) {
+            magazines_defined.insert( type->id );
             check_ammo_type( msg, type->magazine->type );
             if( type->magazine->capacity < 0 ) {
                 msg << string_format("invalid capacity %i", type->magazine->capacity) << "\n";
@@ -519,6 +528,11 @@ void Item_factory::check_definitions() const
             getch();
             werase(stdscr);
             main_stream.str(std::string());
+        }
+    }
+    for( auto &mag : magazines_defined ) {
+        if( magazines_used.count( mag ) == 0 ) {
+            main_stream << "Magazine " << mag << " defined but not used.\n";
         }
     }
     const std::string &buffer = main_stream.str();
