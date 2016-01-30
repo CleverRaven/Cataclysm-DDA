@@ -21,6 +21,7 @@
 #include "overmap.h"
 #include "vehicle.h"
 #include "mtype.h"
+#include "iuse_actor.h"
 
 #include <algorithm>
 #include <string>
@@ -1364,7 +1365,7 @@ void npc::form_opinion(player *u)
              name.c_str(), npc_attitude_name( attitude ).c_str() );
 }
 
-std::string npc::pick_talk_topic(player *u)
+std::string npc::pick_talk_topic( const player &u )
 {
  //form_opinion(u);
  (void)u;
@@ -1385,8 +1386,10 @@ std::string npc::pick_talk_topic(player *u)
  return "TALK_STRANGER_NEUTRAL";
 }
 
-int npc::player_danger(player *u) const
+int npc::player_danger( const player &ur ) const
 {
+    // TODO: Rewrite this function
+    const player *u = &ur;
  int ret = 0;
  if (u->weapon.is_gun()) {
   if (weapon.is_gun())
@@ -1560,32 +1563,14 @@ bool npc::fac_has_job(faction_job job)
 void npc::decide_needs()
 {
     int needrank[num_needs];
-    for( auto &elem : needrank )
+    for( auto &elem : needrank ) {
         elem = 20;
+    }
     if (weapon.is_gun()) {
         needrank[need_ammo] = 5 * get_ammo(weapon.type->gun->ammo).size();
     }
-    ///\EFFECT_UNARMED_NPC <4 drives need for a weapon
-    if (weapon.type->id == "null" && skillLevel( skill_unarmed ) < 4) {
-        needrank[need_weapon] = 1;
-    } else {
-        needrank[need_weapon] = weapon.type->melee_dam + weapon.type->melee_cut +
-                                weapon.type->m_to_hit;
-    }
-    if (!weapon.is_gun()) {
-        ///\EFFECT_UNARMED_NPC lowers need for a gun
 
-        ///\EFFECT_MELEE_NPC lowers need for a gun
-
-        ///\EFFECT_BASHING_NPC lowers need for a gun
-
-        ///\EFFECT_CUTTING_NPC lowers need for a gun
-
-        ///\EFFECT_GUN_NPC increases need for a gun
-        needrank[need_gun] = skillLevel( skill_unarmed ) + skillLevel( skill_melee ) +
-                            skillLevel( skill_bashing ) + skillLevel( skill_cutting ) -
-                            skillLevel( skill_gun ) * 2 + 5;
-    }
+    needrank[need_weapon] = weapon_value( weapon );
     needrank[need_food] = 15 - get_hunger();
     needrank[need_drink] = 15 - thirst;
     invslice slice = inv.slice();
@@ -1813,14 +1798,39 @@ int npc::value(const item &it)
     return ret;
 }
 
-bool npc::has_healing_item()
+bool npc::has_healing_item( bool bleed, bool bite, bool infect )
 {
-    return inv.has_amount("bandages", 1) || inv.has_amount("1st_aid", 1);
+    return !get_healing_item( bleed, bite, infect, true ).is_null();
+}
+
+item &npc::get_healing_item( bool bleed, bool bite, bool infect, bool first_best )
+{
+    item *best = &ret_null;
+    visit_items( [&best, bleed, bite, infect, first_best]( item *node, item * ) {
+        const auto use = node->type->get_use( "heal" );
+        if( use == nullptr ){
+            return VisitResponse::NEXT;
+        }
+
+        auto &actor = dynamic_cast<const heal_actor &>( *(use->get_actor_ptr()) );
+        if( (!bleed || actor.bleed > 0) ||
+            (!bite || actor.bite > 0) ||
+            (!infect || actor.infect > 0) ) {
+            best = node;
+            if( first_best ) {
+                return VisitResponse::ABORT;
+            }
+        }
+
+        return VisitResponse::NEXT;
+    } );
+
+    return *best;
 }
 
 bool npc::has_painkiller()
 {
-    return inv.has_enough_painkiller(pain);
+    return inv.has_enough_painkiller( pain );
 }
 
 bool npc::took_painkiller() const
@@ -1896,52 +1906,7 @@ int npc::smash_ability() const
 
 int npc::danger_assessment()
 {
-    int ret = 0;
-    for (size_t i = 0; i < g->num_zombies(); i++) {
-        if( sees( g->zombie( i ) ) ) {
-            ret += g->zombie(i).type->difficulty;
-        }
-    }
-    ret /= 10;
-    if (ret <= 2) {
-        ret = -10 + 5 * ret; // Low danger if no monsters around
-    }
-    // Mod for the player
-    if (is_enemy()) {
-        if (rl_dist( pos(), g->u.pos() ) < 10) {
-            if (g->u.weapon.is_gun()) {
-                ret += 10;
-            } else {
-                ret += 10 - rl_dist( pos(), g->u.pos() );
-            }
-        }
-    } else if (is_friend()) {
-        if (rl_dist( pos(), g->u.pos() ) < 8) {
-            if (g->u.weapon.is_gun()) {
-                ret -= 8;
-            } else {
-                ret -= 8 - rl_dist( pos(), g->u.pos() );
-            }
-        }
-    }
-    for (int i = 0; i < num_hp_parts; i++) {
-        if (i == hp_head || i == hp_torso) {
-            if (hp_cur[i] < hp_max[i] / 4) {
-                ret += 5;
-            } else if (hp_cur[i] < hp_max[i] / 2) {
-                ret += 3;
-            } else if (hp_cur[i] < hp_max[i] * .9) {
-                ret += 1;
-            }
-        } else {
-            if (hp_cur[i] < hp_max[i] / 4) {
-                ret += 2;
-            } else if (hp_cur[i] < hp_max[i] / 2) {
-                ret += 1;
-            }
-        }
-    }
-    return ret;
+    return ai_cache.danger_assessment;
 }
 
 int npc::average_damage_dealt()
@@ -1952,6 +1917,11 @@ int npc::average_damage_dealt()
 bool npc::bravery_check(int diff)
 {
  return (dice(10 + personality.bravery, 6) >= dice(diff, 4));
+}
+
+bool npc::emergency()
+{
+    return emergency( ai_cache.danger_assessment );
 }
 
 bool npc::emergency(int danger)
@@ -2025,24 +1995,6 @@ void npc::told_to_leave()
 int npc::follow_distance() const
 {
  return 4; // TODO: Modify based on bravery, weapon wielded, etc.
-}
-
-int npc::speed_estimate( const Creature &what ) const
-{
-    // TODO: Modify based on abilities
-    // Players run, zombies stumble and leap
-    const auto speed = what.get_speed();
-    ///\EFFECT_PER_NPC determines accuracy of estimating others' speed
-    if( per_cur == 0 ) {
-        return rng(0, speed * 2);
-    }
-    // Up to 80% deviation if per_cur is 1;
-    // Up to 10% deviation if per_cur is 8;
-    // Up to 4% deviation if per_cur is 20;
-    const int deviation = speed / (double)(per_cur * 1.25);
-    const int low = speed - deviation;
-    const int high = speed + deviation;
-    return rng(low, high);
 }
 
 nc_color npc::basic_symbol_color() const

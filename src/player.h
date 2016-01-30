@@ -867,6 +867,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         std::string weapname() const;
 
         virtual float power_rating() const override;
+        virtual float speed_rating() const override;
 
         /**
          * All items that have the given flag (@ref item::has_flag).

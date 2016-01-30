@@ -290,6 +290,11 @@ void monster::spawn(const tripoint &p)
     unset_dest();
 }
 
+std::string monster::get_name() const
+{
+    return name( 1 );
+}
+
 std::string monster::name(unsigned int quantity) const
 {
  if (!type) {
@@ -1971,6 +1976,18 @@ float monster::power_rating() const
     ret += has_flag( MF_ELECTRONIC ) ? 2 : 0; // Robots tend to have guns
     // Hostile stuff gets a big boost
     // Neutral moose will still get burned if it comes close
+    return ret;
+}
+
+float monster::speed_rating() const
+{
+    float ret = 1.0f / get_speed();
+    const auto leap = type->special_attacks.find( "leap" );
+    if( leap != type->special_attacks.end() ) {
+        // TODO: Make this calculate sane values here
+        ret += 0.5f;
+    }
+
     return ret;
 }
 

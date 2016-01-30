@@ -14546,6 +14546,18 @@ float player::power_rating() const
     return ret;
 }
 
+float player::speed_rating() const
+{
+    float ret = 1.0f / get_speed();
+    ret *= 100.0f / run_cost( 100, false );
+    // Adjustment for player being able to run, but not doing so at the moment
+    if( move_mode != "run" ) {
+        ret *= 1.0f + ((float)stamina / (float)get_stamina_max());
+    }
+
+    return ret;
+}
+
 std::vector<const item *> player::all_items_with_flag( const std::string flag ) const
 {
     return items_with( [&flag]( const item & it ) {
