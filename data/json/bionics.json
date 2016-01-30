@@ -494,7 +494,6 @@
         "type": "bionic",
         "id": "bio_fingerhack",
         "name": "Fingerhack",
-        "act_cost": 25,
         "description": "One of your fingers has an electrohack embedded in it; an all-purpose hacking unit used to override control panels and the like (but not computers).  Skill in computers is important, and a failed use may damage your circuits."
     },{
         "type": "bionic",
