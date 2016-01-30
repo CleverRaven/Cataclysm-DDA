@@ -13,7 +13,7 @@
         "capacity" : 30,
         "reliability" : 8,
         "reload_time" : 100,
-        "flags" : [ "COMPACT_MAG" ],
+        "flags" : [ "MAG_COMPACT" ],
         "alternatives" : [
             [ "9mm", [ "mp5mag" ] ]
         ]
@@ -32,7 +32,7 @@
         "capacity" : 10,
         "reliability" : 9,
         "reload_time" : 100,
-        "flags" : [ "COMPACT_MAG" ]
+        "flags" : [ "MAG_COMPACT" ]
     },
     {   "type" : "MAGAZINE",
         "id" : "stanag50",
@@ -49,7 +49,7 @@
         "capacity" : 50,
         "reliability" : 7,
         "reload_time" : 200,
-        "flags" : [ "BULKY_MAG" ],
+        "flags" : [ "MAG_BULKY" ],
         "alternatives" : [
             [ "9mm", [ "mp5bigmag" ] ]
         ]
@@ -69,7 +69,7 @@
         "capacity" : 5,
         "reliability" : 5,
         "reload_time" : 150,
-        "flags" : [ "COMPACT_MAG" ]
+        "flags" : [ "MAG_COMPACT" ]
     },
     {   "type" : "MAGAZINE",
         "id" : "belt223",
@@ -102,7 +102,7 @@
         "capacity" : 32,
         "reliability" : 9,
         "reload_time" : 120,
-        "flags" : [ "COMPACT_MAG" ],
+        "flags" : [ "MAG_COMPACT" ],
         "alternatives" : [
             [ "9mm", [ "lw21mag" ] ]
         ]
@@ -121,7 +121,7 @@
         "capacity" : 56,
         "reliability" : 9,
         "reload_time" : 160,
-        "flags" : [ "COMPACT_MAG" ]
+        "flags" : [ "MAG_COMPACT" ]
     },
     {   "type" : "MAGAZINE",
         "id" : "glockmag",
@@ -137,7 +137,7 @@
         "capacity" : 15,
         "reliability" : 8,
         "reload_time" : 100,
-        "flags" : [ "COMPACT_MAG" ],
+        "flags" : [ "MAG_COMPACT" ],
         "alternatives" : [
             [ "45", [ "m1911mag" ] ]
         ]
@@ -156,7 +156,7 @@
         "capacity" : 30,
         "reliability" : 7,
         "reload_time" : 140,
-        "flags" : [ "COMPACT_MAG" ],
+        "flags" : [ "MAG_COMPACT" ],
         "alternatives" : [
             [ "45", [ "m1911bigmag" ] ]
         ]
@@ -175,7 +175,7 @@
         "capacity" : 15,
         "reliability" : 8,
         "reload_time" : 100,
-        "flags" : [ "COMPACT_MAG" ],
+        "flags" : [ "MAG_COMPACT" ],
         "alternatives" : [
             [ "45", [ "m1911mag" ] ]
         ]
@@ -194,7 +194,7 @@
         "capacity" : 30,
         "reliability" : 7,
         "reload_time" : 140,
-        "flags" : [ "COMPACT_MAG" ],
+        "flags" : [ "MAG_COMPACT" ],
         "alternatives" : [
             [ "45", [ "m1911bigmag" ] ]
         ]
@@ -213,7 +213,7 @@
         "capacity" : 15,
         "reliability" : 10,
         "reload_time" : 100,
-        "flags" : [ "COMPACT_MAG" ],
+        "flags" : [ "MAG_COMPACT" ],
         "alternatives" : [
             [ "45", [ "usp45mag" ] ]
         ]
@@ -232,7 +232,7 @@
         "capacity" : 21,
         "reliability" : 10,
         "reload_time" : 140,
-        "flags" : [ "COMPACT_MAG" ]
+        "flags" : [ "MAG_COMPACT" ]
     },
     {   "type" : "MAGAZINE",
         "id" : "mp5mag",
@@ -248,7 +248,7 @@
         "capacity" : 30,
         "reliability" : 9,
         "reload_time" : 100,
-        "flags" : [ "COMPACT_MAG" ],
+        "flags" : [ "MAG_COMPACT" ],
         "alternatives" : [
             [ "45", [ "ump45mag" ] ]
         ]
@@ -267,7 +267,7 @@
         "capacity" : 50,
         "reliability" : 8,
         "reload_time" : 160,
-        "flags" : [ "BULKY_MAG" ],
+        "flags" : [ "MAG_BULKY" ],
         "alternatives" : [
             [ "45", [ "ump45mag" ] ]
         ]
@@ -286,7 +286,7 @@
         "capacity" : 32,
         "reliability" : 8,
         "reload_time" : 100,
-        "flags" : [ "COMPACT_MAG" ],
+        "flags" : [ "MAG_COMPACT" ],
         "alternatives" : [
             [ "45", [ "mac10mag" ] ]
         ]
@@ -306,7 +306,7 @@
         "capacity" : 32,
         "reliability" : 6,
         "reload_time" : 100,
-        "flags": [ "COMPACT_MAG" ]
+        "flags": [ "MAG_COMPACT" ]
     },
     {
         "type" : "MAGAZINE",
@@ -323,7 +323,7 @@
         "capacity" : 20,
         "reliability" : 5,
         "reload_time" : 160,
-        "flags": [ "COMPACT_MAG" ]
+        "flags": [ "MAG_COMPACT" ]
     },
     {
         "type" : "MAGAZINE",
@@ -340,7 +340,7 @@
         "capacity" : 12,
         "reliability" : 10,
         "reload_time" : 140,
-        "flags" : [ "COMPACT_MAG" ]
+        "flags" : [ "MAG_COMPACT" ]
     },
     {   "type" : "MAGAZINE",
         "id" : "usp45mag",
@@ -356,7 +356,7 @@
         "capacity" : 12,
         "reliability" : 10,
         "reload_time" : 100,
-        "flags": [ "COMPACT_MAG" ],
+        "flags": [ "MAG_COMPACT" ],
         "alternatives" : [
             [ "9mm", [ "usp9mag" ] ]
         ]
@@ -375,7 +375,7 @@
         "capacity" : 7,
         "reliability" : 10,
         "reload_time" : 100,
-        "flags": [ "COMPACT_MAG" ],
+        "flags": [ "MAG_COMPACT" ],
         "alternatives" : [
             [ "9mm", [ "m9mag" ] ]
         ]
@@ -394,7 +394,7 @@
         "capacity" : 10,
         "reliability" : 9,
         "reload_time" : 100,
-        "flags": [ "COMPACT_MAG" ],
+        "flags": [ "MAG_COMPACT" ],
         "alternatives" : [
             [ "9mm", [ "m9bigmag" ] ]
         ]
@@ -413,7 +413,7 @@
         "capacity" : 30,
         "reliability" : 7,
         "reload_time" : 100,
-        "flags" : [ "COMPACT_MAG" ],
+        "flags" : [ "MAG_COMPACT" ],
         "alternatives" : [
             [ "9mm", [ "uzimag" ] ]
         ]
@@ -432,7 +432,7 @@
         "capacity" : 30,
         "reliability" : 9,
         "reload_time" : 100,
-        "flags" : [ "COMPACT_MAG" ],
+        "flags" : [ "MAG_COMPACT" ],
         "alternatives" : [
             [ "9mm", [ "uzimag" ] ]
         ]
@@ -451,7 +451,7 @@
         "capacity" : 25,
         "reliability" : 9,
         "reload_time" : 100,
-        "flags" : [ "COMPACT_MAG" ],
+        "flags" : [ "MAG_COMPACT" ],
         "alternatives" : [
             [ "9mm", [ "mp5mag" ] ]
         ]
@@ -471,7 +471,7 @@
         "capacity" : 20,
         "reliability" : 8,
         "reload_time" : 100,
-        "flags": [ "COMPACT_MAG" ],
+        "flags": [ "MAG_COMPACT" ],
         "alternatives" : [
             [ "9mm", [ "stenmag", "survivor9mm_mag" ] ]
         ]
@@ -491,7 +491,7 @@
         "capacity" : 30,
         "reliability" : 8,
         "reload_time" : 120,
-        "flags": [ "COMPACT_MAG" ],
+        "flags": [ "MAG_COMPACT" ],
         "alternatives" : [
             [ "9mm", [ "stenmag", "survivor9mm_mag" ] ]
         ]
@@ -511,7 +511,7 @@
         "capacity" : 50,
         "reliability" : 7,
         "reload_time" : 150,
-        "flags": [ "BULKY_MAG" ],
+        "flags": [ "MAG_BULKY" ],
         "alternatives" : [
             [ "9mm", [ "stenmag", "survivor9mm_mag" ] ]
         ]
@@ -531,7 +531,7 @@
         "capacity" : 8,
         "reliability" : 9,
         "reload_time" : 100,
-        "flags": [ "COMPACT_MAG" ]
+        "flags": [ "MAG_COMPACT" ]
     },
     {
         "type" : "MAGAZINE",
@@ -548,7 +548,7 @@
         "capacity" : 20,
         "reliability" : 8,
         "reload_time" : 100,
-        "flags": [ "COMPACT_MAG" ]
+        "flags": [ "MAG_COMPACT" ]
     },
     {
         "type" : "MAGAZINE",
@@ -565,7 +565,7 @@
         "capacity" : 20,
         "reliability" : 8,
         "reload_time" : 100,
-        "flags": [ "COMPACT_MAG" ]
+        "flags": [ "MAG_COMPACT" ]
     },
     {
         "type" : "MAGAZINE",
@@ -583,7 +583,7 @@
         "capacity" : 30,
         "reliability" : 9,
         "reload_time" : 100,
-        "flags": [ "COMPACT_MAG" ]
+        "flags": [ "MAG_COMPACT" ]
     },
     {
         "type" : "MAGAZINE",
@@ -601,7 +601,7 @@
         "capacity" : 45,
         "reliability" : 8,
         "reload_time" : 130,
-        "flags": [ "BULKY_MAG" ]
+        "flags": [ "MAG_BULKY" ]
     },
     {
         "type" : "MAGAZINE",
@@ -619,7 +619,7 @@
         "capacity" : 20,
         "reliability" : 9,
         "reload_time" : 100,
-        "flags": [ "COMPACT_MAG" ],
+        "flags": [ "MAG_COMPACT" ],
         "alternatives" : [
             [ "223", [ "stanag30", "stanag10", "survivor223mag" ] ]
         ]
@@ -639,7 +639,7 @@
         "capacity" : 30,
         "reliability" : 7,
         "reload_time" : 120,
-        "flags": [ "COMPACT_MAG" ],
+        "flags": [ "MAG_COMPACT" ],
         "alternatives" : [
             [ "223", [ "stanag30", "stanag10", "survivor223mag" ] ]
         ]
