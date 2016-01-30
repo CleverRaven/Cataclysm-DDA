@@ -109,11 +109,11 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
     double missed_by = shot_dispersion * 0.00021666666666666666 * range;
     // TODO: move to-hit roll back in here
 
-    dealt_projectile_attack ret{
+    dealt_projectile_attack attack {
         proj_arg, nullptr, dealt_damage_instance(), source, missed_by
     };
 
-    projectile &proj = ret.proj;
+    projectile &proj = attack.proj;
     const auto &proj_effects = proj.proj_effects;
 
     const bool stream = proj_effects.count("FLAME") > 0 ||
@@ -150,8 +150,11 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
              target.x, target.y, target.z );
 
     // Trace the trajectory, doing damage in order
-    tripoint &tp = ret.end_point;
+    tripoint &tp = attack.end_point;
     tripoint prev_point = source;
+    std::vector<tripoint> trajectory_extension = continue_line( trajectory, proj_arg.range );
+    trajectory.resize( trajectory.size() + trajectory_extension.size() );
+    trajectory.insert( trajectory.end(), trajectory_extension.begin(), trajectory_extension.end() );
 
     // If this is a vehicle mounted turret, which vehicle is it mounted on?
     const vehicle *in_veh = has_effect( effect_on_roof ) ?
@@ -198,7 +201,7 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
         }
 
         // Reset hit critter from the last iteration
-        ret.hit_critter = nullptr;
+        attack.hit_critter = nullptr;
 
         // If we shot us a monster...
         // TODO: add size effects to accuracy
@@ -207,7 +210,7 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
         double cur_missed_by = missed_by;
         // If missed_by is 1.0, the end of the trajectory may not be the original target
         // We missed it too much for the original target to matter, just reroll as unintended
-        if( missed_by >= 1.0 || i < trajectory.size() - 1 ) {
+        if( missed_by >= 1.0 || tp != target_arg ) {
             // Unintentional hit
             cur_missed_by = std::max( rng_float( 0.2, 3.0 - missed_by ), 0.4 );
         }
@@ -219,21 +222,21 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
                 continue;
             }
             dealt_damage_instance dealt_dam;
-            ret.missed_by = cur_missed_by;
-            critter->deal_projectile_attack( null_source ? nullptr : this, ret );
+            attack.missed_by = cur_missed_by;
+            critter->deal_projectile_attack( null_source ? nullptr : this, attack );
             // Critter can still dodge the projectile
             // In this case hit_critter won't be set
-            if( ret.hit_critter != nullptr ) {
+            if( attack.hit_critter != nullptr ) {
                 splatter( blood_traj, dealt_dam.total_damage(), critter );
-                sfx::do_projectile_hit( *ret.hit_critter );
+                sfx::do_projectile_hit( *attack.hit_critter );
                 has_momentum = false;
             } else {
-                ret.missed_by = missed_by;
+                attack.missed_by = missed_by;
             }
         } else if( in_veh != nullptr && g->m.veh_at( tp ) == in_veh ) {
             // Don't do anything, especially don't call map::shoot as this would damage the vehicle
         } else {
-            g->m.shoot( tp, proj, !no_item_damage && i == trajectory.size() - 1 );
+            g->m.shoot( tp, proj, !no_item_damage && tp == target_arg );
             has_momentum = proj.impact.total_damage() > 0;
         }
     } // Done with the trajectory!
@@ -248,7 +251,7 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
         tp = prev_point;
     }
 
-    drop_or_embed_projectile( ret );
+    drop_or_embed_projectile( attack );
 
     ammo_effects(tp, proj.proj_effects);
 
@@ -274,7 +277,7 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
         }
     }
 
-    return ret;
+    return attack;
 }
 
 bool player::handle_gun_damage( const itype &firingt, const std::set<std::string> &curammo_effects )
