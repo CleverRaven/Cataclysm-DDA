@@ -1568,7 +1568,7 @@ void npc::find_item()
     fetching_item = false;
     int best_value = minimum_item_value();
     // For some reason range limiting by vision doesn't work properly
-    const int range = 9;
+    const int range = 6;
     //int range = sight_range( g->light_level( posz() ) );
     //range = std::max( 1, std::min( 12, range ) );
 
@@ -1870,6 +1870,7 @@ bool npc::wield_better_weapon()
 
 bool npc::scan_new_items()
 {
+    add_msg( m_debug, "%s scanning new items", name.c_str() );
     if( !wield_better_weapon() ) {
         // Stop "having new items" when you no longer do anything with them
         has_new_items = false;
@@ -2082,7 +2083,7 @@ void npc::heal_player( player &patient )
 
     // Close enough to heal!
     bool u_see = g->u.sees( *this ) || g->u.sees( patient );
-    if (u_see) {
+    if( u_see ) {
         add_msg( _("%1$s heals %2$s."), name.c_str(), patient.name.c_str() );
     }
 
@@ -2114,6 +2115,10 @@ void npc::heal_self()
     if( used.is_null() ) {
         debugmsg( "%s tried to heal self but has no healing item", disp_name().c_str() );
         return;
+    }
+
+    if( g->u.sees( *this ) ) {
+        add_msg( _("%s applies a %s"), name.c_str(), used.tname().c_str() );
     }
 
     long charges_used = used.type->invoke( this, &used, pos(), "heal" );

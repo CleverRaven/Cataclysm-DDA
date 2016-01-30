@@ -2308,7 +2308,8 @@ long heal_actor::use( player *p, item *it, bool, const tripoint &pos ) const
         cost /= (p->skillLevel( skill_firstaid ) + 1);
     }
 
-    if( long_action && &patient == p ) {
+    // NPCs can use first aid now, but they can't perform long actions
+    if( long_action && &patient == p && !p->is_npc() ) {
         // Assign first aid long action.
         ///\EFFECT_FIRSTAID speeds up firstaid activity
         p->assign_activity( ACT_FIRSTAID, cost, 0, p->get_item_position( it ), it->tname() );

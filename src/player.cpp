@@ -9361,6 +9361,9 @@ bool player::has_fire(const int quantity) const
         return true;
     } else if (has_charges("zweifire_on", quantity)) {
         return true;
+    } else if( is_npc() ) {
+        // A hack to make NPCs use their molotovs
+        return true;
     }
     return false;
 }
