@@ -17,7 +17,6 @@
         "ammo_type" : "battery",
         "range" : 0,
         "dispersion" : 0,
-        "recoil" : 0,
         "count" : 100,
         "effects" : ["NEVER_MISFIRES"]
     },
@@ -39,7 +38,6 @@
         "ammo_type" : "components",
         "range" : 0,
         "dispersion" : 0,
-        "recoil" : 0,
         "count" : 200
     },
     {   "type" : "AMMO",
@@ -57,7 +55,6 @@
         "ammo_type" : "money",
         "range" : 0,
         "dispersion" : 0,
-        "recoil" : 0,
         "count" : 1
     },
     {   "type" : "AMMO",
@@ -77,7 +74,6 @@
         "pierce" : 10,
         "range" : 24,
         "dispersion" : 0,
-        "recoil" : 0,
         "count" : 1,
         "effects" : ["NEVER_MISFIRES"]
     },{
@@ -98,7 +94,6 @@
         "ammo_type" : "components",
         "range" : 0,
         "dispersion" : 0,
-        "recoil" : 0,
         "count" : 1,
         "stack_size" : 18
     },{
@@ -119,7 +114,6 @@
         "ammo_type" : "components",
         "range" : 0,
         "dispersion" : 0,
-        "recoil" : 0,
         "count" : 1,
         "stack_size" : 3
     },{
@@ -140,7 +134,6 @@
         "ammo_type" : "thread",
         "range" : 0,
         "dispersion" : 0,
-        "recoil" : 0,
         "count" : 50,
         "stack_size" : 200
     },{
@@ -160,7 +153,6 @@
         "ammo_type" : "thread",
         "range" : 0,
         "dispersion" : 0,
-        "recoil" : 0,
         "count" : 10,
         "stack_size" : 200
     },
@@ -181,7 +173,6 @@
         "damage" : 1,
         "range" : 0,
         "dispersion" : 0,
-        "recoil" : 0,
         "count" : 10,
         "stack_size" : 200
     },
@@ -202,7 +193,6 @@
         "damage" : 1,
         "range" : 0,
         "dispersion" : 0,
-        "recoil" : 0,
         "count" : 10,
         "stack_size" : 200
     },
@@ -223,7 +213,6 @@
         "damage" : 1,
         "range" : 0,
         "dispersion" : 0,
-        "recoil" : 0,
         "count" : 10,
         "stack_size" : 10
     },
@@ -243,7 +232,6 @@
         "ammo_type" : "tape",
         "range" : 0,
         "dispersion" : 0,
-        "recoil" : 0,
         "count" : 200,
         "flags" : ["UNRECOVERABLE"]
     },
@@ -263,7 +251,6 @@
         "ammo_type" : "components",
         "range" : 0,
         "dispersion" : 0,
-        "recoil" : 0,
         "count" : 32,
         "flags" : ["UNRECOVERABLE"]
     },
@@ -283,7 +270,6 @@
         "ammo_type" : "components",
         "range" : 0,
         "dispersion" : 0,
-        "recoil" : 0,
         "count" : 200
     },
     {   "type" : "AMMO",
@@ -303,7 +289,6 @@
         "ammo_type" : "plutonium",
         "range" : 0,
         "dispersion" : 0,
-        "recoil" : 0,
         "count" : 5,
         "effects" : ["COOKOFF", "NEVER_MISFIRES"]
     },
@@ -326,7 +311,6 @@
         "ammo_type" : "reactor_slurry",
         "range" : 0,
         "dispersion" : 0,
-        "recoil" : 0,
         "phase" : "liquid",
         "container" : "metal_tank_little",
         "count" : 10
@@ -350,7 +334,6 @@
         "ammo_type" : "reactor_slurry",
         "range" : 0,
         "dispersion" : 0,
-        "recoil" : 0,
         "phase" : "liquid",
         "container" : "metal_tank_little",
         "count" : 10
@@ -393,7 +376,6 @@
         "damage" : 2,
         "range" : 10,
         "dispersion" : 14,
-        "recoil" : 0,
         "count" : 10,
         "effects" : ["NEVER_MISFIRES"]
     },
@@ -413,7 +395,6 @@
         "damage" : 3,
         "range" : 18,
         "dispersion" : 12,
-        "recoil" : 0,
         "count" : 20,
         "effects" : ["NEVER_MISFIRES"]
     },
@@ -433,7 +414,6 @@
         "damage" : 1,
         "range" : 30,
         "dispersion" : 5,
-        "recoil" : 0,
         "count" : 10,
         "effects" : ["RECOVER_3", "NEVER_MISFIRES"]
     },
@@ -455,7 +435,6 @@
         "pierce" : 1,
         "range" : 15,
         "dispersion" : 14,
-        "recoil" : 0,
         "count" : 50,
         "effects" : ["NEVER_MISFIRES"]
     },
@@ -475,7 +454,6 @@
         "damage" : 2,
         "range" : 12,
         "dispersion" : 11,
-        "recoil" : 0,
         "count" : 200,
         "effects" : ["NEVER_MISFIRES"]
     },
@@ -494,7 +472,6 @@
         "ammo_type" : "components",
         "range" : 0,
         "dispersion" : 0,
-        "recoil" : 0,
         "stack_size" : 100,
         "count" : 20
     },
@@ -514,7 +491,6 @@
         "ammo_type" : "components",
         "range" : 0,
         "dispersion" : 0,
-        "recoil" : 0,
         "stack_size" : 100,
         "count" : 20
     },
@@ -1585,7 +1561,6 @@
         "pierce" : 15,
         "range" : 30,
         "dispersion" : 0,
-        "recoil" : 0,
         "stack_size" : 40,
         "count" : 20,
         "effects" : ["NEVER_MISFIRES"]
@@ -1923,7 +1898,6 @@
         "pierce" : 14,
         "range" : 12,
         "dispersion" : 0,
-        "recoil" : 0,
         "count" : 25,
         "effects" : ["INCENDIARY"],
         "flags" : ["UNRECOVERABLE"]
@@ -1944,7 +1918,6 @@
         "damage" : 5,
         "range" : 30,
         "dispersion" : 30,
-        "recoil" : 0,
         "count" : 1
     },
     {   "type" : "AMMO",
@@ -1963,7 +1936,6 @@
         "ammo_type" : "components",
         "range" : 0,
         "dispersion" : 0,
-        "recoil" : 0,
         "count" : 200
     },
     {   "type" : "AMMO",
@@ -1982,7 +1954,6 @@
         "ammo_type" : "components",
         "range" : 0,
         "dispersion" : 0,
-        "recoil" : 0,
         "count" : 100
     },
     {   "type" : "AMMO",
@@ -2001,7 +1972,6 @@
         "ammo_type" : "components",
         "range" : 0,
         "dispersion" : 0,
-        "recoil" : 0,
         "count" : 100
     },
     {   "type" : "AMMO",
@@ -2020,7 +1990,6 @@
         "ammo_type" : "components",
         "range" : 0,
         "dispersion" : 0,
-        "recoil" : 0,
         "count" : 200
     },
     {   "type" : "AMMO",
@@ -2039,7 +2008,6 @@
         "ammo_type" : "components",
         "range" : 0,
         "dispersion" : 0,
-        "recoil" : 0,
         "count" : 200,
         "effects" : ["COOKOFF"]
     },
@@ -2059,7 +2027,6 @@
         "ammo_type" : "components",
         "range" : 0,
         "dispersion" : 0,
-        "recoil" : 0,
         "count" : 200
     },
     {   "type" : "AMMO",
@@ -2078,7 +2045,6 @@
         "ammo_type" : "components",
         "range" : 0,
         "dispersion" : 0,
-        "recoil" : 0,
         "count" : 200
     },
     {   "type" : "AMMO",
@@ -2097,7 +2063,6 @@
         "ammo_type" : "components",
         "range" : 0,
         "dispersion" : 0,
-        "recoil" : 0,
         "count" : 200
     },
     {   "type" : "AMMO",
@@ -2116,7 +2081,6 @@
         "ammo_type" : "components",
         "range" : 0,
         "dispersion" : 0,
-        "recoil" : 0,
         "count" : 200
     },
     {   "type" : "AMMO",
@@ -2135,7 +2099,6 @@
         "ammo_type" : "components",
         "range" : 0,
         "dispersion" : 0,
-        "recoil" : 0,
         "count" : 50
     },
     {   "type" : "AMMO",
@@ -2154,7 +2117,6 @@
         "ammo_type" : "components",
         "range" : 0,
         "dispersion" : 0,
-        "recoil" : 0,
         "count" : 50
     },
     {   "type" : "AMMO",
@@ -2173,7 +2135,6 @@
         "ammo_type" : "components",
         "range" : 0,
         "dispersion" : 0,
-        "recoil" : 0,
         "count" : 200
     },
     {   "type" : "AMMO",
@@ -2192,7 +2153,6 @@
         "ammo_type" : "components",
         "range" : 0,
         "dispersion" : 0,
-        "recoil" : 0,
         "count" : 200
     },
     {   "type" : "AMMO",
@@ -2211,7 +2171,6 @@
         "ammo_type" : "components",
         "range" : 0,
         "dispersion" : 0,
-        "recoil" : 0,
         "count" : 200
     },
     {
@@ -2231,7 +2190,6 @@
         "ammo_type" : "components",
         "range" : 0,
         "dispersion" : 0,
-        "recoil" : 0,
         "count" : 200
     },
     {   "type" : "AMMO",
@@ -2250,7 +2208,6 @@
         "ammo_type" : "components",
         "range" : 0,
         "dispersion" : 0,
-        "recoil" : 0,
         "count" : 200
     },
     {   "type" : "AMMO",
@@ -2269,7 +2226,6 @@
         "ammo_type" : "components",
         "range" : 0,
         "dispersion" : 0,
-        "recoil" : 0,
         "count" : 200
     },
     {   "type" : "AMMO",
@@ -2288,7 +2244,6 @@
         "ammo_type" : "components",
         "range" : 0,
         "dispersion" : 0,
-        "recoil" : 0,
         "count" : 200
     },
     {   "type" : "AMMO",
@@ -2307,7 +2262,6 @@
         "ammo_type" : "components",
         "range" : 0,
         "dispersion" : 0,
-        "recoil" : 0,
         "count" : 20
     },
     {   "type" : "AMMO",
@@ -2328,7 +2282,6 @@
         "ammo_type" : "components",
         "range" : 0,
         "dispersion" : 0,
-        "recoil" : 0,
         "count" : 200,
         "effects" : ["COOKOFF"]
     },
@@ -2350,7 +2303,6 @@
         "ammo_type" : "components",
         "range" : 0,
         "dispersion" : 0,
-        "recoil" : 0,
         "count" : 200,
         "effects" : ["COOKOFF"]
     },
@@ -2372,7 +2324,6 @@
         "ammo_type" : "components",
         "range" : 0,
         "dispersion" : 0,
-        "recoil" : 0,
         "count" : 200
     },
     {   "type" : "AMMO",
@@ -2391,7 +2342,6 @@
         "ammo_type" : "components",
         "range" : 0,
         "dispersion" : 0,
-        "recoil" : 0,
         "count" : 200,
         "effects" : ["COOKOFF"]
     },
@@ -2411,7 +2361,6 @@
         "ammo_type" : "components",
         "range" : 0,
         "dispersion" : 0,
-        "recoil" : 0,
         "count" : 200,
         "effects" : ["COOKOFF"]
     },
@@ -2431,7 +2380,6 @@
         "ammo_type" : "components",
         "range" : 0,
         "dispersion" : 0,
-        "recoil" : 0,
         "count" : 200,
         "effects" : ["COOKOFF"]
     },
@@ -2451,7 +2399,6 @@
         "ammo_type" : "components",
         "range" : 0,
         "dispersion" : 0,
-        "recoil" : 0,
         "count" : 200,
         "effects" : ["COOKOFF"]
     },
@@ -2471,7 +2418,6 @@
         "ammo_type" : "components",
         "range" : 0,
         "dispersion" : 0,
-        "recoil" : 0,
         "count" : 200,
         "effects" : ["COOKOFF"]
     },
@@ -2491,7 +2437,6 @@
         "ammo_type" : "components",
         "range" : 0,
         "dispersion" : 0,
-        "recoil" : 0,
         "count" : 25
     },
     {   "type" : "AMMO",
@@ -2510,7 +2455,6 @@
         "ammo_type" : "components",
         "range" : 0,
         "dispersion" : 0,
-        "recoil" : 0,
         "count" : 200
     },
     {   "type" : "AMMO",
@@ -2530,7 +2474,6 @@
         "ammo_type" : "components",
         "range" : 0,
         "dispersion" : 0,
-        "recoil" : 0,
         "count" : 200
     },
     {    "type" : "AMMO",
@@ -2550,7 +2493,6 @@
         "ammo_type" : "components",
         "range" : 0,
         "dispersion" : 0,
-        "recoil" : 0,
         "count" : 200
     },
     {    "type" : "AMMO",
@@ -2570,7 +2512,6 @@
         "ammo_type" : "components",
         "range" : 0,
         "dispersion" : 0,
-        "recoil" : 0,
         "count" : 200
     },
     {   "type" : "AMMO",
@@ -2590,7 +2531,6 @@
         "ammo_type" : "components",
         "range" : 0,
         "dispersion" : 0,
-        "recoil" : 0,
         "count" : 200
     },
     {   "type" : "AMMO",
@@ -2610,7 +2550,6 @@
         "ammo_type" : "components",
         "range" : 0,
         "dispersion" : 0,
-        "recoil" : 0,
         "count" : 200
     },
     {   "type" : "AMMO",
@@ -2630,7 +2569,6 @@
         "ammo_type" : "components",
         "range" : 0,
         "dispersion" : 0,
-        "recoil" : 0,
         "count" : 200
     },
     {   "type" : "AMMO",
@@ -2650,7 +2588,6 @@
         "ammo_type" : "components",
         "range" : 0,
         "dispersion" : 0,
-        "recoil" : 0,
         "count" : 200,
         "effects" : ["COOKOFF"]
     },
@@ -2675,7 +2612,6 @@
         "pierce" : 5,
         "range" : 4,
         "dispersion" : 0,
-        "recoil" : 0,
         "count" : 200,
         "effects" : ["FLAME", "STREAM", "INCENDIARY", "NEVER_MISFIRES"]
     },
@@ -2700,7 +2636,6 @@
         "pierce" : 5,
         "range" : 4,
         "dispersion" : 0,
-        "recoil" : 0,
         "count" : 200,
         "effects" : ["FLAME", "STREAM", "INCENDIARY", "NEVER_MISFIRES"]
     },
@@ -2725,7 +2660,6 @@
         "pierce" : 2,
         "range" : 6,
         "dispersion" : 0,
-        "recoil" : 0,
         "count" : 400,
         "effects" : ["FLAME", "STREAM"]
     },
@@ -2745,7 +2679,6 @@
         "ammo_type" : "components",
         "range" : 0,
         "dispersion" : 0,
-        "recoil" : 0,
         "count" : 35
     },
     {   "type" : "AMMO",
@@ -3096,7 +3029,6 @@
         "ammo_type" : "NULL",
         "range" : 0,
         "dispersion" : 0,
-        "recoil" : 0,
         "count" : 1,
         "flags" : ["UNRECOVERABLE"]
     },
@@ -3162,7 +3094,6 @@
         "ammo_type" : "components",
         "range" : 0,
         "dispersion" : 0,
-        "recoil" : 0,
         "count" : 200
     },
     {
@@ -3184,7 +3115,6 @@
         "ammo_type" : "charcoal",
         "range" : 0,
         "dispersion" : 0,
-        "recoil" : 0,
         "count" : 10
     },
     {
@@ -3206,7 +3136,6 @@
         "ammo_type" : "small_charcoal",
         "range" : 0,
         "dispersion" : 0,
-        "recoil" : 0,
         "count" : 10,
         "stack_size" : 20
     },
@@ -3342,7 +3271,6 @@
         "pierce" : 40,
         "range" : 50,
         "dispersion" : 0,
-        "recoil" : 0,
         "count" : 10,
         "effects" : ["NEVER_MISFIRES"]
     },
@@ -3363,7 +3291,6 @@
         "damage" : 14,
         "range" : 0,
         "dispersion" : 0,
-        "recoil" : 0,
         "count" : 1,
         "stack_size" : 2,
         "effects" : ["MININUKE_MOD", "NEVER_MISFIRES"]
@@ -3626,7 +3553,6 @@
         "ammo_type" : "ampoule",
         "range" : 0,
         "dispersion" : 0,
-        "recoil" : 0,
         "count" : 2,
         "stack_size" : 20
     },
@@ -3647,7 +3573,6 @@
         "ammo_type" : "stimpack_ammo",
         "range" : 0,
         "dispersion" : 0,
-        "recoil" : 0,
         "count" : 5,
         "stack_size" : 10
     },
@@ -3667,7 +3592,6 @@
         "ammo_type" : "components",
         "range" : 0,
         "dispersion" : 0,
-        "recoil" : 0,
         "count" : 30
     },
     {   "type" : "AMMO",
@@ -3709,7 +3633,6 @@
         "ammo_type" : "rebreather_filter",
         "range" : 0,
         "dispersion" : 0,
-        "recoil" : 0,
         "count" : 30
     },
     {   "type" : "AMMO",
@@ -3728,7 +3651,6 @@
         "ammo_type" : "components",
         "range" : 0,
         "dispersion" : 0,
-        "recoil" : 0,
         "count" : 30
     },
     {
@@ -3772,7 +3694,6 @@
         "ammo_type" : "components",
         "range" : 0,
         "dispersion" : 0,
-        "recoil" : 0,
         "count" : 200
     },
     {
@@ -3948,7 +3869,6 @@
         "ammo_type" : "components",
         "range" : 0,
         "dispersion" : 0,
-        "recoil" : 0,
         "count" : 200
     },
     {
@@ -3968,7 +3888,6 @@
         "ammo_type" : "components",
         "range" : 0,
         "dispersion" : 0,
-        "recoil" : 0,
         "count" : 200
     },
     {   "type" : "AMMO",
@@ -3989,7 +3908,6 @@
         "ammo_type" : "components",
         "range" : 0,
         "dispersion" : 0,
-        "recoil" : 0,
         "count" : 50
     },
     {   "type" : "AMMO",
@@ -4008,7 +3926,6 @@
         "ammo_type" : "fish_bait",
         "range" : 0,
         "dispersion" : 0,
-        "recoil" : 0,
         "count" : 20,
         "stack_size" : 50
     },
@@ -4028,7 +3945,6 @@
         "ammo_type" : "fish_bait",
         "range" : 0,
         "dispersion" : 0,
-        "recoil" : 0,
         "count" : 20,
         "stack_size" : 50
     },
@@ -4048,7 +3964,6 @@
         "ammo_type" : "fish_bait",
         "range" : 0,
         "dispersion" : 0,
-        "recoil" : 0,
         "count" : 10,
         "stack_size" : 50
     },
@@ -4068,7 +3983,6 @@
         "ammo_type" : "fish_bait",
         "range" : 0,
         "dispersion" : 0,
-        "recoil" : 0,
         "count" : 20,
         "stack_size" : 50
     },{
@@ -4108,7 +4022,6 @@
         "ammo_type" : "components",
         "range" : 0,
         "dispersion" : 0,
-        "recoil" : 0,
         "count" : 10
     },
     {   "type" : "AMMO",
@@ -4130,7 +4043,6 @@
         "pierce" : 30,
         "range" : 5,
         "dispersion" : 0,
-        "recoil" : 0,
         "count" : 200,
         "effects" : ["FLAME", "STREAM_BIG", "INCENDIARY", "NEVER_MISFIRES"]
     },
@@ -4219,7 +4131,6 @@
         "ammo_type" : "unfinished_char",
         "range" : 0,
         "dispersion" : 0,
-        "recoil" : 0,
         "count" : 1
     },
     {
@@ -4237,7 +4148,6 @@
         "ammo_type" : "pointer_fake_ammo",
         "range" : 0,
         "dispersion" : 0,
-        "recoil" : 0,
         "count" : 1
     },
     {
@@ -4258,7 +4168,6 @@
         "ammo_type" : "chemical_spray",
         "range" : 4,
         "dispersion" : 0,
-        "recoil" : 0,
         "count" : 100,
         "effects" : [ "GAS_FUNGICIDAL", "STREAM_GAS_FUNGICIDAL", "NEVER_MISFIRES" , "JET"]
     },
@@ -4280,7 +4189,6 @@
         "ammo_type" : "chemical_spray",
         "range" : 4,
         "dispersion" : 0,
-        "recoil" : 0,
         "count" : 100,
         "effects" : [ "TOXICGAS", "NEVER_MISFIRES" , "JET"]
     }
