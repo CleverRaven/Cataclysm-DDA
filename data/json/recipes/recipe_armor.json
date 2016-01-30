@@ -7204,6 +7204,34 @@
     ]
   },{
     "type" : "recipe",
+    "result": "legpouch",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "tailor",
+    "skills_required": [ "gun", 1 ],
+    "difficulty": 3,
+    "time": 68000,
+    "reversible": false,
+    "autolearn": true,
+    "tools": [
+      [
+        [ "sewing_kit", 10 ]
+      ]
+    ],
+     "components": [
+      [
+        [ "leather", 3 ],
+        [ "rag", 3 ]
+      ],
+      [
+        [ "string_6", 3 ],
+        [ "sinew", 10 ],
+        [ "thread", 10 ],
+        [ "plant_fibre", 10 ]
+      ]
+    ]
+  },{
+    "type" : "recipe",
     "result": "bootsheath",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_STORAGE",
