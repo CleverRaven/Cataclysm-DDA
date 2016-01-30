@@ -7327,7 +7327,7 @@
         "storage" : 80,
         "symbol" : "[",
         "description" : "A huge wheeled suitcase used mainly for transporting clothes and other possessions during trips, provides a decent amount of storage but hauling it around is not fast nor comfortable.",
-        "flags" : ["OVERSIZE", "BELTED"],
+        "flags" : ["OVERSIZE", "BELTED", "RESTRICT_HANDS"],
         "price" : 21000,
         "material" : ["plastic", "null"],
         "volume" : 100,
@@ -7350,7 +7350,7 @@
         "storage" : 40,
         "symbol" : "[",
         "description" : "A mid-sized suitcase used mainly for transporting clothes and other possessions during trips, provides a decent amount of storage but hauling it around is not exactly comfortable.",
-        "flags" : ["OVERSIZE", "BELTED"],
+        "flags" : ["OVERSIZE", "BELTED", "RESTRICT_HANDS"],
         "price" : 21000,
         "material" : ["cotton", "null"],
         "volume" : 10,
@@ -10943,7 +10943,7 @@
         "storage" : 60,
         "symbol" : "[",
         "description" : "A large canvas sack, re-purposed for makeshift storage.  Goes well with a striped shirt and a domino mask.",
-        "flags" : ["OVERSIZE", "BELTED"],
+        "flags" : ["OVERSIZE", "BELTED", "RESTRICT_HANDS"],
         "price" : 0,
         "material" : "cotton",
         "volume" : 4,
@@ -10976,7 +10976,7 @@
         "bashing" : 5,
         "coverage" : 10,
         "material_thickness" : 2,
-        "flags" : ["FANCY", "OVERSIZE", "BELTED"]
+        "flags" : ["FANCY", "OVERSIZE", "BELTED", "RESTRICT_HANDS"]
     },
     {
         "type" : "ARMOR",
@@ -10999,7 +10999,7 @@
         "bashing" : 4,
         "coverage" : 4,
         "material_thickness" : 1,
-        "flags" : ["OVERSIZE", "BELTED"]
+        "flags" : ["OVERSIZE", "BELTED", "RESTRICT_HANDS"]
     },
     {
         "type" : "ARMOR",
@@ -11012,7 +11012,7 @@
         "storage" : 20,
         "symbol" : "[",
         "description" : "A bag used to carry groceries home.",
-        "flags" : ["OVERSIZE", "BELTED"],
+        "flags" : ["OVERSIZE", "BELTED", "RESTRICT_HANDS"],
         "price" : 1,
         "material" : "plastic",
         "volume" : 1,
@@ -11892,7 +11892,7 @@
         "storage" : 9,
         "symbol" : "[",
         "description" : "Hand made straw basket.  Carry it with you for extra storage.",
-        "flags" : ["OVERSIZE", "BELTED"],
+        "flags" : ["OVERSIZE", "BELTED", "RESTRICT_HANDS"],
         "price" : 200,
         "material" : "paper",
         "volume" : 10,
