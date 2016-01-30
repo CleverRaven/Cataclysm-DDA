@@ -1113,6 +1113,10 @@ public:
         item * magazine_current();
         const item * magazine_current() const;
 
+        /** Normalizes an item to use the new magazine system. Indempotent if item already converted.
+         *  @return items that were created as a result of the conversion (excess ammo or magazines) */
+        std::vector<item> magazine_convert();
+
         /** Checks if mod can be applied to this item considering any current state (jammed, loaded etc.) */
         bool gunmod_compatible( const item& mod, bool alert = true ) const;
 
