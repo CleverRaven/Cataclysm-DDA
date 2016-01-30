@@ -253,6 +253,61 @@ void Character::load(JsonObject &data)
     } else {
         debugmsg("Skills[] no bueno");
     }
+
+    visit_items([&]( item *it, item * /* parent */ ) {
+        // we only need to convert guns, auxiliary gunmods and tools
+        if( !it->is_gun() && !it->is_tool() ) {
+            return VisitResponse::SKIP;
+        }
+
+        // only consider items accepting at least one detachable magazine that have not yet been converteed
+        if( it->magazine_integral() || it->has_var( "magazine_converted" ) ) {
+            return VisitResponse::NEXT;
+        }
+
+        item mag( it->type->magazine_default, calendar::turn );
+        item ammo( it->get_curammo() ? it->get_curammo()->id : default_ammo( it->ammo_type() ), calendar::turn );
+
+        // give base item an appropriate magazine and add to that any ammo originally stored in base item
+        if( !it->magazine_current() ) {
+            it->contents.push_back( mag );
+            if( it->charges > 0 ) {
+                ammo.charges = std::min( it->charges, mag.ammo_capacity() );
+                it->charges -= ammo.charges;
+                it->contents.back().contents.push_back( ammo );
+            }
+        }
+
+        // remove any spare magazine and place an equivalent loaded magazine in inventory
+        item *spare_mag = it->has_gunmod( "spare_mag" ) >= 0 ? &it->contents[ it->has_gunmod( "spare_mag" ) ] : nullptr;
+        if( spare_mag ) {
+            if( spare_mag->charges > 0 ) {
+                ammo.charges = std::min( spare_mag->charges, mag.ammo_capacity() );
+                it->charges += spare_mag->charges - ammo.charges;
+                i_add( mag ).contents.push_back( ammo );
+            } else {
+                i_add( mag );
+            }
+        }
+
+        // return any excess ammo (from either item or spare mag) to character inventory
+        if( it->charges > 0 ) {
+            ammo.charges = it->charges;
+            i_add( ammo );
+        }
+
+        // remove incompatible magazine mods
+        it->contents.erase( std::remove_if( it->contents.begin(), it->contents.end(), []( const item& e ) {
+            return e.typeId() == "spare_mag" || e.typeId() == "clip" || e.typeId() == "clip2";
+        } ), it->contents.end() );
+
+        // normalize the base item and mark it as converted
+        it->charges = 0;
+        it->unset_curammo();
+        it->set_var( "magazine_converted", true );
+
+        return VisitResponse::NEXT;
+    } );
 }
 
 void Character::store(JsonOut &json) const
@@ -1351,35 +1406,7 @@ void item::io( Archive& archive )
     std::string mode;
     if( archive.read( "mode", mode ) ) {
         // only for backward compatibility (nowadays mode is stored in item_vars)
-        set_gun_mode( mode );
-    }
-
-    if( !magazine_integral() ) {
-        // items with detachable magazines shouldn't have charges or curammo set
-        if( curammo || charges != 0 ) {
-            if( curammo && charges > 0 ) {
-                item mag( type->magazine_default, calendar::turn );
-                item ammo( curammo->id, calendar::turn );
-
-                ammo.charges = std::min( charges, mag.ammo_capacity() );
-                mag.contents.push_back( ammo );
-
-                contents.push_back( mag );
-            }
-            charges = 0;
-            curammo = nullptr;
-        }
-
-        // remove incompatible magazine mods
-        if( has_gunmod( "spare_mag" ) >= 0 ) {
-            contents.erase( contents.begin() + has_gunmod( "spare_mag" ) );
-        }
-        if( has_gunmod( "clip" ) >= 0 ) {
-            contents.erase( contents.begin() + has_gunmod( "clip" ) );
-        }
-        if( has_gunmod( "clip2" ) >= 0 ) {
-            contents.erase( contents.begin() + has_gunmod( "clip2" ) );
-        }
+        set_gun_mode(mode);
     }
 }
 
