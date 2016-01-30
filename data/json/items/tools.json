@@ -325,6 +325,7 @@
             "tool_quality": 1,
             "move_cost": 800
         },
+        { "type": "knife" },
         "SEW_ADVANCED" ],
     "qualities": [["CUT", 1]]
   },
