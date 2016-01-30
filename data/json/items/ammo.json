@@ -140,7 +140,6 @@
         "volume" : 1,
         "weight" : 1,
         "ammo_type" : "thread",
-        "damage" : 1,
         "count" : 10,
         "stack_size" : 200
     },
@@ -156,7 +155,6 @@
         "volume" : 1,
         "weight" : 1,
         "ammo_type" : "thread",
-        "damage" : 1,
         "count" : 10,
         "stack_size" : 200
     },
@@ -172,7 +170,6 @@
         "volume" : 1,
         "weight" : 90,
         "ammo_type" : "soap",
-        "damage" : 1,
         "count" : 10,
         "stack_size" : 10
     },
