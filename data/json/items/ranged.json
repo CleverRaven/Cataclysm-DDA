@@ -3999,7 +3999,7 @@
     "skill": "rifle",
     "ammo": "8x40mm",
     "weight": 3100,
-    "volume": 10,
+    "volume": 8,
     "bashing": 10,
     "cutting": 0,
     "to_hit": -1,
@@ -4015,6 +4015,7 @@
     "loudness" : 25,
     "barrel_length" : 3,
     "magazines" : ["8x40_10_mag", "8x40_25_mag"],
+    "default_mods": ["rifle_scope", "suppressor"],
     "valid_mod_locations": [[ "accessories", 4 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
