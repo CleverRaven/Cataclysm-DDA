@@ -828,7 +828,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 
 - ```MAG_COMPACT``` Can be stashed in an appropriate ammo pouch (intended for compact magazines)
 - ```MAG_BULKY``` Can be stashed in an appropriate oversize ammo pouch (intended for bulky or awkwardly shaped magazines)
-- ```MAG_DESTROY``` Magazine is destroyed when the last round is consumed (intended for ammo belts)
+- ```MAG_DESTROY``` Magazine is destroyed when the last round is consumed (intended for ammo belts). Has precedence over MAG_EJECT.
 - ```MAG_EJECT``` Magazine is ejected from the gun/tool when the last round is consumed
 
 ## Tools
