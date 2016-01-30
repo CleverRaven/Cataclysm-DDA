@@ -236,7 +236,7 @@
         "capacity" : 400,
         "reliability" : 10,
         "reload_time" : 60,
-        "flags" : [ "MAGBULKY" ]
+        "flags" : [ "MAG_BULKY" ]
     },
     {   "type" : "MAGAZINE",
         "id" : "5x50_50_mag",
