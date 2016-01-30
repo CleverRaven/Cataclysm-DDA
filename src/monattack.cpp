@@ -398,6 +398,7 @@ bool mattack::acid(monster *z)
     projectile proj;
     proj.speed = 10;
     proj.impact.add_damage( DT_ACID, 5 ); // Mostly just for momentum
+    proj.range = 10;
     auto dealt = z->projectile_attack( proj, target->pos(), 5400 );
     const tripoint &hitp = dealt.end_point;
     const Creature *hit_critter = dealt.hit_critter;
@@ -499,6 +500,7 @@ bool mattack::acid_accurate(monster *z)
 
     projectile proj;
     proj.speed = 10;
+    proj.range = 12;
     proj.proj_effects.insert( "BLINDS_EYES" );
     proj.impact.add_damage( DT_ACID, rng( 5, 10 ) );
     z->projectile_attack( proj, target->pos(), rng( 150, 1200 ) );
@@ -1360,6 +1362,7 @@ bool mattack::spit_sap(monster *z)
 
     projectile proj;
     proj.speed = 10;
+    proj.range = 12;
     proj.proj_effects.insert( "APPLY_SAP" );
     proj.impact.add_damage( DT_ACID, rng( 5, 10 ) );
     z->projectile_attack( proj, target->pos(), 150 );

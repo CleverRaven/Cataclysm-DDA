@@ -3,7 +3,6 @@
 
 class monster;
 class Creature;
-struct projectile;
 struct dealt_projectile_attack;
 
 namespace mdefense

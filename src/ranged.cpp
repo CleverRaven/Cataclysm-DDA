@@ -662,13 +662,14 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
 
     // Put the item into the projectile
     proj.set_drop( std::move( thrown ) );
+    const int range = rl_dist( pos(), target );
+    proj.range = range;
 
     auto dealt_attack = projectile_attack( proj, target, shot_dispersion );
 
     const double missed_by = dealt_attack.missed_by;
 
     // Copied from the shooting function
-    const int range = rl_dist( pos(), target );
     const int range_multiplier = std::min( range, 3 * ( skillLevel( skill_used ) + 1 ) );
     constexpr int damage_factor = 21;
 
@@ -1197,10 +1198,11 @@ std::vector<tripoint> game::target( tripoint &p, const tripoint &low, const trip
     return ret;
 }
 
-static projectile make_gun_projectile( const item &gun) {
+static projectile make_gun_projectile( const item &gun ) {
     projectile proj;
     proj.speed  = 1000;
     proj.impact = damage_instance::physical( 0, gun.gun_damage(), 0, gun.gun_pierce() );
+    proj.range = gun.gun_range();
 
     const auto curammo = gun.ammo_data();
 
