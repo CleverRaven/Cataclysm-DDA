@@ -1971,7 +1971,7 @@
     "loudness" : 140,
     "barrel_length" : 1,
     "magazine_well" : 1,
-    "magazines": [ "glockmag", "glock_bigmag" ],
+    "magazines": [ "glockmag", "glockbigmag" ],
     "built_in_mods": [ "folding_stock" ],
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ]]
   },
