@@ -478,7 +478,7 @@ void player::fire_gun( const tripoint &target, bool burst, item& gun )
         } else if( gun.deactivate_charger_gun() ) {
             // Deactivated charger gun
         } else {
-            if( !gun.ammo_consume( gun.ammo_required() ) ) {
+            if( !gun.ammo_consume( gun.ammo_required(), pos() ) ) {
                 debugmsg( "Unexpected shortage of ammo whilst firing %s", gun.tname().c_str() );
                 return;
             }

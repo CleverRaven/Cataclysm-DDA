@@ -4021,7 +4021,7 @@ long item::ammo_required() const {
     return res;
 }
 
-bool item::ammo_consume( int qty ) {
+bool item::ammo_consume( int qty, const tripoint& pos ) {
     if( qty < 0 ) {
         debugmsg( "Cannot consume negative quantity of ammo for %s", tname().c_str() );
         return false;
@@ -4029,11 +4029,18 @@ bool item::ammo_consume( int qty ) {
 
     item *mag = magazine_current();
     if( mag ) {
-        auto res = mag->ammo_consume( qty );
-        if( res && ammo_remaining() == 0 && mag->has_flag( "MAG_DESTROY" ) ) {
-            contents.erase( std::remove_if( contents.begin(), contents.end(), [&mag]( const item& e ) {
-                return mag == &e;
-            } ) );
+        auto res = mag->ammo_consume( qty, pos );
+        if( res && ammo_remaining() == 0 ) {
+            if( mag->has_flag( "MAG_DESTROY" ) ) {
+                contents.erase( std::remove_if( contents.begin(), contents.end(), [&mag]( const item& e ) {
+                    return mag == &e;
+                } ) );
+            } else if ( mag->has_flag( "MAG_EJECT" ) ) {
+                g->m.add_item( pos, *mag );
+                contents.erase( std::remove_if( contents.begin(), contents.end(), [&mag]( const item& e ) {
+                    return mag == &e;
+                } ) );
+            }
         }
         return res;
     }
