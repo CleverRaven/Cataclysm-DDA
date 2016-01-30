@@ -5107,8 +5107,8 @@
     "flags": "MODE_BURST",
     "skill": "smg",
     "ammo": "45",
-    "weight": 4800,
-    "volume": 10,
+    "weight": 4630,
+    "volume": 8,
     "bashing": 10,
     "cutting": 0,
     "to_hit": -2,
@@ -5119,11 +5119,13 @@
     "recoil": -15,
     "durability": 7,
     "burst": 6,
-    "clip_size": 20,
-    "reload": 400,
+    "reload": 100,
     "loudness" : 150,
     "barrel_length" : 2,
-    "valid_mod_locations": [[ "accessories", 3 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
+    "//" : "Not all variants of the Thompson can even accept drum mags",
+    "magazines": [ "thompson_mag", "thompson_bigmag", "thompson_drum" ],
+    "magazine_well" : 0,
+    "valid_mod_locations": [[ "accessories", 3 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "sten",
