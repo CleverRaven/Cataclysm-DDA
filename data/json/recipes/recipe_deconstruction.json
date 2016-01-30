@@ -3491,6 +3491,20 @@
 },
 {
     "type": "recipe",
+    "result": "belt223",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 500,
+    "reversible": true,
+    "autolearn": false,
+    "components": [
+        [ [ "wire", 1 ] ]
+    ]
+},
+{
+    "type": "recipe",
     "result": "223",
     "id_suffix": "uncraft",
     "category": "CC_NONCRAFT",
@@ -3634,6 +3648,20 @@
         [ [ "lgrifle_primer", 1 ] ],
         [ [ "gunpowder", 8 ] ],
         [ [ "copper", 6 ] ]
+    ]
+},
+{
+    "type": "recipe",
+    "result": "belt308",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 500,
+    "reversible": true,
+    "autolearn": false,
+    "components": [
+        [ [ "wire", 1 ] ]
     ]
 },
 {

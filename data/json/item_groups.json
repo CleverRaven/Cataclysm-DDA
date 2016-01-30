@@ -2737,7 +2737,29 @@
       ["improve_sights", 20],
       ["survnote", 1],
       ["shoulder_strap", 24],
-      ["powered_earmuffs",40]
+      ["powered_earmuffs",40],
+      ["stanag10", 10],
+      ["stanag30", 5],
+      ["stanag10", 10],
+      ["glockmag", 20],
+      ["glockbigmag", 3],
+      ["m9mag", 10],
+      ["m1911mag", 20],
+      ["m1911bigmag", 5],
+      ["m1918mag", 8],
+      ["m1918bigmag", 4],
+      ["m9bigmag", 1],
+      ["usp9mag", 10],
+      ["usp45mag", 8],
+      ["uzimag", 8],
+      ["mac10mag", 6],
+      ["stenmag", 20],
+      ["tdi_mag", 5],
+      ["thompson_mag", 10],
+      ["thompson_bigmag", 5],
+      ["thompson_drum", 5],
+      ["ak74mag", 10],
+      ["rpk74mag", 5]
     ]
   },{
     "type" : "item_group",
@@ -3676,7 +3698,15 @@
       ["shot_beanbag", 14],
       ["223", 10],
       ["3006", 10],
-      ["survnote", 1]
+      ["survnote", 1],
+      ["stanag10", 6],
+      ["lw223mag", 2],
+      ["glockmag", 10],
+      ["m1911mag", 7],
+      ["mp5mag", 5],
+      ["ump45mag", 3],
+      ["lw21mag", 2],
+      ["lw12mag", 2]
     ]
   },{
     "type" : "item_group",
@@ -3757,7 +3787,11 @@
       ["fn_p90", 3],
       ["l_mp_9mm", 2],
       ["tazer", 15],
-      ["l-stick", 1]
+      ["l-stick", 1],
+      ["stanag10", 6],
+      ["lw223mag", 2],
+      ["lw21mag", 2],
+      ["lw12mag", 2]
     ]
   },{
     "type" : "item_group",
@@ -3888,7 +3922,23 @@
       ["tac_helmet", 20],
       ["helmet_lobster", 10],
       ["goggles_nv", 5],
-      ["UPS_off", 10]
+      ["UPS_off", 10],
+      ["stanag30", 10],
+      ["stanag10", 5],
+      ["lw223mag", 5],
+      ["lw21mag", 5],
+      ["lw12mag", 5],
+      ["glockmag", 5],
+      ["glockbigmag", 5],
+      ["m9mag", 5],
+      ["m1911mag", 5],
+      ["m1911bigmag", 2],
+      ["m9bigmag", 5],
+      ["usp9mag", 5],
+      ["usp45mag", 3],
+      ["ump45mag", 8],
+      ["mp5mag", 15],
+      ["mp5bigmag", 5]
     ]
   },{
     "type" : "item_group",
@@ -4739,7 +4789,9 @@
       ["rail_laser_sight", 10],
       ["rifle_scope", 17],
       ["pistol_scope", 14],
-      ["improve_sights", 20]
+      ["improve_sights", 20],
+      ["survivor223mag", 20],
+      ["survivor9mm_mag", 20]
     ]
   },{
     "type" : "item_group",
@@ -5217,7 +5269,19 @@
       ["eboshi", 1],
       ["kariginu", 2],
       ["kimono", 3],
-      ["l-stick", 1]
+      ["l-stick", 1],
+      ["stanag10", 2],
+      ["glockmag", 2],
+      ["m1911mag", 2],
+      ["uzimag", 2],
+      ["mac10mag", 2],
+      ["stenmag", 2],
+      ["tdi_mag", 2],
+      ["thompson_mag", 2],
+      ["makarovmag", 2],
+      ["skorpion61mag", 2],
+      ["skorpion82mag", 2],
+      ["m1918mag", 2]
     ]
   },{
     "type" : "item_group",
@@ -5298,7 +5362,21 @@
       ["bfipowder", 20],
       ["sheath", 10],
       ["bootsheath", 10],
-      ["survnote", 1]
+      ["survnote", 1],
+      ["stanag10", 8],
+      ["stanag30", 6],
+      ["lw223mag", 6],
+      ["lw21mag", 8],
+      ["lw12mag", 2],
+      ["m9mag", 20],
+      ["m1911mag", 20],
+      ["m9bigmag", 5],
+      ["usp9mag", 20],
+      ["usp45mag", 8],
+      ["stenmag", 40],
+      ["thompson_mag", 12],
+      ["thompson_bigmag", 8],
+      ["thompson_drum", 4]
     ]
   },{
     "type" : "item_group",
@@ -6279,7 +6357,14 @@
       ["20x66_exp", 2],
       ["20x66_frag", 2],
       ["20x66_flare", 4],
-      ["20x66_inc", 2]
+      ["20x66_inc", 2],
+      ["lw223mag", 20],
+      ["lw223bigmag", 10],
+      ["lw21mag", 10],
+      ["lw12mag", 3],
+      ["ump45mag", 3],
+      ["mp5mag", 5],
+      ["mp5bigmag", 3]
     ]
   },{
     "type" : "item_group",
@@ -6343,7 +6428,9 @@
       ["20x66_flechette", 3],
       ["waterproof_gunmod", 2],
       ["improve_sights", 5],
-      ["rm11b_sniper_rifle", 1]
+      ["rm11b_sniper_rifle", 1],
+      ["lw223mag", 8],
+      ["lw223bigmag", 4]
     ]
   },{
     "type" : "item_group",
@@ -7635,7 +7722,14 @@
       ["grapnel", 1],
       ["briefcase", 5],
       ["survnote", 2],
-      ["robot_controls", 3]
+      ["robot_controls", 3],
+      ["stanag30", 10],
+      ["lw223mag", 5],
+      ["lw21mag", 5],
+      ["lw12mag", 3],
+      ["m9mag", 5],
+      ["usp9mag", 5],
+      ["usp45mag", 3]
     ]
   },{
     "type" : "item_group",
@@ -7867,7 +7961,17 @@
       ["shoulder_strap", 16],
       ["bot_manhack", 1],
       ["bot_grenade_hack", 1],
-      ["l-stick", 1]
+      ["l-stick", 1],
+      ["stanag30", 20],
+      ["stanag50", 10],
+      ["lw223mag", 20],
+      ["lw223bigmag", 10],
+      ["lw21mag", 20],
+      ["lw12mag", 5],
+      ["m9mag", 20],
+      ["m9bigmag", 5],
+      ["usp9mag", 10],
+      ["usp45mag", 5]
     ]
   },{
     "type" : "item_group",
@@ -8061,7 +8165,33 @@
       ["scrap_copper", 5],
       ["signal_flare", 5],
       ["8mm_inc", 2],
-      ["survnote", 1]
+      ["survnote", 1],
+      ["stanag10", 4],
+      ["stanag30", 2],
+      ["lw223mag", 1],
+      ["lw21mag", 1],
+      ["lw12mag", 1],
+      ["usp9mag", 2],
+      ["usp45mag", 4],
+      ["m9mag", 2],
+      ["glockmag", 6],
+      ["m1911mag", 8],
+      ["m1911bigmag", 3],
+      ["m1918mag", 8],
+      ["m1918bigmag", 3],
+      ["glockbigmag", 1],
+      ["uzimag", 3],
+      ["mac10mag", 3],
+      ["stenmag", 10],
+      ["tdi_mag", 3],
+      ["makarovmag", 3],
+      ["skorpion82mag", 3],
+      ["skorpion61mag", 5],
+      ["thompson_mag", 4],
+      ["thompson_bigmag", 2],
+      ["thompson_drum", 1],
+      ["ak74mag", 4],
+      ["rpk74mag", 2]
     ]
   },{
     "type" : "item_group",

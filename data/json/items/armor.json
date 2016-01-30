@@ -10642,7 +10642,7 @@
             "holster_msg": "You stash your %s.",
             "max_volume": 2,
             "draw_cost": 5,
-            "flags": [ "COMPACT_MAG" ]
+            "flags": [ "MAG_COMPACT" ]
         }
     },
     {
