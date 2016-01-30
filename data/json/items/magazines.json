@@ -86,7 +86,10 @@
         "capacity" : 200,
         "count" : 100,
         "reliability" : 6,
-        "flags": [ "NO_RELOAD", "NO_UNLOAD", "MAG_DESTROY" ]
+        "flags": [ "NO_RELOAD", "NO_UNLOAD", "MAG_DESTROY" ],
+        "alternatives" : [
+            [ "308", [ "belt308" ] ]
+        ]
     },
     {   "type" : "MAGAZINE",
         "id" : "lw223mag",
