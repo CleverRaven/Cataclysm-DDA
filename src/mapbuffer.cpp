@@ -507,9 +507,17 @@ submap *mapbuffer::unserialize_submaps( const tripoint &p )
                     while( !jsin.end_array() ) {
                         item tmp;
                         jsin.read( tmp );
+
                         if( tmp.is_emissive() ) {
                             sm->update_lum_add(tmp, i, j);
                         }
+
+                        tmp.visit_items([&sm,i,j]( item *it, item * /* parent */ ) {
+                            for( auto& e: it->magazine_convert() ) {
+                                sm->itm[i][j].push_back( e );
+                            }
+                            return VisitResponse::NEXT;
+                        } );
 
                         sm->itm[i][j].push_back( tmp );
                         if( tmp.needs_processing() ) {

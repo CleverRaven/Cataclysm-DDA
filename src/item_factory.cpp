@@ -1025,9 +1025,13 @@ void Item_factory::load_basic_info(JsonObject &jo, itype *new_item_template)
     new_item_template->melee_cut = jo.get_int( "cutting", 0 );
     new_item_template->m_to_hit = jo.get_int( "to_hit", 0 );
 
-    JsonArray mags = jo.get_array( "magazines" );
-    while( mags.has_more() ) {
-        new_item_template->magazines.insert( mags.next_string() );
+    JsonArray arr = jo.get_array( "magazines" );
+    while( arr.has_more() ) {
+        const auto mag = arr.next_string();
+        if( new_item_template->magazine_default.empty() ) {
+            new_item_template->magazine_default = mag;
+        }
+        new_item_template->magazines.insert( mag );
     }
 
     new_item_template->magazine_well = jo.get_int( "magazine_well", 0 );
