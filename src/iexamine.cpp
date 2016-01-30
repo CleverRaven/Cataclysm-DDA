@@ -35,6 +35,7 @@ const mtype_id mon_dark_wyrm( "mon_dark_wyrm" );
 const mtype_id mon_fungal_blossom( "mon_fungal_blossom" );
 const mtype_id mon_spider_web_s( "mon_spider_web_s" );
 const mtype_id mon_spider_widow_giant_s( "mon_spider_widow_giant_s" );
+const mtype_id mon_spider_cellar_giant_s( "mon_spider_widow_giant_s" );
 const mtype_id mon_turret( "mon_turret" );
 const mtype_id mon_turret_rifle( "mon_turret_rifle" );
 
@@ -1487,6 +1488,11 @@ void iexamine::egg_sack_generic( player *p, map *m, const tripoint &examp,
 void iexamine::egg_sackbw( player *p, map *m, const tripoint &examp )
 {
     egg_sack_generic( p, m, examp, mon_spider_widow_giant_s );
+}
+
+void iexamine::egg_sackcs( player *p, map *m, const tripoint &examp )
+{
+    egg_sack_generic( p, m, examp, mon_spider_cellar_giant_s );
 }
 
 void iexamine::egg_sackws( player *p, map *m, const tripoint &examp )

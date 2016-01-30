@@ -33,6 +33,7 @@ const mtype_id mon_sewer_rat( "mon_sewer_rat" );
 const mtype_id mon_shia( "mon_shia" );
 const mtype_id mon_spider_web( "mon_spider_web" );
 const mtype_id mon_spider_widow_giant( "mon_spider_widow_giant" );
+const mtype_id mon_spider_cellar_giant( "mon_spider_cellar_giant" );
 const mtype_id mon_wasp( "mon_wasp" );
 const mtype_id mon_zombie_jackson( "mon_zombie_jackson" );
 
@@ -2629,6 +2630,32 @@ void mapgen_generic_house(map *m, oter_id terrain_type, mapgendata dat, int turn
             }
         }
         m->place_items("rare", 60, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, false, turn);
+
+    } else if (one_in(150)) {
+        for (int i = 0; i < SEEX * 2; i++) {
+            for (int j = 0; j < SEEY * 2; j++) {
+                if (m->ter(i, j) == t_floor) {
+                    if (one_in(15)) {
+                        m->add_spawn(mon_spider_cellar_giant, rng(1, 2), i, j);
+                        for (int x = i - 1; x <= i + 1; x++) {
+                            for (int y = j - 1; y <= j + 1; y++) {
+                                if (m->ter(x, y) == t_floor) {
+                                    madd_field( m, x, y, fd_web, rng(2, 3));
+                                    if (one_in(4)){
+                                     m->furn_set(i, j, f_egg_sackcs);
+                                     m->remove_field({i, j, m->get_abs_sub().z}, fd_web);
+                                    }
+                                }
+                            }
+                        }
+                    } else if (m->passable(i, j) && one_in(5)) {
+                        madd_field( m, x, y, fd_web, 1);
+                    }
+                }
+            }
+        }
+        m->place_items("rare", 60, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, false, turn);
+
     } else { // Just boring old zombies
         m->place_spawns( mongroup_id( "GROUP_ZOMBIE" ), 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
     }
@@ -3444,6 +3471,7 @@ void mapgen_basement_spiders(map *m, oter_id terrain_type, mapgendata dat, int t
 {
     // Oh no! A spider nest!
     mapgen_basement_junk(m, terrain_type, dat, turn, density);
+    if (one_in(2)) {
     for (int i = 0; i < 23; i++) {
         for (int j = 0; j < 23; j++) {
                 if (!(one_in(3))){
@@ -3456,6 +3484,20 @@ void mapgen_basement_spiders(map *m, oter_id terrain_type, mapgendata dat, int t
                 }
             }
         }
+    } else {
+    for (int i = 0; i < 23; i++) {
+        for (int j = 0; j < 23; j++) {
+                if (!(one_in(3))){
+                madd_field( m, i, j, fd_web, rng(1, 3));
+                }
+                if( one_in( 30 ) && m->passable( i, j ) ) {
+                    m->furn_set(i, j, f_egg_sackcs);
+                    m->add_spawn(mon_spider_cellar_giant, rng(3, 6), i, j); //enjoy a barrel full of nope
+                    m->remove_field({i, j, m->get_abs_sub().z}, fd_web);
+                }
+            }
+        }
+    }
         m->place_items("rare", 70, 1, 1, SEEX * 2 - 1, SEEY * 2 - 1, false, turn);
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
