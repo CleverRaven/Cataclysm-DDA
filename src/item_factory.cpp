@@ -640,7 +640,7 @@ void Item_factory::load( islot_ammo &slot, JsonObject &jo )
     slot.damage = jo.get_int( "damage", 0 );
     slot.pierce = jo.get_int( "pierce", 0 );
     slot.range = jo.get_int( "range", 0 );
-    slot.dispersion = jo.get_int( "dispersion" );
+    slot.dispersion = jo.get_int( "dispersion", 0 );
     slot.recoil = jo.get_int( "recoil", 0 );
     slot.def_charges = jo.get_long( "count" );
     slot.ammo_effects = jo.get_tags( "effects" );
