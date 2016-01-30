@@ -219,6 +219,7 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
                 continue;
             }
             dealt_damage_instance dealt_dam;
+            ret.missed_by = cur_missed_by;
             critter->deal_projectile_attack( null_source ? nullptr : this, ret );
             // Critter can still dodge the projectile
             // In this case hit_critter won't be set
@@ -226,6 +227,8 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
                 splatter( blood_traj, dealt_dam.total_damage(), critter );
                 sfx::do_projectile_hit( *ret.hit_critter );
                 has_momentum = false;
+            } else {
+                ret.missed_by = missed_by;
             }
         } else if( in_veh != nullptr && g->m.veh_at( tp ) == in_veh ) {
             // Don't do anything, especially don't call map::shoot as this would damage the vehicle
