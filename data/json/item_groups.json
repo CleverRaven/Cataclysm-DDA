@@ -6248,6 +6248,7 @@
     "type" : "item_group",
     "id" : "mil_hw",
     "items":[
+      { "group" : "mags_milspec", "prob" : 40 },
       ["flamethrower", 20],
       ["rm451_flamethrower", 5],
       ["m249", 30],
@@ -6287,20 +6288,7 @@
       ["20x66_exp", 2],
       ["20x66_frag", 2],
       ["20x66_flare", 4],
-      ["20x66_inc", 2],
-      ["lw223mag", 20],
-      ["lw223bigmag", 10],
-      ["lw21mag", 10],
-      ["lw12mag", 3],
-      ["ump45mag", 3],
-      ["mp5mag", 5],
-      ["mp5bigmag", 3],
-      ["8x40_50_mag", 1],
-      ["8x40_100_mag", 2],
-      ["8x40_250_mag", 3],
-      ["8x40_500_mag", 2],
-      ["20x66_20_mag", 3],
-      ["20x66_40_mag", 2]
+      ["20x66_inc", 2]
     ]
   },{
     "type" : "item_group",
