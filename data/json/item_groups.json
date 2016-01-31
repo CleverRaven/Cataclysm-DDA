@@ -5302,6 +5302,7 @@
     "type" : "item_group",
     "id" : "mil_surplus",
     "items":[
+      { "group" : "mags_surplus", "prob" : 400 },
       ["knife_combat", 14],
       ["knife_rm42", 1],
       ["kukri", 2],
@@ -5377,21 +5378,7 @@
       ["bfipowder", 20],
       ["sheath", 10],
       ["bootsheath", 10],
-      ["survnote", 1],
-      ["stanag10", 8],
-      ["stanag30", 6],
-      ["lw223mag", 6],
-      ["lw21mag", 8],
-      ["lw12mag", 2],
-      ["m9mag", 20],
-      ["m1911mag", 20],
-      ["m9bigmag", 5],
-      ["usp9mag", 20],
-      ["usp45mag", 8],
-      ["stenmag", 40],
-      ["thompson_mag", 12],
-      ["thompson_bigmag", 8],
-      ["thompson_drum", 4]
+      ["survnote", 1]
     ]
   },{
     "type" : "item_group",
