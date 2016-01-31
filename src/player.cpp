@@ -11486,7 +11486,7 @@ bool player::has_enough_charges( const item &it, bool show_msg ) const
         return true;
     }
     if( it.has_flag( "USE_UPS" ) ) {
-        if( has_charges( "UPS", tool->charges_per_use ) ) {
+        if( has_charges( "UPS", tool->charges_per_use ) || it.charges >= tool->charges_per_use ) {
             return true;
         }
         if( show_msg ) {
@@ -11528,7 +11528,7 @@ bool player::consume_charges(item *used, long charges_used)
         return true;
     }
 
-    if( used->has_flag( "USE_UPS" ) ) {
+    if( used->has_flag( "USE_UPS" ) && has_charges( "UPS", tool->charges_per_use ) ) {
         use_charges( "UPS", charges_used );
         //Replace 1 with charges it needs to use.
         if( used->active && used->charges <= 1 && !has_charges( "UPS", 1 ) ) {

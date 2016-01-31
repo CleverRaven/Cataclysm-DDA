@@ -174,22 +174,6 @@ void remove_double_plut_mod( item &it, player &p )
     }
 }
 
-void remove_recharge_mod( item &it, player &p )
-{
-    if( !it.item_tags.count( "RECHARGE" ) ) {
-        return;
-    }
-    p.add_msg_if_player( _( "You remove the rechargeable powerpack from your %s!" ),
-                         it.tname().c_str() );
-    item mod( "rechargeable_battery", calendar::turn );
-    mod.charges = it.charges;
-    it.charges = 0;
-    p.i_add_or_drop( mod, 1 );
-    it.item_tags.erase( "RECHARGE" );
-    it.item_tags.erase( "NO_UNLOAD" );
-    it.item_tags.erase( "NO_RELOAD" );
-}
-
 void remove_atomic_mod( item &it, player &p )
 {
     if( !it.item_tags.count( "ATOMIC_AMMO" ) ) {
@@ -2321,7 +2305,6 @@ int iuse::sew_advanced(player *p, item *it, bool, const tripoint& )
 void remove_battery_mods( item &modded, player &p )
 {
     remove_atomic_mod( modded, p );
-    remove_recharge_mod( modded, p );
     remove_ups_mod( modded, p );
     remove_double_ammo_mod( modded, p );
     remove_double_plut_mod( modded, p );
@@ -3899,8 +3882,8 @@ int iuse::set_trap(player *p, item *it, bool, const tripoint& )
     }
 
     if( buried ) {
-        if( !p->has_items_with_quality( "DIG", 2, 1 ) ) {
-            p->add_msg_if_player( m_info, _( "You need a shovel." ) );
+        if( !p->has_items_with_quality( "DIG", 1, 1 ) ) {
+            p->add_msg_if_player( m_info, _( "You need a digging tool." ));
             return 0;
         } else if( !g->m.has_flag( "DIGGABLE", posx, posy ) ) {
             p->add_msg_if_player( m_info, _( "You can't dig in that %s." ),

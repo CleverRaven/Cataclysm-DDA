@@ -1,5 +1,26 @@
 [
   {
+    "id": "rechargeable_battery",
+    "type": "TOOL",
+    "symbol": ";",
+    "color": "light_green",
+    "name": "rechargeable battery mod",
+    "description": "A homemade, rechargeable power cell built from salvaged electronics.  With enough electronics skill, you could attach it to an electric-powered device to provide it with energy.  The power cell is not compatible with standard batteries; it must be re-energized via a special recharging station.",
+    "price": 2000,
+    "material": ["plastic", "aluminum"],
+    "weight": 142,
+    "volume": 1,
+    "to_hit": -2,
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "category" : "spare_parts",
+    "use_action": "UPS_BATTERY"
+  },
+  {
     "id": "saiga_sawn",
     "type": "GUN",
     "symbol": "(",
