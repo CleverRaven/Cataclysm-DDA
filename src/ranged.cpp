@@ -407,10 +407,6 @@ void player::fire_gun( const tripoint &target, bool burst, item& gun )
             total_dispersion *= std::max( ( ( parent ? parent->volume() : gun.volume() ) / 3.0 ) / range, 1.0 );
         }
 
-        // rifle has less range penalty past LONG_RANGE
-        if (skill_used == skill_rifle && range > LONG_RANGE) {
-            total_dispersion *= 1 - 0.4 * double(range - LONG_RANGE) / double(range);
-        }
 
         if (curshot > 0) {
             recoil += recoil_add( *this, gun ) / ( has_effect( effect_on_roof ) ? 90 : 2 );

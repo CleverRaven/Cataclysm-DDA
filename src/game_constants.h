@@ -19,7 +19,6 @@
 #define STATUS_HEIGHT 4
 #define STATUS_WIDTH 55
 
-#define LONG_RANGE 10
 #define BLINK_SPEED 300
 #define EXPLOSION_MULTIPLIER 7
 
