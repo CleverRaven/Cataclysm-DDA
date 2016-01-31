@@ -398,6 +398,8 @@ void Item_factory::check_ammo_type(std::ostream &msg, const std::string &ammo) c
 void Item_factory::check_definitions() const
 {
     std::ostringstream main_stream;
+    std::set<itype_id> magazines_used;
+    std::set<itype_id> magazines_defined;
     for( const auto &elem : m_templates ) {
         std::ostringstream msg;
         const itype *type = elem.second;
@@ -474,14 +476,27 @@ void Item_factory::check_definitions() const
                     msg << string_format("invalid built-in mod.") << "\n";
                 }
             }
+            for( auto &mag : type->magazines ) {
+                magazines_used.insert( mag );
+                if( !has_template( mag ) ){
+                    msg << string_format("invalid magazine.") << "\n";
+                }
+            }
         }
         if( type->gunmod ) {
             check_ammo_type( msg, type->gunmod->newtype );
             if( type->gunmod->skill_used && !type->gunmod->skill_used.is_valid() ) {
                 msg << string_format("uses invalid gunmod skill.") << "\n";
             }
+            for( auto &mag : type->magazines ) {
+                magazines_used.insert( mag );
+                if( !has_template( mag ) ){
+                    msg << string_format("invalid magazine.") << "\n";
+                }
+            }
         }
         if( type->magazine ) {
+            magazines_defined.insert( type->id );
             check_ammo_type( msg, type->magazine->type );
             if( type->magazine->capacity < 0 ) {
                 msg << string_format("invalid capacity %i", type->magazine->capacity) << "\n";
@@ -519,6 +534,11 @@ void Item_factory::check_definitions() const
             getch();
             werase(stdscr);
             main_stream.str(std::string());
+        }
+    }
+    for( auto &mag : magazines_defined ) {
+        if( magazines_used.count( mag ) == 0 ) {
+            main_stream << "Magazine " << mag << " defined but not used.\n";
         }
     }
     const std::string &buffer = main_stream.str();
@@ -907,7 +927,7 @@ void Item_factory::load( islot_magazine &slot, JsonObject &jo )
     slot.capacity = jo.get_int( "capacity" );
     slot.count = jo.get_int( "count", 0 );
     slot.reliability = jo.get_int( "reliability" );
-    slot.reload_time = jo.get_int( "reload_time" );
+    slot.reload_time = jo.get_int( "reload_time", 0 );
     slot.rigid = jo.get_bool( "rigid", true );
 
     JsonArray alt = jo.get_array( "alternatives" );
@@ -1011,9 +1031,13 @@ void Item_factory::load_basic_info(JsonObject &jo, itype *new_item_template)
     new_item_template->melee_cut = jo.get_int( "cutting", 0 );
     new_item_template->m_to_hit = jo.get_int( "to_hit", 0 );
 
-    JsonArray mags = jo.get_array( "magazines" );
-    while( mags.has_more() ) {
-        new_item_template->magazines.insert( mags.next_string() );
+    JsonArray arr = jo.get_array( "magazines" );
+    while( arr.has_more() ) {
+        const auto mag = arr.next_string();
+        if( new_item_template->magazine_default.empty() ) {
+            new_item_template->magazine_default = mag;
+        }
+        new_item_template->magazines.insert( mag );
     }
 
     new_item_template->magazine_well = jo.get_int( "magazine_well", 0 );

@@ -567,6 +567,9 @@ public:
     /** Volume above which the magazine starts to protrude from the item and add extra volume */
     int magazine_well;
 
+    /** Default magazine type used to reload this item */
+    itype_id magazine_default;
+
     bool explode_in_fire() const
     {
         return explosion_on_fire_data.power >= 0;

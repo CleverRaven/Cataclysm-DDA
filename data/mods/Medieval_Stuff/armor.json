@@ -45,10 +45,10 @@
         "warmth" : 10,
         "phase" : "solid",
         "environmental_protection" : 0,
-        "encumbrance" : 20,
+        "encumbrance" : 10,
         "bashing" : 10,
         "flags" : ["VARSIZE", "STURDY"],
-        "coverage" : 80,
+        "coverage" : 60,
         "material_thickness" : 3
     },{
         "type" : "ARMOR",

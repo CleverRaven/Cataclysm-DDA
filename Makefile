@@ -168,7 +168,7 @@ ifdef RELEASE
   DEBUG =
   DEFINES += -DRELEASE
   # Do an astyle regression check on release builds.
-  ASTYLE = astyle-check
+  ASTYLE = astyle-check json-format-check
 endif
 
 ifdef CLANG
@@ -776,6 +776,9 @@ astyle:
 
 astyle-all: $(SOURCES) $(HEADERS)
 	$(ASTYLE_BINARY) --options=.astylerc -n $(SOURCES) $(HEADERS)
+
+json-format-check:
+	tools/json_format_check.sh
 
 # Test whether the system has a version of astyle that supports --dry-run
 ifeq ($(shell if $(ASTYLE_BINARY) -Q -X --dry-run src/game.h > /dev/null; then echo foo; fi),foo)

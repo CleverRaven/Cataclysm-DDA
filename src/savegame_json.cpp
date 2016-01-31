@@ -45,6 +45,62 @@ const std::string obj_type_name[11]={ "OBJECT_NONE", "OBJECT_ITEM", "OBJECT_ACTO
     "OBJECT_TERRAIN", "OBJECT_FURNITURE"
 };
 
+std::vector<item> item::magazine_convert() {
+    std::vector<item> res;
+
+    // only guns, auxiliary gunmods and tools require conversion
+    if( !is_gun() && !is_tool() ) {
+        return res;
+    }
+
+    // only consider items without integral magazines that have not yet been converted
+    if( magazine_integral() || has_var( "magazine_converted" ) ) {
+        return res;
+    }
+
+    item mag( type->magazine_default, calendar::turn );
+    item ammo( get_curammo() ? get_curammo()->id : default_ammo( ammo_type() ), calendar::turn );
+
+    // give base item an appropriate magazine and add to that any ammo originally stored in base item
+    if( !magazine_current() ) {
+        contents.push_back( mag );
+        if( charges > 0 ) {
+            ammo.charges = std::min( charges, mag.ammo_capacity() );
+            charges -= ammo.charges;
+            contents.back().contents.push_back( ammo );
+        }
+    }
+
+    // remove any spare magazine and place an equivalent loaded magazine in inventory
+    item *spare_mag = has_gunmod( "spare_mag" ) >= 0 ? &contents[ has_gunmod( "spare_mag" ) ] : nullptr;
+    if( spare_mag ) {
+        res.push_back( mag );
+        if( spare_mag->charges > 0 ) {
+            ammo.charges = std::min( spare_mag->charges, mag.ammo_capacity() );
+            charges += spare_mag->charges - ammo.charges;
+            res.back().contents.push_back( ammo );
+        }
+    }
+
+    // return any excess ammo (from either item or spare mag) to character inventory
+    if( charges > 0 ) {
+        ammo.charges = charges;
+        res.push_back( ammo );
+    }
+
+    // remove incompatible magazine mods
+    contents.erase( std::remove_if( contents.begin(), contents.end(), []( const item& e ) {
+        return e.typeId() == "spare_mag" || e.typeId() == "clip" || e.typeId() == "clip2";
+    } ), contents.end() );
+
+    // normalize the base item and mark it as converted
+    charges = 0;
+    unset_curammo();
+    set_var( "magazine_converted", true );
+
+    return res;
+}
+
 ////////////////////////////////////////////////////////////////////////////////////////
 ///// on runtime populate lookup tables.
 std::map<std::string, int> obj_type_id;
@@ -253,6 +309,13 @@ void Character::load(JsonObject &data)
     } else {
         debugmsg("Skills[] no bueno");
     }
+
+    visit_items([&]( item *it, item * /* parent */ ) {
+        for( auto& e: it->magazine_convert() ) {
+            i_add( e );
+        }
+        return VisitResponse::NEXT;
+    } );
 }
 
 void Character::store(JsonOut &json) const
@@ -1351,7 +1414,7 @@ void item::io( Archive& archive )
     std::string mode;
     if( archive.read( "mode", mode ) ) {
         // only for backward compatibility (nowadays mode is stored in item_vars)
-        set_gun_mode( mode );
+        set_gun_mode(mode);
     }
 }
 
