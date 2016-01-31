@@ -6776,7 +6776,7 @@
         "healthy" : 0,
         "addiction_potential" : 0,
         "nutrition" : 8,
-        "description" : "Some hallucinogenic mushrooms which have been dehydrated for storage.  Will still cause hallucinations if eaten.",
+        "description" : "A hallucinogenic mushroom which has been dehydrated for storage.  Will still cause hallucinations if eaten.",
         "price" : 180,
         "material" : "veggy",
         "tool" : "null",
