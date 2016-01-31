@@ -159,6 +159,8 @@
     "id" : "mags_other_rare",
     "//" : "Aftermarket or otherwise uncommon magazines excluding milspec that have no better category.",
     "items": [
+      [ "8x40_25_mag", 10 ],
+      [ "8x40_25_mag", 10 ]
     ]
   },
   {
