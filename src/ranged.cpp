@@ -394,36 +394,6 @@ void player::fire_gun( const tripoint &target, bool burst, item& gun )
     tripoint aim = target;
     for( int curshot = 0; curshot != num_shots; ++curshot ) {
 
-        const auto critter = g->critter_at( aim, true );
-        if( !critter || critter->is_dead_state() ) {
-
-            // find suitable targets that are in range, hostile and near any previous target
-            auto hostiles = get_targetable_creatures( gun.gun_range( this ) );
-
-            hostiles.erase( std::remove_if( hostiles.begin(), hostiles.end(), [&]( const Creature *z ) {
-                if( rl_dist( z->pos(), aim ) > skillLevel( skill_gun ) ) {
-                    return true; ///\EFFECT_GUN increases range of automatic retargeting during burst fire
-
-                } else if( z->is_dead_state() ) {
-                    return true;
-
-                } else if( has_trait( "TRIGGER_HAPPY") && one_in( 10 ) ) {
-                    return false; // trigger happy sometimes doesn't care who we shoot
-
-                } else {
-                    return attitude_to( *z ) != A_HOSTILE;
-                }
-            } ), hostiles.end() );
-
-            if( hostiles.empty() || hostiles.front()->is_dead_state() ) {
-                break; // we ran out of suitable targets
-
-            } else if( !one_in( 7 - skillLevel( skill_gun ) ) ) {
-                break; ///\EFFECT_GUN increases chance of firing multiple times in a burst
-            }
-            aim = random_entry( hostiles )->pos();
-        }
-
         if( !handle_gun_damage( *gun.type, curammo->ammo->ammo_effects ) ) {
             break;
         }
@@ -486,6 +456,37 @@ void player::fire_gun( const tripoint &target, bool burst, item& gun )
 
         // Even if we are not training we practice the skill to prevent rust.
         practice( skill_used, train_skill ? exp / penalty : 0 );
+
+        // If burst firing and we killed the target (or were shooting into empty space) then try to retarget
+        const auto critter = g->critter_at( aim, true );
+        if( !critter || critter->is_dead_state() ) {
+
+            // Find suitable targets that are in range, hostile and near any previous target
+            auto hostiles = get_targetable_creatures( gun.gun_range( this ) );
+
+            hostiles.erase( std::remove_if( hostiles.begin(), hostiles.end(), [&]( const Creature *z ) {
+                if( rl_dist( z->pos(), aim ) > skillLevel( skill_gun ) ) {
+                    return true; ///\EFFECT_GUN increases range of automatic retargeting during burst fire
+
+                } else if( z->is_dead_state() ) {
+                    return true;
+
+                } else if( has_trait( "TRIGGER_HAPPY") && one_in( 10 ) ) {
+                    return false; // Trigger happy sometimes doesn't care who we shoot
+
+                } else {
+                    return attitude_to( *z ) != A_HOSTILE;
+                }
+            } ), hostiles.end() );
+
+            if( hostiles.empty() || hostiles.front()->is_dead_state() ) {
+                break; // We ran out of suitable targets
+
+            } else if( !one_in( 7 - skillLevel( skill_gun ) ) ) {
+                break; ///\EFFECT_GUN increases chance of firing multiple times in a burst
+            }
+            aim = random_entry( hostiles )->pos();
+        }
     }
 
     practice( skill_gun, train_skill ? 15 : 0 );
