@@ -976,6 +976,7 @@ void salvage_actor::load( JsonObject &obj )
         material_whitelist.push_back("plastic");
         material_whitelist.push_back("wood");
         material_whitelist.push_back("wool");
+        material_whitelist.push_back("neoprene");
     }
 }
 
@@ -1949,7 +1950,8 @@ const itype_id &material_component( const std::string &material_id )
         { "leather", "leather" },
         { "fur", "fur" },
         { "nomex", "nomex" },
-        { "wool", "felt_patch" }
+        { "wool", "felt_patch" },
+        { "neoprene", "neoprene" }
     };
 
     static const itype_id null_material = "";
