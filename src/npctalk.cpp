@@ -4607,7 +4607,7 @@ bool try_consume( npc &p, item &it, bool &used, std::string &reason )
     // TODO: Make it not a copy+paste from player::consume_item
     int amount_used = 1;
     if( comest->comesttype == "FOOD" || comest->comesttype == "DRINK" ) {
-        if( !p.eat( &to_eat, comest ) ) {
+        if( !p.eat( to_eat ) ) {
             reason = _("It doesn't look like a good idea to consume this...");
             return false;
         }
@@ -4632,7 +4632,7 @@ bool try_consume( npc &p, item &it, bool &used, std::string &reason )
             }
         }
 
-        p.consume_effects( &to_eat, comest );
+        p.consume_effects( to_eat, comest );
         p.moves -= 250;
     } else {
         debugmsg("Unknown comestible type of item: %s\n", to_eat.tname().c_str());

@@ -7,6 +7,7 @@ src/basecamp.cpp
 src/cata_utility.cpp
 src/char_validity_check.cpp
 src/clzones.cpp
+src/consumption.cpp
 src/craft_command.cpp
 src/crafting_gui.cpp
 src/creature_tracker.cpp
