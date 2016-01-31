@@ -5014,7 +5014,7 @@
     "description":"A twitchy mutant brown spider, with a relatively small body and spindly long legs.  Its smaller brethren are known for being agile, and for preying upon other spiders.",
     "//": "No, they are not in fact the most venomous spider in the world.",
     "flags":["SEES", "SMELLS", "HEARS", "VENOM", "WEBWALK", "CHITIN", "CLIMBS", "HARDTOSHOOT", "PUSH_MON"],
-    "anger_triggers":["STALK", "PLAYER_WEAK"]
+    "anger_triggers":["STALK", "PLAYER_WEAK", "PLAYER_CLOSE"]
     },{
     "type" : "MONSTER",
     "id" : "mon_spider_cellar_giant_s",
@@ -5042,7 +5042,7 @@
     "death_function":"NORMAL",
     "description":"A newly-hatched giant cellar spider.  Too small to possess much venom, but still quick and agile like an adult.",
     "flags":["SEES", "SMELLS", "HEARS", "WEBWALK", "CHITIN", "CLIMBS", "HARDTOSHOOT"],
-    "anger_triggers":["STALK", "PLAYER_WEAK"]
+    "anger_triggers":["STALK", "PLAYER_WEAK", "PLAYER_CLOSE"]
     },{
     "type" : "MONSTER",
     "id" : "mon_dark_wyrm",
