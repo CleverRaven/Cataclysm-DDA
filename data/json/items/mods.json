@@ -762,11 +762,11 @@
             "recoil" : 50,
             "durability" : 9,
             "reload" : 125,
-            "magazines" : ["20x66_10_mag"],
-            "magazine_well" : 1,
             "flags": ["WATERPROOF_GUN", "NEVER_JAMS"],
             "default_mods": [ "20x66_10_mag" ]
         },
+        "magazines" : ["20x66_10_mag"],
+        "magazine_well" : 1,
         "skill_required": 2,
         "skill": "shotgun"
     },
