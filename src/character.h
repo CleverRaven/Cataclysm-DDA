@@ -401,6 +401,9 @@ class Character : public Creature
         SkillLevel const& get_skill_level(const Skill &_skill) const;
         SkillLevel const& get_skill_level(const skill_id &ident) const;
 
+        /** Return character dispersion penalty dependent upon relevant gun skill level */
+        int skill_dispersion( const item& gun, bool random ) const;
+
         // --------------- Other Stuff ---------------
 
 

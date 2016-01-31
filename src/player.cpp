@@ -4576,7 +4576,7 @@ int player::aim_per_time( item *gun, int for_recoil ) const
     int speed_penalty = 0;
     // Ranges from 0 - 600.
     // 0 - 10 after adjustment.
-    speed_penalty += skill_dispersion( gun, false ) / 60;
+    speed_penalty += skill_dispersion( *gun, false ) / 60;
     // Ranges from 0 - 12 after adjustment.
     speed_penalty += ranged_dex_mod() / 15;
     // Ranges from 0 - 10

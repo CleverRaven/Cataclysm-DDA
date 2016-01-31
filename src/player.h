@@ -470,8 +470,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          * @param force_technique special technique to use in attack.
          */
         void melee_attack(Creature &t, bool allow_special, const matec_id &force_technique) override;
-        /** Returns the player's dispersion modifier based on skill. **/
-        int skill_dispersion( item *weapon, bool random ) const;
         /** Returns a weapon's modified dispersion value */
         double get_weapon_dispersion( item *weapon, bool random ) const;
         /** Returns true if a gun misfires, jams, or has other problems, else returns false */

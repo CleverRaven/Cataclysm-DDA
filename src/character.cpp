@@ -935,6 +935,31 @@ SkillLevel const& Character::get_skill_level(const skill_id &ident) const
     return get_skill_level( &ident.obj() );
 }
 
+int Character::skill_dispersion( const item& gun, bool random ) const
+{
+    static skill_id skill_gun( "gun" );
+
+    int dispersion = 0; // Measured in Minutes of Arc.
+
+    const int lvl = get_skill_level( gun.gun_skill() );
+    if( lvl < 10 ) {
+        // Up to 0.75 degrees for each skill point < 10.
+        ///\EFFECT_PISTOL <10 randomly increases dispersion for pistols
+        ///\EFFECT_SMG <10 randomly increases dispersion for smgs
+        ///\EFFECT_RIFLE <10 randomly increases dispersion for rifles
+        ///\EFFECT_LAUNCHER <10 randomly increases dispersion for launchers
+        dispersion += 45 * ( 10 - lvl );
+    }
+
+    if( get_skill_level( skill_gun ) < 10 ) {
+        // Up to 0.25 deg per each skill point < 10.
+        ///\EFFECT_GUN <10 randomly increased dispersion of all gunfire
+        dispersion += 15 * ( 10 - lvl );
+    }
+
+    return random ? rng(0, dispersion) : dispersion;
+}
+
 void Character::normalize()
 {
     Creature::normalize();

@@ -382,8 +382,7 @@ void player::fire_gun( const tripoint &target, bool burst, item& gun )
     // This is expensive, let's cache. todo: figure out if we need weapon.range(&p);
     const int weaponrange = gun.gun_range( this );
 
-    const int player_dispersion = skill_dispersion( &gun, false ) +
-        ranged_skill_offset( skill_used );
+    const int player_dispersion = skill_dispersion( gun, false ) + ranged_skill_offset( skill_used );
     // If weapon dispersion exceeds skill dispersion you can't tell
     // if you need to correct or if the gun messed up, so you can't learn.
     ///\EFFECT_PER allows you to learn more often with less accurate weapons.
@@ -1408,22 +1407,6 @@ static int rand_or_max( bool random, int max )
     return random ? rng(0, max) : max;
 }
 
-int player::skill_dispersion( item *weapon, bool random ) const
-{
-    const skill_id skill_used = weapon->gun_skill();
-    const int weapon_skill_level = get_skill_level(skill_used);
-    int dispersion = 0; // Measured in Minutes of Arc.
-    // Up to 0.75 degrees for each skill point < 10.
-    if (weapon_skill_level < 10) {
-        dispersion += rand_or_max( random, 45 * (10 - weapon_skill_level) );
-    }
-    // Up to 0.25 deg per each skill point < 10.
-    ///\EFFECT_GUN <10 randomly increased dispesion of gunfire
-    if( get_skill_level( skill_gun ) < 10) {
-        dispersion += rand_or_max( random, 15 * (10 - get_skill_level( skill_gun )) );
-    }
-    return dispersion;
-}
 // utility functions for projectile_attack
 double player::get_weapon_dispersion(item *weapon, bool random) const
 {
@@ -1435,7 +1418,7 @@ double player::get_weapon_dispersion(item *weapon, bool random) const
     }
 
     double dispersion = 0.; // Measured in quarter-degrees.
-    dispersion += skill_dispersion( weapon, random );
+    dispersion += skill_dispersion( *weapon, random );
 
     dispersion += rand_or_max( random, ranged_dex_mod() );
     dispersion += rand_or_max( random, ranged_per_mod() );
