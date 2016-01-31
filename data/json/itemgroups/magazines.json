@@ -82,8 +82,8 @@
   },
   {
     "type" : "item_group",
-    "id" : "mags_pistol_aftermarket",
-    "//" : "Non-factory specification pistol magazines excluding milspec.",
+    "id" : "mags_pistol_rare",
+    "//" : "Aftermarket or otherwise uncommon pistol magazines excluding milspec.",
     "items": [
       ["glockbigmag", 15],
       ["m1911bigmag", 10],
@@ -107,8 +107,8 @@
   },
   {
     "type" : "item_group",
-    "id" : "mags_smg_aftermarket",
-    "//" : "Non-factory specification SMG magazines excluding milspec.",
+    "id" : "mags_smg_rare",
+    "//" : "Aftermarket or otherwise uncomon SMG magazines excluding milspec.",
     "items": [
       ["mp5bigmag", 10],
       ["thompson_bigmag", 5],
@@ -127,8 +127,8 @@
   },
   {
     "type" : "item_group",
-    "id" : "mags_rifle_aftermarket",
-    "//" : "Non-factory specification rifle magazines excluding milspec.",
+    "id" : "mags_rifle_rare",
+    "//" : "Aftermarket or otherwise uncommon rifle magazines excluding milspec.",
     "items": [
       ["m1918bigmag", 10]
     ]
@@ -162,9 +162,9 @@
     "items": [
       { "group": "mags_citizen", "prob": 10 },
       { "group": "mags_obscure", "prob": 10 },
-      { "group": "mags_pistol_aftermarket", "prob": 20 },
-      { "group": "mags_rifle_aftermarket", "prob": 5 },
-      { "group": "mags_smg_aftermarket", "prob": 15 },
+      { "group": "mags_pistol_rare", "prob": 20 },
+      { "group": "mags_rifle_rare", "prob": 5 },
+      { "group": "mags_smg_rare", "prob": 15 },
       ["thompson_drum", 5],
       ["stenmag", 5],
       ["uzimag", 5]
