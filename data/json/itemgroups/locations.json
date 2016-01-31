@@ -45,6 +45,13 @@
       { "group": "mags_other_rare", "prob": 5 }
     ]
   },{
+    "type":"item_group",
+    "id":"mags_pawnshop",
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "mags_obscure", "prob": 10 }
+    ]
+  },{
     "type" : "item_group",
     "id" : "mansion_guns",
     "subtype": "distribution",

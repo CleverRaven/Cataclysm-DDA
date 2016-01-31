@@ -4861,6 +4861,7 @@
     "type" : "item_group",
     "id" : "pawn",
     "items":[
+      { "group" : "mags_pawnshop", "prob" : 300 },
       ["polisher", 6],
       ["wakizashi_inferior", 30],
       ["katana_inferior", 30],
