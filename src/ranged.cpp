@@ -371,7 +371,6 @@ void player::fire_gun( const tripoint &target, bool burst, item& gun )
 
     // cap our maximum burst size by the amount of UPS power left
     if( gun.get_gun_ups_drain() > 0 ) {
-        // @todo refactor handling of vehicle turrets to separate function
         if( !worn.empty() && worn.back().type->id == "fake_UPS" ) {
             num_shots = std::min(num_shots, worn.back().charges / gun.get_gun_ups_drain() );
         } else {
@@ -419,14 +418,9 @@ void player::fire_gun( const tripoint &target, bool burst, item& gun )
             recoil += recoil_add( *this, gun ) / ( has_effect( effect_on_roof ) ? 30 : 1 );
         }
 
-        auto dealt = projectile_attack( make_gun_projectile( gun ), aim, total_dispersion );
-        double missed_by = dealt.missed_by;
-        if( missed_by <= .1 ) { // TODO: check head existence for headshot
-            lifetime_stats()->headshots++;
-        }
+        auto shot = projectile_attack( make_gun_projectile( gun ), aim, total_dispersion );
 
         make_gun_sound_effect( *this, num_shots > 1, &gun );
-
         sfx::generate_gun_sound( *this, gun );
 
         eject_casing( *this, gun );
@@ -443,7 +437,6 @@ void player::fire_gun( const tripoint &target, bool burst, item& gun )
             }
         }
 
-        // @todo refactor handling of vehicle turrets to separate function
         if ( !worn.empty() && worn.back().type->id == "fake_UPS" ) {
             use_charges( "fake_UPS", gun.get_gun_ups_drain() );
         } else {
@@ -452,11 +445,14 @@ void player::fire_gun( const tripoint &target, bool burst, item& gun )
 
         // Experience gain is limited by range and penalised proportional to inaccuracy.
         int exp = std::min( range, 3 * ( skillLevel( skill_used ) + 1 ) ) * 20;
-        // Make sure the penalty doesn't become 0
-        int penalty = sqrt( missed_by * 36 ) + 1;
+        int penalty = std::max( int( sqrt( shot.missed_by * 36 ) ), 1 );
 
         // Even if we are not training we practice the skill to prevent rust.
         practice( skill_used, train_skill ? exp / penalty : 0 );
+
+        if( shot.missed_by <= .1 ) {
+            lifetime_stats()->headshots++; // @todo check head existence for headshot
+        }
 
         // If burst firing and we killed the target (or were shooting into empty space) then try to retarget
         const auto critter = g->critter_at( aim, true );
