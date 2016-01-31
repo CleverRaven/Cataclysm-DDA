@@ -488,6 +488,12 @@ void Item_factory::check_definitions() const
             if( type->gunmod->skill_used && !type->gunmod->skill_used.is_valid() ) {
                 msg << string_format("uses invalid gunmod skill.") << "\n";
             }
+            for( auto &mag : type->magazines ) {
+                magazines_used.insert( mag );
+                if( !has_template( mag ) ){
+                    msg << string_format("invalid magazine.") << "\n";
+                }
+            }
         }
         if( type->magazine ) {
             magazines_defined.insert( type->id );
