@@ -379,9 +379,6 @@ void player::fire_gun( const tripoint &target, bool burst, item& gun )
         }
     }
 
-    // This is expensive, let's cache. todo: figure out if we need weapon.range(&p);
-    const int weaponrange = gun.gun_range( this );
-
     const int player_dispersion = skill_dispersion( &gun, false ) +
         ranged_skill_offset( skill_used );
     // If weapon dispersion exceeds skill dispersion you can't tell
@@ -394,55 +391,46 @@ void player::fire_gun( const tripoint &target, bool burst, item& gun )
         add_msg_if_player(m_info, _("You'll need a more accurate gun to keep improving your aim."));
     }
 
-    tripoint targ = target;
-    const bool trigger_happy = has_trait( "TRIGGERHAPPY" );
-    for (int curshot = 0; curshot < num_shots; curshot++) {
-        // Burst-fire weapons allow us to pick a new target after killing the first
-        const auto critter = g->critter_at( targ, true );
-        if ( curshot > 0 && ( critter == nullptr || critter->is_dead_state() ) ) {
-            ///\EFFECT_GUN increases range for automatic retargeting during burst fire mode
-            const int near_range = std::min( 2 + skillLevel( skill_gun ), weaponrange );
-            auto new_targets = get_targetable_creatures( weaponrange );
-            for( auto it = new_targets.begin(); it != new_targets.end(); ) {
-                auto &z = **it;
-                if( attitude_to( z ) != A_HOSTILE ) {
-                    if( !trigger_happy ) {
-                        it = new_targets.erase( it );
-                        continue;
-                    } else if( !one_in( 10 ) ) {
-                        // Trigger happy sometimes doesn't care whom to shoot.
-                        it = new_targets.erase( it );
-                        continue;
-                    }
-                }
-                // search for monsters in radius
-                if( rl_dist( z.pos(), targ ) <= near_range ) {
-                    // oh you're not dead and I don't like you. Hello!
-                    ++it;
-                } else {
-                    it = new_targets.erase( it );
-                }
-            }
+    tripoint aim = target;
+    for( int curshot = 0; curshot != num_shots; ++curshot ) {
 
-            if ( new_targets.empty() == false ) {    /* new victim! or last victim moved */
-                /* 1 victim list unless wildly spraying */
-                targ = random_entry( new_targets )->pos();
-            ///\EFFECT_GUN increases chance of firing multiple times in a burst
-            } else if( ( !trigger_happy || one_in(3) ) &&
-                       ( skillLevel( skill_gun ) >= 7 || one_in(7 - skillLevel( skill_gun )) ) ) {
-                // Triggerhappy has a higher chance of firing repeatedly.
-                // Otherwise it's dominated by how much practice you've had.
-                return;
+        const auto critter = g->critter_at( aim, true );
+        if( !critter || critter->is_dead_state() ) {
+
+            // find suitable targets that are in range, hostile and near any previous target
+            auto hostiles = get_targetable_creatures( gun.gun_range( this ) );
+
+            hostiles.erase( std::remove_if( hostiles.begin(), hostiles.end(), [&]( const Creature *z ) {
+                if( rl_dist( z->pos(), aim ) > skillLevel( skill_gun ) ) {
+                    return true; ///\EFFECT_GUN increases range of automatic retargeting during burst fire
+
+                } else if( z->is_dead_state() ) {
+                    return true;
+
+                } else if( has_trait( "TRIGGER_HAPPY") && one_in( 10 ) ) {
+                    return false; // trigger happy sometimes doesn't care who we shoot
+
+                } else {
+                    return attitude_to( *z ) != A_HOSTILE;
+                }
+            } ), hostiles.end() );
+
+            if( hostiles.empty() || hostiles.front()->is_dead_state() ) {
+                break; // we ran out of suitable targets
+
+            } else if( !one_in( 7 - skillLevel( skill_gun ) ) ) {
+                break; ///\EFFECT_GUN increases chance of firing multiple times in a burst
             }
+            aim = random_entry( hostiles )->pos();
         }
 
         if( !handle_gun_damage( *gun.type, curammo->ammo->ammo_effects ) ) {
-            return;
+            break;
         }
 
         double total_dispersion = get_weapon_dispersion( &gun, true );
         //debugmsg("%f",total_dispersion);
-        int range = rl_dist(pos(), targ);
+        int range = rl_dist( pos(), aim );
         // penalties for point-blank
         // TODO: why is this using the weapon item, is this correct (may use the fired gun instead?)
         if (range < int(weapon.type->volume / 3) && curammo->ammo->type != "shot") {
@@ -460,7 +448,7 @@ void player::fire_gun( const tripoint &target, bool burst, item& gun )
             recoil += recoil_add( *this, gun ) / ( has_effect( effect_on_roof ) ? 30 : 1 );
         }
 
-        auto dealt = projectile_attack( make_gun_projectile( gun ), targ, total_dispersion );
+        auto dealt = projectile_attack( make_gun_projectile( gun ), aim, total_dispersion );
         double missed_by = dealt.missed_by;
         if( missed_by <= .1 ) { // TODO: check head existence for headshot
             lifetime_stats()->headshots++;
@@ -480,7 +468,7 @@ void player::fire_gun( const tripoint &target, bool burst, item& gun )
         } else {
             if( !gun.ammo_consume( gun.ammo_required() ) ) {
                 debugmsg( "Unexpected shortage of ammo whilst firing %s", gun.tname().c_str() );
-                return;
+                break;
             }
         }
 
