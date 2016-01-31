@@ -366,10 +366,12 @@ class cata_tiles
                                const visibility_variables &cache, int &height_3d );
         bool apply_vision_effects( const tripoint &pos, const visibility_type visibility );
         bool draw_terrain( const tripoint &p, lit_level ll, int &height_3d );
+        bool draw_terrain_below( const tripoint &p, lit_level ll, int &height_3d );
         bool draw_furniture( const tripoint &p, lit_level ll, int &height_3d );
         bool draw_trap( const tripoint &p, lit_level ll, int &height_3d );
         bool draw_field_or_item( const tripoint &p, lit_level ll, int &height_3d );
         bool draw_vpart( const tripoint &p, lit_level ll, int &height_3d );
+        bool draw_vpart_below( const tripoint &p, lit_level ll, int &height_3d );
         bool draw_critter_at( const tripoint &p, lit_level ll, int &height_3d );
         bool draw_entity( const Creature &critter, const tripoint &p, lit_level ll, int &height_3d );
         void draw_entity_with_overlays( const player &pl, const tripoint &p, lit_level ll, int &height_3d );
