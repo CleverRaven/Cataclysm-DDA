@@ -442,7 +442,8 @@
         "volume": 6,
         "bashing": 14,
         "flags" : ["SPEAR", "REACH_ATTACK"],
-        "cutting": 8
+        "cutting": 8,
+        "qualities": [["COOK", 1]]
     },
     {
         "id": "bokken",
@@ -616,7 +617,7 @@
         "volume": 1,
         "bashing": 2,
         "to_hit": -1,
-        "qualities": [["CONTAIN", 1]]
+        "qualities": [["BOIL", 2], ["CONTAIN", 1]]
     },
     {
         "type":"GENERIC",
