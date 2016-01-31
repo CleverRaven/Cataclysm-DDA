@@ -181,7 +181,6 @@ void Item_factory::init()
     iuse_function_list["CATFOOD"] = &iuse::catfood;
     iuse_function_list["CAPTURE_MONSTER_ACT"] = &iuse::capture_monster_act;
     // TOOLS
-    iuse_function_list["SEW_ADVANCED"] = &iuse::sew_advanced;
     iuse_function_list["EXTRA_BATTERY"] = &iuse::extra_battery;
     iuse_function_list["DOUBLE_REACTOR"] = &iuse::double_reactor;
     iuse_function_list["RECHARGEABLE_BATTERY"] = &iuse::rechargeable_battery;
@@ -769,6 +768,7 @@ void Item_factory::load_tool(JsonObject &jo)
     tool_template->turns_per_charge = jo.get_int("turns_per_charge");
     tool_template->revert_to = jo.get_string("revert_to");
     tool_template->subtype = jo.get_string("sub", "");
+    tool_template->remove_on_no_charge = jo.get_bool("remove_on_no_charge", true);
 
     itype *new_item_template = tool_template;
     load_basic_info(jo, new_item_template);
@@ -1537,6 +1537,8 @@ void Item_factory::set_uses_from_object(JsonObject obj, std::vector<use_function
         newfun = load_actor<holster_actor>( obj );
     } else if( type == "repair_item" ) {
         newfun = load_actor<repair_item_actor>( obj );
+    } else if( type == "sew_advanced" ) {
+        newfun = load_actor<sew_advanced_actor>( obj );
     } else if( type == "heal" ) {
         newfun = load_actor<heal_actor>( obj );
     } else if( type == "knife" ) {

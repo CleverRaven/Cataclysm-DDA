@@ -9,7 +9,7 @@
         "name" : "Repair metal/plastic/kevlar"
     },{
         "type" : "item_action",
-        "id" : "SEW_ADVANCED",
+        "id" : "sew_advanced",
         "name" : "Modify Clothing"
     },{
         "type" : "item_action",
@@ -144,5 +144,4 @@
         "id" : "SAW_BARREL",
         "name" : "Saw down barrel"
     }
-
 ]

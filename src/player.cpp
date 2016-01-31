@@ -11519,7 +11519,7 @@ bool player::consume_charges(item *used, long charges_used)
         return false;
     }
 
-    if( tool != nullptr && tool->charges_per_use <= 0 ) {
+    if( tool != nullptr && tool->charges_per_use == 0 && tool->remove_on_no_charge ) {
         // An item that doesn't normally expend charges is destroyed instead.
         /* We can't be certain the item is still in the same position,
          * as other items may have been consumed as well, so remove

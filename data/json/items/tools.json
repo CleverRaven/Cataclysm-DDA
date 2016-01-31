@@ -309,8 +309,9 @@
     "to_hit": -2,
     "max_charges": 400,
     "initial_charges": 50,
-    "charges_per_use": 1,
+    "charges_per_use": 0,
     "turns_per_charge": 0,
+    "remove_on_no_charge" : false,
     "ammo": "thread",
     "revert_to": "null",
     "use_action": [
@@ -322,10 +323,15 @@
             ],
             "skill": "tailor",
             "cost_scaling": 0,
+            "charges_to_use": 1,
             "tool_quality": 1,
             "move_cost": 800
         },
-        "SEW_ADVANCED" ],
+        { "type": "knife" },
+        {
+            "type" : "sew_advanced",
+            "charges_to_use": 1
+        }],
     "qualities": [["CUT", 1]]
   },
   {
