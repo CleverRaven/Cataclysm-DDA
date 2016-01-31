@@ -401,10 +401,12 @@ void player::fire_gun( const tripoint &target, bool burst, item& gun )
         double total_dispersion = get_weapon_dispersion( &gun, true );
         //debugmsg("%f",total_dispersion);
         int range = rl_dist( pos(), aim );
-        // penalties for point-blank
-        // TODO: why is this using the weapon item, is this correct (may use the fired gun instead?)
-        if (range < int(weapon.type->volume / 3) && curammo->ammo->type != "shot") {
-            total_dispersion *= double(weapon.type->volume / 3) / double(range);
+
+        // Apply penalty when using bulky weapons at point-blank range (except when loaded with shot)
+        // If we are firing an auxiliary gunmod we wan't to use the base guns volume (which includes the gunmod itself)
+        if( gun.ammo_type() != "shot" ) {
+            const item *parent = gun.is_auxiliary_gunmod() && has_item( &gun ) ? find_parent( gun ) : nullptr;
+            total_dispersion *= std::max( ( ( parent ? parent->volume() : gun.volume() ) / 3.0 ) / range, 1.0 );
         }
 
         // rifle has less range penalty past LONG_RANGE
