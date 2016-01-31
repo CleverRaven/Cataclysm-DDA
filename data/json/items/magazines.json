@@ -887,9 +887,15 @@
         "ammo_type" : "308",
         "capacity" : 200,
         "count" : 100,
-        "reliability" : 7,
+        "reliability" : 6,
         "flags": [ "NO_RELOAD", "NO_UNLOAD", "MAG_DESTROY" ],
-        "alternatives" : [
+        "armor_data" : {
+           "covers" : ["TORSO"],
+           "coverage" : 5,
+           "encumbrance" : 0,
+           "material_thickness" : 0
+        },
+       "alternatives" : [
             [ "223", [ "belt223" ] ]
         ]
     }
