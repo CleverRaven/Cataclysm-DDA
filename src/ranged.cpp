@@ -397,16 +397,15 @@ void player::fire_gun( const tripoint &target, bool burst, item& gun )
             break;
         }
 
-        double total_dispersion = get_weapon_dispersion( &gun, true );
+        double dispersion = get_weapon_dispersion( &gun, true );
         int range = rl_dist( pos(), aim );
 
         // Apply penalty when using bulky weapons at point-blank range (except when loaded with shot)
         // If we are firing an auxiliary gunmod we wan't to use the base guns volume (which includes the gunmod itself)
         if( gun.ammo_type() != "shot" ) {
             const item *parent = gun.is_auxiliary_gunmod() && has_item( &gun ) ? find_parent( gun ) : nullptr;
-            total_dispersion *= std::max( ( ( parent ? parent->volume() : gun.volume() ) / 3.0 ) / range, 1.0 );
+            dispersion *= std::max( ( ( parent ? parent->volume() : gun.volume() ) / 3.0 ) / range, 1.0 );
         }
-
 
         if (curshot > 0) {
             recoil += recoil_add( *this, gun ) / ( has_effect( effect_on_roof ) ? 90 : 2 );
@@ -414,7 +413,7 @@ void player::fire_gun( const tripoint &target, bool burst, item& gun )
             recoil += recoil_add( *this, gun ) / ( has_effect( effect_on_roof ) ? 30 : 1 );
         }
 
-        auto shot = projectile_attack( make_gun_projectile( gun ), aim, total_dispersion );
+        auto shot = projectile_attack( make_gun_projectile( gun ), aim, dispersion );
 
         make_gun_sound_effect( *this, num_shots > 1, &gun );
         sfx::generate_gun_sound( *this, gun );
