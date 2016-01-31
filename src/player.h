@@ -589,10 +589,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int throw_range(int pos) const;
         /** Execute a throw */
         dealt_projectile_attack throw_item( const tripoint &target, const item &thrown );
-        /** Returns the ranged attack dexterity mod */
-        int ranged_dex_mod() const;
-        /** Returns the ranged attack perception mod */
-        int ranged_per_mod() const;
         /** Returns the throwing attack dexterity mod */
         int throw_dex_mod(bool return_stat_effect = true) const;
         int aim_per_time( item *gun, int predicted_recoil ) const;

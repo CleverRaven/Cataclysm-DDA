@@ -4542,24 +4542,6 @@ int player::throw_range(int pos) const
     return ret;
 }
 
-int player::ranged_dex_mod() const
-{
-    const int dex = get_dex();
-
-    ///\EFFECT_DEX <12 increases ranged penalty
-    if (dex >= 12) { return 0; }
-    return (12 - dex) * 15;
-}
-
-int player::ranged_per_mod() const
-{
-    const int per = get_per();
-
-    ///\EFFECT_PER <12 increases ranged penalty
-    if (per >= 12) { return 0; }
-    return (12 - per) * 15;
-}
-
 int player::throw_dex_mod(bool return_stat_effect) const
 {
   // Stat window shows stat effects on based on current stat

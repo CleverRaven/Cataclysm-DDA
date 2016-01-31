@@ -1141,6 +1141,18 @@ int Character::get_int_bonus() const
     return int_bonus;
 }
 
+int Character::ranged_dex_mod() const
+{
+    ///\EFFECT_DEX <12 increases ranged penalty
+    return std::max( ( 12 - get_dex() ) * 15, 0 );
+}
+
+int Character::ranged_per_mod() const
+{
+    ///\EFFECT_PER <12 increases ranged penalty
+    return std::max( ( 12 - get_per() ) * 15, 0 );
+}
+
 int Character::get_healthy() const
 {
     return healthy;
