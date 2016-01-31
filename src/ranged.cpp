@@ -39,7 +39,7 @@ const efftype_id effect_bounced( "bounced" );
 static projectile make_gun_projectile( const item &gun );
 int time_to_fire(player &p, const itype &firing);
 static inline void eject_casing( player& p, item& weap );
-int recoil_add(player &p, const item &gun);
+int recoil_add( const item& gun, player *p = nullptr );
 void make_gun_sound_effect(player &p, bool burst, item *weapon);
 extern bool is_valid_in_w_terrain(int, int);
 void drop_or_embed_projectile( const dealt_projectile_attack &attack );
@@ -407,13 +407,11 @@ void player::fire_gun( const tripoint &target, bool burst, item& gun )
             dispersion *= std::max( ( ( parent ? parent->volume() : gun.volume() ) / 3.0 ) / range, 1.0 );
         }
 
-        if (curshot > 0) {
-            recoil += recoil_add( *this, gun ) / ( has_effect( effect_on_roof ) ? 90 : 2 );
-        } else {
-            recoil += recoil_add( *this, gun ) / ( has_effect( effect_on_roof ) ? 30 : 1 );
-        }
-
         auto shot = projectile_attack( make_gun_projectile( gun ), aim, dispersion );
+
+        // if we are firing a turret don't apply that recoil to the player
+        // @todo turrets need to accumulate recoil themselves
+        recoil_add( gun, has_effect( effect_on_roof ) ? this : nullptr );
 
         make_gun_sound_effect( *this, num_shots > 1, &gun );
         sfx::generate_gun_sound( *this, gun );
@@ -1450,25 +1448,25 @@ double player::get_weapon_dispersion(item *weapon, bool random) const
     return dispersion;
 }
 
-int recoil_add(player &p, const item &gun)
+int recoil_add( const item &gun, player *p )
 {
-    int ret = gun.gun_recoil();
-    ///\EFFECT_STR reduces recoil when firing a ranged weapon
-    ret -= rng(p.str_cur * 7, p.str_cur * 15);
-    ///\EFFECT_GUN randomly decreases recoil with appropriate guns
+    // @todo refactor as method of item and add recoil to the tool/gun not the player
+    if( ! p ) {
+        return 0;
+    }
+
+    int qty = gun.gun_recoil();
+
+    ///\EFFECT_STR reduces recoil when using guns and tools
+    qty -= rng( 7, 15 ) * p->get_str();
 
     ///\EFFECT_PISTOL randomly decreases recoil with appropriate guns
-
     ///\EFFECT_RIFLE randomly decreases recoil with appropriate guns
-
     ///\EFFECT_SHOTGUN randomly decreases recoil with appropriate guns
-
     ///\EFFECT_SMG randomly decreases recoil with appropriate guns
-    ret -= rng(0, p.get_skill_level(gun.gun_skill()) * 7);
-    if (ret > 0) {
-        return ret;
-    }
-    return 0;
+    qty -= rng( 0, p->get_skill_level( gun.gun_skill() ) * 7 );
+
+    return p->recoil += std::max( qty, 0 );
 }
 
 void splatter( const std::vector<tripoint> &trajectory, int dam, const Creature *target )
