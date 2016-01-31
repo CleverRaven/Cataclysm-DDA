@@ -796,7 +796,8 @@ static void do_aim( player *p, std::vector <Creature *> &t, int &target,
         // spend move points swinging the gun around.
         p->recoil = std::max(MIN_RECOIL, p->recoil);
     }
-    const int aim_amount = p->aim_per_time( relevant );
+
+    const int aim_amount = p->aim_per_time( *relevant, p->recoil );
     if( aim_amount > 0 ) {
         // Increase aim at the cost of moves
         p->moves -= 10;
@@ -1025,7 +1026,7 @@ std::vector<tripoint> game::target( tripoint &p, const tripoint &low, const trip
             int predicted_delay = 0;
             if( aim_mode->has_threshold && aim_mode->threshold < u.recoil ) {
                 do{
-                    const int aim_amount = u.aim_per_time( &u.weapon, predicted_recoil );
+                    const int aim_amount = u.aim_per_time( u.weapon, predicted_recoil );
                     if( aim_amount > 0 ) {
                         predicted_delay += 10;
                         predicted_recoil = std::max( predicted_recoil - aim_amount , 0);

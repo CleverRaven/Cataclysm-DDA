@@ -115,6 +115,28 @@ void Character::mod_stat( const std::string &stat, int modifier )
     }
 }
 
+int Character::aim_per_time( const item& gun, int recoil ) const
+{
+    int penalty = 0;
+
+    // Range [0 - 10] after adjustment
+    penalty += skill_dispersion( gun, false ) / 60;
+
+    // Ranges [0 - 12] after adjustment
+    penalty += ranged_dex_mod() / 15;
+
+    // Range [0 - 10]
+    penalty += gun.aim_speed( recoil );
+
+    // @todo consider character status effects
+
+    // always improve by at least 1MOC
+    penalty = std::max( 1, 32 - penalty );
+
+    // improvement capped by max aim level of the gun sight being used.
+    return std::min( penalty, recoil - gun.sight_dispersion( recoil ) );
+}
+
 bool Character::move_effects(bool attacking)
 {
     if (has_effect( effect_downed )) {

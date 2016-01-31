@@ -589,8 +589,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         dealt_projectile_attack throw_item( const tripoint &target, const item &thrown );
         /** Returns the throwing attack dexterity mod */
         int throw_dex_mod(bool return_stat_effect = true) const;
-        int aim_per_time( item *gun, int predicted_recoil ) const;
-        int aim_per_time( item *gun ) const;
 
         // Mental skills and stats
         /** Returns the player's reading speed */
