@@ -399,7 +399,6 @@ void player::fire_gun( const tripoint &target, bool burst, item& gun )
         }
 
         double total_dispersion = get_weapon_dispersion( &gun, true );
-        //debugmsg("%f",total_dispersion);
         int range = rl_dist( pos(), aim );
 
         // Apply penalty when using bulky weapons at point-blank range (except when loaded with shot)
