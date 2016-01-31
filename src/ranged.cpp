@@ -342,9 +342,8 @@ void player::fire_gun( const tripoint &target, bool burst )
 void player::fire_gun( const tripoint &target, bool burst, item& gun )
 {
     const bool is_charger_gun = gun.update_charger_gun_ammo();
-    const itype *curammo = gun.ammo_data();
 
-    if( !gun.is_gun() || curammo == nullptr ) {
+    if( !gun.is_gun() || !gun.ammo_data() ) {
         debugmsg( "%s tried to fire empty or non-gun (%s).", name.c_str(), gun.tname().c_str() );
         return;
     }
@@ -390,7 +389,7 @@ void player::fire_gun( const tripoint &target, bool burst, item& gun )
     tripoint aim = target;
     for( int curshot = 0; curshot != num_shots; ++curshot ) {
 
-        if( !handle_gun_damage( *gun.type, curammo->ammo->ammo_effects ) ) {
+        if( !handle_gun_damage( *gun.type, gun.ammo_data()->ammo->ammo_effects ) ) {
             break;
         }
 
