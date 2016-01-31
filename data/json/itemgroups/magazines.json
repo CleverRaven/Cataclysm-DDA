@@ -1,0 +1,162 @@
+[
+  {
+    "type" : "item_group",
+    "id" : "mags_milpsec",
+    "//" : "Current military specification magazines.",
+    "items": [
+      ["lw12mag", 5],
+      ["lw21mag", 10],
+      ["lw223mag", 20],
+      ["lw223bigmag", 5]
+    ]
+  },
+  {
+    "type" : "item_group",
+    "id" : "mags_military",
+    "//" : "Older military magazines still in service.",
+    "items": [
+      ["m1911mag", 5],
+      ["m9mag", 15],
+      ["stanag30", 20],
+      ["stanag50", 5],
+      ["usp9mag", 15],
+      ["usp45mag", 5]
+    ] 
+  },
+  {
+    "type" : "item_group",
+    "id" : "mags_surplus",
+    "//" : "Obsolete military magazines no longer in common use.",
+    "items": [
+      ["m1911mag", 10],
+      ["m1918mag", 5],
+      ["m9mag", 10],
+      ["stenmag", 40],
+      ["thompson_mag", 5]
+    ] 
+  },
+  {
+    "type" : "item_group",
+    "id" : "mags_police",
+    "//" : "Standard issue police magazines.",
+    "items": [
+      ["glockmag", 40],
+      ["m9mag", 5],
+      ["mp5mag", 10],
+      ["stanag10", 10],
+      ["stanag30", 5]
+    ] 
+  },
+  {
+    "type" : "item_group",
+    "id" : "mags_swat",
+    "//" : "Magazines issued to paramilitary forces in addition to standard police issue.",
+    "items": [
+      { "group": "mags_police", "prob": 50 },
+      ["glockbigmag", 5],
+      ["m9bigmag", 5],
+      ["mp5bigmag", 10],
+      ["stanag30", 10],
+      ["ump45mag", 10],
+      ["usp45mag", 5],
+      ["usp9mag", 5]
+    ] 
+  },
+  {
+    "type" : "item_group",
+    "id" : "mags_pistol_common",
+    "//" : "Factory specification pistol magazines commonly owned by citizens.",
+    "items": [
+      ["glockmag", 20],
+      ["m1911mag", 10]
+    ]  	
+  },
+  {
+    "type" : "item_group",
+    "id" : "mags_pistol_aftermarket",
+    "//" : "Non-factory specification pistol magazines excluding milspec.",
+    "items": [
+      ["glockbigmag", 15],
+      ["m1911bigmag", 10],
+      ["m9bigmag", 5]
+    ]
+  },
+  {
+    "type" : "item_group",
+    "id" : "mags_smg_common",
+    "//" : "Factory specification smg magazines commonly owned by citizens.",
+    "items": [
+      ["mac10mag", 10],
+      ["mp5mag", 10],
+      ["stenmag", 5],
+      ["tdi_mag", 5],
+      ["thompson_mag", 5],
+      ["ump45mag", 5],
+      ["uzimag", 10]
+    ]
+  },
+  {
+    "type" : "item_group",
+    "id" : "mags_smg_aftermarket",
+    "//" : "Non-factory specification SMG magazines excluding milspec.",
+    "items": [
+      ["mp5bigmag", 10],
+      ["thompson_bigmag", 5],
+      ["thompson_drum", 15]
+    ]
+  },
+  {
+    "type" : "item_group",
+    "id" : "mags_rifle_common",
+    "//" : "Factory specification rifle magazines commonly owned by citizens.",
+    "items": [
+      ["stanag10", 50],
+      ["stanag30", 10]
+    ]
+  },
+  {
+    "type" : "item_group",
+    "id" : "mags_rifle_aftermarket",
+    "//" : "Non-factory specification rifle magazines excluding milspec.",
+    "items": [
+      ["m1918bigmag", 10]
+    ]
+  },
+  {
+    "type" : "item_group",
+    "id" : "mags_citizen",
+    "//" : "Common maagazines for guns typically owned by citizens.",
+    "items": [
+      { "group": "mags_pistol_common", "prob": 30 },
+      { "group": "mags_rifle_common", "prob": 15 },
+      { "group": "mags_smg_common", "prob": 5 }
+    ]
+  },
+  {
+    "type" : "item_group",
+    "id" : "mags_obscure",
+    "//" : "Magazines for imported firearms.",
+    "items": [
+      ["ak74mag", 10],
+      ["makarovmag", 10],
+      ["rpk74mag", 10],
+      ["skorpion61mag", 10],
+      ["skorpion82mag", 10]
+    ]   	
+  },
+  {
+    "type" : "item_group",
+    "id" : "mags_crime",
+    "//" : "Magazines for guns typically used by criminals.",
+    "items": [
+      { "group": "mags_citizen", "prob": 10 },
+      { "group": "mags_obscure", "prob": 10 },
+      { "group": "mags_pistol_aftermarket", "prob": 20 },
+      { "group": "mags_rifle_aftermarket", "prob": 5 },
+      { "group": "mags_smg_aftermarket", "prob": 15 },
+      ["thompson_drum", 5],
+      ["stenmag", 5],
+      ["uzimag", 5]
+    ] 
+  }
+]
