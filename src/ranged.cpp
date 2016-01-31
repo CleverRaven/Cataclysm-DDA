@@ -152,9 +152,16 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
     // Trace the trajectory, doing damage in order
     tripoint &tp = attack.end_point;
     tripoint prev_point = source;
-    std::vector<tripoint> trajectory_extension = continue_line( trajectory, proj_arg.range );
-    trajectory.resize( trajectory.size() + trajectory_extension.size() );
-    trajectory.insert( trajectory.end(), trajectory_extension.begin(), trajectory_extension.end() );
+
+    if( range < proj_arg.range ) {
+        std::vector<tripoint> trajectory_extension = continue_line( trajectory,
+                                                                    proj_arg.range - range );
+        trajectory.reserve( trajectory.size() + trajectory_extension.size() );
+        trajectory.insert( trajectory.end(), trajectory_extension.begin(), trajectory_extension.end() );
+    }
+    while( rl_dist( source, trajectory.back() ) > proj_arg.range ) {
+        trajectory.pop_back();
+    }
 
     // If this is a vehicle mounted turret, which vehicle is it mounted on?
     const vehicle *in_veh = has_effect( effect_on_roof ) ?
