@@ -59,6 +59,7 @@ src/calendar.h
 src/cata_tiles.h
 src/cata_utility.h
 src/catacharset.h
+src/catacurse.h
 src/catalua.h
 src/char_validity_check.h
 src/color.h
