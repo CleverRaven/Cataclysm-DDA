@@ -6,7 +6,6 @@ data/json/items/chemicals_and_resources.json
 data/json/items/comestibles.json
 data/json/items/generic.json
 data/json/items/handloaded_bullets.json
-data/json/items/magazines.json
 data/json/items/martial_arts_manuals.json
 data/json/items/melee.json
 data/json/items/mods.json
