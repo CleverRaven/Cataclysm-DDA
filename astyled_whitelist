@@ -100,6 +100,7 @@ src/live_view.h
 src/lua_console.h
 src/map_iterator.h
 src/mapbuffer.h
+src/mapgenformat.h
 src/mapsharing.h
 src/martialarts.h
 src/material.h
