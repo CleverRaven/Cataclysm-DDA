@@ -186,7 +186,7 @@
     "color": "green",
     "name": "electrohack",
     "category" : "tools",
-    "description": "This device has many ports attached, allowing it to connect to almost any control panel or other electronic machine (but not computers).  With a little skill, it can be used to crack passwords and more.  It requires 10 charges of battery power per use.",
+    "description": "This device has many ports attached, allowing it to connect to almost any control panel or other electronic machine (but not computers).  With a little skill, it can be used to crack passwords and more.  It requires 25 charges of battery power per use.",
     "price": 40000,
     "material": ["plastic", "aluminum"],
     "weight": 114,
