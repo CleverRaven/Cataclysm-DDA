@@ -7034,7 +7034,7 @@ void map::spawn_monsters_submap_group( const tripoint &gp, mongroup &group, bool
                 const int turns = rl_dist( p, rand_dest ) + group.interest;
                 tmp.wander_to( rand_dest, turns );
                 add_msg( m_debug, "%s targetting %d,%d,%d", tmp.disp_name().c_str(),
-                    tmp.wander_pos.x, tmp.wander_pos.y, tmp.wander_pos.z, tmp.wandf );
+                         tmp.wander_pos.x, tmp.wander_pos.y, tmp.wander_pos.z );
             }
 
             g->add_zombie( tmp );
