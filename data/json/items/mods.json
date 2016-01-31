@@ -552,7 +552,7 @@
             "reload" : 100, "//" : "just a place holder, TODO: fill in the correct value"
         },
         "skill_required": 2,
-        "skill": "shotgun"
+        "skill": "launcher"
     },
     {
         "type" : "GUNMOD",
@@ -742,27 +742,30 @@
         "id" : "rm121aux",
         "name" : "RM121 aux shotgun",
         "location": "underbarrel",
-        "weight" : 1620,
+        "weight" : 1140,
         "color" : "dark_gray",
         "to_hit" : -1,
         "dispersion_modifier" : 30,
         "price" : 120000,
         "description" : "The Rivtech RM121 auxiliary weapon system is a magazine-fed semi-automatic caseless shotgun, which can be mounted under the barrel of many rifles.  It allows a total of five caseless shotgun rounds to be loaded and fired.",
         "symbol" : ":",
-        "material" : ["steel", "plastic"],
+        "material" : ["superalloy", "ceramic"],
         "volume" : 3,
         "mod_targets" : ["rifle", "crossbow"],
         "bashing" : 2,
         "gun_data" : {
             "skill": "shotgun",
             "ammo" : "20x66mm",
-            "clip_size" : 5,
-            "dispersion" : 30,
-            "aim_speed" : -1, "//" : "just a place holder, TODO: fill in the correct value",
-            "sight_dispersion" : -1, "//" : "just a place holder, TODO: fill in the correct value",
-            "recoil" : 0, "//" : "just a place holder, TODO: fill in the correct value",
-            "durability" : 100, "//" : "just a place holder, TODO: fill in the correct value",
-            "reload" : 100, "//" : "just a place holder, TODO: fill in the correct value"
+            "dispersion" : 100,
+            "aim_speed" : 3,
+            "sight_dispersion" : 75,
+            "recoil" : 50,
+            "durability" : 9,
+            "reload" : 125,
+            "magazines" : ["20x66_10_mag"],
+            "magazine_well" : 1,
+            "flags": ["WATERPROOF_GUN", "NEVER_JAMS"],
+            "default_mods": [ "20x66_10_mag" ]
         },
         "skill_required": 2,
         "skill": "shotgun"
