@@ -1872,7 +1872,8 @@
     "turns_per_charge": 0,
     "ammo": "battery",
     "revert_to": "null",
-    "use_action": "ROBOTCONTROL"
+    "use_action": "ROBOTCONTROL",
+    "flags": ["NO_UNLOAD", "RECHARGE"]
   },
   {
     "id": "sarcophagus_access_code",
