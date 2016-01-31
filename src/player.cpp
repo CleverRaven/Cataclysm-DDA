@@ -3520,7 +3520,7 @@ std::string player::print_recoil() const
 {
     if (weapon.is_gun()) {
         const int adj_recoil = recoil + driving_recoil;
-        if( adj_recoil > 150 ) {
+        if( adj_recoil > MIN_RECOIL ) {
             // 150 is the minimum when not actively aiming
             const char *color_name = "c_ltgray";
             if( adj_recoil >= 690 ) {
