@@ -357,9 +357,6 @@ void player::fire_gun( const tripoint &target, bool burst, item& gun )
         burst = false; // Can't burst fire a semi-auto
     }
 
-    // Use different amounts of time depending on the type of gun and our skill
-    moves -= time_to_fire( *this, *gun.type );
-
     // Decide how many shots to fire limited by the ammount of remaining ammo
     long num_shots = 1;
     if ( burst || ( has_trait( "TRIGGERHAPPY" ) && one_in( 30 ) ) ) {
@@ -446,6 +443,9 @@ void player::fire_gun( const tripoint &target, bool burst, item& gun )
         if( shot.missed_by <= .1 ) {
             lifetime_stats()->headshots++; // @todo check head existence for headshot
         }
+
+        // Consume time for each shot dependent on gun type and relevant weapon skill
+        moves -= time_to_fire( *this, *gun.type );
 
         // If burst firing and we killed the target (or were shooting into empty space) then try to retarget
         const auto critter = g->critter_at( aim, true );
