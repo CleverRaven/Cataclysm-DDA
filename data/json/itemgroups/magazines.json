@@ -135,12 +135,41 @@
   },
   {
     "type" : "item_group",
+    "id" : "mags_shotgun_common",
+    "//" : "Factory specification shotgun magazines commonly owned by citizens.",
+    "items": [
+    ]
+  },
+  {
+    "type" : "item_group",
+    "id" : "mags_shotgun_rare",
+    "//" : "Aftermarket or otherwise uncommon pistol magazines excluding milspec.",
+    "items": [
+    ]
+  },
+  {
+    "type" : "item_group",
+    "id" : "mags_other_common",
+    "//" : "Factory specification magazines commonly owned by citizens that have no better category.",
+    "items": [
+    ]
+  },
+  {
+    "type" : "item_group",
+    "id" : "mags_other_rare",
+    "//" : "Aftermarket or otherwise uncommon magazines excluding milspec that have no better category.",
+    "items": [
+    ]
+  },
+  {
+    "type" : "item_group",
     "id" : "mags_citizen",
     "//" : "Common maagazines for guns typically owned by citizens.",
     "items": [
       { "group": "mags_pistol_common", "prob": 30 },
-      { "group": "mags_rifle_common", "prob": 15 },
-      { "group": "mags_smg_common", "prob": 5 }
+      { "group": "mags_rifle_common", "prob": 20 },
+      { "group": "mags_smg_common", "prob": 10 }
+      { "group": "mags_shotgun_common", "prob": 5 }
     ]
   },
   {
@@ -160,11 +189,13 @@
     "id" : "mags_crime",
     "//" : "Magazines for guns typically used by criminals.",
     "items": [
-      { "group": "mags_citizen", "prob": 10 },
-      { "group": "mags_obscure", "prob": 10 },
-      { "group": "mags_pistol_rare", "prob": 20 },
-      { "group": "mags_rifle_rare", "prob": 5 },
-      { "group": "mags_smg_rare", "prob": 15 },
+      { "group": "mags_citizen", "prob": 15 },
+      { "group": "mags_obscure", "prob": 15 },
+      { "group": "mags_pistol_rare", "prob": 30 },
+      { "group": "mags_rifle_rare", "prob": 10 },
+      { "group": "mags_smg_rare", "prob": 20 },
+      { "group": "mags_shotgun_rare", "prob": 5 },
+      { "group": "mags_other_rare", "prob": 5 },
       ["thompson_drum", 5],
       ["stenmag", 5],
       ["uzimag", 5]

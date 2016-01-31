@@ -37,10 +37,12 @@
     "id":"mags_gunstore",
     "subtype": "distribution",
     "entries" : [
-      { "group": "mags_citizen", "prob": 20 },
-      { "group": "mags_pistol_rare", "prob": 20 },
-      { "group": "mags_rifle_rare", "prob": 15 },
-      { "group": "mags_smg_rare", "prob": 5 }
+      { "group": "mags_citizen", "prob": 30 },
+      { "group": "mags_pistol_rare", "prob": 30 },
+      { "group": "mags_rifle_rare", "prob": 20 },
+      { "group": "mags_smg_rare", "prob": 10 }
+      { "group": "mags_shotgun_rare", "prob": 5 }
+      { "group": "mags_other_rare", "prob": 5 }
     ]
   },{
     "type" : "item_group",
