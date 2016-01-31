@@ -859,7 +859,7 @@
         "description" : "The .223 rifle round is a civilian variant of the 5.56 NATO round.  It is designed to tumble or fragment inside a target, dealing devastating damage.  The lower pressure of the .223 compared to the 5.56 results in lower accuracy.  This one has been hand-reloaded.",
         "material" : ["steel", "powder"],
         "volume" : 1,
-        "weight" : 4,
+        "weight" : 12,
         "bashing" : 1,
         "ammo_type" : "223",
         "casing" : "223_casing",
@@ -868,8 +868,9 @@
         "range" : 36,
         "dispersion" : 90,
         "recoil" : 450,
-        "count" : 40,
-        "effects" : ["COOKOFF", "RECYCLED"]
+        "count" : 30,
+        "effects" : ["COOKOFF", "RECYCLED"],
+        "stack_size": 20
     },
     {  
         "type" : "AMMO",
@@ -882,7 +883,7 @@
         "description" : "This rifle round has enjoyed widespread use in NATO countries, thanks to its very light weight and high damage.  It is designed to shatter inside a target, inflicting massive damage.  This one has been hand-reloaded.",
         "material" : ["steel", "powder"],
         "volume" : 1,
-        "weight" : 4,
+        "weight" : 12,
         "bashing" : 1,
         "ammo_type" : "223",
         "casing" : "223_casing",
@@ -891,8 +892,9 @@
         "range" : 38,
         "dispersion" : 70,
         "recoil" : 480,
-        "count" : 40,
-        "effects" : ["COOKOFF", "RECYCLED"]
+        "count" : 30,
+        "effects" : ["COOKOFF", "RECYCLED"],
+        "stack_size" : 20
     },
     {
         "type" : "AMMO",
@@ -902,10 +904,10 @@
         "name_plural" : "reloaded 5.56 NATO tracer",
         "symbol" : "=",
         "color" : "yellow",
-        "description" : "A belt of hand-reloaded 5.56 NATO rounds.  A hand-made variant of the widely-used 5.56 NATO round, the ammunition is a one-in-five mix of hand-loaded 5.56 FMJ and 5.56 incendiary rounds designed to burn hotly when fired.",
+        "description" : "A hand-made variant of the widely-used 5.56 NATO round, the ammunition is a one-in-five mix of hand-loaded 5.56 FMJ and 5.56 incendiary rounds designed to burn hotly when fired.",
         "material" : ["steel", "powder"],
         "volume" : 1,
-        "weight" : 5,
+        "weight" : 12,
         "bashing" : 1,
         "ammo_type" : "223",
         "casing" : "223_casing",
@@ -915,7 +917,7 @@
         "dispersion" : 75,
         "recoil" : 495,
         "count" : 30,
-        "stack_size": 40,
+        "stack_size": 20,
         "effects" : ["COOKOFF", "INCENDIARY", "RECYCLED"]
     },
     {

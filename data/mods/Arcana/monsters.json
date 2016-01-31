@@ -669,7 +669,13 @@
     "hp":680,
     "death_drops": "plant_boss_drops", "//": "Boss-level essence and an item",
     "death_function":"NORMAL",
-    "special_attacks":[["BITE", 5], ["TENTACLE", 5]],
+    "special_attacks":[
+        {
+            "type" : "bite",
+            "cooldown" : 5
+        },
+        ["TENTACLE", 5]
+    ],
     "description":"A large plantlike creature with a gaping, toothy maw and numerous vines.  A hideous smell permeates the air around it.",
     "flags":["HEARS", "SMELLS", "BASHES", "NOHEAD", "POISON", "LEAKSGAS", "NO_BREATHE", "PARALYZEVENOM"]
     },{
@@ -731,7 +737,14 @@
     },
     "hp":990,
     "death_function":"NORMAL",
-    "special_attacks":[["FLESH_GOLEM", 5], ["BITE", 10], ["FLAMETHROWER", 10]],
+    "special_attacks":[
+        ["FLESH_GOLEM", 5],
+        {
+            "type" : "bite",
+            "cooldown" : 10
+        },
+        ["FLAMETHROWER", 10]
+    ],
     "description":"A massive, reptilian creature with batlike wings.  Its body is withered and rotten, large chunks of flesh stripped to the bone, and the membranes of its wings are in tatters.  You wonder how such a large beast could fly in the first place, let alone in that condition.",
     "flags":["SEES", "SMELLS", "KEENNOSE", "HEARS", "WARM", "FIREPROOF", "FLIES", "BASHES", "POISON", "BONES", "BLEED", "REVIVES", "NO_BREATHE"]
     }

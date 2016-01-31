@@ -762,5 +762,19 @@
         "volume": 0,
         "bashing": -8,
         "to_hit": -3
+    },
+    {
+        "type":"GENERIC",
+        "id": "neoprene",
+        "symbol": ",",
+        "color": "black",
+        "name": "neoprene sheet",
+        "description": "A moderately sized sheet of neoprene.  Can be used to craft light and stretchable clothing.",
+        "price": 1000,
+        "material": "neoprene",
+        "flags": ["NO_SALVAGE"],
+        "weight": 80,
+        "volume": 1,
+        "category": "spare_parts"
     }
 ]

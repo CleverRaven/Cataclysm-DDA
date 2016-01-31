@@ -35,6 +35,7 @@ const mtype_id mon_dark_wyrm( "mon_dark_wyrm" );
 const mtype_id mon_fungal_blossom( "mon_fungal_blossom" );
 const mtype_id mon_spider_web_s( "mon_spider_web_s" );
 const mtype_id mon_spider_widow_giant_s( "mon_spider_widow_giant_s" );
+const mtype_id mon_spider_cellar_giant_s( "mon_spider_cellar_giant_s" );
 const mtype_id mon_turret( "mon_turret" );
 const mtype_id mon_turret_rifle( "mon_turret_rifle" );
 
@@ -1487,6 +1488,11 @@ void iexamine::egg_sack_generic( player *p, map *m, const tripoint &examp,
 void iexamine::egg_sackbw( player *p, map *m, const tripoint &examp )
 {
     egg_sack_generic( p, m, examp, mon_spider_widow_giant_s );
+}
+
+void iexamine::egg_sackcs( player *p, map *m, const tripoint &examp )
+{
+    egg_sack_generic( p, m, examp, mon_spider_cellar_giant_s );
 }
 
 void iexamine::egg_sackws( player *p, map *m, const tripoint &examp )
@@ -2963,8 +2969,8 @@ void iexamine::pay_gas(player *p, map *m, const tripoint &examp)
     int pricePerUnit = getPricePerGasUnit(discount);
     std::string unitPriceStr = string_format(_("$%0.2f"), pricePerUnit / 100.0);
 
-    bool can_hack = (!p->has_trait("ILLITERATE") && ((p->has_amount("electrohack", 1)) ||
-                     (p->has_bionic("bio_fingerhack") && p->power_level > 0)));
+    bool can_hack = (!p->has_trait("ILLITERATE") && ((p->has_charges("electrohack", 25)) ||
+                     (p->has_bionic("bio_fingerhack") && p->power_level > 24)));
 
     uimenu amenu;
     amenu.selected = 1;
@@ -3310,6 +3316,9 @@ iexamine_function iexamine_function_from_string(std::string const &function_name
     if ("egg_sackbw" == function_name) {
         return &iexamine::egg_sackbw;
     }
+    if ("egg_sackcs" == function_name) {
+        return &iexamine::egg_sackcs;
+    }
     if ("egg_sackws" == function_name) {
         return &iexamine::egg_sackws;
     }
@@ -3391,17 +3400,16 @@ iexamine_function iexamine_function_from_string(std::string const &function_name
     return &iexamine::none;
 }
 
-hack_result iexamine::hack_attempt(player &p) {
+hack_result iexamine::hack_attempt( player &p ) {
     if( p.has_trait( "ILLITERATE" ) ) {
         return HACK_UNABLE;
     }
-    bool using_electrohack = ( p.has_amount( "electrohack", 1 ) &&
+    bool using_electrohack = ( p.has_charges( "electrohack", 25 ) &&
                                query_yn( _( "Use electrohack?" ) ) );
     bool using_fingerhack = ( !using_electrohack && p.has_bionic( "bio_fingerhack" ) &&
-                             p.power_level  > 0  &&
-                             query_yn( _( "Use fingerhack?" ) ) );
+                              p.power_level  > 24  && query_yn( _( "Use fingerhack?" ) ) );
 
-    if( ! ( using_electrohack || using_fingerhack ) ) {
+    if( !( using_electrohack || using_fingerhack ) ) {
         return HACK_UNABLE;
     }
 
@@ -3411,6 +3419,11 @@ hack_result iexamine::hack_attempt(player &p) {
     int success = rng( p.skillLevel( skill_computer ) / 4 - 2, p.skillLevel( skill_computer ) * 2 );
     success += rng( -3, 3 );
     if( using_fingerhack ) {
+        p.charge_power( -25 );
+        success++;
+    }
+    if( using_electrohack ) {
+        p.use_charges( "electrohack", 25 );
         success++;
     }
 

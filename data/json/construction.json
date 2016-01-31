@@ -438,6 +438,19 @@
         "post_terrain" : "t_door_metal_c"
     },{
         "type" : "construction",
+        "description" : "Build Metal Door", "//": "Step 3: peephole",
+        "category" : "CONSTRUCT",
+        "difficulty" : 3,
+        "time" : 25,
+        "qualities": [
+            [ { "id": "DRILL", "level": 1 } ],
+            [ { "id": "SCREW", "level": 1 } ],
+            [ { "id": "WRENCH", "level": 1 } ] ],
+        "components" : [ [ [ "peephole", 1 ] ] ],
+        "pre_terrain" : "t_door_metal_c",
+        "post_terrain" : "t_door_metal_c_peep"
+    },{
+        "type" : "construction",
         "description" : "Build Window", "//": "Step 1: window frame",
         "category" : "CONSTRUCT",
         "difficulty" : 2,
@@ -882,6 +895,46 @@
         "post_terrain" : "f_sandbag_wall"
     },{
         "type" : "construction",
+        "description" : "Build Metal Wall", "//": "Step 1: foundation",
+        "category" : "CONSTRUCT",
+        "difficulty" : 4,
+        "time" : 90,
+        "tools": [
+        [ [ "goggles_welding", -1 ] ],
+        [
+          [ "oxy_torch", 10 ],
+          [ "welder", 50 ],
+          [ "welder_crude", 75 ],
+          [ "toolset", 75 ]
+        ]
+        ],
+        "components" : [
+                [ [ "steel_plate", 2] ]
+        ],
+        "pre_terrain" : "t_pit_shallow",
+        "post_terrain" : "t_scrap_wall_halfway"
+    },{
+        "type" : "construction",
+        "description" : "Build Metal Wall", "//": "Step 2: finish wall",
+        "category" : "CONSTRUCT",
+        "difficulty" : 4,
+        "time" : 90,
+        "tools": [
+        [ [ "goggles_welding", -1 ] ],
+        [
+          [ "oxy_torch", 10 ],
+          [ "welder", 50 ],
+          [ "welder_crude", 75 ],
+          [ "toolset", 75 ]
+        ]
+        ],
+        "components" : [
+                [ [ "steel_plate", 2] ]
+        ],
+        "pre_terrain" : "t_scrap_wall_halfway",
+        "post_terrain" : "t_scrap_wall"
+    },{
+        "type" : "construction",
         "description" : "Build Brick Wall", "//": "Step 1: start wall",
         "category" : "CONSTRUCT",
         "difficulty" : 3,
@@ -992,6 +1045,26 @@
         ],
         "pre_terrain" : "t_strconc_wall_halfway",
         "post_terrain" : "t_strconc_wall"
+    },{
+        "type" : "construction",
+        "description" : "Build Metal Roof",
+        "category" : "CONSTRUCT",
+        "difficulty" : 5,
+        "time" : 90,
+        "tools": [
+        [ [ "goggles_welding", -1 ] ],
+        [
+          [ "oxy_torch", 10 ],
+          [ "welder", 50 ],
+          [ "welder_crude", 75 ],
+          [ "toolset", 75 ]
+        ]
+        ],
+        "components" : [
+            [ [ "steel_plate", 2] ]
+        ],
+        "pre_special" : "check_support",
+        "post_terrain" : "t_scrap_floor"
     },{
             "type" : "construction",
         "description" : "Build Concrete Roof", "//": "Step 1: rebar cage & supports",

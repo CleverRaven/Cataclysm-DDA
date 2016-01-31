@@ -23,6 +23,7 @@ const mtype_id mon_eyebot( "mon_eyebot" );
 const mtype_id mon_riotbot( "mon_riotbot" );
 const mtype_id mon_sewer_snake( "mon_sewer_snake" );
 const mtype_id mon_spider_widow_giant( "mon_spider_widow_giant" );
+const mtype_id mon_spider_cellar_giant( "mon_spider_cellar_giant" );
 
 event::event( event_type e_t, int t, int f_id, tripoint p )
 : type( e_t )
@@ -254,8 +255,8 @@ void event::actualize()
   } break;
 
     case EVENT_TEMPLE_SPAWN: {
-        static const std::array<mtype_id, 4> temple_monsters = { {
-            mon_sewer_snake, mon_centipede, mon_dermatik, mon_spider_widow_giant
+        static const std::array<mtype_id, 5> temple_monsters = { {
+            mon_sewer_snake, mon_centipede, mon_dermatik, mon_spider_widow_giant, mon_spider_cellar_giant
         } };
         const mtype_id &montype = random_entry( temple_monsters );
         int tries = 0, x, y;

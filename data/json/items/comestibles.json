@@ -17721,7 +17721,6 @@
        "spoils_in" : 240,
        "stim" : 1,
        "container" : "bottle_plastic",
-       "to_hit" : 0,
        "comestible_type" : "DRINK",
        "symbol" : "~",
        "quench" : 34,

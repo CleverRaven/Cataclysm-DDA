@@ -34,7 +34,7 @@ function calculate_bonuses()
 
     local str_bonus = calc_bonus(str_skills)
     local dex_bonus = calc_bonus(dex_skills)
-    local int_bonus = calc_bonus(dex_skills)
+    local int_bonus = calc_bonus(int_skills)
     local per_bonus = calc_bonus(per_skills)
 
     player:set_value("str_bonus", tostring(str_bonus))

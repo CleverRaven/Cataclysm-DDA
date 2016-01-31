@@ -12,7 +12,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "to_hit": 0,
         "difficulty": 7
     },
     {
@@ -28,7 +27,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "to_hit": 0,
         "difficulty": 3
     },
     {
@@ -44,7 +42,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "to_hit": 0,
         "difficulty": 1
     },
     {
@@ -60,7 +57,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "to_hit": 0,
         "difficulty": 3
     },
     {
@@ -76,7 +72,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "to_hit": 0,
         "difficulty": 5
     },
     {
@@ -92,7 +87,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "to_hit": 0,
         "difficulty": 5
     },
     {
@@ -108,7 +102,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "to_hit": 0,
         "difficulty": 3
     },
     {
@@ -124,7 +117,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "to_hit": 0,
         "difficulty": 4
     },
     {
@@ -140,7 +132,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "to_hit": 0,
         "difficulty": 4
     },
     {
@@ -156,7 +147,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "to_hit": 0,
         "difficulty": 3
     },
     {
@@ -172,7 +162,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "to_hit": 0,
         "difficulty": 2
     },
     {
@@ -188,7 +177,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "to_hit": 0,
         "difficulty": 3
     },
     {
@@ -204,7 +192,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "to_hit": 0,
         "difficulty": 9
     },
     {
@@ -220,7 +207,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "to_hit": 0,
         "difficulty": 4
     },
     {
@@ -236,7 +222,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "to_hit": 0,
         "difficulty": 5
     },
     {
@@ -252,7 +237,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "to_hit": 0,
         "difficulty": 8
     },
     {
@@ -268,7 +252,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "to_hit": 0,
         "difficulty": 8
     },
     {
@@ -284,7 +267,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "to_hit": 0,
         "difficulty": 3
     },
     {
@@ -300,7 +282,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "to_hit": 0,
         "difficulty": 5
     },
     {
@@ -316,7 +297,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "to_hit": 0,
         "difficulty": 11
     },
     {
@@ -332,7 +312,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "to_hit": 0,
         "difficulty": 6
     },
     {
@@ -348,7 +327,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "to_hit": 0,
         "difficulty": 6
     },
     {
@@ -364,7 +342,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "to_hit": 0,
         "difficulty": 5
     },
     {
@@ -380,7 +357,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "to_hit": 0,
         "difficulty": 4
     },
     {
@@ -396,7 +372,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "to_hit": 0,
         "difficulty": 4
     },
     {
@@ -412,7 +387,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "to_hit": 0,
         "difficulty": 11
     },
     {
@@ -428,7 +402,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "to_hit": 0,
         "difficulty": 5
     },
     {
@@ -444,7 +417,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "to_hit": 0,
         "difficulty": 2
     },
     {
@@ -460,7 +432,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "to_hit": 0,
         "difficulty": 5
     },
     {
@@ -476,7 +447,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "to_hit": 0,
         "difficulty": 2
     },
     {
@@ -492,7 +462,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "to_hit": 0,
         "difficulty": 4
     },
     {
@@ -508,7 +477,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "to_hit": 0,
         "difficulty": 11
     },
     {
@@ -524,7 +492,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "to_hit": 0,
         "difficulty": 11
     },
     {
@@ -540,7 +507,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "to_hit": 0,
         "difficulty": 6
     },
     {
@@ -556,7 +522,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "to_hit": 0,
         "difficulty": 13
     },
     {
@@ -572,7 +537,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "to_hit": 0,
         "difficulty": 3
     },
     {
@@ -588,7 +552,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "to_hit": 0,
         "difficulty": 6
     },
     {
@@ -604,7 +567,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "to_hit": 0,
         "difficulty": 6
     },
     {
@@ -620,7 +582,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "to_hit": 0,
         "difficulty": 5
     },
     {
@@ -636,7 +597,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "to_hit": 0,
         "difficulty": 5
     },
     {
@@ -652,7 +612,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "to_hit": 0,
         "difficulty": 3
     },
     {
@@ -668,7 +627,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "to_hit": 0,
         "difficulty": 6
     },
     {
@@ -684,7 +642,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "to_hit": 0,
         "difficulty": 6
     },
     {
@@ -700,7 +657,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "to_hit": 0,
         "difficulty": 11
     },
     {
@@ -716,7 +672,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "to_hit": 0,
         "difficulty": 12
     },
     {
@@ -732,7 +687,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "to_hit": 0,
         "difficulty": 5
     },
     {
@@ -748,7 +702,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "to_hit": 0,
         "difficulty": 5
     },
     {
@@ -764,7 +717,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "to_hit": 0,
         "difficulty": 4
     },
     {
@@ -780,7 +732,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "to_hit": 0,
         "difficulty": 2
     },
     {
@@ -796,7 +747,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "to_hit": 0,
         "difficulty": 2
     },
     {
@@ -812,7 +762,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "to_hit": 0,
         "difficulty": 6
     },
     {
@@ -828,7 +777,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "to_hit": 0,
         "difficulty": 9
     },
     {
@@ -844,7 +792,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "to_hit": 0,
         "difficulty": 4
     },
     {
@@ -860,7 +807,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "to_hit": 0,
         "difficulty": 6
     },
     {
@@ -876,7 +822,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "to_hit": 0,
         "difficulty": 5
     },
     {
@@ -892,7 +837,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "to_hit": 0,
         "difficulty": 11
     },
     {
@@ -908,7 +852,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "to_hit": 0,
         "difficulty": 7
     },
     {
@@ -924,7 +867,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "to_hit": 0,
         "difficulty": 4
     },
     {
@@ -940,7 +882,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "to_hit": 0,
         "difficulty": 1
     },
     {
@@ -956,7 +897,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "to_hit": 0,
         "difficulty": 8
     },
     {
@@ -972,7 +912,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "to_hit": 0,
         "difficulty": 1
     },
     {
@@ -989,7 +928,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "to_hit": 0,
         "difficulty": 1
     },
     {
@@ -1005,7 +943,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "to_hit": 0,
         "difficulty": 1
     },
     {
@@ -1021,7 +958,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "to_hit": 0,
         "difficulty": 11
     },
     {
@@ -1037,7 +973,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "to_hit": 0,
         "difficulty": 4
     },
     {
@@ -1053,7 +988,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "to_hit": 0,
         "difficulty": 4
     },
     {
@@ -1069,7 +1003,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "to_hit": 0,
         "difficulty": 3
     },
     {
@@ -1085,7 +1018,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "to_hit": 0,
         "difficulty": 4
     },
     {
@@ -1101,7 +1033,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "to_hit": 0,
         "difficulty": 6
     },
     {
@@ -1117,7 +1048,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "to_hit": 0,
         "difficulty": 11
     },
     {
@@ -1133,7 +1063,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "to_hit": 0,
         "difficulty": 5
     },
     {
@@ -1149,7 +1078,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "to_hit": 0,
         "difficulty": 8
     },
     {
@@ -1165,7 +1093,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "to_hit": 0,
         "difficulty": 5
     },
     {
@@ -1181,7 +1108,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "to_hit": 0,
         "difficulty": 5
     },
     {
@@ -1197,7 +1123,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "to_hit": 0,
         "difficulty": 4
     },
     {
@@ -1213,7 +1138,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "to_hit": 0,
         "difficulty": 7
     },
     {
@@ -1229,7 +1153,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "to_hit": 0,
         "difficulty": 7
     },
     {
@@ -1245,7 +1168,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "to_hit": 0,
         "difficulty": 11
     },
     {
@@ -1261,7 +1183,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "to_hit": 0,
         "difficulty": 4
     },
     {   
@@ -1277,7 +1198,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "to_hit": 0,
         "difficulty": 5
     },
     {
@@ -1293,7 +1213,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "to_hit": 0,
         "difficulty": 5
     },
     {
@@ -1309,7 +1228,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "to_hit": 0,
         "difficulty": 7
     },
     {
@@ -1325,7 +1243,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "to_hit": 0,
         "difficulty": 11
     },
     {
@@ -1341,7 +1258,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "to_hit": 0,
         "difficulty": 6
     },
     {
@@ -1357,7 +1273,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "to_hit": 0,
         "difficulty": 4
     },
     {
@@ -1373,7 +1288,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "to_hit": 0,
         "difficulty": 11
     },
     {
@@ -1389,7 +1303,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "to_hit": 0,
         "difficulty": 5
     },
     {
@@ -1405,7 +1318,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "to_hit": 0,
         "difficulty": 3
     },
     {
@@ -1421,7 +1333,6 @@
         "weight": 2041,
         "volume": 10,
         "bashing": 8,
-        "to_hit": 0,
         "difficulty": 6
     }
 ]

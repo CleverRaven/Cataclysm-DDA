@@ -191,6 +191,8 @@
 
       { "monster" : "mon_rattlesnake", "freq" : 15, "cost_multiplier" : 5, "conditions" : ["SPRING", "SUMMER", "AUTUMN"] },
 
+      { "monster" : "mon_rattlesnake_giant", "freq" : 10, "cost_multiplier" : 5, "conditions" : ["SPRING", "SUMMER", "AUTUMN"] },
+
       { "monster" : "mon_bee", "freq" :  3, "cost_multiplier" : 0,                 "conditions" : ["DAY", "SPRING", "SUMMER", "AUTUMN"] },
       { "monster" : "mon_bee", "freq" :  2, "cost_multiplier" : 0, "starts" :  24, "conditions" : ["DAY", "SPRING", "SUMMER", "AUTUMN"] },
       { "monster" : "mon_bee", "freq" :  3, "cost_multiplier" : 0, "starts" :  72, "conditions" : ["DAY", "SPRING", "SUMMER", "AUTUMN"] },
