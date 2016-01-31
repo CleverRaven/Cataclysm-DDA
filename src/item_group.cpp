@@ -344,12 +344,16 @@ Item_spawn_data::ItemList Item_group::create(int birthday, RecursionList &rec) c
     if (with_ammo && !result.empty()) {
         const auto t = result.front().type;
         if( t->gun ) {
-            const std::string ammoid = default_ammo( t->gun->ammo );
-            if ( !ammoid.empty() ) {
-                item ammo( ammoid, birthday );
-                // TODO: change the spawn lists to contain proper references to containers
-                ammo = ammo.in_its_container();
-                result.push_back( ammo );
+            if( !t->magazine_default.empty() ) {
+                result.emplace_back( t->magazine_default, birthday );
+            } else {
+                const std::string ammoid = default_ammo( t->gun->ammo );
+                if ( !ammoid.empty() ) {
+                    item ammo( ammoid, birthday );
+                    // TODO: change the spawn lists to contain proper references to containers
+                    ammo = ammo.in_its_container();
+                    result.push_back( ammo );
+                }
             }
         }
     }

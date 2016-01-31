@@ -7904,5 +7904,53 @@
     [ [ "wheel", 1 ] ],
     [ [ "motor", 1 ] ]
   ]
+},{
+  "type" : "recipe",
+  "result": "neoprene",
+  "category": "CC_CHEM",
+  "subcategory": "CSC_CHEM_OTHER",
+  "skill_used": "cooking",
+  "difficulty": 5,
+  "time": 25000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [["adv_chemistry", 3] , ["textbook_chemistry", 3]],
+  "qualities":[
+    {"id":"CHEM","level":2,"amount":1}
+  ], "tools": [
+    [
+      [ "hotplate", 100 ],
+      [ "toolset", 100 ]
+    ]
+  ],
+  "components": [
+    [ [ "chem_ethanol", 2 ] ],
+    [ [ "copper", 50 ] ],
+    [ [ "acid", 1 ] ],
+    [ [ "bleach", 2 ] ],
+    [ [ "oxy_powder", 50 ] ],
+    [ [ "scrap", 1 ] ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "needle_curved",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_TOOLS",
+  "skill_used": "tailor",
+  "difficulty": 3,
+  "time": 5000,
+  "reversible": true,
+  "autolearn": false,
+  "book_learn": [[ "textbook_tailor", 3 ] , [ "manual_tailor", 3 ]],
+  "qualities":[
+    {"id":"HAMMER","level":3,"amount":1}
+  ],
+  "components": [
+    [
+      [ "sewing_kit", 1 ],
+      [ "knitting_needles", 1 ],
+      [ "tailors_kit", 1 ]
+    ]
+  ]
 }
 ]

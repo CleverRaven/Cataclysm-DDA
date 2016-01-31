@@ -672,33 +672,40 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
             info.push_back( iteminfo( "FOOD", _( "Smells like: " ) + food_item->corpse->nname() ) );
         }
     }
-    const islot_ammo *ammo = nullptr;
-    if( is_ammo() ) {
-        ammo = type->ammo.get();
-    } else if( is_ammo_container() ) {
-        ammo = contents[0].type->ammo.get();
-    }
-    if( ammo != nullptr ) {
-        if( ammo->type != "NULL" ) {
-            info.push_back( iteminfo( "AMMO", _( "Type: " ), ammo_name( ammo->type ) ) );
-        }
 
-        if( ammo->damage > 0 ) {
-            info.push_back( iteminfo( "AMMO", _( "<bold>Damage</bold>: " ), "", ammo->damage, true, "", false,
-                                      false ) );
-            info.push_back( iteminfo( "AMMO", space + _( "Armor-pierce: " ), "",
-                                      ammo->pierce, true, "", true, false ) );
-            info.push_back( iteminfo( "AMMO", _( "Range: " ), "",
-                                      ammo->range, true, "", false, false ) );
-            info.push_back( iteminfo( "AMMO", space + _( "Dispersion: " ), "",
-                                      ammo->dispersion, true, "", true, true ) );
-            info.push_back( iteminfo( "AMMO", _( "Recoil: " ), "", ammo->recoil, true, "", true, true ) );
-        }
-        info.push_back( iteminfo( "AMMO", _( "Default stack size: " ), "", ammo->def_charges, true, "",
-                                  true, false ) );
+    if( is_magazine() && !has_flag( "NO_RELOAD" ) ) {
+        info.emplace_back( "MAGAZINE", _( "Capacity: " ),
+                           string_format( ngettext( "<num> round of %s", "<num> rounds of %s", ammo_capacity() ),
+                                          ammo_name( ammo_type() ).c_str() ), ammo_capacity(), true );
+
+        info.emplace_back( "MAGAZINE", _( "Reload time: " ), _( "<num> per round" ),
+                           type->magazine->reload_time, true, "", true, true );
+
+        insert_separation_line();
     }
 
-    if( is_gun() ) {
+    if( !is_gun() ) {
+        if( ammo_data() ) {
+            if( ammo_remaining() > 0 ) {
+                info.emplace_back( "AMMO", _( "Ammunition: " ), ammo_data()->nname( ammo_remaining() ) );
+            } else if( is_ammo() ) {
+                info.emplace_back( "AMMO", _( "Type: " ), ammo_name( ammo_type() ) );
+            }
+
+            const auto& ammo = *ammo_data()->ammo;
+            if( ammo.damage > 0 ) {
+                info.emplace_back( "AMMO", _( "<bold>Damage</bold>: " ), "", ammo.damage, true, "", false, false );
+                info.emplace_back( "AMMO", space + _( "Armor-pierce: " ), "", ammo.pierce, true, "", true, false );
+                info.emplace_back( "AMMO", _( "Range: " ), "", ammo.range, true, "", false, false );
+                info.emplace_back( "AMMO", space + _( "Dispersion: " ), "", ammo.dispersion, true, "", true, true );
+                info.emplace_back( "AMMO", _( "Recoil: " ), "", ammo.recoil, true, "", true, true );
+             }
+            if( is_ammo() ) {
+                info.emplace_back( "AMMO", _( "Default stack size: " ), "", ammo.def_charges, true, "", true, false );
+            }
+        }
+
+    } else {
         auto mod = active_gunmod();
         if( mod == nullptr ) {
             mod = this;
@@ -723,12 +730,21 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         info.push_back( iteminfo( "GUN", _( "Skill used: " ), "<info>" + skill->name() + "</info>" ) );
 
         if( magazine_integral() ) {
-            info.emplace_back( "GUN", _( "<bold>Ammunition</bold>: " ),
-                               string_format( ngettext( "<num> <stat>round of %s</stat>", "<num> <stat>rounds of %s</stat>", mod->ammo_capacity() ),
+            info.emplace_back( "GUN", _( "<bold>Capacity:</bold> " ),
+                               string_format( ngettext( "<num> round of %s", "<num> rounds of %s", mod->ammo_capacity() ),
                                               ammo_name( mod->ammo_type() ).c_str() ), mod->ammo_capacity(), true );
         } else {
-            info.emplace_back( "GUN", string_format( "%s<stat>%s</stat>", _( "<bold>Ammunition</bold>: " ), ammo_name( mod->ammo_type() ).c_str() ) );
+            info.emplace_back( "GUN", _( "Type: " ), ammo_name( ammo_type() ) );
+            if( magazine_current() ) {
+                info.emplace_back( "GUN", _( "Magazine: " ), magazine_current()->tname() );
+            }
         }
+
+        if( ammo_data() ) {
+            info.emplace_back( "AMMO", _( "Ammunition: " ), ammo_data()->nname( ammo_remaining() ) );
+        }
+
+        insert_separation_line();
 
         info.push_back( iteminfo( "GUN", _( "Damage: " ), "", mod->gun_damage( false ), true, "", false, false ) );
 
@@ -1434,6 +1450,10 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         if( is_armor() && has_flag( "RAINPROOF" ) ) {
             info.push_back( iteminfo( "DESCRIPTION",
                                       _( "* This piece of clothing is designed to keep you <info>dry</info> in the rain." ) ) );
+        }
+        if( is_armor() && has_flag( "RESTRICT_HANDS" ) ) {
+            info.push_back( iteminfo( "DESCRIPTION",
+                                      _( "* This piece of clothing hinders the use of two-handed weapons." ) ) );
         }
         if( is_armor() && has_flag( "SUN_GLASSES" ) ) {
             info.push_back( iteminfo( "DESCRIPTION",

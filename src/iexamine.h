@@ -77,6 +77,7 @@ void flower_marloss( player *p, map *m, const tripoint &examp );
 void flower_dandelion( player *p, map *m, const tripoint &examp );
 void examine_cattails( player *p, map *m, const tripoint &examp );
 void egg_sackbw( player *p, map *m, const tripoint &examp );
+void egg_sackcs( player *p, map *m, const tripoint &examp );
 void egg_sackws( player *p, map *m, const tripoint &examp );
 void fungus( player *p, map *m, const tripoint &examp );
 void dirtmound( player *p, map *m, const tripoint &examp );

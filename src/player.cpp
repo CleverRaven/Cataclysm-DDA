@@ -10482,15 +10482,21 @@ void player::rooted()
 
 bool player::can_wield( const item &it, bool alert ) const
 {
-    if( it.is_two_handed(*this) && !has_two_arms() ) {
+    if( it.is_two_handed(*this) && ( !has_two_arms() || worn_with_flag("RESTRICT_HANDS") ) ) {
         if( it.has_flag("ALWAYS_TWOHAND") ) {
             if( alert ) {
                 add_msg( m_info, _("The %s can't be wielded with only one arm."), it.tname().c_str() );
+            }
+            if( worn_with_flag("RESTRICT_HANDS") ) {
+                add_msg( m_info, _("Something you are wearing hinders the use of both hands.") );
             }
         } else {
             if( alert ) {
                 add_msg( m_info, _("You are too weak to wield %s with only one arm."),
                          it.tname().c_str() );
+            }
+            if( worn_with_flag("RESTRICT_HANDS") ) {
+                add_msg( m_info, _("Something you are wearing hinders the use of both hands.") );
             }
         }
         return false;
@@ -10755,6 +10761,11 @@ hint_rating player::rate_action_wear( const item &it ) const
         }
     }
 
+    // Check if we have a hand free to wear a briefcase or shield, including if we're already wearing such a thing.
+    if (it.has_flag("RESTRICT_HANDS") &&  ( !has_two_arms() || worn_with_flag("RESTRICT_HANDS") || weapon.is_two_handed( *this ) )) {
+        return HINT_IFFY;
+    }
+
     // Make sure we're not wearing 2 of the item already
     int count = 0;
     for (auto &i : worn) {
@@ -11002,6 +11013,14 @@ bool player::wear_item( const item &to_wear, bool interactive )
                 }
             }
         }
+    }
+
+    // Check if we don't have both hands available before wearing a briefcase, shield, etc. Also occurs if we're already wearing one.
+    if (to_wear.has_flag("RESTRICT_HANDS") && ( !has_two_arms() || worn_with_flag("RESTRICT_HANDS") || weapon.is_two_handed( *this ) )) {
+        if(interactive) {
+            add_msg_if_player( m_info, _("You don't have a hand free to wear that.") );
+        }
+        return false;
     }
 
     // Make sure we're not wearing 2 of the item already
@@ -13760,10 +13779,16 @@ bool player::wield_contents( item *container, int pos, int factor, bool effects 
     last_item = itype_id( weapon.type->id );
     container->contents.erase( container->contents.begin() + pos );
 
-    // TODO Doxygen comment covering all possible gun and weapon skills
-    // documenting decrease in time spent wielding from a container
-    int lvl = std::max( (int) get_skill_level( weapon.is_gun() ? weapon.gun_skill() : weapon.weap_skill() ), 1);
-    mv += item_handling_cost( weapon, effects, factor ) / lvl;
+    ///\EFFECT_PISTOL decreases time taken to draw pistols from holsters
+    ///\EFFECT_SMG decreases time taken to draw smgs from holsters
+    ///\EFFECT_RIFLE decreases time taken to draw rifles from holsters
+    ///\EFFECT_SHOTGUN decreases time taken to draw shotguns from holsters
+    ///\EFFECT_LAUNCHER decreases time taken to draw launchers from holsters
+    ///\EFFECT_STABBING decreases time taken to draw stabbing weapons from sheathes
+    ///\EFFECT_CUTTING decreases time taken to draw cutting weapons from scabbards
+    ///\EFFECT_BASHING decreases time taken to draw bashing weapons from holsters
+    int lvl = get_skill_level( weapon.is_gun() ? weapon.gun_skill() : weapon.weap_skill() );
+    mv += item_handling_cost( weapon, effects, factor ) / std::max( sqrt( ( lvl + 3 ) / 3 ), 1.0 );
 
     moves -= mv;
 
@@ -13774,8 +13799,16 @@ bool player::wield_contents( item *container, int pos, int factor, bool effects 
 
 void player::store(item* container, item* put, int factor, bool effects)
 {
-    int lvl = std::max( (int) get_skill_level( put->is_gun() ? put->gun_skill() : put->weap_skill() ), 1 );
-    moves -= item_handling_cost( *put, effects, factor ) / lvl;
+    ///\EFFECT_PISTOL decreases time taken to holster a pistol
+    ///\EFFECT_SMG decreases time taken to holster an SMG
+    ///\EFFECT_RIFLE decreases time taken to holster a rifle
+    ///\EFFECT_SHOTGUN decreases time taken to holster a shotgun
+    ///\EFFECT_LAUNCHER decreases time taken to holster a launcher
+    ///\EFFECT_STABBING decreases time taken to sheath a stabbing weapon
+    ///\EFFECT_CUTTING decreases time taken to sheath a cutting weapon
+    ///\EFFECT_BASHING decreases time taken to holster a bashing weapon
+    int lvl = get_skill_level( put->is_gun() ? put->gun_skill() : put->weap_skill() );
+    moves -= item_handling_cost( *put, effects, factor ) / std::max( sqrt( ( lvl + 3 ) / 3 ), 1.0 );
     container->put_in(i_rem(put));
 }
 

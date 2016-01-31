@@ -7016,6 +7016,10 @@ void map::spawn_monsters_submap_group( const tripoint &gp, mongroup &group, bool
         }
     }
 
+    // Find horde's target submap
+    tripoint horde_target( group.target.x - abs_sub.x,
+        group.target.y - abs_sub.y, abs_sub.z );
+    overmapbuffer::sm_to_ms( horde_target );
     for( auto &tmp : group.monsters ) {
         for( int tries = 0; tries < 10 && !locations.empty(); tries++ ) {
             const tripoint p = random_entry_removed( locations );
@@ -7023,6 +7027,16 @@ void map::spawn_monsters_submap_group( const tripoint &gp, mongroup &group, bool
                 continue; // target can not contain the monster
             }
             tmp.spawn( p );
+            if( group.horde ) {
+                // Give monster a random point near horde's expected destination
+                const tripoint rand_dest = horde_target +
+                    point( rng( 0, SEEX ), rng( 0, SEEY ) );
+                const int turns = rl_dist( p, rand_dest ) + group.interest;
+                tmp.wander_to( rand_dest, turns );
+                add_msg( m_debug, "%s targetting %d,%d,%d", tmp.disp_name().c_str(),
+                    tmp.wander_pos.x, tmp.wander_pos.y, tmp.wander_pos.z, tmp.wandf );
+            }
+
             g->add_zombie( tmp );
             break;
         }
