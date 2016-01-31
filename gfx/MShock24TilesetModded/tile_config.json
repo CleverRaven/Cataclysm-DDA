@@ -14667,6 +14667,12 @@
           "rotates": false
         },
         {
+          "id": "t_door_metal_o_peep",
+          "fg": 1761,
+          "bg": 534,
+          "rotates": false
+        },
+        {
           "id": "t_gates_mech_control",
           "fg": 1788,
           "bg": 534,
@@ -15301,6 +15307,84 @@
         },
         {
           "id": "t_wall_metal",
+          "fg": 1988,
+          "bg": 534,
+          "rotates": false,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "corner",
+              "fg": 1989,
+              "bg": 534
+            },
+            {
+              "id": "center",
+              "fg": 1988,
+              "bg": 534
+            },
+            {
+              "id": "end_piece",
+              "fg": 1991,
+              "bg": 534
+            },
+            {
+              "id": "unconnected",
+              "fg": 1993,
+              "bg": 534
+            },
+            {
+              "id": "t_connection",
+              "fg": 1992,
+              "bg": 534
+            },
+            {
+              "id": "edge",
+              "fg": 1990,
+              "bg": 534
+            }
+          ]
+        },
+        {
+          "id": "t_scrap_wall",
+          "fg": 1988,
+          "bg": 534,
+          "rotates": false,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "corner",
+              "fg": 1989,
+              "bg": 534
+            },
+            {
+              "id": "center",
+              "fg": 1988,
+              "bg": 534
+            },
+            {
+              "id": "end_piece",
+              "fg": 1991,
+              "bg": 534
+            },
+            {
+              "id": "unconnected",
+              "fg": 1993,
+              "bg": 534
+            },
+            {
+              "id": "t_connection",
+              "fg": 1992,
+              "bg": 534
+            },
+            {
+              "id": "edge",
+              "fg": 1990,
+              "bg": 534
+            }
+          ]
+        },
+        {
+          "id": "t_scrap_wall_halfway",
           "fg": 1988,
           "bg": 534,
           "rotates": false,
@@ -16783,6 +16867,11 @@
           "rotates": false
         },
         {
+          "id": "f_egg_sackcs",
+          "fg": 950,
+          "rotates": false
+        },
+        {
           "id": "f_egg_sacke",
           "fg": 951,
           "rotates": false
@@ -18208,6 +18297,11 @@
         },
         {
           "id": "t_metal_floor",
+          "fg": 1817,
+          "rotates": false
+        },
+        {
+          "id": "t_scrap_floor",
           "fg": 1817,
           "rotates": false
         },
@@ -24322,6 +24416,35 @@
         {
           "id": "mp5mag",
           "fg": 3086,
+          "rotates": false
+        },
+        {
+          "id": "mon_rattlesnake_giant",
+          "fg": 3087,
+          "bg": 515,
+          "rotates": false
+        },
+        {
+          "id": "t_door_metal_c_peep",
+          "fg": 3088,
+          "rotates": false
+        },
+        {
+          "id": "t_window_bars",
+          "fg": 3089,
+          "bg": 535,
+          "rotates": true
+        },
+        {
+          "id": "mon_spider_cellar_giant",
+          "fg": 3090,
+          "bg": 515,
+          "rotates": false
+        },
+        {
+          "id": "mon_spider_cellar_giant_s",
+          "fg": 3091,
+          "bg": 515,
           "rotates": false
         }
       ]
