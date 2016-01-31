@@ -59,7 +59,8 @@
                 { "item": "rifles", "chance": 80, "x": 20, "y": [7,12], "repeat": [1,3] },
                 { "item": "smg", "chance": 25, "x": 3, "y": [7,8], "repeat": [1,3] },
                 { "item": "assault", "chance": 18, "x": 3, "y": [9,10], "repeat": [1,3] },
-                { "item": "ammo", "chance": 93, "x": 3, "y": [11,13], "repeat": [1,3] },
+                { "item": "ammo", "chance": 60, "x": 3, "y": [11,13], "repeat": [1,2] },
+                { "item": "mags_gunstore", "chance": 60, "x": 8, "y": [10,12] },
                 { "item": "allguns", "chance": 12, "x": [5,17], "y": 16, "repeat": [1,3] },
                 { "item": "gunxtras", "chance": 67, "x": [16,19], "y": 13, "repeat": [1,3] }
             ],
