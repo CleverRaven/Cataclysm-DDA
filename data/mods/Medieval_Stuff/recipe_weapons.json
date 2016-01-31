@@ -1,46 +1,6 @@
 [
 {
   "type" : "recipe",
-  "result": "arming_sword",
-  "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_CUTTING",
-  "skill_used": "fabrication",
-  "difficulty": 8,
-  "time": 480000,
-  "reversible": false,
-  "autolearn": false,
-  "book_learn": [[ "textbook_weapwest", 7 ], [ "scots_cookbook", 9 ]],
-  "qualities": [
-    {"id":"HAMMER","level":3,"amount":1}
-  ],
-  "tools": [
-    [ [ "tongs", -1 ] ],
-    [ [ "chisel", -1 ] ],
-    [ [ "anvil", -1 ] ],
-    [ [ "swage", -1 ] ],
-    [
-      [ "forge", 425 ],
-      [ "char_forge", 85 ],
-      [ "oxy_torch", 85 ]
-    ]
-  ],
-  "components": [
-    [
-      [ "steel_lump", 3 ],
-      [ "steel_chunk", 12 ],
-      [ "scrap", 36 ]
-    ],
-    [
-      [ "2x4", 1 ],
-      [ "stick", 2 ]
-    ],
-    [
-      [ "fur", 1 ],
-      [ "leather", 1 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
   "result": "estoc",
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_CUTTING",
