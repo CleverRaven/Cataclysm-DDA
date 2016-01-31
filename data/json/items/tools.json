@@ -180,19 +180,25 @@
     }
   },
   {
-    "type":"GENERIC",
+    "type":"TOOL",
     "id": "electrohack",
     "symbol": ",",
     "color": "green",
     "name": "electrohack",
     "category" : "tools",
-    "description": "This device has many ports attached, allowing it to connect to almost any control panel or other electronic machine (but not computers).  With a little skill, it can be used to crack passwords and more.",
+    "description": "This device has many ports attached, allowing it to connect to almost any control panel or other electronic machine (but not computers).  With a little skill, it can be used to crack passwords and more.  It requires 10 charges of battery power per use.",
     "price": 40000,
     "material": ["plastic", "aluminum"],
     "weight": 114,
     "volume": 2,
     "bashing": 5,
-    "to_hit": 1
+    "to_hit": 1,
+    "max_charges": 100,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "battery",
+    "revert_to": "null"
   },
   {
     "id": "magnifying_glass",

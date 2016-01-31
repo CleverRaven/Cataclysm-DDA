@@ -2969,7 +2969,7 @@ void iexamine::pay_gas(player *p, map *m, const tripoint &examp)
     int pricePerUnit = getPricePerGasUnit(discount);
     std::string unitPriceStr = string_format(_("$%0.2f"), pricePerUnit / 100.0);
 
-    bool can_hack = (!p->has_trait("ILLITERATE") && ((p->has_amount("electrohack", 1)) ||
+    bool can_hack = (!p->has_trait("ILLITERATE") && ((p->has_charges("electrohack", 10)) ||
                      (p->has_bionic("bio_fingerhack") && p->power_level > 0)));
 
     uimenu amenu;
@@ -3404,7 +3404,7 @@ hack_result iexamine::hack_attempt( player &p ) {
     if( p.has_trait( "ILLITERATE" ) ) {
         return HACK_UNABLE;
     }
-    bool using_electrohack = ( p.has_amount( "electrohack", 1 ) &&
+    bool using_electrohack = ( p.has_charges( "electrohack", 10 ) &&
                                query_yn( _( "Use electrohack?" ) ) );
     bool using_fingerhack = ( !using_electrohack && p.has_bionic( "bio_fingerhack" ) &&
                               p.power_level  > 0  && query_yn( _( "Use fingerhack?" ) ) );
@@ -3420,6 +3420,10 @@ hack_result iexamine::hack_attempt( player &p ) {
     success += rng( -3, 3 );
     if( using_fingerhack ) {
         p.charge_power( -1 );
+        success++;
+    }
+    if( using_electrohack ) {
+        p.use_charges( "electrohack", 10 );
         success++;
     }
 
