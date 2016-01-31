@@ -92,6 +92,32 @@
   ]
 },{
   "type" : "recipe",
+  "result": "mushroom_cooked",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_VEGGI",
+  "skill_used": "cooking",
+  "difficulty": 0,
+  "time": 15000,
+  "reversible": false,
+  "autolearn": true,
+  "batch_time_factors":[67, 5],
+  "qualities":[
+    {"id":"COOK","level":1,"amount":1}
+  ], "tools": [
+    [
+      [ "hotplate", 7 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 7 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "mushroom", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
   "result": "meat_cooked",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
@@ -627,21 +653,42 @@
   "subcategory": "CSC_FOOD_OTHER",
   "skill_used": "cooking",
   "difficulty": 2,
-  "skills_required": [ "survival", 5 ],
-  "time": 9000,
+  "time": 18000,
   "reversible": false,
   "autolearn": true,
   "batch_time_factors":[67, 5],
   "tools": [
     [
-      [ "dehydrator", 20 ],
-      [ "char_smoker", 4 ]
+      [ "dehydrator", 25 ],
+      [ "char_smoker", 5 ]
     ]
   ],
   "components": [
     [
       [ "mushroom", 4 ],
       [ "mushroom_morel", 4 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "dry_mushroom_magic",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_OTHER",
+  "skill_used": "cooking",
+  "difficulty": 2,
+  "time": 18000,
+  "reversible": false,
+  "autolearn": true,
+  "batch_time_factors":[67, 5],
+  "tools": [
+    [
+      [ "dehydrator", 25 ],
+      [ "char_smoker", 5 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "mushroom_magic", 4 ]
     ]
   ]
 },{
@@ -3708,6 +3755,9 @@
       [ "egg_reptile", 1 ],
       [ "dry_veggy", 2 ],
       [ "dandelion_cooked", 2 ],
+      [ "mushroom_cooked", 2 ],
+      [ "morel_cooked", 2 ],
+      [ "mushroom", 2 ],
       [ "dry_mushroom", 2 ]
     ],
     [
@@ -3785,6 +3835,124 @@
   ]
 },{
   "type" : "recipe",
+  "result": "soup_mushroom",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_VEGGI",
+  "skill_used": "cooking",
+  "difficulty": 2,
+  "time": 20000,
+  "reversible": false,
+  "autolearn": true,
+  "batch_time_factors":[80, 4],
+  "qualities":[
+    {"id":"COOK","level":3,"amount":1}
+  ], "tools": [
+    [
+      [ "hotplate", 5 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 5 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "broth", 1 ]
+    ],
+    [
+      [ "mushroom", 4 ],
+      [ "mushroom_cooked", 4 ],
+      [ "dry_mushroom", 4 ],
+      [ "morel_cooked", 4 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "jar_soup_mushroom",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_MEAT",
+  "skill_used": "cooking",
+  "skills_required": ["mechanics",1],
+  "difficulty": 4,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": true,
+  "batch_time_factors":[80, 4],
+  "qualities":[
+    {"id":"COOK","level":3,"amount":1}
+  ], "tools": [
+    [
+      [ "hotplate", 10 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 10 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "vac_sealer", 10 ],
+      [ "makeshift_sealer", 20 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "jar_glass", 1 ]
+    ],
+    [
+      [ "broth", 1 ]
+    ],
+    [
+      [ "mushroom", 4 ],
+      [ "mushroom_cooked", 4 ],
+      [ "dry_mushroom", 4 ],
+      [ "morel_cooked", 4 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "soup_mushroom",
+  "id_suffix" : "canned",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_VEGGI",
+  "skill_used": "cooking",
+  "difficulty": 4,
+  "time": 24000,
+  "reversible": false,
+  "autolearn": true,
+  "contained": true,
+  "batch_time_factors":[83, 5],
+  "qualities" : [
+    {"id":"SAW_M","level":1,"amount":1},
+    {"id":"HAMMER","level":1,"amount":1},
+    {"id":"CUT","level":1,"amount":1},
+    {"id":"COOK","level":3,"amount":1}
+  ], "tools": [
+    [
+      [ "hotplate", 10 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 10 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "can_sealer", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "can_food", 1 ]
+    ],
+    [
+      [ "scrap", 1 ]
+    ],
+    [
+      [ "broth", 1 ]
+    ],
+    [
+      [ "mushroom", 4 ],
+      [ "mushroom_cooked", 4 ],
+      [ "dry_mushroom", 4 ],
+      [ "morel_cooked", 4 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
   "result": "soup_veggy",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_VEGGI",
@@ -3845,7 +4013,10 @@
       [ "carrot", 12 ],
       [ "veggy", 2 ],
       [ "dry_veggy", 2 ],
+      [ "mushroom", 2 ],
       [ "dry_mushroom", 2 ],
+      [ "mushroom_cooked", 2 ],
+      [ "morel_cooked", 2 ],
       [ "rehydrated_veggy", 2 ],
       [ "veggy_wild", 2 ]
     ]
@@ -3969,7 +4140,10 @@
       [ "can_beans", 1 ],
       [ "beans_cooked", 1 ],
       [ "dandelion_cooked", 1 ],
+      [ "mushroom", 1 ],
       [ "dry_mushroom", 1 ],
+      [ "mushroom_cooked", 1 ],
+      [ "morel_cooked", 1 ],
       [ "acorns_cooked", 1 ]
     ],
     [
@@ -4040,7 +4214,10 @@
       [ "raw_beans", 1 ],
       [ "dry_rice", 1 ],
       [ "dandelion_cooked", 1 ],
+      [ "mushroom", 1 ],
       [ "dry_mushroom", 1 ],
+      [ "mushroom_cooked", 1 ],
+      [ "morel_cooked", 1 ],
       [ "acorns_cooked", 1 ]
     ]
   ]
@@ -4576,7 +4753,10 @@
       ["veggy", 1],
       ["veggy_wild", 1],
       ["dry_veggy", 1 ],
+      ["mushroom", 1 ],
       ["dry_mushroom", 1 ],
+      ["morel_cooked", 1 ],
+      ["mushroom_cooked", 1 ],
       ["rehydrated_veggy", 1 ],
       [ "can_tomato", 1 ],
       ["tomato", 1],
@@ -4717,6 +4897,7 @@
       ["veggy", 1],
       ["veggy_wild", 1],
       ["dry_veggy", 1 ],
+      ["mushroom", 1 ],
       ["dry_mushroom", 1 ],
       ["rehydrated_veggy", 1 ],
       [ "can_tomato", 1 ],
@@ -4871,7 +5052,10 @@
     [
       ["veggy", 1],
       ["dry_veggy", 1 ],
+      ["mushroom", 1 ],
       ["dry_mushroom", 1 ],
+      ["morel_cooked", 1 ],
+      ["mushroom_cooked", 1 ],
       ["rehydrated_veggy", 1 ],
       ["veggy_wild", 1],
       [ "can_tomato", 1 ],
@@ -6374,7 +6558,10 @@
       [ "veggy_vac", 2 ],
       [ "rehydrated_veggy", 2 ],
       [ "dry_veggy", 2 ],
+      [ "mushroom", 2 ],
       [ "dry_mushroom", 2 ],
+      [ "morel_cooked", 2 ],
+      [ "mushroom_cooked", 2 ],
       [ "dry_beans", 1 ],
       [ "raw_beans", 1 ],
       [ "dry_rice", 1 ]
@@ -6422,7 +6609,10 @@
       [ "veggy_vac", 2 ],
       [ "rehydrated_veggy", 2 ],
       [ "dry_veggy", 2 ],
+      [ "mushroom", 2 ],
       [ "dry_mushroom", 2 ],
+      [ "morel_cooked", 2 ],
+      [ "mushroom_cooked", 2 ],
       [ "dry_beans", 1 ],
       [ "raw_beans", 1 ],
       [ "dry_rice", 1 ]
@@ -6463,7 +6653,10 @@
       [ "veggy_wild", 2 ],
       [ "veggy_vac", 2 ],
       [ "rehydrated_veggy", 2 ],
+      [ "mushroom", 2 ],
       [ "dry_mushroom", 2 ],
+      [ "morel_cooked", 2 ],
+      [ "mushroom_cooked", 2 ],
       [ "dry_veggy", 2 ]
     ],
     [
@@ -6514,7 +6707,10 @@
       [ "veggy_wild", 2 ],
       [ "veggy_vac", 2 ],
       [ "rehydrated_veggy", 2 ],
+      [ "mushroom", 2 ],
       [ "dry_mushroom", 2 ],
+      [ "morel_cooked", 2 ],
+      [ "mushroom_cooked", 2 ],
       [ "dry_veggy", 2 ]
     ],
     [
@@ -6579,7 +6775,10 @@
       [ "irradiated_tomato", 2 ],
       [ "irradiated_broccoli", 1 ],
       [ "rehydrated_veggy", 2 ],
+      [ "mushroom", 2 ],
       [ "dry_mushroom", 2 ],
+      [ "morel_cooked", 2 ],
+      [ "mushroom_cooked", 2 ],
       [ "dry_veggy", 2 ]
     ],
     [
@@ -6997,6 +7196,9 @@
       [ "veggy_wild", 2 ],
       [ "rehydrated_veggy", 2 ],
       [ "dry_veggy", 2 ],
+      [ "mushroom", 2 ],
+      [ "mushroom_cooked", 2 ],
+      [ "morel_cooked", 2 ],
       [ "dry_mushroom", 2 ]
     ]
   ]
@@ -7386,6 +7588,7 @@
       [ "jar_glass", 1 ]
     ],
     [
+      [ "mushroom", 1 ],
       [ "veggy", 1 ],
       [ "veggy_wild", 1 ]
     ]
@@ -7534,7 +7737,10 @@
       [ "raw_beans", 1 ],
       [ "beans_cooked", 1 ],
       [ "dandelion_cooked", 1 ],
+      [ "mushroom", 1 ],
       [ "dry_mushroom", 1 ],
+      [ "mushroom_cooked", 1 ],
+      [ "morel_cooked", 1 ],
       [ "acorns_cooked", 1 ]
     ]
   ]
@@ -7669,7 +7875,10 @@
       [ "irradiated_carrot", 12 ],
       [ "veggy", 2 ],
       [ "dry_veggy", 2 ],
+      [ "mushroom", 2 ],
       [ "dry_mushroom", 2 ],
+      [ "mushroom_cooked", 2 ],
+      [ "morel_cooked", 2 ],
       [ "rehydrated_veggy", 2 ],
       [ "veggy_wild", 2 ]
     ]
@@ -7748,7 +7957,10 @@
       [ "dry_rice", 1 ],
       [ "beans_cooked", 1 ],
       [ "dandelion_cooked", 1 ],
+      [ "mushroom", 1 ],
       [ "dry_mushroom", 1 ],
+      [ "morel_cooked", 1 ],
+      [ "mushroom_cooked", 1 ]
       [ "acorns_cooked", 1 ]
     ],
     [
@@ -7874,6 +8086,9 @@
       [ "egg_reptile", 1 ],
       [ "dry_veggy", 2 ],
       [ "dandelion_cooked", 2 ],
+      [ "mushroom_cooked", 2 ],
+      [ "morel_cooked", 2 ],
+      [ "mushroom", 2 ],
       [ "dry_mushroom", 2 ]
     ],
     [
@@ -8102,6 +8317,7 @@
       [ "bag_plastic", 1 ]
     ],
     [
+      [ "mushroom", 2 ],
       [ "veggy", 2 ],
       [ "veggy_wild", 2 ]
     ],
@@ -9784,6 +10000,7 @@
     [
       ["veggy", 1],
       ["veggy_wild", 1],
+      ["mushroom", 1],
       ["tomato", 1],
       ["irradiated_tomato", 1],
       ["broccoli", 1],
@@ -10918,7 +11135,10 @@
       [ "raw_beans", 1 ],
       [ "dry_rice", 1 ],
       [ "dandelion_cooked", 1 ],
+      [ "mushroom", 1 ],
       [ "dry_mushroom", 1 ],
+      [ "mushroom_cooked", 1 ],
+      [ "morel_cooked", 1 ],
       [ "acorns_cooked", 1 ]
     ]
   ]
@@ -10998,7 +11218,10 @@
       [ "carrot", 12 ],
       [ "veggy", 2 ],
       [ "dry_veggy", 2 ],
+      [ "mushroom", 2 ],
       [ "dry_mushroom", 2 ],
+      [ "mushroom_cooked", 2 ],
+      [ "morel_cooked", 2 ],
       [ "rehydrated_veggy", 2 ],
       [ "veggy_wild", 2 ]
     ]
@@ -11150,7 +11373,10 @@
       [ "can_beans", 1 ],
       [ "beans_cooked", 1 ],
       [ "dandelion_cooked", 1 ],
+      [ "mushroom", 1 ],
       [ "dry_mushroom", 1 ],
+      [ "morel_cooked", 1 ],
+      [ "mushroom_cooked", 1 ],
       [ "acorns_cooked", 1 ]
     ],
     [
