@@ -1,7 +1,7 @@
 [
   {
     "type" : "item_group",
-    "id" : "mags_milpsec",
+    "id" : "mags_milspec",
     "//" : "Current military specification magazines.",
     "items": [
       ["20x66_20_mag", 10],
@@ -168,8 +168,9 @@
     "items": [
       { "group": "mags_pistol_common", "prob": 30 },
       { "group": "mags_rifle_common", "prob": 20 },
-      { "group": "mags_smg_common", "prob": 10 }
-      { "group": "mags_shotgun_common", "prob": 5 }
+      { "group": "mags_smg_common", "prob": 10 },
+      { "group": "mags_shotgun_common", "prob": 5 },
+      { "group": "mags_other_common", "prob": 5 }
     ]
   },
   {
