@@ -21,6 +21,8 @@
         "katana",
         "rapier_fake",
         "rapier",
+        "estoc",
+        "estoc_fake",
         "kris",
         "kris_fake",
         "zweihander",
