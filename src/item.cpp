@@ -1594,6 +1594,16 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                                       _( "* This object is <neutral>surrounded</neutral> by a <info>sickly green glow</info>." ) ) );
         }
 
+        if( is_food() && has_flag( "CANNIBALISM" ) ) {
+            if( !g->u.has_trait_flag( "CANNIBAL" ) ) {
+                info.push_back( iteminfo( "DESCRIPTION",
+                                          _( "* This food contains <bad>human flesh</bad>." ) ) );
+            } else {
+                info.push_back( iteminfo( "DESCRIPTION",
+                                          _( "* This food contains <good>human flesh</good>." ) ) );
+            }
+        }
+
         ///\EFFECT_SURVIVAL >=3 allows detection of poisonous food
         if( is_food() && has_flag( "HIDDEN_POISON" ) && g->u.skillLevel( skill_survival ).level() >= 3 ) {
             info.push_back( iteminfo( "DESCRIPTION",
@@ -2562,6 +2572,17 @@ bool item::has_flag( const std::string &f ) const
     // now check for item specific flags
     ret = item_tags.count(f);
     return ret;
+}
+
+bool item::has_any_flag( const std::vector<std::string>& flags ) const
+{
+    for( auto &flag : flags ) {
+        if( has_flag( flag ) ) {
+            return true;
+        }
+    }
+
+    return false;
 }
 
 bool item::has_property( const std::string& prop ) const {

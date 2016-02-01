@@ -67,6 +67,7 @@ struct mutation_branch {
     std::vector<std::string> replacements; // Mutations that replace this one
     std::vector<std::string> additions; // Mutations that add to this one
     std::vector<std::string> category; // Mutation Categories
+    std::set<std::string> flags; // Mutation flags
     std::map<body_part, tripoint> protection; // Mutation wet effects
     /** Key pair is <active: bool, mod type: "STR"> */
     std::unordered_map<std::pair<bool, std::string>, int> mods; // Mutation stat mods

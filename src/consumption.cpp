@@ -13,22 +13,13 @@ const efftype_id effect_poison( "poison" );
 const mtype_id mon_player_blob( "mon_player_blob" );
 
 static const std::vector<std::string> carnivore_blacklist = {{
-        "veggy", "fruit", "wheat"
-    }
-};
-static const std::vector<std::string> carnivore_whitelist = {{
-        "flesh", "hflesh", "iflesh", "milk", "egg"
+        "ALLERGEN_VEGGY", "ALLERGEN_FRUIT", "ALLERGEN_WHEAT"
     }
 };
 static const std::vector<std::string> herbivore_blacklist = {{
-        "flesh", "hflesh", "iflesh", "egg"
+        "ALLERGEN_MEAT", "ALLERGEN_EGG"
     }
 };
-static const std::vector<std::string> cannibal_traits = {{
-        "CANNIBAL", "PSYCHOPATH", "SAPIOVORE"
-    }
-};
-
 int player::stomach_capacity() const
 {
     if( has_trait( "GIZZARD" ) ) {
@@ -86,20 +77,18 @@ morale_type player::allergy_type( const item &food ) const
 {
     using allergy_tuple = std::tuple<std::string, std::string, morale_type>;
     static const std::array<allergy_tuple, 8> allergy_tuples = {{
-            std::make_tuple( "VEGETARIAN", "flesh", MORALE_VEGETARIAN ),
-            std::make_tuple( "VEGETARIAN", "hflesh", MORALE_VEGETARIAN ),
-            std::make_tuple( "VEGETARIAN", "iflesh", MORALE_VEGETARIAN ),
-            std::make_tuple( "MEATARIAN", "veggy", MORALE_MEATARIAN ),
-            std::make_tuple( "LACTOSE", "milk", MORALE_LACTOSE ),
-            std::make_tuple( "ANTIFRUIT", "fruit", MORALE_ANTIFRUIT ),
-            std::make_tuple( "ANTIJUNK", "junk", MORALE_ANTIJUNK ),
-            std::make_tuple( "ANTIWHEAT", "wheat", MORALE_ANTIWHEAT )
+            std::make_tuple( "VEGETARIAN", "ALLERGEN_MEAT", MORALE_VEGETARIAN ),
+            std::make_tuple( "MEATARIAN", "ALLERGEN_VEGGY", MORALE_MEATARIAN ),
+            std::make_tuple( "LACTOSE", "ALLERGEN_MILK", MORALE_LACTOSE ),
+            std::make_tuple( "ANTIFRUIT", "ALLERGEN_FRUIT", MORALE_ANTIFRUIT ),
+            std::make_tuple( "ANTIJUNK", "ALLERGEN_JUNK", MORALE_ANTIJUNK ),
+            std::make_tuple( "ANTIWHEAT", "ALLERGEN_WHEAT", MORALE_ANTIWHEAT )
         }
     };
 
     for( const auto &tp : allergy_tuples ) {
         if( has_trait( std::get<0>( tp ) ) &&
-            food.made_of( std::get<1>( tp ) ) ) {
+            food.has_flag( std::get<1>( tp ) ) ) {
             return std::get<2>( tp );
         }
     }
@@ -207,24 +196,20 @@ edible_rating player::can_eat( const item &food, bool interactive, bool force ) 
 
     const bool carnivore = has_trait( "CARNIVORE" );
     if( carnivore && nutr > 0 &&
-        food.made_of_any( carnivore_blacklist ) && !food.made_of_any( carnivore_whitelist ) ) {
+        food.has_any_flag( carnivore_blacklist ) && !food.has_flag( "CARNIVORE_OK" ) ) {
         maybe_print( m_info, _( "Eww.  Inedible plant stuff!" ) );
         return INEDIBLE_MUTATION;
     }
 
     if( ( has_trait( "HERBIVORE" ) || has_trait( "RUMINANT" ) ) &&
-        food.made_of_any( herbivore_blacklist ) ) {
+        food.has_any_flag( herbivore_blacklist ) ) {
         // Like non-cannibal, but more strict!
         maybe_print( m_info, _( "The thought of eating that makes you feel sick.  You decide not to." ) );
         return INEDIBLE_MUTATION;
     }
 
-    if( food.made_of( "hflesh" ) ) {
-        const bool is_cannibal = std::any_of( cannibal_traits.begin(), cannibal_traits.end(),
-        [this]( const std::string & trait ) {
-            return has_trait( trait );
-        } );
-        if( !is_cannibal &&
+    if( food.has_flag( "CANNIBALISM" ) ) {
+        if( !has_trait_flag( "CANNIBAL" ) &&
             !maybe_query( _( "The thought of eating that makes you feel sick.  Really do it?" ) ) ) {
             return CANNIBALISM;
         }
@@ -235,7 +220,7 @@ edible_rating player::can_eat( const item &food, bool interactive, bool force ) 
         return ALLERGY;
     }
 
-    if( carnivore && food.made_of( "junk" ) && !food.made_of_any( carnivore_whitelist ) &&
+    if( carnivore && food.has_flag( "ALLERGEN_JUNK" ) && !food.has_flag( "CARNIVORE_OK" ) &&
         !maybe_query( _( "Really eat that %s?  Your stomach won't be happy." ) ) ) {
         return ALLERGY;
     }
@@ -397,7 +382,7 @@ bool player::eat( item &food, bool force )
         charge_power( rng( 75, 300 ) );
     }
 
-    if( food.made_of( "hflesh" ) ) {
+    if( food.has_flag( "CANNIBALISM" ) ) {
         // Sapiovores don't recognize humans as the same species.
         // But let them possibly feel cool about eating sapient stuff - treat like psycho
         const bool cannibal = has_trait( "CANNIBAL" );
@@ -442,8 +427,8 @@ bool player::eat( item &food, bool force )
     }
     // Carnivores CAN eat junk food, but they won't like it much.
     // Pizza-scraping happens in consume_effects.
-    if( has_trait( "CARNIVORE" ) && food.made_of( "junk" ) &&
-        !food.made_of_any( carnivore_whitelist ) ) {
+    if( has_trait( "CARNIVORE" ) && food.has_flag( "ALLERGEN_JUNK" ) &&
+        !food.has_flag( "CARNIVORE_OK" ) ) {
         add_msg_if_player( m_bad, _( "Your stomach begins gurgling and you feel bloated and ill." ) );
         add_morale( MORALE_NO_DIGEST, -25, -125, 300, 240 );
     }
@@ -452,7 +437,7 @@ bool player::eat( item &food, bool force )
         add_msg_if_player( m_bad, _( "Your stomach begins gurgling and you feel bloated and ill." ) );
         add_morale( MORALE_NO_DIGEST, -75, -400, 300, 240 );
     }
-    if( food.made_of( "honey" ) && ( !crossed_threshold() || has_trait( "THRESH_URSINE" ) ) &&
+    if( food.has_flag( "URSINE_HONEY" ) && ( !crossed_threshold() || has_trait( "THRESH_URSINE" ) ) &&
         mutation_category_level["MUTCAT_URSINE"] > 40 ) {
         //Need at least 5 bear muts for effect to show, to filter out mutations in common with other mutcats
         int honey_fun = has_trait( "THRESH_URSINE" ) ?
@@ -504,8 +489,8 @@ void player::consume_effects( item &food, bool rotten )
         cap_nutrition_thirst( *this, capacity, true, true );
         return;
     }
-    if( food.made_of_any( herbivore_blacklist ) &&
-        ( has_trait( "HERBIVORE" ) || has_trait( "RUMINANT" ) ) ) {
+    if( ( has_trait( "HERBIVORE" ) || has_trait( "RUMINANT" ) ) &&
+        food.has_any_flag( herbivore_blacklist ) ) {
         // No good can come of this.
         return;
     }
@@ -517,9 +502,9 @@ void player::consume_effects( item &food, bool rotten )
         factor *= 0.6f;
     }
 
-    if( has_trait( "CARNIVORE" ) && food.made_of_any( carnivore_whitelist ) ) {
+    if( has_trait( "CARNIVORE" ) && food.has_flag( "CARNIVORE_OK" ) ) {
         // At least partially edible
-        if( food.made_of_any( carnivore_blacklist ) ) {
+        if( food.has_any_flag( carnivore_blacklist ) ) {
             // Other things are in it, we only get partial benefits
             add_msg_if_player( _( "You pick out the edible parts and throw away the rest." ) );
             factor *= 0.5f;

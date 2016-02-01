@@ -125,6 +125,7 @@ void mutation_branch::load( JsonObject &jsobj )
     new_mut.cancels = jsobj.get_string_array( "cancels" );
     new_mut.replacements = jsobj.get_string_array( "changes_to" );
     new_mut.additions = jsobj.get_string_array( "leads_to" );
+    new_mut.flags = jsobj.get_tags( "flags" );
     jsarr = jsobj.get_array("category");
     while (jsarr.has_more()) {
         std::string s = jsarr.next_string();

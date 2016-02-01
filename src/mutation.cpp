@@ -27,6 +27,19 @@ bool Character::has_trait(const std::string &b) const
     return my_mutations.count( b ) > 0;
 }
 
+bool Character::has_trait_flag( const std::string &b ) const
+{
+    // UGLY, SLOW, should be cached as my_mutation_flags or something
+    for( const auto &mut : my_mutations ) {
+        auto &mut_data = mutation_branch::get( mut.first );
+        if( mut_data.flags.count( b ) > 0 ) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
 bool Character::has_base_trait(const std::string &b) const
 {
     // Look only at base traits

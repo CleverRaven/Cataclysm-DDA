@@ -834,6 +834,7 @@ public:
          */
         /*@{*/
         bool has_flag( const std::string& flag ) const;
+        bool has_any_flag( const std::vector<std::string>& flags ) const;
         /** Removes all item specific flags. */
         void unset_flags();
         /*@}*/

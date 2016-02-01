@@ -989,7 +989,6 @@ void Item_factory::load_generic(JsonObject &jo)
     load_basic_info(jo, new_item_template);
 }
 
-// Migration helper:
 // Adds allergy flags to items with allergenic materials
 // Set for all items (not just food and clothing) to avoid edge cases
 void set_allergy_flags( itype &item_template )
@@ -1005,9 +1004,11 @@ void set_allergy_flags( itype &item_template )
         std::make_pair( "flesh", "ALLERGEN_MEAT" ),
         std::make_pair( "wheat", "ALLERGEN_WHEAT" ),
         std::make_pair( "fruit", "ALLERGEN_FRUIT" ),
+        std::make_pair( "veggy", "ALLERGEN_VEGGY" ),
         std::make_pair( "milk", "ALLERGEN_MILK" ),
         std::make_pair( "egg", "ALLERGEN_EGG" ),
-
+        std::make_pair( "junk", "ALLERGEN_JUNK" ),
+        // Not food, but we can keep it here
         std::make_pair( "wool", "ALLERGEN_WOOL" ),
         // Now "made of". Those flags should not be passed
         std::make_pair( "flesh", "CARNIVORE_OK" ),
@@ -1020,9 +1021,7 @@ void set_allergy_flags( itype &item_template )
 
     const auto &mats = item_template.materials;
     for( const auto &pr : all_pairs ) {
-        if( std::any_of( mats.begin(), mats.end(), [&pr]( const std::string &m ) {
-                return m == std::get<0>( pr );
-            } ) ) {
+        if( std::find( mats.begin(), mats.end(), std::get<0>( pr ) ) != mats.end() ) {
             item_template.item_tags.insert( std::get<1>( pr ) );
         }
     }
@@ -1037,8 +1036,7 @@ void hflesh_to_flesh( itype &item_template )
     mats.erase( std::remove( mats.begin(), mats.end(), "hflesh" ), mats.end() );
     // Only add "flesh" material if not already present
     if( old_size != mats.size() &&
-        !std::any_of( mats.begin(), mats.end(),
-            []( const std::string &m ) { return m == "flesh"; } ) ) {
+        std::find( mats.begin(), mats.end(), "flesh" ) == mats.end() ) {
         mats.push_back( "flesh" );
     }
 }
