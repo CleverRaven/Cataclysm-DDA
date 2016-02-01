@@ -989,6 +989,60 @@ void Item_factory::load_generic(JsonObject &jo)
     load_basic_info(jo, new_item_template);
 }
 
+// Migration helper:
+// Adds allergy flags to items with allergenic materials
+// Set for all items (not just food and clothing) to avoid edge cases
+void set_allergy_flags( itype &item_template )
+{
+    using material_allergy_pair = std::pair<std::string, std::string>;
+    static const std::vector<material_allergy_pair> all_pairs = {{
+        // First allergens:
+        // An item is an allergen even if it has trace amounts of allergenic material
+        std::make_pair( "hflesh", "CANNIBALISM" ),
+
+        std::make_pair( "hflesh", "ALLERGEN_MEAT" ),
+        std::make_pair( "iflesh", "ALLERGEN_MEAT" ),
+        std::make_pair( "flesh", "ALLERGEN_MEAT" ),
+        std::make_pair( "wheat", "ALLERGEN_WHEAT" ),
+        std::make_pair( "fruit", "ALLERGEN_FRUIT" ),
+        std::make_pair( "milk", "ALLERGEN_MILK" ),
+        std::make_pair( "egg", "ALLERGEN_EGG" ),
+
+        std::make_pair( "wool", "ALLERGEN_WOOL" ),
+        // Now "made of". Those flags should not be passed
+        std::make_pair( "flesh", "CARNIVORE_OK" ),
+        std::make_pair( "hflesh", "CARNIVORE_OK" ),
+        std::make_pair( "iflesh", "CARNIVORE_OK" ),
+        std::make_pair( "milk", "CARNIVORE_OK" ),
+        std::make_pair( "egg", "CARNIVORE_OK" ),
+        std::make_pair( "honey", "URSINE_HONEY" ),
+    }};
+
+    const auto &mats = item_template.materials;
+    for( const auto &pr : all_pairs ) {
+        if( std::any_of( mats.begin(), mats.end(), [&pr]( const std::string &m ) {
+                return m == std::get<0>( pr );
+            } ) ) {
+            item_template.item_tags.insert( std::get<1>( pr ) );
+        }
+    }
+}
+
+// Migration helper: turns human flesh into generic flesh
+// Don't call before making sure that the cannibalism flag is set
+void hflesh_to_flesh( itype &item_template )
+{
+    auto &mats = item_template.materials;
+    const auto old_size = mats.size();
+    mats.erase( std::remove( mats.begin(), mats.end(), "hflesh" ), mats.end() );
+    // Only add "flesh" material if not already present
+    if( old_size != mats.size() &&
+        !std::any_of( mats.begin(), mats.end(),
+            []( const std::string &m ) { return m == "flesh"; } ) ) {
+        mats.push_back( "flesh" );
+    }
+}
+
 void Item_factory::load_basic_info(JsonObject &jo, itype *new_item_template)
 {
     std::string new_id = jo.get_string("id");
@@ -1141,6 +1195,10 @@ void Item_factory::load_basic_info(JsonObject &jo, itype *new_item_template)
     load_slot_optional( new_item_template->seed, jo, "seed_data" );
     load_slot_optional( new_item_template->software, jo, "software_data" );
     load_slot_optional( new_item_template->artifact, jo, "artifact_data" );
+    // Make sure this one is at/near the end
+    // TODO: Get rid of it when it is no longer needed (unless it's desired here)
+    set_allergy_flags( *new_item_template );
+    hflesh_to_flesh( *new_item_template );
 }
 
 void Item_factory::load_item_category(JsonObject &jo)
