@@ -209,20 +209,6 @@
     },
     {
         "type" : "GUNMOD",
-        "id" : "spare_mag",
-        "name" : "spare magazine",
-        "description" : "A spare magazine you can keep on hand to make reloads faster, but must itself be reloaded before it can be used again.",
-        "location": "accessories",
-        "weight" : 330,
-        "color" : "light_gray",
-        "symbol" : ":",
-        "material" : ["steel", "plastic"],
-        "mod_targets" : ["pistol", "shotgun", "smg", "rifle"],
-        "volume" : 1,
-        "price" : 5000
-    },
-    {
-        "type" : "GUNMOD",
         "id" : "brass_catcher",
         "name" : "brass catcher",
         "description" : "A bag that hangs off the side of your gun and catches ejected casings so you don't have to pick them up.",
