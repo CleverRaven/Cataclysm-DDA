@@ -7,19 +7,22 @@
 #include "messages.h"
 #include "addiction.h"
 
+#include <string>
+
 const efftype_id effect_foodpoison( "foodpoison" );
 const efftype_id effect_poison( "poison" );
 
 const mtype_id mon_player_blob( "mon_player_blob" );
 
-static const std::vector<std::string> carnivore_blacklist = {{
-        "ALLERGEN_VEGGY", "ALLERGEN_FRUIT", "ALLERGEN_WHEAT"
+static const std::vector<std::string> carnivore_blacklist{{
+        "ALLERGEN_VEGGY", "ALLERGEN_FRUIT", "ALLERGEN_WHEAT",
     }
 };
-static const std::vector<std::string> herbivore_blacklist = {{
-        "ALLERGEN_MEAT", "ALLERGEN_EGG"
-    }
-};
+// This ugly temp array is here because otherwise it goes
+// std::vector(char*, char*)->vector(InputIterator,InputIterator) or some such
+const std::array<std::string, 2> temparray{{"ALLERGEN_MEAT", "ALLERGEN_EGG"}};
+static const std::vector<std::string> herbivore_blacklist( temparray.begin(), temparray.end() );
+
 int player::stomach_capacity() const
 {
     if( has_trait( "GIZZARD" ) ) {
