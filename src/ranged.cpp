@@ -349,7 +349,7 @@ void player::fire_gun( const tripoint &target, bool burst, item& gun )
     }
     const skill_id skill_used = gun.gun_skill();
 
-    if (has_trait("TRIGGERHAPPY") && one_in(30)) {
+    if( has_trait("TRIGGERHAPPY") && one_in( 30 ) ) {
         burst = true;
     }
     if( burst && gun.burst_size() < 2 ) {
@@ -360,10 +360,7 @@ void player::fire_gun( const tripoint &target, bool burst, item& gun )
     moves -= time_to_fire( *this, *gun.type );
 
     // Decide how many shots to fire limited by the ammount of remaining ammo
-    long num_shots = 1;
-    if ( burst || ( has_trait( "TRIGGERHAPPY" ) && one_in( 30 ) ) ) {
-        num_shots = gun.burst_size();
-    }
+    long num_shots = burst ? gun.burst_size() : 1;
     if( !gun.has_flag( "NO_AMMO" ) && !is_charger_gun ) {
         num_shots = std::min( num_shots, gun.ammo_remaining() );
     }
