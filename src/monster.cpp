@@ -914,15 +914,9 @@ void monster::melee_attack(Creature &target, bool, const matec_id&) {
     body_part bp_hit;
     //int highest_hit = 0;
 
-    damage_instance damage;
-    if(!is_hallucination()) {
-        if (type->melee_dice > 0) {
-            damage.add_damage(DT_BASH,
-                    dice(type->melee_dice,type->melee_sides));
-        }
-        if (type->melee_cut > 0) {
-            damage.add_damage(DT_CUT, type->melee_cut);
-        }
+    damage_instance damage = !is_hallucination() ? type->melee_damage : damage_instance();
+    if( !is_hallucination() && type->melee_dice > 0 ) {
+        damage.add_damage( DT_BASH, dice( type->melee_dice,type->melee_sides ) );
     }
 
     dealt_damage_instance dealt_dam;
@@ -1034,15 +1028,9 @@ void monster::hit_monster(monster &other)
         return;
     }
 
-    damage_instance damage;
-    if( !is_hallucination() ) {
-        if( type->melee_dice > 0 ) {
-            damage.add_damage( DT_BASH, dice( type->melee_dice, type->melee_sides ) );
-        }
-
-        if( type->melee_cut > 0 ) {
-            damage.add_damage( DT_CUT, type->melee_cut );
-        }
+    damage_instance damage = !is_hallucination() ? type->melee_damage : damage_instance();
+    if( !is_hallucination() && type->melee_dice > 0 ) {
+        damage.add_damage( DT_BASH, dice( type->melee_dice,type->melee_sides ) );
     }
 
     dealt_damage_instance dealt_dam;

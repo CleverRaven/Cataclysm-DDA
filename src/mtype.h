@@ -7,6 +7,7 @@
 #include "color.h"
 #include "int_id.h"
 #include "string_id.h"
+#include "damage.h"
 
 #include <bitset>
 #include <string>
@@ -264,10 +265,10 @@ struct mtype {
         int  speed;       // Speed; human = 100
         // Number of moves per regular attack.
         int attack_cost;
+        damage_instance melee_damage; // Basic melee attack damage
         unsigned char melee_skill; // Melee hit skill, 20 is superhuman hitting abilities.
-        unsigned char melee_dice;  // Number of dice on melee hit
+        unsigned char melee_dice;  // Number of dice of bonus bashing damage on melee hit
         unsigned char melee_sides; // Number of sides those dice have
-        unsigned char melee_cut;   // Bonus cutting damage
         unsigned char sk_dodge;    // Dodge skill; should be 0 to 5
         unsigned char armor_bash;  // Natural armor vs. bash
         unsigned char armor_cut;   // Natural armor vs. cut

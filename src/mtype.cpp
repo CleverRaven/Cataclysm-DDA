@@ -28,7 +28,6 @@ mtype::mtype()
     melee_skill = 0;
     melee_dice = 0;
     melee_sides = 0;
-    melee_cut = 0;
     sk_dodge = 0;
     armor_bash = 0;
     armor_cut = 0;

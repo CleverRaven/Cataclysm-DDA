@@ -1,7 +1,6 @@
 #ifndef CREATURE_H
 #define CREATURE_H
 
-#include "damage.h"
 #include "pldata.h"
 #include "json.h"
 #include "effect.h"
@@ -16,9 +15,15 @@
 class game;
 class JsonObject;
 class JsonOut;
+class projectile;
+class damage_instance;
+class dealt_damage_instance;
+class damage_unit;
+class dealt_projectile_attack;
 struct trap;
 enum m_flag : int;
 enum field_id : int;
+enum damage_type : int;
 
 enum m_size : int {
     MS_TINY = 0,    // Squirrel
