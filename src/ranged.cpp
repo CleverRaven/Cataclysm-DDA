@@ -159,7 +159,8 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
         trajectory.reserve( trajectory.size() + trajectory_extension.size() );
         trajectory.insert( trajectory.end(), trajectory_extension.begin(), trajectory_extension.end() );
     }
-    while( rl_dist( source, trajectory.back() ) > proj_arg.range ) {
+    // Range can be 0
+    while( !trajectory.empty() && rl_dist( source, trajectory.back() ) > proj_arg.range ) {
         trajectory.pop_back();
     }
 

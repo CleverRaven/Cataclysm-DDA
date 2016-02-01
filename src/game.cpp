@@ -6514,6 +6514,7 @@ void game::shrapnel( const tripoint &p, int power, int count, int radius )
     fake_npc.setpos( p );
     projectile proj;
     proj.speed = 100;
+    proj.range = radius;
     proj.proj_effects.insert( "DRAW_AS_LINE" );
     proj.proj_effects.insert( "NULL_SOURCE" );
     for( int i = 0; i < count; i++ ) {
