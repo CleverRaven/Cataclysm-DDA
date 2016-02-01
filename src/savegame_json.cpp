@@ -799,6 +799,7 @@ void npc_follower_rules::deserialize(JsonIn &jsin)
     data.read( "allow_pick_up", allow_pick_up );
     data.read( "allow_bash", allow_bash );
     data.read( "allow_sleep", allow_sleep );
+    data.read( "allow_complain", allow_complain );
 }
 
 extern std::string convert_talk_topic( talk_topic_enum );
