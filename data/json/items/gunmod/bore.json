@@ -31,7 +31,6 @@
     "location": "bore",
     "mod_targets": [ "shotgun", "rifle" ],
     "skill_required": 6,
-    "clip_size_modifier": -10,
     "dispersion_modifier": 30,
     "ammo_modifier": "223",
     "acceptable_ammo": [ "shot", "762", "3006", "308" ]
@@ -50,7 +49,6 @@
     "location": "bore",
     "mod_targets": [ "shotgun", "rifle" ],
     "skill_required": 6,
-    "clip_size_modifier": -20,
     "dispersion_modifier": 30,
     "ammo_modifier": "308",
     "acceptable_ammo": [ "shot", "762", "223", "3006" ]
