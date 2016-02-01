@@ -2385,109 +2385,72 @@ int item::precise_unit_volume() const
     return volume() * 1000;
 }
 
-/*
- * note, the game currently has an undefined number of different scales of volume: items that are count_by_charges, and
- * everything else:
- *    everything else: volume = type->volume
- *   count_by_charges: volume = type->volume / stack_size
- * Also, this function will multiply count_by_charges items by the amount of charges before dividing by ???.
- * If you need more precision, precise_value = true will return a multiple of 1000
- * If you want to handle counting up charges elsewhere, unit value = true will skip that part,
- *   except for guns.
- * Default values are unit_value=false, precise_value=false
- */
-int item::volume(bool unit_value, bool precise_value ) const
+int item::volume() const
 {
-    int ret = 0;
-    if( is_corpse() ) {
-        switch (corpse->size) {
-            case MS_TINY:
-                ret = 3;
-                break;
-            case MS_SMALL:
-                ret = 120;
-                break;
-            case MS_MEDIUM:
-                ret = 250;
-                break;
-            case MS_LARGE:
-                ret = 370;
-                break;
-            case MS_HUGE:
-                ret = 3500;
-                break;
-        }
-        if ( precise_value == true ) {
-            ret *= 1000;
-        }
-        return ret;
-    }
-
-    if( is_null()) {
+    if( is_null() ) {
         return 0;
     }
 
-    ret = type->volume;
-    ret = get_var( "volume", ret );
-
-    if ( precise_value == true ) {
-        ret *= 1000;
+    if( is_corpse() ) {
+        switch( corpse->size ) {
+            case MS_TINY:    return    3;
+            case MS_SMALL:   return  120;
+            case MS_MEDIUM:  return  250;
+            case MS_LARGE:   return  370;
+            case MS_HUGE:    return 3500;
+        }
+        debugmsg( "unknown monster size for corpse" );
+        return 0;
     }
 
-    if( type->container && !type->container->rigid ) {
-        // non-rigid container add the volume of the content
-        int tmpvol = 0;
-        for( auto &elem : contents ) {
-            tmpvol += elem.volume( false, true );
-        }
-        if (!precise_value) {
-            tmpvol /= 1000;
-        }
-        ret += tmpvol;
-    }
+    int ret = get_var( "volume", type->volume );
 
-    if( is_magazine() && !type->magazine->rigid && ammo_remaining() > 0 && ammo_data() ) {
-        int tmpvol = 0;
-        tmpvol += ammo_remaining() / ammo_data()->stack_size;
-        tmpvol += ammo_remaining() % ammo_data()->stack_size != 0;
-        tmpvol *= precise_value ? 1000 : 1;
-        ret += tmpvol;
-    }
-
-    if (count_by_charges() || made_of(LIQUID)) {
-        if ( unit_value == false ) {
-            ret *= charges;
-        }
+    // For items counted per charge the above volume is per stack so adjust dependent upon charges
+    if( count_by_charges() || made_of( LIQUID ) ) {
+        ret *= charges;
         ret /= type->stack_size;
     }
 
+    // Non-rigid containers add the volume of the content
+    if( type->container && !type->container->rigid ) {
+        for( auto &elem : contents ) {
+            ret += elem.volume();
+        }
+    }
+
+    // Non-rigid magazines add volume proportional to the stack size of any loaded ammo
+    if( is_magazine() && !type->magazine->rigid && ammo_remaining() > 0 && ammo_data() ) {
+        ret += ammo_remaining() / ammo_data()->stack_size;
+        ret += ammo_remaining() % ammo_data()->stack_size != 0;
+    }
+
     // Some magazines sit (partly) flush with the item so add less extra volume
-    auto mag = magazine_current();
-    if( mag ) {
-        ret += std::max( mag->volume() - type->magazine_well, 0 );
+    if( magazine_current() ) {
+        ret += std::max( magazine_current()->volume() - type->magazine_well, 0 );
     }
 
     if (is_gun()) {
         for( auto &elem : contents ) {
             if( elem.is_gunmod() ) {
-                ret += elem.volume( false, precise_value );
+                ret += elem.volume();
             }
         }
 
+        // @todo implement stock_length property for guns
         if (has_flag("COLLAPSIBLE_STOCK")) {
             // consider only the base size of the gun (without mods)
             int tmpvol = get_var( "volume", type->volume - type->gun->barrel_length );
-            if      (tmpvol <=  3) ; // intentional NOP
-            else if (tmpvol <=  5) ret -= precise_value ? 2000 : 2;
-            else if (tmpvol <=  6) ret -= precise_value ? 3000 : 3;
-            else if (tmpvol <=  8) ret -= precise_value ? 4000 : 4;
-            else if (tmpvol <= 11) ret -= precise_value ? 5000 : 5;
-            else if (tmpvol <= 16) ret -= precise_value ? 6000 : 6;
-            else                   ret -= precise_value ? 7000 : 7;
+            if     ( tmpvol <=  3 ) ; // intentional NOP
+            else if( tmpvol <=  5 ) ret -= 2;
+            else if( tmpvol <=  6 ) ret -= 3;
+            else if( tmpvol <=  8 ) ret -= 4;
+            else if( tmpvol <= 11 ) ret -= 5;
+            else if( tmpvol <= 16 ) ret -= 6;
+            else                    ret -= 7;
         }
 
         if( has_gunmod( "barrel_small" ) != -1 ) {
-            ret -= type->gun->barrel_length * ( precise_value ? 1000 : 1 );
+            ret -= type->gun->barrel_length;
         }
     }
 

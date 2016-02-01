@@ -255,7 +255,8 @@ public:
 
  int weight() const;
 
- int volume(bool unit_value=false, bool precise_value=false) const;
+    /* Total volume of an item accounting for all contained/integrated items */
+    int volume() const;
 
     /* Volume of an item or of a single unit for charged items multipled by 1000 */
     int precise_unit_volume() const;
