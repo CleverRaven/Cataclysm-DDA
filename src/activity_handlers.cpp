@@ -1237,7 +1237,7 @@ void activity_handlers::oxytorch_finish( player_activity *act, player *p )
         g->m.spawn_item( p->pos(), "steel_chunk", rng(2, 6) );
     } else if( ter == t_chainfence_v || ter == t_chainfence_h || ter == t_chaingate_c ||
         ter == t_chaingate_l ) {
-        g->m.ter_set( pos, t_dirt  );
+        g->m.ter_set( pos, t_dirt );
         g->m.spawn_item( pos, "pipe", rng(1, 4) );
         g->m.spawn_item( pos, "wire", rng(4, 16) );
     } else if( ter == t_chainfence_posts ) {
@@ -1249,7 +1249,7 @@ void activity_handlers::oxytorch_finish( player_activity *act, player *p )
         g->m.spawn_item( pos, "steel_plate", rng(0, 1) );
         g->m.spawn_item( pos, "steel_chunk", rng(3, 8) );
     } else if( ter == t_window_enhanced || ter == t_window_enhanced_noglass ) {
-        g->m.ter_set( pos, t_window_empty  );
+        g->m.ter_set( pos, t_window_empty );
         g->m.spawn_item( pos, "steel_plate", rng(0, 1) );
         g->m.spawn_item( pos, "sheet_metal", rng(1, 3) );
     } else if( ter == t_bars ) {
@@ -1261,7 +1261,10 @@ void activity_handlers::oxytorch_finish( player_activity *act, player *p )
             g->m.ter_set( pos, t_floor );
             g->m.spawn_item( p->pos(), "pipe", rng(1, 2) );
         }
-    } else if( ter == t_window_bars_alarm || ter == t_window_bars ) {
+    } else if( ter == t_window_bars_alarm ) {
+        g->m.ter_set( pos, t_window_alarm );
+        g->m.spawn_item( p->pos(), "pipe", rng(1, 2) );
+    } else if( ter == t_window_bars ) {
         g->m.ter_set( pos, t_window_empty );
         g->m.spawn_item( p->pos(), "pipe", rng(1, 2) );
     }
