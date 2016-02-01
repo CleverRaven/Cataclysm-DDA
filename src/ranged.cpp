@@ -349,7 +349,7 @@ void player::fire_gun( const tripoint &target, bool burst, item& gun )
     }
     const skill_id skill_used = gun.gun_skill();
 
-    if( has_trait("TRIGGERHAPPY") && one_in( 30 ) ) {
+    if( has_trait("TRIGGERHAPPY") && one_in( 30 ) && gun.burst_size() >= 2 ) {
         burst = true;
     }
     if( burst && gun.burst_size() < 2 ) {
