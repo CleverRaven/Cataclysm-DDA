@@ -11610,7 +11610,7 @@ void game::unload( item &it )
     }
 
     if( target->has_flag( "NO_UNLOAD" ) ) {
-        if( target->has_flag( "RECHARGE" ) ) {
+        if( target->has_flag( "RECHARGE" ) || target->has_flag( "USE_UPS" )) {
             add_msg( m_info, _( "You can't unload a rechargeable %s!" ), target->tname().c_str() );
         } else {
             add_msg( m_info, _( "You can't unload a %s!" ), target->tname().c_str() );

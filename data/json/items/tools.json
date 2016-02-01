@@ -1878,7 +1878,8 @@
     "turns_per_charge": 0,
     "ammo": "battery",
     "revert_to": "null",
-    "use_action": "ROBOTCONTROL"
+    "use_action": "ROBOTCONTROL",
+    "flags": ["NO_UNLOAD", "RECHARGE"]
   },
   {
     "id": "sarcophagus_access_code",
@@ -4233,7 +4234,8 @@
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "battery",
-    "revert_to": "null"
+    "revert_to": "null",
+    "flags": ["NO_UNLOAD", "RECHARGE"]
   },
   {
     "id": "adv_UPS_off",
@@ -4242,7 +4244,7 @@
     "color": "light_green",
     "name": "advanced UPS",
     "name_plural": "advanced UPS's",
-    "description": "This is an advanced version of the unified power supply, or UPS.  This device has been significantly redesigned to provide better efficiency as well as to consume plutonium fuel cells rather than batteries.",
+    "description": "This is an advanced version of the unified power supply, or UPS.  This device has been significantly redesigned to provide better efficiency as well as to consume plutonium fuel cells rather than batteries.  Sadly, it's plutonium reactor can't be charged in UPS charging station.",
     "price": 560000,
     "material": ["aluminum", "plastic"],
     "weight": 453,
@@ -4308,7 +4310,7 @@
     "price" : 17000,
     "material" : ["plastic", "steel"],
     "techniques" : ["WBLOCK_2", "RAPID"],
-    "flags" : ["DURABLE_MELEE"],
+    "flags" : ["DURABLE_MELEE", "NO_UNLOAD", "RECHARGE"],
     "weight" : 726,
     "volume" : 9,
     "bashing" : 14,
@@ -9208,27 +9210,6 @@
     "revert_to": "null",
     "category" : "spare_parts",
     "use_action": "ATOMIC_BATTERY"
-  },
-  {
-    "id": "rechargeable_battery",
-    "type": "TOOL",
-    "symbol": ";",
-    "color": "light_green",
-    "name": "rechargeable battery mod",
-    "description": "A homemade, rechargeable power cell built from salvaged electronics.  With enough electronics skill, you could attach it to an electric-powered device to provide it with energy.  The power cell is not compatible with standard batteries; it must be re-energized via a special recharging station.",
-    "price": 2000,
-    "material": ["plastic", "aluminum"],
-    "weight": 142,
-    "volume": 1,
-    "to_hit": -2,
-    "max_charges": 0,
-    "initial_charges": 0,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
-    "ammo": "NULL",
-    "revert_to": "null",
-    "category" : "spare_parts",
-    "use_action": "UPS_BATTERY"
   },
   {
     "id": "battery_ups",
