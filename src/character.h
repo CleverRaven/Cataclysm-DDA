@@ -418,6 +418,8 @@ class Character : public Creature
         virtual void normalize() override;
         virtual void die(Creature *nkiller) override;
 
+        std::string get_name() const override;
+
         /**
          * It is supposed to hide the query_yn to simplify player vs. npc code.
          */

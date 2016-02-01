@@ -1492,3 +1492,8 @@ nc_color Character::limb_color( body_part bp, bool bleed, bool bite, bool infect
 
     return i_color;
 }
+
+std::string Character::get_name() const
+{
+    return name;
+}

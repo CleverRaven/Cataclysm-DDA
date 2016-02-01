@@ -9359,6 +9359,9 @@ bool player::has_fire(const int quantity) const
         return true;
     } else if (has_charges("zweifire_on", quantity)) {
         return true;
+    } else if( is_npc() ) {
+        // A hack to make NPCs use their molotovs
+        return true;
     }
     return false;
 }
@@ -13995,6 +13998,18 @@ float player::power_rating() const
     if( is_wearing_power_armor( nullptr ) ) {
         ret = 5; // No mercy!
     }
+    return ret;
+}
+
+float player::speed_rating() const
+{
+    float ret = 1.0f / get_speed();
+    ret *= 100.0f / run_cost( 100, false );
+    // Adjustment for player being able to run, but not doing so at the moment
+    if( move_mode != "run" ) {
+        ret *= 1.0f + ((float)stamina / (float)get_stamina_max());
+    }
+
     return ret;
 }
 
