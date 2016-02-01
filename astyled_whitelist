@@ -21,6 +21,7 @@ src/iuse_software.cpp
 src/live_view.cpp
 src/lua_console.cpp
 src/mapsharing.cpp
+src/material.cpp
 src/mattack_actors.cpp
 src/mission_end.cpp
 src/mission_fail.cpp
