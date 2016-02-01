@@ -1845,26 +1845,20 @@
   "result": "acidbomb",
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_EXPLOSIVE",
-  "skill_used": "cooking",
-  "difficulty": 1,
-  "time": 10000,
-  "reversible": false,
-  "autolearn": false,
-  "book_learn": [[ "textbook_gaswarfare", 4 ] , [ "adv_chemistry", 4 ] , [ "textbook_chemistry", 4 ]],
-  "tools": [
-    [
-      [ "hotplate", 5 ],
-      [ "toolset", 5 ]
-    ]
-  ],
+  "skill_used": "fabrication",
+  "difficulty": 0,
+  "time": 500,
+  "reversible": true,
+  "autolearn": true,
   "components": [
     [
+      [ "jar_glass", 1 ],
       [ "bottle_glass", 1 ],
-      [ "clay_canister", 1 ],
-      [ "flask_glass", 1 ]
+      [ "clay_canister", 2 ],
+      [ "flask_glass", 2 ]
     ],
     [
-      [ "acid", 4 ]
+      [ "acid", 2 ]
     ]
   ]
 },{
