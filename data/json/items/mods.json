@@ -747,7 +747,7 @@
         "to_hit" : -1,
         "dispersion_modifier" : 30,
         "price" : 120000,
-        "description" : "The Rivtech RM121 auxiliary weapon system is a magazine-fed semi-automatic caseless shotgun, which can be mounted under the barrel of many rifles.  It allows a total of five caseless shotgun rounds to be loaded and fired.",
+        "description" : "The Rivtech RM121 auxiliary weapon system is a magazine-fed semi-automatic caseless shotgun, which can be mounted under the barrel of many rifles.  Accepts RMSA10 box magazines.",
         "symbol" : ":",
         "material" : ["superalloy", "ceramic"],
         "volume" : 3,
