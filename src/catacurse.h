@@ -35,10 +35,10 @@ struct cursecell {
     char FG = 0;
     char BG = 0;
 
-    cursecell(std::string ch) : ch(std::move(ch)) { }
-    cursecell() : cursecell(std::string(1, ' ')) { }
+    cursecell( std::string ch ) : ch( std::move( ch ) ) { }
+    cursecell() : cursecell( std::string( 1, ' ' ) ) { }
 
-    bool operator==(const cursecell &b) const {
+    bool operator==( const cursecell &b ) const {
         return FG == b.FG && BG == b.BG && ch == b.ch;
     }
 };
@@ -115,62 +115,62 @@ extern WINDOW *stdscr;
 #define getmaxyx(w, y, x)  (y = getmaxy(w), x = getmaxx(w))
 
 //Curses Functions
-WINDOW *newwin(int nlines, int ncols, int begin_y, int begin_x);
-int delwin(WINDOW *win);
-int wborder(WINDOW *win, chtype ls, chtype rs, chtype ts, chtype bs, chtype tl, chtype tr,
-            chtype bl, chtype br);
+WINDOW *newwin( int nlines, int ncols, int begin_y, int begin_x );
+int delwin( WINDOW *win );
+int wborder( WINDOW *win, chtype ls, chtype rs, chtype ts, chtype bs, chtype tl, chtype tr,
+             chtype bl, chtype br );
 
-int hline(chtype ch, int n);
-int vline(chtype ch, int n);
-int whline(WINDOW *win, chtype ch, int n);
-int wvline(WINDOW *win, chtype ch, int n);
-int mvhline(int y, int x, chtype ch, int n);
-int mvvline(int y, int x, chtype ch, int n);
-int mvwhline(WINDOW *win, int y, int x, chtype ch, int n);
-int mvwvline(WINDOW *win, int y, int x, chtype ch, int n);
+int hline( chtype ch, int n );
+int vline( chtype ch, int n );
+int whline( WINDOW *win, chtype ch, int n );
+int wvline( WINDOW *win, chtype ch, int n );
+int mvhline( int y, int x, chtype ch, int n );
+int mvvline( int y, int x, chtype ch, int n );
+int mvwhline( WINDOW *win, int y, int x, chtype ch, int n );
+int mvwvline( WINDOW *win, int y, int x, chtype ch, int n );
 
-int wrefresh(WINDOW *win);
-int refresh(void);
-int getch(void);
-int wgetch(WINDOW *win);
-int mvgetch(int y, int x);
-int mvwgetch(WINDOW *win, int y, int x);
-int mvwprintw(WINDOW *win, int y, int x, const char *fmt, ...);
-int mvprintw(int y, int x, const char *fmt, ...);
-int werase(WINDOW *win);
-int start_color(void);
-int init_pair(short pair, short f, short b);
-int wmove(WINDOW *win, int y, int x);
-int getnstr(char *str, int size);
-int clear(void);
-int clearok(WINDOW *win);
-int erase(void);
-int endwin(void);
-int mvwaddch(WINDOW *win, int y, int x, const chtype ch);
-int wclear(WINDOW *win);
-int wprintw(WINDOW *win, const char *fmt, ...);
-WINDOW *initscr(void);
-int cbreak(void);//PORTABILITY, DUMMY FUNCTION
-int keypad(WINDOW *faux, bool bf);//PORTABILITY, DUMMY FUNCTION
-int curs_set(int visibility);//PORTABILITY, DUMMY FUNCTION
-int mvaddch(int y, int x, const chtype ch);
-int wattron(WINDOW *win, int attrs);
-int wattroff(WINDOW *win, int attrs);
-int attron(int attrs);
-int attroff(int attrs);
-int waddch(WINDOW *win, const chtype ch);
-int printw(const char *fmt, ...);
-int getmaxx(WINDOW *win);
-int getmaxy(WINDOW *win);
-int getbegx(WINDOW *win);
-int getbegy(WINDOW *win);
-int getcurx(WINDOW *win);
-int getcury(WINDOW *win);
-int move(int y, int x);
-void timeout(int delay);//PORTABILITY, DUMMY FUNCTION
-void set_escdelay(int delay);//PORTABILITY, DUMMY FUNCTION
-int echo(void);
-int noecho(void);
+int wrefresh( WINDOW *win );
+int refresh( void );
+int getch( void );
+int wgetch( WINDOW *win );
+int mvgetch( int y, int x );
+int mvwgetch( WINDOW *win, int y, int x );
+int mvwprintw( WINDOW *win, int y, int x, const char *fmt, ... );
+int mvprintw( int y, int x, const char *fmt, ... );
+int werase( WINDOW *win );
+int start_color( void );
+int init_pair( short pair, short f, short b );
+int wmove( WINDOW *win, int y, int x );
+int getnstr( char *str, int size );
+int clear( void );
+int clearok( WINDOW *win );
+int erase( void );
+int endwin( void );
+int mvwaddch( WINDOW *win, int y, int x, const chtype ch );
+int wclear( WINDOW *win );
+int wprintw( WINDOW *win, const char *fmt, ... );
+WINDOW *initscr( void );
+int cbreak( void ); //PORTABILITY, DUMMY FUNCTION
+int keypad( WINDOW *faux, bool bf ); //PORTABILITY, DUMMY FUNCTION
+int curs_set( int visibility ); //PORTABILITY, DUMMY FUNCTION
+int mvaddch( int y, int x, const chtype ch );
+int wattron( WINDOW *win, int attrs );
+int wattroff( WINDOW *win, int attrs );
+int attron( int attrs );
+int attroff( int attrs );
+int waddch( WINDOW *win, const chtype ch );
+int printw( const char *fmt, ... );
+int getmaxx( WINDOW *win );
+int getmaxy( WINDOW *win );
+int getbegx( WINDOW *win );
+int getbegy( WINDOW *win );
+int getcurx( WINDOW *win );
+int getcury( WINDOW *win );
+int move( int y, int x );
+void timeout( int delay ); //PORTABILITY, DUMMY FUNCTION
+void set_escdelay( int delay ); //PORTABILITY, DUMMY FUNCTION
+int echo( void );
+int noecho( void );
 //non-curses functions, Do not call these in the main game code
 extern WINDOW *mainwin;
 extern pairs *colorpairs;
@@ -183,20 +183,20 @@ extern std::array<std::string, 16> main_color_names;
 // may throw std::exception
 WINDOW *curses_init();
 int curses_destroy();
-void curses_drawwindow(WINDOW *win);
-void curses_delay(int delay);
-void curses_timeout(int t);
-int curses_getch(WINDOW *win);
+void curses_drawwindow( WINDOW *win );
+void curses_delay( int delay );
+void curses_timeout( int t );
+int curses_getch( WINDOW *win );
 // may throw std::exception
 int curses_start_color();
 
 // Add interface specific (SDL/ncurses/wincurses) initializations here
 void init_interface();
 
-int projected_window_width(int column_count);
-int projected_window_height(int row_count);
+int projected_window_width( int column_count );
+int projected_window_height( int row_count );
 
 //used only in SDL mode for clearing windows using rendering
-void clear_window_area(WINDOW* win);
+void clear_window_area( WINDOW *win );
 
 #endif
