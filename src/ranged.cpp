@@ -353,7 +353,8 @@ void player::fire_gun( const tripoint &target, bool burst, item& gun )
         burst = true;
     }
     if( burst && gun.burst_size() < 2 ) {
-        burst = false; // Can't burst fire a semi-auto
+        debugmsg( "Tried to burst fire a semi-auto" );
+        burst = false;
     }
 
     // Use different amounts of time depending on the type of gun and our skill
