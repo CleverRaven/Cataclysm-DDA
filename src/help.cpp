@@ -40,9 +40,9 @@ void help_draw_dir(WINDOW *win, int line_y)
 void help_main(WINDOW *win)
 {
     werase(win);
-    int y = fold_and_print(win, 1, 1, getmaxx(win) - 2, c_white, _("\
+    int y = fold_and_print(win, 0, 1, getmaxx(win) - 2, c_white, _("\
 Please press one of the following for help on that topic:\n\
-Press q or ESC to return to the game.")) + 2;
+Press q or ESC to return to the game.")) + 1;
 
     std::vector<std::string> headers;
     headers.push_back(_("a: Introduction"));
@@ -66,7 +66,7 @@ Press q or ESC to return to the game.")) + 2;
     int second_column = getmaxx(win) / 2;
     for (size_t i = 0; i < headers.size(); i++) {
         if (i < half_size) {
-            second_column = std::max(second_column, utf8_width(headers[i].c_str()) + 4);
+            second_column = std::max(second_column, utf8_width(headers[i]) + 4);
         }
         mvwprintz(win, y + i % half_size, (i < half_size ? 1 : second_column),
                   c_white, headers[i].c_str());
@@ -76,10 +76,11 @@ Press q or ESC to return to the game.")) + 2;
     headers.push_back(_("1: List of all commands (you can change key commands here)"));
     headers.push_back(_("2: List of all options  (you can change options here)"));
     headers.push_back(_("3: Auto pickup manager  (you can change pickup rules here)"));
-    headers.push_back(_("4: List of item types and data"));
-    headers.push_back(_("5: Description of map symbols"));
-    headers.push_back(_("6: Description of gun types"));
-    headers.push_back(_("7: Frequently Asked Questions (Some spoilers!)"));
+    headers.push_back(_("4: Color manager        (you can change all colors here)"));
+    headers.push_back(_("5: List of item types and data"));
+    headers.push_back(_("6: Description of map symbols"));
+    headers.push_back(_("7: Description of gun types"));
+    headers.push_back(_("8: Frequently Asked Questions (Some spoilers!)"));
     headers.push_back(_(" "));
     headers.push_back(_("q: Return to game"));
 
@@ -166,8 +167,16 @@ or otherwise use the vehicle controls, press %s to bring up the \"Vehicle Contro
 which has options for things you'd do from the driver's seat."),
                                  press_x(ACTION_CONTROL_VEHICLE, "", "").c_str()));
 
+    text.push_back(string_format(_("Vehicle menu presents the most important parameters of \
+your car, such as safe and maximum speed, current mass, total capacity and used volume of \
+available cargo space, various fuel level indicators, and so on.")));
+
+    text.push_back(string_format(_("Becoming a skilled mechanic, you may want \
+to tune your car up.  The coefficients of aerodynamics, friction and mass efficiency \
+play significant roles it this process.  Named coefficients are measured in the range \
+from 100%% (which means ideal conditions) to 0%% (terrible inefficiency).")));
+
     int fig_last_line = pos_y + 8;
-    // TODO: do it better!
     std::vector<std::string> remained_text;
     for( auto &elem : text ) {
         if (pos_y < fig_last_line) {
@@ -350,7 +359,7 @@ std::vector<std::string> text_mutation()
 Though it is relatively rare, certain areas of the world may be contaminated \
 with radiation. It will gradually accumulate in your body, weakening you \
 more and more. While in radiation-free areas, your radiation level will \
-slowly decrease. Taking iodine tablets will help speed the process."));
+slowly decrease. Taking Prussian blue tablets will help speed the process."));
 
     text.push_back(_("\
 If you become very irradiated, you may develop mutations. Most of the time, these \
@@ -623,6 +632,12 @@ Using firearms is the easiest way to kill an enemy, but the sound will attract \
 unwanted attention. Save the guns for emergencies, and melee when you can."));
 
     text.push_back(_("\
+If you need to protect yourself from acid, clothing made of cloth < leather < \
+kevlar < plastic. So while leather and kevlar will protect you from active \
+enemies, a hazmat suit and rubber boots will make you nigh-immune to acid damage. \
+Items made of glass, ceramics, diamond or precious metals will be totally immune to acid."));
+
+    text.push_back(_("\
 Try to keep your inventory as full as possible without being overloaded. You never know when you \
 might need an item, most are good to sell, and you can easily drop unwanted items on the floor."));
 
@@ -635,7 +650,7 @@ of clothing on the floor to sleep on."));
     text.push_back(_("\
 Your clothing can sit in one of four layers on your body: next-to-skin, standard, over, and belted. \
 You can wear one item from each layer on a body part without incurring an encumbrance penalty for \
-too many worn items. Any items beyond the first on each layer add an additional point to the body \
+too many worn items. Any items beyond the first on each layer add an additional 10 points to the body \
 part's encumbrance. (However, you can wear one additional item that would be encumbrance 0 before \
 fitting, and is fitted anyway, without incurring that penalty.)"));
 
@@ -701,13 +716,13 @@ firearms load fully in one action, while shotguns must be loaded one shell at a 
     text.push_back(_("\
 =       Ammunition\n\
 Ammunition is worthless without a gun to load it into. Generally, \
-there are several variants for any particular calibre. Ammunition has \
+there are several variants for any particular caliber. Ammunition has \
 damage, dispersion, and range ratings, and an armor-piercing quality."));
 
     text.push_back(string_format(_("\
 *       Thrown weapon; simple projectile or grenade\n\
 These items are suited for throwing, and many are only useful when thrown, \
-such as grenades, molotov cocktails, or tear gas. Once activated be certain \
+such as grenades, Molotov cocktails, or tear gas. Once activated be certain \
 to throw these items by pressing %s, then the letter of the item to throw."),
                                  press_x(ACTION_THROW, "", "").c_str()));
 
@@ -764,7 +779,7 @@ O           Parking lot - Empty lot, few items. Mostly useless."));
     mvwprintz(win, 13, 0, c_ltcyan,  _("\
 ^>v<        Sporting Goods store - Several survival tools and melee weapons."));
     mvwprintz(win, 14, 0, c_magenta, _("\
-^>v<        Liquor store - Alcohol is good for crafting molotov cocktails."));
+^>v<        Liquor store - Alcohol is good for crafting Molotov cocktails."));
     mvwprintz(win, 15, 0, c_red,     _("\
 ^>v<        Gun store - Firearms and ammunition are very valuable."));
     mvwprintz(win, 16, 0, c_blue,    _("\
@@ -782,7 +797,7 @@ O           Parking lot - Empty lot, few items. Mostly useless."));
         // The color index is not translatable, but the name is.
         std::string color_description = string_format("%s:%s, ", color_pair.first.c_str(),
                                                       _(color_pair.second.c_str()));
-        int pair_width = utf8_width( color_description.c_str() );
+        int pair_width = utf8_width( color_description );
 
         if( column + pair_width > getmaxx(win) ) {
             column = 0;
@@ -1081,28 +1096,33 @@ void display_help()
         break;
 
         case '2':
-            show_options(true);
+            get_options().show(true);
             werase(w_help);
             break;
 
         case '3':
-            show_auto_pickup();
+            get_auto_pickup().show();
             werase(w_help);
             break;
 
         case '4':
-            multipage(w_help, text_types(), _("Item types:"));
+            all_colors.show_gui();
+            werase(w_help);
             break;
 
         case '5':
-            help_map(w_help);
+            multipage(w_help, text_types(), _("Item types:"));
             break;
 
         case '6':
-            multipage(w_help, text_guns(), _("Gun types:"));
+            help_map(w_help);
             break;
 
         case '7':
+            multipage(w_help, text_guns(), _("Gun types:"));
+            break;
+
+        case '8':
             multipage(w_help, text_faq());
             break;
 
@@ -1127,9 +1147,5 @@ void clear_hints()
 
 std::string get_hint()
 {
-    if (hints.empty()) {
-        return "???";
-    } else {
-        return hints[rng(0, hints.size() - 1)];
-    }
+    return random_entry( hints, "???" );
 }

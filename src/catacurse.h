@@ -32,22 +32,17 @@ typedef struct {
 //Individual lines, so that we can track changed lines
 struct cursecell {
     std::string ch;
-    char FG;
-    char BG;
-    cursecell(std::string ch) : ch(ch), FG(0), BG(0) { }
-    cursecell() : cursecell(" ") { }
+    char FG = 0;
+    char BG = 0;
+
+    cursecell(std::string ch) : ch(std::move(ch)) { }
+    cursecell() : cursecell(std::string(1, ' ')) { }
 
     bool operator==(const cursecell &b) const {
-        return ch == b.ch && FG == b.FG && BG == b.BG;
-    }
-
-    cursecell& operator=(const cursecell &b) {
-        ch = b.ch;
-        FG = b.FG;
-        BG = b.BG;
-        return *this;
+        return FG == b.FG && BG == b.BG && ch == b.ch;
     }
 };
+
 struct curseline {
     bool touched;
     std::vector<cursecell> chars;
@@ -185,12 +180,14 @@ extern pairs *colorpairs;
 extern std::map< std::string, std::vector<int> > consolecolors;
 // color names as read from the json file
 extern std::array<std::string, 16> main_color_names;
+// may throw std::exception
 WINDOW *curses_init();
 int curses_destroy();
 void curses_drawwindow(WINDOW *win);
 void curses_delay(int delay);
 void curses_timeout(int t);
 int curses_getch(WINDOW *win);
+// may throw std::exception
 int curses_start_color();
 
 // Add interface specific (SDL/ncurses/wincurses) initializations here
@@ -198,5 +195,8 @@ void init_interface();
 
 int projected_window_width(int column_count);
 int projected_window_height(int row_count);
+
+//used only in SDL mode for clearing windows using rendering
+void clear_window_area(WINDOW* win);
 
 #endif

@@ -1,0 +1,10 @@
+{
+    "type": "MOD_INFO",
+    "mod-type": "SUPPLEMENTAL",
+    "ident": "Arcana",
+    "name": "Arcana and Magic Items",
+    "author" : "Chaosvolt",
+    "description": "Adds a new skill for creating and using magical items, and alters many anomalous monsters.",
+    "category": "magical",
+    "path": ""
+}

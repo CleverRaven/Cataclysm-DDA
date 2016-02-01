@@ -1,5 +1,7 @@
 # Contribute
 
+**Opening new issue?** Please read [ISSUES.md](https://github.com/CleverRaven/Cataclysm-DDA/blob/master/ISSUES.md) first.
+
 Contributing to Cataclysm: Dark Days Ahead is easy - simply fork the repository here on GitHub, make your changes, and then send us a pull request.
 
 Cataclysm:Dark Days Ahead is released under the Creative Commons Attribution ShareAlike 3.0 license.  The code and content of the game is free to use, modify, and redistribute for any purpose whatsoever.  See http://creativecommons.org/licenses/by-sa/3.0/ for details.
@@ -16,15 +18,64 @@ There are a couple of guidelines we suggest sticking to:
 
 ## Code Style
 
-Current policy is to only update code to the standard style when changing a substantial portion of it, but **please** do this in a separate commit. Blocks of code can be passed through astyle
-to ensure that their formatting is correct:
+Current policy is to only update code to the standard style when changing a substantial portion of it, but **please** do this in a separate commit. See doc/CODE_STYLE.txt for details
 
-    astyle --style=1tbs --indent=spaces=4 --align-pointer=name --max-code-length=100 --break-after-logical --indent-classes --indent-switches --indent-preprocessor --indent-col1-comments --min-conditional-indent=0 --pad-oper --add-brackets --convert-tabs
+## Translations
 
-For example, from vi, set marks a and b around the block, then:
+The game uses [gettext](https://www.gnu.org/software/gettext/) to display translated texts.
 
-    :'a,'b ! astyle --style=1tbs --indent=spaces=4 --align-pointer=name --max-code-length=100 --break-after-logical --indent-classes --indent-switches --indent-preprocessor --indent-col1-comments --min-conditional-indent=0 --pad-oper --add-brackets --convert-tabs
+This requires two actions:
+- Marking strings that should be translated in the source.
+- Calling translation functions at run time.
 
+The first action allows to automatically extract those strings, which are given to the translator team. They return a file that maps the original string (usually in English) as it appears in the code to the translated string. This is used at run time by the translation functions (the second action).
+
+Note that only extracted strings can get translated. The original string is used to request the translation, in other words: the original string is the identifier used for a specific translation. If the function doesn't know the translation, it returns the original string.
+
+The empty string is always translated into some debug information, not into an empty string. In most situations, the string can be expected to be non-empty, so you can always translate it. If the string *could* be empty (and it needs to remain empty after the translation), you'll have to check for this and only translate if non-empty.
+
+Error messages (which indicate a bug in the program) and debug messages should not be translated. If they appear, the player is expected to report them *exactly* as they were printed by the game.
+
+Practically, you should use one of the following three functions in the source code to get a translation.
+
+String *literals* that are used in any of these functions are automatically extracted. Non-literal strings are translated at run time, but they won't get extracted.
+```C++
+const char *translated = _("text"); // marked for extraction
+const char *untranslated = "text"; // same string as the original above.
+// This translates because the input string "text" has been marked
+// and a translation for it will be available
+const char *translated_again = _(untranslated);
+untranslated = "other text";
+// This does not translate, the string "other text" was never marked for translation
+// and the translation system therefor doesn't know how to translate it.
+translated_again = _(untranslated);
+```
+
+Strings from the JSON data files are extracted via the "lang/extract_json_strings.py" script. They can be translated at run time using `_()`.
+
+### Using `_()`
+
+For simple C-strings:
+```c++
+const char *translated = _( "original text" );
+// also works directly:
+add_msg( _( "You drop the %s." ), the_item_name );
+```
+
+### Using `pgettext()`
+
+If the original string is short, or its meaning is not clear (e.g. "blue" can be a color or an emotion, similar for abbreviations), one can add a context to the string. The context is provided to the translators, but is not part of the translated string itself. This is done by calling `pgettext`, its first parameter is the context, the second is the string to be translated.
+```c++
+const char *translated = pgettext("The direction: East", "E");
+```
+
+### Using `ngettext()`
+
+Many languages have plural forms, some have complex rules how to form those. To translate the plural form correctly, use `ngettext`, its first parameter is the untranslated string in singular, the second parameter is the untranslated string in plural form and the third is used to determine the required plural form.
+```c++
+const char *translated = ngettext( "one zombie.", "many zombies", num_zombies );
+```
+Some classes (like `itype`, `mtype`) provide a wrapper for those function, named `nname`.
 
 ## Doxygen Comments
 
@@ -129,9 +180,10 @@ http://www.stack.nl/~dimitri/doxygen/manual/faq.html
  * Note: any new commits to the `new_feature` branch on GitHub will automatically be included in the pull request, so make sure to only commit related changes to the same branch.
 
 ## Pull Request Notes
-* Mark pull requests that are still being worked on with [WIP] at the end of the title
+* Mark pull requests that are still being worked on by adding [WIP] before the title
     * When a pull request is ready to be reviewed remove the [WIP]
-* Mark pull requests that need commenting/testing by others with [CR]
+* Mark pull requests that need commenting/testing by others with [CR] before the title
+    * [WIP] has higher precedence than [CR]. Feel free to remove [CR] when you feel you got enough information
 * If the pull request fixes a issue listed on github, include "fixes #???" into the text, where ??? is the number of the issue. This automatically closes the issue when the PR is pulled in, and allows mergers to work slightly faster. For further details see issue #2419.
 
 ## Advanced Techniques
@@ -178,9 +230,9 @@ You can also set the tracking information at the same time as creating the branc
         xxxx..xxxx  new_feature -> new_feature
 
 #### PR Tags
-If you file a PR but you're still working on it, please add a [WIP] at the end of the title text. This will tell the reviewers that you still intend to add more to the PR and we don't need to review it yet. When it's ready to be reviewed by a merger just edit the title text to remove the [WIP].
+If you file a PR but you're still working on it, please add a [WIP] before the title text. This will tell the reviewers that you still intend to add more to the PR and we don't need to review it yet. When it's ready to be reviewed by a merger just edit the title text to remove the [WIP].
 
-If you are also looking for suggestions then mark it with [CR] - (comments requested).
+If you are also looking for suggestions then mark it with [CR] - "comments requested". You can use both [WIP] and [CR] to indicated that you need opinion/code review/suggestions to continue working (e.g. "[WIP] [CR] Super awesome big feature"). Feel free to remove [CR] when you feel you got enough information to proceed.
 
 This can help speed up our review process by allowing us to only review the things that are ready for it, and will prevent anything that isn't completely ready from being merged in.
 
@@ -195,8 +247,51 @@ resolve
 resolves
 resolved
 And ??? is the number. This automatically closes the issue when the PR is pulled in, and allows mergers to work slightly faster. To close multiple issues format it as "XXXX #???, XXXX#???".
-        
-        
+
+## In-game testing, test environment and the debug menu
+
+Whether you are implementing a new feature or whether you are fixing a bug, it is always a good practice to test your changes in-game. It can be a hard task to create the exact conditions by playing a normal game to be able to test your changes which is why there is a debug menu. There is no default key to bring up the menu so you will need to assign one first.
+
+Bring up the keybindings menu (Press `?` than `1`), scroll down almost to the bottom and press `+` to add a new key binding. Press the letter that correspond to the *Debug menu* item than press the key you want to use to bring up the debug menu. To test your changes, create a new world with a new character. Once you are in that world, press the key you just assigned for the debug menu and you should see something like this:
+
+```
+┌────────────────────────────────────────────┐
+│ Debug Functions - Using these is CHEATING! │
+├────────────────────────────────────────────┤
+│ 1 Wish for an item                         │
+│ 2 Teleport - Short Range                   │
+│ 3 Teleport - Long Range                    │
+│ 4 Reveal map                               │
+│ 5 Spawn NPC                                │
+│ 6 Spawn Monster                            │
+│ 7 Check game state...                      │
+│ 8 Kill NPCs                                │
+│ 9 Mutate                                   │
+│ 0 Spawn a vehicle                          │
+│ a Change all skills                        │
+│ b Learn all melee styles                   │
+│ c Unlock all recipes                       │
+│ d Edit player/NPC                          │
+│ e Spawn Artifact                           │
+│ f Spawn Clairvoyance Artifact              │
+│ g Map editor                               │
+│ h Change weather                           │
+│ i Remove all monsters                      │
+│ j Display hordes                           │
+│ k Test Item Group                          │
+│ l Damage Self                              │
+│ m Show Sound Clustering                    │
+│ n Lua Command                              │
+│ o Display weather                          │
+│ p Change time                              │
+│ q Set automove route                       │
+│ r Show mutation category levels            │
+│ s Cancel                                   │
+└────────────────────────────────────────────┘
+```
+
+With these commands, you should be able to recreate the proper conditions to test your changes. You can find some more information about the debug menu on [the official wiki](http://www.wiki.cataclysmdda.com/index.php?title=Cheating#The_Debug_Menu).
+
 ## Frequently Asked Questions
 
 ####Why does `git pull --ff-only` result in an error?

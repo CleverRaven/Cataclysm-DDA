@@ -1,8 +1,9 @@
-    {
-        "type": "MOD_INFO",
-        "mod-type": "SUPPLEMENTAL",
-        "ident": "Fast_Zombies",
-        "name": "Fast Zombies",
-        "description": "Doubles zombie speed.",
-        "path": ""
-    }
+{
+    "type": "MOD_INFO",
+    "mod-type": "SUPPLEMENTAL",
+    "ident": "Fast_Zombies",
+    "name": "Fast Zombies",
+    "description": "Doubles zombie speed.",
+    "category": "rebalance",
+    "path": ""
+}

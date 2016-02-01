@@ -1,4 +1,5 @@
 #include "game.h"
+#include "player.h"
 #include "gamemode.h"
 #include "debug.h"
 #include "input.h"
@@ -13,6 +14,8 @@
 #include "filesystem.h"
 #include "path_info.h"
 #include "mapsharing.h"
+#include "morale.h"
+#include "sounds.h"
 
 #include <fstream>
 
@@ -82,9 +85,9 @@ void game::print_menu(WINDOW *w_open, int iSel, const int iMenuOffsetX, int iMen
 
     int menu_length = 0;
     for( size_t i = 0; i < vMenuItems.size(); ++i ) {
-        menu_length += utf8_width(vMenuItems[i].c_str(), true) + 2;
+        menu_length += utf8_width(vMenuItems[i], true) + 2;
         if (!vMenuHotkeys[i].empty()) {
-            menu_length += utf8_width(vMenuHotkeys[i][0].c_str());
+            menu_length += utf8_width(vMenuHotkeys[i][0]);
         }
     }
     const int free_space = std::max(0, window_width - menu_length - iMenuOffsetX);
@@ -253,29 +256,35 @@ bool game::opening_screen()
     dirent *dp;
     DIR *dir;
 
-    if (!assure_dir_exist(FILENAMES["savedir"])) {
-        popup(_("Unable to make save directory. Check permissions."));
+    if( !assure_dir_exist( FILENAMES["config_dir"] ) ) {
+        popup( _( "Unable to make config directory. Check permissions." ) );
+        return false;
+    }
+    
+    if( !assure_dir_exist( FILENAMES["savedir"] ) ) {
+        popup( _( "Unable to make save directory. Check permissions." ) );
         return false;
     }
 
-    if (!assure_dir_exist(FILENAMES["templatedir"].c_str())) {
-        popup(_("Unable to make templates directory. Check permissions."));
+    if( !assure_dir_exist( FILENAMES["templatedir"] ) ) {
+        popup( _( "Unable to make templates directory. Check permissions." ) );
         return false;
     }
-    dir = opendir(FILENAMES["templatedir"].c_str());
-    while ((dp = readdir(dir))) {
+    dir = opendir( FILENAMES["templatedir"].c_str() );
+    while( ( dp = readdir( dir ) ) ) {
         std::string tmp = dp->d_name;
-        if (tmp.find(".template") != std::string::npos) {
-            templates.push_back(tmp.substr(0, tmp.find(".template")));
+        if( tmp.find(".template") != std::string::npos ) {
+            templates.push_back( tmp.substr( 0, tmp.find( ".template" ) ) );
         }
     }
-    closedir(dir);
+    closedir( dir );
 
     int sel1 = 1, sel2 = 1, sel3 = 1, layer = 1;
     input_context ctxt("MAIN_MENU");
     ctxt.register_cardinal();
     ctxt.register_action("QUIT");
     ctxt.register_action("CONFIRM");
+    ctxt.register_action("DELETE_TEMPLATE");
     // for the menu shortcuts
     ctxt.register_action("ANY_INPUT");
     bool start = false;
@@ -332,16 +341,18 @@ bool game::opening_screen()
                 } else {
                     sel1 = 8;
                 }
+                sfx::play_variant_sound("menu_move", "default", 100);
             } else if (action == "RIGHT") {
                 if (sel1 < 8) {
                     sel1++;
                 } else {
                     sel1 = 0;
                 }
+                sfx::play_variant_sound("menu_move", "default", 100);
             }
             if ((action == "UP" || action == "CONFIRM") && sel1 > 0 && sel1 != 7) {
                 if (sel1 == 5) {
-                    show_options();
+                    get_options().show();
                 } else if (sel1 == 6) {
                     display_help();
                 } else if (sel1 == 8) {
@@ -423,7 +434,6 @@ bool game::opening_screen()
                         werase(w_background);
                         wrefresh(w_background);
 
-                        MAPBUFFER.load(world->world_name);
                         start_game(world->world_name);
                         start = true;
                     } else if (sel2 == 1) {
@@ -445,8 +455,13 @@ bool game::opening_screen()
                          color1 = c_ltcyan;
                          color2 = h_ltcyan;
                       } else {
-                         color1 = c_white;
-                         color2 = h_white;
+                         if (world_generator->world_need_lua_build(world_name)) {
+                            color1 = c_dkgray;
+                            color2 = h_dkgray;
+                         } else {
+                             color1 = c_white;
+                             color2 = h_white;
+                         }
                       }
                       mvwprintz(w_open, line, 15 + iMenuOffsetX + extra_w / 2,
                                 (sel2 == i ? color2 : color1 ), "%s (%d)",
@@ -609,9 +624,18 @@ bool game::opening_screen()
             }
         } else if (layer == 3) {
             bool available = false;
+
             if (sel1 == 2) { // Load Game
                 savegames = world_generator->all_worlds[world_generator->all_worldnames[sel2]]->world_saves;
-                if (savegames.empty()) {
+                std::string wn = world_generator->all_worldnames[sel2];
+
+                //hide savegames if lua is not available for a lua-built world
+                if ( (wn != "TUTORIAL" && wn != "DEFENSE") && world_generator->world_need_lua_build(wn) ) {
+                    savegames.clear();
+                    mvwprintz(w_open, iMenuOffsetY - 2, 15 + iMenuOffsetX + extra_w / 2,
+                              c_red, _("This world requires the game to be compiled with Lua."));
+                }
+                else if (savegames.empty()) {
                     mvwprintz(w_open, iMenuOffsetY - 2, 19 + 19 + iMenuOffsetX + extra_w / 2,
                               c_red, _("No save games found!"));
                 } else {
@@ -665,7 +689,6 @@ bool game::opening_screen()
                         WORLDPTR world = world_generator->all_worlds[world_generator->all_worldnames[sel2]];
                         world_generator->set_active_world(world);
                         setup();
-                        MAPBUFFER.load(world->world_name);
 
                         load(world->world_name, savegames[sel3]);
                         start = true;
@@ -757,6 +780,8 @@ bool game::opening_screen()
                     mvwprintz(w_open, iMenuOffsetY - 4, iMenuOffsetX + 20 + extra_w / 2,
                               c_red, _("No templates found!"));
                 } else {
+                    mvwprintz(w_open, iMenuOffsetY - 2, iMenuOffsetX + 20 + extra_w / 2,
+                              c_white, _("Press 'd' to delete a preset."));
                     for (int i = 0; i < (int)templates.size(); i++) {
                         int line = iMenuOffsetY - 4 - i;
                         mvwprintz(w_open, line, 20 + iMenuOffsetX + extra_w / 2,
@@ -786,6 +811,19 @@ bool game::opening_screen()
                     sel1 = 1;
                     layer = 2;
                     print_menu(w_open, sel1, iMenuOffsetX, iMenuOffsetY);
+                } else if (!templates.empty() && action == "DELETE_TEMPLATE") {
+                    if (query_yn(_("Are you sure you want to delete %s?"),
+                                 templates[sel3].c_str())) {
+                        const auto path = FILENAMES["templatedir"] + templates[sel3] + ".template";
+                        if (std::remove(path.c_str()) != 0) {
+                            popup(_("Sorry, something went wrong."));
+                        } else {
+                            templates.erase(templates.begin() + sel3);
+                            if ((size_t)sel3 > templates.size() - 1) {
+                                sel3--;
+                            }
+                        }
+                    }
                 } else if (action == "RIGHT" || action == "CONFIRM") {
                     WORLDPTR world = world_generator->pick_world();
                     if (world == NULL) {
@@ -800,7 +838,6 @@ bool game::opening_screen()
                     }
                     werase(w_background);
                     wrefresh(w_background);
-                    MAPBUFFER.load(world_generator->active_world->world_name);
                     start_game(world_generator->active_world->world_name);
                     start = true;
                 }

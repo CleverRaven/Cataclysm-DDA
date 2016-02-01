@@ -19,17 +19,17 @@
         "speaker" : "mon_animatronic_fox_old",
         "sound" : "\"It's me.\"",
         "volume" : 40
-	},{
+    },{
         "type" : "speech",
         "speaker" : "mon_animatronic_fox_old",
         "sound" : "\"SKREEEEEEEEEEEEEE!\"",
         "volume" : 75
-	},{
+    },{
         "type" : "speech",
         "speaker" : "mon_animatronic_fox_old",
         "sound" : "\"Dum de dum dum dum.\"",
         "volume" : 30
-	},{
+    },{
         "type" : "speech",
         "speaker" : "mon_animatronic_fox_old",
         "sound" : "\"Ahoy there!\"",
@@ -59,7 +59,7 @@
         "speaker" : "mon_animatronic_bear",
         "sound" : "\"SKREEEEEEEEEEEEEE!\"",
         "volume" : 75
-	},{
+    },{
         "type" : "speech",
         "speaker" : "mon_animatronic_chicken",
         "sound" : "\"SKREEEEEEEEEEEEEE!\"",

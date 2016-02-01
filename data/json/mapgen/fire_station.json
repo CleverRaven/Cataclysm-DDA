@@ -64,8 +64,8 @@
                     "_": "t_pavement",
                     ",": "t_pavement_y",
                     " ": "t_floor",
-                    "-": "t_wall_h",
-                    "|": "t_wall_v",
+                    "-": "t_wall",
+                    "|": "t_wall",
                     "O": "t_window",
                     "L": "t_door_locked",
                     "+": "t_door_c",
@@ -106,19 +106,20 @@
                     "F": "f_fridge",
                     "@": "f_bed",
                     ":": "f_dresser",
-                    "T": "f_toilet",
                     "l": "f_locker",
                     "S": "f_sink",
                     "G": "f_oven"
                 },
-                "place_specials": [
-                    { "type": "toilet", "x": 1, "y": 21 }
-                ],
+                "toilets": {
+                    "T": { }
+                },
                 "set": [
                     { "point": "terrain", "id": "t_dirt", "x": [ 0, 23 ], "y": 23, "repeat": [ 5, 8 ] }
                 ],
-                "place_groups": [
-                    { "monster": "GROUP_FIRE",  "chance": 1,  "x": [ 2, 21 ], "y": [ 9, 21 ]},
+                "place_monsters": [
+                    { "monster": "GROUP_FIRE",  "chance": 1,  "x": [ 2, 21 ], "y": [ 9, 21 ]}
+                ],
+                "place_items": [
                     { "item": "bed",            "chance": 80, "x": [3,4 ],    "y": [16,16 ] },
                     { "item": "bed",            "chance": 80, "x": [3,4 ],    "y": [18,18 ] },
                     { "item": "fireman_doc",    "chance": 70, "x": [ 1,1 ],   "y": [ 2,2 ] },
@@ -134,7 +135,9 @@
                     { "item": "fireman_head",   "chance": 70, "x": [ 12,12 ], "y": [ 21,21 ] },
                     { "item": "fireman_gloves", "chance": 70, "x": [ 16,16 ], "y": [ 21,21 ] },
                     { "item": "fireman_mask",   "chance": 70, "x": [ 18,18 ], "y": [ 21,21 ] },
-                    { "item": "fireman_gear",   "chance": 70, "x": [ 20,20 ], "y": [ 21,21 ] },
+                    { "item": "fireman_gear",   "chance": 70, "x": [ 20,20 ], "y": [ 21,21 ] }
+                ],
+                "place_vehicles": [
                     { "vehicle": "fire_engine", "x": 12, "y": 13, "rotation": 270, "chance": 30 }
 
                 ]

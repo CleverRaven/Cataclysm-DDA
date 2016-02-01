@@ -5,15 +5,15 @@
 
 #include <cassert>
 #include <stdarg.h>
+#include <algorithm>
 
 #include "output.h"
-
+#include "mapdata.h"
 #include "mapgenformat.h"
 /*
  * Take array of struct { short; short } and spaw it on a map
  */
-
-void formatted_set_incredibly_simple( map * m, const ter_furn_id data[], const int width, const int height, const int startx, const int starty, const int defter ) {
+void formatted_set_incredibly_simple( map * m, const ter_furn_id data[], const int width, const int height, const int startx, const int starty, const ter_id defter ) {
     (void)startx; (void)starty; // FIXME: unused
     for ( int y = 0; y < height; y++ ) {
         const int mul = y * height;
@@ -21,16 +21,16 @@ void formatted_set_incredibly_simple( map * m, const ter_furn_id data[], const i
             const ter_furn_id tdata = data[ mul + x ];
             if ( tdata.furn != f_null ) {
                 if ( tdata.ter != t_null ) {
-                    m->set(x, y, tdata.ter, tdata.furn);
-                } else if ( defter != -1 ) {
-                    m->set(x, y, defter, tdata.furn);
+                    m->set(x, y, tdata.ter, tdata.furn );
+                } else if ( defter != t_null ) {
+                    m->set(x, y, defter, tdata.furn );
                 } else {
-                    m->furn_set(x, y, tdata.furn);
+                    m->furn_set(x, y, tdata.furn );
                 }
             } else if ( tdata.ter != t_null ) {
-                m->ter_set(x, y, tdata.ter);
-            } else if ( defter != -1 ) {
-                m->ter_set(x, y, defter);
+                m->ter_set(x, y, tdata.ter );
+            } else if ( defter != t_null ) {
+                m->ter_set(x, y, defter );
             }
 
         }
@@ -72,8 +72,9 @@ void formatted_set_simple(map* m, const int startx, const int starty, const char
         } else {
             tdata.fix_bindings(*p);
             fdata.fix_bindings(*p);
-            ter_id ter = (ter_id)(*tdata.bindings[*p])(m, x, y);
-            furn_id furn = (furn_id)(*fdata.bindings[*p])(m, x, y);
+            // bindings should be ter_id / furn_id
+            ter_id ter = ter_id( (*tdata.bindings[*p])(m, x, y) );
+            furn_id furn = furn_id( (*fdata.bindings[*p])(m, x, y) );
             if (ter != t_null) {
                 m->ter_set(x, y, ter);
             }
@@ -92,20 +93,13 @@ void formatted_set_simple(map* m, const int startx, const int starty, const char
 
 std::shared_ptr<internal::format_effect> basic_bind(std::string characters, ...)
 {
-    std::string temp;
-    for( auto &character : characters ) {
-        if( character != ' ' ) {
-            temp += character;
-        }
-    }
-    characters = temp;
-
+    characters.erase( std::remove_if(characters.begin(), characters.end(), isspace), characters.end());
     std::vector<std::shared_ptr<internal::determine_terrain> > determiners;
     va_list vl;
     va_start(vl,characters);
     determiners.resize(characters.size());
     for( size_t i = 0; i < characters.size(); ++i ) {
-        determiners[i].reset( new internal::statically_determine_terrain( (ter_id)va_arg(vl,int) ));
+        determiners[i].reset( new internal::statically_determine_terrain( ter_id( va_arg(vl,int) ) ));
     }
     va_end(vl);
     return std::shared_ptr<internal::format_effect>(new internal::format_effect(characters, determiners));
@@ -127,8 +121,8 @@ std::shared_ptr<internal::format_effect> ter_str_bind(std::string characters, ..
     determiners.resize(characters.size());
     for( size_t i = 0; i < characters.size(); ++i ) {
         const std::string sid = va_arg(vl,char *);
-        const int iid = ( termap.find( sid ) != termap.end() ? termap[ sid ].loadid : 0 );
-        determiners[i].reset( new internal::statically_determine_terrain( (ter_id)iid ) );
+        const ter_id iid = ( termap.find( sid ) != termap.end() ? termap[ sid ].loadid : t_null );
+        determiners[i].reset( new internal::statically_determine_terrain( iid ) );
     }
     va_end(vl);
     return std::shared_ptr<internal::format_effect>(new internal::format_effect(characters, determiners));
@@ -150,8 +144,8 @@ std::shared_ptr<internal::format_effect> furn_str_bind(std::string characters, .
     determiners.resize(characters.size());
     for( size_t i = 0; i < characters.size(); ++i ) {
         const std::string sid = va_arg(vl,char *);
-        const int iid = ( furnmap.find( sid ) != furnmap.end() ? furnmap[ sid ].loadid : 0 );
-        determiners[i].reset( new internal::statically_determine_terrain( (ter_id)iid ) );
+        const furn_id iid = ( furnmap.find( sid ) != furnmap.end() ? furnmap[ sid ].loadid : f_null );
+        determiners[i].reset( new internal::statically_determine_terrain( iid ) );
     }
     va_end(vl);
     return std::shared_ptr<internal::format_effect>(new internal::format_effect(characters, determiners));

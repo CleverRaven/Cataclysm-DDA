@@ -2,6 +2,9 @@
 #include "json.h"
 #include "translations.h"
 #include "game.h"
+#include "player.h"
+#include "map.h"
+#include "debug.h"
 #include "inventory.h"
 #include "output.h"
 #include "itype.h"
@@ -74,6 +77,10 @@ void quality_requirement::load( JsonArray &jsarr )
     type = quality_data.get_string( "id" );
     level = quality_data.get_int( "level", 1 );
     count = quality_data.get_int( "amount", 1 );
+    if( count <= 0 ) {
+        quality_data.throw_error( "quality amount must be a positive number", "amount" );
+    }
+    // Note: level is not checked, negative values and 0 are allow, see butchering quality.
 }
 
 void tool_comp::load( JsonArray &ja )
@@ -87,6 +94,10 @@ void tool_comp::load( JsonArray &ja )
         type = comp.get_string( 0 );
         count = comp.get_int( 1 );
     }
+    if( count == 0 ) {
+        ja.throw_error( "tool count must not be 0" );
+    }
+    // Note: negative count means charges (of the tool) should be consumed
 }
 
 void item_comp::load( JsonArray &ja )
@@ -97,6 +108,9 @@ void item_comp::load( JsonArray &ja )
     // Recoverable is true by default.
     if(comp.size() > 2) {
         recoverable = comp.get_string(2) == "NO_RECOVER" ? false : true;
+    }
+    if( count <= 0 ) {
+        ja.throw_error( "item count must be a positive number" );
     }
 }
 
@@ -419,7 +433,7 @@ bool item_comp::has( const inventory &crafting_inv, int batch ) const
     if( type == "rope_30" || type == "rope_6" ) {
         // NPC don't craft?
         // TODO: what about the amount of ropes vs the hunger?
-        if( g->u.has_trait( "WEB_ROPE" ) && g->u.hunger <= 300 ) {
+        if( g->u.has_trait( "WEB_ROPE" ) && g->u.get_hunger() <= 300 ) {
             return true;
         }
     }
@@ -434,7 +448,7 @@ bool item_comp::has( const inventory &crafting_inv, int batch ) const
 std::string item_comp::get_color( bool has_one, const inventory &crafting_inv, int batch ) const
 {
     if( type == "rope_30" || type == "rope_6" ) {
-        if( g->u.has_trait( "WEB_ROPE" ) && g->u.hunger <= 300 ) {
+        if( g->u.has_trait( "WEB_ROPE" ) && g->u.get_hunger() <= 300 ) {
             return "ltgreen"; // Show that WEB_ROPE is on the job!
         }
     }
@@ -550,4 +564,91 @@ bool requirement_data::remove_item( const std::string &type, std::vector< std::v
 bool requirement_data::remove_item( const std::string &type )
 {
     return remove_item( type, tools ) || remove_item( type, components );
+}
+
+const requirement_data::alter_tool_comp_vector &requirement_data::get_tools() const
+{
+    return tools;
+}
+
+const requirement_data::alter_quali_req_vector &requirement_data::get_qualities() const
+{
+    return qualities;
+}
+
+const requirement_data::alter_item_comp_vector &requirement_data::get_components() const
+{
+    return components;
+}
+
+const requirement_data requirement_data::disassembly_requirements() const
+{
+    // TODO:
+    // Allow jsonizing those tool replacements
+
+    // Make a copy
+    // Maybe TODO: Cache it somewhere and return a reference instead
+    requirement_data ret = *this;
+    auto new_qualities = std::vector<quality_requirement>();
+    for( auto &it : ret.tools ) {
+        bool replaced = false;
+        for( const auto &tool : it ) {
+            const itype_id &type = tool.type;
+
+            // If crafting recipe required a welder,
+            // disassembly requires a hacksaw or super toolkit.
+            if( type == "welder" ||
+                type == "welder_crude" ||
+                type == "oxy_torch" ) {
+                new_qualities.push_back( quality_requirement( "SAW_M_FINE", 1, 1 ) );
+                replaced = true;
+                break;
+            }
+
+            if( type == "sewing_kit" ||
+                type == "mold_plastic" ) {
+                new_qualities.push_back( quality_requirement( "CUT", 1, 1 ) );
+                replaced = true;
+                break;
+            }
+
+            if( type == "goggles_welding" ||
+                type == "crucible" ) {
+                replaced = true;
+                break;
+            }
+        }
+
+        if( replaced ) {
+            // Replace the entire block of variants
+            // This avoids the pesky integrated toolset
+            it.clear();
+        }
+    }
+
+    // Warning: This depends on the fact that tool qualities
+    // are all mandatory (don't use variants)
+    // If that ever changes, this will be wrong!
+    if( ret.qualities.empty() ) {
+        ret.qualities.resize( 1 );
+    }
+
+    auto &qualities = ret.qualities[0];
+    qualities.insert( qualities.end(), new_qualities.begin(), new_qualities.end() );
+    // Remove duplicate qualities
+    {
+        auto itr = std::unique( qualities.begin(), qualities.end(),
+            []( const quality_requirement &a, const quality_requirement &b ) {
+                return a.type == b.type;
+            } );
+        qualities.resize( std::distance( qualities.begin(), itr ) );
+    }
+
+    // Remove empty variant sections
+    ret.tools.erase( std::remove_if( ret.tools.begin(), ret.tools.end(),
+    []( const std::vector<tool_comp> &tcv ) {
+        return tcv.empty();
+    } ), ret.tools.end() );
+
+    return ret;
 }

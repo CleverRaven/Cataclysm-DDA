@@ -1,0 +1,20 @@
+[
+    {
+        "type" : "ammunition_type",
+        "id" : "hbolt",
+        "name" : "ballista bolt",
+        "default" : "hbolt_wood"
+    },
+    {
+        "type" : "ammunition_type",
+        "id" : "ripdisk",
+        "name" : "bladed disk",
+        "default" : "ripdisk"
+    },
+    {
+        "type" : "ammunition_type",
+        "id" : "h_projectile",
+        "name" : "heavy projectiles",
+        "default" : "mininuke_mod"
+    }
+]

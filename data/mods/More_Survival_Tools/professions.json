@@ -1,0 +1,114 @@
+[
+    {
+        "type": "profession",
+        "ident": "wanderer",
+        "name": "Wanderer",
+        "description": "You always preferred the comfort of the open sky, far from the complexities of modern life.  Though from the looks of it, things have changed since last time you've been anywhere near civilization.",
+        "points": 5,
+        "skills": [
+            {
+                "level": 3,
+                "name": "survival"
+            },
+            {
+                "level": 3,
+                "name": "fabrication"
+            },
+            {
+                "level": 1,
+                "name": "tailor"
+            },
+            {
+                "level": 3,
+                "name": "gun"
+            },
+            {
+                "level": 2,
+                "name": "archery"
+            },
+            {
+                "level": 2,
+                "name": "cooking"
+            }
+        ],
+        "items": {
+            "both": [
+                "loincloth_fur",
+                "cloak_fur",
+                "backpack_leather",
+                "boots_fur",
+                "gloves_fur",
+                "scarf_fur",
+                "quiver",
+                "crossbow",
+                "bolt_wood",
+                "copper_knife",
+                "rock_pot",
+                "waterskin",
+                "flint_steel",
+                "tinderbox"
+            ]
+        }
+    },
+    {
+        "type": "profession",
+        "ident": "caveman",
+        "name": "Prehistoric Hunter",
+        "description": "An out-of-place living relic of prehistory, stranded in an unfamiliar and terrifying world.  Life as a hunter-gatherer was hard, but at least you didn't have to fight the living dead, and you had your kin to stand beside you.  Here, you're on your own.",
+        "points": 2,
+        "skills": [
+            {
+                "level": 1,
+                "name": "survival"
+            },
+            {
+                "level": 1,
+                "name": "fabrication"
+            },
+            {
+                "level": 1,
+                "name": "cooking"
+            },
+            {
+                "level": 3,
+                "name": "gun"
+            },
+            {
+                "level": 2,
+                "name": "throw"
+            },
+            {
+                "level": 3,
+                "name": "melee"
+            },
+            {
+                "level": 2,
+                "name": "stabbing"
+            },
+            {
+                "level": 1,
+                "name": "dodge"
+            }
+        ],
+        "traits": [
+            "ILLITERATE"
+        ],
+        "items": {
+            "both": [
+                "loincloth_fur",
+                "cloak_fur",
+                "backpack_leather",
+                "boots_fur",
+                "spear_stone",
+                "atlatl",
+                "javelin_stone",
+                "javelin_stone",
+                "primitive_knife",
+                "hand_axe",
+                "rock_pot",
+                "waterskin",
+                "fire_drill"
+            ]
+        }
+    }
+]

@@ -31,7 +31,7 @@
                 ".^....z.................",
                 ".............z........^."
             ],
-            "place_groups": [
+            "place_items": [
                 { "item": "bed", "chance": 80,  "x": [11,12 ], "y": [5,6 ] },
                 { "item": "bed", "chance": 80,  "x": [20,21 ], "y": [3,4 ] },
                 { "item": "stash_wood", "chance": 70,  "x": [ 9,9 ], "y": [ 2,4 ] },
@@ -88,7 +88,6 @@
                 "8": "f_bathtub",
                 "9": "f_rack",
                 ":": "f_dresser",
-                ";": "f_toilet",
                 "=": "f_woodstove",
                 "c": "f_counter",
                 "?": "f_sofa",
@@ -102,11 +101,13 @@
                 "H": "f_armchair",
                 "G": "f_oven"
             },
-            "place_specials": [
-                { "type": "npc", "class": "bandit", "x": 5, "y": 16 },
-                { "type": "npc", "class": "bandit", "x": 8, "y": 18 },
-                { "type": "toilet", "x": 15, "y": 2 }
-            ]
+            "place_npcs": [
+                { "class": "bandit", "x": 5, "y": 16 },
+                { "class": "bandit", "x": 8, "y": 18 }
+            ],
+            "toilets": {
+                ";": { }
+            }
         }
     }
 ]

@@ -1,10 +1,26 @@
 #include <sstream>
 #include "inventory.h"
 #include "game.h"
+#include "map.h"
+#include "debug.h"
 #include "iuse.h"
+#include "iuse_actor.h"
+#include "options.h"
+#include "npc.h"
+#include "itype.h"
+#include "vehicle.h"
+#include "mapdata.h"
+#include "map_iterator.h"
 
-const std::string inv_chars =
-    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!\"#&()*+./:;=@[\\]^_{|}";
+const invlet_wrapper inv_chars("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!\"#&()*+./:;=@[\\]^_{|}");
+
+bool invlet_wrapper::valid( const long invlet ) const
+{
+    if( invlet > std::numeric_limits<char>::max() || invlet < std::numeric_limits<char>::min() ) {
+        return false;
+    }
+    return find( static_cast<char>( invlet ) ) != std::string::npos;
+}
 
 inventory::inventory()
 : nullitem()
@@ -113,57 +129,7 @@ inventory inventory::operator+ (const item &rhs)
 
 /*static*/ bool inventory::has_activation(const item &it, const player &u)
 {
-    return u.rate_action_use(&it) != HINT_CANT;
-}
-
-/*static*/ bool inventory::has_category(const item &it, item_cat cat, const player &u)
-{
-    switch (cat) {
-    case IC_COMESTIBLE: // food
-        if (it.is_food(&u) || it.is_food_container(&u)) {
-            return true;
-        }
-        break;
-    case IC_AMMO: // ammo
-        if (it.is_ammo() || it.is_ammo_container()) {
-            return true;
-        }
-        break;
-    case IC_ARMOR: // armor
-        if (it.is_armor()) {
-            return true;
-        }
-        break;
-    case IC_BOOK: // books
-        if (it.is_book()) {
-            return true;
-        }
-        break;
-    case IC_TOOL: // tools
-        if (it.is_tool()) {
-            return true;
-        }
-        break;
-    case IC_CONTAINER: // containers for liquid handling
-        if (it.is_tool() || it.is_gun()) {
-            if (it.ammo_type() == "gasoline") {
-                return true;
-            }
-        } else {
-            if (it.is_container()) {
-                return true;
-            }
-        }
-        break;
-    case IC_GUN:
-        if(it.is_gun()) {
-            return true;
-        }
-        break;
-    case IC_NULL:
-        break;
-    }
-    return false;
+    return u.rate_action_use( it ) != HINT_CANT;
 }
 
 /*static*/ bool inventory::has_capacity_for_liquid(const item &it, const item &liquid)
@@ -188,19 +154,6 @@ indexed_invslice inventory::slice_filter_by_activation(const player &u)
     indexed_invslice stacks;
     for( auto &elem : items ) {
         if( has_activation( elem.front(), u ) ) {
-            stacks.push_back( std::make_pair( &elem, i ) );
-        }
-        ++i;
-    }
-    return stacks;
-}
-
-indexed_invslice inventory::slice_filter_by_category(item_cat cat, const player &u)
-{
-    int i = 0;
-    indexed_invslice stacks;
-    for( auto &elem : items ) {
-        if( has_category( elem.front(), cat, u ) ) {
             stacks.push_back( std::make_pair( &elem, i ) );
         }
         ++i;
@@ -234,12 +187,12 @@ indexed_invslice inventory::slice_filter_by_capacity_for_liquid(const item &liqu
     return stacks;
 }
 
-indexed_invslice inventory::slice_filter_by_salvageability()
+indexed_invslice inventory::slice_filter_by_salvageability(const salvage_actor &actor)
 {
     int i = 0;
     indexed_invslice stacks;
     for( auto &elem : items ) {
-        if( iuse::valid_to_cut_up( &elem.front() ) ) {
+        if( actor.valid_to_cut_up( &elem.front() ) ) {
             stacks.push_back( std::make_pair( &elem, i ) );
         }
         ++i;
@@ -441,18 +394,21 @@ void inventory::restack(player *p)
     std::list<item> to_restack;
     int idx = 0;
     for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter, ++idx) {
-        const int ipos = p->invlet_to_position(iter->front().invlet);
-        if (!iter->front().invlet_is_okay() || ( ipos != INT_MIN && ipos != idx ) ) {
-            assign_empty_invlet(iter->front());
-            for( std::list<item>::iterator stack_iter = iter->begin();
-                 stack_iter != iter->end(); ++stack_iter ) {
-                stack_iter->invlet = iter->front().invlet;
+        std::list<item> &stack = *iter;
+        item &topmost = stack.front();
+
+        const int ipos = p->invlet_to_position(topmost.invlet);
+        if( !inv_chars.valid( topmost.invlet ) || ( ipos != INT_MIN && ipos != idx ) ) {
+            assign_empty_invlet(topmost);
+            for( std::list<item>::iterator stack_iter = stack.begin();
+                 stack_iter != stack.end(); ++stack_iter ) {
+                stack_iter->invlet = topmost.invlet;
             }
         }
 
         // remove non-matching items, stripping off end of stack so the first item keeps the invlet.
-        while( iter->size() > 1 && !iter->front().stacks_with(iter->back()) ) {
-            to_restack.splice(to_restack.begin(), *iter, --iter->end());
+        while( stack.size() > 1 && !topmost.stacks_with(stack.back()) ) {
+            to_restack.splice(to_restack.begin(), *iter, --stack.end());
         }
     }
 
@@ -488,171 +444,185 @@ static long count_charges_in_list(const itype *type, const map_stack &items)
     return 0;
 }
 
-void inventory::form_from_map(point origin, int range, bool assign_invlet)
+void inventory::form_from_map( const tripoint &origin, int range, bool assign_invlet )
 {
     items.clear();
-    for (int x = origin.x - range; x <= origin.x + range; x++) {
-        for (int y = origin.y - range; y <= origin.y + range; y++) {
-            if (g->m.has_furn(x, y) && g->m.accessible_furniture(origin.x, origin.y, x, y, range)) {
-                const furn_t &f = g->m.furn_at(x, y);
-                itype *type = f.crafting_pseudo_item_type();
-                if (type != NULL) {
-                    item furn_item(type->id, 0);
-                    const itype *ammo = f.crafting_ammo_item_type();
-                    if (ammo != NULL) {
-                        furn_item.charges = count_charges_in_list(ammo, g->m.i_at(x, y));
-                    }
-                    furn_item.item_tags.insert("PSEUDO");
-                    add_item(furn_item);
+    for( const tripoint &p : g->m.points_in_radius( origin, range ) ) {
+        if (g->m.has_furn( p ) && g->m.accessible_furniture( origin, p, range )) {
+            const furn_t &f = g->m.furn_at( p );
+            itype *type = f.crafting_pseudo_item_type();
+            if (type != NULL) {
+                item furn_item(type->id, 0);
+                const itype *ammo = f.crafting_ammo_item_type();
+                if (ammo != NULL) {
+                    furn_item.charges = count_charges_in_list( ammo, g->m.i_at( p ) );
+                }
+                furn_item.item_tags.insert("PSEUDO");
+                add_item(furn_item);
+            }
+        }
+        if( !g->m.accessible_items( origin, p, range ) ) {
+            continue;
+        }
+        for (auto &i : g->m.i_at( p )) {
+            if (!i.made_of(LIQUID)) {
+                add_item(i, false, assign_invlet);
+            }
+        }
+        // Kludges for now!
+        ter_id terrain_id = g->m.ter( p );
+        if (g->m.has_nearby_fire( p, 0 )) {
+            item fire("fire", 0);
+            fire.charges = 1;
+            add_item(fire);
+        }
+        if (terrain_id == t_water_sh || terrain_id == t_water_dp ||
+            terrain_id == t_water_pool || terrain_id == t_water_pump) {
+            item water("water", 0);
+            water.charges = 50;
+            add_item(water);
+        }
+        if (terrain_id == t_swater_sh || terrain_id == t_swater_dp) {
+            item swater("salt_water", 0);
+            swater.charges = 50;
+            add_item(swater);
+        }
+        // add cvd forge from terrain
+        if (terrain_id == t_cvdmachine) {
+            item cvd_machine("cvd_machine", 0);
+            cvd_machine.charges = 1;
+            cvd_machine.item_tags.insert("PSEUDO");
+            add_item(cvd_machine);
+        }
+        // kludge that can probably be done better to check specifically for toilet water to use in
+        // crafting
+        if (g->m.furn_at( p ).examine == &iexamine::toilet) {
+            // get water charges at location
+            auto toilet = g->m.i_at( p );
+            auto water = toilet.end();
+            for( auto candidate = toilet.begin(); candidate != toilet.end(); ++candidate ) {
+                if( candidate->typeId() == "water" ) {
+                    water = candidate;
+                    break;
                 }
             }
-            if(g->m.accessible_items(origin.x, origin.y, x, y, range)) {
-                continue;
+            if( water != toilet.end() && water->charges > 0) {
+                add_item( *water );
             }
-            for (auto &i : g->m.i_at(x, y)) {
-                if (!i.made_of(LIQUID)) {
-                    add_item(i, false, assign_invlet);
-                }
-            }
-            // Kludges for now!
-            ter_id terrain_id = g->m.ter(x, y);
-            if (g->m.has_nearby_fire(x, y, 0)) {
-                item fire("fire", 0);
-                fire.charges = 1;
-                add_item(fire);
-            }
-            if (terrain_id == t_water_sh || terrain_id == t_water_dp ||
-                terrain_id == t_water_pool || terrain_id == t_water_pump) {
-                item water("water", 0);
-                water.charges = 50;
-                add_item(water);
-            }
-            if (terrain_id == t_swater_sh || terrain_id == t_swater_dp) {
-                item swater("salt_water", 0);
-                swater.charges = 50;
-                add_item(swater);
-            }
-            // add cvd forge from terrain
-            if (terrain_id == t_cvdmachine) {
-                item cvd_machine("cvd_machine", 0);
-                cvd_machine.charges = 1;
-                cvd_machine.item_tags.insert("PSEUDO");
-                add_item(cvd_machine);
-            }
-            // kludge that can probably be done better to check specifically for toilet water to use in
-            // crafting
-            if (furnlist[g->m.furn(x, y)].examine == &iexamine::toilet) {
-                // get water charges at location
-                auto toilet = g->m.i_at(x, y);
-                auto water = toilet.end();
-                for( auto candidate = toilet.begin(); candidate != toilet.end(); ++candidate ) {
-                    if( candidate->typeId() == "water" ) {
-                        water = candidate;
-                        break;
-                    }
-                }
-                if( water != toilet.end() && water->charges > 0) {
-                    add_item( *water );
+        }
+
+        // keg-kludge
+        if (g->m.furn_at( p ).examine == &iexamine::keg) {
+            auto liq_contained = g->m.i_at( p );
+            for( auto &i : liq_contained ) {
+                if( i.made_of(LIQUID) ) {
+                    add_item(i);
                 }
             }
+        }
 
-            // keg-kludge
-            if (furnlist[g->m.furn(x, y)].examine == &iexamine::keg) {
-                auto liq_contained = g->m.i_at(x, y);
-                for( auto &i : liq_contained ) {
-                    if( i.made_of(LIQUID) ) {
-                        add_item(i);
-                    }
-                }
-            }
+        // WARNING: The part below has a bug that's currently quite minor
+        // When a vehicle has multiple faucets in range, available water is
+        //  multiplied by the number of faucets.
+        // Same thing happens for all other tools and resources, but not cargo
+        int vpart = -1;
+        vehicle *veh = g->m.veh_at( p, vpart );
 
-            int vpart = -1;
-            vehicle *veh = g->m.veh_at(x, y, vpart);
+        if( veh == nullptr ) {
+            continue;
+        }
 
-            if (veh) {
-                //Adds faucet to kitchen stuff; may be horribly wrong to do such....
-                //ShouldBreak into own variable
-                const int kpart = veh->part_with_feature(vpart, "KITCHEN");
-                const int faupart = veh->part_with_feature(vpart, "FAUCET");
-                const int weldpart = veh->part_with_feature(vpart, "WELDRIG");
-                const int craftpart = veh->part_with_feature(vpart, "CRAFTRIG");
-                const int forgepart = veh->part_with_feature(vpart, "FORGE");
-                const int chempart = veh->part_with_feature(vpart, "CHEMLAB");
-                const int cargo = veh->part_with_feature(vpart, "CARGO");
+        //Adds faucet to kitchen stuff; may be horribly wrong to do such....
+        //ShouldBreak into own variable
+        const int kpart = veh->part_with_feature(vpart, "KITCHEN");
+        const int faupart = veh->part_with_feature(vpart, "FAUCET");
+        const int weldpart = veh->part_with_feature(vpart, "WELDRIG");
+        const int craftpart = veh->part_with_feature(vpart, "CRAFTRIG");
+        const int forgepart = veh->part_with_feature(vpart, "FORGE");
+        const int chempart = veh->part_with_feature(vpart, "CHEMLAB");
+        const int cargo = veh->part_with_feature(vpart, "CARGO");
 
-                if (cargo >= 0) {
-                    *this += std::list<item>( veh->get_items(cargo).begin(),
-                                              veh->get_items(cargo).end() );
-                }
+        if (cargo >= 0) {
+            *this += std::list<item>( veh->get_items(cargo).begin(),
+                                      veh->get_items(cargo).end() );
+        }
 
-                if(faupart >= 0 ) {
-                    item water("water_clean", 0);
-                    water.charges = veh->fuel_left("water");
-                    add_item(water);
-                }
+        if(faupart >= 0 ) {
+            item clean_water("water_clean", 0);
+            clean_water.charges = veh->fuel_left("water_clean");
+            add_item(clean_water);
 
-                if (kpart >= 0) {
-                    item hotplate("hotplate", 0);
-                    hotplate.charges = veh->fuel_left("battery");
-                    hotplate.item_tags.insert("PSEUDO");
-                    add_item(hotplate);
+            item water("water", 0);
+            water.charges = veh->fuel_left("water");
+            // TODO: Poison
+            add_item(water);
+        }
 
-                    item water("water_clean", 0);
-                    water.charges = veh->fuel_left("water");
-                    add_item(water);
+        if (kpart >= 0) {
+            item hotplate("hotplate", 0);
+            hotplate.charges = veh->fuel_left("battery", true);
+            hotplate.item_tags.insert("PSEUDO");
+            add_item(hotplate);
 
-                    item pot("pot", 0);
-                    pot.item_tags.insert("PSEUDO");
-                    add_item(pot);
-                    item pan("pan", 0);
-                    pan.item_tags.insert("PSEUDO");
-                    add_item(pan);
-                }
-                if (weldpart >= 0) {
-                    item welder("welder", 0);
-                    welder.charges = veh->fuel_left("battery");
-                    welder.item_tags.insert("PSEUDO");
-                    add_item(welder);
+            item clean_water("water_clean", 0);
+            clean_water.charges = veh->fuel_left("water_clean");
+            add_item(clean_water);
 
-                    item soldering_iron("soldering_iron", 0);
-                    soldering_iron.charges = veh->fuel_left("battery");
-                    soldering_iron.item_tags.insert("PSEUDO");
-                    add_item(soldering_iron);
-                }
-                if (craftpart >= 0) {
-                    item vac_sealer("vac_sealer", 0);
-                    vac_sealer.charges = veh->fuel_left("battery");
-                    vac_sealer.item_tags.insert("PSEUDO");
-                    add_item(vac_sealer);
+            item water("water", 0);
+            water.charges = veh->fuel_left("water");
+            // TODO: Poison
+            add_item(water);
 
-                    item dehydrator("dehydrator", 0);
-                    dehydrator.charges = veh->fuel_left("battery");
-                    dehydrator.item_tags.insert("PSEUDO");
-                    add_item(dehydrator);
+            item pot("pot", 0);
+            pot.item_tags.insert("PSEUDO");
+            add_item(pot);
+            item pan("pan", 0);
+            pan.item_tags.insert("PSEUDO");
+            add_item(pan);
+        }
+        if (weldpart >= 0) {
+            item welder("welder", 0);
+            welder.charges = veh->fuel_left("battery", true);
+            welder.item_tags.insert("PSEUDO");
+            add_item(welder);
 
-                    item press("press", 0);
-                    press.charges = veh->fuel_left("battery");
-                    press.item_tags.insert("PSEUDO");
-                    add_item(press);
-                }
-                if (forgepart >= 0) {
-                    item forge("forge", 0);
-                    forge.charges = veh->fuel_left("battery");
-                    forge.item_tags.insert("PSEUDO");
-                    add_item(forge);
-                }
-                if (chempart >= 0) {
-                    item hotplate("hotplate", 0);
-                    hotplate.charges = veh->fuel_left("battery");
-                    hotplate.item_tags.insert("PSEUDO");
-                    add_item(hotplate);
+            item soldering_iron("soldering_iron", 0);
+            soldering_iron.charges = veh->fuel_left("battery", true);
+            soldering_iron.item_tags.insert("PSEUDO");
+            add_item(soldering_iron);
+        }
+        if (craftpart >= 0) {
+            item vac_sealer("vac_sealer", 0);
+            vac_sealer.charges = veh->fuel_left("battery", true);
+            vac_sealer.item_tags.insert("PSEUDO");
+            add_item(vac_sealer);
 
-                    item chemistry_set("chemistry_set", 0);
-                    chemistry_set.charges = veh->fuel_left("battery");
-                    chemistry_set.item_tags.insert("PSEUDO");
-                    add_item(chemistry_set);
-                }
-            }
+            item dehydrator("dehydrator", 0);
+            dehydrator.charges = veh->fuel_left("battery", true);
+            dehydrator.item_tags.insert("PSEUDO");
+            add_item(dehydrator);
+
+            item press("press", 0);
+            press.charges = veh->fuel_left("battery", true);
+            press.item_tags.insert("PSEUDO");
+            add_item(press);
+        }
+        if (forgepart >= 0) {
+            item forge("forge", 0);
+            forge.charges = veh->fuel_left("battery", true);
+            forge.item_tags.insert("PSEUDO");
+            add_item(forge);
+        }
+        if (chempart >= 0) {
+            item hotplate("hotplate", 0);
+            hotplate.charges = veh->fuel_left("battery", true);
+            hotplate.item_tags.insert("PSEUDO");
+            add_item(hotplate);
+
+            item chemistry_set("chemistry_set", 0);
+            chemistry_set.charges = veh->fuel_left("battery", true);
+            chemistry_set.item_tags.insert("PSEUDO");
+            add_item(chemistry_set);
         }
     }
 }
@@ -731,6 +701,37 @@ item inventory::remove_item(int position)
     return remove_item_internal(position);
 }
 
+std::list<item> inventory::remove_randomly_by_volume(int volume)
+{
+    std::list<item> result;
+    int volume_dropped = 0;
+    while( volume_dropped < volume ) {
+        int cumulative_volume = 0;
+        auto chosen_stack = items.begin();
+        auto chosen_item = chosen_stack->begin();
+        for( auto stack = items.begin(); stack != items.end(); ++stack ) {
+            for( auto stack_it = stack->begin(); stack_it != stack->end(); ++stack_it ) {
+                cumulative_volume += stack_it->volume();
+                if( x_in_y( stack_it->volume(), cumulative_volume ) ) {
+                    chosen_item = stack_it;
+                    chosen_stack = stack;
+                }
+            }
+        }
+        volume_dropped += chosen_item->volume();
+        result.push_back( std::move( *chosen_item ) );
+        chosen_item = chosen_stack->erase( chosen_item );
+        if( chosen_item == chosen_stack->begin() && !chosen_stack->empty() ) {
+            // preserve the invlet when removing the first item of a stack
+            chosen_item->invlet = result.back().invlet;
+        }
+        if( chosen_stack->empty() ) {
+            items.erase( chosen_stack );
+        }
+    }
+    return result;
+}
+
 void inventory::dump(std::vector<item *> &dest)
 {
     for( auto &elem : items ) {
@@ -740,16 +741,21 @@ void inventory::dump(std::vector<item *> &dest)
     }
 }
 
-item &inventory::find_item(int position)
+const item &inventory::find_item(int position) const
 {
     if (position < 0 || position >= (int)items.size()) {
         return nullitem;
     }
-    invstack::iterator iter = items.begin();
+    invstack::const_iterator iter = items.begin();
     for (int j = 0; j < position; ++j) {
         ++iter;
     }
     return iter->front();
+}
+
+item &inventory::find_item(int position)
+{
+    return const_cast<item&>( const_cast<const inventory*>(this)->find_item( position ) );
 }
 
 int inventory::invlet_to_position( char invlet ) const
@@ -764,16 +770,16 @@ int inventory::invlet_to_position( char invlet ) const
     return INT_MIN;
 }
 
-int inventory::position_by_item(const item *it)
+int inventory::position_by_item( const item *it ) const
 {
-    int i = 0;
-    for( auto &elem : items ) {
-        for( auto &elem_stack_iter : elem ) {
-            if( it == &elem_stack_iter ) {
-                return i;
+    int p = 0;
+    for( const auto &stack : items ) {
+        for( const auto &e : stack ) {
+            if( e.contains( it ) ) {
+                return p;
             }
         }
-        ++i;
+        p++;
     }
     return INT_MIN;
 }
@@ -831,19 +837,6 @@ std::vector<std::pair<item *, int> > inventory::all_items_by_type(itype_id type)
     return ret;
 }
 
-std::vector<item *> inventory::all_ammo(const ammotype &type)
-{
-    std::vector<item *> ret;
-    for( auto &elem : items ) {
-        for( auto &elem_stack_iter : elem ) {
-            if( elem_stack_iter.is_of_ammo_type_or_contains_it( type ) ) {
-                ret.push_back( &elem_stack_iter );
-            }
-        }
-    }
-    return ret;
-}
-
 int inventory::amount_of(itype_id it) const
 {
     return amount_of(it, true);
@@ -871,15 +864,16 @@ long inventory::charges_of(itype_id it) const
     return count;
 }
 
-std::list<item> inventory::use_amount(itype_id it, int quantity, bool use_container)
+std::list<item> inventory::use_amount(itype_id it, int _quantity)
 {
+    long quantity = _quantity; // Don't wanny change the function signature right now
     sort();
     std::list<item> ret;
     for (invstack::iterator iter = items.begin(); iter != items.end() && quantity > 0; /* noop */) {
         for (std::list<item>::iterator stack_iter = iter->begin();
              stack_iter != iter->end() && quantity > 0;
              /* noop */) {
-            if (stack_iter->use_amount(it, quantity, use_container, ret)) {
+            if (stack_iter->use_amount(it, quantity, ret)) {
                 stack_iter = iter->erase(stack_iter);
             } else {
                 ++stack_iter;
@@ -972,6 +966,17 @@ bool inventory::has_items_with_quality(std::string id, int level, int amount) co
     }
 }
 
+int inventory::max_quality( const std::string &quality_id ) const
+{
+    int result = INT_MIN;
+    for( const auto &elem : items ) {
+        for( const auto &cur_item : elem ) {
+            result = std::max( result, cur_item.get_quality( quality_id ) );
+        }
+    }
+    return result;
+}
+
 int inventory::leak_level(std::string flag) const
 {
     int ret = 0;
@@ -988,18 +993,6 @@ int inventory::leak_level(std::string flag) const
         }
     }
     return ret;
-}
-
-int inventory::butcher_factor() const
-{
-    int result = INT_MIN;
-    for( const auto &elem : items ) {
-        for( const auto &cur_item : elem ) {
-
-            result = std::max( result, cur_item.butcher_factor() );
-        }
-    }
-    return result;
 }
 
 int inventory::worst_item_value(npc *p) const
@@ -1055,17 +1048,17 @@ item *inventory::most_appropriate_painkiller(int pain)
     return ret;
 }
 
-item *inventory::best_for_melee(player *p)
+item *inventory::best_for_melee( player &p, double &best )
 {
     item *ret = &nullitem;
-    int best = 0;
     for( auto &elem : items ) {
-        int score = elem.front().melee_value( p );
-        if (score > best) {
+        auto score = p.melee_value( elem.front() );
+        if( score > best ) {
             best = score;
             ret = &( elem.front() );
         }
     }
+
     return ret;
 }
 
@@ -1139,7 +1132,7 @@ void inventory::assign_empty_invlet(item &it, bool force)
     if( !OPTIONS["AUTO_INV_ASSIGN"] ) {
         return;
     }
-    
+
     player *p = &(g->u);
     std::set<char> cur_inv = p->allocated_invlets();
     itype_id target_type = it.typeId();
@@ -1187,4 +1180,67 @@ std::set<char> inventory::allocated_invlets() const
         }
     }
     return invlets;
+}
+
+VisitResponse inventory::visit_items( const std::function<VisitResponse(item *, item *)>& func ) {
+    for( auto &stack : items ) {
+        for( auto &it : stack ) {
+            if( it.visit_items( func ) == VisitResponse::ABORT ) {
+                return VisitResponse::ABORT;
+            }
+        }
+    }
+    return VisitResponse::NEXT;
+}
+
+VisitResponse inventory::visit_items( const std::function<VisitResponse(const item *, const item *)>& func ) const {
+    return const_cast<inventory *>( this )->visit_items( static_cast<const std::function<VisitResponse(item *, item *)>&>( func ) );
+}
+
+item * inventory::find_parent( item& it )
+{
+    item *res = nullptr;
+    if( visit_items( [&]( item *node, item *parent ){
+        if( node == &it ) {
+            res = parent;
+            return VisitResponse::ABORT;
+        }
+        return VisitResponse::NEXT;
+    } ) != VisitResponse::ABORT ) {
+        debugmsg( "Tried to find item parent using inventory which doesn't contain it" );
+    }
+    return res;
+}
+
+const item * inventory::find_parent( const item& it ) const
+{
+    return const_cast<inventory *>( this )->find_parent( const_cast<item&>( it ) );
+}
+
+std::vector<item *> inventory::items_with( const std::function<bool(const item&)>& filter ) {
+    std::vector<item *> res;
+    visit_items( [&res, &filter]( item *node, item * ) {
+        if( filter( *node ) ) {
+            res.emplace_back( node );
+        }
+        return VisitResponse::NEXT;
+    });
+    return res;
+}
+
+std::vector<const item *> inventory::items_with( const std::function<bool(const item&)>& filter ) const {
+    std::vector<const item *> res;
+    visit_items( [&res, &filter]( const item *node, const item * ) {
+        if( filter( *node ) ) {
+            res.emplace_back( node );
+        }
+        return VisitResponse::NEXT;
+    });
+    return res;
+}
+
+bool inventory::has_item_with( const std::function<bool(const item&)>& filter ) const {
+    return visit_items( [&filter]( const item *node, const item * ) {
+        return filter( *node ) ? VisitResponse::ABORT : VisitResponse::NEXT;
+    } ) == VisitResponse::ABORT;
 }

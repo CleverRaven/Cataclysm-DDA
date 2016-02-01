@@ -1,0 +1,189 @@
+[
+{
+        "type" : "recipe",
+  "result": "mjolnir_replica",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_BASHING",
+  "skill_used": "fabrication",
+  "difficulty": 9,
+  "time": 480000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "book_asgard", 10 ]],
+  "qualities": [
+    {"id":"HAMMER","level":3,"amount":1}
+  ],
+  "tools": [
+      [
+      ["tongs", -1]
+      ],
+      [
+      ["chisel", -1]
+      ],
+      [
+      ["anvil", -1]
+      ],
+      [
+      ["swage", -1]
+      ],
+      [
+      ["forge", 350],
+      [ "char_forge", 70],
+      [ "oxy_torch", 70]
+      ]
+      ],
+  "components":
+    [
+     [
+     [ "warhammer", 1 ]
+     ],
+     [
+      [ "gold", 1 ]
+     ],
+     [
+      [ "silver", 2 ]
+     ],
+     [
+      [ "rebar", 1 ]
+     ]
+    ]
+},
+{
+        "type" : "recipe",
+  "result": "gungnir_replica",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_PIERCING",
+  "skill_used": "fabrication",
+  "difficulty": 9,
+  "time": 480000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "book_asgard", 10 ]],
+    "qualities": [
+    {"id":"HAMMER","level":3,"amount":1}
+  ],
+  "tools": [
+      [
+      ["tongs", -1]
+      ],
+      [
+      ["chisel", -1]
+      ],
+      [
+      ["anvil", -1]
+      ],
+      [
+      ["swage", -1]
+      ],
+      [
+      ["forge", 350],
+      [ "char_forge", 70],
+      [ "oxy_torch", 70]
+      ]
+      ],
+  "components":
+    [
+     [
+      [ "spear_steel", 1 ]
+     ],
+     [
+      [ "gold", 1 ]
+     ],
+     [
+      [ "silver", 2 ]
+     ]
+    ]
+},
+{
+        "type" : "recipe",
+  "result": "ichaival_replica",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_RANGED",
+  "skill_used": "fabrication",
+  "difficulty": 9,
+  "time": 480000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "book_asgard", 10 ]],
+    "qualities": [
+    {"id":"HAMMER","level":3,"amount":1}
+  ],
+  "tools": [
+      [
+      ["tongs", -1]
+      ],
+      [
+      ["chisel", -1]
+      ],
+      [
+      ["anvil", -1]
+      ],
+      [
+      ["swage", -1]
+      ],
+      [
+      ["forge", 350],
+      [ "char_forge", 70],
+      [ "oxy_torch", 70]
+      ]
+      ],
+  "components":
+    [
+     [
+      [ "reflexrecurvebow", 1 ]
+     ],
+     [
+      [ "gold", 1 ]
+     ],
+     [
+      [ "silver", 2 ]
+     ]
+    ]
+},
+{
+        "type" : "recipe",
+  "result": "laevateinn_replica",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_CUTTING",
+  "skill_used": "fabrication",
+  "difficulty": 9,
+  "time": 480000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "book_asgard", 10 ]],
+    "qualities": [
+    {"id":"HAMMER","level":3,"amount":1}
+  ],
+  "tools": [
+      [
+      ["tongs", -1]
+      ],
+      [
+      ["chisel", -1]
+      ],
+      [
+      ["anvil", -1]
+      ],
+      [
+      ["swage", -1]
+      ],
+      [
+      ["forge", 350],
+      [ "char_forge", 70],
+      [ "oxy_torch", 70]
+      ]
+      ],
+  "components":
+    [
+     [
+      [ "broadsword", 1 ]
+     ],
+     [
+      [ "gold", 1 ]
+     ],
+     [
+      [ "silver", 2 ]
+     ]
+    ]
+}
+]

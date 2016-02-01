@@ -1,0 +1,510 @@
+[
+{
+        "type" : "recipe",
+  "result": "turretframe",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "fabrication",
+  "skills_required": [ "mechanics", 3 ],
+  "difficulty": 3,
+  "time": 9000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"HAMMER","level":2,"amount":1},
+    {"id":"SAW_M","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "goggles_welding", -1 ]
+    ],
+    [
+      [ "welder", 60 ],
+      [ "welder_crude", 75 ],
+      [ "toolset", 75 ],
+	  ["oxy_torch", 6]
+    ]
+  ],
+  "components": [
+    [
+      [ "pipe", 8 ],
+	  [ "rebar", 4 ]
+    ],
+	[
+	  [ "chain", 1 ]
+    ],
+	[
+	  [ "scrap", 18 ],
+	  [ "steel_chunk", 6]
+    ],
+	[
+      ["funnel", 1],
+	  ["makeshift_funnel", 1]
+    ],
+	[
+      ["spring", 4]
+    ],
+	[
+	  [ "metal_tank_small", 1]
+	],
+	[
+	  [ "leather", 4],
+      [ "rag", 4 ],
+	  [ "felt_patch", 4 ]
+	]
+  ]
+},{
+        "type" : "recipe",
+  "result": "rebar_plate",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "fabrication",
+  "difficulty": 2,
+  "time": 8000,
+  "reversible": true,
+  "note": "sawing it down doesn't teach anything useful",
+  "autolearn": true,
+  "qualities":[
+    {"id":"SAW_M","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "goggles_welding", -1 ]
+    ],
+    [
+      [ "welder", 100 ],
+      [ "welder_crude", 150 ],
+      [ "toolset", 150 ],
+      [ "oxy_torch", 20]
+    ]
+  ],
+  "components": [
+    [
+      [ "rebar", 4 ]
+    ],
+    [
+      [ "scrap", 3 ]
+    ]
+	]
+},{
+        "type" : "recipe",
+  "result": "spring_plate",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "fabrication",
+  "difficulty": 6,
+  "time": 15000,
+  "reversible": true,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "goggles_welding", -1 ]
+    ],
+    [
+      [ "welder", 100 ],
+      [ "welder_crude", 150 ],
+      [ "toolset", 150 ],
+      [ "forge", 100 ],
+      [ "char_forge", 20],
+      [ "oxy_torch", 20]
+    ]
+  ],
+  "components": [
+    [
+      [ "steel_plate", 1 ]
+    ],
+	[
+      [ "spring", 3 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "fcs",
+  "byproducts": { "id" : "turret_engine" },
+  "id_suffix": "from-existing-turret",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "electronics",
+  "skills_required": [ "computer", 3 ],
+  "difficulty": 3,
+  "time": 15000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
+  "tools": [
+    [
+      [ "soldering_iron", 10 ],
+      [ "toolset", 10 ]
+    ]
+  ],
+  "components": [
+    [ [ "bot_turret", 1 ],
+	  [ "bot_rifleturret", 1 ],
+	  [ "bot_laserturret", 1 ]
+  ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "fcs",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "electronics",
+  "skills_required": [ "computer", 5 ],
+  "difficulty": 5,
+  "time": 120000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
+  "tools": [
+    [
+      [ "soldering_iron", 20 ],
+      [ "toolset", 20 ]
+    ]
+  ],
+  "components": [
+    [
+       [ "processor", 2 ]
+    ],
+    [
+       [ "RAM", 2 ]
+    ],
+    [
+	   [ "small_storage_battery", 1 ],
+	   [ "UPS_off", 1 ]
+    ],
+	[
+       [ "e_scrap", 2 ]
+    ],
+	[
+       [ "solar_cell", 6 ]
+    ],
+	[
+       [ "cable", 20 ]
+    ],
+    [
+       [ "power_supply", 1 ]
+    ]
+  ]
+},
+{
+  "type" : "recipe",
+  "result": "tread1",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "fabrication",
+  "difficulty": 6,
+  "skills_required": [ "mechanics", 6 ],
+  "time": 420000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities": [
+    {"id":"HAMMER","level":3,"amount":1},
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+      [
+      ["tongs", -1]
+      ],
+      [
+      ["chisel", -1]
+      ],
+      [
+      ["anvil", -1]
+      ],
+      [
+      ["swage", -1]
+      ],
+      [
+      [ "forge", 400],
+      [ "char_forge", 100],
+      [ "oxy_torch", 200]
+      ]
+      ],
+  "components":
+    [
+     [
+     [ "steel_lump", 10 ],
+     [ "steel_chunk", 30 ]
+     ],
+     [
+      [ "wire", 20 ]
+     ],
+     [
+     [ "plastic_chunk", 200 ]
+     ],
+	[
+	 [ "chain", 6]
+    ]
+    ]
+},
+{
+  "type" : "recipe",
+  "result": "tread2",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "fabrication",
+  "difficulty": 7,
+  "skills_required": [ "mechanics", 7 ],
+  "time": 520000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities": [
+    {"id":"HAMMER","level":3,"amount":1},
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+      [
+      ["tongs", -1]
+      ],
+      [
+      ["chisel", -1]
+      ],
+      [
+      ["anvil", -1]
+      ],
+      [
+      ["swage", -1]
+      ],
+      [
+      [ "forge", 400],
+      [ "char_forge", 100],
+      [ "oxy_torch", 200]
+      ]
+      ],
+  "components":
+    [
+     [
+     [ "steel_lump", 15 ],
+     [ "steel_chunk", 45 ]
+     ],
+     [
+     [ "steel_plate", 10 ]
+     ],
+	[
+	 [ "chain", 6]
+    ]
+    ]
+},
+{
+  "type" : "recipe",
+  "result": "tread3",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "fabrication",
+  "difficulty": 7,
+  "skills_required": [ "mechanics", 7 ],
+  "time": 720000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities": [
+    {"id":"HAMMER","level":3,"amount":1},
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+      [
+      ["tongs", -1]
+      ],
+      [
+      ["chisel", -1]
+      ],
+      [
+      ["anvil", -1]
+      ],
+      [
+      ["swage", -1]
+      ],
+      [
+      [ "forge", 400],
+      [ "char_forge", 100],
+      [ "oxy_torch", 200]
+      ]
+      ],
+  "components":
+    [
+     [
+     [ "steel_lump", 20 ],
+     [ "steel_chunk", 60 ]
+     ],
+     [
+     [ "hard_plate", 10 ]
+     ],
+	[
+	 [ "chain", 8]
+    ]
+    ]
+},{
+        "type" : "recipe",
+  "result": "tearer",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_PARTS",
+  "skill_used": "fabrication",
+  "difficulty": 4,
+  "time": 60000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"HAMMER","level":2,"amount":1},
+    {"id":"SAW_M","level":1,"amount":1}
+  ], "tools": [
+    [
+      [ "goggles_welding", -1 ]
+    ],
+	[
+      [ "welder", 100 ],
+      [ "welder_crude", 200 ],
+      [ "toolset", 200 ],
+	  [ "oxy_torch", 10]
+    ]
+  ],
+  "components": [
+    [
+      [ "scrap", 9],
+	  [ "steel_chunk", 3],
+	  [ "steel_lump", 1]
+    ],
+	[
+	  [ "hdframe", 1]
+	],
+	[
+	  [ "rebar", 8],
+	  [ "pipe", 16]
+	],
+	[
+	  ["chain", 2]
+	],
+	[
+	  [ "scrap", 9 ],
+	  [ "steel_chunk", 3 ],
+	  [ "steel_lump", 1 ]
+    ],
+	[
+	  [ "teardisk", 3 ],
+	  [ "ripdisk", 1]
+	]
+	]
+},{
+        "type" : "recipe",
+  "result": "smokescreen",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_PARTS",
+  "skill_used": "electronics",
+  "skills_required": [ "mechanics", 2 ],
+  "difficulty": 1,
+  "time": 10000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"HAMMER","level":2,"amount":1},
+    {"id":"SAW_M","level":1,"amount":1}
+  ], "tools": [
+    [
+	  [ "soldering_iron", 30],
+	  [ "toolset", 30]
+    ]
+  ],
+  "components": [
+    [
+      [ "metal_tank_little", 1]
+    ],
+    [
+      [ "processor", 1]
+    ],
+    [
+      [ "funnel", 1],
+	  [ "makeshift_funnel", 1]
+    ],
+	[
+      [ "scrap", 6 ],
+	  [ "steel_chunk", 2]
+    ],
+	[
+      [ "cable", 10]
+    ],
+	[
+      [ "power_supply", 1]
+    ],
+    [
+      [ "element", 1],
+	  [ "pilot_light", 1]
+    ]
+]
+},{
+  "type" : "recipe",
+  "result": "turret_engine",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "mechanics",
+  "skills_required": [["electronics", 3]],
+  "difficulty": 3,
+  "time": 120000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
+  "tools": [
+    [
+      [ "soldering_iron", 20 ],
+      [ "toolset", 20 ]
+    ]
+  ],
+  "components": [
+    [
+	   [ "small_storage_battery", 1 ],
+	   [ "UPS_off", 1 ]
+    ],
+	[
+       [ "e_scrap", 2 ]
+    ],
+	[
+       [ "solar_cell", 4 ]
+    ],
+	[
+       [ "cable", 20 ]
+    ],
+    [
+       [ "power_supply", 1 ]
+    ],
+    [
+       [ "motor_small", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "turret_engine_L",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "mechanics",
+  "skills_required": ["electronics", 3],
+  "difficulty": 3,
+  "time": 230000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
+  "tools": [
+    [
+      [ "soldering_iron", 40 ],
+      [ "toolset", 40 ]
+    ]
+  ],
+  "components": [
+    [
+	   [ "small_storage_battery", 1 ],
+	   [ "UPS_off", 1 ]
+    ],
+	[
+       [ "e_scrap", 8 ]
+    ],
+	[
+       [ "solar_cell", 20 ]
+    ],
+	[
+       [ "cable", 40 ]
+    ],
+    [
+       [ "power_supply", 2 ]
+    ],
+    [
+       [ "motor", 1 ]
+    ]
+  ]
+}
+]

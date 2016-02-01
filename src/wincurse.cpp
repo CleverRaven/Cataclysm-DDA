@@ -1,4 +1,4 @@
-#if ((!defined TILES) && (!defined SDLTILES) && (defined _WIN32 || defined WINDOWS))
+#if ((!defined TILES) && (defined _WIN32 || defined WINDOWS))
 #define UNICODE 1
 #define _UNICODE 1
 
@@ -191,6 +191,12 @@ LRESULT CALLBACK ProcessMessages(HWND__ *hWnd,unsigned int Msg,
             case VK_PRIOR:
                 lastchar = KEY_PPAGE;
                 break;
+            case VK_HOME:
+                lastchar = KEY_HOME;
+                break;
+            case VK_END:
+                lastchar = KEY_END;
+                break;
             case VK_F1:
                 lastchar = KEY_F(1);
                 break;
@@ -310,7 +316,7 @@ inline void FillRectDIB(int x, int y, int width, int height, unsigned char color
 void curses_drawwindow(WINDOW *win)
 {
     int i,j,drawx,drawy;
-    unsigned tmp;
+    wchar_t tmp;
     RECT update = {win->x * fontwidth, -1,
                    (win->x + win->width) * fontwidth, -1};
 
@@ -683,11 +689,7 @@ int curses_start_color(void)
                 jsin.eat_whitespace();
                 char ch = jsin.peek();
                 if (ch != '{') {
-                    std::stringstream err;
-                    err << jsin.line_number() << ": ";
-                    err << "expected array of objects but found '";
-                    err << ch << "', not '{'";
-                    throw err.str();
+                    jsin.error( string_format( "expected array of objects but found '%c', not '{'", ch ) );
                 }
                 JsonObject jo = jsin.get_object();
                 load_colors(jo);
@@ -695,14 +697,10 @@ int curses_start_color(void)
             }
         } else {
             // not an array?
-            std::stringstream err;
-            err << jsin.line_number() << ": ";
-            err << "expected object or array, but found '" << ch << "'";
-            throw err.str();
+            jsin.error( string_format( "expected object or array, but found '%c'", ch ) );
         }
-    }
-    catch(std::string e){
-        throw FILENAMES["colors"] + ": " + e;
+    } catch( const JsonError &err ){
+        throw std::runtime_error( FILENAMES["colors"] + ": " + err.what() );
     }
 
     if(consolecolors.empty())return SetDIBColorTable(backbuffer, 0, 16, windowsPalette);

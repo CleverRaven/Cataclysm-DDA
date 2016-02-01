@@ -2,11 +2,23 @@
 #define IUSE_ACTOR_H
 
 #include "iuse.h"
+#include "game_constants.h"
 #include "color.h"
-#include "field.h"
 #include "bodypart.h"
+#include "string_id.h"
+#include <limits.h>
 
+struct vehicle_prototype;
+using vproto_id = string_id<vehicle_prototype>;
+enum field_id : int;
+enum hp_part : int;
+struct mtype;
+using mtype_id = string_id<mtype>;
 class JsonObject;
+class Skill;
+using skill_id = string_id<Skill>;
+class effect_type;
+using efftype_id = string_id<effect_type>;
 
 /**
  * Transform an item into a specific type.
@@ -45,6 +57,7 @@ class iuse_transform : public iuse_actor
         std::string need_charges_msg;
         /** Subtract this from @ref Creature::moves when actually transforming the item. */
         int moves;
+        std::string menu_option_text;
 
         iuse_transform()
             : iuse_actor()
@@ -57,8 +70,8 @@ class iuse_transform : public iuse_actor
         }
         virtual ~iuse_transform();
         virtual void load( JsonObject &jo );
-        virtual long use(player *, item *, bool, point) const;
-        virtual iuse_actor *clone() const;
+        virtual long use(player *, item *, bool, const tripoint& ) const override;
+        virtual iuse_actor *clone() const override;
 };
 
 /**
@@ -88,9 +101,9 @@ class auto_iuse_transform : public iuse_transform
         {
         }
         virtual ~auto_iuse_transform();
-        virtual void load( JsonObject &jo );
-        virtual long use(player *, item *, bool, point) const;
-        virtual iuse_actor *clone() const;
+        virtual void load( JsonObject &jo ) override;
+        virtual long use(player *, item *, bool, const tripoint& ) const override;
+        virtual iuse_actor *clone() const override;
 };
 
 /**
@@ -103,10 +116,10 @@ class explosion_iuse : public iuse_actor
     public:
         // Those 4 values are forwarded to game::explosion.
         // No explosion is done if power < 0
-        int explosion_power;
+        float explosion_power;
+        float explosion_distance_factor;
         int explosion_shrapnel;
         bool explosion_fire;
-        bool explosion_blast;
         // Those 2 values are forwarded to game::draw_explosion,
         // Nothing is drawn if radius < 0 (game::explosion might still draw something)
         int draw_explosion_radius;
@@ -133,15 +146,15 @@ class explosion_iuse : public iuse_actor
         explosion_iuse()
             : iuse_actor()
             , explosion_power(-1)
+            , explosion_distance_factor(0.8f)
             , explosion_shrapnel(-1)
             , explosion_fire(false)
-            , explosion_blast(true) // true is the default in game.h
             , draw_explosion_radius(-1)
             , draw_explosion_color(c_white)
             , do_flashbang(false)
             , flashbang_player_immune(false) // false is the default in game.h
             , fields_radius(-1)
-            , fields_type(fd_null)
+            , fields_type()
             , fields_min_density(1)
             , fields_max_density(3)
             , emp_blast_radius(-1)
@@ -151,8 +164,8 @@ class explosion_iuse : public iuse_actor
         }
         virtual ~explosion_iuse();
         virtual void load( JsonObject &jo );
-        virtual long use(player *, item *, bool, point) const;
-        virtual iuse_actor *clone() const;
+        virtual long use(player *, item *, bool, const tripoint& ) const override;
+        virtual iuse_actor *clone() const override;
 };
 
 /**
@@ -161,8 +174,9 @@ class explosion_iuse : public iuse_actor
 class unfold_vehicle_iuse : public iuse_actor
 {
     public:
-        /** Vehicle name (@see map::add_vehicle what it expects). */
-        std::string vehicle_name;
+        /** Id of the vehicle prototype (@see map::add_vehicle what it expects) that will be
+         * created when unfolding the item. */
+        vproto_id vehicle_id;
         /** Message shown after successfully unfolding the item. */
         std::string unfold_msg;
         /** Creature::moves it takes to unfold. */
@@ -175,19 +189,19 @@ class unfold_vehicle_iuse : public iuse_actor
         }
         virtual ~unfold_vehicle_iuse();
         virtual void load( JsonObject &jo );
-        virtual long use(player *, item *, bool, point) const;
-        virtual iuse_actor *clone() const;
+        virtual long use(player *, item *, bool, const tripoint& ) const override;
+        virtual iuse_actor *clone() const override;
 };
 
 /** Used in consume_drug_iuse for storing effect data. */
 struct effect_data
 {
-    std::string id;
+    efftype_id id;
     int duration;
     body_part bp;
     bool permanent;
-    
-    effect_data(std::string nid, int dur, body_part nbp, bool perm) :
+
+    effect_data(const efftype_id &nid, int dur, body_part nbp, bool perm) :
                     id(nid), duration(dur), bp(nbp), permanent(perm) {};
 };
 
@@ -209,12 +223,14 @@ class consume_drug_iuse : public iuse_actor
         std::vector<effect_data> effects;
         /** A list of stats and adjustments to them. **/
         std::map<std::string, int> stat_adjustments;
+        /** How many move points this action takes. */
+        int moves;
 
-        consume_drug_iuse() : iuse_actor() { }
+        consume_drug_iuse() : iuse_actor(), moves(100) { }
         virtual ~consume_drug_iuse();
         virtual void load( JsonObject &jo );
-        virtual long use(player *, item *, bool, point) const;
-        virtual iuse_actor *clone() const;
+        virtual long use(player *, item *, bool, const tripoint& ) const override;
+        virtual iuse_actor *clone() const override;
 };
 
 /**
@@ -242,9 +258,9 @@ class delayed_transform_iuse : public iuse_transform
 
         delayed_transform_iuse() : iuse_transform(), transform_age(0) { }
         virtual ~delayed_transform_iuse();
-        virtual void load( JsonObject &jo );
-        virtual long use( player *, item *, bool, point ) const;
-        virtual iuse_actor *clone() const;
+        virtual void load( JsonObject &jo ) override;
+        virtual long use( player *, item *, bool, const tripoint& ) const override;
+        virtual iuse_actor *clone() const override;
 };
 
 /**
@@ -254,7 +270,7 @@ class place_monster_iuse : public iuse_actor
 {
     public:
         /** The monster type id of the monster to create. */
-        std::string mtype_id;
+        mtype_id mtypeid;
         /** If true, place the monster at a random square around the player,
          * otherwise allow the player to select the target square. */
         bool place_randomly;
@@ -267,14 +283,14 @@ class place_monster_iuse : public iuse_actor
         /** Shown when programming the monster failed and it's hostile. Can be empty. */
         std::string hostile_msg;
         /** Skills used to make the monster not hostile when activated. **/
-        std::string skill1;
-        std::string skill2;
+        skill_id skill1 = NULL_ID;
+        skill_id skill2 = NULL_ID;
 
         place_monster_iuse() : iuse_actor(), place_randomly( false ), moves( 100 ), difficulty( 0 ) { }
         virtual ~place_monster_iuse();
         virtual void load( JsonObject &jo );
-        virtual long use(player *, item *, bool, point) const;
-        virtual iuse_actor *clone() const;
+        virtual long use(player *, item *, bool, const tripoint& ) const override;
+        virtual iuse_actor *clone() const override;
 };
 
 /**
@@ -295,8 +311,8 @@ class ups_based_armor_actor : public iuse_actor
         ups_based_armor_actor() : iuse_actor() { }
         virtual ~ups_based_armor_actor();
         virtual void load( JsonObject &jo );
-        virtual long use(player *, item *, bool, point) const;
-        virtual iuse_actor *clone() const;
+        virtual long use(player *, item *, bool, const tripoint& ) const override;
+        virtual iuse_actor *clone() const override;
 };
 
 /**
@@ -313,8 +329,8 @@ class pick_lock_actor : public iuse_actor
         pick_lock_actor() : iuse_actor(), pick_quality( 0 ) { }
         virtual ~pick_lock_actor();
         virtual void load( JsonObject &jo );
-        virtual long use(player *, item *, bool, point) const;
-        virtual iuse_actor *clone() const;
+        virtual long use(player *, item *, bool, const tripoint& ) const override;
+        virtual iuse_actor *clone() const override;
 };
 
 /**
@@ -338,13 +354,13 @@ class reveal_map_actor : public iuse_actor
          */
         std::string message;
 
-        void reveal_targets( const std::string &target, int reveal_distance ) const;
+        void reveal_targets( tripoint const & center, const std::string &target, int reveal_distance ) const;
 
         reveal_map_actor() : iuse_actor(), radius( 0 ) { }
         virtual ~reveal_map_actor();
         virtual void load( JsonObject &jo );
-        virtual long use(player *, item *, bool, point) const;
-        virtual iuse_actor *clone() const;
+        virtual long use(player *, item *, bool, const tripoint& ) const override;
+        virtual iuse_actor *clone() const override;
 };
 
 /**
@@ -358,15 +374,15 @@ class firestarter_actor : public iuse_actor
          */
         int moves_cost;
 
-        static bool prep_firestarter_use( const player *p, const item *it, point &pos );
-        static void resolve_firestarter_use( const player *p, const item *, const point &pos );
+        static bool prep_firestarter_use( const player *p, const item *it, tripoint &pos );
+        static void resolve_firestarter_use( const player *p, const item *, const tripoint &pos );
 
         firestarter_actor() : iuse_actor(), moves_cost( 0 ) { }
-        virtual ~firestarter_actor();
+        virtual ~firestarter_actor() { }
         virtual void load( JsonObject &jo );
-        virtual long use( player*, item*, bool, point ) const;
-        virtual bool can_use( const player*, const item*, bool, const point& ) const;
-        virtual iuse_actor *clone() const;
+        virtual long use( player*, item*, bool, const tripoint& ) const override;
+        virtual bool can_use( const player*, const item*, bool, const tripoint& ) const override;
+        virtual iuse_actor *clone() const override;
 };
 
 /**
@@ -383,11 +399,340 @@ class extended_firestarter_actor : public firestarter_actor
         int calculate_time_for_lens_fire( const player *, float light_level ) const;
 
         extended_firestarter_actor() : firestarter_actor(), need_sunlight( false ) { }
-        virtual ~extended_firestarter_actor();
+        virtual ~extended_firestarter_actor() { }
+        virtual void load( JsonObject &jo ) override;
+        virtual long use( player*, item*, bool, const tripoint& ) const override;
+        virtual bool can_use( const player*, const item*, bool, const tripoint& ) const override;
+        virtual iuse_actor *clone() const override;
+};
+
+/**
+ * Cuts stuff up into components
+ */
+class salvage_actor : public iuse_actor
+{
+    public:
+        /**
+         * Moves used per unit of volume of cut item.
+         */
+        int moves_per_part;
+        /**
+         * Materials it can cut.
+         */
+        std::vector<std::string> material_whitelist;
+
+        bool try_to_cut_up( player *p, item *it ) const;
+        int cut_up( player *p, item *it, item *cut ) const;
+        bool valid_to_cut_up( const item *it ) const;
+
+        salvage_actor() : iuse_actor(), moves_per_part( 25 ) { }
+        virtual ~salvage_actor() { }
         virtual void load( JsonObject &jo );
-        virtual long use( player*, item*, bool, point ) const;
-        virtual bool can_use( const player*, const item*, bool, const point& ) const;
-        virtual iuse_actor *clone() const;
+        virtual long use( player*, item*, bool, const tripoint& ) const override;
+        virtual iuse_actor *clone() const override;
+};
+
+/**
+ * Writes on stuff (ground or items)
+ */
+class inscribe_actor : public iuse_actor
+{
+    public:
+        // Can it write on items/terrain
+        bool on_items;
+        bool on_terrain;
+
+        // Does it require target material to be from the whitelist?
+        bool material_restricted;
+
+        // Materials it can write on
+        std::vector<std::string> material_whitelist;
+
+        // How will the inscription be described
+        std::string verb; // "Write", "Carve"
+        std::string gerund; // "Written", "Carved"
+
+        bool item_inscription( item *cut ) const;
+
+        inscribe_actor() : iuse_actor(), on_items( true ), on_terrain( false ), material_restricted( true ) { }
+        virtual ~inscribe_actor() { }
+        virtual void load( JsonObject &jo );
+        virtual long use( player*, item*, bool, const tripoint& ) const override;
+        virtual iuse_actor *clone() const override;
+};
+
+/**
+ * Cauterizes a wounded/masochistic survivor
+ */
+class cauterize_actor : public iuse_actor
+{
+    public:
+        // Use flame. If false, uses item charges instead.
+        bool flame;
+
+        static bool cauterize_effect( player *p, item *it, bool force );
+
+        cauterize_actor() : iuse_actor(), flame( true ) { }
+        virtual ~cauterize_actor() { }
+        virtual void load( JsonObject &jo );
+        virtual long use( player*, item*, bool, const tripoint& ) const override;
+        virtual bool can_use( const player*, const item*, bool, const tripoint& ) const override;
+        virtual iuse_actor *clone() const override;
+};
+
+/**
+ * Makes a zombie corpse into a zombie slave
+ */
+class enzlave_actor : public iuse_actor
+{
+    public:
+        enzlave_actor() : iuse_actor() { }
+        virtual ~enzlave_actor() { }
+        virtual void load( JsonObject &jo );
+        virtual long use( player*, item*, bool, const tripoint& ) const override;
+        virtual bool can_use( const player*, const item*, bool, const tripoint& ) const override;
+        virtual iuse_actor *clone() const override;
+};
+
+/**
+ * Try to turn on a burning melee weapon
+ * Not iuse_transform, because they don't have that much in common
+ */
+class fireweapon_off_actor : public iuse_actor
+{
+    public:
+        std::string target_id;
+        std::string success_message;
+        std::string lacks_fuel_message;
+        std::string failure_message; // Due to bad roll
+        int noise; // If > 0 success message is a success sound instead
+        int moves;
+        int success_chance; // Lower is better: rng(0, 10) - item.damage > this variable
+
+        fireweapon_off_actor() : iuse_actor(), noise(0), moves(0), success_chance(INT_MIN) { }
+        virtual ~fireweapon_off_actor() { }
+        virtual void load( JsonObject &jo );
+        virtual long use( player*, item*, bool, const tripoint& ) const override;
+        virtual bool can_use( const player*, const item*, bool, const tripoint& ) const override;
+        virtual iuse_actor *clone() const override;
+};
+
+/**
+ * Active burning melee weapon
+ */
+class fireweapon_on_actor : public iuse_actor
+{
+    public:
+        std::string noise_message; // If noise is 0, message content instead
+        std::string voluntary_extinguish_message;
+        std::string charges_extinguish_message;
+        std::string water_extinguish_message;
+        std::string auto_extinguish_message;
+        int noise; // If 0, it produces a message instead of noise
+        int noise_chance; // one_in(this variable)
+        int auto_extinguish_chance; // one_in(this) per turn to fail
+
+        fireweapon_on_actor() : iuse_actor(), noise(0), noise_chance(1) { }
+        virtual ~fireweapon_on_actor() { }
+        virtual void load( JsonObject &jo );
+        virtual long use( player*, item*, bool, const tripoint& ) const override;
+        virtual iuse_actor *clone() const override;
+};
+
+/**
+ * Makes noise of a given volume
+ */
+class manualnoise_actor : public iuse_actor
+{
+    public:
+        std::string no_charges_message;
+        std::string use_message;
+        std::string noise_message;
+        int noise; // Should work even with no volume, even if it seems impossible
+        int moves;
+
+        manualnoise_actor() : iuse_actor(), noise(0), moves(0) { }
+        virtual ~manualnoise_actor() { }
+        virtual void load( JsonObject &jo );
+        virtual long use( player*, item*, bool, const tripoint& ) const override;
+        virtual bool can_use( const player*, const item*, bool, const tripoint& ) const override;
+        virtual iuse_actor *clone() const override;
+};
+
+/**
+ * Plays music
+ */
+class musical_instrument_actor : public iuse_actor
+{
+    public:
+        /**
+         * Speed penalty when playing the instrument
+         */
+        int speed_penalty;
+        /**
+         * Volume of the music played
+         */
+        int volume;
+        /**
+         * Base morale bonus/penalty
+         */
+        int fun;
+        /**
+         * Morale bonus scaling (off current perception)
+         */
+        int fun_bonus;
+        /**
+         * List of sound descriptions
+         */
+        std::vector< std::string > descriptions;
+        /**
+         * Display description once per this many turns
+         */
+        int description_frequency;
+
+        musical_instrument_actor() = default;
+        virtual ~musical_instrument_actor() = default;
+        virtual void load( JsonObject &jo );
+        virtual long use( player*, item*, bool, const tripoint& ) const override;
+        virtual bool can_use( const player*, const item*, bool, const tripoint& ) const override;
+        virtual iuse_actor *clone() const override;
+};
+
+/**
+ * Holster a weapon
+ */
+class holster_actor : public iuse_actor
+{
+    public:
+        /** Prompt to use when selecting an item */
+        std::string holster_prompt;
+        /** Message to show when holstering an item */
+        std::string holster_msg;
+        /** Maximum volume of each item that can be holstered */
+        int max_volume;
+        /** Minimum volume of each item that can be holstered or 1/3 max_volume if unspecified */
+        int min_volume;
+        /** Maximum weight of each item. If unspecified no weight limit is imposed */
+        int max_weight;
+        /** Total number of items that holster can contain **/
+        int multi;
+        /** Base move cost per unit volume when wielding the contained item */
+        int draw_cost;
+        /** Guns using any of these skills can be holstered */
+        std::vector<skill_id> skills;
+        /** Items with any of these flags set can be holstered */
+        std::vector<std::string> flags;
+
+        /** Check if obj could be stored in the holster */
+        bool can_holster( const item& obj ) const;
+
+        /** Store an object in the holster */
+        bool store( player &p, item& holster, item& obj ) const;
+
+        holster_actor() : iuse_actor(), max_weight( -1 ), multi( 1 ), draw_cost( VOLUME_MOVE_COST ) { }
+        virtual ~holster_actor() { }
+        virtual void load( JsonObject &jo );
+        virtual long use( player *, item *, bool, const tripoint & ) const override;
+        virtual iuse_actor *clone() const override;
+};
+
+/**
+ * Repair an item
+ */
+class repair_item_actor : public iuse_actor
+{
+    public:
+        /** Materials we are allowed to repair */
+        std::vector<std::string> materials;
+        /** Skill used */
+        skill_id used_skill;
+        /**
+          * Volume of materials required (and used up) as percentage of repaired item's volume.
+          * Set to 0 to always use just 1 component.
+          */
+        float cost_scaling;
+        /** Extra value added to skill roll */
+        int tool_quality;
+        /** Move cost for every attempt */
+        int move_cost;
+
+        enum attempt_hint : int {
+            AS_SUCCESS = 0,     // Success, but can retry
+            AS_RETRY,           // Failed, but can retry
+            AS_FAILURE,         // Failed hard, don't retry
+            AS_DESTROYED,       // Failed and destroyed item
+            AS_CANT             // Couldn't attempt
+        };
+
+        /** Attempts to repair target item with selected tool */
+        attempt_hint repair( player &pl, item &tool, item &target ) const;
+        /** Checks if repairs are possible.
+          * Doesn't just estimate - should not return true if repairs are not possible or false if they are. */
+        bool can_repair( player &pl, const item &tool, const item &target, bool print_msg ) const;
+        /** Returns if components are available. Consumes them if `just_check` is false. */
+        bool handle_components( player &pl, const item &fix, bool print_msg, bool just_check ) const;
+
+        repair_item_actor() : iuse_actor() { }
+        virtual ~repair_item_actor() { }
+        virtual void load( JsonObject &jo );
+        virtual long use( player *, item *, bool, const tripoint & ) const override;
+        virtual iuse_actor *clone() const override;
+};
+
+class heal_actor : public iuse_actor
+{
+    public:
+        /** How much hp to restore when healing limbs? */
+        int limb_power;
+        /** How much hp to restore when healing head? */
+        int head_power;
+        /** How much hp to restore when healing torso? */
+        int torso_power;
+        /** Chance to remove bleed effect. */
+        float bleed;
+        /** Chance to remove bite effect. */
+        float bite;
+        /** Chance to remove infected effect. */
+        float infect;
+        /** Cost in moves to use the item. */
+        int move_cost;
+        /** Is using this item a long action. */
+        bool long_action;
+        /** Scales extra healed hp gained from first aid skill. */
+        float bonus_scaling;
+        /** Effects to apply to patient on finished healing. */
+        std::vector<effect_data> effects;
+        /**
+         * Item produced on finished healing. For example, bloody rag.
+         * If the used item is a tool it, it will be turned into the used up item.
+         * If it is not a tool a new item with this id will be created.
+         */
+        std::string used_up_item;
+
+        /** How much hp would `healer` heal using this actor on `healed` body part. */
+        int get_heal_value( const player &healer, hp_part healed ) const;
+
+        /** Does the actual healing. Used by both long and short actions. Returns charges used. */
+        long finish_using( player &healer, player &patient, item &it, hp_part part ) const;
+
+        hp_part use_healing_item( player &healer, player &patient, item &it, bool force ) const;
+
+        heal_actor()
+            : iuse_actor()
+            , limb_power( 0 )
+            , head_power( 0 )
+            , torso_power( 0 )
+            , bleed( 0.0f )
+            , bite( 0.0f )
+            , infect( 0.0f )
+            , move_cost( 100 )
+            , long_action( false )
+            , bonus_scaling( 1.0f )
+            { }
+        virtual ~heal_actor() { }
+        virtual void load( JsonObject &jo );
+        virtual long use( player *, item *, bool, const tripoint & ) const override;
+        virtual iuse_actor *clone() const override;
 };
 
 #endif

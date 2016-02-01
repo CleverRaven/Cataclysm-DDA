@@ -47,12 +47,12 @@
             "_": "t_pavement",
             ",": "t_pavement_y",
             " ": "t_floor",
-            "-": "t_wall_h",
-            "|": "t_wall_v",
+            "-": "t_wall",
+            "|": "t_wall",
             "O": "t_window",
             "L": "t_door_locked_alarm",
             "+": "t_door_glass_c",
-            "h": "t_wall_glass_h",
+            "h": "t_wall_glass",
             "x": "t_console_broken",
             "c": "t_floor",
             "#": "t_floor",
@@ -72,7 +72,7 @@
             "5": "t_chainfence_h",
             "8": "t_chainfence_v",
             "f": "t_pavement",
-            "v": "t_wall_glass_v",
+            "v": "t_wall_glass",
             "M": "t_floor"
             },
             "furniture": {
@@ -105,7 +105,7 @@
             "h": "f_null",
             "v": "f_null"
             },
-            "place_groups": [
+            "place_items": [
                 { "item": "antique", "chance": 70, "x": [ 4,9 ], "y": [ 10,10 ] },
                 { "item": "antique", "chance": 70, "x": [ 14,19 ], "y": [ 10,10 ] },
                 { "item": "antique", "chance": 70, "x": [ 4,9 ], "y": [ 13,13] },

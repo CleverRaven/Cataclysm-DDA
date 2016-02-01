@@ -1,0 +1,158 @@
+[
+    {
+        "type" : "vehicle_part",
+        "id" : "mounted_tank_manual",
+        "name" : "120mm tank gun",
+        "symbol" : "t",
+        "color" : "green",
+        "broken_symbol" : "#",
+        "broken_color" : "green",
+        "damage_modifier" : 80,
+        "durability" : 800,
+        "range" : 25,
+        "item" : "tank_gun_manual",
+        "difficulty" : 8,
+        "size" : 10,
+        "location" : "on_roof",
+        "flags" : ["TURRET", "CARGO", "MANUAL"],
+        "breaks_into" : [
+            {"item": "tank_gun_manual", "prob": 50}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "mounted_tank_auto",
+        "name" : "120mm tank gun (AL)",
+        "symbol" : "t",
+        "color" : "green",
+        "broken_symbol" : "#",
+        "broken_color" : "green",
+        "damage_modifier" : 80,
+        "durability" : 800,
+        "range" : 25,
+        "item" : "tank_gun_auto",
+        "difficulty" : 8,
+        "size" : 50,
+        "location" : "on_roof",
+        "flags" : ["TURRET", "CARGO", "MANUAL"],
+        "breaks_into" : [
+            {"item": "tank_gun_auto", "prob": 50}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "mounted_tank_rws",
+        "name" : "120mm RWS",
+        "symbol" : "t",
+        "color" : "green",
+        "broken_symbol" : "#",
+        "broken_color" : "green",
+        "damage_modifier" : 80,
+        "durability" : 800,
+        "range" : 25,
+        "item" : "tank_gun_rws",
+        "difficulty" : 8,
+        "size" : 100,
+        "location" : "on_roof",
+        "flags" : ["TURRET", "CARGO", "NEEDS_BATTERY_MOUNT"],
+        "breaks_into" : [
+            {"item": "tank_gun_rws", "prob": 50}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "mounted_howitzer",
+        "name" : "155mm howitzer",
+        "symbol" : "t",
+        "color" : "green",
+        "broken_symbol" : "#",
+        "broken_color" : "green",
+        "damage_modifier" : 80,
+        "durability" : 800,
+        "range" : 50,
+        "item" : "howitzer_gun",
+        "difficulty" : 8,
+        "size" : 15,
+        "location" : "on_roof",
+        "flags" : ["TURRET", "CARGO", "MANUAL"],
+        "breaks_into" : [
+            {"item": "howitzer_gun", "prob": 50}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "forklift_fork",
+        "name" : "forklift arm",
+        "symbol" : "|",
+        "color" : "light_gray",
+        "broken_symbol" : "x",
+        "broken_color" : "light_gray",
+        "damage_modifier" : 200,
+        "durability" : 300,
+        "size" : 50,
+        "item" : "frame",
+        "difficulty" : 2,
+        "location" : "structure",
+        "flags" : ["CARGO", "PROTRUSION"],
+        "breaks_into" : [
+            {"item": "steel_lump", "count": [4, 6]},
+            {"item": "steel_chunk", "count": [4, 6]},
+            {"item": "scrap", "count": [4, 6]}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "tow_launcher",
+        "name" : "mounted ATGM launcher",
+        "symbol" : "t",
+        "color" : "green",
+        "broken_symbol" : "#",
+        "broken_color" : "green",
+        "damage_modifier" : 80,
+        "durability" : 800,
+        "range" : 50,
+        "item" : "atgm_launcher",
+        "difficulty" : 8,
+        "size" : 35,
+        "location" : "on_roof",
+        "flags" : ["TURRET", "CARGO", "MANUAL"],
+        "breaks_into" : [
+            {"item": "atgm_launcher", "prob": 50}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "tow_turret",
+        "name" : "ATGM turret",
+        "symbol" : "t",
+        "color" : "green",
+        "broken_symbol" : "#",
+        "broken_color" : "green",
+        "damage_modifier" : 80,
+        "durability" : 800,
+        "range" : 50,
+        "item" : "atgm_turret",
+        "difficulty" : 8,
+        "size" : 35,
+        "location" : "on_roof",
+        "flags" : ["TURRET", "CARGO", "NEEDS_BATTERY_MOUNT"],
+        "breaks_into" : [
+            {"item": "atgm_turret", "prob": 50}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "mounted_30mm_autocannon",
+        "name" : "30mm chaingun",
+        "symbol" : "t",
+        "color" : "green",
+        "broken_symbol" : "#",
+        "broken_color" : "green",
+        "damage_modifier" : 80,
+        "durability" : 800,
+        "range" : 25,
+        "item" : "30mm_autocannon",
+        "difficulty" : 8,
+        "size" : 50,
+        "location" : "on_roof",
+        "flags" : ["TURRET", "CARGO", "MANUAL"],
+        "breaks_into" : [
+            {"item": "30mm_autocannon", "prob": 50}
+        ]
+    }
+]
+
+

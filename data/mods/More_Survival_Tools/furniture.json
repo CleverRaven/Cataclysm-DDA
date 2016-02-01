@@ -1,0 +1,20 @@
+[
+    {
+        "type" : "furniture",
+        "id" : "f_firering",
+        "name": "fire ring",
+        "symbol": "#",
+        "bgcolor": "white",
+        "move_cost_mod": 2,
+        "required_str": -1,
+        "flags": ["TRANSPARENT", "CONTAINER", "FIRE_CONTAINER", "SUPPRESS_SMOKE", "PLACE_ITEM"],
+        "bash": {
+            "str_min": 15, "str_max": 105,
+            "sound": "crash!",
+            "sound_fail": "whump!",
+            "items": [
+                { "item": "rock", "count": [5, 15] }
+            ]
+        }
+    }
+]

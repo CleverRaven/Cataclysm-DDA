@@ -2,6 +2,7 @@
     {
         "type" : "MONSTER_FACTION",
         "name" : "",
+        "base_faction" : "",
         "by_mood" : [""],
         "neutral" : ["vermin"]
     },{
@@ -14,8 +15,8 @@
     },{
         "type" : "MONSTER_FACTION",
         "name" : "zombie",
-        "by_mood" : ["vermin"],
-        "friendly" : ["blob", "cult"]
+        "friendly" : ["blob", "cult"],
+        "neutral" : ["small_animal"]
     },{
         "type" : "MONSTER_FACTION",
         "name" : "blob",

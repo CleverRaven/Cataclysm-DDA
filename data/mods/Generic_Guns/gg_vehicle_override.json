@@ -1,0 +1,101 @@
+[
+    {
+        "type" : "vehicle_part",
+        "id" : "m240",
+        "name" : "mounted medium machine gun",
+        "symbol" : "t",
+        "color" : "cyan",
+        "broken_symbol" : "#",
+        "broken_color" : "cyan",
+        "damage_modifier" : 80,
+        "durability" : 400,
+        "item" : "m240",
+        "size" : 1000,
+        "difficulty" : 4,
+        "location" : "on_roof",
+        "flags" : ["TURRET", "CARGO", "TOOL_NONE", "MANUAL", "UNMOUNT_ON_DAMAGE", "FOLDABLE"],
+        "folded_volume": 20,
+        "breaks_into" : [
+            {"item": "m240", "prob": 50}
+        ]
+     },
+     {
+        "type" : "vehicle_part",
+        "id" : "m60",
+        "name" : "mounted general purpose machine gun",
+        "symbol" : "t",
+        "color" : "cyan",
+        "broken_symbol" : "#",
+        "broken_color" : "cyan",
+        "damage_modifier" : 80,
+        "durability" : 400,
+        "item" : "m60",
+        "size" : 1000,
+        "difficulty" : 4,
+        "location" : "on_roof",
+        "flags" : ["TURRET", "CARGO", "TOOL_NONE", "MANUAL", "UNMOUNT_ON_DAMAGE", "FOLDABLE"],
+        "folded_volume": 20,
+        "breaks_into" : [
+            {"item": "m60", "prob": 50}
+        ]
+    },
+    {
+        "type" : "vehicle_part",
+        "id" : "m249",
+        "name" : "mounted light machine gun",
+        "symbol" : "t",
+        "color" : "cyan",
+        "broken_symbol" : "#",
+        "broken_color" : "cyan",
+        "damage_modifier" : 80,
+        "durability" : 400,
+        "item" : "m249",
+        "size" : 40,
+        "difficulty" : 4,
+        "location" : "on_roof",
+        "flags" : ["TURRET", "CARGO", "TOOL_NONE", "MANUAL", "UNMOUNT_ON_DAMAGE", "FOLDABLE"],
+        "folded_volume": 14,
+        "breaks_into" : [
+            {"item": "m249", "prob": 50}
+        ]
+    },
+    {
+        "type" : "vehicle_part",
+        "id" : "mounted_browning",
+        "name" : "mounted heavy machine gum",
+        "symbol" : "t",
+        "color" : "green",
+        "broken_symbol" : "#",
+        "broken_color" : "green",
+        "damage_modifier" : 80,
+        "durability" : 400,
+        "item" : "m2browning",
+        "difficulty" : 5,
+        "size" : 1600,
+        "location" : "on_roof",
+        "flags" : ["TURRET", "CARGO", "TOOL_NONE", "MANUAL", "UNMOUNT_ON_DAMAGE", "FOLDABLE"],
+        "folded_volume": 20,
+        "breaks_into" : [
+            {"item": "m2browning", "prob": 50}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "mounted_m134",
+        "name" : "mounted minigun",
+        "symbol" : "t",
+        "color" : "green",
+        "broken_symbol" : "#",
+        "broken_color" : "green",
+        "damage_modifier" : 80,
+        "durability" : 400,
+        "range" : 12,
+        "item" : "m134",
+        "difficulty" : 7,
+        "size" : 2000,
+        "location" : "on_roof",
+        "flags" : ["TURRET", "CARGO"],
+        "breaks_into" : [
+            {"item": "m134", "prob": 50}
+        ]
+    }
+]

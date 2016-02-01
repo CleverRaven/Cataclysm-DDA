@@ -14,9 +14,6 @@
   "book_learn" : [[ "recipe_arrows", 1 ]],
   "tools": [
     [
-      [ "needle_bone", 2 ],
-      [ "needle_wood", 2 ],
-      [ "tailors_kit", 2 ],
       [ "sewing_kit", 2 ]
     ]
   ],
@@ -25,6 +22,23 @@
       [ "leather", 2 ]
     ]
   ]
+},{
+  "type" : "recipe",
+  "result": "quiver_birchbark",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_STORAGE",
+  "skill_used": "tailor",
+  "skills_required": [ ["survival", 1], ["archery", 1] ],
+  "difficulty": 3,
+  "time": 20000,
+  "reversible": true,
+  "decomp_learn": 3,
+  "autolearn": true,
+  "book_learn" : [[ "recipe_arrows", 2 ]],
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "components": [ [ [ "birchbark", 3 ] ] ]
 },{
   "type" : "recipe",
   "result": "modularvestsuper",
@@ -36,12 +50,14 @@
   "reversible": true,
   "autolearn": true,
   "decomp_learn": 0,
+  "flags": ["BLIND_EASY"],
   "components": [
     [
       [ "modularvest", 1 ]
     ],
     [
-      [ "alloy_plate", 2 ]
+      [ "alloy_plate", 2 ],
+      [ "alloy_sheet", 8 ]
     ]
   ]
 },{
@@ -55,6 +71,7 @@
   "reversible": true,
   "autolearn": true,
   "decomp_learn": 0,
+  "flags": ["BLIND_EASY"],
   "components": [
     [
       [ "modularvest", 1 ]
@@ -74,6 +91,7 @@
   "reversible": true,
   "autolearn": true,
   "decomp_learn": 0,
+  "flags": ["BLIND_EASY"],
   "components": [
     [
       [ "modularvest", 1 ]
@@ -93,6 +111,7 @@
   "reversible": true,
   "autolearn": true,
   "decomp_learn": 0,
+  "flags": ["BLIND_EASY"],
   "components": [
     [
       [ "modularvest", 1 ]
@@ -112,6 +131,7 @@
   "reversible": true,
   "autolearn": true,
   "decomp_learn": 0,
+  "flags": ["BLIND_EASY"],
   "components": [
     [
       [ "modularvest", 1 ]
@@ -131,6 +151,11 @@
   "reversible": true,
   "autolearn": false,
   "decomp_learn": 4,
+  "tools": [
+    [
+      [ "sewing_kit", 30 ]
+    ]
+  ],
   "components": [
     [
       [ "kevlar_plate", 24 ]
@@ -153,9 +178,6 @@
     {"id":"HAMMER","level":2,"amount":1}
   ], "tools": [
     [
-      [ "needle_bone", 8 ],
-      [ "needle_wood", 8 ],
-      [ "tailors_kit", 8 ],
       [ "sewing_kit", 8 ]
     ]
   ],
@@ -171,6 +193,23 @@
   ]
 },{
   "type" : "recipe",
+  "result": "quiver_large_birchbark",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_STORAGE",
+  "skill_used": "tailor",
+  "skills_required": [ ["survival", 2], ["archery", 2] ],
+  "difficulty": 4,
+  "time": 40000,
+  "reversible": true,
+  "decomp_learn": 4,
+  "autolearn": true,
+  "book_learn" : [[ "recipe_arrows", 3 ]],
+  "qualities":[
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "components": [ [ [ "birchbark", 10 ] ] ]
+},{
+  "type" : "recipe",
   "result": "socks",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_FEET",
@@ -181,9 +220,6 @@
   "autolearn": true,
   "tools": [
     [
-      [ "needle_bone", 4 ],
-      [ "needle_wood", 4 ],
-      [ "tailors_kit", 4 ],
       [ "sewing_kit", 4 ]
     ]
   ],
@@ -204,9 +240,6 @@
   "autolearn": true,
   "tools": [
     [
-      [ "needle_bone", 6 ],
-      [ "needle_wood", 6 ],
-      [ "tailors_kit", 6 ],
       [ "sewing_kit", 6 ]
     ]
   ],
@@ -218,7 +251,6 @@
 },{
   "type" : "recipe",
   "result": "stockings_tent_legs",
-  "id_suffix": "from_rags",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_LEGS",
   "skill_used": "tailor",
@@ -228,9 +260,6 @@
   "autolearn": true,
   "tools": [
     [
-      [ "needle_bone", 24 ],
-      [ "needle_wood", 24 ],
-      [ "tailors_kit", 24 ],
       [ "sewing_kit", 24 ]
     ]
   ],
@@ -252,9 +281,6 @@
   "autolearn": true,
   "tools": [
     [
-      [ "needle_bone", 6 ],
-      [ "needle_wood", 6 ],
-      [ "tailors_kit", 6 ],
       [ "sewing_kit", 6 ]
     ]
   ],
@@ -269,7 +295,6 @@
 },{
   "type" : "recipe",
   "result": "stockings_tent_arms",
-  "id_suffix": "from_rags",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_ARMS",
   "skill_used": "tailor",
@@ -279,9 +304,6 @@
   "autolearn": true,
   "tools": [
     [
-      [ "needle_bone", 32 ],
-      [ "needle_wood", 32 ],
-      [ "tailors_kit", 32 ],
       [ "sewing_kit", 32 ]
     ]
   ],
@@ -303,9 +325,6 @@
   "autolearn": true,
   "tools": [
     [
-      [ "needle_bone", 8 ],
-      [ "needle_wood", 8 ],
-      [ "tailors_kit", 8 ],
       [ "sewing_kit", 8 ]
     ]
   ],
@@ -330,9 +349,6 @@
   "book_learn": [["textbook_survival", 0] , ["pocket_survival", 0]],
   "tools": [
     [
-      [ "needle_bone", 5 ],
-      [ "needle_wood", 5 ],
-      [ "tailors_kit", 5 ],
       [ "sewing_kit", 5 ]
     ]
   ],
@@ -341,6 +357,21 @@
       [ "fur", 2 ]
     ]
   ]
+},{
+  "type" : "recipe",
+  "result": "shoes_birchbark",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_FEET",
+  "skill_used": "tailor",
+  "difficulty": 2,
+  "time": 60000,
+  "reversible": false,
+  "autolearn": true,
+  "book_learn": [["textbook_survival", 1] , ["pocket_survival", 1]],
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "components": [ [ [ "birchbark", 3 ] ] ]
 },{
   "type" : "recipe",
   "result": "boots",
@@ -353,9 +384,6 @@
   "autolearn": true,
   "tools": [
     [
-      [ "needle_bone", 10 ],
-      [ "needle_wood", 10 ],
-      [ "tailors_kit", 10 ],
       [ "sewing_kit", 10 ]
     ]
   ],
@@ -379,9 +407,6 @@
   "book_learn": [["textbook_survival", 1]],
   "tools": [
     [
-      [ "needle_bone", 13 ],
-      [ "needle_wood", 13 ],
-      [ "tailors_kit", 13 ],
       [ "sewing_kit", 13 ]
     ]
   ],
@@ -401,8 +426,8 @@
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_FEET",
   "skill_used": "tailor",
-  "difficulty": 3,
-  "time": 30000,
+  "difficulty": 4,
+  "time": 40000,
   "reversible": false,
   "autolearn": true,
   "components": [
@@ -411,12 +436,12 @@
       [ "string_6", 4 ]
     ],
     [
-      [ "chitin_piece", 4 ]
+      [ "chitin_piece", 8 ]
     ],
     [
-      [ "leather", 2 ],
-      [ "fur", 2 ],
-      [ "rag", 2 ]
+      [ "leather", 4 ],
+      [ "fur", 4 ],
+      [ "rag", 4 ]
     ]
   ]
 },{
@@ -426,7 +451,7 @@
   "subcategory": "CSC_ARMOR_FEET",
   "skill_used": "tailor",
   "difficulty": 3,
-  "time": 30000,
+  "time": 40000,
   "reversible": false,
   "autolearn": true,
   "book_learn": [[ "manual_tailor", 2 ] , ["textbook_tailor", 2]],
@@ -435,9 +460,6 @@
   ],
   "tools": [
     [
-      [ "needle_bone", 18 ],
-      [ "needle_wood", 18 ],
-      [ "tailors_kit", 18 ],
       [ "sewing_kit", 18 ]
     ]
   ],
@@ -448,8 +470,8 @@
       [ "bone_tainted", 36 ]
     ],
     [
-      [ "leather", 2 ],
-      [ "fur", 2 ]
+      [ "leather", 6 ],
+      [ "fur", 6 ]
     ]
   ]
 },{
@@ -459,18 +481,14 @@
   "subcategory": "CSC_ARMOR_FEET",
   "skill_used": "tailor",
   "difficulty": 2,
-  "time": 30000,
+  "time": 40000,
   "reversible": false,
-  "autolearn": false,
-  "book_learn": [[ "textbook_tailor", 3 ] , [ "tailor_portfolio", 4 ] , ["textbook_survival", 3] , ["trappers_companion", 3] , ["survival_book", 3] , ["textbook_armwest", 5]],
+  "autolearn": true,
   "qualities" : [
     {"id":"CUT","level":1,"amount":1}
   ],
   "tools": [
     [
-      [ "needle_bone", 24 ],
-      [ "needle_wood", 24 ],
-      [ "tailors_kit", 24 ],
       [ "sewing_kit", 24 ]
     ]
   ],
@@ -498,10 +516,7 @@
   ],
   "tools": [
     [
-      [ "needle_bone", 100 ],
-      [ "needle_wood", 100 ],
-      [ "tailors_kit", 100 ],
-      [ "sewing_kit", 100 ]
+      [ "sewing_kit", 20 ]
     ]
   ],
   "components": [
@@ -516,7 +531,7 @@
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
   "skill_used": "tailor",
-  "difficulty": 2,
+  "difficulty": 4,
   "time": 30000,
   "reversible": false,
   "autolearn": true,
@@ -525,9 +540,6 @@
   ],
   "tools": [
     [
-      [ "needle_bone", 18 ],
-      [ "needle_wood", 18 ],
-      [ "tailors_kit", 18 ],
       [ "sewing_kit", 18 ]
     ]
   ],
@@ -551,9 +563,6 @@
   "autolearn": true,
   "tools": [
     [
-      [ "needle_bone", 10 ],
-      [ "needle_wood", 10 ],
-      [ "tailors_kit", 10 ],
       [ "sewing_kit", 10 ]
     ]
   ],
@@ -575,9 +584,6 @@
   "book_learn": [[ "mag_tailor", 1 ] , ["manual_tailor", 1]],
   "tools": [
     [
-      [ "needle_bone", 10 ],
-      [ "needle_wood", 10 ],
-      [ "tailors_kit", 10 ],
       [ "sewing_kit", 10 ]
     ]
   ],
@@ -599,9 +605,6 @@
   "book_learn": [[ "manual_tailor", 1 ]],
   "tools": [
     [
-      [ "needle_bone", 12 ],
-      [ "needle_wood", 12 ],
-      [ "tailors_kit", 12 ],
       [ "sewing_kit", 12 ]
     ]
   ],
@@ -623,9 +626,6 @@
   "book_learn": [[ "textbook_tailor", 3 ] , [ "tailor_portfolio", 5 ] , ["manual_tailor", 3] , ["survival_book", 3]],
   "tools": [
     [
-      [ "needle_bone", 10 ],
-      [ "needle_wood", 10 ],
-      [ "tailors_kit", 10 ],
       [ "sewing_kit", 10 ]
     ]
   ],
@@ -646,9 +646,6 @@
   "autolearn": true,
   "tools": [
     [
-      [ "needle_bone", 15 ],
-      [ "needle_wood", 15 ],
-      [ "tailors_kit", 15 ],
       [ "sewing_kit", 15 ]
     ]
   ],
@@ -670,9 +667,6 @@
   "book_learn": [[ "mag_tailor", 1 ] , ["manual_tailor", 1]],
   "tools": [
     [
-      [ "needle_bone", 15 ],
-      [ "needle_wood", 15 ],
-      [ "tailors_kit", 15 ],
       [ "sewing_kit", 15 ]
     ]
   ],
@@ -693,9 +687,6 @@
   "autolearn": true,
   "tools": [
     [
-      [ "needle_bone", 15 ],
-      [ "needle_wood", 15 ],
-      [ "tailors_kit", 15 ],
       [ "sewing_kit", 15 ]
     ]
   ],
@@ -719,9 +710,6 @@
   "autolearn": true,
   "tools": [
     [
-      [ "needle_bone", 15 ],
-      [ "needle_wood", 15 ],
-      [ "tailors_kit", 15 ],
       [ "sewing_kit", 15 ]
     ]
   ],
@@ -743,15 +731,33 @@
   "book_learn": [[ "mag_tailor", 1 ] , ["manual_tailor", 1]],
   "tools": [
     [
-      [ "needle_bone", 15 ],
-      [ "needle_wood", 15 ],
-      [ "tailors_kit", 15 ],
       [ "sewing_kit", 15 ]
     ]
   ],
   "components": [
     [
       [ "rag", 2 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "bikini_bottom",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_LEGS",
+  "skill_used": "tailor",
+  "difficulty": 2,
+  "time": 35000,
+  "reversible": false,
+  "autolearn": true,
+  "book_learn": [[ "mag_tailor", 1 ] , ["manual_tailor", 1]],
+  "tools": [
+    [
+      [ "sewing_kit", 15 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "rag", 3 ]
     ]
   ]
 },{
@@ -767,15 +773,33 @@
   "book_learn": [[ "mag_tailor", 1 ] , ["manual_tailor", 1]],
   "tools": [
     [
-      [ "needle_bone", 15 ],
-      [ "needle_wood", 15 ],
-      [ "tailors_kit", 15 ],
       [ "sewing_kit", 15 ]
     ]
   ],
   "components": [
     [
       [ "rag", 2 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "boxer_briefs",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_LEGS",
+  "skill_used": "tailor",
+  "difficulty": 2,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": true,
+  "book_learn": [[ "mag_tailor", 1 ] , ["manual_tailor", 1]],
+  "tools": [
+    [
+      [ "sewing_kit", 15 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "rag", 3 ]
     ]
   ]
 },{
@@ -793,9 +817,6 @@
   "book_learn": [[ "mag_tailor", 0 ] , ["manual_tailor", 0] , ["textbook_tailor", 0]],
   "tools": [
     [
-      [ "needle_bone", 10 ],
-      [ "needle_wood", 10 ],
-      [ "tailors_kit", 10 ],
       [ "sewing_kit", 10 ]
     ]
   ],
@@ -820,9 +841,6 @@
   "book_learn": [[ "textbook_tailor", 4 ] , [ "manual_tailor", 5 ] , ["tailor_portfolio", 4]],
   "tools": [
     [
-      [ "needle_bone", 20 ],
-      [ "needle_wood", 20 ],
-      [ "tailors_kit", 20 ],
       [ "sewing_kit", 20 ]
     ]
   ],
@@ -853,9 +871,6 @@
   "book_learn": [[ "textbook_tailor", 4 ] , [ "manual_tailor", 5 ] , ["tailor_portfolio", 4]],
   "tools": [
     [
-      [ "needle_bone", 20 ],
-      [ "needle_wood", 20 ],
-      [ "tailors_kit", 20 ],
       [ "sewing_kit", 20 ]
     ]
   ],
@@ -879,9 +894,6 @@
   "autolearn": true,
   "tools": [
     [
-      [ "needle_bone", 10 ],
-      [ "needle_wood", 10 ],
-      [ "tailors_kit", 10 ],
       [ "sewing_kit", 10 ]
     ]
   ],
@@ -902,9 +914,6 @@
   "autolearn": true,
   "tools": [
     [
-      [ "needle_bone", 10 ],
-      [ "needle_wood", 10 ],
-      [ "tailors_kit", 10 ],
       [ "sewing_kit", 10 ]
     ]
   ],
@@ -926,9 +935,6 @@
   "book_learn": [[ "textbook_tailor", 2 ] , [ "manual_tailor", 3 ]],
   "tools": [
     [
-      [ "needle_bone", 10 ],
-      [ "needle_wood", 10 ],
-      [ "tailors_kit", 10 ],
       [ "sewing_kit", 10 ]
     ]
   ],
@@ -950,9 +956,6 @@
   "book_learn": [[ "textbook_tailor", 2 ] , [ "manual_tailor", 3 ]],
   "tools": [
     [
-      [ "needle_bone", 10 ],
-      [ "needle_wood", 10 ],
-      [ "tailors_kit", 10 ],
       [ "sewing_kit", 10 ]
     ]
   ],
@@ -976,9 +979,6 @@
   "book_learn": [[ "textbook_tailor", 2 ] , ["manual_tailor", 2]],
   "tools": [
     [
-      [ "needle_bone", 16 ],
-      [ "needle_wood", 16 ],
-      [ "tailors_kit", 16 ],
       [ "sewing_kit", 16 ]
     ]
   ],
@@ -999,9 +999,6 @@
   "autolearn": true,
   "tools": [
     [
-      [ "needle_bone", 10 ],
-      [ "needle_wood", 10 ],
-      [ "tailors_kit", 10 ],
       [ "sewing_kit", 10 ]
     ]
   ],
@@ -1023,9 +1020,6 @@
   "autolearn": true,
   "tools": [
     [
-      [ "needle_bone", 8 ],
-      [ "needle_wood", 8 ],
-      [ "tailors_kit", 8 ],
       [ "sewing_kit", 8 ]
     ]
   ],
@@ -1048,9 +1042,6 @@
   "autolearn": true,
   "tools": [
     [
-      [ "needle_bone", 18 ],
-      [ "needle_wood", 18 ],
-      [ "tailors_kit", 18 ],
       [ "sewing_kit", 18 ]
     ]
   ],
@@ -1075,9 +1066,6 @@
   "autolearn": true,
   "tools": [
     [
-      [ "needle_bone", 4 ],
-      [ "needle_wood", 4 ],
-      [ "tailors_kit", 4 ],
       [ "sewing_kit", 4 ]
     ]
   ],
@@ -1098,9 +1086,6 @@
   "autolearn": true,
   "tools": [
     [
-      [ "needle_bone", 4 ],
-      [ "needle_wood", 4 ],
-      [ "tailors_kit", 4 ],
       [ "sewing_kit", 4 ]
     ]
   ],
@@ -1121,9 +1106,6 @@
   "autolearn": true,
   "tools": [
     [
-      [ "needle_bone", 4 ],
-      [ "needle_wood", 4 ],
-      [ "tailors_kit", 4 ],
       [ "sewing_kit", 4 ]
     ]
   ],
@@ -1144,9 +1126,6 @@
   "autolearn": true,
   "tools": [
     [
-      [ "needle_bone", 8 ],
-      [ "needle_wood", 8 ],
-      [ "tailors_kit", 8 ],
       [ "sewing_kit", 8 ]
     ]
   ],
@@ -1167,9 +1146,6 @@
   "autolearn": true,
   "tools": [
     [
-      [ "needle_bone", 12 ],
-      [ "needle_wood", 12 ],
-      [ "tailors_kit", 12 ],
       [ "sewing_kit", 12 ]
     ]
   ],
@@ -1191,9 +1167,6 @@
   "book_learn": [[ "textbook_tailor", 3 ] , ["manual_tailor", 3]],
   "tools": [
     [
-      [ "needle_bone", 15 ],
-      [ "needle_wood", 15 ],
-      [ "tailors_kit", 15 ],
       [ "sewing_kit", 15 ]
     ]
   ],
@@ -1215,9 +1188,6 @@
   "book_learn": [[ "textbook_tailor", 3 ] , ["manual_tailor", 3]],
   "tools": [
     [
-      [ "needle_bone", 15 ],
-      [ "needle_wood", 15 ],
-      [ "tailors_kit", 15 ],
       [ "sewing_kit", 15 ]
     ]
   ],
@@ -1238,9 +1208,6 @@
   "autolearn": true,
   "tools": [
     [
-      [ "needle_bone", 14 ],
-      [ "needle_wood", 14 ],
-      [ "tailors_kit", 14 ],
       [ "sewing_kit", 14 ]
     ]
   ],
@@ -1261,9 +1228,6 @@
   "autolearn": true,
   "tools": [
     [
-      [ "needle_bone", 12 ],
-      [ "needle_wood", 12 ],
-      [ "tailors_kit", 12 ],
       [ "sewing_kit", 12 ]
     ]
   ],
@@ -1286,9 +1250,6 @@
   "book_learn": [[ "textbook_tailor", 3 ] , ["manual_tailor", 3]],
   "tools": [
     [
-      [ "needle_bone", 15 ],
-      [ "needle_wood", 15 ],
-      [ "tailors_kit", 15 ],
       [ "sewing_kit", 15 ]
     ]
   ],
@@ -1309,9 +1270,6 @@
   "autolearn": true,
   "tools": [
     [
-      [ "needle_bone", 12 ],
-      [ "needle_wood", 12 ],
-      [ "tailors_kit", 12 ],
       [ "sewing_kit", 12 ]
     ]
   ],
@@ -1348,9 +1306,6 @@
   "autolearn": true,
   "tools": [
     [
-      [ "needle_bone", 12 ],
-      [ "needle_wood", 12 ],
-      [ "tailors_kit", 12 ],
       [ "sewing_kit", 12 ]
     ]
   ],
@@ -1371,9 +1326,6 @@
   "autolearn": true,
   "tools": [
     [
-      [ "needle_bone", 24 ],
-      [ "needle_wood", 24 ],
-      [ "tailors_kit", 24 ],
       [ "sewing_kit", 24 ]
     ]
   ],
@@ -1385,20 +1337,16 @@
 },{
   "type" : "recipe",
   "result": "sleeveless_trenchcoat",
-  "id_suffix": "from_rags",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_TORSO",
   "skill_used": "tailor",
   "difficulty": 3,
-  "note": "The general guideline for sleeveless trenchcoats is the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original. Making it from an original takes 50% the time.",
+  "note": "The general guideline for sleeveless trenchcoats is the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original.  Making it from an original takes 50% the time.",
   "time": 35700,
   "reversible": false,
   "autolearn": true,
   "tools": [
     [
-      [ "needle_bone", 20 ],
-      [ "needle_wood", 20 ],
-      [ "tailors_kit", 20 ],
       [ "sewing_kit", 20 ]
     ]
   ],
@@ -1416,7 +1364,7 @@
   "subcategory": "CSC_ARMOR_TORSO",
   "skill_used": "tailor",
   "difficulty": 2,
-  "note": "The general guideline for sleeveless trenchcoats is the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original. Making it from an original takes 50% the time.",
+  "note": "The general guideline for sleeveless trenchcoats is the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original.  Making it from an original takes 50% the time.",
   "time": 21000,
   "reversible": false,
   "autolearn": true,
@@ -1474,6 +1422,22 @@
   ]
 },{
   "type" : "recipe",
+  "result": "tinfoil_hat",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_HEAD",
+  "skill_used": "tailor",
+  "difficulty": 0,
+  "time": 500,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [ ],
+  "components": [
+    [
+      [ "aluminum_foil", 4 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
   "result": "trenchcoat_fur",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_TORSO",
@@ -1485,9 +1449,6 @@
   "autolearn": true,
   "tools": [
     [
-      [ "needle_bone", 45 ],
-      [ "needle_wood", 45 ],
-      [ "tailors_kit", 45 ],
       [ "sewing_kit", 45 ]
     ]
   ],
@@ -1500,21 +1461,17 @@
 },{
   "type" : "recipe",
   "result": "sleeveless_trenchcoat_fur",
-  "id_suffix": "from_fur",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_TORSO",
   "skill_used": "tailor",
   "skills_required": [ "survival", 1 ],
   "difficulty": 3,
-  "note": "The general guideline for sleeveless trenchcoats is the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original. Making it from an original takes 50% the time.",
+  "note": "The general guideline for sleeveless trenchcoats is the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original.  Making it from an original takes 50% the time.",
   "time": 200000,
   "reversible": false,
   "autolearn": true,
   "tools": [
     [
-      [ "needle_bone", 38 ],
-      [ "needle_wood", 38 ],
-      [ "tailors_kit", 38 ],
       [ "sewing_kit", 38 ]
     ]
   ],
@@ -1533,7 +1490,7 @@
   "subcategory": "CSC_ARMOR_TORSO",
   "skill_used": "tailor",
   "difficulty": 2,
-  "note": "The general guideline for sleeveless trenchcoats is the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original. Making it from an original takes 50% the time.",
+  "note": "The general guideline for sleeveless trenchcoats is the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original.  Making it from an original takes 50% the time.",
   "time": 100000,
   "reversible": false,
   "autolearn": true,
@@ -1558,9 +1515,6 @@
   "book_learn": [["textbook_tailor", 4] , ["tailor_portfolio", 4]],
   "tools": [
     [
-      [ "needle_bone", 45 ],
-      [ "needle_wood", 45 ],
-      [ "tailors_kit", 45 ],
       [ "sewing_kit", 45 ]
     ]
   ],
@@ -1573,21 +1527,17 @@
 },{
   "type" : "recipe",
   "result": "sleeveless_trenchcoat_leather",
-  "id_suffix": "from_leather",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_TORSO",
   "skill_used": "tailor",
   "difficulty": 6,
-  "note": "The general guideline for sleeveless trenchcoats is the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original. Making it from an original takes 50% the time.",
+  "note": "The general guideline for sleeveless trenchcoats is the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original.  Making it from an original takes 50% the time.",
   "time": 200000,
   "reversible": false,
   "autolearn": true,
   "book_learn": [["textbook_tailor", 4] , ["tailor_portfolio", 4]],
   "tools": [
     [
-      [ "needle_bone", 38 ],
-      [ "needle_wood", 38 ],
-      [ "tailors_kit", 38 ],
       [ "sewing_kit", 38 ]
     ]
   ],
@@ -1606,7 +1556,7 @@
   "subcategory": "CSC_ARMOR_TORSO",
   "skill_used": "tailor",
   "difficulty": 5,
-  "note": "The general guideline for sleeveless trenchcoats is the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original. Making it from an original takes 50% the time.",
+  "note": "The general guideline for sleeveless trenchcoats is the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original.  Making it from an original takes 50% the time.",
   "time": 100000,
   "reversible": false,
   "autolearn": true,
@@ -1632,9 +1582,6 @@
   "book_learn": [["textbook_survival", 1] , ["trappers_companion", 3] , ["survival_book", 2]],
   "tools": [
     [
-      [ "needle_bone", 20 ],
-      [ "needle_wood", 20 ],
-      [ "tailors_kit", 20 ],
       [ "sewing_kit", 20 ]
     ]
   ],
@@ -1657,9 +1604,6 @@
   "book_learn": [["textbook_tailor", 4] , ["manual_tailor", 3]],
   "tools": [
     [
-      [ "needle_bone", 30 ],
-      [ "needle_wood", 30 ],
-      [ "tailors_kit", 30 ],
       [ "sewing_kit", 30 ]
     ]
   ],
@@ -1701,9 +1645,6 @@
   "book_learn": [["textbook_tailor", 3] , ["manual_tailor", 3]],
   "tools": [
     [
-      [ "needle_bone", 20 ],
-      [ "needle_wood", 20 ],
-      [ "tailors_kit", 20 ],
       [ "sewing_kit", 20 ]
     ]
   ],
@@ -1728,9 +1669,6 @@
   ],
   "tools":[
     [
-      [ "needle_bone", 10 ],
-      [ "needle_wood", 10 ],
-      [ "tailors_kit", 10 ],
       [ "sewing_kit", 10 ]
     ]
     ],
@@ -1753,9 +1691,6 @@
   "book_learn": [["textbook_tailor", 3] , ["manual_tailor", 3]],
   "tools":[
     [
-      [ "needle_bone", 10 ],
-      [ "needle_wood", 10 ],
-      [ "tailors_kit", 10 ],
       [ "sewing_kit", 10 ]
     ]
     ],
@@ -1777,9 +1712,6 @@
   "book_learn": [[ "manual_tailor", 1 ] , [ "mag_tailor", 0 ] , ["textbook_survival", 2] , ["pocket_survival", 2]],
   "tools": [
     [
-      [ "needle_bone", 2 ],
-      [ "needle_wood", 2 ],
-      [ "tailors_kit", 2 ],
       [ "sewing_kit", 2 ]
     ]
   ],
@@ -1800,9 +1732,6 @@
   "autolearn": true,
   "tools": [
     [
-      [ "needle_bone", 4 ],
-      [ "needle_wood", 4 ],
-      [ "tailors_kit", 4 ],
       [ "sewing_kit", 4 ]
     ]
   ],
@@ -1824,9 +1753,6 @@
   "book_learn": [[ "textbook_fireman", 6 ] , ["tailor_portfolio", 7]],
   "tools": [
     [
-      [ "needle_bone", 40 ],
-      [ "needle_wood", 40 ],
-      [ "tailors_kit", 40 ],
       [ "sewing_kit", 40 ]
     ]
   ],
@@ -1848,9 +1774,6 @@
   "book_learn": [[ "textbook_fireman", 6 ] , ["textbook_tailor", 5] , ["tailor_portfolio", 5]],
   "tools": [
     [
-      [ "needle_bone", 8 ],
-      [ "needle_wood", 8 ],
-      [ "tailors_kit", 8 ],
       [ "sewing_kit", 8 ]
     ]
   ],
@@ -1872,9 +1795,6 @@
   "book_learn": [[ "textbook_fireman", 6 ] , ["textbook_tailor", 5] , ["tailor_portfolio", 5]],
   "tools": [
     [
-      [ "needle_bone", 12 ],
-      [ "needle_wood", 12 ],
-      [ "tailors_kit", 12 ],
       [ "sewing_kit", 12 ]
     ]
   ],
@@ -1896,9 +1816,6 @@
   "book_learn": [[ "textbook_fireman", 6 ] , ["textbook_tailor", 5] , ["tailor_portfolio", 5]],
   "tools": [
     [
-      [ "needle_bone", 12 ],
-      [ "needle_wood", 12 ],
-      [ "tailors_kit", 12 ],
       [ "sewing_kit", 12 ]
     ]
   ],
@@ -1929,9 +1846,6 @@
       [ "toolset", 28 ]
      ],
      [
-      [ "needle_bone", 200 ],
-      [ "needle_wood", 200 ],
-      [ "tailors_kit", 200 ],
       [ "sewing_kit", 200 ]
     ]
   ],
@@ -1988,9 +1902,6 @@
   "book_learn": [[ "manual_tailor", 2 ] , [ "textbook_tailor", 2 ] , ["recipe_melee", 2]],
   "tools": [
     [
-      [ "needle_bone", 5 ],
-      [ "needle_wood", 5 ],
-      [ "tailors_kit", 5 ],
       [ "sewing_kit", 5 ]
     ]
   ],
@@ -2014,9 +1925,6 @@
     {"id":"HAMMER","level":2,"amount":1}
   ], "tools": [
     [
-      [ "needle_bone", 10 ],
-      [ "needle_wood", 10 ],
-      [ "tailors_kit", 10 ],
       [ "sewing_kit", 10 ]
     ]
   ],
@@ -2026,6 +1934,87 @@
     ],
     [
       [ "scrap", 2 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "jacket_leather_mod",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_TORSO",
+  "skill_used": "tailor",
+  "skills_required": [ "fabrication", 3 ],
+  "difficulty": 3,
+  "time": 96000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"HAMMER","level":2,"amount":1}
+  ], "tools": [
+    [
+      [ "sewing_kit", 30 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "jacket_leather", 1 ],
+      [ "jacket_leather_red", 1 ]
+    ],
+    [
+      [ "scrap", 9 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "vest_leather_mod",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_TORSO",
+  "skill_used": "tailor",
+  "skills_required": [ "fabrication", 3 ],
+  "difficulty": 3,
+  "time": 72000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"HAMMER","level":2,"amount":1}
+  ], "tools": [
+    [
+      [ "sewing_kit", 20 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "vest_leather", 1 ]
+    ],
+    [
+      [ "scrap", 5 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "gloves_work",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_HANDS",
+  "skill_used": "tailor",
+  "difficulty": 2,
+  "time": 20000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "manual_tailor", 2 ] , [ "mag_tailor", 3 ] , ["textbook_survival", 2]],
+  "qualities": [
+       {"id":"CUT","level":1,"amount":1} ],
+  "tools": [
+    [
+      [ "sewing_kit", 6 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "leather", 2 ],
+      [ "gloves_leather", 1 ]
+    ],
+    [
+      [ "rag", 2 ],
+      [ "gloves_light", 1 ]
     ]
   ]
 },{
@@ -2041,9 +2030,6 @@
   "book_learn": [[ "manual_tailor", 1 ] , [ "mag_tailor", 0 ] , ["textbook_survival", 1] , ["pocket_survival", 1]],
   "tools": [
     [
-      [ "needle_bone", 6 ],
-      [ "needle_wood", 6 ],
-      [ "tailors_kit", 6 ],
       [ "sewing_kit", 6 ]
     ]
   ],
@@ -2066,9 +2052,6 @@
   "book_learn": [[ "manual_tailor", 1 ] , ["textbook_survival", 1] , ["pocket_survival", 1]],
   "tools": [
     [
-      [ "needle_bone", 6 ],
-      [ "needle_wood", 6 ],
-      [ "tailors_kit", 6 ],
       [ "sewing_kit", 6 ]
     ]
   ],
@@ -2079,11 +2062,94 @@
   ]
 },{
   "type" : "recipe",
-  "result": "armguard_chitin",
+  "result": "vambrace_larmor",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_ARMS",
+  "skill_used": "tailor",
+  "difficulty": 2,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "sewing_kit", 8 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "leather", 4 ],
+      [ "tanned_hide", 1 ],
+      [ "fur", 4 ],
+      [ "tanned_pelt", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "armguard_larmor",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_ARMS",
+  "skill_used": "tailor",
+  "difficulty": 3,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "sewing_kit", 16 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "leather", 12 ],
+      [ "tanned_hide", 2 ],
+      [ "fur", 12 ],
+      [ "tanned_pelt", 2 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "armguard_bone",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_ARMS",
   "skill_used": "tailor",
   "difficulty": 4,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "sewing_kit", 11 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "bone", 10 ],
+      [ "bone_human", 10 ],
+      [ "bone_tainted", 20 ]
+    ],
+    [
+      [ "leather", 6 ],
+      [ "tanned_hide", 1 ],
+      [ "fur", 6 ],
+      [ "tanned_pelt", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "armguard_chitin",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_ARMS",
+  "skill_used": "tailor",
+  "difficulty": 5,
   "time": 30000,
   "reversible": false,
   "autolearn": true,
@@ -2132,10 +2198,17 @@
   "book_learn": [["textbook_armwest", 4] , ["recipe_melee", 4]],
   "qualities":[
     {"id":"HAMMER","level":2,"amount":1}
-  ], "components": [
+  ],
+  "components": [
     [
       [ "string_36", 4 ],
       [ "string_6", 16 ]
+    ],
+    [
+      [ "fur", 6 ],
+      [ "tanned_pelt", 1 ],
+      [ "leather", 6 ],
+      [ "tanned_hide", 1 ]
     ],
     [
       [ "steel_chunk", 4 ],
@@ -2148,7 +2221,7 @@
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HANDS",
   "skill_used": "tailor",
-  "difficulty": 3,
+  "difficulty": 4,
   "time": 30000,
   "reversible": false,
   "autolearn": true,
@@ -2177,9 +2250,6 @@
   ],
   "tools": [
     [
-      [ "needle_bone", 12 ],
-      [ "needle_wood", 12 ],
-      [ "tailors_kit", 12 ],
       [ "sewing_kit", 12 ]
     ]
   ],
@@ -2212,9 +2282,6 @@
   ],
   "tools": [
     [
-      [ "needle_bone", 12 ],
-      [ "needle_wood", 12 ],
-      [ "tailors_kit", 12 ],
       [ "sewing_kit", 12 ]
     ]
   ],
@@ -2238,15 +2305,28 @@
   "autolearn": true,
   "tools": [
     [
-      [ "needle_bone", 2 ],
-      [ "needle_wood", 2 ],
-      [ "tailors_kit", 2 ],
       [ "sewing_kit", 2 ]
     ]
   ],
   "components": [
     [
       [ "rag", 2 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "blindfold",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_HEAD",
+  "skill_used": "tailor",
+  "difficulty": 0,
+  "time": 3000,
+  "reversible": true,
+  "autolearn": true,
+  "flags": ["BLIND_EASY"],
+  "components": [
+    [
+      [ "bandana", 1 ]
     ]
   ]
 },{
@@ -2262,9 +2342,6 @@
   "autolearn": true,
   "tools": [
     [
-      [ "needle_bone", 3 ],
-      [ "needle_wood", 3 ],
-      [ "tailors_kit", 3 ],
       [ "sewing_kit", 3 ]
     ]
   ],
@@ -2332,9 +2409,6 @@
   "autolearn": true,
   "tools": [
     [
-      [ "needle_bone", 3 ],
-      [ "needle_wood", 3 ],
-      [ "tailors_kit", 3 ],
       [ "sewing_kit", 3 ]
     ]
   ],
@@ -2358,9 +2432,6 @@
   "autolearn": true,
   "tools": [
     [
-      [ "needle_bone", 9 ],
-      [ "needle_wood", 9 ],
-      [ "tailors_kit", 9 ],
       [ "sewing_kit", 9 ]
     ]
   ],
@@ -2384,9 +2455,6 @@
   "autolearn": true,
   "tools": [
     [
-      [ "needle_bone", 3 ],
-      [ "needle_wood", 3 ],
-      [ "tailors_kit", 3 ],
       [ "sewing_kit", 3 ]
     ]
   ],
@@ -2419,7 +2487,7 @@
       [ "rag", 2 ],
       [ "muffler", 1 ],
       [ "bandana", 2 ],
-      [ "wrapper", 4 ]
+      [ "paper", 10 ]
     ],
     [
       [ "charcoal", 2]
@@ -2551,6 +2619,53 @@
     [
       [ "plastic_chunk", 3 ]
     ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "survivor_goggles",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_HEAD",
+  "skill_used": "fabrication",
+  "skills_required" : ["tailor", 4],
+  "difficulty": 5,
+  "time": 20000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+      [
+      [ "sewing_kit", 10 ]
+    ],
+    [
+      [ "welder", 28 ],
+      [ "soldering_iron", 28 ],
+      [ "toolset", 28 ]
+      ]
+  ],
+  "components": [
+      [
+      [ "goggles_ski", 1 ],
+      [ "goggles_welding", 1 ],
+      [ "sunglasses", 1 ],
+      [ "fancy_sunglasses", 1 ],
+      [ "fitover_sunglasses", 1 ]
+      ],
+      [
+      [ "glasses_safety", 2 ],
+      [ "glasses_bal", 1 ]
+      ],
+      [
+      [ "duct_tape", 25 ],
+      [ "superglue", 1 ]
+      ],
+      [
+      [ "leather", 3 ]
+      ],
+      [
+      [ "kevlar_plate", 2 ]
+      ]
   ]
 },{
   "type" : "recipe",
@@ -2737,9 +2852,6 @@
   ],
   "tools": [
     [
-      [ "needle_bone", 10 ],
-      [ "needle_wood", 10 ],
-      [ "tailors_kit", 10 ],
       [ "sewing_kit", 10 ]
     ],
     [
@@ -2787,9 +2899,6 @@
   ],
   "tools": [
     [
-      [ "needle_bone", 10 ],
-      [ "needle_wood", 10 ],
-      [ "tailors_kit", 10 ],
       [ "sewing_kit", 10 ]
     ],
     [
@@ -2838,9 +2947,6 @@
   ],
   "tools": [
     [
-      [ "needle_bone", 20 ],
-      [ "needle_wood", 20 ],
-      [ "tailors_kit", 20 ],
       [ "sewing_kit", 20 ]
     ],
     [
@@ -2882,9 +2988,6 @@
   ],
   "tools": [
     [
-      [ "needle_bone", 20 ],
-      [ "needle_wood", 20 ],
-      [ "tailors_kit", 20 ],
       [ "sewing_kit", 20 ]
     ],
     [
@@ -2925,9 +3028,6 @@
   ],
   "tools": [
     [
-      [ "needle_bone", 20 ],
-      [ "needle_wood", 20 ],
-      [ "tailors_kit", 20 ],
       [ "sewing_kit", 20 ]
     ],
     [
@@ -2971,9 +3071,6 @@
   ],
   "tools": [
     [
-      [ "needle_bone", 20 ],
-      [ "needle_wood", 20 ],
-      [ "tailors_kit", 20 ],
       [ "sewing_kit", 20 ]
     ],
     [
@@ -3233,6 +3330,27 @@
   ]
 },{
   "type" : "recipe",
+  "result": "towel",
+  "id_suffix": "knitting",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_OTHER",
+  "skill_used": "tailor",
+  "difficulty": 0,
+  "time": 6000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "sewing_kit", 7 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "rag", 5 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
   "result": "hat_fur",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
@@ -3244,9 +3362,6 @@
   "autolearn": true,
   "tools": [
     [
-      [ "needle_bone", 8 ],
-      [ "needle_wood", 8 ],
-      [ "tailors_kit", 8 ],
       [ "sewing_kit", 8 ]
     ]
   ],
@@ -3267,9 +3382,6 @@
   "autolearn": true,
   "tools": [
     [
-      [ "needle_bone", 8 ],
-      [ "needle_wood", 8 ],
-      [ "tailors_kit", 8 ],
       [ "sewing_kit", 8 ]
     ]
   ],
@@ -3290,9 +3402,6 @@
   "autolearn": true,
   "tools": [
     [
-      [ "needle_bone", 10 ],
-      [ "needle_wood", 10 ],
-      [ "tailors_kit", 10 ],
       [ "sewing_kit", 10 ]
     ]
   ],
@@ -3313,9 +3422,6 @@
   "autolearn": true,
   "tools": [
     [
-      [ "needle_bone", 8 ],
-      [ "needle_wood", 8 ],
-      [ "tailors_kit", 8 ],
       [ "sewing_kit", 8 ]
     ]
   ],
@@ -3339,9 +3445,6 @@
   "autolearn": true,
   "tools": [
     [
-      [ "needle_bone", 16 ],
-      [ "needle_wood", 16 ],
-      [ "tailors_kit", 16 ],
       [ "sewing_kit", 16 ]
     ]
   ],
@@ -3363,9 +3466,6 @@
   "autolearn": true,
   "tools": [
     [
-      [ "needle_bone", 20 ],
-      [ "needle_wood", 20 ],
-      [ "tailors_kit", 20 ],
       [ "sewing_kit", 20 ]
     ]
   ],
@@ -3394,9 +3494,6 @@
   "book_learn": [["mag_tailor", 1] , ["manual_tailor", 1] , ["mag_beauty", 1]],
   "tools": [
     [
-      [ "needle_bone", 12 ],
-      [ "needle_wood", 12 ],
-      [ "tailors_kit", 12 ],
       [ "sewing_kit", 12 ]
     ]
   ],
@@ -3430,7 +3527,7 @@
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
   "skill_used": "tailor",
-  "difficulty": 6,
+  "difficulty": 5,
   "time": 60000,
   "reversible": false,
   "autolearn": true,
@@ -3471,33 +3568,30 @@
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_SUIT",
   "skill_used": "tailor",
-  "difficulty": 7,
+  "difficulty": 6,
   "time": 30000,
   "reversible": false,
   "autolearn": true,
-  "book_learn": [[ "textbook_tailor", 5 ] , [ "tailor_portfolio", 6 ]],
+  "book_learn": [[ "textbook_tailor", 4 ] , [ "tailor_portfolio", 5 ]],
   "qualities" : [
     {"id":"CUT","level":1,"amount":1}
   ],
   "tools": [
     [
-      [ "needle_bone", 54 ],
-      [ "needle_wood", 54 ],
-      [ "tailors_kit", 54 ],
-      [ "sewing_kit", 54 ]
+      [ "sewing_kit", 43 ]
     ]
   ],
   "components": [
     [
-      [ "bone", 50 ],
-      [ "bone_human", 50 ],
-      [ "bone_tainted", 100 ]
+      [ "bone", 40 ],
+      [ "bone_human", 40 ],
+      [ "bone_tainted", 80 ]
     ],
     [
-      [ "leather", 20 ],
-      [ "tanned_hide", 3 ],
-      [ "fur", 20 ],
-      [ "tanned_pelt", 3 ]
+      [ "leather", 12 ],
+      [ "tanned_hide", 2 ],
+      [ "fur", 12 ],
+      [ "tanned_pelt", 2 ]
     ]
   ]
 },{
@@ -3506,7 +3600,7 @@
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_SUIT",
   "skill_used": "tailor",
-  "difficulty": 4,
+  "difficulty": 5,
   "note": "Whilst the trenchcoat needs 6 skill this'll need at least 4.",
   "time": 28000,
   "reversible": false,
@@ -3516,18 +3610,15 @@
   ],
   "tools": [
     [
-      [ "needle_bone", 68 ],
-      [ "needle_wood", 68 ],
-      [ "tailors_kit", 68 ],
-      [ "sewing_kit", 68 ]
+      [ "sewing_kit", 52 ]
     ]
   ],
   "components": [
     [
-      [ "leather", 42 ],
-      [ "tanned_hide", 7 ],
-      [ "fur", 42 ],
-      [ "tanned_pelt", 7 ]
+      [ "leather", 30 ],
+      [ "tanned_hide", 5 ],
+      [ "fur", 30 ],
+      [ "tanned_pelt", 5 ]
     ]
   ]
 },{
@@ -3536,7 +3627,7 @@
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_SUIT",
   "skill_used": "tailor",
-  "difficulty": 4,
+  "difficulty": 5,
   "time": 28000,
   "reversible": false,
   "autolearn": true,
@@ -3545,9 +3636,6 @@
   ],
   "tools": [
     [
-      [ "needle_bone", 68 ],
-      [ "needle_wood", 68 ],
-      [ "tailors_kit", 68 ],
       [ "sewing_kit", 68 ]
     ]
   ],
@@ -3576,7 +3664,8 @@
       [ "hotplate", 20 ],
       [ "toolset", 20 ],
       [ "fire", -1 ]
-    ]
+    ],
+    [ [ "sewing_kit", 4 ] ]
   ],
   "components": [
     [
@@ -3595,6 +3684,9 @@
     ],
     [
       [ "armor_larmor", 1 ]
+    ],
+    [
+      [ "armguard_larmor", 1 ]
     ]
   ]
 },{
@@ -3611,10 +3703,7 @@
   "book_learn": [[ "textbook_tailor", 5 ] , [ "tailor_portfolio", 5 ] , ["textbook_armwest", 4]],
   "tools": [
     [
-      [ "needle_bone", 22 ],
-      [ "needle_wood", 22 ],
-      [ "tailors_kit", 22 ],
-      [ "sewing_kit", 22 ]
+      [ "sewing_kit", 26 ]
     ]
   ],
   "components": [
@@ -3624,6 +3713,9 @@
     ],
     [
       [ "armor_larmor", 1 ]
+    ],
+    [
+      [ "armguard_larmor", 1 ]
     ]
   ]
 },{
@@ -3638,9 +3730,6 @@
   "autolearn": true,
   "tools": [
     [
-      [ "needle_bone", 20 ],
-      [ "needle_wood", 20 ],
-      [ "tailors_kit", 20 ],
       [ "sewing_kit", 20 ]
     ]
   ],
@@ -3661,9 +3750,6 @@
   "autolearn": true,
   "tools": [
     [
-      [ "needle_bone", 20 ],
-      [ "needle_wood", 20 ],
-      [ "tailors_kit", 20 ],
       [ "sewing_kit", 20 ]
     ]
   ],
@@ -3689,9 +3775,6 @@
   "autolearn": true,
   "tools": [
     [
-      [ "needle_bone", 25 ],
-      [ "needle_wood", 25 ],
-      [ "tailors_kit", 25 ],
       [ "sewing_kit", 25 ]
     ],
     [
@@ -3728,9 +3811,6 @@
   "autolearn": true,
   "tools": [
     [
-      [ "needle_bone", 15 ],
-      [ "needle_wood", 15 ],
-      [ "tailors_kit", 15 ],
       [ "sewing_kit", 15 ]
     ],
     [
@@ -3762,9 +3842,6 @@
   "autolearn": true,
   "tools": [
     [
-      [ "needle_bone", 30 ],
-      [ "needle_wood", 30 ],
-      [ "tailors_kit", 30 ],
       [ "sewing_kit", 30 ]
     ]
   ],
@@ -3789,9 +3866,6 @@
   "autolearn": true,
   "tools": [
     [
-      [ "needle_bone", 20 ],
-      [ "needle_wood", 20 ],
-      [ "tailors_kit", 20 ],
       [ "sewing_kit", 20 ]
     ]
   ],
@@ -3812,9 +3886,6 @@
   "autolearn": true,
   "tools": [
     [
-      [ "needle_bone", 20 ],
-      [ "needle_wood", 20 ],
-      [ "tailors_kit", 20 ],
       [ "sewing_kit", 20 ]
     ]
   ],
@@ -3840,9 +3911,6 @@
   "autolearn": true,
   "tools": [
     [
-      [ "needle_bone", 24 ],
-      [ "needle_wood", 24 ],
-      [ "tailors_kit", 24 ],
       [ "sewing_kit", 24 ]
     ]
   ],
@@ -3867,9 +3935,6 @@
   "autolearn": true,
   "tools": [
     [
-      [ "needle_bone", 15 ],
-      [ "needle_wood", 15 ],
-      [ "tailors_kit", 15 ],
       [ "sewing_kit", 15 ]
     ]
   ],
@@ -3890,15 +3955,52 @@
   "autolearn": true,
   "tools": [
     [
-      [ "needle_bone", 18 ],
-      [ "needle_wood", 18 ],
-      [ "tailors_kit", 18 ],
       [ "sewing_kit", 18 ]
     ]
   ],
   "components": [
     [
       [ "rag", 20 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "cloak_wool",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_SUIT",
+  "skill_used": "tailor",
+  "difficulty": 3,
+  "time": 25000,
+  "reversible": true,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "sewing_kit", 18 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "felt_patch", 18 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "loincloth_wool",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_LEGS",
+  "skill_used": "tailor",
+  "difficulty": 0,
+  "time": 3000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "sewing_kit", 12 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "felt_patch", 4 ]
     ]
   ]
 },{
@@ -3915,9 +4017,6 @@
   "book_learn": [["textbook_survival", 1] , ["survival_book", 1]],
   "tools": [
     [
-      [ "needle_bone", 18 ],
-      [ "needle_wood", 18 ],
-      [ "tailors_kit", 18 ],
       [ "sewing_kit", 18 ]
     ]
   ],
@@ -3939,9 +4038,6 @@
   "autolearn": true,
   "tools": [
     [
-      [ "needle_bone", 18 ],
-      [ "needle_wood", 18 ],
-      [ "tailors_kit", 18 ],
       [ "sewing_kit", 18 ]
     ]
   ],
@@ -3964,9 +4060,6 @@
   "autolearn": true,
   "tools": [
     [
-      [ "needle_bone", 30 ],
-      [ "needle_wood", 30 ],
-      [ "tailors_kit", 30 ],
       [ "sewing_kit", 30 ]
     ]
   ],
@@ -3990,9 +4083,6 @@
   "book_learn": [["textbook_survival", 1] , ["trappers_companion", 3] , ["survival_book", 2] , ["pocket_survival", 1]],
   "tools": [
     [
-      [ "needle_bone", 30 ],
-      [ "needle_wood", 30 ],
-      [ "tailors_kit", 30 ],
       [ "sewing_kit", 30 ]
     ]
   ],
@@ -4017,9 +4107,6 @@
   "autolearn": true,
   "tools": [
     [
-      [ "needle_bone", 20 ],
-      [ "needle_wood", 20 ],
-      [ "tailors_kit", 20 ],
       [ "sewing_kit", 20 ]
     ]
   ],
@@ -4048,16 +4135,15 @@
   "autolearn": true,
   "tools": [
     [
-      [ "needle_bone", 20 ],
-      [ "needle_wood", 20 ],
-      [ "tailors_kit", 20 ],
       [ "sewing_kit", 20 ]
     ]
   ],
   "components": [
     [
       [ "leather", 6 ],
-      [ "tanned_hide", 1 ]
+      [ "tanned_hide", 1 ],
+      [ "fur", 6 ],
+      [ "tanned_pelt", 1 ]
     ],
     [
       [ "string_36", 1 ],
@@ -4075,8 +4161,9 @@
   "skill_used": "survival",
   "difficulty": 0,
   "time": 800,
-  "reversible": false,
+  "reversible": true,
   "autolearn": true,
+  "flags": ["BLIND_HARD"],
   "components": [
     [
       [ "rag", 6 ],
@@ -4094,14 +4181,29 @@
   ]
 },{
   "type" : "recipe",
+  "result": "swag_bag",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_STORAGE",
+  "difficulty": 0,
+  "time": 600,
+  "reversible": true,
+  "autolearn": true,
+  "components": [
+    [
+      [ "bag_canvas", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
   "result": "makeshift_sling",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_STORAGE",
   "skill_used": "survival",
   "difficulty": 0,
   "time": 800,
-  "reversible": false,
+  "reversible": true,
   "autolearn": true,
+  "flags": ["BLIND_HARD"],
   "components": [
     [
       [ "sheet", 1 ]
@@ -4115,7 +4217,7 @@
   "skill_used": "fabrication",
   "difficulty": 7,
   "time": 100000,
-  "reversible": false,
+  "reversible": true,
   "autolearn": true,
   "book_learn": [["recipe_melee", 6]],
   "components": [ [ ["string_36", 2], ["string_6", 12] ],
@@ -4194,9 +4296,26 @@
   "time": 1000,
   "reversible": true,
   "autolearn": true,
+  "flags": ["BLIND_HARD"],
   "components": [
     [
       [ "rag", 4 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "gloves_wraps_wool",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_HANDS",
+  "skill_used": "tailor",
+  "difficulty": 0,
+  "time": 1000,
+  "reversible": true,
+  "autolearn": true,
+  "flags": ["BLIND_HARD"],
+  "components": [
+    [
+      [ "felt_patch", 4 ]
     ]
   ]
 },{
@@ -4211,9 +4330,6 @@
   "autolearn": true,
   "tools": [
     [
-      [ "needle_bone", 30 ],
-      [ "needle_wood", 30 ],
-      [ "tailors_kit", 30 ],
       [ "sewing_kit", 30 ]
     ]
   ],
@@ -4239,9 +4355,6 @@
   ],
   "tools": [
       [
-      [ "needle_bone", 100 ],
-      [ "needle_wood", 100 ],
-      [ "tailors_kit", 100 ],
       [ "sewing_kit", 100 ]
     ]
   ],
@@ -4279,13 +4392,12 @@
 },{
   "type" : "recipe",
   "result": "sleeveless_trenchcoat_survivor",
-  "id_suffix": "from_stuff",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_TORSO",
   "skill_used": "tailor",
   "skills_required" : ["fabrication", 5],
   "difficulty": 6,
-  "note": "The general guideline for sleeveless trenchcoats is the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original. Making it from an original takes 50% the time. The sleeveless survivor trenchcoat is the exception with the premade wearable items.",
+  "note": "The general guideline for sleeveless trenchcoats is the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original.  Making it from an original takes 50% the time.  The sleeveless survivor trenchcoat is the exception with the premade wearable items.",
   "time": 59500,
   "reversible": false,
   "autolearn": true,
@@ -4294,9 +4406,6 @@
   ],
   "tools": [
       [
-      [ "needle_bone", 85 ],
-      [ "needle_wood", 85 ],
-      [ "tailors_kit", 85 ],
       [ "sewing_kit", 85 ]
     ]
   ],
@@ -4340,7 +4449,7 @@
   "subcategory": "CSC_ARMOR_TORSO",
   "skill_used": "tailor",
   "difficulty": 5,
-  "note": "The general guideline for sleeveless trenchcoats is the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original. Making it from an original takes 50% the time.",
+  "note": "The general guideline for sleeveless trenchcoats is the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original.  Making it from an original takes 50% the time.",
   "time": 35000,
   "reversible": false,
   "autolearn": true,
@@ -4368,9 +4477,6 @@
   ],
   "tools": [
       [
-      [ "needle_bone", 100 ],
-      [ "needle_wood", 100 ],
-      [ "tailors_kit", 100 ],
       [ "sewing_kit", 100 ]
     ]
   ],
@@ -4418,7 +4524,7 @@
       [ "survivor_belt_notools", 1 ]
      ],
      [
-      [ "screwdriver", 1]
+      [ "screwdriver_set", 1]
      ],
      [
       [ "wrench", 1]
@@ -4449,9 +4555,6 @@
   ],
   "tools": [
       [
-      [ "needle_bone", 100 ],
-      [ "needle_wood", 100 ],
-      [ "tailors_kit", 100 ],
       [ "sewing_kit", 100 ]
     ]
   ],
@@ -4498,9 +4601,6 @@
   ],
   "tools": [
       [
-      [ "needle_bone", 80 ],
-      [ "needle_wood", 80 ],
-      [ "tailors_kit", 80 ],
       [ "sewing_kit", 80 ]
     ]
   ],
@@ -4549,9 +4649,6 @@
   ],
   "tools": [
       [
-      [ "needle_bone", 120 ],
-      [ "needle_wood", 120 ],
-      [ "tailors_kit", 120 ],
       [ "sewing_kit", 120 ]
     ]
   ],
@@ -4600,9 +4697,6 @@
   ],
   "tools": [
       [
-      [ "needle_bone", 160 ],
-      [ "needle_wood", 160 ],
-      [ "tailors_kit", 160 ],
       [ "sewing_kit", 160 ]
     ]
   ],
@@ -4652,9 +4746,6 @@
   ],
   "tools": [
       [
-      [ "needle_bone", 200 ],
-      [ "needle_wood", 200 ],
-      [ "tailors_kit", 200 ],
       [ "sewing_kit", 200 ]
     ]
   ],
@@ -4707,9 +4798,6 @@
       [ "toolset", 28 ]
      ],
      [
-      [ "needle_bone", 100 ],
-      [ "needle_wood", 100 ],
-      [ "tailors_kit", 100 ],
       [ "sewing_kit", 100 ]
     ]
   ],
@@ -4743,6 +4831,105 @@
   ]
 },{
   "type" : "recipe",
+  "result": "lsurvivor_armor",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_TORSO",
+  "skill_used": "tailor",
+  "skills_required" : ["fabrication", 6],
+  "difficulty": 5,
+  "time": 120000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+     [
+      [ "welder", 18 ],
+      [ "soldering_iron", 18 ],
+      [ "toolset", 18 ]
+     ],
+     [
+      [ "sewing_kit", 60 ]
+    ]
+  ],
+  "components": [
+     [
+      [ "rag", 15 ]
+     ],
+     [
+      [ "coat_rain", 1 ]
+     ],
+     [
+      [ "chestrig", 1 ],
+      [ "legrig", 1 ],
+      [ "vest", 1 ],
+      [ "tool_belt", 1 ],
+      [ "ragpouch", 2 ],
+      [ "leather_pouch", 2 ],
+      [ "dump_pouch", 1 ],
+      [ "purse", 1 ],
+      [ "fanny", 1 ]
+     ],
+     [
+      [ "duct_tape", 150 ]
+     ],
+     [
+      [ "kevlar", 1 ],
+      [ "modularvest", 1 ],
+      [ "swat_armor", 1 ],
+      [ "kevlar_plate", 16 ]
+     ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "lsurvivor_pants",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_LEGS",
+  "skill_used": "tailor",
+  "skills_required" : ["fabrication", 6],
+  "difficulty": 5,
+  "time": 60000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+     [
+      [ "welder", 10 ],
+      [ "soldering_iron", 10 ],
+      [ "toolset", 10 ]
+     ],
+     [
+      [ "sewing_kit", 40 ]
+    ]
+  ],
+  "components": [
+     [
+      [ "rag", 15 ]
+     ],
+     [
+      [ "bag_plastic", 4 ]
+     ],
+     [
+      [ "legrig", 1 ],
+      [ "tool_belt", 1 ],
+      [ "ragpouch", 4 ],
+      [ "leather_pouch", 2 ],
+      [ "dump_pouch", 1 ],
+      [ "purse", 2 ],
+      [ "fanny", 2 ]
+     ],
+     [
+      [ "duct_tape", 50 ]
+     ],
+     [
+      [ "kevlar_plate", 8 ]
+     ]
+  ]
+},{
+  "type" : "recipe",
   "result": "survivor_suit",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_SUIT",
@@ -4762,9 +4949,6 @@
       [ "toolset", 28 ]
      ],
      [
-      [ "needle_bone", 150 ],
-      [ "needle_wood", 150 ],
-      [ "tailors_kit", 150 ],
       [ "sewing_kit", 150 ]
      ]
   ],
@@ -4822,9 +5006,6 @@
       ]
     ],
     [
-      [ "needle_bone", 200 ],
-      [ "needle_wood", 200 ],
-      [ "tailors_kit", 200 ],
       [ "sewing_kit", 200 ]
     ]
   ],
@@ -4885,9 +5066,6 @@
       [ "toolset", 28 ]
     ],
     [
-      [ "needle_bone", 200 ],
-      [ "needle_wood", 200 ],
-      [ "tailors_kit", 200 ],
       [ "sewing_kit", 200 ]
     ]
   ],
@@ -4949,9 +5127,6 @@
       [ "toolset", 28 ]
      ],
      [
-      [ "needle_bone", 200 ],
-      [ "needle_wood", 200 ],
-      [ "tailors_kit", 200 ],
       [ "sewing_kit", 200 ]
     ]
   ],
@@ -5009,9 +5184,6 @@
       [ "toolset", 56 ]
     ],
     [
-      [ "needle_bone", 200 ],
-      [ "needle_wood", 200 ],
-      [ "tailors_kit", 200 ],
       [ "sewing_kit", 200 ]
     ]
   ],
@@ -5065,9 +5237,6 @@
       [ "toolset", 56 ]
      ],
      [
-      [ "needle_bone", 200 ],
-      [ "needle_wood", 200 ],
-      [ "tailors_kit", 200 ],
       [ "sewing_kit", 200 ]
      ]
   ],
@@ -5127,9 +5296,6 @@
       [ "toolset", 42 ]
     ],
     [
-      [ "needle_bone", 160 ],
-      [ "needle_wood", 160 ],
-      [ "tailors_kit", 160 ],
       [ "sewing_kit", 160 ]
     ]
   ],
@@ -5173,9 +5339,6 @@
       [ "toolset", 28 ]
     ],
     [
-      [ "needle_bone", 100 ],
-      [ "needle_wood", 100 ],
-      [ "tailors_kit", 100 ],
       [ "sewing_kit", 100 ]
     ]
   ],
@@ -5219,9 +5382,6 @@
       [ "toolset", 42 ]
     ],
     [
-      [ "needle_bone", 80 ],
-      [ "needle_wood", 80 ],
-      [ "tailors_kit", 80 ],
       [ "sewing_kit", 80 ]
     ]
   ],
@@ -5268,9 +5428,6 @@
       [ "toolset", 84 ]
     ],
     [
-      [ "needle_bone", 20 ],
-      [ "needle_wood", 20 ],
-      [ "tailors_kit", 20 ],
       [ "sewing_kit", 20 ]
     ]
   ],
@@ -5320,9 +5477,6 @@
       [ "toolset", 21 ]
     ],
     [
-      [ "needle_bone", 40 ],
-      [ "needle_wood", 40 ],
-      [ "tailors_kit", 40 ],
       [ "sewing_kit", 40 ]
     ]
   ],
@@ -5362,9 +5516,6 @@
       [ "toolset", 21 ]
     ],
     [
-      [ "needle_bone", 40 ],
-      [ "needle_wood", 40 ],
-      [ "tailors_kit", 40 ],
       [ "sewing_kit", 40 ]
     ]
   ],
@@ -5408,9 +5559,6 @@
       [ "toolset", 42 ]
     ],
     [
-      [ "needle_bone", 10 ],
-      [ "needle_wood", 10 ],
-      [ "tailors_kit", 10 ],
       [ "sewing_kit", 10 ]
     ]
   ],
@@ -5471,9 +5619,6 @@
       [ "toolset", 42 ]
     ],
     [
-      [ "needle_bone", 10 ],
-      [ "needle_wood", 10 ],
-      [ "tailors_kit", 10 ],
       [ "sewing_kit", 10 ]
     ]
   ],
@@ -5534,9 +5679,6 @@
       [ "toolset", 21 ]
     ],
     [
-      [ "needle_bone", 40 ],
-      [ "needle_wood", 40 ],
-      [ "tailors_kit", 40 ],
       [ "sewing_kit", 40 ]
     ]
   ],
@@ -5581,9 +5723,6 @@
       [ "toolset", 21 ]
     ],
     [
-      [ "needle_bone", 40 ],
-      [ "needle_wood", 40 ],
-      [ "tailors_kit", 40 ],
       [ "sewing_kit", 40 ]
     ]
   ],
@@ -5622,9 +5761,6 @@
       [ "toolset", 21 ]
     ],
     [
-      [ "needle_bone", 40 ],
-      [ "needle_wood", 40 ],
-      [ "tailors_kit", 40 ],
       [ "sewing_kit", 40 ]
     ]
   ],
@@ -5663,9 +5799,6 @@
       [ "toolset", 14 ]
     ],
     [
-      [ "needle_bone", 50 ],
-      [ "needle_wood", 50 ],
-      [ "tailors_kit", 50 ],
       [ "sewing_kit", 50 ]
     ]
   ],
@@ -5712,9 +5845,6 @@
       [ "toolset", 14 ]
     ],
     [
-      [ "needle_bone", 50 ],
-      [ "needle_wood", 50 ],
-      [ "tailors_kit", 50 ],
       [ "sewing_kit", 50 ]
     ]
   ],
@@ -5762,9 +5892,6 @@
       [ "toolset", 28 ]
     ],
     [
-      [ "needle_bone", 40 ],
-      [ "needle_wood", 40 ],
-      [ "tailors_kit", 40 ],
       [ "sewing_kit", 40 ]
     ]
   ],
@@ -5814,9 +5941,6 @@
       [ "toolset", 14 ]
     ],
     [
-      [ "needle_bone", 50 ],
-      [ "needle_wood", 50 ],
-      [ "tailors_kit", 50 ],
       [ "sewing_kit", 50 ]
     ]
   ],
@@ -5864,9 +5988,6 @@
       [ "toolset", 14 ]
     ],
     [
-      [ "needle_bone", 50 ],
-      [ "needle_wood", 50 ],
-      [ "tailors_kit", 50 ],
       [ "sewing_kit", 50 ]
     ]
   ],
@@ -5910,9 +6031,6 @@
       [ "toolset", 14 ]
     ],
     [
-      [ "needle_bone", 50 ],
-      [ "needle_wood", 50 ],
-      [ "tailors_kit", 50 ],
       [ "sewing_kit", 50 ]
     ]
   ],
@@ -5952,9 +6070,6 @@
       [ "toolset", 21 ]
     ],
     [
-      [ "needle_bone", 80 ],
-      [ "needle_wood", 80 ],
-      [ "tailors_kit", 80 ],
       [ "sewing_kit", 80 ]
     ]
   ],
@@ -5997,9 +6112,6 @@
       [ "toolset", 21 ]
     ],
     [
-      [ "needle_bone", 80 ],
-      [ "needle_wood", 80 ],
-      [ "tailors_kit", 80 ],
       [ "sewing_kit", 80 ]
     ]
   ],
@@ -6043,9 +6155,6 @@
       [ "toolset", 42 ]
     ],
     [
-      [ "needle_bone", 60 ],
-      [ "needle_wood", 60 ],
-      [ "tailors_kit", 60 ],
       [ "sewing_kit", 60 ]
     ]
   ],
@@ -6095,9 +6204,6 @@
       [ "toolset", 21 ]
     ],
     [
-      [ "needle_bone", 80 ],
-      [ "needle_wood", 80 ],
-      [ "tailors_kit", 80 ],
       [ "sewing_kit", 80 ]
     ]
   ],
@@ -6141,9 +6247,6 @@
       [ "toolset", 21 ]
     ],
     [
-      [ "needle_bone", 80 ],
-      [ "needle_wood", 80 ],
-      [ "tailors_kit", 80 ],
       [ "sewing_kit", 80 ]
     ]
   ],
@@ -6187,9 +6290,6 @@
       [ "toolset", 21 ]
     ],
     [
-      [ "needle_bone", 80 ],
-      [ "needle_wood", 80 ],
-      [ "tailors_kit", 80 ],
       [ "sewing_kit", 80 ]
     ]
   ],
@@ -6356,9 +6456,6 @@
       [ "toolset", 42 ]
     ],
     [
-      [ "needle_bone", 20 ],
-      [ "needle_wood", 20 ],
-      [ "tailors_kit", 20 ],
       [ "sewing_kit", 20 ]
     ]
   ],
@@ -6386,9 +6483,6 @@
   "autolearn": true,
   "tools": [
     [
-      [ "needle_bone", 10 ],
-      [ "needle_wood", 10 ],
-      [ "tailors_kit", 10 ],
       [ "sewing_kit", 10 ]
     ],
     [
@@ -6417,9 +6511,6 @@
   "autolearn": true,
   "tools": [
     [
-      [ "needle_bone", 10 ],
-      [ "needle_wood", 10 ],
-      [ "tailors_kit", 10 ],
       [ "sewing_kit", 10 ]
     ],
     [
@@ -6451,9 +6542,6 @@
   ],
   "tools": [
     [
-      [ "needle_bone", 10 ],
-      [ "needle_wood", 10 ],
-      [ "tailors_kit", 10 ],
       [ "sewing_kit", 10 ]
     ],
     [
@@ -6491,9 +6579,6 @@
   ],
   "tools": [
     [
-      [ "needle_bone", 10 ],
-      [ "needle_wood", 10 ],
-      [ "tailors_kit", 10 ],
       [ "sewing_kit", 10 ]
     ],
     [
@@ -6531,9 +6616,6 @@
   ],
   "tools": [
     [
-      [ "needle_bone", 5 ],
-      [ "needle_wood", 5 ],
-      [ "tailors_kit", 5 ],
       [ "sewing_kit", 5 ]
     ],
     [
@@ -6565,9 +6647,6 @@
   ],
   "tools": [
     [
-      [ "needle_bone", 5 ],
-      [ "needle_wood", 5 ],
-      [ "tailors_kit", 5 ],
       [ "sewing_kit", 5 ]
     ],
     [
@@ -6594,6 +6673,7 @@
   "time": 2000,
   "reversible": true,
   "autolearn": true,
+  "flags": ["BLIND_HARD"],
   "components": [
     [
       [ "rag", 4 ]
@@ -6614,9 +6694,6 @@
   "autolearn": true,
   "tools": [
     [
-      [ "needle_bone", 5 ],
-      [ "needle_wood", 5 ],
-      [ "tailors_kit", 5 ],
       [ "sewing_kit", 5 ]
     ]
   ],
@@ -6667,6 +6744,70 @@
   ]
 },{
   "type" : "recipe",
+  "result": "chestwrap",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_TORSO",
+  "skill_used": "tailor",
+  "difficulty": 0,
+  "time": 1000,
+  "reversible": true,
+  "autolearn": true,
+  "flags": ["BLIND_HARD"],
+  "components": [
+    [
+      [ "rag", 9 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "chestwrap_wool",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_TORSO",
+  "skill_used": "tailor",
+  "difficulty": 0,
+  "time": 1000,
+  "reversible": true,
+  "autolearn": true,
+  "flags": ["BLIND_HARD"],
+  "components": [
+    [
+      [ "felt_patch", 9 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "chestwrap_leather",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_TORSO",
+  "skill_used": "tailor",
+  "difficulty": 0,
+  "time": 1500,
+  "reversible": true,
+  "autolearn": true,
+  "flags": ["BLIND_HARD"],
+  "components": [
+    [
+      [ "leather", 12 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "chestwrap_fur",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_TORSO",
+  "skill_used": "tailor",
+  "difficulty": 0,
+  "time": 1500,
+  "reversible": true,
+  "autolearn": true,
+  "flags": ["BLIND_HARD"],
+  "components": [
+    [
+      [ "fur", 12 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
   "result": "footrags",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_FEET",
@@ -6675,9 +6816,26 @@
   "time": 1000,
   "reversible": true,
   "autolearn": true,
+  "flags": ["BLIND_HARD"],
   "components": [
     [
       [ "rag", 6 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "footrags_wool",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_FEET",
+  "skill_used": "tailor",
+  "difficulty": 0,
+  "time": 1000,
+  "reversible": true,
+  "autolearn": true,
+  "flags": ["BLIND_HARD"],
+  "components": [
+    [
+      [ "felt_patch", 6 ]
     ]
   ]
 },{
@@ -6706,6 +6864,20 @@
   ]
 },{
   "type" : "recipe",
+  "result": "hat_hard_hooded",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_HEAD",
+  "skill_used": "tailor",
+  "difficulty": 0,
+  "time": 45000,
+  "reversible": true,
+  "autolearn": true,
+  "components": [
+    [ [ "rag", 1 ], [ "bandana", 1 ] ],
+    [ [ "hat_hard", 1 ] ]
+  ]
+},{
+  "type" : "recipe",
   "result": "thermal_suit",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_SUIT",
@@ -6721,9 +6893,6 @@
   ],
   "tools": [
     [
-      [ "needle_bone", 30 ],
-      [ "needle_wood", 30 ],
-      [ "tailors_kit", 30 ],
       [ "sewing_kit", 30 ]
     ],
     [
@@ -6760,9 +6929,6 @@
   ],
   "tools": [
     [
-      [ "needle_bone", 6 ],
-      [ "needle_wood", 6 ],
-      [ "tailors_kit", 6 ],
       [ "sewing_kit", 6 ]
     ],
     [
@@ -6800,9 +6966,6 @@
   ],
   "tools": [
     [
-      [ "needle_bone", 8 ],
-      [ "needle_wood", 8 ],
-      [ "tailors_kit", 8 ],
       [ "sewing_kit", 8 ]
     ],
     [
@@ -6840,9 +7003,6 @@
   ],
   "tools": [
     [
-      [ "needle_bone", 8 ],
-      [ "needle_wood", 8 ],
-      [ "tailors_kit", 8 ],
       [ "sewing_kit", 8 ]
     ],
     [
@@ -6885,8 +7045,28 @@
         [ ["2x4", 2] ],
         [ ["nail", 5] ]
     ]
-  },
-  {
+},{
+    "type" : "recipe",
+    "result": "bscabbard",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "tailor",
+    "skills_required": [ "cutting", 2 ],
+    "difficulty": 5,
+    "time": 40000,
+    "reversible": false,
+    "autolearn": true,
+    "qualities":[
+        {"id":"HAMMER","level":1,"amount":1},
+        {"id":"CUT","level":1,"amount":1}
+    ],
+    "components": [
+        [ [ "leather", 15 ], [ "tanned_hide", 3 ] ],
+        [ ["superglue", 1] ],
+        [ ["2x4", 2] ],
+        [ ["nail", 10] ]
+    ]
+},{
     "type" : "recipe",
     "result": "holster",
     "category": "CC_ARMOR",
@@ -6899,9 +7079,6 @@
     "autolearn": true,
     "tools": [
       [
-        [ "needle_bone", 20 ],
-        [ "needle_wood", 20 ],
-        [ "tailors_kit", 20 ],
         [ "sewing_kit", 20 ]
       ]
     ],
@@ -6922,16 +7099,13 @@
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "tailor",
-    "skills_required": [ "pistol", 1 ],
+    "skills_required": [ "pistol", 2 ],
     "difficulty": 3,
     "time": 15000,
     "reversible": false,
     "autolearn": true,
     "tools": [
       [
-        [ "needle_bone", 20 ],
-        [ "needle_wood", 20 ],
-        [ "tailors_kit", 20 ],
         [ "sewing_kit", 20 ]
       ]
     ],
@@ -6959,9 +7133,6 @@
     "autolearn": true,
     "tools": [
       [
-        [ "needle_bone", 30 ],
-        [ "needle_wood", 30 ],
-        [ "tailors_kit", 30 ],
         [ "sewing_kit", 30 ]
       ]
     ],
@@ -6978,6 +7149,34 @@
   },
   {
     "type" : "recipe",
+    "result": "XL_holster",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "tailor",
+    "skills_required": [ "pistol", 3 ],
+    "difficulty": 5,
+    "time": 15000,
+    "reversible": false,
+    "autolearn": true,
+    "qualities":[ {"id":"HAMMER","level":2,"amount":1} ], 
+    "tools": [ [ [ "sewing_kit", 40 ] ] ],
+    "components": [
+      [
+        [ "leather", 9 ],
+        [ "tanned_hide", 1 ]
+      ],
+      [
+        [ "string_36", 2 ],
+        [ "string_6", 12 ],
+        [ "sinew", 40 ],
+        [ "thread", 40 ],
+        [ "plant_fibre", 40 ]
+      ],
+      [ [ "scrap", 3 ] ]
+    ]
+  },
+  {
+    "type" : "recipe",
     "result": "bootstrap",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_STORAGE",
@@ -6989,9 +7188,61 @@
     "autolearn": true,
     "tools": [
       [
-        [ "needle_bone", 10 ],
-        [ "needle_wood", 10 ],
-        [ "tailors_kit", 10 ],
+        [ "sewing_kit", 10 ]
+      ]
+    ],
+     "components": [
+      [
+        [ "leather", 3 ]
+      ],
+      [
+        [ "string_6", 3 ],
+        [ "sinew", 10 ],
+        [ "thread", 10 ],
+        [ "plant_fibre", 10 ]
+      ]
+    ]
+  },{
+    "type" : "recipe",
+    "result": "legpouch",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "tailor",
+    "skills_required": [ "gun", 1 ],
+    "difficulty": 3,
+    "time": 68000,
+    "reversible": false,
+    "autolearn": true,
+    "tools": [
+      [
+        [ "sewing_kit", 10 ]
+      ]
+    ],
+     "components": [
+      [
+        [ "leather", 3 ],
+        [ "rag", 3 ]
+      ],
+      [
+        [ "string_6", 3 ],
+        [ "sinew", 10 ],
+        [ "thread", 10 ],
+        [ "plant_fibre", 10 ]
+      ]
+    ]
+  },{
+    "type" : "recipe",
+    "result": "bootsheath",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "tailor",
+    "skills_required": [ "stabbing", 1 ],
+    "difficulty": 3,
+    "time": 65000,
+    "reversible": false,
+    "autolearn": true,
+    "tools": [
+      [
         [ "sewing_kit", 10 ]
       ]
     ],
@@ -7019,9 +7270,6 @@
     "autolearn": true,
     "tools": [
       [
-        [ "needle_bone", 20 ],
-        [ "needle_wood", 20 ],
-        [ "tailors_kit", 20 ],
         [ "sewing_kit", 20 ]
       ]
     ],
@@ -7234,7 +7482,8 @@
       ["anvil", -1]
      ],
      [
-      ["crucible", -1]
+      ["crucible", -1],
+      ["crucible_clay", -1]
      ],
      [
       ["forge", 350], ["char_forge", 70], ["oxy_torch", 70]
@@ -7275,7 +7524,8 @@
       ["anvil", -1]
      ],
      [
-      ["crucible", -1]
+      ["crucible", -1],
+      ["crucible_clay", -1]
      ],
      [
       ["forge", 300], ["char_forge", 60], ["oxy_torch", 60]
@@ -7354,7 +7604,7 @@
     [ ["tongs", -1] ],
     [ ["chisel", -1] ],
     [ ["anvil", -1] ],
-    [ ["crucible", -1] ],
+    [ ["crucible", -1], ["crucible_clay", -1] ],
     [ ["forge", 450], ["char_forge", 90], ["oxy_torch", 90] ]
   ],
   "components": [
@@ -7376,7 +7626,6 @@
 },{
   "type" : "recipe",
   "result": "sweater",
-  "id_suffix": "knitting",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_TORSO",
   "skill_used": "tailor",
@@ -7398,7 +7647,6 @@
 },{
   "type" : "recipe",
   "result": "socks_wool",
-  "id_suffix": "knitting",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_FEET",
   "skill_used": "tailor",
@@ -7420,7 +7668,6 @@
 },{
   "type" : "recipe",
   "result": "gloves_wool",
-  "id_suffix": "knitting",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HANDS",
   "skill_used": "tailor",
@@ -7430,9 +7677,6 @@
   "autolearn": true,
   "tools": [
     [
-        [ "needle_bone", 20 ],
-        [ "needle_wood", 20 ],
-        [ "tailors_kit", 20 ],
         [ "sewing_kit", 20 ]
     ]
   ],
@@ -7443,8 +7687,28 @@
   ]
 },{
   "type" : "recipe",
+  "result": "kilt",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_LEGS",
+  "skill_used": "tailor",
+  "difficulty": 4,
+  "time": 90000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [["scots_cookbook", 4]],
+  "tools": [
+    [
+        [ "sewing_kit", 30 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "felt_patch", 18 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
   "result": "hat_knit",
-  "id_suffix": "knitting",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
   "skill_used": "tailor",
@@ -7466,7 +7730,6 @@
 },{
   "type" : "recipe",
   "result": "beret_wool",
-  "id_suffix": "knitting",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
   "skill_used": "tailor",
@@ -7476,9 +7739,6 @@
   "autolearn": true,
   "tools": [
     [
-        [ "needle_bone", 20 ],
-        [ "needle_wood", 20 ],
-        [ "tailors_kit", 20 ],
         [ "sewing_kit", 20 ]
     ]
   ],
@@ -7490,7 +7750,6 @@
 },{
   "type" : "recipe",
   "result": "scarf",
-  "id_suffix": "knitting",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
   "skill_used": "tailor",
@@ -7512,7 +7771,6 @@
 },{
   "type" : "recipe",
   "result": "mittens",
-  "id_suffix": "knitting",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HANDS",
   "skill_used": "tailor",
@@ -7534,7 +7792,6 @@
 },{
   "type" : "recipe",
   "result": "hat_hunting",
-  "id_suffix": "knitting",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
   "skill_used": "tailor",
@@ -7544,9 +7801,6 @@
   "autolearn": true,
   "tools": [
     [
-        [ "needle_bone", 50 ],
-        [ "needle_wood", 50 ],
-        [ "tailors_kit", 50 ],
         [ "sewing_kit", 50 ]
     ]
   ],
@@ -7558,7 +7812,6 @@
 },{
   "type" : "recipe",
   "result": "scarf_long",
-  "id_suffix": "knitting",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
   "skill_used": "tailor",
@@ -7580,7 +7833,6 @@
 },{
   "type" : "recipe",
   "result": "poncho",
-  "id_suffix": "knitting",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_TORSO",
   "skill_used": "tailor",
@@ -7590,21 +7842,17 @@
   "autolearn": true,
   "tools": [
     [
-        [ "needle_bone", 80 ],
-        [ "needle_wood", 80 ],
-        [ "tailors_kit", 80 ],
         [ "sewing_kit", 80 ]
     ]
   ],
   "components": [
     [
-      [ "yarn", 16 ]
+      [ "yarn", 300 ]
     ]
   ]
 },{
   "type" : "recipe",
   "result": "peacoat",
-  "id_suffix": "knitting",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_TORSO",
   "skill_used": "tailor",
@@ -7614,9 +7862,6 @@
   "autolearn": true,
   "tools": [
     [
-        [ "needle_bone", 120 ],
-        [ "needle_wood", 120 ],
-        [ "tailors_kit", 120 ],
         [ "sewing_kit", 120 ]
     ]
   ],
@@ -7627,8 +7872,27 @@
   ]
 },{
   "type" : "recipe",
+  "result": "greatcoat",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_TORSO",
+  "skill_used": "tailor",
+  "difficulty": 5,
+  "time": 480000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+        [ "sewing_kit", 160 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "felt_patch", 33 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
   "result": "blazer",
-  "id_suffix": "knitting",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_TORSO",
   "skill_used": "tailor",
@@ -7638,9 +7902,6 @@
   "autolearn": true,
   "tools": [
     [
-        [ "needle_bone", 100 ],
-        [ "needle_wood", 100 ],
-        [ "tailors_kit", 100 ],
         [ "sewing_kit", 100 ]
     ]
   ],
@@ -7652,7 +7913,6 @@
 },{
   "type" : "recipe",
   "result": "boots_winter",
-  "id_suffix": "knitting",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_FEET",
   "skill_used": "tailor",
@@ -7662,9 +7922,6 @@
   "autolearn": true,
   "tools": [
     [
-        [ "needle_bone", 80 ],
-        [ "needle_wood", 80 ],
-        [ "tailors_kit", 80 ],
         [ "sewing_kit", 80 ]
     ]
   ],
@@ -7699,52 +7956,45 @@
   "autolearn": true,
   "tools": [
     [
-      [ "needle_bone", 32 ],
-      [ "needle_wood", 32 ],
-      [ "tailors_kit", 32 ],
       [ "sewing_kit", 32 ]
     ]
   ],
   "components": [
     [
-      [ "rag", 15 ]
+      [ "rag", 24 ]
     ]
   ]
 },{
   "type" : "recipe",
   "result": "sleeveless_duster",
-  "id_suffix": "from_rags",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_TORSO",
   "skill_used": "tailor",
   "difficulty": 3,
-  "note": "The general guideline for sleeveless dusters is the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original. Making it from an original takes 50% the time.",
+  "note": "The general guideline for sleeveless dusters is the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original.  Making it from an original takes 50% the time.",
   "time": 35700,
   "reversible": false,
   "autolearn": true,
   "tools": [
     [
-      [ "needle_bone", 27 ],
-      [ "needle_wood", 27 ],
-      [ "tailors_kit", 27 ],
       [ "sewing_kit", 27 ]
     ]
   ],
   "components": [
     [
-      [ "rag", 12 ]
+      [ "rag", 19 ]
     ]
   ]
 },{
   "type" : "recipe",
   "result": "sleeveless_duster",
   "id_suffix": "from_duster",
-  "byproducts": { "id" : "rag", "amount" : 2 },
+  "byproducts": { "id" : "rag", "amount" : 5 },
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_TORSO",
   "skill_used": "tailor",
   "difficulty": 2,
-  "note": "The general guideline for sleeveless dusters is the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original. Making it from an original takes 50% the time.",
+  "note": "The general guideline for sleeveless dusters is the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original.  Making it from an original takes 50% the time.",
   "time": 21000,
   "reversible": false,
   "autolearn": true,
@@ -7769,55 +8019,48 @@
   "autolearn": true,
   "tools": [
     [
-      [ "needle_bone", 60 ],
-      [ "needle_wood", 60 ],
-      [ "tailors_kit", 60 ],
       [ "sewing_kit", 60 ]
     ]
   ],
   "components": [
     [
-      [ "fur", 15 ],
-      [ "tanned_pelt", 3 ]
+      [ "fur", 40 ],
+      [ "tanned_pelt", 7 ]
     ]
   ]
 },{
   "type" : "recipe",
   "result": "sleeveless_duster_fur",
-  "id_suffix": "from_fur",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_TORSO",
   "skill_used": "tailor",
   "skills_required": [ "survival", 1 ],
   "difficulty": 3,
-  "note": "The general guideline for sleeveless dusters is the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original. Making it from an original takes 50% the time.",
+  "note": "The general guideline for sleeveless dusters is the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original.  Making it from an original takes 50% the time.",
   "time": 200000,
   "reversible": false,
   "autolearn": true,
   "tools": [
     [
-      [ "needle_bone", 50 ],
-      [ "needle_wood", 50 ],
-      [ "tailors_kit", 50 ],
       [ "sewing_kit", 50 ]
     ]
   ],
   "components": [
     [
-      [ "fur", 12 ],
-      [ "tanned_pelt", 2 ]
+      [ "fur", 34 ],
+      [ "tanned_pelt", 6 ]
     ]
   ]
 },{
   "type" : "recipe",
   "result": "sleeveless_duster_fur",
   "id_suffix": "from_duster_fur",
-  "byproducts": { "id" : "fur", "amount" : 2 },
+  "byproducts": { "id" : "fur", "amount" : 6 },
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_TORSO",
   "skill_used": "tailor",
   "difficulty": 2,
-  "note": "The general guideline for sleeveless dusters is the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original. Making it from an original takes 50% the time.",
+  "note": "The general guideline for sleeveless dusters is the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original.  Making it from an original takes 50% the time.",
   "time": 100000,
   "reversible": false,
   "autolearn": true,
@@ -7842,9 +8085,6 @@
   "book_learn": [["textbook_tailor", 4] , ["tailor_portfolio", 4]],
   "tools": [
     [
-      [ "needle_bone", 60 ],
-      [ "needle_wood", 60 ],
-      [ "tailors_kit", 60 ],
       [ "sewing_kit", 60 ]
     ]
   ],
@@ -7857,27 +8097,23 @@
 },{
   "type" : "recipe",
   "result": "sleeveless_duster_leather",
-  "id_suffix": "from_leather",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_TORSO",
   "skill_used": "tailor",
   "difficulty": 6,
-  "note": "The general guideline for sleeveless dusters is the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original. Making it from an original takes 50% the time.",
+  "note": "The general guideline for sleeveless dusters is the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original.  Making it from an original takes 50% the time.",
   "time": 200000,
   "reversible": false,
   "autolearn": true,
   "book_learn": [["textbook_tailor", 4] , ["tailor_portfolio", 4]],
   "tools": [
     [
-      [ "needle_bone", 50 ],
-      [ "needle_wood", 50 ],
-      [ "tailors_kit", 50 ],
       [ "sewing_kit", 50 ]
     ]
   ],
   "components": [
     [
-      [ "leather", 24 ],
+      [ "leather", 25 ],
       [ "tanned_hide", 4 ]
     ]
   ]
@@ -7890,7 +8126,7 @@
   "subcategory": "CSC_ARMOR_TORSO",
   "skill_used": "tailor",
   "difficulty": 5,
-  "note": "The general guideline for sleeveless dusters is the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original. Making it from an original takes 50% the time.",
+  "note": "The general guideline for sleeveless dusters is the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original.  Making it from an original takes 50% the time.",
   "time": 100000,
   "reversible": false,
   "autolearn": true,
@@ -7918,9 +8154,6 @@
   ],
   "tools": [
       [
-      [ "needle_bone", 135 ],
-      [ "needle_wood", 135 ],
-      [ "tailors_kit", 135 ],
       [ "sewing_kit", 135 ]
     ]
   ],
@@ -7959,13 +8192,12 @@
 },{
   "type" : "recipe",
   "result": "sleeveless_duster_survivor",
-  "id_suffix": "from_stuff",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_TORSO",
   "skill_used": "tailor",
   "skills_required" : ["fabrication", 5],
   "difficulty": 6,
-  "note": "The general guideline for sleeveless dusters is the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original. Making it from an original takes 50% the time. The sleeveless survivor duster is the exception with the premade wearable items.",
+  "note": "The general guideline for sleeveless dusters is the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original.  Making it from an original takes 50% the time.  The sleeveless survivor duster is the exception with the premade wearable items.",
   "time": 59500,
   "reversible": false,
   "autolearn": true,
@@ -7974,9 +8206,6 @@
   ],
   "tools": [
       [
-      [ "needle_bone", 115 ],
-      [ "needle_wood", 115 ],
-      [ "tailors_kit", 115 ],
       [ "sewing_kit", 115 ]
     ]
   ],
@@ -8021,7 +8250,7 @@
   "subcategory": "CSC_ARMOR_TORSO",
   "skill_used": "tailor",
   "difficulty": 5,
-  "note": "The general guideline for sleeveless dusters is the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original. Making it from an original takes 50% the time.",
+  "note": "The general guideline for sleeveless dusters is the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original.  Making it from an original takes 50% the time.",
   "time": 35000,
   "reversible": false,
   "autolearn": true,
@@ -8043,7 +8272,12 @@
   "time": 18000,
   "reversible": false,
   "autolearn": true,
-  "components": [ [ [ "straw_pile", 5 ] ] ]
+  "components": [
+    [
+      [ "straw_pile", 5 ],
+      [ "birchbark", 7 ]
+    ]
+  ]
 },{
   "type" : "recipe",
   "result": "straw_sandals",
@@ -8054,7 +8288,12 @@
   "time": 28000,
   "reversible": false,
   "autolearn": true,
-  "components": [ [ [ "straw_pile", 4 ] ] ]
+  "components": [
+    [
+      [ "straw_pile", 4 ],
+      [ "birchbark", 6 ]
+    ]
+  ]
 },{
   "type" : "recipe",
   "result": "straw_hat",
@@ -8065,7 +8304,12 @@
   "time": 20000,
   "reversible": false,
   "autolearn": true,
-  "components": [ [ [ "straw_pile", 3 ] ] ]
+  "components": [
+    [
+      [ "straw_pile", 3 ],
+      [ "birchbark", 5 ]
+    ]
+  ]
 },{
   "type" : "recipe",
   "result": "straw_fedora",
@@ -8077,9 +8321,14 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [["mag_tailor", 1] , ["manual_tailor", 1] , ["mag_beauty", 1] , ["textbook_tailor", 0]],
-  "components": [ [ [ "straw_pile", 7 ] ] ]
+  "components": [
+    [
+      [ "straw_pile", 7 ],
+      [ "birchbark", 10 ]
+    ]
+  ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "patchwork_scarf",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
@@ -8090,9 +8339,6 @@
   "autolearn": true,
   "tools": [
     [
-      [ "needle_bone", 3 ],
-      [ "needle_wood", 3 ],
-      [ "tailors_kit", 3 ],
       [ "sewing_kit", 3 ]
     ]
   ],
@@ -8113,9 +8359,6 @@
   "autolearn": true,
   "tools": [
     [
-      [ "needle_bone", 9 ],
-      [ "needle_wood", 9 ],
-      [ "tailors_kit", 9 ],
       [ "sewing_kit", 9 ]
     ]
   ],
@@ -8139,9 +8382,6 @@
   ],
   "tools": [
     [
-      [ "needle_bone", 12 ],
-      [ "needle_wood", 12 ],
-      [ "tailors_kit", 12 ],
       [ "sewing_kit", 12 ]
     ]
   ],
@@ -8163,9 +8403,6 @@
   "autolearn": true,
   "tools": [
     [
-      [ "needle_bone", 8 ],
-      [ "needle_wood", 8 ],
-      [ "tailors_kit", 8 ],
       [ "sewing_kit", 8 ]
     ]
   ],
@@ -8195,9 +8432,6 @@
   ],
   "tools": [
     [
-      [ "needle_bone", 140 ],
-      [ "needle_wood", 140 ],
-      [ "tailors_kit", 140 ],
       [ "sewing_kit", 140 ]
     ]
   ],
@@ -8230,6 +8464,7 @@
   "time": 1500,
   "reversible": true,
   "autolearn": true,
+  "flags": ["BLIND_HARD"],
   "components": [
     [
       [ "leather", 6 ]
@@ -8245,6 +8480,7 @@
   "time": 1500,
   "reversible": true,
   "autolearn": true,
+  "flags": ["BLIND_HARD"],
   "components": [
     [
       [ "fur", 6 ]
@@ -8260,6 +8496,7 @@
   "time": 1500,
   "reversible": true,
   "autolearn": true,
+  "flags": ["BLIND_HARD"],
   "components": [
     [
       [ "leather", 9 ]
@@ -8275,6 +8512,7 @@
   "time": 1500,
   "reversible": true,
   "autolearn": true,
+  "flags": ["BLIND_HARD"],
   "components": [
     [
       [ "fur", 9 ]
@@ -8283,7 +8521,6 @@
 },{
   "type" : "recipe",
   "result": "thermal_outfit",
-  "id_suffix": "thermal_outfit_from_scratch",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_SUIT",
   "skill_used": "electronics",
@@ -8298,9 +8535,6 @@
   ],
   "tools": [
     [
-      [ "needle_bone", 52 ],
-      [ "needle_wood", 52 ],
-      [ "tailors_kit", 52 ],
       [ "sewing_kit", 52 ]
     ],
     [
@@ -8337,9 +8571,6 @@
   ],
   "tools": [
     [
-      [ "needle_bone", 15 ],
-      [ "needle_wood", 15 ],
-      [ "tailors_kit", 15 ],
       [ "sewing_kit", 15 ]
     ],
     [
@@ -8375,6 +8606,7 @@
   "time": 5000,
   "reversible": false,
   "autolearn": true,
+  "flags": ["BLIND_HARD"],
   "components": [
     [
       [ "paper", 60 ]
@@ -8394,6 +8626,7 @@
   "time": 5000,
   "reversible": false,
   "autolearn": true,
+  "flags": ["BLIND_HARD"],
   "components": [
     [
       [ "paper", 60 ]
@@ -8413,6 +8646,7 @@
   "time": 1000,
   "reversible": false,
   "autolearn": true,
+  "flags": ["BLIND_HARD"],
   "components": [
     [
       [ "plastic_shopping_bag", 2 ]
@@ -8429,6 +8663,7 @@
   "time": 1000,
   "reversible": false,
   "autolearn": true,
+  "flags": ["BLIND_HARD"],
   "components": [
     [
       [ "plastic_shopping_bag", 2 ]
@@ -8445,6 +8680,7 @@
   "time": 1000,
   "reversible": true,
   "autolearn": true,
+  "flags": ["BLIND_HARD"],
   "components": [
     [
       [ "rag", 8 ]
@@ -8480,6 +8716,7 @@
   "time": 1500,
   "reversible": true,
   "autolearn": true,
+  "flags" : ["BLIND_HARD"],
   "components": [
     [
       [ "tshirt", 1 ],
@@ -8524,9 +8761,6 @@
   ],
   "tools": [
     [
-      [ "needle_bone", 65 ],
-      [ "needle_wood", 65 ],
-      [ "tailors_kit", 65 ],
       [ "sewing_kit", 65 ]
     ]
   ],
@@ -8565,9 +8799,6 @@
       [ "toolset", 8 ]
     ],
     [
-      [ "needle_bone", 65 ],
-      [ "needle_wood", 65 ],
-      [ "tailors_kit", 65 ],
       [ "sewing_kit", 65 ]
     ]
   ],
@@ -8647,9 +8878,6 @@
   ],
   "tools": [
     [
-      [ "needle_bone", 90 ],
-      [ "needle_wood", 90 ],
-      [ "tailors_kit", 90 ],
       [ "sewing_kit", 90 ]
     ]
   ],
@@ -8700,9 +8928,6 @@
       [ "toolset", 18 ]
     ],
     [
-      [ "needle_bone", 90 ],
-      [ "needle_wood", 90 ],
-      [ "tailors_kit", 90 ],
       [ "sewing_kit", 90 ]
     ]
   ],
@@ -8737,7 +8962,6 @@
 },{
   "type" : "recipe",
   "result": "wool_hoodie",
-  "id_suffix": "knitting",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_TORSO",
   "skill_used": "tailor",
@@ -8747,9 +8971,6 @@
   "autolearn": true,
   "tools": [
     [
-        [ "needle_bone", 100 ],
-        [ "needle_wood", 100 ],
-        [ "tailors_kit", 100 ],
         [ "sewing_kit", 100 ]
     ]
   ],
@@ -8761,7 +8982,6 @@
 },{
   "type" : "recipe",
   "result": "cowl_wool",
-  "id_suffix": "knitting",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
   "skill_used": "tailor",
@@ -8771,9 +8991,6 @@
   "autolearn": true,
   "tools": [
     [
-        [ "needle_bone", 80 ],
-        [ "needle_wood", 80 ],
-        [ "tailors_kit", 80 ],
         [ "sewing_kit", 80 ]
     ]
   ],
@@ -8785,7 +9002,6 @@
 },{
   "type" : "recipe",
   "result": "wool_suit",
-  "id_suffix": "knitting",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_SUIT",
   "skill_used": "tailor",
@@ -8795,9 +9011,6 @@
   "autolearn": true,
   "tools": [
     [
-        [ "needle_bone", 200 ],
-        [ "needle_wood", 200 ],
-        [ "tailors_kit", 200 ],
         [ "sewing_kit", 200 ]
     ]
   ],
@@ -8806,10 +9019,26 @@
       [ "felt_patch", 42 ]
     ]
   ]
+},
+{
+  "type" : "recipe",
+  "result": "sockmitts",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_HANDS",
+  "skill_used": "survival",
+  "difficulty": 0,
+  "time": 1000,
+  "reversible": false,
+  "autolearn": true,
+  "flags": ["BLIND_EASY"],
+  "components": [
+    [
+      [ "socks", 1 ]
+    ]
+  ]
 },{
   "type" : "recipe",
   "result": "mask_ski",
-  "id_suffix": "knitting",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
   "skill_used": "tailor",
@@ -8819,9 +9048,6 @@
   "autolearn": true,
   "tools": [
     [
-        [ "needle_bone", 80 ],
-        [ "needle_wood", 80 ],
-        [ "tailors_kit", 80 ],
         [ "sewing_kit", 80 ]
     ]
   ],
@@ -8830,5 +9056,283 @@
       [ "felt_patch", 8 ]
     ]
   ]
- }
+ },{
+  "type" : "recipe",
+  "result": "makeshift_knapsack",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_STORAGE",
+  "skill_used": "survival",
+  "difficulty": 0,
+  "time": 800,
+  "reversible": true,
+  "autolearn": true,
+  "flags": ["BLIND_HARD"],
+  "components": [
+   [
+      [ "pants", 1 ],
+      [ "pants_cargo", 1 ],
+      [ "pants_army", 1 ],
+      [ "pants_checkered", 1 ],
+      [ "striped_pants", 1 ],
+      [ "technician_pants_blue", 1 ],
+      [ "technician_pants_ltblue", 1 ],
+      [ "technician_pants_gray", 1 ],
+      [ "jeans", 1 ]
+    ],
+    [
+      [ "string_36", 1 ],
+      [ "string_6", 4 ]
+    ] 
+  ]
+},
+  {
+    "type" : "recipe",
+    "result" : "jerrypack",
+    "category" : "CC_ARMOR",
+    "subcategory" : "CSC_ARMOR_STORAGE",
+    "skill_used" : "fabrication",
+    "requires_skills" : ["fabrication", 1],
+    "difficulty" : 2,
+    "time" : 1500,
+    "reversible" : false,
+    "autolearn" : true,
+    "qualities": [ {"id" : "HAMMER", "level" : 3, "amount":1} ],
+    "components" : [
+        [["rag" , 6], ["leather", 6], ["string_6", 3]],
+        [["duct_tape", 35], ["superglue", 5]],
+        [["jerrycan", 1]]
+    ]
+  },{
+  "type" : "recipe",
+  "result": "wetsuit",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_SUIT",
+  "skill_used": "tailor",
+  "difficulty": 4,
+  "time": 600000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "textbook_tailor", 4 ] , [ "manual_tailor", 5 ] , ["tailor_portfolio", 4]],
+  "tools": [
+    [
+      [ "sewing_kit", 50 ]
+    ],
+    [
+      [ "soldering_iron", 20 ],
+      [ "welder", 20 ],
+      [ "hotplate", 20 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "neoprene", 12 ]
+    ],
+    [
+      [ "rag", 12 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "wetsuit_spring",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_SUIT",
+  "skill_used": "tailor",
+  "difficulty": 3,
+  "time": 450000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "textbook_tailor", 3 ] , [ "manual_tailor", 4 ] , ["tailor_portfolio", 3]],
+  "tools": [
+    [
+      [ "sewing_kit", 40 ]
+    ],
+    [
+      [ "soldering_iron", 15],
+      [ "welder", 15 ],
+      [ "hotplate", 15 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "neoprene", 8 ]
+    ],
+    [
+      [ "rag", 8 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "armguard_soft",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_SUIT",
+  "skill_used": "tailor",
+  "difficulty": 3,
+  "time": 15000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "textbook_tailor", 3 ] , [ "manual_tailor", 4 ] , ["tailor_portfolio", 3]],
+  "tools": [
+    [
+      [ "sewing_kit", 20 ]
+    ],
+    [
+      [ "soldering_iron", 10],
+      [ "welder", 10 ],
+      [ "hotplate", 10 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "neoprene", 4 ]
+    ],
+    [
+      [ "rag", 2 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "armguard_hard",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_SUIT",
+  "skill_used": "tailor",
+  "difficulty": 3,
+  "time": 25000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "textbook_tailor", 3 ] , [ "manual_tailor", 4 ] , ["tailor_portfolio", 3]],
+  "tools": [
+    [
+      [ "sewing_kit", 25 ]
+    ],
+    [
+      [ "soldering_iron", 15],
+      [ "welder", 15 ],
+      [ "hotplate", 15 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "neoprene", 6 ]
+    ],
+    [
+      [ "plastic_chunk", 8 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "legguard_hard",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_SUIT",
+  "skill_used": "tailor",
+  "difficulty": 3,
+  "time": 15000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "textbook_tailor", 3 ] , [ "manual_tailor", 4 ] , ["tailor_portfolio", 3]],
+  "tools": [
+    [
+      [ "sewing_kit", 25 ]
+    ],
+    [
+      [ "soldering_iron", 15],
+      [ "welder", 15 ],
+      [ "hotplate", 15 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "neoprene", 6 ]
+    ],
+    [
+      [ "plastic_chunk", 8 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "wetsuit_hood",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_SUIT",
+  "skill_used": "tailor",
+  "difficulty": 4,
+  "time": 120000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "textbook_tailor", 4 ] , [ "manual_tailor", 5 ] , ["tailor_portfolio", 4]],
+  "tools": [
+    [
+      [ "sewing_kit", 10 ]
+    ],
+    [
+      [ "soldering_iron", 5 ],
+      [ "welder", 5 ],
+      [ "hotplate", 5 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "neoprene", 2 ]
+    ],
+    [
+      [ "rag", 2 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "wetsuit_booties",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_SUIT",
+  "skill_used": "tailor",
+  "difficulty": 4,
+  "time": 120000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "textbook_tailor", 4 ] , [ "manual_tailor", 5 ] , ["tailor_portfolio", 4]],
+  "tools": [
+    [
+      [ "sewing_kit", 10 ]
+    ],
+    [
+      [ "soldering_iron", 5 ],
+      [ "welder", 5 ],
+      [ "hotplate", 5 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "neoprene", 2 ]
+    ],
+    [
+      [ "rag", 2 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "wetsuit_gloves",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_SUIT",
+  "skill_used": "tailor",
+  "difficulty": 4,
+  "time": 60000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "textbook_tailor", 4 ] , [ "manual_tailor", 5 ] , ["tailor_portfolio", 4]],
+  "tools": [
+    [
+      [ "sewing_kit", 5 ]
+    ],
+    [
+      [ "soldering_iron", 3 ],
+      [ "welder", 3 ],
+      [ "hotplate", 3 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "neoprene", 1 ]
+    ],
+    [
+      [ "rag", 1 ]
+    ]
+  ]
+}
 ]

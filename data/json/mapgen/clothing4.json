@@ -1,0 +1,128 @@
+[
+    {
+    "type" : "item_group",
+    "id" : "dress_shop",
+    "items":[
+      ["skirt", 40],
+      ["skirt_leather", 5],
+      ["dress", 120],
+      ["sundress", 50],
+      ["nanoskirt", 30],
+      ["camisole", 60],
+      ["corset", 20],
+      ["stockings", 50],
+      ["leggings", 20],
+      ["tights", 50]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "dress_shoes",
+    "items":[
+      ["dress_shoes", 50],
+      ["heels", 50],
+      ["leathersandals", 20]
+    ]
+  },{
+        "type": "mapgen",
+        "om_terrain": [
+            "s_clothes"
+        ],
+        "method": "json",
+        "weight": 300,
+        "object": {
+            "rows": [
+                    "~~~~~~~~~~~~~~~~~~~~~~~~",
+                    "~~~~~~~~~~~~~~~~~~~~~~~~",
+                    "~~~~~~~~~~~~~~~~~~~~~~~~",
+                    "*|=====::======::=====|*",
+                    "*|#f@#...#@y@.#...#@f@|*",
+                    "*|............#.......|*",
+                    "*|---|...#....#....@#.|*",
+                    "*|U..|...####%#.......|*",
+                    "*|...+...........D@..[|*",
+                    "*0.hu|..@@.......D@..[|*",
+                    "*|---|..DD..[[[......[|*",
+                    "*0..u|...........D@..[|*",
+                    "*|.h.+...........D@..[|*",
+                    "*|U..|[[[[[[[[.......[|*",
+                    "*|---|-----|----+--|+-|*",
+                    "*zzzzzzzzzz|dddd..}|.s|*",
+                    "**********z|h.h...}|.t|*",
+                    "**********z|......}|--|*",
+                    "~~~~~~~~~~~+.......+.[|*",
+                    "**********z|----O--|--|*",
+                    "************************",
+                    "************************",
+                    "************************",
+                    "************************"
+            ],
+            "terrain": {
+                ".": "t_floor",
+                "*": "t_grass",
+                "~": "t_sidewalk",
+                "-": "t_wall",
+                "|": "t_wall",
+                "+": "t_door_c",
+                ":": "t_door_glass_c",
+                "O": "t_window",
+                "0": "t_window_domestic",
+                "=": "t_wall_glass",
+                "z": "t_shrub",
+                "#": "t_floor",
+                "h": "t_floor",
+                "f": "t_floor",
+                "y": "t_floor",
+                "s": "t_floor",
+                "t": "t_floor",
+                "u": "t_floor",
+                "d": "t_floor",
+                "}": "t_floor",
+                "[": "t_floor",
+                "@": "t_floor",
+                "D": "t_floor",
+                "U": "t_floor",
+                "%": "t_console_broken"
+            },
+            "furniture": {
+                "#": "f_counter",
+                "h": "f_chair",
+                "f": "f_indoor_plant",
+                "y": "f_indoor_plant_y",
+                "s": "f_sink",
+                "u": "f_trashcan",
+                "d": "f_desk",
+                "}": "f_bookcase",
+                "[": "f_rack",
+                "@": "f_mannequin",
+                "D": "f_displaycase",
+                "U": "f_bigmirror"
+            },
+            "toilets": {
+                "t": { }
+            },
+            "place_items": [
+                { "item": "dress_shop", "chance": 40, "x": 2,   "y": 4, "repeat": 2 },
+                { "item": "dress_shop", "chance": 40, "x": [4,5],   "y": 4, "repeat": 2 },
+                { "item": "dress_shop", "chance": 40, "x": [9,10],   "y": 4, "repeat": 2 },
+                { "item": "dress_shop", "chance": 40, "x": 12,   "y": 4, "repeat": 2 },
+                { "item": "dress_shop", "chance": 40, "x": [18,19],   "y": 4, "repeat": 2 },
+                { "item": "dress_shop", "chance": 40, "x": 21,   "y": 4, "repeat": 2 },
+                { "item": "dress_shop", "chance": 50, "x": [19,20],   "y": 6, "repeat": 2 },
+                { "item": "female_underwear_top", "chance": 50, "x": [17,18],   "y": [8,9], "repeat": [2,4] },
+                { "item": "female_underwear_bottom", "chance": 50, "x": [17,18],   "y": [11,12], "repeat": [2,4] },
+                { "item": "dresses", "chance": 40, "x": [8,9],   "y": [9,10], "repeat": [2,4] },
+                { "item": "hatstore_accessories", "chance": 40, "x": [12,14],   "y": 10,      "repeat": [2,3] },
+                { "item": "dress_shop", "chance": 40, "x": [6,13],   "y": 13,      "repeat": [3,8] },
+                { "item": "dress_shoes", "chance": 40, "x": 21,   "y": [8,13],      "repeat": [2,5] },
+                { "item": "tailorbooks", "chance": 50, "x": 18,   "y": [15,17], "repeat": 2 },
+                { "item": "tailor", "chance": 50, "x": [12,15],   "y": 15, "repeat": [2,3] },
+                { "item": "cleaning", "chance": 50, "x": 21,   "y": 18, "repeat": 2 },
+                { "item": "trash", "chance": 50, "x": 4,   "y": 9 },
+                { "item": "trash", "chance": 50, "x": 4,   "y": 11 }
+            ],
+            "comment": "end of mapgen json definition ---v"
+        },
+        "comment": "end of mapgen entry ---v"
+    }
+]
+

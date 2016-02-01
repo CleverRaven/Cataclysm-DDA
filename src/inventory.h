@@ -8,16 +8,44 @@
 #include <string>
 #include <utility>
 #include <vector>
+#include <functional>
 
 class map;
-
-const extern std::string inv_chars;
+class npc;
 
 typedef std::list< std::list<item> > invstack;
 typedef std::vector< std::list<item>* > invslice;
 typedef std::vector< const std::list<item>* > const_invslice;
 typedef std::vector< std::pair<std::list<item>*, int> > indexed_invslice;
-typedef bool (*item_filter)( const item & );
+typedef std::function<bool(const item &)> item_filter;
+
+class salvage_actor;
+
+/**
+ * Wrapper to handled a set of valid "inventory" letters. "inventory" can be any set of
+ * objects that the player can access via a single character (e.g. bionics).
+ * The class is (currently) derived from std::string for compatibility and because it's
+ * simpler. But it may be changed to derive from `std::set<long>` or similar to get the full
+ * range of possible characters.
+ */
+class invlet_wrapper : private std::string {
+private:
+
+public:
+    invlet_wrapper( const char *chars ) : std::string( chars ) { }
+
+    bool valid( long invlet ) const;
+    std::string get_allowed_chars() const { return *this; }
+
+    using std::string::begin;
+    using std::string::end;
+    using std::string::rbegin;
+    using std::string::rend;
+    using std::string::size;
+    using std::string::length;
+};
+
+const extern invlet_wrapper inv_chars;
 
 class inventory
 {
@@ -44,15 +72,13 @@ class inventory
         inventory  operator+  (const std::list<item> &rhs);
 
         static bool has_activation(const item &it, const player &u);
-        static bool has_category(const item &it, item_cat cat, const player &u);
         static bool has_capacity_for_liquid(const item &it, const item &liquid);
 
         indexed_invslice slice_filter();  // unfiltered, but useful for a consistent interface.
         indexed_invslice slice_filter_by_activation(const player &u);
-        indexed_invslice slice_filter_by_category(item_cat cat, const player &u);
         indexed_invslice slice_filter_by_capacity_for_liquid(const item &liquid);
         indexed_invslice slice_filter_by_flag(const std::string flag);
-        indexed_invslice slice_filter_by_salvageability();
+        indexed_invslice slice_filter_by_salvageability(const salvage_actor &actor);
 
         void unsort(); // flags the inventory as unsorted
         void sort();
@@ -60,8 +86,8 @@ class inventory
         void add_stack(std::list<item> newits);
         void clone_stack(const std::list<item> &rhs);
         void push_back(std::list<item> newits);
-        item &add_item (item newit, bool keep_invlet = false,
-                        bool assign_invlet = true); //returns a ref to the added item
+        // returns a reference to the added item
+        item &add_item (item newit, bool keep_invlet = false, bool assign_invlet = true);
         void add_item_keep_invlet(item newit);
         void push_back(item newit);
 
@@ -71,7 +97,7 @@ class inventory
          */
         void restack(player *p = NULL);
 
-        void form_from_map(point origin, int distance, bool assign_invlet = true);
+        void form_from_map( const tripoint &origin, int distance, bool assign_invlet = true );
 
         /**
          * Remove a specific item from the inventory. The item is compared
@@ -82,24 +108,35 @@ class inventory
          */
         item remove_item(const item *it);
         item remove_item(int position);
+        /**
+         * Randomly select items until the volume quota is filled.
+         */
+        std::list<item> remove_randomly_by_volume(int volume);
         std::list<item> reduce_stack(int position, int quantity);
         std::list<item> reduce_stack(const itype_id &type, int quantity);
 
         // amount of -1 removes the entire stack.
         template<typename Locator> std::list<item> reduce_stack(const Locator &type, int amount);
 
+        const item &find_item(int position) const;
         item &find_item(int position);
         item &item_by_type(itype_id type);
         item &item_or_container(itype_id type); // returns an item, or a container of it
 
-        int position_by_item(const item *it);  // looks up an item (via pointer comparison)
+        /**
+         * Returns the item position of the stack that contains the given item (compared by
+         * pointers). Returns INT_MIN if the item is not found.
+         * Note that this may lose some information, for example the returned position is the
+         * same when the given item points to the container and when it points to the item inside
+         * the container. All items that are part of the same stack have the same item position.
+         */
+        int position_by_item( const item *it ) const;
         int position_by_type(itype_id type);
         /** Return the item position of the item with given invlet, return INT_MIN if
          * the inventory does not have such an item with that invlet. Don't use this on npcs inventory. */
         int invlet_to_position(char invlet) const;
 
         std::vector<std::pair<item *, int> > all_items_by_type(itype_id type);
-        std::vector<item *> all_ammo(const ammotype &type);
 
         // Below, "amount" refers to quantity
         //        "charges" refers to charges
@@ -107,7 +144,7 @@ class inventory
         int  amount_of (itype_id it, bool used_as_tool) const;
         long charges_of(itype_id it) const;
 
-        std::list<item> use_amount (itype_id it, int quantity, bool use_container = false);
+        std::list<item> use_amount (itype_id it, int quantity);
         std::list<item> use_charges(itype_id it, long quantity);
 
         bool has_amount (itype_id it, int quantity) const;
@@ -123,17 +160,18 @@ class inventory
         bool has_item(const item *it) const;
         bool has_items_with_quality(std::string id, int level, int amount) const;
 
+        // Returns max required quality in player's items, INT_MIN if player has no such items
+        int max_quality( const std::string &quality_id ) const;
+
         static int num_items_at_position( int position );
 
         int leak_level(std::string flag) const; // level of leaked bad stuff from items
-
-        int butcher_factor() const;
 
         // NPC/AI functions
         int worst_item_value(npc *p) const;
         bool has_enough_painkiller(int pain) const;
         item *most_appropriate_painkiller(int pain);
-        item *best_for_melee(player *p);
+        item *best_for_melee( player &p, double &best );
         item *most_loaded_gun();
 
         void rust_iron_items();
@@ -145,8 +183,6 @@ class inventory
 
         // vector rather than list because it's NOT an item stack
         std::vector<item *> active_items();
-
-        void load_invlet_cache( std::ifstream &fin ); // see savegame_legacy.cpp
 
         void json_load_invcache(JsonIn &jsin);
         void json_load_items(JsonIn &jsin);
@@ -177,52 +213,28 @@ class inventory
             return stacks;
         }
 
-        template<typename T>
-        static void items_with_recursive( std::vector<const item *> &vec, const item &it, T filter )
-        {
-            if( filter( it ) ) {
-                vec.push_back( &it );
-            }
-            for( auto &c : it.contents ) {
-                items_with_recursive( vec, c, filter );
-            }
-        }
-        template<typename T>
-        static bool has_item_with_recursive( const item &it, T filter )
-        {
-            if( filter( it ) ) {
-                return true;
-            }
-            for( auto &c : it.contents ) {
-                if( has_item_with_recursive( c, filter ) ) {
-                    return true;
-                }
-            }
-            return false;
-        }
-        template<typename T>
-        bool has_item_with(T filter) const
-        {
-            for( auto &stack : items ) {
-                for( auto &it : stack ) {
-                    if( has_item_with_recursive( it, filter ) ) {
-                        return true;
-                    }
-                }
-            }
-            return false;
-        }
-        template<typename T>
-        std::vector<const item *> items_with(T filter) const
-        {
-            std::vector<const item *> result;
-            for( auto &stack : items ) {
-                for( auto &it : stack ) {
-                    items_with_recursive( result, it, filter );
-                }
-            }
-            return result;
-        }
+        /** Traverses each item in the inventory using a visitor function
+         * @return Similar to item::visit_items returns only VisitResponse::Next or VisitResponse::Abort
+         * @see item::visit_items
+         **/
+        VisitResponse visit_items( const std::function<VisitResponse(item *, item *)>& func );
+        VisitResponse visit_items( const std::function<VisitResponse(const item *, const item *)>& func ) const;
+
+        /**
+         *  Determine the parent container (if any) for an item.
+         *  @param it item to search for which must be contained in the inventory
+         *  @return parent container or nullptr if the item is not within a container
+         */
+        item * find_parent( item& it );
+        const item * find_parent( const item& it ) const;
+
+        /** Returns true if any item (including those within a container) matches the filter */
+        bool has_item_with( const std::function<bool(const item&)>& filter ) const;
+
+        /** Returns all items matching the filter including any within containers */
+        std::vector<item *> items_with( const std::function<bool(const item&)>& filter );
+        std::vector<const item *> items_with( const std::function<bool(const item&)>& filter ) const;
+
         template<typename T>
         std::list<item> remove_items_with( T filter )
         {

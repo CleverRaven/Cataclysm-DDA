@@ -9,6 +9,7 @@
   "time": 1000,
   "reversible": false,
   "autolearn": true,
+  "flags": ["BLIND_HARD"],
   "components": [
     [
       [ "water_clean", 1 ],
@@ -95,7 +96,6 @@
 },{
   "type" : "recipe",
   "result": "water_acid",
-  "id_suffix": "from electrolysis",
   "category": "CC_CHEM",
   "subcategory": "CSC_CHEM_CHEMICALS",
   "skill_used": "cooking",
@@ -190,6 +190,7 @@
   "time": 2000,
   "reversible": false,
   "autolearn": true,
+  "flags": ["BLIND_HARD"],
   "components": [
     [
       [ "rolling_paper", 1 ]
@@ -210,6 +211,7 @@
   "time": 2000,
   "reversible": false,
   "autolearn": true,
+  "flags": ["BLIND_HARD"],
   "components": [
     [
       [ "rolling_paper", 1 ]
@@ -235,9 +237,9 @@
   ], "tools": [
     [
       [ "hotplate", 15 ],
-      [ "chemistry_set", 15 ],
       [ "toolset", 15 ],
-      [ "fire", -1 ]
+      [ "fire", -1 ],
+      [ "char_smoker", 2 ]
     ]
   ],
   "components": [
@@ -271,8 +273,8 @@
     [
       [ "fire", -1 ],
       [ "hotplate", 8 ],
-      [ "chemistry_set", 8 ],
-      [ "toolset", 8 ]
+      [ "toolset", 8 ],
+      [ "char_smoker", 1 ]
     ]
   ],
   "components": [
@@ -306,15 +308,12 @@
       [ "fire", -1 ],
       [ "toolset", 2 ],
       [ "hotplate", 2 ],
-      [ "chemistry_set", 2 ]
+      [ "char_smoker", 1 ]
     ]
   ],
   "components": [
     [
       [ "poppy_bud", 2 ]
-    ],
-    [
-      [ "poppy_flower", 2 ]
     ]
   ]
 },{
@@ -336,15 +335,12 @@
       [ "fire", -1 ],
       [ "toolset", 2 ],
       [ "hotplate", 2 ],
-      [ "chemistry_set", 2 ]
+      [ "char_smoker", 1 ]
     ]
   ],
   "components": [
     [
       [ "poppy_bud", 2 ]
-    ],
-    [
-      [ "poppy_flower", 2 ]
     ]
   ]
 },{
@@ -366,7 +362,7 @@
       [ "fire", -1 ],
       [ "toolset", 2 ],
       [ "hotplate", 2 ],
-      [ "chemistry_set", 2 ]
+      [ "char_smoker", 1 ]
     ]
   ],
   "components": [
@@ -397,7 +393,7 @@
       [ "fire", -1 ],
       [ "toolset", 20 ],
       [ "hotplate", 20 ],
-      [ "chemistry_set", 20 ]
+      [ "char_smoker", 2 ]
     ]
   ],
   "components": [
@@ -430,7 +426,7 @@
       [ "fire", -1 ],
       [ "toolset", 20 ],
       [ "hotplate", 20 ],
-      [ "chemistry_set", 20 ]
+      [ "char_smoker", 2 ]
     ]
   ],
   "components": [
@@ -467,7 +463,7 @@
       [ "fire", -1 ],
       [ "toolset", 20 ],
       [ "hotplate", 20 ],
-      [ "chemistry_set", 20 ]
+      [ "char_smoker", 2 ]
     ]
   ],
   "components": [
@@ -505,7 +501,7 @@
   ], "tools": [
     [
       [ "hotplate", 3 ],
-      [ "chemistry_set", 3 ],
+      [ "char_smoker", 1 ],
       [ "toolset", 3 ],
       [ "fire", -1 ]
     ]
@@ -536,7 +532,7 @@
   ], "tools": [
     [
       [ "hotplate", 3 ],
-      [ "chemistry_set", 3 ],
+      [ "char_smoker", 1 ],
       [ "toolset", 3 ],
       [ "fire", -1 ]
     ]
@@ -570,7 +566,7 @@
   ], "tools": [
     [
       [ "hotplate", 3 ],
-      [ "chemistry_set", 3 ],
+      [ "char_smoker", 1 ],
       [ "toolset", 3 ],
       [ "fire", -1 ]
     ]
@@ -606,7 +602,7 @@
       [ "fire", -1 ],
       [ "toolset", 20 ],
       [ "hotplate", 20 ],
-      [ "chemistry_set", 20 ]
+      [ "char_smoker", 2 ]
     ]
   ],
   "components": [
@@ -644,7 +640,7 @@
     {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
-      [ "chemistry_set", 25 ],
+      [ "char_smoker", 3 ],
       [ "hotplate", 25 ],
       [ "toolset", 25 ],
       [ "fire", -1 ]
@@ -686,7 +682,7 @@
     {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
-      [ "chemistry_set", 37 ],
+      [ "char_smoker", 4 ],
       [ "hotplate", 37 ],
       [ "toolset", 37 ],
       [ "fire", -1 ]
@@ -713,7 +709,7 @@
     {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
-      [ "chemistry_set", 25 ],
+      [ "char_smoker", 3 ],
       [ "hotplate", 25 ],
       [ "toolset", 25 ],
       [ "fire", -1 ]
@@ -749,7 +745,7 @@
     {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
-      [ "chemistry_set", 37 ],
+      [ "char_smoker", 4 ],
       [ "hotplate", 37 ],
       [ "toolset", 37 ],
       [ "fire", -1 ]
@@ -776,7 +772,7 @@
     {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
-      [ "chemistry_set", 25 ],
+      [ "char_smoker", 3 ],
       [ "hotplate", 25 ],
       [ "toolset", 25 ],
       [ "fire", -1 ]
@@ -813,7 +809,7 @@
     {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
-      [ "chemistry_set", 37 ],
+      [ "char_smoker", 4 ],
       [ "hotplate", 37 ],
       [ "toolset", 37 ],
       [ "fire", -1 ]
@@ -840,7 +836,7 @@
     {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
-      [ "chemistry_set", 25 ],
+      [ "char_smoker", 3 ],
       [ "hotplate", 25 ],
       [ "toolset", 25 ],
       [ "fire", -1 ]
@@ -875,7 +871,7 @@
     {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
-      [ "chemistry_set", 37 ],
+      [ "char_smoker", 4 ],
       [ "hotplate", 37 ],
       [ "toolset", 37 ],
       [ "fire", -1 ]
@@ -902,7 +898,7 @@
     {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
-      [ "chemistry_set", 25 ],
+      [ "char_smoker", 3 ],
       [ "hotplate", 25 ],
       [ "toolset", 25 ],
       [ "fire", -1 ]
@@ -937,7 +933,7 @@
     {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
-      [ "chemistry_set", 37 ],
+      [ "char_smoker", 4 ],
       [ "hotplate", 37 ],
       [ "toolset", 37 ],
       [ "fire", -1 ]
@@ -964,7 +960,7 @@
     {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
-      [ "chemistry_set", 25 ],
+      [ "char_smoker", 3 ],
       [ "hotplate", 25 ],
       [ "toolset", 25 ],
       [ "fire", -1 ]
@@ -1002,7 +998,7 @@
     {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
-      [ "chemistry_set", 37 ],
+      [ "char_smoker", 4 ],
       [ "hotplate", 37 ],
       [ "toolset", 37 ],
       [ "fire", -1 ]
@@ -1029,7 +1025,7 @@
     {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
-      [ "chemistry_set", 25 ],
+      [ "char_smoker", 3 ],
       [ "hotplate", 25 ],
       [ "toolset", 25 ],
       [ "fire", -1 ]
@@ -1064,7 +1060,7 @@
     {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
-      [ "chemistry_set", 37 ],
+      [ "char_smoker", 4 ],
       [ "hotplate", 37 ],
       [ "toolset", 37 ],
       [ "fire", -1 ]
@@ -1091,7 +1087,7 @@
     {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
-      [ "chemistry_set", 25 ],
+      [ "char_smoker", 3 ],
       [ "hotplate", 25 ],
       [ "toolset", 25 ],
       [ "fire", -1 ]
@@ -1125,7 +1121,7 @@
     {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
-      [ "chemistry_set", 37 ],
+      [ "char_smoker", 4 ],
       [ "hotplate", 37 ],
       [ "toolset", 37 ],
       [ "fire", -1 ]
@@ -1152,7 +1148,7 @@
     {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
-      [ "chemistry_set", 25 ],
+      [ "char_smoker", 3 ],
       [ "hotplate", 25 ],
       [ "toolset", 25 ],
       [ "fire", -1 ]
@@ -1186,7 +1182,7 @@
     {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
-      [ "chemistry_set", 37 ],
+      [ "char_smoker", 4 ],
       [ "hotplate", 37 ],
       [ "toolset", 37 ],
       [ "fire", -1 ]
@@ -1213,7 +1209,7 @@
     {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
-      [ "chemistry_set", 25 ],
+      [ "char_smoker", 3 ],
       [ "hotplate", 25 ],
       [ "toolset", 25 ],
       [ "fire", -1 ]
@@ -1247,7 +1243,7 @@
     {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
-      [ "chemistry_set", 37 ],
+      [ "char_smoker", 4 ],
       [ "hotplate", 37 ],
       [ "toolset", 37 ],
       [ "fire", -1 ]
@@ -1274,7 +1270,7 @@
     {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
-      [ "chemistry_set", 25 ],
+      [ "char_smoker", 3 ],
       [ "hotplate", 25 ],
       [ "toolset", 25 ],
       [ "fire", -1 ]
@@ -1308,7 +1304,7 @@
     {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
-      [ "chemistry_set", 37 ],
+      [ "char_smoker", 4 ],
       [ "hotplate", 37 ],
       [ "toolset", 37 ],
       [ "fire", -1 ]
@@ -1335,7 +1331,7 @@
     {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
-      [ "chemistry_set", 25 ],
+      [ "char_smoker", 3 ],
       [ "hotplate", 25 ],
       [ "toolset", 25 ],
       [ "fire", -1 ]
@@ -1369,7 +1365,7 @@
     {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
-      [ "chemistry_set", 37 ],
+      [ "char_smoker", 4 ],
       [ "hotplate", 37 ],
       [ "toolset", 37 ],
       [ "fire", -1 ]
@@ -1396,7 +1392,7 @@
     {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
-      [ "chemistry_set", 25 ],
+      [ "char_smoker", 3 ],
       [ "hotplate", 25 ],
       [ "toolset", 25 ],
       [ "fire", -1 ]
@@ -1433,7 +1429,7 @@
     {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
-      [ "chemistry_set", 37 ],
+      [ "char_smoker", 4 ],
       [ "hotplate", 37 ],
       [ "toolset", 37 ],
       [ "fire", -1 ]
@@ -1460,7 +1456,7 @@
     {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
-      [ "chemistry_set", 25 ],
+      [ "char_smoker", 3 ],
       [ "hotplate", 25 ],
       [ "toolset", 25 ],
       [ "fire", -1 ]
@@ -1494,7 +1490,7 @@
     {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
-      [ "chemistry_set", 37 ],
+      [ "char_smoker", 4 ],
       [ "hotplate", 37 ],
       [ "toolset", 37 ],
       [ "fire", -1 ]
@@ -1521,7 +1517,7 @@
     {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
-      [ "chemistry_set", 25 ],
+      [ "char_smoker", 3 ],
       [ "hotplate", 25 ],
       [ "toolset", 25 ],
       [ "fire", -1 ]
@@ -1555,7 +1551,7 @@
     {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
-      [ "chemistry_set", 37 ],
+      [ "char_smoker", 4 ],
       [ "hotplate", 37 ],
       [ "toolset", 37 ],
       [ "fire", -1 ]
@@ -1582,7 +1578,7 @@
     {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
-      [ "chemistry_set", 25 ],
+      [ "char_smoker", 3 ],
       [ "hotplate", 25 ],
       [ "toolset", 25 ],
       [ "fire", -1 ]
@@ -1616,7 +1612,7 @@
     {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
-      [ "chemistry_set", 37 ],
+      [ "char_smoker", 4 ],
       [ "hotplate", 37 ],
       [ "toolset", 37 ],
       [ "fire", -1 ]
@@ -1643,7 +1639,7 @@
     {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
-      [ "chemistry_set", 25 ],
+      [ "char_smoker", 3 ],
       [ "hotplate", 25 ],
       [ "toolset", 25 ],
       [ "fire", -1 ]
@@ -1674,6 +1670,7 @@
       [ "vitamins", 5 ],
       [ "iodine", 5 ],
       [ "disinfectant", 5 ],
+      [ "hflesh_powder", 10 ],
       [ "protein_powder", 10 ]
     ]
   ]
@@ -1693,7 +1690,7 @@
     {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
-      [ "chemistry_set", 37 ],
+      [ "char_smoker", 4 ],
       [ "hotplate", 37 ],
       [ "toolset", 37 ],
       [ "fire", -1 ]
@@ -1741,7 +1738,7 @@
     {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
-      [ "chemistry_set", 25 ],
+      [ "char_smoker", 3 ],
       [ "hotplate", 25 ],
       [ "toolset", 25 ],
       [ "fire", -1 ]
@@ -1777,7 +1774,7 @@
     {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
-      [ "chemistry_set", 37 ],
+      [ "char_smoker", 4 ],
       [ "hotplate", 37 ],
       [ "toolset", 37 ],
       [ "fire", -1 ]
@@ -1804,7 +1801,7 @@
     {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
-      [ "chemistry_set", 50 ],
+      [ "char_smoker", 5 ],
       [ "hotplate", 50 ],
       [ "toolset", 50 ],
       [ "fire", -1 ]
@@ -1812,13 +1809,16 @@
   ],
   "components": [
     [
-      [ "mutagen_slime", 2 ]
+      [ "mutagen_slime", 2 ],
+      [ "iv_mutagen_slime", 1 ]
     ],
     [
-      [ "mutagen_plant", 2 ]
+      [ "mutagen_plant", 2 ],
+      [ "iv_mutagen_plant", 1 ]
     ],
     [
-      [ "mutagen_bird", 2 ]
+      [ "mutagen_bird", 2 ],
+      [ "iv_mutagen_bird", 1 ]
     ],
     [
       [ "purifier", 4 ],
@@ -1841,7 +1841,7 @@
     {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
-      [ "chemistry_set", 37 ],
+      [ "char_smoker", 4 ],
       [ "hotplate", 37 ],
       [ "toolset", 37 ],
       [ "fire", -1 ]
@@ -1868,7 +1868,7 @@
     {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
-      [ "chemistry_set", 31 ],
+      [ "char_smoker", 4 ],
       [ "hotplate", 31 ],
       [ "toolset", 31 ],
       [ "fire", -1 ]
@@ -1876,7 +1876,8 @@
   ],
   "components": [
     [
-      [ "mutagen_slime", 2 ]
+      [ "mutagen_slime", 2 ],
+      [ "iv_mutagen_slime", 1 ]
     ],
     [
       [ "mutagen_plant", 1 ]
@@ -1901,7 +1902,7 @@
     {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
-      [ "chemistry_set", 37 ],
+      [ "char_smoker", 4 ],
       [ "hotplate", 37 ],
       [ "toolset", 37 ],
       [ "fire", -1 ]
@@ -1928,7 +1929,7 @@
     {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
-      [ "chemistry_set", 37 ],
+      [ "char_smoker", 4 ],
       [ "hotplate", 37 ],
       [ "toolset", 37 ],
       [ "fire", -1 ]
@@ -1964,7 +1965,7 @@
     {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
-      [ "chemistry_set", 37 ],
+      [ "char_smoker", 4 ],
       [ "hotplate", 37 ],
       [ "toolset", 37 ],
       [ "fire", -1 ]
@@ -1991,7 +1992,7 @@
     {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
-      [ "chemistry_set", 31 ],
+      [ "char_smoker", 4 ],
       [ "hotplate", 31 ],
       [ "toolset", 31 ],
       [ "fire", -1 ]
@@ -2024,7 +2025,7 @@
     {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
-      [ "chemistry_set", 37 ],
+      [ "char_smoker", 4 ],
       [ "hotplate", 37 ],
       [ "toolset", 37 ],
       [ "fire", -1 ]
@@ -2051,7 +2052,7 @@
     {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
-      [ "chemistry_set", 25 ],
+      [ "char_smoker", 3 ],
       [ "hotplate", 25 ],
       [ "toolset", 25 ],
       [ "fire", -1 ]
@@ -2067,6 +2068,7 @@
       [ "gin", 7 ],
       [ "moonshine", 7 ],
       [ "brandy", 7 ],
+      [ "chem_ethanol", 7],
       [ "bleach", 1 ]
     ],
     [
@@ -2092,7 +2094,7 @@
     {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
-      [ "chemistry_set", 25 ],
+      [ "char_smoker", 3 ],
       [ "hotplate", 25 ],
       [ "toolset", 25 ],
       [ "fire", -1 ]
@@ -2105,6 +2107,46 @@
     ],
     [
       [ "aspirin", 10 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "prussian_blue",
+  "category": "CC_CHEM",
+  "subcategory": "CSC_CHEM_CHEMICALS",
+  "skill_used": "cooking",
+  "skills_required": [ "firstaid", 1 ],
+  "difficulty": 7,
+  "time": 36000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [["adv_chemistry", 6] , ["textbook_chemistry", 7] , ["recipe_labchem", 6] , ["atomic_survival", 5]],
+  "qualities":[
+    {"id":"CHEM","level":2,"amount":1},
+    {"id":"CONTAIN","level":1,"amount":1}
+  ], "tools": [
+    [
+      [ "char_smoker", 3 ],
+      [ "hotplate", 25 ],
+      [ "toolset", 25 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "material_quicklime", 1 ]
+    ],
+    [
+      [ "scrap", 1 ]
+    ],
+    [
+      [ "ammonia", 1 ]
+    ],
+    [
+      [ "charcoal", 1 ]
+    ],
+    [
+      [ "lye_powder", 5 ]
     ]
   ]
 },{
@@ -2123,7 +2165,7 @@
     {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
-      [ "chemistry_set", 25 ],
+      [ "char_smoker", 3 ],
       [ "hotplate", 25 ],
       [ "toolset", 25 ],
       [ "fire", -1 ]
@@ -2137,9 +2179,7 @@
       [ "oxy_powder", 5 ]
     ],
     [
-      [ "2x4", 2 ],
-      [ "stick", 2 ],
-      [ "splinter", 4 ]
+      [ "willowbark", 10 ]
     ]
   ]
 },{
@@ -2157,7 +2197,7 @@
     {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
-      [ "chemistry_set", 25 ],
+      [ "char_smoker", 3 ],
       [ "hotplate", 25 ],
       [ "toolset", 25 ],
       [ "fire", -1 ]
@@ -2241,9 +2281,10 @@
     {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
-      [ "chemistry_set", 25 ],
+      [ "char_smoker", 3 ],
       [ "hotplate", 25 ],
-      [ "toolset", 25 ]
+      [ "toolset", 25 ],
+      [ "fire", -1 ]
     ]
   ],
   "components": [
@@ -2262,17 +2303,18 @@
   "subcategory": "CSC_CHEM_CHEMICALS",
   "skill_used": "cooking",
   "difficulty": 4,
-  "time": 36000,
+  "time": 180000,
   "reversible": false,
   "autolearn": false,
   "book_learn": [["adv_chemistry", 5] , ["textbook_chemistry", 5] , ["recipe_labchem", 5]],
   "qualities":[
-    {"id":"CHEM","level":2,"amount":1}
+    {"id":"CHEM","level":1,"amount":1}
   ], "tools": [
     [
-      [ "chemistry_set", 25 ],
+      [ "char_smoker", 3 ],
       [ "hotplate", 25 ],
-      [ "toolset", 25 ]
+      [ "toolset", 25 ],
+      [ "fire", -1 ]
     ]
   ],
   "components": [
@@ -2299,16 +2341,13 @@
     {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
-      [ "chemistry_set", 2 ],
+      [ "char_smoker", 1 ],
       [ "hotplate", 2 ],
       [ "toolset", 2 ],
       [ "fire", -1 ]
     ],
     [
-      [ "needle_bone", 1 ],
-      [ "needle_wood", 1 ],
-      [ "sewing_kit", 1 ],
-      [ "tailors_kit", 1 ]
+      [ "sewing_kit", 1 ]
     ]
   ],
   "components": [
@@ -2377,7 +2416,7 @@
   "book_learn": [["adv_chemistry", 6] , ["textbook_chemistry", 6] , ["recipe_labchem", 3]],
   "tools": [
     [
-      [ "chemistry_set", 18 ],
+      [ "char_smoker", 2 ],
       [ "hotplate", 18 ],
       [ "toolset", 18 ],
       [ "fire", -1 ]
@@ -2407,7 +2446,7 @@
   "qualities":[
     {"id":"CHEM","level":1,"amount":1}
   ], "tools": [
-    [ [ "hotplate", 5 ], [ "chemistry_set", 5 ], [ "char_smoker", 1 ], [ "toolset", 5 ], [ "fire", -1 ] ]
+    [ [ "hotplate", 5 ], [ "char_smoker", 1 ], [ "toolset", 5 ], [ "fire", -1 ] ]
   ],
   "components": [
     [ [ "water", 4 ], [ "water_clean", 4 ] ],
@@ -2428,8 +2467,9 @@
   "tools": [
     [
       [ "hotplate", 7 ],
-      [ "chemistry_set", 7 ],
-      [ "toolset", 7 ]
+      [ "char_smoker", 1 ],
+      [ "toolset", 7 ],
+      [ "fire", -1 ]
     ]
   ],
   "components": [
@@ -2480,10 +2520,14 @@
   "autolearn": false,
   "book_learn": [[ "recipe_creepy", 7 ], [ "recipe_serum", 7 ]],
   "qualities":[
-    {"id":"CUT","level":1,"amount":1}],
+    {"id":"CUT","level":1,"amount":1},
+    {"id":"CHEM","level":2,"amount":1}],
   "tools": [
       [
-        [ "chemistry_set", 20 ]
+        [ "char_smoker", 2 ],
+        [ "hotplate", 20 ],
+        [ "toolset", 20 ],
+        [ "fire", -1 ]
       ]
     ],
   "components": [
@@ -2498,7 +2542,7 @@
   "category": "CC_CHEM",
   "subcategory": "CSC_CHEM_CHEMICALS",
   "skill_used": "cooking",
-  "difficulty": 6,
+  "difficulty": 3,
   "time": 45000,
   "reversible": false,
   "qualities" : [
@@ -2506,7 +2550,7 @@
   "autolearn": true,
   "tools": [
     [
-     [ "chemistry_set", 18 ],
+     [ "char_smoker", 2 ],
      [ "hotplate", 18 ],
      [ "toolset", 18 ],
      [ "fire", -1 ]
@@ -2514,12 +2558,12 @@
     ],
   "components": [
     [
-     [ "tallow", 5 ],
-     [ "lard", 5 ],
+     [ "tallow", 2 ],
+     [ "lard", 2 ],
      [ "cooking_oil", 5 ]
     ],
     [
-     [ "lye_powder", 20 ]
+     [ "lye_powder", 10 ]
     ],
     [
      [ "water", 1 ],
@@ -2545,19 +2589,15 @@
       [ "fire", -1 ],
       [ "toolset", 2 ],
       [ "hotplate", 2 ],
-      [ "chemistry_set", 2 ]
+      [ "char_smoker", 1 ]
     ]
   ],
   "components": [
     [
       [ "poppy_bud", 2 ]
-    ],
-    [
-      [ "poppy_flower", 2 ]
     ]
   ]
-},
-{
+},{
   "type" : "recipe",
   "result": "inhaler_sewergas",
   "category": "CC_CHEM",
@@ -2568,30 +2608,22 @@
   "time": 30000,
   "reversible": false,
   "autolearn": true,
-  "qualities":[
-    {"id":"CHEM","level":2,"amount":1}
-  ], "tools": [
+  "qualities":[ {"id":"CHEM","level":2,"amount":1} ],
+  "tools": [
     [
       [ "fire", -1 ],
       [ "toolset", 10 ],
       [ "hotplate", 10 ],
-      [ "chemistry_set", 10 ]
-    ]
+      [ "char_smoker", 1 ]
+    ],
+    [ [ "inhaler", 100 ] ]
   ],
   "components": [
-    [
-      [ "sewage", 1 ]
-    ],
-    [
-      [ "bleach", 1 ]
-    ],
-    [
-      [ "inhaler", 100 ]
-    ]
+    [ [ "sewage", 1 ] ],
+    [ [ "bleach", 1 ] ]
   ]
-},
-{
-        "type" : "recipe",
+},{
+  "type" : "recipe",
   "result": "gasoline",
   "byproducts": ["diesel", "lamp_oil"],
   "category": "CC_CHEM",
@@ -2602,78 +2634,123 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [["adv_chemistry", 5] , ["textbook_chemistry", 5] , ["recipe_labchem", 5]],
-  "tools": [
-    [
-      [ "chemistry_set", 50 ]
-    ]
-  ],
+  "tools": [ [ [ "chemistry_set", 50 ] ] ],
   "components": [
-    [
-      [ "water_clean", 1 ],
-      [ "water", 1 ]
-    ],
-    [
-      [ "plant_sac", 10 ],
-      [ "veggy", 6 ]
-    ],
-    [
-      [ "lye_powder", 5 ]
-    ]
+    [ [ "water_clean", 1 ], [ "water", 1 ] ],
+    [ [ "plant_sac", 10 ], [ "veggy", 6 ] ],
+    [ [ "lye_powder", 5 ] ]
   ]
 },
 {
-"type" : "recipe",
-"result": "chem_hydrogen_peroxide_conc",
-"category": "CC_CHEM",
-"subcategory": "CSC_CHEM_CHEMICALS",
-"skill_used": "cooking",
-"difficulty": 7,
-"time": 25000,
-"reversible": false,
-"autolearn": false,
-"book_learn": [[ "recipe_labchem", 7 ], ["textbook_chemistry", 7]],
-"qualities":[
-{"id":"BOIL","level":2,"amount":1}
-], "tools": [
-[
-[ "chemistry_set", 25 ]
-]
-],
-"components": [
-[
-[ "chem_hydrogen_peroxide", 5 ]
-]
-]
+    "type": "recipe",
+    "result": "diesel",
+    "result_mult": 2,
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_CHEMICALS",
+    "skill_used": "cooking",
+    "difficulty": 6,
+    "time": 3000,
+    "reversible": false,
+    "autolearn": false,
+    "book_learn": [["textbook_biodiesel", 5]],
+    "qualities":[ {"id":"CHEM","level":2,"amount":1} ],
+    "tools": [
+    [
+      [ "fire", -1 ],
+      [ "toolset", 10 ],
+      [ "hotplate", 10 ]
+    ]
+    ],
+    "components": [
+        [[ "water_clean", 1 ], [ "water", 1 ]],
+        [[ "chem_ethanol", 14 ], ["denat_alcohol", 14 ]],
+        [[ "cooking_oil", 2 ],
+         [ "lard", 2 ],
+         [ "tallow", 2 ],
+         [ "tallow_tainted", 4 ],
+         [ "fat", 4 ],
+         [ "fat_tainted", 8 ]],
+        [[ "lye_powder", 1 ]]
+    ]
 },
 {
-"type" : "recipe",
-"result": "chem_sulphuric_acid",
-"category": "CC_CHEM",
-"subcategory": "CSC_CHEM_CHEMICALS",
-"skill_used": "cooking",
-"difficulty": 7,
-"time": 15000,
-"reversible": false,
-"autolearn": true,
-"qualities":[
-{"id":"BOIL","level":2,"amount":1}
-], "tools": [
-[
-[ "chemistry_set", 25 ]
-],
-[
+  "type" : "recipe",
+  "result": "chem_ethanol",
+  "byproducts": ["water_clean"],
+  "category": "CC_CHEM",
+  "subcategory": "CSC_CHEM_CHEMICALS",
+  "skill_used": "cooking",
+  "difficulty": 6,
+  "time": 1176,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [["adv_chemistry", 5] , ["textbook_chemistry", 5] , ["recipe_labchem", 5]],
+  "qualities": [
+      {"id":"BOIL","level":2,"amount":1},
+      {"id":"BREW","level":2,"amount":1}
+   ],
+    "tools": [ [
+        [ "hotplate", 15 ],
+        [ "char_smoker", 2 ],
+        [ "toolset", 15 ]
+    ] ],
+    "components": [ [
+        [ "vodka", 14 ],
+        [ "whiskey", 14 ],
+        [ "single_malt_whiskey", 14 ],
+        [ "brandy", 14 ],
+        [ "rum", 14 ],
+        [ "gin", 14 ],
+        [ "tequila", 14 ],
+        [ "bum_wine", 56 ],
+        [ "fruit_wine", 56],
+        [ "moonshine", 14]
+    ] ]
+},
+{
+  "type" : "recipe",
+  "result": "chem_hydrogen_peroxide_conc",
+  "category": "CC_CHEM",
+  "subcategory": "CSC_CHEM_CHEMICALS",
+  "skill_used": "cooking",
+  "difficulty": 7,
+  "time": 25000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "recipe_labchem", 7 ], ["textbook_chemistry", 7]],
+  "qualities":[ {"id":"BOIL","level":2,"amount":1} ],
+    "tools": [
+    [
+      [ "fire", -1 ],
+      [ "toolset", 25 ],
+      [ "hotplate", 25 ]
+    ]
+    ],
+  "components": [ [ [ "chem_hydrogen_peroxide", 5 ] ] ]
+},
+{
+  "type" : "recipe",
+  "result": "chem_sulphuric_acid",
+  "category": "CC_CHEM",
+  "subcategory": "CSC_CHEM_CHEMICALS",
+  "skill_used": "cooking",
+  "difficulty": 7,
+  "time": 15000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[{"id":"BOIL","level":2,"amount":1}],
+  "tools": [
+    [[ "chemistry_set", 25 ]],
+    [
       [ "hotplate", 10 ],
-      [ "toolset", 10 ]
-]
-],
-"components": [
-[
-[ "chem_hydrogen_peroxide_conc", 1 ]
-],
-[
-[ "chem_sulphur", 25 ]
-]
-]
+      [ "toolset", 10 ],
+      [ "char_smoker", 1],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [ [ "chem_hydrogen_peroxide_conc", 1 ] ],
+    [ [ "chem_sulphur", 25 ] ] ]
 },
 {
 "type" : "recipe",
@@ -2686,10 +2763,13 @@
 "reversible": false,
 "autolearn": true,
 "qualities":[
-{"id":"BOIL","level":2,"amount":1}
+{"id":"BOIL","level":2,"amount":1},
+{"id":"CHEM","level":2,"amount":1}
 ], "tools": [
 [
-[ "chemistry_set", 50 ]
+[ "fire", -1 ],
+[ "toolset", 50 ],
+[ "hotplate", 50 ]
 ]
 ],
 "components": [
@@ -2712,10 +2792,13 @@
 "reversible": false,
 "autolearn": true,
 "qualities":[
-{"id":"BOIL","level":2,"amount":1}
+{"id":"BOIL","level":2,"amount":1},
+{"id":"CHEM","level":2,"amount":1}
 ], "tools": [
 [
-[ "chemistry_set", 25 ]
+[ "fire", -1 ],
+[ "toolset", 25 ],
+[ "hotplate", 25 ]
 ]
 ],
 "components": [
@@ -2742,10 +2825,13 @@
 "reversible": false,
 "autolearn": true,
 "qualities":[
-{"id":"BOIL","level":2,"amount":1}
+{"id":"BOIL","level":2,"amount":1},
+{"id":"CHEM","level":2,"amount":1}
 ], "tools": [
 [
-[ "chemistry_set", 25 ]
+[ "fire", -1 ],
+[ "toolset", 25 ],
+[ "hotplate", 25 ]
 ]
 ],
 "components": [
@@ -2758,31 +2844,31 @@
 ]
 },
 {
-"type" : "recipe",
-"result": "chem_black_powder",
-"category": "CC_CHEM",
-"subcategory": "CSC_CHEM_CHEMICALS",
-"skill_used": "cooking",
-"difficulty": 4,
-"time": 20000,
-"reversible": false,
-"autolearn": false,
-"book_learn": [[ "textbook_anarch", 6 ] , [ "recipe_labchem", 4 ], ["textbook_chemistry", 5]],
-"qualities" : 
-[
-{"id":"BOIL","level":1,"amount":1}
-],
-"components": [
-[
-[ "chem_saltpetre", 75 ]
-],
-[
-[ "chem_sulphur", 10 ]
-] ,
-[
-[ "charcoal", 15 ]
-]
-]
+  "type" : "recipe",
+  "result": "chem_black_powder",
+  "category": "CC_CHEM",
+  "subcategory": "CSC_CHEM_CHEMICALS",
+  "skill_used": "cooking",
+  "difficulty": 4,
+  "time": 20000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "textbook_anarch", 6 ] , [ "recipe_labchem", 4 ], ["textbook_chemistry", 5]],
+  "qualities" : 
+    [
+      {"id":"CONTAIN","level":1,"amount":1}
+    ],
+  "components": [
+    [
+      [ "chem_saltpetre", 75 ]
+    ],
+    [
+      [ "chem_sulphur", 10 ]
+    ] ,
+    [
+      [ "charcoal", 15 ]
+    ]
+  ]
 },
 {
 "type" : "recipe",
@@ -2797,13 +2883,14 @@
 "book_learn": [[ "textbook_anarch", 6 ] , [ "recipe_labchem", 5 ] , ["textbook_chemistry", 7]],
 "qualities" : 
 [
-{"id":"BOIL","level":1,"amount":1}
+{"id":"CONTAIN","level":1,"amount":1}
 ],
 "components": [
 [
 [ "chem_ammonium_nitrate", 90 ]
 ],
 [
+[ "diesel", 500 ],
 [ "gasoline", 500 ]
 ]
 ]
@@ -2822,7 +2909,9 @@
 {"id":"BOIL","level":2,"amount":1}
 ], "tools": [
 [
-[ "chemistry_set", 10 ]
+[ "fire", -1 ],
+[ "toolset", 10 ],
+[ "hotplate", 10 ]
 ]
 ],
 "components": [
@@ -2843,10 +2932,13 @@
 "autolearn": false,
 "book_learn": [[ "recipe_labchem", 8 ], ["textbook_anarch", 10]],
 "qualities":[
-{"id":"BOIL","level":2,"amount":1}
+{"id":"BOIL","level":2,"amount":1},
+{"id":"CHEM","level":2,"amount":1}
 ], "tools": [
 [
-[ "chemistry_set", 20 ]
+[ "fire", -1 ],
+[ "toolset", 20 ],
+[ "hotplate", 20 ]
 ]
 ],
 "components": [
@@ -2963,7 +3055,33 @@
 [ "sugar", 5 ]
 ]
 ]
+},{
+  "type" : "recipe",
+  "result": "thyme_oil",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MEDICAL",
+  "skill_used": "cooking",
+  "skills_required": [ "survival", 4 ],
+  "difficulty": 4,
+  "time": 60000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1},
+    {"id":"CUT","level":1,"amount":1},
+    {"id":"BOIL","level":2,"amount":1}
+  ], 
+  "tools": [
+    [
+      [ "hotplate", 10 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 10 ],
+      [ "fire", -1 ]
+    ]
+  ], 
+  "components": [
+    [ [ "cooking_oil", 2 ] ],
+    [ [ "thyme", 2 ] ]
+  ]
 }
-
-
 ]

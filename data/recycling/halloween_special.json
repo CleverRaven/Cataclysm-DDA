@@ -184,7 +184,6 @@
         "cutting" : 0,
         "warmth" : 25,
         "phase" : "solid",
-        "environmental_protection" : 0,
         "encumbrance" : 1,
         "bashing" : -2,
         "flags" : ["VARSIZE"],
@@ -232,7 +231,6 @@
         "cutting" : 0,
         "warmth" : 25,
         "phase" : "solid",
-        "environmental_protection" : 0,
         "encumbrance" : 2,
         "bashing" : -5,
         "coverage" : 100,
@@ -275,7 +273,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "KNIFE",
+    "use_action": { "type": "knife" },
     "qualities": [["CUT", 1]]
   },
   {
@@ -300,7 +298,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "KNIFE",
+    "use_action": { "type": "knife" },
     "qualities": [["CUT", 1]]
   },
   {

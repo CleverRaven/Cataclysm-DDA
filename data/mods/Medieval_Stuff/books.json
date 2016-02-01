@@ -1,0 +1,24 @@
+[
+    {
+        "type" : "BOOK",
+        "id" : "textbook_armschina",
+        "name" : "Arms and Armor of Imperial China",
+        "name_plural" : "Arms and Armor of Imperial China",
+        "max_level" : 10,
+        "description" : "This textbook details the military history of ancient China, with a particular focus on the nature of historical arms and armor.  It also details some of the equipment used by other cultures that came into conflict with the empire over various dynasties.",
+        "weight" : 654,
+        "to_hit" : 0,
+        "color" : "blue",
+        "intelligence" : 9,
+        "symbol" : "?",
+        "material" : ["paper", "null"],
+        "volume" : 5,
+        "bashing" : -2,
+        "cutting" : 0,
+        "time" : 55,
+        "fun" : -1,
+        "skill" : "fabrication",
+        "price" : 6400,
+        "required_level" : 5
+    }
+]

@@ -1,0 +1,15 @@
+[
+    {
+        "type" : "MONSTER_FACTION",
+        "name" : "moruboru",
+        "friendly" : ["nether", "triffid"]
+    },{
+        "type" : "MONSTER_FACTION",
+        "name" : "nether",
+        "friendly" : ["blob", "cult", "moruboru"]
+    },{
+        "type" : "MONSTER_FACTION",
+        "name" : "triffid",
+        "friendly" : ["moruboru"]
+    }
+]

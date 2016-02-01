@@ -1,21 +1,26 @@
 [
     {
         "type" : "technique",
-        "id" : "WBLOCK_1",
-        "name" : "Parry",
-        "dummy" : true,
-        "messages" : [
-            "You parry %s",
-            "<npcname> parries %s"
-        ]
+        "id" : "tec_none",
+        "name" : "Not at technique at all",
+        "dummy" : true
     },{
         "type" : "technique",
-        "id" : "WBLOCK_2",
+        "id" : "WBLOCK_1",
         "name" : "Block",
         "dummy" : true,
         "messages" : [
             "You block %s",
             "<npcname> blocks %s"
+        ]
+    },{
+        "type" : "technique",
+        "id" : "WBLOCK_2",
+        "name" : "Parry",
+        "dummy" : true,
+        "messages" : [
+            "You parry %s",
+            "<npcname> parries %s"
         ]
     },{
         "type" : "technique",
@@ -29,11 +34,10 @@
     },{
         "type" : "technique",
         "id" : "DEF_DISARM",
-        "name" : "", "comment": "not imeplemented -> empty name",
-        "messages" : [
-            "You disarm %s",
-            "<npcname> disarms %s"
-        ]
+        "name" : "disarm",
+        "min_unarmed" : 0,
+        "melee_allowed" : true,
+        "disarms" : true
     },{
         "type" : "technique",
         "id" : "GRAB",
@@ -63,6 +67,7 @@
         "melee_allowed" : true,
         "min_melee" : 3,
         "crit_tec" : true,
+        "weighting" : 2,
         "messages" : [
             "You swing in a wide arc through %s",
             "<npcname> swings in a wide arc through %s"
@@ -109,6 +114,20 @@
         ]
     },{
         "type" : "technique",
+        "id" : "VORPAL",
+        "name" : "Vorpal Strike",
+        "min_unarmed" : 0,
+        "unarmed_allowed" : true,
+        "melee_allowed" : true,
+        "cut_mult" : 99,
+        "crit_tec" : true,
+        "weighting" : -250,
+        "messages" : [
+            "Snicker-snack! You behead %s",
+            "Snicker-snack! <npcname> beheads %s"
+        ]
+    },{
+        "type" : "technique",
         "id" : "WRAP",
         "name" : "Wrap attack",
         "min_unarmed" : 0,
@@ -142,6 +161,17 @@
             "<npcname> precisely hits %s"
         ],
         "stun_dur" : 2
+    },{
+        "type" : "technique",
+        "id" : "WHIP_DISARM",
+        "name" : "Disarm",
+        "min_unarmed" : 0,
+        "melee_allowed" : true,
+        "disarms" : true,
+        "messages" : [
+            "You disarm %s using your whip!",
+            "<npcname> disarm %s using their whip!"
+        ]
     },{
         "type" : "technique",
         "id" : "tec_counter",
@@ -239,7 +269,7 @@
             "<npcname> throws a perfect counter at %s"
         ],
         "bash_mult" : 1.35,
-        "quick" : true,
+        "speed_mult" : 0.5,
         "stun_dur" : 2
     },{
         "type" : "technique",
@@ -622,7 +652,7 @@
         "unarmed_allowed" : true,
         "dodge_counter" : true,
         "speed_mult" : 0.75,
-        "bashing_mult" : 1.25,
+        "bash_mult" : 1.25,
         "messages" : [
             "You lurch, and your wild swing hits %s",
             "<npcname> lurches, and hits %s"
@@ -632,7 +662,7 @@
         "id" : "tec_fencing_lunge",
         "name" : "Fencing lunge",
         "min_melee" : 2,
-        "speed_mult" : 0.5,
+        "speed_mult" : 0.75,
         "weighting" : 2,
         "messages" : [
             "You lunge at %s",
@@ -643,9 +673,9 @@
         "id" : "tec_fencing_thrust",
         "name" : "Fencing thrust",
         "min_melee" : 1,
-        "speed_mult" : 0.75,
+        "speed_mult" : 0.9,
         "weighting" : 2,
-        "cut_mult" : 1.25,
+        "cut_mult" : 1.15,
         "messages" : [
             "You thrust at %s",
             "<npcname> thrust at %s"
@@ -728,9 +758,8 @@
         "min_melee" : 3,
         "min_bashing_damage": 2,
         "bash": 1,
-        "bashing_mult": 4,
-        "cutting_mult": 0,
-        "stabbing_mult": 0,
+        "bash_mult": 4,
+        "cut_mult": 0,
         "crit_tec" : true,
         "stun_dur" : 1,
         "messages" : [
@@ -789,7 +818,7 @@
         "name" : "Dirty Hit",
         "min_melee" : 1,
         "crit_tec" : true,
-        "stun_dur" : 1,
+        "stun_dur" : 2,
         "req_buffs" : [
             "silat_dodge_buff"
         ],
@@ -1190,7 +1219,7 @@
       "cut_mult" : 1.1,
       "bash_mult" : 1.1,
       "//" : "Damage bonus plus Quick is severely powerful--generi-Quick takes a damage nerf.",
-      "quick" : true,
+      "speed_mult" : 0.5,
       "//" : "Minimum effective time for a status in combat is two turns, as you have one deducted on the same turn its applied.",
       "stun_dir" : 2
    },{

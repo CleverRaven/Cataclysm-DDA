@@ -1,0 +1,746 @@
+[
+{
+        "type" : "recipe",
+  "result": "needler",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_PARTS",
+  "skill_used": "mechanics",
+  "skills_required": [ "gun", 3 ],
+  "difficulty": 3,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"HAMMER","level":2,"amount":1},
+    {"id":"SAW_M","level":1,"amount":1}
+  ], "tools": [
+		[
+			[ "soldering_iron", 40],
+			[ "toolset", 40]
+		]
+  ],
+  "components": [
+	[
+	  [ "foot_crank", 1]
+    ],
+	[
+      [ "scrap", 12],
+	  [ "steel_chunk", 4]
+    ],
+	[
+	  [ "nailrifle", 1]
+	]
+  ]
+},{
+        "type" : "recipe",
+  "result": "lasgunp",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_PARTS",
+  "skill_used": "electronics",
+  "skills_required": [ "mechanics", 3 ],
+  "difficulty": 4,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"HAMMER","level":2,"amount":1},
+    {"id":"SAW_M","level":1,"amount":1}
+  ], "tools": [
+	[
+	[ "soldering_iron", 40],
+	[ "toolset", 40]
+	]
+  ],
+  "components": [
+	[
+      [ "v29", 1 ],
+	  [ "v29_cheap", 1],
+	  [ "bio_laser", 1],
+	  [ "laser_rifle", 1]
+    ],
+    [
+      ["lens", 2]
+    ],
+    [
+      [ "UPS_off", 1],
+	  [ "small_storage_battery", 1]
+    ],
+	[
+      ["scrap", 4]
+    ],
+	[
+      ["cable", 20]
+    ],
+	[
+      ["e_scrap", 4]
+    ],
+	[
+      ["amplifier", 4]
+    ],
+	[
+      ["power_supply", 4]
+    ],
+    [
+     [ "plastic_chunk", 4 ]
+    ]
+]
+},{
+        "type" : "recipe",
+  "result": "lasgun",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_PARTS",
+  "skill_used": "electronics",
+  "skills_required": [ "mechanics", 3 ],
+  "difficulty": 5,
+  "time": 50000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"HAMMER","level":2,"amount":1},
+    {"id":"SAW_M","level":1,"amount":1}
+  ], "tools": [
+    [
+      [ "goggles_welding", -1 ]
+    ],
+	[
+      [ "welder", 25 ],
+      [ "welder_crude", 50 ],
+      [ "toolset", 50 ],
+	  ["oxy_torch", 2]
+    ]
+  ],
+  "components": [
+    [
+      [ "lens", 2]
+    ],
+	[
+      [ "scrap", 9],
+	  [ "steel_chunk", 3]
+    ],
+	[
+      ["cable", 50]
+    ],
+    [
+     [ "plastic_chunk", 2 ]
+    ],
+	[
+      ["amplifier", 2]
+    ],
+	[
+      ["power_supply", 2]
+    ],
+    [
+      [ "cerberus_laser", 1 ],
+      [ "bio_blaster", 1 ]
+    ]
+]
+},{
+        "type" : "recipe",
+  "result": "lasgunx",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_PARTS",
+  "skill_used": "electronics",
+  "skills_required": [ "mechanics", 3 ],
+  "difficulty": 6,
+  "time": 60000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"HAMMER","level":2,"amount":1},
+    {"id":"SAW_M","level":1,"amount":1}
+  ], "tools": [
+    [
+      [ "goggles_welding", -1 ]
+    ],
+	[
+      [ "welder", 25 ],
+      [ "welder_crude", 50 ],
+      [ "toolset", 50 ],
+	  ["oxy_torch", 2]
+    ]
+  ],
+  "components": [
+    [
+      [ "UPS_off", 2],
+	  [ "small_storage_battery", 2]
+    ],
+    [
+      [ "lens", 4]
+    ],
+	[
+      [ "scrap", 9],
+	  [ "steel_chunk", 3]
+    ],
+	[
+      ["cable", 50]
+    ],
+    [
+     [ "plastic_chunk", 8 ]
+    ],
+	[
+      ["amplifier", 8]
+    ],
+	[
+      ["power_supply", 8]
+    ],
+    [
+      [ "cerberus_laser", 1 ],
+      [ "bio_blaster", 1 ]
+    ]
+]
+},{
+        "type" : "recipe",
+  "result": "scorpion",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_PARTS",
+  "skill_used": "fabrication",
+  "skills_required": [ "archery", 5 ],
+  "difficulty": 5,
+  "time": 60000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"HAMMER","level":2,"amount":1},
+    {"id":"SAW_W","level":1,"amount":1},
+    {"id":"CUT","level":1,"amount":1}
+  ], "tools": [
+	[
+		[ "soldering_iron", 20],
+		[ "toolset", 20]
+	]
+  ],
+  "components": [
+    [
+      [ "2x4", 12 ],
+      [ "stick", 12 ]
+    ],
+    [
+      [ "sinew", 750 ]
+    ],
+    [
+      [ "foot_crank", 1 ]
+    ],
+    [
+      [ "steel_chunk", 3 ],
+      [ "scrap", 9 ]
+    ],
+    [
+      [ "nail", 60 ],
+      [ "duct_tape", 100],
+	  [ "superglue", 5]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "nx17p",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_PARTS",
+  "skill_used": "electronics",
+  "skills_required": [ "mechanics", 3 ],
+  "difficulty": 5,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"HAMMER","level":2,"amount":1},
+    {"id":"SAW_M","level":1,"amount":1}
+  ], "tools": [
+	[
+	  [ "soldering_iron", 40],
+	  [ "toolset", 40]
+	]
+  ],
+  "components": [
+    [
+      [ "nx17", 1 ]
+    ],
+    [
+      ["UPS_off", 1],
+	  ["small_storage_battery", 1]
+    ],
+    [
+      ["lens", 2]
+    ],
+	[
+      ["scrap", 8],
+	  [ "steel_chunk", 3]
+    ],
+	[
+      ["cable", 20]
+    ],
+	[
+      ["e_scrap", 6]
+    ],
+	[
+      ["amplifier", 5]
+    ],
+	[
+      ["power_supply", 5]
+    ],
+    [
+     [ "plastic_chunk", 6 ]
+    ]
+]
+},{
+        "type" : "recipe",
+  "result": "cangun",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_PARTS",
+  "skill_used": "mechanics",
+  "skill_sec": ["fabrication",3],
+  "difficulty": 4,
+  "time": 24000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"SAW_W","level":1,"amount":1},
+	{"id":"CUT","level":1,"amount":1}
+  ], "tools": [
+    [
+	  [ "soldering_iron", 20],
+	  [ "toolset", 20]
+    ]
+  ],
+  "components": [
+    [
+      [ "hose", 6 ],
+	  [ "sinew", 300 ]
+    ],
+    [
+      [ "duct_tape", 300],
+	  [ "superglue", 3],
+	  [ "nail", 100]
+    ],
+    [
+      [ "foot_crank", 1 ]
+    ],
+    [
+      [ "2x4", 8]
+    ],
+    [
+      [ "steel_chunk", 3 ],
+      [ "scrap", 9 ]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "tiharturret",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_PARTS",
+  "skill_used": "mechanics",
+  "skill_sec": ["gun",3],
+  "difficulty": 6,
+  "time": 24000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"HAMMER","level":2,"amount":1},
+    {"id":"SAW_M","level":1,"amount":1}
+  ], "tools": [
+    [
+	  [ "soldering_iron", 30],
+	  [ "toolset", 30]
+    ]
+  ],
+  "components": [
+	[
+      ["foot_crank", 1]
+    ],
+	[
+      ["scrap", 12],
+	  ["steel_chunk", 4]
+    ],
+	[
+	  [ "tihar", 1]
+  ]
+ ]
+},{
+        "type" : "recipe",
+  "result": "bolter",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_PARTS",
+  "skill_used": "mechanics",
+  "skills_required": [ "fabrication", 5 ],
+  "difficulty": 5,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"HAMMER","level":2,"amount":1},
+    {"id":"SAW_M","level":1,"amount":1}
+  ], "tools": [
+    [
+	  [ "soldering_iron", 30],
+	  [ "toolset", 30]
+    ]
+  ],
+  "components": [
+	[
+      ["foot_crank", 1]
+    ],
+	[
+      ["scrap", 9],
+	  ["steel_chunk", 3]
+    ],
+	[
+	  [ "helsing", 1]
+  ]
+ ]
+},{
+        "type" : "recipe",
+  "result": "slauncher",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_PARTS",
+  "skill_used": "fabrication",
+  "skills_required": [ "mechanics", 4 ],
+  "difficulty": 4,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1},
+    {"id":"SAW_M","level":1,"amount":1}
+  ], "tools": [
+    [
+	  [ "soldering_iron", 20],
+	  [ "toolset", 20]
+	]
+  ],
+  "components": [
+    [
+      [ "2x4", 6 ],
+      [ "stick", 6 ]
+    ],
+    [
+      [ "sinew", 600 ]
+    ],
+    [
+      [ "foot_crank", 1 ]
+    ],
+    [
+      [ "pipe", 3 ]
+    ],
+    [
+      [ "steel_chunk", 4 ],
+      [ "scrap", 12 ]
+    ],
+    [
+      [ "nail", 20 ],
+      [ "duct_tape", 50],
+	  [ "superglue", 1]
+    ]
+  ]
+},{
+        "type" : "recipe",
+  "result": "gattler",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_PARTS",
+  "skill_used": "mechanics",
+  "skills_required": [ "fabrication", 4 ],
+  "difficulty": 4,
+  "time": 80000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"HAMMER","level":2,"amount":1},
+    {"id":"SAW_M","level":1,"amount":1}
+  ], "tools": [
+    [
+	  [ "soldering_iron", 45],
+	  [ "toolset", 45]
+    ]
+  ],
+  "components": [
+    [
+		["pipe", 3]
+    ],
+	[
+		[ "foot_crank", 1 ]
+	],
+    [
+      ["duct_tape", 200],
+      ["superglue", 2]
+    ],
+	[
+      [ "scrap", 18],
+	  [ "steel_chunk", 9],
+	  [ "steel_lump", 3]
+    ],
+	[
+      ["element", 1],
+	  ["pilot_light", 1]
+    ],
+	[
+	  ["chain", 2]
+	]
+ ]
+},{
+        "type" : "recipe",
+  "result": "blundergun",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_PARTS",
+  "skill_used": "mechanics",
+  "skills_required": [ "fabrication", 5 ],
+  "difficulty": 5,
+  "time": 240000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"HAMMER","level":2,"amount":1},
+    {"id":"SAW_M","level":1,"amount":1}
+  ], "tools": [
+	[
+      [ "welder", 200 ],
+      [ "welder_crude", 200 ],
+      [ "toolset", 200 ],
+	  [ "oxy_torch", 20]
+	]
+  ],
+  "components": [
+    [
+		[ "pipe", 6 ]
+    ],
+    [
+      ["duct_tape", 500],
+      ["superglue", 5]
+    ],
+	[
+      [ "scrap", 54],
+	  [ "steel_chunk", 27],
+	  [ "steel_lump", 9]
+    ],
+	[
+      ["element", 1],
+	  ["pilot_light", 1]
+    ],
+	[
+      ["spring", 6]
+    ],
+	[
+	  ["chain", 2]
+	]
+ ]
+},{
+        "type" : "recipe",
+  "result": "teslagun",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_PARTS",
+  "skill_used": "electronics",
+  "skills_required": [ "mechanics", 3 ],
+  "difficulty": 6,
+  "time": 60000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"HAMMER","level":2,"amount":1},
+    {"id":"SAW_M","level":1,"amount":1}
+  ], "tools": [
+    [
+	  [ "soldering_iron", 30],
+	  [ "toolset", 30]
+    ]
+  ],
+  "components": [
+    [
+      ["UPS_off", 1],
+	  ["small_storage_battery", 1]
+    ],
+    [
+      ["tazer", 2]
+    ],
+	[
+      ["scrap", 4]
+    ],
+	[
+      ["antenna", 1]
+    ],
+	[
+      ["cable", 30]
+    ],
+    [
+     [ "plastic_chunk", 8 ]
+    ],
+	[
+      ["amplifier", 3]
+    ],
+	[
+      ["power_supply", 1]
+    ],
+    [
+      [ "bio_chain_lightning", 1 ]
+    ]
+]
+},{
+        "type" : "recipe",
+  "result": "shardgun",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_PARTS",
+  "skill_used": "electronics",
+  "skills_required": [ "mechanics", 3 ],
+  "difficulty": 4,
+  "time": 60000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"HAMMER","level":2,"amount":1},
+    {"id":"SAW_M","level":1,"amount":1}
+  ], "tools": [
+    [
+	  [ "soldering_iron", 30],
+	  [ "toolset", 30]
+    ]
+  ],
+  "components": [
+    [
+      ["UPS_off", 1],
+	  ["small_storage_battery", 1]
+    ],
+	[
+      ["scrap", 8],
+	  [ "steel_chunk", 3]
+    ],
+	[
+      ["cable", 60]
+    ],
+    [
+     [ "plastic_chunk", 8 ]
+    ],
+	[
+      ["amplifier", 3]
+    ],
+	[
+      ["power_supply", 3]
+    ],
+    [
+      [ "coilgun", 1 ]
+    ]
+]
+},{
+        "type" : "recipe",
+  "result": "nailer",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_PARTS",
+  "skill_used": "electronics",
+  "skills_required": [ "mechanics", 3 ],
+  "difficulty": 5,
+  "time": 60000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"HAMMER","level":2,"amount":1},
+    {"id":"SAW_M","level":1,"amount":1}
+  ], "tools": [
+    [
+	  [ "soldering_iron", 30],
+	  [ "toolset", 30]
+    ]
+  ],
+  "components": [
+    [
+      ["UPS_off", 1],
+	  ["small_storage_battery", 1]
+    ],
+	[
+      [ "scrap", 8],
+	  [ "steel_chunk", 3]
+    ],
+	[
+      ["cable", 100]
+    ],
+    [
+     [ "plastic_chunk", 10 ]
+    ],
+	[
+      ["amplifier", 5]
+    ],
+	[
+      ["power_supply", 5]
+    ],
+    [
+      [ "coilgun", 1 ]
+    ]
+]
+},{
+        "type" : "recipe",
+  "result": "railturret",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_PARTS",
+  "skill_used": "electronics",
+  "skills_required": [ "mechanics", 4 ],
+  "difficulty": 8,
+  "time": 120000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"HAMMER","level":2,"amount":1},
+    {"id":"SAW_M","level":1,"amount":1}
+  ], "tools": [
+    [
+	  [ "soldering_iron", 30],
+	  [ "toolset", 30]
+    ]
+  ],
+  "components": [
+    [
+      ["UPS_off", 2],
+	  ["small_storage_battery", 2]
+    ],
+	[
+      ["scrap", 12],
+	  [ "steel_chunk", 3]
+    ],
+	[
+      ["cable", 200]
+    ],
+    [
+     [ "plastic_chunk", 12 ]
+    ],
+	[
+      ["amplifier", 8]
+    ],
+	[
+      ["power_supply", 8]
+    ],
+    [
+      [ "rebar_rifle", 1 ]
+    ],
+	[
+	  [ "e_scrap", 20 ]
+	]
+]
+},{
+        "type" : "recipe",
+  "result": "ripper",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_PARTS",
+  "skill_used": "mechanics",
+  "skills_required": [ "fabrication", 5 ],
+  "difficulty": 6,
+  "time": 60000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"HAMMER","level":2,"amount":1},
+    {"id":"SAW_M","level":1,"amount":1}
+  ], "tools": [
+    [
+	  [ "soldering_iron", 30],
+	  [ "toolset", 30]
+    ]
+  ],
+  "components": [
+	[
+      [ "scrap", 24 ],
+	  [ "steel_chunk", 8 ],
+	  [ "steel_lump", 2 ]
+    ],
+	[
+	  [ "chain", 2 ]
+	],
+    [
+      [ "rebar", 4 ],
+	  [ "pipe", 8 ]
+    ]
+ ]
+}
+]
