@@ -100,6 +100,7 @@ src/iuse_software_minesweeper.h
 src/iuse_software_snake.h
 src/iuse_software_sokoban.h
 src/lightmap.h
+src/line.h
 src/live_view.h
 src/lua_console.h
 src/map_iterator.h
