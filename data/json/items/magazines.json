@@ -5,7 +5,7 @@
         "name" : "M1 Garand Clip",
         "symbol" : "#",
         "color" : "ltgray",
-        "description" : "A light-weight en-bloc clip for use with the M1 garand that will be ejected with a distinctive ping sound after the last round is fired.",
+        "description" : "A light-weight en-bloc clip for use with the M1 garand that will be ejected after the last round is fired.",
         "material" : "steel",
         "volume" : 1,
         "weight" : 30,
