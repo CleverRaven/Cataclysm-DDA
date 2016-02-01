@@ -9348,6 +9348,7 @@
 "subtype": "distribution",
 "entries":[
       { "item": "mushroom", "prob": 4, "count-min": 1, "count-max": 3 },
+      { "item": "mushroom_poison", "prob": 3, "count-min": 1, "count-max": 3 },
       { "item": "mushroom_morel", "prob": 2, "count-min": 1, "count-max": 4 },
       { "item": "mushroom_magic", "prob": 1, "count-min": 1, "count-max": 3 }
     ]
