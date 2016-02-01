@@ -12941,8 +12941,8 @@
         "id" : "wool_suit",
         "name" : "wool suit",
         "weight" : 883,
-        "color" : "light_red",
-        "covers" : ["TORSO", "HEAD", "MOUTH", "ARMS", "HANDS", "LEGS", "FEET"],
+        "color" : "dark_gray",
+        "covers" : ["TORSO", "HEAD", "ARMS", "LEGS", "FEET"],
         "to_hit" : -1,
         "symbol" : "[",
         "description" : "An encumbering wool suit covered in nice patterns.  It looks like a full body armor but it only protects against cold, sadly.",
@@ -12950,13 +12950,13 @@
         "material" : ["wool", "null"],
         "volume" : 12,
         "cutting" : 0,
-        "warmth" : 70,
+        "warmth" : 50,
         "phase" : "solid",
-        "encumbrance" : 35,
+        "encumbrance" : 20,
         "bashing" : -3,
-        "coverage" : 100,
+        "coverage" : 95,
         "flags" : ["VARSIZE"],
-        "material_thickness" : 4
+        "material_thickness" : 3
     },
     {
         "type" : "ARMOR",

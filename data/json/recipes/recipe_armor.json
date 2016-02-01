@@ -9005,18 +9005,18 @@
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_SUIT",
   "skill_used": "tailor",
-  "difficulty": 8,
+  "difficulty": 3,
   "time": 600000,
   "reversible": false,
   "autolearn": true,
   "tools": [
     [
-        [ "sewing_kit", 200 ]
+        [ "sewing_kit", 150 ]
     ]
   ],
   "components": [
     [
-      [ "felt_patch", 42 ]
+      [ "felt_patch", 24 ]
     ]
   ]
 },
