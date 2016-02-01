@@ -3499,10 +3499,8 @@ std::string player::print_gun_mode() const
     std::stringstream attachment;
     if (gunmod != NULL) {
         attachment << gunmod->type_name().c_str();
-        for( auto &mod : weapon.contents ) {
-            if( mod.is_auxiliary_gunmod() ) {
-                attachment << " (" << mod.charges << ")";
-            }
+        if( gunmod->ammo_remaining() ) {
+            attachment << " (" << gunmod->ammo_remaining() << ")";
         }
         return string_format( _("%s (Mod)"), attachment.str().c_str() );
     } else {
