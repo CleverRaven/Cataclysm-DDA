@@ -320,8 +320,7 @@ const std::string &name_by_dt( const damage_type &dt )
 }
 
 projectile::projectile() :
-    speed( 0 ),
-    drop( nullptr )
+    speed( 0 ), range( 0 ), drop( nullptr )
 { }
 
 projectile::projectile( const projectile &other )
@@ -333,6 +332,7 @@ projectile &projectile::operator=( const projectile &other )
 {
     impact = other.impact;
     speed = other.speed;
+    range = other.range;
     proj_effects = other.proj_effects;
     set_drop( other.get_drop() );
 

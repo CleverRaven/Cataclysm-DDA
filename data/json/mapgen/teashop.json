@@ -22,7 +22,6 @@
         "type"  : "item_group",
         "id"    : "chair_torso",
         "items" : [
-          ["wool_suit",   70],
           ["suit",   70],
           ["waistcoat",   70],
           ["dress_shirt", 70]

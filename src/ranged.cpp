@@ -39,7 +39,7 @@ const efftype_id effect_bounced( "bounced" );
 static projectile make_gun_projectile( const item &gun );
 int time_to_fire(player &p, const itype &firing);
 static inline void eject_casing( player& p, item& weap );
-int recoil_add(player &p, const item &gun);
+int recoil_add( player& p, const item& gun );
 void make_gun_sound_effect(player &p, bool burst, item *weapon);
 extern bool is_valid_in_w_terrain(int, int);
 void drop_or_embed_projectile( const dealt_projectile_attack &attack );
@@ -109,11 +109,11 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
     double missed_by = shot_dispersion * 0.00021666666666666666 * range;
     // TODO: move to-hit roll back in here
 
-    dealt_projectile_attack ret{
+    dealt_projectile_attack attack {
         proj_arg, nullptr, dealt_damage_instance(), source, missed_by
     };
 
-    projectile &proj = ret.proj;
+    projectile &proj = attack.proj;
     const auto &proj_effects = proj.proj_effects;
 
     const bool stream = proj_effects.count("FLAME") > 0 ||
@@ -150,8 +150,18 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
              target.x, target.y, target.z );
 
     // Trace the trajectory, doing damage in order
-    tripoint &tp = ret.end_point;
+    tripoint &tp = attack.end_point;
     tripoint prev_point = source;
+
+    if( range < proj_arg.range ) {
+        std::vector<tripoint> trajectory_extension = continue_line( trajectory,
+                                                                    proj_arg.range - range );
+        trajectory.reserve( trajectory.size() + trajectory_extension.size() );
+        trajectory.insert( trajectory.end(), trajectory_extension.begin(), trajectory_extension.end() );
+    }
+    while( rl_dist( source, trajectory.back() ) > proj_arg.range ) {
+        trajectory.pop_back();
+    }
 
     // If this is a vehicle mounted turret, which vehicle is it mounted on?
     const vehicle *in_veh = has_effect( effect_on_roof ) ?
@@ -161,7 +171,7 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
     std::vector<tripoint> blood_traj = std::vector<tripoint>();
     const float projectile_skip_multiplier = 0.1;
     // Randomize the skip so that bursts look nicer
-    const int projectile_skip_calculation = range * projectile_skip_multiplier;
+    int projectile_skip_calculation = range * projectile_skip_multiplier;
     int projectile_skip_current_frame = rng( 0, projectile_skip_calculation );
     bool has_momentum = true;
     size_t i = 0; // Outside loop, because we want it for line drawing
@@ -176,6 +186,8 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
             if( projectile_skip_current_frame >= projectile_skip_calculation ) {
                 g->draw_bullet(g->u, tp, (int)i, trajectory, stream ? '#' : '*');
                 projectile_skip_current_frame = 0;
+                // If we missed recalculate the skip factor so they spread out.
+                projectile_skip_calculation = std::max( (size_t)range, i ) * projectile_skip_multiplier;
             } else {
                 projectile_skip_current_frame++;
             }
@@ -198,7 +210,7 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
         }
 
         // Reset hit critter from the last iteration
-        ret.hit_critter = nullptr;
+        attack.hit_critter = nullptr;
 
         // If we shot us a monster...
         // TODO: add size effects to accuracy
@@ -207,7 +219,7 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
         double cur_missed_by = missed_by;
         // If missed_by is 1.0, the end of the trajectory may not be the original target
         // We missed it too much for the original target to matter, just reroll as unintended
-        if( missed_by >= 1.0 || i < trajectory.size() - 1 ) {
+        if( missed_by >= 1.0 || tp != target_arg ) {
             // Unintentional hit
             cur_missed_by = std::max( rng_float( 0.2, 3.0 - missed_by ), 0.4 );
         }
@@ -219,18 +231,21 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
                 continue;
             }
             dealt_damage_instance dealt_dam;
-            critter->deal_projectile_attack( null_source ? nullptr : this, ret );
+            attack.missed_by = cur_missed_by;
+            critter->deal_projectile_attack( null_source ? nullptr : this, attack );
             // Critter can still dodge the projectile
             // In this case hit_critter won't be set
-            if( ret.hit_critter != nullptr ) {
+            if( attack.hit_critter != nullptr ) {
                 splatter( blood_traj, dealt_dam.total_damage(), critter );
-                sfx::do_projectile_hit( *ret.hit_critter );
+                sfx::do_projectile_hit( *attack.hit_critter );
                 has_momentum = false;
+            } else {
+                attack.missed_by = missed_by;
             }
         } else if( in_veh != nullptr && g->m.veh_at( tp ) == in_veh ) {
             // Don't do anything, especially don't call map::shoot as this would damage the vehicle
         } else {
-            g->m.shoot( tp, proj, !no_item_damage && i == trajectory.size() - 1 );
+            g->m.shoot( tp, proj, !no_item_damage && tp == target_arg );
             has_momentum = proj.impact.total_damage() > 0;
         }
     } // Done with the trajectory!
@@ -245,7 +260,7 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
         tp = prev_point;
     }
 
-    drop_or_embed_projectile( ret );
+    drop_or_embed_projectile( attack );
 
     ammo_effects(tp, proj.proj_effects);
 
@@ -271,7 +286,7 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
         }
     }
 
-    return ret;
+    return attack;
 }
 
 bool player::handle_gun_damage( const itype &firingt, const std::set<std::string> &curammo_effects )
@@ -342,45 +357,38 @@ void player::fire_gun( const tripoint &target, bool burst )
 void player::fire_gun( const tripoint &target, bool burst, item& gun )
 {
     const bool is_charger_gun = gun.update_charger_gun_ammo();
-    const itype *curammo = gun.ammo_data();
 
-    if( !gun.is_gun() || curammo == nullptr ) {
+    if( !gun.is_gun() || !gun.ammo_data() ) {
         debugmsg( "%s tried to fire empty or non-gun (%s).", name.c_str(), gun.tname().c_str() );
         return;
     }
     const skill_id skill_used = gun.gun_skill();
 
-    if (has_trait("TRIGGERHAPPY") && one_in(30)) {
+    if( has_trait("TRIGGERHAPPY") && one_in( 30 ) && gun.burst_size() >= 2 ) {
         burst = true;
     }
     if( burst && gun.burst_size() < 2 ) {
-        burst = false; // Can't burst fire a semi-auto
+        debugmsg( "Tried to burst fire a semi-auto" );
+        burst = false;
     }
 
     // Use different amounts of time depending on the type of gun and our skill
     moves -= time_to_fire( *this, *gun.type );
 
     // Decide how many shots to fire limited by the ammount of remaining ammo
-    long num_shots = 1;
-    if ( burst || ( has_trait( "TRIGGERHAPPY" ) && one_in( 30 ) ) ) {
-        num_shots = gun.burst_size();
-    }
+    long num_shots = burst ? gun.burst_size() : 1;
     if( !gun.has_flag( "NO_AMMO" ) && !is_charger_gun ) {
         num_shots = std::min( num_shots, gun.ammo_remaining() );
     }
 
     // cap our maximum burst size by the amount of UPS power left
     if( gun.get_gun_ups_drain() > 0 ) {
-        // @todo refactor handling of vehicle turrets to separate function
         if( !worn.empty() && worn.back().type->id == "fake_UPS" ) {
             num_shots = std::min(num_shots, worn.back().charges / gun.get_gun_ups_drain() );
         } else {
             num_shots = std::min(num_shots, charges_of( "UPS" ) / gun.get_gun_ups_drain() );
         }
     }
-
-    // This is expensive, let's cache. todo: figure out if we need weapon.range(&p);
-    const int weaponrange = gun.gun_range( this );
 
     const int player_dispersion = skill_dispersion( gun, false ) + ranged_skill_offset( skill_used );
     // If weapon dispersion exceeds skill dispersion you can't tell
@@ -393,80 +401,30 @@ void player::fire_gun( const tripoint &target, bool burst, item& gun )
         add_msg_if_player(m_info, _("You'll need a more accurate gun to keep improving your aim."));
     }
 
-    tripoint targ = target;
-    const bool trigger_happy = has_trait( "TRIGGERHAPPY" );
-    for (int curshot = 0; curshot < num_shots; curshot++) {
-        // Burst-fire weapons allow us to pick a new target after killing the first
-        const auto critter = g->critter_at( targ, true );
-        if ( curshot > 0 && ( critter == nullptr || critter->is_dead_state() ) ) {
-            ///\EFFECT_GUN increases range for automatic retargeting during burst fire mode
-            const int near_range = std::min( 2 + skillLevel( skill_gun ), weaponrange );
-            auto new_targets = get_targetable_creatures( weaponrange );
-            for( auto it = new_targets.begin(); it != new_targets.end(); ) {
-                auto &z = **it;
-                if( attitude_to( z ) != A_HOSTILE ) {
-                    if( !trigger_happy ) {
-                        it = new_targets.erase( it );
-                        continue;
-                    } else if( !one_in( 10 ) ) {
-                        // Trigger happy sometimes doesn't care whom to shoot.
-                        it = new_targets.erase( it );
-                        continue;
-                    }
-                }
-                // search for monsters in radius
-                if( rl_dist( z.pos(), targ ) <= near_range ) {
-                    // oh you're not dead and I don't like you. Hello!
-                    ++it;
-                } else {
-                    it = new_targets.erase( it );
-                }
-            }
+    tripoint aim = target;
+    for( int curshot = 0; curshot != num_shots; ++curshot ) {
 
-            if ( new_targets.empty() == false ) {    /* new victim! or last victim moved */
-                /* 1 victim list unless wildly spraying */
-                targ = random_entry( new_targets )->pos();
-            ///\EFFECT_GUN increases chance of firing multiple times in a burst
-            } else if( ( !trigger_happy || one_in(3) ) &&
-                       ( skillLevel( skill_gun ) >= 7 || one_in(7 - skillLevel( skill_gun )) ) ) {
-                // Triggerhappy has a higher chance of firing repeatedly.
-                // Otherwise it's dominated by how much practice you've had.
-                return;
-            }
+        if( !handle_gun_damage( *gun.type, gun.ammo_data()->ammo->ammo_effects ) ) {
+            break;
         }
 
-        if( !handle_gun_damage( *gun.type, curammo->ammo->ammo_effects ) ) {
-            return;
+        double dispersion = get_weapon_dispersion( &gun, true );
+        int range = rl_dist( pos(), aim );
+
+        // Apply penalty when using bulky weapons at point-blank range (except when loaded with shot)
+        // If we are firing an auxiliary gunmod we wan't to use the base guns volume (which includes the gunmod itself)
+        if( gun.ammo_type() != "shot" ) {
+            const item *parent = gun.is_auxiliary_gunmod() && has_item( &gun ) ? find_parent( gun ) : nullptr;
+            dispersion *= std::max( ( ( parent ? parent->volume() : gun.volume() ) / 3.0 ) / range, 1.0 );
         }
 
-        double total_dispersion = get_weapon_dispersion( &gun, true );
-        //debugmsg("%f",total_dispersion);
-        int range = rl_dist(pos(), targ);
-        // penalties for point-blank
-        // TODO: why is this using the weapon item, is this correct (may use the fired gun instead?)
-        if (range < int(weapon.type->volume / 3) && curammo->ammo->type != "shot") {
-            total_dispersion *= double(weapon.type->volume / 3) / double(range);
-        }
+        auto shot = projectile_attack( make_gun_projectile( gun ), aim, dispersion );
 
-        // rifle has less range penalty past LONG_RANGE
-        if (skill_used == skill_rifle && range > LONG_RANGE) {
-            total_dispersion *= 1 - 0.4 * double(range - LONG_RANGE) / double(range);
-        }
-
-        if (curshot > 0) {
-            recoil += recoil_add( *this, gun ) / ( has_effect( effect_on_roof ) ? 90 : 2 );
-        } else {
-            recoil += recoil_add( *this, gun ) / ( has_effect( effect_on_roof ) ? 30 : 1 );
-        }
-
-        auto dealt = projectile_attack( make_gun_projectile( gun ), targ, total_dispersion );
-        double missed_by = dealt.missed_by;
-        if( missed_by <= .1 ) { // TODO: check head existence for headshot
-            lifetime_stats()->headshots++;
-        }
+        // if we are firing a turret don't apply that recoil to the player
+        // @todo turrets need to accumulate recoil themselves
+        recoil_add( *this, gun );
 
         make_gun_sound_effect( *this, num_shots > 1, &gun );
-
         sfx::generate_gun_sound( *this, gun );
 
         eject_casing( *this, gun );
@@ -479,11 +437,10 @@ void player::fire_gun( const tripoint &target, bool burst, item& gun )
         } else {
             if( !gun.ammo_consume( gun.ammo_required() ) ) {
                 debugmsg( "Unexpected shortage of ammo whilst firing %s", gun.tname().c_str() );
-                return;
+                break;
             }
         }
 
-        // @todo refactor handling of vehicle turrets to separate function
         if ( !worn.empty() && worn.back().type->id == "fake_UPS" ) {
             use_charges( "fake_UPS", gun.get_gun_ups_drain() );
         } else {
@@ -492,11 +449,45 @@ void player::fire_gun( const tripoint &target, bool burst, item& gun )
 
         // Experience gain is limited by range and penalised proportional to inaccuracy.
         int exp = std::min( range, 3 * ( skillLevel( skill_used ) + 1 ) ) * 20;
-        // Make sure the penalty doesn't become 0
-        int penalty = sqrt( missed_by * 36 ) + 1;
+        int penalty = std::max( int( sqrt( shot.missed_by * 36 ) ), 1 );
 
         // Even if we are not training we practice the skill to prevent rust.
         practice( skill_used, train_skill ? exp / penalty : 0 );
+
+        if( shot.missed_by <= .1 ) {
+            lifetime_stats()->headshots++; // @todo check head existence for headshot
+        }
+
+        // If burst firing and we killed the target (or were shooting into empty space) then try to retarget
+        const auto critter = g->critter_at( aim, true );
+        if( !critter || critter->is_dead_state() ) {
+
+            // Find suitable targets that are in range, hostile and near any previous target
+            auto hostiles = get_targetable_creatures( gun.gun_range( this ) );
+
+            hostiles.erase( std::remove_if( hostiles.begin(), hostiles.end(), [&]( const Creature *z ) {
+                if( rl_dist( z->pos(), aim ) > skillLevel( skill_gun ) ) {
+                    return true; ///\EFFECT_GUN increases range of automatic retargeting during burst fire
+
+                } else if( z->is_dead_state() ) {
+                    return true;
+
+                } else if( has_trait( "TRIGGER_HAPPY") && one_in( 10 ) ) {
+                    return false; // Trigger happy sometimes doesn't care who we shoot
+
+                } else {
+                    return attitude_to( *z ) != A_HOSTILE;
+                }
+            } ), hostiles.end() );
+
+            if( hostiles.empty() || hostiles.front()->is_dead_state() ) {
+                break; // We ran out of suitable targets
+
+            } else if( !one_in( 7 - skillLevel( skill_gun ) ) ) {
+                break; ///\EFFECT_GUN increases chance of firing multiple times in a burst
+            }
+            aim = random_entry( hostiles )->pos();
+        }
     }
 
     practice( skill_gun, train_skill ? 15 : 0 );
@@ -661,13 +652,14 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
 
     // Put the item into the projectile
     proj.set_drop( std::move( thrown ) );
+    const int range = rl_dist( pos(), target );
+    proj.range = range;
 
     auto dealt_attack = projectile_attack( proj, target, shot_dispersion );
 
     const double missed_by = dealt_attack.missed_by;
 
     // Copied from the shooting function
-    const int range = rl_dist( pos(), target );
     const int range_multiplier = std::min( range, 3 * ( skillLevel( skill_used ) + 1 ) );
     constexpr int damage_factor = 21;
 
@@ -1197,10 +1189,11 @@ std::vector<tripoint> game::target( tripoint &p, const tripoint &low, const trip
     return ret;
 }
 
-static projectile make_gun_projectile( const item &gun) {
+static projectile make_gun_projectile( const item &gun ) {
     projectile proj;
     proj.speed  = 1000;
     proj.impact = damage_instance::physical( 0, gun.gun_damage(), 0, gun.gun_pierce() );
+    proj.range = gun.gun_range();
 
     const auto curammo = gun.ammo_data();
 
@@ -1453,25 +1446,25 @@ double player::get_weapon_dispersion(item *weapon, bool random) const
     return dispersion;
 }
 
-int recoil_add(player &p, const item &gun)
+int recoil_add( player& p, const item &gun )
 {
-    int ret = gun.gun_recoil();
-    ///\EFFECT_STR reduces recoil when firing a ranged weapon
-    ret -= rng(p.str_cur * 7, p.str_cur * 15);
-    ///\EFFECT_GUN randomly decreases recoil with appropriate guns
+    if( p.has_effect( effect_on_roof ) ) {
+        // @todo fix handling of turret recoil
+        return p.recoil;
+    }
+
+    int qty = gun.gun_recoil();
+
+    ///\EFFECT_STR reduces recoil when using guns and tools
+    qty -= rng( 7, 15 ) * p.get_str();
 
     ///\EFFECT_PISTOL randomly decreases recoil with appropriate guns
-
     ///\EFFECT_RIFLE randomly decreases recoil with appropriate guns
-
     ///\EFFECT_SHOTGUN randomly decreases recoil with appropriate guns
-
     ///\EFFECT_SMG randomly decreases recoil with appropriate guns
-    ret -= rng(0, p.get_skill_level(gun.gun_skill()) * 7);
-    if (ret > 0) {
-        return ret;
-    }
-    return 0;
+    qty -= rng( 0, p.get_skill_level( gun.gun_skill() ) * 7 );
+
+    return p.recoil += std::max( qty, 0 );
 }
 
 void splatter( const std::vector<tripoint> &trajectory, int dam, const Creature *target )

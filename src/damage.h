@@ -87,7 +87,10 @@ struct resistances {
 
 struct projectile {
         damage_instance impact;
-        int speed; // how hard is it to dodge? essentially rolls to-hit, bullets have arbitrarily high values but thrown objects have dodgeable values
+        // how hard is it to dodge? essentially rolls to-hit,
+        // bullets have arbitrarily high values but thrown objects have dodgeable values.
+        int speed;
+        int range;
 
         std::set<std::string> proj_effects;
 
@@ -107,8 +110,9 @@ struct projectile {
         projectile &operator=( const projectile & );
 
     private:
-        std::unique_ptr<item>
-        drop; // Actual item used (to drop contents etc.). Null in case of bullets (they aren't "made of cartridges")
+        // Actual item used (to drop contents etc.).
+        // Null in case of bullets (they aren't "made of cartridges").
+        std::unique_ptr<item> drop;
 };
 
 struct dealt_projectile_attack {

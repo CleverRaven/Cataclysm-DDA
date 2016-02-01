@@ -376,7 +376,7 @@ The syntax listed here is still valid.
 "bashing" : -5,                   // (Optional, default = 0) Bashing damage caused by using it as a melee weapon
 "to_hit" : 0,                     // (Optional, default = 0) To-hit bonus if using it as a melee weapon (whatever for?)
 "flags" : ["VARSIZE"],            // Indicates special effects, see JSON_FLAGS.md
-"magazines" : [ "stanag30"],      // Magazine types (if any) that can be used to reload this item
+"magazines" : [ "stanag30"],      // Magazine types (if any) that can be used to reload this item. The first specified is the default.
 "magazine_well" : 0               // Volume above which the magazine starts to protrude from the item and add extra volume
 ```
 
@@ -394,6 +394,23 @@ The syntax listed here is still valid.
 "count" : 25,         // Number of rounds that spawn together
 "stack_size" : 50,    // (Optional) How many rounds are in the above-defined volume. If omitted, is the same as 'count'
 "effects" : ["COOKOFF", "SHOT"] // Special effects
+```
+
+###MAGAZINE
+```C++
+"type": "MAGAZINE",   // Defines this as a MAGAZINE
+...                   // same entries as above for the generic item.
+                      // additional some magazine specific entries:
+"ammo_type": "9mm",   // What type of ammo this magazine can be loaded with
+"capacity" : 15,      // Capacity of magazine (in equivalent units to ammo charges)
+"count" : 0,          // Default amount of ammo contained by a magazine (set this for ammo belts)
+"reliability" : 8,    // How reliable this this magazine on a range of 0 to 10? (see GAME_BALANCE.md)
+"reload_time" : 100,  // How long it takes to load each unit of ammo into the magazine
+"rigid" : true,       // Volume increases proportional to contained ammo for non-rigid magazines (set this for ammo belts)
+"alternatives" : [    // Alternative magazines (if any) for use with ammo conversion mods
+    [ "45", [ "m1911mag", "m1911bigmag" ] ],
+    [ "57", [ "57mag" ] ]
+]
 ```
 
 ###ARMOR

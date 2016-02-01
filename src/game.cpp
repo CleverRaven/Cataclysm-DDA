@@ -2553,7 +2553,7 @@ bool game::handle_action()
         case ACTION_MOVE_N:
             moveCount++;
 
-            if( u.get_value( "remote_controlling" ) != "" ) {
+            if( ( u.get_value( "remote_controlling" ) != "" ) && ( ( u.has_active_item("radiocontrol") ) || ( u.has_active_bionic("bio_remote") ) ) ) {
                 rcdrive(0, -1);
             } else if (veh_ctrl) {
                 pldrive(0, -1);
@@ -2565,7 +2565,7 @@ bool game::handle_action()
         case ACTION_MOVE_NE:
             moveCount++;
 
-            if( u.get_value( "remote_controlling" ) != "" ) {
+            if( ( u.get_value( "remote_controlling" ) != "" ) && ( ( u.has_active_item("radiocontrol") ) || ( u.has_active_bionic("bio_remote") ) ) ) {
                 rcdrive(1, -1);
             } else if (veh_ctrl) {
                 pldrive(1, -1);
@@ -2577,7 +2577,7 @@ bool game::handle_action()
         case ACTION_MOVE_E:
             moveCount++;
 
-            if( u.get_value( "remote_controlling" ) != "" ) {
+            if( ( u.get_value( "remote_controlling" ) != "" ) && ( ( u.has_active_item("radiocontrol") ) || ( u.has_active_bionic("bio_remote") ) ) ) {
                 rcdrive(1, 0);
             } else if (veh_ctrl) {
                 pldrive(1, 0);
@@ -2589,7 +2589,7 @@ bool game::handle_action()
         case ACTION_MOVE_SE:
             moveCount++;
 
-            if( u.get_value( "remote_controlling" ) != "" ) {
+            if( ( u.get_value( "remote_controlling" ) != "" ) && ( ( u.has_active_item("radiocontrol") ) || ( u.has_active_bionic("bio_remote") ) ) ) {
                 rcdrive(1, 1);
             } else if (veh_ctrl) {
                 pldrive(1, 1);
@@ -2601,7 +2601,7 @@ bool game::handle_action()
         case ACTION_MOVE_S:
             moveCount++;
 
-            if( u.get_value( "remote_controlling" ) != "" ) {
+            if( ( u.get_value( "remote_controlling" ) != "" ) && ( ( u.has_active_item("radiocontrol") ) || ( u.has_active_bionic("bio_remote") ) ) ) {
                 rcdrive(0, 1);
             } else if (veh_ctrl) {
                 pldrive(0, 1);
@@ -2613,7 +2613,7 @@ bool game::handle_action()
         case ACTION_MOVE_SW:
             moveCount++;
 
-            if( u.get_value( "remote_controlling" ) != "" ) {
+            if( ( u.get_value( "remote_controlling" ) != "" ) && ( ( u.has_active_item("radiocontrol") ) || ( u.has_active_bionic("bio_remote") ) ) ) {
                 rcdrive(-1, 1);
             } else if (veh_ctrl) {
                 pldrive(-1, 1);
@@ -2625,7 +2625,7 @@ bool game::handle_action()
         case ACTION_MOVE_W:
             moveCount++;
 
-            if( u.get_value( "remote_controlling" ) != "" ) {
+            if( ( u.get_value( "remote_controlling" ) != "" ) && ( ( u.has_active_item("radiocontrol") ) || ( u.has_active_bionic("bio_remote") ) ) ) {
                 rcdrive(-1, 0);
             } else if (veh_ctrl) {
                 pldrive(-1, 0);
@@ -2637,7 +2637,7 @@ bool game::handle_action()
         case ACTION_MOVE_NW:
             moveCount++;
 
-            if( u.get_value( "remote_controlling" ) != "" ) {
+            if( ( u.get_value( "remote_controlling" ) != "" ) && ( ( u.has_active_item("radiocontrol") ) || ( u.has_active_bionic("bio_remote") ) ) ) {
                 rcdrive(-1, -1);
             } else if (veh_ctrl) {
                 pldrive(-1, -1);
@@ -11610,7 +11610,7 @@ void game::unload( item &it )
     }
 
     if( target->has_flag( "NO_UNLOAD" ) ) {
-        if( target->has_flag( "RECHARGE" ) ) {
+        if( target->has_flag( "RECHARGE" ) || target->has_flag( "USE_UPS" )) {
             add_msg( m_info, _( "You can't unload a rechargeable %s!" ), target->tname().c_str() );
         } else {
             add_msg( m_info, _( "You can't unload a %s!" ), target->tname().c_str() );

@@ -788,7 +788,7 @@
         "rigid": true,
         "watertight": true,
         "seals": true,
-        "qualities": [["CONTAIN", 1]]
+        "qualities": [["BOIL", 2], ["CONTAIN", 1]]
     },
     {
         "id": "clay_watercont",
@@ -844,6 +844,7 @@
         "contains": 1,
         "rigid": true,
         "watertight": true,
-        "seals": true
+        "seals": true,
+        "qualities": [["BOIL", 2], ["CONTAIN", 1]]
     }
 ]

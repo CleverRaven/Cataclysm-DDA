@@ -361,11 +361,12 @@ struct islot_magazine {
      */
     int capacity;
     /**
-     * Default amount of ammo contained by a magazine
+     * Default amount of ammo contained by a magazine (often set for ammo belts)
      */
     int count;
     /**
-     * Percentage chance each round is fed without causing a jam
+     * How reliable this this magazine on a range of 0 to 10?
+     * @see doc/GAME_BALANCE.md
      */
     int reliability;
     /**

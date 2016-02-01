@@ -17,7 +17,6 @@
 class Creature;
 class monster;
 class monfaction;
-struct projectile;
 struct dealt_projectile_attack;
 struct species_type;
 enum field_id : int;

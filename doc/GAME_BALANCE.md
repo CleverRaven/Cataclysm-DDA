@@ -141,6 +141,47 @@ At high skill, bashing damage is generally the strongest, but still suffers from
 Exotic damage types (currently only fire) do not scale with skills or crits.
 
 # RANGE WEAPONS
+## Magazines
+### Reload times
+The overall balance is that magazines themselves are slow to reload whereas changing a magazine should be fast. For standard box magazines a default `reload_time` of 100 (per round) is appropriate with this value increasing for poor quality or extended magazines. Guns themselves should also specify `reload` of 100 (per magazine) unless their magazines are particularly awkward to reload (eg. ammo belts). The game logic intrinsically handles higher volume magazines consuming more time to attach to a gun so you need not consider this.
+
+### Weight
+Increases proportional to capacity and should have a comparable ratio to similar magazines. Consider the base item to be a 10-round .223 factory specification box magazine which has a capacity:weight of 1:10. Increase the ratio markedly for poor quality magazines or more slightly for extended magazines. Smaller calibers should use a lower ratio. The `material` should have some effect with plastic magazines weighing less. Nothing should have a lower ratio than the LeadWorks magazines.
+
+### Volume
+Scaled based upon the capacity relative to the `stack_size` of the ammo. For example 223 has a `stack size` of 20 so for 10 and 30 round magazines the volume would be 1 and 2. Extended magazine should always have larger volume than the standard type and for very large drum magazines consider applying an extra penalty. By default most handgun magazines should be volume 1 and most rifle magazines volume 2. Ammo belts should not specify volume as this will be determined from their length.
+
+### Reliability
+Should be specified first considering the below and then scaled against any equivalent magazines. For example if an extended version of a magazine exists place it one rank below the standard capacity version. Damaged guns or magazines will further adversely affect reliability.
+
+10 - **Perfectly reliable**. Factory specification or milspec only. Never extended magazines. Very rare.
+
+9 - **Reliable**. Failures only in burst fire. Factory or milspec magazines only. Never extended magazines. Uncommon.
+
+8 - **Dependable**. Failures infrequently in any fire mode. Highest reliability possible for extended magazines and those crafted using gunsmithing tools. Most common.
+
+7 - **Serviceable**. Fail infrequently in semi-automatic, more frequently in burst. Includes many extended and aftermarket gunsmithing tools. Common.
+
+6 - **Acceptable**. Failures can be problematic. Highest reliability possible for magazines crafted **without** gunsmithing tools. Includes most ammo belts.
+
+5 - **Usable**. Failures can be problematic and more serious. Mostly poor quality hand-crafted magazines.
+
+<4 - **Poor**. Significant risk of catastrophic failure. Not applied by default to any item but can be acquired by damage or other factors.
+
+### Rarity
+Overall balance is that pistol magazines are twice as common as rifle magazines and that for guns that spawn with magazines these are always the standard capacity versions. Consider 9mm and .223 to be the defaults with everything else more rare. Some locations have more specific balance requirements:
+
+Location          | Description                                               | With guns | Damaged   | Example
+------------------|-----------------------------------------------------------|-----------|-----------|--------------------------
+Military site     | Only source of milspec magazines and ammo belts           | Never     | Never     | LW-56, .223 ammo belt
+Gun store         | Standard and extended capacity magazines                  | Never     | Never     | STANAG-30, Glock extended
+Police armory     | Mostly pistol magazines, especially 9mm, never extended   | Sometimes | Never     | Glock, MP5 magazine
+SWAT truck        | Police or military magazines, occasionally extended       | Sometimes | Rarely    | MP5 extended
+Survivor basement | Anything except milspec weighted towards common types     | Often     | Sometimes | Saiga mag, M1911 extended
+Military surplus  | Older military magazines that are not current issue       | Never     | Rarely    | M9 mag, STEN magazine
+Pawn showp        | Anything except milspec weighted towards unusual calibers | Never     | Rarely    | Makarov mag, AK-74 mag
+Everywhere else   | Predominately 9mm and 223. Always with standard magazine  | Often     | Sometimes | Ruger 223 mag, M1911 mag
+
 ## Ammo stats
 The damage of ammunition is the square root of a round's muzzle energy in joules rounded to the nearest integer with an arbitrary increase or decrease to account for terminal ballistics. A similar system for calculating recoil is planned but not currently being worked on. The figures used to calculate stats and any other relevant information are presented in table below. Damage of handloaded ammo is set to 92% (rounded down) of their factory counterparts.
 

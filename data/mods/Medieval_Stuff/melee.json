@@ -1,28 +1,4 @@
 [
-    {
-        "id": "arming_sword_fake",
-        "type": "GENERIC",
-        "symbol": "/",
-        "color": "light_gray",
-        "name": "arming sword",
-        "description": "This is a dull, cheaply made replica of a classic medieval sword, just the right size to use one-handed.",
-        "price": 10000,
-        "material": "aluminum",
-        "flags" : ["BASH", "SHEATH_SWORD"],
-        "techniques": "WBLOCK_1",
-        "weight": 1409,
-        "volume": 8,
-        "bashing": 14,
-        "cutting": 2,
-        "to_hit": 2,
-        "max_charges": 0,
-        "initial_charges": 0,
-        "charges_per_use": 0,
-        "turns_per_charge": 0,
-        "ammo": "NULL",
-        "revert_to": "null",
-        "category" : "weapons"
-    },
   {
     "id": "estoc",
     "type": "GENERIC",

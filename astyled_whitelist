@@ -7,6 +7,7 @@ src/basecamp.cpp
 src/cata_utility.cpp
 src/char_validity_check.cpp
 src/clzones.cpp
+src/consumption.cpp
 src/craft_command.cpp
 src/crafting_gui.cpp
 src/creature_tracker.cpp
@@ -20,6 +21,7 @@ src/iuse_software.cpp
 src/live_view.cpp
 src/lua_console.cpp
 src/mapsharing.cpp
+src/material.cpp
 src/mattack_actors.cpp
 src/mission_end.cpp
 src/mission_fail.cpp
@@ -32,6 +34,7 @@ src/name.cpp
 src/nonplayer.cpp
 src/pathfinding.cpp
 src/posix_time.cpp
+src/profession.cpp
 src/recipe_dictionary.cpp
 src/rng.cpp
 src/speech.cpp
@@ -59,6 +62,7 @@ src/calendar.h
 src/cata_tiles.h
 src/cata_utility.h
 src/catacharset.h
+src/catacurse.h
 src/catalua.h
 src/char_validity_check.h
 src/color.h
@@ -96,10 +100,12 @@ src/iuse_software_minesweeper.h
 src/iuse_software_snake.h
 src/iuse_software_sokoban.h
 src/lightmap.h
+src/line.h
 src/live_view.h
 src/lua_console.h
 src/map_iterator.h
 src/mapbuffer.h
+src/mapgenformat.h
 src/mapsharing.h
 src/martialarts.h
 src/material.h

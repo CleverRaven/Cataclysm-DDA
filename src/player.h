@@ -38,6 +38,29 @@ using start_location_id = string_id<start_location>;
 struct it_comest;
 struct w_point;
 
+// This tries to represent both rating and
+// player's decision to respect said rating
+enum edible_rating {
+    // Edible or we pretend it is
+    EDIBLE,
+    // Not food at all
+    INEDIBLE,
+    // Not food because mutated mouth/system
+    INEDIBLE_MUTATION,
+    // You can eat it, but it will hurt morale
+    ALLERGY,
+    // Smaller allergy penalty
+    ALLERGY_WEAK,
+    // Cannibalism (unless psycho/cannibal)
+    CANNIBALISM,
+    // Rotten or not rotten enough (for saprophages)
+    ROTTEN,
+    // We can eat this, but we'll overeat
+    TOO_FULL,
+    // Some weird stuff that requires a tool we don't have
+    NO_TOOL
+};
+
 struct special_attack {
     std::string text;
     int bash;
@@ -676,12 +699,23 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Used for eating a particular item that doesn't need to be in inventory.
          *  Returns true if the item is to be removed (doesn't remove). */
         bool consume_item( item &eat );
+
+        /** This block is to be moved to character.h */
+        bool is_allergic( const item &food ) const;
+        /** Returns allergy type or MORALE_NULL if not allergic for this player */
+        morale_type allergy_type( const item &food ) const;
         /** Used for eating entered comestible, returns true if comestible is successfully eaten */
-        bool eat(item *eat, const it_comest *comest);
+        bool eat( item &food, bool force = false );
+        edible_rating can_eat( const item &food,
+            bool interactive = false, bool force = false ) const;
+
+        /** Gets player's minimum hunger and thirst */
+        int stomach_capacity() const;
+
         /** Handles the nutrition value for a comestible **/
-        int nutrition_for(const it_comest *comest);
+        int nutrition_for(const it_comest *comest) const;
         /** Handles the effects of consuming an item */
-        void consume_effects(item *eaten, const it_comest *comest, bool rotten = false);
+        void consume_effects( item &eaten, bool rotten = false );
         /** Handles rooting effects */
         void rooted_message() const;
         void rooted();
@@ -1068,7 +1102,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool last_climate_control_ret;
         std::string move_mode;
         int power_level, max_power_level;
-        int thirst, fatigue;
+        int thirst;
+        int fatigue;
         int tank_plut, reactor_plut, slow_rad;
         int oxygen;
         int stamina;

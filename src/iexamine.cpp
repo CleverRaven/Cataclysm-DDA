@@ -2138,7 +2138,7 @@ void iexamine::keg(player *p, map *m, const tripoint &examp)
             return;
 
         case HAVE_A_DRINK:
-            if( !p->eat( &*drink, dynamic_cast<const it_comest *>(drink->type) ) ) {
+            if( !p->eat( *drink ) ) {
                 return; // They didn't actually drink
             }
 
@@ -2969,8 +2969,8 @@ void iexamine::pay_gas(player *p, map *m, const tripoint &examp)
     int pricePerUnit = getPricePerGasUnit(discount);
     std::string unitPriceStr = string_format(_("$%0.2f"), pricePerUnit / 100.0);
 
-    bool can_hack = (!p->has_trait("ILLITERATE") && ((p->has_amount("electrohack", 1)) ||
-                     (p->has_bionic("bio_fingerhack") && p->power_level > 0)));
+    bool can_hack = (!p->has_trait("ILLITERATE") && ((p->has_charges("electrohack", 25)) ||
+                     (p->has_bionic("bio_fingerhack") && p->power_level > 24)));
 
     uimenu amenu;
     amenu.selected = 1;
@@ -3404,10 +3404,10 @@ hack_result iexamine::hack_attempt( player &p ) {
     if( p.has_trait( "ILLITERATE" ) ) {
         return HACK_UNABLE;
     }
-    bool using_electrohack = ( p.has_amount( "electrohack", 1 ) &&
+    bool using_electrohack = ( p.has_charges( "electrohack", 25 ) &&
                                query_yn( _( "Use electrohack?" ) ) );
     bool using_fingerhack = ( !using_electrohack && p.has_bionic( "bio_fingerhack" ) &&
-                              p.power_level  > 0  && query_yn( _( "Use fingerhack?" ) ) );
+                              p.power_level  > 24  && query_yn( _( "Use fingerhack?" ) ) );
 
     if( !( using_electrohack || using_fingerhack ) ) {
         return HACK_UNABLE;
@@ -3419,7 +3419,11 @@ hack_result iexamine::hack_attempt( player &p ) {
     int success = rng( p.skillLevel( skill_computer ) / 4 - 2, p.skillLevel( skill_computer ) * 2 );
     success += rng( -3, 3 );
     if( using_fingerhack ) {
-        p.charge_power( -1 );
+        p.charge_power( -25 );
+        success++;
+    }
+    if( using_electrohack ) {
+        p.use_charges( "electrohack", 25 );
         success++;
     }
 

@@ -1,5 +1,26 @@
 [
   {
+    "id": "rechargeable_battery",
+    "type": "TOOL",
+    "symbol": ";",
+    "color": "light_green",
+    "name": "rechargeable battery mod",
+    "description": "A homemade, rechargeable power cell built from salvaged electronics.  With enough electronics skill, you could attach it to an electric-powered device to provide it with energy.  The power cell is not compatible with standard batteries; it must be re-energized via a special recharging station.",
+    "price": 2000,
+    "material": ["plastic", "aluminum"],
+    "weight": 142,
+    "volume": 1,
+    "to_hit": -2,
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "category" : "spare_parts",
+    "use_action": "UPS_BATTERY"
+  },
+  {
     "id": "saiga_sawn",
     "type": "GUN",
     "symbol": "(",
@@ -84,5 +105,19 @@
     "reload": 100,
     "loudness" : 200,
     "valid_mod_locations": [[ "stock", 1 ]]
+  },
+  {
+    "type" : "GUNMOD",
+    "id" : "spare_mag",
+    "name" : "spare magazine",
+    "description" : "A spare magazine you can keep on hand to make reloads faster, but must itself be reloaded before it can be used again.",
+    "location": "accessories",
+    "weight" : 330,
+    "color" : "light_gray",
+    "symbol" : ":",
+    "material" : ["steel", "plastic"],
+    "mod_targets" : ["pistol", "shotgun", "smg", "rifle"],
+    "volume" : 1,
+    "price" : 5000
   }
 ]
