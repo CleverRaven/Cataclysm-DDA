@@ -34,6 +34,7 @@ src/name.cpp
 src/nonplayer.cpp
 src/pathfinding.cpp
 src/posix_time.cpp
+src/profession.cpp
 src/recipe_dictionary.cpp
 src/rng.cpp
 src/speech.cpp
