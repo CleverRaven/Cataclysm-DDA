@@ -1059,11 +1059,11 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         insert_separation_line();
 
         if( has_flag( "FIT" ) ) {
-            info.push_back( iteminfo( "ARMOR", _( "<bold>Encumberment</bold>: " ),
+            info.push_back( iteminfo( "ARMOR", _( "<bold>Encumbrance</bold>: " ),
                                       _( "<num> <info>(fits)</info>" ),
                                       get_encumber(), true, "", false, true ) );
         } else {
-            info.push_back( iteminfo( "ARMOR", _( "<bold>Encumberment</bold>: " ), "",
+            info.push_back( iteminfo( "ARMOR", _( "<bold>Encumbrance</bold>: " ), "",
                                       get_encumber(), true, "", false, true ) );
         }
 
