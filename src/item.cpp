@@ -2377,17 +2377,12 @@ int item::weight() const
     return ret;
 }
 
-/*
- * precise_unit_volume: Returns the volume, multiplied by 1000.
- * 1: -except- ammo, since the game treats the volume of count_by_charge items as 1/stack_size of the volume defined in .json
- * 2: Ammo is also not totaled.
- * 3: gun mods -are- added to the total, since a modded gun is not a splittable thing, in an inventory sense
- * This allows one to obtain the volume of something consistent with game rules, with a precision that is lost
- * when a 2 volume bullet is divided by ???? and returned as an int.
- */
 int item::precise_unit_volume() const
 {
-   return volume(true, true);
+    if( count_by_charges() || made_of( LIQUID ) ) {
+        return get_var( "volume", type->volume ) * 1000 / type->stack_size;
+    }
+    return volume() * 1000;
 }
 
 /*
