@@ -4190,13 +4190,13 @@ bool item::gunmod_compatible( const item& mod, bool alert ) const
         msg = string_format( _( "That %s is a gunmod, it can not be modded." ), tname().c_str() );
 
     } else if( has_gunmod( mod.typeId() ) != -1 ) {
-        msg = string_format( _( "Your %1$s already has a %2$s." ), tname().c_str(), mod.tname( 1 ).c_str() );
+        msg = string_format( _( "Your %1$s already has a %2$s." ), tname().c_str(), mod.tname().c_str() );
 
     } else if( !type->gun->valid_mod_locations.count( mod.type->gunmod->location ) ) {
         msg = string_format( _( "Your %s doesn't have a slot for this mod." ), tname().c_str() );
 
     } else if( get_free_mod_locations( mod.type->gunmod->location ) <= 0 ) {
-        msg = string_format( _( "Your %1$s doesn't have enough room for another %2$s mod." ), tname().c_str(), _( mod.type->gunmod->location.c_str() ) );
+        msg = string_format( _( "Your %1$s doesn't have enough room for another %2$s mod." ), tname().c_str(), mod.type->gunmod->location.c_str() );
 
     } else if( ammo_remaining() > 0 || magazine_current() ) {
         msg = string_format( _( "Unload your %s before trying to modify it." ), tname().c_str() );
@@ -4226,7 +4226,7 @@ bool item::gunmod_compatible( const item& mod, bool alert ) const
         msg = string_format( _("Your %s isn't big enough to use that mod.'"), tname().c_str() );
 
     } else if ( !mod.type->gunmod->acceptable_ammo_types.empty() && !mod.type->gunmod->acceptable_ammo_types.count( ammo_type( false ) ) ) {
-        msg = string_format( _( "That %1$s cannot be used on a %2$s." ), mod.tname( 1 ).c_str(), ammo_name( ammo_type( false ) ).c_str() );
+        msg = string_format( _( "That %1$s cannot be used on a %2$s." ), mod.tname().c_str(), ammo_name( ammo_type( false ) ).c_str() );
 
     } else if( mod.typeId() == "spare_mag" && has_flag( "RELOAD_ONE" ) ) {
         msg = string_format( _( "You can not use a spare magazine in your %s." ), tname().c_str() );
