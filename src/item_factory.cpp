@@ -1031,6 +1031,8 @@ void Item_factory::load_basic_info(JsonObject &jo, itype *new_item_template)
     new_item_template->melee_cut = jo.get_int( "cutting", 0 );
     new_item_template->m_to_hit = jo.get_int( "to_hit", 0 );
 
+    new_item_template->integral_volume = jo.get_int( "integral_volume", new_item_template->volume );
+
     JsonArray arr = jo.get_array( "magazines" );
     while( arr.has_more() ) {
         const auto mag = arr.next_string();
