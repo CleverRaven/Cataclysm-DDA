@@ -1530,8 +1530,8 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                 info.push_back( iteminfo( "DESCRIPTION",
                                           _( "* This tool has a <info>rechargeable power cell</info> and is <neutral>not compatible</neutral> with <info>standard batteries</info>." ) ) );
             } else if( has_flag( "RECHARGE" ) ) {
-                info.push_back( iteminfo( "DESCRIPTION", _( "* This tool has a <info>rechargeable power cell</info> and can be recharged in any <neutral>UPS-compatible recharging station</neutral>. \
-                                            You could charge it with <info>standard batteries</info>, but <neutral>unloading it is impossible</neutral>." ) ) );
+                info.push_back( iteminfo( "DESCRIPTION",
+                    _( "* This tool has a <info>rechargeable power cell</info> and can be recharged in any <neutral>UPS-compatible recharging station</neutral>. You could charge it with <info>standard batteries</info>, but unloading it is impossible." ) ) );
             }
             if( has_flag( "RADIO_ACTIVATION" ) ) {
                 if( has_flag( "RADIO_MOD" ) ) {
