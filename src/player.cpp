@@ -3518,7 +3518,7 @@ std::string player::print_recoil() const
 {
     if (weapon.is_gun()) {
         const int adj_recoil = recoil + driving_recoil;
-        if( adj_recoil > 150 ) {
+        if( adj_recoil > MIN_RECOIL ) {
             // 150 is the minimum when not actively aiming
             const char *color_name = "c_ltgray";
             if( adj_recoil >= 690 ) {
@@ -4540,24 +4540,6 @@ int player::throw_range(int pos) const
     return ret;
 }
 
-int player::ranged_dex_mod() const
-{
-    const int dex = get_dex();
-
-    ///\EFFECT_DEX <12 increases ranged penalty
-    if (dex >= 12) { return 0; }
-    return (12 - dex) * 15;
-}
-
-int player::ranged_per_mod() const
-{
-    const int per = get_per();
-
-    ///\EFFECT_PER <12 increases ranged penalty
-    if (per >= 12) { return 0; }
-    return (12 - per) * 15;
-}
-
 int player::throw_dex_mod(bool return_stat_effect) const
 {
   // Stat window shows stat effects on based on current stat
@@ -4579,36 +4561,6 @@ int player::throw_dex_mod(bool return_stat_effect) const
  // return_stat_effect actually matters here
  return (return_stat_effect ? rng(0, deviation) : deviation);
 }
-
-// Calculates MOC of aim improvement per 10 moves, based on
-// skills, stats, and quality of the gun sight being used.
-// Using this weird setup because # of MOC per move is too fast, (slowest is one MOC/move)
-// and number of moves per MOC is too slow. (fastest is one MOC/move)
-// A worst case of 1 MOC per 10 moves is acceptable, and it scales up
-// indefinitely, though the smallest unit of aim time is 10 moves.
-int player::aim_per_time( item *gun, int for_recoil ) const
-{
-    // Account for Dexterity, weapon skill, weapon mods and flags,
-    int speed_penalty = 0;
-    // Ranges from 0 - 600.
-    // 0 - 10 after adjustment.
-    speed_penalty += skill_dispersion( gun, false ) / 60;
-    // Ranges from 0 - 12 after adjustment.
-    speed_penalty += ranged_dex_mod() / 15;
-    // Ranges from 0 - 10
-    speed_penalty += gun->aim_speed( for_recoil );
-    // TODO: should any conditions, mutations, etc affect this?
-    // Probably CBMs too.
-    int improvement_amount = std::max( 1, 32 - speed_penalty );
-    // Improvement rate is capped by the max aim level of the gun sight being used.
-    return std::min( improvement_amount, for_recoil - gun->sight_dispersion( for_recoil ) );
-}
-
-int player::aim_per_time( item *gun ) const
-{
-    return aim_per_time( gun, recoil );
-}
-
 
 int player::read_speed(bool return_stat_effect) const
 {

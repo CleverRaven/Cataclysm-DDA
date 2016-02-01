@@ -115,6 +115,28 @@ void Character::mod_stat( const std::string &stat, int modifier )
     }
 }
 
+int Character::aim_per_time( const item& gun, int recoil ) const
+{
+    int penalty = 0;
+
+    // Range [0 - 10] after adjustment
+    penalty += skill_dispersion( gun, false ) / 60;
+
+    // Ranges [0 - 12] after adjustment
+    penalty += ranged_dex_mod() / 15;
+
+    // Range [0 - 10]
+    penalty += gun.aim_speed( recoil );
+
+    // @todo consider character status effects
+
+    // always improve by at least 1MOC
+    penalty = std::max( 1, 32 - penalty );
+
+    // improvement capped by max aim level of the gun sight being used.
+    return std::min( penalty, recoil - gun.sight_dispersion( recoil ) );
+}
+
 bool Character::move_effects(bool attacking)
 {
     if (has_effect( effect_downed )) {
@@ -935,6 +957,31 @@ SkillLevel const& Character::get_skill_level(const skill_id &ident) const
     return get_skill_level( &ident.obj() );
 }
 
+int Character::skill_dispersion( const item& gun, bool random ) const
+{
+    static skill_id skill_gun( "gun" );
+
+    int dispersion = 0; // Measured in Minutes of Arc.
+
+    const int lvl = get_skill_level( gun.gun_skill() );
+    if( lvl < 10 ) {
+        // Up to 0.75 degrees for each skill point < 10.
+        ///\EFFECT_PISTOL <10 randomly increases dispersion for pistols
+        ///\EFFECT_SMG <10 randomly increases dispersion for smgs
+        ///\EFFECT_RIFLE <10 randomly increases dispersion for rifles
+        ///\EFFECT_LAUNCHER <10 randomly increases dispersion for launchers
+        dispersion += 45 * ( 10 - lvl );
+    }
+
+    if( get_skill_level( skill_gun ) < 10 ) {
+        // Up to 0.25 deg per each skill point < 10.
+        ///\EFFECT_GUN <10 randomly increased dispersion of all gunfire
+        dispersion += 15 * ( 10 - lvl );
+    }
+
+    return random ? rng(0, dispersion) : dispersion;
+}
+
 void Character::normalize()
 {
     Creature::normalize();
@@ -1139,6 +1186,18 @@ int Character::get_per_bonus() const
 int Character::get_int_bonus() const
 {
     return int_bonus;
+}
+
+int Character::ranged_dex_mod() const
+{
+    ///\EFFECT_DEX <12 increases ranged penalty
+    return std::max( ( 12 - get_dex() ) * 15, 0 );
+}
+
+int Character::ranged_per_mod() const
+{
+    ///\EFFECT_PER <12 increases ranged penalty
+    return std::max( ( 12 - get_per() ) * 15, 0 );
 }
 
 int Character::get_healthy() const
