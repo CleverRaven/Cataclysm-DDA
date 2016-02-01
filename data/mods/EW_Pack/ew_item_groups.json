@@ -103,6 +103,13 @@
         "items": [
           ["recipe_igm", 4]
         ]
-    }
-
+    },
+    {
+    "type" : "item_group",
+    "id" : "mags_obscure",
+    "items": [
+      ["svsmag", 5],
+      ["svsbigmag", 5]
+    ]   	
+  }
 ]

@@ -1,0 +1,87 @@
+[
+    {
+        "type" : "MAGAZINE",
+        "id" : "ak74mag",
+        "price" : 1500,
+        "name" : "AK-74M magazine",
+        "symbol" : "#",
+        "color" : "ltgray",
+        "description" : "A standard magazine made for the AK-74M rifle, made of steel-reinforced polymer.  Holds 30 rounds",
+        "material" : ["steel", "plastic"],
+        "volume" : 2,
+        "weight" : 230,
+        "to_hit" : -2,
+        "ammo_type" : "545x39",
+        "capacity" : 30,
+        "reliability" : 9,
+        "reload_time" : 100,
+        "flags": [ "MAG_COMPACT" ],
+        "alternatives" : [
+            [ "223", [ "stanag30", "stanag10", "survivor223mag" ] ],
+            [ "654", [ "svsmag", "svsbigmag" ] ]
+        ]
+    },
+    {
+        "type" : "MAGAZINE",
+        "id" : "rpk74mag",
+        "price" : 8500,
+        "//" : "Technically it's meant for the RPK-74, but can always rename if we add an RPK.",
+        "name" : "AK-74M extended magazine",
+        "symbol" : "#",
+        "color" : "ltgray",
+        "description" : "A 45-round magazine compatible with the AK-74M rifle, though originally designed for the RPK-74 light machine gun.",
+        "material" : "plastic",
+        "volume" : 3,
+        "weight" : 300,
+        "ammo_type" : "545x39",
+        "capacity" : 45,
+        "reliability" : 8,
+        "reload_time" : 130,
+        "flags": [ "MAG_BULKY" ],
+        "alternatives" : [
+            [ "223", [ "stanag30", "stanag10", "survivor223mag" ] ],
+            [ "654", [ "svsmag", "svsbigmag" ] ]
+        ]
+    },
+    {
+        "type" : "MAGAZINE",
+        "id" : "svsmag",
+        "price" : 4500,
+        "name" : "SVS magazine",
+        "symbol" : "#",
+        "color" : "ltgray",
+        "description" : "A standard 30-round magazine for the Sarafanov Assault Rifle, and additionally compatible with the SVS-24C.",
+        "material" : ["plastic"],
+        "volume" : 2,
+        "weight" : 200,
+        "to_hit" : -2,
+        "ammo_type" : "654",
+        "capacity" : 30,
+        "reliability" : 9,
+        "reload_time" : 100,
+        "flags": [ "MAG_COMPACT" ],
+        "alternatives" : [
+            [ "545x39", [ "ak74mag", "rpk74mag" ] ]
+        ]
+    },
+    {
+        "type" : "MAGAZINE",
+        "id" : "svsbigmag",
+        "price" : 9500,
+        "name" : "SVS drum magazine",
+        "symbol" : "#",
+        "color" : "ltgray",
+        "description" : "A 60-round drum magazine for the SVS-24 and SVS-24C.  It was originally developed for a planned RPS-24 light machine gun, which ultimately never entered mass production.",
+        "material" : "plastic",
+        "volume" : 4,
+        "weight" : 300,
+        "ammo_type" : "654",
+        "capacity" : 60,
+        "reliability" : 7,
+        "reload_time" : 130,
+        "flags": [ "MAG_BULKY" ],
+        "alternatives" : [
+            [ "545x39", [ "ak74mag", "rpk74mag" ] ]
+        ]
+    }
+]
