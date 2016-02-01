@@ -39,7 +39,7 @@ const efftype_id effect_bounced( "bounced" );
 static projectile make_gun_projectile( const item &gun );
 int time_to_fire(player &p, const itype &firing);
 static inline void eject_casing( player& p, item& weap );
-int recoil_add( const item& gun, player *p = nullptr );
+int recoil_add( player& p, const item& gun );
 void make_gun_sound_effect(player &p, bool burst, item *weapon);
 extern bool is_valid_in_w_terrain(int, int);
 void drop_or_embed_projectile( const dealt_projectile_attack &attack );
@@ -408,7 +408,7 @@ void player::fire_gun( const tripoint &target, bool burst, item& gun )
 
         // if we are firing a turret don't apply that recoil to the player
         // @todo turrets need to accumulate recoil themselves
-        recoil_add( gun, has_effect( effect_on_roof ) ? this : nullptr );
+        recoil_add( *this, gun );
 
         make_gun_sound_effect( *this, num_shots > 1, &gun );
         sfx::generate_gun_sound( *this, gun );
@@ -1445,25 +1445,25 @@ double player::get_weapon_dispersion(item *weapon, bool random) const
     return dispersion;
 }
 
-int recoil_add( const item &gun, player *p )
+int recoil_add( player& p, const item &gun )
 {
-    // @todo refactor as method of item and add recoil to the tool/gun not the player
-    if( ! p ) {
-        return 0;
+    if( p.has_effect( effect_on_roof ) ) {
+        // @todo fix handling of turret recoil
+        return p.recoil;
     }
 
     int qty = gun.gun_recoil();
 
     ///\EFFECT_STR reduces recoil when using guns and tools
-    qty -= rng( 7, 15 ) * p->get_str();
+    qty -= rng( 7, 15 ) * p.get_str();
 
     ///\EFFECT_PISTOL randomly decreases recoil with appropriate guns
     ///\EFFECT_RIFLE randomly decreases recoil with appropriate guns
     ///\EFFECT_SHOTGUN randomly decreases recoil with appropriate guns
     ///\EFFECT_SMG randomly decreases recoil with appropriate guns
-    qty -= rng( 0, p->get_skill_level( gun.gun_skill() ) * 7 );
+    qty -= rng( 0, p.get_skill_level( gun.gun_skill() ) * 7 );
 
-    return p->recoil += std::max( qty, 0 );
+    return p.recoil += std::max( qty, 0 );
 }
 
 void splatter( const std::vector<tripoint> &trajectory, int dam, const Creature *target )
