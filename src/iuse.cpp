@@ -5192,7 +5192,7 @@ int iuse::hacksaw(player *p, item *it, bool, const tripoint &pos )
         g->m.spawn_item(dirx, diry, "pipe", 6);
     } else if( ter == t_window_bars_alarm ) {
         p->moves -= 500;
-        g->m.ter_set( dirx, diry, t_window_empty );
+        g->m.ter_set( dirx, diry, t_window_alarm );
         sounds::sound( dirp, 15, _("grnd grnd grnd" ) );
         g->m.spawn_item( p->pos(), "pipe", rng( 1, 2 ) );
     } else if( ter == t_bars ) {
