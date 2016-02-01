@@ -16,7 +16,6 @@ enum monster_trigger : int;
 enum m_size : int;
 class monster;
 class Creature;
-struct projectile;
 struct dealt_projectile_attack;
 using mon_action_death  = void (*)(monster*);
 using mon_action_attack = bool (*)(monster*);

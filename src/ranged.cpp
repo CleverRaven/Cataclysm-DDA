@@ -109,11 +109,11 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
     double missed_by = shot_dispersion * 0.00021666666666666666 * range;
     // TODO: move to-hit roll back in here
 
-    dealt_projectile_attack ret{
+    dealt_projectile_attack attack {
         proj_arg, nullptr, dealt_damage_instance(), source, missed_by
     };
 
-    projectile &proj = ret.proj;
+    projectile &proj = attack.proj;
     const auto &proj_effects = proj.proj_effects;
 
     const bool stream = proj_effects.count("FLAME") > 0 ||
@@ -150,8 +150,18 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
              target.x, target.y, target.z );
 
     // Trace the trajectory, doing damage in order
-    tripoint &tp = ret.end_point;
+    tripoint &tp = attack.end_point;
     tripoint prev_point = source;
+
+    if( range < proj_arg.range ) {
+        std::vector<tripoint> trajectory_extension = continue_line( trajectory,
+                                                                    proj_arg.range - range );
+        trajectory.reserve( trajectory.size() + trajectory_extension.size() );
+        trajectory.insert( trajectory.end(), trajectory_extension.begin(), trajectory_extension.end() );
+    }
+    while( rl_dist( source, trajectory.back() ) > proj_arg.range ) {
+        trajectory.pop_back();
+    }
 
     // If this is a vehicle mounted turret, which vehicle is it mounted on?
     const vehicle *in_veh = has_effect( effect_on_roof ) ?
@@ -161,7 +171,7 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
     std::vector<tripoint> blood_traj = std::vector<tripoint>();
     const float projectile_skip_multiplier = 0.1;
     // Randomize the skip so that bursts look nicer
-    const int projectile_skip_calculation = range * projectile_skip_multiplier;
+    int projectile_skip_calculation = range * projectile_skip_multiplier;
     int projectile_skip_current_frame = rng( 0, projectile_skip_calculation );
     bool has_momentum = true;
     size_t i = 0; // Outside loop, because we want it for line drawing
@@ -176,6 +186,8 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
             if( projectile_skip_current_frame >= projectile_skip_calculation ) {
                 g->draw_bullet(g->u, tp, (int)i, trajectory, stream ? '#' : '*');
                 projectile_skip_current_frame = 0;
+                // If we missed recalculate the skip factor so they spread out.
+                projectile_skip_calculation = std::max( (size_t)range, i ) * projectile_skip_multiplier;
             } else {
                 projectile_skip_current_frame++;
             }
@@ -198,7 +210,7 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
         }
 
         // Reset hit critter from the last iteration
-        ret.hit_critter = nullptr;
+        attack.hit_critter = nullptr;
 
         // If we shot us a monster...
         // TODO: add size effects to accuracy
@@ -207,7 +219,7 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
         double cur_missed_by = missed_by;
         // If missed_by is 1.0, the end of the trajectory may not be the original target
         // We missed it too much for the original target to matter, just reroll as unintended
-        if( missed_by >= 1.0 || i < trajectory.size() - 1 ) {
+        if( missed_by >= 1.0 || tp != target_arg ) {
             // Unintentional hit
             cur_missed_by = std::max( rng_float( 0.2, 3.0 - missed_by ), 0.4 );
         }
@@ -219,18 +231,21 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
                 continue;
             }
             dealt_damage_instance dealt_dam;
-            critter->deal_projectile_attack( null_source ? nullptr : this, ret );
+            attack.missed_by = cur_missed_by;
+            critter->deal_projectile_attack( null_source ? nullptr : this, attack );
             // Critter can still dodge the projectile
             // In this case hit_critter won't be set
-            if( ret.hit_critter != nullptr ) {
+            if( attack.hit_critter != nullptr ) {
                 splatter( blood_traj, dealt_dam.total_damage(), critter );
-                sfx::do_projectile_hit( *ret.hit_critter );
+                sfx::do_projectile_hit( *attack.hit_critter );
                 has_momentum = false;
+            } else {
+                attack.missed_by = missed_by;
             }
         } else if( in_veh != nullptr && g->m.veh_at( tp ) == in_veh ) {
             // Don't do anything, especially don't call map::shoot as this would damage the vehicle
         } else {
-            g->m.shoot( tp, proj, !no_item_damage && i == trajectory.size() - 1 );
+            g->m.shoot( tp, proj, !no_item_damage && tp == target_arg );
             has_momentum = proj.impact.total_damage() > 0;
         }
     } // Done with the trajectory!
@@ -245,7 +260,7 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
         tp = prev_point;
     }
 
-    drop_or_embed_projectile( ret );
+    drop_or_embed_projectile( attack );
 
     ammo_effects(tp, proj.proj_effects);
 
@@ -271,7 +286,7 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
         }
     }
 
-    return ret;
+    return attack;
 }
 
 bool player::handle_gun_damage( const itype &firingt, const std::set<std::string> &curammo_effects )
@@ -662,13 +677,14 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
 
     // Put the item into the projectile
     proj.set_drop( std::move( thrown ) );
+    const int range = rl_dist( pos(), target );
+    proj.range = range;
 
     auto dealt_attack = projectile_attack( proj, target, shot_dispersion );
 
     const double missed_by = dealt_attack.missed_by;
 
     // Copied from the shooting function
-    const int range = rl_dist( pos(), target );
     const int range_multiplier = std::min( range, 3 * ( skillLevel( skill_used ) + 1 ) );
     constexpr int damage_factor = 21;
 
@@ -1197,10 +1213,11 @@ std::vector<tripoint> game::target( tripoint &p, const tripoint &low, const trip
     return ret;
 }
 
-static projectile make_gun_projectile( const item &gun) {
+static projectile make_gun_projectile( const item &gun ) {
     projectile proj;
     proj.speed  = 1000;
     proj.impact = damage_instance::physical( 0, gun.gun_damage(), 0, gun.gun_pierce() );
+    proj.range = gun.gun_range();
 
     const auto curammo = gun.ammo_data();
 
