@@ -1587,7 +1587,7 @@ void drop_or_embed_projectile( const dealt_projectile_attack &attack )
     // Don't embed in small creatures
     if( embed ) {
         const m_size critter_size = mon->get_size();
-        const int vol = dropped_item.volume( true );
+        const int vol = dropped_item.volume();
         embed = embed && ( critter_size > MS_TINY || vol < 1 );
         embed = embed && ( critter_size > MS_SMALL || vol < 2 );
         // And if we deal enough damage
