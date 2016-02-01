@@ -1937,9 +1937,8 @@ void iexamine::fvat_empty(player *p, map *m, const tripoint &examp)
         for (int i = 0; i < charges_held && !vat_full; i++) {
             p->use_charges(brew_type, 1);
             brew.charges++;
-            if ( ((brew.count_by_charges()) ? brew.volume(false, true) / 1000 :
-                  brew.volume(false, true) / 1000 * brew.charges ) >= 100) {
-                vat_full = true;    //vats hold 50 units of brew, or 350 charges for a count_by_charges brew
+            if ( ( brew.count_by_charges() ? brew.volume() : brew.volume() * brew.charges ) >= 100 ) {
+                vat_full = true; //vats hold 50 units of brew, or 350 charges for a count_by_charges brew
             }
         }
         add_msg(_("Set %s in the vat."), brew.tname().c_str());
