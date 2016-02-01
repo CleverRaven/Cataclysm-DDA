@@ -5222,7 +5222,7 @@
   },
   {
     "id": "pike",
-    "type": "TOOL",
+    "type": "GENERIC",
     "symbol": "/",
     "color": "brown",
     "name": "awl pike",
@@ -5236,14 +5236,8 @@
     "bashing": 15,
     "cutting": 45,
     "to_hit": 2,
-    "max_charges": 0,
-    "initial_charges": 0,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
-    "ammo": "NULL",
-    "revert_to": "null",
     "category": "weapons",
-    "use_action": { "type": "knife" }
+    "qualities": [["COOK", 1]]
   },
   {
     "id": "broadsword",
