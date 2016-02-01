@@ -3609,7 +3609,7 @@
     "price": 5000,
     "material": "glass",
     "flags": "ACT_ON_RANGED_HIT",
-    "weight": 1268,
+    "weight": 650,
     "volume": 2,
     "bashing": 4,
     "to_hit": -1,
