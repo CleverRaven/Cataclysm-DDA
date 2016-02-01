@@ -61,13 +61,11 @@
      [ "material_sand", 25]
      ],
      [
-     [ "rock", 20]
+     [ "pebble", 20]
      ],
      [
+     [ "water_clean", 5],
      [ "water", 5]
-     ],
-     [
-     [ "bag_canvas", 1]
      ]
     ]
 },{
@@ -7478,9 +7476,6 @@
      ],
      [
     [ "pebble", 20]
-     ],
-     [
-    [ "bag_canvas", 1]
      ]
     ]
 },{
