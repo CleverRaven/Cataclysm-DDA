@@ -1788,7 +1788,7 @@ void iexamine::kiln_empty(player *p, map *m, const tripoint &examp)
     // Burn stuff that should get charred, leave out the rest
     int total_volume = 0;
     for( auto i : items ) {
-        total_volume += i.volume( false, false );
+        total_volume += i.volume();
     }
 
     auto char_type = item::find_type( "unfinished_charcoal" );
@@ -1854,7 +1854,7 @@ void iexamine::kiln_full(player *, map *m, const tripoint &examp)
     // Burn stuff that should get charred, leave out the rest
     for( auto item_it = items.begin(); item_it != items.end(); ) {
         if( item_it->typeId() == "unfinished_charcoal" || item_it->typeId() == "charcoal" ) {
-            total_volume += item_it->volume( false, false );
+            total_volume += item_it->volume();
             item_it = items.erase( item_it );
         } else {
             item_it++;
