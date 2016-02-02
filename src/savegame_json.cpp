@@ -71,7 +71,7 @@ std::vector<item> item::magazine_convert() {
         }
     }
 
-    // remove any spare magazine and place an equivalent loaded magazine in inventory
+    // remove any spare magazine and replace it with an equivalent loaded magazine
     item *spare_mag = has_gunmod( "spare_mag" ) >= 0 ? &contents[ has_gunmod( "spare_mag" ) ] : nullptr;
     if( spare_mag ) {
         res.push_back( mag );
@@ -82,7 +82,7 @@ std::vector<item> item::magazine_convert() {
         }
     }
 
-    // return any excess ammo (from either item or spare mag) to character inventory
+    // return any excess ammo (from either item or spare mag) as a new item
     if( charges > 0 ) {
         ammo.charges = charges;
         res.push_back( ammo );
