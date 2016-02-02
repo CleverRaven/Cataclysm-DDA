@@ -10920,9 +10920,9 @@ bool player::consume_charges( item& used, long qty )
     // USE_UPS never occurs on base items but is instead added by the UPS tool mod
     if( used.has_flag( "USE_UPS" ) ) {
         use_charges( "UPS", qty );
+    } else {
+        used.ammo_consume( std::min( qty, used.ammo_remaining() ), pos() );
     }
-
-    used.ammo_consume( std::min( qty, used.ammo_remaining() ), pos() );
     return false;
 }
 
