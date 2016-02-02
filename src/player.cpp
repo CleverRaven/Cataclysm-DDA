@@ -9505,7 +9505,7 @@ std::list<item> player::use_charges(itype_id it, long quantity)
             }
         }
     }
-    if ( power_level > 0 && it == "UPS_off" && has_bionic( "bio_ups" ) ) {
+    if ( power_level > 0 && it == "UPS_off" && has_active_bionic( "bio_ups" ) ) {
         // Need always at least 1 power unit, to prevent exploits
         // and make sure power_level does not get negative
         long ch = std::max(1l, quantity / 10);
@@ -9675,7 +9675,7 @@ long player::charges_of(const itype_id &it) const
         quantity += static_cast<long>( floor( charges_of( "adv_UPS_off" ) / 0.6 ) );
     }
     if ( power_level > 0 ) {
-        if ( it == "UPS_off" && has_bionic( "bio_ups" ) ) {
+        if ( it == "UPS_off" && has_active_bionic( "bio_ups" ) ) {
             quantity += power_level * 10;
         }
     }
