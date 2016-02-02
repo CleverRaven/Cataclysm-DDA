@@ -10901,6 +10901,16 @@ bool player::consume_charges( item *used, long qty )
         return false;
     }
 
+    // Consume comestibles destroying them if no charges remain
+    if( used->is_food() ) {
+        used->charges -= qty;
+        if( used->charges <= 0 ) {
+            i_rem( used );
+            return true;
+        }
+        return false;
+    }
+
     // Tools which don't require ammo are instead destroyed
     if( used->is_tool() && !used->ammo_required() ) {
         i_rem( used );
@@ -10915,11 +10925,6 @@ bool player::consume_charges( item *used, long qty )
         }
     } else {
         used->charges -= std::min( used->charges, qty );
-    }
-
-    if( used->is_food() && used->charges <= 0 ) {
-        i_rem( used );
-        return true;
     }
 
     // We may have fiddled with the state of the item in the iuse method,
