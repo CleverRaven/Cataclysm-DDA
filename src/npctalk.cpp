@@ -628,7 +628,7 @@ void npc::talk_to_u()
     }
 
     if( d.topic_stack.back() == "TALK_NONE" ) {
-        d.topic_stack.back() = pick_talk_topic(&(g->u));
+        d.topic_stack.back() = pick_talk_topic( g->u );
     }
 
     moves -= 100;

@@ -255,8 +255,11 @@ public:
 
  int weight() const;
 
- int precise_unit_volume() const;
- int volume(bool unit_value=false, bool precise_value=false) const;
+    /* Total volume of an item accounting for all contained/integrated items */
+    int volume() const;
+
+    /* Volume of an item or of a single unit for charged items multipled by 1000 */
+    int precise_unit_volume() const;
 
     /**
      * @name Melee
@@ -1085,8 +1088,9 @@ public:
         long ammo_capacity() const;
         /** Quantity of ammunition consumed per usage of tool or with each shot of gun */
         long ammo_required() const;
-        /** If sufficient ammo available consume it, otherwise do nothing and return false */
-        bool ammo_consume( int qty );
+        /** If sufficient ammo available consume it, otherwise do nothing and return false
+         *  @param pos current location of item, used for ejecting magazines and similar effects */
+        bool ammo_consume( int qty, const tripoint& pos );
         /** Specific ammo data, returns nullptr if item is neither ammo nor loaded with any */
         const itype * ammo_data() const;
         /** Specific ammo type, returns "null" if item is neither ammo nor loaded with any */

@@ -493,8 +493,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          * @param force_technique special technique to use in attack.
          */
         void melee_attack(Creature &t, bool allow_special, const matec_id &force_technique) override;
-        /** Returns the player's dispersion modifier based on skill. **/
-        int skill_dispersion( item *weapon, bool random ) const;
         /** Returns a weapon's modified dispersion value */
         double get_weapon_dispersion( item *weapon, bool random ) const;
         /** Returns true if a gun misfires, jams, or has other problems, else returns false */
@@ -612,14 +610,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int throw_range(int pos) const;
         /** Execute a throw */
         dealt_projectile_attack throw_item( const tripoint &target, const item &thrown );
-        /** Returns the ranged attack dexterity mod */
-        int ranged_dex_mod() const;
-        /** Returns the ranged attack perception mod */
-        int ranged_per_mod() const;
         /** Returns the throwing attack dexterity mod */
         int throw_dex_mod(bool return_stat_effect = true) const;
-        int aim_per_time( item *gun, int predicted_recoil ) const;
-        int aim_per_time( item *gun ) const;
 
         // Mental skills and stats
         /** Returns the player's reading speed */
@@ -901,6 +893,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         std::string weapname() const;
 
         virtual float power_rating() const override;
+        virtual float speed_rating() const override;
 
         /**
          * All items that have the given flag (@ref item::has_flag).

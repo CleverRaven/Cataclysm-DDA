@@ -79,6 +79,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         int hp_percentage() const override;
 
         // Access
+        std::string get_name() const override;
         std::string name(unsigned int quantity = 1) const; // Returns the monster's formal name
         std::string name_with_armor() const; // Name, with whatever our armor is called
         // the creature-class versions of the above
@@ -272,6 +273,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
                                  int intensity = 0, bool force = false ) override;
 
         virtual float power_rating() const override;
+        virtual float speed_rating() const override;
 
         int  get_armor_cut(body_part bp) const override;   // Natural armor, plus any worn armor
         int  get_armor_bash(body_part bp) const override;  // Natural armor, plus any worn armor
