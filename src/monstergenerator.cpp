@@ -568,28 +568,6 @@ m_flag MonsterGenerator::m_flag_from_string( std::string flag ) const
     return flag_map.find( flag )->second;
 }
 
-std::vector<mon_action_death> MonsterGenerator::get_death_functions(JsonObject &jo,
-        std::string member)
-{
-    std::vector<mon_action_death> deaths;
-
-    std::set<std::string> death_flags = jo.get_tags(member);
-
-    std::set<std::string>::iterator it = death_flags.begin();
-    for (; it != death_flags.end(); ++it) {
-        if ( death_map.find(*it) != death_map.end() ) {
-            deaths.push_back(death_map[*it]);
-        } else {
-            jo.throw_error("Invalid death_function");
-        }
-    }
-
-    if (deaths.empty()) {
-        deaths.push_back(death_map["NORMAL"]);
-    }
-    return deaths;
-}
-
 template<typename mattack_actor_type>
 mtype_special_attack load_actor( JsonObject obj, int cooldown )
 {
