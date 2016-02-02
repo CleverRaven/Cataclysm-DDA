@@ -3955,12 +3955,6 @@ long item::ammo_capacity() const
 
     if( is_gun() ) {
         res = type->gun->clip;
-
-        for( auto &e : contents ) {
-            if( e.is_gunmod() && !e.is_auxiliary_gunmod() ) {
-                res += res * e.type->gunmod->clip / 100;
-            }
-        }
     }
 
     if( is_magazine() ) {

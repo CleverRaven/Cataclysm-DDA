@@ -230,8 +230,7 @@ struct common_firing_data : common_ranged_data {
      */
     int burst = 0;
     /**
-     * Clip size. Note that on some gunmods it means relative (in percent) of the
-     * guns main magazine.
+     * Clip size
      */
     int clip = 0;
     /**
