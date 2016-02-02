@@ -7249,6 +7249,27 @@
         "target": "human_pickled",
         "container": "jar_glass"
     }
+  },{
+    "id": "jar_soup_mushroom",
+    "type": "GENERIC",
+    "symbol": "%",
+    "color": "red",
+    "name": "sealed jar of mushroom soup",
+    "name_plural": "sealed jars of mushroom soup",
+    "description": "This is a sealed glass jar containing mushroom soup.  Use to open and eat to enjoy.",
+    "price": 500,
+    "material": ["glass", "veggy"],
+    "weight": 1302,
+    "volume": 2,
+    "bashing": 4,
+    "category" : "food",
+    "use_action": {
+        "type": "transform",
+        "msg": "You open the jar, exposing it to the atmosphere.",
+        "target": "soup_mushroom",
+        "target_charges": 4,
+        "container": "jar_glass"
+    }
   },
   {
     "id": "jar_soup_woods",
