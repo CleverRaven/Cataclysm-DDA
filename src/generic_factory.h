@@ -523,28 +523,6 @@ class generic_typed_reader
          */
         virtual FlagType get_next( JsonIn &jin ) const = 0;
 
-        /**
-         * Loads the set from JSON, similar to `JsonObject::get_tags`, but returns
-         * a properly typed set. It uses the @ref get_next to actually read the typed
-         * values.
-         */
-        std::set<FlagType> get_tags( JsonObject &jo, const std::string &member_name ) const {
-            std::set<FlagType> result;
-            if( !jo.has_member( member_name ) ) {
-                return result;
-            }
-            JsonIn &jin = *jo.get_raw( member_name );
-            if( jin.test_array() ) {
-                jin.start_array();
-                while( !jin.end_array() ) {
-                    result.insert( get_next( jin ) );
-                }
-            } else {
-                result.insert( get_next( jin ) );
-            }
-            return result;
-        }
-
         template<typename C>
         void insert_values_from( JsonObject &jo, const std::string &member_name, C &container ) const {
             if( !jo.has_member( member_name ) ) {
