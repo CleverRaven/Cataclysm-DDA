@@ -6782,7 +6782,7 @@
         "price" : 180,
         "material" : "veggy",
         "tool" : "null",
-        "volume" : 0,
+        "volume" : 1,
         "charges" : 4,
         "fun" : 1
     },
