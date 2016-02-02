@@ -981,7 +981,7 @@
         "id" : "ELFA_FNV",
         "name" : "Fey Nightsight",
         "points" : 5,
-        "description" : "You have great low-light vision now, though that doesn't allow you to perform fine tasks such as crafting and reading.  Activate to toggle NV-visible areas on or off.",
+        "description" : "You have great low-light vision now, though that doesn't allow you to perform fine tasks such as crafting and reading in darkness.  Activate to toggle NV-visible areas on or off.",
         "prereqs" : ["ELFA_NV"],
         "cancels" : ["LIZ_IR", "FEL_NV", "NIGHTVISION", "NIGHTVISION2", "NIGHTVISION3"],
         "category" : ["MUTCAT_ELFA"],
