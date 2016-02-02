@@ -11195,6 +11195,13 @@ bool player::gunmod_add( item& gun, item& mod ) {
     // risk of causing damage on failure when not using tools increases with less durable guns
     int risk = ( 100 - roll ) * ( ( 10.0 - std::min( gun.type->gun->durability, 9 ) ) / 10.0 );
 
+    // if mod not difficult to install or we have 100% success rate install without prompt
+    if( !mod.has_flag( "INSTALL_DIFFICULT") || roll >= 100 ) {
+        add_msg( m_good, _( "You sucessfully attached the %1$s to your %2$s." ), mod.tname().c_str(), gun.tname().c_str() );
+        gun.contents.push_back( i_rem( &mod ) );
+        return true;
+    }
+
     uimenu prompt;
     prompt.text = string_format( _( "Attach your %1$s to your %2$s?" ), mod.tname().c_str(), gun.tname().c_str() );
 

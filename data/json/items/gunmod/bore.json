@@ -16,7 +16,8 @@
     "min_skills" : [ [ "gun", 3 ] ],
     "dispersion_modifier": 15,
     "ammo_modifier": "22",
-    "acceptable_ammo": [ "9mm", "38", "40", "57", "46", "762", "223" ]
+    "acceptable_ammo": [ "9mm", "38", "40", "57", "46", "762", "223" ],
+    "flags" : [ "INSTALL_DIFFICULT" ]
   },
   {
     "id": "retool_223",
@@ -35,7 +36,8 @@
     "skill_required": 6,
     "dispersion_modifier": 30,
     "ammo_modifier": "223",
-    "acceptable_ammo": [ "shot", "762", "3006", "308" ]
+    "acceptable_ammo": [ "shot", "762", "3006", "308" ],
+    "flags" : [ "INSTALL_DIFFICULT" ]
   },
   {
     "id": "retool_308",
@@ -54,7 +56,8 @@
     "min_skills" : [ [ "gun", 3 ] ],
     "dispersion_modifier": 30,
     "ammo_modifier": "308",
-    "acceptable_ammo": [ "shot", "762", "223", "3006" ]
+    "acceptable_ammo": [ "shot", "762", "223", "3006" ],
+    "flags" : [ "INSTALL_DIFFICULT" ]
   },
   {
     "id": "retool_45",
@@ -74,7 +77,8 @@
     "dispersion_modifier": 30,
     "recoil_modifier": 2,
     "ammo_modifier": "45",
-    "acceptable_ammo": [ "9mm", "38", "40", "44" ]
+    "acceptable_ammo": [ "9mm", "38", "40", "44" ],
+    "flags" : [ "INSTALL_DIFFICULT" ]
   },
   {
     "id": "retool_46",
@@ -93,7 +97,8 @@
     "min_skills" : [ [ "gun", 3 ] ],
     "dispersion_modifier": 15,
     "ammo_modifier": "46",
-    "acceptable_ammo": [ "22", "9mm", "38" ]
+    "acceptable_ammo": [ "22", "9mm", "38" ],
+    "flags" : [ "INSTALL_DIFFICULT" ]
   },
   {
     "id": "retool_57",
@@ -112,7 +117,8 @@
     "min_skills" : [ [ "gun", 3 ] ],
     "dispersion_modifier": 15,
     "ammo_modifier": "57",
-    "acceptable_ammo": [ "22", "9mm", "38" ]
+    "acceptable_ammo": [ "22", "9mm", "38" ],
+    "flags" : [ "INSTALL_DIFFICULT" ]
   },
   {
     "id": "retool_9mm",
