@@ -74,12 +74,11 @@
             {
                 "id" : "boxing_static",
                 "name" : "Boxing",
-                "description" : "Dex/Per increases unarmed power, Str reduces block damage.",
+                "description" : "Per increases unarmed power, Str reduces block damage.",
                 "unarmed_allowed" : true,
                 "min_unarmed" : 0,
                 "max_stacks" : 1,
-                "bash_dex" : 0.2,
-                "bash_per" : 0.2,
+                "bash_per" : 0.4,
                 "block_str" : 0.5
             }
         ],
@@ -904,7 +903,7 @@
             {
                 "id" : "venom_snake_static",
                 "name" : "Viper Patience",
-                "description" : "You are trained to stick close and stay cool in a fight, waiting for the opportunity to strike...",
+                "description" : "+2 Dodge.  Dodging an attack initiates a combo.",
                 "unarmed_allowed" : true,
                 "dodge" : 2
             }

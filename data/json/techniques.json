@@ -624,7 +624,7 @@
     },{
         "type" : "technique",
         "id" : "tec_biojutsu_wide",
-        "min_melee" : 8,
+        "min_melee" : 5,
         "crit_tec" : true,
         "name" : "wide strike",
         "messages" : [
@@ -651,7 +651,7 @@
         "min_unarmed" : 4,
         "unarmed_allowed" : true,
         "dodge_counter" : true,
-        "speed_mult" : 0.75,
+        "speed_mult" : 0.5,
         "bash_mult" : 1.25,
         "messages" : [
             "You lurch, and your wild swing hits %s",
@@ -874,7 +874,7 @@
             "venom_snake_combo_continue"
         ],
         "messages" : [
-            "You VIPER STRIKE %s!",
+            "You Viper Strike %s!",
             "<npcname> Viper Strikes %s!"
         ]
     },{
