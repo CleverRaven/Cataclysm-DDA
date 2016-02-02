@@ -34,6 +34,7 @@ using mfaction_id = int_id<monfaction>;
 using species_id = string_id<species_type>;
 class effect_type;
 using efftype_id = string_id<effect_type>;
+class JsonArray;
 
 typedef std::string itype_id;
 
@@ -229,6 +230,10 @@ struct mtype {
         std::string name_plural;
 
         std::set< const species_type* > species_ptrs;
+
+    public:
+        void add_special_attack( JsonArray jarr );
+
     public:
         mtype_id id;
         // TODO: maybe make this private as well? It must be set to `true` only once,

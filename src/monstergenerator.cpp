@@ -612,6 +612,18 @@ void set_attack_from_object(
     special_attacks_names.push_back( type );
 }
 
+void mtype::add_special_attack( JsonArray inner )
+{
+    MonsterGenerator &gen = MonsterGenerator::generator();
+    const std::string name = inner.get_string( 0 );
+    const auto iter = gen.attack_map.find( name );
+    if( iter == gen.attack_map.end() ) {
+        inner.throw_error( "Invalid special_attacks" );
+    }
+    special_attacks[name] = mtype_special_attack( iter->second, inner.get_int( 1 ) );
+    special_attacks_names.push_back( name );
+}
+
 void MonsterGenerator::load_special_attacks(mtype *m, JsonObject &jo, std::string member) {
     m->special_attacks.clear(); // make sure we're running with everything cleared
 
@@ -622,17 +634,7 @@ void MonsterGenerator::load_special_attacks(mtype *m, JsonObject &jo, std::strin
     JsonArray outer = jo.get_array(member);
     while( outer.has_more() ) {
         if( outer.test_array() ) {
-            JsonArray inner = outer.next_array();
-            const auto &aname = inner.get_string(0);
-            if ( attack_map.find(aname) != attack_map.end() ) {
-                auto new_entry = mtype_special_attack(
-                    attack_map[aname], inner.get_int(1) );
-                m->special_attacks[aname] = new_entry;
-
-                m->special_attacks_names.push_back(aname);
-            } else {
-                inner.throw_error("Invalid special_attacks");
-            }
+            m->add_special_attack( outer.next_array() );
         } else if( outer.test_object() ) {
             set_attack_from_object(
                 outer.next_object(), m->special_attacks, m->special_attacks_names );
