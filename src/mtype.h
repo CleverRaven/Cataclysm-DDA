@@ -232,6 +232,7 @@ struct mtype {
         std::set< const species_type* > species_ptrs;
 
         void add_special_attacks( JsonObject &jo, const std::string &member_name );
+        void remove_special_attacks( JsonObject &jo, const std::string &member_name );
 
         void add_special_attack( JsonArray jarr );
         void add_special_attack( JsonObject jo );

@@ -517,8 +517,16 @@ void mtype::load( JsonObject &jo )
         def_chance = 0;
     }
 
-    // TODO: allow overriding/adding/removing those if `was_loaded` is true
-    add_special_attacks( jo, "special_attacks" );
+    if( !was_loaded || jo.has_member( "special_attacks" ) ) {
+        special_attacks.clear();
+        special_attacks_names.clear();
+        add_special_attacks( jo, "special_attacks" );
+    } else {
+        // Note: special_attacks left as is, new attacks are added to it!
+        // Note: member name prefixes are compatible with those used by generic_typed_reader
+        remove_special_attacks( jo, "remove:special_attacks" );
+        add_special_attacks( jo, "add:special_attacks" );
+    }
 
     // Disable upgrading when JSON contains `"upgrades": false`, but fallback to the
     // normal behavior (including error checking) if "upgrades" is not boolean or not `false`.
@@ -622,7 +630,6 @@ void mtype::add_special_attack( JsonArray inner )
 }
 
 void mtype::add_special_attacks( JsonObject &jo, const std::string &member ) {
-    special_attacks.clear(); // make sure we're running with everything cleared
 
     if( !jo.has_array( member ) ) {
         return;
@@ -636,6 +643,17 @@ void mtype::add_special_attacks( JsonObject &jo, const std::string &member ) {
             add_special_attack( outer.next_object() );
         } else {
             outer.throw_error( "array element is neither array nor object." );
+        }
+    }
+}
+
+void mtype::remove_special_attacks( JsonObject &jo, const std::string &member_name )
+{
+    for( const std::string &name : jo.get_tags( member_name ) ) {
+        special_attacks.erase( name );
+        const auto iter = std::find( special_attacks_names.begin(), special_attacks_names.end(), name );
+        if( iter != special_attacks_names.end() ) {
+            special_attacks_names.erase( iter );
         }
     }
 }
