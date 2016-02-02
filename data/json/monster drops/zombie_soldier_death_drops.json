@@ -106,8 +106,7 @@
             { "item": "grip", "prob": 40},
             { "item": "pistol_grip", "prob": 30},
             { "item": "suppressor", "prob": 20},
-            { "item": "laser_sight", "prob": 20},
-            { "item": "spare_mag", "prob": 20}
+            { "item": "laser_sight", "prob": 20}
         ]
     },  
     {
@@ -151,7 +150,6 @@
         "id": "soldier_m4",
         "entries":
         [
-            { "item": "spare_mag", "prob": 25},
             { "item": "m4a1", "damage-min": 0, "damage-max": 4},
             { "item": "556", "charges-min": 5, "charges-max": 30, "prob": 33}
         ]
@@ -165,7 +163,6 @@
         [
             { "item": "modularvestceramic", "damage-min": 1, "damage-max": 4, "prob": 50},
             { "item": "rucksack", "prob": 50, "damage-min": 1, "damage-max": 4},
-            { "item": "spare_mag", "prob": 50},
             { "item": "m27iar", "damage-min": 0, "damage-max": 4},
             { "item": "556", "charges-min": 5, "charges-max": 20, "prob": 33}
         ]
@@ -220,7 +217,6 @@
         "id": "soldier_m14ebr",
         "entries":
         [
-            { "item": "spare_mag", "prob": 50},
             { "item": "binoculars", "prob": 50},
             { "item": "kevlar", "damage-min": 1, "damage-max": 4, "prob": 50},
             { "item": "m14ebr", "damage-min": 0, "damage-max": 4},
