@@ -1843,6 +1843,10 @@ void map::player_in_field( player &u )
                     adjusted_intensity -= 1;
                 }
             }
+
+            if( adjusted_intensity < 1 ) {
+                break;
+            }
             {
                 // Burn message by intensity
                 static const std::array<std::string, 4> player_burn_msg = {{
