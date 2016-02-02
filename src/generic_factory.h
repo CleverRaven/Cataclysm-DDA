@@ -474,9 +474,13 @@ struct handler<std::vector<T>> {
     }
     template<typename E>
     void erase( std::vector<T> &container, const E &data ) const {
-        const auto iter = std::find_if( container.begin(), container.end(), [&data]( const T & e ) {
+        erase_if( container, [&data]( const T & e ) {
             return e == data;
         } );
+    }
+    template<typename P>
+    void erase_if( std::vector<T> &container, const P &predicate ) const {
+        const auto iter = std::find_if( container.begin(), container.end(), predicate );
         if( iter != container.end() ) {
             container.erase( iter );
         }

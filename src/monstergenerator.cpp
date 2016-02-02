@@ -417,6 +417,21 @@ void MonsterGenerator::load_monster(JsonObject &jo)
     mon_templates->load( jo );
 }
 
+class mon_attack_effect_reader : public generic_typed_reader<mon_attack_effect_reader> {
+    public:
+        mon_effect_data get_next( JsonIn &jin ) const {
+            JsonObject e = jin.get_object();
+            return mon_effect_data( efftype_id( e.get_string( "id" ) ), e.get_int( "duration", 0 ),
+                                    get_body_part_token( e.get_string( "bp", "NUM_BP" ) ), e.get_bool( "permanent", false ),
+                                    e.get_int( "chance", 100 ) );
+        }
+        template<typename C>
+        void erase_next( JsonIn &jin, C &container ) const {
+            const efftype_id id = efftype_id( jin.get_string() );
+            reader_detail::handler<C>().erase_if( container, [&id]( const mon_effect_data &e ) { return e.id == id; } );
+        }
+};
+
 void mtype::load( JsonObject &jo )
 {
     MonsterGenerator &gen = MonsterGenerator::generator();
@@ -475,18 +490,7 @@ void mtype::load( JsonObject &jo )
     optional( jo, was_loaded, "vision_day", vision_day, 40 );
     optional( jo, was_loaded, "vision_night", vision_night, 1 );
     optional( jo, was_loaded, "armor_stab", armor_stab, 0.8f * armor_cut );
-
-    // TODO: allow adding/removing specific entries if `was_loaded` is true
-    if( jo.has_array( "attack_effs" ) ) {
-        JsonArray jsarr = jo.get_array( "attack_effs" );
-        while( jsarr.has_more() ) {
-            JsonObject e = jsarr.next_object();
-            mon_effect_data new_eff( efftype_id( e.get_string( "id" ) ), e.get_int( "duration", 0 ),
-                                     get_body_part_token( e.get_string( "bp", "NUM_BP" ) ), e.get_bool( "permanent", false ),
-                                     e.get_int( "chance", 100 ) );
-            atk_effs.push_back( new_eff );
-        }
-    }
+    optional( jo, was_loaded, "attack_effs", atk_effs, mon_attack_effect_reader{} );
 
     if( jo.has_member( "death_drops" ) ) {
         JsonIn &stream = *jo.get_raw( "death_drops" );
