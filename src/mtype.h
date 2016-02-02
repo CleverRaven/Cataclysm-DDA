@@ -233,6 +233,7 @@ struct mtype {
 
     public:
         void add_special_attack( JsonArray jarr );
+        void add_special_attack( JsonObject jo );
 
     public:
         mtype_id id;

@@ -592,10 +592,7 @@ mtype_special_attack load_actor( JsonObject obj, int cooldown )
     return mtype_special_attack( actor.release(), cooldown );
 }
 
-void set_attack_from_object(
-    JsonObject obj,
-    std::map<std::string, mtype_special_attack> &special_attacks,
-    std::vector<std::string> &special_attacks_names )
+void mtype::add_special_attack( JsonObject obj )
 {
     const std::string type = obj.get_string( "type" );
     const int cooldown = obj.get_int( "cooldown" );
@@ -636,8 +633,7 @@ void MonsterGenerator::load_special_attacks(mtype *m, JsonObject &jo, std::strin
         if( outer.test_array() ) {
             m->add_special_attack( outer.next_array() );
         } else if( outer.test_object() ) {
-            set_attack_from_object(
-                outer.next_object(), m->special_attacks, m->special_attacks_names );
+            m->add_special_attack( outer.next_object() );
         } else {
             outer.throw_error( "array element is neither array nor object." );
         }
