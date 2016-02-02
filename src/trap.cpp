@@ -220,6 +220,7 @@ tr_bubblewrap,
 tr_cot,
 tr_brazier,
 tr_funnel,
+tr_metal_funnel,
 tr_makeshift_funnel,
 tr_leather_funnel,
 tr_rollmat,
@@ -283,6 +284,7 @@ void trap::finalize()
     tr_cot = trapfind( "tr_cot" );
     tr_brazier = trapfind( "tr_brazier" );
     tr_funnel = trapfind( "tr_funnel" );
+    tr_metal_funnel = trapfind( "tr_metal_funnel" );
     tr_makeshift_funnel = trapfind( "tr_makeshift_funnel" );
     tr_leather_funnel = trapfind( "tr_leather_funnel" );
     tr_rollmat = trapfind( "tr_rollmat" );
