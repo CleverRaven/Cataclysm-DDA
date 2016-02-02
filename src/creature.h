@@ -15,11 +15,11 @@
 class game;
 class JsonObject;
 class JsonOut;
-class projectile;
-class damage_instance;
-class dealt_damage_instance;
-class damage_unit;
-class dealt_projectile_attack;
+struct projectile;
+struct damage_instance;
+struct dealt_damage_instance;
+struct damage_unit;
+struct dealt_projectile_attack;
 struct trap;
 enum m_flag : int;
 enum field_id : int;
