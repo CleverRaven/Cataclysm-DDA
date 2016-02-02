@@ -665,26 +665,6 @@ void MonsterGenerator::load_special_defense(mtype *m, JsonObject &jo, std::strin
 }
 
 template <typename T>
-std::set<T> MonsterGenerator::get_set_from_tags(std::set<std::string> tags,
-        std::map<std::string, T> conversion_map, T fallback)
-{
-    std::set<T> ret;
-
-    if (!tags.empty()) {
-        for( const auto &tag : tags ) {
-            if( conversion_map.find( tag ) != conversion_map.end() ) {
-                ret.insert( conversion_map[tag] );
-            }
-        }
-    }
-    if (ret.empty()) {
-        ret.insert(fallback);
-    }
-
-    return ret;
-}
-
-template <typename T>
 T MonsterGenerator::get_from_string(std::string tag, std::map<std::string, T> conversion_map,
                                     T fallback)
 {
