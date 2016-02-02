@@ -10917,12 +10917,9 @@ bool player::consume_charges( item *used, long qty )
         return true;
     }
 
-    if( used->has_flag( "USE_UPS" ) && has_charges( "UPS", used->ammo_required() ) ) {
+    // USE_UPS never occurs on base items but is instead added by the UPS tool mod
+    if( used->has_flag( "USE_UPS" ) ) {
         use_charges( "UPS", qty );
-        //Replace 1 with charges it needs to use.
-        if( used->active && used->charges <= 1 && !has_charges( "UPS", 1 ) ) {
-            add_msg_if_player( m_info, _( "You need an UPS of some kind for this %s to work continuously." ), used->tname().c_str() );
-        }
     }
 
     used->ammo_consume( std::min( qty, used->ammo_remaining() ), pos() );
