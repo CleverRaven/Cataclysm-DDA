@@ -163,7 +163,7 @@
   ]
 },{
   "type" : "recipe",
-  "result": "kevlar",
+  "result": "makeshift_kevlar",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_TORSO",
   "skill_used": "tailor",
