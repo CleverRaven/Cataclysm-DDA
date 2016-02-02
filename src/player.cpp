@@ -10886,6 +10886,11 @@ bool player::has_enough_charges( const item &it, bool show_msg ) const
 
 bool player::consume_charges(item *used, long charges_used)
 {
+    if( !has_item( used ) ) {
+        debugmsg( "Tried to consume charges for an item not in players possession" );
+        return false;
+    }
+
     // Non-tools can use charges too - when they're comestibles
     const auto tool = dynamic_cast<const it_tool*>(used->type);
     const auto comest = dynamic_cast<const it_comest*>(used->type);
@@ -10895,9 +10900,6 @@ bool player::consume_charges(item *used, long charges_used)
 
     if( tool != nullptr && tool->charges_per_use <= 0 ) {
         // An item that doesn't normally expend charges is destroyed instead.
-        /* We can't be certain the item is still in the same position,
-         * as other items may have been consumed as well, so remove
-         * the item directly instead of by its position. */
         i_rem( used );
         return true;
     }
