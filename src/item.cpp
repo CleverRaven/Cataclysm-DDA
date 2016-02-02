@@ -4187,12 +4187,6 @@ bool item::gunmod_compatible( const item& mod, bool alert ) const
     } else if ( !mod.type->gunmod->acceptable_ammo_types.empty() && !mod.type->gunmod->acceptable_ammo_types.count( ammo_type( false ) ) ) {
         msg = string_format( _( "That %1$s cannot be used on a %2$s." ), mod.tname( 1 ).c_str(), ammo_name( ammo_type( false ) ).c_str() );
 
-    } else if( mod.typeId() == "spare_mag" && has_flag( "RELOAD_ONE" ) ) {
-        msg = string_format( _( "You can not use a spare magazine in your %s." ), tname().c_str() );
-
-    } else if( mod.type->gunmod->location == "magazine" && clip_size() <= 2 ) {
-        msg = string_format( _( "You can not extend the ammo capacity of your %s." ), tname().c_str() );
-
     } else if( mod.typeId() == "waterproof_gunmod" && has_flag( "WATERPROOF_GUN" ) ) {
         msg = string_format( _( "Your %s is already waterproof." ), tname().c_str() );
 
@@ -4201,12 +4195,6 @@ bool item::gunmod_compatible( const item& mod, bool alert ) const
 
     } else if( mod.typeId() == "brass_catcher" && has_flag( "RELOAD_EJECT" ) ) {
         msg = string_format( _( "You cannot attach a brass catcher to your %s." ), tname().c_str() );
-
-    } else if ( mod.typeId() == "clip" && ( has_gunmod( "clip" ) != -1 || has_gunmod( "clip2" ) != -1 ) ) {
-        msg = string_format( _( "Your %s already has an extended magazine." ), tname().c_str() );
-
-    } else if ( mod.typeId() == "clip2" && ( has_gunmod( "clip" ) != -1 || has_gunmod( "clip2" ) != -1 ) ) {
-        msg = string_format( _( "Your %s already has an extended magazine." ), tname().c_str() );
 
     } else {
         return true;
