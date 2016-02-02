@@ -335,7 +335,7 @@
                 "name" : "Zui Quan",
                 "description" : "Intelligence increases dodging ability",
                 "unarmed_allowed" : true,
-                "dodge_int": 0.25
+                "dodge_int": 0.12
             }
         ],
         "onattack_buffs" : [
