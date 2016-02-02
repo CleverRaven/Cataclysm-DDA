@@ -107,9 +107,7 @@
             { "item": "pistol_grip", "prob": 30},
             { "item": "suppressor", "prob": 20},
             { "item": "laser_sight", "prob": 20},
-            { "item": "spare_mag", "prob": 20},
-            { "item": "clip", "prob": 10},
-            { "item": "clip2", "prob": 10}
+            { "item": "spare_mag", "prob": 20}
         ]
     },  
     {
