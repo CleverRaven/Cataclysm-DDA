@@ -107,9 +107,17 @@ class item_category
 
 class item : public JsonSerializer, public JsonDeserializer
 {
-public:
- item();
- item(const std::string new_type, int turn, bool rand = true);
+    public:
+        item();
+
+        item( item && ) = default;
+        item( const item & ) = default;
+        item &operator=( item && ) = default;
+        item &operator=( const item & ) = default;
+        virtual ~item();
+
+        item( const std::string new_type, int turn, bool rand = true );
+        item( JsonObject &jo );
 
         /**
          * Make a corpse of the given monster type.
@@ -157,12 +165,6 @@ public:
          */
         bool ready_to_revive( const tripoint &pos ) const;
 
- item(JsonObject &jo);
-        item(item &&) = default;
-        item(const item &) = default;
-        item &operator=(item &&) = default;
-        item &operator=(const item &) = default;
- virtual ~item();
  void make( const std::string new_type, bool scrub = false );
 
     /**
