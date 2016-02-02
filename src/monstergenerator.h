@@ -82,9 +82,6 @@ class MonsterGenerator
         void init_flags();
         void init_mf_attitude();
 
-        // data acquisition
-        void load_special_attacks( mtype *m, JsonObject &jo, std::string member );
-
         // finalization
         void apply_species_attributes( mtype &mon );
         void set_mtype_flags( mtype &mon );

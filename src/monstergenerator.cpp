@@ -518,7 +518,7 @@ void mtype::load( JsonObject &jo )
     }
 
     // TODO: allow overriding/adding/removing those if `was_loaded` is true
-    gen.load_special_attacks( this, jo, "special_attacks" );
+    add_special_attacks( jo, "special_attacks" );
 
     // Disable upgrading when JSON contains `"upgrades": false`, but fallback to the
     // normal behavior (including error checking) if "upgrades" is not boolean or not `false`.
@@ -621,8 +621,8 @@ void mtype::add_special_attack( JsonArray inner )
     special_attacks_names.push_back( name );
 }
 
-void MonsterGenerator::load_special_attacks(mtype *m, JsonObject &jo, std::string member) {
-    m->special_attacks.clear(); // make sure we're running with everything cleared
+void mtype::add_special_attacks( JsonObject &jo, const std::string &member ) {
+    special_attacks.clear(); // make sure we're running with everything cleared
 
     if( !jo.has_array( member ) ) {
         return;
@@ -631,9 +631,9 @@ void MonsterGenerator::load_special_attacks(mtype *m, JsonObject &jo, std::strin
     JsonArray outer = jo.get_array(member);
     while( outer.has_more() ) {
         if( outer.test_array() ) {
-            m->add_special_attack( outer.next_array() );
+            add_special_attack( outer.next_array() );
         } else if( outer.test_object() ) {
-            m->add_special_attack( outer.next_object() );
+            add_special_attack( outer.next_object() );
         } else {
             outer.throw_error( "array element is neither array nor object." );
         }
