@@ -1499,7 +1499,7 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
     const int old_level = p->get_skill_level( actor->used_skill );
     const auto attempt = actor->repair( *p, *used_tool, fix );
     if( attempt != repair_item_actor::AS_CANT ) {
-        p->consume_charges( used_tool, charges_to_use );
+        p->consume_charges( *used_tool, charges_to_use );
     }
 
     // Print message explaining why we stopped

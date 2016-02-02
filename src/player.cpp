@@ -10884,9 +10884,9 @@ bool player::has_enough_charges( const item &it, bool show_msg ) const
     return true;
 }
 
-bool player::consume_charges( item *used, long qty )
+bool player::consume_charges( item& used, long qty )
 {
-    if( !has_item( used ) ) {
+    if( !has_item( &used ) ) {
         debugmsg( "Tried to consume charges for an item not in players possession" );
         return false;
     }
@@ -10896,33 +10896,33 @@ bool player::consume_charges( item *used, long qty )
         return false;
     }
 
-    if( !used->is_tool() && !used->is_food() ) {
+    if( !used.is_tool() && !used.is_food() ) {
         debugmsg( "Tried to consume charges for non-tool, non-food item" );
         return false;
     }
 
     // Consume comestibles destroying them if no charges remain
-    if( used->is_food() ) {
-        used->charges -= qty;
-        if( used->charges <= 0 ) {
-            i_rem( used );
+    if( used.is_food() ) {
+        used.charges -= qty;
+        if( used.charges <= 0 ) {
+            i_rem( &used );
             return true;
         }
         return false;
     }
 
     // Tools which don't require ammo are instead destroyed
-    if( used->is_tool() && !used->ammo_required() ) {
-        i_rem( used );
+    if( used.is_tool() && !used.ammo_required() ) {
+        i_rem( &used );
         return true;
     }
 
     // USE_UPS never occurs on base items but is instead added by the UPS tool mod
-    if( used->has_flag( "USE_UPS" ) ) {
+    if( used.has_flag( "USE_UPS" ) ) {
         use_charges( "UPS", qty );
     }
 
-    used->ammo_consume( std::min( qty, used->ammo_remaining() ), pos() );
+    used.ammo_consume( std::min( qty, used.ammo_remaining() ), pos() );
     return false;
 }
 
@@ -11064,7 +11064,7 @@ bool player::invoke_item( item* used, const tripoint &pt )
 
     if( used->type->use_methods.size() < 2 ) {
         const long charges_used = used->type->invoke( this, used, pt );
-        return consume_charges( used, charges_used );
+        return consume_charges( *used, charges_used );
     }
 
     // Food can't be invoked here - it is already invoked as a part of consumption
@@ -11091,7 +11091,7 @@ bool player::invoke_item( item* used, const tripoint &pt )
 
     const std::string &method = used->type->use_methods[choice].get_type_name();
     long charges_used = used->type->invoke( this, used, pt, method );
-    return consume_charges( used, charges_used );
+    return consume_charges( *used, charges_used );
 }
 
 bool player::invoke_item( item* used, const std::string &method )
@@ -11117,7 +11117,7 @@ bool player::invoke_item( item* used, const std::string &method, const tripoint 
     }
 
     long charges_used = actually_used->type->invoke( this, actually_used, pt, method );
-    return consume_charges( actually_used, charges_used );
+    return consume_charges( *actually_used, charges_used );
 }
 
 void player::remove_gunmod(item *weapon, unsigned id)
