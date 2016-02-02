@@ -10884,17 +10884,22 @@ bool player::has_enough_charges( const item &it, bool show_msg ) const
     return true;
 }
 
-bool player::consume_charges(item *used, long charges_used)
+bool player::consume_charges( item *used, long qty )
 {
     if( !has_item( used ) ) {
         debugmsg( "Tried to consume charges for an item not in players possession" );
         return false;
     }
 
+    if( qty <= 0 ) {
+        debugmsg( "Tried to consume zero or negagtive charges" );
+        return false;
+    }
+
     // Non-tools can use charges too - when they're comestibles
     const auto tool = dynamic_cast<const it_tool*>(used->type);
     const auto comest = dynamic_cast<const it_comest*>(used->type);
-    if( charges_used <= 0 || (tool == nullptr && comest == nullptr) ) {
+    if( tool == nullptr && comest == nullptr ) {
         return false;
     }
 
@@ -10905,13 +10910,13 @@ bool player::consume_charges(item *used, long charges_used)
     }
 
     if( used->has_flag( "USE_UPS" ) && has_charges( "UPS", used->ammo_required() ) ) {
-        use_charges( "UPS", charges_used );
+        use_charges( "UPS", qty );
         //Replace 1 with charges it needs to use.
         if( used->active && used->charges <= 1 && !has_charges( "UPS", 1 ) ) {
             add_msg_if_player( m_info, _( "You need an UPS of some kind for this %s to work continuously." ), used->tname().c_str() );
         }
     } else {
-        used->charges -= std::min( used->charges, charges_used );
+        used->charges -= std::min( used->charges, qty );
     }
 
     if( comest != nullptr && used->charges <= 0 ) {
