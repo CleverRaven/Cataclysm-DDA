@@ -567,6 +567,27 @@ class generic_typed_reader
             reader_detail::handler<C>().insert( container, get_next( jin ) );
         }
 
+        template<typename C>
+        void erase_values_from( JsonObject &jo, const std::string &member_name, C &container ) const {
+            if( !jo.has_member( member_name ) ) {
+                return;
+            }
+            JsonIn &jin = *jo.get_raw( member_name );
+            // Same as for inserting: either an array or a single value, same caveat applies.
+            if( jin.test_array() ) {
+                jin.start_array();
+                while( !jin.end_array() ) {
+                    erase_next( jin, container );
+                }
+            } else {
+                erase_next( jin, container );
+            }
+        }
+        template<typename C>
+        void erase_next( JsonIn &jin, C &container ) const {
+            reader_detail::handler<C>().erase( container, get_next( jin ) );
+        }
+
         /**
          * Implements the reader interface, handles members that are containers of flags.
          * The functions forwards the actual changes to @ref assign, @ref insert
@@ -588,9 +609,7 @@ class generic_typed_reader
             } else if( !was_loaded ) {
                 return false;
             } else {
-                for( auto && data : get_tags( jo, "remove:" + member_name ) ) {
-                    reader_detail::handler<C>().erase( container, data );
-                }
+                erase_values_from( jo, "remove:" + member_name, container );
                 insert_values_from( jo, "add:" + member_name, container );
                 return true;
             }
