@@ -545,6 +545,28 @@ class generic_typed_reader
             return result;
         }
 
+        template<typename C>
+        void insert_values_from( JsonObject &jo, const std::string &member_name, C &container ) const {
+            if( !jo.has_member( member_name ) ) {
+                return;
+            }
+            JsonIn &jin = *jo.get_raw( member_name );
+            // We allow either a single value or an array of values. Note that this will not work
+            // correctly if the thing we load from JSON is itself an array.
+            if( jin.test_array() ) {
+                jin.start_array();
+                while( !jin.end_array() ) {
+                    insert_next( jin, container );
+                }
+            } else {
+                insert_next( jin, container );
+            }
+        }
+        template<typename C>
+        void insert_next( JsonIn &jin, C &container ) const {
+            reader_detail::handler<C>().insert( container, get_next( jin ) );
+        }
+
         /**
          * Implements the reader interface, handles members that are containers of flags.
          * The functions forwards the actual changes to @ref assign, @ref insert
@@ -561,9 +583,7 @@ class generic_typed_reader
             // existing specializations in namespace reader_detail.
             if( jo.has_member( member_name ) ) {
                 reader_detail::handler<C>().clear( container );
-                for( auto && data : get_tags( jo, member_name ) ) {
-                    reader_detail::handler<C>().insert( container, data );
-                }
+                insert_values_from( jo, member_name, container );
                 return true;
             } else if( !was_loaded ) {
                 return false;
@@ -571,9 +591,7 @@ class generic_typed_reader
                 for( auto && data : get_tags( jo, "remove:" + member_name ) ) {
                     reader_detail::handler<C>().erase( container, data );
                 }
-                for( auto && data : get_tags( jo, "add:" + member_name ) ) {
-                    reader_detail::handler<C>().insert( container, data );
-                }
+                insert_values_from( jo, "add:" + member_name, container );
                 return true;
             }
         }
