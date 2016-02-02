@@ -821,7 +821,7 @@
         "color": "brown",
         "move_cost": 0,
         "flags": [
-            "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "TRANSPARENT", "REDUCE_SCENT", "CONNECT_TO_WALL"
+            "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "REDUCE_SCENT", "CONNECT_TO_WALL", "WALL"
         ],
         "bash": {
             "str_min": 10, "str_max": 150,
@@ -840,7 +840,7 @@
         "color": "ltred",
         "move_cost": 0,
         "flags": [
-            "FLAMMABLE", "NOITEM", "DOOR", "TRANSPARENT", "CONNECT_TO_WALL"
+            "FLAMMABLE", "NOITEM", "DOOR", "CONNECT_TO_WALL", "WALL"
         ],
         "bash": {
             "str_min": 6, "str_max": 150,
