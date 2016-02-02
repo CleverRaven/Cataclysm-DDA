@@ -1125,12 +1125,6 @@ public:
         bool gunmod_compatible( const item& mod, bool alert = true ) const;
 
         /**
-         * Number of charges this gun can hold. Includes effects from installed gunmods.
-         * This does use the auxiliary gunmod (if any).
-         */
-        // TODO: make long? Because it relates to charges.
-        int clip_size() const;
-        /**
          * Burst size (see ranged.cpp), includes effects from installed gunmods.
          */
         int burst_size() const;

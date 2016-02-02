@@ -3689,21 +3689,6 @@ skill_id item::skill() const
     return NULL_ID;
 }
 
-int item::clip_size() const
-{
-    if (!is_gun())
-        return 0;
-
-    int ret = type->gun->clip;
-    for( auto &elem : contents ) {
-        if( elem.is_gunmod() && !elem.is_auxiliary_gunmod() ) {
-            int bonus = ( ret * elem.type->gunmod->clip ) / 100;
-            ret = int(ret + bonus);
-        }
-    }
-    return ret;
-}
-
 int item::gun_dispersion( bool with_ammo ) const
 {
     if( !is_gun() ) {

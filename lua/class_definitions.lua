@@ -712,7 +712,6 @@ classes = {
             { name = "burst_size", rval = "int", args = { } },
             { name = "calc_rot", rval = nil, args = { "tripoint" } },
             { name = "can_revive", rval = "bool", args = { } },
-            { name = "clip_size", rval = "int", args = { } },
             { name = "color", rval = "int", args = { } },
             { name = "color_in_inventory", rval = "int", args = { } },
             { name = "components_to_string", rval = "string", args = { } },

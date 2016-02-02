@@ -217,11 +217,11 @@ void Item_modifier::modify(item &new_item) const
                 new_item.charges = am.charges;
             }
         }
-        // Make sure the item is in a valid state curammo==0 <=> charges==0 and respect clip size
-        if( !new_item.has_curammo() ) {
-            new_item.charges = 0;
+        // Make sure the item is in valid state
+        if( new_item.ammo_data() && new_item.magazine_integral() ) {
+            new_item.charges = std::min( new_item.charges, new_item.ammo_capacity() );
         } else {
-            new_item.charges = std::min<long>( new_item.charges, new_item.clip_size() );
+            new_item.charges = 0;
         }
     }
     if(container.get() != NULL) {
