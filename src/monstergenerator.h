@@ -83,7 +83,6 @@ class MonsterGenerator
         void init_mf_attitude();
 
         // data acquisition
-        void load_special_defense( mtype *m, JsonObject &jo, std::string member );
         void load_special_attacks( mtype *m, JsonObject &jo, std::string member );
 
         // finalization

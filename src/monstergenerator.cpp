@@ -504,8 +504,20 @@ void mtype::load( JsonObject &jo )
         dies.push_back( mdeath::normal );
     }
 
+    if( jo.has_member( "special_when_hit" ) ) {
+        JsonArray jsarr = jo.get_array( "special_when_hit" );
+        const auto iter = gen.defense_map.find( jsarr.get_string( 0 ) );
+        if( iter == gen.defense_map.end() ) {
+            jsarr.throw_error( "Invalid monster defense function" );
+        }
+        sp_defense = iter->second;
+        def_chance = jsarr.get_int( 1 );
+    } else if( !was_loaded ) {
+        sp_defense = &mdefense::none;
+        def_chance = 0;
+    }
+
     // TODO: allow overriding/adding/removing those if `was_loaded` is true
-    gen.load_special_defense( this, jo, "special_when_hit" );
     gen.load_special_attacks( this, jo, "special_attacks" );
 
     // Disable upgrading when JSON contains `"upgrades": false`, but fallback to the
@@ -627,22 +639,6 @@ void MonsterGenerator::load_special_attacks(mtype *m, JsonObject &jo, std::strin
         } else {
             outer.throw_error( "array element is neither array nor object." );
         }
-    }
-}
-
-void MonsterGenerator::load_special_defense(mtype *m, JsonObject &jo, std::string member) {
-    if (jo.has_array(member)) {
-        JsonArray jsarr = jo.get_array(member);
-        if ( defense_map.find(jsarr.get_string(0)) != defense_map.end() ) {
-            m->sp_defense = defense_map[jsarr.get_string(0)];
-            m->def_chance = jsarr.get_int(1);
-        } else {
-            jsarr.throw_error("Invalid special_when_hit");
-        }
-    }
-
-    if (m->sp_defense == NULL) {
-        m->sp_defense = defense_map["NONE"];
     }
 }
 
