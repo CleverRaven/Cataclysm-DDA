@@ -1213,11 +1213,6 @@ public:
          */
         skill_id gun_skill() const;
         /**
-         * Returns the appropriate size for a spare magazine used with this gun. If this is not a gun,
-         * it returns 0.
-         */
-        int spare_mag_size() const;
-        /**
          * Returns the currently active auxiliary (@ref is_auxiliary_gunmod) gun mod item.
          * May return null if there is no such gun mod or if the gun is not in the
          * auxiliary mode (@ref is_in_auxiliary_mode).

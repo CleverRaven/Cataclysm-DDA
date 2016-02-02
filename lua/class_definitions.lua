@@ -857,7 +857,6 @@ classes = {
             { name = "set_var", rval = nil, args = { "string", "string" } },
             { name = "sight_dispersion", rval = "int", args = { "int" } },
             { name = "skill", rval = "skill_id", args = { } },
-            { name = "spare_mag_size", rval = "int", args = { } },
             { name = "stacks_with", rval = "bool", args = { "item" } },
             { name = "symbol", rval = "int", args = { } },
             { name = "tname", rval = "string", args = { "int" } },
