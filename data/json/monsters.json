@@ -5000,11 +5000,11 @@
     "aggression":-10,
     "morale":100,
     "speed":150,
-    "melee_skill":7,
+    "melee_skill":6,
     "melee_dice":1,
-    "melee_dice_sides":6,
-    "melee_cut":2,
-    "dodge":8,
+    "melee_dice_sides":8,
+    "melee_cut":4,
+    "dodge":7,
     "armor_bash":1,
     "armor_cut":2,
     "vision_day":5,
@@ -5013,7 +5013,7 @@
     "death_function":"NORMAL",
     "description":"A twitchy mutant brown spider, with a relatively small body and spindly long legs.  Its smaller brethren are known for being agile, and for preying upon other spiders.",
     "//": "No, they are not in fact the most venomous spider in the world.",
-    "flags":["SEES", "SMELLS", "HEARS", "VENOM", "WEBWALK", "CHITIN", "CLIMBS", "HARDTOSHOOT", "PUSH_MON"],
+    "flags":["SEES", "SMELLS", "HEARS", "VENOM", "WEBWALK", "CHITIN", "CLIMBS", "HARDTOSHOOT", "PUSH_MON", "ACIDPROOF"],
     "anger_triggers":["STALK", "PLAYER_WEAK", "PLAYER_CLOSE"]
     },{
     "type" : "MONSTER",
@@ -5041,7 +5041,7 @@
     "hp":23,
     "death_function":"NORMAL",
     "description":"A newly-hatched giant cellar spider.  Too small to possess much venom, but still quick and agile like an adult.",
-    "flags":["SEES", "SMELLS", "HEARS", "WEBWALK", "CHITIN", "CLIMBS", "HARDTOSHOOT"],
+    "flags":["SEES", "SMELLS", "HEARS", "WEBWALK", "CHITIN", "CLIMBS", "HARDTOSHOOT", "ACIDPROOF"],
     "anger_triggers":["STALK", "PLAYER_WEAK", "PLAYER_CLOSE"]
     },{
     "type" : "MONSTER",
