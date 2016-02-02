@@ -10962,8 +10962,7 @@ void player::use(int inventory_position)
 
         item& gun = i_at( gunpos );
         if( gun.gunmod_compatible( *used ) ) {
-            add_msg( _( "You attach the %1$s to your %2$s." ), used->tname().c_str(), gun.tname().c_str() );
-            gun.contents.push_back( i_rem( used ) );
+            gunmod_add( gun, *used );
         }
         return;
 
@@ -11153,6 +11152,111 @@ void player::remove_gunmod(item *weapon, unsigned id)
         weapon->charges = weapon->clip_size();
         i_add_or_drop(ammo);
     }
+}
+
+bool player::gunmod_add( item& gun, item& mod ) {
+    if( !gun.gunmod_compatible( mod, false ) ) {
+        debugmsg( "Tried to add incompatible gunmod" );
+        return false;
+    }
+
+    if( !has_item( &gun ) ) {
+        debugmsg( "Tried to attach mod to gun not in players possession" );
+        return false;
+    }
+
+    // first check at least the minimum requirements are met
+    if( !can_use( mod ) ) {
+        return false;
+    }
+
+    int chances = 1; // start with 1 in 6 (~17% chance)
+
+    for( const auto& sk : mod.type->min_skills ) {
+        // gain an additional chance for every level above the minimum requirement
+        chances += std::max( get_skill_level( sk.first ) - sk.second, 0 );
+    }
+
+    // cap success from skill alone to 1 in 5 (~83% chance)
+    int roll = std::min( double( chances ), 5.0 ) / 6.0 * 100;
+
+    // focus is either a penalty or bonus of at most +/-10%
+    roll += ( std::min( std::max( focus_pool, 140 ), 60 ) - 100 ) / 4;
+
+    // dexterity and intelligence give +/-2% for each point above or below 12
+    roll += ( get_dex() - 12 ) * 2;
+    roll += ( get_int() - 12 ) * 2;
+
+    // each point of damage to the base gun reduces success by 10%
+    roll -= std::min( gun.damage, 0 ) * 10;
+
+    roll = std::min( roll, 100 );
+
+    // risk of causing damage on failure when not using tools increases with less durable guns
+    int risk = ( 100 - roll ) * ( ( 10.0 - std::min( gun.type->gun->durability, 9 ) ) / 10.0 );
+
+    uimenu prompt;
+    prompt.text = string_format( _( "Attach your %1$s to your %2$s?" ), mod.tname().c_str(), gun.tname().c_str() );
+
+    std::vector<std::function<bool()>> actions;
+
+    prompt.addentry( -1, true, 'w', string_format( _( "Try without tools (%i%%) risking damage (%i%%)" ), roll, risk ) );
+
+    actions.push_back( [&]{
+        if( rng( 0, 100 ) <= risk ) {
+            if( gun.damage++ >= MAX_ITEM_DAMAGE ) {
+                i_rem( &gun );
+                add_msg( m_bad, _( "You failed at installing the %s and destroyed your %s!" ), mod.tname().c_str(), gun.tname().c_str() );
+            } else {
+                add_msg( m_bad, _( "You failed at installing the %s and damaged your %s!" ), mod.tname().c_str(), gun.tname().c_str() );
+            }
+            return false;
+        } else if( rng( 0, 100 ) > roll ) {
+            add_msg( m_info, _( "You failed at installing the %s." ), mod.tname().c_str(), gun.tname().c_str() );
+            return false;
+        }
+        return true;
+    } );
+
+    prompt.addentry( -1, has_charges( "small_repairkit", 100 ), 'f',
+                     string_format( _( "Use 100 charges of firearm repair kit (%i%%)" ), std::min( roll * 2, 100 ) ) );
+
+    actions.push_back( [&]{
+        use_charges( "small_repairkit", 100 );
+        if( rng( 0, 100 ) <= std::min( roll * 2, 100 ) ) {
+            return true;
+        } else {
+            add_msg( m_bad, _( "You failed at installing the %s and wasted %i charges!" ), mod.tname().c_str(), 100 );
+            return false;
+        }
+    } );
+
+    prompt.addentry( -1, has_charges( "large_repairkit", 25 ), 'g',
+                     string_format( _( "Use 25 charges of gunsmith repair kit (%i%%)" ), std::min( roll * 3, 100 ) ) );
+
+    actions.push_back( [&]{
+        use_charges( "large_repairkit", 25 );
+        if( rng( 0, 100 ) <= std::min( roll * 3, 100 ) ) {
+            return true;
+        } else {
+            add_msg( m_bad, _( "You failed at installing the %s and wasted %i charges!" ), mod.tname().c_str(), 25 );
+            return false;
+        }
+        return true;
+    } );
+
+    prompt.addentry( -1, true, 'c', _( "Cancel" ) );
+    actions.push_back( []{
+        return false;
+    } );
+
+    prompt.query();
+    if( actions[ prompt.ret ]() ) {
+        add_msg( m_good, _( "You sucessfully attached the %1$s to your %2$s." ), mod.tname().c_str(), gun.tname().c_str() );
+        gun.contents.push_back( i_rem( &mod ) );
+        return true;
+    }
+    return false;
 }
 
 hint_rating player::rate_action_read( const item &it ) const
