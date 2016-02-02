@@ -2724,15 +2724,14 @@ int iuse::fish_trap(player *p, item *it, bool t, const tripoint &pos)
                     //not existing in the fishables vector. (maybe it was in range, but wandered off)
                     //lets say it is a 5% chance per fish to catch
                     if (one_in(20)) {
-                        item fish;
                         const std::vector<mtype_id> fish_group = MonsterGroupManager::GetMonstersFromGroup( mongroup_id( "GROUP_FISH" ) );
                         const mtype_id& fish_mon = fish_group[rng(1, fish_group.size()) - 1];
-                        fish.make_corpse( fish_mon, it->bday + rng(0, 1800)); //we don't know when it was caught. its random
                         //Yes, we can put fishes in the trap like knives in the boot,
                         //and then get fishes via activation of the item,
                         //but it's not as comfortable as if you just put fishes in the same tile with the trap.
                         //Also: corpses and comestibles do not rot in containers like this, but on the ground they will rot.
-                        g->m.add_item_or_charges( pos, fish );
+                        //we don't know when it was caught so use a random turn
+                        g->m.add_item_or_charges( pos, item::make_corpse( fish_mon, it->bday + rng(0, 1800) ) );
                         break; //this can happen only once
                     }
                 }

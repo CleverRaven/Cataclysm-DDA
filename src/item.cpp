@@ -172,29 +172,25 @@ item::item(const std::string new_type, int turn, bool rand)
     }
 }
 
-void item::make_corpse( const mtype_id& mt, int turn, const std::string &name )
+item item::make_corpse( const mtype_id& mt, int turn, const std::string &name )
 {
     if( !mt.is_valid() ) {
         debugmsg( "tried to make a corpse with an invalid mtype id" );
     }
-    const bool isReviveSpecial = one_in( 20 );
-    init();
-    make( "corpse" );
-    corpse = &mt.obj();
-    active = corpse->has_flag( MF_REVIVES );
-    if( active && isReviveSpecial ) {
-        item_tags.insert( "REVIVE_SPECIAL" );
-    }
 
-    if( turn >= 0 ) {
-        bday = turn;
-    } else {
-        bday = calendar::turn;
+    item result( "corpse", turn >= 0 ? turn : int( calendar::turn ) );
+    result.corpse = &mt.obj();
+
+    result.active = result.corpse->has_flag( MF_REVIVES );
+    if( result.active && one_in( 20 ) ) {
+        result.item_tags.insert( "REVIVE_SPECIAL" );
     }
 
     if( !name.empty() ) {
-        this->name = name;
+        result.name = name;
     }
+
+    return result;
 }
 
 item::item(JsonObject &jo)

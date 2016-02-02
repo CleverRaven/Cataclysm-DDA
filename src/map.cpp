@@ -7768,9 +7768,9 @@ void map::add_corpse( const tripoint &p )
     const bool isReviveSpecial = one_in( 10 );
 
     if( !isReviveSpecial ) {
-        body.make_corpse();
+        body = item::make_corpse();
     } else {
-        body.make_corpse( mon_zombie, calendar::turn );
+        body = item::make_corpse( mon_zombie );
         body.item_tags.insert( "REVIVE_SPECIAL" );
         body.active = true;
     }

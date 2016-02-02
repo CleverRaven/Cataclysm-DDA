@@ -557,8 +557,7 @@ static void rod_fish( player *p, int sSkillLevel, int fishChance )
                 item fish;
                 const std::vector<mtype_id> fish_group = MonsterGroupManager::GetMonstersFromGroup( mongroup_id( "GROUP_FISH" ) );
                 const mtype_id& fish_mon = fish_group[rng(1, fish_group.size()) - 1];
-                fish.make_corpse( fish_mon, calendar::turn );
-                g->m.add_item_or_charges(p->pos(), fish);
+                g->m.add_item_or_charges(p->pos(), item::make_corpse( fish_mon ) );
                 p->add_msg_if_player(m_good, _("You caught a %s."), fish_mon.obj().nname().c_str());
             } else {
                 p->add_msg_if_player(_("You didn't catch anything."));

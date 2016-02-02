@@ -112,7 +112,7 @@ public:
  item(const std::string new_type, int turn, bool rand = true);
 
         /**
-         * Make this a corpse of the given monster type.
+         * Make a corpse of the given monster type.
          * The monster type id must be valid (see @ref MonsterGenerator::get_mtype).
          *
          * The turn parameter sets the birthday of the corpse, in other words: the turn when the
@@ -126,7 +126,7 @@ public:
          * With the default parameters it makes a human corpse, created at the current turn.
          */
         /*@{*/
-        void make_corpse( const mtype_id& mt = NULL_ID, int turn = -1, const std::string &name = "" );
+        static item make_corpse( const mtype_id& mt = NULL_ID, int turn = -1, const std::string &name = "" );
         /*@}*/
         /**
          * @return The monster type associated with this item (@ref corpse). It is usually the

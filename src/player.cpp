@@ -13819,8 +13819,7 @@ std::vector<Creature *> player::get_hostile_creatures() const
 void player::place_corpse()
 {
     std::vector<item *> tmp = inv_dump();
-    item body;
-    body.make_corpse( NULL_ID, calendar::turn, name );
+    item body = item::make_corpse( NULL_ID, calendar::turn, name );
     for( auto itm : tmp ) {
         g->m.add_item_or_charges( pos(), *itm );
     }
