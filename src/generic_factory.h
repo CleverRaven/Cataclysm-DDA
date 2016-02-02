@@ -504,7 +504,10 @@ class generic_typed_reader
         bool operator()( JsonObject &jo, const std::string &member_name,
                          C &container, bool was_loaded ) const {
             if( jo.has_member( member_name ) ) {
-                assign( container, get_tags( jo, member_name ) );
+                clear( container );
+                for( auto && data : get_tags( jo, member_name ) ) {
+                    insert( container, data );
+                }
                 return true;
             } else if( !was_loaded ) {
                 return false;
@@ -541,8 +544,8 @@ class generic_typed_reader
         void erase( std::set<FlagType> &container, const FlagType &data ) const {
             container.erase( data );
         }
-        void assign( std::set<FlagType> &container, std::set<FlagType> &&entries ) const {
-            container = entries;
+        void clear( std::set<FlagType> &container ) const {
+            container.clear();
         }
         /**@}*/
 
@@ -558,11 +561,8 @@ class generic_typed_reader
             container.reset( data );
         }
         template<size_t N>
-        void assign( std::bitset<N> &container, std::set<FlagType> &&entries ) const {
+        void clear( std::bitset<N> &container ) const {
             container.reset();
-            for( auto && data : entries ) {
-                container.set( data );
-            }
         }
         /**@}*/
 
@@ -576,8 +576,8 @@ class generic_typed_reader
                 container.erase( iter );
             }
         }
-        void assign( std::vector<FlagType> &container, std::set<FlagType> &&entries ) const {
-            container = std::vector<FlagType>( entries.begin(), entries.end() );
+        void clear( std::vector<FlagType> &container ) const {
+            container.clear();
         }
         /**@}*/
 };
