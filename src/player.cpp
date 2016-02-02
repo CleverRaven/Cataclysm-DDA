@@ -10898,13 +10898,13 @@ bool player::consume_charges(item *used, long charges_used)
         return false;
     }
 
-    if( tool != nullptr && tool->charges_per_use <= 0 ) {
-        // An item that doesn't normally expend charges is destroyed instead.
+    // Tools which don't require ammo are instead destroyed
+    if( used->is_tool() && !used->ammo_required() ) {
         i_rem( used );
         return true;
     }
 
-    if( used->has_flag( "USE_UPS" ) && has_charges( "UPS", tool->charges_per_use ) ) {
+    if( used->has_flag( "USE_UPS" ) && has_charges( "UPS", used->ammo_required() ) ) {
         use_charges( "UPS", charges_used );
         //Replace 1 with charges it needs to use.
         if( used->active && used->charges <= 1 && !has_charges( "UPS", 1 ) ) {
