@@ -255,8 +255,9 @@ public:
 
  int weight() const;
 
-    /* Total volume of an item accounting for all contained/integrated items */
-    int volume() const;
+    /* Total volume of an item accounting for all contained/integrated items
+     * @param integral if true return effective volume if item was integrated into another */
+    int volume( bool integral = false ) const;
 
     /* Volume of an item or of a single unit for charged items multipled by 1000 */
     int precise_unit_volume() const;

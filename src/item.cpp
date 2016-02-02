@@ -2360,7 +2360,7 @@ int item::precise_unit_volume() const
     return volume() * 1000;
 }
 
-int item::volume() const
+int item::volume( bool integral ) const
 {
     if( is_null() ) {
         return 0;
@@ -2378,7 +2378,7 @@ int item::volume() const
         return 0;
     }
 
-    int ret = get_var( "volume", type->volume );
+    int ret = get_var( "volume", integral ? type->integral_volume : type->volume );
 
     // For items counted per charge the above volume is per stack so adjust dependent upon charges
     if( count_by_charges() || made_of( LIQUID ) ) {
@@ -2407,7 +2407,7 @@ int item::volume() const
     if (is_gun()) {
         for( auto &elem : contents ) {
             if( elem.is_gunmod() ) {
-                ret += elem.volume();
+                ret += elem.volume( true );
             }
         }
 
