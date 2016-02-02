@@ -6763,7 +6763,7 @@
         "fun" : 1
     },{
         "type" : "COMESTIBLE",
-        "id" : "dry_mushroom",
+        "id" : "dry_mushroom_magic",
         "name" : "dried hallucinogenic mushroom",
         "weight" : 15,
         "color" : "brown",
