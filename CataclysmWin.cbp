@@ -382,7 +382,7 @@
 		<Unit filename="src/computer.h" />
 		<Unit filename="src/construction.cpp" />
 		<Unit filename="src/construction.h" />
-        <Unit filename="src/consumption.cpp" />
+		<Unit filename="src/consumption.cpp" />
 		<Unit filename="src/coordinates.h" />
 		<Unit filename="src/craft_command.cpp" />
 		<Unit filename="src/craft_command.h" />
