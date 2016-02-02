@@ -664,17 +664,6 @@ void MonsterGenerator::load_special_defense(mtype *m, JsonObject &jo, std::strin
     }
 }
 
-template <typename T>
-T MonsterGenerator::get_from_string(std::string tag, std::map<std::string, T> conversion_map,
-                                    T fallback)
-{
-    T ret = fallback;
-    if (conversion_map.find(tag) != conversion_map.end()) {
-        ret = conversion_map[tag];
-    }
-    return ret;
-}
-
 void MonsterGenerator::check_monster_definitions() const
 {
     for( const auto &elem : mon_templates->all_ref() ) {
