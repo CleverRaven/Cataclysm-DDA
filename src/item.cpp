@@ -99,12 +99,11 @@ static const itype *nullitem()
 
 item::item()
 {
-    init();
+    type = nullitem();
 }
 
 item::item(const std::string new_type, int turn, bool rand)
 {
-    init();
     type = find_type( new_type );
     bday = turn;
     corpse = type->id == "corpse" ? &mtype_id::NULL_ID.obj() : nullptr;
@@ -200,28 +199,6 @@ item::item(JsonObject &jo)
 
 item::~item()
 {
-}
-
-void item::init()
-{
-    name = "";
-    charges = -1;
-    bday = 0;
-    invlet = 0;
-    damage = 0;
-    burnt = 0;
-    poison = 0;
-    item_counter = 0;
-    type = nullitem();
-    curammo = NULL;
-    corpse = NULL;
-    active = false;
-    mission_id = -1;
-    player_id = -1;
-    light = nolight;
-    fridge = 0;
-    rot = 0;
-    last_rot_check = 0;
 }
 
 void item::make( const std::string new_type, bool scrub )

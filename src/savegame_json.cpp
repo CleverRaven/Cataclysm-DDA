@@ -1338,7 +1338,6 @@ template<typename Archive>
 void item::io( Archive& archive )
 {
     const auto load_type = [this]( const std::string& id ) {
-        init();
         // only for backward compatibility (there are no "on" versions of those anymore)
         if( id == "UPS_on" ) {
             make( "UPS_off" );

@@ -447,25 +447,19 @@ public:
      */
     bool goes_bad() const;
 private:
-    /**
-     * Accumulated rot of the item. This is compared to it_comest::spoils
-     * to decide weather the item is rotten or not.
-     */
-    int rot;
-    /**
-     * The turn when the rot calculation has been done the last time.
-     */
-    int last_rot_check;
+    /** Accumulated rot compared to it_comest::spoils to decide weather item is rotten. */
+    int rot = 0;
+    /** Turn when the rot calculation was last performed */
+    int last_rot_check = 0;
+
 public:
     int get_rot() const
     {
         return rot;
     }
-    /**
-     * The turn when this item has been put into a fridge.
-     * 0 if this item is not in a fridge.
-     */
-    int fridge;
+
+    /** Turn item was put into a fridge or 0 if not in any fridge. */
+    int fridge = 0;
 
  int brewing_time() const;
  void detonate( const tripoint &p ) const;
@@ -1310,42 +1304,39 @@ public:
         */
         std::string label( unsigned int quantity = 0 ) const;
     private:
-        /** Reset all members to default, making this a null item. */
-        void init();
         /** Helper for liquid and container related stuff. */
         enum LIQUID_FILL_ERROR : int;
         LIQUID_FILL_ERROR has_valid_capacity_for_liquid(const item &liquid) const;
         std::string name;
-        const itype* curammo;
+        const itype* curammo = nullptr;
         std::map<std::string, std::string> item_vars;
-        const mtype* corpse;
+        const mtype* corpse = nullptr;
         std::set<matec_id> techniques; // item specific techniques
-        light_emission light;
+        light_emission light = nolight;
 public:
- char invlet;             // Inventory letter
- long charges;
- bool active;             // If true, it has active effects to be processed
+     char invlet = 0;      // Inventory letter
+     long charges = -1;
+     bool active = false; // If true, it has active effects to be processed
 
     /**
      * How much damage the item has sustained
      * @see MIN_ITEM_DAMAGE
      * @see MAX_ITEM_DAMAGE
      */
-    int damage;
+    int damage = 0;
 
- int burnt;               // How badly we're burnt
- int bday;                // The turn on which it was created
- union{
-   int poison;          // How badly poisoned is it?
-   int bigness;         // engine power, wheel size
-   int frequency;       // Radio frequency
-   int note;            // Associated dynamic text snippet.
-   int irridation;      // Tracks radiation dosage.
- };
+    int burnt = 0;           // How badly we're burnt
+    int bday;                // The turn on which it was created
+    int poison = 0;          // How badly poisoned is it?
+    int bigness = 0;         // engine power, wheel size
+    int frequency = 0;       // Radio frequency
+    int note = 0;            // Associated dynamic text snippet.
+    int irridation = 0;      // Tracks radiation dosage.
+
  std::set<std::string> item_tags; // generic item specific flags
- unsigned item_counter; // generic counter to be used with item flags
- int mission_id; // Refers to a mission in game's master list
- int player_id; // Only give a mission to the right player!
+    unsigned item_counter = 0; // generic counter to be used with item flags
+    int mission_id = -1; // Refers to a mission in game's master list
+    int player_id = -1; // Only give a mission to the right player!
  typedef std::vector<item> t_item_vector;
  t_item_vector components;
 
