@@ -2309,13 +2309,6 @@ int item::weight() const
     if( count_by_charges() ) {
         ret *= charges;
 
-    } else if( magazine_integral() && !is_magazine() ) {
-        if ( ammo_type() == "plutonium" ) {
-            ret += ammo_remaining() * find_type( default_ammo( ammo_type() ) )->weight / PLUTONIUM_CHARGES;
-        } else if( ammo_data() ) {
-            ret += ammo_remaining() * ammo_data()->weight;
-        }
-
     } else if( is_corpse() ) {
         switch( corpse->size ) {
             case MS_TINY:   ret =   1000;  break;
@@ -2331,6 +2324,13 @@ int item::weight() const
             ret /= 8;
         } else if ( made_of( "iron" ) || made_of( "steel" ) || made_of( "stone" ) ) {
             ret *= 7;
+        }
+
+    } else if( magazine_integral() && !is_magazine() ) {
+        if ( ammo_type() == "plutonium" ) {
+            ret += ammo_remaining() * find_type( default_ammo( ammo_type() ) )->weight / PLUTONIUM_CHARGES;
+        } else if( ammo_data() ) {
+            ret += ammo_remaining() * ammo_data()->weight;
         }
     }
 
