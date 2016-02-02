@@ -427,6 +427,59 @@ inline bool one_char_symbol_reader( JsonObject &jo, const std::string &member_na
     return true;
 }
 
+namespace reader_detail
+{
+template<typename T>
+struct handler;
+
+template<typename T>
+struct handler<std::set<T>> {
+    void clear( std::set<T> &container ) const {
+        container.clear();
+    }
+    void insert( std::set<T> &container, const T &data ) const {
+        container.insert( data );
+    }
+    void erase( std::set<T> &container, const T &data ) const {
+        container.erase( data );
+    }
+};
+
+template<size_t N>
+struct handler<std::bitset<N>> {
+    void clear( std::bitset<N> &container ) const {
+        container.reset();
+    }
+    template<typename T>
+    void insert( std::bitset<N> &container, const T &data ) const {
+        container.insert( data );
+    }
+    template<typename T>
+    void erase( std::bitset<N> &container, const T &data ) const {
+        container.erase( data );
+    }
+};
+
+template<typename T>
+struct handler<std::vector<T>> {
+    void clear( std::vector<T> &container ) const {
+        container.clear();
+    }
+    void insert( std::vector<T> &container, const T &data ) const {
+        container.push_back( data );
+    }
+    template<typename E>
+    void erase( std::vector<T> &container, const E &data ) const {
+        const auto iter = std::find_if( container.begin(), container.end(), [&data]( const T & e ) {
+            return e == data;
+        } );
+        if( iter != container.end() ) {
+            container.erase( iter );
+        }
+    }
+};
+} // namespace reader_detail
+
 /**
  * Base class for reading generic objects from JSON.
  * It can load members being certain containers or being a single value.
@@ -503,20 +556,23 @@ class generic_typed_reader
                        !std::is_same<FlagType, C>::value >::type >
         bool operator()( JsonObject &jo, const std::string &member_name,
                          C &container, bool was_loaded ) const {
+            // If you get an error about "incomplete type 'struct reader_detail::handler...",
+            // you have to implement a specialization of your container type, so above for
+            // existing specializations in namespace reader_detail.
             if( jo.has_member( member_name ) ) {
-                clear( container );
+                reader_detail::handler<C>().clear( container );
                 for( auto && data : get_tags( jo, member_name ) ) {
-                    insert( container, data );
+                    reader_detail::handler<C>().insert( container, data );
                 }
                 return true;
             } else if( !was_loaded ) {
                 return false;
             } else {
                 for( auto && data : get_tags( jo, "remove:" + member_name ) ) {
-                    erase( container, data );
+                    reader_detail::handler<C>().erase( container, data );
                 }
                 for( auto && data : get_tags( jo, "add:" + member_name ) ) {
-                    insert( container, data );
+                    reader_detail::handler<C>().insert( container, data );
                 }
                 return true;
             }
@@ -535,51 +591,6 @@ class generic_typed_reader
             member = get_next( *jo.get_raw( member_name ) );
             return true;
         }
-
-    private:
-        /**@{*/
-        void insert( std::set<FlagType> &container, const FlagType &data ) const {
-            container.insert( data );
-        }
-        void erase( std::set<FlagType> &container, const FlagType &data ) const {
-            container.erase( data );
-        }
-        void clear( std::set<FlagType> &container ) const {
-            container.clear();
-        }
-        /**@}*/
-
-        /**@{*/
-        template<size_t N>
-        void insert( std::bitset<N> &container, const FlagType &data ) const {
-            assert( static_cast<size_t>( data ) < N );
-            container.set( data );
-        }
-        template<size_t N>
-        void erase( std::bitset<N> &container, const FlagType &data ) const {
-            assert( static_cast<size_t>( data ) < N );
-            container.reset( data );
-        }
-        template<size_t N>
-        void clear( std::bitset<N> &container ) const {
-            container.reset();
-        }
-        /**@}*/
-
-        /**@{*/
-        void insert( std::vector<FlagType> &container, const FlagType &data ) const {
-            container.push_back( data );
-        }
-        void erase( std::vector<FlagType> &container, const FlagType &data ) const {
-            const auto iter = std::find( container.begin(), container.end(), data );
-            if( iter != container.end() ) {
-                container.erase( iter );
-            }
-        }
-        void clear( std::vector<FlagType> &container ) const {
-            container.clear();
-        }
-        /**@}*/
 };
 
 /**
