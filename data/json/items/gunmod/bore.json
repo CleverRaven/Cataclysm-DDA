@@ -13,7 +13,7 @@
     "color": "green",
     "location": "bore",
     "mod_targets": [ "pistol", "smg", "rifle" ],
-    "skill_required": 6,
+    "min_skills" : [ [ "gun", 3 ] ],
     "dispersion_modifier": 15,
     "ammo_modifier": "22",
     "acceptable_ammo": [ "9mm", "38", "40", "57", "46", "762", "223" ]
@@ -51,7 +51,7 @@
     "color": "green",
     "location": "bore",
     "mod_targets": [ "shotgun", "rifle" ],
-    "skill_required": 6,
+    "min_skills" : [ [ "gun", 3 ] ],
     "dispersion_modifier": 30,
     "ammo_modifier": "308",
     "acceptable_ammo": [ "shot", "762", "223", "3006" ]
@@ -70,7 +70,7 @@
     "color": "green",
     "location": "bore",
     "mod_targets": [ "pistol", "smg" ],
-    "skill_required": 6,
+    "min_skills" : [ [ "gun", 3 ] ],
     "dispersion_modifier": 30,
     "recoil_modifier": 2,
     "ammo_modifier": "45",
@@ -90,7 +90,7 @@
     "color": "green",
     "location": "bore",
     "mod_targets": [ "pistol", "smg" ],
-    "skill_required": 6,
+    "min_skills" : [ [ "gun", 3 ] ],
     "dispersion_modifier": 15,
     "ammo_modifier": "46",
     "acceptable_ammo": [ "22", "9mm", "38" ]
@@ -109,7 +109,7 @@
     "color": "green",
     "location": "bore",
     "mod_targets": [ "pistol", "smg" ],
-    "skill_required": 6,
+    "min_skills" : [ [ "gun", 3 ] ],
     "dispersion_modifier": 15,
     "ammo_modifier": "57",
     "acceptable_ammo": [ "22", "9mm", "38" ]
