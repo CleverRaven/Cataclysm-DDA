@@ -98,18 +98,19 @@ std::string npc_class_name(npc_class);
 std::string npc_class_name_str(npc_class);
 
 enum npc_action {
- npc_undecided = 0,
- npc_pause, //1
- npc_reload, npc_sleep, // 2, 3
- npc_pickup, // 4
- npc_escape_item, npc_wield_melee, npc_wield_loaded_gun, npc_wield_empty_gun,
-  npc_heal, npc_use_painkiller, npc_eat, npc_drop_items, // 5 - 12
- npc_flee, npc_melee, npc_shoot, npc_shoot_burst, npc_alt_attack, // 13 - 17
- npc_look_for_player, npc_heal_player, npc_follow_player, npc_follow_embarked,
- npc_talk_to_player, npc_mug_player, // 18 - 23
- npc_goto_destination, npc_avoid_friendly_fire, // 24, 25
- npc_base_idle, // 26
- num_npc_actions
+    npc_undecided = 0,
+    npc_pause, //1
+    npc_reload, npc_sleep, // 2, 3
+    npc_pickup, // 4
+    npc_escape_item, npc_wield_melee, npc_wield_loaded_gun, npc_wield_empty_gun,
+    npc_heal, npc_use_painkiller, npc_eat, npc_drop_items, // 5 - 12
+    npc_flee, npc_melee, npc_shoot, npc_shoot_burst, npc_alt_attack, // 13 - 17
+    npc_look_for_player, npc_heal_player, npc_follow_player, npc_follow_embarked,
+    npc_talk_to_player, npc_mug_player, // 18 - 23
+    npc_goto_destination, npc_avoid_friendly_fire, // 24, 25
+    npc_base_idle, // 26
+    npc_noop,
+    num_npc_actions
 };
 
 enum npc_need {
@@ -262,7 +263,7 @@ struct npc_follower_rules : public JsonSerializer, public JsonDeserializer
         use_grenades = true;
         use_silent = false;
 
-        allow_pick_up = true;
+        allow_pick_up = false;
         allow_bash = true;
         allow_sleep = false;
         allow_complain = true;
@@ -272,6 +273,15 @@ struct npc_follower_rules : public JsonSerializer, public JsonDeserializer
     void serialize(JsonOut &jsout) const override;
     using JsonDeserializer::deserialize;
     void deserialize(JsonIn &jsin) override;
+};
+
+// Data relevant only for this action
+struct npc_short_term_cache
+{
+    int danger;
+    int total_danger;
+    int danger_assessment;
+    int target;
 };
 
 // DO NOT USE! This is old, use strings as talk topic instead, e.g. "TALK_AGREE_FOLLOW" instead of
@@ -635,8 +645,8 @@ public:
 
 // Interaction with the player
  void form_opinion(player *u);
-    std::string pick_talk_topic(player *u);
- int  player_danger(player *u) const; // Comparable to monsters
+    std::string pick_talk_topic( const player &u );
+ int  player_danger(const player &u) const; // Comparable to monsters
  int vehicle_danger(int radius) const;
  bool turned_hostile() const; // True if our anger is at least equal to...
  int hostile_anger_level() const; // ... this value!
@@ -660,7 +670,6 @@ public:
  void told_to_wait();
  void told_to_leave();
  int  follow_distance() const; // How closely do we follow the player?
- int  speed_estimate( const Creature& ) const; // Estimate of a target's speed, usually player
 
 
 // Dialogue and bartering--see npctalk.cpp
@@ -686,17 +695,24 @@ public:
  int  value(const item &it);
     bool wear_if_wanted( const item &it );
     virtual bool wield( item& it ) override;
- bool has_healing_item();
+    bool has_healing_item( bool bleed = false, bool bite = false, bool infect = false);
+    item &get_healing_item( bool bleed = false, bool bite = false, bool infect = false,
+                            bool first_best = false );
  bool has_painkiller();
  bool took_painkiller() const;
  void use_painkiller();
  void activate_item(int position);
 
+    // AI helpers
+    void regen_ai_cache();
+    Creature *current_target() const;
+
 // Interaction and assessment of the world around us
     int  danger_assessment();
     int  average_damage_dealt(); // Our guess at how much damage we can deal
     bool bravery_check(int diff);
-    bool emergency(int danger);
+    bool emergency();
+    bool emergency( int danger );
     bool is_active() const;
     void say( const std::string line, ...) const;
     void decide_needs();
@@ -713,16 +729,21 @@ public:
 
 // Movement; the following are defined in npcmove.cpp
  void move(); // Picks an action & a target and calls execute_action
- void execute_action(npc_action action, int target); // Performs action
+ void execute_action( npc_action action ); // Performs action
 
-// Functions which choose an action for a particular goal
- void choose_monster_target(int &enemy, int &danger,
-                            int &total_danger);
- npc_action method_of_fleeing (int target);
- npc_action method_of_attack (int enemy, int danger);
- npc_action address_needs (int danger);
- npc_action address_player ();
- npc_action long_term_goal_action();
+    void choose_monster_target();
+    void assess_danger();
+    // Functions which choose an action for a particular goal
+    npc_action method_of_fleeing();
+    npc_action method_of_attack();
+    npc_action address_needs();
+    npc_action address_needs( int danger );
+    npc_action address_player();
+    npc_action long_term_goal_action();
+    // Returns true if did something and we should end turn
+    bool scan_new_items();
+    // Returns true if did wield it
+    bool wield_better_weapon();
  bool alt_attack_available(); // Do we have grenades, molotov, etc?
  int choose_escape_item(); // Returns item position of our best escape aid
 
@@ -732,16 +753,16 @@ public:
   * Check if this NPC is blocking movement from the given position
   */
  bool is_blocking_position( const tripoint &p );
- bool wont_hit_friend(  const tripoint &p , int position = -1 );
+ bool wont_hit_friend( const tripoint &p , int position = -1 );
  bool need_to_reload(); // Wielding a gun that is empty
- bool enough_time_to_reload(int target, item &gun);
+ bool enough_time_to_reload( const item &gun );
 
 // Physical movement from one tile to the next
  void update_path( const tripoint &p, bool no_bashing = false );
  bool can_move_to( const tripoint &p, bool no_bashing = false ) const;
  void move_to    ( const tripoint &p, bool no_bashing = false );
  void move_to_next(); // Next in <path>
- void avoid_friendly_fire(int target); // Maneuver so we won't shoot u
+ void avoid_friendly_fire(); // Maneuver so we won't shoot u
  void move_away_from( const tripoint &p, bool no_bashing = false );
  void move_pause(); // Same as if the player pressed '.'
 
@@ -749,12 +770,11 @@ public:
  void find_item  (); // Look around and pick an item
  void pick_up_item (); // Move to, or grab, our targeted item
  void drop_items (int weight, int volume); // Drop wgt and vol
- npc_action scan_new_items(int target);
 
 // Combat functions and player interaction functions
     Creature *get_target( int target ) const;
  void wield_best_melee ();
- void alt_attack (int target);
+ void alt_attack();
  void use_escape_item (int position);
  void heal_player (player &patient);
  void heal_self  ();
@@ -786,7 +806,9 @@ public:
 
     bool query_yn( const char *mes, ... ) const override;
 
-
+    // Note: NPCs use a different speed rating than players
+    // Because they can't run yet
+    virtual float speed_rating() const override;
 
 // #############   VALUES   ################
 
@@ -807,6 +829,8 @@ private:
     int mapx, mapy;
     // Type of complaint->last time we complainted about this type
     std::map<std::string, int> complaints;
+
+    npc_short_term_cache ai_cache;
 public:
 
     static npc_map _all_npc;

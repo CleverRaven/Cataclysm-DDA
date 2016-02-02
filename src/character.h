@@ -77,6 +77,10 @@ class Character : public Creature
         virtual int get_per_bonus() const;
         virtual int get_int_bonus() const;
 
+        // Penalty modifiers applied for ranged attacks due to low stats
+        virtual int ranged_dex_mod() const;
+        virtual int ranged_per_mod() const;
+
         /** Setters for stats exclusive to characters */
         virtual void set_str_bonus(int nstr);
         virtual void set_dex_bonus(int ndex);
@@ -115,6 +119,14 @@ class Character : public Creature
         virtual void set_stomach_water(int n_stomach_water);
 
         virtual void mod_stat( const std::string &stat, int modifier ) override;
+
+        /* Calculate aim improvement based on character stats/skills and gunsight properties
+         * @param recoil amount of applicable recoil when determining which gunsight to use
+         * @return MOC of aim improvement per 10 moves
+         * @note These units chosen as MOC/move would be too fast (lower bound 1MOC/move) and
+         * move/MOC too slow (upper bound 1MOC/move).
+         * As a result the smallest unit of aim time is 10 moves. */
+        int aim_per_time( const item& gun, int recoil ) const;
 
         /** Combat getters */
         virtual int get_dodge_base() const override;
@@ -397,6 +409,9 @@ class Character : public Creature
         SkillLevel const& get_skill_level(const Skill &_skill) const;
         SkillLevel const& get_skill_level(const skill_id &ident) const;
 
+        /** Return character dispersion penalty dependent upon relevant gun skill level */
+        int skill_dispersion( const item& gun, bool random ) const;
+
         // --------------- Other Stuff ---------------
 
 
@@ -417,6 +432,8 @@ class Character : public Creature
          */
         virtual void normalize() override;
         virtual void die(Creature *nkiller) override;
+
+        std::string get_name() const override;
 
         /**
          * It is supposed to hide the query_yn to simplify player vs. npc code.

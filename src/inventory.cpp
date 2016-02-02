@@ -1067,9 +1067,23 @@ item *inventory::most_loaded_gun()
     item *ret = &nullitem;
     int max = 0;
     for( auto &elem : items ) {
-        if( elem.front().is_gun() && elem.front().charges > max ) {
-            ret = &( elem.front() );
-            max = ret->charges;
+        item &gun = elem.front();
+        if( !gun.is_gun() ) {
+            continue;
+        }
+
+        const auto required = gun.ammo_required();
+        int cur = 0;
+        if( required <= 0 ) {
+            // Arbitrary
+            cur = 5;
+        } else {
+            cur = gun.ammo_remaining() / required;
+        }
+
+        if( cur > max ) {
+            ret = &gun;
+            max = cur;
         }
     }
     return ret;
