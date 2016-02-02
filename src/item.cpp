@@ -3978,7 +3978,7 @@ long item::ammo_required() const {
     long res = 0;
 
     if( is_tool() ) {
-        type->charges_to_use();
+        res = std::max( type->charges_to_use(), 0 );
     }
 
     if( is_gun() ) {
