@@ -147,9 +147,9 @@
   "subcategory": "CSC_ARMOR_TORSO",
   "skill_used": "tailor",
   "difficulty": 4,
-  "time": 5000,
+  "time": 30000,
   "reversible": true,
-  "autolearn": false,
+  "autolearn": true,
   "decomp_learn": 4,
   "tools": [
     [
@@ -160,6 +160,98 @@
     [
       [ "kevlar_plate", 24 ]
     ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "kevlar",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_TORSO",
+  "skill_used": "tailor",
+  "difficulty": 4,
+  "time": 30000,
+  "reversible": true,
+  "autolearn": true,
+  "decomp_learn": 4,
+  "tools": [
+    [ [ "sewing_kit", 30 ] ]
+  ],
+  "components": [
+    [ [ "kevlar_plate", 24 ] ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "elbow_pads",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_ARMS",
+  "skill_used": "fabrication",
+  "difficulty": 4,
+  "time": 35000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [ ["sewing_kit", 10] ],
+    [ ["mold_plastic", -1] ],
+    [
+      ["hotplate", 15],
+      ["toolset", 15],
+      ["fire", -1]
+    ]
+  ],
+  "components": [
+    [ ["plastic_chunk", 4] ],
+    [
+      ["rag", 2],
+      ["leather", 2],
+      ["fur", 2]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "knee_pads",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_LEGS",
+  "skill_used": "fabrication",
+  "difficulty": 4,
+  "time": 50000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [ ["sewing_kit", 20] ],
+    [ ["mold_plastic", -1] ],
+    [
+      ["hotplate", 15],
+      ["toolset", 15],
+      ["fire", -1]
+    ]
+  ],
+  "components": [
+    [ ["plastic_chunk", 8] ],
+    [
+      ["rag", 4],
+      ["leather", 4],
+      ["fur", 4]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "hat_hard",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_HEAD",
+  "skill_used": "fabrication",
+  "difficulty": 4,
+  "time": 35000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [ ["mold_plastic", -1] ],
+    [
+      ["hotplate", 15],
+      ["toolset", 15],
+      ["fire", -1]
+    ]
+  ],
+  "components": [
+    [ ["plastic_chunk", 10] ]
   ]
 },{
   "type" : "recipe",
