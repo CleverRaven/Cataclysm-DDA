@@ -2590,68 +2590,6 @@
   ]
 },{
   "type" : "recipe",
-  "result": "clip",
-  "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_MODS",
-  "skill_used": "mechanics",
-  "skills_required": [[ "gun", 3 ]],
-  "difficulty": 6,
-  "time": 20000,
-  "reversible": false,
-  "autolearn": true,
-  "book_learn": [[ "manual_mechanics", 2 ] , [ "manual_pistol", 3] , [ "manual_shotgun", 4] , [ "manual_shotgun", 3] , [ "manual_smg", 3] , [ "manual_rifle", 3]],
-  "qualities":[
-    {"id":"HAMMER_FINE","level":1,"amount":1},
-    {"id":"SCREW_FINE","level":1,"amount":1}
-  ],
-  "tools": [
-    [
-      [ "large_repairkit", 20 ],
-      [ "small_repairkit", 60 ]
-    ]
-  ],
-  "components": [
-    [
-      [ "scrap", 3 ],
-      [ "steel_chunk", 1 ]
-    ],
-    [
-      [ "spring", 1 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "clip2",
-  "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_MODS",
-  "skill_used": "mechanics",
-  "skills_required": [[ "gun", 4 ]],
-  "difficulty": 7,
-  "time": 45000,
-  "reversible": false,
-  "autolearn": true,
-  "book_learn": [[ "manual_mechanics", 4 ] , [ "manual_pistol", 5] , [ "manual_shotgun", 6] , [ "manual_smg", 5] , [ "manual_rifle", 5]],
-  "qualities":[
-    {"id":"HAMMER_FINE","level":1,"amount":1},
-    {"id":"SCREW_FINE","level":1,"amount":1}
-  ],
-  "tools": [
-    [
-      [ "large_repairkit", 50 ],
-      [ "small_repairkit", 140 ]
-    ]
-  ],
-  "components": [
-    [
-      [ "scrap", 6 ],
-      [ "steel_chunk", 2 ]
-    ],
-    [
-      [ "spring", 2 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
   "result": "grip",
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_MODS",
@@ -2939,37 +2877,6 @@
     ],
     [
       [ "spring", 2 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "spare_mag",
-  "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_MODS",
-  "skill_used": "fabrication",
-  "skills_required": [[ "gun", 2 ]],
-  "difficulty": 4,
-  "time": 15000,
-  "reversible": false,
-  "autolearn": true,
-  "book_learn": [[ "manual_fabrication", 2 ] , [ "manual_pistol", 3] , [ "manual_shotgun", 4] , [ "manual_smg", 3] , [ "manual_rifle", 3]],
-  "qualities":[
-    {"id":"HAMMER_FINE","level":1,"amount":1},
-    {"id":"SCREW_FINE","level":1,"amount":1}
-  ],
-  "tools": [
-    [
-      [ "large_repairkit", 20 ],
-      [ "small_repairkit", 60 ]
-    ]
-  ],
-  "components": [
-    [
-      [ "scrap", 3 ],
-      [ "steel_chunk", 1 ]
-    ],
-    [
-      [ "spring", 1 ]
     ]
   ]
 },{
