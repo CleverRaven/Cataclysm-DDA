@@ -10896,10 +10896,8 @@ bool player::consume_charges( item *used, long qty )
         return false;
     }
 
-    // Non-tools can use charges too - when they're comestibles
-    const auto tool = dynamic_cast<const it_tool*>(used->type);
-    const auto comest = dynamic_cast<const it_comest*>(used->type);
-    if( tool == nullptr && comest == nullptr ) {
+    if( !used->is_tool() && !used->is_food() ) {
+        debugmsg( "Tried to consume charges for non-tool, non-food item" );
         return false;
     }
 
@@ -10919,7 +10917,7 @@ bool player::consume_charges( item *used, long qty )
         used->charges -= std::min( used->charges, qty );
     }
 
-    if( comest != nullptr && used->charges <= 0 ) {
+    if( used->is_food() && used->charges <= 0 ) {
         i_rem( used );
         return true;
     }
