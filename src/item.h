@@ -123,12 +123,10 @@ public:
          * The name parameter can be used to give the corpse item a name. This is
          * used instead of the monster type name ("corpse of X" instead of "corpse of bear").
          *
-         * Without any parameters it makes a human corpse, created at the current turn.
+         * With the default parameters it makes a human corpse, created at the current turn.
          */
         /*@{*/
-        void make_corpse( const mtype_id& mt, unsigned int turn );
-        void make_corpse( const mtype_id& mt, unsigned int turn, const std::string &name );
-        void make_corpse();
+        void make_corpse( const mtype_id& mt = NULL_ID, int turn = -1, const std::string &name = "" );
         /*@}*/
         /**
          * @return The monster type associated with this item (@ref corpse). It is usually the
