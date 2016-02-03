@@ -4350,7 +4350,8 @@ item_location item::pick_reload_ammo( player &u, bool interactive ) const
     std::transform( ammo_list.begin(), ammo_list.end(), std::back_inserter( names ), []( item_location& e ) {
         const item *it = e.get_item();
         if( it->is_magazine() && it->ammo_data() ) {
-            return string_format( "%s with %s (%d)", it->type->nname( 1 ).c_str(),
+            //~ magazine with ammo (count)
+            return string_format( _( "%s with %s (%d)" ), it->type->nname( 1 ).c_str(),
                                   it->ammo_data()->nname( it->ammo_remaining() ).c_str(), it->ammo_remaining() );
         } else {
             return it->display_name();
