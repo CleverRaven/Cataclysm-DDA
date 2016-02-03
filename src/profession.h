@@ -58,9 +58,6 @@ enum add_type : int;
 
         void add_CBM( std::string CBM );
         void add_trait( std::string trait );
-        // Starting skills will boost the players level in those skills by a
-        // given amount.
-        void add_skill( const skill_id &skill_name, const int level );
 
         void check_item_definitions( const itypedecvec &items ) const;
 
