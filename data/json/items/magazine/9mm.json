@@ -1,0 +1,36 @@
+[
+  {
+    "id" : "glockbigmag",
+    "type" : "MAGAZINE",
+    "name" : "Glock extended magazine",
+    "description" : "A compact light-weight polymer magazine for use with Glock compatible firearms.",
+    "weight" : 210,
+    "volume" : 2,
+    "price" : 4700,
+    "material" : "plastic",
+    "symbol" : "#",
+    "color" : "ltgray",
+    "ammo_type" : "9mm",
+    "capacity" : 30,
+    "reliability" : 7,
+    "reload_time" : 140,
+    "flags" : [ "MAG_COMPACT" ]
+  },
+  {
+    "id" : "glockmag",
+    "type" : "MAGAZINE",
+    "name" : "Glock magazine",
+    "description" : "A compact light-weight polymer magazine for use with Glock compatible firearms.",
+    "weight" : 105,
+    "volume" : 1,
+    "price" : 2900,
+    "material" : "plastic",
+    "symbol" : "#",
+    "color" : "ltgray",
+    "ammo_type" : "9mm",
+    "capacity" : 15,
+    "reliability" : 8,
+    "reload_time" : 100,
+    "flags" : [ "MAG_COMPACT" ]
+  }
+]

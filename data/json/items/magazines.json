@@ -149,44 +149,6 @@
         "flags" : [ "MAG_COMPACT" ]
     },
     {   "type" : "MAGAZINE",
-        "id" : "glockmag",
-        "price" : 2900,
-        "name" : "Glock magazine",
-        "symbol" : "#",
-        "color" : "ltgray",
-        "description" : "A compact light-weight polymer magazine for use with Glock compatible firearms.",
-        "material" : "plastic",
-        "volume" : 1,
-        "weight" : 105,
-        "ammo_type" : "9mm",
-        "capacity" : 15,
-        "reliability" : 8,
-        "reload_time" : 100,
-        "flags" : [ "MAG_COMPACT" ],
-        "alternatives" : [
-            [ "45", [ "m1911mag" ] ]
-        ]
-    },
-    {   "type" : "MAGAZINE",
-        "id" : "glockbigmag",
-        "price" : 4700,
-        "name" : "Glock extended magazine",
-        "symbol" : "#",
-        "color" : "ltgray",
-        "description" : "A compact light-weight polymer magazine for use with Glock compatible firearms.",
-        "material" : "plastic",
-        "volume" : 2,
-        "weight" : 210,
-        "ammo_type" : "9mm",
-        "capacity" : 30,
-        "reliability" : 7,
-        "reload_time" : 140,
-        "flags" : [ "MAG_COMPACT" ],
-        "alternatives" : [
-            [ "45", [ "m1911bigmag" ] ]
-        ]
-    },
-    {   "type" : "MAGAZINE",
         "id" : "m9mag",
         "price" : 2300,
         "name" : "M9 magazine",
@@ -603,44 +565,6 @@
         "flags": [ "MAG_COMPACT" ],
         "alternatives" : [
             [ "9mm", [ "usp9mag" ] ]
-        ]
-    },
-    {   "type" : "MAGAZINE",
-        "id" : "m1911mag",
-        "price" : 2980,
-        "name" : "M1911 magazine",
-        "symbol" : "#",
-        "color" : "ltgray",
-        "description" : "A military issue 7-round magazine for use with the M1911 handgun.",
-        "material" : "steel",
-        "volume" : 1,
-        "weight" : 70,
-        "ammo_type" : "45",
-        "capacity" : 7,
-        "reliability" : 10,
-        "reload_time" : 100,
-        "flags": [ "MAG_COMPACT" ],
-        "alternatives" : [
-            [ "9mm", [ "m9mag" ] ]
-        ]
-    },
-    {   "type" : "MAGAZINE",
-        "id" : "m1911bigmag",
-        "price" : 3720,
-        "name" : "M1911 extended magazine",
-        "symbol" : "#",
-        "color" : "ltgray",
-        "description" : "An extended 10-round magazine for use with the M1911 handgun.",
-        "material" : "steel",
-        "volume" : 2,
-        "weight" : 100,
-        "ammo_type" : "45",
-        "capacity" : 10,
-        "reliability" : 9,
-        "reload_time" : 100,
-        "flags": [ "MAG_COMPACT" ],
-        "alternatives" : [
-            [ "9mm", [ "m9bigmag" ] ]
         ]
     },
     {   "type" : "MAGAZINE",

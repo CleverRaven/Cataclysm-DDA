@@ -1,0 +1,31 @@
+[
+  {
+    "id": "glock_19",
+    "type": "GUN",
+    "name": "Glock 19",
+    "description": "Possibly the most popular pistol in existence.  The Glock 19 is often derided for its plastic construction, but it is easy to shoot.",
+    "weight": 595,
+    "volume": 2,
+    "price": 69000,
+    "material": ["plastic", "steel"],
+    "symbol": "(",
+    "color": "dark_gray",
+    "bashing": 8,
+    "to_hit": -2,
+    "skill": "pistol",
+    "ammo": "9mm",
+    "dispersion": 240,
+    "sight_dispersion": 90,
+    "aim_speed" : 4,
+    "recoil": 90,
+    "durability": 6,
+    "reload": 300,
+    "loudness" : 150,
+    "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
+    "magazine_well" : 1,
+    "magazines": [
+      [ "9mm", [ "glockmag", "glockbigmag" ] ],
+      [ "45", [ "m1911mag", "m1911bigmag" ] ]
+    ]
+  }
+]
