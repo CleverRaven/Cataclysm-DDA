@@ -1163,10 +1163,11 @@ protected:
         template <typename Container>
         void remove_rotten_items( Container &items, const tripoint &p );
         /**
-         * Try to fill funnel based items here.
+         * Try to fill funnel based items here. Simulates rain from `since_turn` till now.
          * @param pnt The location in this map where to fill funnels.
+         * @param since_turn First turn of simulated filling.
          */
-        void fill_funnels( const tripoint &p );
+        void fill_funnels( const tripoint &p, int since_turn );
         /**
          * Try to grow a harvestable plant to the next stage(s).
          */
