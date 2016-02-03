@@ -133,8 +133,6 @@ const efftype_id effect_visuals( "visuals" );
 const efftype_id effect_weed_high( "weed_high" );
 const efftype_id effect_winded( "winded" );
 
-static bool is_firearm(const item &it);
-
 void remove_double_ammo_mod( item &it, player &p )
 {
     if( !it.item_tags.count( "DOUBLE_AMMO" ) || it.item_tags.count( "DOUBLE_REACTOR" )) {
@@ -2074,11 +2072,6 @@ int iuse::catfood(player *p, item *it, bool, const tripoint& )
     return petfood(p, it, false);
 }
 
-static bool is_firearm(const item &it)
-{
-    return it.is_gun() && !it.has_flag("PRIMITIVE_RANGED_WEAPON");
-}
-
 int iuse::sew_advanced(player *p, item *it, bool, const tripoint& )
 {
     if( p->is_npc() ) {
@@ -2114,7 +2107,7 @@ int iuse::sew_advanced(player *p, item *it, bool, const tripoint& )
         p->add_msg_if_player(m_info, _("You can only tailor your clothes!"));
         return 0;
     }
-    if (is_firearm(*mod)){
+    if (mod->is_firearm()){
         p->add_msg_if_player(m_info, _("You can't use a tailor's kit on a firearm!"));
         return 0;
     }
@@ -6265,7 +6258,7 @@ int iuse::gun_repair(player *p, item *it, bool, const tripoint& )
         p->add_msg_if_player(m_info, _("You do not have that item!"));
         return 0;
     }
-    if (!is_firearm(*fix)) {
+    if (!fix->is_firearm()) {
         p->add_msg_if_player(m_info, _("That isn't a firearm!"));
         return 0;
     }
@@ -6322,7 +6315,7 @@ int iuse::misc_repair(player *p, item *it, bool, const tripoint& )
         return 0;
     }
     int inventory_index = g->inv_for_filter( _("Select the item to repair."), []( const item & itm ) {
-        return ( !is_firearm(itm) ) && (itm.made_of("wood") || itm.made_of("paper") ||
+        return ( !itm.is_firearm() ) && (itm.made_of("wood") || itm.made_of("paper") ||
                                  itm.made_of("bone") || itm.made_of("chitin") ) ;
     } );
     item *fix = &( p->i_at(inventory_index ) );
@@ -6330,7 +6323,7 @@ int iuse::misc_repair(player *p, item *it, bool, const tripoint& )
         p->add_msg_if_player(m_info, _("You do not have that item!"));
         return 0;
     }
-    if ( is_firearm(*fix) ) {
+    if ( fix->is_firearm() ) {
         p->add_msg_if_player(m_info, _("That requires gunsmithing tools."));
         return 0;
     }
