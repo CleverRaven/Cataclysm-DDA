@@ -4836,7 +4836,7 @@
   "time": 1000,
   "reversible": true,
   "autolearn": true,
-  "flags": ["BLIND_HARD"],
+  "flags": ["BLIND_EASY"],
   "components": [
     [
       [ "rock", 1 ]

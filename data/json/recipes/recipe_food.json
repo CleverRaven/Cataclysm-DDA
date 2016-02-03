@@ -5269,15 +5269,13 @@
   "tools": [
     [
       ["hotplate", 5],
-      [ "char_smoker", 1 ],
+      ["char_smoker", 1],
       ["toolset", 5],
       ["fire", -1]
     ]
   ],
   "components": [
-    [
-      ["pinecone", 4]
-    ]
+    [["pinecone", 4]]
   ]
 },{
   "type" : "recipe",
@@ -5289,13 +5287,12 @@
   "time": 6000,
   "reversible": false,
   "autolearn": true,
+  "flags": ["BLIND_EASY"],
   "qualities":[
     {"id":"HAMMER","level":1,"amount":1}
   ],
   "components": [
-    [
-      ["hickory_nut", 1]
-    ]
+    [["hickory_nut", 1]]
   ]
 },{
   "type" : "recipe",
@@ -5314,7 +5311,7 @@
   "tools": [
     [
       ["hotplate", 5],
-      [ "char_smoker", 1 ],
+      ["char_smoker", 1],
       ["toolset", 5],
       ["fire", -1]
     ]
