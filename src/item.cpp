@@ -1858,6 +1858,7 @@ nc_color item::color_in_inventory() const
         if (u->get_ammo(amtype).size() > 0)
             ret = c_green;
     } else if( is_food() || is_food_container() ) {
+        const bool preserves = type->container && type->container->preserves;
         const item &to_color = is_food() ? *this : contents[0];
         // Default: permafood, drugs
         // Brown: rotten (for non-saprophages) or non-rotten (for saprophages)
@@ -1870,9 +1871,11 @@ nc_color item::color_in_inventory() const
         switch( rating ) {
             case EDIBLE:
             case TOO_FULL:
-                if( is_going_bad() ) {
+                if( preserves ) {
+                    // Nothing, canned food won't rot
+                } else if( to_color.is_going_bad() ) {
                     ret = c_yellow;
-                } else if( goes_bad() ) {
+                } else if( to_color.goes_bad() ) {
                     ret = c_cyan;
                 }
                 break;
