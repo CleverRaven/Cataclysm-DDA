@@ -473,7 +473,7 @@ void player::fire_gun( const tripoint &target, bool burst, item& gun )
                 } else if( z->is_dead_state() ) {
                     return true;
 
-                } else if( has_trait( "TRIGGER_HAPPY") && one_in( 10 ) ) {
+                } else if( has_trait( "TRIGGERHAPPY") && one_in( 10 ) ) {
                     return false; // Trigger happy sometimes doesn't care who we shoot
 
                 } else {
