@@ -11081,7 +11081,7 @@ void game::plfire( bool burst, const tripoint &default_target )
     }
     draw_ter(); // Recenter our view
 
-    if( gun.get_gun_mode() == "MODE_BURST" ) {
+    if( gun.get_gun_mode() == "MODE_BURST" || ( u.has_trait( "TRIGGERHAPPY" ) && one_in( 30 ) && gun.burst_size() >= 2 ) ) {
         burst = true;
     }
 
