@@ -12417,7 +12417,7 @@
         "volume" : 1,
         "charges" : 15,
         "stack_size" : 200,
-        "fun" : 0
+        "fun" : 10
     },
     {
         "type" : "COMESTIBLE",
