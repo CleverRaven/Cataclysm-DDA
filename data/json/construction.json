@@ -977,7 +977,7 @@
         "components" : [
                 [ [ "concrete", 4] ],
                 [ [ "2x4", 12] ],
-                [ [ "water", 4] ]
+                [ [ "water", 4], [ "water_clean", 4] ]
         ],
         "pre_terrain" : "t_pit_shallow",
         "post_terrain" : "t_sconc_wall_halfway"
@@ -993,7 +993,7 @@
         "components" : [
                 [ [ "concrete", 4] ],
                 [ [ "2x4", 12] ],
-                [ [ "water", 2] ]
+                [ [ "water", 4], [ "water_clean", 4] ]
         ],
         "pre_terrain" : "t_sconc_wall_halfway",
         "post_terrain" : "t_sconc_wall"
@@ -1025,7 +1025,7 @@
         "components" : [
                 [ [ "concrete", 6] ],
                 [ [ "2x4", 12] ],
-                [ [ "water", 4 ] ]
+                [ [ "water", 4 ], [ "water_clean", 4 ] ]
         ],
         "pre_terrain" : "t_reb_cage",
         "post_terrain" : "t_strconc_wall_halfway"
@@ -1041,7 +1041,7 @@
         "components" : [
                 [ [ "concrete", 6] ],
                 [ [ "2x4", 12] ],
-                [ [ "water", 4 ] ]
+                [ [ "water", 4 ], [ "water_clean", 4 ] ]
         ],
         "pre_terrain" : "t_strconc_wall_halfway",
         "post_terrain" : "t_strconc_wall"

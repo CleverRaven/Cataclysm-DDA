@@ -3782,6 +3782,10 @@ int iuse::set_trap(player *p, item *it, bool, const tripoint& )
         message << _("You place the funnel, waiting to collect rain.");
         type = tr_funnel;
         practice = 0;
+    } else if (it->type->id == "metal_funnel") {
+        message << _("You place the metal funnel, waiting to collect rain.");
+        type = tr_metal_funnel;
+        practice = 0;
     } else if (it->type->id == "makeshift_funnel") {
         message << _("You place the makeshift funnel, waiting to collect rain.");
         type = tr_makeshift_funnel;

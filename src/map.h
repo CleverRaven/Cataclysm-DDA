@@ -1391,6 +1391,7 @@ private:
     tripoint_range points_in_radius( const tripoint &center, size_t radius, size_t radiusz = 0 ) const;
     level_cache &access_cache( int zlev );
     const level_cache &access_cache( int zlev ) const;
+    bool need_draw_lower_floor(const tripoint &p);
 };
 
 std::vector<point> closest_points_first(int radius, point p);

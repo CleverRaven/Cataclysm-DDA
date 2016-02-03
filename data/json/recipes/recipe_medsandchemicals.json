@@ -2304,6 +2304,7 @@
   "skill_used": "cooking",
   "difficulty": 4,
   "time": 180000,
+  "batch_time_factors":[80, 4],
   "reversible": false,
   "autolearn": false,
   "book_learn": [["adv_chemistry", 5] , ["textbook_chemistry", 5] , ["recipe_labchem", 5]],

@@ -867,8 +867,6 @@ classes = {
             { name = "type_name", rval = "string", args = { } },
             { name = "unset_curammo", rval = nil, args = { } },
             { name = "update_charger_gun_ammo", rval = "bool", args = { } },
-            { name = "volume", rval = "int", args = { "bool" } },
-            { name = "volume", rval = "int", args = { "bool", "bool" } },
             { name = "volume", rval = "int", args = { } },
             { name = "weap_skill", rval = "skill_id", args = { } },
             { name = "weight", rval = "int", args = { } },

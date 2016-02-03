@@ -3,7 +3,6 @@
     "type" : "item_group",
     "id" : "medieval",
     "items":[
-      ["estoc", 15],
       ["scimitar", 20],
       ["helmet_nasal", 1],
       ["helmet_galea", 1],
@@ -21,7 +20,6 @@
     "type" : "item_group",
     "id" : "pawn",
     "items":[
-      ["estoc", 15],
       ["scimitar", 20],
       ["armor_lamellar", 2],
       ["helmet_conical", 1],
@@ -37,8 +35,6 @@
     "type"  : "item_group",
     "id"    : "antique_rare",
     "items" : [
-      ["estoc", 3],
-      ["estoc_fake", 6],
       ["qiang", 3],
       ["ji", 1],
       ["jian", 2],
@@ -64,8 +60,6 @@
     "type" : "item_group",
     "id" : "museum_melee",
     "items" : [
-      ["estoc", 3],
-      ["estoc_fake", 5],
       ["qiang", 3],
       ["ji", 2],
       ["jian", 2],

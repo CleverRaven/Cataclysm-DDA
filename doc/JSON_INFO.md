@@ -377,7 +377,8 @@ The syntax listed here is still valid.
 "to_hit" : 0,                     // (Optional, default = 0) To-hit bonus if using it as a melee weapon (whatever for?)
 "flags" : ["VARSIZE"],            // Indicates special effects, see JSON_FLAGS.md
 "magazines" : [ "stanag30"],      // Magazine types (if any) that can be used to reload this item. The first specified is the default.
-"magazine_well" : 0               // Volume above which the magazine starts to protrude from the item and add extra volume
+"magazine_well" : 0,              // Volume above which the magazine starts to protrude from the item and add extra volume
+"integral_volume" : 0             // Volume added to base item when item is integrated into another (eg. a gunmod integrated to a gun)
 ```
 
 ###AMMO

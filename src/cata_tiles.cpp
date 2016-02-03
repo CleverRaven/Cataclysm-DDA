@@ -954,6 +954,7 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
         // for each of the drawing layers in order, back to front ...
         for( auto f : { &cata_tiles::draw_furniture, &cata_tiles::draw_trap,
                         &cata_tiles::draw_field_or_item, &cata_tiles::draw_vpart,
+                        &cata_tiles::draw_vpart_below, &cata_tiles::draw_terrain_below,
                         &cata_tiles::draw_critter_at } ) {
             // ... draw all the points we drew terrain for, in the same order
             for( auto &p : draw_points ) {
@@ -1831,6 +1832,71 @@ bool cata_tiles::apply_vision_effects( const tripoint &pos,
     return true;
 }
 
+bool cata_tiles::draw_terrain_below( const tripoint &p, lit_level /*ll*/, int &/*height_3d*/ )
+{
+    if( !g->m.need_draw_lower_floor( p ) ) {
+        return false;
+    }
+
+    tripoint pbelow = tripoint( p.x, p.y, p.z - 1 );
+    SDL_Color tercol = cursesColorToSDL( c_dkgray );
+
+    const ter_t &curr_ter = g->m.ter_at( pbelow );
+    const furn_t &curr_furn = g->m.furn_at( pbelow );
+    int part_below;
+    int sizefactor = 2;
+    const vehicle *veh;
+    //        const vehicle *veh;
+    if( curr_furn.has_flag( TFLAG_SEEN_FROM_ABOVE ) ) {
+        tercol = cursesColorToSDL( curr_furn.color() );
+    } else if( curr_furn.movecost < 0 ) {
+        tercol = cursesColorToSDL( curr_furn.color() );
+    } else if( ( veh = g->m.veh_at_internal( pbelow, part_below ) ) != nullptr ) {
+        const int roof = veh->roof_at_part( part_below );
+        tercol = cursesColorToSDL( ( roof >= 0 ||
+                                     veh->obstacle_at_part( part_below ) ) ? c_ltgray : c_magenta );
+        sizefactor = ( roof >= 0 || veh->obstacle_at_part( part_below ) ) ? 4 : 2;
+    } else if( curr_ter.has_flag( TFLAG_SEEN_FROM_ABOVE ) || curr_ter.movecost == 0 ) {
+        tercol = cursesColorToSDL( curr_ter.color() );
+    } else if( !curr_ter.has_flag( TFLAG_NO_FLOOR ) ) {
+        sizefactor = 4;
+        tercol = cursesColorToSDL( curr_ter.color() );
+    } else {
+        tercol = cursesColorToSDL( curr_ter.color() );
+    }
+
+    SDL_Rect belowRect;
+    belowRect.h = tile_width / sizefactor;
+    belowRect.w = tile_height / sizefactor;
+    if( tile_iso && use_tiles ) {
+        belowRect.h = ( belowRect.h * 2 ) / 3;
+        belowRect.w = ( belowRect.w * 3 ) / 4;
+    }
+    // translate from player-relative to screen relative tile position
+    int screen_x, screen_y;
+    if( tile_iso && use_tiles ) {
+        screen_x = ( ( pbelow.x - o_x ) - ( o_y - pbelow.y ) + screentile_width - 2 ) * tile_width / 2 +
+                   op_x;
+        // y uses tile_width because width is definitive for iso tiles
+        // tile footprints are half as tall as wide, aribtrarily tall
+        screen_y = ( ( pbelow.y - o_y ) - ( pbelow.x - o_x ) - 4 ) * tile_width / 4 +
+                   screentile_height * tile_height / 2 + // TODO: more obvious centering math
+                   op_y;
+    } else {
+        screen_x = ( pbelow.x - o_x ) * tile_width + op_x;
+        screen_y = ( pbelow.y - o_y ) * tile_height + op_y;
+    }
+    belowRect.x = screen_x + ( tile_width - belowRect.w ) / 2;
+    belowRect.y = screen_y + ( tile_height - belowRect.h ) / 2;
+    if( tile_iso && use_tiles ) {
+        belowRect.y += tile_height / 8;
+    }
+    SDL_SetRenderDrawColor( renderer, tercol.r, tercol.g, tercol.b, 255 );
+    SDL_RenderFillRect( renderer, &belowRect );
+
+    return true;
+}
+
 bool cata_tiles::draw_terrain( const tripoint &p, lit_level ll, int &height_3d )
 {
     const ter_id t = g->m.ter( p ); // get the ter_id value at this point
@@ -1989,6 +2055,16 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, lit_level ll, int &heigh
         }
     }
     return ret_draw_field && ret_draw_item;
+}
+
+bool cata_tiles::draw_vpart_below( const tripoint &p, lit_level /*ll*/, int &/*height_3d*/ )
+{
+    if( !g->m.need_draw_lower_floor( p ) ) {
+        return false;
+    }
+    tripoint pbelow( p.x, p.y, p.z - 1 );
+    int height_3d_below = 0;
+    return draw_vpart( pbelow, LL_LOW, height_3d_below );
 }
 
 bool cata_tiles::draw_vpart( const tripoint &p, lit_level ll, int &height_3d )

@@ -177,10 +177,10 @@ void load_martial_art(JsonObject &jo)
     martialarts.load( jo );
 }
 
-class ma_buff_reader : public generic_typed_reader<mabuff_id>
+class ma_buff_reader : public generic_typed_reader<ma_buff_reader>
 {
-    private:
-        mabuff_id get_next( JsonIn &jin ) const override {
+    public:
+        mabuff_id get_next( JsonIn &jin ) const {
             if( jin.test_string() ) {
                 return mabuff_id( jin.get_string() );
             }

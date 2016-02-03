@@ -551,6 +551,8 @@ public:
     int      stack_size = 0; // How many things make up the above-defined volume (eg. 100 aspirin = 1 volume)
     unsigned weight     = 0; // Weight in grams. Assumes positive weight. No helium, guys!
 
+    unsigned integral_volume; // Space consumed when integrated as part of another item (defaults to volume)
+
     int melee_dam = 0; // Bonus for melee damage; may be a penalty
     int melee_cut = 0; // Cutting damage in melee
     int m_to_hit  = 0;  // To-hit bonus for melee combat; -5 to 5 is reasonable
