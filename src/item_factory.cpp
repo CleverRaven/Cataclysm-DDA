@@ -476,23 +476,11 @@ void Item_factory::check_definitions() const
                     msg << string_format("invalid built-in mod.") << "\n";
                 }
             }
-            for( auto &mag : type->magazines ) {
-                magazines_used.insert( mag );
-                if( !has_template( mag ) ){
-                    msg << string_format("invalid magazine.") << "\n";
-                }
-            }
         }
         if( type->gunmod ) {
             check_ammo_type( msg, type->gunmod->newtype );
             if( type->gunmod->skill_used && !type->gunmod->skill_used.is_valid() ) {
                 msg << string_format("uses invalid gunmod skill.") << "\n";
-            }
-            for( auto &mag : type->magazines ) {
-                magazines_used.insert( mag );
-                if( !has_template( mag ) ){
-                    msg << string_format("invalid magazine.") << "\n";
-                }
             }
         }
         if( type->magazine ) {
@@ -511,6 +499,16 @@ void Item_factory::check_definitions() const
                 msg << string_format("invalid reload_time %i", type->magazine->reload_time) << "\n";
             }
         }
+
+        for( const auto& typ : type->magazines ) {
+            for( const auto& mag : typ.second ) {
+                magazines_used.insert( mag );
+                if( !has_template( mag ) ){
+                    msg << string_format("invalid magazine.") << "\n";
+                }
+            }
+        }
+
         const it_tool *tool = dynamic_cast<const it_tool *>(type);
         if (tool != 0) {
             check_ammo_type(msg, tool->ammo_id);
@@ -928,16 +926,6 @@ void Item_factory::load( islot_magazine &slot, JsonObject &jo )
     slot.reliability = jo.get_int( "reliability" );
     slot.reload_time = jo.get_int( "reload_time", 0 );
     slot.rigid = jo.get_bool( "rigid", true );
-
-    JsonArray alt = jo.get_array( "alternatives" );
-    while( alt.has_more() ) {
-        JsonArray arr = alt.next_array();
-        ammotype ammo = arr.get_string( 0 );
-        arr = arr.get_array( 1 );
-        while( arr.has_more() ) {
-            slot.alternatives[ammo].insert( arr.next_string() );
-        }
-    }
 }
 
 void Item_factory::load_magazine(JsonObject &jo)
@@ -1084,13 +1072,19 @@ void Item_factory::load_basic_info(JsonObject &jo, itype *new_item_template)
 
     new_item_template->integral_volume = jo.get_int( "integral_volume", new_item_template->volume );
 
-    JsonArray arr = jo.get_array( "magazines" );
-    while( arr.has_more() ) {
-        const auto mag = arr.next_string();
-        if( new_item_template->magazine_default.empty() ) {
-            new_item_template->magazine_default = mag;
+    JsonArray mags = jo.get_array( "magazines" );
+    while( mags.has_more() ) {
+        JsonArray arr = mags.next_array();
+
+        ammotype ammo = arr.get_string( 0 ); // an ammo type (eg. 9mm)
+        JsonArray compat = arr.get_array( 1 ); // compatible magazines for this ammo type
+
+        // the first magazine for this ammo type is the default;
+        new_item_template->magazine_default[ ammo ] = compat.get_string( 0 );
+
+        while( compat.has_more() ) {
+            new_item_template->magazines[ ammo ].emplace( compat.next_string() );
         }
-        new_item_template->magazines.insert( mag );
     }
 
     new_item_template->magazine_well = jo.get_int( "magazine_well", 0 );

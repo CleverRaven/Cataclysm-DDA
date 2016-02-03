@@ -4093,28 +4093,25 @@ ammotype item::ammo_type( bool conversion ) const
     return "NULL";
 }
 
-bool item::magazine_integral() const {
-    return type->magazines.empty();
+bool item::magazine_integral() const
+{
+    // finds first ammo type which specifies at least one magazine
+    const auto& mags = type->magazines;
+    return std::none_of( mags.begin(), mags.end(), []( const std::pair<ammotype, const std::set<itype_id>>& e ) {
+        return e.second.size();
+    } );
+}
+
+itype_id item::magazine_default( bool conversion ) const
+{
+    auto mag = type->magazine_default.find( ammo_type( conversion ) );
+    return mag != type->magazine_default.end() ? mag->second : "null";
 }
 
 std::set<itype_id> item::magazine_compatible( bool conversion ) const
 {
-    if( ( ammo_type( false ) == ammo_type( true ) ) || !conversion ) {
-        return type->magazines;
-    }
-
-    // an ammo conversion is applied
-    std::set<itype_id> res;
-    for( const auto& e : type->magazines ) {
-        const itype *mag = item_controller->find_template( e );
-        if( mag->magazine ) {
-            auto iter = mag->magazine->alternatives.find( ammo_type( true ) );
-            if( iter != mag->magazine->alternatives.end() ) {
-                res.insert( iter->second.begin(), iter->second.end() );
-            }
-        }
-    }
-    return res;
+    auto mags = type->magazines.find( ammo_type( conversion ) );
+    return mags != type->magazines.end() ? mags->second : std::set<itype_id>();
 }
 
 item * item::magazine_current()

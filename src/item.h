@@ -1105,8 +1105,13 @@ public:
         /** Does item have an integral magazine (as opposed to allowing detachable magazines) */
         bool magazine_integral() const;
 
+        /** Get the default magazine type (if any) for the current effective ammo type
+         *  @param conversion whether to include the effect of any flags or mods which convert item's ammo type
+         *  @return magazine type or "null" if item has integral magazine or no magazines for current ammo type */
+        itype_id magazine_default( bool conversion = true ) const;
+
         /** Get compatible magazines (if any) for this item
-         *  @param conversion whether to include the effect of any flags or mods which convert the type
+         *  @param conversion whether to include the effect of any flags or mods which convert item's ammo type
          *  @return magazine compatibility which is always empty if item has integral magazine
          *  @see item::magazine_integral
          */
