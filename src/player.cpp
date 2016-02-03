@@ -10891,8 +10891,8 @@ bool player::consume_charges( item& used, long qty )
         return false;
     }
 
-    if( qty <= 0 ) {
-        debugmsg( "Tried to consume zero or negagtive charges" );
+    if( qty < 0 ) {
+        debugmsg( "Tried to consume negative charges" );
         return false;
     }
 
