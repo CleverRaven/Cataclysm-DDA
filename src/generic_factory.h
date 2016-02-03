@@ -427,10 +427,77 @@ inline bool one_char_symbol_reader( JsonObject &jo, const std::string &member_na
     return true;
 }
 
+namespace reader_detail
+{
+template<typename T>
+struct handler {
+    static constexpr bool is_container = false;
+};
+
+template<typename T>
+struct handler<std::set<T>> {
+    void clear( std::set<T> &container ) const {
+        container.clear();
+    }
+    void insert( std::set<T> &container, const T &data ) const {
+        container.insert( data );
+    }
+    void erase( std::set<T> &container, const T &data ) const {
+        container.erase( data );
+    }
+    static constexpr bool is_container = true;
+};
+
+template<size_t N>
+struct handler<std::bitset<N>> {
+    void clear( std::bitset<N> &container ) const {
+        container.reset();
+    }
+    template<typename T>
+    void insert( std::bitset<N> &container, const T &data ) const {
+        container.insert( data );
+    }
+    template<typename T>
+    void erase( std::bitset<N> &container, const T &data ) const {
+        container.erase( data );
+    }
+    static constexpr bool is_container = true;
+};
+
+template<typename T>
+struct handler<std::vector<T>> {
+    void clear( std::vector<T> &container ) const {
+        container.clear();
+    }
+    void insert( std::vector<T> &container, const T &data ) const {
+        container.push_back( data );
+    }
+    template<typename E>
+    void erase( std::vector<T> &container, const E &data ) const {
+        erase_if( container, [&data]( const T & e ) {
+            return e == data;
+        } );
+    }
+    template<typename P>
+    void erase_if( std::vector<T> &container, const P &predicate ) const {
+        const auto iter = std::find_if( container.begin(), container.end(), predicate );
+        if( iter != container.end() ) {
+            container.erase( iter );
+        }
+    }
+    static constexpr bool is_container = true;
+};
+} // namespace reader_detail
+
 /**
  * Base class for reading generic objects from JSON.
  * It can load members being certain containers or being a single value.
  * @ref get_next needs to be implemented to read and convert the data from JSON.
+ * It uses the curiously recurring template pattern, you have to derive your new class
+ * `MyReader` from `generic_typed_reader<MyReader>` and implement `get_next` and
+ * optionally `erase_next`.
+ * Most function calls here are done on a `Derived`, which means it can "override" them.
+ * This even allows changing their signature and return type.
  *
  * - If the object is new (`was_loaded` is `false`), only the given JSON member is read
  *   and assigned, overriding any existing content of it.
@@ -444,52 +511,66 @@ inline bool one_char_symbol_reader( JsonObject &jo, const std::string &member_na
  * Loading the set again from the JSON `{ "remove:f": ["c","x"], "add:f": ["h"] }` would add the
  * "h" flag and removes the "c" and the "x" flag, resulting in `{"a","b","h"}`.
  *
- * @tparam F The type of the loaded object, e.g. a flag enum or a string_id or anything.
- *           This type is the result of the conversion form the JSON data and this type is
- *           used when interacting with the member that is to be loaded.
+ * @tparam Derived The class that inherits from this. It must implement the following:
+ *   - `Foo get_next( JsonIn & ) const`: reads the next value from JSON, converts it into some
+ *      type `Foo` and returns it. The returned value is assigned to the loaded member (see reader
+ *      interface above), or is inserted into the member (if it's a container). The type `Foo` must
+ *      be compatible with those uses (read: it should be the same type).
+ *   - (optional) `erase_next( JsonIn &jin, C &container ) const`, the default implementation here
+ *      reads a value from JSON via `get_next` and removes the matching value in the container.
+ *      The value in the container must match *exactly*. You may override this function to allow
+ *      a different matching algorithm, e.g. reading a simple id from JSON and remove entries with
+ *      the same id from the container.
  */
-template<typename F>
+template<typename Derived>
 class generic_typed_reader
 {
     public:
-        using FlagType = F;
-        virtual ~generic_typed_reader() = default;
-
-        /**
-         * The function should read the next value from the JSON stream, convert it to the
-         * required type (`F`) and return it.
-         *
-         * A simple implementation for `F` being `std::string` can look like this:
-         * `return jin.get_string();`, or for a complex type:
-         * \code
-         *   JsonObject subobj = jin.get_object();
-         *   return std::make_pair( subobj.get_string( "skill" ), subobj.get_int( "level" ) );
-         * \endcode
-         *
-         * Errors should be reported via exceptions (see @ref JsonIn::error).
-         */
-        virtual FlagType get_next( JsonIn &jin ) const = 0;
-
-        /**
-         * Loads the set from JSON, similar to `JsonObject::get_tags`, but returns
-         * a properly typed set. It uses the @ref get_next to actually read the typed
-         * values.
-         */
-        std::set<FlagType> get_tags( JsonObject &jo, const std::string &member_name ) const {
-            std::set<FlagType> result;
+        template<typename C>
+        void insert_values_from( JsonObject &jo, const std::string &member_name, C &container ) const {
+            const Derived &derived = static_cast<const Derived &>( *this );
             if( !jo.has_member( member_name ) ) {
-                return result;
+                return;
             }
             JsonIn &jin = *jo.get_raw( member_name );
+            // We allow either a single value or an array of values. Note that this will not work
+            // correctly if the thing we load from JSON is itself an array.
             if( jin.test_array() ) {
                 jin.start_array();
                 while( !jin.end_array() ) {
-                    result.insert( get_next( jin ) );
+                    derived.insert_next( jin, container );
                 }
             } else {
-                result.insert( get_next( jin ) );
+                derived.insert_next( jin, container );
             }
-            return result;
+        }
+        template<typename C>
+        void insert_next( JsonIn &jin, C &container ) const {
+            const Derived &derived = static_cast<const Derived &>( *this );
+            reader_detail::handler<C>().insert( container, derived.get_next( jin ) );
+        }
+
+        template<typename C>
+        void erase_values_from( JsonObject &jo, const std::string &member_name, C &container ) const {
+            const Derived &derived = static_cast<const Derived &>( *this );
+            if( !jo.has_member( member_name ) ) {
+                return;
+            }
+            JsonIn &jin = *jo.get_raw( member_name );
+            // Same as for inserting: either an array or a single value, same caveat applies.
+            if( jin.test_array() ) {
+                jin.start_array();
+                while( !jin.end_array() ) {
+                    derived.erase_next( jin, container );
+                }
+            } else {
+                derived.erase_next( jin, container );
+            }
+        }
+        template<typename C>
+        void erase_next( JsonIn &jin, C &container ) const {
+            const Derived &derived = static_cast<const Derived &>( *this );
+            reader_detail::handler<C>().erase( container, derived.get_next( jin ) );
         }
 
         /**
@@ -499,22 +580,22 @@ class generic_typed_reader
          * The `enable_if` is here to prevent the compiler from considering it
          * when called on a simple data member, the other `operator()` will be used.
          */
-        template < typename C, typename = typename std::enable_if <
-                       !std::is_same<FlagType, C>::value >::type >
+        template<typename C, typename std::enable_if<reader_detail::handler<C>::is_container, int>::type = 0>
         bool operator()( JsonObject &jo, const std::string &member_name,
                          C &container, bool was_loaded ) const {
+            const Derived &derived = static_cast<const Derived &>( *this );
+            // If you get an error about "incomplete type 'struct reader_detail::handler...",
+            // you have to implement a specialization of your container type, so above for
+            // existing specializations in namespace reader_detail.
             if( jo.has_member( member_name ) ) {
-                assign( container, get_tags( jo, member_name ) );
+                reader_detail::handler<C>().clear( container );
+                derived.insert_values_from( jo, member_name, container );
                 return true;
             } else if( !was_loaded ) {
                 return false;
             } else {
-                for( auto && data : get_tags( jo, "remove:" + member_name ) ) {
-                    erase( container, data );
-                }
-                for( auto && data : get_tags( jo, "add:" + member_name ) ) {
-                    insert( container, data );
-                }
+                derived.erase_values_from( jo, "remove:" + member_name, container );
+                derived.insert_values_from( jo, "add:" + member_name, container );
                 return true;
             }
         }
@@ -524,71 +605,26 @@ class generic_typed_reader
          */
         // was_loaded is ignored here, if the value is not found in JSON, report to
         // the caller, which will take action on their own.
+        template < typename C, typename std::enable_if < !reader_detail::handler<C>::is_container,
+                   int >::type = 0 >
         bool operator()( JsonObject &jo, const std::string &member_name,
-                         FlagType &member, bool /*was_loaded*/ ) const {
+                         C &member, bool /*was_loaded*/ ) const {
+            const Derived &derived = static_cast<const Derived &>( *this );
             if( !jo.has_member( member_name ) ) {
                 return false;
             }
-            member = get_next( *jo.get_raw( member_name ) );
+            member = derived.get_next( *jo.get_raw( member_name ) );
             return true;
         }
-
-    private:
-        /**@{*/
-        void insert( std::set<FlagType> &container, const FlagType &data ) const {
-            container.insert( data );
-        }
-        void erase( std::set<FlagType> &container, const FlagType &data ) const {
-            container.erase( data );
-        }
-        void assign( std::set<FlagType> &container, std::set<FlagType> &&entries ) const {
-            container = entries;
-        }
-        /**@}*/
-
-        /**@{*/
-        template<size_t N>
-        void insert( std::bitset<N> &container, const FlagType &data ) const {
-            assert( static_cast<size_t>( data ) < N );
-            container.set( data );
-        }
-        template<size_t N>
-        void erase( std::bitset<N> &container, const FlagType &data ) const {
-            assert( static_cast<size_t>( data ) < N );
-            container.reset( data );
-        }
-        template<size_t N>
-        void assign( std::bitset<N> &container, std::set<FlagType> &&entries ) const {
-            container.reset();
-            for( auto && data : entries ) {
-                container.set( data );
-            }
-        }
-        /**@}*/
-
-        /**@{*/
-        void insert( std::vector<FlagType> &container, const FlagType &data ) const {
-            container.push_back( data );
-        }
-        void erase( std::vector<FlagType> &container, const FlagType &data ) const {
-            const auto iter = std::find( container.begin(), container.end(), data );
-            if( iter != container.end() ) {
-                container.erase( iter );
-            }
-        }
-        void assign( std::vector<FlagType> &container, std::set<FlagType> &&entries ) const {
-            container = std::vector<FlagType>( entries.begin(), entries.end() );
-        }
-        /**@}*/
 };
 
 /**
  * Converts the input string into a `nc_color`.
  */
-class color_reader : public generic_typed_reader<nc_color>
+class color_reader : public generic_typed_reader<color_reader>
 {
     public:
-        nc_color get_next( JsonIn &jin ) const override {
+        nc_color get_next( JsonIn &jin ) const {
             // TODO: check for valid color name
             return color_from_string( jin.get_string() );
         }
@@ -607,10 +643,10 @@ class color_reader : public generic_typed_reader<nc_color>
  * \endcode
  */
 template<typename FlagType = std::string>
-class auto_flags_reader : public generic_typed_reader<FlagType>
+class auto_flags_reader : public generic_typed_reader<auto_flags_reader<FlagType>>
 {
     public:
-        FlagType get_next( JsonIn &jin ) const override {
+        FlagType get_next( JsonIn &jin ) const {
             return FlagType( jin.get_string() );
         }
 };
@@ -629,7 +665,7 @@ class auto_flags_reader : public generic_typed_reader<FlagType>
  * "invalid my-enum-type".
  */
 template<typename C>
-class typed_flag_reader : public generic_typed_reader<typename C::mapped_type>
+class typed_flag_reader : public generic_typed_reader<typed_flag_reader<C>>
 {
     protected:
         const C &flag_map;
@@ -641,7 +677,7 @@ class typed_flag_reader : public generic_typed_reader<typename C::mapped_type>
             , error_msg( e ) {
         }
 
-        typename C::mapped_type get_next( JsonIn &jin ) const override {
+        typename C::mapped_type get_next( JsonIn &jin ) const {
             const auto position = jin.tell();
             const std::string flag = jin.get_string();
             const auto iter = flag_map.find( flag );
@@ -657,10 +693,10 @@ class typed_flag_reader : public generic_typed_reader<typename C::mapped_type>
  * Uses @ref io::string_to_enum to convert the string from JSON to a C++ enum.
  */
 template<typename E>
-class enum_flags_reader : public generic_typed_reader<E>
+class enum_flags_reader : public generic_typed_reader<enum_flags_reader<E>>
 {
     public:
-        E get_next( JsonIn &jin ) const override {
+        E get_next( JsonIn &jin ) const {
             const auto position = jin.tell();
             const std::string flag = jin.get_string();
             try {

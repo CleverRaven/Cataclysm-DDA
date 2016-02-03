@@ -82,16 +82,6 @@ class MonsterGenerator
         void init_flags();
         void init_mf_attitude();
 
-        // data acquisition
-        std::set<std::string> get_tags( JsonObject &jo, std::string member );
-        std::vector<mon_action_death> get_death_functions( JsonObject &jo, std::string member );
-        void load_special_defense( mtype *m, JsonObject &jo, std::string member );
-        void load_special_attacks( mtype *m, JsonObject &jo, std::string member );
-        template <typename T> std::set<T> get_set_from_tags( std::set<std::string> tags,
-                std::map<std::string, T> conversion_map, T fallback );
-        template <typename T> T get_from_string( std::string tag, std::map<std::string, T> conversion_map,
-                T fallback );
-
         // finalization
         void apply_species_attributes( mtype &mon );
         void set_mtype_flags( mtype &mon );
