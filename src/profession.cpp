@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <iterator>
 
 #include "profession.h"
 
@@ -18,26 +19,23 @@
 #include "itype.h"
 #include "generic_factory.h"
 
+namespace
+{
+generic_factory<profession> all_profs( "profession", "ident" );
+const string_id<profession> generic_profession_id( "unemployed" );
+}
+
 template<>
 const profession &string_id<profession>::obj() const
 {
-    const auto prof = profession::_all_profs.find( *this );
-    if( prof != profession::_all_profs.end() ) {
-        return prof->second;
-    } else {
-        debugmsg( "Tried to get invalid profession: %s", c_str() );
-        static const profession dummy{};
-        return dummy;
-    }
+    return all_profs.obj( *this );
 }
 
 template<>
 bool string_id<profession>::is_valid() const
 {
-    return profession::_all_profs.count( *this ) > 0;
+    return all_profs.is_valid( *this );
 }
-
-const string_id<profession> generic_profession_id( "unemployed" );
 
 profession::profession()
     : id(), _name_male( "null" ), _name_female( "null" ),
@@ -45,15 +43,9 @@ profession::profession()
 {
 }
 
-profmap profession::_all_profs;
-
 void profession::load_profession( JsonObject &jsobj )
 {
-    profession prof;
-    prof.load( jsobj );
-    prof.id = string_id<profession>( jsobj.get_string( "ident" ) );
-    _all_profs[prof.id] = prof;
-    DebugLog( D_INFO, DC_ALL ) << "Loaded profession: " << prof.id.str();
+    all_profs.load( jsobj );
 }
 
 class skilllevel_reader : public generic_typed_reader<skilllevel_reader>
@@ -113,8 +105,6 @@ class item_reader : public generic_typed_reader<item_reader>
 
 void profession::load( JsonObject &jo )
 {
-    bool was_loaded = false;
-
     //If the "name" is an object then we have to deal with gender-specific titles,
     if( jo.has_object( "name" ) ) {
         JsonObject name_obj = jo.get_object( "name" );
@@ -166,40 +156,35 @@ const profession *profession::weighted_random()
 {
     if( one_in( 3 ) ) {
         return generic();
-    } else {
-        const profession *retval = 0;
-        while( retval == 0 ) {
-            profmap::iterator iter = _all_profs.begin();
-            for( int i = rng( 0, _all_profs.size() - 1 ); i > 0; --i ) {
-                ++iter;
-            }
-            if( x_in_y( 2, abs( iter->second.point_cost() ) + 2 ) &&
-                !( iter->second.has_flag( "SCEN_ONLY" ) ) ) {
-                retval = &( iter->second );
-            }  // else reroll in the while loop.
+    }
+
+    const auto &map = all_profs.all_ref();
+    while( true ) {
+        auto iter = map.begin();
+        std::advance( iter, rng( 0, map.size() - 1 ) );
+        const profession &prof = iter->second;
+
+        if( x_in_y( 2, abs( prof.point_cost() ) + 2 ) && !prof.has_flag( "SCEN_ONLY" ) ) {
+            return &prof;
         }
-        return retval;
+        // else reroll in the while loop.
     }
 }
 
 std::vector<const profession *> profession::get_all()
 {
-    std::vector<const profession *> result;
-    for( auto &p : _all_profs ) {
-        result.push_back( &p.second );
-    }
-    return result;
+    return all_profs.get_all();
 }
 
 void profession::reset()
 {
-    _all_profs.clear();
+    all_profs.reset();
 }
 
 void profession::check_definitions()
 {
-    for( profmap::const_iterator a = _all_profs.begin(); a != _all_profs.end(); ++a ) {
-        a->second.check_definition();
+    for( auto &pair : all_profs.all_ref() ) {
+        pair.second.check_definition();
     }
 }
 
