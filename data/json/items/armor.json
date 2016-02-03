@@ -570,7 +570,6 @@
         "phase" : "solid",
         "environmental_protection" : 1,
         "encumbrance" : 18,
-        "bashing" : 0,
         "flags" : ["VARSIZE", "WATERPROOF"],
         "coverage" : 90,
         "material_thickness" : 6,
@@ -698,7 +697,6 @@
         "warmth" : 0,
         "phase" : "solid",
         "encumbrance" : 5,
-        "bashing" : 0,
         "flags" : ["VARSIZE", "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS"],
         "coverage" : 20,
         "material_thickness" : 1
@@ -720,7 +718,6 @@
         "warmth" : 0,
         "phase" : "solid",
         "encumbrance" : 10,
-        "bashing" : 0,
         "flags" : ["VARSIZE", "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS"],
         "coverage" : 40,
         "material_thickness" : 2
@@ -2853,7 +2850,6 @@
         "phase" : "solid",
         "environmental_protection" : 15,
         "encumbrance" : 20,
-        "bashing" : 0,
         "flags" : ["VARSIZE", "STURDY"],
         "coverage" : 100,
         "material_thickness" : 3
@@ -2876,7 +2872,6 @@
         "phase" : "solid",
         "environmental_protection" : 15,
         "encumbrance" : 10,
-        "bashing" : 0,
         "flags" : ["VARSIZE", "STURDY"],
         "coverage" : 100,
         "material_thickness" : 3
@@ -2899,7 +2894,6 @@
         "phase" : "solid",
         "environmental_protection" : 15,
         "encumbrance" : 25,
-        "bashing" : 0,
         "flags" : ["VARSIZE", "STURDY"],
         "coverage" : 100,
         "material_thickness" : 3
@@ -2922,7 +2916,6 @@
         "phase" : "solid",
         "environmental_protection" : 15,
         "encumbrance" : 25,
-        "bashing" : 0,
         "flags" : ["VARSIZE", "STURDY", "OVERSIZE"],
         "coverage" : 100,
         "material_thickness" : 3
@@ -5505,7 +5498,6 @@
         "phase" : "solid",
         "environmental_protection" : 16,
         "encumbrance" : 30,
-        "bashing" : 0,
         "coverage" : 100,
         "material_thickness" : 2
     },
@@ -5526,7 +5518,6 @@
         "phase" : "solid",
         "environmental_protection" : 16,
         "encumbrance" : 30,
-        "bashing" : 0,
         "flags" : ["OVERSIZE"],
         "coverage" : 100,
         "material_thickness" : 2
@@ -6245,7 +6236,6 @@
         "phase" : "solid",
         "environmental_protection" : 2,
         "encumbrance" : 5,
-        "bashing" : 0,
         "flags" : ["VARSIZE", "WATER_FRIENDLY", "SKINTIGHT", "STURDY"],
         "coverage" : 100,
         "material_thickness" : 2
@@ -6267,7 +6257,6 @@
         "phase" : "solid",
         "environmental_protection" : 2,
         "encumbrance" : 5,
-        "bashing" : 0,
         "flags" : ["VARSIZE", "WATER_FRIENDLY", "SKINTIGHT", "STURDY"],
         "coverage" : 100,
         "material_thickness" : 3
@@ -6290,7 +6279,6 @@
         "phase" : "solid",
         "environmental_protection" : 2,
         "encumbrance" : 5,
-        "bashing" : 0,
         "flags" : ["VARSIZE", "WATER_FRIENDLY", "SKINTIGHT", "STURDY"],
         "coverage" : 100,
         "material_thickness" : 2
@@ -6313,7 +6301,6 @@
         "phase" : "solid",
         "environmental_protection" : 2,
         "encumbrance" : 0,
-        "bashing" : 0,
         "flags" : ["VARSIZE", "WATER_FRIENDLY", "SKINTIGHT", "STURDY"],
         "coverage" : 100,
         "material_thickness" : 2
@@ -6527,7 +6514,6 @@
         "warmth" : 0,
         "phase" : "solid",
         "encumbrance" : 0,
-        "bashing" : 0,
         "coverage" : 12,
         "material_thickness" : 1
     },
@@ -7495,7 +7481,6 @@
         "material" : ["gold", "null"],
         "coverage" : 0,
         "symbol" : "[",
-        "bashing" : 0,
         "warmth" : 0,
         "phase" : "solid",
         "flags" : ["FANCY"]
@@ -7515,7 +7500,6 @@
         "material" : ["plastic", "null"],
         "coverage" : 0,
         "symbol" : "[",
-        "bashing" : 0,
         "warmth" : 0,
         "phase" : "solid",
         "flags" : ["FANCY"]
@@ -7534,7 +7518,6 @@
         "material" : ["plastic", "null"],
         "coverage" : 0,
         "symbol" : "[",
-        "bashing" : 0,
         "warmth" : 0,
         "phase" : "solid",
         "flags" : ["FANCY"]
@@ -7553,7 +7536,6 @@
         "material" : ["gold", "null"],
         "coverage" : 0,
         "symbol" : "[",
-        "bashing" : 0,
         "warmth" : 0,
         "phase" : "solid",
         "flags" : ["FANCY"]
@@ -7572,7 +7554,6 @@
         "material" : ["gold", "null"],
         "coverage" : 0,
         "symbol" : "[",
-        "bashing" : 0,
         "warmth" : 0,
         "phase" : "solid",
         "flags" : ["FANCY"]
@@ -7591,7 +7572,6 @@
         "material" : ["silver", "null"],
         "coverage" : 0,
         "symbol" : "[",
-        "bashing" : 0,
         "warmth" : 0,
         "phase" : "solid",
         "flags" : ["FANCY"]
@@ -7610,7 +7590,6 @@
         "material" : ["copper", "null"],
         "coverage" : 0,
         "symbol" : "[",
-        "bashing" : 0,
         "warmth" : 0,
         "phase" : "solid"
     },
@@ -7628,7 +7607,6 @@
         "material" : ["silver", "null"],
         "coverage" : 0,
         "symbol" : "[",
-        "bashing" : 0,
         "warmth" : 0,
         "phase" : "solid",
         "flags" : ["FANCY"]
@@ -7647,7 +7625,6 @@
         "material" : ["stone", "null"],
         "coverage" : 0,
         "symbol" : "[",
-        "bashing" : 0,
         "warmth" : 0,
         "phase" : "solid",
         "flags" : ["SUPER_FANCY"]
@@ -7666,7 +7643,6 @@
         "material" : ["silver", "null"],
         "coverage" : 0,
         "symbol" : "[",
-        "bashing" : 0,
         "warmth" : 0,
         "phase" : "solid",
         "flags" : ["FANCY"]
@@ -7685,7 +7661,6 @@
         "material" : ["gold", "null"],
         "coverage" : 0,
         "symbol" : "[",
-        "bashing" : 0,
         "warmth" : 0,
         "phase" : "solid",
         "flags" : ["FANCY"]
@@ -7704,7 +7679,6 @@
         "material" : ["silver", "null"],
         "coverage" : 0,
         "symbol" : "[",
-        "bashing" : 0,
         "warmth" : 0,
         "phase" : "solid",
         "flags" : ["FANCY"]
@@ -7723,7 +7697,6 @@
         "material" : ["copper", "null"],
         "coverage" : 0,
         "symbol" : "[",
-        "bashing" : 0,
         "warmth" : 0,
         "phase" : "solid"
     },
@@ -7741,7 +7714,6 @@
         "material" : ["cotton", "null"],
         "coverage" : 0,
         "symbol" : "[",
-        "bashing" : 0,
         "warmth" : 0,
         "phase" : "solid",
         "flags" : ["FANCY"]
@@ -7761,7 +7733,6 @@
         "material" : ["stone", "null"],
         "coverage" : 0,
         "symbol" : "[",
-        "bashing" : 0,
         "warmth" : 0,
         "phase" : "solid",
         "flags" : ["FANCY"]
@@ -7787,7 +7758,6 @@
         "material" : ["bone", "silver"],
         "coverage" : 0,
         "symbol" : "[",
-        "bashing" : 0,
         "warmth" : 0,
         "phase" : "solid",
         "flags" : ["FANCY"]
@@ -7803,7 +7773,6 @@
         "material": "gold",
         "weight": 22,
         "volume": 0,
-        "bashing": 0,
         "cutting": 0,
         "encumbrance" : 0,
         "coverage" : 0,
@@ -7834,7 +7803,6 @@
         "coverage" : 0,
         "flags" : ["OVERSIZE"],
         "symbol" : "[",
-        "bashing" : 0,
         "warmth" : 0,
         "phase" : "solid"
     },
@@ -7853,7 +7821,6 @@
         "coverage" : 0,
         "bashing_protection" : 0,
         "symbol" : "[",
-        "bashing" : 0,
         "warmth" : 0,
         "phase" : "solid"
     },
@@ -7872,7 +7839,6 @@
         "coverage" : 0,
         "bashing_protection" : 0,
         "symbol" : "[",
-        "bashing" : 0,
         "warmth" : 0,
         "phase" : "solid"
     },
@@ -7891,7 +7857,6 @@
         "coverage" : 0,
         "bashing_protection" : 0,
         "symbol" : "[",
-        "bashing" : 0,
         "warmth" : 0,
         "phase" : "solid"
     },
@@ -7910,7 +7875,6 @@
         "coverage" : 0,
         "bashing_protection" : 0,
         "symbol" : "[",
-        "bashing" : 0,
         "warmth" : 0,
         "phase" : "solid"
     },
@@ -7929,7 +7893,6 @@
         "coverage" : 0,
         "bashing_protection" : 0,
         "symbol" : "[",
-        "bashing" : 0,
         "warmth" : 0,
         "phase" : "solid"
     },
@@ -7971,7 +7934,6 @@
         "warmth" : 10,
         "phase" : "solid",
         "encumbrance" : 15,
-        "bashing" : 0,
         "coverage" : 100,
         "flags" : ["OVERSIZE", "OUTER", "ALLOWS_NATURAL_ATTACKS"],
         "material_thickness" : 3
@@ -8516,7 +8478,6 @@
         "warmth" : 5,
         "phase" : "solid",
         "encumbrance" : 70,
-        "bashing" : 0,
         "symbol" : "[",
         "flags" : ["WATER_FRIENDLY", "OUTER", "SPLINT"],
         "coverage" : 75,
@@ -8536,7 +8497,6 @@
         "warmth" : 5,
         "phase" : "solid",
         "encumbrance" : 70,
-        "bashing" : 0,
         "symbol" : "[",
         "flags" : ["WATER_FRIENDLY", "OUTER", "SPLINT"],
         "coverage" : 75,
@@ -8630,7 +8590,6 @@
         "flags" : ["WATCH", "ALARMCLOCK", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS"],
         "coverage" : 5,
         "symbol" : "[",
-        "bashing" : 0,
         "warmth" : 0,
         "phase" : "solid"
     },
@@ -8652,7 +8611,6 @@
         "flags" : ["WATCH", "WATER_FRIENDLY", "THERMOMETER", "BELTED", "ALLOWS_NATURAL_ATTACKS"],
         "coverage" : 5,
         "symbol" : "[",
-        "bashing" : 0,
         "warmth" : 0,
         "phase" : "solid",
         "ammo": "NULL",
@@ -8681,7 +8639,6 @@
         "flags" : ["WATCH", "FANCY", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS"],
         "coverage" : 5,
         "symbol" : "[",
-        "bashing" : 0,
         "warmth" : 0,
         "phase" : "solid"
     },
@@ -8704,7 +8661,6 @@
         "flags" : ["WATCH", "SUPER_FANCY", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS"],
         "coverage" : 10,
         "symbol" : "[",
-        "bashing" : 0,
         "warmth" : 0,
         "phase" : "solid"
     },
@@ -9205,7 +9161,6 @@
         "phase" : "solid",
         "environmental_protection" : 15,
         "encumbrance" : 25,
-        "bashing" : 0,
         "flags" : ["VARSIZE", "STURDY"],
         "coverage" : 100,
         "material_thickness" : 3
@@ -9228,7 +9183,6 @@
         "phase" : "solid",
         "environmental_protection" : 15,
         "encumbrance" : 25,
-        "bashing" : 0,
         "flags" : ["VARSIZE", "STURDY", "OVERSIZE"],
         "coverage" : 100,
         "material_thickness" : 3
@@ -9355,7 +9309,6 @@
         "phase" : "solid",
         "environmental_protection" : 15,
         "encumbrance" : 30,
-        "bashing" : 0,
         "flags" : ["VARSIZE", "STURDY"],
         "coverage" : 100,
         "material_thickness" : 3
@@ -9378,7 +9331,6 @@
         "phase" : "solid",
         "environmental_protection" : 15,
         "encumbrance" : 30,
-        "bashing" : 0,
         "flags" : ["VARSIZE", "STURDY", "OVERSIZE"],
         "coverage" : 100,
         "material_thickness" : 3
@@ -9978,7 +9930,6 @@
         "phase" : "solid",
         "environmental_protection" : 1,
         "encumbrance" : 20,
-        "bashing" : 0,
         "flags" : ["WATER_FRIENDLY", "STURDY"],
         "coverage" : 95,
         "material_thickness" : 4
@@ -10002,7 +9953,6 @@
         "phase" : "solid",
         "environmental_protection" : 1,
         "encumbrance" : 20,
-        "bashing" : 0,
         "flags" : ["WATER_FRIENDLY", "STURDY"],
         "coverage" : 95,
         "material_thickness" : 3
@@ -10073,7 +10023,6 @@
         "material" : ["leather", "plastic"],
         "coverage" : 0,
         "symbol" : "^",
-        "bashing" : 0,
         "warmth" : 0,
         "phase" : "solid"
     },
@@ -10093,7 +10042,6 @@
         "material" : ["fur", "plastic"],
         "coverage" : 0,
         "symbol" : "^",
-        "bashing" : 0,
         "warmth" : 0,
         "phase" : "solid"
     },
@@ -10150,7 +10098,6 @@
         "material" : ["fur", "null"],
         "coverage" : 0,
         "symbol" : "-",
-        "bashing" : 0,
         "warmth" : 0,
         "phase" : "solid"
     },
@@ -10252,7 +10199,6 @@
         "material" : ["leather", "null"],
         "coverage" : 0,
         "symbol" : "-",
-        "bashing" : 0,
         "warmth" : 0,
         "phase" : "solid"
     },
@@ -10404,7 +10350,6 @@
         "warmth" : 0,
         "phase" : "solid",
         "encumbrance" : 60,
-        "bashing" : 0,
         "coverage" : 4,
         "material_thickness" : 1
     },
@@ -10426,7 +10371,6 @@
         "warmth" : 10,
         "phase" : "solid",
         "encumbrance" : 40,
-        "bashing" : 0,
         "coverage" : 40,
         "material_thickness" : 1
     },
@@ -10444,7 +10388,6 @@
         "material" : ["silver", "null"],
         "coverage" : 0,
         "symbol" : "[",
-        "bashing" : 0,
         "warmth" : 0,
         "phase" : "solid",
         "flags" : ["FANCY"]
@@ -10592,7 +10535,6 @@
         "material" : ["silver", "null"],
         "coverage" : 0,
         "symbol" : "[",
-        "bashing" : 0,
         "warmth" : 0,
         "phase" : "solid",
         "flags" : ["FANCY"]
@@ -10984,7 +10926,6 @@
         "material" : ["plastic", "null"],
         "coverage" : 0,
         "symbol" : "[",
-        "bashing" : 0,
         "warmth" : 0,
         "phase" : "solid",
         "flags" : ["FANCY"]
@@ -11238,7 +11179,6 @@
         "warmth" : 0,
         "phase" : "solid",
         "encumbrance" : 30,
-        "bashing" : 0,
         "coverage" : 4,
         "material_thickness" : 2
     },
@@ -11280,7 +11220,6 @@
         "warmth" : 0,
         "phase" : "solid",
         "encumbrance" : 10,
-        "bashing" : 0,
         "flags" : ["VARSIZE", "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS"],
         "coverage" : 30,
         "material_thickness" : 2
@@ -11324,7 +11263,6 @@
         "phase" : "solid",
         "environmental_protection" : 1,
         "encumbrance" : 10,
-        "bashing" : 0,
         "flags" : ["WATER_FRIENDLY"],
         "coverage" : 95,
         "material_thickness" : 1
@@ -12102,7 +12040,6 @@
         "phase" : "solid",
         "environmental_protection" : 4,
         "encumbrance" : 20,
-        "bashing" : 0,
         "flags" : ["VARSIZE", "WATERPROOF"],
         "coverage" : 95,
         "material_thickness" : 3
@@ -12147,7 +12084,6 @@
         "phase" : "solid",
         "environmental_protection" : 7,
         "encumbrance" : 23,
-        "bashing" : 0,
         "flags" : ["VARSIZE", "STURDY", "WATERPROOF", "SUN_GLASSES"],
         "coverage" : 100,
         "material_thickness" : 3
@@ -12277,7 +12213,6 @@
         "phase" : "solid",
         "environmental_protection" : 2,
         "encumbrance" : 20,
-        "bashing" : 0,
         "coverage" : 100,
         "material_thickness" : 3,
         "flags" : ["VARSIZE", "RAINPROOF"]
@@ -12383,7 +12318,6 @@
         "price" : 1450,
         "material" : ["plastic", "cotton"],
         "volume" : 40,
-        "bashing" : 0,
         "warmth" : 5,
         "encumbrance" : 30,
         "flags" : ["OVERSIZE", "BELTED"],
