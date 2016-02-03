@@ -903,6 +903,7 @@ void Item_factory::load( islot_gunmod &slot, JsonObject &jo )
     slot.skill_used = skill_id( jo.get_string( "skill", "gun" ) );
     slot.req_skill = jo.get_int( "skill_required", 0 );
     slot.ups_charges = jo.get_int( "ups_charges", 0 );
+    slot.install_time = jo.get_int( "install_time", 0 );
 }
 
 void Item_factory::load_gunmod(JsonObject &jo)

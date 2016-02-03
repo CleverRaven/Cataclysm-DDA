@@ -349,6 +349,10 @@ struct islot_gunmod : common_firing_data {
     *Allowing a mod to add UPS charge requirement to a gun.
     */
     int ups_charges = 0;
+    /**
+     * How many moves does this gunmod take to install?
+     */
+    int install_time = 0;
 };
 
 struct islot_magazine {
