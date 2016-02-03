@@ -238,22 +238,6 @@ bool profession::has_initialized()
     return generic_profession_id.is_valid();
 }
 
-void profession::add_items_from_jsonarray( JsonArray jsarr, itypedecvec &container )
-{
-    while( jsarr.has_more() ) {
-        // either a plain item type id string, or an array with item type id
-        // and as second entry the item description.
-        if( jsarr.test_array() ) {
-            auto arr = jsarr.next_array();
-            const itypedec entry( arr.get_string( 0 ),
-                                  _( arr.get_string( 1 ).c_str() ) );
-            container.push_back( entry );
-        } else {
-            container.emplace_back( jsarr.next_string(), "" );
-        }
-    }
-}
-
 void profession::add_CBM( std::string CBM )
 {
     _starting_CBMs.push_back( CBM );
