@@ -54,8 +54,8 @@ static const std::unordered_map<std::string, ter_bitflags> ter_bitflags_map = { 
     { "DIGGABLE",                 TFLAG_DIGGABLE },       // monmove
     { "SUPPRESS_SMOKE",           TFLAG_SUPPRESS_SMOKE }, // fire
     { "FLAMMABLE_HARD",           TFLAG_FLAMMABLE_HARD }, // fire
-    { "TFLAG_SEALED",             TFLAG_SEALED },         // Fire, acid
-    { "TFLAG_ALLOW_FIELD_EFFECT", TFLAG_ALLOW_FIELD_EFFECT }, // Fire, acid
+    { "SEALED",                   TFLAG_SEALED },         // Fire, acid
+    { "ALLOW_FIELD_EFFECT",       TFLAG_ALLOW_FIELD_EFFECT }, // Fire, acid
     { "COLLAPSES",                TFLAG_COLLAPSES },      // building "remodeling"
     { "FLAMMABLE",                TFLAG_FLAMMABLE },      // fire bad! fire SLOW!
     { "REDUCE_SCENT",             TFLAG_REDUCE_SCENT },   // ...and the other half is update_scent
