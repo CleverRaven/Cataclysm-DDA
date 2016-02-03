@@ -32,6 +32,7 @@
         "bashing" : 3,
         "recoil_modifier" : -2,
         "price" : 48000,
+        "install_time" : 200,
         "loudness_modifier" : -50
     },
     {
