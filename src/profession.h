@@ -64,6 +64,9 @@ enum add_type : int;
         void check_item_definitions( const itypedecvec &items ) const;
 
         static profmap _all_profs;
+
+        void load( JsonObject &jsobj );
+
     public:
         //these three aren't meant for external use, but had to be made public regardless
         profession();

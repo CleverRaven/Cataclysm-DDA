@@ -49,60 +49,64 @@ profmap profession::_all_profs;
 void profession::load_profession( JsonObject &jsobj )
 {
     profession prof;
+    prof.load( jsobj );
+    prof.id = string_id<profession>( jsobj.get_string( "ident" ) );
+    _all_profs[prof.id] = prof;
+    DebugLog( D_INFO, DC_ALL ) << "Loaded profession: " << prof.id.str();
+}
+
+void profession::load( JsonObject &jsobj )
+{
     JsonArray jsarr;
 
-    prof.id = string_id<profession>( jsobj.get_string( "ident" ) );
     //If the "name" is an object then we have to deal with gender-specific titles,
     if( jsobj.has_object( "name" ) ) {
         JsonObject name_obj = jsobj.get_object( "name" );
-        prof._name_male = pgettext( "profession_male", name_obj.get_string( "male" ).c_str() );
-        prof._name_female = pgettext( "profession_female", name_obj.get_string( "female" ).c_str() );
+        _name_male = pgettext( "profession_male", name_obj.get_string( "male" ).c_str() );
+        _name_female = pgettext( "profession_female", name_obj.get_string( "female" ).c_str() );
     } else {
         // Same profession names for male and female in English.
         // Still need to different names in other languages.
         const std::string name = jsobj.get_string( "name" );
-        prof._name_female = pgettext( "profession_female", name.c_str() );
-        prof._name_male = pgettext( "profession_male", name.c_str() );
+        _name_female = pgettext( "profession_female", name.c_str() );
+        _name_male = pgettext( "profession_male", name.c_str() );
     }
 
     const std::string desc = jsobj.get_string( "description" ).c_str();
-    prof._description_male = pgettext( "prof_desc_male", desc.c_str() );
-    prof._description_female = pgettext( "prof_desc_female", desc.c_str() );
+    _description_male = pgettext( "prof_desc_male", desc.c_str() );
+    _description_female = pgettext( "prof_desc_female", desc.c_str() );
 
-    prof._point_cost = jsobj.get_int( "points" );
+    _point_cost = jsobj.get_int( "points" );
 
     JsonObject items_obj = jsobj.get_object( "items" );
-    prof.add_items_from_jsonarray( items_obj.get_array( "both" ), prof._starting_items );
-    prof.add_items_from_jsonarray( items_obj.get_array( "male" ), prof._starting_items_male );
-    prof.add_items_from_jsonarray( items_obj.get_array( "female" ), prof._starting_items_female );
+    add_items_from_jsonarray( items_obj.get_array( "both" ), _starting_items );
+    add_items_from_jsonarray( items_obj.get_array( "male" ), _starting_items_male );
+    add_items_from_jsonarray( items_obj.get_array( "female" ), _starting_items_female );
 
     jsarr = jsobj.get_array( "skills" );
     while( jsarr.has_more() ) {
         JsonObject jo = jsarr.next_object();
-        prof.add_skill( skill_id( jo.get_string( "name" ) ),
-                        jo.get_int( "level" ) );
+        add_skill( skill_id( jo.get_string( "name" ) ),
+                   jo.get_int( "level" ) );
     }
     jsarr = jsobj.get_array( "addictions" );
     while( jsarr.has_more() ) {
         JsonObject jo = jsarr.next_object();
-        prof.add_addiction( addiction_type( jo.get_string( "type" ) ),
-                            jo.get_int( "intensity" ) );
+        add_addiction( addiction_type( jo.get_string( "type" ) ),
+                       jo.get_int( "intensity" ) );
     }
     jsarr = jsobj.get_array( "CBMs" );
     while( jsarr.has_more() ) {
-        prof.add_CBM( jsarr.next_string() );
+        add_CBM( jsarr.next_string() );
     }
     jsarr = jsobj.get_array( "traits" );
     while( jsarr.has_more() ) {
-        prof.add_trait( jsarr.next_string() );
+        add_trait( jsarr.next_string() );
     }
     jsarr = jsobj.get_array( "flags" );
     while( jsarr.has_more() ) {
-        prof.flags.insert( jsarr.next_string() );
+        flags.insert( jsarr.next_string() );
     }
-
-    _all_profs[prof.id] = prof;
-    DebugLog( D_INFO, DC_ALL ) << "Loaded profession: " << prof.id.str();
 }
 
 const profession *profession::generic()
