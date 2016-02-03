@@ -497,9 +497,14 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         double get_weapon_dispersion( item *weapon, bool random ) const;
         /** Returns true if a gun misfires, jams, or has other problems, else returns false */
         bool handle_gun_damage( const itype &firing, const std::set<std::string> &curammo_effects );
-        /** Handles gun firing effects and functions */
-        void fire_gun( const tripoint &target, bool burst );
-        void fire_gun( const tripoint &target, bool burst, item& gun );
+
+        /** Fires a gun or axuiliary gunmod (ignoring any current mode)
+         *  @param target where the first shot is aimed at (may vary for later shots)
+         *  @param shots maximum number of shots to fire (less may be fired in some circumstances)
+         *  @param gun item to fire (which does not necessary have to be in the players possession) */
+        void fire_gun( const tripoint &target, int shots = 1 );
+        void fire_gun( const tripoint &target, int shots, item& gun );
+
         /** Handles reach melee attacks */
         void reach_attack( const tripoint &target );
 
