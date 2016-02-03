@@ -1147,7 +1147,11 @@ protected:
          * Fast forward a submap that has just been loading into this map.
          * This is used to rot and remove rotten items, grow plants, fill funnels etc.
          */
-        void actualize( const int gridx, const int gridy, const int gridz );
+        void actualize( int gridx, int gridy, int gridz );
+        /**
+         * Hacks in missing roofs. Should be removed when 3D mapgen is done.
+         */
+        void add_roofs( int gridx, int gridy, int gridz );
         /**
          * Whether the item has to be removed as it has rotten away completely.
          * @param pnt The *absolute* position of the item in the world (not just on this map!),
