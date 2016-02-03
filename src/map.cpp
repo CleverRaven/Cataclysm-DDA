@@ -1825,11 +1825,6 @@ void map::ter_set( const tripoint &p, const ter_id new_terrain )
     tripoint above( p.x, p.y, p.z + 1 );
     // Make sure that if we supported something and no longer do so, it falls down
     support_dirty( above );
-
-    // Hack up a ceiling
-    if( zlevels && !new_t.roof.empty() && ter( above ) == t_null ) {
-        ter_set( above, new_t.roof );
-    }
 }
 
 std::string map::tername( const tripoint &p ) const
