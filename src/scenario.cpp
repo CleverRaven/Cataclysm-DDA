@@ -51,70 +51,75 @@ scenmap scenario::_all_scens;
 void scenario::load_scenario(JsonObject &jsobj)
 {
     scenario scen;
+    scen.id = string_id<scenario>( jsobj.get_string( "ident" ) );
+    scen.load( jsobj );
+    _all_scens[scen.id] = scen;
+    DebugLog( D_INFO, DC_ALL ) << "Loaded scenario: " << scen.id.str();
+}
+
+void scenario::load( JsonObject &jo )
+{
+    auto &jsobj = jo;
     JsonArray jsarr;
 
-    scen.id = string_id<scenario>( jsobj.get_string( "ident" ) );
     //If the "name" is an object then we have to deal with gender-specific titles,
     if(jsobj.has_object("name")) {
         JsonObject name_obj=jsobj.get_object("name");
-        scen._name_male = pgettext("scenario_male", name_obj.get_string("male").c_str());
-        scen._name_female = pgettext("scenario_female", name_obj.get_string("female").c_str());
+        _name_male = pgettext("scenario_male", name_obj.get_string("male").c_str());
+        _name_female = pgettext("scenario_female", name_obj.get_string("female").c_str());
     }
     else {
         // Same scenario names for male and female in English.
         // Still need to different names in other languages.
         const std::string name = jsobj.get_string("name");
-        scen._name_female = pgettext("scenario_female", name.c_str());
-        scen._name_male = pgettext("scenario_male", name.c_str());
+        _name_female = pgettext("scenario_female", name.c_str());
+        _name_male = pgettext("scenario_male", name.c_str());
     }
 
     const std::string desc = jsobj.get_string("description").c_str();
-    scen._description_male = pgettext("scen_desc_male", desc.c_str());
-    scen._description_female = pgettext("scen_desc_female", desc.c_str());
+    _description_male = pgettext("scen_desc_male", desc.c_str());
+    _description_female = pgettext("scen_desc_female", desc.c_str());
 
     const std::string stame = jsobj.get_string("start_name").c_str();
-    scen._start_name = pgettext("start_name", stame.c_str());
+    _start_name = pgettext("start_name", stame.c_str());
 
 
-    scen._point_cost = jsobj.get_int("points");
+    _point_cost = jsobj.get_int("points");
 
     JsonObject items_obj=jsobj.get_object("items");
-    scen.add_items_from_jsonarray(items_obj.get_array("both"), scen._starting_items);
-    scen.add_items_from_jsonarray(items_obj.get_array("male"), scen._starting_items_male);
-    scen.add_items_from_jsonarray(items_obj.get_array("female"), scen._starting_items_female);
+    add_items_from_jsonarray(items_obj.get_array("both"), _starting_items);
+    add_items_from_jsonarray(items_obj.get_array("male"), _starting_items_male);
+    add_items_from_jsonarray(items_obj.get_array("female"), _starting_items_female);
 
     jsarr = jsobj.get_array("professions");
     while (jsarr.has_more()) {
-        scen._allowed_professions.push_back( string_id<profession>( jsarr.next_string() ) );
+        _allowed_professions.push_back( string_id<profession>( jsarr.next_string() ) );
     }
 
     jsarr = jsobj.get_array("traits");
     while (jsarr.has_more()) {
-        scen._allowed_traits.insert(jsarr.next_string());
+        _allowed_traits.insert(jsarr.next_string());
     }
     jsarr = jsobj.get_array("forced_traits");
     while (jsarr.has_more()) {
-        scen._forced_traits.insert(jsarr.next_string());
+        _forced_traits.insert(jsarr.next_string());
     }
     jsarr = jsobj.get_array("forbidden_traits");
     while (jsarr.has_more()) {
-        scen._forbidden_traits.insert(jsarr.next_string());
+        _forbidden_traits.insert(jsarr.next_string());
     }
     jsarr = jsobj.get_array("allowed_locs");
     while (jsarr.has_more()) {
-        scen._allowed_locs.push_back( start_location_id( jsarr.next_string() ) );
+        _allowed_locs.push_back( start_location_id( jsarr.next_string() ) );
     }
-    if( scen._allowed_locs.empty() ) {
+    if( _allowed_locs.empty() ) {
         jsobj.throw_error( "at least one starting location (member \"allowed_locs\") must be defined" );
     }
     jsarr = jsobj.get_array("flags");
     while (jsarr.has_more()) {
-        scen.flags.insert(jsarr.next_string());
+        flags.insert(jsarr.next_string());
     }
-    scen._map_special = jsobj.get_string( "map_special", "mx_null" );
-
-    _all_scens[scen.id] = scen;
-    DebugLog( D_INFO, DC_ALL ) << "Loaded scenario: " << scen.id.str();
+    _map_special = jsobj.get_string( "map_special", "mx_null" );
 }
 
 const scenario *scenario::generic()

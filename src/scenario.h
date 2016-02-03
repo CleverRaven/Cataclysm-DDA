@@ -49,6 +49,8 @@ private:
 
     void add_items_from_jsonarray(JsonArray jsarr, std::vector<std::string> &container);
 
+    void load( JsonObject &jo );
+
     static scenmap _all_scens;
 public:
     //these three aren't meant for external use, but had to be made public regardless
