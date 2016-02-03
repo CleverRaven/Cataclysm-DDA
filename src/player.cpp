@@ -11154,116 +11154,108 @@ void player::remove_gunmod(item *weapon, unsigned id)
     }
 }
 
-bool player::gunmod_add( item& gun, item& mod ) {
+void player::gunmod_add( item& gun, item& mod ) {
     if( !gun.gunmod_compatible( mod, false ) ) {
         debugmsg( "Tried to add incompatible gunmod" );
-        return false;
+        return;
     }
 
-    if( !has_item( &gun ) ) {
-        debugmsg( "Tried to attach mod to gun not in players possession" );
-        return false;
+    if( !has_item( &gun ) && !has_item( &mod ) ) {
+        debugmsg( "Tried gunmod installation but mod/gun not in player possession" );
+        return;
     }
 
     // first check at least the minimum requirements are met
     if( !can_use( mod ) ) {
-        return false;
+        return;
     }
 
-    int chances = 1; // start with 1 in 6 (~17% chance)
+    int roll = 100; // chance of success (%)
+    int risk = 0;   // chance of failure (%)
 
-    for( const auto& sk : mod.type->min_skills ) {
-        // gain an additional chance for every level above the minimum requirement
-        chances += std::max( get_skill_level( sk.first ) - sk.second, 0 );
-    }
+    // any (optional) tool charges that are used during installation
+    std::string tool;
+    int qty = 0;
 
-    // cap success from skill alone to 1 in 5 (~83% chance)
-    int roll = std::min( double( chances ), 5.0 ) / 6.0 * 100;
+    // Mods with INSTALL_DIFFICULT have a chance to fail, potentially damaging the gun
+    if( mod.has_flag( "INSTALL_DIFFICULT" ) ) {
+        int chances = 1; // start with 1 in 6 (~17% chance)
 
-    // focus is either a penalty or bonus of at most +/-10%
-    roll += ( std::min( std::max( focus_pool, 140 ), 60 ) - 100 ) / 4;
-
-    // dexterity and intelligence give +/-2% for each point above or below 12
-    roll += ( get_dex() - 12 ) * 2;
-    roll += ( get_int() - 12 ) * 2;
-
-    // each point of damage to the base gun reduces success by 10%
-    roll -= std::min( gun.damage, 0 ) * 10;
-
-    roll = std::min( roll, 100 );
-
-    // risk of causing damage on failure when not using tools increases with less durable guns
-    int risk = ( 100 - roll ) * ( ( 10.0 - std::min( gun.type->gun->durability, 9 ) ) / 10.0 );
-
-    // if mod not difficult to install or we have 100% success rate install without prompt
-    if( !mod.has_flag( "INSTALL_DIFFICULT") || roll >= 100 ) {
-        add_msg( m_good, _( "You sucessfully attached the %1$s to your %2$s." ), mod.tname().c_str(), gun.tname().c_str() );
-        gun.contents.push_back( i_rem( &mod ) );
-        return true;
-    }
-
-    uimenu prompt;
-    prompt.text = string_format( _( "Attach your %1$s to your %2$s?" ), mod.tname().c_str(), gun.tname().c_str() );
-
-    std::vector<std::function<bool()>> actions;
-
-    prompt.addentry( -1, true, 'w', string_format( _( "Try without tools (%i%%) risking damage (%i%%)" ), roll, risk ) );
-
-    actions.push_back( [&]{
-        if( rng( 0, 100 ) <= risk ) {
-            if( gun.damage++ >= MAX_ITEM_DAMAGE ) {
-                i_rem( &gun );
-                add_msg( m_bad, _( "You failed at installing the %s and destroyed your %s!" ), mod.tname().c_str(), gun.tname().c_str() );
-            } else {
-                add_msg( m_bad, _( "You failed at installing the %s and damaged your %s!" ), mod.tname().c_str(), gun.tname().c_str() );
-            }
-            return false;
-        } else if( rng( 0, 100 ) > roll ) {
-            add_msg( m_info, _( "You failed at installing the %s." ), mod.tname().c_str(), gun.tname().c_str() );
-            return false;
+        for( const auto& sk : mod.type->min_skills ) {
+            // gain an additional chance for every level above the minimum requirement
+            chances += std::max( get_skill_level( sk.first ) - sk.second, 0 );
         }
-        return true;
-    } );
 
-    prompt.addentry( -1, has_charges( "small_repairkit", 100 ), 'f',
-                     string_format( _( "Use 100 charges of firearm repair kit (%i%%)" ), std::min( roll * 2, 100 ) ) );
+        // cap success from skill alone to 1 in 5 (~83% chance)
+        roll = std::min( double( chances ), 5.0 ) / 6.0 * 100;
 
-    actions.push_back( [&]{
-        use_charges( "small_repairkit", 100 );
-        if( rng( 0, 100 ) <= std::min( roll * 2, 100 ) ) {
-            return true;
-        } else {
-            add_msg( m_bad, _( "You failed at installing the %s and wasted %i charges!" ), mod.tname().c_str(), 100 );
-            return false;
-        }
-    } );
+        // focus is either a penalty or bonus of at most +/-10%
+        roll += ( std::min( std::max( focus_pool, 140 ), 60 ) - 100 ) / 4;
 
-    prompt.addentry( -1, has_charges( "large_repairkit", 25 ), 'g',
-                     string_format( _( "Use 25 charges of gunsmith repair kit (%i%%)" ), std::min( roll * 3, 100 ) ) );
+        // dexterity and intelligence give +/-2% for each point above or below 12
+        roll += ( get_dex() - 12 ) * 2;
+        roll += ( get_int() - 12 ) * 2;
 
-    actions.push_back( [&]{
-        use_charges( "large_repairkit", 25 );
-        if( rng( 0, 100 ) <= std::min( roll * 3, 100 ) ) {
-            return true;
-        } else {
-            add_msg( m_bad, _( "You failed at installing the %s and wasted %i charges!" ), mod.tname().c_str(), 25 );
-            return false;
-        }
-        return true;
-    } );
+        // each point of damage to the base gun reduces success by 10%
+        roll -= std::min( gun.damage, 0 ) * 10;
 
-    prompt.addentry( -1, true, 'c', _( "Cancel" ) );
-    actions.push_back( []{
-        return false;
-    } );
+        roll = std::min( roll, 100 );
 
-    prompt.query();
-    if( actions[ prompt.ret ]() ) {
-        add_msg( m_good, _( "You sucessfully attached the %1$s to your %2$s." ), mod.tname().c_str(), gun.tname().c_str() );
-        gun.contents.push_back( i_rem( &mod ) );
-        return true;
+	// risk of causing damage on failure increases with less durable guns
+        risk = ( 100 - roll ) * ( ( 10.0 - std::min( gun.type->gun->durability, 9 ) ) / 10.0 );
     }
-    return false;
+
+    if( mod.has_flag( "IRREMOVABLE" ) ) {
+        if( !query_yn( _( "Permanently install your %$1s in your %$2s?" ), mod.tname().c_str(), gun.tname().c_str() ) ) {
+            add_msg_if_player( _( "Never mind." ) );
+            return; // player cancelled installation
+        }
+    }
+
+    // if chance of success <100% prompt user to continue
+    if( roll < 100 ) {
+        uimenu prompt;
+        prompt.return_invalid = true;
+        prompt.text = string_format( _( "Attach your %1$s to your %2$s?" ), mod.tname().c_str(), gun.tname().c_str() );
+
+        std::vector<std::function<void()>> actions;
+
+        prompt.addentry( -1, true, 'w', string_format( _( "Try without tools (%i%%) risking damage (%i%%)" ), roll, risk ) );
+        actions.push_back( [&]{} );
+
+        prompt.addentry( -1, has_charges( "small_repairkit", 100 ), 'f',
+                          string_format( _( "Use 100 charges of firearm repair kit (%i%%)" ), std::min( roll * 2, 100 ) ) );
+
+        actions.push_back( [&]{
+            tool = "small_repairkit";
+            qty = 100;
+            roll *= 2; // firearm repair kit improves success...
+            risk /= 2; // ...and reduces the risk of damage upon failure
+        } );
+
+        prompt.addentry( -1, has_charges( "large_repairkit", 25 ), 'g',
+                         string_format( _( "Use 25 charges of gunsmith repair kit (%i%%)" ), std::min( roll * 3, 100 ) ) );
+
+        actions.push_back( [&]{
+            tool = "large_repairkit";
+            qty = 25;
+            roll *= 3; // gunsmith repair kit improves success markedly...
+            risk = 0;  // ...and entirely prevents damage upon failure
+        } );
+
+        prompt.query();
+        if( prompt.ret < 0 ) {
+            add_msg_if_player( _( "Never mind." ) );
+            return; // player cancelled installation
+        }
+        actions[ prompt.ret ]();
+    }
+
+    assign_activity( ACT_GUNMOD_ADD, mod.type->gunmod->install_time, -1, get_item_position( &gun ), tool );
+    activity.values.push_back( get_item_position( &mod ) );
+    activity.values.push_back( roll ); // chance of success (%)
+    activity.values.push_back( risk ); // chance of damage (%)
+    activity.values.push_back( qty ); // tool charges
 }
 
 hint_rating player::rate_action_read( const item &it ) const
