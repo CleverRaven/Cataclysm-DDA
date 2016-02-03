@@ -4341,68 +4341,91 @@ item_location item::pick_reload_ammo( player &u, bool interactive ) const
     }
 
     // If interactive and more than one option prompt the user for a selection
-    uimenu amenu;
-    amenu.return_invalid = true;
-    amenu.w_y = 0;
-    amenu.w_x = 0;
-    amenu.w_width = TERMX;
-    // 40: item location
-    // 40: = 4 * ammo stats colum (10 chars each)
-    // 2: prefix from uimenu: hotkey + space in front of name
-    // 4: borders: 2 char each ("| " and " |")
-    const int namelen = TERMX - 40 - 40 - 2 - 4;
+    uimenu menu;
+    menu.text = string_format( _("Reload %s" ), tname().c_str() );
+    menu.return_invalid = true;
+
+    // Construct item names
+    std::vector<std::string> names;
+    std::transform( ammo_list.begin(), ammo_list.end(), std::back_inserter( names ), []( item_location& e ) {
+        const item *it = e.get_item();
+        if( it->is_magazine() && it->ammo_data() ) {
+            return string_format( "%s with %s (%d)", it->type->nname( 1 ).c_str(),
+                                  it->ammo_data()->nname( it->ammo_remaining() ).c_str(), it->ammo_remaining() );
+        } else {
+            return it->display_name();
+        }
+    } );
+
+    // Get location descriptions
+    std::vector<std::string> where;
+    std::transform( ammo_list.begin(), ammo_list.end(), std::back_inserter( where ), []( item_location& e ) {
+        return e.describe( &g->u );
+    } );
+
+    // Pads elements to match longest member and return length
+    auto pad = []( std::vector<std::string>& vec, int n, int t ) -> int {
+        for( const auto& e : vec ) {
+            n = std::max( n, utf8_width( e ) + t );
+        };
+        for( auto& e : vec ) {
+            e += std::string( n - utf8_width( e ), ' ' );
+        }
+        return n;
+    };
+
+    // Pad the first column including 4 trailing spaces
+    int w = pad( names, utf8_width( menu.text ), 6 );
+    menu.text.insert( 0, 2, ' ' ); // add space for UI hotkeys
+    menu.text += std::string( w + 2 - utf8_width( menu.text ), ' ' );
+    menu.w_width += w + 2;
+
+    // Pad the location similarly (excludes leading "| " and trailing " ")
+    w = pad( where, utf8_width( _( "| Location " ) ) - 3, 6 );
+    menu.text += _("| Location " );
+    menu.text += std::string( w + 3 - utf8_width( _( "| Location " ) ), ' ' );
+    menu.w_width += w + 3;
+
+    // We only show ammo statistics for guns
+    if( is_gun() ) {
+        menu.text += _( "| Damage  | Pierce  | Range   | Accuracy" );
+        menu.w_width += 40;
+    }
+
+    menu.w_width += 6; // include space for borders
+
+    // center dialog
+    menu.w_y = std::max( ( TERMX / 2 ) - int( menu.w_width / 2 ) , 0 );
+    menu.w_y = std::max( ( TERMY / 2 ) - int( (ammo_list.size() + 3 ) / 2 ) , 0 );
 
     std::string lastreload = "";
     if( uistate.lastreload.find( ammo_type() ) != uistate.lastreload.end() ) {
         lastreload = uistate.lastreload[ ammo_type() ];
     }
 
-    amenu.text = std::string( _( "Choose ammo type:" ) );
-    if( utf8_width(amenu.text) < namelen ) {
-        amenu.text += std::string( namelen - utf8_width(amenu.text), ' ' );
-    } else {
-        utf8_truncate( amenu.text, utf8_width(amenu.text) - namelen );
-    }
-    // To cover the space in the header that is used by the hotkeys created by uimenu
-    amenu.text.insert( 0, "  " );
-    //~ header of table that appears when reloading
-    amenu.text += _( "| Location                              | Damage  | Pierce  | Range   | Accuracy" );
-    int i = 0;
-    for( auto& e : ammo_list ) {
-        const item *it = e.get_item();
-        const auto curammo = it->ammo_data(); // nullptr for empty magazines
+    for( auto i = 0; i != (int) ammo_list.size(); ++i ) {
+        const item *it = ammo_list[i].get_item();
+        std::string row = names[i] + "| " + where[i] + " ";
 
-        std::string row;
-        if( it->is_magazine() && curammo ) {
-            long qty = it->ammo_remaining();
-            row = string_format( "%s with %s (%d)", it->type->nname( 1 ).c_str(), curammo->nname( qty ).c_str(), qty );
-        } else {
-            row = it->display_name();
-        }
-        if( utf8_width(row) < namelen ) {
-            row += std::string( namelen - utf8_width(row), ' ' );
-        } else {
-            utf8_truncate( row, utf8_width(row) - namelen );
+        if( is_gun() ) {
+            const itype *curammo = ammo_data(); // nullptr for empty magazines
+            const auto ammo_damage     = curammo ? curammo->ammo->damage : 0;
+            const auto ammo_pierce     = curammo ? curammo->ammo->pierce : 0;
+            const auto ammo_range      = curammo ? curammo->ammo->range  : 0;
+            const auto ammo_dispersion = curammo ? 100 - curammo->ammo->dispersion : 0;
+
+            row += string_format( "| %-7d | %-7d | %-7d | %-7d",
+                                  ammo_damage, ammo_pierce, ammo_range, ammo_dispersion );
         }
 
-        const auto ammo_damage     = curammo ? curammo->ammo->damage : 0;
-        const auto ammo_pierce     = curammo ? curammo->ammo->pierce : 0;
-        const auto ammo_range      = curammo ? curammo->ammo->range  : 0;
-        const auto ammo_dispersion = curammo ? 100 - curammo->ammo->dispersion : 0;
-
-       row += string_format( "| %-37s | %-7d | %-7d | %-7d | %-7d",
-                              utf8_truncate( e.describe( &g->u ), 37 ).c_str(),
-                              ammo_damage, ammo_pierce, ammo_range, ammo_dispersion );
-
-        amenu.addentry( i, true, i + 'a', row );
+        menu.addentry( i, true, i + 'a', row );
         if( lastreload == it->type->id ) {
-            amenu.selected = i;
+            menu.selected = i;
         }
-        i++;
     }
 
-    amenu.query();
-    if( amenu.ret < 0 || amenu.ret >= ( int )ammo_list.size() ) {
+    menu.query();
+    if( menu.ret < 0 || menu.ret >= ( int ) ammo_list.size() ) {
         // invalid selection / escaped from the menu
         if( interactive ) {
             u.add_msg_if_player( m_info, _( "Never mind." ) );
@@ -4410,7 +4433,7 @@ item_location item::pick_reload_ammo( player &u, bool interactive ) const
         return item_location::nowhere();
     }
 
-    item_location sel = std::move( ammo_list[amenu.ret] );
+    item_location sel = std::move( ammo_list[menu.ret] );
     uistate.lastreload[ ammo_type() ] = sel.get_item()->type->id;
     return sel;
 }
