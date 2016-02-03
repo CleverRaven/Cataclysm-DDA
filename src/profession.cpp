@@ -238,11 +238,6 @@ bool profession::has_initialized()
     return generic_profession_id.is_valid();
 }
 
-void profession::add_CBM( std::string CBM )
-{
-    _starting_CBMs.push_back( CBM );
-}
-
 const string_id<profession> &profession::ident() const
 {
     return id;
