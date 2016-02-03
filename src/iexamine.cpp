@@ -2261,7 +2261,7 @@ void iexamine::tree_pine(player *p, map *m, const tripoint &examp)
         none(p, m, examp);
         return;
     }
-    m->spawn_item(p->pos(), "pine_bough", rng( 2, 4 ) );
+    m->spawn_item(p->pos(), "pine_bough", rng( 2, 12 ) );
     m->spawn_item( p->pos(), "pinecone", rng( 1, 4 ) );
     m->ter_set(examp, t_tree_deadpine);
 }
