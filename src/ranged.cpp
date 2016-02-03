@@ -350,18 +350,18 @@ bool player::handle_gun_damage( const itype &firingt, const std::set<std::string
     return true;
 }
 
-void player::fire_gun( const tripoint &target, int shots )
+int player::fire_gun( const tripoint &target, int shots )
 {
-    fire_gun( target, shots, weapon );
+    return fire_gun( target, shots, weapon );
 }
 
-void player::fire_gun( const tripoint &target, int shots, item& gun )
+int player::fire_gun( const tripoint &target, int shots, item& gun )
 {
     const bool is_charger_gun = gun.update_charger_gun_ammo();
 
     if( !gun.is_gun() || !gun.ammo_data() ) {
         debugmsg( "%s tried to fire empty or non-gun (%s).", name.c_str(), gun.tname().c_str() );
-        return;
+        return 0;
     }
 
     // Number of shots to fire is limited by the ammount of remaining ammo
@@ -392,7 +392,8 @@ void player::fire_gun( const tripoint &target, int shots, item& gun )
     }
 
     tripoint aim = target;
-    for( int curshot = 0; curshot != shots; ++curshot ) {
+    int curshot = 0;
+    for( ; curshot != shots; ++curshot ) {
 
         if( !handle_gun_damage( *gun.type, gun.ammo_data()->ammo->ammo_effects ) ) {
             break;
@@ -484,6 +485,8 @@ void player::fire_gun( const tripoint &target, int shots, item& gun )
 
     // Use different amounts of time depending on the type of gun and our skill
     moves -= time_to_fire( *this, *gun.type );
+
+    return curshot;
 }
 
 dealt_projectile_attack player::throw_item( const tripoint &target, const item &to_throw )
