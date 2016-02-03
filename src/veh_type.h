@@ -80,9 +80,10 @@ struct vpart_info {
         int epower;             // electrical power in watts (positive values for generation, negative for consumption)
         int folded_volume;      // volume of a foldable part when folded
         int range;              // turret target finder range
+        int size;               // fuel tank or cargo location volume
+
         union {
             int par1;
-            int size;       // fuel tank, trunk
             int wheel_width;// wheel width in inches. car could be 9, bicycle could be 2.
             int bonus;      // seatbelt (str), muffler (%), horn (vol)
         };
