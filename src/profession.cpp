@@ -248,10 +248,6 @@ void profession::add_trait( std::string trait )
     _starting_traits.push_back( trait );
 }
 
-void profession::add_addiction( add_type type, int intensity )
-{
-    _starting_addictions.push_back( addiction( type, intensity ) );
-}
 void profession::add_skill( const skill_id &skill_name, const int level )
 {
     _starting_skills.push_back( StartingSkill( skill_name, level ) );

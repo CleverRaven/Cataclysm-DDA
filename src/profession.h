@@ -56,7 +56,6 @@ enum add_type : int;
         std::set<std::string> flags; // flags for some special properties of the profession
         StartingSkillList  _starting_skills;
 
-        void add_addiction( add_type, int );
         void add_CBM( std::string CBM );
         void add_trait( std::string trait );
         // Starting skills will boost the players level in those skills by a
