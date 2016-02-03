@@ -9316,7 +9316,6 @@
         "phase" : "solid",
         "encumbrance" : 5,
         "bashing" : -2,
-        "cut": 0,
         "coverage" : 95,
         "material_thickness" : 1
     },
