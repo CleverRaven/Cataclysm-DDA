@@ -243,11 +243,6 @@ void profession::add_CBM( std::string CBM )
     _starting_CBMs.push_back( CBM );
 }
 
-void profession::add_trait( std::string trait )
-{
-    _starting_traits.push_back( trait );
-}
-
 const string_id<profession> &profession::ident() const
 {
     return id;

@@ -57,7 +57,6 @@ enum add_type : int;
         StartingSkillList  _starting_skills;
 
         void add_CBM( std::string CBM );
-        void add_trait( std::string trait );
 
         void check_item_definitions( const itypedecvec &items ) const;
 
