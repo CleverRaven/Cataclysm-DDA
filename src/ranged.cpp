@@ -363,15 +363,11 @@ void player::fire_gun( const tripoint &target, bool burst, item& gun )
         debugmsg( "%s tried to fire empty or non-gun (%s).", name.c_str(), gun.tname().c_str() );
         return;
     }
-    const skill_id skill_used = gun.gun_skill();
 
     if( burst && gun.burst_size() < 2 ) {
         debugmsg( "Tried to burst fire a semi-auto" );
         burst = false;
     }
-
-    // Use different amounts of time depending on the type of gun and our skill
-    moves -= time_to_fire( *this, *gun.type );
 
     // Decide how many shots to fire limited by the ammount of remaining ammo
     long num_shots = burst ? gun.burst_size() : 1;
@@ -387,6 +383,8 @@ void player::fire_gun( const tripoint &target, bool burst, item& gun )
             num_shots = std::min(num_shots, charges_of( "UPS" ) / gun.get_gun_ups_drain() );
         }
     }
+
+    const skill_id skill_used = gun.gun_skill();
 
     const int player_dispersion = skill_dispersion( gun, false ) + ranged_skill_offset( skill_used );
     // If weapon dispersion exceeds skill dispersion you can't tell
@@ -489,6 +487,9 @@ void player::fire_gun( const tripoint &target, bool burst, item& gun )
     }
 
     practice( skill_gun, train_skill ? 15 : 0 );
+
+    // Use different amounts of time depending on the type of gun and our skill
+    moves -= time_to_fire( *this, *gun.type );
 }
 
 dealt_projectile_attack player::throw_item( const tripoint &target, const item &to_throw )
