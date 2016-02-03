@@ -710,24 +710,15 @@ void Item_factory::load( islot_gun &slot, JsonObject &jo )
         }
     }
 
-    //Add any built-in mods.
-    if( jo.has_array( "built_in_mods" ) ) {
-    JsonArray jarr = jo.get_array( "built_in_mods" );
-        while( jarr.has_more() ) {
-            std::string temp = jarr.next_string();
-            slot.built_in_mods.push_back( temp );
-        }
+    JsonArray builtmod = jo.get_array( "built_in_mods" );
+    while( builtmod.has_more() ) {
+        slot.built_in_mods.emplace( builtmod.next_string() );
     }
 
-    //Add default
-    if( jo.has_array( "default_mods" ) ) {
-    JsonArray jarr = jo.get_array( "default_mods" );
-        while( jarr.has_more() ) {
-            std::string temp = jarr.next_string();
-            slot.default_mods.push_back( temp );
-        }
+    JsonArray defmod = jo.get_array( "default_mods" );
+    while( defmod.has_more() ) {
+        slot.default_mods.emplace( defmod.next_string() );
     }
-
 }
 
 void Item_factory::load( islot_spawn &slot, JsonObject &jo )
