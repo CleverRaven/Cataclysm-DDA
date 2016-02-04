@@ -2475,7 +2475,7 @@
         "name_plural" : "coal",
         "symbol" : "=",
         "color" : "dark_gray",
-        "description" : "Coal is a flammable carbon based material obtained by removing water and other volatile constituents from animal and vegetation substances.  It is produced by slowly heating wood or other substances in the absence of oxygen.",
+        "description" : "Flammable black chunks of carbon-based material commonly used for cooking and heating.",
         "material" : "wood",
         "volume" : 5,
         "weight" : 220,
