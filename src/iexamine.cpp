@@ -2250,13 +2250,14 @@ void iexamine::harvest_tree_shrub(player *p, map *m, const tripoint &examp)
 
 void iexamine::tree_pine(player *p, map *m, const tripoint &examp)
 {
-    if(!query_yn(_("Pick %s?"), m->tername(examp).c_str())) {
+    if( !query_yn( _("Pick %s?"), m->tername( examp ).c_str() ) ) {
         none(p, m, examp);
         return;
     }
-    m->spawn_item(p->pos(), "pine_bough", 2, 12 );
+
+    m->spawn_item( p->pos(), "pine_bough", rng( 2, 12 ) );
     m->spawn_item( p->pos(), "pinecone", rng( 1, 4 ) );
-    m->ter_set(examp, t_tree_deadpine);
+    m->ter_set( examp, t_tree_deadpine );
 }
 
 void iexamine::tree_hickory(player *p, map *m, const tripoint &examp)
