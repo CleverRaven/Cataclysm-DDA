@@ -4306,9 +4306,16 @@ item_location item::pick_reload_ammo( player &u, bool interactive ) const
 
     std::vector<item_location> ammo_list;
 
-    auto filter = [&item_types,&ammo_types,&compat_mag]( const item *e ) {
-        return ( e->is_ammo() && ( item_types.count( e->ammo_current() ) || ammo_types.count( e->ammo_type() ) ) ) ||
-               ( e->is_magazine() && compat_mag.count( e->typeId() ) );
+    auto filter = [&item_types,&ammo_types,&compat_mag]( const item *e ) -> bool {
+        if( e->is_ammo() ) {
+            return item_types.count( e->ammo_current() ) || ammo_types.count( e->ammo_type() );
+        } else if ( e->is_magazine() ) {
+            return compat_mag.count( e->typeId() );
+        } else if( e->is_ammo_container() ) {
+            return item_types.count( e->contents[0].ammo_current() ) || ammo_types.count( e->contents[0].ammo_type() );
+        } else {
+            return false;
+        }
     };
 
     // first check the inventory for suitable ammo
@@ -4316,7 +4323,7 @@ item_location item::pick_reload_ammo( player &u, bool interactive ) const
         if( filter( node ) ) {
             ammo_list.emplace_back( item_location::on_character( u, node ) );
         }
-        return ( node->is_magazine() || node->is_gun() || node->is_tool() ) ? VisitResponse::SKIP : VisitResponse::NEXT;
+        return ( node->is_magazine() || node->is_container() || node->is_gun() || node->is_tool() ) ? VisitResponse::SKIP : VisitResponse::NEXT;
     });
 
     for( const auto &pos : closest_tripoints_first( 1, u.pos() ) ) {
@@ -4327,7 +4334,7 @@ item_location item::pick_reload_ammo( player &u, bool interactive ) const
                     if( filter( node ) ) {
                         ammo_list.emplace_back( item_location::on_map( pos, node ) );
                     }
-                    return ( node->is_magazine() || node->is_gun() || node->is_tool() ) ? VisitResponse::SKIP : VisitResponse::NEXT;
+                    return ( node->is_magazine() || node->is_container() || node->is_gun() || node->is_tool() ) ? VisitResponse::SKIP : VisitResponse::NEXT;
                 });
             }
         }
