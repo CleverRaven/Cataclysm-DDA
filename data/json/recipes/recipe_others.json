@@ -7771,7 +7771,7 @@
   "skill_used": "fabrication",
   "difficulty": 0,
   "time": 1000,
-  "reversible": true,
+  "reversible": false,
   "autolearn": true,
   "components": [ [ [ "charcoal", 1 ] ] ]
 },{
@@ -7782,7 +7782,7 @@
   "skill_used": "fabrication",
   "difficulty": 0,
   "time": 1000,
-  "reversible": true,
+  "reversible": false,
   "autolearn": true,
   "components": [ [ [ "coal_lump", 1 ] ] ]
 },{
