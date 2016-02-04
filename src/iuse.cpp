@@ -5195,6 +5195,11 @@ int iuse::hacksaw(player *p, item *it, bool, const tripoint &pos )
         g->m.ter_set( dirx, diry, t_window_alarm );
         sounds::sound( dirp, 15, _("grnd grnd grnd" ) );
         g->m.spawn_item( p->pos(), "pipe", rng( 1, 2 ) );
+    } else if( ter == t_window_bars ) {
+        p->moves -= 500;
+        g->m.ter_set( dirx, diry, t_window_empty );
+        sounds::sound(dirp, 15, _("grnd grnd grnd"));
+        g->m.spawn_item(p->pos(), "pipe", 6);
     } else if( ter == t_bars ) {
         if (g->m.ter(dirx + 1, diry) == t_sewage || g->m.ter(dirx, diry + 1) == t_sewage ||
             g->m.ter(dirx - 1, diry) == t_sewage || g->m.ter(dirx, diry - 1) == t_sewage) {
