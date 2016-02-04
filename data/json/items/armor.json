@@ -165,7 +165,6 @@
         "material" : ["cotton", "leather"],
         "volume": 6,
         "warmth": 20,
-        "phase": "solid",
         "encumbrance": 10,
         "bashing" : 2,
         "flags": ["VARSIZE"],
@@ -186,7 +185,6 @@
         "material" : ["plastic", "null"],
         "volume": 0,
         "warmth": 0,
-        "phase": "solid",
         "encumbrance": 0,
         "bashing" : 2,
         "flags": ["VARSIZE", "STURDY", "WATER_FRIENDLY", "SKINTIGHT"],
@@ -6492,8 +6490,7 @@
         "symbol" : "[",
         "bashing" : 1,
         "warmth" : 0,
-        "flags" : ["WAIST", "VARSIZE"],
-        "phase" : "solid"
+        "flags" : ["WAIST", "VARSIZE"]
     },
     {
         "type" : "ARMOR",
@@ -6516,8 +6513,7 @@
         "bashing" : 1,
         "warmth" : 0,
         "environmental_protection" : 5,
-        "flags" : ["WAIST", "VARSIZE"],
-        "phase" : "solid"
+        "flags" : ["WAIST", "VARSIZE"]
     },
     {
         "type" : "ARMOR",
@@ -6536,8 +6532,7 @@
         "symbol" : "[",
         "bashing" : 5,
         "warmth" : 0,
-        "flags" : ["WAIST"],
-        "phase" : "solid"
+        "flags" : ["WAIST"]
     },
     {
         "type" : "ARMOR",
@@ -7017,8 +7012,7 @@
         "material" : ["copper", "null"],
         "coverage" : 0,
         "symbol" : "[",
-        "warmth" : 0,
-        "phase" : "solid"
+        "warmth" : 0
     },
     {
         "type" : "ARMOR",
@@ -7119,8 +7113,7 @@
         "material" : ["copper", "null"],
         "coverage" : 0,
         "symbol" : "[",
-        "warmth" : 0,
-        "phase" : "solid"
+        "warmth" : 0
     },
     {
         "type" : "ARMOR",
@@ -7192,7 +7185,6 @@
         "material": "gold",
         "weight": 22,
         "volume": 0,
-        "cutting": 0,
         "encumbrance" : 0,
         "coverage" : 0,
         "warmth" : 0,
@@ -7222,8 +7214,7 @@
         "coverage" : 0,
         "flags" : ["OVERSIZE"],
         "symbol" : "[",
-        "warmth" : 0,
-        "phase" : "solid"
+        "warmth" : 0
     },
     {
         "type" : "ARMOR",
@@ -7240,8 +7231,7 @@
         "coverage" : 0,
         "bashing_protection" : 0,
         "symbol" : "[",
-        "warmth" : 0,
-        "phase" : "solid"
+        "warmth" : 0
     },
     {
         "type" : "ARMOR",
@@ -7258,8 +7248,7 @@
         "coverage" : 0,
         "bashing_protection" : 0,
         "symbol" : "[",
-        "warmth" : 0,
-        "phase" : "solid"
+        "warmth" : 0
     },
     {
         "type" : "ARMOR",
@@ -7276,8 +7265,7 @@
         "coverage" : 0,
         "bashing_protection" : 0,
         "symbol" : "[",
-        "warmth" : 0,
-        "phase" : "solid"
+        "warmth" : 0
     },
     {
         "type" : "ARMOR",
@@ -7294,8 +7282,7 @@
         "coverage" : 0,
         "bashing_protection" : 0,
         "symbol" : "[",
-        "warmth" : 0,
-        "phase" : "solid"
+        "warmth" : 0
     },
     {
         "type" : "ARMOR",
@@ -7312,8 +7299,7 @@
         "coverage" : 0,
         "bashing_protection" : 0,
         "symbol" : "[",
-        "warmth" : 0,
-        "phase" : "solid"
+        "warmth" : 0
     },
     {
         "type" : "ARMOR",
@@ -7963,8 +7949,7 @@
         "flags" : ["WATCH", "ALARMCLOCK", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS"],
         "coverage" : 5,
         "symbol" : "[",
-        "warmth" : 0,
-        "phase" : "solid"
+        "warmth" : 0
     },
     {
         "type" : "ARMOR",
@@ -8011,8 +7996,7 @@
         "flags" : ["WATCH", "FANCY", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS"],
         "coverage" : 5,
         "symbol" : "[",
-        "warmth" : 0,
-        "phase" : "solid"
+        "warmth" : 0
     },
     {
         "type" : "ARMOR",
@@ -8033,8 +8017,7 @@
         "flags" : ["WATCH", "SUPER_FANCY", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS"],
         "coverage" : 10,
         "symbol" : "[",
-        "warmth" : 0,
-        "phase" : "solid"
+        "warmth" : 0
     },
     {
         "type" : "ARMOR",
@@ -9329,8 +9312,7 @@
         "material" : ["leather", "plastic"],
         "coverage" : 0,
         "symbol" : "^",
-        "warmth" : 0,
-        "phase" : "solid"
+        "warmth" : 0
     },
     {
         "type" : "ARMOR",
@@ -9348,8 +9330,7 @@
         "material" : ["fur", "plastic"],
         "coverage" : 0,
         "symbol" : "^",
-        "warmth" : 0,
-        "phase" : "solid"
+        "warmth" : 0
     },
     {
         "type" : "ARMOR",
@@ -9367,8 +9348,7 @@
         "coverage" : 0,
         "symbol" : "s",
         "bashing" : 4,
-        "warmth" : 0,
-        "phase" : "solid"
+        "warmth" : 0
     },
     {
         "type" : "ARMOR",
@@ -9386,8 +9366,7 @@
         "coverage" : 0,
         "symbol" : "s",
         "bashing" : 4,
-        "warmth" : 0,
-        "phase" : "solid"
+        "warmth" : 0
     },
     {
         "type" : "ARMOR",
@@ -9404,8 +9383,7 @@
         "material" : ["fur", "null"],
         "coverage" : 0,
         "symbol" : "-",
-        "warmth" : 0,
-        "phase" : "solid"
+        "warmth" : 0
     },
     {
         "type" : "ARMOR",
@@ -9498,8 +9476,7 @@
         "material" : ["leather", "null"],
         "coverage" : 0,
         "symbol" : "-",
-        "warmth" : 0,
-        "phase" : "solid"
+        "warmth" : 0
     },
     {
         "type" : "ARMOR",
@@ -10763,8 +10740,7 @@
         "material" : ["cotton", "null"],
         "coverage" : 0,
         "symbol" : "[",
-        "warmth" : 0,
-        "phase" : "solid"
+        "warmth" : 0
     },
     {
         "type" : "ARMOR",
@@ -10781,8 +10757,7 @@
         "material" : ["cotton", "null"],
         "coverage" : 0,
         "symbol" : "[",
-        "warmth" : 0,
-        "phase" : "solid"
+        "warmth" : 0
     },
     {
         "type" : "ARMOR",
@@ -10799,8 +10774,7 @@
         "material" : ["cotton", "null"],
         "coverage" : 0,
         "symbol" : "[",
-        "warmth" : 0,
-        "phase" : "solid"
+        "warmth" : 0
     },
     {
         "type" : "ARMOR",
@@ -10817,8 +10791,7 @@
         "material" : ["cotton", "null"],
         "coverage" : 0,
         "symbol" : "[",
-        "warmth" : 0,
-        "phase" : "solid"
+        "warmth" : 0
     },
     {
         "type" : "ARMOR",
@@ -10835,8 +10808,7 @@
         "material" : ["cotton", "null"],
         "coverage" : 0,
         "symbol" : "[",
-        "warmth" : 0,
-        "phase" : "solid"
+        "warmth" : 0
     },
     {
         "type" : "ARMOR",
@@ -10853,8 +10825,7 @@
         "material" : ["cotton", "null"],
         "coverage" : 0,
         "symbol" : "[",
-        "warmth" : 0,
-        "phase" : "solid"
+        "warmth" : 0
     },
     {
         "type" : "ARMOR",
@@ -10871,8 +10842,7 @@
         "material" : ["cotton", "null"],
         "coverage" : 0,
         "symbol" : "[",
-        "warmth" : 0,
-        "phase" : "solid"
+        "warmth" : 0
     },
     {
         "type" : "ARMOR",
@@ -10889,8 +10859,7 @@
         "material" : ["cotton", "null"],
         "coverage" : 0,
         "symbol" : "[",
-        "warmth" : 0,
-        "phase" : "solid"
+        "warmth" : 0
     },
     {
         "type" : "ARMOR",
