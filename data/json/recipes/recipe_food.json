@@ -4645,6 +4645,7 @@
   "time": 6000,
   "reversible": false,
   "autolearn": true,
+  "batch_time_factors":[82, 4],
   "qualities":[
     {"id":"COOK","level":2,"amount":1}
   ], "tools": [
@@ -4823,6 +4824,7 @@
   "time": 3000,
   "reversible": false,
   "autolearn": true,
+  "batch_time_factors":[82, 4],
   "qualities":[
     {"id":"COOK","level":2,"amount":1}
   ], "tools": [
@@ -4964,6 +4966,7 @@
   "time": 6000,
   "reversible": false,
   "autolearn": true,
+  "batch_time_factors":[82, 4],
   "qualities":[
     {"id":"COOK","level":2,"amount":1}
   ], "tools": [

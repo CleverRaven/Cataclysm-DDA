@@ -872,6 +872,7 @@
     [
       [ "soap", 3 ],
       [ "tallow", 1 ],
+      [ "tallow_tainted", 1 ],
       [ "lard", 1 ],
       [ "cooking_oil", 1 ]
     ]
@@ -5551,6 +5552,7 @@
      ],
      [
       [ "tallow", 1 ],
+      [ "tallow_tainted", 1 ],
       [ "cooking_oil", 1 ],
       [ "lamp_oil", 200 ]
      ],
