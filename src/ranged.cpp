@@ -350,46 +350,35 @@ bool player::handle_gun_damage( const itype &firingt, const std::set<std::string
     return true;
 }
 
-void player::fire_gun( const tripoint &target, bool burst )
+int player::fire_gun( const tripoint &target, int shots )
 {
-    fire_gun( target, burst, weapon );
+    return fire_gun( target, shots, weapon );
 }
 
-void player::fire_gun( const tripoint &target, bool burst, item& gun )
+int player::fire_gun( const tripoint &target, int shots, item& gun )
 {
     const bool is_charger_gun = gun.update_charger_gun_ammo();
 
     if( !gun.is_gun() || !gun.ammo_data() ) {
         debugmsg( "%s tried to fire empty or non-gun (%s).", name.c_str(), gun.tname().c_str() );
-        return;
-    }
-    const skill_id skill_used = gun.gun_skill();
-
-    if( has_trait("TRIGGERHAPPY") && one_in( 30 ) && gun.burst_size() >= 2 ) {
-        burst = true;
-    }
-    if( burst && gun.burst_size() < 2 ) {
-        debugmsg( "Tried to burst fire a semi-auto" );
-        burst = false;
+        return 0;
     }
 
-    // Use different amounts of time depending on the type of gun and our skill
-    moves -= time_to_fire( *this, *gun.type );
-
-    // Decide how many shots to fire limited by the ammount of remaining ammo
-    long num_shots = burst ? gun.burst_size() : 1;
+    // Number of shots to fire is limited by the ammount of remaining ammo
     if( !gun.has_flag( "NO_AMMO" ) && !is_charger_gun ) {
-        num_shots = std::min( num_shots, gun.ammo_remaining() );
+        shots = std::min( shots, int( gun.ammo_remaining() ) );
     }
 
     // cap our maximum burst size by the amount of UPS power left
     if( gun.get_gun_ups_drain() > 0 ) {
         if( !worn.empty() && worn.back().type->id == "fake_UPS" ) {
-            num_shots = std::min(num_shots, worn.back().charges / gun.get_gun_ups_drain() );
+            shots = std::min( shots, int( worn.back().charges / gun.get_gun_ups_drain() ) );
         } else {
-            num_shots = std::min(num_shots, charges_of( "UPS" ) / gun.get_gun_ups_drain() );
+            shots = std::min( shots, int( charges_of( "UPS" ) / gun.get_gun_ups_drain() ) );
         }
     }
+
+    const skill_id skill_used = gun.gun_skill();
 
     const int player_dispersion = skill_dispersion( gun, false ) + ranged_skill_offset( skill_used );
     // If weapon dispersion exceeds skill dispersion you can't tell
@@ -397,13 +386,14 @@ void player::fire_gun( const tripoint &target, bool burst, item& gun )
     ///\EFFECT_PER allows you to learn more often with less accurate weapons.
     const bool train_skill = gun.gun_dispersion() < player_dispersion + 15 * rng( 0, get_per() );
     if( train_skill ) {
-        practice( skill_used, 8 + 2 * num_shots );
+        practice( skill_used, 8 + 2 * shots );
     } else if( one_in( 30 ) ) {
         add_msg_if_player(m_info, _("You'll need a more accurate gun to keep improving your aim."));
     }
 
     tripoint aim = target;
-    for( int curshot = 0; curshot != num_shots; ++curshot ) {
+    int curshot = 0;
+    for( ; curshot != shots; ++curshot ) {
 
         if( !handle_gun_damage( *gun.type, gun.ammo_data()->ammo->ammo_effects ) ) {
             break;
@@ -425,7 +415,7 @@ void player::fire_gun( const tripoint &target, bool burst, item& gun )
         // @todo turrets need to accumulate recoil themselves
         recoil_add( *this, gun );
 
-        make_gun_sound_effect( *this, num_shots > 1, &gun );
+        make_gun_sound_effect( *this, shots > 1, &gun );
         sfx::generate_gun_sound( *this, gun );
 
         eject_casing( *this, gun );
@@ -473,7 +463,7 @@ void player::fire_gun( const tripoint &target, bool burst, item& gun )
                 } else if( z->is_dead_state() ) {
                     return true;
 
-                } else if( has_trait( "TRIGGER_HAPPY") && one_in( 10 ) ) {
+                } else if( has_trait( "TRIGGERHAPPY") && one_in( 10 ) ) {
                     return false; // Trigger happy sometimes doesn't care who we shoot
 
                 } else {
@@ -492,6 +482,11 @@ void player::fire_gun( const tripoint &target, bool burst, item& gun )
     }
 
     practice( skill_gun, train_skill ? 15 : 0 );
+
+    // Use different amounts of time depending on the type of gun and our skill
+    moves -= time_to_fire( *this, *gun.type );
+
+    return curshot;
 }
 
 dealt_projectile_attack player::throw_item( const tripoint &target, const item &to_throw )
