@@ -1297,7 +1297,7 @@
       ["protein_shake", 10],
       ["pie", 20],
       ["pie_veggy", 18],
-      ["pie_meat", 18]	  
+      ["pie_meat", 18]
     ]
   },{
     "type" : "item_group",

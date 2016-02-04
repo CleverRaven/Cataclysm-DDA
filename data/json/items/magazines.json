@@ -367,7 +367,7 @@
         "reload_time" : 140,
         "flags": [ "MAG_COMPACT" ]
     },{
-	"type" : "MAGAZINE",
+        "type" : "MAGAZINE",
         "id" : "8x40_10_mag",
         "price" : 9000,
         "name" : "RMGP10 magazine",
