@@ -8,6 +8,8 @@
 #include <map>
 #include <set>
 
+template<typename T>
+class generic_factory;
 class profession;
 class player;
 class JsonArray;
@@ -16,8 +18,6 @@ class addiction;
 enum add_type : int;
     class Skill;
     using skill_id = string_id<Skill>;
-
-    typedef std::map<string_id<profession>, profession> profmap;
 
     class profession
 {
@@ -36,8 +36,11 @@ enum add_type : int;
         };
         typedef std::vector<itypedec> itypedecvec;
         friend class string_id<profession>;
+        friend class generic_factory<profession>;
     private:
         string_id<profession> id;
+        bool was_loaded = false;
+
         std::string _name_male;
         std::string _name_female;
         std::string _description_male;
@@ -53,17 +56,10 @@ enum add_type : int;
         std::set<std::string> flags; // flags for some special properties of the profession
         StartingSkillList  _starting_skills;
 
-        void add_items_from_jsonarray( JsonArray jsarr, itypedecvec &container );
-        void add_addiction( add_type, int );
-        void add_CBM( std::string CBM );
-        void add_trait( std::string trait );
-        // Starting skills will boost the players level in those skills by a
-        // given amount.
-        void add_skill( const skill_id &skill_name, const int level );
-
         void check_item_definitions( const itypedecvec &items ) const;
 
-        static profmap _all_profs;
+        void load( JsonObject &jsobj );
+
     public:
         //these three aren't meant for external use, but had to be made public regardless
         profession();

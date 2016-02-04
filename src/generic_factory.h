@@ -109,6 +109,7 @@ class generic_factory
         std::unordered_map< string_id<T>, T> data;
 
         std::string type_name;
+        std::string id_member_name;
 
         T &load_override( const string_id<T> &id, JsonObject &jo ) {
             T obj;
@@ -124,9 +125,11 @@ class generic_factory
         /**
          * @param type_name A string used in debug messages as the name of `T`,
          * for example "vehicle type".
+         * @param id_member_name The name of the JSON member that contains the id of the
+         * loaded object.
          */
-        generic_factory( const std::string &type_name )
-            : type_name( type_name ) {
+        generic_factory( const std::string &type_name, const std::string &id_member_name = "id" )
+            : type_name( type_name ), id_member_name( id_member_name ) {
         }
         /**
          * Load an object of type T with the data from the given JSON object.
@@ -139,7 +142,7 @@ class generic_factory
          * @throws JsonError If loading fails for any reason (thrown by `T::load`).
          */
         T &load( JsonObject &jo ) {
-            const string_id<T> id( jo.get_string( "id" ) );
+            const string_id<T> id( jo.get_string( id_member_name ) );
             const auto iter = data.find( id );
             const bool exists = iter != data.end();
 
@@ -152,14 +155,14 @@ class generic_factory
             } else if( mode == "modify" ) {
                 if( !exists ) {
                     jo.throw_error( "missing definition of " + type_name + " \"" + id.str() + "\" to be modified",
-                                    "id" );
+                                    id_member_name );
                 }
                 iter->second.load( jo );
                 return iter->second;
 
             } else if( mode == "create" ) {
                 if( exists ) {
-                    jo.throw_error( "duplicated definition of " + type_name + " \"" + id.str() + "\"", "id" );
+                    jo.throw_error( "duplicated definition of " + type_name + " \"" + id.str() + "\"", id_member_name );
                 }
                 return load_override( id, jo );
 
