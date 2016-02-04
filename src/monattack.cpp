@@ -2730,71 +2730,76 @@ void mattack::taze( monster *z, Creature *target )
 
 bool mattack::smg(monster *z)
 {
-    const std::string ammo_type("9mm");
-    // Make sure our ammo isn't weird.
-    if (z->ammo[ammo_type] > 1000) {
-        debugmsg("Generated too much ammo (%d) for %s in mattack::smg", z->ammo[ammo_type], z->name().c_str());
-        z->ammo[ammo_type] = 1000;
-    }
+    item gun( "hk_mp5", calendar::turn );
+    item mag( "mp5mag", calendar::turn ); // @todo refactor use item::magazine_default() from #15217
+
+    itype_id atype = default_ammo( mag.ammo_type() );
+
+    item ammo( atype, calendar::turn ); // fetch matching ammo from the turret's supply
+    ammo.charges = std::max( std::min( z->ammo[ atype ], int( mag.ammo_capacity() ) ), 0 );
+
+    mag.contents.push_back( std::move( ammo ) );
+    gun.contents.push_back( std::move( mag ) );
+
+    npc fake = make_fake_npc( z, 16, 8, 8, 12 );
+    fake.skillLevel( gun.gun_skill() ).level( 8 );
+    fake.skillLevel( skill_gun ).level( 4 );
 
     Creature *target = nullptr;
 
     if (z->friendly != 0) {
-        // Attacking monsters, not the player!
-        int boo_hoo;
-        target = z->auto_find_hostile_target( 18, boo_hoo );
-        if( target == nullptr ) {// Couldn't find any targets!
-            if(boo_hoo > 0 && g->u.sees( *z ) ) { // because that stupid oaf was in the way!
-                add_msg(m_warning, ngettext("Pointed in your direction, the %s emits an IFF warning beep.",
-                                            "Pointed in your direction, the %s emits %d annoyed sounding beeps.",
-                                            boo_hoo),
-                        z->name().c_str(), boo_hoo);
+        int avoid; // number of friendly targets that were avoided
+        target = z->auto_find_hostile_target( gun.gun_range(), avoid );
+
+        if( !target ) {
+            if( avoid && g->u.sees( *z ) ) {
+                add_msg( m_warning, ngettext( "Pointed in your direction, the %s emits an IFF warning beep.",
+                                              "Pointed in your direction, the %s emits %d annoyed sounding beeps.", avoid ),
+                        z->name().c_str(), avoid );
             }
             return true;
         }
+
     } else {
-        // Not friendly; hence, firing at the player too
         target = z->attack_target();
-        if( target == nullptr ) {
-            return true;
-        }
-        int dist = rl_dist( z->pos(), target->pos() );
-        if( dist > 18 ) {
+        if( !target ) {
             return true;
         }
 
-        if( !z->has_effect( effect_targeted ) ) {
-            sounds::sound(z->pos(), 6, _("beep-beep-beep!"));
-            z->add_effect( effect_targeted, 8);
-            z->moves -= 100;
-            return true;
+        if( target ) {
+            if( rl_dist( z->pos(), target->pos() ) > gun.gun_range() ) {
+                return true;
+            }
+            if( target == &g->u && !z->has_effect( effect_targeted ) ) {
+                // if we don't already have one acquire a target lock on the player
+                sounds::sound( z->pos(), 6, _( "beep-beep-beep!" ) );
+                z->add_effect( effect_targeted, 8 );
+                z->moves -= 100;
+                return true;
+            }
         }
     }
-    npc tmp = make_fake_npc(z, 16, 8, 8, 12);
-    tmp.skillLevel( skill_id( "smg" ) ).level(8);
-    tmp.skillLevel( skill_gun ).level(4);
-    z->moves -= 150;   // It takes a while
 
-    if (z->ammo[ammo_type] <= 0) {
-        if (one_in(3)) {
-            sounds::sound(z->pos(), 2, _("a chk!"));
-        } else if (one_in(4)) {
-            sounds::sound(z->pos(), 6, _("boop-boop!"));
+    if( gun.ammo_remaining() == 0 ) {
+        if( one_in( 3 ) ) {
+            sounds::sound( z->pos(), 2, _( "a chk!" ) );
+        } else if ( one_in( 4 ) ) {
+            sounds::sound( z->pos(), 6, _( "boop-boop!" ) );
         }
         return true;
     }
-    if (g->u.sees( *z )) {
-        add_msg(m_warning, _("The %s fires its smg!"), z->name().c_str());
+
+    if( target == &g->u ) {
+        z->add_effect( effect_targeted, 3 ); // maintain target lock
     }
-    tmp.weapon = item("hk_mp5", 0);
-    tmp.weapon.set_curammo( ammo_type );
-    tmp.weapon.charges = std::max(z->ammo[ammo_type], 10);
-    z->ammo[ammo_type] -= tmp.weapon.charges;
-    tmp.fire_gun( target->pos(), tmp.weapon.burst_size() );
-    z->ammo[ammo_type] += tmp.weapon.charges;
-    if (target == &g->u) {
-        z->add_effect( effect_targeted, 3);
+    if( g->u.sees( *z ) ) {
+        add_msg( m_warning, _( "The %s fires its smg!" ), z->name().c_str() );
     }
+
+    // fire gun consuming both ammo and moves
+    fake.moves = 0;
+    z->ammo[atype] -= fake.fire_gun( target->pos(), gun.burst_size(), gun );
+    z->moves += fake.moves;
 
     return true;
 }
