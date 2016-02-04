@@ -5508,6 +5508,44 @@
         ]
     },{
         "type" : "vehicle_part",
+        "id" : "leather_funnel",
+        "name" : "leather funnel",
+        "symbol" : "V",
+        "color" : "brown",
+        "broken_symbol" : "*",
+        "broken_color" : "light_gray",
+        "damage_modifier" : 5,
+        "durability" : 80,
+        "size" : 200,
+        "item" : "leather_funnel",
+        "difficulty" : 1,
+        "location" : "on_roof",
+        "folded_volume": 1,
+        "flags" : ["FUNNEL", "VARIABLE_SIZE", "NAILABLE", "FOLDABLE"],
+        "breaks_into" : [
+            {"item": "leather", "count": [1, 2]}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "makeshift_funnel",
+        "name" : "makeshift funnel",
+        "symbol" : "V",
+        "color" : "yellow",
+        "broken_symbol" : "*",
+        "broken_color" : "light_gray",
+        "damage_modifier" : 5,
+        "durability" : 80,
+        "size" : 200,
+        "item" : "makeshift_funnel",
+        "difficulty" : 1,
+        "location" : "on_roof",
+        "folded_volume": 1,
+        "flags" : ["FUNNEL", "VARIABLE_SIZE", "NAILABLE", "FOLDABLE"],
+        "breaks_into" : [
+            {"item": "plastic_chunk", "count": [1, 2]}
+        ]
+    },{
+        "type" : "vehicle_part",
         "id" : "funnel",
         "name" : "funnel",
         "symbol" : "V",
