@@ -4306,10 +4306,10 @@ item_location item::pick_reload_ammo( player &u, bool interactive ) const
     auto filter = [&item_types,&ammo_types,&compat_mag]( const item *e ) -> bool {
         if( e->is_ammo() ) {
             return item_types.count( e->ammo_current() ) || ammo_types.count( e->ammo_type() );
-        } else if( e->is_ammo_container() ) {
-            return item_types.count( e->contents[0].ammo_current() ) || ammo_types.count( e->contents[0].ammo_type() );
         } else if ( e->is_magazine() ) {
             return compat_mag.count( e->typeId() );
+        } else if( e->is_ammo_container() ) {
+            return item_types.count( e->contents[0].ammo_current() ) || ammo_types.count( e->contents[0].ammo_type() );
         } else {
             return false;
         }
