@@ -75,7 +75,7 @@
         "action" : "none",
         "drops" : ["makeshift_funnel"],
         "benign" : true,
-        "funnel_radius": 85
+        "funnel_radius": 200
     },
     {
         "type" : "trap",
@@ -490,7 +490,7 @@
         "action" : "none",
         "drops" : ["leather_funnel"],
         "benign" : true,
-        "funnel_radius": 85
+        "funnel_radius": 200
     },{
         "type" : "trap",
         "id": "tr_metal_funnel",
