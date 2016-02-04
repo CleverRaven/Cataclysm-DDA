@@ -22,9 +22,9 @@
     "recoil": -75,
     "durability": 9,
     "burst": 12,
-    "clip_size": 30,
     "reload": 475,
-    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
+    "magazines" : [ "svsmag", "svsbigmag" ],
+    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "svs-24c",
@@ -50,9 +50,9 @@
     "recoil": 75,
     "durability": 9,
     "burst": 12,
-    "clip_size": 30,
     "reload": 475,
-    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
+    "magazines" : [ "svsmag", "svsbigmag" ],
+    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "cw-24",
@@ -75,9 +75,9 @@
     "aim_speed" : 6,
     "recoil": -75,
     "durability": 9,
-    "clip_size": 30,
     "reload": 475,
-    "valid_mod_locations": [[ "accessories", 4],[ "barrel", 1],[ "bore", 1],[ "conversion", 1],[ "grip", 1],["magazine", 2],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
+    "magazines" : [ "ak74mag", "rpk74mag" ],
+    "valid_mod_locations": [[ "accessories", 4],[ "barrel", 1],[ "bore", 1],[ "conversion", 1],[ "grip", 1],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "cw-24m",
@@ -100,9 +100,9 @@
     "aim_speed" : 6,
     "recoil": -105,
     "durability": 9,
-    "clip_size": 30,
     "reload": 475,
-    "valid_mod_locations": [[ "accessories", 4],[ "barrel", 1],[ "bore", 1],[ "conversion", 1],[ "grip", 1],["magazine", 2],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
+    "magazines" : [ "ak74mag", "rpk74mag" ],
+    "valid_mod_locations": [[ "accessories", 4],[ "barrel", 1],[ "bore", 1],[ "conversion", 1],[ "grip", 1],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "cw-24k",
@@ -125,9 +125,8 @@
     "aim_speed" : 6,
     "recoil": -30,
     "durability": 9,
-    "clip_size": 30,
     "reload": 475,
-    "valid_mod_locations": [[ "accessories", 4],[ "barrel", 1],[ "bore", 1],[ "conversion", 1],[ "grip", 1],["magazine", 2],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
+    "valid_mod_locations": [[ "accessories", 4],[ "barrel", 1],[ "bore", 1],[ "conversion", 1],[ "grip", 1],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "cw-24hack",
@@ -152,9 +151,9 @@
     "recoil": -75,
     "durability": 6,
     "burst": 8,
-    "clip_size": 30,
     "reload": 475,
-    "valid_mod_locations": [[ "accessories", 4],[ "barrel", 1],[ "bore", 1],[ "conversion", 1],[ "grip", 1],["magazine", 2],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
+    "magazines" : [ "svsmag", "svsbigmag" ],
+    "valid_mod_locations": [[ "accessories", 4],[ "barrel", 1],[ "bore", 1],[ "conversion", 1],[ "grip", 1],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "cw-24m_hack",
@@ -179,9 +178,9 @@
     "recoil": -75,
     "durability": 6,
     "burst": 8,
-    "clip_size": 30,
     "reload": 475,
-    "valid_mod_locations": [[ "accessories", 4],[ "barrel", 1],[ "bore", 1],[ "conversion", 1],[ "grip", 1],["magazine", 2],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
+    "magazines" : [ "ak74mag", "rpk74mag" ],
+    "valid_mod_locations": [[ "accessories", 4],[ "barrel", 1],[ "bore", 1],[ "conversion", 1],[ "grip", 1],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "cwd-63",
