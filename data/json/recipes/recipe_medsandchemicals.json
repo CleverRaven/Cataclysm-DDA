@@ -471,7 +471,10 @@
       [ "syringe", 1 ]
     ],
     [
-      [ "charcoal", 1 ]
+      ["charcoal", 1],
+      ["coal_lump", 1],
+      ["small_charcoal", 10],
+      ["small_coal", 10]
     ],
     [
       [ "datura_seed", 8 ]
@@ -2143,7 +2146,10 @@
       [ "ammonia", 1 ]
     ],
     [
-      [ "charcoal", 1 ]
+      ["charcoal", 1],
+      ["coal_lump", 1],
+      ["small_charcoal", 10],
+      ["small_coal", 10]
     ],
     [
       [ "lye_powder", 5 ]
@@ -2263,6 +2269,9 @@
     ],
     [
       [ "charcoal", 1 ],
+      [ "coal_lump", 1 ],
+      [ "small_charcoal", 10 ],
+      [ "small_coal", 10 ],
       [ "lye_powder", 20 ]
     ]
   ]
@@ -2320,7 +2329,8 @@
   ],
   "components": [
     [
-      [ "charcoal", 10 ]
+      [ "charcoal", 10 ],
+      [ "small_charcoal", 100 ]
     ],
     [
       [ "water_clean", 2 ],
