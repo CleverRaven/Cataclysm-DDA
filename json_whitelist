@@ -4,6 +4,7 @@ data/json/items/armor.json
 data/json/items/bionics.json
 data/json/items/books.json
 data/json/items/chemicals_and_resources.json
+data/json/items/containers.json
 data/json/items/comestibles.json
 data/json/items/generic.json
 data/json/items/handloaded_bullets.json
