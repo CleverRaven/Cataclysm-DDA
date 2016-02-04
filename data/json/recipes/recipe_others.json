@@ -3794,7 +3794,7 @@
   "skill_used" : "fabrication",
   "skills_required" : ["cooking", 2],
   "difficulty" : 0,
-  "time": 5000,
+  "time": 2000,
   "reversible": true,
   "decomp_learn": 0,
   "autolearn": false,
@@ -3807,6 +3807,13 @@
       ["flask_glass", 4],
       ["jar_glass", 4],
       ["bottle_glass", 4]
+    ],
+    [
+      ["box_small", 1],
+      ["bag_canvas", 1],
+      ["backpack", 1],
+      ["backpack_leather", 1],
+      ["rucksack", 1]
     ]
   ]
 },{
@@ -3817,38 +3824,19 @@
   "skill_used" : "fabrication",
   "skills_required" : ["cooking", 2],
   "difficulty" : 0,
-  "time": 5000,
+  "time": 3000,
   "reversible": true,
   "decomp_learn": 0,
   "autolearn": false,
-  "flags": ["BLIND_EASY"],
+  "flags": ["BLIND_HARD"],
   "book_learn": [["adv_chemistry", 1] , ["textbook_chemistry", 1]],
   "components": [
     [
       ["cable", 10],
       ["wire", 1]
     ],
-    [
-      ["hotplate", 1]
-    ],
-    [
-      ["glasses_safety", 1]
-    ],
-    [
-      ["hose", 3]
-    ],
-    [
-      ["flask_glass", 4],
-      ["jar_glass", 4],
-      ["bottle_glass", 4]
-    ],
-    [
-      ["bag_canvas", 1],
-      ["backpack", 1],
-      ["backpack_leather", 1],
-      ["rucksack", 1],
-      ["duffelbag", 1]
-    ]
+    [ ["hotplate", 1] ],
+    [ ["chemistry_set_basic", 1] ]
   ]
 },{
   "type" : "recipe",
@@ -7772,7 +7760,8 @@
   "time": 1000,
   "reversible": true,
   "autolearn": true,
-  "components": [ [ [ "charcoal", 1 ] ] ]
+  "components": [ [ [ "charcoal", 1 ] ] ],
+  "flags": ["BLIND_EASY"]
 },{
   "type" : "recipe",
   "result": "plant_fibre",

@@ -69,7 +69,8 @@
         "contains": 3,
         "rigid": true,
         "watertight": true,
-        "seals": true
+        "seals": true,
+        "qualities": [["BOIL", 1]]
     },
     {
         "id": "test_bottle_glass",
@@ -312,7 +313,8 @@
         "contains": 1,
         "rigid": true,
         "watertight": true,
-        "seals": true
+        "seals": true,
+        "qualities": [["BOIL", 1]]
     },
     {
         "id": "stomach_sealed",
@@ -540,7 +542,7 @@
         "rigid": true,
         "watertight": true,
         "seals": true,
-        "qualities": [["CONTAIN", 1]]
+        "qualities": [["CONTAIN", 1], ["BOIL", 1]]
     },
     {
         "id": "jar_3l_glass",
@@ -560,7 +562,7 @@
         "rigid": true,
         "watertight": true,
         "seals": true,
-        "qualities": [["CONTAIN", 1]]
+        "qualities": [["CONTAIN", 1], ["BOIL", 1]]
     },
     {
         "id": "flask_hip",
