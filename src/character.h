@@ -262,15 +262,6 @@ class Character : public Creature, public visitable<Character>
         const item * find_parent( const item& it ) const;
 
         /**
-         * Test whether an item in the playerts possession matches a certain filter.
-         * The items might be inside other items (containers / quiver / etc.),
-         * the filter is recursively applied to all item contents.
-         * @param filter functor returning true for item that should checked for.
-         * @return Returns true when at least one item matches the filter, otherwise false
-         */
-        bool has_item_with( const std::function<bool(const item&)>& filter ) const;
-
-        /**
          * Gather all items that match a certain filter.
          * The returned vector contains pointers to items in the possession
          * of this player (can be weapon, worn items or inventory).

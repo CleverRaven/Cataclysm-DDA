@@ -224,9 +224,6 @@ class inventory : public visitable<inventory>
         item * find_parent( item& it );
         const item * find_parent( const item& it ) const;
 
-        /** Returns true if any item (including those within a container) matches the filter */
-        bool has_item_with( const std::function<bool(const item&)>& filter ) const;
-
         /** Returns all items matching the filter including any within containers */
         std::vector<item *> items_with( const std::function<bool(const item&)>& filter );
         std::vector<const item *> items_with( const std::function<bool(const item&)>& filter ) const;

@@ -1237,9 +1237,3 @@ std::vector<const item *> inventory::items_with( const std::function<bool(const 
     });
     return res;
 }
-
-bool inventory::has_item_with( const std::function<bool(const item&)>& filter ) const {
-    return visit_items( [&filter]( const item *node, const item * ) {
-        return filter( *node ) ? VisitResponse::ABORT : VisitResponse::NEXT;
-    } ) == VisitResponse::ABORT;
-}

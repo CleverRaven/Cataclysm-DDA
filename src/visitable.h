@@ -25,6 +25,9 @@ class visitable {
      */
     VisitResponse visit_items( const std::function<VisitResponse(item *, item *)>& func );
     VisitResponse visit_items( const std::function<VisitResponse(const item *, const item *)>& func ) const;
+
+    /** Returns true if any item (including those within a container) matches the filter */
+    bool has_item_with( const std::function<bool(const item&)>& filter ) const;
 };
 
 #endif

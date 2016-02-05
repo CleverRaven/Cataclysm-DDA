@@ -557,13 +557,6 @@ std::vector<const item *> Character::items_with( const std::function<bool(const 
     return res;
 }
 
-bool Character::has_item_with( const std::function<bool(const item&)>& filter ) const
-{
-    return visit_items( [&filter]( const item *node, const item * ) {
-        return filter( *node ) ? VisitResponse::ABORT : VisitResponse::NEXT;
-    }) == VisitResponse::ABORT;
-}
-
 item& Character::i_add(item it)
 {
  itype_id item_type_id = "null";
