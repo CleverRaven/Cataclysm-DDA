@@ -1218,7 +1218,7 @@ const item * inventory::find_parent( const item& it ) const
 
 std::vector<item *> inventory::items_with( const std::function<bool(const item&)>& filter ) {
     std::vector<item *> res;
-    visit_items( [&res, &filter]( item *node, item * ) {
+    visit_items( [&res, &filter]( item *node ) {
         if( filter( *node ) ) {
             res.emplace_back( node );
         }
@@ -1229,7 +1229,7 @@ std::vector<item *> inventory::items_with( const std::function<bool(const item&)
 
 std::vector<const item *> inventory::items_with( const std::function<bool(const item&)>& filter ) const {
     std::vector<const item *> res;
-    visit_items( [&res, &filter]( const item *node, const item * ) {
+    visit_items( [&res, &filter]( const item *node ) {
         if( filter( *node ) ) {
             res.emplace_back( node );
         }

@@ -18,6 +18,18 @@ VisitResponse visitable<T>::visit_items( const std::function<VisitResponse(const
     return const_cast<visitable<T> *>( this )->visit_items( static_cast<const std::function<VisitResponse(item *, item *)>&>( func ) );
 }
 
+template <typename T>
+VisitResponse visitable<T>::visit_items( const std::function<VisitResponse(const item *)>& func ) const {
+    return const_cast<visitable<T> *>( this )->visit_items( static_cast<const std::function<VisitResponse(item *)>&>( func ) );
+}
+
+template <typename T>
+VisitResponse visitable<T>::visit_items( const std::function<VisitResponse(item *)>& func ) {
+    return visit_items( [&func]( item *it, item * ) {
+        return func( it );
+    } );
+}
+
 // Specialize visitable<T>::visit_items() for each class that will implement the visitable interface
 
 static VisitResponse visit_internal( const std::function<VisitResponse(item *, item *)>& func, item *node, item *parent = nullptr ) {

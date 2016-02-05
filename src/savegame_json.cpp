@@ -310,7 +310,7 @@ void Character::load(JsonObject &data)
         debugmsg("Skills[] no bueno");
     }
 
-    visit_items([&]( item *it, item * /* parent */ ) {
+    visit_items([&]( item *it, item * ) {
         for( auto& e: it->magazine_convert() ) {
             i_add( e );
         }

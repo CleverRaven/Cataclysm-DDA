@@ -4319,7 +4319,7 @@ item_location item::pick_reload_ammo( player &u, bool interactive ) const
     };
 
     // first check the inventory for suitable ammo
-    u.visit_items( [&ammo_list,&filter,&u]( const item *node, const item * ) {
+    u.visit_items( [&ammo_list,&filter,&u]( const item *node ) {
         if( filter( node ) ) {
             ammo_list.emplace_back( item_location::on_character( u, node ) );
         }
@@ -4330,7 +4330,7 @@ item_location item::pick_reload_ammo( player &u, bool interactive ) const
         // next check for items on adjacent map tiles
         if( g->m.accessible_items( u.pos(), pos, 1 ) ) {
             for( auto& e : g->m.i_at( pos ) ) {
-                e.visit_items( [&ammo_list,&filter,&pos]( const item *node, const item * ) {
+                e.visit_items( [&ammo_list,&filter,&pos]( const item *node ) {
                     if( filter( node ) ) {
                         ammo_list.emplace_back( item_location::on_map( pos, node ) );
                     }
@@ -5147,7 +5147,7 @@ const item * item::find_parent( const item& it ) const
 }
 
 bool item::contains( const std::function<bool(const item&)>& filter ) const {
-    return visit_items( [&filter] ( const item *node, const item * ) {
+    return visit_items( [&filter] ( const item *node ) {
         return filter( *node ) ? VisitResponse::ABORT : VisitResponse::NEXT;
     }) == VisitResponse::ABORT;
 }
