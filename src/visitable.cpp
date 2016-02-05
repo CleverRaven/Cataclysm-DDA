@@ -3,6 +3,8 @@
 #include "item.h"
 #include "inventory.h"
 #include "character.h"
+#include "map_selector.h"
+#include "map.h"
 
 template <typename T>
 bool visitable<T>::has_item_with( const std::function<bool(const item&)>& filter ) const {
@@ -78,7 +80,25 @@ VisitResponse visitable<Character>::visit_items( const std::function<VisitRespon
     return ch->inv.visit_items( func );
 }
 
+template <>
+VisitResponse visitable<map_selector>::visit_items( const std::function<VisitResponse( item *, item * )>& func )
+{
+    auto sel = static_cast<map_selector *>( this );
+
+    for( const auto &pos : closest_tripoints_first( sel->radius, sel->pos ) ) {
+        if( !sel->accessible || sel->m.accessible_items( sel->pos, pos, sel->radius ) ) {
+            for( auto& e : sel->m.i_at( pos ) ) {
+                if( visit_internal( func, &e ) == VisitResponse::ABORT ) {
+                    return VisitResponse::ABORT;
+                }
+            }
+        }
+    }
+    return VisitResponse::NEXT;
+}
+
 // explicit template initialization for all classes implementing the visitable interface
 template class visitable<item>;
 template class visitable<inventory>;
 template class visitable<Character>;
+template class visitable<map_selector>;

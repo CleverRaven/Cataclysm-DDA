@@ -491,6 +491,11 @@ bool Character::has_active_bionic(const std::string & b) const
     return false;
 }
 
+map_selector Character::nearby( int radius, bool accessible )
+{
+    return map_selector( g->m, pos(), radius, accessible );
+}
+
 item * Character::find_parent( item& it )
 {
     item *res = nullptr;
