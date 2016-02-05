@@ -69,7 +69,7 @@ void start_location::load_location( JsonObject &jsonobj )
 
 void start_location::load( JsonObject &jo )
 {
-    mandatory( jo, was_loaded, "name", _name );
+    mandatory( jo, was_loaded, "name", _name, translated_string_reader );
     mandatory( jo, was_loaded, "target", _target );
     optional( jo, was_loaded, "flags", _flags, auto_flags_reader<> {} );
 }
