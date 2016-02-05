@@ -4401,7 +4401,7 @@
         "symbol" : "[",
         "description" : "A pair of soft neoprene arm sleeves, often used in contact sports.",
         "price" : 1200,
-        "material" : ["neoprene"],
+        "material" : ["neoprene", "cotton"],
         "volume" : 6,
         "warmth" : 20,
         "environmental_protection" : 1,
