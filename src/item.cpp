@@ -4326,19 +4326,13 @@ item_location item::pick_reload_ammo( player &u, bool interactive ) const
         return ( node->is_magazine() || node->is_container() || node->is_gun() || node->is_tool() ) ? VisitResponse::SKIP : VisitResponse::NEXT;
     });
 
-    for( const auto &pos : closest_tripoints_first( 1, u.pos() ) ) {
-        // next check for items on adjacent map tiles
-        if( g->m.accessible_items( u.pos(), pos, 1 ) ) {
-            for( auto& e : g->m.i_at( pos ) ) {
-                e.visit_items( [&ammo_list,&filter,&pos]( const item *node ) {
-                    if( filter( node ) ) {
-                        ammo_list.emplace_back( item_location::on_map( pos, node ) );
-                    }
-                    return ( node->is_magazine() || node->is_container() || node->is_gun() || node->is_tool() ) ? VisitResponse::SKIP : VisitResponse::NEXT;
-                });
-            }
+    // next check for items on adjacent map tiles
+    u.nearby( 1 ).visit_items( [&ammo_list,&filter]( const item *node, const item *, const tripoint *pos ) {
+        if( filter( node ) ) {
+            ammo_list.emplace_back( item_location::on_map( *pos, node ) );
         }
-    }
+        return ( node->is_magazine() || node->is_container() || node->is_gun() || node->is_tool() ) ? VisitResponse::SKIP : VisitResponse::NEXT;
+    } );
 
     if( ammo_list.empty() ) {
         if( interactive ) {
