@@ -259,15 +259,6 @@ class Character : public Creature, public visitable<Character>
         map_selector nearby( int radius = 0, bool accessible = true );
 
         /**
-         *  Determine the parent container (if any) for an item.
-         *  Wielded and worn items are checked first as these are typically the most frequently requested
-         *  @param it item to search for which must be in the characters possession
-         *  @return parent container or nullptr if the item is not within a container
-         */
-        item * find_parent( item& it );
-        const item * find_parent( const item& it ) const;
-
-        /**
          * Gather all items that match a certain filter.
          * The returned vector contains pointers to items in the possession
          * of this player (can be weapon, worn items or inventory).

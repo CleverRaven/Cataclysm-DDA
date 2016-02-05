@@ -5126,26 +5126,6 @@ void item::mark_as_used_by_player(const player &p)
     used_by_ids += string_format( "%d;", p.getID() );
 }
 
-item * item::find_parent( item& it )
-{
-    item *res = nullptr;
-    if( visit_items( [&]( item *node, item *parent ){
-        if( node == &it ) {
-            res = parent;
-            return VisitResponse::ABORT;
-        }
-        return VisitResponse::NEXT;
-    } ) != VisitResponse::ABORT ) {
-        debugmsg( "Tried to find item parent using an item that doesn't contain it" );
-    }
-    return res;
-}
-
-const item * item::find_parent( const item& it ) const
-{
-    return const_cast<item *>( this )->find_parent( const_cast<item&>( it ) );
-}
-
 bool item::contains( const std::function<bool(const item&)>& filter ) const {
     return visit_items( [&filter] ( const item *node ) {
         return filter( *node ) ? VisitResponse::ABORT : VisitResponse::NEXT;

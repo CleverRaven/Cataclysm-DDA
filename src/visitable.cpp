@@ -1,5 +1,6 @@
 #include "visitable.h"
 
+#include "debug.h"
 #include "item.h"
 #include "inventory.h"
 #include "character.h"
@@ -7,8 +8,30 @@
 #include "map.h"
 
 template <typename T>
+item * visitable<T>::find_parent( item& it )
+{
+    item *res = nullptr;
+    if( visit_items( [&]( item *node, item *parent ){
+        if( node == &it ) {
+            res = parent;
+            return VisitResponse::ABORT;
+        }
+        return VisitResponse::NEXT;
+    } ) != VisitResponse::ABORT ) {
+        debugmsg( "Tried to find item parent using an object that doesn't contain it" );
+    }
+    return res;
+}
+
+template <typename T>
+const item * visitable<T>::find_parent( const item& it ) const
+{
+    return const_cast<visitable<T> *>( this )->find_parent( const_cast<item&>( it ) );
+}
+
+template <typename T>
 bool visitable<T>::has_item_with( const std::function<bool(const item&)>& filter ) const {
-    return visit_items( [&filter]( const item *node, const item * ) {
+    return visit_items( [&filter]( const item *node ) {
         return filter( *node ) ? VisitResponse::ABORT : VisitResponse::NEXT;
     }) == VisitResponse::ABORT;
 }

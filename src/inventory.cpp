@@ -1196,26 +1196,6 @@ std::set<char> inventory::allocated_invlets() const
     return invlets;
 }
 
-item * inventory::find_parent( item& it )
-{
-    item *res = nullptr;
-    if( visit_items( [&]( item *node, item *parent ){
-        if( node == &it ) {
-            res = parent;
-            return VisitResponse::ABORT;
-        }
-        return VisitResponse::NEXT;
-    } ) != VisitResponse::ABORT ) {
-        debugmsg( "Tried to find item parent using inventory which doesn't contain it" );
-    }
-    return res;
-}
-
-const item * inventory::find_parent( const item& it ) const
-{
-    return const_cast<inventory *>( this )->find_parent( const_cast<item&>( it ) );
-}
-
 std::vector<item *> inventory::items_with( const std::function<bool(const item&)>& filter ) {
     std::vector<item *> res;
     visit_items( [&res, &filter]( item *node ) {

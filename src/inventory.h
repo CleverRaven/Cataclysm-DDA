@@ -216,14 +216,6 @@ class inventory : public visitable<inventory>
             return stacks;
         }
 
-        /**
-         *  Determine the parent container (if any) for an item.
-         *  @param it item to search for which must be contained in the inventory
-         *  @return parent container or nullptr if the item is not within a container
-         */
-        item * find_parent( item& it );
-        const item * find_parent( const item& it ) const;
-
         /** Returns all items matching the filter including any within containers */
         std::vector<item *> items_with( const std::function<bool(const item&)>& filter );
         std::vector<const item *> items_with( const std::function<bool(const item&)>& filter ) const;
