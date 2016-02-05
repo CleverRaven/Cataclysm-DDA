@@ -193,6 +193,11 @@ double logarithmic_range( int min, int max, int pos )
     const double LOGI_MIN = logarithmic( -LOGI_CUTOFF );
     const double LOGI_MAX = logarithmic( +LOGI_CUTOFF );
     const double LOGI_RANGE = LOGI_MAX - LOGI_MIN;
+
+    if( min >= max ) {
+        throw std::runtime_error( "Invalid range" );
+    }
+
     // Anything beyond [min,max] gets clamped.
     if( pos < min ) {
         return 1.0;
