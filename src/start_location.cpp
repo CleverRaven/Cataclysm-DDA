@@ -10,6 +10,7 @@
 #include "overmap.h"
 #include "field.h"
 #include "mapgen.h"
+#include "generic_factory.h"
 
 const efftype_id effect_bleed( "bleed" );
 
@@ -80,9 +81,10 @@ void start_location::load_location( JsonObject &jsonobj )
 
 void start_location::load( JsonObject &jo )
 {
-    _name = jo.get_string( "name" );
-    _target = jo.get_string( "target" );
-    _flags = jo.get_tags( "flags" );
+    const bool was_loaded = false;
+    mandatory( jo, was_loaded, "name", _name );
+    mandatory( jo, was_loaded, "target", _target );
+    optional( jo, was_loaded, "flags", _flags, auto_flags_reader<> {} );
 }
 
 void start_location::reset()
