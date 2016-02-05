@@ -198,10 +198,10 @@ double logarithmic_range( int min, int max, int pos )
         throw std::runtime_error( "Invalid range" );
     }
 
-    // Anything beyond [min,max] gets clamped.
-    if( pos < min ) {
+    // Anything beyond (min,max) gets clamped.
+    if( pos <= min ) {
         return 1.0;
-    } else if( pos > max ) {
+    } else if( pos >= max ) {
         return 0.0;
     }
 
