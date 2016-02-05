@@ -14,27 +14,22 @@
 
 const efftype_id effect_bleed( "bleed" );
 
-typedef std::map<string_id<start_location>, start_location> location_map;
 
-static location_map _locations;
+namespace
+{
+generic_factory<start_location> all_starting_locations( "starting location", "ident" );
+}
 
 template<>
 const start_location &string_id<start_location>::obj() const
 {
-    const auto iter = _locations.find( *this );
-    if( iter != _locations.end() ) {
-        return iter->second;
-    } else {
-        debugmsg( "Tried to get invalid start location: %s", c_str() );
-        static const start_location dummy{};
-        return dummy;
-    }
+    return all_starting_locations.obj( *this );
 }
 
 template<>
 bool string_id<start_location>::is_valid() const
 {
-    return _locations.count( *this ) > 0;
+    return all_starting_locations.is_valid( *this );
 }
 
 start_location::start_location()
@@ -59,11 +54,7 @@ std::string start_location::target() const
 
 std::vector<const start_location *> start_location::get_all()
 {
-    std::vector<const start_location *> result;
-    for( auto &p : _locations ) {
-        result.push_back( &p.second );
-    }
-    return result;
+    return all_starting_locations.get_all();
 }
 
 const std::set<std::string> &start_location::flags() const
@@ -73,15 +64,11 @@ const std::set<std::string> &start_location::flags() const
 
 void start_location::load_location( JsonObject &jsonobj )
 {
-    start_location new_location;
-    new_location.id = string_id<start_location>( jsonobj.get_string( "ident" ) );
-    new_location.load( jsonobj );
-    _locations[new_location.id] = new_location;
+    all_starting_locations.load( jsonobj );
 }
 
 void start_location::load( JsonObject &jo )
 {
-    const bool was_loaded = false;
     mandatory( jo, was_loaded, "name", _name );
     mandatory( jo, was_loaded, "target", _target );
     optional( jo, was_loaded, "flags", _flags, auto_flags_reader<> {} );
@@ -89,7 +76,7 @@ void start_location::load( JsonObject &jo )
 
 void start_location::reset()
 {
-    _locations.clear();
+    all_starting_locations.reset();
 }
 
 // check if tile at p should be boarded with some kind of furniture.
