@@ -1900,7 +1900,7 @@
     "color": "dark_gray",
     "name": "Kel-Tec SUB-200",
     "name_plural": "Kel-Tech SUB-2000",
-    "description": "A uniquely designed pistol caliber carbine with an integral folding stock and that makes uses 9mm Glock magazines.",
+    "description": "A uniquely designed pistol caliber carbine with an integral folding stock and that makes use of 9mm Glock magazines.",
     "price": 5900,
     "material": ["steel", "plastic"],
     "skill": "rifle",
