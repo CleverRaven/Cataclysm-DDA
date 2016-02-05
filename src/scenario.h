@@ -49,8 +49,6 @@ private:
     std::set<std::string> flags; // flags for some special properties of the scenario
     std::string _map_special;
 
-    void add_items_from_jsonarray(JsonArray jsarr, std::vector<std::string> &container);
-
     void load( JsonObject &jo );
 
 public:

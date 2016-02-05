@@ -184,13 +184,6 @@ void scenario::check_definition() const
     MapExtras::get_function( _map_special ); // triggers a debug message upon invalid input
 }
 
-void scenario::add_items_from_jsonarray(JsonArray jsarr, std::vector<std::string> &container)
-{
-    while (jsarr.has_more()) {
-        container.push_back( jsarr.next_string() );
-    }
-}
-
 const string_id<scenario> &scenario::ident() const
 {
     return id;
