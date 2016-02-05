@@ -2569,7 +2569,7 @@ void mapgen_generic_house(map *m, oter_id terrain_type, mapgendata dat, int turn
             rn = rng(lw + 1, rw - 1);
             attempts--;
         } while (m->ter(rn, actual_house_height - 1) != t_floor && attempts);
-        if( m->ter(rn, actual_house_height - 1) == t_floor && attempts ) {
+        if( m->ter(rn, actual_house_height - 1) == t_floor && attempts && !m->has_furn( rn, actual_house_height - 1 ) ) {
             m->ter_set(rn, actual_house_height - 1, t_stairs_down);
         }
     }
