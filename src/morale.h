@@ -78,16 +78,19 @@ enum morale_type : int {
 class morale_point : public JsonSerializer, public JsonDeserializer
 {
     public:
-        morale_type type;
-        const itype *item_type;
-        int bonus;
-        int duration;
-        int decay_start;
-        int age;
-
-        morale_point( morale_type T = MORALE_NULL, const itype *I = NULL, int B = 0,
-                      int D = 60, int DS = 30, int A = 0 ) :
-            type( T ), item_type( I ), bonus( B ), duration( D ), decay_start( DS ), age( A ) {};
+        morale_point(
+            morale_type T = MORALE_NULL,
+            const itype *I = nullptr,
+            int B = 0,
+            int D = 60,
+            int DS = 30,
+            int A = 0 ) :
+            type( T ),
+            item_type( I ),
+            bonus( B ),
+            duration( D ),
+            decay_start( DS ),
+            age( A ) {};
 
         using JsonDeserializer::deserialize;
         void deserialize( JsonIn &jsin ) override;
@@ -95,6 +98,34 @@ class morale_point : public JsonSerializer, public JsonDeserializer
         void serialize( JsonOut &json ) const override;
 
         std::string name() const;
+
+        morale_type get_type() const
+        {
+            return type;
+        }
+
+        const itype *get_item_type() const
+        {
+            return item_type;
+        }
+
+        int get_bonus() const
+        {
+            return bonus;
+        }
+
+        void add( int bonus, int max_bonus, int duration, int decay_start, bool cap_existing );
+        void proceed( int ticks );
+        bool is_expired();
+
+    private:
+        morale_type type;
+        const itype *item_type;
+
+        int bonus;
+        int duration;
+        int decay_start;
+        int age;
 };
 
 #endif
