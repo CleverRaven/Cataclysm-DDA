@@ -41,7 +41,6 @@
       ["sword_xiphos", 4],
       ["khopesh", 4],
       ["spear_dory", 3],
-      ["naginata", 3],
       ["fire_lance", 2],
       ["lance_charge", 1],
       ["lance_charge_shot", 1],
@@ -63,8 +62,7 @@
       ["dao", 3],
       ["sword_xiphos", 4],
       ["khopesh", 4],
-      ["spear_dory", 3],
-      ["naginata", 4]
+      ["spear_dory", 3]
     ]
   },{
     "type" : "item_group",
