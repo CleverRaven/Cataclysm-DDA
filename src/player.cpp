@@ -11206,7 +11206,7 @@ void player::gunmod_add( item& gun, item& mod ) {
     }
 
     if( mod.has_flag( "IRREMOVABLE" ) ) {
-        if( !query_yn( _( "Permanently install your %$1s in your %$2s?" ), mod.tname().c_str(), gun.tname().c_str() ) ) {
+        if( !query_yn( _( "Permanently install your %1$s in your %2$s?" ), mod.tname().c_str(), gun.tname().c_str() ) ) {
             add_msg_if_player( _( "Never mind." ) );
             return; // player cancelled installation
         }
