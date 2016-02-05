@@ -491,26 +491,6 @@ bool Character::has_active_bionic(const std::string & b) const
     return false;
 }
 
-VisitResponse Character::visit_items( const std::function<VisitResponse( item *, item * )>& func )
-{
-    if( !weapon.is_null() && weapon.visit_items( func ) == VisitResponse::ABORT ) {
-        return VisitResponse::ABORT;
-    }
-
-    for( auto& e : worn ) {
-        if( e.visit_items( func ) == VisitResponse::ABORT ) {
-            return VisitResponse::ABORT;
-        }
-    }
-
-    return inv.visit_items( func );
-}
-
-VisitResponse Character::visit_items( const std::function<VisitResponse( const item *, const item * )>& func ) const
-{
-    return const_cast<Character *>( this )->visit_items( static_cast<const std::function<VisitResponse(item *, item *)>&>( func ) );
-}
-
 item * Character::find_parent( item& it )
 {
     item *res = nullptr;

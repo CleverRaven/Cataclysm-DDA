@@ -1196,21 +1196,6 @@ std::set<char> inventory::allocated_invlets() const
     return invlets;
 }
 
-VisitResponse inventory::visit_items( const std::function<VisitResponse(item *, item *)>& func ) {
-    for( auto &stack : items ) {
-        for( auto &it : stack ) {
-            if( it.visit_items( func ) == VisitResponse::ABORT ) {
-                return VisitResponse::ABORT;
-            }
-        }
-    }
-    return VisitResponse::NEXT;
-}
-
-VisitResponse inventory::visit_items( const std::function<VisitResponse(const item *, const item *)>& func ) const {
-    return const_cast<inventory *>( this )->visit_items( static_cast<const std::function<VisitResponse(item *, item *)>&>( func ) );
-}
-
 item * inventory::find_parent( item& it )
 {
     item *res = nullptr;

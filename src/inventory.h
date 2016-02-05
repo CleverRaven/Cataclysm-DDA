@@ -1,6 +1,7 @@
 #ifndef INVENTORY_H
 #define INVENTORY_H
 
+#include "visitable.h"
 #include "item.h"
 #include "enums.h"
 
@@ -47,9 +48,11 @@ public:
 
 const extern invlet_wrapper inv_chars;
 
-class inventory
+class inventory : public visitable<inventory>
 {
     public:
+        friend visitable<inventory>;
+
         invslice slice();
         const_invslice const_slice() const;
         const std::list<item> &const_stack(int i) const;
@@ -212,13 +215,6 @@ class inventory
             }
             return stacks;
         }
-
-        /** Traverses each item in the inventory using a visitor function
-         * @return Similar to item::visit_items returns only VisitResponse::Next or VisitResponse::Abort
-         * @see item::visit_items
-         **/
-        VisitResponse visit_items( const std::function<VisitResponse(item *, item *)>& func );
-        VisitResponse visit_items( const std::function<VisitResponse(const item *, const item *)>& func ) const;
 
         /**
          *  Determine the parent container (if any) for an item.

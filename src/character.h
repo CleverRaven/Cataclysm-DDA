@@ -1,6 +1,7 @@
 #ifndef CHARACTER_H
 #define CHARACTER_H
 
+#include "visitable.h"
 #include "creature.h"
 #include "inventory.h"
 #include "bionics.h"
@@ -34,7 +35,7 @@ enum fatigue_levels {
     MASSIVE_FATIGUE = 1000
 };
 
-class Character : public Creature
+class Character : public Creature, public visitable<Character>
 {
     public:
         virtual ~Character() override { };
@@ -250,13 +251,6 @@ class Character : public Creature
             }
             return false;
         }
-
-        /** Traverses wielded, worn and inventory items and using a visitor function
-         * @return Similar to item::visit_items returns only VisitResponse::Next or VisitResponse::Abort
-         * @see item::visit_items
-         **/
-        VisitResponse visit_items( const std::function<VisitResponse(item *, item *)>& func );
-        VisitResponse visit_items( const std::function<VisitResponse(const item *, const item *)>& func ) const;
 
         /**
          *  Determine the parent container (if any) for an item.

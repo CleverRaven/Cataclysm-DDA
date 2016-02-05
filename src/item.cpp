@@ -5126,37 +5126,6 @@ void item::mark_as_used_by_player(const player &p)
     used_by_ids += string_format( "%d;", p.getID() );
 }
 
-static inline VisitResponse visit_internal( const std::function<VisitResponse(item *, item *)>& func, item *node, item *parent ) {
-    switch( func( node, parent ) ) {
-        case VisitResponse::ABORT:
-            return VisitResponse::ABORT;
-
-        case VisitResponse::NEXT:
-            for( auto& e : node->contents ) {
-                if( visit_internal( func, &e, node ) == VisitResponse::ABORT ) {
-                    return VisitResponse::ABORT;
-                }
-            }
-        /* intentional fallthrough */
-
-        case VisitResponse::SKIP:
-            return VisitResponse::NEXT;
-    }
-
-    /* never reached but suppresses GCC warning */
-    return VisitResponse::ABORT;
-}
-
-VisitResponse item::visit_items( const std::function<VisitResponse(item *, item *)>& func )
-{
-    return visit_internal( func, this, nullptr );
-}
-
-VisitResponse item::visit_items( const std::function<VisitResponse(const item *, const item *)>& func ) const
-{
-    return visit_internal( func, const_cast<item *>( this ), nullptr );
-}
-
 item * item::find_parent( item& it )
 {
     item *res = nullptr;

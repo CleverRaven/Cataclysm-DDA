@@ -8,6 +8,7 @@
 #include <bitset>
 #include <unordered_set>
 #include <set>
+#include "visitable.h"
 #include "enums.h"
 #include "json.h"
 #include "color.h"
@@ -79,12 +80,6 @@ enum layer_level {
     MAX_CLOTHING_LAYER
 };
 
-enum class VisitResponse {
-    ABORT, // Stop processing after this node
-    NEXT,  // Descend vertically to any child nodes and then horizontally to next sibling
-    SKIP   // Skip any child nodes and move directly to the next sibling
-};
-
 class item_category
 {
     public:
@@ -105,7 +100,7 @@ class item_category
         bool operator!=(const item_category &rhs) const;
 };
 
-class item : public JsonSerializer, public JsonDeserializer
+class item : public JsonSerializer, public JsonDeserializer, public visitable<item>
 {
 public:
  item();
@@ -677,16 +672,6 @@ public:
  itype_id typeId() const;
  const itype* type;
  std::vector<item> contents;
-
-        /** Traverses this item and any child items contained using a visitor pattern
-         * @param func visitor function called for each node which controls whether traversal continues.
-         * Typically a lambda making use of captured state. The first argument is the node and the second is
-         * the parent node (if any). It should return VisitResponse::Next to recursively process child items,
-         * VisitResponse::Skip to ignore children of the current node or VisitResponse::Abort to skip all remaining nodes
-         * @return This method itself only ever returns VisitResponse::Next or VisitResponse::Abort.
-         */
-        VisitResponse visit_items( const std::function<VisitResponse(item *, item *)>& func );
-        VisitResponse visit_items( const std::function<VisitResponse(const item *, const item *)>& func ) const;
 
         /**
          *  Returns the the parent container for an item.
