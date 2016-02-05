@@ -6,6 +6,7 @@
 #include "item.h"
 #include "creature.h"
 #include "translations.h"
+#include "debug.h"
 
 #include <algorithm>
 
@@ -195,7 +196,8 @@ double logarithmic_range( int min, int max, int pos )
     const double LOGI_RANGE = LOGI_MAX - LOGI_MIN;
 
     if( min >= max ) {
-        throw std::runtime_error( "Invalid range" );
+        debugmsg( "Invalid range" );
+        return 0.0;
     }
 
     // Anything beyond (min,max) gets clamped.
