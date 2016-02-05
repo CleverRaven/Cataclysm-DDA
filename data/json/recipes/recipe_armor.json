@@ -2582,7 +2582,10 @@
       [ "paper", 10 ]
     ],
     [
-      [ "charcoal", 2]
+      [ "charcoal", 2],
+      [ "coal_lump", 2],
+      [ "small_charcoal", 20],
+      [ "small_coal", 20]
     ]
   ]
 },{
@@ -2636,7 +2639,10 @@
       [ "hose", 1 ]
     ],
     [
-      ["charcoal", 4]
+      ["charcoal", 4],
+      ["coal_lump", 4],
+      ["small_charcoal", 40],
+      ["small_coal", 40]
     ]
   ]
 },{
@@ -2676,7 +2682,10 @@
       ["plastic_chunk", 4]
     ],
     [
-      ["charcoal", 4]
+      ["charcoal", 4],
+      ["coal_lump", 4],
+      ["small_charcoal", 40],
+      ["small_coal", 40]
     ]
   ]
 },{
@@ -3408,7 +3417,10 @@
       [ "oxy_powder", 50 ]
     ],
     [
-      ["charcoal", 1]
+      ["charcoal", 1],
+      ["coal_lump", 1],
+      ["small_charcoal", 10],
+      ["small_coal", 10]
     ],
     [
       [ "superglue", 1 ]

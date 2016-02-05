@@ -4033,7 +4033,10 @@
   "components":
     [
      [
-     [ "charcoal", 10 ]
+     ["charcoal", 10],
+     ["coal_lump", 10],
+     ["small_charcoal", 100],
+     ["small_coal", 100]
      ],
      [
      [ "plasma", 20 ]
@@ -4177,7 +4180,10 @@
   "components":
     [
      [
-     [ "charcoal", 5 ]
+     ["charcoal", 5],
+     ["coal_lump", 5],
+     ["small_charcoal", 50],
+     ["small_coal", 50]
      ],
      [
      [ "plasma", 10 ]
@@ -4218,7 +4224,10 @@
   "components":
     [
      [
-     [ "charcoal", 10 ]
+     ["charcoal", 10],
+     ["coal_lump", 10],
+     ["small_charcoal", 100],
+     ["small_coal", 100]
      ],
      [
      [ "plasma", 20 ]
@@ -4258,7 +4267,10 @@
   "components":
     [
      [
-     [ "charcoal", 20 ]
+     ["charcoal", 20],
+     ["coal_lump", 20],
+     ["small_charcoal", 200],
+     ["small_coal", 200]
      ],
      [
      [ "plasma", 40 ]
@@ -4297,7 +4309,10 @@
   "components":
     [
      [
-     [ "charcoal", 20 ]
+     ["charcoal", 20],
+     ["coal_lump", 20],
+     ["small_charcoal", 200],
+     ["small_coal", 200]
      ],
      [
      [ "plasma", 40 ]
@@ -4336,7 +4351,10 @@
   "components":
     [
      [
-     [ "charcoal", 15 ]
+     ["charcoal", 15],
+     ["coal_lump", 15],
+     ["small_charcoal", 150],
+     ["small_coal", 150]
      ],
      [
      [ "plasma", 30 ]
@@ -4375,7 +4393,10 @@
   "components":
     [
      [
-     [ "charcoal", 30 ]
+     ["charcoal", 30],
+     ["coal_lump", 30],
+     ["small_charcoal", 300],
+     ["small_coal", 300]
      ],
      [
      [ "plasma", 60 ]
@@ -4414,7 +4435,10 @@
   "components":
     [
      [
-     [ "charcoal", 15 ]
+     ["charcoal", 15],
+     ["coal_lump", 15],
+     ["small_charcoal", 150],
+     ["small_coal", 150]
      ],
      [
      [ "plasma", 30 ]
@@ -4453,7 +4477,10 @@
   "components":
     [
      [
-     [ "charcoal", 80 ]
+     ["charcoal", 80],
+     ["coal_lump", 80],
+     ["small_charcoal", 800],
+     ["small_coal", 800]
      ],
      [
      [ "plasma", 160 ]
