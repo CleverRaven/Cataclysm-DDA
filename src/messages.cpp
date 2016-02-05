@@ -11,6 +11,7 @@
 
 #include <deque>
 #include <iterator>
+#include <algorithm>
 
 // sidebar messages flow direction
 extern bool log_from_top;

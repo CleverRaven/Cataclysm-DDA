@@ -8,6 +8,7 @@
 #include "addiction.h"
 
 #include <string>
+#include <algorithm>
 
 const efftype_id effect_foodpoison( "foodpoison" );
 const efftype_id effect_poison( "poison" );

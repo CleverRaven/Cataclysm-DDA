@@ -11,6 +11,7 @@
 #include <sstream>
 #include "calendar.h"
 #include <cmath>
+#include <algorithm>
 
 quality::quality_map quality::qualities;
 
