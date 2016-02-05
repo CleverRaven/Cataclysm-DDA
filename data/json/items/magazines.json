@@ -1,20 +1,4 @@
 [
-    {   "type" : "MAGAZINE",
-        "id" : "garandclip",
-        "price" : 600,
-        "name" : "M1 Garand Clip",
-        "symbol" : "#",
-        "color" : "ltgray",
-        "description" : "A light-weight en-bloc clip for use with the M1 garand that will be ejected after the last round is fired.",
-        "material" : "steel",
-        "volume" : 1,
-        "weight" : 30,
-        "ammo_type" : "3006",
-        "capacity" : 8,
-        "reliability" : 8,
-        "reload_time" : 150,
-        "flags": [ "MAG_COMPACT", "MAG_EJECT" ]
-    },
     {
         "id" : "8x40_10_mag",
         "price" : 9000,
@@ -355,47 +339,6 @@
         "capacity" : 30,
         "reliability" : 8,
         "reload_time" : 130
-    },
-    {
-        "type" : "MAGAZINE",
-        "id" : "m1918mag",
-        "//" : "Compatable magazines made for reproductions exist, and the standard-capacity mags are fairly cheap compared to variants.",
-        "price" : 3600,
-        "name" : "BAR magazine",
-        "symbol" : "#",
-        "color" : "ltgray",
-        "description" : "A standard capacity magazine for use with the Browning Automatic Rifle, holds 20 rounds.",
-        "material" : "steel",
-        "volume" : 2,
-        "weight" : 200,
-        "ammo_type" : "3006",
-        "capacity" : 20,
-        "reliability" : 9,
-        "reload_time" : 100,
-        "flags": [ "MAG_COMPACT" ],
-        "alternatives" : [
-            [ "223", [ "stanag30", "stanag10", "survivor223mag" ] ]
-        ]
-    },
-    {
-        "type" : "MAGAZINE",
-        "id" : "m1918bigmag",
-        "price" : 8500,
-        "name" : "BAR extended magazine",
-        "symbol" : "#",
-        "color" : "ltgray",
-        "description" : "An aftermarket magazine for use with the Browning Automatic Rifle, holds 30 rounds.",
-        "material" : "steel",
-        "volume" : 3,
-        "weight" : 300,
-        "ammo_type" : "3006",
-        "capacity" : 30,
-        "reliability" : 7,
-        "reload_time" : 120,
-        "flags": [ "MAG_COMPACT" ],
-        "alternatives" : [
-            [ "223", [ "stanag30", "stanag10", "survivor223mag" ] ]
-        ]
     },
     {
         "type" : "MAGAZINE",
