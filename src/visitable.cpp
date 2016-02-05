@@ -11,7 +11,7 @@ template <typename T>
 item * visitable<T>::find_parent( item& it )
 {
     item *res = nullptr;
-    if( visit_items( [&]( item *node, item *parent ){
+    if( visit_items( [&]( item *node, item *parent, const tripoint * ){
         if( node == &it ) {
             res = parent;
             return VisitResponse::ABORT;
@@ -37,8 +37,8 @@ bool visitable<T>::has_item_with( const std::function<bool(const item&)>& filter
 }
 
 template <typename T>
-VisitResponse visitable<T>::visit_items( const std::function<VisitResponse(const item *, const item *)>& func ) const {
-    return const_cast<visitable<T> *>( this )->visit_items( static_cast<const std::function<VisitResponse(item *, item *)>&>( func ) );
+VisitResponse visitable<T>::visit_items( const std::function<VisitResponse(const item *, const item *, const tripoint *)>& func ) const {
+    return const_cast<visitable<T> *>( this )->visit_items( static_cast<const std::function<VisitResponse(item *, item *, const tripoint *)>&>( func ) );
 }
 
 template <typename T>
@@ -48,21 +48,23 @@ VisitResponse visitable<T>::visit_items( const std::function<VisitResponse(const
 
 template <typename T>
 VisitResponse visitable<T>::visit_items( const std::function<VisitResponse(item *)>& func ) {
-    return visit_items( [&func]( item *it, item * ) {
+    return visit_items( [&func]( item *it, item *, const tripoint * ) {
         return func( it );
     } );
 }
 
 // Specialize visitable<T>::visit_items() for each class that will implement the visitable interface
 
-static VisitResponse visit_internal( const std::function<VisitResponse(item *, item *)>& func, item *node, item *parent = nullptr ) {
-    switch( func( node, parent ) ) {
+static VisitResponse visit_internal( const std::function<VisitResponse(item *, item *, const tripoint *pos)>& func, item *node,
+                                     item *parent = nullptr, const tripoint *pos = nullptr )
+{
+    switch( func( node, parent, pos ) ) {
         case VisitResponse::ABORT:
             return VisitResponse::ABORT;
 
         case VisitResponse::NEXT:
             for( auto& e : node->contents ) {
-                if( visit_internal( func, &e, node ) == VisitResponse::ABORT ) {
+                if( visit_internal( func, &e, node, pos ) == VisitResponse::ABORT ) {
                     return VisitResponse::ABORT;
                 }
             }
@@ -77,14 +79,14 @@ static VisitResponse visit_internal( const std::function<VisitResponse(item *, i
 }
 
 template <>
-VisitResponse visitable<item>::visit_items( const std::function<VisitResponse( item *, item * )>& func )
+VisitResponse visitable<item>::visit_items( const std::function<VisitResponse( item *, item *, const tripoint * )>& func )
 {
     auto it = static_cast<item *>( this );
     return visit_internal( func, it );
 }
 
 template <>
-VisitResponse visitable<inventory>::visit_items( const std::function<VisitResponse( item *, item * )>& func )
+VisitResponse visitable<inventory>::visit_items( const std::function<VisitResponse( item *, item *, const tripoint * )>& func )
 {
     auto inv = static_cast<inventory *>( this );
     for( auto& stack : inv->items ) {
@@ -98,7 +100,7 @@ VisitResponse visitable<inventory>::visit_items( const std::function<VisitRespon
 }
 
 template <>
-VisitResponse visitable<Character>::visit_items( const std::function<VisitResponse( item *, item * )>& func )
+VisitResponse visitable<Character>::visit_items( const std::function<VisitResponse( item *, item *, const tripoint * )>& func )
 {
     auto ch = static_cast<Character *>( this );
 
@@ -116,14 +118,14 @@ VisitResponse visitable<Character>::visit_items( const std::function<VisitRespon
 }
 
 template <>
-VisitResponse visitable<map_selector>::visit_items( const std::function<VisitResponse( item *, item * )>& func )
+VisitResponse visitable<map_selector>::visit_items( const std::function<VisitResponse( item *, item *, const tripoint* )>& func )
 {
     auto sel = static_cast<map_selector *>( this );
 
     for( const auto &pos : closest_tripoints_first( sel->radius, sel->pos ) ) {
         if( !sel->accessible || sel->m.accessible_items( sel->pos, pos, sel->radius ) ) {
             for( auto& e : sel->m.i_at( pos ) ) {
-                if( visit_internal( func, &e ) == VisitResponse::ABORT ) {
+                if( visit_internal( func, &e, nullptr, &pos ) == VisitResponse::ABORT ) {
                     return VisitResponse::ABORT;
                 }
             }
