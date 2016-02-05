@@ -403,7 +403,8 @@
         "description" : "For your whole life you've been forbidden from indulging in your peculiar tastes.  Now the world's ended, and you'll be damned if anyone is going to tell you that you can't eat people.",
         "starting_trait" : true,
         "valid" : false,
-        "cancels" : ["VEGETARIAN"]
+        "cancels" : ["VEGETARIAN"],
+        "flags" : ["CANNIBAL"]
     },{
         "type" : "mutation",
         "id" : "PSYCHOPATH",
@@ -411,7 +412,8 @@
         "points" : 2,
         "description" : "You don't experience guilt like others do.  Even when you know your actions are wrong, you just don't care.",
         "starting_trait" : true,
-        "valid" : false
+        "valid" : false,
+        "flags" : ["CANNIBAL"]
     },{
         "type" : "mutation",
         "id" : "MARTIAL_ARTS",
@@ -2559,7 +2561,8 @@
         "prereqs" : ["CARNIVORE"],
         "prereqs2" : ["PRED3", "PRED4"],
         "threshreq" : ["THRESH_BEAST", "THRESH_RAPTOR", "THRESH_CHIMERA", "THRESH_URSINE", "THRESH_LIZARD", "THRESH_SPIDER"],
-        "category" : ["MUTCAT_BEAST", "MUTCAT_RAPTOR", "MUTCAT_CHIMERA", "MUTCAT_URSINE", "MUTCAT_LIZARD", "MUTCAT_SPIDER"]
+        "category" : ["MUTCAT_BEAST", "MUTCAT_RAPTOR", "MUTCAT_CHIMERA", "MUTCAT_URSINE", "MUTCAT_LIZARD", "MUTCAT_SPIDER"],
+        "flags" : ["CANNIBAL"]
     },{
         "type" : "mutation",
         "id" : "M_DEFENDER",

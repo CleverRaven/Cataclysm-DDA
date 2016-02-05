@@ -18,7 +18,7 @@ mtype::mtype()
     sym = " ";
     color = c_white;
     size = MS_MEDIUM;
-    mat = {"hflesh"};
+    mat = {"flesh"};
     phase = SOLID;
     difficulty = 0;
     agro = 0;
