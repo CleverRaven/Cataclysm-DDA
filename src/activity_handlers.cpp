@@ -1584,6 +1584,6 @@ void activity_handlers::gunmod_add_finish( player_activity *act, player *p )
         }
 
     } else {
-        add_msg( m_info, _( "You failed at installing the %s." ), mod.tname().c_str(), gun.tname().c_str() );
+        add_msg( m_info, _( "You failed at installing the %s." ), mod.tname().c_str() );
     }
 }
