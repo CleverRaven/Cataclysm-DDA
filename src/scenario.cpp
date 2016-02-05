@@ -20,26 +20,23 @@
 #include "mapgen.h"
 #include "generic_factory.h"
 
+namespace
+{
+generic_factory<scenario> all_scenarios( "scenario", "ident" );
+const string_id<scenario> generic_scenario_id( "evacuee" );
+}
+
 template<>
 const scenario &string_id<scenario>::obj() const
 {
-    const auto prof = scenario::_all_scens.find( *this );
-    if( prof != scenario::_all_scens.end() ) {
-        return prof->second;
-    } else {
-        debugmsg( "Tried to get invalid scenario: %s", c_str() );
-        static const scenario dummy{};
-        return dummy;
-    }
+    return all_scenarios.obj( *this );
 }
 
 template<>
 bool string_id<scenario>::is_valid() const
 {
-    return scenario::_all_scens.count( *this ) > 0;
+    return all_scenarios.is_valid( *this );
 }
-
-const string_id<scenario> generic_scenario_id( "evacuee" );
 
 scenario::scenario()
    : id(""), _name_male("null"), _name_female("null"),
@@ -47,22 +44,13 @@ scenario::scenario()
 {
 }
 
-scenmap scenario::_all_scens;
-
 void scenario::load_scenario(JsonObject &jsobj)
 {
-    scenario scen;
-    scen.id = string_id<scenario>( jsobj.get_string( "ident" ) );
-    scen.load( jsobj );
-    _all_scens[scen.id] = scen;
-    DebugLog( D_INFO, DC_ALL ) << "Loaded scenario: " << scen.id.str();
+    all_scenarios.load( jsobj );
 }
 
 void scenario::load( JsonObject &jo )
 {
-    auto &jsobj = jo;
-    const bool was_loaded = false;
-
     // TODO: pretty much the same as in profession::load, but different contexts for pgettext.
     // TODO: maybe combine somehow?
     //If the "name" is an object then we have to deal with gender-specific titles,
@@ -87,7 +75,7 @@ void scenario::load( JsonObject &jo )
     }
 
     if( !was_loaded || jo.has_member( "start_name" ) ) {
-        const std::string stame = jsobj.get_string( "start_name" );
+        const std::string stame = jo.get_string( "start_name" );
         _start_name = pgettext( "start_name", stame.c_str() );
     }
 
@@ -125,39 +113,35 @@ const scenario *scenario::weighted_random()
 {
     if (one_in(3)) {
         return generic();
-    } else {
-        const scenario* retval = 0;
-        while(retval == 0) {
-            scenmap::iterator iter = _all_scens.begin();
-            for (int i = rng(0, _all_scens.size() - 1); i > 0; --i) {
-                ++iter;
-            }
-            if (x_in_y(2, abs(iter->second.point_cost()) + 2)) {
-                retval = &(iter->second);
-            }  // else reroll in the while loop.
+    }
+
+    const auto &map = all_scenarios.all_ref();
+    while( true ) {
+        auto iter = map.begin();
+        std::advance( iter, rng( 0, map.size() - 1 ) );
+        const scenario &scen = iter->second;
+
+        if( x_in_y( 2, abs( scen.point_cost() ) + 2 ) ) {
+            return &scen;
         }
-        return retval;
+        // else reroll in the while loop.
     }
 }
 
 std::vector<const scenario*> scenario::get_all()
 {
-    std::vector<const scenario*> result;
-    for( auto &p : _all_scens ) {
-        result.push_back( &p.second );
-}
-    return result;
+    return all_scenarios.get_all();
 }
 
 void scenario::reset()
 {
-    _all_scens.clear();
+    all_scenarios.reset();
 }
 
 void scenario::check_definitions()
 {
-    for (scenmap::const_iterator a = _all_scens.begin(); a != _all_scens.end(); ++a) {
-        a->second.check_definition();
+    for( auto &pair : all_scenarios.all_ref() ) {
+        pair.second.check_definition();
     }
 }
 

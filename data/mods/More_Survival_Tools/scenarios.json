@@ -2,6 +2,7 @@
     {
     "type": "scenario",
     "ident": "wilderness",
+    "edit-mode": "override",
     "name": "Wilderness",
     "points" : 0,
     "description": "You find yourself amongst trees.  The screaming and the moaning is fainter this far from civilization, but you'd better know what you're doing out here.",
