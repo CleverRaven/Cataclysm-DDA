@@ -82,6 +82,19 @@
     },
     {
         "type":"GENERIC",
+        "id" : "file",
+        "name" : "file",
+        "description" : "Several documents with all kinds of information, customer data and charts kept together, pretty useless now though.",
+        "weight" : 15,
+        "to_hit" : -3,
+        "color" : "white",
+        "symbol" : ",",
+        "material" : ["paper", "null"],
+        "volume" : 1,
+        "price" : 0
+    },
+    {
+        "type":"GENERIC",
         "id": "withered",
         "symbol": "%",
         "color": "light_gray",
