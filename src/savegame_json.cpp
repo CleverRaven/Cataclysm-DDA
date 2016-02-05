@@ -53,11 +53,35 @@ std::vector<item> item::magazine_convert() {
         return res;
     }
 
-    // only consider items without integral magazines that have not yet been converted
-    if( magazine_integral() || has_var( "magazine_converted" ) ) {
+    // ignore items that have already been converted
+    if( has_var( "magazine_converted" ) ) {
         return res;
     }
 
+    // if item has integral magazine remove any magazine mods but do not mark item as converted
+    if( magazine_integral() ) {
+        if( !is_gun() ) {
+            return res; // only guns can have attached gunmods
+        }
+
+        int qty = has_gunmod( "spare_mag" ) >= 0 ? contents[ has_gunmod( "spare_mag" ) ].charges : 0;
+        qty += charges - type->gun->clip; // excess ammo from magazine extensions
+
+        // limit ammo to base capacity and return any excess as a new item
+        charges = std::min( charges, long( type->gun->clip ) );
+        if( qty > 0 ) {
+            res.emplace_back( get_curammo() ? get_curammo()->id : default_ammo( ammo_type() ), calendar::turn );
+            res.back().charges = qty;
+        }
+
+        contents.erase( std::remove_if( contents.begin(), contents.end(), []( const item& e ) {
+            return e.typeId() == "spare_mag" || e.typeId() == "clip" || e.typeId() == "clip2";
+        } ), contents.end() );
+
+        return res;
+    }
+
+    // now handle items using the new detachable magazines that haven't yet been converted
     item mag( type->magazine_default, calendar::turn );
     item ammo( get_curammo() ? get_curammo()->id : default_ammo( ammo_type() ), calendar::turn );
 
@@ -71,7 +95,7 @@ std::vector<item> item::magazine_convert() {
         }
     }
 
-    // remove any spare magazine and place an equivalent loaded magazine in inventory
+    // remove any spare magazine and replace it with an equivalent loaded magazine
     item *spare_mag = has_gunmod( "spare_mag" ) >= 0 ? &contents[ has_gunmod( "spare_mag" ) ] : nullptr;
     if( spare_mag ) {
         res.push_back( mag );
@@ -82,7 +106,7 @@ std::vector<item> item::magazine_convert() {
         }
     }
 
-    // return any excess ammo (from either item or spare mag) to character inventory
+    // return any excess ammo (from either item or spare mag) as a new item
     if( charges > 0 ) {
         ammo.charges = charges;
         res.push_back( ammo );

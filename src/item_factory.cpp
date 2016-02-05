@@ -907,7 +907,6 @@ void Item_factory::load( islot_gunmod &slot, JsonObject &jo )
     slot.recoil = jo.get_int( "recoil_modifier", 0 );
     slot.burst = jo.get_int( "burst_modifier", 0 );
     slot.range = jo.get_int( "range", 0 );
-    slot.clip = jo.get_int( "clip_size_modifier", 0 );
     slot.acceptable_ammo_types = jo.get_tags( "acceptable_ammo" );
     slot.skill_used = skill_id( jo.get_string( "skill", "gun" ) );
     slot.req_skill = jo.get_int( "skill_required", 0 );

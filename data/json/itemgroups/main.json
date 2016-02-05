@@ -920,8 +920,6 @@
       ["barrel_ported", 30],
       ["muzzle_brake", 60],
       ["brass_catcher", 100],
-      ["clip", 100],
-      ["clip2", 100],
       ["stabilizer", 50],
       ["blowback", 50],
       ["autofire", 20],
