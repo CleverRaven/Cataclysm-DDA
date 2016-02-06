@@ -247,7 +247,6 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
             // Don't do anything, especially don't call map::shoot as this would damage the vehicle
         } else {
             g->m.shoot( tp, proj, !no_item_damage && tp == target_arg );
-            has_momentum = proj.impact.total_damage() > 0;
         }
     } // Done with the trajectory!
 
@@ -578,21 +577,20 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
     bool do_railgun = has_active_bionic("bio_railgun") &&
                       thrown.made_of_any( ferric );
 
-    // The damage dealt due to item's weight and player's strength
-    ///\EFFECT_STR increases throwing damage
-    int real_dam = ( (thrown.weight() / 452)
-                     + (thrown.type->melee_dam / 2)
-                     + (str_cur / 2) )
-                   / (2.0 + (thrown.volume() / 4.0));
-    if( real_dam > thrown.weight() / 40 ) {
-        real_dam = thrown.weight() / 40;
-    }
-    if( real_dam < 1 ) {
-        // Need at least 1 dmg or projectile attack will stop due to no momentum
-        real_dam = 1;
-    }
-    if( do_railgun ) {
-        real_dam *= 2;
+    int real_dam = 0;
+    if( thrown.type->melee_dam > 0 ) {
+        // The damage dealt due to item's weight and player's strength
+        ///\EFFECT_STR increases throwing damage
+        real_dam = ( ( thrown.weight() / 452 )
+                         + ( thrown.type->melee_dam / 2 )
+                         + ( str_cur / 2 ) )
+                       / ( 2.0 + ( thrown.volume() / 4.0 ));
+        if( real_dam > thrown.weight() / 40 ) {
+            real_dam = thrown.weight() / 40;
+        }
+        if( do_railgun ) {
+            real_dam *= 2;
+        }
     }
 
     // We'll be constructing a projectile
