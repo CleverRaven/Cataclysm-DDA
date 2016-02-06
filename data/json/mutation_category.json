@@ -144,7 +144,7 @@
         "name" : "Medical","//" : "2-6 pain, same as Alpha--since specifically intended for medical applications.",
         "category" : "MEDICAL",
         "mutagen_message" : "You can feel the blood rushing through your veins and a strange, medicated feeling washes over your senses.",
-        "iv_message" : "You can feel the blood in your medication stream.  It's a strange feeling.",
+        "iv_message" : "You can feel the medication in your blood stream.  It's a strange feeling.",
         "iv_min_mutations" : 1,
         "iv_additional_mutations" : 2,
         "iv_additional_mutations_chance" : 3,
