@@ -15,23 +15,17 @@
 
 class item_location::impl
 {
-protected:
-    const item *what;
-public:
-    virtual ~impl() = default;
+    public:
+        virtual ~impl() = default;
+        virtual std::string describe( const Character * ) const = 0;
+        virtual int obtain( Character& ) = 0;
+        virtual void remove_item() = 0;
+        virtual item *get_item() = 0;
 
-    virtual std::string describe( const Character * ) const {
-        return std::string();
-    }
+    protected:
+        const item *what;
+};
 
-    virtual int obtain( Character& ) {
-        return INT_MIN;
-    }
-
-    /** Removes the selected item from the game */
-    virtual void remove_item() = 0;
-    /** Gets the selected item or nullptr */
-    virtual item *get_item() = 0;
 
 class item_location::item_is_null : public item_location::impl {
 public:
@@ -353,21 +347,23 @@ item_location::~item_location() = default;
 
 std::string item_location::describe( const Character *ch ) const
 {
-    return ptr->describe( ch );
+    return ptr ? ptr->describe( ch ) : std::string();
 }
 
 int item_location::obtain( Character& ch ) {
-    return ptr->obtain( ch );
+    return ptr ? ptr->obtain( ch ) : INT_MIN;
 }
 
 void item_location::remove_item()
 {
-    ptr->remove_item();
+    if( ptr ) {
+        ptr->remove_item();
+    }
 }
 
 item *item_location::get_item()
 {
-    return ptr->get_item();
+    return ptr ? ptr->get_item() : nullptr;
 }
 
 const item *item_location::get_item() const
