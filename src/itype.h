@@ -380,10 +380,6 @@ struct islot_magazine {
      * Volume increases proportional to contained ammo for non-rigid magazines
      */
     bool rigid;
-    /**
-     * Alternative magazines (if any) for use with ammo conversion mods
-     */
-    std::map< ammotype, std::set<itype_id> > alternatives;
 };
 
 struct islot_ammo : common_ranged_data {
@@ -567,14 +563,14 @@ public:
     nc_color color = c_white; // Color on the map (color.h)
     char sym = '#';       // Symbol on the ma
 
-    /** Magazine types (if any) that can be used to reload this item */
-    std::set<itype_id> magazines;
+    /** Magazine types (if any) for each ammo type that can be used to reload this item */
+    std::map< ammotype, std::set<itype_id> > magazines;
+
+    /** Default magazine for each ammo type that can be used to reload this item */
+    std::map< ammotype, itype_id > magazine_default;
 
     /** Volume above which the magazine starts to protrude from the item and add extra volume */
     int magazine_well;
-
-    /** Default magazine type used to reload this item */
-    itype_id magazine_default;
 
     bool explode_in_fire() const
     {

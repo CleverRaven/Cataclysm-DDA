@@ -341,13 +341,14 @@ Item_spawn_data::ItemList Item_group::create(int birthday, RecursionList &rec) c
             break;
         }
     }
-    if (with_ammo && !result.empty()) {
-        const auto t = result.front().type;
-        if( t->gun ) {
-            if( !t->magazine_default.empty() ) {
-                result.emplace_back( t->magazine_default, birthday );
+
+    if( with_ammo && !result.empty() ) {
+        const auto& it = result.front();
+        if( it.is_gun() ) {
+            if( it.magazine_default() != "null" ) {
+                result.emplace_back( it.magazine_default(), birthday );
             } else {
-                const std::string ammoid = default_ammo( t->gun->ammo );
+                const std::string ammoid = default_ammo( it.ammo_type() );
                 if ( !ammoid.empty() ) {
                     item ammo( ammoid, birthday );
                     // TODO: change the spawn lists to contain proper references to containers

@@ -82,7 +82,7 @@ std::vector<item> item::magazine_convert() {
     }
 
     // now handle items using the new detachable magazines that haven't yet been converted
-    item mag( type->magazine_default, calendar::turn );
+    item mag( magazine_default(), calendar::turn );
     item ammo( get_curammo() ? get_curammo()->id : default_ammo( ammo_type() ), calendar::turn );
 
     // give base item an appropriate magazine and add to that any ammo originally stored in base item

@@ -1,0 +1,61 @@
+[
+  {
+    "id": "garand",
+    "type": "GUN",
+    "name": "M1 Garand Rifle",
+    "description": "A semi-automatic .30-06 battle rifle, developed to replace the M1903 Springfield.  It didn't completely supplant the older bolt-action until after World War II.",
+    "weight": 4280,
+    "volume": 10,
+    "price": 90000,
+    "bashing": 12,
+    "to_hit": -1,
+    "material": ["steel", "wood"],
+    "symbol": "(",
+    "color": "brown",
+    "skill": "rifle",
+    "ammo": "3006",
+    "dispersion": 2,
+    "sight_dispersion": 60,
+    "aim_speed" : 6,
+    "recoil": -15,
+    "durability": 8,
+    "reload": 150,
+    "loudness" : 150,
+    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
+    "magazine_well" : 1,
+    "magazines" : [
+      [ "3006", [ "garandclip" ] ]
+    ]
+  },
+  {
+    "id": "m1918",
+    "type": "GUN",
+    "name": "Browning Automatic Rifle",
+    "description": "Designed near the end of World War I, the BAR provided fire support for the US Army from World War II all the way to the Vietnam War.  Too much firepower to serve as a battle rifle, but not enough to be an ideal light machine gun, it still found a niche on the battlefield.",
+    "weight": 7050,
+    "volume": 10,
+    "price": 350000,
+    "bashing": 12,
+    "to_hit": -1,
+    "material": ["steel", "wood"],
+    "symbol": "(",
+    "color": "dark_gray",
+    "skill": "rifle",
+    "ammo": "3006",
+    "ranged_damage": 7,
+    "dispersion": 75,
+    "sight_dispersion": 60,
+    "aim_speed" : 6,
+    "recoil": 30,
+    "durability": 8,
+    "reload": 100,
+    "loudness" : 150,
+    "barrel_length" : 4,
+    "burst": 5,
+    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
+    "magazines" : [
+       [ "3006", [ "m1918mag", "m1918bigmag" ] ]
+    ],
+    "flags": "MODE_BURST"
+  }
+]
