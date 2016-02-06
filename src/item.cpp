@@ -4424,7 +4424,7 @@ item_location item::pick_reload_ammo( player &u, bool interactive ) const
         std::string row = names[i] + "| " + where[i] + " ";
 
         if( is_gun() || is_magazine() ) {
-            const itype *curammo = ammo_data(); // nullptr for empty magazines
+            const itype *curammo = it->ammo_data(); // nullptr for empty magazines
             const auto ammo_damage     = curammo ? curammo->ammo->damage : 0;
             const auto ammo_pierce     = curammo ? curammo->ammo->pierce : 0;
             const auto ammo_range      = curammo ? curammo->ammo->range  : 0;
