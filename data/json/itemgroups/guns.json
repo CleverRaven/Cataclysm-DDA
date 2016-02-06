@@ -1,0 +1,169 @@
+[
+  {
+    "type" : "item_group",
+    "id" : "guns_pistol_common",
+    "//" : "Pistols commonly owned by citizens and found in many locations.",
+    "items": [
+      [ "glock_19", 100 ],
+      [ "m1911", 30 ],
+      [ "m9", 20 ]
+    ]
+  },
+  {
+    "type" : "item_group",
+    "id" : "guns_pistol_rare",
+    "//" : "Less common pistols including those only used by police/paramilitary forces.",
+    "items": [
+      [ "l_sp_45", 30 ],
+      [ "l_sp_9mm", 60 ],
+      [ "usp_45", 70 ],
+      [ "usp_9mm", 100 ]
+    ]
+  },
+  {
+    "type" : "item_group",
+    "id" : "guns_pistol_milspec",
+    "//" : "Military specification pistols only ever found at military sites.",
+    "items": [
+      [ "l_mp_45", 70 ],
+      [ "l_mp_9mm", 100 ],
+      [ "needlepistol", 30 ],
+      [ "rm103a_pistol", 20 ]
+    ]
+  },
+  {
+    "type" : "item_group",
+    "id" : "guns_pistol_obscure",
+    "//" : "Imported or otherwise very obscure pistols.",
+    "items": [
+      [ "makarov", 100 ]
+    ]
+  },
+  {
+    "type" : "item_group",
+    "id" : "guns_smg_common",
+    "//" : "SMGs commonly owned by citizens and found in many locations.",
+    "items": [
+      [ "briefcase_smg", 20 ],
+      [ "ksub2000", 60 ],
+      [ "sten", 100 ]
+    ]
+  },
+  {
+    "type" : "item_group",
+    "id" : "guns_smg_rare",
+    "//" : "Less common SMGs including those only used by police/paramilitary forces.",
+    "items": [
+      [ "hk_mp5", 100 ],
+      [ "hk_ump45", 30 ],
+      [ "mac_10", 40 ],
+      [ "rm360_carbine", 30 ],
+      [ "TDI", 10 ],
+      [ "tommygun", 50 ],
+      [ "uzi", 50 ]
+    ]
+  },
+  {
+    "type" : "item_group",
+    "id" : "guns_smg_milspec",
+    "//" : "Military specification SMGs only ever found at military sites.",
+    "items": [
+      [ "needlegun", 50 ],
+      [ "rm2000_smg", 100 ]
+    ]
+  },
+  {
+    "type" : "item_group",
+    "id" : "guns_smg_obscure",
+    "//" : "Imported or otherwise very SMGs.",
+    "items": [
+      [ "skorpion_61", 100 ],
+      [ "skorpion_82", 100 ]
+    ]
+  },
+  {
+    "type" : "item_group",
+    "id" : "guns_rifle_common",
+    "//" : "Rifles commonly owned by citizens and found in many locations.",
+    "items": [
+      [ "garand", 35 ],
+      [ "ar15", 25 ],
+      [ "cx4", 15 ],
+      [ "ruger_mini", 80 ]
+    ]
+  },
+  {
+    "type" : "item_group",
+    "id" : "guns_rifle_rare",
+    "//" : "Less common rifles including those only used by police/paramilitary forces.",
+    "items": [
+      [ "acr", 30 ],
+      [ "hk_g3", 30 ],
+      [ "l_base_223", 50 ],
+      [ "l_car_223", 20 ],
+      [ "l_dsr_223", 10 ],
+      [ "m4a1", 60 ],
+      [ "m1918", 40 ]
+    ]
+  },
+  {
+    "type" : "item_group",
+    "id" : "guns_rifle_milspec",
+    "//" : "Military specification rifles only ever found at military sites.",
+    "items": [
+      [ "h&k416a5", 50 ],
+      [ "l_lmg_223", 30 ],
+      [ "l_mbr_223", 100 ],
+      [ "m240", 15 ],
+      [ "m249", 25 ],
+      [ "m27iar", 50 ],
+      [ "m60", 15 ],
+      [ "rm11b_sniper_rifle", 15 ],
+      [ "rm298", 10 ],
+      [ "rm51_assault_rifle", 25 ],
+      [ "rm614_lmg", 10 ],
+      [ "rm88_battle_rifle", 25 ],
+      [ "scar_l", 50 ]
+    ]
+  },
+  {
+    "type" : "item_group",
+    "id" : "guns_rifle_obscure",
+    "//" : "Imported or otherwise very obscure rifles.",
+    "items": [
+      [ "ak74", 50 ],
+      [ "an94", 20 ],
+      [ "steyr_aug", 80 ]
+    ]
+  },
+  {
+    "type" : "item_group",
+    "id" : "guns_shotgun_common",
+    "//" : "Shotguns commonly owned by citizens and found in many locations.",
+    "items": [
+    ]
+  },
+  {
+    "type" : "item_group",
+    "id" : "guns_shotgun_rare",
+    "//" : "Less common shotguns including those only used by police/paramilitary forces.",
+    "items": [
+      [ "saiga_12", 100 ]
+    ]
+  },
+  {
+    "type" : "item_group",
+    "id" : "guns_shotgun_milspec",
+    "//" : "Military specification shotguns only ever found at military sites.",
+    "items": [
+      [ "rm20", 100 ]
+    ]
+  },
+  {
+    "type" : "item_group",
+    "id" : "guns_shotgun_obscure",
+    "//" : "Imported or otherwise very obscure shotguns.",
+    "items": [
+    ]
+  }
+]
