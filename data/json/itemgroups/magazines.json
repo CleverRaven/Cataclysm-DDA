@@ -50,6 +50,7 @@
     "id" : "mags_police",
     "//" : "Standard issue police magazines.",
     "items": [
+      ["fn57mag", 15],
       ["glockmag", 40],
       ["m9mag", 5],
       ["mp5mag", 10],
@@ -63,6 +64,7 @@
     "//" : "Magazines issued to paramilitary forces in addition to standard police issue.",
     "items": [
       { "group": "mags_police", "prob": 50 },
+      ["fnp90mag", 10]
       ["glockbigmag", 5],
       ["m9bigmag", 5],
       ["mp5bigmag", 10],
@@ -86,6 +88,7 @@
     "id" : "mags_pistol_rare",
     "//" : "Aftermarket or otherwise uncommon pistol magazines excluding milspec.",
     "items": [
+      ["fn57mag", 20],
       ["glockbigmag", 15],
       ["m1911bigmag", 10],
       ["m9bigmag", 5]
@@ -111,6 +114,7 @@
     "id" : "mags_smg_rare",
     "//" : "Aftermarket or otherwise uncomon SMG magazines excluding milspec.",
     "items": [
+      ["fnp90mag", 15],
       ["mp5bigmag", 10],
       ["thompson_bigmag", 5],
       ["thompson_drum", 15],
