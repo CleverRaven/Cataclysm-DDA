@@ -18,10 +18,10 @@ class item_location
 {
     public:
         item_location();
-        item_location( const item_location& ) = delete;
-        item_location& operator= ( const item_location& ) = delete;
+        item_location( const item_location & ) = delete;
+        item_location &operator= ( const item_location & ) = delete;
         item_location( item_location && );
-        item_location& operator=( item_location&& );
+        item_location &operator=( item_location && );
         ~item_location();
 
         item_location( Character &ch, const item *which );
