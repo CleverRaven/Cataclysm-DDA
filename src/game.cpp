@@ -11576,12 +11576,6 @@ void game::unload( item &it )
 
     if( it.is_gun() ) {
         for( auto &e : it.contents ) {
-            // @todo deprecate handling of spare magazine
-            if( e.typeId() == "spare_mag" && e.charges > 0 ) {
-                msgs.emplace_back( e.tname() );
-                opts.emplace_back( &e );
-            }
-
             if( e.is_auxiliary_gunmod() && !e.has_flag( "NO_UNLOAD" ) &&
                 ( e.magazine_current() || e.ammo_remaining() > 0 ) ) {
                 msgs.emplace_back( e.tname() );
@@ -11591,18 +11585,6 @@ void game::unload( item &it )
     }
 
     item *target = opts.size() > 1 ? opts[ ( uimenu( false, _("Unload what?"), msgs ) ) - 1 ] : &it;
-
-    // @todo deprecate handling of spare magazine as special case
-    if( target->typeId() == "spare_mag" && target->charges > 0 ) {
-        item ammo( it.ammo_current(), calendar::turn );
-        ammo.charges = it.charges;
-        if( add_or_drop_with_msg( u, ammo ) ) {
-            target->charges = 0;
-            add_msg( _( "You unload your %s." ), target->tname().c_str() );
-            u.moves -= it.reload_time( u ) / 2;
-        }
-        return;
-    }
 
     // Next check for any reasons why the item cannot be unloaded
     if( target->ammo_type() == "NULL" || target->ammo_capacity() <= 0 ) {
