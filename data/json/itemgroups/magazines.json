@@ -177,6 +177,18 @@
   },
   {
     "type" : "item_group",
+    "id" : "mags_rare",
+    "//" : "Aftermarket or otherwise uncommon magazines.",
+    "items": [
+      { "group": "mags_pistol_rare", "prob": 30 },
+      { "group": "mags_rifle_are", "prob": 20 },
+      { "group": "mags_smg_rare", "prob": 10 },
+      { "group": "mags_shotgun_rare", "prob": 5 },
+      { "group": "mags_other_rare", "prob": 5 }
+    ]
+  },
+  {
+    "type" : "item_group",
     "id" : "mags_obscure",
     "//" : "Magazines for imported firearms.",
     "items": [
@@ -192,16 +204,11 @@
     "id" : "mags_crime",
     "//" : "Magazines for guns typically used by criminals.",
     "items": [
-      { "group": "mags_common", "prob": 15 },
-      { "group": "mags_obscure", "prob": 15 },
-      { "group": "mags_pistol_rare", "prob": 30 },
-      { "group": "mags_rifle_rare", "prob": 10 },
-      { "group": "mags_smg_rare", "prob": 20 },
-      { "group": "mags_shotgun_rare", "prob": 5 },
-      { "group": "mags_other_rare", "prob": 5 },
-      ["thompson_drum", 5],
-      ["stenmag", 5],
-      ["uzimag", 5]
+      { "group": "mags_common", "prob": 10 },
+      { "group": "mags_rare", "prob": 20 },
+      { "group": "mags_obscure", "prob": 20 },
+      { "group": "mags_smg_common", "prob": 10 },
+      { "group": "mags_smg_rare", "prob": 5 }
     ] 
   }
 ]
