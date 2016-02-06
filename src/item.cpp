@@ -2109,7 +2109,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
         ret.str("");
         ret << label(quantity);
         for( const auto& e : contents ) {
-            if( e.is_gunmod() && !e.has_flag( "IRREMOVABLE" ) ) {
+            if( e.is_gunmod() && !type->gun->built_in_mods.count( e.typeId() ) ) {
                 ret << "+";
             }
         }

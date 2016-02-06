@@ -1544,4 +1544,46 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
     act->moves_left = actor->move_cost;
 }
 
+void activity_handlers::gunmod_add_finish( player_activity *act, player *p )
+{
+    // first unpack all of our arguments
+    if( act->values.size() != 4 ) {
+        debugmsg( "Insufficient arguments to ACT_GUNMOD_ADD" );
+        return;
+    }
 
+    item& gun = p->i_at( act->position  );
+    item& mod = p->i_at( act->values[0] );
+
+    int roll = act->values[1]; // chance of success (%)
+    int risk = act->values[2]; // chance of damage (%)
+
+    // any tool charges used during installation
+    std::string tool = act->name;
+    int qty = act->values[3];
+
+    if( !gun.gunmod_compatible( mod, false ) ) {
+        debugmsg( "Invalid arguments in ACT_GUNMOD_ADD" );
+        return;
+    }
+
+    if( !tool.empty() && qty > 0 ) {
+        p->use_charges( tool, qty );
+    }
+
+    if( rng( 0, 100 ) <= roll ) {
+        add_msg( m_good, _( "You sucessfully attached the %1$s to your %2$s." ), mod.tname().c_str(), gun.tname().c_str() );
+        gun.contents.push_back( p->i_rem( &mod ) );
+
+    } else if( rng( 0, 100 ) <= risk ) {
+        if( gun.damage++ >= MAX_ITEM_DAMAGE ) {
+            p->i_rem( &gun );
+            add_msg( m_bad, _( "You failed at installing the %s and destroyed your %s!" ), mod.tname().c_str(), gun.tname().c_str() );
+        } else {
+            add_msg( m_bad, _( "You failed at installing the %s and damaged your %s!" ), mod.tname().c_str(), gun.tname().c_str() );
+        }
+
+    } else {
+        add_msg( m_info, _( "You failed at installing the %s." ), mod.tname().c_str() );
+    }
+}

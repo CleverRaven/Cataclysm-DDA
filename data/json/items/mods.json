@@ -32,6 +32,7 @@
         "bashing" : 3,
         "recoil_modifier" : -2,
         "price" : 48000,
+        "install_time" : 200,
         "loudness_modifier" : -50
     },
     {
@@ -844,7 +845,8 @@
         "volume" : 2,
         "flags" : ["ZOOM"],
         "price" : 68000,
-        "skill_required": 5
+        "min_skills": [ [ "gun", 4 ], [ "rifle", 1 ] ],
+        "install_time" : 30000
     },
     {
         "type" : "GUNMOD",

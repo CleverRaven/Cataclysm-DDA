@@ -794,6 +794,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool consume_charges(item *used, long charges_used);
         /** Removes selected gunmod from the entered weapon */
         void remove_gunmod(item *weapon, unsigned id);
+        /** Starts activity to install gunmod having warned user about any risk of failure or irremovable mods s*/
+        void gunmod_add( item& gun, item& mod );
         /** Attempts to install bionics, returns false if the player cancels prior to installation */
         bool install_bionics(const itype &type, int skill_level = -1);
         /** Handles reading effects and returns true if activity started */
