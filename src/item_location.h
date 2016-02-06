@@ -16,12 +16,6 @@ class vehicle;
  */
 class item_location
 {
-    private:
-        class impl;
-        class item_on_map;
-        class item_on_person;
-        class item_on_vehicle;
-        std::unique_ptr<impl> ptr;
     public:
         item_location();
         item_location( const item_location& ) = delete;
@@ -52,6 +46,14 @@ class item_location
         item *get_item();
         const item *get_item() const;
 
+    private:
+        class impl;
+        std::unique_ptr<impl> ptr;
+
+        class item_is_null;
+        class item_on_map;
+        class item_on_person;
+        class item_on_vehicle;
 };
 
 #endif
