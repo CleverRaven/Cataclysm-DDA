@@ -327,6 +327,14 @@ item_location::item_location( item_location && ) = default;
 item_location& item_location::operator=( item_location&& ) = default;
 item_location::~item_location() = default;
 
+item_location::item_location( const tripoint &p, const item *which )
+    : ptr( new item_on_map( p, which ) ) {}
+
+item_location::item_location( Character &ch, const item *which )
+    : ptr( new item_on_person( ch, which ) ) {}
+
+item_location::item_location( vehicle &v, const point &where, const item *which )
+    : ptr( new item_on_vehicle( v, where, which ) ) {}
 
 std::string item_location::describe( const Character *ch ) const
 {
@@ -352,24 +360,4 @@ item *item_location::get_item()
 const item *item_location::get_item() const
 {
     return const_cast<item_location *>( this )->get_item();
-}
-
-item_location item_location::on_map( const tripoint &p, const item *which )
-{
-    return item_location( new item_on_map( p, which ) );
-}
-
-item_location item_location::on_character( Character &ch, const item *which )
-{
-    return item_location( new item_on_person( ch, which ) );
-}
-
-item_location item_location::on_vehicle( vehicle &v, const point &where, const item *which )
-{
-    return item_location( new item_on_vehicle( v, where, which ) );
-}
-
-item_location::item_location( impl *in )
-{
-    ptr = std::unique_ptr<impl>( in );
 }

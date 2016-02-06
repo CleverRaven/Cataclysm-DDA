@@ -4269,7 +4269,7 @@ item_location item::pick_reload_ammo( player &u, bool interactive ) const
     auto spare = has_gunmod( "spare_mag" );
     if( spare >= 0 ) {
         if( ammo_remaining() <= 0 && contents[spare].charges > 0 ) {
-            return item_location::on_character( u, this );
+            return item_location( u, this );
         }
         if( contents[spare].charges < ammo_remaining() ) {
             if( contents[spare].charges > 0 || ammo_remaining() > 0 ) {
@@ -4321,7 +4321,7 @@ item_location item::pick_reload_ammo( player &u, bool interactive ) const
     // first check the inventory for suitable ammo
     u.visit_items( [&ammo_list,&filter,&u]( const item *node, const item * ) {
         if( filter( node ) ) {
-            ammo_list.emplace_back( item_location::on_character( u, node ) );
+            ammo_list.emplace_back( item_location( u, node ) );
         }
         return ( node->is_magazine() || node->is_container() || node->is_gun() || node->is_tool() ) ? VisitResponse::SKIP : VisitResponse::NEXT;
     });
@@ -4332,7 +4332,7 @@ item_location item::pick_reload_ammo( player &u, bool interactive ) const
             for( auto& e : g->m.i_at( pos ) ) {
                 e.visit_items( [&ammo_list,&filter,&pos]( const item *node, const item * ) {
                     if( filter( node ) ) {
-                        ammo_list.emplace_back( item_location::on_map( pos, node ) );
+                        ammo_list.emplace_back( pos, node );
                     }
                     return ( node->is_magazine() || node->is_container() || node->is_gun() || node->is_tool() ) ? VisitResponse::SKIP : VisitResponse::NEXT;
                 });
@@ -4473,7 +4473,7 @@ static void eject_casings( player &p, item& target )
 
 bool item::reload( player &u, int pos )
 {
-    return reload( u, item_location::on_character( u, &u.i_at( pos ) ) );
+    return reload( u, item_location( u, &u.i_at( pos ) ) );
 }
 
 bool item::reload( player &u, item_location loc )

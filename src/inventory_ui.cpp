@@ -898,11 +898,11 @@ item_location game::inv_map_splice(
                         // item doesn't stack with any previous so start new list and append to current indexed_invslice
                         current_stack.emplace_back( 1, it );
                         slices.back().emplace_back( &current_stack.back(), INT_MIN );
-                        opts.emplace( &current_stack.back().front(), item_location::on_map( pos, &it ) );
+                        opts.emplace( &current_stack.back().front(), item_location( pos, &it ) );
 
                         if( cur_invlet <= max_invlet ) {
                             current_stack.back().front().invlet = cur_invlet++;
-                            invlets.emplace_back( item_location::on_map( pos, &it ) );
+                            invlets.emplace_back( pos, &it );
                         } else {
                             current_stack.back().front().invlet = 0;
                         }
@@ -942,12 +942,11 @@ item_location game::inv_map_splice(
                             // item doesn't stack with any previous so start new list and append to current indexed_invslice
                             current_stack.emplace_back( 1, it );
                             slices.back().emplace_back( &current_stack.back(), INT_MIN );
-                            opts.emplace( &current_stack.back().front(), item_location::on_vehicle( *veh,
-                                          veh->parts[part].mount, &it ) );
+                            opts.emplace( &current_stack.back().front(), item_location( *veh, veh->parts[part].mount, &it ) );
 
                             if( cur_invlet <= max_invlet ) {
                                 current_stack.back().front().invlet = cur_invlet++;
-                                invlets.emplace_back( item_location::on_vehicle( *veh, veh->parts[part].mount, &it ) );
+                                invlets.emplace_back( *veh, veh->parts[part].mount, &it );
                             } else {
                                 current_stack.back().front().invlet = 0;
                             }
@@ -972,7 +971,7 @@ item_location game::inv_map_splice(
         if( item_pos != INT_MIN ) {
             // Indexed item in inventory
             inv_s.set_to_drop( item_pos, 0 );
-            return item_location::on_character( u, inv_s.first_item );
+            return item_location( u, inv_s.first_item );
 
         } else if( ch >= min_invlet && ch <= max_invlet ) {
             // Indexed item on ground or in vehicle
@@ -991,7 +990,7 @@ item_location game::inv_map_splice(
 
             // Item in inventory
             if( inv_s.get_selected_item_position() != INT_MIN ) {
-                return item_location::on_character( u, inv_s.first_item );
+                return item_location( u, inv_s.first_item );
             }
             // Item on ground or in vehicle
             auto it = opts.find( inv_s.first_item );
