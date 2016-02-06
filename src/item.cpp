@@ -4430,7 +4430,7 @@ item_location item::pick_reload_ammo( player &u, bool interactive ) const
                                       curammo->ammo->damage, curammo->ammo->pierce,
                                       curammo->ammo->range, curammo->ammo->dispersion );
             } else {
-                row += _( "|         |         |         |         " );
+                row += "|         |         |         |         ";
             }
         }
 
