@@ -2832,9 +2832,11 @@
     "reversible": true,
     "autolearn": false,
     "flags": ["BLIND_HARD"],
+    "qualities" : [
+        {"id":"CUT","level":1,"amount":1}
+    ],
     "components": [
     [ [ "weed", 20 ] ],
-    [ [ "seed_weed", 4 ] ],
     [ [ "plant_fibre", 100 ] ],
     [ [ "withered", 1 ] ]
     ]
