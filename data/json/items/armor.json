@@ -9628,7 +9628,7 @@
         "to_hit" : -2,
         "storage" : 30,
         "symbol" : "[",
-        "description" : "A large sheet tied into a crude over the shoulder sling.",
+        "description" : "A large sheet tied into a crude, over-the-shoulder sling.",
         "flags" : ["OVERSIZE", "BELTED"],
         "price" : 100,
         "material" : ["cotton", "null"],
