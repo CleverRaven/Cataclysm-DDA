@@ -99,12 +99,11 @@ static const itype *nullitem()
 
 item::item()
 {
-    init();
+    type = nullitem();
 }
 
 item::item(const std::string new_type, int turn, bool rand)
 {
-    init();
     type = find_type( new_type );
     bday = turn;
     corpse = type->id == "corpse" ? &mtype_id::NULL_ID.obj() : nullptr;
@@ -172,31 +171,25 @@ item::item(const std::string new_type, int turn, bool rand)
     }
 }
 
-void item::make_corpse( const mtype_id& mt, unsigned int turn )
+item item::make_corpse( const mtype_id& mt, int turn, const std::string &name )
 {
     if( !mt.is_valid() ) {
         debugmsg( "tried to make a corpse with an invalid mtype id" );
     }
-    const bool isReviveSpecial = one_in( 20 );
-    init();
-    make( "corpse" );
-    corpse = &mt.obj();
-    active = corpse->has_flag( MF_REVIVES );
-    if( active && isReviveSpecial ) {
-        item_tags.insert( "REVIVE_SPECIAL" );
+
+    item result( "corpse", turn >= 0 ? turn : int( calendar::turn ) );
+    result.corpse = &mt.obj();
+
+    result.active = result.corpse->has_flag( MF_REVIVES );
+    if( result.active && one_in( 20 ) ) {
+        result.item_tags.insert( "REVIVE_SPECIAL" );
     }
-    bday = turn;
-}
 
-void item::make_corpse( const mtype_id& mt, unsigned int turn, const std::string &name )
-{
-    make_corpse( mt, turn );
-    this->name = name;
-}
+    if( !name.empty() ) {
+        result.name = name;
+    }
 
-void item::make_corpse()
-{
-    make_corpse( NULL_ID, calendar::turn );
+    return result;
 }
 
 item::item(JsonObject &jo)
@@ -206,28 +199,6 @@ item::item(JsonObject &jo)
 
 item::~item()
 {
-}
-
-void item::init()
-{
-    name = "";
-    charges = -1;
-    bday = 0;
-    invlet = 0;
-    damage = 0;
-    burnt = 0;
-    poison = 0;
-    item_counter = 0;
-    type = nullitem();
-    curammo = NULL;
-    corpse = NULL;
-    active = false;
-    mission_id = -1;
-    player_id = -1;
-    light = nolight;
-    fridge = 0;
-    rot = 0;
-    last_rot_check = 0;
 }
 
 void item::make( const std::string new_type, bool scrub )
@@ -3969,7 +3940,7 @@ long item::ammo_required() const {
     long res = 0;
 
     if( is_tool() ) {
-        type->charges_to_use();
+        res = std::max( type->charges_to_use(), 0 );
     }
 
     if( is_gun() ) {

@@ -40,7 +40,7 @@ item Single_item_creator::create_single(int birthday, RecursionList &rec) const
     item tmp;
     if (type == S_ITEM) {
         if (id == "corpse") {
-            tmp.make_corpse( NULL_ID, birthday );
+            tmp = item::make_corpse( NULL_ID, birthday );
         } else {
             tmp = item(id, birthday);
         }

@@ -10884,42 +10884,45 @@ bool player::has_enough_charges( const item &it, bool show_msg ) const
     return true;
 }
 
-bool player::consume_charges(item *used, long charges_used)
+bool player::consume_charges( item& used, long qty )
 {
-    // Non-tools can use charges too - when they're comestibles
-    const auto tool = dynamic_cast<const it_tool*>(used->type);
-    const auto comest = dynamic_cast<const it_comest*>(used->type);
-    if( charges_used <= 0 || (tool == nullptr && comest == nullptr) ) {
+    if( !has_item( &used ) ) {
+        debugmsg( "Tried to consume charges for an item not in players possession" );
         return false;
     }
 
-    if( tool != nullptr && tool->charges_per_use <= 0 ) {
-        // An item that doesn't normally expend charges is destroyed instead.
-        /* We can't be certain the item is still in the same position,
-         * as other items may have been consumed as well, so remove
-         * the item directly instead of by its position. */
-        i_rem( used );
-        return true;
+    if( qty < 0 ) {
+        debugmsg( "Tried to consume negative charges" );
+        return false;
     }
 
-    if( used->has_flag( "USE_UPS" ) && has_charges( "UPS", tool->charges_per_use ) ) {
-        use_charges( "UPS", charges_used );
-        //Replace 1 with charges it needs to use.
-        if( used->active && used->charges <= 1 && !has_charges( "UPS", 1 ) ) {
-            add_msg_if_player( m_info, _( "You need an UPS of some kind for this %s to work continuously." ), used->tname().c_str() );
+    if( !used.is_tool() && !used.is_food() ) {
+        debugmsg( "Tried to consume charges for non-tool, non-food item" );
+        return false;
+    }
+
+    // Consume comestibles destroying them if no charges remain
+    if( used.is_food() ) {
+        used.charges -= qty;
+        if( used.charges <= 0 ) {
+            i_rem( &used );
+            return true;
         }
-    } else {
-        used->charges -= std::min( used->charges, charges_used );
+        return false;
     }
 
-    if( comest != nullptr && used->charges <= 0 ) {
-        i_rem( used );
+    // Tools which don't require ammo are instead destroyed
+    if( used.is_tool() && !used.ammo_required() ) {
+        i_rem( &used );
         return true;
     }
 
-    // We may have fiddled with the state of the item in the iuse method,
-    // so restack to sort things out.
-    inv.restack();
+    // USE_UPS never occurs on base items but is instead added by the UPS tool mod
+    if( used.has_flag( "USE_UPS" ) ) {
+        use_charges( "UPS", qty );
+    } else {
+        used.ammo_consume( std::min( qty, used.ammo_remaining() ), pos() );
+    }
     return false;
 }
 
@@ -11060,7 +11063,7 @@ bool player::invoke_item( item* used, const tripoint &pt )
 
     if( used->type->use_methods.size() < 2 ) {
         const long charges_used = used->type->invoke( this, used, pt );
-        return consume_charges( used, charges_used );
+        return consume_charges( *used, charges_used );
     }
 
     // Food can't be invoked here - it is already invoked as a part of consumption
@@ -11087,7 +11090,7 @@ bool player::invoke_item( item* used, const tripoint &pt )
 
     const std::string &method = used->type->use_methods[choice].get_type_name();
     long charges_used = used->type->invoke( this, used, pt, method );
-    return consume_charges( used, charges_used );
+    return consume_charges( *used, charges_used );
 }
 
 bool player::invoke_item( item* used, const std::string &method )
@@ -11113,7 +11116,7 @@ bool player::invoke_item( item* used, const std::string &method, const tripoint 
     }
 
     long charges_used = actually_used->type->invoke( this, actually_used, pt, method );
-    return consume_charges( actually_used, charges_used );
+    return consume_charges( *actually_used, charges_used );
 }
 
 void player::remove_gunmod( item *weapon, unsigned id )
@@ -13920,8 +13923,7 @@ std::vector<Creature *> player::get_hostile_creatures() const
 void player::place_corpse()
 {
     std::vector<item *> tmp = inv_dump();
-    item body;
-    body.make_corpse( NULL_ID, calendar::turn, name );
+    item body = item::make_corpse( NULL_ID, calendar::turn, name );
     for( auto itm : tmp ) {
         g->m.add_item_or_charges( pos(), *itm );
     }

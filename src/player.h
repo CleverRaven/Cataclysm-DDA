@@ -790,8 +790,12 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** As above two, but with position equal to current position */
         bool invoke_item( item* );
         bool invoke_item( item*, const std::string& );
-        /** Consumes charges from a tool or does nothing with a non-tool. Returns true if it destroys the item. */
-        bool consume_charges(item *used, long charges_used);
+
+        /** Consume charges of a tool or comestible item, potentially destroying it in the process
+         *  @qty number of charges to consume which must be non-zero
+         *  @return true if item was destroyed */
+        bool consume_charges( item& used, long qty );
+
         /** Removes selected gunmod from the entered weapon */
         void remove_gunmod(item *weapon, unsigned id);
         /** Starts activity to install gunmod having warned user about any risk of failure or irremovable mods s*/
