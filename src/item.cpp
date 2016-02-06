@@ -4402,8 +4402,8 @@ item_location item::pick_reload_ammo( player &u, bool interactive ) const
     menu.text += std::string( w + 3 - utf8_width( _( "| Location " ) ), ' ' );
     menu.w_width += w + 3;
 
-    // We only show ammo statistics for guns
-    if( is_gun() ) {
+    // We only show ammo statistics for guns and magazines
+    if( is_gun() || is_magazine() ) {
         menu.text += _( "| Damage  | Pierce  | Range   | Accuracy" );
         menu.w_width += 40;
     }
@@ -4423,7 +4423,7 @@ item_location item::pick_reload_ammo( player &u, bool interactive ) const
         const item *it = ammo_list[i].get_item();
         std::string row = names[i] + "| " + where[i] + " ";
 
-        if( is_gun() ) {
+        if( is_gun() || is_magazine() ) {
             const itype *curammo = ammo_data(); // nullptr for empty magazines
             const auto ammo_damage     = curammo ? curammo->ammo->damage : 0;
             const auto ammo_pierce     = curammo ? curammo->ammo->pierce : 0;
