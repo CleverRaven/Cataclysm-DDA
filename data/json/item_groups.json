@@ -7242,6 +7242,7 @@
     "type" : "item_group",
     "id" : "spider",
     "items":[
+      { "group": "mags_obscure", "prob": 40 },
       ["corpse", 10],
       ["holy_symbol", 1],
       ["mutagen", 8],
@@ -7356,8 +7357,6 @@
       ["pur_tablets", 10],
       ["pastaextruder", 10],
       ["can_sealer", 10],
-      ["20x66_20_mag", 3],
-      ["20x66_40_mag", 2],
       ["remotevehcontrol", 8]
     ]
   },{
