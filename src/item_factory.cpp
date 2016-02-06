@@ -680,10 +680,10 @@ void Item_factory::load( islot_gun &slot, JsonObject &jo )
     slot.loudness = jo.get_int( "loudness", 0 );
     slot.damage = jo.get_int( "ranged_damage", 0 );
     slot.range = jo.get_int( "range", 0 );
-    slot.dispersion = jo.get_int( "dispersion" );
-    slot.sight_dispersion = jo.get_int("sight_dispersion");
+    slot.dispersion = jo.get_int( "dispersion", 0 );
+    slot.sight_dispersion = jo.get_int("sight_dispersion", 0 );
     slot.aim_speed = jo.get_int("aim_speed");
-    slot.recoil = jo.get_int( "recoil" );
+    slot.recoil = jo.get_int( "recoil", 0 );
     slot.durability = jo.get_int( "durability" );
     slot.burst = jo.get_int( "burst", 0 );
     slot.clip = jo.get_int( "clip_size", 0 );
