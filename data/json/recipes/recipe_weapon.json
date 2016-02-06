@@ -872,6 +872,7 @@
     [
       [ "soap", 3 ],
       [ "tallow", 1 ],
+      [ "tallow_tainted", 1 ],
       [ "lard", 1 ],
       [ "cooking_oil", 1 ]
     ]
@@ -1289,7 +1290,7 @@
   "reversible": true,
   "decomp_learn": 2,
   "autolearn": false,
-  "book_learn" : [[ "recipe_bows", 2 ] , [ "manual_archery", 4] , [ "book_archery", 3], [ "scots_cookbook", 6 ]],
+  "book_learn" : [[ "recipe_bows", 2 ] , [ "manual_archery", 4] , [ "book_archery", 3], [ "scots_cookbook", 6 ], [ "textbook_armschina", 5 ]],
   "qualities" : [
     {"id":"SCREW","level":1,"amount":1},
     {"id":"WRENCH","level":1,"amount":1}
@@ -4032,7 +4033,10 @@
   "components":
     [
      [
-     [ "charcoal", 10 ]
+     ["charcoal", 10],
+     ["coal_lump", 10],
+     ["small_charcoal", 100],
+     ["small_coal", 100]
      ],
      [
      [ "plasma", 20 ]
@@ -4176,7 +4180,10 @@
   "components":
     [
      [
-     [ "charcoal", 5 ]
+     ["charcoal", 5],
+     ["coal_lump", 5],
+     ["small_charcoal", 50],
+     ["small_coal", 50]
      ],
      [
      [ "plasma", 10 ]
@@ -4217,7 +4224,10 @@
   "components":
     [
      [
-     [ "charcoal", 10 ]
+     ["charcoal", 10],
+     ["coal_lump", 10],
+     ["small_charcoal", 100],
+     ["small_coal", 100]
      ],
      [
      [ "plasma", 20 ]
@@ -4257,7 +4267,10 @@
   "components":
     [
      [
-     [ "charcoal", 20 ]
+     ["charcoal", 20],
+     ["coal_lump", 20],
+     ["small_charcoal", 200],
+     ["small_coal", 200]
      ],
      [
      [ "plasma", 40 ]
@@ -4296,7 +4309,10 @@
   "components":
     [
      [
-     [ "charcoal", 20 ]
+     ["charcoal", 20],
+     ["coal_lump", 20],
+     ["small_charcoal", 200],
+     ["small_coal", 200]
      ],
      [
      [ "plasma", 40 ]
@@ -4335,7 +4351,10 @@
   "components":
     [
      [
-     [ "charcoal", 15 ]
+     ["charcoal", 15],
+     ["coal_lump", 15],
+     ["small_charcoal", 150],
+     ["small_coal", 150]
      ],
      [
      [ "plasma", 30 ]
@@ -4374,7 +4393,10 @@
   "components":
     [
      [
-     [ "charcoal", 30 ]
+     ["charcoal", 30],
+     ["coal_lump", 30],
+     ["small_charcoal", 300],
+     ["small_coal", 300]
      ],
      [
      [ "plasma", 60 ]
@@ -4413,7 +4435,10 @@
   "components":
     [
      [
-     [ "charcoal", 15 ]
+     ["charcoal", 15],
+     ["coal_lump", 15],
+     ["small_charcoal", 150],
+     ["small_coal", 150]
      ],
      [
      [ "plasma", 30 ]
@@ -4452,7 +4477,10 @@
   "components":
     [
      [
-     [ "charcoal", 80 ]
+     ["charcoal", 80],
+     ["coal_lump", 80],
+     ["small_charcoal", 800],
+     ["small_coal", 800]
      ],
      [
      [ "plasma", 160 ]
@@ -4836,7 +4864,7 @@
   "time": 1000,
   "reversible": true,
   "autolearn": true,
-  "flags": ["BLIND_HARD"],
+  "flags": ["BLIND_EASY"],
   "components": [
     [
       [ "rock", 1 ]
@@ -5400,6 +5428,46 @@
     ]
 },{
   "type" : "recipe",
+  "result": "scimitar",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_CUTTING",
+  "skill_used": "fabrication",
+  "difficulty": 8,
+  "time": 420000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "textbook_armschina", 7 ]],
+  "qualities": [
+    {"id":"HAMMER","level":3,"amount":1}
+  ],
+  "tools": [
+    [ [ "tongs", -1 ] ],
+    [ [ "chisel", -1 ] ],
+    [ [ "anvil", -1 ] ],
+    [ [ "swage", -1 ] ],
+    [
+      [ "forge", 450 ],
+      [ "char_forge", 90 ],
+      [ "oxy_torch", 90 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "steel_lump", 3 ],
+      [ "steel_chunk", 12 ],
+      [ "scrap", 36 ]
+    ],
+    [
+      [ "2x4", 1 ],
+      [ "stick", 2 ]
+    ],
+    [
+      [ "fur", 1 ],
+      [ "leather", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
   "result": "estoc",
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_CUTTING",
@@ -5551,6 +5619,7 @@
      ],
      [
       [ "tallow", 1 ],
+      [ "tallow_tainted", 1 ],
       [ "cooking_oil", 1 ],
       [ "lamp_oil", 200 ]
      ],

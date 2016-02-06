@@ -720,7 +720,7 @@
         "id" : "TRIGGERHAPPY",
         "name" : "Trigger Happy",
         "points" : -1,
-        "description" : "On rare occasion, you will go full-auto when you intended to fire a single shot.  This has no effect when firing handguns or other semi-automatic firearms.",
+        "description" : "On rare occasion, you will go full-auto when you intended to fire a single shot.  This has no effect when firing semi-automatic firearms.",
         "starting_trait" : true,
         "valid" : false
     },{

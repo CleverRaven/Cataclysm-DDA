@@ -4645,6 +4645,7 @@
   "time": 6000,
   "reversible": false,
   "autolearn": true,
+  "batch_time_factors":[82, 4],
   "qualities":[
     {"id":"COOK","level":2,"amount":1}
   ], "tools": [
@@ -4823,6 +4824,7 @@
   "time": 3000,
   "reversible": false,
   "autolearn": true,
+  "batch_time_factors":[82, 4],
   "qualities":[
     {"id":"COOK","level":2,"amount":1}
   ], "tools": [
@@ -4964,6 +4966,7 @@
   "time": 6000,
   "reversible": false,
   "autolearn": true,
+  "batch_time_factors":[82, 4],
   "qualities":[
     {"id":"COOK","level":2,"amount":1}
   ], "tools": [
@@ -5269,15 +5272,13 @@
   "tools": [
     [
       ["hotplate", 5],
-      [ "char_smoker", 1 ],
+      ["char_smoker", 1],
       ["toolset", 5],
       ["fire", -1]
     ]
   ],
   "components": [
-    [
-      ["pinecone", 4]
-    ]
+    [["pinecone", 4]]
   ]
 },{
   "type" : "recipe",
@@ -5289,13 +5290,12 @@
   "time": 6000,
   "reversible": false,
   "autolearn": true,
+  "flags": ["BLIND_EASY"],
   "qualities":[
     {"id":"HAMMER","level":1,"amount":1}
   ],
   "components": [
-    [
-      ["hickory_nut", 1]
-    ]
+    [["hickory_nut", 1]]
   ]
 },{
   "type" : "recipe",
@@ -5314,7 +5314,7 @@
   "tools": [
     [
       ["hotplate", 5],
-      [ "char_smoker", 1 ],
+      ["char_smoker", 1],
       ["toolset", 5],
       ["fire", -1]
     ]
@@ -12663,10 +12663,10 @@
       [ "brandy", 1 ],
       [ "whiskey", 1 ],
       [ "single_malt_whiskey", 1 ]
-    ],	
+    ],
     [
       [ "cinnamon", 5 ]
-    ]	  
+    ]
   ]
 }
 ]
