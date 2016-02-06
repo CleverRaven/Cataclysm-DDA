@@ -2352,31 +2352,6 @@
   ]
 },{
   "type" : "recipe",
-  "result": "barrel_small",
-  "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_MODS",
-  "skill_used": "mechanics",
-  "skills_required": [ "gun", 1 ],
-  "difficulty": 6,
-  "time": 30000,
-  "reversible": false,
-  "autolearn": true,
-  "tools": [
-    [
-      [ "large_repairkit", 100 ],
-      [ "small_repairkit", 300 ]
-    ]
-  ],
-  "components": [
-    [
-      [ "scrap", 1 ]
-    ],
-    [
-      [ "pipe", 1 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
   "result": "barrel_big",
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_MODS",
