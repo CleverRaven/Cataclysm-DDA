@@ -4346,6 +4346,11 @@ item_location item::pick_reload_ammo( player &u, bool interactive ) const
         }
         return item_location();
     }
+
+    std::sort( ammo_list.begin(), ammo_list.end(), []( const item_location& lhs, const item_location& rhs ) {
+        return rhs.get_item()->ammo_remaining() < lhs.get_item()->ammo_remaining();
+    } );
+
     if( ammo_list.size() == 1 || !interactive ) {
         return std::move( ammo_list[0] );
     }
