@@ -145,6 +145,8 @@
     "id" : "mags_shotgun_rare",
     "//" : "Aftermarket or otherwise uncommon pistol magazines excluding milspec.",
     "items": [
+      [ "saiga10mag", 50 ],
+      [ "saiga30mag", 10 ]
     ]
   },
   {
