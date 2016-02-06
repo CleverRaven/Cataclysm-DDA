@@ -712,12 +712,12 @@ void Item_factory::load( islot_gun &slot, JsonObject &jo )
 
     JsonArray builtmod = jo.get_array( "built_in_mods" );
     while( builtmod.has_more() ) {
-        slot.built_in_mods.emplace( builtmod.next_string() );
+        slot.built_in_mods.insert( builtmod.next_string() );
     }
 
     JsonArray defmod = jo.get_array( "default_mods" );
     while( defmod.has_more() ) {
-        slot.default_mods.emplace( defmod.next_string() );
+        slot.default_mods.insert( defmod.next_string() );
     }
 }
 
