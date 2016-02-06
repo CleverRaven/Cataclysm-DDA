@@ -392,6 +392,11 @@ item *item_location::get_item()
     return ptr->get_item();
 }
 
+const item *item_location::get_item() const
+{
+    return const_cast<item_location *>( this )->get_item();
+}
+
 int item_location::get_inventory_position()
 {
     return ptr->get_inventory_position();
