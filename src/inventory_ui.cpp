@@ -984,7 +984,7 @@ item_location game::inv_map_splice(
             // continue with comparison below
 
         } else if( action == "QUIT" ) {
-            return item_location::nowhere();
+            return item_location();
 
         } else if( action == "RIGHT" || action == "CONFIRM" ) {
             inv_s.set_selected_to_drop( 0 );
@@ -999,7 +999,7 @@ item_location game::inv_map_splice(
                 return std::move( it->second );
             }
 
-            return item_location::nowhere();
+            return item_location();
         }
     }
 }

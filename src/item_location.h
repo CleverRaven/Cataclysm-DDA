@@ -18,13 +18,13 @@ class item_location
 {
     private:
         class impl;
-        class item_is_null;
         class item_on_map;
         class item_on_person;
         class item_on_vehicle;
         std::unique_ptr<impl> ptr;
         item_location( impl * );
     public:
+        item_location();
         item_location( const item_location& ) = delete;
         item_location& operator= ( const item_location& ) = delete;
         item_location( item_location && );
@@ -32,7 +32,6 @@ class item_location
         ~item_location();
         /** Factory functions for readability */
         /*@{*/
-        static item_location nowhere();
         static item_location on_map( const tripoint &p, const item *which );
         static item_location on_character( Character &ch, const item *which );
         static item_location on_vehicle( vehicle &v, const point &where, const item *which );

@@ -26,23 +26,6 @@ class item_location::impl
         const item *what;
 };
 
-
-class item_location::item_is_null : public item_location::impl {
-public:
-    item_is_null()
-    {
-        what = nullptr;
-    }
-
-    void remove_item() override
-    { }
-
-    item *get_item() override
-    {
-        return nullptr;
-    }
-};
-
 class item_location::item_on_map : public item_location::impl {
 private:
     tripoint location;
@@ -371,16 +354,6 @@ const item *item_location::get_item() const
     return const_cast<item_location *>( this )->get_item();
 }
 
-item_location::item_location( impl *in )
-{
-    ptr = std::unique_ptr<impl>( in );
-}
-
-item_location item_location::nowhere()
-{
-    return item_location( new item_is_null() );
-}
-
 item_location item_location::on_map( const tripoint &p, const item *which )
 {
     return item_location( new item_on_map( p, which ) );
@@ -394,4 +367,9 @@ item_location item_location::on_character( Character &ch, const item *which )
 item_location item_location::on_vehicle( vehicle &v, const point &where, const item *which )
 {
     return item_location( new item_on_vehicle( v, where, which ) );
+}
+
+item_location::item_location( impl *in )
+{
+    ptr = std::unique_ptr<impl>( in );
 }

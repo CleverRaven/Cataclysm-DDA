@@ -4344,7 +4344,7 @@ item_location item::pick_reload_ammo( player &u, bool interactive ) const
         if( interactive ) {
             u.add_msg_if_player( m_info, _( "Out of %s!" ), is_gun() ? _("ammo") : ammo_name( ammo_type() ).c_str() );
         }
-        return item_location::nowhere();
+        return item_location();
     }
     if( ammo_list.size() == 1 || !interactive ) {
         return std::move( ammo_list[0] );
@@ -4441,7 +4441,7 @@ item_location item::pick_reload_ammo( player &u, bool interactive ) const
         if( interactive ) {
             u.add_msg_if_player( m_info, _( "Never mind." ) );
         }
-        return item_location::nowhere();
+        return item_location();
     }
 
     item_location sel = std::move( ammo_list[menu.ret] );
