@@ -5212,19 +5212,7 @@
       ["eboshi", 1],
       ["kariginu", 2],
       ["kimono", 3],
-      ["l-stick", 1],
-      ["stanag10", 2],
-      ["glockmag", 2],
-      ["m1911mag", 2],
-      ["uzimag", 2],
-      ["mac10mag", 2],
-      ["stenmag", 2],
-      ["tdi_mag", 2],
-      ["thompson_mag", 2],
-      ["makarovmag", 2],
-      ["skorpion61mag", 2],
-      ["skorpion82mag", 2],
-      ["m1918mag", 2]
+      ["l-stick", 1]
     ]
   },{
     "type" : "item_group",
