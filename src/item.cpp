@@ -4377,18 +4377,18 @@ item_location item::pick_reload_ammo( player &u, bool interactive ) const
     // Pads elements to match longest member and return length
     auto pad = []( std::vector<std::string>& vec, int n, int t ) -> int {
         for( const auto& e : vec ) {
-            n = std::max( n, utf8_width( e ) + t );
+            n = std::max( n, utf8_width( e, true ) + t );
         };
         for( auto& e : vec ) {
-            e += std::string( n - utf8_width( e ), ' ' );
+            e += std::string( n - utf8_width( e, true ), ' ' );
         }
         return n;
     };
 
     // Pad the first column including 4 trailing spaces
-    int w = pad( names, utf8_width( menu.text ), 6 );
+    int w = pad( names, utf8_width( menu.text, true ), 6 );
     menu.text.insert( 0, 2, ' ' ); // add space for UI hotkeys
-    menu.text += std::string( w + 2 - utf8_width( menu.text ), ' ' );
+    menu.text += std::string( w + 2 - utf8_width( menu.text, true ), ' ' );
     menu.w_width += w + 2;
 
     // Pad the location similarly (excludes leading "| " and trailing " ")
