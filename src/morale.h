@@ -99,18 +99,15 @@ class morale_point : public JsonSerializer, public JsonDeserializer
 
         std::string name() const;
 
-        morale_type get_type() const
-        {
+        morale_type get_type() const {
             return type;
         }
 
-        const itype *get_item_type() const
-        {
+        const itype *get_item_type() const {
             return item_type;
         }
 
-        int get_bonus() const
-        {
+        int get_bonus() const {
             return bonus;
         }
 
