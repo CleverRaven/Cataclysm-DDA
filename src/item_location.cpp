@@ -32,12 +32,6 @@ public:
     virtual void remove_item() = 0;
     /** Gets the selected item or nullptr */
     virtual item *get_item() = 0;
-    /** Gets the position of item in character's inventory or INT_MIN */
-    virtual int get_inventory_position()
-    {
-        return INT_MIN;
-    }
-};
 
 class item_location::item_is_null : public item_location::impl {
 public:
@@ -221,23 +215,6 @@ public:
         }
     }
 
-    int get_inventory_position() override
-    {
-        if( what == nullptr ) {
-            return INT_MIN;
-        }
-
-        // Most of the relevant methods are in Character, just not this one...
-        player *pl = dynamic_cast<player*>( who );
-
-        const int inv_pos = pl != nullptr ? pl->get_item_position( what ) : INT_MIN;
-        if( inv_pos == INT_MIN ) {
-            debugmsg( "Tried to get inventory position of item not on character" );
-        }
-
-        return inv_pos;
-    }
-
     void remove_item() override
     {
         if( what == nullptr ) {
@@ -368,6 +345,7 @@ public:
 };
 
 // use of std::unique_ptr<impl> forces these definitions within the implementation
+item_location::item_location() = default;
 item_location::item_location( item_location && ) = default;
 item_location& item_location::operator=( item_location&& ) = default;
 item_location::~item_location() = default;
@@ -395,11 +373,6 @@ item *item_location::get_item()
 const item *item_location::get_item() const
 {
     return const_cast<item_location *>( this )->get_item();
-}
-
-int item_location::get_inventory_position()
-{
-    return ptr->get_inventory_position();
 }
 
 item_location::item_location( impl *in )

@@ -56,8 +56,6 @@ class item_location
         item *get_item();
         const item *get_item() const;
 
-        /** Gets the position of item in character's inventory or INT_MIN */
-        int get_inventory_position();
 };
 
 #endif

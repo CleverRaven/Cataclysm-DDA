@@ -11391,15 +11391,9 @@ void game::eat(int pos)
         return it.made_of( SOLID ) && (it.is_food( &u ) || it.is_food_container( &u ) );
     }, _( "Consume item:" ), 1 );
 
-    const int inv_pos = item_loc.get_inventory_position();
-    if( inv_pos != INT_MIN ) {
-        u.consume( inv_pos );
-        return;
-    }
-
     item *it = item_loc.get_item();
-    if( it == nullptr ) {
-        add_msg(_("Never mind."));
+    if( !it ) {
+        add_msg( _( "Never mind." ) );
         return;
     }
 
