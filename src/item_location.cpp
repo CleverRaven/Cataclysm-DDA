@@ -367,14 +367,11 @@ public:
     }
 };
 
-item_location::item_location( item_location &&other )
-{
-    ptr = std::move( other.ptr );
-}
+// use of std::unique_ptr<impl> forces these definitions within the implementation
+item_location::item_location( item_location && ) = default;
+item_location& item_location::operator=( item_location&& ) = default;
+item_location::~item_location() = default;
 
-item_location::~item_location()
-{
-}
 
 std::string item_location::describe( const Character *ch ) const
 {

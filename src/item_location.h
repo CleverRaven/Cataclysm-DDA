@@ -25,7 +25,10 @@ class item_location
         std::unique_ptr<impl> ptr;
         item_location( impl * );
     public:
+        item_location( const item_location& ) = delete;
+        item_location& operator= ( const item_location& ) = delete;
         item_location( item_location && );
+        item_location& operator=( item_location&& );
         ~item_location();
         /** Factory functions for readability */
         /*@{*/
