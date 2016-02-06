@@ -4425,13 +4425,13 @@ item_location item::pick_reload_ammo( player &u, bool interactive ) const
 
         if( is_gun() || is_magazine() ) {
             const itype *curammo = it->ammo_data(); // nullptr for empty magazines
-            const auto ammo_damage     = curammo ? curammo->ammo->damage : 0;
-            const auto ammo_pierce     = curammo ? curammo->ammo->pierce : 0;
-            const auto ammo_range      = curammo ? curammo->ammo->range  : 0;
-            const auto ammo_dispersion = curammo ? 100 - curammo->ammo->dispersion : 0;
-
-            row += string_format( "| %-7d | %-7d | %-7d | %-7d",
-                                  ammo_damage, ammo_pierce, ammo_range, ammo_dispersion );
+            if( curammo ) {
+                row += string_format( "| %-7d | %-7d | %-7d | %-7d",
+                                      curammo->ammo->damage, curammo->ammo->pierce,
+                                      curammo->ammo->range, curammo->ammo->dispersion );
+            } else {
+                row += _( "|         |         |         |         " );
+            }
         }
 
         menu.addentry( i, true, i + 'a', row );
