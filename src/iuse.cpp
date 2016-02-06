@@ -7736,7 +7736,7 @@ static bool hackveh(player *p, item *it, vehicle *veh)
 
 vehicle *pickveh( const tripoint& center, bool advanced )
 {
-    static const std::string ctrl = "CONTROLS";
+    static const std::string ctrl = "CTRL_ELECTRONIC";
     static const std::string advctrl = "REMOTE_CONTROLS";
     uimenu pmenu;
     pmenu.title = _("Select vehicle to access");
