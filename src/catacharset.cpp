@@ -4,6 +4,12 @@
 #include "cursesdef.h"
 #include "wcwidth.h"
 
+#ifdef LOCALIZE
+#include <unicode/unistr.h>
+#else
+#include <locale>
+#endif
+
 //copied from SDL2_ttf code
 //except type changed from unsigned to uint32_t
 uint32_t UTF8_getch(const char **src, int *srclen)
@@ -419,6 +425,21 @@ int center_text_pos(const char *text, int start_pos, int end_pos)
 
     return start_pos + position;
 }
+
+std::string str_tolower( const std::string& source )
+{
+    std::string ret = "";
+#ifdef LOCALIZE
+    icu::UnicodeString ustr = icu::UnicodeString::fromUTF8( source );
+    ustr.toLower();
+    ustr.toUTF8String( ret );
+#else
+    ret.reserve( source.size() );
+    std::transform( source.begin(), source.end(), std::back_inserter(ret), ::tolower );
+#endif
+    return ret;
+}
+
 
 // In an attempt to maintain compatibility with gcc 4.6, use an initializer function
 // instead of a delegated constructor.

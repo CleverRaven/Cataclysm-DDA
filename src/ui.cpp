@@ -202,9 +202,7 @@ void uimenu::init()
  */
 bool lcmatch(const std::string &str, const std::string &findstr)
 {
-    std::string ret = "";
-    ret.reserve( str.size() );
-    transform( str.begin(), str.end(), std::back_inserter(ret), tolower );
+    std::string ret = str_tolower(str);
     return ( (int)ret.find( findstr ) != -1 );
 }
 
@@ -219,7 +217,7 @@ void uimenu::filterlist()
     std::string fstr = "";
     fstr.reserve(filter.size());
     if ( nocase ) {
-        transform( filter.begin(), filter.end(), std::back_inserter(fstr), tolower );
+        fstr = str_tolower(filter);
     } else {
         fstr = filter;
     }

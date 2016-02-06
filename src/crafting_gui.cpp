@@ -723,7 +723,7 @@ void pick_recipes( const inventory &crafting_inv,
         available_recipes = recipe_dict.in_category( tab );
     } else {
         // lcmatch needs an all lowercase string to match case-insensitive
-        std::transform( filter.begin(), filter.end(), filter.begin(), tolower );
+        filter = str_tolower(filter);
 
         available_recipes.insert( available_recipes.begin(), recipe_dict.begin(), recipe_dict.end() );
     }

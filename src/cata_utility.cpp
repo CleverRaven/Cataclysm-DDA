@@ -6,6 +6,7 @@
 #include "item.h"
 #include "creature.h"
 #include "translations.h"
+#include "catacharset.h"
 
 #include <algorithm>
 
@@ -35,8 +36,7 @@ bool list_items_match( const item *item, std::string sPattern )
             hasExclude = false; //If there are non exclusive items to filter, we flip this back to false.
         }
 
-        std::string namepat = pat;
-        std::transform( namepat.begin(), namepat.end(), namepat.begin(), tolower );
+        std::string namepat = str_tolower(pat);
         if( lcmatch( item->tname(), namepat ) ) {
             return !exclude;
         }
@@ -45,7 +45,7 @@ bool list_items_match( const item *item, std::string sPattern )
             std::string adv_pat_type = pat.substr( 1, pat.find( ":" ) - 1 );
             std::string adv_pat_search = pat.substr( pat.find( ":" ) + 1,
                                          ( pat.find( "}" ) - pat.find( ":" ) ) - 1 );
-            std::transform( adv_pat_search.begin(), adv_pat_search.end(), adv_pat_search.begin(), tolower );
+            adv_pat_search = str_tolower(adv_pat_search);
             if( adv_pat_type == "c" && lcmatch( item->get_category().name, adv_pat_search ) ) {
                 return !exclude;
             } else if( adv_pat_type == "m" ) {
