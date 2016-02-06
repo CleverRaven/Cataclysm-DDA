@@ -1552,8 +1552,8 @@ void activity_handlers::gunmod_add_finish( player_activity *act, player *p )
         return;
     }
 
-    item& gun = p->i_at( act->position  );
-    item& mod = p->i_at( act->values[0] );
+    item &gun = p->i_at( act->position );
+    item &mod = p->i_at( act->values[0] );
 
     int roll = act->values[1]; // chance of success (%)
     int risk = act->values[2]; // chance of damage (%)
@@ -1572,15 +1572,18 @@ void activity_handlers::gunmod_add_finish( player_activity *act, player *p )
     }
 
     if( rng( 0, 100 ) <= roll ) {
-        add_msg( m_good, _( "You sucessfully attached the %1$s to your %2$s." ), mod.tname().c_str(), gun.tname().c_str() );
+        add_msg( m_good, _( "You sucessfully attached the %1$s to your %2$s." ), mod.tname().c_str(),
+                 gun.tname().c_str() );
         gun.contents.push_back( p->i_rem( &mod ) );
 
     } else if( rng( 0, 100 ) <= risk ) {
         if( gun.damage++ >= MAX_ITEM_DAMAGE ) {
             p->i_rem( &gun );
-            add_msg( m_bad, _( "You failed at installing the %s and destroyed your %s!" ), mod.tname().c_str(), gun.tname().c_str() );
+            add_msg( m_bad, _( "You failed at installing the %s and destroyed your %s!" ), mod.tname().c_str(),
+                     gun.tname().c_str() );
         } else {
-            add_msg( m_bad, _( "You failed at installing the %s and damaged your %s!" ), mod.tname().c_str(), gun.tname().c_str() );
+            add_msg( m_bad, _( "You failed at installing the %s and damaged your %s!" ), mod.tname().c_str(),
+                     gun.tname().c_str() );
         }
 
     } else {

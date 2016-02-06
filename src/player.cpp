@@ -11116,26 +11116,26 @@ bool player::invoke_item( item* used, const std::string &method, const tripoint 
     return consume_charges( actually_used, charges_used );
 }
 
-void player::remove_gunmod(item *weapon, unsigned id)
+void player::remove_gunmod( item *weapon, unsigned id )
 {
-    if (id >= weapon->contents.size()) {
+    if( id >= weapon->contents.size() ) {
         return;
     }
     item *gunmod = &weapon->contents[id];
     item ammo;
-    if (gunmod->charges > 0) {
+    if( gunmod->charges > 0 ) {
         if( gunmod->ammo_current() != "null" ) {
             ammo = item( gunmod->ammo_current(), calendar::turn );
         } else {
-            ammo = item(default_ammo(weapon->ammo_type()), calendar::turn);
+            ammo = item( default_ammo( weapon->ammo_type() ), calendar::turn );
         }
         ammo.charges = gunmod->charges;
-        if (ammo.made_of(LIQUID)) {
-            while(!g->handle_liquid(ammo, false, false)) {
+        if( ammo.made_of( LIQUID ) ) {
+            while( !g->handle_liquid( ammo, false, false ) ) {
                 // handled only part of it, retry
             }
         } else {
-            i_add_or_drop(ammo);
+            i_add_or_drop( ammo );
         }
         gunmod->unset_curammo();
         gunmod->charges = 0;
@@ -11143,11 +11143,12 @@ void player::remove_gunmod(item *weapon, unsigned id)
     if( gunmod->is_in_auxiliary_mode() ) {
         weapon->next_mode();
     }
-    i_add_or_drop(*gunmod);
-    weapon->contents.erase(weapon->contents.begin()+id);
+    i_add_or_drop( *gunmod );
+    weapon->contents.erase( weapon->contents.begin() + id );
 }
 
-void player::gunmod_add( item& gun, item& mod ) {
+void player::gunmod_add( item &gun, item &mod )
+{
     if( !gun.gunmod_compatible( mod, false ) ) {
         debugmsg( "Tried to add incompatible gunmod" );
         return;
@@ -11174,7 +11175,7 @@ void player::gunmod_add( item& gun, item& mod ) {
     if( mod.has_flag( "INSTALL_DIFFICULT" ) ) {
         int chances = 1; // start with 1 in 6 (~17% chance)
 
-        for( const auto& sk : mod.type->min_skills ) {
+        for( const auto &sk : mod.type->min_skills ) {
             // gain an additional chance for every level above the minimum requirement
             chances += std::max( get_skill_level( sk.first ) - sk.second, 0 );
         }
@@ -11194,12 +11195,13 @@ void player::gunmod_add( item& gun, item& mod ) {
 
         roll = std::min( roll, 100 );
 
-	// risk of causing damage on failure increases with less durable guns
+        // risk of causing damage on failure increases with less durable guns
         risk = ( 100 - roll ) * ( ( 10.0 - std::min( gun.type->gun->durability, 9 ) ) / 10.0 );
     }
 
     if( mod.has_flag( "IRREMOVABLE" ) ) {
-        if( !query_yn( _( "Permanently install your %1$s in your %2$s?" ), mod.tname().c_str(), gun.tname().c_str() ) ) {
+        if( !query_yn( _( "Permanently install your %1$s in your %2$s?" ), mod.tname().c_str(),
+                       gun.tname().c_str() ) ) {
             add_msg_if_player( _( "Never mind." ) );
             return; // player cancelled installation
         }
@@ -11209,17 +11211,19 @@ void player::gunmod_add( item& gun, item& mod ) {
     if( roll < 100 ) {
         uimenu prompt;
         prompt.return_invalid = true;
-        prompt.text = string_format( _( "Attach your %1$s to your %2$s?" ), mod.tname().c_str(), gun.tname().c_str() );
+        prompt.text = string_format( _( "Attach your %1$s to your %2$s?" ), mod.tname().c_str(),
+                                     gun.tname().c_str() );
 
         std::vector<std::function<void()>> actions;
 
-        prompt.addentry( -1, true, 'w', string_format( _( "Try without tools (%i%%) risking damage (%i%%)" ), roll, risk ) );
-        actions.push_back( [&]{} );
+        prompt.addentry( -1, true, 'w',
+                         string_format( _( "Try without tools (%i%%) risking damage (%i%%)" ), roll, risk ) );
+        actions.push_back( [&] {} );
 
         prompt.addentry( -1, has_charges( "small_repairkit", 100 ), 'f',
-                          string_format( _( "Use 100 charges of firearm repair kit (%i%%)" ), std::min( roll * 2, 100 ) ) );
+                         string_format( _( "Use 100 charges of firearm repair kit (%i%%)" ), std::min( roll * 2, 100 ) ) );
 
-        actions.push_back( [&]{
+        actions.push_back( [&] {
             tool = "small_repairkit";
             qty = 100;
             roll *= 2; // firearm repair kit improves success...
@@ -11229,7 +11233,7 @@ void player::gunmod_add( item& gun, item& mod ) {
         prompt.addentry( -1, has_charges( "large_repairkit", 25 ), 'g',
                          string_format( _( "Use 25 charges of gunsmith repair kit (%i%%)" ), std::min( roll * 3, 100 ) ) );
 
-        actions.push_back( [&]{
+        actions.push_back( [&] {
             tool = "large_repairkit";
             qty = 25;
             roll *= 3; // gunsmith repair kit improves success markedly...
@@ -11244,7 +11248,8 @@ void player::gunmod_add( item& gun, item& mod ) {
         actions[ prompt.ret ]();
     }
 
-    assign_activity( ACT_GUNMOD_ADD, mod.type->gunmod->install_time, -1, get_item_position( &gun ), tool );
+    assign_activity( ACT_GUNMOD_ADD, mod.type->gunmod->install_time, -1, get_item_position( &gun ),
+                     tool );
     activity.values.push_back( get_item_position( &mod ) );
     activity.values.push_back( roll ); // chance of success (%)
     activity.values.push_back( risk ); // chance of damage (%)
