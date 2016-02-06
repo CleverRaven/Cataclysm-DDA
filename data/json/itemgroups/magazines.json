@@ -58,7 +58,7 @@
       ["m9mag", 5],
       ["mp5mag", 10],
       ["stanag10", 10],
-      ["stanag30", 5],
+      ["stanag30", 5]
     ] 
   },
   {
@@ -67,7 +67,7 @@
     "//" : "Magazines issued to paramilitary forces in addition to standard police issue.",
     "items": [
       { "group": "mags_police", "prob": 50 },
-      ["fnp90mag", 20]
+      ["fnp90mag", 20],
       ["glockbigmag", 10],
       ["hk46bigmag", 5],
       ["m9bigmag", 10],
