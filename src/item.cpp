@@ -185,9 +185,9 @@ item item::make_corpse( const mtype_id& mt, int turn, const std::string &name )
         result.item_tags.insert( "REVIVE_SPECIAL" );
     }
 
-    if( !name.empty() ) {
-        result.name = name;
-    }
+    // This is unconditional because the item constructor above sets result.name to
+    // "human corpse".
+    result.name = name;
 
     return result;
 }
