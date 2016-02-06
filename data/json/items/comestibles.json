@@ -6308,7 +6308,7 @@
         "nutrition" : 30,
         "description" : "Bread and meat, that's it.",
         "price" : 900,
-        "material" : "flesh",
+        "material" : ["flesh", "wheat"],
         "tool" : "null",
         "volume" : 1,
         "charges" : 3,
