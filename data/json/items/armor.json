@@ -9337,7 +9337,7 @@
         "id" : "chestpouch",
         "name" : "chest ammo pouch",
         "name_plural" : "chest ammo pouches",
-        "weight" : 100,
+        "weight" : 140,
         "color" : "dark_gray",
         "covers" : ["TORSO"],
         "storage" : 0,
@@ -9376,7 +9376,7 @@
         "warmth" : 0,
         "encumbrance" : 4,
         "flags" : ["VARSIZE", "WATER_FRIENDLY", "WAIST"],
-        "coverage" : 15,
+        "coverage" : 20,
         "material_thickness" : 2,
         "use_action" : {
             "type": "holster",
