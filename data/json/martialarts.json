@@ -74,12 +74,11 @@
             {
                 "id" : "boxing_static",
                 "name" : "Boxing",
-                "description" : "Dex/Per increases unarmed power, Str reduces block damage.",
+                "description" : "Per increases unarmed power, Str reduces block damage.",
                 "unarmed_allowed" : true,
                 "min_unarmed" : 0,
                 "max_stacks" : 1,
-                "bash_dex" : 0.15,
-                "bash_per" : 0.15,
+                "bash_per" : 0.4,
                 "block_str" : 0.5
             }
         ],
@@ -122,13 +121,13 @@
         "leg_block" : 99,
         "static_buffs" : [
             {
-        "id" : "judo_recovery",
-        "name" : "Judo",
-        "unarmed_allowed" : true,
-        "min_unarmed" : 0,
-        "buff_duration" : 2,
-        "throw_immune" : true,
-        "description" : "Immune to throws and knockdowns"
+                "id" : "judo_recovery",
+                "name" : "Judo",
+                "unarmed_allowed" : true,
+                "min_unarmed" : 0,
+                "buff_duration" : 2,
+                "throw_immune" : true,
+                "description" : "Immune to throws and knockdowns"
             }
         ],
         "techniques" : ["tec_judo_grab", "tec_judo_throw"]
@@ -146,8 +145,9 @@
                 "unarmed_allowed" : true,
                 "min_unarmed" : 0,
                 "buff_duration" : 2,
-                "block_per" : 0.8,
-                "description" : "Perception decreases damage when blocking"
+                "block_per" : 1.0,
+                "description" : "+1 Block.  Perception decreases damage when blocking.",
+                "bonus_blocks" : 1
             }
         ],
         "techniques" : ["tec_taichi_disarm", "tec_taichi_precise"]
@@ -198,7 +198,7 @@
                 "name" : "Krav Maga Hand-to-Hand",
                 "unarmed_allowed" : true,
                 "min_unarmed" : 0,
-                "bash_str" : 0.15,
+                "bash_str" : 0.2,
                 "description" : "Increased unarmed power"
             },{
                 "id" : "krav_maga_static_edged",
@@ -281,7 +281,7 @@
                 "id" : "taekwondo_static",
                 "name" : "Taekwondo",
                 "unarmed_allowed" : true,
-                "block_str" : 0.4,
+                "block_str" : 0.5,
                 "description" : "Strength decreases damage when blocking"
             }
         ],
@@ -355,7 +355,7 @@
                 "description" : "Extra damage and to-hit after successful dodge",
                 "unarmed_allowed" : true,
                 "max_stacks": 2,
-                "bash_int": 0.2,
+                "bash_int": 0.5,
                 "hit_int": 0.2
             }
         ],
@@ -519,7 +519,7 @@
             "min_melee" : 2,
             "max_stacks" : 1,
             "buff_duration" : 2,
-            "dodge" : -4,
+            "dodge" : -10,
             "bonus_dodges" : -1,
             "bonus_blocks" : 2
          }
@@ -532,7 +532,7 @@
             "min_melee" : 2,
             "max_stacks" : 1,
             "buff_duration" : 2,
-            "dodge" : -4,
+            "dodge" : -10,
             "bonus_dodges" : -1,
             "bonus_blocks" : 2
          }
@@ -672,15 +672,15 @@
             }
         ],
         "onmove_buffs" : [
-                  {
-                      "id" : "crane_move_buff",
-                      "name" : "Crane's Flight",
-                      "description" : "+2 Dodge",
-                      "unarmed_allowed" : true,
-                      "min_unarmed" : 2,
-                      "buff_duration" : 2,
-                      "dodge" : 2
-                  }
+            {
+                "id" : "crane_move_buff",
+                "name" : "Crane's Flight",
+                "description" : "+2 Dodge",
+                "unarmed_allowed" : true,
+                "min_unarmed" : 2,
+                "buff_duration" : 2,
+                "dodge" : 2
+            }
         ],
         "techniques" : [
             "tec_crane_feint",
@@ -725,17 +725,17 @@
         "type" : "martial_art",
         "id" : "style_leopard",
         "name" : "Leopard Kung Fu",
-        "description": "One of the five Shaolin animal styles.  The Leopard focuses on rapid, strategically planned strikes.  Perception and Intelligence both boost accuracy, and moving further boosts your accuracy.",
+        "description": "One of the five Shaolin animal styles.  The Leopard focuses on rapid, strategically planned strikes.  Perception and Intelligence both boost dodging, and moving boosts your accuracy.",
         "arm_block" : 99,
         "leg_block" : 99,
         "static_buffs" : [
             {
                 "id" : "leopard_static",
                 "name" : "Leopard Strategy",
-                "description" : "Perception and intelligence provide a bonus to hit.",
+                "description" : "Perception and intelligence provide a bonus to dodge.",
                 "unarmed_allowed" : true,
-                "hit_per" : 0.2,
-                "hit_int" : 0.2
+                "dodge_per" : 0.15,
+                "dodge_int" : 0.15
             }
         ],
         "onmove_buffs" : [
@@ -789,16 +789,16 @@
         "type" : "martial_art",
         "id" : "style_snake",
         "name" : "Snake Kung Fu",
-        "description": "One of the five Shaolin animal styles.  The Snake focuses on sinuous movement and precision strikes.  Your Perception improves your accuracy and your damage.",
+        "description": "One of the five Shaolin animal styles.  The Snake focuses on sinuous movement and precision strikes.  Your Perception improves your damage.",
         "arm_block" : 99,
         "leg_block" : 99,
         "static_buffs" : [
             {
                 "id" : "snake_static",
                 "name" : "Snake Sight",
-                "description" : "Perception provides a bonus to hit.",
+                "description" : "Perception provides a bonus to damage.",
                 "unarmed_allowed" : true,
-                "hit_per" : 0.8
+                "bash_per" : 0.8
             }
         ],
         "techniques" : [
@@ -903,7 +903,7 @@
             {
                 "id" : "venom_snake_static",
                 "name" : "Viper Patience",
-                "description" : "You are trained to stick close and stay cool in a fight, waiting for the opportunity to strike...",
+                "description" : "+2 Dodge.  Dodging an attack initiates a combo.",
                 "unarmed_allowed" : true,
                 "dodge" : 2
             }
