@@ -11,6 +11,7 @@
 #include <string>
 #include <cassert>
 #include <vector>
+#include <algorithm>
 
 #include "debug.h"
 #include "json.h"

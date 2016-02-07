@@ -2,6 +2,8 @@
 #include "translations.h"
 #include "rng.h"
 
+#include <algorithm>
+
 std::vector<mission_type> mission_type::types;
 
 void mission_type::initialize()

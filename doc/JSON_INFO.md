@@ -370,15 +370,18 @@ The syntax listed here is still valid.
 "phase" : "solid",                // (Optional, default = "solid") What phase it is
 "weight" : 350,                   // Weight of the item in grams
 "volume" : 1,                     // Volume, measured in 1/4 liters
+"integral_volume" : 0,            // Volume added to base item when item is integrated into another (eg. a gunmod integrated to a gun)
 "price" : 100,                    // Used when bartering with NPCs
 "material" : ["COTTON"],          // Material types, can be as many as you want.  See materials.json for possible options
 "cutting" : 0,                    // (Optional, default = 0) Cutting damage caused by using it as a melee weapon
 "bashing" : -5,                   // (Optional, default = 0) Bashing damage caused by using it as a melee weapon
 "to_hit" : 0,                     // (Optional, default = 0) To-hit bonus if using it as a melee weapon (whatever for?)
 "flags" : ["VARSIZE"],            // Indicates special effects, see JSON_FLAGS.md
-"magazines" : [ "stanag30"],      // Magazine types (if any) that can be used to reload this item. The first specified is the default.
 "magazine_well" : 0,              // Volume above which the magazine starts to protrude from the item and add extra volume
-"integral_volume" : 0             // Volume added to base item when item is integrated into another (eg. a gunmod integrated to a gun)
+"magazines" : [                   // Magazines types for each ammo type (if any) which can be used to reload this item
+    [ "9mm", [ "glockmag" ] ]     // The first magazine specified for each ammo type is the default
+    [ "45", [ "m1911mag", "m1911bigmag" ] ],
+],
 ```
 
 ###AMMO
@@ -407,11 +410,7 @@ The syntax listed here is still valid.
 "count" : 0,          // Default amount of ammo contained by a magazine (set this for ammo belts)
 "reliability" : 8,    // How reliable this this magazine on a range of 0 to 10? (see GAME_BALANCE.md)
 "reload_time" : 100,  // How long it takes to load each unit of ammo into the magazine
-"rigid" : true,       // Volume increases proportional to contained ammo for non-rigid magazines (set this for ammo belts)
-"alternatives" : [    // Alternative magazines (if any) for use with ammo conversion mods
-    [ "45", [ "m1911mag", "m1911bigmag" ] ],
-    [ "57", [ "57mag" ] ]
-]
+"rigid" : true        // Volume increases proportional to contained ammo for non-rigid magazines (set this for ammo belts)
 ```
 
 ###ARMOR

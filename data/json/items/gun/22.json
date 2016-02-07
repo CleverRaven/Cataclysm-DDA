@@ -1,0 +1,32 @@
+[
+  {
+    "id": "rm360_carbine",
+    "type": "GUN",
+    "name": "RM360 rotary carbine",
+    "description": "This unusual Rivtech carbine features five rotating barrels and a large capacity helical magazine.  Durable and easy to handle, it was designed to overcome the deficiencies of its low power .22LR cartridge by rapidly delivering a large number of projectiles.",
+    "weight": 1620,
+    "volume": 4,
+    "price": 180000,
+    "bashing": 8,
+    "to_hit": -2,
+    "ranged_damage": 5,
+    "material": ["superalloy", "ceramic"],
+    "symbol": "(",
+    "color": "light_gray",
+    "skill": "smg",
+    "ammo": "22",
+    "dispersion": 200,
+    "sight_dispersion": 80,
+    "aim_speed" : 2,
+    "recoil": 5,
+    "durability": 9,
+    "reload": 500,
+    "loudness" : 125,
+    "burst": 20,
+    "valid_mod_locations": [[ "accessories", 3 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
+    "magazines" : [
+      [ "22", [ "360_200_mag", "360_400_mag" ] ]
+    ],
+    "flags": ["MODE_BURST", "WATERPROOF_GUN", "NEVER_JAMS"]
+  }
+]

@@ -476,23 +476,11 @@ void Item_factory::check_definitions() const
                     msg << string_format("invalid built-in mod.") << "\n";
                 }
             }
-            for( auto &mag : type->magazines ) {
-                magazines_used.insert( mag );
-                if( !has_template( mag ) ){
-                    msg << string_format("invalid magazine.") << "\n";
-                }
-            }
         }
         if( type->gunmod ) {
             check_ammo_type( msg, type->gunmod->newtype );
             if( type->gunmod->skill_used && !type->gunmod->skill_used.is_valid() ) {
                 msg << string_format("uses invalid gunmod skill.") << "\n";
-            }
-            for( auto &mag : type->magazines ) {
-                magazines_used.insert( mag );
-                if( !has_template( mag ) ){
-                    msg << string_format("invalid magazine.") << "\n";
-                }
             }
         }
         if( type->magazine ) {
@@ -511,6 +499,16 @@ void Item_factory::check_definitions() const
                 msg << string_format("invalid reload_time %i", type->magazine->reload_time) << "\n";
             }
         }
+
+        for( const auto& typ : type->magazines ) {
+            for( const auto& mag : typ.second ) {
+                magazines_used.insert( mag );
+                if( !has_template( mag ) ){
+                    msg << string_format("invalid magazine.") << "\n";
+                }
+            }
+        }
+
         const it_tool *tool = dynamic_cast<const it_tool *>(type);
         if (tool != 0) {
             check_ammo_type(msg, tool->ammo_id);
@@ -682,10 +680,10 @@ void Item_factory::load( islot_gun &slot, JsonObject &jo )
     slot.loudness = jo.get_int( "loudness", 0 );
     slot.damage = jo.get_int( "ranged_damage", 0 );
     slot.range = jo.get_int( "range", 0 );
-    slot.dispersion = jo.get_int( "dispersion" );
-    slot.sight_dispersion = jo.get_int("sight_dispersion");
+    slot.dispersion = jo.get_int( "dispersion", 0 );
+    slot.sight_dispersion = jo.get_int("sight_dispersion", 0 );
     slot.aim_speed = jo.get_int("aim_speed");
-    slot.recoil = jo.get_int( "recoil" );
+    slot.recoil = jo.get_int( "recoil", 0 );
     slot.durability = jo.get_int( "durability" );
     slot.burst = jo.get_int( "burst", 0 );
     slot.clip = jo.get_int( "clip_size", 0 );
@@ -710,24 +708,15 @@ void Item_factory::load( islot_gun &slot, JsonObject &jo )
         }
     }
 
-    //Add any built-in mods.
-    if( jo.has_array( "built_in_mods" ) ) {
-    JsonArray jarr = jo.get_array( "built_in_mods" );
-        while( jarr.has_more() ) {
-            std::string temp = jarr.next_string();
-            slot.built_in_mods.push_back( temp );
-        }
+    JsonArray builtmod = jo.get_array( "built_in_mods" );
+    while( builtmod.has_more() ) {
+        slot.built_in_mods.insert( builtmod.next_string() );
     }
 
-    //Add default
-    if( jo.has_array( "default_mods" ) ) {
-    JsonArray jarr = jo.get_array( "default_mods" );
-        while( jarr.has_more() ) {
-            std::string temp = jarr.next_string();
-            slot.default_mods.push_back( temp );
-        }
+    JsonArray defmod = jo.get_array( "default_mods" );
+    while( defmod.has_more() ) {
+        slot.default_mods.insert( defmod.next_string() );
     }
-
 }
 
 void Item_factory::load( islot_spawn &slot, JsonObject &jo )
@@ -907,11 +896,11 @@ void Item_factory::load( islot_gunmod &slot, JsonObject &jo )
     slot.recoil = jo.get_int( "recoil_modifier", 0 );
     slot.burst = jo.get_int( "burst_modifier", 0 );
     slot.range = jo.get_int( "range", 0 );
-    slot.clip = jo.get_int( "clip_size_modifier", 0 );
     slot.acceptable_ammo_types = jo.get_tags( "acceptable_ammo" );
     slot.skill_used = skill_id( jo.get_string( "skill", "gun" ) );
     slot.req_skill = jo.get_int( "skill_required", 0 );
     slot.ups_charges = jo.get_int( "ups_charges", 0 );
+    slot.install_time = jo.get_int( "install_time", 0 );
 }
 
 void Item_factory::load_gunmod(JsonObject &jo)
@@ -929,16 +918,6 @@ void Item_factory::load( islot_magazine &slot, JsonObject &jo )
     slot.reliability = jo.get_int( "reliability" );
     slot.reload_time = jo.get_int( "reload_time", 0 );
     slot.rigid = jo.get_bool( "rigid", true );
-
-    JsonArray alt = jo.get_array( "alternatives" );
-    while( alt.has_more() ) {
-        JsonArray arr = alt.next_array();
-        ammotype ammo = arr.get_string( 0 );
-        arr = arr.get_array( 1 );
-        while( arr.has_more() ) {
-            slot.alternatives[ammo].insert( arr.next_string() );
-        }
-    }
 }
 
 void Item_factory::load_magazine(JsonObject &jo)
@@ -989,6 +968,58 @@ void Item_factory::load_generic(JsonObject &jo)
     load_basic_info(jo, new_item_template);
 }
 
+// Adds allergy flags to items with allergenic materials
+// Set for all items (not just food and clothing) to avoid edge cases
+void set_allergy_flags( itype &item_template )
+{
+    using material_allergy_pair = std::pair<std::string, std::string>;
+    static const std::vector<material_allergy_pair> all_pairs = {{
+        // First allergens:
+        // An item is an allergen even if it has trace amounts of allergenic material
+        std::make_pair( "hflesh", "CANNIBALISM" ),
+
+        std::make_pair( "hflesh", "ALLERGEN_MEAT" ),
+        std::make_pair( "iflesh", "ALLERGEN_MEAT" ),
+        std::make_pair( "flesh", "ALLERGEN_MEAT" ),
+        std::make_pair( "wheat", "ALLERGEN_WHEAT" ),
+        std::make_pair( "fruit", "ALLERGEN_FRUIT" ),
+        std::make_pair( "veggy", "ALLERGEN_VEGGY" ),
+        std::make_pair( "milk", "ALLERGEN_MILK" ),
+        std::make_pair( "egg", "ALLERGEN_EGG" ),
+        std::make_pair( "junk", "ALLERGEN_JUNK" ),
+        // Not food, but we can keep it here
+        std::make_pair( "wool", "ALLERGEN_WOOL" ),
+        // Now "made of". Those flags should not be passed
+        std::make_pair( "flesh", "CARNIVORE_OK" ),
+        std::make_pair( "hflesh", "CARNIVORE_OK" ),
+        std::make_pair( "iflesh", "CARNIVORE_OK" ),
+        std::make_pair( "milk", "CARNIVORE_OK" ),
+        std::make_pair( "egg", "CARNIVORE_OK" ),
+        std::make_pair( "honey", "URSINE_HONEY" ),
+    }};
+
+    const auto &mats = item_template.materials;
+    for( const auto &pr : all_pairs ) {
+        if( std::find( mats.begin(), mats.end(), std::get<0>( pr ) ) != mats.end() ) {
+            item_template.item_tags.insert( std::get<1>( pr ) );
+        }
+    }
+}
+
+// Migration helper: turns human flesh into generic flesh
+// Don't call before making sure that the cannibalism flag is set
+void hflesh_to_flesh( itype &item_template )
+{
+    auto &mats = item_template.materials;
+    const auto old_size = mats.size();
+    mats.erase( std::remove( mats.begin(), mats.end(), "hflesh" ), mats.end() );
+    // Only add "flesh" material if not already present
+    if( old_size != mats.size() &&
+        std::find( mats.begin(), mats.end(), "flesh" ) == mats.end() ) {
+        mats.push_back( "flesh" );
+    }
+}
+
 void Item_factory::load_basic_info(JsonObject &jo, itype *new_item_template)
 {
     std::string new_id = jo.get_string("id");
@@ -1033,13 +1064,19 @@ void Item_factory::load_basic_info(JsonObject &jo, itype *new_item_template)
 
     new_item_template->integral_volume = jo.get_int( "integral_volume", new_item_template->volume );
 
-    JsonArray arr = jo.get_array( "magazines" );
-    while( arr.has_more() ) {
-        const auto mag = arr.next_string();
-        if( new_item_template->magazine_default.empty() ) {
-            new_item_template->magazine_default = mag;
+    JsonArray mags = jo.get_array( "magazines" );
+    while( mags.has_more() ) {
+        JsonArray arr = mags.next_array();
+
+        ammotype ammo = arr.get_string( 0 ); // an ammo type (eg. 9mm)
+        JsonArray compat = arr.get_array( 1 ); // compatible magazines for this ammo type
+
+        // the first magazine for this ammo type is the default;
+        new_item_template->magazine_default[ ammo ] = compat.get_string( 0 );
+
+        while( compat.has_more() ) {
+            new_item_template->magazines[ ammo ].emplace( compat.next_string() );
         }
-        new_item_template->magazines.insert( mag );
     }
 
     new_item_template->magazine_well = jo.get_int( "magazine_well", 0 );
@@ -1143,6 +1180,10 @@ void Item_factory::load_basic_info(JsonObject &jo, itype *new_item_template)
     load_slot_optional( new_item_template->seed, jo, "seed_data" );
     load_slot_optional( new_item_template->software, jo, "software_data" );
     load_slot_optional( new_item_template->artifact, jo, "artifact_data" );
+    // Make sure this one is at/near the end
+    // TODO: Get rid of it when it is no longer needed (unless it's desired here)
+    set_allergy_flags( *new_item_template );
+    hflesh_to_flesh( *new_item_template );
 }
 
 void Item_factory::load_item_category(JsonObject &jo)

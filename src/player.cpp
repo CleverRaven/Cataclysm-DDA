@@ -591,6 +591,14 @@ void player::process_turn()
     }
 }
 
+void player::drop_inventory_overflow() {
+    // Fix for #15079
+    // @todo replace when we implement off-hand item_location
+    if( activity.type != ACT_RELOAD ) {
+        Character::drop_inventory_overflow();
+    }
+}
+
 void player::action_taken()
 {
     nv_cached = false;
@@ -10884,42 +10892,44 @@ bool player::has_enough_charges( const item &it, bool show_msg ) const
     return true;
 }
 
-bool player::consume_charges(item *used, long charges_used)
+bool player::consume_charges( item& used, long qty )
 {
-    // Non-tools can use charges too - when they're comestibles
-    const auto tool = dynamic_cast<const it_tool*>(used->type);
-    const auto comest = dynamic_cast<const it_comest*>(used->type);
-    if( charges_used <= 0 || (tool == nullptr && comest == nullptr) ) {
+    if( qty < 0 ) {
+        debugmsg( "Tried to consume negative charges" );
         return false;
     }
 
-    if( tool != nullptr && tool->charges_per_use <= 0 ) {
-        // An item that doesn't normally expend charges is destroyed instead.
-        /* We can't be certain the item is still in the same position,
-         * as other items may have been consumed as well, so remove
-         * the item directly instead of by its position. */
-        i_rem( used );
-        return true;
+    if( !used.is_tool() && !used.is_food() ) {
+        debugmsg( "Tried to consume charges for non-tool, non-food item" );
+        return false;
     }
 
-    if( used->has_flag( "USE_UPS" ) && has_charges( "UPS", tool->charges_per_use ) ) {
-        use_charges( "UPS", charges_used );
-        //Replace 1 with charges it needs to use.
-        if( used->active && used->charges <= 1 && !has_charges( "UPS", 1 ) ) {
-            add_msg_if_player( m_info, _( "You need an UPS of some kind for this %s to work continuously." ), used->tname().c_str() );
+    if( qty == 0 ) {
+        return false;
+    }
+
+    // Consume comestibles destroying them if no charges remain
+    if( used.is_food() ) {
+        used.charges -= qty;
+        if( used.charges <= 0 ) {
+            i_rem( &used );
+            return true;
         }
-    } else {
-        used->charges -= std::min( used->charges, charges_used );
+        return false;
     }
 
-    if( comest != nullptr && used->charges <= 0 ) {
-        i_rem( used );
+    // Tools which don't require ammo are instead destroyed
+    if( used.is_tool() && !used.ammo_required() ) {
+        i_rem( &used );
         return true;
     }
 
-    // We may have fiddled with the state of the item in the iuse method,
-    // so restack to sort things out.
-    inv.restack();
+    // USE_UPS never occurs on base items but is instead added by the UPS tool mod
+    if( used.has_flag( "USE_UPS" ) ) {
+        use_charges( "UPS", qty );
+    } else {
+        used.ammo_consume( std::min( qty, used.ammo_remaining() ), pos() );
+    }
     return false;
 }
 
@@ -10962,8 +10972,7 @@ void player::use(int inventory_position)
 
         item& gun = i_at( gunpos );
         if( gun.gunmod_compatible( *used ) ) {
-            add_msg( _( "You attach the %1$s to your %2$s." ), used->tname().c_str(), gun.tname().c_str() );
-            gun.contents.push_back( i_rem( used ) );
+            gunmod_add( gun, *used );
         }
         return;
 
@@ -11061,7 +11070,7 @@ bool player::invoke_item( item* used, const tripoint &pt )
 
     if( used->type->use_methods.size() < 2 ) {
         const long charges_used = used->type->invoke( this, used, pt );
-        return consume_charges( used, charges_used );
+        return consume_charges( *used, charges_used );
     }
 
     // Food can't be invoked here - it is already invoked as a part of consumption
@@ -11088,7 +11097,7 @@ bool player::invoke_item( item* used, const tripoint &pt )
 
     const std::string &method = used->type->use_methods[choice].get_type_name();
     long charges_used = used->type->invoke( this, used, pt, method );
-    return consume_charges( used, charges_used );
+    return consume_charges( *used, charges_used );
 }
 
 bool player::invoke_item( item* used, const std::string &method )
@@ -11114,29 +11123,29 @@ bool player::invoke_item( item* used, const std::string &method, const tripoint 
     }
 
     long charges_used = actually_used->type->invoke( this, actually_used, pt, method );
-    return consume_charges( actually_used, charges_used );
+    return consume_charges( *actually_used, charges_used );
 }
 
-void player::remove_gunmod(item *weapon, unsigned id)
+void player::remove_gunmod( item *weapon, unsigned id )
 {
-    if (id >= weapon->contents.size()) {
+    if( id >= weapon->contents.size() ) {
         return;
     }
     item *gunmod = &weapon->contents[id];
     item ammo;
-    if (gunmod->charges > 0) {
+    if( gunmod->charges > 0 ) {
         if( gunmod->ammo_current() != "null" ) {
             ammo = item( gunmod->ammo_current(), calendar::turn );
         } else {
-            ammo = item(default_ammo(weapon->ammo_type()), calendar::turn);
+            ammo = item( default_ammo( weapon->ammo_type() ), calendar::turn );
         }
         ammo.charges = gunmod->charges;
-        if (ammo.made_of(LIQUID)) {
-            while(!g->handle_liquid(ammo, false, false)) {
+        if( ammo.made_of( LIQUID ) ) {
+            while( !g->handle_liquid( ammo, false, false ) ) {
                 // handled only part of it, retry
             }
         } else {
-            i_add_or_drop(ammo);
+            i_add_or_drop( ammo );
         }
         gunmod->unset_curammo();
         gunmod->charges = 0;
@@ -11144,15 +11153,117 @@ void player::remove_gunmod(item *weapon, unsigned id)
     if( gunmod->is_in_auxiliary_mode() ) {
         weapon->next_mode();
     }
-    i_add_or_drop(*gunmod);
-    weapon->contents.erase(weapon->contents.begin()+id);
-    // gunmod removal decreased the gun's clip_size, move ammo to inventory
-    if ( weapon->clip_size() < weapon->charges ) {
-        ammo = item( weapon->ammo_current(), calendar::turn );
-        ammo.charges = weapon->charges - weapon->clip_size();
-        weapon->charges = weapon->clip_size();
-        i_add_or_drop(ammo);
+    i_add_or_drop( *gunmod );
+    weapon->contents.erase( weapon->contents.begin() + id );
+}
+
+void player::gunmod_add( item &gun, item &mod )
+{
+    if( !gun.gunmod_compatible( mod, false ) ) {
+        debugmsg( "Tried to add incompatible gunmod" );
+        return;
     }
+
+    if( !has_item( &gun ) && !has_item( &mod ) ) {
+        debugmsg( "Tried gunmod installation but mod/gun not in player possession" );
+        return;
+    }
+
+    // first check at least the minimum requirements are met
+    if( !can_use( mod ) ) {
+        return;
+    }
+
+    int roll = 100; // chance of success (%)
+    int risk = 0;   // chance of failure (%)
+
+    // any (optional) tool charges that are used during installation
+    std::string tool;
+    int qty = 0;
+
+    // Mods with INSTALL_DIFFICULT have a chance to fail, potentially damaging the gun
+    if( mod.has_flag( "INSTALL_DIFFICULT" ) ) {
+        int chances = 1; // start with 1 in 6 (~17% chance)
+
+        for( const auto &sk : mod.type->min_skills ) {
+            // gain an additional chance for every level above the minimum requirement
+            chances += std::max( get_skill_level( sk.first ) - sk.second, 0 );
+        }
+
+        // cap success from skill alone to 1 in 5 (~83% chance)
+        roll = std::min( double( chances ), 5.0 ) / 6.0 * 100;
+
+        // focus is either a penalty or bonus of at most +/-10%
+        roll += ( std::min( std::max( focus_pool, 140 ), 60 ) - 100 ) / 4;
+
+        // dexterity and intelligence give +/-2% for each point above or below 12
+        roll += ( get_dex() - 12 ) * 2;
+        roll += ( get_int() - 12 ) * 2;
+
+        // each point of damage to the base gun reduces success by 10%
+        roll -= std::min( gun.damage, 0 ) * 10;
+
+        roll = std::min( roll, 100 );
+
+        // risk of causing damage on failure increases with less durable guns
+        risk = ( 100 - roll ) * ( ( 10.0 - std::min( gun.type->gun->durability, 9 ) ) / 10.0 );
+    }
+
+    if( mod.has_flag( "IRREMOVABLE" ) ) {
+        if( !query_yn( _( "Permanently install your %1$s in your %2$s?" ), mod.tname().c_str(),
+                       gun.tname().c_str() ) ) {
+            add_msg_if_player( _( "Never mind." ) );
+            return; // player cancelled installation
+        }
+    }
+
+    // if chance of success <100% prompt user to continue
+    if( roll < 100 ) {
+        uimenu prompt;
+        prompt.return_invalid = true;
+        prompt.text = string_format( _( "Attach your %1$s to your %2$s?" ), mod.tname().c_str(),
+                                     gun.tname().c_str() );
+
+        std::vector<std::function<void()>> actions;
+
+        prompt.addentry( -1, true, 'w',
+                         string_format( _( "Try without tools (%i%%) risking damage (%i%%)" ), roll, risk ) );
+        actions.push_back( [&] {} );
+
+        prompt.addentry( -1, has_charges( "small_repairkit", 100 ), 'f',
+                         string_format( _( "Use 100 charges of firearm repair kit (%i%%)" ), std::min( roll * 2, 100 ) ) );
+
+        actions.push_back( [&] {
+            tool = "small_repairkit";
+            qty = 100;
+            roll *= 2; // firearm repair kit improves success...
+            risk /= 2; // ...and reduces the risk of damage upon failure
+        } );
+
+        prompt.addentry( -1, has_charges( "large_repairkit", 25 ), 'g',
+                         string_format( _( "Use 25 charges of gunsmith repair kit (%i%%)" ), std::min( roll * 3, 100 ) ) );
+
+        actions.push_back( [&] {
+            tool = "large_repairkit";
+            qty = 25;
+            roll *= 3; // gunsmith repair kit improves success markedly...
+            risk = 0;  // ...and entirely prevents damage upon failure
+        } );
+
+        prompt.query();
+        if( prompt.ret < 0 ) {
+            add_msg_if_player( _( "Never mind." ) );
+            return; // player cancelled installation
+        }
+        actions[ prompt.ret ]();
+    }
+
+    assign_activity( ACT_GUNMOD_ADD, mod.type->gunmod->install_time, -1, get_item_position( &gun ),
+                     tool );
+    activity.values.push_back( get_item_position( &mod ) );
+    activity.values.push_back( roll ); // chance of success (%)
+    activity.values.push_back( risk ); // chance of damage (%)
+    activity.values.push_back( qty ); // tool charges
 }
 
 hint_rating player::rate_action_read( const item &it ) const
@@ -13819,8 +13930,7 @@ std::vector<Creature *> player::get_hostile_creatures() const
 void player::place_corpse()
 {
     std::vector<item *> tmp = inv_dump();
-    item body;
-    body.make_corpse( NULL_ID, calendar::turn, name );
+    item body = item::make_corpse( NULL_ID, calendar::turn, name );
     for( auto itm : tmp ) {
         g->m.add_item_or_charges( pos(), *itm );
     }

@@ -1846,26 +1846,23 @@
   "result": "acidbomb",
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_EXPLOSIVE",
-  "skill_used": "cooking",
-  "difficulty": 1,
-  "time": 10000,
-  "reversible": false,
-  "autolearn": false,
-  "book_learn": [[ "textbook_gaswarfare", 4 ] , [ "adv_chemistry", 4 ] , [ "textbook_chemistry", 4 ]],
-  "tools": [
-    [
-      [ "hotplate", 5 ],
-      [ "toolset", 5 ]
-    ]
-  ],
+  "skill_used": "fabrication",
+  "difficulty": 0,
+  "time": 500,
+  "reversible": true,
+  "autolearn": true,
   "components": [
     [
+      [ "jar_glass", 1 ],
       [ "bottle_glass", 1 ],
-      [ "clay_canister", 1 ],
-      [ "flask_glass", 1 ]
+      [ "clay_canister", 2 ],
+      [ "flask_glass", 2 ]
     ],
     [
-      [ "acid", 4 ]
+      [ "acid", 2 ]
+    ],
+    [
+      [ "string_6", 1 ]
     ]
   ]
 },{
@@ -2352,31 +2349,6 @@
   ]
 },{
   "type" : "recipe",
-  "result": "barrel_small",
-  "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_MODS",
-  "skill_used": "mechanics",
-  "skills_required": [ "gun", 1 ],
-  "difficulty": 6,
-  "time": 30000,
-  "reversible": false,
-  "autolearn": true,
-  "tools": [
-    [
-      [ "large_repairkit", 100 ],
-      [ "small_repairkit", 300 ]
-    ]
-  ],
-  "components": [
-    [
-      [ "scrap", 1 ]
-    ],
-    [
-      [ "pipe", 1 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
   "result": "barrel_big",
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_MODS",
@@ -2587,68 +2559,6 @@
     [
       [ "scrap", 3 ],
       [ "steel_chunk", 1 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "clip",
-  "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_MODS",
-  "skill_used": "mechanics",
-  "skills_required": [[ "gun", 3 ]],
-  "difficulty": 6,
-  "time": 20000,
-  "reversible": false,
-  "autolearn": true,
-  "book_learn": [[ "manual_mechanics", 2 ] , [ "manual_pistol", 3] , [ "manual_shotgun", 4] , [ "manual_shotgun", 3] , [ "manual_smg", 3] , [ "manual_rifle", 3]],
-  "qualities":[
-    {"id":"HAMMER_FINE","level":1,"amount":1},
-    {"id":"SCREW_FINE","level":1,"amount":1}
-  ],
-  "tools": [
-    [
-      [ "large_repairkit", 20 ],
-      [ "small_repairkit", 60 ]
-    ]
-  ],
-  "components": [
-    [
-      [ "scrap", 3 ],
-      [ "steel_chunk", 1 ]
-    ],
-    [
-      [ "spring", 1 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "clip2",
-  "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_MODS",
-  "skill_used": "mechanics",
-  "skills_required": [[ "gun", 4 ]],
-  "difficulty": 7,
-  "time": 45000,
-  "reversible": false,
-  "autolearn": true,
-  "book_learn": [[ "manual_mechanics", 4 ] , [ "manual_pistol", 5] , [ "manual_shotgun", 6] , [ "manual_smg", 5] , [ "manual_rifle", 5]],
-  "qualities":[
-    {"id":"HAMMER_FINE","level":1,"amount":1},
-    {"id":"SCREW_FINE","level":1,"amount":1}
-  ],
-  "tools": [
-    [
-      [ "large_repairkit", 50 ],
-      [ "small_repairkit", 140 ]
-    ]
-  ],
-  "components": [
-    [
-      [ "scrap", 6 ],
-      [ "steel_chunk", 2 ]
-    ],
-    [
-      [ "spring", 2 ]
     ]
   ]
 },{
@@ -2940,37 +2850,6 @@
     ],
     [
       [ "spring", 2 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "spare_mag",
-  "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_MODS",
-  "skill_used": "fabrication",
-  "skills_required": [[ "gun", 2 ]],
-  "difficulty": 4,
-  "time": 15000,
-  "reversible": false,
-  "autolearn": true,
-  "book_learn": [[ "manual_fabrication", 2 ] , [ "manual_pistol", 3] , [ "manual_shotgun", 4] , [ "manual_smg", 3] , [ "manual_rifle", 3]],
-  "qualities":[
-    {"id":"HAMMER_FINE","level":1,"amount":1},
-    {"id":"SCREW_FINE","level":1,"amount":1}
-  ],
-  "tools": [
-    [
-      [ "large_repairkit", 20 ],
-      [ "small_repairkit", 60 ]
-    ]
-  ],
-  "components": [
-    [
-      [ "scrap", 3 ],
-      [ "steel_chunk", 1 ]
-    ],
-    [
-      [ "spring", 1 ]
     ]
   ]
 },{
@@ -4033,7 +3912,10 @@
   "components":
     [
      [
-     [ "charcoal", 10 ]
+     ["charcoal", 10],
+     ["coal_lump", 10],
+     ["small_charcoal", 100],
+     ["small_coal", 100]
      ],
      [
      [ "plasma", 20 ]
@@ -4177,7 +4059,10 @@
   "components":
     [
      [
-     [ "charcoal", 5 ]
+     ["charcoal", 5],
+     ["coal_lump", 5],
+     ["small_charcoal", 50],
+     ["small_coal", 50]
      ],
      [
      [ "plasma", 10 ]
@@ -4218,7 +4103,10 @@
   "components":
     [
      [
-     [ "charcoal", 10 ]
+     ["charcoal", 10],
+     ["coal_lump", 10],
+     ["small_charcoal", 100],
+     ["small_coal", 100]
      ],
      [
      [ "plasma", 20 ]
@@ -4258,7 +4146,10 @@
   "components":
     [
      [
-     [ "charcoal", 20 ]
+     ["charcoal", 20],
+     ["coal_lump", 20],
+     ["small_charcoal", 200],
+     ["small_coal", 200]
      ],
      [
      [ "plasma", 40 ]
@@ -4297,7 +4188,10 @@
   "components":
     [
      [
-     [ "charcoal", 20 ]
+     ["charcoal", 20],
+     ["coal_lump", 20],
+     ["small_charcoal", 200],
+     ["small_coal", 200]
      ],
      [
      [ "plasma", 40 ]
@@ -4336,7 +4230,10 @@
   "components":
     [
      [
-     [ "charcoal", 15 ]
+     ["charcoal", 15],
+     ["coal_lump", 15],
+     ["small_charcoal", 150],
+     ["small_coal", 150]
      ],
      [
      [ "plasma", 30 ]
@@ -4375,7 +4272,10 @@
   "components":
     [
      [
-     [ "charcoal", 30 ]
+     ["charcoal", 30],
+     ["coal_lump", 30],
+     ["small_charcoal", 300],
+     ["small_coal", 300]
      ],
      [
      [ "plasma", 60 ]
@@ -4414,7 +4314,10 @@
   "components":
     [
      [
-     [ "charcoal", 15 ]
+     ["charcoal", 15],
+     ["coal_lump", 15],
+     ["small_charcoal", 150],
+     ["small_coal", 150]
      ],
      [
      [ "plasma", 30 ]
@@ -4453,7 +4356,10 @@
   "components":
     [
      [
-     [ "charcoal", 80 ]
+     ["charcoal", 80],
+     ["coal_lump", 80],
+     ["small_charcoal", 800],
+     ["small_coal", 800]
      ],
      [
      [ "plasma", 160 ]

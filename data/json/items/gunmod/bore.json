@@ -13,10 +13,12 @@
     "color": "green",
     "location": "bore",
     "mod_targets": [ "pistol", "smg", "rifle" ],
-    "skill_required": 6,
+    "min_skills" : [ [ "gun", 3 ], [ "mechanics", 2 ] ],
+    "install_time" : 60000,
     "dispersion_modifier": 15,
     "ammo_modifier": "22",
-    "acceptable_ammo": [ "9mm", "38", "40", "57", "46", "762", "223" ]
+    "acceptable_ammo": [ "9mm", "38", "40", "57", "46", "762", "223" ],
+    "flags" : [ "INSTALL_DIFFICULT", "IRREMOVABLE" ]
   },
   {
     "id": "retool_223",
@@ -24,7 +26,7 @@
     "name": ".223 caliber conversion kit",
     "description": "This kit is used to convert a shotgun or 7.62mm, .30-06, or .308 rifle to the popular, accurate, and lighter .223 caliber.  The conversion results in slight reductions to both accuracy and ammo capacity.",
     "weight": 114,
-    "volume": 1,
+    "volume": 2,
     "integral_volume": 0,
     "price": 50000,
     "material": "steel",
@@ -32,10 +34,12 @@
     "color": "green",
     "location": "bore",
     "mod_targets": [ "shotgun", "rifle" ],
-    "skill_required": 6,
+    "min_skills" : [ [ "gun", 3 ], [ "mechanics", 2 ] ],
+    "install_time" : 60000,
     "dispersion_modifier": 30,
     "ammo_modifier": "223",
-    "acceptable_ammo": [ "shot", "762", "3006", "308" ]
+    "acceptable_ammo": [ "shot", "762", "3006", "308" ],
+    "flags" : [ "INSTALL_DIFFICULT", "IRREMOVABLE" ]
   },
   {
     "id": "retool_308",
@@ -43,7 +47,7 @@
     "name": ".308 caliber conversion kit",
     "description": "This kit is used to convert a shotgun or 7.62mm, .223 or .30-06 rifle to the popular and powerful .308 caliber.  The conversion results in reduced ammo capacity and a slight reduction to accuracy.",
     "weight": 114,
-    "volume": 1,
+    "volume": 2,
     "integral_volume": 0,
     "price": 52000,
     "material": "steel",
@@ -51,10 +55,12 @@
     "color": "green",
     "location": "bore",
     "mod_targets": [ "shotgun", "rifle" ],
-    "skill_required": 6,
+    "min_skills" : [ [ "gun", 3 ], [ "mechanics", 2 ] ],
+    "install_time" : 60000,
     "dispersion_modifier": 30,
     "ammo_modifier": "308",
-    "acceptable_ammo": [ "shot", "762", "223", "3006" ]
+    "acceptable_ammo": [ "shot", "762", "223", "3006" ],
+    "flags" : [ "INSTALL_DIFFICULT", "IRREMOVABLE" ]
   },
   {
     "id": "retool_45",
@@ -70,11 +76,13 @@
     "color": "green",
     "location": "bore",
     "mod_targets": [ "pistol", "smg" ],
-    "skill_required": 6,
+    "min_skills" : [ [ "gun", 3 ], [ "mechanics", 2 ] ],
+    "install_time" : 60000,
     "dispersion_modifier": 30,
     "recoil_modifier": 2,
     "ammo_modifier": "45",
-    "acceptable_ammo": [ "9mm", "38", "40", "44" ]
+    "acceptable_ammo": [ "9mm", "38", "40", "44" ],
+    "flags" : [ "INSTALL_DIFFICULT", "IRREMOVABLE" ]
   },
   {
     "id": "retool_46",
@@ -90,10 +98,12 @@
     "color": "green",
     "location": "bore",
     "mod_targets": [ "pistol", "smg" ],
-    "skill_required": 6,
+    "min_skills" : [ [ "gun", 3 ], [ "mechanics", 2 ] ],
+    "install_time" : 60000,
     "dispersion_modifier": 15,
     "ammo_modifier": "46",
-    "acceptable_ammo": [ "22", "9mm", "38" ]
+    "acceptable_ammo": [ "22", "9mm", "38" ],
+    "flags" : [ "INSTALL_DIFFICULT", "IRREMOVABLE" ]
   },
   {
     "id": "retool_57",
@@ -109,10 +119,12 @@
     "color": "green",
     "location": "bore",
     "mod_targets": [ "pistol", "smg" ],
-    "skill_required": 6,
+    "min_skills" : [ [ "gun", 3 ], [ "mechanics", 2 ] ],
+    "install_time" : 60000,
     "dispersion_modifier": 15,
     "ammo_modifier": "57",
-    "acceptable_ammo": [ "22", "9mm", "38" ]
+    "acceptable_ammo": [ "22", "9mm", "38" ],
+    "flags" : [ "INSTALL_DIFFICULT", "IRREMOVABLE" ]
   },
   {
     "id": "retool_9mm",
@@ -128,9 +140,11 @@
     "color": "green",
     "location": "bore",
     "mod_targets": [ "pistol", "smg" ],
-    "skill_required": 6,
+    "min_skills" : [ [ "gun", 3 ], [ "mechanics", 2 ] ],
+    "install_time" : 60000,
     "dispersion_modifier": 15,
     "ammo_modifier": "9mm",
-    "acceptable_ammo": [ "38", "40", "44", "45" ]
+    "acceptable_ammo": [ "38", "40", "44", "45" ],
+    "flags" : [ "INSTALL_DIFFICULT", "IRREMOVABLE" ]
   }
 ]

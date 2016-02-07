@@ -6789,7 +6789,7 @@ void map::remove_rotten_items( Container &items, const tripoint &pnt )
     }
 }
 
-void map::fill_funnels( const tripoint &p )
+void map::fill_funnels( const tripoint &p, int since_turn )
 {
     const auto &tr = tr_at( p );
     if( !tr.is_funnel() ) {
@@ -6808,8 +6808,7 @@ void map::fill_funnels( const tripoint &p )
         }
     }
     if( biggest_container != items.end() ) {
-
-        retroactively_fill_from_funnel( *biggest_container, tr, calendar::turn, getabs( p ) );
+        retroactively_fill_from_funnel( *biggest_container, tr, since_turn, calendar::turn, getabs( p ) );
     }
 }
 
@@ -6894,7 +6893,7 @@ void map::actualize( const int gridx, const int gridy, const int gridz )
             }
 
             if( do_funnels ) {
-                fill_funnels( pnt );
+                fill_funnels( pnt, tmpsub->turn_last_touched );
             }
 
             grow_plant( pnt );
@@ -7768,9 +7767,9 @@ void map::add_corpse( const tripoint &p )
     const bool isReviveSpecial = one_in( 10 );
 
     if( !isReviveSpecial ) {
-        body.make_corpse();
+        body = item::make_corpse();
     } else {
-        body.make_corpse( mon_zombie, calendar::turn );
+        body = item::make_corpse( mon_zombie );
         body.item_tags.insert( "REVIVE_SPECIAL" );
         body.active = true;
     }

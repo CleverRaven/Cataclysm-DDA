@@ -3606,11 +3606,11 @@
     "symbol": "*",
     "color": "yellow",
     "name": "acid bomb",
-    "description": "This is a glass vial, split into two chambers.  The divider is removable, which will cause the chemicals to mix.  If this mixture is exposed to air (perhaps by throwing the vial) they will spill out as a pool of potent acid.",
+    "description": "This is a fragile container filled with acid.  Throw it to spill out a pool of potent acid.",
     "price": 5000,
     "material": "glass",
     "flags": "ACT_ON_RANGED_HIT",
-    "weight": 1268,
+    "weight": 650,
     "volume": 2,
     "bashing": 4,
     "to_hit": -1,
@@ -3621,14 +3621,7 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category": "weapons",
-    "use_action": {
-        "type": "auto_transform",
-        "target": "acidbomb_act",
-        "target_charges": 1,
-        "msg": "The acid mixes and starts foaming.",
-        "active": true,
-        "moves": 150
-    }
+    "use_action": "ACIDBOMB_ACT"
   },
   {
     "id": "acidbomb_act",

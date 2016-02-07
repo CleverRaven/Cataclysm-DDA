@@ -53,12 +53,36 @@ std::vector<item> item::magazine_convert() {
         return res;
     }
 
-    // only consider items without integral magazines that have not yet been converted
-    if( magazine_integral() || has_var( "magazine_converted" ) ) {
+    // ignore items that have already been converted
+    if( has_var( "magazine_converted" ) ) {
         return res;
     }
 
-    item mag( type->magazine_default, calendar::turn );
+    // if item has integral magazine remove any magazine mods but do not mark item as converted
+    if( magazine_integral() ) {
+        if( !is_gun() ) {
+            return res; // only guns can have attached gunmods
+        }
+
+        int qty = has_gunmod( "spare_mag" ) >= 0 ? contents[ has_gunmod( "spare_mag" ) ].charges : 0;
+        qty += charges - type->gun->clip; // excess ammo from magazine extensions
+
+        // limit ammo to base capacity and return any excess as a new item
+        charges = std::min( charges, long( type->gun->clip ) );
+        if( qty > 0 ) {
+            res.emplace_back( get_curammo() ? get_curammo()->id : default_ammo( ammo_type() ), calendar::turn );
+            res.back().charges = qty;
+        }
+
+        contents.erase( std::remove_if( contents.begin(), contents.end(), []( const item& e ) {
+            return e.typeId() == "spare_mag" || e.typeId() == "clip" || e.typeId() == "clip2";
+        } ), contents.end() );
+
+        return res;
+    }
+
+    // now handle items using the new detachable magazines that haven't yet been converted
+    item mag( magazine_default(), calendar::turn );
     item ammo( get_curammo() ? get_curammo()->id : default_ammo( ammo_type() ), calendar::turn );
 
     // give base item an appropriate magazine and add to that any ammo originally stored in base item
@@ -71,7 +95,7 @@ std::vector<item> item::magazine_convert() {
         }
     }
 
-    // remove any spare magazine and place an equivalent loaded magazine in inventory
+    // remove any spare magazine and replace it with an equivalent loaded magazine
     item *spare_mag = has_gunmod( "spare_mag" ) >= 0 ? &contents[ has_gunmod( "spare_mag" ) ] : nullptr;
     if( spare_mag ) {
         res.push_back( mag );
@@ -82,7 +106,7 @@ std::vector<item> item::magazine_convert() {
         }
     }
 
-    // return any excess ammo (from either item or spare mag) to character inventory
+    // return any excess ammo (from either item or spare mag) as a new item
     if( charges > 0 ) {
         ammo.charges = charges;
         res.push_back( ammo );
@@ -1338,7 +1362,6 @@ template<typename Archive>
 void item::io( Archive& archive )
 {
     const auto load_type = [this]( const std::string& id ) {
-        init();
         // only for backward compatibility (there are no "on" versions of those anymore)
         if( id == "UPS_on" ) {
             make( "UPS_off" );
@@ -1364,6 +1387,10 @@ void item::io( Archive& archive )
     archive.io( "charges", charges, -1l );
     archive.io( "burnt", burnt, 0 );
     archive.io( "poison", poison, 0 );
+    archive.io( "bigness", bigness, 0 );
+    archive.io( "frequency", frequency, 0 );
+    archive.io( "note", note, 0 );
+    archive.io( "irridation", irridation, 0 );
     archive.io( "bday", bday, 0 );
     archive.io( "mission_id", mission_id, -1 );
     archive.io( "player_id", player_id, -1 );
@@ -1390,6 +1417,21 @@ void item::io( Archive& archive )
         return;
     }
     /* Loading has finished, following code is to ensure consistency and fixes bugs in saves. */
+
+    // Old saves used to only contain one of those values (stored under "poison"), it would be
+    // loaded into a union of those members. Now they are separate members and must be set separately.
+    if( poison != 0 && bigness == 0 && is_var_veh_part() ) {
+        std::swap( bigness, poison );
+    }
+    if( poison != 0 && note == 0 && !type->snippet_category.empty() ) {
+        std::swap( note, poison );
+    }
+    if( poison != 0 && frequency == 0 && ( typeId() == "radio_on" || typeId() == "radio" ) ) {
+        std::swap( frequency, poison );
+    }
+    if( poison != 0 && irridation == 0 && typeId() == "rad_badge" ) {
+        std::swap( irridation, poison );
+    }
 
     // Compatiblity for item type changes: for example soap changed from being a generic item
     // (item::charges == -1) to comestible (and thereby counted by charges), old saves still have

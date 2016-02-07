@@ -51,7 +51,8 @@ const std::string &player_activity::get_stop_phrase() const
         _(" Stop working the winch?"), _(" Stop filling the container?"),
         _(" Stop hotwiring the vehicle?"), _(" Stop aiming?"),
         _(" Stop using the ATM?"), _(" Stop trying to start the vehicle?"),
-        _(" Stop welding?"), _(" Stop cracking?"), _(" Stop repairing?")
+        _(" Stop welding?"), _(" Stop cracking?"), _(" Stop repairing?"),
+        _(" Stop modifying gun?" )
     };
     return stop_phrase[type];
 }
@@ -86,6 +87,7 @@ bool player_activity::is_abortable() const
         case ACT_OXYTORCH:
         case ACT_CRACKING:
         case ACT_REPAIR_ITEM:
+        case ACT_GUNMOD_ADD:
             return true;
         default:
             return false;
@@ -124,6 +126,7 @@ bool player_activity::is_suspendable() const
         case ACT_AIM:
         case ACT_ATM:
         case ACT_START_ENGINES:
+        case ACT_GUNMOD_ADD:
             return false;
         default:
             return true;
@@ -440,6 +443,10 @@ void player_activity::finish( player *p )
         case ACT_REPAIR_ITEM:
             // Unsets activity (if needed) inside function
             activity_handlers::repair_item_finish( this, p );
+            break;
+        case ACT_GUNMOD_ADD:
+            activity_handlers::gunmod_add_finish( this, p );
+            type = ACT_NULL;
             break;
         default:
             type = ACT_NULL;

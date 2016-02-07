@@ -403,7 +403,8 @@
         "description" : "For your whole life you've been forbidden from indulging in your peculiar tastes.  Now the world's ended, and you'll be damned if anyone is going to tell you that you can't eat people.",
         "starting_trait" : true,
         "valid" : false,
-        "cancels" : ["VEGETARIAN"]
+        "cancels" : ["VEGETARIAN"],
+        "flags" : ["CANNIBAL"]
     },{
         "type" : "mutation",
         "id" : "PSYCHOPATH",
@@ -411,12 +412,13 @@
         "points" : 2,
         "description" : "You don't experience guilt like others do.  Even when you know your actions are wrong, you just don't care.",
         "starting_trait" : true,
-        "valid" : false
+        "valid" : false,
+        "flags" : ["CANNIBAL"]
     },{
         "type" : "mutation",
         "id" : "MARTIAL_ARTS",
         "name" : "Martial Arts Training",
-        "points" : 3,
+        "points" : 2,
         "description" : "You have received some martial arts training at a local dojo.  You start with your choice of Karate, Judo, Aikido, Tai Chi, or Taekwondo.",
         "starting_trait" : true,
         "initial_ma_styles" : [ "style_karate", "style_judo", "style_aikido", "style_tai_chi", "style_taekwondo" ],
@@ -425,7 +427,7 @@
         "type" : "mutation",
         "id" : "MARTIAL_ARTS2",
         "name" : "Self-Defense Classes",
-        "points" : 3,
+        "points" : 2,
         "description" : "You have taken some self-defense classes at a nearby gym.  You start with your choice of Capoeira, Krav Maga, Muay Thai, Ninjutsu, or Zui Quan.",
         "starting_trait" : true,
         "initial_ma_styles" : [ "style_krav_maga", "style_muay_thai", "style_ninjutsu",  "style_capoeira", "style_zui_quan" ],
@@ -434,7 +436,7 @@
         "type" : "mutation",
         "id": "MARTIAL_ARTS3",
         "name": "Shaolin Adept",
-        "points": 3,
+        "points": 2,
         "description": "You have studied the arts of the Shaolin monks.  You start with one of the five animal fighting styles: Tiger, Crane, Leopard, Snake, or Dragon.",
         "starting_trait" : true,
         "initial_ma_styles" : [ "style_tiger", "style_crane", "style_leopard", "style_snake", "style_dragon" ],
@@ -443,7 +445,7 @@
         "type" : "mutation",
         "id": "MARTIAL_ARTS4",
         "name": "Venom Mob Protege",
-        "points": 3,
+        "points": 2,
         "description": "You are a pupil of the Venom Clan.  You start with one of the five deadly venoms: Centipede, Viper, Scorpion, Lizard, or Toad.",
         "starting_trait" : true,
         "initial_ma_styles" : [ "style_centipede", "style_venom_snake", "style_scorpion", "style_lizard", "style_toad" ],
@@ -453,9 +455,9 @@
         "id": "MARTIAL_ARTS5",
         "name": "Melee Weapon Training",
         "points": 3,
-        "description": "You have practiced fighting with weapons.  You start with your choice of Eskrima, Fencing, or Pentjak Silat.",
+        "description": "You have practiced fighting with weapons.  You start with your choice of Eskrima, Fencing, Pentjak Silat or Niten Ichi-Ryu.",
         "starting_trait" : true,
-        "initial_ma_styles" : [ "style_eskrima", "style_fencing", "style_silat" ],
+        "initial_ma_styles" : [ "style_eskrima", "style_fencing", "style_silat", "style_niten" ],
         "valid" : false
     },{
         "type" : "mutation",
@@ -2559,7 +2561,8 @@
         "prereqs" : ["CARNIVORE"],
         "prereqs2" : ["PRED3", "PRED4"],
         "threshreq" : ["THRESH_BEAST", "THRESH_RAPTOR", "THRESH_CHIMERA", "THRESH_URSINE", "THRESH_LIZARD", "THRESH_SPIDER"],
-        "category" : ["MUTCAT_BEAST", "MUTCAT_RAPTOR", "MUTCAT_CHIMERA", "MUTCAT_URSINE", "MUTCAT_LIZARD", "MUTCAT_SPIDER"]
+        "category" : ["MUTCAT_BEAST", "MUTCAT_RAPTOR", "MUTCAT_CHIMERA", "MUTCAT_URSINE", "MUTCAT_LIZARD", "MUTCAT_SPIDER"],
+        "flags" : ["CANNIBAL"]
     },{
         "type" : "mutation",
         "id" : "M_DEFENDER",

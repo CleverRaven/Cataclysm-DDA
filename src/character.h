@@ -185,6 +185,8 @@ class Character : public Creature, public visitable<Character>
         virtual bool has_trait(const std::string &flag) const override;
         /** Returns true if the player has the entered starting trait */
         bool has_base_trait(const std::string &flag) const;
+        /** Returns true if player has a trait with a flag */
+        bool has_trait_flag( const std::string &flag ) const;
         /** Returns the trait id with the given invlet, or an empty string if no trait has that invlet */
         std::string trait_by_invlet( long ch ) const;
 
@@ -369,7 +371,7 @@ class Character : public Creature, public visitable<Character>
         bool can_pickVolume(int volume, bool safe = false) const;
         bool can_pickWeight(int weight, bool safe = true) const;
 
-        void drop_inventory_overflow();
+        virtual void drop_inventory_overflow();
 
         bool has_artifact_with(const art_effect_passive effect) const;
 

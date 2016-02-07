@@ -61,13 +61,11 @@
      [ "material_sand", 25]
      ],
      [
-     [ "rock", 20]
+     [ "pebble", 20]
      ],
      [
+     [ "water_clean", 5],
      [ "water", 5]
-     ],
-     [
-     [ "bag_canvas", 1]
      ]
     ]
 },{
@@ -5542,7 +5540,8 @@
       [ "rag", 4 ]
     ],
     [
-      [ "charcoal", 15 ]
+      [ "charcoal", 15 ],
+      [ "small_charcoal", 150 ]
     ]
   ]
 },{
@@ -6507,7 +6506,7 @@
   "time": 3000,
   "reversible": false,
   "autolearn": true,
-  "components": [ [ [ "charcoal", 1 ] ] ],
+  "components": [ [ [ "charcoal", 1 ], [ "coal_lump", 1 ] ] ],
   "qualities":[ {"id":"CUT","level":1,"amount":1} ]
   },{
   "type" : "recipe",
@@ -6785,10 +6784,10 @@
 },{
 
   "type" : "recipe",
-  "result": "charcoal",
-  "byproducts": { "id" : "charcoal", "amount" : 4 },
+  "result": "coal_lump",
+  "result_mult": 5,
   "category": "CC_OTHER",
-  "subcategory": "CSC_OTHER_PARTS",
+  "subcategory": "CSC_OTHER_MATERIALS",
   "skill_used": "fabrication",
   "difficulty": 7,
   "time": 180000,
@@ -7466,9 +7465,6 @@
      ],
      [
     [ "pebble", 20]
-     ],
-     [
-    [ "bag_canvas", 1]
      ]
     ]
 },{
@@ -7753,15 +7749,26 @@
 },{
   "type" : "recipe",
   "result": "small_charcoal",
-  "category": "CC_AMMO",
-  "subcategory": "CSC_AMMO_ARROWS",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
   "skill_used": "fabrication",
   "difficulty": 0,
   "time": 1000,
-  "reversible": true,
+  "reversible": false,
   "autolearn": true,
   "components": [ [ [ "charcoal", 1 ] ] ],
   "flags": ["BLIND_EASY"]
+},{
+  "type" : "recipe",
+  "result": "small_coal",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "fabrication",
+  "difficulty": 0,
+  "time": 1000,
+  "reversible": false,
+  "autolearn": true,
+  "components": [ [ [ "coal_lump", 1 ] ] ]
 },{
   "type" : "recipe",
   "result": "plant_fibre",

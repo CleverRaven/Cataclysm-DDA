@@ -40,7 +40,7 @@ item Single_item_creator::create_single(int birthday, RecursionList &rec) const
     item tmp;
     if (type == S_ITEM) {
         if (id == "corpse") {
-            tmp.make_corpse( NULL_ID, birthday );
+            tmp = item::make_corpse( NULL_ID, birthday );
         } else {
             tmp = item(id, birthday);
         }
@@ -217,11 +217,11 @@ void Item_modifier::modify(item &new_item) const
                 new_item.charges = am.charges;
             }
         }
-        // Make sure the item is in a valid state curammo==0 <=> charges==0 and respect clip size
-        if( !new_item.has_curammo() ) {
-            new_item.charges = 0;
+        // Make sure the item is in valid state
+        if( new_item.ammo_data() && new_item.magazine_integral() ) {
+            new_item.charges = std::min( new_item.charges, new_item.ammo_capacity() );
         } else {
-            new_item.charges = std::min<long>( new_item.charges, new_item.clip_size() );
+            new_item.charges = 0;
         }
     }
     if(container.get() != NULL) {
@@ -341,13 +341,14 @@ Item_spawn_data::ItemList Item_group::create(int birthday, RecursionList &rec) c
             break;
         }
     }
-    if (with_ammo && !result.empty()) {
-        const auto t = result.front().type;
-        if( t->gun ) {
-            if( !t->magazine_default.empty() ) {
-                result.emplace_back( t->magazine_default, birthday );
+
+    if( with_ammo && !result.empty() ) {
+        const auto& it = result.front();
+        if( it.is_gun() ) {
+            if( it.magazine_default() != "null" ) {
+                result.emplace_back( it.magazine_default(), birthday );
             } else {
-                const std::string ammoid = default_ammo( t->gun->ammo );
+                const std::string ammoid = default_ammo( it.ammo_type() );
                 if ( !ammoid.empty() ) {
                     item ammo( ammoid, birthday );
                     // TODO: change the spawn lists to contain proper references to containers

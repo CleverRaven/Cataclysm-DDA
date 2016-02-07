@@ -24,6 +24,7 @@
 #include <string>
 #include <sstream>
 #include <fstream>
+#include <algorithm>
 
 const skill_id skill_speech( "speech" );
 const skill_id skill_barter( "barter" );

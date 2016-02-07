@@ -712,7 +712,6 @@ classes = {
             { name = "burst_size", rval = "int", args = { } },
             { name = "calc_rot", rval = nil, args = { "tripoint" } },
             { name = "can_revive", rval = "bool", args = { } },
-            { name = "clip_size", rval = "int", args = { } },
             { name = "color", rval = "int", args = { } },
             { name = "color_in_inventory", rval = "int", args = { } },
             { name = "components_to_string", rval = "string", args = { } },
@@ -722,7 +721,6 @@ classes = {
             { name = "craft_has_charges", rval = "bool", args = { } },
             { name = "cut_resist", rval = "int", args = { } },
             { name = "damage_bash", rval = "int", args = { } },
-            { name = "damage_cut", rval = "int", args = { } },
             { name = "deactivate_charger_gun", rval = "bool", args = { } },
             { name = "deserialize", rval = nil, args = { "string" } },
             { name = "destroyed_at_zero_charges", rval = "bool", args = { } },
@@ -857,7 +855,6 @@ classes = {
             { name = "set_var", rval = nil, args = { "string", "string" } },
             { name = "sight_dispersion", rval = "int", args = { "int" } },
             { name = "skill", rval = "skill_id", args = { } },
-            { name = "spare_mag_size", rval = "int", args = { } },
             { name = "stacks_with", rval = "bool", args = { "item" } },
             { name = "symbol", rval = "int", args = { } },
             { name = "tname", rval = "string", args = { "int" } },
@@ -876,7 +873,6 @@ classes = {
         attributes = {
         },
         functions = {
-            { name = "get_inventory_position", rval = "int", args = { } },
             { name = "get_item", rval = "item", args = { } },
             { name = "remove_item", rval = nil, args = { } }
         }
@@ -1510,7 +1506,6 @@ classes = {
             hp = { type = "int", writable = true },
             id = { type = "mtype_id" },
             luminance = { type = "float", writable = true },
-            melee_cut = { type = "int", writable = true },
             melee_dice = { type = "int", writable = true },
             melee_sides = { type = "int", writable = true },
             melee_skill = { type = "int", writable = true },

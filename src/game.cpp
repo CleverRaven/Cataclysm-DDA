@@ -1567,9 +1567,7 @@ void game::catch_a_monster(std::vector<monster*> &catchables, const tripoint &po
 {
     int index = rng(1, catchables.size()) - 1; //get a random monster from the vector
     //spawn the corpse, rotten by a part of the duration
-    item fish;
-    fish.make_corpse( catchables[index]->type->id, calendar::turn + int(rng(0, catch_duration)) );
-    m.add_item_or_charges( pos, fish );
+    m.add_item_or_charges( pos, item::make_corpse( catchables[index]->type->id, calendar::turn + int( rng( 0, catch_duration ) ) ) );
     u.add_msg_if_player(m_good, _("You caught a %s."), catchables[index]->type->nname().c_str());
     //quietly kill the catched
     catchables[index]->no_corpse_quiet = true;
@@ -11391,15 +11389,9 @@ void game::eat(int pos)
         return it.made_of( SOLID ) && (it.is_food( &u ) || it.is_food_container( &u ) );
     }, _( "Consume item:" ), 1 );
 
-    const int inv_pos = item_loc.get_inventory_position();
-    if( inv_pos != INT_MIN ) {
-        u.consume( inv_pos );
-        return;
-    }
-
     item *it = item_loc.get_item();
-    if( it == nullptr ) {
-        add_msg(_("Never mind."));
+    if( !it ) {
+        add_msg( _( "Never mind." ) );
         return;
     }
 
