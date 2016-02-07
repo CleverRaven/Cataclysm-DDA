@@ -380,6 +380,10 @@ struct islot_magazine {
      * Volume increases proportional to contained ammo for non-rigid magazines
      */
     bool rigid;
+    /**
+     * For ammo belts one linkage (of given type) is dropped for each unit of ammo consumed
+     */
+     itype_id linkage = "NULL";
 };
 
 struct islot_ammo : common_ranged_data {
