@@ -366,7 +366,7 @@
         "name" : "grab",
         "min_unarmed" : 2,
         "unarmed_allowed" : true,
-        "down_dur" : 1,
+        "down_dur" : 2,
         "messages" : [
             "You grab %s",
             "<npcname> grabs %s"
@@ -412,12 +412,12 @@
         "name" : "elbow",
         "min_unarmed" : 2,
         "unarmed_allowed" : true,
+        "crit_tec" : true,
         "messages" : [
             "You elbow %s",
             "<npcname> elbows %s"
         ],
-        "speed_mult" : 0.5,
-        "stun_dur" : 1
+        "speed_mult" : 0.5
     },{
         "type" : "technique",
         "id" : "tec_muay_thai_kick",
@@ -440,7 +440,7 @@
             "You flying knee %s",
             "<npcname> flying knees %s"
         ],
-        "stun_dur" : 1
+        "stun_dur" : 2
     },{
         "type" : "technique",
         "id" : "tec_krav_maga_rapid",
@@ -624,7 +624,7 @@
     },{
         "type" : "technique",
         "id" : "tec_biojutsu_wide",
-        "min_melee" : 8,
+        "min_melee" : 5,
         "crit_tec" : true,
         "name" : "wide strike",
         "messages" : [
@@ -651,7 +651,7 @@
         "min_unarmed" : 4,
         "unarmed_allowed" : true,
         "dodge_counter" : true,
-        "speed_mult" : 0.75,
+        "speed_mult" : 0.5,
         "bash_mult" : 1.25,
         "messages" : [
             "You lurch, and your wild swing hits %s",
@@ -859,11 +859,11 @@
         "unarmed_allowed" : true,
         "req_buffs" : [
             "venom_snake_combo_initiate"
-            ],
+        ],
         "messages" : [
             "You Snakebite %s",
             "<npcname> Snakebites %s"
-            ]
+        ]
     },{
         "type" : "technique",
         "id" : "tec_venom_snake_strike",
@@ -872,11 +872,11 @@
         "unarmed_allowed" : true,
         "req_buffs" : [
             "venom_snake_combo_continue"
-            ],
+        ],
         "messages" : [
-            "You VIPER STRIKE %s!",
+            "You Viper Strike %s!",
             "<npcname> Viper Strikes %s!"
-            ]
+        ]
     },{
         "type" : "technique",
         "id" : "tec_venom_snake_break",
@@ -1118,7 +1118,7 @@
             "You hand-peck %s",
             "<npcname> hand-pecks %s"
         ],
-        "stun_dur" : 2
+        "stun_dur" : 3
     },{
         "type" : "technique",
         "id" : "tec_brawl_feint",

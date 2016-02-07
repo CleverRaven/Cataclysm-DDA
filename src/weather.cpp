@@ -77,18 +77,18 @@ inline void proc_weather_sum( const weather_type wtype, weather_sum &data,
 {
     switch( wtype ) {
     case WEATHER_DRIZZLE:
-        data.rain_amount += 4;
+        data.rain_amount += 4 * tick_size;
         break;
     case WEATHER_RAINY:
     case WEATHER_THUNDER:
     case WEATHER_LIGHTNING:
-        data.rain_amount += 8;
+        data.rain_amount += 8 * tick_size;
         break;
     case WEATHER_ACID_DRIZZLE:
-        data.acid_amount += 4;
+        data.acid_amount += 4 * tick_size;
         break;
     case WEATHER_ACID_RAIN:
-        data.acid_amount += 8;
+        data.acid_amount += 8 * tick_size;
         break;
     default:
         break;
@@ -115,6 +115,8 @@ weather_sum sum_conditions( const calendar &startturn,
             tick_size = 1;
         } else if( diff > DAYS(7) ) {
             tick_size = HOURS(1);
+        } else {
+            tick_size = MINUTES(1);
         }
 
         const auto wtype = g->weather_gen->get_weather_conditions( point( location.x, location.y ), turn );
@@ -127,12 +129,10 @@ weather_sum sum_conditions( const calendar &startturn,
 /**
  * Determine what a funnel has filled out of game, using funnelcontainer.bday as a starting point.
  */
-void retroactively_fill_from_funnel( item &it, const trap &tr, const calendar &endturn,
+void retroactively_fill_from_funnel( item &it, const trap &tr, int startturn, int endturn,
                                      const tripoint &location )
 {
-    const calendar startturn = calendar( it.bday > 0 ? it.bday - 1 : 0 );
-
-    if ( startturn > endturn || !tr.is_funnel() ) {
+    if( startturn > endturn || !tr.is_funnel() ) {
         return;
     }
 
@@ -141,12 +141,13 @@ void retroactively_fill_from_funnel( item &it, const trap &tr, const calendar &e
 
     // Technically 0.0 division is OK, but it will be cleaner without it
     if( data.rain_amount > 0 ) {
-        const int rain = 1.0 / tr.funnel_turns_per_charge( data.rain_amount );
+        const int rain = divide_roll_remainder( 1.0 / tr.funnel_turns_per_charge( data.rain_amount ), 1.0f );
         it.add_rain_to_container( false, rain );
+        // add_msg(m_debug, "Retroactively adding %d water from turn %d to %d", rain, startturn, endturn);
     }
 
     if( data.acid_amount > 0 ) {
-        const int acid = 1.0 / tr.funnel_turns_per_charge( data.acid_amount );
+        const int acid = divide_roll_remainder( 1.0 / tr.funnel_turns_per_charge( data.acid_amount ), 1.0f );
         it.add_rain_to_container( true, acid );
     }
 }
@@ -228,7 +229,7 @@ double funnel_charges_per_turn( const double surface_area_mm2, const double rain
     static const double charge_ml = (double) (water.weight()) / water.charges; // 250ml
 
     const double vol_mm3_per_hour = surface_area_mm2 * rain_depth_mm_per_hour;
-    const double vol_mm3_per_turn = vol_mm3_per_hour / 600;
+    const double vol_mm3_per_turn = vol_mm3_per_hour / HOURS(1);
 
     const double ml_to_mm3 = 1000;
     const double charges_per_turn = vol_mm3_per_turn / (charge_ml * ml_to_mm3);
@@ -244,7 +245,7 @@ double trap::funnel_turns_per_charge( double rain_depth_mm_per_hour ) const
     // 1 volume == 200ml: water
     // How many turns should it take for us to collect 1 charge of rainwater?
     // "..."
-    if ( rain_depth_mm_per_hour == 0.0 ) {
+    if( rain_depth_mm_per_hour == 0.0 ) {
         return 0.0;
     }
 

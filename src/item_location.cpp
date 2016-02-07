@@ -15,44 +15,15 @@
 
 class item_location::impl
 {
-protected:
-    const item *what;
-public:
-    virtual ~impl() = default;
+    public:
+        virtual ~impl() = default;
+        virtual std::string describe( const Character * ) const = 0;
+        virtual int obtain( Character& ) = 0;
+        virtual void remove_item() = 0;
+        virtual item *get_item() = 0;
 
-    virtual std::string describe( const Character * ) const {
-        return std::string();
-    }
-
-    virtual int obtain( Character& ) {
-        return INT_MIN;
-    }
-
-    /** Removes the selected item from the game */
-    virtual void remove_item() = 0;
-    /** Gets the selected item or nullptr */
-    virtual item *get_item() = 0;
-    /** Gets the position of item in character's inventory or INT_MIN */
-    virtual int get_inventory_position()
-    {
-        return INT_MIN;
-    }
-};
-
-class item_location::item_is_null : public item_location::impl {
-public:
-    item_is_null()
-    {
-        what = nullptr;
-    }
-
-    void remove_item() override
-    { }
-
-    item *get_item() override
-    {
-        return nullptr;
-    }
+    protected:
+        const item *what;
 };
 
 class item_location::item_on_map : public item_location::impl {
@@ -221,23 +192,6 @@ public:
         }
     }
 
-    int get_inventory_position() override
-    {
-        if( what == nullptr ) {
-            return INT_MIN;
-        }
-
-        // Most of the relevant methods are in Character, just not this one...
-        player *pl = dynamic_cast<player*>( who );
-
-        const int inv_pos = pl != nullptr ? pl->get_item_position( what ) : INT_MIN;
-        if( inv_pos == INT_MIN ) {
-            debugmsg( "Tried to get inventory position of item not on character" );
-        }
-
-        return inv_pos;
-    }
-
     void remove_item() override
     {
         if( what == nullptr ) {
@@ -367,60 +321,43 @@ public:
     }
 };
 
-item_location::item_location( item_location &&other )
-{
-    ptr = std::move( other.ptr );
-}
+// use of std::unique_ptr<impl> forces these definitions within the implementation
+item_location::item_location() = default;
+item_location::item_location( item_location && ) = default;
+item_location& item_location::operator=( item_location&& ) = default;
+item_location::~item_location() = default;
 
-item_location::~item_location()
-{
-}
+item_location::item_location( const tripoint &p, const item *which )
+    : ptr( new item_on_map( p, which ) ) {}
+
+item_location::item_location( Character &ch, const item *which )
+    : ptr( new item_on_person( ch, which ) ) {}
+
+item_location::item_location( vehicle &v, const point &where, const item *which )
+    : ptr( new item_on_vehicle( v, where, which ) ) {}
 
 std::string item_location::describe( const Character *ch ) const
 {
-    return ptr->describe( ch );
+    return ptr ? ptr->describe( ch ) : std::string();
 }
 
 int item_location::obtain( Character& ch ) {
-    return ptr->obtain( ch );
+    return ptr ? ptr->obtain( ch ) : INT_MIN;
 }
 
 void item_location::remove_item()
 {
-    ptr->remove_item();
+    if( ptr ) {
+        ptr->remove_item();
+    }
 }
 
 item *item_location::get_item()
 {
-    return ptr->get_item();
+    return ptr ? ptr->get_item() : nullptr;
 }
 
-int item_location::get_inventory_position()
+const item *item_location::get_item() const
 {
-    return ptr->get_inventory_position();
-}
-
-item_location::item_location( impl *in )
-{
-    ptr = std::unique_ptr<impl>( in );
-}
-
-item_location item_location::nowhere()
-{
-    return item_location( new item_is_null() );
-}
-
-item_location item_location::on_map( const tripoint &p, const item *which )
-{
-    return item_location( new item_on_map( p, which ) );
-}
-
-item_location item_location::on_character( Character &ch, const item *which )
-{
-    return item_location( new item_on_person( ch, which ) );
-}
-
-item_location item_location::on_vehicle( vehicle &v, const point &where, const item *which )
-{
-    return item_location( new item_on_vehicle( v, where, which ) );
+    return const_cast<item_location *>( this )->get_item();
 }

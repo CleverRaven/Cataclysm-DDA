@@ -32,6 +32,7 @@
         "bashing" : 3,
         "recoil_modifier" : -2,
         "price" : 48000,
+        "install_time" : 200,
         "loudness_modifier" : -50
     },
     {
@@ -560,10 +561,11 @@
             "recoil" : 50,
             "durability" : 9,
             "reload" : 125,
-            "flags": ["WATERPROOF_GUN", "NEVER_JAMS"],
-            "default_mods": [ "20x66_10_mag" ]
+            "flags": ["WATERPROOF_GUN", "NEVER_JAMS"]
         },
-        "magazines" : ["20x66_10_mag"],
+        "magazines" : [
+          [ "20x66mm", [ "20x66_10_mag"] ]
+        ],
         "magazine_well" : 1,
         "skill_required": 2,
         "skill": "shotgun"
@@ -844,7 +846,8 @@
         "volume" : 2,
         "flags" : ["ZOOM"],
         "price" : 68000,
-        "skill_required": 5
+        "min_skills": [ [ "gun", 4 ], [ "rifle", 1 ] ],
+        "install_time" : 30000
     },
     {
         "type" : "GUNMOD",

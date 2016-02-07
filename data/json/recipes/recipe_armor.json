@@ -4292,6 +4292,7 @@
   "time": 600,
   "reversible": true,
   "autolearn": true,
+  "flags": ["BLIND_EASY"],
   "components": [
     [
       [ "bag_canvas", 1 ]
@@ -4307,7 +4308,7 @@
   "time": 800,
   "reversible": true,
   "autolearn": true,
-  "flags": ["BLIND_HARD"],
+  "flags": ["BLIND_EASY"],
   "components": [
     [
       [ "sheet", 1 ]

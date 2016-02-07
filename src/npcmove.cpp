@@ -2094,7 +2094,7 @@ void npc::heal_player( player &patient )
     }
 
     long charges_used = used.type->invoke( this, &used, patient.pos(), "heal" );
-    consume_charges( &used, charges_used );
+    consume_charges( used, charges_used );
 
     if( !patient.is_npc() ) {
         // Test if we want to heal the player further
@@ -2122,7 +2122,7 @@ void npc::heal_self()
     }
 
     long charges_used = used.type->invoke( this, &used, pos(), "heal" );
-    consume_charges( &used, charges_used );
+    consume_charges( used, charges_used );
 }
 
 void npc::use_painkiller()

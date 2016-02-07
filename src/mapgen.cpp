@@ -3507,8 +3507,7 @@ C..C..C...|hhh|#########\n\
                     tmpcomp = add_computer( tripoint( 5,  11, abs_sub.z ), _("Containment Control"), 4);
                     tmpcomp->add_option(_("EMERGENCY CONTAINMENT RELEASE"), COMPACT_OPEN, 5);
                     madd_trap( this, 19, 19, tr_dissector);
-                    item body;
-                    body.make_corpse();
+                    item body = item::make_corpse();
                     if (one_in(2)) {
                         add_item(1, 1, body);
                     } else {
@@ -3812,10 +3811,8 @@ C..C..C...|hhh|#########\n\
                                 } else if (this->furn(i, j) == f_locker) {
                                     place_items("science", 60,  i,  j, i,  j, false, 0);
                                 }
-                                item body;
-                                body.make_corpse();
                                 if (one_in(500) && this->ter(i, j) == t_rock_floor) {
-                                    add_item(i, j, body);
+                                    add_item( i, j, item::make_corpse() );
                                 }
                             }
                         }
@@ -3887,10 +3884,8 @@ A......D.........|dh...|\n\
                                 if (one_in(500) && this->ter(i, j) == t_rock_floor) {
                                     add_spawn(mon_zombie, 1, i, j);
                                 }
-                                item body;
-                                body.make_corpse();
                                 if (one_in(500) && this->ter(i, j) == t_rock_floor) {
-                                    add_item(i, j, body);
+                                    add_item( i, j, item::make_corpse() );
                                 }
                             }
                         }
@@ -3945,8 +3940,7 @@ ff.......|....|WWWWWWWW|\n\
                                 }
                             }
                         }
-                        item body;
-                        body.make_corpse();
+                        item body = item::make_corpse();
                         add_item(17, 15, body);
                         add_item(8, 3, body);
                         add_item(10, 3, body);
@@ -3996,10 +3990,8 @@ ff.......|....|WWWWWWWW|\n\
                                 if (one_in(500) && this->ter(i, j) == t_rock_floor) {
                                     add_spawn(mon_zombie, 1, i, j);
                                 }
-                                item body;
-                                body.make_corpse();
                                 if (one_in(400) && this->ter(i, j) == t_rock_floor) {
-                                    add_item(i, j, body);
+                                    add_item(i, j, item::make_corpse() );
                                 }
                             }
                         }
@@ -4610,9 +4602,7 @@ ff.......|....|WWWWWWWW|\n\
                 if (one_in(5)) { // Military zombie
                     add_spawn(mon_zombie_soldier, 1, rnx, rny);
                 } else if (one_in(2)) {
-                    item body;
-                    body.make_corpse();
-                    add_item(rnx, rny, body);
+                    add_item( rnx, rny, item::make_corpse() );
                     place_items("launchers",  10, rnx, rny, rnx, rny, true, 0);
                     place_items("mil_rifles", 30, rnx, rny, rnx, rny, true, 0);
                     place_items("mil_armor",  70, rnx, rny, rnx, rny, true, 0);
@@ -5380,9 +5370,7 @@ ff.......|....|WWWWWWWW|\n\
                         }
                     } while (body.x == -1 && tries < 10);
                     if (tries < 10) {
-                        item miner;
-                        miner.make_corpse();
-                        add_item(body.x, body.y, miner);
+                        add_item( body.x, body.y, item::make_corpse() );
                         place_items("mine_equipment", 60, body.x, body.y, body.x, body.y,
                                     false, 0);
                     }
@@ -5442,9 +5430,7 @@ ff.......|....|WWWWWWWW|\n\
                 line(this, t_rock, orx + 1, ory + 2, orx + 1, ory + 4);
                 line(this, t_rock, orx + 1, ory + 2, orx + 3, ory + 2);
                 ter_set(orx + 3, ory + 3, t_rock);
-                item miner;
-                miner.make_corpse();
-                add_item(orx + 2, ory + 3, miner);
+                add_item( orx + 2, ory + 3, item::make_corpse() );
                 place_items("mine_equipment", 60, orx + 2, ory + 3, orx + 2, ory + 3,
                             false, 0);
             }
@@ -5630,12 +5616,10 @@ ff.......|....|WWWWWWWW|\n\
         break; // That's it!  game::examine handles the pedestal/wyrm spawns
 
         case 2: { // The Thing dog
-            item miner;
-            miner.make_corpse();
             int num_bodies = rng(4, 8);
             for (int i = 0; i < num_bodies; i++) {
                 int x = rng(4, SEEX * 2 - 5), y = rng(4, SEEX * 2 - 5);
-                add_item(x, y, miner);
+                add_item( x, y, item::make_corpse() );
                 place_items("mine_equipment", 60, x, y, x, y, false, 0);
             }
             add_spawn(mon_dog_thing, 1, rng(SEEX, SEEX + 1), rng(SEEX, SEEX + 1), true);
@@ -8258,9 +8242,7 @@ FFFFFFFFFFFFFFFFFFFFFFf \n\
             for (int j = 0; j <= 23; j++) {
                 if (this->ter(i, j) == t_rock_floor) {
                     if (one_in(250)) {
-                        item body;
-                        body.make_corpse();
-                        add_item(i, j, body);
+                        add_item( i, j, item::make_corpse() );
                         place_items("science",  70, i, j, i, j, true, 0);
                     } else if (one_in(80)) {
                         add_spawn(mon_zombie, 1, i, j);
@@ -8351,9 +8333,7 @@ FFFFFFFFFFFFFFFFFFFFFFf \n\
                     }
                     if (this->ter(i, j) == t_rock_floor) {
                         if (one_in(250)) {
-                            item body;
-                            body.make_corpse();
-                            add_item(i, j, body);
+                            add_item( i, j, item::make_corpse() );
                             place_items("science",  70, i, j, i, j, true, 0);
                         } else if (one_in(80)) {
                             add_spawn(mon_zombie, 1, i, j);
@@ -8437,9 +8417,7 @@ FFFFFFFFFFFFFFFFFFFFFFf \n\
                 for (int j = 0; j <= 23; j++) {
                     if (this->ter(i, j) == t_rock_floor) {
                         if (one_in(250)) {
-                            item body;
-                            body.make_corpse();
-                            add_item(i, j, body);
+                            add_item( i, j, item::make_corpse() );
                             place_items("science",  70, i, j, i, j, true, 0);
                         } else if (one_in(80)) {
                             add_spawn(mon_zombie, 1, i, j);
@@ -8532,9 +8510,7 @@ $$$$-|-|=HH-|-HHHH-|####\n",
                     }
                     if (this->ter(i, j) == t_rock_floor) {
                         if (one_in(250)) {
-                            item body;
-                            body.make_corpse();
-                            add_item(i, j, body);
+                            add_item( i, j, item::make_corpse() );
                             place_items("science",  70, i, j, i, j, true, 0);
                         } else if (one_in(80)) {
                             add_spawn(mon_zombie, 1, i, j);
@@ -9535,12 +9511,10 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
         // Generate bodies / zombies
         rn = rng(15, 20);
         for (int i = 0; i < rn; i++) {
-            item body;
-            body.make_corpse();
             int zx = rng(0, SEEX * 2 - 1), zy = rng(0, SEEY * 2 - 1);
             if (passable(zx, zy)) {
                 if (furn(zx, zy) == f_bed || one_in(3)) {
-                    add_item(zx, zy, body);
+                    add_item( zx, zy, item::make_corpse() );
                 } else {
                     mtype_id zom = mon_zombie;
                     if (one_in(6)) {

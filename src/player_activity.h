@@ -47,6 +47,7 @@ enum activity_type : int {    // expanded this enum for readability
     ACT_OXYTORCH,
     ACT_CRACKING,
     ACT_REPAIR_ITEM,
+    ACT_GUNMOD_ADD,
     ACT_WAIT_NPC,
     NUM_ACTIVITIES
 };

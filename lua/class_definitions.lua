@@ -873,7 +873,6 @@ classes = {
         attributes = {
         },
         functions = {
-            { name = "get_inventory_position", rval = "int", args = { } },
             { name = "get_item", rval = "item", args = { } },
             { name = "remove_item", rval = nil, args = { } }
         }

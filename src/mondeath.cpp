@@ -727,8 +727,7 @@ void make_gibs(monster *z, int amount)
 void make_mon_corpse(monster *z, int damageLvl)
 {
     const int MAX_DAM = 4;
-    item corpse;
-    corpse.make_corpse( z->type->id, calendar::turn, z->unique_name );
+    item corpse = item::make_corpse( z->type->id, calendar::turn, z->unique_name );
     corpse.damage = damageLvl > MAX_DAM ? MAX_DAM : damageLvl;
     if( z->has_effect( effect_pacified) && z->type->in_species( ZOMBIE ) ) {
         // Pacified corpses have a chance of becoming un-pacified when regenerating.

@@ -1,0 +1,31 @@
+[
+  {
+    "id": "saiga_12",
+    "type": "GUN",
+    "name": "Saiga-12",
+    "description": "The Saiga-12 is a semi-automatic shotgun designed on the same Kalashnikov pattern as the AK47 rifle.  It reloads with a magazine, rather than one shell at a time like most shotguns.",
+    "weight": 3550,
+    "volume": 9,
+    "price": 189000,
+    "bashing": 12,
+    "to_hit": -1,
+    "material": ["steel", "plastic"],
+    "symbol": "(",
+    "color": "dark_gray",
+    "skill": "shotgun",
+    "ammo": "shot",
+    "dispersion": 95,
+    "sight_dispersion": 90,
+    "aim_speed" : 4,
+    "durability": 7,
+    "reload": 100,
+    "loudness" : 175,
+    "barrel_length" : 3,
+    "magazine_well" : 1,
+    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
+    "magazines" : [
+      [ "shot", [ "saiga10mag", "saiga30mag" ] ]
+    ],
+    "flags": ["NEVER_JAMS"]
+  }
+]
