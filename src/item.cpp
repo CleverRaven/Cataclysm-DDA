@@ -3663,6 +3663,23 @@ skill_id item::gun_skill() const
     return type->gun->skill_used;
 }
 
+std::string item::gun_type() const
+{
+    static skill_id skill_archery( "archery" );
+
+    if( !is_gun() ) {
+        return std::string();
+    }
+    if( gun_skill() == skill_archery ) {
+        if( ammo_type() == "bolt" || typeId() == "bullet_crossbow" ) {
+            return "crossbow";
+        } else{
+            return "bow";
+        }
+    }
+    return gun_skill().c_str();
+}
+
 skill_id item::weap_skill() const
 {
     if( !is_weap() && !is_tool() ) {

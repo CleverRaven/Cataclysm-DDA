@@ -1207,6 +1207,10 @@ public:
          * for which skill() would return a skill.
          */
         skill_id gun_skill() const;
+
+        /** Get the type of a ranged weapon (eg. "rifle", "crossbow"), or empty string if non-gun */
+        std::string gun_type() const;
+
         /**
          * Returns the currently active auxiliary (@ref is_auxiliary_gunmod) gun mod item.
          * May return null if there is no such gun mod or if the gun is not in the
