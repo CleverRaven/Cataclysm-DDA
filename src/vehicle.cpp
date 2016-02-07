@@ -906,7 +906,7 @@ void vehicle::smash_security_system(){
     }
 }
 
-void vehicle::use_controls(const tripoint &pos)
+void vehicle::use_controls(const tripoint &pos, const bool remote_action)
 {
     uimenu menu;
     menu.return_invalid = true;
@@ -938,8 +938,11 @@ void vehicle::use_controls(const tripoint &pos)
                 has_electronic_controls = true;
             }
         }
-    } else if( remotely_controlled ) {
-        menu.addentry( release_remote_control, true, 'l', _("Stop controlling") );
+    } else if( remotely_controlled || remote_action ) {
+        if( remotely_controlled ){
+            menu.addentry( release_remote_control, true, 'l', _("Stop controlling") );
+        }
+        
         // iterate over all parts
         for( size_t p = 0; p < parts.size(); ++p ) {
             if (part_flag(p, "CTRL_ELECTRONIC")) {

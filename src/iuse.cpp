@@ -7836,7 +7836,7 @@ int iuse::remoteveh(player *p, item *it, bool t, const tripoint &pos)
             veh->start_engines();
         }
     } else if( choice == 3 ) {
-        veh->use_controls( pos );
+        veh->use_controls( pos, true );
     } else {
         return 0;
     }
