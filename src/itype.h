@@ -216,6 +216,10 @@ struct common_ranged_data {
  */
 struct common_firing_data : common_ranged_data {
     /**
+     * What skill this gun uses.
+     */
+    skill_id skill_used = NULL_ID;
+    /**
      * TODO: this needs documentation, who knows what it is?
      * A value of -1 in gunmods means it's ignored.
      */
@@ -245,12 +249,6 @@ struct islot_gun : common_firing_data {
      * What type of ammo this gun uses.
      */
     std::string ammo;
-    /**
-     * What skill this gun uses.
-     * TODO: This is also indicates the type of gun (handgun/rifle/etc.) - that
-     * should probably be made explicit.
-     */
-    skill_id skill_used = NULL_ID;
     /**
      * Gun durability, affects gun being damaged during shooting.
      */
@@ -296,10 +294,6 @@ struct islot_gun : common_firing_data {
 };
 
 struct islot_gunmod : common_firing_data {
-    /**
-     * TODO: document me
-     */
-    skill_id skill_used = NULL_ID;
     /**
      * TODO: document me
      */
