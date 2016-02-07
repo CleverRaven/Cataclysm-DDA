@@ -147,10 +147,10 @@ void vpart_info::load( JsonObject &jo )
     next_part.epower = jo.get_int("epower", 0);
     next_part.folded_volume = jo.get_int("folded_volume", 0);
     next_part.range = jo.get_int( "range", 12 );
+    next_part.size = jo.get_int( "size", 0 );
 
     //Handle the par1 union as best we can by accepting any ONE of its elements
     int element_count = (jo.has_member("par1") ? 1 : 0)
-                        + (jo.has_member("size") ? 1 : 0)
                         + (jo.has_member("wheel_width") ? 1 : 0)
                         + (jo.has_member("bonus") ? 1 : 0);
 
@@ -160,8 +160,6 @@ void vpart_info::load( JsonObject &jo )
     } else if(element_count == 1) {
         if(jo.has_member("par1")) {
             next_part.par1 = jo.get_int("par1");
-        } else if(jo.has_member("size")) {
-            next_part.par1 = jo.get_int("size");
         } else if(jo.has_member("wheel_width")) {
             next_part.par1 = jo.get_int("wheel_width");
         } else { //bonus
@@ -170,7 +168,7 @@ void vpart_info::load( JsonObject &jo )
     } else {
         //Too many
         debugmsg("Error parsing vehicle part '%s': \
-               Use AT MOST one of: par1, power, size, wheel_width, bonus",
+               Use AT MOST one of: par1, wheel_width, bonus",
                  next_part.name.c_str());
         //Keep going to produce more messages if other parts are wrong
         next_part.par1 = 0;
@@ -329,7 +327,7 @@ void vehicle_prototype::load(JsonObject &jo)
     // If the json does not contain a name (the prototype would have no name), it means appending
     // to the existing prototype (the parts are not cleared).
     if( !vproto.parts.empty() && jo.has_string( "name" ) ) {
-        vproto =  vehicle_prototype(); 
+        vproto =  vehicle_prototype();
     }
     if( vproto.parts.empty() ) {
         vproto.name = jo.get_string( "name" );

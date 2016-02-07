@@ -377,8 +377,12 @@ public:
     using JsonDeserializer::deserialize;
     void deserialize(JsonIn &jsin) override;
 
-    // Operate vehicle
-    void use_controls(const tripoint &pos);
+    /**
+     *  Operate vehicle controls
+     *  @param pos Position of controls to operate
+     *  @param remote_action true if controls operated via remote controller
+     */
+    void use_controls(const tripoint &pos, const bool remote_action = false);
 
     // Fold up the vehicle
     bool fold_up();

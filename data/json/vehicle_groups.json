@@ -193,7 +193,8 @@
         "vehicles":[
             ["tractor_plow", 1000],
             ["tractor_seed", 1000],
-            ["tractor_reaper", 1000]
+            ["tractor_reaper", 1000],
+            ["autotractor", 1000]
         ]
     }
 ]

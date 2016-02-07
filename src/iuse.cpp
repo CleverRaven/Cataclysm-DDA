@@ -7745,7 +7745,7 @@ static bool hackveh(player *p, item *it, vehicle *veh)
 
 vehicle *pickveh( const tripoint& center, bool advanced )
 {
-    static const std::string ctrl = "CONTROLS";
+    static const std::string ctrl = "CTRL_ELECTRONIC";
     static const std::string advctrl = "REMOTE_CONTROLS";
     uimenu pmenu;
     pmenu.title = _("Select vehicle to access");
@@ -7845,7 +7845,7 @@ int iuse::remoteveh(player *p, item *it, bool t, const tripoint &pos)
             veh->start_engines();
         }
     } else if( choice == 3 ) {
-        veh->use_controls( pos );
+        veh->use_controls( pos, true );
     } else {
         return 0;
     }

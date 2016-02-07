@@ -5673,8 +5673,10 @@
         "size":70,
         "flags" : ["PLANTER","PROTRUSION","CARGO", "ADVANCED_PLANTER", "EXTRA_DRAG"],
         "breaks_into" : [
+            {"item": "cable", "charges": [3, 6]},
+            {"item": "e_scrap", "count": [4, 10]},
             {"item": "plastic_chunk", "count": [1, 2]},
-            {"item": "scrap", "count" : [1,2] }
+            {"item": "scrap", "count" : [1, 2] }
         ]
     },{
         "type" : "vehicle_part",
@@ -5695,6 +5697,30 @@
         "breaks_into" : [
             {"item": "plastic_chunk", "count": [1, 2]},
             {"item": "scrap", "count": [2,4]}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "reaper_advanced",
+        "name" : "advanced reaper",
+        "symbol" : "=",
+        "color" : "light_gray",
+        "broken_symbol" : "*",
+        "broken_color" : "light_blue",
+        "damage_modifier" : 120,
+        "bonus":7,
+        "power":-150,
+        "durability" : 200,
+        "item" : "v_reaper_item_advanced",
+        "difficulty" : 5,
+        "location" : "under",
+        "size":350,
+        "flags" : ["REAPER","CARGO","EXTRA_DRAG"],
+        "breaks_into" : [
+            {"item": "motor_small"},
+            {"item": "cable", "charges": [3, 6]},
+            {"item": "e_scrap", "count": [4, 10]},
+            {"item": "plastic_chunk", "count": [1, 3]},
+            {"item": "scrap", "count": [2,6]}
         ]
     }
 ]

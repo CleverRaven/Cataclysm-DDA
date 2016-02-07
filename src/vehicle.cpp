@@ -906,7 +906,7 @@ void vehicle::smash_security_system(){
     }
 }
 
-void vehicle::use_controls(const tripoint &pos)
+void vehicle::use_controls(const tripoint &pos, const bool remote_action)
 {
     uimenu menu;
     menu.return_invalid = true;
@@ -938,8 +938,11 @@ void vehicle::use_controls(const tripoint &pos)
                 has_electronic_controls = true;
             }
         }
-    } else if( remotely_controlled ) {
-        menu.addentry( release_remote_control, true, 'l', _("Stop controlling") );
+    } else if( remotely_controlled || remote_action ) {
+        if( remotely_controlled ){
+            menu.addentry( release_remote_control, true, 'l', _("Stop controlling") );
+        }
+        
         // iterate over all parts
         for( size_t p = 0; p < parts.size(); ++p ) {
             if (part_flag(p, "CTRL_ELECTRONIC")) {
@@ -4000,18 +4003,43 @@ void vehicle::operate_reaper(){
         const tripoint reaper_pos = veh_start + parts[reaper_id].precalc[0];
         const int plant_produced =  rng( 1, parts[reaper_id].info().bonus );
         const int seed_produced = rng(1, 3);
-        if( g->m.furn(reaper_pos) != f_plant_harvest ){
-            continue;
+        const int max_pickup_size = parts[reaper_id].info().size / 20;
+        if( g->m.furn(reaper_pos) == f_plant_harvest ){
+            const itype &type = *g->m.i_at(reaper_pos).front().type;
+            if( type.id == "fungal_seeds" || type.id == "marloss_seed" ) {
+                // Otherworldly plants, the earth-made reaper can not handle those.
+                continue;
+            }
+            g->m.furn_set( reaper_pos, f_null );
+            g->m.i_clear( reaper_pos );
+            for( auto &i : iexamine::get_harvest_items( type, plant_produced, seed_produced, false ) ) {
+                g->m.add_item_or_charges( reaper_pos, i );
+            }
+            sounds::sound( reaper_pos, rng( 10, 25 ), _("Swish") );
         }
-        const itype &type = *g->m.i_at(reaper_pos).front().type;
-        if( type.id == "fungal_seeds" || type.id == "marloss_seed" ) {
-            // Otherworldly plants, the earth-made reaper can not handle those.
-            continue;
-        }
-        g->m.furn_set( reaper_pos, f_null );
-        g->m.i_clear( reaper_pos );
-        for( auto &i : iexamine::get_harvest_items( type, plant_produced, seed_produced, false ) ) {
-            g->m.add_item_or_charges( reaper_pos, i );
+        if( part_flag(reaper_id, "CARGO") && g->m.ter( reaper_pos ) == t_dirtmound ) {
+            if( !g->m.has_items( reaper_pos ) ) {
+                continue;
+            }
+            const map_stack q1 = g->m.i_at( reaper_pos );
+            for( auto it1 : q1 ) {
+                item *that_item_there = nullptr;
+                size_t itemdex = 0;
+                const map_stack q = g->m.i_at( reaper_pos );
+                for( auto it : q ) {
+                    if( it.volume() < max_pickup_size ) {
+                        that_item_there = g->m.item_from( reaper_pos, itemdex );
+                        break;
+                    }
+                    itemdex++;
+                }
+                if( !that_item_there ) {
+                    break;
+                }
+                if(add_item( reaper_id, *that_item_there ) ) {
+                    g->m.i_rem( reaper_pos, itemdex );
+                }
+            }
         }
     }
 }
@@ -4098,7 +4126,6 @@ void vehicle::operate_scoop()
             if( battery_deficit == 0 && add_item( scoop, *that_item_there ) ) {
                 g->m.i_rem( position, itemdex );
             } else {
-                //otherwise move on to the next scoop.
                 break;
             }
         }
