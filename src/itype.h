@@ -299,7 +299,7 @@ struct islot_gunmod : common_firing_data {
      */
     ammotype ammo_modifier = "NULL";
     /**
-     * TODO: document me
+     * Where is this guunmod installed (eg. "stock", "rail")?
      */
     std::string location;
     /**
