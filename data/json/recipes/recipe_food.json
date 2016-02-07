@@ -9251,7 +9251,7 @@
   ]
 },{
   "type" : "recipe",
-   "result": "sandwich_dh",
+   "result": "sandwich_dudeluxe",
    "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
    "skill_used": "cooking",
@@ -9336,7 +9336,7 @@
   ]
 },{
   "type" : "recipe",
-   "result": "sandwich_d",
+   "result": "sandwich_deluxe",
    "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
    "skill_used": "cooking",
@@ -11710,7 +11710,7 @@
   ]
 },{
   "type" : "recipe",
-   "result": "sandwich_v",
+   "result": "sandwich_veggy",
    "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
    "skill_used": "cooking",
@@ -11790,6 +11790,10 @@
   "components": [
     [
       [ "flatbread", 2 ],
+      [ "tortilla_corn", 2 ],
+      [ "johnnycake", 2 ],
+      [ "cornbread", 2 ],
+      [ "brioche", 2 ],
       [ "bread", 2 ]
     ],
     [
@@ -11797,7 +11801,10 @@
       [ "irradiated_cucumber", 1 ]
     ],   
     [
-      [ "mayonnaise", 1 ]
+      [ "mayonnaise", 1 ],
+      [ "mustard", 1 ],
+      [ "horseradish", 2 ],
+      [ "seasoning_salt", 2 ]
     ]
   ]
 },

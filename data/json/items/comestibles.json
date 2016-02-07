@@ -6218,7 +6218,7 @@
     },
     {
         "type" : "COMESTIBLE",
-        "id" : "sandwich_v",
+        "id" : "sandwich_veggy",
         "name" : "vegetable sandwich",
         "name_plural" : "vegetable sandwiches",
         "weight" : 190,
@@ -17321,7 +17321,7 @@
     },
     {
         "type" : "COMESTIBLE",
-        "id" : "sandwich_dh",
+        "id" : "sandwich_dudeluxe",
         "name" : "dudeluxe sandwich",
         "name_plural" : "dudeluxe sandwiches",
         "weight" : 340,
@@ -17346,7 +17346,7 @@
     },
     {
         "type" : "COMESTIBLE",
-        "id" : "sandwich_d",
+        "id" : "sandwich_deluxe",
         "name" : "deluxe sandwich",
         "name_plural" : "deluxe sandwiches",
         "weight" : 340,
@@ -17385,7 +17385,7 @@
         "quench" : 2,
         "healthy" : 1,
         "addiction_potential" : 0,
-        "nutrition" : 27,
+        "nutrition" : 26,
         "description" : "A refreshing cucumber sandwich.  Not very filling, but quite tasty.",
         "price" : 200,
         "tool" : "null",

@@ -1250,8 +1250,8 @@
     "items":[
       ["water_clean", 90],
       ["water_mineral", 10],
-      ["sandwich_d", 20],
-      ["sandwich_v", 30],
+      ["sandwich_deluxe", 20],
+      ["sandwich_veggy", 30],
       ["sandwich_cucumber", 25],
       ["oj", 50],
       ["juice", 50],
