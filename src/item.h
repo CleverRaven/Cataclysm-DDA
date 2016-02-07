@@ -120,6 +120,13 @@ class item : public JsonSerializer, public JsonDeserializer
         item( JsonObject &jo );
 
         /**
+         * Filter converting this instance to another type preserving all other aspects
+         * @param new_type the type id to convert to (debugmsg if this does not exist)
+         * @return same instance to allow method chaining (null item for non-existent types)
+         */
+        item& convert( const itype_id& new_type );
+
+        /**
          * Make a corpse of the given monster type.
          * The monster type id must be valid (see @ref MonsterGenerator::get_mtype).
          *
@@ -164,8 +171,6 @@ class item : public JsonSerializer, public JsonDeserializer
          * @param pos The location of the item (see REVIVE_SPECIAL flag).
          */
         bool ready_to_revive( const tripoint &pos ) const;
-
-        item& convert( const itype_id& new_type );
 
     /**
      * Returns the default color of the item (e.g. @ref itype::color).
