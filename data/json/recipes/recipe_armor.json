@@ -7370,7 +7370,7 @@
     "skill_used": "tailor",
     "skills_required": [ "gun", 1 ],
     "difficulty": 3,
-    "time": 76000,
+    "time": 78000,
     "reversible": false,
     "autolearn": true,
     "tools": [
@@ -7388,6 +7388,35 @@
         [ "sinew", 10 ],
         [ "thread", 10 ],
         [ "plant_fibre", 10 ]
+      ]
+    ]
+  },{
+    "type" : "recipe",
+    "result": "ammo_satchel",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "tailor",
+    "skills_required": [ "gun", 1 ],
+    "difficulty": 3,
+    "time": 80000,
+    "reversible": false,
+    "autolearn": true,
+    "tools": [
+      [
+        [ "sewing_kit", 40 ]
+      ]
+    ],
+     "components": [
+      [
+        [ "leather", 8 ],
+        [ "rag", 8 ]
+      ],
+      [
+        [ "string_36", 1 ],
+        [ "string_6", 6 ],
+        [ "sinew", 20 ],
+        [ "thread", 20 ],
+        [ "plant_fibre", 20 ]
       ]
     ]
   },{
