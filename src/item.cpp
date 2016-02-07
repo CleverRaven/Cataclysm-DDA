@@ -201,18 +201,10 @@ item::~item()
 {
 }
 
-void item::make( const std::string new_type, bool scrub )
+void item::make( const std::string new_type )
 {
     type = find_type( new_type );
     contents.clear();
-
-    if (scrub) {
-        components.clear();
-        charges = -1;
-        bday = 0;
-        name = "";
-        curammo = NULL;
-    }
 }
 
 

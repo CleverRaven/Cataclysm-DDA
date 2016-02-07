@@ -165,7 +165,7 @@ class item : public JsonSerializer, public JsonDeserializer
          */
         bool ready_to_revive( const tripoint &pos ) const;
 
- void make( const std::string new_type, bool scrub = false );
+ void make( const std::string new_type  );
 
     /**
      * Returns the default color of the item (e.g. @ref itype::color).
