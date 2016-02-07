@@ -1236,6 +1236,7 @@
     "id" : "snacks_fancy",
     "items":[
       ["water_mineral", 30],
+      ["sandwich_cucumber", 25],
       ["juice", 20],
       ["granola", 15],
       ["mintpatties", 8],
@@ -1249,6 +1250,9 @@
     "items":[
       ["water_clean", 90],
       ["water_mineral", 10],
+      ["sandwich_deluxe", 20],
+      ["sandwich_veggy", 30],
+      ["sandwich_cucumber", 25],
       ["oj", 50],
       ["juice", 50],
       ["cranberry_juice", 50],
