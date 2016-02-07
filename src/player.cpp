@@ -592,7 +592,9 @@ void player::process_turn()
 }
 
 void player::drop_inventory_overflow() {
-    if( activity.type == ACT_NULL ) {
+    // Fix for #15079
+    // @todo replace when we implement off-hand item_location
+    if( activity.type != ACT_RELOAD ) {
         Character::drop_inventory_overflow();
     }
 }
