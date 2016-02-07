@@ -303,9 +303,9 @@ struct islot_gunmod : common_firing_data {
      */
     std::string location;
     /**
-     * TODO: document me
+     * If non-empty restrict mod to guns with those base (before modifiers) ammo types
      */
-    std::set<std::string> acceptable_ammo_types;
+    std::set<ammotype> acceptable_ammo;
     /**
      * What kind of weapons can this gunmod be used with (eg. "rifle", "crossbow")?
      */

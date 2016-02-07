@@ -4110,7 +4110,7 @@ bool item::gunmod_compatible( const item& mod, bool alert ) const
     } else if( typeId() == "hand_crossbow" && !!mod.type->gunmod->usable.count( "pistol" ) ) {
         msg = string_format( _("Your %s isn't big enough to use that mod.'"), tname().c_str() );
 
-    } else if ( !mod.type->gunmod->acceptable_ammo_types.empty() && !mod.type->gunmod->acceptable_ammo_types.count( ammo_type( false ) ) ) {
+    } else if ( !mod.type->gunmod->acceptable_ammo.empty() && !mod.type->gunmod->acceptable_ammo.count( ammo_type( false ) ) ) {
         msg = string_format( _( "That %1$s cannot be used on a %2$s." ), mod.tname( 1 ).c_str(), ammo_name( ammo_type( false ) ).c_str() );
 
     } else if( mod.typeId() == "waterproof_gunmod" && has_flag( "WATERPROOF_GUN" ) ) {
