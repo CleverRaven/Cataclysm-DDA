@@ -204,7 +204,6 @@ item::~item()
 void item::make( const std::string new_type )
 {
     type = find_type( new_type );
-    contents.clear();
 }
 
 
