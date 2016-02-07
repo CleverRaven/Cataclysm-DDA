@@ -121,8 +121,8 @@ class item : public JsonSerializer, public JsonDeserializer
 
         /**
          * Filter converting this instance to another type preserving all other aspects
-         * @param new_type the type id to convert to (debugmsg if this does not exist)
-         * @return same instance to allow method chaining (null item for non-existent types)
+         * @param new_type the type id to convert to
+         * @return same instance to allow method chaining
          */
         item& convert( const itype_id& new_type );
 
