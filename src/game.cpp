@@ -11395,7 +11395,11 @@ void game::eat(int pos)
         return;
     }
 
-    if( u.consume_item( *it ) ) {
+    pos = u.get_item_position( it );
+    if( pos != INT_MIN ) {
+        u.consume( pos );
+
+    } else if( u.consume_item( *it ) ) {
         if( it->is_food_container() ) {
             it->contents.erase( it->contents.begin() );
             add_msg( _("You leave the empty %s."), it->tname().c_str() );
