@@ -3789,10 +3789,7 @@ int item::burst_size() const
             ret += elem.type->gunmod->burst;
         }
     }
-    if( ret < 0 ) {
-        return 0;
-    }
-    return ret;
+    return std::max( 0, ret );
 }
 
 int item::gun_recoil( bool with_ammo ) const
