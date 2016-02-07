@@ -10325,29 +10325,25 @@ bool player::wear(int inventory_position, bool interactive)
 bool player::wear_item( const item &to_wear, bool interactive )
 {
     if( !to_wear.is_armor() ) {
-        add_msg_if_player(m_info, _("Putting on a %s would be tricky."), to_wear.tname().c_str());
+        add_msg_if_player( m_info, _( "Putting on a %s would be tricky." ), to_wear.tname().c_str() );
         return false;
     }
 
     // are we trying to put on power armor? If so, make sure we don't have any other gear on.
-    if (to_wear.is_power_armor())
-    {
+    if( to_wear.is_power_armor() ) {
         for( auto &elem : worn ) {
             if( ( elem.get_covered_body_parts() & to_wear.get_covered_body_parts() ).any() ) {
-                if(interactive)
-                {
-                    add_msg_if_player(m_info, _("You can't wear power armor over other gear!"));
+                if( interactive ) {
+                    add_msg_if_player( m_info, _( "You can't wear power armor over other gear!" ) );
                 }
                 return false;
             }
         }
 
-        if (!(to_wear.covers(bp_torso)))
-        {
+        if( !to_wear.covers( bp_torso ) ) {
             bool power_armor = false;
 
-            if (worn.size())
-            {
+            if( worn.size() ) {
                 for( auto &elem : worn ) {
                     if( elem.is_power_armor() ) {
                         power_armor = true;
@@ -10356,44 +10352,35 @@ bool player::wear_item( const item &to_wear, bool interactive )
                 }
             }
 
-            if (!power_armor)
-            {
-                if(interactive)
-                {
-                    add_msg_if_player(m_info, _("You can only wear power armor components with power armor!"));
+            if( !power_armor ) {
+                if( interactive ) {
+                    add_msg_if_player( m_info, _( "You can only wear power armor components with power armor!" ) );
                 }
                 return false;
             }
         }
 
-        for (auto &i : worn)
-        {
-            if (i.is_power_armor() && i.typeId() == to_wear.typeId() )
-            {
-                if(interactive)
-                {
-                    add_msg_if_player(m_info, _("You cannot wear more than one %s!"), to_wear.tname().c_str());
+        for( auto &i : worn ) {
+            if( i.is_power_armor() && i.typeId() == to_wear.typeId() ) {
+                if( interactive ) {
+                    add_msg_if_player( m_info, _( "You cannot wear more than one %s!" ),
+                                       to_wear.tname().c_str() );
                 }
                 return false;
             }
         }
-    }
-    else
-    {
-        // Only headgear can be worn with power armor, except other power armor components
-        // You can't wear headgear if power armor helmet is already sitting on your head
-        if( ( ( is_wearing_on_bp("power_armor_helmet_basic", bp_head) == true ) ||
-              ( is_wearing_on_bp("power_armor_helmet_light", bp_head) == true ) ||
-              ( is_wearing_on_bp("power_armor_helmet_heavy", bp_head) == true ) ) &&
-            ( !to_wear.covers(bp_head) || !to_wear.covers(bp_mouth) || !to_wear.covers(bp_eyes) ) )
-        {
-            for (auto &i : worn)
-            {
-                if( i.is_power_armor() )
-                {
-                    if(interactive)
-                    {
-                        add_msg_if_player(m_info, _("You can't wear %s with power armor!"), to_wear.tname().c_str());
+    } else {
+        // Only headgear can be worn with power armor, except other power armor components.
+        // You can't wear headgear if power armor helmet is already sitting on your head.
+        if( is_wearing_on_bp( "power_armor_helmet_basic", bp_head ) == true ||
+            is_wearing_on_bp( "power_armor_helmet_light", bp_head ) == true ||
+            is_wearing_on_bp( "power_armor_helmet_heavy", bp_head ) == true ||
+            !to_wear.covers( bp_head ) || !to_wear.covers( bp_mouth ) || !to_wear.covers( bp_eyes ) ) {
+            for( auto &i : worn ) {
+                if( i.is_power_armor() ) {
+                    if( interactive ) {
+                        add_msg_if_player( m_info, _( "You can't wear %s with power armor!" ),
+                                           to_wear.tname().c_str() );
                     }
                     return false;
                 }
