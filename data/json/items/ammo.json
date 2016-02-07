@@ -3331,7 +3331,7 @@
         "description" : "A small metal linkage from a disintegrating ammo belt.",
         "material" : "steel",
         "volume" : 1,
-        "weight" : 1,
+        "weight" : 2,
         "ammo_type" : "components",
         "count" : 200
     }
