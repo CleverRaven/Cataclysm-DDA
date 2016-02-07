@@ -299,10 +299,6 @@ struct islot_gunmod : common_firing_data {
     /**
      * TODO: document me
      */
-    int req_skill = 0;
-    /**
-     * TODO: document me
-     */
     skill_id skill_used = NULL_ID;
     /**
      * TODO: document me
