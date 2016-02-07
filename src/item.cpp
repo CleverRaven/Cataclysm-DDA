@@ -2322,6 +2322,13 @@ int item::weight() const
         }
     }
 
+    // if this is an ammo belt add the weight of any implicitly contained linkages
+    if( is_magazine() && type->magazine->linkage != "NULL" ) {
+        item links( type->magazine->linkage, calendar::turn );
+        links.charges = ammo_remaining();
+        ret += links.weight();
+    }
+
     // reduce weight for sawn-off weepons capped to the apportioned weight of the barrel
     if( has_gunmod( "barrel_small" ) != -1 ) {
         float b = type->gun->barrel_length;
