@@ -2364,10 +2364,10 @@
     ]
   ],
   "components": [
-    [ [ "e_scrap", 5 ] ],
+    [ ["e_scrap", 5 ] ],
     [ ["amplifier", 1 ] ],
-    [ [ "receiver", 1 ] ],
-    [ [ "antenna", 1 ] ],
+    [ ["receiver", 1 ] ],
+    [ ["antenna", 1 ] ],
     [ ["processor", 1 ] ],
     [ ["RAM", 1 ] ],
     [ ["small_lcd_screen", 1 ] ]
@@ -2406,6 +2406,7 @@
     [ [ "vehicle_controls", 1 ] ],
     [ [ "motor_small", 3 ] ],
     [ [ "receiver", 3 ] ],
+    [ [ "antenna", 2 ] ],
     [ [ "processor", 3 ] ],
     [ [ "RAM", 3 ] ],
     [ [ "circuit", 3 ] ]
@@ -2460,33 +2461,6 @@
     [ [ "amplifier", 4 ] ],
     [ [ "cable", 20 ] ],
     [ [ "plastic_chunk", 5 ] ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "omnicamera",
-  "id_suffix": "from-eyebots",
-  "category": "CC_ELECTRONIC",
-  "subcategory": "CSC_ELECTRONIC_PARTS",
-  "skill_used": "electronics",
-  "skills_required": [ "computer", 1 ],
-  "difficulty": 5,
-  "time": 90000,
-  "reversible": false,
-  "autolearn": true,
-  "qualities":[
-    {"id":"SCREW","level":1,"amount":1},
-    {"id":"SAW_M","level":1,"amount":1}
-  ],
-  "tools": [
-    [
-      [ "soldering_iron", 10 ],
-      [ "toolset", 10 ]
-    ]
-  ],
-  "components": [
-    [ [ "broken_eyebot", 2 ] ],
-    [ [ "power_supply", 1 ] ],
-    [ [ "cable", 5 ] ]
   ]
 },{
   "type" : "recipe",
