@@ -317,33 +317,9 @@ struct islot_gunmod : common_firing_data {
      */
     std::set<std::string> acceptable_ammo_types;
     /**
-     * TODO: document me
+     * What kind of weapons can this gunmod be used with (eg. "rifle", "crossbow")?
      */
-    bool used_on_pistol = false;
-    /**
-     * TODO: document me
-     */
-    bool used_on_shotgun = false;
-    /**
-     * TODO: document me
-     */
-    bool used_on_smg = false;
-    /**
-     * TODO: document me
-     */
-    bool used_on_rifle = false;
-    /**
-     * TODO: document me
-     */
-    bool used_on_bow = false;
-    /**
-     * TODO: document me
-     */
-    bool used_on_crossbow = false;
-    /**
-     * TODO: document me
-     */
-    bool used_on_launcher = false;
+    std::set<std::string> usable;
     /**
     *Allowing a mod to add UPS charge requirement to a gun.
     */

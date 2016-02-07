@@ -894,52 +894,12 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
 
         temp1.str( "" );
         temp1 << _( "Used on: " );
-        bool first = true;
-        if( mod->used_on_pistol ) {
-            temp1 << _( "<info>pistols</info>" );
-            first = false;
-        }
-        if( mod->used_on_shotgun ) {
-            if( !first ) {
+        for( auto it = mod->usable.begin(); it != mod->usable.end(); ) {
+            //~ a weapon type which a gunmod is compatible (eg. "pistol", "crossbow", "rifle")
+            temp1 << string_format( "<info>%s</info>", _( it->c_str() ) );
+            if( ++it != mod->usable.end() ) {
                 temp1 << ", ";
             }
-            temp1 << _( "<info>shotguns</info>" );
-            first = false;
-        }
-        if( mod->used_on_smg ) {
-            if( !first ) {
-                temp1 << ", ";
-            }
-            temp1 << _( "<info>SMGs</info>" );
-            first = false;
-        }
-        if( mod->used_on_rifle ) {
-            if( !first ) {
-                temp1 << ", ";
-            }
-            temp1 << _( "<info>rifles</info>" );
-            first = false;
-        }
-        if( mod->used_on_bow ) {
-            if( !first ) {
-                temp1 << ", ";
-            }
-            temp1 << _( "<info>bows</info>" );
-            first = false;
-        }
-        if( mod->used_on_crossbow ) {
-            if( !first ) {
-                temp1 << ", ";
-            }
-            temp1 << _( "<info>crossbows</info>" );
-            first = false;
-        }
-        if( mod->used_on_launcher ) {
-            if( !first ) {
-                temp1 << ", ";
-            }
-            temp1 << _( "<info>launchers</info>" );
-            first = false;
         }
 
         temp2.str( "" );
@@ -4144,28 +4104,10 @@ bool item::gunmod_compatible( const item& mod, bool alert ) const
     } else if( ammo_remaining() > 0 || magazine_current() ) {
         msg = string_format( _( "Unload your %s before trying to modify it." ), tname().c_str() );
 
-    } else if( gun_skill() == skill_id( "pistol" ) && !mod.type->gunmod->used_on_pistol ) {
-        msg = string_format( _( "That %s cannot be attached to a handgun." ), mod.tname().c_str() );
+    } else if( !mod.type->gunmod->usable.count( gun_type() ) ) {
+        msg = string_format( _( "That %s cannot be attached to a %s" ), mod.tname().c_str(), _( gun_type().c_str() ) );
 
-    } else if( gun_skill() == skill_id( "shotgun" ) && !mod.type->gunmod->used_on_shotgun ) {
-        msg = string_format( _( "That %s cannot be attached to a shotgun." ), mod.tname().c_str() );
-
-    } else if( gun_skill() == skill_id( "smg" ) && !mod.type->gunmod->used_on_smg ) {
-        msg = string_format( _( "That %s cannot be attached to a submachine gun." ), mod.tname().c_str() );
-
-    } else if( gun_skill() == skill_id( "rifle" ) && !mod.type->gunmod->used_on_rifle ) {
-        msg = string_format( _( "That %s cannot be attached to a rifle." ), mod.tname().c_str() );
-
-    } else if( gun_skill() == skill_id( "archery" ) && !mod.type->gunmod->used_on_bow && ammo_type() == "arrow" ) {
-        msg = string_format( _( "That %s cannot be attached to a bow." ), mod.tname().c_str() );
-
-    } else if( gun_skill() == skill_id( "archery" ) && !mod.type->gunmod->used_on_crossbow && ( ammo_type() == "bolt" || typeId() == "bullet_crossbow" ) ) {
-        msg = string_format( _( "That %s cannot be attached to a crossbow." ), mod.tname().c_str() );
-
-    } else if( gun_skill() == skill_id( "launcher" ) && !mod.type->gunmod->used_on_launcher ) {
-        msg = string_format( _( "That %s cannot be attached to a launcher." ), mod.tname().c_str() );
-
-    } else if( typeId() == "hand_crossbow" && !mod.type->gunmod->used_on_pistol ) {
+    } else if( typeId() == "hand_crossbow" && !!mod.type->gunmod->usable.count( "pistol" ) ) {
         msg = string_format( _("Your %s isn't big enough to use that mod.'"), tname().c_str() );
 
     } else if ( !mod.type->gunmod->acceptable_ammo_types.empty() && !mod.type->gunmod->acceptable_ammo_types.count( ammo_type( false ) ) ) {

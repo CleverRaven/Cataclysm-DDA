@@ -883,13 +883,7 @@ void Item_factory::load( islot_gunmod &slot, JsonObject &jo )
     slot.location = jo.get_string( "location" );
     // TODO: implement loading this from json (think of a proper name)
     // slot.pierce = jo.get_string( "mod_pierce", 0 );
-    slot.used_on_pistol = is_mod_target( jo, "mod_targets", "pistol" );
-    slot.used_on_shotgun = is_mod_target( jo, "mod_targets", "shotgun" );
-    slot.used_on_smg = is_mod_target( jo, "mod_targets", "smg" );
-    slot.used_on_rifle = is_mod_target( jo, "mod_targets", "rifle" );
-    slot.used_on_bow = is_mod_target( jo, "mod_targets", "bow" );
-    slot.used_on_crossbow = is_mod_target( jo, "mod_targets", "crossbow" );
-    slot.used_on_launcher = is_mod_target( jo, "mod_targets", "launcher" );
+    slot.usable = jo.get_tags( "mod_targets");
     slot.dispersion = jo.get_int( "dispersion_modifier", 0 );
     slot.sight_dispersion = jo.get_int( "sight_dispersion", -1 );
     slot.aim_speed = jo.get_int( "aim_speed", -1 );
@@ -1276,26 +1270,6 @@ void Item_factory::set_material_from_json( JsonObject& jo, std::string member,
         // Default material.
         new_item_template->materials.push_back("null");
     }
-}
-
-bool Item_factory::is_mod_target(JsonObject &jo, std::string member, std::string weapon)
-{
-    //If none is found, just use the standard none action
-    unsigned is_included = false;
-    //Otherwise, grab the right label to look for
-    if (jo.has_array(member)) {
-        JsonArray jarr = jo.get_array(member);
-        while (jarr.has_more() && is_included == false) {
-            if (jarr.next_string() == weapon) {
-                is_included = true;
-            }
-        }
-    } else {
-        if (jo.get_string(member) == weapon) {
-            is_included = true;
-        }
-    }
-    return is_included;
 }
 
 void Item_factory::reset()

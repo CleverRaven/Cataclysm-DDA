@@ -309,7 +309,6 @@ class Item_factory
                                              std::string flag_type = "" );
 
         void set_material_from_json( JsonObject &jo, std::string member, itype *new_item );
-        bool is_mod_target( JsonObject &jo, std::string member, std::string weapon );
 
         void set_intvar( std::string tag, unsigned int &var, int min, int max );
 
