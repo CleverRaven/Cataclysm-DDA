@@ -10894,11 +10894,6 @@ bool player::has_enough_charges( const item &it, bool show_msg ) const
 
 bool player::consume_charges( item& used, long qty )
 {
-    if( !has_item( &used ) ) {
-        debugmsg( "Tried to consume charges for an item not in players possession" );
-        return false;
-    }
-
     if( qty < 0 ) {
         debugmsg( "Tried to consume negative charges" );
         return false;
@@ -10906,6 +10901,10 @@ bool player::consume_charges( item& used, long qty )
 
     if( !used.is_tool() && !used.is_food() ) {
         debugmsg( "Tried to consume charges for non-tool, non-food item" );
+        return false;
+    }
+
+    if( qty == 0 ) {
         return false;
     }
 
