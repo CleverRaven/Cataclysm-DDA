@@ -294,30 +294,24 @@ struct islot_gun : common_firing_data {
 };
 
 struct islot_gunmod : common_firing_data {
-    /**
-     * If changed from the default of "NULL" modifies parent guns ammo to this type
-     */
-    ammotype ammo_modifier = "NULL";
-    /**
-     * Where is this guunmod installed (eg. "stock", "rail")?
-     */
+    /** Where is this guunmod installed (eg. "stock", "rail")? */
     std::string location;
-    /**
-     * If non-empty restrict mod to guns with those base (before modifiers) ammo types
-     */
-    std::set<ammotype> acceptable_ammo;
-    /**
-     * What kind of weapons can this gunmod be used with (eg. "rifle", "crossbow")?
-     */
+
+    /** What kind of weapons can this gunmod be used with (eg. "rifle", "crossbow")? */
     std::set<std::string> usable;
-    /**
-    *Allowing a mod to add UPS charge requirement to a gun.
-    */
-    int ups_charges = 0;
-    /**
-     * How many moves does this gunmod take to install?
-     */
+
+    /** If non-empty restrict mod to guns with those base (before modifiers) ammo types */
+    std::set<ammotype> acceptable_ammo;
+
+    /** If changed from the default of "NULL" modifies parent guns ammo to this type */
+    ammotype ammo_modifier = "NULL";
+
+    /** How many moves does this gunmod take to install? */
     int install_time = 0;
+
+    /** Increases base gun UPS consumption by this many charges per shot */
+    int ups_charges = 0;
+
 };
 
 struct islot_magazine {
