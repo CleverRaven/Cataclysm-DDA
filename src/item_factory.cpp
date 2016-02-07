@@ -478,7 +478,7 @@ void Item_factory::check_definitions() const
             }
         }
         if( type->gunmod ) {
-            check_ammo_type( msg, type->gunmod->newtype );
+            check_ammo_type( msg, type->gunmod->ammo_modifier );
             if( type->gunmod->skill_used && !type->gunmod->skill_used.is_valid() ) {
                 msg << string_format("uses invalid gunmod skill.") << "\n";
             }
@@ -879,7 +879,7 @@ void Item_factory::load( islot_gunmod &slot, JsonObject &jo )
 {
     slot.damage = jo.get_int( "damage_modifier", 0 );
     slot.loudness = jo.get_int( "loudness_modifier", 0 );
-    slot.newtype = jo.get_string( "ammo_modifier", "NULL" );
+    slot.ammo_modifier = jo.get_string( "ammo_modifier", slot.ammo_modifier );
     slot.location = jo.get_string( "location" );
     // TODO: implement loading this from json (think of a proper name)
     // slot.pierce = jo.get_string( "mod_pierce", 0 );

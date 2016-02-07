@@ -295,9 +295,9 @@ struct islot_gun : common_firing_data {
 
 struct islot_gunmod : common_firing_data {
     /**
-     * TODO: document me
+     * If changed from the default of "NULL" modifies parent guns ammo to this type
      */
-    std::string newtype;
+    ammotype ammo_modifier = "NULL";
     /**
      * TODO: document me
      */

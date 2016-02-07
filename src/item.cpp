@@ -887,9 +887,9 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
             info.push_back( iteminfo( "GUNMOD", _( "Burst: " ), "", mod->burst, true,
                                       ( mod->burst > 0 ? "+" : "" ) ) );
 
-        if( mod->newtype != "NULL" ) {
+        if( mod->ammo_modifier != "NULL" ) {
             info.push_back( iteminfo( "GUNMOD",
-                                      string_format( _( "Ammo: <stat>%s</stat>" ), ammo_name( mod->newtype ).c_str() ) ) );
+                                      string_format( _( "Ammo: <stat>%s</stat>" ), ammo_name( mod->ammo_modifier ).c_str() ) ) );
         }
 
         temp1.str( "" );
@@ -4038,7 +4038,7 @@ ammotype item::ammo_type( bool conversion ) const
     } else if( is_ammo() ) {
         return type->ammo->type;
     } else if( is_gunmod() ) {
-        return type->gunmod->newtype;
+        return type->gunmod->ammo_modifier;
     }
     return "NULL";
 }
