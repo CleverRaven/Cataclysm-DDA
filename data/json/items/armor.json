@@ -4358,7 +4358,7 @@
         "covers" : ["TORSO"],
         "storage" : 14,
         "symbol" : "[",
-        "description" : "A light vest covered in webbing, pockets and straps.  This variety is favored by the military.",
+        "description" : "A light vest covered in webbing, pockets and straps.  This variety is favored by the military, as it is capable of holding a large firearm magazine close at hand.",
         "price" : 3900,
         "material" : ["cotton", "null"],
         "volume" : 2,
@@ -4366,7 +4366,15 @@
         "encumbrance" : 5,
         "flags" : ["VARSIZE", "WATER_FRIENDLY", "WAIST"],
         "coverage" : 20,
-        "material_thickness" : 2
+        "material_thickness" : 2,
+        "use_action" : {
+            "type": "holster",
+            "holster_prompt": "Stash ammo",
+            "holster_msg": "You stash your %s.",
+            "max_volume": 4,
+            "draw_cost": 5,
+            "flags": [ "MAG_COMPACT", "MAG_BULKY" ]
+        }
     },
     {
         "type" : "ARMOR",
