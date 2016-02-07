@@ -1075,7 +1075,7 @@ void Item_factory::load_basic_info(JsonObject &jo, itype *new_item_template)
         new_item_template->magazine_default[ ammo ] = compat.get_string( 0 );
 
         while( compat.has_more() ) {
-            new_item_template->magazines[ ammo ].emplace( compat.next_string() );
+            new_item_template->magazines[ ammo ].insert( compat.next_string() );
         }
     }
 
