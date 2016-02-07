@@ -2386,7 +2386,7 @@ int item::volume( bool integral ) const
     }
 
     // Some magazines sit (partly) flush with the item so add less extra volume
-    if( magazine_current() ) {
+    if( magazine_current() != nullptr ) {
         ret += std::max( magazine_current()->volume() - type->magazine_well, 0 );
     }
 
@@ -2415,9 +2415,15 @@ int item::volume( bool integral ) const
         }
     }
 
-// tool mods also add volume
-    if (has_flag("ATOMIC_AMMO")) {
+    // Battery mods also add volume
+    if( has_flag("ATOMIC_AMMO") ) {
         ret += 1;
+    }
+
+    if( has_flag("DOUBLE_AMMO") ) {
+        // Batteries have volume 1 per 100 charges
+        // TODO: De-hardcode this
+        ret += type->maximum_charges() / 100;
     }
 
     return ret;

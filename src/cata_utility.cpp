@@ -6,6 +6,7 @@
 #include "item.h"
 #include "creature.h"
 #include "translations.h"
+#include "debug.h"
 
 #include <algorithm>
 
@@ -193,10 +194,16 @@ double logarithmic_range( int min, int max, int pos )
     const double LOGI_MIN = logarithmic( -LOGI_CUTOFF );
     const double LOGI_MAX = logarithmic( +LOGI_CUTOFF );
     const double LOGI_RANGE = LOGI_MAX - LOGI_MIN;
-    // Anything beyond [min,max] gets clamped.
-    if( pos < min ) {
+
+    if( min >= max ) {
+        debugmsg( "%s(): Invalid interval (%d, %d).", __FUNCTION__, min, max );
+        return 0.0;
+    }
+
+    // Anything beyond (min,max) gets clamped.
+    if( pos <= min ) {
         return 1.0;
-    } else if( pos > max ) {
+    } else if( pos >= max ) {
         return 0.0;
     }
 

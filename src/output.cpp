@@ -1135,13 +1135,19 @@ int draw_item_info(const int iLeft, const int iWidth, const int iTop, const int 
 
 std::string string_replace( std::string text, const std::string &before, const std::string &after )
 {
-    while( true ) {
-        size_t pos = text.find( before );
-        if( pos != std::string::npos ) {
-            text.replace( pos, before.length(), after );
-        } else {
-            break;
-        }
+    // Check if there's something to replace (mandatory) and it's necessary (optional)
+    // Second condition assumes that text is much longer than both &before and &after.
+    if ( before.length() == 0 || !before.compare( after ) ) {
+        return text;
+    }
+
+    const size_t before_len = before.length();
+    const size_t after_len = after.length();
+    size_t pos = 0;
+
+    while( ( pos = text.find( before, pos ) ) != std::string::npos ) {
+        text.replace( pos, before_len, after );
+        pos += after_len;
     }
 
     return text;
