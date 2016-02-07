@@ -906,14 +906,14 @@ void vehicle::smash_security_system(){
     }
 }
 
-void vehicle::use_controls(const tripoint &pos, const bool remote_action)
+void vehicle::use_controls( const tripoint &pos, const bool remote_action )
 {
     uimenu menu;
     menu.return_invalid = true;
-    menu.text = _("Vehicle controls");
+    menu.text = _( "Vehicle controls" );
 
     int vpart;
-    if (!interact_vehicle_locked()) {
+    if( !interact_vehicle_locked() ) {
         return;
     }
 
@@ -921,37 +921,36 @@ void vehicle::use_controls(const tripoint &pos, const bool remote_action)
     bool has_electronic_controls = false;
     bool remotely_controlled = g->remoteveh() == this;
 
-    if (g->m.veh_at(pos, vpart) == this) {
+    if( g->m.veh_at( pos, vpart ) == this ) {
         if ( g->u.controlling_vehicle ) {
             // Always have this option
             // Let go without turning the engine off.
-            menu.addentry( release_control, true, 'l', _("Let go of controls") );
+            menu.addentry( release_control, true, 'l', _( "Let go of controls" ) );
         }
         std::vector<int> parts_for_check = parts_at_relative( parts[vpart].mount.x,
-                                                              parts[vpart].mount.y);
+                                                              parts[vpart].mount.y );
         // iterate over all parts in the selected tile
-        for (size_t p = 0; p < parts_for_check.size(); ++p) {
-            if (part_flag(parts_for_check[p], "CONTROLS")) {
+        for( size_t p = 0; p < parts_for_check.size(); ++p ) {
+            if( part_flag( parts_for_check[p], "CONTROLS") ) {
                 has_basic_controls = true;
             }
-            if (part_flag(parts_for_check[p], "CTRL_ELECTRONIC")) {
+            if( part_flag( parts_for_check[p], "CTRL_ELECTRONIC" ) ) {
                 has_electronic_controls = true;
             }
         }
     } else if( remotely_controlled || remote_action ) {
         if( remotely_controlled ){
-            menu.addentry( release_remote_control, true, 'l', _("Stop controlling") );
+            menu.addentry( release_remote_control, true, 'l', _( "Stop controlling" ) );
         }
         
         // iterate over all parts
-        for( size_t p = 0; p < parts.size(); ++p ) {
-            if (part_flag(p, "CTRL_ELECTRONIC")) {
-                has_electronic_controls = true;
-            }
+        for( size_t p = 0; !has_electronic_controls && p < parts.size(); ++p ) {
+            has_electronic_controls = part_flag( p, "CTRL_ELECTRONIC" ) ||
+                part_flag( p, "REMOTE_CONTROLS" );
         }
     }
     if( !has_basic_controls && !has_electronic_controls ) {
-        add_msg(m_info, _("No controls there."));
+        add_msg( m_info, _( "No controls there." ) );
         return;
     }
     bool has_lights = false;
