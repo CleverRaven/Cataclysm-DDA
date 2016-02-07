@@ -204,6 +204,9 @@ item::~item()
 item& item::convert( const itype_id& new_type )
 {
     type = find_type( new_type );
+    if( is_null() ) {
+        debugmsg( "Tried to convert item to non-existent type: %s", new_type.c_str() );
+    }
     return *this;
 }
 
