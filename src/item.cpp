@@ -197,10 +197,6 @@ item::item(JsonObject &jo)
     deserialize(jo);
 }
 
-item::~item()
-{
-}
-
 item& item::convert( const itype_id& new_type )
 {
     type = find_type( new_type );

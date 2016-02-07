@@ -114,7 +114,7 @@ class item : public JsonSerializer, public JsonDeserializer
         item( const item & ) = default;
         item &operator=( item && ) = default;
         item &operator=( const item & ) = default;
-        virtual ~item();
+        virtual ~item() = default;
 
         item( const std::string new_type, int turn, bool rand = true );
         item( JsonObject &jo );
