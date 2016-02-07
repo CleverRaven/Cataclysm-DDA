@@ -505,7 +505,7 @@ void player::update_morale()
 {
     // Decay existing morale entries.
     for( size_t i = 0; i < morale.size(); i++ ) {
-        morale[i].proceed( 1 );
+        morale[i].proceed();
 
         if( morale[i].is_expired() ) {
             morale.erase( morale.begin() + i );
@@ -3283,7 +3283,7 @@ void player::disp_morale()
     // Figure out how wide the name column needs to be.
     int name_column_width = 18;
     for (auto &i : morale) {
-        int length = utf8_width(i.name());
+        int length = utf8_width( i.get_name() );
         if ( length > name_column_width) {
             name_column_width = length;
         }
@@ -3306,7 +3306,7 @@ void player::disp_morale()
     // Print out the morale entries.
     for (size_t i = 0; i < morale.size(); i++)
     {
-        std::string name = morale[i].name();
+        std::string name = morale[i].get_name();
         int bonus = net_morale(morale[i]);
 
         // Print out the name.
@@ -8857,18 +8857,18 @@ int player::morale_level() const
 
 void player::add_morale(morale_type type, int bonus, int max_bonus,
                         int duration, int decay_start,
-                        bool cap_existing, const itype* item_type)
+                        bool capped, const itype* item_type)
 {
     // Search for a matching morale entry.
     for( auto &i : morale ) {
         if( i.get_type() == type && i.get_item_type() == item_type ) {
-            i.add( bonus, max_bonus, duration, decay_start, cap_existing );
+            i.add( bonus, max_bonus, duration, decay_start, capped );
             return;
         }
     }
 
-    morale_point tmp( type, item_type, bonus, duration, decay_start, 0 );
-    morale.push_back( tmp );
+    morale_point new_morale( type, item_type, bonus, duration, decay_start );
+    morale.push_back( new_morale );
 }
 
 int player::has_morale( morale_type type ) const

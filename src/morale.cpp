@@ -2,6 +2,9 @@
 #include "itype.h"
 #include "cata_utility.h"
 #include "debug.h"
+#include "output.h"
+
+#define ITEM_NAME_PLACEHOLDER "%i"  // Used to address an item name
 
 namespace {
     const std::string &get_morale_data( const morale_type id )
@@ -80,76 +83,53 @@ namespace {
     }
 } // namespace
 
-std::string morale_point::name() const
+morale_point::morale_point( morale_type type, const itype *item_type, int bonus, int duration, int decay_start, int age ):
+    type( type ),
+    item_type( item_type ),
+    bonus( bonus ),
+    duration( duration ),
+    decay_start( decay_start ),
+    age( age )
 {
-    // Start with the morale type's description.
-    std::string ret = get_morale_data( type );
+    name = get_morale_data( type );
 
-    // Get the name of the referenced item (if any).
-    std::string item_name = "";
     if( item_type != nullptr ) {
-        item_name = item_type->nname( 1 );
+        name = string_replace( name, ITEM_NAME_PLACEHOLDER, item_type->nname( 1 ) );
+    } else if( name.find( ITEM_NAME_PLACEHOLDER ) != std::string::npos ) {
+        debugmsg( "%s(): Morale #%d (%s) requires item_type to be specified.", __FUNCTION__, type, name.c_str() );
     }
-
-    // Replace each instance of %i with the item's name.
-    size_t it = ret.find( "%i" );
-    while( it != std::string::npos ) {
-        ret.replace( it, 2, item_name );
-        it = ret.find( "%i" );
-    }
-
-    return ret;
 }
 
-void morale_point::add( int bonus, int max_bonus, int duration, int decay_start, bool cap_existing )
+void morale_point::add( int new_bonus, int new_max_bonus, int new_duration, int new_decay_start, bool new_cap )
 {
-    // If we're capping the existing effect, we can use the new duration
-    // and decay start.
-    if( cap_existing ) {
-        this->duration = duration;
-        this->decay_start = decay_start;
+    if( new_cap ) {
+        duration = new_duration;
+        decay_start = new_decay_start;
     } else {
-        // Otherwise, we need to figure out whether the existing effect had
-        // more remaining duration and decay-resistance than the new one does.
-        // Only takes the new duration if new bonus and old are the same sign.
-        if( this->duration - this->age <= duration && ( ( this->bonus > 0 ) == ( max_bonus > 0 ) ) ) {
-            this->duration = duration;
-        } else {
-            this->duration -= this->age; // This will give a longer duration than above.
-        }
+        bool same_sign = ( bonus > 0 ) == ( new_max_bonus > 0 );
 
-        if( this->decay_start - this->age <= decay_start && ( ( this->bonus > 0 ) == ( max_bonus > 0 ) ) ) {
-            this->decay_start = decay_start;
-        } else {
-            this->decay_start -= this->age; // This will give a later decay start than above.
-        }
+        duration = pick_time( duration, new_duration, same_sign );
+        decay_start = pick_time( decay_start, new_decay_start, same_sign );
     }
 
-    // Now that we've finished using it, reset the age to 0.
-    this->age = 0;
+    age = 0; // Brand new. Don't move above pick_time()'s as they use current age
+    bonus += new_bonus;
 
-    // Is the current morale level for this entry below its cap, if any?
-    if( abs( this->bonus ) < abs( max_bonus ) || max_bonus == 0) {
-        this->bonus += bonus; // Add the requested morale boost.
-        // If we passed the cap, pull back to it.
-        if( abs( this->bonus ) > abs( max_bonus ) && max_bonus != 0 ) {
-            this->bonus = max_bonus;
-        }
-    } else if( cap_existing ) {
-        // The existing bonus is above the new cap.  Reduce it.
-        this->bonus = max_bonus;
+    if( abs( bonus ) > abs( new_max_bonus ) && ( new_max_bonus != 0 || new_cap ) ) {
+        bonus = new_max_bonus;
     }
 }
 
-bool morale_point::is_expired()
+int morale_point::pick_time( int current_time, int new_time, bool same_sign ) const
 {
-    return age >= duration;
+    const int remaining_time = current_time - age;
+    return ( remaining_time <= new_time && same_sign ) ? new_time : remaining_time;
 }
 
 void morale_point::proceed( int ticks )
 {
     if( ticks < 0 ) {
-        debugmsg( "One can't turn back time." );
+        debugmsg( "%s(): Called with negative ticks %d.", __FUNCTION__, ticks );
         return;
     }
 
