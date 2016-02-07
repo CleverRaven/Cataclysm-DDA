@@ -5301,7 +5301,7 @@ static bool trigger_radio_item( item_stack &items, std::list<item>::iterator &n,
         // If that changes, this needs logic to handle the alternative.
         itype_id bomb_type = n->contents[0].type->id;
 
-        n->make(bomb_type);
+        n->convert( bomb_type );
         if( n->has_flag("RADIO_INVOKE_PROC") ) {
             n->process( nullptr, pos, true );
         }

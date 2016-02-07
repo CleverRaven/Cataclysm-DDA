@@ -1361,14 +1361,14 @@ void mon_special_attack::serialize(JsonOut &json) const
 template<typename Archive>
 void item::io( Archive& archive )
 {
-    const auto load_type = [this]( const std::string& id ) {
+    const auto load_type = [this]( const itype_id& id ) {
         // only for backward compatibility (there are no "on" versions of those anymore)
         if( id == "UPS_on" ) {
-            make( "UPS_off" );
+            convert( "UPS_off" );
         } else if( id == "adv_UPS_on" ) {
-            make( "adv_UPS_off" );
+            convert( "adv_UPS_off" );
         } else {
-            make( id );
+            convert( id );
         }
     };
     const auto load_curammo = [this]( const std::string& id ) {
