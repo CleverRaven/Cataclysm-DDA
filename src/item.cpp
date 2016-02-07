@@ -4428,7 +4428,7 @@ item_location item::pick_reload_ammo( player &u, bool interactive ) const
             if( curammo ) {
                 row += string_format( "| %-7d | %-7d | %-7d | %-7d",
                                       curammo->ammo->damage, curammo->ammo->pierce,
-                                      curammo->ammo->range, curammo->ammo->dispersion );
+                                      curammo->ammo->range, 100 - curammo->ammo->dispersion );
             } else {
                 row += "|         |         |         |         ";
             }
