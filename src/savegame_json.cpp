@@ -1387,6 +1387,10 @@ void item::io( Archive& archive )
     archive.io( "charges", charges, -1l );
     archive.io( "burnt", burnt, 0 );
     archive.io( "poison", poison, 0 );
+    archive.io( "bigness", bigness, 0 );
+    archive.io( "frequency", frequency, 0 );
+    archive.io( "note", note, 0 );
+    archive.io( "irridation", irridation, 0 );
     archive.io( "bday", bday, 0 );
     archive.io( "mission_id", mission_id, -1 );
     archive.io( "player_id", player_id, -1 );
@@ -1413,6 +1417,21 @@ void item::io( Archive& archive )
         return;
     }
     /* Loading has finished, following code is to ensure consistency and fixes bugs in saves. */
+
+    // Old saves used to only contain one of those values (stored under "poison"), it would be
+    // loaded into a union of those members. Now they are separate members and must be set separately.
+    if( poison != 0 && bigness == 0 && is_var_veh_part() ) {
+        std::swap( bigness, poison );
+    }
+    if( poison != 0 && note == 0 && !type->snippet_category.empty() ) {
+        std::swap( note, poison );
+    }
+    if( poison != 0 && frequency == 0 && ( typeId() == "radio_on" || typeId() == "radio" ) ) {
+        std::swap( frequency, poison );
+    }
+    if( poison != 0 && irridation == 0 && typeId() == "rad_badge" ) {
+        std::swap( irridation, poison );
+    }
 
     // Compatiblity for item type changes: for example soap changed from being a generic item
     // (item::charges == -1) to comestible (and thereby counted by charges), old saves still have

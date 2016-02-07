@@ -4215,7 +4215,7 @@ item_location item::pick_reload_ammo( player &u, bool interactive ) const
     auto spare = has_gunmod( "spare_mag" );
     if( spare >= 0 ) {
         if( ammo_remaining() <= 0 && contents[spare].charges > 0 ) {
-            return item_location::on_character( u, this );
+            return item_location( u, this );
         }
         if( contents[spare].charges < ammo_remaining() ) {
             if( contents[spare].charges > 0 || ammo_remaining() > 0 ) {
@@ -4267,7 +4267,7 @@ item_location item::pick_reload_ammo( player &u, bool interactive ) const
     // first check the inventory for suitable ammo
     u.visit_items( [&ammo_list,&filter,&u]( const item *node, const item * ) {
         if( filter( node ) ) {
-            ammo_list.emplace_back( item_location::on_character( u, node ) );
+            ammo_list.emplace_back( item_location( u, node ) );
         }
         return ( node->is_magazine() || node->is_container() || node->is_gun() || node->is_tool() ) ? VisitResponse::SKIP : VisitResponse::NEXT;
     });
@@ -4278,7 +4278,7 @@ item_location item::pick_reload_ammo( player &u, bool interactive ) const
             for( auto& e : g->m.i_at( pos ) ) {
                 e.visit_items( [&ammo_list,&filter,&pos]( const item *node, const item * ) {
                     if( filter( node ) ) {
-                        ammo_list.emplace_back( item_location::on_map( pos, node ) );
+                        ammo_list.emplace_back( pos, node );
                     }
                     return ( node->is_magazine() || node->is_container() || node->is_gun() || node->is_tool() ) ? VisitResponse::SKIP : VisitResponse::NEXT;
                 });
@@ -4290,8 +4290,13 @@ item_location item::pick_reload_ammo( player &u, bool interactive ) const
         if( interactive ) {
             u.add_msg_if_player( m_info, _( "Out of %s!" ), is_gun() ? _("ammo") : ammo_name( ammo_type() ).c_str() );
         }
-        return item_location::nowhere();
+        return item_location();
     }
+
+    std::sort( ammo_list.begin(), ammo_list.end(), []( const item_location& lhs, const item_location& rhs ) {
+        return rhs.get_item()->ammo_remaining() < lhs.get_item()->ammo_remaining();
+    } );
+
     if( ammo_list.size() == 1 || !interactive ) {
         return std::move( ammo_list[0] );
     }
@@ -4343,8 +4348,8 @@ item_location item::pick_reload_ammo( player &u, bool interactive ) const
     menu.text += std::string( w + 3 - utf8_width( _( "| Location " ) ), ' ' );
     menu.w_width += w + 3;
 
-    // We only show ammo statistics for guns
-    if( is_gun() ) {
+    // We only show ammo statistics for guns and magazines
+    if( is_gun() || is_magazine() ) {
         menu.text += _( "| Damage  | Pierce  | Range   | Accuracy" );
         menu.w_width += 40;
     }
@@ -4364,15 +4369,15 @@ item_location item::pick_reload_ammo( player &u, bool interactive ) const
         const item *it = ammo_list[i].get_item();
         std::string row = names[i] + "| " + where[i] + " ";
 
-        if( is_gun() ) {
-            const itype *curammo = ammo_data(); // nullptr for empty magazines
-            const auto ammo_damage     = curammo ? curammo->ammo->damage : 0;
-            const auto ammo_pierce     = curammo ? curammo->ammo->pierce : 0;
-            const auto ammo_range      = curammo ? curammo->ammo->range  : 0;
-            const auto ammo_dispersion = curammo ? 100 - curammo->ammo->dispersion : 0;
-
-            row += string_format( "| %-7d | %-7d | %-7d | %-7d",
-                                  ammo_damage, ammo_pierce, ammo_range, ammo_dispersion );
+        if( is_gun() || is_magazine() ) {
+            const itype *curammo = it->ammo_data(); // nullptr for empty magazines
+            if( curammo ) {
+                row += string_format( "| %-7d | %-7d | %-7d | %-7d",
+                                      curammo->ammo->damage, curammo->ammo->pierce,
+                                      curammo->ammo->range, 100 - curammo->ammo->dispersion );
+            } else {
+                row += "|         |         |         |         ";
+            }
         }
 
         menu.addentry( i, true, i + 'a', row );
@@ -4387,7 +4392,7 @@ item_location item::pick_reload_ammo( player &u, bool interactive ) const
         if( interactive ) {
             u.add_msg_if_player( m_info, _( "Never mind." ) );
         }
-        return item_location::nowhere();
+        return item_location();
     }
 
     item_location sel = std::move( ammo_list[menu.ret] );
@@ -4419,7 +4424,7 @@ static void eject_casings( player &p, item& target )
 
 bool item::reload( player &u, int pos )
 {
-    return reload( u, item_location::on_character( u, &u.i_at( pos ) ) );
+    return reload( u, item_location( u, &u.i_at( pos ) ) );
 }
 
 bool item::reload( player &u, item_location loc )

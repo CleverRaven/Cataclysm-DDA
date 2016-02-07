@@ -591,6 +591,14 @@ void player::process_turn()
     }
 }
 
+void player::drop_inventory_overflow() {
+    // Fix for #15079
+    // @todo replace when we implement off-hand item_location
+    if( activity.type != ACT_RELOAD ) {
+        Character::drop_inventory_overflow();
+    }
+}
+
 void player::action_taken()
 {
     nv_cached = false;
