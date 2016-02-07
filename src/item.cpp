@@ -185,9 +185,7 @@ item item::make_corpse( const mtype_id& mt, int turn, const std::string &name )
         result.item_tags.insert( "REVIVE_SPECIAL" );
     }
 
-    if( !name.empty() ) {
-        result.name = name;
-    }
+    result.name = !name.empty() ? name : std::string();
 
     return result;
 }
