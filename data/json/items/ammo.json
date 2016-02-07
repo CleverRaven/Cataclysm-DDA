@@ -3320,6 +3320,19 @@
         "range" : 4,
         "count" : 100,
         "effects" : [ "TOXICGAS", "NEVER_MISFIRES" , "JET"]
+    },
+    {   "type" : "AMMO",
+        "id" : "ammolink",
+        "category" : "spare_parts",
+        "price" : 5,
+        "name" : "Ammo belt linakge",
+        "symbol" : "=",
+        "color" : "yellow",
+        "description" : "A small metal linkage from a disintegrating ammo belt.",
+        "material" : "steel",
+        "volume" : 1,
+        "weight" : 1,
+        "ammo_type" : "components",
+        "count" : 200
     }
-
 ]
