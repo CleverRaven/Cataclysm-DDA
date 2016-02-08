@@ -5,7 +5,7 @@
 #include "output.h"
 
 namespace {
-    const std::string item_name_placeholder = "%i"; // Used to address an item name
+    static const std::string item_name_placeholder = "%i"; // Used to address an item name
 
     const std::string &get_morale_data( const morale_type id )
     {
