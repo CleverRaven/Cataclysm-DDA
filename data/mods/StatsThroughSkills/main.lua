@@ -73,25 +73,7 @@ function calc_bonus(skills_set)
         skill_total = skill_total + player:get_skill_level(skill_id(s))
     end
 
-    skill_total = skill_total / 4
-    local skill_bonus = 0
-    if (skill_total >= 21) then
-        skill_bonus = 6
-    elseif (skill_total >= 15) then
-        skill_bonus = 5
-    elseif (skill_total >= 10) then
-        skill_bonus = 4
-    elseif (skill_total >=6) then
-        skill_bonus = 3
-    elseif (skill_total >=3) then
-        skill_bonus = 2
-    elseif (skill_total >=1) then
-        skill_bonus = 1
-    else
-        skill_bonus = 0
-    end
-
-    return skill_bonus
+    return (skill_total > 3 and math.floor(math.pow((skill_total - 3), (1 / 2.46))) or 0)
 end
 
 function print_results(cur_stat,stat,prev_stat)
@@ -132,7 +114,7 @@ function get_stat_bonus_for_skills_version_1(skill_set)
         else
             stat_bonus = stat_bonus + 3
         end
-        total_bonus = math.floor(stat_bonus)
+        total_bonus = total_bonus + math.floor(stat_bonus)
     end
     return total_bonus
 end
