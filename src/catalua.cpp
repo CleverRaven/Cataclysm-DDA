@@ -1170,17 +1170,9 @@ use_function::~use_function()
 use_function::use_function(const use_function &other)
     : function_type(other.function_type)
 {
-    if (function_type == USE_FUNCTION_CPP) {
-        cpp_function = other.cpp_function;
-    } else if (function_type == USE_FUNCTION_ACTOR_PTR) {
+    if (function_type == USE_FUNCTION_ACTOR_PTR) {
         actor_ptr = other.actor_ptr->clone();
     }
-}
-
-void use_function::operator=(use_function_pointer f)
-{
-    this->~use_function();
-    new (this) use_function(f);
 }
 
 void use_function::operator=(iuse_actor *f)
@@ -1201,10 +1193,6 @@ long use_function::call( player *player_instance, item *item_instance, bool acti
         if (player_instance != NULL && player_instance->is_player()) {
             add_msg(_("You can't do anything interesting with your %s."), item_instance->tname().c_str());
         }
-    } else if (function_type == USE_FUNCTION_CPP) {
-        // If it's a C++ function, simply call it with the given arguments.
-        iuse tmp;
-        return (tmp.*cpp_function)(player_instance, item_instance, active, pos);
     } else if (function_type == USE_FUNCTION_ACTOR_PTR) {
         return actor_ptr->use(player_instance, item_instance, active, pos);
     }

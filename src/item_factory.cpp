@@ -122,6 +122,27 @@ Item_factory::Item_factory()
     init();
 }
 
+class iuse_function_wrapper : public iuse_actor
+{
+    private:
+        use_function_pointer cpp_function;
+    public:
+        iuse_function_wrapper( const use_function_pointer f ) : cpp_function( f ) { }
+        ~iuse_function_wrapper() = default;
+        long use( player *p, item *it, bool a, const tripoint &pos ) const override {
+            iuse tmp;
+            return ( tmp.*cpp_function )( p, it, a, pos );
+        }
+        iuse_actor *clone() const override {
+            return new iuse_function_wrapper( *this );
+        }
+};
+
+use_function::use_function( const use_function_pointer f )
+    : use_function( new iuse_function_wrapper( f ) )
+{
+}
+
 void Item_factory::init()
 {
     //Populate the iuse functions
