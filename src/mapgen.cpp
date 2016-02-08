@@ -3555,10 +3555,12 @@ C..C..C...|hhh|#########\n\
 
                 if (terrain_type == "lab_stairs" || terrain_type == "ice_lab_stairs") {
                     int sx, sy;
+                    int attempts = 100;
                     do {
                         sx = rng(lw, SEEX * 2 - 1 - rw);
                         sy = rng(tw, SEEY * 2 - 1 - bw);
-                    } while ( ( ter( sx, sy ) != t_rock_floor ) && !g->m.has_furn( sx,sy ) );
+                        attempts--;
+                    } while ( ( ter( sx, sy ) != t_rock_floor ) && attempts && !g->m.has_furn( sx,sy ) );
                     ter_set(sx, sy, t_stairs_down);
                 }
             } else switch (rng(1, 4)) { // Pick a random lab layout
