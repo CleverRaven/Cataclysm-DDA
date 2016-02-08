@@ -284,8 +284,8 @@ void game::item_action_menu()
 
 std::string use_function::get_type_name() const
 {
-    if( actor_ptr ) {
-        return actor_ptr->type;
+    if( actor ) {
+        return actor->type;
     } else {
         return errstring;
     }
@@ -293,8 +293,8 @@ std::string use_function::get_type_name() const
 
 std::string use_function::get_name() const
 {
-    if( actor_ptr ) {
-        return item_action_generator::generator().get_action_name( actor_ptr );
+    if( actor ) {
+        return item_action_generator::generator().get_action_name( actor );
     } else {
         return errstring;
     }

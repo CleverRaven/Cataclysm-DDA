@@ -236,17 +236,17 @@ public:
 
 struct use_function {
 protected:
-    iuse_actor *actor_ptr;
+    iuse_actor *actor;
 
 public:
     use_function()
-        : actor_ptr(nullptr)
+        : actor(nullptr)
     { }
 
     use_function(use_function_pointer f);
 
     use_function(iuse_actor *f)
-        : actor_ptr(f)
+        : actor(f)
     { }
 
     use_function(const use_function &other);
@@ -257,7 +257,7 @@ public:
 
     iuse_actor *get_actor_ptr() const
     {
-        return actor_ptr;
+        return actor;
     }
 
     // Gets actor->type or finds own type in item_factory::iuse_function_list
@@ -267,7 +267,7 @@ public:
 
     bool can_call(const player *p, const item *it, bool t, const tripoint &pos) const
     {
-        auto actor = get_actor_ptr();
+        auto actor = get_actor();
         return actor == nullptr || actor->can_use( p, it, t, pos );
     }
 
@@ -275,10 +275,10 @@ public:
     void operator=(const use_function &other);
 
     bool operator==(use_function f) const {
-        if( actor_ptr == f.actor_ptr ) {
+        if( actor == f.actor ) {
             return true;
         }
-        return actor_ptr && f.actor_ptr && f.actor_ptr->type == actor_ptr->type;
+        return actor && f.actor && f.actor->type == actor->type;
     }
 };
 
