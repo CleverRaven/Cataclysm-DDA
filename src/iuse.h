@@ -256,9 +256,15 @@ public:
         return actor.get();
     }
 
-    // Gets actor->type or finds own type in item_factory::iuse_function_list
-    std::string get_type_name() const;
-    // Returns translated name of the action
+    /**
+     * Returns the type of the action. See @ref iuse_actor::type. The string
+     * is not translated, different iuse_actor instances may have the same type, but
+     * different data.
+     */
+    std::string get_type() const;
+    /**
+     * Returns the translated name of the action.
+     */
     std::string get_name() const;
 
     bool can_call(const player *p, const item *it, bool t, const tripoint &pos) const

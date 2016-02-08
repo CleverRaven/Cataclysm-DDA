@@ -29,7 +29,7 @@ const use_function *itype::get_use( const std::string &iuse_name ) const
 {
     const auto iter = std::find_if( use_methods.begin(),
     use_methods.end(), [&]( const use_function & func ) {
-        return func.get_type_name() == iuse_name;
+        return func.get_type() == iuse_name;
     } );
     if( iter == use_methods.end() ) {
         return nullptr;

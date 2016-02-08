@@ -266,7 +266,7 @@ void game::item_action_menu()
     u.inv.unsort();
 }
 
-std::string use_function::get_type_name() const
+std::string use_function::get_type() const
 {
     if( actor ) {
         return actor->type;
