@@ -36,16 +36,15 @@ static const std::string fake_recipe_book = "book";
 void remove_from_component_lookup(recipe* r);
 
 recipe::recipe() :
-    id_(0), result("null"), contained(false),skill_used( NULL_ID ), reversible(false),
+    result("null"), contained(false),skill_used( NULL_ID ), reversible(false),
     autolearn(false), learn_by_disassembly(-1), result_mult(1)
 {
 }
 
 // Check that the given recipe ident (rec_name) is unique, throw if not,
-// Returns the id for the new recipe.
 // If the recipe should override an existing one, the function removes the existing
-// recipe and returns the id if the removed recipe.
-int check_recipe_ident(const std::string &rec_name, JsonObject &jsobj)
+// recipe.
+void check_recipe_ident(const std::string &rec_name, JsonObject &jsobj)
 {
     const bool override_existing = jsobj.get_bool("override", false);
 
@@ -56,16 +55,11 @@ int check_recipe_ident(const std::string &rec_name, JsonObject &jsobj)
                     std::string("Recipe name collision (set a unique value for the id_suffix field to fix): ") +
                     rec_name, "result");
             }
-            // overriding an existing recipe: delete it and remove the pointer
-            // keep the id,
-            const int tmp_id = list_iter->id();
             recipe_dict.remove( list_iter );
             delete list_iter;
-            return tmp_id;
+            break;
         }
     }
-
-    return recipe_dict.size();
 }
 
 void load_recipe(JsonObject &jsobj)
@@ -131,12 +125,11 @@ void load_recipe(JsonObject &jsobj)
     }
 
     std::string rec_name = result + id_suffix;
-    int id = check_recipe_ident(rec_name, jsobj); // may delete recipes
+    check_recipe_ident(rec_name, jsobj); // may delete recipes
 
     recipe *rec = new recipe();
 
     rec->ident_ = rec_name;
-    rec->id_ = id;
     rec->result = result;
     rec->time = time;
     rec->difficulty = difficulty;
@@ -1667,11 +1660,6 @@ void player::complete_disassemble( int item_pos, const tripoint &loc,
     }
 }
 
-const recipe *recipe_by_index( int index )
-{
-    return recipe_dict[index];
-}
-
 const recipe *recipe_by_name( const std::string &name)
 {
     return recipe_dict[name];
@@ -1782,9 +1770,4 @@ std::string recipe::required_skills_string() const
 const std::string &recipe::ident() const
 {
     return ident_;
-}
-
-const int &recipe::id() const
-{
-    return id_;
 }

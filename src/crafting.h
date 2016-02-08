@@ -39,7 +39,6 @@ struct byproduct {
 struct recipe {
 private:
     std::string ident_;
-    int id_;
 
     friend void load_recipe(JsonObject &jsobj);
 
@@ -76,7 +75,6 @@ public:
     std::set<std::string> flags;
 
     const std::string &ident() const;
-    const int &id() const;
 
     //Create a string list to describe the skill requirements fir this recipe
     // Format: skill_name(amount), skill_name(amount)
@@ -120,7 +118,6 @@ void remove_ammo( std::list<item> &dis_items, player &p );
 
 void load_recipe( JsonObject &jsobj );
 void reset_recipes();
-const recipe *recipe_by_index( int index );
 const recipe *recipe_by_name( const std::string &name );
 const recipe *get_disassemble_recipe( const itype_id &type );
 void finalize_recipes();
