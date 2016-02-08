@@ -1160,6 +1160,16 @@ void game::init_lua()
 
 #endif // #ifdef LUA
 
+use_function::use_function()
+: actor( nullptr )
+{
+}
+
+use_function::use_function( iuse_actor * const f )
+: actor( f )
+{
+}
+
 use_function::~use_function()
 {
     delete actor;

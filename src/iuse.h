@@ -239,17 +239,10 @@ protected:
     iuse_actor *actor;
 
 public:
-    use_function()
-        : actor(nullptr)
-    { }
-
-    use_function(use_function_pointer f);
-
-    use_function(iuse_actor *f)
-        : actor(f)
-    { }
-
-    use_function(const use_function &other);
+    use_function();
+    use_function( use_function_pointer f );
+    use_function( iuse_actor *f );
+    use_function( const use_function &other );
 
     ~use_function();
 
