@@ -135,6 +135,14 @@ long iuse_transform::use(player *p, item *it, bool t, const tripoint &pos ) cons
     return 0;
 }
 
+std::string iuse_transform::get_name() const
+{
+    if( !menu_option_text.empty() ) {
+        return menu_option_text;
+    }
+    return iuse_actor::get_name();
+}
+
 
 
 auto_iuse_transform::~auto_iuse_transform()
