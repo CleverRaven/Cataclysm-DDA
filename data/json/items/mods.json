@@ -11,6 +11,7 @@
         "material": "cotton",
         "weight": 100,
         "volume": 1,
+        "integral_volume": 0,
         "flags": [ "IS_ARMOR", "BELTED", "OVERSIZE" ],
         "mod_targets": ["rifle", "shotgun", "smg", "crossbow", "launcher"]
     },
@@ -145,6 +146,7 @@
         "material" : ["steel", "null"],
         "mod_targets" : ["shotgun"],
         "volume" : 2,
+        "integral_volume": 0,
         "bashing" : 3,
         "burst_modifier" : -1,
         "price" : 22000,
@@ -178,6 +180,7 @@
         "material" : ["aluminum", "plastic"],
         "mod_targets" : ["smg", "rifle", "crossbow"],
         "volume" : 3,
+        "integral_volume": 2,
         "recoil_modifier" : -60,
         "price" : 68000,
         "skill_required": 7,
@@ -196,6 +199,7 @@
         "material" : ["steel", "null"],
         "mod_targets" : ["smg", "rifle"],
         "volume" : 1,
+        "integral_volume": 0,
         "burst_modifier" : 6,
         "price" : 70000,
         "skill_required": 6,
@@ -216,6 +220,7 @@
         "symbol" : ":",
         "material" : ["steel", "plastic"],
         "volume" : 1,
+        "integral_volume": 0,
         "recoil_modifier" : 30,
         "acceptable_ammo" : ["22", "9mm", "38", "40", "57", "46"],
         "mod_targets" : ["pistol"],
@@ -236,6 +241,7 @@
         "material" : ["steel", "null"],
         "mod_targets" : ["rifle"],
         "volume" : 2,
+        "integral_volume": 0,
         "burst_modifier" : 4,
         "recoil_modifier" : 60,
         "price" : 68000,
@@ -256,6 +262,7 @@
         "material" : ["steel", "null"],
         "mod_targets" : ["rifle"],
         "volume" : 2,
+        "integral_volume": 0,
         "burst_modifier" : -99,
         "price" : 66000,
         "skill_required": 8,
@@ -709,7 +716,8 @@
         "symbol" : ":",
         "material" : ["plastic", "steel"],
         "mod_targets" : ["smg", "rifle", "pistol", "shotgun", "crossbow", "bow", "launcher"],
-        "volume" : 0,
+        "volume" : 1,
+        "integral_volume": 0,
         "price" : 10000
     },
     {
@@ -726,6 +734,7 @@
         "material" : ["aluminum", "plastic"],
         "mod_targets" : ["bow"],
         "volume" : 1,
+        "integral_volume": 0,
         "price" : 5000
     },
     {
@@ -756,7 +765,8 @@
         "symbol" : ":",
         "material" : ["plastic", "aluminum"],
         "mod_targets" : ["bow"],
-        "volume" : 0,
+        "volume" : 1,
+        "integral_volume": 0,
         "price" : 4000,
         "skill_required": 1
     },
@@ -773,7 +783,8 @@
         "symbol" : ":",
         "material" : ["plastic", "steel"],
         "mod_targets" : ["smg", "rifle", "pistol", "shotgun", "crossbow", "launcher"],
-        "volume" : 0,
+        "volume" : 1,
+        "integral_volume": 0,
         "price" : 12000
     },
     {
@@ -790,7 +801,8 @@
         "symbol" : ":",
         "material" : ["plastic", "steel"],
         "mod_targets" : ["smg", "rifle", "pistol", "shotgun", "crossbow", "launcher"],
-        "volume" : 0,
+        "volume" : 1,
+        "integral_volume": 0,
         "price" : 72000,
         "skill_required": 1
     },
@@ -808,6 +820,7 @@
         "material" : ["plastic", "steel"],
         "mod_targets" : ["smg", "rifle", "shotgun", "pistol", "crossbow", "launcher"],
         "volume" : 1,
+        "integral_volume": 0,
         "price" : 68000,
         "skill_required": 2
     },
@@ -916,7 +929,8 @@
         "symbol" : ":",
         "material" : ["steel", "null"],
         "mod_targets" : ["smg", "rifle", "pistol", "shotgun", "crossbow", "launcher"],
-        "volume" : 0,
+        "volume" : 1,
+        "integral_volume": 0,
         "recoil_modifier" : -30,
         "price" : 38000,
         "skill_required": 2
@@ -933,7 +947,8 @@
         "symbol" : ":",
         "material" : ["plastic", "steel"],
         "mod_targets" : ["smg", "rifle", "shotgun", "crossbow", "launcher"],
-        "volume" : 0,
+        "volume" : 2,
+        "integral_volume": 0,
         "recoil_modifier" : -30,
         "price" : 38000,
         "skill_required": 2
@@ -949,7 +964,8 @@
         "symbol" : ":",
         "material" : ["plastic", "steel"],
         "mod_targets" : ["smg", "rifle", "shotgun", "launcher"],
-        "volume" : 1,
+        "volume" : 2,
+        "integral_volume": 0,
         "flags" : ["SLOW_WIELD", "COLLAPSIBLE_STOCK"],
         "price" : 42000,
         "skill_required": 2
@@ -965,7 +981,8 @@
         "symbol" : ":",
         "material" : ["plastic"],
         "mod_targets" : ["pistol", "smg", "rifle", "shotgun", "crossbow", "launcher"],
-        "volume" : 0,
+        "volume" : 1,
+        "integral_volume": 0,
         "flags" : ["REDUCED_WEIGHT", "REDUCED_BASHING"],
         "price" : 48000,
         "skill_required": 3
@@ -981,7 +998,8 @@
         "symbol" : ":",
         "material" : ["plastic", "steel"],
         "mod_targets" : ["smg", "rifle", "shotgun", "launcher"],
-        "volume" : 1,
+        "volume" : 2,
+        "integral_volume": 0,
         "recoil_modifier" : -90,
         "price" : 400,
         "skill_required": 3
@@ -1014,7 +1032,8 @@
         "symbol" : ":",
         "material" : ["plastic", "null"],
         "mod_targets" : ["smg", "rifle", "pistol", "shotgun", "launcher"],
-        "volume" : 0,
+        "volume" : 1,
+        "integral_volume": 0,
         "flags" : ["WATERPROOF_GUN"],
         "price" : 50000,
         "skill_required": 6
@@ -1031,7 +1050,8 @@
         "symbol" : ":",
         "material" : ["steel", "superalloy"],
         "mod_targets" : ["smg", "rifle", "pistol", "shotgun", "launcher"],
-        "volume" : 0,
+        "volume" : 1,
+        "integral_volume": 0,
         "recoil_modifier" : -15,
         "flags" : ["NEVER_JAMS"],
         "price" : 2500,
@@ -1050,7 +1070,8 @@
         "symbol" : ":",
         "material" : ["steel", "superalloy"],
         "mod_targets" : ["smg", "rifle", "pistol", "shotgun", "launcher"],
-        "volume" : 0,
+        "volume" : 1,
+        "integral_volume": 0,
         "price" : 1500,
         "skill_required": 6
     },
