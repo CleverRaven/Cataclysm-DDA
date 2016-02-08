@@ -242,7 +242,7 @@ void game::item_action_menu()
         int would_use_charges = tool == nullptr ? 0 : tool->charges_per_use;
 
         std::stringstream ss;
-        ss << _( gen.get_action_name( p.first ).c_str() ) << " [" << p.second->display_name();
+        ss << gen.get_action_name( p.first ) << " [" << p.second->display_name();
         if( would_use_charges > 0 ) {
             ss << " (" << would_use_charges << '/' << p.second->charges << ')';
         }
@@ -256,7 +256,7 @@ void game::item_action_menu()
     for( auto &p : item_actions ) {
         if( iactions.find( p.first ) == iactions.end() ) {
             char bind = key_bound_to( ctxt, p.first );
-            kmenu.addentry( num, false, bind, _( gen.get_action_name( p.first ).c_str() ) );
+            kmenu.addentry( num, false, bind, gen.get_action_name( p.first ) );
             num++;
         }
     }
