@@ -942,7 +942,6 @@ npc_action npc::address_player()
 npc_action npc::long_term_goal_action()
 {
     add_msg( m_debug, "long_term_goal_action()" );
-    path.clear();
 
     if (mission == NPC_MISSION_SHOPKEEP || mission == NPC_MISSION_SHELTER) {
         return npc_pause;    // Shopkeeps just stay put.
@@ -2369,7 +2368,7 @@ void npc::set_destination()
 
     // all of the following luxuries are at ground level.
     // so please wallow in hunger & fear if below ground.
-    if( posz() != 0 ) {
+    if( posz() != 0 && !g->m.has_zlevels() ) {
         goal = no_goal_point;
         return;
     }
@@ -2413,13 +2412,19 @@ void npc::set_destination()
 
     const std::string dest_type = random_entry( options );
 
-    goal = overmap_buffer.find_closest(global_omt_location(), dest_type, 0, false);
+    // We need that, otherwise find_closest won't work properly
+    // TODO: Allow finding sewers and stuff
+    tripoint surface_omt_loc = global_omt_location();
+    surface_omt_loc.z = 0;
+
+    goal = overmap_buffer.find_closest( surface_omt_loc, dest_type, 0, false );
+    add_msg( m_debug, "New goal: %s at %d,%d,%d", dest_type.c_str(), goal.x, goal.y, goal.z );
 }
 
 void npc::go_to_destination()
 {
     if( goal == no_goal_point ) {
-        // Let's pretend that's exactly what we wanted
+        add_msg( m_debug, "npc::go_to_destination with no goal" );
         move_pause();
         reach_destination();
         return;
