@@ -1176,12 +1176,8 @@ use_function::~use_function()
 }
 
 use_function::use_function(const use_function &other)
+: actor( other.actor ? other.actor->clone() : nullptr )
 {
-    if(other.actor) {
-        actor = other.actor->clone();
-    } else {
-        actor = nullptr;
-    }
 }
 
 use_function &use_function::operator=( iuse_actor * const f )
