@@ -240,14 +240,12 @@ protected:
         USE_FUNCTION_NONE,
         USE_FUNCTION_CPP,
         USE_FUNCTION_ACTOR_PTR,
-        USE_FUNCTION_LUA
     };
 
     use_function_t function_type;
 
     union {
         use_function_pointer cpp_function;
-        int lua_function;
         iuse_actor *actor_ptr;
     };
 
@@ -258,10 +256,6 @@ public:
 
     use_function(use_function_pointer f)
         : function_type(USE_FUNCTION_CPP), cpp_function(f)
-    { }
-
-    use_function(int f)
-        : function_type(USE_FUNCTION_LUA), lua_function(f)
     { }
 
     use_function(iuse_actor *f)
@@ -309,8 +303,6 @@ public:
                 return f.cpp_function == cpp_function;
             case USE_FUNCTION_ACTOR_PTR:
                 return f.actor_ptr->type == actor_ptr->type;
-            case USE_FUNCTION_LUA:
-                return f.lua_function == lua_function;
             default:
                 return false;
         }
