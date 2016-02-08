@@ -3651,16 +3651,6 @@ skill_id item::weap_skill() const
     return skill_cutting;
 }
 
-skill_id item::skill() const
-{
-    if ( is_gun() ) {
-        return type->gun->skill_used;
-    } else if( type->book && type->book->skill ) {
-        return type->book->skill;
-    }
-    return NULL_ID;
-}
-
 int item::gun_dispersion( bool with_ammo ) const
 {
     if( !is_gun() ) {

@@ -220,8 +220,6 @@ class item : public JsonSerializer, public JsonDeserializer
     /** Reload item using ammo from location returning true if sucessful */
     bool reload( player &u, item_location loc );
 
-    skill_id skill() const;
-
     template<typename Archive>
     void io( Archive& );
     using archive_type_tag = io::object_archive_tag;
