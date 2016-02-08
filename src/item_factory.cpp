@@ -330,6 +330,15 @@ void Item_factory::init()
 
     iuse_function_list["REMOTEVEH"] = &iuse::remoteveh;
 
+    // The above creates iuse_actor instances (from the function pointers) that have
+    // no `type` set. This loops sets the type to the same as the key in the map.
+    for( auto &e : iuse_function_list ) {
+        iuse_actor * const actor = e.second.get_actor_ptr();
+        if( actor ) {
+            actor->type = e.first;
+        }
+    }
+
     create_inital_categories();
 
     // An empty dummy group, it will not spawn anything. However, it makes that item group

@@ -285,8 +285,6 @@ void game::item_action_menu()
 std::string use_function::get_type_name() const
 {
     switch( function_type ) {
-        case USE_FUNCTION_CPP:
-            return item_controller->inverse_get_iuse( this );
         case USE_FUNCTION_ACTOR_PTR:
             return get_actor_ptr()->type;
         case USE_FUNCTION_NONE:
@@ -300,8 +298,6 @@ std::string use_function::get_type_name() const
 std::string use_function::get_name() const
 {
     switch( function_type ) {
-        case USE_FUNCTION_CPP:
-            return item_action_generator::generator().get_action_name( get_type_name() );
         case USE_FUNCTION_ACTOR_PTR:
             return item_action_generator::generator().get_action_name( get_actor_ptr() );
         case USE_FUNCTION_NONE:
