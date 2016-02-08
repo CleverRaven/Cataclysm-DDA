@@ -236,26 +236,17 @@ public:
 
 struct use_function {
 protected:
-    enum use_function_t {
-        USE_FUNCTION_NONE,
-        USE_FUNCTION_ACTOR_PTR,
-    };
-
-    use_function_t function_type;
-
-    union {
-        iuse_actor *actor_ptr;
-    };
+    iuse_actor *actor_ptr;
 
 public:
     use_function()
-        : function_type(USE_FUNCTION_NONE)
+        : actor_ptr(nullptr)
     { }
 
     use_function(use_function_pointer f);
 
     use_function(iuse_actor *f)
-        : function_type(USE_FUNCTION_ACTOR_PTR), actor_ptr(f)
+        : actor_ptr(f)
     { }
 
     use_function(const use_function &other);
@@ -266,9 +257,6 @@ public:
 
     iuse_actor *get_actor_ptr() const
     {
-        if( function_type != USE_FUNCTION_ACTOR_PTR ) {
-            return nullptr;
-        }
         return actor_ptr;
     }
 
@@ -287,18 +275,10 @@ public:
     void operator=(const use_function &other);
 
     bool operator==(use_function f) const {
-        if( function_type != f.function_type ) {
-            return false;
+        if( actor_ptr == f.actor_ptr ) {
+            return true;
         }
-
-        switch( function_type ) {
-            case USE_FUNCTION_NONE:
-                return true;
-            case USE_FUNCTION_ACTOR_PTR:
-                return f.actor_ptr->type == actor_ptr->type;
-            default:
-                return false;
-        }
+        return actor_ptr && f.actor_ptr && f.actor_ptr->type == actor_ptr->type;
     }
 };
 

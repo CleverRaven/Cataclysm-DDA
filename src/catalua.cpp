@@ -1162,16 +1162,15 @@ void game::init_lua()
 
 use_function::~use_function()
 {
-    if (function_type == USE_FUNCTION_ACTOR_PTR) {
-        delete actor_ptr;
-    }
+    delete actor_ptr;
 }
 
 use_function::use_function(const use_function &other)
-    : function_type(other.function_type)
 {
-    if (function_type == USE_FUNCTION_ACTOR_PTR) {
+    if(other.actor_ptr) {
         actor_ptr = other.actor_ptr->clone();
+    } else {
+        actor_ptr = nullptr;
     }
 }
 
@@ -1189,14 +1188,13 @@ void use_function::operator=(const use_function &other)
 
 long use_function::call( player *player_instance, item *item_instance, bool active, const tripoint &pos ) const
 {
-    if (function_type == USE_FUNCTION_NONE) {
+    if( !actor_ptr ) {
         if (player_instance != NULL && player_instance->is_player()) {
             add_msg(_("You can't do anything interesting with your %s."), item_instance->tname().c_str());
         }
-    } else if (function_type == USE_FUNCTION_ACTOR_PTR) {
-        return actor_ptr->use(player_instance, item_instance, active, pos);
+        return 0;
     }
-    return 0;
+    return actor_ptr->use(player_instance, item_instance, active, pos);
 }
 
 #ifndef LUA
