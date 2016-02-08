@@ -1160,37 +1160,24 @@ void game::init_lua()
 
 #endif // #ifdef LUA
 
-use_function::use_function()
-: actor( nullptr )
-{
-}
-
 use_function::use_function( iuse_actor * const f )
 : actor( f )
 {
 }
 
-use_function::~use_function()
-{
-    delete actor;
-}
-
-use_function::use_function(const use_function &other)
+use_function::use_function( const use_function &other )
 : actor( other.actor ? other.actor->clone() : nullptr )
 {
 }
 
 use_function &use_function::operator=( iuse_actor * const f )
 {
-    this->~use_function();
-    new (this) use_function(f);
-    return *this;
+    return operator=( use_function( f ) );
 }
 
 use_function &use_function::operator=( const use_function &other )
 {
-    this->~use_function();
-    new (this) use_function(other);
+    actor.reset( other.actor ? other.actor->clone() : nullptr );
     return *this;
 }
 
