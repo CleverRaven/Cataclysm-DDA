@@ -233,6 +233,7 @@ public:
     virtual long use( player*, item*, bool, const tripoint& ) const = 0;
     virtual bool can_use( const player*, const item*, bool, const tripoint& ) const { return true; }
     virtual iuse_actor *clone() const = 0;
+    virtual std::string get_name() const;
 };
 
 struct use_function {

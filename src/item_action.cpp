@@ -275,14 +275,19 @@ std::string use_function::get_type_name() const
     }
 }
 
+std::string iuse_actor::get_name() const
+{
+    const auto trans_actor = dynamic_cast<const iuse_transform *>( this );
+    if( trans_actor != nullptr && !trans_actor->menu_option_text.empty() ) {
+        return trans_actor->menu_option_text;
+    }
+    return item_action_generator::generator().get_action_name( type );
+}
+
 std::string use_function::get_name() const
 {
     if( actor ) {
-        const auto trans_actor = dynamic_cast<const iuse_transform *>( actor.get() );
-        if( trans_actor != nullptr && !trans_actor->menu_option_text.empty() ) {
-            return trans_actor->menu_option_text;
-        }
-        return item_action_generator::generator().get_action_name( actor->type );
+        return actor->get_name();
     } else {
         return errstring;
     }
