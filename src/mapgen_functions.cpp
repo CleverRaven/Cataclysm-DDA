@@ -2564,7 +2564,7 @@ void mapgen_generic_house(map *m, oter_id terrain_type, mapgendata dat, int turn
     }
 
     if ("house_base" == terrain_type.t().id_base ) {
-        int attempts = 20;
+        int attempts = 100;
         do {
             rn = rng(lw + 1, rw - 1);
             attempts--;
