@@ -156,6 +156,7 @@ SET(CATACLYSM_DDA_SOURCES
     ${CMAKE_SOURCE_DIR}/src/iuse_software_minesweeper.cpp
     ${CMAKE_SOURCE_DIR}/src/drawing_primitives.cpp
     ${CMAKE_SOURCE_DIR}/src/mattack_actors.cpp
+    ${CMAKE_SOURCE_DIR}/src/consumption.cpp
 )
 
 SET (CATACLYSM_DDA_HEADERS
