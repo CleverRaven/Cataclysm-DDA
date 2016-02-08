@@ -6668,7 +6668,7 @@ bool einkpc_download_memory_card(player *p, item *eink, item *mc)
         if (candidates.size() > 0) {
 
             const recipe *r = random_entry( candidates );
-            const std::string rident = r->ident;
+            const std::string rident = r->ident();
 
             const item dummy(r->result, 0);
 

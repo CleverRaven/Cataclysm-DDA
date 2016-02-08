@@ -77,11 +77,11 @@ void craft_command::execute()
     }
 
     crafter->assign_activity( is_long ? ACT_LONGCRAFT : ACT_CRAFT, rec->batch_time( batch_size ),
-                              rec->id );
+                              rec->id() );
     crafter->activity.values.push_back( batch_size );
     /* legacy support for lua bindings to last_batch and lastrecipe */
     crafter->last_batch = batch_size;
-    crafter->lastrecipe = rec->ident;
+    crafter->lastrecipe = rec->ident();
 }
 
 /** Does a string join with ', ' of the components in the passed vector and inserts into 'str' */

@@ -37,8 +37,13 @@ struct byproduct {
 };
 
 struct recipe {
-    std::string ident;
-    int id;
+private:
+    std::string ident_;
+    int id_;
+
+    friend void load_recipe(JsonObject &jsobj);
+
+public:
     itype_id result;
     int time; // in movement points (100 per turn)
     int difficulty;
@@ -70,6 +75,8 @@ struct recipe {
     std::vector<bookdata_t> booksets;
     std::set<std::string> flags;
 
+    const std::string &ident() const;
+    const int &id() const;
 
     //Create a string list to describe the skill requirements fir this recipe
     // Format: skill_name(amount), skill_name(amount)

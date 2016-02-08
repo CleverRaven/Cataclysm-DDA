@@ -398,8 +398,8 @@ const recipe *select_crafting_recipe( int &batch_size )
             }
 
             if( isWide ) {
-                if( lastid != current[line]->id ) {
-                    lastid = current[line]->id;
+                if( lastid != current[line]->id() ) {
+                    lastid = current[line]->id();
                     tmp = current[line]->create_result();
                     tmp.info( true, thisItem );
                 }

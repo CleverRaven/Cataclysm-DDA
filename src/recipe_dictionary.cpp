@@ -11,8 +11,8 @@ void recipe_dictionary::add( recipe *rec )
 {
     recipes.push_back( rec );
     add_to_component_lookup( rec );
-    by_name[rec->ident] = rec;
-    by_index[rec->id] = rec;
+    by_name[rec->ident()] = rec;
+    by_index[rec->id()] = rec;
     by_category[rec->cat].push_back( rec );
 }
 
@@ -20,8 +20,8 @@ void recipe_dictionary::remove( recipe *rec )
 {
     recipes.remove( rec );
     remove_from_component_lookup( rec );
-    by_name.erase( rec->ident );
-    by_index.erase( rec->id );
+    by_name.erase( rec->ident() );
+    by_index.erase( rec->id() );
     // Terse name for category vector since it's repeated so many times.
     auto &cat_vec = by_category[rec->cat];
     cat_vec.erase( std::remove( cat_vec.begin(), cat_vec.end(), rec ), cat_vec.end() );
