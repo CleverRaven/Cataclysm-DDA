@@ -3653,9 +3653,7 @@ skill_id item::weap_skill() const
 
 skill_id item::skill() const
 {
-    if( is_gunmod() ) {
-        return type->gunmod->skill_used;
-    } else if ( is_gun() ) {
+    if ( is_gun() ) {
         return type->gun->skill_used;
     } else if( type->book && type->book->skill ) {
         return type->book->skill;

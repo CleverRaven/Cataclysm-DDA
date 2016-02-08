@@ -479,9 +479,6 @@ void Item_factory::check_definitions() const
         }
         if( type->gunmod ) {
             check_ammo_type( msg, type->gunmod->ammo_modifier );
-            if( type->gunmod->skill_used && !type->gunmod->skill_used.is_valid() ) {
-                msg << string_format("uses invalid gunmod skill.") << "\n";
-            }
         }
         if( type->magazine ) {
             magazines_defined.insert( type->id );
@@ -891,7 +888,6 @@ void Item_factory::load( islot_gunmod &slot, JsonObject &jo )
     slot.burst = jo.get_int( "burst_modifier", 0 );
     slot.range = jo.get_int( "range_modifier", 0 );
     slot.acceptable_ammo = jo.get_tags( "acceptable_ammo" );
-    slot.skill_used = skill_id( jo.get_string( "skill", "gun" ) );
     slot.ups_charges = jo.get_int( "ups_charges", slot.ups_charges );
     slot.install_time = jo.get_int( "install_time", slot.install_time );
 }

@@ -179,8 +179,7 @@
         "volume" : 3,
         "recoil_modifier" : -60,
         "price" : 68000,
-        "min_skills" : [ [ "gun", 7 ] ],
-        "skill": "archery"
+        "min_skills" : [ [ "gun", 7 ] ]
     },
     {
         "type" : "GUNMOD",
@@ -288,8 +287,7 @@
             "durability" : 100, "//" : "just a place holder, TODO: fill in the correct value",
             "reload" : 100, "//" : "just a place holder, TODO: fill in the correct value"
         },
-        "min_skills" : [ [ "gun", 1 ] ],
-        "skill": "launcher"
+        "min_skills" : [ [ "gun", 1 ] ]
     },
     {
         "id": "m320_mod",
@@ -302,7 +300,6 @@
         "description": "The M320 Grenade Launcher Module offers the functionality of larger launchers in a very small package at the cost of decreased accuracy.  It can be either attached to a rifle or combined with a buttstock for stand alone use.",
         "price": 84000,
         "material": "steel",
-        "skill": "launcher",
         "gun_data" : {
             "skill": "launcher",
             "ammo" : "40mm",
@@ -350,8 +347,7 @@
             "durability" : 100, "//" : "just a place holder, TODO: fill in the correct value",
             "reload" : 100, "//" : "just a place holder, TODO: fill in the correct value"
         },
-        "min_skills" : [ [ "gun", 2 ] ],
-        "skill": "launcher"
+        "min_skills" : [ [ "gun", 2 ] ]
     },
     {
         "type" : "GUNMOD",
@@ -380,8 +376,7 @@
             "durability" : 100, "//" : "just a place holder, TODO: fill in the correct value",
             "reload" : 100, "//" : "just a place holder, TODO: fill in the correct value"
         },
-        "min_skills" : [ [ "gun", 1 ] ],
-        "skill": "launcher"
+        "min_skills" : [ [ "gun", 1 ] ]
     },
     {
         "type" : "GUNMOD",
@@ -470,8 +465,7 @@
             "durability" : 100, "//" : "just a place holder, TODO: fill in the correct value",
             "reload" : 100, "//" : "just a place holder, TODO: fill in the correct value"
         },
-        "min_skills" : [ [ "gun", 1 ] ],
-        "skill": "shotgun"
+        "min_skills" : [ [ "gun", 1 ] ]
     },    
     {
         "type" : "GUNMOD",
@@ -501,8 +495,7 @@
             "durability" : 100, "//" : "just a place holder, TODO: fill in the correct value",
             "reload" : 100, "//" : "just a place holder, TODO: fill in the correct value"
         },
-        "min_skills" : [ [ "gun", 1 ] ],
-        "skill": "shotgun"
+        "min_skills" : [ [ "gun", 1 ] ]
     },
     {
         "type" : "GUNMOD",
@@ -532,8 +525,7 @@
             "durability" : 100, "//" : "just a place holder, TODO: fill in the correct value",
             "reload" : 100, "//" : "just a place holder, TODO: fill in the correct value"
         },
-        "min_skills" : [ [ "gun", 2 ] ],
-        "skill": "shotgun"
+        "min_skills" : [ [ "gun", 2 ] ]
     },
     {
         "type" : "GUNMOD",
@@ -566,8 +558,7 @@
           [ "20x66mm", [ "20x66_10_mag"] ]
         ],
         "magazine_well" : 1,
-        "min_skills" : [ [ "gun", 2 ] ],
-        "skill": "shotgun"
+        "min_skills" : [ [ "gun", 2 ] ]
     },
     {
         "type" : "GUNMOD",
@@ -597,8 +588,7 @@
             "durability" : 100, "//" : "just a place holder, TODO: fill in the correct value",
             "reload" : 100, "//" : "just a place holder, TODO: fill in the correct value"
         },
-        "min_skills" : [ [ "gun", 1 ] ],
-        "skill": "shotgun"
+        "min_skills" : [ [ "gun", 1 ] ]
     },
     {
         "type" : "GUNMOD",
@@ -629,8 +619,7 @@
             "reload" : 100,
             "loudness" : 175
         },
-        "min_skills" : [ [ "gun", 1 ] ],
-        "skill": "shotgun"
+        "min_skills" : [ [ "gun", 1 ] ]
     },
     {
         "type" : "GUNMOD",
@@ -660,8 +649,7 @@
             "reload" : 120,
             "loudness" : 200
         },
-        "min_skills" : [ [ "gun", 1 ] ],
-        "skill": "shotgun"
+        "min_skills" : [ [ "gun", 1 ] ]
     },
     {
         "type" : "GUNMOD",
@@ -692,8 +680,7 @@
             "durability" : 100, "//" : "just a place holder, TODO: fill in the correct value",
             "reload" : 100, "//" : "just a place holder, TODO: fill in the correct value"
         },
-        "min_skills" : [ [ "gun", 2 ] ],
-        "skill": "archery"
+        "min_skills" : [ [ "gun", 2 ] ]
     },
     {
         "type" : "GUNMOD",

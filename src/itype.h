@@ -216,10 +216,6 @@ struct common_ranged_data {
  */
 struct common_firing_data : common_ranged_data {
     /**
-     * What skill this gun uses.
-     */
-    skill_id skill_used = NULL_ID;
-    /**
      * TODO: this needs documentation, who knows what it is?
      * A value of -1 in gunmods means it's ignored.
      */
@@ -245,6 +241,10 @@ struct common_firing_data : common_ranged_data {
 
 // TODO: this shares a lot with the ammo item type, merge into a separate slot type?
 struct islot_gun : common_firing_data {
+    /**
+     * What skill this gun uses.
+     */
+    skill_id skill_used = NULL_ID;
     /**
      * What type of ammo this gun uses.
      */
