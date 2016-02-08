@@ -40,12 +40,12 @@ bool string_id<scenario>::is_valid() const
 }
 
 scenario::scenario()
-   : id(""), _name_male("null"), _name_female("null"),
-     _description_male("null"), _description_female("null")
+    : id( "" ), _name_male( "null" ), _name_female( "null" ),
+      _description_male( "null" ), _description_female( "null" )
 {
 }
 
-void scenario::load_scenario(JsonObject &jsobj)
+void scenario::load_scenario( JsonObject &jsobj )
 {
     all_scenarios.load( jsobj );
 }
@@ -112,7 +112,7 @@ const scenario *scenario::generic()
 // e.g., cost 1 is 2/3rds as likely, cost -2 is 1/2 as likely.
 const scenario *scenario::weighted_random()
 {
-    if (one_in(3)) {
+    if( one_in( 3 ) ) {
         return generic();
     }
 
@@ -129,7 +129,7 @@ const scenario *scenario::weighted_random()
     }
 }
 
-std::vector<const scenario*> scenario::get_all()
+std::vector<const scenario *> scenario::get_all()
 {
     return all_scenarios.get_all();
 }
@@ -160,9 +160,9 @@ void check_items( const std::vector<std::string> &items, const string_id<scenari
     for( auto &i : items ) {
         if( !item::type_is_defined( i ) ) {
             debugmsg( "item %s for scenario %s does not exist", i.c_str(), ident.c_str() );
-    }
         }
     }
+}
 
 void scenario::check_definition() const
 {
@@ -190,22 +190,20 @@ const string_id<scenario> &scenario::ident() const
     return id;
 }
 
-std::string scenario::gender_appropriate_name(bool male) const
+std::string scenario::gender_appropriate_name( bool male ) const
 {
-    if(male) {
+    if( male ) {
         return _name_male;
-    }
-    else {
+    } else {
         return _name_female;
     }
 }
 
-std::string scenario::description(bool male) const
+std::string scenario::description( bool male ) const
 {
-    if(male) {
+    if( male ) {
         return _description_male;
-    }
-    else {
+    } else {
         return _description_female;
     }
 }
@@ -221,9 +219,9 @@ start_location_id scenario::start_location() const
 }
 start_location_id scenario::random_start_location() const
 {
-   return random_entry( _allowed_locs );
+    return random_entry( _allowed_locs );
 }
-const profession* scenario::get_profession() const
+const profession *scenario::get_profession() const
 {
     if( _allowed_professions.empty() ) {
         return profession::generic();
@@ -231,7 +229,7 @@ const profession* scenario::get_profession() const
         return &_allowed_professions.front().obj();
     }
 }
-const profession* scenario::random_profession() const
+const profession *scenario::random_profession() const
 {
     if( _allowed_professions.empty() ) {
         return profession::generic();
@@ -266,34 +264,34 @@ bool scenario::profquery( const string_id<profession> &proff ) const
     auto &vec = _allowed_professions;
     return std::find( vec.begin(), vec.end(), proff ) != vec.end();
 }
-bool scenario::traitquery(std::string trait) const
+bool scenario::traitquery( std::string trait ) const
 {
-    return _allowed_traits.count(trait) != 0;
+    return _allowed_traits.count( trait ) != 0;
 }
-bool scenario::locked_traits(std::string trait) const
+bool scenario::locked_traits( std::string trait ) const
 {
-    return _forced_traits.count(trait) != 0;
+    return _forced_traits.count( trait ) != 0;
 }
-bool scenario::forbidden_traits(std::string trait) const
+bool scenario::forbidden_traits( std::string trait ) const
 {
-    return _forbidden_traits.count(trait) != 0;
+    return _forbidden_traits.count( trait ) != 0;
 }
 int scenario::profsize() const
 {
     return _allowed_professions.size();
 }
-bool scenario::has_flag(std::string flag) const
+bool scenario::has_flag( std::string flag ) const
 {
-    return flags.count(flag) != 0;
+    return flags.count( flag ) != 0;
 }
 bool scenario::allowed_start( const start_location_id &loc ) const
 {
     auto &vec = _allowed_locs;
     return std::find( vec.begin(), vec.end(), loc ) != vec.end();
 }
-bool scenario::can_pick(int points) const
+bool scenario::can_pick( int points ) const
 {
-    if (point_cost() - g->scen->point_cost() > points) {
+    if( point_cost() - g->scen->point_cost() > points ) {
         return false;
     }
 
@@ -303,7 +301,7 @@ bool scenario::has_map_special() const
 {
     return _map_special != "mx_null";
 }
-const std::string& scenario::get_map_special() const
+const std::string &scenario::get_map_special() const
 {
     return _map_special;
 }

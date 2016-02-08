@@ -38,6 +38,7 @@ src/posix_time.cpp
 src/profession.cpp
 src/recipe_dictionary.cpp
 src/rng.cpp
+src/scenario.cpp
 src/speech.cpp
 src/start_location.cpp
 src/submap.cpp
