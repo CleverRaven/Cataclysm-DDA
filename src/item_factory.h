@@ -69,10 +69,6 @@ class Item_factory
          * @param lua_function The LUA id of the LUA function.
          */
         void register_iuse_lua( const std::string &name, int lua_function );
-        /**
-         * Get the iuse function function of the given name.
-         */
-        const use_function *get_iuse( const std::string &id );
 
 
         /**
