@@ -17,15 +17,17 @@ class addiction;
 enum add_type : int;
 class start_location;
 using start_location_id = string_id<start_location>;
-
-typedef std::map<string_id<scenario>, scenario> scenmap;
+template<typename T>
+class generic_factory;
 
 class scenario
 {
 
 private:
     friend class string_id<scenario>;
+    friend class generic_factory<scenario>;
     string_id<scenario> id;
+    bool was_loaded = false;
     std::string _name_male;
     std::string _name_female;
     std::string _description_male;
@@ -47,9 +49,8 @@ private:
     std::set<std::string> flags; // flags for some special properties of the scenario
     std::string _map_special;
 
-    void add_items_from_jsonarray(JsonArray jsarr, std::vector<std::string> &container);
+    void load( JsonObject &jo );
 
-    static scenmap _all_scens;
 public:
     //these three aren't meant for external use, but had to be made public regardless
     scenario();
