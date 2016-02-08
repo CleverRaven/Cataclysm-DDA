@@ -1,15 +1,17 @@
 #include "morale.h"
-#include "itype.h"
+
 #include "cata_utility.h"
 #include "debug.h"
+#include "itype.h"
 #include "output.h"
 
-namespace {
-    static const std::string item_name_placeholder = "%i"; // Used to address an item name
+namespace
+{
+static const std::string item_name_placeholder = "%i"; // Used to address an item name
 
-    const std::string &get_morale_data( const morale_type id )
-    {
-        static const std::array<std::string, NUM_MORALE_TYPES> morale_data = { {
+const std::string &get_morale_data( const morale_type id )
+{
+    static const std::array<std::string, NUM_MORALE_TYPES> morale_data = { {
             { "This is a bug (player.cpp:moraledata)" },
             { _( "Enjoyed %i" ) },
             { _( "Enjoyed a hot meal" ) },
@@ -72,18 +74,20 @@ namespace {
 
             { _( "Got a Haircut" ) },
             { _( "Freshly Shaven" ) },
-        } };
-
-        if( static_cast<size_t>( id ) >= morale_data.size() ) {
-            debugmsg( "invalid morale type: %d", id );
-            return morale_data[0];
         }
+    };
 
-        return morale_data[id];
+    if( static_cast<size_t>( id ) >= morale_data.size() ) {
+        debugmsg( "invalid morale type: %d", id );
+        return morale_data[0];
     }
+
+    return morale_data[id];
+}
 } // namespace
 
-morale_point::morale_point( morale_type type, const itype *item_type, int bonus, int duration, int decay_start, int age ):
+morale_point::morale_point( morale_type type, const itype *item_type, int bonus, int duration,
+                            int decay_start, int age ):
     type( type ),
     item_type( item_type ),
     bonus( bonus ),
@@ -96,11 +100,13 @@ morale_point::morale_point( morale_type type, const itype *item_type, int bonus,
     if( item_type != nullptr ) {
         name = string_replace( name, item_name_placeholder, item_type->nname( 1 ) );
     } else if( name.find( item_name_placeholder ) != std::string::npos ) {
-        debugmsg( "%s(): Morale #%d (%s) requires item_type to be specified.", __FUNCTION__, type, name.c_str() );
+        debugmsg( "%s(): Morale #%d (%s) requires item_type to be specified.", __FUNCTION__, type,
+                  name.c_str() );
     }
 }
 
-void morale_point::add( int new_bonus, int new_max_bonus, int new_duration, int new_decay_start, bool new_cap )
+void morale_point::add( int new_bonus, int new_max_bonus, int new_duration, int new_decay_start,
+                        bool new_cap )
 {
     if( new_cap ) {
         duration = new_duration;

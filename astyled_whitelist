@@ -29,6 +29,7 @@ src/mission_place.cpp
 src/mondefense.cpp
 src/monfaction.cpp
 src/monmove.cpp
+src/morale.cpp
 src/mtype.cpp
 src/name.cpp
 src/nonplayer.cpp
