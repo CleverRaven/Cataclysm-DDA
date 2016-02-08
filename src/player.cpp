@@ -11061,7 +11061,7 @@ bool player::invoke_item( item* used, const tripoint &pt )
 
     if( used->type->use_methods.size() < 2 ) {
         const long charges_used = used->type->invoke( this, used, pt );
-        return consume_charges( *used, charges_used );
+        return ( used->is_tool() || used->is_food() ) && consume_charges( *used, charges_used );
     }
 
     // Food can't be invoked here - it is already invoked as a part of consumption
@@ -11088,7 +11088,7 @@ bool player::invoke_item( item* used, const tripoint &pt )
 
     const std::string &method = used->type->use_methods[choice].get_type_name();
     long charges_used = used->type->invoke( this, used, pt, method );
-    return consume_charges( *used, charges_used );
+    return ( used->is_tool() || used->is_food() ) && consume_charges( *used, charges_used );
 }
 
 bool player::invoke_item( item* used, const std::string &method )
