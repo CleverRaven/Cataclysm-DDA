@@ -230,10 +230,6 @@ struct common_firing_data : common_ranged_data {
      */
     int burst = 0;
     /**
-     * Clip size
-     */
-    int clip = 0;
-    /**
      * loudness for guns/gunmods
      */
     int loudness = 0;
@@ -253,6 +249,10 @@ struct islot_gun : common_firing_data {
      * Gun durability, affects gun being damaged during shooting.
      */
     int durability = 0;
+    /**
+     * For guns with an integral magazine what is the capacity?
+     */
+    int clip = 0;
     /**
      * Reload time, in moves.
      */

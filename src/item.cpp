@@ -877,9 +877,6 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
             info.push_back( iteminfo( "GUNMOD", _( "Armor-pierce: " ), "", mod->pierce, true,
                                       ( ( mod->pierce > 0 ) ? "+" : "" ) ) );
         }
-        if( mod->clip != 0 )
-            info.push_back( iteminfo( "GUNMOD", _( "Magazine: " ), "<num>%", mod->clip, true,
-                                      ( ( mod->clip > 0 ) ? "+" : "" ) ) );
         if( mod->recoil != 0 )
             info.push_back( iteminfo( "GUNMOD", _( "Recoil: " ), "", mod->recoil, true,
                                       ( ( mod->recoil > 0 ) ? "+" : "" ), true, true ) );
