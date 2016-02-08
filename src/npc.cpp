@@ -1806,7 +1806,7 @@ bool npc::has_healing_item( bool bleed, bool bite, bool infect )
 item &npc::get_healing_item( bool bleed, bool bite, bool infect, bool first_best )
 {
     item *best = &ret_null;
-    visit_items( [&best, bleed, bite, infect, first_best]( item *node, item * ) {
+    visit_items( [&best, bleed, bite, infect, first_best]( item *node ) {
         const auto use = node->type->get_use( "heal" );
         if( use == nullptr ){
             return VisitResponse::NEXT;

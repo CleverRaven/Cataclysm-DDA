@@ -4271,26 +4271,20 @@ item_location item::pick_reload_ammo( player &u, bool interactive ) const
     };
 
     // first check the inventory for suitable ammo
-    u.visit_items( [&ammo_list,&filter,&u]( const item *node, const item * ) {
+    u.visit_items( [&ammo_list,&filter,&u]( const item *node ) {
         if( filter( node ) ) {
             ammo_list.emplace_back( item_location( u, node ) );
         }
         return ( node->is_magazine() || node->is_container() || node->is_gun() || node->is_tool() ) ? VisitResponse::SKIP : VisitResponse::NEXT;
     });
 
-    for( const auto &pos : closest_tripoints_first( 1, u.pos() ) ) {
-        // next check for items on adjacent map tiles
-        if( g->m.accessible_items( u.pos(), pos, 1 ) ) {
-            for( auto& e : g->m.i_at( pos ) ) {
-                e.visit_items( [&ammo_list,&filter,&pos]( const item *node, const item * ) {
-                    if( filter( node ) ) {
-                        ammo_list.emplace_back( pos, node );
-                    }
-                    return ( node->is_magazine() || node->is_container() || node->is_gun() || node->is_tool() ) ? VisitResponse::SKIP : VisitResponse::NEXT;
-                });
-            }
+    // next check for items on adjacent map tiles
+    u.nearby( 1 ).visit_items( [&ammo_list,&filter]( const item *node, const item *, const tripoint *pos ) {
+        if( filter( node ) ) {
+            ammo_list.emplace_back( *pos, node );
         }
-    }
+        return ( node->is_magazine() || node->is_container() || node->is_gun() || node->is_tool() ) ? VisitResponse::SKIP : VisitResponse::NEXT;
+    } );
 
     if( ammo_list.empty() ) {
         if( interactive ) {
@@ -5083,59 +5077,8 @@ void item::mark_as_used_by_player(const player &p)
     used_by_ids += string_format( "%d;", p.getID() );
 }
 
-static inline VisitResponse visit_internal( const std::function<VisitResponse(item *, item *)>& func, item *node, item *parent ) {
-    switch( func( node, parent ) ) {
-        case VisitResponse::ABORT:
-            return VisitResponse::ABORT;
-
-        case VisitResponse::NEXT:
-            for( auto& e : node->contents ) {
-                if( visit_internal( func, &e, node ) == VisitResponse::ABORT ) {
-                    return VisitResponse::ABORT;
-                }
-            }
-        /* intentional fallthrough */
-
-        case VisitResponse::SKIP:
-            return VisitResponse::NEXT;
-    }
-
-    /* never reached but suppresses GCC warning */
-    return VisitResponse::ABORT;
-}
-
-VisitResponse item::visit_items( const std::function<VisitResponse(item *, item *)>& func )
-{
-    return visit_internal( func, this, nullptr );
-}
-
-VisitResponse item::visit_items( const std::function<VisitResponse(const item *, const item *)>& func ) const
-{
-    return visit_internal( func, const_cast<item *>( this ), nullptr );
-}
-
-item * item::find_parent( item& it )
-{
-    item *res = nullptr;
-    if( visit_items( [&]( item *node, item *parent ){
-        if( node == &it ) {
-            res = parent;
-            return VisitResponse::ABORT;
-        }
-        return VisitResponse::NEXT;
-    } ) != VisitResponse::ABORT ) {
-        debugmsg( "Tried to find item parent using an item that doesn't contain it" );
-    }
-    return res;
-}
-
-const item * item::find_parent( const item& it ) const
-{
-    return const_cast<item *>( this )->find_parent( const_cast<item&>( it ) );
-}
-
 bool item::contains( const std::function<bool(const item&)>& filter ) const {
-    return visit_items( [&filter] ( const item *node, const item * ) {
+    return visit_items( [&filter] ( const item *node ) {
         return filter( *node ) ? VisitResponse::ABORT : VisitResponse::NEXT;
     }) == VisitResponse::ABORT;
 }

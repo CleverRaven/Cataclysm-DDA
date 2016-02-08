@@ -1,6 +1,7 @@
 #ifndef INVENTORY_H
 #define INVENTORY_H
 
+#include "visitable.h"
 #include "item.h"
 #include "enums.h"
 
@@ -47,9 +48,11 @@ public:
 
 const extern invlet_wrapper inv_chars;
 
-class inventory
+class inventory : public visitable<inventory>
 {
     public:
+        friend visitable<inventory>;
+
         invslice slice();
         const_invslice const_slice() const;
         const std::list<item> &const_stack(int i) const;
@@ -212,24 +215,6 @@ class inventory
             }
             return stacks;
         }
-
-        /** Traverses each item in the inventory using a visitor function
-         * @return Similar to item::visit_items returns only VisitResponse::Next or VisitResponse::Abort
-         * @see item::visit_items
-         **/
-        VisitResponse visit_items( const std::function<VisitResponse(item *, item *)>& func );
-        VisitResponse visit_items( const std::function<VisitResponse(const item *, const item *)>& func ) const;
-
-        /**
-         *  Determine the parent container (if any) for an item.
-         *  @param it item to search for which must be contained in the inventory
-         *  @return parent container or nullptr if the item is not within a container
-         */
-        item * find_parent( item& it );
-        const item * find_parent( const item& it ) const;
-
-        /** Returns true if any item (including those within a container) matches the filter */
-        bool has_item_with( const std::function<bool(const item&)>& filter ) const;
 
         /** Returns all items matching the filter including any within containers */
         std::vector<item *> items_with( const std::function<bool(const item&)>& filter );

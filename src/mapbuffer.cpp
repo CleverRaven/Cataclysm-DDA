@@ -512,7 +512,7 @@ submap *mapbuffer::unserialize_submaps( const tripoint &p )
                             sm->update_lum_add(tmp, i, j);
                         }
 
-                        tmp.visit_items([&sm,i,j]( item *it, item * /* parent */ ) {
+                        tmp.visit_items([&sm,i,j]( item *it ) {
                             for( auto& e: it->magazine_convert() ) {
                                 sm->itm[i][j].push_back( e );
                             }
