@@ -12888,7 +12888,7 @@ bool player::knows_recipe(const recipe *rec) const
         return true;
     }
 
-    if( learned_recipes.find( rec->ident ) != learned_recipes.end() ) {
+    if( learned_recipes.find( rec->ident() ) != learned_recipes.end() ) {
         return true;
     }
 
@@ -12917,7 +12917,7 @@ int player::has_recipe( const recipe *r, const inventory &crafting_inv ) const
             }
         } else {
             if (candidate.has_flag("HAS_RECIPE")){
-                if (candidate.get_var("RECIPE") == r->ident){
+                if (candidate.get_var("RECIPE") == r->ident()){
                     if (difficulty == -1) difficulty = r->difficulty;
                 }
             }
@@ -12929,9 +12929,9 @@ int player::has_recipe( const recipe *r, const inventory &crafting_inv ) const
 void player::learn_recipe( const recipe * const rec, bool force )
 {
     if( force || rec->valid_learn() ) {
-        learned_recipes[rec->ident] = rec;
+        learned_recipes[rec->ident()] = rec;
     } else {
-        debugmsg( "Tried to learn unlearnable recipe %s", rec->ident.c_str() );
+        debugmsg( "Tried to learn unlearnable recipe %s", rec->ident().c_str() );
     }
 }
 

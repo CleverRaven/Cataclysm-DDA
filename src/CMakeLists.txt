@@ -91,6 +91,7 @@ SET(CATACLYSM_DDA_SOURCES
     ${CMAKE_SOURCE_DIR}/src/mod_manager.cpp
     ${CMAKE_SOURCE_DIR}/src/vehicle.cpp
     ${CMAKE_SOURCE_DIR}/src/vehicle_group.cpp
+    ${CMAKE_SOURCE_DIR}/src/visitable.cpp
     ${CMAKE_SOURCE_DIR}/src/mission_place.cpp
     ${CMAKE_SOURCE_DIR}/src/material.cpp
     ${CMAKE_SOURCE_DIR}/src/veh_type.cpp
@@ -208,6 +209,7 @@ SET (CATACLYSM_DDA_HEADERS
     ${CMAKE_SOURCE_DIR}/src/creature.h
     ${CMAKE_SOURCE_DIR}/src/vehicle.h
     ${CMAKE_SOURCE_DIR}/src/vehicle_group.h
+    ${CMAKE_SOURCE_DIR}/src/visitable.h
     ${CMAKE_SOURCE_DIR}/src/clzones.h
     ${CMAKE_SOURCE_DIR}/src/translations.h
     ${CMAKE_SOURCE_DIR}/src/skill.h
@@ -221,7 +223,7 @@ SET (CATACLYSM_DDA_HEADERS
     ${CMAKE_SOURCE_DIR}/src/scenario.h
     ${CMAKE_SOURCE_DIR}/src/auto_pickup.h
     ${CMAKE_SOURCE_DIR}/src/cata_tiles.h
-	${CMAKE_SOURCE_DIR}/src/cata_utility.h
+    ${CMAKE_SOURCE_DIR}/src/cata_utility.h
     ${CMAKE_SOURCE_DIR}/src/char_validity_check.h
     ${CMAKE_SOURCE_DIR}/src/coordinates.h
     ${CMAKE_SOURCE_DIR}/src/field.h

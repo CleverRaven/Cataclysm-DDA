@@ -478,6 +478,7 @@
 		<Unit filename="src/main_menu.cpp" />
 		<Unit filename="src/map.cpp" />
 		<Unit filename="src/map.h" />
+		<Unit filename="src/map_selector.h" />
 		<Unit filename="src/mapbuffer.cpp" />
 		<Unit filename="src/mapbuffer.h" />
 		<Unit filename="src/mapdata.cpp" />
@@ -620,6 +621,8 @@
 		<Unit filename="src/vehicle_group.cpp" />
 		<Unit filename="src/vehicle_group.h" />
 		<Unit filename="src/version.cpp" />
+		<Unit filename="src/visitable.cpp" />
+		<Unit filename="src/visitable.h" />
 		<Unit filename="src/wcwidth.h" />
 		<Unit filename="src/wdirent.h" />
 		<Unit filename="src/weather.cpp" />

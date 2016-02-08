@@ -2,7 +2,6 @@
 #define PLAYER_H
 
 #include "character.h"
-#include "crafting.h"
 #include "craft_command.h"
 #include "item.h"
 #include "player_activity.h"

@@ -114,7 +114,7 @@ const recipe *select_crafting_recipe( int &batch_size )
     const int dataHeight = TERMY - ( headHeight + subHeadHeight );
     const int infoWidth = width - FULL_SCREEN_WIDTH - 1;
 
-    int lastid = -1;
+    const recipe *last_recipe = nullptr;
 
     WINDOW *w_head = newwin( headHeight, width, 0, wStart );
     WINDOW_PTR w_head_ptr( w_head );
@@ -398,8 +398,8 @@ const recipe *select_crafting_recipe( int &batch_size )
             }
 
             if( isWide ) {
-                if( lastid != current[line]->id ) {
-                    lastid = current[line]->id;
+                if( last_recipe != current[line] ) {
+                    last_recipe = current[line];
                     tmp = current[line]->create_result();
                     tmp.info( true, thisItem );
                 }

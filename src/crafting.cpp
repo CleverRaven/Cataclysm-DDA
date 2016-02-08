@@ -36,36 +36,30 @@ static const std::string fake_recipe_book = "book";
 void remove_from_component_lookup(recipe* r);
 
 recipe::recipe() :
-    id(0), result("null"), contained(false),skill_used( NULL_ID ), reversible(false),
+    result("null"), contained(false),skill_used( NULL_ID ), reversible(false),
     autolearn(false), learn_by_disassembly(-1), result_mult(1)
 {
 }
 
 // Check that the given recipe ident (rec_name) is unique, throw if not,
-// Returns the id for the new recipe.
 // If the recipe should override an existing one, the function removes the existing
-// recipe and returns the id if the removed recipe.
-int check_recipe_ident(const std::string &rec_name, JsonObject &jsobj)
+// recipe.
+void check_recipe_ident(const std::string &rec_name, JsonObject &jsobj)
 {
     const bool override_existing = jsobj.get_bool("override", false);
 
     for( auto list_iter : recipe_dict ) {
-        if (list_iter->ident == rec_name) {
+        if (list_iter->ident() == rec_name) {
             if (!override_existing) {
                 jsobj.throw_error(
                     std::string("Recipe name collision (set a unique value for the id_suffix field to fix): ") +
                     rec_name, "result");
             }
-            // overriding an existing recipe: delete it and remove the pointer
-            // keep the id,
-            const int tmp_id = list_iter->id;
             recipe_dict.remove( list_iter );
             delete list_iter;
-            return tmp_id;
+            break;
         }
     }
-
-    return recipe_dict.size();
 }
 
 void load_recipe(JsonObject &jsobj)
@@ -131,12 +125,11 @@ void load_recipe(JsonObject &jsobj)
     }
 
     std::string rec_name = result + id_suffix;
-    int id = check_recipe_ident(rec_name, jsobj); // may delete recipes
+    check_recipe_ident(rec_name, jsobj); // may delete recipes
 
     recipe *rec = new recipe();
 
-    rec->ident = rec_name;
-    rec->id = id;
+    rec->ident_ = rec_name;
     rec->result = result;
     rec->time = time;
     rec->difficulty = difficulty;
@@ -184,13 +177,13 @@ void finalize_recipes()
         for( auto j = r->booksets.begin(); j != r->booksets.end(); ++j ) {
             const std::string &book_id = j->book_id;
             if( !item::type_is_defined( book_id ) ) {
-                debugmsg("book %s for recipe %s does not exist", book_id.c_str(), r->ident.c_str());
+                debugmsg("book %s for recipe %s does not exist", book_id.c_str(), r->ident().c_str());
                 continue;
             }
             itype *t = item::find_type( book_id );
             if( !t->book ) {
                 // TODO: we could make up a book slot?
-                debugmsg("book %s for recipe %s is not a book", book_id.c_str(), r->ident.c_str());
+                debugmsg("book %s for recipe %s is not a book", book_id.c_str(), r->ident().c_str());
                 continue;
             }
             islot_book::recipe_with_description_t rwd{ r, j->skill_level, "", j->hidden };
@@ -264,7 +257,7 @@ void player::craft()
     const recipe *rec = select_crafting_recipe( batch_size );
     if (rec) {
         if ( crafting_allowed( *rec ) ) {
-            make_craft( rec->ident, batch_size );
+            make_craft( rec->ident(), batch_size );
         }
     }
 }
@@ -284,7 +277,7 @@ void player::long_craft()
     const recipe *rec = select_crafting_recipe( batch_size );
     if (rec) {
         if ( crafting_allowed( *rec ) ) {
-            make_all_craft( rec->ident, batch_size );
+            make_all_craft( rec->ident(), batch_size );
         }
     }
 }
@@ -662,10 +655,10 @@ void set_components( std::vector<item> &components, const std::list<item> &used,
 
 void player::complete_craft()
 {
-    const recipe *making = recipe_by_index(activity.index); // Which recipe is it?
+    const recipe *making = recipe_by_name( activity.name ); // Which recipe is it?
     int batch_size = activity.values.front();
     if( making == nullptr ) {
-        debugmsg( "no recipe with id %d found", activity.index );
+        debugmsg( "no recipe with id %s found", activity.name.c_str() );
         activity.type = ACT_NULL;
         return;
     }
@@ -1327,7 +1320,7 @@ bool player::disassemble( item &dis_item, int dis_pos,
             return false;
         }
 
-        recipe_ident = cur_recipe->ident;
+        recipe_ident = cur_recipe->ident();
         recipe_time = cur_recipe->time;
     }
     // If we're trying to disassemble a book or magazine
@@ -1667,11 +1660,6 @@ void player::complete_disassemble( int item_pos, const tripoint &loc,
     }
 }
 
-const recipe *recipe_by_index( int index )
-{
-    return recipe_dict[index];
-}
-
 const recipe *recipe_by_name( const std::string &name)
 {
     return recipe_dict[name];
@@ -1681,17 +1669,17 @@ void check_recipe_definitions()
 {
     for( auto &elem : recipe_dict ) {
         const recipe &r = *elem;
-        const std::string display_name = std::string("recipe ") + r.ident;
+        const std::string display_name = std::string("recipe ") + r.ident();
         r.requirements.check_consistency(display_name);
         if (!item::type_is_defined(r.result)) {
-            debugmsg("result %s in recipe %s is not a valid item template", r.result.c_str(), r.ident.c_str());
+            debugmsg("result %s in recipe %s is not a valid item template", r.result.c_str(), r.ident().c_str());
         }
         if( r.skill_used && !r.skill_used.is_valid() ) {
-            debugmsg("recipe %s uses invalid skill %s", r.ident.c_str(), r.skill_used.c_str());
+            debugmsg("recipe %s uses invalid skill %s", r.ident().c_str(), r.skill_used.c_str());
         }
         for( auto &e : r.required_skills ) {
             if( e.first && !e.first.is_valid() ) {
-                debugmsg("recipe %s uses invalid required skill %s", r.ident.c_str(), e.first.c_str());
+                debugmsg("recipe %s uses invalid required skill %s", r.ident().c_str(), e.first.c_str());
             }
         }
     }
@@ -1777,4 +1765,9 @@ std::string recipe::required_skills_string() const
         skills_as_stream << _("N/A");
     }
     return skills_as_stream.str();
+}
+
+const std::string &recipe::ident() const
+{
+    return ident_;
 }
