@@ -243,9 +243,11 @@ void npc::move()
     }
 
     if( action == npc_undecided ) {
-        if (mission == NPC_MISSION_SHELTER || mission == NPC_MISSION_BASE || mission == NPC_MISSION_SHOPKEEP
-            || mission == NPC_MISSION_GUARD || has_effect( effect_infection ) ) {
-            action = npc_pause;
+        if( mission == NPC_MISSION_SHELTER || mission == NPC_MISSION_BASE ||
+            mission == NPC_MISSION_SHOPKEEP || mission == NPC_MISSION_GUARD ||
+            has_effect( effect_infection ) ) {
+            // This should make them stay where positioned, not go away
+            action = npc_goto_destination;
         } else if( has_new_items && scan_new_items() ) {
             return;
         } else if( !fetching_item ) {
@@ -259,9 +261,7 @@ void npc::move()
         } else if( fetching_item ) {
             // Set to true if find_item() found something
             action = npc_pickup;
-        }
-
-        if( action == npc_undecided && is_following() ) {
+        } else if( is_following() ) {
             // No items, so follow the player?
             action = npc_follow_player;
         }
@@ -2350,14 +2350,14 @@ void npc::set_destination()
     if (mission == NPC_MISSION_GUARD || mission == NPC_MISSION_SHOPKEEP) {
         goal.x = global_omt_location().x;
         goal.y = global_omt_location().y;
-        goal.z = g->get_levz();
+        goal.z = posz();
         guard_pos = global_square_location();
         return;
     }
 
     // all of the following luxuries are at ground level.
     // so please wallow in hunger & fear if below ground.
-    if(g->get_levz() != 0) {
+    if( posz() != 0 ) {
         goal = no_goal_point;
         return;
     }
@@ -2407,8 +2407,10 @@ void npc::set_destination()
 void npc::go_to_destination()
 {
     const tripoint omt_pos = global_omt_location();
-    const int sx = (goal.x == omt_pos.x) ? 0 : sgn( goal.x - omt_pos.x );
-    const int sy = (goal.y == omt_pos.y) ? 0 : sgn( goal.y - omt_pos.y );
+    const int sx = sgn( goal.x - omt_pos.x );
+    const int sy = sgn( goal.y - omt_pos.y );
+    const int minz = std::min( goal.z, posz() );
+    const int maxz = std::max( goal.z, posz() );
     add_msg( m_debug, "%s going (%d,%d,%d)->(%d,%d,%d)", name.c_str(),
              omt_pos.x, omt_pos.y, omt_pos.z, goal.x, goal.y, goal.z );
     if( goal.x == omt_pos.x && goal.y == omt_pos.y ) { // We're at our desired map square!
@@ -2435,7 +2437,7 @@ void npc::go_to_destination()
             }
         }
 
-        dest = tripoint( posx() + rng( 0, 16 ) * sx, posy() + rng( 0, 16 ) * sy, goal.z );
+        dest = tripoint( posx() + rng( 0, 16 ) * sx, posy() + rng( 0, 16 ) * sy, rng( minz, maxz ) );
     }
     move_pause();
 }

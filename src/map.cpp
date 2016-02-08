@@ -2711,6 +2711,10 @@ int map::bash_rating( const int str, const tripoint &p, const bool allow_floor )
         return -1;
     }
 
+    if( str <= 0 ) {
+        return -1;
+    }
+
     int part = -1;
     const furn_t &furniture = furn_at( p );
     const ter_t &terrain = ter_at( p );
