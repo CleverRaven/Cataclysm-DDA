@@ -10585,11 +10585,6 @@ hint_rating player::rate_action_reload( const item &it ) const
 
     // Guns may contain additional reloadable mods so check these first
     for( const auto& mod : it.contents ) {
-        // @todo deprecate spare magazine
-        if( mod.typeId() == "spare_mag" && mod.charges < it.ammo_capacity() ) {
-            return HINT_GOOD;
-        }
-
         if( mod.is_auxiliary_gunmod() ) {
             switch( rate_action_reload( mod ) ) {
                 case HINT_GOOD:
@@ -13015,11 +13010,6 @@ std::string player::weapname() const
                 str << weapon.ammo_remaining();
                 if( weapon.magazine_integral() ) {
                     str << "/" << weapon.ammo_capacity();
-                }
-                // @todo deprecate handling of spare magazine
-                int spare_mag = weapon.has_gunmod( "spare_mag" );
-                if( spare_mag != -1 ) {
-                    str << " +" << weapon.contents[spare_mag].charges;
                 }
             } else {
                 str << "---";

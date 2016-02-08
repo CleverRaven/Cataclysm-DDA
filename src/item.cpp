@@ -4217,21 +4217,6 @@ item_location item::pick_reload_ammo( player &u, bool interactive ) const
     std::set<itype_id> item_types; // specific ammo for partially loaded detachable or integral magazines
     std::set<itype_id> compat_mag; // compatible magazine types for items that reload using them
 
-    // @todo deprecate handling of spare magazine as special case
-    auto spare = has_gunmod( "spare_mag" );
-    if( spare >= 0 ) {
-        if( ammo_remaining() <= 0 && contents[spare].charges > 0 ) {
-            return item_location( u, this );
-        }
-        if( contents[spare].charges < ammo_remaining() ) {
-            if( contents[spare].charges > 0 || ammo_remaining() > 0 ) {
-                item_types.insert( ammo_current() ); // gun or spare mag partially loaded
-            } else {
-                ammo_types.insert( ammo_type() ); // neither loaded
-            }
-        }
-    }
-
     // checks if item reloadable and if so appends to either ammo_type or item_type
     auto wants_ammo = [&ammo_types,&item_types,&compat_mag]( const item& it ) {
         if( !it.has_flag( "NO_RELOAD" ) ) {
@@ -4429,16 +4414,6 @@ bool item::reload( player &u, int pos )
 
 bool item::reload( player &u, item_location loc )
 {
-    // @todo deprecate reloading using a spare magazine
-    item *spare_mag = has_gunmod("spare_mag") >= 0 ? &contents[has_gunmod("spare_mag")] : nullptr;
-    if( spare_mag && spare_mag->charges > 0 && ammo_remaining() <= 0 ) {
-        charges = spare_mag->charges;
-        set_curammo( spare_mag->ammo_current() );
-        spare_mag->charges = 0;
-        spare_mag->unset_curammo();
-        return true;
-    }
-
     item *ammo = loc.get_item();
     if( ammo == nullptr || ammo->is_null() ) {
         debugmsg( "Tried to reload using non-existent ammo" );
@@ -4472,23 +4447,13 @@ bool item::reload( player &u, item_location loc )
 
     if( is_gun() ) {
         // In order of preference reload active gunmod, gun, spare magazine, any other auxiliary gunmod
-        std::vector<item *> opts = { active_gunmod(), this, spare_mag };
+        std::vector<item *> opts = { active_gunmod(), this };
         std::transform(contents.begin(), contents.end(), std::back_inserter(opts), [](item& mod){
             return mod.is_auxiliary_gunmod() ? &mod : nullptr;
         });
 
         for( auto e : opts ) {
             if( e != nullptr ) {
-                // @todo deprecate handling of spare magazines as a special case
-                if( e == spare_mag && ammo_type() == ammo->ammo_type() &&
-                    (!e->charges || e->ammo_current() == ammo->typeId()) &&
-                    e->charges < ammo_capacity() ) {
-
-                    qty = has_flag("RELOAD_ONE") ? 1 : ammo_capacity() - e->charges;
-                    target = e;
-                    break;
-                } // handle everything else (gun and auxiliary gunmods)
-
                 if( e->magazine_integral() ) {
                     if( e->ammo_type() == ammo->ammo_type() &&
                         (!e->ammo_remaining() || e->ammo_current() == ammo->typeId()) &&
