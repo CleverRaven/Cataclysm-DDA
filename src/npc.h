@@ -664,6 +664,8 @@ public:
  bool is_friend() const; // Allies with the player
  bool is_leader() const; // Leading the player
  bool is_defending() const; // Putting the player's safety ahead of ours
+    /** Standing in one spot, moving back if removed from it. */
+    bool is_guarding() const;
         Attitude attitude_to( const Creature &other ) const override;
 // What happens when the player makes a request
  void told_to_help();
@@ -789,6 +791,8 @@ public:
  void set_destination(); // Pick a place to go
  void go_to_destination(); // Move there; on the micro scale
  void reach_destination(); // We made it!
+
+    void guard_current_pos();
 
  //message related stuff
  virtual void add_msg_if_npc(const char* msg, ...) const override;
