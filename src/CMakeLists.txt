@@ -81,6 +81,7 @@ SET(CATACLYSM_DDA_SOURCES
     ${CMAKE_SOURCE_DIR}/src/speech.cpp
     ${CMAKE_SOURCE_DIR}/src/mod_manager_ui.cpp
     ${CMAKE_SOURCE_DIR}/src/iuse_software_snake.cpp
+    ${CMAKE_SOURCE_DIR}/src/morale.cpp
     ${CMAKE_SOURCE_DIR}/src/savegame.cpp
     ${CMAKE_SOURCE_DIR}/src/lightmap.cpp
     ${CMAKE_SOURCE_DIR}/src/mapdata.cpp
