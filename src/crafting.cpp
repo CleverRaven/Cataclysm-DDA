@@ -662,10 +662,10 @@ void set_components( std::vector<item> &components, const std::list<item> &used,
 
 void player::complete_craft()
 {
-    const recipe *making = recipe_by_index(activity.index); // Which recipe is it?
+    const recipe *making = recipe_by_name( activity.name ); // Which recipe is it?
     int batch_size = activity.values.front();
     if( making == nullptr ) {
-        debugmsg( "no recipe with id %d found", activity.index );
+        debugmsg( "no recipe with id %s found", activity.name.c_str() );
         activity.type = ACT_NULL;
         return;
     }
