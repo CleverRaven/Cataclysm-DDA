@@ -171,22 +171,6 @@ std::string item_action_generator::get_action_name( const item_action_id &id ) c
     return id;
 }
 
-std::string item_action_generator::get_action_name( const iuse_actor *actor ) const
-{
-    if( actor == nullptr ) {
-        debugmsg( "Tried to get name of a null iuse_actor" );
-        return errstring;
-    }
-
-    const iuse_transform *trans_actor = nullptr;
-    trans_actor = dynamic_cast<const iuse_transform *>( actor );
-    if( trans_actor != nullptr && !trans_actor->menu_option_text.empty() ) {
-        return trans_actor->menu_option_text;
-    }
-
-    return get_action_name( actor->type );
-}
-
 const item_action &item_action_generator::get_action( const item_action_id &id ) const
 {
     const auto &iter = item_actions.find( id );
@@ -294,7 +278,11 @@ std::string use_function::get_type_name() const
 std::string use_function::get_name() const
 {
     if( actor ) {
-        return item_action_generator::generator().get_action_name( actor );
+        const auto trans_actor = dynamic_cast<const iuse_transform *>( actor.get() );
+        if( trans_actor != nullptr && !trans_actor->menu_option_text.empty() ) {
+            return trans_actor->menu_option_text;
+        }
+        return item_action_generator::generator().get_action_name( actor->type );
     } else {
         return errstring;
     }
