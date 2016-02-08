@@ -269,13 +269,6 @@ public:
     use_function &operator=( iuse_actor *f );
     use_function &operator=( use_function && ) = default;
     use_function &operator=( const use_function &other );
-
-    bool operator==(use_function f) const {
-        if( actor.get() == f.actor.get() ) {
-            return true;
-        }
-        return actor && f.actor && f.actor->type == actor->type;
-    }
 };
 
 #endif
