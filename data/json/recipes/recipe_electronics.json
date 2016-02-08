@@ -1142,7 +1142,7 @@
   "components": [
     [ [ "power_supply", 4 ] ],
     [ [ "amplifier", 2 ] ],
-    [ [ "solar_cell", 4 ] ],
+    [ [ "solar_cell_quantum", 4 ] ],
     [
       [ "burnt_out_bionic", 1 ],
       [ "processor", 2 ]
@@ -1664,6 +1664,32 @@
   ]
 },{
   "type" : "recipe",
+  "result": "solar_panel_v3",
+  "category": "CC_ELECTRONIC",
+  "subcategory": "CSC_ELECTRONIC_PARTS",
+  "skill_used": "electronics",
+  "difficulty": 8,
+  "time": 50000,
+  "reversible": true,
+  "decomp_learn": 5,
+  "autolearn": false,
+  "book_learn": [["recipe_lab_elec", 8]],
+  "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
+  "tools": [
+    [
+      [ "soldering_iron", 35 ],
+      [ "toolset", 35 ]
+    ]
+  ],
+  "components": [
+    [ [ "processor", 1 ] ],
+    [ [ "power_supply", 2 ] ],
+    [ [ "amplifier", 2 ] ],
+    [ [ "solar_cell_quantum", 8 ] ],
+    [ [ "cable", 10 ] ]
+  ]
+},{
+  "type" : "recipe",
   "result": "kitchen_unit",
   "category": "CC_ELECTRONIC",
   "subcategory": "CSC_ELECTRONIC_PARTS",
@@ -2046,7 +2072,10 @@
     ],
     [ [ "RAM", 2 ] ],
     [ [ "motor", 1 ] ],
-    [ [ "solar_cell", 4 ] ],
+    [ 
+      [ "solar_cell_quantum", 2 ], 
+      [ "solar_cell", 8 ]      
+    ],
     [ [ "cable", 10 ] ],
     [
       [ "power_supply", 1 ],

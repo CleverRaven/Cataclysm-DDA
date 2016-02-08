@@ -576,7 +576,7 @@
         "volume" : 26,
         "bashing" : 1,
         "category" : "veh_parts",
-        "price" : 120000
+        "price" : 100000
     },
     {
         "type":"GENERIC",
@@ -591,7 +591,7 @@
         "volume" : 18,
         "bashing" : 1,
         "category" : "veh_parts",
-        "price" : 900
+        "price" : 150000
     },
     {
         "type":"GENERIC",
@@ -606,13 +606,13 @@
         "volume" : 30,
         "bashing" : 1,
         "category" : "veh_parts",
-        "price" : 900
+        "price" : 160000
     },
     {
         "type":"GENERIC",
         "id" : "solar_panel_v3",
         "name" : "quantum solar panel",
-        "description" : "This solar panel is obviously cutting-edge technology and given where you found it, should probably provide a LOT of power.  It's covered in strange-looking material, but the covering looks rather fragile; it doesn't look like it could support a reinforcing sheet, either.",
+        "description" : "This solar panel is obviously cutting-edge technology and should probably provide a LOT of power.  It's covered in strange-looking material, but the covering looks rather fragile; it doesn't look like it could support a reinforcing sheet, either.",
         "weight" : 14000,
         "to_hit" : -5,
         "color" : "yellow",
@@ -621,7 +621,7 @@
         "volume" : 18,
         "bashing" : 1,
         "category" : "veh_parts",
-        "price" : 9000
+        "price" : 400000
     },
     {
         "type": "GENERIC",
@@ -652,6 +652,21 @@
         "bashing" : 1,
         "category" : "veh_parts",
         "price" : 5000
+    },
+    {
+        "type":"GENERIC",
+        "id" : "solar_cell_quantum",
+        "name" : "quantum solar cell",
+        "description" : "This solar cell is obviously cutting-edge technology and should probably provide a LOT of power.  Useful for crafting.",
+        "weight" : 500,
+        "to_hit" : -4,
+        "color" : "yellow",
+        "symbol" : ";",
+        "material" : ["glass", "null"],
+        "volume" : 1,
+        "bashing" : 1,
+        "category" : "veh_parts",
+        "price" : 50000
     },
     {
         "type":"GENERIC",

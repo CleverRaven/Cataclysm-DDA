@@ -4077,7 +4077,7 @@
             {"item": "steel_lump", "count": [4, 4]},
             {"item": "steel_chunk", "count": [4, 4]},
             {"item": "scrap", "count": [4, 4]},
-            {"item": "solar_cell", "count": [2, 8]}
+            {"item": "solar_cell_quantum", "count": [2, 8]}
         ]
     },{
         "type" : "vehicle_part",
