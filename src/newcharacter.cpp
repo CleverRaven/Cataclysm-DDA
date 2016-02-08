@@ -20,6 +20,7 @@
 #include "addiction.h"
 #include "ui.h"
 #include "mutation.h"
+#include "crafting.h"
 
 
 #ifndef _MSC_VER

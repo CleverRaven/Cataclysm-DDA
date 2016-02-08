@@ -8,6 +8,7 @@
 #include "output.h"
 #include "player.h"
 #include "translations.h"
+#include "crafting.h"
 
 #include <list>
 #include <sstream>
