@@ -3,6 +3,7 @@
 
 #include "json.h"
 #include <string>
+#include "calendar.h"
 
 #define MIN_MORALE_READ (-40)
 #define MIN_MORALE_CRAFT (-50)
@@ -78,23 +79,58 @@ enum morale_type : int {
 class morale_point : public JsonSerializer, public JsonDeserializer
 {
     public:
-        morale_type type;
-        const itype *item_type;
-        int bonus;
-        int duration;
-        int decay_start;
-        int age;
-
-        morale_point( morale_type T = MORALE_NULL, const itype *I = NULL, int B = 0,
-                      int D = 60, int DS = 30, int A = 0 ) :
-            type( T ), item_type( I ), bonus( B ), duration( D ), decay_start( DS ), age( A ) {};
+        morale_point(
+            morale_type type = MORALE_NULL,
+            const itype *item_type = nullptr,
+            int bonus = 0,
+            int duration = MINUTES( 6 ),
+            int decay_start = MINUTES( 3 ),
+            int age = 0 );
 
         using JsonDeserializer::deserialize;
         void deserialize( JsonIn &jsin ) override;
         using JsonSerializer::serialize;
         void serialize( JsonOut &json ) const override;
 
-        std::string name() const;
+        std::string get_name() const {
+            return name;
+        }
+
+        morale_type get_type() const {
+            return type;
+        }
+
+        const itype *get_item_type() const {
+            return item_type;
+        }
+
+        int get_bonus() const {
+            return bonus;
+        }
+
+        bool is_expired() const {
+            return age >= duration || bonus == 0;
+        }
+
+        void add( int new_bonus, int new_max_bonus, int new_duration, int new_decay_start, bool new_cap );
+        void proceed( int ticks = 1 );
+
+    private:
+        std::string name;  // Safely assume it's immutable
+
+        morale_type type;
+        const itype *item_type;
+
+        int bonus;
+        int duration;
+        int decay_start;
+        int age;
+
+        /**
+        Returns either new_time or remaining time (which one is greater).
+        Only returns new time if same_sign is true
+        */
+        int pick_time( int cur_time, int new_time, bool same_sign ) const;
 };
 
 #endif
