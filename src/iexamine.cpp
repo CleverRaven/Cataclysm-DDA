@@ -618,7 +618,7 @@ void iexamine::cardreader(player *p, map *m, const tripoint &examp)
         add_msg(_("You insert your ID card."));
         p->use_amount(card_type, 1);
 
-        int open = 0;
+        bool open = 0;
         for(const tripoint &tmp : m->points_in_radius( examp, 2 ) ) {
             if (m->ter(tmp) == t_door_metal_locked) {
                 m->ter_set(tmp, t_door_metal_o);
@@ -640,7 +640,7 @@ void iexamine::cardreader(player *p, map *m, const tripoint &examp)
                 {
                     add_msg(_("You activate the panel!"));
                     m->ter_set(examp, t_card_reader_broken);
-                    int open = 0;
+                    bool open = 0;
                     for(const tripoint &tmp : m->points_in_radius( examp, 2 ) ) {
                         if (m->ter(tmp) == t_door_metal_locked) {
                             m->ter_set(tmp, t_door_metal_o);
