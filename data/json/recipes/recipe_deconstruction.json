@@ -1357,7 +1357,7 @@
     ], "components": [
         [ [ "flamethrower", 1 ] ],
         [ [ "plut_cell", 6 ] ],
-        [ [ "motor_enhanced", 3 ] ],
+        [ [ "motor_enhanced", 1 ] ],
         [ [ "metal_tank_small", 1 ] ],
         [ [ "power_supply", 12 ] ],
         [ [ "processor", 1 ] ],
@@ -1390,7 +1390,7 @@
         [ [ "tazer", 1 ] ],
         [ [ "m4a1", 1 ] ],
         [ [ "mil_plate", 6 ] ],
-        [ [ "alloy_sheet", 2 ] ],
+        [ [ "alloy_plate", 1 ] ],
         [ [ "hdframe", 1 ] ],
         [ [ "motor_large", 1 ] ],
         [ [ "motor_enhanced", 1 ] ],
