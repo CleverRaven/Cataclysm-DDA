@@ -617,10 +617,22 @@
         "category": "other"
     },
     {
+        "type":"GENERIC",
+        "id": "cannabis",
+        "symbol": "%",
+        "color": "light_green",
+        "name": "cannabis plant",
+        "description": "A psychoactive plant indigenous to Central Asia and the Indian subcontinent traditionally cultivated for its fiber, oil, for medicinal purposes, and for use as a recreational drug.  It requires further processing to be useful.",
+        "price": 2000,
+        "material": "veggy",
+        "weight": 420,
+        "volume": 4
+    },
+    {
         "type" : "COMESTIBLE",
         "id" : "weed",
-        "name" : "cannabis",
-        "name_plural" : "cannabis",
+        "name" : "marijuana",
+        "name_plural" : "marijuana",
         "weight" : 1,
         "color" : "green",
         "addiction_type" : "none",
