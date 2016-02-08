@@ -1174,16 +1174,18 @@ use_function::use_function(const use_function &other)
     }
 }
 
-void use_function::operator=(iuse_actor *f)
+use_function &use_function::operator=( iuse_actor * const f )
 {
     this->~use_function();
     new (this) use_function(f);
+    return *this;
 }
 
-void use_function::operator=(const use_function &other)
+use_function &use_function::operator=( const use_function &other )
 {
     this->~use_function();
     new (this) use_function(other);
+    return *this;
 }
 
 long use_function::call( player *player_instance, item *item_instance, bool active, const tripoint &pos ) const

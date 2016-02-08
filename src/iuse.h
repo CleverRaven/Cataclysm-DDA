@@ -271,8 +271,8 @@ public:
         return actor == nullptr || actor->can_use( p, it, t, pos );
     }
 
-    void operator=(iuse_actor *f);
-    void operator=(const use_function &other);
+    use_function &operator=( iuse_actor *f );
+    use_function &operator=( const use_function &other );
 
     bool operator==(use_function f) const {
         if( actor == f.actor ) {
