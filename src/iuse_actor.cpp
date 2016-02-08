@@ -67,6 +67,9 @@ void iuse_transform::load( JsonObject &obj )
     obj.read( "need_charges_msg", need_charges_msg );
     obj.read( "moves", moves );
     obj.read( "menu_option_text", menu_option_text );
+    if( !menu_option_text.empty() ) {
+        menu_option_text = _( menu_option_text.c_str() );
+    }
 }
 
 long iuse_transform::use(player *p, item *it, bool t, const tripoint &pos ) const

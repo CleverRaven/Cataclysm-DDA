@@ -181,7 +181,7 @@ std::string item_action_generator::get_action_name( const iuse_actor *actor ) co
     const iuse_transform *trans_actor = nullptr;
     trans_actor = dynamic_cast<const iuse_transform *>( actor );
     if( trans_actor != nullptr && !trans_actor->menu_option_text.empty() ) {
-        return _( trans_actor->menu_option_text.c_str() );
+        return trans_actor->menu_option_text;
     }
 
     return get_action_name( actor->type );
