@@ -4,9 +4,9 @@
 #include "debug.h"
 #include "output.h"
 
-#define ITEM_NAME_PLACEHOLDER "%i"  // Used to address an item name
-
 namespace {
+    const std::string item_name_placeholder = "%i"; // Used to address an item name
+
     const std::string &get_morale_data( const morale_type id )
     {
         static const std::array<std::string, NUM_MORALE_TYPES> morale_data = { {
@@ -94,8 +94,8 @@ morale_point::morale_point( morale_type type, const itype *item_type, int bonus,
     name = get_morale_data( type );
 
     if( item_type != nullptr ) {
-        name = string_replace( name, ITEM_NAME_PLACEHOLDER, item_type->nname( 1 ) );
-    } else if( name.find( ITEM_NAME_PLACEHOLDER ) != std::string::npos ) {
+        name = string_replace( name, item_name_placeholder, item_type->nname( 1 ) );
+    } else if( name.find( item_name_placeholder ) != std::string::npos ) {
         debugmsg( "%s(): Morale #%d (%s) requires item_type to be specified.", __FUNCTION__, type, name.c_str() );
     }
 }
