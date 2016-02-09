@@ -4059,6 +4059,23 @@ const item * item::magazine_current() const
     return const_cast<item *>(this)->magazine_current();
 }
 
+std::vector<item *> item::gunmods()
+{
+    std::vector<item *> res;
+    res.reserve( contents.size() );
+    for( auto& e : contents ) {
+        if( e.is_gunmod() ) {
+            res.push_back( &e );
+        }
+    }
+    return res;
+}
+
+std::vector<const item *> item::gunmods() const
+{
+    return const_cast<item *>( this )->gunmods();
+}
+
 bool item::gunmod_compatible( const item& mod, bool alert ) const
 {
     if( !mod.is_gunmod() ) {

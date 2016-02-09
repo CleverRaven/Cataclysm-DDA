@@ -1120,6 +1120,10 @@ public:
          *  @return items that were created as a result of the conversion (excess ammo or magazines) */
         std::vector<item> magazine_convert();
 
+        /** Returns all gunmods currently attached to this item (always empty if item not a gun) */
+        std::vector<item *> gunmods();
+        std::vector<const item *> gunmods() const;
+
         /** Checks if mod can be applied to this item considering any current state (jammed, loaded etc.) */
         bool gunmod_compatible( const item& mod, bool alert = true ) const;
 
