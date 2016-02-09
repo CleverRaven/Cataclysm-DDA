@@ -2562,48 +2562,6 @@
   ]
 },{
   "type" : "recipe",
-  "result": "reloaded_shot_bird",
-  "category": "CC_AMMO",
-  "subcategory": "CSC_AMMO_BULLETS",
-  "skill_used": "fabrication",
-  "skills_required": [ "gun", 1 ],
-  "difficulty": 2,
-  "time": 12500,
-  "reversible": false,
-  "autolearn": false,
-  "book_learn": [["recipe_bullets" , 1 ] , [ "manual_shotgun", 1 ]],
-  "tools": [
-    [
-      [ "press", -1 ]
-    ],
-    [
-      [ "fire", -1 ],
-      [ "toolset", 2 ],
-      [ "press", 2 ]
-    ]
-  ],
-  "components": [
-    [
-      [ "shot_hull", 25 ]
-    ],
-    [
-      [ "shotgun_primer", 25 ]
-    ],
-    [
-    [ "gunpowder", 300 ]
-    ],
-    [
-      [ "lead", 400 ],
-      [ "gold_small", 400 ],
-      [ "silver_small", 400 ],
-      [ "tin", 400 ],
-      [ "bismuth", 400 ],
-      [ "solder_wire", 400 ]
-
-    ]
-  ]
-},{
-  "type" : "recipe",
   "result": "reloaded_shot_00",
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_BULLETS",
@@ -2903,82 +2861,6 @@
     [
       [ "glass_shard", 1],
       [ "nail", 8], [ "combatnail", 8 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "shot_scrapbag",
-  "category": "CC_AMMO",
-  "subcategory": "CSC_AMMO_BULLETS",
-  "skill_used": "fabrication",
-  "skills_required": [ "gun", 1 ],
-  "difficulty": 4,
-  "time": 17500,
-  "reversible": false,
-  "autolearn": false,
-  "book_learn": [["recipe_bullets" , 3 ] , [ "manual_shotgun", 3 ]],
-  "tools": [
-    [
-      [ "press", -1 ]
-    ],
-    [
-      [ "fire", -1 ],
-      [ "toolset", 2 ],
-      [ "press", 2 ]
-    ]
-  ],
-  "components": [
-    [
-      [ "shot_hull", 25 ]
-    ],
-    [
-      [ "shotgun_primer", 25 ]
-    ],
-    [
-      [ "gunpowder", 400 ]
-    ],
-    [
-      [ "material_sand", 50 ],
-      [ "salt", 16 ]
-    ],
-    [
-      [ "rag", 4 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "reloaded_shot_beanbag",
-  "category": "CC_AMMO",
-  "subcategory": "CSC_AMMO_BULLETS",
-  "skill_used": "fabrication",
-  "skills_required": [ "gun", 1 ],
-  "difficulty": 4,
-  "time": 17500,
-  "reversible": false,
-  "autolearn": false,
-  "book_learn": [["recipe_bullets" , 3 ] , [ "manual_shotgun", 3 ]],
-  "tools": [
-    [
-      [ "press", -1 ]
-    ],
-    [
-      [ "fire", -1 ],
-      [ "toolset", 2 ],
-      [ "press", 2 ]
-    ]
-  ],
-  "components": [
-    [
-      [ "shot_hull", 25 ]
-    ],
-    [
-      [ "shotgun_primer", 25 ]
-    ],
-    [
-      [ "gunpowder", 400 ]
-    ],
-    [
-      [ "rubber_slug", 25 ]
     ]
   ]
 },{
