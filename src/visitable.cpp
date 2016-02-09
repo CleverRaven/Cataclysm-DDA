@@ -5,7 +5,9 @@
 #include "inventory.h"
 #include "character.h"
 #include "map_selector.h"
+#include "vehicle_selector.h"
 #include "map.h"
+#include "vehicle.h"
 #include "game.h"
 
 template <typename T>
@@ -141,9 +143,35 @@ VisitResponse visitable<map_selector>::visit_items( const std::function<VisitRes
     return VisitResponse::NEXT;
 }
 
+template <>
+VisitResponse visitable<vehicle_cursor>::visit_items( const std::function<VisitResponse( item *, item *, const tripoint* )>& func ) {
+    auto self = static_cast<vehicle_cursor *>( this );
+
+    for( auto &e : self->veh.get_items( self->part ) ) {
+        auto pos = self->veh.global_part_pos3( self->part );
+        if( visit_internal( func, &e, nullptr, &pos ) == VisitResponse::ABORT ) {
+            return VisitResponse::ABORT;
+        }
+    }
+    return VisitResponse::NEXT;
+}
+
+template <>
+VisitResponse visitable<vehicle_selector>::visit_items( const std::function<VisitResponse( item *, item *, const tripoint* )>& func )
+{
+    for( auto &cursor : static_cast<vehicle_selector&>( *this ) ) {
+        if( cursor.visit_items( func ) == VisitResponse::ABORT ) {
+            return VisitResponse::ABORT;
+        }
+    }
+    return VisitResponse::NEXT;
+}
+
 // explicit template initialization for all classes implementing the visitable interface
 template class visitable<item>;
 template class visitable<inventory>;
 template class visitable<Character>;
 template class visitable<map_selector>;
 template class visitable<map_cursor>;
+template class visitable<vehicle_selector>;
+template class visitable<vehicle_cursor>;
