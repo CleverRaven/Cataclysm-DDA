@@ -500,20 +500,20 @@ std::vector<item *> Character::items_with( const std::function<bool(const item&)
 {
     auto res = inv.items_with( filter );
 
-    weapon.visit_items( std::function<VisitResponse( item * )>( [&res, &filter]( item *node ) {
+    weapon.visit_items( [&res, &filter]( item *node ) {
         if( filter( *node ) ) {
             res.emplace_back( node );
         }
         return VisitResponse::NEXT;
-            }));
+    });
 
     for( auto &e : worn ) {
-        e.visit_items( std::function<VisitResponse( item * )>( [&res, &filter]( item *node ) {
+        e.visit_items( [&res, &filter]( item *node ) {
             if( filter( *node ) ) {
                 res.emplace_back( node );
             }
             return VisitResponse::NEXT;
-        }));
+        });
     }
 
     return res;
@@ -523,22 +523,20 @@ std::vector<const item *> Character::items_with( const std::function<bool(const 
 {
     auto res = inv.items_with( filter );
 
-    weapon.visit_items( std::function<VisitResponse( const item * )>(
-                            [&res, &filter]( const item *node ) {
+    weapon.visit_items_const( [&res, &filter]( const item *node ) {
         if( filter( *node ) ) {
             res.emplace_back( node );
         }
         return VisitResponse::NEXT;
-    }));
+    });
 
     for( const auto &e : worn ) {
-        e.visit_items( std::function<VisitResponse( const item * )>(
-                           [&res, &filter]( const item *node ) {
+        e.visit_items_const( [&res, &filter]( const item *node ) {
             if( filter( *node ) ) {
                 res.emplace_back( node );
             }
             return VisitResponse::NEXT;
-        }));
+        });
     }
 
     return res;

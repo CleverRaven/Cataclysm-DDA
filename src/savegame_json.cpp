@@ -334,7 +334,7 @@ void Character::load(JsonObject &data)
         debugmsg("Skills[] no bueno");
     }
 
-    visit_items([&]( item *it ) {
+    visit_items( [&] ( item *it ) {
         for( auto& e: it->magazine_convert() ) {
             i_add( e );
         }

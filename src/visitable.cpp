@@ -31,18 +31,18 @@ const item * visitable<T>::find_parent( const item& it ) const
 
 template <typename T>
 bool visitable<T>::has_item_with( const std::function<bool(const item&)>& filter ) const {
-    return visit_items( [&filter]( const item *node ) {
+    return visit_items_const( [&filter]( const item *node ) {
         return filter( *node ) ? VisitResponse::ABORT : VisitResponse::NEXT;
     }) == VisitResponse::ABORT;
 }
 
 template <typename T>
-VisitResponse visitable<T>::visit_items( const std::function<VisitResponse(const item *, const item *, const tripoint *)>& func ) const {
+VisitResponse visitable<T>::visit_items_const( const std::function<VisitResponse(const item *, const item *, const tripoint *)>& func ) const {
     return const_cast<visitable<T> *>( this )->visit_items( static_cast<const std::function<VisitResponse(item *, item *, const tripoint *)>&>( func ) );
 }
 
 template <typename T>
-VisitResponse visitable<T>::visit_items( const std::function<VisitResponse(const item *)>& func ) const {
+VisitResponse visitable<T>::visit_items_const( const std::function<VisitResponse(const item *)>& func ) const {
     return const_cast<visitable<T> *>( this )->visit_items( static_cast<const std::function<VisitResponse(item *)>&>( func ) );
 }
 

@@ -4256,7 +4256,7 @@ item_location item::pick_reload_ammo( player &u, bool interactive ) const
     };
 
     // first check the inventory for suitable ammo
-    u.visit_items( [&ammo_list,&filter,&u]( const item *node ) {
+    u.visit_items_const( [ &ammo_list, &filter, &u ]( const item *node ) {
         if( filter( node ) ) {
             ammo_list.emplace_back( item_location( u, node ) );
         }
@@ -4264,7 +4264,8 @@ item_location item::pick_reload_ammo( player &u, bool interactive ) const
     });
 
     // next check for items on adjacent map tiles
-    u.nearby( 1 ).visit_items( [&ammo_list,&filter]( const item *node, const item *, const tripoint *pos ) {
+    u.nearby( 1 ).visit_items_const(
+        [ &ammo_list, &filter ]( const item *node, const item *, const tripoint *pos ) {
         if( filter( node ) ) {
             ammo_list.emplace_back( *pos, node );
         }
@@ -5043,7 +5044,7 @@ void item::mark_as_used_by_player(const player &p)
 }
 
 bool item::contains( const std::function<bool(const item&)>& filter ) const {
-    return visit_items( [&filter] ( const item *node ) {
+    return visit_items_const( [ &filter ] ( const item *node ) {
         return filter( *node ) ? VisitResponse::ABORT : VisitResponse::NEXT;
     }) == VisitResponse::ABORT;
 }

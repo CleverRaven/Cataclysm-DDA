@@ -1209,7 +1209,7 @@ std::vector<item *> inventory::items_with( const std::function<bool(const item&)
 
 std::vector<const item *> inventory::items_with( const std::function<bool(const item&)>& filter ) const {
     std::vector<const item *> res;
-    visit_items( [&res, &filter]( const item *node ) {
+    visit_items_const( [&res, &filter]( const item *node ) {
         if( filter( *node ) ) {
             res.emplace_back( node );
         }
