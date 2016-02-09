@@ -2,6 +2,7 @@
 #include "damage.h"
 #include "json.h"
 #include "character.h"
+#include "debug.h"
 #include <map>
 #include <string>
 #include <utility>
@@ -58,11 +59,6 @@ affected_stat affected_stat_from_string( const std::string &s )
             std::make_pair( "speed", AFFECTED_SPEED ),
             std::make_pair( "move_cost", AFFECTED_MOVE_COST ),
             std::make_pair( "damage", AFFECTED_DAMAGE ),
-            // Check types explicitly
-            std::make_pair( "bash", AFFECTED_DAMAGE ),
-            std::make_pair( "cut", AFFECTED_DAMAGE ),
-            std::make_pair( "stab", AFFECTED_DAMAGE ),
-
             std::make_pair( "arm", AFFECTED_ARMOR ),
             std::make_pair( "arpen", AFFECTED_ARMOR_PENETRATION )
         }
@@ -70,11 +66,6 @@ affected_stat affected_stat_from_string( const std::string &s )
     const auto &iter = stat_map.find( s );
     if( iter != stat_map.end() ) {
         return iter->second;
-    }
-
-    damage_type dt = dt_by_name( s );
-    if( dt != DT_NULL ) {
-        return AFFECTED_DAMAGE;
     }
 
     return AFFECTED_NULL;
@@ -106,10 +97,19 @@ void bonus_container::load( JsonObject &jo )
                 continue;
             }
 
+            damage_type ndt = dt_by_name( token );
+            if( ndt != DT_NULL ) {
+                if( dt != DT_NULL ) {
+                    jo.throw_error( "Damage type set twice", member );
+                }
+                dt = ndt;
+                continue;
+            }
+
             affected_stat nas = affected_stat_from_string( token );
             if( nas != AFFECTED_NULL ) {
                 if( as != AFFECTED_NULL ) {
-                    jo.throw_error( "Affected stat set twice" );
+                    jo.throw_error( "Affected stat set twice", member );
                 }
                 as = nas;
                 continue;
@@ -118,18 +118,9 @@ void bonus_container::load( JsonObject &jo )
             scaling_stat nss = scaling_stat_from_string( token );
             if( nss != STAT_NULL ) {
                 if( ss != STAT_NULL ) {
-                    jo.throw_error( "Scaling stat set twice" );
+                    jo.throw_error( "Scaling stat set twice", member );
                 }
                 ss = nss;
-                continue;
-            }
-
-            damage_type ndt = dt_by_name( token );
-            if( ndt != DT_NULL ) {
-                if( dt != DT_NULL ) {
-                    jo.throw_error( "Damage type set twice" );
-                }
-                dt = ndt;
                 continue;
             }
 
@@ -142,12 +133,18 @@ void bonus_container::load( JsonObject &jo )
             continue;
         }
 
+        if( dt != DT_NULL && as == AFFECTED_NULL ) {
+            // By default, we want to affect damage
+            // For example, "bash_mult", "bash_str", etc.
+            as = AFFECTED_DAMAGE;
+        }
+
         if( needs_damage_type( as ) ) {
-            if( ss == STAT_NULL ) {
-                jo.throw_error( "Damage type required but unset" );
+            if( dt == DT_NULL ) {
+                jo.throw_error( "Damage type required but unset", member );
             }
-        } else if( ss != STAT_NULL ) {
-            jo.throw_error( "Damage type not required but set" );
+        } else if( dt != DT_NULL ) {
+            jo.throw_error( "Damage type not required but set", member );
         }
 
         const float val = jo.get_float( member );

@@ -74,8 +74,6 @@ void ma_technique::load( JsonObject &jo )
         }
     }
 
-    reqs.load( jo );
-
     optional( jo, was_loaded, "crit_tec", crit_tec, false );
     optional( jo, was_loaded, "defensive", defensive, false );
     optional( jo, was_loaded, "disarms", disarms, false );
@@ -93,6 +91,9 @@ void ma_technique::load( JsonObject &jo )
 
     optional( jo, was_loaded, "aoe", aoe, "" );
     optional( jo, was_loaded, "flags", flags, auto_flags_reader<>{} );
+
+    reqs.load( jo );
+    bonuses.load( jo );
 }
 
 // Not implemented on purpose (martialart objects have no integer id)
@@ -125,6 +126,7 @@ void ma_buff::load( JsonObject &jo )
     optional( jo, was_loaded, "throw_immune", throw_immune, false );
 
     reqs.load( jo );
+    bonuses.load( jo );
 }
 
 // Not implemented on purpose (martialart objects have no integer id)
@@ -337,7 +339,7 @@ bool ma_requirements::is_valid_player( const player &u ) const
     }
 
     for( const auto &pr : min_skill ) {
-        if( u.get_skill_level( pr.first ) < cqb ? 5 : pr.second ) {
+        if( ( cqb ? 5 : (int)u.get_skill_level( pr.first ) ) < pr.second ) {
             return false;
         }
     }

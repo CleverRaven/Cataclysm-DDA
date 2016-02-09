@@ -1224,7 +1224,7 @@ void player::perform_technique(const ma_technique &technique, Creature &t, damag
     auto &cut  = get_damage_unit( di.damage_units, DT_CUT );
     auto &stab = get_damage_unit( di.damage_units, DT_STAB );
 
-    add_msg( m_debug, _("damage before tec mult:%dbash,%dcut,%dstab,%dtotal"),
+    add_msg( m_debug, _("dmg before tec bash:%d,cut:%d,stab:%d,total:%d"),
         (int)di.type_damage(DT_BASH), (int)di.type_damage(DT_CUT), (int)di.type_damage(DT_STAB), (int)di.total_damage());
     if( bash.amount > 0 ) {
         bash.amount += technique.damage_bonus( *this, DT_BASH );
@@ -1239,7 +1239,7 @@ void player::perform_technique(const ma_technique &technique, Creature &t, damag
         stab.amount += technique.damage_bonus( *this, DT_CUT );
         stab.damage_multiplier *= technique.damage_multiplier( *this, DT_CUT );
     }
-    add_msg( m_debug, _("damage after tec mult:%dbash,%dcut,%dstab,%dtotal"),
+    add_msg( m_debug, _("dmg after tec bash:%d,cut:%d,stab:%d,total:%d"),
         (int)di.type_damage(DT_BASH), (int)di.type_damage(DT_CUT), (int)di.type_damage(DT_STAB), (int)di.total_damage());
 
     move_cost *= technique.move_cost_multiplier( *this );
