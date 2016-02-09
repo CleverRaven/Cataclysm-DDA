@@ -1315,10 +1315,8 @@ item::sound_data item::gun_noise( bool const burst ) const
     }
 
     int noise = gun.loudness + (ammo_data() ? ammo_data()->ammo->damage : 0);
-    for( auto &elem : contents ) {
-        if( elem.is_gunmod() ) {
-            noise += elem.type->gunmod->loudness;
-        }
+    for( const auto mod : gunmods() ) {
+        noise += mod->type->gunmod->loudness;
     }
 
     const auto &ammo_effects = gun.ammo_effects;
