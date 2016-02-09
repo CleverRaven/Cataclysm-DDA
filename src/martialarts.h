@@ -29,7 +29,7 @@ struct ma_requirements {
 
     bool unarmed_allowed; // does this bonus work when unarmed?
     bool melee_allowed; // what about with a melee weapon?
-    bool nonstrict_unarmed_allowed; // If unarmed, what about unarmed weapons?
+    bool strictly_unarmed; // If unarmed, what about unarmed weapons?
 
     /** Minimum amount of given skill to trigger this bonus */
     std::map<skill_id, int> min_skill;
@@ -45,7 +45,7 @@ struct ma_requirements {
     ma_requirements() {
         unarmed_allowed = false;
         melee_allowed = false;
-        nonstrict_unarmed_allowed = true;
+        strictly_unarmed = false;
     }
 
     bool is_valid_player( const player &u ) const;
@@ -104,6 +104,7 @@ class ma_technique
         float damage_bonus( const player &u, damage_type type ) const;
         float damage_multiplier( const player &u, damage_type type ) const;
         float move_cost_multiplier( const player &u ) const;
+        float move_cost_penalty( const player &u ) const;
 
 };
 
@@ -146,9 +147,6 @@ class ma_buff
         bool is_quiet() const;
         bool can_melee() const;
         bool can_unarmed_weapon() const;
-        bool can_claws() const;
-        bool can_mutant_attacks() const;
-        bool ignores_weapon() const;
 
         // The ID of the effect that is used to store this buff
         efftype_id get_effect_id() const;
@@ -176,7 +174,7 @@ class ma_buff
         bool quiet;
         bool melee_allowed;
         bool throw_immune; // are we immune to throws/grabs?
-        bool non_strictly_unarmed; // can we use unarmed weapons?
+        bool strictly_unarmed; // can we use unarmed weapons?
 
         void load( JsonObject &jo );
 };

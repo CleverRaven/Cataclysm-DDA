@@ -73,9 +73,13 @@ class bonus_container
         float get_mult( const Character &u, affected_stat stat ) const;
 
     private:
+        using bonus_map = std::map<affected_type, effect_scaling>;
         /** All kinds of bonuses by types to damage, hit etc. */
-        std::map<affected_type, effect_scaling> bonuses_flat;
-        std::map<affected_type, effect_scaling> bonuses_mult;
+        bonus_map bonuses_flat;
+        bonus_map bonuses_mult;
+
+        // Duplicates bonuses to stabbing from cutting
+        void legacy_fixup( bonus_map &bm );
 };
 
 #endif

@@ -105,7 +105,7 @@
         "min_unarmed" : 0,
         "unarmed_allowed" : true,
         "melee_allowed" : true,
-        "speed_mult" : 0.5,
+        "movecost_mult" : 0.5,
         "bash_mult" : 0.66,
         "cut_mult" : 0.66,
         "messages" : [
@@ -180,7 +180,7 @@
         "unarmed_allowed" : true,
         "block_counter": true,
         "dodge_counter": true,
-        "speed_mult" : 0.75,
+        "movecost_mult" : 0.75,
         "messages" : [
             "You counter-attack %s",
             "<npcname> counter-attacks %s"
@@ -235,7 +235,7 @@
             "You quickly jab %s",
             "<npcname> quickly jabs at %s"
         ],
-        "speed_mult" : 0.5,
+        "movecost_mult" : 0.5,
         "bash_mult" : 0.66,
         "cut_mult" : 0.66
 
@@ -269,7 +269,7 @@
             "<npcname> throws a perfect counter at %s"
         ],
         "bash_mult" : 1.35,
-        "speed_mult" : 0.5,
+        "movecost_mult" : 0.5,
         "stun_dur" : 2
     },{
         "type" : "technique",
@@ -281,7 +281,7 @@
             "You quickly punch %s",
             "<npcname> quickly punches %s"
         ],
-        "speed_mult" : 0.5,
+        "movecost_mult" : 0.5,
         "bash_mult" : 0.66,
         "cut_mult" : 0.66
     },{
@@ -319,7 +319,7 @@
         "down_dur" : 1,
         "knockback_dist" : 1,
         "knockback_spread" : 1,
-        "speed_mult" : 0.33,
+        "movecost_mult" : 0.33,
         "messages" : [
             "You smoothly throw %s",
             "<npcname> smoothly throws %s"
@@ -417,7 +417,7 @@
             "You elbow %s",
             "<npcname> elbows %s"
         ],
-        "speed_mult" : 0.5
+        "movecost_mult" : 0.5
     },{
         "type" : "technique",
         "id" : "tec_muay_thai_kick",
@@ -451,7 +451,7 @@
             "You quickly punch %s",
             "<npcname> quickly punches %s"
         ],
-        "speed_mult" : 0.5,
+        "movecost_mult" : 0.5,
         "bash_mult" : 0.66,
         "cut_mult" : 0.66
     },{
@@ -567,7 +567,7 @@
         "min_melee" : 4,
         "unarmed_allowed" : true,
         "block_counter": true,
-        "speed_mult" : 0.5,
+        "movecost_mult" : 0.5,
         "messages" : [
             "You block and counter-attack %s",
             "<npcname> blocks and counter-attacks %s"
@@ -582,7 +582,7 @@
             "You quickly punch %s",
             "<npcname> quickly punches %s"
         ],
-        "speed_mult" : 0.5,
+        "movecost_mult" : 0.5,
         "bash_mult" : 0.66,
         "cut_mult" : 0.66
     },{
@@ -594,7 +594,7 @@
             "You quickly slash %s",
             "<npcname> quickly slashes %s"
         ],
-        "speed_mult" : 0.5,
+        "movecost_mult" : 0.5,
         "bash_mult" : 0.66,
         "cut_mult" : 0.66
     },{
@@ -651,7 +651,7 @@
         "min_unarmed" : 4,
         "unarmed_allowed" : true,
         "dodge_counter" : true,
-        "speed_mult" : 0.5,
+        "movecost_mult" : 0.5,
         "bash_mult" : 1.25,
         "messages" : [
             "You lurch, and your wild swing hits %s",
@@ -662,7 +662,7 @@
         "id" : "tec_fencing_lunge",
         "name" : "Fencing lunge",
         "min_melee" : 2,
-        "speed_mult" : 0.75,
+        "movecost_mult" : 0.75,
         "weighting" : 2,
         "messages" : [
             "You lunge at %s",
@@ -673,7 +673,7 @@
         "id" : "tec_fencing_thrust",
         "name" : "Fencing thrust",
         "min_melee" : 1,
-        "speed_mult" : 0.9,
+        "movecost_mult" : 0.9,
         "weighting" : 2,
         "cut_mult" : 1.15,
         "messages" : [
@@ -686,7 +686,7 @@
         "name" : "Fencing stop thrust",
         "min_melee" : 3,
         "block_counter": true,
-        "speed_mult" : 1,
+        "movecost_mult" : 1,
         "cut_mult" : 1.5,
         "stun_dur" : 1,
         "messages" : [
@@ -698,7 +698,7 @@
         "id" : "tec_eskrima_round",
         "name" : "Round strike",
         "min_melee" : 4,
-        "speed_mult" : 0.6,
+        "movecost_mult" : 0.6,
         "messages" : [
             "You round strike %s",
             "<npcname> round strikes %s"
@@ -708,7 +708,7 @@
         "id" : "tec_eskrima_fan",
         "name" : "Fan strike",
         "min_melee" : 2,
-        "speed_mult" : 0.75,
+        "movecost_mult" : 0.75,
         "messages" : [
             "You fan strike %s",
             "<npcname> fan strikes %s"
@@ -718,7 +718,7 @@
         "id" : "tec_eskrima_snap",
         "name" : "Snap strike",
         "min_melee" : 0,
-        "speed_mult" : 0.8,
+        "movecost_mult" : 0.8,
         "messages" : [
             "You snap out at %s",
             "<npcname> snaps quickly at %s"
@@ -728,7 +728,7 @@
         "id" : "tec_eskrima_combination",
         "name" : "Combination strike",
         "min_melee" : 2,
-        "speed_mult" : 0.8,
+        "movecost_mult" : 0.8,
         "bash_mult" : 1.5,
         "cut_mult" : 1.5,
         "req_buffs" : [
@@ -743,7 +743,7 @@
         "id" : "tec_eskrima_free",
         "name" : "free strike",
         "min_melee" : 4,
-        "speed_mult" : 0,
+        "movecost_mult" : 0,
         "req_buffs" : [
             "eskrima_hit_buff"
         ],
@@ -844,7 +844,7 @@
         "name" : "Viper Fist",
         "min_unarmed" : 3,
         "unarmed_allowed" : true,
-        "speed_mult" : 0.5,
+        "movecost_mult" : 0.5,
         "bash_mult" : 0.66,
         "cut_mult" : 0.66,
         "messages" : [
@@ -916,7 +916,7 @@
         "name" : "Toad's Tongue",
         "min_unarmed" : 4,
         "unarmed_allowed" : true,
-        "speed_mult" : 0.5,
+        "movecost_mult" : 0.5,
         "down_dur" : 1,
         "messages" : [
             "You snatch and slug %s",
@@ -928,7 +928,7 @@
         "name" : "Rapid Strike",
         "min_unarmed" : 2,
         "unarmed_allowed" : true,
-        "speed_mult" : 0.5,
+        "movecost_mult" : 0.5,
         "bash_mult" : 0.66,
         "cut_mult" : 0.66,
         "messages" : [
@@ -941,7 +941,7 @@
         "name" : "Snake Snap",
         "min_unarmed" : 2,
         "unarmed_allowed" : true,
-        "speed_mult" : 0.5,
+        "movecost_mult" : 0.5,
         "bash_mult" : 0.66,
         "cut_mult" : 0.66,
         "messages" : [
@@ -1013,7 +1013,7 @@
         "name" : "Leopard Swipe",
         "min_unarmed" : 2,
         "unarmed_allowed" : true,
-        "speed_mult" : 0.5,
+        "movecost_mult" : 0.5,
         "bash_mult" : 0.66,
         "cut_mult" : 0.66,
         "messages" : [
@@ -1027,7 +1027,7 @@
         "min_unarmed" : 4,
         "unarmed_allowed" : true,
         "dodge_counter" : true,
-        "speed_mult" : 0.5,
+        "movecost_mult" : 0.5,
         "bash_mult" : 1.5,
         "messages" : [
             "You dodge the attack and swipe at %s's exposed flank!",
@@ -1053,7 +1053,7 @@
         "unarmed_allowed" : true,
         "block_counter" : true,
         "dodge_counter" : true,
-        "speed_mult" : 0.7,
+        "movecost_mult" : 0.7,
         "stun_dur" : 2,
         "messages" : [
             "You catch the attack and send %s spinning!",
@@ -1153,7 +1153,7 @@
         "min_unarmed" : 5,
         "unarmed_allowed" : true,
         "block_counter": true,
-        "speed_mult" : 0.66,
+        "movecost_mult" : 0.66,
         "messages" : [
             "You catch %s's attack, and hit back!",
             "<npcname> catches %s, and counters!"
@@ -1180,7 +1180,7 @@
         ],
       "cut_mult" : 2.0,
       "bash_mult" : 2.0,
-      "speed_mult" : 1.75
+      "movecost_mult" : 1.75
     },{
        "type" : "technique",
       "id" : "niten_red_leaf",
@@ -1219,7 +1219,7 @@
       "cut_mult" : 1.1,
       "bash_mult" : 1.1,
       "//" : "Damage bonus plus Quick is severely powerful--generi-Quick takes a damage nerf.",
-      "speed_mult" : 0.5,
+      "movecost_mult" : 0.5,
       "//" : "Minimum effective time for a status in combat is two turns, as you have one deducted on the same turn its applied.",
       "stun_dir" : 2
    },{
@@ -1230,10 +1230,42 @@
       "min_melee" : 2,
       "defensive" : true,
       "miss_recovery" : true,
-      "speed_mult" : 0.8,
+      "movecost_mult" : 0.8,
       "messages" : [
           "You feint at %s",
           "<npcname> feints at %s"
+        ]
+    },{
+        "type" : "technique",
+        "id" : "tec_debug_slow",
+        "name" : "slow strike",
+        "unarmed_allowed" : true,
+        "strict_unarmed" : true,
+        "min_unarmed" : 3,
+        "bash_mult" : 3.0,
+        "bash_str_mult" : 0.1,
+        "movecost" : 100,
+        "movecost_str" : 10,
+        "messages" : [
+            "You slowly strike %s",
+            "<npcname> slowly strikes %s"
+        ]
+    },{
+        "type" : "technique",
+        "id" : "tec_debug_arpen",
+        "name" : "phasing strike",
+        "unarmed_allowed" : true,
+        "melee_allowed" : true,
+        "min_melee" : 3,
+        "movecost_mult" : 0.3,
+        "crit_tec" : true,
+        "bash_mult" : 0.2,
+        "cut_mult" : 0.2,
+        "bash_arpen" : 10.0,
+        "bash_arpen_per" : 1.0,
+        "messages" : [
+            "You phase-strike %s",
+            "<npcname> phase-strikes %s"
         ]
     }
 ]

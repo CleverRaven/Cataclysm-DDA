@@ -57,7 +57,7 @@ affected_stat affected_stat_from_string( const std::string &s )
             std::make_pair( "dodge", AFFECTED_DODGE ),
             std::make_pair( "block", AFFECTED_BLOCK ),
             std::make_pair( "speed", AFFECTED_SPEED ),
-            std::make_pair( "move_cost", AFFECTED_MOVE_COST ),
+            std::make_pair( "movecost", AFFECTED_MOVE_COST ),
             std::make_pair( "damage", AFFECTED_DAMAGE ),
             std::make_pair( "arm", AFFECTED_ARMOR ),
             std::make_pair( "arpen", AFFECTED_ARMOR_PENETRATION )
@@ -73,6 +73,30 @@ affected_stat affected_stat_from_string( const std::string &s )
 
 bonus_container::bonus_container()
 {
+}
+
+// Duplicates cut bonuses into stab bonuses
+void bonus_container::legacy_fixup( bonus_map &bm )
+{
+    bool changed_something = false;
+    do {
+        for( const auto &pr : bm ) {
+            if( pr.first.get_damage_type() != DT_CUT ) {
+                continue;
+            }
+
+            const affected_type as( pr.first.get_stat(), DT_STAB );
+            if( bm.count( as ) != 0 ) {
+                continue;
+            }
+
+            changed_something = true;
+            const auto value_copy = pr.second;
+            bm[as] = value_copy;
+            // Iterators are now scrambled, we need to restart the loop
+            break;
+        }
+    } while( changed_something );
 }
 
 void bonus_container::load( JsonObject &jo )

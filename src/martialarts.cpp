@@ -331,7 +331,7 @@ bool ma_requirements::is_valid_player( const player &u ) const
     // Truly unarmed, unarmed weapon, style-allowed weapon, generic weapon
     bool valid_weapon =
         (unarmed_allowed && u.unarmed_attack() &&
-            (nonstrict_unarmed_allowed || !u.is_armed())) ||
+            (!strictly_unarmed || !u.is_armed())) ||
         (melee_allowed &&
             (is_valid_weapon(u.weapon) || u.style_selected.obj().has_weapon(u.weapon.type->id) ));
     if( !valid_weapon ) {
@@ -810,4 +810,9 @@ float ma_technique::damage_multiplier( const player &u, damage_type type ) const
 float ma_technique::move_cost_multiplier( const player &u ) const
 {
     return bonuses.get_mult( u, AFFECTED_MOVE_COST );
+}
+
+float ma_technique::move_cost_penalty( const player &u ) const
+{
+    return bonuses.get_flat( u, AFFECTED_MOVE_COST );
 }

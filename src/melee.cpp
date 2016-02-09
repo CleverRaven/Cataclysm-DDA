@@ -1231,18 +1231,20 @@ void player::perform_technique(const ma_technique &technique, Creature &t, damag
         bash.damage_multiplier *= technique.damage_multiplier( *this, DT_BASH );
     }
 
-    // Cut affects stab damage too since only one of cut/stab is used
     if( cut.amount > 0 && cut.amount > stab.amount ) {
         cut.amount += technique.damage_bonus( *this, DT_CUT );
         cut.damage_multiplier *= technique.damage_multiplier( *this, DT_CUT );
-    } else if( stab.amount > 0 ) {
-        stab.amount += technique.damage_bonus( *this, DT_CUT );
-        stab.damage_multiplier *= technique.damage_multiplier( *this, DT_CUT );
+    }
+
+    if( stab.amount > 0 ) {
+        stab.amount += technique.damage_bonus( *this, DT_STAB );
+        stab.damage_multiplier *= technique.damage_multiplier( *this, DT_STAB );
     }
     add_msg( m_debug, _("dmg after tec bash:%d,cut:%d,stab:%d,total:%d"),
         (int)di.type_damage(DT_BASH), (int)di.type_damage(DT_CUT), (int)di.type_damage(DT_STAB), (int)di.total_damage());
 
     move_cost *= technique.move_cost_multiplier( *this );
+    move_cost += technique.move_cost_penalty( *this );
 
     if( technique.down_dur > 0 ) {
         if( t.get_throw_resist() == 0 ) {

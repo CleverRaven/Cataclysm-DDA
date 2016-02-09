@@ -943,6 +943,30 @@
             "tec_venom_snake_bite",
             "tec_venom_snake_strike"
         ]
+    },{
+        "type" : "martial_art",
+        "id" : "style_debug",
+        "name" : "Debug Mastery",
+        "description": "A secret martial art used only by developers and cheaters.",
+        "arm_block" : 99,
+        "leg_block" : 99,
+        "static_buffs" : [
+            {
+                "id" : "debug_elem_resist",
+                "name" : "Elemental resistance",
+                "description" : "+Strength bash armor, +Dexterity acid armor, +Intelligence electricity armor, +Perception fire armor.",
+                "unarmed_allowed" : true,
+                "strictly_unarmed" : true,
+                "bash_arm_str" : 1.0,
+                "cut_arm_dex" : 1.0,
+                "electric_arm_int" : 1.0,
+                "heat_arm_per" : 1.0
+            }
+        ],
+        "techniques" : [
+            "tec_debug_slow",
+            "tec_debug_arpen"
+        ]
     }
 ]
 
