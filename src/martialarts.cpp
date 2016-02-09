@@ -46,6 +46,8 @@ void ma_requirements::load( JsonObject &jo )
     optional( jo, was_loaded, "req_buffs", req_buffs, auto_flags_reader<mabuff_id>{} );
     optional( jo, was_loaded, "req_flags", req_flags, auto_flags_reader<>{} );
 
+    optional( jo, was_loaded, "strictly_unarmed", strictly_unarmed, false );
+
     // TODO: De-hardcode the skills and damage types here
     add_if_exists( jo, min_skill, was_loaded, "min_melee", skill_melee );
     add_if_exists( jo, min_skill, was_loaded, "min_unarmed", skill_unarmed );
@@ -314,6 +316,7 @@ void clear_techniques_and_martial_arts()
     ma_techniques.reset();
 }
 
+#include "messages.h"
 bool ma_requirements::is_valid_player( const player &u ) const
 {
     for( const auto &buff_id : req_buffs ) {

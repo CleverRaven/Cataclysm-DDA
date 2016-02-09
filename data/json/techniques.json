@@ -1248,7 +1248,7 @@
         "id" : "tec_debug_slow",
         "name" : "slow strike",
         "unarmed_allowed" : true,
-        "strict_unarmed" : true,
+        "strictly_unarmed" : true,
         "min_unarmed" : 3,
         "bash_mult" : 3.0,
         "bash_str_mult" : 0.1,
