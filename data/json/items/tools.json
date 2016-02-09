@@ -9451,6 +9451,7 @@
     "color": "blue",
     "name": "E-Ink Tablet PC",
     "description": "A tablet PC using an efficient color e-ink display.  Before the cataclysm, these were nifty gadgets; now, it's an almost priceless resource.  Runs on conventional batteries.",
+    "flags": ["WATCH"],
     "price": 20000,
     "material": "plastic",
     "weight": 250,
