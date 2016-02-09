@@ -6,6 +6,11 @@
 #include "character.h"
 #include "map_selector.h"
 #include "map.h"
+#include "game.h"
+
+struct map_cursor : public tripoint, public visitable<map_cursor> {
+    map_cursor( const tripoint &pos ) : tripoint( pos ) {};
+};
 
 template <typename T>
 item * visitable<T>::find_parent( item& it )
@@ -118,16 +123,26 @@ VisitResponse visitable<Character>::visit_items( const std::function<VisitRespon
 }
 
 template <>
+VisitResponse visitable<map_cursor>::visit_items( const std::function<VisitResponse( item *, item *, const tripoint* )>& func ) {
+    auto cur = static_cast<map_cursor *>( this );
+
+    for( auto& e : g->m.i_at( *cur ) ) {
+        if( visit_internal( func, &e, nullptr, cur ) == VisitResponse::ABORT ) {
+            return VisitResponse::ABORT;
+        }
+    }
+    return VisitResponse::NEXT;
+}
+
+template <>
 VisitResponse visitable<map_selector>::visit_items( const std::function<VisitResponse( item *, item *, const tripoint* )>& func )
 {
     auto sel = static_cast<map_selector *>( this );
 
     for( const auto &pos : closest_tripoints_first( sel->radius, sel->pos ) ) {
         if( !sel->accessible || sel->m.accessible_items( sel->pos, pos, sel->radius ) ) {
-            for( auto& e : sel->m.i_at( pos ) ) {
-                if( visit_internal( func, &e, nullptr, &pos ) == VisitResponse::ABORT ) {
-                    return VisitResponse::ABORT;
-                }
+            if( map_cursor( pos ).visit_items( func ) == VisitResponse::ABORT ) {
+                return VisitResponse::ABORT;
             }
         }
     }
@@ -139,3 +154,4 @@ template class visitable<item>;
 template class visitable<inventory>;
 template class visitable<Character>;
 template class visitable<map_selector>;
+template class visitable<map_cursor>;
