@@ -141,6 +141,8 @@ const efftype_id effect_visuals( "visuals" );
 const efftype_id effect_weed_high( "weed_high" );
 const efftype_id effect_winded( "winded" );
 
+const matype_id style_none( "style_none" );
+
 // use this instead of having to type out 26 spaces like before
 static const std::string header_spaces(26, ' ');
 
@@ -3480,28 +3482,19 @@ void player::disp_status( WINDOW *w, WINDOW *w2 )
 
     // Print currently used style or weapon mode.
     std::string style = "";
-    if( is_armed() ) {
-        // Show normal if no martial style is selected,
-        // or if the currently selected style does nothing for your weapon.
-        if( style_selected == matype_id( "style_none" ) ||
-            ( !can_melee() && !style_selected.obj().has_weapon( weapon.type->id ) ) ) {
-            style = _( "Normal" );
-        } else {
-            style = style_selected.obj().name;
-        }
-
-        int x = sideStyle ? ( getmaxx( weapwin ) - 13 ) : 0;
-        mvwprintz( weapwin, 1, x, c_red, style.c_str() );
+    const auto style_color = is_armed() ? c_red : c_blue;
+    const auto &cur_style = style_selected.obj();
+    if( cur_style.weapon_valid( weapon ) ) {
+        style = cur_style.name;
+    } else if( is_armed() ) {
+        style = _( "Normal" );
     } else {
-        if( style_selected == matype_id( "style_none" ) ) {
-            style = _( "No Style" );
-        } else {
-            style = style_selected.obj().name;
-        }
-        if( style != "" ) {
-            int x = sideStyle ? ( getmaxx( weapwin ) - 13 ) : 0;
-            mvwprintz( weapwin, 1, x, c_blue, style.c_str() );
-        }
+        style = _( "No Style" );
+    }
+    
+    if( !style.empty() ) {
+        int x = sideStyle ? ( getmaxx( weapwin ) - 13 ) : 0;
+        mvwprintz( weapwin, 1, x, style_color, style.c_str() );
     }
 
     wmove( w, sideStyle ? 1 : 2, 0 );
@@ -12558,7 +12551,6 @@ void player::absorb_hit(body_part bp, damage_instance &dam) {
             if (has_trait("CHITIN3") || has_trait("CHITIN_FUR3")) {
                 elem.amount -= 8;
             }
-            elem.amount -= mabuff_arm_cut_bonus();
         }
         if( elem.type == DT_BASH ) {
             if (has_trait("FEATHERS")) {
@@ -12597,8 +12589,9 @@ void player::absorb_hit(body_part bp, damage_instance &dam) {
             if (has_trait("HOLLOW_BONES")) {
                 elem.amount *= 1.8;
             }
-            elem.amount -= mabuff_arm_bash_bonus();
         }
+
+        elem.amount -= mabuff_armor_bonus( elem.type );
 
         if( elem.amount < 0 ) {
             elem.amount = 0;

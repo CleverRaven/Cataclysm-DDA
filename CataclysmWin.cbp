@@ -358,6 +358,8 @@
 		<Unit filename="src/bionics.h" />
 		<Unit filename="src/bodypart.cpp" />
 		<Unit filename="src/bodypart.h" />
+		<Unit filename="src/bonuses.cpp" />
+		<Unit filename="src/bonuses.h" />
 		<Unit filename="src/calendar.cpp" />
 		<Unit filename="src/calendar.h" />
 		<Unit filename="src/cata_tiles.cpp" />
