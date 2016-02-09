@@ -8,10 +8,6 @@
 #include "map.h"
 #include "game.h"
 
-struct map_cursor : public tripoint, public visitable<map_cursor> {
-    map_cursor( const tripoint &pos ) : tripoint( pos ) {};
-};
-
 template <typename T>
 item * visitable<T>::find_parent( item& it )
 {

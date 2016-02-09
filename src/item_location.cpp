@@ -5,6 +5,7 @@
 #include "debug.h"
 #include "game.h"
 #include "map.h"
+#include "map_selector.h"
 #include "character.h"
 #include "player.h"
 #include "vehicle.h"
@@ -327,8 +328,8 @@ item_location::item_location( item_location && ) = default;
 item_location& item_location::operator=( item_location&& ) = default;
 item_location::~item_location() = default;
 
-item_location::item_location( const tripoint &p, const item *which )
-    : ptr( new item_on_map( p, which ) ) {}
+item_location::item_location( const map_cursor &mc, const item *which )
+    : ptr( new item_on_map( mc, which ) ) {}
 
 item_location::item_location( Character &ch, const item *which )
     : ptr( new item_on_person( ch, which ) ) {}

@@ -7,11 +7,16 @@
 
 class map;
 
+class map_cursor : public tripoint, public visitable<map_cursor> {
+    public:
+        map_cursor( const tripoint &pos ) : tripoint( pos ) {};
+};
+
 class map_selector : public visitable<map_selector> {
     friend visitable<map_selector>;
 
     public:
-        typedef tripoint value_type;
+        typedef map_cursor value_type;
         typedef std::vector<tripoint>::size_type size_type;
         typedef value_type* iterator;
         typedef const value_type* const_iterator;
@@ -42,7 +47,7 @@ class map_selector : public visitable<map_selector> {
         const_reference back() const { return data[ size() - 1 ]; }
 
     private:
-        std::vector<tripoint> data;
+        std::vector<value_type> data;
 };
 
 #endif

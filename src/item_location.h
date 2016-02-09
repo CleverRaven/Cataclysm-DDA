@@ -4,9 +4,9 @@
 #include <memory>
 
 struct point;
-struct tripoint;
 class item;
 class Character;
+class map_cursor;
 class vehicle;
 
 /**
@@ -25,7 +25,7 @@ class item_location
         ~item_location();
 
         item_location( Character &ch, const item *which );
-        item_location( const tripoint &p, const item *which );
+        item_location( const map_cursor &mc, const item *which );
         item_location( vehicle &v, const point &where, const item *which );
 
         /** Describes the item location
