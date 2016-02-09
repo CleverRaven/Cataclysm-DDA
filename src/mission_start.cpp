@@ -134,6 +134,8 @@ void mission_start::infect_npc( mission *miss )
     p->remove_items_with( []( const item & it ) {
         return it.typeId() == "antibiotics";
     } );
+    // Make sure they stay here
+    p->guard_current_pos();
 }
 
 void mission_start::place_dog( mission *miss )

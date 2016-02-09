@@ -243,9 +243,10 @@ void npc::move()
     }
 
     if( action == npc_undecided ) {
-        if (mission == NPC_MISSION_SHELTER || mission == NPC_MISSION_BASE || mission == NPC_MISSION_SHOPKEEP
-            || mission == NPC_MISSION_GUARD || has_effect( effect_infection ) ) {
-            action = npc_pause;
+        if( is_guarding() ) {
+            action = goal == global_omt_location() ?
+                npc_pause :
+                npc_goto_destination;
         } else if( has_new_items && scan_new_items() ) {
             return;
         } else if( !fetching_item ) {
@@ -259,9 +260,7 @@ void npc::move()
         } else if( fetching_item ) {
             // Set to true if find_item() found something
             action = npc_pickup;
-        }
-
-        if( action == npc_undecided && is_following() ) {
+        } else if( is_following() ) {
             // No items, so follow the player?
             action = npc_follow_player;
         }
@@ -943,7 +942,6 @@ npc_action npc::address_player()
 npc_action npc::long_term_goal_action()
 {
     add_msg( m_debug, "long_term_goal_action()" );
-    path.clear();
 
     if (mission == NPC_MISSION_SHOPKEEP || mission == NPC_MISSION_SHELTER) {
         return npc_pause;    // Shopkeeps just stay put.
@@ -1204,6 +1202,10 @@ void npc::update_path( const tripoint &p, const bool no_bashing )
     const int bash_power = no_bashing ? 0 : smash_ability();
     if( path.empty() ) {
         path = g->m.route( pos(), p, bash_power, 1000 );
+        if( path.empty() ) {
+            add_msg( m_debug, "Failed to path %d,%d,%d->%d,%d,%d",
+                     posx(), posy(), posz(), p.x, p.y, p.z );
+        }
         return;
     }
     const tripoint &last = path[path.size() - 1];
@@ -1215,6 +1217,11 @@ void npc::update_path( const tripoint &p, const bool no_bashing )
     path = g->m.route( pos(), p, bash_power, 1000 );
     if( !path.empty() && path[0] == pos() ) {
         path.erase( path.begin() );
+    }
+
+    if( path.empty() ) {
+        add_msg( m_debug, "Failed to path %d,%d,%d->%d,%d,%d",
+                 posx(), posy(), posz(), p.x, p.y, p.z );
     }
 }
 
@@ -2313,25 +2320,32 @@ bool npc::has_destination() const
 
 void npc::reach_destination()
 {
-    //this entire clause is to preserve the guard's home coordinates and permit him/her to return
-    if (mission == NPC_MISSION_GUARD || mission == NPC_MISSION_SHOPKEEP) {
-        if( guard_pos == global_square_location() ) {
-            return; //Our guard is already at his/her home tile
-        } else {
-            if (path.size() > 1) {
-                move_to_next();    //No point recalculating the path to get home
-            } else {
-                const tripoint dest( guard_pos.x - mapx * SEEX,
-                                     guard_pos.y - mapy * SEEY,
-                                     guard_pos.z );
-                update_path( dest );
-                move_to_next();
-            }
-        }
-        return;//don't delete our post if we are a guard
+    // Guarding NPCs want a specific point, not just an overmap tile
+    // Rest stops having a goal after reaching it
+    if( !is_guarding() ) {
+        goal = no_goal_point;
+        return;
     }
 
-    goal = no_goal_point;
+    // If we are guarding, remember our position in case we get forcibly moved
+    goal = global_omt_location();
+    if( guard_pos == global_square_location() ) {
+        // This is the specific point
+        return;
+    }
+
+    if( path.size() > 1 ) {
+        // No point recalculating the path to get home
+        move_to_next();    
+    } else if( guard_pos != no_goal_point ) {
+        const tripoint dest( guard_pos.x - mapx * SEEX,
+                             guard_pos.y - mapy * SEEY,
+                             guard_pos.z );
+        update_path( dest );
+        move_to_next();
+    } else {
+        guard_pos = global_square_location();
+    }
 }
 
 void npc::set_destination()
@@ -2347,17 +2361,14 @@ void npc::set_destination()
      * Also, NPCs should be able to assign themselves missions like "break into that
      *  lab" or "map that river bank."
      */
-    if (mission == NPC_MISSION_GUARD || mission == NPC_MISSION_SHOPKEEP) {
-        goal.x = global_omt_location().x;
-        goal.y = global_omt_location().y;
-        goal.z = g->get_levz();
-        guard_pos = global_square_location();
+    if( is_guarding() ) {
+        guard_current_pos();
         return;
     }
 
     // all of the following luxuries are at ground level.
     // so please wallow in hunger & fear if below ground.
-    if(g->get_levz() != 0) {
+    if( posz() != 0 && !g->m.has_zlevels() ) {
         goal = no_goal_point;
         return;
     }
@@ -2401,24 +2412,54 @@ void npc::set_destination()
 
     const std::string dest_type = random_entry( options );
 
-    goal = overmap_buffer.find_closest(global_omt_location(), dest_type, 0, false);
+    // We need that, otherwise find_closest won't work properly
+    // TODO: Allow finding sewers and stuff
+    tripoint surface_omt_loc = global_omt_location();
+    surface_omt_loc.z = 0;
+
+    goal = overmap_buffer.find_closest( surface_omt_loc, dest_type, 0, false );
+    add_msg( m_debug, "New goal: %s at %d,%d,%d", dest_type.c_str(), goal.x, goal.y, goal.z );
 }
 
 void npc::go_to_destination()
 {
-    const tripoint omt_pos = global_omt_location();
-    const int sx = (goal.x == omt_pos.x) ? 0 : sgn( goal.x - omt_pos.x );
-    const int sy = (goal.y == omt_pos.y) ? 0 : sgn( goal.y - omt_pos.y );
-    add_msg( m_debug, "%s going (%d,%d,%d)->(%d,%d,%d)", name.c_str(),
-             omt_pos.x, omt_pos.y, omt_pos.z, goal.x, goal.y, goal.z );
-    if( goal.x == omt_pos.x && goal.y == omt_pos.y ) { // We're at our desired map square!
+    if( goal == no_goal_point ) {
+        add_msg( m_debug, "npc::go_to_destination with no goal" );
         move_pause();
         reach_destination();
         return;
     }
 
+    const tripoint omt_pos = global_omt_location();
+    int sx = sgn( goal.x - omt_pos.x );
+    int sy = sgn( goal.y - omt_pos.y );
+    const int minz = std::min( goal.z, posz() );
+    const int maxz = std::max( goal.z, posz() );
+    add_msg( m_debug, "%s going (%d,%d,%d)->(%d,%d,%d)", name.c_str(),
+             omt_pos.x, omt_pos.y, omt_pos.z, goal.x, goal.y, goal.z );
+    if( goal == omt_pos ) {
+        // We're at our desired map square!
+        reach_destination();
+        return;
+    }
+
+    if( !path.empty() &&
+        sgn( path.back().x - posx() ) == sx &&
+        sgn( path.back().y - posy() ) == sy &&
+        sgn( path.back().z - posz() ) == sgn( goal.z - posz() ) ) {
+        // We're moving in the right direction, don't find a different path
+        move_to_next();
+        return;
+    }
+
+    if( sx == 0 && sy == 0 && goal.z != posz() ) {
+        // Make sure we always have some points to check
+        sx = rng( -1, 1 );
+        sy = rng( -1, 1 );
+    }
+
     // sx and sy are now equal to the direction we need to move in
-    tripoint dest( posx() + 8 * sx, posy() + 8 * sy, posz() );
+    tripoint dest( posx() + 8 * sx, posy() + 8 * sy, goal.z );
     for( int i = 0; i < 8; i++ ) {
         if( ( g->m.passable( dest ) ||
              //Needs 20% chance of bashing success to be considered for pathing
@@ -2435,9 +2476,15 @@ void npc::go_to_destination()
             }
         }
 
-        dest = tripoint( posx() + rng( 0, 16 ) * sx, posy() + rng( 0, 16 ) * sy, goal.z );
+        dest = tripoint( posx() + rng( 0, 16 ) * sx, posy() + rng( 0, 16 ) * sy, rng( minz, maxz ) );
     }
     move_pause();
+}
+
+void npc::guard_current_pos()
+{
+    goal = global_omt_location();
+    guard_pos = global_square_location();
 }
 
 std::string npc_action_name(npc_action action)

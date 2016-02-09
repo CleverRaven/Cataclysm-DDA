@@ -543,9 +543,14 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
 
         info.push_back( iteminfo( "BASE", _( "<bold>Volume</bold>: " ), "", volume(), true, "", false,
                                   true ) );
+
         info.push_back( iteminfo( "BASE", space + _( "Weight: " ),
                                   string_format( "<num> %s", weight_units() ),
                                   convert_weight( weight() ), false, "", true, true ) );
+
+        if( count_by_charges() ) {
+            info.emplace_back( "BASE", _( "Stack size: " ), "", type->stack_size, true );
+        }
 
         if( damage_bash() > 0 || damage_cut() > 0 ) {
             info.push_back( iteminfo( "BASE", _( "Bash: " ), "", damage_bash(), true, "", false ) );
@@ -671,9 +676,6 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                 info.emplace_back( "AMMO", space + _( "Dispersion: " ), "", ammo.dispersion, true, "", true, true );
                 info.emplace_back( "AMMO", _( "Recoil: " ), "", ammo.recoil, true, "", true, true );
              }
-            if( is_ammo() ) {
-                info.emplace_back( "AMMO", _( "Default stack size: " ), "", ammo.def_charges, true, "", true, false );
-            }
         }
 
     } else {
@@ -2368,8 +2370,8 @@ int item::volume( bool integral ) const
 
     // For items counted per charge the above volume is per stack so adjust dependent upon charges
     if( count_by_charges() || made_of( LIQUID ) ) {
-        ret *= charges;
-        ret /= type->stack_size;
+        int sk = std::max( type->stack_size, 1 );
+        ret *= charges / sk + ( charges % sk != 0 );
     }
 
     // Non-rigid containers add the volume of the content

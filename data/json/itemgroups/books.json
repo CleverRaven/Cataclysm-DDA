@@ -1,0 +1,14 @@
+[
+  {
+    "type" : "item_group",
+    "id" : "book_gunmags",
+    "//" : "Magazines about guns",
+    "items": [
+      [ "mag_guns", 100 ],
+      [ "mag_pistol", 50 ],
+      [ "mag_rifle", 50 ],
+      [ "mag_shotgun", 30 ],
+      [ "mag_smg", 10 ]
+    ]
+  }
+]
