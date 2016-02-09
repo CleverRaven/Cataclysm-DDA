@@ -493,7 +493,7 @@ bool Character::has_active_bionic(const std::string & b) const
 
 map_selector Character::nearby( int radius, bool accessible )
 {
-    return map_selector( g->m, pos(), radius, accessible );
+    return map_selector( pos(), radius, accessible );
 }
 
 std::vector<item *> Character::items_with( const std::function<bool(const item&)>& filter )
