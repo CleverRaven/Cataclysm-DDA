@@ -137,13 +137,9 @@ VisitResponse visitable<map_cursor>::visit_items( const std::function<VisitRespo
 template <>
 VisitResponse visitable<map_selector>::visit_items( const std::function<VisitResponse( item *, item *, const tripoint* )>& func )
 {
-    auto sel = static_cast<map_selector *>( this );
-
-    for( const auto &pos : closest_tripoints_first( sel->radius, sel->pos ) ) {
-        if( !sel->accessible || sel->m.accessible_items( sel->pos, pos, sel->radius ) ) {
-            if( map_cursor( pos ).visit_items( func ) == VisitResponse::ABORT ) {
-                return VisitResponse::ABORT;
-            }
+    for( const auto &pos : static_cast<map_selector&>( *this ) ) {
+        if( map_cursor( pos ).visit_items( func ) == VisitResponse::ABORT ) {
+            return VisitResponse::ABORT;
         }
     }
     return VisitResponse::NEXT;
