@@ -4264,7 +4264,7 @@ item_location item::pick_reload_ammo( player &u, bool interactive ) const
     });
 
     // next check for items on adjacent map tiles
-    u.nearby( 1 ).visit_items_const(
+    u.nearby().visit_items_const(
         [ &ammo_list, &filter ]( const item *node, const item *, const tripoint *pos ) {
         if( filter( node ) ) {
             ammo_list.emplace_back( *pos, node );
