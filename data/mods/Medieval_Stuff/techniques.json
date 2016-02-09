@@ -34,7 +34,7 @@
             "<npcname> displaces and counters %s"
         ],
         "cut_mult" : 1.1,
-        "speed_mult" : 0.75,
+        "movecost_mult" : 0.75,
         "stun_dur" : 1
     },{
         "type" : "technique",
@@ -94,7 +94,7 @@
             "You counter and grab %s",
             "<npcname> counters and grabs %s"
         ],
-        "speed_mult" : 0.5,
+        "movecost_mult" : 0.5,
         "stun_dur" : 2,
         "down_dur" : 1
     },{
