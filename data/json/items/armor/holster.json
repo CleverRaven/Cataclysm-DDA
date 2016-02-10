@@ -20,7 +20,7 @@
       "draw_cost": 20,
       "skills": ["smg", "shotgun", "rifle", "launcher"]
     },
-    "flags" : ["VARSIZE", "BELTED", "OVERSIZE", "NO_QUICKDRAW"]
+    "flags" : ["BELTED", "OVERSIZE", "NO_QUICKDRAW"]
   },
   {
     "id" : "bootstrap",
@@ -37,7 +37,7 @@
     "coverage" : 5,
     "encumbrance" : 3,
     "material_thickness" : 1,
-    "flags" : ["VARSIZE", "BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS"],
+    "flags" : ["BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS"],
     "use_action" : {
       "type": "holster",
       "max_volume": 2,
@@ -66,7 +66,7 @@
       "max_volume": 5,
       "skills": ["pistol", "smg", "shotgun"]
     },
-    "flags" : ["VARSIZE", "WAIST", "OVERSIZE"]
+    "flags" : ["WAIST", "OVERSIZE"]
   },
   {
     "id": "sholster",
@@ -88,7 +88,7 @@
       "draw_cost": 3,
       "skills": ["pistol", "shotgun"]
     },
-    "flags": ["VARSIZE", "WAIST", "OVERSIZE"]
+    "flags": ["WAIST", "OVERSIZE"]
   },
   {
     "id": "survivor_vest",
@@ -136,6 +136,6 @@
       "max_volume": 8,
       "skills": ["pistol", "smg", "shotgun", "rifle"]
     },
-    "flags": ["VARSIZE", "WAIST", "OVERSIZE"]
+    "flags": ["WAIST", "OVERSIZE"]
   }
 ]
