@@ -2727,7 +2727,7 @@ int item::get_encumber() const
     // Non-rigid items add additional encumbrance proportional to their volume
     if( !type->rigid ) {
         for( const auto &e : contents ) {
-            encumber += e.volume() * 2;
+            encumber += e.volume();
         }
     }
 

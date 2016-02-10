@@ -130,6 +130,7 @@
     "color": "ltgray",
     "covers": ["LEG_EITHER"],
     "coverage": 10,
+    "encumbrance": 2,
     "material_thickness": 1,
     "use_action": {
       "type": "holster",
