@@ -1,6 +1,8 @@
 #include "character.h"
 #include "game.h"
 #include "map.h"
+#include "map_selector.h"
+#include "vehicle_selector.h"
 #include "debug.h"
 #include "mission.h"
 #include "translations.h"
@@ -718,6 +720,70 @@ std::vector<const item *> Character::get_ammo( const ammotype &at ) const
     return items_with( [at]( const item & it ) {
         return it.is_ammo() && it.ammo_type() == at;
     } );
+}
+
+template <typename T, typename Output>
+void find_ammo_helper( T& src, const item& obj, bool empty, Output out ) {
+    if( obj.magazine_integral() ) {
+        // find suitable ammo excluding that already loaded in magazines
+        ammotype ammo = obj.ammo_type();
+
+        src.visit_items( [&src,&out,ammo]( item *node ) {
+            if( node->is_magazine() || node->is_gun() || node->is_tool() ) {
+                // guns/tools never contain usable ammo so most efficient to skip them now
+                return VisitResponse::SKIP;
+            }
+            if( !node->made_of( SOLID ) ) {
+                // some liquids are ammo but we can't reload with them unless within a container
+                return VisitResponse::SKIP;
+            }
+            if( node->is_ammo_container() ) {
+                if( node->contents[0].ammo_type() == ammo ) {
+                    out = item_location( src, node );
+                }
+                return VisitResponse::SKIP;
+            }
+            if( node->is_ammo() && node->ammo_type() == ammo ) {
+                out = item_location( src, node );
+            }
+            return VisitResponse::NEXT;
+        } );
+
+    } else {
+        // find compatible magazines excluding those already loaded in tools/guns
+        const auto mags = obj.magazine_compatible();
+
+        src.visit_items( [&src,&out,mags,empty]( item *node ) {
+            if( node->is_gun() || node->is_tool() ) {
+                return VisitResponse::SKIP;
+            }
+            if( node->is_magazine() ) {
+                if ( mags.count( node->typeId() ) && ( node->ammo_remaining() || empty ) ) {
+                    out = item_location( src, node );
+                }
+                return VisitResponse::SKIP;
+            }
+            return VisitResponse::NEXT;
+        } );
+    }
+}
+
+std::vector<item_location> Character::find_ammo( const item& obj, bool empty, int radius )
+{
+    std::vector<item_location> res;
+
+    find_ammo_helper( *this, obj, empty, std::back_inserter( res ) );
+
+    if( radius >= 0 ) {
+        for( auto& cursor : map_selector( pos(), radius ) ) {
+            find_ammo_helper( cursor, obj, empty, std::back_inserter( res ) );
+        }
+        for( auto& cursor : vehicle_selector( pos(), radius ) ) {
+            find_ammo_helper( cursor, obj, empty, std::back_inserter( res ) );
+        }
+    }
+
+    return res;
 }
 
 bool Character::can_reload()
