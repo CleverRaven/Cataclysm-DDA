@@ -411,6 +411,7 @@ The syntax listed here is still valid.
 "reliability" : 8,    // How reliable this this magazine on a range of 0 to 10? (see GAME_BALANCE.md)
 "reload_time" : 100,  // How long it takes to load each unit of ammo into the magazine
 "rigid" : true        // Volume increases proportional to contained ammo for non-rigid magazines (set this for ammo belts)
+"linkage" : "ammolink"// If set one linkage (of given type) is dropped for each unit of ammo consumed (set for disintegrating ammo belts)
 ```
 
 ###ARMOR

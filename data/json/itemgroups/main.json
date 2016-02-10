@@ -844,12 +844,9 @@
     "items":[        
       ["shot_scrap", 50],
       ["shot_scrapslug", 50],
-      ["shot_scrapbag", 50],
-      ["reloaded_shot_bird", 150],
       ["reloaded_shot_00", 200],
       ["reloaded_shot_flechette", 50],
       ["reloaded_shot_slug", 150],
-      ["reloaded_shot_beanbag", 10],
       ["reloaded_shot_he", 50],
       ["20x66_bootleg_shot", 20],
       ["20x66_bootleg_flechette", 20],

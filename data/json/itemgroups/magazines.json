@@ -139,7 +139,9 @@
     "id" : "mags_rifle_rare",
     "//" : "Aftermarket or otherwise uncommon rifle magazines excluding milspec.",
     "items": [
-      ["m1918bigmag", 10]
+      ["akmbigmag", 5],
+      ["akmmag", 25],
+      ["m1918bigmag", 40]
     ]
   },
   {

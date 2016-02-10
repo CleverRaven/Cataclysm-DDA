@@ -498,6 +498,9 @@ void Item_factory::check_definitions() const
             if( type->magazine->reload_time < 0 ) {
                 msg << string_format("invalid reload_time %i", type->magazine->reload_time) << "\n";
             }
+            if( type->magazine->linkage != "NULL" && !has_template( type->magazine->linkage ) ) {
+                msg << string_format( "invalid linkage property %s", type->magazine->linkage.c_str() ) << "\n";
+            }
         }
 
         for( const auto& typ : type->magazines ) {
@@ -918,6 +921,7 @@ void Item_factory::load( islot_magazine &slot, JsonObject &jo )
     slot.reliability = jo.get_int( "reliability" );
     slot.reload_time = jo.get_int( "reload_time", 0 );
     slot.rigid = jo.get_bool( "rigid", true );
+    slot.linkage = jo.get_string( "linkage", slot.linkage );
 }
 
 void Item_factory::load_magazine(JsonObject &jo)
