@@ -4840,7 +4840,7 @@
         "color" : "dark_gray",
         "covers" : ["TORSO", "ARMS", "LEGS"],
         "symbol" : "[",
-        "description" : "The WebbStar moisture retention suit utilizes quantum cooling technology to prevent up to 30% of moisture loss through perspiration.  The suit is powered by the wearer's movement.",
+        "description" : "The WebbStar moisture retention suit utilizes quantum cooling technology to prevent up to 30% of moisture loss through perspiration.  The suit is powered by the micro-motions of the body, especially breathing, and osmotic action provides the pumping force.",
         "price" : 4500000,
         "material" : ["plastic", "neoprene"],
         "volume" : 34,
