@@ -36,7 +36,7 @@
     "//" : "Imported or otherwise very obscure pistol ammmo.",
     "items": [
       [ "9x18mm", 100 ],
-      [ "9x18mmfmj", 50 ]
+      [ "9x18mmfmj", 50 ],
       [ "9x18mmP2", 20 ]
     ]
   },
@@ -53,9 +53,9 @@
        [ "reloaded_9mm", 300 ],
        [ "reloaded_9mmfmj", 100 ],
        [ "reloaded_9mmP", 80 ],
-       [ "reloaded_9mmP2", 40 ]
+       [ "reloaded_9mmP2", 40 ],
        [ "reloaded_9x18mm", 20 ],
-       [ "reloaded_9x18mmfmj", 10 ]
+       [ "reloaded_9x18mmfmj", 10 ],
        [ "reloaded_9x18mmP2", 5 ]
     ]  
   },
