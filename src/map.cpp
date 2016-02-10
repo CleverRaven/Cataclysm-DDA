@@ -802,7 +802,7 @@ void map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &facing 
 
     // Now we're gonna handle traps we're standing on (if we're still moving).
     if( !vertical && can_move ) {
-        const auto &wheel_indices = veh.wheelcache;
+        const auto wheel_indices = veh.wheelcache; // Don't use a reference here, it causes a crash.
         for( auto &w : wheel_indices ) {
             const tripoint wheel_p = pt + veh.parts[w].precalc[0];
             if( one_in( 2 ) && displace_water( wheel_p ) ) {
@@ -2708,6 +2708,10 @@ int map::bash_rating( const int str, const tripoint &p, const bool allow_floor )
     if( !inbounds( p ) ) {
         DebugLog( D_WARNING, D_MAP ) << "Looking for out-of-bounds is_bashable at "
                                      << p.x << ", " << p.y << ", " << p.z;
+        return -1;
+    }
+
+    if( str <= 0 ) {
         return -1;
     }
 

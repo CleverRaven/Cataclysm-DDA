@@ -61,6 +61,7 @@ const efftype_id effect_pkill1( "pkill1" );
 const efftype_id effect_pkill2( "pkill2" );
 const efftype_id effect_pkill3( "pkill3" );
 const efftype_id effect_pkill_l( "pkill_l" );
+const efftype_id effect_infection( "infection" );
 
 std::list<item> starting_clothes(npc_class type, bool male);
 std::list<item> starting_inv(npc *me, npc_class type);
@@ -1877,6 +1878,13 @@ bool npc::is_enemy() const
 bool npc::is_defending() const
 {
  return (attitude == NPCATT_DEFEND);
+}
+
+bool npc::is_guarding() const
+{
+    return mission == NPC_MISSION_SHELTER || mission == NPC_MISSION_BASE ||
+        mission == NPC_MISSION_SHOPKEEP || mission == NPC_MISSION_GUARD ||
+        has_effect( effect_infection );
 }
 
 Creature::Attitude npc::attitude_to( const Creature &other ) const
