@@ -115,6 +115,7 @@ item::item(const std::string new_type, int turn, bool rand)
     }
     // TODO: some item types use the same member (e.g. charges) for different things. Handle or forbid this.
     if( type->gun ) {
+        set_var( "magazine_converted", true );
         charges = 0;
         for( auto &gm : type->gun->built_in_mods ){
             if(type_is_defined( gm) ){
@@ -148,6 +149,7 @@ item::item(const std::string new_type, int turn, bool rand)
         }
     }
     if( type->is_tool() ) {
+        set_var( "magazine_converted", true );
         const auto tool = dynamic_cast<const it_tool*>(type);
         if( tool->max_charges != 0 ) {
             if( !has_random_charges ) {
