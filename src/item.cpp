@@ -2370,8 +2370,7 @@ int item::volume( bool integral ) const
 
     // For items counted per charge the above volume is per stack so adjust dependent upon charges
     if( count_by_charges() || made_of( LIQUID ) ) {
-        int sk = std::max( type->stack_size, 1 );
-        ret *= charges / sk + ( charges % sk != 0 );
+        ret = ceil( ret * double( charges ) / type->stack_size );
     }
 
     // Non-rigid containers add the volume of the content
