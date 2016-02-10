@@ -19,11 +19,11 @@ class vehicle_selector : public visitable<vehicle_selector> {
 
     public:
         typedef vehicle_cursor value_type;
-        typedef std::vector<tripoint>::size_type size_type;
-        typedef value_type* iterator;
-        typedef const value_type* const_iterator;
-        typedef value_type& reference;
-        typedef const value_type& const_reference;
+        typedef std::vector<value_type>::size_type size_type;
+        typedef std::vector<value_type>::iterator iterator;
+        typedef std::vector<value_type>::const_iterator const_iterator;
+        typedef std::vector<value_type>::reference reference;
+        typedef std::vector<value_type>::const_reference const_reference;
 
         /**
          *  Constructs vehicle_selector used for querying items located on vehicle tiles
@@ -38,14 +38,14 @@ class vehicle_selector : public visitable<vehicle_selector> {
         vehicle_selector( vehicle_selector && ) = default;
 
         size_type size() const { return data.size(); }
-        iterator begin() { return &data[ 0 ]; }
-        iterator end() { return &data[ data.size() ]; }
-        const_iterator cbegin() { return &data[ 0 ]; }
-        const_iterator cend() { return &data[ size() ]; }
-        reference front() { return data[ 0 ]; }
-        const_reference front() const { return data[ 0 ]; }
-        reference back() { return data[ size() - 1 ]; }
-        const_reference back() const { return data[ size() - 1 ]; }
+        iterator begin() { return data.begin(); }
+        iterator end() { return data.end(); }
+        const_iterator cbegin() const { return data.cbegin(); }
+        const_iterator cend() const { return data.cend(); }
+        reference front() { return data.front(); }
+        const_reference front() const { return data.front(); }
+        reference back() { return data.back(); }
+        const_reference back() const { return data.back(); }
 
     private:
         std::vector<value_type> data;
