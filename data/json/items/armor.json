@@ -11523,7 +11523,6 @@
         "material_thickness" : 2,
         "container_data" : {
             "contains" : 40,
-            "rigid" : true,
             "watertight" : true,
             "seals" : true
         }
