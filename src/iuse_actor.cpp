@@ -37,9 +37,11 @@ const efftype_id effect_bleed( "bleed" );
 const efftype_id effect_infected( "infected" );
 const efftype_id effect_music( "music" );
 const efftype_id effect_playing_instrument( "playing_instrument" );
+const efftype_id effect_playing_instrument_boredom( "playing_instrument_boredom" );
 const efftype_id effect_recover( "recover" );
 const efftype_id effect_sleep( "sleep" );
 const efftype_id effect_stunned( "stunned" );
+const efftype_id effect_winded( "winded" );
 const efftype_id effect_asthma( "asthma" );
 
 iuse_transform::~iuse_transform()
@@ -1682,94 +1684,238 @@ bool manualnoise_actor::can_use( const player*, const item *it, bool, const trip
     return it->type->charges_to_use() == 0 || it->charges >= it->type->charges_to_use();
 }
 
+std::bitset<num_bp> musical_instrument_actor::get_playing_body_parts( const player *p ) const
+{
+    std::bitset<num_bp> body_parts = 0;
+
+    for( int i = 0; i < num_bp; i++ ) {
+        body_part bp = body_part(i);
+
+        if (p->has_effect(effect_playing_instrument, bp)) {
+            body_parts.set(bp);
+        }
+    }
+
+    return body_parts;
+}
+
+std::bitset<num_bp> musical_instrument_actor::get_overburdened_body_parts( const player *p ) const
+{
+    std::bitset<num_bp> body_parts = 0;
+
+    for( int i = 0; i < num_bp; i++ ) {
+        body_part bp = body_part(i);
+        if (played_with.test(bp) && p->encumb(bp) > max_encumb[bp]) {
+            body_parts.set(bp);
+        }
+    }
+
+    return body_parts;
+}
+
 iuse_actor *musical_instrument_actor::clone() const
 {
     return new musical_instrument_actor(*this);
 }
 
+void musical_instrument_actor::add_played_with( const body_part bp, int max_e)
+{
+    played_with.set( bp );
+    max_encumb[bp] = max_e;
+}
+
 void musical_instrument_actor::load( JsonObject &obj )
 {
-    speed_penalty = obj.get_int( "speed_penalty", 10 );
+    speed_penalty_per_part = obj.get_int( "speed_penalty_per_part", 10 );
     volume = obj.get_int( "volume" );
     fun = obj.get_int( "fun" );
     fun_bonus = obj.get_int( "fun_bonus", 0 );
     description_frequency = obj.get_int( "description_frequency" );
     descriptions = obj.get_string_array( "descriptions" );
+
+    played_with.reset();
+    max_encumb[num_bp-1] = {0};
+
+    JsonArray jarr = obj.get_array( "played_with" );
+    while( jarr.has_more() ) {
+        std::string id;
+        int encumb = 0;
+
+        if ( jarr.has_array(0) ) {
+            JsonArray curr = jarr.next_array();
+            id = curr.next_string();
+            if ( curr.has_more() ) {
+              encumb = curr.next_int();
+            }
+        } else if ( jarr.has_string(0) ) {
+            id = jarr.next_string();
+        } else {
+            debugmsg( "Unexpected \"played_with\" value." );
+        }
+
+        if (id == "ARMS") {
+            add_played_with( bp_arm_l, encumb );
+            add_played_with( bp_arm_r, encumb );
+        } else if (id == "HANDS") {
+            add_played_with( bp_hand_l, encumb );
+            add_played_with( bp_hand_r, encumb );
+        } else if (id == "LEGS") {
+            add_played_with( bp_leg_l, encumb );
+            add_played_with( bp_leg_r, encumb );
+        } else if (id == "FEET") {
+            add_played_with( bp_foot_l, encumb );
+            add_played_with( bp_foot_r, encumb );
+        } else {
+            add_played_with( get_body_part_token( id ), encumb );
+        }
+    }
+
+    if (!played_with.any()) {
+        debugmsg( "Missing or empty \"played_with\" value." );
+    }
 }
 
 long musical_instrument_actor::use( player *p, item *it, bool t, const tripoint& ) const
 {
+    std::string it_name = it->type->nname(1);
+
     if( p == nullptr ) {
         // No haunted pianos here!
         it->active = false;
         return 0;
     }
 
-    if( p->is_underwater() ) {
-        p->add_msg_if_player( m_bad, _("You can't play music underwater") );
-        it->active = false;
-        return 0;
-    }
-
-    // Stop playing a wind instrument when winded or even eventually become winded while playing it?
-    // It's impossible to distinguish instruments for now anyways.
-    if( p->has_effect( effect_sleep ) || p->has_effect( effect_stunned ) || p->has_effect( effect_asthma ) ) {
-        p->add_msg_if_player( m_bad, _("You stop playing your %s"), it->display_name().c_str() );
-        it->active = false;
-        return 0;
-    }
-
+    // Voluntary renunciation goes first
     if( !t && it->active ) {
-        p->add_msg_if_player( _("You stop playing your %s"), it->display_name().c_str() );
         it->active = false;
+        p->add_msg_if_player( _( "You stop playing your %s." ), it_name.c_str() );
         return 0;
     }
 
-    // Check for worn or wielded - no "floating"/bionic instruments for now
-    // TODO: Distinguish instruments played with hands and with mouth, consider encumbrance
+    if( p->is_underwater() ) {
+        it->active = false;
+        p->add_msg_if_player( m_bad, _( "You can't play music underwater." ) );
+        return 0;
+    }
+
+    if( (p->has_effect( effect_winded ) && played_with.test(bp_mouth)) || // Cannot blow anymore
+        p->has_effect( effect_sleep ) ||
+        p->has_effect( effect_stunned ) ||
+        p->has_effect( effect_asthma ) ) {
+
+        it->active = false;
+        p->add_msg_if_player( m_bad, _( "You stop playing your %s." ), it_name.c_str() );
+        return 0;
+    }
+
+    // No "floating"/bionic instruments for now
     const int inv_pos = p->get_item_position( it );
     if( inv_pos >= 0 || inv_pos == INT_MIN ) {
-        p->add_msg_if_player( m_bad, _("You need to hold or wear %s to play it"), it->display_name().c_str() );
         it->active = false;
+        if( it->is_armor() ) {
+            p->add_msg_if_player( m_bad, _( "You need to hold or wear %s to play it." ), it_name.c_str() );
+        } else {
+            p->add_msg_if_player( m_bad, _( "You need to hold %s to play it." ), it_name.c_str() );
+        }
         return 0;
     }
 
+    if( p->move_mode == "run" ) {
+        it->active = false;
+        p->add_msg_if_player( m_bad, _( "You can't play the %s while running." ), it_name.c_str() );
+        return 0;
+    }
     // At speed this low you can't coordinate your actions well enough to play the instrument
-    if( p->get_speed() <= 25 + speed_penalty ) {
-        p->add_msg_if_player( m_bad, _("You feel too weak to play your %s"), it->display_name().c_str() );
+    if( p->get_speed() <= 25 + speed_penalty_per_part ) {
         it->active = false;
+        p->add_msg_if_player( m_bad, _( "You feel too weak to play your %s." ), it_name.c_str() );
         return 0;
     }
 
-    // We can play the music now
-    if( !it->active ) {
-        p->add_msg_if_player( m_good, _("You start playing your %s"), it->display_name().c_str() );
+    const auto overburdened_body_parts = get_overburdened_body_parts(p);
+    if( overburdened_body_parts.any() ) {
+        const std::string recited = recite_body_parts( overburdened_body_parts );
+        it->active = false;
+        p->add_msg_if_player( m_bad, _( "You can't play %s with that encumbrance on your %s." ), it_name.c_str(), recited.c_str() );
+        return 0;
+    }
+
+    if (!it->active) {
+        const auto busy_body_parts = get_playing_body_parts(p) & this->played_with;
+
+        if( busy_body_parts.any() ) {
+            const std::string recited = recite_body_parts( busy_body_parts );
+            p->add_msg_if_player( m_bad, _( "You can't play the %s.\nYou're already using your %s to play music." ),
+                                  it_name.c_str(), recited.c_str() );
+            return 0;
+        }
+
+        p->add_msg_if_player( m_neutral, _( "You start playing your %s." ), it_name.c_str() );
         it->active = true;
     }
 
-    if( p->get_effect_int( effect_playing_instrument ) <= speed_penalty ) {
-        // Only re-apply the effect if it wouldn't lower the intensity
-        p->add_effect( effect_playing_instrument, 2, num_bp, false, speed_penalty );
-    }
+    const int boredom = p->get_effect_dur( effect_playing_instrument_boredom ) / 25;
+    const double fun_mult = p->has_trait("GOODHEARING") ? 1.25 : p->has_trait("BADHEARING") ? 0.75 : 1.0;
+
+    ///\EFFECT_PER increases morale bonus when playing an instrument
+    int morale_effect = fun + fun_mult * fun_bonus * p->per_cur - boredom;
 
     std::string desc = "";
-    ///\EFFECT_PER increases morale bonus when playing an instrument
-    const int morale_effect = fun + fun_bonus * p->per_cur;
-    if( morale_effect >= 0 && calendar::turn.once_every( description_frequency ) ) {
-        if( !descriptions.empty() ) {
-            desc = _( random_entry( descriptions ).c_str() );
+    game_message_type desc_type = m_neutral;
+
+    if( p->has_effect( effect_music ) || p->has_morale( MORALE_MUSIC ) ) {
+        p->add_effect( effect_playing_instrument_boredom, 1 + 15 ); // 1 compensates decay
+
+        morale_effect = std::min( -5, morale_effect );
+
+        if ( calendar::turn.once_every( 15 ) ) {
+            desc = string_format( _( "Your %s produces an annoying cacophony as it's sound interferes with the music."), it_name.c_str() );
+            desc_type = m_bad;
         }
-    } else if( morale_effect < 0 && int(calendar::turn) % 10 ) {
-        // No musical skills = possible morale penalty
-        desc = _("You produce an annoying sound");
+    } else if( morale_effect >= 0 ) {
+        if ( !p->has_effect( effect_playing_instrument ) ) { // Only once per tick
+            p->add_effect( effect_playing_instrument_boredom, 1 + 1 ); // 1 compensates decay
+        }
+
+        if ( calendar::turn.once_every( description_frequency ) ) {
+            if ( morale_effect < 5 ) {
+                desc = string_format( _( "Playing the %s brings almost no joy." ), it_name.c_str() );
+                desc_type = m_warning;
+            } else if( !descriptions.empty() ) {
+                desc = random_entry( descriptions ).c_str();
+                desc_type = m_neutral;
+            }
+        }
+    } else {
+        p->add_effect( effect_playing_instrument_boredom, 1 + 5 ); // 1 compensates decay
+
+        if ( calendar::turn.once_every( 15 ) ) {
+            desc = string_format( _( "Playing the %s irritates you." ), it_name.c_str() );
+            desc_type = m_bad;
+        }
     }
 
-    sounds::ambient_sound( p->pos(), volume, desc );
+    for( int i = 0; i < num_bp; i++ ) {
+        body_part bp = body_part( i );
 
-    if( !p->has_effect( effect_music ) && p->can_hear( p->pos(), volume ) ) {
-        p->add_effect( effect_music, 1 );
-        const int sign = morale_effect > 0 ? 1 : -1;
-        p->add_morale( MORALE_MUSIC, sign, morale_effect, 5, 2 );
+        if( played_with.test( bp ) && p->get_effect_int( effect_playing_instrument, bp ) <= speed_penalty_per_part ) {
+            p->add_effect( effect_playing_instrument, 1, bp, false, speed_penalty_per_part );
+        }
+    }
+
+    sounds::ambient_sound( p->pos(), volume, "" );
+
+    if( p->can_hear( p->pos(), volume ) ) {
+        // TODO: Check add_morale(). It reveals very bizarre behavior if bonus is zero. That's why that condition is here
+        if ( morale_effect != 0 ) {
+            morale_effect = std::max(morale_effect, -75);
+            const int bonus = morale_effect > 0 ? 1 : -1;
+            const int duration = morale_effect > 0 ? 2 : 2 - morale_effect / 5;   // Negative effects last longer
+
+            p->add_morale( MORALE_MUSICAL_INSTRUMENT, bonus, morale_effect, duration, 1, true, it->type );
+        }
+
+        p->add_msg_if_player( desc_type, desc.c_str() );
     }
 
     return 0;
@@ -1778,6 +1924,7 @@ long musical_instrument_actor::use( player *p, item *it, bool t, const tripoint&
 bool musical_instrument_actor::can_use( const player *p, const item*, bool, const tripoint& ) const
 {
     // TODO (maybe): Mouth encumbrance? Smoke? Lack of arms? Hand encumbrance?
+    // TODO: Complete this. Dunno yet how to treat that method.
     if( p->is_underwater() ) {
         return false;
     }

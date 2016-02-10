@@ -2125,15 +2125,16 @@
         "ammo": "NULL",
         "use_action": {
             "type": "musical_instrument",
-            "speed_penalty": 10,
+            "speed_penalty_per_part": 10,
             "volume": 10,
-            "fun": -5,
-            "fun_bonus": 2,
+            "fun": -20,
+            "fun_bonus": 4,
             "description_frequency": 20,
             "descriptions": [
                 "You produce a happy tune on your harmonica.",
                 "You whistle on your harmonica."
-            ]
+            ],
+	   "played_with": [["MOUTH", 0]]
         },
         "revert_to": "null",
         "symbol" : "-",
@@ -2164,16 +2165,17 @@
         "ammo": "NULL",
         "use_action": {
             "type": "musical_instrument",
-            "speed_penalty": 15,
+            "speed_penalty_per_part": 8,
             "volume": 20,
-            "fun": 2,
-            "fun_bonus": 2,
+            "fun": 4,
+            "fun_bonus": 4,
             "description_frequency": 20,
             "descriptions": [
                 "You strum a few chords on your guitar.",
                 "You pluck a few notes on your guitar.",
                 "You play a slow blues-y tune on your guitar."
-            ]
+            ],
+            "played_with": [["HANDS", 10]]
         },
         "revert_to": "null",
         "symbol" : "-",
@@ -2205,16 +2207,17 @@
         "ammo": "NULL",
         "use_action": {
             "type": "musical_instrument",
-            "speed_penalty": 15,
+            "speed_penalty_per_part": 5,
             "volume": 24,
-            "fun": 2,
-            "fun_bonus": 2,
+            "fun": 4,
+            "fun_bonus": 4,
             "description_frequency": 20,
             "descriptions": [
                 "Your pipes drone loudly as you strike a battle hymn from the chanter.",
                 "Your pipes drone a slow and piercing dirge.",
                 "You strike a lively quick step march on your pipes."
-            ]
+            ],
+            "played_with": [["MOUTH", 10], ["HANDS", 20]]
         },
         "revert_to": "null",
         "symbol" : "-",
@@ -2245,16 +2248,17 @@
         "ammo": "NULL",
         "use_action": {
             "type": "musical_instrument",
-            "speed_penalty": 25,
+            "speed_penalty_per_part": 12,
             "volume": 20,
-            "fun": -2,
-            "fun_bonus": 4,
+            "fun": -8,
+            "fun_bonus": 8,
             "description_frequency": 20,
             "descriptions": [
                 "You play a little tune on your tuba.",
                 "You play a ditty on your tuba.",
                 "You play a marching tune on your tuba."
-            ]
+            ],
+            "played_with": [["MOUTH", 15], ["HAND_R", 20]]
         },
         "revert_to": "null",
         "symbol" : "&",
@@ -2285,16 +2289,17 @@
         "ammo": "NULL",
         "use_action": {
             "type": "musical_instrument",
-            "speed_penalty": 18,
+            "speed_penalty_per_part": 6,
             "volume": 20,
-            "fun": -3,
-            "fun_bonus": 4,
+            "fun": -12,
+            "fun_bonus": 8,
             "description_frequency": 20,
             "descriptions": [
                 "You play a little tune on your saxophone.",
                 "You play a soulful jazz piece on your sax.",
                 "You play a quick, energetic ditty on your sax."
-            ]
+            ],
+            "played_with": [["MOUTH", 5], ["HANDS", 15]]
         },
         "revert_to": "null",
         "symbol" : "{",

@@ -565,30 +565,29 @@ class manualnoise_actor : public iuse_actor
 class musical_instrument_actor : public iuse_actor
 {
     public:
-        /**
-         * Speed penalty when playing the instrument
-         */
-        int speed_penalty;
-        /**
-         * Volume of the music played
-         */
+        /** Speed penalty when playing the instrument */
+        int speed_penalty_per_part;
+        /** Volume of the music played */
         int volume;
-        /**
-         * Base morale bonus/penalty
-         */
+        /** Base morale bonus/penalty */
         int fun;
-        /**
-         * Morale bonus scaling (off current perception)
-         */
+        /** Morale bonus scaling (off current perception) */
         int fun_bonus;
-        /**
-         * List of sound descriptions
-         */
+        /** List of sound descriptions */
         std::vector< std::string > descriptions;
-        /**
-         * Display description once per this many turns
-         */
+        /** Display description once per this many turns */
         int description_frequency;
+        /** Bitset of all body parts involved in playing this particular instrument */
+        std::bitset<num_bp> played_with;
+        /** Maximal encumbrance to be able to play it */
+        std::array<int, num_bp> max_encumb;
+
+        /** Returns bitset of all body parts playing all instruments in possession */
+        std::bitset<num_bp> get_playing_body_parts( const player *p ) const;
+        /** Returns bitset of body parts with too much encumbrance on them to play */
+        std::bitset<num_bp> get_overburdened_body_parts( const player *p ) const;
+        /** Adds a body part to play the instrument with */
+        void add_played_with( const body_part bp, int max_e = 0);
 
         musical_instrument_actor() = default;
         virtual ~musical_instrument_actor() = default;

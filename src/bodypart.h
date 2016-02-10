@@ -5,6 +5,7 @@
 
 #include <string>
 #include <map>
+#include <bitset>
 
 // The order is important ; pldata.h has to be in the same order
 enum body_part : int {
@@ -49,11 +50,13 @@ const constexpr body_part bp_aBodyPart[] = {
     bp_leg_l, bp_leg_r, bp_foot_l, bp_foot_r
 };
 // identify the index of a body part's "other half", or itself if not
-const size_t bp_aiOther[] = {0, 1, 2, 3, 5, 4, 7, 6, 9, 8, 11, 10};
+const size_t bp_aiOther[] = { 0, 1, 2, 3, 5, 4, 7, 6, 9, 8, 11, 10 };
 
 
 /** Returns the matching name of the body_part token. */
 std::string body_part_name( body_part bp );
+/** Returns, if possible, plural name of the body_part token (hands, feet etc). */
+std::string body_part_paired_name( body_part bp );
 /** Returns the matching accusative name of the body_part token, i.e. "Shrapnel hits your X".
  *  These are identical to body_part_name above in english, but not in some other languages. */
 std::string body_part_name_accusative( body_part bp );
@@ -69,5 +72,7 @@ body_part mutate_to_main_part( body_part bp );
 std::string get_body_part_id( body_part bp );
 /** Returns the matching body_part token from the corresponding body_part string. */
 body_part get_body_part_token( const std::string &id );
+/** Returns string of body parts. Format: "A, B, C, AND D" */
+std::string recite_body_parts( const std::bitset<num_bp> &body_parts );
 
 #endif
