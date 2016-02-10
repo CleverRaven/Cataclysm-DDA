@@ -552,6 +552,10 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
             info.emplace_back( "BASE", _( "Stack size: " ), "", type->stack_size, true );
         }
 
+        if( !type->rigid ) {
+            info.emplace_back( "BASE", _( "<bold>Rigid</bold>: " ), _( "No (contents increase volume)" ) );
+        }
+
         if( damage_bash() > 0 || damage_cut() > 0 ) {
             info.push_back( iteminfo( "BASE", _( "Bash: " ), "", damage_bash(), true, "", false ) );
             if( has_flag( "SPEAR" ) ) {
@@ -1152,9 +1156,6 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         temp1.str( "" );
         temp1 << _( "This container " );
 
-        if( type->rigid ) {
-            temp1 << _( "is <info>rigid</info>, " );
-        }
         if( c.seals ) {
             temp1 << _( "can be <info>resealed</info>, " );
         }
