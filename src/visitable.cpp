@@ -135,8 +135,8 @@ VisitResponse visitable<map_cursor>::visit_items( const std::function<VisitRespo
 template <>
 VisitResponse visitable<map_selector>::visit_items( const std::function<VisitResponse( item *, item *, const tripoint* )>& func )
 {
-    for( const auto &pos : static_cast<map_selector&>( *this ) ) {
-        if( map_cursor( pos ).visit_items( func ) == VisitResponse::ABORT ) {
+    for( auto &cursor : static_cast<map_selector&>( *this ) ) {
+        if( cursor.visit_items( func ) == VisitResponse::ABORT ) {
             return VisitResponse::ABORT;
         }
     }
