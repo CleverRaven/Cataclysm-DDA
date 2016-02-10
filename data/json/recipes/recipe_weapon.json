@@ -1949,6 +1949,41 @@
   ]
 },{
   "type" : "recipe",
+  "result": "elec_combatsaw_off",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_CUTTING",
+  "skill_used": "electronics",
+  "skills_required": ["melee",  2],
+  "difficulty": 6,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": true,
+  "book_learn": [[ "textbook_mechanics", 4 ] , [ "recipe_melee", 5 ]],
+  "qualities":[
+    {"id":"HAMMER","level":2,"amount":1},
+    {"id":"SAW_M","level":1,"amount":1},
+    {"id":"SCREW","level":1,"amount":1},
+    {"id":"WRENCH","level":1,"amount":1}
+  ], "tools": [
+    [ [ "goggles_welding", -1 ] ],
+    [
+      [ "oxy_torch", 20 ],
+      [ "welder", 100],
+      [ "welder_crude", 150],
+      [ "toolset", 150]
+    ]
+  ],
+  "components": [
+    [ [ "elec_chainsaw_off", 1 ] ],
+    [ [ "amplifier", 1 ] ],
+    [ [ "cable", 30 ] ],
+    [
+      [ "steel_chunk", 3 ],
+      [ "scrap", 9 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
   "result": "smokebomb",
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_EXPLOSIVE",
@@ -4283,6 +4318,74 @@
      [
      [ "zweihander", 1 ]
      ]
+    ]
+},{
+  "type" : "recipe",
+  "result": "elec_diamondsaw_off",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_CUTTING",
+  "skill_used": "fabrication",
+  "difficulty": 10,
+  "time": 540000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "recipe_lab_cvd", 9 ]],
+  "qualities":[
+    {"id":"HAMMER","level":3,"amount":1}
+  ], "tools": [
+      [ ["chisel", -1] ],
+      [ ["cvd_machine", -1] ],
+      [
+        [ "oxy_torch", 12 ],
+        [ "welder", 60 ],
+        [ "welder_crude", 90 ],
+        [ "toolset", 90 ]
+      ]
+      ],
+  "components":
+    [
+     [
+       ["charcoal", 80],
+       ["coal_lump", 80],
+       ["small_charcoal", 800],
+       ["small_coal", 800]
+     ],
+     [ [ "plasma", 160 ] ],
+     [ [ "elec_combatsaw_off", 1 ] ]
+    ]
+},{
+  "type" : "recipe",
+  "result": "diamondsaw_off",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_CUTTING",
+  "skill_used": "fabrication",
+  "difficulty": 10,
+  "time": 540000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "recipe_lab_cvd", 9 ]],
+  "qualities":[
+    {"id":"HAMMER","level":3,"amount":1}
+  ], "tools": [
+      [ ["chisel", -1] ],
+      [ ["cvd_machine", -1] ],
+      [
+        ["oxy_torch", 12 ],
+        ["welder", 60 ],
+        ["welder_crude", 90 ],
+        ["toolset", 90 ]
+      ]
+      ],
+  "components":
+    [
+     [
+       ["charcoal", 80],
+       ["coal_lump", 80],
+       ["small_charcoal", 800],
+       ["small_coal", 800]
+     ],
+     [ [ "plasma", 160 ] ],
+     [ [ "combatsaw_off", 1 ] ]
     ]
 },{
   "type" : "recipe",

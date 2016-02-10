@@ -3451,6 +3451,33 @@ int iuse::combatsaw_off(player *p, item *it, bool, const tripoint& )
         _("You yank the cord, but nothing happens."));
 }
 
+int iuse::elec_combatsaw_off(player *p, item *it, bool, const tripoint& )
+{
+    return toolweapon_off(p, it,
+        true,
+        !p->is_underwater(),
+        30, _("With a snarl, the electric combat chainsaw screams to life!"),
+        _("You yank the cord, but nothing happens."));
+}
+
+int iuse::diamondsaw_off(player *p, item *it, bool, const tripoint& )
+{
+    return toolweapon_off(p, it,
+        true,
+        !p->is_underwater(),
+        30, _("With a snarl, the diamond chainsaw screams to life!"),
+        _("You yank the cord, but nothing happens."));
+}
+
+int iuse::elec_diamondsaw_off(player *p, item *it, bool, const tripoint& )
+{
+    return toolweapon_off(p, it,
+        true,
+        !p->is_underwater(),
+        30, _("With a snarl, the electric diamond chainsaw screams to life!"),
+        _("You yank the cord, but nothing happens."));
+}
+
 int iuse::chainsaw_off(player *p, item *it, bool, const tripoint& )
 {
     return toolweapon_off(p, it,
@@ -3534,6 +3561,27 @@ int iuse::combatsaw_on(player *p, item *it, bool t, const tripoint& )
     return toolweapon_on(p, it, t, _("combat chainsaw"),
         false,
         12, 18, _("Your combat chainsaw growls."));
+}
+
+int iuse::elec_combatsaw_on(player *p, item *it, bool t, const tripoint& )
+{
+    return toolweapon_on(p, it, t, _("electric combat chainsaw"),
+        false,
+        12, 18, _("Your electric combat chainsaw growls."));
+}
+
+int iuse::diamondsaw_on(player *p, item *it, bool t, const tripoint& )
+{
+    return toolweapon_on(p, it, t, _("diamond chainsaw"),
+        false,
+        12, 18, _("Your diamond chainsaw growls."));
+}
+
+int iuse::elec_diamondsaw_on(player *p, item *it, bool t, const tripoint& )
+{
+    return toolweapon_on(p, it, t, _("electric diamond chainsaw"),
+        false,
+        12, 18, _("Your electric diamond chainsaw growls."));
 }
 
 int iuse::chainsaw_on(player *p, item *it, bool t, const tripoint& )

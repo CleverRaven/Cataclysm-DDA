@@ -212,6 +212,12 @@ void Item_factory::init()
     iuse_function_list["CIRCSAW_ON"] = &iuse::circsaw_on;
     iuse_function_list["COMBATSAW_OFF"] = &iuse::combatsaw_off;
     iuse_function_list["COMBATSAW_ON"] = &iuse::combatsaw_on;
+    iuse_function_list["ELEC_COMBATSAW_OFF"] = &iuse::elec_combatsaw_off;
+    iuse_function_list["ELEC_COMBATSAW_ON"] = &iuse::elec_combatsaw_on;
+    iuse_function_list["DIAMONDSAW_OFF"] = &iuse::diamondsaw_off;
+    iuse_function_list["DIAMONDSAW_ON"] = &iuse::diamondsaw_on;
+    iuse_function_list["ELEC_DIAMONDSAW_OFF"] = &iuse::elec_diamondsaw_off;
+    iuse_function_list["ELEC_DIAMONDSAW_ON"] = &iuse::elec_diamondsaw_on;
     iuse_function_list["JACKHAMMER"] = &iuse::jackhammer;
     iuse_function_list["PICKAXE"] = &iuse::pickaxe;
     iuse_function_list["SET_TRAP"] = &iuse::set_trap;
