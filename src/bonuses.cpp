@@ -9,6 +9,8 @@
 #include <sstream>
 #include <vector>
 
+#define dbg(x) DebugLog((DebugLevel)(x),D_MAIN) << __FILE__ << ":" << __LINE__ << ": "
+
 // Tokenize
 void split( const std::string &s, char delim, std::vector<std::string> &elems )
 {
@@ -154,6 +156,7 @@ void bonus_container::load( JsonObject &jo )
 
         if( skipped_token ) {
             // This isn't a set of ma_ modifiers
+            dbg( D_INFO ) << "bonus_container::load skipping " << member << " - not a generic bonus";
             continue;
         }
 
