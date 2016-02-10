@@ -2059,10 +2059,10 @@
         "color" : "light_gray",
         "symbol" : "/",
         "material" : ["steel", "wood"],
-        "techniques" : ["RAPID", "IMPALE", "WBLOCK_2"],
+        "techniques" : "WBLOCK_2",
         "volume" : 10,
-        "bashing" : 4,
-        "cutting" : 34,
+        "bashing" : 6,
+        "cutting" : 37,
         "flags" : ["SLICE", "DURABLE_MELEE", "REACH_ATTACK"],
         "price" : 80000
     },{
