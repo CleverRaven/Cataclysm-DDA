@@ -22,6 +22,7 @@
 #include "overmap.h"
 #include "mapgen_functions.h"
 #include "mtype.h"
+#include "itype.h"
 
 #include <algorithm>
 #include <cassert>
@@ -830,6 +831,35 @@ public:
         m.place_items( group_id, chance.get(), x.val, y.val, x.valmax, y.valmax, true, 0 );
     }
 };
+
+/**
+ * Place items from an item group.
+ * see @ref map::place_loot
+ */
+class jmapgen_loot : public jmapgen_piece {
+    public:
+        jmapgen_loot( JsonObject &jsi ) : jmapgen_piece()
+        , group( jsi.get_string( "group" ) )
+        , chance( jsi, "chance", 100, 100 )
+        , ammo( jsi, "ammo", 0, 0 )
+        , magazine( jsi, "magazine", 0, 0 )
+        {
+            if( !item_group::group_is_defined( group ) ) {
+                jsi.throw_error( "no such item group", "item" );
+            }
+        }
+        void apply( map &m, const jmapgen_int &x, const jmapgen_int &y, const float /*mon_density*/ ) const override
+        {
+            m.place_loot( group, chance.get(), x.val, y.val, x.valmax, y.valmax, ammo.get(), magazine.get() );
+        }
+
+    private:
+        const std::string group;
+        const jmapgen_int chance;
+        const jmapgen_int ammo;
+        const jmapgen_int magazine;
+};
+
 /**
  * Place spawn points for a monster group (actual monster spawning is done later).
  * "monster": id of the monster group.
@@ -1410,6 +1440,7 @@ bool mapgen_function_json::setup() {
         objects.load_objects<jmapgen_liquid_item>( jo, "place_liquids" );
         objects.load_objects<jmapgen_gaspump>( jo, "place_gaspumps" );
         objects.load_objects<jmapgen_item_group>( jo, "place_items" );
+        objects.load_objects<jmapgen_loot>( jo, "place_loot" );
         objects.load_objects<jmapgen_monster_group>( jo, "place_monsters" );
         objects.load_objects<jmapgen_vehicle>( jo, "place_vehicles" );
         objects.load_objects<jmapgen_trap>( jo, "place_traps" );
@@ -10618,6 +10649,56 @@ int map::place_items(items_location loc, int chance, int x1, int y1,
         }
     }
     return item_num;
+}
+
+int map::place_loot( std::string group, int chance, int x1, int y1, int x2, int y2, int ammo, int magazine, int turn )
+{
+    if( chance > 100 || chance <= 0 ) {
+        debugmsg( "map::place_loot() called with an invalid chance (%d)", chance );
+        return 0;
+    }
+    if( ammo > 100 || ammo < 0 ) {
+        debugmsg( "map::place_loot() called with an invalid ammo frequency (%d)", ammo );
+        return 0;
+    }
+    if( magazine > 100 || magazine < 0 ) {
+        debugmsg( "map::place_loot() called with an invalid magazine frequency (%d)", magazine );
+        return 0;
+    }
+
+    if( !item_group::group_is_defined( group ) ) {
+        const point omt = overmapbuffer::sm_to_omt_copy( get_abs_sub().x, get_abs_sub().y );
+        const oter_id &oid = overmap_buffer.ter( omt.x, omt.y, get_abs_sub().z );
+        debugmsg( "place_items: invalid item group '%s', om_terrain = '%s' (%s)",
+                  group.c_str(), oid.t().id.c_str(), oid.t().id_mapgen.c_str() );
+        return 0;
+    }
+
+    if( rng( 0, 99 ) < chance * ACTIVE_WORLD_OPTIONS[ "ITEM_SPAWNRATE" ] ) {
+        auto items = item_group::items_from( group, turn >= 0 ? turn : int( calendar::turn ) );
+
+        for( auto &e: items ) {
+            bool spawn_ammo = rng( 0, 99 ) < ammo;
+            bool spawn_mags = rng( 0, 99 ) < magazine || spawn_ammo;
+
+            if( spawn_mags && !e.magazine_integral() && !e.magazine_current() ) {
+                e.contents.emplace_back( e.magazine_default(), e.bday );
+            }
+            if( spawn_ammo && e.ammo_remaining() == 0 ) {
+                if( e.magazine_current() ) {
+                    item tmp( default_ammo( e.ammo_type() ), e.bday );
+                    tmp.charges = e.ammo_capacity();
+                    e.magazine_current()->contents.push_back( tmp );
+                } else {
+                    e.set_curammo( default_ammo( e.ammo_type() ) ) ;
+                    e.charges = e.ammo_capacity();
+                }
+            }
+        }
+
+        return spawn_items( tripoint( rng( x1, x2 ), rng( y1, y2 ), abs_sub.z ), items ).size();
+    }
+    return 0;
 }
 
 std::vector<item*> map::put_items_from_loc(items_location loc, const tripoint &p, int turn)
