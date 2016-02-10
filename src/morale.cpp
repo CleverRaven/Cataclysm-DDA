@@ -5,6 +5,8 @@
 #include "itype.h"
 #include "output.h"
 
+#include <stdlib.h>
+
 namespace
 {
 static const std::string item_name_placeholder = "%i"; // Used to address an item name
