@@ -549,7 +549,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                                   convert_weight( weight() ), false, "", true, true ) );
 
         if( count_by_charges() ) {
-            info.emplace_back( "BASE", _( "Stack size: " ), "", type->stack_size, true );
+            info.emplace_back( "BASE", _( "Stack size: " ), "", type->stack_size / std::min( type->volume, 1U ) , true );
         }
 
         if( damage_bash() > 0 || damage_cut() > 0 ) {
