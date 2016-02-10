@@ -7,15 +7,17 @@
 
 class vehicle;
 
-class vehicle_cursor : public visitable<vehicle_cursor> {
+class vehicle_cursor : public visitable<vehicle_cursor>
+{
     public:
-        vehicle_cursor( vehicle& veh, int part ) : veh( veh ), part( part ) {};
-        vehicle& veh;
+        vehicle_cursor( vehicle &veh, int part ) : veh( veh ), part( part ) {};
+        vehicle &veh;
         int part;
 };
 
-class vehicle_selector : public visitable<vehicle_selector> {
-    friend visitable<vehicle_selector>;
+class vehicle_selector : public visitable<vehicle_selector>
+{
+        friend visitable<vehicle_selector>;
 
     public:
         typedef vehicle_cursor value_type;
@@ -30,22 +32,40 @@ class vehicle_selector : public visitable<vehicle_selector> {
          *  @param pos map position at which to start each query which may or may not contain vehicle
          *  @param radius number of adjacent tiles to include (searching from pos outwards)
          */
-        vehicle_selector( const tripoint& pos, int radius = 0 );
+        vehicle_selector( const tripoint &pos, int radius = 0 );
 
         // similar to item_location you are not supposed to store this class between turns
-        vehicle_selector( const vehicle_selector& that ) = delete;
-        vehicle_selector& operator=( const vehicle_selector& ) = delete;
+        vehicle_selector( const vehicle_selector &that ) = delete;
+        vehicle_selector &operator=( const vehicle_selector & ) = delete;
         vehicle_selector( vehicle_selector && ) = default;
 
-        size_type size() const { return data.size(); }
-        iterator begin() { return data.begin(); }
-        iterator end() { return data.end(); }
-        const_iterator cbegin() const { return data.cbegin(); }
-        const_iterator cend() const { return data.cend(); }
-        reference front() { return data.front(); }
-        const_reference front() const { return data.front(); }
-        reference back() { return data.back(); }
-        const_reference back() const { return data.back(); }
+        size_type size() const {
+            return data.size();
+        }
+        iterator begin() {
+            return data.begin();
+        }
+        iterator end() {
+            return data.end();
+        }
+        const_iterator cbegin() const {
+            return data.cbegin();
+        }
+        const_iterator cend() const {
+            return data.cend();
+        }
+        reference front() {
+            return data.front();
+        }
+        const_reference front() const {
+            return data.front();
+        }
+        reference back() {
+            return data.back();
+        }
+        const_reference back() const {
+            return data.back();
+        }
 
     private:
         std::vector<value_type> data;
