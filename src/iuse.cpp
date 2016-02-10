@@ -6763,7 +6763,7 @@ static const std::string &photo_quality_name( const int index )
 int iuse::einktabletpc(player *p, item *it, bool t, const tripoint &pos)
 {
     if (t) {
-        if( it->get_var( "EIPC_MUSIC_ON" ) != "" ) {
+        if( it->get_var( "EIPC_MUSIC_ON" ) != "" && ( it->charges > 0 ) ) {
             if( calendar::once_every(MINUTES(5)) ) {
                 it->charges--;
             }
@@ -6771,6 +6771,11 @@ int iuse::einktabletpc(player *p, item *it, bool t, const tripoint &pos)
             //the more varied music, the better max mood.
             const int songs = it->get_var( "EIPC_MUSIC", 0 );
             play_music( p, pos, 8, std::min( 100, songs ) );
+        }
+        else {
+            it->active = false;
+            it->erase_var( "EIPC_MUSIC_ON" );
+            p->add_msg_if_player(m_info, _("Tablet's batteries are dead."));
         }
 
         return 0;
