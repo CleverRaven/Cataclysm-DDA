@@ -10942,7 +10942,7 @@ bool player::invoke_item( item* used, const std::string &method, const tripoint 
     }
 
     long charges_used = actually_used->type->invoke( this, actually_used, pt, method );
-    return consume_charges( *actually_used, charges_used );
+    return ( used->is_tool() || used->is_food() ) && consume_charges( *actually_used, charges_used );
 }
 
 void player::remove_gunmod( item *weapon, unsigned id )
