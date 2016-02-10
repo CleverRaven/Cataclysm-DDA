@@ -2550,7 +2550,7 @@
     "weight": 5086,
     "volume": 9,
     "bashing": 8,
-    "flags" : ["SHEATH_SWORD", "DURABLE_MELEE"]
+    "flags" : ["SHEATH_SWORD", "DURABLE_MELEE"],
     "to_hit": -3,
     "max_charges": 1000,
     "initial_charges": 0,
@@ -2598,7 +2598,7 @@
     "weight": 5086,
     "volume": 9,
     "bashing": 8,
-    "flags" : ["SHEATH_SWORD", "DURABLE_MELEE"]
+    "flags" : ["SHEATH_SWORD", "DURABLE_MELEE"],
     "to_hit": -3,
     "max_charges": 1000,
     "initial_charges": 0,
