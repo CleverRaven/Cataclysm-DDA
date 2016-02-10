@@ -17,8 +17,8 @@
     "damage" : 17,
     "range" : 5,
     "recoil" : 285,
-    "flags" : ["NOGIB"],
-    "effects" : ["COOKOFF", "SHOT", "RECYCLED"]
+    "effects" : ["COOKOFF", "SHOT", "RECYCLED"],
+    "flags" : ["NOGIB"]
   },
   {
     "id" : "reloaded_shot_00",
@@ -142,7 +142,8 @@
     "range" : 12,
     "dispersion" : 120,
     "recoil" : 300,
-    "effects" : ["COOKOFF", "BEANBAG"]
+    "effects" : ["COOKOFF", "BEANBAG"],
+    "flags" : ["NOGIB"]
   },
   {
     "id" : "shot_bird",
