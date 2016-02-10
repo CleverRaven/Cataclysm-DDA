@@ -366,7 +366,7 @@
            "covers" : ["LEG_EITHER"],
            "coverage" : 5,
            "material_thickness" : 2,
-           "encumbrance" : 3,
+           "encumbrance" : 0,
            "warmth" : 0
         },
         "watertight": true,
@@ -392,7 +392,7 @@
            "covers" : ["TORSO"],
            "coverage" : 10,
            "material_thickness" : 2,
-           "encumbrance" : 10,
+           "encumbrance" : 0,
            "warmth" : 0
         },
         "watertight": true,
@@ -418,7 +418,7 @@
            "covers" : ["TORSO"],
            "coverage" : 15,
            "material_thickness" : 2,
-           "encumbrance" : 10,
+           "encumbrance" : 0,
            "warmth" : 0
         },
         "watertight": true,
