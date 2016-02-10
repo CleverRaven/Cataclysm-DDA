@@ -872,7 +872,6 @@ void Item_factory::load( islot_container &slot, JsonObject &jo )
     slot.seals = jo.get_bool( "seals", false );
     slot.watertight = jo.get_bool( "watertight", false );
     slot.preserves = jo.get_bool( "preserves", false );
-    slot.rigid = jo.get_bool( "rigid", false );
 }
 
 void Item_factory::load( islot_gunmod &slot, JsonObject &jo )
@@ -917,7 +916,6 @@ void Item_factory::load( islot_magazine &slot, JsonObject &jo )
     slot.count = jo.get_int( "count", 0 );
     slot.reliability = jo.get_int( "reliability" );
     slot.reload_time = jo.get_int( "reload_time", 0 );
-    slot.rigid = jo.get_bool( "rigid", true );
 }
 
 void Item_factory::load_magazine(JsonObject &jo)
@@ -1063,6 +1061,8 @@ void Item_factory::load_basic_info(JsonObject &jo, itype *new_item_template)
     new_item_template->m_to_hit = jo.get_int( "to_hit", 0 );
 
     new_item_template->integral_volume = jo.get_int( "integral_volume", new_item_template->volume );
+
+    new_item_template->rigid = jo.get_bool( "rigid", new_item_template->rigid );
 
     JsonArray mags = jo.get_array( "magazines" );
     while( mags.has_more() ) {

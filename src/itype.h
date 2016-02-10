@@ -67,10 +67,6 @@ struct islot_container {
      * Contents do not spoil.
      */
     bool preserves = false;
-    /**
-     * Volume of the item does not include volume of the content.
-     */
-    bool rigid = false;
 };
 
 struct islot_armor {
@@ -376,10 +372,6 @@ struct islot_magazine {
      * How long it takes to load each unit of ammo into the magazine
      */
     int reload_time;
-    /**
-     * Volume increases proportional to contained ammo for non-rigid magazines
-     */
-    bool rigid;
 };
 
 struct islot_ammo : common_ranged_data {
@@ -551,6 +543,8 @@ public:
     unsigned weight     = 0; // Weight in grams. Assumes positive weight. No helium, guys!
 
     unsigned integral_volume; // Space consumed when integrated as part of another item (defaults to volume)
+
+    bool rigid = true; // If non-rigid volume (and if worn encumbrance) increases proportional to contents
 
     int melee_dam = 0; // Bonus for melee damage; may be a penalty
     int melee_cut = 0; // Cutting damage in melee
