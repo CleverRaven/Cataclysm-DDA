@@ -750,7 +750,7 @@ void Item_factory::load_armor(JsonObject &jo)
 
 void Item_factory::load( islot_armor &slot, JsonObject &jo )
 {
-    slot.encumber = jo.get_int( "encumbrance" );
+    slot.encumber = jo.get_int( "encumbrance", 0 );
     slot.coverage = jo.get_int( "coverage" );
     slot.thickness = jo.get_int( "material_thickness" );
     slot.env_resist = jo.get_int( "environmental_protection", 0 );
