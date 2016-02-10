@@ -208,6 +208,13 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
  const item_category &get_category() const;
 
     /**
+     * Whether a tool or gun could potentially be reloaded.
+     * Items currently loaded with a detachable magazine are considered reloadable
+     * Items with integral magazines are considered reloadable if there is remaining capacity
+     */
+    bool can_reload() const;
+
+    /**
      * Select suitable ammo with which to reload the item
      * @param u player inventory to search for suitable ammo.
      * @param interactive if true prompt to select ammo otherwise select first suitable ammo

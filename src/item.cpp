@@ -4179,6 +4179,23 @@ item *item::get_usable_item( const std::string &use_name )
     return nullptr;
 }
 
+bool item::can_reload() const {
+    if( !is_gun() && !is_tool() && !is_magazine() ) {
+        return false;
+    }
+    if( has_flag( "NO_RELOAD") || has_flag( "RELOAD_AND_SHOOT" ) ) {
+        return false;
+    }
+    if( ammo_type() == "NULL" ) {
+        return false;
+    }
+    if( magazine_integral() && ammo_remaining() >= ammo_capacity() ) {
+        return false;
+    }
+    // either intergral magazine with sufficient capacity or uses detachable magazines
+    return true;
+}
+
 item_location item::pick_reload_ammo( player &u, bool interactive ) const
 {
     std::set<ammotype> ammo_types; // any ammo for empty detachable or integral magazines
