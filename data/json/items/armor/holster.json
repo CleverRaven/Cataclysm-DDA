@@ -134,7 +134,7 @@
       "type": "holster",
       "min_volume": 5,
       "max_volume": 8,
-      "skills": ["pistol", "smg", "shotgun"]
+      "skills": ["pistol", "smg", "shotgun", "rifle"]
     },
     "flags": ["VARSIZE", "WAIST", "OVERSIZE"]
   }
