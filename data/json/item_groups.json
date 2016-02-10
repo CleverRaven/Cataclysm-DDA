@@ -4759,6 +4759,7 @@
       ["pocketwatch", 5],
       ["sf_watch", 10],
       ["survnote", 3],
+      ["stillsuit", 5],
       ["l-stick", 1]
     ]
   },{
@@ -7246,6 +7247,7 @@
       ["weed", 20],
       ["seed_weed", 15],
       ["rolling_paper", 5],
+      ["stillsuit", 5],
       ["pipe_glass", 5],
       ["coke", 8],
       ["adrenaline_injector", 4],

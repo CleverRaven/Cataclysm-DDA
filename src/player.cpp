@@ -5568,7 +5568,10 @@ void player::update_needs( int rate_multiplier )
     if( has_trait("PLANTSKIN") ) {
         thirst_rate -= 0.2f;
     }
-
+    if( is_wearing("stillsuit") ) {
+        thirst_rate -= 0.3f;
+    }
+    
     if( has_trait("THIRST") ) {
         thirst_rate += 0.5f;
     } else if( has_trait("THIRST2") ) {
