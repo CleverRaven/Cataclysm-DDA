@@ -3,7 +3,7 @@
     "id" : "deaglemag",
     "type" : "MAGAZINE",
     "name" : "Desert Eagle magazine",
-    "description" : "An extended 10-round magazine for use with the M1911 handgun.",
+    "description" : "A standard 7-round steel box magazine for use with the IMI Desert Eagle.",
     "weight" : 90,
     "volume" : 1,
     "price" : 6750,

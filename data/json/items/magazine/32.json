@@ -2,8 +2,8 @@
   {
     "id" : "ppkmag",
     "type" : "MAGAZINE",
-    "name" : "SIG P230 magazine",
-    "description" : "A factory specification 8-round magazine for the SIG Sauer P230.",
+    "name" : "Walther PPK magazine",
+    "description" : "A standrad 8-round steel box magazine for the Walther PPK.",
     "weight" : 80,
     "volume" : 1,
     "price" : 2600,
