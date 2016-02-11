@@ -203,6 +203,8 @@ player::player() : Character()
  last_batch = 0;
  lastconsumed = itype_id("null");
  next_expected_position = tripoint_min;
+ _morale_level = 0;
+ morale_level_is_valid = false;
 
  empty_traits();
 
@@ -512,17 +514,17 @@ void player::action_taken()
 void player::update_morale()
 {
     // Decay existing morale entries.
-    for( size_t i = 0; i < morale.size(); i++ ) {
+    for( size_t i = morale.size() - 1; i > 0; i-- ) {
         morale[i].proceed();
 
         if( morale[i].is_expired() ) {
             morale.erase( morale.begin() + i );
-            i--;
-            continue;
         }
     }
     // We reapply persistent morale effects after every decay step, to keep them fresh.
     apply_persistent_morale();
+    // And invalidate the morale level to recalculate it on demand
+    invalidate_morale_level();
 }
 
 void player::apply_persistent_morale()
@@ -8843,15 +8845,24 @@ morale_mult player::get_effects_mult() const
 
 int player::morale_level() const
 {
-    // Add up all of the morale bonuses (and penalties).
-    int ret = 0;
-    const morale_mult mult = get_traits_mult();
+    if ( !morale_level_is_valid ) {
+        const morale_mult mult = get_traits_mult();
 
-    for( auto &i : morale ) {
-        ret += i.get_net_bonus( mult );
+        _morale_level = 0;
+        for( auto &i : morale ) {
+            _morale_level += i.get_net_bonus( mult );
+        }
+
+        _morale_level *= get_effects_mult();
+        morale_level_is_valid = true;
     }
 
-    return ret * get_effects_mult();
+    return _morale_level;
+}
+
+void player::invalidate_morale_level()
+{
+    morale_level_is_valid = false;
 }
 
 void player::add_morale(morale_type type, int bonus, int max_bonus,
@@ -8861,13 +8872,22 @@ void player::add_morale(morale_type type, int bonus, int max_bonus,
     // Search for a matching morale entry.
     for( auto &i : morale ) {
         if( i.get_type() == type && i.get_item_type() == item_type ) {
+            const int prev_bonus = i.get_bonus();
+
             i.add( bonus, max_bonus, duration, decay_start, capped );
+            if ( i.get_bonus() != prev_bonus ) {
+                invalidate_morale_level();
+            }
             return;
         }
     }
 
     morale_point new_morale( type, item_type, bonus, duration, decay_start );
-    morale.push_back( new_morale );
+
+    if( !new_morale.is_expired() ) {
+        morale.push_back( new_morale );
+        invalidate_morale_level();
+    }
 }
 
 int player::has_morale( morale_type type ) const
@@ -8884,6 +8904,9 @@ void player::rem_morale(morale_type type, const itype* item_type)
 {
     for( size_t i = 0; i < morale.size(); ++i ) {
         if( morale[i].get_type() == type && morale[i].get_item_type() == item_type ) {
+            if ( morale[i].get_bonus() ) {
+                invalidate_morale_level();
+            }
             morale.erase( morale.begin() + i );
             break;
         }

@@ -998,6 +998,7 @@ int iuse::prozac(player *p, item *it, bool, const tripoint& )
 {
     if (!p->has_effect( effect_took_prozac) && p->morale_level() < 0) {
         p->add_effect( effect_took_prozac, 7200);
+        p->invalidate_morale_level();
     } else {
         p->stim += 3;
     }

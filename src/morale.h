@@ -112,6 +112,12 @@ inline double operator *= ( double &morale, const morale_mult &mult )
     return morale;
 }
 
+inline int operator *= ( int &morale, const morale_mult &mult )
+{
+    morale = morale * mult;
+    return morale;
+}
+
 // Commonly used morale multipliers
 namespace morale_mults
 {
