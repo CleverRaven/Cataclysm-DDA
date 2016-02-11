@@ -107,14 +107,14 @@ The syntax listed here is still valid.
 "name" : "GROUP_ANT",             // Unique ID. Must be one continuous word, use underscores if necessary
 "default" : "mon_ant",            // Default monster, automatically fills in any remaining spawn chances
 "monsters" : [                    // To choose monster spawned game creates 1000 entries and picks one.
-  { "monster" : "mon_ant_larva", "freq" : 40, "multiplier" : 0 },   // Each monster will have a number of entries equal to it's "freq" and 
+  { "monster" : "mon_ant_larva", "freq" : 40, "multiplier" : 0 },   // Each monster will have a number of entries equal to it's "freq" and
   { "monster" : "mon_ant_soldier", "freq" : 90, "multiplier" : 5 }, // the default monster will fill in the remaining. "multiplier" increases
   { "monster" : "mon_ant_queen", "freq" : 0, "multiplier" : 0 }     // how much each monster counts for in a spawn group (i.e. will spawn 5 larva or 1 soldier)
   { "monster" : "mon_thing",              // Monsters id
     "freq" : 100,                         // Chance of occurrence, out of a thousand
     "multiplier" : 0,                     // How many monsters each monster in this definition should count as, if spawning a limited number of monsters
     // The minimum and maximum number of monsters in this group that should spawn together. Optional, defaults [1,1]
-    "pack_size" : [3,5],                    
+    "pack_size" : [3,5],
     // Conditions limiting when monsters spawn. Valid options: SUMMER, WINTER, AUTUMN, SPRING, DAY, NIGHT, DUSK, DAWN
     // Multiple Time-of-day conditions (DAY, NIGHT, DUSK, DAWN) will be combined together so that any of those conditions makes the spawn valid
     // Multiple Season conditions (SUMMER, WINTER, AUTUMN, SPRING) will be combined together so that any of those conditions makes the spawn valid
@@ -125,47 +125,12 @@ The syntax listed here is still valid.
 ```C++
 "name" : "cult",            // Unique ID. Must be one continuous word, use underscores when necessary
 "base_faction" : "zombie",  // Optional base faction. Relations to other factions are inherited from it and relations of other factions to this one check this
-"by_mood" : ["vermin"],     // Be hostile towards this faction when angry, neutral otherwise. Default attitude to all other factions    
+"by_mood" : ["vermin"],     // Be hostile towards this faction when angry, neutral otherwise. Default attitude to all other factions
 "neutral" : ["nether"],     // Always be neutral towards this faction
 "friendly" : ["blob"],      // Always be friendly towards this faction. By default a faction is friendly towards itself
+```
 ###MONSTERS
-```C++
-"type" : "MONSTER",         // Should always be "MONSTER"
-"id" : "mon_bat",           // Unique ID. Must be one continuous word, use underscores when necessary. Standard is to preface the ID with "mon"
-"name" : "bat",             // Name displayed in-game
-"species" : "MAMMAL",       // Monster species
-"symbol" : "r",             // Symbol representing monster in-game
-"color" : "brown",          // Color of symbol in-game
-"size" : "TINY",            // Size flag, can be TINY, SMALL, MEDIUM, LARGE, or HUGE. See JSON_FLAGS.md for reference
-"material" : "flesh",       // The material the monster is primarily composed of
-"diff" : 4,                 // Monster difficulty. Impacts the shade used to label the monster, and if it is above 30 a kill will be recorded in the memorial log. Some example values: (Zombie, 3) (Mi-go, 26) (Zombie Hulk, 50) 
-"aggression" : -25,         // Defines how aggressive the monster is. Ranges from -99 (totally passive) to 100 (guaranteed hostility on detection)
-"morale" : 5,               // Monster morale
-"speed" : 230,              // Monster speed. 100 is the normal speed for a human being - higher values are faster and lower values are slower.
-"melee_skill" : 4,          // Monster melee skill, ranges from 0 - 10, with 4 being an average mob. See GAME_BALANCE.txt for more examples
-"melee_dice" : 1,           // Number of dice rolled on monster melee attack
-"melee_dice_sides" : 1,     // Number of faces of dice rolled on monster melee attack
-"melee_cut" : 1,            // Amount of cutting damage added to die roll on monster melee attack
-"dodge" : 8,                // Monster dodge skill. See GAME_BALANCE.txt for an explanation of dodge mechanics
-"armor_bash" : 0,           // Monster protection from bashing damage
-"armor_cut" : 0,            // Monster protection from cutting damage
-"vision_day" : 10,          // Vision range in full daylight
-"vision_night" : 1,         // Vision range in total darkness
-"luminance" : 0,            // Amount of light passively output by monster. Ranges from 0 to 10.
-"hp" : 10,                  // Monster hit points
-"death_drops": "some-group-id",     // An item group that is used to spawn items when the monster dies. This can be an inlined item group, see ITEM_SPAWN.md. The default subtype is "distribution".
-"special_freq" : 0,          // Number of turns required to "charge" a monster's special attack
-"death_function" : "NORMAL", // How the monster behaves on death. See JSON_FLAGS.md for a list of possible functions. Supports multiple death functions
-"special_attack" : "BITE",   // Monster's special attack. See JSON_FLAGS.md for a list of possible special attacks. A monster can have only one special attack
-"description": "One of the vesper bats, a family of winged insect-eating mammals. It roosts in caves and other hollows, and uses a form of echolocation to aerially navigate through tricky terrain at rapid speeds.",  
-                  // In-game description for the monster
-"flags" : ["SEES", "HEARS", etc],  // Monster flags. See JSON_FLAGS.md for a full list
-"fear_triggers" : ["SOUND", etc],  // What makes the monster afraid. See JSON_FLAGS.md for a full list
-"anger_triggers" : ["PLAYER_CLOSE"],// What makes the monster angry. See JSON_FLAGS.md for a full list
-"placate_triggers" : ["MEAT"],    // What calms the monster. See JSON_FLAGS.md for a full list
-"revert_to_itype": "bot_turret",    // (optional) if not empty and a valid item id, the monster (usually a robot) can be converted into this item by the player (only when it's already friendly).
-"categories" : ["WILDLIFE"]      // Monster categories. Can be NULL, CLASSIC (only mobs found in classic zombie movies) or WILDLIFE (natural animals). If they are not CLASSIC or WILDLIFE, they will not spawn in classic mode
-```  
+See MONSTERS.md
 ###NAMES
 ```C++
 { "name" : "Aaliyah", "gender" : "female", "usage" : "given" }, // Name, gender, "given"/"family"/"city" (first/last/city name).
@@ -222,7 +187,7 @@ The syntax listed here is still valid.
 "flags": [                   // A set of strings describing boolean features of the recipe
   "BLIND_EASY",
   "ANOTHERFLAG"
-], 
+],
 "qualities": [               // Generic qualities of tools needed to craft
   {"id":"CUT","level":1,"amount":1}
 ],
