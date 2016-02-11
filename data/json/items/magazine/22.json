@@ -32,5 +32,39 @@
     "reliability" : 10,
     "reload_time" : 60,
     "flags" : [ "MAG_BULKY" ]
+  },
+  {
+    "id" : "mosquitomag",
+    "type" : "MAGAZINE",
+    "name" : "SIG Mosquito magazine",
+    "description" : "A factory specification 10-round magazine for the SIG Mosquito.",
+    "weight" : 60,
+    "volume" : 1,
+    "price" : 1700,
+    "material" : "steel",
+    "symbol" : "#",
+    "color" : "ltgray",
+    "ammo_type" : "22",
+    "capacity" : 10,
+    "reliability" : 9,
+    "reload_time" : 100,
+    "flags": [ "MAG_COMPACT" ]
+  },
+  {
+    "id" : "sw22mag",
+    "type" : "MAGAZINE",
+    "name" : "SIG Mosquito magazine",
+    "description" : "A standard capacity magazine for the popular S&W 22A pistol.",
+    "weight" : 70,
+    "volume" : 1,
+    "price" : 2100,
+    "material" : "steel",
+    "symbol" : "#",
+    "color" : "ltgray",
+    "ammo_type" : "22",
+    "capacity" : 10,
+    "reliability" : 9,
+    "reload_time" : 100,
+    "flags": [ "MAG_COMPACT" ]
   }
- ]
+]
