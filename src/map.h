@@ -871,18 +871,6 @@ void add_corpse( const tripoint &p );
     std::vector<item*> spawn_items( const tripoint &p, const std::vector<item> &new_items );
     void create_anomaly( const tripoint &p, artifact_natural_property prop );
 
-    /**
-     * Places item or item group within the rectangle [x1,y1]-[x2,y2]
-     * @param chance percentage chance [1-100] to spawn one item or an item group
-     * @param ammo percentage chance [0-100] to spawn with default ammo (and magazine if necessary)
-     * @param magazine percentage chance [0-100] to spawn items with empty default magazine
-     * @param turn each items birthday which if negative is set to the current calendar turn
-     * @note chance to spawn magazines and ammo are in addition to any provided by the item group
-     * @return number of items placed
-     */
-    int place_loot( std::string id, int chance, int x1, int x2, int y1, int y2,
-                    int ammo = 0, int magazine = 0, int turn = -1 );
-
  /**
   * Fetch an item from this map location, with sanity checks to ensure it still exists.
   */

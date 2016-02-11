@@ -846,6 +846,10 @@ class jmapgen_loot : public jmapgen_piece {
         , ammo( jsi, "ammo", 0, 0 )
         , magazine( jsi, "magazine", 0, 0 )
         {
+            if( group.empty() == name.empty() ) {
+                jsi.throw_error( "must provide either item or group" );
+            }
+
             if( !group.empty() && !item_group::group_is_defined( group ) ) {
                 jsi.throw_error( "no such item group", "group" );
             }
@@ -855,7 +859,34 @@ class jmapgen_loot : public jmapgen_piece {
         }
         void apply( map &m, const jmapgen_int &x, const jmapgen_int &y, const float /*mon_density*/ ) const override
         {
-            m.place_loot( group.empty() ? name : group, chance.get(), x.val, y.val, x.valmax, y.valmax, ammo.get(), magazine.get() );
+            if( rng( 0, 99 ) < chance.get() * ACTIVE_WORLD_OPTIONS[ "ITEM_SPAWNRATE" ] ) {
+                std::vector<item> spawn;
+                if( group.empty() ) {
+                    spawn.emplace_back( name, calendar::turn );
+                } else {
+                    spawn = item_group::items_from( group, calendar::turn );
+                }
+
+                for( auto &e: spawn ) {
+                    bool spawn_ammo = rng( 0, 99 ) < ammo.get();
+                    bool spawn_mags = rng( 0, 99 ) < magazine.get() || spawn_ammo;
+
+                    if( spawn_mags && !e.magazine_integral() && !e.magazine_current() ) {
+                        e.contents.emplace_back( e.magazine_default(), e.bday );
+                    }
+                    if( spawn_ammo && e.ammo_remaining() == 0 ) {
+                        if( e.magazine_current() ) {
+                            item tmp( default_ammo( e.ammo_type() ), e.bday );
+                            tmp.charges = e.ammo_capacity();
+                            e.magazine_current()->contents.push_back( tmp );
+                        } else {
+                            e.set_curammo( default_ammo( e.ammo_type() ) ) ;
+                            e.charges = e.ammo_capacity();
+                        }
+                    }
+                }
+                m.spawn_items( tripoint( rng( x.val, x.valmax ), rng( y.val, y.valmax ), m.get_abs_sub().z ), spawn );
+            }
         }
 
     private:
@@ -10655,64 +10686,6 @@ int map::place_items(items_location loc, int chance, int x1, int y1,
         }
     }
     return item_num;
-}
-
-int map::place_loot( std::string id, int chance, int x1, int y1, int x2, int y2, int ammo, int magazine, int turn )
-{
-    if( chance > 100 || chance <= 0 ) {
-        debugmsg( "map::place_loot() called with an invalid chance (%d)", chance );
-        return 0;
-    }
-    if( ammo > 100 || ammo < 0 ) {
-        debugmsg( "map::place_loot() called with an invalid ammo frequency (%d)", ammo );
-        return 0;
-    }
-    if( magazine > 100 || magazine < 0 ) {
-        debugmsg( "map::place_loot() called with an invalid magazine frequency (%d)", magazine );
-        return 0;
-    }
-
-    bool is_group = item_group::group_is_defined( id );
-
-    // check either found a matching item_group or an item with this id
-    if( !is_group && !item_controller->has_template( id ) ) {
-        const point omt = overmapbuffer::sm_to_omt_copy( get_abs_sub().x, get_abs_sub().y );
-        const oter_id &oid = overmap_buffer.ter( omt.x, omt.y, get_abs_sub().z );
-        debugmsg( "place_loot: invalid item or group '%s', om_terrain = '%s' (%s)",
-                  id.c_str(), oid.t().id.c_str(), oid.t().id_mapgen.c_str() );
-        return 0;
-    }
-
-    if( rng( 0, 99 ) < chance * ACTIVE_WORLD_OPTIONS[ "ITEM_SPAWNRATE" ] ) {
-        std::vector<item> spawn;
-        if( is_group ) {
-            spawn = item_group::items_from( id, turn >= 0 ? turn : int( calendar::turn ) );
-        } else {
-            spawn.emplace_back( id, turn >= 0 ? turn : int( calendar::turn ) );
-        }
-
-        for( auto &e: spawn ) {
-            bool spawn_ammo = rng( 0, 99 ) < ammo;
-            bool spawn_mags = rng( 0, 99 ) < magazine || spawn_ammo;
-
-            if( spawn_mags && !e.magazine_integral() && !e.magazine_current() ) {
-                e.contents.emplace_back( e.magazine_default(), e.bday );
-            }
-            if( spawn_ammo && e.ammo_remaining() == 0 ) {
-                if( e.magazine_current() ) {
-                    item tmp( default_ammo( e.ammo_type() ), e.bday );
-                    tmp.charges = e.ammo_capacity();
-                    e.magazine_current()->contents.push_back( tmp );
-                } else {
-                    e.set_curammo( default_ammo( e.ammo_type() ) ) ;
-                    e.charges = e.ammo_capacity();
-                }
-            }
-        }
-
-        return spawn_items( tripoint( rng( x1, x2 ), rng( y1, y2 ), abs_sub.z ), spawn ).size();
-    }
-    return 0;
 }
 
 std::vector<item*> map::put_items_from_loc(items_location loc, const tripoint &p, int turn)
