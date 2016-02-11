@@ -68,6 +68,23 @@
     "flags": [ "MAG_COMPACT" ]
   },
   {
+    "id" : "ruger1022bigmag",
+    "type" : "MAGAZINE",
+    "name" : "Ruger BX-25 magazine",
+    "description" : "Extended 25-round stick magazine for the Ruger 10/22.",
+    "weight" : 180,
+    "volume" : 1,
+    "price" : 7900,
+    "material" : "steel",
+    "symbol" : "#",
+    "color" : "ltgray",
+    "ammo_type" : "22",
+    "capacity" : 10,
+    "reliability" : 8,
+    "reload_time" : 100,
+    "flags": [ "MAG_COMPACT" ]
+  },
+  {
     "id" : "sw22mag",
     "type" : "MAGAZINE",
     "name" : "SIG Mosquito magazine",

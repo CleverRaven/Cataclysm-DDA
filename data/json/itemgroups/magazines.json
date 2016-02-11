@@ -135,6 +135,7 @@
     "id" : "mags_rifle_common",
     "//" : "Factory specification rifle magazines commonly owned by citizens.",
     "items": [
+      ["ruger1022mag", 50],
       ["stanag10", 50],
       ["stanag30", 10]
     ]
@@ -146,7 +147,8 @@
     "items": [
       ["akmbigmag", 5],
       ["akmmag", 25],
-      ["m1918bigmag", 40]
+      ["m1918bigmag", 40],
+      ["ruger1022bigmag", 70]
     ]
   },
   {
