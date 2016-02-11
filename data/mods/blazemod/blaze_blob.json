@@ -705,7 +705,6 @@
     "to_hit": -2,
     "contains": 10,
     "ammo": "bfeed",
-    "rigid": true,
     "watertight": true,
     "seals": true
     },
