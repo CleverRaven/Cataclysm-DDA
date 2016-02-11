@@ -92,11 +92,13 @@
     "id" : "mags_pistol_rare",
     "//" : "Aftermarket or otherwise uncommon pistol magazines excluding milspec.",
     "items": [
-      ["deaglemag", 10],
-      ["fn57mag", 20],
-      ["glockbigmag", 15],
-      ["m1911bigmag", 10],
-      ["m9bigmag", 5]
+      ["deaglemag", 40],
+      ["fn57mag", 80],
+      ["glockbigmag", 60],
+      ["m1911bigmag", 40],
+      ["m9bigmag", 20],
+      ["sigp230mag", 40],
+      ["ppkmag", 5]
     ]
   },
   {

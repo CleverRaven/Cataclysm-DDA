@@ -18,8 +18,9 @@
       [ "fn57", 80 ],
       [ "l_sp_45", 30 ],
       [ "l_sp_9mm", 60 ],
+      [ "sig_p230", 40 ],
       [ "usp_45", 70 ],
-      [ "usp_9mm", 100 ]
+      [ "usp_9mm", 130 ]
     ]
   },
   {
@@ -39,7 +40,8 @@
     "id" : "guns_pistol_obscure",
     "//" : "Imported or otherwise very obscure pistols.",
     "items": [
-      [ "makarov", 100 ]
+      [ "makarov", 100 ],
+      [ "walther_ppk", 100 ]
     ]
   },
   {
