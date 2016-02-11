@@ -16,7 +16,7 @@
         "dispersion_modifier": 30,
         "ammo_modifier": "40",
         "recoil_modifier": 2,
-        "skill_required": 2,
+        "min_skills": [ [ "gun", 2 ] ],
         "mod_targets": ["pistol"],
         "acceptable_ammo": ["signal_flare"]
     },
@@ -38,7 +38,7 @@
         "bashing" : 5,
         "recoil_modifier" : 75,
         "price" : 20000,
-        "skill_required": 5,
+        "min_skills": [ [ "gun", 5 ] ],
         "ups_charges": 5
     }
 ]
