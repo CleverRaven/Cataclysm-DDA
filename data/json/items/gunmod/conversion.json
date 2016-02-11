@@ -1,0 +1,43 @@
+[
+    {
+        "type" : "GUNMOD",
+        "id" : "conversion_battle",
+        "name" : "battle rifle conversion",
+        "location": "conversion",
+        "dispersion_modifier" : 90,
+        "damage_modifier" : 6,
+        "description" : "This is a complete conversion kit, designed to turn a rifle into a powerful battle rifle.  It reduces accuracy, and increases noise and recoil, but also increases damage and fire rate.",
+        "weight" : 589,
+        "color" : "magenta",
+        "symbol" : ":",
+        "material" : ["steel", "null"],
+        "mod_targets" : ["rifle"],
+        "volume" : 2,
+        "integral_volume": 0,
+        "burst_modifier" : 4,
+        "recoil_modifier" : 60,
+        "price" : 68000,
+        "skill_required": 7,
+        "loudness_modifier" : 4
+    },
+    {
+        "type" : "GUNMOD",
+        "id" : "conversion_sniper",
+        "name" : "sniper conversion",
+        "location": "conversion",
+        "dispersion_modifier" : -150,
+        "damage_modifier" : 8,
+        "description" : "This is a complete conversion kit, designed to turn a rifle into a deadly sniper rifle.  It removes any automatic fire capabilities but also increases accuracy and damage.",
+        "weight" : 589,
+        "color" : "green",
+        "symbol" : ":",
+        "material" : ["steel", "null"],
+        "mod_targets" : ["rifle"],
+        "volume" : 2,
+        "integral_volume": 0,
+        "burst_modifier" : -99,
+        "price" : 66000,
+        "skill_required": 8,
+        "loudness_modifier" : 3
+    }
+]

@@ -1,0 +1,43 @@
+[
+    {
+        "type" : "GUNMOD",
+        "id" : "barrel_big",
+        "name" : "barrel extension",
+        "dispersion_modifier" : -90,
+        "damage_modifier" : 1,
+        "description" : "A longer barrel increases the muzzle velocity of a firearm, contributing to both accuracy and damage.  However, the longer barrel tends to vibrate after firing, greatly increasing recoil.",
+        "location": "barrel",
+        "weight" : 226,
+        "to_hit" : 2,
+        "color" : "light_gray",
+        "symbol" : ":",
+        "material" : ["steel", "null"],
+        "mod_targets" : ["smg", "rifle", "shotgun", "pistol"],
+        "volume" : 2,
+        "bashing" : 5,
+        "recoil_modifier" : 75,
+        "price" : 20000,
+        "skill_required": 5
+    },
+    {
+        "type" : "GUNMOD",
+        "id" : "barrel_rifled",
+        "name" : "rifled barrel",
+        "dispersion_modifier" : -150,
+        "damage_modifier" : -20,
+        "description" : "Rifling a shotgun barrel is mainly done in order to improve its accuracy when firing slugs.  The rifling makes the gun less suitable for shot, however.",
+        "location": "barrel",
+        "weight" : 226,
+        "to_hit" : 1,
+        "color" : "light_gray",
+        "symbol" : ":",
+        "material" : ["steel", "null"],
+        "mod_targets" : ["shotgun"],
+        "volume" : 2,
+        "integral_volume": 0,
+        "bashing" : 3,
+        "burst_modifier" : -1,
+        "price" : 22000,
+        "skill_required": 5
+    }
+]
