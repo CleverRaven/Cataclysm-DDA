@@ -116,7 +116,9 @@
     "//" : "Less common rifle ammmo including that only used by police/paramilitary forces.",
     "items": [
       [ "22_fmj", 50 ],
-      [ "556", 100 ]
+      [ "556", 100 ],
+      [ "762_m43", 50 ],
+      [ "762_m87", 20 ]
     ]
   },
   {
