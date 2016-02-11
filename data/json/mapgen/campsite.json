@@ -269,6 +269,7 @@
                 { "item": "cannedfood", "chance": 90,  "x": [ 15,3 ], "y": [ 20,8 ] },
                 { "item": "cannedfood", "chance": 75,  "x": [ 15,3 ], "y": [ 20,8 ] },
                 { "item": "pasta", "chance": 75,  "x": [ 15,3 ], "y": [ 20,8 ] },
+                { "item": "map_extra_college_lake", "chance": 75,  "x": [ 15,3 ], "y": [ 20,8 ], "repeat": [3,5] },
                 { "item": "camping", "chance": 90,  "x": [ 15,3 ], "y": [ 20,8 ] }
             ],
             "place_monsters": [
@@ -281,9 +282,6 @@
             ],
             "set": [
                 { "point": "trap", "id": "tr_brazier", "x": 12, "y": 10}
-            ],
-            "add": [
-                { "item": "corpse", "x": [ 15,3 ], "y": [ 20,8 ], "amount": 1, "repeat": [ 3,6 ] }
             ]
         }
     },{
