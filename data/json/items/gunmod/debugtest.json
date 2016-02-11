@@ -1,0 +1,22 @@
+[
+    {
+        "type" : "GUNMOD",
+        "id" : "upstest",
+        "name" : "upstest",
+        "dispersion_modifier" : 500,
+        "damage_modifier" : 500,
+        "description" : "Testmod for UPS drain on mods, this should never spawn, if you see this, it's a bug. 50 UPS drain.",
+        "location": "barrel",
+        "weight" : 450,
+        "color" : "light_gray",
+        "symbol" : ":",
+        "material" : ["steel", "null"],
+        "mod_targets" : ["smg", "rifle", "shotgun", "pistol"],
+        "volume" : 2,
+        "bashing" : 5,
+        "recoil_modifier" : 75,
+        "price" : 20000,
+        "skill_required": 1,
+        "ups_charges": 50
+    }
+]
