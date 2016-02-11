@@ -6895,6 +6895,15 @@
         "color" : "light_blue",
         "see_cost" : 0,
         "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "roadstop_a",
+        "name" : "public washroom",
+        "rotate" : true,
+        "sym" : 94,
+        "color" : "light_blue",
+        "see_cost" : 0,
+        "mondensity" : 2
     }
 ]
 
