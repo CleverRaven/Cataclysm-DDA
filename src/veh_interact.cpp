@@ -400,13 +400,13 @@ task_reason veh_interact::cant_do (char mode)
 
     switch (mode) {
     case 'i': // install mode
-        enough_morale = g->u.get_morale_level() >= MIN_MORALE_CRAFT;
+        enough_morale = g->u.has_morale_to_craft();
         valid_target = !can_mount.empty() && 0 == veh->tags.count("convertible");
         //tool checks processed later
         has_tools = true;
         break;
     case 'r': // repair mode
-        enough_morale = g->u.get_morale_level() >= MIN_MORALE_CRAFT;
+        enough_morale = g->u.has_morale_to_craft();
         valid_target = !need_repair.empty() && cpart >= 0;
         has_tools = (has_welder && has_goggles) || has_duct_tape;
         break;
@@ -435,7 +435,7 @@ task_reason veh_interact::cant_do (char mode)
         // No refillable parts here (valid_target = false)
         break;
     case 'o': // remove mode
-        enough_morale = g->u.get_morale_level() >= MIN_MORALE_CRAFT;
+        enough_morale = g->u.has_morale_to_craft();
         valid_target = cpart >= 0 && 0 == veh->tags.count("convertible");
         part_free = parts_here.size() > 1 || (cpart >= 0 && veh->can_unmount(cpart));
         //tool and skill checks processed later

@@ -902,6 +902,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
                         int decay_start = 30, bool capped = false, const itype *item_type = nullptr );
         int has_morale( morale_type type ) const;
         void rem_morale( morale_type type, const itype *item_type = nullptr );
+        bool has_morale_to_read() const;
 
         /** Get the formatted name of the currently wielded item (if any) */
         std::string weapname() const;
@@ -998,7 +999,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool crafting_allowed( const std::string & rec_name );
         bool crafting_allowed( const recipe & rec );
         float lighting_craft_speed_multiplier( const recipe & rec );
-        bool has_moral_to_craft();
+        bool has_morale_to_craft() const;
         bool can_make( const recipe * r, int batch_size = 1 ); // have components?
         bool making_would_work( const std::string & id_to_make, int batch_size );
         void craft();

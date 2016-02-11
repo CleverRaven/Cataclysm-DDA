@@ -8913,6 +8913,11 @@ void player::rem_morale(morale_type type, const itype* item_type)
     }
 }
 
+bool player::has_morale_to_read() const
+{
+    return get_morale_level() >= -40;
+}
+
 void player::process_active_items()
 {
     if( weapon.needs_processing() && weapon.process( this, pos(), false ) ) {
@@ -11120,7 +11125,7 @@ hint_rating player::rate_action_read( const item &it ) const
 
     if (g && g->m.ambient_light_at(pos()) < 8 && LL_LIT > g->m.light_at(pos())) {
         return HINT_IFFY;
-    } else if( get_morale_level() < MIN_MORALE_READ && it.type->book->fun <= 0 ) {
+    } else if( !has_morale_to_read() && it.type->book->fun <= 0 ) {
         return HINT_IFFY; //won't read non-fun books when sad
     } else if (it.type->book->intel > 0 && has_trait("ILLITERATE") && assistants == 0) {
         return HINT_IFFY;
@@ -11228,7 +11233,7 @@ bool player::read(int inventory_position)
             return false;
         }
         // otherwise do nothing as there's no associated skill
-    } else if( get_morale_level() < MIN_MORALE_READ && tmp->fun <= 0 ) { // See morale.h
+    } else if( !has_morale_to_read() && tmp->fun <= 0 ) { // See morale.h
         add_msg(m_info, _("What's the point of studying?  (Your morale is too low!)"));
         return false;
     } else if( skill_level < tmp->req ) {

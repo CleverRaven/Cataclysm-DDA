@@ -5,9 +5,6 @@
 #include <string>
 #include "calendar.h"
 
-#define MIN_MORALE_READ (-40)
-#define MIN_MORALE_CRAFT (-50)
-
 struct itype;
 
 enum morale_type : int {

@@ -8152,7 +8152,7 @@ int iuse::multicooker(player *p, item *it, bool t, const tripoint &pos)
 
         if (mc_upgrade == choice) {
 
-            if( p->get_morale_level() < MIN_MORALE_CRAFT ) { // See morale.h
+            if( !p->has_morale_to_craft() ) { // See morale.h
                 add_msg(m_info, _("Your morale is too low to craft..."));
                 return false;
             }
