@@ -5,8 +5,10 @@
     "//" : "Pistols commonly owned by citizens and found in many locations.",
     "items": [
       [ "glock_19", 100 ],
-      [ "m1911", 30 ],
-      [ "m9", 20 ]
+      [ "m1911", 50 ],
+      [ "m9", 30 ],
+      [ "sig_mosquito", 15 ],
+      [ "sw_22", 15 ]
     ]
   },
   {
@@ -18,6 +20,7 @@
       [ "fn57", 80 ],
       [ "l_sp_45", 30 ],
       [ "l_sp_9mm", 60 ],
+      [ "ruger_lcr_22", 30 ],
       [ "sig_p230", 40 ],
       [ "usp_45", 70 ],
       [ "usp_9mm", 130 ]
@@ -41,6 +44,7 @@
     "//" : "Imported or otherwise very obscure pistols.",
     "items": [
       [ "makarov", 100 ],
+      [ "moss_brownie", 100 ],
       [ "walther_ppk", 100 ]
     ]
   },
@@ -92,12 +96,14 @@
     "id" : "guns_rifle_common",
     "//" : "Rifles commonly owned by citizens and found in many locations.",
     "items": [
-      [ "garand", 40 ],
+      [ "garand", 45 ],
       [ "ar15", 25 ],
       [ "cx4", 15 ],
       [ "ksub2000", 20 ],
-      [ "ruger_mini", 70 ],
-      [ "sks", 25 ]
+      [ "marlin_9a", 80 ],
+      [ "ruger_1022", 70 ],
+      [ "ruger_mini", 60 ],
+      [ "sks", 40 ]
     ]
   },
   {
