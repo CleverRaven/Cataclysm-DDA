@@ -93,7 +93,8 @@
       [ "ar15", 25 ],
       [ "cx4", 15 ],
       [ "ksub2000", 20 ],
-      [ "ruger_mini", 70 ]
+      [ "ruger_mini", 70 ],
+      [ "sks", 25 ]
     ]
   },
   {
@@ -135,6 +136,7 @@
     "id" : "guns_rifle_obscure",
     "//" : "Imported or otherwise very obscure rifles.",
     "items": [
+      [ "ak47", 200 ],
       [ "ak74", 50 ],
       [ "an94", 20 ],
       [ "steyr_aug", 80 ]

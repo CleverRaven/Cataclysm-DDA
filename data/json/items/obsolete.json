@@ -46,6 +46,26 @@
     "effects" : ["COOKOFF", "SHOT", "RECYCLED"]
   },
   {
+    "type" : "AMMO",
+    "id" : "reloaded_shot_beanbag",
+    "price" : 50,
+    "name" : "reloaded shotgun beanbag",
+    "symbol" : "=",
+    "color" : "red",
+    "description" : "A hand-reloaded beanbag round for shotguns, not deadly but designed to disable.",
+    "material" : ["plastic", "powder"],
+    "volume" : 1,
+    "weight" : 46,
+    "ammo_type" : "shot",
+    "casing" : "shot_hull",
+    "damage" : 8,
+    "range" : 10,
+    "dispersion" : 9,
+    "recoil" : 25,
+    "count" : 25,
+    "effects" : ["COOKOFF", "BEANBAG", "RECYCLED"]
+  },
+  {
     "id": "rechargeable_battery",
     "type": "TOOL",
     "symbol": ";",

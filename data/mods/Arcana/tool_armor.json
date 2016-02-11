@@ -112,7 +112,7 @@
         "name": "wyrmskin armor",
         "description": "A set of leather armor decorated with jade, with serpentine patterns sewn into it.  Using it will conjure a spray of acid.",
         "price": 106000,
-        "material": ["wyrmskin"],
+        "material": ["wyrmskin", "leather"],
         "weight": 1954,
         "volume": 36,
         "bashing": 2,

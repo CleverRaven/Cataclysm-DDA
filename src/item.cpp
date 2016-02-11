@@ -115,6 +115,7 @@ item::item(const std::string new_type, int turn, bool rand)
     }
     // TODO: some item types use the same member (e.g. charges) for different things. Handle or forbid this.
     if( type->gun ) {
+        set_var( "magazine_converted", true );
         charges = 0;
         for( auto &gm : type->gun->built_in_mods ){
             if(type_is_defined( gm) ){
@@ -148,6 +149,7 @@ item::item(const std::string new_type, int turn, bool rand)
         }
     }
     if( type->is_tool() ) {
+        set_var( "magazine_converted", true );
         const auto tool = dynamic_cast<const it_tool*>(type);
         if( tool->max_charges != 0 ) {
             if( !has_random_charges ) {
@@ -549,7 +551,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                                   convert_weight( weight() ), false, "", true, true ) );
 
         if( count_by_charges() ) {
-            info.emplace_back( "BASE", _( "Stack size: " ), "", type->stack_size, true );
+            info.emplace_back( "BASE", _( "Stack size: " ), "", type->stack_size / std::min( type->volume, 1U ) , true );
         }
 
         if( !type->rigid ) {
@@ -2323,6 +2325,13 @@ int item::weight() const
         }
     }
 
+    // if this is an ammo belt add the weight of any implicitly contained linkages
+    if( is_magazine() && type->magazine->linkage != "NULL" ) {
+        item links( type->magazine->linkage, calendar::turn );
+        links.charges = ammo_remaining();
+        ret += links.weight();
+    }
+
     // reduce weight for sawn-off weepons capped to the apportioned weight of the barrel
     if( has_gunmod( "barrel_small" ) != -1 ) {
         float b = type->gun->barrel_length;
@@ -2371,8 +2380,7 @@ int item::volume( bool integral ) const
 
     // For items counted per charge the above volume is per stack so adjust dependent upon charges
     if( count_by_charges() || made_of( LIQUID ) ) {
-        int sk = std::max( type->stack_size, 1 );
-        ret *= charges / sk + ( charges % sk != 0 );
+        ret = ceil( ret * double( charges ) / type->stack_size );
     }
 
     // Non-rigid items add the volume of the content

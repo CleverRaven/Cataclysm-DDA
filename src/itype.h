@@ -372,6 +372,10 @@ struct islot_magazine {
      * How long it takes to load each unit of ammo into the magazine
      */
     int reload_time;
+    /**
+     * For ammo belts one linkage (of given type) is dropped for each unit of ammo consumed
+     */
+     itype_id linkage = "NULL";
 };
 
 struct islot_ammo : common_ranged_data {
