@@ -896,7 +896,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool has_activity(const activity_type type) const;
         void cancel_activity();
 
-        int morale_level() const; // Modified by traits, &c
+        int get_morale_level() const; // Modified by traits, &c
         void invalidate_morale_level();
         void add_morale( morale_type type, int bonus, int max_bonus = 0, int duration = 60,
                         int decay_start = 30, bool capped = false, const itype *item_type = nullptr );
@@ -1286,12 +1286,12 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
     private:
         // Mutability is required for lazy initialization
-        mutable int _morale_level;
+        mutable int morale_level;
         mutable bool morale_level_is_valid;
 
-        /** Returns current traits multiplier */
+        /** Returns current traits multiplier for morale */
         morale_mult get_traits_mult() const;
-        /** Returns current effects multiplier */
+        /** Returns current effects multiplier for morale */
         morale_mult get_effects_mult() const;
 
         // Items the player has identified.

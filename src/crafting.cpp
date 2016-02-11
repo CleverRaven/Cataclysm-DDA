@@ -248,7 +248,7 @@ float player::lighting_craft_speed_multiplier( const recipe &rec )
 
 bool player::has_moral_to_craft()
 {
-    return morale_level() < MIN_MORALE_CRAFT;
+    return get_morale_level() < MIN_MORALE_CRAFT;
 }
 
 void player::craft()

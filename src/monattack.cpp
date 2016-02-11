@@ -4118,7 +4118,7 @@ bool mattack::slimespring(monster *z)
     }
 
     // This morale buff effect could get spammy
-    if (g->u.morale_level() <= 1) {
+    if( g->u.get_morale_level() <= 1 ) {
         switch (rng(1, 3)) { //~ Your slimes try to cheer you up!
         case 1:
             //~ Lowercase is intended: they're small voices.

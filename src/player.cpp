@@ -203,7 +203,7 @@ player::player() : Character()
  last_batch = 0;
  lastconsumed = itype_id("null");
  next_expected_position = tripoint_min;
- _morale_level = 0;
+ morale_level = 0;
  morale_level_is_valid = false;
 
  empty_traits();
@@ -337,15 +337,15 @@ void player::reset_stats()
         }
     }
     // Morale
-    if (abs(morale_level()) >= 100) {
-        mod_str_bonus(int(morale_level() / 180));
-        int dex_mod = int(morale_level() / 200);
+    if( abs( get_morale_level() ) >= 100 ) {
+        mod_str_bonus( int( get_morale_level() / 180 ) );
+        int dex_mod = int( get_morale_level() / 200 );
         mod_dex_bonus(dex_mod);
         if (dex_mod < 0) {
             add_miss_reason(_("What's the point of fighting?"), -dex_mod);
         }
-        mod_per_bonus(int(morale_level() / 125));
-        mod_int_bonus(int(morale_level() / 100));
+        mod_per_bonus( int( get_morale_level() / 125 ) );
+        mod_int_bonus( int( get_morale_level() / 100 ) );
     }
     // Radiation
     if (radiation > 0) {
@@ -685,7 +685,7 @@ void player::update_mental_focus()
 int player::calc_focus_equilibrium() const
 {
     // Factor in pain, since it's harder to rest your mind while your body hurts.
-    int eff_morale = morale_level() - pain;
+    int eff_morale = get_morale_level() - pain;
     // Cenobites don't mind, though
     if (has_trait("CENOBITE")) {
         eff_morale = eff_morale + pain;
@@ -1495,8 +1495,8 @@ void player::recalc_speed_bonus()
         mod_speed_bonus(-pkill_penalty);
     }
 
-    if (abs(morale_level()) >= 100) {
-        int morale_bonus = int(morale_level() / 25);
+    if( abs( get_morale_level() ) >= 100 ) {
+        int morale_bonus = int( get_morale_level() / 25 );
         if (morale_bonus < -10) {
             morale_bonus = -10;
         } else if (morale_bonus > 10) {
@@ -2062,11 +2062,11 @@ void player::memorial( std::ofstream &memorial_file, std::string epitaph )
     //Effects (illnesses)
     memorial_file << _("Ongoing Effects:") << "\n";
     bool had_effect = false;
-    if(morale_level() >= 100) {
+    if( get_morale_level() >= 100 ) {
       had_effect = true;
       memorial_file << indent << _("Elated") << "\n";
     }
-    if(morale_level() <= -100) {
+    if( get_morale_level() <= -100 ) {
       had_effect = true;
       memorial_file << indent << _("Depressed") << "\n";
     }
@@ -2328,24 +2328,24 @@ void player::disp_info()
             }
         }
     }
-    if (abs(morale_level()) >= 100) {
-        bool pos = (morale_level() > 0);
+    if( abs( get_morale_level() ) >= 100 ) {
+        bool pos = ( get_morale_level() > 0 );
         effect_name.push_back(pos ? _("Elated") : _("Depressed"));
         std::stringstream morale_text;
-        if (abs(morale_level()) >= 200) {
+        if( abs( get_morale_level() ) >= 200 ) {
             morale_text << _("Dexterity") << (pos ? " +" : " ") <<
-                int(morale_level() / 200) << "   ";
+                int( get_morale_level() / 200 ) << "   ";
         }
-        if (abs(morale_level()) >= 180) {
+        if( abs( get_morale_level() ) >= 180 ) {
             morale_text << _("Strength") << (pos ? " +" : " ") <<
-                int(morale_level() / 180) << "   ";
+                int( get_morale_level() / 180 ) << "   ";
         }
-        if (abs(morale_level()) >= 125) {
+        if( abs( get_morale_level() ) >= 125 ) {
             morale_text << _("Perception") << (pos ? " +" : " ") <<
-                int(morale_level() / 125) << "   ";
+                int( get_morale_level() / 125 ) << "   ";
         }
         morale_text << _("Intelligence") << (pos ? " +" : " ") <<
-            int(morale_level() / 100) << "   ";
+            int( get_morale_level() / 100 ) << "   ";
         effect_text.push_back(morale_text.str());
     }
     if (pain - pkill > 0) {
@@ -2704,7 +2704,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
                   (pen < 10 ? " " : ""), pen);
         line++;
     }
-    pen = int(morale_level() / 25);
+    pen = int( get_morale_level() / 25 );
     if (abs(pen) >= 4) {
         if (pen > 10)
             pen = 10;
@@ -3329,7 +3329,7 @@ void player::disp_morale()
     }
 
     // Print out the total morale, right-justified.
-    int mor = morale_level();
+    int mor = get_morale_level();
     mvwprintz(w, 20, 1, (mor < 0 ? c_red : c_green), _("Total:"));
     mvwprintz(w, 20, number_pos, (mor < 0 ? c_red : c_green), "% 6d", mor);
 
@@ -3666,7 +3666,7 @@ void player::disp_status( WINDOW *w, WINDOW *w2 )
         mvwprintz( w, sideStyle ? 0 : 3, 0, col_pain, _( "Pain %d" ), pain - pkill );
     }
 
-    int morale_cur = morale_level();
+    int morale_cur = get_morale_level();
     nc_color col_morale = c_white;
     if( morale_cur >= 10 ) {
         col_morale = c_green;
@@ -8843,21 +8843,21 @@ morale_mult player::get_effects_mult() const
     return ret;
 }
 
-int player::morale_level() const
+int player::get_morale_level() const
 {
     if ( !morale_level_is_valid ) {
         const morale_mult mult = get_traits_mult();
 
-        _morale_level = 0;
+        morale_level = 0;
         for( auto &i : morale ) {
-            _morale_level += i.get_net_bonus( mult );
+            morale_level += i.get_net_bonus( mult );
         }
 
-        _morale_level *= get_effects_mult();
+        morale_level *= get_effects_mult();
         morale_level_is_valid = true;
     }
 
-    return _morale_level;
+    return morale_level;
 }
 
 void player::invalidate_morale_level()
@@ -11120,7 +11120,7 @@ hint_rating player::rate_action_read( const item &it ) const
 
     if (g && g->m.ambient_light_at(pos()) < 8 && LL_LIT > g->m.light_at(pos())) {
         return HINT_IFFY;
-    } else if (morale_level() < MIN_MORALE_READ && it.type->book->fun <= 0) {
+    } else if( get_morale_level() < MIN_MORALE_READ && it.type->book->fun <= 0 ) {
         return HINT_IFFY; //won't read non-fun books when sad
     } else if (it.type->book->intel > 0 && has_trait("ILLITERATE") && assistants == 0) {
         return HINT_IFFY;
@@ -11228,7 +11228,7 @@ bool player::read(int inventory_position)
             return false;
         }
         // otherwise do nothing as there's no associated skill
-    } else if (morale_level() < MIN_MORALE_READ && tmp->fun <= 0) { // See morale.h
+    } else if( get_morale_level() < MIN_MORALE_READ && tmp->fun <= 0 ) { // See morale.h
         add_msg(m_info, _("What's the point of studying?  (Your morale is too low!)"));
         return false;
     } else if( skill_level < tmp->req ) {
