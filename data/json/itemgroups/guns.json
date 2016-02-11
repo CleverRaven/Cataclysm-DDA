@@ -150,6 +150,10 @@
     "id" : "guns_shotgun_common",
     "//" : "Shotguns commonly owned by citizens and found in many locations.",
     "items": [
+      [ "mossberg_500", 50 ],
+      [ "remington_870", 100 ],
+      [ "shotgun_d", 30 ],
+      [ "shotgun_s", 30 ]
     ]
   },
   {
@@ -157,7 +161,8 @@
     "id" : "guns_shotgun_rare",
     "//" : "Less common shotguns including those only used by police/paramilitary forces.",
     "items": [
-      [ "saiga_12", 100 ]
+      [ "m1014", 100 ],
+      [ "saiga_12", 50 ]
     ]
   },
   {
@@ -165,7 +170,8 @@
     "id" : "guns_shotgun_milspec",
     "//" : "Military specification shotguns only ever found at military sites.",
     "items": [
-      [ "rm20", 100 ]
+      [ "l_def_12", 100 ],
+      [ "rm20", 20 ]
     ]
   },
   {
