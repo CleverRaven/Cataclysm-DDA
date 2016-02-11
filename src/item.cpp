@@ -550,8 +550,15 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                                   string_format( "<num> %s", weight_units() ),
                                   convert_weight( weight() ), false, "", true, true ) );
 
-        if( count_by_charges() ) {
-            info.emplace_back( "BASE", _( "Stack size: " ), "", type->stack_size / std::min( type->volume, 1U ) , true );
+        if( count_by_charges() && type->volume > 0 && type->stack_size > 1 ) {
+            if( type->volume == 1 ) {
+                //~ %1$d is stack size and guaranteed to be > 1
+                info.emplace_back( "BASE", string_format( _( "Stacks in groups of <stat>%1$d</stat>" ), type->stack_size ) );
+            } else {
+                //~ %1$d is stack size and %2$d is base volume with both guaranteed to be > 1
+                info.emplace_back( "BASE", string_format( _( "Stack of <stat>%1$d</stat> consumes <stat>%2$d</stat> volume" ),
+                                   type->stack_size, type->volume ) );
+            }
         }
 
         if( damage_bash() > 0 || damage_cut() > 0 ) {
