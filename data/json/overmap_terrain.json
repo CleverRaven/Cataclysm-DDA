@@ -6886,6 +6886,15 @@
         "see_cost" : 5,
         "mondensity" : 2,
         "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "roadstop",
+        "name" : "roadstop",
+        "rotate" : true,
+        "sym" : 94,
+        "color" : "light_blue",
+        "see_cost" : 0,
+        "mondensity" : 2
     }
 ]
 
