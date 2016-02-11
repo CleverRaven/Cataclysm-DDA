@@ -14,6 +14,7 @@
     "id" : "guns_pistol_rare",
     "//" : "Less common pistols including those only used by police/paramilitary forces.",
     "items": [
+      [ "deagle_44", 30 ],
       [ "fn57", 80 ],
       [ "l_sp_45", 30 ],
       [ "l_sp_9mm", 60 ],
