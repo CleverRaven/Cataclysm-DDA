@@ -335,6 +335,7 @@ void map::destroy_vehicle (vehicle *veh)
             if( veh->tracking_on ) {
                 overmap_buffer.remove_vehicle( veh );
             }
+            dirty_vehicle_list.erase(veh);
             delete veh;
             return;
         }
