@@ -87,7 +87,7 @@
     "name": "Ruger 10/22",
     "name_plural": "Ruger 10/22",
     "description": "A combination of negligible recoil, high customization, and inexpensive ammunition made the Ruger 10/22 a popular choice among enthusiasts and small game hunters.  Even though it fires the weak .22 round, it's perfectly capable of killing.",
-    "weight": 2300,
+    "weight": 2220,
     "volume": 10,
     "price": 27000,
     "bashing": 12,
@@ -103,10 +103,13 @@
     "recoil": -75,
     "durability": 8,
     "loudness": 150,
-    "clip_size": 10,
-    "reload": 500,
+    "reload": 100,
     "barrel_length": 2,
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "conversion", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ]
+    "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "conversion", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
+    "magazine_well": 1,
+    "magazines": [
+      [ "22", [ "ruger1022mag" ] ]
+    ]
   },
   {
     "id": "ruger_lcr_22",

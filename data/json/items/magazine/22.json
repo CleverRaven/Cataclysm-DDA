@@ -51,6 +51,23 @@
     "flags": [ "MAG_COMPACT" ]
   },
   {
+    "id" : "ruger1022mag",
+    "type" : "MAGAZINE",
+    "name" : "Ruger 10/22 rotary magazine",
+    "description" : "Removable 10-round rotary magazine for the Ruger 10/22 which allows the magazine to fit flush with the bottom of the stock.",
+    "weight" : 80,
+    "volume" : 1,
+    "price" : 1400,
+    "material" : "steel",
+    "symbol" : "#",
+    "color" : "ltgray",
+    "ammo_type" : "22",
+    "capacity" : 10,
+    "reliability" : 9,
+    "reload_time" : 160,
+    "flags": [ "MAG_COMPACT" ]
+  },
+  {
     "id" : "sw22mag",
     "type" : "MAGAZINE",
     "name" : "SIG Mosquito magazine",
