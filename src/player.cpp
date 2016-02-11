@@ -3311,11 +3311,12 @@ void player::disp_morale()
     mvwprintz(w, 2,  1, c_ltgray, _("Name"));
     mvwprintz(w, 2, name_column_width+2, c_ltgray, _("Value"));
 
+    const morale_mult mult = get_traits_mult();
     // Print out the morale entries.
     for (size_t i = 0; i < morale.size(); i++)
     {
         std::string name = morale[i].get_name();
-        int bonus = net_morale(morale[i]);
+        int bonus = morale[i].get_net_bonus( mult );
 
         // Print out the name.
         trim_and_print(w, i + 3,  1, name_column_width, (bonus < 0 ? c_red : c_green), name.c_str());
@@ -8813,54 +8814,44 @@ void player::update_body_wetness( const w_point &weather )
     // TODO: Make clothing slow down drying
 }
 
-int player::net_morale(morale_point effect) const
+morale_mult player::get_traits_mult() const
 {
-    double bonus = effect.get_bonus();
+    morale_mult ret;
 
-    // Optimistic characters focus on the good things in life,
-    // and downplay the bad things.
-    if (has_trait("OPTIMISTIC"))
-    {
-        if (bonus >= 0)
-        {
-            bonus *= 1.25;
-        }
-        else
-        {
-            bonus *= 0.75;
-        }
+    if( has_trait( "OPTIMISTIC" ) ) {
+        ret *= morale_mults::optimistic;
     }
 
-     // Again, those grouchy Bad-Tempered folks always focus on the negative.
-     // They can't handle positive things as well.  They're No Fun.  D:
-    if (has_trait("BADTEMPER"))
-    {
-        if (bonus < 0)
-        {
-            bonus *= 1.25;
-        }
-        else
-        {
-            bonus *= 0.75;
-        }
+    if( has_trait( "BADTEMPER" ) ) {
+        ret *= morale_mults::badtemper;
     }
-    return bonus;
+
+    return ret;
+}
+
+morale_mult player::get_effects_mult() const
+{
+    morale_mult ret;
+
+    //TODO: Maybe add something here to cheer you up as well?
+    if( has_effect( effect_took_prozac ) ) {
+        ret *= morale_mults::prozac;
+    }
+
+    return ret;
 }
 
 int player::morale_level() const
 {
     // Add up all of the morale bonuses (and penalties).
     int ret = 0;
-    for (auto &i : morale) {
-        ret += net_morale(i);
+    const morale_mult mult = get_traits_mult();
+
+    for( auto &i : morale ) {
+        ret += i.get_net_bonus( mult );
     }
 
-    // Prozac reduces negative morale by 75%.
-    if (has_effect( effect_took_prozac ) && ret < 0) {
-        ret = int(ret / 4);
-    }
-
-    return ret;
+    return ret * get_effects_mult();
 }
 
 void player::add_morale(morale_type type, int bonus, int max_bonus,

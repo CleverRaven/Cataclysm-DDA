@@ -896,7 +896,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool has_activity(const activity_type type) const;
         void cancel_activity();
 
-        int net_morale(morale_point effect) const;
         int morale_level() const; // Modified by traits, &c
         void add_morale( morale_type type, int bonus, int max_bonus = 0, int duration = 60,
                         int decay_start = 30, bool capped = false, const itype *item_type = nullptr );
@@ -1285,6 +1284,11 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void load(JsonObject &jsin);
 
     private:
+        /** Returns current traits multiplier */
+        morale_mult get_traits_mult() const;
+        /** Returns current effects multiplier */
+        morale_mult get_effects_mult() const;
+
         // Items the player has identified.
         std::unordered_set<std::string> items_identified;
         /** Check if an area-of-effect technique has valid targets */
