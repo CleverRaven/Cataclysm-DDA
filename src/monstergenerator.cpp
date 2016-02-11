@@ -506,18 +506,6 @@ void mtype::load( JsonObject &jo )
         melee_damage.add_damage( DT_CUT, bonus_cut );
     }
 
-    // TODO: allow adding/removing specific entries if `was_loaded` is true
-    if( jo.has_array( "attack_effs" ) ) {
-        JsonArray jsarr = jo.get_array( "attack_effs" );
-        while( jsarr.has_more() ) {
-            JsonObject e = jsarr.next_object();
-            mon_effect_data new_eff( efftype_id( e.get_string( "id" ) ), e.get_int( "duration", 0 ),
-                                     get_body_part_token( e.get_string( "bp", "NUM_BP" ) ), e.get_bool( "permanent", false ),
-                                     e.get_int( "chance", 100 ) );
-            atk_effs.push_back( new_eff );
-        }
-    }
-
     if( jo.has_member( "death_drops" ) ) {
         JsonIn &stream = *jo.get_raw( "death_drops" );
         death_drops = item_group::load_item_group( stream, "distribution" );
