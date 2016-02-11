@@ -23,6 +23,7 @@
 #include "mapgen_functions.h"
 #include "mtype.h"
 #include "itype.h"
+#include "item_factory.h"
 
 #include <algorithm>
 #include <cassert>
@@ -839,22 +840,27 @@ public:
 class jmapgen_loot : public jmapgen_piece {
     public:
         jmapgen_loot( JsonObject &jsi ) : jmapgen_piece()
-        , group( jsi.get_string( "group" ) )
+        , group( jsi.get_string( "group", std::string() ) )
+        , name( jsi.get_string( "item", std::string() ) )
         , chance( jsi, "chance", 100, 100 )
         , ammo( jsi, "ammo", 0, 0 )
         , magazine( jsi, "magazine", 0, 0 )
         {
-            if( !item_group::group_is_defined( group ) ) {
-                jsi.throw_error( "no such item group", "item" );
+            if( !group.empty() && !item_group::group_is_defined( group ) ) {
+                jsi.throw_error( "no such item group", "group" );
+            }
+            if( !name.empty() && !item_controller->has_template( name ) ) {
+                jsi.throw_error( "no such item", "item" );
             }
         }
         void apply( map &m, const jmapgen_int &x, const jmapgen_int &y, const float /*mon_density*/ ) const override
         {
-            m.place_loot( group, chance.get(), x.val, y.val, x.valmax, y.valmax, ammo.get(), magazine.get() );
+            m.place_loot( group.empty() ? name : group, chance.get(), x.val, y.val, x.valmax, y.valmax, ammo.get(), magazine.get() );
         }
 
     private:
         const std::string group;
+        const std::string name;
         const jmapgen_int chance;
         const jmapgen_int ammo;
         const jmapgen_int magazine;
@@ -10651,7 +10657,7 @@ int map::place_items(items_location loc, int chance, int x1, int y1,
     return item_num;
 }
 
-int map::place_loot( std::string group, int chance, int x1, int y1, int x2, int y2, int ammo, int magazine, int turn )
+int map::place_loot( std::string id, int chance, int x1, int y1, int x2, int y2, int ammo, int magazine, int turn )
 {
     if( chance > 100 || chance <= 0 ) {
         debugmsg( "map::place_loot() called with an invalid chance (%d)", chance );
@@ -10666,18 +10672,26 @@ int map::place_loot( std::string group, int chance, int x1, int y1, int x2, int 
         return 0;
     }
 
-    if( !item_group::group_is_defined( group ) ) {
+    bool is_group = item_group::group_is_defined( id );
+
+    // check either found a matching item_group or an item with this id
+    if( !is_group && !item_controller->has_template( id ) ) {
         const point omt = overmapbuffer::sm_to_omt_copy( get_abs_sub().x, get_abs_sub().y );
         const oter_id &oid = overmap_buffer.ter( omt.x, omt.y, get_abs_sub().z );
-        debugmsg( "place_items: invalid item group '%s', om_terrain = '%s' (%s)",
-                  group.c_str(), oid.t().id.c_str(), oid.t().id_mapgen.c_str() );
+        debugmsg( "place_loot: invalid item or group '%s', om_terrain = '%s' (%s)",
+                  id.c_str(), oid.t().id.c_str(), oid.t().id_mapgen.c_str() );
         return 0;
     }
 
     if( rng( 0, 99 ) < chance * ACTIVE_WORLD_OPTIONS[ "ITEM_SPAWNRATE" ] ) {
-        auto items = item_group::items_from( group, turn >= 0 ? turn : int( calendar::turn ) );
+        std::vector<item> spawn;
+        if( is_group ) {
+            spawn = item_group::items_from( id, turn >= 0 ? turn : int( calendar::turn ) );
+        } else {
+            spawn.emplace_back( id, turn >= 0 ? turn : int( calendar::turn ) );
+        }
 
-        for( auto &e: items ) {
+        for( auto &e: spawn ) {
             bool spawn_ammo = rng( 0, 99 ) < ammo;
             bool spawn_mags = rng( 0, 99 ) < magazine || spawn_ammo;
 
@@ -10696,7 +10710,7 @@ int map::place_loot( std::string group, int chance, int x1, int y1, int x2, int 
             }
         }
 
-        return spawn_items( tripoint( rng( x1, x2 ), rng( y1, y2 ), abs_sub.z ), items ).size();
+        return spawn_items( tripoint( rng( x1, x2 ), rng( y1, y2 ), abs_sub.z ), spawn ).size();
     }
     return 0;
 }
