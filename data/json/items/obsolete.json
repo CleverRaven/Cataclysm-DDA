@@ -216,5 +216,18 @@
     "mod_targets" : ["shotgun", "smg", "rifle", "pistol"],
     "volume" : 2,
     "price" : 7200
+  },
+  {
+    "type": "GENERIC",
+    "id": "music_cd",
+    "symbol": "?",
+    "color": "white",
+    "name": "music CD",
+    "description": "A CD with many hit songs burned to it.",
+    "price": 250,
+    "material": "plastic",
+    "weight": 15,
+    "volume": 0,
+    "to_hit": -2
   }
 ]

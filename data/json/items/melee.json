@@ -3370,19 +3370,6 @@
     "revert_to": "null",
     "category" : "weapons"
   },{
-      "type":"GENERIC",
-      "id":"music_cd",
-      "symbol":"?",
-      "color":"white",
-      "name":"music CD",
-      "description":"A CD with many hit songs burned to it.",
-      "price":250,
-      "material":"plastic",
-      "weight":15,
-      "volume":0,
-      "bashing":-2,
-      "to_hit":-2
-  },{
     "id": "l_HFPack",
     "type": "GENERIC",
     "symbol": ")",
