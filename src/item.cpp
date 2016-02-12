@@ -565,6 +565,32 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
 
         insert_separation_line();
 
+        // Display any minimal stat or skill requirements for the item
+        std::vector<std::string> req;
+        if( type->min_str ) {
+            req.push_back( string_format( "%s %d", _( "strength" ), type->min_str ) );
+        }
+        if( type->min_dex ) {
+            req.push_back( string_format( "%s %d", _( "dexterity" ), type->min_dex ) );
+        }
+        if( type->min_int ) {
+            req.push_back( string_format( "%s %d", _( "intelligence" ), type->min_int ) );
+        }
+        if( type->min_per ) {
+            req.push_back( string_format( "%s %d", _( "perception" ), type->min_per ) );
+        }
+        for( const auto &sk : type->min_skills ) {
+            req.push_back( string_format( "%s %d", sk.first.obj().name().c_str(), sk.second ) );
+        }
+        if( !req.empty() ) {
+            std::ostringstream tmp;
+            std::copy( req.begin(), req.end() - 1, std::ostream_iterator<std::string>( tmp, ", " ) );
+            tmp << req.back();
+            info.emplace_back( "BASE", _("<bold>Minimum requirements:</bold>") );
+            info.emplace_back( "BASE", tmp.str() );
+            insert_separation_line();
+        }
+
         if( made_of().size() > 0 ) {
             std::string material_list;
             bool made_of_something = false;
