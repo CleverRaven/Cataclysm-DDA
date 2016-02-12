@@ -1124,8 +1124,12 @@ public:
         std::vector<item *> gunmods();
         std::vector<const item *> gunmods() const;
 
-        /** Checks if mod can be applied to this item considering any current state (jammed, loaded etc.) */
-        bool gunmod_compatible( const item& mod, bool alert = true ) const;
+        /*
+         * Checks if mod can be applied to this item considering any current state (jammed, loaded etc.)
+         * @param alert whether to display message describing reason for any incompatibility
+         * @param effects whether temporary efects (jammed, loaded etc) are considered when checking
+         */
+        bool gunmod_compatible( const item& mod, bool alert = true, bool effects = true ) const;
 
         /**
          * Burst size (see ranged.cpp), includes effects from installed gunmods.
