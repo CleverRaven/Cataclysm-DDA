@@ -83,8 +83,10 @@
     "id" : "mags_pistol_common",
     "//" : "Factory specification pistol magazines commonly owned by citizens.",
     "items": [
-      ["glockmag", 20],
-      ["m1911mag", 10]
+      ["glockmag", 50],
+      ["m1911mag", 25],
+      ["mosquitomag", 10],
+      ["sw22mag", 10]
     ]  	
   },
   {
@@ -92,10 +94,13 @@
     "id" : "mags_pistol_rare",
     "//" : "Aftermarket or otherwise uncommon pistol magazines excluding milspec.",
     "items": [
-      ["fn57mag", 20],
-      ["glockbigmag", 15],
-      ["m1911bigmag", 10],
-      ["m9bigmag", 5]
+      ["deaglemag", 40],
+      ["fn57mag", 80],
+      ["glockbigmag", 60],
+      ["m1911bigmag", 40],
+      ["m9bigmag", 20],
+      ["sigp230mag", 40],
+      ["ppkmag", 5]
     ]
   },
   {
@@ -130,6 +135,7 @@
     "id" : "mags_rifle_common",
     "//" : "Factory specification rifle magazines commonly owned by citizens.",
     "items": [
+      ["ruger1022mag", 50],
       ["stanag10", 50],
       ["stanag30", 10]
     ]
@@ -141,7 +147,8 @@
     "items": [
       ["akmbigmag", 5],
       ["akmmag", 25],
-      ["m1918bigmag", 40]
+      ["m1918bigmag", 40],
+      ["ruger1022bigmag", 70]
     ]
   },
   {
