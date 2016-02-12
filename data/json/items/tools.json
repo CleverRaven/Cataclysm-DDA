@@ -10907,7 +10907,7 @@
     "ammo": "NULL",
     "revert_to": "null",
     "use_action": "CROWBAR",
-    "qualities": [["HAMMER", 2], ["HAMMER_FINE", 1], ["PRY", 2]]
+    "qualities": [["HAMMER", 2], ["PRY", 1], ["HAMMER_FINE", 1], ["PRY", 2]]
   },
   {
     "id": "l-stick",
