@@ -1514,3 +1514,57 @@ std::string Character::get_name() const
 {
     return name;
 }
+
+nc_color Character::symbol_color() const
+{
+    nc_color basic = basic_symbol_color();
+    const auto &fields = g->m.field_at( pos() );
+    bool has_fire = false;
+    bool has_acid = false;
+    bool has_elec = false;
+    bool has_fume = false;
+    for( const auto &field : fields ) {
+        switch( field.first ) {
+            case fd_incendiary:
+            case fd_fire:
+                has_fire = true;
+                break;
+            case fd_electricity:
+                has_elec = true;
+                break;
+            case fd_acid:
+                has_acid = true;
+                break;
+            case fd_relax_gas:
+            case fd_fungal_haze:
+            case fd_fungicidal_gas:
+            case fd_toxic_gas:
+            case fd_tear_gas:
+            case fd_nuke_gas:
+            case fd_smoke:
+                has_fume = true;
+                break;
+            default:
+                continue;
+        }
+    }
+
+    // Priority: electricity, fire, acid, gases
+    // Can't just return in the switch, because field order is alphabetic
+    if( has_elec ) {
+        return hilite( basic );
+    } else if( has_fire ) {
+        return red_background( basic );
+    } else if( has_acid ) {
+        return green_background( basic );
+    } else if( has_fume ) {
+        return white_background( basic );
+    }
+
+    if( in_sleep_state() ) {
+        return hilite( basic );
+    }
+
+    return basic;
+}
+

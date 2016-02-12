@@ -427,6 +427,9 @@ class Character : public Creature, public visitable<Character>
         /** Returns true if the player has some form of night vision */
         bool has_nv();
 
+        /** Color's character's tile's background */
+        nc_color symbol_color() const override;
+
         // In newcharacter.cpp
         void empty_skills();
         /** Returns a random name from NAMES_* */

@@ -82,6 +82,7 @@ const efftype_id effect_bleed( "bleed" );
 const efftype_id effect_blind( "blind" );
 const efftype_id effect_boomered( "boomered" );
 const efftype_id effect_controlled( "controlled" );
+const efftype_id effect_corroding( "corroding" );
 const efftype_id effect_countdown( "countdown" );
 const efftype_id effect_darkness( "darkness" );
 const efftype_id effect_dazed( "dazed" );
@@ -438,6 +439,8 @@ bool mattack::acid_barf(monster *z)
     }
 
     z->moves -= 80;
+    // Make sure it happens before uncanny dodge
+    g->m.add_field( target->pos(), fd_acid, 1, 0 );
     bool uncanny = target->uncanny_dodge();
     // Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
     if( uncanny || dodge_check(z, target) ){
@@ -456,9 +459,9 @@ bool mattack::acid_barf(monster *z)
     body_part hit = target->get_random_body_part();
     int dam = rng(10, 15);
     dam = target->deal_damage( z, hit, damage_instance( DT_ACID, dam ) ).total_damage();
-    g->m.add_field( target->pos(), fd_acid, 1, 0 );
+    bool affected = target->add_env_effect( effect_corroding, hit, 6, dam / 2 + 5, hit );
 
-    if( dam > 0 ) {
+    if( dam > 0 || affected ) {
         auto msg_type = target == &g->u ? m_bad : m_info;
         //~ 1$s is monster name, 2$s bodypart in accusative
         target->add_msg_player_or_npc( msg_type,
@@ -503,7 +506,7 @@ bool mattack::acid_accurate(monster *z)
     proj.range = 12;
     proj.proj_effects.insert( "BLINDS_EYES" );
     proj.impact.add_damage( DT_ACID, rng( 5, 10 ) );
-    z->projectile_attack( proj, target->pos(), rng( 150, 1200 ) );
+    z->projectile_attack( proj, target->pos(), rng( 0, 900 ) );
 
     return true;
 }

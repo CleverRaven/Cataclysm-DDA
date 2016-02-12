@@ -1373,25 +1373,9 @@ void Creature::draw( WINDOW *w, const tripoint &p, bool inverted ) const
     }
 }
 
-nc_color Creature::basic_symbol_color() const
-{
-    return c_ltred;
-}
-
-nc_color Creature::symbol_color() const
-{
-    return basic_symbol_color();
-}
-
 bool Creature::is_symbol_highlighted() const
 {
     return false;
-}
-
-const std::string &Creature::symbol() const
-{
-    static const std::string default_symbol("?");
-    return default_symbol;
 }
 
 body_part Creature::select_body_part(Creature *source, int hit_roll) const
