@@ -968,6 +968,18 @@ private:
 
     mutable bool pivot_dirty;                  // if true, pivot_cache needs to be recalculated
     mutable point pivot_cache;                 // cached pivot point
+
+    void invalidate_mass();
+    void refresh_mass() const;
+    void calc_mass_center( bool precalc ) const;
+
+    mutable bool mass_dirty                     = true;
+    mutable bool mass_center_precalc_dirty      = true;
+    mutable bool mass_center_no_precalc_dirty   = true;
+
+    mutable int mass_cache;
+    mutable point mass_center_precalc;
+    mutable point mass_center_no_precalc;
 };
 
 #endif

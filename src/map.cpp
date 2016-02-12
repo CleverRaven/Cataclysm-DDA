@@ -605,13 +605,34 @@ bool map::vehicle_falling( vehicle &veh )
     return true;
 }
 
+float map::tile_traction( const tripoint &p ) const
+{
+    const ter_t ter = ter_at( p );
+    if( ter.has_flag( TFLAG_DEEP_WATER ) ) {
+        return -1.0f;
+    }
+
+    if( ter.has_flag( TFLAG_NO_FLOOR ) ) {
+        return 0.0f;
+    }
+
+    float traction = ter.has_flag( "ROAD" ) ? 1.0f : 0.8f;
+    if( ter.has_flag( TFLAG_SWIMMABLE ) ) {
+        traction -= 0.4f;
+    } else if( !ter.has_flag( "FLAT" ) ) {
+        traction -= 0.1f;
+    }
+
+    if( ter.movecost != 2 ) {
+        traction = traction * 2 / ter.movecost;
+    }
+
+    return traction;
+}
+
 float map::vehicle_traction( vehicle &veh ) const
 {
     const tripoint pt = veh.global_pos3();
-    // TODO: Remove this and allow amphibious vehicles
-    if( !veh.floating.empty() ) {
-        return vehicle_buoyancy( veh );
-    }
 
     // Sink in water?
     const auto &wheel_indices = veh.wheelcache;
@@ -659,7 +680,11 @@ float map::vehicle_traction( vehicle &veh ) const
 
     // Submerged wheels threshold is 2/3.
     if( num_wheels > 0 && (float)submerged_wheels / num_wheels > .666) {
-        return -1;
+        if( !veh.floating.empty() ) {
+            return vehicle_buoyancy( veh );
+        } else {
+            return -1;
+        }
     }
 
     if( total_wheel_area <= 0.01f ) {
