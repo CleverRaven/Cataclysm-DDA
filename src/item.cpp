@@ -40,6 +40,7 @@
 #include <set>
 #include <array>
 #include <tuple>
+#include <iterator>
 
 static const std::string GUN_MODE_VAR_NAME( "item::mode" );
 static const std::string CHARGER_GUN_FLAG_NAME( "CHARGE" );
