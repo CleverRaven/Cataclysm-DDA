@@ -3867,8 +3867,8 @@
         "material" : ["plastic", "cotton"],
         "volume" : 7,
         "warmth" : 10,
-        "environmental_protection" : 1,
-        "encumbrance" : 20,
+        "environmental_protection" : 3,
+        "encumbrance" : 15,
         "flags" : ["VARSIZE", "POCKETS", "WATERPROOF", "RAINPROOF", "HOOD", "OUTER"],
         "coverage" : 95,
         "material_thickness" : 2

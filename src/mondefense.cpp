@@ -60,11 +60,11 @@ void mdefense::acidsplash( monster &m, Creature *const source,
         return; //Less likely for a projectile to deliver enough force
     }
 
-    size_t num_drops = rng( 2, 4 );
+    size_t num_drops = rng( 4, 6 );
     player const *const foe = dynamic_cast<player *>( source );
     if( proj == nullptr && foe != nullptr ) {
         if( foe->weapon.is_cutting_weapon() ) {
-            num_drops += rng( 1, 2 );
+            num_drops += rng( 3, 4 );
         }
 
         if( foe->unarmed_attack() ) {
@@ -89,16 +89,15 @@ void mdefense::acidsplash( monster &m, Creature *const source,
     auto pts = closest_tripoints_first( 1, initial_target );
     pts.erase( std::remove( pts.begin(), pts.end(), m.pos() ) );
 
-    const tripoint &target = random_entry( pts );
-
     projectile prj;
-    prj.speed = 8;
-    prj.range = 3;
+    prj.speed = 10;
+    prj.range = 4;
     prj.proj_effects.insert( "DRAW_AS_LINE" );
     prj.proj_effects.insert( "NO_DAMAGE_SCALING" );
     prj.impact.add_damage( DT_ACID, rng( 1, 3 ) );
     for( size_t i = 0; i < num_drops; i++ ) {
-        m.projectile_attack( prj, target, 3000 );
+        const tripoint &target = random_entry( pts );
+        m.projectile_attack( prj, target, 1200 );
     }
 
     if( g->u.sees( m.pos() ) ) {
