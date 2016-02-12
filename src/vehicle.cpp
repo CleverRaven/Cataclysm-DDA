@@ -1396,12 +1396,7 @@ bool vehicle::fold_up() {
     }
 
     // create a folding [non]bicycle item
-    item bicycle;
-    if (can_be_folded) {
-        bicycle.make( "generic_folded_vehicle" );
-    } else {
-        bicycle.make( "folding_bicycle" );
-    }
+    item bicycle( can_be_folded ? "generic_folded_vehicle" : "folding_bicycle", calendar::turn );
 
     // Drop stuff in containers on ground
     for (size_t p = 0; p < parts.size(); p++) {

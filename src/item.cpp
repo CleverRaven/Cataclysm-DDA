@@ -199,24 +199,11 @@ item::item(JsonObject &jo)
     deserialize(jo);
 }
 
-item::~item()
-{
-}
-
-void item::make( const std::string new_type, bool scrub )
+item& item::convert( const itype_id& new_type )
 {
     type = find_type( new_type );
-    contents.clear();
-
-    if (scrub) {
-        components.clear();
-        charges = -1;
-        bday = 0;
-        name = "";
-        curammo = NULL;
-    }
+    return *this;
 }
-
 
 bool item::is_null() const
 {
@@ -5300,11 +5287,11 @@ bool item::process_litcig( player *carrier, const tripoint &pos )
             carrier->add_msg_if_player( m_neutral, _( "You finish your %s." ), tname().c_str() );
         }
         if( type->id == "cig_lit" ) {
-            make( "cig_butt" );
+            convert( "cig_butt" );
         } else if( type->id == "cigar_lit" ) {
-            make( "cigar_butt" );
+            convert( "cigar_butt" );
         } else { // joint
-            make( "joint_roach" );
+            convert( "joint_roach" );
             if( carrier != nullptr ) {
                 carrier->add_effect( effect_weed_high, 10 ); // one last puff
                 g->m.add_field( tripoint( pos.x + rng( -1, 1 ), pos.y + rng( -1, 1 ), pos.z ), fd_weedsmoke, 2, 0 );
@@ -5374,7 +5361,7 @@ bool item::process_wet( player * /*carrier*/, const tripoint & /*pos*/ )
     if( item_counter == 0 ) {
         const it_tool *tool = dynamic_cast<const it_tool *>( type );
         if( tool != nullptr && tool->revert_to != "null" ) {
-            make( tool->revert_to );
+            convert( tool->revert_to );
         }
         item_tags.erase( "WET" );
         active = false;
@@ -5428,7 +5415,7 @@ bool item::process_tool( player *carrier, const tripoint &pos )
         if( tmp->revert_to == "null" ) {
             return true; // reverts to nothing -> destroy the item
         }
-        make( tmp->revert_to );
+        convert( tmp->revert_to );
         active = false;
     }
     // Keep the item

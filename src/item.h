@@ -109,10 +109,17 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
         item( const item & ) = default;
         item &operator=( item && ) = default;
         item &operator=( const item & ) = default;
-        virtual ~item();
+        virtual ~item() = default;
 
         item( const std::string new_type, int turn, bool rand = true );
         item( JsonObject &jo );
+
+        /**
+         * Filter converting this instance to another type preserving all other aspects
+         * @param new_type the type id to convert to
+         * @return same instance to allow method chaining
+         */
+        item& convert( const itype_id& new_type );
 
         /**
          * Make a corpse of the given monster type.
@@ -159,8 +166,6 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
          * @param pos The location of the item (see REVIVE_SPECIAL flag).
          */
         bool ready_to_revive( const tripoint &pos ) const;
-
- void make( const std::string new_type, bool scrub = false );
 
     /**
      * Returns the default color of the item (e.g. @ref itype::color).

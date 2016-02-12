@@ -815,7 +815,7 @@ classes = {
             { name = "liquid_units", rval = "int", args = { "int" } },
             { name = "made_of", rval = "bool", args = { "phase_id" } },
             { name = "made_of", rval = "bool", args = { "string" } },
-            { name = "make", rval = nil, args = { "string" } },
+            { name = "convert", rval = item, args = { "string" } },
             { name = "make_corpse", rval = nil, args = { "mtype_id", "int" } },
             { name = "make_corpse", rval = nil, args = { "mtype_id", "int", "string" } },
             { name = "make_corpse", rval = nil, args = { } },
