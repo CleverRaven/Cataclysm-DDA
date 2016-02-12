@@ -610,6 +610,8 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
             is_locked = true;
         }
     }
+
+    invalidate_mass();
 }
 /**
  * Smashes up a vehicle that has already been placed; used for generating
@@ -3083,19 +3085,22 @@ int vehicle::refill (const itype_id & ftype, int amount)
             {
                 parts[p].amount += amount;
                 return 0;
-            }
-            else
-            {
+            } else {
                 parts[p].amount += need;
                 amount -= need;
             }
         }
     }
+
+    if( ftype != fuel_type_battery && ftype != fuel_type_plasma ) {
+        invalidate_mass();
+    }
+
     return amount;
 }
 
 int vehicle::drain (const itype_id & ftype, int amount) {
-    if(ftype == "battery") {
+    if( ftype == fuel_type_battery ) {
         // Batteries get special handling to take advantage of jumper
         // cables -- discharge_battery knows how to recurse properly
         // (including taking cable power loss into account).
@@ -3121,6 +3126,10 @@ int vehicle::drain (const itype_id & ftype, int amount) {
                 tank.amount = 0;
             }
         }
+    }
+
+    if( ftype != fuel_type_battery && ftype != fuel_type_plasma ) {
+        invalidate_mass();
     }
 
     return drained;
@@ -6915,10 +6924,6 @@ void vehicle::refresh_mass() const
 
 void vehicle::calc_mass_center( bool use_precalc ) const
 {
-    // Need to hardcode those two, because they have no weight
-    const itype_id battery_string( "battery" );
-    const itype_id hydrogen_string( "plasma" );
-
     float xf = 0.0f;
     float yf = 0.0f;
     int m_total = 0;
@@ -6927,22 +6932,25 @@ void vehicle::calc_mass_center( bool use_precalc ) const
         if( parts[i].removed ) {
             continue;
         }
+
         int m_part = 0;
-        m_part += item::find_type( part_info(i).item )->weight;
+        const auto &pi = part_info( i );
+        m_part += item::find_type( pi.item )->weight;
         for( const auto &j : get_items( i ) ) {
             //m_part += j.type->weight;
             // Change back to the above if it runs too slowly
             m_part += j.weight();
         }
-        if( part_flag(i, VPFLAG_BOARDABLE) && parts[i].has_flag( vehicle_part::passenger_flag ) ) {
+        
+        if( pi.has_flag( VPFLAG_BOARDABLE ) && parts[i].has_flag( vehicle_part::passenger_flag ) ) {
             const player *p = get_passenger( i );
             // Sometimes flag is wrongly set, don't crash!
             m_part += p != nullptr ? p->get_weight() : 0;
         }
 
-        if( part_flag( i, VPFLAG_FUEL_TANK ) && parts[i].amount > 0 &&
-            parts[i].info().fuel_type != battery_string && parts[i].info().fuel_type != hydrogen_string ) {
-            m_part += item::find_type( parts[i].info().fuel_type )->weight * parts[i].amount;
+        if( pi.has_flag( VPFLAG_FUEL_TANK ) && parts[i].amount > 0 &&
+            pi.fuel_type != fuel_type_battery && pi.fuel_type != fuel_type_plasma ) {
+            m_part += item::find_type( pi.fuel_type )->weight * parts[i].amount;
         }
 
         if( use_precalc ) {

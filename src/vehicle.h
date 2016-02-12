@@ -579,6 +579,11 @@ public:
      */
     int discharge_battery (int amount, bool recurse = true);
 
+    /**
+     * Mark mass caches and pivot cache as dirty
+     */
+    void invalidate_mass();
+
     // get the total mass of vehicle, including cargo and passengers
     int total_mass () const;
 
@@ -969,7 +974,6 @@ private:
     mutable bool pivot_dirty;                  // if true, pivot_cache needs to be recalculated
     mutable point pivot_cache;                 // cached pivot point
 
-    void invalidate_mass();
     void refresh_mass() const;
     void calc_mass_center( bool precalc ) const;
 

@@ -640,7 +640,7 @@ float map::vehicle_traction( vehicle &veh ) const
     if( num_wheels == 0 ) {
         // TODO: Assume it is digging in dirt
         // TODO: Return something that could be reused for dragging
-        return 1.0f;
+        return std::min( 0.0f, vehicle_buoyancy( veh ) );
     }
 
     int submerged_wheels = 0;
@@ -909,6 +909,7 @@ int map::shake_vehicle( vehicle &veh, const int velocity_before, const int direc
             debugmsg( "throw passenger: passenger at %d,%d,%d, part at %d,%d,%d",
                 psg->posx(), psg->posy(), psg->posz(), part_pos.x, part_pos.y, part_pos.z );
             veh.parts[ps].remove_flag( vehicle_part::passenger_flag );
+            veh.invalidate_mass();
             continue;
         }
 
@@ -1251,6 +1252,7 @@ void map::board_vehicle( const tripoint &pos, player *p )
     }
     veh->parts[seat_part].set_flag(vehicle_part::passenger_flag);
     veh->parts[seat_part].passenger_id = p->getID();
+    veh->invalidate_mass();
 
     p->setpos( pos );
     p->in_vehicle = true;
@@ -1298,6 +1300,7 @@ void map::unboard_vehicle( const tripoint &p )
     passenger->controlling_vehicle = false;
     veh->parts[seat_part].remove_flag(vehicle_part::passenger_flag);
     veh->skidding = true;
+    veh->invalidate_mass();
 }
 
 void map::displace_vehicle( tripoint &p, const tripoint &dp )
@@ -1378,6 +1381,7 @@ void map::displace_vehicle( tripoint &p, const tripoint &dp )
                 part_pos.x, part_pos.y, part_pos.z,
                 g->u.posx(), g->u.posy(), g->u.posz() );
             veh->parts[prt].remove_flag(vehicle_part::passenger_flag);
+            veh->invalidate_mass();
             continue;
         }
 
@@ -1387,6 +1391,7 @@ void map::displace_vehicle( tripoint &p, const tripoint &dp )
                 prt,
                 part_pos.x, part_pos.y, part_pos.z );
             veh->parts[prt].remove_flag(vehicle_part::passenger_flag);
+            veh->invalidate_mass();
             continue;
         }
 
