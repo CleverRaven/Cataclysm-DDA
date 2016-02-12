@@ -568,16 +568,16 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
 
         // Display any minimal stat or skill requirements for the item
         std::vector<std::string> req;
-        if( type->min_str ) {
+        if( type->min_str > 0 ) {
             req.push_back( string_format( "%s %d", _( "strength" ), type->min_str ) );
         }
-        if( type->min_dex ) {
+        if( type->min_dex > 0 ) {
             req.push_back( string_format( "%s %d", _( "dexterity" ), type->min_dex ) );
         }
-        if( type->min_int ) {
+        if( type->min_int > 0 ) {
             req.push_back( string_format( "%s %d", _( "intelligence" ), type->min_int ) );
         }
-        if( type->min_per ) {
+        if( type->min_per > 0 ) {
             req.push_back( string_format( "%s %d", _( "perception" ), type->min_per ) );
         }
         for( const auto &sk : type->min_skills ) {
