@@ -3007,6 +3007,15 @@ void vehicle::center_of_mass(int &x, int &y, bool use_precalc) const
     y = pt.y;
 }
 
+const point &vehicle::center_of_mass( bool use_precalc ) const
+{
+    if( use_precalc ? mass_center_precalc_dirty : mass_center_no_precalc_dirty ) {
+        calc_mass_center( use_precalc );
+    }
+
+    return use_precalc ? mass_center_precalc : mass_center_no_precalc;
+}
+
 point vehicle::pivot_displacement() const
 {
     // precalc_mounts always produces a result that puts the pivot point at (0,0).

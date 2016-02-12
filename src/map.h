@@ -488,20 +488,24 @@ public:
     // move water under wheels. true if moved
     bool displace_water( const tripoint &dp );
 
-    // Returns 1.0 on road, 0.0 in air, <0.0 in water
-    float tile_traction( const tripoint &p ) const;
+    // Roughly-multiplicative modifier on vehicle's torque (non-linear)
+    float traction_mult( const tripoint &p ) const;
+    // Roughly-additive modifier on vehicle's velocity (non-linear)
+    float traction_penalty( const tripoint &p ) const;
 
-    // Returns the modifier on wheel area due to bad surface
-    // 1.0 on road, 0.0 in air
-    // <0.0 when the vehicle should be destroyed (sunk in water)
-    // TODO: Add the values between 0.0 and 1.0 for offroading
-    // TODO: Remove the ugly sinking vehicle hack
-    float vehicle_traction( vehicle &veh ) const;
+    /**
+     * The first return value approximates vehicle's ability to turn torque to velocity
+     * and thus is a multiplier (<1.0) on vehicle's effective speed.
+     * The second return value approximates rolling resistance,
+     * and thus is a flat penalty to torque.
+     * Affected by terrain, weather, mass and wheels.
+     */
+    std::pair<float, float> vehicle_traction( const vehicle &veh ) const;
 
-    // Like traction, except for water
-    // TODO: Actually implement (this is a stub)
-    // TODO: Test for it when the vehicle sinks rather than when it has VP_FLOATS
-    float vehicle_buoyancy( vehicle &veh ) const;
+    /**
+     * Like vehicle_traction, but for water rather than land.
+     */
+    std::pair<float, float> vehicle_buoyancy( vehicle &veh ) const;
 
     // Returns if the vehicle should fall down a z-level
     bool vehicle_falling( vehicle &veh );
