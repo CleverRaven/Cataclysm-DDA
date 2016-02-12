@@ -548,6 +548,10 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
             }
         }
 
+        if( !type->rigid ) {
+            info.emplace_back( "BASE", _( "<bold>Rigid</bold>: " ), _( "No (contents increase volume)" ) );
+        }
+
         if( damage_bash() > 0 || damage_cut() > 0 ) {
             info.push_back( iteminfo( "BASE", _( "Bash: " ), "", damage_bash(), true, "", false ) );
             if( has_flag( "SPEAR" ) ) {
@@ -1148,9 +1152,6 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         temp1.str( "" );
         temp1 << _( "This container " );
 
-        if( c.rigid ) {
-            temp1 << _( "is <info>rigid</info>, " );
-        }
         if( c.seals ) {
             temp1 << _( "can be <info>resealed</info>, " );
         }
@@ -2376,17 +2377,11 @@ int item::volume( bool integral ) const
         ret = ceil( ret * double( charges ) / type->stack_size );
     }
 
-    // Non-rigid containers add the volume of the content
-    if( type->container && !type->container->rigid ) {
+    // Non-rigid items add the volume of the content
+    if( !type->rigid ) {
         for( auto &elem : contents ) {
             ret += elem.volume();
         }
-    }
-
-    // Non-rigid magazines add volume proportional to the stack size of any loaded ammo
-    if( is_magazine() && !type->magazine->rigid && ammo_remaining() > 0 && ammo_data() ) {
-        ret += ammo_remaining() / ammo_data()->stack_size;
-        ret += ammo_remaining() % ammo_data()->stack_size != 0;
     }
 
     // Some magazines sit (partly) flush with the item so add less extra volume
@@ -2731,10 +2726,11 @@ int item::get_encumber() const
     // it_armor::encumber is signed char
     int encumber = static_cast<int>( t->encumber );
 
-    // Ammo belts add encumbrance proportional to their length
-    if( is_magazine() && !type->magazine->rigid && ammo_data() ) {
-        encumber += ammo_remaining() / ammo_data()->stack_size;
-        encumber += ammo_remaining() % ammo_data()->stack_size != 0;
+    // Non-rigid items add additional encumbrance proportional to their volume
+    if( !type->rigid ) {
+        for( const auto &e : contents ) {
+            encumber += e.volume();
+        }
     }
 
     // Fit checked before changes, fitting shouldn't reduce penalties from patching.

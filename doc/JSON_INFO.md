@@ -336,6 +336,7 @@ See MONSTERS.md
 "weight" : 350,                   // Weight of the item in grams
 "volume" : 1,                     // Volume, measured in 1/4 liters
 "integral_volume" : 0,            // Volume added to base item when item is integrated into another (eg. a gunmod integrated to a gun)
+"rigid": false,                   // For non-rigid items volume (and for worn items encumbrance) increases proportional to contents
 "price" : 100,                    // Used when bartering with NPCs
 "material" : ["COTTON"],          // Material types, can be as many as you want.  See materials.json for possible options
 "cutting" : 0,                    // (Optional, default = 0) Cutting damage caused by using it as a melee weapon
@@ -375,7 +376,6 @@ See MONSTERS.md
 "count" : 0,          // Default amount of ammo contained by a magazine (set this for ammo belts)
 "reliability" : 8,    // How reliable this this magazine on a range of 0 to 10? (see GAME_BALANCE.md)
 "reload_time" : 100,  // How long it takes to load each unit of ammo into the magazine
-"rigid" : true        // Volume increases proportional to contained ammo for non-rigid magazines (set this for ammo belts)
 "linkage" : "ammolink"// If set one linkage (of given type) is dropped for each unit of ammo consumed (set for disintegrating ammo belts)
 ```
 
@@ -483,7 +483,6 @@ Never use `yellow` and `red`, those colors are reserved for sounds and infrared 
 "contains": 200,      // How much volume this container can hold
 "seals": false,       // Can be resealed, this is a required for it to be used for liquids. (optional, default: false)
 "watertight": false,  // Can hold liquids, this is a required for it to be used for liquids. (optional, default: false)
-"rigid": false,       // Volume of the item does not include volume of the content. Without that flag the volume of the contents are added to the volume of the container. (optional, default: false)
 "preserves": false,   // Contents do not spoil. (optional, default: false)
 ```
 Alternately, every item can be used as container:
