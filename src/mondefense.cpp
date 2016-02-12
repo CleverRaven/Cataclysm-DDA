@@ -48,19 +48,6 @@ void mdefense::zapback( monster &m, Creature *const source,
     source->check_dead_state();
 }
 
-static int sign( int arg )
-{
-    if( arg > 0 ) {
-        return 1;
-    }
-
-    if( arg < 0 ) {
-        return -1;
-    }
-
-    return 0;
-}
-
 void mdefense::acidsplash( monster &m, Creature *const source,
                            dealt_projectile_attack const *const proj )
 {
@@ -96,28 +83,26 @@ void mdefense::acidsplash( monster &m, Creature *const source,
         }
     }
 
-    const int sx = source == nullptr ? m.posx() : source->posx();
-    const int sy = source == nullptr ? m.posy() : source->posy();
-    const int dx = sign( sx - m.posx() );
-    const int dy = sign( sy - m.posy() );
-    bool on_u = false;
+    tripoint initial_target = source == nullptr ? m.pos() : source->pos();
+
+    // Don't splatter directly on the `m`, that doesn't work well
+    auto pts = closest_tripoints_first( 1, initial_target );
+    pts.erase( std::remove( pts.begin(), pts.end(), m.pos() ) );
+
+    const tripoint &target = random_entry( pts );
+
+    projectile prj;
+    prj.speed = 8;
+    prj.range = 3;
+    prj.proj_effects.insert( "DRAW_AS_LINE" );
+    prj.proj_effects.insert( "NO_DAMAGE_SCALING" );
+    prj.impact.add_damage( DT_ACID, rng( 1, 3 ) );
     for( size_t i = 0; i < num_drops; i++ ) {
-        const int mul = one_in( 2 ) ? 2 : 1;
-        tripoint dest( m.posx() + ( dx * mul ) + rng( -1, 1 ),
-                       m.posy() + ( dy * mul ) + rng( -1, 1 ),
-                       m.posz() );
-        g->m.add_field( dest, fd_acid, 1, 0 );
-        if( !on_u && dest == g->u.pos() ) {
-            on_u = true;
-        }
+        m.projectile_attack( prj, target, 3000 );
     }
 
     if( g->u.sees( m.pos() ) ) {
         add_msg( m_warning, _( "Acid sprays out of %s as it is hit!" ),
                  m.disp_name().c_str() );
-    }
-
-    if( on_u ) {
-        add_msg( m_bad, _( "Some acid lands on you!" ) );
     }
 }

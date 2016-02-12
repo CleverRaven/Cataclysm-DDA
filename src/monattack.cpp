@@ -457,18 +457,19 @@ bool mattack::acid_barf(monster *z)
     }
 
     body_part hit = target->get_random_body_part();
-    int dam = rng(10, 15);
+    int dam = rng(5, 12);
     dam = target->deal_damage( z, hit, damage_instance( DT_ACID, dam ) ).total_damage();
-    bool affected = target->add_env_effect( effect_corroding, hit, 6, dam / 2 + 5, hit );
+    target->add_env_effect( effect_corroding, hit, 5, dam / 2 + 5, hit );
 
-    if( dam > 0 || affected ) {
+    if( dam > 0 ) {
         auto msg_type = target == &g->u ? m_bad : m_info;
         //~ 1$s is monster name, 2$s bodypart in accusative
         target->add_msg_player_or_npc( msg_type,
-            _("The %1$s barfs acid on your %2$s!"),
-            _("The %1$s barfs acid on <npcname>'s %2$s!"),
+            _("The %1$s barfs acid on your %2$s for %3$d damage!"),
+            _("The %1$s barfs acid on <npcname>'s %2$s for %3$d damage!"),
             z->name().c_str(),
-            body_part_name_accusative( hit ).c_str() );
+            body_part_name_accusative( hit ).c_str(),
+            dam );
 
         if( hit == bp_eyes ) {
             target->add_env_effect( effect_blind, bp_eyes, 3, 10 );
@@ -493,9 +494,12 @@ bool mattack::acid_accurate(monster *z)
     }
 
     Creature *target = z->attack_target();
-    if( target == nullptr ||
-        rl_dist( z->pos(), target->pos() ) > 12 ||
-        !z->sees( *target ) ) {
+    if( target == nullptr ) {
+        return false;
+    }
+
+    const int range = rl_dist( z->pos(), target->pos() );
+    if( range > 10 || range < 2 || !z->sees( *target ) ) {
         return false;
     }
 
@@ -503,10 +507,12 @@ bool mattack::acid_accurate(monster *z)
 
     projectile proj;
     proj.speed = 10;
-    proj.range = 12;
+    proj.range = 10;
     proj.proj_effects.insert( "BLINDS_EYES" );
-    proj.impact.add_damage( DT_ACID, rng( 5, 10 ) );
-    z->projectile_attack( proj, target->pos(), rng( 0, 900 ) );
+    proj.proj_effects.insert( "NO_DAMAGE_SCALING" );
+    proj.impact.add_damage( DT_ACID, rng( 3, 5 ) );
+    // Make it arbitrarily less accurate at close ranges
+    z->projectile_attack( proj, target->pos(), rng( 0, 8000 / range ) );
 
     return true;
 }

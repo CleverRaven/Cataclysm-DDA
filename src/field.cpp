@@ -1778,11 +1778,13 @@ void map::player_in_field( player &u )
                 u.add_env_effect( effect_corroding, bp, 2 + density, rng( 2, 1 + density ), bp, false, 0 );
             };
 
-            const bool on_ground = u.is_on_ground();
+            // 1-3 at density, 1-4 at 2, 1-5 at 3
             burn_part( bp_foot_l, 2 );
             burn_part( bp_foot_r, 2 );
-            burn_part( bp_leg_l,  1 + density );
-            burn_part( bp_leg_r,  1 + density );
+            // 1 dmg at 1 density, 1-3 at 2, 1-5 at 3
+            burn_part( bp_leg_l,  density - 1 );
+            burn_part( bp_leg_r,  density - 1 );
+            const bool on_ground = u.is_on_ground();
             if( on_ground ) {
                 // Before, it would just break the legs and leave the survivor alone
                 burn_part( bp_hand_l, 2 );
