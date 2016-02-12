@@ -423,6 +423,7 @@ class Creature
         virtual void set_throw_resist(int nthrowres);
 
         virtual int weight_capacity() const;
+        virtual int get_weight() const;
 
         int moves, pain;
         bool underwater;

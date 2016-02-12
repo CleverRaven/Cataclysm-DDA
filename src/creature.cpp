@@ -1352,6 +1352,24 @@ int Creature::weight_capacity() const
     return base_carry;
 }
 
+int Creature::get_weight() const
+{
+    switch( get_size() ) {
+        case MS_TINY:
+            return 1000;
+        case MS_SMALL:
+            return 40750;
+        case MS_MEDIUM:
+            return 81500;
+        case MS_LARGE:
+            return 120000;
+        case MS_HUGE:
+            return 200000;
+    }
+
+    return 0;
+}
+
 /*
  * Drawing-related functions
  */

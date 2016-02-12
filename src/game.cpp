@@ -7643,6 +7643,7 @@ bool game::refill_vehicle_part(vehicle &veh, vehicle_part *part, bool test)
         part->amount = max_fuel;
     }
 
+    veh.invalidate_mass();
     if (ftype == "battery") {
         add_msg(_("You recharge %s's battery."), veh.name.c_str());
         if (part->amount == max_fuel) {
