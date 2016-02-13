@@ -3966,8 +3966,7 @@ bool mattack::lunge(monster *z)
     dam = target->deal_damage( z, hit, damage_instance( DT_BASH, dam ) ).total_damage();
     if( dam > 0 ) {
         target->add_msg_if_player(m_bad, _("Your %1$s is battered for %2$d damage!"), body_part_name(hit).c_str(), dam);
-    }
-    else {
+    } else {
         target->add_msg_player_or_npc( _("The %1$s lunges at your %2$s, but glances off your armor!"),
                                     _("The %1$s lunges at <npcname>'s %2$s, but glances off armor!"),
                                     z->name().c_str(),
@@ -4014,8 +4013,7 @@ bool mattack::longswipe(monster *z)
             if( dam > 0 ) {
                 //~ 1$s is bodypart name, 2$d is damage value.
                 target->add_msg_if_player(m_bad, _("Your %1$s is slashed for %2$d damage!"), body_part_name(hit).c_str(), dam);
-            }
-            else {
+            } else {
                 target->add_msg_player_or_npc( _("The %1$s slashes your %2$s, but glances off your armor!"),
                                     _("The %1$s slashes <npcname>'s %2$s, but glances off armor!"),
                                     z->name().c_str(),
@@ -4045,8 +4043,7 @@ bool mattack::longswipe(monster *z)
     if( dam > 0 ) {
         target->add_msg_if_player(m_bad, _("Your throat is slashed for %d damage!"), dam);
         target->add_effect( effect_bleed, 100, hit);
-    }
-    else {
+    } else {
         target->add_msg_player_or_npc( _("The %1$s slashes at your %2$s, but glances off your armor!"),
                                     _("The %1$s slashes at <npcname>'s %2$s, but glances off armor!"),
                                     z->name().c_str(),
