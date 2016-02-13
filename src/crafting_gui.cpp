@@ -631,7 +631,7 @@ int recipe::print_items( WINDOW *w, int ypos, int xpos, nc_color col, int batch 
 void recipe::print_item( WINDOW *w, int ypos, int xpos, nc_color col, const byproduct &bp,
                          int batch ) const
 {
-    item it( bp.result, calendar::turn, false );
+    item it( bp.result, calendar::turn, item::find_type( bp.result )->charges_default() );
     std::string str = string_format( _( "> %d %s" ), ( it.charges > 0 ) ? bp.amount : bp.amount * batch,
                                      it.tname().c_str() );
     if( it.charges > 0 ) {

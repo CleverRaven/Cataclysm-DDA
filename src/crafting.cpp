@@ -556,7 +556,7 @@ void player::make_craft_with_command( const std::string &id_to_make, int batch_s
 }
 
 item recipe::create_result() const {
-    item newit(result, calendar::turn, false);
+    item newit( result, calendar::turn, item::find_type( result )->charges_default() );
     if (contained == true) {
         newit = newit.in_its_container();
     }
@@ -596,7 +596,7 @@ std::vector<item> recipe::create_byproducts(int batch) const
     for(auto &val : byproducts) {
         if( !item::count_by_charges( val.result ) ) {
             for (int i = 0; i < val.amount * batch; i++) {
-                item newit(val.result, calendar::turn, false);
+                item newit( val.result, calendar::turn, item::find_type( val.result )->charges_default() );
                 if (!newit.craft_has_charges()) {
                     newit.charges = 0;
                 }
@@ -607,7 +607,7 @@ std::vector<item> recipe::create_byproducts(int batch) const
             }
         } else {
             for (int i = 0; i < val.amount; i++) {
-                item newit(val.result, calendar::turn, false);
+                item newit( val.result, calendar::turn, item::find_type( val.result )->charges_default() );
                 if (val.charges_mult != 1) {
                     newit.charges *= val.charges_mult;
                 }
