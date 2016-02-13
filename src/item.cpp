@@ -123,16 +123,12 @@ item::item( const std::string new_type, int turn, int qty )
 
     if( type->gun ) {
         for( const auto &mod : type->gun->built_in_mods ){
-            if( type_is_defined( mod ) ) {
-                item temp( mod, turn, qty );
-                temp.item_tags.insert("IRREMOVABLE");
-                contents.push_back( temp );
-            }
+            item temp( mod, turn, qty );
+            temp.item_tags.insert( "IRREMOVABLE" );
+            contents.push_back( temp );
         }
         for( const auto &mod : type->gun->default_mods ) {
-            if( type_is_defined( mod ) ) {
-                contents.emplace_back( mod, turn, qty );
-            }
+            contents.emplace_back( mod, turn, qty );
         }
 
     } else if( type->magazine ) {
