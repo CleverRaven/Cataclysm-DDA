@@ -12,8 +12,7 @@
       ["baldric", 4],
       ["shield_kite", 5],
       ["shield_heater", 10],
-      ["shield_buckler", 1],
-      ["textbook_armschina", 5]
+      ["shield_buckler", 1]
     ]
   },{
     "type" : "item_group",
@@ -35,8 +34,6 @@
     "items" : [
       ["qiang", 3],
       ["ji", 1],
-      ["jian", 2],
-      ["jian_fake", 4],
       ["dao", 3],
       ["sword_xiphos", 4],
       ["khopesh", 4],
@@ -57,8 +54,6 @@
     "items" : [
       ["qiang", 3],
       ["ji", 2],
-      ["jian", 2],
-      ["jian_fake", 4],
       ["dao", 3],
       ["sword_xiphos", 4],
       ["khopesh", 4],
@@ -91,12 +86,6 @@
     "id" : "mil_books",
     "items":[
       ["manual_pankration", 1]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "npc_hacker",
-    "items":[
-      ["textbook_armschina", 2]
     ]
   },{
     "type" : "item_group",
