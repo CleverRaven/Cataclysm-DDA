@@ -361,6 +361,14 @@ class Character : public Creature, public visitable<Character>
          */
         std::vector<const item *> get_ammo( const ammotype &at ) const;
 
+        /**
+         * Searches for ammo or magazines that can be used to reload obj
+         * @param obj item to be reloaded. By design any currently loaded ammunition or magazine is ignored
+         * @param empty whether empty magazines should be considered as possible ammo
+         * @param radius adjacent map/vehicle tiles to search. 0 for only player tile, -1 for only inventory
+         */
+        std::vector<item_location> find_ammo( const item& obj, bool empty = true, int radius = 1 );
+
         /** Returns true if the character's current weapon can be reloaded (ammo must be available). */
         bool can_reload();
 
@@ -426,6 +434,9 @@ class Character : public Creature, public visitable<Character>
 
         /** Returns true if the player has some form of night vision */
         bool has_nv();
+
+        /** Color's character's tile's background */
+        nc_color symbol_color() const override;
 
         // In newcharacter.cpp
         void empty_skills();

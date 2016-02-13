@@ -2,6 +2,9 @@
 #define MATTACK_ACTORS_H
 
 #include "mtype.h"
+#include <tuple>
+#include <vector>
+#include <map>
 
 class JsonObject;
 class monster;
@@ -48,6 +51,53 @@ class bite_actor : public mattack_actor
 
         bite_actor();
         ~bite_actor() { }
+
+        void load( JsonObject &jo );
+        bool call( monster & ) const override;
+        virtual mattack_actor *clone() const override;
+};
+
+class gun_actor : public mattack_actor
+{
+    public:
+        // Item type of the gun we're using
+        itype_id gun_type;
+        // Type of ammo we're using
+        ammotype ammo_type;
+        // Cap ammo at this if it goes above that for some reason
+        int max_ammo;
+        // Stats for the fake NPC
+        int fake_str;
+        int fake_dex;
+        int fake_int;
+        int fake_per;
+        // Skills for the fake NPC
+        std::map<skill_id, int> fake_skills;
+        // Move cost of executing the attack
+        int move_cost;
+        // Waste this many moves on targeting non-targeted player
+        int targeting_cost;
+        // Should laser-lock player
+        bool laser_lock;
+        // Maximum distance at which we acquire targets
+        float range;
+        // Don't activate burst for targets above that distance
+        float range_no_burst;
+        // Limit burst to that
+        int burst_limit;
+        // Description of the attack being executed; "%s fires its BFG!"
+        std::string description;
+
+        // Sound of targeting u
+        std::string targeting_sound;
+        int targeting_volume;
+        // Sounds of no ammo
+        std::string no_ammo_sound;
+
+        void shoot( monster &z, Creature &target ) const;
+
+        gun_actor();
+        ~gun_actor() { }
 
         void load( JsonObject &jo );
         bool call( monster & ) const override;

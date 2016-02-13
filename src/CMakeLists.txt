@@ -48,7 +48,6 @@ SET(CATACLYSM_DDA_SOURCES
     ${CMAKE_SOURCE_DIR}/src/catalua.cpp
     ${CMAKE_SOURCE_DIR}/src/map.cpp
     ${CMAKE_SOURCE_DIR}/src/action.cpp
-    ${CMAKE_SOURCE_DIR}/src/nonplayer.cpp
     ${CMAKE_SOURCE_DIR}/src/start_location.cpp
     ${CMAKE_SOURCE_DIR}/src/mutation.cpp
     ${CMAKE_SOURCE_DIR}/src/mapgen.cpp
@@ -199,7 +198,6 @@ SET (CATACLYSM_DDA_HEADERS
     ${CMAKE_SOURCE_DIR}/src/calendar.h
     ${CMAKE_SOURCE_DIR}/src/mod_manager.h
     ${CMAKE_SOURCE_DIR}/src/catacharset.h
-    ${CMAKE_SOURCE_DIR}/src/nonplayer.h
     ${CMAKE_SOURCE_DIR}/src/omdata.h
     ${CMAKE_SOURCE_DIR}/src/game_constants.h
     ${CMAKE_SOURCE_DIR}/src/mission.h

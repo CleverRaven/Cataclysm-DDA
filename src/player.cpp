@@ -10590,35 +10590,20 @@ hint_rating player::rate_action_reload( const item &it ) const
     hint_rating res = HINT_CANT;
 
     // Guns may contain additional reloadable mods so check these first
-    for( const auto& mod : it.contents ) {
-        if( mod.is_auxiliary_gunmod() ) {
-            switch( rate_action_reload( mod ) ) {
-                case HINT_GOOD:
-                    return HINT_GOOD;
+    for( const auto mod : it.gunmods() ) {
+        switch( rate_action_reload( *mod ) ) {
+            case HINT_GOOD:
+                return HINT_GOOD;
 
-                case HINT_CANT:
-                    continue;
+            case HINT_CANT:
+                continue;
 
-                case HINT_IFFY:
-                    res = HINT_IFFY;
-            }
+            case HINT_IFFY:
+                res = HINT_IFFY;
         }
     }
 
-    if( it.has_flag( "NO_RELOAD" ) || it.has_flag( "RELOAD_AND_SHOOT" ) ) {
-        return res;
-    }
-
-    // if item uses detachable magazines do we already have one loaded?
-    if( !it.magazine_integral() ) {
-        return it.magazine_current() ? HINT_IFFY : HINT_GOOD;
-    }
-
-    if( it.ammo_capacity() <= 0 || it.ammo_type() == "NULL" ) {
-        return res;
-    }
-
-    return it.ammo_remaining() < it.ammo_capacity() ? HINT_GOOD : HINT_IFFY;
+    return it.can_reload() ? HINT_GOOD : res;
 }
 
 hint_rating player::rate_action_unload( const item &it ) const
