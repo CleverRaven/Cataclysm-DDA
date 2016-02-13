@@ -109,10 +109,17 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
         item( const item & ) = default;
         item &operator=( item && ) = default;
         item &operator=( const item & ) = default;
-        virtual ~item();
+        virtual ~item() = default;
 
         item( const std::string new_type, int turn, bool rand = true );
         item( JsonObject &jo );
+
+        /**
+         * Filter converting this instance to another type preserving all other aspects
+         * @param new_type the type id to convert to
+         * @return same instance to allow method chaining
+         */
+        item& convert( const itype_id& new_type );
 
         /**
          * Make a corpse of the given monster type.
@@ -159,8 +166,6 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
          * @param pos The location of the item (see REVIVE_SPECIAL flag).
          */
         bool ready_to_revive( const tripoint &pos ) const;
-
- void make( const std::string new_type, bool scrub = false );
 
     /**
      * Returns the default color of the item (e.g. @ref itype::color).
@@ -214,8 +219,6 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
 
     /** Reload item using ammo from location returning true if sucessful */
     bool reload( player &u, item_location loc );
-
-    skill_id skill() const;
 
     template<typename Archive>
     void io( Archive& );
@@ -1098,8 +1101,16 @@ public:
          *  @return items that were created as a result of the conversion (excess ammo or magazines) */
         std::vector<item> magazine_convert();
 
-        /** Checks if mod can be applied to this item considering any current state (jammed, loaded etc.) */
-        bool gunmod_compatible( const item& mod, bool alert = true ) const;
+        /** Returns all gunmods currently attached to this item (always empty if item not a gun) */
+        std::vector<item *> gunmods();
+        std::vector<const item *> gunmods() const;
+
+        /*
+         * Checks if mod can be applied to this item considering any current state (jammed, loaded etc.)
+         * @param alert whether to display message describing reason for any incompatibility
+         * @param effects whether temporary efects (jammed, loaded etc) are considered when checking
+         */
+        bool gunmod_compatible( const item& mod, bool alert = true, bool effects = true ) const;
 
         /**
          * Burst size (see ranged.cpp), includes effects from installed gunmods.
@@ -1183,6 +1194,10 @@ public:
          * for which skill() would return a skill.
          */
         skill_id gun_skill() const;
+
+        /** Get the type of a ranged weapon (eg. "rifle", "crossbow"), or empty string if non-gun */
+        std::string gun_type() const;
+
         /**
          * Returns the currently active auxiliary (@ref is_auxiliary_gunmod) gun mod item.
          * May return null if there is no such gun mod or if the gun is not in the

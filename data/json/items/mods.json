@@ -91,7 +91,7 @@
         "volume" : 1,
         "recoil_modifier" : -30,
         "price" : 6000,
-        "skill_required": 1
+        "min_skills" : [ [ "gun", 1 ] ]
     },
     {
         "type" : "GUNMOD",
@@ -111,7 +111,7 @@
         "bashing" : 5,
         "recoil_modifier" : 75,
         "price" : 20000,
-        "skill_required": 5
+        "min_skills" : [ [ "gun", 5 ] ]
     },
     {
         "type" : "GUNMOD",
@@ -128,7 +128,6 @@
         "mod_targets" : ["smg", "rifle", "shotgun"],
         "volume" : 0,
         "price" : 12000,
-        "skill_required": 5,
         "loudness_modifier" : 2
     },
     {
@@ -150,7 +149,7 @@
         "bashing" : 3,
         "burst_modifier" : -1,
         "price" : 22000,
-        "skill_required": 5
+        "min_skills" : [ [ "gun", 5 ] ]
     },
     {
         "type" : "GUNMOD",
@@ -165,7 +164,7 @@
         "mod_targets" : ["shotgun", "smg", "rifle", "pistol", "launcher"],
         "volume" : 1,
         "price" : 2000,
-        "skill_required": 1
+        "min_skills" : [ [ "gun", 1 ] ]
     },
     {
         "type" : "GUNMOD",
@@ -183,8 +182,7 @@
         "integral_volume": 2,
         "recoil_modifier" : -60,
         "price" : 68000,
-        "skill_required": 7,
-        "skill": "archery"
+        "min_skills" : [ [ "gun", 7 ] ]
     },
     {
         "type" : "GUNMOD",
@@ -202,7 +200,7 @@
         "integral_volume": 0,
         "burst_modifier" : 6,
         "price" : 70000,
-        "skill_required": 6,
+        "min_skills" : [ [ "gun", 6 ] ],
         "loudness_modifier" : 4
     },
     {
@@ -224,7 +222,7 @@
         "recoil_modifier" : 30,
         "acceptable_ammo" : ["22", "9mm", "38", "40", "57", "46"],
         "mod_targets" : ["pistol"],
-        "skill_required": 6,
+        "min_skills" : [ [ "gun", 6 ] ],
         "flags" : ["MODE_BURST"]
     },
     {
@@ -245,7 +243,7 @@
         "burst_modifier" : 4,
         "recoil_modifier" : 60,
         "price" : 68000,
-        "skill_required": 7,
+        "min_skills" : [ [ "gun", 7 ] ],
         "loudness_modifier" : 4
     },
     {
@@ -265,7 +263,7 @@
         "integral_volume": 0,
         "burst_modifier" : -99,
         "price" : 66000,
-        "skill_required": 8,
+        "min_skills" : [ [ "gun", 8 ] ],
         "loudness_modifier" : 3
     },
     {
@@ -296,8 +294,7 @@
             "durability" : 100, "//" : "just a place holder, TODO: fill in the correct value",
             "reload" : 100, "//" : "just a place holder, TODO: fill in the correct value"
         },
-        "skill_required": 1,
-        "skill": "launcher"
+        "min_skills" : [ [ "gun", 1 ] ]
     },
     {
         "id": "m320_mod",
@@ -310,7 +307,6 @@
         "description": "The M320 Grenade Launcher Module offers the functionality of larger launchers in a very small package at the cost of decreased accuracy.  It can be either attached to a rifle or combined with a buttstock for stand alone use.",
         "price": 84000,
         "material": "steel",
-        "skill": "launcher",
         "gun_data" : {
             "skill": "launcher",
             "ammo" : "40mm",
@@ -328,7 +324,7 @@
         "bashing": 2,
         "to_hit": -3,
         "dispersion_modifier": 60,
-        "skill_required": 2
+        "min_skills" : [ [ "gun", 2 ] ]
     },
     {
         "type" : "GUNMOD",
@@ -358,8 +354,7 @@
             "durability" : 100, "//" : "just a place holder, TODO: fill in the correct value",
             "reload" : 100, "//" : "just a place holder, TODO: fill in the correct value"
         },
-        "skill_required": 2,
-        "skill": "launcher"
+        "min_skills" : [ [ "gun", 2 ] ]
     },
     {
         "type" : "GUNMOD",
@@ -388,8 +383,7 @@
             "durability" : 100, "//" : "just a place holder, TODO: fill in the correct value",
             "reload" : 100, "//" : "just a place holder, TODO: fill in the correct value"
         },
-        "skill_required": 1,
-        "skill": "launcher"
+        "min_skills" : [ [ "gun", 1 ] ]
     },
     {
         "type" : "GUNMOD",
@@ -478,8 +472,7 @@
             "durability" : 100, "//" : "just a place holder, TODO: fill in the correct value",
             "reload" : 100, "//" : "just a place holder, TODO: fill in the correct value"
         },
-        "skill_required": 1,
-        "skill": "shotgun"
+        "min_skills" : [ [ "gun", 1 ] ]
     },    
     {
         "type" : "GUNMOD",
@@ -509,8 +502,7 @@
             "durability" : 100, "//" : "just a place holder, TODO: fill in the correct value",
             "reload" : 100, "//" : "just a place holder, TODO: fill in the correct value"
         },
-        "skill_required": 1,
-        "skill": "shotgun"
+        "min_skills" : [ [ "gun", 1 ] ]
     },
     {
         "type" : "GUNMOD",
@@ -540,8 +532,7 @@
             "durability" : 100, "//" : "just a place holder, TODO: fill in the correct value",
             "reload" : 100, "//" : "just a place holder, TODO: fill in the correct value"
         },
-        "skill_required": 2,
-        "skill": "shotgun"
+        "min_skills" : [ [ "gun", 2 ] ]
     },
     {
         "type" : "GUNMOD",
@@ -574,8 +565,7 @@
           [ "20x66mm", [ "20x66_10_mag"] ]
         ],
         "magazine_well" : 1,
-        "skill_required": 2,
-        "skill": "shotgun"
+        "min_skills" : [ [ "gun", 2 ] ]
     },
     {
         "type" : "GUNMOD",
@@ -605,8 +595,7 @@
             "durability" : 100, "//" : "just a place holder, TODO: fill in the correct value",
             "reload" : 100, "//" : "just a place holder, TODO: fill in the correct value"
         },
-        "skill_required": 1,
-        "skill": "shotgun"
+        "min_skills" : [ [ "gun", 1 ] ]
     },
     {
         "type" : "GUNMOD",
@@ -637,8 +626,7 @@
             "reload" : 100,
             "loudness" : 175
         },
-        "skill_required": 1,
-        "skill": "shotgun"
+        "min_skills" : [ [ "gun", 1 ] ]
     },
     {
         "type" : "GUNMOD",
@@ -668,8 +656,7 @@
             "reload" : 120,
             "loudness" : 200
         },
-        "skill_required": 1,
-        "skill": "shotgun"
+        "min_skills" : [ [ "gun", 1 ] ]
     },
     {
         "type" : "GUNMOD",
@@ -700,8 +687,7 @@
             "durability" : 100, "//" : "just a place holder, TODO: fill in the correct value",
             "reload" : 100, "//" : "just a place holder, TODO: fill in the correct value"
         },
-        "skill_required": 2,
-        "skill": "archery"
+        "min_skills" : [ [ "gun", 2 ] ]
     },
     {
         "type" : "GUNMOD",
@@ -751,7 +737,7 @@
         "mod_targets" : ["bow"],
         "volume" : 2,
         "price" : 4000,
-        "skill_required": 1
+        "min_skills" : [ [ "gun", 1 ] ]
     },
     {
         "type" : "GUNMOD",
@@ -768,7 +754,7 @@
         "volume" : 1,
         "integral_volume": 0,
         "price" : 4000,
-        "skill_required": 1
+        "min_skills" : [ [ "gun", 1 ] ]
     },
     {
         "type" : "GUNMOD",
@@ -804,7 +790,7 @@
         "volume" : 1,
         "integral_volume": 0,
         "price" : 72000,
-        "skill_required": 1
+        "min_skills" : [ [ "gun", 1 ] ]
     },
     {
         "type" : "GUNMOD",
@@ -822,7 +808,7 @@
         "volume" : 1,
         "integral_volume": 0,
         "price" : 68000,
-        "skill_required": 2
+        "min_skills" : [ [ "gun", 2 ] ]
     },
     {
         "type" : "GUNMOD",
@@ -839,7 +825,7 @@
         "mod_targets" : ["smg", "rifle", "shotgun", "crossbow", "pistol", "launcher"],
         "volume" : 1,
         "price" : 68000,
-        "skill_required": 3
+        "min_skills" : [ [ "gun", 3 ] ]
     },
     {
         "type" : "GUNMOD",
@@ -879,7 +865,7 @@
         "mod_targets" : ["pistol", "smg", "crossbow"],
         "volume" : 1,
         "price" : 54000,
-        "skill_required": 3
+        "min_skills" : [ [ "gun", 3 ] ]
     },
     {
         "type" : "GUNMOD",
@@ -896,7 +882,7 @@
         "volume" : 0,
         "recoil_modifier" : -90,
         "price" : 72000,
-        "skill_required": 6,
+        "min_skills" : [ [ "gun", 6 ] ],
         "loudness_modifier" : 8
     },
     {
@@ -914,7 +900,7 @@
         "volume" : 1,
         "recoil_modifier" : -150,
         "price" : 84000,
-        "skill_required": 2,
+        "min_skills" : [ [ "gun", 2 ] ],
         "loudness_modifier" : 14
     },
     {
@@ -933,7 +919,7 @@
         "integral_volume": 0,
         "recoil_modifier" : -30,
         "price" : 38000,
-        "skill_required": 2
+        "min_skills" : [ [ "gun", 2 ] ]
     },
     {
         "type" : "GUNMOD",
@@ -951,7 +937,7 @@
         "integral_volume": 0,
         "recoil_modifier" : -30,
         "price" : 38000,
-        "skill_required": 2
+        "min_skills" : [ [ "gun", 2 ] ]
     },
     {
         "type" : "GUNMOD",
@@ -968,7 +954,7 @@
         "integral_volume": 0,
         "flags" : ["SLOW_WIELD", "COLLAPSIBLE_STOCK"],
         "price" : 42000,
-        "skill_required": 2
+        "min_skills" : [ [ "gun", 2 ] ]
     },
     {
         "type" : "GUNMOD",
@@ -985,7 +971,7 @@
         "integral_volume": 0,
         "flags" : ["REDUCED_WEIGHT", "REDUCED_BASHING"],
         "price" : 48000,
-        "skill_required": 3
+        "min_skills" : [ [ "gun", 3 ] ]
     },
     {
         "type" : "GUNMOD",
@@ -1002,7 +988,7 @@
         "integral_volume": 0,
         "recoil_modifier" : -90,
         "price" : 400,
-        "skill_required": 3
+        "min_skills" : [ [ "gun", 3 ] ]
     },
     {
         "type" : "GUNMOD",
@@ -1019,7 +1005,7 @@
         "volume" : 2,
         "recoil_modifier" : -75,
         "price" : 38000,
-        "skill_required": 2
+        "min_skills" : [ [ "gun", 2 ] ]
     },
     {
         "type" : "GUNMOD",
@@ -1036,7 +1022,7 @@
         "integral_volume": 0,
         "flags" : ["WATERPROOF_GUN"],
         "price" : 50000,
-        "skill_required": 6
+        "min_skills" : [ [ "gun", 6 ] ]
     },
     {
         "type" : "GUNMOD",
@@ -1055,7 +1041,7 @@
         "recoil_modifier" : -15,
         "flags" : ["NEVER_JAMS"],
         "price" : 2500,
-        "skill_required": 6,
+        "min_skills" : [ [ "gun", 6 ] ],
         "loudness_modifier" : -1
     },
     {
@@ -1073,7 +1059,7 @@
         "volume" : 1,
         "integral_volume": 0,
         "price" : 1500,
-        "skill_required": 6
+        "min_skills" : [ [ "gun", 6 ] ]
     },
     {
         "type" : "GUNMOD",
@@ -1092,7 +1078,7 @@
         "recoil_modifier" : -15,
         "dispersion_modifier" : -45,
         "price" : 68000,
-        "skill_required": 2
+        "min_skills" : [ [ "gun", 2 ] ]
     },
     {
         "type" : "GUNMOD",
@@ -1170,7 +1156,7 @@
         "bashing" : 5,
         "recoil_modifier" : 75,
         "price" : 20000,
-        "skill_required": 1,
+        "min_skills" : [ [ "gun", 1 ] ],
         "ups_charges": 50
     }
 ]

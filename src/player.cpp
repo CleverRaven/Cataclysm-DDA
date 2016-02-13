@@ -10773,15 +10773,13 @@ void player::use(int inventory_position)
         invoke_item( used );
     } else if (used->is_gunmod()) {
 
-        ///\EFFECT_GUN allows installation of more difficult gun mods
-        if( !( get_skill_level( skill_gun ) >= used->type->gunmod->req_skill ) ) {
-            add_msg( m_info, _( "You need to be at least level %d in the marksmanship skill "
-                                "before you can install this mod." ), used->type->gunmod->req_skill);
+        // first check at least the minimum requirements are met
+        if( !can_use( *used ) ) {
             return;
         }
 
         int gunpos = g->inv_for_filter( _("Select gun to modify:" ), [&used]( const item& e ) {
-            return e.gunmod_compatible( *used, false );
+            return e.gunmod_compatible( *used, false, false );
         } );
 
         if( gunpos == INT_MIN ) {
@@ -10942,7 +10940,7 @@ bool player::invoke_item( item* used, const std::string &method, const tripoint 
     }
 
     long charges_used = actually_used->type->invoke( this, actually_used, pt, method );
-    return consume_charges( *actually_used, charges_used );
+    return ( used->is_tool() || used->is_food() ) && consume_charges( *actually_used, charges_used );
 }
 
 void player::remove_gunmod( item *weapon, unsigned id )

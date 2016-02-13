@@ -1248,6 +1248,22 @@ int time_to_fire(player &p, const itype &firingt)
 }
 
 static inline void eject_casing( player& p, item& weap ) {
+    // eject casings and linkages in random direction avoiding walls using player position as fallback
+    auto tiles = closest_tripoints_first( 1, p.pos() );
+    tiles.erase( tiles.begin() );
+    tiles.erase( std::remove_if( tiles.begin(), tiles.end(), [&p]( const tripoint& e ) {
+        return !g->m.passable( e );
+    } ), tiles.end() );
+    tripoint eject = tiles.empty() ? p.pos() : random_entry( tiles );
+
+    // some magazines also eject disintegrating linkages
+    const auto mag = weap.magazine_current();
+    if( mag && mag->type->magazine->linkage != "NULL" ) {
+        item linkage( mag->type->magazine->linkage, calendar::turn );
+        linkage.charges = 1; // needs charge 1 to stack properly with other linkages
+        g->m.add_item_or_charges( eject, linkage );
+    }
+
     itype_id casing_type = weap.ammo_data()->ammo->casing;
     if( casing_type == "NULL" || casing_type.empty() ) {
         return;
@@ -1267,19 +1283,8 @@ static inline void eject_casing( player& p, item& weap ) {
         return;
     }
 
-    // Eject casing in random direction avoiding walls using player position as fallback
-    auto brass = closest_tripoints_first( 1, p.pos() );
-    brass.erase( brass.begin() );
-    std::random_shuffle( brass.begin(), brass.end() );
-    brass.emplace_back( p.pos() );
-
-    for( auto& pos : brass ) {
-        if ( g->m.passable(pos) ) {
-            g->m.add_item_or_charges( pos, casing );
-            sfx::play_variant_sound( "fire_gun", "brass_eject", sfx::get_heard_volume( pos ), sfx::get_heard_angle( pos ) );
-            break;
-        }
-    }
+    g->m.add_item_or_charges( eject, casing );
+    sfx::play_variant_sound( "fire_gun", "brass_eject", sfx::get_heard_volume( eject ), sfx::get_heard_angle( eject ) );
 }
 
 void make_gun_sound_effect(player &p, bool burst, item *weapon)
@@ -1315,10 +1320,8 @@ item::sound_data item::gun_noise( bool const burst ) const
     }
 
     int noise = gun.loudness + (ammo_data() ? ammo_data()->ammo->damage : 0);
-    for( auto &elem : contents ) {
-        if( elem.is_gunmod() ) {
-            noise += elem.type->gunmod->loudness;
-        }
+    for( const auto mod : gunmods() ) {
+        noise += mod->type->gunmod->loudness;
     }
 
     const auto &ammo_effects = gun.ammo_effects;

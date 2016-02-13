@@ -88,16 +88,9 @@ const std::string &get_morale_data( const morale_type id )
 }
 } // namespace
 
-morale_point::morale_point( morale_type type, const itype *item_type, int bonus, int duration,
-                            int decay_start, int age ):
-    type( type ),
-    item_type( item_type ),
-    bonus( bonus ),
-    duration( duration ),
-    decay_start( decay_start ),
-    age( age )
+std::string morale_point::get_name() const
 {
-    name = get_morale_data( type );
+    std::string name = get_morale_data( type );
 
     if( item_type != nullptr ) {
         name = string_replace( name, item_name_placeholder, item_type->nname( 1 ) );
@@ -105,6 +98,8 @@ morale_point::morale_point( morale_type type, const itype *item_type, int bonus,
         debugmsg( "%s(): Morale #%d (%s) requires item_type to be specified.", __FUNCTION__, type,
                   name.c_str() );
     }
+
+    return name;
 }
 
 void morale_point::add( int new_bonus, int new_max_bonus, int new_duration, int new_decay_start,

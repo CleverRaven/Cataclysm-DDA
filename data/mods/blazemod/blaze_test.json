@@ -241,7 +241,6 @@
         "bashing" : 4,
         "category" : "veh_parts",
         "price" : 1500000,
-		"rigid": true,
 		"watertight": true,
 		"seals": true,
 		"contains": 0
@@ -260,7 +259,6 @@
         "bashing" : 4,
         "category" : "veh_parts",
         "price" : 1500000,
-		"rigid": true,
 		"watertight": true,
 		"seals": true,
 		"contains": 0

@@ -233,7 +233,7 @@ void item::load_info( const std::string &data )
     } else if( idtmp == "adv_UPS_on" ) {
         idtmp = "adv_UPS_off" ;
     }
-    make(idtmp);
+    convert( idtmp );
 
     invlet = char(lettmp);
     damage = damtmp;
