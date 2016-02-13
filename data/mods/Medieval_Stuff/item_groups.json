@@ -32,7 +32,6 @@
     "type"  : "item_group",
     "id"    : "antique_rare",
     "items" : [
-      ["qiang", 3],
       ["ji", 1],
       ["dao", 3],
       ["sword_xiphos", 4],
@@ -52,7 +51,6 @@
     "type" : "item_group",
     "id" : "museum_melee",
     "items" : [
-      ["qiang", 3],
       ["ji", 2],
       ["dao", 3],
       ["sword_xiphos", 4],
