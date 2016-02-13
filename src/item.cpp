@@ -103,51 +103,53 @@ item::item()
     type = nullitem();
 }
 
-item::item(const std::string new_type, int turn, bool rand)
+item::item( const std::string new_type, int turn, bool rand )
 {
     type = find_type( new_type );
     bday = turn;
     charges = type->charges_default();
     corpse = type->id == "corpse" ? &mtype_id::NULL_ID.obj() : nullptr;
-    name = type_name(1);
-    const bool has_random_charges = rand && type->spawn && type->spawn->rand_charges.size() > 1;
-    if( has_random_charges ) {
+    name = type_name();
+
+    if( rand && type->spawn && type->spawn->rand_charges.size() > 1 ) {
         const auto charge_roll = rng( 1, type->spawn->rand_charges.size() - 1 );
         charges = rng( type->spawn->rand_charges[charge_roll - 1], type->spawn->rand_charges[charge_roll] );
     }
-    // TODO: some item types use the same member (e.g. charges) for different things. Handle or forbid this.
+
     if( type->gun ) {
-        set_var( "magazine_converted", true );
-        for( auto &gm : type->gun->built_in_mods ){
-            if(type_is_defined( gm) ){
-                item temp( gm, turn, rand );
+        for( const auto &mod : type->gun->built_in_mods ){
+            if( type_is_defined( mod ) ) {
+                item temp( mod, turn, rand );
                 temp.item_tags.insert("IRREMOVABLE");
                 contents.push_back( temp );
             }
         }
-
-        for( auto &gm : type->gun->default_mods ){
-            if(type_is_defined( gm ) ){
-                contents.push_back( item( gm, turn, rand ) );
+        for( const auto &mod : type->gun->default_mods ) {
+            if( type_is_defined( mod ) ) {
+                contents.emplace_back( mod, turn, rand );
             }
         }
-    }
-    if( type->magazine ) {
+
+    } else if( type->magazine ) {
         if( type->magazine->count > 0 ) {
             item ammo ( default_ammo( type->magazine->type ), calendar::turn );
             ammo.charges = type->magazine->count;
             contents.push_back( ammo );
         }
-    }
-    if( type->is_food() ) {
+
+    } else if( type->is_food() ) {
         active = goes_bad() && !rotten();
-    }
-    if( type->is_tool() ) {
-        set_var( "magazine_converted", true );
+
+    } else if( type->is_tool() ) {
         if( ammo_remaining() && ammo_type() != "NULL" ) {
             set_curammo( default_ammo( ammo_type() ) );
         }
     }
+
+    if( type->gun || type->is_tool() ) {
+        set_var( "magazine_converted", true );
+    }
+
     if( type->variable_bigness ) {
         bigness = rng( type->variable_bigness->min_bigness, type->variable_bigness->max_bigness );
     }
