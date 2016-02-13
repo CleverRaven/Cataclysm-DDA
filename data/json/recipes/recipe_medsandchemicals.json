@@ -2871,13 +2871,46 @@
     ],
   "components": [
     [
-      [ "chem_saltpetre", 75 ]
+      [ "chem_saltpetre", 150 ]
     ],
     [
-      [ "chem_sulphur", 10 ]
+      [ "chem_sulphur", 20 ]
     ] ,
     [
-      [ "charcoal", 15 ]
+      [ "charcoal", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "chem_black_powder",
+  "id_suffix": "generic",
+  "category": "CC_AMMO",
+  "subcategory": "CSC_AMMO_COMPONENTS",
+  "skill_used": "fabrication",
+  "skills_required": [ "cooking", 1 ],
+  "difficulty": 4,
+  "time": 20000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "textbook_anarch", 4 ] , ["recipe_bullets" , 2 ] , [ "manual_shotgun", 3 ] , [ "manual_pistol", 3 ], [ "adv_chemistry", 3 ] , [ "textbook_chemistry", 3 ]],
+  "qualities":[
+    {"id":"CHEM","level":2,"amount":1}
+  ], "tools": [
+    [
+      [ "hotplate", 50 ],
+      [ "toolset", 50 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "oxy_powder", 200 ]
+    ],
+    [
+      [ "ammonia", 2 ],
+      [ "lye_powder", 200 ]
+    ],
+    [
+      [ "charcoal", 5 ]
     ]
   ]
 },

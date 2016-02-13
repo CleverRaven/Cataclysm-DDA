@@ -14,6 +14,7 @@
     "capacity" : 200,
     "count" : 100,
     "rigid": false,
+    "linkage": "ammolink",
     "reliability" : 6,
     "armor_data" : {
        "covers" : ["TORSO"],

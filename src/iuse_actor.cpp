@@ -101,12 +101,13 @@ long iuse_transform::use(player *p, item *it, bool t, const tripoint &pos ) cons
     item *target;
     if (container_id.empty()) {
         // No container, assume simple type transformation like foo_off -> foo_on
-        it->make(target_id);
-        target = it;
+        target = &it->convert( target_id );
     } else {
         // Transform into something in a container, assume the content is
         // "created" right now and give the content the current time as birthday
-        it->make(container_id, true);
+        it->convert( container_id );
+        it->unset_curammo();
+        it->charges = -1;
         it->contents.push_back(item(target_id, calendar::turn));
         target = &it->contents.back();
     }
@@ -1576,7 +1577,7 @@ long fireweapon_off_actor::use( player *p, item *it, bool t, const tripoint& ) c
             p->add_msg_if_player( _(success_message.c_str()) );
         }
 
-        it->make( target_id );
+        it->convert( target_id );
         it->active = true;
     } else if( !failure_message.empty() ) {
         p->add_msg_if_player( m_bad, _(failure_message.c_str()) );
@@ -1629,10 +1630,10 @@ long fireweapon_on_actor::use( player *p, item *it, bool t, const tripoint& ) co
         const auto tool = dynamic_cast<const it_tool *>( it->type );
         if( tool == nullptr ) {
             debugmsg( "Non-tool has fireweapon_on actor" );
-            it->make( "none" );
+            it->convert( "null" );
         }
 
-        it->make( tool->revert_to );
+        it->convert( tool->revert_to );
     } else if( one_in( noise_chance ) ) {
         if( noise > 0 ) {
             sounds::sound( p->pos(), noise, _(noise_message.c_str()) );
@@ -2425,7 +2426,7 @@ long heal_actor::finish_using( player &healer, player &patient, item &it, hp_par
         // If the item is a tool, `make` it the new form
         // Otherwise it probably was consumed, so create a new one
         if( it.is_tool() ) {
-            it.make( used_up_item );
+            it.convert( used_up_item );
         } else {
             item used_up( used_up_item, it.bday );
             healer.i_add_or_drop( used_up );

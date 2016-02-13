@@ -12,6 +12,7 @@
         "volume": 0,
         "to_hit": -1,
         "contains": 24,
+        "rigid": false,
         "material": "plastic"
     },
     {
@@ -28,7 +29,6 @@
         "to_hit": 1,
         "material": "plastic",
         "contains": 2,
-        "rigid": true,
         "watertight": true,
         "seals": true
     },
@@ -46,7 +46,6 @@
         "to_hit": 1,
         "material": "plastic",
         "contains": 1,
-        "rigid": true,
         "watertight": true
     },
     {
@@ -64,7 +63,6 @@
         "to_hit": 1,
         "material": "glass",
         "contains": 3,
-        "rigid": true,
         "watertight": true,
         "seals": true,
         "qualities": [["BOIL", 1]]
@@ -84,7 +82,6 @@
         "to_hit": 1,
         "material": "glass",
         "contains": 3,
-        "rigid": true,
         "watertight": true
     },
     {
@@ -102,7 +99,6 @@
         "to_hit": -3,
         "material": "aluminum",
         "contains": 1,
-        "rigid": true,
         "watertight": true,
         "preserves": true,
         "qualities": [["CONTAIN", 1], ["BOIL", 2]]
@@ -121,7 +117,6 @@
         "to_hit":-1,
         "material":"steel",
         "contains":1,
-        "rigid": true,
         "qualities": [["CONTAIN", 1]]
     },
     {
@@ -137,7 +132,6 @@
         "volume": 1,
         "material": "steel",
         "contains": 1,
-        "rigid": true,
         "watertight": true,
         "preserves": true,
         "qualities": [["CONTAIN", 1], ["BOIL", 2]]
@@ -155,8 +149,7 @@
         "weight": 151,
         "volume": 4,
         "material": "paper",
-        "contains": 4,
-        "rigid": true
+        "contains": 4
     },
     {
         "id": "box_cigarette",
@@ -171,8 +164,7 @@
         "weight": 15,
         "volume": 1,
         "material": "paper",
-        "contains": 1,
-        "flags": ["RIGID"]
+        "contains": 1
     },
     {
         "id": "canteen",
@@ -195,7 +187,6 @@
            "encumbrance" : 2,
            "warmth" : 0
         },
-        "rigid": true,
         "watertight": true,
         "seals": true,
         "flags": ["WAIST"]
@@ -222,7 +213,6 @@
            "encumbrance" : 4,
            "warmth" : 0
         },
-        "rigid": true,
         "watertight": true,
         "seals": true,
         "flags": ["WAIST"]
@@ -250,7 +240,6 @@
            "warmth" : 0,
            "storage" : 4
         },
-        "rigid": true,
         "watertight": true,
         "seals": true,
         "flags": ["BELTED", "VARSIZE"]
@@ -269,7 +258,6 @@
         "to_hit": -2,
         "material": "plastic",
         "contains": 40,
-        "rigid": true,
         "watertight": true,
         "seals": true
     },
@@ -287,7 +275,6 @@
         "to_hit": 1,
         "material": "plastic",
         "contains": 15,
-        "rigid": true,
         "watertight": true,
         "seals": true
     },
@@ -306,7 +293,6 @@
         "to_hit": 1,
         "material": "glass",
         "contains": 1,
-        "rigid": true,
         "watertight": true,
         "seals": true,
         "qualities": [["BOIL", 1]]
@@ -326,6 +312,7 @@
         "to_hit": -1,
         "material": "flesh",
         "contains": 6,
+        "rigid": false,
         "watertight": true,
         "seals": true 
     },
@@ -344,6 +331,7 @@
         "to_hit": -1,
         "material": "flesh",
         "contains": 12,
+        "rigid": false,
         "watertight": true,
         "seals": true
     },
@@ -366,9 +354,10 @@
            "covers" : ["LEG_EITHER"],
            "coverage" : 5,
            "material_thickness" : 2,
-           "encumbrance" : 3,
+           "encumbrance" : 0,
            "warmth" : 0
         },
+        "rigid": false,
         "watertight": true,
         "seals": true,
         "flags": ["WAIST"]
@@ -392,9 +381,10 @@
            "covers" : ["TORSO"],
            "coverage" : 10,
            "material_thickness" : 2,
-           "encumbrance" : 10,
+           "encumbrance" : 0,
            "warmth" : 0
         },
+        "rigid": false,
         "watertight": true,
         "seals": true,
         "flags": ["WAIST"]
@@ -418,9 +408,10 @@
            "covers" : ["TORSO"],
            "coverage" : 15,
            "material_thickness" : 2,
-           "encumbrance" : 10,
+           "encumbrance" : 0,
            "warmth" : 0
         },
+        "rigid": false,
         "watertight": true,
         "seals": true,
         "flags": ["BELTED"]
@@ -440,7 +431,6 @@
         "to_hit": -3,
         "material": "steel",
         "contains": 100,
-        "rigid": true,
         "watertight": true,
         "seals": true
     },
@@ -459,7 +449,6 @@
         "to_hit" : -4,
         "contains" : 225,
         "material" : ["steel", "null"],
-        "rigid": true,
         "watertight": true,
         "seals": true
     },
@@ -478,7 +467,6 @@
         "to_hit" : -3,
         "contains" : 45,
         "material" : ["steel", "null"],
-        "rigid": true,
         "watertight": true,
         "seals": true
     },
@@ -497,7 +485,6 @@
         "to_hit" : -4,
         "contains" : 5,
         "material" : ["steel", "null"],
-        "rigid": true,
         "watertight": true,
         "seals": true
     },
@@ -516,7 +503,6 @@
         "to_hit": -5,
         "material": "aluminum",
         "contains": 200,
-        "rigid": true,
         "watertight": true,
         "seals": true
     },
@@ -534,7 +520,6 @@
         "bashing": 4,
         "material": "glass",
         "contains": 2,
-        "rigid": true,
         "watertight": true,
         "seals": true,
         "qualities": [["CONTAIN", 1], ["BOIL", 1]]
@@ -554,7 +539,6 @@
         "to_hit": -1,
         "material": "glass",
         "contains": 12,
-        "rigid": true,
         "watertight": true,
         "seals": true,
         "qualities": [["CONTAIN", 1], ["BOIL", 1]]
@@ -581,7 +565,6 @@
             "encumbrance" : 0,
             "warmth" : 0
         },
-        "rigid": true,
         "watertight": true,
         "seals": true,
         "flags": ["WAIST"]
@@ -600,7 +583,6 @@
         "to_hit":1,
         "material":"plastic",
         "contains":1,
-        "rigid": true,
         "watertight": true,
         "seals": true
     },
@@ -617,6 +599,7 @@
         "volume": 0,
         "to_hit": -2,
         "contains": 10,
+        "rigid": false,
         "material": "paper"
     },
     {
@@ -634,7 +617,6 @@
         "to_hit": -5,
         "material": "steel",
         "contains": 825,
-        "rigid": true,
         "watertight": true,
         "seals": true
     },
@@ -653,7 +635,6 @@
         "to_hit": -5,
         "material": "steel",
         "contains": 450,
-        "rigid": true,
         "watertight": true,
         "seals": true
     },
@@ -672,7 +653,6 @@
         "to_hit": -5,
         "material": "plastic",
         "contains": 450,
-        "rigid": true,
         "watertight": true,
         "seals": true
     },
@@ -691,7 +671,6 @@
         "to_hit": -5,
         "material": ["wood", "steel"],
         "contains": 400,
-        "rigid": true,
         "watertight": true,
         "seals": true
     },
@@ -708,6 +687,7 @@
         "volume": 4,
         "to_hit": -5,
         "material": "cotton",
+        "rigid": false,
         "contains": 60,
         "seals": true
     },
@@ -725,6 +705,7 @@
         "to_hit": -5,
         "material": "cotton",
         "contains": 4,
+        "rigid": false,
         "seals": true
     },
     {
@@ -741,7 +722,6 @@
         "to_hit": 1,
         "material": "plastic",
         "contains": 1,
-        "rigid": true,
         "watertight": true,
         "seals": true
     },
@@ -759,7 +739,6 @@
         "bashing": 1,
         "material": "clay",
         "contains": 4,
-        "rigid": true,
         "watertight": true,
         "seals": true
     },
@@ -777,7 +756,6 @@
         "to_hit": -1,
         "material": "clay",
         "contains" : 1,
-        "rigid": true,
         "watertight": true,
         "seals": true,
         "qualities": [["BOIL", 2], ["CONTAIN", 1]]
@@ -796,7 +774,6 @@
         "to_hit": -2,
         "material": "clay",
         "contains": 150,
-        "rigid": true,
         "watertight": true,
         "seals": true
     },
@@ -815,7 +792,6 @@
         "to_hit": -1,
         "material": "clay",
         "contains": 60,
-        "rigid": true,
         "watertight": true,
         "seals": true
     },
@@ -833,7 +809,6 @@
         "to_hit": 1,
         "material": "clay",
         "contains": 1,
-        "rigid": true,
         "watertight": true,
         "seals": true,
         "qualities": [["BOIL", 2], ["CONTAIN", 1]]

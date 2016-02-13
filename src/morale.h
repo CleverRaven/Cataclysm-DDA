@@ -85,16 +85,20 @@ class morale_point : public JsonSerializer, public JsonDeserializer
             int bonus = 0,
             int duration = MINUTES( 6 ),
             int decay_start = MINUTES( 3 ),
-            int age = 0 );
+            int age = 0 ):
+            type( type ),
+            item_type( item_type ),
+            bonus( bonus ),
+            duration( duration ),
+            decay_start( decay_start ),
+            age( age ) {};
 
         using JsonDeserializer::deserialize;
         void deserialize( JsonIn &jsin ) override;
         using JsonSerializer::serialize;
         void serialize( JsonOut &json ) const override;
 
-        std::string get_name() const {
-            return name;
-        }
+        std::string get_name() const;
 
         morale_type get_type() const {
             return type;
@@ -116,8 +120,6 @@ class morale_point : public JsonSerializer, public JsonDeserializer
         void proceed( int ticks = 1 );
 
     private:
-        std::string name;  // Safely assume it's immutable
-
         morale_type type;
         const itype *item_type;
 
@@ -127,9 +129,9 @@ class morale_point : public JsonSerializer, public JsonDeserializer
         int age;
 
         /**
-        Returns either new_time or remaining time (which one is greater).
-        Only returns new time if same_sign is true
-        */
+         * Returns either new_time or remaining time (which one is greater).
+         * Only returns new time if same_sign is true
+         */
         int pick_time( int cur_time, int new_time, bool same_sign ) const;
 };
 

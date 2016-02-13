@@ -279,6 +279,11 @@ Flags used to describe monsters and define their properties and abilities.
 - ```INTERIOR_AMMO``` Monster contains ammo inside itself, no need to load on launch. Prevents ammo from being dropped on disable.
 - ```NIGHT_INVISIBILITY``` Monster becomes invisible if it's more than one tile away and the lighting on its tile is LL_LOW or less. Visibility is not affected by night vision.
 
+### Monster defense attacks
+- ```NONE``` No special attack-back
+- ```ZAPBACK``` Shock attacker on hit
+- ```ACIDSPLASH``` Shock attacker on hit
+
 ### Special attacks
 Some special attacks are also valid use actions for tools and weapons.
 
@@ -302,7 +307,6 @@ Some special attacks are also valid use actions for tools and weapons.
 - ```FUNGUS``` Releases fungal spores and attempts to infect the player.
 - ```FUNGUS_GROWTH``` Grows a young fungaloid into an adult.
 - ```FUNGUS_SPROUT``` Grows a fungal wall.
-- ```LEAP``` Monster leaps from one point to another.
 - ```DERMATIK``` Attempts to lay dermatik eggs in the player.
 - ```DERMATIK_GROWTH``` Dermatik larva grows into an adult.
 - ```PLANT``` Fungal spores take seed and grow into a fungaloid.
@@ -331,7 +335,6 @@ Some special attacks are also valid use actions for tools and weapons.
 - ```GENERATOR``` Regenerates health.
 - ```UPGRADE``` Upgrades a regular zombie into a special zombie.
 - ```BREATHE``` Spawns a `breather`
-- ```BITE``` Bites the player.
 - ```BRANDISH``` Brandish a knife at the player.
 - ```FLESH_GOLEM``` Attack the player with claw, and inflict disease `downed` if the attack connects.
 - ```PARROT``` Parrots the speech defined in `speech.json`, picks one of the lines randomly. "speaker" points to a monster id.
@@ -486,7 +489,7 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```DIFFICULTY_REMOVE```
 - ```NAILABLE``` Attached with nails
 - ```FOLDABLE```
-- ```SCOOP``` Pulls items from underneath the vehicle to the cargo space of the part. Also mops up liquids. 
+- ```SCOOP``` Pulls items from underneath the vehicle to the cargo space of the part. Also mops up liquids.
   - Uses the ```bonus``` tag to determine the maximum size of the item picked up.
 - ```PLANTER``` Plants seeds into tilled dirt, spilling them when the terrain underneath is unsuitable. It is damaged by running it over non-```DIGGABLE``` surfaces.
   - ```ADVANCED_PLANTER``` This planter doesn't spill seeds and avoids damaging itself on non-diggable surfaces.

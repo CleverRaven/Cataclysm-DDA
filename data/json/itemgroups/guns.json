@@ -5,8 +5,10 @@
     "//" : "Pistols commonly owned by citizens and found in many locations.",
     "items": [
       [ "glock_19", 100 ],
-      [ "m1911", 30 ],
-      [ "m9", 20 ]
+      [ "m1911", 50 ],
+      [ "m9", 30 ],
+      [ "sig_mosquito", 15 ],
+      [ "sw_22", 15 ]
     ]
   },
   {
@@ -14,11 +16,14 @@
     "id" : "guns_pistol_rare",
     "//" : "Less common pistols including those only used by police/paramilitary forces.",
     "items": [
+      [ "deagle_44", 30 ],
       [ "fn57", 80 ],
       [ "l_sp_45", 30 ],
       [ "l_sp_9mm", 60 ],
+      [ "ruger_lcr_22", 30 ],
+      [ "sig_p230", 40 ],
       [ "usp_45", 70 ],
-      [ "usp_9mm", 100 ]
+      [ "usp_9mm", 130 ]
     ]
   },
   {
@@ -38,7 +43,9 @@
     "id" : "guns_pistol_obscure",
     "//" : "Imported or otherwise very obscure pistols.",
     "items": [
-      [ "makarov", 100 ]
+      [ "makarov", 100 ],
+      [ "moss_brownie", 100 ],
+      [ "walther_ppk", 100 ]
     ]
   },
   {
@@ -89,11 +96,14 @@
     "id" : "guns_rifle_common",
     "//" : "Rifles commonly owned by citizens and found in many locations.",
     "items": [
-      [ "garand", 40 ],
+      [ "garand", 45 ],
       [ "ar15", 25 ],
       [ "cx4", 15 ],
       [ "ksub2000", 20 ],
-      [ "ruger_mini", 70 ]
+      [ "marlin_9a", 80 ],
+      [ "ruger_1022", 70 ],
+      [ "ruger_mini", 60 ],
+      [ "sks", 40 ]
     ]
   },
   {
@@ -135,6 +145,7 @@
     "id" : "guns_rifle_obscure",
     "//" : "Imported or otherwise very obscure rifles.",
     "items": [
+      [ "ak47", 200 ],
       [ "ak74", 50 ],
       [ "an94", 20 ],
       [ "steyr_aug", 80 ]
@@ -145,6 +156,10 @@
     "id" : "guns_shotgun_common",
     "//" : "Shotguns commonly owned by citizens and found in many locations.",
     "items": [
+      [ "mossberg_500", 50 ],
+      [ "remington_870", 100 ],
+      [ "shotgun_d", 30 ],
+      [ "shotgun_s", 30 ]
     ]
   },
   {
@@ -152,7 +167,8 @@
     "id" : "guns_shotgun_rare",
     "//" : "Less common shotguns including those only used by police/paramilitary forces.",
     "items": [
-      [ "saiga_12", 100 ]
+      [ "m1014", 100 ],
+      [ "saiga_12", 50 ]
     ]
   },
   {
@@ -160,7 +176,8 @@
     "id" : "guns_shotgun_milspec",
     "//" : "Military specification shotguns only ever found at military sites.",
     "items": [
-      [ "rm20", 100 ]
+      [ "l_def_12", 100 ],
+      [ "rm20", 20 ]
     ]
   },
   {
