@@ -4014,8 +4014,8 @@ bool mattack::longswipe(monster *z)
                 //~ 1$s is bodypart name, 2$d is damage value.
                 target->add_msg_if_player(m_bad, _("Your %1$s is slashed for %2$d damage!"), body_part_name(hit).c_str(), dam);
             } else {
-                target->add_msg_player_or_npc( _("The %1$s slashes your %2$s, but glances off your armor!"),
-                                    _("The %1$s slashes <npcname>'s %2$s, but glances off armor!"),
+                target->add_msg_player_or_npc( _("The %1$s slashes at your %2$s, but glances off your armor!"),
+                                    _("The %1$s slashes at <npcname>'s %2$s, but glances off armor!"),
                                     z->name().c_str(),
                                     body_part_name_accusative( hit ).c_str() );
             }
