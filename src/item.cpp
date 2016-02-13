@@ -277,8 +277,8 @@ bool item::set_side (side s) {
 
 item item::in_its_container()
 {
-    if( type->spawn && type->spawn->default_container != "null" ) {
-        item ret( type->spawn->default_container, bday );
+    if( type->default_container != "null" ) {
+        item ret( type->default_container, bday );
         if( made_of( LIQUID ) && ret.is_container() ) {
             // Note: we can't use any of the normal normal container functions as they check the
             // container being suitable (seals, watertight etc.)

@@ -429,10 +429,7 @@ struct islot_seed {
 // Data used when spawning items, should be obsoleted by the spawn system, but
 // is still used at several places and makes it easier when it applies to all new items of a type.
 struct islot_spawn {
-    std::string default_container; // The container it comes in
     std::vector<long> rand_charges;
-
-    islot_spawn() : default_container ("null") { }
 };
 
 struct islot_artifact {
@@ -478,6 +475,8 @@ protected:
 public:
     std::string snippet_category;
     std::string description; // Flavor text
+
+    std::string default_container = "null"; // The container it comes in
 
     std::map<std::string, int> qualities; //Tool quality indicators
     std::map<std::string, std::string> properties;
