@@ -4033,6 +4033,25 @@ std::string special_talk(char ch)
  return "TALK_NONE";
 }
 
+// Creates a new inventory that contains `added` items, but not `without` ones
+// `without` should point to items in `inv`
+inventory inventory_exchange( inventory &inv,
+    const std::set<item *> &without, const std::vector<item *> &added )
+{
+    std::vector<item *> item_dump;
+    inv.dump( item_dump );
+    item_dump.insert( item_dump.end(), added.begin(), added.end() );
+    inventory new_inv;
+
+    for( item *it : item_dump ) {
+        if( without.count( it ) == 0 ) {
+            new_inv.push_back( *it );
+        }
+    }
+
+    return new_inv;
+}
+
 bool trade( npc &p, int cost, const std::string &deal )
 {
     WINDOW* w_head = newwin(4, FULL_SCREEN_WIDTH,
@@ -4113,19 +4132,22 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
                 mvwputch(w_head, 3, i, c_white, LINE_OXOX);
             }
 
+            std::set<item *> without;
+            std::vector<item *> added;
+
             inventory newinv;
-            for (size_t i = 0; i < yours.size(); i++) {
-                if (yours[i].selected) {
-                    newinv.push_back( *yours[i].itm );
+            for( auto &pricing : yours ) {
+                if( pricing.selected ) {
+                    added.push_back( pricing.itm );
                 }
             }
 
-            for (size_t i = 0; i < theirs.size(); i++) {
-                if( !theirs[i].selected ) {
-                    newinv.push_back( *theirs[i].itm );
+            for( auto &pricing : theirs ) {
+                if( pricing.selected ) {
+                    without.insert( pricing.itm );
                 }
             }
-            temp.inv = newinv;
+            temp.inv = inventory_exchange( p.inv, without, added );
 
             volume_left = temp.volume_capacity() - temp.volume_carried();
             weight_left = temp.weight_capacity() - temp.weight_carried();
@@ -4266,33 +4288,37 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
     } while( ch != KEY_ESCAPE && ch != '\n' && ch != 'T' );
 
     if( ch == '\n' || ch == 'T' ) {
-        inventory newinv;
         int practice = 0;
-        std::vector<item*> removing;
-        for (size_t i = 0; i < yours.size(); i++) {
-            if( yours[i].selected ) {
-                newinv.push_back( *yours[i].itm );
+        // This weird exchange is needed to prevent pointer bugs
+        // Removing items from an inventory invalidates the pointers
+        std::set<item * > removing_yours;
+        std::vector<item *> giving_them;
+        for( const auto &pricing : yours ) {
+            if( pricing.selected ) {
+                giving_them.push_back( pricing.itm );
                 practice++;
-                removing.push_back( yours[i].itm );
+                removing_yours.insert( pricing.itm );
             }
         }
-        // Do it in two passes, so removing items doesn't corrupt yours[]
-        for( auto &elem : removing ) {
-            g->u.i_rem( elem );
-        }
 
-        for (size_t i = 0; i < theirs.size(); i++) {
-            item tmp = *theirs[i].itm;
-            if( theirs[i].selected ) {
+        std::set<item*> removing_theirs;
+        std::vector<item *> giving_you;
+        for( const auto &pricing : theirs ) {
+            if( pricing.selected ) {
+                giving_you.push_back( pricing.itm );
                 practice += 2;
-                g->u.inv.push_back( tmp );
-            } else {
-                newinv.push_back( tmp );
+                removing_theirs.insert( pricing.itm );
             }
         }
 
-        newinv.restack();
-        p.inv = newinv;
+        const inventory &your_new_inv = inventory_exchange( g->u.inv,
+            removing_yours, giving_you );
+        const inventory &their_new_inv = inventory_exchange( p.inv,
+            removing_theirs, giving_them );
+
+        g->u.inv = your_new_inv;
+        p.inv = their_new_inv;
+
         if( cash > (int)p.cash ) {
             //Trade was forced, give the NPC's cash to the player.
             p.op_of_u.owed += (cash - p.cash);
