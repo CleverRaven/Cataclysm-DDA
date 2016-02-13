@@ -51,12 +51,13 @@
             },
             "signage": {
                 "i": "This was once a infromation map for the \<city\> area, but it has long since been eroded beyond usefullness. There are small holders for tourist maps attached."
-            }
+            },
             "furniture": {
                 "6": "f_table",
                 "7": "f_toilet",
                 "9": "f_toilet",
                 "A": "f_sink",
+                "i": "f_sign",
                 "o": "f_crate_c",
                 "8": "f_trashcan"
             },
@@ -70,8 +71,9 @@
                 { "item": "methlab", "chance": 50, "x": [6, 18], "y": [8, 15]}
                 ],
             "add": [
-                { "item": "touristmap", "chance": 50, "x": [11, 12] "y": 22, "amount": 1}
-            ]
+                { "item": "touristmap", "chance": 50, "x": [11, 12], "y": 22, "amount": 1}
+            ],
+            "rotation": 2
         }
     }
 ]

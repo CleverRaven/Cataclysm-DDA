@@ -6904,6 +6904,15 @@
         "color" : "light_blue",
         "see_cost" : 0,
         "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "roadstop_b",
+        "name" : "roadside foodcart",
+        "rotate" : true,
+        "sym" : 94,
+        "color" : "orange",
+        "see_cost" : 0,
+        "mondensity" : 2
     }
 ]
 
