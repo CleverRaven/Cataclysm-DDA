@@ -605,34 +605,13 @@ bool map::vehicle_falling( vehicle &veh )
     return true;
 }
 
-float map::tile_traction( const tripoint &p ) const
-{
-    const ter_t ter = ter_at( p );
-    if( ter.has_flag( TFLAG_DEEP_WATER ) ) {
-        return -1.0f;
-    }
-
-    if( ter.has_flag( TFLAG_NO_FLOOR ) ) {
-        return 0.0f;
-    }
-
-    float traction = ter.has_flag( "ROAD" ) ? 1.0f : 0.8f;
-    if( ter.has_flag( TFLAG_SWIMMABLE ) ) {
-        traction -= 0.4f;
-    } else if( !ter.has_flag( "FLAT" ) ) {
-        traction -= 0.1f;
-    }
-
-    if( ter.movecost != 2 ) {
-        traction = traction * 2 / ter.movecost;
-    }
-
-    return traction;
-}
-
 float map::vehicle_traction( vehicle &veh ) const
 {
     const tripoint pt = veh.global_pos3();
+    // TODO: Remove this and allow amphibious vehicles
+    if( !veh.floating.empty() ) {
+        return vehicle_buoyancy( veh );
+    }
 
     // Sink in water?
     const auto &wheel_indices = veh.wheelcache;
@@ -640,7 +619,7 @@ float map::vehicle_traction( vehicle &veh ) const
     if( num_wheels == 0 ) {
         // TODO: Assume it is digging in dirt
         // TODO: Return something that could be reused for dragging
-        return std::min( 0.0f, vehicle_buoyancy( veh ) );
+        return 1.0f;
     }
 
     int submerged_wheels = 0;
@@ -680,11 +659,7 @@ float map::vehicle_traction( vehicle &veh ) const
 
     // Submerged wheels threshold is 2/3.
     if( num_wheels > 0 && (float)submerged_wheels / num_wheels > .666) {
-        if( !veh.floating.empty() ) {
-            return vehicle_buoyancy( veh );
-        } else {
-            return -1;
-        }
+        return -1;
     }
 
     if( total_wheel_area <= 0.01f ) {
@@ -909,7 +884,6 @@ int map::shake_vehicle( vehicle &veh, const int velocity_before, const int direc
             debugmsg( "throw passenger: passenger at %d,%d,%d, part at %d,%d,%d",
                 psg->posx(), psg->posy(), psg->posz(), part_pos.x, part_pos.y, part_pos.z );
             veh.parts[ps].remove_flag( vehicle_part::passenger_flag );
-            veh.invalidate_mass();
             continue;
         }
 
@@ -1252,7 +1226,6 @@ void map::board_vehicle( const tripoint &pos, player *p )
     }
     veh->parts[seat_part].set_flag(vehicle_part::passenger_flag);
     veh->parts[seat_part].passenger_id = p->getID();
-    veh->invalidate_mass();
 
     p->setpos( pos );
     p->in_vehicle = true;
@@ -1300,7 +1273,6 @@ void map::unboard_vehicle( const tripoint &p )
     passenger->controlling_vehicle = false;
     veh->parts[seat_part].remove_flag(vehicle_part::passenger_flag);
     veh->skidding = true;
-    veh->invalidate_mass();
 }
 
 void map::displace_vehicle( tripoint &p, const tripoint &dp )
@@ -1381,7 +1353,6 @@ void map::displace_vehicle( tripoint &p, const tripoint &dp )
                 part_pos.x, part_pos.y, part_pos.z,
                 g->u.posx(), g->u.posy(), g->u.posz() );
             veh->parts[prt].remove_flag(vehicle_part::passenger_flag);
-            veh->invalidate_mass();
             continue;
         }
 
@@ -1391,7 +1362,6 @@ void map::displace_vehicle( tripoint &p, const tripoint &dp )
                 prt,
                 part_pos.x, part_pos.y, part_pos.z );
             veh->parts[prt].remove_flag(vehicle_part::passenger_flag);
-            veh->invalidate_mass();
             continue;
         }
 

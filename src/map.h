@@ -488,9 +488,6 @@ public:
     // move water under wheels. true if moved
     bool displace_water( const tripoint &dp );
 
-    // Returns 1.0 on road, 0.0 in air, <0.0 in water
-    float tile_traction( const tripoint &p ) const;
-
     // Returns the modifier on wheel area due to bad surface
     // 1.0 on road, 0.0 in air
     // <0.0 when the vehicle should be destroyed (sunk in water)
