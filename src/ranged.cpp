@@ -1259,8 +1259,8 @@ static inline void eject_casing( player& p, item& weap ) {
     // some magazines also eject disintegrating linkages
     const auto mag = weap.magazine_current();
     if( mag && mag->type->magazine->linkage != "NULL" ) {
-        item linkage( mag->type->magazine->linkage, calendar::turn );
-        linkage.charges = 1; // needs charge 1 to stack properly with other linkages
+        // needs charge 1 to stack properly with other linkages
+        item linkage( mag->type->magazine->linkage, calendar::turn, 1 );
         g->m.add_item_or_charges( eject, linkage );
     }
 
@@ -1275,8 +1275,8 @@ static inline void eject_casing( player& p, item& weap ) {
         return;
     }
 
-    item casing( casing_type, calendar::turn );
-    casing.charges = 1; // needs charge 1 to stack properly with other casings
+    // needs charge 1 to stack properly with other casings
+    item casing( casing_type, calendar::turn, 1 );
 
     if( weap.has_gunmod( "brass_catcher" ) != -1 ) {
         p.i_add( casing );
