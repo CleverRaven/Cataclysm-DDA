@@ -1527,7 +1527,7 @@
         [
             { "point":[0,0,0], "overmap": "campsite_a"}
         ],
-        "locations" : [ "field" ],
+        "locations" : [ "forest" ],
         "city_distance" : [10, -1],
         "city_sizes" : [4, 12],
         "occurrences" : [2, 5],

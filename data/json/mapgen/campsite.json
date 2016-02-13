@@ -134,9 +134,8 @@
                 { "item": "cannedfood", "chance": 75,  "x": 2, "y": 3},
                 { "item": "pasta", "chance": 75,  "x": 2, "y": 3},
                 { "item": "camping", "chance": 75,  "x": 2, "y": 3 },
-                { "item": "stash_wood", "chance": 95,  "x": [ 20,17 ], "y": [ 3,7 ]},
-                { "item": "stash_wood", "chance": 90,  "x": [ 20,17 ], "y": [ 3,7 ]},
-                { "item": "field", "chance": 75,  "x": [ 15,3 ], "y": [ 15,3 ], "repeat": [1,5]}
+                { "item": "stash_wood", "chance": 80,  "x": [ 20,17 ], "y": [ 3,7 ]},
+                { "item": "field", "chance": 75,  "x": [ 15,3 ], "y": [ 15,3 ], "repeat": [1,3]}
             ],
             "place_monsters": [
                 { "x": [0,23], "y": [0,23], "monster": "CAMPERS", "chance": 40, "repeat": [1,3] }
@@ -361,7 +360,7 @@
                 { "point": "trap", "id": "tr_brazier", "x": 3, "y": 20},
                 { "point": "trap", "id": "tr_brazier", "x": 20, "y": 20}
             ],"add": [
-                { "item": "log", "x": 17, "y": 3, "amount": [5, 10]}
+                { "item": "log", "x": 18, "y": 4, "amount": [5, 10]}
             ]
         }
     }
