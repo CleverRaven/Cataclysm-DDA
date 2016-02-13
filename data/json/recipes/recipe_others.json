@@ -1085,7 +1085,6 @@
     [
       [ "stick", 1 ],
       [ "broom", 1 ],
-      [ "mop", 1 ],
       [ "2x4", 1 ],
       [ "pool_cue", 1 ]
     ]
@@ -3197,7 +3196,6 @@
     [
       [ "stick", 1 ],
       [ "broom", 1 ],
-      [ "mop", 1 ],
       [ "2x4", 1 ],
       [ "pool_cue", 1 ]
     ]
@@ -3227,7 +3225,6 @@
     [
       [ "stick", 2 ],
       [ "broom", 2 ],
-      [ "mop", 2 ],
       [ "2x4", 2 ],
       [ "pool_cue", 2 ]
     ]
@@ -3507,24 +3504,6 @@
   ]
 },{
   "type" : "recipe",
-  "result": "bag_bundle_10",
-  "category": "CC_OTHER",
-  "subcategory": "CSC_OTHER_MATERIALS",
-  "difficulty": 0,
-  "time": 500,
-  "reversible": true,
-  "autolearn": true,
-  "tools": [ ],
-  "components": [
-    [
-      [ "string_6", 1 ]
-    ],
-    [
-      [ "bag_plastic", 10 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
   "result": "steel_chunk",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MATERIALS",
@@ -3595,6 +3574,7 @@
     ],
     [
       [ "disinfectant", 1 ],
+      [ "chem_ethanol", 7 ],
       [ "saline", 10 ],
       [ "thyme_oil", 1 ],
       [ "chem_hydrogen_peroxide", 1 ]
@@ -5711,15 +5691,15 @@
   "skill_used": "fabrication",
   "difficulty": 0,
   "time": 10000,
-  "reversible": false,
+  "reversible": true,
   "autolearn": true,
   "qualities" : [
     {"id":"CUT","level":1,"amount":1}
   ],
   "components": [
     [
-      [ "2x4", 1 ],
-      [ "stick", 1 ]
+      [ "stick", 1 ],
+      [ "2x4", 1 ]
     ],
     [
       [ "rag", 4 ]
@@ -7163,8 +7143,7 @@
     [
      [ "2x4", 1 ],
      [ "stick", 1 ],
-     [ "broom", 1 ],
-     [ "mop", 1 ]
+     [ "broom", 1 ]
    ]
   ]
 },{
@@ -7188,8 +7167,7 @@
     [
      [ "2x4", 1 ],
      [ "stick", 1 ],
-     [ "broom", 1 ],
-     [ "mop", 1 ]
+     [ "broom", 1 ]
     ]
    ]
 },{
@@ -7597,6 +7575,7 @@
 [
 [
 [ "material_aluminium_ingot", 1],
+[ "can_drink", 6],
 [ "aluminum_foil", 40]
 ],
 [

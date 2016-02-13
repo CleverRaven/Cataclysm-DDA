@@ -1048,6 +1048,17 @@
   "components": [ [ [ "paper", 3 ] ] ]
 },{
   "type" : "recipe",
+  "result": "box_cigarette",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "difficulty": 0,
+  "time": 100,
+  "reversible": true,
+  "autolearn": false,
+  "flags": ["BLIND_EASY"],
+  "components": [ [ [ "paper", 1 ] ] ]
+},{
+  "type" : "recipe",
   "result": "flyer",
   "id_suffix": "uncraft",
   "category": "CC_NONCRAFT",

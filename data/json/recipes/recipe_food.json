@@ -3947,6 +3947,7 @@
   ],
   "components": [
     [
+      [ "canister_empty", 1 ],
       [ "can_food", 1 ]
     ],
     [
@@ -11040,6 +11041,7 @@
   ],
   "components": [
     [
+      [ "canister_empty", 1 ],
       [ "can_food", 1 ]
     ],
     [
@@ -11083,6 +11085,7 @@
   ],
   "components": [
     [
+      [ "canister_empty", 1 ],
       [ "can_food", 1 ]
     ],
     [
@@ -11126,6 +11129,7 @@
   ],
   "components": [
     [
+      [ "canister_empty", 1 ],
       [ "can_food", 1 ]
     ],
     [
@@ -11169,6 +11173,7 @@
   ],
   "components": [
     [
+      [ "canister_empty", 1 ],
       [ "can_food", 1 ]
     ],
     [
@@ -11224,6 +11229,7 @@
   ],
   "components": [
     [
+      [ "canister_empty", 1 ],
       [ "can_food", 1 ]
     ],
     [
@@ -11289,6 +11295,7 @@
   ],
   "components": [
     [
+      [ "canister_empty", 1 ],
       [ "can_food", 1 ]
     ],
     [
@@ -11333,6 +11340,7 @@
   ],
   "components": [
     [
+      [ "canister_empty", 1 ],
       [ "can_food", 1 ]
     ],
     [
@@ -11410,6 +11418,7 @@
   ],
   "components": [
     [
+      [ "canister_empty", 1 ],
       [ "can_food", 1 ]
     ],
     [
@@ -11497,6 +11506,7 @@
   ],
   "components": [
     [
+      [ "canister_empty", 1 ],
       [ "can_food", 1 ]
     ],
     [
@@ -11567,6 +11577,7 @@
   ],
   "components": [
     [
+      [ "canister_empty", 1 ],
       [ "can_food", 1 ]
     ],
     [
