@@ -514,7 +514,7 @@ void player::action_taken()
 void player::update_morale()
 {
     // Decay existing morale entries.
-    for( size_t i = morale.size() - 1; i > 0; i-- ) {
+    for( size_t i = morale.size(); i --> 0; ) {
         morale[i].proceed();
 
         if( morale[i].is_expired() ) {
