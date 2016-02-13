@@ -182,7 +182,6 @@
         "material": "bone",
         "weight": 45,
         "volume": 1,
-        "bashing": -2,
         "to_hit": -2,
         "flags" : ["UNRECOVERABLE"]
     },
@@ -262,7 +261,6 @@
         "material": ["plastic", "null"],
         "weight": 56,
         "volume": 1,
-        "bashing": -3,
         "to_hit": -1
     },
     {
@@ -277,7 +275,6 @@
         "material": ["plastic", "null"],
         "weight": 30,
         "volume": 1,
-        "bashing": -5,
         "to_hit": -1
     },
     {
@@ -307,7 +304,6 @@
         "material": ["plastic", "null"],
         "weight": 114,
         "volume": 1,
-        "bashing": -5,
         "to_hit": -1
     },
     {
@@ -322,7 +318,6 @@
         "material": ["aluminum", "plastic"],
         "weight": 480,
         "volume": 1,
-        "bashing": -5,
         "to_hit": -1
     },
     {
@@ -337,7 +332,6 @@
         "material": ["aluminum", "plastic"],
         "weight": 114,
         "volume": 1,
-        "bashing": -4,
         "to_hit": -1
     },
     {
@@ -352,8 +346,6 @@
         "material": "plastic",
         "weight": 500,
         "volume": 1,
-        "bashing": -6,
-        "cutting": -2,
         "to_hit": -4
     },
     {
@@ -370,7 +362,6 @@
         "flags": [ "LENS" ],
         "weight": 340,
         "volume": 0,
-        "bashing": -8,
         "to_hit": -3,
         "use_action": {
             "type": "extended_firestarter",
@@ -389,7 +380,6 @@
         "material": ["steel", "plastic"],
         "weight": 317,
         "volume": 10,
-        "bashing": -4,
         "to_hit": -1
     },
     {
@@ -404,7 +394,6 @@
         "material": "aluminum",
         "weight": 68,
         "volume": 1,
-        "bashing": -6,
         "to_hit": 2
     },
     {
@@ -419,7 +408,6 @@
         "material": "plastic",
         "weight": 26,
         "volume": 0,
-        "bashing": -6,
         "to_hit": 2
     },
     {
@@ -434,7 +422,6 @@
         "material": "aluminum",
         "weight": 14,
         "volume": 0,
-        "bashing": -6,
         "to_hit": 2
     },
     {
@@ -662,7 +649,6 @@
         "symbol" : ",",
         "material" : ["veggy", "null"],
         "volume" : 1,
-        "bashing" : -8,
         "price" : 0
     },
     {
@@ -676,7 +662,6 @@
         "symbol" : ",",
         "material" : ["veggy", "null"],
         "volume" : 1,
-        "bashing" : -8,
         "price" : 200
     },
     {
@@ -690,7 +675,6 @@
         "symbol" : ",",
         "material" : ["veggy", "null"],
         "volume" : 1,
-        "bashing" : -8,
         "price" : 0
     },
     {
@@ -704,7 +688,6 @@
         "symbol" : ",",
         "material" : ["veggy", "null"],
         "volume" : 1,
-        "bashing" : -8,
         "price" : 200
     },
     {
@@ -718,7 +701,6 @@
         "symbol" : ",",
         "material" : ["veggy", "null"],
         "volume" : 1,
-        "bashing" : -8,
         "price" : 0
     },
     {
@@ -732,7 +714,6 @@
         "symbol" : ",",
         "material" : ["veggy", "null"],
         "volume" : 1,
-        "bashing" : -8,
         "price" : 200
     },
     {
@@ -748,7 +729,6 @@
         "material": "freshclay",
         "weight": 530,
         "volume": 1,
-        "bashing": -1,
         "to_hit": -4
     },
     {
