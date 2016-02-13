@@ -865,7 +865,6 @@
         "spoils_in" : 0,
         "use_action" : "SMOKING",
         "stim" : 1,
-        "container" : "null",
         "comestible_type" : "MED",
         "symbol" : "!",
         "quench" : 0,
@@ -950,7 +949,6 @@
         "addiction_type" : "nicotine",
         "spoils_in" : 0,
         "stim" : 1,
-        "container" : "null",
         "to_hit" : -2,
         "comestible_type" : "MED",
         "symbol" : "!",
@@ -1012,7 +1010,6 @@
             "moves" : 40
         },
         "stim" : -10,
-        "container" : "null",
         "comestible_type" : "MED",
         "symbol" : "!",
         "quench" : -5,
