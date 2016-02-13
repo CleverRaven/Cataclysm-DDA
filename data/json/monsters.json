@@ -6413,7 +6413,26 @@
     "luminance":200,
     "hp":30,
     "death_function":"EXPLODE",
-    "special_attacks":[["SMG", 1]],
+    "special_attacks":[
+        {
+            "type" : "gun",
+            "cooldown" : 1,
+            "gun_type" : "hk_mp5",
+            "ammo_type" : "9mm",
+            "max_ammo" : 1000,
+            "fake_str" : 16,
+            "fake_dex" : 8,
+            "fake_per" : 12,
+            "fake_skills" : [["gun", 4], ["smg", 8]],
+            "move_cost" : 150,
+            "targeting_cost" : 100,
+            "range" : 18,
+            "description" : "The turret fires its smg!",
+            "targeting_sound" : "beep-beep-beep!",
+            "targeting_volume" : 6,
+            "no_ammo_sound" : "a chk!"
+        }
+    ],
     "starting_ammo" : {"9mm":100},
     "description":"The General Atomics TX-1 Guardian, a small, pill-shaped automated gun turret using state of the art ATR systems to dynamically reorient itself to new friends and enemies alike.  The two SMG barrels can swivel a full 360 degrees.",
     "flags":["SEES", "NOHEAD", "ELECTRONIC", "IMMOBILE", "NO_BREATHE"]

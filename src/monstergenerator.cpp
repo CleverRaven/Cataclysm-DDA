@@ -623,6 +623,8 @@ void mtype::add_special_attack( JsonObject obj )
         special_attacks[type] = load_actor<leap_actor>( obj, cooldown );
     } else if( type == "bite" ) {
         special_attacks[type] = load_actor<bite_actor>( obj, cooldown );
+    } else if( type == "gun" ) {
+        special_attacks[type] = load_actor<gun_actor>( obj, cooldown );
     } else {
         obj.throw_error( "unknown monster attack", "type" );
         return;
