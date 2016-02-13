@@ -3963,16 +3963,21 @@ bool mattack::lunge(monster *z)
     }
     body_part hit = target->get_random_body_part();
     int dam = rng(3, 7);
-
-    target->deal_damage( z, hit, damage_instance( DT_BASH, dam ) );
+    dam = target->deal_damage( z, hit, damage_instance( DT_BASH, dam ) ).total_damage();
+    if( dam > 0 ) {
+        target->add_msg_if_player(m_bad, _("Your %1$s is battered for %2$d damage!"), body_part_name(hit).c_str(), dam);
+    }
+    else {
+        target->add_msg_player_or_npc( _("The %1$s lunges at your %2$s, but glances off your armor!"),
+                                    _("The %1$s lunges at <npcname>'s %2$s, but glances off armor!"),
+                                    z->name().c_str(),
+                                    body_part_name_accusative( hit ).c_str() );
+    }
     if( one_in( 6 ) ) {
         target->add_effect( effect_downed, 3);
     }
-
     target->on_hit( z, hit,  z->type->melee_skill );
-    target->add_msg_if_player(m_bad, _("Your %1$s is battered for %2$d damage!"), body_part_name(hit).c_str(), dam);
     target->check_dead_state();
-
     return true;
 }
 
@@ -4005,9 +4010,17 @@ bool mattack::longswipe(monster *z)
             }
             body_part hit = target->get_random_body_part();
             int dam = rng(3, 7);
-            //~ 1$s is bodypart name, 2$d is damage value.
-            target->add_msg_if_player(m_bad, _("Your %1$s is slashed for %2$d damage!"), body_part_name(hit).c_str(), dam);
-            target->deal_damage( z, hit, damage_instance( DT_CUT, dam ) );
+            dam = target->deal_damage( z, hit, damage_instance( DT_CUT, dam ) ).total_damage();
+            if( dam > 0 ) {
+                //~ 1$s is bodypart name, 2$d is damage value.
+                target->add_msg_if_player(m_bad, _("Your %1$s is slashed for %2$d damage!"), body_part_name(hit).c_str(), dam);
+            }
+            else {
+                target->add_msg_player_or_npc( _("The %1$s slashes your %2$s, but glances off your armor!"),
+                                    _("The %1$s slashes <npcname>'s %2$s, but glances off armor!"),
+                                    z->name().c_str(),
+                                    body_part_name_accusative( hit ).c_str() );
+            }
             target->on_hit( z, hit,  z->type->melee_skill  );
             return true;
         }
@@ -4028,9 +4041,17 @@ bool mattack::longswipe(monster *z)
     }
     body_part hit = bp_head;
     int dam = rng(6, 10);
-    target->add_msg_if_player(m_bad, _("Your throat is slashed for %d damage!"), dam);
-    target->deal_damage( z, hit, damage_instance( DT_CUT, dam ) );
-    target->add_effect( effect_bleed, 100, hit);
+    dam = target->deal_damage( z, hit, damage_instance( DT_CUT, dam ) ).total_damage();
+    if( dam > 0 ) {
+        target->add_msg_if_player(m_bad, _("Your throat is slashed for %d damage!"), dam);
+        target->add_effect( effect_bleed, 100, hit);
+    }
+    else {
+        target->add_msg_player_or_npc( _("The %1$s slashes at your %2$s, but glances off your armor!"),
+                                    _("The %1$s slashes at <npcname>'s %2$s, but glances off armor!"),
+                                    z->name().c_str(),
+                                    body_part_name_accusative( hit ).c_str() );
+    }
     target->on_hit( z, hit,  z->type->melee_skill  );
     target->check_dead_state();
 
