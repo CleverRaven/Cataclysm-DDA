@@ -549,6 +549,26 @@ Alternately, every item (book, tool, armor, even food) can be used as gun if it 
 }
 ```
 
+###GUNMOD
+Gun mods can be define like this:
+```C++
+"type": "GUNMOD",              // Defines this as a GUNMOD
+...                            // Same entries as above for the generic item.
+                               // Additionally some gunmod specific entries:
+"location": "stock",           // Mandatory. Where is this gunmod is installed?
+"mod_targets": [ "crossbow" ], // Mandatory. What kind of weapons can this gunmod be used with?
+"acceptable_ammo": [ "9mm" ],  // Optional filter restricting mod to guns with those base (before modifiers) ammo types
+"install_time": 100,           // Optional number of moves installation takes. Installation is instantaneous if unspecified
+"ammo_modifier": "57",         // Optional field which if specified modifies parent gun to use this ammo type
+"burst_modifier": 3,           // Optional field increasing or decreasing base gun burst size
+"damage_modifier": -1,         // Optional field increasing or decreasing base gun damage
+"dispersion_modifier": 15,     // Optional field increasing or decreasing base gun dispersion
+"loudness_modifier": 4,        // Optional field increasing or decreasing base guns loudness
+"range_modifier": 2,           // Optional field increasing or decreasing base gun range
+"recoil_modifier": -100,       // Optional field increasing or decreasing base gun recoil
+"ups_charges": 200,            // Optional field increasing or decreasing base gun UPS consumption (per shot)
+```
+
 ###TOOLS
 ```C++
 "id": "torch_lit",    // Unique ID. Must be one continuous word, use underscores if necessary

@@ -220,8 +220,6 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
     /** Reload item using ammo from location returning true if sucessful */
     bool reload( player &u, item_location loc );
 
-    skill_id skill() const;
-
     template<typename Archive>
     void io( Archive& );
     using archive_type_tag = io::object_archive_tag;
@@ -1103,8 +1101,16 @@ public:
          *  @return items that were created as a result of the conversion (excess ammo or magazines) */
         std::vector<item> magazine_convert();
 
-        /** Checks if mod can be applied to this item considering any current state (jammed, loaded etc.) */
-        bool gunmod_compatible( const item& mod, bool alert = true ) const;
+        /** Returns all gunmods currently attached to this item (always empty if item not a gun) */
+        std::vector<item *> gunmods();
+        std::vector<const item *> gunmods() const;
+
+        /*
+         * Checks if mod can be applied to this item considering any current state (jammed, loaded etc.)
+         * @param alert whether to display message describing reason for any incompatibility
+         * @param effects whether temporary efects (jammed, loaded etc) are considered when checking
+         */
+        bool gunmod_compatible( const item& mod, bool alert = true, bool effects = true ) const;
 
         /**
          * Burst size (see ranged.cpp), includes effects from installed gunmods.
@@ -1188,6 +1194,10 @@ public:
          * for which skill() would return a skill.
          */
         skill_id gun_skill() const;
+
+        /** Get the type of a ranged weapon (eg. "rifle", "crossbow"), or empty string if non-gun */
+        std::string gun_type() const;
+
         /**
          * Returns the currently active auxiliary (@ref is_auxiliary_gunmod) gun mod item.
          * May return null if there is no such gun mod or if the gun is not in the

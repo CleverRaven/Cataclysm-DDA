@@ -40,6 +40,7 @@
 #include <set>
 #include <array>
 #include <tuple>
+#include <iterator>
 
 static const std::string GUN_MODE_VAR_NAME( "item::mode" );
 static const std::string CHARGER_GUN_FLAG_NAME( "CHARGE" );
@@ -570,6 +571,32 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
 
         insert_separation_line();
 
+        // Display any minimal stat or skill requirements for the item
+        std::vector<std::string> req;
+        if( type->min_str > 0 ) {
+            req.push_back( string_format( "%s %d", _( "strength" ), type->min_str ) );
+        }
+        if( type->min_dex > 0 ) {
+            req.push_back( string_format( "%s %d", _( "dexterity" ), type->min_dex ) );
+        }
+        if( type->min_int > 0 ) {
+            req.push_back( string_format( "%s %d", _( "intelligence" ), type->min_int ) );
+        }
+        if( type->min_per > 0 ) {
+            req.push_back( string_format( "%s %d", _( "perception" ), type->min_per ) );
+        }
+        for( const auto &sk : type->min_skills ) {
+            req.push_back( string_format( "%s %d", sk.first.obj().name().c_str(), sk.second ) );
+        }
+        if( !req.empty() ) {
+            std::ostringstream tmp;
+            std::copy( req.begin(), req.end() - 1, std::ostream_iterator<std::string>( tmp, ", " ) );
+            tmp << req.back();
+            info.emplace_back( "BASE", _("<bold>Minimum requirements:</bold>") );
+            info.emplace_back( "BASE", tmp.str() );
+            insert_separation_line();
+        }
+
         if( made_of().size() > 0 ) {
             std::string material_list;
             bool made_of_something = false;
@@ -829,17 +856,15 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                 temp1 << "<bold>" << free_slots << "/" << ( elem ).second << "</bold> " << _( (
                             elem ).first.c_str() );
                 bool first_mods = true;
-                for( auto &mod : contents ) {
-                    if( mod.is_gunmod() ) {
-                        if( mod.type->gunmod->location == ( elem ).first ) { // if mod for this location
-                            if( first_mods ) {
-                                temp1 << ": ";
-                                first_mods = false;
-                            } else {
-                                temp1 << ", ";
-                            }
-                            temp1 << "<stat>" << mod.tname() << "</stat>";
+                for( const auto mod : gunmods() ) {
+                    if( mod->type->gunmod->location == ( elem ).first ) { // if mod for this location
+                        if( first_mods ) {
+                            temp1 << ": ";
+                            first_mods = false;
+                        } else {
+                            temp1 << ", ";
                         }
+                        temp1 << "<stat>" << mod->tname() << "</stat>";
                     }
                 }
                 iternum++;
@@ -879,9 +904,6 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
             info.push_back( iteminfo( "GUNMOD", _( "Armor-pierce: " ), "", mod->pierce, true,
                                       ( ( mod->pierce > 0 ) ? "+" : "" ) ) );
         }
-        if( mod->clip != 0 )
-            info.push_back( iteminfo( "GUNMOD", _( "Magazine: " ), "<num>%", mod->clip, true,
-                                      ( ( mod->clip > 0 ) ? "+" : "" ) ) );
         if( mod->recoil != 0 )
             info.push_back( iteminfo( "GUNMOD", _( "Recoil: " ), "", mod->recoil, true,
                                       ( ( mod->recoil > 0 ) ? "+" : "" ), true, true ) );
@@ -889,59 +911,19 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
             info.push_back( iteminfo( "GUNMOD", _( "Burst: " ), "", mod->burst, true,
                                       ( mod->burst > 0 ? "+" : "" ) ) );
 
-        if( mod->newtype != "NULL" ) {
+        if( mod->ammo_modifier != "NULL" ) {
             info.push_back( iteminfo( "GUNMOD",
-                                      string_format( _( "Ammo: <stat>%s</stat>" ), ammo_name( mod->newtype ).c_str() ) ) );
+                                      string_format( _( "Ammo: <stat>%s</stat>" ), ammo_name( mod->ammo_modifier ).c_str() ) ) );
         }
 
         temp1.str( "" );
         temp1 << _( "Used on: " );
-        bool first = true;
-        if( mod->used_on_pistol ) {
-            temp1 << _( "<info>pistols</info>" );
-            first = false;
-        }
-        if( mod->used_on_shotgun ) {
-            if( !first ) {
+        for( auto it = mod->usable.begin(); it != mod->usable.end(); ) {
+            //~ a weapon type which a gunmod is compatible (eg. "pistol", "crossbow", "rifle")
+            temp1 << string_format( "<info>%s</info>", _( it->c_str() ) );
+            if( ++it != mod->usable.end() ) {
                 temp1 << ", ";
             }
-            temp1 << _( "<info>shotguns</info>" );
-            first = false;
-        }
-        if( mod->used_on_smg ) {
-            if( !first ) {
-                temp1 << ", ";
-            }
-            temp1 << _( "<info>SMGs</info>" );
-            first = false;
-        }
-        if( mod->used_on_rifle ) {
-            if( !first ) {
-                temp1 << ", ";
-            }
-            temp1 << _( "<info>rifles</info>" );
-            first = false;
-        }
-        if( mod->used_on_bow ) {
-            if( !first ) {
-                temp1 << ", ";
-            }
-            temp1 << _( "<info>bows</info>" );
-            first = false;
-        }
-        if( mod->used_on_crossbow ) {
-            if( !first ) {
-                temp1 << ", ";
-            }
-            temp1 << _( "<info>crossbows</info>" );
-            first = false;
-        }
-        if( mod->used_on_launcher ) {
-            if( !first ) {
-                temp1 << ", ";
-            }
-            temp1 << _( "<info>launchers</info>" );
-            first = false;
         }
 
         temp2.str( "" );
@@ -1692,18 +1674,16 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         // describe contents
         if( !contents.empty() ) {
             if( is_gun() ) { //Mods description
-                for( const auto &mod : contents ) {
-                    if( mod.is_gunmod() ) {
-                        temp1.str( "" );
-                        if( mod.has_flag( "IRREMOVABLE" ) ) {
-                            temp1 << _( "[Integrated]" );
-                        }
-                        temp1 << _( "Mod: " ) << "<bold>" << mod.tname() << "</bold> (" << _( mod.type->gunmod->location.c_str() ) <<
-                              ")";
-                        insert_separation_line();
-                        info.push_back( iteminfo( "DESCRIPTION", temp1.str() ) );
-                        info.push_back( iteminfo( "DESCRIPTION", mod.type->description ) );
+                for( const auto mod : gunmods() ) {
+                    temp1.str( "" );
+                    if( mod->has_flag( "IRREMOVABLE" ) ) {
+                        temp1 << _( "[Integrated]" );
                     }
+                    temp1 << _( "Mod: " ) << "<bold>" << mod->tname() << "</bold> (" << _( mod->type->gunmod->location.c_str() ) <<
+                          ")";
+                    insert_separation_line();
+                    info.push_back( iteminfo( "DESCRIPTION", temp1.str() ) );
+                    info.push_back( iteminfo( "DESCRIPTION", mod->type->description ) );
                 }
             } else {
                 info.push_back( iteminfo( "DESCRIPTION", contents[0].type->description ) );
@@ -2078,8 +2058,8 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
     else if (is_gun() && !contents.empty() ) {
         ret.str("");
         ret << label(quantity);
-        for( const auto& e : contents ) {
-            if( e.is_gunmod() && !type->gun->built_in_mods.count( e.typeId() ) ) {
+        for( const auto mod : gunmods() ) {
+            if( !type->gun->built_in_mods.count( mod->typeId() ) ) {
                 ret << "+";
             }
         }
@@ -2390,10 +2370,8 @@ int item::volume( bool integral ) const
     }
 
     if (is_gun()) {
-        for( auto &elem : contents ) {
-            if( elem.is_gunmod() ) {
-                ret += elem.volume( true );
-            }
+        for( const auto elem : gunmods() ) {
+            ret += elem->volume( true );
         }
 
         // @todo implement stock_length property for guns
@@ -3348,11 +3326,9 @@ const islot_armor *item::find_armor_data() const
     // Currently the only way to make a non-armor item into armor is to install a gun mod.
     // The gunmods are stored in the items contents, as are the contents of a container, and the
     // tools in a tool belt (a container actually), or the ammo in a quiver (container again).
-    if( is_gun() ) {
-        for( auto &mod : contents ) {
-            if( mod.type->armor ) {
-                return mod.type->armor.get();
-            }
+    for( const auto mod : gunmods() ) {
+        if( mod->type->armor ) {
+            return mod->type->armor.get();
         }
     }
     return nullptr;
@@ -3570,11 +3546,11 @@ item* item::active_gunmod()
 item const* item::active_gunmod() const
 {
     if( is_in_auxiliary_mode() ) {
-        for( auto &elem : contents ) {
-            if( elem.is_gunmod() && elem.is_in_auxiliary_mode() ) {
-                return &elem;
-            }
-        }
+        const auto mods = gunmods();
+        auto it = std::find_if( mods.begin(), mods.end(), []( const item *e ) {
+            return e->is_in_auxiliary_mode();
+        } );
+        return it != mods.end() ? *it : nullptr;
     }
     return nullptr;
 }
@@ -3669,6 +3645,23 @@ skill_id item::gun_skill() const
     return type->gun->skill_used;
 }
 
+std::string item::gun_type() const
+{
+    static skill_id skill_archery( "archery" );
+
+    if( !is_gun() ) {
+        return std::string();
+    }
+    if( gun_skill() == skill_archery ) {
+        if( ammo_type() == "bolt" || typeId() == "bullet_crossbow" ) {
+            return "crossbow";
+        } else{
+            return "bow";
+        }
+    }
+    return gun_skill().c_str();
+}
+
 skill_id item::weap_skill() const
 {
     if( !is_weap() && !is_tool() ) {
@@ -3680,28 +3673,14 @@ skill_id item::weap_skill() const
     return skill_cutting;
 }
 
-skill_id item::skill() const
-{
-    if( is_gunmod() ) {
-        return type->gunmod->skill_used;
-    } else if ( is_gun() ) {
-        return type->gun->skill_used;
-    } else if( type->book && type->book->skill ) {
-        return type->book->skill;
-    }
-    return NULL_ID;
-}
-
 int item::gun_dispersion( bool with_ammo ) const
 {
     if( !is_gun() ) {
         return 0;
     }
     int dispersion_sum = type->gun->dispersion;
-    for( auto & elem : contents ) {
-        if( elem.is_gunmod() ) {
-            dispersion_sum += elem.type->gunmod->dispersion;
-        }
+    for( const auto mod : gunmods() ) {
+        dispersion_sum += mod->type->gunmod->dispersion;
     }
     dispersion_sum += damage * 60;
     dispersion_sum = std::max(dispersion_sum, 0);
@@ -3726,15 +3705,13 @@ int item::sight_dispersion( int aim_threshold ) const
     if( gun->sight_dispersion < aim_threshold || aim_threshold == -1 ) {
         best_aim_speed = gun->aim_speed;
     }
-    for( auto &elem : contents ) {
-        if( elem.is_gunmod() ) {
-            const auto mod = elem.type->gunmod.get();
-            if( mod->sight_dispersion != -1 && mod->aim_speed != -1 &&
-                ( ( aim_threshold == -1 && mod->sight_dispersion < best_dispersion ) ||
-                  ( mod->sight_dispersion < aim_threshold && mod->aim_speed < best_aim_speed ) ) ) {
-                best_aim_speed = mod->aim_speed;
-                best_dispersion = mod->sight_dispersion;
-            }
+    for( const auto e : gunmods() ) {
+        const auto mod = e->type->gunmod.get();
+        if( mod->sight_dispersion != -1 && mod->aim_speed != -1 &&
+            ( ( aim_threshold == -1 && mod->sight_dispersion < best_dispersion ) ||
+              ( mod->sight_dispersion < aim_threshold && mod->aim_speed < best_aim_speed ) ) ) {
+            best_aim_speed = mod->aim_speed;
+            best_dispersion = mod->sight_dispersion;
         }
     }
     return best_dispersion;
@@ -3752,16 +3729,14 @@ int item::aim_speed( int aim_threshold ) const
     if( gun->sight_dispersion <= aim_threshold || aim_threshold == -1 ) {
         best_aim_speed = gun->aim_speed;
     }
-    for( auto &elem : contents ) {
-        if( elem.is_gunmod() ) {
-            const auto mod = elem.type->gunmod.get();
-            if( mod->sight_dispersion != -1 && mod->aim_speed != -1 &&
-                ((aim_threshold == -1 && mod->sight_dispersion < best_dispersion ) ||
-                 (mod->sight_dispersion <= aim_threshold &&
-                  mod->aim_speed < best_aim_speed)) ) {
-                best_aim_speed = mod->aim_speed;
-                best_dispersion = mod->sight_dispersion;
-            }
+    for( const auto e : gunmods() ) {
+        const auto mod = e->type->gunmod.get();
+        if( mod->sight_dispersion != -1 && mod->aim_speed != -1 &&
+            ((aim_threshold == -1 && mod->sight_dispersion < best_dispersion ) ||
+             (mod->sight_dispersion <= aim_threshold &&
+              mod->aim_speed < best_aim_speed)) ) {
+            best_aim_speed = mod->aim_speed;
+            best_dispersion = mod->sight_dispersion;
         }
     }
     return best_aim_speed;
@@ -3776,10 +3751,8 @@ int item::gun_damage( bool with_ammo ) const
     if( with_ammo && ammo_data() ) {
         ret += ammo_data()->ammo->damage;
     }
-    for( auto & elem : contents ) {
-        if( elem.is_gunmod() ) {
-            ret += elem.type->gunmod->damage;
-        }
+    for( const auto mod : gunmods() ) {
+        ret += mod->type->gunmod->damage;
     }
     ret -= damage * 2;
     return ret;
@@ -3794,10 +3767,8 @@ int item::gun_pierce( bool with_ammo ) const
     if( with_ammo && ammo_data() ) {
         ret += ammo_data()->ammo->pierce;
     }
-    for( auto &elem : contents ) {
-        if( elem.is_gunmod() ) {
-            ret += elem.type->gunmod->pierce;
-        }
+    for( const auto mod : gunmods() ) {
+        ret += mod->type->gunmod->pierce;
     }
     // TODO: item::damage is not used here, but it is in item::gun_damage?
     return ret;
@@ -3813,15 +3784,10 @@ int item::burst_size() const
         return 1;
     }
     int ret = type->gun->burst;
-    for( auto &elem : contents ) {
-        if( elem.is_gunmod() ) {
-            ret += elem.type->gunmod->burst;
-        }
+    for( const auto mod : gunmods() ) {
+        ret += mod->type->gunmod->burst;
     }
-    if( ret < 0 ) {
-        return 0;
-    }
-    return ret;
+    return std::max( 0, ret );
 }
 
 int item::gun_recoil( bool with_ammo ) const
@@ -3833,10 +3799,8 @@ int item::gun_recoil( bool with_ammo ) const
     if( with_ammo && ammo_data() ) {
         ret += ammo_data()->ammo->recoil;
     }
-    for( auto & elem : contents ) {
-        if( elem.is_gunmod() ) {
-            ret += elem.type->gunmod->recoil;
-        }
+    for( const auto mod : gunmods() ) {
+        ret += mod->type->gunmod->recoil;
     }
     ret += 15 * damage;
     return ret;
@@ -3848,10 +3812,8 @@ int item::gun_range( bool with_ammo ) const
         return 0;
     }
     int ret = type->gun->range;
-    for( auto & elem : contents ) {
-        if( elem.is_gunmod() ) {
-            ret += elem.type->gunmod->range;
-        }
+    for( const auto mod : gunmods() ) {
+        ret += mod->type->gunmod->range;
     }
     if( has_flag( "NO_AMMO" ) && !ammo_data() ) {
         return ret;
@@ -4051,9 +4013,9 @@ ammotype item::ammo_type( bool conversion ) const
         if( has_flag( "ATOMIC_AMMO" ) ) {
             return "plutonium";
         }
-        for( const auto &mod : contents ) {
-            if( mod.is_gunmod() && !mod.is_auxiliary_gunmod() && mod.ammo_type() != "NULL" ) {
-                return mod.ammo_type();
+        for( const auto mod : gunmods() ) {
+            if( !mod->is_auxiliary_gunmod() && mod->ammo_type() != "NULL" ) {
+                return mod->ammo_type();
             }
         }
     }
@@ -4067,7 +4029,7 @@ ammotype item::ammo_type( bool conversion ) const
     } else if( is_ammo() ) {
         return type->ammo->type;
     } else if( is_gunmod() ) {
-        return type->gunmod->newtype;
+        return type->gunmod->ammo_modifier;
     }
     return "NULL";
 }
@@ -4106,7 +4068,31 @@ const item * item::magazine_current() const
     return const_cast<item *>(this)->magazine_current();
 }
 
-bool item::gunmod_compatible( const item& mod, bool alert ) const
+std::vector<item *> item::gunmods()
+{
+    std::vector<item *> res;
+    res.reserve( contents.size() );
+    for( auto& e : contents ) {
+        if( e.is_gunmod() ) {
+            res.push_back( &e );
+        }
+    }
+    return res;
+}
+
+std::vector<const item *> item::gunmods() const
+{
+    std::vector<const item *> res;
+    res.reserve( contents.size() );
+    for( auto& e : contents ) {
+        if( e.is_gunmod() ) {
+            res.push_back( &e );
+        }
+    }
+    return res;
+}
+
+bool item::gunmod_compatible( const item& mod, bool alert, bool effects ) const
 {
     if( !mod.is_gunmod() ) {
         debugmsg( "Tried checking compatibility of non-gunmod" );
@@ -4130,34 +4116,16 @@ bool item::gunmod_compatible( const item& mod, bool alert ) const
     } else if( get_free_mod_locations( mod.type->gunmod->location ) <= 0 ) {
         msg = string_format( _( "Your %1$s doesn't have enough room for another %2$s mod." ), tname().c_str(), _( mod.type->gunmod->location.c_str() ) );
 
-    } else if( ammo_remaining() > 0 || magazine_current() ) {
+    } else if( effects && ( ammo_remaining() > 0 || magazine_current() ) ) {
         msg = string_format( _( "Unload your %s before trying to modify it." ), tname().c_str() );
 
-    } else if( gun_skill() == skill_id( "pistol" ) && !mod.type->gunmod->used_on_pistol ) {
-        msg = string_format( _( "That %s cannot be attached to a handgun." ), mod.tname().c_str() );
+    } else if( !mod.type->gunmod->usable.count( gun_type() ) ) {
+        msg = string_format( _( "That %s cannot be attached to a %s" ), mod.tname().c_str(), _( gun_type().c_str() ) );
 
-    } else if( gun_skill() == skill_id( "shotgun" ) && !mod.type->gunmod->used_on_shotgun ) {
-        msg = string_format( _( "That %s cannot be attached to a shotgun." ), mod.tname().c_str() );
-
-    } else if( gun_skill() == skill_id( "smg" ) && !mod.type->gunmod->used_on_smg ) {
-        msg = string_format( _( "That %s cannot be attached to a submachine gun." ), mod.tname().c_str() );
-
-    } else if( gun_skill() == skill_id( "rifle" ) && !mod.type->gunmod->used_on_rifle ) {
-        msg = string_format( _( "That %s cannot be attached to a rifle." ), mod.tname().c_str() );
-
-    } else if( gun_skill() == skill_id( "archery" ) && !mod.type->gunmod->used_on_bow && ammo_type() == "arrow" ) {
-        msg = string_format( _( "That %s cannot be attached to a bow." ), mod.tname().c_str() );
-
-    } else if( gun_skill() == skill_id( "archery" ) && !mod.type->gunmod->used_on_crossbow && ( ammo_type() == "bolt" || typeId() == "bullet_crossbow" ) ) {
-        msg = string_format( _( "That %s cannot be attached to a crossbow." ), mod.tname().c_str() );
-
-    } else if( gun_skill() == skill_id( "launcher" ) && !mod.type->gunmod->used_on_launcher ) {
-        msg = string_format( _( "That %s cannot be attached to a launcher." ), mod.tname().c_str() );
-
-    } else if( typeId() == "hand_crossbow" && !mod.type->gunmod->used_on_pistol ) {
+    } else if( typeId() == "hand_crossbow" && !!mod.type->gunmod->usable.count( "pistol" ) ) {
         msg = string_format( _("Your %s isn't big enough to use that mod.'"), tname().c_str() );
 
-    } else if ( !mod.type->gunmod->acceptable_ammo_types.empty() && !mod.type->gunmod->acceptable_ammo_types.count( ammo_type( false ) ) ) {
+    } else if ( !mod.type->gunmod->acceptable_ammo.empty() && !mod.type->gunmod->acceptable_ammo.count( ammo_type( false ) ) ) {
         msg = string_format( _( "That %1$s cannot be used on a %2$s." ), mod.tname( 1 ).c_str(), ammo_name( ammo_type( false ) ).c_str() );
 
     } else if( mod.typeId() == "waterproof_gunmod" && has_flag( "WATERPROOF_GUN" ) ) {
@@ -5741,12 +5709,10 @@ itype *item::find_type( const itype_id &type )
 int item::get_gun_ups_drain() const
 {
     int draincount = 0;
-    if( type->gun.get() != nullptr ){
+    if( type->gun ){
         draincount += type->gun->ups_charges;
-        for( auto &mod : contents ){
-            if( mod.is_gunmod() && mod.type->gunmod->ups_charges > 0 ){
-                draincount += mod.type->gunmod->ups_charges;
-            }
+        for( const auto mod : gunmods() ) {
+            draincount += mod->type->gunmod->ups_charges;
         }
     }
     return draincount;
