@@ -2545,15 +2545,15 @@ void dialogue::gen_responses( const std::string &topic )
                 const int cost = calc_skill_training_cost( trained );
                 const int cur_level = g->u.skillLevel( trained );
                 //~Skill name: current level -> next level (cost in cent)
-                std::string text = string_format(_("%s: %d -> %d (cost %d)"), trained->name().c_str(),
-                      cur_level, cur_level + 1, cost );
+                std::string text = string_format(_("%s: %d -> %d (cost $%d)"), trained->name().c_str(),
+                      cur_level, cur_level + 1, cost / 100 );
                 add_response( text, "TALK_TRAIN_START", trained );
             }
             for( auto & style_id : styles ) {
                 auto &style = style_id.obj();
                 const int cost = calc_ma_style_training_cost( style.id );
                 //~Martial art style (cost in cent)
-                const std::string text = string_format( _("%s (cost %d)"), style.name.c_str(), cost );
+                const std::string text = string_format( _("%s (cost $%d)"), style.name.c_str(), cost / 100 );
                 add_response( text, "TALK_TRAIN_START", style );
             }
             add_response_none( _("Eh, never mind.") );
