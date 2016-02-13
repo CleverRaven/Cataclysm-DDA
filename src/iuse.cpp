@@ -3457,7 +3457,7 @@ int iuse::elec_combatsaw_off(player *p, item *it, bool, const tripoint& )
         true,
         !p->is_underwater(),
         30, _("With a snarl, the electric combat chainsaw screams to life!"),
-        _("You yank the cord, but nothing happens."));
+        _("You flip the switch, but nothing happens."));
 }
 
 int iuse::chainsaw_off(player *p, item *it, bool, const tripoint& )
