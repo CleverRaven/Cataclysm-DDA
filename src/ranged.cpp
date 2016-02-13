@@ -1209,7 +1209,7 @@ static projectile make_gun_projectile( const item &gun ) {
     });
 
     if( recover && !fx.count( "IGNITE" ) && !fx.count( "EXPLOSIVE" ) ) {
-        item drop( curammo->id, calendar::turn, false );
+        item drop( curammo->id, calendar::turn );
         drop.charges = 1;
         drop.active = fx.count( "ACT_ON_RANGED_HIT" );
 
@@ -1275,7 +1275,7 @@ static inline void eject_casing( player& p, item& weap ) {
         return;
     }
 
-    item casing( casing_type, calendar::turn, false );
+    item casing( casing_type, calendar::turn );
     casing.charges = 1; // needs charge 1 to stack properly with other casings
 
     if( weap.has_gunmod( "brass_catcher" ) != -1 ) {
