@@ -33,6 +33,7 @@
 #include "monster.h"
 #include "overmap.h"
 #include "weather_gen.h"
+#include "npc.h"
 
 #include "tile_id_data.h"
 

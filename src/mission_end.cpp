@@ -5,6 +5,7 @@
 #include "map.h"
 #include "translations.h"
 #include "messages.h"
+#include "npc.h"
 
 const efftype_id effect_infection( "infection" );
 

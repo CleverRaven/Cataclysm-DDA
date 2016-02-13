@@ -15,6 +15,7 @@
 // TODO: Remove this include once 2D wrappers are no longer needed
 #include "mapgen_functions.h"
 #include "field.h"
+#include "npc.h"
 
 const mtype_id mon_charred_nightmare( "mon_charred_nightmare" );
 const mtype_id mon_dog( "mon_dog" );

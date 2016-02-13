@@ -120,6 +120,7 @@ src/mongroup.h
 src/morale.h
 src/mutation.h
 src/name.h
+src/npc_favor.h
 src/nonplayer.h
 src/omdata.h
 src/options.h

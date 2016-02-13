@@ -27,6 +27,7 @@
 #include "mtype.h"
 #include "field.h"
 #include "sounds.h"
+#include "npc.h"
 
 #define SGN(a) (((a)<0) ? -1 : 1)
 #define SQR(a) ((a)*(a))
