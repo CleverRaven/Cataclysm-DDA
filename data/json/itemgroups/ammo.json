@@ -108,10 +108,11 @@
     "id" : "ammo_rifle_common",
     "//" : "Rifle ammmo commonly owned by citizens and found in many locations.",
     "items": [
-      [ "223", 50 ],
+      [ "223", 60 ],
       [ "22_cb", 30 ],
       [ "22_lr", 100 ],
-      [ "22_ratshot", 30 ]
+      [ "22_ratshot", 30 ],
+      [ "308", 25 ]
     ]
   },
   {
@@ -121,6 +122,7 @@
     "items": [
       [ "22_fmj", 50 ],
       [ "556", 100 ],
+      [ "762_51", 50 ],
       [ "762_m43", 50 ],
       [ "762_m87", 20 ]
     ]
@@ -130,7 +132,8 @@
     "id" : "ammo_rifle_milspec",
     "//" : "Military specification rifle ammmo found at military sites.",
     "items": [
-      [ "556_incendiary", 100 ]
+      [ "556_incendiary", 100 ],
+      [ "762_51_incendiary", 50 ]
     ]
   },
   {
@@ -147,9 +150,12 @@
     "items": [
       [ "reloaded_223", 60 ],
       [ "reloaded_22_fmj", 20 ],
-      [ "reloaded_22_lr", 100 ],
+      [ "reloaded_22_lr", 70 ],
+      [ "reloaded_308", 40 ],
       [ "reloaded_556", 10 ],
-      [ "reloaded_556_incendiary", 5 ]
+      [ "reloaded_556_incendiary", 5 ],
+      [ "reloaded_762_51", 10 ],
+      [ "reloaded_762_51_incendiary", 5 ]
     ]
   },
   {
