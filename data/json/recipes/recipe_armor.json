@@ -4287,6 +4287,7 @@
   "result": "swag_bag",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_STORAGE",
+  "skill_used": "survival",
   "difficulty": 0,
   "time": 600,
   "reversible": true,
