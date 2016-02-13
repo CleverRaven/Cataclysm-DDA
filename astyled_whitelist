@@ -153,3 +153,7 @@ src/version.h
 src/weather.h
 src/weighted_list.h
 src/worldfactory.h
+src/map_selector.h
+src/map_selector.cpp
+src/vehicle_selector.h
+src/vehicle_selector.cpp

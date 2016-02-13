@@ -12,6 +12,7 @@
 #include "catacharset.h"
 #include "item_location.h"
 #include "vehicle.h"
+#include "vehicle_selector.h"
 #include "cata_utility.h"
 
 #include <string>
@@ -942,11 +943,11 @@ item_location game::inv_map_splice(
                             // item doesn't stack with any previous so start new list and append to current indexed_invslice
                             current_stack.emplace_back( 1, it );
                             slices.back().emplace_back( &current_stack.back(), INT_MIN );
-                            opts.emplace( &current_stack.back().front(), item_location( *veh, veh->parts[part].mount, &it ) );
+                            opts.emplace( &current_stack.back().front(), item_location( vehicle_cursor( *veh, part ), &it ) );
 
                             if( cur_invlet <= max_invlet ) {
                                 current_stack.back().front().invlet = cur_invlet++;
-                                invlets.emplace_back( *veh, veh->parts[part].mount, &it );
+                                invlets.emplace_back( vehicle_cursor( *veh, part ), &it );
                             } else {
                                 current_stack.back().front().invlet = 0;
                             }

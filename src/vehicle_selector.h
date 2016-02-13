@@ -1,24 +1,26 @@
-#ifndef MAP_SELECTOR_H
-#define MAP_SELECTOR_H
+#ifndef VEHICLE_SELECTOR_H
+#define VEHICLE_SELECTOR_H
 
 #include <vector>
 
 #include "visitable.h"
 
-class map;
+class vehicle;
 
-class map_cursor : public tripoint, public visitable<map_cursor>
+class vehicle_cursor : public visitable<vehicle_cursor>
 {
     public:
-        map_cursor( const tripoint &pos ) : tripoint( pos ) {};
+        vehicle_cursor( vehicle &veh, int part ) : veh( veh ), part( part ) {};
+        vehicle &veh;
+        int part;
 };
 
-class map_selector : public visitable<map_selector>
+class vehicle_selector : public visitable<vehicle_selector>
 {
-        friend visitable<map_selector>;
+        friend visitable<vehicle_selector>;
 
     public:
-        typedef map_cursor value_type;
+        typedef vehicle_cursor value_type;
         typedef std::vector<value_type>::size_type size_type;
         typedef std::vector<value_type>::iterator iterator;
         typedef std::vector<value_type>::const_iterator const_iterator;
@@ -26,17 +28,16 @@ class map_selector : public visitable<map_selector>
         typedef std::vector<value_type>::const_reference const_reference;
 
         /**
-         *  Constructs map_selector used for querying items located on map tiles
-         *  @param pos position on map at which to start each query
+         *  Constructs vehicle_selector used for querying items located on vehicle tiles
+         *  @param pos map position at which to start each query which may or may not contain vehicle
          *  @param radius number of adjacent tiles to include (searching from pos outwards)
-         *  @param accessible whether found items must be accesible from pos to be considered
          */
-        map_selector( const tripoint &pos, int radius = 0, bool accessible = true );
+        vehicle_selector( const tripoint &pos, int radius = 0 );
 
         // similar to item_location you are not supposed to store this class between turns
-        map_selector( const map_selector &that ) = delete;
-        map_selector &operator=( const map_selector & ) = delete;
-        map_selector( map_selector && ) = default;
+        vehicle_selector( const vehicle_selector &that ) = delete;
+        vehicle_selector &operator=( const vehicle_selector & ) = delete;
+        vehicle_selector( vehicle_selector && ) = default;
 
         size_type size() const {
             return data.size();

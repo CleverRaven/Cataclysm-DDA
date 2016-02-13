@@ -258,7 +258,7 @@ class Character : public Creature, public visitable<Character>
         /** Returns a map_selector which can be used to query items on nearby tiles
          *  @param radius number of adjacent tiles to include searching from pos outwards
          *  @param accessible whether found items must be accesible from pos to be considered */
-        map_selector nearby( int radius = 0, bool accessible = true );
+        map_selector nearby( int radius = 1, bool accessible = true );
 
         /**
          * Gather all items that match a certain filter.
