@@ -330,7 +330,12 @@ void gun_actor::shoot( monster &z, Creature &target ) const
     tmp.name = _( "The " ) + z.name();
     tmp.set_fake( true );
     tmp.recoil = 0;
+    tmp.driving_recoil = 0;
     tmp.setpos( z.pos() );
+    tmp.str_max = fake_str;
+    tmp.dex_max = fake_dex;
+    tmp.int_max = fake_int;
+    tmp.per_max = fake_per;
     tmp.str_cur = fake_str;
     tmp.dex_cur = fake_dex;
     tmp.int_cur = fake_int;

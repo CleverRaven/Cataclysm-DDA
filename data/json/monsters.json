@@ -6564,7 +6564,7 @@
             "fake_str" : 16,
             "fake_dex" : 10,
             "fake_per" : 12,
-            "fake_skills" : [["gun", 6], ["smg", 8]],
+            "fake_skills" : [["gun", 6], ["rifle", 8]],
             "move_cost" : 150,
             "targeting_cost" : 100,
             "range" : 20,
