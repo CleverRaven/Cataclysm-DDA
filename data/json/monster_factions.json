@@ -72,21 +72,64 @@
     },{
         "type" : "MONSTER_FACTION",
         "name" : "insect",
-        "neutral" : ["military", "defense_bot", "utility_bot", "small_animal", "zombie"]
+        "neutral" : ["military", "defense_bot", "utility_bot", "zombie"],
+        "by_mood" : "insect"
     },{
         "type" : "MONSTER_FACTION",
         "name" : "wasp",
-        "base_faction" : "insect",
-        "by_mood" : "insect"
+        "base_faction" : "insect"
     },{
         "type" : "MONSTER_FACTION",
         "name" : "bee",
-        "base_faction" : "insect",
-        "by_mood" : "insect"
+        "base_faction" : "insect"
     },{
         "type" : "MONSTER_FACTION",
         "name" : "roach",
+        "base_faction" : "insect"
+    },{
+        "type" : "MONSTER_FACTION",
+        "name" : "mosquito",
+        "base_faction" : "insect"
+    },{
+        "type" : "MONSTER_FACTION",
+        "name" : "dragonfly",
+        "base_faction" : "insect"
+    },{
+        "type" : "MONSTER_FACTION",
+        "name" : "centipede",
+        "base_faction" : "insect"
+    },{
+        "type" : "MONSTER_FACTION",
+        "name" : "dermatik",
+        "base_faction" : "insect"
+    },{
+        "type" : "MONSTER_FACTION",
+        "name" : "spider",
         "base_faction" : "insect",
-        "by_mood" : "insect"
+        "by_mood" : "spider"
+    },{
+        "type" : "MONSTER_FACTION",
+        "name" : "spider_wolf",
+        "base_faction" : "spider"
+    },{
+        "type" : "MONSTER_FACTION",
+        "name" : "spider_web",
+        "base_faction" : "spider"
+    },{
+        "type" : "MONSTER_FACTION",
+        "name" : "spider_jumping",
+        "base_faction" : "spider"
+    },{
+        "type" : "MONSTER_FACTION",
+        "name" : "spider_trapdoor",
+        "base_faction" : "spider"
+    },{
+        "type" : "MONSTER_FACTION",
+        "name" : "spider_widow",
+        "base_faction" : "spider"
+    },{
+        "type" : "MONSTER_FACTION",
+        "name" : "spider_cellar",
+        "base_faction" : "spider"
     }
 ]
