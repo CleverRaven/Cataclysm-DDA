@@ -111,7 +111,13 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
         item &operator=( const item & ) = default;
         virtual ~item() = default;
 
-        item( const std::string new_type, int turn, int qty = -1 );
+        item( const itype_id& id, int turn, int qty = -1 );
+        item( const itype *type, int turn, int qty = -1 );
+
+        struct default_charges_tag {};
+        item( const itype_id& id, int turn, default_charges_tag );
+        item( const itype *type, int turn, default_charges_tag );
+
         item( JsonObject &jo );
 
         /**

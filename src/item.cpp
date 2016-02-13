@@ -103,9 +103,8 @@ item::item()
     type = nullitem();
 }
 
-item::item( const std::string new_type, int turn, int qty )
+item::item( const itype *type, int turn, int qty ) : type( type )
 {
-    type = find_type( new_type );
     bday = turn;
     corpse = type->id == "corpse" ? &mtype_id::NULL_ID.obj() : nullptr;
     name = type_name();
@@ -158,6 +157,15 @@ item::item( const std::string new_type, int turn, int qty )
         note = SNIPPET.assign( type->snippet_category );
     }
 }
+
+item::item( const itype_id& id, int turn, int qty )
+    : item( find_type( id ), turn, qty ) {}
+
+item::item( const itype *type, int turn, default_charges_tag )
+    : item( type, turn, type->charges_default() ) {}
+
+item::item( const itype_id& id, int turn, default_charges_tag tag )
+    : item( item::find_type( id ), turn, tag ) {}
 
 item item::make_corpse( const mtype_id& mt, int turn, const std::string &name )
 {

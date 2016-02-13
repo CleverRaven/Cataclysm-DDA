@@ -21,7 +21,6 @@
 #include "ui.h"
 #include "mutation.h"
 #include "crafting.h"
-#include "itype.h"
 
 
 #ifndef _MSC_VER
@@ -413,7 +412,7 @@ int player::create(character_type type, std::string tempname)
         prof_items.push_back("glasses_reading");
     }
     for( auto &itd : prof_items ) {
-        tmp = item( itd.type_id, 0, item::find_type( itd.type_id )->charges_default() );
+        tmp = item( itd.type_id, 0, item::default_charges_tag{} );
         if( !itd.snippet_id.empty() ) {
             tmp.set_snippet( itd.snippet_id );
         }
@@ -488,7 +487,7 @@ int player::create(character_type type, std::string tempname)
 
     // Likewise, the asthmatic start with their medication.
     if (has_trait("ASTHMA")) {
-        tmp = item( "inhaler", 0, item::find_type( "inhaler" )->charges_default() );
+        tmp = item( "inhaler", 0, item::default_charges_tag{} );
         inv.push_back(tmp);
     }
 
