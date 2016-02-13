@@ -723,12 +723,12 @@ std::vector<const item *> Character::get_ammo( const ammotype &at ) const
 }
 
 template <typename T, typename Output>
-void find_ammo_helper( T& src, const item& obj, bool empty, Output out ) {
+void find_ammo_helper( T& src, const item& obj, bool empty, Output out, bool nested ) {
     if( obj.magazine_integral() ) {
         // find suitable ammo excluding that already loaded in magazines
         ammotype ammo = obj.ammo_type();
 
-        src.visit_items( [&src,&out,ammo]( item *node ) {
+        src.visit_items( [&src,&nested,&out,ammo]( item *node ) {
             if( node->is_magazine() || node->is_gun() || node->is_tool() ) {
                 // guns/tools never contain usable ammo so most efficient to skip them now
                 return VisitResponse::SKIP;
@@ -746,14 +746,14 @@ void find_ammo_helper( T& src, const item& obj, bool empty, Output out ) {
             if( node->is_ammo() && node->ammo_type() == ammo ) {
                 out = item_location( src, node );
             }
-            return VisitResponse::NEXT;
+            return nested ? VisitResponse::NEXT : VisitResponse::SKIP;
         } );
 
     } else {
         // find compatible magazines excluding those already loaded in tools/guns
         const auto mags = obj.magazine_compatible();
 
-        src.visit_items( [&src,&out,mags,empty]( item *node ) {
+        src.visit_items( [&src,&nested,&out,mags,empty]( item *node ) {
             if( node->is_gun() || node->is_tool() ) {
                 return VisitResponse::SKIP;
             }
@@ -763,7 +763,7 @@ void find_ammo_helper( T& src, const item& obj, bool empty, Output out ) {
                 }
                 return VisitResponse::SKIP;
             }
-            return VisitResponse::NEXT;
+            return nested ? VisitResponse::NEXT : VisitResponse::SKIP;
         } );
     }
 }
@@ -772,14 +772,14 @@ std::vector<item_location> Character::find_ammo( const item& obj, bool empty, in
 {
     std::vector<item_location> res;
 
-    find_ammo_helper( *this, obj, empty, std::back_inserter( res ) );
+    find_ammo_helper( *this, obj, empty, std::back_inserter( res ), true );
 
     if( radius >= 0 ) {
         for( auto& cursor : map_selector( pos(), radius ) ) {
-            find_ammo_helper( cursor, obj, empty, std::back_inserter( res ) );
+            find_ammo_helper( cursor, obj, empty, std::back_inserter( res ), false );
         }
         for( auto& cursor : vehicle_selector( pos(), radius ) ) {
-            find_ammo_helper( cursor, obj, empty, std::back_inserter( res ) );
+            find_ammo_helper( cursor, obj, empty, std::back_inserter( res ), false );
         }
     }
 
