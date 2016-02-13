@@ -576,6 +576,13 @@ public:
         return false;
     }
 
+    virtual int charges_default() const {
+        if( ammo ) {
+            return ammo->def_charges;
+        }
+        return 0;
+    }
+
     virtual int charges_to_use() const
     {
         return 1;
@@ -658,6 +665,10 @@ public:
         }
     }
 
+    virtual int charges_default() const {
+        return def_charges;
+    }
+
     int get_nutrition() const;
 
     int get_calories() const;
@@ -683,6 +694,10 @@ struct it_tool : itype {
     std::string get_item_type_string() const override
     {
         return "TOOL";
+    }
+
+    virtual int charges_default() const {
+        return def_charges;
     }
 
     int charges_to_use() const override
