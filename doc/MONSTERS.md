@@ -340,3 +340,66 @@ TODO: describe this.
 
 ### "no_infection_chance"
 TODO: describe this.
+
+## "gun"
+Fires a gun at a target. If friendly, will avoid harming the player.
+
+### "gun_type"
+(Required) Valid item id of a gun that will be used to perform the attack.
+
+### "ammo_type"
+(Required) Valid item id of the ammo the gun will be loaded with.  
+Monster should also have a "starting_ammo" field with this ammo.
+For example
+```
+"ammo_type" : "50bmg",
+"starting_ammo" : {"50bmg":100}
+```
+
+### "max_ammo"
+Cap on ammo. If ammo goes above this value for any reason, a debug message will be printed.
+
+### "fake_str"
+Strength stat of the fake NPC that will execute the attack. 8 if not specified.
+
+### "fake_dex"
+Dexterity stat of the fake NPC that will execute the attack. 8 if not specified.
+
+### "fake_int"
+Intelligence stat of the fake NPC that will execute the attack. 8 if not specified.
+
+### "fake_per"
+Perception stat of the fake NPC that will execute the attack. 8 if not specified.
+
+### "fake_skills"
+Array of 2 element arrays of skill id and skill level pairs.
+
+### "move_cost"
+Move cost of executing the attack
+
+### "targeting_cost"
+Move cost of targeting the player. Only applied if attacking the player and didn't target player within last 5 turns.
+
+### "laser_lock"
+If true and attacking an untargeted player, player will be laser locked and warned (as in safe mode) before moving.
+
+### "range"
+Maximum range at which targets will be acquired.
+
+### "range_no_burst"
+Maximum range at which targets will be attacked with a burst (if applicable).
+
+### "burst_limit"
+Limit on burst size.
+
+### "description"
+Description of the attack being executed if seen by the player.
+
+### "targeting_sound"
+Description of the sound made when targeting.
+
+### "targeting_volume"
+Volume of the sound made when targeting.
+
+### "no_ammo_sound"
+Description of the sound made when out of ammo.
