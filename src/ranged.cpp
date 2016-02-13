@@ -405,7 +405,7 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
         // Apply penalty when using bulky weapons at point-blank range (except when loaded with shot)
         // If we are firing an auxiliary gunmod we wan't to use the base guns volume (which includes the gunmod itself)
         if( gun.ammo_type() != "shot" ) {
-            const item *parent = gun.is_auxiliary_gunmod() && has_item( &gun ) ? find_parent( gun ) : nullptr;
+            const item *parent = gun.is_auxiliary_gunmod() && has_item( gun ) ? find_parent( gun ) : nullptr;
             dispersion *= std::max( ( ( parent ? parent->volume() : gun.volume() ) / 3.0 ) / range, 1.0 );
         }
 

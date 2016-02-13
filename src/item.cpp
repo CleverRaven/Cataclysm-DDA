@@ -5011,12 +5011,6 @@ void item::mark_as_used_by_player(const player &p)
     used_by_ids += string_format( "%d;", p.getID() );
 }
 
-bool item::contains( const std::function<bool(const item&)>& filter ) const {
-    return visit_items_const( [ &filter ] ( const item *node ) {
-        return filter( *node ) ? VisitResponse::ABORT : VisitResponse::NEXT;
-    }) == VisitResponse::ABORT;
-}
-
 bool item::can_holster ( const item& obj, bool ignore ) const {
     if( !type->can_use("holster") ) {
         return false; // item is not a holster
@@ -5282,7 +5276,7 @@ bool item::process_cable( player *p, const tripoint &pos )
     tripoint relpos = g->m.getlocal( source );
     auto veh = g->m.veh_at( relpos );
     if( veh == nullptr || source_z != g->get_levz() ) {
-        if( p != nullptr && p->has_item(this) ) {
+        if( p != nullptr && p->has_item( *this ) ) {
             p->add_msg_if_player(m_bad, _("You notice the cable has come loose!"));
         }
         reset_cable(p);
@@ -5296,7 +5290,7 @@ bool item::process_cable( player *p, const tripoint &pos )
     charges = max_charges - distance;
 
     if( charges < 1 ) {
-        if( p != nullptr && p->has_item(this) ) {
+        if( p != nullptr && p->has_item( *this ) ) {
             p->add_msg_if_player(m_bad, _("The over-extended cable breaks loose!"));
         }
         reset_cable(p);

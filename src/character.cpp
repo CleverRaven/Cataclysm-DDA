@@ -606,13 +606,13 @@ item& Character::i_at(int position)
 
 int Character::get_item_position( const item *it ) const
 {
-    if( weapon.contains( it ) ) {
+    if( weapon.has_item( *it ) ) {
         return -1;
     }
 
     int p = 0;
     for( const auto &e : worn ) {
-        if( e.contains( it ) ) {
+        if( e.has_item( *it ) ) {
             return worn_position_to_index( p );
         }
         p++;

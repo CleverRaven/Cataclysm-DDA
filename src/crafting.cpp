@@ -1275,7 +1275,7 @@ bool player::disassemble(int dis_pos)
         dis_pos = g->inv(_("Disassemble item:"));
     }
     item &dis_item = i_at(dis_pos);
-    if (!has_item(dis_pos)) {
+    if( !has_item( dis_item ) ) {
         add_msg(m_info, _("You don't have that item!"), dis_pos);
         return false;
     }
