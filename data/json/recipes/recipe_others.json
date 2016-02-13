@@ -2112,7 +2112,7 @@
   "type" : "recipe",
   "result": "holy_symbol_wood",
   "category": "CC_OTHER",
-  "subcategory": "CSC_OTHER_OTHER"
+  "subcategory": "CSC_OTHER_OTHER",
   "skill_used": "fabrication",
   "difficulty": 0,
   "time": 30000,
