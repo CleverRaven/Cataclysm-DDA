@@ -1304,7 +1304,7 @@ public:
         light_emission light = nolight;
 public:
      char invlet = 0;      // Inventory letter
-     long charges = -1;
+     long charges;
      bool active = false; // If true, it has active effects to be processed
 
     /**
