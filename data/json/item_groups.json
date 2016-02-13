@@ -4759,6 +4759,7 @@
       ["pocketwatch", 5],
       ["sf_watch", 10],
       ["survnote", 3],
+      ["stillsuit", 5],
       ["l-stick", 1]
     ]
   },{
@@ -6849,6 +6850,7 @@
       ["glowstick", 60],
       ["handflare", 40],
       ["tongs", 5],
+      ["stillsuit", 1],	
       ["tool_belt", 10],
       ["slingpack", 5],
       ["quiver", 3],

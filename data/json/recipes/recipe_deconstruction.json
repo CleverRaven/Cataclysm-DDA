@@ -2840,6 +2840,19 @@
     [ [ "plant_fibre", 100 ] ],
     [ [ "withered", 1 ] ]
     ]
+},{
+  "type" : "recipe",
+  "result": "pot_copper",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "subcategory": "CSC_NONCRAFT",
+  "skill_used": "fabrication",
+  "difficulty": 1,
+  "time": 7500,
+  "reversible": true,
+  "autolearn": false,
+  "qualities" : [ {"id":"SAW_M","level":1,"amount":1} ],
+  "components": [ [ [ "scrap_copper", 5 ] ], [ [ "scrap", 1 ] ] ]
 },
 {
     "type": "recipe",

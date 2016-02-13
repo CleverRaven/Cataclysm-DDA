@@ -1,81 +1,11 @@
 [
   {
-    "type" : "item_group",
-    "id" : "gunsmith_tools",
-    "items":[
-      ["polisher", 40],
-      ["glasses_safety", 60],
-      ["screwdriver",70],
-      ["screwdriver_set", 60],
-      ["hammer",70],
-      ["boltcutters",50],
-      ["crucible",40],
-      ["pot",50],
-      ["anvil",50],
-      ["tongs",50],
-      ["swage",50],
-      ["hacksaw",40],
-      ["welder",40],
-      ["goggles_welding",60],
-      ["wrench",70],
-      ["pliers", 50],
-      ["extinguisher",90],
-      ["puller",90],
-      ["press",90],
-      ["chemistry_set",30],
-      ["hotplate",50],
-      ["small_repairkit", 20],
-      ["large_repairkit", 50],
-      ["forge",30]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "gunsmith_mat",
-    "items":[
-      ["rag",30],
-      ["plastic_chunk",60],
-      ["scrap",90],
-      ["steel_chunk",60],
-      ["steel_lump",20],
-      ["cable",60],
-      ["duct_tape",60],
-      ["pipe",70],
-      ["2x4",90],
-      ["spring",70],
-      ["string_6",10],
-      ["string_36",40],
-      ["superglue",40],
-      ["scrap_copper",40],
-      ["battery",30],
-      ["nail",40]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "gunsmith_hazmat",
-    "items":[
-      ["gunpowder",80],
-      ["oxy_powder",60],
-      ["lead",90],
-      ["incendiary",30],
-      ["battery",70],
-      ["sugar",60],
-      ["charcoal",70],
-      ["ammonia",50],
-      ["bleach",50],
-      ["lye_powder",30],
-      ["shotgun_primer", 30],
-      ["smpistol_primer", 40],
-      ["lgpistol_primer", 40],
-      ["smrifle_primer", 20],
-      ["lgrifle_primer", 20]
-    ]
-  },{
     "type": "mapgen",
     "om_terrain": [
       "s_gun"
     ],
     "method": "json",
-    "weight": 100,
+    "weight": 300,
     "object": {
       "rows": [
         "__________________sss___",
@@ -169,35 +99,34 @@
         { "point": "terrain", "id": "t_tree_apple",
            "x": 22, "y": [ 1, 4 ], "chance": 30, "repeat": [ 1, 2 ] }
       ],
-      "add": [
-        { "item": "television", "x": 14, "y": 16, "chance": 60 },
-        { "item": "laptop", "x": 17, "y": 15, "chance": 30 }
-      ],
-      "place_items": [
-        { "item": "fridgesnacks", "chance": 70, "x": 16, "y": 18, "repeat": [ 1, 2 ] },
-        { "item": "ammo", "chance": 75, "x": 21, "y": [ 11, 13 ], "repeat": [ 1, 5 ] },
-        { "item": "allguns", "chance": 60, "x": [ 17, 20 ], "y": 11, "repeat": [ 1, 4 ] },
-        { "item": "gunxtras", "chance": 70, "x": [ 18, 21 ], "y": [ 8, 9 ], "repeat": [ 3, 6 ] },
-        { "item": "gunxtras", "chance": 50, "x": 2, "y": [ 8, 13 ], "repeat": [ 1, 4 ] },
-        { "item": "gunxtras", "chance": 50, "x": [ 5, 10 ], "y": 8, "repeat": [ 1, 4 ] },
-        { "item": "gunxtras", "chance": 50, "x": [ 5, 10 ], "y": 10, "repeat": [ 1, 4 ] },
-        { "item": "gunxtras", "chance": 50, "x": [ 5, 10 ], "y": 11, "repeat": [ 1, 4 ] },
-        { "item": "gunxtras", "chance": 50, "x": [ 5, 10 ], "y": 13, "repeat": [ 1, 4 ] },
-        { "item": "mags_gunstore", "chance": 20, "x": [ 18, 21 ], "y": [ 8, 9 ] },
-        { "item": "mags_gunstore", "chance": 10, "x": 2, "y": [ 8, 13 ] },
-        { "item": "mags_gunstore", "chance": 10, "x": [ 5, 10 ], "y": 8 },
-        { "item": "mags_gunstore", "chance": 10, "x": [ 5, 10 ], "y": 10 },
-        { "item": "mags_gunstore", "chance": 10, "x": [ 5, 10 ], "y": 11 },
-        { "item": "mags_gunstore", "chance": 10, "x": [ 5, 10 ], "y": 13 },
-        { "item": "gunsmith_tools", "chance": 80, "x": [ 2, 8 ] , "y": 15 , "repeat": [ 4, 6 ] },
-        { "item": "gunsmith_mat", "chance": 90, "x": [ 4, 6], "y": [ 19, 20 ], "repeat": [ 4, 8 ] },
-        { "item": "gunsmith_hazmat", "chance": 75, "x": 2, "y": [ 18, 21 ], "repeat": [ 2, 6 ] },
-        { "item": "gunsmith_hazmat", "chance": 75, "x": 8, "y": [ 18, 21 ], "repeat": [ 2, 6 ] },
-        { "item": "gun_mods", "chance": 40, "x": [ 4, 6 ], "y": 18, "repeat": [ 3, 4 ] },
-        { "item": "ammo_casings", "chance": 75, "x": 2, "y": 16, "repeat": [ 3, 5 ] },
-        { "item": "ammo_casings", "chance": 75, "x": 8, "y": 16, "repeat": [ 3, 5 ] }
+      "place_loot": [
+        { "group": "gun_mods",             "chance": 100, "x": [5,10], "y": [10,11], "repeat": [3,6] },
+        { "group": "ammo_casings",         "chance": 100, "x": [5,10], "y": 13,      "repeat": [2,4] },
+        { "group": "book_gunref",          "chance": 100, "x":  2,     "y": [8,13],  "repeat": [1,4] },
+        { "group": "mags_pistol_rare",     "chance": 100, "x": 17,     "y": 11 },
+        { "group": "mags_pistol_rare",     "chance":  20, "x": 18,     "y": 11 },
+        { "group": "mags_smg_rare",        "chance":  60, "x": 19,     "y": 11 },
+        { "group": "mags_shotgun_rare",    "chance":  80, "x": 21,     "y": 12 },
+        { "group": "mags_rifle_rare",      "chance": 100, "x": 21,     "y": 13 },
+        { "group": "guns_pistol_obscure",  "chance":  30, "x": 18,     "y":  8, "magazine" : 80 },
+        { "group": "guns_shotgun_obscure", "chance":  30, "x": 19,     "y":  8, "magazine" : 80 },
+        { "group": "guns_rifle_obscure",   "chance":  30, "x": 20,     "y":  8, "magazine" : 80 },
+        { "group": "guns_smg_obscure",     "chance":  30, "x": 20,     "y":  8, "magazine" : 80 },
+        { "group": "fridgesnacks",         "chance":  70, "x": 16,     "y": 18, "repeat": [ 1,2 ] },
+        { "group": "tools_common",         "chance": 100, "x": [3,4],  "y": 15, "repeat": [ 2,3 ] },
+        { "group": "tools_blacksmith",     "chance":  80, "x": [5,6],  "y": 15, "repeat": [ 1,2 ] },
+        { "group": "ammo_parts",          "chance": 100, "x": [4,6],  "y": [19,20], "repeat": [4, 8] },
+        { "item":  "forge",                "chance":  30, "x":  4,     "y": 18 },
+        { "item":  "puller",               "chance": 100, "x":  5,     "y": 18 },
+        { "item":  "press",                "chance": 100, "x":  6,     "y": 18 },
+        { "item":  "welder",               "chance":  30, "x":  7,     "y": 15 },
+        { "item":  "goggles_welding",      "chance":  30, "x":  7,     "y": 15 },
+        { "item":  "small_repairkit",      "chance": 100, "x": [5,6],  "y":  8 },
+        { "item":  "small_repairkit",      "chance":  30, "x": [7,8],  "y":  8 },
+        { "item":  "large_repairkit",      "chance":  30, "x": [9,10], "y":  8 },
+        { "item":  "television",           "chance":  60, "x": 14,     "y": 16 },
+        { "item":  "laptop",               "chance":  30, "x": 17,     "y": 15 }
       ]
-    },
-    "comment": "end of mapgen entry ---v"
+    }
   }
 ]
