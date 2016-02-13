@@ -605,69 +605,141 @@ bool map::vehicle_falling( vehicle &veh )
     return true;
 }
 
-float map::vehicle_traction( vehicle &veh ) const
+float map::traction_mult( const tripoint &p ) const
 {
-    const tripoint pt = veh.global_pos3();
-    // TODO: Remove this and allow amphibious vehicles
-    if( !veh.floating.empty() ) {
-        return vehicle_buoyancy( veh );
+    const ter_t ter = ter_at( p );
+    if( ter.movecost == 0 ) {
+        // Locked in a wall
+        // Drop a NaN, as this requires specific handling
+        return NAN;
     }
 
-    // Sink in water?
+    if( ter.has_flag( TFLAG_DEEP_WATER ) ) {
+        return -1.0f;
+    }
+
+    if( ter.has_flag( TFLAG_NO_FLOOR ) ) {
+        return 0.0f;
+    }
+
+    float traction;
+    if( ter.has_flag( "ROAD" ) ) {
+        traction = 1.0f;
+    } else if( ter.has_flag( TFLAG_SWIMMABLE ) ) {
+        // This should depend on wheel size later on
+        // As in, tiny wheels get fully submerged, huge ones don't
+        traction = 0.25f;
+    } else if( ter.has_flag( "FLAT" ) ) {
+        traction = 0.8f;
+    } else {
+        traction = 0.5f;
+    }
+
+    return traction;
+}
+
+float map::traction_penalty( const tripoint &p ) const
+{
+    const ter_t ter = ter_at( p );
+    float friction;
+    if( ter.has_flag( "ROAD" ) ) {
+        friction = 1.0f;
+    } else if( ter.has_flag( "FLAT" ) ) {
+        friction = 2.0f;
+    } else {
+        friction = 3.0f;
+    }
+
+    if( ter.movecost > 0 ) {
+        friction *= ter.movecost / 2;
+    }
+}
+
+std::pair<float, float> map::vehicle_traction( vehicle &veh ) const
+{
+    const tripoint pt = veh.global_pos3();
+
+    // TODO: Special-handle steering wheels somehow
     const auto &wheel_indices = veh.wheelcache;
     int num_wheels = wheel_indices.size();
     if( num_wheels == 0 ) {
-        // TODO: Assume it is digging in dirt
-        // TODO: Return something that could be reused for dragging
-        return 1.0f;
+        return vehicle_buoyancy( veh );
     }
 
+    // TODO: Have this ramp up and drop down rather than instantly changing with weather
+    const float weather_penalty = weather_data( g->weather ).traction_penalty;
+
     int submerged_wheels = 0;
-    float traction_wheel_area = 0;
-    float total_wheel_area = 0;
+    // Total area of wheels
+    float total_wheel_area = 0.0f;
+    // Area of wheels scaled by traction
+    float traction_wheel_area = 0.0f;
+    const tripoint mass_center = pt + veh.center_of_mass();
+    // The point "most supported by wheels"
+    // In a well designed vehicle, should be close to center of mass
+    float wheel_center_x = 0.0f;
+    float wheel_center_y = 0.0f;
+
+    float mass_modifier = 1.0f;
     for( int w = 0; w < num_wheels; w++ ) {
+        // TODO: Drivetrains, 4x4 etc.
         const int p = wheel_indices[w];
         const tripoint pp = pt + veh.parts[p].precalc[0];
 
         // Not using vehicle::wheels_area so that if it changes,
-        //  this section will stay correct (ie. proportion of wheel area/total area)
+        // this section will stay correct (ie. proportion of wheel area/total area)
         const int width = veh.part_info( p ).wheel_width;
         const int bigness = veh.parts[p].bigness;
-        const float wheel_area = width * bigness / 9.0f;
+        const float wheel_area = width * bigness;
         total_wheel_area += wheel_area;
 
-        const auto &tr = ter_at( pp );
-        // Deep water and air
-        if( tr.has_flag( TFLAG_DEEP_WATER ) ) {
+        const float traction_here = traction_mult( pp );
+        if( isnan( traction_here ) ) {
+            // Vehicle locked in wall
+            // Shouldn't happen, but does
+            return std::make_pair( 0.0f, 1.0f );
+        }
+
+        if( traction_here < 0.0f ) {
             submerged_wheels++;
             // No traction from wheel in water
             continue;
-        } else if( tr.has_flag( TFLAG_NO_FLOOR ) ) {
-            // Ditto for air, but with no submerging
-            continue;
         }
 
-        const int move_mod = move_cost_ter_furn( pp );
-        if( move_mod == 0 ) {
-            // Vehicle locked in wall
-            // Shouldn't happen, but does
-            return 0.0f;
-        } else {
-            traction_wheel_area += 2 * wheel_area / move_mod;
+        if( traction_here > 0.25f ) {
+            // 1/4 is the traction you get in water
+            // Weather can't be worse than that until ice becomes a thing
+            traction_here = std::max( traction_here - weather_penalty, 0.25f );
         }
+
+        const float wheel_traction = wheel_area * traction_here;
+        traction_wheel_area += wheel_traction;
+        wheel_center_x += pp.x * wheel_traction;
+        wheel_center_y += pp.y * wheel_traction;
     }
 
     // Submerged wheels threshold is 2/3.
-    if( num_wheels > 0 && (float)submerged_wheels / num_wheels > .666) {
-        return -1;
+    if( 3 * submerged_wheels > 2 * num_wheels ) {
+        if( !veh.floating.empty() ) {
+            return vehicle_buoyancy( veh );
+        } else {
+            return std::make_pair( -1.0f, 1.0f );
+        }
     }
 
     if( total_wheel_area <= 0.01f ) {
         debugmsg( "%s has wheel area <0.01", veh.name.c_str() );
-        return 0.0f;
+        return std::make_pair( 0.0f, 1.0f );;
     }
 
-    return traction_wheel_area / total_wheel_area;
+    wheel_center_x /= traction_wheel_area;
+    wheel_center_y /= traction_wheel_area;
+    const tripoint wheel_center( round( wheel_center_x ), round( wheel_center_y ), pt.z );
+    // Penalty due to badly placed center of mass
+    const float misalignment = rl_dist( pt, wheel_center );
+    traction_wheel_area *= 3 / ( 3 + misalignment );
+
+    return std::make_pair( traction_wheel_area / total_wheel_area, ;
 }
 
 float map::vehicle_buoyancy( vehicle &veh ) const
@@ -884,6 +956,7 @@ int map::shake_vehicle( vehicle &veh, const int velocity_before, const int direc
             debugmsg( "throw passenger: passenger at %d,%d,%d, part at %d,%d,%d",
                 psg->posx(), psg->posy(), psg->posz(), part_pos.x, part_pos.y, part_pos.z );
             veh.parts[ps].remove_flag( vehicle_part::passenger_flag );
+            veh.invalidate_mass();
             continue;
         }
 
@@ -1226,6 +1299,7 @@ void map::board_vehicle( const tripoint &pos, player *p )
     }
     veh->parts[seat_part].set_flag(vehicle_part::passenger_flag);
     veh->parts[seat_part].passenger_id = p->getID();
+    veh->invalidate_mass();
 
     p->setpos( pos );
     p->in_vehicle = true;
@@ -1273,6 +1347,7 @@ void map::unboard_vehicle( const tripoint &p )
     passenger->controlling_vehicle = false;
     veh->parts[seat_part].remove_flag(vehicle_part::passenger_flag);
     veh->skidding = true;
+    veh->invalidate_mass();
 }
 
 void map::displace_vehicle( tripoint &p, const tripoint &dp )
@@ -1353,6 +1428,7 @@ void map::displace_vehicle( tripoint &p, const tripoint &dp )
                 part_pos.x, part_pos.y, part_pos.z,
                 g->u.posx(), g->u.posy(), g->u.posz() );
             veh->parts[prt].remove_flag(vehicle_part::passenger_flag);
+            veh->invalidate_mass();
             continue;
         }
 
@@ -1362,6 +1438,7 @@ void map::displace_vehicle( tripoint &p, const tripoint &dp )
                 prt,
                 part_pos.x, part_pos.y, part_pos.z );
             veh->parts[prt].remove_flag(vehicle_part::passenger_flag);
+            veh->invalidate_mass();
             continue;
         }
 

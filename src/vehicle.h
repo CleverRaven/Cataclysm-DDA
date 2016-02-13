@@ -579,12 +579,18 @@ public:
      */
     int discharge_battery (int amount, bool recurse = true);
 
+    /**
+     * Mark mass caches and pivot cache as dirty
+     */
+    void invalidate_mass();
+
     // get the total mass of vehicle, including cargo and passengers
     int total_mass () const;
 
     // get center of mass of vehicle; coordinates are precalc[0] if use_precalc is set,
     // unrotated part coordinates otherwise
     void center_of_mass(int &x, int &y, bool use_precalc = true) const;
+    const point &center_of_mass( bool use_precalc = true ) const;
 
     // Get the pivot point of vehicle; coordinates are unrotated mount coordinates.
     // This may result in refreshing the pivot point if it is currently stale.
@@ -597,19 +603,19 @@ public:
 
     // Get combined power of all engines. If fueled == true, then only engines which
     // vehicle have fuel for are accounted
-    int total_power (bool fueled = true) const;
+    int total_power( bool fueled = true ) const;
 
     // Get acceleration gained by combined power of all engines. If fueled == true, then only engines which
     // vehicle have fuel for are accounted
-    int acceleration (bool fueled = true) const;
+    int acceleration( float traction, float friction, bool fueled = true ) const;
 
     // Get maximum velocity gained by combined power of all engines. If fueled == true, then only engines which
     // vehicle have fuel for are accounted
-    int max_velocity (bool fueled = true) const;
+    int max_velocity( float traction, float friction, bool fueled = true ) const;
 
     // Get safe velocity gained by combined power of all engines. If fueled == true, then only engines which
     // vehicle have fuel for are accounted
-    int safe_velocity (bool fueled = true) const;
+    int safe_velocity( float traction, float friction, bool fueled = true ) const;
 
     // Generate smoke from a part, either at front or back of vehicle depending on velocity.
     void spew_smoke( double joules, int part );
@@ -968,6 +974,17 @@ private:
 
     mutable bool pivot_dirty;                  // if true, pivot_cache needs to be recalculated
     mutable point pivot_cache;                 // cached pivot point
+
+    void refresh_mass() const;
+    void calc_mass_center( bool precalc ) const;
+
+    mutable bool mass_dirty                     = true;
+    mutable bool mass_center_precalc_dirty      = true;
+    mutable bool mass_center_no_precalc_dirty   = true;
+
+    mutable int mass_cache;
+    mutable point mass_center_precalc;
+    mutable point mass_center_no_precalc;
 };
 
 #endif

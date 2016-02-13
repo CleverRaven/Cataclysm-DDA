@@ -110,6 +110,7 @@ struct weather_datum {
     float sight_penalty;    //!< Penalty to per-square visibility, applied in transparency map.
     int light_modifier;     //!< Modification to ambient light.
     int sound_attn;         //!< Sound attenuation of a given weather type.
+    float traction_penalty; //!< Penalty to vehicle wheel effectiveness.
     bool dangerous;         //!< If true, our activity gets interrupted.
     void ( *effect )();     //!< Function pointer for weather effects.
 };
