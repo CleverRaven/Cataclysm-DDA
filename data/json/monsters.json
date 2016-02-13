@@ -6188,7 +6188,26 @@
     },
     "hp":80,
     "death_function":"EXPLODE",
-    "special_attacks":[["SMG", 2]],
+    "special_attacks":[
+        {
+            "type" : "gun",
+            "cooldown" : 2,
+            "gun_type" : "hk_mp5",
+            "ammo_type" : "9mm",
+            "max_ammo" : 1000,
+            "fake_str" : 16,
+            "fake_dex" : 8,
+            "fake_per" : 12,
+            "fake_skills" : [["gun", 4], ["smg", 8]],
+            "move_cost" : 150,
+            "targeting_cost" : 100,
+            "range" : 18,
+            "description" : "The turret fires its smg!",
+            "targeting_sound" : "beep-beep-beep!",
+            "targeting_volume" : 6,
+            "no_ammo_sound" : "a chk!"
+        }
+    ],
     "starting_ammo" : {"9mm":100},
     "description":"The Northrop Watchman X-1 is a production series of heavily armored combat robots.  Initially designed for military patrol and escort service, it rolls on a set of hydraulic treads and is armed with a 3\"/50 caliber gun.",
     "flags":["SEES", "HEARS", "BASHES", "ELECTRONIC", "NO_BREATHE"]
@@ -6535,7 +6554,27 @@
     "luminance":210,
     "hp":40,
     "death_function":"EXPLODE",
-    "special_attacks":[["BMG_TUR", 1]],
+    "special_attacks":[
+        {
+            "type" : "gun",
+            "cooldown" : 1,
+            "gun_type" : "m107a1",
+            "ammo_type" : "50bmg",
+            "max_ammo" : 500,
+            "fake_str" : 16,
+            "fake_dex" : 10,
+            "fake_per" : 12,
+            "fake_skills" : [["gun", 6], ["smg", 8]],
+            "move_cost" : 150,
+            "targeting_cost" : 100,
+            "range" : 20,
+            "laser_lock" : true,
+            "description" : "The antimateriel turret aims and fires!",
+            "targeting_sound" : "\"Hostile detected.\"",
+            "targeting_volume" : 10,
+            "no_ammo_sound" : "a chk!"
+        }
+    ],
     "starting_ammo" : {"50bmg":100},
     "description":"Leadworks LLC's T-107A1 Interdictor, an automated .50BMG antimateriel rifle.  Credited with forestalling countless car-bombing attempts, it has always been kept under extremely tight control, so as to itself maintain extremely tight control of its area.  And then the Cataclysm struck.",
     "flags":["SEES", "NOHEAD", "ELECTRONIC", "IMMOBILE", "NO_BREATHE"]
