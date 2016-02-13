@@ -1639,10 +1639,10 @@ std::vector<npc::item_pricing> npc::init_selling()
         if (i->front().type->id == "lighter" && !found_lighter) {
             found_lighter = true;
         } else {
-            const int price = i->front().price();
-            int val = value(i->front()) - (price / 50);
-            if (val <= NPC_LOW_VALUE || mission == NPC_MISSION_SHOPKEEP) {
-                result.push_back( item_pricing{ &i->front(), price, false } );
+            const int price = i->front().price( true );
+            int val = value( i->front() ) ;
+            if( val - (price / 50) <= NPC_LOW_VALUE || mission == NPC_MISSION_SHOPKEEP ) {
+                result.push_back( item_pricing{ &i->front(), val, false } );
             }
         }
     }
@@ -1656,7 +1656,7 @@ std::vector<npc::item_pricing> npc::init_buying(inventory& you)
     for (auto &i : slice) {
         int val = value(i->front());
         if (val >= NPC_HI_VALUE) {
-            result.push_back( item_pricing{ &i->front(), i->front().price(), false } );
+            result.push_back( item_pricing{ &i->front(), val, false } );
         }
     }
     return result;
@@ -1729,7 +1729,7 @@ int npc::value(const item &it)
         return -1000;
     }
 
-    int ret = it.price() / 50;
+    int ret = it.price( true ) / 50;
     int weapon_val = weapon_value( it ) - weapon_value( weapon );
     if( weapon_val > 0 ) {
         ret += weapon_val;
@@ -1737,14 +1737,17 @@ int npc::value(const item &it)
 
     if( it.is_food() ) {
         const auto comest = dynamic_cast<const it_comest*>(it.type);
+        int comestval = 0;
         if( comest->get_nutrition() > 0 || comest->quench > 0 ) {
-            ret++;
+            comestval++;
         } if( get_hunger() > 40 ) {
-            ret += (comest->get_nutrition() + get_hunger() - 40) / 6;
+            comestval += (comest->get_nutrition() + get_hunger() - 40) / 6;
         } if( thirst > 40 ) {
-            ret += (comest->quench + thirst - 40) / 4;
+            comestval += (comest->quench + thirst - 40) / 4;
         }
-        // TODO: Add a check for poison
+        if( comestval > 0 && can_eat( it ) == EDIBLE ) {
+            ret += comestval;
+        }
     }
 
     if( it.is_ammo() ) {

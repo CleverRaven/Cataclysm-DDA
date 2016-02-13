@@ -2580,9 +2580,9 @@ void dialogue::gen_responses( const std::string &topic )
                 int strength = 3 * p->op_of_u.fear + p->op_of_u.value + p->op_of_u.trust +
                                 (10 - p->personality.bravery);
                 int weakness = 3 * p->personality.altruism + p->personality.bravery -
-                                p->op_of_u.fear + p->op_of_u.value;
+                                3 * p->op_of_u.fear - 3 * p->op_of_u.anger + 2 * p->op_of_u.value;
                 int friends = 2 * p->op_of_u.trust + 2 * p->op_of_u.value -
-                                2 * p->op_of_u.anger + p->op_of_u.owed / 50;
+                                2 * p->op_of_u.anger + p->op_of_u.owed / OWED_VAL;
                 RESPONSE(_("I can keep you safe."));
                     TRIAL(TALK_TRIAL_PERSUADE, strength * 2);
                         SUCCESS("TALK_AGREE_FOLLOW");
@@ -2680,7 +2680,7 @@ void dialogue::gen_responses( const std::string &topic )
             RESPONSE(_("Can you teach me anything?"));
             if( !p->has_effect( effect_asked_to_train ) ) {
                 int commitment = 2 * p->op_of_u.trust + 1 * p->op_of_u.value -
-                                  3 * p->op_of_u.anger + p->op_of_u.owed / 50;
+                                  3 * p->op_of_u.anger + p->op_of_u.owed / OWED_VAL;
                 TRIAL(TALK_TRIAL_PERSUADE, commitment * 2);
                     SUCCESS("TALK_TRAIN");
                     FAILURE("TALK_DENY_PERSONAL");
@@ -2695,7 +2695,7 @@ void dialogue::gen_responses( const std::string &topic )
         }
         if (p->is_following()) {
             int loyalty = 3 * p->op_of_u.trust + 1 * p->op_of_u.value -
-                          1 * p->op_of_u.anger + p->op_of_u.owed / 50;
+                          1 * p->op_of_u.anger + p->op_of_u.owed / OWED_VAL;
             RESPONSE(_("Guard this position."));
                 TRIAL(TALK_TRIAL_PERSUADE, loyalty * 2);
                     SUCCESS("TALK_FRIEND_GUARD");
@@ -3236,9 +3236,9 @@ std::string talk_function::bulk_trade_inquire(npc *p, itype_id it)
 {
  int you_have = g->u.charges_of(it);
  item tmp(it, 0);
- int item_cost = tmp.price();
+ int item_cost = tmp.price( true );
  tmp.charges = you_have;
- int total_cost = tmp.price();
+ int total_cost = tmp.price( true );
  p->add_msg_if_player(m_good, _("Let's see what you've got..."));
  std::stringstream response;
  response << string_format(ngettext("I'm willing to pay $%.2f per batch. You have "
@@ -3255,7 +3255,7 @@ void talk_function::bulk_trade_accept(npc *p, itype_id it)
  int you_have = g->u.charges_of(it);
  item tmp(it, 0);
  tmp.charges = you_have;
- int total = tmp.price();
+ int total = tmp.price( true );
  g->u.use_charges(it, you_have);
  g->u.cash += total;
  p->add_msg_if_player(m_good, _("Pleasure doing business!"));
@@ -3348,7 +3348,7 @@ void talk_function::give_equipment(npc *p)
     if (giving.empty()) {
         invslice slice = p->inv.slice();
         for (auto &i : slice) {
-            giving.push_back( npc::item_pricing { &i->front(), i->front().price(), false } );
+            giving.push_back( npc::item_pricing { &i->front(), p->value( i->front() ), false } );
         }
     }
     while (chosen == -1 && giving.size() > 1) {

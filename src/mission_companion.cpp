@@ -61,7 +61,7 @@ void talk_function::bionic_install(npc *p)
                 bio->typeId() ==  "bio_power_storage_mkII"){
 
                 bionic_types.push_back( bio->typeId() );
-                bionic_names.push_back( bio->tname() +" - $"+to_string(bio->price()*2/100));
+                bionic_names.push_back( bio->tname() +" - $"+to_string(bio->price( true )*2/100));
             }
         }
     }
@@ -81,7 +81,7 @@ void talk_function::bionic_install(npc *p)
 
     const item tmp = item(bionic_types[bionic_index], 0);
     const itype &it = *tmp.type;
-    unsigned int price = tmp.price()*2;
+    unsigned int price = tmp.price( true )*2;
 
     if (price > g->u.cash){
         popup(_("You can't afford the procedure..."));
@@ -113,7 +113,7 @@ void talk_function::bionic_remove(npc *p)
                 bionic_types.push_back( bio.id );
                 if( item::type_is_defined( bio.id ) ) {
                     tmp = item(bio.id, 0);
-                    bionic_names.push_back( tmp.tname() +" - $"+to_string(500+(tmp.price()/400)));
+                    bionic_names.push_back( tmp.tname() +" - $"+to_string(500+(tmp.price( true )/400)));
                 } else {
                     bionic_names.push_back( bio.id +" - $"+to_string(500));
                 }
@@ -136,7 +136,7 @@ void talk_function::bionic_remove(npc *p)
 
     unsigned int price;
     if( item::type_is_defined( bionic_types[bionic_index] ) ) {
-        price = 50000+(item(bionic_types[bionic_index], 0).price()/4);
+        price = 50000+(item(bionic_types[bionic_index], 0).price( true )/4);
     } else {
         price = 50000;
     }
@@ -898,7 +898,7 @@ void talk_function::field_harvest(npc *p, std::string place)
     }
     bay.save();
     tmp = item( plant_types[plant_index], calendar::turn );
-    int money = (number_plants*tmp.price()-number_plots*2)/100;
+    int money = (number_plants*tmp.price( true )-number_plots*2)/100;
     bool liquidate = false;
 
     unsigned int a = number_plots*2;
@@ -912,7 +912,7 @@ void talk_function::field_harvest(npc *p, std::string place)
     //Add fruit
     if (liquidate){
         add_msg(_("The %s are liquidated for $%d..."), plant_names[plant_index].c_str(), money);
-        g->u.cash += (number_plants*tmp.price()-number_plots*2)/100;
+        g->u.cash += (number_plants*tmp.price( true )-number_plots*2)/100;
     } else {
         if( tmp.count_by_charges() ) {
             tmp.charges = 1;
@@ -1586,7 +1586,7 @@ std::vector<item*> talk_function::loot_building(const tripoint site)
             for (unsigned int i = 0; i < bay.i_at(p).size(); i++){
                 if (((bay.i_at(p)[i].is_food() || bay.i_at(p)[i].is_food_container()) && !one_in(8)) ||
                     (bay.i_at(p)[i].made_of ( LIQUID ) && !one_in(8)) ||
-                    (bay.i_at(p)[i].price() > 1000 && !one_in(4)) ||
+                    (bay.i_at(p)[i].price( true ) > 1000 && !one_in(4)) ||
                     one_in(5)){
                     item *it = &bay.i_at(p)[i];
                     items_found.push_back(it);
