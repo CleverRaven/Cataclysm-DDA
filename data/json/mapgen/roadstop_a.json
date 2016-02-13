@@ -15,21 +15,21 @@
                 "........................",
                 "......o........oo.......",
                 ".....##############.....",
-                ".t.t.#A  73##37  A#.t.t.",
+                ".t.t.#A  39##73  A#.t.t.",
                 ".....#A  ######  A#.....",
-                ".t.t.#A  73##37  A#.t.t.",
+                ".t.t.#A  39##73  A#.t.t.",
                 ".....#A  ######  A#.....",
-                ".t.t.#   73##37   #.t.t.",
+                ".t.t.#   37##93   #.t.t.",
                 ".....# ########## #.....",
                 ".t.t.#    ####    #.t.t.",
-                ".....####7#88#7####.....",
+                ".....####3#88#3####.....",
                 "......SSSSSSSSSSSS......",
                 "........22222222........",
                 ".......2222222222.......",
                 "......222222222222......",
                 "......222222222222......",
                 "......2222....2222......",
-                "......2222....2222......",
+                "......2222#ii#2222......",
                 "......2222....2222......",
                 "......2222....2222......"
             ],
@@ -37,30 +37,40 @@
                 ".": "t_grass",
                 "#": "t_wall_log",
                 "2": "t_dirt",
+                "i": "t_dirt",
                 "3": "t_door_c",
                 " ": "t_floor",
                 "6": "t_floor",
                 "7": "t_floor",
                 "8": "t_dirt",
+                "9": "t_floor",
                 "A": "t_floor",
                 "t": "t_tree",
                 "S": "t_sidewalk",
                 "o": "t_dirt"
             },
+            "signage": {
+                "i": "This was once a infromation map for the \<city\> area, but it has long since been eroded beyond usefullness. There are small holders for tourist maps attached."
+            }
             "furniture": {
                 "6": "f_table",
                 "7": "f_toilet",
+                "9": "f_toilet",
                 "A": "f_sink",
                 "o": "f_crate_c",
                 "8": "f_trashcan"
             },
             "toilets": {
-                "7": { }
+                "7": { },
+                "9": { "amount": 500 }
             },
-        "place_items": [
-            { "item": "trash", "chance": 80, "x": [11, 12], "y": 15},
-            { "item": "trash", "chance": 80, "x": [6, 18], "y": [8, 15]},
-            { "item": "methlab", "chance": 50, "x": [6, 18], "y": [8, 15]}
+            "place_items": [
+                { "item": "trash", "chance": 80, "x": [11, 12], "y": 15},
+                { "item": "trash", "chance": 80, "x": [6, 18], "y": [8, 15]},
+                { "item": "methlab", "chance": 50, "x": [6, 18], "y": [8, 15]}
+                ],
+            "add": [
+                { "item": "touristmap", "chance": 50, "x": [11, 12] "y": 22, "amount": 1}
             ]
         }
     }
