@@ -455,9 +455,9 @@ class Creature
 
         virtual void add_memorial_log(const char *, const char *, ...) {};
 
-        virtual nc_color symbol_color() const;
-        virtual nc_color basic_symbol_color() const;
-        virtual const std::string &symbol() const;
+        virtual nc_color symbol_color() const = 0;
+        virtual nc_color basic_symbol_color() const = 0;
+        virtual const std::string &symbol() const = 0;
         virtual bool is_symbol_highlighted() const;
 
     protected:

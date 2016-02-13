@@ -2075,16 +2075,6 @@ nc_color npc::basic_symbol_color() const
     return c_pink;
 }
 
-nc_color npc::symbol_color() const
-{
-    nc_color basic = basic_symbol_color();
-    if( in_sleep_state() ) {
-        return hilite( basic );
-    }
-
-    return basic;
-}
-
 int npc::print_info(WINDOW* w, int line, int vLines, int column) const
 {
     const int last_line = line + vLines;

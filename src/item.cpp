@@ -1599,11 +1599,12 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
 
         ///\EFFECT_MELEE >2 allows seeing melee damage stats on weapons
         if( debug_mode || ( g->u.get_skill_level( skill_melee ) > 2 && ( damage_bash() > 0 ||
-                            damage_cut() > 0 ) ) ) {
+                            damage_cut() > 0 || type->m_to_hit > 0 ) ) ) {
             damage_instance non_crit;
             g->u.roll_all_damage( false, non_crit, true, *this );
             damage_instance crit;
             g->u.roll_all_damage( true, crit, true, *this );
+            int attack_cost = g->u.attack_speed( *this, true );
             insert_separation_line();
             info.push_back( iteminfo( "DESCRIPTION", string_format( _( "Average melee damage:" ) ) ) );
             info.push_back( iteminfo( "DESCRIPTION",
@@ -1626,6 +1627,8 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                                                   int( non_crit.type_damage( DT_STAB ) ),
                                                   int( crit.type_damage( DT_STAB ) ) ) ) );
             }
+            info.push_back( iteminfo( "DESCRIPTION",
+                                      string_format( _( "%d moves per attack" ), attack_cost ) ) );
         }
 
         for( auto &u : type->use_methods ) {
@@ -4185,66 +4188,35 @@ item *item::get_usable_item( const std::string &use_name )
     return nullptr;
 }
 
+bool item::can_reload() const {
+    if( !is_gun() && !is_tool() && !is_magazine() ) {
+        return false;
+    }
+    if( has_flag( "NO_RELOAD") || has_flag( "RELOAD_AND_SHOOT" ) ) {
+        return false;
+    }
+    if( ammo_type() == "NULL" ) {
+        return false;
+    }
+    if( magazine_integral() && ammo_remaining() >= ammo_capacity() ) {
+        return false;
+    }
+    // either intergral magazine with sufficient capacity or uses detachable magazines
+    return true;
+}
+
 item_location item::pick_reload_ammo( player &u, bool interactive ) const
 {
-    std::set<ammotype> ammo_types; // any ammo for empty detachable or integral magazines
-    std::set<itype_id> item_types; // specific ammo for partially loaded detachable or integral magazines
-    std::set<itype_id> compat_mag; // compatible magazine types for items that reload using them
-
-    // checks if item reloadable and if so appends to either ammo_type or item_type
-    auto wants_ammo = [&ammo_types,&item_types,&compat_mag]( const item& it ) {
-        if( !it.has_flag( "NO_RELOAD" ) ) {
-            if( it.magazine_integral() || it.is_magazine() ) {
-                if( it.ammo_remaining() < it.ammo_capacity() ) {
-                    if( it.ammo_remaining() > 0 ) {
-                        item_types.insert( it.ammo_current() );
-                    } else {
-                        ammo_types.insert( it.ammo_type() );
-                    }
-                }
-            } else if( !it.magazine_current() ) {
-                const auto mags = it.magazine_compatible();
-                compat_mag.insert( mags.begin(), mags.end() );
-            }
-        }
-    };
-
-    // consider both the item and any attached gunmods
-    wants_ammo( *this );
-    if( is_gun() ) {
-        std::for_each( contents.begin(), contents.end(), wants_ammo );
-    }
-
     std::vector<item_location> ammo_list;
 
-    auto filter = [&item_types,&ammo_types,&compat_mag]( const item *e ) -> bool {
-        if( e->is_ammo() ) {
-            return item_types.count( e->ammo_current() ) || ammo_types.count( e->ammo_type() );
-        } else if ( e->is_magazine() ) {
-            return compat_mag.count( e->typeId() );
-        } else if( e->is_ammo_container() ) {
-            return item_types.count( e->contents[0].ammo_current() ) || ammo_types.count( e->contents[0].ammo_type() );
-        } else {
-            return false;
+    auto opts = gunmods();
+    opts.push_back( this );
+    for( const auto e : opts ) {
+        if( e->can_reload() ) {
+            auto tmp = u.find_ammo( *e );
+            std::move( tmp.begin(), tmp.end(), std::back_inserter( ammo_list ) );
         }
-    };
-
-    // first check the inventory for suitable ammo
-    u.visit_items_const( [ &ammo_list, &filter, &u ]( const item *node ) {
-        if( filter( node ) ) {
-            ammo_list.emplace_back( item_location( u, node ) );
-        }
-        return ( node->is_magazine() || node->is_container() || node->is_gun() || node->is_tool() ) ? VisitResponse::SKIP : VisitResponse::NEXT;
-    });
-
-    // next check for items on adjacent map tiles
-    u.nearby().visit_items_const(
-        [ &ammo_list, &filter ]( const item *node, const item *, const tripoint *pos ) {
-        if( filter( node ) ) {
-            ammo_list.emplace_back( *pos, node );
-        }
-        return ( node->is_magazine() || node->is_container() || node->is_gun() || node->is_tool() ) ? VisitResponse::SKIP : VisitResponse::NEXT;
-    } );
+    }
 
     if( ammo_list.empty() ) {
         if( interactive ) {

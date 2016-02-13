@@ -538,8 +538,6 @@
 		<Unit filename="src/name.cpp" />
 		<Unit filename="src/name.h" />
 		<Unit filename="src/newcharacter.cpp" />
-		<Unit filename="src/nonplayer.cpp" />
-		<Unit filename="src/nonplayer.h" />
 		<Unit filename="src/npc.cpp" />
 		<Unit filename="src/npc.h" />
 		<Unit filename="src/npc_favor.h" />

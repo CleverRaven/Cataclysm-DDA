@@ -600,7 +600,6 @@ public:
 
 // Display
     virtual nc_color basic_symbol_color() const override;
-    virtual nc_color symbol_color() const override;
  int print_info(WINDOW* w, int vStart, int vLines, int column) const override;
  std::string short_description() const;
  std::string opinion_text() const;

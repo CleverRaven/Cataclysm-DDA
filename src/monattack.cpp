@@ -82,6 +82,7 @@ const efftype_id effect_bleed( "bleed" );
 const efftype_id effect_blind( "blind" );
 const efftype_id effect_boomered( "boomered" );
 const efftype_id effect_controlled( "controlled" );
+const efftype_id effect_corroding( "corroding" );
 const efftype_id effect_countdown( "countdown" );
 const efftype_id effect_darkness( "darkness" );
 const efftype_id effect_dazed( "dazed" );
@@ -438,6 +439,8 @@ bool mattack::acid_barf(monster *z)
     }
 
     z->moves -= 80;
+    // Make sure it happens before uncanny dodge
+    g->m.add_field( target->pos(), fd_acid, 1, 0 );
     bool uncanny = target->uncanny_dodge();
     // Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
     if( uncanny || dodge_check(z, target) ){
@@ -454,18 +457,19 @@ bool mattack::acid_barf(monster *z)
     }
 
     body_part hit = target->get_random_body_part();
-    int dam = rng(10, 15);
+    int dam = rng(5, 12);
     dam = target->deal_damage( z, hit, damage_instance( DT_ACID, dam ) ).total_damage();
-    g->m.add_field( target->pos(), fd_acid, 1, 0 );
+    target->add_env_effect( effect_corroding, hit, 5, dam / 2 + 5, hit );
 
     if( dam > 0 ) {
         auto msg_type = target == &g->u ? m_bad : m_info;
         //~ 1$s is monster name, 2$s bodypart in accusative
         target->add_msg_player_or_npc( msg_type,
-            _("The %1$s barfs acid on your %2$s!"),
-            _("The %1$s barfs acid on <npcname>'s %2$s!"),
+            _("The %1$s barfs acid on your %2$s for %3$d damage!"),
+            _("The %1$s barfs acid on <npcname>'s %2$s for %3$d damage!"),
             z->name().c_str(),
-            body_part_name_accusative( hit ).c_str() );
+            body_part_name_accusative( hit ).c_str(),
+            dam );
 
         if( hit == bp_eyes ) {
             target->add_env_effect( effect_blind, bp_eyes, 3, 10 );
@@ -490,9 +494,12 @@ bool mattack::acid_accurate(monster *z)
     }
 
     Creature *target = z->attack_target();
-    if( target == nullptr ||
-        rl_dist( z->pos(), target->pos() ) > 12 ||
-        !z->sees( *target ) ) {
+    if( target == nullptr ) {
+        return false;
+    }
+
+    const int range = rl_dist( z->pos(), target->pos() );
+    if( range > 10 || range < 2 || !z->sees( *target ) ) {
         return false;
     }
 
@@ -500,10 +507,12 @@ bool mattack::acid_accurate(monster *z)
 
     projectile proj;
     proj.speed = 10;
-    proj.range = 12;
+    proj.range = 10;
     proj.proj_effects.insert( "BLINDS_EYES" );
-    proj.impact.add_damage( DT_ACID, rng( 5, 10 ) );
-    z->projectile_attack( proj, target->pos(), rng( 150, 1200 ) );
+    proj.proj_effects.insert( "NO_DAMAGE_SCALING" );
+    proj.impact.add_damage( DT_ACID, rng( 3, 5 ) );
+    // Make it arbitrarily less accurate at close ranges
+    z->projectile_attack( proj, target->pos(), rng( 0, 8000 / range ) );
 
     return true;
 }
@@ -2728,77 +2737,6 @@ void mattack::taze( monster *z, Creature *target )
     target->check_dead_state();
 }
 
-bool mattack::smg(monster *z)
-{
-    const std::string ammo_type("9mm");
-    // Make sure our ammo isn't weird.
-    if (z->ammo[ammo_type] > 1000) {
-        debugmsg("Generated too much ammo (%d) for %s in mattack::smg", z->ammo[ammo_type], z->name().c_str());
-        z->ammo[ammo_type] = 1000;
-    }
-
-    Creature *target = nullptr;
-
-    if (z->friendly != 0) {
-        // Attacking monsters, not the player!
-        int boo_hoo;
-        target = z->auto_find_hostile_target( 18, boo_hoo );
-        if( target == nullptr ) {// Couldn't find any targets!
-            if(boo_hoo > 0 && g->u.sees( *z ) ) { // because that stupid oaf was in the way!
-                add_msg(m_warning, ngettext("Pointed in your direction, the %s emits an IFF warning beep.",
-                                            "Pointed in your direction, the %s emits %d annoyed sounding beeps.",
-                                            boo_hoo),
-                        z->name().c_str(), boo_hoo);
-            }
-            return true;
-        }
-    } else {
-        // Not friendly; hence, firing at the player too
-        target = z->attack_target();
-        if( target == nullptr ) {
-            return true;
-        }
-        int dist = rl_dist( z->pos(), target->pos() );
-        if( dist > 18 ) {
-            return true;
-        }
-
-        if( !z->has_effect( effect_targeted ) ) {
-            sounds::sound(z->pos(), 6, _("beep-beep-beep!"));
-            z->add_effect( effect_targeted, 8);
-            z->moves -= 100;
-            return true;
-        }
-    }
-    npc tmp = make_fake_npc(z, 16, 8, 8, 12);
-    tmp.skillLevel( skill_id( "smg" ) ).level(8);
-    tmp.skillLevel( skill_gun ).level(4);
-    z->moves -= 150;   // It takes a while
-
-    if (z->ammo[ammo_type] <= 0) {
-        if (one_in(3)) {
-            sounds::sound(z->pos(), 2, _("a chk!"));
-        } else if (one_in(4)) {
-            sounds::sound(z->pos(), 6, _("boop-boop!"));
-        }
-        return true;
-    }
-    if (g->u.sees( *z )) {
-        add_msg(m_warning, _("The %s fires its smg!"), z->name().c_str());
-    }
-    tmp.weapon = item("hk_mp5", 0);
-    tmp.weapon.set_curammo( ammo_type );
-    tmp.weapon.charges = std::max(z->ammo[ammo_type], 10);
-    z->ammo[ammo_type] -= tmp.weapon.charges;
-    tmp.fire_gun( target->pos(), tmp.weapon.burst_size() );
-    z->ammo[ammo_type] += tmp.weapon.charges;
-    if (target == &g->u) {
-        z->add_effect( effect_targeted, 3);
-    }
-
-    return true;
-}
-
 bool mattack::laser(monster *z)
 {
     bool sunlight = g->is_in_sunlight(z->pos());
@@ -2991,81 +2929,6 @@ void mattack::frag( monster *z, Creature *target ) // This is for the bots, not 
     if (target == &g->u) {
         z->add_effect( effect_targeted, 3);
     }
-}
-
-bool mattack::bmg_tur(monster *z)
-{
-    const std::string ammo_type("50bmg");
-    // Make sure our ammo isn't weird.
-    if (z->ammo[ammo_type] > 500) {
-        debugmsg("Generated too much ammo (%d) for %s in mattack::bmg_tur", z->ammo[ammo_type], z->name().c_str());
-        z->ammo[ammo_type] = 500;
-    }
-
-    Creature *target = nullptr;
-
-    if (z->friendly != 0) {
-        // Attacking monsters, not the player!
-        int boo_hoo;
-        target = z->auto_find_hostile_target( 40, boo_hoo );
-        if( target == nullptr ) {// Couldn't find any targets!
-            if(boo_hoo > 0 && g->u.sees( *z ) ) { // because that stupid oaf was in the way!
-                add_msg(m_warning, ngettext("Pointed in your direction, the %s emits an IFF warning beep.",
-                                            "Pointed in your direction, the %s emits %d annoyed sounding beeps.",
-                                            boo_hoo),
-                        z->name().c_str(), boo_hoo);
-            }
-            return false;
-        }
-    } else {
-        // (Be grateful for safety precautions.  50BMG has range 90.)
-        target = z->attack_target();
-        if( target == nullptr ) {
-            return false;
-        }
-        int dist = rl_dist( z->pos(), target->pos() );
-        if( dist > 18 ) {
-            return false;
-        }
-
-        if (!z->has_effect( effect_targeted )) {
-            //~There will be a .50BMG shell sent at high speed to your location next turn.
-            target->add_msg_if_player( m_warning, _("Why is there a laser dot on your torso..?") );
-            sounds::sound(z->pos(), 10, _("Hostile detected."));
-            target->add_effect( effect_laserlocked, 3 );
-            z->add_effect( effect_targeted, 8);
-            z->moves -= 100;
-            return true;
-        }
-    }
-    npc tmp = make_fake_npc(z, 16, 10, 8, 12);
-    tmp.skillLevel( skill_rifle ).level(8);
-    tmp.skillLevel( skill_gun ).level(6);
-    z->moves -= 150;   // It takes a while
-
-    if (z->ammo[ammo_type] <= 0) {
-        if (one_in(3)) {
-            sounds::sound(z->pos(), 2, _("a chk!"));
-        } else if (one_in(4)) {
-            sounds::sound(z->pos(), 6, _("boop!"));
-        }
-        return true;
-    }
-    sounds::sound(z->pos(), 10, _("Interdicting target."));
-    if (g->u.sees( *z )) {
-        add_msg(m_warning, _("The %s aims and fires!"), z->name().c_str());
-    }
-    tmp.weapon = item("m107a1", 0);
-    tmp.weapon.set_curammo( ammo_type );
-    tmp.weapon.charges = std::max(z->ammo[ammo_type], 30);
-    z->ammo[ammo_type] -= tmp.weapon.charges;
-    tmp.fire_gun( target->pos() );
-    z->ammo[ammo_type] += tmp.weapon.charges;
-    if (target == &g->u) {
-        z->add_effect( effect_targeted, 3);
-    }
-
-    return true;
 }
 
 void mattack::tankgun( monster *z, Creature *target )
