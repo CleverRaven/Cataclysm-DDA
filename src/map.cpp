@@ -659,7 +659,7 @@ std::pair<float, float> map::vehicle_traction( vehicle &veh ) const
 {
     const tripoint pt = veh.global_pos3();
 
-    // Sink in water?
+    // TODO: Special-handle steering wheels somehow
     const auto &wheel_indices = veh.wheelcache;
     int num_wheels = wheel_indices.size();
     if( num_wheels == 0 ) {
@@ -679,18 +679,21 @@ std::pair<float, float> map::vehicle_traction( vehicle &veh ) const
     // In a well designed vehicle, should be close to center of mass
     float wheel_center_x = 0.0f;
     float wheel_center_y = 0.0f;
+
+    float mass_modifier = 1.0f;
     for( int w = 0; w < num_wheels; w++ ) {
+        // TODO: Drivetrains, 4x4 etc.
         const int p = wheel_indices[w];
         const tripoint pp = pt + veh.parts[p].precalc[0];
 
         // Not using vehicle::wheels_area so that if it changes,
-        //  this section will stay correct (ie. proportion of wheel area/total area)
+        // this section will stay correct (ie. proportion of wheel area/total area)
         const int width = veh.part_info( p ).wheel_width;
         const int bigness = veh.parts[p].bigness;
-        const float wheel_area = width * bigness / 9.0f;
+        const float wheel_area = width * bigness;
         total_wheel_area += wheel_area;
 
-        const float traction_here = tile_traction( pp );
+        const float traction_here = traction_mult( pp );
         if( isnan( traction_here ) ) {
             // Vehicle locked in wall
             // Shouldn't happen, but does
@@ -716,7 +719,7 @@ std::pair<float, float> map::vehicle_traction( vehicle &veh ) const
     }
 
     // Submerged wheels threshold is 2/3.
-    if( num_wheels > 0 && (float)submerged_wheels / num_wheels > .666 ) {
+    if( 3 * submerged_wheels > 2 * num_wheels ) {
         if( !veh.floating.empty() ) {
             return vehicle_buoyancy( veh );
         } else {
@@ -733,8 +736,8 @@ std::pair<float, float> map::vehicle_traction( vehicle &veh ) const
     wheel_center_y /= traction_wheel_area;
     const tripoint wheel_center( round( wheel_center_x ), round( wheel_center_y ), pt.z );
     // Penalty due to badly placed center of mass
-    const float com_penalty = 3 / ( 3 + rl_dist( pt, wheel_center ) );
-    traction_wheel_area *= com_penalty;
+    const float misalignment = rl_dist( pt, wheel_center );
+    traction_wheel_area *= 3 / ( 3 + misalignment );
 
     return std::make_pair( traction_wheel_area / total_wheel_area, ;
 }
