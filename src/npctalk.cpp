@@ -4093,7 +4093,13 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
     size_t them_off = 0, you_off = 0; // Offset from the start of the list
     size_t ch, help;
 
+    // Make a temporary copy of the NPC to make sure volume calculations are correct
+    npc temp = *p;
+    int capacity = temp.volume_capacity() - temp.volume_carried();
+
     do {
+        auto &target_list = focus_them ? theirs : yours;
+        auto &offset = focus_them ? them_off : you_off;
         if (update) { // Time to re-draw
             update = false;
             // Draw borders, one of which is highlighted
@@ -4102,6 +4108,24 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
             for (int i = 1; i < FULL_SCREEN_WIDTH; i++) {
                 mvwputch(w_head, 3, i, c_white, LINE_OXOX);
             }
+
+            inventory newinv;
+            for (size_t i = 0; i < yours.size(); i++) {
+                if (yours[i].selected) {
+                    newinv.push_back( *yours[i].itm );
+                }
+            }
+
+            for (size_t i = 0; i < theirs.size(); i++) {
+                if( !theirs[i].selected ) {
+                    newinv.push_back( *theirs[i].itm );
+                }
+            }
+            temp.inv = newinv;
+
+            capacity = temp.volume_capacity() - temp.volume_carried();
+            mvwprintz( w_head, 3, 3, capacity < 0 ? c_red : c_green,
+                       _("Volume capacity left: %d"), capacity );
             mvwprintz(w_head, 3, 30,
                     (cash < 0 && (int)g->u.cash >= cash * -1) || (cash >= 0 && (int)p->cash  >= cash) ?
                     c_green : c_red, (cash >= 0 ? _("Profit $%.2f") : _("Cost $%.2f")),
@@ -4164,29 +4188,15 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
                 update = true;
                 break;
             case '<':
-                if (focus_them) {
-                    if (them_off > 0) {
-                        them_off -= ENTRIES_PER_PAGE;
-                        update = true;
-                    }
-                } else {
-                    if (you_off > 0) {
-                        you_off -= ENTRIES_PER_PAGE;
-                        update = true;
-                    }
+                if (offset > 0) {
+                    offset -= ENTRIES_PER_PAGE;
+                    update = true;
                 }
                 break;
             case '>':
-                if (focus_them) {
-                    if (them_off + ENTRIES_PER_PAGE < theirs.size()) {
-                        them_off += ENTRIES_PER_PAGE;
-                        update = true;
-                    }
-                } else {
-                    if (you_off + ENTRIES_PER_PAGE < yours.size()) {
-                        you_off += ENTRIES_PER_PAGE;
-                        update = true;
-                    }
+                if (offset + ENTRIES_PER_PAGE < target_list.size()) {
+                    offset += ENTRIES_PER_PAGE;
+                    update = true;
                 }
                 break;
             case '?':
@@ -4201,16 +4211,9 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
                 mvwprintz(w_head, 0, 0, c_white, header_message.c_str(), p->name.c_str());
                 wrefresh(w_head);
                 update = true;
-                if (focus_them) {
-                    help += them_off;
-                    if( help < theirs.size() ) {
-                        popup(theirs[help].itm->info(), PF_NONE);
-                    }
-                } else {
-                    help += you_off;
-                    if( help < yours.size() ) {
-                        popup(yours[help].itm->info(), PF_NONE);
-                    }
+                help += offset;
+                if( help < target_list.size() ) {
+                    popup(target_list[help].itm->info(), PF_NONE);
                 }
                 break;
             case '\n': // Check if we have enough cash...
@@ -4220,46 +4223,40 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
                     popup(_("Not enough cash!  You have $%.2f, price is $%.2f."), (double)g->u.cash/100, -(double)cash/100);
                     update = true;
                     ch = ' ';
-                //Else the player gets cash, and it should not make the NPC negative.
                 } else if (cash > 0 && (int)p->cash < cash  && ch != 'T') {
+                    //Else the player gets cash, and it should not make the NPC negative.
                     popup(_("Not enough cash! %s has $%.2f, but the price is $%.2f. Use (T) to force the trade."),
                               p->name.c_str(), (double)p->cash/100, (double)cash/100);
+                    update = true;
+                    ch = ' ';
+                } else if( capacity < 0 ) {
+                    // Make sure NPC doesn't go over allowed volume
+                    popup( _("The %s can't carry all that."), p->name.c_str() );
                     update = true;
                     ch = ' ';
                 }
                 break;
             default: // Letters & such
-                if (ch >= 'a' && ch <= 'z') {
-                    ch -= 'a';
-                    if (focus_them) {
-                        ch += them_off;
-                        if (ch < theirs.size()) {
-                            item_pricing &ip = theirs[ch];
-                            ip.selected = !ip.selected;
-                            if (ip.selected) {
-                                cash -= ip.price;
-                            } else {
-                                cash += ip.price;
-                            }
-                            update = true;
-                        }
-                    } else { // Focus is on the player's inventory
-                        ch += you_off;
-                        if (ch < yours.size()) {
-                            item_pricing &ip = yours[ch];
-                            ip.selected = !ip.selected;
-                            if (ip.selected) {
-                                cash += ip.price;
-                            } else {
-                                cash -= ip.price;
-                            }
-                            update = true;
-                        }
-                    }
-                    ch = 0;
+                if( ch < 'a' || ch > 'z' ) {
+                    continue;
                 }
+
+                ch -= 'a';
+                ch += offset;
+                if( ch < target_list.size() ) {
+                    item_pricing &ip = target_list[ch];
+                    ip.selected = !ip.selected;
+                    if( (ip.selected && focus_them) ||
+                        (!ip.selected && !focus_them) ) {
+                        cash -= ip.price;
+                    } else {
+                        cash += ip.price;
+                    }
+                    update = true;
+                }
+                ch = 0;
         }
-    } while (ch != KEY_ESCAPE && ch != '\n' && ch != 'T');
+    } while( ch != KEY_ESCAPE && ch != '\n' && ch != 'T' );
 
     if (ch == '\n' || ch == 'T') {
         inventory newinv;
