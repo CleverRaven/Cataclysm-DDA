@@ -665,7 +665,7 @@ public:
         }
     }
 
-    virtual int charges_default() const {
+    virtual int charges_default() const override {
         return def_charges;
     }
 
@@ -696,7 +696,7 @@ struct it_tool : itype {
         return "TOOL";
     }
 
-    virtual int charges_default() const {
+    virtual int charges_default() const override {
         return def_charges;
     }
 
