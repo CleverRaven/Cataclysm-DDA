@@ -1129,7 +1129,6 @@ classes = {
             { name = "spawn_item", rval = nil, args = { "tripoint", "string", "int", "int" } },
             { name = "spawn_item", rval = nil, args = { "tripoint", "string", "int", "int", "int" } },
             { name = "spawn_item", rval = nil, args = { "tripoint", "string", "int", "int", "int", "int" } },
-            { name = "spawn_item", rval = nil, args = { "tripoint", "string", "int", "int", "int", "int", "bool" } },
             { name = "spawn_monsters", rval = nil, args = { "bool" } },
             { name = "stored_volume", rval = "int", args = { "tripoint" } },
             { name = "ter", rval = "ter_id", args = { "tripoint" } },

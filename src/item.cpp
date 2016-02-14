@@ -103,69 +103,53 @@ item::item()
     type = nullitem();
 }
 
-item::item(const std::string new_type, int turn, bool rand)
+item::item( const itype *type, int turn, int qty ) : type( type )
 {
-    type = find_type( new_type );
     bday = turn;
     corpse = type->id == "corpse" ? &mtype_id::NULL_ID.obj() : nullptr;
-    name = type_name(1);
-    const bool has_random_charges = rand && type->spawn && type->spawn->rand_charges.size() > 1;
-    if( has_random_charges ) {
-        const auto charge_roll = rng( 1, type->spawn->rand_charges.size() - 1 );
-        charges = rng( type->spawn->rand_charges[charge_roll - 1], type->spawn->rand_charges[charge_roll] );
+    name = type_name();
+
+    if( qty >= 0 ) {
+        charges = qty;
+    } else {
+        if( type->spawn && type->spawn->rand_charges.size() > 1 ) {
+            const auto charge_roll = rng( 1, type->spawn->rand_charges.size() - 1 );
+            charges = rng( type->spawn->rand_charges[charge_roll - 1], type->spawn->rand_charges[charge_roll] );
+        } else {
+            charges = type->charges_default();
+        }
     }
-    // TODO: some item types use the same member (e.g. charges) for different things. Handle or forbid this.
+
     if( type->gun ) {
-        set_var( "magazine_converted", true );
-        charges = 0;
-        for( auto &gm : type->gun->built_in_mods ){
-            if(type_is_defined( gm) ){
-                item temp( gm, turn, rand );
-                temp.item_tags.insert("IRREMOVABLE");
-                contents.push_back( temp );
-            }
+        for( const auto &mod : type->gun->built_in_mods ){
+            item temp( mod, turn, qty );
+            temp.item_tags.insert( "IRREMOVABLE" );
+            contents.push_back( temp );
+        }
+        for( const auto &mod : type->gun->default_mods ) {
+            contents.emplace_back( mod, turn, qty );
         }
 
-        for( auto &gm : type->gun->default_mods ){
-            if(type_is_defined( gm ) ){
-                contents.push_back( item( gm, turn, rand ) );
-            }
-        }
-    }
-    if( type->ammo ) {
-        charges = type->ammo->def_charges;
-    }
-    if( type->magazine ) {
+    } else if( type->magazine ) {
         if( type->magazine->count > 0 ) {
             item ammo ( default_ammo( type->magazine->type ), calendar::turn );
             ammo.charges = type->magazine->count;
             contents.push_back( ammo );
         }
-    }
-    if( type->is_food() ) {
-        const auto comest = dynamic_cast<const it_comest*>(type);
+
+    } else if( type->is_food() ) {
         active = goes_bad() && !rotten();
-        if( comest->count_by_charges() && !has_random_charges ) {
-            charges = comest->def_charges;
+
+    } else if( type->is_tool() ) {
+        if( ammo_remaining() && ammo_type() != "NULL" ) {
+            set_curammo( default_ammo( ammo_type() ) );
         }
     }
-    if( type->is_tool() ) {
+
+    if( type->gun || type->is_tool() ) {
         set_var( "magazine_converted", true );
-        const auto tool = dynamic_cast<const it_tool*>(type);
-        if( tool->max_charges != 0 ) {
-            if( !has_random_charges ) {
-                charges = tool->def_charges;
-            }
-            if (tool->ammo_id != "NULL") {
-                set_curammo( default_ammo( tool->ammo_id ) );
-            }
-        }
     }
-    if( type->gunmod ) {
-        if( type->id == "spare_mag" ) {
-            charges = 0;
-        }
-    }
+
     if( type->variable_bigness ) {
         bigness = rng( type->variable_bigness->min_bigness, type->variable_bigness->max_bigness );
     }
@@ -173,6 +157,15 @@ item::item(const std::string new_type, int turn, bool rand)
         note = SNIPPET.assign( type->snippet_category );
     }
 }
+
+item::item( const itype_id& id, int turn, int qty )
+    : item( find_type( id ), turn, qty ) {}
+
+item::item( const itype *type, int turn, default_charges_tag )
+    : item( type, turn, type->charges_default() ) {}
+
+item::item( const itype_id& id, int turn, default_charges_tag tag )
+    : item( item::find_type( id ), turn, tag ) {}
 
 item item::make_corpse( const mtype_id& mt, int turn, const std::string &name )
 {
@@ -277,8 +270,8 @@ bool item::set_side (side s) {
 
 item item::in_its_container()
 {
-    if( type->spawn && type->spawn->default_container != "null" ) {
-        item ret( type->spawn->default_container, bday );
+    if( type->default_container != "null" ) {
+        item ret( type->default_container, bday );
         if( made_of( LIQUID ) && ret.is_container() ) {
             // Note: we can't use any of the normal normal container functions as they check the
             // container being suitable (seals, watertight etc.)

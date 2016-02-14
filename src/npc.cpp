@@ -886,7 +886,7 @@ std::list<item> starting_inv(npc *me, npc_class type)
 {
  int total_space = me->volume_capacity();
  std::list<item> ret;
- ret.push_back( item("lighter", 0, false) );
+ ret.emplace_back( "lighter", 0 );
  itype_id tmp;
  item tmpitem;
 

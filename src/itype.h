@@ -429,10 +429,7 @@ struct islot_seed {
 // Data used when spawning items, should be obsoleted by the spawn system, but
 // is still used at several places and makes it easier when it applies to all new items of a type.
 struct islot_spawn {
-    std::string default_container; // The container it comes in
     std::vector<long> rand_charges;
-
-    islot_spawn() : default_container ("null") { }
 };
 
 struct islot_artifact {
@@ -478,6 +475,8 @@ protected:
 public:
     std::string snippet_category;
     std::string description; // Flavor text
+
+    std::string default_container = "null"; // The container it comes in
 
     std::map<std::string, int> qualities; //Tool quality indicators
     std::map<std::string, std::string> properties;
@@ -577,6 +576,13 @@ public:
         return false;
     }
 
+    virtual int charges_default() const {
+        if( ammo ) {
+            return ammo->def_charges;
+        }
+        return 0;
+    }
+
     virtual int charges_to_use() const
     {
         return 1;
@@ -659,6 +665,10 @@ public:
         }
     }
 
+    virtual int charges_default() const {
+        return def_charges;
+    }
+
     int get_nutrition() const;
 
     int get_calories() const;
@@ -684,6 +694,10 @@ struct it_tool : itype {
     std::string get_item_type_string() const override
     {
         return "TOOL";
+    }
+
+    virtual int charges_default() const {
+        return def_charges;
     }
 
     int charges_to_use() const override

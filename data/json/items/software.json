@@ -10,12 +10,10 @@
         "price": 300,
         "weight": 0,
         "volume": 0,
+        "container": "usb_drive",
         "software_data": {
             "power": 0,
             "type": "USELESS"
-        },
-        "spawn_data": {
-            "container": "usb_drive"
         }
     },
     {
@@ -29,12 +27,10 @@
         "price": 800,
         "weight": 0,
         "volume": 0,
+        "container": "usb_drive",
         "software_data": {
             "power": 2,
             "type": "HACKING"
-        },
-        "spawn_data": {
-            "container": "usb_drive"
         }
     },
     {
@@ -48,12 +44,10 @@
         "price": 600,
         "weight": 0,
         "volume": 0,
+        "container": "usb_drive",
         "software_data": {
             "power": 2,
             "type": "MEDICAL"
-        },
-        "spawn_data": {
-            "container": "usb_drive"
         }
     },
     {
@@ -67,12 +61,10 @@
         "price": 500,
         "weight": 0,
         "volume": 0,
+        "container": "usb_drive",
         "software_data": {
             "power": 3,
             "type": "SCIENCE"
-        },
-        "spawn_data": {
-            "container": "usb_drive"
         }
     },
     {
@@ -86,12 +78,10 @@
         "price": 200,
         "weight": 0,
         "volume": 0,
+        "container": "usb_drive",
         "software_data": {
             "power": 5,
             "type": "DATA"
-        },
-        "spawn_data": {
-            "container": "usb_drive"
         }
     }
 ]

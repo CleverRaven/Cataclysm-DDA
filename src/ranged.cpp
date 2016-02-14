@@ -1209,10 +1209,8 @@ static projectile make_gun_projectile( const item &gun ) {
     });
 
     if( recover && !fx.count( "IGNITE" ) && !fx.count( "EXPLOSIVE" ) ) {
-        item drop( curammo->id, calendar::turn, false );
-        drop.charges = 1;
+        item drop( curammo->id, calendar::turn, 1 );
         drop.active = fx.count( "ACT_ON_RANGED_HIT" );
-
         proj.set_drop( drop );
     }
 
@@ -1259,9 +1257,7 @@ static inline void eject_casing( player& p, item& weap ) {
     // some magazines also eject disintegrating linkages
     const auto mag = weap.magazine_current();
     if( mag && mag->type->magazine->linkage != "NULL" ) {
-        item linkage( mag->type->magazine->linkage, calendar::turn );
-        linkage.charges = 1; // needs charge 1 to stack properly with other linkages
-        g->m.add_item_or_charges( eject, linkage );
+        g->m.add_item_or_charges( eject, item( mag->type->magazine->linkage, calendar::turn, 1 ) );
     }
 
     itype_id casing_type = weap.ammo_data()->ammo->casing;
@@ -1275,15 +1271,12 @@ static inline void eject_casing( player& p, item& weap ) {
         return;
     }
 
-    item casing( casing_type, calendar::turn, false );
-    casing.charges = 1; // needs charge 1 to stack properly with other casings
-
     if( weap.has_gunmod( "brass_catcher" ) != -1 ) {
-        p.i_add( casing );
+        p.i_add( item( casing_type, calendar::turn, 1 ) );
         return;
     }
 
-    g->m.add_item_or_charges( eject, casing );
+    g->m.add_item_or_charges( eject, item( casing_type, calendar::turn, 1 ) );
     sfx::play_variant_sound( "fire_gun", "brass_eject", sfx::get_heard_volume( eject ), sfx::get_heard_angle( eject ) );
 }
 

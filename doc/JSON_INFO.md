@@ -329,6 +329,7 @@ See MONSTERS.md
 "id" : "socks",                   // Unique ID. Must be one continuous word, use underscores if necessary
 "name" : "socks",                 // The name appearing in the examine box.  Can be more than one word separated by spaces
 "name_plural" : "pairs of socks", // (Optional)
+"container" : "null",             // What container (if any) this item should spawn within
 "color" : "blue",                 // ASCII character color
 "symbol" : "[",                   // ASCII character used in-game
 "description" : "Socks. Put 'em on your feet.", // Description of the item
@@ -464,7 +465,6 @@ Never use `yellow` and `red`, those colors are reserved for sounds and infrared 
 "spoils_in" : 0,            // How long a comestible is good for. 0 = no spoilage
 "use_action" : "CRACK",     // What effects a comestible has when used, see special definitions below
 "stim" : 40,                // Stimulant effect
-"container" : "null",       // What container stores this
 "comestible_type" : "MED",  // Comestible type, used for inventory sorting
 "quench" : 0,               // Thirst quenched
 "heal" : -2,                // Health effects (used for sickness chances)
@@ -593,14 +593,6 @@ Gun mods can be define like this:
 "ammo": "NULL",       // Ammo type used for reloading
 "revert_to": "torch_done", // Transforms into item when charges are expended
 "use_action": "TORCH_LIT" // Action performed when tool is used, see special definition below
-```
-
-###SPAWN DATA
-Every item type can have optional spawn data:
-```
-"spawn_data" : {
-    "container": "can"  // The id of a container item, new item will be put into that container (optional, default: no container)
-}
 ```
 
 ###SEED DATA
