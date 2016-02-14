@@ -9,7 +9,6 @@
       ["gambeson", 3],
       ["armor_lamellar", 2],
       ["tunic", 1],
-      ["baldric", 4],
       ["shield_kite", 5],
       ["shield_heater", 10],
       ["shield_buckler", 1]
@@ -20,7 +19,6 @@
     "items":[
       ["armor_lamellar", 2],
       ["helmet_conical", 1],
-      ["baldric", 4],
       ["shield_hoplon", 1],
       ["shield_scutum", 1],
       ["shield_round", 3],
