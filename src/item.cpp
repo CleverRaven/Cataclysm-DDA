@@ -4404,7 +4404,7 @@ bool item::reload( player &u, item_location loc )
                         target = e;
                         break;
                     }
-                } else if( !e->magazine_current() && e->ammo_type() == ammo->ammo_type() ) {
+                } else if( e->magazine_compatible().count( ammo->typeId() ) ) {
                     target = e;
                     break;
                 }
@@ -4429,6 +4429,14 @@ bool item::reload( player &u, item_location loc )
             ammo->charges -= qty;
 
         } else if ( !target->magazine_integral() ) {
+            // if we already have a magazine loaded prompt to eject it
+            if( target->magazine_current() ) {
+                std::string prompt = string_format( _( "Eject %s from %s?" ), ammo->tname().c_str(), target->tname().c_str() );
+                if( !u.dispose_item( *target->magazine_current(), prompt ) ) {
+                    return false;
+                }
+            }
+
             target->contents.emplace_back( *ammo );
             loc.remove_item();
 
