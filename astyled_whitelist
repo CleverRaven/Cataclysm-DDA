@@ -94,6 +94,7 @@ src/int_id.h
 src/item_action.h
 src/item_factory.h
 src/item_location.h
+src/item_location.cpp
 src/item_stack.h
 src/iuse_software.h
 src/iuse_software_kitten.h

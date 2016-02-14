@@ -17,25 +17,25 @@
 
 class item_location::impl
 {
-    friend item_location;
+        friend item_location;
 
     public:
         virtual ~impl() = default;
         virtual std::string describe( const Character * ) const = 0;
-        virtual int obtain( Character& ) = 0;
+        virtual int obtain( Character & ) = 0;
         virtual void remove_item() = 0;
 
     protected:
         item *what = nullptr;
 };
 
-class item_location::item_on_map : public item_location::impl {
+class item_location::item_on_map : public item_location::impl
+{
     private:
         const map_cursor cur;
 
     public:
-        item_on_map( const map_cursor &cur, item *which ) : cur( cur )
-        {
+        item_on_map( const map_cursor &cur, item *which ) : cur( cur ) {
             if( !cur.has_item( *which ) ) {
                 debugmsg( "Cannot locate item on map at %d,%d,%d", cur.x, cur.y, cur.z );
             } else {
@@ -43,52 +43,50 @@ class item_location::item_on_map : public item_location::impl {
             }
         }
 
-    std::string describe( const Character *ch ) const override {
-        std::string res = g->m.name( cur );
-        if( ch ) {
-            res += std::string(" ") += direction_suffix( ch->pos(), cur );
-        }
-        return res;
-    }
-
-    int obtain( Character& ch ) override {
-        if( !what ) {
-            return INT_MIN;
+        std::string describe( const Character *ch ) const override {
+            std::string res = g->m.name( cur );
+            if( ch ) {
+                res += std::string( " " ) += direction_suffix( ch->pos(), cur );
+            }
+            return res;
         }
 
-        int mv = 0;
+        int obtain( Character &ch ) override {
+            if( !what ) {
+                return INT_MIN;
+            }
 
-        //@ todo handle unpacking costs
+            int mv = 0;
 
-        mv += dynamic_cast<player *>( &ch )->item_handling_cost( *what ) * ( square_dist( ch.pos(), cur ) + 1 );
-        mv *= MAP_HANDLING_FACTOR;
+            //@ todo handle unpacking costs
 
-        ch.moves -= mv;
+            mv += dynamic_cast<player *>( &ch )->item_handling_cost( *what ) * ( square_dist( ch.pos(),
+                    cur ) + 1 );
+            mv *= MAP_HANDLING_FACTOR;
 
-        int inv = ch.get_item_position( &ch.i_add( *what ) );
-        remove_item();
-        return inv;
-    }
+            ch.moves -= mv;
 
-    void remove_item() override
-    {
-        if( what == nullptr ) {
-            return;
+            int inv = ch.get_item_position( &ch.i_add( *what ) );
+            remove_item();
+            return inv;
         }
 
-        g->m.i_rem( cur, what );
-        what = nullptr;
-        // Can't do a sanity check here: i_rem is void
-    }
+        void remove_item() override {
+            if( what == nullptr ) {
+                return;
+            }
+            g->m.i_rem( cur, what );
+            what = nullptr;
+        }
 };
 
-class item_location::item_on_person : public item_location::impl {
+class item_location::item_on_person : public item_location::impl
+{
     private:
         Character &who;
 
     public:
-        item_on_person( Character &who, item *which ) : who( who )
-        {
+        item_on_person( Character &who, item *which ) : who( who ) {
             if( !who.has_item( *which ) ) {
                 debugmsg( "Cannot locate item on character: %s", who.name.c_str() );
             } else {
@@ -96,99 +94,100 @@ class item_location::item_on_person : public item_location::impl {
             }
         }
 
-    std::string describe( const Character *ch ) const override {
-        if( !what ) {
-            return std::string();
-        }
-
-        if( ch == &who ) {
-            if( ch->is_worn( *what ) ) {
-                return _( "worn" );
+        std::string describe( const Character *ch ) const override {
+            if( !what ) {
+                return std::string();
             }
 
-            // @todo recurse upwards through nested containers
-            const item *parent = ch->find_parent( *what );
-            if( parent ) {
-                return parent->type_name();
+            if( ch == &who ) {
+                if( ch->is_worn( *what ) ) {
+                    return _( "worn" );
+                }
+
+                // @todo recurse upwards through nested containers
+                const item *parent = ch->find_parent( *what );
+                if( parent ) {
+                    return parent->type_name();
+                } else {
+                    return _( "inventory" );
+                }
+
             } else {
-                return _( "inventory" );
-            }
-
-        } else {
-            return ch ? ch->name : _( "npc" );
-        }
-    }
-
-    int obtain( Character& ch ) override {
-        if( !what ) {
-            return INT_MIN;
-        }
-
-        // invalidate this item_location
-        auto it = what;
-        what = nullptr;
-
-        int mv = 0;
-        bool was_worn = false;
-
-        item *holster = who.find_parent( *it );
-        if( holster && who.is_worn( *holster ) && holster->can_holster( *it, true ) ) {
-            // Immediate parent is a worn holster capable of holding this item
-            auto ptr = dynamic_cast<const holster_actor *>( holster->type->get_use( "holster" )->get_actor_ptr() );
-            mv += dynamic_cast<player&>( who ).item_handling_cost( *it, false, ptr->draw_cost );
-            was_worn = true;
-        } else {
-            // Unpack the object followed by any nested containers starting with the innermost
-            mv += dynamic_cast<player&>( who ).item_handling_cost( *it );
-            for( auto obj = who.find_parent( *it ); obj && who.find_parent( *obj ); obj = who.find_parent( *obj ) ) {
-                mv += dynamic_cast<player&>( who ).item_handling_cost( *obj );
+                return ch ? ch->name : _( "npc" );
             }
         }
 
-        if( who.is_worn( *it ) ) {
-            it->on_takeoff( dynamic_cast<player&>( who ) );
-        } else if( !was_worn ) {
-            mv *= INVENTORY_HANDLING_FACTOR;
+        int obtain( Character &ch ) override {
+            if( !what ) {
+                return INT_MIN;
+            }
+
+            // invalidate this item_location
+            auto it = what;
+            what = nullptr;
+
+            int mv = 0;
+            bool was_worn = false;
+
+            item *holster = who.find_parent( *it );
+            if( holster && who.is_worn( *holster ) && holster->can_holster( *it, true ) ) {
+                // Immediate parent is a worn holster capable of holding this item
+                auto ptr = dynamic_cast<const holster_actor *>
+                           ( holster->type->get_use( "holster" )->get_actor_ptr() );
+                mv += dynamic_cast<player &>( who ).item_handling_cost( *it, false, ptr->draw_cost );
+                was_worn = true;
+            } else {
+                // Unpack the object followed by any nested containers starting with the innermost
+                mv += dynamic_cast<player &>( who ).item_handling_cost( *it );
+                for( auto obj = who.find_parent( *it ); obj &&
+                     who.find_parent( *obj ); obj = who.find_parent( *obj ) ) {
+                    mv += dynamic_cast<player &>( who ).item_handling_cost( *obj );
+                }
+            }
+
+            if( who.is_worn( *it ) ) {
+                it->on_takeoff( dynamic_cast<player &>( who ) );
+            } else if( !was_worn ) {
+                mv *= INVENTORY_HANDLING_FACTOR;
+            }
+
+            if( &ch != &who ) {
+                // @todo implement movement cost for transfering item between characters
+            }
+
+            who.moves -= mv;
+
+            if( &ch.i_at( ch.get_item_position( it ) ) == it ) {
+                // item already in target characters inventory at base of stack
+                return ch.get_item_position( it );
+            } else {
+                return ch.get_item_position( &ch.i_add( who.i_rem( it ) ) );
+            }
         }
 
-        if( &ch != &who ) {
-            // @todo implement movement cost for transfering item between characters
+        void remove_item() override {
+            if( what == nullptr ) {
+                return;
+            }
+
+            const auto removed = who.remove_items_with( [this]( const item & it ) {
+                return &it == what;
+            } );
+
+            what = nullptr;
+            if( removed.empty() ) {
+                debugmsg( "Tried to remove an item from a character who doesn't have it" );
+            }
         }
-
-        who.moves -= mv;
-
-        if( &ch.i_at( ch.get_item_position( it ) ) == it ) {
-            // item already in target characters inventory at base of stack
-            return ch.get_item_position( it );
-        } else {
-            return ch.get_item_position( &ch.i_add( who.i_rem( it ) ) );
-        }
-    }
-
-    void remove_item() override
-    {
-        if( what == nullptr ) {
-            return;
-        }
-
-        const auto removed = who.remove_items_with( [this]( const item &it ) {
-            return &it == what;
-        } );
-
-        what = nullptr;
-        if( removed.empty() ) {
-            debugmsg( "Tried to remove an item from a character who doesn't have it" );
-        }
-    }
 };
 
-class item_location::item_on_vehicle : public item_location::impl {
+class item_location::item_on_vehicle : public item_location::impl
+{
     private:
         const vehicle_cursor cur;
 
     public:
-        item_on_vehicle( const vehicle_cursor &cur, item *which ) : cur( cur )
-        {
+        item_on_vehicle( const vehicle_cursor &cur, item *which ) : cur( cur ) {
             if( !cur.has_item( *which ) ) {
                 debugmsg( "Cannot locate item on vehicle: %s", cur.veh.name.c_str() );
             } else {
@@ -196,47 +195,46 @@ class item_location::item_on_vehicle : public item_location::impl {
             }
         }
 
-    std::string describe( const Character *ch ) const override {
-        std::string res = cur.veh.parts[ cur.part ].info().name;
-        if( ch ) {
-            res += std::string(" ") += direction_suffix( ch->pos(), cur.veh.global_part_pos3( cur.part ) );
-        }
-        return res;
-    }
-
-    int obtain( Character& ch ) override {
-        if( !what ) {
-            return INT_MIN;
+        std::string describe( const Character *ch ) const override {
+            std::string res = cur.veh.parts[ cur.part ].info().name;
+            if( ch ) {
+                res += std::string( " " ) += direction_suffix( ch->pos(), cur.veh.global_part_pos3( cur.part ) );
+            }
+            return res;
         }
 
-        int mv = 0;
+        int obtain( Character &ch ) override {
+            if( !what ) {
+                return INT_MIN;
+            }
 
-        // @todo handle unpacking costs
-        // @todo account for distance
+            int mv = 0;
 
-        mv += dynamic_cast<player *>( &ch )->item_handling_cost( *what );
-        mv *= VEHICLE_HANDLING_FACTOR;
+            // @todo handle unpacking costs
+            // @todo account for distance
 
-        ch.moves -= mv;
+            mv += dynamic_cast<player *>( &ch )->item_handling_cost( *what );
+            mv *= VEHICLE_HANDLING_FACTOR;
 
-        int inv = ch.get_item_position( &ch.i_add( *what ) );
-        remove_item();
-        return inv;
-    }
+            ch.moves -= mv;
 
-    void remove_item() override
-    {
-        if( what == nullptr ) {
-            return;
+            int inv = ch.get_item_position( &ch.i_add( *what ) );
+            remove_item();
+            return inv;
         }
-        cur.veh.remove_item( cur.part, what );
-    }
+
+        void remove_item() override {
+            if( what == nullptr ) {
+                return;
+            }
+            cur.veh.remove_item( cur.part, what );
+        }
 };
 
 // use of std::unique_ptr<impl> forces these definitions within the implementation
 item_location::item_location() = default;
 item_location::item_location( item_location && ) = default;
-item_location& item_location::operator=( item_location&& ) = default;
+item_location &item_location::operator=( item_location && ) = default;
 item_location::~item_location() = default;
 
 item_location::item_location( const map_cursor &mc, item *which )
@@ -263,22 +261,22 @@ item_location::operator bool() const
     return ptr && ptr->what;
 }
 
-item& item_location::operator*()
+item &item_location::operator*()
 {
     return *ptr->what;
 }
 
-const item& item_location::operator*() const
+const item &item_location::operator*() const
 {
     return *ptr->what;
 }
 
-item* item_location::operator->()
+item *item_location::operator->()
 {
     return ptr->what;
 }
 
-const item* item_location::operator->() const
+const item *item_location::operator->() const
 {
     return ptr->what;
 }
@@ -288,7 +286,8 @@ std::string item_location::describe( const Character *ch ) const
     return ptr ? ptr->describe( ch ) : std::string();
 }
 
-int item_location::obtain( Character& ch ) {
+int item_location::obtain( Character &ch )
+{
     return ptr ? ptr->obtain( ch ) : INT_MIN;
 }
 

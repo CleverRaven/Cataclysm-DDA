@@ -32,11 +32,11 @@ class item_location
 
         operator bool() const;
 
-        item& operator*();
-        const item& operator*() const;
+        item &operator*();
+        const item &operator*() const;
 
-        item* operator->();
-        const item* operator->() const;
+        item *operator->();
+        const item *operator->() const;
 
         /** Describes the item location
          *  @param ch if set description is relative to character location */
