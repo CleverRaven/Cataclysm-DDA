@@ -3962,9 +3962,9 @@ bool mattack::lunge(monster *z)
     int dam = rng(3, 7);
     dam = target->deal_damage( z, hit, damage_instance( DT_BASH, dam ) ).total_damage();
     if( dam > 0 ) {
-        auto msg_type = target == &g->u ? m_bad : m_info;
-        target->add_msg_player_or_npc( msg_type, _("The %1$s lunges at your %2$s, battering you for %3$d damage!"),
-                                    _("The %1$s lunges at <npcname>'s %2$s, battering them for %3$d damage!"),
+        auto msg_type = target == &g->u ? m_bad : m_warning;
+        target->add_msg_player_or_npc( msg_type, _("The %1$s lunges at your %2$s, battering it for %3$d damage!"),
+                                    _("The %1$s lunges at <npcname>'s %2$s, battering it for %3$d damage!"),
                                     z->name().c_str(), body_part_name(hit).c_str(), dam);
     } else {
         target->add_msg_player_or_npc( _("The %1$s lunges at your %2$s, but your armor prevents injury!"),
@@ -4013,14 +4013,14 @@ bool mattack::longswipe(monster *z)
             int dam = rng(3, 7);
             dam = target->deal_damage( z, hit, damage_instance( DT_CUT, dam ) ).total_damage();
             if( dam > 0 ) {
-                auto msg_type = target == &g->u ? m_bad : m_info;
+                auto msg_type = target == &g->u ? m_bad : m_warning;
                 //~ 1$s is bodypart name, 2$d is damage value.
                 target->add_msg_player_or_npc( msg_type, _("The %1$s thrusts a claw at your %2$s, slashing it for %3$d damage!"),
                                             _("The %1$s thrusts a claw at <npcname>'s %2$s, slashing it for %3$d damage!"),
                                             z->name().c_str(), body_part_name(hit).c_str(), dam);
             } else {
-                target->add_msg_player_or_npc( _("The %1$s slashes at your %2$s, but glances off your armor!"),
-                                    _("The %1$s slashes at <npcname>'s %2$s, but glances off armor!"),
+                target->add_msg_player_or_npc( _("The %1$s thrusts a claw at your %2$s, but glances off your armor!"),
+                                    _("The %1$s thrusts a claw at <npcname>'s %2$s, but glances off armor!"),
                                     z->name().c_str(),
                                     body_part_name_accusative( hit ).c_str() );
             }
@@ -4046,7 +4046,7 @@ bool mattack::longswipe(monster *z)
     int dam = rng(6, 10);
     dam = target->deal_damage( z, hit, damage_instance( DT_CUT, dam ) ).total_damage();
     if( dam > 0 ) {
-        auto msg_type = target == &g->u ? m_bad : m_info;
+        auto msg_type = target == &g->u ? m_bad : m_warning;
         target->add_msg_player_or_npc(msg_type, _("The %1$s slashes at your neck, cutting your throat for %2$d damage!"),
                                                 _("The %1$s slashes at <npcname>'s neck, cutting their throat for %2$d damage!"),
                                                 z->name().c_str(), dam );
