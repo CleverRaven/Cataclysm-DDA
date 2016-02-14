@@ -24,7 +24,6 @@ class item_location::impl
         virtual std::string describe( const Character * ) const = 0;
         virtual int obtain( Character& ) = 0;
         virtual void remove_item() = 0;
-        virtual item *get_item() = 0;
 
     protected:
         item *what = nullptr;
@@ -88,24 +87,6 @@ public:
         what = nullptr;
         // Can't do a sanity check here: i_rem is void
     }
-
-    item *get_item() override
-    {
-        if( what == nullptr ) {
-            return nullptr;
-        }
-
-        auto items = g->m.i_at( location );
-        for( auto &i : items ) {
-            if( &i == what ) {
-                return &i;
-            }
-        }
-
-        debugmsg( "Tried to get an item from point %d,%d,%d, but it wasn't there",
-                  location.x, location.y, location.z );
-        return nullptr;
-    }
 };
 
 class item_location::item_on_person : public item_location::impl {
@@ -156,7 +137,7 @@ public:
         }
 
         // invalidate this item_location
-        auto it = get_item();
+        auto it = what;
         what = nullptr;
 
         int mv = 0;
@@ -209,25 +190,6 @@ public:
         what = nullptr;
         if( removed.empty() ) {
             debugmsg( "Tried to remove an item from a character who doesn't have it" );
-        }
-    }
-
-    item *get_item() override
-    {
-        if( what == nullptr ) {
-            return nullptr;
-        }
-
-        auto items = who->items_with( [this]( const item &it ) {
-            return &it == what;
-        } );
-
-        if( !items.empty() ) {
-            return items[0];
-        } else {
-            what = nullptr;
-            debugmsg( "Tried to get an item from a character who doesn't have it" );
-            return nullptr;
         }
     }
 };
@@ -302,27 +264,6 @@ public:
         debugmsg( "Tried to remove an item from vehicle %s, tile %d:%d, but it wasn't there",
                   veh->name.c_str(), local_coords.x, local_coords.y );
     }
-
-    item *get_item() override
-    {
-        if( what == nullptr ) {
-            return nullptr;
-        }
-
-        const auto parts = veh->parts_at_relative( local_coords.x, local_coords.y );
-        for( const int i : parts ) {
-            for( item &it : veh->get_items( i ) ) {
-                if( &it == what ) {
-                    return &it;
-                }
-            }
-        }
-
-        debugmsg( "Tried to find an item on vehicle %s, tile %d:%d, but it wasn't there",
-                  veh->name.c_str(), local_coords.x, local_coords.y );
-        what = nullptr;
-        return nullptr;
-    }
 };
 
 // use of std::unique_ptr<impl> forces these definitions within the implementation
@@ -393,10 +334,10 @@ void item_location::remove_item()
 
 item *item_location::get_item()
 {
-    return ptr ? ptr->get_item() : nullptr;
+    return ptr ? ptr->what : nullptr;
 }
 
 const item *item_location::get_item() const
 {
-    return const_cast<item_location *>( this )->get_item();
+    return ptr ? ptr->what : nullptr;
 }
