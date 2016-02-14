@@ -371,7 +371,7 @@ void player::reset_stats()
         add_miss_reason(_("You feel woozy."), -int(stim / 10));
     }
     // Hunger
-    if( get_hunger() >= 1000 ) {
+    if( get_hunger() >= 500 ) {
         // We die at 6000
         const int dex_mod = -int(get_hunger() / 1000);
         add_miss_reason(_("You're weak from hunger."), -dex_mod);
@@ -1553,8 +1553,8 @@ static int hunger_speed_penalty( int hunger )
     static const std::vector<std::pair<float, float>> hunger_thresholds = {{
         std::make_pair( 100.0f, 0.0f ),
         std::make_pair( 300.0f, -15.0f ),
-        std::make_pair( 3000.0f, -30.0f ),
-        std::make_pair( 6000.0f, -50.0f )
+        std::make_pair( 1000.0f, -40.0f ),
+        std::make_pair( 6000.0f, -75.0f )
     }};
     return (int)multi_lerp( hunger_thresholds, hunger );
 }
@@ -1562,12 +1562,12 @@ static int hunger_speed_penalty( int hunger )
 static int thirst_speed_penalty( int thirst )
 {
     // We die at 1200 thirst
-    // Start by dropping speed fast, but then level it off a bit
+    // Start by dropping speed really fast, but then level it off a bit
     static const std::vector<std::pair<float, float>> thirst_thresholds = {{
         std::make_pair( 40.0f, 0.0f ),
         std::make_pair( 300.0f, -25.0f ),
-        std::make_pair( 600.0f, -35.0f ),
-        std::make_pair( 1200.0f, -50.0f )
+        std::make_pair( 600.0f, -50.0f ),
+        std::make_pair( 1200.0f, -75.0f )
     }};
     return (int)multi_lerp( thirst_thresholds, thirst );
 }
@@ -2854,13 +2854,13 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
         line++;
     }
     if (thirst > 40) {
-        pen = thirst_speed_penalty( thirst );
+        pen = abs(thirst_speed_penalty( thirst ));
         mvwprintz(w_speed, line, 1, c_red, _("Thirst              -%s%d%%"),
                   (pen < 10 ? " " : ""), pen);
         line++;
     }
     if (get_hunger() > 100) {
-        pen = hunger_speed_penalty( get_hunger() );
+        pen = abs(hunger_speed_penalty( get_hunger() ));
         mvwprintz(w_speed, line, 1, c_red, _("Hunger              -%s%d%%"),
                   (pen < 10 ? " " : ""), pen);
         line++;
