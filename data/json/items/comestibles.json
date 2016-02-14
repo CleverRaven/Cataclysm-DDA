@@ -17199,7 +17199,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "sandwich_cucumber",
-        "name" : "cucmber sandwich",
+        "name" : "cucumber sandwich",
         "name_plural" : "cucumber sandwiches",
         "weight" : 187,
         "color" : "light_green",
