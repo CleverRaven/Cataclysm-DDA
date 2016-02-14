@@ -17,6 +17,8 @@
 
 class item_location::impl
 {
+    friend item_location;
+
     public:
         virtual ~impl() = default;
         virtual std::string describe( const Character * ) const = 0;
@@ -337,6 +339,41 @@ item_location::item_location( Character &ch, item *which )
 
 item_location::item_location( const vehicle_cursor &vc, item *which )
     : ptr( new item_on_vehicle( vc.veh, vc.veh.parts[vc.part].mount, which ) ) {}
+
+bool item_location::operator==( const item_location &rhs ) const
+{
+    return ( ptr ? ptr->what : nullptr ) == ( rhs.ptr ? rhs.ptr->what : nullptr );
+}
+
+bool item_location::operator!=( const item_location &rhs ) const
+{
+    return ( ptr ? ptr->what : nullptr ) != ( rhs.ptr ? rhs.ptr->what : nullptr );
+}
+
+item_location::operator bool() const
+{
+    return ptr && ptr->what;
+}
+
+item& item_location::operator*()
+{
+    return *ptr->what;
+}
+
+const item& item_location::operator*() const
+{
+    return *ptr->what;
+}
+
+item* item_location::operator->()
+{
+    return ptr->what;
+}
+
+const item* item_location::operator->() const
+{
+    return ptr->what;
+}
 
 std::string item_location::describe( const Character *ch ) const
 {
