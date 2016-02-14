@@ -513,14 +513,12 @@ void player::action_taken()
 
 void player::update_morale()
 {
-    // Decay existing morale entries.
-    for( size_t i = morale.size(); i --> 0; ) {
-        morale[i].proceed();
+    const auto proceed = []( morale_point &m ) { m.proceed(); };
+    const auto is_expired = []( const morale_point &m ) -> bool { return m.is_expired(); };
 
-        if( morale[i].is_expired() ) {
-            morale.erase( morale.begin() + i );
-        }
-    }
+    std::for_each( morale.begin(), morale.end(), proceed );
+    const auto new_end = std::remove_if( morale.begin(), morale.end(), is_expired );
+    morale.erase( new_end, morale.end() );
     // We reapply persistent morale effects after every decay step, to keep them fresh.
     apply_persistent_morale();
     // And invalidate the morale level to recalculate it on demand
