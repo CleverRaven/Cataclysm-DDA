@@ -4380,7 +4380,7 @@ bool item::reload( player &u, item_location loc )
     item *target = nullptr;
 
     if( is_gun() ) {
-        // In order of preference reload active gunmod, gun, spare magazine, any other auxiliary gunmod
+        // In order of preference reload active gunmod, then gun itself any finally any other auxiliary gunmods
         std::vector<item *> opts = { active_gunmod(), this };
         std::transform(contents.begin(), contents.end(), std::back_inserter(opts), [](item& mod){
             return mod.is_auxiliary_gunmod() ? &mod : nullptr;
@@ -4397,7 +4397,7 @@ bool item::reload( player &u, item_location loc )
                         target = e;
                         break;
                     }
-                } else if( !e->magazine_current() && e->ammo_type() == ammo->ammo_type() ) {
+                } else if( e->magazine_compatible().count( ammo->typeId() ) ) {
                     target = e;
                     break;
                 }
@@ -4422,6 +4422,14 @@ bool item::reload( player &u, item_location loc )
             ammo->charges -= qty;
 
         } else if ( !target->magazine_integral() ) {
+            // if we already have a magazine loaded prompt to eject it
+            if( target->magazine_current() ) {
+                std::string prompt = string_format( _( "Eject %s from %s?" ), ammo->tname().c_str(), target->tname().c_str() );
+                if( !u.dispose_item( *target->magazine_current(), prompt ) ) {
+                    return false;
+                }
+            }
+
             target->contents.emplace_back( *ammo );
             loc.remove_item();
 

@@ -747,6 +747,15 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          * @param interactive controls whether informative messages are printed if item requirements not met
          */
         bool can_use( const item& it, bool interactive = true ) const;
+
+        /**
+         * Drop, wear, stash or otherwise try to dispose of an item consuming appropriate moves
+         * @param obj item to dispose of which must in the players possession
+         * @param prompt optional message to display in any menu
+         * @return whether the item was successfully disposed of
+         */
+        bool dispose_item( item& obj, const std::string& prompt = std::string() );
+
         /**
          * Calculate (but do not deduct) the number of moves required when handling (eg. storing, drawing etc.) an item
          * @param effects whether temporary player effects should be considered (eg. GRABBED, DOWNED)
