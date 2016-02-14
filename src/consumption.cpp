@@ -84,20 +84,22 @@ float player::metabolic_rate() const
         return 0.0f;
     }
 
-    // First value is hunger, second is nutrition multiplier
+    // First value is effective hunger, second is nutrition multiplier
+    // Note: Values do not match hungry/v.hungry/famished/starving,
+    // because effective hunger is affected by speed (which drops when hungry)
     using threshold_pair = std::pair<int, float>;
     static const std::array<threshold_pair, 7> thresholds = {{
             { INT_MIN, 1.0f },
             { 300, 1.0f },
-            { 1400, 0.8f },
-            { 2800, 0.6f },
-            { 6000, 0.5f },
+            { 2000, 0.8f },
+            { 5000, 0.6f },
+            { 8000, 0.5f },
             { INT_MAX, 0.5f }
         }
     };
 
     // Penalize fast survivors
-    const int effective_hunger = get_hunger() * 100 / std::max( 100, get_speed() );
+    const int effective_hunger = get_hunger() * 100 / std::max( 50, get_speed() );
     // Find the first threshold > hunger
     int i = 1;
     while( thresholds[i].first <= effective_hunger ) {
