@@ -199,7 +199,7 @@ class item_location::item_on_vehicle : public item_location::impl {
     std::string describe( const Character *ch ) const override {
         std::string res = cur.veh.parts[ cur.part ].info().name;
         if( ch ) {
-            ; // @todo implement relative decriptions
+            res += std::string(" ") += direction_suffix( ch->pos(), cur.veh.global_part_pos3( cur.part ) );
         }
         return res;
     }
