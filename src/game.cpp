@@ -1744,8 +1744,8 @@ int game::inventory_item_menu(int pos, int iStartX, int iWidth, const inventory_
 {
     int cMenu = (int)'+';
 
-    if (u.has_item(pos)) {
-        item &oThisItem = u.i_at(pos);
+    item &oThisItem = u.i_at( pos );
+    if( u.has_item( oThisItem ) ) {
         std::vector<iteminfo> vThisItem, vDummy;
 
         const bool bHPR = get_auto_pickup().has_rule(oThisItem.tname( 1, false ));
@@ -10528,8 +10528,8 @@ int game::move_liquid(item &liquid)
     int pos = inv_for_liquid(liquid, text, false);
 
     //is container selected?
-    if (u.has_item(pos)) {
-        item *cont = &(u.i_at(pos));
+    item *cont = &( u.i_at( pos ) );
+    if( u.has_item( *cont ) ) {
         if (cont == NULL || cont->is_null()) {
             return -1;
         } else if (liquid.is_ammo() && (cont->is_tool() || cont->is_gun())) {

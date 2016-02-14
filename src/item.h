@@ -677,14 +677,6 @@ public:
  const itype* type;
  std::vector<item> contents;
 
-        /** Check if this item contains one or more items matching filter */
-        bool contains( const std::function<bool(const item&)>& filter ) const;
-
-        /** Check if this item contains the specified item */
-        bool contains( const item* it ) const {
-            return contains( [&it]( const item& e ){ return &e == it; } );
-        }
-
         /** Checks if item is a holster and currently capable of storing obj
          *  @param ignore only check item is compatible and ignore any existing contents */
         bool can_holster ( const item& obj, bool ignore = false ) const;

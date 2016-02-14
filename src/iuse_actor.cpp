@@ -76,7 +76,7 @@ long iuse_transform::use(player *p, item *it, bool t, const tripoint &pos ) cons
     }
     // We can't just check for p != nullptr, because item::process sets p = g->u
     // Not needed here (player always has the item), but is in auto_transform
-    const bool player_has_item = p != nullptr && p->has_item( it );
+    const bool player_has_item = p != nullptr && p->has_item( *it );
     if( player_has_item && p->is_underwater() ) {
         p->add_msg_if_player(m_info, _("You can't do that while underwater"));
         return 0;

@@ -969,13 +969,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         // Returns max required quality in player's items, INT_MIN if player has no such items
         int max_quality( const std::string &quality_id ) const;
 
-        bool has_item(int position);
-        /**
-         * Check whether a specific item is in the players possession.
-         * The item is compared by pointer.
-         * @param it A pointer to the item to be looked for.
-         */
-        bool has_item(const item *it) const;
         bool has_mission_item(int mission_id) const; // Has item with mission_id
         /**
          * Check whether the player has a gun that uses the given type of ammo.

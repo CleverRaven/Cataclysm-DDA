@@ -485,7 +485,6 @@ classes = {
             { name = "has_grab_break_tec", rval = "bool", args = { } },
             { name = "has_higher_trait", rval = "bool", args = { "string" } },
             { name = "has_identified", rval = "bool", args = { "string" } },
-            { name = "has_item", rval = "bool", args = { "int" } },
             { name = "has_item", rval = "bool", args = { "item" } },
             { name = "has_item_with_flag", rval = "bool", args = { "string" } },
             { name = "has_items_with_quality", rval = "bool", args = { "string", "int", "int" } },

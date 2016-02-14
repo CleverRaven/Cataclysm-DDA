@@ -8283,7 +8283,7 @@ void player::suffer()
             it->irridation += static_cast<int>(delta);
 
             // If in inventory (not worn), don't print anything.
-            if (inv.has_item(it)) {
+            if( inv.has_item( *it ) ) {
                 continue;
             }
 
@@ -9025,7 +9025,7 @@ item player::reduce_charges( int position, long quantity )
 
 item player::reduce_charges( item *it, long quantity )
 {
-    if( !has_item( it ) ) {
+    if( !has_item( *it ) ) {
         debugmsg( "invalid item (name %s) for reduce_charges", it->tname().c_str() );
         return ret_null;
     }
@@ -9489,17 +9489,6 @@ int  player::leak_level( std::string flag ) const
     int leak_level = 0;
     leak_level = inv.leak_level(flag);
     return leak_level;
-}
-
-bool player::has_item(int position) {
-    return !i_at(position).is_null();
-}
-
-bool player::has_item( const item *it ) const
-{
-    return has_item_with( [&it]( const item & i ) {
-        return &i == it;
-    } );
 }
 
 bool player::has_mission_item(int mission_id) const
@@ -10972,7 +10961,7 @@ void player::gunmod_add( item &gun, item &mod )
         return;
     }
 
-    if( !has_item( &gun ) && !has_item( &mod ) ) {
+    if( !has_item( gun ) && !has_item( mod ) ) {
         debugmsg( "Tried gunmod installation but mod/gun not in player possession" );
         return;
     }

@@ -775,7 +775,7 @@ int inventory::position_by_item( const item *it ) const
     int p = 0;
     for( const auto &stack : items ) {
         for( const auto &e : stack ) {
-            if( e.contains( it ) ) {
+            if( e.has_item( *it ) ) {
                 return p;
             }
         }
@@ -933,13 +933,6 @@ bool inventory::has_amount(itype_id it, int quantity, bool used_as_tool) const
 bool inventory::has_charges(itype_id it, long quantity) const
 {
     return (charges_of(it) >= quantity);
-}
-
-bool inventory::has_item( const item *it ) const
-{
-    return has_item_with( [&it]( const item & i ) {
-        return &i == it;
-    } );
 }
 
 bool inventory::has_items_with_quality(std::string id, int level, int amount) const

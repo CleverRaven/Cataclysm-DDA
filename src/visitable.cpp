@@ -33,6 +33,13 @@ const item * visitable<T>::find_parent( const item& it ) const
 }
 
 template <typename T>
+bool visitable<T>::has_item( const item& it ) const {
+    return visit_items_const( [&it]( const item *node ) {
+        return node == &it ? VisitResponse::ABORT : VisitResponse::NEXT;
+    }) == VisitResponse::ABORT;
+}
+
+template <typename T>
 bool visitable<T>::has_item_with( const std::function<bool(const item&)>& filter ) const {
     return visit_items_const( [&filter]( const item *node ) {
         return filter( *node ) ? VisitResponse::ABORT : VisitResponse::NEXT;
