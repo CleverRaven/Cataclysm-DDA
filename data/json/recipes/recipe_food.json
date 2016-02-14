@@ -9735,31 +9735,24 @@
   ],
   "components": [
     [
-      [ "sausage", 1 ]
+      [ "sausage", 1 ],
+      [ "meat", 1],
+      [ "rehydrated_meat", 1 ],
+      [ "dry_meat", 1 ],
+      [ "meat_canned", 1 ],
+      [ "can_chicken", 1 ]
+    ],
+    [
+      [ "tallow", 1 ],
+      [ "lard", 1 ]
     ],
     [
       [ "flour", 1 ],
       [ "cornmeal", 1 ]
     ],
     [
-      [ "milk", 1 ],
-      [ "con_milk", 1 ]
-    ],
-    [
-      [ "biscuit", 1 ],
-      [ "flatbread", 1 ],
-      [ "bread", 1 ],
-      [ "cornbread", 1 ],
-      [ "wastebread", 1 ]
-    ],
-    [
-      [ "salt", 1 ],
-      [ "seasoning_salt", 10 ],
-      [ "pepper", 10 ],
-      [ "wild_herbs", 10 ],
-      [ "seasoning_italian", 10 ],
-      [ "soysauce", 1 ],
-      [ "seed_garlic", 3 ]
+      [ "mushroom", 2 ],
+      [ "dry_mushroom", 2 ]
     ]
   ]
 },{
@@ -9787,31 +9780,23 @@
   ],
   "components": [
     [
-      [ "mannwurst", 1 ]
+      [ "mannwurst", 1 ],
+      [ "human_flesh", 1],
+      [ "rehydrated_hflesh", 1 ],
+      [ "dry_hflesh", 1 ],
+      [ "human_canned", 1 ],
+    ],
+    [
+      [ "tallow", 1 ],
+      [ "lard", 1 ]
     ],
     [
       [ "flour", 1 ],
       [ "cornmeal", 1 ]
     ],
     [
-      [ "milk", 1 ],
-      [ "con_milk", 1 ]
-    ],
-    [
-      [ "biscuit", 1 ],
-      [ "flatbread", 1 ],
-      [ "bread", 1 ],
-      [ "cornbread", 1 ],
-      [ "wastebread", 1 ]
-    ],
-    [
-      [ "salt", 1 ],
-      [ "seasoning_salt", 10 ],
-      [ "pepper", 10 ],
-      [ "wild_herbs", 10 ],
-      [ "seasoning_italian", 10 ],
-      [ "soysauce", 1 ],
-      [ "seed_garlic", 3 ]
+      [ "mushroom", 2 ],
+      [ "dry_mushroom", 2 ]
     ]
   ]
 },{
