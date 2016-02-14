@@ -4387,7 +4387,7 @@ bool item::reload( player &u, item_location loc )
     item *target = nullptr;
 
     if( is_gun() ) {
-        // In order of preference reload active gunmod, gun, spare magazine, any other auxiliary gunmod
+        // In order of preference reload active gunmod, then gun itself any finally any other auxiliary gunmods
         std::vector<item *> opts = { active_gunmod(), this };
         std::transform(contents.begin(), contents.end(), std::back_inserter(opts), [](item& mod){
             return mod.is_auxiliary_gunmod() ? &mod : nullptr;
