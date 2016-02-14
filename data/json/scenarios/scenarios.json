@@ -87,7 +87,7 @@
     "allowed_locs": ["lmoe","shelter"],
     "start_name": "Enclosed Shelter",
     "flags" : ["WIN_START"],
-    "professions" : ["sheltered_survivor","unemployed"]
+    "professions" : ["sheltered_militia","sheltered_survivor","unemployed"]
   },{
     "type": "scenario",
     "ident": "patient",
