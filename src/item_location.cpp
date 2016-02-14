@@ -183,32 +183,21 @@ class item_location::item_on_person : public item_location::impl {
 };
 
 class item_location::item_on_vehicle : public item_location::impl {
-private:
-    vehicle *veh;
-    point local_coords;
-    int partnum;
-public:
-    item_on_vehicle( vehicle &v, const point &where, item *which )
-    {
-        veh = &v;
-        local_coords = where;
-        for( const int i : v.parts_at_relative( where.x, where.y ) ) {
-            for( item &it : v.get_items( i ) ) {
-                if( &it == which ) {
-                    partnum = i;
-                    what = &it;
-                    return;
-                }
+    private:
+        const vehicle_cursor cur;
+
+    public:
+        item_on_vehicle( const vehicle_cursor &cur, item *which ) : cur( cur )
+        {
+            if( !cur.has_item( *which ) ) {
+                debugmsg( "Cannot locate item on vehicle: %s", cur.veh.name.c_str() );
+            } else {
+                what = which;
             }
         }
 
-        debugmsg( "Tried to find an item on vehicle %s, tile %d:%d, but it wasn't there",
-                  veh->name.c_str(), local_coords.x, local_coords.y );
-        what = nullptr;
-    }
-
     std::string describe( const Character *ch ) const override {
-        std::string res = veh->parts[partnum].info().name;
+        std::string res = cur.veh.parts[ cur.part ].info().name;
         if( ch ) {
             ; // @todo implement relative decriptions
         }
@@ -240,17 +229,7 @@ public:
         if( what == nullptr ) {
             return;
         }
-
-        const auto parts = veh->parts_at_relative( local_coords.x, local_coords.y );
-        for( const int i : parts ) {
-            if( veh->remove_item( i, what ) ) {
-                what = nullptr;
-                return;
-            }
-        }
-
-        debugmsg( "Tried to remove an item from vehicle %s, tile %d:%d, but it wasn't there",
-                  veh->name.c_str(), local_coords.x, local_coords.y );
+        cur.veh.remove_item( cur.part, what );
     }
 };
 
@@ -267,7 +246,7 @@ item_location::item_location( Character &ch, item *which )
     : ptr( new item_on_person( ch, which ) ) {}
 
 item_location::item_location( const vehicle_cursor &vc, item *which )
-    : ptr( new item_on_vehicle( vc.veh, vc.veh.parts[vc.part].mount, which ) ) {}
+    : ptr( new item_on_vehicle( vc, which ) ) {}
 
 bool item_location::operator==( const item_location &rhs ) const
 {
