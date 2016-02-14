@@ -29,8 +29,10 @@ class visitable {
      *
      * @return This method itself only ever returns VisitResponse::Next or VisitResponse::Abort.
      */
-    VisitResponse visit_items( const std::function<VisitResponse(item *, item *, const tripoint *)>& func );
-    VisitResponse visit_items_const( const std::function<VisitResponse(const item *, const item *, const tripoint *)>& func ) const;
+    VisitResponse visit_items_with_loc(
+        const std::function<VisitResponse(item *, item *, const tripoint *)>& func );
+    VisitResponse visit_items_with_loc_const(
+        const std::function<VisitResponse(const item *, const item *, const tripoint *)>& func ) const;
 
     /** Lightweight version which provides only the current node */
     VisitResponse visit_items( const std::function<VisitResponse(item *)>& func );
