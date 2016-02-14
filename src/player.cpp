@@ -9744,44 +9744,7 @@ bool player::wield( item& target )
     }
 
     if( target.is_null() ) {
-        uimenu prompt;
-        prompt.text = string_format( _( "Stop wielding %s?" ), weapon.tname().c_str() );
-        prompt.return_invalid = true;
-
-        std::vector<std::function<void()>> actions;
-
-        prompt.addentry( -1, volume_carried() + weapon.volume() <= volume_capacity(), '1', _( "Store in inventory" ) );
-        actions.push_back( [&]{
-            moves -= item_handling_cost( weapon );
-            inv.add_item_keep_invlet( remove_weapon() );
-            inv.unsort();
-        });
-
-        prompt.addentry( -1, true, '2', _( "Drop item" ) );
-        actions.push_back( [&]{ g->m.add_item_or_charges( pos(), remove_weapon() ); });
-
-        prompt.addentry( -1, rate_action_wear( weapon ) == HINT_GOOD, '3', _( "Wear item" ) );
-        actions.push_back( [&]{ wear( -1 ); });
-
-        for( auto& e : worn ) {
-            if( e.can_holster( weapon ) ) {
-                prompt.addentry( -1, true, e.invlet, _( "Store in %s" ), e.tname().c_str() );
-                actions.push_back( [&]{
-                    auto ptr = dynamic_cast<const holster_actor *>( e.type->get_use( "holster" )->get_actor_ptr() );
-                    ptr->store( *this, e, weapon );
-                });
-            }
-        }
-
-        prompt.query();
-        if( prompt.ret >= 0 ) {
-            actions[ prompt.ret ]();
-            if( weapon.is_null() ) {
-                recoil = MIN_RECOIL;
-                return true;
-            }
-        }
-        return false;
+        return dispose_item( weapon );
     }
 
     if( &weapon == &target ) {
@@ -10089,6 +10052,45 @@ bool player::can_use( const item& it, bool interactive ) const {
         }
         return true;
     });
+}
+
+bool player::dispose_item( item& obj, const std::string& prompt )
+{
+    uimenu menu;
+    menu.text = prompt.empty() ? string_format( _( "Dispose of %s" ), obj.tname().c_str() ) : prompt;
+    menu.return_invalid = true;
+
+    std::vector<std::function<void()>> actions;
+
+    menu.addentry( -1, volume_carried() + obj.volume() <= volume_capacity(), '1', _( "Store in inventory" ) );
+    actions.emplace_back( [&]{
+        moves -= item_handling_cost( obj );
+        inv.add_item_keep_invlet( i_rem( &obj ) );
+        inv.unsort();
+    });
+
+    menu.addentry( -1, true, '2', _( "Drop item" ) );
+    actions.emplace_back( [&]{ g->m.add_item_or_charges( pos(), i_rem( &obj ) ); } );
+
+    menu.addentry( -1, rate_action_wear( obj ) == HINT_GOOD, '3', _( "Wear item" ) );
+    actions.emplace_back( [&]{ wear_item( i_rem( &obj ) ); } );
+
+    for( auto& e : worn ) {
+        if( e.can_holster( obj ) ) {
+            menu.addentry( -1, true, e.invlet, _( "Store in %s" ), e.tname().c_str() );
+            actions.emplace_back( [&]{
+                auto ptr = dynamic_cast<const holster_actor *>( e.type->get_use( "holster" )->get_actor_ptr() );
+                ptr->store( *this, e, obj );
+            });
+        }
+    }
+
+    menu.query();
+    if( menu.ret >= 0 ) {
+        actions[ menu.ret ]();
+        return true;
+    }
+    return false;
 }
 
 int player::item_handling_cost( const item& it, bool effects, int factor ) const {
