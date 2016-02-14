@@ -9744,7 +9744,7 @@ bool player::wield( item& target )
     }
 
     if( target.is_null() ) {
-        return dispose_item( weapon );
+        return dispose_item( weapon, string_format( _( "Stop wielding %s?" ), weapon.tname().c_str() ) );
     }
 
     if( &weapon == &target ) {
