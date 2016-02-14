@@ -4205,6 +4205,9 @@ item_location item::pick_reload_ammo( player &u, bool interactive ) const
         }
     }
 
+    // Ensure ammo_list contains only valid dereferenceable locations
+    ammo_list.erase( std::remove( ammo_list.begin(), ammo_list.end(), item_location() ) );
+
     if( ammo_list.empty() ) {
         if( interactive ) {
             u.add_msg_if_player( m_info, _( "Out of %s!" ), is_gun() ? _("ammo") : ammo_name( ammo_type() ).c_str() );
@@ -4213,7 +4216,7 @@ item_location item::pick_reload_ammo( player &u, bool interactive ) const
     }
 
     std::sort( ammo_list.begin(), ammo_list.end(), []( const item_location& lhs, const item_location& rhs ) {
-        return rhs.get_item()->ammo_remaining() < lhs.get_item()->ammo_remaining();
+        return rhs->ammo_remaining() < lhs->ammo_remaining();
     } );
 
     if( ammo_list.size() == 1 || !interactive ) {
@@ -4228,13 +4231,12 @@ item_location item::pick_reload_ammo( player &u, bool interactive ) const
     // Construct item names
     std::vector<std::string> names;
     std::transform( ammo_list.begin(), ammo_list.end(), std::back_inserter( names ), []( item_location& e ) {
-        const item *it = e.get_item();
-        if( it->is_magazine() && it->ammo_data() ) {
+        if( e->is_magazine() && e->ammo_data() ) {
             //~ magazine with ammo (count)
-            return string_format( _( "%s with %s (%d)" ), it->type->nname( 1 ).c_str(),
-                                  it->ammo_data()->nname( it->ammo_remaining() ).c_str(), it->ammo_remaining() );
+            return string_format( _( "%s with %s (%d)" ), e->type->nname( 1 ).c_str(),
+                                  e->ammo_data()->nname( e->ammo_remaining() ).c_str(), e->ammo_remaining() );
         } else {
-            return it->display_name();
+            return e->display_name();
         }
     } );
 
@@ -4285,11 +4287,10 @@ item_location item::pick_reload_ammo( player &u, bool interactive ) const
     }
 
     for( auto i = 0; i != (int) ammo_list.size(); ++i ) {
-        const item *it = ammo_list[i].get_item();
         std::string row = names[i] + "| " + where[i] + " ";
 
         if( is_gun() || is_magazine() ) {
-            const itype *curammo = it->ammo_data(); // nullptr for empty magazines
+            const itype *curammo = ammo_list[i]->ammo_data(); // nullptr for empty magazines
             if( curammo ) {
                 row += string_format( "| %-7d | %-7d | %-7d | %-7d",
                                       curammo->ammo->damage, curammo->ammo->pierce,
@@ -4300,7 +4301,7 @@ item_location item::pick_reload_ammo( player &u, bool interactive ) const
         }
 
         menu.addentry( i, true, i + 'a', row );
-        if( lastreload == it->type->id ) {
+        if( lastreload == ammo_list[i]->typeId() ) {
             menu.selected = i;
         }
     }
@@ -4315,7 +4316,7 @@ item_location item::pick_reload_ammo( player &u, bool interactive ) const
     }
 
     item_location sel = std::move( ammo_list[menu.ret] );
-    uistate.lastreload[ ammo_type() ] = sel.get_item()->type->id;
+    uistate.lastreload[ ammo_type() ] = sel->typeId();
     return sel;
 }
 
