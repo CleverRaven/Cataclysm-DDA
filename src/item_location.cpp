@@ -30,30 +30,23 @@ class item_location::impl
 };
 
 class item_location::item_on_map : public item_location::impl {
-private:
-    tripoint location;
-public:
-    item_on_map( const tripoint &p, item *which )
-    {
-        location = p;
-        what = nullptr;
-        // Ensure the item exists where we want it
-        const auto items = g->m.i_at( p );
-        for( auto &i : items ) {
-            if( &i == which ) {
-                what = &i;
-                return;
+    private:
+        const map_cursor cur;
+
+    public:
+        item_on_map( const map_cursor &cur, item *which ) : cur( cur )
+        {
+            if( !cur.has_item( *which ) ) {
+                debugmsg( "Cannot locate item on map at %d,%d,%d", cur.x, cur.y, cur.z );
+            } else {
+                what = which;
             }
         }
 
-        debugmsg( "Tried to get an item from point %d,%d,%d, but it wasn't there",
-                  location.x, location.y, location.z );
-    }
-
     std::string describe( const Character *ch ) const override {
-        std::string res = g->m.name( location );
+        std::string res = g->m.name( cur );
         if( ch ) {
-            res += std::string(" ") += direction_suffix( ch->pos(), location );
+            res += std::string(" ") += direction_suffix( ch->pos(), cur );
         }
         return res;
     }
@@ -67,7 +60,7 @@ public:
 
         //@ todo handle unpacking costs
 
-        mv += dynamic_cast<player *>( &ch )->item_handling_cost( *what ) * ( square_dist( ch.pos(), location ) + 1 );
+        mv += dynamic_cast<player *>( &ch )->item_handling_cost( *what ) * ( square_dist( ch.pos(), cur ) + 1 );
         mv *= MAP_HANDLING_FACTOR;
 
         ch.moves -= mv;
@@ -83,7 +76,7 @@ public:
             return;
         }
 
-        g->m.i_rem( location, what );
+        g->m.i_rem( cur, what );
         what = nullptr;
         // Can't do a sanity check here: i_rem is void
     }
