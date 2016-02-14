@@ -3945,9 +3945,6 @@ bool mattack::lunge(monster *z)
         return false;
     }
 
-    if( seen ) {
-        add_msg(_("The %1$s lunges straight into %2$s!"), z->name().c_str(), target->disp_name().c_str() );
-    }
     z->moves -= 100;
 
     if( target->uncanny_dodge()) {
@@ -3956,8 +3953,8 @@ bool mattack::lunge(monster *z)
 
     // Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
     if (dodge_check(z, target)) {
-        target->add_msg_player_or_npc( _("You sidestep it!"),
-                                       _("<npcname> sidesteps it!") );
+        target->add_msg_player_or_npc( _("The %1$s lunges at you, but you sidestep it!"),
+                                       _("The %1$s lunges at <npcname>, but they sidestep it!"), z->name().c_str() );
         target->on_dodge( z, z->type->melee_skill * 2 );
         return true;
     }
@@ -3965,10 +3962,13 @@ bool mattack::lunge(monster *z)
     int dam = rng(3, 7);
     dam = target->deal_damage( z, hit, damage_instance( DT_BASH, dam ) ).total_damage();
     if( dam > 0 ) {
-        target->add_msg_if_player(m_bad, _("Your %1$s is battered for %2$d damage!"), body_part_name(hit).c_str(), dam);
+        auto msg_type = target == &g->u ? m_bad : m_info;
+        target->add_msg_player_or_npc( msg_type, _("The %1$s lunges at your %2$s, battering you for %3$d damage!"),
+                                    _("The %1$s lunges at <npcname>'s %2$s, battering them for %3$d damage!"),
+                                    z->name().c_str(), body_part_name(hit).c_str(), dam);
     } else {
-        target->add_msg_player_or_npc( _("The %1$s lunges at your %2$s, but glances off your armor!"),
-                                    _("The %1$s lunges at <npcname>'s %2$s, but glances off armor!"),
+        target->add_msg_player_or_npc( _("The %1$s lunges at your %2$s, but your armor prevents injury!"),
+                                    _("The %1$s lunges at <npcname>'s %2$s, but their armor prevents injury!"),
                                     z->name().c_str(),
                                     body_part_name_accusative( hit ).c_str() );
     }
@@ -3995,15 +3995,17 @@ bool mattack::longswipe(monster *z)
                 !z->sees( *target ) ) {
                 return false; // Out of range
             }
+            
             z->moves -= 150;
-            target->add_msg_if_player(_("The %s thrusts a claw at you!"), z->name().c_str());
-
+            
             if (target->uncanny_dodge()) {
                 return true;
             }
             // Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
             if (dodge_check(z, target)) {
-                target->add_msg_if_player(_("You evade it!"));
+                target->add_msg_player_or_npc( _("The %s thrusts a claw at you, but you evade it!"),
+                                            _("The %s thrusts a claw at <npcname>, but they evade it!"),
+                                            z->name().c_str() );
                 target->on_dodge( z, z->type->melee_skill * 2  );
                 return true;
             }
@@ -4011,8 +4013,11 @@ bool mattack::longswipe(monster *z)
             int dam = rng(3, 7);
             dam = target->deal_damage( z, hit, damage_instance( DT_CUT, dam ) ).total_damage();
             if( dam > 0 ) {
+                auto msg_type = target == &g->u ? m_bad : m_info;
                 //~ 1$s is bodypart name, 2$d is damage value.
-                target->add_msg_if_player(m_bad, _("Your %1$s is slashed for %2$d damage!"), body_part_name(hit).c_str(), dam);
+                target->add_msg_player_or_npc( msg_type, _("The %1$s thrusts a claw at your %2$s, slashing it for %3$d damage!"),
+                                            _("The %1$s thrusts a claw at <npcname>'s %2$s, slashing it for %3$d damage!"),
+                                            z->name().c_str(), body_part_name(hit).c_str(), dam);
             } else {
                 target->add_msg_player_or_npc( _("The %1$s slashes at your %2$s, but glances off your armor!"),
                                     _("The %1$s slashes at <npcname>'s %2$s, but glances off armor!"),
@@ -4024,7 +4029,6 @@ bool mattack::longswipe(monster *z)
         }
         return false;
     }
-    target->add_msg_if_player(_("The %s slashes at your neck!"), z->name().c_str());
     z->moves -= 100;
 
     if (target->uncanny_dodge()) {
@@ -4033,7 +4037,8 @@ bool mattack::longswipe(monster *z)
 
     // Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
     if (dodge_check(z, target)) {
-        target->add_msg_if_player(_("You duck!"));
+        target->add_msg_player_or_npc( _("The %s slashes at your neck! You duck!"), 
+                                    _("The %s slashes at <npcname>'s neck! They duck!"), z->name().c_str() );
         target->on_dodge( z, z->type->melee_skill * 2  );
         return true;
     }
@@ -4041,7 +4046,10 @@ bool mattack::longswipe(monster *z)
     int dam = rng(6, 10);
     dam = target->deal_damage( z, hit, damage_instance( DT_CUT, dam ) ).total_damage();
     if( dam > 0 ) {
-        target->add_msg_if_player(m_bad, _("Your throat is slashed for %d damage!"), dam);
+        auto msg_type = target == &g->u ? m_bad : m_info;
+        target->add_msg_player_or_npc(msg_type, _("The %1$s slashes at your neck, cutting your throat for %2$d damage!"),
+                                                _("The %1$s slashes at <npcname>'s neck, cutting their throat for %2$d damage!"),
+                                                z->name().c_str(), dam );
         target->add_effect( effect_bleed, 100, hit);
     } else {
         target->add_msg_player_or_npc( _("The %1$s slashes at your %2$s, but glances off your armor!"),
