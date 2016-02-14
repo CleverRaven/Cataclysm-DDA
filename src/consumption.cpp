@@ -41,40 +41,78 @@ int player::stomach_capacity() const
     return -20;
 }
 
-// TODO: Move pizza scraping here
-// This would require carnivore check to be doable on it_comest alone
-// For example, by using tags rather than materials
+// TODO: Move pizza scraping here.
+// Same for other kinds of nutrition alterations
+// This is used by item display, making actual nutrition available to player.
 int player::nutrition_for( const it_comest *comest ) const
 {
+    return comest->get_nutrition();
+}
+
+float player::metabolic_rate_base() const
+{
+    if( is_npc() ) {
+        return 0.0f;
+    }
+
+    float ret = 1.0f;
+    if( has_trait( "LIGHTEATER" ) ) {
+        ret -= ( 1.0f / 3.0f );
+    }
+
+    if( has_trait( "HUNGER" ) ) {
+        ret += 0.5f;
+    } else if( has_trait( "HUNGER2" ) ) {
+        ret += 1.0f;
+    } else if( has_trait( "HUNGER3" ) ) {
+        ret += 2.0f;
+    }
+
+    if( has_trait( "MET_RAT" ) ) {
+        ret += ( 1.0f / 3.0f );
+    }
+
+    return ret;
+}
+
+// TODO: Make this less chaotic to let NPC retroactive catch up work here
+// TODO: Involve body heat (cold -> higher metabolism, unless cold-blooded)
+// TODO: Involve stamina (maybe not here?)
+float player::metabolic_rate() const
+{
+    if( is_npc() ) {
+        return 0.0f;
+    }
+
     // First value is hunger, second is nutrition multiplier
     using threshold_pair = std::pair<int, float>;
     static const std::array<threshold_pair, 7> thresholds = {{
             { INT_MIN, 1.0f },
-            { 100, 1.0f },
-            { 300, 2.0f },
-            { 1400, 4.0f },
-            { 2800, 6.0f },
-            { 6000, 10.0f },
-            { INT_MAX, 10.0f }
+            { 300, 1.0f },
+            { 1400, 0.8f },
+            { 2800, 0.6f },
+            { 6000, 0.5f },
+            { INT_MAX, 0.5f }
         }
     };
 
-    const int hng = get_hunger();
+    // Penalize fast survivors
+    const int effective_hunger = get_hunger() * 100 / std::max( 100, get_speed() );
     // Find the first threshold > hunger
     int i = 1;
-    while( thresholds[i].first <= hng ) {
+    while( thresholds[i].first <= effective_hunger ) {
         i++;
     }
 
     // How far are we along the way from last threshold to current one
-    const float t = ( float )( hng - thresholds[i - 1].first ) /
+    const float t = ( float )( effective_hunger - thresholds[i - 1].first ) /
                     ( thresholds[i].first - thresholds[i - 1].first );
 
     // Linear interpolation of values at relevant thresholds
     const float modifier = ( t * thresholds[i].second ) +
                            ( ( 1 - t ) * thresholds[i - 1].second );
 
-    return lround( comest->get_nutrition() * modifier );
+    return lround( modifier * metabolic_rate_base() );
 }
 
 morale_type player::allergy_type( const item &food ) const

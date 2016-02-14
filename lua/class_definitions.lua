@@ -405,7 +405,7 @@ classes = {
             { name = "basic_symbol_color", rval = "int", args = { } },
             { name = "blossoms", rval = nil, args = { } },
             { name = "bodytemp_color", rval = "int", args = { "int" } },
-            { name = "bonus_warmth", rval = "int", args = { "body_part" } },
+            { name = "bonus_item_warmth", rval = "int", args = { "body_part" } },
             { name = "boost_skill_level", rval = nil, args = { "skill_id", "int" } },
             { name = "burn_move_stamina", rval = nil, args = { "int" } },
             { name = "calc_focus_equilibrium", rval = "int", args = { } },
