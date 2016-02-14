@@ -1528,6 +1528,7 @@
         "category" : "spare_parts",
         "price" : 1000,
         "name" : "copper",
+        "name_plural" : "copper",
         "symbol" : "=",
         "color" : "yellow",
         "description" : "Copper scraps.  Could be used to craft something, for example makeshift shotgun shells.",
