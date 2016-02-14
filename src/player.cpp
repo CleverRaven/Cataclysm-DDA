@@ -373,11 +373,11 @@ void player::reset_stats()
     // Hunger
     if( get_hunger() >= 1000 ) {
         // We die at 6000
-        const int dex_mod = -int(get_hunger() / 2000);
+        const int dex_mod = -int(get_hunger() / 1000);
         add_miss_reason(_("You're weak from hunger."), -dex_mod);
-        mod_str_bonus( -int(get_hunger() / 1000) );
+        mod_str_bonus( -int(get_hunger() / 500) );
         mod_dex_bonus( dex_mod );
-        mod_int_bonus( -int(get_hunger() / 2000) );
+        mod_int_bonus( -int(get_hunger() / 1000) );
     }
     // Thirst
     if( thirst >= 200 ) {
@@ -1546,6 +1546,32 @@ void player::temp_equalizer(body_part bp1, body_part bp2)
     temp_cur[bp1] += diff;
 }
 
+static int hunger_speed_penalty( int hunger )
+{
+    // We die at 6000 hunger
+    // Hunger hits speed less hard than thirst does
+    static const std::vector<std::pair<float, float>> hunger_thresholds = {{
+        std::make_pair( 100.0f, 0.0f ),
+        std::make_pair( 300.0f, -15.0f ),
+        std::make_pair( 3000.0f, -30.0f ),
+        std::make_pair( 6000.0f, -50.0f )
+    }};
+    return (int)multi_lerp( hunger_thresholds, hunger );
+}
+
+static int thirst_speed_penalty( int thirst )
+{
+    // We die at 1200 thirst
+    // Start by dropping speed fast, but then level it off a bit
+    static const std::vector<std::pair<float, float>> thirst_thresholds = {{
+        std::make_pair( 40.0f, 0.0f ),
+        std::make_pair( 300.0f, -25.0f ),
+        std::make_pair( 600.0f, -35.0f ),
+        std::make_pair( 1200.0f, -50.0f )
+    }};
+    return (int)multi_lerp( thirst_thresholds, thirst );
+}
+
 void player::recalc_speed_bonus()
 {
     // Minus some for weight...
@@ -1593,28 +1619,10 @@ void player::recalc_speed_bonus()
     }
 
     if( thirst > 40 ) {
-        // We die at 1200 thirst
-        // Start by dropping speed fast, but then level it off a bit
-        static const std::vector<std::pair<float, float>> thirst_thresholds = {{
-            std::make_pair( 40.0f, 0.0f ),
-            std::make_pair( 300.0f, -25.0f ),
-            std::make_pair( 600.0f, -35.0f ),
-            std::make_pair( 1200.0f, -50.0f )
-        }};
-        const int thirst_mod = (int)multi_lerp( thirst_thresholds, thirst );
-        mod_speed_bonus( thirst_mod );
+        mod_speed_bonus( thirst_speed_penalty( thirst ) );
     }
     if( get_hunger() > 100 ) {
-        // We die at 6000 hunger
-        // Hunger hits speed less hard than thirst does
-        static const std::vector<std::pair<float, float>> hunger_thresholds = {{
-            std::make_pair( 100.0f, 0.0f ),
-            std::make_pair( 1000.0f, -25.0f ),
-            std::make_pair( 3000.0f, -35.0f ),
-            std::make_pair( 6000.0f, -50.0f )
-        }};
-        const int hunger_mod = (int)multi_lerp( hunger_thresholds, get_hunger() );
-        mod_speed_bonus( hunger_mod );
+        mod_speed_bonus( hunger_speed_penalty( get_hunger() ) );
     }
 
     mod_speed_bonus( stim > 10 ? 10 : stim / 4);
@@ -2846,13 +2854,13 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
         line++;
     }
     if (thirst > 40) {
-        pen = int((thirst - 40) / 10);
+        pen = thirst_speed_penalty( thirst );
         mvwprintz(w_speed, line, 1, c_red, _("Thirst              -%s%d%%"),
                   (pen < 10 ? " " : ""), pen);
         line++;
     }
     if (get_hunger() > 100) {
-        pen = int((get_hunger() - 100) / 10);
+        pen = hunger_speed_penalty( get_hunger() );
         mvwprintz(w_speed, line, 1, c_red, _("Hunger              -%s%d%%"),
                   (pen < 10 ? " " : ""), pen);
         line++;
