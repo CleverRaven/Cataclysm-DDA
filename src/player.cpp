@@ -43,6 +43,7 @@
 #include "cata_utility.h"
 #include "iuse_actor.h"
 #include "catalua.h"
+#include "cata_utility.h"
 
 #include <map>
 
@@ -368,6 +369,25 @@ void player::reset_stats()
         mod_int_bonus(-int(abs(stim - 15) / 14));
     } else if (stim <= 10) {
         add_miss_reason(_("You feel woozy."), -int(stim / 10));
+    }
+    // Hunger
+    if( get_hunger() >= 1000 ) {
+        // We die at 6000
+        const int dex_mod = -int(get_hunger() / 2000);
+        add_miss_reason(_("You're weak from hunger."), -dex_mod);
+        mod_str_bonus( -int(get_hunger() / 1000) );
+        mod_dex_bonus( dex_mod );
+        mod_int_bonus( -int(get_hunger() / 2000) );
+    }
+    // Thirst
+    if( thirst >= 200 ) {
+        // We die at 1200
+        const int dex_mod = -int(thirst / 200);
+        add_miss_reason(_("You're weak from thirst."), -dex_mod);
+        mod_str_bonus( -int(thirst / 200) );
+        mod_dex_bonus( dex_mod );
+        mod_int_bonus( -int(thirst / 200) );
+        mod_per_bonus( -int(thirst / 200) );
     }
 
     // Dodge-related effects
@@ -823,7 +843,12 @@ void player::update_bodytemp()
      */
     // Hunger
     // -1000 when about to starve to death
-    const int hunger_warmth = 2000 * metabolic_rate() - 2000;
+    // -1333 when starving with light eater
+    // -2000 if you managed to get 0 metabolism rate somehow
+    const float met_rate = metabolic_rate();
+    const int hunger_warmth = 2000 * std::min( met_rate, 1.0f ) - 2000;
+    // Give SOME bonus to those living furnaces with extreme metabolism
+    const int metabolism_warmth = std::max( 0.0f, met_rate - 1.0f ) * 1000;
     // Fatigue
     // ~-900 when exhausted
     const int fatigue_warmth = has_sleep ? 0 : std::min( 0.0f, -1.5f * fatigue );
@@ -1035,7 +1060,8 @@ void player::update_bodytemp()
             }
         }
 
-        const int bonus_warmth = std::max( bonus_fire_warmth, lying_warmth );
+        const int comfortable_warmth = bonus_fire_warmth + lying_warmth;
+        const int bonus_warmth = comfortable_warmth + metabolism_warmth;
         if( bonus_warmth > 0 ) {
             // Approximate temp_conv needed to reach comfortable temperature in this very turn
             // Basically inverted formula for temp_cur below
@@ -1058,8 +1084,8 @@ void player::update_bodytemp()
 
             // Morale bonus for comfiness - only if actually comfy (not too warm/cold)
             // Spread the morale bonus in time.
-            int mytime = MINUTES( i ) / MINUTES( num_bp );
-            if( calendar::turn % MINUTES( 1 ) == mytime &&
+            if( comfortable_warmth > 0 &&
+                calendar::turn % MINUTES( 1 ) == (MINUTES( i ) / MINUTES( num_bp )) &&
                 get_effect_int( effect_cold, ( body_part )num_bp ) == 0 &&
                 get_effect_int( effect_hot, ( body_part )num_bp ) == 0 &&
                 temp_cur[i] > BODYTEMP_COLD && temp_cur[i] <= BODYTEMP_NORM ) {
@@ -1566,11 +1592,29 @@ void player::recalc_speed_bonus()
         mod_speed_bonus(-rad_penalty);
     }
 
-    if (thirst > 40) {
-        mod_speed_bonus(-int((thirst - 40) / 10));
+    if( thirst > 40 ) {
+        // We die at 1200 thirst
+        // Start by dropping speed fast, but then level it off a bit
+        static const std::vector<std::pair<float, float>> thirst_thresholds = {{
+            std::make_pair( 40.0f, 0.0f ),
+            std::make_pair( 300.0f, -25.0f ),
+            std::make_pair( 600.0f, -35.0f ),
+            std::make_pair( 1200.0f, -50.0f )
+        }};
+        const int thirst_mod = (int)multi_lerp( thirst_thresholds, thirst );
+        mod_speed_bonus( thirst_mod );
     }
-    if (get_hunger() > 100) {
-        mod_speed_bonus(-int((get_hunger() - 100) / 10));
+    if( get_hunger() > 100 ) {
+        // We die at 6000 hunger
+        // Hunger hits speed less hard than thirst does
+        static const std::vector<std::pair<float, float>> hunger_thresholds = {{
+            std::make_pair( 100.0f, 0.0f ),
+            std::make_pair( 1000.0f, -25.0f ),
+            std::make_pair( 3000.0f, -35.0f ),
+            std::make_pair( 6000.0f, -50.0f )
+        }};
+        const int hunger_mod = (int)multi_lerp( hunger_thresholds, get_hunger() );
+        mod_speed_bonus( hunger_mod );
     }
 
     mod_speed_bonus( stim > 10 ? 10 : stim / 4);
@@ -5529,11 +5573,11 @@ void player::check_needs_extremes()
             add_memorial_log(pgettext("memorial_male", "Died of starvation."),
                                pgettext("memorial_female", "Died of starvation."));
             hp_cur[hp_torso] = 0;
-        } else if( get_hunger() >= 5000 && calendar::once_every(MINUTES(2)) ) {
+        } else if( get_hunger() >= 5000 && calendar::once_every(HOURS(1)) ) {
             add_msg_if_player(m_warning, _("Food..."));
-        } else if( get_hunger() >= 4000 && calendar::once_every(MINUTES(2)) ) {
+        } else if( get_hunger() >= 4000 && calendar::once_every(HOURS(1)) ) {
             add_msg_if_player(m_warning, _("You are STARVING!"));
-        } else if( calendar::once_every(MINUTES(2)) ) {
+        } else if( calendar::once_every(HOURS(1)) ) {
             add_msg_if_player(m_warning, _("Your stomach feels so empty..."));
         }
     }
@@ -5545,11 +5589,11 @@ void player::check_needs_extremes()
             add_memorial_log(pgettext("memorial_male", "Died of thirst."),
                                pgettext("memorial_female", "Died of thirst."));
             hp_cur[hp_torso] = 0;
-        } else if( thirst >= 1000 && calendar::once_every(MINUTES(2)) ) {
+        } else if( thirst >= 1000 && calendar::once_every(MINUTES(30)) ) {
             add_msg_if_player(m_warning, _("Even your eyes feel dry..."));
-        } else if( thirst >= 800 && calendar::once_every(MINUTES(2)) ) {
+        } else if( thirst >= 800 && calendar::once_every(MINUTES(30)) ) {
             add_msg_if_player(m_warning, _("You are THIRSTY!"));
-        } else if( calendar::once_every(MINUTES(2)) ) {
+        } else if( calendar::once_every(MINUTES(30)) ) {
             add_msg_if_player(m_warning, _("Your mouth feels so dry..."));
         }
     }
@@ -5562,9 +5606,9 @@ void player::check_needs_extremes()
                                pgettext("memorial_female", "Succumbed to lack of sleep."));
             fatigue -= 10;
             try_to_sleep();
-        } else if( fatigue >= 800 && calendar::once_every(MINUTES(1)) ) {
+        } else if( fatigue >= 800 && calendar::once_every(MINUTES(30)) ) {
             add_msg_if_player(m_warning, _("Anywhere would be a good place to sleep..."));
-        } else if( calendar::once_every(MINUTES(5)) ) {
+        } else if( calendar::once_every(MINUTES(30)) ) {
             add_msg_if_player(m_warning, _("You feel like you haven't slept in days."));
         }
     }
@@ -5573,7 +5617,7 @@ void player::check_needs_extremes()
     // Penalties start at Dead Tired and go from there
     if( fatigue >= DEAD_TIRED && !in_sleep_state() ) {
         if( fatigue >= 700 ) {
-           if( calendar::once_every(MINUTES(5)) ) {
+           if( calendar::once_every(MINUTES(30)) ) {
                 add_msg_if_player(m_warning, _("You're too tired to stop yawning."));
                 add_effect( effect_lack_sleep, 50);
             }
@@ -5583,7 +5627,7 @@ void player::check_needs_extremes()
                 fall_asleep(5);
             }
         } else if( fatigue >= EXHAUSTED ) {
-            if( calendar::once_every(MINUTES(5)) ) {
+            if( calendar::once_every(MINUTES(30)) ) {
                 add_msg_if_player(m_warning, _("How much longer until bedtime?"));
                 add_effect( effect_lack_sleep, 50);
             }
@@ -5591,7 +5635,7 @@ void player::check_needs_extremes()
             if (one_in(100 + int_cur)) {
                 fall_asleep(5);
             }
-        } else if (fatigue >= DEAD_TIRED && calendar::once_every(MINUTES(5))) {
+        } else if( fatigue >= DEAD_TIRED && calendar::once_every(MINUTES(30)) ) {
             add_msg_if_player(m_warning, _("*yawn* You should really get some sleep."));
             add_effect( effect_lack_sleep, 50);
         }
@@ -5606,6 +5650,7 @@ void player::update_needs( int rate_multiplier )
     const bool asleep = in_sleep_state();
     const bool hibernating = asleep && is_hibernating();
     float hunger_rate = metabolic_rate();
+    add_msg_if_player( m_debug, "Metabolic rate: %.2f", hunger_rate );
 
     float thirst_rate = 1.0f;
     if( has_trait("PLANTSKIN") ) {

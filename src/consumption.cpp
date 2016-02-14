@@ -6,6 +6,7 @@
 #include "itype.h"
 #include "messages.h"
 #include "addiction.h"
+#include "cata_utility.h"
 
 #include <string>
 #include <algorithm>
@@ -87,34 +88,20 @@ float player::metabolic_rate() const
     // First value is effective hunger, second is nutrition multiplier
     // Note: Values do not match hungry/v.hungry/famished/starving,
     // because effective hunger is affected by speed (which drops when hungry)
-    using threshold_pair = std::pair<int, float>;
-    static const std::array<threshold_pair, 7> thresholds = {{
-            { INT_MIN, 1.0f },
+    static const std::vector<std::pair<float, float>> thresholds = {{
             { 300, 1.0f },
             { 2000, 0.8f },
             { 5000, 0.6f },
-            { 8000, 0.5f },
-            { INT_MAX, 0.5f }
+            { 8000, 0.5f }
         }
     };
 
     // Penalize fast survivors
-    const int effective_hunger = get_hunger() * 100 / std::max( 50, get_speed() );
-    // Find the first threshold > hunger
-    int i = 1;
-    while( thresholds[i].first <= effective_hunger ) {
-        i++;
-    }
+    // TODO: Have cold temperature increase, not decrease, metabolism
+    const float effective_hunger = get_hunger() * 100.0f / std::max( 50, get_speed() );
+    const float modifier = multi_lerp( thresholds, effective_hunger );
 
-    // How far are we along the way from last threshold to current one
-    const float t = ( float )( effective_hunger - thresholds[i - 1].first ) /
-                    ( thresholds[i].first - thresholds[i - 1].first );
-
-    // Linear interpolation of values at relevant thresholds
-    const float modifier = ( t * thresholds[i].second ) +
-                           ( ( 1 - t ) * thresholds[i - 1].second );
-
-    return lround( modifier * metabolic_rate_base() );
+    return modifier * metabolic_rate_base();
 }
 
 morale_type player::allergy_type( const item &food ) const
