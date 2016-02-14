@@ -25,14 +25,14 @@ class item_location::impl
         virtual item *get_item() = 0;
 
     protected:
-        const item *what;
+        item *what = nullptr;
 };
 
 class item_location::item_on_map : public item_location::impl {
 private:
     tripoint location;
 public:
-    item_on_map( const tripoint &p, const item *which )
+    item_on_map( const tripoint &p, item *which )
     {
         location = p;
         what = nullptr;
@@ -110,7 +110,7 @@ class item_location::item_on_person : public item_location::impl {
 private:
     Character *who;
 public:
-    item_on_person( Character &ch, const item *which )
+    item_on_person( Character &ch, item *which )
     {
         who = &ch;
         auto the_item = ch.items_with( [which]( const item &it ) {
@@ -236,7 +236,7 @@ private:
     point local_coords;
     int partnum;
 public:
-    item_on_vehicle( vehicle &v, const point &where, const item *which )
+    item_on_vehicle( vehicle &v, const point &where, item *which )
     {
         veh = &v;
         local_coords = where;
@@ -329,13 +329,13 @@ item_location::item_location( item_location && ) = default;
 item_location& item_location::operator=( item_location&& ) = default;
 item_location::~item_location() = default;
 
-item_location::item_location( const map_cursor &mc, const item *which )
+item_location::item_location( const map_cursor &mc, item *which )
     : ptr( new item_on_map( mc, which ) ) {}
 
-item_location::item_location( Character &ch, const item *which )
+item_location::item_location( Character &ch, item *which )
     : ptr( new item_on_person( ch, which ) ) {}
 
-item_location::item_location( const vehicle_cursor &vc, const item *which )
+item_location::item_location( const vehicle_cursor &vc, item *which )
     : ptr( new item_on_vehicle( vc.veh, vc.veh.parts[vc.part].mount, which ) ) {}
 
 std::string item_location::describe( const Character *ch ) const
