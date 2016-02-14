@@ -11483,7 +11483,15 @@ void game::reload( int pos )
     }
 
     auto loc = it->pick_reload_ammo( u, true );
-    if( loc.get_item() ) {
+
+    const auto ammo = loc.get_item();
+    if( ammo ) {
+        if( ammo->is_magazine() && ammo->ammo_remaining() == 0 ) {
+            if( !query_yn( _( "Reload using an empty magazine?" ) ) ) {
+                return;
+            }
+        }
+
         std::stringstream ss;
         ss << pos;
         u.assign_activity( ACT_RELOAD, it->reload_time( u ), -1, loc.obtain( u ), ss.str() );
