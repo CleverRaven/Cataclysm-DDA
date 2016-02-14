@@ -37,7 +37,6 @@
     [
       [ "stick", 1 ],
       [ "2x4", 1 ],
-      [ "mop", 1 ],
       [ "broom", 1 ]
     ]
   ]
@@ -140,7 +139,6 @@
     [
       [ "stick", 1 ],
       [ "broom", 1 ],
-      [ "mop", 1 ],
       [ "2x4", 1 ],
       [ "pool_cue", 1 ]
     ]
@@ -162,7 +160,6 @@
     [
       [ "stick", 1 ],
       [ "broom", 1 ],
-      [ "mop", 1 ],
       [ "2x4", 1 ],
       [ "pool_cue", 1 ]
     ]
@@ -313,7 +310,6 @@
     [
       [ "stick", 1 ],
       [ "broom", 1 ],
-      [ "mop", 1 ],
       [ "2x4", 1 ],
       [ "pool_cue", 1 ],
       [ "pointy_stick", 1 ]
@@ -354,7 +350,6 @@
     [
       [ "stick", 1 ],
       [ "broom", 1 ],
-      [ "mop", 1 ],
       [ "2x4", 1 ],
       [ "pool_cue", 1 ],
       [ "pointy_stick", 1 ]
@@ -398,7 +393,6 @@
     [
       [ "stick", 1 ],
       [ "broom", 1 ],
-      [ "mop", 1 ],
       [ "2x4", 1 ],
       [ "pool_cue", 1 ]
     ],
@@ -504,8 +498,7 @@
     [
       [ "stick", 1 ],
       [ "2x4", 1 ],
-      [ "broom", 1 ],
-      [ "mop", 1 ]
+      [ "broom", 1 ]
     ],
     [
       [ "spike", 1 ]
@@ -710,7 +703,6 @@
     [
       [ "stick", 1 ],
       [ "2x4", 1 ],
-      [ "mop", 1 ],
       [ "broom", 1 ]
     ]
   ]
@@ -2140,6 +2132,7 @@
   "result": "torch",
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_BASHING",
+  "skill_used": "fabrication",
   "difficulty": 0,
   "time": 2000,
   "reversible": false,
@@ -2178,6 +2171,7 @@
   "result": "battletorch",
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_BASHING",
+  "skill_used": "fabrication",
   "difficulty": 0,
   "time": 2000,
   "reversible": true,

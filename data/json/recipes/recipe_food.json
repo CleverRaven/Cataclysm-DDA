@@ -3947,6 +3947,7 @@
   ],
   "components": [
     [
+      [ "canister_empty", 1 ],
       [ "can_food", 1 ]
     ],
     [
@@ -8707,6 +8708,7 @@
   "result": "vodka",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_DRINKS",
+  "skill_used": "cooking",
   "difficulty": 0,
   "time": 20,
   "reversible": false,
@@ -11040,6 +11042,7 @@
   ],
   "components": [
     [
+      [ "canister_empty", 1 ],
       [ "can_food", 1 ]
     ],
     [
@@ -11083,6 +11086,7 @@
   ],
   "components": [
     [
+      [ "canister_empty", 1 ],
       [ "can_food", 1 ]
     ],
     [
@@ -11126,6 +11130,7 @@
   ],
   "components": [
     [
+      [ "canister_empty", 1 ],
       [ "can_food", 1 ]
     ],
     [
@@ -11169,6 +11174,7 @@
   ],
   "components": [
     [
+      [ "canister_empty", 1 ],
       [ "can_food", 1 ]
     ],
     [
@@ -11224,6 +11230,7 @@
   ],
   "components": [
     [
+      [ "canister_empty", 1 ],
       [ "can_food", 1 ]
     ],
     [
@@ -11289,6 +11296,7 @@
   ],
   "components": [
     [
+      [ "canister_empty", 1 ],
       [ "can_food", 1 ]
     ],
     [
@@ -11333,6 +11341,7 @@
   ],
   "components": [
     [
+      [ "canister_empty", 1 ],
       [ "can_food", 1 ]
     ],
     [
@@ -11410,6 +11419,7 @@
   ],
   "components": [
     [
+      [ "canister_empty", 1 ],
       [ "can_food", 1 ]
     ],
     [
@@ -11497,6 +11507,7 @@
   ],
   "components": [
     [
+      [ "canister_empty", 1 ],
       [ "can_food", 1 ]
     ],
     [
@@ -11567,6 +11578,7 @@
   ],
   "components": [
     [
+      [ "canister_empty", 1 ],
       [ "can_food", 1 ]
     ],
     [
