@@ -90,30 +90,25 @@ public:
 };
 
 class item_location::item_on_person : public item_location::impl {
-private:
-    Character *who;
-public:
-    item_on_person( Character &ch, item *which )
-    {
-        who = &ch;
-        auto the_item = ch.items_with( [which]( const item &it ) {
-            return &it == which;
-        } );
+    private:
+        Character &who;
 
-        if( !the_item.empty() ) {
-            what = the_item[0];
-        } else {
-            debugmsg( "Tried to get an item from a character who doesn't have it" );
-            what = nullptr;
+    public:
+        item_on_person( Character &who, item *which ) : who( who )
+        {
+            if( !who.has_item( *which ) ) {
+                debugmsg( "Cannot locate item on character: %s", who.name.c_str() );
+            } else {
+                what = which;
+            }
         }
-    }
 
     std::string describe( const Character *ch ) const override {
         if( !what ) {
             return std::string();
         }
 
-        if( ch == who ) {
+        if( ch == &who ) {
             if( ch->is_worn( *what ) ) {
                 return _( "worn" );
             }
@@ -143,37 +138,37 @@ public:
         int mv = 0;
         bool was_worn = false;
 
-        item *holster = who->find_parent( *it );
-        if( holster && who->is_worn( *holster ) && holster->can_holster( *it, true ) ) {
+        item *holster = who.find_parent( *it );
+        if( holster && who.is_worn( *holster ) && holster->can_holster( *it, true ) ) {
             // Immediate parent is a worn holster capable of holding this item
             auto ptr = dynamic_cast<const holster_actor *>( holster->type->get_use( "holster" )->get_actor_ptr() );
-            mv += dynamic_cast<player *>( who )->item_handling_cost( *it, false, ptr->draw_cost );
+            mv += dynamic_cast<player&>( who ).item_handling_cost( *it, false, ptr->draw_cost );
             was_worn = true;
         } else {
             // Unpack the object followed by any nested containers starting with the innermost
-            mv += dynamic_cast<player *>( who )->item_handling_cost( *it );
-            for( auto obj = who->find_parent( *it ); obj && who->find_parent( *obj ); obj = who->find_parent( *obj ) ) {
-                mv += dynamic_cast<player *>( who )->item_handling_cost( *obj );
+            mv += dynamic_cast<player&>( who ).item_handling_cost( *it );
+            for( auto obj = who.find_parent( *it ); obj && who.find_parent( *obj ); obj = who.find_parent( *obj ) ) {
+                mv += dynamic_cast<player&>( who ).item_handling_cost( *obj );
             }
         }
 
-        if( who->is_worn( *it ) ) {
-            it->on_takeoff( *( dynamic_cast<player *>( who ) ) );
+        if( who.is_worn( *it ) ) {
+            it->on_takeoff( dynamic_cast<player&>( who ) );
         } else if( !was_worn ) {
             mv *= INVENTORY_HANDLING_FACTOR;
         }
 
-        if( &ch != who ) {
+        if( &ch != &who ) {
             // @todo implement movement cost for transfering item between characters
         }
 
-        who->moves -= mv;
+        who.moves -= mv;
 
         if( &ch.i_at( ch.get_item_position( it ) ) == it ) {
             // item already in target characters inventory at base of stack
             return ch.get_item_position( it );
         } else {
-            return ch.get_item_position( &ch.i_add( who->i_rem( it ) ) );
+            return ch.get_item_position( &ch.i_add( who.i_rem( it ) ) );
         }
     }
 
@@ -183,7 +178,7 @@ public:
             return;
         }
 
-        const auto removed = who->remove_items_with( [this]( const item &it ) {
+        const auto removed = who.remove_items_with( [this]( const item &it ) {
             return &it == what;
         } );
 
