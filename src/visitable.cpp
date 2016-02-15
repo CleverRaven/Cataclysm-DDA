@@ -33,6 +33,26 @@ const item * visitable<T>::find_parent( const item& it ) const
 }
 
 template <typename T>
+std::vector<item *> visitable<T>::parents( item& it )
+{
+    std::vector<item *> res;
+    for( item *obj = find_parent( it ); obj; obj = find_parent( *obj ) ) {
+        res.push_back( obj );
+    }
+    return res;
+}
+
+template <typename T>
+std::vector<const item *> visitable<T>::parents( const item& it ) const
+{
+    std::vector<const item *> res;
+    for( const item *obj = find_parent( it ); obj; obj = find_parent( *obj ) ) {
+        res.push_back( obj );
+    }
+    return res;
+}
+
+template <typename T>
 bool visitable<T>::has_item( const item& it ) const {
     return visit_items_const( [&it]( const item *node ) {
         return node == &it ? VisitResponse::ABORT : VisitResponse::NEXT;
