@@ -313,15 +313,36 @@ void npc::execute_action( npc_action action )
         break;
 
     case npc_reload: {
-        moves -= weapon.reload_time(*this);
-        if( ! weapon.reload( *this, weapon.pick_reload_ammo( *this, false ) ) ) {
-            debugmsg("NPC reload failed.");
+        // fetch potential ammo from npc possessions only and exclude empty magazines
+        auto ammo = find_ammo( weapon, false, -1 );
+        ammo.erase( std::remove_if( ammo.begin(), ammo.end(), [this]( const item_location& e ) {
+            return e && weapon.can_reload( e->typeId() );
+        } ), ammo.end() );
+
+        // prefer either most full magazine or most plentiful ammo stack
+        std::sort( ammo.begin(), ammo.end(), []( const item_location& lhs, const item_location& rhs ) {
+            return rhs->ammo_remaining() < lhs->ammo_remaining();
+        } );
+
+        // @todo handle reloading of empty magazines
+
+        if( ammo.empty() ) {
+            debugmsg( "npc_reload failed: no usable ammo" );
+            break;
         }
+
+        if( !weapon.reload( *this, std::move( ammo[0] ) ) ) {
+            debugmsg( "npc_reload failed: item could not be reloaded" );
+            break;
+        }
+
+        moves -= weapon.reload_time( *this );
         recoil = MIN_RECOIL;
+
         if (g->u.sees( *this )) {
-            add_msg(_("%1$s reloads their %2$s."), name.c_str(),
-                    weapon.tname().c_str());
-            sfx::play_variant_sound( "reload", weapon.typeId(), sfx::get_heard_volume(pos()), sfx::get_heard_angle( pos()));
+            add_msg( _( "%1$s reloads their %2$s." ), name.c_str(), weapon.tname().c_str() );
+            sfx::play_variant_sound( "reload", weapon.typeId(), sfx::get_heard_volume( pos() ),
+                                     sfx::get_heard_angle( pos() ) );
         }
     }
     break;
