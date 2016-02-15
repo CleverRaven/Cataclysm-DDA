@@ -3934,7 +3934,7 @@
     "components": [
         [ [ "lead", 4 ] ],
         [ [ "9x18mm_casing", 1 ] ],
-        [ [ "lgrifle_primer", 1 ] ],
+        [ [ "smpistol_primer", 1 ] ],
         [ [ "gunpowder", 3 ] ]
     ]
 },
@@ -3954,7 +3954,7 @@
     "components": [
         [ [ "lead", 4 ] ],
         [ [ "9x18mm_casing", 1 ] ],
-        [ [ "lgrifle_primer", 1 ] ],
+        [ [ "smpistol_primer", 1 ] ],
         [ [ "gunpowder", 5 ] ]
     ]
 },
@@ -3974,7 +3974,7 @@
     "components": [
         [ [ "lead", 4 ] ],
         [ [ "9x18mm_casing", 1 ] ],
-        [ [ "lgrifle_primer", 1 ] ],
+        [ [ "smpistol_primer", 1 ] ],
         [ [ "gunpowder", 3 ] ],
         [ [ "copper", 2 ] ]
     ]
