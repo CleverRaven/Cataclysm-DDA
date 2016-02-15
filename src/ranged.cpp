@@ -366,7 +366,7 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
 
     // Number of shots to fire is limited by the ammount of remaining ammo
     if( !gun.has_flag( "NO_AMMO" ) && !is_charger_gun ) {
-        shots = std::min( shots, int( gun.ammo_remaining() ) );
+        shots = std::min( shots, int( gun.ammo_remaining() / gun.ammo_required() ) );
     }
 
     // cap our maximum burst size by the amount of UPS power left
@@ -376,6 +376,10 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
         } else {
             shots = std::min( shots, int( charges_of( "UPS" ) / gun.get_gun_ups_drain() ) );
         }
+    }
+
+    if( shots <= 0 ) {
+        debugmsg( "Attempted to fire zero or negative shots using %s", gun.tname().c_str() );
     }
 
     const skill_id skill_used = gun.gun_skill();
