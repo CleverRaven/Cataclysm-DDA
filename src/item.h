@@ -214,11 +214,12 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
  const item_category &get_category() const;
 
     /**
-     * Whether a tool or gun could potentially be reloaded.
-     * Items currently loaded with a detachable magazine are considered reloadable
-     * Items with integral magazines are considered reloadable if there is remaining capacity
+     * Whether a tool or gun is potentially reloadable (optionally considering a specific ammo)
+     * @param ammo if set also check item currently compatible with this specific ammo or magazine
+     * @note items currently loaded with a detachable magazine are considered reloadable
+     * @note items with integral magazines are reloadable if free capacity permits (+/- ammo matches)
      */
-    bool can_reload() const;
+    bool can_reload( const itype_id& ammo = std::string() ) const;
 
     /**
      * Select suitable ammo with which to reload the item

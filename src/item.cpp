@@ -4175,21 +4175,26 @@ item *item::get_usable_item( const std::string &use_name )
     return nullptr;
 }
 
-bool item::can_reload() const {
+bool item::can_reload( const itype_id& ammo ) const {
     if( !is_gun() && !is_tool() && !is_magazine() ) {
         return false;
-    }
-    if( has_flag( "NO_RELOAD") || has_flag( "RELOAD_AND_SHOOT" ) ) {
+
+    } else if( has_flag( "NO_RELOAD") || has_flag( "RELOAD_AND_SHOOT" ) ) {
         return false;
-    }
-    if( ammo_type() == "NULL" ) {
+
+    } else if( ammo_type() == "NULL" ) {
         return false;
+
+    } else if( magazine_integral() ) {
+        if( !ammo.empty() && ammo_data() ) {
+            return ammo_data()->id == ammo;
+        } else {
+            return ammo_remaining() < ammo_capacity();
+        }
+
+    } else {
+        return ammo.empty() ? true : magazine_compatible().count( ammo );
     }
-    if( magazine_integral() && ammo_remaining() >= ammo_capacity() ) {
-        return false;
-    }
-    // either intergral magazine with sufficient capacity or uses detachable magazines
-    return true;
 }
 
 item_location item::pick_reload_ammo( player &u, bool interactive ) const
@@ -4200,6 +4205,16 @@ item_location item::pick_reload_ammo( player &u, bool interactive ) const
     opts.push_back( this );
     for( const auto e : opts ) {
         if( e->can_reload() ) {
+            auto tmp = u.find_ammo( *e );
+            std::copy_if( std::make_move_iterator( tmp.begin() ),
+                          std::make_move_iterator( tmp.end() ),
+                          std::back_inserter( ammo_list ),
+                          [&e]( const item_location& ammo ) {
+                             // items with partially loaded integral magazines require matching ammo
+                             return e->can_reload( ammo.get_item()->typeId() );
+                          } );
+
+        } else if( e->has_flag( "RELOAD_AND_SHOOT") ) {
             auto tmp = u.find_ammo( *e );
             std::move( tmp.begin(), tmp.end(), std::back_inserter( ammo_list ) );
         }
