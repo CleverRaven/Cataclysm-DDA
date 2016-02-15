@@ -4847,49 +4847,20 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp, const 
     }
     //looks like this should be based off of dealtdams, not d as d has no damage reduction applied.
     // Skip all this if the damage isn't from a creature. e.g. an explosion.
-    if( source != NULL ) {
-        // Add any monster on damage effects
-        if (source->is_monster() && dealt_dams.total_damage() > 0) {
-            monster *m = dynamic_cast<monster *>(source); if( m != NULL ) {
-                for (auto eff : m->type->atk_effs) {
-                    if (x_in_y(eff.chance, 100)) {
-                        add_effect( eff.id, eff.duration, eff.bp, eff.permanent );
-                    }
-                }
-            }
-        }
-
-        if (dealt_dams.total_damage() > 0 && source->has_flag(MF_VENOM)) {
-            add_msg_if_player(m_bad, _("You're poisoned!"));
-            add_effect( effect_poison, 30);
-        }
-        else if (dealt_dams.total_damage() > 0 && source->has_flag(MF_BADVENOM)) {
-            add_msg_if_player(m_bad, _("You feel poison flood your body, wracking you with pain..."));
-            add_effect( effect_badpoison, 40);
-        }
-        else if (dealt_dams.total_damage() > 0 && source->has_flag(MF_PARALYZE)) {
-            add_msg_if_player(m_bad, _("You feel poison enter your body!"));
-            add_effect( effect_paralyzepoison, 100);
-        }
-
-        if (source->has_flag(MF_BLEED) && dealt_dams.total_damage() > 6 &&
-            dealt_dams.type_damage(DT_CUT) > 0) {
-            // Maybe should only be if DT_CUT > 6... Balance question
-            add_effect( effect_bleed, 60, bp);
-        }
-
+    if( source != nullptr ) {
         if ( source->has_flag(MF_GRABS) && !source->is_hallucination() ) {
             ///\EFFECT_DEX increases chance to avoid being grabbed, if DEX>STR
 
             ///\EFFECT_STR increases chance to avoid being grabbed, if STR>DEX
-            if (has_grab_break_tec() && get_grab_resist() > 0 && get_dex() > get_str() ?
-                rng(0, get_dex()) : rng( 0, get_str()) > rng( 0 , 10)) {
+            if( has_grab_break_tec() && get_grab_resist() > 0 &&
+                (get_dex() > get_str() ? rng( 0, get_dex() ) : rng( 0, get_str() ) ) > rng( 0, 10 ) ) {
                 if( has_effect( effect_grabbed ) ) {
-                    add_msg_if_player(m_info,_("You are being grabbed by %s, but you bat it away!"),
-                                      source->disp_name().c_str());
-                } else {add_msg_player_or_npc(m_info, _("You are being grabbed by %s, but you break its grab!"),
-                                    _("<npcname> are being grabbed by %s, but they break its grab!"),
-                                    source->disp_name().c_str());
+                    add_msg_if_player( m_warning ,_("You are being grabbed by %s, but you bat it away!"),
+                                       source->disp_name().c_str());
+                } else {
+                    add_msg_player_or_npc( m_info, _("You are being grabbed by %s, but you break its grab!"),
+                                           _("<npcname> are being grabbed by %s, but they break its grab!"),
+                                           source->disp_name().c_str());
                 }
             } else {
                 int prev_effect = get_effect_int( effect_grabbed );

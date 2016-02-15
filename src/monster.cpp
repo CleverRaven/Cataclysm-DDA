@@ -83,7 +83,9 @@ const species_id FUNGUS( "FUNGUS" );
 const species_id INSECT( "INSECT" );
 const species_id MAMMAL( "MAMMAL" );
 
+const efftype_id effect_badpoison( "badpoison" );
 const efftype_id effect_beartrap( "beartrap" );
+const efftype_id effect_bleed( "bleed" );
 const efftype_id effect_blind( "blind" );
 const efftype_id effect_bouldering( "bouldering" );
 const efftype_id effect_crushed( "crushed" );
@@ -97,6 +99,8 @@ const efftype_id effect_in_pit( "in_pit" );
 const efftype_id effect_lightsnare( "lightsnare" );
 const efftype_id effect_onfire( "onfire" );
 const efftype_id effect_pacified( "pacified" );
+const efftype_id effect_paralyzepoison( "paralyzepoison" );
+const efftype_id effect_poison( "poison" );
 const efftype_id effect_run( "run" );
 const efftype_id effect_shrieking( "shrieking" );
 const efftype_id effect_stunned( "stunned" );
@@ -489,12 +493,12 @@ bool monster::has_flag(const m_flag f) const
 
 bool monster::can_see() const
 {
- return has_flag(MF_SEES) && !has_effect( effect_blind);
+ return has_flag(MF_SEES) && !has_effect( effect_blind );
 }
 
 bool monster::can_hear() const
 {
- return has_flag(MF_HEARS) && !has_effect( effect_deaf);
+ return has_flag(MF_HEARS) && !has_effect( effect_deaf );
 }
 
 bool monster::can_submerge() const
@@ -518,7 +522,7 @@ bool monster::can_act() const
 {
     return moves > 0 &&
         ( effects.empty() ||
-          ( !has_effect( effect_stunned) && !has_effect( effect_downed ) && !has_effect( effect_webbed ) ) );
+          ( !has_effect( effect_stunned ) && !has_effect( effect_downed ) && !has_effect( effect_webbed ) ) );
 }
 
 
@@ -536,7 +540,7 @@ int monster::sight_range( const int light_level ) const
     return range;
 }
 
-bool monster::made_of(std::string m) const
+bool monster::made_of( const std::string &m ) const
 {
     return type->has_material( m );
 }
@@ -856,6 +860,18 @@ bool monster::is_immune_effect( const efftype_id &effect ) const
             has_flag(MF_FIREY);
     }
 
+    if( effect == effect_bleed ) {
+        return !has_flag(MF_WARM) ||
+            !made_of("flesh");
+    }
+
+    if( effect == effect_paralyzepoison ||
+        effect == effect_badpoison ||
+        effect == effect_poison ) {
+        return !has_flag(MF_WARM) ||
+            (!made_of("flesh") && !made_of("iflesh"));
+    }
+
     return false;
 }
 
@@ -938,10 +954,11 @@ void monster::melee_attack( Creature &target, bool, const matec_id& )
     dealt_damage_instance dealt_dam;
     int hitspread = target.deal_melee_attack(this, hit_roll());
     if( hitspread >= 0 ) {
-        target.deal_melee_hit(this, hitspread, false, damage, dealt_dam);
+        target.deal_melee_hit( this, hitspread, false, damage, dealt_dam );
     }
     bp_hit = dealt_dam.bp_hit;
 
+    const int total_dealt = dealt_dam.total_damage();
     if( hitspread < 0 ) {
         // Miss
         if( u_see_me ) {
@@ -957,7 +974,7 @@ void monster::melee_attack( Creature &target, bool, const matec_id& )
         } else if( target.is_player() ) {
             add_msg( _("You dodge an attack from an unseen source.") );
         }
-    } else if( is_hallucination() || dealt_dam.total_damage() > 0 ) {
+    } else if( is_hallucination() || total_dealt > 0 ) {
         // Hallucinations always produce messages but never actually deal damage
         if( u_see_me ) {
             if( target.is_player() ) {
@@ -1021,6 +1038,39 @@ void monster::melee_attack( Creature &target, bool, const matec_id& )
             die( nullptr );
         }
         return;
+    }
+
+    if( total_dealt <= 0 ) {
+        return;
+    }
+
+    // Add any on damage effects
+    for( const auto &eff : type->atk_effs ) {
+        if( x_in_y( eff.chance, 100 ) ) {
+            target.add_effect( eff.id, eff.duration, eff.bp, eff.permanent );
+        }
+    }
+
+    const int stab_cut = dealt_dam.type_damage( DT_CUT ) + dealt_dam.type_damage( DT_STAB );
+
+    if( stab_cut > 0 && has_flag( MF_VENOM ) ) {
+        target.add_msg_if_player( m_bad, _("You're poisoned!") );
+        target.add_effect( effect_poison, 30 );
+    }
+
+    if( stab_cut > 0 && has_flag( MF_BADVENOM ) ) {
+        target.add_msg_if_player(m_bad, _("You feel poison flood your body, wracking you with pain..."));
+        target.add_effect( effect_badpoison, 40 );
+    }
+
+    if( stab_cut > 0 && has_flag( MF_PARALYZE ) ) {
+        target.add_msg_if_player(m_bad, _("You feel poison enter your body!"));
+        target.add_effect( effect_paralyzepoison, 100 );
+    }
+
+    if( total_dealt > 6 && stab_cut > 0 && has_flag( MF_BLEED ) ) {
+        // Maybe should only be if DT_CUT > 6... Balance question
+        target.add_effect( effect_bleed, 60, bp_hit );
     }
 }
 
