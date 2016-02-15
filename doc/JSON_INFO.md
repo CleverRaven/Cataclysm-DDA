@@ -1266,36 +1266,117 @@ The terrain / furniture that will be set after the original has been deconstruct
 #### "items"
 (Optional) An item group (inline) or an id of an item group, see doc/ITEM_SPAWN.md. The default subtype is "collection". Upon deconstruction the object, items from that group will be spawned.
 
-###SCENARIO
+# Scenarios
 
+Scenarios are specified as JSON object with "type" member set to "scenario":
 ```JSON
 {
-    "type": "scenario",              // Must always be "scenario"
-    "ident": "schools_out",          // Internal ident of the scenario, must be unique
-    "name": "School",                // The displayed name, can be gender specific:
-    "name": {
-        "male": "...",
-        "female": "..."
-    },
-    "points" : -1,                   // How much points it costs (or if negative, how much it gives)
-    "description": "...",            // Some description of the scenario, can be anything you like, can also be gender specific:
-        "scen_desc_male": "...",     // Gender specific descriptions are optional.
-        "scen_desc_female": "...",
-    "allowed_locs" : ["school"],     // Starting locations (see start_locations.json) that can be chosen when using this scenario.
-    "professions" : ["student"],     // Professions (see professions.json) that can be chosen when using this scenario. The first entry is the default profession.
-    "start_name": "School",          // TODO
-    "items": {                       // Additional starting items, see professions for the format.
-        "both": [ ... ],
-        "female": [ ... ],
-        "male": [ ... ]
-    },
-    "flags": [ "some flag" ],        // Flags, see JSON_FLAGS.
-    "traits": [ "PROF_MED" ],        // Allowed starting traits (see mutations.json). The player still has to choose them if they like, only useful if the listed trait can actually be chosen at game start.
-    "forced_traits": [ "PROF_MED" ], // Traits that are automatically added to the new character.
-    "forbidden_traits": [ "PROF_MED" ], // Traits that can explicitly not be chosen at start.
-    "map_special": "mx_helicopter",  // (optional) Add a map special to the starting location, see JSON_FLAGS for the possible specials.
+    "type": "scenario",
+    "ident": "schools_out",
+    ...
 }
 ```
+
+The ident member should be the unique id of the scenario.
+
+The following properties (mandatory, except if noted otherwise) are supported:
+
+
+## "description"
+(string)
+
+The in-game description.
+
+## "name"
+(string or object with members "male" and "female")
+
+The in-game name, either one gender-neutral string, or an object with gender specific names. Example:
+```JSON
+"name": {
+    "male": "Runaway groom",
+    "female": "Runaway bride"
+}
+```
+
+## "points"
+(integer)
+
+Point cost of scenario. Positive values cost points and negative values grant points.
+
+## "items"
+(optional, object with optional members "both", "male" and "female")
+
+Items the player starts with when selecting this scenario. One can specify different items based on the gender of the character. Each lists of items should be an array of items ids. Ids may appear multiple times, in which case the item is created multiple times.
+
+Example:
+```JSON
+"items": {
+    "both": [
+        "pants",
+        "rock",
+        "rock"
+    ],
+    "male": [ "briefs" ],
+    "female": [ "panties" ]
+}
+```
+This gives the player pants, two rocks and (depending on the gender) briefs or panties.
+
+Mods can modify the lists of an existing scenario via "add:both" / "add:male" / "add:female" and "remove:both" / "remove:male" / "remove:female".
+
+Example for mods:
+```JSON
+{
+    "type": "scenario",
+    "ident": "schools_out",
+    "edit-mode": "modify",
+    "items": {
+        "remove:both": [ "rock" ],
+        "add:female": [ "2x4" ]
+    }
+}
+```
+
+## "flags"
+(optional, array of strings)
+
+A list of flags. TODO: document those flags here.
+
+Mods can modify this via "add:flags" and "remove:flags".
+
+## "CBMs"
+(optional, array of strings)
+
+A list of CBM ids that are implanted in the character.
+
+Mods can modify this via "add:CBMs" and "remove:CBMs".
+
+## "traits", "forced_traits", "forbidden_traits"
+(optional, array of strings)
+
+Lists of trait/mutation ids. Traits in "forbidden_traits" are forbidden and can't be selected during the character creation. Traits in "forced_traits" are automatically added to character. Traits in "traits" enables them to be chosen, even if they are not starting traits.
+
+Mods can modify this via "add:traits" / "add:forced_traits" / "add:forbidden_traits" and "remove:traits" / "remove:forced_traits" / "remove:forbidden_traits".
+
+## "allowed_locs"
+(optional, array of strings)
+
+A list of starting location ids (see start_locations.json) that can be chosen when using this scenario.
+
+## "start_name"
+(string)
+
+The name that is shown for the starting location. This is useful if the scenario allows several starting locations, but the game can not list them all at once in the scenario description. Example: if the scenario allows to start somewhere in the wilderness, the starting locations would contain forest and fields, but its "start_name" may simply be "wilderness".
+
+## "professions"
+(optional, array of strings)
+
+A list of allowed professions that can be chosen when using this scenario. The first entry is the default profession. If this is empty, all professions are allowed.
+
+## "map_special"
+(optional, string)
+
+Add a map special to the starting location, see JSON_FLAGS for the possible specials.
 
 ###TILE_CONFIG
 Each tileset has a tile_config.json describing how to map the contents of a sprite sheet to various tile identifiers, different orientations, etc. Example:
