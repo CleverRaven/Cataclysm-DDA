@@ -201,8 +201,7 @@ item& item::convert( const itype_id& new_type )
 
 item item::split( int qty )
 {
-    qty = std::min( qty, int( charges ) - 1 );
-    if( !count_by_charges() || qty <= 0 ) {
+    if( !count_by_charges() || qty <= 0 || qty >= charges ) {
         return item();
     }
     item res = *this;

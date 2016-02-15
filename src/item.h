@@ -128,9 +128,9 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
         item& convert( const itype_id& new_type );
 
         /**
-         * Splits a count-by-charges item always leaving source item which minimum of 1 charge
-         * @param qty maximum number of charges to try and split from source
-         * @return new instance containing qty (or less) charges or null item if unable to split
+         * Splits a count-by-charges item always leaving source item with minimum of 1 charge
+         * @param qty number of required charges to split from source
+         * @return new instance containing exactly qty charges or null item if splitting failed
          */
         item split( int qty );
 
