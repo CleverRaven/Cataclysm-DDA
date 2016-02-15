@@ -32,6 +32,7 @@
 #include "morale.h"
 #include "catacharset.h"
 #include "cata_utility.h"
+#include "input.h"
 
 #include <cmath> // floor
 #include <sstream>
@@ -4313,11 +4314,15 @@ item_location item::pick_reload_ammo( player &u ) const
     menu.w_y = std::max( ( TERMX / 2 ) - int( menu.w_width / 2 ) , 0 );
     menu.w_y = std::max( ( TERMY / 2 ) - int( (ammo_list.size() + 3 ) / 2 ) , 0 );
 
+    itype_id last = uistate.lastreload[ ammo_type() ];
+
     for( auto i = 0; i != (int) ammo_list.size(); ++i ) {
+        const item& ammo = ammo_list[ i ]->is_ammo_container() ? ammo_list[ i ]->contents[ 0 ] : *ammo_list[ i ];
+
         std::string row = names[i] + "| " + where[i] + " ";
 
         if( is_gun() || is_magazine() ) {
-            const itype *curammo = ammo_list[i]->ammo_data(); // nullptr for empty magazines
+            const itype *curammo = ammo.ammo_data(); // nullptr for empty magazines
             if( curammo ) {
                 row += string_format( "| %-7d | %-7d | %-7d | %-7d",
                                       curammo->ammo->damage, curammo->ammo->pierce,
@@ -4327,8 +4332,18 @@ item_location item::pick_reload_ammo( player &u ) const
             }
         }
 
-        // if ammo in player possession try and select suitable invlet
-        char hotkey = u.has_item( *ammo_list[ i ] ) ? ammo_list[ i ]->invlet : -1;
+        char hotkey = -1;
+        if( u.has_item( ammo ) && ( ammo.invlet || ammo_list[ i ]->invlet ) ) {
+            // if ammo in player possession and either it or any container has a valid invlet use this
+            hotkey = ammo.invlet ? ammo.invlet : ammo_list[ i ]->invlet;
+
+        } else if( last == ammo.typeId() ) {
+            // if this is the first occurrence of the most recently used type of ammo and the hotkey
+            // was not already set above then set it to the keypress that opened this prompt
+            hotkey = inp_mngr.get_previously_pressed_key();
+            last = std::string();
+        }
+
         menu.addentry( i, true, hotkey, row );
     }
 
@@ -4338,7 +4353,9 @@ item_location item::pick_reload_ammo( player &u ) const
         return item_location();
     }
 
-    return std::move( ammo_list[ menu.ret ] );
+    item_location sel = std::move( ammo_list[ menu.ret ] );
+    uistate.lastreload[ ammo_type() ] = sel->is_ammo_container() ? sel->contents[ 0 ].typeId() : sel->typeId();
+    return sel;
 }
 
 // Helper to handle ejecting casings from guns that require them to be manually extracted.
