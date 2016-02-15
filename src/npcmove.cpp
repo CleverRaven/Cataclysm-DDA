@@ -316,7 +316,7 @@ void npc::execute_action( npc_action action )
         // fetch potential ammo from npc possessions only and exclude empty magazines
         auto ammo = find_ammo( weapon, false, -1 );
         ammo.erase( std::remove_if( ammo.begin(), ammo.end(), [this]( const item_location& e ) {
-            return e && weapon.can_reload( e->typeId() );
+            return weapon.can_reload( e->typeId() );
         } ), ammo.end() );
 
         // prefer either most full magazine or most plentiful ammo stack
