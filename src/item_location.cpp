@@ -67,11 +67,7 @@ class item_location::item_on_map : public item_location::impl
             ch.moves -= mv;
 
             item obj = what->split( qty );
-            if( !obj.is_null() ) {
-                return ch.get_item_position( &ch.i_add( obj ) );
-            }
-
-            int inv = ch.get_item_position( &ch.i_add( *what ) );
+            int inv = ch.get_item_position( &ch.i_add( !obj.is_null() ? obj : *what ) );
             remove_item();
             return inv;
         }
@@ -165,13 +161,12 @@ class item_location::item_on_person : public item_location::impl
             if( &ch.i_at( ch.get_item_position( it ) ) == it ) {
                 // item already in target characters inventory at base of stack
                 return ch.get_item_position( it );
-            } else {
-                item obj = what->split( qty );
-                if( !obj.is_null() ) {
-                    obj = who.i_rem( it );
-                }
-                return ch.get_item_position( &ch.i_add( obj ) );
             }
+
+            item obj = what->split( qty );
+            int inv = ch.get_item_position( &ch.i_add( !obj.is_null() ? obj : *what ) );
+            remove_item();
+            return inv;
         }
 
         void remove_item() override {
@@ -228,11 +223,7 @@ class item_location::item_on_vehicle : public item_location::impl
             ch.moves -= mv;
 
             item obj = what->split( qty );
-            if( !obj.is_null() ) {
-                return ch.get_item_position( &ch.i_add( obj ) );
-            }
-
-            int inv = ch.get_item_position( &ch.i_add( *what ) );
+            int inv = ch.get_item_position( &ch.i_add( !obj.is_null() ? obj : *what ) );
             remove_item();
             return inv;
         }
