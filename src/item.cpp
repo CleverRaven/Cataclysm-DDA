@@ -4315,14 +4315,8 @@ item_location item::pick_reload_ammo( player &u ) const
             }
         }
 
-        char hotkey = -1;
-        // if ammo in player possession try and select suitable invlet accounting for containers
-        if( u.has_item( *ammo_list[ i ] ) ) {
-            auto hier = u.parents( *ammo_list[ i ] );
-            if( !hier.empty() ) {
-                hotkey = hier.back()->invlet;
-            }
-        }
+        // if ammo in player possession try and select suitable invlet
+        char hotkey = u.has_item( *ammo_list[ i ] ) ? ammo_list[ i ]->invlet : -1;
         menu.addentry( i, true, hotkey, row );
     }
 
