@@ -1378,6 +1378,38 @@ A list of allowed professions that can be chosen when using this scenario. The f
 
 Add a map special to the starting location, see JSON_FLAGS for the possible specials.
 
+# Starting locations
+
+Starting locations are specified as JSON object with "type" member set to "start_location":
+```JSON
+{
+    "type": "start_location",
+    "ident": "field",
+    "name": "An empty field",
+    "target": "field",
+    ...
+}
+```
+
+The ident member should be the unique id of the location.
+
+The following properties (mandatory, except if noted otherwise) are supported:
+
+## "name"
+(string)
+
+The in-game name of the location.
+
+## "target"
+(string)
+
+The id of an overmap terrain type (see overmap_terrain.json) of the starting location. The game will chose a random place with that terrain.
+
+## "flags"
+(optional, array of strings)
+
+Arbitrary flags. Mods can modify this via "add:flags" / "remove:flags". TODO: document them.
+
 ###TILE_CONFIG
 Each tileset has a tile_config.json describing how to map the contents of a sprite sheet to various tile identifiers, different orientations, etc. Example:
 ```JSON
