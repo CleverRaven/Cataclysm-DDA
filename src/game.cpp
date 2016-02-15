@@ -11016,6 +11016,11 @@ void game::plfire( bool burst, const tripoint &default_target )
             u.moves -= gun.reload_time(u);
             refresh_all();
         }
+        
+        if( gun.has_flag("FIRE_TWOHAND") && ( !p.has_two_arms() || p.worn_with_flag("RESTRICT_HANDS") ) ) {
+            add_msg(m_info, _("You need two free hands to fire your %s."));
+            return;
+        }
 
         if( gun.ammo_remaining() < gun.ammo_required() && !gun.has_flag("RELOAD_AND_SHOOT") ) {
             if( gun.ammo_remaining() == 0 ) {
