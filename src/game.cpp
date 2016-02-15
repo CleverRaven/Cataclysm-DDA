@@ -11001,7 +11001,7 @@ void game::plfire( bool burst, const tripoint &default_target )
         }
 
         if( gun.has_flag("RELOAD_AND_SHOOT") && gun.ammo_remaining() == 0 ) {
-            item_location ammo = gun.pick_reload_ammo( u, true );
+            item_location ammo = gun.pick_reload_ammo( u );
             if( !ammo.get_item() || !gun.reload( u, std::move( ammo ) ) ) {
                 return;
             }
@@ -11482,7 +11482,7 @@ void game::reload( int pos )
             break;
     }
 
-    auto ammo = it->pick_reload_ammo( u, true );
+    auto ammo = it->pick_reload_ammo( u );
     if( ammo ) {
 
         item *target = nullptr;

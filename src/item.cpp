@@ -4209,7 +4209,7 @@ bool item::can_reload( const itype_id& ammo ) const {
     }
 }
 
-item_location item::pick_reload_ammo( player &u, bool interactive ) const
+item_location item::pick_reload_ammo( player &u ) const
 {
     std::vector<item_location> ammo_list;
 
@@ -4236,9 +4236,7 @@ item_location item::pick_reload_ammo( player &u, bool interactive ) const
     ammo_list.erase( std::remove( ammo_list.begin(), ammo_list.end(), item_location::nowhere ), ammo_list.end() );
 
     if( ammo_list.empty() ) {
-        if( interactive ) {
-            u.add_msg_if_player( m_info, _( "Out of %s!" ), is_gun() ? _("ammo") : ammo_name( ammo_type() ).c_str() );
-        }
+        u.add_msg_if_player( m_info, _( "Out of %s!" ), is_gun() ? _("ammo") : ammo_name( ammo_type() ).c_str() );
         return item_location();
     }
 
@@ -4246,11 +4244,11 @@ item_location item::pick_reload_ammo( player &u, bool interactive ) const
         return rhs->ammo_remaining() < lhs->ammo_remaining();
     } );
 
-    if( ammo_list.size() == 1 || !interactive ) {
+    if( ammo_list.size() == 1 ) {
         return std::move( ammo_list[0] );
     }
 
-    // If interactive and more than one option prompt the user for a selection
+    // If more than one option prompt the user for a selection
     uimenu menu;
     menu.text = string_format( _("Reload %s" ), tname().c_str() );
     menu.return_invalid = true;
@@ -4335,10 +4333,7 @@ item_location item::pick_reload_ammo( player &u, bool interactive ) const
 
     menu.query();
     if( menu.ret < 0 || menu.ret >= ( int ) ammo_list.size() ) {
-        // invalid selection / escaped from the menu
-        if( interactive ) {
-            u.add_msg_if_player( m_info, _( "Never mind." ) );
-        }
+        u.add_msg_if_player( m_info, _( "Never mind." ) );
         return item_location();
     }
 
