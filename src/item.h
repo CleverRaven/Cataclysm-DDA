@@ -128,6 +128,13 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
         item& convert( const itype_id& new_type );
 
         /**
+         * Splits a count-by-charges item always leaving source item which minimum of 1 charge
+         * @param qty maximum number of charges to try and split from source
+         * @return new instance containing qty (or less) charges or null item if unable to split
+         */
+        item split( int qty );
+
+        /**
          * Make a corpse of the given monster type.
          * The monster type id must be valid (see @ref MonsterGenerator::get_mtype).
          *

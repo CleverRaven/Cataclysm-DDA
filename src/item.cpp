@@ -199,6 +199,18 @@ item& item::convert( const itype_id& new_type )
     return *this;
 }
 
+item item::split( int qty )
+{
+    qty = std::min( qty, int( charges ) - 1 );
+    if( !count_by_charges() || qty <= 0 ) {
+        return item();
+    }
+    item res = *this;
+    res.charges = qty;
+    charges -= qty;
+    return res;
+}
+
 bool item::is_null() const
 {
     static const std::string s_null("null"); // used alot, no need to repeat
