@@ -22,7 +22,7 @@ class item_location::impl
     public:
         virtual ~impl() = default;
         virtual std::string describe( const Character * ) const = 0;
-        virtual int obtain( Character & ) = 0;
+        virtual int obtain( Character &ch, int qty ) = 0;
         virtual void remove_item() = 0;
 
     protected:
@@ -51,7 +51,7 @@ class item_location::item_on_map : public item_location::impl
             return res;
         }
 
-        int obtain( Character &ch ) override {
+        int obtain( Character &ch, int qty ) override {
             if( !what ) {
                 return INT_MIN;
             }
@@ -65,6 +65,11 @@ class item_location::item_on_map : public item_location::impl
             mv *= MAP_HANDLING_FACTOR;
 
             ch.moves -= mv;
+
+            item obj = what->split( qty );
+            if( !obj.is_null() ) {
+                return ch.get_item_position( &ch.i_add( obj ) );
+            }
 
             int inv = ch.get_item_position( &ch.i_add( *what ) );
             remove_item();
@@ -113,11 +118,11 @@ class item_location::item_on_person : public item_location::impl
                 }
 
             } else {
-                return ch ? ch->name : _( "npc" );
+                return who.name;
             }
         }
 
-        int obtain( Character &ch ) override {
+        int obtain( Character &ch, int qty ) override {
             if( !what ) {
                 return INT_MIN;
             }
@@ -161,7 +166,11 @@ class item_location::item_on_person : public item_location::impl
                 // item already in target characters inventory at base of stack
                 return ch.get_item_position( it );
             } else {
-                return ch.get_item_position( &ch.i_add( who.i_rem( it ) ) );
+                item obj = what->split( qty );
+                if( !obj.is_null() ) {
+                    obj = who.i_rem( it );
+                }
+                return ch.get_item_position( &ch.i_add( obj ) );
             }
         }
 
@@ -203,7 +212,7 @@ class item_location::item_on_vehicle : public item_location::impl
             return res;
         }
 
-        int obtain( Character &ch ) override {
+        int obtain( Character &ch, int qty ) override {
             if( !what ) {
                 return INT_MIN;
             }
@@ -217,6 +226,11 @@ class item_location::item_on_vehicle : public item_location::impl
             mv *= VEHICLE_HANDLING_FACTOR;
 
             ch.moves -= mv;
+
+            item obj = what->split( qty );
+            if( !obj.is_null() ) {
+                return ch.get_item_position( &ch.i_add( obj ) );
+            }
 
             int inv = ch.get_item_position( &ch.i_add( *what ) );
             remove_item();
@@ -288,9 +302,9 @@ std::string item_location::describe( const Character *ch ) const
     return ptr ? ptr->describe( ch ) : std::string();
 }
 
-int item_location::obtain( Character &ch )
+int item_location::obtain( Character &ch, int qty )
 {
-    return ptr ? ptr->obtain( ch ) : INT_MIN;
+    return ptr ? ptr->obtain( ch, qty ) : INT_MIN;
 }
 
 void item_location::remove_item()
