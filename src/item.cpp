@@ -4206,7 +4206,7 @@ item_location item::pick_reload_ammo( player &u, bool interactive ) const
     }
 
     // Ensure ammo_list contains only valid dereferenceable locations
-    ammo_list.erase( std::remove( ammo_list.begin(), ammo_list.end(), item_location() ) );
+    ammo_list.erase( std::remove( ammo_list.begin(), ammo_list.end(), item_location() ), ammo_list.end() );
 
     if( ammo_list.empty() ) {
         if( interactive ) {
