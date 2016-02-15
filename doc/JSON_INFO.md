@@ -136,37 +136,169 @@ See MONSTERS.md
 { "name" : "Aaliyah", "gender" : "female", "usage" : "given" }, // Name, gender, "given"/"family"/"city" (first/last/city name).
 // NOTE: Please refrain from adding name PR's in order to maintain kickstarter exclusivity
 ```
-###PROFESSIONS
-```C++
-"description":"Ever since you were a child you loved hunting, and you loved the challenge of hunting with a bow even more. You start with a level in archery and survival.", // In-game description
-"ident":"hunter",      // Unique ID. Must be one continuous word, use underscores if necessary
-"items":[              // ID's of items player starts with when selecting this profession
- "army_top",
- "boots_steel",
- ["survnote", "snippet-id"],
-                       // Entries can also be an array containing the item id and a snippet id.
-                       // The id must match a snippet id from the snippet category that is
-                       // used by that item type.
- "jeans"
-],
-"name":"Bow Hunter",   // In-game name displayed
-"points":2,            // Point cost of profession. Positive values cost points and negative values grant points
-"addictions" : [       // Optional list of starting addictions.
- {
-  "type": "nicotine", // ID of addiction
-  "intensity" : 10,  // Intensity of starting addiction
- }
-"skills":[             // Skills that the player starts with when selecting this profession, stacks with purchased skills
- {
-  "level":1,         // Skill level granted
-  "name":"archery"   // ID of granted skill
- },
- {
-  "level":1,
-  "name":"survival"
- }
+
+# Professions
+
+Professions are specified as JSON object with "type" member set to "profession":
+```JSON
+{
+    "type": "profession",
+    "ident": "hunter",
+    ...
+}
+```
+
+The ident member should be the unique id of the profession.
+
+The following properties (mandatory, except if noted otherwise) are supported:
+
+## "description"
+(string)
+
+The in-game description.
+
+## "name"
+(string or object with members "male" and "female")
+
+The in-game name, either one gender-neutral string, or an object with gender specific names. Example:
+```JSON
+"name": {
+    "male": "Groom",
+    "female": "Bride"
+}
+```
+
+## "points"
+(integer)
+
+Point cost of profession. Positive values cost points and negative values grant points.
+
+## "addictions"
+(optional, array of addictions)
+
+List of starting addictions. Each entry in the list should be an object with the following members:
+- "type": the string id of the addiction (see JSON_FLAGS.md),
+- "intensity": intensity (integer) of the addiction.
+
+Example:
+```JSON
+"addictions": [
+    { "type": "nicotine", "intensity": 10 }
 ]
 ```
+
+Mods can modify this list (requires `"edit-mode": "modify"`, see example) via "add:addictions" and "remove:addictions", removing requires only the addiction type. Example:
+```JSON
+{
+    "type": "profession",
+    "ident": "hunter",
+    "edit-mode": "modify",
+    "remove:addictions": [
+        "nicotine"
+    ],
+    "add:addictions": [
+        { "type": "alcohol", "intensity": 10 }
+    ]
+}
+```
+
+## "skills"
+(optional, array of skill levels)
+
+List of starting skills. Each entry in the list should be an object with the following members:
+- "name": the string id of the skill (see skills.json),
+- "level": level (integer) of the skill. This is added to the skill level that can be chosen in the character creation.
+
+Example:
+```JSON
+"skills": [
+    { "name": "archery", "level": 2 }
+]
+```
+
+Mods can modify this list (requires `"edit-mode": "modify"`, see example) via "add:skills" and "remove:skills", removing requires only the skill id. Example:
+```JSON
+{
+    "type": "profession",
+    "ident": "hunter",
+    "edit-mode": "modify",
+    "remove:skills": [
+        "archery"
+    ],
+    "add:skills": [
+        { "name": "computer", "level": 2 }
+    ]
+}
+```
+
+## "items"
+(optional, object with optional members "both", "male" and "female")
+
+Items the player starts with when selecting this profession. One can specify different items based on the gender of the character. Each lists of items should be an array of items ids, or pairs of item ids and snippet ids. Item ids may appear multiple times, in which case the item is created multiple times. The syntax for each of the three lists is identical.
+
+Example:
+```JSON
+"items": {
+    "both": [
+        "pants",
+        "rock",
+        "rock",
+        ["tshirt_text", "allyourbase"],
+        "socks"
+    ],
+    "male": [
+        "briefs"
+    ],
+    "female": [
+        "panties"
+    ]
+}
+```
+This gives the player pants, two rocks, a t-shirt with the snippet id "allyourbase" (giving it a special description), socks and (depending on the gender) briefs or panties.
+
+Mods can modify the lists of existing professions. This requires the "edit-mode" member with value "modify" (see example). Adding items to the lists can be done with via "add:both" / "add:male" / "add:female". It allows the same content (it allows adding items with snippet ids). Removing items is done via "remove:both" / "remove:male" / "remove:female", which may only contain items ids.
+
+Example for mods:
+```JSON
+{
+    "type": "profession",
+    "ident": "hunter",
+    "edit-mode": "modify",
+    "items": {
+        "remove:both": [
+            "rock",
+            "tshirt_text"
+        ],
+        "add:both": [ "2x4" ],
+        "add:female": [
+            ["tshirt_text", "allyourbase"]
+        ]
+    }
+}
+```
+This mod removes one of the rocks (the other rock is still created), the t-shirt, adds a 2x4 item and gives female characters a t-shirt with the the special snippet id.
+
+## "flags"
+(optional, array of strings)
+
+A list of flags. TODO: document those flags here.
+
+Mods can modify this via "add:flags" and "remove:flags".
+
+## "CBMs"
+(optional, array of strings)
+
+A list of CBM ids that are implanted in the character.
+
+Mods can modify this via "add:CBMs" and "remove:CBMs".
+
+## "traits"
+(optional, array of strings)
+
+A list of trait/mutation ids that are applied to the character.
+
+Mods can modify this via "add:traits" and "remove:traits".
+
 ###RECIPES
 ```C++
 "result": "javelin",         // ID of resulting item
