@@ -151,6 +151,9 @@ class morale_point : public JsonSerializer, public JsonDeserializer
         void serialize( JsonOut &json ) const override;
 
         std::string get_name() const;
+        int get_net_bonus() const;
+        int get_net_bonus( const morale_mult &mult ) const;
+        bool is_expired() const;
 
         morale_type get_type() const {
             return type;
@@ -158,18 +161,6 @@ class morale_point : public JsonSerializer, public JsonDeserializer
 
         const itype *get_item_type() const {
             return item_type;
-        }
-
-        int get_bonus() const {
-            return bonus;
-        }
-
-        int get_net_bonus( const morale_mult &mult ) const {
-            return bonus * mult;
-        }
-
-        bool is_expired() const {
-            return age >= duration || bonus == 0;
         }
 
         void add( int new_bonus, int new_max_bonus, int new_duration, int new_decay_start, bool new_cap );

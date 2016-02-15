@@ -102,6 +102,21 @@ std::string morale_point::get_name() const
     return name;
 }
 
+int morale_point::get_net_bonus() const
+{
+    return bonus * ( ( age > decay_start ) ? logarithmic_range( decay_start, duration, age ) : 1 );
+}
+
+int morale_point::get_net_bonus( const morale_mult &mult ) const
+{
+    return get_net_bonus() * mult;
+}
+
+bool morale_point::is_expired() const
+{
+    return age >= duration; // Will show zero morale bonus
+}
+
 void morale_point::add( int new_bonus, int new_max_bonus, int new_duration, int new_decay_start,
                         bool new_cap )
 {
@@ -115,12 +130,13 @@ void morale_point::add( int new_bonus, int new_max_bonus, int new_duration, int 
         decay_start = pick_time( decay_start, new_decay_start, same_sign );
     }
 
-    age = 0; // Brand new. Don't move above pick_time()'s as they use current age
-    bonus += new_bonus;
+    bonus = get_net_bonus() + new_bonus;
 
     if( abs( bonus ) > abs( new_max_bonus ) && ( new_max_bonus != 0 || new_cap ) ) {
         bonus = new_max_bonus;
     }
+
+    age = 0; // Brand new. The assignment should stay below.
 }
 
 int morale_point::pick_time( int current_time, int new_time, bool same_sign ) const
@@ -137,10 +153,4 @@ void morale_point::proceed( int ticks )
     }
 
     age += ticks;
-
-    if( is_expired() ) {
-        bonus = 0;
-    } else if( age > decay_start ) {
-        bonus *= logarithmic_range( decay_start, duration, age );
-    }
 }

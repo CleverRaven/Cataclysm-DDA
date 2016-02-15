@@ -5639,7 +5639,7 @@ void player::update_needs( int rate_multiplier )
     if( is_wearing("stillsuit") ) {
         thirst_rate -= 0.3f;
     }
-    
+
     if( has_trait("THIRST") ) {
         thirst_rate += 0.5f;
     } else if( has_trait("THIRST2") ) {
@@ -8934,10 +8934,10 @@ void player::add_morale(morale_type type, int bonus, int max_bonus,
     // Search for a matching morale entry.
     for( auto &i : morale ) {
         if( i.get_type() == type && i.get_item_type() == item_type ) {
-            const int prev_bonus = i.get_bonus();
+            const int prev_bonus = i.get_net_bonus();
 
             i.add( bonus, max_bonus, duration, decay_start, capped );
-            if ( i.get_bonus() != prev_bonus ) {
+            if ( i.get_net_bonus() != prev_bonus ) {
                 invalidate_morale_level();
             }
             return;
@@ -8956,7 +8956,7 @@ int player::has_morale( morale_type type ) const
 {
     for( auto &elem : morale ) {
         if( elem.get_type() == type ) {
-            return elem.get_bonus();
+            return elem.get_net_bonus();
         }
     }
     return 0;
@@ -8966,7 +8966,7 @@ void player::rem_morale(morale_type type, const itype* item_type)
 {
     for( size_t i = 0; i < morale.size(); ++i ) {
         if( morale[i].get_type() == type && morale[i].get_item_type() == item_type ) {
-            if ( morale[i].get_bonus() ) {
+            if( morale[i].get_net_bonus() > 0 ) {
                 invalidate_morale_level();
             }
             morale.erase( morale.begin() + i );
