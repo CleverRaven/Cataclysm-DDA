@@ -11017,7 +11017,7 @@ void game::plfire( bool burst, const tripoint &default_target )
             refresh_all();
         }
         
-        if( gun.has_flag("FIRE_TWOHAND") && ( !p.has_two_arms() || p.worn_with_flag("RESTRICT_HANDS") ) ) {
+        if( gun.has_flag("FIRE_TWOHAND") && ( !u.has_two_arms() || u.worn_with_flag("RESTRICT_HANDS") ) ) {
             add_msg(m_info, _("You need two free hands to fire your %s."));
             return;
         }
