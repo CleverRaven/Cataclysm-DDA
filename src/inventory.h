@@ -62,7 +62,6 @@ class inventory : public visitable<inventory>
         const_invslice const_slice() const;
         const std::list<item> &const_stack( int i ) const;
         size_t size() const;
-        bool is_sorted() const;
 
         std::map<char, itype_id> assigned_invlet;
 

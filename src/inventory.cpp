@@ -70,11 +70,6 @@ size_t inventory::size() const
     return items.size();
 }
 
-bool inventory::is_sorted() const
-{
-    return sorted;
-}
-
 inventory &inventory::operator+= (const inventory &rhs)
 {
     for (size_t i = 0; i < rhs.size(); i++) {
