@@ -4244,11 +4244,6 @@ item_location item::pick_reload_ammo( player &u ) const
         return rhs->ammo_remaining() < lhs->ammo_remaining();
     } );
 
-    if( ammo_list.size() == 1 ) {
-        return std::move( ammo_list[0] );
-    }
-
-    // If more than one option prompt the user for a selection
     uimenu menu;
     menu.text = string_format( _("Reload %s" ), tname().c_str() );
     menu.return_invalid = true;
