@@ -22,7 +22,7 @@ class item_location::impl
     public:
         virtual ~impl() = default;
         virtual std::string describe( const Character * ) const = 0;
-        virtual int obtain( Character &ch, int qty ) = 0;
+        virtual int obtain( Character &ch, long qty ) = 0;
         virtual void remove_item() = 0;
 
     protected:
@@ -51,7 +51,7 @@ class item_location::item_on_map : public item_location::impl
             return res;
         }
 
-        int obtain( Character &ch, int qty ) override {
+        int obtain( Character &ch, long qty ) override {
             if( !what ) {
                 return INT_MIN;
             }
@@ -122,7 +122,7 @@ class item_location::item_on_person : public item_location::impl
             }
         }
 
-        int obtain( Character &ch, int qty ) override {
+        int obtain( Character &ch, long qty ) override {
             if( !what ) {
                 return INT_MIN;
             }
@@ -212,7 +212,7 @@ class item_location::item_on_vehicle : public item_location::impl
             return res;
         }
 
-        int obtain( Character &ch, int qty ) override {
+        int obtain( Character &ch, long qty ) override {
             if( !what ) {
                 return INT_MIN;
             }
@@ -302,7 +302,7 @@ std::string item_location::describe( const Character *ch ) const
     return ptr ? ptr->describe( ch ) : std::string();
 }
 
-int item_location::obtain( Character &ch, int qty )
+int item_location::obtain( Character &ch, long qty )
 {
     return ptr ? ptr->obtain( ch, qty ) : INT_MIN;
 }

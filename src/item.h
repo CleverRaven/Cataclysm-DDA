@@ -132,7 +132,7 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
          * @param qty number of required charges to split from source
          * @return new instance containing exactly qty charges or null item if splitting failed
          */
-        item split( int qty );
+        item split( long qty );
 
         /**
          * Make a corpse of the given monster type.

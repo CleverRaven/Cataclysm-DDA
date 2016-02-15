@@ -199,7 +199,7 @@ item& item::convert( const itype_id& new_type )
     return *this;
 }
 
-item item::split( int qty )
+item item::split( long qty )
 {
     if( !count_by_charges() || qty <= 0 || qty >= charges ) {
         return item();

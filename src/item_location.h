@@ -49,7 +49,7 @@ class item_location
          *  @warning caller should restack inventory if item is to remain in it
          *  @warning all further operations using this class are invalid
          *  @return inventory position for the item */
-        int obtain( Character &ch, int qty = -1 );
+        int obtain( Character &ch, long qty = -1 );
 
         /** Removes the selected item from the game
          *  @warning all further operations using this class are invalid */
