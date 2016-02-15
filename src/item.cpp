@@ -4244,6 +4244,19 @@ item_location item::pick_reload_ammo( player &u ) const
         return rhs->ammo_remaining() < lhs->ammo_remaining();
     } );
 
+    if( ammo_list.size() == 1 ) {
+        // Suppress display of reload prompt when...
+        if( !is_gun() ) {
+            return std::move( ammo_list[ 0 ] ); // reloading tools
+
+        } else if( magazine_integral() && ammo_remaining() > 0 ) {
+            return std::move( ammo_list[ 0 ] ); // adding to partially filled integral magazines
+
+        } else if( has_flag( "RELOAD_AND_SHOOT" ) && u.has_item( *ammo_list[ 0 ] ) ) {
+            return std::move( ammo_list[ 0 ] ); // using bows etc and ammo is already in player possession
+        }
+    }
+
     uimenu menu;
     menu.text = string_format( _("Reload %s" ), tname().c_str() );
     menu.return_invalid = true;
