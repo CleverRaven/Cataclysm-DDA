@@ -555,7 +555,7 @@ classes = {
             { name = "mend", rval = nil, args = { "int" } },
             { name = "mod_pain", rval = nil, args = { "int" } },
             { name = "mod_stat", rval = nil, args = { "string", "int" } },
-            { name = "morale_level", rval = "int", args = { } },
+            { name = "get_morale_level", rval = "int", args = { } },
             { name = "mutate", rval = nil, args = { } },
             { name = "mutate_category", rval = nil, args = { "string" } },
             { name = "mutate_towards", rval = nil, args = { "string" } },

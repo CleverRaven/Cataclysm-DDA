@@ -205,7 +205,7 @@ bool player::crafting_allowed( const std::string &rec_name )
 
 bool player::crafting_allowed( const recipe &rec )
 {
-    if( has_moral_to_craft() ) { // See morale.h
+    if( !has_morale_to_craft() ) { // See morale.h
         add_msg( m_info, _( "Your morale is too low to craft..." ) );
         return false;
     }
@@ -246,9 +246,9 @@ float player::lighting_craft_speed_multiplier( const recipe &rec )
     return 0.0f; // it's dark and you could craft this if you had more skill
 }
 
-bool player::has_moral_to_craft()
+bool player::has_morale_to_craft() const
 {
-    return morale_level() < MIN_MORALE_CRAFT;
+    return get_morale_level() >= -50;
 }
 
 void player::craft()
