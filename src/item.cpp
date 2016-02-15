@@ -4213,6 +4213,10 @@ item_location item::pick_reload_ammo( player &u, bool interactive ) const
                              // items with partially loaded integral magazines require matching ammo
                              return e->can_reload( ammo.get_item()->typeId() );
                           } );
+
+        } else if( e->has_flag( "RELOAD_AND_SHOOT") ) {
+            auto tmp = u.find_ammo( *e );
+            std::move( tmp.begin(), tmp.end(), std::back_inserter( ammo_list ) );
         }
     }
 
