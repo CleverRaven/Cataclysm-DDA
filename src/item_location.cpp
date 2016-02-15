@@ -237,6 +237,8 @@ item_location::item_location( item_location && ) = default;
 item_location &item_location::operator=( item_location && ) = default;
 item_location::~item_location() = default;
 
+const item_location item_location::nowhere;
+
 item_location::item_location( const map_cursor &mc, item *which )
     : ptr( new item_on_map( mc, which ) ) {}
 
