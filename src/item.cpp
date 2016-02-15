@@ -4301,11 +4301,6 @@ item_location item::pick_reload_ammo( player &u ) const
     menu.w_y = std::max( ( TERMX / 2 ) - int( menu.w_width / 2 ) , 0 );
     menu.w_y = std::max( ( TERMY / 2 ) - int( (ammo_list.size() + 3 ) / 2 ) , 0 );
 
-    std::string lastreload = "";
-    if( uistate.lastreload.find( ammo_type() ) != uistate.lastreload.end() ) {
-        lastreload = uistate.lastreload[ ammo_type() ];
-    }
-
     for( auto i = 0; i != (int) ammo_list.size(); ++i ) {
         std::string row = names[i] + "| " + where[i] + " ";
 
@@ -4320,10 +4315,15 @@ item_location item::pick_reload_ammo( player &u ) const
             }
         }
 
-        menu.addentry( i, true, i + 'a', row );
-        if( lastreload == ammo_list[i]->typeId() ) {
-            menu.selected = i;
+        char hotkey = -1;
+        // if ammo in player possession try and select suitable invlet accounting for containers
+        if( u.has_item( *ammo_list[ i ] ) ) {
+            auto hier = u.parents( *ammo_list[ i ] );
+            if( !hier.empty() ) {
+                hotkey = hier.back()->invlet;
+            }
         }
+        menu.addentry( i, true, hotkey, row );
     }
 
     menu.query();
@@ -4332,9 +4332,7 @@ item_location item::pick_reload_ammo( player &u ) const
         return item_location();
     }
 
-    item_location sel = std::move( ammo_list[menu.ret] );
-    uistate.lastreload[ ammo_type() ] = sel->typeId();
-    return sel;
+    return std::move( ammo_list[ menu.ret ] );
 }
 
 // Helper to handle ejecting casings from guns that require them to be manually extracted.
