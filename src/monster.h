@@ -411,8 +411,6 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         tripoint goal;
         tripoint position;
         bool dead;
-        /** Attack another monster */
-        void hit_monster(monster &other);
         /** Legacy loading logic for monsters that are packing ammo. **/
         void normalize_ammo( const int old_ammo );
         /** Normal upgrades **/

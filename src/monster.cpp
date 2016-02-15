@@ -903,85 +903,90 @@ void monster::absorb_hit(body_part, damage_instance &dam) {
     }
 }
 
-void monster::melee_attack(Creature &target, bool, const matec_id&) {
+void monster::melee_attack( Creature &target, bool, const matec_id& )
+{
     mod_moves( -type->attack_cost );
-    if (type->melee_dice == 0) { // We don't attack, so just return
+    if( type->melee_dice == 0 ) {
+        // We don't attack, so just return
         return;
     }
-    add_effect( effect_hit_by_player, 3); // Make us a valid target for a few turns
 
-    if (has_flag(MF_HIT_AND_RUN)) {
-        add_effect( effect_run, 4);
+    if( this == &target ) {
+        // This happens sometimes
+        return;
     }
 
-    bool u_see_me = g->u.sees(*this);
+    if( target.is_player() ||
+        ( target.is_npc() && g->u.attitude_to( target ) == A_FRIENDLY ) ) {
+        // Make us a valid target for a few turns
+        add_effect( effect_hit_by_player, 3 );
+    }
+
+    if( has_flag( MF_HIT_AND_RUN ) ) {
+        add_effect( effect_run, 4 );
+    }
+
+    const bool u_see_me = g->u.sees( *this );
 
     body_part bp_hit;
-    //int highest_hit = 0;
 
     damage_instance damage = !is_hallucination() ? type->melee_damage : damage_instance();
     if( !is_hallucination() && type->melee_dice > 0 ) {
-        damage.add_damage( DT_BASH, dice( type->melee_dice,type->melee_sides ) );
+        damage.add_damage( DT_BASH, dice( type->melee_dice, type->melee_sides ) );
     }
 
     dealt_damage_instance dealt_dam;
     int hitspread = target.deal_melee_attack(this, hit_roll());
-    if (hitspread >= 0) {
+    if( hitspread >= 0 ) {
         target.deal_melee_hit(this, hitspread, false, damage, dealt_dam);
     }
     bp_hit = dealt_dam.bp_hit;
 
-    if (hitspread < 0) { // a miss
-        if (target.is_player()) {
-            if (u_see_me) {
-                add_msg(_("You dodge %s."), disp_name().c_str());
+    if( hitspread < 0 ) {
+        // Miss
+        if( u_see_me ) {
+            if( target.is_player() ) {
+                    add_msg( _("You dodge %s."), disp_name().c_str() );
+            } else if( target.is_npc() ) {
+                add_msg( _("%1$s dodges %2$s attack."),
+                    target.disp_name().c_str(), name().c_str() );
             } else {
-                add_msg(_("You dodge an attack from an unseen source."));
+                add_msg( _("The %1$s misses %2$s!"),
+                    name().c_str(), target.disp_name().c_str() );
             }
-        } else {
-            if (u_see_me) {
-                add_msg(_("The %1$s dodges %2$s attack."), name().c_str(),
-                            target.disp_name(true).c_str());
-            }
+        } else if( target.is_player() ) {
+            add_msg( _("You dodge an attack from an unseen source.") );
         }
-        if( !is_hallucination() ) {
-            target.on_dodge( this, get_melee() );
-        }
-    //Hallucinations always produce messages but never actually deal damage
-    } else if (is_hallucination() || dealt_dam.total_damage() > 0) {
-        if (target.is_player()) {
-            if (u_see_me) {
+    } else if( is_hallucination() || dealt_dam.total_damage() > 0 ) {
+        // Hallucinations always produce messages but never actually deal damage
+        if( u_see_me ) {
+            if( target.is_player() ) {
                 //~ 1$s is attacker name, 2$s is bodypart name in accusative.
                 sfx::play_variant_sound( "melee_attack", "monster_melee_hit", sfx::get_heard_volume(target.pos()) );
                 sfx::do_player_death_hurt( dynamic_cast<player&>( target ), 0 );
                 add_msg(m_bad, _("The %1$s hits your %2$s."), name().c_str(),
                         body_part_name_accusative(bp_hit).c_str());
-            } else {
-                //~ %s is bodypart name in accusative.
-                add_msg(m_bad, _("Something hits your %s."),
-                        body_part_name_accusative(bp_hit).c_str());
-            }
-        } else {
-            if (u_see_me) {
+            } else if( target.is_npc() ) {
                 //~ 1$s is attacker name, 2$s is target name, 3$s is bodypart name in accusative.
                 add_msg(_("The %1$s hits %2$s %3$s."), name().c_str(),
                             target.disp_name(true).c_str(),
                             body_part_name_accusative(bp_hit).c_str());
+            } else {
+                add_msg( _("The %1$s hits %2$s!"), name().c_str(), target.disp_name().c_str() );
             }
+        } else if( target.is_player() ) {
+            //~ %s is bodypart name in accusative.
+            add_msg(m_bad, _("Something hits your %s."),
+                    body_part_name_accusative(bp_hit).c_str());
         }
     } else {
-        if (target.is_player()) {
-            if (u_see_me) {
-                //~ 1$s is attacker name, 2$s is bodypart name in accusative, 3$s is armor name
-                add_msg(_("The %1$s hits your %2$s, but your %3$s protects you."), name().c_str(),
-                        body_part_name_accusative(bp_hit).c_str(), target.skin_name().c_str());
-            } else {
-                //~ 1$s is bodypart name in accusative, 2$s is armor name.
-                add_msg(_("Something hits your %1$s, but your %2$s protects you."),
-                        body_part_name_accusative(bp_hit).c_str(), target.skin_name().c_str());
-            }
-        } else {
-            if (u_see_me) {
+        // No damage dealt
+        if( u_see_me ) {
+            if( target.is_player() ) {
+                    //~ 1$s is attacker name, 2$s is bodypart name in accusative, 3$s is armor name
+                    add_msg(_("The %1$s hits your %2$s, but your %3$s protects you."), name().c_str(),
+                            body_part_name_accusative(bp_hit).c_str(), target.skin_name().c_str());
+            } else if( target.is_npc() ) {
                 //~ $1s is monster name, %2$s is that monster target name,
                 //~ $3s is target bodypart name in accusative, $4s is the monster target name,
                 //~ 5$s is target armor name.
@@ -990,65 +995,32 @@ void monster::melee_attack(Creature &target, bool, const matec_id&) {
                             body_part_name_accusative(bp_hit).c_str(),
                             target.disp_name(true).c_str(),
                             target.skin_name().c_str());
+            } else {
+                //~ $1s is monster name, %2$s is that monster target name,
+                //~ $3s is target armor name.
+                add_msg( _("The %1$s hits %2$s but is stopped by its %3$s."),
+                    name().c_str(),
+                    target.disp_name(true).c_str(),
+                    target.skin_name().c_str());
             }
+        } else if( target.is_player() ) {
+            //~ 1$s is bodypart name in accusative, 2$s is armor name.
+            add_msg(_("Something hits your %1$s, but your %2$s protects you."),
+                    body_part_name_accusative(bp_hit).c_str(), target.skin_name().c_str());
         }
     }
+
+    if( hitspread < 0 && !is_hallucination() ) {
+        target.on_dodge( this, get_melee() );
+    }
+
     target.check_dead_state();
 
-    if (is_hallucination()) {
-        if(one_in(7)) {
+    if( is_hallucination() ) {
+        if( one_in(7) ) {
             die( nullptr );
         }
         return;
-    }
-
-    // Adjust anger/morale of same-species monsters, if appropriate
-    int anger_adjust = 0, morale_adjust = 0;
-    if (type->has_anger_trigger(MTRIG_FRIEND_ATTACKED)){
-        anger_adjust += 15;
-    }
-    if (type->has_fear_trigger(MTRIG_FRIEND_ATTACKED)){
-        morale_adjust -= 15;
-    }
-    if (type->has_placate_trigger(MTRIG_FRIEND_ATTACKED)){
-        anger_adjust -= 15;
-    }
-
-    if (anger_adjust != 0 && morale_adjust != 0)
-    {
-        for (size_t i = 0; i < g->num_zombies(); i++)
-        {
-            g->zombie(i).morale += morale_adjust;
-            g->zombie(i).anger += anger_adjust;
-        }
-    }
-}
-
-void monster::hit_monster(monster &other)
-{
-    // TODO: Unify this with the function above
-    mod_moves( -type->attack_cost );
-
-    if( this == &other ) {
-        return;
-    }
-
-    damage_instance damage = !is_hallucination() ? type->melee_damage : damage_instance();
-    if( !is_hallucination() && type->melee_dice > 0 ) {
-        damage.add_damage( DT_BASH, dice( type->melee_dice,type->melee_sides ) );
-    }
-
-    dealt_damage_instance dealt_dam;
-    int hitspread = other.deal_melee_attack( this, hit_roll() );
-    if( hitspread >= 0 ) {
-        other.deal_melee_hit( this, hitspread, false, damage, dealt_dam );
-        if( g->u.sees(*this) ) {
-            add_msg(_("The %1$s hits the %2$s!"), name().c_str(), other.name().c_str());
-        }
-    } else {
-        if( g->u.sees( *this ) ) {
-            add_msg(_("The %1$s misses the %2$s!"), name().c_str(), other.name().c_str());
-        }
     }
 }
 
@@ -1199,8 +1171,8 @@ bool monster::move_effects(bool attacking)
     if (has_effect( effect_lightsnare)) {
         if(x_in_y(type->melee_dice * type->melee_sides, 12)) {
             remove_effect( effect_lightsnare);
-            g->m.spawn_item(posx(), posy(), "string_36");
-            g->m.spawn_item(posx(), posy(), "snare_trigger");
+            g->m.spawn_item(pos(), "string_36");
+            g->m.spawn_item(pos(), "snare_trigger");
             if (u_see_me) {
                 add_msg(_("The %s escapes the light snare!"), name().c_str());
             }
@@ -1211,8 +1183,8 @@ bool monster::move_effects(bool attacking)
         if (type->melee_dice * type->melee_sides >= 7) {
             if(x_in_y(type->melee_dice * type->melee_sides, 32)) {
                 remove_effect( effect_heavysnare);
-                g->m.spawn_item(posx(), posy(), "rope_6");
-                g->m.spawn_item(posx(), posy(), "snare_trigger");
+                g->m.spawn_item(pos(), "rope_6");
+                g->m.spawn_item(pos(), "snare_trigger");
                 if (u_see_me) {
                     add_msg(_("The %s escapes the heavy snare!"), name().c_str());
                 }
@@ -1224,7 +1196,7 @@ bool monster::move_effects(bool attacking)
         if (type->melee_dice * type->melee_sides >= 18) {
             if(x_in_y(type->melee_dice * type->melee_sides, 200)) {
                 remove_effect( effect_beartrap);
-                g->m.spawn_item(posx(), posy(), "beartrap");
+                g->m.spawn_item(pos(), "beartrap");
                 if (u_see_me) {
                     add_msg(_("The %s escapes the bear trap!"), name().c_str());
                 }
@@ -1233,7 +1205,6 @@ bool monster::move_effects(bool attacking)
         return false;
     }
     if (has_effect( effect_crushed)) {
-        // Strength helps in getting free, but dex also helps you worm your way out of the rubble
         if(x_in_y(type->melee_dice * type->melee_sides, 100)) {
             remove_effect( effect_crushed);
             if (u_see_me) {
@@ -1572,7 +1543,8 @@ void monster::explode()
     }
 }
 
-void monster::die(Creature* nkiller) {
+void monster::die(Creature* nkiller)
+{
     if( dead ) {
         // We are already dead, don't die again, note that monster::dead is
         // *only* set to true in this function!
@@ -1622,7 +1594,7 @@ void monster::die(Creature* nkiller) {
 
     if( !is_hallucination() ) {
         for( const auto &it : inv ) {
-            g->m.add_item_or_charges( posx(), posy(), it );
+            g->m.add_item_or_charges( pos(), it );
         }
     }
 
@@ -1987,8 +1959,38 @@ void monster::on_dodge( Creature*, int )
 void monster::on_hit( Creature *source, body_part,
                       int, dealt_projectile_attack const* const proj )
 {
-    if( !is_hallucination() ) {
-        type->sp_defense( *this, source, proj );
+    if( is_hallucination() ) {
+        return;
+    }
+
+    type->sp_defense( *this, source, proj );
+
+    // Adjust anger/morale of same-species monsters, if appropriate
+    int anger_adjust = 0;
+    int morale_adjust = 0;
+    if( type->has_anger_trigger( MTRIG_FRIEND_ATTACKED ) ) {
+        anger_adjust += 15;
+    }
+    if( type->has_fear_trigger( MTRIG_FRIEND_ATTACKED ) ) {
+        morale_adjust -= 15;
+    }
+    if( type->has_placate_trigger( MTRIG_FRIEND_ATTACKED ) ) {
+        anger_adjust -= 15;
+    }
+
+    if( anger_adjust != 0 || morale_adjust != 0 ) {
+        int light = g->light_level( posz() );
+        for( size_t i = 0; i < g->num_zombies(); i++ ) {
+            monster &critter = g->zombie( i );
+            if( !critter.type->same_species( *type ) ) {
+                continue;
+            }
+
+            if( g->m.sees( critter.pos(), pos(), light ) ) {
+                critter.morale += morale_adjust;
+                critter.anger += anger_adjust;
+            }
+        }
     }
 
     check_dead_state();
