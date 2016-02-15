@@ -2004,3 +2004,15 @@ void morale_point::serialize( JsonOut &json ) const
     json.member( "age", age );
     json.end_object();
 }
+
+void player_morale::store( JsonOut &jsout ) const
+{
+    jsout.member( "morale", points );
+}
+
+void player_morale::load( JsonObject &jsin )
+{
+    points.clear();
+    jsin.read( "morale", points );
+    invalidate_level();
+}

@@ -4,8 +4,13 @@
 #include "debug.h"
 #include "itype.h"
 #include "output.h"
+#include "bodypart.h"
+#include "player.h"
 
 #include <stdlib.h>
+#include <algorithm>
+
+const efftype_id effect_took_prozac( "took_prozac" );
 
 namespace
 {
@@ -153,4 +158,119 @@ void morale_point::proceed( int ticks )
     }
 
     age += ticks;
+}
+
+void player_morale::add( morale_type type, int bonus, int max_bonus,
+                        int duration, int decay_start,
+                        bool capped, const itype* item_type )
+{
+    // Search for a matching morale entry.
+    for( auto &m : points ) {
+        if( m.get_type() == type && m.get_item_type() == item_type ) {
+            const int prev_bonus = m.get_net_bonus();
+
+            m.add( bonus, max_bonus, duration, decay_start, capped );
+            if ( m.get_net_bonus() != prev_bonus ) {
+                invalidate_level();
+            }
+            return;
+        }
+    }
+
+    morale_point new_morale( type, item_type, bonus, duration, decay_start );
+
+    if( !new_morale.is_expired() ) {
+        points.push_back( new_morale );
+        invalidate_level();
+    }
+}
+
+int player_morale::has( morale_type type, const itype *item_type ) const
+{
+    for( auto &m : points ) {
+        if( m.get_type() == type && ( item_type == nullptr || m.get_item_type() == item_type ) ) {
+            return m.get_net_bonus();
+        }
+    }
+    return 0;
+}
+
+void player_morale::remove( morale_type type, const itype* item_type )
+{
+    for( size_t i = 0; i < points.size(); ++i ) {
+        if( points[i].get_type() == type && points[i].get_item_type() == item_type ) {
+            if( points[i].get_net_bonus() > 0 ) {
+                invalidate_level();
+            }
+            points.erase( points.begin() + i );
+            break;
+        }
+    }
+}
+
+morale_mult player_morale::get_traits_mult() const
+{
+    morale_mult ret;
+
+    if( p->has_trait( "OPTIMISTIC" ) ) {
+        ret *= morale_mults::optimistic;
+    }
+
+    if( p->has_trait( "BADTEMPER" ) ) {
+        ret *= morale_mults::badtemper;
+    }
+
+    return ret;
+}
+
+morale_mult player_morale::get_effects_mult() const
+{
+    morale_mult ret;
+
+    //TODO: Maybe add something here to cheer you up as well?
+    if( p->has_effect( effect_took_prozac ) ) {
+        ret *= morale_mults::prozac;
+    }
+
+    return ret;
+}
+
+int player_morale::get_level() const
+{
+    if ( !level_is_valid ) {
+        const morale_mult mult = get_traits_mult();
+
+        level = 0;
+        for( auto &m : points ) {
+            level += m.get_net_bonus( mult );
+        }
+
+        level *= get_effects_mult();
+        level_is_valid = true;
+    }
+
+    return level;
+}
+
+void player_morale::update( const int ticks )
+{
+    const auto proceed = [ ticks ]( morale_point &m ) { m.proceed( ticks ); };
+    const auto is_expired = []( const morale_point &m ) -> bool { return m.is_expired(); };
+
+    std::for_each( points.begin(), points.end(), proceed );
+    const auto new_end = std::remove_if( points.begin(), points.end(), is_expired );
+    points.erase( new_end, points.end() );
+    // Invalidate level to recalculate it on demand
+    invalidate_level();
+}
+
+void player_morale::clear()
+{
+    points.clear();
+    invalidate_level();
+}
+
+void player_morale::invalidate_level()
+{
+    level_is_valid = false;
 }

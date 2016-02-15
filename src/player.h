@@ -36,6 +36,7 @@ class start_location;
 using start_location_id = string_id<start_location>;
 struct it_comest;
 struct w_point;
+struct morale_mult;
 
 // This tries to represent both rating and
 // player's decision to respect said rating

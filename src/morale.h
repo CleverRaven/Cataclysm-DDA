@@ -6,6 +6,7 @@
 #include "calendar.h"
 
 struct itype;
+class player;
 
 enum morale_type : int {
     MORALE_NULL = 0,
@@ -180,6 +181,44 @@ class morale_point : public JsonSerializer, public JsonDeserializer
          * Only returns new time if same_sign is true
          */
         int pick_time( int cur_time, int new_time, bool same_sign ) const;
+};
+
+class player_morale
+{
+    public:
+        player_morale( player *p ) :
+            p(p),
+            level_is_valid( false ) {};
+        /** Returns overall morale level */
+        int get_level() const;
+        /** Adds morale to existing or creates one */
+        void add( morale_type type, int bonus, int max_bonus = 0, int duration = 60,
+                    int decay_start = 30, bool capped = false, const itype *item_type = nullptr );
+        /** Returns bonus from specified morale */
+        int has( morale_type type, const itype *item_type = nullptr ) const;
+        /** Removes specified morale */
+        void remove( morale_type type, const itype *item_type = nullptr );
+        /** Ticks down morale counters and removes them */
+        void update( const int ticks = 1 );
+        /** Clears up all morale points */
+        void clear();
+    protected:
+        /** Invalidates morale level to recalculate it on demand */
+        void invalidate_level();
+
+        void store( JsonOut &jsout ) const;
+        void load( JsonObject &jsin );
+    private:
+        player *p; // Back pointer
+        std::vector<morale_point> points;
+        // Mutability is required for lazy initialization
+        mutable int level;
+        mutable bool level_is_valid;
+
+        /** Returns current traits multiplier for morale */
+        morale_mult get_traits_mult() const;
+        /** Returns current effects multiplier for morale */
+        morale_mult get_effects_mult() const;
 };
 
 #endif
