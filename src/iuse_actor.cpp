@@ -2240,7 +2240,7 @@ std::pair<float, float> repair_item_actor::repair_chance(
     // Item   | Damage | Skill | Dex | Success | Failure
     // Hoodie |    2   |   3   |  10 |   3%    |   0%
     // Hazmat |    1   |   10  |  10 |   4%    |   0%
-    // Hazmat |    1   |   5   |  20 |   N/A   |   N/A
+    // Hazmat |    1   |   5   |  20 |   0%    |   2%
     // t-shirt|    4   |   1   |  5  |   1%    |   3%
     // Duster |    2   |   5   |  5  |   5%    |   0%
     // Duster |    2   |   2   |  10 |   2%    |   1%
