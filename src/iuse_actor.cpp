@@ -2099,7 +2099,7 @@ int repair_item_actor::repair_recipe_difficulty( const player &pl,
     const item &fix, bool training ) const
 {
     const auto &type = fix.typeId();
-    int min = 10;
+    int min = 5;
     for( const auto *cur_recipe : recipe_dict ) {
         if( type != cur_recipe->result ) {
             continue;
@@ -2118,16 +2118,6 @@ int repair_item_actor::repair_recipe_difficulty( const player &pl,
     }
 
     return min;
-}
-
-int repair_item_actor::reinforce_skill( const player &pl, const item &fix ) const
-{
-    const int recipe_difficulty = repair_recipe_difficulty( pl, fix );
-    if( recipe_difficulty + 2 > 10 ) {
-        return INT_MAX;
-    }
-
-    return recipe_difficulty + 2;
 }
 
 bool repair_item_actor::can_repair( player &pl, const item &tool, const item &fix, bool print_msg ) const
@@ -2192,15 +2182,6 @@ bool repair_item_actor::can_repair( player &pl, const item &tool, const item &fi
         return false;
     }
 
-    if( reinforce_skill( pl, fix ) > 10 ) {
-        // Don't even allow practicing on those items
-        // They are too common and practice amount scales with reinforce skill
-        if( print_msg ) {
-            pl.add_msg_if_player( m_info, _("Your %s can't be reinforced."), fix.tname().c_str() );
-        }
-        return false;
-    }
-
     return true;
 }
 
@@ -2212,7 +2193,6 @@ std::pair<float, float> repair_item_actor::repair_chance(
     const int skill = pl.get_skill_level( used_skill );
     const int recipe_difficulty = repair_recipe_difficulty( pl, fix );
     int action_difficulty = 0;
-    bool just_practice = false;
     switch( action_type ) {
         case RT_REPAIR:
             action_difficulty = fix.damage;
@@ -2222,14 +2202,8 @@ std::pair<float, float> repair_item_actor::repair_chance(
             action_difficulty = MAX_ITEM_DAMAGE;
             break;
         case RT_REINFORCE:
-            if( reinforce_skill( pl, fix ) > skill ) {
-                // No reinforcing for you!
-                just_practice = true;
-                action_difficulty = 0;
-            } else {
-                // Reinforcing is at least as hard as refitting
-                action_difficulty = std::max( MAX_ITEM_DAMAGE, recipe_difficulty );
-            }
+            // Reinforcing is at least as hard as refitting
+            action_difficulty = std::max( MAX_ITEM_DAMAGE, recipe_difficulty );
             break;
         default:
             std::make_pair( 0.0f, 0.0f );
@@ -2251,9 +2225,7 @@ std::pair<float, float> repair_item_actor::repair_chance(
 
     damage_chance = std::max( 0.0f, std::min( 1.0f, damage_chance ) );
     success_chance = std::max( 0.0f, std::min( 1.0f - damage_chance, success_chance ) );
-    if( just_practice ) {
-        success_chance = 0.0f;
-    }
+
 
     return std::make_pair( success_chance, damage_chance );
 }

@@ -692,8 +692,6 @@ class repair_item_actor : public iuse_actor
          * If `training` is true, player's lacking knowledge and skills are not used to increase difficulty.
          */
         int repair_recipe_difficulty( const player &pl, const item &fix, bool training = false ) const;
-        /** Skill required to reinforce `fix` by `pl`. */
-        int reinforce_skill( const player &pl, const item &fix ) const;
         /** Describes members of `repair_type` enum */
         static const std::string &action_description( repair_type );
 
