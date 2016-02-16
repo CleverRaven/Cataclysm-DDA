@@ -399,7 +399,8 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
     int curshot = 0;
     for( ; curshot != shots; ++curshot ) {
 
-        if( !handle_gun_damage( *gun.type, gun.ammo_data()->ammo->ammo_effects ) ) {
+
+        if( !handle_gun_damage( *gun.type, gun.ammo_data() ? gun.ammo_data()->ammo->ammo_effects : std::set<std::string>() ) ) {
             break;
         }
 
