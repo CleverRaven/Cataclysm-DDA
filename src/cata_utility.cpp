@@ -294,3 +294,24 @@ double temp_to_celsius( double fahrenheit )
 {
     return ( ( fahrenheit - 32.0 ) * 5.0 / 9.0 );
 }
+
+float multi_lerp( const std::vector<std::pair<float, float>> &points, float x )
+{
+    size_t i = 0;
+    while( i < points.size() && points[i].first <= x ) {
+        i++;
+    }
+
+    if( i == 0 ) {
+        return points.front().second;
+    } else if( i >= points.size() ) {
+        return points.back().second;
+    }
+
+    // How far are we along the way from last threshold to current one
+    const float t = ( x - points[i - 1].first ) /
+                    ( points[i].first - points[i - 1].first );
+
+    // Linear interpolation of values at relevant thresholds
+    return ( t * points[i].second ) + ( ( 1 - t ) * points[i - 1].second );
+}

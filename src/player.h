@@ -723,6 +723,10 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         /** Handles the nutrition value for a comestible **/
         int nutrition_for(const it_comest *comest) const;
+        /** Stable base metabolic rate due to traits */
+        float metabolic_rate_base() const;
+        /** Current metabolic rate due to traits, hunger, speed, etc. */
+        float metabolic_rate() const;
         /** Handles the effects of consuming an item */
         void consume_effects( item &eaten, bool rotten = false );
         /** Handles rooting effects */
@@ -850,7 +854,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Returns warmth provided by armor, etc. */
         int warmth(body_part bp) const;
         /** Returns warmth provided by an armor's bonus, like hoods, pockets, etc. */
-        int bonus_warmth(body_part bp) const;
+        int bonus_item_warmth(body_part bp) const;
         /** Returns ENC provided by armor, etc. */
         int encumb(body_part bp) const;
         /** Returns encumbrance that would apply for a body part if `new_item` was also worn */
@@ -1310,18 +1314,27 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          */
         bool is_visible_in_range( const Creature &critter, int range ) const;
 
-        /** Calculate bonus warmth from furniture, items, and mutations for sleeping player **/
-        int warmth_in_sleep();
+        /** Can the player lie down and cover self with blankets etc. **/
+        bool can_use_floor_warmth() const;
+        /**
+         * Warmth from terrain, furniture, vehicle furniture and traps.
+         * Can be negative.
+         **/
+        static int floor_bedding_warmth( const tripoint &pos );
+        /** Warmth from clothing on the floor **/
+        static int floor_item_warmth( const tripoint &pos );
+        /** Final warmth from the floor **/
+        int floor_warmth( const tripoint &pos ) const;
         /** Correction factor of the body temperature due to fire **/
-        int bodytemp_modifier_fire();
+        int bodytemp_modifier_fire() const;
         /** Correction factor of the body temperature due to traits and mutations **/
-        int bodytemp_modifier_traits( bool overheated );
-        /** Correction factor of the body temperature due to traits and mutations for sleeping player **/
-        int bodytemp_modifier_traits_sleep();
+        int bodytemp_modifier_traits( bool overheated ) const;
+        /** Correction factor of the body temperature due to traits and mutations for player lying on the floor **/
+        int bodytemp_modifier_traits_floor() const;
         /** Value of the body temperature corrected by climate control **/
-        int temp_corrected_by_climate_control( int temperature );
+        int temp_corrected_by_climate_control( int temperature ) const;
         /** Define blood loss (in percents) */
-        int blood_loss( body_part bp );
+        int blood_loss( body_part bp ) const;
 
         // Trigger and disable mutations that can be so toggled.
         void activate_mutation( const std::string &mutation );
