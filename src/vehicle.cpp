@@ -610,6 +610,8 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
             is_locked = true;
         }
     }
+
+    invalidate_mass();
 }
 /**
  * Smashes up a vehicle that has already been placed; used for generating
@@ -2975,21 +2977,11 @@ void vehicle::set_submap_moved( int x, int y )
 
 int vehicle::total_mass() const
 {
-    int m = 0;
-    for (size_t i = 0; i < parts.size(); i++)
-    {
-        if (parts[i].removed) {
-          continue;
-        }
-        m += item::find_type( part_info(i).item )->weight;
-        for( auto &j : get_items(i) ) {
-            m += j.type->weight;
-        }
-        if (part_flag(i,VPFLAG_BOARDABLE) && parts[i].has_flag(vehicle_part::passenger_flag)) {
-            m += 81500; // TODO: get real weight
-        }
+    if( mass_dirty ) {
+        refresh_mass();
     }
-    return m/1000;
+
+    return mass_cache;
 }
 
 int vehicle::total_folded_volume() const
@@ -3006,33 +2998,13 @@ int vehicle::total_folded_volume() const
 
 void vehicle::center_of_mass(int &x, int &y, bool use_precalc) const
 {
-    float xf = 0, yf = 0;
-    int m_total = total_mass();
-    for (size_t i = 0; i < parts.size(); i++)
-    {
-        if (parts[i].removed) {
-          continue;
-        }
-        int m_part = 0;
-        m_part += item::find_type( part_info(i).item )->weight;
-        for( auto &j : get_items(i) ) {
-            m_part += j.type->weight;
-        }
-        if (part_flag(i,VPFLAG_BOARDABLE) && parts[i].has_flag(vehicle_part::passenger_flag)) {
-            m_part += 81500; // TODO: get real weight
-        }
-        if (use_precalc) {
-            xf += parts[i].precalc[0].x * m_part / 1000;
-            yf += parts[i].precalc[0].y * m_part / 1000;
-        } else {
-            xf += parts[i].mount.x * m_part / 1000;
-            yf += parts[i].mount.y * m_part / 1000;
-        }
+    if( use_precalc ? mass_center_precalc_dirty : mass_center_no_precalc_dirty ) {
+        calc_mass_center( use_precalc );
     }
-    xf /= m_total;
-    yf /= m_total;
-    x = round(xf);
-    y = round(yf);
+
+    const auto &pt = use_precalc ? mass_center_precalc : mass_center_no_precalc;
+    x = pt.x;
+    y = pt.y;
 }
 
 point vehicle::pivot_displacement() const
@@ -3113,19 +3085,22 @@ int vehicle::refill (const itype_id & ftype, int amount)
             {
                 parts[p].amount += amount;
                 return 0;
-            }
-            else
-            {
+            } else {
                 parts[p].amount += need;
                 amount -= need;
             }
         }
     }
+
+    if( ftype != fuel_type_battery && ftype != fuel_type_plasma ) {
+        invalidate_mass();
+    }
+
     return amount;
 }
 
 int vehicle::drain (const itype_id & ftype, int amount) {
-    if(ftype == "battery") {
+    if( ftype == fuel_type_battery ) {
         // Batteries get special handling to take advantage of jumper
         // cables -- discharge_battery knows how to recurse properly
         // (including taking cable power loss into account).
@@ -3151,6 +3126,10 @@ int vehicle::drain (const itype_id & ftype, int amount) {
                 tank.amount = 0;
             }
         }
+    }
+
+    if( ftype != fuel_type_battery && ftype != fuel_type_plasma ) {
+        invalidate_mass();
     }
 
     return drained;
@@ -4988,8 +4967,7 @@ bool vehicle::add_item (int part, item itm)
     for (auto &i : parts[part].items) {
         cur_volume += i.volume();
         if( tryaddcharges && i.merge_charges( itm ) ) {
-            // CoM might have changed
-            pivot_dirty = true;
+            invalidate_mass();
             return true;
         }
     }
@@ -5007,8 +4985,7 @@ bool vehicle::add_item_at(int part, std::list<item>::iterator index, item itm)
         active_items.add( new_pos, parts[part].mount );
     }
 
-    // CoM might have changed
-    pivot_dirty = true;
+    invalidate_mass();
     return true;
 }
 
@@ -5046,9 +5023,7 @@ std::list<item>::iterator vehicle::remove_item( int part, std::list<item>::itera
         active_items.remove( it, parts[part].mount );
     }
 
-    // CoM might have changed
-    pivot_dirty = true;
-
+    invalidate_mass();
     return veh_items.erase(it);
 }
 
@@ -5302,7 +5277,7 @@ void vehicle::refresh()
     precalc_mounts( 0, pivot_rotation[0], pivot_anchor[0] );
     check_environmental_effects = true;
     insides_dirty = true;
-    pivot_dirty = true;
+    invalidate_mass();
 }
 
 const point &vehicle::pivot_point() const {
@@ -6296,7 +6271,7 @@ bool vehicle::fire_turret( int p, bool manual )
         }
         return false;
     }
-    long charges = std::max( 1, turret_data.gun.burst_size() );
+    long charges = std::max( 1, gun.burst_size() ) * gun.ammo_required();
     if( gun.is_charger_gun() ) {
         if( one_in(100) ) {
             charges = rng( 5, 8 ); // kaboom
@@ -6931,4 +6906,76 @@ item vehicle_part::properties_to_item() const
 const vpart_info &vehicle_part::info() const
 {
     return id.obj();
+}
+
+void vehicle::invalidate_mass()
+{
+    mass_dirty = true;
+    mass_center_precalc_dirty = true;
+    mass_center_no_precalc_dirty = true;
+    // Anything that affects mass will also affect the pivot
+    pivot_dirty = true;
+}
+
+void vehicle::refresh_mass() const
+{
+    calc_mass_center( true );
+}
+
+void vehicle::calc_mass_center( bool use_precalc ) const
+{
+    float xf = 0.0f;
+    float yf = 0.0f;
+    int m_total = 0;
+    for( size_t i = 0; i < parts.size(); i++ )
+    {
+        if( parts[i].removed ) {
+            continue;
+        }
+
+        int m_part = 0;
+        const auto &pi = part_info( i );
+        m_part += item::find_type( pi.item )->weight;
+        for( const auto &j : get_items( i ) ) {
+            //m_part += j.type->weight;
+            // Change back to the above if it runs too slowly
+            m_part += j.weight();
+        }
+        
+        if( pi.has_flag( VPFLAG_BOARDABLE ) && parts[i].has_flag( vehicle_part::passenger_flag ) ) {
+            const player *p = get_passenger( i );
+            // Sometimes flag is wrongly set, don't crash!
+            m_part += p != nullptr ? p->get_weight() : 0;
+        }
+
+        if( pi.has_flag( VPFLAG_FUEL_TANK ) && parts[i].amount > 0 &&
+            pi.fuel_type != fuel_type_battery && pi.fuel_type != fuel_type_plasma ) {
+            m_part += item::find_type( pi.fuel_type )->weight * parts[i].amount;
+        }
+
+        if( use_precalc ) {
+            xf += parts[i].precalc[0].x * m_part / 1000.0f;
+            yf += parts[i].precalc[0].y * m_part / 1000.0f;
+        } else {
+            xf += parts[i].mount.x * m_part / 1000.0f;
+            yf += parts[i].mount.y * m_part / 1000.0f;
+        }
+
+        m_total += m_part;
+    }
+
+    mass_cache = m_total / 1000;
+    mass_dirty = false;
+
+    xf /= m_total;
+    yf /= m_total;
+    if( use_precalc ) {
+        mass_center_precalc.x = round( xf );
+        mass_center_precalc.y = round( yf );
+        mass_center_precalc_dirty = false;
+    } else {
+        mass_center_no_precalc.x = round( xf );
+        mass_center_no_precalc.y = round( yf );
+        mass_center_no_precalc_dirty = false;
+    }
 }

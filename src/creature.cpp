@@ -535,6 +535,10 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
     if( proj_effects.count("NOGIB") > 0 ) {
         impact.add_effect("NOGIB");
     }
+    if( damage_mult > 0.0f && proj_effects.count( "NO_DAMAGE_SCALING" ) ) {
+        damage_mult = 1.0f;
+    }
+
     impact.mult_damage(damage_mult);
 
     dealt_dam = deal_damage(source, bp_hit, impact);
@@ -612,14 +616,16 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
                 add_msg( source->is_player() ? _("You miss!") : _("The shot misses!") );
             }
         } else if( dealt_dam.total_damage() == 0 ) {
-            //~ 1$ - monster name, 2$ - monster's bodypart
-            add_msg(_("The shot reflects off %1$s %2$s!"), disp_name(true).c_str(),
-                    skin_name().c_str());
+            //~ 1$ - monster name, 2$ - character's bodypart or monster's skin/armor
+            add_msg( _("The shot reflects off %1$s %2$s!"), disp_name(true).c_str(),
+                     is_monster() ?
+                        skin_name().c_str() :
+                        body_part_name_accusative(bp_hit).c_str() );
         } else if( is_player() ) {
                 //monster hits player ranged
                 //~ Hit message. 1$s is bodypart name in accusative. 2$d is damage value.
                 add_msg_if_player(m_bad, _( "You were hit in the %1$s for %2$d damage." ),
-                                  body_part_name_accusative(bp_hit).c_str( ),
+                                  body_part_name_accusative(bp_hit).c_str(),
                                   dealt_dam.total_damage());
         } else if( source != nullptr ) {
             if( source->is_player() ) {
@@ -1352,6 +1358,24 @@ int Creature::weight_capacity() const
     return base_carry;
 }
 
+int Creature::get_weight() const
+{
+    switch( get_size() ) {
+        case MS_TINY:
+            return 1000;
+        case MS_SMALL:
+            return 40750;
+        case MS_MEDIUM:
+            return 81500;
+        case MS_LARGE:
+            return 120000;
+        case MS_HUGE:
+            return 200000;
+    }
+
+    return 0;
+}
+
 /*
  * Drawing-related functions
  */
@@ -1373,25 +1397,9 @@ void Creature::draw( WINDOW *w, const tripoint &p, bool inverted ) const
     }
 }
 
-nc_color Creature::basic_symbol_color() const
-{
-    return c_ltred;
-}
-
-nc_color Creature::symbol_color() const
-{
-    return basic_symbol_color();
-}
-
 bool Creature::is_symbol_highlighted() const
 {
     return false;
-}
-
-const std::string &Creature::symbol() const
-{
-    static const std::string default_symbol("?");
-    return default_symbol;
 }
 
 body_part Creature::select_body_part(Creature *source, int hit_roll) const

@@ -82,7 +82,7 @@
     "casing": "9mm_casing",
     "damage": 26,
     "range": 16,
-    "pierce": 12,
+    "pierce": 6,
     "dispersion": 120,
     "recoil": 225,
     "effects": [ "COOKOFF" ]
@@ -170,7 +170,7 @@
     "casing": "9mm_casing",
     "damage": 25,
     "range": 16,
-    "pierce": 11,
+    "pierce": 6,
     "dispersion": 130,
     "recoil": 225,
     "effects": [ "COOKOFF", "RECYCLED" ]

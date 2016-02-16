@@ -4,7 +4,9 @@
     "id" : "ammo_pistol_common",
     "//" : "Pistol ammo commonly owned by citizens and found in many locations.",
     "items": [
-      [ "45_jhp", 30 ],
+      [ "38_fmj", 25 ],
+      [ "38_special", 25 ],
+      [ "45_jhp", 40 ],
       [ "9mm", 100 ]
     ]
   },
@@ -13,6 +15,9 @@
     "id" : "ammo_pistol_rare",
     "//" : "Less common pistol ammmo including that only used by police/paramilitary forces.",
     "items": [
+       [ "38_super", 20 ],
+       [ "44magnum", 30],
+       [ "44fmj", 10 ],
        [ "45_acp", 50 ],
        [ "45_super", 30 ],
        [ "57mm", 50 ],
@@ -45,6 +50,11 @@
     "id" : "ammo_pistol_reloaded",
     "//" : "Reloaded pistol ammmo balanced according to rarity.",
     "items": [
+       [ "reloaded_38_fmj", 30 ],
+       [ "reloaded_38_special", 80 ],
+       [ "reloaded_38_super", 40 ],
+       [ "reloaded_44magnum", 60],
+       [ "reloaded_44fmj", 30 ],
        [ "reloaded_45_acp", 80 ],
        [ "reloaded_45_jhp", 100 ],
        [ "reloaded_45_super", 40 ],
@@ -104,10 +114,11 @@
     "id" : "ammo_rifle_common",
     "//" : "Rifle ammmo commonly owned by citizens and found in many locations.",
     "items": [
-      [ "223", 50 ],
+      [ "223", 60 ],
       [ "22_cb", 30 ],
       [ "22_lr", 100 ],
-      [ "22_ratshot", 30 ]
+      [ "22_ratshot", 30 ],
+      [ "308", 25 ]
     ]
   },
   {
@@ -117,6 +128,8 @@
     "items": [
       [ "22_fmj", 50 ],
       [ "556", 100 ],
+      [ "762_51", 50 ],
+      [ "762_54R", 50 ],
       [ "762_m43", 50 ],
       [ "762_m87", 20 ]
     ]
@@ -126,7 +139,8 @@
     "id" : "ammo_rifle_milspec",
     "//" : "Military specification rifle ammmo found at military sites.",
     "items": [
-      [ "556_incendiary", 100 ]
+      [ "556_incendiary", 100 ],
+      [ "762_51_incendiary", 50 ]
     ]
   },
   {
@@ -143,9 +157,13 @@
     "items": [
       [ "reloaded_223", 60 ],
       [ "reloaded_22_fmj", 20 ],
-      [ "reloaded_22_lr", 100 ],
+      [ "reloaded_22_lr", 70 ],
+      [ "reloaded_308", 40 ],
       [ "reloaded_556", 10 ],
-      [ "reloaded_556_incendiary", 5 ]
+      [ "reloaded_556_incendiary", 5 ],
+      [ "reloaded_762_51", 10 ],
+      [ "reloaded_762_51_incendiary", 5 ],
+      [ "reloaded_762_54R", 40 ]
     ]
   },
   {

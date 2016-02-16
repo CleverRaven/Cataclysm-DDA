@@ -272,11 +272,11 @@ void vpart_info::check()
         if( part.has_flag( VPFLAG_FUEL_TANK ) && !item::type_is_defined( part.fuel_type ) ) {
             debugmsg( "vehicle part %s is a fuel tank, but has invalid fuel type %s (not a valid item id)", part.id.c_str(), part.fuel_type.c_str() );
         }
-        // For now, ignore invalid item ids, later add a check and assume here they are valid.
-        if( part.has_flag( "TURRET" ) && item::type_is_defined( part.item ) ) {
-            if( !item::find_type( part.item )->gun ) {
-                debugmsg( "vehicle part %s has the TURRET flag, but is not made from a gun item", part.id.c_str(), part.item.c_str() );
-            }
+        if( !item::type_is_defined( part.item ) ) {
+            debugmsg( "vehicle part %s uses undefined item %s", part.id.c_str(), part.item.c_str() );
+        }
+        if( part.has_flag( "TURRET" ) && !item::find_type( part.item )->gun ) {
+            debugmsg( "vehicle part %s has the TURRET flag, but is not made from a gun item", part.id.c_str(), part.item.c_str() );
         }
     }
 }

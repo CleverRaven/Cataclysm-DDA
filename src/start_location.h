@@ -14,6 +14,8 @@ class player;
 class JsonObject;
 struct tripoint;
 class start_location;
+template<typename T>
+class generic_factory;
 
 class start_location
 {
@@ -55,10 +57,14 @@ class start_location
 
         void handle_heli_crash( player &u ) const;
     private:
+        friend class generic_factory<start_location>;
         string_id<start_location> id;
+        bool was_loaded = false;
         std::string _name;
         std::string _target;
         std::set<std::string> _flags;
+
+        void load( JsonObject &jo );
 
         void prepare_map( tinymap &m ) const;
 };

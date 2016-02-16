@@ -744,6 +744,7 @@ void player::deserialize(JsonIn &jsin)
 
     morale.clear();
     data.read( "morale", morale );
+    invalidate_morale_level();
 
     int tmpactive_mission;
     if( data.read( "active_mission", tmpactive_mission ) && tmpactive_mission != -1 ) {

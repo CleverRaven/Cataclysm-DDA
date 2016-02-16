@@ -1,0 +1,47 @@
+[
+  {
+    "id": "gun_crossbow",
+    "type": "GUNMOD",
+    "name": "rail-mounted crossbow",
+    "description": "A kit to attach a pair of crossbow arms and a firing rail to the barrel of a long firearm.  It allows crossbow bolts to be fired.",
+    "weight": 1450,
+    "volume": 2,
+    "price": 50000,
+    "material": [ "steel", "wood" ],
+    "symbol": ":",
+    "color": "light_red",
+    "location": "rail",
+    "mod_targets": [ "shotgun", "rifle", "crossbow" ],
+    "min_skills": [ [ "gun", 2 ] ],
+    "gun_data": {
+        "skill": "archery",
+        "ammo": "bolt",
+        "clip_size": 1,
+        "range": 8,
+        "dispersion": 180,
+        "aim_speed": -1,
+        "sight_dispersion": -1,
+        "durability": 10,
+        "reload": 100
+    },
+    "dispersion_modifier": 60,
+    "flags": [ "STR_RELOAD" ]
+  },
+  {
+    "id": "rail_laser_sight",
+    "type": "GUNMOD",
+    "name": "rail laser sight",
+    "description": "A small visible-light laser that mounts on a firearm's accessory rail to enhance ease and speed of target acquisition.  Aside from increased weight, there are no drawbacks.",
+    "weight": 120,
+    "volume": 1,
+    "integral_volume": 0,
+    "price": 12000,
+    "material": [ "plastic", "steel" ],
+    "symbol": ":",
+    "color": "dark_gray",
+    "location": "rail",
+    "mod_targets": [ "smg", "rifle", "pistol", "shotgun", "crossbow", "launcher" ],
+    "aim_speed": 2,
+    "sight_dispersion": 100
+  }
+]

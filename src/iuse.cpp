@@ -996,8 +996,9 @@ int iuse::thorazine(player *p, item *it, bool, const tripoint& )
 
 int iuse::prozac(player *p, item *it, bool, const tripoint& )
 {
-    if (!p->has_effect( effect_took_prozac) && p->morale_level() < 0) {
+    if( !p->has_effect( effect_took_prozac) && p->get_morale_level() < 0 ) {
         p->add_effect( effect_took_prozac, 7200);
+        p->invalidate_morale_level();
     } else {
         p->stim += 3;
     }
@@ -4254,7 +4255,7 @@ int iuse::c4(player *p, item *it, bool, const tripoint& )
 
 int iuse::acidbomb_act(player *p, item *it, bool, const tripoint &pos)
 {
-    if (!p->has_item(it)) {
+    if( !p->has_item( *it ) ) {
         tripoint tmp = pos;
         int &x = tmp.x;
         int &y = tmp.y;
@@ -4327,7 +4328,7 @@ int iuse::arrow_flamable(player *p, item *it, bool, const tripoint& )
 int iuse::molotov_lit(player *p, item *it, bool t, const tripoint &pos)
 {
     int age = int(calendar::turn) - it->bday;
-    if (p->has_item(it)) {
+    if( p->has_item( *it ) ) {
         it->charges += 1;
         if (age >= 5) { // More than 5 turns old = chance of going out
             if (rng(1, 50) < age) {
@@ -4791,7 +4792,7 @@ void iuse::play_music( player * const p, const tripoint &source, int const volum
 int iuse::mp3_on(player *p, item *it, bool t, const tripoint &pos)
 {
     if (t) { // Normal use
-        if (p->has_item(it)) {
+        if( p->has_item( *it ) ) {
             // mp3 player in inventory, we can listen
             play_music( p, pos, 0, 50 );
         }
@@ -7367,14 +7368,14 @@ int iuse::ehandcuffs(player *p, item *it, bool t, const tripoint &pos)
             it->item_tags.erase("NO_UNWIELD");
             it->active = false;
 
-            if (p->has_item(it) && p->weapon.type->id == "e_handcuffs") {
+            if( p->has_item( *it ) && p->weapon.type->id == "e_handcuffs" ) {
                 add_msg(m_good, _("%s on your hands opened!"), it->tname().c_str());
             }
 
             return it->type->charges_to_use();
         }
 
-        if (p->has_item(it)) {
+        if( p->has_item( *it ) ) {
             if (p->has_active_bionic("bio_shock") && p->power_level >= 2 && one_in(5)) {
                 p->charge_power(-2);
 
@@ -7396,7 +7397,7 @@ int iuse::ehandcuffs(player *p, item *it, bool t, const tripoint &pos)
 
         if ((it->charges > it->type->maximum_charges() - 1000) && (x != pos.x || y != pos.y)) {
 
-            if (p->has_item(it) && p->weapon.type->id == "e_handcuffs") {
+            if( p->has_item( *it ) && p->weapon.type->id == "e_handcuffs") {
 
                 if( p->is_elec_immune() ) {
                     if( one_in( 10 ) ) {
@@ -8117,7 +8118,7 @@ int iuse::multicooker(player *p, item *it, bool t, const tripoint &pos)
 
         if (mc_upgrade == choice) {
 
-            if (p->morale_level() < MIN_MORALE_CRAFT) { // See morale.h
+            if( !p->has_morale_to_craft() ) { // See morale.h
                 add_msg(m_info, _("Your morale is too low to craft..."));
                 return false;
             }
@@ -8243,7 +8244,7 @@ int iuse::cable_attach(player *p, item *it, bool, const tripoint& )
             auto source_veh = g->m.veh_at( source_local );
 
             if(source_veh == target_veh) {
-                if (p != nullptr && p->has_item(it)) {
+                if( p != nullptr && p->has_item( *it ) ) {
                     p->add_msg_if_player(m_warning, _("The %s already has access to its own electric system!"),
                                         source_veh->name.c_str());
                 }
@@ -8254,7 +8255,7 @@ int iuse::cable_attach(player *p, item *it, bool, const tripoint& )
             tripoint target_local = vpos;
 
             if(source_veh == nullptr) {
-                if( p != nullptr && p->has_item(it) ) {
+                if( p != nullptr && p->has_item( *it ) ) {
                     p->add_msg_if_player(m_bad, _("You notice the cable has come loose!"));
                 }
                 it->reset_cable(p);
@@ -8277,7 +8278,7 @@ int iuse::cable_attach(player *p, item *it, bool, const tripoint& )
             target_part.target.second = source_veh->real_global_pos3();
             target_veh->install_part(vcoords.x, vcoords.y, target_part);
 
-            if( p != nullptr && p->has_item(it) ) {
+            if( p != nullptr && p->has_item( *it ) ) {
                 p->add_msg_if_player(m_good, _("You link up the electric systems of the %1$s and the %2$s."),
                                      source_veh->name.c_str(), target_veh->name.c_str());
             }

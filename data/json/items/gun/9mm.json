@@ -270,7 +270,7 @@
     "reload": 100,
     "loudness" : 150,
     "burst": 3,
-    "valid_mod_locations": [[ "muzzle", 1 ],[ "stock", 1 ]],
+    "valid_mod_locations": [[ "accessories", 2 ],[ "muzzle", 1 ],[ "stock", 1 ]],
     "magazines" : [
         [ "9mm", [ "stenmag", "survivor9mm_mag" ] ]
     ],

@@ -111,7 +111,13 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
         item &operator=( const item & ) = default;
         virtual ~item() = default;
 
-        item( const std::string new_type, int turn, bool rand = true );
+        item( const itype_id& id, int turn, int qty = -1 );
+        item( const itype *type, int turn, int qty = -1 );
+
+        struct default_charges_tag {};
+        item( const itype_id& id, int turn, default_charges_tag );
+        item( const itype *type, int turn, default_charges_tag );
+
         item( JsonObject &jo );
 
         /**
@@ -206,6 +212,14 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
 
  // Returns the category of this item.
  const item_category &get_category() const;
+
+    /**
+     * Whether a tool or gun is potentially reloadable (optionally considering a specific ammo)
+     * @param ammo if set also check item currently compatible with this specific ammo or magazine
+     * @note items currently loaded with a detachable magazine are considered reloadable
+     * @note items with integral magazines are reloadable if free capacity permits (+/- ammo matches)
+     */
+    bool can_reload( const itype_id& ammo = std::string() ) const;
 
     /**
      * Select suitable ammo with which to reload the item
@@ -669,14 +683,6 @@ public:
  itype_id typeId() const;
  const itype* type;
  std::vector<item> contents;
-
-        /** Check if this item contains one or more items matching filter */
-        bool contains( const std::function<bool(const item&)>& filter ) const;
-
-        /** Check if this item contains the specified item */
-        bool contains( const item* it ) const {
-            return contains( [&it]( const item& e ){ return &e == it; } );
-        }
 
         /** Checks if item is a holster and currently capable of storing obj
          *  @param ignore only check item is compatible and ignore any existing contents */
@@ -1304,7 +1310,7 @@ public:
         light_emission light = nolight;
 public:
      char invlet = 0;      // Inventory letter
-     long charges = -1;
+     long charges;
      bool active = false; // If true, it has active effects to be processed
 
     /**

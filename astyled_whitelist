@@ -32,7 +32,6 @@ src/monmove.cpp
 src/morale.cpp
 src/mtype.cpp
 src/name.cpp
-src/nonplayer.cpp
 src/pathfinding.cpp
 src/posix_time.cpp
 src/profession.cpp
@@ -95,6 +94,7 @@ src/int_id.h
 src/item_action.h
 src/item_factory.h
 src/item_location.h
+src/item_location.cpp
 src/item_stack.h
 src/iuse_software.h
 src/iuse_software_kitten.h
@@ -120,7 +120,6 @@ src/mongroup.h
 src/morale.h
 src/mutation.h
 src/name.h
-src/nonplayer.h
 src/omdata.h
 src/options.h
 src/overmap_types.h

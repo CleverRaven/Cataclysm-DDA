@@ -155,12 +155,7 @@ class inventory : public visitable<inventory>
         bool has_tools (itype_id it, int quantity) const;
         bool has_components (itype_id it, int quantity) const;
         bool has_charges(itype_id it, long quantity) const;
-        /**
-         * Check whether a specific item is in this inventory.
-         * The item is compared by pointer.
-         * @param it A pointer to the item to be looked for.
-         */
-        bool has_item(const item *it) const;
+
         bool has_items_with_quality(std::string id, int level, int amount) const;
 
         // Returns max required quality in player's items, INT_MIN if player has no such items

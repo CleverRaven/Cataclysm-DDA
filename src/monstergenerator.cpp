@@ -260,10 +260,8 @@ void MonsterGenerator::init_attack()
     attack_map["FEAR_PARALYZE"] = &mattack::fear_paralyze;
     attack_map["PHOTOGRAPH"] = &mattack::photograph;
     attack_map["TAZER"] = &mattack::tazer;
-    attack_map["SMG"] = &mattack::smg;
     attack_map["LASER"] = &mattack::laser;
     attack_map["RIFLE_TUR"] = &mattack::rifle_tur;
-    attack_map["BMG_TUR"] = &mattack::bmg_tur;
     attack_map["SEARCHLIGHT"] = &mattack::searchlight;
     attack_map["FLAMETHROWER"] = &mattack::flamethrower;
     attack_map["COPBOT"] = &mattack::copbot;
@@ -298,7 +296,7 @@ void MonsterGenerator::init_defense()
 {
     defense_map["NONE"] = &mdefense::none; //No special attack-back
     defense_map["ZAPBACK"] = &mdefense::zapback; //Shock attacker on hit
-    defense_map["ACIDSPLASH"] = &mdefense::acidsplash; //Shock attacker on hit
+    defense_map["ACIDSPLASH"] = &mdefense::acidsplash; //Splash acid on the attacker
 }
 
 void MonsterGenerator::init_trigger()
@@ -623,6 +621,8 @@ void mtype::add_special_attack( JsonObject obj )
         special_attacks[type] = load_actor<leap_actor>( obj, cooldown );
     } else if( type == "bite" ) {
         special_attacks[type] = load_actor<bite_actor>( obj, cooldown );
+    } else if( type == "gun" ) {
+        special_attacks[type] = load_actor<gun_actor>( obj, cooldown );
     } else {
         obj.throw_error( "unknown monster attack", "type" );
         return;

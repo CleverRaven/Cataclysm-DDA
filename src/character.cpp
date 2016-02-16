@@ -1,6 +1,8 @@
 #include "character.h"
 #include "game.h"
 #include "map.h"
+#include "map_selector.h"
+#include "vehicle_selector.h"
 #include "debug.h"
 #include "mission.h"
 #include "translations.h"
@@ -606,13 +608,13 @@ item& Character::i_at(int position)
 
 int Character::get_item_position( const item *it ) const
 {
-    if( weapon.contains( it ) ) {
+    if( weapon.has_item( *it ) ) {
         return -1;
     }
 
     int p = 0;
     for( const auto &e : worn ) {
-        if( e.contains( it ) ) {
+        if( e.has_item( *it ) ) {
             return worn_position_to_index( p );
         }
         p++;
@@ -718,6 +720,70 @@ std::vector<const item *> Character::get_ammo( const ammotype &at ) const
     return items_with( [at]( const item & it ) {
         return it.is_ammo() && it.ammo_type() == at;
     } );
+}
+
+template <typename T, typename Output>
+void find_ammo_helper( T& src, const item& obj, bool empty, Output out, bool nested ) {
+    if( obj.magazine_integral() ) {
+        // find suitable ammo excluding that already loaded in magazines
+        ammotype ammo = obj.ammo_type();
+
+        src.visit_items( [&src,&nested,&out,ammo]( item *node ) {
+            if( node->is_magazine() || node->is_gun() || node->is_tool() ) {
+                // guns/tools never contain usable ammo so most efficient to skip them now
+                return VisitResponse::SKIP;
+            }
+            if( !node->made_of( SOLID ) ) {
+                // some liquids are ammo but we can't reload with them unless within a container
+                return VisitResponse::SKIP;
+            }
+            if( node->is_ammo_container() ) {
+                if( node->contents[0].ammo_type() == ammo ) {
+                    out = item_location( src, node );
+                }
+                return VisitResponse::SKIP;
+            }
+            if( node->is_ammo() && node->ammo_type() == ammo ) {
+                out = item_location( src, node );
+            }
+            return nested ? VisitResponse::NEXT : VisitResponse::SKIP;
+        } );
+
+    } else {
+        // find compatible magazines excluding those already loaded in tools/guns
+        const auto mags = obj.magazine_compatible();
+
+        src.visit_items( [&src,&nested,&out,mags,empty]( item *node ) {
+            if( node->is_gun() || node->is_tool() ) {
+                return VisitResponse::SKIP;
+            }
+            if( node->is_magazine() ) {
+                if ( mags.count( node->typeId() ) && ( node->ammo_remaining() || empty ) ) {
+                    out = item_location( src, node );
+                }
+                return VisitResponse::SKIP;
+            }
+            return nested ? VisitResponse::NEXT : VisitResponse::SKIP;
+        } );
+    }
+}
+
+std::vector<item_location> Character::find_ammo( const item& obj, bool empty, int radius )
+{
+    std::vector<item_location> res;
+
+    find_ammo_helper( *this, obj, empty, std::back_inserter( res ), true );
+
+    if( radius >= 0 ) {
+        for( auto& cursor : map_selector( pos(), radius ) ) {
+            find_ammo_helper( cursor, obj, empty, std::back_inserter( res ), false );
+        }
+        for( auto& cursor : vehicle_selector( pos(), radius ) ) {
+            find_ammo_helper( cursor, obj, empty, std::back_inserter( res ), false );
+        }
+    }
+
+    return res;
 }
 
 bool Character::can_reload()
@@ -1514,3 +1580,57 @@ std::string Character::get_name() const
 {
     return name;
 }
+
+nc_color Character::symbol_color() const
+{
+    nc_color basic = basic_symbol_color();
+    const auto &fields = g->m.field_at( pos() );
+    bool has_fire = false;
+    bool has_acid = false;
+    bool has_elec = false;
+    bool has_fume = false;
+    for( const auto &field : fields ) {
+        switch( field.first ) {
+            case fd_incendiary:
+            case fd_fire:
+                has_fire = true;
+                break;
+            case fd_electricity:
+                has_elec = true;
+                break;
+            case fd_acid:
+                has_acid = true;
+                break;
+            case fd_relax_gas:
+            case fd_fungal_haze:
+            case fd_fungicidal_gas:
+            case fd_toxic_gas:
+            case fd_tear_gas:
+            case fd_nuke_gas:
+            case fd_smoke:
+                has_fume = true;
+                break;
+            default:
+                continue;
+        }
+    }
+
+    // Priority: electricity, fire, acid, gases
+    // Can't just return in the switch, because field order is alphabetic
+    if( has_elec ) {
+        return hilite( basic );
+    } else if( has_fire ) {
+        return red_background( basic );
+    } else if( has_acid ) {
+        return green_background( basic );
+    } else if( has_fume ) {
+        return white_background( basic );
+    }
+
+    if( in_sleep_state() ) {
+        return hilite( basic );
+    }
+
+    return basic;
+}
+
