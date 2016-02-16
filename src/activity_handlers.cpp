@@ -1387,10 +1387,10 @@ enum repeat_type : int {
     REPEAT_CANCEL       // Stop repeating
 };
 
-repeat_type repeat_menu( repeat_type last_selection )
+repeat_type repeat_menu( const std::string &title, repeat_type last_selection )
 {
     uimenu rmenu;
-    rmenu.text = _("Repeat repairing?");
+    rmenu.text = title;
     rmenu.addentry( REPEAT_ONCE, true, '1', _("Repeat once") );
     rmenu.addentry( REPEAT_FOREVER, true, '2', _("Repeat as long as you can") );
     rmenu.addentry( REPEAT_FULL, true, '3', _("Repeat until fully repaired, but don't reinforce") );
@@ -1529,7 +1529,17 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
 
     if( need_input ) {
         g->draw();
-        repeat_type answer = repeat_menu( repeat );
+        auto action_type = actor->default_action( fix );
+        const auto chance = actor->repair_chance( *p, fix, action_type );
+        if( chance.first <= 0.0f ) {
+            action_type = repair_item_actor::RT_PRACTICE;
+        }
+
+        const std::string title = string_format(
+            _("%s\nSuccess chance %.1f\nDamage chance %.1f"),
+            repair_item_actor::action_description( action_type ).c_str(),
+            100.0f * chance.first, 100.0f * chance.second );
+        repeat_type answer = repeat_menu( title, repeat );
         if( answer == REPEAT_CANCEL ) {
             act->type = ACT_NULL;
             return;

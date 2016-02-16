@@ -2876,7 +2876,7 @@ long item::num_charges()
     return 0;
 }
 
-int item::bash_resist(bool /*to_self*/) const
+int item::bash_resist( bool to_self ) const
 {
     float resist = 0;
     float l_padding = 0;
@@ -2905,7 +2905,9 @@ int item::bash_resist(bool /*to_self*/) const
     // Armor gets an additional multiplier.
     if (is_armor()) {
         // base resistance
-        eff_thickness = ((get_thickness() - damage <= 0) ? 1 : (get_thickness() - damage));
+        // Don't give reinforced items +armor, just more resistance to ripping
+        const int eff_damage = std::max( to_self ? -1 : 0, damage );
+        eff_thickness = ((get_thickness() - eff_damage <= 0) ? 1 : (get_thickness() - eff_damage));
     }
 
     for (auto mat : mat_types) {
@@ -2917,7 +2919,7 @@ int item::bash_resist(bool /*to_self*/) const
     return lround((resist * eff_thickness * adjustment) + l_padding + k_padding);
 }
 
-int item::cut_resist(bool /*to_self*/) const
+int item::cut_resist( bool to_self ) const
 {
     float resist = 0;
     float l_padding = 0;
@@ -2947,7 +2949,9 @@ int item::cut_resist(bool /*to_self*/) const
     // Armor gets an additional multiplier.
     if (is_armor()) {
         // base resistance
-        eff_thickness = ((get_thickness() - damage <= 0) ? 1 : (get_thickness() - damage));
+        // Don't give reinforced items +armor, just more resistance to ripping
+        const int eff_damage = std::max( to_self ? -1 : 0, damage );
+        eff_thickness = ((get_thickness() - eff_damage <= 0) ? 1 : (get_thickness() - eff_damage));
     }
 
     for (auto mat : mat_types) {
