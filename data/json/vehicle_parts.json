@@ -84,7 +84,7 @@
         "broken_symbol" : "?",
         "broken_color" : "red",
         "durability" : 100,
-        "item" : "NULL",
+        "item" : "null",
         "difficulty" : 0,
         "flags" : ["NOINSTALL"],
         "breaks_into" : []
