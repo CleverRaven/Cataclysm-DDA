@@ -2711,24 +2711,21 @@ int item::get_encumber() const
     if( item::item_tags.count("FIT") ) {
         encumber = std::max( encumber / 2, encumber - 10 );
     }
-    // Good items to test this stuff on:
-    // Hoodies (3 thickness), jumpsuits (2 thickness, 3 encumbrance),
-    // Nomes socks (2 thickness, 0 encumbrance)
-    // When a common item has 90%+ coverage, 15/15 protection and <=5 encumbrance,
-    // it's a sure sign something has to be nerfed.
+
+    const int thickness = get_thickness();
+    const int coverage = get_coverage();
     if( item::item_tags.count("wooled") ) {
-        encumber += 3;
+        encumber += 1 + 3 * coverage / 100;
     }
     if( item::item_tags.count("furred") ){
-        encumber += 5;
+        encumber += 1 + 4 * coverage / 100;
     }
-    // Don't let dual-armor-modded items get below 10 encumbrance after fitting
-    // Also prevent 0 encumbrance armored underwear
+
     if( item::item_tags.count("leather_padded") ) {
-        encumber = std::max( 15, encumber + 7 );
+        encumber += thickness * coverage / 100 + 5;
     }
     if( item::item_tags.count("kevlar_padded") ) {
-        encumber = std::max( 13, encumber + 5 );
+        encumber += thickness * coverage / 100 + 5;
     }
 
     return encumber;
@@ -2779,13 +2776,15 @@ int item::get_warmth() const
     // it_armor::warmth is signed char
     int result = static_cast<int>( t->warmth );
 
-    if (item::item_tags.count("furred") > 0){
-        fur_lined = 35 * (float(get_coverage()) / 100);
+    if( item::item_tags.count("furred") > 0 ) {
+        fur_lined = 35 * get_coverage() / 100;
     }
-    if (item::item_tags.count("wooled") > 0){
-        wool_lined = 20 * (float(get_coverage()) / 100);
+
+    if( item::item_tags.count("wooled") > 0 ) {
+        wool_lined = 20 * get_coverage() / 100;
     }
-        return result + fur_lined + wool_lined;
+
+    return result + fur_lined + wool_lined;
 }
 
 
