@@ -6271,7 +6271,7 @@ bool vehicle::fire_turret( int p, bool manual )
         }
         return false;
     }
-    long charges = std::max( 1, turret_data.gun.burst_size() );
+    long charges = std::max( 1, gun.burst_size() ) * gun.ammo_required();
     if( gun.is_charger_gun() ) {
         if( one_in(100) ) {
             charges = rng( 5, 8 ); // kaboom
