@@ -1899,7 +1899,7 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
     int offset = 0;
     for( const start_location *const loc : start_location::get_all() ) {
         if (g->scen->allowed_start(loc->ident()) || g->scen->has_flag("ALL_STARTS")) {
-            select_location.entries.push_back( uimenu_entry( _( loc->name().c_str() ) ) );
+            select_location.entries.push_back( uimenu_entry( loc->name() ) );
             if( loc->ident() == u->start_location ) {
                 select_location.selected = offset;
             }
@@ -2040,7 +2040,7 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
         mvwprintz( w_location, 0, prompt_offset + 1, c_ltgray, _("Starting location:") );
         // ::find will return empty location if id was not found. Debug msg will be printed too.
         mvwprintz( w_location, 0, prompt_offset + utf8_width(_("Starting location:")) + 2,
-                   c_ltgray, _(u->start_location.obj().name().c_str()));
+                   c_ltgray, u->start_location.obj().name().c_str());
         wrefresh(w_location);
 
         werase(w_scenario);
@@ -2108,8 +2108,7 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
             select_location.redraw();
             select_location.query();
             for( const start_location *const loc : start_location::get_all() ) {
-                if( 0 == strcmp( _( loc->name().c_str() ),
-                                 select_location.entries[ select_location.selected ].txt.c_str() ) ) {
+                if( loc->name() == select_location.entries[ select_location.selected ].txt ) {
                     u->start_location = loc->ident();
                 }
             }

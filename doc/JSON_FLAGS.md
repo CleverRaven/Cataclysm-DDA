@@ -282,7 +282,7 @@ Flags used to describe monsters and define their properties and abilities.
 ### Monster defense attacks
 - ```NONE``` No special attack-back
 - ```ZAPBACK``` Shock attacker on hit
-- ```ACIDSPLASH``` Shock attacker on hit
+- ```ACIDSPLASH``` Splash acid on the attacker
 
 ### Special attacks
 Some special attacks are also valid use actions for tools and weapons.
