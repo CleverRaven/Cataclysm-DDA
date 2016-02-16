@@ -76,14 +76,6 @@
         "by_mood" : "insect"
     },{
         "type" : "MONSTER_FACTION",
-        "name" : "wasp",
-        "base_faction" : "insect"
-    },{
-        "type" : "MONSTER_FACTION",
-        "name" : "bee",
-        "base_faction" : "insect"
-    },{
-        "type" : "MONSTER_FACTION",
         "name" : "roach",
         "base_faction" : "insect"
     },{
