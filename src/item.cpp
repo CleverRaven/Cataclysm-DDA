@@ -1523,6 +1523,11 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                 }
             }
         }
+        
+        if( is_gun() && has_flag( "FIRE_TWOHAND" ) ) {
+            info.push_back( iteminfo( "DESCRIPTION",
+                                      _( "* This weapon needs <info>two free hands</info> to fire." ) ) );
+        }
 
         if( has_flag( "BELT_CLIP" ) ) {
             info.push_back( iteminfo( "DESCRIPTION",
