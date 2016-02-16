@@ -2238,14 +2238,14 @@ std::pair<float, float> repair_item_actor::repair_chance(
     const int difficulty = recipe_difficulty + action_difficulty;
     // Sample numbers:
     // Item   | Damage | Skill | Dex | Success | Failure
-    // Hoodie |    2   |   3   |  10 |   3%    |   0%
-    // Hazmat |    1   |   10  |  10 |   4%    |   0%
+    // Hoodie |    2   |   3   |  10 |   6%    |   0%
+    // Hazmat |    1   |   10  |  10 |   8%    |   0%
     // Hazmat |    1   |   5   |  20 |   0%    |   2%
-    // t-shirt|    4   |   1   |  5  |   1%    |   3%
-    // Duster |    2   |   5   |  5  |   5%    |   0%
-    // Duster |    2   |   2   |  10 |   2%    |   1%
+    // t-shirt|    4   |   1   |  5  |   2%    |   3%
+    // Duster |    2   |   5   |  5  |   10%   |   0%
+    // Duster |    2   |   2   |  10 |   4%    |   1%
     // Duster | Refit  |   2   |  10 |   0%    |   N/A
-    float success_chance = (5 + skill - difficulty) / 100.0f;
+    float success_chance = (10 + 2 * skill - 2 * difficulty) / 100.0f;
     ///\EFFECT_DEX randomly reduces the chances of damaging an item when repairing
     float damage_chance = (difficulty - skill - (tool_quality + pl.dex_cur) / 5.0f) / 100.0f;
 
