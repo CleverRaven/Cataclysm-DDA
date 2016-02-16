@@ -282,7 +282,7 @@ Flags used to describe monsters and define their properties and abilities.
 ### Monster defense attacks
 - ```NONE``` No special attack-back
 - ```ZAPBACK``` Shock attacker on hit
-- ```ACIDSPLASH``` Shock attacker on hit
+- ```ACIDSPLASH``` Splash acid on the attacker
 
 ### Special attacks
 Some special attacks are also valid use actions for tools and weapons.
@@ -824,6 +824,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```MOUNTED_GUN``` Gun can only be used on terrain / furniture with the "MOUNTABLE" flag.
 - ```WATERPROOF_GUN``` Gun does not rust and can be used underwater.
 - ```UNDERWATER_GUN``` Gun is optimized for usage underwater, does perform badly outside of water.
+- ```FIRE_TWOHAND``` Gun can only be fired if player has two free hands.
 - ```NEVER_JAMS``` Never malfunctions.
 - ```COLLAPSIBLE_STOCK``` Reduces weapon volume proportional to the base size of the gun excluding any mods (see also SLOW_WIELD).
 - ```IRREMOVABLE``` Makes so that the gunmod cannot be removed.

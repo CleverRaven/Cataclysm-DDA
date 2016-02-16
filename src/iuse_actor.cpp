@@ -76,7 +76,7 @@ long iuse_transform::use(player *p, item *it, bool t, const tripoint &pos ) cons
     }
     // We can't just check for p != nullptr, because item::process sets p = g->u
     // Not needed here (player always has the item), but is in auto_transform
-    const bool player_has_item = p != nullptr && p->has_item( it );
+    const bool player_has_item = p != nullptr && p->has_item( *it );
     if( player_has_item && p->is_underwater() ) {
         p->add_msg_if_player(m_info, _("You can't do that while underwater"));
         return 0;
@@ -1458,7 +1458,7 @@ long enzlave_actor::use( player *p, item *it, bool t, const tripoint& ) const
     // Survival skill increases your willingness to get things done,
     // but it doesn't make you feel any less bad about it.
     ///\EFFECT_SURVIVAL increases tolerance for enzlavement
-    if( p->morale_level() <= (15 * (tolerance_level - p->skillLevel( skill_survival ) )) - 150 ) {
+    if( p->get_morale_level() <= ( 15 * ( tolerance_level - p->skillLevel( skill_survival ) ) ) - 150 ) {
         add_msg(m_neutral, _("The prospect of cutting up the copse and letting it rise again as a slave is too much for you to deal with right now."));
         return 0;
     }

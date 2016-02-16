@@ -216,10 +216,10 @@ void mission_start::place_caravan_ambush( mission *miss )
     bay.place_items( "dresser", 75, SEEX - 3, SEEY, SEEX - 2, SEEY + 2, true, 0 );
     bay.place_items( "softdrugs", 50, SEEX - 3, SEEY, SEEX - 2, SEEY + 2, true, 0 );
     bay.place_items( "camping", 75, SEEX - 3, SEEY, SEEX - 2, SEEY + 2, true, 0 );
-    bay.spawn_item( SEEX + 1, SEEY + 4, "9mm_casing", 1, 1, 0, 0, true );
-    bay.spawn_item( SEEX + rng( -2, 3 ), SEEY + rng( 3, 6 ), "9mm_casing", 1, 1, 0, 0, true );
-    bay.spawn_item( SEEX + rng( -2, 3 ), SEEY + rng( 3, 6 ), "9mm_casing", 1, 1, 0, 0, true );
-    bay.spawn_item( SEEX + rng( -2, 3 ), SEEY + rng( 3, 6 ), "9mm_casing", 1, 1, 0, 0, true );
+    bay.spawn_item( SEEX + 1, SEEY + 4, "9mm_casing", 1, 1, 0, 0 );
+    bay.spawn_item( SEEX + rng( -2, 3 ), SEEY + rng( 3, 6 ), "9mm_casing", 1, 1, 0, 0 );
+    bay.spawn_item( SEEX + rng( -2, 3 ), SEEY + rng( 3, 6 ), "9mm_casing", 1, 1, 0, 0 );
+    bay.spawn_item( SEEX + rng( -2, 3 ), SEEY + rng( 3, 6 ), "9mm_casing", 1, 1, 0, 0 );
     bay.add_corpse( tripoint( SEEX + 1, SEEY + 7, bay.get_abs_sub().z ) );
     bay.add_corpse( tripoint( SEEX, SEEY + 8, bay.get_abs_sub().z ) );
     madd_field( &bay, SEEX, SEEY + 7, fd_blood, 1 );
@@ -277,10 +277,10 @@ void mission_start::place_grabber( mission *miss )
 void mission_start::place_bandit_camp( mission *miss )
 {
     npc *p = g->find_npc( miss->npc_id );
-    g->u.i_add( item( "ruger_redhawk", 0, false ) );
-    g->u.i_add( item( "44magnum", 0, false ) );
-    g->u.i_add( item( "holster", 0, false ) );
-    g->u.i_add( item( "badge_marshal", 0, false ) );
+    g->u.i_add( item( "ruger_redhawk", calendar::turn ) );
+    g->u.i_add( item( "44magnum", calendar::turn ) );
+    g->u.i_add( item( "holster", calendar::turn ) );
+    g->u.i_add( item( "badge_marshal", calendar::turn ) );
     add_msg( m_good, _( "%s has instated you as a marshal!" ), p->name.c_str() );
     // Ideally this would happen at the end of the mission
     // (you're told that they entered your image into the databases, etc)
@@ -622,7 +622,7 @@ void mission_start::recruit_tracker( mission *miss )
 void mission_start::radio_repeater( mission *miss )
 {
     target_om_ter( "necropolis_c_23", 3, miss, false );
-    g->u.i_add( item( "repeater_mod_guide", 0, false ) );
+    g->u.i_add( item( "repeater_mod_guide", calendar::turn ) );
 }
 
 void mission_start::start_commune(mission *miss)

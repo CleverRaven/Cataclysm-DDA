@@ -4277,7 +4277,6 @@
     [
       [ "stick", 1 ],
       [ "broom", 1 ],
-      [ "mop", 1 ],
       [ "2x4", 1 ],
       [ "pool_cue", 1 ],
       [ "pointy_stick", 1 ]
@@ -4288,6 +4287,7 @@
   "result": "swag_bag",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_STORAGE",
+  "skill_used": "survival",
   "difficulty": 0,
   "time": 600,
   "reversible": true,
@@ -6498,8 +6498,7 @@
   "reversible": false,
   "autolearn": true,
   "book_learn": [[ "textbook_fabrication", 3 ] , [ "welding_book", 3 ]],
-  "qualities" : [
-    {"id":"WRENCH","level":1,"amount":1}
+  "tools": [ [ [ "spray_can", 1 ] ]
   ], "components": [
     [
       [ "goggles_ski", 1 ],
@@ -6510,9 +6509,6 @@
     [
       [ "duct_tape", 20 ],
       [ "medical_tape", 20 ]
-    ],
-    [
-      [ "spray_can", 1 ]
     ]
   ]
 },{

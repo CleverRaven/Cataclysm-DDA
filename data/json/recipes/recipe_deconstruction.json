@@ -1048,6 +1048,17 @@
   "components": [ [ [ "paper", 3 ] ] ]
 },{
   "type" : "recipe",
+  "result": "box_cigarette",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "difficulty": 0,
+  "time": 100,
+  "reversible": true,
+  "autolearn": false,
+  "flags": ["BLIND_EASY"],
+  "components": [ [ [ "paper", 1 ] ] ]
+},{
+  "type" : "recipe",
   "result": "flyer",
   "id_suffix": "uncraft",
   "category": "CC_NONCRAFT",
@@ -3923,7 +3934,7 @@
     "components": [
         [ [ "lead", 4 ] ],
         [ [ "9x18mm_casing", 1 ] ],
-        [ [ "lgrifle_primer", 1 ] ],
+        [ [ "smpistol_primer", 1 ] ],
         [ [ "gunpowder", 3 ] ]
     ]
 },
@@ -3943,7 +3954,7 @@
     "components": [
         [ [ "lead", 4 ] ],
         [ [ "9x18mm_casing", 1 ] ],
-        [ [ "lgrifle_primer", 1 ] ],
+        [ [ "smpistol_primer", 1 ] ],
         [ [ "gunpowder", 5 ] ]
     ]
 },
@@ -3963,7 +3974,7 @@
     "components": [
         [ [ "lead", 4 ] ],
         [ [ "9x18mm_casing", 1 ] ],
-        [ [ "lgrifle_primer", 1 ] ],
+        [ [ "smpistol_primer", 1 ] ],
         [ [ "gunpowder", 3 ] ],
         [ [ "copper", 2 ] ]
     ]

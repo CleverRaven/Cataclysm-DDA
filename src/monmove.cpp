@@ -1062,7 +1062,7 @@ bool monster::attack_at( const tripoint &p )
         auto attitude = attitude_to( mon );
         // MF_ATTACKMON == hulk behavior, whack everything in your way
         if( attitude == A_HOSTILE || has_flag( MF_ATTACKMON ) ) {
-            hit_monster( mon );
+            melee_attack( mon, true );
             return true;
         }
 

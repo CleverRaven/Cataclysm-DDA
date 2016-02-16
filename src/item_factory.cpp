@@ -424,10 +424,8 @@ void Item_factory::check_definitions() const
                 msg << string_format("item %s has unknown quality %s", type->id.c_str(), a->first.c_str()) << "\n";
             }
         }
-        if( type->spawn ) {
-            if( type->spawn->default_container != "null" && !has_template( type->spawn->default_container ) ) {
-                msg << string_format( "invalid container property %s", type->spawn->default_container.c_str() ) << "\n";
-            }
+        if( type->default_container != "null" && !has_template( type->default_container ) ) {
+            msg << string_format( "invalid container property %s", type->default_container.c_str() ) << "\n";
         }
         const it_comest *comest = dynamic_cast<const it_comest *>(type);
         if (comest != 0) {
@@ -731,7 +729,6 @@ void Item_factory::load( islot_spawn &slot, JsonObject &jo )
             jarr.throw_error( "a rand_charges array with only one entry will be ignored, it needs at least 2 entries!" );
         }
     }
-    slot.default_container = jo.get_string( "container", slot.default_container );
 }
 
 void Item_factory::load_gun(JsonObject &jo)
@@ -1053,6 +1050,8 @@ void Item_factory::load_basic_info(JsonObject &jo, itype *new_item_template)
     new_item_template->melee_dam = jo.get_int( "bashing", 0 );
     new_item_template->melee_cut = jo.get_int( "cutting", 0 );
     new_item_template->m_to_hit = jo.get_int( "to_hit", 0 );
+
+    new_item_template->default_container = jo.get_string( "container", new_item_template->default_container );
 
     new_item_template->integral_volume = jo.get_int( "integral_volume", new_item_template->volume );
 

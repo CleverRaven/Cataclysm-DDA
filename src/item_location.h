@@ -23,9 +23,20 @@ class item_location
         item_location &operator=( item_location && );
         ~item_location();
 
-        item_location( Character &ch, const item *which );
-        item_location( const map_cursor &mc, const item *which );
-        item_location( const vehicle_cursor &vc, const item *which );
+        item_location( Character &ch, item *which );
+        item_location( const map_cursor &mc, item *which );
+        item_location( const vehicle_cursor &vc, item *which );
+
+        bool operator==( const item_location &rhs ) const;
+        bool operator!=( const item_location &rhs ) const;
+
+        operator bool() const;
+
+        item &operator*();
+        const item &operator*() const;
+
+        item *operator->();
+        const item *operator->() const;
 
         /** Describes the item location
          *  @param ch if set description is relative to character location */

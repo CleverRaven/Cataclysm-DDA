@@ -19,7 +19,9 @@
       ["lw12mag", 30],
       ["lw21mag", 60],
       ["lw223mag", 60],
-      ["lw223bigmag", 20]
+      ["lw223bigmag", 20],
+      ["scarhmag", 50],
+      ["scarhbigmag", 20]
     ]
   },
   {
@@ -40,6 +42,9 @@
     "id" : "mags_surplus",
     "//" : "Obsolete military magazines no longer in common use.",
     "items": [
+      ["falmag", 20],
+      ["g3mag", 15],
+      ["m14mag", 25],
       ["m1911mag", 10],
       ["m1918mag", 5],
       ["m9mag", 10],
@@ -100,7 +105,8 @@
       ["m1911bigmag", 40],
       ["m9bigmag", 20],
       ["sigp230mag", 40],
-      ["ppkmag", 5]
+      ["taurus38mag", 30],
+      ["ppkmag", 15]
     ]
   },
   {
@@ -135,9 +141,11 @@
     "id" : "mags_rifle_common",
     "//" : "Factory specification rifle magazines commonly owned by citizens.",
     "items": [
+      ["m14mag", 20],
+      ["m14smallmag", 20],
       ["ruger1022mag", 50],
       ["stanag10", 50],
-      ["stanag30", 10]
+      ["stanag30", 5]
     ]
   },
   {
@@ -147,6 +155,10 @@
     "items": [
       ["akmbigmag", 5],
       ["akmmag", 25],
+      ["falmag", 100],
+      ["falbigmag", 50],
+      ["g3mag", 80],
+      ["g3bigmag", 40],
       ["m1918bigmag", 40],
       ["ruger1022bigmag", 70]
     ]

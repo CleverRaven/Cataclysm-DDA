@@ -3432,10 +3432,8 @@ void talk_function::construction_tips(npc *p)
 
 void talk_function::buy_beer(npc *p)
 {
-    item cont = item("bottle_glass", 0, false);
-    item liq = item("hb_beer", 0);
-    liq.charges = 2;
-    cont.put_in( liq );
+    item cont( "bottle_glass", calendar::turn );
+    cont.put_in( item( "hb_beer", calendar::turn, 2 ) );
     g->u.i_add( cont );
     g->u.cash -= 1000;
     add_msg(m_good, _("%s gave you a beer..."), p->name.c_str());
@@ -3443,10 +3441,8 @@ void talk_function::buy_beer(npc *p)
 
 void talk_function::buy_brandy(npc *p)
 {
-    item cont = item("bottle_glass", 0, false);
-    item liq = item("brandy", 0);
-    liq.charges = 1;
-    cont.put_in( liq );
+    item cont( "bottle_glass", calendar::turn );
+    cont.put_in( item( "brandy", calendar::turn, 1 ) );
     g->u.i_add( cont );
     g->u.cash -= 1000;
     add_msg(m_good, _("%s gave you a shot of brandy..."), p->name.c_str());
@@ -3454,10 +3450,8 @@ void talk_function::buy_brandy(npc *p)
 
 void talk_function::buy_rum(npc *p)
 {
-    item cont = item("bottle_glass", 0, false);
-    item liq = item("rum", 0);
-    liq.charges = 1;
-    cont.put_in( liq );
+    item cont( "bottle_glass", calendar::turn );
+    cont.put_in( item( "rum", calendar::turn, 1 ) );
     g->u.i_add( cont );
     g->u.cash -= 1000;
     add_msg(m_good, _("%s gave you a shot of rum..."), p->name.c_str());
@@ -3465,10 +3459,8 @@ void talk_function::buy_rum(npc *p)
 
 void talk_function::buy_whiskey(npc *p)
 {
-    item cont = item("bottle_glass", 0, false);
-    item liq = item("whiskey", 0);
-    liq.charges = 1;
-    cont.put_in( liq );
+    item cont( "bottle_glass", calendar::turn );
+    cont.put_in( item( "whiskey", calendar::turn, 1 ) );
     g->u.i_add( cont );
     g->u.cash -= 1200;
     add_msg(m_good, _("%s gave you a shot of whiskey..."), p->name.c_str());
