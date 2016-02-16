@@ -2582,10 +2582,7 @@
       [ "paper", 10 ]
     ],
     [
-      [ "charcoal", 2],
-      [ "coal_lump", 2],
-      [ "small_charcoal", 20],
-      [ "small_coal", 20]
+      [ "charcoal", 10]
     ]
   ]
 },{
@@ -2639,10 +2636,7 @@
       [ "hose", 1 ]
     ],
     [
-      ["charcoal", 4],
-      ["coal_lump", 4],
-      ["small_charcoal", 40],
-      ["small_coal", 40]
+      ["charcoal", 20]
     ]
   ]
 },{
@@ -2682,10 +2676,7 @@
       ["plastic_chunk", 4]
     ],
     [
-      ["charcoal", 4],
-      ["coal_lump", 4],
-      ["small_charcoal", 40],
-      ["small_coal", 40]
+      ["charcoal", 20]
     ]
   ]
 },{
@@ -3417,10 +3408,8 @@
       [ "oxy_powder", 50 ]
     ],
     [
-      ["charcoal", 1],
-      ["coal_lump", 1],
-      ["small_charcoal", 10],
-      ["small_coal", 10]
+      ["charcoal", 5],
+      ["coal_lump", 5]
     ],
     [
       [ "superglue", 1 ]
@@ -7499,7 +7488,7 @@
       ["swage", -1]
      ],
      [
-      ["forge", 450], ["char_forge", 90], ["oxy_torch", 90]
+      ["forge", 450], ["oxy_torch", 90]
      ]
     ],
   "components":
@@ -7541,7 +7530,7 @@
       ["swage", -1]
      ],
      [
-      ["forge", 400], ["char_forge", 80], ["oxy_torch", 80]
+      ["forge", 400], ["oxy_torch", 80]
      ]
     ],
   "components":
@@ -7584,7 +7573,7 @@
       ["swage", -1]
      ],
      [
-      ["forge", 300], ["char_forge", 60], ["oxy_torch", 60]
+      ["forge", 300], ["oxy_torch", 60]
      ]
     ],
   "components":
@@ -7627,7 +7616,7 @@
       ["swage", -1]
      ],
      [
-      ["forge", 250], ["char_forge", 50], ["oxy_torch", 50]
+      ["forge", 250], ["oxy_torch", 50]
      ]
      ],
   "components":
@@ -7672,7 +7661,7 @@
       ["crucible_clay", -1]
      ],
      [
-      ["forge", 350], ["char_forge", 70], ["oxy_torch", 70]
+      ["forge", 350], ["oxy_torch", 70]
      ]
     ],
   "components":
@@ -7714,7 +7703,7 @@
       ["crucible_clay", -1]
      ],
      [
-      ["forge", 300], ["char_forge", 60], ["oxy_torch", 60]
+      ["forge", 300], ["oxy_torch", 60]
      ]
     ],
   "components":
@@ -7755,7 +7744,7 @@
       ["swage", -1]
      ],
      [
-      ["forge", 450], ["char_forge", 90], ["oxy_torch", 90]
+      ["forge", 450], ["oxy_torch", 90]
      ]
     ],
   "components":
@@ -7791,7 +7780,7 @@
     [ ["chisel", -1] ],
     [ ["anvil", -1] ],
     [ ["crucible", -1], ["crucible_clay", -1] ],
-    [ ["forge", 450], ["char_forge", 90], ["oxy_torch", 90] ]
+    [ ["forge", 450], ["oxy_torch", 90] ]
   ],
   "components": [
     [ [ "steel_lump", 12 ] ],

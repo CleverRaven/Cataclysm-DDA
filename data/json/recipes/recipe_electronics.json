@@ -749,7 +749,7 @@
   "tools": [
     [ ["tongs", -1] ],
     [ ["anvil", -1] ],
-    [ ["forge", 50], ["char_forge", 10] ],
+    [ ["forge", 50], ["oxy_torch", 10] ],
     [ [ "soldering_iron", 10 ], [ "toolset", 10 ] ]
   ],
   "components": [

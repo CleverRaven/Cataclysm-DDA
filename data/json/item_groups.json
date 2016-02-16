@@ -1843,7 +1843,7 @@
     "items" : [
       ["2x4", 100],
       ["rock", 70],
-      ["coal", 20],
+      ["coal_lump", 20],
       ["material_shrd_limestone", 70],
       ["fertilizer_commercial", 100],
       ["material_quicklime", 70],
@@ -6950,7 +6950,7 @@
       ["pickaxe", 2],
       ["rock", 40],
       ["toolbox", 5],
-      ["coal", 20],
+      ["coal_lump", 20],
       ["material_shrd_limestone", 40],
       ["chem_rdx", 5],
       ["chem_hmtd", 10],
