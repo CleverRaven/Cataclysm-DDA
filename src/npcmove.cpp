@@ -468,11 +468,11 @@ void npc::execute_action( npc_action action )
         break;
 
     case npc_shoot:
-        fire_gun( tar, false );
+        fire_gun( tar, 1 );
         break;
 
     case npc_shoot_burst:
-        fire_gun( tar, true );
+        fire_gun( tar, std::max( 1, weapon.burst_size() ) );
         break;
 
     case npc_alt_attack:

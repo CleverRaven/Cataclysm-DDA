@@ -1088,9 +1088,10 @@ int iuse::blech(player *p, item *it, bool, const tripoint& )
         }
     }
     p->add_msg_if_player(m_bad, _("Blech, that burns your throat!"));
-    if (it->type->id != "soap") { // soap burns but doesn't make you throw up
-        p->vomit();
-    }
+    p->mod_pain(rng(32, 64));
+    p->add_effect( effect_poison, 600);
+    p->apply_damage(nullptr, bp_torso, rng(4, 12));
+    p->vomit();
     return it->type->charges_to_use();
 }
 
