@@ -6,11 +6,13 @@
 #include "output.h"
 #include "bodypart.h"
 #include "player.h"
+#include "catacharset.h"
 
 #include <stdlib.h>
 #include <algorithm>
 
 const efftype_id effect_took_prozac( "took_prozac" );
+const efftype_id effect_took_xanax( "took_xanax" );
 
 namespace
 {
@@ -161,8 +163,8 @@ void morale_point::proceed( int ticks )
 }
 
 void player_morale::add( morale_type type, int bonus, int max_bonus,
-                        int duration, int decay_start,
-                        bool capped, const itype* item_type )
+                         int duration, int decay_start,
+                         bool capped, const itype *item_type )
 {
     // Search for a matching morale entry.
     for( auto &m : points ) {
@@ -170,8 +172,8 @@ void player_morale::add( morale_type type, int bonus, int max_bonus,
             const int prev_bonus = m.get_net_bonus();
 
             m.add( bonus, max_bonus, duration, decay_start, capped );
-            if ( m.get_net_bonus() != prev_bonus ) {
-                invalidate_level();
+            if( m.get_net_bonus() != prev_bonus ) {
+                invalidate();
             }
             return;
         }
@@ -181,7 +183,7 @@ void player_morale::add( morale_type type, int bonus, int max_bonus,
 
     if( !new_morale.is_expired() ) {
         points.push_back( new_morale );
-        invalidate_level();
+        invalidate();
     }
 }
 
@@ -195,12 +197,12 @@ int player_morale::has( morale_type type, const itype *item_type ) const
     return 0;
 }
 
-void player_morale::remove( morale_type type, const itype* item_type )
+void player_morale::remove( morale_type type, const itype *item_type )
 {
     for( size_t i = 0; i < points.size(); ++i ) {
         if( points[i].get_type() == type && points[i].get_item_type() == item_type ) {
             if( points[i].get_net_bonus() > 0 ) {
-                invalidate_level();
+                invalidate();
             }
             points.erase( points.begin() + i );
             break;
@@ -208,7 +210,7 @@ void player_morale::remove( morale_type type, const itype* item_type )
     }
 }
 
-morale_mult player_morale::get_traits_mult() const
+morale_mult player_morale::get_traits_mult( const player *p ) const
 {
     morale_mult ret;
 
@@ -223,7 +225,7 @@ morale_mult player_morale::get_traits_mult() const
     return ret;
 }
 
-morale_mult player_morale::get_effects_mult() const
+morale_mult player_morale::get_effects_mult( const player *p ) const
 {
     morale_mult ret;
 
@@ -235,42 +237,255 @@ morale_mult player_morale::get_effects_mult() const
     return ret;
 }
 
-int player_morale::get_level() const
+int player_morale::get_level( const player *p ) const
 {
-    if ( !level_is_valid ) {
-        const morale_mult mult = get_traits_mult();
+    if( !level_is_valid ) {
+        const morale_mult mult = get_traits_mult( p );
 
         level = 0;
         for( auto &m : points ) {
             level += m.get_net_bonus( mult );
         }
 
-        level *= get_effects_mult();
+        level *= get_effects_mult( p );
         level_is_valid = true;
     }
 
     return level;
 }
 
-void player_morale::update( const int ticks )
+void player_morale::update( const player *p, const int ticks )
 {
-    const auto proceed = [ ticks ]( morale_point &m ) { m.proceed( ticks ); };
-    const auto is_expired = []( const morale_point &m ) -> bool { return m.is_expired(); };
+    const auto proceed = [ ticks ]( morale_point & m ) {
+        m.proceed( ticks );
+    };
+    const auto is_expired = []( const morale_point & m ) -> bool { return m.is_expired(); };
 
     std::for_each( points.begin(), points.end(), proceed );
     const auto new_end = std::remove_if( points.begin(), points.end(), is_expired );
     points.erase( new_end, points.end() );
+    // Apply persistent morale effects
+    apply_persistent( p );
     // Invalidate level to recalculate it on demand
-    invalidate_level();
+    invalidate();
+}
+
+void player_morale::display( const player *p )
+{
+    // Create and draw the window itself.
+    WINDOW *w = newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
+                        ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0,
+                        ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 );
+    draw_border( w );
+
+    // Figure out how wide the name column needs to be.
+    int name_column_width = 18;
+    for( auto &i : points ) {
+        int length = utf8_width( i.get_name() );
+        if( length > name_column_width ) {
+            name_column_width = length;
+        }
+    }
+
+    // If it's too wide, truncate.
+    if( name_column_width > 72 ) {
+        name_column_width = 72;
+    }
+
+    // Start printing the number right after the name column.
+    // We'll right-justify it later.
+    int number_pos = name_column_width + 1;
+
+    // Header
+    mvwprintz( w, 1,  1, c_white, _( "Morale Modifiers:" ) );
+    mvwprintz( w, 2,  1, c_ltgray, _( "Name" ) );
+    mvwprintz( w, 2, name_column_width + 2, c_ltgray, _( "Value" ) );
+
+    // Ensure the player's persistent morale effects are up-to-date.
+    apply_persistent( p );
+
+    const morale_mult mult = get_traits_mult( p );
+    // Print out the morale entries.
+    for( size_t i = 0; i < points.size(); i++ ) {
+        std::string name = points[i].get_name();
+        int bonus = points[i].get_net_bonus( mult );
+
+        // Print out the name.
+        trim_and_print( w, i + 3,  1, name_column_width, ( bonus < 0 ? c_red : c_green ), name.c_str() );
+
+        // Print out the number, right-justified.
+        mvwprintz( w, i + 3, number_pos, ( bonus < 0 ? c_red : c_green ),
+                   "% 6d", bonus );
+    }
+
+    // Print out the total morale, right-justified.
+    int mor = get_level( p );
+    mvwprintz( w, 20, 1, ( mor < 0 ? c_red : c_green ), _( "Total:" ) );
+    mvwprintz( w, 20, number_pos, ( mor < 0 ? c_red : c_green ), "% 6d", mor );
+
+    // Print out the focus gain rate, right-justified.
+    double gain = ( p->calc_focus_equilibrium() - p->focus_pool ) / 100.0;
+    mvwprintz( w, 22, 1, ( gain < 0 ? c_red : c_green ), _( "Focus gain:" ) );
+    mvwprintz( w, 22, number_pos - 3, ( gain < 0 ? c_red : c_green ), _( "%6.2f per minute" ), gain );
+
+    // Make sure the changes are shown.
+    wrefresh( w );
+
+    // Wait for any keystroke.
+    getch();
+
+    // Close the window.
+    werase( w );
+    delwin( w );
 }
 
 void player_morale::clear()
 {
     points.clear();
-    invalidate_level();
+    invalidate();
 }
 
-void player_morale::invalidate_level()
+void player_morale::invalidate()
 {
     level_is_valid = false;
+}
+
+int player_morale::get_hoarder_penalty( const player *p ) const
+{
+    int pen = int( ( p->volume_capacity() - p->volume_carried() ) / 2 );
+
+    if( pen > 70 ) {
+        pen = 70;
+    } else if( pen < 0 ) {
+        pen = 0;
+    }
+    if( p->has_effect( effect_took_xanax ) ) {
+        pen = int( pen / 7 );
+    } else if( p->has_effect( effect_took_prozac ) ) {
+        pen = int( pen / 2 );
+    }
+    return pen;
+}
+
+
+int player_morale::get_stylish_bonus( const player *p ) const
+{
+    int bonus = 0;
+    std::bitset<num_bp> covered; // body parts covered
+
+    for( auto &elem : p->worn ) {
+        const bool basic_flag = elem.has_flag( "FANCY" );
+        const bool bonus_flag = elem.has_flag( "SUPER_FANCY" );
+
+        if( basic_flag || bonus_flag ) {
+            std::bitset<num_bp> covered_by_elem = elem.get_covered_body_parts();
+
+            if( bonus_flag ) {
+                bonus += 2;
+            } else if( ( covered & covered_by_elem ).none() ) {
+                // bonus += 1;
+            }
+
+            covered |= covered_by_elem;
+        }
+    }
+
+    if( covered.test( bp_torso ) ) {
+        bonus += 6;
+    }
+    if( covered.test( bp_leg_l ) || covered.test( bp_leg_r ) ) {
+        bonus += 2;
+    }
+    if( covered.test( bp_foot_l ) || covered.test( bp_foot_r ) ) {
+        bonus += 1;
+    }
+    if( covered.test( bp_hand_l ) || covered.test( bp_hand_r ) ) {
+        bonus += 1;
+    }
+    if( covered.test( bp_head ) ) {
+        bonus += 3;
+    }
+    if( covered.test( bp_eyes ) ) {
+        bonus += 2;
+    }
+    if( covered.test( bp_arm_l ) || covered.test( bp_arm_r ) ) {
+        bonus += 1;
+    }
+    if( covered.test( bp_mouth ) ) {
+        bonus += 2;
+    }
+
+    if( bonus > 20 ) {
+        bonus = 20;
+    }
+
+    return bonus;
+}
+
+int player_morale::get_pain_bonus( const player *p ) const
+{
+    int bonus = p->pain / 2.5;
+    // Advanced masochists really get a morale bonus from pain.
+    // (It's not capped.)
+    if( p->has_trait( "MASOCHIST" ) && ( bonus > 25 ) ) {
+        bonus = 25;
+    }
+    if( p->has_effect( effect_took_prozac ) ) {
+        bonus = int( bonus / 3 );
+    }
+
+    return bonus;
+}
+
+void player_morale::apply_persistent( const player *p )
+{
+    // Hoarders get a morale penalty if they're not carrying a full inventory.
+    if( p->has_trait( "HOARDER" ) ) {
+        const int pen = get_hoarder_penalty( p );
+        if( pen > 0 ) {
+            add( MORALE_PERM_HOARDER, -pen, -pen, 5, 5, true );
+        }
+    }
+
+    // The stylish get a morale bonus for each body part covered in an item
+    // with the FANCY or SUPER_FANCY tag.
+    if( p->has_trait( "STYLISH" ) ) {
+        const int bonus = get_stylish_bonus( p );
+        if( bonus > 0 ) {
+            add( MORALE_PERM_FANCY, bonus, bonus, 5, 5, true );
+        }
+    }
+
+    // Floral folks really don't like having their flowers covered.
+    if( p->has_trait( "FLOWERS" ) && p->wearing_something_on( bp_head ) ) {
+        add( MORALE_PERM_CONSTRAINED, -10, -10, 5, 5, true );
+    }
+
+    // The same applies to rooters and their feet; however, they don't take
+    // too many problems from no-footgear.
+    double shoe_factor = p->footwear_factor();
+    if( ( p->has_trait( "ROOTS" ) || p->has_trait( "ROOTS2" ) || p->has_trait( "ROOTS3" ) ) &&
+        shoe_factor ) {
+        add( MORALE_PERM_CONSTRAINED, -10 * shoe_factor, -10 * shoe_factor, 5, 5, true );
+    }
+
+    // Masochists get a morale bonus from pain.
+    if( p->has_trait( "MASOCHIST" ) || p->has_trait( "MASOCHIST_MED" ) ||
+        p->has_trait( "CENOBITE" ) ) {
+        const int bonus = get_pain_bonus( p );
+        if( bonus > 0 ) {
+            add( MORALE_PERM_MASOCHIST, bonus, bonus, 5, 5, true );
+        }
+    }
+
+    // Optimist gives a base +4 to morale.
+    // The +25% boost from optimist also applies here, for a net of +5.
+    if( p->has_trait( "OPTIMISTIC" ) ) {
+        add( MORALE_PERM_OPTIMIST, 4, 4, 5, 5, true );
+    }
+
+    // And Bad Temper works just the same way.  But in reverse.  ):
+    if( p->has_trait( "BADTEMPER" ) ) {
+        add( MORALE_PERM_BADTEMPER, -4, -4, 5, 5, true );
+    }
 }

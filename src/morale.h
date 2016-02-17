@@ -186,39 +186,52 @@ class morale_point : public JsonSerializer, public JsonDeserializer
 class player_morale
 {
     public:
-        player_morale( player *p ) :
-            p(p),
-            level_is_valid( false ) {};
+        player_morale() = default;
+        player_morale( player_morale && ) = default;
+        player_morale( const player_morale & ) = default;
+        player_morale &operator =( player_morale && ) = default;
+        player_morale &operator =( const player_morale & ) = default;
+
         /** Returns overall morale level */
-        int get_level() const;
+        int get_level( const player *p ) const;
         /** Adds morale to existing or creates one */
         void add( morale_type type, int bonus, int max_bonus = 0, int duration = 60,
-                    int decay_start = 30, bool capped = false, const itype *item_type = nullptr );
+                  int decay_start = 30, bool capped = false, const itype *item_type = nullptr );
         /** Returns bonus from specified morale */
         int has( morale_type type, const itype *item_type = nullptr ) const;
         /** Removes specified morale */
         void remove( morale_type type, const itype *item_type = nullptr );
         /** Ticks down morale counters and removes them */
-        void update( const int ticks = 1 );
+        void update( const player *p, const int ticks = 1 );
+        /** Displays morale screen */
+        void display( const player *p );
         /** Clears up all morale points */
         void clear();
-    protected:
         /** Invalidates morale level to recalculate it on demand */
-        void invalidate_level();
+        void invalidate();
+    protected:
+        friend class player;
 
         void store( JsonOut &jsout ) const;
         void load( JsonObject &jsin );
     private:
-        player *p; // Back pointer
         std::vector<morale_point> points;
         // Mutability is required for lazy initialization
         mutable int level;
         mutable bool level_is_valid;
 
         /** Returns current traits multiplier for morale */
-        morale_mult get_traits_mult() const;
+        morale_mult get_traits_mult( const player *p ) const;
         /** Returns current effects multiplier for morale */
-        morale_mult get_effects_mult() const;
+        morale_mult get_effects_mult( const player *p ) const;
+        /** Returns penalty if inventory's not full */
+        int get_hoarder_penalty( const player *p ) const;
+        /** Returns bonus for stylish stuff */
+        int get_stylish_bonus( const player *p ) const;
+        /** Returns bonus for masochists etc */
+        int get_pain_bonus( const player *p ) const;
+        /** Ensures persistent morale effects are up-to-date */
+        void apply_persistent( const player *p );
 };
 
 #endif

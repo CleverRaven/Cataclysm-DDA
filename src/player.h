@@ -224,8 +224,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void action_taken();
         /** Ticks down morale counters and removes them */
         void update_morale();
-        /** Ensures persistent morale effects are up-to-date */
-        void apply_persistent_morale();
         /** Uses calc_focus_equilibrium to update the player's current focus */
         void update_mental_focus();
         /** Uses morale and other factors to return the player's focus gain rate */
@@ -911,7 +909,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void cancel_activity();
 
         int get_morale_level() const; // Modified by traits, &c
-        void invalidate_morale_level();
         void add_morale( morale_type type, int bonus, int max_bonus = 0, int duration = 60,
                         int decay_start = 30, bool capped = false, const itype *item_type = nullptr );
         int has_morale( morale_type type ) const;
@@ -1151,7 +1148,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         std::array<int, num_bp> drench_capacity;
         std::array<int, num_bp> body_wetness;
 
-        std::vector<morale_point> morale;
+        player_morale morale;
 
         int focus_pool;
 
@@ -1293,15 +1290,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void load(JsonObject &jsin);
 
     private:
-        // Mutability is required for lazy initialization
-        mutable int morale_level;
-        mutable bool morale_level_is_valid;
-
-        /** Returns current traits multiplier for morale */
-        morale_mult get_traits_mult() const;
-        /** Returns current effects multiplier for morale */
-        morale_mult get_effects_mult() const;
-
         // Items the player has identified.
         std::unordered_set<std::string> items_identified;
         /** Check if an area-of-effect technique has valid targets */
