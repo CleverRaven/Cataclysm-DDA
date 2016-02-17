@@ -900,16 +900,16 @@
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_SUIT",
   "skill_used": "tailor",
-  "difficulty": 0,
-  "time": 3000,
+  "difficulty": 1,
+  "time": 3500,
   "reversible": true,
   "decomp_learn": 0,
-  "note": "OK, I sewed the shirt and pants together, now how am I going to put this on? not perfectly trivial IMO.",
+  "note": "OK, I sewed the shirt and pants together, and added laces to the top, so I can put the thing on.",
   "autolearn": false,
   "book_learn": [[ "mag_tailor", 0 ] , ["manual_tailor", 0] , ["textbook_tailor", 0]],
   "tools": [
     [
-      [ "sewing_kit", 10 ]
+      [ "sewing_kit", 20 ]
     ]
   ],
   "components": [
@@ -918,6 +918,9 @@
     ],
     [
       [ "long_underpants", 1 ]
+    ],
+    [
+      [ "string_36", 1 ]
     ]
   ]
 },{
