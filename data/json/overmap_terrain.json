@@ -6894,7 +6894,8 @@
         "sym" : 94,
         "color" : "light_blue",
         "see_cost" : 0,
-        "mondensity" : 2
+        "mondensity" : 2,
+        "sidewalk" : true
     },{
         "type" : "overmap_terrain",
         "id" : "roadstop_a",
@@ -6903,7 +6904,8 @@
         "sym" : 94,
         "color" : "light_blue",
         "see_cost" : 0,
-        "mondensity" : 2
+        "mondensity" : 2,
+        "sidewalk" : true
     },{
         "type" : "overmap_terrain",
         "id" : "roadstop_b",
@@ -6912,7 +6914,8 @@
         "sym" : 94,
         "color" : "orange",
         "see_cost" : 0,
-        "mondensity" : 2
+        "mondensity" : 2,
+        "sidewalk" : true
     }
 ]
 

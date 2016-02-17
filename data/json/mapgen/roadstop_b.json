@@ -31,7 +31,7 @@
                 ".2222222222222222222222.",
                 ".2222222222222222222222.",
                 ".2222222222222222222222.",
-                "......2222....2222......"
+                ".,,,,,2222....2222,,,,,."
             ],
             "terrain": {
                 ".": "t_grass",
@@ -68,10 +68,10 @@
                 { "item": "kitchen", "chance": 80, "x": 9, "y": 7},
                 { "item": "trash", "chance": 80, "x": 6, "y": 7},
                 { "item": "trash", "chance": 80, "x": 6, "y": 9},
-                { "item": "trash", "chance": 80, "x": 6, "y": 12},
+                { "item": "trash", "chance": 80, "x": 6, "y": 14},
                 { "item": "fridge", "chance": 80, "x": [7,8], "y": 9},
                 { "item": "coffee_fridge", "chance": 80, "x": [14,16], "y": 7},
-                { "item": "trash", "chance": 80, "x": 17, "y": 12}
+                { "item": "trash", "chance": 80, "x": 17, "y": 14}
                 ],
             "rotation": 2
         }
