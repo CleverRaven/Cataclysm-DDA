@@ -22,7 +22,7 @@ class item_location::impl
     public:
         virtual ~impl() = default;
         virtual std::string describe( const Character * ) const = 0;
-        virtual int obtain( Character & ) = 0;
+        virtual int obtain( Character &ch, long qty ) = 0;
         virtual void remove_item() = 0;
 
     protected:
@@ -51,7 +51,7 @@ class item_location::item_on_map : public item_location::impl
             return res;
         }
 
-        int obtain( Character &ch ) override {
+        int obtain( Character &ch, long qty ) override {
             if( !what ) {
                 return INT_MIN;
             }
@@ -66,9 +66,15 @@ class item_location::item_on_map : public item_location::impl
 
             ch.moves -= mv;
 
-            int inv = ch.get_item_position( &ch.i_add( *what ) );
-            remove_item();
-            return inv;
+
+            item obj = what->split( qty );
+            if( !obj.is_null() ) {
+                return ch.get_item_position( &ch.i_add( obj ) );
+            } else {
+                int inv = ch.get_item_position( &ch.i_add( *what ) );
+                remove_item();
+                return inv;
+            }
         }
 
         void remove_item() override {
@@ -113,11 +119,11 @@ class item_location::item_on_person : public item_location::impl
                 }
 
             } else {
-                return ch ? ch->name : _( "npc" );
+                return who.name;
             }
         }
 
-        int obtain( Character &ch ) override {
+        int obtain( Character &ch, long qty ) override {
             if( !what ) {
                 return INT_MIN;
             }
@@ -160,8 +166,15 @@ class item_location::item_on_person : public item_location::impl
             if( &ch.i_at( ch.get_item_position( it ) ) == it ) {
                 // item already in target characters inventory at base of stack
                 return ch.get_item_position( it );
+            }
+
+            item obj = what->split( qty );
+            if( !obj.is_null() ) {
+                return ch.get_item_position( &ch.i_add( obj ) );
             } else {
-                return ch.get_item_position( &ch.i_add( who.i_rem( it ) ) );
+                int inv = ch.get_item_position( &ch.i_add( *what ) );
+                remove_item();
+                return inv;
             }
         }
 
@@ -203,7 +216,7 @@ class item_location::item_on_vehicle : public item_location::impl
             return res;
         }
 
-        int obtain( Character &ch ) override {
+        int obtain( Character &ch, long qty ) override {
             if( !what ) {
                 return INT_MIN;
             }
@@ -218,9 +231,14 @@ class item_location::item_on_vehicle : public item_location::impl
 
             ch.moves -= mv;
 
-            int inv = ch.get_item_position( &ch.i_add( *what ) );
-            remove_item();
-            return inv;
+            item obj = what->split( qty );
+            if( !obj.is_null() ) {
+                return ch.get_item_position( &ch.i_add( obj ) );
+            } else {
+                int inv = ch.get_item_position( &ch.i_add( *what ) );
+                remove_item();
+                return inv;
+            }
         }
 
         void remove_item() override {
@@ -236,6 +254,8 @@ item_location::item_location() = default;
 item_location::item_location( item_location && ) = default;
 item_location &item_location::operator=( item_location && ) = default;
 item_location::~item_location() = default;
+
+const item_location item_location::nowhere;
 
 item_location::item_location( const map_cursor &mc, item *which )
     : ptr( new item_on_map( mc, which ) ) {}
@@ -286,9 +306,9 @@ std::string item_location::describe( const Character *ch ) const
     return ptr ? ptr->describe( ch ) : std::string();
 }
 
-int item_location::obtain( Character &ch )
+int item_location::obtain( Character &ch, long qty )
 {
-    return ptr ? ptr->obtain( ch ) : INT_MIN;
+    return ptr ? ptr->obtain( ch, qty ) : INT_MIN;
 }
 
 void item_location::remove_item()

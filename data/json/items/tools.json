@@ -295,7 +295,7 @@
             "cotton", "leather", "wool", "fur", "nomex"
         ],
         "skill": "tailor",
-        "cost_scaling": 0,
+        "cost_scaling": 0.1,
         "tool_quality": 0,
         "move_cost": 1000
     }
@@ -327,7 +327,7 @@
                 "cotton", "leather", "wool", "fur", "nomex", "neoprene"
             ],
             "skill": "tailor",
-            "cost_scaling": 0,
+            "cost_scaling": 0.1,
             "tool_quality": 1,
             "move_cost": 800
         },
@@ -1260,11 +1260,11 @@
     "volume": 5,
     "bashing": 4,
     "to_hit": -1,
-    "max_charges": 100,
-    "initial_charges": 100,
+    "max_charges": 50,
+    "initial_charges": 50,
     "charges_per_use": 1,
     "turns_per_charge": 0,
-    "ammo": "small_charcoal",
+    "ammo": "charcoal",
     "revert_to": "null",
     "use_action": "HOTPLATE"
   },
@@ -1727,7 +1727,7 @@
                 "kevlar", "plastic", "iron", "steel", "hardsteel", "aluminum", "copper"
             ],
             "skill": "mechanics",
-            "cost_scaling": 0.25,
+            "cost_scaling": 0.1,
             "move_cost": 1500
         },
         {
@@ -4643,7 +4643,7 @@
                 "kevlar", "plastic", "iron", "steel", "hardsteel", "aluminum", "copper"
             ],
             "skill": "mechanics",
-            "cost_scaling": 0.25,
+            "cost_scaling": 0.1,
             "move_cost": 500,
             "tool_quality": 3
         },
@@ -6661,7 +6661,7 @@
             "cotton", "leather", "wool", "fur", "nomex"
         ],
         "skill": "tailor",
-        "cost_scaling": 0,
+        "cost_scaling": 0.1,
         "tool_quality": -1,
         "move_cost": 1300
     }
@@ -6692,7 +6692,7 @@
             "cotton", "leather", "wool", "fur", "nomex"
         ],
         "skill": "tailor",
-        "cost_scaling": 0,
+        "cost_scaling": 0.1,
         "tool_quality": -1,
         "move_cost": 1500
     }
@@ -7793,7 +7793,7 @@
                 "kevlar", "plastic", "iron", "steel", "hardsteel", "aluminum", "copper"
             ],
             "skill": "mechanics",
-            "cost_scaling": 0.25,
+            "cost_scaling": 0.1,
             "move_cost": 1000,
             "tool_quality": 3
         },
@@ -8265,6 +8265,7 @@
   },
   {
     "id": "char_forge",
+    "sub": "forge",
     "type": "TOOL",
     "symbol": ";",
     "color": "dark_gray",
@@ -8276,7 +8277,7 @@
     "volume": 32,
     "bashing": 9,
     "to_hit": -2,
-    "max_charges": 100,
+    "max_charges": 500,
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
@@ -8296,7 +8297,7 @@
     "volume": 18,
     "bashing": 9,
     "to_hit": -2,
-    "max_charges": 40,
+    "max_charges": 200,
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
@@ -10248,7 +10249,7 @@
     "volume": 36,
     "bashing": 13,
     "to_hit": -3,
-    "max_charges": 200,
+    "max_charges": 1000,
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
@@ -10999,7 +11000,7 @@
             "neoprene", "nomex"
         ],
         "skill": "tailor",
-        "cost_scaling": 0,
+        "cost_scaling": 0.1,
         "tool_quality": 0,
         "move_cost": 1200
     }

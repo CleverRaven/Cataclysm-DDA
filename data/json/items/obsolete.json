@@ -285,5 +285,52 @@
     "price" : 66000,
     "min_skills" : [ [ "gun", 8 ] ],
     "loudness_modifier" : 3
+  },{
+    "type":"GENERIC",
+    "id": "coal",
+    "symbol": "/",
+    "color": "dark_gray",
+    "name": "coal pallet",
+    "category" : "other",
+    "description": "A large block of semi-processed coal.",
+    "price": 60000,
+    "material": "stone",
+    "weight": 13840,
+    "volume": 72,
+    "bashing": 8,
+    "to_hit": -5
+  },{
+    "type" : "AMMO",
+    "id" : "small_charcoal",
+    "category" : "spare_parts",
+    "price" : 1000,
+    "name" : "charcoal pieces",
+    "name_plural" : "charcoal pieces",
+    "symbol" : "=",
+    "color" : "dark_gray",
+    "description" : "These are smaller pieces of charcoal used in smaller heating devices.",
+    "material" : "wood",
+    "volume" : 1,
+    "weight" : 22,
+    "phase" : "solid",
+    "ammo_type" : "charcoal",
+    "count" : 10,
+    "stack_size" : 20
+  },{
+    "type" : "AMMO",
+    "id" : "small_coal",
+    "category" : "spare_parts",
+    "price" : 1000,
+    "name" : "coal pieces",
+    "name_plural" : "coal pieces",
+    "symbol" : "=",
+    "color" : "dark_gray",
+    "description" : "These are smaller pieces of coal used in smaller heating devices.",
+    "material" : "wood",
+    "volume" : 1,
+    "weight" : 22,
+    "ammo_type" : "charcoal",
+    "count" : 10,
+    "stack_size" : 20
   }
 ]

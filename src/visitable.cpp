@@ -11,7 +11,7 @@
 #include "game.h"
 
 template <typename T>
-item * visitable<T>::find_parent( item& it )
+item * visitable<T>::find_parent( const item& it )
 {
     item *res = nullptr;
     if( visit_items( [&]( item *node, item *parent, const tripoint * ){
@@ -29,7 +29,27 @@ item * visitable<T>::find_parent( item& it )
 template <typename T>
 const item * visitable<T>::find_parent( const item& it ) const
 {
-    return const_cast<visitable<T> *>( this )->find_parent( const_cast<item&>( it ) );
+    return const_cast<visitable<T> *>( this )->find_parent( it );
+}
+
+template <typename T>
+std::vector<item *> visitable<T>::parents( const item& it )
+{
+    std::vector<item *> res;
+    for( item *obj = find_parent( it ); obj; obj = find_parent( *obj ) ) {
+        res.push_back( obj );
+    }
+    return res;
+}
+
+template <typename T>
+std::vector<const item *> visitable<T>::parents( const item& it ) const
+{
+    std::vector<const item *> res;
+    for( const item *obj = find_parent( it ); obj; obj = find_parent( *obj ) ) {
+        res.push_back( obj );
+    }
+    return res;
 }
 
 template <typename T>

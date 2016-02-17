@@ -32,6 +32,7 @@
 #include "morale.h"
 #include "catacharset.h"
 #include "cata_utility.h"
+#include "input.h"
 
 #include <cmath> // floor
 #include <sstream>
@@ -146,7 +147,7 @@ item::item( const itype *type, int turn, int qty ) : type( type )
         }
     }
 
-    if( type->gun || type->is_tool() ) {
+    if( ( type->gun || type->is_tool() ) && !magazine_integral() ) {
         set_var( "magazine_converted", true );
     }
 
@@ -197,6 +198,17 @@ item& item::convert( const itype_id& new_type )
 {
     type = find_type( new_type );
     return *this;
+}
+
+item item::split( long qty )
+{
+    if( !count_by_charges() || qty <= 0 || qty >= charges ) {
+        return item();
+    }
+    item res = *this;
+    res.charges = qty;
+    charges -= qty;
+    return res;
 }
 
 bool item::is_null() const
@@ -2722,24 +2734,21 @@ int item::get_encumber() const
     if( item::item_tags.count("FIT") ) {
         encumber = std::max( encumber / 2, encumber - 10 );
     }
-    // Good items to test this stuff on:
-    // Hoodies (3 thickness), jumpsuits (2 thickness, 3 encumbrance),
-    // Nomes socks (2 thickness, 0 encumbrance)
-    // When a common item has 90%+ coverage, 15/15 protection and <=5 encumbrance,
-    // it's a sure sign something has to be nerfed.
+
+    const int thickness = get_thickness();
+    const int coverage = get_coverage();
     if( item::item_tags.count("wooled") ) {
-        encumber += 3;
+        encumber += 1 + 3 * coverage / 100;
     }
     if( item::item_tags.count("furred") ){
-        encumber += 5;
+        encumber += 1 + 4 * coverage / 100;
     }
-    // Don't let dual-armor-modded items get below 10 encumbrance after fitting
-    // Also prevent 0 encumbrance armored underwear
+
     if( item::item_tags.count("leather_padded") ) {
-        encumber = std::max( 15, encumber + 7 );
+        encumber += thickness * coverage / 100 + 5;
     }
     if( item::item_tags.count("kevlar_padded") ) {
-        encumber = std::max( 13, encumber + 5 );
+        encumber += thickness * coverage / 100 + 5;
     }
 
     return encumber;
@@ -2790,13 +2799,15 @@ int item::get_warmth() const
     // it_armor::warmth is signed char
     int result = static_cast<int>( t->warmth );
 
-    if (item::item_tags.count("furred") > 0){
-        fur_lined = 35 * (float(get_coverage()) / 100);
+    if( item::item_tags.count("furred") > 0 ) {
+        fur_lined = 35 * get_coverage() / 100;
     }
-    if (item::item_tags.count("wooled") > 0){
-        wool_lined = 20 * (float(get_coverage()) / 100);
+
+    if( item::item_tags.count("wooled") > 0 ) {
+        wool_lined = 20 * get_coverage() / 100;
     }
-        return result + fur_lined + wool_lined;
+
+    return result + fur_lined + wool_lined;
 }
 
 
@@ -2887,7 +2898,7 @@ long item::num_charges()
     return 0;
 }
 
-int item::bash_resist(bool /*to_self*/) const
+int item::bash_resist( bool to_self ) const
 {
     float resist = 0;
     float l_padding = 0;
@@ -2916,7 +2927,9 @@ int item::bash_resist(bool /*to_self*/) const
     // Armor gets an additional multiplier.
     if (is_armor()) {
         // base resistance
-        eff_thickness = ((get_thickness() - damage <= 0) ? 1 : (get_thickness() - damage));
+        // Don't give reinforced items +armor, just more resistance to ripping
+        const int eff_damage = std::max( to_self ? -1 : 0, damage );
+        eff_thickness = ((get_thickness() - eff_damage <= 0) ? 1 : (get_thickness() - eff_damage));
     }
 
     for (auto mat : mat_types) {
@@ -2928,7 +2941,7 @@ int item::bash_resist(bool /*to_self*/) const
     return lround((resist * eff_thickness * adjustment) + l_padding + k_padding);
 }
 
-int item::cut_resist(bool /*to_self*/) const
+int item::cut_resist( bool to_self ) const
 {
     float resist = 0;
     float l_padding = 0;
@@ -2958,7 +2971,9 @@ int item::cut_resist(bool /*to_self*/) const
     // Armor gets an additional multiplier.
     if (is_armor()) {
         // base resistance
-        eff_thickness = ((get_thickness() - damage <= 0) ? 1 : (get_thickness() - damage));
+        // Don't give reinforced items +armor, just more resistance to ripping
+        const int eff_damage = std::max( to_self ? -1 : 0, damage );
+        eff_thickness = ((get_thickness() - eff_damage <= 0) ? 1 : (get_thickness() - eff_damage));
     }
 
     for (auto mat : mat_types) {
@@ -4208,7 +4223,7 @@ bool item::can_reload( const itype_id& ammo ) const {
     }
 }
 
-item_location item::pick_reload_ammo( player &u, bool interactive ) const
+item_location item::pick_reload_ammo( player &u ) const
 {
     std::vector<item_location> ammo_list;
 
@@ -4232,12 +4247,10 @@ item_location item::pick_reload_ammo( player &u, bool interactive ) const
     }
 
     // Ensure ammo_list contains only valid dereferenceable locations
-    ammo_list.erase( std::remove( ammo_list.begin(), ammo_list.end(), item_location() ), ammo_list.end() );
+    ammo_list.erase( std::remove( ammo_list.begin(), ammo_list.end(), item_location::nowhere ), ammo_list.end() );
 
     if( ammo_list.empty() ) {
-        if( interactive ) {
-            u.add_msg_if_player( m_info, _( "Out of %s!" ), is_gun() ? _("ammo") : ammo_name( ammo_type() ).c_str() );
-        }
+        u.add_msg_if_player( m_info, _( "Out of %s!" ), is_gun() ? _("ammo") : ammo_name( ammo_type() ).c_str() );
         return item_location();
     }
 
@@ -4245,11 +4258,19 @@ item_location item::pick_reload_ammo( player &u, bool interactive ) const
         return rhs->ammo_remaining() < lhs->ammo_remaining();
     } );
 
-    if( ammo_list.size() == 1 || !interactive ) {
-        return std::move( ammo_list[0] );
+    if( ammo_list.size() == 1 ) {
+        // Suppress display of reload prompt when...
+        if( !is_gun() ) {
+            return std::move( ammo_list[ 0 ] ); // reloading tools
+
+        } else if( magazine_integral() && ammo_remaining() > 0 ) {
+            return std::move( ammo_list[ 0 ] ); // adding to partially filled integral magazines
+
+        } else if( has_flag( "RELOAD_AND_SHOOT" ) && u.has_item( *ammo_list[ 0 ] ) ) {
+            return std::move( ammo_list[ 0 ] ); // using bows etc and ammo is already in player possession
+        }
     }
 
-    // If interactive and more than one option prompt the user for a selection
     uimenu menu;
     menu.text = string_format( _("Reload %s" ), tname().c_str() );
     menu.return_invalid = true;
@@ -4307,16 +4328,15 @@ item_location item::pick_reload_ammo( player &u, bool interactive ) const
     menu.w_y = std::max( ( TERMX / 2 ) - int( menu.w_width / 2 ) , 0 );
     menu.w_y = std::max( ( TERMY / 2 ) - int( (ammo_list.size() + 3 ) / 2 ) , 0 );
 
-    std::string lastreload = "";
-    if( uistate.lastreload.find( ammo_type() ) != uistate.lastreload.end() ) {
-        lastreload = uistate.lastreload[ ammo_type() ];
-    }
+    itype_id last = uistate.lastreload[ ammo_type() ];
 
     for( auto i = 0; i != (int) ammo_list.size(); ++i ) {
+        const item& ammo = ammo_list[ i ]->is_ammo_container() ? ammo_list[ i ]->contents[ 0 ] : *ammo_list[ i ];
+
         std::string row = names[i] + "| " + where[i] + " ";
 
         if( is_gun() || is_magazine() ) {
-            const itype *curammo = ammo_list[i]->ammo_data(); // nullptr for empty magazines
+            const itype *curammo = ammo.ammo_data(); // nullptr for empty magazines
             if( curammo ) {
                 row += string_format( "| %-7d | %-7d | %-7d | %-7d",
                                       curammo->ammo->damage, curammo->ammo->pierce,
@@ -4326,23 +4346,29 @@ item_location item::pick_reload_ammo( player &u, bool interactive ) const
             }
         }
 
-        menu.addentry( i, true, i + 'a', row );
-        if( lastreload == ammo_list[i]->typeId() ) {
-            menu.selected = i;
+        char hotkey = -1;
+        if( u.has_item( ammo ) && ( ammo.invlet || ammo_list[ i ]->invlet ) ) {
+            // if ammo in player possession and either it or any container has a valid invlet use this
+            hotkey = ammo.invlet ? ammo.invlet : ammo_list[ i ]->invlet;
+
+        } else if( last == ammo.typeId() ) {
+            // if this is the first occurrence of the most recently used type of ammo and the hotkey
+            // was not already set above then set it to the keypress that opened this prompt
+            hotkey = inp_mngr.get_previously_pressed_key();
+            last = std::string();
         }
+
+        menu.addentry( i, true, hotkey, row );
     }
 
     menu.query();
     if( menu.ret < 0 || menu.ret >= ( int ) ammo_list.size() ) {
-        // invalid selection / escaped from the menu
-        if( interactive ) {
-            u.add_msg_if_player( m_info, _( "Never mind." ) );
-        }
+        u.add_msg_if_player( m_info, _( "Never mind." ) );
         return item_location();
     }
 
-    item_location sel = std::move( ammo_list[menu.ret] );
-    uistate.lastreload[ ammo_type() ] = sel->typeId();
+    item_location sel = std::move( ammo_list[ menu.ret ] );
+    uistate.lastreload[ ammo_type() ] = sel->is_ammo_container() ? sel->contents[ 0 ].typeId() : sel->typeId();
     return sel;
 }
 

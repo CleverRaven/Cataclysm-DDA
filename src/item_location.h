@@ -23,6 +23,8 @@ class item_location
         item_location &operator=( item_location && );
         ~item_location();
 
+        static const item_location nowhere;
+
         item_location( Character &ch, item *which );
         item_location( const map_cursor &mc, item *which );
         item_location( const vehicle_cursor &vc, item *which );
@@ -43,10 +45,11 @@ class item_location
         std::string describe( const Character *ch = nullptr ) const;
 
         /** Move an item from the location to the character inventory
+         *  @param qty if specified limits maximum obtained charges
          *  @warning caller should restack inventory if item is to remain in it
          *  @warning all further operations using this class are invalid
          *  @return inventory position for the item */
-        int obtain( Character &ch );
+        int obtain( Character &ch, long qty = -1 );
 
         /** Removes the selected item from the game
          *  @warning all further operations using this class are invalid */

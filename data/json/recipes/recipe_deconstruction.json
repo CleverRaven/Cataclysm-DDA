@@ -2093,7 +2093,7 @@
   "reversible": true,
   "autolearn": false,
   "components": [
-    [ [ "charcoal", 15 ] ],
+    [ [ "charcoal", 75 ] ],
     [ [ "char_kiln", 1 ] ]
   ]
 },{
