@@ -1270,7 +1270,7 @@
         "color" : "light_gray",
         "covers" : ["TORSO", "ARMS", "LEGS"],
         "symbol" : "[",
-        "description" : "A one-piece suit of full-body long underwear that helps to maintain body temperature.",
+        "description" : "A one-piece suit of full-body long underwear that helps to maintain body temperature.  It laces closed in the front.",
         "price" : 2500,
         "material" : ["cotton", "null"],
         "volume" : 4,
