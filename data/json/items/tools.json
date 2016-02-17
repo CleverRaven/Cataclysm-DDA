@@ -295,7 +295,7 @@
             "cotton", "leather", "wool", "fur", "nomex"
         ],
         "skill": "tailor",
-        "cost_scaling": 0,
+        "cost_scaling": 0.1,
         "tool_quality": 0,
         "move_cost": 1000
     }
@@ -327,7 +327,7 @@
                 "cotton", "leather", "wool", "fur", "nomex", "neoprene"
             ],
             "skill": "tailor",
-            "cost_scaling": 0,
+            "cost_scaling": 0.1,
             "tool_quality": 1,
             "move_cost": 800
         },
@@ -1727,7 +1727,7 @@
                 "kevlar", "plastic", "iron", "steel", "hardsteel", "aluminum", "copper"
             ],
             "skill": "mechanics",
-            "cost_scaling": 0.25,
+            "cost_scaling": 0.1,
             "move_cost": 1500
         },
         {
@@ -4643,7 +4643,7 @@
                 "kevlar", "plastic", "iron", "steel", "hardsteel", "aluminum", "copper"
             ],
             "skill": "mechanics",
-            "cost_scaling": 0.25,
+            "cost_scaling": 0.1,
             "move_cost": 500,
             "tool_quality": 3
         },
@@ -6661,7 +6661,7 @@
             "cotton", "leather", "wool", "fur", "nomex"
         ],
         "skill": "tailor",
-        "cost_scaling": 0,
+        "cost_scaling": 0.1,
         "tool_quality": -1,
         "move_cost": 1300
     }
@@ -6692,7 +6692,7 @@
             "cotton", "leather", "wool", "fur", "nomex"
         ],
         "skill": "tailor",
-        "cost_scaling": 0,
+        "cost_scaling": 0.1,
         "tool_quality": -1,
         "move_cost": 1500
     }
@@ -7793,7 +7793,7 @@
                 "kevlar", "plastic", "iron", "steel", "hardsteel", "aluminum", "copper"
             ],
             "skill": "mechanics",
-            "cost_scaling": 0.25,
+            "cost_scaling": 0.1,
             "move_cost": 1000,
             "tool_quality": 3
         },
@@ -11000,7 +11000,7 @@
             "neoprene", "nomex"
         ],
         "skill": "tailor",
-        "cost_scaling": 0,
+        "cost_scaling": 0.1,
         "tool_quality": 0,
         "move_cost": 1200
     }

@@ -21,6 +21,7 @@
 #include "field.h"
 #include "weather.h"
 #include "pldata.h"
+#include "recipe_dictionary.h"
 
 #include <sstream>
 #include <algorithm>
@@ -2044,18 +2045,14 @@ bool repair_item_actor::handle_components( player &pl, const item &fix,
         return false;
     }
 
-    // Repairing apparently doesn't always consume items;
-    // maybe it should just consume less or something?
-    // Anyway, don't ask for items if we won't need any.
-    if( !(fix.damage >= 3 || fix.damage == 0) ) {
-        return true;
-    }
-
     const inventory &crafting_inv = pl.crafting_inventory();
 
     // Repairing or modifying items requires at least 1 repair item,
     //  otherwise number is related to size of item
-    const int items_needed = std::max<int>( 1, ceil( fix.volume() * cost_scaling ) );
+    // Round up if checking, but roll if actually consuming
+    const int items_needed = std::max<int>( 1, just_check ?
+        ceil( fix.volume() * cost_scaling ) :
+        divide_roll_remainder( fix.volume() * cost_scaling, 1.0f ) );
 
     // Go through all discovered repair items and see if we have any of them available
     for( const auto &entry : valid_entries ) {
@@ -2091,6 +2088,36 @@ bool repair_item_actor::handle_components( player &pl, const item &fix,
     }
 
     return true;
+}
+
+
+// Returns the level of the lowest level recipe that results in item of `fix`'s type
+// If the recipe is not known by the player, +1 to difficulty
+// If player doesn't meet the requirements of the recipe, +1 to difficulty
+// If the recipe doesn't exist, difficulty is 10
+int repair_item_actor::repair_recipe_difficulty( const player &pl,
+    const item &fix, bool training ) const
+{
+    const auto &type = fix.typeId();
+    int min = 5;
+    for( const auto *cur_recipe : recipe_dict ) {
+        if( type != cur_recipe->result ) {
+            continue;
+        }
+
+        int cur_difficulty = cur_recipe->difficulty;
+        if( !training && !pl.knows_recipe( cur_recipe ) ) {
+            cur_difficulty++;
+        }
+
+        if( !training && !pl.has_recipe_requirements( cur_recipe ) ) {
+            cur_difficulty++;
+        }
+
+        min = std::min( cur_difficulty, min );
+    }
+
+    return min;
 }
 
 bool repair_item_actor::can_repair( player &pl, const item &tool, const item &fix, bool print_msg ) const
@@ -2133,21 +2160,91 @@ bool repair_item_actor::can_repair( player &pl, const item &tool, const item &fi
         return false;
     }
 
-    if( fix.damage == 0 && fix.has_flag("PRIMITIVE_RANGED_WEAPON") ) {
+    if( fix.has_flag("VARSIZE") && !fix.has_flag("FIT") ) {
+        return true;
+    }
+
+    if( fix.damage > 0 ) {
+        return true;
+    }
+
+    if( fix.damage < 0 ) {
+        if( print_msg ) {
+            pl.add_msg_if_player( m_info, _("Your %s is already enhanced."), fix.tname().c_str() );
+        }
+        return false;
+    }
+
+    if( fix.has_flag("PRIMITIVE_RANGED_WEAPON") ) {
         if( print_msg ) {
             pl.add_msg_if_player( m_info, _("You cannot improve your %s any more this way."), fix.tname().c_str());
         }
         return false;
     }
 
-    if( fix.damage >= 0 || (fix.has_flag("VARSIZE") && !fix.has_flag("FIT")) ) {
-        return true;
+    return true;
+}
+
+std::pair<float, float> repair_item_actor::repair_chance(
+    const player &pl, const item &fix, repair_item_actor::repair_type action_type ) const
+{
+    ///\EFFECT_TAILOR randomly improves clothing repair efforts
+    ///\EFFECT_MECHANICS randomly improves metal repair efforts
+    const int skill = pl.get_skill_level( used_skill );
+    const int recipe_difficulty = repair_recipe_difficulty( pl, fix );
+    int action_difficulty = 0;
+    switch( action_type ) {
+        case RT_REPAIR:
+            action_difficulty = fix.damage;
+            break;
+        case RT_REFIT:
+            // Let's make refitting as hard as recovering an almost-wrecked item
+            action_difficulty = MAX_ITEM_DAMAGE;
+            break;
+        case RT_REINFORCE:
+            // Reinforcing is at least as hard as refitting
+            action_difficulty = std::max( MAX_ITEM_DAMAGE, recipe_difficulty );
+            break;
+        default:
+            std::make_pair( 0.0f, 0.0f );
     }
 
-    if( print_msg ) {
-        pl.add_msg_if_player( m_info, _("Your %s is already enhanced."), fix.tname().c_str() );
+    const int difficulty = recipe_difficulty + action_difficulty;
+    // Sample numbers:
+    // Item   | Damage | Skill | Dex | Success | Failure
+    // Hoodie |    2   |   3   |  10 |   6%    |   0%
+    // Hazmat |    1   |   10  |  10 |   8%    |   0%
+    // Hazmat |    1   |   5   |  20 |   0%    |   2%
+    // t-shirt|    4   |   1   |  5  |   2%    |   3%
+    // Duster |    2   |   5   |  5  |   10%   |   0%
+    // Duster |    2   |   2   |  10 |   4%    |   1%
+    // Duster | Refit  |   2   |  10 |   0%    |   N/A
+    float success_chance = (10 + 2 * skill - 2 * difficulty) / 100.0f;
+    ///\EFFECT_DEX randomly reduces the chances of damaging an item when repairing
+    float damage_chance = (difficulty - skill - (tool_quality + pl.dex_cur) / 5.0f) / 100.0f;
+
+    damage_chance = std::max( 0.0f, std::min( 1.0f, damage_chance ) );
+    success_chance = std::max( 0.0f, std::min( 1.0f - damage_chance, success_chance ) );
+
+
+    return std::make_pair( success_chance, damage_chance );
+}
+
+repair_item_actor::repair_type repair_item_actor::default_action( const item &fix ) const
+{
+    if( fix.damage > 0 ) {
+        return RT_REPAIR;
     }
-    return false;
+
+    if( fix.has_flag("VARSIZE") && !fix.has_flag("FIT") ) {
+        return RT_REFIT;
+    }
+
+    if( fix.damage == 0 ) {
+        return RT_REINFORCE;
+    }
+
+    return RT_NOTHING;
 }
 
 repair_item_actor::attempt_hint repair_item_actor::repair( player &pl, item &tool, item &fix ) const
@@ -2156,15 +2253,10 @@ repair_item_actor::attempt_hint repair_item_actor::repair( player &pl, item &too
         return AS_CANT;
     }
 
-    pl.practice( used_skill, 8 );
-    ///\EFFECT_TAILOR randomly improves clothing repair efforts
-    ///\EFFECT_MECHANICS randomly improves metal repair efforts
-    // Let's make refitting/reinforcing as hard as recovering an almost-wrecked item
-    // TODO: Make difficulty depend on the item type (for example, on recipe's difficulty)
-    const int difficulty = fix.damage == 0 ? 4 : fix.damage;
-    float repair_chance = (5 + pl.get_skill_level( used_skill ) - difficulty) / 100.0f;
-    ///\EFFECT_DEX randomly reduces the chances of damaging an item when repairing
-    float damage_chance = (5 - (pl.dex_cur + tool_quality) / 5.0f) / 100.0f;
+    const auto action = default_action( fix );
+    const auto chance = repair_chance( pl, fix, action );
+    const int practice_amount = repair_recipe_difficulty( pl, fix, true );
+    pl.practice( used_skill, practice_amount );
     float roll_value = rng_float( 0.0, 1.0 );
     enum roll_result {
         SUCCESS,
@@ -2172,15 +2264,15 @@ repair_item_actor::attempt_hint repair_item_actor::repair( player &pl, item &too
         NEUTRAL
     } roll;
 
-    if( roll_value > 1.0f - damage_chance ) {
+    if( roll_value > 1.0f - chance.second ) {
         roll = FAILURE;
-    } else if( roll_value < repair_chance ) {
+    } else if( roll_value < chance.first ) {
         roll = SUCCESS;
     } else {
         roll = NEUTRAL;
     }
 
-    if( fix.damage > 0 ) {
+    if( action == RT_REPAIR ) {
         if( roll == FAILURE ) {
             pl.add_msg_if_player(m_bad, _("You damage your %s further!"), fix.tname().c_str());
             fix.damage++;
@@ -2210,19 +2302,14 @@ repair_item_actor::attempt_hint repair_item_actor::repair( player &pl, item &too
         return AS_RETRY;
     }
 
-    if( fix.damage == 0 && fix.has_flag("PRIMITIVE_RANGED_WEAPON") ) {
-        pl.add_msg_if_player(m_info, _("You cannot improve your %s any more this way."), fix.tname().c_str());
-        return AS_CANT;
-    }
-
-    if( fix.damage == 0 || (fix.has_flag("VARSIZE") && !fix.has_flag("FIT")) ) {
+    if( action == RT_REFIT ) {
         if( roll == FAILURE ) {
             pl.add_msg_if_player(m_bad, _("You damage your %s!"), fix.tname().c_str());
             fix.damage++;
             return AS_FAILURE;
         }
 
-        if( roll == SUCCESS && fix.has_flag("VARSIZE") && !fix.has_flag("FIT") ) {
+        if( roll == SUCCESS ) {
             pl.add_msg_if_player(m_good, _("You take your %s in, improving the fit."),
                                  fix.tname().c_str());
             fix.item_tags.insert("FIT");
@@ -2230,7 +2317,16 @@ repair_item_actor::attempt_hint repair_item_actor::repair( player &pl, item &too
             return AS_SUCCESS;
         }
 
-        if( roll == SUCCESS && (fix.has_flag("FIT") || !fix.has_flag("VARSIZE")) ) {
+        return AS_RETRY;
+    }
+
+    if( action == RT_REINFORCE ) {
+        if( fix.has_flag("PRIMITIVE_RANGED_WEAPON") ) {
+            pl.add_msg_if_player( m_info, _("You cannot improve your %s any more this way."), fix.tname().c_str() );
+            return AS_CANT;
+        }
+
+        if( roll == SUCCESS ) {
             pl.add_msg_if_player(m_good, _("You make your %s extra sturdy."), fix.tname().c_str());
             fix.damage--;
             handle_components( pl, fix, false, false );
@@ -2240,8 +2336,21 @@ repair_item_actor::attempt_hint repair_item_actor::repair( player &pl, item &too
         return AS_RETRY;
     }
 
-    pl.add_msg_if_player(m_info, _("Your %s is already enhanced."), fix.tname().c_str());
+    pl.add_msg_if_player( m_info, _("Your %s is already enhanced."), fix.tname().c_str() );
     return AS_CANT;
+}
+
+const std::string &repair_item_actor::action_description( repair_item_actor::repair_type rt )
+{
+    static const std::array<std::string, NUM_REPAIR_TYPES> arr = {{
+        _("Nothing"),
+        _("Repairing"),
+        _("Refiting"),
+        _("Reinforcing"),
+        _("Practicing")
+    }};
+
+    return arr[rt];
 }
 
 void heal_actor::load( JsonObject &obj )

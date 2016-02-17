@@ -2728,24 +2728,21 @@ int item::get_encumber() const
     if( item::item_tags.count("FIT") ) {
         encumber = std::max( encumber / 2, encumber - 10 );
     }
-    // Good items to test this stuff on:
-    // Hoodies (3 thickness), jumpsuits (2 thickness, 3 encumbrance),
-    // Nomes socks (2 thickness, 0 encumbrance)
-    // When a common item has 90%+ coverage, 15/15 protection and <=5 encumbrance,
-    // it's a sure sign something has to be nerfed.
+
+    const int thickness = get_thickness();
+    const int coverage = get_coverage();
     if( item::item_tags.count("wooled") ) {
-        encumber += 3;
+        encumber += 1 + 3 * coverage / 100;
     }
     if( item::item_tags.count("furred") ){
-        encumber += 5;
+        encumber += 1 + 4 * coverage / 100;
     }
-    // Don't let dual-armor-modded items get below 10 encumbrance after fitting
-    // Also prevent 0 encumbrance armored underwear
+
     if( item::item_tags.count("leather_padded") ) {
-        encumber = std::max( 15, encumber + 7 );
+        encumber += thickness * coverage / 100 + 5;
     }
     if( item::item_tags.count("kevlar_padded") ) {
-        encumber = std::max( 13, encumber + 5 );
+        encumber += thickness * coverage / 100 + 5;
     }
 
     return encumber;
@@ -2796,13 +2793,15 @@ int item::get_warmth() const
     // it_armor::warmth is signed char
     int result = static_cast<int>( t->warmth );
 
-    if (item::item_tags.count("furred") > 0){
-        fur_lined = 35 * (float(get_coverage()) / 100);
+    if( item::item_tags.count("furred") > 0 ) {
+        fur_lined = 35 * get_coverage() / 100;
     }
-    if (item::item_tags.count("wooled") > 0){
-        wool_lined = 20 * (float(get_coverage()) / 100);
+
+    if( item::item_tags.count("wooled") > 0 ) {
+        wool_lined = 20 * get_coverage() / 100;
     }
-        return result + fur_lined + wool_lined;
+
+    return result + fur_lined + wool_lined;
 }
 
 
@@ -2893,7 +2892,7 @@ long item::num_charges()
     return 0;
 }
 
-int item::bash_resist(bool /*to_self*/) const
+int item::bash_resist( bool to_self ) const
 {
     float resist = 0;
     float l_padding = 0;
@@ -2922,7 +2921,9 @@ int item::bash_resist(bool /*to_self*/) const
     // Armor gets an additional multiplier.
     if (is_armor()) {
         // base resistance
-        eff_thickness = ((get_thickness() - damage <= 0) ? 1 : (get_thickness() - damage));
+        // Don't give reinforced items +armor, just more resistance to ripping
+        const int eff_damage = std::max( to_self ? -1 : 0, damage );
+        eff_thickness = ((get_thickness() - eff_damage <= 0) ? 1 : (get_thickness() - eff_damage));
     }
 
     for (auto mat : mat_types) {
@@ -2934,7 +2935,7 @@ int item::bash_resist(bool /*to_self*/) const
     return lround((resist * eff_thickness * adjustment) + l_padding + k_padding);
 }
 
-int item::cut_resist(bool /*to_self*/) const
+int item::cut_resist( bool to_self ) const
 {
     float resist = 0;
     float l_padding = 0;
@@ -2964,7 +2965,9 @@ int item::cut_resist(bool /*to_self*/) const
     // Armor gets an additional multiplier.
     if (is_armor()) {
         // base resistance
-        eff_thickness = ((get_thickness() - damage <= 0) ? 1 : (get_thickness() - damage));
+        // Don't give reinforced items +armor, just more resistance to ripping
+        const int eff_damage = std::max( to_self ? -1 : 0, damage );
+        eff_thickness = ((get_thickness() - eff_damage <= 0) ? 1 : (get_thickness() - eff_damage));
     }
 
     for (auto mat : mat_types) {
