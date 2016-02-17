@@ -7,6 +7,7 @@
 
 struct itype;
 class player;
+class morale_mult;
 
 enum morale_type : int {
     MORALE_NULL = 0,
@@ -73,61 +74,6 @@ enum morale_type : int {
 
     NUM_MORALE_TYPES
 };
-
-// Morale multiplier
-struct morale_mult {
-    morale_mult(): good( 1.0 ), bad( 1.0 ) {}
-    morale_mult( double good, double bad ): good( good ), bad( bad ) {}
-    morale_mult( double both ): good( both ), bad( both ) {}
-
-    double good;    // For good morale
-    double bad;     // For bad morale
-
-    morale_mult operator * ( const morale_mult &rhs ) const {
-        return morale_mult( *this ) *= rhs;
-    }
-
-    morale_mult &operator *= ( const morale_mult &rhs ) {
-        good *= rhs.good;
-        bad *= rhs.bad;
-        return *this;
-    }
-};
-
-inline double operator * ( double morale, const morale_mult &mult )
-{
-    return morale * ( ( morale >= 0.0 ) ? mult.good : mult.bad );
-}
-
-inline double operator * ( const morale_mult &mult, double morale )
-{
-    return morale * mult;
-}
-
-inline double operator *= ( double &morale, const morale_mult &mult )
-{
-    morale = morale * mult;
-    return morale;
-}
-
-inline int operator *= ( int &morale, const morale_mult &mult )
-{
-    morale = morale * mult;
-    return morale;
-}
-
-// Commonly used morale multipliers
-namespace morale_mults
-{
-// Optimistic characters focus on the good things in life,
-// and downplay the bad things.
-static const morale_mult optimistic( 1.25, 0.75 );
-// Again, those grouchy Bad-Tempered folks always focus on the negative.
-// They can't handle positive things as well.  They're No Fun.  D:
-static const morale_mult badtemper( 0.75, 1.25 );
-// Prozac reduces overall negative morale by 75%.
-static const morale_mult prozac( 1.0, 0.25 );
-}
 
 class morale_point : public JsonSerializer, public JsonDeserializer
 {
@@ -209,11 +155,13 @@ class player_morale
         void clear();
         /** Invalidates morale level to recalculate it on demand */
         void invalidate();
+
     protected:
         friend class player;
 
         void store( JsonOut &jsout ) const;
         void load( JsonObject &jsin );
+
     private:
         std::vector<morale_point> points;
         // Mutability is required for lazy initialization
