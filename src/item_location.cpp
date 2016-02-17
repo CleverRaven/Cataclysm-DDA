@@ -66,10 +66,15 @@ class item_location::item_on_map : public item_location::impl
 
             ch.moves -= mv;
 
+
             item obj = what->split( qty );
-            int inv = ch.get_item_position( &ch.i_add( !obj.is_null() ? obj : *what ) );
-            remove_item();
-            return inv;
+            if( !obj.is_null() ) {
+                return ch.get_item_position( &ch.i_add( obj ) );
+            } else {
+                int inv = ch.get_item_position( &ch.i_add( *what ) );
+                remove_item();
+                return inv;
+            }
         }
 
         void remove_item() override {
@@ -164,9 +169,13 @@ class item_location::item_on_person : public item_location::impl
             }
 
             item obj = what->split( qty );
-            int inv = ch.get_item_position( &ch.i_add( !obj.is_null() ? obj : *what ) );
-            remove_item();
-            return inv;
+            if( !obj.is_null() ) {
+                return ch.get_item_position( &ch.i_add( obj ) );
+            } else {
+                int inv = ch.get_item_position( &ch.i_add( *what ) );
+                remove_item();
+                return inv;
+            }
         }
 
         void remove_item() override {
@@ -223,9 +232,13 @@ class item_location::item_on_vehicle : public item_location::impl
             ch.moves -= mv;
 
             item obj = what->split( qty );
-            int inv = ch.get_item_position( &ch.i_add( !obj.is_null() ? obj : *what ) );
-            remove_item();
-            return inv;
+            if( !obj.is_null() ) {
+                return ch.get_item_position( &ch.i_add( obj ) );
+            } else {
+                int inv = ch.get_item_position( &ch.i_add( *what ) );
+                remove_item();
+                return inv;
+            }
         }
 
         void remove_item() override {
