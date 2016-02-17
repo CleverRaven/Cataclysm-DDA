@@ -146,7 +146,7 @@ item::item( const itype *type, int turn, int qty ) : type( type )
         }
     }
 
-    if( type->gun || type->is_tool() ) {
+    if( ( type->gun || type->is_tool() ) && !magazine_integral() ) {
         set_var( "magazine_converted", true );
     }
 
