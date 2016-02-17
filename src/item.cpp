@@ -32,6 +32,7 @@
 #include "morale.h"
 #include "catacharset.h"
 #include "cata_utility.h"
+#include "input.h"
 
 #include <cmath> // floor
 #include <sstream>
@@ -197,6 +198,17 @@ item& item::convert( const itype_id& new_type )
 {
     type = find_type( new_type );
     return *this;
+}
+
+item item::split( long qty )
+{
+    if( !count_by_charges() || qty <= 0 || qty >= charges ) {
+        return item();
+    }
+    item res = *this;
+    res.charges = qty;
+    charges -= qty;
+    return res;
 }
 
 bool item::is_null() const
@@ -4202,7 +4214,7 @@ bool item::can_reload( const itype_id& ammo ) const {
     }
 }
 
-item_location item::pick_reload_ammo( player &u, bool interactive ) const
+item_location item::pick_reload_ammo( player &u ) const
 {
     std::vector<item_location> ammo_list;
 
@@ -4226,12 +4238,10 @@ item_location item::pick_reload_ammo( player &u, bool interactive ) const
     }
 
     // Ensure ammo_list contains only valid dereferenceable locations
-    ammo_list.erase( std::remove( ammo_list.begin(), ammo_list.end(), item_location() ), ammo_list.end() );
+    ammo_list.erase( std::remove( ammo_list.begin(), ammo_list.end(), item_location::nowhere ), ammo_list.end() );
 
     if( ammo_list.empty() ) {
-        if( interactive ) {
-            u.add_msg_if_player( m_info, _( "Out of %s!" ), is_gun() ? _("ammo") : ammo_name( ammo_type() ).c_str() );
-        }
+        u.add_msg_if_player( m_info, _( "Out of %s!" ), is_gun() ? _("ammo") : ammo_name( ammo_type() ).c_str() );
         return item_location();
     }
 
@@ -4239,11 +4249,19 @@ item_location item::pick_reload_ammo( player &u, bool interactive ) const
         return rhs->ammo_remaining() < lhs->ammo_remaining();
     } );
 
-    if( ammo_list.size() == 1 || !interactive ) {
-        return std::move( ammo_list[0] );
+    if( ammo_list.size() == 1 ) {
+        // Suppress display of reload prompt when...
+        if( !is_gun() ) {
+            return std::move( ammo_list[ 0 ] ); // reloading tools
+
+        } else if( magazine_integral() && ammo_remaining() > 0 ) {
+            return std::move( ammo_list[ 0 ] ); // adding to partially filled integral magazines
+
+        } else if( has_flag( "RELOAD_AND_SHOOT" ) && u.has_item( *ammo_list[ 0 ] ) ) {
+            return std::move( ammo_list[ 0 ] ); // using bows etc and ammo is already in player possession
+        }
     }
 
-    // If interactive and more than one option prompt the user for a selection
     uimenu menu;
     menu.text = string_format( _("Reload %s" ), tname().c_str() );
     menu.return_invalid = true;
@@ -4301,16 +4319,15 @@ item_location item::pick_reload_ammo( player &u, bool interactive ) const
     menu.w_y = std::max( ( TERMX / 2 ) - int( menu.w_width / 2 ) , 0 );
     menu.w_y = std::max( ( TERMY / 2 ) - int( (ammo_list.size() + 3 ) / 2 ) , 0 );
 
-    std::string lastreload = "";
-    if( uistate.lastreload.find( ammo_type() ) != uistate.lastreload.end() ) {
-        lastreload = uistate.lastreload[ ammo_type() ];
-    }
+    itype_id last = uistate.lastreload[ ammo_type() ];
 
     for( auto i = 0; i != (int) ammo_list.size(); ++i ) {
+        const item& ammo = ammo_list[ i ]->is_ammo_container() ? ammo_list[ i ]->contents[ 0 ] : *ammo_list[ i ];
+
         std::string row = names[i] + "| " + where[i] + " ";
 
         if( is_gun() || is_magazine() ) {
-            const itype *curammo = ammo_list[i]->ammo_data(); // nullptr for empty magazines
+            const itype *curammo = ammo.ammo_data(); // nullptr for empty magazines
             if( curammo ) {
                 row += string_format( "| %-7d | %-7d | %-7d | %-7d",
                                       curammo->ammo->damage, curammo->ammo->pierce,
@@ -4320,23 +4337,29 @@ item_location item::pick_reload_ammo( player &u, bool interactive ) const
             }
         }
 
-        menu.addentry( i, true, i + 'a', row );
-        if( lastreload == ammo_list[i]->typeId() ) {
-            menu.selected = i;
+        char hotkey = -1;
+        if( u.has_item( ammo ) && ( ammo.invlet || ammo_list[ i ]->invlet ) ) {
+            // if ammo in player possession and either it or any container has a valid invlet use this
+            hotkey = ammo.invlet ? ammo.invlet : ammo_list[ i ]->invlet;
+
+        } else if( last == ammo.typeId() ) {
+            // if this is the first occurrence of the most recently used type of ammo and the hotkey
+            // was not already set above then set it to the keypress that opened this prompt
+            hotkey = inp_mngr.get_previously_pressed_key();
+            last = std::string();
         }
+
+        menu.addentry( i, true, hotkey, row );
     }
 
     menu.query();
     if( menu.ret < 0 || menu.ret >= ( int ) ammo_list.size() ) {
-        // invalid selection / escaped from the menu
-        if( interactive ) {
-            u.add_msg_if_player( m_info, _( "Never mind." ) );
-        }
+        u.add_msg_if_player( m_info, _( "Never mind." ) );
         return item_location();
     }
 
-    item_location sel = std::move( ammo_list[menu.ret] );
-    uistate.lastreload[ ammo_type() ] = sel->typeId();
+    item_location sel = std::move( ammo_list[ menu.ret ] );
+    uistate.lastreload[ ammo_type() ] = sel->is_ammo_container() ? sel->contents[ 0 ].typeId() : sel->typeId();
     return sel;
 }
 

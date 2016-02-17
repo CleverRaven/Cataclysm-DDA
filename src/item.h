@@ -128,6 +128,13 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
         item& convert( const itype_id& new_type );
 
         /**
+         * Splits a count-by-charges item always leaving source item with minimum of 1 charge
+         * @param qty number of required charges to split from source
+         * @return new instance containing exactly qty charges or null item if splitting failed
+         */
+        item split( long qty );
+
+        /**
          * Make a corpse of the given monster type.
          * The monster type id must be valid (see @ref MonsterGenerator::get_mtype).
          *
@@ -224,9 +231,8 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
     /**
      * Select suitable ammo with which to reload the item
      * @param u player inventory to search for suitable ammo.
-     * @param interactive if true prompt to select ammo otherwise select first suitable ammo
      */
-    item_location pick_reload_ammo( player &u, bool interactive ) const;
+    item_location pick_reload_ammo( player &u ) const;
 
     /** Reload item using ammo from inventory position returning true if sucessful */
     bool reload( player &u, int pos );
