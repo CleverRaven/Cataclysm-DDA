@@ -57,7 +57,6 @@
     [ [ "crucible", -1 ] ],
     [
       [ "forge", 200 ],
-      [ "char_forge", 40 ],
       [ "oxy_torch", 40 ]
     ]
   ],
@@ -91,7 +90,6 @@
     [ [ "swage", -1 ] ],
     [
       [ "forge", 450 ],
-      [ "char_forge", 90 ],
       [ "oxy_torch", 90 ]
     ]
   ],
@@ -125,7 +123,6 @@
     [ [ "swage", -1 ] ],
     [
       [ "forge", 450 ],
-      [ "char_forge", 90 ],
       [ "oxy_torch", 90 ]
     ]
   ],

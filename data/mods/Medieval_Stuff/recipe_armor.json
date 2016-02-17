@@ -20,7 +20,6 @@
     [ [ "crucible", -1 ] ],
     [
       [ "forge", 300 ],
-      [ "char_forge", 60 ],
       [ "oxy_torch", 60 ]
     ]
   ],
@@ -72,7 +71,6 @@
     [ [ "crucible", -1 ] ],
     [
       [ "forge", 350 ],
-      [ "char_forge", 70 ],
       [ "oxy_torch", 70 ]
     ]
   ],
@@ -104,7 +102,6 @@
     [ [ "crucible", -1 ] ],
     [
       [ "forge", 300 ],
-      [ "char_forge", 60 ],
       [ "oxy_torch", 60 ]
     ]
   ],
@@ -167,7 +164,6 @@
     [ [ "crucible", -1 ] ],
     [
       [ "forge", 500 ],
-      [ "char_forge", 100 ],
       [ "oxy_torch", 100 ]
     ]
   ],
@@ -193,7 +189,6 @@
     [ [ "swage", -1 ] ],
     [
       ["forge", 450],
-      ["char_forge", 90],
       ["oxy_torch", 90]
     ]
   ],
@@ -333,7 +328,6 @@
     [ [ "crucible", -1 ] ],
     [
       [ "forge", 300 ],
-      [ "char_forge", 60 ],
       [ "oxy_torch", 60 ]
     ],
     [

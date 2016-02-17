@@ -99,7 +99,7 @@
   ],
   "tools": [[
     [ "hotplate", 7 ],
-    [ "char_smoker", 1 ],
+    [ "char_smoker", 7 ],
     [ "toolset", 7 ],
     [ "fire", -1 ]
   ]],
@@ -129,7 +129,7 @@
     [ ["tongs", -1] ],
     [ ["chisel", -1] ],
     [ ["anvil", -1] ],
-    [ ["forge", 100], ["char_forge", 20], [ "oxy_torch", 20] ]
+    [ ["forge", 100], [ "oxy_torch", 20] ]
   ],
   "components": [[
    [ "steel_lump", 1 ],
@@ -153,7 +153,7 @@
   "qualities" : [{"id":"CUT","level":1,"amount":1}],
   "tools": [[
     [ "hotplate", 10 ],
-    [ "char_smoker", 1 ],
+    [ "char_smoker", 10 ],
     [ "toolset", 10 ],
     [ "fire", -1 ]
   ]],
@@ -175,7 +175,7 @@
   "qualities" : [{"id":"CUT","level":1,"amount":1}],
   "tools": [[
     [ "hotplate", 10 ],
-    [ "char_smoker", 1 ],
+    [ "char_smoker", 10 ],
     [ "toolset", 10 ],
     [ "fire", -1 ]
   ]],
@@ -199,7 +199,7 @@
   ],
   "tools": [[
     [ "hotplate", 5 ],
-    [ "char_smoker", 1 ],
+    [ "char_smoker", 5 ],
     [ "toolset", 5 ],
     [ "fire", -1 ]
   ]],
@@ -648,7 +648,7 @@
   ], "tools": [
    [
       [ "hotplate", 10 ],
-      [ "char_smoker", 1 ],
+      [ "char_smoker", 10 ],
       [ "toolset", 10 ],
       [ "fire", -1 ]
     ]
@@ -731,7 +731,7 @@
       ["crucible_clay", -1]
     ],
     [
-      ["forge", 100], ["char_forge", 20], [ "oxy_torch", 20]
+      ["forge", 100], [ "oxy_torch", 20]
     ]
     ],
     "components": [
@@ -789,7 +789,7 @@
       [ ["tongs", -1] ],
       [ ["chisel", -1]],
       [ ["anvil", -1] ],
-      [ ["forge", 100], ["char_forge", 20], [ "oxy_torch", 20] ]
+      [ ["forge", 100], [ "oxy_torch", 20] ]
       ],
   "components":
     [
@@ -1016,7 +1016,7 @@
   "tools": [
     [
       [ "hotplate", 5 ],
-      [ "char_smoker", 1 ],
+      [ "char_smoker", 5 ],
       [ "toolset", 5 ],
       [ "fire", -1 ]
     ],
@@ -1064,7 +1064,7 @@
   "tools": [
     [
       [ "hotplate", 5 ],
-      [ "char_smoker", 1 ],
+      [ "char_smoker", 5 ],
       [ "toolset", 5 ],
       [ "fire", -1 ]
     ],

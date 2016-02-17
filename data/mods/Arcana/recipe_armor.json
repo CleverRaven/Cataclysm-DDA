@@ -103,7 +103,6 @@
     [ [ "swage", -1 ] ],
     [
       [ "forge", 300],
-      [ "char_forge", 60],
       [ "oxy_torch", 60]
     ]
   ],
@@ -133,7 +132,6 @@
     [ [ "swage", -1 ] ],
     [
       [ "forge", 150],
-      [ "char_forge", 30],
       [ "oxy_torch", 30]
     ]
   ],
@@ -173,7 +171,7 @@
       [ "kariginu", 1 ]
     ],
     [ [ "fur", 4 ] ],
-    [ [ "charcoal", 6 ] ],
+    [ [ "charcoal", 30 ] ],
     [
       [ "essence", 7 ],
       [ "essence_blood", 21 ]
