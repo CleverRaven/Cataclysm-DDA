@@ -36,7 +36,6 @@
   ], "tools": [
     [
       [ "hotplate", 3 ],
-      [ "char_smoker", 1 ],
       [ "toolset", 3 ],
       [ "fire", -1 ]
     ]
@@ -132,7 +131,6 @@
   ], "tools": [
     [
       [ "hotplate", 7 ],
-      [ "char_smoker", 1 ],
       [ "toolset", 7 ],
       [ "fire", -1 ]
     ]
@@ -166,7 +164,6 @@
   "tools": [
     [
       [ "hotplate", 7 ],
-      [ "char_smoker", 1 ],
       [ "toolset", 7 ],
       [ "fire", -1 ]
     ]
@@ -238,8 +235,7 @@
     [
       [ "hotplate", 15 ],
       [ "toolset", 15 ],
-      [ "fire", -1 ],
-      [ "char_smoker", 2 ]
+      [ "fire", -1 ]
     ]
   ],
   "components": [
@@ -273,8 +269,7 @@
     [
       [ "fire", -1 ],
       [ "hotplate", 8 ],
-      [ "toolset", 8 ],
-      [ "char_smoker", 1 ]
+      [ "toolset", 8 ]
     ]
   ],
   "components": [
@@ -307,8 +302,7 @@
     [
       [ "fire", -1 ],
       [ "toolset", 2 ],
-      [ "hotplate", 2 ],
-      [ "char_smoker", 1 ]
+      [ "hotplate", 2 ]
     ]
   ],
   "components": [
@@ -334,8 +328,7 @@
     [
       [ "fire", -1 ],
       [ "toolset", 2 ],
-      [ "hotplate", 2 ],
-      [ "char_smoker", 1 ]
+      [ "hotplate", 2 ]
     ]
   ],
   "components": [
@@ -361,8 +354,7 @@
     [
       [ "fire", -1 ],
       [ "toolset", 2 ],
-      [ "hotplate", 2 ],
-      [ "char_smoker", 1 ]
+      [ "hotplate", 2 ]
     ]
   ],
   "components": [
@@ -392,8 +384,7 @@
     [
       [ "fire", -1 ],
       [ "toolset", 20 ],
-      [ "hotplate", 20 ],
-      [ "char_smoker", 2 ]
+      [ "hotplate", 20 ]
     ]
   ],
   "components": [
@@ -425,8 +416,7 @@
     [
       [ "fire", -1 ],
       [ "toolset", 20 ],
-      [ "hotplate", 20 ],
-      [ "char_smoker", 2 ]
+      [ "hotplate", 20 ]
     ]
   ],
   "components": [
@@ -462,8 +452,7 @@
     [
       [ "fire", -1 ],
       [ "toolset", 20 ],
-      [ "hotplate", 20 ],
-      [ "char_smoker", 2 ]
+      [ "hotplate", 20 ]
     ]
   ],
   "components": [
@@ -471,10 +460,8 @@
       [ "syringe", 1 ]
     ],
     [
-      ["charcoal", 1],
-      ["coal_lump", 1],
-      ["small_charcoal", 10],
-      ["small_coal", 10]
+      ["charcoal", 5],
+      ["coal_lump", 5]
     ],
     [
       [ "datura_seed", 8 ]
@@ -504,7 +491,6 @@
   ], "tools": [
     [
       [ "hotplate", 3 ],
-      [ "char_smoker", 1 ],
       [ "toolset", 3 ],
       [ "fire", -1 ]
     ]
@@ -535,7 +521,6 @@
   ], "tools": [
     [
       [ "hotplate", 3 ],
-      [ "char_smoker", 1 ],
       [ "toolset", 3 ],
       [ "fire", -1 ]
     ]
@@ -569,7 +554,6 @@
   ], "tools": [
     [
       [ "hotplate", 3 ],
-      [ "char_smoker", 1 ],
       [ "toolset", 3 ],
       [ "fire", -1 ]
     ]
@@ -604,8 +588,7 @@
     [
       [ "fire", -1 ],
       [ "toolset", 20 ],
-      [ "hotplate", 20 ],
-      [ "char_smoker", 2 ]
+      [ "hotplate", 20 ]
     ]
   ],
   "components": [
@@ -643,7 +626,6 @@
     {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
-      [ "char_smoker", 3 ],
       [ "hotplate", 25 ],
       [ "toolset", 25 ],
       [ "fire", -1 ]
@@ -685,7 +667,6 @@
     {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
-      [ "char_smoker", 4 ],
       [ "hotplate", 37 ],
       [ "toolset", 37 ],
       [ "fire", -1 ]
@@ -712,7 +693,6 @@
     {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
-      [ "char_smoker", 3 ],
       [ "hotplate", 25 ],
       [ "toolset", 25 ],
       [ "fire", -1 ]
@@ -748,7 +728,6 @@
     {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
-      [ "char_smoker", 4 ],
       [ "hotplate", 37 ],
       [ "toolset", 37 ],
       [ "fire", -1 ]
@@ -775,7 +754,6 @@
     {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
-      [ "char_smoker", 3 ],
       [ "hotplate", 25 ],
       [ "toolset", 25 ],
       [ "fire", -1 ]
@@ -812,7 +790,6 @@
     {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
-      [ "char_smoker", 4 ],
       [ "hotplate", 37 ],
       [ "toolset", 37 ],
       [ "fire", -1 ]
@@ -839,7 +816,6 @@
     {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
-      [ "char_smoker", 3 ],
       [ "hotplate", 25 ],
       [ "toolset", 25 ],
       [ "fire", -1 ]
@@ -874,7 +850,6 @@
     {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
-      [ "char_smoker", 4 ],
       [ "hotplate", 37 ],
       [ "toolset", 37 ],
       [ "fire", -1 ]
@@ -901,7 +876,6 @@
     {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
-      [ "char_smoker", 3 ],
       [ "hotplate", 25 ],
       [ "toolset", 25 ],
       [ "fire", -1 ]
@@ -936,7 +910,6 @@
     {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
-      [ "char_smoker", 4 ],
       [ "hotplate", 37 ],
       [ "toolset", 37 ],
       [ "fire", -1 ]
@@ -963,7 +936,6 @@
     {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
-      [ "char_smoker", 3 ],
       [ "hotplate", 25 ],
       [ "toolset", 25 ],
       [ "fire", -1 ]
@@ -1001,7 +973,6 @@
     {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
-      [ "char_smoker", 4 ],
       [ "hotplate", 37 ],
       [ "toolset", 37 ],
       [ "fire", -1 ]
@@ -1028,7 +999,6 @@
     {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
-      [ "char_smoker", 3 ],
       [ "hotplate", 25 ],
       [ "toolset", 25 ],
       [ "fire", -1 ]
@@ -1063,7 +1033,6 @@
     {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
-      [ "char_smoker", 4 ],
       [ "hotplate", 37 ],
       [ "toolset", 37 ],
       [ "fire", -1 ]
@@ -1090,7 +1059,6 @@
     {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
-      [ "char_smoker", 3 ],
       [ "hotplate", 25 ],
       [ "toolset", 25 ],
       [ "fire", -1 ]
@@ -1124,7 +1092,6 @@
     {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
-      [ "char_smoker", 4 ],
       [ "hotplate", 37 ],
       [ "toolset", 37 ],
       [ "fire", -1 ]
@@ -1151,7 +1118,6 @@
     {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
-      [ "char_smoker", 3 ],
       [ "hotplate", 25 ],
       [ "toolset", 25 ],
       [ "fire", -1 ]
@@ -1185,7 +1151,6 @@
     {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
-      [ "char_smoker", 4 ],
       [ "hotplate", 37 ],
       [ "toolset", 37 ],
       [ "fire", -1 ]
@@ -1212,7 +1177,6 @@
     {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
-      [ "char_smoker", 3 ],
       [ "hotplate", 25 ],
       [ "toolset", 25 ],
       [ "fire", -1 ]
@@ -1246,7 +1210,6 @@
     {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
-      [ "char_smoker", 4 ],
       [ "hotplate", 37 ],
       [ "toolset", 37 ],
       [ "fire", -1 ]
@@ -1273,7 +1236,6 @@
     {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
-      [ "char_smoker", 3 ],
       [ "hotplate", 25 ],
       [ "toolset", 25 ],
       [ "fire", -1 ]
@@ -1307,7 +1269,6 @@
     {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
-      [ "char_smoker", 4 ],
       [ "hotplate", 37 ],
       [ "toolset", 37 ],
       [ "fire", -1 ]
@@ -1334,7 +1295,6 @@
     {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
-      [ "char_smoker", 3 ],
       [ "hotplate", 25 ],
       [ "toolset", 25 ],
       [ "fire", -1 ]
@@ -1368,7 +1328,6 @@
     {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
-      [ "char_smoker", 4 ],
       [ "hotplate", 37 ],
       [ "toolset", 37 ],
       [ "fire", -1 ]
@@ -1395,7 +1354,6 @@
     {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
-      [ "char_smoker", 3 ],
       [ "hotplate", 25 ],
       [ "toolset", 25 ],
       [ "fire", -1 ]
@@ -1432,7 +1390,6 @@
     {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
-      [ "char_smoker", 4 ],
       [ "hotplate", 37 ],
       [ "toolset", 37 ],
       [ "fire", -1 ]
@@ -1459,7 +1416,6 @@
     {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
-      [ "char_smoker", 3 ],
       [ "hotplate", 25 ],
       [ "toolset", 25 ],
       [ "fire", -1 ]
@@ -1493,7 +1449,6 @@
     {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
-      [ "char_smoker", 4 ],
       [ "hotplate", 37 ],
       [ "toolset", 37 ],
       [ "fire", -1 ]
@@ -1520,7 +1475,6 @@
     {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
-      [ "char_smoker", 3 ],
       [ "hotplate", 25 ],
       [ "toolset", 25 ],
       [ "fire", -1 ]
@@ -1554,7 +1508,6 @@
     {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
-      [ "char_smoker", 4 ],
       [ "hotplate", 37 ],
       [ "toolset", 37 ],
       [ "fire", -1 ]
@@ -1581,7 +1534,6 @@
     {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
-      [ "char_smoker", 3 ],
       [ "hotplate", 25 ],
       [ "toolset", 25 ],
       [ "fire", -1 ]
@@ -1615,7 +1567,6 @@
     {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
-      [ "char_smoker", 4 ],
       [ "hotplate", 37 ],
       [ "toolset", 37 ],
       [ "fire", -1 ]
@@ -1642,7 +1593,6 @@
     {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
-      [ "char_smoker", 3 ],
       [ "hotplate", 25 ],
       [ "toolset", 25 ],
       [ "fire", -1 ]
@@ -1693,7 +1643,6 @@
     {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
-      [ "char_smoker", 4 ],
       [ "hotplate", 37 ],
       [ "toolset", 37 ],
       [ "fire", -1 ]
@@ -1741,7 +1690,6 @@
     {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
-      [ "char_smoker", 3 ],
       [ "hotplate", 25 ],
       [ "toolset", 25 ],
       [ "fire", -1 ]
@@ -1777,7 +1725,6 @@
     {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
-      [ "char_smoker", 4 ],
       [ "hotplate", 37 ],
       [ "toolset", 37 ],
       [ "fire", -1 ]
@@ -1804,7 +1751,6 @@
     {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
-      [ "char_smoker", 5 ],
       [ "hotplate", 50 ],
       [ "toolset", 50 ],
       [ "fire", -1 ]
@@ -1844,7 +1790,6 @@
     {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
-      [ "char_smoker", 4 ],
       [ "hotplate", 37 ],
       [ "toolset", 37 ],
       [ "fire", -1 ]
@@ -1871,7 +1816,6 @@
     {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
-      [ "char_smoker", 4 ],
       [ "hotplate", 31 ],
       [ "toolset", 31 ],
       [ "fire", -1 ]
@@ -1905,7 +1849,6 @@
     {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
-      [ "char_smoker", 4 ],
       [ "hotplate", 37 ],
       [ "toolset", 37 ],
       [ "fire", -1 ]
@@ -1932,7 +1875,6 @@
     {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
-      [ "char_smoker", 4 ],
       [ "hotplate", 37 ],
       [ "toolset", 37 ],
       [ "fire", -1 ]
@@ -1968,7 +1910,6 @@
     {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
-      [ "char_smoker", 4 ],
       [ "hotplate", 37 ],
       [ "toolset", 37 ],
       [ "fire", -1 ]
@@ -1995,7 +1936,6 @@
     {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
-      [ "char_smoker", 4 ],
       [ "hotplate", 31 ],
       [ "toolset", 31 ],
       [ "fire", -1 ]
@@ -2028,7 +1968,6 @@
     {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
-      [ "char_smoker", 4 ],
       [ "hotplate", 37 ],
       [ "toolset", 37 ],
       [ "fire", -1 ]
@@ -2055,7 +1994,6 @@
     {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
-      [ "char_smoker", 3 ],
       [ "hotplate", 25 ],
       [ "toolset", 25 ],
       [ "fire", -1 ]
@@ -2097,7 +2035,6 @@
     {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
-      [ "char_smoker", 3 ],
       [ "hotplate", 25 ],
       [ "toolset", 25 ],
       [ "fire", -1 ]
@@ -2129,7 +2066,6 @@
     {"id":"CONTAIN","level":1,"amount":1}
   ], "tools": [
     [
-      [ "char_smoker", 3 ],
       [ "hotplate", 25 ],
       [ "toolset", 25 ],
       [ "fire", -1 ]
@@ -2146,10 +2082,8 @@
       [ "ammonia", 1 ]
     ],
     [
-      ["charcoal", 1],
-      ["coal_lump", 1],
-      ["small_charcoal", 10],
-      ["small_coal", 10]
+      ["charcoal", 5],
+      ["coal_lump", 5]
     ],
     [
       [ "lye_powder", 5 ]
@@ -2171,7 +2105,6 @@
     {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
-      [ "char_smoker", 3 ],
       [ "hotplate", 25 ],
       [ "toolset", 25 ],
       [ "fire", -1 ]
@@ -2203,7 +2136,6 @@
     {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
-      [ "char_smoker", 3 ],
       [ "hotplate", 25 ],
       [ "toolset", 25 ],
       [ "fire", -1 ]
@@ -2268,10 +2200,8 @@
       [ "scrap", 1 ]
     ],
     [
-      [ "charcoal", 1 ],
-      [ "coal_lump", 1 ],
-      [ "small_charcoal", 10 ],
-      [ "small_coal", 10 ],
+      [ "charcoal", 5 ],
+      [ "coal_lump", 5 ],
       [ "lye_powder", 20 ]
     ]
   ]
@@ -2290,7 +2220,6 @@
     {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
-      [ "char_smoker", 3 ],
       [ "hotplate", 25 ],
       [ "toolset", 25 ],
       [ "fire", -1 ]
@@ -2321,7 +2250,6 @@
     {"id":"CHEM","level":1,"amount":1}
   ], "tools": [
     [
-      [ "char_smoker", 3 ],
       [ "hotplate", 25 ],
       [ "toolset", 25 ],
       [ "fire", -1 ]
@@ -2329,8 +2257,7 @@
   ],
   "components": [
     [
-      [ "charcoal", 10 ],
-      [ "small_charcoal", 100 ]
+      [ "charcoal", 50 ]
     ],
     [
       [ "water_clean", 2 ],
@@ -2352,7 +2279,6 @@
     {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
-      [ "char_smoker", 1 ],
       [ "hotplate", 2 ],
       [ "toolset", 2 ],
       [ "fire", -1 ]
@@ -2389,7 +2315,6 @@
   ], "tools": [
     [
       [ "hotplate", 5 ],
-      [ "char_smoker", 1 ],
       [ "toolset", 5 ],
       [ "fire", -1 ]
     ]
@@ -2427,7 +2352,6 @@
   "book_learn": [["adv_chemistry", 6] , ["textbook_chemistry", 6] , ["recipe_labchem", 3]],
   "tools": [
     [
-      [ "char_smoker", 2 ],
       [ "hotplate", 18 ],
       [ "toolset", 18 ],
       [ "fire", -1 ]
@@ -2457,7 +2381,7 @@
   "qualities":[
     {"id":"CHEM","level":1,"amount":1}
   ], "tools": [
-    [ [ "hotplate", 5 ], [ "char_smoker", 1 ], [ "toolset", 5 ], [ "fire", -1 ] ]
+    [ [ "hotplate", 5 ], [ "toolset", 5 ], [ "fire", -1 ] ]
   ],
   "components": [
     [ [ "water", 4 ], [ "water_clean", 4 ] ],
@@ -2478,7 +2402,6 @@
   "tools": [
     [
       [ "hotplate", 7 ],
-      [ "char_smoker", 1 ],
       [ "toolset", 7 ],
       [ "fire", -1 ]
     ]
@@ -2535,7 +2458,6 @@
     {"id":"CHEM","level":2,"amount":1}],
   "tools": [
       [
-        [ "char_smoker", 2 ],
         [ "hotplate", 20 ],
         [ "toolset", 20 ],
         [ "fire", -1 ]
@@ -2561,7 +2483,6 @@
   "autolearn": true,
   "tools": [
     [
-     [ "char_smoker", 2 ],
      [ "hotplate", 18 ],
      [ "toolset", 18 ],
      [ "fire", -1 ]
@@ -2599,8 +2520,7 @@
     [
       [ "fire", -1 ],
       [ "toolset", 2 ],
-      [ "hotplate", 2 ],
-      [ "char_smoker", 1 ]
+      [ "hotplate", 2 ]
     ]
   ],
   "components": [
@@ -2624,8 +2544,7 @@
     [
       [ "fire", -1 ],
       [ "toolset", 10 ],
-      [ "hotplate", 10 ],
-      [ "char_smoker", 1 ]
+      [ "hotplate", 10 ]
     ],
     [ [ "inhaler", 100 ] ]
   ],
@@ -2702,7 +2621,6 @@
    ],
     "tools": [ [
         [ "hotplate", 15 ],
-        [ "char_smoker", 2 ],
         [ "toolset", 15 ]
     ] ],
     "components": [ [
@@ -2755,7 +2673,6 @@
     [
       [ "hotplate", 10 ],
       [ "toolset", 10 ],
-      [ "char_smoker", 1],
       [ "fire", -1 ]
     ]
   ],
@@ -2877,7 +2794,8 @@
       [ "chem_sulphur", 20 ]
     ] ,
     [
-      [ "charcoal", 1 ]
+      [ "charcoal", 10 ],
+      [ "coal_lump", 10 ]
     ]
   ]
 },{
@@ -2910,7 +2828,7 @@
       [ "lye_powder", 200 ]
     ],
     [
-      [ "charcoal", 5 ]
+      [ "charcoal", 25 ]
     ]
   ]
 },
@@ -3118,7 +3036,6 @@
   "tools": [
     [
       [ "hotplate", 10 ],
-      [ "char_smoker", 1 ],
       [ "toolset", 10 ],
       [ "fire", -1 ]
     ]
