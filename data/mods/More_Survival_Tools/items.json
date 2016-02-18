@@ -69,9 +69,9 @@
     "to_hit": -1,
     "ammo": "NULL",
     "revert_to": "null",
-    "max_charges": 0,
-    "initial_charges": 0,
-    "charges_per_use": 0,
+    "max_charges": 2000,
+    "initial_charges": 2000,
+    "charges_per_use": 1,
     "turns_per_charge": 0,
     "use_action": {
       "type": "extended_firestarter"
