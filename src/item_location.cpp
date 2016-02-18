@@ -128,31 +128,27 @@ class item_location::item_on_person : public item_location::impl
                 return INT_MIN;
             }
 
-            // invalidate this item_location
-            auto it = what;
-            what = nullptr;
-
             int mv = 0;
             bool was_worn = false;
 
-            item *holster = who.find_parent( *it );
-            if( holster && who.is_worn( *holster ) && holster->can_holster( *it, true ) ) {
+            item *holster = who.find_parent( *what );
+            if( holster && who.is_worn( *holster ) && holster->can_holster( *what, true ) ) {
                 // Immediate parent is a worn holster capable of holding this item
                 auto ptr = dynamic_cast<const holster_actor *>
                            ( holster->type->get_use( "holster" )->get_actor_ptr() );
-                mv += dynamic_cast<player &>( who ).item_handling_cost( *it, false, ptr->draw_cost );
+                mv += dynamic_cast<player &>( who ).item_handling_cost( *what, false, ptr->draw_cost );
                 was_worn = true;
             } else {
                 // Unpack the object followed by any nested containers starting with the innermost
-                mv += dynamic_cast<player &>( who ).item_handling_cost( *it );
-                for( auto obj = who.find_parent( *it ); obj &&
+                mv += dynamic_cast<player &>( who ).item_handling_cost( *what );
+                for( auto obj = who.find_parent( *what ); obj &&
                      who.find_parent( *obj ); obj = who.find_parent( *obj ) ) {
                     mv += dynamic_cast<player &>( who ).item_handling_cost( *obj );
                 }
             }
 
-            if( who.is_worn( *it ) ) {
-                it->on_takeoff( dynamic_cast<player &>( who ) );
+            if( who.is_worn( *what ) ) {
+                what->on_takeoff( dynamic_cast<player &>( who ) );
             } else if( !was_worn ) {
                 mv *= INVENTORY_HANDLING_FACTOR;
             }
@@ -163,9 +159,9 @@ class item_location::item_on_person : public item_location::impl
 
             who.moves -= mv;
 
-            if( &ch.i_at( ch.get_item_position( it ) ) == it ) {
+            if( &ch.i_at( ch.get_item_position( what ) ) == what ) {
                 // item already in target characters inventory at base of stack
-                return ch.get_item_position( it );
+                return ch.get_item_position( what );
             }
 
             item obj = what->split( qty );
