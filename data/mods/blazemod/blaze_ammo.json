@@ -268,7 +268,7 @@
    },
    {
         "type" : "AMMO",
-        "id" : "h_projectile",
+        "id" : "mininuke_mod",
         "price" : 180000,
         "name" : "modified mininuke",
         "symbol" : "*",
@@ -287,7 +287,7 @@
         "recoil" : 0,
         "count" : 1,
         "stack_size" : 2,
-        "effects" : ["h_projectile", "NEVER_MISFIRES"]
+        "effects" : ["MININUKE_MOD", "NEVER_MISFIRES"]
     },
     {
         "type" : "AMMO",
