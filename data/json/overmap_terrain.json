@@ -6912,7 +6912,7 @@
         "name" : "roadside foodcart",
         "rotate" : true,
         "sym" : 94,
-        "color" : "orange",
+        "color" : "magenta",
         "see_cost" : 0,
         "mondensity" : 2,
         "sidewalk" : true
