@@ -533,8 +533,14 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
     if( !is_null() ) {
         info.push_back( iteminfo( "BASE", _( "Category: " ), "<header>" + get_category().name + "</header>",
                                   -999, true, "", false ) );
+        const int price_preapoc = price( false );
+        const int price_postapoc = price( true );
         info.push_back( iteminfo( "BASE", space + _( "Price: " ), "<num>",
-                                  ( double )price() / 100, false, "$", true, true ) );
+                                  ( double )price_preapoc / 100, false, "$", true, true ) );
+        if( price_preapoc != price_postapoc ) {
+            info.push_back( iteminfo( "BASE", space + _( "Barter value: " ), "<num>",
+                            ( double )price_postapoc / 100, false, "$", true, true ) );
+        }
 
         info.push_back( iteminfo( "BASE", _( "<bold>Volume</bold>: " ), "", volume(), true, "", false,
                                   true ) );
@@ -2233,32 +2239,32 @@ nc_color item::color() const
     return type->color;
 }
 
-int item::price() const
+int item::price( bool practical ) const
 {
     if( is_null() ) {
         return 0;
     }
 
-    int ret = type->price;
+    int ret = practical ? type->price_post : type->price;
     if( rotten() ) {
         // better price here calculation? No value at all?
         ret = type->price / 10;
     }
     if( damage > 0 ) {
-        // maximal damage is 4, maximal reduction is 1/10 of the value.
-        ret -= ret * static_cast<double>( damage ) / 40;
+        // maximal damage is 4, maximal reduction is 40% of the value.
+        ret -= ret * static_cast<double>( damage ) / 10;
     }
     // The price from the json data is for the default-sized stack, like the volume
     // calculation.
     if( count_by_charges() || made_of( LIQUID ) ) {
-        ret = ret * charges / static_cast<double>( type->stack_size);
+        ret = ret * charges / static_cast<double>( type->stack_size );
     }
 
     // tools, guns and auxiliary gunmods may contain ammunition which can affect the price
     if( ammo_remaining() > 0 && ammo_current() != "null" ) {
         item tmp( ammo_current(), 0 );
         tmp.charges = charges;
-        ret += tmp.price();
+        ret += tmp.price( practical );
     }
 
     // if tool has no ammo (eg. spray can) reduce price proportional to remaining charges
@@ -2267,7 +2273,7 @@ int item::price() const
     }
 
     for( auto &elem : contents ) {
-        ret += elem.price();
+        ret += elem.price( practical );
     }
     return ret;
 }

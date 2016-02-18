@@ -4,14 +4,12 @@
 #include "player.h"
 #include "faction.h"
 #include "json.h"
+#include "npc_favor.h"
 
 #include <vector>
 #include <string>
 #include <map>
 
-#define NPC_LOW_VALUE       5
-#define NPC_HI_VALUE        8
-#define NPC_VERY_HI_VALUE  15
 #define NPC_DANGER_LEVEL   10
 #define NPC_DANGER_VERY_LOW 5
 
@@ -33,7 +31,7 @@ void parse_tags(std::string &phrase, const player *u, const npc *me);
  */
 
 // Attitude is how we feel about the player, what we do around them
-enum npc_attitude {
+enum npc_attitude : int {
  NPCATT_NULL = 0, // Don't care/ignoring player The places this is assigned is on shelter NPC generation, and when you order a NPC to stay in a location, and after talking to a NPC that wanted to talk to you.
  NPCATT_TALK,  // Move to and talk to player
  NPCATT_TRADE,  // Move to and trade with player
@@ -56,7 +54,7 @@ enum npc_attitude {
 
 std::string npc_attitude_name(npc_attitude);
 
-enum npc_mission {
+enum npc_mission : int {
  NPC_MISSION_NULL = 0, // Nothing in particular
  NPC_MISSION_RESCUE_U, // Find the player and aid them
  NPC_MISSION_SHELTER, // Stay in shelter, introduce player to game
@@ -73,7 +71,7 @@ enum npc_mission {
 
 //std::string npc_mission_name(npc_mission);
 
-enum npc_class {
+enum npc_class : int {
  NC_NONE,
  NC_EVAC_SHOPKEEP,  // Found in the Evacuation Center, unique, has more goods than he should be able to carry
  NC_SHOPKEEP,       // Found in towns.  Stays in his shop mostly.
@@ -128,35 +126,6 @@ enum npc_flag {
  NF_TECHNOPHILE,
  NF_BOOKWORM,
  NF_MAX
-};
-
-enum npc_favor_type {
- FAVOR_NULL,
- FAVOR_GENERAL, // We owe you... a favor?
- FAVOR_CASH, // We owe cash (or goods of equivalent value)
- FAVOR_ITEM, // We owe a specific item
- FAVOR_TRAINING,// We owe skill or style training
- NUM_FAVOR_TYPES
-};
-
-struct npc_favor : public JsonSerializer, public JsonDeserializer
-{
-    npc_favor_type type;
-    int value;
-    itype_id item_id;
-    const Skill* skill;
-
-    npc_favor() {
-        type = FAVOR_NULL;
-        value = 0;
-        item_id = "null";
-        skill = NULL;
-    };
-
-    using JsonSerializer::serialize;
-    void serialize(JsonOut &jsout) const override;
-    using JsonDeserializer::deserialize;
-    void deserialize(JsonIn &jsin) override;
 };
 
 struct npc_personality : public JsonSerializer, public JsonDeserializer
@@ -639,8 +608,8 @@ public:
  void pick_long_term_goal();
  void perform_mission();
  int  minutes_to_u() const; // Time in minutes it takes to reach player
- bool fac_has_value(faction_value value);
- bool fac_has_job(faction_job job);
+ bool fac_has_value(faction_value value) const;
+ bool fac_has_job(faction_job job) const;
 
 // Interaction with the player
  void form_opinion(player *u);
@@ -693,7 +662,8 @@ public:
 // Use and assessment of items
  int  minimum_item_value(); // The minimum value to want to pick up an item
  void update_worst_item_value(); // Find the worst value in our inventory
- int  value(const item &it);
+    int value( const item &it ) const;
+    int value( const item &it, int market_price ) const;
     bool wear_if_wanted( const item &it );
     virtual bool wield( item& it ) override;
     bool has_healing_item( bool bleed = false, bool bite = false, bool infect = false);
@@ -703,6 +673,10 @@ public:
  bool took_painkiller() const;
  void use_painkiller();
  void activate_item(int position);
+    bool wants_to_sell( const item &it ) const;
+    bool wants_to_sell( const item &it, int at_price, int market_price ) const;
+    bool wants_to_buy( const item &it ) const;
+    bool wants_to_buy( const item &it, int at_price, int market_price ) const;
 
     // AI helpers
     void regen_ai_cache();

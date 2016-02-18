@@ -513,7 +513,7 @@ void iexamine::vending(player * const p, map * const m, const tripoint &examp)
         } else if (action == "UP") {
             cur_pos = (cur_pos + num_items - 1) % num_items;
         } else if (action == "CONFIRM") {
-            if ( cur_item->price() > card->charges ) {
+            if ( cur_item->price( false ) > card->charges ) {
                 popup(_("That item is too expensive!"));
                 continue;
             }
@@ -523,7 +523,7 @@ void iexamine::vending(player * const p, map * const m, const tripoint &examp)
                 p->moves -= moves_cost;
             }
 
-            card->charges -= cur_item->price();
+            card->charges -= cur_item->price( false );
             p->i_add_or_drop( *cur_item );
 
             vend_items.erase( cur_item );

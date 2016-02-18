@@ -6,6 +6,7 @@
 #include "requirements.h"
 #include "overmap.h"
 #include "line.h"
+#include "npc.h"
 
 #include <fstream>
 #include <sstream>
@@ -2503,4 +2504,49 @@ Before we get into a major fight just make sure we have the gear we need, boss."
     }
     return string_format( "Someone forgot to code this message id is %d, topic is %s!", static_cast<int>( id ), state.c_str() );
 }
+
+mission::mission()
+{
+    type = NULL;
+    description = "";
+    failed = false;
+    value = 0;
+    uid = -1;
+    target = tripoint(INT_MIN, INT_MIN, INT_MIN);
+    item_id = "null";
+    item_count = 1;
+    target_id = 0;
+    recruit_class = NC_NONE;
+    target_npc_id = -1;
+    monster_type = "mon_null";
+    monster_kill_goal = -1;
+    deadline = 0;
+    npc_id = -1;
+    good_fac_id = -1;
+    bad_fac_id = -1;
+    step = 0;
+    player_id = -1;
+    was_started = false;
+}
+
+mission_type::mission_type(mission_type_id ID, std::string NAME, mission_goal GOAL, int DIF, int VAL,
+                 bool URGENT,
+                 bool (mission_place::*PLACE)( const tripoint& ),
+                 void (mission_start::*START)(mission *),
+                 void (mission_end  ::*END  )(mission *),
+                 void (mission_fail ::*FAIL )(mission *)) :
+        id (ID), name (NAME), goal (GOAL), difficulty (DIF), value (VAL),
+        urgent(URGENT), place (PLACE), start (START), end (END), fail (FAIL)
+{
+    deadline_low = 0;
+    deadline_high = 0;
+    item_id = "null";
+    item_count = 1;
+    target_id = 0;///(0);// = "";
+    recruit_class = NC_NONE;
+    target_npc_id = -1;
+    monster_type = "mon_null";
+    monster_kill_goal = -1;
+    follow_up = MISSION_NULL;
+};
 

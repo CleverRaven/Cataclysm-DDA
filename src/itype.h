@@ -501,6 +501,7 @@ public:
 
     phase_id phase      = SOLID; // e.g. solid, liquid, gas
     unsigned price      = 0; // Its value
+    unsigned price_post = 0; // Post-apocalyptic, more practical value
     unsigned volume     = 0; // Space taken up by this item
     int      stack_size = 0; // How many things make up the above-defined volume (eg. 100 aspirin = 1 volume)
     unsigned weight     = 0; // Weight in grams. Assumes positive weight. No helium, guys!

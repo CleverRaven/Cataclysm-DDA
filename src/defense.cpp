@@ -1002,7 +1002,7 @@ Press %s to buy everything in your cart, %s to buy nothing."),
             if (current_window == 1 && !items[category_selected].empty()) {
                 item_count[category_selected][item_selected]++;
                 itype_id tmp_itm = items[category_selected][item_selected];
-                total_price += caravan_price(g->u, item( tmp_itm, 0 ).price() );
+                total_price += caravan_price(g->u, item( tmp_itm, 0 ).price( false ) );
                 if (category_selected == CARAVAN_CART) { // Find the item in its category
                     for (int i = 1; i < NUM_CARAVAN_CATEGORIES; i++) {
                         for (unsigned j = 0; j < items[i].size(); j++) {
@@ -1034,7 +1034,7 @@ Press %s to buy everything in your cart, %s to buy nothing."),
                 item_count[category_selected][item_selected] > 0) {
                 item_count[category_selected][item_selected]--;
                 itype_id tmp_itm = items[category_selected][item_selected];
-                total_price -= caravan_price(g->u, item( tmp_itm, 0 ).price() );
+                total_price -= caravan_price(g->u, item( tmp_itm, 0 ).price( false ) );
                 if (category_selected == CARAVAN_CART) { // Find the item in its category
                     for (int i = 1; i < NUM_CARAVAN_CATEGORIES; i++) {
                         for (unsigned j = 0; j < items[i].size(); j++) {
@@ -1299,7 +1299,7 @@ void draw_caravan_items(WINDOW *w, std::vector<itype_id> *items,
                   item::nname( (*items)[i], (*counts)[i] ).c_str());
         wprintz(w, c_white, " x %2d", (*counts)[i]);
         if ((*counts)[i] > 0) {
-            unsigned long price = caravan_price(g->u, item( (*items)[i], 0 ).price() * (*counts)[i]);
+            unsigned long price = caravan_price(g->u, item( (*items)[i], 0 ).price( false ) * (*counts)[i]);
             wprintz(w, (price > g->u.cash ? c_red : c_green), " ($%6.2f)", price / 100.0);
         }
     }

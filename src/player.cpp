@@ -43,6 +43,7 @@
 #include "cata_utility.h"
 #include "iuse_actor.h"
 #include "catalua.h"
+#include "npc.h"
 #include "cata_utility.h"
 
 #include <map>

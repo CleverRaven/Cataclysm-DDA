@@ -496,17 +496,17 @@ void faction::make_army()
     id = "army";
 }
 
-bool faction::has_job(faction_job j)
+bool faction::has_job(faction_job j) const
 {
     return (job1 == j || job2 == j);
 }
 
-bool faction::has_value(faction_value v)
+bool faction::has_value(faction_value v) const
 {
     return values & mfb(v);
 }
 
-bool faction::matches_us(faction_value v)
+bool faction::matches_us(faction_value v) const
 {
     int numvals = 2;
     if (job2 != FACJOB_NULL) {
@@ -552,7 +552,7 @@ bool faction::matches_us(faction_value v)
     return false;
 }
 
-std::string faction::describe()
+std::string faction::describe() const
 {
     std::string ret;
     ret = desc + "\n \n" + string_format( _("%1$s have the ultimate goal of %2$s."), name.c_str(),
@@ -583,7 +583,7 @@ std::string faction::describe()
     return ret;
 }
 
-int faction::response_time()
+int faction::response_time() const
 {
     int base = abs(mapx - g->get_levx());
     if (abs(mapy - g->get_levy()) > base) {

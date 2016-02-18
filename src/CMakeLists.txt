@@ -187,6 +187,7 @@ SET (CATACLYSM_DDA_HEADERS
     ${CMAKE_SOURCE_DIR}/src/item_location.h
     ${CMAKE_SOURCE_DIR}/src/map.h
     ${CMAKE_SOURCE_DIR}/src/npc.h
+    ${CMAKE_SOURCE_DIR}/src/npc_favor.h
     ${CMAKE_SOURCE_DIR}/src/rng.h
     ${CMAKE_SOURCE_DIR}/src/compatibility.h
     ${CMAKE_SOURCE_DIR}/src/faction.h

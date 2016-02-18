@@ -1022,6 +1022,7 @@ void Item_factory::load_basic_info(JsonObject &jo, itype *new_item_template)
 
     // And then proceed to assign the correct field
     new_item_template->price = jo.get_int( "price" );
+    new_item_template->price_post = jo.get_int( "price_postapoc", new_item_template->price );
     new_item_template->name = jo.get_string( "name" ).c_str();
     if( jo.has_member( "name_plural" ) ) {
         new_item_template->name_plural = jo.get_string( "name_plural" ).c_str();

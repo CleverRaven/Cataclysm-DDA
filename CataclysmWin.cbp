@@ -540,6 +540,7 @@
 		<Unit filename="src/newcharacter.cpp" />
 		<Unit filename="src/npc.cpp" />
 		<Unit filename="src/npc.h" />
+		<Unit filename="src/npc_favor.h" />
 		<Unit filename="src/npcmove.cpp" />
 		<Unit filename="src/npctalk.cpp" />
 		<Unit filename="src/omdata.h" />
