@@ -1218,30 +1218,41 @@ damage_unit &get_damage_unit( std::vector<damage_unit> &di, const damage_type dt
     return nullunit;
 }
 
+void print_damage_info( const damage_instance &di )
+{
+    if( !debug_mode ) {
+        return;
+    }
+
+    int total = 0;
+    std::stringstream ss;
+    for( auto &du : di.damage_units ) {
+        int amount = di.type_damage( du.type );
+        total += amount;
+        ss << name_by_dt( du.type ) << ':' << amount << ',';
+    }
+
+    add_msg( m_debug, "%stotal: %d", ss.str().c_str(), total );
+}
+
 void player::perform_technique(const ma_technique &technique, Creature &t, damage_instance &di, int &move_cost)
 {
-    auto &bash = get_damage_unit( di.damage_units, DT_BASH );
-    auto &cut  = get_damage_unit( di.damage_units, DT_CUT );
-    auto &stab = get_damage_unit( di.damage_units, DT_STAB );
+    add_msg( m_debug, "dmg before tec:" );
+    print_damage_info( di );
 
-    add_msg( m_debug, _("dmg before tec bash:%d,cut:%d,stab:%d,total:%d"),
-        (int)di.type_damage(DT_BASH), (int)di.type_damage(DT_CUT), (int)di.type_damage(DT_STAB), (int)di.total_damage());
-    if( bash.amount > 0 ) {
-        bash.amount += technique.damage_bonus( *this, DT_BASH );
-        bash.damage_multiplier *= technique.damage_multiplier( *this, DT_BASH );
+    for( damage_unit &du : di.damage_units ) {
+        // TODO: Allow techniques to add more damage types to attacks
+        if( du.amount <= 0 ) {
+            continue;
+        }
+
+        du.amount += technique.damage_bonus( *this, du.type );
+        du.damage_multiplier *= technique.damage_multiplier( *this, du.type );
+        du.res_pen += technique.armor_penetration( *this, du.type );
     }
 
-    if( cut.amount > 0 && cut.amount > stab.amount ) {
-        cut.amount += technique.damage_bonus( *this, DT_CUT );
-        cut.damage_multiplier *= technique.damage_multiplier( *this, DT_CUT );
-    }
-
-    if( stab.amount > 0 ) {
-        stab.amount += technique.damage_bonus( *this, DT_STAB );
-        stab.damage_multiplier *= technique.damage_multiplier( *this, DT_STAB );
-    }
-    add_msg( m_debug, _("dmg after tec bash:%d,cut:%d,stab:%d,total:%d"),
-        (int)di.type_damage(DT_BASH), (int)di.type_damage(DT_CUT), (int)di.type_damage(DT_STAB), (int)di.total_damage());
+    add_msg( m_debug, "dmg after tec:" );
+    print_damage_info( di );
 
     move_cost *= technique.move_cost_multiplier( *this );
     move_cost += technique.move_cost_penalty( *this );
@@ -1249,6 +1260,7 @@ void player::perform_technique(const ma_technique &technique, Creature &t, damag
     if( technique.down_dur > 0 ) {
         if( t.get_throw_resist() == 0 ) {
             t.add_effect( effect_downed, rng(1, technique.down_dur));
+            auto &bash = get_damage_unit( di.damage_units, DT_BASH );
             if( bash.amount > 0 ) {
                 bash.amount += 3;
             }
@@ -1259,13 +1271,15 @@ void player::perform_technique(const ma_technique &technique, Creature &t, damag
         t.add_effect( effect_stunned, rng(1, technique.stun_dur));
     }
 
-    if (technique.knockback_dist > 0) {
+    if( technique.knockback_dist > 0 ) {
         const int kb_offset_x = rng( -technique.knockback_spread,
                                      technique.knockback_spread );
         const int kb_offset_y = rng( -technique.knockback_spread,
                                      technique.knockback_spread );
         tripoint kb_point( posx() + kb_offset_x, posy() + kb_offset_y, posz() );
-        t.knock_back_from( kb_point );
+        for( int dist = rng( 1, technique.knockback_dist ); dist > 0; dist-- ) {
+            t.knock_back_from( kb_point );
+        }
     }
 
     player *p = dynamic_cast<player*>( &t );

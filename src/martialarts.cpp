@@ -819,3 +819,8 @@ float ma_technique::move_cost_penalty( const player &u ) const
 {
     return bonuses.get_flat( u, AFFECTED_MOVE_COST );
 }
+
+float ma_technique::armor_penetration( const player &u, damage_type type ) const
+{
+    return bonuses.get_flat( u, AFFECTED_ARMOR_PENETRATION, type );
+}

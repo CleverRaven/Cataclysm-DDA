@@ -25,7 +25,8 @@ static const std::map<std::string, affected_stat> affected_stat_map = {{
         std::make_pair( "movecost", AFFECTED_MOVE_COST ),
         std::make_pair( "damage", AFFECTED_DAMAGE ),
         std::make_pair( "arm", AFFECTED_ARMOR ),
-        std::make_pair( "arpen", AFFECTED_ARMOR_PENETRATION )
+        std::make_pair( "arpen", AFFECTED_ARMOR_PENETRATION ),
+        std::make_pair( "target_armor_multiplier", AFFECTED_TARGET_ARMOR_MULTIPLIER )
     }
 };
 
@@ -171,7 +172,7 @@ float bonus_container::get_mult( const Character &u, affected_stat stat, damage_
 
     float ret = 1.0f;
     for( const auto &es : iter->second ) {
-        ret += es.get( u );
+        ret *= es.get( u );
     }
 
     // Currently all relevant effects require non-negative values

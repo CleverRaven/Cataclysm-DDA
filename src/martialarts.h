@@ -105,7 +105,7 @@ class ma_technique
         float damage_multiplier( const player &u, damage_type type ) const;
         float move_cost_multiplier( const player &u ) const;
         float move_cost_penalty( const player &u ) const;
-
+        float armor_penetration( const player &u, damage_type type ) const;
 };
 
 class ma_buff
