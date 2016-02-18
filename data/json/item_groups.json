@@ -4828,6 +4828,7 @@
       ["quiver_large", 1],
       ["baldric", 4],
       ["nodachi", 1],
+      ["gambeson", 3],
       ["armor_lightplate", 1],
       ["armor_samurai", 1],
       ["helmet_kabuto", 1],
@@ -9214,6 +9215,7 @@
       ["armor_larmor", 40],
       ["armguard_larmor", 40],
       ["vambrace_larmor", 20],
+      ["gambeson", 50],
       ["legguard_metal", 10]
     ]
   },{
