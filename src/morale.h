@@ -84,8 +84,6 @@ class player_morale
         player_morale &operator =( player_morale && ) = default;
         player_morale &operator =( const player_morale & ) = default;
 
-        /** Returns overall morale level */
-        int get_level( const player *p ) const;
         /** Adds morale to existing or creates one */
         void add( morale_type type, int bonus, int max_bonus = 0, int duration = 60,
                   int decay_start = 30, bool capped = false, const itype *item_type = nullptr );
@@ -93,14 +91,17 @@ class player_morale
         int has( morale_type type, const itype *item_type = nullptr ) const;
         /** Removes specified morale */
         void remove( morale_type type, const itype *item_type = nullptr );
-        /** Ticks down morale counters and removes them */
-        void update( const player *p, const int ticks = 1 );
-        /** Displays morale screen */
-        void display( const player *p );
         /** Clears up all morale points */
         void clear();
         /** Invalidates morale level to recalculate it on demand */
         void invalidate();
+
+        /** Returns overall morale level */
+        int get_level( const player &p ) const;
+
+        void update( const player &p, const int ticks = 1 );
+        /** Displays morale screen */
+        void display( const player &p );
 
     protected:
         friend class player;
@@ -146,7 +147,7 @@ class player_morale
 
                 void add( int new_bonus, int new_max_bonus, int new_duration,
                           int new_decay_start, bool new_cap );
-                void proceed( int ticks = 1 );
+                void decay( int ticks = 1 );
 
             private:
                 morale_type type;
@@ -169,20 +170,26 @@ class player_morale
         mutable int level;
         mutable bool level_is_valid;
 
+        /** Ticks down morale counters and removes them */
+        void decay( int ticks = 1 );
+
         /** Returns current traits multiplier for morale */
-        morale_mult get_traits_mult( const player *p ) const;
+        morale_mult get_traits_mult( const player &p ) const;
         /** Returns current effects multiplier for morale */
-        morale_mult get_effects_mult( const player *p ) const;
+        morale_mult get_effects_mult( const player &p ) const;
+
         /** Returns penalty if inventory's not full */
-        int get_hoarder_penalty( const player *p ) const;
+        int get_hoarder_penalty( const player &p ) const;
         /** Returns bonus for stylish stuff */
-        int get_stylish_bonus( const player *p ) const;
+        int get_stylish_bonus( const player &p ) const;
         /** Returns bonus for masochists etc */
-        int get_pain_bonus( const player *p ) const;
+        int get_pain_bonus( const player &p ) const;
         /** Ensures persistent morale effects are up-to-date */
-        void apply_persistent( const player *p );
+        void apply_permanent( const player &p );
         /** Applies penalties for being cold/sweating a lot*/
-        void apply_temperature( const player *p );
+        void apply_body_temperature( const player &p );
+        /** Applies penalties for being wet*/
+        void apply_body_wetness( const player &p );
 };
 
 #endif
