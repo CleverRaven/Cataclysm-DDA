@@ -228,11 +228,29 @@ class iuse_actor {
 protected:
     iuse_actor() { }
 public:
+    /**
+     * The type of the action. It's not translated. Different iuse_actor instances may have the
+     * same type, but different data.
+     */
     std::string type;
     virtual ~iuse_actor() { }
     virtual long use( player*, item*, bool, const tripoint& ) const = 0;
     virtual bool can_use( const player*, const item*, bool, const tripoint& ) const { return true; }
+    /**
+     * Returns a deep copy of this object. Example implementation:
+     * \code
+     * class my_iuse_actor {
+     *     iuse_actor *clone() const override {
+     *         return new my_iuse_actor( *this );
+     *     }
+     * };
+     * \endcode
+     * The returned value should behave like the original item and must have the same type.
+     */
     virtual iuse_actor *clone() const = 0;
+    /**
+     * Returns the translated name of the action. It is used for the item action menu.
+     */
     virtual std::string get_name() const;
 };
 
@@ -256,15 +274,9 @@ public:
         return actor.get();
     }
 
-    /**
-     * Returns the type of the action. See @ref iuse_actor::type. The string
-     * is not translated, different iuse_actor instances may have the same type, but
-     * different data.
-     */
+    /** @return See @ref iuse_actor::type */
     std::string get_type() const;
-    /**
-     * Returns the translated name of the action.
-     */
+    /** @return See @ref iuse_actor::get_name */
     std::string get_name() const;
 
     bool can_call(const player *p, const item *it, bool t, const tripoint &pos) const
