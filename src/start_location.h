@@ -35,6 +35,8 @@ class start_location
         /**
          * Find a suitable start location on the overmap.
          * @return Global, absolute overmap terrain coordinates where the player should spawn.
+         * It may return `overmap::invalid_tripoint` if no suitable starting location could be found
+         * in the world.
          */
         tripoint find_player_initial_location() const;
         /**
