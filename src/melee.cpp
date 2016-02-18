@@ -1540,7 +1540,7 @@ bool player::block_hit(Creature *source, body_part &bp_hit, damage_instance &dam
                            _("<npcname> blocks %1$s of the damage with their %2$s!"),
                            damage_blocked_description.c_str(), thing_blocked_with.c_str() );
 
-    // check if we have any block counters
+    // Check if we have any block counters
     matec_id tec = pick_technique( *source, false, false, true );
 
     if( tec != tec_none ) {

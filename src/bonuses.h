@@ -2,11 +2,13 @@
 #define BONUSES_H
 
 #include <map>
+#include <vector>
 
 enum damage_type : int;
 
     class Character;
     class JsonObject;
+    class JsonArray;
 
     enum scaling_stat : int {
     STAT_NULL = 0,
@@ -53,11 +55,12 @@ struct affected_type {
 
 // This is the bonus we are indexing
 struct effect_scaling {
-    float base;
     scaling_stat stat;
     float scale;
 
     float get( const Character &u ) const;
+
+    void load( JsonArray &jarr );
 };
 
 class bonus_container
@@ -65,6 +68,7 @@ class bonus_container
     public:
         bonus_container();
         void load( JsonObject &jo );
+        void load( JsonArray &jo, bool mult );
 
         float get_flat( const Character &u, affected_stat stat, damage_type type ) const;
         float get_flat( const Character &u, affected_stat stat ) const;
@@ -73,13 +77,10 @@ class bonus_container
         float get_mult( const Character &u, affected_stat stat ) const;
 
     private:
-        using bonus_map = std::map<affected_type, effect_scaling>;
+        using bonus_map = std::map<affected_type, std::vector<effect_scaling>>;
         /** All kinds of bonuses by types to damage, hit etc. */
         bonus_map bonuses_flat;
         bonus_map bonuses_mult;
-
-        // Duplicates bonuses to stabbing from cutting
-        void legacy_fixup( bonus_map &bm );
 };
 
 #endif
