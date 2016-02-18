@@ -180,6 +180,8 @@ class player_morale
         int get_pain_bonus( const player *p ) const;
         /** Ensures persistent morale effects are up-to-date */
         void apply_persistent( const player *p );
+        /** Applies penalties for being cold/sweating a lot*/
+        void apply_temperature( const player *p );
 };
 
 #endif

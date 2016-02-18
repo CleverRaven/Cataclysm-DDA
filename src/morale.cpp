@@ -11,6 +11,8 @@
 #include <stdlib.h>
 #include <algorithm>
 
+const efftype_id effect_cold( "cold" );
+const efftype_id effect_hot( "hot" );
 const efftype_id effect_took_prozac( "took_prozac" );
 const efftype_id effect_took_xanax( "took_xanax" );
 
@@ -321,6 +323,8 @@ void player_morale::update( const player *p, const int ticks )
     points.erase( new_end, points.end() );
     // Apply persistent morale effects
     apply_persistent( p );
+    // Apply warmth/cold morale effects
+    apply_temperature( p );
     // Invalidate level to recalculate it on demand
     invalidate();
 }
@@ -542,5 +546,50 @@ void player_morale::apply_persistent( const player *p )
     // And Bad Temper works just the same way.  But in reverse.  ):
     if( p->has_trait( "BADTEMPER" ) ) {
         add( MORALE_PERM_BADTEMPER, -4, -4, 5, 5, true );
+    }
+}
+
+void player_morale::apply_temperature( const player *p )
+{
+    if( p->has_trait("DEBUG_NOTEMP") ) {
+        return;
+    }
+
+    int morale_pen = 0;
+
+    for( int i = 0 ; i < num_bp; i++ ) {
+        // MORALE : a negative morale_pen means the player is cold
+        // Intensity multiplier is negative for cold, positive for hot
+        const int cold_int = p->get_effect_int( effect_cold, ( body_part )i );
+        const int hot_int = p->get_effect_int( effect_hot, ( body_part )i );
+
+        if( cold_int != 0 || hot_int != 0 ) {
+            int intensity_mult = hot_int - cold_int;
+
+            switch ( i ) {
+                case bp_head:
+                case bp_torso:
+                case bp_mouth:
+                    morale_pen += 2 * intensity_mult;
+                    break;
+                case bp_arm_l:
+                case bp_arm_r:
+                case bp_leg_l:
+                case bp_leg_r:
+                    morale_pen += .5 * intensity_mult;
+                    break;
+                case bp_hand_l:
+                case bp_hand_r:
+                case bp_foot_l:
+                case bp_foot_r:
+                    morale_pen += .5 * intensity_mult;
+                    break;
+            }
+        }
+    }
+    // TODO: MORALE_COMFY should be applied here as well. Now it's in player::update_bodytemp()
+
+    if( morale_pen != 0 ) {
+        add( ( morale_pen > 0 ) ? MORALE_HOT : MORALE_COLD, -2, -abs( morale_pen ), 10, 5, true );
     }
 }
