@@ -527,7 +527,7 @@ static void draw_can_craft_indicator( WINDOW *w, int window_width, int margin_x,
     if( g->u.lighting_craft_speed_multiplier( rec ) == 0.0f ) {
         mvwprintz( w, margin_y + 1, x_align - 1 - utf8_width( _( "too dark" ) ),  i_red  ,
                    _( "too dark" ) );
-    } else if( g->u.has_moral_to_craft() ) {
+    } else if( !g->u.has_morale_to_craft() ) {
         mvwprintz( w, margin_y + 1, x_align - 1 - utf8_width( _( "too sad" ) ),  i_red  , _( "too sad" ) );
     } else if( g->u.lighting_craft_speed_multiplier( rec ) < 1.0f ) {
         mvwprintz( w, margin_y + 1, x_align - 5 - utf8_width( _( "slow" ) ),  i_yellow  , _( "slow" ) );
@@ -631,7 +631,7 @@ int recipe::print_items( WINDOW *w, int ypos, int xpos, nc_color col, int batch 
 void recipe::print_item( WINDOW *w, int ypos, int xpos, nc_color col, const byproduct &bp,
                          int batch ) const
 {
-    item it( bp.result, calendar::turn, false );
+    item it( bp.result, calendar::turn, item::default_charges_tag{} );
     std::string str = string_format( _( "> %d %s" ), ( it.charges > 0 ) ? bp.amount : bp.amount * batch,
                                      it.tname().c_str() );
     if( it.charges > 0 ) {

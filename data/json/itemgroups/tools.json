@@ -1,0 +1,27 @@
+[
+  {
+    "type" : "item_group",
+    "id" : "tools_common",
+    "//" : "Common household tools",
+    "items": [
+      [ "hacksaw", 50 ],
+      [ "hammer", 80 ],
+      [ "pliers", 60 ],
+      [ "saw", 60 ],
+      [ "screwdriver", 100 ],
+      [ "screwdriver_set", 50 ],
+      [ "wrench", 40 ]
+    ]
+  },
+  {
+    "type" : "item_group",
+    "id" : "tools_blacksmith",
+    "//" : "Hand tools commonly used by blacksmiths",
+    "items": [
+      ["anvil", 50],
+      ["crucible", 50],
+      ["swage", 80],
+      ["tongs", 100]
+    ]
+  }
+]

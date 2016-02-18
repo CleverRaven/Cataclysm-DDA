@@ -192,21 +192,6 @@
     "to_hit": -2
    },
    {
-    "type":"GENERIC",
-    "id": "coal",
-    "symbol": "/",
-    "color": "dark_gray",
-    "name": "coal pallet",
-    "category" : "other",
-    "description": "A large block of semi-processed coal.",
-    "price": 60000,
-    "material": "stone",
-    "weight": 13840,
-    "volume": 72,
-    "bashing": 8,
-    "to_hit": -5
-   },
-   {
     "type" : "GENERIC",
     "id" : "material_rocksalt",
     "price" : 50,

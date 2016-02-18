@@ -5,10 +5,13 @@
 #include "inventory.h"
 #include "character.h"
 #include "map_selector.h"
+#include "vehicle_selector.h"
 #include "map.h"
+#include "vehicle.h"
+#include "game.h"
 
 template <typename T>
-item * visitable<T>::find_parent( item& it )
+item * visitable<T>::find_parent( const item& it )
 {
     item *res = nullptr;
     if( visit_items( [&]( item *node, item *parent, const tripoint * ){
@@ -26,7 +29,34 @@ item * visitable<T>::find_parent( item& it )
 template <typename T>
 const item * visitable<T>::find_parent( const item& it ) const
 {
-    return const_cast<visitable<T> *>( this )->find_parent( const_cast<item&>( it ) );
+    return const_cast<visitable<T> *>( this )->find_parent( it );
+}
+
+template <typename T>
+std::vector<item *> visitable<T>::parents( const item& it )
+{
+    std::vector<item *> res;
+    for( item *obj = find_parent( it ); obj; obj = find_parent( *obj ) ) {
+        res.push_back( obj );
+    }
+    return res;
+}
+
+template <typename T>
+std::vector<const item *> visitable<T>::parents( const item& it ) const
+{
+    std::vector<const item *> res;
+    for( const item *obj = find_parent( it ); obj; obj = find_parent( *obj ) ) {
+        res.push_back( obj );
+    }
+    return res;
+}
+
+template <typename T>
+bool visitable<T>::has_item( const item& it ) const {
+    return visit_items_const( [&it]( const item *node ) {
+        return node == &it ? VisitResponse::ABORT : VisitResponse::NEXT;
+    }) == VisitResponse::ABORT;
 }
 
 template <typename T>
@@ -118,17 +148,47 @@ VisitResponse visitable<Character>::visit_items( const std::function<VisitRespon
 }
 
 template <>
+VisitResponse visitable<map_cursor>::visit_items( const std::function<VisitResponse( item *, item *, const tripoint* )>& func ) {
+    auto cur = static_cast<map_cursor *>( this );
+
+    for( auto& e : g->m.i_at( *cur ) ) {
+        if( visit_internal( func, &e, nullptr, cur ) == VisitResponse::ABORT ) {
+            return VisitResponse::ABORT;
+        }
+    }
+    return VisitResponse::NEXT;
+}
+
+template <>
 VisitResponse visitable<map_selector>::visit_items( const std::function<VisitResponse( item *, item *, const tripoint* )>& func )
 {
-    auto sel = static_cast<map_selector *>( this );
+    for( auto &cursor : static_cast<map_selector&>( *this ) ) {
+        if( cursor.visit_items( func ) == VisitResponse::ABORT ) {
+            return VisitResponse::ABORT;
+        }
+    }
+    return VisitResponse::NEXT;
+}
 
-    for( const auto &pos : closest_tripoints_first( sel->radius, sel->pos ) ) {
-        if( !sel->accessible || sel->m.accessible_items( sel->pos, pos, sel->radius ) ) {
-            for( auto& e : sel->m.i_at( pos ) ) {
-                if( visit_internal( func, &e, nullptr, &pos ) == VisitResponse::ABORT ) {
-                    return VisitResponse::ABORT;
-                }
-            }
+template <>
+VisitResponse visitable<vehicle_cursor>::visit_items( const std::function<VisitResponse( item *, item *, const tripoint* )>& func ) {
+    auto self = static_cast<vehicle_cursor *>( this );
+
+    for( auto &e : self->veh.get_items( self->part ) ) {
+        auto pos = self->veh.global_part_pos3( self->part );
+        if( visit_internal( func, &e, nullptr, &pos ) == VisitResponse::ABORT ) {
+            return VisitResponse::ABORT;
+        }
+    }
+    return VisitResponse::NEXT;
+}
+
+template <>
+VisitResponse visitable<vehicle_selector>::visit_items( const std::function<VisitResponse( item *, item *, const tripoint* )>& func )
+{
+    for( auto &cursor : static_cast<vehicle_selector&>( *this ) ) {
+        if( cursor.visit_items( func ) == VisitResponse::ABORT ) {
+            return VisitResponse::ABORT;
         }
     }
     return VisitResponse::NEXT;
@@ -139,3 +199,6 @@ template class visitable<item>;
 template class visitable<inventory>;
 template class visitable<Character>;
 template class visitable<map_selector>;
+template class visitable<map_cursor>;
+template class visitable<vehicle_selector>;
+template class visitable<vehicle_cursor>;

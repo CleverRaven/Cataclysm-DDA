@@ -205,7 +205,7 @@ bool player::crafting_allowed( const std::string &rec_name )
 
 bool player::crafting_allowed( const recipe &rec )
 {
-    if( has_moral_to_craft() ) { // See morale.h
+    if( !has_morale_to_craft() ) { // See morale.h
         add_msg( m_info, _( "Your morale is too low to craft..." ) );
         return false;
     }
@@ -246,9 +246,9 @@ float player::lighting_craft_speed_multiplier( const recipe &rec )
     return 0.0f; // it's dark and you could craft this if you had more skill
 }
 
-bool player::has_moral_to_craft()
+bool player::has_morale_to_craft() const
 {
-    return morale_level() < MIN_MORALE_CRAFT;
+    return get_morale_level() >= -50;
 }
 
 void player::craft()
@@ -556,7 +556,7 @@ void player::make_craft_with_command( const std::string &id_to_make, int batch_s
 }
 
 item recipe::create_result() const {
-    item newit(result, calendar::turn, false);
+    item newit( result, calendar::turn, item::default_charges_tag{} );
     if (contained == true) {
         newit = newit.in_its_container();
     }
@@ -596,7 +596,7 @@ std::vector<item> recipe::create_byproducts(int batch) const
     for(auto &val : byproducts) {
         if( !item::count_by_charges( val.result ) ) {
             for (int i = 0; i < val.amount * batch; i++) {
-                item newit(val.result, calendar::turn, false);
+                item newit( val.result, calendar::turn, item::default_charges_tag{} );
                 if (!newit.craft_has_charges()) {
                     newit.charges = 0;
                 }
@@ -607,7 +607,7 @@ std::vector<item> recipe::create_byproducts(int batch) const
             }
         } else {
             for (int i = 0; i < val.amount; i++) {
-                item newit(val.result, calendar::turn, false);
+                item newit( val.result, calendar::turn, item::default_charges_tag{} );
                 if (val.charges_mult != 1) {
                     newit.charges *= val.charges_mult;
                 }
@@ -1275,7 +1275,7 @@ bool player::disassemble(int dis_pos)
         dis_pos = g->inv(_("Disassemble item:"));
     }
     item &dis_item = i_at(dis_pos);
-    if (!has_item(dis_pos)) {
+    if( !has_item( dis_item ) ) {
         add_msg(m_info, _("You don't have that item!"), dis_pos);
         return false;
     }

@@ -1048,6 +1048,17 @@
   "components": [ [ [ "paper", 3 ] ] ]
 },{
   "type" : "recipe",
+  "result": "box_cigarette",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "difficulty": 0,
+  "time": 100,
+  "reversible": true,
+  "autolearn": false,
+  "flags": ["BLIND_EASY"],
+  "components": [ [ [ "paper", 1 ] ] ]
+},{
+  "type" : "recipe",
   "result": "flyer",
   "id_suffix": "uncraft",
   "category": "CC_NONCRAFT",
@@ -2082,7 +2093,7 @@
   "reversible": true,
   "autolearn": false,
   "components": [
-    [ [ "charcoal", 15 ] ],
+    [ [ "charcoal", 75 ] ],
     [ [ "char_kiln", 1 ] ]
   ]
 },{
@@ -2840,6 +2851,19 @@
     [ [ "plant_fibre", 100 ] ],
     [ [ "withered", 1 ] ]
     ]
+},{
+  "type" : "recipe",
+  "result": "pot_copper",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "subcategory": "CSC_NONCRAFT",
+  "skill_used": "fabrication",
+  "difficulty": 1,
+  "time": 7500,
+  "reversible": true,
+  "autolearn": false,
+  "qualities" : [ {"id":"SAW_M","level":1,"amount":1} ],
+  "components": [ [ [ "scrap_copper", 5 ] ], [ [ "scrap", 1 ] ] ]
 },
 {
     "type": "recipe",
@@ -3910,7 +3934,7 @@
     "components": [
         [ [ "lead", 4 ] ],
         [ [ "9x18mm_casing", 1 ] ],
-        [ [ "lgrifle_primer", 1 ] ],
+        [ [ "smpistol_primer", 1 ] ],
         [ [ "gunpowder", 3 ] ]
     ]
 },
@@ -3930,7 +3954,7 @@
     "components": [
         [ [ "lead", 4 ] ],
         [ [ "9x18mm_casing", 1 ] ],
-        [ [ "lgrifle_primer", 1 ] ],
+        [ [ "smpistol_primer", 1 ] ],
         [ [ "gunpowder", 5 ] ]
     ]
 },
@@ -3950,7 +3974,7 @@
     "components": [
         [ [ "lead", 4 ] ],
         [ [ "9x18mm_casing", 1 ] ],
-        [ [ "lgrifle_primer", 1 ] ],
+        [ [ "smpistol_primer", 1 ] ],
         [ [ "gunpowder", 3 ] ],
         [ [ "copper", 2 ] ]
     ]

@@ -107,14 +107,14 @@ The syntax listed here is still valid.
 "name" : "GROUP_ANT",             // Unique ID. Must be one continuous word, use underscores if necessary
 "default" : "mon_ant",            // Default monster, automatically fills in any remaining spawn chances
 "monsters" : [                    // To choose monster spawned game creates 1000 entries and picks one.
-  { "monster" : "mon_ant_larva", "freq" : 40, "multiplier" : 0 },   // Each monster will have a number of entries equal to it's "freq" and 
+  { "monster" : "mon_ant_larva", "freq" : 40, "multiplier" : 0 },   // Each monster will have a number of entries equal to it's "freq" and
   { "monster" : "mon_ant_soldier", "freq" : 90, "multiplier" : 5 }, // the default monster will fill in the remaining. "multiplier" increases
   { "monster" : "mon_ant_queen", "freq" : 0, "multiplier" : 0 }     // how much each monster counts for in a spawn group (i.e. will spawn 5 larva or 1 soldier)
   { "monster" : "mon_thing",              // Monsters id
     "freq" : 100,                         // Chance of occurrence, out of a thousand
     "multiplier" : 0,                     // How many monsters each monster in this definition should count as, if spawning a limited number of monsters
     // The minimum and maximum number of monsters in this group that should spawn together. Optional, defaults [1,1]
-    "pack_size" : [3,5],                    
+    "pack_size" : [3,5],
     // Conditions limiting when monsters spawn. Valid options: SUMMER, WINTER, AUTUMN, SPRING, DAY, NIGHT, DUSK, DAWN
     // Multiple Time-of-day conditions (DAY, NIGHT, DUSK, DAWN) will be combined together so that any of those conditions makes the spawn valid
     // Multiple Season conditions (SUMMER, WINTER, AUTUMN, SPRING) will be combined together so that any of those conditions makes the spawn valid
@@ -125,83 +125,180 @@ The syntax listed here is still valid.
 ```C++
 "name" : "cult",            // Unique ID. Must be one continuous word, use underscores when necessary
 "base_faction" : "zombie",  // Optional base faction. Relations to other factions are inherited from it and relations of other factions to this one check this
-"by_mood" : ["vermin"],     // Be hostile towards this faction when angry, neutral otherwise. Default attitude to all other factions    
+"by_mood" : ["vermin"],     // Be hostile towards this faction when angry, neutral otherwise. Default attitude to all other factions
 "neutral" : ["nether"],     // Always be neutral towards this faction
 "friendly" : ["blob"],      // Always be friendly towards this faction. By default a faction is friendly towards itself
+```
 ###MONSTERS
-```C++
-"type" : "MONSTER",         // Should always be "MONSTER"
-"id" : "mon_bat",           // Unique ID. Must be one continuous word, use underscores when necessary. Standard is to preface the ID with "mon"
-"name" : "bat",             // Name displayed in-game
-"species" : "MAMMAL",       // Monster species
-"symbol" : "r",             // Symbol representing monster in-game
-"color" : "brown",          // Color of symbol in-game
-"size" : "TINY",            // Size flag, can be TINY, SMALL, MEDIUM, LARGE, or HUGE. See JSON_FLAGS.md for reference
-"material" : "flesh",       // The material the monster is primarily composed of
-"diff" : 4,                 // Monster difficulty. Impacts the shade used to label the monster, and if it is above 30 a kill will be recorded in the memorial log. Some example values: (Zombie, 3) (Mi-go, 26) (Zombie Hulk, 50) 
-"aggression" : -25,         // Defines how aggressive the monster is. Ranges from -99 (totally passive) to 100 (guaranteed hostility on detection)
-"morale" : 5,               // Monster morale
-"speed" : 230,              // Monster speed. 100 is the normal speed for a human being - higher values are faster and lower values are slower.
-"melee_skill" : 4,          // Monster melee skill, ranges from 0 - 10, with 4 being an average mob. See GAME_BALANCE.txt for more examples
-"melee_dice" : 1,           // Number of dice rolled on monster melee attack
-"melee_dice_sides" : 1,     // Number of faces of dice rolled on monster melee attack
-"melee_cut" : 1,            // Amount of cutting damage added to die roll on monster melee attack
-"dodge" : 8,                // Monster dodge skill. See GAME_BALANCE.txt for an explanation of dodge mechanics
-"armor_bash" : 0,           // Monster protection from bashing damage
-"armor_cut" : 0,            // Monster protection from cutting damage
-"vision_day" : 10,          // Vision range in full daylight
-"vision_night" : 1,         // Vision range in total darkness
-"luminance" : 0,            // Amount of light passively output by monster. Ranges from 0 to 10.
-"hp" : 10,                  // Monster hit points
-"death_drops": "some-group-id",     // An item group that is used to spawn items when the monster dies. This can be an inlined item group, see ITEM_SPAWN.md. The default subtype is "distribution".
-"special_freq" : 0,          // Number of turns required to "charge" a monster's special attack
-"death_function" : "NORMAL", // How the monster behaves on death. See JSON_FLAGS.md for a list of possible functions. Supports multiple death functions
-"special_attack" : "BITE",   // Monster's special attack. See JSON_FLAGS.md for a list of possible special attacks. A monster can have only one special attack
-"description": "One of the vesper bats, a family of winged insect-eating mammals. It roosts in caves and other hollows, and uses a form of echolocation to aerially navigate through tricky terrain at rapid speeds.",  
-                  // In-game description for the monster
-"flags" : ["SEES", "HEARS", etc],  // Monster flags. See JSON_FLAGS.md for a full list
-"fear_triggers" : ["SOUND", etc],  // What makes the monster afraid. See JSON_FLAGS.md for a full list
-"anger_triggers" : ["PLAYER_CLOSE"],// What makes the monster angry. See JSON_FLAGS.md for a full list
-"placate_triggers" : ["MEAT"],    // What calms the monster. See JSON_FLAGS.md for a full list
-"revert_to_itype": "bot_turret",    // (optional) if not empty and a valid item id, the monster (usually a robot) can be converted into this item by the player (only when it's already friendly).
-"categories" : ["WILDLIFE"]      // Monster categories. Can be NULL, CLASSIC (only mobs found in classic zombie movies) or WILDLIFE (natural animals). If they are not CLASSIC or WILDLIFE, they will not spawn in classic mode
-```  
+See MONSTERS.md
 ###NAMES
 ```C++
 { "name" : "Aaliyah", "gender" : "female", "usage" : "given" }, // Name, gender, "given"/"family"/"city" (first/last/city name).
 // NOTE: Please refrain from adding name PR's in order to maintain kickstarter exclusivity
 ```
-###PROFESSIONS
-```C++
-"description":"Ever since you were a child you loved hunting, and you loved the challenge of hunting with a bow even more. You start with a level in archery and survival.", // In-game description
-"ident":"hunter",      // Unique ID. Must be one continuous word, use underscores if necessary
-"items":[              // ID's of items player starts with when selecting this profession
- "army_top",
- "boots_steel",
- ["survnote", "snippet-id"],
-                       // Entries can also be an array containing the item id and a snippet id.
-                       // The id must match a snippet id from the snippet category that is
-                       // used by that item type.
- "jeans"
-],
-"name":"Bow Hunter",   // In-game name displayed
-"points":2,            // Point cost of profession. Positive values cost points and negative values grant points
-"addictions" : [       // Optional list of starting addictions.
- {
-  "type": "nicotine", // ID of addiction
-  "intensity" : 10,  // Intensity of starting addiction
- }
-"skills":[             // Skills that the player starts with when selecting this profession, stacks with purchased skills
- {
-  "level":1,         // Skill level granted
-  "name":"archery"   // ID of granted skill
- },
- {
-  "level":1,
-  "name":"survival"
- }
+
+# Professions
+
+Professions are specified as JSON object with "type" member set to "profession":
+```JSON
+{
+    "type": "profession",
+    "ident": "hunter",
+    ...
+}
+```
+
+The ident member should be the unique id of the profession.
+
+The following properties (mandatory, except if noted otherwise) are supported:
+
+## "description"
+(string)
+
+The in-game description.
+
+## "name"
+(string or object with members "male" and "female")
+
+The in-game name, either one gender-neutral string, or an object with gender specific names. Example:
+```JSON
+"name": {
+    "male": "Groom",
+    "female": "Bride"
+}
+```
+
+## "points"
+(integer)
+
+Point cost of profession. Positive values cost points and negative values grant points.
+
+## "addictions"
+(optional, array of addictions)
+
+List of starting addictions. Each entry in the list should be an object with the following members:
+- "type": the string id of the addiction (see JSON_FLAGS.md),
+- "intensity": intensity (integer) of the addiction.
+
+Example:
+```JSON
+"addictions": [
+    { "type": "nicotine", "intensity": 10 }
 ]
 ```
+
+Mods can modify this list (requires `"edit-mode": "modify"`, see example) via "add:addictions" and "remove:addictions", removing requires only the addiction type. Example:
+```JSON
+{
+    "type": "profession",
+    "ident": "hunter",
+    "edit-mode": "modify",
+    "remove:addictions": [
+        "nicotine"
+    ],
+    "add:addictions": [
+        { "type": "alcohol", "intensity": 10 }
+    ]
+}
+```
+
+## "skills"
+(optional, array of skill levels)
+
+List of starting skills. Each entry in the list should be an object with the following members:
+- "name": the string id of the skill (see skills.json),
+- "level": level (integer) of the skill. This is added to the skill level that can be chosen in the character creation.
+
+Example:
+```JSON
+"skills": [
+    { "name": "archery", "level": 2 }
+]
+```
+
+Mods can modify this list (requires `"edit-mode": "modify"`, see example) via "add:skills" and "remove:skills", removing requires only the skill id. Example:
+```JSON
+{
+    "type": "profession",
+    "ident": "hunter",
+    "edit-mode": "modify",
+    "remove:skills": [
+        "archery"
+    ],
+    "add:skills": [
+        { "name": "computer", "level": 2 }
+    ]
+}
+```
+
+## "items"
+(optional, object with optional members "both", "male" and "female")
+
+Items the player starts with when selecting this profession. One can specify different items based on the gender of the character. Each lists of items should be an array of items ids, or pairs of item ids and snippet ids. Item ids may appear multiple times, in which case the item is created multiple times. The syntax for each of the three lists is identical.
+
+Example:
+```JSON
+"items": {
+    "both": [
+        "pants",
+        "rock",
+        "rock",
+        ["tshirt_text", "allyourbase"],
+        "socks"
+    ],
+    "male": [
+        "briefs"
+    ],
+    "female": [
+        "panties"
+    ]
+}
+```
+This gives the player pants, two rocks, a t-shirt with the snippet id "allyourbase" (giving it a special description), socks and (depending on the gender) briefs or panties.
+
+Mods can modify the lists of existing professions. This requires the "edit-mode" member with value "modify" (see example). Adding items to the lists can be done with via "add:both" / "add:male" / "add:female". It allows the same content (it allows adding items with snippet ids). Removing items is done via "remove:both" / "remove:male" / "remove:female", which may only contain items ids.
+
+Example for mods:
+```JSON
+{
+    "type": "profession",
+    "ident": "hunter",
+    "edit-mode": "modify",
+    "items": {
+        "remove:both": [
+            "rock",
+            "tshirt_text"
+        ],
+        "add:both": [ "2x4" ],
+        "add:female": [
+            ["tshirt_text", "allyourbase"]
+        ]
+    }
+}
+```
+This mod removes one of the rocks (the other rock is still created), the t-shirt, adds a 2x4 item and gives female characters a t-shirt with the the special snippet id.
+
+## "flags"
+(optional, array of strings)
+
+A list of flags. TODO: document those flags here.
+
+Mods can modify this via "add:flags" and "remove:flags".
+
+## "CBMs"
+(optional, array of strings)
+
+A list of CBM ids that are implanted in the character.
+
+Mods can modify this via "add:CBMs" and "remove:CBMs".
+
+## "traits"
+(optional, array of strings)
+
+A list of trait/mutation ids that are applied to the character.
+
+Mods can modify this via "add:traits" and "remove:traits".
+
 ###RECIPES
 ```C++
 "result": "javelin",         // ID of resulting item
@@ -222,7 +319,7 @@ The syntax listed here is still valid.
 "flags": [                   // A set of strings describing boolean features of the recipe
   "BLIND_EASY",
   "ANOTHERFLAG"
-], 
+],
 "qualities": [               // Generic qualities of tools needed to craft
   {"id":"CUT","level":1,"amount":1}
 ],
@@ -364,6 +461,7 @@ The syntax listed here is still valid.
 "id" : "socks",                   // Unique ID. Must be one continuous word, use underscores if necessary
 "name" : "socks",                 // The name appearing in the examine box.  Can be more than one word separated by spaces
 "name_plural" : "pairs of socks", // (Optional)
+"container" : "null",             // What container (if any) this item should spawn within
 "color" : "blue",                 // ASCII character color
 "symbol" : "[",                   // ASCII character used in-game
 "description" : "Socks. Put 'em on your feet.", // Description of the item
@@ -371,6 +469,7 @@ The syntax listed here is still valid.
 "weight" : 350,                   // Weight of the item in grams
 "volume" : 1,                     // Volume, measured in 1/4 liters
 "integral_volume" : 0,            // Volume added to base item when item is integrated into another (eg. a gunmod integrated to a gun)
+"rigid": false,                   // For non-rigid items volume (and for worn items encumbrance) increases proportional to contents
 "price" : 100,                    // Used when bartering with NPCs
 "material" : ["COTTON"],          // Material types, can be as many as you want.  See materials.json for possible options
 "cutting" : 0,                    // (Optional, default = 0) Cutting damage caused by using it as a melee weapon
@@ -410,7 +509,7 @@ The syntax listed here is still valid.
 "count" : 0,          // Default amount of ammo contained by a magazine (set this for ammo belts)
 "reliability" : 8,    // How reliable this this magazine on a range of 0 to 10? (see GAME_BALANCE.md)
 "reload_time" : 100,  // How long it takes to load each unit of ammo into the magazine
-"rigid" : true        // Volume increases proportional to contained ammo for non-rigid magazines (set this for ammo belts)
+"linkage" : "ammolink"// If set one linkage (of given type) is dropped for each unit of ammo consumed (set for disintegrating ammo belts)
 ```
 
 ###ARMOR
@@ -498,7 +597,6 @@ Never use `yellow` and `red`, those colors are reserved for sounds and infrared 
 "spoils_in" : 0,            // How long a comestible is good for. 0 = no spoilage
 "use_action" : "CRACK",     // What effects a comestible has when used, see special definitions below
 "stim" : 40,                // Stimulant effect
-"container" : "null",       // What container stores this
 "comestible_type" : "MED",  // Comestible type, used for inventory sorting
 "quench" : 0,               // Thirst quenched
 "heal" : -2,                // Health effects (used for sickness chances)
@@ -517,7 +615,6 @@ Never use `yellow` and `red`, those colors are reserved for sounds and infrared 
 "contains": 200,      // How much volume this container can hold
 "seals": false,       // Can be resealed, this is a required for it to be used for liquids. (optional, default: false)
 "watertight": false,  // Can hold liquids, this is a required for it to be used for liquids. (optional, default: false)
-"rigid": false,       // Volume of the item does not include volume of the content. Without that flag the volume of the contents are added to the volume of the container. (optional, default: false)
 "preserves": false,   // Contents do not spoil. (optional, default: false)
 ```
 Alternately, every item can be used as container:
@@ -584,6 +681,26 @@ Alternately, every item (book, tool, armor, even food) can be used as gun if it 
 }
 ```
 
+###GUNMOD
+Gun mods can be define like this:
+```C++
+"type": "GUNMOD",              // Defines this as a GUNMOD
+...                            // Same entries as above for the generic item.
+                               // Additionally some gunmod specific entries:
+"location": "stock",           // Mandatory. Where is this gunmod is installed?
+"mod_targets": [ "crossbow" ], // Mandatory. What kind of weapons can this gunmod be used with?
+"acceptable_ammo": [ "9mm" ],  // Optional filter restricting mod to guns with those base (before modifiers) ammo types
+"install_time": 100,           // Optional number of moves installation takes. Installation is instantaneous if unspecified
+"ammo_modifier": "57",         // Optional field which if specified modifies parent gun to use this ammo type
+"burst_modifier": 3,           // Optional field increasing or decreasing base gun burst size
+"damage_modifier": -1,         // Optional field increasing or decreasing base gun damage
+"dispersion_modifier": 15,     // Optional field increasing or decreasing base gun dispersion
+"loudness_modifier": 4,        // Optional field increasing or decreasing base guns loudness
+"range_modifier": 2,           // Optional field increasing or decreasing base gun range
+"recoil_modifier": -100,       // Optional field increasing or decreasing base gun recoil
+"ups_charges": 200,            // Optional field increasing or decreasing base gun UPS consumption (per shot)
+```
+
 ###TOOLS
 ```C++
 "id": "torch_lit",    // Unique ID. Must be one continuous word, use underscores if necessary
@@ -608,14 +725,6 @@ Alternately, every item (book, tool, armor, even food) can be used as gun if it 
 "ammo": "NULL",       // Ammo type used for reloading
 "revert_to": "torch_done", // Transforms into item when charges are expended
 "use_action": "TORCH_LIT" // Action performed when tool is used, see special definition below
-```
-
-###SPAWN DATA
-Every item type can have optional spawn data:
-```
-"spawn_data" : {
-    "container": "can"  // The id of a container item, new item will be put into that container (optional, default: no container)
-}
 ```
 
 ###SEED DATA
@@ -1157,36 +1266,149 @@ The terrain / furniture that will be set after the original has been deconstruct
 #### "items"
 (Optional) An item group (inline) or an id of an item group, see doc/ITEM_SPAWN.md. The default subtype is "collection". Upon deconstruction the object, items from that group will be spawned.
 
-###SCENARIO
+# Scenarios
 
+Scenarios are specified as JSON object with "type" member set to "scenario":
 ```JSON
 {
-    "type": "scenario",              // Must always be "scenario"
-    "ident": "schools_out",          // Internal ident of the scenario, must be unique
-    "name": "School",                // The displayed name, can be gender specific:
-    "name": {
-        "male": "...",
-        "female": "..."
-    },
-    "points" : -1,                   // How much points it costs (or if negative, how much it gives)
-    "description": "...",            // Some description of the scenario, can be anything you like, can also be gender specific:
-        "scen_desc_male": "...",     // Gender specific descriptions are optional.
-        "scen_desc_female": "...",
-    "allowed_locs" : ["school"],     // Starting locations (see start_locations.json) that can be chosen when using this scenario.
-    "professions" : ["student"],     // Professions (see professions.json) that can be chosen when using this scenario. The first entry is the default profession.
-    "start_name": "School",          // TODO
-    "items": {                       // Additional starting items, see professions for the format.
-        "both": [ ... ],
-        "female": [ ... ],
-        "male": [ ... ]
-    },
-    "flags": [ "some flag" ],        // Flags, see JSON_FLAGS.
-    "traits": [ "PROF_MED" ],        // Allowed starting traits (see mutations.json). The player still has to choose them if they like, only useful if the listed trait can actually be chosen at game start.
-    "forced_traits": [ "PROF_MED" ], // Traits that are automatically added to the new character.
-    "forbidden_traits": [ "PROF_MED" ], // Traits that can explicitly not be chosen at start.
-    "map_special": "mx_helicopter",  // (optional) Add a map special to the starting location, see JSON_FLAGS for the possible specials.
+    "type": "scenario",
+    "ident": "schools_out",
+    ...
 }
 ```
+
+The ident member should be the unique id of the scenario.
+
+The following properties (mandatory, except if noted otherwise) are supported:
+
+
+## "description"
+(string)
+
+The in-game description.
+
+## "name"
+(string or object with members "male" and "female")
+
+The in-game name, either one gender-neutral string, or an object with gender specific names. Example:
+```JSON
+"name": {
+    "male": "Runaway groom",
+    "female": "Runaway bride"
+}
+```
+
+## "points"
+(integer)
+
+Point cost of scenario. Positive values cost points and negative values grant points.
+
+## "items"
+(optional, object with optional members "both", "male" and "female")
+
+Items the player starts with when selecting this scenario. One can specify different items based on the gender of the character. Each lists of items should be an array of items ids. Ids may appear multiple times, in which case the item is created multiple times.
+
+Example:
+```JSON
+"items": {
+    "both": [
+        "pants",
+        "rock",
+        "rock"
+    ],
+    "male": [ "briefs" ],
+    "female": [ "panties" ]
+}
+```
+This gives the player pants, two rocks and (depending on the gender) briefs or panties.
+
+Mods can modify the lists of an existing scenario via "add:both" / "add:male" / "add:female" and "remove:both" / "remove:male" / "remove:female".
+
+Example for mods:
+```JSON
+{
+    "type": "scenario",
+    "ident": "schools_out",
+    "edit-mode": "modify",
+    "items": {
+        "remove:both": [ "rock" ],
+        "add:female": [ "2x4" ]
+    }
+}
+```
+
+## "flags"
+(optional, array of strings)
+
+A list of flags. TODO: document those flags here.
+
+Mods can modify this via "add:flags" and "remove:flags".
+
+## "CBMs"
+(optional, array of strings)
+
+A list of CBM ids that are implanted in the character.
+
+Mods can modify this via "add:CBMs" and "remove:CBMs".
+
+## "traits", "forced_traits", "forbidden_traits"
+(optional, array of strings)
+
+Lists of trait/mutation ids. Traits in "forbidden_traits" are forbidden and can't be selected during the character creation. Traits in "forced_traits" are automatically added to character. Traits in "traits" enables them to be chosen, even if they are not starting traits.
+
+Mods can modify this via "add:traits" / "add:forced_traits" / "add:forbidden_traits" and "remove:traits" / "remove:forced_traits" / "remove:forbidden_traits".
+
+## "allowed_locs"
+(optional, array of strings)
+
+A list of starting location ids (see start_locations.json) that can be chosen when using this scenario.
+
+## "start_name"
+(string)
+
+The name that is shown for the starting location. This is useful if the scenario allows several starting locations, but the game can not list them all at once in the scenario description. Example: if the scenario allows to start somewhere in the wilderness, the starting locations would contain forest and fields, but its "start_name" may simply be "wilderness".
+
+## "professions"
+(optional, array of strings)
+
+A list of allowed professions that can be chosen when using this scenario. The first entry is the default profession. If this is empty, all professions are allowed.
+
+## "map_special"
+(optional, string)
+
+Add a map special to the starting location, see JSON_FLAGS for the possible specials.
+
+# Starting locations
+
+Starting locations are specified as JSON object with "type" member set to "start_location":
+```JSON
+{
+    "type": "start_location",
+    "ident": "field",
+    "name": "An empty field",
+    "target": "field",
+    ...
+}
+```
+
+The ident member should be the unique id of the location.
+
+The following properties (mandatory, except if noted otherwise) are supported:
+
+## "name"
+(string)
+
+The in-game name of the location.
+
+## "target"
+(string)
+
+The id of an overmap terrain type (see overmap_terrain.json) of the starting location. The game will chose a random place with that terrain.
+
+## "flags"
+(optional, array of strings)
+
+Arbitrary flags. Mods can modify this via "add:flags" / "remove:flags". TODO: document them.
 
 ###TILE_CONFIG
 Each tileset has a tile_config.json describing how to map the contents of a sprite sheet to various tile identifiers, different orientations, etc. Example:

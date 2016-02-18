@@ -424,10 +424,8 @@ void Item_factory::check_definitions() const
                 msg << string_format("item %s has unknown quality %s", type->id.c_str(), a->first.c_str()) << "\n";
             }
         }
-        if( type->spawn ) {
-            if( type->spawn->default_container != "null" && !has_template( type->spawn->default_container ) ) {
-                msg << string_format( "invalid container property %s", type->spawn->default_container.c_str() ) << "\n";
-            }
+        if( type->default_container != "null" && !has_template( type->default_container ) ) {
+            msg << string_format( "invalid container property %s", type->default_container.c_str() ) << "\n";
         }
         const it_comest *comest = dynamic_cast<const it_comest *>(type);
         if (comest != 0) {
@@ -478,10 +476,7 @@ void Item_factory::check_definitions() const
             }
         }
         if( type->gunmod ) {
-            check_ammo_type( msg, type->gunmod->newtype );
-            if( type->gunmod->skill_used && !type->gunmod->skill_used.is_valid() ) {
-                msg << string_format("uses invalid gunmod skill.") << "\n";
-            }
+            check_ammo_type( msg, type->gunmod->ammo_modifier );
         }
         if( type->magazine ) {
             magazines_defined.insert( type->id );
@@ -497,6 +492,9 @@ void Item_factory::check_definitions() const
             }
             if( type->magazine->reload_time < 0 ) {
                 msg << string_format("invalid reload_time %i", type->magazine->reload_time) << "\n";
+            }
+            if( type->magazine->linkage != "NULL" && !has_template( type->magazine->linkage ) ) {
+                msg << string_format( "invalid linkage property %s", type->magazine->linkage.c_str() ) << "\n";
             }
         }
 
@@ -731,7 +729,6 @@ void Item_factory::load( islot_spawn &slot, JsonObject &jo )
             jarr.throw_error( "a rand_charges array with only one entry will be ignored, it needs at least 2 entries!" );
         }
     }
-    slot.default_container = jo.get_string( "container", slot.default_container );
 }
 
 void Item_factory::load_gun(JsonObject &jo)
@@ -750,7 +747,7 @@ void Item_factory::load_armor(JsonObject &jo)
 
 void Item_factory::load( islot_armor &slot, JsonObject &jo )
 {
-    slot.encumber = jo.get_int( "encumbrance" );
+    slot.encumber = jo.get_int( "encumbrance", 0 );
     slot.coverage = jo.get_int( "coverage" );
     slot.thickness = jo.get_int( "material_thickness" );
     slot.env_resist = jo.get_int( "environmental_protection", 0 );
@@ -872,35 +869,26 @@ void Item_factory::load( islot_container &slot, JsonObject &jo )
     slot.seals = jo.get_bool( "seals", false );
     slot.watertight = jo.get_bool( "watertight", false );
     slot.preserves = jo.get_bool( "preserves", false );
-    slot.rigid = jo.get_bool( "rigid", false );
 }
 
 void Item_factory::load( islot_gunmod &slot, JsonObject &jo )
 {
     slot.damage = jo.get_int( "damage_modifier", 0 );
     slot.loudness = jo.get_int( "loudness_modifier", 0 );
-    slot.newtype = jo.get_string( "ammo_modifier", "NULL" );
+    slot.ammo_modifier = jo.get_string( "ammo_modifier", slot.ammo_modifier );
     slot.location = jo.get_string( "location" );
     // TODO: implement loading this from json (think of a proper name)
     // slot.pierce = jo.get_string( "mod_pierce", 0 );
-    slot.used_on_pistol = is_mod_target( jo, "mod_targets", "pistol" );
-    slot.used_on_shotgun = is_mod_target( jo, "mod_targets", "shotgun" );
-    slot.used_on_smg = is_mod_target( jo, "mod_targets", "smg" );
-    slot.used_on_rifle = is_mod_target( jo, "mod_targets", "rifle" );
-    slot.used_on_bow = is_mod_target( jo, "mod_targets", "bow" );
-    slot.used_on_crossbow = is_mod_target( jo, "mod_targets", "crossbow" );
-    slot.used_on_launcher = is_mod_target( jo, "mod_targets", "launcher" );
+    slot.usable = jo.get_tags( "mod_targets");
     slot.dispersion = jo.get_int( "dispersion_modifier", 0 );
     slot.sight_dispersion = jo.get_int( "sight_dispersion", -1 );
     slot.aim_speed = jo.get_int( "aim_speed", -1 );
     slot.recoil = jo.get_int( "recoil_modifier", 0 );
     slot.burst = jo.get_int( "burst_modifier", 0 );
-    slot.range = jo.get_int( "range", 0 );
-    slot.acceptable_ammo_types = jo.get_tags( "acceptable_ammo" );
-    slot.skill_used = skill_id( jo.get_string( "skill", "gun" ) );
-    slot.req_skill = jo.get_int( "skill_required", 0 );
-    slot.ups_charges = jo.get_int( "ups_charges", 0 );
-    slot.install_time = jo.get_int( "install_time", 0 );
+    slot.range = jo.get_int( "range_modifier", 0 );
+    slot.acceptable_ammo = jo.get_tags( "acceptable_ammo" );
+    slot.ups_charges = jo.get_int( "ups_charges", slot.ups_charges );
+    slot.install_time = jo.get_int( "install_time", slot.install_time );
 }
 
 void Item_factory::load_gunmod(JsonObject &jo)
@@ -917,7 +905,7 @@ void Item_factory::load( islot_magazine &slot, JsonObject &jo )
     slot.count = jo.get_int( "count", 0 );
     slot.reliability = jo.get_int( "reliability" );
     slot.reload_time = jo.get_int( "reload_time", 0 );
-    slot.rigid = jo.get_bool( "rigid", true );
+    slot.linkage = jo.get_string( "linkage", slot.linkage );
 }
 
 void Item_factory::load_magazine(JsonObject &jo)
@@ -1062,7 +1050,11 @@ void Item_factory::load_basic_info(JsonObject &jo, itype *new_item_template)
     new_item_template->melee_cut = jo.get_int( "cutting", 0 );
     new_item_template->m_to_hit = jo.get_int( "to_hit", 0 );
 
+    new_item_template->default_container = jo.get_string( "container", new_item_template->default_container );
+
     new_item_template->integral_volume = jo.get_int( "integral_volume", new_item_template->volume );
+
+    new_item_template->rigid = jo.get_bool( "rigid", new_item_template->rigid );
 
     JsonArray mags = jo.get_array( "magazines" );
     while( mags.has_more() ) {
@@ -1276,26 +1268,6 @@ void Item_factory::set_material_from_json( JsonObject& jo, std::string member,
         // Default material.
         new_item_template->materials.push_back("null");
     }
-}
-
-bool Item_factory::is_mod_target(JsonObject &jo, std::string member, std::string weapon)
-{
-    //If none is found, just use the standard none action
-    unsigned is_included = false;
-    //Otherwise, grab the right label to look for
-    if (jo.has_array(member)) {
-        JsonArray jarr = jo.get_array(member);
-        while (jarr.has_more() && is_included == false) {
-            if (jarr.next_string() == weapon) {
-                is_included = true;
-            }
-        }
-    } else {
-        if (jo.get_string(member) == weapon) {
-            is_included = true;
-        }
-    }
-    return is_included;
 }
 
 void Item_factory::reset()

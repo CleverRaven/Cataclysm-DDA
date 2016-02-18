@@ -37,7 +37,6 @@
     [
       [ "stick", 1 ],
       [ "2x4", 1 ],
-      [ "mop", 1 ],
       [ "broom", 1 ]
     ]
   ]
@@ -140,7 +139,6 @@
     [
       [ "stick", 1 ],
       [ "broom", 1 ],
-      [ "mop", 1 ],
       [ "2x4", 1 ],
       [ "pool_cue", 1 ]
     ]
@@ -162,7 +160,6 @@
     [
       [ "stick", 1 ],
       [ "broom", 1 ],
-      [ "mop", 1 ],
       [ "2x4", 1 ],
       [ "pool_cue", 1 ]
     ]
@@ -313,7 +310,6 @@
     [
       [ "stick", 1 ],
       [ "broom", 1 ],
-      [ "mop", 1 ],
       [ "2x4", 1 ],
       [ "pool_cue", 1 ],
       [ "pointy_stick", 1 ]
@@ -354,7 +350,6 @@
     [
       [ "stick", 1 ],
       [ "broom", 1 ],
-      [ "mop", 1 ],
       [ "2x4", 1 ],
       [ "pool_cue", 1 ],
       [ "pointy_stick", 1 ]
@@ -398,7 +393,6 @@
     [
       [ "stick", 1 ],
       [ "broom", 1 ],
-      [ "mop", 1 ],
       [ "2x4", 1 ],
       [ "pool_cue", 1 ]
     ],
@@ -504,8 +498,7 @@
     [
       [ "stick", 1 ],
       [ "2x4", 1 ],
-      [ "broom", 1 ],
-      [ "mop", 1 ]
+      [ "broom", 1 ]
     ],
     [
       [ "spike", 1 ]
@@ -710,7 +703,6 @@
     [
       [ "stick", 1 ],
       [ "2x4", 1 ],
-      [ "mop", 1 ],
       [ "broom", 1 ]
     ]
   ]
@@ -2140,6 +2132,7 @@
   "result": "torch",
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_BASHING",
+  "skill_used": "fabrication",
   "difficulty": 0,
   "time": 2000,
   "reversible": false,
@@ -2178,6 +2171,7 @@
   "result": "battletorch",
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_BASHING",
+  "skill_used": "fabrication",
   "difficulty": 0,
   "time": 2000,
   "reversible": true,
@@ -5307,6 +5301,52 @@
     ]
 },{
   "type" : "recipe",
+  "result": "jian",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_CUTTING",
+  "skill_used": "fabrication",
+  "difficulty": 8,
+  "time": 480000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "textbook_armschina", 7 ]],
+  "qualities": [
+    {"id":"HAMMER","level":3,"amount":1}
+  ],
+  "tools": [
+    [ [ "tongs", -1 ] ],
+    [ [ "chisel", -1 ] ],
+    [ [ "anvil", -1 ] ],
+    [ [ "swage", -1 ] ],
+    [
+      [ "forge", 425 ],
+      [ "char_forge", 85 ],
+      [ "oxy_torch", 85 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "steel_lump", 3 ],
+      [ "steel_chunk", 12 ],
+      [ "scrap", 36 ]
+    ],
+    [
+      [ "2x4", 1 ],
+      [ "stick", 2 ]
+    ],
+    [
+      [ "fur", 1 ],
+      [ "leather", 1 ]
+    ],
+    [
+      [ "thread", 100 ],
+      [ "sinew", 100 ],
+      [ "plant_fibre", 100 ],
+      [ "yarn", 100 ]
+   ]
+  ]
+},{
+  "type" : "recipe",
   "result": "scimitar",
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_CUTTING",
@@ -6475,6 +6515,52 @@
    ]
 },{
   "type" : "recipe",
+  "result": "qiang",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_CUTTING",
+  "skill_used": "fabrication",
+  "difficulty": 7,
+  "time": 460000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "textbook_armschina", 6 ]],
+  "qualities" : [
+    {"id":"HAMMER","level":3,"amount":1}
+  ],
+  "tools": [
+    [ [ "tongs", -1 ]  ],
+    [ [ "chisel", -1 ] ],
+    [ [ "anvil", -1 ]  ],
+    [ [ "swage", -1 ] ],
+    [
+      [ "forge", 450 ],
+      [ "char_forge", 90 ],
+      [ "oxy_torch", 90 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "steel_lump", 1 ],
+      [ "steel_chunk", 4 ],
+      [ "scrap", 12 ]
+    ],
+    [
+      [ "2x4", 3 ],
+      [ "stick", 6 ]
+    ],
+    [
+      [ "fur", 2 ],
+      [ "leather", 2 ]
+    ],
+    [
+      [ "thread", 100 ],
+      [ "sinew", 100 ],
+      [ "plant_fibre", 100 ],
+      [ "yarn", 100 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
   "result": "halberd",
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_CUTTING",
@@ -6551,6 +6637,79 @@
     [
       [ "fur", 2 ],
       [ "leather", 2 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "naginata",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_CUTTING",
+  "skill_used": "fabrication",
+  "difficulty": 7,
+  "time": 460000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "textbook_weapeast", 6 ]],
+  "qualities" : [
+    {"id":"HAMMER","level":3,"amount":1}
+  ],
+  "tools": [
+    [ [ "tongs", -1 ] ],
+    [ [ "chisel", -1 ] ],
+    [ [ "anvil", -1 ] ],
+    [ [ "swage", -1 ] ],
+    [
+      [ "forge", 450 ],
+      [ "char_forge", 90 ],
+      [ "oxy_torch", 90 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "steel_lump", 2 ],
+      [ "steel_chunk", 8 ],
+      [ "scrap", 24 ]
+    ],
+    [
+      [ "2x4", 3 ],
+      [ "stick", 6 ]
+    ],
+    [
+      [ "fur", 2 ],
+      [ "leather", 2 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "naginata",
+  "id_suffix": "reforged",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_CUTTING",
+  "skill_used": "fabrication",
+  "difficulty": 7,
+  "time": 46000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "textbook_weapeast", 6 ]],
+  "qualities" : [
+    {"id":"HAMMER","level":3,"amount":1}
+  ],
+  "tools": [
+    [ [ "tongs", -1 ] ],
+    [ [ "chisel", -1 ] ],
+    [ [ "swage", -1 ] ],
+    [ [ "anvil", -1 ] ],
+    [
+      [ "forge", 100 ],
+      [ "char_forge", 20 ],
+      [ "oxy_torch", 20 ]
+    ]
+  ],
+  "components": [
+    [ [ "katana", 1 ] ],
+    [
+      [ "2x4", 2 ],
+      [ "stick", 4 ]
     ]
   ]
 },{

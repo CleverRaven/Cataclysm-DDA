@@ -661,7 +661,17 @@ class repair_item_actor : public iuse_actor
             AS_RETRY,           // Failed, but can retry
             AS_FAILURE,         // Failed hard, don't retry
             AS_DESTROYED,       // Failed and destroyed item
-            AS_CANT             // Couldn't attempt
+            AS_CANT,            // Couldn't attempt
+            AS_CANT_YET         // Skill too low
+        };
+
+        enum repair_type : int {
+            RT_NOTHING = 0,
+            RT_REPAIR,          // Just repairing damage
+            RT_REFIT,           // Adding (fits) tag
+            RT_REINFORCE,       // Getting damage below 0
+            RT_PRACTICE,        // Wanted to reinforce, but can't
+            NUM_REPAIR_TYPES
         };
 
         /** Attempts to repair target item with selected tool */
@@ -671,6 +681,19 @@ class repair_item_actor : public iuse_actor
         bool can_repair( player &pl, const item &tool, const item &target, bool print_msg ) const;
         /** Returns if components are available. Consumes them if `just_check` is false. */
         bool handle_components( player &pl, const item &fix, bool print_msg, bool just_check ) const;
+        /** Returns the chance to repair and to damage an item. */
+        std::pair<float, float> repair_chance(
+            const player &pl, const item &fix, repair_type action_type ) const;
+        /** What are we most likely trying to do with this item? */
+        repair_type default_action( const item &fix ) const;
+        /**
+         * Calculates the difficulty to repair an item
+         * based on recipes to craft it and player's knowledge of them.
+         * If `training` is true, player's lacking knowledge and skills are not used to increase difficulty.
+         */
+        int repair_recipe_difficulty( const player &pl, const item &fix, bool training = false ) const;
+        /** Describes members of `repair_type` enum */
+        static const std::string &action_description( repair_type );
 
         repair_item_actor() : iuse_actor() { }
         virtual ~repair_item_actor() { }

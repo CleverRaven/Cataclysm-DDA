@@ -1,0 +1,29 @@
+[
+  {
+    "type" : "item_group",
+    "id" : "book_gunmags",
+    "//" : "Magazines about guns",
+    "items": [
+      [ "mag_guns", 100 ],
+      [ "mag_launcher", 5 ],
+      [ "mag_pistol", 50 ],
+      [ "mag_rifle", 50 ],
+      [ "mag_shotgun", 30 ],
+      [ "mag_smg", 10 ]
+    ]
+  },
+  {
+    "type" : "item_group",
+    "id" : "book_gunref",
+    "//" : "Reference books about guns",
+    "items": [
+      [ "manual_launcher", 5 ],
+      [ "manual_pistol", 50 ],
+      [ "manual_rifle", 50 ],
+      [ "manual_shotgun", 30 ],
+      [ "manual_smg", 10 ],
+      [ "pocket_firearms", 100 ],
+      [ "recipe_bullets", 80 ]
+    ]
+  }
+]

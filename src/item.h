@@ -109,10 +109,30 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
         item( const item & ) = default;
         item &operator=( item && ) = default;
         item &operator=( const item & ) = default;
-        virtual ~item();
+        virtual ~item() = default;
 
-        item( const std::string new_type, int turn, bool rand = true );
+        item( const itype_id& id, int turn, int qty = -1 );
+        item( const itype *type, int turn, int qty = -1 );
+
+        struct default_charges_tag {};
+        item( const itype_id& id, int turn, default_charges_tag );
+        item( const itype *type, int turn, default_charges_tag );
+
         item( JsonObject &jo );
+
+        /**
+         * Filter converting this instance to another type preserving all other aspects
+         * @param new_type the type id to convert to
+         * @return same instance to allow method chaining
+         */
+        item& convert( const itype_id& new_type );
+
+        /**
+         * Splits a count-by-charges item always leaving source item with minimum of 1 charge
+         * @param qty number of required charges to split from source
+         * @return new instance containing exactly qty charges or null item if splitting failed
+         */
+        item split( long qty );
 
         /**
          * Make a corpse of the given monster type.
@@ -160,8 +180,6 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
          */
         bool ready_to_revive( const tripoint &pos ) const;
 
- void make( const std::string new_type, bool scrub = false );
-
     /**
      * Returns the default color of the item (e.g. @ref itype::color).
      */
@@ -203,19 +221,24 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
  const item_category &get_category() const;
 
     /**
+     * Whether a tool or gun is potentially reloadable (optionally considering a specific ammo)
+     * @param ammo if set also check item currently compatible with this specific ammo or magazine
+     * @note items currently loaded with a detachable magazine are considered reloadable
+     * @note items with integral magazines are reloadable if free capacity permits (+/- ammo matches)
+     */
+    bool can_reload( const itype_id& ammo = std::string() ) const;
+
+    /**
      * Select suitable ammo with which to reload the item
      * @param u player inventory to search for suitable ammo.
-     * @param interactive if true prompt to select ammo otherwise select first suitable ammo
      */
-    item_location pick_reload_ammo( player &u, bool interactive ) const;
+    item_location pick_reload_ammo( player &u ) const;
 
     /** Reload item using ammo from inventory position returning true if sucessful */
     bool reload( player &u, int pos );
 
     /** Reload item using ammo from location returning true if sucessful */
     bool reload( player &u, item_location loc );
-
-    skill_id skill() const;
 
     template<typename Archive>
     void io( Archive& );
@@ -672,14 +695,6 @@ public:
  const itype* type;
  std::vector<item> contents;
 
-        /** Check if this item contains one or more items matching filter */
-        bool contains( const std::function<bool(const item&)>& filter ) const;
-
-        /** Check if this item contains the specified item */
-        bool contains( const item* it ) const {
-            return contains( [&it]( const item& e ){ return &e == it; } );
-        }
-
         /** Checks if item is a holster and currently capable of storing obj
          *  @param ignore only check item is compatible and ignore any existing contents */
         bool can_holster ( const item& obj, bool ignore = false ) const;
@@ -1103,8 +1118,16 @@ public:
          *  @return items that were created as a result of the conversion (excess ammo or magazines) */
         std::vector<item> magazine_convert();
 
-        /** Checks if mod can be applied to this item considering any current state (jammed, loaded etc.) */
-        bool gunmod_compatible( const item& mod, bool alert = true ) const;
+        /** Returns all gunmods currently attached to this item (always empty if item not a gun) */
+        std::vector<item *> gunmods();
+        std::vector<const item *> gunmods() const;
+
+        /*
+         * Checks if mod can be applied to this item considering any current state (jammed, loaded etc.)
+         * @param alert whether to display message describing reason for any incompatibility
+         * @param effects whether temporary efects (jammed, loaded etc) are considered when checking
+         */
+        bool gunmod_compatible( const item& mod, bool alert = true, bool effects = true ) const;
 
         /**
          * Burst size (see ranged.cpp), includes effects from installed gunmods.
@@ -1188,6 +1211,10 @@ public:
          * for which skill() would return a skill.
          */
         skill_id gun_skill() const;
+
+        /** Get the type of a ranged weapon (eg. "rifle", "crossbow"), or empty string if non-gun */
+        std::string gun_type() const;
+
         /**
          * Returns the currently active auxiliary (@ref is_auxiliary_gunmod) gun mod item.
          * May return null if there is no such gun mod or if the gun is not in the
@@ -1294,7 +1321,7 @@ public:
         light_emission light = nolight;
 public:
      char invlet = 0;      // Inventory letter
-     long charges = -1;
+     long charges;
      bool active = false; // If true, it has active effects to be processed
 
     /**

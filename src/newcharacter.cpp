@@ -412,7 +412,7 @@ int player::create(character_type type, std::string tempname)
         prof_items.push_back("glasses_reading");
     }
     for( auto &itd : prof_items ) {
-        tmp = item(itd.type_id, 0, false);
+        tmp = item( itd.type_id, 0, item::default_charges_tag{} );
         if( !itd.snippet_id.empty() ) {
             tmp.set_snippet( itd.snippet_id );
         }
@@ -487,7 +487,7 @@ int player::create(character_type type, std::string tempname)
 
     // Likewise, the asthmatic start with their medication.
     if (has_trait("ASTHMA")) {
-        tmp = item("inhaler", 0, false);
+        tmp = item( "inhaler", 0, item::default_charges_tag{} );
         inv.push_back(tmp);
     }
 
@@ -1899,7 +1899,7 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
     int offset = 0;
     for( const start_location *const loc : start_location::get_all() ) {
         if (g->scen->allowed_start(loc->ident()) || g->scen->has_flag("ALL_STARTS")) {
-            select_location.entries.push_back( uimenu_entry( _( loc->name().c_str() ) ) );
+            select_location.entries.push_back( uimenu_entry( loc->name() ) );
             if( loc->ident() == u->start_location ) {
                 select_location.selected = offset;
             }
@@ -2040,7 +2040,7 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
         mvwprintz( w_location, 0, prompt_offset + 1, c_ltgray, _("Starting location:") );
         // ::find will return empty location if id was not found. Debug msg will be printed too.
         mvwprintz( w_location, 0, prompt_offset + utf8_width(_("Starting location:")) + 2,
-                   c_ltgray, _(u->start_location.obj().name().c_str()));
+                   c_ltgray, u->start_location.obj().name().c_str());
         wrefresh(w_location);
 
         werase(w_scenario);
@@ -2108,8 +2108,7 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
             select_location.redraw();
             select_location.query();
             for( const start_location *const loc : start_location::get_all() ) {
-                if( 0 == strcmp( _( loc->name().c_str() ),
-                                 select_location.entries[ select_location.selected ].txt.c_str() ) ) {
+                if( loc->name() == select_location.entries[ select_location.selected ].txt ) {
                     u->start_location = loc->ident();
                 }
             }

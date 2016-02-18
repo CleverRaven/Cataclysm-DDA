@@ -227,7 +227,7 @@
       ["crucible_clay", -1]
      ],
      [
-      ["forge", 25], ["char_forge", 5]
+      ["forge", 25]
      ]
     ],
   "components":
@@ -258,7 +258,7 @@
       ["crucible_clay", -1]
     ],
     [
-      ["forge", 100], ["char_forge", 20], [ "oxy_torch", 20]
+      ["forge", 100], [ "oxy_torch", 20]
     ]
     ],
     "components": [
@@ -312,7 +312,6 @@
     [
       [ "fire", -1 ],
       [ "hotplate", 3 ],
-      [ "char_smoker", 1],
       [ "toolset", 3]
     ]
   ],
@@ -350,7 +349,6 @@
     [
       [ "stick", 1 ],
       [ "broom", 1 ],
-      [ "mop", 1 ],
       [ "2x4", 1 ],
       [ "bee_sting", 1 ]
     ],
@@ -402,7 +400,6 @@
     [
       [ "stick", 1 ],
       [ "broom", 1 ],
-      [ "mop", 1 ],
       [ "2x4", 1 ],
       [ "bee_sting", 1 ]
     ],
@@ -459,7 +456,6 @@
     [
       [ "stick", 1 ],
       [ "broom", 1 ],
-      [ "mop", 1 ],
       [ "2x4", 1 ],
       [ "bee_sting", 1 ]
     ],
@@ -550,7 +546,6 @@
     [
       [ "stick", 1 ],
       [ "broom", 1 ],
-      [ "mop", 1 ],
       [ "2x4", 1 ],
       [ "bee_sting", 1 ]
     ],
@@ -634,7 +629,6 @@
     [
       [ "stick", 2 ],
       [ "broom", 2 ],
-      [ "mop", 2 ],
       [ "2x4", 1 ],
       [ "bee_sting", 2 ]
     ],
@@ -677,7 +671,6 @@
     [
       [ "stick", 2 ],
       [ "broom", 2 ],
-      [ "mop", 2 ],
       [ "2x4", 1 ],
       [ "bee_sting", 2 ]
     ],
@@ -734,7 +727,6 @@
     [
       [ "stick", 2 ],
       [ "broom", 2 ],
-      [ "mop", 2 ],
       [ "2x4", 1 ],
       [ "bee_sting", 2 ]
     ],
@@ -882,7 +874,6 @@
     [
       [ "stick", 1 ],
       [ "broom", 1 ],
-      [ "mop", 1 ],
       [ "2x4", 1 ],
       [ "bee_sting", 1 ]
     ]
@@ -928,7 +919,6 @@
       ["toolset", 7],
       ["fire", -1],
       ["forge", 7],
-      ["char_forge", 2],
       ["oxy_torch", 2]
       ]
     ],
@@ -991,7 +981,6 @@
     [
       [ "stick", 1 ],
       [ "broom", 1 ],
-      [ "mop", 1 ],
       [ "2x4", 1 ],
       [ "bee_sting", 1 ]
     ],
@@ -1848,8 +1837,7 @@
       [ "fire", -1 ],
       [ "toolset", 2 ],
       [ "press", 2 ],
-      [ "hotplate", 2 ],
-      [ "char_smoker", 1 ]
+      [ "hotplate", 2 ]
     ]
   ],
   "components": [
@@ -1894,8 +1882,7 @@
       [ "fire", -1 ],
       [ "toolset", 2 ],
       [ "press", 2 ],
-      [ "hotplate", 2 ],
-      [ "char_smoker", 1 ]
+      [ "hotplate", 2 ]
     ]
   ],
   "components": [
@@ -2907,82 +2894,6 @@
   ]
 },{
   "type" : "recipe",
-  "result": "shot_scrapbag",
-  "category": "CC_AMMO",
-  "subcategory": "CSC_AMMO_BULLETS",
-  "skill_used": "fabrication",
-  "skills_required": [ "gun", 1 ],
-  "difficulty": 4,
-  "time": 17500,
-  "reversible": false,
-  "autolearn": false,
-  "book_learn": [["recipe_bullets" , 3 ] , [ "manual_shotgun", 3 ]],
-  "tools": [
-    [
-      [ "press", -1 ]
-    ],
-    [
-      [ "fire", -1 ],
-      [ "toolset", 2 ],
-      [ "press", 2 ]
-    ]
-  ],
-  "components": [
-    [
-      [ "shot_hull", 25 ]
-    ],
-    [
-      [ "shotgun_primer", 25 ]
-    ],
-    [
-      [ "gunpowder", 400 ]
-    ],
-    [
-      [ "material_sand", 50 ],
-      [ "salt", 16 ]
-    ],
-    [
-      [ "rag", 4 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "reloaded_shot_beanbag",
-  "category": "CC_AMMO",
-  "subcategory": "CSC_AMMO_BULLETS",
-  "skill_used": "fabrication",
-  "skills_required": [ "gun", 1 ],
-  "difficulty": 4,
-  "time": 17500,
-  "reversible": false,
-  "autolearn": false,
-  "book_learn": [["recipe_bullets" , 3 ] , [ "manual_shotgun", 3 ]],
-  "tools": [
-    [
-      [ "press", -1 ]
-    ],
-    [
-      [ "fire", -1 ],
-      [ "toolset", 2 ],
-      [ "press", 2 ]
-    ]
-  ],
-  "components": [
-    [
-      [ "shot_hull", 25 ]
-    ],
-    [
-      [ "shotgun_primer", 25 ]
-    ],
-    [
-      [ "gunpowder", 400 ]
-    ],
-    [
-      [ "rubber_slug", 25 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
   "result": "incendiary",
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_COMPONENTS",
@@ -2999,8 +2910,7 @@
     [
       [ "hotplate", 50 ],
       [ "toolset", 50 ],
-      [ "fire", -1 ],
-      [ "char_smoker", 5 ]
+      [ "fire", -1 ]
     ]
   ],
   "components": [
@@ -3033,8 +2943,7 @@
       [ "press", 50 ],
       [ "hotplate", 50 ],
       [ "toolset", 50 ],
-      [ "fire", -1 ],
-      [ "char_smoker", 5 ]
+      [ "fire", -1 ]
     ],
     [
       [ "press", -1 ]
@@ -3081,8 +2990,7 @@
       [ "press", 50 ],
       [ "hotplate", 50 ],
       [ "toolset", 50 ],
-      [ "fire", -1 ],
-      [ "char_smoker", 5 ]
+      [ "fire", -1 ]
     ],
     [
       [ "press", -1 ]
@@ -3132,8 +3040,7 @@
       [ "press", 50 ],
       [ "hotplate", 50 ],
       [ "toolset", 50 ],
-      [ "fire", -1 ],
-      [ "char_smoker", 5 ]
+      [ "fire", -1 ]
     ],
     [
       [ "press", -1 ]
@@ -3180,8 +3087,7 @@
       [ "press", 50 ],
       [ "hotplate", 50 ],
       [ "toolset", 50 ],
-      [ "fire", -1 ],
-      [ "char_smoker", 5 ]
+      [ "fire", -1 ]
     ],
     [
       [ "boltcutters", -1 ],
@@ -3227,8 +3133,7 @@
       [ "press", 50 ],
       [ "hotplate", 50 ],
       [ "toolset", 50 ],
-      [ "fire", -1 ],
-      [ "char_smoker", 5 ]
+      [ "fire", -1 ]
     ],
     [
       [ "press", -1 ]
@@ -3442,7 +3347,7 @@
       ["crucible_clay", -1]
      ],
      [
-      ["forge", 50], ["char_forge", 10], [ "oxy_torch", 10]
+      ["forge", 50], [ "oxy_torch", 10]
      ]
     ],
     "components": [
@@ -3556,7 +3461,7 @@
       ["crucible_clay", -1]
      ],
      [
-      ["forge", 200], ["char_forge", 40], [ "oxy_torch", 40]
+      ["forge", 200], [ "oxy_torch", 40]
      ]
     ],
   "components":
@@ -4328,7 +4233,7 @@
     [ ["chisel", -1] ],
     [ ["swage", -1]  ],
     [ ["anvil", -1]  ],
-    [ ["forge", 50], [ "char_forge", 10], [ "oxy_torch", 10] ]
+    [ ["forge", 50], [ "oxy_torch", 10] ]
            ],
   "components": [
     [
@@ -4349,7 +4254,7 @@
   "qualities":[
     {"id":"CHEM","level":2,"amount":1}
   ], "book_learn": [["textbook_gaswarfare" , 8, "" ], ["textbook_anarch" , 7, "Stuff THE MAN doesn't want you to know" ], ["recipe_labchem", 6 ]],
-  "tools": [ [ ["hotplate", 25], ["toolset", 25], ["fire", -1], ["char_smoker", 3]  ] ],
+  "tools": [ [ ["hotplate", 25], ["toolset", 25], ["fire", -1] ] ],
   "components": [
     [ [ "gasoline", 125 ], [ "diesel", 125 ] ],
     [ [ "plastic_chunk", 4 ] ],
@@ -4568,8 +4473,7 @@
     [
       [ "fire", -1 ],
       [ "toolset", 5 ],
-      [ "hotplate", 5 ],
-      [ "char_smoker", 4 ]
+      [ "hotplate", 5 ]
     ]
   ],
   "components": [
@@ -4597,8 +4501,7 @@
     [
       [ "fire", -1 ],
       [ "toolset", 5 ],
-      [ "hotplate", 5 ],
-      [ "char_smoker", 4 ]
+      [ "hotplate", 5 ]
     ]
   ],
   "components": [

@@ -260,10 +260,8 @@ void MonsterGenerator::init_attack()
     attack_map["FEAR_PARALYZE"] = &mattack::fear_paralyze;
     attack_map["PHOTOGRAPH"] = &mattack::photograph;
     attack_map["TAZER"] = &mattack::tazer;
-    attack_map["SMG"] = &mattack::smg;
     attack_map["LASER"] = &mattack::laser;
     attack_map["RIFLE_TUR"] = &mattack::rifle_tur;
-    attack_map["BMG_TUR"] = &mattack::bmg_tur;
     attack_map["SEARCHLIGHT"] = &mattack::searchlight;
     attack_map["FLAMETHROWER"] = &mattack::flamethrower;
     attack_map["COPBOT"] = &mattack::copbot;
@@ -298,7 +296,7 @@ void MonsterGenerator::init_defense()
 {
     defense_map["NONE"] = &mdefense::none; //No special attack-back
     defense_map["ZAPBACK"] = &mdefense::zapback; //Shock attacker on hit
-    defense_map["ACIDSPLASH"] = &mdefense::acidsplash; //Shock attacker on hit
+    defense_map["ACIDSPLASH"] = &mdefense::acidsplash; //Splash acid on the attacker
 }
 
 void MonsterGenerator::init_trigger()
@@ -506,18 +504,6 @@ void mtype::load( JsonObject &jo )
         melee_damage.add_damage( DT_CUT, bonus_cut );
     }
 
-    // TODO: allow adding/removing specific entries if `was_loaded` is true
-    if( jo.has_array( "attack_effs" ) ) {
-        JsonArray jsarr = jo.get_array( "attack_effs" );
-        while( jsarr.has_more() ) {
-            JsonObject e = jsarr.next_object();
-            mon_effect_data new_eff( efftype_id( e.get_string( "id" ) ), e.get_int( "duration", 0 ),
-                                     get_body_part_token( e.get_string( "bp", "NUM_BP" ) ), e.get_bool( "permanent", false ),
-                                     e.get_int( "chance", 100 ) );
-            atk_effs.push_back( new_eff );
-        }
-    }
-
     if( jo.has_member( "death_drops" ) ) {
         JsonIn &stream = *jo.get_raw( "death_drops" );
         death_drops = item_group::load_item_group( stream, "distribution" );
@@ -635,6 +621,8 @@ void mtype::add_special_attack( JsonObject obj )
         special_attacks[type] = load_actor<leap_actor>( obj, cooldown );
     } else if( type == "bite" ) {
         special_attacks[type] = load_actor<bite_actor>( obj, cooldown );
+    } else if( type == "gun" ) {
+        special_attacks[type] = load_actor<gun_actor>( obj, cooldown );
     } else {
         obj.throw_error( "unknown monster attack", "type" );
         return;

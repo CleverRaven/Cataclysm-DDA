@@ -481,6 +481,7 @@
 		<Unit filename="src/map.cpp" />
 		<Unit filename="src/map.h" />
 		<Unit filename="src/map_selector.h" />
+		<Unit filename="src/map_selector.cpp" />
 		<Unit filename="src/mapbuffer.cpp" />
 		<Unit filename="src/mapbuffer.h" />
 		<Unit filename="src/mapdata.cpp" />
@@ -539,8 +540,6 @@
 		<Unit filename="src/name.cpp" />
 		<Unit filename="src/name.h" />
 		<Unit filename="src/newcharacter.cpp" />
-		<Unit filename="src/nonplayer.cpp" />
-		<Unit filename="src/nonplayer.h" />
 		<Unit filename="src/npc.cpp" />
 		<Unit filename="src/npc.h" />
 		<Unit filename="src/npcmove.cpp" />
@@ -616,6 +615,8 @@
 		<Unit filename="src/uistate.h" />
 		<Unit filename="src/veh_interact.cpp" />
 		<Unit filename="src/veh_interact.h" />
+		<Unit filename="src/vehicle_selector.h" />
+		<Unit filename="src/vehicle_selector.cpp" />
 		<Unit filename="src/veh_type.cpp" />
 		<Unit filename="src/veh_type.h" />
 		<Unit filename="src/vehicle.cpp" />

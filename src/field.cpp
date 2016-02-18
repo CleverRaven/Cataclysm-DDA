@@ -1771,28 +1771,30 @@ void map::player_in_field( player &u )
             int total_damage = 0;
             // Use a helper for a bit less boilerplate
             const auto burn_part = [&]( body_part bp, const int scale ) {
-                const int damage = std::max<int>( density, rng( 1, scale ) );
+                const int damage = rng( 1, scale + density );
                 auto ddi = u.deal_damage( nullptr, bp, damage_instance( DT_ACID, damage ) );
                 total_damage += ddi.total_damage();
                 // Represents acid seeping in rather than being splashed on
-                u.add_env_effect( effect_corroding, bp, 3, rng( 1, density ), bp, false, 0 );
+                u.add_env_effect( effect_corroding, bp, 2 + density, rng( 2, 1 + density ), bp, false, 0 );
             };
 
+            // 1-3 at density, 1-4 at 2, 1-5 at 3
+            burn_part( bp_foot_l, 2 );
+            burn_part( bp_foot_r, 2 );
+            // 1 dmg at 1 density, 1-3 at 2, 1-5 at 3
+            burn_part( bp_leg_l,  density - 1 );
+            burn_part( bp_leg_r,  density - 1 );
             const bool on_ground = u.is_on_ground();
-            burn_part( bp_foot_l, 5 );
-            burn_part( bp_foot_r, 5 );
-            burn_part( bp_leg_l,  4 );
-            burn_part( bp_leg_r,  4 );
             if( on_ground ) {
                 // Before, it would just break the legs and leave the survivor alone
-                burn_part( bp_hand_l, 3 );
-                burn_part( bp_hand_r, 3 );
-                burn_part( bp_torso,  3 );
+                burn_part( bp_hand_l, 2 );
+                burn_part( bp_hand_r, 2 );
+                burn_part( bp_torso,  2 );
                 // Less arms = less ability to keep upright
                 if( ( u.has_two_arms() && one_in( 4 ) ) || one_in( 2 ) ) {
-                    burn_part( bp_arm_l, 2 );
-                    burn_part( bp_arm_r, 2 );
-                    burn_part( bp_head,  2 );
+                    burn_part( bp_arm_l, 1 );
+                    burn_part( bp_arm_r, 1 );
+                    burn_part( bp_head,  1 );
                 }
             }
 

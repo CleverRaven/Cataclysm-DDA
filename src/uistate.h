@@ -12,6 +12,8 @@
 #include <vector>
 #include <string>
 
+using ammotype = std::string;
+
 class item;
 
 /*
@@ -79,7 +81,7 @@ class uistatedata : public JsonSerializer, public JsonDeserializer
 
         std::map<std::string, std::vector<std::string>> input_history;
 
-        std::map<std::string, std::string> lastreload; // last typeid used when reloading ammotype
+        std::map<ammotype, itype_id> lastreload; // id of ammo last used when reloading ammotype
 
         // internal stuff
         bool _testing_save = true; // internal: whine on json errors. set false if no complaints in 2 weeks.

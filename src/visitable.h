@@ -41,8 +41,18 @@ class visitable {
      * @param it item to search for which must be contained (at any depth) by this object
      * @return parent container or nullptr if the item is not within a container
      */
-    item * find_parent( item& it );
+    item * find_parent( const item& it );
     const item * find_parent( const item& it ) const;
+
+    /**
+     * Returns vector of parent containers (if any) starting with the innermost
+     * @param it item to search for which must be contained (at any depth) by this object
+     */
+    std::vector<item *> parents( const item& it );
+    std::vector<const item *> parents( const item& it ) const;
+
+    /** Returns true if this visitable instance contains the item */
+    bool has_item( const item& it ) const;
 
     /** Returns true if any item (including those within a container) matches the filter */
     bool has_item_with( const std::function<bool(const item&)>& filter ) const;

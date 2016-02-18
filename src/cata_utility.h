@@ -52,6 +52,14 @@ double convert_weight( int weight );
 double temp_to_celsius( double fahrenheit );
 
 /**
+ * From `points`, finds p1 and p2 such that p1.first < x < p2.first
+ * Then linearly interpolates between p1.second and p2.second and returns the result.
+ * `points` should be sorted by first elements of the pairs.
+ * If x is outside range, returns second value of the first (if x < points[0].first) or last point.
+ */
+float multi_lerp( const std::vector<std::pair<float, float>> &points, float x );
+
+/**
 * @brief Class used to access a list as if it were circular.
 *
 * Some times you just want to have a list loop around on itself.

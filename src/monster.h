@@ -107,7 +107,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         bool can_act() const;
         int sight_range( int light_level ) const override;
         using Creature::sees;
-        bool made_of(std::string m) const; // Returns true if it's made of m
+        bool made_of( const std::string &m ) const; // Returns true if it's made of m
         bool made_of(phase_id p) const; // Returns true if its phase is p
 
         bool avoid_trap( const tripoint &pos, const trap &tr ) const override;
@@ -411,8 +411,6 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         tripoint goal;
         tripoint position;
         bool dead;
-        /** Attack another monster */
-        void hit_monster(monster &other);
         /** Legacy loading logic for monsters that are packing ammo. **/
         void normalize_ammo( const int old_ammo );
         /** Normal upgrades **/

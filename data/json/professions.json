@@ -140,6 +140,57 @@
     },
     {
         "type": "profession",
+        "ident": "sheltered_militia",
+        "name": "Sheltered Militia",
+        "description": "At the start of the cataclysm, you hunkered down in a bomb shelter.  Now, it is winter, and you hope your guns and the skills you have acquired can help you survive.",
+        "points": 4,
+        "skills": [
+            {
+                "level": 2,
+                "name": "gun"
+            },
+            {
+                "level": 1,
+                "name": "rifle"
+            },
+            {
+                "level": 1,
+                "name": "pistol"
+            }
+        ],
+        "items": {
+            "both": [
+                "winter_pants_army",
+                "undershirt",
+                "socks",
+                "sweatshirt",
+                "boots_hiking",
+                "garand",
+                "shoulder_strap",
+                "garandclip",
+                "garandclip",
+                "3006",
+                "3006",
+                "m1911",
+                "holster",
+                "m1911mag",
+                "45_acp",
+                "pockknife",
+                "water_clean",
+                "matches"
+            ],
+            "male": [
+                "boxer_shorts"
+            ],
+            "female": [
+                "sports_bra",
+                "boy_shorts"
+            ]
+        },
+        "flags": ["SCEN_ONLY"]
+    },
+    {
+        "type": "profession",
         "ident": "tailor",
         "name": "Tailor",
         "description": "Tailoring may not seem like the most useful skill when the world has ended.  Most people wouldn't expect a simple tailor to live long.  This is your opportunity to prove them wrong.",

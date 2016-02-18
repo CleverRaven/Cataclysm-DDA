@@ -1744,8 +1744,8 @@ int game::inventory_item_menu(int pos, int iStartX, int iWidth, const inventory_
 {
     int cMenu = (int)'+';
 
-    if (u.has_item(pos)) {
-        item &oThisItem = u.i_at(pos);
+    item &oThisItem = u.i_at( pos );
+    if( u.has_item( oThisItem ) ) {
         std::vector<iteminfo> vThisItem, vDummy;
 
         const bool bHPR = get_auto_pickup().has_rule(oThisItem.tname( 1, false ));
@@ -7643,6 +7643,7 @@ bool game::refill_vehicle_part(vehicle &veh, vehicle_part *part, bool test)
         part->amount = max_fuel;
     }
 
+    veh.invalidate_mass();
     if (ftype == "battery") {
         add_msg(_("You recharge %s's battery."), veh.name.c_str());
         if (part->amount == max_fuel) {
@@ -10527,8 +10528,8 @@ int game::move_liquid(item &liquid)
     int pos = inv_for_liquid(liquid, text, false);
 
     //is container selected?
-    if (u.has_item(pos)) {
-        item *cont = &(u.i_at(pos));
+    item *cont = &( u.i_at( pos ) );
+    if( u.has_item( *cont ) ) {
         if (cont == NULL || cont->is_null()) {
             return -1;
         } else if (liquid.is_ammo() && (cont->is_tool() || cont->is_gun())) {
@@ -10998,9 +10999,15 @@ void game::plfire( bool burst, const tripoint &default_target )
             gun.charges = 1;
             gun.set_curammo( "generic_no_ammo" );
         }
+        
+                
+        if( gun.has_flag("FIRE_TWOHAND") && ( !u.has_two_arms() || u.worn_with_flag("RESTRICT_HANDS") ) ) {
+            add_msg(m_info, _("You need two free hands to fire your %s."), gun.tname().c_str() );
+            return;
+        }
 
         if( gun.has_flag("RELOAD_AND_SHOOT") && gun.ammo_remaining() == 0 ) {
-            item_location ammo = gun.pick_reload_ammo( u, true );
+            item_location ammo = gun.pick_reload_ammo( u );
             if( !ammo.get_item() || !gun.reload( u, std::move( ammo ) ) ) {
                 return;
             }
@@ -11470,11 +11477,7 @@ void game::reload( int pos )
 
     switch( u.rate_action_reload( *it ) ) {
         case HINT_IFFY:
-            if( it->magazine_current() && it->ammo_remaining() == 0 ) {
-                add_msg( m_info, _( "Your %s is loaded with an empty magazine!" ), it->tname().c_str() );
-            } else {
-                add_msg( m_info, _( "Your %s is already loaded!" ), it->tname().c_str() );
-            }
+            add_msg( m_info, _( "Your %s is already fully loaded!" ), it->tname().c_str() );
             return;
 
         case HINT_CANT:
@@ -11485,11 +11488,40 @@ void game::reload( int pos )
             break;
     }
 
-    auto loc = it->pick_reload_ammo( u, true );
-    if( loc.get_item() ) {
+    auto ammo = it->pick_reload_ammo( u );
+    if( ammo ) {
+
+        item *target = nullptr;
+        if( it->active_gunmod() && it->active_gunmod()->can_reload( ammo->typeId() ) ) {
+            target = it->active_gunmod(); // prefer reloading active gunmod
+
+        } else if( it->can_reload( ammo->typeId() ) ) {
+            target = it; // otherwise reload item itself
+
+        } else {
+            for( const auto mod : it->gunmods() ) {
+                if( mod->can_reload( ammo->typeId() ) ) {
+                    target = mod; // finally try to reload any other auxiliary gunmod
+                    break;
+                }
+            }
+        }
+        if( !target ) {
+            debugmsg( "Unable to find suitable reload target" );
+            return; // not expected when player::rate_action_reload() == true
+        }
+
+        if( ammo->is_magazine() && ammo->ammo_remaining() == 0 ) {
+            if( !query_yn( _( "Reload using an empty magazine?" ) ) ) {
+                return;
+            }
+        }
+
+        int qty = !target->has_flag( "RELOAD_ONE" ) ? target->ammo_capacity() - target->ammo_remaining() : 1;
+
         std::stringstream ss;
         ss << pos;
-        u.assign_activity( ACT_RELOAD, it->reload_time( u ), -1, loc.obtain( u ), ss.str() );
+        u.assign_activity( ACT_RELOAD, it->reload_time( u ), -1, ammo.obtain( u, qty ), ss.str() );
         u.inv.restack( &u );
     }
 

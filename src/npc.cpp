@@ -61,6 +61,7 @@ const efftype_id effect_pkill1( "pkill1" );
 const efftype_id effect_pkill2( "pkill2" );
 const efftype_id effect_pkill3( "pkill3" );
 const efftype_id effect_pkill_l( "pkill_l" );
+const efftype_id effect_infection( "infection" );
 
 std::list<item> starting_clothes(npc_class type, bool male);
 std::list<item> starting_inv(npc *me, npc_class type);
@@ -885,7 +886,7 @@ std::list<item> starting_inv(npc *me, npc_class type)
 {
  int total_space = me->volume_capacity();
  std::list<item> ret;
- ret.push_back( item("lighter", 0, false) );
+ ret.emplace_back( "lighter", 0 );
  itype_id tmp;
  item tmpitem;
 
@@ -1198,7 +1199,7 @@ bool npc::wield( item& it )
     }
 
     moves -= 15;
-    if( inv.has_item( &it ) ) {
+    if( inv.has_item( it ) ) {
         weapon = inv.remove_item( &it );
     } else {
         weapon = it;
@@ -1879,6 +1880,13 @@ bool npc::is_defending() const
  return (attitude == NPCATT_DEFEND);
 }
 
+bool npc::is_guarding() const
+{
+    return mission == NPC_MISSION_SHELTER || mission == NPC_MISSION_BASE ||
+        mission == NPC_MISSION_SHOPKEEP || mission == NPC_MISSION_GUARD ||
+        has_effect( effect_infection );
+}
+
 Creature::Attitude npc::attitude_to( const Creature &other ) const
 {
     if( other.is_npc() ) {
@@ -2009,16 +2017,6 @@ nc_color npc::basic_symbol_color() const
         return c_ltgreen;
     }
     return c_pink;
-}
-
-nc_color npc::symbol_color() const
-{
-    nc_color basic = basic_symbol_color();
-    if( in_sleep_state() ) {
-        return hilite( basic );
-    }
-
-    return basic;
 }
 
 int npc::print_info(WINDOW* w, int line, int vLines, int column) const

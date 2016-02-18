@@ -22,6 +22,8 @@
 #include "overmap.h"
 #include "mapgen_functions.h"
 #include "mtype.h"
+#include "itype.h"
+#include "item_factory.h"
 
 #include <algorithm>
 #include <cassert>
@@ -830,6 +832,71 @@ public:
         m.place_items( group_id, chance.get(), x.val, y.val, x.valmax, y.valmax, true, 0 );
     }
 };
+
+/**
+ * Place items from an item group.
+ * see @ref map::place_loot
+ */
+class jmapgen_loot : public jmapgen_piece {
+    public:
+        jmapgen_loot( JsonObject &jsi ) : jmapgen_piece()
+        , group( jsi.get_string( "group", std::string() ) )
+        , name( jsi.get_string( "item", std::string() ) )
+        , chance( jsi, "chance", 100, 100 )
+        , ammo( jsi, "ammo", 0, 0 )
+        , magazine( jsi, "magazine", 0, 0 )
+        {
+            if( group.empty() == name.empty() ) {
+                jsi.throw_error( "must provide either item or group" );
+            }
+
+            if( !group.empty() && !item_group::group_is_defined( group ) ) {
+                jsi.throw_error( "no such item group", "group" );
+            }
+            if( !name.empty() && !item_controller->has_template( name ) ) {
+                jsi.throw_error( "no such item", "item" );
+            }
+        }
+        void apply( map &m, const jmapgen_int &x, const jmapgen_int &y, const float /*mon_density*/ ) const override
+        {
+            if( rng( 0, 99 ) < chance.get() * ACTIVE_WORLD_OPTIONS[ "ITEM_SPAWNRATE" ] ) {
+                std::vector<item> spawn;
+                if( group.empty() ) {
+                    spawn.emplace_back( name, calendar::turn );
+                } else {
+                    spawn = item_group::items_from( group, calendar::turn );
+                }
+
+                for( auto &e: spawn ) {
+                    bool spawn_ammo = rng( 0, 99 ) < ammo.get();
+                    bool spawn_mags = rng( 0, 99 ) < magazine.get() || spawn_ammo;
+
+                    if( spawn_mags && !e.magazine_integral() && !e.magazine_current() ) {
+                        e.contents.emplace_back( e.magazine_default(), e.bday );
+                    }
+                    if( spawn_ammo && e.ammo_remaining() == 0 ) {
+                        if( e.magazine_current() ) {
+                            item tmp( default_ammo( e.ammo_type() ), e.bday );
+                            tmp.charges = e.ammo_capacity();
+                            e.magazine_current()->contents.push_back( tmp );
+                        } else {
+                            e.set_curammo( default_ammo( e.ammo_type() ) ) ;
+                            e.charges = e.ammo_capacity();
+                        }
+                    }
+                }
+                m.spawn_items( tripoint( rng( x.val, x.valmax ), rng( y.val, y.valmax ), m.get_abs_sub().z ), spawn );
+            }
+        }
+
+    private:
+        const std::string group;
+        const std::string name;
+        const jmapgen_int chance;
+        const jmapgen_int ammo;
+        const jmapgen_int magazine;
+};
+
 /**
  * Place spawn points for a monster group (actual monster spawning is done later).
  * "monster": id of the monster group.
@@ -1410,6 +1477,7 @@ bool mapgen_function_json::setup() {
         objects.load_objects<jmapgen_liquid_item>( jo, "place_liquids" );
         objects.load_objects<jmapgen_gaspump>( jo, "place_gaspumps" );
         objects.load_objects<jmapgen_item_group>( jo, "place_items" );
+        objects.load_objects<jmapgen_loot>( jo, "place_loot" );
         objects.load_objects<jmapgen_monster_group>( jo, "place_monsters" );
         objects.load_objects<jmapgen_vehicle>( jo, "place_vehicles" );
         objects.load_objects<jmapgen_trap>( jo, "place_traps" );
@@ -3543,19 +3611,23 @@ C..C..C...|hhh|#########\n\
                 }
                 if (t_above == "lab_stairs" || t_above == "ice_lab_stairs") {
                     int sx, sy;
+                    int attempts = 100;
                     do {
                         sx = rng(lw, SEEX * 2 - 1 - rw);
                         sy = rng(tw, SEEY * 2 - 1 - bw);
-                    } while (ter(sx, sy) != t_rock_floor);
+                        attempts--;
+                    } while ( ( ter( sx, sy ) != t_rock_floor ) && attempts && !g->m.has_furn( sx,sy ) );
                     ter_set(sx, sy, t_stairs_up);
                 }
 
                 if (terrain_type == "lab_stairs" || terrain_type == "ice_lab_stairs") {
                     int sx, sy;
+                    int attempts = 100;
                     do {
                         sx = rng(lw, SEEX * 2 - 1 - rw);
                         sy = rng(tw, SEEY * 2 - 1 - bw);
-                    } while (ter(sx, sy) != t_rock_floor);
+                        attempts--;
+                    } while ( ( ter( sx, sy ) != t_rock_floor ) && attempts && !g->m.has_furn( sx,sy ) );
                     ter_set(sx, sy, t_stairs_down);
                 }
             } else switch (rng(1, 4)) { // Pick a random lab layout
