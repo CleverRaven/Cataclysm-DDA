@@ -24,7 +24,7 @@ static const std::map<std::string, affected_stat> affected_stat_map = {{
         std::make_pair( "speed", AFFECTED_SPEED ),
         std::make_pair( "movecost", AFFECTED_MOVE_COST ),
         std::make_pair( "damage", AFFECTED_DAMAGE ),
-        std::make_pair( "arm", AFFECTED_ARMOR ),
+        std::make_pair( "armor", AFFECTED_ARMOR ),
         std::make_pair( "arpen", AFFECTED_ARMOR_PENETRATION ),
         std::make_pair( "target_armor_multiplier", AFFECTED_TARGET_ARMOR_MULTIPLIER )
     }
