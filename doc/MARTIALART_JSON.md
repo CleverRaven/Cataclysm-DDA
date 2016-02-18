@@ -46,32 +46,35 @@
 "unarmed_allowed" : false,          // Can this buff be applied to an armed character
 "strictly_unarmed" : true,          // Does this buff require the character to be actually unarmed. If false, allows unarmed weapons (brass knuckles, punch daggers)
 "max_stacks" : 8,                   // Maximum number of stacks on the buff. Buff bonuses are multiplied by current buff intensity
-"bash_arm_str" : 1.0,               // Bonuses
-"cut_arm_dex" : 1.0,
-"electric_arm_int" : 1.0,
-"heat_arm_per" : 1.0
+"flat_bonuses" : [                  // Flat bonuses
+    ["armor", "bash", "str", 1.0],
+    ["armor", "cut", "dex", 1.0],
+    ["armor", "electric", "int", 1.0],
+    ["armor", "heat", "per", 1.0]
+],
+"mult_bonuses" : [                  // Multiplicative bonuses
+    ["damage", "bash", 2.0],
+    ["damage", "heat", "int", 1.1]
+]
 ```
 
 ###Bonuses
-Bonuses contain 2 to 4 tokens, in any order:
-* "mult" tag, which describes multiplicative bonuses
+Bonuses contain 2 to 4 tokens, in order:
 * Affected statistic. Any of: "hit", "dodge", "block", "speed", "movecost", "damage", "armor", "arpen"
 * Damage type ("bash", "cut", "heat", etc.) when the statistic is damage, armor or arpen
 * Scaling stat. Any of: "str", "dex", "int", "per"
+* The value of the bonus itself
 
-If statistic isn't specified, but damage type is, bonus is set to damage.
-
-Tokens of the same type must not be encountered more than once in the same bonus.
-For example, "dex_str_bash" will cause an error.
+Bonuses must be written in the correct order.
+If affected statistic requires a damage type, a damage type must be provided. Otherwise damage type must not be specified.
+If scaling stat is specified, the value of the bonus is multiplied by given stat of the user stat.
 
 Tokens of "useless" type will not cause an error, but will not have any effect.
-For example, "speed_mult" in a technique will have no effect ("movecost_mult" should be used for techniques).
+For example, "speed" in a technique will have no effect ("movecost" should be used for techniques).
 
 Currently extra elemental damage is not applied, but extra elemental armor is (after regular armor).
-Currently all bonuses that affect cutting also affect stabbing, unless a stabbing bonus of the same type, stat and "mult" is specified.
 
 Examples:
-* "bash_arm_str" : 0.3, // Incoming bashing damage is decreased by 30% of strength value. Only useful on buffs
-* "cut_dex_mult" : 0.1, // All cutting and stabbing damage is increased by `(10% of dexterity)*(damage)`
-* "stab_cut_mult" : 0.0, // If specified with the above, will remove the stabbing bonus and only apply it to cutting.
-* "movecost_str" : -1.0, // Move cost is decreased by 100% of strength value
+* "flat_bonuses" : [["armor", "bash", "str", 0.3]], // Incoming bashing damage is decreased by 30% of strength value. Only useful on buffs
+* "mult_bonuses" : [["damage", "cut", "dex", 0.1]], // All cutting damage dealt is multiplied by `(10% of dexterity)*(damage)`
+* "flat_bonuses" : [["movecost", "str", -1.0]],     // Move cost is decreased by 100% of strength value
