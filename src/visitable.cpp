@@ -14,7 +14,7 @@ template <typename T>
 item * visitable<T>::find_parent( const item& it )
 {
     item *res = nullptr;
-    if( visit_items( [&]( item *node, item *parent, const tripoint * ){
+    if( visit_items_with_loc( [&]( item *node, item *parent, const tripoint * ){
         if( node == &it ) {
             res = parent;
             return VisitResponse::ABORT;
@@ -67,8 +67,10 @@ bool visitable<T>::has_item_with( const std::function<bool(const item&)>& filter
 }
 
 template <typename T>
-VisitResponse visitable<T>::visit_items_const( const std::function<VisitResponse(const item *, const item *, const tripoint *)>& func ) const {
-    return const_cast<visitable<T> *>( this )->visit_items( static_cast<const std::function<VisitResponse(item *, item *, const tripoint *)>&>( func ) );
+VisitResponse visitable<T>::visit_items_with_loc_const(
+    const std::function<VisitResponse(const item *, const item *, const tripoint *)>& func ) const {
+    return const_cast<visitable<T> *>( this )->visit_items_with_loc(
+        static_cast<const std::function<VisitResponse(item *, item *, const tripoint *)>&>( func ) );
 }
 
 template <typename T>
@@ -78,7 +80,7 @@ VisitResponse visitable<T>::visit_items_const( const std::function<VisitResponse
 
 template <typename T>
 VisitResponse visitable<T>::visit_items( const std::function<VisitResponse(item *)>& func ) {
-    return visit_items( [&func]( item *it, item *, const tripoint * ) {
+    return visit_items_with_loc( [&func]( item *it, item *, const tripoint * ) {
         return func( it );
     } );
 }
@@ -109,14 +111,16 @@ static VisitResponse visit_internal( const std::function<VisitResponse(item *, i
 }
 
 template <>
-VisitResponse visitable<item>::visit_items( const std::function<VisitResponse( item *, item *, const tripoint * )>& func )
+VisitResponse visitable<item>::visit_items_with_loc(
+    const std::function<VisitResponse( item *, item *, const tripoint * )>& func )
 {
     auto it = static_cast<item *>( this );
     return visit_internal( func, it );
 }
 
 template <>
-VisitResponse visitable<inventory>::visit_items( const std::function<VisitResponse( item *, item *, const tripoint * )>& func )
+VisitResponse visitable<inventory>::visit_items_with_loc(
+    const std::function<VisitResponse( item *, item *, const tripoint * )>& func )
 {
     auto inv = static_cast<inventory *>( this );
     for( auto& stack : inv->items ) {
@@ -130,7 +134,8 @@ VisitResponse visitable<inventory>::visit_items( const std::function<VisitRespon
 }
 
 template <>
-VisitResponse visitable<Character>::visit_items( const std::function<VisitResponse( item *, item *, const tripoint * )>& func )
+VisitResponse visitable<Character>::visit_items_with_loc(
+    const std::function<VisitResponse( item *, item *, const tripoint * )>& func )
 {
     auto ch = static_cast<Character *>( this );
 
@@ -144,11 +149,12 @@ VisitResponse visitable<Character>::visit_items( const std::function<VisitRespon
         }
     }
 
-    return ch->inv.visit_items( func );
+    return ch->inv.visit_items_with_loc( func );
 }
 
 template <>
-VisitResponse visitable<map_cursor>::visit_items( const std::function<VisitResponse( item *, item *, const tripoint* )>& func ) {
+VisitResponse visitable<map_cursor>::visit_items_with_loc(
+    const std::function<VisitResponse( item *, item *, const tripoint* )>& func ) {
     auto cur = static_cast<map_cursor *>( this );
 
     for( auto& e : g->m.i_at( *cur ) ) {
@@ -160,10 +166,11 @@ VisitResponse visitable<map_cursor>::visit_items( const std::function<VisitRespo
 }
 
 template <>
-VisitResponse visitable<map_selector>::visit_items( const std::function<VisitResponse( item *, item *, const tripoint* )>& func )
+VisitResponse visitable<map_selector>::visit_items_with_loc(
+    const std::function<VisitResponse( item *, item *, const tripoint* )>& func )
 {
     for( auto &cursor : static_cast<map_selector&>( *this ) ) {
-        if( cursor.visit_items( func ) == VisitResponse::ABORT ) {
+        if( cursor.visit_items_with_loc( func ) == VisitResponse::ABORT ) {
             return VisitResponse::ABORT;
         }
     }
@@ -171,7 +178,8 @@ VisitResponse visitable<map_selector>::visit_items( const std::function<VisitRes
 }
 
 template <>
-VisitResponse visitable<vehicle_cursor>::visit_items( const std::function<VisitResponse( item *, item *, const tripoint* )>& func ) {
+VisitResponse visitable<vehicle_cursor>::visit_items_with_loc(
+    const std::function<VisitResponse( item *, item *, const tripoint* )>& func ) {
     auto self = static_cast<vehicle_cursor *>( this );
 
     for( auto &e : self->veh.get_items( self->part ) ) {
@@ -184,10 +192,11 @@ VisitResponse visitable<vehicle_cursor>::visit_items( const std::function<VisitR
 }
 
 template <>
-VisitResponse visitable<vehicle_selector>::visit_items( const std::function<VisitResponse( item *, item *, const tripoint* )>& func )
+VisitResponse visitable<vehicle_selector>::visit_items_with_loc(
+    const std::function<VisitResponse( item *, item *, const tripoint* )>& func )
 {
     for( auto &cursor : static_cast<vehicle_selector&>( *this ) ) {
-        if( cursor.visit_items( func ) == VisitResponse::ABORT ) {
+        if( cursor.visit_items_with_loc( func ) == VisitResponse::ABORT ) {
             return VisitResponse::ABORT;
         }
     }
