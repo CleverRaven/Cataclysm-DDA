@@ -166,7 +166,7 @@ bool bite_actor::call( monster &z ) const
         return false;
     }
 
-    z.mod_moves( move_cost );
+    z.mod_moves( -move_cost );
 
     add_msg( m_debug, "%s attempting to bite %s", z.name().c_str(), target->disp_name().c_str() );
 
