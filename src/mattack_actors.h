@@ -75,9 +75,21 @@ class gun_actor : public mattack_actor
         std::map<skill_id, int> fake_skills;
         // Move cost of executing the attack
         int move_cost;
-        // Waste this many moves on targeting non-targeted player
+        // If true, gives "grace period" to player
+        bool require_targeting_player;
+        // As above, but to npcs
+        bool require_targeting_npc;
+        // As above, but to monsters
+        bool require_targeting_monster;
+        // "Remember" targeting for this many turns
+        int targeting_timeout;
+        // Extend the above timeout by this number of turns when
+        // attacking a targeted critter
+        int targeting_timeout_extend;
+        // Waste this many moves on targeting
         int targeting_cost;
-        // Should laser-lock player
+        // Targeting isn't enough, needs to laser lock too
+        // Prevents quickly changing targets
         bool laser_lock;
         // Maximum distance at which we acquire targets
         float range;
