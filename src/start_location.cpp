@@ -194,12 +194,19 @@ void start_location::prepare_map( tinymap &m ) const
 tripoint start_location::find_player_initial_location() const
 {
     const bool using_existing_initial_overmap = overmap_buffer.has( 0, 0 );
+    // The coordinates of an overmap that is known to *not* exist. We can regenerate this
+    // as often we like.
+    point non_existing_omt = point( 0, 0 );
+
     if( using_existing_initial_overmap ) {
         // arbitrary, should be large enough to include all overmaps ever created
         const int radius = 32;
         for( const point omp : closest_points_first( radius, point( 0, 0 ) ) ) {
             const overmap *omap = overmap_buffer.get_existing( omp.x, omp.y );
             if( omap == nullptr ) {
+                if( non_existing_omt == point( 0, 0 ) ) {
+                    non_existing_omt = omp;
+                }
                 continue;
             }
             const tripoint omtstart = omap->find_random_omt( target() );
@@ -207,23 +214,19 @@ tripoint start_location::find_player_initial_location() const
                 return omtstart + point( omp.x * OMAPX, omp.y * OMAPY );
             }
         }
-        // We don't want to destroy the existing overmap, if the user really wants that, they
-        // can reset the world, which will delete all the existing overmaps.
-        popup_getkey(
-            _( "The game could not find a suitable starting location in the current world.""\n"
-               "Either change the starting location, or reset the world and try again or try another world." ) );
-        return overmap::invalid_tripoint;
     }
 
     while( true ) {
-        const overmap &initial_overmap = overmap_buffer.get( 0, 0 );
+        popup_nowait( _( "Please wait as we build your world" ) );
+        const overmap &initial_overmap = overmap_buffer.get( non_existing_omt.x, non_existing_omt.y );
         const tripoint omtstart = initial_overmap.find_random_omt( target() );
         if( omtstart != overmap::invalid_tripoint ) {
-            return omtstart;
+            return omtstart + point( non_existing_omt.x * OMAPX, non_existing_omt.y + OMAPY );
         }
         if( !query_yn(
-                _( "The game could not find a suitable starting location.""\n"
-                   "Try again? (Depending on the world options, the starting location may never appear)" ) ) ) {
+                _( "The game could not create a world with a suitable starting location.\n\n"
+                   "Depending on the world options, the starting location may never appear. If the problem persists, you can try another starting location, or change the world options.\n\n"
+                   "Try again?" ) ) ) {
             return overmap::invalid_tripoint;
         }
         overmap_buffer.clear();
