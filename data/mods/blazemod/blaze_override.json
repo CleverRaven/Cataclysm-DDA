@@ -461,6 +461,7 @@
     "recoil": 300,
     "durability": 7,
     "clip_size": 1,
+    "loudness" : 5,
     "reload": 800
   }
 ]
