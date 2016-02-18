@@ -191,27 +191,29 @@ void start_location::prepare_map( tinymap &m ) const
     }
 }
 
-tripoint start_location::setup() const
+tripoint start_location::find_player_initial_location() const
 {
     // We start in the (0,0,0) overmap.
     overmap &initial_overmap = overmap_buffer.get( 0, 0 );
-    tripoint omtstart = initial_overmap.find_random_omt( target() );
+    const tripoint omtstart = initial_overmap.find_random_omt( target() );
     if( omtstart == overmap::invalid_tripoint ) {
         // TODO (maybe): either regenerate the overmap (conflicts with existing characters there,
         // that has to be checked. Or look at the neighboring overmaps, but one has to stop
         // looking for it sometimes.
         debugmsg( "Could not find starting overmap terrain %s", target().c_str() );
-        omtstart = tripoint( 0, 0, 0 );
+        return tripoint( 0, 0, 0 );
     }
+    return omtstart;
+}
 
+void start_location::prepare_map( const tripoint &omtstart ) const
+{
     // Now prepare the initial map (change terrain etc.)
     const point player_location = overmapbuffer::omt_to_sm_copy( omtstart.x, omtstart.y );
     tinymap player_start;
     player_start.load( player_location.x, player_location.y, omtstart.z, false );
     prepare_map( player_start );
     player_start.save();
-
-    return omtstart;
 }
 
 /** Helper for place_player

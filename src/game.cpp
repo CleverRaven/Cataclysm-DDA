@@ -754,7 +754,9 @@ void game::start_game(std::string worldname)
     u.setID( assign_npc_id() ); // should be as soon as possible, but *after* load_master
 
     const start_location &start_loc = u.start_location.obj();
-    const tripoint omtstart = start_loc.setup();
+    const tripoint omtstart = start_loc.find_player_initial_location();
+    start_loc.prepare_map( omtstart);
+
     if( scen->has_map_special() ) {
         // Specials can add monster spawn points and similar and should be done before the main
         // map is loaded.
@@ -10999,8 +11001,8 @@ void game::plfire( bool burst, const tripoint &default_target )
             gun.charges = 1;
             gun.set_curammo( "generic_no_ammo" );
         }
-        
-                
+
+
         if( gun.has_flag("FIRE_TWOHAND") && ( !u.has_two_arms() || u.worn_with_flag("RESTRICT_HANDS") ) ) {
             add_msg(m_info, _("You need two free hands to fire your %s."), gun.tname().c_str() );
             return;
