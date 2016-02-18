@@ -234,7 +234,7 @@
     {
         "type" : "item_group",
         "subtype": "collection",
-        "id": "mon_zombie_survivor_death_drops",
+        "id": "mon_zombie_survivor_elite_death_drops",
         "entries":
         [
             { "group": "survivorzed_gloves", "damage": [1, 4] },
@@ -323,6 +323,36 @@
         [
             {"item": "marloss_gel"},
             {"item": "fungal_seeds"}
+        ]
+    },
+    {
+        "type" : "item_group",
+        "subtype": "collection",
+        "id": "mon_zombie_survivor_death_drops",
+        "entries":
+        [
+            { "group": "pants", "damage": [1, 4] },
+            { "group": "shirts", "damage": [1, 4] },
+            { "group": "shoes", "damage": [1, 4] },
+            { "group": "jackets", "damage": [1, 4], "prob": 20 },
+            { "group": "bags", "damage": [1, 4], "prob": 6 },
+            { "distribution": [
+                { "group": "allguns", "prob": 24 },
+                { "group": "grenades", "prob": 10 },
+                { "group": "mil_rifles", "prob": 8 },
+                { "group": "mil_hw", "prob": 1 },
+                { "group": "launchers", "prob": 1 },
+                { "group": "gunxtras", "prob": 14 },
+                { "group": "stash_food", "prob": 40 },
+                { "group": "stash_ammo", "prob": 26 },
+                { "group": "stash_drugs", "prob": 28 },
+                { "group": "survival_tools", "prob": 18 },
+                { "group": "mil_food", "prob": 22 },
+                { "group": "mil_food_nodrugs", "prob": 34 },
+                { "group": "shelter", "prob": 8 },
+                { "group": "mil_surplus", "prob": 6 }
+            ] },
+            { "item": "cash_card" }
         ]
     }
 ]
