@@ -2299,6 +2299,24 @@
         "flags" : ["VARSIZE", "SUPER_FANCY"],
         "coverage" : 90,
         "material_thickness" : 2
+    },{
+        "type" : "ARMOR",
+        "id" : "gambeson",
+        "name" : "gambeson",
+        "weight" : 453,
+        "color" : "light_gray",
+        "covers" : ["TORSO", "ARMS", "LEGS"],
+        "to_hit" : -5,
+        "symbol" : "[",
+        "description" : "A thick jacket of quilted fabric, designed to be worn underneath mail or other armor.  Or worn on its own, if you can't afford proper armor.",
+        "price" : 20000,
+        "material" : "cotton",
+        "volume" : 12,
+        "warmth" : 30,
+        "encumbrance" : 15,
+        "flags" : ["VARSIZE", "SKINTIGHT", "STURDY"],
+        "coverage" : 80,
+        "material_thickness" : 5
     },
     {
         "type" : "ARMOR",
