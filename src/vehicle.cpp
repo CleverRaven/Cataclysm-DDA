@@ -6271,7 +6271,10 @@ bool vehicle::fire_turret( int p, bool manual )
         }
         return false;
     }
-    long charges = std::max( 1, gun.burst_size() ) * gun.ammo_required();
+
+    // note that NO_AMMO UPS guns can return 0 for ammo_required(), in which case 
+    // turret_data.charges will be the number of individual shots we can take
+    long charges = std::max(1l, gun.ammo_required());
     if( gun.is_charger_gun() ) {
         if( one_in(100) ) {
             charges = rng( 5, 8 ); // kaboom
@@ -6283,14 +6286,22 @@ bool vehicle::fire_turret( int p, bool manual )
             charges = abs( parts[p].mode ); // Currently only limiting, not increasing
         }
     }
-    charges = std::min( charges, turret_data.charges );
-    if( charges <= 0 ) {
+
+    // check if we can fire at least one shot
+    if( turret_data.charges - charges < 0 ) {
         if( manual ) {
             add_msg( m_bad, _("This turret doesn't have enough ammo") );
         }
 
         return false;
     }
+    
+    // set up for burst shots
+    if(abs(parts[p].mode) > 1){
+        charges *= gun.burst_size();
+        charges = std::min(charges, turret_data.charges);
+    }
+    
     const itype *am_type = turret_data.gun.get_curammo();
     long charges_left = charges;
     // TODO sometime: change that g->u to a parameter, so that NPCs can shoot too
@@ -6410,7 +6421,8 @@ bool vehicle::automatic_fire_turret( int p, const itype &guntype, const itype &a
     tmp_ups.charges = drain( fuel_type_battery, 1000 );
     tmp.worn.insert( tmp.worn.end(), tmp_ups );
 
-    tmp.fire_gun( targ, abs( parts[p].mode ), gun );
+    int to_fire = abs(parts[p].mode) > 1 ? gun.burst_size() : 1;  
+    tmp.fire_gun( targ, to_fire, gun );
 
     // Return whatever is left.
     refill( fuel_type_battery, tmp.worn.back().charges );
@@ -6453,7 +6465,9 @@ bool vehicle::manual_fire_turret( int p, player &shooter, const itype &guntype,
         const tripoint &targ = trajectory.back();
         // Put our shooter on the roof of the vehicle
         shooter.add_effect( effect_on_roof, 1 );
-        shooter.fire_gun( targ, abs( parts[p].mode ), gun );
+        
+        int to_fire = abs(parts[p].mode) > 1 ? gun.burst_size() : 1; 
+        shooter.fire_gun( targ, to_fire, gun );
         // And now back - we don't want to get any weird behavior
         shooter.remove_effect( effect_on_roof );
     }
