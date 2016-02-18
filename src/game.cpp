@@ -729,7 +729,7 @@ void game::load_map( tripoint pos_sm )
 }
 
 // Set up all default values for a new game
-void game::start_game(std::string worldname)
+bool game::start_game(std::string worldname)
 {
     if (gamemode == NULL) {
         gamemode = new special_game();
@@ -755,6 +755,9 @@ void game::start_game(std::string worldname)
 
     const start_location &start_loc = u.start_location.obj();
     const tripoint omtstart = start_loc.find_player_initial_location();
+    if( omtstart == overmap::invalid_tripoint ) {
+        return false;
+    }
     start_loc.prepare_map( omtstart);
 
     if( scen->has_map_special() ) {
@@ -833,6 +836,8 @@ void game::start_game(std::string worldname)
                        pgettext("memorial_female", "%s began their journey into the Cataclysm."),
                        u.name.c_str());
    lua_callback("on_new_player_created");
+
+    return true;
 }
 
 void game::create_factions()
