@@ -1092,7 +1092,6 @@ int iuse::blech(player *p, item *it, bool, const tripoint& )
     p->add_effect( effect_poison, 600);
     p->apply_damage(nullptr, bp_torso, rng(4, 12));
     p->vomit();
-
     return it->type->charges_to_use();
 }
 
