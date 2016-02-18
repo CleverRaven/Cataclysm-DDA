@@ -400,7 +400,11 @@ Successfully attacking will extend the targeting for this many turns. Can be neg
 Move cost of targeting the player. Only applied if attacking the player and didn't target player within last 5 turns.
 
 ### "laser_lock"
-If true and attacking an untargeted player, player will be laser locked and warned (as in safe mode) before moving.
+If true and attacking a creature that isn't laser-locked but needs to be targeted,
+the monster will act as if it had no targeting status (and waste time targeting),
+the target will become laser-locked, and if the target is the player, it will cause a warning.
+
+Laser-locking affects the target, but isn't tied to specific attacker.
 
 ### "range"
 Maximum range at which targets will be acquired.
