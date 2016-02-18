@@ -19,8 +19,7 @@
         [ "fire", -1 ],
         [ "toolset", 2 ],
         [ "press", 2 ],
-        [ "hotplate", 2 ],
-        [ "char_smoker", 1 ]
+        [ "hotplate", 2 ]
       ]
     ],
     "components": [
@@ -60,7 +59,6 @@
   "tools": [
   [
       [ "forge", 50],
-      [ "char_forge", 10],
       [ "oxy_torch", 10 ]
   ],
   [

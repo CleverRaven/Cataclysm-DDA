@@ -16,7 +16,7 @@
     [ [ "book_potioncraft", -1 ] ],
     [
       [ "hotplate", 10 ],
-      [ "char_smoker", 1 ],
+      [ "char_smoker", 10 ],
       [ "toolset", 10 ],
       [ "fire", -1 ]
     ]
@@ -62,7 +62,7 @@
     [ [ "book_potioncraft", -1 ] ],
     [
       [ "hotplate", 10 ],
-      [ "char_smoker", 1 ],
+      [ "char_smoker", 10 ],
       [ "toolset", 10 ],
       [ "fire", -1 ]
     ]
@@ -108,7 +108,7 @@
     [ [ "book_potioncraft", -1 ] ],
     [
       [ "hotplate", 10 ],
-      [ "char_smoker", 1 ],
+      [ "char_smoker", 10 ],
       [ "toolset", 10 ],
       [ "fire", -1 ]
     ]
@@ -157,7 +157,7 @@
     [ [ "book_potioncraft", -1 ] ],
     [
       [ "hotplate", 10 ],
-      [ "char_smoker", 1 ],
+      [ "char_smoker", 10 ],
       [ "toolset", 10 ],
       [ "fire", -1 ]
     ]

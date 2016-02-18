@@ -88,7 +88,6 @@
     [ [ "swage", -1 ] ],
     [
       ["forge", 350],
-      [ "char_forge", 70],
       [ "oxy_torch", 70]
     ]
   ],
@@ -195,7 +194,6 @@
     [ [ "swage", -1 ] ],
     [
       [ "forge", 50],
-      [ "char_forge", 10],
       [ "oxy_torch", 10]
     ]
   ],

@@ -4077,7 +4077,7 @@
   "reversible": false,
   "autolearn": true,
   "tools": [
-    [ [ "brick_kiln", 18 ] ]
+    [ [ "brick_kiln", 90 ] ]
   ],
   "components": [
     [
@@ -7168,7 +7168,7 @@
   "reversible": false,
   "autolearn": true,
   "tools": [
-    [ [ "brick_kiln", 10 ] ]
+    [ [ "brick_kiln", 50 ] ]
   ],
   "components": [
     [
@@ -7204,7 +7204,7 @@
   "reversible": false,
   "autolearn": true,
   "tools": [
-    [ [ "brick_kiln", 8 ] ]
+    [ [ "brick_kiln", 40 ] ]
   ],
   "components": [
     [
@@ -7240,7 +7240,7 @@
   "reversible": false,
   "autolearn": true,
   "tools": [
-    [ [ "brick_kiln", 18 ] ]
+    [ [ "brick_kiln", 90 ] ]
   ],
   "components": [
     [
@@ -7263,7 +7263,7 @@
   "reversible": false,
   "autolearn": true,
   "tools": [
-    [ [ "brick_kiln", 32 ] ]
+    [ [ "brick_kiln", 160 ] ]
   ],
   "components": [
     [
@@ -7299,7 +7299,7 @@
   "reversible": false,
   "autolearn": true,
   "tools": [
-    [ [ "brick_kiln", 24 ] ]
+    [ [ "brick_kiln", 120 ] ]
   ],
   "components": [
     [
@@ -7335,7 +7335,7 @@
   "reversible": false,
   "autolearn": true,
   "tools": [
-    [ [ "brick_kiln", 12 ] ]
+    [ [ "brick_kiln", 60 ] ]
   ],
   "components": [
     [
@@ -7371,7 +7371,7 @@
   "reversible": false,
   "autolearn": true,
   "tools": [
-    [ [ "brick_kiln", 20 ] ]
+    [ [ "brick_kiln", 100 ] ]
   ],
   "components": [
     [
@@ -7394,7 +7394,7 @@
   "reversible": false,
   "autolearn": true,
   "tools": [
-    [ [ "brick_kiln", 8 ] ]
+    [ [ "brick_kiln", 40 ] ]
   ],
   "components": [
     [
@@ -7417,7 +7417,7 @@
   "reversible": false,
   "autolearn": true,
   "tools": [
-    [ [ "brick_kiln", 12 ] ]
+    [ [ "brick_kiln", 60 ] ]
     ],
   "components":
     [

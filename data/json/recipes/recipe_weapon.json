@@ -471,7 +471,7 @@
       ["anvil", -1]
       ],
       [
-      ["forge", 50], ["char_forge", 10], ["oxy_torch", 10]
+      ["forge", 50], ["oxy_torch", 10]
       ]
       ],
   "components":
@@ -3607,7 +3607,6 @@
       ],
       [
       ["forge", 300],
-      [ "char_forge", 60],
       [ "oxy_torch", 60]
       ]
       ],
@@ -3649,7 +3648,7 @@
       ["swage", -1]
       ],
       [
-      ["forge", 200], ["char_forge", 40], [ "oxy_torch", 40]
+      ["forge", 200], [ "oxy_torch", 40]
       ]
       ],
   "components":
@@ -3694,7 +3693,7 @@
       ["swage", -1]
       ],
       [
-      ["forge", 200], ["char_forge", 40], [ "oxy_torch", 40]
+      ["forge", 200], [ "oxy_torch", 40]
       ]
       ],
   "components":
@@ -3736,7 +3735,7 @@
       ["swage", -1]
       ],
       [
-      ["forge", 300], ["char_forge", 60], [ "oxy_torch", 60]
+      ["forge", 300], [ "oxy_torch", 60]
       ]
       ],
   "components":
@@ -3778,7 +3777,7 @@
       ["swage", -1]
       ],
       [
-      ["forge", 300], ["char_forge", 60], [ "oxy_torch", 60]
+      ["forge", 300], [ "oxy_torch", 60]
       ]
       ],
   "components":
@@ -3820,7 +3819,7 @@
       ["swage", -1]
       ],
       [
-      ["forge", 200], ["char_forge", 40], [ "oxy_torch", 40]
+      ["forge", 200], [ "oxy_torch", 40]
       ]
       ],
   "components":
@@ -3862,7 +3861,7 @@
       ["swage", -1]
       ],
       [
-      ["forge", 400], ["char_forge", 80], [ "oxy_torch", 80]
+      ["forge", 400], [ "oxy_torch", 80]
       ]
       ],
   "components":
@@ -3906,10 +3905,8 @@
   "components":
     [
      [
-     ["charcoal", 10],
-     ["coal_lump", 10],
-     ["small_charcoal", 100],
-     ["small_coal", 100]
+     ["charcoal", 50],
+     ["coal_lump", 50]
      ],
      [
      [ "plasma", 20 ]
@@ -3944,7 +3941,7 @@
       ["swage", -1]
       ],
       [
-      ["forge", 200], ["char_forge", 40], [ "oxy_torch", 40]
+      ["forge", 200], [ "oxy_torch", 40]
       ]
       ],
   "components":
@@ -3979,7 +3976,7 @@
       ["anvil", -1]
       ],
       [
-      ["forge", 150], ["char_forge", 30], [ "oxy_torch", 30]
+      ["forge", 150], [ "oxy_torch", 30]
       ]
       ],
   "components":
@@ -4053,10 +4050,8 @@
   "components":
     [
      [
-     ["charcoal", 5],
-     ["coal_lump", 5],
-     ["small_charcoal", 50],
-     ["small_coal", 50]
+     ["charcoal", 25],
+     ["coal_lump", 25]
      ],
      [
      [ "plasma", 10 ]
@@ -4097,10 +4092,8 @@
   "components":
     [
      [
-     ["charcoal", 10],
-     ["coal_lump", 10],
-     ["small_charcoal", 100],
-     ["small_coal", 100]
+     ["charcoal", 50],
+     ["coal_lump", 50]
      ],
      [
      [ "plasma", 20 ]
@@ -4140,10 +4133,8 @@
   "components":
     [
      [
-     ["charcoal", 20],
-     ["coal_lump", 20],
-     ["small_charcoal", 200],
-     ["small_coal", 200]
+     ["charcoal", 100],
+     ["coal_lump", 100]
      ],
      [
      [ "plasma", 40 ]
@@ -4182,10 +4173,8 @@
   "components":
     [
      [
-     ["charcoal", 20],
-     ["coal_lump", 20],
-     ["small_charcoal", 200],
-     ["small_coal", 200]
+     ["charcoal", 100],
+     ["coal_lump", 100]
      ],
      [
      [ "plasma", 40 ]
@@ -4224,10 +4213,8 @@
   "components":
     [
      [
-     ["charcoal", 15],
-     ["coal_lump", 15],
-     ["small_charcoal", 150],
-     ["small_coal", 150]
+     ["charcoal", 75],
+     ["coal_lump", 75]
      ],
      [
      [ "plasma", 30 ]
@@ -4266,10 +4253,8 @@
   "components":
     [
      [
-     ["charcoal", 30],
-     ["coal_lump", 30],
-     ["small_charcoal", 300],
-     ["small_coal", 300]
+     ["charcoal", 150],
+     ["coal_lump", 150]
      ],
      [
      [ "plasma", 60 ]
@@ -4308,10 +4293,8 @@
   "components":
     [
      [
-     ["charcoal", 15],
-     ["coal_lump", 15],
-     ["small_charcoal", 150],
-     ["small_coal", 150]
+     ["charcoal", 75],
+     ["coal_lump", 75]
      ],
      [
      [ "plasma", 30 ]
@@ -4350,10 +4333,8 @@
   "components":
     [
      [
-     ["charcoal", 80],
-     ["coal_lump", 80],
-     ["small_charcoal", 800],
-     ["small_coal", 800]
+     ["charcoal", 400],
+     ["coal_lump", 400]
      ],
      [
      [ "plasma", 160 ]
@@ -4389,7 +4370,7 @@
       ["swage", -1]
       ],
       [
-      ["forge", 400], ["char_forge", 80], [ "oxy_torch", 80]
+      ["forge", 400], [ "oxy_torch", 80]
       ]
       ],
   "components":
@@ -4429,7 +4410,7 @@
       ["swage", -1]
       ],
       [
-      ["forge", 350], ["char_forge", 70], [ "oxy_torch", 70]
+      ["forge", 350], [ "oxy_torch", 70]
       ]
       ],
   "components":
@@ -4469,7 +4450,7 @@
       ["swage", -1]
       ],
       [
-      ["forge", 200], ["char_forge", 40], [ "oxy_torch", 40]
+      ["forge", 200], [ "oxy_torch", 40]
       ]
       ],
   "components":
@@ -4528,7 +4509,7 @@
       ["crucible_clay", -1]
      ],
      [
-      ["forge", 150], ["char_forge", 30], [ "oxy_torch", 30]
+      ["forge", 150], [ "oxy_torch", 30]
      ]
     ],
   "components":
@@ -4567,7 +4548,7 @@
       ["crucible_clay", -1]
      ],
      [
-      ["forge", 400], ["char_forge", 80], [ "oxy_torch", 80]
+      ["forge", 400], [ "oxy_torch", 80]
      ]
     ],
   "components":
@@ -4606,7 +4587,7 @@
       ["crucible_clay", -1]
      ],
      [
-      ["forge", 450], ["char_forge", 90], [ "oxy_torch", 90]
+      ["forge", 450], [ "oxy_torch", 90]
      ]
     ],
   "components":
@@ -4647,7 +4628,7 @@
       ["swage", -1]
      ],
      [
-      ["forge", 300], ["char_forge", 60], [ "oxy_torch", 60]
+      ["forge", 300], [ "oxy_torch", 60]
      ]
     ],
   "components":
@@ -4688,7 +4669,7 @@
       ["swage", -1]
      ],
      [
-      ["forge", 350], ["char_forge", 70], [ "oxy_torch", 70]
+      ["forge", 350], [ "oxy_torch", 70]
      ]
     ],
   "components": [
@@ -5006,7 +4987,6 @@
       ["toolset", 7],
       ["fire", -1],
       ["forge", 7],
-      ["char_forge", 2],
       ["oxy_torch", 2]
       ]
   ],
@@ -5047,7 +5027,6 @@
       ],
       [
       ["forge", 300],
-      [ "char_forge", 60],
       [ "oxy_torch", 60]
       ]
       ],
@@ -5088,7 +5067,6 @@
     [ [ "swage", -1 ] ],
     [
       [ "forge", 425 ],
-      [ "char_forge", 85 ],
       [ "oxy_torch", 85 ]
     ]
   ],
@@ -5136,7 +5114,6 @@
       ],
       [
       ["forge", 400],
-      [ "char_forge", 80],
       [ "oxy_torch", 80]
       ]
       ],
@@ -5185,7 +5162,6 @@
       ],
       [
       ["forge", 400],
-      [ "char_forge", 80],
       [ "oxy_torch", 80]
       ]
       ],
@@ -5234,7 +5210,6 @@
       ],
       [
       ["forge", 350],
-      [ "char_forge", 70],
       [ "oxy_torch", 70]
       ]
       ],
@@ -5279,7 +5254,6 @@
       ],
       [
       ["forge", 450],
-      [ "char_forge", 90],
       [ "oxy_torch", 90]
       ]
       ],
@@ -5320,7 +5294,6 @@
     [ [ "swage", -1 ] ],
     [
       [ "forge", 425 ],
-      [ "char_forge", 85 ],
       [ "oxy_torch", 85 ]
     ]
   ],
@@ -5366,7 +5339,6 @@
     [ [ "swage", -1 ] ],
     [
       [ "forge", 450 ],
-      [ "char_forge", 90 ],
       [ "oxy_torch", 90 ]
     ]
   ],
@@ -5406,7 +5378,6 @@
     [ [ "swage", -1 ] ],
     [
       [ "forge", 450 ],
-      [ "char_forge", 90 ],
       [ "oxy_torch", 90 ]
     ]
   ],
@@ -5446,7 +5417,6 @@
     [ [ "swage", -1 ] ],
     [
       [ "forge", 450 ],
-      [ "char_forge", 90 ],
       [ "oxy_torch", 90 ]
     ]
   ],
@@ -5494,7 +5464,6 @@
       ],
       [
       ["forge", 450],
-      [ "char_forge", 90],
       [ "oxy_torch", 90]
       ]
       ],
@@ -5582,7 +5551,6 @@
       ],
       [
       ["forge", 310],
-      [ "char_forge", 70],
       [ "oxy_torch", 70]
       ]
       ],
@@ -5631,7 +5599,6 @@
       ],
       [
       ["forge", 400],
-      [ "char_forge", 80],
       [ "oxy_torch", 80]
       ]
       ],
@@ -5680,7 +5647,6 @@
       ],
       [
       ["forge", 450],
-      [ "char_forge", 90],
       [ "oxy_torch", 90]
       ]
       ],
@@ -5728,7 +5694,7 @@
       ["swage", -1]
       ],
       [
-      ["forge", 500], ["char_forge", 100], ["oxy_torch", 100]
+      ["forge", 500], ["oxy_torch", 100]
       ]
       ],
   "components":
@@ -5772,7 +5738,7 @@
       ["anvil", -1]
       ],
       [
-      ["forge", 200], ["char_forge", 40], ["oxy_torch", 40]
+      ["forge", 200], ["oxy_torch", 40]
       ]
       ],
   "components":
@@ -5819,7 +5785,7 @@
       ["swage", -1]
       ],
       [
-      ["forge", 300], ["char_forge", 60], ["oxy_torch", 60]
+      ["forge", 300], ["oxy_torch", 60]
       ]
       ],
   "components":
@@ -5867,7 +5833,6 @@
       ],
       [
       ["forge", 350],
-      [ "char_forge", 70],
       [ "oxy_torch", 70]
       ]
       ],
@@ -5932,7 +5897,7 @@
       ["anvil", -1]
     ],
     [
-      ["forge", 150], ["char_forge", 30], ["oxy_torch", 30]
+      ["forge", 150], ["oxy_torch", 30]
       ]
     ],
   "components": [
@@ -5971,7 +5936,7 @@
       ["swage", -1]
       ],
       [
-      ["forge", 250], ["char_forge", 50], ["oxy_torch", 50]
+      ["forge", 250], ["oxy_torch", 50]
       ]
       ],
   "components":
@@ -6111,7 +6076,6 @@
       ],
       [
         ["forge", 400],
-        [ "char_forge", 80],
         [ "oxy_torch", 80]
       ]
     ],
@@ -6162,7 +6126,6 @@
       ],
       [
         ["forge", 350],
-        [ "char_forge", 70],
         [ "oxy_torch", 70]
       ]
     ],
@@ -6213,7 +6176,6 @@
       ],
       [
         ["forge", 400],
-        ["char_forge", 80],
         [ "oxy_torch", 80]
       ]
     ],
@@ -6466,7 +6428,7 @@
       ["anvil", -1]
      ],
      [
-      ["forge", 50], ["char_forge", 10], [ "oxy_torch", 10]
+      ["forge", 50], [ "oxy_torch", 10]
      ]
     ],
   "components":
@@ -6502,7 +6464,7 @@
       ["anvil", -1]
      ],
      [
-      ["forge", 100], ["char_forge", 20], [ "oxy_torch", 20]
+      ["forge", 100], [ "oxy_torch", 20]
      ]
     ],
   "components":
@@ -6534,7 +6496,6 @@
     [ [ "swage", -1 ] ],
     [
       [ "forge", 450 ],
-      [ "char_forge", 90 ],
       [ "oxy_torch", 90 ]
     ]
   ],
@@ -6580,7 +6541,6 @@
     [ [ "swage", -1 ] ],
     [
       [ "forge", 350 ],
-      [ "char_forge", 70 ],
       [ "oxy_torch", 70 ]
     ]
   ],
@@ -6620,7 +6580,6 @@
     [ [ "swage", -1 ] ],
     [
       [ "forge", 450],
-      [ "char_forge", 90],
       [ "oxy_torch", 90]
     ]
   ],
@@ -6660,7 +6619,6 @@
     [ [ "swage", -1 ] ],
     [
       [ "forge", 450 ],
-      [ "char_forge", 90 ],
       [ "oxy_torch", 90 ]
     ]
   ],
@@ -6701,7 +6659,6 @@
     [ [ "anvil", -1 ] ],
     [
       [ "forge", 100 ],
-      [ "char_forge", 20 ],
       [ "oxy_torch", 20 ]
     ]
   ],
@@ -6740,7 +6697,7 @@
       ["anvil", -1]
      ],
      [
-      ["forge", 100], ["char_forge", 20], [ "oxy_torch", 20]
+      ["forge", 100], [ "oxy_torch", 20]
      ]
     ],
   "components": [
@@ -7110,7 +7067,6 @@
       ],
       [
         ["forge", 400],
-        ["char_forge", 80],
         ["oxy_torch", 80]
       ],
       [
