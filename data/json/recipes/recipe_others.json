@@ -4077,7 +4077,7 @@
   "reversible": false,
   "autolearn": true,
   "tools": [
-    [ [ "brick_kiln", 40 ] ]
+    [ [ "brick_kiln", 90 ] ]
   ],
   "components": [
     [
@@ -7394,7 +7394,7 @@
   "reversible": false,
   "autolearn": true,
   "tools": [
-    [ [ "brick_kiln", 90 ] ]
+    [ [ "brick_kiln", 40 ] ]
   ],
   "components": [
     [
