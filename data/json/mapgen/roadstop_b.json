@@ -65,7 +65,7 @@
                 "8": "f_trashcan"
             },
             "place_items": [
-                { "item": "kitchen", "chance": 80, "x": 9, "y": 7},
+                { "item": "kitchen", "chance": 80, "x": 9, "y": [9, 14]},
                 { "item": "trash", "chance": 80, "x": 6, "y": 7},
                 { "item": "trash", "chance": 80, "x": 6, "y": 9},
                 { "item": "trash", "chance": 80, "x": 6, "y": 14},

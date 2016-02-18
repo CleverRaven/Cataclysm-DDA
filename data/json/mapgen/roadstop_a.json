@@ -66,8 +66,8 @@
                 "9": { "amount": 500 }
             },
             "place_items": [
-                { "item": "trash", "chance": 80, "x": [11, 12], "y": 15},
-                { "item": "trash", "chance": 80, "x": [6, 18], "y": [8, 15]},
+                { "item": "trash", "chance": 80, "x": [11, 12], "y": 14},
+                { "item": "trash", "chance": 60, "x": [6, 18], "y": [8, 15]},
                 { "item": "methlab", "chance": 50, "x": [6, 18], "y": [8, 15]}
                 ],
             "add": [
