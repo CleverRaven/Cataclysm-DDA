@@ -1974,7 +1974,7 @@ void Creature::load( JsonObject &jsin )
     fake = false; // see Creature::load
 }
 
-void morale_point::deserialize( JsonIn &jsin )
+void player_morale::morale_point::deserialize( JsonIn &jsin )
 {
     JsonObject jo = jsin.get_object();
     type = static_cast<morale_type>( jo.get_int( "type_enum" ) );
@@ -1988,7 +1988,7 @@ void morale_point::deserialize( JsonIn &jsin )
     jo.read( "age", age );
 }
 
-void morale_point::serialize( JsonOut &json ) const
+void player_morale::morale_point::serialize( JsonOut &json ) const
 {
     json.start_object();
     json.member( "type_enum", static_cast<int>( type ) );

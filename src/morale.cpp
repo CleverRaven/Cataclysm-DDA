@@ -152,7 +152,7 @@ static const morale_mult badtemper( 0.75, 1.25 );
 static const morale_mult prozac( 1.0, 0.25 );
 }
 
-std::string morale_point::get_name() const
+std::string player_morale::morale_point::get_name() const
 {
     std::string name = get_morale_data( type );
 
@@ -166,23 +166,24 @@ std::string morale_point::get_name() const
     return name;
 }
 
-int morale_point::get_net_bonus() const
+int player_morale::morale_point::get_net_bonus() const
 {
     return bonus * ( ( age > decay_start ) ? logarithmic_range( decay_start, duration, age ) : 1 );
 }
 
-int morale_point::get_net_bonus( const morale_mult &mult ) const
+int player_morale::morale_point::get_net_bonus( const morale_mult &mult ) const
 {
     return get_net_bonus() * mult;
 }
 
-bool morale_point::is_expired() const
+bool player_morale::morale_point::is_expired() const
 {
-    return age >= duration; // Will show zero morale bonus
+    return age >= duration || bonus == 0; // Zero morale bonuses will be shown occasionally anyway
 }
 
-void morale_point::add( int new_bonus, int new_max_bonus, int new_duration, int new_decay_start,
-                        bool new_cap )
+void player_morale::morale_point::add( int new_bonus, int new_max_bonus, int new_duration,
+                                       int new_decay_start,
+                                       bool new_cap )
 {
     if( new_cap ) {
         duration = new_duration;
@@ -203,13 +204,13 @@ void morale_point::add( int new_bonus, int new_max_bonus, int new_duration, int 
     age = 0; // Brand new. The assignment should stay below.
 }
 
-int morale_point::pick_time( int current_time, int new_time, bool same_sign ) const
+int player_morale::morale_point::pick_time( int current_time, int new_time, bool same_sign ) const
 {
     const int remaining_time = current_time - age;
     return ( remaining_time <= new_time && same_sign ) ? new_time : remaining_time;
 }
 
-void morale_point::proceed( int ticks )
+void player_morale::morale_point::proceed( int ticks )
 {
     if( ticks < 0 ) {
         debugmsg( "%s(): Called with negative ticks %d.", __FUNCTION__, ticks );
@@ -551,45 +552,45 @@ void player_morale::apply_persistent( const player *p )
 
 void player_morale::apply_temperature( const player *p )
 {
-    if( p->has_trait("DEBUG_NOTEMP") ) {
+    if( p->has_trait( "DEBUG_NOTEMP" ) ) {
         return;
     }
 
-    int morale_pen = 0;
+    int pen = 0;
 
     for( int i = 0 ; i < num_bp; i++ ) {
-        // MORALE : a negative morale_pen means the player is cold
-        // Intensity multiplier is negative for cold, positive for hot
+        // A negative morale_pen means the player is cold
         const int cold_int = p->get_effect_int( effect_cold, ( body_part )i );
         const int hot_int = p->get_effect_int( effect_hot, ( body_part )i );
+        const int balance = hot_int - cold_int;
 
-        if( cold_int != 0 || hot_int != 0 ) {
-            int intensity_mult = hot_int - cold_int;
+        if( balance == 0 ) {
+            continue;
+        }
 
-            switch ( i ) {
-                case bp_head:
-                case bp_torso:
-                case bp_mouth:
-                    morale_pen += 2 * intensity_mult;
-                    break;
-                case bp_arm_l:
-                case bp_arm_r:
-                case bp_leg_l:
-                case bp_leg_r:
-                    morale_pen += .5 * intensity_mult;
-                    break;
-                case bp_hand_l:
-                case bp_hand_r:
-                case bp_foot_l:
-                case bp_foot_r:
-                    morale_pen += .5 * intensity_mult;
-                    break;
-            }
+        switch( i ) {
+            case bp_head:
+            case bp_torso:
+            case bp_mouth:
+                pen += 2 * balance;
+                break;
+            case bp_arm_l:
+            case bp_arm_r:
+            case bp_leg_l:
+            case bp_leg_r:
+                pen += .5 * balance;
+                break;
+            case bp_hand_l:
+            case bp_hand_r:
+            case bp_foot_l:
+            case bp_foot_r:
+                pen += .5 * balance;
+                break;
         }
     }
     // TODO: MORALE_COMFY should be applied here as well. Now it's in player::update_bodytemp()
-
-    if( morale_pen != 0 ) {
-        add( ( morale_pen > 0 ) ? MORALE_HOT : MORALE_COLD, -2, -abs( morale_pen ), 10, 5, true );
+    // TODO: Probably penalties should be independent. I.e cold hands and sweating torso.
+    if( pen != 0 ) {
+        add( ( pen > 0 ) ? MORALE_HOT : MORALE_COLD, -2, -abs( pen ), 10, 5, true );
     }
 }

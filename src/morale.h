@@ -7,7 +7,7 @@
 
 struct itype;
 class player;
-class morale_mult;
+struct morale_mult;
 
 enum morale_type : int {
     MORALE_NULL = 0,
@@ -75,60 +75,6 @@ enum morale_type : int {
     NUM_MORALE_TYPES
 };
 
-class morale_point : public JsonSerializer, public JsonDeserializer
-{
-    public:
-        morale_point(
-            morale_type type = MORALE_NULL,
-            const itype *item_type = nullptr,
-            int bonus = 0,
-            int duration = MINUTES( 6 ),
-            int decay_start = MINUTES( 3 ),
-            int age = 0 ):
-            type( type ),
-            item_type( item_type ),
-            bonus( bonus ),
-            duration( duration ),
-            decay_start( decay_start ),
-            age( age ) {};
-
-        using JsonDeserializer::deserialize;
-        void deserialize( JsonIn &jsin ) override;
-        using JsonSerializer::serialize;
-        void serialize( JsonOut &json ) const override;
-
-        std::string get_name() const;
-        int get_net_bonus() const;
-        int get_net_bonus( const morale_mult &mult ) const;
-        bool is_expired() const;
-
-        morale_type get_type() const {
-            return type;
-        }
-
-        const itype *get_item_type() const {
-            return item_type;
-        }
-
-        void add( int new_bonus, int new_max_bonus, int new_duration, int new_decay_start, bool new_cap );
-        void proceed( int ticks = 1 );
-
-    private:
-        morale_type type;
-        const itype *item_type;
-
-        int bonus;
-        int duration;
-        int decay_start;
-        int age;
-
-        /**
-         * Returns either new_time or remaining time (which one is greater).
-         * Only returns new time if same_sign is true
-         */
-        int pick_time( int cur_time, int new_time, bool same_sign ) const;
-};
-
 class player_morale
 {
     public:
@@ -163,6 +109,61 @@ class player_morale
         void load( JsonObject &jsin );
 
     private:
+        class morale_point : public JsonSerializer, public JsonDeserializer
+        {
+            public:
+                morale_point(
+                    morale_type type = MORALE_NULL,
+                    const itype *item_type = nullptr,
+                    int bonus = 0,
+                    int duration = MINUTES( 6 ),
+                    int decay_start = MINUTES( 3 ),
+                    int age = 0 ):
+                    type( type ),
+                    item_type( item_type ),
+                    bonus( bonus ),
+                    duration( duration ),
+                    decay_start( decay_start ),
+                    age( age ) {};
+
+                using JsonDeserializer::deserialize;
+                void deserialize( JsonIn &jsin ) override;
+                using JsonSerializer::serialize;
+                void serialize( JsonOut &json ) const override;
+
+                std::string get_name() const;
+                int get_net_bonus() const;
+                int get_net_bonus( const morale_mult &mult ) const;
+                bool is_expired() const;
+
+                morale_type get_type() const {
+                    return type;
+                }
+
+                const itype *get_item_type() const {
+                    return item_type;
+                }
+
+                void add( int new_bonus, int new_max_bonus, int new_duration,
+                          int new_decay_start, bool new_cap );
+                void proceed( int ticks = 1 );
+
+            private:
+                morale_type type;
+                const itype *item_type;
+
+                int bonus;
+                int duration;
+                int decay_start;
+                int age;
+
+                /**
+                * Returns either new_time or remaining time (which one is greater).
+                * Only returns new time if same_sign is true
+                */
+                int pick_time( int cur_time, int new_time, bool same_sign ) const;
+        };
+
         std::vector<morale_point> points;
         // Mutability is required for lazy initialization
         mutable int level;
