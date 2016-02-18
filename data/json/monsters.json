@@ -7370,43 +7370,5 @@
     "death_function":"NORMAL",
     "description":"A baby mutant cockroach about the size of a rat.",
     "flags":["SEES", "HEARS", "SMELLS", "CHITIN", "CLIMBS"]
-    },{
-    "type" : "MONSTER",
-    "id" : "mon_zombie_survivor_elite",
-    "name": "elite survivor zombie",
-    "species":"ZOMBIE",
-    "default_faction":"zombie",
-    "symbol":"Z",
-    "color":"ltred_green",
-    "size":"MEDIUM",
-    "material":"flesh",
-    "diff":55,
-    "aggression":100,
-    "morale":100,
-    "speed":110,
-    "melee_skill":6,
-    "melee_dice":4,
-    "melee_dice_sides":8,
-    "melee_cut":0,
-    "dodge":3,
-    "armor_bash":12,
-    "armor_cut":15,
-    "armor_acid":5,
-    "vision_day":50,
-    "vision_night":3,
-    "death_drops": "mon_zombie_survivor_elite_death_drops",
-    "hp":400,
-    "death_function":["NORMAL"],
-    "special_attacks":[
-        ["SHRIEK", 20],
-        {
-            "type" : "bite",
-            "cooldown" : 5,
-            "min_mul" : 1.0
-        },
-        ["GRAB", 7]
-    ],
-    "description":"This zombie were once a survivor, but now is so much more.  Clad in still functional improvised armor this thing looks like it could quite a beating before going down.  It looks at you with a cunning stare.",
-    "flags":["SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "BONES", "PUSH_MON"]
     }
 ]
