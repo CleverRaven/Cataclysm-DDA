@@ -1,21 +1,26 @@
 [
     {
         "type" : "technique",
-        "id" : "WBLOCK_1",
-        "name" : "Parry",
-        "dummy" : true,
-        "messages" : [
-            "You parry %s",
-            "<npcname> parries %s"
-        ]
+        "id" : "tec_none",
+        "name" : "Not at technique at all",
+        "dummy" : true
     },{
         "type" : "technique",
-        "id" : "WBLOCK_2",
+        "id" : "WBLOCK_1",
         "name" : "Block",
         "dummy" : true,
         "messages" : [
             "You block %s",
             "<npcname> blocks %s"
+        ]
+    },{
+        "type" : "technique",
+        "id" : "WBLOCK_2",
+        "name" : "Parry",
+        "dummy" : true,
+        "messages" : [
+            "You parry %s",
+            "<npcname> parries %s"
         ]
     },{
         "type" : "technique",
@@ -30,10 +35,9 @@
         "type" : "technique",
         "id" : "DEF_DISARM",
         "name" : "disarm",
-        "messages" : [
-            "You disarm %s",
-            "<npcname> disarms %s"
-        ]
+        "min_unarmed" : 0,
+        "melee_allowed" : true,
+        "disarms" : true
     },{
         "type" : "technique",
         "id" : "GRAB",
@@ -63,6 +67,7 @@
         "melee_allowed" : true,
         "min_melee" : 3,
         "crit_tec" : true,
+        "weighting" : 2,
         "messages" : [
             "You swing in a wide arc through %s",
             "<npcname> swings in a wide arc through %s"
@@ -156,6 +161,17 @@
             "<npcname> precisely hits %s"
         ],
         "stun_dur" : 2
+    },{
+        "type" : "technique",
+        "id" : "WHIP_DISARM",
+        "name" : "Disarm",
+        "min_unarmed" : 0,
+        "melee_allowed" : true,
+        "disarms" : true,
+        "messages" : [
+            "You disarm %s using your whip!",
+            "<npcname> disarm %s using their whip!"
+        ]
     },{
         "type" : "technique",
         "id" : "tec_counter",
@@ -350,7 +366,7 @@
         "name" : "grab",
         "min_unarmed" : 2,
         "unarmed_allowed" : true,
-        "down_dur" : 1,
+        "down_dur" : 2,
         "messages" : [
             "You grab %s",
             "<npcname> grabs %s"
@@ -396,12 +412,12 @@
         "name" : "elbow",
         "min_unarmed" : 2,
         "unarmed_allowed" : true,
+        "crit_tec" : true,
         "messages" : [
             "You elbow %s",
             "<npcname> elbows %s"
         ],
-        "speed_mult" : 0.5,
-        "stun_dur" : 1
+        "speed_mult" : 0.5
     },{
         "type" : "technique",
         "id" : "tec_muay_thai_kick",
@@ -424,7 +440,7 @@
             "You flying knee %s",
             "<npcname> flying knees %s"
         ],
-        "stun_dur" : 1
+        "stun_dur" : 2
     },{
         "type" : "technique",
         "id" : "tec_krav_maga_rapid",
@@ -608,7 +624,7 @@
     },{
         "type" : "technique",
         "id" : "tec_biojutsu_wide",
-        "min_melee" : 8,
+        "min_melee" : 5,
         "crit_tec" : true,
         "name" : "wide strike",
         "messages" : [
@@ -635,8 +651,8 @@
         "min_unarmed" : 4,
         "unarmed_allowed" : true,
         "dodge_counter" : true,
-        "speed_mult" : 0.75,
-        "bashing_mult" : 1.25,
+        "speed_mult" : 0.5,
+        "bash_mult" : 1.25,
         "messages" : [
             "You lurch, and your wild swing hits %s",
             "<npcname> lurches, and hits %s"
@@ -646,7 +662,7 @@
         "id" : "tec_fencing_lunge",
         "name" : "Fencing lunge",
         "min_melee" : 2,
-        "speed_mult" : 0.5,
+        "speed_mult" : 0.75,
         "weighting" : 2,
         "messages" : [
             "You lunge at %s",
@@ -657,9 +673,9 @@
         "id" : "tec_fencing_thrust",
         "name" : "Fencing thrust",
         "min_melee" : 1,
-        "speed_mult" : 0.75,
+        "speed_mult" : 0.9,
         "weighting" : 2,
-        "cut_mult" : 1.25,
+        "cut_mult" : 1.15,
         "messages" : [
             "You thrust at %s",
             "<npcname> thrust at %s"
@@ -742,9 +758,8 @@
         "min_melee" : 3,
         "min_bashing_damage": 2,
         "bash": 1,
-        "bashing_mult": 4,
-        "cutting_mult": 0,
-        "stabbing_mult": 0,
+        "bash_mult": 4,
+        "cut_mult": 0,
         "crit_tec" : true,
         "stun_dur" : 1,
         "messages" : [
@@ -803,7 +818,7 @@
         "name" : "Dirty Hit",
         "min_melee" : 1,
         "crit_tec" : true,
-        "stun_dur" : 1,
+        "stun_dur" : 2,
         "req_buffs" : [
             "silat_dodge_buff"
         ],
@@ -844,11 +859,11 @@
         "unarmed_allowed" : true,
         "req_buffs" : [
             "venom_snake_combo_initiate"
-            ],
+        ],
         "messages" : [
             "You Snakebite %s",
             "<npcname> Snakebites %s"
-            ]
+        ]
     },{
         "type" : "technique",
         "id" : "tec_venom_snake_strike",
@@ -857,11 +872,11 @@
         "unarmed_allowed" : true,
         "req_buffs" : [
             "venom_snake_combo_continue"
-            ],
+        ],
         "messages" : [
-            "You VIPER STRIKE %s!",
+            "You Viper Strike %s!",
             "<npcname> Viper Strikes %s!"
-            ]
+        ]
     },{
         "type" : "technique",
         "id" : "tec_venom_snake_break",
@@ -1103,7 +1118,7 @@
             "You hand-peck %s",
             "<npcname> hand-pecks %s"
         ],
-        "stun_dur" : 2
+        "stun_dur" : 3
     },{
         "type" : "technique",
         "id" : "tec_brawl_feint",

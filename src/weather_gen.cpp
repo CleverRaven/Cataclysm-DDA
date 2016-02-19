@@ -42,11 +42,15 @@ w_point weather_generator::get_weather(const point &location, const calendar &t)
 
     const double dayFraction((double)t.minutes_past_midnight() / 1440);
 
+    //limit the random seed during noise calculation, a large value flattens the noise generator to zero
+    //Windows has a rand limit of 32768, other operating systems can have higher limits
+    const unsigned modSEED = SEED % 32768;
+
     // Noise factors
-    double T(raw_noise_4d(x, y, z, SEED) * 4.0);
-    double H(raw_noise_4d(x, y, z / 5, SEED + 101));
-    double H2(raw_noise_4d(x, y, z, SEED + 151) / 4);
-    double P(raw_noise_4d(x, y, z / 3, SEED + 211) * 70);
+    double T(raw_noise_4d(x, y, z, modSEED) * 4.0);
+    double H(raw_noise_4d(x, y, z / 5, modSEED + 101));
+    double H2(raw_noise_4d(x, y, z, modSEED + 151) / 4);
+    double P(raw_noise_4d(x, y, z / 3, modSEED + 211) * 70);
     double W;
 
     const double now( double( t.turn_of_year() + DAYS(t.season_length()) / 2 ) / double(t.year_turns()) ); // [0,1)
@@ -184,5 +188,4 @@ void weather_generator::test_weather() const
         w_point w = get_weather(point(0, 0), i);
         testfile << i.get_turn() << "," << w.temperature << "," << w.humidity << "," << w.pressure << std::endl;
     }
-    //debugmsg("Starting season: %s", ACTIVE_WORLD_OPTIONS["INITIAL_SEASON"].getValue().c_str());
 }

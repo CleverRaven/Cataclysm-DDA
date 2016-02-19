@@ -6,6 +6,12 @@
 #include "uistate.h"
 #include "monstergenerator.h"
 #include "compatibility.h"
+#include "translations.h"
+#include "input.h"
+#include "monster.h"
+#include "ui.h"
+#include "mutation.h"
+#include "mtype.h"
 
 #include <sstream>
 
@@ -43,9 +49,10 @@ class wish_mutate_callback: public uimenu_callback
             if ( key == 't' && p->has_trait( vTraits[ entnum ] ) ) {
                 if ( p->has_base_trait( vTraits[ entnum ] ) ) {
                     p->toggle_trait( vTraits[ entnum ] );
-                    p->toggle_mutation( vTraits[ entnum ] );
+                    p->unset_mutation( vTraits[ entnum ] );
+
                 } else {
-                    p->toggle_mutation( vTraits[ entnum ] );
+                    p->set_mutation( vTraits[ entnum ] );
                     p->toggle_trait( vTraits[ entnum ] );
                 }
                 menu->entries[ entnum ].text_color = ( p->has_trait( vTraits[ entnum ] ) ? c_green :
@@ -69,13 +76,13 @@ class wish_mutate_callback: public uimenu_callback
             auto &mdata = mutation_branch::get( vTraits[entnum] );
 
             int startx = menu->w_width - menu->pad_right;
-            for ( int i = 1; i < lastlen; i++ ) {
+            for ( int i = 2; i < lastlen; i++ ) {
                 mvwprintw(menu->window, i, startx, "%s", padding.c_str() );
             }
 
-            mvwprintw(menu->window, 1, startx,
+            mvwprintw(menu->window, 3, startx,
                       mdata.valid ? _("Valid") : _("Nonvalid"));
-            int line2 = 2;
+            int line2 = 4;
 
             if ( !mdata.prereqs.empty() ) {
                 line2++;
@@ -187,7 +194,7 @@ void game::wishmutate( player *p )
     wmenu.w_x = 0;
     wmenu.w_width = TERMX;
     // disabled due to foldstring crash // ( TERMX - getmaxx(w_terrain) - 30 > 24 ? getmaxx(w_terrain) : TERMX );
-    wmenu.pad_right = ( wmenu.w_width - 30 );
+    wmenu.pad_right = ( wmenu.w_width - 40 );
     wmenu.return_invalid = true;
     wmenu.selected = uistate.wishmutate_selected;
     wish_mutate_callback *cb = new wish_mutate_callback();
@@ -210,7 +217,7 @@ void game::wishmutate( player *p )
                     } while (p->has_trait( mstr ) && rc < 10);
                 } else {
                     do {
-                        p->toggle_mutation(mstr );
+                        p->set_mutation(mstr );
                         rc++;
                     } while (!p->has_trait( mstr ) && rc < 10);
                 }
@@ -262,8 +269,12 @@ class wish_monster_callback: public uimenu_callback
         monster tmp;           // scrap critter for monster::print_info
         bool started;          // if unset, initialize window
         std::string padding;   // ' ' x window width
+        const std::vector<const mtype*> &mtypes;
 
-        wish_monster_callback() : msg(""), padding("")
+        wish_monster_callback( const std::vector<const mtype*>& mtypes )
+        : msg("")
+        , padding("")
+        , mtypes( mtypes )
         {
             started = false;
             friendly = false;
@@ -296,8 +307,8 @@ class wish_monster_callback: public uimenu_callback
             } else if( key == 'h' ) {
                 hallucination = !hallucination;
                 return true;
-            } else if( key == 'd' ) {
-                group = std::max( 1, group - 1 );
+            } else if( key == 'd' && group !=0  ) {
+                group--;
                 return true;
             }
             return false;
@@ -311,26 +322,25 @@ class wish_monster_callback: public uimenu_callback
             }
             if (entnum != lastent) {
                 lastent = entnum;
-                tmp = monster(GetMType(entnum));
+                tmp = monster( mtypes[ entnum ]->id );
                 if (friendly) {
                     tmp.friendly = -1;
                 }
             }
 
             werase(w_info);
-            tmp.print_info( w_info, 6, 5, 1 );
+            wrefresh(w_info);
+            tmp.print_info( w_info, 2, 5, 1 );
 
-            std::string header = string_format("#%d: %s", entnum, GetMType(entnum)->nname().c_str());
-            mvwprintz(w_info, 1, ( getmaxx(w_info) - header.size() ) / 2, c_cyan, "%s",
+            std::string header = string_format("#%d: %s (%d)%s", entnum, tmp.type->nname().c_str(),
+                                 group, (hallucination ? _(" (hallucination)") : ""));
+            mvwprintz(w_info, 0, ( getmaxx(w_info) - header.size() ) / 2, c_cyan, "%s",
                       header.c_str());
-            if( hallucination ) {
-                wprintw( w_info, _( " (hallucination)" ) );
-            }
 
             mvwprintz(w_info, getmaxy(w_info) - 3, 0, c_green, "%s", msg.c_str());
             msg = padding;
             mvwprintw(w_info, getmaxy(w_info) - 2, 0,
-                      _("[/] find, [f]riendly, [h]allucination [i]ncrease group, [d]ecrease group, [q]uit"));
+                      _("[/] find, [f]riendly, [h]allucination, [i]ncrease group, [d]ecrease group, [q]uit"));
         }
 
         virtual void refresh(uimenu *menu) override
@@ -349,7 +359,7 @@ class wish_monster_callback: public uimenu_callback
 
 void game::wishmonster( const tripoint &p )
 {
-    const std::map<std::string, mtype *> montypes = MonsterGenerator::generator().get_all_mtypes();
+    std::vector<const mtype*> mtypes;
 
     uimenu wmenu;
     wmenu.w_x = 0;
@@ -358,23 +368,23 @@ void game::wishmonster( const tripoint &p )
     wmenu.pad_right = ( wmenu.w_width - 30 );
     wmenu.return_invalid = true;
     wmenu.selected = uistate.wishmonster_selected;
-    wish_monster_callback *cb = new wish_monster_callback();
+    wish_monster_callback *cb = new wish_monster_callback( mtypes );
     wmenu.callback = cb;
 
     int i = 0;
-    for( const auto &montype : montypes ) {
-        wmenu.addentry( i, true, 0, "%s", montype.second->nname().c_str() );
-        wmenu.entries[i].extratxt.txt = montype.second->sym;
-        wmenu.entries[i].extratxt.color = montype.second->color;
+    for( const auto &montype : MonsterGenerator::generator().get_all_mtypes() ) {
+        wmenu.addentry( i, true, 0, "%s", montype->nname().c_str() );
+        wmenu.entries[i].extratxt.txt = montype->sym;
+        wmenu.entries[i].extratxt.color = montype->color;
         wmenu.entries[i].extratxt.left = 1;
         ++i;
+        mtypes.push_back( montype );
     }
 
     do {
         wmenu.query();
         if ( wmenu.ret >= 0 ) {
-            monster mon = monster(GetMType(wmenu.ret));
-            mon.reset_last_load();
+            monster mon = monster( mtypes[ wmenu.ret ]->id );
             if (cb->friendly) {
                 mon.friendly = -1;
             }
@@ -386,7 +396,7 @@ void game::wishmonster( const tripoint &p )
                 std::vector<tripoint> spawn_points = closest_tripoints_first( cb->group, spawn );
                 for( auto spawn_point : spawn_points ) {
                     mon.spawn( spawn_point );
-                    add_zombie(mon);
+                    add_zombie(mon, true);
                 }
                 cb->msg = _("Monster spawned, choose another or 'q' to quit.");
                 uistate.wishmonster_selected = wmenu.ret;
@@ -427,12 +437,13 @@ class wish_item_callback: public uimenu_callback
                 mvwprintw(menu->window, y, startx - 1, "%s", padding.c_str());
             }
             item tmp(standard_itype_ids[entnum], calendar::turn);
+            mvwhline( menu->window, 1, startx, ' ', menu->pad_right - 1 );
             const std::string header = string_format("#%d: %s%s", entnum, standard_itype_ids[entnum].c_str(),
                                        ( incontainer ? _(" (contained)") : "" ));
             mvwprintz(menu->window, 1, startx + ( menu->pad_right - 1 - header.size() ) / 2, c_cyan, "%s",
                       header.c_str());
 
-            fold_and_print(menu->window, starty, startx, menu->pad_right - 1, c_white, tmp.info(true));
+            fold_and_print(menu->window, starty, startx, menu->pad_right - 1, c_ltgray, tmp.info(true));
 
             mvwprintz(menu->window, menu->w_height - 3, startx, c_green, "%s", msg.c_str());
             msg.erase();
@@ -460,7 +471,8 @@ void game::wishitem( player *p, int x, int y, int z)
 
     for (size_t i = 0; i < standard_itype_ids.size(); i++) {
         item ity( standard_itype_ids[i], 0 );
-        wmenu.addentry( i, true, 0, string_format(_("%s"), ity.tname(1, false).c_str()) );
+        wmenu.addentry( i, true, 0, string_format( _( "%.*s" ), wmenu.pad_right - 5,
+                                                   ity.tname( 1, false ).c_str() ) );
         wmenu.entries[i].extratxt.txt = string_format("%c", ity.symbol());
         wmenu.entries[i].extratxt.color = ity.color();
         wmenu.entries[i].extratxt.left = 1;
@@ -511,15 +523,14 @@ void game::wishskill(player *p)
     uimenu skmenu;
     skmenu.text = _("Select a skill to modify");
     skmenu.return_invalid = true;
-    skmenu.addentry(0, true, '1', _("Set all skills to..."));
+    skmenu.addentry(0, true, '1', _("Modify all skills..."));
 
     std::vector<int> origskills;
     origskills.reserve(Skill::skills.size());
 
     for (auto const &s : Skill::skills) {
-        auto const id    = static_cast<int>(s.id());
         auto const level = static_cast<int>(p->skillLevel(s));
-        skmenu.addentry( id + skoffset, true, -2, _( "@ %d: %s  " ), level, s.name().c_str() );
+        skmenu.addentry( origskills.size() + skoffset, true, -2, _( "@ %d: %s  " ), level, s.name().c_str() );
         origskills.push_back(level);
     }
 

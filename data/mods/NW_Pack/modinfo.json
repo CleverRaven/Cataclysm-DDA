@@ -4,6 +4,7 @@
     "ident": "nw_pack",
     "name": "Mythological Replicas",
     "description": "Adds recipes for replicas of mythological weapons.",
+    "category": "items",
     "author": "Zaweri",
     "path": ""
 }

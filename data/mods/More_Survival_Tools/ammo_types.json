@@ -10,5 +10,11 @@
         "id" : "javelin",
         "name" : "javelin",
         "default" : "javelin"
+    },
+    {
+        "type" : "ammunition_type",
+        "id" : "esbit",
+        "name" : "hexamine",
+        "default" : "chem_hexamine"
     }
 ]

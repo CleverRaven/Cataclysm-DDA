@@ -2,7 +2,6 @@
 #include "output.h"
 #include "debug.h"
 #include "translations.h"
-#include "savegame.h"
 #include "filesystem.h"
 #include "overmapbuffer.h"
 #include "mapsharing.h"
@@ -10,6 +9,10 @@
 #include "worldfactory.h"
 #include "game.h"
 #include "map.h"
+#include "trap.h"
+#include "vehicle.h"
+#include "submap.h"
+
 #include <fstream>
 #include <sstream>
 
@@ -75,21 +78,24 @@ void mapbuffer::remove_submap( tripoint addr )
 
 submap *mapbuffer::lookup_submap(int x, int y, int z)
 {
-    dbg(D_INFO) << "mapbuffer::lookup_submap( x[" << x << "], y[" << y << "], z[" << z << "])";
+    return lookup_submap( tripoint( x, y, z ) );
+}
 
-    const tripoint p(x, y, z);
-    if (submaps.count(p) == 0) {
+submap *mapbuffer::lookup_submap( const tripoint &p )
+{
+    dbg(D_INFO) << "mapbuffer::lookup_submap( x[" << p.x << "], y[" << p.y << "], z[" << p.z << "])";
+
+    auto iter = submaps.find( p );
+    if( iter == submaps.end() ) {
         try {
             return unserialize_submaps( p );
-        } catch (std::string &err) {
-            debugmsg("Failed to load submap (%d,%d,%d): %s", x, y, z, err.c_str());
         } catch (const std::exception &err) {
-            debugmsg("Failed to load submap (%d,%d,%d): %s", x, y, z, err.what());
+            debugmsg("Failed to load submap (%d,%d,%d): %s", p.x, p.y, p.z, err.what());
         }
         return NULL;
     }
 
-    return submaps[p];
+    return iter->second;
 }
 
 void mapbuffer::save( bool delete_after_save )
@@ -105,7 +111,7 @@ void mapbuffer::save( bool delete_after_save )
     const bool map_has_zlevels = g != nullptr && g->m.has_zlevels();
 
     // A set of already-saved submaps, in global overmap coordinates.
-    std::set<tripoint, pointcomp> saved_submaps;
+    std::set<tripoint> saved_submaps;
     std::list<tripoint> submaps_to_delete;
     for( auto &elem : submaps ) {
         if (num_total_submaps > 100 && num_saved_submaps % 100 == 0) {
@@ -115,7 +121,7 @@ void mapbuffer::save( bool delete_after_save )
         // Whatever the coordinates of the current submap are,
         // we're saving a 2x2 quad of submaps at a time.
         // Submaps are generated in quads, so we know if we have one member of a quad,
-        // we have the rest of it, if that assumtion is broken we have REAL problems.
+        // we have the rest of it, if that assumption is broken we have REAL problems.
         const tripoint om_addr = overmapbuffer::sm_to_omt_copy( elem.first );
         if( saved_submaps.count( om_addr ) != 0 ) {
             // Already handled this one.
@@ -172,7 +178,7 @@ void mapbuffer::save_quad( const std::string &dirname, const std::string &filena
             all_uniform = false;
         }
     }
-    
+
     if( all_uniform ) {
         // Nothing to save - this quad will be regenerated faster than it would be re-read
         if( delete_after_save ) {
@@ -225,7 +231,7 @@ void mapbuffer::save_quad( const std::string &dirname, const std::string &filena
         for(int j = 0; j < SEEY; j++) {
             for(int i = 0; i < SEEX; i++) {
                 // Save terrains
-                jsout.write( terlist[sm->ter[i][j]].id );
+                jsout.write( sm->ter[i][j].obj().id );
             }
         }
         jsout.end_array();
@@ -238,7 +244,7 @@ void mapbuffer::save_quad( const std::string &dirname, const std::string &filena
         int count = 0;
         for(int j = 0; j < SEEY; j++) {
             for(int i = 0; i < SEEX; i++) {
-                // Save radiation, re-examine this because it doesnt look like it works right
+                // Save radiation, re-examine this because it doesn't look like it works right
                 int r = sm->get_radiation(i, j);
                 if (r == lastrad) {
                     count++;
@@ -264,7 +270,7 @@ void mapbuffer::save_quad( const std::string &dirname, const std::string &filena
                     jsout.start_array();
                     jsout.write( i );
                     jsout.write( j );
-                    jsout.write( furnlist[ sm->get_furn( i, j ) ].id );
+                    jsout.write( sm->get_furn( i, j ).obj().id );
                     jsout.end_array();
                 }
             }
@@ -294,7 +300,8 @@ void mapbuffer::save_quad( const std::string &dirname, const std::string &filena
                     jsout.start_array();
                     jsout.write( i );
                     jsout.write( j );
-                    jsout.write( traplist[ sm->get_trap( i, j ) ]->id );
+                    // TODO: jsout should support writting an id like jsout.write( trap_id )
+                    jsout.write( sm->get_trap( i, j ).id().str() );
                     jsout.end_array();
                 }
             }
@@ -343,7 +350,7 @@ void mapbuffer::save_quad( const std::string &dirname, const std::string &filena
         jsout.start_array();
         for( auto &elem : sm->spawns ) {
             jsout.start_array();
-            jsout.write( elem.type );
+            jsout.write( elem.type.str() ); // TODO: json should know how to write string_ids
             jsout.write( elem.count );
             jsout.write( elem.posx );
             jsout.write( elem.posy );
@@ -500,9 +507,17 @@ submap *mapbuffer::unserialize_submaps( const tripoint &p )
                     while( !jsin.end_array() ) {
                         item tmp;
                         jsin.read( tmp );
+
                         if( tmp.is_emissive() ) {
                             sm->update_lum_add(tmp, i, j);
                         }
+
+                        tmp.visit_items( [ &sm, i, j ]( item *it ) {
+                            for( auto& e: it->magazine_convert() ) {
+                                sm->itm[i][j].push_back( e );
+                            }
+                            return VisitResponse::NEXT;
+                        } );
 
                         sm->itm[i][j].push_back( tmp );
                         if( tmp.needs_processing() ) {
@@ -516,7 +531,8 @@ submap *mapbuffer::unserialize_submaps( const tripoint &p )
                     jsin.start_array();
                     int i = jsin.get_int();
                     int j = jsin.get_int();
-                    sm->trp[i][j] = trapmap[ jsin.get_string() ];
+                    // TODO: jsin should support returning an id like jsin.get_id<trap>()
+                    sm->trp[i][j] = trap_str_id( jsin.get_string() );
                     jsin.end_array();
                 }
             } else if( submap_member_name == "fields" ) {
@@ -558,7 +574,7 @@ submap *mapbuffer::unserialize_submaps( const tripoint &p )
                 jsin.start_array();
                 while( !jsin.end_array() ) {
                     jsin.start_array();
-                    std::string type = jsin.get_string();
+                    const mtype_id type = mtype_id( jsin.get_string() ); // TODO: json should know how to read an string_id
                     int count = jsin.get_int();
                     int i = jsin.get_int();
                     int j = jsin.get_int();
@@ -588,7 +604,7 @@ submap *mapbuffer::unserialize_submaps( const tripoint &p )
             }
         }
         if( !add_submap( submap_coordinates, sm ) ) {
-            debugmsg( "submap %d,%d,%d was alread loaded", submap_coordinates.x, submap_coordinates.y,
+            debugmsg( "submap %d,%d,%d was already loaded", submap_coordinates.x, submap_coordinates.y,
                       submap_coordinates.z );
         }
     }

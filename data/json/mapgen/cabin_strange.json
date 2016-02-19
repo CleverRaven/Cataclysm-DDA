@@ -1,0 +1,192 @@
+[
+    {
+        "type": "mapgen",
+        "om_terrain": [
+            "cabin_strange"
+        ],
+        "method": "json",
+        "weight": 300,
+        "object": {
+            "fill_ter": "t_floor",
+            "rows": [
+                "                        ",
+                "^  FfffffffffffGfffffF  ",
+                "   F                 F  ",
+                "   F              ^  F  ",
+                "  ^F  |-w---|        F  ",
+                "   F  |cSecu|sssss   F  ",
+                "  |-w-|O....=sssss|---| ",
+                "  |H.T|c...u|-w-w-|>..w ",
+                "  |H..+....u|d....|-|-| ",
+                "  |..S|.....+.....+.|r| ",
+                "  |-+-|.....|...bb|r|.| ",
+                "  |.........|---|-|-|+| ",
+                "  w...hh....aaaa|.d...| ",
+                "  |..htth.......|.....w ",
+                "  w..htth.......D..bb.w ",
+                "  w...hh.......o|..bb.| ",
+                "  |o...........A|-----| ",
+                "  w.............|d.bb.| ",
+                "  |.............+..bb.w ",
+                "  |-+|-w-==-w-|-|.....| ",
+                "  |L.|ssssssss|r+.....| ",
+                "  |--|ssssssss|-|--w--| ",
+                "     ssCssssCss         ",
+                "  ^                 ^   "
+            ],
+            "terrain": {
+                " ": [ "t_grass", "t_grass", "t_grass", "t_dirt" ],
+                "%": "t_shrub",
+                "^": "t_tree",
+                "f": "t_fence_h",
+                "F": "t_fence_v",
+                "G": "t_fencegate_c",
+                "C": "t_column",
+                "-": "t_wall",
+                "|": "t_wall",
+                "+": "t_door_c",
+                "=": "t_door_boarded",
+                "D": "t_door_locked_interior",
+                "w": "t_window_boarded",
+                "s": "t_sidewalk",
+                ">": "t_stairs_down"
+            },
+            "furniture": {
+                "H": "f_bathtub",
+                "a": "f_sofa",
+                "A": "f_armchair",
+                "b": "f_bed",
+                "t": "f_table",
+                "S": "f_sink",
+                "h": "f_chair",
+                "c": "f_counter",
+                "O": "f_oven"
+            },
+            "toilets": {
+                "T": { }
+            },
+            "mapping": {
+                "u": {
+                    "furniture": "f_cupboard",
+                    "items": { "item": "cannedfood", "chance": 30 }
+                },
+                ".": {
+                    "items": { "item": "subway", "chance": 10 }
+                },
+                "e": {
+                    "items": { "item": "fridgesnacks", "chance": 30 },
+                    "furniture": "f_fridge"
+                },
+                "o": {
+                    "items": { "item": "novels", "chance": 40 },
+                    "furniture": "f_bookcase"
+                },
+                "d": {
+                    "items": { "item": "dresser", "chance": 40 },
+                    "furniture": "f_dresser"
+                },
+                "r": {
+                    "items": { "item": "dresser", "chance": 40 },
+                    "furniture": "f_rack"
+                },
+                "L": {
+                    "items": [
+                        { "item": "bed", "chance": 60 },
+                        { "item": "dresser", "chance": 40 }
+                    ],
+                    "furniture": "f_locker"
+                }
+            },
+            "place_monster": [
+                { "x": 8, "y": 10, "monster": "mon_darkman" }
+            ]
+        }
+    },
+    {
+        "type": "mapgen",
+        "om_terrain": [
+            "cabin_strange_b"
+        ],
+        "method": "json",
+        "weight": 300,
+        "object": {
+            "fill_ter": "t_dirtfloor",
+            "rows": [
+                "########################",
+                "################...h...#",
+                "########c.cc####.httth.#",
+                "###T..##c....+...ht.th.#",
+                "###...G....c####.......#",
+                "###BB.##....############",
+                "##########D###|---|---|#",
+                "##########.###|cdc|<..|#",
+                "##.hhh.##...##|.h.|-D-|#",
+                "#.......#.C.##|-+-|..h##",
+                "#.hh.hh.D...##c......c##",
+                "#.......#.C.##ccC..Ccc##",
+                "#.hh.hh.#...##cc.....r##",
+                "#.......#.C.##ccC..C.r##",
+                "#.hh.hh.#...##tt..ch.r##",
+                "#.......#.C.##ttCccC..##",
+                "#.......#............A##",
+                "#.b.S.b.#.C..C.cC..C..##",
+                "##.....##..h..ccccBBo.##",
+                "###+#+##################",
+                "##.....#################",
+                "##.....#################",
+                "##.....#################",
+                "########################"
+            ],
+            "terrain": {
+                "#": "t_rock",
+                "G": "t_door_bar_locked",
+                "C": "t_column",
+                "-": "t_wall",
+                "|": "t_wall",
+                "+": "t_door_c",
+                "=": "t_door_boarded",
+                "D": "t_door_locked_interior",
+                "<": "t_stairs_up"
+            },
+            "furniture": {
+                "A": "f_armchair",
+                "t": "f_table",
+                "B": "f_bed",
+                "h": "f_chair",
+                "d": "f_desk"
+            },
+            "toilets": {
+                "T": { }
+            },
+            "mapping": {
+                "b": {
+                    "item": { "item": "brazier" }
+                },
+                ".": {
+                    "items": { "item": "subway", "chance": 10 }
+                },
+                "S": {
+                    "item": { "item": "etched_skull" },
+                    "furniture": "f_table"
+                },
+                "o": {
+                    "items": { "item": "novels", "chance": 40 },
+                    "furniture": "f_bookcase"
+                },
+                "c": {
+                    "items": { "item": "dresser", "chance": 20 },
+                    "furniture": "f_crate_o"
+                },
+                "r": {
+                    "items": { "item": "cannedfood", "chance": 30 },
+                    "furniture": "f_rack"
+                }
+            },
+            "place_monster": [
+                { "x": 4, "y": 12, "monster": "mon_dementia", "repeat": [3, 6] },
+                { "x": 19, "y": 2, "monster": "mon_dementia", "repeat": [1, 4] },
+                { "x": 4, "y": 21, "monster": "mon_blood_sacrifice", "repeat": 1 }
+            ]
+        }
+    }
+]

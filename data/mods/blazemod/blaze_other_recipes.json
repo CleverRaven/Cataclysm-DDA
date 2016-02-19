@@ -105,7 +105,6 @@
       [ "welder_crude", 150 ],
       [ "toolset", 150 ],
       [ "forge", 100 ],
-      [ "char_forge", 20],
       [ "oxy_torch", 20]
     ]
   ],
@@ -216,7 +215,6 @@
       ],
       [
       [ "forge", 400],
-      [ "char_forge", 100],
       [ "oxy_torch", 200]
       ]
       ],
@@ -267,7 +265,6 @@
       ],
       [
       [ "forge", 400],
-      [ "char_forge", 100],
       [ "oxy_torch", 200]
       ]
       ],
@@ -315,7 +312,6 @@
       ],
       [
       [ "forge", 400],
-      [ "char_forge", 100],
       [ "oxy_torch", 200]
       ]
       ],

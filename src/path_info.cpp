@@ -34,6 +34,13 @@ void PATH_INFO::init_user_dir(const char *ud)
 #elif defined MACOSX && defined TILES
         user_dir = getenv( "HOME" );
         dir = std::string( user_dir ) + "/Library/Application Support/Cataclysm/";
+#elif (defined USE_XDG_DIR)
+        if ( (user_dir = getenv("XDG_DATA_HOME")) ) {
+            dir = std::string(user_dir) + "/cataclysm-dda/";
+        } else {
+            user_dir = getenv("HOME");
+            dir = std::string(user_dir) + "/.local/share/cataclysm-dda/";
+        }
 #else
         user_dir = getenv("HOME");
         dir = std::string(user_dir) + "/.cataclysm-dda/";
@@ -72,6 +79,7 @@ void PATH_INFO::update_datadir()
     update_pathname("titledir", FILENAMES["datadir"] + "title/");
     update_pathname("motddir", FILENAMES["datadir"] + "motd/");
     update_pathname("creditsdir", FILENAMES["datadir"] + "credits/");
+    update_pathname("sounddir", FILENAMES["datadir"] + "sound");
 
     // Shared files
     update_pathname("title", FILENAMES["titledir"] + "en.title");
@@ -87,16 +95,17 @@ void PATH_INFO::update_datadir()
     update_pathname("mods-dev-default", FILENAMES["moddir"] + "dev-default-mods.json");
     update_pathname("mods-user-default", FILENAMES["moddir"] + "user-default-mods.json");
     update_pathname("obsolete-mods", FILENAMES["moddir"] + "obsolete-mods.json");
+    update_pathname("defaultsounddir", FILENAMES["datadir"] + "sound");
 }
 
 void PATH_INFO::update_config_dir()
 {
-    update_pathname("options", FILENAMES["config_dir"] + "options.txt");
+    update_pathname("options", FILENAMES["config_dir"] + "options.json");
     update_pathname("keymap", FILENAMES["config_dir"] + "keymap.txt");
     update_pathname("debug", FILENAMES["config_dir"] + "debug.log");
     update_pathname("fontlist", FILENAMES["config_dir"] + "fontlist.txt");
     update_pathname("fontdata", FILENAMES["config_dir"] + "fonts.json");
-    update_pathname("autopickup", FILENAMES["config_dir"] + "auto_pickup.txt");
+    update_pathname("autopickup", FILENAMES["config_dir"] + "auto_pickup.json");
     update_pathname("custom_colors", FILENAMES["config_dir"] + "custom_colors.json");
 }
 
@@ -104,9 +113,15 @@ void PATH_INFO::set_standard_filenames(void)
 {
     // Special: data_dir lua_dir and gfx_dir
     if (!FILENAMES["base_path"].empty()) {
+#ifdef DATA_DIR_PREFIX
         update_pathname("datadir", FILENAMES["base_path"] + "share/cataclysm-dda/");
         update_pathname("gfxdir", FILENAMES["datadir"] + "gfx/");
         update_pathname("luadir", FILENAMES["datadir"] + "lua/");
+#else
+        update_pathname("datadir", FILENAMES["base_path"] + "data/");
+        update_pathname("gfxdir", FILENAMES["base_path"] + "gfx/");
+        update_pathname("luadir", FILENAMES["base_path"] +"lua/");
+#endif
     } else {
         update_pathname("datadir", "data/");
         update_pathname("gfxdir", "gfx/");
@@ -126,6 +141,7 @@ void PATH_INFO::set_standard_filenames(void)
     update_pathname("motddir", FILENAMES["datadir"] + "motd/");
     update_pathname("creditsdir", FILENAMES["datadir"] + "credits/");
     update_pathname("color_templates", FILENAMES["rawdir"] + "color_templates/");
+    update_pathname("sounddir", FILENAMES["datadir"] + "sound");
 
     // Shared files
     update_pathname("title", FILENAMES["titledir"] + "en.title");
@@ -140,27 +156,52 @@ void PATH_INFO::set_standard_filenames(void)
     update_pathname("mods-dev-default", FILENAMES["moddir"] + "dev-default-mods.json");
     update_pathname("mods-user-default", FILENAMES["moddir"] + "user-default-mods.json");
     update_pathname("obsolete-mods", FILENAMES["moddir"] + "obsolete-mods.json");
+    update_pathname("defaultsounddir", FILENAMES["datadir"] + "sound");
 
     update_pathname("savedir", FILENAMES["user_dir"] + "save/");
     update_pathname("memorialdir", FILENAMES["user_dir"] + "memorial/");
     update_pathname("templatedir", FILENAMES["user_dir"] + "templates/");
+#ifdef USE_XDG_DIR
+    const char *user_dir;
+    std::string dir;
+    if ( (user_dir = getenv("XDG_CONFIG_HOME")) ) {
+        dir = std::string(user_dir) + "/cataclysm-dda/";
+    } else {
+        user_dir = getenv("HOME");
+        dir = std::string(user_dir) + "/.config/cataclysm-dda/";
+    }
+    update_pathname("config_dir", dir);
+#else
     update_pathname("config_dir", FILENAMES["user_dir"] + "config/");
+#endif
     update_pathname("graveyarddir", FILENAMES["user_dir"] + "graveyard/");
 
-    update_pathname("options", FILENAMES["config_dir"] + "options.txt");
+    update_pathname("options", FILENAMES["config_dir"] + "options.json");
     update_pathname("keymap", FILENAMES["config_dir"] + "keymap.txt");
     update_pathname("user_keybindings", FILENAMES["config_dir"] + "keybindings.json");
     update_pathname("debug", FILENAMES["config_dir"] + "debug.log");
     update_pathname("fontlist", FILENAMES["config_dir"] + "fontlist.txt");
     update_pathname("fontdata", FILENAMES["config_dir"] + "fonts.json");
-    update_pathname("autopickup", FILENAMES["config_dir"] + "auto_pickup.txt");
+    update_pathname("autopickup", FILENAMES["config_dir"] + "auto_pickup.json");
     update_pathname("custom_colors", FILENAMES["config_dir"] + "custom_colors.json");
+    update_pathname("worldoptions", "worldoptions.json");
 
     // Needed to move files from these legacy locations to the new config directory.
     update_pathname("legacy_options", "data/options.txt");
+    update_pathname("legacy_options2", FILENAMES["config_dir"] + "options.txt");
     update_pathname("legacy_keymap", "data/keymap.txt");
     update_pathname("legacy_autopickup", "data/auto_pickup.txt");
+    update_pathname("legacy_autopickup2", FILENAMES["config_dir"] + "auto_pickup.txt");
     update_pathname("legacy_fontdata", FILENAMES["datadir"] + "fontdata.json");
+    update_pathname("legacy_worldoptions", "worldoptions.txt");
+#ifdef TILES
+    // Default tileset config file.
+    update_pathname("tileset-conf", "tileset.txt");
+#endif
+#ifdef SDL_SOUND
+    // Default soundpack config file.
+    update_pathname("soundpack-conf", "soundpack.txt");
+#endif
 }
 
 std::string PATH_INFO::find_translated_file( const std::string &pathid,

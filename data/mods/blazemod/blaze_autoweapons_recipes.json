@@ -50,6 +50,161 @@
 		["needlegun", 1]
     ]
 			]
+},
+{
+        "type" : "recipe",
+  "result": "shottyman",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_PARTS",
+  "skill_used": "mechanics",
+  "skills_required": [ "gun", 2 ],
+  "difficulty": 3,
+  "time": 20000,
+  "reversible": true,
+  "autolearn": true,
+  "qualities":[
+    {"id":"HAMMER","level":2,"amount":1},
+    {"id":"SAW_M","level":1,"amount":1}
+  ], "tools": [
+	[
+		[ "soldering_iron", 20 ],
+		[ "toolset", 20 ]
+	],
+	[
+	  [ "small_repairkit", 25 ],
+	  [ "large_repairkit", 25 ]
+	]
+  ],
+  "components": [
+    [
+		[ "fcs", 1 ]
+    ],
+	[
+		[ "turret_engine", 1 ]
+    ],
+	[
+		[ "scrap", 6],
+		[ "steel_chunk", 2]
+    ],
+	[
+		["shotgun_sawn", 1],
+		["saiga_sawn", 1],
+		["shotgun_s", 1],
+		["shotgun_d", 1],
+		["remington_870", 1],
+		["mossberg_500", 1],
+		["m1014", 1],
+		["saiga_12", 1],
+		["l_def_12", 1],
+		["revolver_shotgun", 1],
+		["pipe_shotgun", 1],
+		["pipe_double_shotgun", 1],
+		["pipe_shotgunsawn", 1],
+		["bigun", 1]
+    ]
+			]
+}, {
+        "type" : "recipe",
+  "result": "SMGturret45",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_PARTS",
+  "skill_used": "mechanics",
+  "skills_required": [ "gun", 2 ],
+  "difficulty": 3,
+  "time": 20000,
+  "reversible": true,
+  "autolearn": true,
+  "qualities":[
+    {"id":"HAMMER","level":2,"amount":1},
+    {"id":"SAW_M","level":1,"amount":1}
+  ], "tools": [
+	[
+		[ "soldering_iron", 20 ],
+		[ "toolset", 20 ]
+	],
+	[
+	  [ "small_repairkit", 25 ],
+	  [ "large_repairkit", 25 ]
+	]
+  ],
+  "components": [
+    [
+		[ "fcs", 1 ]
+    ],
+	[
+		[ "turret_engine", 1 ]
+    ],
+	[
+		[ "scrap", 6],
+		[ "steel_chunk", 2]
+    ],
+	[
+		["american_180", 1],
+		["uzi", 1],
+		["tec9", 1],
+		["calico", 1],
+		["hk_mp5", 1],
+		["mac_10", 1],
+		["hk_ump45", 1],
+		["TDI", 1],
+		["fn_p90", 1],
+		["hk_mp7", 1],
+		["ppsh", 1],
+		["rm2000_smg", 1],
+		["needlegun", 1]
+    ]
+			]
+},{
+        "type" : "recipe",
+  "result": "SMGturret22",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_PARTS",
+  "skill_used": "mechanics",
+  "skills_required": [ "gun", 2 ],
+  "difficulty": 3,
+  "time": 20000,
+  "reversible": true,
+  "autolearn": true,
+  "qualities":[
+    {"id":"HAMMER","level":2,"amount":1},
+    {"id":"SAW_M","level":1,"amount":1}
+  ], "tools": [
+	[
+		[ "soldering_iron", 20 ],
+		[ "toolset", 20 ]
+	],
+	[
+	  [ "small_repairkit", 25 ],
+	  [ "large_repairkit", 25 ]
+	]
+  ],
+  "components": [
+    [
+		[ "fcs", 1 ]
+    ],
+	[
+		[ "turret_engine", 1 ]
+    ],
+	[
+		[ "scrap", 6],
+		[ "steel_chunk", 2]
+    ],
+	[
+		["american_180", 1],
+		["uzi", 1],
+		["tec9", 1],
+		["calico", 1],
+		["hk_mp5", 1],
+		["mac_10", 1],
+		["hk_ump45", 1],
+		["TDI", 1],
+		["fn_p90", 1],
+		["hk_mp7", 1],
+		["ppsh", 1],
+		["rm2000_smg", 1],
+		["needlegun", 1]
+    ]
+			]
 },{
         "type" : "recipe",
   "result": "40mmturret",
@@ -420,6 +575,46 @@
 	[
 		[ "scrap", 9],
 		[ "steel_chunk", 3]
+    ],
+    [
+		[ "fcs", 1 ]
+    ],
+	[
+		[ "turret_engine_L", 1 ]
+	]
+  ]
+},{
+        "type" : "recipe",
+  "result": "ablundergun",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_PARTS",
+  "skill_used": "mechanics",
+  "skill_sec": ["fabrication",3],
+  "difficulty": 4,
+  "time": 15000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"SAW_W","level":1,"amount":1},
+	{"id":"CUT","level":1,"amount":1}
+  ], "tools": [
+    [
+	  [ "soldering_iron", 40],
+	  [ "toolset", 40]
+    ]
+  ],
+  "components": [
+    [
+      [ "blundergun", 1]
+    ],
+    [
+      [ "duct_tape", 400],
+	  [ "superglue", 4],
+	  [ "nail", 150]
+    ],
+	[
+		[ "scrap", 18],
+		[ "steel_chunk", 6]
     ],
     [
 		[ "fcs", 1 ]

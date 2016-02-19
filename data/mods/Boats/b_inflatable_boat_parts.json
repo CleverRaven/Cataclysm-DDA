@@ -14,7 +14,7 @@
     "location" : "structure",
     "folded_volume": 3,
     "flags" : ["MOUNTABLE", "FOLDABLE", "BOARDABLE", "CARGO"],
-    "breaks_into" : [ {"item": "plastic_chunk", "min": 10, "max": 20} ]
+    "breaks_into" : [ {"item": "plastic_chunk", "count": [10, 20]} ]
   },{
     "type" : "vehicle_part",
     "id" : "inflatable_airbag",
@@ -31,7 +31,7 @@
     "location" : "under",
     "folded_volume": 3,
     "flags" : ["FLOATS", "STABLE", "VARIABLE_SIZE", "FOLDABLE"],
-    "breaks_into" : [ {"item": "plastic_chunk", "min": 10, "max": 20} ]
+    "breaks_into" : [ {"item": "plastic_chunk", "count": [10, 20]} ]
 },{
     "type" : "vehicle_part",
     "id" : "hand_paddles",
@@ -48,10 +48,7 @@
     "difficulty" : 1,
     "location" : "engine_block",
     "folded_volume": 2,
-    "flags" : ["ENGINE", "FOLDABLE"],
-    "breaks_into" : [
-        {"item": "steel_chunk", "min": 1, "max": 2},
-        {"item": "plastic_chunk", "min": 10, "max": 20}
-    ]
+    "flags" : ["ENGINE", "CONTROLS", "FOLDABLE", "MUSCLE_ARMS", "TOOL_NONE"],
+    "breaks_into" : [ {"item": "splinter", "count": [2, 4]} ]
   }
 ]

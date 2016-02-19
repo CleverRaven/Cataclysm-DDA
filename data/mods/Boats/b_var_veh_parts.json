@@ -12,7 +12,6 @@
     "weight": 3000,
     "volume": 50,
     "bashing": 8,
-    "cutting": 0,
     "to_hit": -1,
     "min-bigness": 30,
     "max-bigness": 30,
@@ -31,7 +30,6 @@
     "material" : ["wood", "null"],
     "volume" : 2,
     "bashing" : 10,
-    "cutting" : 0,
     "category" : "veh_parts",
     "price" : 9000
 },{
@@ -47,7 +45,6 @@
     "weight": 3000,
     "volume": 50,
     "bashing": 8,
-    "cutting": 0,
     "to_hit": -1,
     "min-bigness": 30,
     "max-bigness": 30,

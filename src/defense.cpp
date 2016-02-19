@@ -1,4 +1,5 @@
 #include "gamemode.h"
+#include "action.h"
 #include "game.h"
 #include "map.h"
 #include "debug.h"
@@ -6,10 +7,15 @@
 #include "mtype.h"
 #include "overmapbuffer.h"
 #include "crafting.h"
+#include "recipe_dictionary.h"
 #include "monstergenerator.h"
 #include "construction.h"
 #include "messages.h"
 #include "rng.h"
+#include "mongroup.h"
+#include "translations.h"
+#include "input.h"
+#include "overmap.h"
 
 #include <string>
 #include <vector>
@@ -24,6 +30,8 @@
                       (b ? c_green : c_dkgray))
 #define NUMALIGN(n) ((n) >= 10000 ? 20 : ((n) >= 1000 ? 21 :\
                      ((n) >= 100 ? 22 : ((n) >= 10 ? 23 : 24))))
+
+const skill_id skill_barter( "barter" );
 
 std::string caravan_category_name(caravan_category cat);
 std::vector<itype_id> caravan_items(caravan_category cat);
@@ -101,7 +109,7 @@ void defense_game::per_turn()
         g->u.thirst = 0;
     }
     if (!hunger) {
-        g->u.hunger = 0;
+        g->u.set_hunger(0);
     }
     if (!sleep) {
         g->u.fatigue = 0;
@@ -178,15 +186,14 @@ void defense_game::init_itypes()
 
 void defense_game::init_mtypes()
 {
-    std::map<std::string, mtype *> montemplates = MonsterGenerator::generator().get_all_mtypes();
-
-    for( auto &montemplate : montemplates ) {
-        montemplate.second->difficulty *= 1.5;
-        montemplate.second->difficulty += int( montemplate.second->difficulty / 5 );
-        montemplate.second->flags.insert( MF_BASHES );
-        montemplate.second->flags.insert( MF_SMELLS );
-        montemplate.second->flags.insert( MF_HEARS );
-        montemplate.second->flags.insert( MF_SEES );
+    for( auto &type : MonsterGenerator::generator().get_all_mtypes() ) {
+        mtype *const t = const_cast<mtype *>( type );
+        t->difficulty *= 1.5;
+        t->difficulty += int( t->difficulty / 5 );
+        t->flags.insert( MF_BASHES );
+        t->flags.insert( MF_SMELLS );
+        t->flags.insert( MF_HEARS );
+        t->flags.insert( MF_SEES );
     }
 }
 
@@ -197,10 +204,8 @@ void defense_game::init_constructions()
 
 void defense_game::init_recipes()
 {
-    for( auto &recipe : recipes ) {
-        for( auto &elem : recipe.second ) {
-            ( elem )->time /= 10; // Things take turns, not minutes
-        }
+    for( auto &elem : recipe_dict ) {
+        ( elem )->time /= 10; // Things take turns, not minutes
     }
 }
 
@@ -291,9 +296,7 @@ void defense_game::init_map()
     int x = g->u.posx();
     int y = g->u.posy();
     g->update_map(x, y);
-    g->u.setx(x);
-    g->u.sety(y);
-    monster generator( GetMType("mon_generator"), 
+    monster generator( mtype_id( "mon_generator" ),
                        tripoint( g->u.posx() + 1, g->u.posy() + 1, g->u.posz() ) );
     // Find a valid spot to spawn the generator
     std::vector<tripoint> valid;
@@ -306,8 +309,7 @@ void defense_game::init_map()
         }
     }
     if (!valid.empty()) {
-        tripoint p = valid[rng(0, valid.size() - 1)];
-        generator.spawn( p.x, p.y, p.z );
+        generator.spawn( random_entry( valid ) );
     }
     generator.friendly = -1;
     g->add_zombie(generator);
@@ -1000,7 +1002,7 @@ Press %s to buy everything in your cart, %s to buy nothing."),
             if (current_window == 1 && !items[category_selected].empty()) {
                 item_count[category_selected][item_selected]++;
                 itype_id tmp_itm = items[category_selected][item_selected];
-                total_price += caravan_price(g->u, item( tmp_itm, 0 ).price() );
+                total_price += caravan_price(g->u, item( tmp_itm, 0 ).price( false ) );
                 if (category_selected == CARAVAN_CART) { // Find the item in its category
                     for (int i = 1; i < NUM_CARAVAN_CATEGORIES; i++) {
                         for (unsigned j = 0; j < items[i].size(); j++) {
@@ -1032,7 +1034,7 @@ Press %s to buy everything in your cart, %s to buy nothing."),
                 item_count[category_selected][item_selected] > 0) {
                 item_count[category_selected][item_selected]--;
                 itype_id tmp_itm = items[category_selected][item_selected];
-                total_price -= caravan_price(g->u, item( tmp_itm, 0 ).price() );
+                total_price -= caravan_price(g->u, item( tmp_itm, 0 ).price( false ) );
                 if (category_selected == CARAVAN_CART) { // Find the item in its category
                     for (int i = 1; i < NUM_CARAVAN_CATEGORIES; i++) {
                         for (unsigned j = 0; j < items[i].size(); j++) {
@@ -1101,8 +1103,7 @@ Press %s to buy everything in your cart, %s to buy nothing."),
             item tmp( items[0][i] , calendar::turn);
             tmp = tmp.in_its_container();
             for (int j = 0; j < item_count[0][i]; j++) {
-                if (g->u.can_pickVolume(tmp.volume()) && g->u.can_pickWeight(tmp.weight()) &&
-                    g->u.inv.size() < inv_chars.size()) {
+                if (g->u.can_pickVolume(tmp.volume()) && g->u.can_pickWeight(tmp.weight())) {
                     g->u.i_add(tmp);
                 } else { // Could fit it in the inventory!
                     dropped_some = true;
@@ -1298,7 +1299,7 @@ void draw_caravan_items(WINDOW *w, std::vector<itype_id> *items,
                   item::nname( (*items)[i], (*counts)[i] ).c_str());
         wprintz(w, c_white, " x %2d", (*counts)[i]);
         if ((*counts)[i] > 0) {
-            unsigned long price = caravan_price(g->u, item( (*items)[i], 0 ).price() * (*counts)[i]);
+            unsigned long price = caravan_price(g->u, item( (*items)[i], 0 ).price( false ) * (*counts)[i]);
             wprintz(w, (price > g->u.cash ? c_red : c_green), " ($%6.2f)", price / 100.0);
         }
     }
@@ -1307,10 +1308,11 @@ void draw_caravan_items(WINDOW *w, std::vector<itype_id> *items,
 
 int caravan_price(player &u, int price)
 {
-    if (u.skillLevel("barter") > 10) {
+    ///\EFFECT_BARTER reduces caravan prices, 5% per point, up to 50%
+    if (u.skillLevel( skill_barter ) > 10) {
         return int( double(price) * .5);
     }
-    return int( double(price) * (1.0 - double(u.skillLevel("barter")) * .05));
+    return int( double(price) * (1.0 - double(u.skillLevel( skill_barter )) * .05));
 }
 
 void defense_game::spawn_wave()
@@ -1319,13 +1321,12 @@ void defense_game::spawn_wave()
     int diff = initial_difficulty + current_wave * wave_difficulty;
     bool themed_wave = one_in(SPECIAL_WAVE_CHANCE); // All a single monster type
     g->u.cash += cash_per_wave + (current_wave - 1) * cash_increase;
-    std::vector<std::string> valid;
-    valid = pick_monster_wave();
+    std::vector<mtype_id> valid = pick_monster_wave();
     while (diff > 0) {
         // Clear out any monsters that exceed our remaining difficulty
-        for (std::vector<std::string>::iterator it = valid.begin();
-             it != valid.end();) {
-            if (GetMType(*it)->difficulty > diff) {
+        for( auto it = valid.begin(); it != valid.end(); ) {
+            const mtype &mt = it->obj();
+            if( mt.difficulty > diff) {
                 it = valid.erase(it);
             } else {
                 it++;
@@ -1336,64 +1337,63 @@ void defense_game::spawn_wave()
             add_msg(m_info, "********");
             return;
         }
-        int rn = rng(0, valid.size() - 1);
-        mtype *type = GetMType(valid[rn]);
+        const mtype &type = random_entry( valid ).obj();
         if (themed_wave) {
-            int num = diff / type->difficulty;
+            int num = diff / type.difficulty;
             if (num >= SPECIAL_WAVE_MIN) {
                 // TODO: Do we want a special message here?
                 for (int i = 0; i < num; i++) {
-                    spawn_wave_monster(type);
+                    spawn_wave_monster( type.id );
                 }
-                add_msg(m_info,  special_wave_message(type->nname(100)).c_str() );
+                add_msg(m_info,  special_wave_message(type.nname(100)).c_str() );
                 add_msg(m_info, "********");
                 return;
             } else {
                 themed_wave = false;    // No partially-themed waves
             }
         }
-        diff -= type->difficulty;
-        spawn_wave_monster(type);
+        diff -= type.difficulty;
+        spawn_wave_monster( type.id );
     }
     add_msg(m_info, _("Welcome to Wave %d!"), current_wave);
     add_msg(m_info, "********");
 }
 
-std::vector<std::string> defense_game::pick_monster_wave()
+std::vector<mtype_id> defense_game::pick_monster_wave()
 {
-    std::vector<std::string> valid;
-    std::vector<std::string> ret;
+    std::vector<mongroup_id> valid;
+    std::vector<mtype_id> ret;
 
     if (zombies || specials) {
         if (specials) {
-            valid.push_back("GROUP_ZOMBIE");
+            valid.push_back( mongroup_id( "GROUP_ZOMBIE" ) );
         } else {
-            valid.push_back("GROUP_VANILLA");
+            valid.push_back( mongroup_id( "GROUP_VANILLA" ) );
         }
     }
     if (spiders) {
-        valid.push_back("GROUP_SPIDER");
+        valid.push_back( mongroup_id( "GROUP_SPIDER" ) );
     }
     if (triffids) {
-        valid.push_back("GROUP_TRIFFID");
+        valid.push_back( mongroup_id( "GROUP_TRIFFID" ) );
     }
     if (robots) {
-        valid.push_back("GROUP_ROBOT");
+        valid.push_back( mongroup_id( "GROUP_ROBOT" ) );
     }
     if (subspace) {
-        valid.push_back("GROUP_NETHER");
+        valid.push_back( mongroup_id( "GROUP_NETHER" ) );
     }
 
     if (valid.empty()) {
         debugmsg("Couldn't find a valid monster group for defense!");
     } else {
-        ret = MonsterGroupManager::GetMonstersFromGroup(valid[rng(0, valid.size() - 1)]);
+        ret = MonsterGroupManager::GetMonstersFromGroup( random_entry( valid ) );
     }
 
     return ret;
 }
 
-void defense_game::spawn_wave_monster(mtype *type)
+void defense_game::spawn_wave_monster( const mtype_id &type )
 {
     point pnt;
     int tries = 0;
@@ -1412,7 +1412,7 @@ void defense_game::spawn_wave_monster(mtype *type)
                 pnt = point( SEEX * MAPSIZE - 1 - pnt.x, pnt.y );
             }
         }
-        if( g->is_empty( pnt.x, pnt.y ) ) {
+        if( g->is_empty( { pnt.x, pnt.y, g->get_levz() } ) ) {
             break;
         }
         if( tries++ == 1000 ) {
@@ -1421,7 +1421,7 @@ void defense_game::spawn_wave_monster(mtype *type)
         }
     }
     monster tmp( type, tripoint( pnt, g->get_levz() ) );
-    tmp.wander_pos = g->u.pos3();
+    tmp.wander_pos = g->u.pos();
     tmp.wandf = 150;
     // We wanna kill!
     tmp.anger = 100;

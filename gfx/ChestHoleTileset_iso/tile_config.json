@@ -8,7 +8,7 @@
   ],
   "tiles-new": [
     {
-      "file": "gfx/ChestHoleTileset_iso/tiles.png",
+      "file": "tiles.png",
       "tiles": [
         {
           "bg": [
@@ -31040,6 +31040,7 @@
             3718,
             3719
           ],
+          "height_3d": 8,
           "id": "f_bench",
           "rotates": true
         },

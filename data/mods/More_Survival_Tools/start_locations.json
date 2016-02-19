@@ -2,8 +2,14 @@
   {
     "type" : "start_location",
     "ident" : "forest",
-    "name" : "Middle of Nowhere",
-    "target" : "forest_thick",
+    "edit-mode": "modify",
+    "target" : "forest_thick"
+  },
+  {
+    "type" : "start_location",
+    "ident" : "swamp",
+    "name" : "Swamp",
+    "target" : "forest_water",
     "flags" : ["ALLOW_OUTSIDE"]
   }
 ]

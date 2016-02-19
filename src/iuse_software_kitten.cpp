@@ -14,6 +14,7 @@
 #include "debug.h"
 #include "posix_time.h"
 #include "iuse_software_kitten.h"
+#include "translations.h"
 
 #include <iostream>
 
@@ -281,7 +282,7 @@ robot_finds_kitten::robot_finds_kitten(WINDOW *w)
 
     do {
         kitten.color = all_colors.get_random();
-    } while ( all_colors.get(kitten.color) == "c_black" );
+    } while ( kitten.color == c_black );
 
     rfkscreen[kitten.x][kitten.y] = KITTEN;
 
@@ -301,7 +302,7 @@ robot_finds_kitten::robot_finds_kitten(WINDOW *w)
 
         do {
             bogus[c].color = all_colors.get_random();
-        } while ( all_colors.get(bogus[c].color) == "c_black" );
+        } while ( bogus[c].color == c_black );
 
         /* Assign a unique message. */
         int index = 0;

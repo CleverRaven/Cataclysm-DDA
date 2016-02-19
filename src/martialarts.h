@@ -3,6 +3,7 @@
 
 #include "pldata.h"
 #include "json.h"
+#include "string_id.h"
 #include <string>
 #include <vector>
 #include <map>
@@ -10,6 +11,15 @@
 
 class effect;
 class player;
+class item;
+class martialart;
+using matype_id = string_id<martialart>;
+class ma_buff;
+using mabuff_id = string_id<ma_buff>;
+class ma_technique;
+using matec_id = string_id<ma_technique>;
+class effect_type;
+using efftype_id = string_id<effect_type>;
 
 struct ma_requirements {
     bool unarmed_allowed; // does this bonus work when unarmed?
@@ -27,8 +37,7 @@ struct ma_requirements {
     std::set<mabuff_id> req_buffs; // other buffs required to trigger this bonus
     std::set<std::string> req_flags; // any item flags required for this technique
 
-    ma_requirements()
-    {
+    ma_requirements() {
         unarmed_allowed = false; // does this bonus work when unarmed?
         melee_allowed = false; // what about with a melee weapon?
 
@@ -51,7 +60,10 @@ class ma_technique
     public:
         ma_technique();
 
-        std::string id;
+        void load( JsonObject &jo );
+
+        matec_id id;
+        bool was_loaded = false;
         std::string name;
 
         std::string goal; // the melee goal this achieves
@@ -61,8 +73,9 @@ class ma_technique
 
         std::set<std::string> flags;
 
-        // message to be displayed when player (0) or npc (1) uses the technique
-        std::vector<std::string> messages;
+        // message to be displayed when player or npc uses the technique
+        std::string player_message;
+        std::string npc_message;
 
         bool defensive;
         bool dummy;
@@ -121,13 +134,13 @@ class ma_buff
 
         // utility function so to prevent duplicate buff copies, we use this
         // instead of add_disease (since all buffs have the same distype)
-        void apply_buff( player &u );
+        void apply_buff( player &u ) const;
 
         // given a player's state, does this bonus apply to him?
         bool is_valid_player( const player &u ) const;
 
         // apply static bonuses to a player
-        void apply_player(player &u);
+        void apply_player( player &u ) const;
 
         // returns the stat bonus for the on-hit stat (for rolls)
         int hit_bonus( const player &u ) const;
@@ -145,20 +158,21 @@ class ma_buff
 
         // returns damage multipliers for the various damage stats (applied after
         // bonuses)
-        float bash_mult();
-        float cut_mult();
+        float bash_mult() const;
+        float cut_mult() const;
 
         // returns various boolean flags
-        bool is_throw_immune();
-        bool is_quiet();
-        bool can_melee();
+        bool is_throw_immune() const;
+        bool is_quiet() const;
+        bool can_melee() const;
 
         // The ID of the effect that is used to store this buff
-        std::string get_effect_id() const;
-        // If the effects represents an ma_buff effect, return the ma_buff, otherwise retur null.
-        static ma_buff *from_effect( const effect &eff );
+        efftype_id get_effect_id() const;
+        // If the effects represents an ma_buff effect, return the ma_buff, otherwise return null.
+        static const ma_buff *from_effect( const effect &eff );
 
-        std::string id;
+        mabuff_id id;
+        bool was_loaded = false;
         std::string name;
         std::string description;
 
@@ -213,6 +227,8 @@ class ma_buff
         bool quiet;
         bool melee_allowed;
         bool throw_immune; // are we immune to throws/grabs?
+
+        void load( JsonObject &jo );
 };
 
 class martialart
@@ -220,29 +236,30 @@ class martialart
     public:
         martialart();
 
+        void load( JsonObject &jo );
+
         // modifies a player's "current" stats with various types of bonuses
-        void apply_static_buffs(player &u);
+        void apply_static_buffs( player &u ) const;
 
-        void apply_onmove_buffs(player &u);
+        void apply_onmove_buffs( player &u ) const;
 
-        void apply_onhit_buffs(player &u);
+        void apply_onhit_buffs( player &u ) const;
 
-        void apply_onattack_buffs(player &u);
+        void apply_onattack_buffs( player &u ) const;
 
-        void apply_ondodge_buffs(player &u);
+        void apply_ondodge_buffs( player &u ) const;
 
-        void apply_onblock_buffs(player &u);
+        void apply_onblock_buffs( player &u ) const;
 
-        void apply_ongethit_buffs(player &u);
+        void apply_ongethit_buffs( player &u ) const;
 
         // determines if a technique is valid or not for this style
-        bool has_technique( const player &u, matec_id tech );
+        bool has_technique( const player &u, matec_id tech ) const;
         // determines if a weapon is valid for this style
-        bool has_weapon(std::string item) const;
-        // gets custom melee string for a technique under this style
-        std::string melee_verb(matec_id tech,  const player &u );
+        bool has_weapon( std::string item ) const;
 
-        std::string id;
+        matype_id id;
+        bool was_loaded = false;
         std::string name;
         std::string description;
         int arm_block;
@@ -251,24 +268,21 @@ class martialart
         bool leg_block_with_bio_armor_legs;
         std::set<matec_id> techniques; // all available techniques
         std::set<std::string> weapons; // all style weapons
-        std::vector<ma_buff> static_buffs; // all buffs triggered by each condition
-        std::vector<ma_buff> onmove_buffs;
-        std::vector<ma_buff> onhit_buffs;
-        std::vector<ma_buff> onattack_buffs;
-        std::vector<ma_buff> ondodge_buffs;
-        std::vector<ma_buff> onblock_buffs;
-        std::vector<ma_buff> ongethit_buffs;
-
+        std::vector<mabuff_id> static_buffs; // all buffs triggered by each condition
+        std::vector<mabuff_id> onmove_buffs;
+        std::vector<mabuff_id> onhit_buffs;
+        std::vector<mabuff_id> onattack_buffs;
+        std::vector<mabuff_id> ondodge_buffs;
+        std::vector<mabuff_id> onblock_buffs;
+        std::vector<mabuff_id> ongethit_buffs;
 };
 
-void load_technique(JsonObject &jo);
-void load_martial_art(JsonObject &jo);
+void load_technique( JsonObject &jo );
+void load_martial_art( JsonObject &jo );
 void check_martialarts();
 void clear_techniques_and_martial_arts();
 void finialize_martial_arts();
 
-extern std::map<matype_id, martialart> martialarts;
-extern std::map<mabuff_id, ma_buff> ma_buffs;
-extern std::map<matec_id, ma_technique> ma_techniques;
+std::vector<matype_id> all_martialart_types();
 
 #endif

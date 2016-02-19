@@ -69,7 +69,7 @@ struct weather_animation_t {
 /**
  * Weather animation settings for the given type.
  */
-weather_animation_t get_weather_animation(weather_type type);
+weather_animation_t get_weather_animation( weather_type type );
 
 /**
  * Weather drawing tracking.
@@ -88,34 +88,41 @@ struct weather_printable {
  * Environmental effects and ramifications of weather.
  * Visibility range changes are done elsewhere.
  */
-namespace weather_effect {
-void none       (); //!< Fallback weather.
-void glare      ();
-void wet        ();
-void very_wet   ();
-void thunder    ();
-void lightning  ();
-void light_acid ();
-void acid       ();
-void flurry     (); //!< Currently flurries have no additional effects.
-void snow       (); //!< Currently snow has no additional effects.
-void snowstorm  (); //!< Currently snowstorms have no additional effects.
+namespace weather_effect
+{
+void none();        //!< Fallback weather.
+void glare();
+void wet();
+void very_wet();
+void thunder();
+void lightning();
+void light_acid();
+void acid();
+void flurry();      //!< Currently flurries have no additional effects.
+void snow();        //!< Currently snow has no additional effects.
+void snowstorm();   //!< Currently snowstorms have no additional effects.
 } //namespace weather_effect
 
 struct weather_datum {
     std::string name;       //!< UI name of weather type.
     nc_color color;         //!< UI color of weather type.
     int ranged_penalty;     //!< Penalty to ranged attacks.
-    int sight_penalty;      //!< Penalty to max sight range.
+    float sight_penalty;    //!< Penalty to per-square visibility, applied in transparency map.
     int light_modifier;     //!< Modification to ambient light.
     int sound_attn;         //!< Sound attenuation of a given weather type.
     bool dangerous;         //!< If true, our activity gets interrupted.
-    void (*effect)();       //!< Function pointer for weather effects.
+    void ( *effect )();     //!< Function pointer for weather effects.
 };
 
-std::string const& season_name(int season);
-std::string const& season_name_upper(int season);
-weather_datum const& weather_data(weather_type type);
+struct weather_sum {
+    int rain_amount = 0;
+    int acid_amount = 0;
+    float sunlight = 0.0f;
+};
+
+std::string const &season_name( int season );
+std::string const &season_name_upper( int season );
+weather_datum const &weather_data( weather_type type );
 
 std::string weather_forecast( point const &abs_sm_pos );
 
@@ -125,23 +132,31 @@ std::string weather_forecast( point const &abs_sm_pos );
 // If scale is Fahrenheit: temperature(100) will return "100F"
 //
 // Use the decimals parameter to set number of decimal places returned in string.
-std::string print_temperature(float fahrenheit, int decimals = 0);
-std::string print_windspeed(float windspeed, int decimals = 0);
-std::string print_humidity(float humidity, int decimals = 0);
-std::string print_pressure(float pressure, int decimals = 0);
+std::string print_temperature( double fahrenheit, int decimals = 0 );
+std::string print_humidity( double humidity, int decimals = 0 );
+std::string print_pressure( double pressure, int decimals = 0 );
 
-int get_local_windchill(double temperature, double humidity, double windpower);
-int get_local_humidity(double humidity, weather_type weather, bool sheltered = false);
-int get_local_windpower(double windpower, std::string const &omtername = "no name",
-                        bool sheltered = false);
+int get_local_windchill( double temperature, double humidity, double windpower );
+int get_local_humidity( double humidity, weather_type weather, bool sheltered = false );
+int get_local_windpower( double windpower, std::string const &omtername = "no name",
+                         bool sheltered = false );
+
+weather_sum sum_conditions( const calendar &startturn,
+                            const calendar &endturn,
+                            const tripoint &location );
 
 /**
  * @param it The container item which is to be filled.
  * @param pos The absolute position of the funnel (in the map square system, the one used
  * by the @ref map, but absolute).
  * @param tr The funnel (trap which acts as a funnel).
+ * @param startturn First turn of the retroactive filling.
+ * @param endturn Last turn of the retroactive filling.
  */
-void retroactively_fill_from_funnel( item &it, const trap &tr, const calendar &endturn, const tripoint &pos);
+void retroactively_fill_from_funnel( item &it, const trap &tr, int startturn, int endturn,
+                                     const tripoint &pos );
+
+double funnel_charges_per_turn( double surface_area_mm2, double rain_depth_mm_per_hour );
 
 /**
  * Get the amount of rotting that an item would accumulate between start and end turn at the given
@@ -151,5 +166,10 @@ void retroactively_fill_from_funnel( item &it, const trap &tr, const calendar &e
  * The returned value is in turns (at standard conditions it is endturn-startturn).
  */
 int get_rot_since( int startturn, int endturn, const tripoint &pos );
+
+/**
+ * Is it warm enough to plant seeds?
+ */
+bool warm_enough_to_plant();
 
 #endif

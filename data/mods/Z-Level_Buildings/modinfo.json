@@ -1,0 +1,9 @@
+{
+    "type": "MOD_INFO",
+    "mod-type": "SUPPLEMENTAL",
+    "ident": "Experimental-Z-Level",
+    "name": "Tall Buildings",
+    "description": "Adds basic 3-D buildings. For testing z-levels and those who want to play with z-level buildings in their early state.",
+    "category": "buildings",
+    "path": ""
+}

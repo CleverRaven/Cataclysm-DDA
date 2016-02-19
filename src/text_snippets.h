@@ -15,7 +15,7 @@ class snippet_library
         /**
          * Load snippet from the standalone entry, used by the @ref DynamicDataLoader.
          */
-        void load_snippet(JsonObject &jsobj);
+        void load_snippet( JsonObject &jsobj );
         int assign( const std::string category ) const;
         std::string get( const int index ) const;
         bool has_category( const std::string &category ) const;
@@ -35,7 +35,7 @@ class snippet_library
          * Snippet texts must already be translated!
          * @return the hash of the snippet.
          */
-        int add_snippet(const std::string &category, const std::string &text);
+        int add_snippet( const std::string &category, const std::string &text );
         void add_snippet_from_json( const std::string &category, JsonObject &jo );
         /**
          * Load all snippet definitions in the json array into given category.

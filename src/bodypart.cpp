@@ -1,8 +1,41 @@
 #include "bodypart.h"
 #include "translations.h"
 #include "rng.h"
+#include "debug.h"
+#include <unordered_map>
 
-std::map<std::string, body_part> body_parts;
+namespace {
+    const std::unordered_map<std::string, body_part> &get_body_parts_map()
+    {
+        static const std::unordered_map<std::string, body_part> body_parts = {
+            { "TORSO", bp_torso },
+            { "HEAD", bp_head },
+            { "EYES", bp_eyes },
+            { "MOUTH", bp_mouth },
+            { "ARM_L", bp_arm_l },
+            { "ARM_R", bp_arm_r },
+            { "HAND_L", bp_hand_l },
+            { "HAND_R", bp_hand_r },
+            { "LEG_L", bp_leg_l },
+            { "LEG_R", bp_leg_r },
+            { "FOOT_L", bp_foot_l },
+            { "FOOT_R", bp_foot_r },
+            { "NUM_BP", num_bp },
+        };
+        return body_parts;
+    }
+} // namespace
+
+body_part get_body_part_token( const std::string &id )
+{
+    auto & map = get_body_parts_map();
+    const auto iter = map.find( id );
+    if( iter == map.end() ) {
+        debugmsg( "invalid body part id %s", id.c_str() );
+        return bp_torso;
+    }
+    return iter->second;
+}
 
 std::string body_part_name (body_part bp)
 {
@@ -186,23 +219,6 @@ body_part mutate_to_main_part(body_part bp)
     }
 }
 
-void init_body_parts()
-{
-    body_parts["TORSO"] = bp_torso;
-    body_parts["HEAD"]  = bp_head;
-    body_parts["EYES"]  = bp_eyes;
-    body_parts["MOUTH"] = bp_mouth;
-    body_parts["ARM_L"]  = bp_arm_l;
-    body_parts["ARM_R"]  = bp_arm_r;
-    body_parts["HAND_L"] = bp_hand_l;
-    body_parts["HAND_R"] = bp_hand_r;
-    body_parts["LEG_L"]  = bp_leg_l;
-    body_parts["LEG_R"]  = bp_leg_r;
-    body_parts["FOOT_L"]  = bp_foot_l;
-    body_parts["FOOT_R"]  = bp_foot_r;
-    body_parts["NUM_BP"] = num_bp;
-}
-
 std::string get_body_part_id(body_part bp)
 {
     switch (bp) {
@@ -231,6 +247,7 @@ std::string get_body_part_id(body_part bp)
     case bp_foot_r:
         return "FOOT_R";
     default:
-        throw std::string("bad body part: %d", bp);
+        debugmsg( "bad body part: %d", bp );
+        return "HEAD";
     }
 }

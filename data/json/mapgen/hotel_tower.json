@@ -1,0 +1,954 @@
+[
+    {
+        "type": "item_group",
+        "id": "hotel_coffee_bar",
+        "subtype": "collection",
+        "entries": [
+            { "item": "coffeemaker", "charges": [0, 200], "prob": 60 },
+            { "group": "coffee_display", "prob": 60, "count": [1, 3] }
+        ]
+    },{
+        "type": "item_group",
+        "id": "hotel_luggage",
+        "subtype": "collection",
+        "entries": [
+            { "group": "bags_trip", "prob": 25  },
+            { "group": "dresser", "prob": 25, "count": [1, 4] }
+        ]
+    },{
+        "type":"monstergroup",
+        "name" : "GROUP_HOTEL_POOL",
+        "default" : "mon_zombie_swimmer",
+        "monsters" : [
+            { "monster": "mon_zombie_swimmer", "freq": 100, "cost_multiplier": 2 },
+            { "monster": "mon_zombie_swimmer", "freq": 50, "cost_multiplier": 10, "pack_size": [3, 8] },
+            { "monster": "mon_zombie_child", "freq": 35, "cost_multiplier": 1 }
+        ]
+    },{
+        "type":"monstergroup",
+        "name" : "GROUP_HOTEL_GYM",
+        "default" : "mon_zombie_fat",
+        "monsters" : [
+            { "monster": "mon_zombie_fat", "freq": 30, "cost_multiplier": 2 },
+            { "monster": "mon_zombie_fat", "freq": 15, "cost_multiplier": 8, "pack_size": [2, 6] },
+            { "monster": "mon_zombie_tough", "freq": 5, "cost_multiplier": 3 },
+            { "monster": "mon_zombie_brute", "freq": 2, "cost_multiplier": 15 },
+            { "monster": "mon_zombie_hulk", "freq": 1, "cost_multiplier": 50 }
+        ]
+    },{
+        "type": "mapgen",
+        "om_terrain": ["hotel_tower_1_1"],
+        "method": "json",
+        "weight": 250,
+        "object": {
+            "rows": [
+               "ssssssssssssssssssssssss",
+               "_____,_____,_____,_____s",
+               "_____,_____,_____,_____s",
+               "_____,_____,_V___,_____s",
+               "_____,_____,_____,_____s",
+               "_____,_____,_____,_____s",
+               "_____,_____,_____,_____s",
+               "_______________________s",
+               "_______________________s",
+               "_______________________s",
+               "_______________________s",
+               "_______________________s",
+               "_____,_____,_____,_____s",
+               "_____,_____,_____,_____s",
+               "_____,_V___,_V___,_____s",
+               "_____,_____,_____,_____s",
+               "_____,_____,_____,_____s",
+               "_____,_____,_____,_____s",
+               "ssssssssssssssssssssssss",
+               "ssssssssssssssssssssssss",
+               "_____,_____,_____,_____s",
+               "_____,_____,_____,_____s",
+               "_____,_____,_____,_____s",
+               "_____,_____,_____,_____s"
+            ],
+            "terrain": {
+                "_": "t_pavement",
+                "V": "t_pavement",
+                ",": "t_pavement_y",
+                "s": "t_sidewalk"
+            },
+            "vehicles": {
+                "V": { "vehicle": "suburban_home", "chance": 50, "rotation": 270 }
+            },
+            "place_monsters": [
+                { "monster": "GROUP_ZOMBIE", "chance": 2, "x": [0, 23], "y": [0, 23] }
+            ]
+
+        }
+    },{
+        "type": "mapgen",
+        "om_terrain": ["hotel_tower_1_2"],
+        "method": "json",
+        "weight": 250,
+        "object": {
+            "rows": [
+               "ss________sssss________s",
+               "_,________s'''s________,",
+               "_,________s'''s________,",
+               "_,________s'''s________,",
+               "_,________s'''s________,",
+               "_,________sssss________,",
+               "_,_____________________,",
+               "________________________",
+               "________________________",
+               "________________________",
+               "________________________",
+               "________________________",
+               "_,_____________________,",
+               "_,________sssss________,",
+               "_,________s'''s________,",
+               "_,________s'''s________,",
+               "_,________s'''s________,",
+               "_,________s'''s________,",
+               "ss________s'''s________s",
+               "ss________s'''s________s",
+               "_,________s'''s________,",
+               "_,________s'''s________,",
+               "_,________sssss________,",
+               "_,_____________________,"
+            ],
+            "terrain": {
+                "'": "t_grass",
+                "_": "t_pavement",
+                ",": "t_pavement_y",
+                "s": "t_sidewalk"
+            },
+            "place_monsters": [
+                { "monster": "GROUP_ZOMBIE", "chance": 2, "x": [0, 23], "y": [0, 23] }
+            ]
+
+        }
+    },{
+        "type": "mapgen",
+        "om_terrain": ["hotel_tower_1_3"],
+        "method": "json",
+        "weight": 250,
+        "object": {
+            "fill_ter": "t_pavement",
+            "rows": [
+               " sssssssssssssssssssssss",
+               " s_____,_____,_____,____",
+               " s_____,_____,_____,____",
+               " s_____,_____,_____,____",
+               " s_____,_V___,_____,____",
+               " s_____,_____,_____,____",
+               " s_____,_____,_____,____",
+               " s______________________",
+               " s______________________",
+               " s______________________",
+               " s______________________",
+               " s______________________",
+               " s_____,_____,_____,____",
+               " s_____,_____,_____,____",
+               " s_____,_____,_____,____",
+               " s_____,_____,_____,____",
+               " s_____,_____,___v_,____",
+               " s_____,_____,_____,____",
+               " sssssssssssssssssssssss",
+               " sssssssssssssssssssssss",
+               " s_____,_____,_____,____",
+               " s_____,_____,_____,____",
+               " s_____,_____,_____,____",
+               " s_____,_____,_____,____"
+            ],
+            "terrain": {
+                " ": ["t_grass", "t_grass", "t_grass", "t_dirt"],
+                "_": "t_pavement",
+                ",": "t_pavement_y",
+                "s": "t_sidewalk"
+            },
+            "vehicles": {
+                "V": { "vehicle": "suburban_home", "chance": 50, "rotation": 270 },
+                "v": { "vehicle": "suburban_home", "chance": 50, "rotation": 90 }
+            },
+            "place_monsters": [
+                { "monster": "GROUP_ZOMBIE", "chance": 2, "x": [0, 23], "y": [0, 23] }
+            ]
+
+        }
+    },{
+        "type": "mapgen",
+        "om_terrain": ["hotel_tower_1_4"],
+        "method": "json",
+        "weight": 250,
+        "object": {
+            "fill_ter": "t_floor",
+            "rows": [
+               "_____,_____,_____,_____s",
+               "_____,_____,_____,_____s",
+               "_______________________s",
+               "_______________________s",
+               "_______________________s",
+               "_______________________s",
+               "_______________________s",
+               "_______________________s",
+               "_____,_____,_____,_____s",
+               "_____,_V___,_____,_____s",
+               "_____,_____,_____,_____s",
+               "_____,_____,_____,_____s",
+               "_____,_____,_____,___v_s",
+               "_____,_____,_____,_____s",
+               "ssssssssssssssssssssssss",
+               "ssssssssssssssssssssssss",
+               "'''''''''''''''''''''''s",
+               "'''''''''''''''''''''''s",
+               "''''''T'''''T''''''''''s",
+               "'''''''''''''''''''''''s",
+               "|-www-|-www-|-www-|''''s",
+               "|d....|d..L.|d....|''''s",
+               "|BB..o|BB..c|BB..c|''''s",
+               "|BB..c|BB..o|BB..o|''''s"
+            ],
+            "terrain": {
+                "'": "t_grass",
+                "_": "t_pavement",
+                "v": "t_pavement",
+                "V": "t_pavement",
+                ",": "t_pavement_y",
+                "-": "t_wall",
+                "|": "t_wall",
+                "w": "t_window_domestic",
+                "T": "t_tree_young",
+                "s": "t_sidewalk"
+            },
+            "furniture": {
+                "B": "f_bed",
+                "c": "f_counter",
+                "o": "f_counter",
+                "d": "f_dresser"
+            },
+            "items": {
+                "L": { "item": "hotel_luggage", "chance": 100 },
+                "o": { "item": "hotel_coffee_bar", "chance": 100 },
+                "c": { "item": "magazines", "chance": 15 },
+                "B": { "item": "bed", "chance": 50 }
+            },
+            "item": {
+                "d": { "item": "holybook_bible3", "chance": 2 }
+            },
+            "vehicles": {
+                "V": { "vehicle": "suburban_home", "chance": 60, "rotation": 270 },
+                "v": { "vehicle": "suburban_home", "chance": 60, "rotation": 90 }
+            },
+            "place_monsters": [
+                { "monster": "GROUP_ZOMBIE", "x": [1, 17], "y": [0, 23] }
+            ]
+
+        }
+    },{
+        "type": "mapgen",
+        "om_terrain": ["hotel_tower_1_5"],
+        "method": "json",
+        "weight": 250,
+        "object": {
+            "fill_ter": "t_floor",
+            "rows": [
+               "_,_____________________,",
+               "_,_____________________,",
+               "________________________",
+               "________________________",
+               "________________________",
+               "________________________",
+               "________________________",
+               "__sssssssssssssssssssss_",
+               "_,sssssCsssssssssCsssss,",
+               "_,sssssssssssssssssssss,",
+               "_,sss|HHHGGHHHGGHHH|sss,",
+               "_,sssV............^|sss,",
+               "_,sssV^............Vsss,",
+               "_,sss|cccc.........Vsss,",
+               "sssss|LL.c.........Vssss",
+               "sssss|...x......hh.|ssss",
+               "'''''|h..c......tt.V''''",
+               "'''''|D.r|......tt.V''''",
+               "''T''|-+-|......hh.V''T'",
+               "'''''|^............|''''",
+               "|-www||...........||www-",
+               "|....d|...........|d..ht",
+               "|c..BB|h.........h|BB..h",
+               "|c.LBB|t.........t|BB..c"
+            ],
+            "terrain": {
+                "'": "t_grass",
+                "T": "t_tree_young",
+                "V": "t_wall_glass",
+                "H": "t_wall_glass",
+                "G": "t_door_glass_c",
+                "_": "t_pavement",
+                ",": "t_pavement_y",
+                "C": "t_column",
+                "x": "t_console_broken",
+                "-": "t_wall",
+                "|": "t_wall",
+                "+": ["t_door_c", "t_door_c", "t_door_o"],
+                "w": "t_window_domestic",
+                "s": "t_sidewalk"
+            },
+            "furniture": {
+                "r": "f_rack",
+                "D": "f_desk",
+                "B": "f_bed",
+                "^": "f_indoor_plant",
+                "t": "f_table",
+                "h": "f_chair",
+                "c": "f_counter",
+                "o": "f_counter",
+                "d": "f_dresser"
+            },
+            "items": {
+                "L": { "item": "hotel_luggage", "chance": 100 },
+                "c": { "item": "magazines", "chance": 15 },
+                "B": { "item": "bed", "chance": 50 }
+            },
+            "item": {
+                "d": { "item": "holybook_bible3", "chance": 2 }
+            },
+            "place_vehicles": [
+                { "vehicle": "luggage_cart", "x": [10, 15], "y": [11, 19],
+                  "chance": 100, "repeat": [1, 3] }
+            ],
+            "place_monsters": [
+                { "monster": "GROUP_ZOMBIE", "x": [0, 23], "y": [7, 23], "repeat": 2 }
+            ]
+
+        }
+    },{
+        "type": "mapgen",
+        "om_terrain": ["hotel_tower_1_5"],
+        "method": "json",
+        "weight": 250,
+        "object": {
+            "fill_ter": "t_floor",
+            "rows": [
+               "________________________",
+               "________________________",
+               "________________________",
+               "________________________",
+               "________________________",
+               "__,,,,,,,,,,,,,,,,,,,,,_",
+               "___C_____C_____C_____C__",
+               "________________________",
+               "________________________",
+               "________________________",
+               "________________________",
+               "________________________",
+               "________________________",
+               "__'''''''''''''''''''''_",
+               "ssssssssssssssssssssssss",
+               "sssss|---HGGHGGH---|ssss",
+               "'''''|.............|''''",
+               "'''''V.............V''''",
+               "''T''V....ccccc....V''T'",
+               "'''''|^...cDxDc...^|''''",
+               "|-www||......hc...||www-",
+               "|....d|...ccccc...|d..ht",
+               "|c..BB|...........|BB..h",
+               "|c.LBB|h.........h|BB..c"
+            ],
+            "terrain": {
+                "'": "t_grass",
+                "T": "t_tree_young",
+                "V": "t_wall_glass",
+                "H": "t_wall_glass",
+                "G": "t_door_glass_c",
+                "_": "t_pavement",
+                ",": "t_pavement_y",
+                "C": "t_column",
+                "x": "t_console_broken",
+                "-": "t_wall",
+                "|": "t_wall",
+                "+": ["t_door_c", "t_door_c", "t_door_o"],
+                "w": "t_window_domestic",
+                "s": "t_sidewalk",
+                "~": "t_thconc_floor"
+            },
+            "furniture": {
+                "r": "f_rack",
+                "D": "f_desk",
+                "B": "f_bed",
+                "^": "f_indoor_plant",
+                "t": "f_table",
+                "h": "f_chair",
+                "c": "f_counter",
+                "o": "f_counter",
+                "d": "f_dresser"
+            },
+            "items": {
+                "L": { "item": "hotel_luggage", "chance": 100 },
+                "c": { "item": "magazines", "chance": 15 },
+                "B": { "item": "bed", "chance": 50 }
+            },
+            "item": {
+                "d": { "item": "holybook_bible3", "chance": 2 }
+            },
+            "place_vehicles": [
+                { "vehicle": "luggage_cart", "x": [3, 21], "y": [11, 17],
+                  "chance": 100, "repeat": [1, 3] }
+            ],
+            "place_monsters": [
+                { "monster": "GROUP_ZOMBIE", "x": [0, 23], "y": [7, 23], "repeat": 2 }
+            ]
+
+        }
+    },{
+        "type": "mapgen",
+        "om_terrain": ["hotel_tower_1_5"],
+        "method": "json",
+        "weight": 250,
+        "object": {
+            "fill_ter": "t_floor",
+            "rows": [
+               "_,_____________________,",
+               "_,_____________________,",
+               "________________________",
+               "________________________",
+               "________________________",
+               "________________________",
+               "________________________",
+               "_____sssssssssssssss____",
+               "_,_sssssssssssssssssss_,",
+               "_,sssssssssssssssssssss,",
+               "_,ssssss-HHGGGHH-ssssss,",
+               "_,sssss||^.....^||sssss,",
+               "_,ssss||^......Yc||ssss,",
+               "_,sss||^.......YcD||sss,",
+               "sssssV^........YcxDVssss",
+               "sssssV..........ch.Vssss",
+               "'''''V.j.t......c..V''''",
+               "'''''V.j.t......ch.V''''",
+               "''T''V.j........c..V''T'",
+               "'''''|.jjj......c.L|''''",
+               "|-www||.........-+||www-",
+               "|....d|...........|d..ht",
+               "|c..BB|h.........h|BB..h",
+               "|c.LBB|t.........t|BB..c"
+            ],
+            "terrain": {
+                "'": "t_grass",
+                "T": "t_tree_young",
+                "V": "t_wall_glass",
+                "H": "t_wall_glass",
+                "G": "t_door_glass_c",
+                "_": "t_pavement",
+                ",": "t_pavement_y",
+                "C": "t_column",
+                "x": "t_console_broken",
+                "-": "t_wall",
+                "|": "t_wall",
+                "+": ["t_door_c", "t_door_c", "t_door_o"],
+                "w": "t_window_domestic",
+                "s": "t_sidewalk"
+            },
+            "furniture": {
+                "r": "f_rack",
+                "D": "f_desk",
+                "B": "f_bed",
+                "^": "f_indoor_plant",
+                "t": "f_table",
+                "h": "f_chair",
+                "c": "f_counter",
+                "o": "f_counter",
+                "d": "f_dresser",
+                "j": "f_sofa"
+            },
+            "items": {
+                "L": { "item": "hotel_luggage", "chance": 100 },
+                "t": { "item": "magazines", "chance": 25 },
+                "B": { "item": "bed", "chance": 50 }
+            },
+            "item": {
+                "d": { "item": "holybook_bible3", "chance": 2 }
+            },
+            "vehicles": {
+                "Y": { "vehicle": "luggage_cart", "chance": 85 }
+            },
+            "place_monsters": [
+                { "monster": "GROUP_ZOMBIE", "x": [0, 23], "y": [7, 23], "repeat": 2 }
+            ]
+
+        }
+    },{
+        "type": "mapgen",
+        "om_terrain": ["hotel_tower_1_6"],
+        "method": "json",
+        "weight": 250,
+        "object": {
+            "fill_ter": "t_floor",
+            "rows": [
+               " s_____,_____,_____,____",
+               " s_____,_____,_____,____",
+               " s______________________",
+               " s______________________",
+               " s______________________",
+               " s______________________",
+               " s______________________",
+               " s______________________",
+               " s_____,_____,_____,____",
+               " s_____,_____,_____,____",
+               " s_____,_____,_____,____",
+               " s_____,_____,_____,____",
+               " s_____,___v_,_____,____",
+               " s_____,_____,_____,____",
+               " sssssssssssssssssssssss",
+               " sssssssssssssssssssssss",
+               " s''''''''''''''''''''''",
+               " s''''''''''''''''''''''",
+               " s''''''''''T'''''T'''''",
+               " s''''''''''''''''''''''",
+               " s''''|-www-|-www-|-www-",
+               " s''''|...Ld|....d|....d",
+               " s''''|c..BB|o..BB|c.LBB",
+               " s''''|c..BB|c..BB|o..BB"
+            ],
+            "terrain": {
+                " ": ["t_grass", "t_grass", "t_grass", "t_dirt"],
+                "'": "t_grass",
+                "_": "t_pavement",
+                "v": "t_pavement",
+                ",": "t_pavement_y",
+                "-": "t_wall",
+                "|": "t_wall",
+                "w": "t_window_domestic",
+                "T": "t_tree_young",
+                "s": "t_sidewalk"
+            },
+            "furniture": {
+                "B": "f_bed",
+                "c": "f_counter",
+                "o": "f_counter",
+                "d": "f_dresser"
+            },
+            "items": {
+                "L": { "item": "hotel_luggage", "chance": 100 },
+                "o": { "item": "hotel_coffee_bar", "chance": 100 },
+                "c": { "item": "magazines", "chance": 15 },
+                "B": { "item": "bed", "chance": 50 }
+            },
+            "item": {
+                "d": { "item": "holybook_bible3", "chance": 2 }
+            },
+            "vehicles": {
+                "v": { "vehicle": "suburban_home", "chance": 60, "rotation": 90 }
+            },
+            "place_monsters": [
+                { "monster": "GROUP_ZOMBIE", "x": [7, 23], "y": [0, 23] }
+            ]
+
+        }
+    },{
+        "type": "mapgen",
+        "om_terrain": ["hotel_tower_1_7"],
+        "method": "json",
+        "weight": 250,
+        "object": {
+            "fill_ter": "t_floor",
+            "rows": [
+               "|....c|....c|....c|''''s",
+               "|h...L|h....|h....|''''s",
+               "|th...|th...|th...|''''s",
+               "|--|..|--|..|--|..|''''s",
+               "|S.+..|S.+..|S.+..|''''s",
+               "|T.|..|T.|..|T.|..|''''s",
+               "|bb|..|bb|..|bb|..|--|'s",
+               "|--|D-|--|D-|--|D-|<.|'s",
+               "..................|..|ss",
+               "..................+..=ss",
+               "..................|..|ss",
+               "|--|D-|--|D-|--|D-|..|  ",
+               "|bb|..|bb|..|bb|..|--|  ",
+               "|T.|..|T.|..|T.|..|     ",
+               "|S.+..|S.+..|S.+..|     ",
+               "|--|..|--|..|--|..|     ",
+               "|th...|BB...|th...|     ",
+               "|h....|BB..c|h....|     ",
+               "|....o|dL..c|....o|     ",
+               "|BB..c|BB..o|BB..c|     ",
+               "|BB..c|BB..h|BB..c|     ",
+               "|dL...|d..ht|d....|     ",
+               "|-www-|-www-|-www-|     ",
+               "                        "
+            ],
+            "terrain": {
+                " ": ["t_grass", "t_grass", "t_grass", "t_dirt"],
+                "'": "t_grass",
+                "D": "t_door_locked_interior",
+                "<": "t_stairs_down",
+                "-": "t_wall",
+                "|": "t_wall",
+                "+": ["t_door_c", "t_door_c", "t_door_o"],
+                "=": "t_door_locked",
+                "w": "t_window_domestic",
+                "s": "t_sidewalk"
+            },
+            "furniture": {
+                "b": "f_bathtub",
+                "B": "f_bed",
+                "t": "f_table",
+                "T": "f_toilet",
+                "S": "f_sink",
+                "h": "f_chair",
+                "c": "f_counter",
+                "o": "f_counter",
+                "d": "f_dresser"
+            },
+            "toilets": {
+                "T": { }
+            },
+            "items": {
+                "L": { "item": "hotel_luggage", "chance": 100 },
+                "o": { "item": "hotel_coffee_bar", "chance": 100 },
+                "c": { "item": "magazines", "chance": 15 },
+                "B": { "item": "bed", "chance": 50 }
+            },
+            "item": {
+                "d": { "item": "holybook_bible3", "chance": 2 },
+                "S": { "item": "towel", "chance": 3, "amount": [1, 2] }
+            },
+            "place_monsters": [
+                { "monster": "GROUP_ZOMBIE", "x": [1, 17], "y": [0, 22], "repeat": 2 }
+            ]
+
+        }
+    },{
+        "type": "mapgen",
+        "om_terrain": ["hotel_tower_1_8"],
+        "method": "json",
+        "weight": 250,
+        "object": {
+            "fill_ter": "t_floor",
+            "rows": [
+               "|c....|t.........t|d...c",
+               "|....h|h.........h|BB..c",
+               "|...ht|^.........^|BB...",
+               "|..|--|---|...|---|--|..",
+               "|..+.S|EEE=...|xEE|S.+..",
+               "|..|.T|EEE=...=EEE|T.|..",
+               "|..|bb|EEx|...=EEE|bb|..",
+               "|-D|--|---|...|---|--|D-",
+               "........................",
+               "........................",
+               "........................",
+               "|-D|--|-D|--|--|D-|--|D-",
+               "|..|bb|..|bb|bb|..|bb|..",
+               "|..|.T|..|.T|T.|..|T.|..",
+               "|..+.S|..+.S|S.+..|S.+..",
+               "|..|--|..|--|--|..|--|..",
+               "|...ht|...ht|BB..L|th...",
+               "|....h|....h|BB..c|h....",
+               "|c...L|o....|d...c|....c",
+               "|c..BB|c..BB|BB..o|BB..o",
+               "|o..BB|c..BB|BB..h|BB..c",
+               "|....d|....d|d..ht|d....",
+               "|-www-|-www-|-www-|-www-",
+               "                        "
+            ],
+            "terrain": {
+                "E": "t_elevator",
+                "x": "t_elevator_control_off",
+                "-": "t_wall",
+                "|": "t_wall",
+                "+": ["t_door_c", "t_door_c", "t_door_o"],
+                "=": "t_door_metal_c",
+                "D": "t_door_locked_interior",
+                "w": "t_window_domestic"
+            },
+            "furniture": {
+                "b": "f_bathtub",
+                "B": "f_bed",
+                "^": "f_indoor_plant",
+                "t": "f_table",
+                "T": "f_toilet",
+                "S": "f_sink",
+                "h": "f_chair",
+                "c": "f_counter",
+                "o": "f_counter",
+                "d": "f_dresser"
+            },
+            "toilets": {
+                "T": { }
+            },
+            "items": {
+                "L": { "item": "hotel_luggage", "chance": 100 },
+                "o": { "item": "hotel_coffee_bar", "chance": 100 },
+                "c": { "item": "magazines", "chance": 15 },
+                "B": { "item": "bed", "chance": 50 }
+            },
+            "item": {
+                "d": { "item": "holybook_bible3", "chance": 2 },
+                "S": { "item": "towel", "chance": 3, "amount": [1, 2] }
+            },
+            "place_monsters": [
+                { "monster": "GROUP_ZOMBIE", "x": [0, 23], "y": [23, 3], "repeat": 2 }
+            ]
+
+        }
+    },{
+        "type": "mapgen",
+        "om_terrain": ["hotel_tower_1_9"],
+        "method": "json",
+        "weight": 250,
+        "object": {
+            "fill_ter": "t_floor",
+            "rows": [
+               " s''''|o....|c....|c....",
+               " s''''|....h|...Lh|....h",
+               " s''''|...ht|...ht|...ht",
+               " s''''|..|--|..|--|..|--",
+               " s''''|..+.S|..+.S|..+.S",
+               " s''''|..|.T|..|.T|..|.T",
+               " s'|--|..|bb|..|bb|..|bb",
+               " s'|.<|-D|--|-D|--|-D|--",
+               " ss|..|.................",
+               " ss=..+.................",
+               " ss|..|^................",
+               "   |..|-D|--|-D|--|-D|--",
+               "   |--|..|bb|..|bb|..|bb",
+               "      |..|.T|..|.T|..|.T",
+               "      |..+.S|..+.S|..+.S",
+               "      |..|--|..|--|..|--",
+               "      |..Lht|..LBB|...ht",
+               "      |....h|o..BB|....h",
+               "      |c....|c...d|c....",
+               "      |o..BB|c..BB|c..BB",
+               "      |c..BB|h..BB|o..BB",
+               "      |....d|th..d|....d",
+               "      |-www-|-www-|-www-",
+               "                        "
+            ],
+            "terrain": {
+                " ": ["t_grass", "t_grass", "t_grass", "t_dirt"],
+                "'": "t_grass",
+                "D": "t_door_locked_interior",
+                "<": "t_stairs_down",
+                "-": "t_wall",
+                "|": "t_wall",
+                "+": ["t_door_c", "t_door_c", "t_door_o"],
+                "=": "t_door_locked",
+                "w": "t_window_domestic",
+                "s": "t_sidewalk"
+            },
+            "furniture": {
+                "b": "f_bathtub",
+                "B": "f_bed",
+                "^": "f_indoor_plant",
+                "t": "f_table",
+                "T": "f_toilet",
+                "S": "f_sink",
+                "h": "f_chair",
+                "c": "f_counter",
+                "o": "f_counter",
+                "d": "f_dresser"
+            },
+            "toilets": {
+                "T": { }
+            },
+            "items": {
+                "L": { "item": "hotel_luggage", "chance": 100 },
+                "o": { "item": "hotel_coffee_bar", "chance": 100 },
+                "c": { "item": "magazines", "chance": 15 },
+                "B": { "item": "bed", "chance": 50 }
+            },
+            "item": {
+                "d": { "item": "holybook_bible3", "chance": 2 },
+                "S": { "item": "towel", "chance": 3, "amount": [1, 2] }
+            },
+            "place_monsters": [
+                { "monster": "GROUP_ZOMBIE", "x": [7, 23], "y": [0, 22], "repeat": 2 }
+            ]
+
+        }
+    },{
+        "type": "mapgen",
+        "om_terrain": ["hotel_tower_b_1"],
+        "method": "json",
+        "weight": 250,
+        "object": {
+            "fill_ter": "t_floor",
+            "rows": [
+               "|#######################",
+               "|#######################",
+               "|#######################",
+               "|#######################",
+               "|#######################",
+               "|#######################",
+               "|#################|--|##",
+               "|-----------------|..|##",
+               "tth..............^|..|##",
+               "..................+..|##",
+               "..................|..|##",
+               "...|-HHHHHHHH-----|<.|##",
+               "...|^.............|--|##",
+               "...V..E..E..E..E..|#####",
+               "...V..............|#####",
+               "...G..............|#####",
+               "...V..............|#####",
+               "...V..E.........E.|#####",
+               "...V..............|#####",
+               "...V..E...........|#####",
+               "...|..............|#####",
+               "th^|...ee..E......|#####",
+               "---|--------------|#####",
+               "########################"
+            ],
+            "terrain": {
+                "<": "t_stairs_up",
+                "H": "t_wall_glass",
+                "V": "t_wall_glass",
+                "G": "t_door_glass_c",
+                "-": "t_wall",
+                "|": "t_wall",
+                "#": "t_rock",
+                "+": "t_door_c"
+            },
+            "furniture": {
+                "E": "f_exercise",
+                "^": "f_indoor_plant",
+                "t": "f_table",
+                "e": "f_fridge",
+                "h": "f_chair"
+            },
+            "place_monsters": [
+                { "monster": "GROUP_HOTEL_GYM", "x": [4, 17] , "y": [12, 21], "repeat": 2 }
+            ]
+        }
+    },{
+        "type": "mapgen",
+        "om_terrain": ["hotel_tower_b_2"],
+        "method": "json",
+        "weight": 250,
+        "object": {
+            "fill_ter": "t_floor",
+            "rows": [
+               "|-----|-----------|-----",
+               "|T+...|.rrr...l..l|...+T",
+               "|-|..c|..........l|c..|-",
+               "|T+..S|---|-+-|---|S..+T",
+               "|-|..c|EEE+..^|xEE|c..|-",
+               "|.+..S|EEE+...+EEE|S..+.",
+               "|T|..c|EEx|...+EEE|c..|T",
+               "|---+-|---|HGH|---|-+---",
+               "h......................h",
+               "........................",
+               "........................",
+               "........................",
+               "sssssssssssssssssssssss.",
+               "swwwwwwwwwwwwWWWWWWWWWs.",
+               "swwwwwwwwwwwwWWWWWWWWWs.",
+               "swwwwwwwwwwwwWWWWWWWWWs.",
+               "swwwwwwwwwwwwWWWWWWWWWs.",
+               "swwwwwwwwwwwwWWWWWWWWWs.",
+               "swwwwwwwwwwwwWWWWWWWWWs.",
+               "sssssssssssssssssssssss.",
+               "........................",
+               ".......^rrr^..........ht",
+               "------------------------",
+               "########################"
+            ],
+            "terrain": {
+                "E": "t_elevator",
+                "W": "t_water_dp",
+                "w": "t_water_sh",
+                "H": "t_wall_glass",
+                "G": "t_door_glass_c",
+                "x": "t_elevator_control_off",
+                "-": "t_wall",
+                "|": "t_wall",
+                "#": "t_rock",
+                "+": "t_door_c",
+                "s": "t_sidewalk"
+            },
+            "furniture": {
+                "r": "f_rack",
+                "^": "f_indoor_plant",
+                "t": "f_table",
+                "T": "f_toilet",
+                "S": "f_sink",
+                "h": "f_chair",
+                "c": "f_counter",
+                "l": "f_locker"
+            },
+            "toilets": {
+                "T": { }
+            },
+            "items": {
+                "l": { "item": "cleaning", "chance": 60 }
+            },
+            "item": {
+                "r": { "item": "towel", "chance": 2, "amount": [1, 2] }
+            },
+            "place_monsters": [
+                { "monster": "GROUP_HOTEL_POOL", "x": [0, 22], "y": [12, 19], "repeat": 2 }
+            ]
+
+        }
+    },{
+        "type": "mapgen",
+        "om_terrain": ["hotel_tower_b_3"],
+        "method": "json",
+        "weight": 250,
+        "object": {
+            "fill_ter": "t_floor",
+            "rows": [
+               "########################",
+               "########################",
+               "########################",
+               "########################",
+               "########################",
+               "########################",
+               "###|--|#################",
+               "###|..|-----------------",
+               "###|..|^.............htt",
+               "###|..+.................",
+               "###|..|.................",
+               "###|.<|-------++---|....",
+               "###|--|cWWWW......r|....",
+               "######|c..........r|....",
+               "######|S..........r|....",
+               "######|cDDDDrr....r|....",
+               "######|--------=---|....",
+               "######|............|....",
+               "######|...$........|....",
+               "######|...$........|....",
+               "######|$$$$$PP$$$$.|....",
+               "######|............|^...",
+               "######|------------|----",
+               "########################"
+            ],
+            "terrain": {
+                "P": "t_sewage_pump",
+                "$": "t_sewage_pipe",
+                "<": "t_stairs_up",
+                "-": "t_wall",
+                "|": "t_wall",
+                "#": "t_rock",
+                "+": "t_door_c",
+                "=": "t_door_locked_interior"
+            },
+            "furniture": {
+                "r": "f_rack",
+                "W": "f_washer",
+                "D": "f_dryer",
+                "^": "f_indoor_plant",
+                "t": "f_table",
+                "S": "f_sink",
+                "h": "f_chair",
+                "c": "f_counter"
+            },
+            "items": {
+                "r": { "item": "home_hw", "chance": 60 },
+                "W": { "item": "dresser", "chance": 25 },
+                "D": { "item": "dresser", "chance": 25 }
+            },
+            "item": {
+                "W": { "item": "blanket", "chance": 12 },
+                "D": { "item": "blanket", "chance": 12 }
+            }
+        }
+    }
+]

@@ -98,10 +98,7 @@ void load_object(JsonObject &jo)
     std::string type = jo.get_string("type");
     if ( ! jo.has_string("type") )
     {
-        std::stringstream err;
-        err << jo.line_number() << ": ";
-        err << "JSON object has no type";
-        throw err.str();
+        jo.throw_error( "JSON object has no type" );
     }
 }
 void load_all_from_json(JsonIn &jsin)
@@ -120,10 +117,9 @@ void load_all_from_json(JsonIn &jsin)
         jsin.eat_whitespace();
         if (jsin.good()) {
             std::stringstream err;
-            err << jsin.line_number() << ": ";
             err << "expected single-object file but found '";
             err << jsin.peek() << "'";
-            throw err.str();
+            jsin.error( err.str() );
         }
     } else if (ch == '[') {
         jsin.start_array();
@@ -133,10 +129,9 @@ void load_all_from_json(JsonIn &jsin)
             ch = jsin.peek();
             if (ch != '{') {
                 std::stringstream err;
-                err << jsin.line_number() << ": ";
                 err << "expected array of objects but found '";
                 err << ch << "', not '{'";
-                throw err.str();
+                jsin.error( err.str() );
             }
             JsonObject jo = jsin.get_object();
             load_object(jo);
@@ -145,9 +140,8 @@ void load_all_from_json(JsonIn &jsin)
     } else {
         // not an object or an array?
         std::stringstream err;
-        err << jsin.line_number() << ": ";
         err << "expected object or array, but found '" << ch << "'";
-        throw err.str();
+        jsin.error( err.str() );
     }
 }
 
@@ -173,8 +167,8 @@ void load_json_dir(std::string const &dirname)
         try {
             JsonIn jsin(iss);
             load_all_from_json(jsin);
-        } catch (std::string e) {
-            throw *(it) + ": " + e;
+        } catch( const JsonError &err ) {
+            throw std::runtime_error( *(it) + ": " + err.what() );
         }
     }
 }
@@ -184,11 +178,9 @@ int main(int, char **)
     setlocale(LC_ALL, "");
     try {
        load_json_dir("data/json");
-     } catch(std::string &error_message) {
-     if(!error_message.empty()) {
-        printf("%s\n", error_message.c_str() );
-     }
-     return 1;
-   }
+    } catch( const std::exception &err ) {
+        printf( "Error: %s\n", err.what() );
+        return 1;
+    }
    return 0;
 }

@@ -1,0 +1,36 @@
+ [
+   {
+     "id" : "hk46mag",
+     "type" : "MAGAZINE",
+     "name" : "H&K 4.6mm magazine",
+     "weight" : 120,
+     "volume" : 1,
+     "price" : 4700,
+     "description" : "A standard capacity 20-round magazine for use with H&K's proprietary 4.6x30mm round.",
+     "material" : "steel",
+     "symbol" : "#",
+     "color" : "ltgray",
+     "ammo_type" : "46",
+     "capacity" : 20,
+     "reliability" : 9,
+     "reload_time" : 100,
+     "flags" : [ "MAG_COMPACT" ]
+  },
+  {
+     "id" : "hk46bigmag",
+     "type" : "MAGAZINE",
+     "name" : "H&K 4.6mm extended magazine",
+     "weight" : 240,
+     "volume" : 2,
+     "price" : 6300,
+     "description" : "An extended 40-round magazine for use with H&K's proprietary 4.6x30mm round.",
+     "material" : "steel",
+     "symbol" : "#",
+     "color" : "ltgray",
+     "ammo_type" : "46",
+     "capacity" : 40,
+     "reliability" : 8,
+     "reload_time" : 100,
+     "flags" : [ "MAG_COMPACT" ]
+  }
+ ]

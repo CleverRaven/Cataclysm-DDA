@@ -3,11 +3,14 @@
 
 #include "dependency_tree.h"
 #include "json.h"
+#include "translations.h"
 
 #include "cursesdef.h"
 #include <string>
 #include <vector>
 #include <map>
+
+const std::vector<std::pair<std::string, std::string> > &get_mod_list_categories();
 
 struct WORLD;
 typedef WORLD *WORLDPTR;
@@ -15,6 +18,10 @@ typedef WORLD *WORLDPTR;
 class mod_ui;
 class game;
 class worldfactory;
+
+const std::vector<std::pair<std::string, std::string> > &get_mod_list_categories();
+const std::vector<std::pair<std::string, std::string> > &get_mod_list_tabs();
+const std::map<std::string, std::string> &get_mod_list_cat_tab();
 
 enum mod_type {
     MT_CORE,
@@ -29,22 +36,25 @@ struct MOD_INFORMATION {
     mod_type _type;
     std::vector<std::string> dependencies;
     bool obsolete;
+    /** Mod require Lua support **/
+    bool need_lua;
 
-    MOD_INFORMATION() : _type(MT_SUPPLEMENTAL), obsolete(false)
-    {
-    }
+    std::pair<int, std::string> category;
 
-    std::string type()
-    {
-        switch (_type) {
-        case MT_CORE:
-            return "CORE";
-            break;
-        case MT_SUPPLEMENTAL:
-            return "SUPPLEMENTAL";
-            break;
+    MOD_INFORMATION() : _type( MT_SUPPLEMENTAL ), obsolete( false ), category( {
+        -1, ""
+    } ) {};
+
+    std::string type() {
+        switch( _type ) {
+            case MT_CORE:
+                return "CORE";
+                break;
+            case MT_SUPPLEMENTAL:
+                return "SUPPLEMENTAL";
+                break;
         }
-    }
+    };
 };
 
 class mod_manager
@@ -72,7 +82,7 @@ class mod_manager
         /**
          * @returns true if the mod manager knows a mod with this ident.
          */
-        bool has_mod(const std::string &ident) const;
+        bool has_mod( const std::string &ident ) const;
         /**
          * Copy the json files of the listed mods into the
          * given folder (output_base_path)
@@ -83,20 +93,20 @@ class mod_manager
          * puts the files there. The original folder structure is
          * retained.
          */
-        bool copy_mod_contents(const t_mod_list &mods_to_copy, const std::string &output_base_path);
+        bool copy_mod_contents( const t_mod_list &mods_to_copy, const std::string &output_base_path );
 
         /**
          * Save list of mods that are active in that world to
          * the world folder.
          */
-        void save_mods_list(WORLDPTR world) const;
+        void save_mods_list( WORLDPTR world ) const;
         /**
          * Load list of mods that should be active in that
          * world.
          */
-        void load_mods_list(WORLDPTR world) const;
+        void load_mods_list( WORLDPTR world ) const;
         const t_mod_list &get_default_mods() const;
-        bool set_default_mods(const t_mod_list &mods);
+        bool set_default_mods( const t_mod_list &mods );
     protected:
     private:
         // Make this accessible for now
@@ -107,29 +117,30 @@ class mod_manager
          * @returns path of a file in the world folder that contains
          * the list of mods that should be loaded for this world.
          */
-        static std::string get_mods_list_file(const WORLDPTR world);
+        static std::string get_mods_list_file( const WORLDPTR world );
         /**
          * Load all modinfo.json files (recursively) from the
          * given root.
          * @param path The root folder from which the modinfo
          * files are searched.
          */
-        void load_mods_from(std::string path);
+        void load_mods_from( std::string path );
         /**
          * Load all mod information from a json file.
          * (@see load_modfile)
          */
-        void load_mod_info(std::string info_file_path);
+        void load_mod_info( std::string info_file_path );
         /**
          * Load mod info from a json object. Put the loaded modinfo
          * directly into @ref mod_map.
          * @throws std::string on all kind of errors. The string
          * contains the error message.
          */
-        void load_modfile(JsonObject &jo, const std::string &main_path);
+        void load_modfile( JsonObject &jo, const std::string &main_path );
 
-        bool set_default_mods(const std::string &ident);
-        void remove_mod(const std::string &ident);
+        bool set_default_mods( const std::string &ident );
+        void remove_mod( const std::string &ident );
+        void remove_invalid_mods( std::vector<std::string> &mods ) const;
 
         dependency_tree tree;
 
@@ -145,21 +156,21 @@ class mod_manager
 class mod_ui
 {
     public:
-        mod_ui(mod_manager *modman);
+        mod_ui( mod_manager *modman );
         virtual ~mod_ui();
 
         std::vector<std::string> usable_mods;
-        std::string get_information(MOD_INFORMATION *mod);
+        std::string get_information( MOD_INFORMATION *mod );
         mod_manager *active_manager;
         dependency_tree *mm_tree;
 
-        void try_add(const std::string &mod_to_add,
-                     std::vector<std::string> &active_list);
-        void try_rem(int selection, std::vector<std::string> &active_list);
-        void try_shift(char direction, int &selection, std::vector<std::string> &active_list);
+        void try_add( const std::string &mod_to_add,
+                      std::vector<std::string> &active_list );
+        void try_rem( int selection, std::vector<std::string> &active_list );
+        void try_shift( char direction, int &selection, std::vector<std::string> &active_list );
 
-        bool can_shift_up(int selection, std::vector<std::string> active_list);
-        bool can_shift_down(int selection, std::vector<std::string> active_list);
+        bool can_shift_up( int selection, std::vector<std::string> active_list );
+        bool can_shift_down( int selection, std::vector<std::string> active_list );
 
     private:
         void set_usable_mods();

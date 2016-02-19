@@ -93,7 +93,7 @@
             ],
             "comment": "randomly picked from a group ---v",
             "place_vehicles": [
-                { "vehicle": "car", "x": 17, "y": 6, "rotation": 90, "fuel": 70, "status": 0, "chance": 15  }
+                { "vehicle": "suburban_home", "x": 17, "y": 6, "rotation": 90, "fuel": 70, "status": 0, "chance": 15  }
             ],
             "place_items": [
                 { "item": "bed", "chance": 80,  "x": [13,14 ], "y": [20,21 ] },

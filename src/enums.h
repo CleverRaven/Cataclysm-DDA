@@ -2,15 +2,17 @@
 #define ENUMS_H
 
 #include <climits>
+#include <cassert>
+
 #include "json.h" // (de)serialization for points
 
 #ifndef sgn
-#define sgn(x) (((x) < 0) ? -1 : 1)
+#define sgn(x) (((x) < 0) ? -1 : (((x)>0) ? 1 : 0))
 #endif
 
 // By default unordered_map doesn't have a hash for tuple or pairs, so we need to include some.
 // This is taken almost directly from the boost library code.
-// Function has to live in the std namespace 
+// Function has to live in the std namespace
 // so that it is picked up by argument-dependent name lookup (ADL).
 namespace std{
     namespace
@@ -50,15 +52,15 @@ namespace std{
     }
 
     template <typename ... TT>
-    struct hash<std::tuple<TT...>> 
+    struct hash<std::tuple<TT...>>
     {
         size_t
         operator()(std::tuple<TT...> const& tt) const
-        {                                              
-            size_t seed = 0;                             
-            HashValueImpl<std::tuple<TT...> >::apply(seed, tt);    
-            return seed;                                 
-        }                                              
+        {
+            size_t seed = 0;
+            HashValueImpl<std::tuple<TT...> >::apply(seed, tt);
+            return seed;
+        }
 
     };
 
@@ -81,7 +83,7 @@ enum special_game_id {
     NUM_SPECIAL_GAMES
 };
 
-enum art_effect_passive {
+enum art_effect_passive : int {
     AEP_NULL = 0,
     // Good
     AEP_STR_UP, // Strength + 4
@@ -90,7 +92,7 @@ enum art_effect_passive {
     AEP_INT_UP, // Intelligence + 4
     AEP_ALL_UP, // All stats + 2
     AEP_SPEED_UP, // +20 speed
-    AEP_IODINE, // Reduces radiation
+    AEP_PBLUE, // Reduces radiation
     AEP_SNAKES, // Summons friendly snakes when you're hit
     AEP_INVISIBLE, // Makes you invisible
     AEP_CLAIRVOYANCE, // See through walls
@@ -174,7 +176,8 @@ enum object_type {
 struct point : public JsonSerializer, public JsonDeserializer {
     int x;
     int y;
-    point(int X = 0, int Y = 0) : x (X), y (Y) {}
+    point() : x(0), y(0) {}
+    point(int X, int Y) : x (X), y (Y) {}
     point(point &&) = default;
     point(const point &) = default;
     point &operator=(point &&) = default;
@@ -290,6 +293,27 @@ struct tripoint : public JsonSerializer, public JsonDeserializer {
     {
         return tripoint( -x, -y, -z );
     }
+    /*** some point operators and functions ***/
+    tripoint operator+(const point &rhs) const
+    {
+        return tripoint(x + rhs.x, y + rhs.y, z);
+    }
+    tripoint operator-(const point &rhs) const
+    {
+        return tripoint(x - rhs.x, y - rhs.y, z);
+    }
+    tripoint &operator+=(const point &rhs)
+    {
+        x += rhs.x;
+        y += rhs.y;
+        return *this;
+    }
+    tripoint &operator-=(const point &rhs)
+    {
+        x -= rhs.x;
+        y -= rhs.y;
+        return *this;
+    }
 };
 
 // Make tripoint hashable so it can be used as an unordered_set or unordered_map key,
@@ -329,5 +353,6 @@ inline bool operator<(const tripoint &a, const tripoint &b)
 }
 
 static const tripoint tripoint_min { INT_MIN, INT_MIN, INT_MIN };
+static const tripoint tripoint_zero { 0, 0, 0 };
 
 #endif

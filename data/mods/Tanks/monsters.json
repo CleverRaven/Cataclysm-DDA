@@ -1,0 +1,8 @@
+[
+    {
+    "type" : "MONSTER",
+    "id" : "mon_tankbot",
+    "edit-mode" : "modify",
+    "death_drops": "mon_tankbot_drops"
+    }
+]

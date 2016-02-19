@@ -1,9 +1,10 @@
 {
-  "type": "MOD_INFO",
-  "mod-type": "SUPPLEMENTAL",
-  "ident": "boats",
-  "name": "Boats",
-  "author": "HuXTUS",
-  "description": "Adds boats.",
-  "path": ""
+    "type": "MOD_INFO",
+    "mod-type": "SUPPLEMENTAL",
+    "ident": "boats",
+    "name": "Boats",
+    "author": "HuXTUS",
+    "description": "Adds boats.",
+    "category": "vehicles",
+    "path": ""
 }

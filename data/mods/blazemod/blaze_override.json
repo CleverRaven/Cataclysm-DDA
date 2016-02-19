@@ -9,7 +9,6 @@
         "broken_color" : "cyan",
         "damage_modifier" : 80,
         "durability" : 400,
-        "fuel_type" : "223",
         "item" : "m249",
         "size" : 40,
         "difficulty" : 4,
@@ -17,10 +16,29 @@
         "flags" : ["TURRET", "CARGO", "TOOL_NONE", "MANUAL", "UNMOUNT_ON_DAMAGE", "FOLDABLE"],
         "folded_volume": 14,
         "breaks_into" : [
-            {"item": "m249", "min": 0, "max": 1}
+            {"item": "m249", "prob": 50}
         ]
-    },
-	{
+    },{
+        "type" : "vehicle_part",
+        "id" : "mounted_m1918",
+        "name" : "mounted Browning Automatic Rifle",
+        "symbol" : "t",
+        "color" : "brown",
+        "broken_symbol" : "#",
+        "broken_color" : "cyan",
+        "damage_modifier" : 80,
+        "durability" : 400,
+        "range" : 12,
+        "item" : "m1918",
+        "size" : 40,
+        "difficulty" : 4,
+        "location" : "on_roof",
+        "flags" : ["TURRET", "CARGO", "TOOL_NONE", "MANUAL", "UNMOUNT_ON_DAMAGE", "FOLDABLE"],
+        "folded_volume": 12,
+        "breaks_into" : [
+            {"item": "m1918", "prob": 50}
+        ]
+    },{
         "type" : "vehicle_part",
         "id" : "flamethrower",
         "name" : "flamethrower",
@@ -30,14 +48,13 @@
         "broken_color" : "red",
         "damage_modifier" : 80,
         "durability" : 200,
-        "fuel_type" : "gasoline",
         "item" : "flamethrower",
         "difficulty" : 2,
         "location" : "on_roof",
         "flags" : ["UNMOUNT_ON_DAMAGE", "TOOL_NONE", "TURRET", "FOLDABLE", "MANUAL"],
         "folded_volume": 16,
         "breaks_into" : [
-            {"item": "flamethrower", "min": 1, "max": 1}
+            {"item": "flamethrower"}
         ]
     },{
         "type" : "vehicle_part",
@@ -49,14 +66,13 @@
         "broken_color" : "light_blue",
         "damage_modifier" : 80,
         "durability" : 200,
-        "fuel_type" : "plasma",
         "item" : "plasma_rifle",
         "difficulty" : 8,
         "location" : "on_roof",
         "flags" : ["TURRET", "TOOL_NONE", "MANUAL", "UNMOUNT_ON_DAMAGE", "FOLDABLE", "NEEDS_BATTERY_MOUNT"],
         "folded_volume": 15,
         "breaks_into" : [
-            {"item": "plasma_rifle", "min": 0, "max": 1}
+            {"item": "plasma_rifle", "prob": 50}
         ]
     },{
         "type" : "vehicle_part",
@@ -68,7 +84,6 @@
         "broken_color" : "magenta",
         "damage_modifier" : 80,
         "durability" : 200,
-        "fuel_type" : "fusion",
         "item" : "ftk93",
         "difficulty" : 8,
         "size" : 10,
@@ -76,7 +91,7 @@
         "flags" : ["TURRET", "CARGO", "TOOL_NONE", "MANUAL", "UNMOUNT_ON_DAMAGE", "FOLDABLE", "NEEDS_BATTERY_MOUNT"],
         "folded_volume": 14,
         "breaks_into" : [
-            {"item": "ftk93", "min": 0, "max": 1}
+            {"item": "ftk93", "prob": 50}
         ]
     },{
         "type" : "vehicle_part",
@@ -88,14 +103,13 @@
         "broken_color" : "magenta",
         "damage_modifier" : 80,
         "durability" : 200,
-        "fuel_type" : "battery",
         "item" : "nx17",
         "difficulty" : 13,
         "location" : "on_roof",
         "flags" : ["TURRET", "TOOL_NONE", "MANUAL", "UNMOUNT_ON_DAMAGE", "FOLDABLE", "NEEDS_BATTERY_MOUNT"],
         "folded_volume": 16,
         "breaks_into" : [
-            {"item": "nx17", "min": 0, "max": 1}
+            {"item": "nx17", "prob": 50}
         ]
     },{
         "type" : "vehicle_part",
@@ -107,15 +121,94 @@
         "broken_color" : "green",
         "damage_modifier" : 80,
         "durability" : 400,
-        "fuel_type" : "50",
         "item" : "m2browning",
         "difficulty" : 5,
-        "size" : 1600,
+        "size" : 40,
         "location" : "on_roof",
         "flags" : ["TURRET", "CARGO", "TOOL_NONE", "MANUAL", "UNMOUNT_ON_DAMAGE", "FOLDABLE"],
         "folded_volume": 20,
         "breaks_into" : [
-            {"item": "m2browning", "min": 0, "max": 1}
+            {"item": "m2browning", "prob": 50}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "mounted_m240",
+        "name" : "mounted M240",
+        "symbol" : "t",
+        "color" : "cyan",
+        "broken_symbol" : "#",
+        "broken_color" : "cyan",
+        "damage_modifier" : 80,
+        "durability" : 400,
+        "range" : 12,
+        "item" : "m240",
+        "difficulty" : 4,
+        "size" : 40,
+        "location" : "on_roof",
+        "flags" : ["TURRET", "CARGO", "TOOL_NONE", "MANUAL", "UNMOUNT_ON_DAMAGE", "FOLDABLE"],
+        "folded_volume": 16,
+        "breaks_into" : [
+            {"item": "m240", "prob": 50}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "mounted_m60",
+        "name" : "mounted M60",
+        "symbol" : "t",
+        "color" : "cyan",
+        "broken_symbol" : "#",
+        "broken_color" : "cyan",
+        "damage_modifier" : 80,
+        "durability" : 400,
+        "range" : 12,
+        "item" : "m60",
+        "difficulty" : 4,
+        "size" : 40,
+        "location" : "on_roof",
+        "flags" : ["TURRET", "CARGO", "TOOL_NONE", "MANUAL", "UNMOUNT_ON_DAMAGE", "FOLDABLE"],
+        "folded_volume": 16,
+        "breaks_into" : [
+            {"item": "m60", "prob": 50}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "mounted_abzats",
+        "name" : "mounted automatic shotgun",
+        "symbol" : "t",
+        "color" : "green",
+        "broken_symbol" : "#",
+        "broken_color" : "green",
+        "damage_modifier" : 80,
+        "durability" : 400,
+        "range" : 12,
+        "item" : "abzats",
+        "difficulty" : 5,
+        "size" : 40,
+        "location" : "on_roof",
+        "flags" : ["TURRET", "CARGO", "TOOL_NONE", "MANUAL", "UNMOUNT_ON_DAMAGE", "FOLDABLE"],
+        "folded_volume": 18,
+        "breaks_into" : [
+            {"item": "abzats", "prob": 50}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "mounted_m134",
+        "name" : "mounted M134D-H Minigun",
+        "symbol" : "t",
+        "color" : "green",
+        "broken_symbol" : "#",
+        "broken_color" : "green",
+        "damage_modifier" : 80,
+        "durability" : 400,
+        "range" : 12,
+        "item" : "m134",
+        "difficulty" : 7,
+        "size" : 40,
+        "location" : "on_roof",
+        "flags" : ["TURRET", "CARGO", "TOOL_NONE", "MANUAL", "UNMOUNT_ON_DAMAGE", "FOLDABLE"],
+        "folded_volume": 32,
+        "breaks_into" : [
+            {"item": "m134", "prob": 50}
         ]
     },{
         "type" : "vehicle_part",
@@ -127,15 +220,54 @@
         "broken_color" : "green",
         "damage_modifier" : 80,
         "durability" : 250,
-        "fuel_type" : "40mm",
         "item" : "mark19",
         "difficulty" : 5,
-        "size" : 480,
+        "size" : 40,
         "location" : "on_roof",
         "flags" : ["TURRET", "CARGO", "TOOL_NONE", "MANUAL", "UNMOUNT_ON_DAMAGE", "FOLDABLE"],
         "folded_volume": 16,
         "breaks_into" : [
-            {"item": "mark19", "min": 0, "max": 1}
+            {"item": "mark19", "prob": 50}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "mounted_rm614",
+        "name" : "mounted RM614 LMG",
+        "symbol" : "t",
+        "color" : "white",
+        "broken_symbol" : "#",
+        "broken_color" : "light_gray",
+        "damage_modifier" : 80,
+        "durability" : 450,
+        "range" : 12,
+        "item" : "rm614_lmg",
+        "difficulty" : 6,
+        "size" : 40,
+        "location" : "on_roof",
+        "flags" : ["TURRET", "CARGO", "TOOL_NONE", "MANUAL", "UNMOUNT_ON_DAMAGE", "FOLDABLE"],
+        "folded_volume": 10,
+        "breaks_into" : [
+            {"item": "rm614_lmg", "prob": 50}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "mounted_rm298",
+        "name" : "mounted RM298 HMG",
+        "symbol" : "t",
+        "color" : "white",
+        "broken_symbol" : "#",
+        "broken_color" : "light_gray",
+        "damage_modifier" : 80,
+        "durability" : 500,
+        "range" : 12,
+        "item" : "rm298",
+        "difficulty" : 6,
+        "size" : 40,
+        "location" : "on_roof",
+        "flags" : ["TURRET", "CARGO", "TOOL_NONE", "MANUAL", "UNMOUNT_ON_DAMAGE", "FOLDABLE"],
+        "folded_volume": 26,
+        "breaks_into" : [
+            {"item": "rm298", "prob": 50}
         ]
     },{
         "type" : "vehicle_part",
@@ -156,10 +288,10 @@
         "folded_volume": 3,
         "flags" : ["ENGINE", "FOLDABLE"],
         "breaks_into" : [
-            {"item": "steel_lump", "min": 1, "max": 2},
-            {"item": "steel_chunk", "min": 1, "max": 2},
-            {"item": "scrap", "min": 1, "max": 2},
-            {"item": "cable", "min": 3, "max": 6}
+            {"item": "steel_lump", "count": [1, 2]},
+            {"item": "steel_chunk", "count": [1, 2]},
+            {"item": "scrap", "count": [1, 2]},
+            {"item": "cable", "charges": [3, 6]}
         ]
     },{
         "type" : "vehicle_part",
@@ -179,7 +311,7 @@
         "flags" : ["FUEL_TANK", "TOOL_NONE", "FOLDABLE"],
         "folded_volume" : 2,
         "breaks_into" : [
-            {"item": "scrap", "min": 1, "max": 2}
+            {"item": "scrap", "count": [1, 2]}
         ]
     },{
         "type" : "vehicle_part",
@@ -199,7 +331,7 @@
         "flags" : ["FUEL_TANK", "FOLDABLE"],
         "folded_volume" : 5,
         "breaks_into" : [
-            {"item": "scrap", "min": 1, "max": 2}
+            {"item": "scrap", "count": [1, 2]}
         ]
     },{
         "type" : "vehicle_part",
@@ -219,7 +351,7 @@
         "flags" : ["FUEL_TANK", "FOLDABLE"],
         "folded_volume" : 5,
         "breaks_into" : [
-            {"item": "scrap", "min": 1, "max": 2}
+            {"item": "scrap", "count": [1, 2]}
         ]
     },{
         "type" : "vehicle_part",
@@ -239,9 +371,9 @@
         "flags" : ["ENGINE", "VARIABLE_SIZE", "FOLDABLE"],
         "folded_volume" : 3,
         "breaks_into" : [
-            {"item": "steel_lump", "min": 2, "max": 4},
-            {"item": "steel_chunk", "min": 2, "max": 4},
-            {"item": "scrap", "min": 2, "max": 4}
+            {"item": "steel_lump", "count": [2, 4]},
+            {"item": "steel_chunk", "count": [2, 4]},
+            {"item": "scrap", "count": [2, 4]}
         ]
     },{
         "type" : "vehicle_part",
@@ -261,9 +393,75 @@
         "flags" : ["ENGINE", "VARIABLE_SIZE", "FOLDABLE"],
         "folded_volume" : 6,
         "breaks_into" : [
-            {"item": "steel_lump", "min": 5, "max": 10},
-            {"item": "steel_chunk", "min": 5, "max": 10},
-            {"item": "scrap", "min": 5, "max": 10}
+            {"item": "steel_lump", "count": [5, 10]},
+            {"item": "steel_chunk", "count": [5, 10]},
+            {"item": "scrap", "count": [5, 10]}
         ]
-    }
+    },{
+        "type" : "vehicle_part",
+        "id" : "storage_battery_mount",
+        "name" : "swappable storage battery case",
+        "symbol" : "O",
+        "color" : "light_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "red",
+        "damage_modifier" : 80,
+        "durability" : 200,
+        "item" : "it_battery_mount",
+        "difficulty" : 2,
+        "location" : "fuel_source",
+        "flags" : ["BATTERY_MOUNT"],
+        "breaks_into" : [
+            {"item": "steel_lump", "prob": 50},
+            {"item": "steel_chunk", "count": [1, 2]},
+            {"item": "scrap", "count": [0, 3]}
+        ]
+    },{
+        "type" : "AMMO",
+        "id" : "mininuke_mod",
+        "price" : 180000,
+        "name" : "modified mininuke",
+        "symbol" : "*",
+        "color" : "green",
+        "description" : "A heavy modified handheld nuclear device.  Intended to be fired from a specialized launcher, its case has been cut down and it has been rigged to explode on impact.  While it is now somewhat lighter than before, it can no longer be triggered manually.",
+        "material" : "plastic",
+        "flags": [""],
+        "volume" : 1,
+        "weight" : 3816,
+        "bashing" : 8,
+        "to_hit" : 0,
+        "ammo_type" : "h_projectile",
+        "damage" : 14,
+        "range" : 0,
+        "dispersion" : 0,
+        "recoil" : 0,
+        "count" : 1,
+        "stack_size" : 2,
+        "effects" : ["MININUKE_MOD", "NEVER_MISFIRES"]
+    },{
+    "id": "mininuke_launcher",
+    "type": "GUN",
+    "symbol": "(",
+    "color": "dark_gray",
+    "name": "mininuke launcher",
+    "description": "A powerful handheld spring mortar handcrafted from scrap.  Made to launch modified handheld nuclear weapons, it is an exceedingly powerful weapon.",
+    "price": 750000,
+    "material": ["aluminum", "wood"],
+    "flags": ["RELOAD_ONE", "STR_RELOAD", "NEVER_JAMS"],
+    "skill": "launcher",
+    "ammo": "h_projectile",
+    "weight": 11260,
+    "volume": 11,
+    "bashing": 12,
+    "to_hit": -1,
+    "range": 24,
+    "dispersion": 600,
+    "sight_dispersion": 150,
+    "aim_speed" : 10,
+    "recoil": 300,
+    "durability": 7,
+    "clip_size": 1,
+    "loudness" : 5,
+    "reload": 800
+  }
 ]

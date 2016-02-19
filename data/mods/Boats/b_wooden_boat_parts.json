@@ -14,7 +14,7 @@
     "item" : "boat_board",
     "difficulty" : 2,
     "location" : "under",
-    "flags" : ["FLOATS", "STABLE", "VARIABLE_SIZE", "BOARDABLE"],
-    "breaks_into" : [ {"item": "splinter", "min": 10, "max": 20} ]
+    "flags" : ["FLOATS", "STABLE", "VARIABLE_SIZE", "BOARDABLE", "NAILABLE"],
+    "breaks_into" : [ {"item": "splinter", "count": [10, 20]} ]
   }
 ]

@@ -10,7 +10,8 @@
                 "bio_torsionratchet",
                 "bio_power_storage",
                 "bio_tools",
-                "bio_sunglasses"
+                "bio_sunglasses",
+                "bio_blindfold"
             ],
             "skills": [
                 {
@@ -139,6 +140,57 @@
     },
     {
         "type": "profession",
+        "ident": "sheltered_militia",
+        "name": "Sheltered Militia",
+        "description": "At the start of the cataclysm, you hunkered down in a bomb shelter.  Now, it is winter, and you hope your guns and the skills you have acquired can help you survive.",
+        "points": 4,
+        "skills": [
+            {
+                "level": 2,
+                "name": "gun"
+            },
+            {
+                "level": 1,
+                "name": "rifle"
+            },
+            {
+                "level": 1,
+                "name": "pistol"
+            }
+        ],
+        "items": {
+            "both": [
+                "winter_pants_army",
+                "undershirt",
+                "socks",
+                "sweatshirt",
+                "boots_hiking",
+                "garand",
+                "shoulder_strap",
+                "garandclip",
+                "garandclip",
+                "3006",
+                "3006",
+                "m1911",
+                "holster",
+                "m1911mag",
+                "45_acp",
+                "pockknife",
+                "water_clean",
+                "matches"
+            ],
+            "male": [
+                "boxer_shorts"
+            ],
+            "female": [
+                "sports_bra",
+                "boy_shorts"
+            ]
+        },
+        "flags": ["SCEN_ONLY"]
+    },
+    {
+        "type": "profession",
         "ident": "tailor",
         "name": "Tailor",
         "description": "Tailoring may not seem like the most useful skill when the world has ended.  Most people wouldn't expect a simple tailor to live long.  This is your opportunity to prove them wrong.",
@@ -174,7 +226,7 @@
         "type": "profession",
         "ident": "chef",
         "name": "Chef",
-        "description": "Bork bork! Years in the kitchen have left you carrying a prodigious bulk, but you managed to escape the carnage with a butchers knife and only a small collection of stains on your uniform.",
+        "description": "Bork bork!  Years in the kitchen have left you carrying a prodigious bulk, but you managed to escape the carnage with a butchers knife and only a small collection of stains on your uniform.",
         "points": 1,
         "skills": [
             {
@@ -200,6 +252,48 @@
                 "panties"
             ]
         }
+    },
+    {
+        "type": "profession",
+        "ident": "churl",
+        "name": "Churl",
+        "description": "What the deuyl?  Ye ne wist noo thing of this straunge plaas nor what wycked enchauntment brought ye hidder.  Wyth this accoustrement ye must needs underfongen to find newe lyflode in the most hidous cataclysm man hath witnessed sithen that deluge Noe rood out in his greet schippe.",
+        "points": 1,
+        "items": {
+            "both": [
+                "footrags",
+                "loincloth",
+                "cloak_wool",
+                "ragpouch",
+                "small_relic",
+                "gloves_wraps",
+                "tunic_rag",
+                "makeshift_knife",
+                "sheath"
+            ],
+            "female": [
+                "chestwrap"
+            ]
+        },
+        "skills": [
+            {
+                "level": 1,
+                "name": "melee"
+            },
+            {
+                "level": 1,
+                "name": "throw"
+            },
+            {
+                "level": 2,
+                "name": "archery"
+            },
+            {
+                "level": 2,
+                "name": "survival"
+            }
+        ],
+        "traits": [ "PROF_CHURL" ]
     },
     {
         "type": "profession",
@@ -320,7 +414,7 @@
                 "picklocks"
             ],
             "male": [
-                "briefs"
+                "boxer_briefs"
             ],
             "female": [
                 "boxer_shorts"
@@ -359,7 +453,7 @@
 
             ],
             "male": [
-                "briefs"
+                "boxer_briefs"
             ],
             "female": [
                 "bra",
@@ -473,6 +567,7 @@
                 "boots_combat",
                 "m4a1",
                 "223",
+                "stanag30",
                 "knife_combat",
                 "binoculars",
                 "sheath"
@@ -533,7 +628,9 @@
                 "socks",
                 "boots_combat",
                 "rm2000_smg",
+                "8x40_25_mag",
                 "suppressor",
+                "8mm_fmj",
                 "8mm_fmj",
                 "kukri"
             ],
@@ -575,18 +672,18 @@
                 "knife_butter"
             ],
             "male": [
-                "tux",
-                "dress_shoes",
                 "briefs",
-                "socks"
+                "socks",
+                "dress_shoes",
+                "tux"
             ],
             "female": [
-                "maid_hat",
-                "maid_dress",
-                "boots",
-                "bra",
                 "panties",
-                "stockings"
+                "bra",
+                "stockings",
+                "boots",
+                "maid_dress",
+                "maid_hat"
             ]
         }
     },
@@ -664,6 +761,7 @@
                 "suit",
                 "bowhat",
                 "glock_19",
+                "glockmag",
                 "9mm",
                 "socks",
                 "dress_shoes",
@@ -701,6 +799,7 @@
                 "holster",
                 "baton",
                 "m9",
+                "m9mag",
                 "9mm",
                 "pockknife",
                 "hat_ball"
@@ -759,8 +858,9 @@
                 "knife_rambo",
                 "lighter",
                 "rope_30",
+                "whistle",
                 "canteen",
-                "sheath"
+                "scabbard"
             ],
             "male": [
                 "boxer_shorts"
@@ -894,7 +994,7 @@
     {
         "type": "profession",
         "ident": "cop",
-        "name": "Cop",
+        "name": "Police Officer",
         "description": "Just a small-town deputy when you got the call, you were still ready to come to the rescue.  Except that soon it was you who needed rescuing - you were lucky to escape with your life.  Who's going to respect your authority when the government this badge represents might not even exist anymore?",
         "points": 2,
         "skills": [
@@ -919,7 +1019,9 @@
                 "boots",
                 "holster",
                 "usp_45",
-                "45_acp"
+                "usp45mag",
+                "45_acp",
+                "whistle"
             ],
             "male": [
                 "boxer_shorts"
@@ -953,6 +1055,7 @@
                 "fedora",
                 "wristwatch",
                 "l_sp_45",
+                "lw12mag",
                 "45_acp",
                 "socks",
                 "dress_shoes",
@@ -1017,7 +1120,9 @@
                 "gloves_tactical",
                 "badge_swat",
                 "usp_9mm",
+                "usp9mag",
                 "hk_mp5",
+                "mp5mag",
                 "shoulder_strap",
                 "9mm",
                 "9mm",
@@ -1029,6 +1134,170 @@
             ],
             "female": [
                 "sports_bra",
+                "boy_shorts"
+            ]
+        }
+    },
+    {
+        "type": "profession",
+        "ident": "swat_heavy",
+        "name": "SWAT CQC Specialist",
+        "description": "A member of the police force's most elite division, your close quarters combat training has kept you alive thus far.  Unfortunately, the breakdown of society has brought you to your current state of affairs; you now fight to simply stay alive.",
+        "points": 5,
+        "skills": [
+            {
+                "level": 3,
+                "name": "gun"
+            },
+            {
+                "level": 3,
+                "name": "shotgun"
+            },
+            {
+                "level": 1,
+                "name": "pistol"
+            },
+            {
+                "level": 1,
+                "name": "melee"
+            },
+            {
+                "level": 1,
+                "name": "bashing"
+            }
+        ],
+        "traits": [
+            "PROF_SWAT"
+        ],
+        "items": {
+            "both": [
+                "socks",
+                "swat_armor",
+                "sholster",
+                "tac_fullhelmet",
+                "boots_combat",
+                "gloves_tactical",
+                "badge_swat",
+                "usp_9mm",
+                "usp9mag",
+                "ksg",
+                "shoulder_strap",
+                "shot_00",
+                "shot_beanbag",
+                "9mmfmj",
+                "baton"
+            ],
+            "male": [
+                "boxer_shorts"
+            ],
+            "female": [
+                "sports_bra",
+                "boy_shorts"
+            ]
+        }
+    },
+    {
+        "type": "profession",
+        "ident": "sniper_police",
+        "name": "Police Sniper",
+        "description": "Your skill as a sharpshooter served you well in the line of duty, protecting the innocent with a single, well placed bullet.  Now survival itself is on the line, and you can't afford to miss if you don't want to end up as something's dinner.",
+        "points": 5,
+        "skills": [
+            {
+                "level": 5,
+                "name": "gun"
+            },
+            {
+                "level": 4,
+                "name": "rifle"
+            }
+        ],
+        "traits": [
+            "PROF_POLICE"
+        ],
+        "items": {
+            "both": [
+                "socks",
+                "pants_army",
+                "hoodie",
+                "sneakers",
+                "gloves_tactical",
+                "glasses_bal",
+                "hat_boonie",
+                "badge_deputy",
+                "holster",
+                "wristwatch",
+                "usp_45",
+                "usp45mag",
+                "45_acp",
+                "remington_700",
+                "3006",
+                "3006",
+                "rifle_scope"
+            ],
+            "male": [
+                "boxer_shorts"
+            ],
+            "female": [
+                "bra",
+                "boy_shorts"
+            ]
+        }
+    },
+    {
+        "type": "profession",
+        "ident": "riot_police",
+        "name": "Riot Control Officer",
+        "description": "The riots were brutal, and that's before the dead rose and started to devour the living.  Soon it became apparent that the line you were holding was about to break - it was only through a bit of luck and a lot of head-bashing that you got away in one piece, and the worst is yet to come.",
+        "points": 5,
+        "skills": [
+            {
+                "level": 3,
+                "name": "melee"
+            },
+            {
+                "level": 3,
+                "name": "bashing"
+            },
+            {
+                "level": 1,
+                "name": "gun"
+            },
+            {
+                "level": 1,
+                "name": "throw"
+            }
+        ],
+        "traits": [
+            "PROF_POLICE"
+        ],
+        "items": {
+            "both": [
+                "socks",
+                "pants_cargo",
+                "longshirt",
+                "boots_combat",
+                "gloves_tactical",
+                "modularvestkevlar",
+                "mask_gas",
+                "tac_helmet",
+                "armguard_hard",
+                "knee_pads",
+                "badge_deputy",
+                "holster",
+                "usp_45",
+                "usp45mag",
+                "45_acp",
+                "tonfa",
+                "tazer",
+                "battery",
+                "gasbomb"
+            ],
+            "male": [
+                "boxer_shorts"
+            ],
+            "female": [
+                "bra",
                 "boy_shorts"
             ]
         }
@@ -1083,6 +1352,41 @@
                 "jacket_flannel",
                 "compbow",
                 "arrow_cf",
+                "knife_hunting",
+                "hat_hunting",
+                "quiver"
+            ],
+            "male": [
+                "boxer_shorts"
+            ],
+            "female": [
+                "sports_bra",
+                "boxer_shorts"
+            ]
+        }
+    },
+    {
+        "type": "profession",
+        "ident": "crossbow_hunter",
+        "name": "Crossbow Hunter",
+        "description": "Ever since you were a child you loved hunting, and you soon took a liking to the challenge of hunting with a crossbow.  Why, if the world ended there's nothing you'd want at your side more than your trusty crossbow.  So when it did, you made sure to bring it along.",
+        "points": 2,
+        "skills": [
+            {
+                "level": 2,
+                "name": "archery"
+            }
+        ],
+        "items": {
+            "both": [
+                "army_top",
+                "knit_scarf",
+                "socks",
+                "boots_steel",
+                "pants_cargo",
+                "jacket_flannel",
+                "crossbow",
+                "bolt_metal",
                 "knife_hunting",
                 "hat_hunting",
                 "quiver"
@@ -1228,7 +1532,7 @@
                 "flashlight"
             ],
             "male": [
-                "briefs"
+                "boxer_briefs"
             ],
             "female": [
                 "bra",
@@ -1256,7 +1560,8 @@
                 "sneakers",
                 "portable_game",
                 "mbag",
-                "laptop"
+                "laptop",
+                "caffeine"
             ],
             "male": [
                 "briefs"
@@ -1298,7 +1603,7 @@
         "type": "profession",
         "ident": "svictim",
         "name": "Shower Victim",
-        "description": "You were in the middle of a nice, hot shower when the cataclysm struck! You barely managed to escape with some soap and the most massively useful thing ever...  a towel.",
+        "description": "You were in the middle of a nice, hot shower when the cataclysm struck!  You barely managed to escape with some soap and the most massively useful thing ever...  a towel.",
         "points": -1,
         "items": {
             "both": [
@@ -1395,6 +1700,7 @@
                 "knit_scarf",
                 "gold_watch",
                 "briefcase_smg",
+                "stenmag",
                 "pda",
                 "9mm"
             ],
@@ -1517,6 +1823,55 @@
         "flags": ["SCEN_ONLY"]
     },
     {
+        "type": "profession",
+        "ident": "broken_cyborg",
+        "name": "Broken Cyborg",
+        "description": "You were normal once.  Before the tests, before the procedures, before they stripped away every outward sign of your humanity.  You're more machine than man now, but that might prove an advantage against the horrors that await.",
+        "points": -2,
+        "CBMs":[
+            "bio_dis_shock",
+            "bio_dis_acid",
+            "bio_drain",
+            "bio_noise",
+            "bio_power_weakness",
+            "bio_itchy",
+            "bio_nostril",
+            "bio_thumbs",
+            "bio_spasm",
+            "bio_shakes",
+            "bio_leaky",
+            "bio_sleepy",
+            "bio_deformity",
+            "bio_voice",
+            "bio_pokedeye",
+            "bio_ankles",
+            "bio_trip",
+            "bio_stiff",
+            "bio_armor_head",
+            "bio_armor_torso",
+            "bio_armor_arms",
+            "bio_armor_legs",
+            "bio_armor_eyes",
+            "bio_razors",
+            "bio_power_storage",
+            "bio_torsionratchet"
+        ],
+        "items":{
+            "both": [
+                "subsuit_xl",
+                "footrags",
+                "hat_noise_cancelling"
+            ],
+            "male": [
+                "briefs"
+            ],
+            "female": [
+                "bra",
+                "panties"
+            ]
+        }
+    },
+    {
         "type" : "profession",
         "ident": "bionic_worker",
         "name": "Industrial Cyborg",
@@ -1636,7 +1991,7 @@
                 "l_mp_9mm",
                 "9mmP",
                 "9mmP",
-                "spare_mag"
+                "lw21mag"
             ],
             "male": [
                 "boxer_shorts"
@@ -1785,6 +2140,7 @@
                 "socks",
                 "boots_combat",
                 "rm51_assault_rifle",
+                "8x40_50_mag",
                 "8mm_fmj",
                 "8mm_fmj"
             ],
@@ -2128,7 +2484,7 @@
         "type": "profession",
         "ident": "senior",
         "name": "Senior Citizen",
-        "description": "You haven't seen this much blood since the war.  The whole world's gone crazy! They ate your grandkids! But dagnabbit, you'll make them all pay for what they've done.",
+        "description": "You haven't seen this much blood since the war.  The whole world's gone crazy!  They ate your grandkids!  But dagnabbit, you'll make them all pay for what they've done.",
         "points": 0,
         "items": {
             "both": [
@@ -2484,6 +2840,38 @@
     },
     {
         "type": "profession",
+        "ident": "burglar",
+        "name": "Burglar",
+        "description": "You thought this would your lucky break.  Does it count as breaking and entering if everyone in town is undead?",
+        "points": 3,
+        "//" : "A ski mask would fit the stereotype better, but wool allergy breaks this.",
+        "items": {
+            "both": [
+                "socks",
+                "sneakers",
+                "pants",
+                "striped_shirt",
+                "hoodie",
+                "gloves_light",
+                "balclava",
+                "swag_bag",
+                "crowbar",
+                "hacksaw",
+                "boltcutters",
+                "stethoscope",
+                "picklocks"
+            ],
+            "male": [
+                "briefs"
+            ],
+            "female": [
+                "bra",
+                "panties"
+            ]
+        }
+    },
+    {
+        "type": "profession",
         "ident": "razorgirl",
         "name": {
             "male": "Razor Boy",
@@ -2495,6 +2883,7 @@
             "bio_razors",
             "bio_armor_eyes",
             "bio_sunglasses",
+            "bio_blindfold",
             "bio_dex_enhancer",
             "bio_ears",
             "bio_earplugs",
@@ -2921,7 +3310,7 @@
         "type": "profession",
         "ident": "blackbelt_intermediate",
         "name": "Martial Artist",
-        "description": "'Drop the martial arts!', they said.  'Learn a skill for the REAL world!', they said.  Well, you're about to show them! SHOW THEM ALL!",
+        "description": "'Drop the martial arts!', they said.  'Learn a skill for the REAL world!', they said.  Well, you're about to show them!  SHOW THEM ALL!",
         "points": 3,
         "traits": [
             "PROF_MA_ORANGE"
@@ -3354,6 +3743,70 @@
             ]
         },
         "flags" : ["SCEN_ONLY"]
+    },
+    {
+        "type": "profession",
+        "ident": "winter_army",
+        "name" : "Military Holdout",
+        "description" : "You must have paid attention to your survival training in boot camp, otherwise you would never have lived long enough to outlast the chain of command and find yourself in this predicament.  The only mission left now is to survive.",
+        "points" : 6,
+        "skills": [
+            {
+                "level": 4,
+                "name": "survival"
+            },
+            {
+                "level": 4,
+                "name": "gun"
+            },
+            {
+                "level": 3,
+                "name": "rifle"
+            },
+            {
+                "level" : 3,
+                "name" : "melee"
+            },
+            {
+                "level": 1,
+                "name": "firstaid"
+            }
+        ],
+
+        "items": {
+            "both": [
+                "socks",
+                "pants_army",
+                "jacket_army",
+                "balclava",
+                "boots_combat",
+                "gloves_tactical",
+                "chestrig",
+                "tac_helmet",
+                "sheath",
+                "canteen",
+                "shoulder_strap",
+                "m4a1",
+                "stanag30",
+                "556",
+                "556",
+                "556",
+                "bayonet",
+                "stanag30",
+                "stanag30",
+                "mil_mess_kit",
+                "knife_combat",
+                "quikclot"
+            ],
+            "male": [
+                "boxer_shorts"
+            ],
+            "female": [
+                "sports_bra",
+                "panties"
+            ]
+        },
+        "flags" : ["SCEN_ONLY"]
     },{
         "type": "profession",
         "ident": "mall_cop",
@@ -3657,7 +4110,7 @@
                 "both": [
                     "tshirt",
                     "socks",
-                    "backpack",
+                    "slingpack",
                     "sneakers",
                     "jeans",
                     "jacket_light",
@@ -3831,7 +4284,8 @@
                 "scissors",
                 "magnifying_glass",
                 "flashlight",
-                "1st_aid"
+                "1st_aid",
+                "whistle"
             ],
             "male": [
                 "briefs"
@@ -4059,6 +4513,7 @@
             "both": [
                 "baseball",
                 "bat",
+                "whistle",
                 "tank_top",
                 "shorts",
                 "socks",
@@ -4094,5 +4549,73 @@
                     "panties"
                 ]
             }
+    },
+    {
+            "type": "profession",
+            "ident": "miner",
+            "name": "Miner",
+            "description": "You're a miner, not a minor!  Your canteen is dry, your jackhammer is out of gas, and you're on your last pair of batteries for your mining helmet...",
+            "points": 0,
+            "items": {
+                "both": [
+                    "socks",
+                    "boots_steel",
+                    "gloves_work",
+                    "knee_pads",
+                    "miner_hat",
+                    "jumpsuit",
+                    "mask_gas",
+                    "jackhammer",
+                    "canteen",
+                    "e_tool",
+                    "tool_belt",
+                    "mbag",
+                    "matches"
+                ],
+                "male": [
+                    "boxer_shorts"
+                ],
+                "female": [
+                    "boy_shorts",
+                    "sports_bra"
+                ]
+            },
+        "flags" : ["SCEN_ONLY"]
+    },
+    {
+        "type": "profession",
+        "ident": "parkour_practitioner",
+        "name": {
+            "male": "Traceur",
+            "female": "Traceuse"
+        },
+        "description": "You've practiced parkour for many years, and made the world your playground.  It wouldn't be a lie to say that running is your life.  Which is good, because now that the end has come, you're running for your life.",
+        "points": 3,
+        "traits": [
+            "PARKOUR"
+        ],
+        "skills": [
+            {
+                "level": 4,
+                "name": "dodge"
+            }
+        ],
+        "items": {
+            "both" : [
+                "tshirt",
+                "hoodie",
+                "pants_cargo",
+                "socks",
+                "sneakers",
+                "runner_bag"
+            ],
+            "male": [
+                "briefs"
+            ],
+            "female": [
+                "sports_bra",
+                "boy_shorts"
+            ]
+        }
     }
 ]

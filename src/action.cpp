@@ -5,14 +5,24 @@
 #include "debug.h"
 #include "game.h"
 #include "map.h"
+#include "player.h"
 #include "options.h"
 #include "messages.h"
+#include "translations.h"
+#include "input.h"
+#include "crafting.h"
+#include "ui.h"
+#include "trap.h"
+#include "itype.h"
+#include "mapdata.h"
+
 #include <istream>
 #include <sstream>
 #include <fstream>
 #include <iterator>
 
 extern input_context get_default_mode_input_context();
+extern bool tile_iso;
 
 void parse_keymap( std::istream &keymap_txt, std::map<char, action_id> &kmap,
                    std::set<action_id> &unbound_keymap );
@@ -273,6 +283,8 @@ std::string action_ident( action_id act )
             return "toggle_sidebar_style";
         case ACTION_TOGGLE_FULLSCREEN:
             return "toggle_fullscreen";
+        case ACTION_TOGGLE_PIXEL_MINIMAP:
+            return "toggle_pixel_minimap";
         case ACTION_ACTIONMENU:
             return "action_menu";
         case ACTION_ITEMACTION:
@@ -315,52 +327,6 @@ action_id look_up_action( std::string ident )
         }
     }
     return ACTION_NULL;
-}
-
-void get_direction( int &x, int &y, char ch )
-{
-    x = 0;
-    y = 0;
-    action_id act = action_from_key( ch );
-
-    switch( act ) {
-        case ACTION_MOVE_NW:
-            x = -1;
-            y = -1;
-            return;
-        case ACTION_MOVE_NE:
-            x = 1;
-            y = -1;
-            return;
-        case ACTION_MOVE_W:
-            x = -1;
-            return;
-        case ACTION_MOVE_S:
-            y = 1;
-            return;
-        case ACTION_MOVE_N:
-            y = -1;
-            return;
-        case ACTION_MOVE_E:
-            x = 1;
-            return;
-        case ACTION_MOVE_SW:
-            x = -1;
-            y = 1;
-            return;
-        case ACTION_MOVE_SE:
-            x = 1;
-            y = 1;
-            return;
-        case ACTION_PAUSE:
-        case ACTION_PICKUP:
-            x = 0;
-            y = 0;
-            return;
-        default:
-            x = -2;
-            y = -2;
-    }
 }
 
 // (Press X (or Y)|Try) to Z
@@ -419,9 +385,11 @@ long hotkey_for_action( action_id action )
 bool can_butcher_at( const tripoint &p )
 {
     // TODO: unify this with game::butcher
-    const int factor = g->u.butcher_factor();
+    const int factor = g->u.max_quality( "BUTCHER" );
     auto items = g->m.i_at( p );
-    bool has_corpse, has_item = false;
+    bool has_item = false;
+    bool has_corpse = false;
+
     const inventory &crafting_inv = g->u.crafting_inventory();
     for( auto &items_it : items ) {
         if( items_it.is_corpse() ) {
@@ -431,7 +399,7 @@ bool can_butcher_at( const tripoint &p )
         } else {
             const recipe *cur_recipe = get_disassemble_recipe( items_it.type->id );
             if( cur_recipe != NULL &&
-                g->u.can_disassemble( &items_it, cur_recipe, crafting_inv, false ) ) {
+                g->u.can_disassemble( items_it, cur_recipe, crafting_inv, false ) ) {
                 has_item = true;
             }
         }
@@ -444,7 +412,7 @@ bool can_move_vertical_at( const tripoint &p, int movez )
     // TODO: unify this with game::move_vertical
     if( g->m.has_flag( "SWIMMABLE", p ) && g->m.has_flag( TFLAG_DEEP_WATER, p ) ) {
         if( movez == -1 ) {
-            return !g->u.is_underwater() && !g->u.worn_with_flag( "FLOATATION" );
+            return !g->u.is_underwater() && !g->u.worn_with_flag( "FLOTATION" );
         } else {
             return g->u.swim_speed() < 500 || g->u.is_wearing( "swim_fins" );
         }
@@ -469,12 +437,12 @@ bool can_examine_at( const tripoint &p )
     if( g->m.has_flag( "CONSOLE", p ) ) {
         return true;
     }
-    const furn_t *xfurn_t = &furnlist[g->m.furn( p )];
-    const ter_t *xter_t = &terlist[g->m.ter( p )];
+    const furn_t &xfurn_t = g->m.furn_at( p );
+    const ter_t &xter_t = g->m.ter_at( p );
 
-    if( g->m.has_furn( p ) && xfurn_t->examine != &iexamine::none ) {
+    if( g->m.has_furn( p ) && xfurn_t.examine != &iexamine::none ) {
         return true;
-    } else if( xter_t->examine != &iexamine::none ) {
+    } else if( xter_t.examine != &iexamine::none ) {
         return true;
     }
 
@@ -490,10 +458,10 @@ bool can_interact_at( action_id action, const tripoint &p )
 {
     switch( action ) {
         case ACTION_OPEN:
-            return g->m.open_door( p, !g->m.is_outside( g->u.pos3() ), true );
+            return g->m.open_door( p, !g->m.is_outside( g->u.pos() ), true );
             break;
         case ACTION_CLOSE:
-            return g->m.close_door( p, !g->m.is_outside( g->u.pos3() ), true );
+            return g->m.close_door( p, !g->m.is_outside( g->u.pos() ), true );
             break;
         case ACTION_BUTCHER:
             return can_butcher_at( p );
@@ -529,12 +497,35 @@ action_id handle_action_menu()
     // Weight >= 200: Special action only available right now
     std::map<action_id, int> action_weightings;
 
+    // Check if we're in a potential combat situation, if so, sort a few actions to the top.
+    if( !g->u.get_hostile_creatures().empty() ) {
+        // Only prioritize movement options if we're not driving.
+        if( !g->u.controlling_vehicle ) {
+            action_weightings[ACTION_TOGGLE_MOVE] = 400;
+        }
+        // Only prioritize fire weapon options if we're wielding a ranged weapon.
+        if( g->u.weapon.is_gun() || g->u.weapon.has_flag( "REACH_ATTACK" ) ) {
+            action_weightings[ACTION_FIRE] = 350;
+        }
+    }
+
+    // If we're already running, make it simple to toggle running to off.
+    if( g->u.move_mode != "walk" ) {
+        action_weightings[ACTION_TOGGLE_MOVE] = 300;
+    }
+
+    // If our wielded item is a gun, doesn't have full ammo, and we do have the ammo,
+    // prioritize reloading.
+    if( g->u.can_reload() ) {
+        action_weightings[ACTION_RELOAD] = 250;
+    }
+
     // Check if we're on a vehicle, if so, vehicle controls should be top.
     {
         int veh_part = 0;
         vehicle *veh = NULL;
 
-        veh = g->m.veh_at( g->u.posx(), g->u.posy(), veh_part );
+        veh = g->m.veh_at( g->u.pos(), veh_part );
         if( veh ) {
             // Make it 300 to prioritize it before examining the vehicle.
             action_weightings[ACTION_CONTROL_VEHICLE] = 300;
@@ -660,6 +651,9 @@ action_id handle_action_menu()
 #ifndef TILES
             REGISTER_ACTION( ACTION_TOGGLE_FULLSCREEN );
 #endif
+#ifdef TILES
+            REGISTER_ACTION( ACTION_TOGGLE_PIXEL_MINIMAP );
+#endif // TILES
             REGISTER_ACTION( ACTION_DISPLAY_SCENT );
             REGISTER_ACTION( ACTION_TOGGLE_DEBUG_MODE );
         } else if( category == "interact" ) {
@@ -674,6 +668,7 @@ action_id handle_action_menu()
             REGISTER_ACTION( ACTION_GRAB );
             REGISTER_ACTION( ACTION_BUTCHER );
         } else if( category == "combat" ) {
+            REGISTER_ACTION( ACTION_TOGGLE_MOVE );
             REGISTER_ACTION( ACTION_FIRE );
             REGISTER_ACTION( ACTION_RELOAD );
             REGISTER_ACTION( ACTION_SELECT_FIRE_MODE );
@@ -769,24 +764,35 @@ bool choose_direction( const std::string &message, int &x, int &y )
     return ret;
 }
 
-bool choose_direction( const std::string &message, tripoint &offset )
+bool choose_direction( const std::string &message, tripoint &offset, bool allow_vertical )
 {
     input_context ctxt( "DEFAULTMODE" );
+    ctxt.set_iso( true );
     ctxt.register_directions();
     ctxt.register_action( "pause" );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "HELP_KEYBINDINGS" ); // why not?
+    if( allow_vertical ) {
+        ctxt.register_action( "LEVEL_UP" );
+        ctxt.register_action( "LEVEL_DOWN" );
+    }
+
     //~ appended to "Close where?" "Pry where?" etc.
-    std::string query_text = message + _( " (Direction button)" );
-    mvwprintw( g->w_terrain, 0, 0, "%s", query_text.c_str() );
-    wrefresh( g->w_terrain );
+    const std::string query_text = message + _( " (Direction button)" );
+    popup( query_text, PF_NO_WAIT_ON_TOP );
+
     const std::string action = ctxt.handle_input();
-    offset.z = 0; // TODO: Handle up/down in get_direction
-    if( input_context::get_direction( offset.x, offset.y, action ) ) {
+    if( ctxt.get_direction( offset.x, offset.y, action ) ) {
+        offset.z = 0;
         return true;
     } else if( action == "pause" ) {
-        offset.x = 0;
-        offset.y = 0;
+        offset = tripoint( 0, 0, 0 );
+        return true;
+    } else if( action == "LEVEL_UP" ) {
+        offset = tripoint( 0, 0, 1 );
+        return true;
+    } else if( action == "LEVEL_DOWN" ) {
+        offset = tripoint( 0, 0, -1 );
         return true;
     }
 
@@ -803,12 +809,12 @@ bool choose_adjacent( std::string message, int &x, int &y )
     return ret;
 }
 
-bool choose_adjacent( std::string message, tripoint &p )
+bool choose_adjacent( std::string message, tripoint &p, bool allow_vertical )
 {
-    if( !choose_direction( message, p ) ) {
+    if( !choose_direction( message, p, allow_vertical ) ) {
         return false;
     }
-    p += g->u.pos3();
+    p += g->u.pos();
     return true;
 }
 
@@ -837,8 +843,7 @@ bool choose_adjacent_highlight( std::string message, tripoint &p,
             if( can_interact_at( action_to_highlight, pos ) ) {
                 highlighted = true;
                 g->m.drawsq( g->w_terrain, g->u, pos,
-                             true, true, g->u.posx() + g->u.view_offset.x,
-                             g->u.posy() + g->u.view_offset.y );
+                             true, true, g->u.pos() + g->u.view_offset );
             }
         }
     }

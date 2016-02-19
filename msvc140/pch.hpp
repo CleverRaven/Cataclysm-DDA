@@ -85,9 +85,7 @@
 #if defined(TILES)
 #   include <SDL2/SDL.h>
 #   include <SDL2/SDL_ttf.h>
-#   if defined(SDLTILES)
-#       include <SDL2/SDL_image.h>
-#   endif
+#   include <SDL2/SDL_image.h>
 #   if defined(SDL_SOUND)
 #       include <SDL2/SDL_mixer.h>
 #   endif

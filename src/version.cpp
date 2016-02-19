@@ -1,7 +1,7 @@
-#if (defined _WIN32 || defined WINDOWS || defined MINGW) && ! defined CROSS_LINUX && !defined _MSC_VER
+#if (defined _WIN32 || defined WINDOWS || defined MINGW) && ! defined GIT_VERSION && ! defined CROSS_LINUX && !defined _MSC_VER
 
 #ifndef VERSION
-#define VERSION "0.C" // FIXME: automatically generate VERSION based on git
+#define VERSION "0.C"
 #endif
 
 #else

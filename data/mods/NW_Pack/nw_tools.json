@@ -9,7 +9,7 @@
     "price": 160000,
     "material": ["steel", "gold"],
     "flags" : ["CHOP", "DURABLE_MELEE", "SHEATH_SWORD", "IAIJUTSU"],
-    "techniques": "WBLOCK_1",
+    "techniques": "WBLOCK_2",
     "weight": 1533,
     "volume": 7,
     "bashing": 10,

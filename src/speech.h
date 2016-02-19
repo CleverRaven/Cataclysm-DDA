@@ -8,7 +8,7 @@ struct SpeechBubble {
     int volume;
 };
 
-void load_speech(JsonObject &jo);
+void load_speech( JsonObject &jo );
 void reset_speech();
 const SpeechBubble &get_speech( const std::string label );
 

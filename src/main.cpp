@@ -10,10 +10,10 @@
 #include "color.h"
 #include "options.h"
 #include "debug.h"
-#include "monstergenerator.h"
 #include "filesystem.h"
 #include "path_info.h"
 #include "mapsharing.h"
+#include "output.h"
 
 #include <cstring>
 #include <ctime>
@@ -23,11 +23,6 @@
 #include <libintl.h>
 #endif
 #include "translations.h"
-#if (defined OSX_SDL_FW)
-#include "SDL.h"
-#elif (defined OSX_SDL_LIBS)
-#include "SDL/SDL.h"
-#endif
 
 void exit_handler(int s);
 
@@ -73,7 +68,7 @@ int main(int argc, char *argv[])
     PATH_INFO::init_base_path("");
 #endif
 
-#ifdef USE_HOME_DIR
+#if (defined USE_HOME_DIR || defined USE_XDG_DIR)
     PATH_INFO::init_user_dir();
 #else
     PATH_INFO::init_user_dir("./");
@@ -362,8 +357,8 @@ int main(int argc, char *argv[])
     }
 
     // Options strings loaded with system locale
-    initOptions();
-    load_options();
+    get_options().init();
+    get_options().load();
 
     set_language(true);
 
@@ -409,10 +404,8 @@ int main(int argc, char *argv[])
             // is only for verifying that stage, so we exit.
             exit_handler(0);
         }
-    } catch(std::string &error_message) {
-        if(!error_message.empty()) {
-            debugmsg("%s", error_message.c_str());
-        }
+    } catch( const std::exception &err ) {
+        debugmsg( "%s", err.what() );
         exit_handler(-999);
     }
 

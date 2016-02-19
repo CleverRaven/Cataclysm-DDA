@@ -4,7 +4,7 @@
 #include "enums.h" // tripoint
 #include "bodypart.h"
 #include "debug.h"
-#include "martialarts.h"
+#include "translations.h"
 
 #include <vector>
 #include <map>
@@ -95,7 +95,16 @@ void mutation_branch::load( JsonObject &jsobj )
     new_mut.fatigue = jsobj.get_bool("fatigue",false);
     new_mut.valid = jsobj.get_bool("valid", true);
     new_mut.purifiable = jsobj.get_bool("purifiable", true);
-    new_mut.initial_ma_styles = jsobj.get_string_array( "initial_ma_styles" );
+    for( auto & s : jsobj.get_string_array( "initial_ma_styles" ) ) {
+        new_mut.initial_ma_styles.push_back( matype_id( s ) );
+    }
+
+    JsonArray bodytemp_array = jsobj.get_array( "bodytemp_modifiers" );
+    if( bodytemp_array.has_more() ) {
+        new_mut.bodytemp_min = bodytemp_array.get_int( 0 );
+        new_mut.bodytemp_max = bodytemp_array.get_int( 1 );
+    }
+    new_mut.bodytemp_sleep = jsobj.get_int( "bodytemp_sleep", 0 );
     new_mut.threshold = jsobj.get_bool("threshold", false);
     new_mut.profession = jsobj.get_bool("profession", false);
 
@@ -116,6 +125,7 @@ void mutation_branch::load( JsonObject &jsobj )
     new_mut.cancels = jsobj.get_string_array( "cancels" );
     new_mut.replacements = jsobj.get_string_array( "changes_to" );
     new_mut.additions = jsobj.get_string_array( "leads_to" );
+    new_mut.flags = jsobj.get_tags( "flags" );
     jsarr = jsobj.get_array("category");
     while (jsarr.has_more()) {
         std::string s = jsarr.next_string();
@@ -130,7 +140,7 @@ void mutation_branch::load( JsonObject &jsobj )
         int neutral = jo.get_int("neutral", 0);
         int good = jo.get_int("good", 0);
         tripoint protect = tripoint(ignored, neutral, good);
-        new_mut.protection[part_id] = mutation_wet(body_parts[part_id], protect);
+        new_mut.protection[get_body_part_token( part_id )] = protect;
     }
 }
 
@@ -149,7 +159,7 @@ void mutation_branch::check_consistency()
         const auto &mid = m.first;
         const auto &mdata = m.second;
         for( const auto & style : mdata.initial_ma_styles ) {
-            if( martialarts.count( style ) == 0 ) {
+            if( !style.is_valid() ) {
                 debugmsg( "mutation %s refers to undefined martial art style %s", mid.c_str(), style.c_str() );
             }
         }

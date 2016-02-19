@@ -6,6 +6,7 @@
     "name": "Disable religious texts",
     "author": "dvolk",
     "description": "Removes religious text items from the game.",
+    "category": "item_exclude",
     "path": "modinfo.json"
   },{
     "type": "ITEM_BLACKLIST",
