@@ -11525,7 +11525,7 @@ void game::reload( int pos )
             }
         }
 
-        int qty = !target->has_flag( "RELOAD_ONE" ) ? target->ammo_capacity() - target->ammo_remaining() : 1;
+        int qty = std::max( !target->has_flag( "RELOAD_ONE" ) ? target->ammo_capacity() - target->ammo_remaining() : 1, 1L );
 
         std::stringstream ss;
         ss << pos;
