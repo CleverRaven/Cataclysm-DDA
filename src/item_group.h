@@ -121,11 +121,7 @@ class Item_spawn_data
          */
         virtual bool remove_item(const Item_tag &itemid) = 0;
         virtual bool has_item(const Item_tag &itemid) const = 0;
-        // TODO: remove this legacy function
-        virtual bool guns_have_ammo() const
-        {
-            return false;
-        }
+
         /** probability, used by the parent object. */
         int probability;
     private:
@@ -266,13 +262,6 @@ class Item_group : public Item_spawn_data
          * Links to the entries in this group.
          */
         prop_list items;
-
-    public:
-        // TODO: remove this legacy function
-        virtual bool guns_have_ammo() const override
-        {
-            return with_ammo;
-        }
         // TODO: remove this legacy member
         bool with_ammo;
 };
