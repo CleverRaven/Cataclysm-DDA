@@ -40,6 +40,8 @@ typedef std::set<std::string> t_string_set;
 static t_string_set item_blacklist;
 static t_string_set item_whitelist;
 
+std::set<std::string> item_options;
+
 std::unique_ptr<Item_factory> item_controller( new Item_factory() );
 
 bool item_is_blacklisted(const std::string &id)
@@ -94,26 +96,32 @@ void Item_factory::finialize_item_blacklist()
     }
 }
 
-void add_to_set(t_string_set &s, JsonObject &json, const std::string &name)
+void add_to_set( t_string_set &s, JsonObject &json, const std::string &name )
 {
-    JsonArray jarr = json.get_array(name);
-    while (jarr.has_more()) {
-        s.insert(jarr.next_string());
+    JsonArray jarr = json.get_array( name );
+    while( jarr.has_more() ) {
+        s.insert( jarr.next_string() );
     }
 }
 
-void Item_factory::load_item_blacklist(JsonObject &json)
+void Item_factory::load_item_blacklist( JsonObject &json )
 {
-    add_to_set(item_blacklist, json, "items");
+    add_to_set( item_blacklist, json, "items" );
 }
 
-void Item_factory::load_item_whitelist(JsonObject &json)
+void Item_factory::load_item_whitelist( JsonObject &json )
 {
-    add_to_set(item_whitelist, json, "items");
+    add_to_set( item_whitelist, json, "items" );
+}
+
+void Item_factory::load_item_option( JsonObject &json )
+{
+    add_to_set( item_options, json, "options" );
 }
 
 Item_factory::~Item_factory()
 {
+    item_options.clear();
     clear();
 }
 
