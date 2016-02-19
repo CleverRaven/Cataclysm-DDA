@@ -221,7 +221,7 @@ tripoint start_location::find_player_initial_location() const
         const overmap &initial_overmap = overmap_buffer.get( non_existing_omt.x, non_existing_omt.y );
         const tripoint omtstart = initial_overmap.find_random_omt( target() );
         if( omtstart != overmap::invalid_tripoint ) {
-            return omtstart + point( non_existing_omt.x * OMAPX, non_existing_omt.y + OMAPY );
+            return omtstart + point( non_existing_omt.x * OMAPX, non_existing_omt.y * OMAPY );
         }
         if( !query_yn(
                 _( "The game could not create a world with a suitable starting location.\n\n"
