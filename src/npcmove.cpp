@@ -331,12 +331,14 @@ void npc::execute_action( npc_action action )
             break;
         }
 
+        int reload_time = item_reload_cost( weapon, *ammo[0] );
+
         if( !weapon.reload( *this, std::move( ammo[0] ) ) ) {
             debugmsg( "npc_reload failed: item could not be reloaded" );
             break;
         }
 
-        moves -= weapon.reload_time( *this );
+        moves -= reload_time;
         recoil = MIN_RECOIL;
 
         if (g->u.sees( *this )) {
@@ -1183,7 +1185,7 @@ bool npc::need_to_reload()
 
 bool npc::enough_time_to_reload( const item &gun )
 {
-    int rltime = gun.reload_time(*this);
+    int rltime = item_reload_cost( gun, item( default_ammo( gun.ammo_type() ), calendar::turn ) );
     const float turns_til_reloaded = (float)rltime / get_speed();
 
     Creature *target = current_target();

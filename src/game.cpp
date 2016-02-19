@@ -10990,6 +10990,7 @@ void game::plfire( bool burst, const tripoint &default_target )
         return;
     }
 
+    int reload_time = 0;
     if( !reach_attack ) {
         //below prevents fire burst key from fireing in burst mode in semiautos that have been modded
         //should be fine to place this here, plfire(true,*) only once in code
@@ -11016,8 +11017,13 @@ void game::plfire( bool burst, const tripoint &default_target )
 
         if( gun.has_flag("RELOAD_AND_SHOOT") && gun.ammo_remaining() == 0 ) {
             item_location ammo = gun.pick_reload_ammo( u );
-            if( !ammo.get_item() || !gun.reload( u, std::move( ammo ) ) ) {
-                return;
+            if( !ammo ) {
+                return; // menu cancelled
+            }
+
+            reload_time += u.item_reload_cost( gun, *ammo );
+            if( !gun.reload( u, std::move( ammo ) ) ) {
+                return; // unable to reload
             }
 
             // Burn 2x the strength required to fire in stamina.
@@ -11025,9 +11031,8 @@ void game::plfire( bool burst, const tripoint &default_target )
 
             // At low stamina levels, firing starts getting slow.
             int sta_percent = (100 * u.stamina) / u.get_stamina_max();
-            u.moves -= (sta_percent < 25) ? ((25 - sta_percent) * 2) : 0;
+            reload_time += ( sta_percent < 25 ) ? ( ( 25 - sta_percent ) * 2 ) : 0;
 
-            u.moves -= gun.reload_time(u);
             refresh_all();
         }
 
@@ -11084,10 +11089,8 @@ void game::plfire( bool burst, const tripoint &default_target )
 
     if (trajectory.empty()) {
         if( gun.has_flag( "RELOAD_AND_SHOOT" ) && u.activity.type != ACT_AIM ) {
-            // Supress unloading if we're mid-aim.
-            u.moves += gun.reload_time( u );
             unload( gun );
-            u.moves += gun.reload_time( u ) / 2; // unloading time
+            u.moves -= reload_time / 2; // allow for unloading time
         }
         reenter_fullscreen();
         return;
@@ -11101,6 +11104,7 @@ void game::plfire( bool burst, const tripoint &default_target )
     if( reach_attack ) {
         u.reach_attack( p );
     } else {
+        u.moves -= reload_time;
         u.fire_gun( p, burst ? gun.burst_size() : 1, gun );
     }
 
@@ -11529,7 +11533,7 @@ void game::reload( int pos )
 
         std::stringstream ss;
         ss << pos;
-        u.assign_activity( ACT_RELOAD, it->reload_time( u ), -1, ammo.obtain( u, qty ), ss.str() );
+        u.assign_activity( ACT_RELOAD, u.item_reload_cost( *target, *ammo ), -1, ammo.obtain( u, qty ), ss.str() );
         u.inv.restack( &u );
     }
 
@@ -11649,11 +11653,10 @@ void game::unload( item &it )
     if( target->is_magazine() ) {
         // Remove all contained ammo consuming half as much time as required to load the magazine
         target->contents.erase( std::remove_if( target->contents.begin(), target->contents.end(), [&]( item& e ) {
-            int unload_time = target->type->magazine->reload_time * e.charges / 2;
             if( !add_or_drop_with_msg( u, e ) ) {
                 return false;
             }
-            u.moves -= unload_time;
+            u.moves -= u.item_reload_cost( *target, e ) / 2;
             return true;
         } ), it.contents.end() );
 
@@ -11664,6 +11667,9 @@ void game::unload( item &it )
         if( !add_or_drop_with_msg( u, *target->magazine_current() ) ) {
             return;
         }
+        // Eject magazine consuming half as much time as required to insert it
+        u.moves -= u.item_reload_cost( *target, *target->magazine_current() ) / 2;
+
         target->contents.erase( std::remove_if( target->contents.begin(), target->contents.end(), [&target]( const item& e ) {
             return target->magazine_current() == &e;
         } ) );
@@ -11689,7 +11695,9 @@ void game::unload( item &it )
             return;
         }
 
-        // If we succeeded remove appropriate qty of ammo from the item
+        // If successful remove appropriate qty of ammo consuming half as much time as required to load it
+        u.moves -= u.item_reload_cost( *target, ammo ) / 2;
+
         if( target->ammo_type() == "plutonium" ) {
             qty *= PLUTONIUM_CHARGES;
         }
@@ -11705,9 +11713,7 @@ void game::unload( item &it )
         target->type->invoke( &u, target, u.pos() );
     }
 
-    // Notify the player and consume moves
     add_msg( _( "You unload your %s." ), target->tname().c_str() );
-    u.moves -= target->reload_time( u ) / 2;
 }
 
 void game::wield( int pos )
