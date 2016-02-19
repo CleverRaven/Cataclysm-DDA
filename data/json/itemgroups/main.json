@@ -261,7 +261,8 @@
  },{
     "type" : "item_group",
     "id" : "pistols_with_ammo",
-    "guns_with_ammo" : true,
+    "ammo": 100,
+    "magazine": 100,
     "items":[
       ["sig_mosquito", 50],
       ["cop_38", 5],
@@ -325,7 +326,8 @@
   },{
     "type" : "item_group",
     "id" : "smg_with_ammo",
-    "guns_with_ammo" : true,
+    "ammo": 100,
+    "magazine": 100,
     "items":[
       ["american_180", 15],
       ["skorpion_61", 5],
@@ -400,7 +402,8 @@
   },{
     "type" : "item_group",
     "id" : "shotguns_with_ammo",
-    "guns_with_ammo" : true,
+    "ammo": 100,
+    "magazine": 100,
     "items":[
       ["shotgun_s", 80],
       ["shotgun_d", 100],
@@ -467,7 +470,8 @@
   },{
     "type" : "item_group",
     "id" : "rifles_with_ammo",
-    "guns_with_ammo" : true,
+    "ammo": 100,
+    "magazine": 100,
     "items":[
       ["marlin_9a", 120],
       ["ruger_1022", 120],
@@ -525,7 +529,8 @@
   },{
     "type" : "item_group",
     "id" : "assault_with_ammo",
-    "guns_with_ammo" : true,
+    "ammo": 100,
+    "magazine": 100,
     "//" : "This is a general list. The US military guns are in gear.json.",
     "items":[
       ["m1918", 15],
@@ -567,7 +572,8 @@
   },{
     "type" : "item_group",
     "id" : "machine_guns_with_ammo",
-    "guns_with_ammo" : true,
+    "ammo": 100,
+    "magazine": 100,
     "items":[
       ["m249", 100],
       ["m240", 50],
@@ -742,7 +748,8 @@
   },{
     "type" : "item_group",
     "id" : "antique_guns_with_ammo",
-    "guns_with_ammo" : true,
+    "ammo": 100,
+    "magazine": 100,
     "items" : [
       ["pistol_flintlock", 60],
       ["carbine_flintlock", 40],
