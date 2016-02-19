@@ -276,9 +276,10 @@ bool Item_modifier::remove_item(const Item_tag &itemid)
 Item_group::Item_group(Type t, int probability)
     : Item_spawn_data(probability)
     , type(t)
+    , with_ammo(0)
+    , with_magazine(0)
     , sum_prob(0)
     , items()
-    , with_ammo(false)
 {
 }
 
