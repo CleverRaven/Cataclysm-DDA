@@ -260,7 +260,7 @@ bool game::opening_screen()
         popup( _( "Unable to make config directory. Check permissions." ) );
         return false;
     }
-    
+
     if( !assure_dir_exist( FILENAMES["savedir"] ) ) {
         popup( _( "Unable to make save directory. Check permissions." ) );
         return false;
@@ -434,7 +434,10 @@ bool game::opening_screen()
                         werase(w_background);
                         wrefresh(w_background);
 
-                        start_game(world->world_name);
+                        if( !start_game( world->world_name ) ) {
+                            u = player();
+                            continue;
+                        }
                         start = true;
                     } else if (sel2 == 1) {
                         layer = 3;
@@ -838,7 +841,10 @@ bool game::opening_screen()
                     }
                     werase(w_background);
                     wrefresh(w_background);
-                    start_game(world_generator->active_world->world_name);
+                    if( !start_game( world_generator->active_world->world_name ) ) {
+                        u = player();
+                        continue;
+                    }
                     start = true;
                 }
             }
