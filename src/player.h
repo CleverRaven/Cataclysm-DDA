@@ -302,6 +302,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void charge_power(int amount);
         /** Generates and handles the UI for player interaction with installed bionics */
         void power_bionics();
+        void power_bionics_new();
         void power_mutations();
         /** Handles bionic activation effects of the entered bionic, returns if anything activated */
         bool activate_bionic(int b, bool eff_only = false);

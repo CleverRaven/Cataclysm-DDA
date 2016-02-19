@@ -69,6 +69,66 @@ const efftype_id effect_weed_high( "weed_high" );
 namespace {
 std::map<std::string, bionic_data> bionics;
 std::vector<std::string> faulty_bionics;
+
+void draw_frame( WINDOW *win, const bool empty_list );
+void draw_header( WINDOW *win, const std::pair<int, int> power_units, const std::string help_key );
+
+void draw_frame( WINDOW *win, const bool empty_list )
+{
+    draw_border( win );
+    // lines below header & above footer:
+    mvwhline( win, 2, 1, 0, win->width - 2 );
+    mvwhline( win, win->height - 6, 1, 0, win->width - 2 );
+
+    // intersections:
+    wattron( win, BORDER_COLOR );
+    mvwaddch( win, 2, 0, LINE_XXXO );
+    mvwaddch( win, 2, win->width - 1, LINE_XOXX );
+    mvwaddch( win, win->height - 6, 0, LINE_XXXO );
+    mvwaddch( win, win->height - 6, win->width - 1, LINE_XOXX );
+    wattroff( win, BORDER_COLOR );
+
+    if( empty_list ) {
+        mvwprintz( win, 3, 2, c_ltgray, _( "No bionics installed." ) );
+    } else {
+        // titles
+        static const std::array<std::string, 3> titles = {{
+            _( "Body Part (Used/Total Pts.)" ),
+            _( "Condition" ),
+            _( "Usage Cost" )
+        }};
+        const std::array<int, 3> pos = {{
+            2,
+            std::max( win->width * 1 / 2 - utf8_width( titles[1].c_str() ) / 2 ,
+                      pos[0] + utf8_width( titles[0].c_str() ) + 2 ),
+            std::max( win->width * 2 / 3 + 7, pos[1] + utf8_width( titles[1].c_str() ) + 2)
+        }};
+        for( size_t i = 0; i < std::min( titles.size(), pos.size() ); ++i ) {
+            mvwprintw( win, 3, pos[i], titles[i].c_str() );
+        }
+    }
+    wrefresh( win );
+}
+
+void draw_header( WINDOW *win, const std::string power_string, const std::string help_key )
+{
+    static const std::array<std::string, 3> titles = {{
+        string_format( _( "Body Parts <color_yellow><< %s >></color>" ), _( "All" ) ),
+        power_string,
+        string_format( _( "Press '<color_yellow>%s</color>' for help" ), help_key.c_str() )
+    }};
+    // left / center / right aligned elements
+    const std::array<int, 3> pos = {{
+        0,
+        ( win->width - utf8_width( titles[1] ) ) / 2 + 1,
+        ( win->width - utf8_width( titles[2], true ) - 1 )
+    }};
+    for( size_t i = 0; i < std::min( titles.size(), pos.size() ); ++i ) {
+        fold_and_print( win, 0, pos[i], win->width - 3, c_white, titles[i].c_str() );
+    }
+    wrefresh( win );
+}
+
 } //namespace
 
 bool is_valid_bionic(std::string const& id)
@@ -228,6 +288,11 @@ nc_color get_bionic_text_color(bionic const &bio, bool const isHighlightedBionic
 
 void player::power_bionics()
 {
+    if( query_yn( _( "New UI?" ) ) ) {
+        power_bionics_new();
+        return;
+    }
+
     std::vector <bionic *> passive;
     std::vector <bionic *> active;
     bionic *bio_last = NULL;
@@ -636,6 +701,157 @@ void player::power_bionics()
                 }
             }
         }
+    }
+}
+
+void player::power_bionics_new()
+{
+    // initialization
+    const int win_h = std::min( TERMY, FULL_SCREEN_HEIGHT );
+    const int win_w = FULL_SCREEN_WIDTH + ( TERMX - FULL_SCREEN_WIDTH ) / 3;
+    const int win_x = TERMX / 2 - win_w / 2;
+    const int win_y = TERMY / 2 - win_h / 2;
+
+    WINDOW *w_bionics = newwin( win_h, win_w, win_y, win_x );
+    WINDOW_PTR w_bionics_ptr( w_bionics );
+
+    WINDOW *w_bio_header = newwin( 1, win_w - 3, win_y + 1, win_x + 2 );
+    WINDOW_PTR w_bio_header_ptr( w_bio_header );
+
+    WINDOW *w_bio_description = newwin( 4, win_w - 3, win_h - 5, win_x + 2 );
+    WINDOW_PTR w_bio_description_ptr( w_bio_description );
+
+    WINDOW *w_bio_list = newwin( win_h - w_bio_header->height - w_bio_description->height - 5,
+                                 win_w - 1, win_y + 4, win_x );
+    WINDOW_PTR w_bio_list_ptr( w_bio_list );
+
+
+    input_context ctxt( "BIONICS" );
+    ctxt.register_updown();
+    ctxt.register_action( "ANY_INPUT" );
+    ctxt.register_action( "REASSIGN" );
+    ctxt.register_action( "REMOVE" );
+    ctxt.register_action( "CONFIRM" );
+    ctxt.register_action( "HELP_KEYBINDINGS" );
+
+    int cursor = 0;
+    int scroll_position = 0;
+    const int max_scroll_position = std::max( 0, static_cast<int>( my_bionics.size() ) - w_bio_list->height );
+    bool redraw = true;
+
+    // main loop
+    for (;;) {
+        if( redraw ) {
+            draw_frame( w_bionics, my_bionics.empty() );
+            draw_header( w_bio_header, string_format( _( "Power: %i/%i" ),
+                                                      int( power_level ),
+                                                      int( max_power_level ) ),
+                         ctxt.get_desc( "HELP_KEYBINDINGS" ) );
+            werase( w_bio_list );
+            draw_scrollbar( w_bio_list, cursor, w_bio_list->height, my_bionics.size(),
+                            0, 0, BORDER_COLOR, false );
+            for (int i = scroll_position; i < std::min( w_bio_list->height + scroll_position,
+                                                        int( my_bionics.size() ) ); ++i ) {
+                const bionic& b = my_bionics[i];
+                const bool highlighted = ( i == cursor );
+                mvwputch( w_bio_list, i - scroll_position, 2,
+                          get_bionic_text_color( b, highlighted ), b.invlet );
+
+                // highlight the current line
+                if( highlighted ){
+                    for(int j = 3; j < w_bio_list->width - 1; ++j ) {
+                        wputch( w_bio_list, h_white, ' ');
+                    }
+                }
+
+                mvwprintz( w_bio_list, i - scroll_position, 5, get_bionic_text_color( b, highlighted ),
+                           bionic_info( b.id ).name.c_str() );
+                if( bionic_info( b.id ).toggled ) {
+                    //~illi-kun: todo: some lines are still not filtered, so fix it!
+                    mvwprintz( w_bio_list, i - scroll_position, w_bio_list->width / 2,
+                               get_bionic_text_color( b, highlighted ),
+                               b.powered ? _( "ON" ) : _( "OFF" ) );
+                }
+
+                //~illi-kun: copy-pasted from dedicated function
+                std::ostringstream power_desc;
+                bool hasPreviousText = false;
+                if( bionics[b.id].power_over_time > 0 && bionics[b.id].charge_time > 0 ) {
+                    power_desc << (
+                        bionics[b.id].charge_time == 1
+                      ? string_format( _("%d PU / turn" ),
+                            bionics[b.id].power_over_time)
+                      : string_format( _("%d PU / %d turns" ),
+                            bionics[b.id].power_over_time,
+                            bionics[b.id].charge_time ) );
+                    hasPreviousText = true;
+                }
+                if( bionics[b.id].power_activate > 0 && !bionics[b.id].charge_time ) {
+                    if( hasPreviousText ){
+                        power_desc << ", ";
+                    }
+                    power_desc << string_format( _( "%d PU / activation" ),
+                                    bionics[b.id].power_activate );
+                    hasPreviousText = true;
+                }
+                if( bionics[b.id].power_deactivate > 0 && !bionics[b.id].charge_time ) {
+                    if( hasPreviousText ){
+                        power_desc << ", ";
+                    }
+                    power_desc << string_format( _( "%d PU deact" ),
+                                    bionics[b.id].power_deactivate );
+                }
+                mvwprintz( w_bio_list, i - scroll_position,
+                           std::min( w_bio_list->width * 2 / 3 + 8,
+                                     w_bio_list->width - utf8_width( power_desc.str() ) - 1 ),
+                           get_bionic_text_color( b, highlighted ), power_desc.str().c_str() );
+            }
+            wrefresh( w_bio_list );
+
+            //~illi-kun: todo: dedicated function?
+            werase( w_bio_description );
+            fold_and_print( w_bio_description, 0, 0, w_bio_description->width, c_ltgray,
+                            bionic_info( my_bionics[cursor].id ).description.c_str() );
+            wrefresh( w_bio_description );
+
+            redraw = false;
+        }
+        const std::string action = ctxt.handle_input();
+        if( action == "CONFIRM" ) {
+            return;
+        }
+
+        if(action == "HELP_KEYBINDINGS" ) {
+            wrefresh( w_bionics );
+            redraw = true;
+        }
+
+        if( action == "UP" ) {
+            if( cursor == 0 ) {
+                cursor = static_cast<int>( my_bionics.size() ) - 1;
+            } else {
+                cursor--;
+            }
+            if( scroll_position > 0 && cursor - scroll_position < w_bio_list->height / 2 ) {
+                scroll_position--;
+            }
+            redraw = true;
+        }
+
+        if( action == "DOWN" ) {
+            cursor++;
+            if( cursor >= static_cast<int>( my_bionics.size() ) ) {
+                cursor = 0;
+                scroll_position = 0;
+            }
+            if( scroll_position < max_scroll_position &&
+                cursor - scroll_position > w_bio_list->height / 2 ) {
+                scroll_position++;
+            }
+
+            redraw = true;
+        }
+
     }
 }
 
