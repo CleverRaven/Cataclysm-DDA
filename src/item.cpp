@@ -4325,7 +4325,7 @@ item_location item::pick_reload_ammo( player &u ) const
     menu.w_width += 6; // include space for borders
 
     // center dialog
-    menu.w_y = std::max( ( TERMX / 2 ) - int( menu.w_width / 2 ) , 0 );
+    menu.w_x = std::max( ( TERMX / 2 ) - int( menu.w_width / 2 ) , 0 );
     menu.w_y = std::max( ( TERMY / 2 ) - int( (ammo_list.size() + 3 ) / 2 ) , 0 );
 
     itype_id last = uistate.lastreload[ ammo_type() ];
