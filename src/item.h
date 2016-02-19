@@ -1069,11 +1069,7 @@ public:
         /*@{*/
         bool is_gunmod() const;
         bool is_gun() const;
-        /**
-         * How much moves (@ref Creature::moves) it takes to reload this item.
-         * This also applies to tools.
-         */
-        int reload_time( const player &u ) const;
+
         /** Quantity of ammunition currently loaded in tool, gun or axuiliary gunmod */
         long ammo_remaining() const;
         /** Maximum quantity of ammunition loadable for tool, gun or axuiliary gunmod */

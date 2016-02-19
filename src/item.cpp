@@ -3526,40 +3526,6 @@ bool item::operator<(const item& other) const
     }
 }
 
-int item::reload_time( const player &u ) const
-{
-    int ret = 0;
-
-    if (is_gun()) {
-        const auto reloading = type->gun.get();
-        ret = reloading->reload_time;
-        if (charges == 0) {
-            int spare_mag = has_gunmod("spare_mag");
-            if (spare_mag != -1 && contents[spare_mag].charges > 0) {
-                ret -= int(double(ret) * 0.9);
-            }
-        }
-        double skill_bonus = double(u.get_skill_level(reloading->skill_used)) * .075;
-        if (skill_bonus > .75) {
-            skill_bonus = .75;
-        }
-        ret -= int(double(ret) * skill_bonus);
-    } else if (is_tool()) {
-        ret = 100 + volume() + (weight() / 113);
-    }
-
-    if (has_flag("STR_RELOAD")) {
-        ///\EFFECT_STR reduces reload time of some weapons
-        ret -= u.str_cur * 20;
-    }
-    if (ret < 25) {
-        ret = 25;
-    }
-    ret += u.encumb(bp_hand_l) * 1.5;
-    ret += u.encumb(bp_hand_r) * 1.5;
-    return ret;
-}
-
 item* item::active_gunmod()
 {
     return const_cast<item*>( const_cast<const item*>( this )->active_gunmod() );
