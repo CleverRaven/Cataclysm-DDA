@@ -10176,7 +10176,7 @@ int player::item_handling_cost( const item& it, bool effects, int factor ) const
         mv *= 4;
     }
 
-    return std::min( std::max( mv, MIN_HANDLING_COST ), MAX_HANDLING_COST );
+    return std::min( std::max( mv, 0 ), MAX_HANDLING_COST );
 }
 
 int player::item_reload_cost( const item& it, const item& ammo ) const
