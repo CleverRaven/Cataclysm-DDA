@@ -3310,7 +3310,7 @@ void item::set_mtype( const mtype * const m )
 
 bool item::is_ammo_container() const
 {
-    return (contents.size() >= 1 && contents[0].is_ammo());
+    return !is_magazine() && !contents.empty() && contents[0].is_ammo();
 }
 
 bool item::is_weap() const
