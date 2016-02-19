@@ -296,7 +296,7 @@
         "color" : "green",
         "description" : "A heavy modified handheld nuclear device affixed to the end of a large ballista bolt.  Its case has been cut down and it has been rigged to explode on impact.  It can no longer be triggered manually.",
         "material" : "plastic",
-        "flags": ["LEAK_RAD"],
+        "flags": [""],
         "volume" : 1,
         "weight" : 3816,
         "bashing" : 8,
