@@ -87,7 +87,7 @@ void mdefense::acidsplash( monster &m, Creature *const source,
 
     // Don't splatter directly on the `m`, that doesn't work well
     auto pts = closest_tripoints_first( 1, initial_target );
-    pts.erase( std::remove( pts.begin(), pts.end(), m.pos() ) );
+    pts.erase( std::remove( pts.begin(), pts.end(), m.pos() ), pts.end() );
 
     projectile prj;
     prj.speed = 10;
