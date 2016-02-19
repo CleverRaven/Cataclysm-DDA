@@ -342,22 +342,24 @@ Item_spawn_data::ItemList Item_group::create(int birthday, RecursionList &rec) c
         }
     }
 
-    if( with_ammo && !result.empty() ) {
-        const auto& it = result.front();
-        if( it.is_gun() ) {
-            if( it.magazine_default() != "null" ) {
-                result.emplace_back( it.magazine_default(), birthday );
+    for( auto& e : result ) {
+        bool spawn_ammo = rng( 0, 99 ) < with_ammo;
+        bool spawn_mags = rng( 0, 99 ) < with_magazine || spawn_ammo;
+
+        if( spawn_mags && !e.magazine_integral() && !e.magazine_current() ) {
+            e.contents.emplace_back( e.magazine_default(), e.bday );
+        }
+        if( spawn_ammo && e.ammo_capacity() > 0 && e.ammo_remaining() == 0 ) {
+            itype_id ammo = default_ammo( e.ammo_type() );
+            if( e.magazine_current() ) {
+                e.magazine_current()->contents.emplace_back( ammo, e.bday, e.ammo_capacity() );
             } else {
-                const std::string ammoid = default_ammo( it.ammo_type() );
-                if ( !ammoid.empty() ) {
-                    item ammo( ammoid, birthday );
-                    // TODO: change the spawn lists to contain proper references to containers
-                    ammo = ammo.in_its_container();
-                    result.push_back( ammo );
-                }
+                e.set_curammo( ammo );
+                e.charges = e.ammo_capacity();
             }
         }
     }
+
     return result;
 }
 

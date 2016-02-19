@@ -252,6 +252,11 @@ class Item_group : public Item_spawn_data
         virtual bool remove_item(const Item_tag &itemid) override;
         virtual bool has_item(const Item_tag &itemid) const override;
 
+        /** Chance [0-100%] for items to spawn with ammo (plus default magazine if necesssary) */
+        int with_ammo;
+        /** Chance [0-100%] for items to spawn with their default magazine (if any) */
+        int with_magazine;
+
     protected:
         /**
          * Contains the sum of the probability of all entries
@@ -262,8 +267,6 @@ class Item_group : public Item_spawn_data
          * Links to the entries in this group.
          */
         prop_list items;
-        // TODO: remove this legacy member
-        bool with_ammo;
 };
 
 #endif
