@@ -425,6 +425,16 @@
         "name": ["Laser-targeted"],
         "desc": ["A laser sight is targeting you!"],
         "apply_message": "",
+        "max_duration": 5,
+        "rating": "bad"
+    },
+    {
+        "type": "effect_type",
+        "id": "was_laserlocked",
+        "name": [""],
+        "desc": [""],
+        "apply_message": "",
+        "max_duration": 5,
         "rating": "bad"
     },
     {

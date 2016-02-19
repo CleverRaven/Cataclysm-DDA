@@ -377,11 +377,34 @@ Array of 2 element arrays of skill id and skill level pairs.
 ### "move_cost"
 Move cost of executing the attack
 
+// If true, gives "grace period" to player
+### "require_targeting_player"
+If true, the monster will need to "target" the player,
+wasting `targeting_cost` moves, putting the attack on cooldown and making warning sounds,
+unless it attacked something that needs to be targeted recently.
+
+### "require_targeting_npc"
+As above, but with npcs.
+
+### "require_targeting_monster"
+As above, but with monsters.
+
+### "targeting_timeout"
+Targeting status will be applied for this many turns.
+Note that targeting applies to turret, not targets.
+
+### "targeting_timeout_extend"
+Successfully attacking will extend the targeting for this many turns. Can be negative.
+
 ### "targeting_cost"
 Move cost of targeting the player. Only applied if attacking the player and didn't target player within last 5 turns.
 
 ### "laser_lock"
-If true and attacking an untargeted player, player will be laser locked and warned (as in safe mode) before moving.
+If true and attacking a creature that isn't laser-locked but needs to be targeted,
+the monster will act as if it had no targeting status (and waste time targeting),
+the target will become laser-locked, and if the target is the player, it will cause a warning.
+
+Laser-locking affects the target, but isn't tied to specific attacker.
 
 ### "range"
 Maximum range at which targets will be acquired.

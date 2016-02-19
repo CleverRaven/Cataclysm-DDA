@@ -14,6 +14,7 @@
 const efftype_id effect_bite( "bite" );
 const efftype_id effect_infected( "infected" );
 const efftype_id effect_laserlocked( "laserlocked" );
+const efftype_id effect_was_laserlocked( "was_laserlocked" );
 const efftype_id effect_targeted( "targeted" );
 
 // Simplified version of the function in monattack.cpp
@@ -262,6 +263,12 @@ void gun_actor::load( JsonObject &obj )
     fake_int = obj.get_int( "fake_int", 8 );
     fake_per = obj.get_int( "fake_per", 8 );
 
+    require_targeting_player = obj.get_bool( "require_targeting_player", true );
+    require_targeting_npc = obj.get_bool( "require_targeting_npc", false );
+    require_targeting_monster = obj.get_bool( "require_targeting_monster", false );
+    targeting_timeout = obj.get_int( "targeting_timeout", 8 );
+    targeting_timeout_extend = obj.get_int( "targeting_timeout_extend", 3 );
+
     burst_limit = obj.get_int( "burst_limit", INT_MAX );
 
     laser_lock = obj.get_bool( "laser_lock", false );
@@ -326,6 +333,43 @@ void gun_actor::shoot( monster &z, Creature &target ) const
         z.ammo[ammo_type] = max_ammo;
     }
 
+    const bool require_targeting = ( require_targeting_player && target.is_player() ) ||
+                                   ( require_targeting_npc && target.is_npc() ) ||
+                                   ( require_targeting_monster && target.is_monster() );
+    const bool not_targeted = require_targeting && !z.has_effect( effect_targeted );
+    const bool not_laser_locked = require_targeting && laser_lock &&
+                                  !target.has_effect( effect_was_laserlocked );
+
+    if( not_targeted || not_laser_locked ) {
+        if( !targeting_sound.empty() ) {
+            sounds::sound( z.pos(), targeting_volume, _( targeting_sound.c_str() ) );
+        }
+        if( not_targeted ) {
+            z.add_effect( effect_targeted, targeting_timeout );
+        }
+        if( not_laser_locked ) {
+            target.add_effect( effect_laserlocked, 5 );
+            target.add_effect( effect_was_laserlocked, 5 );
+            target.add_msg_if_player( m_warning,
+                                      _( "You're not sure why you've got a laser dot on you..." ) );
+        }
+
+        z.moves -= targeting_cost;
+        return;
+    }
+
+    // It takes a while
+    z.moves -= move_cost;
+
+    if( z.ammo[ammo_type] <= 0 && !no_ammo_sound.empty() ) {
+        sounds::sound( z.pos(), 10, _( no_ammo_sound.c_str() ) );
+        return;
+    }
+
+    if( g->u.sees( z ) ) {
+        add_msg( m_warning, _( description.c_str() ) );
+    }
+
     npc tmp;
     tmp.name = _( "The " ) + z.name();
     tmp.set_fake( true );
@@ -353,35 +397,6 @@ void gun_actor::shoot( monster &z, Creature &target ) const
         tmp.skillLevel( pr.first ).level( pr.second );
     }
 
-    if( &target == &g->u ) {
-        if( !z.has_effect( effect_targeted ) ) {
-            if( !targeting_sound.empty() ) {
-                sounds::sound( z.pos(), targeting_volume, _( targeting_sound.c_str() ) );
-            }
-            z.add_effect( effect_targeted, 8 );
-            if( laser_lock ) {
-                target.add_effect( effect_laserlocked, 5 );
-                target.add_msg_if_player( m_warning,
-                                          _( "You're not sure why you've got a laser dot on you..." ) );
-            }
-
-            z.moves -= targeting_cost;
-            return;
-        }
-    }
-
-    // It takes a while
-    z.moves -= move_cost;
-
-    if( z.ammo[ammo_type] <= 0 && !no_ammo_sound.empty() ) {
-        sounds::sound( z.pos(), 10, _( no_ammo_sound.c_str() ) );
-        return;
-    }
-
-    if( g->u.sees( z ) ) {
-        add_msg( m_warning, _( description.c_str() ) );
-    }
-
     const auto distance = rl_dist( z.pos(), target.pos() );
     int burst_size = std::min( burst_limit, tmp.weapon.burst_size() );
     if( distance > range_no_burst || burst_size < 1 ) {
@@ -390,7 +405,12 @@ void gun_actor::shoot( monster &z, Creature &target ) const
 
     tmp.fire_gun( target.pos(), burst_size );
     z.ammo[ammo_type] = tmp.weapon.charges;
-    if( &target == &g->u ) {
-        z.add_effect( effect_targeted, 3 );
+    if( require_targeting ) {
+        z.add_effect( effect_targeted, targeting_timeout_extend );
+    }
+
+    if( laser_lock ) {
+        // To prevent spamming laser locks when the player can tank that stuff somehow
+        target.add_effect( effect_was_laserlocked, 5 );
     }
 }
