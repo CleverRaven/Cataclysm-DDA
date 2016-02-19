@@ -10955,8 +10955,6 @@ void player::use(int inventory_position)
             return;
         }
 
-        // @todo implement sensible time penalty
-        moves -= int( used->reload_time( *this ) / 2 );
         return;
 
     } else if ( used->type->has_use() ) {
@@ -11067,6 +11065,8 @@ void player::remove_gunmod( item *weapon, unsigned id )
     }
     i_add_or_drop( *gunmod );
     weapon->contents.erase( weapon->contents.begin() + id );
+
+    moves -= gunmod->type->gunmod->install_time / 2;
 }
 
 void player::gunmod_add( item &gun, item &mod )
