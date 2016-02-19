@@ -8250,6 +8250,7 @@ bool npc_menu( npc &who )
     };
 
     uimenu amenu;
+    amenu.return_invalid = true;
 
     amenu.selected = 0;
     amenu.text = string_format( _("What to do with %s?"), who.disp_name().c_str() );
