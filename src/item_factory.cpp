@@ -68,10 +68,29 @@ void Item_factory::finialize_item_blacklist()
             debugmsg("item on blacklist %s does not exist", a->c_str());
         }
     }
-    for (std::map<std::string, itype *>::const_iterator a = m_templates.begin(); a != m_templates.end();
-         ++a) {
+    const bool magazines_blacklisted = item_options.count("blacklist_magazines") != 0;
+    // Can't be part of the blacklist loop because the magazines might be
+    // deleted before the guns are processed.
+    if( magazines_blacklisted ) {
+        for( std::map<std::string, itype *>::const_iterator a = m_templates.begin();
+             a != m_templates.end(); ++a ) {
+            // find the guns, look up their default magazine, and add its capacity to the gun.
+            if( a->second->magazine_default.empty() ) {
+                continue;
+            }
+            itype *default_magazine = m_templates[ a->second->magazine_default.begin()->second ];
+            a->second->gun->clip = default_magazine->magazine->capacity;
+            a->second->gun->reload_time = default_magazine->magazine->reload_time;
+            a->second->magazines.clear();
+            a->second->magazine_default.clear();
+            a->second->magazine_well = 0;
+        }
+    }
+    for( std::map<std::string, itype *>::const_iterator a = m_templates.begin();
+         a != m_templates.end(); ++a ) {
         const std::string &itm = a->first;
-        if (!item_is_blacklisted(itm)) {
+        if( !item_is_blacklisted( itm ) &&
+            !( magazines_blacklisted && a->second->magazine != nullptr ) ) {
             continue;
         }
         for( auto &elem : m_template_groups ) {
@@ -540,9 +559,11 @@ void Item_factory::check_definitions() const
             main_stream.str(std::string());
         }
     }
-    for( auto &mag : magazines_defined ) {
-        if( magazines_used.count( mag ) == 0 ) {
-            main_stream << "Magazine " << mag << " defined but not used.\n";
+    if( item_options.count( "blacklist_magazines" ) == 0 ) {
+        for( auto &mag : magazines_defined ) {
+            if( magazines_used.count( mag ) == 0 ) {
+                main_stream << "Magazine " << mag << " defined but not used.\n";
+            }
         }
     }
     const std::string &buffer = main_stream.str();
