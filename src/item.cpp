@@ -2913,23 +2913,22 @@ int item::bash_resist( bool to_self ) const
     static constexpr float stepness = -0.8f;
     static constexpr float center_of_S = 2.0f;
 
-    if (is_null()) {
+    if( is_null() ) {
         return resist;
     }
-    if (item::item_tags.count("leather_padded") > 0){
-
+    if( item_tags.count("leather_padded") > 0 ){
         l_padding = max_value / ( 1 + exp( stepness * ( get_thickness() - center_of_S )));
     }
-    if (item::item_tags.count("kevlar_padded") > 0){
+    if( item_tags.count("kevlar_padded") > 0 ){
         k_padding = max_value / ( 1 + exp( stepness * ( get_thickness() - center_of_S )));
     }
     std::vector<material_type*> mat_types = made_of_types();
     // Armor gets an additional multiplier.
-    if (is_armor()) {
+    if( is_armor() ) {
         // base resistance
         // Don't give reinforced items +armor, just more resistance to ripping
-        const int eff_damage = std::max( to_self ? -1 : 0, damage );
-        eff_thickness = ((get_thickness() - eff_damage <= 0) ? 1 : (get_thickness() - eff_damage));
+        const int eff_damage = to_self ? std::min( damage, 0 ) : std::max( damage, 0 );
+        eff_thickness = std::max( 1, get_thickness() - eff_damage );
     }
 
     for (auto mat : mat_types) {
@@ -2952,16 +2951,16 @@ int item::cut_resist( bool to_self ) const
     // previous versions. Adjust to make you happier/sadder.
     float adjustment = 1.5;
 
-    if (is_null()) {
+    if( is_null() ) {
         return resist;
     }
-    if (item::item_tags.count("leather_padded") > 0){
+    if( item_tags.count("leather_padded") > 0 ){
         static constexpr float max_value = 10.0f;
         static constexpr float stepness = -0.8f;
         static constexpr float center_of_S = 2.0f;
         l_padding = max_value / ( 1 + exp( stepness * ( get_thickness() - center_of_S )));
     }
-    if (item::item_tags.count("kevlar_padded") > 0){
+    if( item_tags.count("kevlar_padded") > 0 ){
         static constexpr float max_value = 15.0f;
         static constexpr float stepness = -0.5f;
         static constexpr float center_of_S = 2.0f;
@@ -2969,14 +2968,14 @@ int item::cut_resist( bool to_self ) const
     }
     std::vector<material_type*> mat_types = made_of_types();
     // Armor gets an additional multiplier.
-    if (is_armor()) {
+    if( is_armor() ) {
         // base resistance
         // Don't give reinforced items +armor, just more resistance to ripping
-        const int eff_damage = std::max( to_self ? -1 : 0, damage );
-        eff_thickness = ((get_thickness() - eff_damage <= 0) ? 1 : (get_thickness() - eff_damage));
+        const int eff_damage = to_self ? std::min( damage, 0 ) : std::max( damage, 0 );
+        eff_thickness = std::max( 1, get_thickness() - eff_damage );
     }
 
-    for (auto mat : mat_types) {
+    for( auto mat : mat_types ) {
         resist += mat->cut_resist();
     }
     // Average based on number of materials.
@@ -3063,10 +3062,6 @@ int item::chip_resistance( bool worst ) const
     if( res <= 0 ) {
         return 0;
     }
-
-    // An item's current state of damage can make it more susceptible to being damaged
-    // 10% less resistance for each point of damage
-    res = res * ( 10 - std::max<int>( 0, damage ) ) / 10;
 
     return res;
 }
