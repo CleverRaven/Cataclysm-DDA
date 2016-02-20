@@ -160,6 +160,10 @@ void player::randomize( const bool random_scenario, int &points )
     int_max = rng(6, 12);
     per_max = rng(6, 12);
     points = points - str_max - dex_max - int_max - per_max - g->u.prof->point_cost() - g->scen->point_cost();
+    // The default for each stat is 8, and that default does not cost any points.
+    // Values below give points back, values above require points. The line above has removed
+    // to many points, therefor they are added back.
+    points += 8 * 4;
     if (str_max > HIGH_STAT) {
         points -= (str_max - HIGH_STAT);
     }
@@ -322,7 +326,6 @@ int player::create(character_type type, std::string tempname)
     case PLTYPE_NOW:
     case PLTYPE_RANDOM_WITH_SCENARIO:
     case PLTYPE_RANDOM:
-        points = points + 32;
         randomize( type == PLTYPE_RANDOM_WITH_SCENARIO, points );
         tab = NEWCHAR_TAB_MAX;
         break;
