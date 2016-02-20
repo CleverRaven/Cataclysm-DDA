@@ -145,7 +145,6 @@ int player::create(character_type type, std::string tempname)
     int points = OPTIONS["INITIAL_POINTS"];
     int max_trait_points = OPTIONS["MAX_TRAIT_POINTS"];
     if (type != PLTYPE_CUSTOM) {
-        points = points + 32;
         switch (type) {
         case PLTYPE_CUSTOM:
             break;
@@ -157,8 +156,10 @@ int player::create(character_type type, std::string tempname)
             } else {
                 g->u.name = MAP_SHARING::getUsername();
             }
+            // fall through on purpose, PLTYPE_NOW is a sub-type of PLTYPE_RANDOM
         case PLTYPE_RANDOM_WITH_SCENARIO:
         case PLTYPE_RANDOM: {
+            points = points + 32;
             g->u.male = (rng(1, 100) > 50);
             if(!MAP_SHARING::isSharing()) {
                 g->u.pick_name(true);
