@@ -80,7 +80,8 @@ void Item_factory::finialize_item_blacklist()
             }
             itype *default_magazine = m_templates[ type->magazine_default.begin()->second ];
             type->gun->clip = default_magazine->magazine->capacity;
-            type->gun->reload_time = default_magazine->magazine->reload_time;
+            type->gun->reload_time = default_magazine->magazine->capacity *
+                default_magazine->magazine->reload_time;
             type->magazines.clear();
             type->magazine_default.clear();
             type->magazine_well = 0;
