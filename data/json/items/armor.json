@@ -5085,20 +5085,16 @@
         "covers" : ["EYES"],
         "to_hit" : -2,
         "symbol" : "[",
-        "description" : "A pair of glasses for the near-sighted.  You can use them to focus the sunlight.",
+        "description" : "A pair of glasses for the near-sighted.  The concave lenses diffuse the sunlight, rendering them useless for starting fires.",
         "price" : 7900,
         "material" : ["glass", "plastic"],
         "volume" : 1,
         "warmth" : 0,
         "environmental_protection" : 1,
         "encumbrance" : 0,
-        "flags" : ["WATER_FRIENDLY", "LENS"],
+        "flags" : ["WATER_FRIENDLY"],
         "coverage" : 75,
-        "material_thickness" : 1,
-        "use_action": {
-            "type": "extended_firestarter",
-            "need_sunlight": true
-        }
+        "material_thickness" : 1
     },
     {
         "type" : "ARMOR",
