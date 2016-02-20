@@ -40,7 +40,7 @@ typedef std::set<std::string> t_string_set;
 static t_string_set item_blacklist;
 static t_string_set item_whitelist;
 
-std::set<std::string> item_options;
+static std::set<std::string> item_options;
 
 std::unique_ptr<Item_factory> item_controller( new Item_factory() );
 
@@ -72,25 +72,24 @@ void Item_factory::finialize_item_blacklist()
     // Can't be part of the blacklist loop because the magazines might be
     // deleted before the guns are processed.
     if( magazines_blacklisted ) {
-        for( std::map<std::string, itype *>::const_iterator a = m_templates.begin();
-             a != m_templates.end(); ++a ) {
+        for( std::pair<const std::string, itype *> &entry : m_templates ) {
+            itype *type = entry.second;
             // find the guns, look up their default magazine, and add its capacity to the gun.
-            if( a->second->magazine_default.empty() ) {
+            if( type->magazine_default.empty() ) {
                 continue;
             }
-            itype *default_magazine = m_templates[ a->second->magazine_default.begin()->second ];
-            a->second->gun->clip = default_magazine->magazine->capacity;
-            a->second->gun->reload_time = default_magazine->magazine->reload_time;
-            a->second->magazines.clear();
-            a->second->magazine_default.clear();
-            a->second->magazine_well = 0;
+            itype *default_magazine = m_templates[ type->magazine_default.begin()->second ];
+            type->gun->clip = default_magazine->magazine->capacity;
+            type->gun->reload_time = default_magazine->magazine->reload_time;
+            type->magazines.clear();
+            type->magazine_default.clear();
+            type->magazine_well = 0;
         }
     }
-    for( std::map<std::string, itype *>::const_iterator a = m_templates.begin();
-         a != m_templates.end(); ++a ) {
-        const std::string &itm = a->first;
+    for( std::pair<const std::string, itype *> &entry : m_templates ) {
+        const std::string &itm = entry.first;
         if( !item_is_blacklisted( itm ) &&
-            !( magazines_blacklisted && a->second->magazine != nullptr ) ) {
+            !( magazines_blacklisted && entry.second->magazine != nullptr ) ) {
             continue;
         }
         for( auto &elem : m_template_groups ) {
@@ -140,7 +139,6 @@ void Item_factory::load_item_option( JsonObject &json )
 
 Item_factory::~Item_factory()
 {
-    item_options.clear();
     clear();
 }
 
@@ -1324,6 +1322,7 @@ void Item_factory::clear()
     m_templates.clear();
     item_blacklist.clear();
     item_whitelist.clear();
+    item_options.clear();
 }
 
 Item_group *make_group_or_throw(Item_spawn_data *&isd, Item_group::Type t)
