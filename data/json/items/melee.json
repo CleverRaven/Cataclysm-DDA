@@ -2508,12 +2508,6 @@
         "bashing": 8,
         "cutting": 2,
         "to_hit": 2,
-        "max_charges": 0,
-        "initial_charges": 0,
-        "charges_per_use": 0,
-        "turns_per_charge": 0,
-        "ammo": "NULL",
-        "revert_to": "null",
         "category" : "weapons"
     },
       {
@@ -2560,12 +2554,6 @@
         "bashing": 6,
         "cutting": 2,
         "to_hit": 1,
-        "max_charges": 0,
-        "initial_charges": 0,
-        "charges_per_use": 0,
-        "turns_per_charge": 0,
-        "ammo": "NULL",
-        "revert_to": "null",
         "category" : "weapons"
     },
     {
@@ -2611,12 +2599,6 @@
         "bashing": 15,
         "cutting": 2,
         "to_hit": 1,
-        "max_charges": 0,
-        "initial_charges": 0,
-        "charges_per_use": 0,
-        "turns_per_charge": 0,
-        "ammo": "NULL",
-        "revert_to": "null",
         "category" : "weapons"
     },
     {
@@ -2662,12 +2644,6 @@
     "bashing": 10,
     "cutting": 2,
     "to_hit": 2,
-    "max_charges": 0,
-    "initial_charges": 0,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
-    "ammo": "NULL",
-    "revert_to": "null",
     "category" : "weapons"
     },
     {
@@ -2687,12 +2663,6 @@
     "bashing": 4,
     "cutting": 2,
     "to_hit": 2,
-    "max_charges": 0,
-    "initial_charges": 0,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
-    "ammo": "NULL",
-    "revert_to": "null",
     "category" : "weapons"
     },
     {
@@ -2712,12 +2682,6 @@
     "bashing": 4,
     "cutting": 2,
     "to_hit": 1,
-    "max_charges": 0,
-    "initial_charges": 0,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
-    "ammo": "NULL",
-    "revert_to": "null",
     "category" : "weapons"
     },
     {
@@ -2765,12 +2729,6 @@
     "cutting": 2,
     "flags" : "SHEATH_SWORD",
     "to_hit": 1,
-    "max_charges": 0,
-    "initial_charges": 0,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
-    "ammo": "NULL",
-    "revert_to": "null",
     "category": "weapons"
     },
     {
@@ -2788,12 +2746,6 @@
     "bashing": 16,
     "cutting": 2,
     "to_hit": 1,
-    "max_charges": 0,
-    "initial_charges": 0,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
-    "ammo": "NULL",
-    "revert_to": "null",
     "category": "weapons"
     },
     {
@@ -2823,7 +2775,7 @@
   },
     {
     "id": "nodachi_fake",
-    "type": "TOOL",
+    "type": "GENERIC",
     "symbol": "/",
     "color": "light_gray",
     "name": "nodachi",
@@ -2838,12 +2790,6 @@
     "bashing": 8,
     "cutting": 2,
     "to_hit": 1,
-    "max_charges": 0,
-    "initial_charges": 0,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
-    "ammo": "NULL",
-    "revert_to": "null",
     "category" : "weapons"
   },{
     "id": "l_HFPack",
