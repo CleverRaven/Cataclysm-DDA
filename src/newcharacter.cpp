@@ -66,7 +66,7 @@ int set_scenario(WINDOW *w, player *u, int &points);
 int set_profession(WINDOW *w, player *u, int &points);
 int set_skills(WINDOW *w, player *u, int &points);
 
-int set_description(WINDOW *w, player *u, character_type type, int &points);
+int set_description(WINDOW *w, player *u, bool allow_reroll, int &points);
 
 void save_template(player *u);
 
@@ -336,6 +336,7 @@ bool player::create(character_type type, std::string tempname)
         break;
     }
 
+    const bool allow_reroll = type == PLTYPE_RANDOM;
     do {
         if( w == nullptr ) {
             // assert( type == PLTYPE_NOW );
@@ -361,7 +362,7 @@ bool player::create(character_type type, std::string tempname)
             tab += set_skills     (w, this, points);
             break;
         case 5:
-            tab += set_description(w, this, type, points);
+            tab += set_description(w, this, allow_reroll, points);
             break;
         }
     } while (tab >= 0 && tab <= NEWCHAR_TAB_MAX);
@@ -1850,7 +1851,7 @@ int set_scenario(WINDOW *w, player *u, int &points)
     return retval;
 }
 
-int set_description(WINDOW *w, player *u, character_type type, int &points)
+int set_description(WINDOW *w, player *u, const bool allow_reroll, int &points)
 {
     draw_tabs(w, _("DESCRIPTION"));
 
@@ -1997,7 +1998,7 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
                       _("Press %s to finish character creation or %s to go back."),
                       ctxt.get_desc("NEXT_TAB").c_str(),
                       ctxt.get_desc("PREV_TAB").c_str());
-            if( type == PLTYPE_RANDOM ) {
+            if( allow_reroll ) {
                     mvwprintz( w_guide, 0, 0, c_green,
                                _("Press %s to save character template, %s to re-roll or %s for random scenario."),
                                ctxt.get_desc("SAVE_TEMPLATE").c_str(),
@@ -2081,12 +2082,12 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
             }
         } else if (action == "PREV_TAB") {
             return -1;
-        } else if (action == "REROLL_CHARACTER" && type == PLTYPE_RANDOM ) {
+        } else if (action == "REROLL_CHARACTER" && allow_reroll ) {
             points = OPTIONS["INITIAL_POINTS"];
             u->randomize( false, points );
             // Return 0 so we re-enter this tab again, but it forces a complete redrawing of it.
             return 0;
-        } else if (action == "REROLL_CHARACTER_WITH_SCENARIO" && type == PLTYPE_RANDOM ) {
+        } else if (action == "REROLL_CHARACTER_WITH_SCENARIO" && allow_reroll ) {
             points = OPTIONS["INITIAL_POINTS"];
             u->randomize( true, points );
             // Return 0 so we re-enter this tab again, but it forces a complete redrawing of it.
