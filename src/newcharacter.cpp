@@ -129,8 +129,6 @@ int player::create(character_type type, std::string tempname)
         switch (type) {
         case PLTYPE_CUSTOM:
             break;
-        case PLTYPE_MAX:
-            break;
         case PLTYPE_NOW:
             g->u.male = (rng(1, 100) > 50);
 
