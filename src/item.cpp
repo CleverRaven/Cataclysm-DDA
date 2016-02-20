@@ -4231,7 +4231,9 @@ item_location item::pick_reload_ammo( player &u ) const
     opts.push_back( this );
     for( const auto e : opts ) {
         for( item_location& ammo : u.find_ammo( *e ) ) {
-            if( e->can_reload( ammo->typeId() ) || e->has_flag( "RELOAD_AND_SHOOT" ) ) {
+            if( e->can_reload( ammo->is_ammo_container() ? ammo->contents[0].typeId() : ammo->typeId() ) ||
+                e->has_flag( "RELOAD_AND_SHOOT" ) ) {
+
                 ammo_list.push_back( std::move( ammo ) );
             }
         }
@@ -4398,9 +4400,8 @@ bool item::reload( player &u, item_location loc )
         return false;
     }
 
-    // Handle ammo in containers, currently only gasoline and quivers
     item *container = nullptr;
-    if ( (ammo->is_container() || ammo->type->can_use("QUIVER")) && !ammo->contents.empty() ) {
+    if ( ammo->is_ammo_container() ) {
         container = ammo;
         ammo = &ammo->contents[0];
     }
