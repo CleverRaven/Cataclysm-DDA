@@ -61,7 +61,7 @@
 void draw_tabs(WINDOW *w, std::string sTab);
 
 int set_stats(WINDOW *w, player *u, int &points);
-int set_traits(WINDOW *w, player *u, int &points, int max_trait_points);
+int set_traits(WINDOW *w, player *u, int &points);
 int set_scenario(WINDOW *w, player *u, int &points);
 int set_profession(WINDOW *w, player *u, int &points);
 int set_skills(WINDOW *w, player *u, int &points);
@@ -318,7 +318,6 @@ int player::create(character_type type, std::string tempname)
 
     int tab = 0;
     int points = OPTIONS["INITIAL_POINTS"];
-    int max_trait_points = OPTIONS["MAX_TRAIT_POINTS"];
 
     switch (type) {
     case PLTYPE_CUSTOM:
@@ -354,7 +353,7 @@ int player::create(character_type type, std::string tempname)
             tab += set_profession (w, this, points);
             break;
         case 2:
-            tab += set_traits     (w, this, points, max_trait_points);
+            tab += set_traits     (w, this, points);
             break;
         case 3:
             tab += set_stats      (w, this, points);
@@ -795,8 +794,10 @@ int set_stats(WINDOW *w, player *u, int &points)
     } while (true);
 }
 
-int set_traits(WINDOW *w, player *u, int &points, int max_trait_points)
+int set_traits(WINDOW *w, player *u, int &points)
 {
+    const int max_trait_points = OPTIONS["MAX_TRAIT_POINTS"];
+
     draw_tabs(w, _("TRAITS"));
 
     WINDOW *w_description = newwin(3, FULL_SCREEN_WIDTH - 2, FULL_SCREEN_HEIGHT - 4 + getbegy(w),
