@@ -16,10 +16,12 @@ src/debug.cpp
 src/drawing_primitives.cpp
 src/gamemode.cpp
 src/item_action.cpp
+src/item_location.cpp
 src/itype.cpp
 src/iuse_software.cpp
 src/live_view.cpp
 src/lua_console.cpp
+src/map_selector.cpp
 src/mapsharing.cpp
 src/material.cpp
 src/mattack_actors.cpp
@@ -46,6 +48,7 @@ src/tileray.cpp
 src/translations.cpp
 src/trap.cpp
 src/trapfunc.cpp
+src/vehicle_selector.cpp
 src/version.cpp
 src/action.h
 src/active_item_cache.h
@@ -94,7 +97,6 @@ src/int_id.h
 src/item_action.h
 src/item_factory.h
 src/item_location.h
-src/item_location.cpp
 src/item_stack.h
 src/iuse_software.h
 src/iuse_software_kitten.h
@@ -106,6 +108,7 @@ src/line.h
 src/live_view.h
 src/lua_console.h
 src/map_iterator.h
+src/map_selector.h
 src/mapbuffer.h
 src/mapgenformat.h
 src/mapsharing.h
@@ -149,11 +152,8 @@ src/tutorial.h
 src/ui.h
 src/veh_interact.h
 src/veh_type.h
+src/vehicle_selector.h
 src/version.h
 src/weather.h
 src/weighted_list.h
 src/worldfactory.h
-src/map_selector.h
-src/map_selector.cpp
-src/vehicle_selector.h
-src/vehicle_selector.cpp
