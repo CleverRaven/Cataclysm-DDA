@@ -301,7 +301,7 @@ void player::randomize( const bool random_scenario, int &points )
     }
 }
 
-int player::create(character_type type, std::string tempname)
+bool player::create(character_type type, std::string tempname)
 {
     weapon = item("null", 0);
 
@@ -323,14 +323,13 @@ int player::create(character_type type, std::string tempname)
     case PLTYPE_CUSTOM:
         break;
     case PLTYPE_NOW:
-    case PLTYPE_RANDOM_WITH_SCENARIO:
     case PLTYPE_RANDOM:
-        randomize( type == PLTYPE_RANDOM_WITH_SCENARIO, points );
+        randomize( false, points );
         tab = NEWCHAR_TAB_MAX;
         break;
     case PLTYPE_TEMPLATE:
         if( !load_template( tempname ) ) {
-            return 0;
+            return false;
         }
         points = 0;
         tab = NEWCHAR_TAB_MAX;
@@ -368,15 +367,8 @@ int player::create(character_type type, std::string tempname)
     } while (tab >= 0 && tab <= NEWCHAR_TAB_MAX);
     delwin(w);
 
-    if( tab == -3 ) {
-        // Returned from set_description for reroll
-        return -2;
-    } else if( tab == -2 ) {
-        // Returned from set_description for reroll
-        return -1;
-    } else if( tab < 0 ) {
-        // Back to main menu
-        return 0;
+    if( tab < 0 ) {
+        return false;
     }
 
     recalc_hp();
@@ -2009,7 +2001,7 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
                       _("Press %s to finish character creation or %s to go back."),
                       ctxt.get_desc("NEXT_TAB").c_str(),
                       ctxt.get_desc("PREV_TAB").c_str());
-            if( type == PLTYPE_RANDOM || type == PLTYPE_RANDOM_WITH_SCENARIO ) {
+            if( type == PLTYPE_RANDOM ) {
                     mvwprintz( w_guide, 0, 0, c_green,
                                _("Press %s to save character template, %s to re-roll or %s for random scenario."),
                                ctxt.get_desc("SAVE_TEMPLATE").c_str(),
@@ -2093,10 +2085,16 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
             }
         } else if (action == "PREV_TAB") {
             return -1;
-        } else if (action == "REROLL_CHARACTER" && (type == PLTYPE_RANDOM || type == PLTYPE_RANDOM_WITH_SCENARIO)) {
-            return -7;
-        } else if (action == "REROLL_CHARACTER_WITH_SCENARIO" && (type == PLTYPE_RANDOM || type == PLTYPE_RANDOM_WITH_SCENARIO)) {
-            return -8;
+        } else if (action == "REROLL_CHARACTER" && type == PLTYPE_RANDOM ) {
+            points = OPTIONS["INITIAL_POINTS"];
+            u->randomize( false, points );
+            // Return 0 so we re-enter this tab again, but it forces a complete redrawing of it.
+            return 0;
+        } else if (action == "REROLL_CHARACTER_WITH_SCENARIO" && type == PLTYPE_RANDOM ) {
+            points = OPTIONS["INITIAL_POINTS"];
+            u->randomize( true, points );
+            // Return 0 so we re-enter this tab again, but it forces a complete redrawing of it.
+            return 0;
         } else if (action == "SAVE_TEMPLATE") {
             if (points > 0) {
                 if(query_yn(_("You are attempting to save a template with unused points. "

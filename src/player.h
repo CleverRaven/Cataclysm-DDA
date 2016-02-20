@@ -143,7 +143,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         player &operator=(player &&) = default;
 
         // newcharacter.cpp
-        int create(character_type type, std::string tempname = "");
+        bool create(character_type type, std::string tempname = "");
         void randomize( bool random_scenario, int &points );
         bool load_template( const std::string &template_name );
         /** Calls Character::normalize()
