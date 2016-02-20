@@ -19,6 +19,7 @@ class Skill;
 using skill_id = string_id<Skill>;
 class effect_type;
 using efftype_id = string_id<effect_type>;
+using ammotype = std::string;
 
 /**
  * Transform an item into a specific type.
@@ -631,6 +632,29 @@ class holster_actor : public iuse_actor
 
         holster_actor() : iuse_actor(), max_weight( -1 ), multi( 1 ), draw_cost( VOLUME_MOVE_COST ) { }
         virtual ~holster_actor() { }
+        virtual void load( JsonObject &jo );
+        virtual long use( player *, item *, bool, const tripoint & ) const override;
+        virtual iuse_actor *clone() const override;
+};
+
+/**
+ * Store ammo and later reload using it
+ */
+class bandolier_actor : public iuse_actor
+{
+    public:
+        /** Total number of rounds that can be stored **/
+        int capacity = 1;
+        /** What types of ammo can be stored? */
+        std::set<ammotype> ammo;
+
+        /** Check if obj could be stored in the bandolier */
+        bool can_store( const item& bandolier, const item& obj ) const;
+
+        /** Store ammo in the bandolier */
+        bool store( player &p, item& bandolier, item& obj ) const;
+
+        virtual ~bandolier_actor() { }
         virtual void load( JsonObject &jo );
         virtual long use( player *, item *, bool, const tripoint & ) const override;
         virtual iuse_actor *clone() const override;

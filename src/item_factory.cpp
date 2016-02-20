@@ -1575,6 +1575,8 @@ void Item_factory::set_uses_from_object(JsonObject obj, std::vector<use_function
         newfun = load_actor<musical_instrument_actor>( obj );
     } else if( type == "holster" ) {
         newfun = load_actor<holster_actor>( obj );
+    } else if( type == "bandolier" ) {
+        newfun = load_actor<bandolier_actor>( obj );
     } else if( type == "repair_item" ) {
         newfun = load_actor<repair_item_actor>( obj );
     } else if( type == "heal" ) {

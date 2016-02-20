@@ -11496,19 +11496,20 @@ void game::reload( int pos )
             break;
     }
 
-    auto ammo = it->pick_reload_ammo( u );
-    if( ammo ) {
+    auto loc = it->pick_reload_ammo( u );
+    if( loc ) {
+        const item& ammo = loc->is_ammo_container() ? loc->contents[0] : *loc;
 
         item *target = nullptr;
-        if( it->active_gunmod() && it->active_gunmod()->can_reload( ammo->typeId() ) ) {
+        if( it->active_gunmod() && it->active_gunmod()->can_reload( ammo.typeId() ) ) {
             target = it->active_gunmod(); // prefer reloading active gunmod
 
-        } else if( it->can_reload( ammo->typeId() ) ) {
+        } else if( it->can_reload( ammo.typeId() ) ) {
             target = it; // otherwise reload item itself
 
         } else {
             for( const auto mod : it->gunmods() ) {
-                if( mod->can_reload( ammo->typeId() ) ) {
+                if( mod->can_reload( ammo.typeId() ) ) {
                     target = mod; // finally try to reload any other auxiliary gunmod
                     break;
                 }
@@ -11519,17 +11520,11 @@ void game::reload( int pos )
             return; // not expected when player::rate_action_reload() == true
         }
 
-        if( ammo->is_magazine() && ammo->ammo_remaining() == 0 ) {
-            if( !query_yn( _( "Reload using an empty magazine?" ) ) ) {
-                return;
-            }
-        }
-
-        int qty = !target->has_flag( "RELOAD_ONE" ) ? target->ammo_capacity() - target->ammo_remaining() : 1;
+        int qty = std::max( !target->has_flag( "RELOAD_ONE" ) ? target->ammo_capacity() - target->ammo_remaining() : 1, 1L );
 
         std::stringstream ss;
         ss << pos;
-        u.assign_activity( ACT_RELOAD, it->reload_time( u ), -1, ammo.obtain( u, qty ), ss.str() );
+        u.assign_activity( ACT_RELOAD, it->reload_time( u ), -1, loc.obtain( u, qty ), ss.str() );
         u.inv.restack( &u );
     }
 

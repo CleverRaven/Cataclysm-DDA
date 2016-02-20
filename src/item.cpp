@@ -4230,19 +4230,12 @@ item_location item::pick_reload_ammo( player &u ) const
     auto opts = gunmods();
     opts.push_back( this );
     for( const auto e : opts ) {
-        if( e->can_reload() ) {
-            auto tmp = u.find_ammo( *e );
-            std::copy_if( std::make_move_iterator( tmp.begin() ),
-                          std::make_move_iterator( tmp.end() ),
-                          std::back_inserter( ammo_list ),
-                          [&e]( const item_location& ammo ) {
-                             // items with partially loaded integral magazines require matching ammo
-                             return e->can_reload( ammo.get_item()->typeId() );
-                          } );
+        for( item_location& ammo : u.find_ammo( *e ) ) {
+            if( e->can_reload( ammo->is_ammo_container() ? ammo->contents[0].typeId() : ammo->typeId() ) ||
+                e->has_flag( "RELOAD_AND_SHOOT" ) ) {
 
-        } else if( e->has_flag( "RELOAD_AND_SHOOT") ) {
-            auto tmp = u.find_ammo( *e );
-            std::move( tmp.begin(), tmp.end(), std::back_inserter( ammo_list ) );
+                ammo_list.push_back( std::move( ammo ) );
+            }
         }
     }
 
@@ -4277,11 +4270,16 @@ item_location item::pick_reload_ammo( player &u ) const
 
     // Construct item names
     std::vector<std::string> names;
-    std::transform( ammo_list.begin(), ammo_list.end(), std::back_inserter( names ), []( item_location& e ) {
+    std::transform( ammo_list.begin(), ammo_list.end(), std::back_inserter( names ), [&u]( item_location& e ) {
         if( e->is_magazine() && e->ammo_data() ) {
             //~ magazine with ammo (count)
             return string_format( _( "%s with %s (%d)" ), e->type->nname( 1 ).c_str(),
                                   e->ammo_data()->nname( e->ammo_remaining() ).c_str(), e->ammo_remaining() );
+
+        } else if( e->is_ammo_container() && u.is_worn( *e ) ) {
+            // worn ammo containers should be named by their contents with their location also updated below
+            return e->contents[0].display_name();
+
         } else {
             return e->display_name();
         }
@@ -4289,7 +4287,10 @@ item_location item::pick_reload_ammo( player &u ) const
 
     // Get location descriptions
     std::vector<std::string> where;
-    std::transform( ammo_list.begin(), ammo_list.end(), std::back_inserter( where ), []( item_location& e ) {
+    std::transform( ammo_list.begin(), ammo_list.end(), std::back_inserter( where ), [&u]( item_location& e ) {
+        if( e->is_ammo_container() && u.is_worn( *e ) ) {
+            return e->type_name();
+        }
         return e.describe( &g->u );
     } );
 
@@ -4407,9 +4408,8 @@ bool item::reload( player &u, item_location loc )
         return false;
     }
 
-    // Handle ammo in containers, currently only gasoline and quivers
     item *container = nullptr;
-    if ( (ammo->is_container() || ammo->type->can_use("QUIVER")) && !ammo->contents.empty() ) {
+    if ( ammo->is_ammo_container() ) {
         container = ammo;
         ammo = &ammo->contents[0];
     }

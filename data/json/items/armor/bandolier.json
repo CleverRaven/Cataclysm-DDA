@@ -1,0 +1,24 @@
+[
+  {
+    "id": "shotbelt",
+    "type": "ARMOR",
+    "name": "shotgun bandolier",
+    "description" : "A small leather bandolier for keeping shotgun shells close to hand.",
+    "weight": 140,
+    "volume": 1,
+    "price": 1900,
+    "material": "leather",
+    "symbol": "[",
+    "color": "dark_gray",
+    "covers": ["TORSO"],
+    "coverage": 10,
+    "encumbrance": 2,
+    "material_thickness": 1,
+    "use_action": {
+        "type": "bandolier",
+        "capacity": 12,
+        "ammo": [ "shot" ]
+    },
+    "flags" : ["WATER_FRIENDLY", "WAIST" ]
+  }
+]
