@@ -106,6 +106,26 @@ matype_id choose_ma_style( const character_type type, const std::vector<matype_i
     }
 }
 
+bool player::load_template( const std::string &template_name )
+{
+    const std::string path = FILENAMES["templatedir"] + template_name + ".template";
+    std::ifstream fin( path.c_str() );
+    if( !fin.is_open() ) {
+        debugmsg( "Couldn't open %s!", path.c_str() );
+        return false;
+    }
+    std::string data;
+    getline( fin, data );
+    load_info( data );
+
+    if( MAP_SHARING::isSharing() ) {
+        // just to make sure we have the right name
+        name = MAP_SHARING::getUsername();
+    }
+
+    return true;
+}
+
 int player::create(character_type type, std::string tempname)
 {
     weapon = item("null", 0);
@@ -304,25 +324,12 @@ int player::create(character_type type, std::string tempname)
             }
         }
         break;
-        case PLTYPE_TEMPLATE: {
-            std::ifstream fin;
-            std::stringstream filename;
-            filename << FILENAMES["templatedir"] << tempname << ".template";
-            fin.open(filename.str().c_str());
-            if (!fin.is_open()) {
-                debugmsg("Couldn't open %s!", filename.str().c_str());
+        case PLTYPE_TEMPLATE:
+            if( !load_template( tempname ) ) {
                 return 0;
             }
-            std::string(data);
-            getline(fin, data);
-            load_info(data);
             points = 0;
-
-            if(MAP_SHARING::isSharing()) {
-                name = MAP_SHARING::getUsername(); //just to make sure we have the right name
-            }
-        }
-        break;
+            break;
         }
         tab = NEWCHAR_TAB_MAX;
     }
