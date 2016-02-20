@@ -2941,7 +2941,7 @@
         "id" : "ammolink",
         "category" : "spare_parts",
         "price" : 5,
-        "name" : "Ammo belt linakge",
+        "name" : "Ammo belt linkage",
         "symbol" : "=",
         "color" : "yellow",
         "description" : "A small metal linkage from a disintegrating ammo belt.",
