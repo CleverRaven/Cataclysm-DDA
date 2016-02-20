@@ -1910,6 +1910,132 @@ long holster_actor::use( player *p, item *it, bool, const tripoint & ) const
     return 0;
 }
 
+iuse_actor *bandolier_actor::clone() const
+{
+    return new bandolier_actor( *this );
+}
+
+void bandolier_actor::load( JsonObject &obj )
+{
+    capacity = obj.get_int( "capacity", capacity );
+    ammo = obj.get_tags( "ammo" );
+}
+
+bool bandolier_actor::can_store( const item& bandolier, const item& obj ) const {
+    if( !obj.is_ammo() ) {
+        return false;
+    }
+    if( !bandolier.contents.empty() && ( bandolier.contents[0].typeId() != obj.typeId() ||
+                                         bandolier.contents[0].charges >= capacity ) ) {
+        return false;
+    }
+    return std::count( ammo.begin(), ammo.end(), obj.type->ammo->type );
+}
+
+bool bandolier_actor::store( player &p, item& bandolier, item& obj ) const
+{
+    if( obj.is_null() || bandolier.is_null() ) {
+        debugmsg( "Null item was passed to bandolier_actor" );
+        return false;
+    }
+
+    if( !p.has_item( obj ) ) {
+        debugmsg( "Tried to store item not in player possession in bandolier" );
+        return false;
+    }
+
+    // if selected item is unsuitable inform the player why not
+    if( !obj.is_ammo() ) {
+        p.add_msg_if_player( m_info, _( "That %1$s isn't ammo!" ), obj.tname().c_str() );
+        return false;
+    }
+
+    if( !std::count( ammo.begin(), ammo.end(), obj.type->ammo->type ) ) {
+        p.add_msg_if_player( m_info, _( "Your %1$s can't store that type of ammo" ), bandolier.type_name().c_str() );
+        return false;
+    }
+
+    long qty;
+
+    if( bandolier.contents.empty() ) {
+        qty = std::min( obj.charges, long( capacity ) );
+
+        item put = obj.split( qty );
+        if( !put.is_null() ) {
+            bandolier.put_in( put );
+        } else {
+            bandolier.put_in( p.i_rem( &obj ) );
+        }
+    } else {
+        qty = std::min( obj.charges, capacity - bandolier.contents[0].charges );
+
+        if( bandolier.contents[0].typeId() != obj.typeId() ) {
+            p.add_msg_if_player( m_info, _( "Your %1$s already contains a different type of ammo" ), bandolier.type_name().c_str() );
+            return false;
+        }
+        if( qty <= 0 ) {
+            p.add_msg_if_player( m_info, _( "Your %1$s is already full" ), bandolier.type_name().c_str() );
+            return false;
+        }
+
+        obj.charges -= qty;
+        bandolier.contents[0].charges += qty;
+        if( obj.charges <= 0 ) {
+            p.i_rem( &obj );
+        }
+    }
+    p.add_msg_if_player( _( "You store the %1$s in your %2$s" ), obj.tname( qty ).c_str(), bandolier.type_name().c_str() );
+
+    return true;
+}
+
+
+long bandolier_actor::use( player *p, item *it, bool, const tripoint & ) const
+{
+    if( &p->weapon == it ) {
+        p->add_msg_if_player( _( "You need to unwield your %s before using it." ), it->type_name().c_str() );
+        return 0;
+    }
+
+    uimenu menu;
+    menu.text = _( "Store ammo" );
+    menu.return_invalid = true;
+
+    std::vector<std::function<void()>> actions;
+
+    menu.addentry( -1, it->contents.empty() || it->contents[0].charges < capacity,
+                   'r', string_format( _( "Store ammo in %s" ), it->type_name().c_str() ) );
+
+    actions.emplace_back( [&]{
+        item &obj = p->i_at( g->inv_for_filter( _( "Store ammo" ), [&]( const item& e ) {
+            return can_store( *it, e );
+        } ) );
+
+        if( !obj.is_null() ) {
+            store( *p, *it, obj );
+        } else {
+            p->add_msg_if_player( _( "Never mind." ) );
+        }
+    } );
+
+    menu.addentry( -1, !it->contents.empty(), 'u', string_format( _( "Unload %s" ), it->type_name().c_str() ) );
+
+    actions.emplace_back( [&]{
+        if( p->i_add_or_drop( it->contents[0] ) ) {
+            it->contents.erase( it->contents.begin() );
+        } else {
+            p->add_msg_if_player( _( "Never mind." ) );
+        }
+    });
+
+    menu.query();
+    if( menu.ret >= 0 ) {
+        actions[ menu.ret ]();
+    }
+
+    return 0;
+}
+
 void repair_item_actor::load( JsonObject &obj )
 {
     // Mandatory:
