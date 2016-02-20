@@ -4270,11 +4270,16 @@ item_location item::pick_reload_ammo( player &u ) const
 
     // Construct item names
     std::vector<std::string> names;
-    std::transform( ammo_list.begin(), ammo_list.end(), std::back_inserter( names ), []( item_location& e ) {
+    std::transform( ammo_list.begin(), ammo_list.end(), std::back_inserter( names ), [&u]( item_location& e ) {
         if( e->is_magazine() && e->ammo_data() ) {
             //~ magazine with ammo (count)
             return string_format( _( "%s with %s (%d)" ), e->type->nname( 1 ).c_str(),
                                   e->ammo_data()->nname( e->ammo_remaining() ).c_str(), e->ammo_remaining() );
+
+        } else if( e->is_ammo_container() && u.is_worn( *e ) ) {
+            // worn ammo containers should be named by their contents with their location also updated below
+            return e->contents[0].display_name();
+
         } else {
             return e->display_name();
         }
@@ -4282,7 +4287,10 @@ item_location item::pick_reload_ammo( player &u ) const
 
     // Get location descriptions
     std::vector<std::string> where;
-    std::transform( ammo_list.begin(), ammo_list.end(), std::back_inserter( where ), []( item_location& e ) {
+    std::transform( ammo_list.begin(), ammo_list.end(), std::back_inserter( where ), [&u]( item_location& e ) {
+        if( e->is_ammo_container() && u.is_worn( *e ) ) {
+            return e->type_name();
+        }
         return e.describe( &g->u );
     } );
 

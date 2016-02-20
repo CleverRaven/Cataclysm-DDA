@@ -106,14 +106,13 @@ class item_location::item_on_person : public item_location::impl
             }
 
             if( ch == &who ) {
-                if( ch->is_worn( *what ) ) {
-                    return _( "worn" );
-                }
+                auto parents = who.parents( *what );
+                if( !parents.empty() && who.is_worn( *parents.back() ) ) {
+                    return parents.back()->type_name();
 
-                // @todo recurse upwards through nested containers
-                const item *parent = ch->find_parent( *what );
-                if( parent ) {
-                    return parent->type_name();
+                } else if( who.is_worn( *what ) ) {
+                    return _( "worn" );
+
                 } else {
                     return _( "inventory" );
                 }
