@@ -11519,12 +11519,6 @@ void game::reload( int pos )
             return; // not expected when player::rate_action_reload() == true
         }
 
-        if( ammo->is_magazine() && ammo->ammo_remaining() == 0 ) {
-            if( !query_yn( _( "Reload using an empty magazine?" ) ) ) {
-                return;
-            }
-        }
-
         int qty = std::max( !target->has_flag( "RELOAD_ONE" ) ? target->ammo_capacity() - target->ammo_remaining() : 1, 1L );
 
         std::stringstream ss;
