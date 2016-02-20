@@ -747,12 +747,12 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         } else {
             info.emplace_back( "GUN", _( "Type: " ), ammo_name( ammo_type() ) );
             if( magazine_current() ) {
-                info.emplace_back( "GUN", _( "Magazine: " ), magazine_current()->tname() );
+                info.emplace_back( "GUN", _( "Magazine: " ), string_format( "<stat>%s</stat>", magazine_current()->tname().c_str() ) );
             }
         }
 
         if( ammo_data() ) {
-            info.emplace_back( "AMMO", _( "Ammunition: " ), ammo_data()->nname( ammo_remaining() ) );
+            info.emplace_back( "AMMO", _( "Ammunition: " ), string_format( "<stat>%s</stat>", ammo_data()->nname( ammo_remaining() ).c_str() ) );
         }
 
         insert_separation_line();
