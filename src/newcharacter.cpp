@@ -315,25 +315,24 @@ int player::create(character_type type, std::string tempname)
     int tab = 0;
     int points = OPTIONS["INITIAL_POINTS"];
     int max_trait_points = OPTIONS["MAX_TRAIT_POINTS"];
-    if (type != PLTYPE_CUSTOM) {
-        switch (type) {
-        case PLTYPE_CUSTOM:
-            break;
-        case PLTYPE_NOW:
-        case PLTYPE_RANDOM_WITH_SCENARIO:
-        case PLTYPE_RANDOM:
-            points = points + 32;
-            randomize( type == PLTYPE_RANDOM_WITH_SCENARIO, points );
-            tab = NEWCHAR_TAB_MAX;
-            break;
-        case PLTYPE_TEMPLATE:
-            if( !load_template( tempname ) ) {
-                return 0;
-            }
-            points = 0;
-            tab = NEWCHAR_TAB_MAX;
-            break;
+
+    switch (type) {
+    case PLTYPE_CUSTOM:
+        break;
+    case PLTYPE_NOW:
+    case PLTYPE_RANDOM_WITH_SCENARIO:
+    case PLTYPE_RANDOM:
+        points = points + 32;
+        randomize( type == PLTYPE_RANDOM_WITH_SCENARIO, points );
+        tab = NEWCHAR_TAB_MAX;
+        break;
+    case PLTYPE_TEMPLATE:
+        if( !load_template( tempname ) ) {
+            return 0;
         }
+        points = 0;
+        tab = NEWCHAR_TAB_MAX;
+        break;
     }
 
     do {
