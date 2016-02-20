@@ -324,15 +324,16 @@ int player::create(character_type type, std::string tempname)
                 loops++;
             }
         }
+        tab = NEWCHAR_TAB_MAX;
         break;
         case PLTYPE_TEMPLATE:
             if( !load_template( tempname ) ) {
                 return 0;
             }
             points = 0;
+            tab = NEWCHAR_TAB_MAX;
             break;
         }
-        tab = NEWCHAR_TAB_MAX;
     }
 
     do {
