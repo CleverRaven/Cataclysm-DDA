@@ -368,13 +368,14 @@ int player::create(character_type type, std::string tempname)
     } while (tab >= 0 && tab <= NEWCHAR_TAB_MAX);
     delwin(w);
 
-    if (tab < -1) {
+    if( tab == -3 ) {
         // Returned from set_description for reroll
-        if (tab == -3) {
-            return -2;
-        }
+        return -2;
+    } else if( tab == -2 ) {
+        // Returned from set_description for reroll
         return -1;
-    } else if (tab < 0) {
+    } else if( tab < 0 ) {
+        // Back to main menu
         return 0;
     }
 
