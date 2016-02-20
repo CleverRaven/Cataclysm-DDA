@@ -1921,7 +1921,8 @@ void bandolier_actor::load( JsonObject &obj )
     ammo = obj.get_tags( "ammo" );
 }
 
-bool bandolier_actor::can_store( const item& bandolier, const item& obj ) const {
+bool bandolier_actor::can_store( const item &bandolier, const item &obj ) const
+{
     if( !obj.is_ammo() ) {
         return false;
     }
@@ -1932,7 +1933,7 @@ bool bandolier_actor::can_store( const item& bandolier, const item& obj ) const 
     return std::count( ammo.begin(), ammo.end(), obj.type->ammo->type );
 }
 
-bool bandolier_actor::store( player &p, item& bandolier, item& obj ) const
+bool bandolier_actor::store( player &p, item &bandolier, item &obj ) const
 {
     if( obj.is_null() || bandolier.is_null() ) {
         debugmsg( "Null item was passed to bandolier_actor" );
@@ -1951,7 +1952,8 @@ bool bandolier_actor::store( player &p, item& bandolier, item& obj ) const
     }
 
     if( !std::count( ammo.begin(), ammo.end(), obj.type->ammo->type ) ) {
-        p.add_msg_if_player( m_info, _( "Your %1$s can't store that type of ammo" ), bandolier.type_name().c_str() );
+        p.add_msg_if_player( m_info, _( "Your %1$s can't store that type of ammo" ),
+                             bandolier.type_name().c_str() );
         return false;
     }
 
@@ -1970,7 +1972,8 @@ bool bandolier_actor::store( player &p, item& bandolier, item& obj ) const
         qty = std::min( obj.charges, capacity - bandolier.contents[0].charges );
 
         if( bandolier.contents[0].typeId() != obj.typeId() ) {
-            p.add_msg_if_player( m_info, _( "Your %1$s already contains a different type of ammo" ), bandolier.type_name().c_str() );
+            p.add_msg_if_player( m_info, _( "Your %1$s already contains a different type of ammo" ),
+                                 bandolier.type_name().c_str() );
             return false;
         }
         if( qty <= 0 ) {
@@ -1984,7 +1987,8 @@ bool bandolier_actor::store( player &p, item& bandolier, item& obj ) const
             p.i_rem( &obj );
         }
     }
-    p.add_msg_if_player( _( "You store the %1$s in your %2$s" ), obj.tname( qty ).c_str(), bandolier.type_name().c_str() );
+    p.add_msg_if_player( _( "You store the %1$s in your %2$s" ), obj.tname( qty ).c_str(),
+                         bandolier.type_name().c_str() );
 
     return true;
 }
@@ -1993,7 +1997,8 @@ bool bandolier_actor::store( player &p, item& bandolier, item& obj ) const
 long bandolier_actor::use( player *p, item *it, bool, const tripoint & ) const
 {
     if( &p->weapon == it ) {
-        p->add_msg_if_player( _( "You need to unwield your %s before using it." ), it->type_name().c_str() );
+        p->add_msg_if_player( _( "You need to unwield your %s before using it." ),
+                              it->type_name().c_str() );
         return 0;
     }
 
@@ -2006,8 +2011,9 @@ long bandolier_actor::use( player *p, item *it, bool, const tripoint & ) const
     menu.addentry( -1, it->contents.empty() || it->contents[0].charges < capacity,
                    'r', string_format( _( "Store ammo in %s" ), it->type_name().c_str() ) );
 
-    actions.emplace_back( [&]{
-        item &obj = p->i_at( g->inv_for_filter( _( "Store ammo" ), [&]( const item& e ) {
+    actions.emplace_back( [&] {
+        item &obj = p->i_at( g->inv_for_filter( _( "Store ammo" ),
+                                                [&]( const item & e ) {
             return can_store( *it, e );
         } ) );
 
@@ -2018,15 +2024,16 @@ long bandolier_actor::use( player *p, item *it, bool, const tripoint & ) const
         }
     } );
 
-    menu.addentry( -1, !it->contents.empty(), 'u', string_format( _( "Unload %s" ), it->type_name().c_str() ) );
+    menu.addentry( -1, !it->contents.empty(), 'u', string_format( _( "Unload %s" ),
+                   it->type_name().c_str() ) );
 
-    actions.emplace_back( [&]{
+    actions.emplace_back( [&] {
         if( p->i_add_or_drop( it->contents[0] ) ) {
             it->contents.erase( it->contents.begin() );
         } else {
             p->add_msg_if_player( _( "Never mind." ) );
         }
-    });
+    } );
 
     menu.query();
     if( menu.ret >= 0 ) {
