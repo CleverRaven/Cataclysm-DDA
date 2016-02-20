@@ -6192,7 +6192,7 @@
         {
             "type" : "gun",
             "cooldown" : 2,
-            "gun_type" : "hk_mp5",
+            "gun_type" : "fake_smg",
             "ammo_type" : "9mm",
             "max_ammo" : 1000,
             "fake_str" : 16,
@@ -6436,7 +6436,7 @@
         {
             "type" : "gun",
             "cooldown" : 1,
-            "gun_type" : "hk_mp5",
+            "gun_type" : "fake_smg",
             "ammo_type" : "9mm",
             "max_ammo" : 1000,
             "fake_str" : 16,

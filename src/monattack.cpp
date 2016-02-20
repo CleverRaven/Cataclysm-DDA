@@ -2871,7 +2871,7 @@ void mattack::rifle( monster *z, Creature *target )
     if (g->u.sees( *z )) {
         add_msg(m_warning, _("The %s opens up with its rifle!"), z->name().c_str());
     }
-    tmp.weapon = item("m4a1", 0);
+    tmp.weapon = item( "fake_rifle", calendar::turn );
     tmp.weapon.set_curammo( ammo_type );
     tmp.weapon.charges = std::max(z->ammo[ammo_type], 30);
     z->ammo[ammo_type] -= tmp.weapon.charges;
