@@ -4453,7 +4453,7 @@
         "id" : "armguard_larmor",
         "category" : "armor",
         "name" : "pair of leather arm guards",
-        "name_plural" : "pairs of arm guards",
+        "name_plural" : "pairs of leather arm guards",
         "weight" : 430,
         "color" : "brown",
         "covers" : ["ARMS"],
