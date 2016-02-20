@@ -1852,10 +1852,6 @@ int set_scenario(WINDOW *w, player *u, int &points)
 
 int set_description(WINDOW *w, player *u, character_type type, int &points)
 {
-    if (PLTYPE_NOW == type) {
-        return 1;
-    }
-
     draw_tabs(w, _("DESCRIPTION"));
 
     WINDOW *w_name = newwin(2, 42, getbegy(w) + 5, getbegx(w) + 2);
