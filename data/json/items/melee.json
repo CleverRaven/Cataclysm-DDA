@@ -2775,7 +2775,7 @@
   },
     {
     "id": "nodachi_fake",
-    "type": "TOOL",
+    "type": "GENERIC",
     "symbol": "/",
     "color": "light_gray",
     "name": "nodachi",
