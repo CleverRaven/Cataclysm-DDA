@@ -13,10 +13,7 @@
 #include <stdlib.h>
 #include <algorithm>
 
-const efftype_id effect_cold( "cold" );
-const efftype_id effect_hot( "hot" );
-const efftype_id effect_took_prozac( "took_prozac" );
-const efftype_id effect_took_xanax( "took_xanax" );
+static const efftype_id effect_took_prozac( "took_prozac" );
 
 namespace
 {
@@ -146,7 +143,7 @@ namespace morale_mults
 {
 // Optimistic characters focus on the good things in life,
 // and downplay the bad things.
-static const morale_mult optimistic( 1.25, 0.75 );
+static const morale_mult optimist( 1.25, 0.75 );
 // Again, those grouchy Bad-Tempered folks always focus on the negative.
 // They can't handle positive things as well.  They're No Fun.  D:
 static const morale_mult badtemper( 0.75, 1.25 );
@@ -170,7 +167,8 @@ std::string player_morale::morale_point::get_name() const
 
 int player_morale::morale_point::get_net_bonus() const
 {
-    return bonus * ( ( age > decay_start ) ? logarithmic_range( decay_start, duration, age ) : 1 );
+    return bonus * ( ( duration > 0 &&
+                       age > decay_start ) ? logarithmic_range( decay_start, duration, age ) : 1 );
 }
 
 int player_morale::morale_point::get_net_bonus( const morale_mult &mult ) const
@@ -180,14 +178,22 @@ int player_morale::morale_point::get_net_bonus( const morale_mult &mult ) const
 
 bool player_morale::morale_point::is_expired() const
 {
-    return age >= duration || bonus == 0; // Zero morale bonuses will be shown occasionally anyway
+    return ( duration > 0 && duration <= age ) ||
+           bonus == 0; // Zero morale bonuses will be shown occasionally anyway
+}
+
+bool player_morale::morale_point::matches( morale_type _type, const itype *_item_type ) const
+{
+    return ( type == _type ) && ( item_type == _item_type );
 }
 
 void player_morale::morale_point::add( int new_bonus, int new_max_bonus, int new_duration,
                                        int new_decay_start,
                                        bool new_cap )
 {
-    if( new_cap ) {
+    new_duration = std::max( 0, new_duration );
+
+    if( new_cap || new_duration == 0 ) {
         duration = new_duration;
         decay_start = new_decay_start;
     } else {
@@ -226,15 +232,18 @@ void player_morale::add( morale_type type, int bonus, int max_bonus,
                          int duration, int decay_start,
                          bool capped, const itype *item_type )
 {
-    // Search for a matching morale entry.
     for( auto &m : points ) {
-        if( m.get_type() == type && m.get_item_type() == item_type ) {
+        if( m.matches( type, item_type ) ) {
             const int prev_bonus = m.get_net_bonus();
 
             m.add( bonus, max_bonus, duration, decay_start, capped );
-            if( m.get_net_bonus() != prev_bonus ) {
+
+            if( m.is_expired() ) {
+                remove_expired();
+            } else if( m.get_net_bonus() != prev_bonus ) {
                 invalidate();
             }
+
             return;
         }
     }
@@ -247,97 +256,92 @@ void player_morale::add( morale_type type, int bonus, int max_bonus,
     }
 }
 
+void player_morale::add_permanent( morale_type type, int bonus, int max_bonus, bool capped,
+                                   const itype *item_type )
+{
+    add( type, bonus, max_bonus, 0, 0, capped, item_type );
+}
+
 int player_morale::has( morale_type type, const itype *item_type ) const
 {
     for( auto &m : points ) {
-        if( m.get_type() == type && ( item_type == nullptr || m.get_item_type() == item_type ) ) {
+        if( m.matches( type, item_type ) ) {
             return m.get_net_bonus();
         }
     }
     return 0;
 }
 
+void player_morale::remove_if( const std::function<bool( const morale_point & )> &func )
+{
+    const auto new_end = std::remove_if( points.begin(), points.end(), func );
+
+    if( new_end != points.end() ) {
+        points.erase( new_end, points.end() );
+        invalidate();
+    }
+}
+
 void player_morale::remove( morale_type type, const itype *item_type )
 {
-    for( size_t i = 0; i < points.size(); ++i ) {
-        if( points[i].get_type() == type && points[i].get_item_type() == item_type ) {
-            if( points[i].get_net_bonus() > 0 ) {
-                invalidate();
-            }
-            points.erase( points.begin() + i );
-            break;
-        }
-    }
+    remove_if( [ type, item_type ]( const morale_point & m ) -> bool {
+        return m.matches( type, item_type );
+    } );
+
 }
 
-morale_mult player_morale::get_traits_mult( const player &p ) const
+void player_morale::remove_expired()
 {
-    morale_mult ret;
-
-    if( p.has_trait( "OPTIMISTIC" ) ) {
-        ret *= morale_mults::optimistic;
-    }
-
-    if( p.has_trait( "BADTEMPER" ) ) {
-        ret *= morale_mults::badtemper;
-    }
-
-    return ret;
+    remove_if( []( const morale_point & m ) -> bool {
+        return m.is_expired();
+    } );
 }
 
-morale_mult player_morale::get_effects_mult( const player &p ) const
+morale_mult player_morale::get_temper_mult() const
 {
-    morale_mult ret;
+    morale_mult mult;
 
-    //TODO: Maybe add something here to cheer you up as well?
-    if( p.has_effect( effect_took_prozac ) ) {
-        ret *= morale_mults::prozac;
+    if( has( MORALE_PERM_OPTIMIST ) ) {
+        mult *= morale_mults::optimist;
+    }
+    if( has( MORALE_PERM_BADTEMPER ) ) {
+        mult *= morale_mults::badtemper;
     }
 
-    return ret;
+    return mult;
 }
 
-int player_morale::get_level( const player &p ) const
+int player_morale::get_level() const
 {
     if( !level_is_valid ) {
-        const morale_mult mult = get_traits_mult( p );
+        const morale_mult mult = get_temper_mult();
 
         level = 0;
         for( auto &m : points ) {
             level += m.get_net_bonus( mult );
         }
 
-        level *= get_effects_mult( p );
+        if( took_prozak ) {
+            level *= morale_mults::prozac;
+        }
+
         level_is_valid = true;
     }
 
     return level;
 }
 
-void player_morale::update( const player &p, const int ticks )
-{
-    decay( ticks );
-
-    apply_permanent( p );
-    apply_body_temperature( p );
-    //apply_body_wetness( p );
-}
-
 void player_morale::decay( int ticks )
 {
-    const auto proceed = [ ticks ]( morale_point & m ) {
+    const auto do_decay = [ ticks ]( morale_point & m ) {
         m.decay( ticks );
     };
-    const auto is_expired = []( const morale_point & m ) -> bool { return m.is_expired(); };
 
-    std::for_each( points.begin(), points.end(), proceed );
-    const auto new_end = std::remove_if( points.begin(), points.end(), is_expired );
-    points.erase( new_end, points.end() );
-    // Invalidate level to recalculate it on demand
-    invalidate();
+    std::for_each( points.begin(), points.end(), do_decay );
+    remove_expired();
 }
 
-void player_morale::display( const player &p )
+void player_morale::display()
 {
     // Create and draw the window itself.
     WINDOW *w = newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
@@ -368,10 +372,7 @@ void player_morale::display( const player &p )
     mvwprintz( w, 2,  1, c_ltgray, _( "Name" ) );
     mvwprintz( w, 2, name_column_width + 2, c_ltgray, _( "Value" ) );
 
-    // Ensure the player's persistent morale effects are up-to-date.
-    apply_permanent( p );
-
-    const morale_mult mult = get_traits_mult( p );
+    const morale_mult mult = get_temper_mult();
     // Print out the morale entries.
     for( size_t i = 0; i < points.size(); i++ ) {
         std::string name = points[i].get_name();
@@ -386,12 +387,12 @@ void player_morale::display( const player &p )
     }
 
     // Print out the total morale, right-justified.
-    int mor = get_level( p );
+    int mor = get_level();
     mvwprintz( w, 20, 1, ( mor < 0 ? c_red : c_green ), _( "Total:" ) );
     mvwprintz( w, 20, number_pos, ( mor < 0 ? c_red : c_green ), "% 6d", mor );
 
     // Print out the focus gain rate, right-justified.
-    double gain = ( p.calc_focus_equilibrium() - p.focus_pool ) / 100.0;
+    double gain = ( g->u.calc_focus_equilibrium() - g->u.focus_pool ) / 100.0;
     mvwprintz( w, 22, 1, ( gain < 0 ? c_red : c_green ), _( "Focus gain:" ) );
     mvwprintz( w, 22, number_pos - 3, ( gain < 0 ? c_red : c_green ), _( "%6.2f per minute" ), gain );
 
@@ -409,6 +410,11 @@ void player_morale::display( const player &p )
 void player_morale::clear()
 {
     points.clear();
+    covered.fill( 0 );
+    took_prozak = false;
+    stylish = false;
+    super_fancy_bonus = 0;
+
     invalidate();
 }
 
@@ -417,262 +423,110 @@ void player_morale::invalidate()
     level_is_valid = false;
 }
 
-int player_morale::get_hoarder_penalty( const player &p ) const
+void player_morale::on_trait_gain( const std::string &trait )
 {
-    int pen = int( ( p.volume_capacity() - p.volume_carried() ) / 2 );
-
-    if( pen > 70 ) {
-        pen = 70;
-    } else if( pen < 0 ) {
-        pen = 0;
+    if( trait == "OPTIMIST" ) {
+        add_permanent( MORALE_PERM_OPTIMIST, 4 );
+    } else if( trait == "BADTEMPER" ) {
+        add_permanent( MORALE_PERM_BADTEMPER, -4 );
+    } else if( trait == "STYLISH" ) {
+        if( !stylish ) {
+            stylish = true;
+            update_stylish_bonus();
+        }
     }
-    if( p.has_effect( effect_took_xanax ) ) {
-        pen = int( pen / 7 );
-    } else if( p.has_effect( effect_took_prozac ) ) {
-        pen = int( pen / 2 );
-    }
-    return pen;
 }
 
-int player_morale::get_stylish_bonus( const player &p ) const
+void player_morale::on_trait_loss( const std::string &trait )
+{
+    if( trait == "OPTIMIST" ) {
+        remove( MORALE_PERM_OPTIMIST );
+    } else if( trait == "BADTEMPER" ) {
+        remove( MORALE_PERM_BADTEMPER );
+    } else if( trait == "STYLISH" ) {
+        if( stylish ) {
+            stylish = false;
+            update_stylish_bonus();
+        }
+    }
+}
+
+void player_morale::on_effect_change( const effect &e )
+{
+    if( e.get_effect_type()->id == effect_took_prozac ) {
+        set_prozak( e.get_intensity() != 0 );
+    }
+}
+
+void player_morale::on_item_wear( const item &it )
+{
+    set_wear_state( it, true );
+}
+
+void player_morale::on_item_takeoff( const item &it )
+{
+    set_wear_state( it, false );
+}
+
+void player_morale::set_wear_state( const item &it, bool worn )
+{
+    const bool just_fancy = it.has_flag( "FANCY" );
+    const bool super_fancy = it.has_flag( "SUPER_FANCY" );
+
+    if( just_fancy || super_fancy ) {
+        const int sign = ( worn ) ? 1 : -1;
+
+        for( int i = 0; i < num_bp; i++ ) {
+            if( it.covers( ( body_part )i ) ) {
+                covered[i] += sign;
+            }
+        }
+
+        if( super_fancy ) {
+            super_fancy_bonus += 2 * sign;
+        }
+
+        update_stylish_bonus();
+    }
+}
+
+void player_morale::set_prozak( bool new_took_prozak )
+{
+    if( took_prozak != new_took_prozak ) {
+        took_prozak = new_took_prozak;
+        invalidate();
+    }
+}
+
+void player_morale::update_stylish_bonus()
 {
     int bonus = 0;
-    std::bitset<num_bp> covered; // body parts covered
 
-    for( auto &elem : p.worn ) {
-        const bool basic_flag = elem.has_flag( "FANCY" );
-        const bool bonus_flag = elem.has_flag( "SUPER_FANCY" );
-
-        if( basic_flag || bonus_flag ) {
-            if( bonus_flag ) {
-                bonus += 2;
-            }
-            covered |= elem.get_covered_body_parts();
+    if( stylish ) {
+        if( covered[bp_torso] ) {
+            bonus += 6;
         }
-    }
-
-    if( covered.test( bp_torso ) ) {
-        bonus += 6;
-    }
-    if( covered.test( bp_head ) ) {
-        bonus += 3;
-    }
-    if( covered.test( bp_eyes ) ) {
-        bonus += 2;
-    }
-    if( covered.test( bp_mouth ) ) {
-        bonus += 2;
-    }
-    if( covered.test( bp_leg_l ) || covered.test( bp_leg_r ) ) {
-        bonus += 2;
-    }
-    if( covered.test( bp_foot_l ) || covered.test( bp_foot_r ) ) {
-        bonus += 1;
-    }
-    if( covered.test( bp_hand_l ) || covered.test( bp_hand_r ) ) {
-        bonus += 1;
-    }
-    if( covered.test( bp_arm_l ) || covered.test( bp_arm_r ) ) {
-        bonus += 1;
-    }
-
-    return std::min( bonus, 20 );
-}
-
-int player_morale::get_pain_bonus( const player &p ) const
-{
-    int bonus = p.pain / 2.5;
-    // Advanced masochists really get a morale bonus from pain.
-    // (It's not capped.)
-    if( p.has_trait( "MASOCHIST" ) && ( bonus > 25 ) ) {
-        bonus = 25;
-    }
-    if( p.has_effect( effect_took_prozac ) ) {
-        bonus = int( bonus / 3 );
-    }
-
-    return bonus;
-}
-
-void player_morale::apply_permanent( const player &p )
-{
-    // Hoarders get a morale penalty if they're not carrying a full inventory.
-    if( p.has_trait( "HOARDER" ) ) {
-        const int pen = get_hoarder_penalty( p );
-        if( pen > 0 ) {
-            add( MORALE_PERM_HOARDER, -pen, -pen, 5, 5, true );
+        if( covered[bp_head] ) {
+            bonus += 3;
         }
-    }
-
-    // The stylish get a morale bonus for each body part covered in an item
-    // with the FANCY or SUPER_FANCY tag.
-    if( p.has_trait( "STYLISH" ) ) {
-        const int bonus = get_stylish_bonus( p );
-        if( bonus > 0 ) {
-            add( MORALE_PERM_FANCY, bonus, bonus, 5, 5, true );
+        if( covered[bp_eyes] ) {
+            bonus += 2;
         }
-    }
-
-    // Floral folks really don't like having their flowers covered.
-    if( p.has_trait( "FLOWERS" ) && p.wearing_something_on( bp_head ) ) {
-        add( MORALE_PERM_CONSTRAINED, -10, -10, 5, 5, true );
-    }
-
-    // The same applies to rooters and their feet; however, they don't take
-    // too many problems from no-footgear.
-    if( ( p.has_trait( "ROOTS" ) || p.has_trait( "ROOTS2" ) || p.has_trait( "ROOTS3" ) ) ) {
-        double shoe_factor = p.footwear_factor();
-
-        if( shoe_factor > 0.0 ) {
-            add( MORALE_PERM_CONSTRAINED, -10 * shoe_factor, -10 * shoe_factor, 5, 5, true );
+        if( covered[bp_mouth] ) {
+            bonus += 2;
         }
-    }
-
-    // Masochists get a morale bonus from pain.
-    if( p.has_trait( "MASOCHIST" ) || p.has_trait( "MASOCHIST_MED" ) ||
-        p.has_trait( "CENOBITE" ) ) {
-        const int bonus = get_pain_bonus( p );
-        if( bonus > 0 ) {
-            add( MORALE_PERM_MASOCHIST, bonus, bonus, 5, 5, true );
+        if( covered[bp_leg_l] || covered[bp_leg_r] ) {
+            bonus += 2;
         }
-    }
-
-    // Optimist gives a base +4 to morale.
-    // The +25% boost from optimist also applies here, for a net of +5.
-    if( p.has_trait( "OPTIMISTIC" ) ) {
-        add( MORALE_PERM_OPTIMIST, 4, 4, 5, 5, true );
-    }
-
-    // And Bad Temper works just the same way.  But in reverse.  ):
-    if( p.has_trait( "BADTEMPER" ) ) {
-        add( MORALE_PERM_BADTEMPER, -4, -4, 5, 5, true );
-    }
-}
-
-void player_morale::apply_body_temperature( const player &p )
-{
-    if( p.has_trait( "DEBUG_NOTEMP" ) ) {
-        return;
-    }
-
-    int pen = 0;
-
-    for( int i = 0 ; i < num_bp; i++ ) {
-        // A negative morale_pen means the player is cold
-        const int cold_int = p.get_effect_int( effect_cold, ( body_part )i );
-        const int hot_int = p.get_effect_int( effect_hot, ( body_part )i );
-        const int balance = hot_int - cold_int;
-
-        if( balance == 0 ) {
-            continue;
+        if( covered[bp_foot_l] || covered[bp_foot_r] ) {
+            bonus += 1;
+        }
+        if( covered[bp_hand_l] || covered[bp_hand_r] ) {
+            bonus += 1;
         }
 
-        switch( i ) {
-            case bp_head:
-            case bp_torso:
-            case bp_mouth:
-                pen += 2 * balance;
-                break;
-            case bp_arm_l:
-            case bp_arm_r:
-            case bp_leg_l:
-            case bp_leg_r:
-                pen += .5 * balance;
-                break;
-            case bp_hand_l:
-            case bp_hand_r:
-            case bp_foot_l:
-            case bp_foot_r:
-                pen += .5 * balance;
-                break;
-        }
-    }
-    // TODO: MORALE_COMFY should be applied here as well. Now it's in player::update_bodytemp()
-    // TODO: Probably penalties should be independent. I.e cold hands and sweating torso.
-    if( pen != 0 ) {
-        add( ( pen > 0 ) ? MORALE_HOT : MORALE_COLD, -2, -abs( pen ), 10, 5, true );
-    }
-}
-
-void player_morale::apply_body_wetness( const player &p )
-{
-    // First, a quick check if we have any wetness to calculate morale from
-    // Faster than checking all worn items for friendliness
-    if( !std::any_of( p.body_wetness.begin(), p.body_wetness.end(),
-        []( const int w ) { return w != 0; } ) ) {
-        return;
+        bonus += super_fancy_bonus;
     }
 
-    // Normalize temperature to [-1.0,1.0]
-    int temperature = std::max( 0, std::min( 100, ( int ) g->temperature ) );
-    const double global_temperature_mod = -1.0 + ( 2.0 * temperature / 100.0 );
-
-    int total_morale = 0;
-    const auto wet_friendliness = p.exclusive_flag_coverage( "WATER_FRIENDLY" );
-    for( int i = bp_torso; i < num_bp; ++i ) {
-        // Sum of body wetness can go up to 103
-        const int part_drench = p.body_wetness[i];
-        if( part_drench == 0 ) {
-            continue;
-        }
-
-        const auto &part_arr = p.mut_drench[i];
-        const int part_ignored = part_arr[player::WT_IGNORED];
-        const int part_neutral = part_arr[player::WT_NEUTRAL];
-        const int part_good    = part_arr[player::WT_GOOD];
-
-        if( part_ignored >= part_drench ) {
-            continue;
-        }
-
-        int bp_morale = 0;
-        const bool is_friendly = wet_friendliness[i];
-        const int effective_drench = part_drench - part_ignored;
-        if( is_friendly ) {
-            // Using entire bonus from mutations and then some "human" bonus
-            bp_morale = std::min( part_good, effective_drench ) + effective_drench / 2;
-        } else if( effective_drench < part_good ) {
-            // Positive or 0
-            // Won't go higher than part_good / 2
-            // Wet slime/scale doesn't feel as good when covered by wet rags/fur/kevlar
-            bp_morale = std::min( effective_drench, part_good - effective_drench );
-        } else if( effective_drench > part_good + part_neutral ) {
-            // This one will be negative
-            bp_morale = part_good + part_neutral - effective_drench;
-        }
-
-        // Clamp to [COLD,HOT] and cast to double
-        const double part_temperature =
-            std::min( BODYTEMP_HOT, std::max( BODYTEMP_COLD, p.temp_cur[i] ) );
-        // 0.0 at COLD, 1.0 at HOT
-        const double part_mod = (part_temperature - BODYTEMP_COLD) /
-                                (BODYTEMP_HOT - BODYTEMP_COLD);
-        // Average of global and part temperature modifiers, each in range [-1.0, 1.0]
-        double scaled_temperature = ( global_temperature_mod + part_mod ) / 2;
-
-        if( bp_morale < 0 ) {
-            // Damp, hot clothing on hot skin feels bad
-            scaled_temperature = fabs( scaled_temperature );
-        }
-
-        // For an unmutated human swimming in deep water, this will add up to:
-        // +51 when hot in 100% water friendly clothing
-        // -103 when cold/hot in 100% unfriendly clothing
-        total_morale += static_cast<int>( bp_morale * ( 1.0 + scaled_temperature ) / 2.0 );
-    }
-
-    if( total_morale == 0 ) {
-        return;
-    }
-
-    int morale_effect = total_morale / 8;
-    if( morale_effect == 0 ) {
-        if( total_morale > 0 ) {
-            morale_effect = 1;
-        } else {
-            morale_effect = -1;
-        }
-    }
-
-    add( MORALE_WET, morale_effect, total_morale, 5, 5, true );
+    add_permanent( MORALE_PERM_FANCY, bonus, 20, true );
 }

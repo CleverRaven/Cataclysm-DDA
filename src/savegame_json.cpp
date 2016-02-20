@@ -2009,6 +2009,6 @@ void player_morale::store( JsonOut &jsout ) const
 
 void player_morale::load( JsonObject &jsin )
 {
+    clear();
     jsin.read( "morale", points );
-    invalidate();
 }

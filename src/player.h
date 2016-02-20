@@ -24,7 +24,6 @@ class mission;
 class profession;
 nc_color encumb_color(int level);
 enum morale_type : int;
-class morale_point;
 enum game_message_type : int;
 class ma_technique;
 class martialart;
@@ -36,7 +35,6 @@ class start_location;
 using start_location_id = string_id<start_location>;
 struct it_comest;
 struct w_point;
-struct morale_mult;
 
 // This tries to represent both rating and
 // player's decision to respect said rating
@@ -224,6 +222,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void action_taken();
         /** Ticks down morale counters and removes them */
         void update_morale();
+        /** Ensures persistent morale effects are up-to-date */
+        void apply_persistent_morale();
         /** Uses calc_focus_equilibrium to update the player's current focus */
         void update_mental_focus();
         /** Uses morale and other factors to return the player's focus gain rate */

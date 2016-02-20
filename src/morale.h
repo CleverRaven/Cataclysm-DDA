@@ -4,9 +4,15 @@
 #include "json.h"
 #include <string>
 #include "calendar.h"
+#include "effect.h"
+#include "bodypart.h"
+
+#include <functional>
+
+class item;
+class player;
 
 struct itype;
-class player;
 struct morale_mult;
 
 enum morale_type : int {
@@ -78,33 +84,43 @@ enum morale_type : int {
 class player_morale
 {
     public:
-        player_morale() = default;
+        player_morale() :
+            level_is_valid( false ),
+            took_prozak( false ),
+            stylish( false ),
+            super_fancy_bonus( 0 ) {};
         player_morale( player_morale && ) = default;
         player_morale( const player_morale & ) = default;
         player_morale &operator =( player_morale && ) = default;
         player_morale &operator =( const player_morale & ) = default;
 
         /** Adds morale to existing or creates one */
-        void add( morale_type type, int bonus, int max_bonus = 0, int duration = 60,
-                  int decay_start = 30, bool capped = false, const itype *item_type = nullptr );
+        void add( morale_type type, int bonus, int max_bonus = 0, int duration = MINUTES( 6 ),
+                  int decay_start = MINUTES( 3 ), bool capped = false, const itype *item_type = nullptr );
+        /** Adds permanent morale to existing or creates one */
+        void add_permanent( morale_type type, int bonus, int max_bonus = 0,
+                            bool capped = false, const itype *item_type = nullptr );
         /** Returns bonus from specified morale */
         int has( morale_type type, const itype *item_type = nullptr ) const;
         /** Removes specified morale */
         void remove( morale_type type, const itype *item_type = nullptr );
         /** Clears up all morale points */
         void clear();
-        /** Invalidates morale level to recalculate it on demand */
-        void invalidate();
-
         /** Returns overall morale level */
-        int get_level( const player &p ) const;
-
-        void update( const player &p, const int ticks = 1 );
+        int get_level() const;
+        /** Ticks down morale counters and removes them */
+        void decay( int ticks = 1 );
         /** Displays morale screen */
-        void display( const player &p );
+        void display();
 
     protected:
         friend class player;
+
+        void on_trait_gain( const std::string &trait );
+        void on_trait_loss( const std::string &trait );
+        void on_item_wear( const item &it );
+        void on_item_takeoff( const item &it );
+        void on_effect_change( const effect &e );
 
         void store( JsonOut &jsout ) const;
         void load( JsonObject &jsin );
@@ -136,14 +152,7 @@ class player_morale
                 int get_net_bonus() const;
                 int get_net_bonus( const morale_mult &mult ) const;
                 bool is_expired() const;
-
-                morale_type get_type() const {
-                    return type;
-                }
-
-                const itype *get_item_type() const {
-                    return item_type;
-                }
+                bool matches( morale_type _type, const itype *_item_type = nullptr ) const;
 
                 void add( int new_bonus, int new_max_bonus, int new_duration,
                           int new_decay_start, bool new_cap );
@@ -154,7 +163,7 @@ class player_morale
                 const itype *item_type;
 
                 int bonus;
-                int duration;
+                int duration;   // Zero duration == infinity
                 int decay_start;
                 int age;
 
@@ -164,32 +173,28 @@ class player_morale
                 */
                 int pick_time( int cur_time, int new_time, bool same_sign ) const;
         };
+    private:
+        morale_mult get_temper_mult() const;
 
+        void set_wear_state( const item &it, bool worn );
+        void set_prozak( bool new_took_prozak );
+
+        void remove_if( const std::function<bool( const morale_point & )> &func );
+        void remove_expired();
+        void invalidate();
+        void update_stylish_bonus();
+
+    private:
         std::vector<morale_point> points;
+        std::array<int, num_bp> covered;
+
         // Mutability is required for lazy initialization
         mutable int level;
         mutable bool level_is_valid;
 
-        /** Ticks down morale counters and removes them */
-        void decay( int ticks = 1 );
-
-        /** Returns current traits multiplier for morale */
-        morale_mult get_traits_mult( const player &p ) const;
-        /** Returns current effects multiplier for morale */
-        morale_mult get_effects_mult( const player &p ) const;
-
-        /** Returns penalty if inventory's not full */
-        int get_hoarder_penalty( const player &p ) const;
-        /** Returns bonus for stylish stuff */
-        int get_stylish_bonus( const player &p ) const;
-        /** Returns bonus for masochists etc */
-        int get_pain_bonus( const player &p ) const;
-        /** Ensures persistent morale effects are up-to-date */
-        void apply_permanent( const player &p );
-        /** Applies penalties for being cold/sweating a lot*/
-        void apply_body_temperature( const player &p );
-        /** Applies penalties for being wet*/
-        void apply_body_wetness( const player &p );
+        bool took_prozak;
+        bool stylish;
+        int super_fancy_bonus;
 };
 
 #endif

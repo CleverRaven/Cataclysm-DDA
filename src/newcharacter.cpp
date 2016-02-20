@@ -506,7 +506,7 @@ int player::create(character_type type, std::string tempname)
     }
 
     // Ensure that persistent morale effects (e.g. Optimist) are present at the start.
-    morale.update( this, 0 );
+    apply_persistent_morale();
     return 1;
 }
 

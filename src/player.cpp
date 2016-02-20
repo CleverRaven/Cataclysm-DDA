@@ -135,6 +135,8 @@ const efftype_id effect_stunned( "stunned" );
 const efftype_id effect_tapeworm( "tapeworm" );
 const efftype_id effect_teleglow( "teleglow" );
 const efftype_id effect_tetanus( "tetanus" );
+const efftype_id effect_took_prozac( "took_prozac" );
+const efftype_id effect_took_xanax( "took_xanax" );
 const efftype_id effect_valium( "valium" );
 const efftype_id effect_visuals( "visuals" );
 const efftype_id effect_weed_high( "weed_high" );
@@ -529,7 +531,123 @@ void player::action_taken()
 
 void player::update_morale()
 {
-    morale.update( this );
+    morale.decay( 1 );
+}
+
+void player::apply_persistent_morale()
+{
+    // Hoarders get a morale penalty if they're not carrying a full inventory.
+    if (has_trait("HOARDER"))
+    {
+        int pen = int((volume_capacity() - volume_carried()) / 2);
+        if (pen > 70) {
+            pen = 70;
+        }
+        if (pen <= 0) {
+            pen = 0;
+        }
+        if( has_effect( effect_took_xanax ) ) {
+            pen = int(pen / 7);
+        } else if( has_effect( effect_took_prozac ) ) {
+            pen = int(pen / 2);
+        }
+        if (pen > 0) {
+            add_morale(MORALE_PERM_HOARDER, -pen, -pen, 5, 5, true);
+        }
+    }
+
+    // The stylish get a morale bonus for each body part covered in an item
+    // with the FANCY or SUPER_FANCY tag.
+    if( has_trait("STYLISH") ) {
+        int bonus = 0;
+        std::string basic_flag = "FANCY";
+        std::string bonus_flag = "SUPER_FANCY";
+
+        std::bitset<num_bp> covered; // body parts covered
+        for( auto &elem : worn ) {
+            if( elem.has_flag( basic_flag ) || elem.has_flag( bonus_flag ) ) {
+                covered |= elem.get_covered_body_parts();
+            }
+            if( elem.has_flag( bonus_flag ) ) {
+              bonus+=2;
+            } else if( elem.has_flag( basic_flag ) ) {
+                if( ( covered & elem.get_covered_body_parts() ).none() ) {
+                    bonus += 1;
+                }
+            }
+        }
+        if(covered.test(bp_torso)) {
+            bonus += 6;
+        }
+        if(covered.test(bp_leg_l) || covered.test(bp_leg_r)) {
+            bonus += 2;
+        }
+        if(covered.test(bp_foot_l) || covered.test(bp_foot_r)) {
+            bonus += 1;
+        }
+        if(covered.test(bp_hand_l) || covered.test(bp_hand_r)) {
+            bonus += 1;
+        }
+        if(covered.test(bp_head)) {
+            bonus += 3;
+        }
+        if(covered.test(bp_eyes)) {
+            bonus += 2;
+        }
+        if(covered.test(bp_arm_l) || covered.test(bp_arm_r)) {
+            bonus += 1;
+        }
+        if(covered.test(bp_mouth)) {
+            bonus += 2;
+        }
+
+        if(bonus > 20)
+            bonus = 20;
+
+        if(bonus) {
+            add_morale(MORALE_PERM_FANCY, bonus, bonus, 5, 5, true);
+        }
+    }
+
+    // Floral folks really don't like having their flowers covered.
+    if( has_trait("FLOWERS") && wearing_something_on(bp_head) ) {
+        add_morale(MORALE_PERM_CONSTRAINED, -10, -10, 5, 5, true);
+    }
+
+    // The same applies to rooters and their feet; however, they don't take
+    // too many problems from no-footgear.
+    double shoe_factor = footwear_factor();
+    if( (has_trait("ROOTS") || has_trait("ROOTS2") || has_trait("ROOTS3") ) &&
+        shoe_factor ) {
+        add_morale(MORALE_PERM_CONSTRAINED, -10 * shoe_factor, -10 * shoe_factor, 5, 5, true);
+    }
+
+    // Masochists get a morale bonus from pain.
+    if (has_trait("MASOCHIST") || has_trait("MASOCHIST_MED") ||  has_trait("CENOBITE")) {
+        int bonus = pain / 2.5;
+        // Advanced masochists really get a morale bonus from pain.
+        // (It's not capped.)
+        if (has_trait("MASOCHIST") && (bonus > 25)) {
+            bonus = 25;
+        }
+        if( has_effect( effect_took_prozac ) ) {
+            bonus = int(bonus / 3);
+        }
+        if (bonus != 0) {
+            add_morale(MORALE_PERM_MASOCHIST, bonus, bonus, 5, 5, true);
+        }
+    }
+
+    // Optimist gives a base +4 to morale.
+    // The +25% boost from optimist also applies here, for a net of +5.
+    if (has_trait("OPTIMISTIC")) {
+        add_morale(MORALE_PERM_OPTIMIST, 4, 4, 5, 5, true);
+    }
+
+    // And Bad Temper works just the same way.  But in reverse.  ):
+    if (has_trait("BADTEMPER")) {
+        add_morale(MORALE_PERM_BADTEMPER, -4, -4, 5, 5, true);
+    }
 }
 
 void player::update_mental_focus()
@@ -1202,7 +1320,7 @@ int player::floor_bedding_warmth( const tripoint &pos )
     const furn_id furn_at_pos = g->m.furn( pos );
     int floor_bedding_warmth = 0;
 
-    
+
     int vpart = -1;
     vehicle *veh = g->m.veh_at( pos, vpart );
     bool veh_bed = ( veh != nullptr && veh->part_with_feature( vpart, "BED" ) >= 0 );
@@ -3260,7 +3378,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
 
 void player::disp_morale()
 {
-    morale.display( this );
+    morale.display();
 }
 
 int player::print_aim_bars( WINDOW *w, int line_number, item *weapon, Creature *target, int predicted_recoil ) {
@@ -8686,7 +8804,7 @@ void player::update_body_wetness( const w_point &weather )
 
 int player::get_morale_level() const
 {
-    return morale.get_level( this );
+    return morale.get_level();
 }
 
 void player::add_morale(morale_type type, int bonus, int max_bonus,
