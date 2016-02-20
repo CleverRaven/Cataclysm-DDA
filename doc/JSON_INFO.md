@@ -1022,6 +1022,11 @@ The contents of use_action fields can either be a string indicating a built-in f
     "flags": ["SHEATH_KNIFE", "SHEATH_SWORD"] // Items with any of these flags set can be holstered
 },
 "use_action": {
+    "type": "bandolier", // Store ammo and later reload using it
+    "capacity": 10, // Total number of rounds that can be stored
+    "ammo": [ "shot", "9mm" ], // What types of ammo can be stored?
+},
+"use_action": {
     "type": "reveal_map", // reveal specific terrains on the overmap
     "radius": 180, // radius around the player where things are revealed. A single overmap is 180x180 tiles.
     "terrain": ["hiway", "road"], // ids of overmap terrain types that should be revealed (as many as you want).
