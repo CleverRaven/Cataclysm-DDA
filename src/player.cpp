@@ -11063,10 +11063,11 @@ void player::remove_gunmod( item *weapon, unsigned id )
     if( gunmod->is_in_auxiliary_mode() ) {
         weapon->next_mode();
     }
-    i_add_or_drop( *gunmod );
-    weapon->contents.erase( weapon->contents.begin() + id );
 
     moves -= gunmod->type->gunmod->install_time / 2;
+
+    i_add_or_drop( *gunmod );
+    weapon->contents.erase( weapon->contents.begin() + id );
 }
 
 void player::gunmod_add( item &gun, item &mod )
