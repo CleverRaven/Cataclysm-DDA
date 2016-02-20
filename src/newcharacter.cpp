@@ -126,6 +126,177 @@ bool player::load_template( const std::string &template_name )
     return true;
 }
 
+void player::randomize( const bool random_scenario, int &points )
+{
+    const int max_trait_points = OPTIONS["MAX_TRAIT_POINTS"];
+    // Reset everything to the defaults to have a clean state.
+    *this = player();
+
+    g->u.male = (rng(1, 100) > 50);
+    if(!MAP_SHARING::isSharing()) {
+        g->u.pick_name(true);
+    } else {
+        g->u.name = MAP_SHARING::getUsername();
+    }
+    if( random_scenario ) {
+        std::vector<const scenario *> scenarios;
+        for( const scenario *const scenptr : scenario::get_all() ) {
+            if (!scenptr->has_flag("CHALLENGE")) {
+                scenarios.emplace_back( scenptr );
+            }
+        }
+        g->scen = random_entry( scenarios );
+        if (g->scen->profsize() > 0) {
+            g->u.prof = g->scen->random_profession();
+        } else {
+            g->u.prof = profession::weighted_random();
+        }
+        g->u.start_location = g->scen->random_start_location();
+    } else {
+        g->u.prof = profession::weighted_random();
+    }
+    str_max = rng(6, 12);
+    dex_max = rng(6, 12);
+    int_max = rng(6, 12);
+    per_max = rng(6, 12);
+    points = points - str_max - dex_max - int_max - per_max - g->u.prof->point_cost() - g->scen->point_cost();
+    if (str_max > HIGH_STAT) {
+        points -= (str_max - HIGH_STAT);
+    }
+    if (dex_max > HIGH_STAT) {
+        points -= (dex_max - HIGH_STAT);
+    }
+    if (int_max > HIGH_STAT) {
+        points -= (int_max - HIGH_STAT);
+    }
+    if (per_max > HIGH_STAT) {
+        points -= (per_max - HIGH_STAT);
+    }
+
+    int num_gtraits = 0, num_btraits = 0, tries = 0;
+    std::string rn = "";
+
+    while (points < 0 || rng(-3, 20) > points) {
+        if (num_btraits < max_trait_points && one_in(3)) {
+            tries = 0;
+            do {
+                rn = random_bad_trait();
+                tries++;
+            } while ((has_trait(rn) || num_btraits - mutation_branch::get( rn ).points > max_trait_points) &&
+                     tries < 5);
+
+            if (tries < 5 && !has_conflicting_trait(rn)) {
+                toggle_trait(rn);
+                points -= mutation_branch::get( rn ).points;
+                num_btraits -= mutation_branch::get( rn ).points;
+            }
+        } else {
+            switch (rng(1, 4)) {
+            case 1:
+                if (str_max > 5) {
+                    str_max--;
+                    points++;
+                }
+                break;
+            case 2:
+                if (dex_max > 5) {
+                    dex_max--;
+                    points++;
+                }
+                break;
+            case 3:
+                if (int_max > 5) {
+                    int_max--;
+                    points++;
+                }
+                break;
+            case 4:
+                if (per_max > 5) {
+                    per_max--;
+                    points++;
+                }
+                break;
+            }
+        }
+    }
+
+    /* The loops variable is used to prevent the algorithm running in an infinite loop */
+    unsigned int loops = 0;
+    while (points > 0 && loops <= 30000) {
+        switch (rng((num_gtraits < max_trait_points ? 1 : 5), 9)) {
+        case 1:
+        case 2:
+        case 3:
+        case 4:
+            rn = random_good_trait();
+            {
+                auto &mdata = mutation_branch::get( rn );
+            if (!has_trait(rn) && points >= mdata.points &&
+                num_gtraits + mdata.points <= max_trait_points &&
+                !has_conflicting_trait(rn)) {
+                toggle_trait(rn);
+                points -= mdata.points;
+                num_gtraits += mdata.points;
+            }
+            }
+            break;
+        case 5:
+            switch (rng(1, 4)) {
+            case 1:
+                if (str_max < HIGH_STAT) {
+                    str_max++;
+                    points--;
+                } else if (points >= 2 && str_max < MAX_STAT) {
+                    str_max++;
+                    points = points - 2;
+                }
+                break;
+            case 2:
+                if (dex_max < HIGH_STAT) {
+                    dex_max++;
+                    points--;
+                } else if (points >= 2 && dex_max < MAX_STAT) {
+                    dex_max++;
+                    points = points - 2;
+                }
+                break;
+            case 3:
+                if (int_max < HIGH_STAT) {
+                    int_max++;
+                    points--;
+                } else if (points >= 2 && int_max < MAX_STAT) {
+                    int_max++;
+                    points = points - 2;
+                }
+                break;
+            case 4:
+                if (per_max < HIGH_STAT) {
+                    per_max++;
+                    points--;
+                } else if (points >= 2 && per_max < MAX_STAT) {
+                    per_max++;
+                    points = points - 2;
+                }
+                break;
+            }
+            break;
+        case 6:
+        case 7:
+        case 8:
+        case 9:
+            const Skill* aSkill = Skill::random_skill();
+            int level = skillLevel(aSkill);
+
+            if (level < points && level < MAX_SKILL && (level <= 10 || loops > 10000)) {
+                points -= level + 1;
+                skillLevel(aSkill).level(level + 2);
+            }
+            break;
+        }
+        loops++;
+    }
+}
+
 int player::create(character_type type, std::string tempname)
 {
     weapon = item("null", 0);
@@ -150,174 +321,11 @@ int player::create(character_type type, std::string tempname)
             break;
         case PLTYPE_NOW:
         case PLTYPE_RANDOM_WITH_SCENARIO:
-        case PLTYPE_RANDOM: {
+        case PLTYPE_RANDOM:
             points = points + 32;
-            g->u.male = (rng(1, 100) > 50);
-            if(!MAP_SHARING::isSharing()) {
-                g->u.pick_name(true);
-            } else {
-                g->u.name = MAP_SHARING::getUsername();
-            }
-            if (type == PLTYPE_RANDOM_WITH_SCENARIO) {
-                std::vector<const scenario *> scenarios;
-                for( const scenario *const scenptr : scenario::get_all() ) {
-                    if (!scenptr->has_flag("CHALLENGE")) {
-                        scenarios.emplace_back( scenptr );
-                    }
-                }
-                g->scen = random_entry( scenarios );
-                if (g->scen->profsize() > 0) {
-                    g->u.prof = g->scen->random_profession();
-                } else {
-                    g->u.prof = profession::weighted_random();
-                }
-                g->u.start_location = g->scen->random_start_location();
-            } else {
-                g->u.prof = profession::weighted_random();
-            }
-            str_max = rng(6, 12);
-            dex_max = rng(6, 12);
-            int_max = rng(6, 12);
-            per_max = rng(6, 12);
-            points = points - str_max - dex_max - int_max - per_max - g->u.prof->point_cost() - g->scen->point_cost();
-            if (str_max > HIGH_STAT) {
-                points -= (str_max - HIGH_STAT);
-            }
-            if (dex_max > HIGH_STAT) {
-                points -= (dex_max - HIGH_STAT);
-            }
-            if (int_max > HIGH_STAT) {
-                points -= (int_max - HIGH_STAT);
-            }
-            if (per_max > HIGH_STAT) {
-                points -= (per_max - HIGH_STAT);
-            }
-
-            int num_gtraits = 0, num_btraits = 0, tries = 0;
-            std::string rn = "";
-
-            while (points < 0 || rng(-3, 20) > points) {
-                if (num_btraits < max_trait_points && one_in(3)) {
-                    tries = 0;
-                    do {
-                        rn = random_bad_trait();
-                        tries++;
-                    } while ((has_trait(rn) || num_btraits - mutation_branch::get( rn ).points > max_trait_points) &&
-                             tries < 5);
-
-                    if (tries < 5 && !has_conflicting_trait(rn)) {
-                        toggle_trait(rn);
-                        points -= mutation_branch::get( rn ).points;
-                        num_btraits -= mutation_branch::get( rn ).points;
-                    }
-                } else {
-                    switch (rng(1, 4)) {
-                    case 1:
-                        if (str_max > 5) {
-                            str_max--;
-                            points++;
-                        }
-                        break;
-                    case 2:
-                        if (dex_max > 5) {
-                            dex_max--;
-                            points++;
-                        }
-                        break;
-                    case 3:
-                        if (int_max > 5) {
-                            int_max--;
-                            points++;
-                        }
-                        break;
-                    case 4:
-                        if (per_max > 5) {
-                            per_max--;
-                            points++;
-                        }
-                        break;
-                    }
-                }
-            }
-
-            /* The loops variable is used to prevent the algorithm running in an infinite loop */
-            unsigned int loops = 0;
-            while (points > 0 && loops <= 30000) {
-                switch (rng((num_gtraits < max_trait_points ? 1 : 5), 9)) {
-                case 1:
-                case 2:
-                case 3:
-                case 4:
-                    rn = random_good_trait();
-                    {
-                        auto &mdata = mutation_branch::get( rn );
-                    if (!has_trait(rn) && points >= mdata.points &&
-                        num_gtraits + mdata.points <= max_trait_points &&
-                        !has_conflicting_trait(rn)) {
-                        toggle_trait(rn);
-                        points -= mdata.points;
-                        num_gtraits += mdata.points;
-                    }
-                    }
-                    break;
-                case 5:
-                    switch (rng(1, 4)) {
-                    case 1:
-                        if (str_max < HIGH_STAT) {
-                            str_max++;
-                            points--;
-                        } else if (points >= 2 && str_max < MAX_STAT) {
-                            str_max++;
-                            points = points - 2;
-                        }
-                        break;
-                    case 2:
-                        if (dex_max < HIGH_STAT) {
-                            dex_max++;
-                            points--;
-                        } else if (points >= 2 && dex_max < MAX_STAT) {
-                            dex_max++;
-                            points = points - 2;
-                        }
-                        break;
-                    case 3:
-                        if (int_max < HIGH_STAT) {
-                            int_max++;
-                            points--;
-                        } else if (points >= 2 && int_max < MAX_STAT) {
-                            int_max++;
-                            points = points - 2;
-                        }
-                        break;
-                    case 4:
-                        if (per_max < HIGH_STAT) {
-                            per_max++;
-                            points--;
-                        } else if (points >= 2 && per_max < MAX_STAT) {
-                            per_max++;
-                            points = points - 2;
-                        }
-                        break;
-                    }
-                    break;
-                case 6:
-                case 7:
-                case 8:
-                case 9:
-                    const Skill* aSkill = Skill::random_skill();
-                    int level = skillLevel(aSkill);
-
-                    if (level < points && level < MAX_SKILL && (level <= 10 || loops > 10000)) {
-                        points -= level + 1;
-                        skillLevel(aSkill).level(level + 2);
-                    }
-                    break;
-                }
-                loops++;
-            }
-        }
-        tab = NEWCHAR_TAB_MAX;
-        break;
+            randomize( type == PLTYPE_RANDOM_WITH_SCENARIO, points );
+            tab = NEWCHAR_TAB_MAX;
+            break;
         case PLTYPE_TEMPLATE:
             if( !load_template( tempname ) ) {
                 return 0;
