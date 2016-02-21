@@ -306,7 +306,7 @@ void player_activity::do_turn( player *p )
 
         case ACT_BUTCHER:
             // Drain some stamina
-            p->mod_stat( "stamina", -12 );
+            p->mod_stat( "stamina", -20.0f * p->stamina / p->get_stamina_max() );
             // Based on speed, not time
             if( p->moves <= moves_left ) {
                 moves_left -= p->moves;
