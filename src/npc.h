@@ -192,11 +192,12 @@ struct npc_opinion : public JsonSerializer, public JsonDeserializer
 };
 
 enum combat_engagement {
- ENGAGE_NONE = 0,
- ENGAGE_CLOSE,
- ENGAGE_WEAK,
- ENGAGE_HIT,
- ENGAGE_ALL
+    ENGAGE_NONE = 0,
+    ENGAGE_CLOSE,
+    ENGAGE_WEAK,
+    ENGAGE_HIT,
+    ENGAGE_ALL,
+    ENGAGE_NO_MOVE
 };
 
 struct npc_follower_rules : public JsonSerializer, public JsonDeserializer
@@ -713,7 +714,8 @@ public:
     bool wont_hit_friend( const tripoint &p , int position = -1 ) const;
     bool need_to_reload() const; // Wielding a gun that is empty
     bool enough_time_to_reload( const item &gun ) const;
-    bool clear_shot( const item &gun, const tripoint &p ) const;
+
+    void aim();
 
 // Physical movement from one tile to the next
  void update_path( const tripoint &p, bool no_bashing = false );

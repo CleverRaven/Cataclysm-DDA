@@ -510,10 +510,12 @@ void npc::execute_action( npc_action action )
         break;
 
     case npc_shoot:
+        aim();
         fire_gun( tar, 1 );
         break;
 
     case npc_shoot_burst:
+        aim();
         fire_gun( tar, std::max( 1, weapon.burst_size() ) );
         break;
 
@@ -708,41 +710,54 @@ void npc::choose_monster_target()
     bool defend_u = sees( g->u ) && is_defending();
     int highest_priority = 0;
 
+    // Radius we can attack without moving
+    const int cur_range = std::max( weapon.reach_range(), confident_range() );
+
+    constexpr int def_radius = 6;
+
     for( size_t i = 0; i < g->num_zombies(); i++ ) {
-        monster *mon = &(g->zombie(i));
-        if( !sees( *mon ) ) {
+        monster &mon = g->zombie( i );
+        if( !sees( mon ) ) {
             continue;
         }
 
-        int distance = (100 * rl_dist(pos(), mon->pos())) / mon->get_speed();
-        float hp_percent = (float)(mon->get_hp_max() - mon->get_hp()) / mon->get_hp_max();
-        int priority = mon->type->difficulty * (1 + hp_percent) - distance;
-        int monster_danger = mon->type->difficulty * hp_percent;
+        int dist = rl_dist( pos(), mon.pos() );
+        int scaled_distance = std::max( 1, (100 * dist) / mon.get_speed() );
+        float hp_percent = (float)(mon.get_hp_max() - mon.get_hp()) / mon.get_hp_max();
+        float priority = mon.type->difficulty * (1.0f + hp_percent) - (scaled_distance - 1);
+        int monster_danger = mon.type->difficulty * hp_percent;
 
-        auto att = mon->attitude( this );
+        auto att = mon.attitude( this );
         if( att == MATT_FRIEND || att == MATT_FPASSIVE ) {
-            priority = -999;
-            monster_danger *= -1;
-        } else if( att == MATT_ATTACK ) {
+            continue;
+        }
+
+        if( att == MATT_ATTACK ) {
             monster_danger++;
         }
 
-        total_danger += int(monster_danger / (distance == 0 ? 1 : distance));
+        total_danger += monster_danger / scaled_distance;
 
         bool okay_by_rules = true;
         if( is_following() ) {
-            switch (rules.engagement) {
+            switch( rules.engagement ) {
             case ENGAGE_NONE:
                 okay_by_rules = false;
                 break;
             case ENGAGE_CLOSE:
-                okay_by_rules = distance <= 6;
+                // Either close to player or close enough that we can reach it and close to us
+                okay_by_rules = rl_dist( mon.pos(), g->u.pos() ) <= def_radius ||
+                    ( dist <= cur_range && scaled_distance <= def_radius / 2 );
                 break;
             case ENGAGE_WEAK:
-                okay_by_rules = mon->get_hp() <= average_damage_dealt();
+                okay_by_rules = mon.get_hp() <= average_damage_dealt();
                 break;
             case ENGAGE_HIT:
-                okay_by_rules = mon->has_effect( effect_hit_by_player );
+                okay_by_rules = mon.has_effect( effect_hit_by_player );
+                break;
+            case ENGAGE_NO_MOVE:
+                // TODO: Enforce it
+                okay_by_rules = dist <= cur_range;
                 break;
             case ENGAGE_ALL:
                 okay_by_rules = true;
@@ -762,16 +777,14 @@ void npc::choose_monster_target()
             highest_priority = priority;
             enemy = i;
         } else if( defend_u ) {
-            priority = mon->type->difficulty * (1 + hp_percent);
-            distance = (100 * rl_dist(g->u.pos(), mon->pos())) /
-                mon->get_speed();
-            priority -= distance;
-            if( mon->get_speed() < get_speed() ) {
+            priority = mon.type->difficulty * (1 + hp_percent);
+            scaled_distance = (100 * rl_dist(g->u.pos(), mon.pos())) / mon.get_speed();
+            priority -= scaled_distance;
+            if( mon.get_speed() < get_speed() ) {
                 priority -= 10;
             }
-            priority *= (personality.bravery + personality.altruism + op_of_u.value) /
-                        15;
-            if (priority > highest_priority) {
+            priority *= (personality.bravery + personality.altruism + op_of_u.value) / 15;
+            if( priority > highest_priority ) {
                 highest_priority = priority;
                 enemy = i;
             }
@@ -827,8 +840,10 @@ npc_action npc::method_of_attack()
     }
 
     const npc_action melee_action = reach_range > 1 ? npc_reach_attack : npc_melee;
+    // TODO: Change the in_vehicle check to actual "are we driving" check
+    const bool dont_move = in_vehicle || rules.engagement == ENGAGE_NO_MOVE;
 
-    // TODO: Add vehicle avoidance code
+    // TODO: Make NPCs understand reinforced glass and vehicles blocking line of fire
     if( can_use_gun ) {
         if( need_to_reload() && can_reload() ) {
             return npc_reload;
@@ -841,26 +856,30 @@ npc_action npc::method_of_attack()
             if( dist > confident_range() ) {
                 if( can_reload() && (enough_time_to_reload( weapon ) || in_vehicle) ) {
                     return npc_reload;
-                } else if( in_vehicle && dist > reach_range ) {
+                } else if( dont_move && dist > reach_range ) {
                     return npc_pause;
                 } else {
                     return melee_action;
                 }
             }
             if( !wont_hit_friend( tar ) ) {
-                if( in_vehicle )
+                if( dont_move ) {
                     if( can_reload() ) {
                         return npc_reload;
                     } else {
-                        return npc_pause;    // wait for clear shot
+                        // Wait for clear shot
+                        return npc_pause;
                     }
-                else {
+                } else {
                     return npc_avoid_friendly_fire;
                 }
-            } else if( ai_cache.target == TARGET_PLAYER && !sees( g->u ) ) {
-                return melee_action; // Can't see target
-            } else if( dist > weapon.gun_range( this ) && sees( tar ) ) {
-                return melee_action; // If out of range, move closer to the target
+            } else if( !sees( *critter ) ) {
+                // Can't see target
+                return melee_action;
+            } else if( dist > confident_range() && sees( tar ) ) {
+                // If out of confident range, move closer to the target
+                // Currently NPCs shouldn't snipe too much, they're very wasteful
+                return melee_action;
             } else if( dist <= confident_range() / 3 &&
                        weapon.ammo_remaining() >= weapon.burst_size() &&
                        (target_HP >= weapon.gun_damage() * 3 ||
@@ -877,7 +896,7 @@ npc_action npc::method_of_attack()
         return npc_noop;
     }
 
-    if( in_vehicle && (dist > reach_range || !clear_shot_reach( pos(), tar ) ) ) {
+    if( dont_move && (dist > reach_range || !clear_shot_reach( pos(), tar ) ) ) {
         return npc_pause;
     }
 
@@ -1101,41 +1120,48 @@ void npc::use_escape_item(int position)
 
 int npc::confident_range( int position ) const
 {
-    double deviation = 0;
+    double deviation = 0.0;
 
     if( position == -1 ) {
         // Firing a weapon
-        if( !weapon.is_gun() || weapon.ammo_remaining() <= 0 ) {
+        if( !weapon.is_gun() || weapon.ammo_remaining() < weapon.ammo_required() ) {
             return 0;
         }
 
-        deviation = get_weapon_dispersion( &weapon, true ) + recoil + driving_recoil;
-        deviation /= 15; // convert from MoA back to quarter-degrees.
+        deviation = get_weapon_dispersion( &weapon, false ) + recoil + driving_recoil;
+        // Halve to get expected values
+        // TODO: Add "certainly confident range" function, for resourceful, sniping npcs
+        deviation /= 2;
+        // Convert from MoA back to quarter-degrees.
+        deviation /= 15;
 
-        return std::min( int( 360 / deviation ), weapon.gun_range( this ) );
-
-    } else {
-        // Throwing an item
-        const auto& thrown = i_at( position );
-
-        ///\EFFECT_THROW_NPC increases throwing confidence of all items
-        deviation += 10 - get_skill_level( skill_throw );
-
-        ///\EFFECT_PER_NPC increases throwing confidence of all items
-        deviation += 10 - per_cur;
-
-        ///\EFFECT_DEX_NPC increases throwing confidence of all items
-        deviation += throw_dex_mod();
-
-        ///\EFFECT_STR_NPC increases throwing confidence of heavy items
-        deviation += std::min( ( thrown.weight() / 100 ) - str_cur, 0 );
-
-        deviation += thrown.volume() / 4;
-
-        deviation += encumb( bp_hand_r ) + encumb( bp_hand_l ) + encumb( bp_eyes );
-
-        return std::min( int( 360 / deviation ), throw_range( position ) );
+        const int ret = std::min( int( 360 / deviation ), weapon.gun_range( this ) );
+        add_msg( m_debug, "confident_range(%d) == %d", position, ret );
+        return ret;
     }
+
+    // Throwing an item
+    const auto& thrown = i_at( position );
+
+    ///\EFFECT_THROW_NPC increases throwing confidence of all items
+    deviation += 10 - get_skill_level( skill_throw );
+
+    ///\EFFECT_PER_NPC increases throwing confidence of all items
+    deviation += 10 - per_cur;
+
+    ///\EFFECT_DEX_NPC increases throwing confidence of all items
+    deviation += throw_dex_mod();
+
+    ///\EFFECT_STR_NPC increases throwing confidence of heavy items
+    deviation += std::min( ( thrown.weight() / 100 ) - str_cur, 0 );
+
+    deviation += thrown.volume() / 4;
+
+    deviation += encumb( bp_hand_r ) + encumb( bp_hand_l ) + encumb( bp_eyes );
+
+    const int ret = std::min( int( 360 / deviation ), throw_range( position ) );
+    add_msg( m_debug, "confident_range(%d) == %d", position, ret );
+    return ret;
 }
 
 // Index defaults to -1, i.e., wielded weapon
@@ -1221,6 +1247,17 @@ bool npc::enough_time_to_reload( const item &gun ) const
 
     // TODO: Handle monsters with ranged attacks and players with CBMs
     return turns_til_reloaded < turns_til_reached;
+}
+
+void npc::aim()
+{
+    int aim_amount = aim_per_time( weapon, recoil );
+    while( aim_amount > 0 && recoil > 0 && moves > 10 ) {
+        moves -= 10;
+        recoil -= aim_amount;
+        recoil = std::max( 0, recoil );
+        aim_amount = aim_per_time( weapon, recoil );
+    }
 }
 
 void npc::update_path( const tripoint &p, const bool no_bashing )
@@ -1597,7 +1634,24 @@ void npc::move_away_from( const tripoint &pt, bool no_bash_atk )
 
 void npc::move_pause()
 {
-    pause();
+    // NPCs currently always aim when using a gun, even with no target
+    // This simulates them aiming at stuff just at the edge of their range
+    if( recoil <= 0 || !weapon.is_gun() ) {
+        pause();
+        return;
+    }
+
+    aim();
+
+    // Player can cheese the pause recoil drop to speed up aiming, let npcs do it too
+    int pause_recoil = recoil - str_cur + 2 * get_skill_level( skill_gun );
+    pause_recoil = std::max( MIN_RECOIL * 2, pause_recoil );
+    pause_recoil = pause_recoil / 2;
+    if( pause_recoil < recoil ) {
+        pause();
+    } else {
+        moves = 0;
+    }
 }
 
 void npc::find_item()

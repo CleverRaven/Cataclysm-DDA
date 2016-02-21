@@ -1443,11 +1443,24 @@ std::string dialogue::dynamic_line( const std::string &topic ) const
         std::stringstream status;
         // Prepending * makes this an action, not a phrase
         switch (p->rules.engagement) {
-            case ENGAGE_NONE:  status << _("*is not engaging enemies.");         break;
-            case ENGAGE_CLOSE: status << _("*is engaging nearby enemies.");      break;
-            case ENGAGE_WEAK:  status << _("*is engaging weak enemies.");        break;
-            case ENGAGE_HIT:   status << _("*is engaging enemies you attack.");  break;
-            case ENGAGE_ALL:   status << _("*is engaging all enemies.");         break;
+            case ENGAGE_NONE:
+                status << _("*is not engaging enemies.");
+                break;
+            case ENGAGE_CLOSE:
+                status << _("*is engaging nearby enemies.");
+                break;
+            case ENGAGE_WEAK:
+                status << _("*is engaging weak enemies.");
+                break;
+            case ENGAGE_HIT:
+                status << _("*is engaging enemies you attack.");
+                break;
+            case ENGAGE_NO_MOVE:
+                status << _("*is engaging enemies close enough to attack without moving.");
+                break;
+            case ENGAGE_ALL:
+                status << _("*is engaging all enemies.");
+                break;
         }
         std::string npcstr = rm_prefix(p->male ? _("<npc>He") : _("<npc>She"));
         if (p->rules.use_guns) {
@@ -2763,23 +2776,27 @@ void dialogue::gen_responses( const std::string &topic )
             add_response_none( _("Never mind.") );
 
     } else if( topic == "TALK_COMBAT_ENGAGEMENT" ) {
-            if (p->rules.engagement != ENGAGE_NONE) {
+            if( p->rules.engagement != ENGAGE_NONE ) {
                 add_response( _("Don't fight unless your life depends on it."), "TALK_NONE",
                               &talk_function::set_engagement_none );
             }
-            if (p->rules.engagement != ENGAGE_CLOSE) {
+            if( p->rules.engagement != ENGAGE_CLOSE ) {
                 add_response( _("Attack enemies that get too close."), "TALK_NONE",
                               &talk_function::set_engagement_close);
             }
-            if (p->rules.engagement != ENGAGE_WEAK) {
+            if( p->rules.engagement != ENGAGE_WEAK ) {
                 add_response( _("Attack enemies that you can kill easily."), "TALK_NONE",
                               &talk_function::set_engagement_weak );
             }
-            if (p->rules.engagement != ENGAGE_HIT) {
+            if( p->rules.engagement != ENGAGE_HIT ) {
                 add_response( _("Attack only enemies that I attack first."), "TALK_NONE",
                               &talk_function::set_engagement_hit );
             }
-            if (p->rules.engagement != ENGAGE_ALL) {
+            if( p->rules.engagement != ENGAGE_NO_MOVE ) {
+                add_response( _("Attack only enemies you can reach without moving."), "TALK_NONE",
+                              &talk_function::set_engagement_no_move );
+            }
+            if( p->rules.engagement != ENGAGE_ALL ) {
                 add_response( _("Attack anything you want."), "TALK_NONE",
                               &talk_function::set_engagement_all );
             }
@@ -3666,6 +3683,11 @@ void talk_function::set_engagement_weak(npc *p)
 void talk_function::set_engagement_hit(npc *p)
 {
     p->rules.engagement = ENGAGE_HIT;
+}
+
+void talk_function::set_engagement_no_move( npc *p )
+{
+    p->rules.engagement = ENGAGE_NO_MOVE;
 }
 
 void talk_function::set_engagement_all(npc *p)
