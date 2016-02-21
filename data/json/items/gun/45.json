@@ -188,7 +188,7 @@
     "id": "tommygun",
     "type": "GUN",
     "name": "Thompson submachine gun",
-    "description": "An American-made submachine gun developed during the very end of World War I, too late to see action.  Infamous during the 1920s for its use by gangsters, and was used during World War II before being mostly replaced with less-espensive alternatives.",
+    "description": "An American-made submachine gun developed during the very end of World War I, too late to see action.  Infamous during the 1920s for its use by gangsters, and was used during World War II before being mostly replaced with less-expensive alternatives.",
     "weight": 4630,
     "volume": 8,
     "price": 450000,
