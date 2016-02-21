@@ -233,6 +233,10 @@ void ammo_effects( const tripoint &p, const std::set<std::string> &effects )
     if( effects.count( "FLASHBANG" ) ) {
         g->flashbang( p );
     }
+    
+    if( effects.count( "EMP" ) ) {
+        g->emp_blast( p );
+    }
 
     if( effects.count( "NO_BOOM" ) == 0 && effects.count( "FLAME" ) > 0 ) {
         for( auto && pt : g->m.points_in_radius( p, 1, 0 ) ) {

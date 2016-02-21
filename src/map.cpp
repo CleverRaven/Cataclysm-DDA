@@ -3976,7 +3976,7 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
         add_field(p, fd_plasma, rng(1, 2), 0 );
     }
 
-    if (ammo_effects.count("LASER")) {
+    if (ammo_effects.count("LASER") || ammo_effects.count("DRAW_LASER_BEAM")) {
         add_field(p, fd_laser, 2, 0 );
     }
 
