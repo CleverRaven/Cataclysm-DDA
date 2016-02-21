@@ -1144,16 +1144,16 @@ double npc::confidence_mult() const
 
     switch( rules.aim ) {
         case AIM_WHEN_CONVENIENT:
-            return emergency() ? 1.0f : 0.5f;
+            return emergency() ? 1.0f : 0.75f;
             break;
         case AIM_SPRAY:
             return 1.25f;
             break;
         case AIM_PRECISE:
-            return emergency() ? 0.75f : 0.25f;
+            return emergency() ? 0.75f : 0.4f;
             break;
         case AIM_STRICTLY_PRECISE:
-            return 0.1f;
+            return 0.25f;
             break;
     }
 
