@@ -198,66 +198,65 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     int wool = 0;
     bool stomach = false;
 
+    int max_practice = 4;
     switch (corpse->size) {
-    case MS_TINY:
-        pieces = 1;
-        skins = 1;
-        bones = 1;
-        fats = 1;
-        sinews = 1;
-        feathers = 2;
-        wool = 1;
-        break;
-    case MS_SMALL:
-        pieces = 2;
-        skins = 2;
-        bones = 4;
-        fats = 2;
-        sinews = 4;
-        feathers = 6;
-        wool = 2;
-        break;
-    case MS_MEDIUM:
-        pieces = 4;
-        skins = 4;
-        bones = 9;
-        fats = 4;
-        sinews = 9;
-        feathers = 11;
-        wool = 4;
-        break;
-    case MS_LARGE:
-        pieces = 8;
-        skins = 8;
-        bones = 14;
-        fats = 8;
-        sinews = 14;
-        feathers = 17;
-        wool = 8;
-        break;
-    case MS_HUGE:
-        pieces = 16;
-        skins = 16;
-        bones = 21;
-        fats = 16;
-        sinews = 21;
-        feathers = 24;
-        wool = 16;
-        break;
+        case MS_TINY:
+            pieces = 1;
+            skins = 1;
+            bones = 1;
+            fats = 1;
+            sinews = 1;
+            feathers = 2;
+            wool = 1;
+            break;
+        case MS_SMALL:
+            pieces = 2;
+            skins = 2;
+            bones = 4;
+            fats = 2;
+            sinews = 4;
+            feathers = 6;
+            wool = 2;
+            break;
+        case MS_MEDIUM:
+            pieces = 4;
+            skins = 4;
+            bones = 9;
+            fats = 4;
+            sinews = 9;
+            feathers = 11;
+            wool = 4;
+            break;
+        case MS_LARGE:
+            pieces = 8;
+            skins = 8;
+            bones = 14;
+            fats = 8;
+            sinews = 14;
+            feathers = 17;
+            wool = 8;
+            max_practice = 5;
+            break;
+        case MS_HUGE:
+            pieces = 16;
+            skins = 16;
+            bones = 21;
+            fats = 16;
+            sinews = 21;
+            feathers = 24;
+            wool = 16;
+            max_practice = 6;
+            break;
     }
 
     const int skill_level = p->skillLevel( skill_survival );
 
     auto roll_butchery = [&] () {
         double skill_shift = 0.0;
-        ///\EFFECT_SURVIVAL randomly increases butcher rolls, slightly
+        ///\EFFECT_SURVIVAL randomly increases butcher rolls
         skill_shift += rng_float( 0, skill_level - 3 );
         ///\EFFECT_DEX >8 randomly increases butcher rolls, slightly, <8 decreases
         skill_shift += rng_float( 0, p->dex_cur - 8 ) / 4.0;
-        ///\EFFECT_STR >4 randomly increases butcher rolls, <4 decreases
-        if( p->str_cur < 4 ) {
-            skill_shift -= rng_float( 0, 5 * ( 4 - p->str_cur ) ) / 4.0;
-        }
 
         if( factor < 0 ) {
             skill_shift -= rng_float( 0, -factor / 5.0 );
@@ -266,9 +265,9 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         return static_cast<int>( round( skill_shift ) );
     };
 
-    int practice = std::max( 0, 4 + pieces + roll_butchery());
+    int practice = std::max( 0, 4 + pieces + roll_butchery() );
 
-    p->practice( skill_survival, practice );
+    p->practice( skill_survival, practice, max_practice );
 
     // Lose some meat, skins, etc if the rolls are low
     pieces +=   std::min( 0, roll_butchery() );
@@ -463,9 +462,9 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     }
 
     if( pieces <= 0 ) {
-        p->add_msg_if_player(m_bad, _("Your clumsy butchering destroys the meat!"));
+        p->add_msg_if_player(m_bad, _("Your clumsy butchering destroys the flesh!"));
     } else {
-        p->add_msg_if_player(m_good, _("You harvest some meat."));
+        p->add_msg_if_player(m_good, _("You harvest some flesh."));
         const itype_id meat = corpse->get_meat_itype();
         if( meat == "null" ) {
             return;
@@ -878,8 +877,8 @@ void activity_handlers::pulp_do_turn( player_activity *act, player *p )
     }
     ///\EFFECT_STR increases pulping power, with diminishing returns
     float pulp_power = sqrt( (p->str_cur + p->weapon.type->melee_dam) * ( cut_power + 1.0f ) );
-    // Constant multiplier to get the chance right
-    pulp_power *= 50;
+    // Multiplier to get the chance right + some bonus for survival skill
+    pulp_power *= 40 + p->get_skill_level( skill_survival ) * 5;
 
     const int mess_radius = p->weapon.has_flag("MESSY") ? 2 : 1;
 
@@ -939,6 +938,11 @@ void activity_handlers::pulp_do_turn( player_activity *act, player *p )
             p->mod_stat( "stamina", stamina_ratio * -40 );
 
             moves += 100 / std::max( 0.25f, stamina_ratio );
+            if( one_in( 10 ) ) {
+                // Smashing may not be butchery, but it involves some zombie anatomy
+                p->practice( skill_survival, 2, 2 );
+            }
+
             if( moves >= p->moves ) {
                 // Enough for this turn;
                 p->moves -= moves;
