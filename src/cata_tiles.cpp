@@ -14,6 +14,7 @@
 #include "monster.h"
 #include "options.h"
 #include "overmapbuffer.h"
+#include "player.h"
 #include "catacharset.h"
 #include "itype.h"
 #include "vehicle.h"
