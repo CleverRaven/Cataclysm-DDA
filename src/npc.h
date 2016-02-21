@@ -710,7 +710,10 @@ public:
  int choose_escape_item(); // Returns item position of our best escape aid
 
 // Helper functions for ranged combat
-    int confident_range( int position = -1 ) const;
+    int confident_range( int weapon_index = -1 ) const;
+    int confident_gun_range( const item & ) const;
+    int confident_gun_range( const item &gun, int at_recoil ) const;
+    int confident_throw_range( const item & ) const;
     bool wont_hit_friend( const tripoint &p , int position = -1 ) const;
     bool need_to_reload() const; // Wielding a gun that is empty
     bool enough_time_to_reload( const item &gun ) const;

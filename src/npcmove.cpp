@@ -69,14 +69,14 @@ enum npc_action : int {
     npc_goto_destination, npc_avoid_friendly_fire, // 24, 25
     npc_base_idle, // 26
     npc_noop,
-    npc_reach_attack,
+    npc_reach_attack, npc_aim,
     num_npc_actions
 };
 
 const int avoidance_vehicles_radius = 5;
 
 std::string npc_action_name(npc_action action);
-bool thrown_item(item *used);
+bool thrown_item( item &used );
 
 void print_action( const char *prepend, npc_action action );
 
@@ -509,6 +509,10 @@ void npc::execute_action( npc_action action )
         }
         break;
 
+    case npc_aim:
+        aim();
+        break;
+
     case npc_shoot:
         aim();
         fire_gun( tar, 1 );
@@ -853,7 +857,8 @@ npc_action npc::method_of_attack()
         }
         if( weapon.is_gun() && (!use_silent || weapon.is_silent()) &&
             weapon.ammo_remaining() > weapon.ammo_required() ) {
-            if( dist > confident_range() ) {
+            const int confident = confident_range();
+            if( dist > confident ) {
                 if( can_reload() && (enough_time_to_reload( weapon ) || in_vehicle) ) {
                     return npc_reload;
                 } else if( dont_move && dist > reach_range ) {
@@ -876,11 +881,11 @@ npc_action npc::method_of_attack()
             } else if( !sees( *critter ) ) {
                 // Can't see target
                 return melee_action;
-            } else if( dist > confident_range() && sees( tar ) ) {
+            } else if( dist > confident && sees( tar ) ) {
                 // If out of confident range, move closer to the target
                 // Currently NPCs shouldn't snipe too much, they're very wasteful
                 return melee_action;
-            } else if( dist <= confident_range() / 3 &&
+            } else if( dist <= confident / 3 &&
                        weapon.ammo_remaining() >= weapon.burst_size() &&
                        (target_HP >= weapon.gun_damage() * 3 ||
                         emergency( ai_cache.danger * 2 ) ) ) {
@@ -1117,34 +1122,42 @@ void npc::use_escape_item(int position)
     move_pause();
 }
 
-
 int npc::confident_range( int position ) const
 {
-    double deviation = 0.0;
-
     if( position == -1 ) {
-        // Firing a weapon
-        if( !weapon.is_gun() || weapon.ammo_remaining() < weapon.ammo_required() ) {
-            return 0;
-        }
-
-        deviation = get_weapon_dispersion( &weapon, false ) + recoil + driving_recoil;
-        // Halve to get expected values
-        // TODO: Add "certainly confident range" function, for resourceful, sniping npcs
-        deviation /= 2;
-        // Convert from MoA back to quarter-degrees.
-        deviation /= 15;
-
-        const int ret = std::min( int( 360 / deviation ), weapon.gun_range( this ) );
-        add_msg( m_debug, "confident_range(%d) == %d", position, ret );
-        return ret;
+        return confident_gun_range( weapon );
     }
 
-    // Throwing an item
-    const auto& thrown = i_at( position );
+    return confident_throw_range( i_at( position ) );
+}
 
+int npc::confident_gun_range( const item &gun ) const
+{
+    return confident_gun_range( gun, recoil + driving_recoil );
+}
+
+int npc::confident_gun_range( const item &gun, int at_recoil ) const
+{
+    if( !gun.is_gun() || gun.ammo_remaining() < gun.ammo_required() ) {
+        return 0;
+    }
+
+    double deviation = get_weapon_dispersion( &gun, false ) + at_recoil;
+    // Halve to get expected values
+    // TODO: Add "certainly confident range" function, for resourceful, sniping npcs
+    deviation /= 2;
+    // Convert from MoA back to quarter-degrees.
+    deviation /= 15;
+
+    const int ret = std::min( int( 360 / deviation ), gun.gun_range( this ) );
+    add_msg( m_debug, "confident_gun_range == %d", ret );
+    return ret;
+}
+
+int npc::confident_throw_range( const item &thrown ) const
+{
     ///\EFFECT_THROW_NPC increases throwing confidence of all items
-    deviation += 10 - get_skill_level( skill_throw );
+    double deviation = 10 - get_skill_level( skill_throw );
 
     ///\EFFECT_PER_NPC increases throwing confidence of all items
     deviation += 10 - per_cur;
@@ -1159,8 +1172,8 @@ int npc::confident_range( int position ) const
 
     deviation += encumb( bp_hand_r ) + encumb( bp_hand_l ) + encumb( bp_eyes );
 
-    const int ret = std::min( int( 360 / deviation ), throw_range( position ) );
-    add_msg( m_debug, "confident_range(%d) == %d", position, ret );
+    const int ret = std::min( int( 360 / deviation ), throw_range( thrown ) );
+    add_msg( m_debug, "confident_throw_range == %d", ret );
     return ret;
 }
 
@@ -1992,15 +2005,15 @@ void npc::wield_best_melee()
 void npc::alt_attack()
 {
     itype_id which = "null";
-    tripoint tar;
     Creature *critter = get_target( ai_cache.target );
-    if( critter != nullptr ) {
-        tar = critter->pos();
-    } else { // This function shouldn't be called...
+    if( critter == nullptr ) {
+        // This function shouldn't be called...
         debugmsg( "npc::alt_attack() called with target = %d", ai_cache.target );
         move_pause();
         return;
     }
+
+    tripoint tar = critter->pos();
 
     int dist = rl_dist( pos(), tar );
     /* ALT_ATTACK_ITEMS is an array which stores the itype_id of all alternate
@@ -2026,7 +2039,7 @@ void npc::alt_attack()
     }
 
     int weapon_index = INT_MIN;
-    item *used = NULL;
+    item *used = nullptr;
     if (weapon.type->id == which) {
         used = &weapon;
         weapon_index = -1;
@@ -2040,101 +2053,114 @@ void npc::alt_attack()
         }
     }
 
+    if( used == nullptr ) {
+        debugmsg( "npc::alt_attack() couldn't find expected item of type %s",
+                  which.c_str() );
+        return;
+    }
+
     // Are we going to throw this item?
-    if (!thrown_item(used)) {
-        activate_item(weapon_index);
-    } else { // We are throwing it!
-        if (dist <= confident_range(weapon_index) && wont_hit_friend( tar, weapon_index )) {
-            if (g->u.sees( *this )) {
-                add_msg(_("%1$s throws a %2$s."),
-                        name.c_str(), used->tname().c_str());
-            }
+    if( !thrown_item( *used ) ) {
+        activate_item( weapon_index );
+        return;
+    }
 
-            int stack_size = -1;
-            if( used->count_by_charges() ) {
-                stack_size = used->charges;
-                used->charges = 1;
-            }
-            throw_item( tar, *used );
-            // Throw a single charge of a stacking object.
-            if( stack_size == -1 || stack_size == 1 ) {
-                i_rem(weapon_index);
-            } else {
-                used->charges = stack_size - 1;
-            }
-        } else if (!wont_hit_friend( tar, weapon_index )) {// Danger of friendly fire
-
-            if (!used->active || used->charges > 2) { // Safe to hold on to, for now
-                avoid_friendly_fire();    // Maneuver around player
-            } else { // We need to throw this live (grenade, etc) NOW! Pick another target?
-                int conf = confident_range(weapon_index);
-                for (int dist = 2; dist <= conf; dist++) {
-                    for (int x = posx() - dist; x <= posx() + dist; x++) {
-                        for (int y = posy() - dist; y <= posy() + dist; y++) {
-                            int newtarget = g->mon_at( { x, y, posz() } );
-                            int newdist = rl_dist(posx(), posy(), x, y);
-                            // TODO: Change "newdist >= 2" to "newdist >= safe_distance(used)"
-                            // Molotovs are safe at 2 tiles, grenades at 4, mininukes at 8ish
-                            if (newdist <= conf && newdist >= 2 && newtarget != -1 &&
-                                wont_hit_friend( tripoint( x, y, posz() ), weapon_index)) { // Friendlyfire-safe!
-                                ai_cache.target = newtarget;
-                                if( !one_in( 100 ) ) {
-                                    // Just to prevent infinite loops...
-                                    alt_attack();
-                                }
-                                return;
-                            }
-                        }
-                    }
-                }
-                /* If we have reached THIS point, there's no acceptable monster to throw our
-                 * grenade or whatever at.  Since it's about to go off in our hands, better to
-                 * just chuck it as far away as possible--while being friendly-safe.
-                 */
-                int best_dist = 0;
-                for (int dist = 2; dist <= conf; dist++) {
-                    for (int x = posx() - dist; x <= posx() + dist; x++) {
-                        for (int y = posy() - dist; y <= posy() + dist; y++) {
-                            int new_dist = rl_dist(posx(), posy(), x, y);
-                            if (new_dist > best_dist && wont_hit_friend( tripoint( x, y, posz() ), weapon_index)) {
-                                best_dist = new_dist;
-                                tar.x = x;
-                                tar.y = y;
-                            }
-                        }
-                    }
-                }
-                /* Even if tar.x/tar.y didn't get set by the above loop, throw it anyway.  They
-                 * should be equal to the original location of our target, and risking friendly
-                 * fire is better than holding on to a live grenade / whatever.
-                 */
-                if (g->u.sees( *this )) {
-                    add_msg(_("%1$s throws a %2$s."), name.c_str(),
-                            used->tname().c_str());
-                }
-
-                int stack_size = -1;
-                if( used->count_by_charges() ) {
-                    stack_size = used->charges;
-                    used->charges = 1;
-                }
-                throw_item( tar, *used);
-
-                // Throw a single charge of a stacking object.
-                if( stack_size == -1 || stack_size == 1 ) {
-                    i_rem(weapon_index);
-                } else {
-                    used->charges = stack_size - 1;
-                }
-
-                i_rem(weapon_index);
-            }
-
-        } else { // Within this block, our chosen target is outside of our range
-            update_path( tar );
-            move_to_next(); // Move towards the target
+    // We are throwing it!
+    int conf = confident_throw_range( *used );
+    const bool wont_hit = wont_hit_friend( tar, weapon_index );
+    if( dist <= conf && wont_hit ) {
+        if( g->u.sees( *this ) ) {
+            add_msg(_("%1$s throws a %2$s."),
+                    name.c_str(), used->tname().c_str());
         }
-    } // Done with throwing-item block
+
+        int stack_size = -1;
+        if( used->count_by_charges() ) {
+            stack_size = used->charges;
+            used->charges = 1;
+        }
+        throw_item( tar, *used );
+        // Throw a single charge of a stacking object.
+        if( stack_size == -1 || stack_size == 1 ) {
+            i_rem(weapon_index);
+        } else {
+            used->charges = stack_size - 1;
+        }
+
+        return;
+    }
+
+    if( wont_hit ) {
+        // Within this block, our chosen target is outside of our range
+        update_path( tar );
+        move_to_next(); // Move towards the target
+    }
+
+    // Danger of friendly fire
+    if( !used->active || used->charges > 2 ) {
+        // Safe to hold on to, for now
+        // Maneuver around player
+        avoid_friendly_fire();
+        return;
+    }
+
+    // We need to throw this live (grenade, etc) NOW! Pick another target?
+    for( int dist = 2; dist <= conf; dist++ ) {
+        for( const tripoint &pt : g->m.points_in_radius( pos(), dist ) ) {
+            int newtarget = g->mon_at( pt );
+            int newdist = rl_dist( pos(), pt );
+            // TODO: Change "newdist >= 2" to "newdist >= safe_distance(used)"
+            if( newdist <= conf && newdist >= 2 && newtarget != -1 &&
+                wont_hit_friend( pt, weapon_index ) ) {
+                // Friendlyfire-safe!
+                ai_cache.target = newtarget;
+                if( !one_in( 100 ) ) {
+                    // Just to prevent infinite loops...
+                    alt_attack();
+                }
+                return;
+            }
+        }
+    }
+    /* If we have reached THIS point, there's no acceptable monster to throw our
+     * grenade or whatever at.  Since it's about to go off in our hands, better to
+     * just chuck it as far away as possible--while being friendly-safe.
+     */
+    int best_dist = 0;
+    for (int dist = 2; dist <= conf; dist++) {
+        for( const tripoint &pt : g->m.points_in_radius( pos(), dist ) ) {
+            int new_dist = rl_dist( pos(), pt );
+            if( new_dist > best_dist && wont_hit_friend( pt ), weapon_index ) {
+                best_dist = new_dist;
+                tar = pt;
+            }
+        }
+    }
+    /* Even if tar.x/tar.y didn't get set by the above loop, throw it anyway.  They
+     * should be equal to the original location of our target, and risking friendly
+     * fire is better than holding on to a live grenade / whatever.
+     */
+    if( g->u.sees( *this ) ) {
+        add_msg(_("%1$s throws a %2$s."), name.c_str(),
+                used->tname().c_str());
+    }
+
+    int stack_size = -1;
+    if( used->count_by_charges() ) {
+        stack_size = used->charges;
+        used->charges = 1;
+    }
+    throw_item( tar, *used );
+
+    // Throw a single charge of a stacking object.
+    if( stack_size == -1 || stack_size == 1 ) {
+        i_rem(weapon_index);
+    } else {
+        used->charges = stack_size - 1;
+        if( used->charges == 0 ) {
+            i_rem( weapon_index );
+        }
+    }
 }
 
 void npc::activate_item(int item_index)
@@ -2156,14 +2182,11 @@ void npc::activate_item(int item_index)
     }
 }
 
-bool thrown_item(item *used)
+bool thrown_item( item &used )
 {
-    if (used == NULL) {
-        debugmsg("npcmove.cpp's thrown_item() called with NULL item");
-        return false;
-    }
-    itype_id type = itype_id(used->type->id);
-    return (used->active || type == "knife_combat" || type == "spear_wood");
+    const itype_id &type = used.type->id;
+    // TODO: Remove the horrid hardcode
+    return (used.active || type == "knife_combat" || type == "spear_wood");
 }
 
 void npc::heal_player( player &patient )
@@ -2611,6 +2634,8 @@ std::string npc_action_name(npc_action action)
         return _("Melee");
     case npc_reach_attack:
         return _("Reach attack");
+    case npc_aim:
+        return _("Aim");
     case npc_shoot:
         return _("Shoot");
     case npc_shoot_burst:

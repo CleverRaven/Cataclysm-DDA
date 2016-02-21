@@ -4713,7 +4713,7 @@ std::string give_item_to( npc &p, bool allow_use, bool allow_carry )
         return _("How?");
     }
 
-    if( given.is_dangerous() ) {
+    if( given.is_dangerous() && !g->u.has_trait( "DEBUG_MIND_CONTROL" ) ) {
         return _("Are you <swear> insane!?");
     }
 

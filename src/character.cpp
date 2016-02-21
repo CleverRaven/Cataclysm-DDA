@@ -30,6 +30,8 @@ const efftype_id effect_in_pit( "in_pit" );
 const efftype_id effect_lightsnare( "lightsnare" );
 const efftype_id effect_webbed( "webbed" );
 
+const skill_id skill_throw( "throw" );
+
 Character::Character()
 {
     str_max = 0;
@@ -1632,5 +1634,42 @@ nc_color Character::symbol_color() const
     }
 
     return basic;
+}
+
+int Character::throw_range( const item &it ) const
+{
+    if( it.is_null() ) {
+        return -1;
+    }
+
+    item tmp = it;
+
+    if( tmp.count_by_charges() && tmp.charges > 1 ) {
+        tmp.charges = 1;
+    }
+
+    ///\EFFECT_STR determines maximum weight that can be thrown
+    if( (tmp.weight() / 113) > int(str_cur * 15) ) {
+        return 0;
+    }
+    // Increases as weight decreases until 150 g, then decreases again
+    ///\EFFECT_STR increases throwing range, vs item weight (high or low)
+    int ret = (str_cur * 8) / (tmp.weight() >= 150 ? tmp.weight() / 113 : 10 - int(tmp.weight() / 15));
+    ret -= int(tmp.volume() / 4);
+    if( has_active_bionic("bio_railgun") && (tmp.made_of("iron") || tmp.made_of("steel"))) {
+        ret *= 2;
+    }
+    if( ret < 1 ) {
+        return 1;
+    }
+    // Cap at double our strength + skill
+    ///\EFFECT_STR caps throwing range
+
+    ///\EFFECT_THROW caps throwing range
+    if( ret > str_cur * 1.5 + get_skill_level( skill_throw ) ) {
+        return str_cur * 1.5 + get_skill_level( skill_throw );
+    }
+
+    return ret;
 }
 

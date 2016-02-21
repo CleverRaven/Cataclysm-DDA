@@ -617,8 +617,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int climbing_cost( const tripoint &from, const tripoint &to ) const;
 
         // ranged.cpp
-        /** Returns the throw range of the item at the entered inventory position. -1 = ERR, 0 = Can't throw */
-        int throw_range(int pos) const;
         /** Execute a throw */
         dealt_projectile_attack throw_item( const tripoint &target, const item &thrown );
         /** Returns the throwing attack dexterity mod */
