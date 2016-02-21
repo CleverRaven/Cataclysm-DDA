@@ -3,7 +3,7 @@
     "id" : "ppkmag",
     "type" : "MAGAZINE",
     "name" : "Walther PPK magazine",
-    "description" : "A standrad 8-round steel box magazine for the Walther PPK.",
+    "description" : "A standard 8-round steel box magazine for the Walther PPK.",
     "weight" : 80,
     "volume" : 1,
     "price" : 2600,
