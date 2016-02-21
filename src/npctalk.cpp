@@ -1483,6 +1483,9 @@ std::string dialogue::dynamic_line( const std::string &topic ) const
     } else if( topic == "TALK_COMBAT_ENGAGEMENT" ) {
         return _("What should I do?");
 
+    } else if( topic == "TALK_AIM_RULES" ) {
+        return _("How should I aim?");
+
     } else if( topic == "TALK_STRANGER_NEUTRAL" ) {
         if (p->myclass == NC_TRADER) {
             return _("Hello!  Would you care to see my goods?");
@@ -2752,6 +2755,7 @@ void dialogue::gen_responses( const std::string &topic )
 
     } else if( topic == "TALK_COMBAT_COMMANDS" ) {
             add_response( _("Change your engagement rules..."), "TALK_COMBAT_ENGAGEMENT" );
+            add_response( _("Change your aiming rules..."), "TALK_AIM_RULES" );
             if (p->rules.use_guns) {
                 add_response( _("Don't use guns anymore."), "TALK_COMBAT_COMMANDS",
                               &talk_function::toggle_use_guns );
@@ -2801,6 +2805,25 @@ void dialogue::gen_responses( const std::string &topic )
                               &talk_function::set_engagement_all );
             }
             add_response_none( _("Never mind.") );
+
+    } else if( topic == "TALK_AIM_RULES" ) {
+        if( p->rules.aim != AIM_WHEN_CONVENIENT ) {
+            add_response( _("Aim when it's convenient."), "TALK_NONE",
+                          &talk_function::set_aim_convenient );
+        }
+        if( p->rules.aim != AIM_SPRAY ) {
+            add_response( _("Go wild, you don't need to aim much."), "TALK_NONE",
+                          &talk_function::set_aim_spray );
+        }
+        if( p->rules.aim != AIM_PRECISE ) {
+            add_response( _("Take your time, aim carefully."), "TALK_NONE",
+                          &talk_function::set_aim_precise );
+        }
+        if( p->rules.aim != AIM_STRICTLY_PRECISE ) {
+            add_response( _("Don't shoot if you can't aim really well."), "TALK_NONE",
+                          &talk_function::set_aim_strictly_precise );
+        }
+        add_response_none( _("Never mind.") );
 
     } else if( topic == "TALK_STRANGER_NEUTRAL" || topic == "TALK_STRANGER_WARY" ||
                topic == "TALK_STRANGER_SCARED" || topic == "TALK_STRANGER_FRIENDLY" ) {
@@ -3148,6 +3171,12 @@ int topic_category( const std::string &topic )
     } };
     if( topic_7.count( topic ) > 0 ) {
         return 7;
+    }
+    static const std::unordered_set<std::string> topic_8 = { {
+        "TALK_AIM_RULES",
+    } };
+    if( topic_7.count( topic ) > 0 ) {
+        return 8;
     }
     static const std::unordered_set<std::string> topic_99 = { {
         "TALK_SIZE_UP", "TALK_LOOK_AT", "TALK_OPINION", "TALK_SHOUT"
@@ -3693,6 +3722,26 @@ void talk_function::set_engagement_no_move( npc *p )
 void talk_function::set_engagement_all(npc *p)
 {
     p->rules.engagement = ENGAGE_ALL;
+}
+
+void talk_function::set_aim_convenient( npc *p )
+{
+    p->rules.aim = AIM_WHEN_CONVENIENT;
+}
+
+void talk_function::set_aim_spray( npc *p )
+{
+    p->rules.aim = AIM_SPRAY;
+}
+
+void talk_function::set_aim_precise( npc *p )
+{
+    p->rules.aim = AIM_PRECISE;
+}
+
+void talk_function::set_aim_strictly_precise( npc *p )
+{
+    p->rules.aim = AIM_STRICTLY_PRECISE;
 }
 
 void talk_function::start_training( npc *p )

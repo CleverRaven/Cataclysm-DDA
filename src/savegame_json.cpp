@@ -801,6 +801,7 @@ void npc_follower_rules::serialize(JsonOut &json) const
 {
     json.start_object();
     json.member("engagement", (int)engagement );
+    json.member("aim", (int)aim );
     json.member("use_guns", use_guns );
     json.member("use_grenades", use_grenades );
     json.member("use_silent", use_silent );
@@ -818,6 +819,8 @@ void npc_follower_rules::deserialize(JsonIn &jsin)
     int tmpeng;
     data.read("engagement", tmpeng);
     engagement = (combat_engagement)tmpeng;
+    data.read("aim", tmpeng);
+    aim = (aim_rule)aim;
     data.read( "use_guns", use_guns);
     data.read( "use_grenades", use_grenades);
     data.read( "use_silent", use_silent);

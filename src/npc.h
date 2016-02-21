@@ -200,9 +200,21 @@ enum combat_engagement {
     ENGAGE_NO_MOVE
 };
 
+enum aim_rule {
+    // Aim some
+    AIM_WHEN_CONVENIENT = 0,
+    // No concern for ammo efficiency
+    AIM_SPRAY,
+    // Aim when possible, then shoot
+    AIM_PRECISE,
+    // If you can't aim, don't shoot
+    AIM_STRICTLY_PRECISE
+};
+
 struct npc_follower_rules : public JsonSerializer, public JsonDeserializer
 {
     combat_engagement engagement;
+    aim_rule aim;
     bool use_guns;
     bool use_grenades;
     bool use_silent;
@@ -215,6 +227,7 @@ struct npc_follower_rules : public JsonSerializer, public JsonDeserializer
     npc_follower_rules()
     {
         engagement = ENGAGE_ALL;
+        aim = AIM_WHEN_CONVENIENT;
         use_guns = true;
         use_grenades = true;
         use_silent = false;
@@ -673,8 +686,8 @@ public:
     int  danger_assessment();
     int  average_damage_dealt(); // Our guess at how much damage we can deal
     bool bravery_check(int diff);
-    bool emergency();
-    bool emergency( int danger );
+    bool emergency() const;
+    bool emergency( int danger ) const;
     bool is_active() const;
     void say( const std::string line, ...) const;
     void decide_needs();
@@ -710,6 +723,8 @@ public:
  int choose_escape_item(); // Returns item position of our best escape aid
 
 // Helper functions for ranged combat
+    // Multiplier for acceptable angle of inaccuracy
+    double confidence_mult() const;
     int confident_range( int weapon_index = -1 ) const;
     int confident_gun_range( const item & ) const;
     int confident_gun_range( const item &gun, int at_recoil ) const;

@@ -510,7 +510,12 @@ void npc::execute_action( npc_action action )
         break;
 
     case npc_aim:
-        aim();
+        if( moves > 10 ) {
+            aim();
+        } else {
+            move_pause();
+        }
+
         break;
 
     case npc_shoot:
@@ -857,14 +862,16 @@ npc_action npc::method_of_attack()
         }
         if( weapon.is_gun() && (!use_silent || weapon.is_silent()) &&
             weapon.ammo_remaining() > weapon.ammo_required() ) {
-            const int confident = confident_range();
+            const int confident = confident_gun_range( weapon );
             if( dist > confident ) {
                 if( can_reload() && (enough_time_to_reload( weapon ) || in_vehicle) ) {
                     return npc_reload;
                 } else if( dont_move && dist > reach_range ) {
                     return npc_pause;
-                } else {
+                } else if( dist > confident_gun_range( weapon, weapon.sight_dispersion( -1 ) ) ) {
                     return melee_action;
+                } else {
+                    return npc_aim;
                 }
             }
             if( !wont_hit_friend( tar ) ) {
@@ -882,9 +889,12 @@ npc_action npc::method_of_attack()
                 // Can't see target
                 return melee_action;
             } else if( dist > confident && sees( tar ) ) {
-                // If out of confident range, move closer to the target
-                // Currently NPCs shouldn't snipe too much, they're very wasteful
-                return melee_action;
+                // If out of confident range, aim or move closer to the target
+                if( dist > confident_gun_range( weapon, weapon.sight_dispersion( -1 ) ) ) {
+                    return melee_action;
+                } else {
+                    return npc_aim;
+                }
             } else if( dist <= confident / 3 &&
                        weapon.ammo_remaining() >= weapon.burst_size() &&
                        (target_HP >= weapon.gun_damage() * 3 ||
@@ -1122,6 +1132,30 @@ void npc::use_escape_item(int position)
     move_pause();
 }
 
+double npc::confidence_mult() const
+{
+    if( !is_following() ) {
+        return 1.0f;
+    }
+
+    switch( rules.aim ) {
+        case AIM_WHEN_CONVENIENT:
+            return emergency() ? 1.0f : 0.5f;
+            break;
+        case AIM_SPRAY:
+            return 1.25f;
+            break;
+        case AIM_PRECISE:
+            return emergency() ? 0.75f : 0.25f;
+            break;
+        case AIM_STRICTLY_PRECISE:
+            return 0.1f;
+            break;
+    }
+
+    return 1.0f;
+}
+
 int npc::confident_range( int position ) const
 {
     if( position == -1 ) {
@@ -1144,12 +1178,11 @@ int npc::confident_gun_range( const item &gun, int at_recoil ) const
 
     double deviation = get_weapon_dispersion( &gun, false ) + at_recoil;
     // Halve to get expected values
-    // TODO: Add "certainly confident range" function, for resourceful, sniping npcs
     deviation /= 2;
     // Convert from MoA back to quarter-degrees.
     deviation /= 15;
 
-    const int ret = std::min( int( 360 / deviation ), gun.gun_range( this ) );
+    const int ret = std::min( int( confidence_mult() * 360 / deviation ), gun.gun_range( this ) );
     add_msg( m_debug, "confident_gun_range == %d", ret );
     return ret;
 }
@@ -1172,7 +1205,7 @@ int npc::confident_throw_range( const item &thrown ) const
 
     deviation += encumb( bp_hand_r ) + encumb( bp_hand_l ) + encumb( bp_eyes );
 
-    const int ret = std::min( int( 360 / deviation ), throw_range( thrown ) );
+    const int ret = std::min( int( confidence_mult() * 360 / deviation ), throw_range( thrown ) );
     add_msg( m_debug, "confident_throw_range == %d", ret );
     return ret;
 }
