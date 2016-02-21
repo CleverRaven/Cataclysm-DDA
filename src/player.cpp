@@ -10179,8 +10179,12 @@ int player::item_handling_cost( const item& it, bool effects, int factor ) const
     return std::min( std::max( mv, 0 ), MAX_HANDLING_COST );
 }
 
-int player::item_reload_cost( const item& it, const item& ammo ) const
+int player::item_reload_cost( const item& it, const item& ammo, int qty ) const
 {
+    if( ammo.is_ammo() && qty <= 0 ) {
+        qty = std::min( ammo.charges, it.has_flag( "RELOAD_ONE") ? it.ammo_capacity() - it.ammo_remaining() : 1 );
+    }
+
     int mv = item_handling_cost( ammo );
 
     if( ammo.has_flag( "MAG_BULKY" ) ) {
@@ -10201,12 +10205,11 @@ int player::item_reload_cost( const item& it, const item& ammo ) const
     skill_id sk = it.is_gun() ? it.type->gun->skill_used : skill_gun;
     int cost = it.is_gun() ? it.type->gun->reload_time : it.type->magazine->reload_time;
 
-    mv += cost / ( 1 + std::min( double( get_skill_level( sk ) ) * 0.075, 0.75 ) );
-
     if( it.is_magazine() )  {
-        // for magazines reload time is per round
-        mv *= std::min( ammo.charges, it.ammo_capacity() - it.ammo_remaining() );
+        cost *= qty; // for magazines reload time is per round
     }
+
+    mv += cost / ( 1 + std::min( double( get_skill_level( sk ) ) * 0.075, 0.75 ) );
 
     if( it.has_flag( "STR_RELOAD" ) ) {
         ///\EFFECT_STR reduces reload time of some weapons
