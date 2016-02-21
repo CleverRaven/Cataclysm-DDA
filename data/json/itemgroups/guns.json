@@ -200,5 +200,16 @@
     "//" : "Imported or otherwise very obscure shotguns.",
     "items": [
     ]
+  },
+  {
+    "type" : "item_group",
+    "id" : "guns_obscure",
+    "//" : "Imported or otherwise very obscure guns of all types.",
+    "items": [
+      { "group": "guns_pistol_obscure", "prob": 100 },
+      { "group": "guns_smg_obscure", "prob": 30 },
+      { "group": "guns_rifle_obscure", "prob": 70 },
+      { "group": "guns_shotgun_obscure", "prob": 30 }
+    ]
   }
 ]
