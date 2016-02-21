@@ -837,7 +837,6 @@ classes = {
             { name = "quiver_store_arrow", rval = "int", args = { "item" } },
             { name = "ready_to_revive", rval = "bool", args = { "tripoint" } },
             { name = "reduce_charges", rval = "bool", args = { "int" } },
-            { name = "reload", rval = "bool", args = { "player", "int" } },
             { name = "reset_cable", rval = nil, args = { "player" } },
             { name = "rotten", rval = "bool", args = { } },
             { name = "serialize", rval = "string", args = { } },

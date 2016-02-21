@@ -4368,15 +4368,10 @@ static void eject_casings( player &p, item& target )
     target.erase_var( "CASINGS" );
 }
 
-bool item::reload( player &u, int pos )
-{
-    return reload( u, item_location( u, &u.i_at( pos ) ) );
-}
-
-bool item::reload( player &u, item_location loc )
+bool item::reload( player &u, item_location loc, long qty )
 {
     item *ammo = loc.get_item();
-    if( ammo == nullptr || ammo->is_null() ) {
+    if( ammo == nullptr || ammo->is_null() || qty <= 0 ) {
         debugmsg( "Tried to reload using non-existent ammo" );
         return false;
     }
@@ -4402,7 +4397,6 @@ bool item::reload( player &u, item_location loc )
     }
 
     // First determine what we are trying to reload
-    long qty = 0;
     item *target = nullptr;
 
     if( is_gun() ) {
@@ -4419,7 +4413,7 @@ bool item::reload( player &u, item_location loc )
                         (!e->ammo_remaining() || e->ammo_current() == ammo->typeId()) &&
                         e->ammo_remaining() < e->ammo_capacity() ) {
 
-                        qty = e->has_flag( "RELOAD_ONE" ) ? 1 : e->ammo_capacity() - e->ammo_remaining();
+                        qty = std::min( qty, e->has_flag( "RELOAD_ONE" ) ? 1 : e->ammo_capacity() - e->ammo_remaining() );
                         target = e;
                         break;
                     }
@@ -4430,7 +4424,7 @@ bool item::reload( player &u, item_location loc )
             }
         }
     } else if( is_tool() || is_magazine() ) {
-        qty = ammo_capacity() - ammo_remaining();
+        qty = std::min( qty, ammo_capacity() - ammo_remaining() );
         if( ammo_type() == ammo->ammo_type() && qty > 0 ) {
             target = this;
         }
