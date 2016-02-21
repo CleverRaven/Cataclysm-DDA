@@ -11528,7 +11528,7 @@ void game::reload( int pos )
 
         std::stringstream ss;
         ss << pos;
-        u.assign_activity( ACT_RELOAD, u.item_reload_cost( *target, ammo, qty ), -1, loc.obtain( u, qty ), ss.str() );
+        u.assign_activity( ACT_RELOAD, u.item_reload_cost( *target, ammo ), -1, loc.obtain( u, qty ), ss.str() );
         u.inv.restack( &u );
     }
 

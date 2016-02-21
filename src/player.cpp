@@ -10179,10 +10179,13 @@ int player::item_handling_cost( const item& it, bool effects, int factor ) const
     return std::min( std::max( mv, 0 ), MAX_HANDLING_COST );
 }
 
-int player::item_reload_cost( const item& it, const item& ammo, int qty ) const
+int player::item_reload_cost( const item& it, const item& ammo, long qty ) const
 {
-    if( ammo.is_ammo() && qty <= 0 ) {
-        qty = std::min( ammo.charges, it.has_flag( "RELOAD_ONE") ? it.ammo_capacity() - it.ammo_remaining() : 1 );
+    if( ammo.is_ammo() ) {
+        if( qty <= 0 ) {
+            qty = it.has_flag( "RELOAD_ONE") ? it.ammo_capacity() - it.ammo_remaining() : 1;
+        }
+        qty = std::min( ammo.charges, qty );
     }
 
     int mv = item_handling_cost( ammo );
