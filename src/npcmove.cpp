@@ -765,7 +765,6 @@ void npc::choose_monster_target()
                 okay_by_rules = mon.has_effect( effect_hit_by_player );
                 break;
             case ENGAGE_NO_MOVE:
-                // TODO: Enforce it
                 okay_by_rules = dist <= cur_range;
                 break;
             case ENGAGE_ALL:
@@ -776,6 +775,11 @@ void npc::choose_monster_target()
 
         if( !okay_by_rules ) {
             continue;
+        }
+
+        if( priority < 1.0f && is_following() && att == MATT_ATTACK &&
+            rl_dist( mon.pos(), g->u.pos() ) <= def_radius ) {
+            priority = 1.0f;
         }
 
         if( monster_danger > danger && priority > 0 ) {
