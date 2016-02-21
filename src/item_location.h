@@ -51,6 +51,10 @@ class item_location
          *  @return inventory position for the item */
         int obtain( Character &ch, long qty = -1 );
 
+        /** Calculate (but do not deduct) number of moves required to obtain an item
+         *  @see item_location::obtain */
+        int obtain_cost( const Character &ch, long qty = -1 ) const;
+
         /** Removes the selected item from the game
          *  @warning all further operations using this class are invalid */
         void remove_item();
