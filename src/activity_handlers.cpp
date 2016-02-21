@@ -139,22 +139,23 @@ void set_up_butchery( player_activity &act, player &u )
 
     const mtype *corpse = items[act.index].get_mtype();
     int time_to_cut = 0;
-    switch( corpse->size ) { // Time (roughly) in turns to cut up the corpse
-    case MS_TINY:
-        time_to_cut = 12;
-        break;
-    case MS_SMALL:
-        time_to_cut = 25;
-        break;
-    case MS_MEDIUM:
-        time_to_cut = 50;
-        break;
-    case MS_LARGE:
-        time_to_cut = 80;
-        break;
-    case MS_HUGE:
-        time_to_cut = 150;
-        break;
+    switch( corpse->size ) {
+        // Time (roughly) in turns to cut up the corpse
+        case MS_TINY:
+            time_to_cut = 25;
+            break;
+        case MS_SMALL:
+            time_to_cut = 50;
+            break;
+        case MS_MEDIUM:
+            time_to_cut = 75;
+            break;
+        case MS_LARGE:
+            time_to_cut = 100;
+            break;
+        case MS_HUGE:
+            time_to_cut = 300;
+            break;
     }
 
     // At factor 0, 10 time_to_cut is 10 turns. At factor 50, it's 5 turns, at 75 it's 2.5
