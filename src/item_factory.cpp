@@ -40,6 +40,8 @@ typedef std::set<std::string> t_string_set;
 static t_string_set item_blacklist;
 static t_string_set item_whitelist;
 
+static std::set<std::string> item_options;
+
 std::unique_ptr<Item_factory> item_controller( new Item_factory() );
 
 bool item_is_blacklisted(const std::string &id)
@@ -66,10 +68,29 @@ void Item_factory::finialize_item_blacklist()
             debugmsg("item on blacklist %s does not exist", a->c_str());
         }
     }
-    for (std::map<std::string, itype *>::const_iterator a = m_templates.begin(); a != m_templates.end();
-         ++a) {
-        const std::string &itm = a->first;
-        if (!item_is_blacklisted(itm)) {
+    const bool magazines_blacklisted = item_options.count("blacklist_magazines") != 0;
+    // Can't be part of the blacklist loop because the magazines might be
+    // deleted before the guns are processed.
+    if( magazines_blacklisted ) {
+        for( std::pair<const std::string, itype *> &entry : m_templates ) {
+            itype *type = entry.second;
+            // find the guns, look up their default magazine, and add its capacity to the gun.
+            if( type->magazine_default.empty() ) {
+                continue;
+            }
+            itype *default_magazine = m_templates[ type->magazine_default.begin()->second ];
+            type->gun->clip = default_magazine->magazine->capacity;
+            type->gun->reload_time = default_magazine->magazine->capacity *
+                default_magazine->magazine->reload_time;
+            type->magazines.clear();
+            type->magazine_default.clear();
+            type->magazine_well = 0;
+        }
+    }
+    for( std::pair<const std::string, itype *> &entry : m_templates ) {
+        const std::string &itm = entry.first;
+        if( !item_is_blacklisted( itm ) &&
+            !( magazines_blacklisted && entry.second->magazine != nullptr ) ) {
             continue;
         }
         for( auto &elem : m_template_groups ) {
@@ -94,22 +115,27 @@ void Item_factory::finialize_item_blacklist()
     }
 }
 
-void add_to_set(t_string_set &s, JsonObject &json, const std::string &name)
+void add_to_set( t_string_set &s, JsonObject &json, const std::string &name )
 {
-    JsonArray jarr = json.get_array(name);
-    while (jarr.has_more()) {
-        s.insert(jarr.next_string());
+    JsonArray jarr = json.get_array( name );
+    while( jarr.has_more() ) {
+        s.insert( jarr.next_string() );
     }
 }
 
-void Item_factory::load_item_blacklist(JsonObject &json)
+void Item_factory::load_item_blacklist( JsonObject &json )
 {
-    add_to_set(item_blacklist, json, "items");
+    add_to_set( item_blacklist, json, "items" );
 }
 
-void Item_factory::load_item_whitelist(JsonObject &json)
+void Item_factory::load_item_whitelist( JsonObject &json )
 {
-    add_to_set(item_whitelist, json, "items");
+    add_to_set( item_whitelist, json, "items" );
+}
+
+void Item_factory::load_item_option( JsonObject &json )
+{
+    add_to_set( item_options, json, "options" );
 }
 
 Item_factory::~Item_factory()
@@ -562,9 +588,11 @@ void Item_factory::check_definitions() const
             main_stream.str(std::string());
         }
     }
-    for( auto &mag : magazines_defined ) {
-        if( magazines_used.count( mag ) == 0 ) {
-            main_stream << "Magazine " << mag << " defined but not used.\n";
+    if( item_options.count( "blacklist_magazines" ) == 0 ) {
+        for( auto &mag : magazines_defined ) {
+            if( magazines_used.count( mag ) == 0 ) {
+                main_stream << "Magazine " << mag << " defined but not used.\n";
+            }
         }
     }
     const std::string &buffer = main_stream.str();
@@ -1326,6 +1354,7 @@ void Item_factory::clear()
     m_templates.clear();
     item_blacklist.clear();
     item_whitelist.clear();
+    item_options.clear();
 }
 
 Item_group *make_group_or_throw(Item_spawn_data *&isd, Item_group::Type t)
