@@ -348,8 +348,6 @@
       [ "box_small", 1 ],
       [ "plastic_chunk", 1 ],
       [ "aluminum_foil", 40 ],
-      [ "rag", 2 ],
-      [ "leather", 2 ],
       [ "cash_card", 2 ]
     ]
   ]
@@ -400,8 +398,6 @@
       [ "box_small", 1 ],
       [ "plastic_chunk", 1 ],
       [ "aluminum_foil", 40 ],
-      [ "rag", 2 ],
-      [ "leather", 2 ],
       [ "cash_card", 2 ]
     ]
   ]
@@ -447,8 +443,6 @@
       [ "box_small", 1 ],
       [ "plastic_chunk", 1 ],
       [ "aluminum_foil", 40 ],
-      [ "rag", 2 ],
-      [ "leather", 2 ],
       [ "cash_card", 2 ]
     ]
   ]
@@ -538,8 +532,6 @@
       [ "box_small", 1 ],
       [ "plastic_chunk", 1 ],
       [ "aluminum_foil", 40 ],
-      [ "rag", 2 ],
-      [ "leather", 2 ],
       [ "cash_card", 2 ]
     ]
   ]
@@ -579,8 +571,6 @@
       [ "box_small", 1 ],
       [ "plastic_chunk", 1 ],
       [ "aluminum_foil", 40 ],
-      [ "rag", 2 ],
-      [ "leather", 2 ],
       [ "cash_card", 2 ]
     ]
   ]
@@ -623,8 +613,6 @@
       [ "box_small", 1 ],
       [ "plastic_chunk", 1 ],
       [ "aluminum_foil", 40 ],
-      [ "rag", 2 ],
-      [ "leather", 2 ],
       [ "cash_card", 2 ]
     ]
   ]
@@ -676,8 +664,6 @@
       [ "box_small", 1 ],
       [ "plastic_chunk", 1 ],
       [ "aluminum_foil", 40 ],
-      [ "rag", 2 ],
-      [ "leather", 2 ],
       [ "cash_card", 2 ]
     ]
   ]
@@ -723,8 +709,6 @@
       [ "box_small", 1 ],
       [ "plastic_chunk", 1 ],
       [ "aluminum_foil", 40 ],
-      [ "rag", 2 ],
-      [ "leather", 2 ],
       [ "cash_card", 2 ]
     ]
   ]
@@ -764,8 +748,6 @@
       [ "box_small", 1 ],
       [ "plastic_chunk", 1 ],
       [ "aluminum_foil", 40 ],
-      [ "rag", 2 ],
-      [ "leather", 2 ],
       [ "cash_card", 2 ]
     ]
   ]
@@ -3399,8 +3381,6 @@
       [ "box_small", 1 ],
       [ "plastic_chunk", 1 ],
       [ "aluminum_foil", 40 ],
-      [ "rag", 2 ],
-      [ "leather", 2 ],
       [ "cash_card", 2 ]
     ]
   ]
