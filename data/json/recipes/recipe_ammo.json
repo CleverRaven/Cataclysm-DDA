@@ -273,28 +273,6 @@
     ]
   },{
   "type" : "recipe",
-  "result" : "fletching",
-  "category" : "CC_AMMO",
-  "subcategory": "CSC_AMMO_COMPONENTS",
-  "skill_used" : "fabrication",
-  "skills_required": [ "survival", 1 ],
-  "difficulty" : 1,
-  "time" : 5000,
-  "reversible" : false,
-  "autolearn" : true,
-  "book_learn" : [[ "recipe_arrows", 1 ], [ "manual_archery", 2 ], [ "book_archery", 2]],
-  "qualities":[
-    {"id":"CUT","level":1,"amount":1}
-  ],
-  "components" : [
-    [ [ "bone_glue", 1 ] ],
-    [
-      [ "rag", 2 ],
-      [ "leather", 2 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
   "result" : "bone_glue",
   "category" : "CC_AMMO",
   "subcategory": "CSC_AMMO_COMPONENTS",
@@ -371,7 +349,9 @@
       [ "box_small", 1 ],
       [ "plastic_chunk", 1 ],
       [ "aluminum_foil", 1 ],
-      [ "fletching", 10 ]
+      [ "rag", 2 ],
+      [ "leather", 2 ],
+      [ "cash_card", 2 ]
     ]
   ]
 },{
@@ -422,7 +402,9 @@
       [ "box_small", 1 ],
       [ "plastic_chunk", 1 ],
       [ "aluminum_foil", 1 ],
-      [ "fletching", 10 ]
+      [ "rag", 2 ],
+      [ "leather", 2 ],
+      [ "cash_card", 2 ]
     ]
   ]
 },{
@@ -468,7 +450,9 @@
       [ "box_small", 1 ],
       [ "plastic_chunk", 1 ],
       [ "aluminum_foil", 1 ],
-      [ "fletching", 10 ]
+      [ "rag", 2 ],
+      [ "leather", 2 ],
+      [ "cash_card", 2 ]
     ]
   ]
 },{
@@ -558,7 +542,9 @@
       [ "box_small", 1 ],
       [ "plastic_chunk", 1 ],
       [ "aluminum_foil", 1 ],
-      [ "fletching", 10 ]
+      [ "rag", 2 ],
+      [ "leather", 2 ],
+      [ "cash_card", 2 ]
     ]
   ]
 },{
@@ -598,7 +584,9 @@
       [ "box_small", 1 ],
       [ "plastic_chunk", 1 ],
       [ "aluminum_foil", 1 ],
-      [ "fletching", 10 ]
+      [ "rag", 2 ],
+      [ "leather", 2 ],
+      [ "cash_card", 2 ]
     ]
   ]
 },{
@@ -641,7 +629,9 @@
       [ "box_small", 1 ],
       [ "plastic_chunk", 1 ],
       [ "aluminum_foil", 1 ],
-      [ "fletching", 10 ]
+      [ "rag", 2 ],
+      [ "leather", 2 ],
+      [ "cash_card", 2 ]
     ]
   ]
 },{
@@ -693,7 +683,9 @@
       [ "box_small", 1 ],
       [ "plastic_chunk", 1 ],
       [ "aluminum_foil", 1 ],
-      [ "fletching", 10 ]
+      [ "rag", 2 ],
+      [ "leather", 2 ],
+      [ "cash_card", 2 ]
     ]
   ]
 },{
@@ -739,7 +731,9 @@
       [ "box_small", 1 ],
       [ "plastic_chunk", 1 ],
       [ "aluminum_foil", 1 ],
-      [ "fletching", 10 ]
+      [ "rag", 2 ],
+      [ "leather", 2 ],
+      [ "cash_card", 2 ]
     ]
   ]
 },{
@@ -779,7 +773,9 @@
       [ "box_small", 1 ],
       [ "plastic_chunk", 1 ],
       [ "aluminum_foil", 1 ],
-      [ "fletching", 10 ]
+      [ "rag", 2 ],
+      [ "leather", 2 ],
+      [ "cash_card", 2 ]
     ]
   ]
 },{
@@ -3413,7 +3409,9 @@
       [ "box_small", 1 ],
       [ "plastic_chunk", 1 ],
       [ "aluminum_foil", 1 ],
-      [ "fletching", 10 ]
+      [ "rag", 2 ],
+      [ "leather", 2 ],
+      [ "cash_card", 2 ]
     ]
   ]
 },{
