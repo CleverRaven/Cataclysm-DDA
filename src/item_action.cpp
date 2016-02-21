@@ -14,6 +14,7 @@
 #include "input.h"
 #include "itype.h"
 #include "ui.h"
+#include "player.h"
 #include <istream>
 #include <sstream>
 #include <fstream>

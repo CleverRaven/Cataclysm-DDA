@@ -344,13 +344,10 @@
       [ "feather", 10 ],
       [ "duct_tape", 40 ],
       [ "bag_plastic", 1 ],
-      [ "bottle_plastic", 1 ],
       [ "bottle_plastic_small", 1 ],
       [ "box_small", 1 ],
       [ "plastic_chunk", 1 ],
-      [ "aluminum_foil", 1 ],
-      [ "rag", 2 ],
-      [ "leather", 2 ],
+      [ "aluminum_foil", 40 ],
       [ "cash_card", 2 ]
     ]
   ]
@@ -397,13 +394,10 @@
       [ "feather", 10 ],
       [ "duct_tape", 40 ],
       [ "bag_plastic", 1 ],
-      [ "bottle_plastic", 1 ],
       [ "bottle_plastic_small", 1 ],
       [ "box_small", 1 ],
       [ "plastic_chunk", 1 ],
-      [ "aluminum_foil", 1 ],
-      [ "rag", 2 ],
-      [ "leather", 2 ],
+      [ "aluminum_foil", 40 ],
       [ "cash_card", 2 ]
     ]
   ]
@@ -445,13 +439,10 @@
       [ "feather", 10 ],
       [ "duct_tape", 40 ],
       [ "bag_plastic", 1 ],
-      [ "bottle_plastic", 1 ],
       [ "bottle_plastic_small", 1 ],
       [ "box_small", 1 ],
       [ "plastic_chunk", 1 ],
-      [ "aluminum_foil", 1 ],
-      [ "rag", 2 ],
-      [ "leather", 2 ],
+      [ "aluminum_foil", 40 ],
       [ "cash_card", 2 ]
     ]
   ]
@@ -537,13 +528,10 @@
       [ "feather", 10 ],
       [ "duct_tape", 40 ],
       [ "bag_plastic", 1 ],
-      [ "bottle_plastic", 1 ],
       [ "bottle_plastic_small", 1 ],
       [ "box_small", 1 ],
       [ "plastic_chunk", 1 ],
-      [ "aluminum_foil", 1 ],
-      [ "rag", 2 ],
-      [ "leather", 2 ],
+      [ "aluminum_foil", 40 ],
       [ "cash_card", 2 ]
     ]
   ]
@@ -579,13 +567,10 @@
       [ "feather", 10 ],
       [ "duct_tape", 40 ],
       [ "bag_plastic", 1 ],
-      [ "bottle_plastic", 1 ],
       [ "bottle_plastic_small", 1 ],
       [ "box_small", 1 ],
       [ "plastic_chunk", 1 ],
-      [ "aluminum_foil", 1 ],
-      [ "rag", 2 ],
-      [ "leather", 2 ],
+      [ "aluminum_foil", 40 ],
       [ "cash_card", 2 ]
     ]
   ]
@@ -624,13 +609,10 @@
       [ "feather", 10 ],
       [ "duct_tape", 40 ],
       [ "bag_plastic", 1 ],
-      [ "bottle_plastic", 1 ],
       [ "bottle_plastic_small", 1 ],
       [ "box_small", 1 ],
       [ "plastic_chunk", 1 ],
-      [ "aluminum_foil", 1 ],
-      [ "rag", 2 ],
-      [ "leather", 2 ],
+      [ "aluminum_foil", 40 ],
       [ "cash_card", 2 ]
     ]
   ]
@@ -678,13 +660,10 @@
       [ "feather", 10 ],
       [ "duct_tape", 40 ],
       [ "bag_plastic", 1 ],
-      [ "bottle_plastic", 1 ],
       [ "bottle_plastic_small", 1 ],
       [ "box_small", 1 ],
       [ "plastic_chunk", 1 ],
-      [ "aluminum_foil", 1 ],
-      [ "rag", 2 ],
-      [ "leather", 2 ],
+      [ "aluminum_foil", 40 ],
       [ "cash_card", 2 ]
     ]
   ]
@@ -726,13 +705,10 @@
       [ "feather", 10 ],
       [ "duct_tape", 40 ],
       [ "bag_plastic", 1 ],
-      [ "bottle_plastic", 1 ],
       [ "bottle_plastic_small", 1 ],
       [ "box_small", 1 ],
       [ "plastic_chunk", 1 ],
-      [ "aluminum_foil", 1 ],
-      [ "rag", 2 ],
-      [ "leather", 2 ],
+      [ "aluminum_foil", 40 ],
       [ "cash_card", 2 ]
     ]
   ]
@@ -768,13 +744,10 @@
       [ "feather", 10 ],
       [ "duct_tape", 40 ],
       [ "bag_plastic", 1 ],
-      [ "bottle_plastic", 1 ],
       [ "bottle_plastic_small", 1 ],
       [ "box_small", 1 ],
       [ "plastic_chunk", 1 ],
-      [ "aluminum_foil", 1 ],
-      [ "rag", 2 ],
-      [ "leather", 2 ],
+      [ "aluminum_foil", 40 ],
       [ "cash_card", 2 ]
     ]
   ]
@@ -3404,13 +3377,10 @@
       [ "feather", 10 ],
       [ "duct_tape", 40 ],
       [ "bag_plastic", 1 ],
-      [ "bottle_plastic", 1 ],
       [ "bottle_plastic_small", 1 ],
       [ "box_small", 1 ],
       [ "plastic_chunk", 1 ],
-      [ "aluminum_foil", 1 ],
-      [ "rag", 2 ],
-      [ "leather", 2 ],
+      [ "aluminum_foil", 40 ],
       [ "cash_card", 2 ]
     ]
   ]

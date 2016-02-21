@@ -6,9 +6,9 @@
 #include <vector>
 #include "json.h"
 #include "item.h"
-#include "player.h"
 
 class item_action;
+class player;
 
 typedef std::string item_action_id;
 typedef std::map< item_action_id, item * > item_action_map;

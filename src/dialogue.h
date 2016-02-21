@@ -1,7 +1,6 @@
 #ifndef DIALOGUE_H
 #define DIALOGUE_H
 
-#include "player.h"
 #include "output.h"
 #include "color.h"
 #include <vector>
@@ -12,6 +11,7 @@ class martialart;
 class JsonObject;
 class mission;
 class npc;
+class player;
 
 struct talk_response;
 struct dialogue {

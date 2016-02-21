@@ -9,6 +9,7 @@
 #include "profession.h"
 #include "overmap.h"
 #include "trap.h"
+#include "player.h"
 
 const mtype_id mon_zombie( "mon_zombie" );
 

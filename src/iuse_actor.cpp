@@ -22,6 +22,7 @@
 #include "weather.h"
 #include "pldata.h"
 #include "recipe_dictionary.h"
+#include "player.h"
 
 #include <sstream>
 #include <algorithm>

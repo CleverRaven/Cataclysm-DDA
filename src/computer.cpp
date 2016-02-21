@@ -17,6 +17,7 @@
 #include "trap.h"
 #include "mtype.h"
 #include "field.h"
+#include "player.h"
 
 #include <fstream>
 #include <string>
