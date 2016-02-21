@@ -71,11 +71,11 @@
                 ";": { }
         },
         "place_loot":[
-                { "group": "guns_pistol_rare",    "chance": 100,  "x": [8,10],  "y": 19, "magazine": 75, "repeat": [1,2] },
-                { "group": "guns_shotgun_rare",   "chance":  80,  "x": [8,10],  "y": 19, "magazine": 75 },
-                { "group": "guns_rifle_rare",     "chance": 100,  "x": [13,16], "y": 19, "magazine": 75 },
-                { "group": "guns_smg_rare",       "chance":  80,  "x": [13,16], "y": 19, "magazine": 75 },
-                { "group": "ammo_rare",           "chance": 100,  "x": [10,13], "y": 17, "magazine": 75, "repeat": [1,4] },
+                { "group": "guns_pistol_rare",    "chance": 100,  "x": [8,10],  "y": 19, "magazine": 100, "repeat": [1,2] },
+                { "group": "guns_shotgun_rare",   "chance":  80,  "x": [8,10],  "y": 19, "magazine": 100 },
+                { "group": "guns_rifle_rare",     "chance": 100,  "x": [13,16], "y": 19, "magazine": 100 },
+                { "group": "guns_smg_rare",       "chance":  80,  "x": [13,16], "y": 19, "magazine": 100 },
+                { "group": "ammo_rare",           "chance": 100,  "x": [10,13], "y": 17, "repeat": [1,4] },
                 { "group": "ammo_pistol_common",  "chance": 100,  "x": [7,9],   "y": [9,10], "repeat": [3,6] },
                 { "group": "ammo_rifle_common",   "chance": 100,  "x": [7,9],   "y": 12, "repeat": [1,4] },
                 { "group": "ammo_shotgun_common", "chance": 100,  "x": [7,9],   "y": 13, "repeat": [1,3] },
