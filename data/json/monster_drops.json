@@ -18,6 +18,8 @@
         "subtype": "distribution",
         "comment": "items that an average zombie carries around and drops on death",
         "id": "default_zombie_items",
+        "ammo": 30,
+        "magazine": 100,
         "groups": [
             [ "livingroom", 5 ],
             [ "kitchen", 4 ],
@@ -26,10 +28,10 @@
             [ "harddrugs", 1 ],
             [ "tools", 20 ],
             [ "trash", 7 ],
-            [ "ammo", 1 ],
-            [ "pistols", 1 ],
-            [ "shotguns", 1 ],
-            [ "smg", 1 ],
+            [ "ammo_pistol_common", 2 ],
+            [ "ammo_shotgun_common", 1 ],
+            [ "guns_pistol_common", 2 ],
+            [ "guns_shotgun_common", 1 ],
             [ "home_hw", 5 ],
             [ "postman_gear", 5]
         ]
@@ -50,6 +52,8 @@
         "type" : "item_group",
         "subtype": "collection",
         "id": "mon_zombie_cop_death_drops",
+        "ammo": 30,
+        "magazine": 100,
         "entries":
         [
             { "group": "cop_shoes", "damage": [1, 4] },
@@ -187,6 +191,8 @@
         "type" : "item_group",
         "subtype": "collection",
         "id": "mon_zombie_bio_op_death_drops",
+        "ammo": 30,
+        "magazine": 100,
         "entries":
         [
             { "group": "bio_op_boots", "damage": [1, 4] },
@@ -198,12 +204,12 @@
             { "group": "bio_op_gloves", "damage": [1, 4], "prob": 50 },
             { "group": "underwear", "damage": [1, 4] },
             { "distribution": [
-                { "group": "ammo", "prob": 15 },
-                { "group": "pistols", "prob": 5 },
-                { "group": "shotguns", "prob": 4 },
-                { "group": "smg", "prob": 5 },
+                { "group": "ammo_milspec", "prob": 15 },
+                { "group": "guns_pistol_milspec", "prob": 5 },
+                { "group": "guns_shotgun_milspec", "prob": 4 },
+                { "group": "guns_smg_milspec", "prob": 5 },
+                { "group": "guns_rifle_milspec", "prob": 10 },
                 { "group": "bots", "prob": 1 },
-                { "group": "mil_rifles", "prob": 10 },
                 { "group": "grenades", "prob": 5 },
                 { "group": "mil_accessories", "prob": 10 },
                 { "group": "mil_food", "prob": 5 },

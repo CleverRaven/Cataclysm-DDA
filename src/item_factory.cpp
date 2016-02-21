@@ -1424,7 +1424,6 @@ void Item_factory::load_item_group(JsonObject &jsobj, const Group_tag &group_id,
     Item_group *ig = dynamic_cast<Item_group *>(isd);
     if (subtype == "old") {
         ig = make_group_or_throw(isd, Item_group::G_DISTRIBUTION);
-        ig->with_ammo = jsobj.get_bool("guns_with_ammo", ig->with_ammo);
     } else if (subtype == "collection") {
         ig = make_group_or_throw(isd, Item_group::G_COLLECTION);
     } else if (subtype == "distribution") {
@@ -1432,6 +1431,9 @@ void Item_factory::load_item_group(JsonObject &jsobj, const Group_tag &group_id,
     } else {
         jsobj.throw_error("unknown item group type", "subtype");
     }
+
+    ig->with_ammo = jsobj.get_int( "ammo", ig->with_ammo );
+    ig->with_magazine= jsobj.get_int( "magazine", ig->with_magazine );
 
     if (subtype == "old") {
         JsonArray items = jsobj.get_array("items");

@@ -261,7 +261,8 @@
  },{
     "type" : "item_group",
     "id" : "pistols_with_ammo",
-    "guns_with_ammo" : true,
+    "ammo": 100,
+    "magazine": 100,
     "items":[
       ["sig_mosquito", 50],
       ["cop_38", 5],
@@ -325,7 +326,8 @@
   },{
     "type" : "item_group",
     "id" : "smg_with_ammo",
-    "guns_with_ammo" : true,
+    "ammo": 100,
+    "magazine": 100,
     "items":[
       ["american_180", 15],
       ["skorpion_61", 5],
@@ -400,7 +402,8 @@
   },{
     "type" : "item_group",
     "id" : "shotguns_with_ammo",
-    "guns_with_ammo" : true,
+    "ammo": 100,
+    "magazine": 100,
     "items":[
       ["shotgun_s", 80],
       ["shotgun_d", 100],
@@ -467,7 +470,8 @@
   },{
     "type" : "item_group",
     "id" : "rifles_with_ammo",
-    "guns_with_ammo" : true,
+    "ammo": 100,
+    "magazine": 100,
     "items":[
       ["marlin_9a", 120],
       ["ruger_1022", 120],
@@ -525,7 +529,8 @@
   },{
     "type" : "item_group",
     "id" : "assault_with_ammo",
-    "guns_with_ammo" : true,
+    "ammo": 100,
+    "magazine": 100,
     "//" : "This is a general list. The US military guns are in gear.json.",
     "items":[
       ["m1918", 15],
@@ -567,7 +572,8 @@
   },{
     "type" : "item_group",
     "id" : "machine_guns_with_ammo",
-    "guns_with_ammo" : true,
+    "ammo": 100,
+    "magazine": 100,
     "items":[
       ["m249", 100],
       ["m240", 50],
@@ -742,7 +748,8 @@
   },{
     "type" : "item_group",
     "id" : "antique_guns_with_ammo",
-    "guns_with_ammo" : true,
+    "ammo": 100,
+    "magazine": 100,
     "items" : [
       ["pistol_flintlock", 60],
       ["carbine_flintlock", 40],
@@ -805,86 +812,6 @@
       ["reloaded_40mm_flechette", 20],
       ["reloaded_40mm_shot", 20],
       ["reloaded_laser_pack", 5]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "reloaded_pistol_ammo",
-    "items":[      
-      ["reloaded_9mm", 300],
-      ["reloaded_9mmP", 20],
-      ["reloaded_9mmP2", 20],
-      ["reloaded_9mmfmj", 20],
-      ["reloaded_9x18mm", 10],
-      ["reloaded_9x18mmP2", 5],
-      ["reloaded_9x18mmfmj", 5],
-      ["reloaded_57mm", 50],
-      ["reloaded_46mm", 50],
-      ["reloaded_32_acp", 50],
-      ["reloaded_38_special", 50],
-      ["reloaded_38_super", 20],
-      ["reloaded_38_fmj", 20],
-      ["reloaded_10mm", 50],
-      ["reloaded_40sw", 20],
-      ["reloaded_40fmj", 20],
-      ["reloaded_44magnum", 50],
-      ["reloaded_45_acp", 50],
-      ["reloaded_45_jhp", 20],
-      ["reloaded_45_super", 20],
-      ["reloaded_454_Casull", 20],
-      ["reloaded_500_Magnum", 20],
-      ["8mm_bootleg_jsp", 5],
-      ["8mm_bootleg", 5],
-      ["reloaded_5x50dart", 5]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "reloaded_shotgun_ammo",
-    "items":[        
-      ["shot_scrap", 50],
-      ["shot_scrapslug", 50],
-      ["reloaded_shot_00", 200],
-      ["reloaded_shot_flechette", 50],
-      ["reloaded_shot_slug", 150],
-      ["reloaded_shot_he", 50],
-      ["20x66_bootleg_shot", 20],
-      ["20x66_bootleg_flechette", 20],
-      ["20x66_bootleg_slug", 20]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "reloaded_rifle_ammo",
-    "items":[      
-      ["reloaded_22_lr", 300],
-      ["reloaded_22_fmj", 50],
-      ["reloaded_762_54R", 30],
-      ["reloaded_762_m43", 50],
-      ["reloaded_762_m87", 50],
-      ["reloaded_223", 50],
-      ["reloaded_556", 200],
-      ["reloaded_556_incendiary", 50],
-      ["reloaded_270", 50],
-      ["reloaded_300_winmag", 50],
-      ["reloaded_308", 100],
-      ["reloaded_762_51", 200],
-      ["reloaded_762_51_incendiary", 50],
-      ["reloaded_3006", 50],
-      ["reloaded_3006_incendiary", 50],
-      ["reloaded_50bmg", 50],
-      ["reloaded_50ss", 50],
-      ["reloaded_50_incendiary", 50],
-      ["reloaded_700nx", 0],
-      ["8mm_bootleg_jsp", 20],
-      ["8mm_bootleg", 20],
-      ["reloaded_5x50dart", 10]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "reloaded_ammo",
-    "subtype": "distribution",
-    "entries" : [
-      { "group": "reloaded_pistol_ammo", "prob": 1000 },
-      { "group": "reloaded_shotgun_ammo", "prob": 1000 },
-      { "group": "reloaded_rifle_ammo", "prob": 1000 }
     ]
   },{
     "type" : "item_group",
