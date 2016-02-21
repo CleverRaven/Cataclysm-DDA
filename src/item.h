@@ -650,7 +650,7 @@ public:
  bool is_food_container(player const*u) const;  // Ditto
  bool is_food() const;                // Ignoring the ability to eat batteries, etc.
  bool is_food_container() const;      // Ignoring the ability to eat batteries, etc.
- bool is_ammo_container() const;
+ bool is_ammo_container() const; // does this item contain ammo? (excludes magazines)
  bool is_bionic() const;
  bool is_magazine() const;
  bool is_ammo() const;
@@ -1069,11 +1069,7 @@ public:
         /*@{*/
         bool is_gunmod() const;
         bool is_gun() const;
-        /**
-         * How much moves (@ref Creature::moves) it takes to reload this item.
-         * This also applies to tools.
-         */
-        int reload_time( const player &u ) const;
+
         /** Quantity of ammunition currently loaded in tool, gun or axuiliary gunmod */
         long ammo_remaining() const;
         /** Maximum quantity of ammunition loadable for tool, gun or axuiliary gunmod */

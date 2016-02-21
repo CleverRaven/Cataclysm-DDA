@@ -769,6 +769,10 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          * @return cost in moves ranging from 0 to MAX_HANDLING_COST
          */
         int item_handling_cost( const item& it, bool effects = true, int factor = VOLUME_MOVE_COST) const;
+
+        /** Calculate (but do not deduct) the number of moves required when reloading an item */
+        int item_reload_cost( const item& it, const item& ammo ) const;
+
         /** Wear item; returns false on fail. If interactive is false, don't alert the player or drain moves on completion. */
         bool wear(int pos, bool interactive = true);
         /** Wear item; returns false on fail. If interactive is false, don't alert the player or drain moves on completion. */
