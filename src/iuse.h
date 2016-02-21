@@ -4,6 +4,7 @@
 #include <map>
 #include <string>
 #include <vector>
+#include <memory>
 #include "enums.h"
 
 class item;
@@ -227,102 +228,65 @@ class iuse_actor {
 protected:
     iuse_actor() { }
 public:
+    /**
+     * The type of the action. It's not translated. Different iuse_actor instances may have the
+     * same type, but different data.
+     */
     std::string type;
     virtual ~iuse_actor() { }
     virtual long use( player*, item*, bool, const tripoint& ) const = 0;
     virtual bool can_use( const player*, const item*, bool, const tripoint& ) const { return true; }
+    /**
+     * Returns a deep copy of this object. Example implementation:
+     * \code
+     * class my_iuse_actor {
+     *     iuse_actor *clone() const override {
+     *         return new my_iuse_actor( *this );
+     *     }
+     * };
+     * \endcode
+     * The returned value should behave like the original item and must have the same type.
+     */
     virtual iuse_actor *clone() const = 0;
+    /**
+     * Returns the translated name of the action. It is used for the item action menu.
+     */
+    virtual std::string get_name() const;
 };
 
 struct use_function {
 protected:
-    enum use_function_t {
-        USE_FUNCTION_NONE,
-        USE_FUNCTION_CPP,
-        USE_FUNCTION_ACTOR_PTR,
-        USE_FUNCTION_LUA
-    };
-
-    use_function_t function_type;
-
-    union {
-        use_function_pointer cpp_function;
-        int lua_function;
-        iuse_actor *actor_ptr;
-    };
+    std::unique_ptr<iuse_actor> actor;
 
 public:
-    use_function()
-        : function_type(USE_FUNCTION_NONE)
-    { }
+    use_function() = default;
+    use_function( use_function_pointer f );
+    use_function( iuse_actor *f );
+    use_function( use_function && ) = default;
+    use_function( const use_function &other );
 
-    use_function(use_function_pointer f)
-        : function_type(USE_FUNCTION_CPP), cpp_function(f)
-    { }
-
-    use_function(int f)
-        : function_type(USE_FUNCTION_LUA), lua_function(f)
-    { }
-
-    use_function(iuse_actor *f)
-        : function_type(USE_FUNCTION_ACTOR_PTR), actor_ptr(f)
-    { }
-
-    use_function(const use_function &other);
-
-    ~use_function();
+    ~use_function() = default;
 
     long call( player*,item*,bool, const tripoint& ) const;
 
     iuse_actor *get_actor_ptr() const
     {
-        if( function_type != USE_FUNCTION_ACTOR_PTR ) {
-            return nullptr;
-        }
-        return actor_ptr;
+        return actor.get();
     }
 
-    // Gets actor->type or finds own type in item_factory::iuse_function_list
-    std::string get_type_name() const;
-    // Returns translated name of the action
+    /** @return See @ref iuse_actor::type */
+    std::string get_type() const;
+    /** @return See @ref iuse_actor::get_name */
     std::string get_name() const;
 
     bool can_call(const player *p, const item *it, bool t, const tripoint &pos) const
     {
-        auto actor = get_actor_ptr();
-        return actor == nullptr || actor->can_use( p, it, t, pos );
+        return !actor || actor->can_use( p, it, t, pos );
     }
 
-    void operator=(use_function_pointer f);
-    void operator=(iuse_actor *f);
-    void operator=(const use_function &other);
-
-    bool operator==(use_function f) const {
-        if( function_type != f.function_type ) {
-            return false;
-        }
-
-        switch( function_type ) {
-            case USE_FUNCTION_NONE:
-                return true;
-            case USE_FUNCTION_CPP:
-                return f.cpp_function == cpp_function;
-            case USE_FUNCTION_ACTOR_PTR:
-                return f.actor_ptr->type == actor_ptr->type;
-            case USE_FUNCTION_LUA:
-                return f.lua_function == lua_function;
-            default:
-                return false;
-        }
-    }
-
-    bool operator==(use_function_pointer f) const {
-        return (function_type == USE_FUNCTION_CPP) && (f == cpp_function);
-    }
-
-    bool operator!=(use_function_pointer f) const {
-        return !(this->operator==(f));
-    }
+    use_function &operator=( iuse_actor *f );
+    use_function &operator=( use_function && ) = default;
+    use_function &operator=( const use_function &other );
 };
 
 #endif

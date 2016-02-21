@@ -122,6 +122,27 @@ Item_factory::Item_factory()
     init();
 }
 
+class iuse_function_wrapper : public iuse_actor
+{
+    private:
+        use_function_pointer cpp_function;
+    public:
+        iuse_function_wrapper( const use_function_pointer f ) : cpp_function( f ) { }
+        ~iuse_function_wrapper() = default;
+        long use( player *p, item *it, bool a, const tripoint &pos ) const override {
+            iuse tmp;
+            return ( tmp.*cpp_function )( p, it, a, pos );
+        }
+        iuse_actor *clone() const override {
+            return new iuse_function_wrapper( *this );
+        }
+};
+
+use_function::use_function( const use_function_pointer f )
+    : use_function( new iuse_function_wrapper( f ) )
+{
+}
+
 void Item_factory::init()
 {
     //Populate the iuse functions
@@ -308,6 +329,15 @@ void Item_factory::init()
     iuse_function_list["MULTICOOKER"] = &iuse::multicooker;
 
     iuse_function_list["REMOTEVEH"] = &iuse::remoteveh;
+
+    // The above creates iuse_actor instances (from the function pointers) that have
+    // no `type` set. This loops sets the type to the same as the key in the map.
+    for( auto &e : iuse_function_list ) {
+        iuse_actor * const actor = e.second.get_actor_ptr();
+        if( actor ) {
+            actor->type = e.first;
+        }
+    }
 
     create_inital_categories();
 
@@ -1669,31 +1699,6 @@ const item_category *Item_factory::get_category(const std::string &id)
     cat.id = id;
     cat.name = id;
     return &cat;
-}
-
-const use_function *Item_factory::get_iuse(const std::string &id)
-{
-    const auto &iter = iuse_function_list.find( id );
-    if( iter != iuse_function_list.end() ) {
-        return &iter->second;
-    }
-
-    return nullptr;
-}
-
-const std::string &Item_factory::inverse_get_iuse( const use_function *fun )
-{
-    // Ugly and slow - compares values to get the key
-    // Don't use when performance matters
-    for( const auto &pr : iuse_function_list ) {
-        if( pr.second == *fun ) {
-            return pr.first;
-        }
-    }
-
-    debugmsg( "Tried to get id of a function not in iuse_function_list" );
-    const static std::string errstr("ERROR");
-    return errstr;
 }
 
 const std::string &Item_factory::calc_category( const itype *it )

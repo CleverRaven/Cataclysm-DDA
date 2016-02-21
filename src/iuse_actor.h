@@ -73,6 +73,7 @@ class iuse_transform : public iuse_actor
         virtual void load( JsonObject &jo );
         virtual long use(player *, item *, bool, const tripoint& ) const override;
         virtual iuse_actor *clone() const override;
+        std::string get_name() const override;
 };
 
 /**

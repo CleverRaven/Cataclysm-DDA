@@ -10970,7 +10970,7 @@ bool player::invoke_item( item* used, const tripoint &pt )
         return false;
     }
 
-    const std::string &method = used->type->use_methods[choice].get_type_name();
+    const std::string &method = used->type->use_methods[choice].get_type();
     long charges_used = used->type->invoke( this, used, pt, method );
     return ( used->is_tool() || used->is_food() ) && consume_charges( *used, charges_used );
 }

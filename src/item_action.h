@@ -43,9 +43,6 @@ class item_action_generator
 
         // Returns (translated) name of action
         std::string get_action_name( const item_action_id &id ) const;
-        // As above, except for use_function. Supports iuse_actor and cpp functions
-        // The functions needs its item_action json entry or this will debugmsg
-        std::string get_action_name( const iuse_actor *actor ) const;
 
         const item_action &get_action( const item_action_id &id ) const;
 

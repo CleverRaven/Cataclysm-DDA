@@ -171,22 +171,6 @@ std::string item_action_generator::get_action_name( const item_action_id &id ) c
     return id;
 }
 
-std::string item_action_generator::get_action_name( const iuse_actor *actor ) const
-{
-    if( actor == nullptr ) {
-        debugmsg( "Tried to get name of a null iuse_actor" );
-        return errstring;
-    }
-
-    const iuse_transform *trans_actor = nullptr;
-    trans_actor = dynamic_cast<const iuse_transform *>( actor );
-    if( trans_actor != nullptr && !trans_actor->menu_option_text.empty() ) {
-        return _( trans_actor->menu_option_text.c_str() );
-    }
-
-    return get_action_name( actor->type );
-}
-
 const item_action &item_action_generator::get_action( const item_action_id &id ) const
 {
     const auto &iter = item_actions.find( id );
@@ -242,7 +226,7 @@ void game::item_action_menu()
         int would_use_charges = tool == nullptr ? 0 : tool->charges_per_use;
 
         std::stringstream ss;
-        ss << _( gen.get_action_name( p.first ).c_str() ) << " [" << p.second->display_name();
+        ss << gen.get_action_name( p.first ) << " [" << p.second->display_name();
         if( would_use_charges > 0 ) {
             ss << " (" << would_use_charges << '/' << p.second->charges << ')';
         }
@@ -256,7 +240,7 @@ void game::item_action_menu()
     for( auto &p : item_actions ) {
         if( iactions.find( p.first ) == iactions.end() ) {
             char bind = key_bound_to( ctxt, p.first );
-            kmenu.addentry( num, false, bind, _( gen.get_action_name( p.first ).c_str() ) );
+            kmenu.addentry( num, false, bind, gen.get_action_name( p.first ) );
             num++;
         }
     }
@@ -282,38 +266,26 @@ void game::item_action_menu()
     u.inv.unsort();
 }
 
-std::string use_function::get_type_name() const
+std::string use_function::get_type() const
 {
-    switch( function_type ) {
-        case USE_FUNCTION_CPP:
-            return item_controller->inverse_get_iuse( this );
-        case USE_FUNCTION_ACTOR_PTR:
-            return get_actor_ptr()->type;
-        case USE_FUNCTION_LUA:
-            debugmsg( "Tried to get type name of a lua function (not implemented yet)" );
-            return errstring;
-        case USE_FUNCTION_NONE:
-            return errstring;
-        default:
-            debugmsg( "Tried to get type name of a badly typed iuse_function." );
-            return errstring;
+    if( actor ) {
+        return actor->type;
+    } else {
+        return errstring;
     }
+}
+
+std::string iuse_actor::get_name() const
+{
+    return item_action_generator::generator().get_action_name( type );
 }
 
 std::string use_function::get_name() const
 {
-    switch( function_type ) {
-        case USE_FUNCTION_CPP:
-            return item_action_generator::generator().get_action_name( get_type_name() );
-        case USE_FUNCTION_ACTOR_PTR:
-            return item_action_generator::generator().get_action_name( get_actor_ptr() );
-        case USE_FUNCTION_LUA:
-            return "Lua";
-        case USE_FUNCTION_NONE:
-            return "None";
-        default:
-            debugmsg( "Tried to get type name of a badly typed iuse_function." );
-            return errstring;
+    if( actor ) {
+        return actor->get_name();
+    } else {
+        return errstring;
     }
 }
 
