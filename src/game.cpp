@@ -11524,11 +11524,14 @@ void game::reload( int pos )
             return; // not expected when player::rate_action_reload() == true
         }
 
-        int qty = std::max( !target->has_flag( "RELOAD_ONE" ) ? target->ammo_capacity() - target->ammo_remaining() : 1, 1L );
+        int qty = 1;// @todo pick_reload_ammo should return also target and qty
+        if( ammo.is_ammo() && !target->has_flag( "RELOAD_ONE") ) {
+            qty = std::min( ammo.charges, target->ammo_capacity() - target->ammo_remaining() );
+        }
 
         std::stringstream ss;
         ss << pos;
-        u.assign_activity( ACT_RELOAD, u.item_reload_cost( *target, ammo ), -1, loc.obtain( u, qty ), ss.str() );
+        u.assign_activity( ACT_RELOAD, u.item_reload_cost( *target, ammo, qty ), qty, loc.obtain( u, qty ), ss.str() );
         u.inv.restack( &u );
     }
 
