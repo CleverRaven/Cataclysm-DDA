@@ -10187,7 +10187,7 @@ int player::item_reload_cost( const item& it, const item& ammo ) const
         mv *= 1.5; // bulky magazines take longer to insert
     }
 
-    if( !it.is_gun() || ! it.is_magazine() ) {
+    if( !it.is_gun() && ! it.is_magazine() ) {
         return mv + 100; // reload a tool
     }
 
