@@ -718,7 +718,7 @@ void player::roll_bash_damage( bool crit, damage_instance &di, bool average, con
     const int stat = get_str();
     ///\EFFECT_STR increases bashing damage
     float stat_bonus = bonus_damage( !average );
-    stat_bonus += mabuff_bash_bonus();
+    stat_bonus += mabuff_damage_bonus( DT_BASH );
 
     const int skill = unarmed ? unarmed_skill : bashing_skill;
 
@@ -771,7 +771,7 @@ void player::roll_bash_damage( bool crit, damage_instance &di, bool average, con
     weap_dam = average ? (bash_min + weap_dam) * 0.5f : rng_float(bash_min, weap_dam);
 
     bash_dam += weap_dam;
-    bash_mul *= mabuff_bash_mult();
+    bash_mul *= mabuff_damage_mult( DT_BASH );
 
     float armor_mult = 1.0f;
     // Finally, extra crit effects
@@ -787,7 +787,7 @@ void player::roll_bash_damage( bool crit, damage_instance &di, bool average, con
 void player::roll_cut_damage( bool crit, damage_instance &di, bool average, const item &weap ) const
 {
     const bool stabs = weap.has_flag("SPEAR") || weap.has_flag("STAB");
-    float cut_dam = stabs ? 0.0f : mabuff_cut_bonus() + weap.damage_cut();
+    float cut_dam = stabs ? 0.0f : mabuff_damage_bonus( DT_CUT ) + weap.damage_cut();
     float cut_mul = 1.0f;
 
     int cutting_skill = get_skill_level( skill_cutting );
@@ -848,7 +848,7 @@ void player::roll_cut_damage( bool crit, damage_instance &di, bool average, cons
         cut_mul *= 0.96 + 0.04 * cutting_skill;
     }
 
-    cut_mul *= mabuff_cut_mult();
+    cut_mul *= mabuff_damage_mult( DT_CUT );
     if( crit ) {
         cut_mul *= 1.25f;
         arpen += 5;
@@ -862,7 +862,7 @@ void player::roll_stab_damage( bool crit, damage_instance &di, bool average, con
 {
     (void)average; // No random rolls in stab damage
     const bool stabs = weap.has_flag("SPEAR") || weap.has_flag("STAB");
-    float cut_dam = stabs ? mabuff_cut_bonus() + weap.damage_cut() : 0.0f;
+    float cut_dam = stabs ? mabuff_damage_bonus( DT_STAB ) + weap.damage_cut() : 0.0f;
 
     int unarmed_skill = get_skill_level( skill_unarmed );
     int stabbing_skill = get_skill_level( skill_stabbing );
@@ -919,7 +919,7 @@ void player::roll_stab_damage( bool crit, damage_instance &di, bool average, con
         stab_mul = 0.86 + 0.06 * stabbing_skill;
     }
 
-    stab_mul *= mabuff_cut_mult();
+    stab_mul *= mabuff_damage_mult( DT_STAB );
     float armor_mult = 1.0f;
 
     if( crit ) {
@@ -1218,33 +1218,49 @@ damage_unit &get_damage_unit( std::vector<damage_unit> &di, const damage_type dt
     return nullunit;
 }
 
+void print_damage_info( const damage_instance &di )
+{
+    if( !debug_mode ) {
+        return;
+    }
+
+    int total = 0;
+    std::stringstream ss;
+    for( auto &du : di.damage_units ) {
+        int amount = di.type_damage( du.type );
+        total += amount;
+        ss << name_by_dt( du.type ) << ':' << amount << ',';
+    }
+
+    add_msg( m_debug, "%stotal: %d", ss.str().c_str(), total );
+}
+
 void player::perform_technique(const ma_technique &technique, Creature &t, damage_instance &di, int &move_cost)
 {
-    auto &bash = get_damage_unit( di.damage_units, DT_BASH );
-    auto &cut  = get_damage_unit( di.damage_units, DT_CUT );
-    auto &stab = get_damage_unit( di.damage_units, DT_STAB );
+    add_msg( m_debug, "dmg before tec:" );
+    print_damage_info( di );
 
-    add_msg( m_debug, _("damage before tec mult:%dbash,%dcut,%dstab,%dtotal"), (int)di.type_damage(DT_BASH), (int)di.type_damage(DT_CUT), (int)di.type_damage(DT_STAB), (int)di.total_damage());
-    if( bash.amount > 0 ) {
-        bash.amount += technique.bash;
-        bash.damage_multiplier *= technique.bash_mult;
+    for( damage_unit &du : di.damage_units ) {
+        // TODO: Allow techniques to add more damage types to attacks
+        if( du.amount <= 0 ) {
+            continue;
+        }
+
+        du.amount += technique.damage_bonus( *this, du.type );
+        du.damage_multiplier *= technique.damage_multiplier( *this, du.type );
+        du.res_pen += technique.armor_penetration( *this, du.type );
     }
 
-    // Cut affects stab damage too since only one of cut/stab is used
-    if( cut.amount > 0 && cut.amount > stab.amount ) {
-        cut.amount += technique.cut;
-        cut.damage_multiplier *= technique.cut_mult;
-    } else if( stab.amount > 0 ) {
-        stab.amount += technique.cut;
-        stab.damage_multiplier *= technique.cut_mult;
-    }
-    add_msg( m_debug, _("damage after tec mult:%dbash,%dcut,%dstab,%dtotal"), (int)di.type_damage(DT_BASH), (int)di.type_damage(DT_CUT), (int)di.type_damage(DT_STAB), (int)di.total_damage());
+    add_msg( m_debug, "dmg after tec:" );
+    print_damage_info( di );
 
-    move_cost *= technique.speed_mult;
+    move_cost *= technique.move_cost_multiplier( *this );
+    move_cost += technique.move_cost_penalty( *this );
 
     if( technique.down_dur > 0 ) {
         if( t.get_throw_resist() == 0 ) {
             t.add_effect( effect_downed, rng(1, technique.down_dur));
+            auto &bash = get_damage_unit( di.damage_units, DT_BASH );
             if( bash.amount > 0 ) {
                 bash.amount += 3;
             }
@@ -1255,17 +1271,15 @@ void player::perform_technique(const ma_technique &technique, Creature &t, damag
         t.add_effect( effect_stunned, rng(1, technique.stun_dur));
     }
 
-    if (technique.knockback_dist > 0) {
+    if( technique.knockback_dist > 0 ) {
         const int kb_offset_x = rng( -technique.knockback_spread,
                                      technique.knockback_spread );
         const int kb_offset_y = rng( -technique.knockback_spread,
                                      technique.knockback_spread );
         tripoint kb_point( posx() + kb_offset_x, posy() + kb_offset_y, posz() );
-        t.knock_back_from( kb_point );
-    }
-
-    if (technique.pain > 0) {
-        t.pain += rng(technique.pain / 2, technique.pain);
+        for( int dist = rng( 1, technique.knockback_dist ); dist > 0; dist-- ) {
+            t.knock_back_from( kb_point );
+        }
     }
 
     player *p = dynamic_cast<player*>( &t );
@@ -1540,11 +1554,11 @@ bool player::block_hit(Creature *source, body_part &bp_hit, damage_instance &dam
                            _("<npcname> blocks %1$s of the damage with their %2$s!"),
                            damage_blocked_description.c_str(), thing_blocked_with.c_str() );
 
-    // check if we have any dodge counters
+    // Check if we have any block counters
     matec_id tec = pick_technique( *source, false, false, true );
 
     if( tec != tec_none ) {
-        melee_attack(*source, false, tec);
+        melee_attack( *source, false, tec );
     }
 
     return true;

@@ -28,7 +28,7 @@
                 "melee_allowed" : true,
                 "buff_duration" : 3,
                 "max_stacks": 4,
-                "hit_dex": 0.4
+                "flat_bonuses" : [["hit", "dex", 0.4]]
             }
         ],
         "techniques" : [
@@ -112,8 +112,10 @@
                 "min_melee" : 2,
                 "buff_duration" : 2,
                 "max_stacks" : 2,
-                "stab" : 2,
-                "hit" : 1
+                "flat_bonuses" : [
+                    ["damage", "stab", 2.0],
+                    ["hit", 1.0]
+                ]
             }
         ],
         "techniques" : [
@@ -147,56 +149,57 @@
         "description" : "Niten Ichi-Ryu is an ancient school of combat, transmitting a style of classical Japanese swordsmanship conceived by the warrior Miyamoto Musashi.  It primarily focuses on the proper use of the katana and wakizashi, but includes staff techniques as well.",
         "arm_block" : 99,
         "leg_block" : 99,
-        "static_buffs" : [
+            "static_buffs" : [
             {
-                 "id": "niten_stationary_buff",
-                 "edit-mode" : "override",
-                 "name" : "Niten Ichi-Ryu",
-                 "description" : "Perception increases dodging and damage.",
-                 "min_melee" : 2,
-                 "cut_per" : 1.1,
-                 "bash_per" : 1.1,
-                 "dodge_per" : 0.5
+                "id": "niten_stationary_buff",
+                "edit-mode" : "override",
+                "name" : "Niten Ichi-Ryu",
+                "description" : "Perception increases dodging and damage.",
+                "min_melee" : 2,
+                "flat_bonuses" : [
+                    ["damage", "cut", "per", 0.5],
+                    ["damage", "bash", "per", 0.5],
+                    ["dodge", "per", 0.5]
+                ]
             }
         ],
         "onmove_buffs" : [
-          {
-             "id" : "niten_move_buff",
-            "edit-mode" : "override",
-            "name" : "Blocking",
-            "description" : "You forgo dodging on the move, but gain more blocks.",
-            "min_melee" : 2,
-            "max_stacks" : 1,
-            "buff_duration" : 2,
-            "dodge" : -4,
-            "bonus_dodges" : -1,
-            "bonus_blocks" : 2
-         }
-      ],
-      "onhit_buffs" : [
-          {
-            "id" : "niten_hit_buff",
-            "edit-mode" : "override",
-            "name" : "Blocking",
-            "description" : "You forgo dodging on the offensive, but gain more blocks.",
-            "min_melee" : 2,
-            "max_stacks" : 1,
-            "buff_duration" : 2,
-            "dodge" : -4,
-            "bonus_dodges" : -1,
-            "bonus_blocks" : 2
-         }
-      ],
+            {
+                "id" : "niten_move_buff",
+                "edit-mode" : "override",
+                "name" : "Blocking",
+                "description" : "You forgo dodging on the move, but gain more blocks.",
+                "min_melee" : 2,
+                "max_stacks" : 1,
+                "buff_duration" : 2,
+                "flat_bonuses" : [["dodge", -10.0]],
+                "bonus_dodges" : -1,
+                "bonus_blocks" : 2
+            }
+        ],
+        "onhit_buffs" : [
+            {
+                "id" : "niten_hit_buff",
+                "edit-mode" : "override",
+                "name" : "Blocking",
+                "description" : "You forgo dodging on the offensive, but gain more blocks.",
+                "min_melee" : 2,
+                "max_stacks" : 1,
+                "buff_duration" : 2,
+                "flat_bonuses" : [["dodge", -10.0]],
+                "bonus_dodges" : -1,
+                "bonus_blocks" : 2
+            }
+        ],
         "ondodge_buffs" : [
             {
-                 "id" : "niten_set-up",
-                 "edit-mode" : "override",
-                 "name" : "In-One Timing Set-Up",
-                 "description" : "You found a gap in the enemy's defense!",
-                 "min_melee" : 4,
-                 "buff_duration" : 2,
-                 "max_stacks" : 1,
-                 "cut_mult" : 1
+                "id" : "niten_set-up",
+                "edit-mode" : "override",
+                "name" : "In-One Timing Set-Up",
+                "description" : "You found a gap in the enemy's defense!",
+                "min_melee" : 4,
+                "buff_duration" : 2,
+                "max_stacks" : 1
             }
         ],
         "techniques" : [

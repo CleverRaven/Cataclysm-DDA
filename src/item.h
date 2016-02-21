@@ -307,6 +307,11 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
      */
     int damage_cut() const;
     /**
+     * Damage of a given type that is caused by using this item as melee weapon.
+     * NOTE: Does NOT respect the legacy "stabbing is cutting"!
+     */
+    int damage_by_type( damage_type dt ) const;
+    /**
      * Whether the character needs both hands to wield this item.
      */
     bool is_two_handed( const player &u ) const;
