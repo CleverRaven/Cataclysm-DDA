@@ -4213,7 +4213,7 @@
     "valid_mod_locations": [[ "accessories", 4 ],[ "grip", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
-    "id": "M41a_pulse_rifle",
+    "id": "m41a_pulse_rifle",
     "type": "GUN",
     "symbol": "(",
     "color": "teal",
