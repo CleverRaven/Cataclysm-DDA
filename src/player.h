@@ -497,7 +497,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          */
         void melee_attack(Creature &t, bool allow_special, const matec_id &force_technique) override;
         /** Returns a weapon's modified dispersion value */
-        double get_weapon_dispersion( item *weapon, bool random ) const;
+        double get_weapon_dispersion( const item *weapon, bool random ) const;
         /** Returns true if a gun misfires, jams, or has other problems, else returns false */
         bool handle_gun_damage( const itype &firing, const std::set<std::string> &curammo_effects );
 

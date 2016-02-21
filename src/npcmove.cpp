@@ -56,6 +56,23 @@ itype_id ALT_ATTACK_ITEMS[NUM_ALT_ATTACK_ITEMS] = {
 };
 #endif
 
+enum npc_action : int {
+    npc_undecided = 0,
+    npc_pause, //1
+    npc_reload, npc_sleep, // 2, 3
+    npc_pickup, // 4
+    npc_escape_item, npc_wield_melee, npc_wield_loaded_gun, npc_wield_empty_gun,
+    npc_heal, npc_use_painkiller, npc_eat, npc_drop_items, // 5 - 12
+    npc_flee, npc_melee, npc_shoot, npc_shoot_burst, npc_alt_attack, // 13 - 17
+    npc_look_for_player, npc_heal_player, npc_follow_player, npc_follow_embarked,
+    npc_talk_to_player, npc_mug_player, // 18 - 23
+    npc_goto_destination, npc_avoid_friendly_fire, // 24, 25
+    npc_base_idle, // 26
+    npc_noop,
+    npc_reach_attack,
+    num_npc_actions
+};
+
 const int avoidance_vehicles_radius = 5;
 
 std::string npc_action_name(npc_action action);
@@ -71,6 +88,22 @@ struct ratio_index {
     int index;
     ratio_index(double R, int I) : ratio (R), index (I) {};
 };
+
+bool clear_shot_reach( const tripoint &from, const tripoint &to )
+{
+    std::vector<tripoint> path = line_to( from, to );
+    path.pop_back();
+    for( const tripoint &p : path ) {
+        Creature *inter = g->critter_at( p );
+        if( inter != nullptr ) {
+            return false;
+        } else if( g->m.impassable( p ) ) {
+            return false;
+        }
+    }
+
+    return true;
+}
 
 bool npc::is_dangerous_field( const field_entry &fld ) const
 {
@@ -456,6 +489,13 @@ void npc::execute_action( npc_action action )
         move_away_from( tar );
         break;
 
+    case npc_reach_attack:
+        if( weapon.reach_range() >= rl_dist( pos(), tar ) &&
+            clear_shot_reach( pos(), tar ) ) {
+            reach_attack( tar );
+            break;
+        }
+        // Otherwise fallthrough to npc_melee
     case npc_melee:
         update_path( tar );
         if( path.size() > 1 ) {
@@ -766,19 +806,18 @@ npc_action npc::method_of_fleeing()
 
 npc_action npc::method_of_attack()
 {
-    tripoint tar;
     bool can_use_gun = (!is_following() || rules.use_guns);
     bool use_silent = (is_following() && rules.use_silent);
+    int reach_range = weapon.reach_range();
 
     Creature *critter = get_target( ai_cache.target );
-    if( critter != nullptr ) {
-        tar = critter->pos();
-    } else {
+    if( critter == nullptr ) {
         // This function shouldn't be called...
         debugmsg("Ran npc::method_of_attack without a target!");
         return npc_pause;
     }
 
+    tripoint tar = critter->pos();
     int dist = rl_dist( pos(), tar );
     int target_HP;
     if( !critter->is_monster() ) {
@@ -787,26 +826,30 @@ npc_action npc::method_of_attack()
         target_HP = critter->get_hp();
     }
 
-    if (can_use_gun) {
-        if (need_to_reload() && can_reload()) {
+    const npc_action melee_action = reach_range > 1 ? npc_reach_attack : npc_melee;
+
+    // TODO: Add vehicle avoidance code
+    if( can_use_gun ) {
+        if( need_to_reload() && can_reload() ) {
             return npc_reload;
         }
-        if (emergency() && alt_attack_available()) {
+        if( emergency() && alt_attack_available() ) {
             return npc_alt_attack;
         }
-        if (weapon.is_gun() && (!use_silent || weapon.is_silent()) && weapon.charges > 0) {
-            if (dist > confident_range()) {
-                if (can_reload() && (enough_time_to_reload( weapon ) || in_vehicle)) {
+        if( weapon.is_gun() && (!use_silent || weapon.is_silent()) &&
+            weapon.ammo_remaining() > weapon.ammo_required() ) {
+            if( dist > confident_range() ) {
+                if( can_reload() && (enough_time_to_reload( weapon ) || in_vehicle) ) {
                     return npc_reload;
-                } else if (in_vehicle && dist > 1) {
+                } else if( in_vehicle && dist > reach_range ) {
                     return npc_pause;
                 } else {
-                    return npc_melee;
+                    return melee_action;
                 }
             }
-            if (!wont_hit_friend( tar )) {
-                if (in_vehicle)
-                    if (can_reload()) {
+            if( !wont_hit_friend( tar ) ) {
+                if( in_vehicle )
+                    if( can_reload() ) {
                         return npc_reload;
                     } else {
                         return npc_pause;    // wait for clear shot
@@ -815,14 +858,13 @@ npc_action npc::method_of_attack()
                     return npc_avoid_friendly_fire;
                 }
             } else if( ai_cache.target == TARGET_PLAYER && !sees( g->u ) ) {
-                return npc_melee;//Can't see target
-            } else if (rl_dist( pos(), tar ) > weapon.gun_range( this ) &&
-                       sees( tar )) {
-                return npc_melee; // If out of range, move closer to the target
-            } else if (dist <= confident_range() / 3 && weapon.charges >= weapon.type->gun->burst &&
-                       weapon.type->gun->burst > 1 &&
-                       ((weapon.ammo_data() && target_HP >= weapon.ammo_data()->ammo->damage * 3) ||
-                        emergency(ai_cache.danger * 2))) {
+                return melee_action; // Can't see target
+            } else if( dist > weapon.gun_range( this ) && sees( tar ) ) {
+                return melee_action; // If out of range, move closer to the target
+            } else if( dist <= confident_range() / 3 &&
+                       weapon.ammo_remaining() >= weapon.burst_size() &&
+                       (target_HP >= weapon.gun_damage() * 3 ||
+                        emergency( ai_cache.danger * 2 ) ) ) {
                 return npc_shoot_burst;
             } else {
                 return npc_shoot;
@@ -830,14 +872,16 @@ npc_action npc::method_of_attack()
         }
     }
 
+    // TODO: Add a time check now that wielding takes a lot of time
     if( wield_better_weapon() ) {
         return npc_noop;
     }
 
-    if (in_vehicle && dist > 1) {
+    if( in_vehicle && (dist > reach_range || !clear_shot_reach( pos(), tar ) ) ) {
         return npc_pause;
     }
-    return npc_melee;
+
+    return melee_action;
 }
 
 bool need_heal( const Character &n )
@@ -1055,7 +1099,7 @@ void npc::use_escape_item(int position)
 }
 
 
-int npc::confident_range( int position )
+int npc::confident_range( int position ) const
 {
     double deviation = 0;
 
@@ -1075,7 +1119,7 @@ int npc::confident_range( int position )
         const auto& thrown = i_at( position );
 
         ///\EFFECT_THROW_NPC increases throwing confidence of all items
-        deviation += 10 - skillLevel( skill_throw );
+        deviation += 10 - get_skill_level( skill_throw );
 
         ///\EFFECT_PER_NPC increases throwing confidence of all items
         deviation += 10 - per_cur;
@@ -1095,7 +1139,7 @@ int npc::confident_range( int position )
 }
 
 // Index defaults to -1, i.e., wielded weapon
-bool npc::wont_hit_friend( const tripoint &tar, int weapon_index )
+bool npc::wont_hit_friend( const tripoint &tar, int weapon_index ) const
 {
     int confident = confident_range(weapon_index);
     // if there is no confidence at using weapon, it's not used at range
@@ -1140,50 +1184,18 @@ bool npc::wont_hit_friend( const tripoint &tar, int weapon_index )
     return true;
 }
 
-bool npc::is_blocking_position( const tripoint &p ) {
-    // TODO: consider 3d? not very important for now
-    // TODO: there might be a more elegant way to do this
-    int dx = posx() - p.x;
-    int dy = posy() - p.y;
-
-    // Check whether this NPC is blocking movement from the given tile.
-    // Example:
-    // W..
-    // NP.
-    // W..
-    //
-    // Here the two W's are blocking movement from P to the tile left
-    // of N
-
-    tripoint left = pos();
-    tripoint right = pos();
-
-    if(dx == 0) {
-        // Vertical movement
-        left.x--;
-        right.x++;
-    } else if(dy == 0) {
-        // Horizontal movement
-        left.y--;
-        right.y++;
-    } else if(dx * dy == 1) {
-        // Diagonal movement
-        left.x += dx;
-        right.y += dy;
-    }
-
-    return g->m.impassable(left) && g->m.impassable(right);
-}
-
-bool npc::need_to_reload()
+bool npc::need_to_reload() const
 {
     if( !weapon.is_gun() ) {
         return false;
     }
-    return (weapon.charges < weapon.type->gun->clip * .1);
+
+    const auto remaining = weapon.ammo_remaining();
+    return (remaining < weapon.ammo_required() || remaining < weapon.ammo_capacity() * 0.1f) &&
+        !weapon.has_flag("NO_AMMO") && !weapon.has_flag("RELOAD_AND_SHOOT");
 }
 
-bool npc::enough_time_to_reload( const item &gun )
+bool npc::enough_time_to_reload( const item &gun ) const
 {
     int rltime = item_reload_cost( gun, item( default_ammo( gun.ammo_type() ), calendar::turn ) );
     const float turns_til_reloaded = (float)rltime / get_speed();
@@ -2543,6 +2555,8 @@ std::string npc_action_name(npc_action action)
         return _("Flee");
     case npc_melee:
         return _("Melee");
+    case npc_reach_attack:
+        return _("Reach attack");
     case npc_shoot:
         return _("Shoot");
     case npc_shoot_burst:

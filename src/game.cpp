@@ -11074,7 +11074,7 @@ void game::plfire( bool burst, const tripoint &default_target )
 
     int range;
     if( reach_attack ) {
-        range = gun.has_flag( "REACH3" ) ? 3 : 2;
+        range = gun.reach_range();
     } else {
         range = gun.gun_range( &u );
     }

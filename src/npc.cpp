@@ -1945,6 +1945,11 @@ bool npc::is_guarding() const
 
 Creature::Attitude npc::attitude_to( const Creature &other ) const
 {
+    if( is_friend() ) {
+        // Friendly NPCs share player's alliances
+        return g->u.attitude_to( *this );
+    }
+
     if( other.is_npc() ) {
         // No npc vs npc action, so simply ignore other npcs
         return A_NEUTRAL;

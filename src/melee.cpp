@@ -2611,6 +2611,10 @@ double player::melee_value( const item &weap ) const
 
     my_value += avg_dmg * 100 / move_cost;
 
+    if( weap.has_flag( "REACH_ATTACK" ) ) {
+        my_value *= weap.has_flag( "REACH3" ) ? 1.4 : 1.25;
+    }
+
     return std::max( 0.0, my_value );
 }
 

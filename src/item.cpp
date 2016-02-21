@@ -2472,6 +2472,15 @@ int item::damage_cut() const
     }
 }
 
+int item::reach_range() const
+{
+    if( !has_flag( "REACH_ATTACK" ) ) {
+        return 1;
+    }
+    
+    return has_flag( "REACH3" ) ? 3 : 2;
+}
+
 void item::unset_flags()
 {
     item_tags.clear();
