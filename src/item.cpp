@@ -4285,8 +4285,8 @@ item_location item::pick_reload_ammo( player &u ) const
 
     // We only show ammo statistics for guns and magazines
     if( is_gun() || is_magazine() ) {
-        menu.text += _( "| Damage  | Pierce  | Range   | Accuracy" );
-        menu.w_width += 40;
+        menu.text += _( "| Damage  | Pierce  " );
+        menu.w_width += 20;
     }
 
     menu.w_width += 6; // include space for borders
@@ -4305,11 +4305,9 @@ item_location item::pick_reload_ammo( player &u ) const
         if( is_gun() || is_magazine() ) {
             const itype *curammo = ammo.ammo_data(); // nullptr for empty magazines
             if( curammo ) {
-                row += string_format( "| %-7d | %-7d | %-7d | %-7d",
-                                      curammo->ammo->damage, curammo->ammo->pierce,
-                                      curammo->ammo->range, 100 - curammo->ammo->dispersion );
+                row += string_format( "| %-7d | %-7d", curammo->ammo->damage, curammo->ammo->pierce );
             } else {
-                row += "|         |         |         |         ";
+                row += "|         |         ";
             }
         }
 
