@@ -3,6 +3,7 @@
         "type" : "item_group",
         "subtype": "collection",
         "id": "mon_zombie_soldier_death_drops",
+        "magazine": 100,
         "entries":
         [
             { "group": "underwear", "damage-min": 1, "damage-max": 4},
