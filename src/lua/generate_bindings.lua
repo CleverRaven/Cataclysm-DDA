@@ -297,7 +297,7 @@ function generate_class_function_wrapper(class_name, function_name, func, cur_cl
             text = text .. class_name .. "_instance"
         else
             --[[
-            If we call a function of the parent class is called, we need to call it through
+            If we call a function of the parent class, we need to call it through
             a reference to the parent class, otherwise we get into trouble with default parameters:
             Example:
             class A {     void f(int = 0); }
