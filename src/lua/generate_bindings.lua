@@ -59,7 +59,7 @@ function load_instance(class_name)
         error("'"..class_name.."' is not defined in class_definitions.lua")
     end
 
-    return class_name .. "& instance = " .. member_type_to_cpp_type(class_name) .. "::get(L, 1);"
+    return class_name .. "& instance = " .. retrieve_lua_value(class_name, 1) .. ";"
 end
 
 -- Returns code to retrieve a lua value from the stack and store it into
