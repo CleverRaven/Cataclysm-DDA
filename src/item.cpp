@@ -4331,7 +4331,7 @@ item_location item::pick_reload_ammo( player &u ) const
         if( u.has_item( ammo ) ) {
             // if ammo in player possession and either it or any container has a valid invlet use this
             if( ammo.invlet ) {
-                hotkey = obj->invlet;
+                hotkey = ammo.invlet;
             } else {
                 for( const auto obj : u.parents( ammo ) ) {
                     if( obj->invlet ) {
