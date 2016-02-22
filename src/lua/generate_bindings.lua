@@ -62,6 +62,12 @@ function load_instance(class_name)
     return class_name .. "& instance = " .. retrieve_lua_value(class_name, 1) .. ";"
 end
 
+-- Returns a full statement that checks whether the given stack item has the given value.
+-- The statement does not return if the check fails (long jump back into the Lua error handling).
+function check_lua_value(value_type, stack_position)
+    return "LuaType<" .. member_type_to_cpp_type(value_type)..">::check(L, " .. stack_position .. ");"
+end
+
 -- Returns code to retrieve a lua value from the stack and store it into
 -- a C++ variable
 function retrieve_lua_value(value_type, stack_position)
@@ -97,7 +103,7 @@ function generate_setter(class_name, member_name, member_type, cpp_name)
 
     text = text .. tab .. load_instance(class_name)..br
 
-    text = text .. tab .. "LuaType<"..member_type_to_cpp_type(member_type)..">::check(L, 2);"..br
+    text = text .. tab .. check_lua_value(member_type, 2)..";"..br
     text = text .. tab .. "instance."..cpp_name.." = " .. retrieve_lua_value(member_type, 2)..";"..br
 
     text = text .. tab .. "return 0;  // 0 return values"..br
@@ -112,7 +118,7 @@ function generate_global_function_wrapper(function_name, function_to_call, args,
     local text = "static int global_"..function_name.."(lua_State *L) {"..br
 
     for i, arg in ipairs(args) do
-        text = text .. tab .. "LuaType<"..member_type_to_cpp_type(arg)..">::check(L, "..i..");"..br
+        text = text .. tab .. check_lua_value(arg, i)..br
         text = text .. tab .. "auto && parameter"..i .. " = " .. retrieve_lua_value(arg, i)..";"..br
     end
 
@@ -227,7 +233,7 @@ function insert_overload_resolution(function_name, args, cbc, indentation, stack
                 text = text..ind.."if(LuaType<"..member_type_to_cpp_type(arg_type)..">::has(L, "..(nsi)..")) {"..br
             else
                 -- or check it here and let Lua bail out.
-                text = text..ind.."LuaType<"..member_type_to_cpp_type(arg_type)..">::check(L, "..nsi..");"..br
+                text = text..ind..check_lua_value(arg_type, nsi)..br
             end
             text = text..mind.."auto && parameter"..stack_index.." = "..retrieve_lua_value(arg_type, nsi)..";"..br
             text = text..insert_overload_resolution(function_name, more_args, cbc, ni, nsi)
