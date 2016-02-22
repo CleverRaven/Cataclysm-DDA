@@ -95,21 +95,7 @@ enum npc_class : int {
 std::string npc_class_name(npc_class);
 std::string npc_class_name_str(npc_class);
 
-enum npc_action {
-    npc_undecided = 0,
-    npc_pause, //1
-    npc_reload, npc_sleep, // 2, 3
-    npc_pickup, // 4
-    npc_escape_item, npc_wield_melee, npc_wield_loaded_gun, npc_wield_empty_gun,
-    npc_heal, npc_use_painkiller, npc_eat, npc_drop_items, // 5 - 12
-    npc_flee, npc_melee, npc_shoot, npc_shoot_burst, npc_alt_attack, // 13 - 17
-    npc_look_for_player, npc_heal_player, npc_follow_player, npc_follow_embarked,
-    npc_talk_to_player, npc_mug_player, // 18 - 23
-    npc_goto_destination, npc_avoid_friendly_fire, // 24, 25
-    npc_base_idle, // 26
-    npc_noop,
-    num_npc_actions
-};
+enum npc_action : int;
 
 enum npc_need {
  need_none,
@@ -206,16 +192,29 @@ struct npc_opinion : public JsonSerializer, public JsonDeserializer
 };
 
 enum combat_engagement {
- ENGAGE_NONE = 0,
- ENGAGE_CLOSE,
- ENGAGE_WEAK,
- ENGAGE_HIT,
- ENGAGE_ALL
+    ENGAGE_NONE = 0,
+    ENGAGE_CLOSE,
+    ENGAGE_WEAK,
+    ENGAGE_HIT,
+    ENGAGE_ALL,
+    ENGAGE_NO_MOVE
+};
+
+enum aim_rule {
+    // Aim some
+    AIM_WHEN_CONVENIENT = 0,
+    // No concern for ammo efficiency
+    AIM_SPRAY,
+    // Aim when possible, then shoot
+    AIM_PRECISE,
+    // If you can't aim, don't shoot
+    AIM_STRICTLY_PRECISE
 };
 
 struct npc_follower_rules : public JsonSerializer, public JsonDeserializer
 {
     combat_engagement engagement;
+    aim_rule aim;
     bool use_guns;
     bool use_grenades;
     bool use_silent;
@@ -228,6 +227,7 @@ struct npc_follower_rules : public JsonSerializer, public JsonDeserializer
     npc_follower_rules()
     {
         engagement = ENGAGE_ALL;
+        aim = AIM_WHEN_CONVENIENT;
         use_guns = true;
         use_grenades = true;
         use_silent = false;
@@ -686,8 +686,8 @@ public:
     int  danger_assessment();
     int  average_damage_dealt(); // Our guess at how much damage we can deal
     bool bravery_check(int diff);
-    bool emergency();
-    bool emergency( int danger );
+    bool emergency() const;
+    bool emergency( int danger ) const;
     bool is_active() const;
     void say( const std::string line, ...) const;
     void decide_needs();
@@ -723,14 +723,17 @@ public:
  int choose_escape_item(); // Returns item position of our best escape aid
 
 // Helper functions for ranged combat
- int confident_range( int position = -1 );
- /**
-  * Check if this NPC is blocking movement from the given position
-  */
- bool is_blocking_position( const tripoint &p );
- bool wont_hit_friend( const tripoint &p , int position = -1 );
- bool need_to_reload(); // Wielding a gun that is empty
- bool enough_time_to_reload( const item &gun );
+    // Multiplier for acceptable angle of inaccuracy
+    double confidence_mult() const;
+    int confident_range( int weapon_index = -1 ) const;
+    int confident_gun_range( const item & ) const;
+    int confident_gun_range( const item &gun, int at_recoil ) const;
+    int confident_throw_range( const item & ) const;
+    bool wont_hit_friend( const tripoint &p , int position = -1 ) const;
+    bool need_to_reload() const; // Wielding a gun that is empty
+    bool enough_time_to_reload( const item &gun ) const;
+
+    void aim();
 
 // Physical movement from one tile to the next
  void update_path( const tripoint &p, bool no_bashing = false );

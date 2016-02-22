@@ -2625,6 +2625,11 @@ double player::melee_value( const item &weap ) const
 
     my_value += avg_dmg * 100 / move_cost;
 
+    float reach = weap.reach_range();
+    if( reach > 1.0f ) {
+        my_value *= 1.0f + 0.5f * (sqrtf( reach ) - 1.0f);
+    }
+
     return std::max( 0.0, my_value );
 }
 

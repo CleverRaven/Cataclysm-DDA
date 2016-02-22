@@ -10802,7 +10802,8 @@ void game::plthrow(int pos)
         refresh_all();
     }
 
-    int range = u.throw_range(pos);
+    item thrown = u.i_at(pos);
+    int range = u.throw_range( thrown );
     if (range < 0) {
         add_msg(m_info, _("You don't have that item."));
         return;
@@ -10810,7 +10811,7 @@ void game::plthrow(int pos)
         add_msg(m_info, _("That is too heavy to throw."));
         return;
     }
-    item thrown = u.i_at(pos);
+
     if (pos == -1 && thrown.has_flag("NO_UNWIELD")) {
         // pos == -1 is the weapon, NO_UNWIELD is used for bio_claws_weapon
         add_msg(m_info, _("That's part of your body, you can't throw that!"));
@@ -11074,7 +11075,7 @@ void game::plfire( bool burst, const tripoint &default_target )
 
     int range;
     if( reach_attack ) {
-        range = gun.has_flag( "REACH3" ) ? 3 : 2;
+        range = gun.reach_range();
     } else {
         range = gun.gun_range( &u );
     }

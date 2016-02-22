@@ -1426,7 +1426,7 @@ static int rand_or_max( bool random, int max )
 }
 
 // utility functions for projectile_attack
-double player::get_weapon_dispersion(item *weapon, bool random) const
+double player::get_weapon_dispersion( const item *weapon, bool random ) const
 {
     if( weapon->is_gun() && weapon->is_in_auxiliary_mode() ) {
         const auto gunmod = weapon->active_gunmod();

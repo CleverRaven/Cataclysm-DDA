@@ -4512,46 +4512,6 @@ void player::search_surroundings()
     }
 }
 
-int player::throw_range(int pos) const
-{
-    item tmp;
-    if( pos == -1 ) {
-        tmp = weapon;
-    } else if( pos == INT_MIN ) {
-        return -1;
-    } else {
-        tmp = inv.find_item(pos);
-    }
-
-    if( tmp.count_by_charges() && tmp.charges > 1 ) {
-        tmp.charges = 1;
-    }
-
-    ///\EFFECT_STR determines maximum weight that can be thrown
-    if( (tmp.weight() / 113) > int(str_cur * 15) ) {
-        return 0;
-    }
-    // Increases as weight decreases until 150 g, then decreases again
-    ///\EFFECT_STR increases throwing range, vs item weight (high or low)
-    int ret = (str_cur * 8) / (tmp.weight() >= 150 ? tmp.weight() / 113 : 10 - int(tmp.weight() / 15));
-    ret -= int(tmp.volume() / 4);
-    if( has_active_bionic("bio_railgun") && (tmp.made_of("iron") || tmp.made_of("steel"))) {
-        ret *= 2;
-    }
-    if( ret < 1 ) {
-        return 1;
-    }
-    // Cap at double our strength + skill
-    ///\EFFECT_STR caps throwing range
-
-    ///\EFFECT_THROW caps throwing range
-    if( ret > str_cur * 1.5 + get_skill_level( skill_throw ) ) {
-        return str_cur * 1.5 + get_skill_level( skill_throw );
-    }
-
-    return ret;
-}
-
 int player::throw_dex_mod(bool return_stat_effect) const
 {
   // Stat window shows stat effects on based on current stat

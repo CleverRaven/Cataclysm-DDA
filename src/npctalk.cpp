@@ -1443,11 +1443,24 @@ std::string dialogue::dynamic_line( const std::string &topic ) const
         std::stringstream status;
         // Prepending * makes this an action, not a phrase
         switch (p->rules.engagement) {
-            case ENGAGE_NONE:  status << _("*is not engaging enemies.");         break;
-            case ENGAGE_CLOSE: status << _("*is engaging nearby enemies.");      break;
-            case ENGAGE_WEAK:  status << _("*is engaging weak enemies.");        break;
-            case ENGAGE_HIT:   status << _("*is engaging enemies you attack.");  break;
-            case ENGAGE_ALL:   status << _("*is engaging all enemies.");         break;
+            case ENGAGE_NONE:
+                status << _("*is not engaging enemies.");
+                break;
+            case ENGAGE_CLOSE:
+                status << _("*is engaging nearby enemies.");
+                break;
+            case ENGAGE_WEAK:
+                status << _("*is engaging weak enemies.");
+                break;
+            case ENGAGE_HIT:
+                status << _("*is engaging enemies you attack.");
+                break;
+            case ENGAGE_NO_MOVE:
+                status << _("*is engaging enemies close enough to attack without moving.");
+                break;
+            case ENGAGE_ALL:
+                status << _("*is engaging all enemies.");
+                break;
         }
         std::string npcstr = rm_prefix(p->male ? _("<npc>He") : _("<npc>She"));
         if (p->rules.use_guns) {
@@ -1469,6 +1482,9 @@ std::string dialogue::dynamic_line( const std::string &topic ) const
 
     } else if( topic == "TALK_COMBAT_ENGAGEMENT" ) {
         return _("What should I do?");
+
+    } else if( topic == "TALK_AIM_RULES" ) {
+        return _("How should I aim?");
 
     } else if( topic == "TALK_STRANGER_NEUTRAL" ) {
         if (p->myclass == NC_TRADER) {
@@ -2739,6 +2755,7 @@ void dialogue::gen_responses( const std::string &topic )
 
     } else if( topic == "TALK_COMBAT_COMMANDS" ) {
             add_response( _("Change your engagement rules..."), "TALK_COMBAT_ENGAGEMENT" );
+            add_response( _("Change your aiming rules..."), "TALK_AIM_RULES" );
             if (p->rules.use_guns) {
                 add_response( _("Don't use guns anymore."), "TALK_COMBAT_COMMANDS",
                               &talk_function::toggle_use_guns );
@@ -2763,27 +2780,50 @@ void dialogue::gen_responses( const std::string &topic )
             add_response_none( _("Never mind.") );
 
     } else if( topic == "TALK_COMBAT_ENGAGEMENT" ) {
-            if (p->rules.engagement != ENGAGE_NONE) {
+            if( p->rules.engagement != ENGAGE_NONE ) {
                 add_response( _("Don't fight unless your life depends on it."), "TALK_NONE",
                               &talk_function::set_engagement_none );
             }
-            if (p->rules.engagement != ENGAGE_CLOSE) {
+            if( p->rules.engagement != ENGAGE_CLOSE ) {
                 add_response( _("Attack enemies that get too close."), "TALK_NONE",
                               &talk_function::set_engagement_close);
             }
-            if (p->rules.engagement != ENGAGE_WEAK) {
+            if( p->rules.engagement != ENGAGE_WEAK ) {
                 add_response( _("Attack enemies that you can kill easily."), "TALK_NONE",
                               &talk_function::set_engagement_weak );
             }
-            if (p->rules.engagement != ENGAGE_HIT) {
+            if( p->rules.engagement != ENGAGE_HIT ) {
                 add_response( _("Attack only enemies that I attack first."), "TALK_NONE",
                               &talk_function::set_engagement_hit );
             }
-            if (p->rules.engagement != ENGAGE_ALL) {
+            if( p->rules.engagement != ENGAGE_NO_MOVE ) {
+                add_response( _("Attack only enemies you can reach without moving."), "TALK_NONE",
+                              &talk_function::set_engagement_no_move );
+            }
+            if( p->rules.engagement != ENGAGE_ALL ) {
                 add_response( _("Attack anything you want."), "TALK_NONE",
                               &talk_function::set_engagement_all );
             }
             add_response_none( _("Never mind.") );
+
+    } else if( topic == "TALK_AIM_RULES" ) {
+        if( p->rules.aim != AIM_WHEN_CONVENIENT ) {
+            add_response( _("Aim when it's convenient."), "TALK_NONE",
+                          &talk_function::set_aim_convenient );
+        }
+        if( p->rules.aim != AIM_SPRAY ) {
+            add_response( _("Go wild, you don't need to aim much."), "TALK_NONE",
+                          &talk_function::set_aim_spray );
+        }
+        if( p->rules.aim != AIM_PRECISE ) {
+            add_response( _("Take your time, aim carefully."), "TALK_NONE",
+                          &talk_function::set_aim_precise );
+        }
+        if( p->rules.aim != AIM_STRICTLY_PRECISE ) {
+            add_response( _("Don't shoot if you can't aim really well."), "TALK_NONE",
+                          &talk_function::set_aim_strictly_precise );
+        }
+        add_response_none( _("Never mind.") );
 
     } else if( topic == "TALK_STRANGER_NEUTRAL" || topic == "TALK_STRANGER_WARY" ||
                topic == "TALK_STRANGER_SCARED" || topic == "TALK_STRANGER_FRIENDLY" ) {
@@ -3131,6 +3171,12 @@ int topic_category( const std::string &topic )
     } };
     if( topic_7.count( topic ) > 0 ) {
         return 7;
+    }
+    static const std::unordered_set<std::string> topic_8 = { {
+        "TALK_AIM_RULES",
+    } };
+    if( topic_7.count( topic ) > 0 ) {
+        return 8;
     }
     static const std::unordered_set<std::string> topic_99 = { {
         "TALK_SIZE_UP", "TALK_LOOK_AT", "TALK_OPINION", "TALK_SHOUT"
@@ -3668,9 +3714,34 @@ void talk_function::set_engagement_hit(npc *p)
     p->rules.engagement = ENGAGE_HIT;
 }
 
+void talk_function::set_engagement_no_move( npc *p )
+{
+    p->rules.engagement = ENGAGE_NO_MOVE;
+}
+
 void talk_function::set_engagement_all(npc *p)
 {
     p->rules.engagement = ENGAGE_ALL;
+}
+
+void talk_function::set_aim_convenient( npc *p )
+{
+    p->rules.aim = AIM_WHEN_CONVENIENT;
+}
+
+void talk_function::set_aim_spray( npc *p )
+{
+    p->rules.aim = AIM_SPRAY;
+}
+
+void talk_function::set_aim_precise( npc *p )
+{
+    p->rules.aim = AIM_PRECISE;
+}
+
+void talk_function::set_aim_strictly_precise( npc *p )
+{
+    p->rules.aim = AIM_STRICTLY_PRECISE;
 }
 
 void talk_function::start_training( npc *p )
@@ -4691,7 +4762,7 @@ std::string give_item_to( npc &p, bool allow_use, bool allow_carry )
         return _("How?");
     }
 
-    if( given.is_dangerous() ) {
+    if( given.is_dangerous() && !g->u.has_trait( "DEBUG_MIND_CONTROL" ) ) {
         return _("Are you <swear> insane!?");
     }
 

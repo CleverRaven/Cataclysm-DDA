@@ -1945,6 +1945,11 @@ bool npc::is_guarding() const
 
 Creature::Attitude npc::attitude_to( const Creature &other ) const
 {
+    if( is_friend() ) {
+        // Friendly NPCs share player's alliances
+        return g->u.attitude_to( *this );
+    }
+
     if( other.is_npc() ) {
         // No npc vs npc action, so simply ignore other npcs
         return A_NEUTRAL;
@@ -1983,14 +1988,14 @@ bool npc::bravery_check(int diff)
  return (dice(10 + personality.bravery, 6) >= dice(diff, 4));
 }
 
-bool npc::emergency()
+bool npc::emergency() const
 {
     return emergency( ai_cache.danger_assessment );
 }
 
-bool npc::emergency(int danger)
+bool npc::emergency(int danger) const
 {
- return (danger > (personality.bravery * 3 * hp_percentage()) / 100);
+    return (danger > (personality.bravery * 3 * hp_percentage()) / 100);
 }
 
 //Check if this npc is currently in the list of active npcs.

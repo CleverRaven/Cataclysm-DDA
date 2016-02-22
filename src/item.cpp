@@ -2488,6 +2488,17 @@ int item::damage_by_type( damage_type dt ) const
     return 0;
 }
 
+int item::reach_range() const
+{
+    if( !has_flag( "REACH_ATTACK" ) ) {
+        return 1;
+    }
+    
+    return has_flag( "REACH3" ) ? 3 : 2;
+}
+
+
+
 void item::unset_flags()
 {
     item_tags.clear();

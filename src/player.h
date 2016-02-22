@@ -493,7 +493,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          */
         void melee_attack(Creature &t, bool allow_special, const matec_id &force_technique) override;
         /** Returns a weapon's modified dispersion value */
-        double get_weapon_dispersion( item *weapon, bool random ) const;
+        double get_weapon_dispersion( const item *weapon, bool random ) const;
         /** Returns true if a gun misfires, jams, or has other problems, else returns false */
         bool handle_gun_damage( const itype &firing, const std::set<std::string> &curammo_effects );
 
@@ -613,8 +613,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int climbing_cost( const tripoint &from, const tripoint &to ) const;
 
         // ranged.cpp
-        /** Returns the throw range of the item at the entered inventory position. -1 = ERR, 0 = Can't throw */
-        int throw_range(int pos) const;
         /** Execute a throw */
         dealt_projectile_attack throw_item( const tripoint &target, const item &thrown );
         /** Returns the throwing attack dexterity mod */
