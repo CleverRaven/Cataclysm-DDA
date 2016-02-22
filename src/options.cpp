@@ -1626,8 +1626,9 @@ void options_manager::show(bool ingame)
         g->mmenu_refresh_motd();
         g->mmenu_refresh_credits();
     }
-#ifdef TILES
+
     if( used_tiles_changed ) {
+#ifdef TILES
         //try and keep SDL calls limited to source files that deal specifically with them
         try {
             tilecontext->reinit();
@@ -1644,13 +1645,15 @@ void options_manager::show(bool ingame)
             popup(_("Loading the tileset failed: %s"), err.what());
             use_tiles = false;
         }
+#endif // TILES
     } else if( ingame && g->pixel_minimap_option && pixel_minimap_height_changed ) {
+#ifdef TILES
         tilecontext->reinit_minimap();
         g->init_ui();
         wrefresh( g->w_pixel_minimap );
         g->refresh_all();
-    }
 #endif // TILES
+    }
 
     delwin(w_options);
     delwin(w_options_border);
