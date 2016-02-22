@@ -283,7 +283,7 @@ function generate_class_function_wrapper(class_name, function_name, func, cur_cl
         text = tab
 
         if rval then
-            text = text .. "auto && rval = "
+            text = text .. "LuaType<" .. member_type_to_cpp_type(rval) .. ">::push(L, "
         end
 
         if cur_class_name == class_name then
@@ -307,12 +307,11 @@ function generate_class_function_wrapper(class_name, function_name, func, cur_cl
             if i < stack_index then text = text .. ", " end
         end
 
-        text = text .. ");"..br
-
         if rval then
-            text = text .. tab .. push_lua_value("rval", rval)..br
+            text = text .. "));"..br
             text = text .. tab .. "return 1; // 1 return values"..br
         else
+            text = text .. ");"..br
             text = text .. tab .. "return 0; // 0 return values"..br
         end
         return text
