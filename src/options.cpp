@@ -1627,6 +1627,9 @@ void options_manager::show(bool ingame)
         g->mmenu_refresh_credits();
     }
 
+    // We can't put this whole block into a single #ifdef because then the vars
+    // `used_tiles_changed` and `pixel_minimap_height_changed` will count as
+    // unused (-Werror=unused-but-set-variable).
     if( used_tiles_changed ) {
 #ifdef TILES
         //try and keep SDL calls limited to source files that deal specifically with them
