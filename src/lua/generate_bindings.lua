@@ -7,6 +7,15 @@
 -- The variable holding the data (declarations etc.) of a class is "class"
 -- Example code: for class_name, class in pairs(classes) do ...
 
+-- The generated helper C++ functions use this naming system:
+-- Getter: "get_" .. class_name .. "_" .. member_name
+-- Setter: "set_" .. class_name .. "_" .. member_name
+-- Member function: "func_" .. class_name .. "_" .. member_name
+-- Operators: "op_" .. class_name .. "_" .. operator_id
+-- Constructors: "new_" .. class_name
+-- This allows a data member "foo", as well as a function member "get_foo(...)".
+-- They would get "get_class_foo", "set_class_foo" and "func_class_get_foo" wrappers.
+
 local br = "\n"
 local tab = "    "
 
@@ -73,7 +82,7 @@ end
 
 -- Generates a getter function for a specific class and member variable.
 function generate_getter(class_name, member_name, member_type, cpp_name)
-    local function_name = class_name.."_get_"..member_name
+    local function_name = "get_" .. class_name .. "_" .. member_name
     local text = "static int "..function_name.."(lua_State *L) {"..br
 
     text = text .. tab .. load_instance(class_name)..br
@@ -88,7 +97,7 @@ end
 
 -- Generates a setter function for a specific class and member variable.
 function generate_setter(class_name, member_name, member_type, cpp_name)
-    local function_name = class_name.."_set_"..member_name
+    local function_name = "set_" .. class_name .. "_" .. member_name
 
     local text = "static int "..function_name.."(lua_State *L) {"..br
 
@@ -270,7 +279,7 @@ end
 -- C++ instance by calling the method on the corresponding lua wrapper, e.g.
 -- monster:name() in lua translates to monster.name() in C++
 function generate_class_function_wrapper(class_name, function_name, func, cur_class_name)
-    local text = "static int "..class_name.."_"..function_name.."(lua_State *L) {"..br
+    local text = "static int func_" .. class_name .. "_" .. function_name .. "(lua_State *L) {"..br
 
     -- retrieve the object to call the function on from the stack.
     text = text .. tab .. load_instance(class_name)..br
@@ -323,7 +332,7 @@ function generate_class_function_wrapper(class_name, function_name, func, cur_cl
 end
 
 function generate_constructor(class_name, args)
-    local text = "static int "..class_name.."___call(lua_State *L) {"..br
+    local text = "static int new_" .. class_name .. "(lua_State *L) {"..br
 
     local stack_index = 1
     for i, arg in ipairs(args) do
@@ -347,8 +356,8 @@ function generate_constructor(class_name, args)
     return text
 end
 
-function generate_operator(class_name, function_name, cppname)
-    local text = "static int "..class_name.."_"..function_name.."(lua_State *L) {"..br
+function generate_operator(class_name, operator_id, cppname)
+    local text = "static int op_" .. class_name .. "_" .. operator_id .. "(lua_State *L) {"..br
 
     if classes[class_name].by_value then
         text = text .. tab .. "auto & lhs = LuaValue<"..class_name..">::get( L, 1 );"..br
@@ -417,7 +426,7 @@ for class_name, class in pairs(classes) do
             cpp_output = cpp_output .. generate_constructor(class_name, class.new)
         end
         if class.has_equal then
-            cpp_output = cpp_output .. generate_operator(class_name, "__eq", "==")
+            cpp_output = cpp_output .. generate_operator(class_name, "eq", "==")
         end
         cur_class_name = class.parent
         class = classes[class.parent]
@@ -429,9 +438,7 @@ for name, func in pairs(global_functions) do
 end
 
 -- luaL_Reg is the name of the struct in C which this creates and returns.
-function luaL_Reg(name, suffix)
-    local cpp_name = name .. "_" .. suffix
-    local lua_name = suffix
+function luaL_Reg(cpp_name, lua_name)
     return tab .. '{"' .. lua_name .. '", ' .. cpp_name .. '},' .. br
 end
 -- Creates the LuaValue<T>::FUNCTIONS array, containing all the public functions of the class.
@@ -440,13 +447,13 @@ function generate_functions_static(cpp_type, class, class_name)
     cpp_output = cpp_output .. "const luaL_Reg " .. cpp_type .. "::FUNCTIONS[] = {" .. br
     while class do
         for name, _ in pairs(class.functions) do
-            cpp_output = cpp_output .. luaL_Reg(class_name, name)
+            cpp_output = cpp_output .. luaL_Reg("func_" .. class_name .. "_" .. name, name)
         end
         if class.new then
-            cpp_output = cpp_output .. luaL_Reg(class_name, "__call")
+            cpp_output = cpp_output .. luaL_Reg("new_" .. class_name, "__call")
         end
         if class.has_equal then
-            cpp_output = cpp_output .. luaL_Reg(class_name, "__eq")
+            cpp_output = cpp_output .. luaL_Reg("op_" .. class_name .. "_eq", "__eq")
         end
         class = classes[class.parent]
     end
@@ -460,7 +467,8 @@ function generate_read_members_static(cpp_type, class, class_name)
     cpp_output = cpp_output .. "const " .. cpp_type .. "::MRMap " .. cpp_type .. "::READ_MEMBERS{" .. br
     while class do
         for key, attribute in pairs(class.attributes) do
-            cpp_output = cpp_output .. tab .. "{\"" .. key .. "\", " .. class_name .. "_get_" .. key .. "}," .. br
+            local function_name = "get_" .. class_name .. "_" .. key
+            cpp_output = cpp_output .. tab .. "{\"" .. key .. "\", " .. function_name .. "}," .. br
         end
         class = classes[class.parent]
     end
@@ -474,7 +482,8 @@ function generate_write_members_static(cpp_type, class, class_name)
     while class do
         for key, attribute in pairs(class.attributes) do
             if attribute.writable then
-                cpp_output = cpp_output .. tab .. "{\"" .. key .. "\", " .. class_name .. "_set_" .. key .. "}," .. br
+                local function_name = "set_" .. class_name .. "_" .. key
+                cpp_output = cpp_output .. tab .. "{\"" .. key .. "\", " .. function_name .. "}," .. br
             end
         end
         class = classes[class.parent]
