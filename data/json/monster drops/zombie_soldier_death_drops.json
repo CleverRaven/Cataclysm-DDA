@@ -32,9 +32,8 @@
             { "item": "cig", "prob": 50},
             { "distribution": [ 
                 { "collection": [ 
-                    {"//": "We suppose that most zombie soldiers were a national guard policemen, it basically means that they can only drop an M4 and a M9"},
-                    { "group": "soldier_m4", "prob": 5},  {"//": "the initial chance is rather low, as most soldiers would have probably died weapon in-hand and the zombie probably didn't bother to pick it up again, the sling could easily fall if a zombie attacks someone as well."},
-                    { "group": "soldier_m9", "prob": 10}, {"//": "Same justification as above, chance is slightly higher as its harder to have a holstered pistol fall off."},
+                    { "group": "guns_pistol_milspec", "prob": 10, "damage-min": 1, "damage-max": 3 },
+                    { "group": "guns_rifle_milspec", "prob": 5, "damage-min": 1, "damage-max": 3 },
                     { "item": "PR24-retracted", "damage-min": 1, "damage-max": 4, "prob": 20}
                     ],
                 "prob": 88 }, 
