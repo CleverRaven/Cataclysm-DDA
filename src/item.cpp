@@ -4328,11 +4328,20 @@ item_location item::pick_reload_ammo( player &u ) const
         }
 
         char hotkey = -1;
-        if( u.has_item( ammo ) && ( ammo.invlet || ammo_list[ i ].ammo->invlet ) ) {
+        if( u.has_item( ammo ) ) {
             // if ammo in player possession and either it or any container has a valid invlet use this
-            hotkey = ammo.invlet ? ammo.invlet : ammo_list[ i ].ammo->invlet;
-
-        } else if( last == ammo.typeId() ) {
+            if( ammo.invlet ) {
+                hotkey = obj->invlet;
+            } else {
+                for( const auto obj : u.parents( ammo ) ) {
+                    if( obj->invlet ) {
+                        hotkey = obj->invlet;
+                        break;
+                    }
+                }
+            }
+        }
+        if( hotkey == -1 && last == ammo.typeId() ) {
             // if this is the first occurrence of the most recently used type of ammo and the hotkey
             // was not already set above then set it to the keypress that opened this prompt
             hotkey = inp_mngr.get_previously_pressed_key();
