@@ -271,14 +271,10 @@ function generate_class_function_wrapper(class_name, function_name, func, cur_cl
 
     local cbc = function(indentation, stack_index, rval, function_to_call)
         local tab = string.rep("    ", indentation)
-        text = tab
 
-        if rval then
-            text = text .. "LuaType<" .. member_type_to_cpp_type(rval) .. ">::push(L, "
-        end
-
+        local func_invoc
         if cur_class_name == class_name then
-            text = text .. "instance"
+            func_invoc = "instance"
         else
             --[[
             If we call a function of the parent class, we need to call it through
@@ -289,20 +285,22 @@ function generate_class_function_wrapper(class_name, function_name, func, cur_cl
             This won't work: B b; b.f();
             But this will:   B b; static_cast<A&>(b).f()
             --]]
-            text = text .. "static_cast<"..cur_class_name.."&>(instance)"
+            func_invoc = "static_cast<"..cur_class_name.."&>(instance)"
         end
-        text = text .. "."..function_to_call .. "("
+        func_invoc = func_invoc .. "."..function_to_call .. "("
 
         for i = 1,stack_index do
-            text = text .. "parameter"..i
-            if i < stack_index then text = text .. ", " end
+            func_invoc = func_invoc .. "parameter"..i
+            if i < stack_index then func_invoc = func_invoc .. ", " end
         end
+        func_invoc = func_invoc .. ")"
 
+        local text
         if rval then
-            text = text .. "));"..br
+            text = tab .. push_lua_value(func_invoc, rval)..br
             text = text .. tab .. "return 1; // 1 return values"..br
         else
-            text = text .. ");"..br
+            text = tab .. func_invoc .. ";"..br
             text = text .. tab .. "return 0; // 0 return values"..br
         end
         return text
