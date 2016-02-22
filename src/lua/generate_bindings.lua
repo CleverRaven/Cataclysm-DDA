@@ -98,9 +98,7 @@ function generate_setter(class_name, member_name, member_type, cpp_name)
     text = text .. tab .. load_instance(class_name)..br
 
     text = text .. tab .. "LuaType<"..member_type_to_cpp_type(member_type)..">::check(L, 2);"..br
-    text = text .. tab .. "auto && value = " .. retrieve_lua_value(member_type, 2)..br
-
-    text = text .. tab .. "instance."..cpp_name.." = value;"..br
+    text = text .. tab .. "instance."..cpp_name.." = " .. retrieve_lua_value(member_type, 2)..br
 
     text = text .. tab .. "return 0;  // 0 return values"..br
     text = text .. "}" .. br
