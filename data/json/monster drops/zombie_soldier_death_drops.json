@@ -47,7 +47,7 @@
                     { "item": "glasses_bal", "damage-min": 1, "damage-max": 4, "prob": 33},
                     { "item": "LAW_Packed", "prob": 5},
                     { "item": "c4", "prob": 5},
-                    { "group": "soldier_m320", "prob": 5},
+                    { "group": "soldier_m320", "prob": 20 },
                     { "item": "e_tool", "prob": 5},
                     { "item": "scissors", "prob": 5},
                     { "item": "bandages", "prob": 5},
@@ -131,17 +131,16 @@
         ]
     },
     {
-        "type" : "item_group",
-        "subtype": "collection",
-        "id": "soldier_m320",
-        "entries":
-        [
-            { "item": "m320", "damage-min": 0, "damage-max": 4},
-            { "item": "40mm_frag", "charges-min": 1, "charges-max": 2, "prob": 66},
-            { "item": "40mm_smoke", "prob": 10},
-            { "item": "40mm_teargas", "prob": 5},
-            { "item": "40mm_flashbang", "prob": 5},
-            { "item": "40mm_shot", "prob": 5}
-        ]
+      "id": "soldier_m320",
+      "type" : "item_group",
+      "subtype": "collection",
+      "entries": [
+        { "item": "m320", "damage-min": 1, "damage-max": 2 },
+        { "distribution": [
+          { "item": "40mm_frag",  "prob": 70 },
+          { "item": "40mm_smoke", "prob": 20 },
+          { "item": "40mm_flare", "prob": 10 }
+        ] }
+      ]
     }
 ]
