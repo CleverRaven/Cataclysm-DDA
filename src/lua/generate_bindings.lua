@@ -59,13 +59,7 @@ function load_instance(class_name)
         error("'"..class_name.."' is not defined in class_definitions.lua")
     end
 
-    local wrapper_type = ""
-    if classes[class_name].by_value then
-        wrapper_type = "LuaValue<" .. class_name .. ">"
-    else
-        wrapper_type = "LuaValue<" .. class_name .. "*>"
-    end
-    return class_name .. "& instance = " .. wrapper_type .. "::get(L, 1);"
+    return class_name .. "& instance = " .. member_type_to_cpp_type(class_name) .. "::get(L, 1);"
 end
 
 -- Returns code to retrieve a lua value from the stack and store it into
