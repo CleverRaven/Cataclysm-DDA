@@ -1799,6 +1799,12 @@ enums = {
         "m_critical",
         "m_grazing",
     },
+    season_type = {
+        "SPRING",
+        "SUMMER",
+        "AUTUMN",
+        "WINTER",
+    },
     field_id = {
         "fd_null",
         "fd_blood",
