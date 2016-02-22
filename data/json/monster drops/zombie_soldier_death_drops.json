@@ -36,7 +36,7 @@
                     { "group": "guns_rifle_milspec", "prob": 5, "damage-min": 1, "damage-max": 3 },
                     { "item": "PR24-retracted", "damage-min": 1, "damage-max": 4, "prob": 20}
                     ],
-                "prob": 88 }, 
+                "prob": 80 },
                 { "collection": [ 
                     { "item": "helmet_army"},
                     { "item": "helmet_netting", "damage-min": 1, "damage-max": 4, "prob": 33},
@@ -66,9 +66,8 @@
                     { "item": "grenade", "prob": 15, "count-min": 1, "count-max": 2},
                     { "item": "water_clean", "container_item": "canteen", "charges-min": 1, "charges-max": 7, "prob": 20}
                     ],
-                "prob": 10 },
+                "prob": 15 },
                 { "collection": [
-                    { "//": "Mythical corpsmen are the rarest kind."},
                     { "item": "helmet_army"},
                     { "item": "helmet_netting", "damage-min": 1, "damage-max": 4, "prob": 33},
                     { "group": "guns_rifle_milspec", "prob": 10, "damage-min": 1, "damage-max": 3 },
@@ -89,7 +88,7 @@
                     { "item": "scalpel", "container-item": "bag_plastic", "count-min": 1, "count-max": 2},
                     { "item": "syringe", "container-item": "bag_plastic", "count-min": 1, "count-max": 2}
                     ],
-             "prob": 2 }
+             "prob": 5 }
             ] 
           }
         ]
