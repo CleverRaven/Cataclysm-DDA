@@ -202,6 +202,21 @@ function generate_overload_tree(classes)
             root.r = { rval = func.rval, cpp_name = func.cpp_name or func.name }
         end
         value.functions = functions_by_name
+
+        if value.new then
+            local new_root = {}
+            for _, func in ipairs(value.new) do
+                local root = new_root
+                for _, arg in pairs(func) do
+                    if not root[arg] then
+                        root[arg] = {}
+                    end
+                    root = root[arg]
+                end
+                root.r = { rval = nil, cpp_name = class_name .. "::" .. class_name }
+            end
+            value.new = new_root
+        end
     end
 end
 
@@ -331,23 +346,25 @@ end
 function generate_constructor(class_name, args)
     local text = "static int new_" .. class_name .. "(lua_State *L) {"..br
 
-    local stack_index = 1
-    for i, arg in ipairs(args) do
-        text = text .. tab .. "auto && parameter"..i .. " = " .. retrieve_lua_value(arg, stack_index+1)..";"..br
-        stack_index = stack_index + 1
+    local cbc = function(indentation, stack_index, rval, function_to_call)
+        local tab = string.rep("    ", indentation)
+
+        -- Push is always done on a value, never on a pointer/reference, therefor don't use
+        -- `push_lua_value` (which uses member_type_to_cpp_type to get either LuaValue or LuaReference).
+        local text = tab .. "LuaValue<" .. class_name .. ">::push(L, " .. class_name .. "("
+
+        for i = 1,stack_index do
+            text = text .. "parameter"..i
+            if i < stack_index then text = text .. ", " end
+        end
+
+        text = text .. "));"..br
+        text = text .. tab .. "return 1; // 1 return values"..br
+        return text
     end
 
-    text = text .. tab .. "auto && rval = " .. class_name .. "("
+    text = text .. insert_overload_resolution(class_name .. "::" .. class_name, args, cbc, 1, 1)
 
-    for i, arg in ipairs(args) do
-        text = text .. "parameter"..i
-        if next(args, i) then text = text .. ", " end
-    end
-
-    text = text .. ");"..br
-
-    text = text .. tab .. push_lua_value("rval", class_name)..br
-    text = text .. tab .. "return 1; // 1 return values"..br
     text = text .. "}"..br
 
     return text

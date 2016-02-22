@@ -14,9 +14,10 @@ Optional values are:
   is stored in Lua and it *needs* to stay valid in C++ until the Lua object is gone.
 - has_equal (boolean, default: false): If true, generate the __eq entry in the metatable which
   will map to the C++ using the operator==.
-- new (a function description): defines the constrcutor of the object. This is only useful for
-  by_value objects, it allows to create an instance of it in Lua. The contents of this entry
-  follow the same format as the contents of a global function (see global_functions).
+- new (an array of parameter lists): defines the constructor of the object. This is only useful for
+  by_value objects, it allows to create an instance of it in Lua. The entry should be an array,
+  each element of it represents one overload of the constructor. Each element should be a list of
+  parameters to those overloads (same as the list of arguments to member functions).
 - int_id (optional, a string): if the class has an associated int_id (e.g. ter_t has int_id<ter_t>,
   which is typedefed to ter_id), this can be used to define that int_id (for ter_t is should be
   "ter_id"). At the end of this file, this will be used to create an actual entry in the classes
@@ -76,6 +77,11 @@ classes = {
         }
     },
     calendar = {
+        new = {
+            { "calendar" },
+            { "int" },
+            { "int", "int", "int", "season_type", "int" },
+        },
         attributes = {
         },
         functions = {
@@ -227,6 +233,9 @@ classes = {
     item_stack_iterator = {
         by_value = true,
         has_equal = true,
+        new = {
+            { "item_stack_iterator" },
+        },
         attributes = {
         },
         functions = {
@@ -382,6 +391,9 @@ classes = {
     },
     encumbrance_data = {
         by_value = true,
+        new = {
+            { "encumbrance_data" },
+        },
         attributes = {
             iArmorEnc = { type = "int", writable = true },
             iBodyTempInt = { type = "int", writable = true },
@@ -842,6 +854,15 @@ classes = {
         }
     },
     item = {
+        new = {
+            { },
+            { "item" },
+            { "string", "int" },
+            { "string", "int", "int" },
+            { "itype", "int" },
+            { "itype", "int", "int" },
+            -- TODO: export constructor with default_charges_tag paremeter
+        },
         attributes = {
             active = { type = "bool", writable = true },
             bday = { type = "int", writable = true },
@@ -1077,7 +1098,10 @@ classes = {
                 writable = true
             }
         },
-        new = { "int", "int" },
+        new = {
+            { "point" },
+            { "int", "int" },
+        },
         functions = {
         }
     },
@@ -1098,7 +1122,10 @@ classes = {
                 writable = true
             }
         },
-        new = { "int", "int", "int" },
+        new = {
+            { "tripoint" },
+            { "int", "int", "int" },
+        },
         functions = {
             { name = "serialize", rval = "string", args = { } },
         }
@@ -2320,6 +2347,8 @@ for name, value in pairs(classes) do
             -- IDs *could* be constructed from int, but where does the Lua script get the int from?
             -- The int is only exposed as int_id<T>, so Lua should never know about it.
             attributes = { },
+            -- Copy and default constructor
+            new = { { value.int_id }, { } },
             functions = {
                 -- Use with care, only for displaying the value for debugging purpose!
                 { name = "to_i", rval = "int", args = { } },
@@ -2330,7 +2359,7 @@ for name, value in pairs(classes) do
             -- Allow conversion from int_id to string_id
             t[#t.functions] = { name = "id", rval = value.string_id, args = { } }
             -- And creation of an int_id from a string_id
-            t.new = { value.string_id }
+            t.new = { { value.string_id }, { } }
         end
         new_classes[value.int_id] = t
     end
@@ -2339,7 +2368,8 @@ for name, value in pairs(classes) do
         local t = {
             by_value = true,
             has_equal = true,
-            new = { "string" },
+            -- Copy and default constructor and construct from plain string.
+            new = { { value.string_id }, { }, { "string" } },
             attributes = { },
             functions = {
                 { name = "str", rval = "string", args = { } },
