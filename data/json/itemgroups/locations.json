@@ -2,7 +2,8 @@
   {
     "type":"item_group",
     "id":"homeguns",
-    "guns_with_ammo" : true,
+    "ammo": 50,
+    "magazine": 100,
     "subtype": "distribution",
     "entries" : [
       { "group": "guns_pistol_common", "prob": 120 },
