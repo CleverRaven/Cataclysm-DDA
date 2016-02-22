@@ -1489,6 +1489,34 @@ classes = {
             { name = "will_reach", rval = "bool", args = { "int", "int" } },
         }
     },
+    martialart = {
+        string_id = "matype_id",
+        attributes = {
+        },
+        functions = {
+        }
+    },
+    start_location = {
+        string_id = "start_location_id",
+        attributes = {
+        },
+        functions = {
+        }
+    },
+    ma_buff = {
+        string_id = "mabuff_id",
+        attributes = {
+        },
+        functions = {
+        }
+    },
+    ma_technique = {
+        string_id = "matec_id",
+        attributes = {
+        },
+        functions = {
+        }
+    },
     Skill = {
         string_id = "skill_id",
         attributes = {
