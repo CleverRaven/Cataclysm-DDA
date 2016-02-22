@@ -357,6 +357,17 @@ classes = {
         functions = {
         }
     },
+    stats = {
+        attributes = {
+            damage_healed = { type = "int", writable = true },
+            damage_taken = { type = "int", writable = true },
+            headshots = { type = "int", writable = true },
+            squares_walked = { type = "int", writable = true },
+        },
+        functions = {
+            { name = "reset", rval = nil, args = { } },
+        }
+    },
     player = {
         parent = "Character",
         attributes = {
