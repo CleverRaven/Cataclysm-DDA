@@ -68,6 +68,12 @@ function check_lua_value(value_type, stack_position)
     return "LuaType<" .. member_type_to_cpp_type(value_type)..">::check(L, " .. stack_position .. ");"
 end
 
+-- Returns an expression that evaluates to `true` if the stack has an object of the given type
+-- at the given position.
+function has_lua_value(value_type, stack_position)
+    return "LuaType<" .. member_type_to_cpp_type(value_type) .. ">::has(L, " .. stack_position .. ")"
+end
+
 -- Returns code to retrieve a lua value from the stack and store it into
 -- a C++ variable
 function retrieve_lua_value(value_type, stack_position)
@@ -230,7 +236,7 @@ function insert_overload_resolution(function_name, args, cbc, indentation, stack
         else
             if more then
                 -- Either check the type here (and continue when it's fine)
-                text = text..ind.."if(LuaType<"..member_type_to_cpp_type(arg_type)..">::has(L, "..(nsi)..")) {"..br
+                text = text..ind.."if("..has_lua_value(arg_type, nsi)..") {"..br
             else
                 -- or check it here and let Lua bail out.
                 text = text..ind..check_lua_value(arg_type, nsi)..br
