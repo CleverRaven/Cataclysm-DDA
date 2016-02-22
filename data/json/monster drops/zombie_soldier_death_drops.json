@@ -15,12 +15,12 @@
                         { "item": "winter_gloves_army", "damage-min": 1, "damage-max": 4},
                         { "item": "winter_pants_army", "damage-min": 1, "damage-max": 4} 
                         ],
-                    "prob": 50 },
+                    "prob": 35 },
                     { "collection": [ 
                         { "item": "jacket_army", "damage-min": 1, "damage-max": 4},
                         { "item": "pants_army", "damage-min": 1, "damage-max": 4} 
                         ],
-                    "prob": 50 }
+                    "prob": 65 }
                 ]
             },       
             { "item": "boots_combat", "damage-min": 1, "damage-max": 4},
