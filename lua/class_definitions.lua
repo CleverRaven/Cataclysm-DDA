@@ -346,6 +346,17 @@ classes = {
             { name = "zoom_out", rval = nil, args = { } },
         }
     },
+    encumbrance_data = {
+        by_value = true,
+        attributes = {
+            iArmorEnc = { type = "int", writable = true },
+            iBodyTempInt = { type = "int", writable = true },
+            iEnc = { type = "int", writable = true },
+            iLayers = { type = "float", writable = true },
+        },
+        functions = {
+        }
+    },
     player = {
         parent = "Character",
         attributes = {
