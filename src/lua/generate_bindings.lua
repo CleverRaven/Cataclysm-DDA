@@ -65,7 +65,7 @@ end
 -- Returns code to retrieve a lua value from the stack and store it into
 -- a C++ variable
 function retrieve_lua_value(value_type, stack_position)
-    return "LuaType<" .. member_type_to_cpp_type(value_type) .. ">::get(L, " .. stack_position .. ");"
+    return "LuaType<" .. member_type_to_cpp_type(value_type) .. ">::get(L, " .. stack_position .. ")"
 end
 
 -- Returns code to take a C++ variable of the given type and push a lua version
@@ -98,7 +98,7 @@ function generate_setter(class_name, member_name, member_type, cpp_name)
     text = text .. tab .. load_instance(class_name)..br
 
     text = text .. tab .. "LuaType<"..member_type_to_cpp_type(member_type)..">::check(L, 2);"..br
-    text = text .. tab .. "instance."..cpp_name.." = " .. retrieve_lua_value(member_type, 2)..br
+    text = text .. tab .. "instance."..cpp_name.." = " .. retrieve_lua_value(member_type, 2)..";"..br
 
     text = text .. tab .. "return 0;  // 0 return values"..br
     text = text .. "}" .. br
@@ -113,7 +113,7 @@ function generate_global_function_wrapper(function_name, function_to_call, args,
 
     for i, arg in ipairs(args) do
         text = text .. tab .. "LuaType<"..member_type_to_cpp_type(arg)..">::check(L, "..i..");"..br
-        text = text .. tab .. "auto && parameter"..i .. " = " .. retrieve_lua_value(arg, i)..br
+        text = text .. tab .. "auto && parameter"..i .. " = " .. retrieve_lua_value(arg, i)..";"..br
     end
 
     local func_invoc = function_to_call .. "("
@@ -229,7 +229,7 @@ function insert_overload_resolution(function_name, args, cbc, indentation, stack
                 -- or check it here and let Lua bail out.
                 text = text..ind.."LuaType<"..member_type_to_cpp_type(arg_type)..">::check(L, "..nsi..");"..br
             end
-            text = text..mind.."auto && parameter"..stack_index.." = "..retrieve_lua_value(arg_type, nsi)..br
+            text = text..mind.."auto && parameter"..stack_index.." = "..retrieve_lua_value(arg_type, nsi)..";"..br
             text = text..insert_overload_resolution(function_name, more_args, cbc, ni, nsi)
             if more then
                 text = text..ind.."}"..br
@@ -318,7 +318,7 @@ function generate_constructor(class_name, args)
 
     local stack_index = 1
     for i, arg in ipairs(args) do
-        text = text .. tab .. "auto && parameter"..i .. " = " .. retrieve_lua_value(arg, stack_index+1)..br
+        text = text .. tab .. "auto && parameter"..i .. " = " .. retrieve_lua_value(arg, stack_index+1)..";"..br
         stack_index = stack_index + 1
     end
 
