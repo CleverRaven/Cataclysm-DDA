@@ -27,7 +27,7 @@
             { "item": "wristwatch", "prob": 20, "damage-min": 1, "damage-max": 4},
             { "item": "sunglasses", "prob": 20, "damage-min": 1, "damage-max": 4},
             { "item": "grenade", "prob": 5},
-            { "item": "knife_combat", "prob": 10},
+            { "item": "knife_combat", "prob": 15 },
             { "item": "cash_card"},
             { "item": "cig", "prob": 50},
             { "distribution": [ 
