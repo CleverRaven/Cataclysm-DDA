@@ -1787,6 +1787,18 @@ enums = {
         "MS_LARGE",
         "MS_HUGE",
     },
+    game_message_type = {
+        "m_good",
+        "m_bad",
+        "m_mixed",
+        "m_warning",
+        "m_info",
+        "m_neutral",
+        "m_debug",
+        "m_headshot",
+        "m_critical",
+        "m_grazing",
+    },
     field_id = {
         "fd_null",
         "fd_blood",
