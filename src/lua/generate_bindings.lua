@@ -351,14 +351,13 @@ function generate_constructor(class_name, args)
 
         -- Push is always done on a value, never on a pointer/reference, therefor don't use
         -- `push_lua_value` (which uses member_type_to_cpp_type to get either LuaValue or LuaReference).
-        local text = tab .. "LuaValue<" .. class_name .. ">::push(L, " .. class_name .. "("
+        local text = tab .. "LuaValue<" .. class_name .. ">::push(L"
 
         for i = 1,stack_index do
-            text = text .. "parameter"..i
-            if i < stack_index then text = text .. ", " end
+            text = text .. ", parameter"..i
         end
 
-        text = text .. "));"..br
+        text = text .. ");"..br
         text = text .. tab .. "return 1; // 1 return values"..br
         return text
     end

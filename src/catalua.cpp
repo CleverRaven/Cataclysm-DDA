@@ -361,7 +361,8 @@ public:
             lua_setglobal( L, global_name );
         }
     }
-    static void push( lua_State* const L, const T& value )
+    template<typename ...Args>
+    static void push( lua_State* const L, Args &&... args )
     {
         // Push user data,
         T* value_in_lua = static_cast<T*>( lua_newuserdata( L, sizeof( T ) ) );
@@ -370,7 +371,7 @@ public:
         // -1 would the the metatable, -2 is the uservalue, the table is popped
         lua_setmetatable( L, -2 );
         // This is where the copy happens:
-        new (value_in_lua) T( value );
+        new (value_in_lua) T( std::forward<Args>( args )... );
     }
     static int push_reg( lua_State* const L, const T& value )
     {
