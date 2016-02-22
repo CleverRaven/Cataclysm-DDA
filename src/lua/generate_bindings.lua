@@ -118,25 +118,18 @@ function generate_global_function_wrapper(function_name, function_to_call, args,
         text = text .. tab .. "auto && parameter"..i .. " = " .. retrieve_lua_value(arg, i)..br
     end
 
-    text = text .. tab
-
-    if rval then
-        text = text .. "auto && rval = "
-    end
-
-    text = text .. function_to_call .. "("
-
+    local func_invoc = function_to_call .. "("
     for i, arg in ipairs(args) do
-        text = text .. "parameter"..i
-        if next(args, i) then text = text .. ", " end
+        func_invoc = func_invoc .. "parameter"..i
+        if next(args, i) then func_invoc = func_invoc .. ", " end
     end
-
-    text = text .. ");"..br
+    func_invoc = func_invoc .. ")"
 
     if rval then
-        text = text .. tab .. push_lua_value("rval", rval)..br
+        text = text .. tab .. push_lua_value(func_invoc, rval)..br
         text = text .. tab .. "return 1; // 1 return values"..br
     else
+        text = text .. tab .. func_invoc .. ";"..br
         text = text .. tab .. "return 0; // 0 return values"..br
     end
     text = text .. "}"..br
