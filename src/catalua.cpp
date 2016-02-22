@@ -715,11 +715,12 @@ struct LuaType<LuaEnum<E>> : public LuaEnum<E> {
 template<typename T>
 class LuaValueOrReference {
     public:
-        static T &get( lua_State* const L, int const stack_index ) {
+        using proxy = typename LuaReference<T>::proxy;
+        static proxy get( lua_State* const L, int const stack_index ) {
             if( LuaValue<T>::has( L, stack_index ) ) {
-                return LuaValue<T>::get( L, stack_index );
+                return proxy{ &LuaValue<T>::get( L, stack_index ) };
             }
-            return LuaValue<T*>::get( L, stack_index );
+            return LuaReference<T>::get( L, stack_index );
         }
         static void check( lua_State* const L, int const stack_index ) {
             if( LuaValue<T>::has( L, stack_index ) ) {

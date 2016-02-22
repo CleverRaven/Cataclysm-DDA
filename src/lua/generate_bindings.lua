@@ -45,10 +45,6 @@ function member_type_to_cpp_type(member_type)
                 else
                     return "LuaReference<" .. member_type .. ">"
                 end
-            elseif "new:" .. class_name == member_type then
-                -- Returns an object of type class_name by value, even through the class
-                -- is defined to be used as reference (`class.by_value` is false).
-                return "LuaValue<" .. class_name .. ">"
             end
         end
         for enum_name, _ in pairs(enums) do
@@ -92,7 +88,32 @@ end
 -- Returns code to take a C++ variable of the given type and push a lua version
 -- of it onto the stack.
 function push_lua_value(in_variable, value_type)
-    return member_type_to_cpp_type(value_type) .. "::push(L, " .. in_variable .. ");"
+    local wrapper
+    if value_type:sub(-1) == "&" then
+        -- A reference is to be pushed. Copying the referred to object may not be allowed  (it may
+        -- be a reference to a global game object).
+        local t = value_type:sub(1, -2)
+        if classes[t] then
+            if classes[t].by_value_and_reference then
+                -- special case becaus member_type_to_cpp_type would return LuaValueOrReference,
+                -- which does not have a push function.
+                wrapper = "LuaReference<" .. t .. ">"
+            else
+                wrapper = member_type_to_cpp_type(t)
+            end
+        else
+            wrapper = member_type_to_cpp_type(t)
+        end
+    elseif classes[value_type] then
+        -- Not a native Lua type, but it's not a reference, so we *have* to copy it (the value would
+        -- go out of scope otherwise). Copy semantic means using LuaValue.
+        wrapper = "LuaValue<" .. value_type .. ">"
+    else
+        -- Either an undefined type or a native Lua type, both is handled in member_type_to_cpp_type
+        wrapper = member_type_to_cpp_type(value_type)
+    end
+
+    return wrapper .. "::push(L, " .. in_variable .. ");"
 end
 
 -- Generates a getter function for a specific class and member variable.
@@ -102,7 +123,8 @@ function generate_getter(class_name, member_name, member_type, cpp_name)
 
     text = text .. tab .. load_instance(class_name)..br
 
-    text = text .. tab .. push_lua_value("instance."..cpp_name, member_type)..br
+    -- adding the "&" to the type, so push_lua_value knows it's a reference.
+    text = text .. tab .. push_lua_value("instance."..cpp_name, member_type .. "&")..br
 
     text = text .. tab .. "return 1;  // 1 return value"..br
     text = text .. "}" .. br
@@ -134,6 +156,9 @@ function generate_global_function_wrapper(function_name, function_to_call, args,
 
     for i, arg in ipairs(args) do
         text = text .. tab .. check_lua_value(arg, i)..br
+        -- Needs to be auto, can be a proxy object, a real reference, or a POD.
+        -- This will be resolved when the functin is called. The C++ compiler will convert
+        -- the auto to the expected parameter type.
         text = text .. tab .. "auto && parameter"..i .. " = " .. retrieve_lua_value(arg, i)..";"..br
     end
 
@@ -265,6 +290,9 @@ function insert_overload_resolution(function_name, args, cbc, indentation, stack
                 -- or check it here and let Lua bail out.
                 text = text..ind..check_lua_value(arg_type, nsi)..br
             end
+            -- Needs to be auto, can be a proxy object, a real reference, or a POD.
+            -- This will be resolved when the functin is called. The C++ compiler will convert
+            -- the auto to the expected parameter type.
             text = text..mind.."auto && parameter"..stack_index.." = "..retrieve_lua_value(arg_type, nsi)..";"..br
             text = text..insert_overload_resolution(function_name, more_args, cbc, ni, nsi)
             if more then

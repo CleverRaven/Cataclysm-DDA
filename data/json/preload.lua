@@ -94,6 +94,24 @@ function value_vs_reference_test()
     game.add_msg("game.get_calendar_turn(): " .. tostring(game.get_calendar_turn():get_turn()))
 end
 
+function value_vs_reference_test2()
+    -- Should be a reference to the item in the inventory, make sure you have one!
+    local ref_to_item = player:i_at(0)
+    game.add_msg("ref_to_item: " .. ref_to_item:tname())
+    ref_to_item.damage = 4 -- nearly destroyed
+    -- Should have a different name (including the damage).
+    game.add_msg("ref_to_item: " .. ref_to_item:tname())
+
+    -- Make a copy and reset its damage.
+    local new_item = item(ref_to_item)
+    new_item.damage = 0
+    -- ref_to_item should be unchanged, new_item should not have any damage.
+    game.add_msg("ref_to_item: " .. tostring(ref_to_item:tname()))
+    game.add_msg("new_item: " .. tostring(new_item:tname()))
+
+    player:i_add(new_item)
+end
+
 -- An iterator over all items on the map at a specific point.
 function item_stack_iterator(pos)
     local start = map:i_at(pos)

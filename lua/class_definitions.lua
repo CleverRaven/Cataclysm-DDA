@@ -12,6 +12,9 @@ Optional values are:
 - by_value (boolean, default: false): if true, copy the C++ object into memory managed by Lua
   (the copy may outlive the source C++ object), otherwise only a pointer to the C++ object
   is stored in Lua and it *needs* to stay valid in C++ until the Lua object is gone.
+- by_value_and_reference (boolean, default: false): if true, the class is can be exported to Lua
+  as value (copy of the object, managed by Lua) *and* as reference (to an object managed by C++
+  code). This flag implies "by_value", "by_value" should therefor not be specified explicitly.
 - has_equal (boolean, default: false): If true, generate the __eq entry in the metatable which
   will map to the C++ using the operator==.
 - new (an array of parameter lists): defines the constructor of the object. This is only useful for
@@ -56,6 +59,16 @@ Therefor those objects are exported as pointer only (by_value is false).
 
 Other objects (e.g. tripoint) can be constructed as values in Lua (by_value is true).
 
+The return value of functions ("rval") behaves a bit special:
+- If it ends with a '&', as in `rval = "item&"`, it is assumed the function returns a reference.
+  The by_value setting will determine whether to copy the referred object (to Lua memory), or
+  to store only a reference in Lua memory.
+  Using '&' on native Lua types is not allowed.
+- If the return type is a class type (has an entry in classes), it is copied to Lua memory. This
+  will fail (when the generated bindings are compiled or when they get linked) if the type does not
+  support copying. One should either add `by_value = true` or `by_value_and_reference = true` to the type.
+- Otherwise it should be a native Lua type, which will be copied.
+
 Example: (Creature::pos returns a const reference to tripoint, game::zombie returns a reference to monster)
 `local m = game.zombie(0)` stores a pointer to the monster returned by `game::zombie(0)`. This reference
 must not be used after the monster has been removed from the game (e.g. because it died). Calling
@@ -96,12 +109,9 @@ classes = {
             { name = "hours", rval = "int", args = { } },
             { name = "days", rval = "int", args = { } },
             { name = "years", rval = "int", args = { } },
-            -- Temporary implementation of return-by-value:
-            -- Use "new:[class_name]" for this. Works only as return type.
-            -- Requires `by_value_and_reference = true` for the returned type.
-            { name = "sunlight", rval = "new:calendar", args = { } },
-            { name = "sunset", rval = "new:calendar", args = { } },
-            { name = "sunrise", rval = "new:calendar", args = { } },
+            { name = "sunlight", rval = "calendar", args = { } },
+            { name = "sunset", rval = "calendar", args = { } },
+            { name = "sunrise", rval = "calendar", args = { } },
         }
     },
     Character = {
@@ -151,10 +161,10 @@ classes = {
             { name = "has_nv", rval = "bool", args = { } },
             { name = "has_trait", rval = "bool", args = { "string" } },
             { name = "has_trait_flag", rval = "bool", args = { "string" } },
-            { name = "i_add", rval = "item", args = { "item" } },
+            { name = "i_add", rval = "item&", args = { "item" } },
             { name = "i_add_or_drop", rval = "bool", args = { "item" } },
             { name = "i_add_or_drop", rval = "bool", args = { "item", "int" } },
-            { name = "i_at", rval = "item", args = { "int" } },
+            { name = "i_at", rval = "item&", args = { "int" } },
             { name = "i_rem_keep_contents", rval = nil, args = { "int" } },
             { name = "is_warm", rval = "bool", args = { } },
             { name = "is_wearing", rval = "bool", args = { "string" } },
@@ -241,7 +251,7 @@ classes = {
         attributes = {
         },
         functions = {
-            { name = "elem", rval = "item", cpp_name = "operator*"; args = { } },
+            { name = "elem", rval = "item&", cpp_name = "operator*"; args = { } },
             { name = "inc", rval = nil, cpp_name = "operator++", args = { } },
         }
     },
@@ -271,8 +281,8 @@ classes = {
             { name = "check_save_mode_allowed", rval = "bool", args = { } },
             { name = "cleanup_at_end", rval = "bool", args = { } },
             { name = "clear_zombies", rval = nil, args = { } },
-            { name = "critter_at", rval = "Creature", args = { "tripoint" } },
-            { name = "critter_at", rval = "Creature", args = { "tripoint", "bool" } },
+            { name = "critter_at", rval = "Creature&", args = { "tripoint" } },
+            { name = "critter_at", rval = "Creature&", args = { "tripoint", "bool" } },
             { name = "cycle_item_mode", rval = nil, args = { "bool" } },
             { name = "delete_world", rval = nil, args = { "string", "bool" } },
             { name = "do_blast", rval = nil, args = { "tripoint", "float", "float", "bool" } },
@@ -303,7 +313,7 @@ classes = {
             { name = "fling_creature", rval = nil, args = { "Creature", "int", "float", "bool" } },
             { name = "game_error", rval = "bool", args = { } },
             { name = "game_quit", rval = "bool", args = { } },
-            { name = "get_cur_om", rval = "overmap", args = { } },
+            { name = "get_cur_om", rval = "overmap&", args = { } },
             { name = "get_levx", rval = "int", args = { } },
             { name = "get_levy", rval = "int", args = { } },
             { name = "get_levz", rval = "int", args = { } },
@@ -320,14 +330,14 @@ classes = {
             { name = "inv_activatable", rval = "int", args = { "string" } },
             { name = "inv_for_flag", rval = "int", args = { "string", "string", "bool" } },
             { name = "inv_for_liquid", rval = "int", args = { "item", "string", "bool" } },
-            { name = "inv_map_for_liquid", rval = "item", args = { "item", "string" } },
-            { name = "inv_map_for_liquid", rval = "item", args = { "item", "string", "int" } },
+            { name = "inv_map_for_liquid", rval = "item&", args = { "item", "string" } },
+            { name = "inv_map_for_liquid", rval = "item&", args = { "item", "string", "int" } },
             { name = "inventory_item_menu", rval = "int", args = { "int" } },
             { name = "inventory_item_menu", rval = "int", args = { "int", "int" } },
             { name = "inventory_item_menu", rval = "int", args = { "int", "int", "int" } },
             { name = "is_empty", rval = "bool", args = { "tripoint" } },
-            { name = "is_hostile_nearby", rval = "Creature", args = { } },
-            { name = "is_hostile_very_close", rval = "Creature", args = { } },
+            { name = "is_hostile_nearby", rval = "Creature&", args = { } },
+            { name = "is_hostile_very_close", rval = "Creature&", args = { } },
             { name = "is_in_sunlight", rval = "bool", args = { "tripoint" } },
             { name = "is_sheltered", rval = "bool", args = { "tripoint" } },
             { name = "kill_count", rval = "int", args = { "mtype_id" } },
@@ -343,8 +353,8 @@ classes = {
             { name = "mmenu_refresh_title", rval = nil, args = { } },
             { name = "mon_at", rval = "int", args = { "tripoint" } },
             { name = "mon_at", rval = "int", args = { "tripoint", "bool" } },
-            { name = "monster_at", rval = "monster", args = { "tripoint" } },
-            { name = "monster_at", rval = "monster", args = { "tripoint", "bool" } },
+            { name = "monster_at", rval = "monster&", args = { "tripoint" } },
+            { name = "monster_at", rval = "monster&", args = { "tripoint", "bool" } },
             { name = "move_liquid", rval = "int", args = { "item" } },
             { name = "natural_light_level", rval = "float", args = { "int" } },
             { name = "nuke", rval = nil, args = { "tripoint" } },
@@ -385,7 +395,7 @@ classes = {
             { name = "use_computer", rval = nil, args = { "tripoint" } },
             { name = "vertical_move", rval = nil, args = { "int", "bool" } },
             { name = "write_memorial_file", rval = nil, args = { "string" } },
-            { name = "zombie", rval = "monster", args = { "int" } },
+            { name = "zombie", rval = "monster&", args = { "int" } },
             { name = "zones_manager", rval = nil, args = { } },
             { name = "zoom_in", rval = nil, args = { } },
             { name = "zoom_out", rval = nil, args = { } },
@@ -633,7 +643,7 @@ classes = {
             { name = "hitall", rval = "int", args = { "int", "int", "Creature" } },
             { name = "hp_percentage", rval = "int", args = { } },
             { name = "hurtall", rval = nil, args = { "int", "Creature" } },
-            { name = "i_at", rval = "item", args = { "int" } },
+            { name = "i_at", rval = "item&", args = { "int" } },
             { name = "impact", rval = "int", args = { "int", "tripoint" } },
             { name = "in_climate_control", rval = "bool", args = { } },
             { name = "install_bionics", rval = "bool", args = { "itype" } },
@@ -722,7 +732,7 @@ classes = {
             { name = "pick_style", rval = "bool", args = { } },
             { name = "pick_style", rval = nil, args = { } },
             { name = "pick_technique", rval = "matec_id", args = { "Creature", "bool", "bool", "bool" } },
-            { name = "pick_usb", rval = "item", args = { } },
+            { name = "pick_usb", rval = "item&", args = { } },
             { name = "place_corpse", rval = nil, args = { } },
             { name = "playerBloodType", rval = "field_id", args = { } },
             { name = "pos", rval = "tripoint", args = { } },
@@ -865,6 +875,7 @@ classes = {
             { "itype", "int", "int" },
             -- TODO: export constructor with default_charges_tag paremeter
         },
+        by_value_and_reference = true,
         attributes = {
             active = { type = "bool", writable = true },
             bday = { type = "int", writable = true },
@@ -882,8 +893,8 @@ classes = {
             { name = "acid_resist", rval = "int", args = { } },
             { name = "acid_resist", rval = "int", args = { "bool" } },
             { name = "activate_charger_gun", rval = "bool", args = { "player" } },
-            { name = "active_gunmod", rval = "item", args = { } },
-            { name = "active_gunmod", rval = "item", args = { } },
+            { name = "active_gunmod", rval = "item&", args = { } },
+            { name = "active_gunmod", rval = "item&", args = { } },
             { name = "add_rain_to_container", rval = nil, args = { "bool", "int" } },
             { name = "add_technique", rval = nil, args = { "matec_id" } },
             { name = "aim_speed", rval = "int", args = { "int" } },
@@ -925,14 +936,14 @@ classes = {
             { name = "flammable", rval = "bool", args = { } },
             { name = "get_chapters", rval = "int", args = { } },
             { name = "get_coverage", rval = "int", args = { } },
-            { name = "get_curammo", rval = "itype", args = { } },
+            { name = "get_curammo", rval = "itype&", args = { } },
             { name = "get_encumber", rval = "int", args = { } },
             { name = "get_env_resist", rval = "int", args = { } },
             { name = "get_free_mod_locations", rval = "int", args = { "string" } },
             { name = "get_gun_mode", rval = "string", args = { } },
             { name = "get_gun_ups_drain", rval = "int", args = { } },
             { name = "get_layer", rval = "int", args = { } },
-            { name = "get_mtype", rval = "mtype", args = { } },
+            { name = "get_mtype", rval = "mtype&", args = { } },
             { name = "get_plant_epoch", rval = "int", args = { } },
             { name = "get_plant_name", rval = "string", args = { } },
             { name = "get_property_long", rval = "int", args = { "string" } },
@@ -946,7 +957,7 @@ classes = {
             { name = "get_side", rval = "int", args = { } },
             { name = "get_storage", rval = "int", args = { } },
             { name = "get_thickness", rval = "int", args = { } },
-            { name = "get_usable_item", rval = "item", args = { "string" } },
+            { name = "get_usable_item", rval = "item&", args = { "string" } },
             { name = "get_var", rval = "float", args = { "string", "float" } },
             { name = "get_var", rval = "int", args = { "string", "int" } },
             { name = "get_var", rval = "int", args = { "string", "int" } },
@@ -1039,7 +1050,7 @@ classes = {
             { name = "on_pickup", rval = nil, args = { "Character" } },
             { name = "on_wear", rval = nil, args = { "player" } },
             { name = "on_wield", rval = nil, args = { "player" } },
-            { name = "pick_reload_ammo", rval = "item_location", args = { "player" } },
+--            { name = "pick_reload_ammo", rval = "item_location", args = { "player" } },
             { name = "precise_unit_volume", rval = "int", args = { } },
             { name = "price", rval = "int", args = { "bool" } },
             { name = "process", rval = "bool", args = { "player", "tripoint", "bool" } },
@@ -1084,7 +1095,7 @@ classes = {
         },
         by_value = true,
         functions = {
-            { name = "get_item", rval = "item", args = { } },
+            { name = "get_item", rval = "item&", args = { } },
             { name = "remove_item", rval = nil, args = { } }
         }
     },
@@ -1175,8 +1186,8 @@ classes = {
             { name = "addField", rval = "bool", args = { "field_id", "int", "int" } },
             { name = "fieldCount", rval = "int", args = { } },
             { name = "fieldSymbol", rval = "field_id", args = { } },
-            { name = "findField", rval = "field_entry", args = { "field_id" } },
-            { name = "findField", rval = "field_entry", args = { "field_id" } },
+            { name = "findField", rval = "field_entry&", args = { "field_id" } },
+            { name = "findField", rval = "field_entry&", args = { "field_id" } },
             { name = "move_cost", rval = "int", args = { } },
             { name = "removeField", rval = "bool", args = { "field_id" } },
         }
@@ -1190,9 +1201,9 @@ classes = {
             { name = "add_camp", rval = nil, args = { "tripoint", "string" } },
             { name = "add_corpse", rval = nil, args = { "tripoint" } },
             { name = "add_field", rval = "bool", args = { "tripoint", "field_id", "int", "int" } },
-            { name = "add_item", rval = "item", args = { "tripoint", "item" } },
-            { name = "add_item_or_charges", rval = "item", args = { "tripoint", "item" } },
-            { name = "add_item_or_charges", rval = "item", args = { "tripoint", "item", "int" } },
+            { name = "add_item", rval = "item&", args = { "tripoint", "item" } },
+            { name = "add_item_or_charges", rval = "item&", args = { "tripoint", "item" } },
+            { name = "add_item_or_charges", rval = "item&", args = { "tripoint", "item", "int" } },
             { name = "add_spawn", rval = nil, args = { "mtype_id", "int", "int", "int" } },
             { name = "add_spawn", rval = nil, args = { "mtype_id", "int", "int", "int", "bool" } },
             { name = "add_spawn", rval = nil, args = { "mtype_id", "int", "int", "int", "bool", "int" } },
@@ -1261,19 +1272,19 @@ classes = {
             { name = "draw_square_ter", rval = nil, args = { "ter_id", "int", "int", "int", "int" } },
             { name = "draw_square_ter", rval = nil, args = { "string", "int", "int", "int", "int" } },
             { name = "features", rval = "string", args = { "tripoint" } },
-            { name = "field_at", rval = "field", args = { "tripoint" } },
+            { name = "field_at", rval = "field&", args = { "tripoint" } },
             { name = "flammable_items_at", rval = "bool", args = { "tripoint" } },
             { name = "free_volume", rval = "int", args = { "tripoint" } },
             { name = "fungalize", rval = nil, args = { "tripoint" } },
             { name = "fungalize", rval = nil, args = { "tripoint", "Creature" } },
             { name = "fungalize", rval = nil, args = { "tripoint", "Creature", "float" } },
             { name = "furn", rval = "furn_id", args = { "tripoint" } },
-            { name = "furn_at", rval = "furn_t", args = { "tripoint" } },
+            { name = "furn_at", rval = "furn_t&", args = { "tripoint" } },
             { name = "furn_set", rval = nil, args = { "tripoint", "furn_id" } },
             { name = "furn_set", rval = nil, args = { "tripoint", "string" } },
             { name = "furnname", rval = "string", args = { "tripoint" } },
             { name = "get_abs_sub", rval = "tripoint", args = { } },
-            { name = "get_field", rval = "field_entry", args = { "tripoint", "field_id" } },
+            { name = "get_field", rval = "field_entry&", args = { "tripoint", "field_id" } },
             { name = "get_field_age", rval = "int", args = { "tripoint", "field_id" } },
             { name = "get_field_strength", rval = "int", args = { "tripoint", "field_id" } },
             { name = "get_furn", rval = "string", args = { "tripoint" } },
@@ -1323,7 +1334,7 @@ classes = {
             { name = "is_full", rval = "bool", args = { "tripoint", "int" } },
             { name = "is_full", rval = "bool", args = { "tripoint", "int", "int" } },
             { name = "is_outside", rval = "bool", args = { "tripoint" } },
-            { name = "item_from", rval = "item", args = { "tripoint", "int" } },
+            { name = "item_from", rval = "item&", args = { "tripoint", "int" } },
             { name = "light_transparency", rval = "float", args = { "tripoint" } },
             { name = "load", rval = nil, args = { "int", "int", "int", "bool" } },
             { name = "make_rubble", rval = nil, args = { "tripoint" } },
@@ -1370,7 +1381,7 @@ classes = {
             { name = "set_signage", rval = nil, args = { "tripoint", "string" } },
             { name = "set_temperature", rval = nil, args = { "tripoint", "int" } },
             { name = "smash_items", rval = nil, args = { "tripoint", "int" } },
-            { name = "spawn_an_item", rval = "item", args = { "tripoint", "item", "int", "int" } },
+            { name = "spawn_an_item", rval = "item&", args = { "tripoint", "item", "int", "int" } },
             { name = "spawn_artifact", rval = nil, args = { "tripoint" } },
             { name = "spawn_item", rval = nil, args = { "tripoint", "string" } },
             { name = "spawn_item", rval = nil, args = { "tripoint", "string", "int" } },
@@ -1381,11 +1392,11 @@ classes = {
             { name = "stored_volume", rval = "int", args = { "tripoint" } },
             { name = "supports_above", rval = "bool", args = { "tripoint" } },
             { name = "ter", rval = "ter_id", args = { "tripoint" } },
-            { name = "ter_at", rval = "ter_t", args = { "tripoint" } },
+            { name = "ter_at", rval = "ter_t&", args = { "tripoint" } },
             { name = "ter_set", rval = nil, args = { "tripoint", "ter_id" } },
             { name = "ter_set", rval = nil, args = { "tripoint", "string" } },
             { name = "tername", rval = "string", args = { "tripoint" } },
-            { name = "tr_at", rval = "trap", args = { "tripoint" } },
+            { name = "tr_at", rval = "trap&", args = { "tripoint" } },
             { name = "trans", rval = "bool", args = { "tripoint" } },
             { name = "translate", rval = nil, args = { "ter_id", "ter_id" } },
             { name = "trap_set", rval = nil, args = { "tripoint", "trap_id" } },
@@ -1491,7 +1502,7 @@ classes = {
             { name = "get_hp", rval = "int", args = { } },
             { name = "get_hp_max", rval = "int", args = { "hp_part" } },
             { name = "get_hp_max", rval = "int", args = { } },
-            { name = "get_killer", rval = "Creature", args = { } },
+            { name = "get_killer", rval = "Creature&", args = { } },
             { name = "get_material", rval = "string", args = { } },
             { name = "get_melee", rval = "int", args = { } },
             { name = "get_melee_quiet", rval = "bool", args = { } },
@@ -1626,7 +1637,7 @@ classes = {
             { name = "add_item", rval = nil, args = { "item" } },
             { name = "apply_damage", rval = nil, args = { "Creature", "body_part", "int" } },
             { name = "attack_at", rval = "bool", args = { "tripoint" } },
-            { name = "attack_target", rval = "Creature", args = { } },
+            { name = "attack_target", rval = "Creature&", args = { } },
             { name = "avoid_trap", rval = "bool", args = { "tripoint", "trap" } },
             { name = "bash_at", rval = "bool", args = { "tripoint" } },
             { name = "bash_estimate", rval = "int", args = { } },
@@ -2242,12 +2253,12 @@ global_functions = {
     create_uimenu = {
         cpp_name = "create_uimenu",
         args = {},
-        rval = "uimenu"
+        rval = "uimenu&"
     },
     get_terrain_type = {
         cpp_name = "get_terrain_type",
         args = {"int"},
-        rval = "ter_t"
+        rval = "ter_t&"
     },
     rng = {
         cpp_name = "rng",
@@ -2277,23 +2288,23 @@ global_functions = {
     get_comestible_type = {
         cpp_name = "get_comestible_type",
         args = { "string" },
-        rval = "it_comest"
+        rval = "it_comest&"
     },
     create_monster = {
         cpp_name = "create_monster",
         args = { "mtype_id", "tripoint" },
-        rval = "monster",
+        rval = "monster&",
         desc = "Creates and spawns a new monster of given type. Returns a refernce to it, *or* nil if it could not be spawned."
     },
     get_tool_type = {
         cpp_name = "get_tool_type",
         args = { "string" },
-        rval = "it_tool"
+        rval = "it_tool&"
     },
     get_calendar_turn = {
         cpp_name = "get_calendar_turn_wrapper",
         args = {},
-        rval = "calendar"
+        rval = "calendar&"
     }
 }
 
@@ -2355,7 +2366,7 @@ for name, value in pairs(classes) do
             functions = {
                 -- Use with care, only for displaying the value for debugging purpose!
                 { name = "to_i", rval = "int", args = { } },
-                { name = "obj", rval = name, args = { } },
+                { name = "obj", rval = name .. "&", args = { } },
             }
         }
         if value.string_id then
@@ -2377,7 +2388,7 @@ for name, value in pairs(classes) do
             functions = {
                 { name = "str", rval = "string", args = { } },
                 { name = "is_valid", rval = "bool", args = { } },
-                { name = "obj", rval = name, args = { } },
+                { name = "obj", rval = name .. "&", args = { } },
             }
         }
         if value.int_id then
