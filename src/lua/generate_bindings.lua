@@ -353,13 +353,8 @@ end
 function generate_operator(class_name, operator_id, cppname)
     local text = "static int op_" .. class_name .. "_" .. operator_id .. "(lua_State *L) {"..br
 
-    if classes[class_name].by_value then
-        text = text .. tab .. "auto & lhs = LuaValue<"..class_name..">::get( L, 1 );"..br
-        text = text .. tab .. "auto & rhs = LuaValue<"..class_name..">::get( L, 2 );"..br
-    else
-        text = text .. tab .. "auto & lhs = LuaReference<"..class_name..">::get( L, 1 );"..br
-        text = text .. tab .. "auto & rhs = LuaReference<"..class_name..">::get( L, 2 );"..br
-    end
+    text = text .. tab .. "const " .. class_name .. " &lhs = " .. retrieve_lua_value(class_name, 1) .. ";"..br
+    text = text .. tab .. "const " .. class_name .. " &rhs = " .. retrieve_lua_value(class_name, 1) .. ";"..br
 
     text = text .. tab .. "bool rval = "
 
