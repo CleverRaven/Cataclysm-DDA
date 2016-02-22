@@ -4218,7 +4218,7 @@
     "symbol": "(",
     "color": "teal",
     "name": " XM34 EMP projector",
-    "description": "A powerful electrolaser developed by the R&D outfit \"Aerial Labs\".  Especially effective against electronic targets",
+    "description": "A powerful electrolaser developed by the R&D outfit \"Aerial Labs\".  Especially effective against electronic targets.",
     "price": 1600000,
     "material": ["steel", "plastic"],
     "ammo_effects": ["DRAW_LASER_BEAM", "EMP"],
