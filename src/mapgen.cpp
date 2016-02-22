@@ -3617,6 +3617,7 @@ C..C..C...|hhh|#########\n\
                         sy = rng(tw, SEEY * 2 - 1 - bw);
                         attempts--;
                     } while ( ( ter( sx, sy ) != t_rock_floor ) && attempts && !g->m.has_furn( sx,sy ) );
+                    mremove_trap( this, sx, sy );
                     ter_set(sx, sy, t_stairs_up);
                 }
 
@@ -3628,6 +3629,7 @@ C..C..C...|hhh|#########\n\
                         sy = rng(tw, SEEY * 2 - 1 - bw);
                         attempts--;
                     } while ( ( ter( sx, sy ) != t_rock_floor ) && attempts && !g->m.has_furn( sx,sy ) );
+                    mremove_trap( this, sx, sy );
                     ter_set(sx, sy, t_stairs_down);
                 }
             } else switch (rng(1, 4)) { // Pick a random lab layout
