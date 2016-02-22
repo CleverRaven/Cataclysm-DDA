@@ -1780,6 +1780,13 @@ enums = {
         "GAS",
         "PLASMA",
     },
+    m_size = {
+        "MS_TINY",
+        "MS_SMALL",
+        "MS_MEDIUM",
+        "MS_LARGE",
+        "MS_HUGE",
+    },
     field_id = {
         "fd_null",
         "fd_blood",
