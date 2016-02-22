@@ -33,8 +33,10 @@
             "You displace and counter %s",
             "<npcname> displaces and counters %s"
         ],
-        "cut_mult" : 1.1,
-        "speed_mult" : 0.75,
+        "mult_bonuses" : [
+            ["damage", "cut", 1.1],
+            ["movecost", 0.75]
+        ],
         "stun_dur" : 1
     },{
         "type" : "technique",
@@ -53,8 +55,11 @@
         "name" : "vicious strike",
         "min_melee" : 6,
         "crit_tec" : true,
-        "cut_mult" : 1.5,
-        "bash_mult" : 1.5,
+        "mult_bonuses" : [
+            ["damage", "bash", 1.5],
+            ["damage", "cut", 1.5],
+            ["damage", "stab", 1.5]
+        ],
         "stun_dur" : 1,
         "messages" : [
             "You hack at %s with a vicious strike",
@@ -94,7 +99,7 @@
             "You counter and grab %s",
             "<npcname> counters and grabs %s"
         ],
-        "speed_mult" : 0.5,
+        "mult_bonuses" : [["movecost", 0.5]],
         "stun_dur" : 2,
         "down_dur" : 1
     },{
@@ -138,7 +143,7 @@
         "unarmed_allowed" : true,
         "crit_tec" : true,
         "stun_dur" : 3,
-        "bash_mult" : 1.35,
+        "mult_bonuses" : [["damage", "bash", 1.35]],
         "req_buffs" : [
             "pankration_grappling"
             ],

@@ -2472,6 +2472,22 @@ int item::damage_cut() const
     }
 }
 
+int item::damage_by_type( damage_type dt ) const
+{
+    switch( dt ) {
+        case DT_BASH:
+            return damage_bash();
+        case DT_CUT:
+            return ( has_flag( "SPEAR" ) || has_flag( "STAB" ) ) ? 0 : damage_cut();
+        case DT_STAB:
+            return ( has_flag( "SPEAR" ) || has_flag( "STAB" ) ) ? damage_cut() : 0;
+        default:
+            break;
+    }
+
+    return 0;
+}
+
 int item::reach_range() const
 {
     if( !has_flag( "REACH_ATTACK" ) ) {
@@ -2480,6 +2496,8 @@ int item::reach_range() const
     
     return has_flag( "REACH3" ) ? 3 : 2;
 }
+
+
 
 void item::unset_flags()
 {
@@ -3666,7 +3684,7 @@ skill_id item::weap_skill() const
     }
 
     if (type->melee_dam >= type->melee_cut) return skill_bashing;
-    if (has_flag("STAB")) return skill_stabbing;
+    if( has_flag("STAB") || has_flag( "SPEAR" ) ) return skill_stabbing;
     return skill_cutting;
 }
 
