@@ -11022,7 +11022,7 @@ void game::plfire( bool burst, const tripoint &default_target )
             }
 
             reload_time += u.item_reload_cost( gun, *ammo, 1 );
-            if( !gun.reload( u, std::move( ammo ) ) ) {
+            if( !gun.reload( u, std::move( ammo ), 1 ) ) {
                 return; // unable to reload
             }
 
