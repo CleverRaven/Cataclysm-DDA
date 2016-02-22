@@ -4265,12 +4265,14 @@ int player::overmap_sight_range(int light_level) const
 #define MAX_CLAIRVOYANCE 40
 int player::clairvoyance() const
 {
-    if (has_artifact_with(AEP_SUPER_CLAIRVOYANCE)) {
+    if( vision_mode_cache[VISION_CLAIRVOYANCE_SUPER] ) {
         return MAX_CLAIRVOYANCE;
     }
-    if (has_artifact_with(AEP_CLAIRVOYANCE)) {
+
+    if( vision_mode_cache[VISION_CLAIRVOYANCE] ) {
         return 3;
     }
+
     return 0;
 }
 
@@ -7868,7 +7870,7 @@ void player::suffer()
     }
 
     double shoe_factor = footwear_factor();
-    if( has_trait("ROOTS3") && g->m.has_flag("DIGGABLE", posx(), posy()) && !shoe_factor) {
+    if( has_trait("ROOTS3") && g->m.has_flag("DIGGABLE", pos()) && !shoe_factor) {
         if (one_in(100)) {
             add_msg(m_good, _("This soil is delicious!"));
             if (get_hunger() > -20) {
@@ -9734,7 +9736,7 @@ bool player::consume(int target_position)
 void player::rooted_message() const
 {
     if( (has_trait("ROOTS2") || has_trait("ROOTS3") ) &&
-        g->m.has_flag("DIGGABLE", posx(), posy()) &&
+        g->m.has_flag("DIGGABLE", pos()) &&
         !footwear_factor() ) {
         add_msg(m_info, _("You sink your roots into the soil."));
     }
@@ -9746,7 +9748,7 @@ void player::rooted()
 {
     double shoe_factor = footwear_factor();
     if( (has_trait("ROOTS2") || has_trait("ROOTS3")) &&
-        g->m.has_flag("DIGGABLE", posx(), posy()) && shoe_factor != 1.0 ) {
+        g->m.has_flag("DIGGABLE", pos()) && shoe_factor != 1.0 ) {
         if( one_in(20.0 / (1.0 - shoe_factor)) ) {
             if (get_hunger() > -20) {
                 mod_hunger(-1);
@@ -11332,7 +11334,7 @@ bool player::read(int inventory_position)
             add_msg(m_info, _("Now studying %s, %s to stop early."),
                     it->tname().c_str(), press_x(ACTION_PAUSE).c_str());
             if ( (has_trait("ROOTS2") || (has_trait("ROOTS3"))) &&
-                 g->m.has_flag("DIGGABLE", posx(), posy()) &&
+                 g->m.has_flag("DIGGABLE", pos()) &&
                  (!(footwear_factor())) ) {
                 add_msg(m_info, _("You sink your roots into the soil."));
             }
@@ -13566,6 +13568,10 @@ bool player::sees( const tripoint &t, bool ) const
     const int wanted_range = rl_dist( pos(), t );
     bool can_see = is_player() ? g->m.pl_sees( t, wanted_range ) :
         Creature::sees( t );
+    // Clairvoyance is now pretty cheap, so we can check it early
+    if( wanted_range < MAX_CLAIRVOYANCE && wanted_range < clairvoyance() ) {
+        return true;
+    }
     // Only check if we need to override if we already came to the opposite conclusion.
     if( can_see && wanted_range < 15 && wanted_range > sight_range(1) &&
         has_active_bionic(str_bio_night) ) {
@@ -13574,11 +13580,7 @@ bool player::sees( const tripoint &t, bool ) const
     if( can_see && wanted_range > unimpaired_range() ) {
         can_see = false;
     }
-    // Clairvoyance is a really expensive check,
-    // so try to avoid making it if at all possible.
-    if( !can_see && wanted_range < MAX_CLAIRVOYANCE && wanted_range < clairvoyance() ) {
-        return true;
-    }
+
     return can_see;
 }
 
@@ -13854,14 +13856,17 @@ void player::place_corpse()
 
 bool player::sees_with_infrared( const Creature &critter ) const
 {
-    const bool has_ir = has_active_bionic( "bio_infrared" ) ||
-                        has_trait( "INFRARED" ) ||
-                        has_trait( "LIZ_IR" ) ||
-                        worn_with_flag( "IR_EFFECT" );
-    if( !has_ir || !critter.is_warm() ) {
+    if( !vision_mode_cache[IR_VISION] || !critter.is_warm() ) {
         return false;
     }
-    return g->m.sees(pos(), critter.pos(), sight_range(DAYLIGHT_LEVEL) );
+
+    if( is_player() || critter.is_player() ) {
+        // Players should not use map::sees
+        // Likewise, players should not be "looked at" with map::sees, not to break symmetry
+        return g->m.pl_line_of_sight( critter.pos(), sight_range( DAYLIGHT_LEVEL ) );
+    }
+
+    return g->m.sees( pos(), critter.pos(), sight_range( DAYLIGHT_LEVEL ) );
 }
 
 std::vector<std::string> player::get_overlay_ids() const {

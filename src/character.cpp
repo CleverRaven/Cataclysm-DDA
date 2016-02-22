@@ -175,8 +175,8 @@ bool Character::move_effects(bool attacking)
                                     _("<npcname> frees themselves from the light snare!"));
             item string("string_36", calendar::turn);
             item snare("snare_trigger", calendar::turn);
-            g->m.add_item_or_charges(posx(), posy(), string);
-            g->m.add_item_or_charges(posx(), posy(), snare);
+            g->m.add_item_or_charges(pos(), string);
+            g->m.add_item_or_charges(pos(), snare);
         } else {
             add_msg_if_player(m_bad, _("You try to free yourself from the light snare, but can't get loose!"));
         }
@@ -192,8 +192,8 @@ bool Character::move_effects(bool attacking)
                                     _("<npcname> frees themselves from the heavy snare!"));
             item rope("rope_6", calendar::turn);
             item snare("snare_trigger", calendar::turn);
-            g->m.add_item_or_charges(posx(), posy(), rope);
-            g->m.add_item_or_charges(posx(), posy(), snare);
+            g->m.add_item_or_charges(pos(), rope);
+            g->m.add_item_or_charges(pos(), snare);
         } else {
             add_msg_if_player(m_bad, _("You try to free yourself from the heavy snare, but can't get loose!"));
         }
@@ -211,7 +211,7 @@ bool Character::move_effects(bool attacking)
             add_msg_player_or_npc(m_good, _("You free yourself from the bear trap!"),
                                     _("<npcname> frees themselves from the bear trap!"));
             item beartrap("beartrap", calendar::turn);
-            g->m.add_item_or_charges(posx(), posy(), beartrap);
+            g->m.add_item_or_charges(pos(), beartrap);
         } else {
             add_msg_if_player(m_bad, _("You try to free yourself from the bear trap, but can't get loose!"));
         }
@@ -414,6 +414,22 @@ void Character::recalc_sight_limits()
     }
     if( has_trait("BIRD_EYE") ) {
         vision_mode_cache.set( BIRD_EYE);
+    }
+
+    // Not exactly a sight limit thing, but related enough
+    if( has_active_bionic( "bio_infrared" ) ||
+        has_trait( "INFRARED" ) ||
+        has_trait( "LIZ_IR" ) ||
+        worn_with_flag( "IR_EFFECT" ) ) {
+        vision_mode_cache.set( IR_VISION );
+    }
+
+    if( has_artifact_with( AEP_SUPER_CLAIRVOYANCE ) ) {
+        vision_mode_cache.set( VISION_CLAIRVOYANCE_SUPER );
+    }
+
+    if( has_artifact_with( AEP_CLAIRVOYANCE ) ) {
+        vision_mode_cache.set( VISION_CLAIRVOYANCE );
     }
 }
 

@@ -1079,6 +1079,12 @@ public:
          * Ignored if smaller than 0.
          */
         bool pl_sees( const tripoint &t, int max_range ) const;
+        /**
+         * Uses the map cache to tell if the player could see the given square.
+         * pl_sees implies pl_line_of_sight
+         * Used for infrared.
+         */
+        bool pl_line_of_sight( const tripoint &t, int max_range ) const;
     std::set<vehicle*> dirty_vehicle_list;
 
     /** return @ref abs_sub */
