@@ -53,20 +53,19 @@ function member_type_to_cpp_type(member_type)
 end
 
 -- Loads an instance of class_name (which must be the first thing on the stack) into a local
--- variable, named "<class_name>_instance". Only use for classes (not enums/primitives).
+-- variable, named "instance". Only use for classes (not enums/primitives).
 function load_instance(class_name)
     if not classes[class_name] then
         error("'"..class_name.."' is not defined in class_definitions.lua")
     end
 
-    local instance_name = class_name .. "_instance"
     local wrapper_type = ""
     if classes[class_name].by_value then
         wrapper_type = "LuaValue<" .. class_name .. ">"
     else
         wrapper_type = "LuaValue<" .. class_name .. "*>"
     end
-    return class_name .. "& " .. instance_name .. " = " .. wrapper_type .. "::get(L, 1);"
+    return class_name .. "& instance = " .. wrapper_type .. "::get(L, 1);"
 end
 
 -- Returns code to retrieve a lua value from the stack and store it into
@@ -88,7 +87,7 @@ function generate_getter(class_name, member_name, member_type, cpp_name)
 
     text = text .. tab .. load_instance(class_name)..br
 
-    text = text .. tab .. push_lua_value(class_name.."_instance."..cpp_name, member_type)..br
+    text = text .. tab .. push_lua_value("instance."..cpp_name, member_type)..br
 
     text = text .. tab .. "return 1;  // 1 return value"..br
     text = text .. "}" .. br
@@ -107,7 +106,7 @@ function generate_setter(class_name, member_name, member_type, cpp_name)
     text = text .. tab .. "LuaType<"..member_type_to_cpp_type(member_type)..">::check(L, 2);"..br
     text = text .. tab .. "auto && value = " .. retrieve_lua_value(member_type, 2)..br
 
-    text = text .. tab .. class_name.."_instance."..cpp_name.." = value;"..br
+    text = text .. tab .. "instance."..cpp_name.." = value;"..br
 
     text = text .. tab .. "return 0;  // 0 return values"..br
     text = text .. "}" .. br
@@ -294,7 +293,7 @@ function generate_class_function_wrapper(class_name, function_name, func, cur_cl
         end
 
         if cur_class_name == class_name then
-            text = text .. class_name .. "_instance"
+            text = text .. "instance"
         else
             --[[
             If we call a function of the parent class, we need to call it through
@@ -305,7 +304,7 @@ function generate_class_function_wrapper(class_name, function_name, func, cur_cl
             This won't work: B b; b.f();
             But this will:   B b; static_cast<A&>(b).f()
             --]]
-            text = text .. "static_cast<"..cur_class_name.."&>(" .. class_name .. "_instance)"
+            text = text .. "static_cast<"..cur_class_name.."&>(instance)"
         end
         text = text .. "."..function_to_call .. "("
 
