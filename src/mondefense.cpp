@@ -10,6 +10,7 @@
 #include "map.h"
 #include "translations.h"
 #include "field.h"
+#include "player.h"
 
 void mdefense::none( monster &, Creature *, const dealt_projectile_attack * )
 {

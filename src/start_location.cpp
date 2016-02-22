@@ -11,6 +11,7 @@
 #include "field.h"
 #include "mapgen.h"
 #include "generic_factory.h"
+#include "player.h"
 
 const efftype_id effect_bleed( "bleed" );
 

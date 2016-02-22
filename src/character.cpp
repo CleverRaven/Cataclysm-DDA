@@ -13,6 +13,7 @@
 #include "input.h"
 #include "monster.h"
 #include "mtype.h"
+#include "player.h"
 
 const efftype_id effect_beartrap( "beartrap" );
 const efftype_id effect_bite( "bite" );

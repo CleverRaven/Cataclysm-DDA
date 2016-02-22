@@ -11,6 +11,7 @@
 #include "weather_gen.h"
 #include "sounds.h"
 #include "cata_utility.h"
+#include "player.h"
 
 #include <vector>
 #include <sstream>

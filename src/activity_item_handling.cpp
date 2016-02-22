@@ -9,6 +9,7 @@
 #include "translations.h"
 #include "monster.h"
 #include "vehicle.h"
+#include "player.h"
 #include <list>
 #include <vector>
 #include <cassert>

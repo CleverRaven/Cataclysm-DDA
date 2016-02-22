@@ -16,6 +16,7 @@
 #include "translations.h"
 #include "input.h"
 #include "overmap.h"
+#include "player.h"
 
 #include <string>
 #include <vector>
