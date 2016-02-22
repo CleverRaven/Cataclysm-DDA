@@ -126,75 +126,8 @@
         "id": "soldier_primary",
         "entries":
         [
-            { "group": "soldier_iar", "prob": 20},
-            { "group": "soldier_m4", "prob": 40},
-            { "group": "soldier_m1014", "prob": 10},
-            { "group": "soldier_m249", "prob": 10},
-            { "group": "soldier_m14ebr", "prob": 5}
-        ]
-    },
-    {
-        "type" : "item_group",
-        "subtype": "collection",
-        "id": "soldier_m9",
-        "entries":
-        [
-            { "item": "holster", "damage-min": 0, "damage-max": 4},
-            { "item": "9mm", "charges-min": 5, "charges-max": 15, "prob": 33},
-            { "item": "m9", "damage-min": 0, "damage-max": 4}
-        ]
-    },
-    {
-        "type" : "item_group",
-        "subtype": "collection",
-        "id": "soldier_m4",
-        "entries":
-        [
-            { "item": "m4a1", "damage-min": 0, "damage-max": 4},
-            { "item": "556", "charges-min": 5, "charges-max": 30, "prob": 33}
-        ]
-    },
-
-    {
-        "type" : "item_group",
-        "subtype": "collection",
-        "id": "soldier_iar",
-        "entries":
-        [
-            { "item": "modularvestceramic", "damage-min": 1, "damage-max": 4, "prob": 50},
-            { "item": "rucksack", "prob": 50, "damage-min": 1, "damage-max": 4},
-            { "item": "m27iar", "damage-min": 0, "damage-max": 4},
-            { "item": "556", "charges-min": 5, "charges-max": 20, "prob": 33}
-        ]
-    },
-    {
-        "type" : "item_group",
-        "subtype": "collection",
-        "id": "soldier_m1014",
-        "entries":
-        [
-            { "item": "rucksack", "prob": 15, "damage-min": 1, "damage-max": 4},
-            { "item": "modularvesthard", "damage-min": 1, "damage-max": 4, "prob": 50},
-            { "item": "m1014", "damage-min": 0, "damage-max": 4},
-            { "item": "shot_00", "charges-min": 0, "charges-max": 10, "prob": 33},
-            { "item": "shot_flechette", "charges-min": 0, "charges-max": 1, "prob": 15},
-            { "item": "shot_slug", "charges-min": 0, "charges-max": 2, "prob": 15}
-        ]
-    },
-    {
-        "type" : "item_group",
-        "subtype": "collection",
-        "id": "soldier_m249",
-        "entries":
-        [
-            { "item": "dump_pouch", "damage-min": 1, "damage-max": 4, "prob": 33},
-            { "item": "molle_pack", "prob": 75, "damage-min": 1, "damage-max": 4},
-            { "item": "smokebomb", "prob": 33},
-            { "item": "modularvesthard", "damage-min": 1, "damage-max": 4},
-            { "item": "mask_bal", "prob": 2, "damage-min": 1, "damage-max": 4},
-            { "item": "balclava", "prob": 33, "damage-min": 1, "damage-max": 4},
-            { "item": "m249", "damage-min": 0, "damage-max": 4},
-            { "item": "556", "charges-min": 15, "charges-max": 45, "prob": 33}
+            { "group": "guns_rifle_milspec", "prob": 75 },
+            { "group": "guns_shotgun_milspec", "prob": 25 }
         ]
     },
     {
@@ -209,18 +142,6 @@
             { "item": "40mm_teargas", "prob": 5},
             { "item": "40mm_flashbang", "prob": 5},
             { "item": "40mm_shot", "prob": 5}
-        ]
-    },
-    {
-        "type" : "item_group",
-        "subtype": "collection",
-        "id": "soldier_m14ebr",
-        "entries":
-        [
-            { "item": "binoculars", "prob": 50},
-            { "item": "kevlar", "damage-min": 1, "damage-max": 4, "prob": 50},
-            { "item": "m14ebr", "damage-min": 0, "damage-max": 4},
-            { "item": "556", "charges-min": 5, "charges-max": 25, "prob": 33}
         ]
     }
 ]
