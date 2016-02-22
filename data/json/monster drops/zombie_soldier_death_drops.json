@@ -38,7 +38,6 @@
                     ],
                 "prob": 88 }, 
                 { "collection": [ 
-                    {"//": "This is for when soldiers did something interesting. Some gear is governed by the assigned primary weapon (aka marksmen have lighter body armor and less pockets than gunners."},
                     { "item": "helmet_army"},
                     { "item": "helmet_netting", "damage-min": 1, "damage-max": 4, "prob": 33},
                     { "item": "elbow_pads", "damage-min": 1, "damage-max": 4, "prob": 33},
@@ -62,7 +61,7 @@
                     { "item": "goggles_nv", "damage-min": 1, "damage-max": 4, "prob": 5},
                     { "item": "goggles_ir", "damage-min": 1, "damage-max": 4, "prob": 5},
                     { "group": "soldier_primary", "prob": 25 },
-                    { "group": "soldier_m9", "prob": 50}, 
+                    { "group": "guns_pistol_milspec", "prob": 30, "damage-min": 1, "damage-max": 3 },
                     { "group": "soldier_weapon_mods", "count-min": 1, "count-max": 2, "damage-min": 1, "damage-max": 4, "prob": 10}, 
                     { "item": "grenade", "prob": 15, "count-min": 1, "count-max": 2},
                     { "item": "water_clean", "container_item": "canteen", "charges-min": 1, "charges-max": 7, "prob": 20}
@@ -72,8 +71,8 @@
                     { "//": "Mythical corpsmen are the rarest kind."},
                     { "item": "helmet_army"},
                     { "item": "helmet_netting", "damage-min": 1, "damage-max": 4, "prob": 33},
-                    { "group": "soldier_m4", "prob": 10},                    
-                    { "group": "soldier_m9",  "prob": 20}, 
+                    { "group": "guns_rifle_milspec", "prob": 10, "damage-min": 1, "damage-max": 3 },
+                    { "group": "guns_pistol_milspec", "prob": 20, "damage-min": 1, "damage-max": 3 },
                     { "item": "ear_plugs", "count-min": 1, "count-max": 2},
                     { "item": "chestrig", "damage-min": 1, "damage-max": 4},
                     { "item": "water_clean", "container_item": "canteen", "charges-min": 1, "charges-max": 7, "prob": 20},
