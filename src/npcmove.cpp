@@ -1075,8 +1075,16 @@ bool npc::alt_attack_available()
     for( auto &elem : ALT_ATTACK_ITEMS ) {
         if( ( !is_following() || rules.use_grenades ||
               !( item::find_type( elem )->item_tags.count( "GRENADE" ) ) ) &&
-            has_amount( elem, 1 ) ) {
-            return true;
+                has_amount( elem, 1 ) ) {
+            invslice slice = inv.slice();
+            for (size_t i = 0; i < inv.size(); i++) {
+                if (slice[i]->front().type->id == elem) {
+                    used = &(slice[i]->front());
+                }
+            }
+            if (used->charges >= 1) {
+                return true;
+            }
         }
     }
     return false;
