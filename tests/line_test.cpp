@@ -70,6 +70,17 @@ std::vector <point> canonical_line_to(const int x1, const int y1, const int x2, 
     return ret;
 }
 
+TEST_CASE("test_normalized_angle") {
+    CHECK( get_normalized_angle( {0, 0}, {10, 0} ) == Approx(0.0) );
+    CHECK( get_normalized_angle( {0, 0}, {0, 10} ) == Approx(0.0) );
+    CHECK( get_normalized_angle( {0, 0}, {-10, 0} ) == Approx(0.0) );
+    CHECK( get_normalized_angle( {0, 0}, {0, -10} ) == Approx(0.0) );
+    CHECK( get_normalized_angle( {0, 0}, {10, 10} ) == Approx(1.0) );
+    CHECK( get_normalized_angle( {0, 0}, {-10, 10} ) == Approx(1.0) );
+    CHECK( get_normalized_angle( {0, 0}, {10, -10} ) == Approx(1.0) );
+    CHECK( get_normalized_angle( {0, 0}, {-10, -10} ) == Approx(1.0) );
+}
+
 TEST_CASE("Test bounds for mapping x/y/z/ offsets to direction enum") {
 
   // Test the unit cube, which are the only values this function is valid for.

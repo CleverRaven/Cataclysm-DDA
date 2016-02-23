@@ -25,9 +25,9 @@ mod_ui::~mod_ui()
     mm_tree = NULL;
 }
 
-bool compare_mod_by_name(const MOD_INFORMATION *a, const MOD_INFORMATION *b)
+bool compare_mod_by_name_and_category(const MOD_INFORMATION *a, const MOD_INFORMATION *b)
 {
-    return a->name < b->name;
+    return ((a->category < b->category) || ((a->category == b->category) && (a->name < b->name)));
 }
 
 void mod_ui::set_usable_mods()
@@ -41,7 +41,7 @@ void mod_ui::set_usable_mods()
             mods.push_back(modinfo_pair.second);
         }
     }
-    std::sort(mods.begin(), mods.end(), &compare_mod_by_name);
+    std::sort(mods.begin(), mods.end(), &compare_mod_by_name_and_category);
 
     for( auto modinfo : mods ) {
         switch(modinfo->_type) {
@@ -130,6 +130,15 @@ std::string mod_ui::get_information(MOD_INFORMATION *mod)
         info << note;
     }
 
+#ifndef LUA
+    if ( mod->need_lua ) {
+        std::string lua_msg = "";
+        lua_msg += "<color_red>";
+        lua_msg += _("This mod requires Lua but your CDDA build doesn't support it!");
+        lua_msg += "</color>";
+        info << lua_msg;
+    }
+#endif
     return info.str();
 }
 

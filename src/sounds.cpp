@@ -19,11 +19,11 @@
 #include "mapdata.h"
 #include <chrono>
 #ifdef SDL_SOUND
-#include "SDL2/SDL_mixer.h"
-#include <thread>
-#if (defined _WIN32 || defined WINDOWS)
-#   include "mingw.thread.h"
-#endif
+#   include <SDL_mixer.h>
+#   include <thread>
+#   if (defined _WIN32 || defined WINDOWS)
+#       include "mingw.thread.h"
+#   endif
 #endif
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
@@ -37,6 +37,9 @@ float g_sfx_volume_multiplier = 1;
 auto start_sfx_timestamp = std::chrono::high_resolution_clock::now();
 auto end_sfx_timestamp = std::chrono::high_resolution_clock::now();
 auto sfx_time = end_sfx_timestamp - start_sfx_timestamp;
+
+const efftype_id effect_deaf( "deaf" );
+const efftype_id effect_sleep( "sleep" );
 
 struct sound_event {
     int volume;
@@ -165,7 +168,9 @@ void sounds::process_sounds()
         // --- Monster sound handling here ---
         // Alert all hordes
         if( vol > 20 && g->get_levz() == 0 ) {
-            int sig_power = ( ( vol > 140 ) ? 140 : vol ) - 20;
+            int sig_power = ( ( vol > 140 ) ? 140 : vol );
+            // With this, volume 100 reaches 20 overmap tiles away.
+            sig_power /= 5;
             const point abs_ms = g->m.getabs( source.x, source.y );
             const point abs_sm = overmapbuffer::ms_to_sm_copy( abs_ms );
             const tripoint target( abs_sm.x, abs_sm.y, source.z );
@@ -188,13 +193,14 @@ void sounds::process_sound_markers( player *p )
 {
     bool is_deaf = p->is_deaf();
     const float volume_multiplier = p->hearing_ability();
+    const int safe_volume = p->worn_with_flag("PARTIAL_DEAF") ? 100 : 9999;
     const int weather_vol = weather_data( g->weather ).sound_attn;
     for( const auto &sound_event_pair : sounds_since_last_turn ) {
-        const int volume = sound_event_pair.second.volume * volume_multiplier;
+        const int volume = std::min(safe_volume, (int)(sound_event_pair.second.volume * volume_multiplier));
         const std::string& sfx_id = sound_event_pair.second.id;
         const std::string& sfx_variant = sound_event_pair.second.variant;
         const int max_volume = std::max( volume, sound_event_pair.second.volume );  // For deafness checks
-        int dist = rl_dist( p->pos3(), sound_event_pair.first );
+        int dist = rl_dist( p->pos(), sound_event_pair.first );
         bool ambient = sound_event_pair.second.ambient;
         // Too far away, we didn't hear it!
         if( dist > volume ) {
@@ -202,11 +208,11 @@ void sounds::process_sound_markers( player *p )
         }
         if( is_deaf ) {
             // Has to be here as well to work for stacking deafness (loud noises prolong deafness)
-            if( !p->is_immune_effect( "deaf" )
+            if( !p->is_immune_effect( effect_deaf )
                     && rng( ( max_volume - dist ) / 2, ( max_volume - dist ) ) >= 150 ) {
                 // Prolong deafness, but not as much as if it was freshly applied
                 int duration = std::min( 40, ( max_volume - dist - 130 ) / 8 );
-                p->add_effect( "deaf", duration );
+                p->add_effect( effect_deaf, duration );
                 if( !p->has_trait( "DEADENED" ) ) {
                     p->add_msg_if_player( m_bad, _( "Your eardrums suddenly ache!" ) );
                     if( p->pain < 10 ) {
@@ -223,9 +229,9 @@ void sounds::process_sound_markers( player *p )
             p->volume = std::max( p->volume, volume );
         }
         // Check for deafness
-        if( !p->is_immune_effect( "deaf" ) && rng((max_volume - dist) / 2, (max_volume - dist)) >= 150 ) {
+        if( !p->is_immune_effect( effect_deaf ) && rng((max_volume - dist) / 2, (max_volume - dist)) >= 150 ) {
             int duration = (max_volume - dist - 130) / 4;
-            p->add_effect("deaf", duration);
+            p->add_effect( effect_deaf, duration );
             if( p->is_deaf() ) {
                 // Need to check for actual deafness
                 is_deaf = true;
@@ -241,7 +247,7 @@ void sounds::process_sound_markers( player *p )
             continue;
         }
         // See if we need to wake someone up
-        if( p->has_effect( "sleep" ) ) {
+        if( p->has_effect( effect_sleep ) ) {
             if( ( !( p->has_trait( "HEAVYSLEEPER" ) ||
                      p->has_trait( "HEAVYSLEEPER2" ) ) && dice( 2, 15 ) < mod_vol - dist ) ||
                     ( p->has_trait( "HEAVYSLEEPER" ) && dice( 3, 15 ) < mod_vol - dist ) ||
@@ -255,7 +261,7 @@ void sounds::process_sound_markers( player *p )
         }
         const tripoint &pos = sound_event_pair.first;
         const std::string &description = sound_event_pair.second.description;
-        if( !ambient && ( pos != p->pos3() ) && !g->m.pl_sees( pos, dist ) ) {
+        if( !ambient && ( pos != p->pos() ) && !g->m.pl_sees( pos, dist ) ) {
             if( p->activity.ignore_trivial != true ) {
                 std::string query;
                 if( description.empty() ) {
@@ -275,13 +281,13 @@ void sounds::process_sound_markers( player *p )
         // Only print a description if it exists
         if( !description.empty() ) {
             // If it came from us, don't print a direction
-            if( pos == p->pos3() ) {
+            if( pos == p->pos() ) {
                 std::string uppercased = description;
                 capitalize_letter( uppercased, 0 );
                 add_msg( "%s", uppercased.c_str() );
             } else {
                 // Else print a direction as well
-                std::string direction = direction_name( direction_from( p->pos3(), pos ) );
+                std::string direction = direction_name( direction_from( p->pos(), pos ) );
                 add_msg( m_warning, _( "From the %s you hear %s" ), direction.c_str(), description.c_str() );
             }
         }
@@ -295,7 +301,7 @@ void sounds::process_sound_markers( player *p )
         // If Z coord is different, draw even when you can see the source
         const bool diff_z = pos.z != p->posz();
         // Place footstep markers.
-        if( pos == p->pos3() || p->sees( pos ) ) {
+        if( pos == p->pos() || p->sees( pos ) ) {
             // If we are or can see the source, don't draw a marker.
             continue;
         }
@@ -453,7 +459,7 @@ void sfx::do_ambient() {
         return;
     }
     audio_muted = false;
-    const bool is_deaf = g->u.get_effect_int( "deaf" ) > 0;
+    const bool is_deaf = g->u.get_effect_int( effect_deaf ) > 0;
     const int heard_volume = get_heard_volume( g->u.pos() );
     const bool is_underground = ::is_underground( g->u.pos() );
     const bool is_sheltered = g->is_sheltered( g->u.pos() );
@@ -560,7 +566,7 @@ void sfx::generate_gun_sound( const player &p, const item &firing )
     int distance;
     std::string selected_sound;
     // this does not mean p == g->u (it could be a vehicle turret)
-    if( g->u.pos3() == source ) {
+    if( g->u.pos() == source ) {
         angle = 0;
         distance = 0;
         selected_sound = "fire_gun";
@@ -569,7 +575,7 @@ void sfx::generate_gun_sound( const player &p, const item &firing )
         }
     } else {
         angle = get_heard_angle( source );
-        distance = rl_dist( g->u.pos3(), source );
+        distance = rl_dist( g->u.pos(), source );
         if( distance <= 17 ) {
             selected_sound = "fire_gun";
         } else {
@@ -630,8 +636,8 @@ sfx::sound_thread::sound_thread( const tripoint &source, const tripoint &target,
     } else {
         p = g->active_npc[npc_index];
         ang_src = get_heard_angle( source );
-        vol_src = heard_volume - 30;
-        vol_targ = heard_volume - 20;
+        vol_src = std::max(heard_volume - 30, 0);
+        vol_targ = std::max(heard_volume - 20, 0);
     }
     ang_targ = get_heard_angle( target );
     weapon_skill = p->weapon.weap_skill();
@@ -970,7 +976,7 @@ void sfx::do_obstacle() { }
   * without sound support. */
 /*@{*/
 int sfx::get_heard_volume( const tripoint source ) {
-    int distance = rl_dist( g->u.pos3(), source );
+    int distance = rl_dist( g->u.pos(), source );
     // fract = -100 / 24
     const float fract = -4.166666;
     int heard_volume = fract * distance - 1 + 100;

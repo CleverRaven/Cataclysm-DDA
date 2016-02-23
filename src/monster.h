@@ -2,7 +2,6 @@
 #define MONSTER_H
 
 #include "creature.h"
-#include "player.h"
 #include "enums.h"
 #include "int_id.h"
 #include <vector>
@@ -11,6 +10,7 @@ class map;
 class game;
 class item;
 class monfaction;
+class player;
 struct mtype;
 enum monster_trigger : int;
 
@@ -18,6 +18,16 @@ using mfaction_id = int_id<monfaction>;
 using mtype_id = string_id<mtype>;
 
 typedef std::map< mfaction_id, std::set< int > > mfactions;
+
+class mon_special_attack : public JsonSerializer {
+public:
+    int cooldown = 0;
+    bool enabled = true;
+
+    using JsonSerializer::serialize;
+    virtual void serialize(JsonOut &jsout) const override;
+    // deserialize inline in monster::load due to backwards/forwards compatibility concerns
+};
 
 enum monster_attitude {
     MATT_NULL = 0,
@@ -69,6 +79,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         int hp_percentage() const override;
 
         // Access
+        std::string get_name() const override;
         std::string name(unsigned int quantity = 1) const; // Returns the monster's formal name
         std::string name_with_armor() const; // Name, with whatever our armor is called
         // the creature-class versions of the above
@@ -96,7 +107,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         bool can_act() const;
         int sight_range( int light_level ) const override;
         using Creature::sees;
-        bool made_of(std::string m) const; // Returns true if it's made of m
+        bool made_of( const std::string &m ) const; // Returns true if it's made of m
         bool made_of(phase_id p) const; // Returns true if its phase is p
 
         bool avoid_trap( const tripoint &pos, const trap &tr ) const override;
@@ -167,9 +178,11 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
          * @param force If this is set to true, the movement will happen even if
          *              there's currently something blocking the destination.
          *
+         * @param stagger_adjustment is a multiplier for move cost to compensate for staggering.
+         *
          * @return true if movement successful, false otherwise
          */
-        bool move_to( const tripoint &p, bool force = false );
+        bool move_to( const tripoint &p, bool force = false, float stagger_adjustment = 1.0 );
 
         /**
          * Attack any enemies at the given location.
@@ -227,11 +240,9 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         bool is_immune_damage( const damage_type ) const override;
 
         void absorb_hit(body_part bp, damage_instance &dam) override;
-        void dodge_hit(Creature *source, int hit_spread) override;
         bool block_hit(Creature *source, body_part &bp_hit, damage_instance &d) override;
         using Creature::melee_attack;
         void melee_attack(Creature &p, bool allow_special, const matec_id &force_technique) override;
-        virtual int deal_melee_attack(Creature *source, int hitroll) override;
         virtual void deal_projectile_attack( Creature *source, dealt_projectile_attack &attack ) override;
         virtual void deal_damage_handle_type(const damage_unit &du, body_part bp, int &damage, int &pain) override;
         void apply_damage(Creature *source, body_part bp, int amount) override;
@@ -240,9 +251,10 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         // Let the monster die and let its body explode into gibs
         void die_in_explosion( Creature *source );
         /**
-         * Flat addition to the monsters @ref hp. This is not capped at the maximal hp!
+         * Flat addition to the monsters @ref hp. If `overheal` is true, this is not capped by max hp.
+         * Returns actually healed hp.
          */
-        void heal( int hp_delta );
+        int heal( int hp_delta, bool overheal = false );
         /**
          * Directly set the current @ref hp of the monster (not capped at the maximal hp).
          * You might want to use @ref heal / @ref apply_damage or @ref deal_damage instead.
@@ -257,13 +269,15 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         /** Handles any monster-specific effect application effects before calling Creature::add_eff_effects(). */
         virtual void add_eff_effects(effect e, bool reduced) override;
         /** Performs any monster-specific modifications to the arguments before passing to Creature::add_effect(). */
-        virtual void add_effect( efftype_id eff_id, int dur, body_part bp = num_bp, bool permanent = false,
+        virtual void add_effect( const efftype_id &eff_id, int dur, body_part bp = num_bp, bool permanent = false,
                                  int intensity = 0, bool force = false ) override;
 
         virtual float power_rating() const override;
+        virtual float speed_rating() const override;
 
         int  get_armor_cut(body_part bp) const override;   // Natural armor, plus any worn armor
         int  get_armor_bash(body_part bp) const override;  // Natural armor, plus any worn armor
+        int  get_armor_type( damage_type dt, body_part bp ) const override;
         int  get_dodge() const override;       // Natural dodge, or 0 if we're occupied
         int  get_melee() const override; // For determining attack skill when awarding dodge practice.
         int  hit_roll() const override;  // For the purposes of comparing to player::dodge_roll()
@@ -278,20 +292,21 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
 
         int stability_roll() const override;
         // We just dodged an attack from something
-        void on_dodge( Creature *source, int difficulty = INT_MIN ) override;
+        void on_dodge( Creature *source, int difficulty ) override;
         // Something hit us (possibly null source)
         void on_hit( Creature *source, body_part bp_hit = num_bp,
-                     int difficulty = INT_MIN, projectile const* const proj = nullptr ) override;
+                     int difficulty = INT_MIN, dealt_projectile_attack const* const proj = nullptr ) override;
         // Get torso - monsters don't have body parts (yet?)
         body_part get_random_body_part( bool main ) const override;
 
-        /** Resets a given special to its monster type cooldown value, an index of -1 does nothing. */
-        void reset_special(int index);
-        /** Resets a given special to a value between 0 and its monster type cooldown value.
-          * An index of -1 does nothing. */
-        void reset_special_rng(int index);
-        /** Sets a given special to the given value, an index of -1 does nothing. */
-        void set_special(int index, int time);
+        /** Resets a given special to its monster type cooldown value */
+        void reset_special(const std::string &special_name);
+        /** Resets a given special to a value between 0 and its monster type cooldown value. */
+        void reset_special_rng(const std::string &special_name);
+        /** Sets a given special to the given value */
+        void set_special(const std::string &special_name, int time);
+        /** Sets the enabled flag for the given special to false */
+        void disable_special(const std::string &special_name);
 
         void die(Creature *killer) override; //this is the die from Creature, it calls kill_mon
         void drop_items_on_death();
@@ -380,14 +395,22 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
          */
         void init_from_item( const item &itm );
 
+        int last_updated;
+        /**
+         * Do some cleanup and caching as monster is being unloaded from map.
+         */
+        void on_unload();
+        /**
+         * Retroactively update monster.
+         */
+        void on_load();
+
     private:
         int hp;
-        std::vector<int> sp_timeout;
+        std::map<std::string, mon_special_attack> special_attacks;
         tripoint goal;
         tripoint position;
         bool dead;
-        /** Attack another monster */
-        void hit_monster(monster &other);
         /** Legacy loading logic for monsters that are packing ammo. **/
         void normalize_ammo( const int old_ammo );
         /** Normal upgrades **/

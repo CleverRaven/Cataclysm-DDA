@@ -1,0 +1,94 @@
+[
+    {
+        "type": "mapgen",
+        "om_terrain": [
+            "basement"
+        ],
+        "method": "json",
+        "weight": 1000,
+        "object": {
+            "rows": [
+                "  --------------------  ",
+                "  |..................|  ",
+                "  |..{{{{{{{{{{{{{{..|  ",
+                "  |..................|  ",
+                "  |..................|  ",
+                "  |..{{{{{{{{{{{{{{..|  ",
+                "  |..................|  ",
+                "  |..................|  ",
+                "  |..................|  ",
+                "  |..........|---+---|  ",
+                "  |..........|]......|  ",
+                "  |###s##|-+-|].....#|  ",
+                "  |------|...+....h.#|  ",
+                "  |......|<..|...####|  ",
+                "  --------------------  ",
+                "                        ",
+                "                        ",
+                "                        ",
+                "                        ",
+                "                        ",
+                "                        ",
+                "                        ",
+                "                        ",
+                "                        "
+            ],
+            "fill_ter": "t_rock",
+            "terrain": {
+                "|": "t_wall",
+                "-": "t_wall",
+                "<": "t_stairs_up",
+                "+": "t_door_c",
+                ".": "t_rock_floor",
+                "#": "t_rock_floor",
+                "{": "t_rock_floor",
+                "h": "t_rock_floor",
+                "]": "t_rock_floor",
+                "s": "t_rock_floor"
+            },
+            "furniture": {
+                "#": "f_counter",
+                "{": "f_rack",
+                "h": "f_chair",
+                "]": "f_bookcase",
+                "s": "f_gunsafe_ml"
+            },
+            "place_monsters": [
+                { "monster": "GROUP_PREPPER_HOUSE", "x": [  3, 20 ], "y": [ 1,   8 ], "chance": 2 },
+                { "monster": "GROUP_PREPPER_HOUSE", "x": [ 14, 20 ], "y": [ 10, 13 ], "chance": 4 }
+            ],
+            "place_loot": [
+                { "group": "guns_smg_rare",         "chance":  20, "x":  6, "y":  2, "magazine": 100 },
+                { "group": "guns_rifle_rare",       "chance":  30, "x":  7, "y":  2, "magazine": 100 },
+                { "group": "mags_pistol_rare",      "chance":  75, "x":  8, "y":  2 },
+                { "group": "guns_pistol_common",    "chance":  90, "x":  9, "y":  2, "magazine": 100 },
+                { "group": "mags_pistol_common",    "chance": 100, "x": 10, "y":  2, "repeat": [1,3] },
+                { "group": "guns_rifle_common",     "chance":  80, "x": 11, "y":  2, "magazine": 100 },
+                { "group": "guns_shotgun_common",   "chance":  80, "x": 12, "y":  2, "magazine": 100 },
+                { "group": "mags_rifle_common",     "chance": 100, "x": 13, "y":  2, "repeat": [1,3] },
+                { "group": "guns_smg_common",       "chance":  70, "x": 14, "y":  2, "magazine": 100 },
+                { "group": "guns_pistol_rare",      "chance":  40, "x": 15, "y":  2, "magazine": 100 },
+                { "group": "mags_smg_common",       "chance":  70, "x": 16, "y":  2, "repeat": [1,2] },
+                { "group": "guns_shotgun_rare",     "chance":  30, "x": 17, "y":  2, "magazine": 100 },
+                { "group": "ammo_shotgun_reloaded", "chance":  90, "x":  6, "y":  5, "repeat": [1,2] },
+                { "group": "ammo_rifle_reloaded",   "chance":  90, "x":  7, "y":  5, "repeat": [1,2] },
+                { "group": "ammo_shotgun_common",   "chance":  40, "x":  8, "y":  5, "repeat": [1,2] },
+                { "group": "ammo_pistol_reloaded",  "chance":  90, "x":  9, "y":  5, "repeat": [1,2] },
+                { "group": "ammo_rifle_reloaded",   "chance":  40, "x": 10, "y":  5, "repeat": [1,2] },
+                { "group": "ammo_rifle_common",     "chance":  90, "x": 11, "y":  5, "repeat": [1,2] },
+                { "group": "ammo_smg_common",       "chance":  40, "x": 12, "y":  5, "repeat": [1,2] },
+                { "group": "ammo_pistol_common",    "chance":  90, "x": 13, "y":  5, "repeat": [1,2] },
+                { "group": "ammo_rifle_common",     "chance":  40, "x": 14, "y":  5, "repeat": [1,2] },
+                { "group": "ammo_pistol_common",    "chance":  40, "x": 15, "y":  5, "repeat": [1,2] },
+                { "group": "ammo_pistol_reloaded",  "chance":  40, "x": 16, "y":  5, "repeat": [1,2] },
+                { "group": "ammo_shotgun_common",   "chance":  90, "x": 17, "y":  5, "repeat": [1,2] },
+                { "group": "book_gunref",           "chance":  60, "x": 14, "y": [10,11] },
+                { "group": "gunmod_common",         "chance": 100, "x":  4, "y": 11 },
+                { "group": "guns_obscure",          "chance": 100, "x":  6, "y": 11, "magazine": 100, "ammo": 100 },
+                { "group": "tools_common",          "chance": 100, "x": 20, "y": 12 },
+                { "group": "gunmod_rare",           "chance":  30, "x": 18, "y": 13 },
+                { "group": "gunmod_rare",           "chance": 100, "x": 19, "y": 13 }
+            ]
+        }
+    }
+]

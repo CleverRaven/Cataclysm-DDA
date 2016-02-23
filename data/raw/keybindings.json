@@ -366,6 +366,22 @@
             {
                 "input_method":"keyboard",
                 "key":"s"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"RETURN"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "CHANGE_SIDE",
+        "category": "SORT_ARMOR",
+        "name": "Change side armor is worn on",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"c"
             }
         ]
     },
@@ -494,6 +510,30 @@
     },
     {
         "type" : "keybinding",
+        "id": "SCROLL_UP",
+        "category": "CRAFTING",
+        "name": "Scroll item info up",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"PPAGE"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "SCROLL_DOWN",
+        "category": "CRAFTING",
+        "name": "Scroll item info down",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"NPAGE"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
         "id":"CENTER",
         "category":"OVERMAP",
         "name":"Center On Character",
@@ -563,6 +603,30 @@
         ]
     },
     {
+        "type": "keybinding",
+        "id": "NEW",
+        "category": "MINESWEEPER",
+        "name": "Create New level",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"n"
+            }
+        ]
+    },
+    {
+        "type": "keybinding",
+        "id": "FLAG",
+        "category": "MINESWEEPER",
+        "name": "Toggle Flag",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"f"
+            }
+        ]
+    },
+    {
         "type" : "keybinding",
         "id":"CONFIRM",
         "name":"Confirm Choice",
@@ -606,6 +670,30 @@
             {
                 "input_method":"keyboard",
                 "key":"-"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "NEXT_CATEGORY_TAB",
+        "category": "MODMANAGER_DIALOG",
+        "name": "Move to next category tab",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"TAB"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "PREV_CATEGORY_TAB",
+        "category": "MODMANAGER_DIALOG",
+        "name": "Move to previous category tab",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"BACKTAB"
             }
         ]
     },
@@ -705,6 +793,42 @@
                 "key":"E"
             }
         ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "PLACE_TERRAIN",
+        "category": "OVERMAP",
+        "name": "Place Overmap Terrain",
+        "bindings": [
+            {
+                "input_method": "keyboard",
+                "key": "t"
+            }
+        ]
+    },
+    {
+        "type": "keybinding",
+        "id": "PLACE_SPECIAL",
+        "category": "OVERMAP",
+        "name": "Place Overmap Special",
+        "bindings": [
+            {
+                "input_method": "keyboard",
+                "key": "s"
+            }
+        ]
+    },
+    {
+        "type": "keybinding",
+        "id": "ROTATE",
+        "category": "OVERMAP_EDITOR",
+        "name": "Rotate",
+        "bindings": [
+            {
+                "input_method": "keyboard",
+                "key": "r"
+            }
+        ]        
     },
     {
         "type" : "keybinding",
@@ -813,6 +937,10 @@
             {
                 "input_method":"keyboard",
                 "key":"."
+            },
+            {
+                "input_method":"keyboard",
+                "key":"5"
             }
         ]
     },
@@ -846,6 +974,17 @@
             {
                 "input_method":"keyboard",
                 "key":"p"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id":"SWITCH_AIM",
+        "name":"Switch Aiming Mode",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"m"
             }
         ]
     },
@@ -893,10 +1032,6 @@
             },
             {
                 "input_method":"keyboard",
-                "key":"NPAGE"
-            },
-            {
-                "input_method":"keyboard",
                 "key":">"
             }
         ]
@@ -912,10 +1047,6 @@
             },
             {
                 "input_method":"keyboard",
-                "key":"PPAGE"
-            },
-            {
-                "input_method":"keyboard",
                 "key":"<"
             }
         ]
@@ -928,6 +1059,17 @@
             {
                 "input_method":"keyboard",
                 "key":"f"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id":"TRAVEL_TO",
+        "name":"Travel to destination",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"t"
             }
         ]
     },
@@ -1063,6 +1205,19 @@
     },
     {
         "type" : "keybinding",
+        "id": "QUIT",
+        "category": "NEW_CHAR_DESCRIPTION",
+        "name": "Exit new character screen",
+        "comment": "separate entry, because the global entry also has 'q' and 'Q' listed, which conflicts with the character name entry feature of this dialog",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"ESC"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
         "id": "SORT",
         "category": "NEW_CHAR_PROFESSIONS",
         "name": "Toggle sorting order",
@@ -1082,6 +1237,30 @@
             {
                 "input_method":"keyboard",
                 "key":"s"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "SCROLL_UP",
+        "category": "NEW_CHAR_SKILLS",
+        "name": "Scroll description up",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"PPAGE"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "SCROLL_DOWN",
+        "category": "NEW_CHAR_SKILLS",
+        "name": "Scroll description down",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"NPAGE"
             }
         ]
     },
@@ -1146,15 +1325,6 @@
         "name": "Change tire",
         "bindings":[
             { "input_method":"keyboard", "key":"c" }
-        ]
-    },
-    {
-        "type" : "keybinding",
-        "id": "DRAIN",
-        "category": "VEH_INTERACT",
-        "name": "Drain from tank",
-        "bindings":[
-            { "input_method":"keyboard", "key":"d" }
         ]
     },
     {
@@ -1425,6 +1595,7 @@
     { "type":"keybinding", "name": "View Scentmap", "category":"DEFAULTMODE", "id":"debug_scent" },
     { "type":"keybinding", "name": "Switch Sidebar Style", "category":"DEFAULTMODE", "id":"toggle_sidebar_style" },
     { "type":"keybinding", "name": "Toggle Fullscreen mode", "category":"DEFAULTMODE", "id":"toggle_fullscreen" },
+    { "type":"keybinding", "name": "Toggle Pixel Minimap", "category":"DEFAULTMODE", "id":"toggle_pixel_minimap", "bindings":[ { "input_method":"keyboard", "key":"N" } ] },
     { "type":"keybinding", "name": "Action Menu", "category":"DEFAULTMODE", "id":"action_menu" },
     { "type":"keybinding", "name": "Item Action Menu", "category":"DEFAULTMODE", "id":"item_action_menu", "bindings":[ { "input_method":"keyboard", "key":"%" } ] },
     { "type":"keybinding", "name": "Quicksave", "category":"DEFAULTMODE", "id":"quicksave" },
@@ -2225,7 +2396,7 @@
     },
     {
         "type" : "keybinding",
-        "id": "SEW",
+        "id": "repair_fabric",
         "category": "ITEM_ACTIONS",
         "name": "Sew",
         "bindings":[
@@ -2261,7 +2432,7 @@
     },
     {
         "type" : "keybinding",
-        "id": "SOLDER_WELD",
+        "id": "repair_metal",
         "category": "ITEM_ACTIONS",
         "name": "Solder/Weld",
         "bindings":[

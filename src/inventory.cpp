@@ -12,8 +12,15 @@
 #include "mapdata.h"
 #include "map_iterator.h"
 
-const std::string inv_chars =
-    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!\"#&()*+./:;=@[\\]^_{|}";
+const invlet_wrapper inv_chars("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!\"#&()*+./:;=@[\\]^_{|}");
+
+bool invlet_wrapper::valid( const long invlet ) const
+{
+    if( invlet > std::numeric_limits<char>::max() || invlet < std::numeric_limits<char>::min() ) {
+        return false;
+    }
+    return find( static_cast<char>( invlet ) ) != std::string::npos;
+}
 
 inventory::inventory()
 : nullitem()
@@ -387,18 +394,21 @@ void inventory::restack(player *p)
     std::list<item> to_restack;
     int idx = 0;
     for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter, ++idx) {
-        const int ipos = p->invlet_to_position(iter->front().invlet);
-        if (!iter->front().invlet_is_okay() || ( ipos != INT_MIN && ipos != idx ) ) {
-            assign_empty_invlet(iter->front());
-            for( std::list<item>::iterator stack_iter = iter->begin();
-                 stack_iter != iter->end(); ++stack_iter ) {
-                stack_iter->invlet = iter->front().invlet;
+        std::list<item> &stack = *iter;
+        item &topmost = stack.front();
+
+        const int ipos = p->invlet_to_position(topmost.invlet);
+        if( !inv_chars.valid( topmost.invlet ) || ( ipos != INT_MIN && ipos != idx ) ) {
+            assign_empty_invlet(topmost);
+            for( std::list<item>::iterator stack_iter = stack.begin();
+                 stack_iter != stack.end(); ++stack_iter ) {
+                stack_iter->invlet = topmost.invlet;
             }
         }
 
         // remove non-matching items, stripping off end of stack so the first item keeps the invlet.
-        while( iter->size() > 1 && !iter->front().stacks_with(iter->back()) ) {
-            to_restack.splice(to_restack.begin(), *iter, --iter->end());
+        while( stack.size() > 1 && !topmost.stacks_with(stack.back()) ) {
+            to_restack.splice(to_restack.begin(), *iter, --stack.end());
         }
     }
 
@@ -762,17 +772,14 @@ int inventory::invlet_to_position( char invlet ) const
 
 int inventory::position_by_item( const item *it ) const
 {
-    const auto filter = [it]( const item & i ) {
-        return &i == it;
-    };
-    int i = 0;
-    for( auto &elem : items ) {
-        for( auto &elem_stack_iter : elem ) {
-            if( has_item_with_recursive( elem_stack_iter, filter ) ) {
-                return i;
+    int p = 0;
+    for( const auto &stack : items ) {
+        for( const auto &e : stack ) {
+            if( e.has_item( *it ) ) {
+                return p;
             }
         }
-        ++i;
+        p++;
     }
     return INT_MIN;
 }
@@ -857,7 +864,7 @@ long inventory::charges_of(itype_id it) const
     return count;
 }
 
-std::list<item> inventory::use_amount(itype_id it, int _quantity, bool use_container)
+std::list<item> inventory::use_amount(itype_id it, int _quantity)
 {
     long quantity = _quantity; // Don't wanny change the function signature right now
     sort();
@@ -866,7 +873,7 @@ std::list<item> inventory::use_amount(itype_id it, int _quantity, bool use_conta
         for (std::list<item>::iterator stack_iter = iter->begin();
              stack_iter != iter->end() && quantity > 0;
              /* noop */) {
-            if (stack_iter->use_amount(it, quantity, use_container, ret)) {
+            if (stack_iter->use_amount(it, quantity, ret)) {
                 stack_iter = iter->erase(stack_iter);
             } else {
                 ++stack_iter;
@@ -928,13 +935,6 @@ bool inventory::has_charges(itype_id it, long quantity) const
     return (charges_of(it) >= quantity);
 }
 
-bool inventory::has_item( const item *it ) const
-{
-    return has_item_with( [&it]( const item & i ) {
-        return &i == it;
-    } );
-}
-
 bool inventory::has_items_with_quality(std::string id, int level, int amount) const
 {
     int found = 0;
@@ -959,6 +959,17 @@ bool inventory::has_items_with_quality(std::string id, int level, int amount) co
     }
 }
 
+int inventory::max_quality( const std::string &quality_id ) const
+{
+    int result = INT_MIN;
+    for( const auto &elem : items ) {
+        for( const auto &cur_item : elem ) {
+            result = std::max( result, cur_item.get_quality( quality_id ) );
+        }
+    }
+    return result;
+}
+
 int inventory::leak_level(std::string flag) const
 {
     int ret = 0;
@@ -975,18 +986,6 @@ int inventory::leak_level(std::string flag) const
         }
     }
     return ret;
-}
-
-int inventory::butcher_factor() const
-{
-    int result = INT_MIN;
-    for( const auto &elem : items ) {
-        for( const auto &cur_item : elem ) {
-
-            result = std::max( result, cur_item.butcher_factor() );
-        }
-    }
-    return result;
 }
 
 int inventory::worst_item_value(npc *p) const
@@ -1061,9 +1060,23 @@ item *inventory::most_loaded_gun()
     item *ret = &nullitem;
     int max = 0;
     for( auto &elem : items ) {
-        if( elem.front().is_gun() && elem.front().charges > max ) {
-            ret = &( elem.front() );
-            max = ret->charges;
+        item &gun = elem.front();
+        if( !gun.is_gun() ) {
+            continue;
+        }
+
+        const auto required = gun.ammo_required();
+        int cur = 0;
+        if( required <= 0 ) {
+            // Arbitrary
+            cur = 5;
+        } else {
+            cur = gun.ammo_remaining() / required;
+        }
+
+        if( cur > max ) {
+            ret = &gun;
+            max = cur;
         }
     }
     return ret;
@@ -1126,7 +1139,7 @@ void inventory::assign_empty_invlet(item &it, bool force)
     if( !OPTIONS["AUTO_INV_ASSIGN"] ) {
         return;
     }
-    
+
     player *p = &(g->u);
     std::set<char> cur_inv = p->allocated_invlets();
     itype_id target_type = it.typeId();
@@ -1174,4 +1187,26 @@ std::set<char> inventory::allocated_invlets() const
         }
     }
     return invlets;
+}
+
+std::vector<item *> inventory::items_with( const std::function<bool(const item&)>& filter ) {
+    std::vector<item *> res;
+    visit_items( [&res, &filter]( item *node ) {
+        if( filter( *node ) ) {
+            res.emplace_back( node );
+        }
+        return VisitResponse::NEXT;
+    });
+    return res;
+}
+
+std::vector<const item *> inventory::items_with( const std::function<bool(const item&)>& filter ) const {
+    std::vector<const item *> res;
+    visit_items_const( [&res, &filter]( const item *node ) {
+        if( filter( *node ) ) {
+            res.emplace_back( node );
+        }
+        return VisitResponse::NEXT;
+    });
+    return res;
 }

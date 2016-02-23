@@ -1,279 +1,370 @@
 #include "item_location.h"
 
+#include "game_constants.h"
 #include "enums.h"
 #include "debug.h"
 #include "game.h"
 #include "map.h"
+#include "map_selector.h"
 #include "character.h"
 #include "player.h"
 #include "vehicle.h"
+#include "vehicle_selector.h"
+#include "veh_type.h"
+#include "itype.h"
+#include "iuse_actor.h"
 #include <climits>
 
 class item_location::impl
 {
-protected:
-    const item *what;
-public:
-    virtual ~impl() = default;
-    /** Removes the selected item from the game */
-    virtual void remove_item() = 0;
-    /** Gets the selected item or nullptr */
-    virtual item *get_item() = 0;
-    /** Gets the position of item in character's inventory or INT_MIN */
-    virtual int get_inventory_position()
-    {
-        return INT_MIN;
-    }
+        friend item_location;
+
+    public:
+        virtual ~impl() = default;
+        virtual std::string describe( const Character * ) const = 0;
+        virtual int obtain( Character &ch, long qty ) = 0;
+        virtual int obtain_cost( const Character &ch, long qty ) const = 0;
+        virtual void remove_item() = 0;
+
+    protected:
+        item *what = nullptr;
 };
 
-class item_location::item_is_null : public item_location::impl {
-public:
-    item_is_null()
-    {
-        what = nullptr;
-    }
-
-    void remove_item() override
-    { }
-
-    item *get_item() override
-    {
-        return nullptr;
-    }
-};
-
-class item_location::item_on_map : public item_location::impl {
-private:
-    tripoint location;
-public:
-    item_on_map( const tripoint &p, const item *which )
-    {
-        location = p;
-        what = nullptr;
-        // Ensure the item exists where we want it
-        const auto items = g->m.i_at( p );
-        for( auto &i : items ) {
-            if( &i == which ) {
-                what = &i;
-                return;
-            }
-        }
-
-        debugmsg( "Tried to get an item from point %d,%d,%d, but it wasn't there",
-                  location.x, location.y, location.z );
-    }
-
-    void remove_item() override
-    {
-        if( what == nullptr ) {
-            return;
-        }
-
-        g->m.i_rem( location, what );
-        what = nullptr;
-        // Can't do a sanity check here: i_rem is void
-    }
-
-    item *get_item() override
-    {
-        if( what == nullptr ) {
-            return nullptr;
-        }
-
-        auto items = g->m.i_at( location );
-        for( auto &i : items ) {
-            if( &i == what ) {
-                return &i;
-            }
-        }
-
-        debugmsg( "Tried to get an item from point %d,%d,%d, but it wasn't there",
-                  location.x, location.y, location.z );
-        return nullptr;
-    }
-};
-
-class item_location::item_on_person : public item_location::impl {
-private:
-    Character *who;
-public:
-    item_on_person( Character &ch, const item *which )
-    {
-        who = &ch;
-        auto the_item = ch.items_with( [which]( const item &it ) {
-            return &it == which;
-        } );
-
-        if( !the_item.empty() ) {
-            what = the_item[0];
-        } else {
-            debugmsg( "Tried to get an item from a character who doesn't have it" );
-            what = nullptr;
-        }
-    }
-
-    int get_inventory_position() override
-    {
-        if( what == nullptr ) {
-            return INT_MIN;
-        }
-
-        // Most of the relevant methods are in Character, just not this one...
-        player *pl = dynamic_cast<player*>( who );
-
-        const int inv_pos = pl != nullptr ? pl->get_item_position( what ) : INT_MIN;
-        if( inv_pos == INT_MIN ) {
-            debugmsg( "Tried to get inventory position of item not on character" );
-        }
-
-        return inv_pos;
-    }
-
-    void remove_item() override
-    {
-        if( what == nullptr ) {
-            return;
-        }
-
-        const auto removed = who->remove_items_with( [this]( const item &it ) {
-            return &it == what;
-        } );
-
-        what = nullptr;
-        if( removed.empty() ) {
-            debugmsg( "Tried to remove an item from a character who doesn't have it" );
-        }
-    }
-
-    item *get_item() override
-    {
-        if( what == nullptr ) {
-            return nullptr;
-        }
-
-        auto items = who->items_with( [this]( const item &it ) {
-            return &it == what;
-        } );
-
-        if( !items.empty() ) {
-            return items[0];
-        } else {
-            what = nullptr;
-            debugmsg( "Tried to get an item from a character who doesn't have it" );
-            return nullptr;
-        }
-    }
-};
-
-class item_location::item_on_vehicle : public item_location::impl {
-private:
-    vehicle *veh;
-    point local_coords;
-public:
-    item_on_vehicle( vehicle &v, const point &where, const item *which )
-    {
-        veh = &v;
-        local_coords = where;
-        const auto parts = v.parts_at_relative( where.x, where.y );
-        for( const int i : parts ) {
-            for( item &it : v.get_items( i ) ) {
-                if( &it == which ) {
-                    what = &it;
-                    return;
-                }
-            }
-        }
-
-        debugmsg( "Tried to find an item on vehicle %s, tile %d:%d, but it wasn't there",
-                  veh->name.c_str(), local_coords.x, local_coords.y );
-        what = nullptr;
-    }
-
-    void remove_item() override
-    {
-        if( what == nullptr ) {
-            return;
-        }
-
-        const auto parts = veh->parts_at_relative( local_coords.x, local_coords.y );
-        for( const int i : parts ) {
-            if( veh->remove_item( i, what ) ) {
-                what = nullptr;
-                return;
-            }
-        }
-
-        debugmsg( "Tried to remove an item from vehicle %s, tile %d:%d, but it wasn't there",
-                  veh->name.c_str(), local_coords.x, local_coords.y );
-    }
-
-    item *get_item() override
-    {
-        if( what == nullptr ) {
-            return nullptr;
-        }
-
-        const auto parts = veh->parts_at_relative( local_coords.x, local_coords.y );
-        for( const int i : parts ) {
-            for( item &it : veh->get_items( i ) ) {
-                if( &it == what ) {
-                    return &it;
-                }
-            }
-        }
-
-        debugmsg( "Tried to find an item on vehicle %s, tile %d:%d, but it wasn't there",
-                  veh->name.c_str(), local_coords.x, local_coords.y );
-        what = nullptr;
-        return nullptr;
-    }
-};
-
-item_location::item_location( item_location &&other )
+class item_location::item_on_map : public item_location::impl
 {
-    ptr = std::move( other.ptr );
+    private:
+        const map_cursor cur;
+
+    public:
+        item_on_map( const map_cursor &cur, item *which ) : cur( cur ) {
+            if( !cur.has_item( *which ) ) {
+                debugmsg( "Cannot locate item on map at %d,%d,%d", cur.x, cur.y, cur.z );
+            } else {
+                what = which;
+            }
+        }
+
+        std::string describe( const Character *ch ) const override {
+            std::string res = g->m.name( cur );
+            if( ch ) {
+                res += std::string( " " ) += direction_suffix( ch->pos(), cur );
+            }
+            return res;
+        }
+
+        int obtain( Character &ch, long qty ) override {
+            if( !what ) {
+                return INT_MIN;
+            }
+
+            ch.moves -= obtain_cost( ch, qty );
+
+            item obj = what->split( qty );
+            if( !obj.is_null() ) {
+                return ch.get_item_position( &ch.i_add( obj ) );
+            } else {
+                int inv = ch.get_item_position( &ch.i_add( *what ) );
+                remove_item();
+                return inv;
+            }
+        }
+
+        int obtain_cost( const Character &ch, long qty ) const override {
+            if( !what ) {
+                return 0;
+            }
+
+            item obj = *what;
+            obj = obj.split( qty );
+            if( obj.is_null() ) {
+                obj = *what;
+            }
+
+            int mv = dynamic_cast<const player *>( &ch )->item_handling_cost( obj );
+            mv *= square_dist( ch.pos(), cur ) + 1;
+            mv *= MAP_HANDLING_FACTOR;
+
+            //@ todo handle unpacking costs
+
+            return mv;
+        }
+
+        void remove_item() override {
+            if( what == nullptr ) {
+                return;
+            }
+            g->m.i_rem( cur, what );
+            what = nullptr;
+        }
+};
+
+class item_location::item_on_person : public item_location::impl
+{
+    private:
+        Character &who;
+
+    public:
+        item_on_person( Character &who, item *which ) : who( who ) {
+            if( !who.has_item( *which ) ) {
+                debugmsg( "Cannot locate item on character: %s", who.name.c_str() );
+            } else {
+                what = which;
+            }
+        }
+
+        std::string describe( const Character *ch ) const override {
+            if( !what ) {
+                return std::string();
+            }
+
+            if( ch == &who ) {
+                auto parents = who.parents( *what );
+                if( !parents.empty() && who.is_worn( *parents.back() ) ) {
+                    return parents.back()->type_name();
+
+                } else if( who.is_worn( *what ) ) {
+                    return _( "worn" );
+
+                } else {
+                    return _( "inventory" );
+                }
+
+            } else {
+                return who.name;
+            }
+        }
+
+        int obtain( Character &ch, long qty ) override {
+            if( !what ) {
+                return INT_MIN;
+            }
+
+            ch.moves -= obtain_cost( ch, qty );
+
+            if( who.is_worn( *what ) ) {
+                what->on_takeoff( dynamic_cast<player &>( who ) );
+            }
+
+            if( &ch.i_at( ch.get_item_position( what ) ) == what ) {
+                // item already in target characters inventory at base of stack
+                return ch.get_item_position( what );
+            }
+
+            item obj = what->split( qty );
+            if( !obj.is_null() ) {
+                return ch.get_item_position( &ch.i_add( obj ) );
+            } else {
+                int inv = ch.get_item_position( &ch.i_add( *what ) );
+                remove_item();
+                return inv;
+            }
+        }
+
+
+        int obtain_cost( const Character &ch, long qty ) const override {
+            if( !what ) {
+                return 0;
+            }
+
+            int mv = 0;
+
+            item obj = *what;
+            obj = obj.split( qty );
+            if( obj.is_null() ) {
+                obj = *what;
+            }
+
+            auto parents = who.parents( *what );
+            if( !parents.empty() && who.is_worn( *parents.back() ) ) {
+                // if outermost parent item is worn status effects (eg. GRABBED) are not applied
+                // holsters may also adjust the volume cost factor
+
+                if( parents.back()->can_holster( obj, true ) ) {
+                    auto ptr = dynamic_cast<const holster_actor *>
+                               ( parents.back()->type->get_use( "holster" )->get_actor_ptr() );
+                    mv += dynamic_cast<player &>( who ).item_handling_cost( obj, false, ptr->draw_cost );
+
+                } else {
+                    mv += dynamic_cast<player &>( who ).item_handling_cost( obj, false );
+                }
+
+            } else {
+                // it is more expensive to obtain items from the inventory
+                // @todo calculate cost for searching in inventory proportional to item volume
+                mv += dynamic_cast<player &>( who ).item_handling_cost( obj );
+                mv *= INVENTORY_HANDLING_FACTOR;
+            }
+
+            if( &ch != &who ) {
+                // @todo implement movement cost for transfering item between characters
+            }
+
+            return mv;
+        }
+
+        void remove_item() override {
+            if( what == nullptr ) {
+                return;
+            }
+
+            const auto removed = who.remove_items_with( [this]( const item & it ) {
+                return &it == what;
+            } );
+
+            what = nullptr;
+            if( removed.empty() ) {
+                debugmsg( "Tried to remove an item from a character who doesn't have it" );
+            }
+        }
+};
+
+class item_location::item_on_vehicle : public item_location::impl
+{
+    private:
+        const vehicle_cursor cur;
+
+    public:
+        item_on_vehicle( const vehicle_cursor &cur, item *which ) : cur( cur ) {
+            if( !cur.has_item( *which ) ) {
+                debugmsg( "Cannot locate item on vehicle: %s", cur.veh.name.c_str() );
+            } else {
+                what = which;
+            }
+        }
+
+        std::string describe( const Character *ch ) const override {
+            std::string res = cur.veh.parts[ cur.part ].info().name;
+            if( ch ) {
+                res += std::string( " " ) += direction_suffix( ch->pos(), cur.veh.global_part_pos3( cur.part ) );
+            }
+            return res;
+        }
+
+        int obtain( Character &ch, long qty ) override {
+            if( !what ) {
+                return INT_MIN;
+            }
+
+            ch.moves -= obtain_cost( ch, qty );
+
+            item obj = what->split( qty );
+            if( !obj.is_null() ) {
+                return ch.get_item_position( &ch.i_add( obj ) );
+            } else {
+                int inv = ch.get_item_position( &ch.i_add( *what ) );
+                remove_item();
+                return inv;
+            }
+        }
+
+        int obtain_cost( const Character &ch, long qty ) const override {
+            if( !what ) {
+                return 0;
+            }
+
+            item obj = *what;
+            obj = obj.split( qty );
+            if( obj.is_null() ) {
+                obj = *what;
+            }
+
+            int mv = dynamic_cast<const player *>( &ch )->item_handling_cost( obj );
+            mv *= square_dist( ch.pos(), cur.veh.global_part_pos3( cur.part ) ) + 1;
+            mv *= VEHICLE_HANDLING_FACTOR;
+
+            //@ todo handle unpacking costs
+
+            return mv;
+        }
+
+        void remove_item() override {
+            if( what == nullptr ) {
+                return;
+            }
+            cur.veh.remove_item( cur.part, what );
+        }
+};
+
+// use of std::unique_ptr<impl> forces these definitions within the implementation
+item_location::item_location() = default;
+item_location::item_location( item_location && ) = default;
+item_location &item_location::operator=( item_location && ) = default;
+item_location::~item_location() = default;
+
+const item_location item_location::nowhere;
+
+item_location::item_location( const map_cursor &mc, item *which )
+    : ptr( new item_on_map( mc, which ) ) {}
+
+item_location::item_location( Character &ch, item *which )
+    : ptr( new item_on_person( ch, which ) ) {}
+
+item_location::item_location( const vehicle_cursor &vc, item *which )
+    : ptr( new item_on_vehicle( vc, which ) ) {}
+
+bool item_location::operator==( const item_location &rhs ) const
+{
+    return ( ptr ? ptr->what : nullptr ) == ( rhs.ptr ? rhs.ptr->what : nullptr );
 }
 
-item_location::~item_location()
+bool item_location::operator!=( const item_location &rhs ) const
 {
+    return ( ptr ? ptr->what : nullptr ) != ( rhs.ptr ? rhs.ptr->what : nullptr );
+}
+
+item_location::operator bool() const
+{
+    return ptr && ptr->what;
+}
+
+item &item_location::operator*()
+{
+    return *ptr->what;
+}
+
+const item &item_location::operator*() const
+{
+    return *ptr->what;
+}
+
+item *item_location::operator->()
+{
+    return ptr->what;
+}
+
+const item *item_location::operator->() const
+{
+    return ptr->what;
+}
+
+std::string item_location::describe( const Character *ch ) const
+{
+    return ptr ? ptr->describe( ch ) : std::string();
+}
+
+int item_location::obtain( Character &ch, long qty )
+{
+    return ptr ? ptr->obtain( ch, qty ) : INT_MIN;
+}
+
+int item_location::obtain_cost( const Character &ch, long qty ) const
+{
+    return ptr ? ptr->obtain_cost( ch, qty ) : 0;
 }
 
 void item_location::remove_item()
 {
-    ptr->remove_item();
+    if( ptr ) {
+        ptr->remove_item();
+    }
 }
 
 item *item_location::get_item()
 {
-    return ptr->get_item();
+    return ptr ? ptr->what : nullptr;
 }
 
-int item_location::get_inventory_position()
+const item *item_location::get_item() const
 {
-    return ptr->get_inventory_position();
-}
-
-item_location::item_location( impl *in )
-{
-    ptr = std::unique_ptr<impl>( in );
-}
-
-item_location item_location::nowhere()
-{
-    return item_location( new item_is_null() );
-}
-
-item_location item_location::on_map( const tripoint &p, const item *which )
-{
-    return item_location( new item_on_map( p, which ) );
-}
-
-item_location item_location::on_character( Character &ch, const item *which )
-{
-    return item_location( new item_on_person( ch, which ) );
-}
-
-item_location item_location::on_vehicle( vehicle &v, const point &where, const item *which )
-{
-    return item_location( new item_on_vehicle( v, where, which ) );
+    return ptr ? ptr->what : nullptr;
 }

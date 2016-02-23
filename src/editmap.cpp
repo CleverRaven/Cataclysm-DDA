@@ -25,6 +25,7 @@
 #include "monster.h"
 #include "overmap.h"
 #include "field.h"
+#include "ui.h"
 
 #include <fstream>
 #include <sstream>
@@ -237,14 +238,14 @@ void editmap_hilight::draw( editmap *hm, bool update )
             int vpart = 0;
             // but only if there's no vehicles/mobs/npcs on a point
             if( ! g->m.veh_at( p, vpart ) && ( g->mon_at( p ) == -1 ) && ( g->npc_at( p ) == -1 ) ) {
-                char t_sym = g->m.ter_at( p ).sym;
-                nc_color t_col = g->m.ter_at( p ).color;
+                char t_sym = g->m.ter_at( p ).symbol();
+                nc_color t_col = g->m.ter_at( p ).color();
 
 
                 if( g->m.furn( p ) > 0 ) {
                     const furn_t &furniture_type = g->m.furn_at( p );
-                    t_sym = furniture_type.sym;
-                    t_col = furniture_type.color;
+                    t_sym = furniture_type.symbol();
+                    t_col = furniture_type.color();
                 }
                 const field *t_field = &g->m.field_at( p );
                 if( t_field->fieldCount() > 0 ) {
@@ -307,8 +308,12 @@ bool editmap::eget_direction( tripoint &p, const std::string &action ) const
         p.z = -1;
     } else if( action == "LEVEL_UP" ) {
         p.z = 1;
-    }  else if( !input_context::get_direction( p.x, p.y, action ) ) {
-        return false;
+    } else {
+        input_context ctxt("EGET_DIRECTION");
+        ctxt.set_iso(true);
+        if( !ctxt.get_direction( p.x, p.y, action ) ) {
+            return false;
+        }
     }
     return true;
 }
@@ -346,6 +351,7 @@ tripoint editmap::edit()
 {
     target = g->u.pos() + g->u.view_offset;
     input_context ctxt( "EDITMAP" );
+    ctxt.set_iso(true);
     ctxt.register_directions();
     ctxt.register_action( "LEFT_WIDE" );
     ctxt.register_action( "RIGHT_WIDE" );
@@ -542,14 +548,14 @@ void editmap::update_view( bool update_info )
             int vpart = 0;
             // but only if there's no vehicles/mobs/npcs on a point
             if( ! g->m.veh_at( p, vpart ) && ( g->mon_at( p ) == -1 ) && ( g->npc_at( p ) == -1 ) ) {
-                char t_sym = g->m.ter_at( p ).sym;
-                nc_color t_col = g->m.ter_at( p ).color;
+                char t_sym = g->m.ter_at( p ).symbol();
+                nc_color t_col = g->m.ter_at( p ).color();
 
 
                 if( g->m.has_furn( p ) > 0 ) {
                     const furn_t &furniture_type = g->m.furn_at( p );
-                    t_sym = furniture_type.sym;
-                    t_col = furniture_type.color;
+                    t_sym = furniture_type.symbol();
+                    t_col = furniture_type.color();
                 }
                 const field *t_field = &g->m.field_at( p );
                 if( t_field->fieldCount() > 0 ) {
@@ -595,14 +601,14 @@ void editmap::update_view( bool update_info )
             mvwprintz( w_info, i, 1, c_white, padding.c_str() );
         }
 
-        mvwputch( w_info, off, 2, terrain_type.color, terrain_type.sym );
+        mvwputch( w_info, off, 2, terrain_type.color(), terrain_type.symbol() );
         mvwprintw( w_info, off, 4, _( "%d: %s; movecost %d" ), g->m.ter( target ),
                    terrain_type.name.c_str(),
                    terrain_type.movecost
                  );
         off++; // 2
         if( g->m.furn( target ) > 0 ) {
-            mvwputch( w_info, off, 2, furniture_type.color, furniture_type.sym );
+            mvwputch( w_info, off, 2, furniture_type.color(), furniture_type.symbol() );
             mvwprintw( w_info, off, 4, _( "%d: %s; movecost %d movestr %d" ), g->m.furn( target ),
                        furniture_type.name.c_str(),
                        furniture_type.movecost,
@@ -812,7 +818,7 @@ int editmap::edit_ter()
             for( int x = xmin; x < pickw && cur_t < ( int ) termap.size(); x++, cur_t++ ) {
                 const ter_id tid( cur_t );
                 const ter_t &ttype = tid.obj();
-                mvwputch( w_pickter, y, x, ( ter_frn_mode == 0 ? ttype.color : c_dkgray ) , ttype.sym );
+                mvwputch( w_pickter, y, x, ( ter_frn_mode == 0 ? ttype.color() : c_dkgray ) , ttype.symbol() );
                 if( tid == sel_ter ) {
                     sel_terp = tripoint( x, y, target.z );
                 } else if( tid == lastsel_ter ) {
@@ -868,7 +874,7 @@ int editmap::edit_ter()
             for( int x = xmin; x < pickw && cur_f < ( int ) furnmap.size(); x++, cur_f++ ) {
                 const furn_id fid( cur_f );
                 const furn_t &ftype = fid.obj();
-                mvwputch( w_pickter, y, x, ( ter_frn_mode == 1 ? ftype.color : c_dkgray ), ftype.sym );
+                mvwputch( w_pickter, y, x, ( ter_frn_mode == 1 ? ftype.color() : c_dkgray ), ftype.symbol() );
 
                 if( fid == sel_frn ) {
                     sel_frnp = tripoint( x, y, target.z );
@@ -963,10 +969,10 @@ int editmap::edit_ter()
                 int altb = -1;
                 if( editshape == editmap_rect ) {
                     const ter_t &t = sel_ter.obj();
-                    if( t.sym == LINE_XOXO || t.sym == '|' ) {
+                    if( t.symbol() == LINE_XOXO || t.symbol() == '|' ) {
                         isvert = true;
                         teralt = get_alt_ter( isvert, sel_ter );
-                    } else if( t.sym == LINE_OXOX || t.sym == '-' ) {
+                    } else if( t.symbol() == LINE_OXOX || t.symbol() == '-' ) {
                         ishori = true;
                         teralt = get_alt_ter( isvert, sel_ter );
                     }
@@ -1540,6 +1546,7 @@ int editmap::select_shape( shapetype shape, int mode )
     tripoint orig = target;
     tripoint origor = origin;
     input_context ctxt( "EDITMAP_SHAPE" );
+    ctxt.set_iso(true);
     ctxt.register_directions();
     ctxt.register_action( "LEFT_WIDE" );
     ctxt.register_action( "RIGHT_WIDE" );
@@ -1866,6 +1873,7 @@ int editmap::mapgen_retarget()
 {
     int ret = 0;
     input_context ctxt( "EDITMAP_RETARGET" );
+    ctxt.set_iso(true);
     ctxt.register_directions();
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "CONFIRM" );

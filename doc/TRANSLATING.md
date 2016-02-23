@@ -10,22 +10,24 @@ The current official locations for translating Cataclysm-DDA is at
 You can join to your language translation project:
 
 On [Transifex](https://www.transifex.com/projects/p/cataclysm-dda/):
-* Russian
-* German
-
-On [Launchpad](https://translations.launchpad.net/cdda):
-* Brazilian
-* Portuguese
+* Argentinian
 * Chinese (Simplified)
 * Chinese (Traditional)
-* Czech
-* French
+* German
 * Italian
+* Russian
+* Spanish
+
+On [Launchpad](https://translations.launchpad.net/cdda):
+* French
 * Japanese
 * Korean
-* Polish
-* Serbian
-* Vietnamese
+* Brazilian (inative)
+* Czech (inactive)
+* Polish (inactive)
+* Portuguese (inactive)
+* Serbian (inactive)
+* Vietnamese (inactive)
 
 If your language is not translated you can add it into any translation project on launchpad.net or transifex.com(prefered).
 Using Launchpad Translations anyone can help translate.

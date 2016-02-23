@@ -6,6 +6,7 @@
     "name": "No Medieval Items",
     "author": "Rivet-the-Zombie",
     "description": "Removes medieval weapons, armors, and specific books.",
+    "category": "item_exclude",
     "path": "modinfo.json"
 },{
     "type": "ITEM_BLACKLIST",
@@ -13,9 +14,19 @@
         "katana_fake",
         "broadsword",
         "broadsword_fake",
+        "arming_sword",
+        "arming_sword_fake",
+        "longsword",
+        "longsword_fake",
+        "jian",
+        "jian_fake",
+        "scimitar",
+        "scimitar_fake",
         "katana",
         "rapier_fake",
         "rapier",
+        "estoc",
+        "estoc_fake",
         "kris",
         "kris_fake",
         "zweihander",
@@ -36,6 +47,12 @@
         "nodachi_fake",
         "scythe_war",
         "pike",
+        "glaive",
+        "naginata",
+        "qiang",
+        "halberd",
+        "halberd_fake",
+        "textbook_armschina",
         "textbook_weapwest",
         "textbook_weapeast",
         "textbook_armwest",
@@ -50,7 +67,10 @@
         "helmet_kabuto",
         "helmet_larmor",
         "boots_larmor",
-        "armor_larmor"
+        "armor_larmor",
+        "gambeson",
+        "armguard_larmor",
+        "vambrace_larmor"
     ]
 }
 ]

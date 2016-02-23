@@ -11,6 +11,7 @@
 
 #include <deque>
 #include <iterator>
+#include <algorithm>
 
 // sidebar messages flow direction
 extern bool log_from_top;
@@ -250,7 +251,7 @@ void Messages::display_messages()
             }
 
             const game_message &m     = player_messages.impl_->history(i);
-            const nc_color col        = m.get_color(player_messages.impl_->curmes);
+            const nc_color col        = msgtype_to_color( m.type, false );
             const calendar timepassed = calendar::turn - m.time;
 
             if (timepassed.get_turn() > lasttime) {

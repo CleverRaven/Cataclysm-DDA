@@ -145,6 +145,17 @@
         "description": "Your eyes have quick-reacting transition lenses installed over them.  They negate glare penalties, partially protect you from bright flashes, and protect your eyes when welding."
     },{
         "type": "bionic",
+        "id": "bio_blindfold",
+        "name": "Optical Dampers",
+        "toggled": true,
+        "description": "The lenses installed over your eyes can be tinted to block out incoming light."
+    },{
+        "type": "bionic",
+        "id": "bio_eye_optic",
+        "name": "Telescopic Eyes",
+        "description": "Much of the material in your inner eye has been removed and replaced with an array of high-powered, auto-focusing lenses.  You can now see much farther and more clearer than before, any vision problems you might have had are now gone."
+    },{
+        "type": "bionic",
         "id": "bio_targeting",
         "name": "Targeting System",
         "description": "Your eyes are equipped with range finders, and their movement is synced with that of your arms, to a degree.  Shots you fire will be much more accurate, particularly at long range."
@@ -483,7 +494,6 @@
         "type": "bionic",
         "id": "bio_fingerhack",
         "name": "Fingerhack",
-        "act_cost": 25,
         "description": "One of your fingers has an electrohack embedded in it; an all-purpose hacking unit used to override control panels and the like (but not computers).  Skill in computers is important, and a failed use may damage your circuits."
     },{
         "type": "bionic",
@@ -576,6 +586,7 @@
         "type": "bionic",
         "id": "bio_ups",
         "name": "Internal Unified Power System",
+        "toggled": true,
         "description": "You have a unified power system wired into your power banks.  Objects that run on a UPS can now draw directly from your internal power supply."
     },{
         "type": "bionic",
@@ -689,7 +700,7 @@
         "type": "bionic",
         "id": "bio_meteorologist",
         "name": "Weather Reader",
-        "act_cost": 25,
+        "act_cost": 10,
         "description": "A multitude of scientific instruments and sensors collect environmental data.  The data is compiled and presented as a simple readout of the current weather."
     },{
         "type": "bionic",

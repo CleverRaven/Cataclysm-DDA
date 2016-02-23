@@ -1,0 +1,36 @@
+ [
+   {
+     "id" : "fn57mag",
+     "type" : "MAGAZINE",
+     "name" : "FN-57 magazine",
+     "weight" : 120,
+     "volume" : 1,
+     "price" : 3700,
+     "description" : "A standard capacity magazine for use with the FN Five-Seven.",
+     "material" : "steel",
+     "symbol" : "#",
+     "color" : "ltgray",
+     "ammo_type" : "57",
+     "capacity" : 20,
+     "reliability" : 10,
+     "reload_time" : 100,
+     "flags" : [ "MAG_COMPACT" ]
+  },
+  {
+     "id" : "fnp90mag",
+     "type" : "MAGAZINE",
+     "name" : "FN-P90 magazine",
+     "weight" : 300,
+     "volume" : 2,
+     "price" : 5400,
+     "description" : "A factory issue translucent polymer box magazine that fits with the frame of the FN P90.",
+     "material" : "plastic",
+     "symbol" : "#",
+     "color" : "ltgray",
+     "ammo_type" : "57",
+     "capacity" : 50,
+     "reliability" : 9,
+     "reload_time" : 100,
+     "flags" : [ "MAG_COMPACT" ]
+  }
+ ]

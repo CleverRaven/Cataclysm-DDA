@@ -48,11 +48,21 @@ bool mongroup::is_safe() const
     return type.obj().is_safe;
 }
 
+bool mongroup::empty() const
+{
+    return (population <= 0) && monsters.empty();
+}
+
+void mongroup::clear() {
+    population = 0;
+    monsters.clear();
+}
+
 const MonsterGroup &MonsterGroupManager::GetUpgradedMonsterGroup( const mongroup_id& group )
 {
     const MonsterGroup *groupptr = &group.obj();
     if (ACTIVE_WORLD_OPTIONS["MONSTER_UPGRADE_FACTOR"] > 0) {
-        const int replace_time = DAYS(groupptr->monster_group_time / ACTIVE_WORLD_OPTIONS["MONSTER_UPGRADE_FACTOR"]) * (calendar::turn.season_length() / 14);
+        const int replace_time = DAYS(groupptr->monster_group_time * ACTIVE_WORLD_OPTIONS["MONSTER_UPGRADE_FACTOR"]);
         while( groupptr->replace_monster_group && calendar::turn.get_turn() > replace_time ) {
             groupptr = &groupptr->new_monster_group.obj();
         }
@@ -277,14 +287,13 @@ bool MonsterGroupManager::monster_is_blacklisted(const mtype_id& m)
 
 void MonsterGroupManager::FinalizeMonsterGroups()
 {
-    const MonsterGenerator &gen = MonsterGenerator::generator();
     for( auto &mtid : monster_whitelist ) {
-        if( !gen.has_mtype( mtype_id( mtid ) ) ) {
+        if( !mtype_id( mtid ).is_valid() ) {
             debugmsg( "monster on whitelist %s does not exist", mtid.c_str() );
         }
     }
     for( auto &mtid : monster_blacklist ) {
-        if( !gen.has_mtype( mtype_id( mtid ) ) ) {
+        if( !mtype_id( mtid ).is_valid() ) {
             debugmsg( "monster on blacklist %s does not exist", mtid.c_str() );
         }
     }
@@ -328,18 +337,18 @@ void MonsterGroupManager::LoadMonsterGroup(JsonObject &jo)
             int ends = 0;
             if(mon.has_member("starts")) {
                 if (ACTIVE_WORLD_OPTIONS["MONSTER_UPGRADE_FACTOR"] > 0) {
-                    starts = mon.get_int("starts") / ACTIVE_WORLD_OPTIONS["MONSTER_UPGRADE_FACTOR"];
+                    starts = mon.get_int("starts") * ACTIVE_WORLD_OPTIONS["MONSTER_UPGRADE_FACTOR"];
                 } else {
-                    // Catch divide by zero here
-                    starts = mon.get_int("starts") / .01;
+                    // Default value if the monster upgrade factor is set to 0.0 - off
+                    starts = mon.get_int("starts");
                 }
             }
             if(mon.has_member("ends")) {
                 if (ACTIVE_WORLD_OPTIONS["MONSTER_UPGRADE_FACTOR"] > 0) {
-                    ends = mon.get_int("ends") / ACTIVE_WORLD_OPTIONS["MONSTER_UPGRADE_FACTOR"];
+                    ends = mon.get_int("ends") * ACTIVE_WORLD_OPTIONS["MONSTER_UPGRADE_FACTOR"];
                 } else {
-                    // Catch divide by zero here
-                    ends = mon.get_int("ends") / .01;
+                    // Default value if the monster upgrade factor is set to 0.0 - off
+                    ends = mon.get_int("ends");
                 }
             }
             MonsterGroupEntry new_mon_group = MonsterGroupEntry(name, freq, cost, pack_min, pack_max, starts,

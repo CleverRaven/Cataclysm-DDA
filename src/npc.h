@@ -4,14 +4,12 @@
 #include "player.h"
 #include "faction.h"
 #include "json.h"
+#include "npc_favor.h"
 
 #include <vector>
 #include <string>
 #include <map>
 
-#define NPC_LOW_VALUE       5
-#define NPC_HI_VALUE        8
-#define NPC_VERY_HI_VALUE  15
 #define NPC_DANGER_LEVEL   10
 #define NPC_DANGER_VERY_LOW 5
 
@@ -33,7 +31,7 @@ void parse_tags(std::string &phrase, const player *u, const npc *me);
  */
 
 // Attitude is how we feel about the player, what we do around them
-enum npc_attitude {
+enum npc_attitude : int {
  NPCATT_NULL = 0, // Don't care/ignoring player The places this is assigned is on shelter NPC generation, and when you order a NPC to stay in a location, and after talking to a NPC that wanted to talk to you.
  NPCATT_TALK,  // Move to and talk to player
  NPCATT_TRADE,  // Move to and trade with player
@@ -56,7 +54,7 @@ enum npc_attitude {
 
 std::string npc_attitude_name(npc_attitude);
 
-enum npc_mission {
+enum npc_mission : int {
  NPC_MISSION_NULL = 0, // Nothing in particular
  NPC_MISSION_RESCUE_U, // Find the player and aid them
  NPC_MISSION_SHELTER, // Stay in shelter, introduce player to game
@@ -73,7 +71,7 @@ enum npc_mission {
 
 //std::string npc_mission_name(npc_mission);
 
-enum npc_class {
+enum npc_class : int {
  NC_NONE,
  NC_EVAC_SHOPKEEP,  // Found in the Evacuation Center, unique, has more goods than he should be able to carry
  NC_SHOPKEEP,       // Found in towns.  Stays in his shop mostly.
@@ -97,20 +95,7 @@ enum npc_class {
 std::string npc_class_name(npc_class);
 std::string npc_class_name_str(npc_class);
 
-enum npc_action {
- npc_undecided = 0,
- npc_pause, //1
- npc_reload, npc_sleep, // 2, 3
- npc_pickup, // 4
- npc_escape_item, npc_wield_melee, npc_wield_loaded_gun, npc_wield_empty_gun,
-  npc_heal, npc_use_painkiller, npc_eat, npc_drop_items, // 5 - 12
- npc_flee, npc_melee, npc_shoot, npc_shoot_burst, npc_alt_attack, // 13 - 17
- npc_look_for_player, npc_heal_player, npc_follow_player, npc_follow_embarked,
- npc_talk_to_player, npc_mug_player, // 18 - 23
- npc_goto_destination, npc_avoid_friendly_fire, // 24, 25
- npc_base_idle, // 26
- num_npc_actions
-};
+enum npc_action : int;
 
 enum npc_need {
  need_none,
@@ -127,35 +112,6 @@ enum npc_flag {
  NF_TECHNOPHILE,
  NF_BOOKWORM,
  NF_MAX
-};
-
-enum npc_favor_type {
- FAVOR_NULL,
- FAVOR_GENERAL, // We owe you... a favor?
- FAVOR_CASH, // We owe cash (or goods of equivalent value)
- FAVOR_ITEM, // We owe a specific item
- FAVOR_TRAINING,// We owe skill or style training
- NUM_FAVOR_TYPES
-};
-
-struct npc_favor : public JsonSerializer, public JsonDeserializer
-{
-    npc_favor_type type;
-    int value;
-    itype_id item_id;
-    const Skill* skill;
-
-    npc_favor() {
-        type = FAVOR_NULL;
-        value = 0;
-        item_id = "null";
-        skill = NULL;
-    };
-
-    using JsonSerializer::serialize;
-    void serialize(JsonOut &jsout) const override;
-    using JsonDeserializer::deserialize;
-    void deserialize(JsonIn &jsin) override;
 };
 
 struct npc_personality : public JsonSerializer, public JsonDeserializer
@@ -236,16 +192,29 @@ struct npc_opinion : public JsonSerializer, public JsonDeserializer
 };
 
 enum combat_engagement {
- ENGAGE_NONE = 0,
- ENGAGE_CLOSE,
- ENGAGE_WEAK,
- ENGAGE_HIT,
- ENGAGE_ALL
+    ENGAGE_NONE = 0,
+    ENGAGE_CLOSE,
+    ENGAGE_WEAK,
+    ENGAGE_HIT,
+    ENGAGE_ALL,
+    ENGAGE_NO_MOVE
+};
+
+enum aim_rule {
+    // Aim some
+    AIM_WHEN_CONVENIENT = 0,
+    // No concern for ammo efficiency
+    AIM_SPRAY,
+    // Aim when possible, then shoot
+    AIM_PRECISE,
+    // If you can't aim, don't shoot
+    AIM_STRICTLY_PRECISE
 };
 
 struct npc_follower_rules : public JsonSerializer, public JsonDeserializer
 {
     combat_engagement engagement;
+    aim_rule aim;
     bool use_guns;
     bool use_grenades;
     bool use_silent;
@@ -253,23 +222,35 @@ struct npc_follower_rules : public JsonSerializer, public JsonDeserializer
     bool allow_pick_up;
     bool allow_bash;
     bool allow_sleep;
+    bool allow_complain;
 
     npc_follower_rules()
     {
         engagement = ENGAGE_ALL;
+        aim = AIM_WHEN_CONVENIENT;
         use_guns = true;
         use_grenades = true;
         use_silent = false;
 
-        allow_pick_up = true;
+        allow_pick_up = false;
         allow_bash = true;
         allow_sleep = false;
+        allow_complain = true;
     };
 
     using JsonSerializer::serialize;
     void serialize(JsonOut &jsout) const override;
     using JsonDeserializer::deserialize;
     void deserialize(JsonIn &jsin) override;
+};
+
+// Data relevant only for this action
+struct npc_short_term_cache
+{
+    int danger;
+    int total_danger;
+    int danger_assessment;
+    int target;
 };
 
 // DO NOT USE! This is old, use strings as talk topic instead, e.g. "TALK_AGREE_FOLLOW" instead of
@@ -627,13 +608,13 @@ public:
  void pick_long_term_goal();
  void perform_mission();
  int  minutes_to_u() const; // Time in minutes it takes to reach player
- bool fac_has_value(faction_value value);
- bool fac_has_job(faction_job job);
+ bool fac_has_value(faction_value value) const;
+ bool fac_has_job(faction_job job) const;
 
 // Interaction with the player
  void form_opinion(player *u);
-    std::string pick_talk_topic(player *u);
- int  player_danger(player *u) const; // Comparable to monsters
+    std::string pick_talk_topic( const player &u );
+ int  player_danger(const player &u) const; // Comparable to monsters
  int vehicle_danger(int radius) const;
  bool turned_hostile() const; // True if our anger is at least equal to...
  int hostile_anger_level() const; // ... this value!
@@ -651,13 +632,14 @@ public:
  bool is_friend() const; // Allies with the player
  bool is_leader() const; // Leading the player
  bool is_defending() const; // Putting the player's safety ahead of ours
+    /** Standing in one spot, moving back if removed from it. */
+    bool is_guarding() const;
         Attitude attitude_to( const Creature &other ) const override;
 // What happens when the player makes a request
  void told_to_help();
  void told_to_wait();
  void told_to_leave();
  int  follow_distance() const; // How closely do we follow the player?
- int  speed_estimate( const Creature& ) const; // Estimate of a target's speed, usually player
 
 
 // Dialogue and bartering--see npctalk.cpp
@@ -680,27 +662,39 @@ public:
 // Use and assessment of items
  int  minimum_item_value(); // The minimum value to want to pick up an item
  void update_worst_item_value(); // Find the worst value in our inventory
- int  value(const item &it);
+    int value( const item &it ) const;
+    int value( const item &it, int market_price ) const;
     bool wear_if_wanted( const item &it );
- virtual bool wield(item* it, bool) override;
- virtual bool wield(item* it);
- bool has_healing_item();
+    virtual bool wield( item& it ) override;
+    bool has_healing_item( bool bleed = false, bool bite = false, bool infect = false);
+    item &get_healing_item( bool bleed = false, bool bite = false, bool infect = false,
+                            bool first_best = false );
  bool has_painkiller();
  bool took_painkiller() const;
  void use_painkiller();
  void activate_item(int position);
+    bool wants_to_sell( const item &it ) const;
+    bool wants_to_sell( const item &it, int at_price, int market_price ) const;
+    bool wants_to_buy( const item &it ) const;
+    bool wants_to_buy( const item &it, int at_price, int market_price ) const;
+
+    // AI helpers
+    void regen_ai_cache();
+    Creature *current_target() const;
 
 // Interaction and assessment of the world around us
     int  danger_assessment();
     int  average_damage_dealt(); // Our guess at how much damage we can deal
     bool bravery_check(int diff);
-    bool emergency(int danger);
+    bool emergency() const;
+    bool emergency( int danger ) const;
     bool is_active() const;
-    void say(std::string line, ...) const;
+    void say( const std::string line, ...) const;
     void decide_needs();
     void die(Creature* killer) override;
     bool is_dead() const;
     int smash_ability() const; // How well we smash terrain (not corpses!)
+    bool complain(); // Finds something to complain about and complains. Returns if complained.
 /* shift() works much like monster::shift(), and is called when the player moves
  * from one submap to an adjacent submap.  It updates our position (shifting by
  * 12 tiles), as well as our plans.
@@ -710,36 +704,43 @@ public:
 
 // Movement; the following are defined in npcmove.cpp
  void move(); // Picks an action & a target and calls execute_action
- void execute_action(npc_action action, int target); // Performs action
+ void execute_action( npc_action action ); // Performs action
 
-// Functions which choose an action for a particular goal
- void choose_monster_target(int &enemy, int &danger,
-                            int &total_danger);
- npc_action method_of_fleeing (int target);
- npc_action method_of_attack (int enemy, int danger);
- npc_action address_needs (int danger);
- npc_action address_player ();
- npc_action long_term_goal_action();
+    void choose_monster_target();
+    void assess_danger();
+    // Functions which choose an action for a particular goal
+    npc_action method_of_fleeing();
+    npc_action method_of_attack();
+    npc_action address_needs();
+    npc_action address_needs( int danger );
+    npc_action address_player();
+    npc_action long_term_goal_action();
+    // Returns true if did something and we should end turn
+    bool scan_new_items();
+    // Returns true if did wield it
+    bool wield_better_weapon();
  bool alt_attack_available(); // Do we have grenades, molotov, etc?
  int choose_escape_item(); // Returns item position of our best escape aid
 
 // Helper functions for ranged combat
- int  confident_range(int position = -1); // >= 50% chance to hit
- /**
-  * Check if this NPC is blocking movement from the given position
-  */
- bool is_blocking_position( const tripoint &p );
- bool wont_hit_friend(  const tripoint &p , int position = -1 );
- bool can_reload(); // Wielding a gun that is not fully loaded
- bool need_to_reload(); // Wielding a gun that is empty
- bool enough_time_to_reload(int target, item &gun);
+    // Multiplier for acceptable angle of inaccuracy
+    double confidence_mult() const;
+    int confident_range( int weapon_index = -1 ) const;
+    int confident_gun_range( const item & ) const;
+    int confident_gun_range( const item &gun, int at_recoil ) const;
+    int confident_throw_range( const item & ) const;
+    bool wont_hit_friend( const tripoint &p , int position = -1 ) const;
+    bool need_to_reload() const; // Wielding a gun that is empty
+    bool enough_time_to_reload( const item &gun ) const;
+
+    void aim();
 
 // Physical movement from one tile to the next
  void update_path( const tripoint &p, bool no_bashing = false );
  bool can_move_to( const tripoint &p, bool no_bashing = false ) const;
  void move_to    ( const tripoint &p, bool no_bashing = false );
  void move_to_next(); // Next in <path>
- void avoid_friendly_fire(int target); // Maneuver so we won't shoot u
+ void avoid_friendly_fire(); // Maneuver so we won't shoot u
  void move_away_from( const tripoint &p, bool no_bashing = false );
  void move_pause(); // Same as if the player pressed '.'
 
@@ -747,12 +748,11 @@ public:
  void find_item  (); // Look around and pick an item
  void pick_up_item (); // Move to, or grab, our targeted item
  void drop_items (int weight, int volume); // Drop wgt and vol
- npc_action scan_new_items(int target);
 
 // Combat functions and player interaction functions
     Creature *get_target( int target ) const;
  void wield_best_melee ();
- void alt_attack (int target);
+ void alt_attack();
  void use_escape_item (int position);
  void heal_player (player &patient);
  void heal_self  ();
@@ -768,6 +768,8 @@ public:
  void go_to_destination(); // Move there; on the micro scale
  void reach_destination(); // We made it!
 
+    void guard_current_pos();
+
  //message related stuff
  virtual void add_msg_if_npc(const char* msg, ...) const override;
  virtual void add_msg_player_or_npc(const char* player_str, const char* npc_str, ...) const override;
@@ -777,10 +779,16 @@ public:
  virtual void add_msg_if_player(game_message_type, const char *, ...) const override{};
  virtual void add_memorial_log(const char*, const char*, ...) override {};
  virtual void add_miss_reason(const char *, unsigned int) {};
+    virtual void add_msg_player_or_say( const char *, const char *, ... ) const override;
+    virtual void add_msg_player_or_say( game_message_type, const char *, const char *, ... ) const override;
 
 // The preceding are in npcmove.cpp
 
+    bool query_yn( const char *mes, ... ) const override;
 
+    // Note: NPCs use a different speed rating than players
+    // Because they can't run yet
+    virtual float speed_rating() const override;
 
 // #############   VALUES   ################
 
@@ -799,6 +807,10 @@ private:
      * (mapx,mapy) defines the overmap the npc is stored on.
      */
     int mapx, mapy;
+    // Type of complaint->last time we complainted about this type
+    std::map<std::string, int> complaints;
+
+    npc_short_term_cache ai_cache;
 public:
 
     static npc_map _all_npc;
@@ -857,6 +869,16 @@ public:
  unsigned flags : NF_MAX;
  // Dummy point that indicates that the goal is invalid.
  static const tripoint no_goal_point;
+
+    int last_updated;
+    /**
+     * Do some cleanup and caching as npc is being unloaded from map.
+     */
+    void on_unload();
+    /**
+     * Retroactively update npc.
+     */
+    void on_load();
 
     protected:
         void store(JsonOut &jsout) const;

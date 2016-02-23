@@ -15,7 +15,8 @@ class string_id;
  *
  */
 template<typename T>
-class int_id {
+class int_id
+{
     public:
         typedef int_id<T> This;
 
@@ -24,16 +25,14 @@ class int_id {
          * places that use it.
          */
         explicit int_id( int const id )
-        : _id( id )
-        {
+            : _id( id ) {
         }
         /**
          * Default constructor constructs a 0-id. No id value is special to this class, 0 as id
          * is just as normal as any other integer value.
          */
         int_id()
-        : _id( 0 )
-        {
+            : _id( 0 ) {
         }
         /**
          * Construct an id from the matching string based id. This may show a debug message if the
@@ -84,15 +83,14 @@ class int_id {
 };
 
 // Support hashing of int based ids by forwarding the hash of the int.
-namespace std {
-    template<typename T>
-    struct hash< int_id<T> >
-    {
-        std::size_t operator()( const int_id<T> &v) const
-        {
-            return hash<int>()( v.to_i() );
-        }
-    };
+namespace std
+{
+template<typename T>
+struct hash< int_id<T> > {
+    std::size_t operator()( const int_id<T> &v ) const {
+        return hash<int>()( v.to_i() );
+    }
+};
 }
 
 #endif

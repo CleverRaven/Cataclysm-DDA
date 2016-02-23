@@ -5,27 +5,41 @@
     "items":[
       ["thunder_sigil", 5],
       ["bloodscourge", 5],
-      ["bloodaxe", 10],
-      ["sun_sword", 5],
+      ["bloodaxe", 15],
+      ["spear_pestilence", 10],
+      ["sun_sword", 10],
       ["ethereal_crossbow", 5],
-      ["gilded_aegis", 5],
+      ["gilded_aegis", 10],
+      ["armor_wyrm", 10],
+      ["robe_shadow", 5],
+      ["somen_clairvoyance", 5],
       ["revenant_crown", 10],
-      ["gauntlets_necro", 5],
+      ["gauntlets_necro", 15]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "magic_consumables",
+    "items":[
       ["numbness_potion", 25],
       ["strength_potion", 20],
       ["speed_potion", 15],
       ["healing_potion", 10],
-      ["summon_kreck", 1],
-      ["summon_blank", 1],
-      ["summon_flaming_eye", 1],
-      ["summon_hunting_horror", 1],
-      ["summon_flying_polyp", 1],
-      ["summon_mi_go", 1],
+      ["scroll_sun", 5],
+      ["scroll_moon", 5],
+      ["scroll_artiface", 5],
+      ["scroll_nature", 5],
+      ["scroll_destruction", 5],
+      ["scroll_subversion", 5],
+      ["summon_kreck", 4],
+      ["summon_blank", 4],
+      ["summon_flaming_eye", 3],
+      ["summon_hunting_horror", 3],
+      ["summon_flying_polyp", 2],
+      ["summon_mi_go", 2],
       ["summon_yugg", 1],
       ["summon_shoggoth", 1]
     ]
-  },
-  {
+  },{
     "type" : "item_group",
     "id" : "magic_tools",
     "items":[
@@ -37,41 +51,37 @@
       ["essence_dull", 5],
       ["essence_blood", 10]
     ]
-  },
-  {
+  },{
     "type" : "item_group",
     "id" : "magic_books",
     "items":[
       ["book_magicfordummies", 5],
       ["book_potioncraft", 10],
+      ["book_scrollcraft", 10],
       ["book_hexenhammer", 5],
       ["book_sacrifice", 10],
       ["book_bloodmagic", 10],
       ["book_summoning", 5]
     ]
-  },
-  {
+  },{
     "type" : "item_group",
     "id" : "essence",
     "items":[
       ["essence", 1]
     ]
-  },
-  {
+  },{
     "type" : "item_group",
     "id" : "essence_blood",
     "items":[
       ["essence_blood", 1]
     ]
-  },
-  {
+  },{
     "type" : "item_group",
     "id" : "essence_boss",
     "items":[
       { "item": "essence", "prob": 100, "charges-min": 2, "charges-max": 5 }
     ]
-  },
-  {
+  },{
     "type" : "item_group",
     "id" : "essence_nether",
     "items":[
@@ -82,7 +92,8 @@
     "id" : "homebooks",
     "items":[
       ["book_magicfordummies", 1],
-      ["book_potioncraft", 1]
+      ["book_potioncraft", 1],
+      ["book_scrollcraft", 1]
     ]
   },{
     "type" : "item_group",
@@ -97,9 +108,11 @@
     "items":[
       ["book_magicfordummies", 3],
       ["book_potioncraft", 8],
+      ["book_scrollcraft", 5],
       ["book_hexenhammer", 4],
       ["book_sacrifice", 5],
-      ["book_bloodmagic", 5]
+      ["book_bloodmagic", 5],
+      ["book_summoning", 3]
     ]
   },{
     "type" : "item_group",
@@ -143,6 +156,9 @@
       ["bloodaxe", 1],
       ["hexenhammer", 1],
       ["gilded_aegis", 1],
+      ["robe_shadow", 1],
+      ["armor_wyrm", 1],
+      ["somen_clairvoyance", 1],
       ["revenant_crown", 1],
       ["gauntlets_necro", 1],
       ["sun_sword", 1],
@@ -150,6 +166,8 @@
       ["strength_potion", 3],
       ["speed_potion", 3],
       ["healing_potion", 5],
+      ["scroll_destruction", 2],
+      ["scroll_subversion", 4],
       ["essence", 3],
       ["essence_dull", 3],
       ["essence_blood", 5]
@@ -160,15 +178,25 @@
     "items":[
       ["thunder_sigil", 1],
       ["bloodscourge", 2],
+      ["spear_pestilence", 2],
       ["bloodaxe", 1],
       ["sun_sword", 3],
       ["gilded_aegis", 2],
+      ["robe_shadow", 1],
+      ["armor_wyrm", 2],
+      ["somen_clairvoyance", 1],
       ["revenant_crown", 1],
       ["gauntlets_necro", 1],
       ["numbness_potion", 5],
       ["strength_potion", 3],
       ["speed_potion", 3],
       ["healing_potion", 1],
+      ["scroll_sun", 3],
+      ["scroll_moon", 3],
+      ["scroll_artiface", 2],
+      ["scroll_nature", 2],
+      ["scroll_destruction", 1],
+      ["scroll_subversion", 1],
       ["offering_chalice", 2],
       ["offering_chalice_used", 4],
       ["blood_athame", 3],
@@ -178,6 +206,7 @@
       ["essence_blood", 3],
       ["book_magicfordummies", 1],
       ["book_potioncraft", 1],
+      ["book_scrollcraft", 1],
       ["book_hexenhammer", 1],
       ["book_sacrifice", 1],
       ["book_bloodmagic", 1],
@@ -190,6 +219,7 @@
       ["thunder_sigil", 1],
       ["bloodscourge", 1],
       ["sun_sword", 1],
+      ["somen_clairvoyance", 1],
       ["revenant_crown", 1],
       ["gauntlets_necro", 1],
       ["offering_chalice", 1],

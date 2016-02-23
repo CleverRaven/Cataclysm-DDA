@@ -1,5 +1,7 @@
+#include "cata_utility.h"
 #include "player.h"
 #include "profession.h"
+#include "recipe_dictionary.h"
 #include "scenario.h"
 #include "start_location.h"
 #include "input.h"
@@ -18,6 +20,9 @@
 #include "addiction.h"
 #include "ui.h"
 #include "mutation.h"
+#include "crafting.h"
+
+
 #ifndef _MSC_VER
 #include <unistd.h>
 #endif
@@ -56,20 +61,24 @@
 void draw_tabs(WINDOW *w, std::string sTab);
 
 int set_stats(WINDOW *w, player *u, int &points);
-int set_traits(WINDOW *w, player *u, int &points, int max_trait_points);
+int set_traits(WINDOW *w, player *u, int &points);
 int set_scenario(WINDOW *w, player *u, int &points);
 int set_profession(WINDOW *w, player *u, int &points);
 int set_skills(WINDOW *w, player *u, int &points);
 
-int set_description(WINDOW *w, player *u, character_type type, int &points);
+int set_description(WINDOW *w, player *u, bool allow_reroll, int &points);
 
 void save_template(player *u);
 
 bool lcmatch(const std::string &str, const std::string &findstr); // ui.cpp
 
-void Character::pick_name()
+void Character::pick_name(bool bUseDefault)
 {
-    name = Name::generate(male);
+    if (bUseDefault && OPTIONS["DEF_CHAR_NAME"]) {
+        name = OPTIONS["DEF_CHAR_NAME"].getValue();
+    } else {
+        name = Name::generate(male);
+    }
 }
 
 matype_id choose_ma_style( const character_type type, const std::vector<matype_id> &styles )
@@ -97,7 +106,202 @@ matype_id choose_ma_style( const character_type type, const std::vector<matype_i
     }
 }
 
-int player::create(character_type type, std::string tempname)
+bool player::load_template( const std::string &template_name )
+{
+    const std::string path = FILENAMES["templatedir"] + template_name + ".template";
+    std::ifstream fin( path.c_str() );
+    if( !fin.is_open() ) {
+        debugmsg( "Couldn't open %s!", path.c_str() );
+        return false;
+    }
+    std::string data;
+    getline( fin, data );
+    load_info( data );
+
+    if( MAP_SHARING::isSharing() ) {
+        // just to make sure we have the right name
+        name = MAP_SHARING::getUsername();
+    }
+
+    return true;
+}
+
+void player::randomize( const bool random_scenario, int &points )
+{
+    const int max_trait_points = OPTIONS["MAX_TRAIT_POINTS"];
+    // Reset everything to the defaults to have a clean state.
+    *this = player();
+
+    g->u.male = (rng(1, 100) > 50);
+    if(!MAP_SHARING::isSharing()) {
+        g->u.pick_name(true);
+    } else {
+        g->u.name = MAP_SHARING::getUsername();
+    }
+    if( random_scenario ) {
+        std::vector<const scenario *> scenarios;
+        for( const scenario *const scenptr : scenario::get_all() ) {
+            if (!scenptr->has_flag("CHALLENGE")) {
+                scenarios.emplace_back( scenptr );
+            }
+        }
+        g->scen = random_entry( scenarios );
+        if (g->scen->profsize() > 0) {
+            g->u.prof = g->scen->random_profession();
+        } else {
+            g->u.prof = profession::weighted_random();
+        }
+        g->u.start_location = g->scen->random_start_location();
+    } else {
+        g->u.prof = profession::weighted_random();
+    }
+    str_max = rng(6, 12);
+    dex_max = rng(6, 12);
+    int_max = rng(6, 12);
+    per_max = rng(6, 12);
+    points = points - str_max - dex_max - int_max - per_max - g->u.prof->point_cost() - g->scen->point_cost();
+    // The default for each stat is 8, and that default does not cost any points.
+    // Values below give points back, values above require points. The line above has removed
+    // to many points, therefor they are added back.
+    points += 8 * 4;
+    if (str_max > HIGH_STAT) {
+        points -= (str_max - HIGH_STAT);
+    }
+    if (dex_max > HIGH_STAT) {
+        points -= (dex_max - HIGH_STAT);
+    }
+    if (int_max > HIGH_STAT) {
+        points -= (int_max - HIGH_STAT);
+    }
+    if (per_max > HIGH_STAT) {
+        points -= (per_max - HIGH_STAT);
+    }
+
+    int num_gtraits = 0, num_btraits = 0, tries = 0;
+    std::string rn = "";
+
+    while (points < 0 || rng(-3, 20) > points) {
+        if (num_btraits < max_trait_points && one_in(3)) {
+            tries = 0;
+            do {
+                rn = random_bad_trait();
+                tries++;
+            } while ((has_trait(rn) || num_btraits - mutation_branch::get( rn ).points > max_trait_points) &&
+                     tries < 5);
+
+            if (tries < 5 && !has_conflicting_trait(rn)) {
+                toggle_trait(rn);
+                points -= mutation_branch::get( rn ).points;
+                num_btraits -= mutation_branch::get( rn ).points;
+            }
+        } else {
+            switch (rng(1, 4)) {
+            case 1:
+                if (str_max > 5) {
+                    str_max--;
+                    points++;
+                }
+                break;
+            case 2:
+                if (dex_max > 5) {
+                    dex_max--;
+                    points++;
+                }
+                break;
+            case 3:
+                if (int_max > 5) {
+                    int_max--;
+                    points++;
+                }
+                break;
+            case 4:
+                if (per_max > 5) {
+                    per_max--;
+                    points++;
+                }
+                break;
+            }
+        }
+    }
+
+    /* The loops variable is used to prevent the algorithm running in an infinite loop */
+    unsigned int loops = 0;
+    while (points > 0 && loops <= 30000) {
+        switch (rng((num_gtraits < max_trait_points ? 1 : 5), 9)) {
+        case 1:
+        case 2:
+        case 3:
+        case 4:
+            rn = random_good_trait();
+            {
+                auto &mdata = mutation_branch::get( rn );
+            if (!has_trait(rn) && points >= mdata.points &&
+                num_gtraits + mdata.points <= max_trait_points &&
+                !has_conflicting_trait(rn)) {
+                toggle_trait(rn);
+                points -= mdata.points;
+                num_gtraits += mdata.points;
+            }
+            }
+            break;
+        case 5:
+            switch (rng(1, 4)) {
+            case 1:
+                if (str_max < HIGH_STAT) {
+                    str_max++;
+                    points--;
+                } else if (points >= 2 && str_max < MAX_STAT) {
+                    str_max++;
+                    points = points - 2;
+                }
+                break;
+            case 2:
+                if (dex_max < HIGH_STAT) {
+                    dex_max++;
+                    points--;
+                } else if (points >= 2 && dex_max < MAX_STAT) {
+                    dex_max++;
+                    points = points - 2;
+                }
+                break;
+            case 3:
+                if (int_max < HIGH_STAT) {
+                    int_max++;
+                    points--;
+                } else if (points >= 2 && int_max < MAX_STAT) {
+                    int_max++;
+                    points = points - 2;
+                }
+                break;
+            case 4:
+                if (per_max < HIGH_STAT) {
+                    per_max++;
+                    points--;
+                } else if (points >= 2 && per_max < MAX_STAT) {
+                    per_max++;
+                    points = points - 2;
+                }
+                break;
+            }
+            break;
+        case 6:
+        case 7:
+        case 8:
+        case 9:
+            const Skill* aSkill = Skill::random_skill();
+            int level = skillLevel(aSkill);
+
+            if (level < points && level < MAX_SKILL && (level <= 10 || loops > 10000)) {
+                points -= level + 1;
+                skillLevel(aSkill).level(level + 2);
+            }
+            break;
+        }
+        loops++;
+    }
+}
+
+bool player::create(character_type type, std::string tempname)
 {
     weapon = item("null", 0);
 
@@ -114,212 +318,25 @@ int player::create(character_type type, std::string tempname)
 
     int tab = 0;
     int points = OPTIONS["INITIAL_POINTS"];
-    int max_trait_points = OPTIONS["MAX_TRAIT_POINTS"];
-    if (type != PLTYPE_CUSTOM) {
-        points = points + 32;
-        switch (type) {
-        case PLTYPE_CUSTOM:
-            break;
-        case PLTYPE_MAX:
-            break;
-        case PLTYPE_NOW:
-            g->u.male = (rng(1, 100) > 50);
 
-            if(!MAP_SHARING::isSharing()) {
-                g->u.pick_name();
-            } else {
-                g->u.name = MAP_SHARING::getUsername();
-            }
-        case PLTYPE_RANDOM_WITH_SCENARIO:
-        case PLTYPE_RANDOM: {
-            g->u.male = (rng(1, 100) > 50);
-            if(!MAP_SHARING::isSharing()) {
-                g->u.pick_name();
-            } else {
-                g->u.name = MAP_SHARING::getUsername();
-            }
-            if (type == PLTYPE_RANDOM_WITH_SCENARIO) {
-                std::vector<scenario *> scenarios;
-                for (scenmap::const_iterator iter = scenario::begin(); iter != scenario::end(); iter++) {
-                    if (!(iter->second).has_flag("CHALLENGE")) {
-                        scenarios.emplace_back(scenario::scen((iter->second).ident()));
-                    }
-                }
-                g->scen = random_entry( scenarios );
-                if (g->scen->profsize() > 0) {
-                    g->u.prof = g->scen->random_profession();
-                } else {
-                    g->u.prof = profession::weighted_random();
-                }
-                g->u.start_location = g->scen->random_start_location();
-            } else {
-                g->u.prof = profession::weighted_random();
-            }
-            str_max = rng(6, 12);
-            dex_max = rng(6, 12);
-            int_max = rng(6, 12);
-            per_max = rng(6, 12);
-            points = points - str_max - dex_max - int_max - per_max - g->u.prof->point_cost() - g->scen->point_cost();
-            if (str_max > HIGH_STAT) {
-                points -= (str_max - HIGH_STAT);
-            }
-            if (dex_max > HIGH_STAT) {
-                points -= (dex_max - HIGH_STAT);
-            }
-            if (int_max > HIGH_STAT) {
-                points -= (int_max - HIGH_STAT);
-            }
-            if (per_max > HIGH_STAT) {
-                points -= (per_max - HIGH_STAT);
-            }
-
-            int num_gtraits = 0, num_btraits = 0, tries = 0;
-            std::string rn = "";
-
-            while (points < 0 || rng(-3, 20) > points) {
-                if (num_btraits < max_trait_points && one_in(3)) {
-                    tries = 0;
-                    do {
-                        rn = random_bad_trait();
-                        tries++;
-                    } while ((has_trait(rn) || num_btraits - mutation_branch::get( rn ).points > max_trait_points) &&
-                             tries < 5);
-
-                    if (tries < 5 && !has_conflicting_trait(rn)) {
-                        toggle_trait(rn);
-                        points -= mutation_branch::get( rn ).points;
-                        num_btraits -= mutation_branch::get( rn ).points;
-                    }
-                } else {
-                    switch (rng(1, 4)) {
-                    case 1:
-                        if (str_max > 5) {
-                            str_max--;
-                            points++;
-                        }
-                        break;
-                    case 2:
-                        if (dex_max > 5) {
-                            dex_max--;
-                            points++;
-                        }
-                        break;
-                    case 3:
-                        if (int_max > 5) {
-                            int_max--;
-                            points++;
-                        }
-                        break;
-                    case 4:
-                        if (per_max > 5) {
-                            per_max--;
-                            points++;
-                        }
-                        break;
-                    }
-                }
-            }
-
-            /* The loops variable is used to prevent the algorithm running in an infinite loop */
-            unsigned int loops = 0;
-            while (points > 0 && loops <= 30000) {
-                switch (rng((num_gtraits < max_trait_points ? 1 : 5), 9)) {
-                case 1:
-                case 2:
-                case 3:
-                case 4:
-                    rn = random_good_trait();
-                    {
-                        auto &mdata = mutation_branch::get( rn );
-                    if (!has_trait(rn) && points >= mdata.points &&
-                        num_gtraits + mdata.points <= max_trait_points &&
-                        !has_conflicting_trait(rn)) {
-                        toggle_trait(rn);
-                        points -= mdata.points;
-                        num_gtraits += mdata.points;
-                    }
-                    }
-                    break;
-                case 5:
-                    switch (rng(1, 4)) {
-                    case 1:
-                        if (str_max < HIGH_STAT) {
-                            str_max++;
-                            points--;
-                        } else if (points >= 2 && str_max < MAX_STAT) {
-                            str_max++;
-                            points = points - 2;
-                        }
-                        break;
-                    case 2:
-                        if (dex_max < HIGH_STAT) {
-                            dex_max++;
-                            points--;
-                        } else if (points >= 2 && dex_max < MAX_STAT) {
-                            dex_max++;
-                            points = points - 2;
-                        }
-                        break;
-                    case 3:
-                        if (int_max < HIGH_STAT) {
-                            int_max++;
-                            points--;
-                        } else if (points >= 2 && int_max < MAX_STAT) {
-                            int_max++;
-                            points = points - 2;
-                        }
-                        break;
-                    case 4:
-                        if (per_max < HIGH_STAT) {
-                            per_max++;
-                            points--;
-                        } else if (points >= 2 && per_max < MAX_STAT) {
-                            per_max++;
-                            points = points - 2;
-                        }
-                        break;
-                    }
-                    break;
-                case 6:
-                case 7:
-                case 8:
-                case 9:
-                    const Skill* aSkill = Skill::random_skill();
-                    int level = skillLevel(aSkill);
-
-                    if (level < points && level < MAX_SKILL && (level <= 10 || loops > 10000)) {
-                        points -= level + 1;
-                        skillLevel(aSkill).level(level + 2);
-                    }
-                    break;
-                }
-                loops++;
-            }
-        }
+    switch (type) {
+    case PLTYPE_CUSTOM:
         break;
-        case PLTYPE_TEMPLATE: {
-            std::ifstream fin;
-            std::stringstream filename;
-            filename << FILENAMES["templatedir"] << tempname << ".template";
-            fin.open(filename.str().c_str());
-            if (!fin.is_open()) {
-                debugmsg("Couldn't open %s!", filename.str().c_str());
-                return 0;
-            }
-            std::string(data);
-            getline(fin, data);
-            load_info(data);
-            points = 0;
-
-            if(MAP_SHARING::isSharing()) {
-                name = MAP_SHARING::getUsername(); //just to make sure we have the right name
-            }
-        }
-        break;
-        }
+    case PLTYPE_NOW:
+    case PLTYPE_RANDOM:
+        randomize( false, points );
         tab = NEWCHAR_TAB_MAX;
+        break;
+    case PLTYPE_TEMPLATE:
+        if( !load_template( tempname ) ) {
+            return false;
+        }
+        points = 0;
+        tab = NEWCHAR_TAB_MAX;
+        break;
     }
 
+    const bool allow_reroll = type == PLTYPE_RANDOM;
     do {
         if( w == nullptr ) {
             // assert( type == PLTYPE_NOW );
@@ -336,7 +353,7 @@ int player::create(character_type type, std::string tempname)
             tab += set_profession (w, this, points);
             break;
         case 2:
-            tab += set_traits     (w, this, points, max_trait_points);
+            tab += set_traits     (w, this, points);
             break;
         case 3:
             tab += set_stats      (w, this, points);
@@ -345,20 +362,14 @@ int player::create(character_type type, std::string tempname)
             tab += set_skills     (w, this, points);
             break;
         case 5:
-            tab += set_description(w, this, type, points);
+            tab += set_description(w, this, allow_reroll, points);
             break;
         }
     } while (tab >= 0 && tab <= NEWCHAR_TAB_MAX);
     delwin(w);
 
-    if (tab < -1) {
-        // Returned from set_description for reroll
-        if (tab == -3) {
-            return -2;
-        }
-        return -1;
-    } else if (tab < 0) {
-        return 0;
+    if( tab < 0 ) {
+        return false;
     }
 
     recalc_hp();
@@ -376,6 +387,14 @@ int player::create(character_type type, std::string tempname)
     ret_null = item("null", 0);
     weapon = ret_null;
 
+    //Learn recipes
+    for( auto &cur_recipe : recipe_dict ) {
+        if( !cur_recipe->autolearn && has_recipe_requirements( cur_recipe ) &&
+            !( learned_recipes.find( cur_recipe->ident() ) != learned_recipes.end()) ) {
+
+            learn_recipe( (recipe *)cur_recipe );
+        }
+    }
 
     item tmp; //gets used several times
     item tmp2;
@@ -395,8 +414,7 @@ int player::create(character_type type, std::string tempname)
         prof_items.push_back("glasses_reading");
     }
     for( auto &itd : prof_items ) {
-        // Spawn left-handed items as a placeholder, shouldn't affect non-handed items
-        tmp = item(itd.type_id, 0, false, LEFT);
+        tmp = item( itd.type_id, 0, item::default_charges_tag{} );
         if( !itd.snippet_id.empty() ) {
             tmp.set_snippet( itd.snippet_id );
         }
@@ -408,18 +426,6 @@ int player::create(character_type type, std::string tempname)
             // If wearing an item fails we fail silently.
             wear_item(tmp, false);
 
-            // If item is part of a pair give a second one for the other side
-            if (tmp.has_flag("PAIRED")) {
-                tmp2 = item(itd.type_id, 0, false, RIGHT);
-                if( !itd.snippet_id.empty() ) {
-                    tmp2.set_snippet( itd.snippet_id );
-                }
-                if(tmp2.has_flag("VARSIZE")) {
-                    tmp2.item_tags.insert("FIT");
-                }
-                // If wearing an item fails we fail silently.
-                wear_item(tmp2, false);
-            }
             // if something is wet, start it as active with some time to dry off
         } else if(tmp.has_flag("WET")) {
             tmp.active = true;
@@ -483,7 +489,7 @@ int player::create(character_type type, std::string tempname)
 
     // Likewise, the asthmatic start with their medication.
     if (has_trait("ASTHMA")) {
-        tmp = item("inhaler", 0, false);
+        tmp = item( "inhaler", 0, item::default_charges_tag{} );
         inv.push_back(tmp);
     }
 
@@ -581,6 +587,7 @@ int set_stats(WINDOW *w, player *u, int &points)
     ctxt.register_action("PREV_TAB");
     ctxt.register_action("HELP_KEYBINDINGS");
     ctxt.register_action("NEXT_TAB");
+    ctxt.register_action("QUIT");
     int read_spd;
     WINDOW *w_description = newwin(8, FULL_SCREEN_WIDTH - iSecondColumn - 1, 6 + getbegy(w),
                                    iSecondColumn + getbegx(w));
@@ -640,10 +647,9 @@ int set_stats(WINDOW *w, player *u, int &points)
             u->recalc_hp();
             mvwprintz(w_description, 0, 0, COL_STAT_NEUTRAL, _("Base HP: %d"), u->hp_max[0]);
             mvwprintz(w_description, 1, 0, COL_STAT_NEUTRAL, _("Carry weight: %.1f %s"),
-                      u->convert_weight(u->weight_capacity()),
-                      OPTIONS["USE_METRIC_WEIGHTS"] == "kg" ? _("kg") : _("lbs"));
-            mvwprintz(w_description, 2, 0, COL_STAT_NEUTRAL, _("Melee damage: %d"),
-                      u->base_damage(false));
+                      convert_weight(u->weight_capacity()), weight_units());
+            mvwprintz(w_description, 2, 0, COL_STAT_NEUTRAL, _("Melee damage bonus: %.1f"),
+                      u->bonus_damage(false) );
             fold_and_print(w_description, 4, 0, getmaxx(w_description) - 1, COL_STAT_NEUTRAL,
                            _("Strength also makes you more resistant to many diseases and poisons, and makes actions which require brute force more effective."));
             break;
@@ -775,12 +781,17 @@ int set_stats(WINDOW *w, player *u, int &points)
         } else if (action == "NEXT_TAB") {
             delwin(w_description);
             return 1;
+        } else if (action == "QUIT" && query_yn(_("Return to main menu?"))) {
+            delwin(w_description);
+            return -4;
         }
     } while (true);
 }
 
-int set_traits(WINDOW *w, player *u, int &points, int max_trait_points)
+int set_traits(WINDOW *w, player *u, int &points)
 {
+    const int max_trait_points = OPTIONS["MAX_TRAIT_POINTS"];
+
     draw_tabs(w, _("TRAITS"));
 
     WINDOW *w_description = newwin(3, FULL_SCREEN_WIDTH - 2, FULL_SCREEN_HEIGHT - 4 + getbegy(w),
@@ -835,6 +846,7 @@ int set_traits(WINDOW *w, player *u, int &points, int max_trait_points)
     ctxt.register_action("PREV_TAB");
     ctxt.register_action("NEXT_TAB");
     ctxt.register_action("HELP_KEYBINDINGS");
+    ctxt.register_action("QUIT");
 
     do {
         mvwprintz(w, 3, 2, c_ltgray, _("Points left:%4d "), points);
@@ -922,10 +934,8 @@ int set_traits(WINDOW *w, player *u, int &points, int max_trait_points)
                 }
             }
 
-            //Draw Scrollbar Good Traits
+            //Draw Scrollbar, one for good and one for bad traits
             draw_scrollbar(w, iCurrentLine[0], iContentHeight, traits_size[0], 5);
-
-            //Draw Scrollbar Bad Traits
             draw_scrollbar(w, iCurrentLine[1], iContentHeight, traits_size[1], 5, getmaxx(w) - 1);
         }
 
@@ -1016,6 +1026,9 @@ int set_traits(WINDOW *w, player *u, int &points, int max_trait_points)
         } else if (action == "NEXT_TAB") {
             delwin(w_description);
             return 1;
+        } else if (action == "QUIT" && query_yn(_("Return to main menu?"))) {
+            delwin(w_description);
+            return -3;
         }
     } while (true);
 }
@@ -1067,6 +1080,7 @@ int set_profession(WINDOW *w, player *u, int &points)
     ctxt.register_action("SORT");
     ctxt.register_action("HELP_KEYBINDINGS");
     ctxt.register_action("FILTER");
+    ctxt.register_action("QUIT");
 
     bool recalc_profs = true;
     int profs_length = 0;
@@ -1076,13 +1090,13 @@ int set_profession(WINDOW *w, player *u, int &points)
     do {
         if (recalc_profs) {
             sorted_profs.clear();
-            for (profmap::const_iterator iter = profession::begin(); iter != profession::end(); ++iter) {
-                if ((g->scen->profsize() == 0 && (iter->second).has_flag("SCEN_ONLY") == false) ||
-                    g->scen->profquery(&(iter->second)) == true) {
-                    if (!lcmatch(iter->second.gender_appropriate_name(u->male), filterstring)) {
+            for( const profession *const profptr : profession::get_all() ) {
+                if ((g->scen->profsize() == 0 && profptr->has_flag("SCEN_ONLY") == false) ||
+                    g->scen->profquery( profptr->ident() ) ) {
+                    if (!lcmatch(profptr->gender_appropriate_name(u->male), filterstring)) {
                         continue;
                     }
-                    sorted_profs.push_back(&(iter->second));
+                    sorted_profs.push_back(profptr);
                 }
             }
             profs_length = sorted_profs.size();
@@ -1274,7 +1288,6 @@ int set_profession(WINDOW *w, player *u, int &points)
                   ctxt.get_desc("CHANGE_GENDER").c_str(),
                   sorted_profs[cur_id]->gender_appropriate_name(!u->male).c_str());
 
-        //Draw Scrollbar
         draw_scrollbar(w, cur_id, iContentHeight, profs_length, 5);
 
         wrefresh(w);
@@ -1305,7 +1318,7 @@ int set_profession(WINDOW *w, player *u, int &points)
                 desc_offset++;
             }
         } else if (action == "CONFIRM") {
-            u->prof = profession::prof(sorted_profs[cur_id]->ident()); // we've got a const*
+            u->prof = sorted_profs[cur_id];
             points -= netPointCost;
         } else if (action == "CHANGE_GENDER") {
             u->male = !u->male;
@@ -1324,6 +1337,8 @@ int set_profession(WINDOW *w, player *u, int &points)
             filterstring = string_input_popup(_("Search:"), 60, filterstring,
                 _("Search by profession name."));
             recalc_profs = true;
+        } else if (action == "QUIT" && query_yn(_("Return to main menu?"))) {
+            retval = -2;
         }
 
     } while (retval == 0);
@@ -1350,12 +1365,16 @@ int set_skills(WINDOW *w, player *u, int &points)
     const int num_skills = Skill::skills.size();
     int cur_pos = 0;
     const Skill* currentSkill = sorted_skills[cur_pos];
+    int selected = 0;
 
     input_context ctxt("NEW_CHAR_SKILLS");
     ctxt.register_cardinal();
+    ctxt.register_action("SCROLL_DOWN");
+    ctxt.register_action("SCROLL_UP");
     ctxt.register_action("PREV_TAB");
     ctxt.register_action("NEXT_TAB");
     ctxt.register_action("HELP_KEYBINDINGS");
+    ctxt.register_action("QUIT");
 
     do {
         mvwprintz(w, 3, 2, c_ltgray, _("Points left:%4d "), points);
@@ -1366,8 +1385,69 @@ int set_skills(WINDOW *w, player *u, int &points)
         mvwprintz(w, 3, 31, points >= cost ? COL_SKILL_USED : c_ltred,
                   ngettext("Upgrading %s costs %d point", "Upgrading %s costs %d points", cost),
                   currentSkill->name().c_str(), cost);
-        fold_and_print(w_description, 0, 0, getmaxx(w_description), COL_SKILL_USED,
-                       currentSkill->description());
+
+        std::map<std::string, std::vector<std::pair<std::string, int> > > recipes;
+        for( auto cur_recipe : recipe_dict ) {
+            //Find out if the current skill and its level is in the requirement list
+            auto req_skill = cur_recipe->required_skills.find( currentSkill->ident() );
+            int skill = (req_skill != cur_recipe->required_skills.end()) ? req_skill->second : 0;
+
+            // Filter out autolearend recipes, recipes that don't use the current skill,
+            // recipes we're missing prerequisites for, and uncraft recipes.
+            if( !cur_recipe->autolearn &&
+                ( cur_recipe->skill_used == currentSkill->ident() || skill > 0 ) &&
+                u->has_recipe_requirements( cur_recipe ) &&
+                cur_recipe->ident().find("uncraft") == std::string::npos )  {
+
+                recipes[cur_recipe->skill_used.obj().name()].push_back(
+                    make_pair( item::nname( cur_recipe->result ),
+                               (skill > 0) ? skill : cur_recipe->difficulty ) );
+            }
+        }
+
+        std::string rec_disp = "";
+
+        for( auto &elem : recipes ) {
+            std::sort( elem.second.begin(), elem.second.end(),
+                       []( const std::pair<std::string, int>& lhs,
+                           const std::pair<std::string, int>& rhs ) {
+                           return lhs.second < rhs.second ||
+                                               ( lhs.second == rhs.second && lhs.first < rhs.first );
+                       } );
+
+            std::string rec_temp = "";
+            for( auto rec = elem.second.begin(); rec != elem.second.end(); ++rec ) {
+                if( !rec_temp.empty() ) {
+                    rec_temp += ", ";
+                }
+                rec_temp += rec->first + " (" + to_string(rec->second) + ")";
+            }
+
+            if( elem.first == currentSkill->name() ) {
+                rec_disp = "\n \n<color_c_brown>" + rec_temp + "</color>" + rec_disp;
+            } else {
+                rec_disp += "\n \n<color_c_ltgray>[" + elem.first + "]\n" + rec_temp + "</color>";
+            }
+        }
+
+        rec_disp = currentSkill->description() + rec_disp;
+
+        const auto vFolded = foldstring( rec_disp, getmaxx( w_description ) );
+        int iLines = vFolded.size();
+
+        if( selected < 0 ) {
+            selected = 0;
+        } else if( iLines < iContentHeight ) {
+            selected = 0;
+        } else if( selected >= iLines - iContentHeight ) {
+            selected = iLines - iContentHeight;
+        }
+
+        fold_and_print_from( w_description, 0, 0, getmaxx( w_description ),
+                             selected, COL_SKILL_USED, rec_disp );
+
+        draw_scrollbar( w, selected, iContentHeight, iLines - iContentHeight,
+                        5, getmaxx(w) - 1, BORDER_COLOR, true );
 
         int first_i, end_i, base_y;
         if (cur_pos < iHalf) {
@@ -1406,7 +1486,6 @@ int set_skills(WINDOW *w, player *u, int &points)
             }
         }
 
-        //Draw Scrollbar
         draw_scrollbar(w, cur_pos, iContentHeight, num_skills, 5);
 
         wrefresh(w);
@@ -1446,12 +1525,19 @@ int set_skills(WINDOW *w, player *u, int &points)
                     level.level(level + 1);
                 }
             }
+        } else if (action == "SCROLL_DOWN") {
+            selected++;
+        } else if (action == "SCROLL_UP") {
+            selected--;
         } else if (action == "PREV_TAB") {
             delwin(w_description);
             return -1;
         } else if (action == "NEXT_TAB") {
             delwin(w_description);
             return 1;
+        } else if (action == "QUIT" && query_yn(_("Return to main menu?"))) {
+            delwin(w_description);
+            return -5;
         }
     } while (true);
 }
@@ -1518,6 +1604,7 @@ int set_scenario(WINDOW *w, player *u, int &points)
     ctxt.register_action("SORT");
     ctxt.register_action("HELP_KEYBINDINGS");
     ctxt.register_action("FILTER");
+    ctxt.register_action("QUIT");
 
     bool recalc_scens = true;
     int scens_length = 0;
@@ -1527,11 +1614,11 @@ int set_scenario(WINDOW *w, player *u, int &points)
     do {
         if (recalc_scens) {
             sorted_scens.clear();
-            for (scenmap::const_iterator iter = scenario::begin(); iter != scenario::end(); ++iter) {
-                if (!lcmatch(iter->second.gender_appropriate_name(u->male), filterstring)) {
+            for( const scenario *const scenptr : scenario::get_all() ) {
+                if (!lcmatch(scenptr->gender_appropriate_name(u->male), filterstring)) {
                     continue;
                 }
-                sorted_scens.push_back(&(iter->second));
+                sorted_scens.push_back( scenptr );
             }
             scens_length = sorted_scens.size();
             if (scens_length == 0) {
@@ -1608,11 +1695,11 @@ int set_scenario(WINDOW *w, player *u, int &points)
         }
         ///* This string has fixed start pos(7 = 2(start) + 5(length of "(+%d)" and space))
         mvwprintz(w, 3, pMsg_length + 7, can_pick ? c_green : c_ltred, scen_msg_temp.c_str(),
-                  _(sorted_scens[cur_id]->gender_appropriate_name(u->male).c_str()),
+                  sorted_scens[cur_id]->gender_appropriate_name(u->male).c_str(),
                   pointsForScen);
 
         fold_and_print(w_description, 0, 0, FULL_SCREEN_WIDTH - 2, c_green,
-                       _(sorted_scens[cur_id]->description(u->male).c_str()));
+                       sorted_scens[cur_id]->description(u->male).c_str());
 
         //Draw options
         calcStartPos(iStartPos, cur_id, iContentHeight, scens_length);
@@ -1629,7 +1716,7 @@ int set_scenario(WINDOW *w, player *u, int &points)
                 col = (sorted_scens[i] == sorted_scens[cur_id] ? hilite(COL_SKILL_USED) : COL_SKILL_USED);
             }
             mvwprintz(w, 5 + i - iStartPos, 2, col,
-                      _(sorted_scens[i]->gender_appropriate_name(u->male).c_str()));
+                      sorted_scens[i]->gender_appropriate_name(u->male).c_str());
 
         }
         //Clear rest of space in case stuff got filtered out
@@ -1672,7 +1759,7 @@ int set_scenario(WINDOW *w, player *u, int &points)
 
         mvwprintz(w_location, 0, 0, COL_HEADER, _("Scenario Location:"));
         wprintz(w_location, c_ltgray, ("\n"));
-        wprintz(w_location, c_ltgray, _(sorted_scens[cur_id]->start_name().c_str()));
+        wprintz(w_location, c_ltgray, sorted_scens[cur_id]->start_name().c_str());
 
         mvwprintz(w_flags, 0, 0, COL_HEADER, _("Scenario Flags:"));
         wprintz(w_flags, c_ltgray, ("\n"));
@@ -1737,7 +1824,7 @@ int set_scenario(WINDOW *w, player *u, int &points)
             u->dex_max = 8;
             u->int_max = 8;
             u->per_max = 8;
-            g->scen = scenario::scen(sorted_scens[cur_id]->ident());
+            g->scen = sorted_scens[cur_id];
             u->prof = g->scen->get_profession();
             u->empty_traits();
             u->empty_skills();
@@ -1756,18 +1843,16 @@ int set_scenario(WINDOW *w, player *u, int &points)
             filterstring = string_input_popup(_("Search:"), 60, filterstring,
                 _("Search by scenario name."));
             recalc_scens = true;
+        } else if (action == "QUIT" && query_yn(_("Return to main menu?"))) {
+            return -1;
         }
     } while (retval == 0);
 
     return retval;
 }
 
-int set_description(WINDOW *w, player *u, character_type type, int &points)
+int set_description(WINDOW *w, player *u, const bool allow_reroll, int &points)
 {
-    if (PLTYPE_NOW == type) {
-        return 1;
-    }
-
     draw_tabs(w, _("DESCRIPTION"));
 
     WINDOW *w_name = newwin(2, 42, getbegy(w) + 5, getbegx(w) + 2);
@@ -1807,15 +1892,15 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
     ctxt.register_action("REROLL_CHARACTER");
     ctxt.register_action("REROLL_CHARACTER_WITH_SCENARIO");
     ctxt.register_action("ANY_INPUT");
+    ctxt.register_action("QUIT");
 
     uimenu select_location;
     select_location.text = _("Select a starting location.");
     int offset = 0;
-    for( location_map::iterator loc = start_location::begin();
-         loc != start_location::end(); ++loc) {
-        if (g->scen->allowed_start(loc->second.ident()) || g->scen->has_flag("ALL_STARTS")) {
-            select_location.entries.push_back( uimenu_entry( _( loc->second.name().c_str() ) ) );
-            if( loc->second.ident() == u->start_location ) {
+    for( const start_location *const loc : start_location::get_all() ) {
+        if (g->scen->allowed_start(loc->ident()) || g->scen->has_flag("ALL_STARTS")) {
+            select_location.entries.push_back( uimenu_entry( loc->name() ) );
+            if( loc->ident() == u->start_location ) {
                 select_location.selected = offset;
             }
             offset++;
@@ -1824,6 +1909,8 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
     select_location.setup();
     if(MAP_SHARING::isSharing()) {
         u->name = MAP_SHARING::getUsername();  // set the current username as default character name
+    } else if (OPTIONS["DEF_CHAR_NAME"]) {
+        u->name = OPTIONS["DEF_CHAR_NAME"].getValue();
     }
     do {
         if (redraw) {
@@ -1911,7 +1998,7 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
                       _("Press %s to finish character creation or %s to go back."),
                       ctxt.get_desc("NEXT_TAB").c_str(),
                       ctxt.get_desc("PREV_TAB").c_str());
-            if( type == PLTYPE_RANDOM || type == PLTYPE_RANDOM_WITH_SCENARIO ) {
+            if( allow_reroll ) {
                     mvwprintz( w_guide, 0, 0, c_green,
                                _("Press %s to save character template, %s to re-roll or %s for random scenario."),
                                ctxt.get_desc("SAVE_TEMPLATE").c_str(),
@@ -1953,12 +2040,12 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
         mvwprintz( w_location, 0, prompt_offset + 1, c_ltgray, _("Starting location:") );
         // ::find will return empty location if id was not found. Debug msg will be printed too.
         mvwprintz( w_location, 0, prompt_offset + utf8_width(_("Starting location:")) + 2,
-                   c_ltgray, _(start_location::find(u->start_location)->name().c_str()));
+                   c_ltgray, u->start_location.obj().name().c_str());
         wrefresh(w_location);
 
         werase(w_scenario);
         mvwprintz(w_scenario, 0, 0, COL_HEADER, _("Scenario: "));
-        wprintz(w_scenario, c_ltgray, _(g->scen->gender_appropriate_name(u->male).c_str()));
+        wprintz(w_scenario, c_ltgray, g->scen->gender_appropriate_name(u->male).c_str());
         wrefresh(w_scenario);
 
         werase(w_profession);
@@ -1995,10 +2082,16 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
             }
         } else if (action == "PREV_TAB") {
             return -1;
-        } else if (action == "REROLL_CHARACTER" && (type == PLTYPE_RANDOM || type == PLTYPE_RANDOM_WITH_SCENARIO)) {
-            return -7;
-        } else if (action == "REROLL_CHARACTER_WITH_SCENARIO" && (type == PLTYPE_RANDOM || type == PLTYPE_RANDOM_WITH_SCENARIO)) {
-            return -8;
+        } else if (action == "REROLL_CHARACTER" && allow_reroll ) {
+            points = OPTIONS["INITIAL_POINTS"];
+            u->randomize( false, points );
+            // Return 0 so we re-enter this tab again, but it forces a complete redrawing of it.
+            return 0;
+        } else if (action == "REROLL_CHARACTER_WITH_SCENARIO" && allow_reroll ) {
+            points = OPTIONS["INITIAL_POINTS"];
+            u->randomize( true, points );
+            // Return 0 so we re-enter this tab again, but it forces a complete redrawing of it.
+            return 0;
         } else if (action == "SAVE_TEMPLATE") {
             if (points > 0) {
                 if(query_yn(_("You are attempting to save a template with unused points. "
@@ -2020,11 +2113,9 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
         } else if ( action == "CHOOSE_LOCATION" ) {
             select_location.redraw();
             select_location.query();
-            for( location_map::iterator loc = start_location::begin();
-                 loc != start_location::end(); ++loc ) {
-                if( 0 == strcmp( _( loc->second.name().c_str() ),
-                                 select_location.entries[ select_location.selected ].txt.c_str() ) ) {
-                    u->start_location = loc->second.ident();
+            for( const start_location *const loc : start_location::get_all() ) {
+                if( loc->name() == select_location.entries[ select_location.selected ].txt ) {
+                    u->start_location = loc->ident();
                 }
             }
             werase(select_location.window);
@@ -2050,6 +2141,8 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
                 wrap.append( ctxt.get_raw_input().text );
                 u->name = wrap.str();
             }
+        } else if (action == "QUIT" && query_yn(_("Return to main menu?"))) {
+            return -6;
         }
     } while (true);
 }

@@ -8,6 +8,7 @@
 #include "output.h"
 #include "item.h"
 #include "item_group.h"
+#include "calendar.h"
 
 #include <unordered_map>
 
@@ -53,14 +54,15 @@ static const std::unordered_map<std::string, ter_bitflags> ter_bitflags_map = { 
     { "DIGGABLE",                 TFLAG_DIGGABLE },       // monmove
     { "SUPPRESS_SMOKE",           TFLAG_SUPPRESS_SMOKE }, // fire
     { "FLAMMABLE_HARD",           TFLAG_FLAMMABLE_HARD }, // fire
-    { "TFLAG_SEALED",             TFLAG_SEALED },         // Fire, acid
-    { "TFLAG_ALLOW_FIELD_EFFECT", TFLAG_ALLOW_FIELD_EFFECT }, // Fire, acid
+    { "SEALED",                   TFLAG_SEALED },         // Fire, acid
+    { "ALLOW_FIELD_EFFECT",       TFLAG_ALLOW_FIELD_EFFECT }, // Fire, acid
     { "COLLAPSES",                TFLAG_COLLAPSES },      // building "remodeling"
     { "FLAMMABLE",                TFLAG_FLAMMABLE },      // fire bad! fire SLOW!
     { "REDUCE_SCENT",             TFLAG_REDUCE_SCENT },   // ...and the other half is update_scent
     { "INDOORS",                  TFLAG_INDOORS },        // vehicle gain_moves, weather
     { "SHARP",                    TFLAG_SHARP },          // monmove
     { "SUPPORTS_ROOF",            TFLAG_SUPPORTS_ROOF },  // and by building "remodeling" I mean hulkSMASH
+    { "MINEABLE",                 TFLAG_MINEABLE },       // allows mining
     { "SWIMMABLE",                TFLAG_SWIMMABLE },      // monmove, many fields
     { "TRANSPARENT",              TFLAG_TRANSPARENT },    // map::trans / lightmap
     { "NOITEM",                   TFLAG_NOITEM },         // add/spawn_item*()
@@ -71,19 +73,27 @@ static const std::unordered_map<std::string, ter_bitflags> ter_bitflags_map = { 
     { "HARVESTED",                TFLAG_HARVESTED },      // harvested.  will not bear fruit.
     { "PERMEABLE",                TFLAG_PERMEABLE },      // gases can flow through.
     { "AUTO_WALL_SYMBOL",         TFLAG_AUTO_WALL_SYMBOL }, // automatically create the appropriate wall
-    { "CONNECT_TO_WALL",          TFLAG_CONNECT_TO_WALL }, // works with TFLAG_AUTO_WALL_SYMBOL
+    { "CONNECT_TO_WALL",          TFLAG_CONNECT_TO_WALL }, // superseded by ter_connects, retained for json backward compatibilty
     { "CLIMBABLE",                TFLAG_CLIMBABLE },      // Can be climbed over
     { "GOES_DOWN",                TFLAG_GOES_DOWN },      // Allows non-flying creatures to move downwards
     { "GOES_UP",                  TFLAG_GOES_UP },        // Allows non-flying creatures to move upwards
     { "NO_FLOOR",                 TFLAG_NO_FLOOR },       // Things should fall when placed on this tile
     { "SEEN_FROM_ABOVE",          TFLAG_SEEN_FROM_ABOVE },// This should be visible if the tile above has no floor
+    { "RAMP",                     TFLAG_RAMP },           // Can be used to move up a z-level
+} };
+
+static const std::unordered_map<std::string, ter_connects> ter_connects_map = { {
+    { "WALL",                     TERCONN_WALL },         // implied by TFLAG_CONNECT_TO_WALL, TFLAG_AUTO_WALL_SYMBOL or TFLAG_WALL
+    { "CHAINFENCE",               TERCONN_CHAINFENCE },
+    { "WOODFENCE",                TERCONN_WOODFENCE },
+    { "RAILING",                  TERCONN_RAILING },
 } };
 
 void load_map_bash_tent_centers( JsonArray ja, std::vector<std::string> &centers ) {
     while ( ja.has_more() ) {
         centers.push_back( ja.next_string() );
     }
-} 
+}
 
 bool map_bash_info::load(JsonObject &jsobj, std::string member, bool isfurniture) {
     if( !jsobj.has_object(member) ) {
@@ -99,9 +109,6 @@ bool map_bash_info::load(JsonObject &jsobj, std::string member, bool isfurniture
 
     str_min_supported = j.get_int("str_min_supported", -1);
     str_max_supported = j.get_int("str_max_supported", -1);
-
-    str_min_roll = j.get_int("str_min_roll", str_min);
-    str_max_roll = j.get_int("str_min_roll", str_max);
 
     explosive = j.get_int("explosive", -1);
 
@@ -158,8 +165,8 @@ furn_t null_furniture_t() {
   furn_t new_furniture;
   new_furniture.id = "f_null";
   new_furniture.name = _("nothing");
-  new_furniture.sym = ' ';
-  new_furniture.color = c_white;
+  new_furniture.symbol_.fill( ' ' );
+  new_furniture.color_.fill( c_white );
   new_furniture.movecost = 0;
   new_furniture.move_str_req = -1;
   new_furniture.transparent = true;
@@ -176,8 +183,8 @@ ter_t null_terrain_t() {
   ter_t new_terrain;
   new_terrain.id = "t_null";
   new_terrain.name = _("nothing");
-  new_terrain.sym = ' ';
-  new_terrain.color = c_white;
+  new_terrain.symbol_.fill( ' ' );
+  new_terrain.color_.fill( c_white );
   new_terrain.movecost = 2;
   new_terrain.trap = tr_null;
   new_terrain.trap_id_str = "";
@@ -196,6 +203,70 @@ ter_t null_terrain_t() {
   return new_terrain;
 }
 
+long string_to_symbol( JsonIn &js )
+{
+    const std::string s = js.get_string();
+    if( s == "LINE_XOXO" ) {
+        return LINE_XOXO;
+    } else if( s == "LINE_OXOX" ) {
+        return LINE_OXOX;
+    } else if( s.length() != 1 ) {
+        js.error( "Symbol string must be exactly 1 character long." );
+    }
+    return s[0];
+}
+
+template<typename C, typename F>
+void load_season_array( JsonIn &js, C &container, F load_func )
+{
+    if( js.test_array() ) {
+        js.start_array();
+        for( auto &season_entry : container ) {
+            season_entry = load_func( js );
+            js.end_array(); // consume separator
+        }
+    } else {
+        container.fill( load_func( js ) );
+    }
+}
+
+nc_color bgcolor_from_json( JsonIn &js)
+{
+    return bgcolor_from_string( js.get_string() );
+}
+
+nc_color color_from_json( JsonIn &js)
+{
+    return color_from_string( js.get_string() );
+}
+
+void map_data_common_t::load_symbol( JsonObject &jo )
+{
+    load_season_array( *jo.get_raw( "symbol" ), symbol_, string_to_symbol );
+
+    const bool has_color = jo.has_member( "color" );
+    const bool has_bgcolor = jo.has_member( "bgcolor" );
+    if( has_color && has_bgcolor ) {
+        jo.throw_error( "Found both color and bgcolor, only one of these is allowed." );
+    } else if( has_color ) {
+        load_season_array( *jo.get_raw( "color" ), color_, color_from_json );
+    } else if( has_bgcolor ) {
+        load_season_array( *jo.get_raw( "bgcolor" ), color_, bgcolor_from_json );
+    } else {
+        jo.throw_error( "Missing member: one of: \"color\", \"bgcolor\" must exist." );
+    }
+}
+
+long map_data_common_t::symbol() const
+{
+    return symbol_[calendar::turn.get_season()];
+}
+
+nc_color map_data_common_t::color() const
+{
+    return color_[calendar::turn.get_season()];
+}
+
 void load_furniture(JsonObject &jsobj)
 {
   if ( furnlist.empty() ) {
@@ -209,20 +280,8 @@ void load_furniture(JsonObject &jsobj)
       return;
   }
   new_furniture.name = _(jsobj.get_string("name").c_str());
-  new_furniture.sym = jsobj.get_string("symbol").c_str()[0];
 
-  bool has_color = jsobj.has_member("color");
-  bool has_bgcolor = jsobj.has_member("bgcolor");
-  if(has_color && has_bgcolor) {
-    debugmsg("Found both color and bgcolor for %s, use only one of these.", new_furniture.name.c_str());
-    new_furniture.color = c_white;
-  } else if(has_color) {
-    new_furniture.color = color_from_string(jsobj.get_string("color"));
-  } else if(has_bgcolor) {
-    new_furniture.color = bgcolor_from_string(jsobj.get_string("bgcolor"));
-  } else {
-    debugmsg("Furniture %s needs at least one of: color, bgcolor.", new_furniture.name.c_str());
-  }
+    new_furniture.load_symbol( jsobj );
 
   new_furniture.movecost = jsobj.get_int("move_cost_mod");
   new_furniture.move_str_req = jsobj.get_int("required_str");
@@ -273,17 +332,8 @@ void load_terrain(JsonObject &jsobj)
   }
   new_terrain.name = _(jsobj.get_string("name").c_str());
 
-  //Special case for the LINE_ symbols
-  std::string symbol = jsobj.get_string("symbol");
-  if("LINE_XOXO" == symbol) {
-    new_terrain.sym = LINE_XOXO;
-  } else if("LINE_OXOX" == symbol) {
-    new_terrain.sym = LINE_OXOX;
-  } else {
-    new_terrain.sym = symbol.c_str()[0];
-  }
+    new_terrain.load_symbol( jsobj );
 
-  new_terrain.color = color_from_string(jsobj.get_string("color"));
   new_terrain.movecost = jsobj.get_int("move_cost");
 
   if(jsobj.has_member("trap")) {
@@ -295,8 +345,17 @@ void load_terrain(JsonObject &jsobj)
   new_terrain.max_volume = jsobj.get_int("max_volume", MAX_VOLUME_IN_SQUARE);
 
   new_terrain.transparent = false;
+    new_terrain.connect_group = TERCONN_NONE;
+
     for( auto & flag : jsobj.get_string_array( "flags" ) ) {
         new_terrain.set_flag( flag );
+    }
+
+    // connect_group is initialised to none, then terrain flags are set, then finally
+    // connections from JSON are set. This is so that wall flags can set wall connections
+    // but can be overridden by explicit connections in JSON.
+    if(jsobj.has_member("connects_to")) {
+    new_terrain.set_connects( jsobj.get_string("connects_to") );
     }
 
   if(jsobj.has_member("examine_action")) {
@@ -397,18 +456,36 @@ ter_id terfind(const std::string & id) {
 void map_data_common_t::set_flag( const std::string &flag )
 {
     flags.insert( flag );
-
     auto const it = ter_bitflags_map.find( flag );
     if( it != ter_bitflags_map.end() ) {
         bitflags.set( it->second );
         if( !transparent && it->second == TFLAG_TRANSPARENT ) {
             transparent = true;
         }
-        // Faster to set this here instead of checking all three flags when drawing.
-        if( it->second == TFLAG_WALL || it->second == TFLAG_AUTO_WALL_SYMBOL ) {
-            set_flag( "CONNECT_TO_WALL" );
+        // wall connection check for JSON backwards compatibility
+        if( it->second == TFLAG_WALL || it->second == TFLAG_CONNECT_TO_WALL ) {
+            set_connects( "WALL" );
         }
     }
+}
+
+void map_data_common_t::set_connects( const std::string &connect_group_string )
+{
+    auto const it = ter_connects_map.find( connect_group_string );
+    if( it != ter_connects_map.end() ) {
+        connect_group = it->second;
+    }
+    else { // arbitrary connect groups are a bad idea for optimisation reasons
+        debugmsg( "can't find terrain connection group %s", connect_group_string.c_str() );
+    }
+}
+
+bool map_data_common_t::connects( int &ret ) const {
+    if ( connect_group != TERCONN_NONE ) {
+        ret = connect_group;
+        return true;
+    }
+    return false;
 }
 
 ter_id t_null,
@@ -449,8 +526,9 @@ ter_id t_null,
     t_portcullis,
     t_recycler, t_window, t_window_taped, t_window_domestic, t_window_domestic_taped, t_window_open, t_curtains,
     t_window_alarm, t_window_alarm_taped, t_window_empty, t_window_frame, t_window_boarded,
-    t_window_boarded_noglass, t_window_reinforced, t_window_reinforced_noglass, t_window_enhanced, t_window_enhanced_noglass, t_window_bars_alarm,
+    t_window_boarded_noglass, t_window_reinforced, t_window_reinforced_noglass, t_window_enhanced, t_window_enhanced_noglass, t_window_bars_alarm, t_window_bars,
     t_window_stained_green, t_window_stained_red, t_window_stained_blue,
+    t_window_no_curtains, t_window_no_curtains_open, t_window_no_curtains_taped,
     t_rock, t_fault,
     t_paper,
     t_rock_wall, t_rock_wall_half,
@@ -611,9 +689,13 @@ void set_ter_ids() {
     t_window_enhanced=terfind("t_window_enhanced");
     t_window_enhanced_noglass=terfind("t_window_enhanced_noglass");
     t_window_bars_alarm=terfind("t_window_bars_alarm");
+    t_window_bars=terfind("t_window_bars");
     t_window_stained_green=terfind("t_window_stained_green");
     t_window_stained_red=terfind("t_window_stained_red");
     t_window_stained_blue=terfind("t_window_stained_blue");
+    t_window_no_curtains=terfind("t_window_no_curtains");
+    t_window_no_curtains_open=terfind("t_window_no_curtains_open");
+    t_window_no_curtains_taped=terfind("t_window_no_curtains_taped");
     t_rock=terfind("t_rock");
     t_fault=terfind("t_fault");
     t_paper=terfind("t_paper");
@@ -799,7 +881,7 @@ furn_id f_null,
     f_fvat_empty, f_fvat_full,
     f_wood_keg,
     f_standing_tank,
-    f_statue, f_egg_sackbw, f_egg_sackws, f_egg_sacke,
+    f_statue, f_egg_sackbw, f_egg_sackcs, f_egg_sackws, f_egg_sacke,
     f_flower_marloss,
     f_floor_canvas,
     f_tatami,
@@ -891,6 +973,7 @@ void set_furn_ids() {
     f_standing_tank=furnfind("f_standing_tank");
     f_statue=furnfind("f_statue");
     f_egg_sackbw=furnfind("f_egg_sackbw");
+    f_egg_sackcs=furnfind("f_egg_sackcs");
     f_egg_sackws=furnfind("f_egg_sackws");
     f_egg_sacke=furnfind("f_egg_sacke");
     f_flower_marloss=furnfind("f_flower_marloss");

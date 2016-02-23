@@ -416,5 +416,52 @@
             {"item": "steel_chunk", "count": [1, 2]},
             {"item": "scrap", "count": [0, 3]}
         ]
-    }
+    },{
+        "type" : "AMMO",
+        "id" : "mininuke_mod",
+        "price" : 180000,
+        "name" : "modified mininuke",
+        "symbol" : "*",
+        "color" : "green",
+        "description" : "A heavy modified handheld nuclear device.  Intended to be fired from a specialized launcher, its case has been cut down and it has been rigged to explode on impact.  While it is now somewhat lighter than before, it can no longer be triggered manually.",
+        "material" : "plastic",
+        "flags": [""],
+        "volume" : 1,
+        "weight" : 3816,
+        "bashing" : 8,
+        "to_hit" : 0,
+        "ammo_type" : "h_projectile",
+        "damage" : 14,
+        "range" : 0,
+        "dispersion" : 0,
+        "recoil" : 0,
+        "count" : 1,
+        "stack_size" : 2,
+        "effects" : ["MININUKE_MOD", "NEVER_MISFIRES"]
+    },{
+    "id": "mininuke_launcher",
+    "type": "GUN",
+    "symbol": "(",
+    "color": "dark_gray",
+    "name": "mininuke launcher",
+    "description": "A powerful handheld spring mortar handcrafted from scrap.  Made to launch modified handheld nuclear weapons, it is an exceedingly powerful weapon.",
+    "price": 750000,
+    "material": ["aluminum", "wood"],
+    "flags": ["RELOAD_ONE", "STR_RELOAD", "NEVER_JAMS"],
+    "skill": "launcher",
+    "ammo": "h_projectile",
+    "weight": 11260,
+    "volume": 11,
+    "bashing": 12,
+    "to_hit": -1,
+    "range": 24,
+    "dispersion": 600,
+    "sight_dispersion": 150,
+    "aim_speed" : 10,
+    "recoil": 300,
+    "durability": 7,
+    "clip_size": 1,
+    "loudness" : 5,
+    "reload": 800
+  }
 ]

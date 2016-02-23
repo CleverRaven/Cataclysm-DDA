@@ -15,6 +15,7 @@
 #include <list>
 #include <map>
 #include <string>
+#include <array>
 
 struct itype;
 struct trap;
@@ -33,13 +34,11 @@ using furn_id = int_id<furn_t>;
 
 struct map_bash_info {
     int str_min;            // min str(*) required to bash
-    int str_max;            // max str required: bash succeeds if str >= random # between str_min_roll & str_max_roll
+    int str_max;            // max str required: bash succeeds if str >= random # between str_min & str_max
     int str_min_blocked;    // same as above; alternate values for has_adjacent_furniture(...) == true
     int str_max_blocked;
     int str_min_supported;  // Alternative values for floor supported by something from below
     int str_max_supported;
-    int str_min_roll;       // lower bound of success check; defaults to str_min
-    int str_max_roll;       // upper bound of success check; defaults to str_max
     int explosive;          // Explosion on destruction
     int sound_vol;          // sound volume of breaking terrain/furniture
     int sound_fail_vol;     // sound volume on fail
@@ -55,7 +54,7 @@ struct map_bash_info {
     std::vector<std::string> tent_centers;
     map_bash_info() : str_min(-1), str_max(-1), str_min_blocked(-1), str_max_blocked(-1),
                       str_min_supported(-1), str_max_supported(-1),
-                      str_min_roll(-1), str_max_roll(-1), explosive(0), sound_vol(-1), sound_fail_vol(-1),
+                      explosive(0), sound_vol(-1), sound_fail_vol(-1),
                       collapse_radius(1), destroy_only(false), bash_below(false),
                       drop_group("EMPTY_GROUP"), sound(""), sound_fail(""), ter_set(""), furn_set("") {};
     bool load(JsonObject &jsobj, std::string member, bool is_furniture);
@@ -96,6 +95,7 @@ struct map_deconstruct_info {
  * CONSOLE - Used as a computer
  * ALARMED - Sets off an alarm if smashed
  * SUPPORTS_ROOF - Used as a boundary for roof construction
+ * MINEABLE - Able to broken with the jackhammer/pickaxe, but does not necessarily support a roof
  * INDOORS - Has roof over it; blocks rain, sunlight, etc.
  * COLLAPSES - Has a roof that can collapse
  * FLAMMABLE_ASH - Burns to ash rather than rubble.
@@ -106,6 +106,7 @@ struct map_deconstruct_info {
  * LIQUIDCONT - Furniture that contains liquid, allows for contents to be accessed in some checks even if SEALED
  * OPENCLOSE_INSIDE - If it's a door (with an 'open' or 'close' field), it can only be opened or closed if you're inside.
  * PERMEABLE - Allows gases to flow through unimpeded.
+ * RAMP - Higher z-levels can be accessed from this tile
  *
  * Currently only used for Fungal conversions
  * WALL - This terrain is an upright obstacle
@@ -137,6 +138,7 @@ enum ter_bitflags : int {
     TFLAG_REDUCE_SCENT,
     TFLAG_SWIMMABLE,
     TFLAG_SUPPORTS_ROOF,
+    TFLAG_MINEABLE,
     TFLAG_NOITEM,
     TFLAG_SEALED,
     TFLAG_ALLOW_FIELD_EFFECT,
@@ -165,8 +167,21 @@ enum ter_bitflags : int {
     TFLAG_GOES_UP,
     TFLAG_NO_FLOOR,
     TFLAG_SEEN_FROM_ABOVE,
+    TFLAG_RAMP,
 
     NUM_TERFLAGS
+};
+
+/*
+ * Terrain groups which affect whether the terrain connects visually.
+ * Groups are also defined in ter_connects_map() in mapdata.cpp which matches group to JSON string.
+ */
+enum ter_connects : int {
+    TERCONN_NONE,
+    TERCONN_WALL,
+    TERCONN_CHAINFENCE,
+    TERCONN_WOODFENCE,
+    TERCONN_RAILING,
 };
 
 struct map_data_common_t {
@@ -181,19 +196,22 @@ struct map_data_common_t {
 private:
     std::set<std::string> flags;    // string flags which possibly refer to what's documented above.
     std::bitset<NUM_TERFLAGS> bitflags; // bitfield of -certian- string flags which are heavily checked
+
 public:
 
+    enum { SEASONS_PER_YEAR = 4 };
     /*
     * The symbol drawn on the screen for the terrain. Please note that there are extensive rules
     * as to which possible object/field/entity in a single square gets drawn and that some symbols
     * are "reserved" such as * and % to do programmatic behavior.
     */
-    long sym;
+    std::array<long, SEASONS_PER_YEAR> symbol_;
 
     int movecost;   // The amount of movement points required to pass this terrain by default.
     int max_volume; // Maximal volume of items that can be stored in/on this furniture
 
-    nc_color color; //The color the sym will draw in on the GUI.
+    std::array<nc_color, SEASONS_PER_YEAR> color_; //The color the sym will draw in on the GUI.
+    void load_symbol( JsonObject &jo );
 
     iexamine_function examine; //What happens when the terrain is examined
 
@@ -208,6 +226,19 @@ public:
     }
 
     void set_flag( const std::string &flag );
+
+    int connect_group;
+
+    void set_connects( const std::string &connect_group_string );
+
+    bool connects( int &ret ) const;
+
+    bool connects_to( int test_connect_group ) const {
+        return ( connect_group != TERCONN_NONE ) && ( connect_group == test_connect_group );
+    }
+
+    long symbol() const;
+    nc_color color() const;
 };
 
 /*
@@ -340,8 +371,9 @@ extern ter_id t_null,
     t_door_glass_c, t_door_glass_o,
     t_portcullis,
     t_recycler, t_window, t_window_taped, t_window_domestic, t_window_domestic_taped, t_window_open, t_curtains,
-    t_window_alarm, t_window_alarm_taped, t_window_empty, t_window_frame, t_window_boarded, t_window_boarded_noglass, t_window_bars_alarm,
+    t_window_alarm, t_window_alarm_taped, t_window_empty, t_window_frame, t_window_boarded, t_window_boarded_noglass, t_window_bars_alarm, t_window_bars,
     t_window_stained_green, t_window_stained_red, t_window_stained_blue,
+    t_window_no_curtains, t_window_no_curtains_open, t_window_no_curtains_taped,
     t_rock, t_fault,
     t_paper,
     t_rock_wall, t_rock_wall_half,
@@ -424,7 +456,7 @@ extern furn_id f_null,
     f_fvat_empty, f_fvat_full,
     f_wood_keg,
     f_standing_tank,
-    f_egg_sackbw, f_egg_sackws, f_egg_sacke,
+    f_egg_sackbw, f_egg_sackcs, f_egg_sackws, f_egg_sacke,
     f_flower_marloss,
     f_tatami,
     f_kiln_empty, f_kiln_full, f_kiln_metal_empty, f_kiln_metal_full,

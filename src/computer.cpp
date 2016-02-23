@@ -17,6 +17,7 @@
 #include "trap.h"
 #include "mtype.h"
 #include "field.h"
+#include "player.h"
 
 #include <fstream>
 #include <string>
@@ -26,6 +27,11 @@ const mtype_id mon_manhack( "mon_manhack" );
 const mtype_id mon_secubot( "mon_secubot" );
 
 const skill_id skill_computer( "computer" );
+
+const species_id ZOMBIE( "ZOMBIE" );
+
+const efftype_id effect_amigara( "amigara" );
+const efftype_id effect_stemcell_treatment( "stemcell_treatment" );
 
 std::vector<std::string> computer::lab_notes;
 int alerts = 0;
@@ -217,12 +223,15 @@ bool computer::hack_attempt(player *p, int Security)
 
     p->moves -= 10 * (5 + Security * 2) / std::max( 1, hack_skill + 1 );
     int player_roll = hack_skill;
+    ///\EFFECT_INT <8 randomly penalizes hack attempts, 50% of the time
     if (p->int_cur < 8 && one_in(2)) {
         player_roll -= rng(0, 8 - p->int_cur);
+    ///\EFFECT_INT >8 randomly benefits hack attempts, 33% of the time
     } else if (p->int_cur > 8 && one_in(3)) {
         player_roll += rng(0, p->int_cur - 8);
     }
 
+    ///\EFFECT_COMPUTER increases chance of successful hack attempt, vs Security level
     bool successful_attempt = (dice(player_roll, 6) >= dice(Security, 6));
     p->practice( skill_computer, (successful_attempt ? (15 + Security * 3) : 7));
     return successful_attempt;
@@ -306,7 +315,7 @@ void computer::activate_function(computer_action action, char ch)
         break;
 
     case COMPACT_OPEN:
-        g->m.translate_radius(t_door_metal_locked, t_floor, 25.0, g->u.pos3());
+        g->m.translate_radius(t_door_metal_locked, t_floor, 25.0, g->u.pos());
         query_any(_("Doors opened.  Press any key..."));
         break;
 
@@ -316,12 +325,12 @@ void computer::activate_function(computer_action action, char ch)
     //Simply uses translate_radius which take a given radius and
     // player position to determine which terrain tiles to edit.
     case COMPACT_LOCK:
-        g->m.translate_radius(t_door_metal_c, t_door_metal_locked, 8.0, g->u.pos3());
+        g->m.translate_radius(t_door_metal_c, t_door_metal_locked, 8.0, g->u.pos());
         query_any(_("Lock enabled.  Press any key..."));
         break;
 
     case COMPACT_UNLOCK:
-        g->m.translate_radius(t_door_metal_locked, t_door_metal_c, 8.0, g->u.pos3());
+        g->m.translate_radius(t_door_metal_locked, t_door_metal_c, 8.0, g->u.pos());
         query_any(_("Lock disabled.  Press any key..."));
         break;
 
@@ -374,13 +383,13 @@ void computer::activate_function(computer_action action, char ch)
         g->u.add_memorial_log(pgettext("memorial_male", "Released subspace specimens."),
                               pgettext("memorial_female", "Released subspace specimens."));
         sounds::sound(g->u.pos(), 40, _("An alarm sounds!"));
-        g->m.translate_radius(t_reinforced_glass, t_floor, 25.0, g->u.pos3());
+        g->m.translate_radius(t_reinforced_glass, t_floor, 25.0, g->u.pos());
         query_any(_("Containment shields opened.  Press any key..."));
         break;
 
     case COMPACT_RELEASE_BIONICS:
         sounds::sound(g->u.pos(), 40, _("An alarm sounds!"));
-        g->m.translate_radius(t_reinforced_glass, t_floor, 2.0, g->u.pos3());
+        g->m.translate_radius(t_reinforced_glass, t_floor, 2.0, g->u.pos());
         query_any(_("Containment shields opened.  Press any key..."));
         break;
 
@@ -528,7 +537,7 @@ void computer::activate_function(computer_action action, char ch)
                 }
         }
 
-        g->explosion( tripoint( g->u.posx() + 10, g->u.posx() + 21, g->get_levz() ), 200, 0, true); //Only explode once. But make it large.
+        g->explosion( tripoint( g->u.posx() + 10, g->u.posx() + 21, g->get_levz() ), 200, 0.7, 0, true); //Only explode once. But make it large.
 
         //...ERASE MISSILE, OPEN SILO, DISABLE COMPUTER
         // For each level between here and the surface, remove the missile
@@ -726,7 +735,7 @@ INITIATING STANDARD TREMOR TEST..."));
     case COMPACT_AMIGARA_START:
         g->add_event(EVENT_AMIGARA, int(calendar::turn) + 10);
         if (!g->u.has_artifact_with(AEP_PSYSHIELD)) {
-            g->u.add_effect("amigara", 20);
+            g->u.add_effect( effect_amigara, 20);
         }
         // Disable this action to prevent further amigara events, which would lead to
         // further amigara monster, which would lead to further artifacts.
@@ -735,7 +744,7 @@ INITIATING STANDARD TREMOR TEST..."));
 
     case COMPACT_STEMCELL_TREATMENT:
         g->u.moves -= 70;
-        g->u.add_effect("stemcell_treatment", 120);
+        g->u.add_effect( effect_stemcell_treatment, 120);
         print_line(_("The machine injects your eyeball with the solution \n\
 of pureed bone & LSD."));
         query_any(_("Press any key..."));
@@ -818,7 +827,7 @@ of pureed bone & LSD."));
                         const mtype *mt = blood.get_mtype();
                         if( mt == nullptr || mt->id == NULL_ID ) {
                             print_line(_("Result:  Human blood, no pathogens found."));
-                        } else if( mt->in_species( "ZOMBIE" ) ) {
+                        } else if( mt->in_species( ZOMBIE ) ) {
                             if( mt->sym == "Z" ) {
                                 print_line(_("Result:  Human blood.  Unknown pathogen found."));
                             } else {
@@ -1133,7 +1142,7 @@ It takes you forever to find the address on your map...\n"));
                 tripoint p( x, y, g->get_levz() );
                 if (g->m.ter(x, y) == t_elevator || g->m.ter(x, y) == t_vat) {
                     g->m.make_rubble( p, f_rubble_rock, true);
-                    g->explosion( p, 40, 0, true );
+                    g->explosion( p, 40, 0.7, 0, true );
                 }
                 if (g->m.ter(x, y) == t_wall_glass) {
                     g->m.make_rubble( p, f_rubble_rock, true );
@@ -1143,7 +1152,7 @@ It takes you forever to find the address on your map...\n"));
                 }
                 if (g->m.ter(x, y) == t_sewage_pump) {
                     g->m.make_rubble( p, f_rubble_rock, true );
-                    g->explosion( p, 50, 0, true);
+                    g->explosion( p, 50, 0.7, 0, true);
                 }
             }
         }
@@ -1275,7 +1284,7 @@ void computer::activate_failure(computer_failure fail)
                 if (g->m.ter(x, y) == t_sewage_pump) {
                     tripoint p( x, y, g->get_levz() );
                     g->m.make_rubble( p );
-                    g->explosion( p, 10, 0, false);
+                    g->explosion( p, 10 );
                 }
             }
         }
@@ -1290,16 +1299,16 @@ void computer::activate_failure(computer_failure fail)
                     int leak_size = rng(4, 10);
                     for (int i = 0; i < leak_size; i++) {
                         std::vector<point> next_move;
-                        if (g->m.move_cost(p.x, p.y - 1) > 0) {
+                        if (g->m.passable(p.x, p.y - 1)) {
                             next_move.push_back( point(p.x, p.y - 1) );
                         }
-                        if (g->m.move_cost(p.x + 1, p.y) > 0) {
+                        if (g->m.passable(p.x + 1, p.y)) {
                             next_move.push_back( point(p.x + 1, p.y) );
                         }
-                        if (g->m.move_cost(p.x, p.y + 1) > 0) {
+                        if (g->m.passable(p.x, p.y + 1)) {
                             next_move.push_back( point(p.x, p.y + 1) );
                         }
-                        if (g->m.move_cost(p.x - 1, p.y) > 0) {
+                        if (g->m.passable(p.x - 1, p.y)) {
                             next_move.push_back( point(p.x - 1, p.y) );
                         }
 
@@ -1317,9 +1326,9 @@ void computer::activate_failure(computer_failure fail)
 
     case COMPFAIL_AMIGARA:
         g->add_event(EVENT_AMIGARA, int(calendar::turn) + 5);
-        g->u.add_effect("amigara", 20);
-        g->explosion( tripoint( rng(0, SEEX * MAPSIZE), rng(0, SEEY * MAPSIZE), g->get_levz() ), 10, 10, false );
-        g->explosion( tripoint( rng(0, SEEX * MAPSIZE), rng(0, SEEY * MAPSIZE), g->get_levz() ), 10, 10, false );
+        g->u.add_effect( effect_amigara, 20);
+        g->explosion( tripoint( rng(0, SEEX * MAPSIZE), rng(0, SEEY * MAPSIZE), g->get_levz() ), 10, 0.7, 10, false );
+        g->explosion( tripoint( rng(0, SEEX * MAPSIZE), rng(0, SEEY * MAPSIZE), g->get_levz() ), 10, 0.7, 10, false );
         remove_option( COMPACT_AMIGARA_START );
         break;
 

@@ -11,6 +11,7 @@
 #include "options.h"
 #include "map.h"
 #include "weather.h"
+#include "itype.h"
 
 #include <string>
 

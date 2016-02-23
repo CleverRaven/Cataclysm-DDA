@@ -17,7 +17,6 @@
         "techniques" : ["DEF_DISARM"],
         "volume" : 40,
         "bashing" : 15,
-        "cutting" : 0,
         "category" : "veh_parts",
         "price" : 4000
     },
@@ -34,7 +33,6 @@
         "techniques" : ["DEF_DISARM"],
         "volume" : 50,
         "bashing" : 15,
-        "cutting" : 0,
         "category" : "veh_parts",
         "price" : 4000
     },
@@ -51,7 +49,6 @@
         "techniques" : ["DEF_DISARM"],
         "volume" : 40,
         "bashing" : 15,
-        "cutting" : 0,
         "category" : "veh_parts",
         "price" : 4000
     },
@@ -68,7 +65,6 @@
         "techniques" : ["DEF_DISARM"],
         "volume" : 60,
         "bashing" : 20,
-        "cutting" : 0,
         "category" : "veh_parts",
         "price" : 5500
     },
@@ -85,7 +81,6 @@
         "techniques" : ["DEF_DISARM"],
         "volume" : 60,
         "bashing" : 20,
-        "cutting" : 0,
         "category" : "veh_parts",
         "price" : 5500
     },{
@@ -101,7 +96,6 @@
         "techniques" : ["DEF_DISARM"],
         "volume" : 60,
         "bashing" : 20,
-        "cutting" : 0,
         "category" : "veh_parts",
         "price" : 5500
     },{
@@ -151,7 +145,6 @@
         "techniques" : ["DEF_DISARM"],
         "volume" : 80,
         "bashing" : 25,
-        "cutting" : 0,
         "category" : "veh_parts",
         "price" : 12000
     },
@@ -167,7 +160,6 @@
         "material" : ["leather", "aluminum"],
         "volume" : 30,
         "bashing" : 4,
-        "cutting" : 0,
         "category" : "veh_parts",
         "price" : 25000
     },
@@ -183,7 +175,6 @@
         "material" : ["wood", "null"],
         "volume" : 42,
         "bashing" : 6,
-        "cutting" : 0,
         "category" : "veh_parts",
         "price" : 20000
     },{
@@ -198,7 +189,6 @@
         "material" : ["wood", "null"],
         "volume" : 42,
         "bashing" : 6,
-        "cutting" : 0,
         "category" : "veh_parts",
         "price" : 20000
     },
@@ -214,7 +204,6 @@
         "material" : ["plastic", "aluminum"],
         "volume" : 5,
         "bashing" : 2,
-        "cutting" : 0,
         "category" : "veh_parts",
         "price" : 2500
     },
@@ -231,7 +220,6 @@
         "techniques" : ["WBLOCK_2"],
         "volume" : 14,
         "bashing" : 19,
-        "cutting" : 0,
         "category" : "veh_parts",
         "price" : 3000
     },
@@ -248,7 +236,6 @@
         "material" : ["plastic", "steel"],
         "volume" : 12,
         "bashing" : 2,
-        "cutting" : 0,
         "category" : "veh_parts",
         "price" : 40000
     },
@@ -258,13 +245,11 @@
         "name" : "electric motor",
         "description" : "A powerful electric motor.  Useful for crafting.",
         "weight" : 9071,
-        "to_hit" : 0,
         "color" : "light_cyan",
         "symbol" : ",",
         "material" : ["steel", "null"],
         "volume" : 6,
         "bashing" : 4,
-        "cutting" : 0,
         "category" : "veh_parts",
         "price" : 12000
     },
@@ -274,13 +259,11 @@
         "name" : "enhanced electric motor",
         "description" : "A very powerful and yet lightweight electric motor.  Useful for crafting.",
         "weight" : 18427,
-        "to_hit" : 0,
         "color" : "light_cyan",
         "symbol" : ",",
         "material" : ["superalloy", "null"],
         "volume" : 12,
         "bashing" : 4,
-        "cutting" : 0,
         "category" : "veh_parts",
         "price" : 68000
     },
@@ -296,7 +279,6 @@
         "material" : ["steel", "null"],
         "volume" : 15,
         "bashing" : 9,
-        "cutting" : 0,
         "category" : "veh_parts",
         "price" : 22000
     },
@@ -306,13 +288,11 @@
         "name" : "small electric motor",
         "description" : "A small electric motor.  Useful for crafting.",
         "weight" : 1500,
-        "to_hit" : 0,
         "color" : "light_cyan",
         "symbol" : ",",
         "material" : ["steel", "null"],
         "volume" : 1,
         "bashing" : 1,
-        "cutting" : 0,
         "category" : "veh_parts",
         "price" : 2000
     },
@@ -328,7 +308,6 @@
         "material" : ["superalloy", "steel"],
         "volume" : 12,
         "bashing" : 7,
-        "cutting" : 0,
         "category" : "veh_parts",
         "price" : 90000
     },
@@ -361,7 +340,6 @@
         "material" : ["steel", "null"],
         "volume" : 2,
         "bashing" : 10,
-        "cutting" : 0,
         "category" : "veh_parts",
         "price" : 9000
     },
@@ -371,14 +349,14 @@
         "name" : "small storage battery",
         "name_plural" : "small storage batteries",
         "description" : "A small storage battery.  Useful for crafting.",
-        "weight" : 230,
+        "weight" : 300,
         "to_hit" : -2,
         "color" : "light_cyan",
         "symbol" : ":",
         "material" : ["plastic", "null"],
-        "volume" : 2,
+        "flags": ["NO_SALVAGE"],
+        "volume" : 1,
         "bashing" : 1,
-        "cutting" : 0,
         "category" : "veh_parts",
         "price" : 5000
     },
@@ -388,16 +366,33 @@
         "name" : "medium storage battery",
         "name_plural" : "medium storage batteries",
         "description" : "A medium storage battery.",
-        "weight" : 2300,
+        "weight" : 2600,
         "to_hit" : -2,
         "color" : "light_cyan",
         "symbol" : ":",
-        "material" : ["plastic", "null"],
-        "volume" : 4,
+        "material" : ["plastic", "steel"],
+        "flags": ["NO_SALVAGE"],
+        "volume" : 3,
         "bashing" : 2,
-        "cutting" : 0,
         "category" : "veh_parts",
-        "price" : 6500
+        "price" : 15000
+    },
+    {
+        "type":"GENERIC",
+        "id" : "storage_battery",
+        "name" : "storage battery",
+        "name_plural" : "storage batteries",
+        "description" : "A large storage battery.  Could be installed into a storage battery case for easy removal from a vehicle, or just welded straight in.",
+        "weight" : 22679,
+        "to_hit" : -2,
+        "color" : "light_cyan",
+        "symbol" : ":",
+        "material" : ["plastic", "steel"],
+        "flags": ["NO_SALVAGE"],
+        "volume" : 10,
+        "bashing" : 6,
+        "category" : "veh_parts",
+        "price" : 30000
     },
     {
         "type":"GENERIC",
@@ -405,14 +400,13 @@
         "name" : "motorbike battery",
         "name_plural" : "motorbike batteries",
         "description" : "A 12v lead-acid battery used to power smaller vehicles' electrical systems.",
-        "weight" : 13250,
+        "weight" : 6250,
         "to_hit" : -2,
         "color" : "light_cyan",
         "symbol" : ":",
         "material" : ["plastic", "null"],
         "volume" : 3,
         "bashing" : 2,
-        "cutting" : 0,
         "category" : "veh_parts",
         "price" : 2000
     },
@@ -429,7 +423,6 @@
         "material" : ["plastic", "null"],
         "volume" : 4,
         "bashing" : 3,
-        "cutting" : 0,
         "category" : "veh_parts",
         "price" : 4000
     },
@@ -446,7 +439,6 @@
         "material" : ["plastic", "null"],
         "volume" : 6,
         "bashing" : 5,
-        "cutting" : 0,
         "category" : "veh_parts",
         "price" : 6000
     },
@@ -462,7 +454,6 @@
         "material" : ["steel", "plastic"],
         "volume" : 4,
         "bashing" : 4,
-        "cutting" : 0,
         "category" : "veh_parts",
         "price" : 40000
     },
@@ -478,7 +469,6 @@
         "material" : ["steel", "null"],
         "volume" : 5,
         "bashing" : 4,
-        "cutting" : 0,
         "category" : "veh_parts",
         "price" : 6000
     },
@@ -494,7 +484,6 @@
         "material" : ["steel", "null"],
         "volume" : 6,
         "bashing" : 4,
-        "cutting" : 0,
         "category" : "veh_parts",
         "price" : 9000
     },
@@ -510,26 +499,23 @@
         "material" : ["steel", "null"],
         "volume" : 7,
         "bashing" : 4,
-        "cutting" : 0,
         "category" : "veh_parts",
         "price" : 12000
     },
     {
         "type":"GENERIC",
-        "id" : "storage_battery",
-        "name" : "storage battery",
-        "name_plural" : "storage batteries",
-        "description" : "A large storage battery.  Useful for crafting.  Could be installed into a storage battery case for easy removal from a vehicle, or just welded straight in.",
-        "weight" : 22679,
-        "to_hit" : -2,
+        "id" : "generator_7500w",
+        "name" : "7.5kW generator",
+        "description" : "An electrical generator designed to be attached to an engine.",
+        "weight" : 48000,
+        "to_hit" : -5,
         "color" : "light_cyan",
-        "symbol" : ":",
-        "material" : ["plastic", "steel"],
-        "volume" : 8,
-        "bashing" : 6,
-        "cutting" : 0,
+        "symbol" : ",",
+        "material" : ["steel", "null"],
+        "volume" : 30,
+        "bashing" : 4,
         "category" : "veh_parts",
-        "price" : 8000
+        "price" : 30000
     },
     {
         "type":"GENERIC",
@@ -544,7 +530,6 @@
         "material" : ["plastic", "steel"],
         "volume" : 9,
         "bashing" : 1,
-        "cutting" : 0,
         "category" : "veh_parts",
         "price" : 1000
     },
@@ -560,7 +545,6 @@
         "material" : ["superalloy", "ceramic"],
         "volume" : 6,
         "bashing" : 7,
-        "cutting" : 0,
         "category" : "veh_parts",
         "price" : 90000
     },
@@ -576,7 +560,6 @@
         "material" : ["glass", "null"],
         "volume" : 12,
         "bashing" : 1,
-        "cutting" : 0,
         "category" : "veh_parts",
         "price" : 90000
     },
@@ -592,7 +575,6 @@
         "material" : ["glass", "steel"],
         "volume" : 26,
         "bashing" : 1,
-        "cutting" : 0,
         "category" : "veh_parts",
         "price" : 120000
     },
@@ -608,7 +590,6 @@
         "material" : ["glass", "null"],
         "volume" : 18,
         "bashing" : 1,
-        "cutting" : 0,
         "category" : "veh_parts",
         "price" : 900
     },
@@ -624,7 +605,6 @@
         "material" : ["glass", "steel"],
         "volume" : 30,
         "bashing" : 1,
-        "cutting" : 0,
         "category" : "veh_parts",
         "price" : 900
     },
@@ -640,7 +620,6 @@
         "material" : ["glass", "steel"],
         "volume" : 18,
         "bashing" : 1,
-        "cutting" : 0,
         "category" : "veh_parts",
         "price" : 9000
     },
@@ -656,7 +635,6 @@
         "material": "steel",
         "volume": 20,
         "bashing": 8,
-        "cutting": 0,
         "category" : "veh_parts",
         "price": 60000
     },
@@ -672,7 +650,6 @@
         "material" : ["glass", "null"],
         "volume" : 1,
         "bashing" : 1,
-        "cutting" : 0,
         "category" : "veh_parts",
         "price" : 5000
     },
@@ -688,7 +665,6 @@
         "material" : ["steel", "null"],
         "volume" : 4,
         "bashing" : 5,
-        "cutting" : 0,
         "category" : "veh_parts",
         "price" : 6000
     },
@@ -704,7 +680,6 @@
         "material" : ["steel", "plastic", "null"],
         "volume" : 5,
         "bashing" : 5,
-        "cutting" : 0,
         "category" : "veh_parts",
         "price" : 7500
     },
@@ -720,7 +695,6 @@
         "material" : ["wood", "null"],
         "volume" : 12,
         "bashing" : 10,
-        "cutting" : 0,
         "category" : "veh_parts",
         "price" : 12000
     },
@@ -736,7 +710,6 @@
         "material" : ["steel", "null"],
         "volume" : 12,
         "bashing" : 6,
-        "cutting" : 0,
         "category" : "veh_parts",
         "price" : 12000
     },
@@ -752,7 +725,6 @@
         "material" : ["superalloy", "null"],
         "volume" : 12,
         "bashing" : 6,
-        "cutting" : 0,
         "category" : "veh_parts",
         "price" : 18500
     },
@@ -768,7 +740,6 @@
         "material" : ["superalloy", "null"],
         "volume" : 2,
         "bashing" : -2,
-        "cutting" : 0,
         "category" : "veh_parts",
         "price" : 8500
     },
@@ -801,7 +772,6 @@
         "material" : ["hardsteel", "null"],
         "volume" : 12,
         "bashing" : 6,
-        "cutting" : 0,
         "category" : "veh_parts",
         "price" : 16000
     },
@@ -817,7 +787,6 @@
         "material" : ["hardsteel", "ceramic"],
         "volume" : 12,
         "bashing" : 8,
-        "cutting" : 0,
         "category" : "veh_parts",
         "price" : 16000
     },
@@ -833,7 +802,6 @@
         "material" : ["steel", "null"],
         "volume" : 3,
         "bashing" : 2,
-        "cutting" : 0,
         "category" : "veh_parts",
         "price" : 3000
     },
@@ -848,8 +816,6 @@
         "symbol" : "&",
         "material" : ["steel", "null"],
         "volume" : 80,
-        "bashing" : 0,
-        "cutting" : 0,
         "category" : "veh_parts",
         "price" : 40000
     },
@@ -864,8 +830,6 @@
         "symbol" : "&",
         "material" : ["steel", "null"],
         "volume" : 80,
-        "bashing" : 0,
-        "cutting" : 0,
         "category" : "veh_parts",
         "price" : 40000
     },
@@ -881,7 +845,6 @@
         "material" : ["steel", "null"],
         "volume" : 24,
         "bashing" : 8,
-        "cutting" : 0,
         "category" : "veh_parts",
         "price" : 40000
     },
@@ -897,8 +860,6 @@
         "symbol" : "&",
         "material" : ["steel", "plastic"],
         "volume" : 111,
-        "bashing" : 0,
-        "cutting" : 0,
         "category" : "veh_parts",
         "price" : 40000
     },
@@ -913,8 +874,6 @@
         "symbol" : "&",
         "material" : ["iron", "glass"],
         "volume" : 92,
-        "bashing" : 0,
-        "cutting" : 0,
         "category" : "veh_parts",
         "price" : 40000
     },
@@ -922,15 +881,13 @@
         "type":"GENERIC",
         "id": "veh_tracker",
         "name": "vehicle tracking device",
-        "description": "A vehicle tracking device, when installed on a vehicle allows you track the vehicle through your PDA",
+        "description": "A vehicle tracking device, when installed on a vehicle allows you track the vehicle.",
         "weight": 400,
-        "to_hit": 0,
         "color": "red",
         "symbol": ";",
         "material": ["plastic", "aluminum"],
         "volume": 2,
         "bashing": 1,
-        "cutting": 0,
         "category" : "veh_parts",
         "price": 80000
     },
@@ -946,7 +903,6 @@
         "volume": 1,
         "to_hit": -1,
         "bashing": 2,
-        "cutting": 0,
         "category": "veh_parts",
         "price": 6000
     },
@@ -963,7 +919,6 @@
         "material": ["plastic", "steel"],
         "volume": 4,
         "bashing": 1,
-        "cutting": 0,
         "category" : "veh_parts",
         "price": 40000
     },
@@ -980,7 +935,6 @@
         "material": ["plastic", "steel"],
         "volume": 4,
         "bashing": 1,
-        "cutting": 0,
         "category" : "veh_parts",
         "price": 40000
     },
@@ -996,7 +950,6 @@
         "material" : ["steel", "plastic"],
         "volume" : 200,
         "bashing" : 2,
-        "cutting" : 0,
         "category" : "veh_parts",
         "price" : 40000
     },
@@ -1012,15 +965,14 @@
         "material": ["plastic", "steel"],
         "volume": 8,
         "bashing": 5,
-        "cutting": 0,
         "category" : "veh_parts",
         "price": 90000
     },
     {
         "type":"GENERIC",
         "id": "recharge_station",
-        "name": "recharging station",
-        "description": "An induction based charging system designed to operate on vehicle power.  Once installed in a vehicle storage space and turned on from vehicle controls, it will slowly charge all tools with rechargeable batteries in that space.  The system can only be installed in existing storage compartments.",
+        "name": "UPS-compatible recharging station",
+        "description": "An Unified Power System recharging station designed to operate on vehicle power.  Once installed in a vehicle storage space and turned on from vehicle controls, it will slowly charge all tools with rechargeable batteries in that space.  The system can only be installed in existing storage compartments.",
         "weight": 2500,
         "to_hit": 1,
         "color": "light_blue",
@@ -1028,7 +980,6 @@
         "material": ["steel", "plastic"],
         "volume": 8,
         "bashing": 5,
-        "cutting": 0,
         "category" : "veh_parts",
         "price": 90000
     },
@@ -1043,9 +994,7 @@
         "symbol" : "&",
         "material" : ["steel", "null"],
         "volume" : 14,
-        "bashing" : 0,
         "category" : "veh_parts",
-        "cutting" : 0,
         "price" : 800
     },
     {
@@ -1059,9 +1008,7 @@
         "symbol" : "&",
         "material" : ["steel", "null"],
         "volume" : 16,
-        "bashing" : 0,
         "category" : "veh_parts",
-        "cutting" : 0,
         "price" : 5000
     },
     {
@@ -1076,7 +1023,6 @@
         "volume": 2,
         "weight": 75,
         "bashing": 2,
-        "cutting": 0,
         "category": "tools",
         "price": 1,
         "max_charges": 3,
@@ -1100,7 +1046,6 @@
         "volume": 6,
         "weight": 750,
         "bashing": 2,
-        "cutting": 0,
         "category": "tools",
         "price": 1,
         "max_charges": 20,
@@ -1124,7 +1069,6 @@
         "material": ["steel", "plastic"],
         "volume": 0,
         "bashing": 2,
-        "cutting": 0,
         "category": "tools",
         "price": 1,
         "max_charges": 50,
@@ -1148,7 +1092,6 @@
         "weight": 7934,
         "volume": 22,
         "bashing": 8,
-        "cutting": 0,
         "to_hit": -4,
         "category": "veh_parts"
     },
@@ -1164,7 +1107,6 @@
         "weight": 11302,
         "volume": 38,
         "bashing": 8,
-        "cutting": 0,
         "to_hit": -4,
         "category": "veh_parts"
     },
@@ -1181,7 +1123,6 @@
         "material": ["plastic", "steel"],
         "volume": 15,
         "bashing": 1,
-        "cutting": 0,
         "category" : "veh_parts",
         "price": 200000
     },
@@ -1196,8 +1137,6 @@
         "symbol" : "#",
         "material" : ["steel", "null"],
         "volume" : 16,
-        "bashing" : 0,
-        "cutting" : 0,
         "category" : "veh_parts",
         "price" : 10000
     },
@@ -1212,8 +1151,6 @@
         "symbol" : "+",
         "material" : ["plastic", "null"],
         "volume" : 8,
-        "bashing" : 0,
-        "cutting" : 0,
         "category" : "veh_parts",
         "price" : 10000
     },
@@ -1230,7 +1167,6 @@
         "material": ["plastic", "steel"],
         "volume": 20,
         "bashing": 1,
-        "cutting": 0,
         "category" : "veh_parts",
         "price": 20000
     },
@@ -1247,7 +1183,6 @@
         "material": ["cotton", "steel"],
         "volume": 20,
         "bashing": 1,
-        "cutting": 0,
         "category" : "veh_parts",
         "price": 3500
     },
@@ -1261,11 +1196,80 @@
         "description":"An assembly of motors and sheet metal that allows a vehicle to clean the road surface by removing debris and contaminants.",
         "weight":22666,
         "bashing":1,
-        "cutting":0,
-        "to_hit":0,
         "material":"steel",
         "category": "veh_parts",
         "price": 3500,
         "volume":28
+    },
+    {
+        "type":"GENERIC",
+        "id":"v_planter_item",
+        "symbol":"8",
+        "name":"seed drill",
+        "name_plural":"seed drills",
+        "color":"light_gray",
+        "description":"An assembly of tubes, spikes, and wheels, that when dragged along the ground, allows a vehicle to plant seeds automatically in suitably tilled land.",
+        "weight":22666,
+        "bashing":1,
+        "material":["steel","plastic"],
+        "category": "veh_parts",
+        "price":3500,
+        "volume":28
+    },{
+        "type":"GENERIC",
+        "id":"v_reaper_item",
+        "symbol":"/",
+        "name":"reaper",
+        "name_plural":"reapers",
+        "color":"light_gray",
+        "description":"An assembly of a blade, wheels, and a small lever for engaging/disengaging used to cut down crops prior to picking them up.",
+        "weight":22666,
+        "bashing":1,
+        "material":["steel","plastic"],
+        "category": "veh_parts",
+        "price":3500,
+        "volume":28
+    },{
+        "type":"GENERIC",
+        "id":"v_reaper_item_advanced",
+        "symbol":"/",
+        "name":"advanced reaper",
+        "name_plural":"advanced reapers",
+        "color":"light_gray",
+        "description":"An advanced electronic device used to cut down, collect and store crops.",
+        "weight":25000,
+        "bashing":1,
+        "material":["steel","plastic"],
+        "category": "veh_parts",
+        "price":50000,
+        "volume":36
+    },{
+        "type":"GENERIC",
+        "id":"v_planter_item_advanced",
+        "symbol":"8",
+        "name":"advanced seed drill",
+        "name_plural":"advanced seed drills",
+        "color":"dark_gray",
+        "description":"An assembly of tubes, spikes, and wheels, that when dragged along the ground, allows a vehicle to plant seeds automatically in suitably tilled land.  This one is equipped with an electronic control system and will avoid damaging itself when used on untilled land.",
+        "weight":32666,
+        "bashing":1,
+        "material":["steel","plastic"],
+        "category": "veh_parts",
+        "price":50000,
+        "volume":29
+    },{
+        "type":"GENERIC",
+        "id":"v_plow_item",
+        "symbol":"&",
+        "name":"plow",
+        "name_plural":"plows",
+        "color":"dark_gray",
+        "description":"A heavy assembly of wheels and steel blades that turn up the ground.",
+        "weight":32666,
+        "bashing":1,
+        "material":["steel","plastic"],
+        "category": "veh_parts",
+        "price":3500,
+        "volume":29
     }
 ]

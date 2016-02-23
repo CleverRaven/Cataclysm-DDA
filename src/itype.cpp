@@ -27,26 +27,14 @@ bool itype::can_use( const std::string &iuse_name ) const
 
 const use_function *itype::get_use( const std::string &iuse_name ) const
 {
-    if( !has_use() ) {
+    const auto iter = std::find_if( use_methods.begin(),
+    use_methods.end(), [&]( const use_function & func ) {
+        return func.get_type() == iuse_name;
+    } );
+    if( iter == use_methods.end() ) {
         return nullptr;
     }
-
-    const use_function *func = item_controller->get_iuse( iuse_name );
-    if( func != nullptr ) {
-        if( std::find( use_methods.cbegin(), use_methods.cend(),
-                         *func ) != use_methods.cend() ) {
-            return func;
-        }
-    }
-
-    for( const auto &method : use_methods ) {
-        const auto ptr = method.get_actor_ptr();
-        if( ptr != nullptr && ptr->type == iuse_name ) {
-            return &method;
-        }
-    }
-
-    return nullptr;
+    return &*iter;
 }
 
 long itype::tick( player *p, item *it, const tripoint &pos ) const
@@ -80,23 +68,45 @@ long itype::invoke( player *p, item *it, const tripoint &pos, const std::string 
     const use_function *use = get_use( iuse_name );
     if( use == nullptr ) {
         debugmsg( "Tried to invoke %s on a %s, which doesn't have this use_function",
-                  iuse_name.c_str(), nname(1).c_str() );
+                  iuse_name.c_str(), nname( 1 ).c_str() );
         return 0;
     }
 
     return use->call( p, it, false, pos );
 }
 
-std::string ammo_name(std::string const &t)
+std::string ammo_name( std::string const &t )
 {
-    std::string ret = ammunition_type::find_ammunition_type(t).name();
-    if (ret != "none") {
-        ret = _(ret.c_str());
+    std::string ret = ammunition_type::find_ammunition_type( t ).name();
+    if( ret != "none" ) {
+        ret = _( ret.c_str() );
     }
     return ret;
 }
 
-itype_id const& default_ammo(std::string const &t)
+itype_id const &default_ammo( std::string const &t )
 {
-    return ammunition_type::find_ammunition_type(t).default_ammotype();
+    return ammunition_type::find_ammunition_type( t ).default_ammotype();
+}
+
+// 1 nutr per 5 minutes = 12 * 24 = 288 per day
+// Assuming 2500 kcal per day, 1 nutr ~= 8.7 kcal
+constexpr float kcal_per_nutr = 2500.0f / ( 12 * 24 );
+
+int it_comest::get_nutrition() const
+{
+    if( nutr >= 0 ) {
+        return nutr;
+    }
+
+    return ( int )( kcal / kcal_per_nutr );
+}
+
+int it_comest::get_calories() const
+{
+    if( nutr >= 0 ) {
+        return ( int )( nutr * kcal_per_nutr );
+    }
+
+    return kcal;
 }

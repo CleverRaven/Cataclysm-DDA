@@ -37,10 +37,11 @@
         "type" : "terrain",
         "id" : "t_brick_wall",
         "name": "brick wall",
-        "symbol": "#",
+        "symbol": "LINE_OXOX",
         "color": "brown",
         "move_cost": 0,
-        "flags": ["NOITEM", "SUPPORTS_ROOF", "WALL"],
+        "flags": ["NOITEM", "SUPPORTS_ROOF", "WALL", "AUTO_WALL_SYMBOL"],
+        "connects_to": "WALL",
         "bash": {
             "str_min": 60, "str_max": 160,
             "sound": "crash!",
@@ -52,12 +53,48 @@
         }
     },{
         "type" : "terrain",
+        "id" : "t_scrap_wall",
+        "name": "simple metal wall",
+        "symbol": "LINE_OXOX",
+        "color": "dkgray",
+        "move_cost": 0,
+        "flags": ["NOITEM", "SUPPORTS_ROOF", "WALL", "AUTO_WALL_SYMBOL"],
+        "connects_to": "WALL",
+        "bash": {
+            "str_min": 80, "str_max": 200,
+            "sound": "metal screeching!",
+            "sound_fail": "clang!",
+            "ter_set": "t_pit_shallow",
+            "items": [
+                { "item": "steel_chunk", "count": [10, 22] }
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_scrap_wall_halfway",
+        "name": "half-built simple metal wall",
+        "symbol": "#",
+        "color": "dkgray",
+        "move_cost": 4,
+        "flags": ["NOITEM", "TRANSPARENT", "MOUNTABLE", "REDUCE_SCENT"],
+        "bash": {
+            "str_min": 50, "str_max": 130,
+            "sound": "metal screeching!",
+            "sound_fail": "clang!",
+            "ter_set": "t_pit_shallow",
+            "items": [
+                { "item": "steel_chunk", "count": [5, 11] }
+            ]
+        }
+    },{
+        "type" : "terrain",
         "id" : "t_sconc_wall",
         "name": "simple concrete wall",
-        "symbol": "#",
+        "symbol": "LINE_OXOX",
         "color": "ltgray",
         "move_cost": 0,
-        "flags": ["NOITEM", "SUPPORTS_ROOF", "WALL"],
+        "flags": ["NOITEM", "SUPPORTS_ROOF", "WALL", "AUTO_WALL_SYMBOL"],
+        "connects_to": "WALL",
         "bash": {
             "str_min": 90, "str_max": 350,
             "sound": "crash!",
@@ -75,6 +112,7 @@
         "color": "ltgray",
         "move_cost": 4,
         "flags": ["NOITEM", "TRANSPARENT", "MOUNTABLE", "REDUCE_SCENT"],
+        "connects_to": "WALL",
         "bash": {
             "str_min": 40, "str_max": 350,
             "sound": "crash!",
@@ -88,10 +126,11 @@
         "type" : "terrain",
         "id" : "t_strconc_wall",
         "name": "reinforced concrete wall",
-        "symbol": "#",
+        "symbol": "LINE_OXOX",
         "color": "ltgray",
         "move_cost": 0,
-        "flags": ["NOITEM", "SUPPORTS_ROOF", "WALL"],
+        "flags": ["NOITEM", "SUPPORTS_ROOF", "WALL", "AUTO_WALL_SYMBOL"],
+        "connects_to": "WALL",
         "bash": {
             "str_min": 120, "str_max": 460,
             "sound": "scrrrash!",
@@ -111,6 +150,7 @@
         "color": "ltgray",
         "move_cost": 5,
         "flags": ["TRANSPARENT", "NOITEM", "MOUNTABLE", "REDUCE_SCENT"],
+        "connects_to": "WALL",
         "bash": {
             "str_min": 60, "str_max": 460,
             "sound": "scrrrash!",
@@ -468,6 +508,22 @@
         }
     },{
         "type" : "terrain",
+        "id" : "t_grass_white",
+        "name": "white grass",
+        "symbol": ".",
+        "color": "white",
+        "move_cost": 2,
+        "flags": ["TRANSPARENT", "DIGGABLE", "FLAT"],
+        "bash": {
+                "sound": "thump",
+                "ter_set": "t_null",
+                "str_min": 40,
+                "str_max": 100,
+                "str_min_supported": 100,
+                "bash_below": true
+        }
+    },{
+        "type" : "terrain",
         "id" : "t_metal_floor",
         "name": "metal floor",
         "symbol": ".",
@@ -581,6 +637,27 @@
         }
     },{
         "type" : "terrain",
+        "id" : "t_scrap_floor",
+        "name": "simple metal floor",
+        "symbol": ".",
+        "color": "cyan",
+        "move_cost": 2,
+        "roof": "t_flat_roof",
+        "flags": [
+            "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "ROAD"
+        ],
+        "bash": {
+            "str_min": 50, "str_max": 400,
+            "sound": "SMASH!!",
+            "ter_set": "t_null",
+            "str_min_supported": 100,
+            "bash_below": true,
+            "items": [
+                { "item": "steel_chunk", "count": [5, 11] }
+            ]
+        }
+    },{
+        "type" : "terrain",
         "id" : "t_floor_waxed",
         "name": "waxed floor",
         "symbol": ".",
@@ -676,6 +753,7 @@
         "color": "brown",
         "move_cost": 4,
         "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "NOITEM", "REDUCE_SCENT", "MOUNTABLE"],
+        "connects_to": "WALL",
         "bash": {
             "str_min": 40, "str_max": 120,
             "sound": "crash!",
@@ -689,10 +767,11 @@
         "type" : "terrain",
         "id" : "t_wall_log",
         "name": "log wall",
-        "symbol": "#",
+        "symbol": "LINE_OXOX",
         "color": "brown",
         "move_cost": 0,
-        "flags": ["FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL"],
+        "flags": ["FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "AUTO_WALL_SYMBOL"],
+        "connects_to": "WALL",
         "bash": {
             "str_min": 60, "str_max": 180,
             "sound": "crunch!",
@@ -706,10 +785,11 @@
         "type" : "terrain",
         "id" : "t_wall_log_chipped",
         "name": "chipped log wall",
-        "symbol": "#",
+        "symbol": "LINE_OXOX",
         "color": "brown",
         "move_cost": 0,
-        "flags": ["FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL"],
+        "flags": ["FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "AUTO_WALL_SYMBOL"],
+        "connects_to": "WALL",
         "bash": {
             "str_min": 40, "str_max": 160,
             "sound": "crunch!",
@@ -746,7 +826,7 @@
         "color": "brown",
         "move_cost": 0,
         "flags": [
-            "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "TRANSPARENT", "REDUCE_SCENT", "CONNECT_TO_WALL"
+            "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "REDUCE_SCENT", "CONNECT_TO_WALL", "WALL"
         ],
         "bash": {
             "str_min": 10, "str_max": 150,
@@ -765,7 +845,7 @@
         "color": "ltred",
         "move_cost": 0,
         "flags": [
-            "FLAMMABLE", "NOITEM", "DOOR", "TRANSPARENT", "CONNECT_TO_WALL"
+            "FLAMMABLE", "NOITEM", "DOOR", "CONNECT_TO_WALL", "WALL"
         ],
         "bash": {
             "str_min": 6, "str_max": 150,
@@ -802,6 +882,7 @@
         "color": "ltred",
         "move_cost": 4,
         "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "NOITEM", "REDUCE_SCENT", "MOUNTABLE"],
+        "connects_to": "WALL",
         "bash": {
             "str_min": 10, "str_max": 70,
             "sound": "crunch!",
@@ -817,10 +898,11 @@
         "type" : "terrain",
         "id" : "t_wall_wood",
         "name": "wooden wall",
-        "symbol": "#",
+        "symbol": "LINE_OXOX",
         "color": "ltred",
         "move_cost": 0,
-        "flags": ["FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL"],
+        "flags": ["FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "AUTO_WALL_SYMBOL"],
+        "connects_to": "WALL",
         "bash": {
             "str_min": 12, "str_max": 150,
             "sound": "crunch!",
@@ -836,10 +918,11 @@
         "type" : "terrain",
         "id" : "t_wall_wood_chipped",
         "name": "chipped wood wall",
-        "symbol": "#",
+        "symbol": "LINE_OXOX",
         "color": "ltred",
         "move_cost": 0,
-        "flags": ["FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL"],
+        "flags": ["FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "AUTO_WALL_SYMBOL"],
+        "connects_to": "WALL",
         "bash": {
             "str_min": 8, "str_max": 150,
             "sound": "crunch!",
@@ -903,7 +986,7 @@
             "sound_fail": "whump!",
             "ter_set": "t_null",
             "items": [
-                { "item": "rock", "count": [1, 3] },
+                { "item": "rock", "count": [10, 22] },
                 { "item": "rebar", "count": [0, 2] }
             ]
         }
@@ -984,6 +1067,50 @@
             "items": [
                 { "item": "glass_shard", "count": [5, 10] },
                 { "item": "wire", "prob": 20 }
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_reinforced_glass_shutter",
+        "name": "reinforced glass with closed shutters",
+        "symbol": "LINE_OXOX",
+        "color": "ltgray",
+        "move_cost": 0,
+        "flags": ["NOITEM", "WALL", "AUTO_WALL_SYMBOL", "OPENCLOSE_INSIDE"],
+        "open": "t_reinforced_glass_shutter_open",
+        "bash": {
+            "str_min": 60, "str_max": 210,
+            "sound": "glass breaking!",
+            "sound_fail": "whack!",
+            "sound_vol": 20,
+            "sound_fail_vol": 14,
+            "ter_set": "t_floor",
+            "items": [
+                { "item": "glass_shard", "count": [5, 10] },
+                { "item": "wire", "prob": 20 },
+                { "item": "scrap", "count": [3, 5] }
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_reinforced_glass_shutter_open",
+        "name": "reinforced glass with open shutters",
+        "symbol": "LINE_OXOX",
+        "color": "ltcyan",
+        "move_cost": 0,
+        "flags": ["TRANSPARENT", "NOITEM", "WALL", "AUTO_WALL_SYMBOL", "OPENCLOSE_INSIDE"],
+        "close": "t_reinforced_glass_shutter",
+        "bash": {
+            "str_min": 40, "str_max": 210,
+            "sound": "glass breaking!",
+            "sound_fail": "whack!",
+            "sound_vol": 20,
+            "sound_fail_vol": 14,
+            "ter_set": "t_floor",
+            "items": [
+                { "item": "glass_shard", "count": [5, 10] },
+                { "item": "wire", "prob": 20 },
+                { "item": "scrap", "count": [3, 5] }
             ]
         }
     },{
@@ -1153,7 +1280,7 @@
         "move_cost": 2,
         "flags": [
             "FLAMMABLE_ASH", "TRANSPARENT",
-            "FLAT", "BARRICADABLE_DOOR", "CONNECT_TO_WALL"
+            "FLAT", "BARRICADABLE_DOOR", "CONNECT_TO_WALL", "ROAD"
         ],
         "deconstruct": {
             "ter_set": "t_door_frame",
@@ -1344,6 +1471,136 @@
         }
     },{
         "type" : "terrain",
+        "id" : "t_door_curtain_c",
+        "name": "closed door curtain",
+        "symbol": "+",
+        "color": "dkgray",
+        "move_cost": 0,
+        "flags": [
+            "FLAMMABLE_ASH", "DOOR", "NOITEM", "CONNECT_TO_WALL"
+        ],
+        "open": "t_door_curtain_o",
+        "deconstruct": {
+            "ter_set": "t_null",
+            "items": [
+                { "item": "stick", "count": 1 },
+                { "item": "sheet", "count": 2 },
+                { "item": "string_36", "prob": 50 }
+            ]
+        },
+        "bash": {
+            "str_min": 3, "str_max": 6,
+            "sound": "rrrrip!",
+            "sound_fail": "slap!",
+            "sound_vol": 6,
+            "sound_fail_vol": 3,
+            "ter_set": "t_null",
+            "items": [
+                { "item": "sheet", "count": [0, 1] },
+                { "item": "rag", "count": [2, 5] },
+                { "item": "stick", "count": 1 },
+                { "item": "string_36", "count": 1 }
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_door_makeshift_c",
+        "name": "closed makeshift door",
+        "symbol": "+",
+        "color": "brown",
+        "move_cost": 0,
+        "flags": [
+            "FLAMMABLE_ASH", "DOOR", "NOITEM", "CONNECT_TO_WALL"
+        ],
+        "open": "t_door_makeshift_o",
+        "deconstruct": {
+            "ter_set": "t_door_frame",
+            "items": [
+                { "item": "2x4", "count": 6 },
+                { "item": "rope_6", "count": 2 }
+            ]
+        },
+        "bash": {
+            "str_min": 4, "str_max": 20, "str_min_blocked": 6, "str_max_blocked": 30,
+            "sound": "crack.",
+            "sound_fail": "wham.",
+            "ter_set": "t_door_frame",
+            "items": [
+                { "item": "2x4", "count": [2, 5] },
+                { "item": "rope_6", "count": [0, 1] },
+                { "item": "string_36", "count": [1, 6] },
+                { "item": "splinter", "count": [5, 10] }
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_door_curtain_o",
+        "name": "open door curtain",
+        "symbol": "'",
+        "color": "dkgray",
+        "move_cost": 2,
+        "flags": [
+            "FLAMMABLE_ASH", "TRANSPARENT",
+            "FLAT", "CONNECT_TO_WALL",
+            "ROAD"
+        ],
+        "deconstruct": {
+            "ter_set": "t_null",
+            "items": [
+                { "item": "stick", "count": 1 },
+                { "item": "sheet", "count": 2 },
+                { "item": "string_36", "prob": 50 }
+            ]
+        },
+        "close": "t_door_curtain_c",
+        "bash": {
+            "str_min": 2, "str_max": 6,
+            "sound": "rrrrip!",
+            "sound_fail": "slap!",
+            "sound_vol": 5,
+            "sound_fail_vol": 2,
+            "ter_set": "t_null",
+            "items": [
+                { "item": "sheet", "count": [0, 1] },
+                { "item": "rag", "count": [2, 5] },
+                { "item": "stick", "count": 1 },
+                { "item": "string_36", "count": 1 }
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_door_makeshift_o",
+        "name": "open makeshift door",
+        "symbol": "'",
+        "color": "brown",
+        "move_cost": 2,
+        "flags": [
+            "FLAMMABLE_ASH", "TRANSPARENT",
+            "FLAT", "CONNECT_TO_WALL",
+            "ROAD"
+        ],
+        "deconstruct": {
+            "ter_set": "t_door_frame",
+            "items": [
+                { "item": "2x4", "count": 6 },
+                { "item": "rope_6", "count": 2 }
+            ]
+        },
+        "close": "t_door_makeshift_c",
+        "bash": {
+            "str_min": 3, "str_max": 20, "str_min_blocked": 4, "str_max_blocked": 30,
+            "sound": "crack.",
+            "sound_fail": "wham.",
+            "ter_set": "t_door_frame",
+            "items": [
+                { "item": "2x4", "count": [2, 5] },
+                { "item": "rope_6", "count": [0, 1] },
+                { "item": "string_36", "count": [1, 6] },
+                { "item": "splinter", "count": [5, 10] }
+            ]
+        }
+    },{
+        "type" : "terrain",
         "id" : "t_door_frame",
         "name": "empty door frame",
         "symbol": ".",
@@ -1381,12 +1638,31 @@
         }
     },{
         "type" : "terrain",
+        "id" : "t_m_frame",
+        "name": "empty metal window frame",
+        "symbol": ".",
+        "color": "dkgray",
+        "move_cost": 2,
+        "flags": ["TRANSPARENT", "FLAT", "CONNECT_TO_WALL", "ROAD"],
+        "bash": {
+            "str_min": 18, "str_max": 75,
+            "sound": "metal screeching!",
+            "sound_fail": "clang!",
+            "ter_set": "t_null",
+            "items": [
+                { "item": "spike", "count": [2, 4] },
+                { "item": "scrap", "count": [3, 6] }
+            ]
+        }
+    },{
+        "type" : "terrain",
         "id" : "t_chaingate_l",
         "name": "locked wire gate",
         "symbol": "+",
         "color": "cyan",
         "move_cost": 0,
         "flags": ["TRANSPARENT", "PERMEABLE"],
+        "connects_to": "CHAINFENCE",
         "bash": {
             "str_min": 10, "str_max": 150, "str_min_blocked": 15, "str_max_blocked": 175,
             "sound": "metal screeching!",
@@ -1405,6 +1681,7 @@
         "color": "brown",
         "move_cost": 3,
         "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "DOOR", "MOUNTABLE"],
+        "connects_to": "WOODFENCE",
         "open": "t_fencegate_o",
         "bash": {
             "str_min": 4, "str_max": 20, "str_min_blocked": 6, "str_max_blocked": 30,
@@ -1427,6 +1704,7 @@
         "flags": [
             "TRANSPARENT", "FLAMMABLE_ASH", "FLAT", "ROAD"
         ],
+        "connects_to": "WOODFENCE",
         "close": "t_fencegate_c",
         "bash": {
             "str_min": 4, "str_max": 60,
@@ -1447,6 +1725,7 @@
         "color": "cyan",
         "move_cost": 0,
         "flags": ["TRANSPARENT", "DOOR", "PERMEABLE"],
+        "connects_to": "CHAINFENCE",
         "open": "t_chaingate_o",
         "bash": {
             "str_min": 10, "str_max": 150, "str_min_blocked": 15, "str_max_blocked": 100,
@@ -1467,6 +1746,7 @@
         "color": "cyan",
         "move_cost": 2,
         "flags": ["TRANSPARENT", "FLAT", "ROAD"],
+        "connects_to": "CHAINFENCE",
         "close": "t_chaingate_c",
         "bash": {
             "str_min": 5, "str_max": 150,
@@ -1636,6 +1916,47 @@
         }
     },{
         "type" : "terrain",
+        "id" : "t_door_metal_c_peep",
+        "name": "closed metal door with peephole",
+        "symbol": "+",
+        "color": "cyan",
+        "move_cost": 0,
+        "flags": ["NOITEM", "DOOR", "CONNECT_TO_WALL"],
+        "open": "t_door_metal_o_peep",
+        "examine_action": "door_peephole",
+        "bash": {
+            "str_min": 80, "str_max": 250,
+            "sound": "metal screeching!",
+            "sound_fail": "clang!",
+            "ter_set": "t_mdoor_frame",
+            "items": [
+                { "item": "peephole", "prob": 75 },
+                { "item": "scrap", "count": [12, 24] },
+                { "item": "steel_plate", "prob": 75 }
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_door_metal_o_peep",
+        "name": "open metal door with peephole",
+        "symbol": "'",
+        "color": "cyan",
+        "move_cost": 2,
+        "flags": ["TRANSPARENT", "FLAT", "CONNECT_TO_WALL", "ROAD"],
+        "close": "t_door_metal_c_peep",
+        "bash": {
+            "str_min": 80, "str_max": 250,
+            "sound": "metal screeching!",
+            "sound_fail": "clang!",
+            "ter_set": "t_mdoor_frame",
+            "items": [
+                { "item": "peephole", "prob": 75 },
+                { "item": "scrap", "count": [12, 24] },
+                { "item": "steel_plate", "prob": 75 }
+            ]
+        }
+    },{
+        "type" : "terrain",
         "id" : "t_door_metal_locked",
         "name": "closed metal door",
         "comment": "Actually locked",
@@ -1740,7 +2061,7 @@
         "color": "ltcyan",
         "move_cost": 0,
         "flags": [
-            "TRANSPARENT", "DOOR", "NOITEM", "CONNECT_TO_WALL", "ROAD"
+            "TRANSPARENT", "DOOR", "NOITEM", "CONNECT_TO_WALL"
         ],
         "open": "t_door_glass_o",
         "deconstruct": {
@@ -1767,7 +2088,7 @@
         "symbol": "'",
         "color": "ltcyan",
         "move_cost": 2,
-        "flags": ["TRANSPARENT", "FLAT", "CONNECT_TO_WALL"],
+        "flags": ["TRANSPARENT", "FLAT", "CONNECT_TO_WALL", "ROAD"],
         "close": "t_door_glass_c",
         "deconstruct": {
             "ter_set": "t_door_frame",
@@ -1877,9 +2198,9 @@
     },{
         "type" : "terrain",
         "id" : "t_window_domestic",
-        "name": "window",
+        "name": "window with curtains",
         "symbol": "\"",
-        "color": "ltcyan",
+        "color": "ltgray",
         "move_cost": 0,
         "flags": [
             "TRANSPARENT", "FLAMMABLE", "NOITEM", "OPENCLOSE_INSIDE",
@@ -1913,6 +2234,77 @@
         }
     },{
         "type" : "terrain",
+        "id" : "t_window_no_curtains",
+        "name": "window without curtains",
+        "symbol": "\"",
+        "color": "white",
+        "move_cost": 0,
+        "flags": [
+            "TRANSPARENT", "FLAMMABLE", "NOITEM", "OPENCLOSE_INSIDE",
+            "BARRICADABLE_WINDOW", "REDUCE_SCENT", "CONNECT_TO_WALL"
+        ],
+        "open": "t_window_no_curtains_open",
+        "deconstruct": {
+            "ter_set": "t_window_empty",
+            "items": [
+                { "item": "glass_sheet", "count": 1 }
+            ]
+        },
+        "bash": {
+            "str_min": 3, "str_max": 6,
+            "sound": "glass breaking!",
+            "sound_fail": "whack!",
+            "sound_vol": 16,
+            "sound_fail_vol": 10,
+            "ter_set": "t_window_frame",
+            "items": [
+                { "item": "glass_shard", "count": 3 }
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_window_no_curtains_open",
+        "name": "open window without curtains",
+        "symbol": "'",
+        "color": "white",
+        "move_cost": 4,
+        "flags": ["TRANSPARENT", "FLAMMABLE", "NOITEM", "OPENCLOSE_INSIDE", "MOUNTABLE", "CONNECT_TO_WALL" ],
+        "close": "t_window_no_curtains",
+        "bash": {
+            "str_min": 3, "str_max": 6,
+            "sound": "glass breaking!",
+            "sound_fail": "whack!",
+            "sound_vol": 16,
+            "sound_fail_vol": 10,
+            "ter_set": "t_window_frame",
+            "items": [
+                { "item": "glass_shard", "count": 3 }
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_window_no_curtains_taped",
+        "name": "taped window",
+        "comment": "Taped window without curtains",
+        "symbol": "\"",
+        "color": "dkgray",
+        "move_cost": 0,
+        "flags": [
+            "FLAMMABLE", "NOITEM", "WALL"
+        ],
+        "bash": {
+            "str_min": 6, "str_max": 12,
+            "sound": "glass breaking!",
+            "sound_fail": "whack!",
+            "sound_vol": 16,
+            "sound_fail_vol": 10,
+            "ter_set": "t_window_frame",
+            "items": [
+                { "item": "glass_shard", "count": 3 }
+            ]
+        }
+    },{
+        "type" : "terrain",
         "id" : "t_window_domestic_taped",
         "name": "taped window",
         "comment": "Taped window with curtains",
@@ -1939,9 +2331,9 @@
     },{
         "type" : "terrain",
         "id" : "t_window_open",
-        "name": "open window",
+        "name": "open window with curtains",
         "symbol": "'",
-        "color": "ltcyan",
+        "color": "ltgray",
         "move_cost": 4,
         "flags": ["TRANSPARENT", "FLAMMABLE", "NOITEM", "OPENCLOSE_INSIDE", "MOUNTABLE", "CONNECT_TO_WALL" ],
         "close": "t_window_domestic",
@@ -1962,12 +2354,12 @@
     },{
         "type" : "terrain",
         "id" : "t_curtains",
-        "name": "closed curtains",
+        "name": "window with closed curtains",
         "symbol": "\"",
         "color": "dkgray",
         "move_cost": 0,
         "flags": [
-            "FLAMMABLE", "NOITEM", "OPENCLOSE_INSIDE", "REDUCE_SCENT", 
+            "FLAMMABLE", "NOITEM", "OPENCLOSE_INSIDE", "REDUCE_SCENT",
             "BARRICADABLE_WINDOW_CURTAINS", "CONNECT_TO_WALL" ],
         "open": "t_window_domestic",
         "examine_action" : "curtains",
@@ -2189,12 +2581,12 @@
         }
     },{
         "type" : "terrain",
-        "id" : "t_window_bars_alarm",
-        "name": "window with metal bars",
+        "id" : "t_window_bars",
+        "name": "window frame with metal bars",
         "symbol": "#",
         "color": "ltgray",
         "move_cost": 0,
-        "flags": ["TRANSPARENT", "NOITEM", "REDUCE_SCENT", "ALARMED", "CONNECT_TO_WALL"],
+        "flags": ["TRANSPARENT", "NOITEM", "CONNECT_TO_WALL"],
         "bash": {
             "str_min": 60, "str_max": 250,
             "sound": "metal screeching!",
@@ -2205,6 +2597,25 @@
                 { "item": "steel_chunk", "count": [1, 4] },
                 { "item": "scrap", "count": [1, 5] },
                 { "item": "glass_shard", "count": 3 }
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_window_bars_alarm",
+        "name": "window with metal bars",
+        "symbol": "#",
+        "color": "ltgray",
+        "move_cost": 0,
+        "flags": ["TRANSPARENT", "NOITEM", "REDUCE_SCENT", "ALARMED", "CONNECT_TO_WALL"],
+        "bash": {
+            "str_min": 3, "str_max": 6,
+            "sound": "glass breaking!",
+            "sound_fail": "whack!",
+            "sound_vol": 16,
+            "sound_fail_vol": 10,
+            "ter_set": "t_window_bars",
+            "items": [
+                { "item": "glass_shard", "count": 5 }
             ]
         }
     },{
@@ -2277,7 +2688,9 @@
             "ter_set": "t_rock_floor",
             "items": [
                 { "item": "rock", "count": [3, 7] },
-                { "item": "material_limestone", "charges": [10, 25], "prob": 80 }
+                { "item": "coal_lump", "charges": [250, 500], "prob": 10 },
+                { "item": "material_limestone", "charges": [10, 25], "prob": 80 },
+                { "item": "material_rocksalt", "count": [0, 1], "prob": 20 }
             ]
         }
     },{
@@ -2311,7 +2724,7 @@
         "id" : "t_tree",
         "name": "oak tree",
         "symbol": "7",
-        "color": "green",
+        "color": [ "green", "green", "green", "brown" ], "//": "barren in winter",
         "move_cost": 0,
         "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT"],
         "bash": {
@@ -2329,7 +2742,7 @@
         "id" : "t_tree_young",
         "name": "young tree",
         "symbol": "1",
-        "color": "green",
+        "color": [ "green", "green", "green", "brown" ], "//": "barren in winter",
         "move_cost": 4,
         "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "NOITEM", "YOUNG", "REDUCE_SCENT"],
         "bash": {
@@ -2346,7 +2759,7 @@
         "id" : "t_tree_apple",
         "name": "apple tree",
         "symbol": "7",
-        "color": "red_green",
+        "color": [ "light_green", "light_green", "red_green", "brown" ], "//": "barren in winter, fruits in autum",
         "move_cost": 0,
         "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT"],
         "harvest_season": "AUTUMN",
@@ -2368,7 +2781,7 @@
         "id" : "t_tree_apple_harvested",
         "name": "apple tree",
         "symbol": "7",
-        "color": "brown_green",
+        "color": [ "light_green", "light_green", "light_green", "brown" ], "//": "barren in winter, no fruits anymore",
         "move_cost": 0,
         "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "HARVESTED"],
         "harvest_season": "AUTUMN",
@@ -2390,7 +2803,7 @@
         "id" : "t_tree_pear",
         "name": "pear tree",
         "symbol": "7",
-        "color": "ltgreen_green",
+        "color": [ "light_green", "light_green", "ltgreen_green", "brown" ], "//": "barren in winter, fruits in autum",
         "move_cost": 0,
         "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT"],
         "harvest_season": "AUTUMN",
@@ -2412,7 +2825,7 @@
         "id" : "t_tree_pear_harvested",
         "name": "pear tree",
         "symbol": "7",
-        "color": "brown_green",
+        "color": [ "light_green", "light_green", "light_green", "brown" ], "//": "barren in winter, no fruits anymore",
         "move_cost": 0,
         "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "HARVESTED"],
         "harvest_season": "AUTUMN",
@@ -2434,7 +2847,7 @@
         "id" : "t_tree_cherry",
         "name": "cherry tree",
         "symbol": "7",
-        "color": "red_green",
+        "color": [ "light_green", "red_green", "light_green", "brown" ], "//": "barren in winter, fruits in summer",
         "move_cost": 0,
         "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT"],
         "harvest_season": "SUMMER",
@@ -2456,7 +2869,7 @@
         "id" : "t_tree_cherry_harvested",
         "name": "cherry tree",
         "symbol": "7",
-        "color": "brown_green",
+        "color": [ "light_green", "light_green", "light_green", "brown" ], "//": "barren in winter, no fruits anymore",
         "move_cost": 0,
         "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "HARVESTED"],
         "harvest_season": "SUMMER",
@@ -2478,7 +2891,7 @@
         "id" : "t_tree_peach",
         "name": "peach tree",
         "symbol": "7",
-        "color": "ltred_green",
+        "color": [ "light_green", "ltred_green", "light_green", "brown" ], "//": "barren in winter, fruits in summer",
         "move_cost": 0,
         "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT"],
         "harvest_season": "SUMMER",
@@ -2500,7 +2913,7 @@
         "id" : "t_tree_peach_harvested",
         "name": "peach tree",
         "symbol": "7",
-        "color": "brown_green",
+        "color": [ "light_green", "light_green", "light_green", "brown" ], "//": "barren in winter, no fruits anymore",
         "move_cost": 0,
         "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "HARVESTED"],
         "harvest_season": "SUMMER",
@@ -2522,7 +2935,7 @@
         "id" : "t_tree_apricot",
         "name": "apricot tree",
         "symbol": "7",
-        "color": "ltred_green",
+        "color": [ "light_green", "ltred_green", "light_green", "brown" ], "//": "barren in winter, fruits in summer",
         "move_cost": 0,
         "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT"],
         "harvest_season": "SUMMER",
@@ -2544,7 +2957,7 @@
         "id" : "t_tree_apricot_harvested",
         "name": "apricot tree",
         "symbol": "7",
-        "color": "brown_green",
+        "color": [ "light_green", "light_green", "light_green", "brown" ], "//": "barren in winter, no fruits anymore",
         "move_cost": 0,
         "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "HARVESTED"],
         "harvest_season": "SUMMER",
@@ -2566,7 +2979,7 @@
         "id" : "t_tree_plum",
         "name": "plum tree",
         "symbol": "7",
-        "color": "magenta_green",
+        "color": [ "light_green", "magenta_green", "light_green", "brown" ], "//": "barren in winter, fruits in summer",
         "move_cost": 0,
         "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT"],
         "harvest_season": "SUMMER",
@@ -2588,7 +3001,7 @@
         "id" : "t_tree_plum_harvested",
         "name": "plum tree",
         "symbol": "7",
-        "color": "brown_green",
+        "color": [ "light_green", "light_green", "light_green", "brown" ], "//": "barren in winter, no fruits anymore",
         "move_cost": 0,
         "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "HARVESTED"],
         "harvest_season": "SUMMER",
@@ -2647,7 +3060,7 @@
         "id" : "t_tree_birch",
         "name": "birch tree",
         "symbol": "7",
-        "color": "ltgreen",
+        "color": [ "ltgreen", "ltgreen", "ltgreen", "brown" ], "//": "barren in winter, harvestable all year round",
         "move_cost": 0,
         "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT"],
         "examine_action": "tree_bark",
@@ -2668,7 +3081,7 @@
         "id" : "t_tree_birch_harvested",
         "name": "birch tree",
         "symbol": "7",
-        "color": "brown",
+        "color": "green", "//": "dead, not harvestable",
         "move_cost": 0,
         "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT"],
         "bash": {
@@ -2686,7 +3099,7 @@
         "id" : "t_tree_willow",
         "name": "willow tree",
         "symbol": "4",
-        "color": "ltgreen",
+        "color": [ "ltgreen", "ltgreen", "ltgreen", "brown" ], "//": "barren in winter, harvestable all year round",
         "move_cost": 0,
         "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT"],
         "examine_action": "tree_bark",
@@ -2707,7 +3120,7 @@
         "id" : "t_tree_willow_harvested",
         "name": "willow tree",
         "symbol": "4",
-        "color": "brown",
+        "color": [ "brown", "brown", "brown", "brown" ], "//": "barren in winter, not harvestable",
         "move_cost": 0,
         "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT"],
         "bash": {
@@ -2743,7 +3156,7 @@
         "id" : "t_tree_hickory",
         "name": "hickory tree",
         "symbol": "7",
-        "color": "brown_green",
+        "color": [ "light_green", "light_green", "brown_green", "brown" ], "//": "barren in winter, harvestable in autum",
         "move_cost": 0,
         "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT"],
         "examine_action": "tree_hickory",
@@ -2765,7 +3178,7 @@
         "id" : "t_tree_hickory_harvested",
         "name": "hickory tree",
         "symbol": "7",
-        "color": "brown_green",
+        "color": [ "light_green", "light_green", "light_green", "brown" ], "//": "barren in winter, kind of harvestable",
         "move_cost": 0,
         "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "HARVESTED"],
         "examine_action": "tree_hickory",
@@ -2787,7 +3200,7 @@
         "id" : "t_tree_hickory_dead",
         "name": "dead hickory tree",
         "symbol": "7",
-        "color": "brown",
+        "color": "green", "//": "dead, not usable at all",
         "move_cost": 0,
         "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT"],
         "bash": {
@@ -3036,13 +3449,13 @@
         "type" : "terrain",
         "id" : "t_fence_v",
         "name": "picket fence",
-        "symbol": "|",
+        "symbol": "LINE_OXOX",
         "color": "brown",
         "move_cost": 3,
         "flags": [
             "TRANSPARENT", "DIGGABLE", "FLAMMABLE_ASH", "NOITEM", "THIN_OBSTACLE", "REDUCE_SCENT",
-            "MOUNTABLE", "SHORT"
-        ],
+            "MOUNTABLE", "SHORT", "AUTO_WALL_SYMBOL" ],
+        "connects_to": "WOODFENCE",
         "bash": {
             "str_min": 4, "str_max": 20,
             "sound": "crack.",
@@ -3058,13 +3471,13 @@
         "type" : "terrain",
         "id" : "t_fence_h",
         "name": "picket fence",
-        "symbol": "-",
+        "symbol": "LINE_OXOX",
         "color": "brown",
         "move_cost": 3,
         "flags": [
             "TRANSPARENT", "DIGGABLE", "FLAMMABLE_ASH", "NOITEM", "THIN_OBSTACLE", "REDUCE_SCENT",
-            "MOUNTABLE", "SHORT"
-        ],
+            "MOUNTABLE", "SHORT", "AUTO_WALL_SYMBOL" ],
+        "connects_to": "WOODFENCE",
         "bash": {
             "str_min": 4, "str_max": 20,
             "sound": "crack.",
@@ -3080,12 +3493,12 @@
         "type" : "terrain",
         "id" : "t_chainfence_v",
         "name": "chain link fence",
-        "symbol": "|",
+        "symbol": "LINE_OXOX",
         "color": "cyan",
         "move_cost": 0,
         "flags": [
-            "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "SUPPORTS_ROOF", "PERMEABLE", "UNSTABLE", "CLIMBABLE"
-        ],
+            "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "SUPPORTS_ROOF", "PERMEABLE", "UNSTABLE", "CLIMBABLE", "AUTO_WALL_SYMBOL" ],
+        "connects_to": "CHAINFENCE",
         "examine_action": "chainfence",
         "bash": {
             "str_min": 10, "str_max": 150,
@@ -3100,12 +3513,12 @@
         "type" : "terrain",
         "id" : "t_chainfence_h",
         "name": "chain link fence",
-        "symbol": "-",
+        "symbol": "LINE_OXOX",
         "color": "cyan",
         "move_cost": 0,
         "flags": [
-            "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "SUPPORTS_ROOF", "PERMEABLE", "UNSTABLE", "CLIMBABLE"
-        ],
+            "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "SUPPORTS_ROOF", "PERMEABLE", "UNSTABLE", "CLIMBABLE", "AUTO_WALL_SYMBOL" ],
+        "connects_to": "CHAINFENCE",
         "examine_action": "chainfence",
         "bash": {
             "str_min": 10, "str_max": 150,
@@ -3214,10 +3627,11 @@
         "type" : "terrain",
         "id" : "t_railing_v",
         "name": "railing",
-        "symbol": "|",
+        "symbol": "LINE_OXOX",
         "color": "yellow",
         "move_cost": 3,
-        "flags": ["TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "MOUNTABLE", "SHORT"],
+        "flags": ["TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "MOUNTABLE", "SHORT", "AUTO_WALL_SYMBOL" ],
+        "connects_to": "RAILING",
         "bash": {
             "str_min": 20, "str_max": 80,
             "sound": "crack!",
@@ -3234,10 +3648,11 @@
         "type" : "terrain",
         "id" : "t_railing_h",
         "name": "railing",
-        "symbol": "-",
+        "symbol": "LINE_OXOX",
         "color": "yellow",
         "move_cost": 3,
-        "flags": ["TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "MOUNTABLE", "SHORT"],
+        "flags": ["TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "MOUNTABLE", "SHORT", "AUTO_WALL_SYMBOL" ],
+        "connects_to": "RAILING",
         "bash": {
             "str_min": 20, "str_max": 80,
             "sound": "crack!",
@@ -3457,8 +3872,8 @@
         "symbol": "~",
         "color": "ltblue",
         "move_cost": 5,
-        "flags": ["TRANSPARENT", "LIQUID", "SWIMMABLE", "FISHABLE"],
-        "examine_action": "swater_source"
+        "flags": ["TRANSPARENT", "LIQUID", "SWIMMABLE", "SALT_WATER", "FISHABLE"],
+        "examine_action": "water_source"
     },{
         "type" : "terrain",
         "id" : "t_swater_dp",
@@ -3466,8 +3881,8 @@
         "symbol": "~",
         "color": "blue",
         "move_cost": 8,
-        "flags": ["TRANSPARENT", "LIQUID", "SWIMMABLE", "DEEP_WATER", "FISHABLE"],
-        "examine_action": "swater_source"
+        "flags": ["TRANSPARENT", "LIQUID", "SWIMMABLE", "SALT_WATER", "DEEP_WATER", "FISHABLE"],
+        "examine_action": "water_source"
     },{
         "type" : "terrain",
         "id" : "t_water_pool",
@@ -3995,6 +4410,13 @@
                 { "item": "2x4", "count": [1, 4] },
                 { "item": "splinter", "count": [2, 4] }
             ]
+        },
+        "deconstruct": {
+            "ter_set": "t_dirtfloor",
+            "items": [
+                { "item": "rope_30", "count": 1 },
+                { "item": "2x4", "count": 8 }
+            ]
         }
     },{
         "type" : "terrain",
@@ -4014,6 +4436,13 @@
                 { "item": "rope_6", "count": [3, 4] },
                 { "item": "2x4", "count": [1, 4] },
                 { "item": "splinter", "count": [2, 4] }
+            ]
+        },
+        "deconstruct": {
+            "ter_set": "t_dirtfloor",
+            "items": [
+                { "item": "rope_30", "count": 1 },
+                { "item": "2x4", "count": 8 }
             ]
         }
     },{
@@ -4655,7 +5084,7 @@
         "symbol": "LINE_OXOX",
         "color": "red",
         "move_cost": 0,
-        "flags": ["FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "CHIP"],
+        "flags": ["FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "CHIP", "AUTO_WALL_SYMBOL"],
         "bash": {
             "str_min": 30, "str_max": 210,
             "sound": "crash!",
@@ -4742,10 +5171,11 @@
         "type" : "terrain",
         "id" : "t_rock_wall",
         "name": "stone wall",
-        "symbol": "#",
+        "symbol": "LINE_OXOX",
         "color": "ltgray",
         "move_cost": 0,
-        "flags": ["NOITEM", "SUPPORTS_ROOF", "WALL"],
+        "flags": ["NOITEM", "SUPPORTS_ROOF", "WALL", "AUTO_WALL_SYMBOL"],
+        "connects_to": "WALL",
         "bash": {
             "str_min": 80, "str_max": 300,
             "sound": "crash!",
@@ -4763,6 +5193,7 @@
         "color": "ltgray",
         "move_cost": 4,
         "flags": ["TRANSPARENT", "NOITEM", "REDUCE_SCENT", "MOUNTABLE"],
+        "connects_to": "WALL",
         "bash": {
             "str_min": 40, "str_max": 200,
             "sound": "crash!",
@@ -5444,7 +5875,7 @@
             "sound_fail": "splosh!",
             "ter_set": "t_water_dp",
             "items": [
-                { "item": "clay_lump", "count": [5, 10] }
+                { "item": "clay_lump", "count": [6, 12] }
             ]
         }
     },{
@@ -5461,7 +5892,7 @@
             "sound_fail": "splosh!",
             "ter_set": "t_water_dp",
             "items": [
-                { "item": "material_sand", "charges": [800, 1200] }
+                { "item": "material_sand", "charges": [300, 600] }
             ]
         }
     },{
@@ -5672,6 +6103,44 @@
                 { "item": "amplifier", "prob": 40 },
                 { "item": "plastic_chunk", "count": [2, 12] },
                 { "item": "scrap", "count": [3, 8] }
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_low_stairs_begin",
+        "name": "low stairs (beginning section)",
+        "symbol": "<",
+        "color": "dkgray_white",
+        "move_cost": 4,
+        "flags": ["TRANSPARENT", "BASHABLE", "FLAMMABLE", "PLACE_ITEM", "RAMP", "SEEN_FROM_ABOVE"],
+        "bash": {
+            "str_min": 12, "str_max": 50,
+            "sound": "crunch!",
+            "sound_fail": "whump!",
+            "ter_set": "t_floor",
+            "items": [
+                { "item": "2x4", "count": [0, 3] },
+                { "item": "nail", "charges": [1, 5] },
+                { "item": "splinter", "count": [1, 4] }
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_low_stairs_end",
+        "name": "low stairs (end section)",
+        "symbol": "<",
+        "color": "black_white",
+        "move_cost": 0,
+        "flags": ["BASHABLE", "FLAMMABLE", "PLACE_ITEM", "RAMP", "RAMP_END", "SEEN_FROM_ABOVE"],
+        "bash": {
+            "str_min": 20, "str_max": 50,
+            "sound": "crunch!",
+            "sound_fail": "whump!",
+            "ter_set": "t_floor",
+            "items": [
+                { "item": "2x4", "count": [0, 3] },
+                { "item": "nail", "charges": [1, 5] },
+                { "item": "splinter", "count": [1, 4] }
             ]
         }
     }

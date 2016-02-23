@@ -6,6 +6,7 @@
     "name": "Mundane Zombies",
     "author": "daftfad",
     "description": "Removes all special zombies from the game.",
+    "category": "monster_exclude",
     "path": "modinfo.json"
 },{
     "type": "MONSTER_BLACKLIST",

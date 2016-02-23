@@ -28,12 +28,12 @@ class robot_finds_kitten
 {
     public:
         bool ret;
-        std::string getmessage(int idx);
-        robot_finds_kitten(WINDOW *w);
-        void instructions(WINDOW *w);
-        void draw_robot(WINDOW *w);
-        void draw_kitten(WINDOW *w);
-        void process_input(int input, WINDOW *w);
+        std::string getmessage( int idx );
+        robot_finds_kitten( WINDOW *w );
+        void instructions( WINDOW *w );
+        void draw_robot( WINDOW *w );
+        void draw_kitten( WINDOW *w );
+        void process_input( int input, WINDOW *w );
         kobject robot;
         kobject kitten;
         kobject empty;

@@ -14,6 +14,7 @@
 #include "item_factory.h"
 #include "vehicle_group.h"
 #include "crafting.h"
+#include "crafting_gui.h"
 #include "computer.h"
 #include "help.h"
 #include "mapdata.h"
@@ -153,6 +154,8 @@ void DynamicDataLoader::initialize()
             &Item_factory::load_container);
     type_function_map["GUNMOD"] = new ClassFunctionAccessor<Item_factory>(item_controller,
             &Item_factory::load_gunmod);
+    type_function_map["MAGAZINE"] = new ClassFunctionAccessor<Item_factory>(item_controller,
+            &Item_factory::load_magazine);
     type_function_map["GENERIC"] = new ClassFunctionAccessor<Item_factory>(item_controller,
             &Item_factory::load_generic);
     type_function_map["BIONIC_ITEM"] = new ClassFunctionAccessor<Item_factory>(item_controller,
@@ -190,6 +193,8 @@ void DynamicDataLoader::initialize()
             &Item_factory::load_item_blacklist);
     type_function_map["ITEM_WHITELIST"] = new ClassFunctionAccessor<Item_factory>(item_controller,
             &Item_factory::load_item_whitelist);
+    type_function_map["ITEM_OPTION"] = new ClassFunctionAccessor<Item_factory>(item_controller,
+            &Item_factory::load_item_option);
 
     // ...unimplemented?
     type_function_map["INSTRUMENT"] = new StaticFunctionAccessor(&load_ingored_type);
@@ -197,7 +202,6 @@ void DynamicDataLoader::initialize()
     type_function_map["colordef"] = new StaticFunctionAccessor(&load_ingored_type);
     // mod information, ignored, handled by the mod manager
     type_function_map["MOD_INFO"] = new StaticFunctionAccessor(&load_ingored_type);
-    type_function_map["BULLET_PULLING"] = new StaticFunctionAccessor(&iuse::load_bullet_pulling);
 
     type_function_map["faction"] = new StaticFunctionAccessor(
         &faction::load_faction);
@@ -210,9 +214,9 @@ void DynamicDataLoader::initialize()
 
     type_function_map["MONSTER_FACTION"] =
         new StaticFunctionAccessor(&monfactions::load_monster_faction);
+
     type_function_map["sound_effect"] = new StaticFunctionAccessor(&sfx::load_sound_effects);
     type_function_map["playlist"] = new StaticFunctionAccessor(&sfx::load_playlist);
-
 }
 
 void DynamicDataLoader::reset()
@@ -340,10 +344,11 @@ void DynamicDataLoader::unload_data()
     reset_mapgens();
     reset_effect_types();
     reset_speech();
-    iuse::reset_bullet_pulling();
     clear_overmap_specials();
     ammunition_type::reset();
     unload_talk_topics();
+    start_location::reset();
+    scenario::reset();
 
     // TODO:
     //    NameGenerator::generator().clear_names();

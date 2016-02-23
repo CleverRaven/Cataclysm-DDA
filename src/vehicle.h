@@ -237,6 +237,8 @@ struct label : public JsonSerializer, public JsonDeserializer {
  *   assigns `precalc[1]` to `precalc[0]`. At any time (except
  *   `map::vehmove()` innermost cycle) you can get actual part coords
  *   relative to vehicle's position by reading `precalc[0]`.
+ *   Vehicles rotate around a (possibly changing) pivot point, and
+ *   the precalc coordinates always put the pivot point at (0,0).
  * - Vehicle keeps track of 3 directions:
  *     Direction | Meaning
  *     --------- | -------
@@ -283,6 +285,7 @@ private:
     void open_or_close(int part_index, bool opening);
     bool is_connected(vehicle_part const &to, vehicle_part const &from, vehicle_part const &excluded) const;
     void add_missing_frames();
+    void add_steerable_wheels();
 
     // direct damage to part (armor protection and internals are not counted)
     // returns damage bypassed
@@ -314,7 +317,7 @@ private:
 
     // Whether a fuel indicator should be printed
     bool should_print_fuel_indicator (itype_id fuelType, bool fullsize) const;
-    
+
     // Vehical fuel indicator (by fuel)
     void print_fuel_indicator (void *w, int y, int x, itype_id fuelType,
                                bool verbose = false, bool desc = false) const;
@@ -374,8 +377,12 @@ public:
     using JsonDeserializer::deserialize;
     void deserialize(JsonIn &jsin) override;
 
-    // Operate vehicle
-    void use_controls();
+    /**
+     *  Operate vehicle controls
+     *  @param pos Position of controls to operate
+     *  @param remote_action true if controls operated via remote controller
+     */
+    void use_controls(const tripoint &pos, const bool remote_action = false);
 
     // Fold up the vehicle
     bool fold_up();
@@ -394,7 +401,7 @@ public:
     void beeper_sound();
     void play_music();
     void play_chimes();
-
+    void operate_planter();
     // get vpart type info for part number (part at given vector index)
     const vpart_info& part_info (int index, bool include_removed = false) const;
 
@@ -430,6 +437,7 @@ public:
 
     // returns index of part, inner to given, with certain flag, or -1
     int part_with_feature (int p, const std::string &f, bool unbroken = true) const;
+    int part_with_feature_at_relative (const point &pt, const std::string &f, bool unbroken = true) const;
     int part_with_feature (int p, vpart_bitflags f, bool unbroken = true) const;
 
     /**
@@ -470,11 +478,11 @@ public:
     // Broken parts are also never obstacles
     int obstacle_at_part( int p ) const;
 
-    // Translate seat-relative mount coords into tile coords
-    void coord_translate (int reldx, int reldy, int &dx, int &dy) const;
+    // Translate mount coords "p" using current pivot direction and anchor and return tile coords
+    point coord_translate (const point &p) const;
 
-    // Translate seat-relative mount coords into tile coords using given face direction
-    void coord_translate (int dir, int reldx, int reldy, int &dx, int &dy) const;
+    // Translate mount coords "p" into tile coords "q" using given pivot direction and anchor
+    void coord_translate (int dir, const point &pivot, const point &p, point &q) const;
 
     // Seek a vehicle part which obstructs tile with given coords relative to vehicle position
     int part_at( int dx, int dy ) const;
@@ -504,7 +512,7 @@ public:
                                bool verbose = false, bool desc = false, bool isHorizontal = false) const;
 
     // Precalculate mount points for (idir=0) - current direction or (idir=1) - next turn direction
-    void precalc_mounts (int idir, int dir);
+    void precalc_mounts (int idir, int dir, const point &pivot);
 
     // get a list of part indeces where is a passenger inside
     std::vector<int> boarded_parts() const;
@@ -523,6 +531,10 @@ public:
     int global_y() const;
     point global_pos() const;
     tripoint global_pos3() const;
+    /**
+     * Get the coordinates of the studied part of the vehicle
+     */
+    tripoint global_part_pos3( const int &index ) const;
     /**
      * Really global absolute coordinates in map squares.
      * This includes the overmap, the submap, and the map square.
@@ -567,11 +579,26 @@ public:
      */
     int discharge_battery (int amount, bool recurse = true);
 
+    /**
+     * Mark mass caches and pivot cache as dirty
+     */
+    void invalidate_mass();
+
     // get the total mass of vehicle, including cargo and passengers
     int total_mass () const;
 
-    // get center of mass of vehicle; coordinates are precalc[0]
-    void center_of_mass(int &x, int &y) const;
+    // get center of mass of vehicle; coordinates are precalc[0] if use_precalc is set,
+    // unrotated part coordinates otherwise
+    void center_of_mass(int &x, int &y, bool use_precalc = true) const;
+
+    // Get the pivot point of vehicle; coordinates are unrotated mount coordinates.
+    // This may result in refreshing the pivot point if it is currently stale.
+    const point &pivot_point() const;
+
+    // Get the (artificial) displacement of the vehicle due to the pivot point changing
+    // between precalc[0] and precalc[1]. This needs to be subtracted from any actual
+    // vehicle motion after precalc[1] is prepared.
+    point pivot_displacement() const;
 
     // Get combined power of all engines. If fueled == true, then only engines which
     // vehicle have fuel for are accounted
@@ -610,6 +637,9 @@ public:
     // 1.0 means mass won't slow vehicle at all, 0 - it won't move
     float k_mass () const;
 
+    // Extra drag on the vehicle from components other than wheels.
+    float drag() const;
+
     // strain of engine(s) if it works higher that safe speed (0-1.0)
     float strain () const;
 
@@ -617,6 +647,10 @@ public:
     bool sufficient_wheel_config() const;
     bool balanced_wheel_config() const;
     bool valid_wheel_config() const;
+
+    // return the relative effectiveness of the steering (1.0 is normal)
+    // <0 means there is no steering installed at all.
+    float steering_effectiveness() const;
 
     // idle fuel consumption
     void idle(bool on_map = true);
@@ -736,13 +770,11 @@ public:
     bool fire_turret( int p, bool manual );
 
     // Fire turret at some automatically acquired target
-    bool automatic_fire_turret( int p, const itype &gun, const itype &ammo, long &charges );
+    bool automatic_fire_turret( int p, const itype &guntype, const itype &ammotype, long &charges );
 
-    // Manual turret fire - gives the `shooter` a temporary weapon, makes them use it,
-    // then gives back the weapon held before (if any).
+    // Aim and fire turret manually
     // TODO: Make it work correctly with UPS-powered turrets when player has a UPS already
-    bool manual_fire_turret( int p, player &shooter, const itype &guntype,
-                             const itype &ammotype, long &charges );
+    bool manual_fire_turret( int p, player &shooter, const itype &guntype, const itype &ammotype, long &charges );
 
     // Update the set of occupied points and return a reference to it
     std::set<tripoint> &get_points( bool force_refresh = false );
@@ -768,6 +800,8 @@ public:
     void interact ();
     //scoop operation,pickups, battery drain, etc.
     void operate_scoop();
+    void operate_reaper();
+    void operate_plow();
     //main method for the control of individual engines
     void control_engines();
     // shows ui menu to select an engine
@@ -799,13 +833,12 @@ public:
     void do_engine_damage(size_t p, int strain);
     //remotely open/close doors
     void control_doors();
-
     // return a vector w/ 'direction' & 'magnitude', in its own sense of the words.
     rl_vec2d velo_vec() const;
     //normalized vectors, from tilerays face & move
     rl_vec2d face_vec() const;
     rl_vec2d move_vec() const;
-
+    void on_move();
     /**
      * Update the submap coordinates smx, smy, and update the tracker info in the overmap
      * (if enabled).
@@ -837,6 +870,7 @@ public:
     std::vector<int> funnels;          // List of funnel indices
     std::vector<int> loose_parts;      // List of UNMOUNT_ON_MOVE parts
     std::vector<int> wheelcache;       // List of wheels
+    std::vector<int> steering;         // List of STEERABLE parts
     std::vector<int> speciality;       // List of parts that will not be on a vehicle very often, or which only one will be present
     std::vector<int> floating;         // List of parts that provide buoyancy to boats
     std::set<std::string> tags;        // Properties of the vehicle
@@ -888,6 +922,9 @@ public:
     int om_id;          // id of the om_vehicle struct corresponding to this vehicle
     int turn_dir;       // direction, to which vehicle is turning (player control). will rotate frame on next move
 
+    std::array<point, 2> pivot_anchor; // points used for rotation of mount precalc values
+    std::array<int, 2> pivot_rotation; // rotation used for mount precalc values
+
     int last_turn = 0;      // amount of last turning (for calculate skidding due to handbrake)
     float of_turn;      // goes from ~1 to ~0 while proceeding every turn
     float of_turn_carry;// leftover from prev. turn
@@ -903,6 +940,7 @@ public:
     int aisle_lights_epower = 0;
     int recharger_epower    = 0; // total power consumed by rechargers
     int camera_epower       = 0; // power consumed by camera system
+    int extra_drag          = 0;
     int scoop_epower        = 0;
     // TODO: change these to a bitset + enum?
     bool cruise_on                  = true;  // cruise control on/off
@@ -925,7 +963,27 @@ public:
     bool check_environmental_effects= false; // has bloody or smoking parts
     bool insides_dirty              = true;  // "inside" flags are outdated and need refreshing
     bool falling                    = false; // Is the vehicle hanging in the air and expected to fall down in the next turn?
-    bool scoop_on                   = false;//Does the vehicle have a scoop? Which picks up items.
+    bool plow_on                    = false; // Is the vehicle running a plow?
+    bool planter_on                 = false; // Is the vehicle sprawing seeds everywhere?
+    bool scoop_on                   = false; //Does the vehicle have a scoop? Which picks up items.
+    bool reaper_on                  = false; //Is the reaper active?
+
+private:
+    void refresh_pivot() const;                // refresh pivot_cache, clear pivot_dirty
+
+    mutable bool pivot_dirty;                  // if true, pivot_cache needs to be recalculated
+    mutable point pivot_cache;                 // cached pivot point
+
+    void refresh_mass() const;
+    void calc_mass_center( bool precalc ) const;
+
+    mutable bool mass_dirty                     = true;
+    mutable bool mass_center_precalc_dirty      = true;
+    mutable bool mass_center_no_precalc_dirty   = true;
+
+    mutable int mass_cache;
+    mutable point mass_center_precalc;
+    mutable point mass_center_no_precalc;
 };
 
 #endif

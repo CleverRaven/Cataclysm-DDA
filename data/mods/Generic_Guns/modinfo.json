@@ -4,5 +4,6 @@
     "ident": "generic_guns",
     "name": "Generic Guns",
     "description": "Replaces 20th century guns and ammo with generic types.",
+    "category": "items",
     "path": ""
 }

@@ -2,9 +2,8 @@
   {
     "type" : "start_location",
     "ident" : "forest",
-    "name" : "Middle of Nowhere",
-    "target" : "forest_thick",
-    "flags" : ["ALLOW_OUTSIDE"]
+    "edit-mode": "modify",
+    "target" : "forest_thick"
   },
   {
     "type" : "start_location",

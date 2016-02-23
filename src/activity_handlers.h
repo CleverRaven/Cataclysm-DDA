@@ -33,6 +33,8 @@ void oxytorch_do_turn( player_activity *act, player *p );
 void oxytorch_finish( player_activity *act, player *p );
 void cracking_finish( player_activity *act, player *p );
 void open_gate_finish( player_activity *act, player *p );
+void repair_item_finish( player_activity *act, player *p );
+void gunmod_add_finish( player_activity *act, player *p );
 }
 
 #endif

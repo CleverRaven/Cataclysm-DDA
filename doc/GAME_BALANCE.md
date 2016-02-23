@@ -97,6 +97,133 @@ A measure of how well-suited the item is for being swung/thrust/etc. This factor
 
 +1 - Well-balanced for swinging or stabbing.  Baseball bat, golf club, swords, quarterstaff, knives.
 
+##Damage
+Weapon's relative strength is based on an approximate formula involving its damage, to-hit, techniques and few other factors.
+This strength will be expressed in "points" or dpt (damage per turn) as damage per turn is the most significant balancing factor.
+
+### Damage per turn
+Melee weapon's relative strength is measured by damage per turn (more precisely: damage per 100 moves). The damage is sum of all damage types (average of min/max where random) from the weapon alone, without including strength in the calculation.
+For bashing weapons, it is assumed the character can achieve the maximum damage, but this strength isn't added to damage (or critical damage).
+
+### To-hit
+While not a direct measure of damage, to-hit bonus has to be included in the calculations, as it has a significant effect on actual damage output (through hit and crit rate).
+
+Each point of to-hit is "worth" roughly a 10% increase/decrease in damage per turn or 2.5 points of damage per turn (whichever is higher).
+
+### Techniques
+Rapid strike technique increases damage per turn by 0.66 / 0.5 = 132%
+Other techniques are generally too situational to be worth any points here.
+
+### Weapon tiers
+Damage per turn should put the weapon into one of those categories:
+
+<10 - Not weapons. Those items may be pressed into service, but are unlikely to be better than fists. Plastic bottles, rocks, boots.
+
+11-15 - Tools not meant to strike and improvised weapons. Two-by-fours, pointy sticks, pipes, hammers.
+
+16-25 - Dangerous tools or crude dedicated weapons. Golf clubs, two-by-swords, wooden spears, knife spears, hatchets, switchblades, tonfas, quarterstaves.
+
+26-35 - Good dedicated weapons or the most dangerous of tools. Wood and fire axes, steel spears, electric carvers, kukris, bokken, machetes, barbed wire bats.
+
+36-45 - Weapons of war, well designed to kill humans. Wakizashis, katanas, broadswords, zweihanders, combat knifes, battle axes, war hammers, maces, morningstars.
+
+46+ - Sci-fi stuff. Diamond katanas, monomolecular blades, lightsabers and chainswords.
+
+## Other melee balancing factors
+### Attack speed
+Out of two weapons with same dpt, the faster one is generally better.
+Faster weapons allow more damage granularity (less overkill), make it less likely to miss a turn (and thus dodge/block recharges) and make positioning easier.
+Slower weapons will pierce armor better, but currently most enemies are very lightly armored.
+
+### Damage type
+At low skill, piercing damage suffers from scaling and bashing damage from damage limit due to low strength and skill. Cutting damage is not affected.
+At high skill, bashing damage is generally the strongest, but still suffers from the damage limit.
+Exotic damage types (currently only fire) do not scale with skills or crits.
+
+# RANGE WEAPONS
+## Magazines
+### Reload times
+The overall balance is that magazines themselves are slow to reload whereas changing a magazine should be fast. For standard box magazines a default `reload_time` of 100 (per round) is appropriate with this value increasing for poor quality or extended magazines. Guns themselves should also specify `reload` of 100 (per magazine) unless their magazines are particularly awkward to reload (eg. ammo belts). The game logic intrinsically handles higher volume magazines consuming more time to attach to a gun so you need not consider this.
+
+### Weight
+Increases proportional to capacity and should have a comparable ratio to similar magazines. Consider the base item to be a 10-round .223 factory specification box magazine which has a capacity:weight of 1:10. Increase the ratio markedly for poor quality magazines or more slightly for extended magazines. Smaller calibers should use a lower ratio. The `material` should have some effect with plastic magazines weighing less. Nothing should have a lower ratio than the LeadWorks magazines.
+
+### Volume
+Scaled based upon the capacity relative to the `stack_size` of the ammo. For example 223 has a `stack size` of 20 so for 10 and 30 round magazines the volume would be 1 and 2. Extended magazine should always have larger volume than the standard type and for very large drum magazines consider applying an extra penalty. By default most handgun magazines should be volume 1 and most rifle magazines volume 2. Ammo belts should not specify volume as this will be determined from their length.
+
+### Reliability
+Should be specified first considering the below and then scaled against any equivalent magazines. For example if an extended version of a magazine exists place it one rank below the standard capacity version. Damaged guns or magazines will further adversely affect reliability.
+
+10 - **Perfectly reliable**. Factory specification or milspec only. Never extended magazines. Very rare.
+
+9 - **Reliable**. Failures only in burst fire. Factory or milspec magazines only. Never extended magazines. Uncommon.
+
+8 - **Dependable**. Failures infrequently in any fire mode. Highest reliability possible for extended magazines and those crafted using gunsmithing tools. Most common.
+
+7 - **Serviceable**. Fail infrequently in semi-automatic, more frequently in burst. Includes many extended and aftermarket gunsmithing tools. Common.
+
+6 - **Acceptable**. Failures can be problematic. Highest reliability possible for magazines crafted **without** gunsmithing tools. Includes most ammo belts.
+
+5 - **Usable**. Failures can be problematic and more serious. Mostly poor quality hand-crafted magazines.
+
+<4 - **Poor**. Significant risk of catastrophic failure. Not applied by default to any item but can be acquired by damage or other factors.
+
+### Rarity
+Overall balance is that pistol magazines are twice as common as rifle magazines and that for guns that spawn with magazines these are always the standard capacity versions. Consider 9mm and .223 to be the defaults with everything else more rare. Some locations have more specific balance requirements:
+
+Location          | Description                                               | With guns | Damaged   | Example
+------------------|-----------------------------------------------------------|-----------|-----------|--------------------------
+Military site     | Only source of milspec magazines and ammo belts           | Never     | Never     | LW-56, .223 ammo belt
+Gun store         | Standard and extended capacity magazines                  | Never     | Never     | STANAG-30, Glock extended
+Police armory     | Mostly pistol magazines, especially 9mm, never extended   | Sometimes | Never     | Glock, MP5 magazine
+SWAT truck        | Police or military magazines, occasionally extended       | Sometimes | Rarely    | MP5 extended
+Survivor basement | Anything except milspec weighted towards common types     | Often     | Sometimes | Saiga mag, M1911 extended
+Military surplus  | Older military magazines that are not current issue       | Never     | Rarely    | M9 mag, STEN magazine
+Pawn showp        | Anything except milspec weighted towards unusual calibers | Never     | Rarely    | Makarov mag, AK-74 mag
+Everywhere else   | Predominately 9mm and 223. Always with standard magazine  | Often     | Sometimes | Ruger 223 mag, M1911 mag
+
+## Ammo stats
+The damage of ammunition is the square root of a round's muzzle energy in joules rounded to the nearest integer with an arbitrary increase or decrease to account for terminal ballistics. A similar system for calculating recoil is planned but not currently being worked on. The figures used to calculate stats and any other relevant information are presented in table below. Damage of handloaded ammo is set to 92% (rounded down) of their factory counterparts.
+
+Ammo ID            | Description                 | Muzzle Energy, J | Damage     | Applied Modifiers / Comments |
+-------------------|-----------------------------|------------------|------------|---------|
+.22LR              | 40gr unjacketed bullet      | 141              | √141 = 12  |         |
+.22LR FMJ          | 30gr FMJ bullet             | 277              | √277 = 17  |         |
+9x19mm FMJ         | 115gr FMJ bullet            | 420              | √420 = 24  |         |
+9x19mm +P          | 115gr JHP bullet            | 632              | √632 = 25  |         |
+9x19mm +P+         | 115gr JHP bullet            | 678              | √678 = 26  |         |
+9x19mm JHP         | 116gr JHP bullet            | 533              | √533 = 23  | damage increased by 3 |
+9x18mm 57-N-181S   | 93gr FMJ bullet             | 251              | √251 = 16  |         |
+9x18mm SP-7        | 93gr bullet                 | 417              | √417 = 20  |         |
+9x18mm RG028       | 93gr hardened steel core bullet | 317          | √317 = 18  | damage reduced by 4 |
+.38 Special        | 130gr FMJ bullet            | 256              | √256 = 16  |         |
+.38 Super          | 90gr JHP bullet             | 658              | √658 = 26  |         |
+.38 FMJ            | 130gr FMJ bullet            | 256              | √256 = 16  |         |
+10mm auto          | 180gr FMJ bullet            | 575              | √575 = 24  |         |
+.40 S&W            | 135gr JHP bullet            | 575              | √575 = 24  |         |
+.40 FMJ            | 180gr FMJ bullet            | 598              | √598 = 24  |         |
+.44 magnum         | 240gr JHP bullet            | 1570             | √1570 = 40 |         |
+.45 ACP JHP        | 185gr JHP bullet            | 614              | √614 = 25  |         |
+.45 ACP FMJ        | 230gr FMJ bullet            | 447              | √447 = 21  |         |
+.45 ACP +P         | 200gr JHP bullet            | 702              | √702 = 26  |         |
+.454 Casull        | 300gr JSP bullet            | 2459             | √2459 = 50 |         |
+.500 S&W Magnum    | 500gr bullet                | 3056             | √3056 = 55 |         |
+5.7x28mm SS190     | 31gr AP FMJ bullet          | 534              | √534 = 23  | damage reduced by 3   |
+4.6x30mm           | 31gr copper plated steel bullet | 505          | √505 = 22  | damage reduced by 4   |
+7.62x39mm M43      | 123gr steel core FMJ bullet | 1607             | √1607 = 47 | damage lowered by 15  |
+7.62x39mm M67      | 123gr steel core FMJ bullet | 1607             | √1607 = 47 | damage lowered by 9   |
+5.45x39mm 7N10     | 56gr FMJ bullet             | 1402             | √1402 = 37 | damage increased by 3 |
+5.45x39mm 7N22     | 57gr steel core FMJ bullet  | 1461             | √1461 = 38 |         |
+.223 Remington     | 36gr JHP bullet             | 1524             | √1524 = 39 | damage increased by 5 |
+.308 Winchester    | 168gr hollow point bullet   | 3570             | √3570 = 60 |         |
+7.62 NATO M80      | 147gr FMJ bullet            | 3304             | √3304 = 57 |         |
+7.62 NATO M62      | 147gr FMJ bullet            | 3304             | √3304 = 57 | Belt with 1/5 tracer rounds |
+.270 Winchester    | 130gr soft point bullet     | 3663             | √3663 = 61 |         |
+.30-06 Springfield | 165gr soft point bullet     | 3894             | √3894 = 62 | damage increased by 4 |
+.30-06 M2          | 165gr FMJ bullet            | 3894             | √3894 = 62 | damage reduced by 10 |
+.30-06 M14A1       | Incendiary ammunition       | 3894             | √3894 = 62 | damage reduced by 10 |
+.300 Winchester Magnum | 220gr JHP bullet        | 5299             | √5299 = 73 | damage increased by 5 |
+7.62x54mmR         | 150gr FMJ bullet            | 2677             | √2677 = 52 |         |
 
 # LIQUIDS:
 Multi-charge items are weighed by the charge/use.  If you have an item that contains 40 uses, it'll weigh 40x as much (when found in-game) as you entered in the JSON. Liquids are priced by the 250mL unit, but handled in containers.  This can cause problems if you create something that comes in (say) a gallon jug (15 charges) and price it at the cost of a jug's worth: it'll be 15x as expensive as intended.

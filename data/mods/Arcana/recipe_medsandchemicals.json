@@ -11,13 +11,12 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "book_potioncraft", 0 ]],
-  "qualities":[{"id":"BOIL","level":2,"amount":1}],
+  "qualities":[{"id":"CHEM","level":2,"amount":1}],
   "tools": [
     [ [ "book_potioncraft", -1 ] ],
-    [ [ "chemistry_set", 10 ] ],
     [
       [ "hotplate", 10 ],
-      [ "char_smoker", 1 ],
+      [ "char_smoker", 10 ],
       [ "toolset", 10 ],
       [ "fire", -1 ]
     ]
@@ -58,13 +57,12 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "book_potioncraft", 1 ]],
-  "qualities":[{"id":"BOIL","level":2,"amount":1}],
+  "qualities":[{"id":"CHEM","level":2,"amount":1}],
   "tools": [
     [ [ "book_potioncraft", -1 ] ],
-    [ [ "chemistry_set", 10 ] ],
     [
       [ "hotplate", 10 ],
-      [ "char_smoker", 1 ],
+      [ "char_smoker", 10 ],
       [ "toolset", 10 ],
       [ "fire", -1 ]
     ]
@@ -105,13 +103,12 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "book_potioncraft", 2 ]],
-  "qualities":[{"id":"BOIL","level":2,"amount":1}],
+  "qualities":[{"id":"CHEM","level":2,"amount":1}],
   "tools": [
     [ [ "book_potioncraft", -1 ] ],
-    [ [ "chemistry_set", 10 ] ],
     [
       [ "hotplate", 10 ],
-      [ "char_smoker", 1 ],
+      [ "char_smoker", 10 ],
       [ "toolset", 10 ],
       [ "fire", -1 ]
     ]
@@ -155,13 +152,12 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "book_potioncraft", 3 ]],
-  "qualities":[ {"id":"BOIL","level":2,"amount":1}],
+  "qualities":[ {"id":"CHEM","level":2,"amount":1}],
   "tools": [
     [ [ "book_potioncraft", -1 ] ],
-    [ [ "chemistry_set", 10 ] ],
     [
       [ "hotplate", 10 ],
-      [ "char_smoker", 1 ],
+      [ "char_smoker", 10 ],
       [ "toolset", 10 ],
       [ "fire", -1 ]
     ]

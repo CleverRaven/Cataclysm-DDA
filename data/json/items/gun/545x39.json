@@ -1,0 +1,61 @@
+[
+  {
+    "id": "ak74",
+    "type": "GUN",
+    "name": "AK-74M",
+    "description": "The successor to the well-known AK-47 rifle, chambered in 5.45x39mm.",
+    "weight": 3070,
+    "volume": 7,
+    "price": 390000, "//" : "AKs likewise aren't commercially traded in the US, plus this is newer.",
+    "bashing": 11,
+    "to_hit": -1,
+    "material": ["steel", "wood"],
+    "symbol": "(",
+    "color": "brown",
+    "skill": "rifle",
+    "ammo": "545x39",
+    "dispersion": 45,
+    "sight_dispersion": 60,
+    "aim_speed" : 6,
+    "durability": 8,
+    "reload": 100,
+    "loudness": 140,
+    "barrel_length" : 1,
+    "burst": 8,
+    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
+    "magazines" : [
+      [ "545x39", [ "ak74mag", "rpk74mag" ] ]
+    ],
+    "flags": ["MODE_BURST", "NEVER_JAMS"]
+  },
+  {
+    "id": "an94",
+    "type": "GUN",
+    "name": "AN-94",
+    "description": "Intended to replace the AK-74, this rifle uses a sophisticated mechanism to delay felt recoil, along with a very fast two-round burst mode.  While its increased complexity prevented it from being adopted by the Russian military, it has seen service among their special forces.",
+    "weight": 3620,
+    "volume": 7,
+    "price": 420000,
+    "bashing": 11,
+    "to_hit": -1,
+    "material": ["steel", "plastic"],
+    "symbol": "(",
+    "color": "brown",
+    "skill": "rifle",
+    "ammo": "545x39",
+    "dispersion": 35,
+    "sight_dispersion": 50,
+    "aim_speed" : 4,
+    "recoil": -10,
+    "durability": 7,
+    "reload": 100,
+    "loudness": 140,
+    "barrel_length" : 1,
+    "burst": 2,
+    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
+    "magazines" : [
+      [ "545x39", [ "ak74mag", "rpk74mag" ] ]
+    ],
+    "flags": ["MODE_BURST"]
+  }
+]

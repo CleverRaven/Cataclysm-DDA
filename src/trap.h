@@ -20,40 +20,40 @@ struct trapfunc {
     // creature is the creature that triggered the trap,
     // p is the point where the trap is (not where the creature is)
     // creature can be NULL.
-    void none           ( Creature *, const tripoint& ) { };
-    void bubble         ( Creature *creature, const tripoint &p );
-    void cot            ( Creature *creature, const tripoint &p );
-    void beartrap       ( Creature *creature, const tripoint &p );
-    void snare_light    ( Creature *creature, const tripoint &p );
-    void snare_heavy    ( Creature *creature, const tripoint &p );
-    void board          ( Creature *creature, const tripoint &p );
-    void caltrops       ( Creature *creature, const tripoint &p );
-    void tripwire       ( Creature *creature, const tripoint &p );
-    void crossbow       ( Creature *creature, const tripoint &p );
-    void shotgun        ( Creature *creature, const tripoint &p );
-    void blade          ( Creature *creature, const tripoint &p );
-    void landmine       ( Creature *creature, const tripoint &p );
-    void telepad        ( Creature *creature, const tripoint &p );
-    void goo            ( Creature *creature, const tripoint &p );
-    void dissector      ( Creature *creature, const tripoint &p );
-    void sinkhole       ( Creature *creature, const tripoint &p );
-    void pit            ( Creature *creature, const tripoint &p );
-    void pit_spikes     ( Creature *creature, const tripoint &p );
-    void pit_glass      ( Creature *creature, const tripoint &p );
-    void lava           ( Creature *creature, const tripoint &p );
-    void portal         ( Creature *creature, const tripoint &p );
-    void ledge          ( Creature *creature, const tripoint &p );
-    void boobytrap      ( Creature *creature, const tripoint &p );
-    void temple_flood   ( Creature *creature, const tripoint &p );
-    void temple_toggle  ( Creature *creature, const tripoint &p );
-    void glow           ( Creature *creature, const tripoint &p );
-    void hum            ( Creature *creature, const tripoint &p );
-    void shadow         ( Creature *creature, const tripoint &p );
-    void drain          ( Creature *creature, const tripoint &p );
-    void snake          ( Creature *creature, const tripoint &p );
+    void none( Creature *, const tripoint & ) { };
+    void bubble( Creature *creature, const tripoint &p );
+    void cot( Creature *creature, const tripoint &p );
+    void beartrap( Creature *creature, const tripoint &p );
+    void snare_light( Creature *creature, const tripoint &p );
+    void snare_heavy( Creature *creature, const tripoint &p );
+    void board( Creature *creature, const tripoint &p );
+    void caltrops( Creature *creature, const tripoint &p );
+    void tripwire( Creature *creature, const tripoint &p );
+    void crossbow( Creature *creature, const tripoint &p );
+    void shotgun( Creature *creature, const tripoint &p );
+    void blade( Creature *creature, const tripoint &p );
+    void landmine( Creature *creature, const tripoint &p );
+    void telepad( Creature *creature, const tripoint &p );
+    void goo( Creature *creature, const tripoint &p );
+    void dissector( Creature *creature, const tripoint &p );
+    void sinkhole( Creature *creature, const tripoint &p );
+    void pit( Creature *creature, const tripoint &p );
+    void pit_spikes( Creature *creature, const tripoint &p );
+    void pit_glass( Creature *creature, const tripoint &p );
+    void lava( Creature *creature, const tripoint &p );
+    void portal( Creature *creature, const tripoint &p );
+    void ledge( Creature *creature, const tripoint &p );
+    void boobytrap( Creature *creature, const tripoint &p );
+    void temple_flood( Creature *creature, const tripoint &p );
+    void temple_toggle( Creature *creature, const tripoint &p );
+    void glow( Creature *creature, const tripoint &p );
+    void hum( Creature *creature, const tripoint &p );
+    void shadow( Creature *creature, const tripoint &p );
+    void drain( Creature *creature, const tripoint &p );
+    void snake( Creature *creature, const tripoint &p );
 };
 
-typedef void (trapfunc::*trap_function)( Creature *, const tripoint& );
+typedef void ( trapfunc::*trap_function )( Creature *, const tripoint & );
 
 struct trap {
         using itype_id = std::string;
@@ -80,8 +80,7 @@ struct trap {
         /**
          * How easy it is to spot the trap. Smaller values means it's easier to spot.
          */
-        int get_visibility() const
-        {
+        int get_visibility() const {
             return visibility;
         }
         /**
@@ -89,8 +88,7 @@ struct trap {
          * compared to dodge skill (with some adjustments). Smaller values means it's easier
          * to dodge.
          */
-        int get_avoidance() const
-        {
+        int get_avoidance() const {
             return avoidance;
         }
         /**
@@ -98,16 +96,14 @@ struct trap {
          * (e.g. for funnels), a values of 99 means it can not be disarmed at all. Smaller values
          * makes it easier to disarm the trap.
          */
-        int get_difficulty() const
-        {
+        int get_difficulty() const {
             return difficulty;
         }
         /**
          * If true, this is not really a trap and there won't be any safety queries before stepping
          * onto it (e.g. for funnels).
          */
-        bool is_benign() const
-        {
+        bool is_benign() const {
             return benign;
         }
         /** Player has not yet seen the trap and returns the variable chance, at this moment,
@@ -163,7 +159,7 @@ struct trap {
          * Returns all trap objects that are actually funnels (is_funnel returns true for all
          * of them).
          */
-        static const std::vector<const trap*> get_funnels();
+        static const std::vector<const trap *> get_funnels();
         /*@}*/
 
         /*@{*/
@@ -195,7 +191,7 @@ struct trap {
         static size_t count();
 };
 
-trap_function trap_function_from_string(std::string function_name);
+trap_function trap_function_from_string( std::string function_name );
 
 extern trap_id
 tr_null,
@@ -203,6 +199,7 @@ tr_bubblewrap,
 tr_cot,
 tr_brazier,
 tr_funnel,
+tr_metal_funnel,
 tr_makeshift_funnel,
 tr_leather_funnel,
 tr_rollmat,

@@ -90,6 +90,7 @@ nbproject/
 # OSX
 Cataclysm.app
 data/osx/AppIcon.icns
+Cataclysm.dmg
 
 # Jetbrains CLion
 .idea/
@@ -100,3 +101,9 @@ tests/map_iterator_test
 tests/shadowcasting_test
 # static library used to link the test executable
 cataclysm.a
+
+# coredumps
+*.core
+
+# sublime-text workspace
+*.sublime-workspace

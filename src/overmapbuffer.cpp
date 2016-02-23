@@ -1,6 +1,7 @@
 #include <stdlib.h>
 
 #include "overmapbuffer.h"
+#include "overmap_types.h"
 #include "overmap.h"
 #include "game.h"
 #include "map.h"
@@ -80,7 +81,7 @@ void overmapbuffer::fix_mongroups(overmap &new_overmap)
         auto &mg = it->second;
         // spawn related code simply sets population to 0 when they have been
         // transformed into spawn points on a submap, the group can then be removed
-        if( mg.population <= 0 ) {
+        if( mg.empty() ) {
             new_overmap.zg.erase( it++ );
             continue;
         }
@@ -175,30 +176,42 @@ overmap *overmapbuffer::get_existing(int x, int y)
     return NULL;
 }
 
-bool overmapbuffer::has(int x, int y)
+bool overmapbuffer::has( int x, int y )
 {
-    return get_existing(x, y) != NULL;
+    return get_existing( x, y ) != NULL;
 }
 
-overmap *overmapbuffer::get_existing_om_global(int &x, int &y)
+overmap &overmapbuffer::get_om_global( int &x, int &y )
 {
-    const point om_pos = omt_to_om_remain(x, y);
-    return get_existing(om_pos.x, om_pos.y);
+    const point om_pos = omt_to_om_remain( x, y );
+    return get( om_pos.x, om_pos.y );
 }
 
-overmap &overmapbuffer::get_om_global(int &x, int &y)
+overmap &overmapbuffer::get_om_global( const point& p )
 {
-    const point om_pos = omt_to_om_remain(x, y);
-    return get(om_pos.x, om_pos.y);
+    const point om_pos = omt_to_om_copy( p );
+    return get( om_pos.x, om_pos.y );
 }
 
-overmap *overmapbuffer::get_existing_om_global(const point& p)
+overmap &overmapbuffer::get_om_global( const tripoint& p )
 {
-    const point om_pos = omt_to_om_copy(p);
-    return get_existing(om_pos.x, om_pos.y);
+    const point om_pos = omt_to_om_copy( { p.x, p.y } );
+    return get( om_pos.x, om_pos.y );
 }
 
-overmap *overmapbuffer::get_existing_om_global(const tripoint& p)
+overmap *overmapbuffer::get_existing_om_global( int &x, int &y )
+{
+    const point om_pos = omt_to_om_remain( x, y );
+    return get_existing( om_pos.x, om_pos.y );
+}
+
+overmap *overmapbuffer::get_existing_om_global( const point& p )
+{
+    const point om_pos = omt_to_om_copy( p );
+    return get_existing( om_pos.x, om_pos.y );
+}
+
+overmap *overmapbuffer::get_existing_om_global( const tripoint& p )
 {
     const tripoint om_pos = omt_to_om_copy( p );
     return get_existing( om_pos.x, om_pos.y );
@@ -258,14 +271,9 @@ bool overmapbuffer::has_npc(int const x, int const y, int const z)
     return false;
 }
 
-bool overmapbuffer::has_vehicle(int x, int y, int z, bool require_pda)
+bool overmapbuffer::has_vehicle( int x, int y, int z )
 {
     if (z) {
-        return false;
-    }
-
-    // if the player is not carrying a PDA then he cannot see the vehicle.
-    if (require_pda && !g->u.has_pda()) {
         return false;
     }
 
@@ -283,14 +291,10 @@ bool overmapbuffer::has_vehicle(int x, int y, int z, bool require_pda)
     return false;;
 }
 
-std::vector<om_vehicle> overmapbuffer::get_vehicle(int x, int y, int z, bool require_pda)
+std::vector<om_vehicle> overmapbuffer::get_vehicle( int x, int y, int z )
 {
     std::vector<om_vehicle> result;
     if( z != 0 ) {
-        return result;
-    }
-    // if the player is not carrying a PDA then he cannot see the vehicle.
-    if( require_pda && !g->u.has_pda() ) {
         return result;
     }
     overmap *om = get_existing_om_global(x, y);
@@ -364,12 +368,44 @@ std::vector<mongroup*> overmapbuffer::groups_at(int x, int y, int z)
     overmap &om = get( omp.x, omp.y );
     for( auto it = om.zg.lower_bound( dpos ), end = om.zg.upper_bound( dpos ); it != end; ++it ) {
         auto &mg = it->second;
-        if( mg.population <= 0 ) {
+        if( mg.empty() ) {
             continue;
         }
         result.push_back( &mg );
     }
     return result;
+}
+
+std::array<std::array<scent_trace, 3>, 3> overmapbuffer::scents_near( const tripoint &origin )
+{
+    std::array<std::array<scent_trace, 3>, 3> found_traces;
+    tripoint iter;
+    int x;
+    int y;
+
+    for( x = 0, iter.x = origin.x - 1; x <= 2 ; ++iter.x, ++x ) {
+        for( y = 0, iter.y = origin.y - 1; y <= 2; ++iter.y, ++y ) {
+            found_traces[x][y] = scent_at( iter );
+        }
+    }
+
+    return found_traces;
+}
+
+scent_trace overmapbuffer::scent_at( const tripoint &pos )
+{
+    overmap *found_omap = get_existing_om_global( pos );
+    if( found_omap != nullptr ) {
+        return found_omap->scent_at( pos );
+    }
+    return scent_trace();
+}
+
+void overmapbuffer::set_scent( const tripoint &loc, int strength )
+{
+    overmap &found_omap = get_om_global( loc );
+    scent_trace new_scent( calendar::turn, strength );
+    found_omap.set_scent( loc, new_scent );
 }
 
 void overmapbuffer::move_vehicle( vehicle *veh, const point &old_msp )
@@ -422,12 +458,6 @@ void overmapbuffer::set_seen(int x, int y, int z, bool seen)
 {
     overmap &om = get_om_global(x, y);
     om.seen(x, y, z) = seen;
-}
-
-overmap &overmapbuffer::get_om_global(const point& p)
-{
-    const point om_pos = omt_to_om_copy(p);
-    return get(om_pos.x, om_pos.y);
 }
 
 oter_id& overmapbuffer::ter(int x, int y, int z) {
@@ -746,7 +776,7 @@ void overmapbuffer::spawn_monster(const int x, const int y, const int z)
 void overmapbuffer::despawn_monster(const monster &critter)
 {
     // Get absolute coordinates of the monster in map squares, translate to submap position
-    tripoint sm = ms_to_sm_copy( g->m.getabs( critter.pos3() ) );
+    tripoint sm = ms_to_sm_copy( g->m.getabs( critter.pos() ) );
     // Get the overmap coordinates and get the overmap, sm is now local to that overmap
     const point omp = sm_to_om_remain( sm.x, sm.y );
     overmap &om = get( omp.x, omp.y );

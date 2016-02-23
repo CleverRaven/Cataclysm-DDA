@@ -1,6 +1,8 @@
 #include "character.h"
 #include "game.h"
 #include "map.h"
+#include "map_selector.h"
+#include "vehicle_selector.h"
 #include "debug.h"
 #include "mission.h"
 #include "translations.h"
@@ -9,6 +11,27 @@
 #include "field.h"
 #include "messages.h"
 #include "input.h"
+#include "monster.h"
+#include "mtype.h"
+#include "player.h"
+
+const efftype_id effect_beartrap( "beartrap" );
+const efftype_id effect_bite( "bite" );
+const efftype_id effect_bleed( "bleed" );
+const efftype_id effect_blind( "blind" );
+const efftype_id effect_boomered( "boomered" );
+const efftype_id effect_contacts( "contacts" );
+const efftype_id effect_crushed( "crushed" );
+const efftype_id effect_darkness( "darkness" );
+const efftype_id effect_downed( "downed" );
+const efftype_id effect_grabbed( "grabbed" );
+const efftype_id effect_heavysnare( "heavysnare" );
+const efftype_id effect_infected( "infected" );
+const efftype_id effect_in_pit( "in_pit" );
+const efftype_id effect_lightsnare( "lightsnare" );
+const efftype_id effect_webbed( "webbed" );
+
+const skill_id skill_throw( "throw" );
 
 Character::Character()
 {
@@ -20,6 +43,10 @@ Character::Character()
     dex_cur = 0;
     per_cur = 0;
     int_cur = 0;
+    str_bonus = 0;
+    dex_bonus = 0;
+    per_bonus = 0;
+    int_bonus = 0;
     healthy = 0;
     healthy_mod = 0;
     hunger = 0;
@@ -70,8 +97,6 @@ void Character::mod_stat( const std::string &stat, int modifier )
         mod_int_bonus( modifier );
     } else if( stat == "healthy" ) {
         mod_healthy( modifier );
-    } else if( stat == "healthy_mod" ) {
-        mod_healthy_mod( modifier );
     } else if( stat == "hunger" ) {
         mod_hunger( modifier );
     } else if( stat == "speed" ) {
@@ -95,77 +120,112 @@ void Character::mod_stat( const std::string &stat, int modifier )
     }
 }
 
+int Character::aim_per_time( const item& gun, int recoil ) const
+{
+    int penalty = 0;
+
+    // Range [0 - 10] after adjustment
+    penalty += skill_dispersion( gun, false ) / 60;
+
+    // Ranges [0 - 12] after adjustment
+    penalty += ranged_dex_mod() / 15;
+
+    // Range [0 - 10]
+    penalty += gun.aim_speed( recoil );
+
+    // @todo consider character status effects
+
+    // always improve by at least 1MOC
+    penalty = std::max( 1, 32 - penalty );
+
+    // improvement capped by max aim level of the gun sight being used.
+    return std::min( penalty, recoil - gun.sight_dispersion( recoil ) );
+}
+
 bool Character::move_effects(bool attacking)
 {
-    if (has_effect("downed")) {
+    if (has_effect( effect_downed )) {
+        ///\EFFECT_DEX increases chance to stand up when knocked down
+
+        ///\EFFECT_STR increases chance to stand up when knocked down, slightly
         if (rng(0, 40) > get_dex() + get_str() / 2) {
             add_msg_if_player(_("You struggle to stand."));
         } else {
             add_msg_player_or_npc(m_good, _("You stand up."),
                                     _("<npcname> stands up."));
-            remove_effect("downed");
+            remove_effect( effect_downed);
         }
         return false;
     }
-    if (has_effect("webbed")) {
-        if (x_in_y(get_str(), 6 * get_effect_int("webbed"))) {
+    if (has_effect( effect_webbed )) {
+        ///\EFFECT_STR increases chance to escape webs
+        if (x_in_y(get_str(), 6 * get_effect_int( effect_webbed ))) {
             add_msg_player_or_npc(m_good, _("You free yourself from the webs!"),
                                     _("<npcname> frees themselves from the webs!"));
-            remove_effect("webbed");
+            remove_effect( effect_webbed);
         } else {
             add_msg_if_player(_("You try to free yourself from the webs, but can't get loose!"));
         }
         return false;
     }
-    if (has_effect("lightsnare")) {
+    if (has_effect( effect_lightsnare )) {
+        ///\EFFECT_STR increases chance to escape light snare
+
+        ///\EFFECT_DEX increases chance to escape light snare
         if(x_in_y(get_str(), 12) || x_in_y(get_dex(), 8)) {
-            remove_effect("lightsnare");
+            remove_effect( effect_lightsnare);
             add_msg_player_or_npc(m_good, _("You free yourself from the light snare!"),
                                     _("<npcname> frees themselves from the light snare!"));
             item string("string_36", calendar::turn);
             item snare("snare_trigger", calendar::turn);
-            g->m.add_item_or_charges(posx(), posy(), string);
-            g->m.add_item_or_charges(posx(), posy(), snare);
+            g->m.add_item_or_charges(pos(), string);
+            g->m.add_item_or_charges(pos(), snare);
         } else {
             add_msg_if_player(m_bad, _("You try to free yourself from the light snare, but can't get loose!"));
         }
         return false;
     }
-    if (has_effect("heavysnare")) {
+    if (has_effect( effect_heavysnare )) {
+        ///\EFFECT_STR increases chance to escape heavy snare, slightly
+
+        ///\EFFECT_DEX increases chance to escape light snare
         if(x_in_y(get_str(), 32) || x_in_y(get_dex(), 16)) {
-            remove_effect("heavysnare");
+            remove_effect( effect_heavysnare);
             add_msg_player_or_npc(m_good, _("You free yourself from the heavy snare!"),
                                     _("<npcname> frees themselves from the heavy snare!"));
             item rope("rope_6", calendar::turn);
             item snare("snare_trigger", calendar::turn);
-            g->m.add_item_or_charges(posx(), posy(), rope);
-            g->m.add_item_or_charges(posx(), posy(), snare);
+            g->m.add_item_or_charges(pos(), rope);
+            g->m.add_item_or_charges(pos(), snare);
         } else {
             add_msg_if_player(m_bad, _("You try to free yourself from the heavy snare, but can't get loose!"));
         }
         return false;
     }
-    if (has_effect("beartrap")) {
+    if (has_effect( effect_beartrap )) {
         /* Real bear traps can't be removed without the proper tools or immense strength; eventually this should
            allow normal players two options: removal of the limb or removal of the trap from the ground
            (at which point the player could later remove it from the leg with the right tools).
            As such we are currently making it a bit easier for players and NPC's to get out of bear traps.
         */
+        ///\EFFECT_STR increases chance to escape bear trap
         if(x_in_y(get_str(), 100)) {
-            remove_effect("beartrap");
+            remove_effect( effect_beartrap);
             add_msg_player_or_npc(m_good, _("You free yourself from the bear trap!"),
                                     _("<npcname> frees themselves from the bear trap!"));
             item beartrap("beartrap", calendar::turn);
-            g->m.add_item_or_charges(posx(), posy(), beartrap);
+            g->m.add_item_or_charges(pos(), beartrap);
         } else {
             add_msg_if_player(m_bad, _("You try to free yourself from the bear trap, but can't get loose!"));
         }
         return false;
     }
-    if (has_effect("crushed")) {
-        // Strength helps in getting free, but dex also helps you worm your way out of the rubble
+    if (has_effect( effect_crushed )) {
+        ///\EFFECT_STR increases chance to escape crushing rubble
+
+        ///\EFFECT_DEX increases chance to escape crushing rubble, slightly
         if(x_in_y(get_str() + get_dex() / 4, 100)) {
-            remove_effect("crushed");
+            remove_effect( effect_crushed);
             add_msg_player_or_npc(m_good, _("You free yourself from the rubble!"),
                                     _("<npcname> frees themselves from the rubble!"));
         } else {
@@ -177,39 +237,50 @@ bool Character::move_effects(bool attacking)
 
     // Currently we only have one thing that forces movement if you succeed, should we get more
     // than this will need to be reworked to only have success effects if /all/ checks succeed
-    if (has_effect("in_pit")) {
+    if (has_effect( effect_in_pit )) {
+        ///\EFFECT_STR increases chance to escape pit
+
+        ///\EFFECT_DEX increases chance to escape pit, slightly
         if (rng(0, 40) > get_str() + get_dex() / 2) {
             add_msg_if_player(m_bad, _("You try to escape the pit, but slip back in."));
             return false;
         } else {
             add_msg_player_or_npc(m_good, _("You escape the pit!"),
                                     _("<npcname> escapes the pit!"));
-            remove_effect("in_pit");
+            remove_effect( effect_in_pit);
         }
     }
-    if (has_effect("grabbed")){
+    if( has_effect( effect_grabbed ) && !attacking ) {
         int zed_number = 0;
         for( auto &&dest : g->m.points_in_radius( pos(), 1, 0 ) ){
-            if (g->mon_at(dest) != -1){
+            if( g->mon_at( dest ) != -1 &&
+                ( g->zombie( g->mon_at( dest ) ).has_flag( MF_GRABS ) ||
+                  g->zombie( g->mon_at( dest ) ).type->has_special_attack( "GRAB" ) ) ) {
                 zed_number ++;
             }
         }
-        if (attacking || zed_number == 0){
-            return true;
-        }
-        if (get_dex() > get_str() ? rng(0, get_dex()) : rng( 0, get_str()) < rng( get_effect_int("grabbed") , 8) ){
-            add_msg_player_or_npc(m_bad, _("You try break out of the grab, but fail!"),
-                                            _("<npcname> tries to break out of the grab, but fails!"));
+        if( zed_number == 0 ) {
+            add_msg_player_or_npc( m_good, _( "You find yourself no longer grabbed." ),
+                                   _( "<npcname> finds themselves no longer grabbed." ) );
+            remove_effect( effect_grabbed );
+        ///\EFFECT_DEX increases chance to escape grab, if >STR
+
+        ///\EFFECT_STR increases chance to escape grab, if >DEX
+        } else if( rng( 0, std::max( get_dex(), get_str() ) ) < rng( get_effect_int( effect_grabbed ), 8 ) ) {
+            // Randomly compare higher of dex or str to grab intensity.
+            add_msg_player_or_npc( m_bad, _( "You try break out of the grab, but fail!" ),
+                                   _( "<npcname> tries to break out of the grab, but fails!" ) );
             return false;
         } else {
-            add_msg_player_or_npc(m_good, _("You break out of the grab!"),
-                                            _("<npcname> breaks out of the grab!"));
-            remove_effect("grabbed");
+            add_msg_player_or_npc( m_good, _( "You break out of the grab!" ),
+                                   _( "<npcname> breaks out of the grab!" ) );
+            remove_effect( effect_grabbed );
         }
     }
-    return Creature::move_effects(attacking);
+    return Creature::move_effects( attacking );
 }
-void Character::add_effect( efftype_id eff_id, int dur, body_part bp,
+
+void Character::add_effect( const efftype_id &eff_id, int dur, body_part bp,
                             bool permanent, int intensity, bool force )
 {
     Creature::add_effect( eff_id, dur, bp, permanent, intensity, force );
@@ -225,6 +296,7 @@ void Character::recalc_hp()
 {
     int new_max_hp[num_hp_parts];
     for( auto &elem : new_max_hp ) {
+        ///\EFFECT_STR_MAX increases base hp
         elem = 60 + str_max * 3;
         if (has_trait("HUGE")) {
             // Bad-Huge doesn't quite have the cardio/skeletal/etc to support the mass,
@@ -262,13 +334,11 @@ void Character::recalc_hp()
             elem *= 1.4;
         }
     }
-    if (has_trait("GLASSJAW"))
-    {
+    if( has_trait( "GLASSJAW" ) ) {
         new_max_hp[hp_head] *= 0.8;
     }
-    for (int i = 0; i < num_hp_parts; i++)
-    {
-        hp_cur[i] *= (float)new_max_hp[i]/(float)hp_max[i];
+    for( int i = 0; i < num_hp_parts; i++ ) {
+        hp_cur[i] *= (float)new_max_hp[i] / (float)hp_max[i];
         hp_max[i] = new_max_hp[i];
     }
 }
@@ -290,12 +360,12 @@ void Character::recalc_sight_limits()
     vision_mode_cache.reset();
 
     // Set sight_max.
-    if (has_effect("blind") || worn_with_flag("BLIND")) {
+    if (has_effect( effect_blind ) || worn_with_flag("BLIND") || has_active_bionic("bio_blindfold")) {
         sight_max = 0;
-    } else if( has_effect("boomered") && (!(has_trait("PER_SLIME_OK"))) ) {
+    } else if( has_effect( effect_boomered ) && (!(has_trait("PER_SLIME_OK"))) ) {
         sight_max = 1;
         vision_mode_cache.set( BOOMERED );
-    } else if (has_effect("in_pit") ||
+    } else if (has_effect( effect_in_pit ) ||
             (underwater && !has_bionic("bio_membrane") &&
                 !has_trait("MEMBRANE") && !worn_with_flag("SWIM_GOGGLES") &&
                 !has_trait("CEPH_EYES") && !has_trait("PER_SLIME_OK") ) ) {
@@ -305,11 +375,11 @@ void Character::recalc_sight_limits()
         sight_max = 2;
     } else if ( (has_trait("MYOPIC") || has_trait("URSINE_EYE")) &&
             !is_wearing("glasses_eye") && !is_wearing("glasses_monocle") &&
-            !is_wearing("glasses_bifocal") && !has_effect("contacts")) {
+            !is_wearing("glasses_bifocal") && !has_effect( effect_contacts )) {
         sight_max = 4;
     } else if (has_trait("PER_SLIME")) {
         sight_max = 6;
-    } else if( has_effect( "darkness" ) ) {
+    } else if( has_effect( effect_darkness ) ) {
         vision_mode_cache.set( DARKNESS );
         sight_max = 10;
     }
@@ -318,10 +388,10 @@ void Character::recalc_sight_limits()
     if( has_trait("DEBUG_NIGHTVISION") ) {
         vision_mode_cache.set( DEBUG_NIGHTVISION );
     }
-    if( has_nv() || is_wearing("rm13_armor_on") ) {
+    if( has_nv() ) {
         vision_mode_cache.set( NV_GOGGLES );
     }
-    if( has_active_mutation("NIGHTVISION3") ) {
+    if( has_active_mutation("NIGHTVISION3") || is_wearing("rm13_armor_on") ) {
         vision_mode_cache.set( NIGHTVISION_3 );
     }
     if( has_active_mutation("ELFA_FNV") ) {
@@ -347,6 +417,22 @@ void Character::recalc_sight_limits()
     }
     if( has_trait("BIRD_EYE") ) {
         vision_mode_cache.set( BIRD_EYE);
+    }
+
+    // Not exactly a sight limit thing, but related enough
+    if( has_active_bionic( "bio_infrared" ) ||
+        has_trait( "INFRARED" ) ||
+        has_trait( "LIZ_IR" ) ||
+        worn_with_flag( "IR_EFFECT" ) ) {
+        vision_mode_cache.set( IR_VISION );
+    }
+
+    if( has_artifact_with( AEP_SUPER_CLAIRVOYANCE ) ) {
+        vision_mode_cache.set( VISION_CLAIRVOYANCE_SUPER );
+    }
+
+    if( has_artifact_with( AEP_CLAIRVOYANCE ) ) {
+        vision_mode_cache.set( VISION_CLAIRVOYANCE );
     }
 }
 
@@ -426,6 +512,57 @@ bool Character::has_active_bionic(const std::string & b) const
     return false;
 }
 
+map_selector Character::nearby( int radius, bool accessible )
+{
+    return map_selector( pos(), radius, accessible );
+}
+
+std::vector<item *> Character::items_with( const std::function<bool(const item&)>& filter )
+{
+    auto res = inv.items_with( filter );
+
+    weapon.visit_items( [&res, &filter]( item *node ) {
+        if( filter( *node ) ) {
+            res.emplace_back( node );
+        }
+        return VisitResponse::NEXT;
+    });
+
+    for( auto &e : worn ) {
+        e.visit_items( [&res, &filter]( item *node ) {
+            if( filter( *node ) ) {
+                res.emplace_back( node );
+            }
+            return VisitResponse::NEXT;
+        });
+    }
+
+    return res;
+}
+
+std::vector<const item *> Character::items_with( const std::function<bool(const item&)>& filter ) const
+{
+    auto res = inv.items_with( filter );
+
+    weapon.visit_items_const( [&res, &filter]( const item *node ) {
+        if( filter( *node ) ) {
+            res.emplace_back( node );
+        }
+        return VisitResponse::NEXT;
+    });
+
+    for( const auto &e : worn ) {
+        e.visit_items_const( [&res, &filter]( const item *node ) {
+            if( filter( *node ) ) {
+                res.emplace_back( node );
+            }
+            return VisitResponse::NEXT;
+        });
+    }
+
+    return res;
+}
+
 item& Character::i_add(item it)
 {
  itype_id item_type_id = "null";
@@ -490,19 +627,18 @@ item& Character::i_at(int position)
 
 int Character::get_item_position( const item *it ) const
 {
-    const auto filter = [it]( const item & i ) {
-        return &i == it;
-    };
-    if( inventory::has_item_with_recursive( weapon, filter ) ) {
+    if( weapon.has_item( *it ) ) {
         return -1;
     }
-    int i = 0;
-    for( auto &iter : worn ) {
-        if( inventory::has_item_with_recursive( iter, filter ) ) {
-            return worn_position_to_index( i );
+
+    int p = 0;
+    for( const auto &e : worn ) {
+        if( e.has_item( *it ) ) {
+            return worn_position_to_index( p );
         }
-        i++;
+        p++;
     }
+
     return inv.position_by_item( it );
 }
 
@@ -598,6 +734,85 @@ void Character::remove_mission_items( int mission_id )
     remove_items_with( has_mission_item_filter { mission_id } );
 }
 
+std::vector<const item *> Character::get_ammo( const ammotype &at ) const
+{
+    return items_with( [at]( const item & it ) {
+        return it.is_ammo() && it.ammo_type() == at;
+    } );
+}
+
+template <typename T, typename Output>
+void find_ammo_helper( T& src, const item& obj, bool empty, Output out, bool nested ) {
+    if( obj.magazine_integral() ) {
+        // find suitable ammo excluding that already loaded in magazines
+        ammotype ammo = obj.ammo_type();
+
+        src.visit_items( [&src,&nested,&out,ammo]( item *node ) {
+            if( node->is_magazine() || node->is_gun() || node->is_tool() ) {
+                // guns/tools never contain usable ammo so most efficient to skip them now
+                return VisitResponse::SKIP;
+            }
+            if( !node->made_of( SOLID ) ) {
+                // some liquids are ammo but we can't reload with them unless within a container
+                return VisitResponse::SKIP;
+            }
+            if( node->is_ammo_container() && !node->contents[0].made_of( SOLID ) ) {
+                if( node->contents[0].ammo_type() == ammo ) {
+                    out = item_location( src, node );
+                }
+                return VisitResponse::SKIP;
+            }
+            if( node->is_ammo() && node->ammo_type() == ammo ) {
+                out = item_location( src, node );
+            }
+            return nested ? VisitResponse::NEXT : VisitResponse::SKIP;
+        } );
+
+    } else {
+        // find compatible magazines excluding those already loaded in tools/guns
+        const auto mags = obj.magazine_compatible();
+
+        src.visit_items( [&src,&nested,&out,mags,empty]( item *node ) {
+            if( node->is_gun() || node->is_tool() ) {
+                return VisitResponse::SKIP;
+            }
+            if( node->is_magazine() ) {
+                if ( mags.count( node->typeId() ) && ( node->ammo_remaining() || empty ) ) {
+                    out = item_location( src, node );
+                }
+                return VisitResponse::SKIP;
+            }
+            return nested ? VisitResponse::NEXT : VisitResponse::SKIP;
+        } );
+    }
+}
+
+std::vector<item_location> Character::find_ammo( const item& obj, bool empty, int radius )
+{
+    std::vector<item_location> res;
+
+    find_ammo_helper( *this, obj, empty, std::back_inserter( res ), true );
+
+    if( radius >= 0 ) {
+        for( auto& cursor : map_selector( pos(), radius ) ) {
+            find_ammo_helper( cursor, obj, empty, std::back_inserter( res ), false );
+        }
+        for( auto& cursor : vehicle_selector( pos(), radius ) ) {
+            find_ammo_helper( cursor, obj, empty, std::back_inserter( res ), false );
+        }
+    }
+
+    return res;
+}
+
+bool Character::can_reload()
+{
+    if (!weapon.is_gun()) {
+        return false;
+    }
+    return (weapon.charges < weapon.type->gun->clip && get_ammo(weapon.ammo_type()).size() > 0);
+}
+
 int Character::weight_carried() const
 {
     int ret = 0;
@@ -619,6 +834,7 @@ int Character::weight_capacity() const
     // Get base capacity from creature,
     // then apply player-only mutation and trait effects.
     int ret = Creature::weight_capacity();
+    ///\EFFECT_STR increases carrying capacity
     ret += get_str() * 4000;
     if (has_trait("BADBACK")) {
         ret = int(ret * .65);
@@ -784,6 +1000,31 @@ SkillLevel const& Character::get_skill_level(const skill_id &ident) const
     return get_skill_level( &ident.obj() );
 }
 
+int Character::skill_dispersion( const item& gun, bool random ) const
+{
+    static skill_id skill_gun( "gun" );
+
+    int dispersion = 0; // Measured in Minutes of Arc.
+
+    const int lvl = get_skill_level( gun.gun_skill() );
+    if( lvl < 10 ) {
+        // Up to 0.75 degrees for each skill point < 10.
+        ///\EFFECT_PISTOL <10 randomly increases dispersion for pistols
+        ///\EFFECT_SMG <10 randomly increases dispersion for smgs
+        ///\EFFECT_RIFLE <10 randomly increases dispersion for rifles
+        ///\EFFECT_LAUNCHER <10 randomly increases dispersion for launchers
+        dispersion += 45 * ( 10 - lvl );
+    }
+
+    if( get_skill_level( skill_gun ) < 10 ) {
+        // Up to 0.25 deg per each skill point < 10.
+        ///\EFFECT_GUN <10 randomly increased dispersion of all gunfire
+        dispersion += 15 * ( 10 - lvl );
+    }
+
+    return random ? rng(0, dispersion) : dispersion;
+}
+
 void Character::normalize()
 {
     Creature::normalize();
@@ -799,15 +1040,15 @@ void Character::die(Creature* nkiller)
 {
     set_killer( nkiller );
     set_turn_died(int(calendar::turn));
-    if( has_effect( "lightsnare" ) ) {
+    if( has_effect( effect_lightsnare ) ) {
         inv.add_item( item( "string_36", 0 ) );
         inv.add_item( item( "snare_trigger", 0 ) );
     }
-    if( has_effect( "heavysnare" ) ) {
+    if( has_effect( effect_heavysnare ) ) {
         inv.add_item( item( "rope_6", 0 ) );
         inv.add_item( item( "snare_trigger", 0 ) );
     }
-    if( has_effect( "beartrap" ) ) {
+    if( has_effect( effect_beartrap ) ) {
         inv.add_item( item( "beartrap", 0 ) );
     }
     mission::on_creature_death( *this );
@@ -877,7 +1118,9 @@ void Character::reset_stats()
         mod_dodge_bonus(-4);
     }
 
+    ///\EFFECT_STR_MAX above 15 decreases Dodge bonus by 1 (NEGATIVE)
     if (str_max >= 16) {mod_dodge_bonus(-1);} // Penalty if we're huge
+    ///\EFFECT_STR_MAX below 6 increases Dodge bonus by 1
     else if (str_max <= 5) {mod_dodge_bonus(1);} // Bonus if we're small
 
     nv_cached = false;
@@ -988,6 +1231,18 @@ int Character::get_int_bonus() const
     return int_bonus;
 }
 
+int Character::ranged_dex_mod() const
+{
+    ///\EFFECT_DEX <12 increases ranged penalty
+    return std::max( ( 12 - get_dex() ) * 15, 0 );
+}
+
+int Character::ranged_per_mod() const
+{
+    ///\EFFECT_PER <12 increases ranged penalty
+    return std::max( ( 12 - get_per() ) * 15, 0 );
+}
+
 int Character::get_healthy() const
 {
     return healthy;
@@ -1046,9 +1301,37 @@ void Character::set_healthy_mod(int nhealthy_mod)
 {
     healthy_mod = nhealthy_mod;
 }
-void Character::mod_healthy_mod(int nhealthy_mod)
+void Character::mod_healthy_mod(int nhealthy_mod, int cap)
 {
+    // TODO: This really should be a full morale-like system, with per-effect caps
+    //       and durations.  This version prevents any single effect from exceeding its
+    //       intended ceiling, but multiple effects will overlap instead of adding.
+
+    // Cap indicates how far the mod is allowed to shift in this direction.
+    // It can have a different sign to the mod, e.g. for items that treat
+    // extremely low health, but can't make you healthy.
+    int low_cap;
+    int high_cap;
+    if( nhealthy_mod < 0 ) {
+        low_cap = cap;
+        high_cap = 200;
+    } else {
+        low_cap = -200;
+        high_cap = cap;
+    }
+
+    // If we're already out-of-bounds, we don't need to do anything.
+    if( (healthy_mod <= low_cap && nhealthy_mod < 0) ||
+        (healthy_mod >= high_cap && nhealthy_mod > 0) ) {
+        return;
+    }
+
     healthy_mod += nhealthy_mod;
+
+    // Since we already bailed out if we were out-of-bounds, we can
+    // just clamp to the boundaries here.
+    healthy_mod = std::min( healthy_mod, high_cap );
+    healthy_mod = std::max( healthy_mod, low_cap );
 }
 
 int Character::get_hunger() const
@@ -1100,20 +1383,28 @@ void Character::reset_bonuses()
     Creature::reset_bonuses();
 }
 
-void Character::update_health(int base_threshold)
+void Character::update_health(int external_modifiers)
 {
+    // Limit healthy_mod to [-200, 200].
+    // This also sets approximate bounds for the character's health.
     if( get_healthy_mod() > 200 ) {
         set_healthy_mod( 200 );
     } else if( get_healthy_mod() < -200 ) {
         set_healthy_mod( -200 );
     }
+
+    // Over the long run, health tends toward healthy_mod.
+    int break_even = get_healthy() - get_healthy_mod() + external_modifiers;
+
+    // But we allow some random variation.
     const long roll = rng( -100, 100 );
-    base_threshold += get_healthy() - get_healthy_mod();
-    if( roll > base_threshold ) {
+    if( roll > break_even ) {
         mod_healthy( 1 );
-    } else if( roll < base_threshold ) {
+    } else if( roll < break_even ) {
         mod_healthy( -1 );
     }
+
+    // And healthy_mod decays over time.
     set_healthy_mod( get_healthy_mod() * 3 / 4 );
 
     add_msg( m_debug, "Health: %d, Health mod: %d", get_healthy(), get_healthy_mod() );
@@ -1121,10 +1412,12 @@ void Character::update_health(int base_threshold)
 
 int Character::get_dodge_base() const
 {
+    ///\EFFECT_DEX increases dodge base
     return Creature::get_dodge_base() + (get_dex() / 2);
 }
 int Character::get_hit_base() const
 {
+    ///\EFFECT_DEX increases hit base, slightly
     return Creature::get_hit_base() + (get_dex() / 4) + 3;
 }
 
@@ -1136,7 +1429,7 @@ hp_part Character::body_window( bool precise ) const
 hp_part Character::body_window( const std::string &menu_header,
                                 bool show_all, bool precise,
                                 int normal_bonus, int head_bonus, int torso_bonus,
-                                int bleed, int bite, int infect ) const
+                                bool bleed, bool bite, bool infect ) const
 {
     WINDOW *hp_window = newwin(10, 31, (TERMY - 10) / 2, (TERMX - 31) / 2);
     draw_border(hp_window);
@@ -1231,7 +1524,7 @@ hp_part Character::body_window( const std::string &menu_header,
             }
 
             mvwprintz( hp_window, line, 20, c_dkgray, " -> " );
-            
+
             const nc_color color = has_any_effect ? new_state_col : c_green;
             print_hp( 24, color, new_hp );
         } else {
@@ -1272,13 +1565,13 @@ nc_color Character::limb_color( body_part bp, bool bleed, bool bite, bool infect
 
     int color_bit = 0;
     nc_color i_color = c_ltgray;
-    if( bleed && has_effect( "bleed", bp ) ) {
+    if( bleed && has_effect( effect_bleed, bp ) ) {
         color_bit += 1;
     }
-    if( bite && has_effect( "bite", bp ) ) {
+    if( bite && has_effect( effect_bite, bp ) ) {
         color_bit += 10;
     }
-    if( infect && has_effect( "infected", bp ) ) {
+    if( infect && has_effect( effect_infected, bp ) ) {
         color_bit += 100;
     }
     switch( color_bit ) {
@@ -1301,3 +1594,99 @@ nc_color Character::limb_color( body_part bp, bool bleed, bool bite, bool infect
 
     return i_color;
 }
+
+std::string Character::get_name() const
+{
+    return name;
+}
+
+nc_color Character::symbol_color() const
+{
+    nc_color basic = basic_symbol_color();
+    const auto &fields = g->m.field_at( pos() );
+    bool has_fire = false;
+    bool has_acid = false;
+    bool has_elec = false;
+    bool has_fume = false;
+    for( const auto &field : fields ) {
+        switch( field.first ) {
+            case fd_incendiary:
+            case fd_fire:
+                has_fire = true;
+                break;
+            case fd_electricity:
+                has_elec = true;
+                break;
+            case fd_acid:
+                has_acid = true;
+                break;
+            case fd_relax_gas:
+            case fd_fungal_haze:
+            case fd_fungicidal_gas:
+            case fd_toxic_gas:
+            case fd_tear_gas:
+            case fd_nuke_gas:
+            case fd_smoke:
+                has_fume = true;
+                break;
+            default:
+                continue;
+        }
+    }
+
+    // Priority: electricity, fire, acid, gases
+    // Can't just return in the switch, because field order is alphabetic
+    if( has_elec ) {
+        return hilite( basic );
+    } else if( has_fire ) {
+        return red_background( basic );
+    } else if( has_acid ) {
+        return green_background( basic );
+    } else if( has_fume ) {
+        return white_background( basic );
+    }
+
+    if( in_sleep_state() ) {
+        return hilite( basic );
+    }
+
+    return basic;
+}
+
+int Character::throw_range( const item &it ) const
+{
+    if( it.is_null() ) {
+        return -1;
+    }
+
+    item tmp = it;
+
+    if( tmp.count_by_charges() && tmp.charges > 1 ) {
+        tmp.charges = 1;
+    }
+
+    ///\EFFECT_STR determines maximum weight that can be thrown
+    if( (tmp.weight() / 113) > int(str_cur * 15) ) {
+        return 0;
+    }
+    // Increases as weight decreases until 150 g, then decreases again
+    ///\EFFECT_STR increases throwing range, vs item weight (high or low)
+    int ret = (str_cur * 8) / (tmp.weight() >= 150 ? tmp.weight() / 113 : 10 - int(tmp.weight() / 15));
+    ret -= int(tmp.volume() / 4);
+    if( has_active_bionic("bio_railgun") && (tmp.made_of("iron") || tmp.made_of("steel"))) {
+        ret *= 2;
+    }
+    if( ret < 1 ) {
+        return 1;
+    }
+    // Cap at double our strength + skill
+    ///\EFFECT_STR caps throwing range
+
+    ///\EFFECT_THROW caps throwing range
+    if( ret > str_cur * 1.5 + get_skill_level( skill_throw ) ) {
+        return str_cur * 1.5 + get_skill_level( skill_throw );
+    }
+
+    return ret;
+}
+

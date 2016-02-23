@@ -4,6 +4,7 @@
 #include "item.h"
 #include "debug.h"
 #include "itype.h"
+#include "game_constants.h"
 #include <map>
 #include <algorithm>
 #include <cassert>
@@ -39,7 +40,7 @@ item Single_item_creator::create_single(int birthday, RecursionList &rec) const
     item tmp;
     if (type == S_ITEM) {
         if (id == "corpse") {
-            tmp.make_corpse( NULL_ID, birthday );
+            tmp = item::make_corpse( NULL_ID, birthday );
         } else {
             tmp = item(id, birthday);
         }
@@ -176,10 +177,9 @@ void Item_modifier::modify(item &new_item) const
     if(new_item.is_null()) {
         return;
     }
-    int dm = (damage.first == damage.second) ? damage.first : rng(damage.first, damage.second);
-    if(dm >= -1 && dm <= 4) {
-        new_item.damage = dm;
-    }
+
+    new_item.damage = std::min( std::max( (int) rng( damage.first, damage.second ), MIN_ITEM_DAMAGE ), MAX_ITEM_DAMAGE );
+
     long ch = (charges.first == charges.second) ? charges.first : rng(charges.first, charges.second);
     const auto g = new_item.type->gun.get();
     const auto t = dynamic_cast<const it_tool *>(new_item.type);
@@ -217,11 +217,11 @@ void Item_modifier::modify(item &new_item) const
                 new_item.charges = am.charges;
             }
         }
-        // Make sure the item is in a valid state curammo==0 <=> charges==0 and respect clip size
-        if( !new_item.has_curammo() ) {
-            new_item.charges = 0;
+        // Make sure the item is in valid state
+        if( new_item.ammo_data() && new_item.magazine_integral() ) {
+            new_item.charges = std::min( new_item.charges, new_item.ammo_capacity() );
         } else {
-            new_item.charges = std::min<long>( new_item.charges, new_item.clip_size() );
+            new_item.charges = 0;
         }
     }
     if(container.get() != NULL) {
@@ -276,9 +276,10 @@ bool Item_modifier::remove_item(const Item_tag &itemid)
 Item_group::Item_group(Type t, int probability)
     : Item_spawn_data(probability)
     , type(t)
+    , with_ammo(0)
+    , with_magazine(0)
     , sum_prob(0)
     , items()
-    , with_ammo(false)
 {
 }
 
@@ -341,18 +342,25 @@ Item_spawn_data::ItemList Item_group::create(int birthday, RecursionList &rec) c
             break;
         }
     }
-    if (with_ammo && !result.empty()) {
-        const auto t = result.front().type;
-        if( t->gun ) {
-            const std::string ammoid = default_ammo( t->gun->ammo );
-            if ( !ammoid.empty() ) {
-                item ammo( ammoid, birthday );
-                // TODO: change the spawn lists to contain proper references to containers
-                ammo = ammo.in_its_container();
-                result.push_back( ammo );
+
+    for( auto& e : result ) {
+        bool spawn_ammo = rng( 0, 99 ) < with_ammo;
+        bool spawn_mags = rng( 0, 99 ) < with_magazine || spawn_ammo;
+
+        if( spawn_mags && !e.magazine_integral() && !e.magazine_current() ) {
+            e.contents.emplace_back( e.magazine_default(), e.bday );
+        }
+        if( spawn_ammo && e.ammo_capacity() > 0 && e.ammo_remaining() == 0 ) {
+            itype_id ammo = default_ammo( e.ammo_type() );
+            if( e.magazine_current() ) {
+                e.magazine_current()->contents.emplace_back( ammo, e.bday, e.ammo_capacity() );
+            } else {
+                e.set_curammo( ammo );
+                e.charges = e.ammo_capacity();
             }
         }
     }
+
     return result;
 }
 

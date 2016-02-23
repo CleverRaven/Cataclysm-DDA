@@ -38,7 +38,8 @@ struct null_id_type;
  * a declaration is just enough.
  */
 template<typename T>
-class string_id {
+class string_id
+{
     public:
         typedef string_id<T> This;
 
@@ -50,7 +51,7 @@ class string_id {
         // Beautiful C++11: enable_if makes sure that S is always something that can be used to constructor
         // a std::string, otherwise a "no matching function to call..." error is generated.
         template<typename S, class = typename
-            std::enable_if< std::is_convertible<S, std::string >::value>::type >
+                 std::enable_if< std::is_convertible<S, std::string >::value>::type >
         explicit string_id( S && id ) : _id( std::forward<S>( id ) ) {
         }
         /**
@@ -96,7 +97,7 @@ class string_id {
          * object. Ids are often used in debug messages, where they are forwarded as C-strings
          * to be included in the format string, e.g. debugmsg("invalid id: %s", id.c_str())
          */
-        const char* c_str() const {
+        const char *c_str() const {
             return _id.c_str();
         }
         /**
@@ -138,8 +139,7 @@ class string_id {
          * Note: per definition the null-id shall be valid. This allows to use it in places
          * that require a (valid) id, but it can still represent a "don't use it" value.
          */
-        bool is_null() const
-        {
+        bool is_null() const {
             return operator==( NULL_ID );
         }
         /**
@@ -155,8 +155,7 @@ class string_id {
          * }
          * \endcode
          */
-        explicit operator bool() const
-        {
+        explicit operator bool() const {
             return !is_null();
         }
     private:
@@ -164,15 +163,14 @@ class string_id {
 };
 
 // Support hashing of string based ids by forwarding the hash of the string.
-namespace std {
-    template<typename T>
-    struct hash< string_id<T> >
-    {
-        std::size_t operator()( const string_id<T> &v) const
-        {
-            return hash<std::string>()( v.str() );
-        }
-    };
+namespace std
+{
+template<typename T>
+struct hash< string_id<T> > {
+    std::size_t operator()( const string_id<T> &v ) const {
+        return hash<std::string>()( v.str() );
+    }
+};
 }
 
 /**
@@ -197,14 +195,14 @@ namespace std {
  */
 struct null_id_type {
     template<typename T>
-    operator const string_id<T> &() const
-    {
+    operator const string_id<T> &() const {
         return string_id<T>::NULL_ID;
     }
 };
 
-namespace {
-    const null_id_type NULL_ID{};
+namespace
+{
+const null_id_type NULL_ID{};
 }
 
 #endif

@@ -6,6 +6,7 @@
     "name": "No Fungal Monsters",
     "author": "Chaosvolt",
     "description": "Removes fungal monsters and regions from the game.",
+    "category": "monster_exclude",
     "path": ""
 },{
     "type": "MONSTER_BLACKLIST",

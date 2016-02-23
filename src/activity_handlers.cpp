@@ -20,6 +20,7 @@
 #include "mtype.h"
 #include "field.h"
 #include "weather.h"
+#include "ui.h"
 
 #include <math.h>
 #include <sstream>
@@ -116,13 +117,66 @@ void butcher_cbm_group( const std::string &group, const tripoint &pos,
     }
 }
 
+void set_up_butchery( player_activity &act, player &u )
+{
+    if( !act.values.empty() ) {
+        act.index = act.values.back();
+        act.values.pop_back();
+    } else {
+        debugmsg( "Invalid butchery item index %d", act.index );
+        act.type = ACT_NULL;
+        return;
+    }
+
+    const int factor = u.max_quality( "BUTCHER" );
+    auto items = g->m.i_at( u.pos() );
+    if( (size_t)act.index >= items.size() || factor == INT_MIN ) {
+        // Let it print a msg for lack of corpses
+        act.index = INT_MAX;
+        return;
+    }
+
+    const mtype *corpse = items[act.index].get_mtype();
+    int time_to_cut = 0;
+    switch( corpse->size ) { // Time (roughly) in turns to cut up the corpse
+    case MS_TINY:
+        time_to_cut = 12;
+        break;
+    case MS_SMALL:
+        time_to_cut = 25;
+        break;
+    case MS_MEDIUM:
+        time_to_cut = 50;
+        break;
+    case MS_LARGE:
+        time_to_cut = 80;
+        break;
+    case MS_HUGE:
+        time_to_cut = 150;
+        break;
+    }
+
+    // At factor 0, 10 time_to_cut is 10 turns. At factor 50, it's 5 turns, at 75 it's 2.5
+    time_to_cut *= std::max( 25, 100 - factor );
+    if( time_to_cut < 500 ) {
+        time_to_cut = 500;
+    }
+
+    act.moves_left = time_to_cut;
+}
+
 void activity_handlers::butcher_finish( player_activity *act, player *p )
 {
+    if( act->index < 0 ) {
+        set_up_butchery( *act, *p );
+        return;
+    }
     // Corpses can disappear (rezzing!), so check for that
     auto items_here = g->m.i_at( p->pos() );
     if( static_cast<int>( items_here.size() ) <= act->index ||
         !( items_here[act->index].is_corpse() ) ) {
-        add_msg(m_info, _("There's no corpse to butcher!"));
+        p->add_msg_if_player(m_info, _("There's no corpse to butcher!"));
+        act->type = ACT_NULL;
         return;
     }
 
@@ -132,13 +186,14 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     const int age = corpse_item.bday;
     g->m.i_rem( p->pos(), act->index );
 
-    const int factor = p->butcher_factor();
+    const int factor = p->max_quality("BUTCHER");
     int pieces = 0;
     int skins = 0;
     int bones = 0;
     int fats = 0;
     int sinews = 0;
     int feathers = 0;
+    int wool = 0;
     bool stomach = false;
 
     switch (corpse->size) {
@@ -149,6 +204,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         fats = 1;
         sinews = 1;
         feathers = 2;
+        wool = 1;
         break;
     case MS_SMALL:
         pieces = 2;
@@ -157,6 +213,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         fats = 2;
         sinews = 4;
         feathers = 6;
+        wool = 2;
         break;
     case MS_MEDIUM:
         pieces = 4;
@@ -165,6 +222,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         fats = 4;
         sinews = 9;
         feathers = 11;
+        wool = 4;
         break;
     case MS_LARGE:
         pieces = 8;
@@ -173,6 +231,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         fats = 8;
         sinews = 14;
         feathers = 17;
+        wool = 8;
         break;
     case MS_HUGE:
         pieces = 16;
@@ -181,6 +240,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         fats = 16;
         sinews = 21;
         feathers = 24;
+        wool = 16;
         break;
     }
 
@@ -188,8 +248,11 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
 
     auto roll_butchery = [&] () {
         double skill_shift = 0.0;
+        ///\EFFECT_SURVIVAL randomly increases butcher rolls, slightly
         skill_shift += rng_float( 0, skill_level - 3 );
+        ///\EFFECT_DEX >8 randomly increases butcher rolls, slightly, <8 decreases
         skill_shift += rng_float( 0, p->dex_cur - 8 ) / 4.0;
+        ///\EFFECT_STR >4 randomly increases butcher rolls, <4 decreases
         if( p->str_cur < 4 ) {
             skill_shift -= rng_float( 0, 5 * ( 4 - p->str_cur ) ) / 4.0;
         }
@@ -212,31 +275,32 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     fats +=     std::min( 0, roll_butchery() - 4 );
     sinews +=   std::min( 0, roll_butchery() - 8 );
     feathers += std::min( 0, roll_butchery() - 1 );
+    wool +=     std::min( 0, roll_butchery() );
     stomach = roll_butchery() >= 0;
 
     if( bones > 0 ) {
         if( corpse->has_material("veggy") ) {
             g->m.spawn_item(p->pos(), "plant_sac", bones, 0, age);
-            add_msg(m_good, _("You harvest some fluid bladders!"));
+            p->add_msg_if_player(m_good, _("You harvest some fluid bladders!"));
         } else if( corpse->has_flag(MF_BONES) && corpse->has_flag(MF_POISON) ) {
             g->m.spawn_item(p->pos(), "bone_tainted", bones / 2, 0, age);
-            add_msg(m_good, _("You harvest some salvageable bones!"));
+            p->add_msg_if_player(m_good, _("You harvest some salvageable bones!"));
         } else if( corpse->has_flag(MF_BONES) && corpse->has_flag(MF_HUMAN) ) {
             g->m.spawn_item(p->pos(), "bone_human", bones, 0, age);
-            add_msg(m_good, _("You harvest some salvageable bones!"));
+            p->add_msg_if_player(m_good, _("You harvest some salvageable bones!"));
         } else if( corpse->has_flag(MF_BONES) ) {
             g->m.spawn_item(p->pos(), "bone", bones, 0, age);
-            add_msg(m_good, _("You harvest some usable bones!"));
+            p->add_msg_if_player(m_good, _("You harvest some usable bones!"));
         }
     }
 
     if( sinews > 0 ) {
         if( corpse->has_flag(MF_BONES) && !corpse->has_flag(MF_POISON) ) {
             g->m.spawn_item(p->pos(), "sinew", sinews, 0, age);
-            add_msg(m_good, _("You harvest some usable sinews!"));
+            p->add_msg_if_player(m_good, _("You harvest some usable sinews!"));
         } else if( corpse->has_material("veggy") ) {
             g->m.spawn_item(p->pos(), "plant_fibre", sinews, 0, age);
-            add_msg(m_good, _("You harvest some plant fibers!"));
+            p->add_msg_if_player(m_good, _("You harvest some plant fibers!"));
         }
     }
 
@@ -245,19 +309,30 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         if( meat == "meat" ) {
             if( corpse->size == MS_SMALL || corpse->size == MS_MEDIUM ) {
                 g->m.spawn_item(p->pos(), "stomach", 1, 0, age);
-                add_msg(m_good, _("You harvest the stomach!"));
+                p->add_msg_if_player(m_good, _("You harvest the stomach!"));
             } else if( corpse->size == MS_LARGE || corpse->size == MS_HUGE ) {
                 g->m.spawn_item(p->pos(), "stomach_large", 1, 0, age);
-                add_msg(m_good, _("You harvest the stomach!"));
+                p->add_msg_if_player(m_good, _("You harvest the stomach!"));
+            }
+        } else if( meat == "human_flesh" ) {
+            if( corpse->size == MS_SMALL || corpse->size == MS_MEDIUM ) {
+                g->m.spawn_item(p->pos(), "hstomach", 1, 0, age);
+                p->add_msg_if_player(m_good, _("You harvest the stomach!"));
+            } else if( corpse->size == MS_LARGE || corpse->size == MS_HUGE ) {
+                g->m.spawn_item(p->pos(), "hstomach_large", 1, 0, age);
+                p->add_msg_if_player(m_good, _("You harvest the stomach!"));
             }
         }
     }
 
     if( (corpse->has_flag(MF_FUR) || corpse->has_flag(MF_LEATHER) ||
          corpse->has_flag(MF_CHITIN)) && skins > 0 ) {
-        add_msg(m_good, _("You manage to skin the %s!"), corpse->nname().c_str());
+        p->add_msg_if_player(m_good, _("You manage to skin the %s!"), corpse->nname().c_str());
         int fur = 0;
+        int tainted_fur = 0;
         int leather = 0;
+        int tainted_leather = 0;
+        int human_leather = 0;
         int chitin = 0;
 
         while (skins > 0 ) {
@@ -267,42 +342,71 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
                 skins = std::max(skins, 0);
             }
             if( corpse->has_flag(MF_FUR) ) {
-                fur = rng(0, skins);
-                skins -= fur;
+                if( corpse->has_flag(MF_POISON) ) {
+                    tainted_fur = rng(0, skins);
+                    skins -= tainted_fur;
+                } else {
+                    fur = rng(0, skins);
+                    skins -= fur;
+                }
                 skins = std::max(skins, 0);
             }
             if( corpse->has_flag(MF_LEATHER) ) {
-                leather = rng(0, skins);
-                skins -= leather;
+                if( corpse->has_flag(MF_POISON) ) {
+                    tainted_leather = rng(0, skins);
+                    skins -= tainted_leather;
+                } else if( corpse->has_flag(MF_HUMAN) ) {
+                    human_leather = rng(0, skins);
+                    skins -= human_leather;
+                } else {
+                    leather = rng(0, skins);
+                    skins -= leather;
+                }
                 skins = std::max(skins, 0);
             }
         }
 
-        if( chitin ) {
+        if( chitin > 0 ) {
             g->m.spawn_item(p->pos(), "chitin_piece", chitin, 0, age);
         }
-        if( fur ) {
+        if( fur > 0 ) {
             g->m.spawn_item(p->pos(), "raw_fur", fur, 0, age);
         }
-        if( leather ) {
+        if( tainted_fur > 0 ) {
+            g->m.spawn_item(p->pos(), "raw_tainted_fur", fur, 0, age);
+        }
+        if( leather > 0 ) {
             g->m.spawn_item(p->pos(), "raw_leather", leather, 0, age);
+        }
+        if( human_leather > 0 ) {
+            g->m.spawn_item(p->pos(), "raw_hleather", leather, 0, age);
+        }
+        if( tainted_leather > 0 ) {
+            g->m.spawn_item(p->pos(), "raw_tainted_leather", leather, 0, age);
         }
     }
 
     if( feathers > 0 ) {
         if( corpse->has_flag(MF_FEATHER) ) {
             g->m.spawn_item(p->pos(), "feather", feathers, 0, age);
-            add_msg(m_good, _("You harvest some feathers!"));
+            p->add_msg_if_player(m_good, _("You harvest some feathers!"));
+        }
+    }
+
+    if( wool > 0 ) {
+        if( corpse->has_flag(MF_WOOL) ) {
+            g->m.spawn_item(p->pos(), "wool_staple", wool, 0, age);
+            p->add_msg_if_player(m_good, _("You harvest some wool staples!"));
         }
     }
 
     if( fats > 0 ) {
         if( corpse->has_flag(MF_FAT) && corpse->has_flag(MF_POISON) ) {
             g->m.spawn_item(p->pos(), "fat_tainted", fats, 0, age);
-            add_msg(m_good, _("You harvest some gooey fat!"));
+            p->add_msg_if_player(m_good, _("You harvest some gooey fat!"));
         } else if( corpse->has_flag(MF_FAT) ) {
             g->m.spawn_item(p->pos(), "fat", fats, 0, age);
-            add_msg(m_good, _("You harvest some fat!"));
+            p->add_msg_if_player(m_good, _("You harvest some fat!"));
         }
     }
 
@@ -348,7 +452,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     for( auto &content : contents  ) {
         if( ( roll_butchery() + 10 ) * 5 > rng( 0, 100 ) ) {
             //~ %1$s - item name, %2$s - monster name
-            add_msg( m_good, _( "You discover a %1$s in the %2$s!" ), content.tname().c_str(),
+            p->add_msg_if_player( m_good, _( "You discover a %1$s in the %2$s!" ), content.tname().c_str(),
                      corpse->nname().c_str() );
             g->m.add_item_or_charges( p->pos(), content );
         } else if( content.is_bionic()  ) {
@@ -357,9 +461,9 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     }
 
     if( pieces <= 0 ) {
-        add_msg(m_bad, _("Your clumsy butchering destroys the meat!"));
+        p->add_msg_if_player(m_bad, _("Your clumsy butchering destroys the meat!"));
     } else {
-        add_msg(m_good, _("You butcher the corpse."));
+        p->add_msg_if_player(m_good, _("You harvest some meat."));
         const itype_id meat = corpse->get_meat_itype();
         if( meat == "null" ) {
             return;
@@ -371,6 +475,14 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
             g->m.add_item_or_charges(p->pos(), tmpitem);
         }
     }
+
+    p->add_msg_if_player( m_good, _("You finish butchering the %s."), corpse->nname().c_str() );
+
+    if( act->values.empty() ) {
+        act->type = ACT_NULL;
+    } else {
+        set_up_butchery( *act, *p );
+    }
 }
 
 void activity_handlers::fill_liquid_do_turn( player_activity *act, player *p )
@@ -378,13 +490,12 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, player *p )
     //Filling a container takes time, not speed
     act->moves_left -= 100;
 
-    item *container = &p->i_at(act->position);
     item water = item(act->str_values[0], act->values[1]);
     water.poison = act->values[0];
     // Fill up 10 charges per time
     water.charges = 10;
 
-    if( g->handle_liquid(water, true, true, NULL, container) == false ) {
+    if( g->handle_liquid(water, true, true, NULL, NULL) == false ) {
         act->moves_left = 0;
     }
 
@@ -407,10 +518,29 @@ void activity_handlers::pickup_finish(player_activity *act, player *p)
 
 void activity_handlers::firstaid_finish( player_activity *act, player *p )
 {
-    item &it = p->i_at(act->position);
-    iuse tmp;
-    tmp.completefirstaid( p, &it, false, p->pos() );
-    p->reduce_charges(act->position, 1);
+    static const std::string iuse_name_string( "heal" );
+
+    item &it = p->i_at( act->position );
+    item *used_tool = it.get_usable_item( iuse_name_string );
+    if( used_tool == nullptr ) {
+        debugmsg( "Lost tool used for healing" );
+        act->type = ACT_NULL;
+        return;
+    }
+
+    const auto use_fun = used_tool->get_use( iuse_name_string );
+    const auto *actor = dynamic_cast<const heal_actor *>( use_fun->get_actor_ptr() );
+    if( actor == nullptr ) {
+        debugmsg( "iuse_actor type descriptor and actual type mismatch" );
+        act->type = ACT_NULL;
+        return;
+    }
+
+    // TODO: Store the patient somehow, retrieve here
+    player &patient = *p;
+    hp_part healed = (hp_part)act->values[0];
+    long charges_consumed = actor->finish_using( *p, patient, *used_tool, healed );
+    p->reduce_charges( act->position, charges_consumed );
     // Erase activity and values.
     act->type = ACT_NULL;
     act->values.clear();
@@ -419,7 +549,7 @@ void activity_handlers::firstaid_finish( player_activity *act, player *p )
 // fish-with-rod fish catching function.
 static void rod_fish( player *p, int sSkillLevel, int fishChance )
 {
-    if( sSkillLevel > fishChance ) {
+   if( sSkillLevel > fishChance ) {
         std::vector<monster *> fishables = g->get_fishable(60); //get the nearby fish list.
         //if the vector is empty (no fish around) the player is still given a small chance to get a (let us say it was hidden) fish
         if( fishables.size() < 1 ) {
@@ -427,8 +557,7 @@ static void rod_fish( player *p, int sSkillLevel, int fishChance )
                 item fish;
                 const std::vector<mtype_id> fish_group = MonsterGroupManager::GetMonstersFromGroup( mongroup_id( "GROUP_FISH" ) );
                 const mtype_id& fish_mon = fish_group[rng(1, fish_group.size()) - 1];
-                fish.make_corpse( fish_mon, calendar::turn );
-                g->m.add_item_or_charges(p->pos(), fish);
+                g->m.add_item_or_charges(p->pos(), item::make_corpse( fish_mon ) );
                 p->add_msg_if_player(m_good, _("You caught a %s."), fish_mon.obj().nname().c_str());
             } else {
                 p->add_msg_if_player(_("You didn't catch anything."));
@@ -455,6 +584,7 @@ void activity_handlers::fish_finish( player_activity *act, player *p )
         sSkillLevel = p->skillLevel( skill_survival ) * 1.5 + dice(1, 6) + 3;
         fishChance = dice(1, 20);
     }
+    ///\EFFECT_SURVIVAL increases chance of fishing success
     rod_fish( p, sSkillLevel, fishChance );
     p->practice( skill_survival, rng(5, 15) );
     act->type = ACT_NULL;
@@ -490,6 +620,9 @@ void activity_handlers::forage_finish( player_activity *act, player *p )
 
     // Survival gives a bigger boost, and Peception is leveled a bit.
     // Both survival and perception affect time to forage
+    ///\EFFECT_SURVIVAL increases forage success chance
+
+    ///\EFFECT_PER slightly increases forage success chance
     if( veggy_chance < p->skillLevel( skill_survival ) * 3 + p->per_cur - 2 ) {
         const auto dropped = g->m.put_items_from_loc( loc, p->pos(), calendar::turn );
         for( const auto &it : dropped ) {
@@ -510,8 +643,9 @@ void activity_handlers::forage_finish( player_activity *act, player *p )
         add_msg(_("You didn't find anything."));
     }
 
-    // Intelligence limits the forage exp gain
+    ///\EFFECT_INT Intelligence caps survival skill gains from foraging
     const int max_forage_skill = p->int_cur / 3 + 1;
+    ///\EFFECT_SURVIVAL decreases survival skill gain from foraging (NEGATIVE)
     const int max_exp = 2 * ( max_forage_skill - p->skillLevel( skill_survival ) );
     // Award experience for foraging attempt regardless of success
     p->practice( skill_survival, rng(1, max_exp), max_forage_skill );
@@ -605,8 +739,6 @@ void activity_handlers::longsalvage_finish( player_activity *act, player *p )
 
 void activity_handlers::make_zlave_finish( player_activity *act, player *p )
 {
-    static const int full_pulp_threshold = 4;
-
     auto items = g->m.i_at(p->pos());
     std::string corpse_name = act->str_values[0];
     item *body = NULL;
@@ -661,14 +793,9 @@ void activity_handlers::make_zlave_finish( player_activity *act, player *p )
             p->practice( skill_firstaid, rng(1, 8) );
             p->practice( skill_survival, rng(1, 8) );
 
-            int pulp = rng(1, full_pulp_threshold);
-
-            body->damage += pulp;
-
-            if( body->damage >= full_pulp_threshold ) {
-                body->damage = full_pulp_threshold;
+            body->damage = std::min( body->damage + (int) rng( 1, CORPSE_PULP_THRESHOLD ), CORPSE_PULP_THRESHOLD );
+            if( body->damage == CORPSE_PULP_THRESHOLD ) {
                 body->active = false;
-
                 p->add_msg_if_player(m_warning, _("You cut up the corpse too much, it is thoroughly pulped."));
             } else {
                 p->add_msg_if_player(m_warning,
@@ -736,8 +863,6 @@ void activity_handlers::pickaxe_finish(player_activity *act, player *p)
 void activity_handlers::pulp_do_turn( player_activity *act, player *p )
 {
     const tripoint &pos = act->placement;
-    static const int full_pulp_threshold = 4;
-    const int move_cost = int(p->weapon.is_null() ? 80 : p->weapon.attack_time() * 0.8);
 
     // numbers logic: a str 8 character with a butcher knife (4 bash, 18 cut)
     // should have at least a 50% chance of damaging an intact zombie corpse (75 volume).
@@ -748,55 +873,62 @@ void activity_handlers::pulp_do_turn( player_activity *act, player *p )
     if( p->weapon.has_flag("STAB") || p->weapon.has_flag("SPEAR") ) {
         cut_power /= 2;
     }
+    ///\EFFECT_STR increases pulping power, with diminishing returns
     double pulp_power = sqrt((double)(p->str_cur + p->weapon.type->melee_dam)) *
         std::min(1.0, sqrt((double)(cut_power + 1)));
+    ///\EFFECT_STR caps pulping power
     pulp_power = std::min(pulp_power, (double)p->str_cur);
     pulp_power *= 20; // constant multiplier to get the chance right
+
     int moves = 0;
     int &num_corpses = act->index; // use this to collect how many corpse are pulped
     auto corpse_pile = g->m.i_at(pos);
     for( auto corpse = corpse_pile.begin(); corpse != corpse_pile.end(); ++corpse ) {
-        if( !(corpse->is_corpse() && corpse->damage < full_pulp_threshold) ) {
+
+        if( !corpse->is_corpse() || corpse->damage >= CORPSE_PULP_THRESHOLD ) {
             continue; // no corpse or already pulped
         }
-        int damage = pulp_power / corpse->volume();
-        //Determine corpse's blood type.
-        field_id type_blood = corpse->get_mtype()->bloodType();
-        do {
-            moves += move_cost;
-            const int mod_sta = ( (p->weapon.weight() / 100 ) + 20) * -1;
-            p->mod_stat("stamina", mod_sta);
-            // Increase damage as we keep smashing,
-            // to insure that we eventually smash the target.
-            if( x_in_y(pulp_power, corpse->volume())  ) {
-                corpse->damage++;
+
+        while( corpse->damage < CORPSE_PULP_THRESHOLD ) {
+
+            // Increase damage as we keep smashing ensuring we eventually smash the target.
+            if( x_in_y( pulp_power, corpse->volume() ) ) {
+                if( ++corpse->damage == CORPSE_PULP_THRESHOLD ) {
+                    corpse->active = false;
+                    num_corpses++;
+                }
                 p->handle_melee_wear();
             }
+
             // Splatter some blood around
             tripoint tmp = pos;
+            field_id type_blood = corpse->get_mtype()->bloodType();
             if( type_blood != fd_null ) {
                 for( tmp.x = pos.x - 1; tmp.x <= pos.x + 1; tmp.x++ ) {
                     for( tmp.y = pos.y - 1; tmp.y <= pos.y + 1; tmp.y++ ) {
-                        if( !one_in(damage + 1) && type_blood != fd_null ) {
+                        if( !one_in( pulp_power / std::min( corpse->volume(), 1 ) ) ) {
                             g->m.add_field( tmp, type_blood, 1, 0 );
                         }
                     }
                 }
             }
-            if( corpse->damage >= full_pulp_threshold ) {
-                corpse->damage = full_pulp_threshold;
-                corpse->active = false;
-                num_corpses++;
-            }
+
+            p->mod_stat( "stamina", -20 - ( p->weapon.weight() / 100 ) );
+
+            moves += p->weapon.is_null() ? 80 : p->weapon.attack_time() * 0.8;
             if( moves >= p->moves ) {
-                // enough for this turn;
-                p->moves -= moves;
+                p->moves -= moves; // enough for this turn;
                 return;
             }
-        } while( corpse->damage < full_pulp_threshold );
+        }
     }
-    // If we reach this, all corpses have been pulped, finish the activity
+
+   // If we reach this, all corpses have been pulped, finish the activity
     act->moves_left = 0;
+    if( num_corpses == 0 ) {
+        add_msg(m_bad, _("The corpse moved before you could finish smashing it!"));
+        return;
+    }
     // TODO: Factor in how long it took to do the smashing.
     add_msg(ngettext("The corpse is thoroughly pulped.",
                      "The corpses are thoroughly pulped.", num_corpses));
@@ -860,7 +992,7 @@ void activity_handlers::reload_finish( player_activity *act, player *p )
         ss >> reloadable_pos;
         reloadable = &p->i_at(reloadable_pos);
     }
-    if( reloadable->reload(*p, act->position) ) {
+    if( reloadable->reload( *p, item_location( *p, &p->i_at( act->position ) ), act->index ) ) {
         if( reloadable->is_gun() && reloadable->has_flag("RELOAD_ONE") ) {
             if( reloadable->ammo_type() == "bolt" ) {
                 add_msg(_("You insert a bolt into your %s."),
@@ -929,16 +1061,7 @@ void activity_handlers::start_fire_lens_do_turn( player_activity *act, player *p
 void activity_handlers::train_finish( player_activity *act, player *p )
 {
     const skill_id sk( act->name );
-    if( !sk.is_valid() ) {
-        auto &mastyle = matype_id( act->name ).obj();
-        // Trained martial arts,
-        add_msg(m_good, _("You learn %s."), mastyle.name.c_str());
-        //~ %s is martial art
-        p->add_memorial_log(pgettext("memorial_male", "Learned %s."),
-                            pgettext("memorial_female", "Learned %s."),
-                            mastyle.name.c_str());
-        p->add_martialart( mastyle.id );
-    } else {
+    if( sk.is_valid() ) {
         const Skill *skill = &sk.obj();
         int new_skill_level = p->skillLevel(skill) + 1;
         p->skillLevel(skill).level(new_skill_level);
@@ -951,8 +1074,27 @@ void activity_handlers::train_finish( player_activity *act, player *p )
                                 pgettext("memorial_female", "Reached skill level %1$d in %2$s."),
                                 new_skill_level, skill->name().c_str());
         }
+
+        act->type = ACT_NULL;
+        return;
     }
+
+    const auto &ma_id = matype_id( act->name );
+    if( ma_id.is_valid() ) {
+        const auto &mastyle = ma_id.obj();
+        // Trained martial arts,
+        add_msg(m_good, _("You learn %s."), mastyle.name.c_str());
+        //~ %s is martial art
+        p->add_memorial_log(pgettext("memorial_male", "Learned %s."),
+                            pgettext("memorial_female", "Learned %s."),
+                            mastyle.name.c_str());
+        p->add_martialart( mastyle.id );
+    } else {
+        debugmsg( "train_finish without a valid skill or style name" );
+    }
+
     act->type = ACT_NULL;
+    return;
 }
 
 void activity_handlers::vehicle_finish( player_activity *act, player *pl )
@@ -1094,7 +1236,7 @@ void activity_handlers::oxytorch_finish( player_activity *act, player *p )
         g->m.spawn_item( p->pos(), "steel_chunk", rng(2, 6) );
     } else if( ter == t_chainfence_v || ter == t_chainfence_h || ter == t_chaingate_c ||
         ter == t_chaingate_l ) {
-        g->m.ter_set( pos, t_dirt  );
+        g->m.ter_set( pos, t_dirt );
         g->m.spawn_item( pos, "pipe", rng(1, 4) );
         g->m.spawn_item( pos, "wire", rng(4, 16) );
     } else if( ter == t_chainfence_posts ) {
@@ -1106,7 +1248,7 @@ void activity_handlers::oxytorch_finish( player_activity *act, player *p )
         g->m.spawn_item( pos, "steel_plate", rng(0, 1) );
         g->m.spawn_item( pos, "steel_chunk", rng(3, 8) );
     } else if( ter == t_window_enhanced || ter == t_window_enhanced_noglass ) {
-        g->m.ter_set( pos, t_window_empty  );
+        g->m.ter_set( pos, t_window_empty );
         g->m.spawn_item( pos, "steel_plate", rng(0, 1) );
         g->m.spawn_item( pos, "sheet_metal", rng(1, 3) );
     } else if( ter == t_bars ) {
@@ -1119,6 +1261,9 @@ void activity_handlers::oxytorch_finish( player_activity *act, player *p )
             g->m.spawn_item( p->pos(), "pipe", rng(1, 2) );
         }
     } else if( ter == t_window_bars_alarm ) {
+        g->m.ter_set( pos, t_window_alarm );
+        g->m.spawn_item( p->pos(), "pipe", rng(1, 2) );
+    } else if( ter == t_window_bars ) {
         g->m.ter_set( pos, t_window_empty );
         g->m.spawn_item( p->pos(), "pipe", rng(1, 2) );
     }
@@ -1181,7 +1326,7 @@ void activity_handlers::open_gate_finish( player_activity *act, player *p )
     } else {
         return;
     }
-    
+
     bool open = false;
     bool close = false;
 
@@ -1234,4 +1379,226 @@ void activity_handlers::open_gate_finish( player_activity *act, player *p )
     }
 }
 
+enum repeat_type : int {
+    REPEAT_ONCE = 0,    // Repeat just once
+    REPEAT_FOREVER,     // Repeat for as long as possible
+    REPEAT_FULL,        // Repeat until damage==0
+    REPEAT_EVENT,       // Repeat until something interesting happens
+    REPEAT_CANCEL       // Stop repeating
+};
 
+repeat_type repeat_menu( const std::string &title, repeat_type last_selection )
+{
+    uimenu rmenu;
+    rmenu.text = title;
+    rmenu.addentry( REPEAT_ONCE, true, '1', _("Repeat once") );
+    rmenu.addentry( REPEAT_FOREVER, true, '2', _("Repeat as long as you can") );
+    rmenu.addentry( REPEAT_FULL, true, '3', _("Repeat until fully repaired, but don't reinforce") );
+    rmenu.addentry( REPEAT_EVENT, true, '4', _("Repeat until success/failure/level up") );
+    rmenu.addentry( REPEAT_CANCEL, true, 'q', _("Cancel") );
+    rmenu.selected = last_selection;
+
+    rmenu.query();
+    if( rmenu.ret >= REPEAT_ONCE && rmenu.ret <= REPEAT_EVENT ) {
+        return (repeat_type)rmenu.ret;
+    }
+
+    return REPEAT_CANCEL;
+}
+
+// This is a part of a hack to provide pseudo items for long repair activity
+// Note: similar hack could be used to implement all sorts of vehicle pseudo-items
+//  and possibly CBM pseudo-items too.
+struct weldrig_hack {
+    vehicle *veh;
+    int part;
+    item pseudo;
+
+    weldrig_hack()
+        : veh( nullptr )
+        , part( -1 )
+        , pseudo( "welder", calendar::turn )
+    { }
+
+    bool init( const player_activity &act )
+    {
+        if( act.coords.empty() || act.values.size() < 2 ) {
+            return false;
+        }
+
+        part = act.values[1];
+        veh = g->m.veh_at( act.coords[0] );
+        if( veh == nullptr || veh->parts.size() <= (size_t)part ) {
+            part = -1;
+            return false;
+        }
+
+        part = veh->part_with_feature( part, "WELDRIG" );
+        return part >= 0;
+    }
+
+    item &get_item()
+    {
+        if( veh != nullptr && part >= 0 ) {
+            pseudo.charges = veh->drain( "battery", 1000 - pseudo.charges );
+            return pseudo;
+        }
+
+        static item nulitem;
+        // null item should be handled just fine
+        return nulitem;
+    }
+
+    void clean_up()
+    {
+        // Return unused charges
+        if( veh == nullptr || part < 0 ) {
+            return;
+        }
+
+        veh->refill( "battery", pseudo.charges );
+        pseudo.charges = 0;
+    }
+};
+
+void activity_handlers::repair_item_finish( player_activity *act, player *p )
+{
+    const std::string iuse_name_string = act->get_str_value( 0, "repair_item" );
+    const repeat_type repeat = (repeat_type)act->get_value( 0, REPEAT_ONCE );
+    weldrig_hack w_hack;
+    item &main_tool = !w_hack.init( *act ) ?
+        p->i_at( act->index ) :
+        w_hack.get_item();
+
+    item *used_tool = main_tool.get_usable_item( iuse_name_string );
+    if( used_tool == nullptr ) {
+        debugmsg( "Lost tool used for long repair" );
+        act->type = ACT_NULL;
+        return;
+    }
+
+    const auto use_fun = used_tool->get_use( iuse_name_string );
+    // TODO: De-uglify this block. Something like get_use<iuse_actor_type>() maybe?
+    const auto *actor = dynamic_cast<const repair_item_actor *>( use_fun->get_actor_ptr() );
+    if( actor == nullptr ) {
+        debugmsg( "iuse_actor type descriptor and actual type mismatch" );
+        act->type = ACT_NULL;
+        return;
+    }
+
+    // TODO: Allow setting this in the actor
+    // TODO: Don't use charges_to_use: welder has 50 charges per use, soldering iron has 1
+    const int charges_to_use = used_tool->type->charges_to_use();
+    if( used_tool->charges < charges_to_use ) {
+        p->add_msg_if_player( _("Your %s ran out of charges"), used_tool->tname().c_str() );
+        act->type = ACT_NULL;
+        return;
+    }
+
+    item &fix = p->i_at( act->position );
+
+    // Remember our level: we want to stop retrying on level up
+    const int old_level = p->get_skill_level( actor->used_skill );
+    const auto attempt = actor->repair( *p, *used_tool, fix );
+    if( attempt != repair_item_actor::AS_CANT ) {
+        p->consume_charges( *used_tool, charges_to_use );
+    }
+
+    // Print message explaining why we stopped
+    // But only if we didn't destroy the item (because then it's obvious)
+    const bool destroyed = attempt == repair_item_actor::AS_DESTROYED;
+    if( attempt == repair_item_actor::AS_CANT ||
+        destroyed ||
+        !actor->can_repair( *p, *used_tool, fix, !destroyed ) ) {
+        // Can't repeat any more
+        act->type = ACT_NULL;
+        w_hack.clean_up();
+        return;
+    }
+
+    w_hack.clean_up();
+
+    const bool event_happened =
+        attempt == repair_item_actor::AS_FAILURE ||
+        attempt == repair_item_actor::AS_SUCCESS ||
+        old_level != p->get_skill_level( actor->used_skill );
+    const bool need_input =
+        repeat == REPEAT_ONCE ||
+        (repeat == REPEAT_EVENT && event_happened) ||
+        (repeat == REPEAT_FULL && fix.damage <= 0);
+
+    if( need_input ) {
+        g->draw();
+        auto action_type = actor->default_action( fix );
+        const auto chance = actor->repair_chance( *p, fix, action_type );
+        if( chance.first <= 0.0f ) {
+            action_type = repair_item_actor::RT_PRACTICE;
+        }
+
+        const std::string title = string_format(
+            _("%s\nSuccess chance %.1f\nDamage chance %.1f"),
+            repair_item_actor::action_description( action_type ).c_str(),
+            100.0f * chance.first, 100.0f * chance.second );
+        repeat_type answer = repeat_menu( title, repeat );
+        if( answer == REPEAT_CANCEL ) {
+            act->type = ACT_NULL;
+            return;
+        }
+
+        if( act->values.empty() ) {
+            act->values.resize( 1 );
+        }
+
+        act->values[0] = (int)answer;
+    }
+
+    // Otherwise keep retrying
+    act->moves_left = actor->move_cost;
+}
+
+void activity_handlers::gunmod_add_finish( player_activity *act, player *p )
+{
+    // first unpack all of our arguments
+    if( act->values.size() != 4 ) {
+        debugmsg( "Insufficient arguments to ACT_GUNMOD_ADD" );
+        return;
+    }
+
+    item &gun = p->i_at( act->position );
+    item &mod = p->i_at( act->values[0] );
+
+    int roll = act->values[1]; // chance of success (%)
+    int risk = act->values[2]; // chance of damage (%)
+
+    // any tool charges used during installation
+    std::string tool = act->name;
+    int qty = act->values[3];
+
+    if( !gun.gunmod_compatible( mod, false ) ) {
+        debugmsg( "Invalid arguments in ACT_GUNMOD_ADD" );
+        return;
+    }
+
+    if( !tool.empty() && qty > 0 ) {
+        p->use_charges( tool, qty );
+    }
+
+    if( rng( 0, 100 ) <= roll ) {
+        add_msg( m_good, _( "You sucessfully attached the %1$s to your %2$s." ), mod.tname().c_str(),
+                 gun.tname().c_str() );
+        gun.contents.push_back( p->i_rem( &mod ) );
+
+    } else if( rng( 0, 100 ) <= risk ) {
+        if( gun.damage++ >= MAX_ITEM_DAMAGE ) {
+            p->i_rem( &gun );
+            add_msg( m_bad, _( "You failed at installing the %s and destroyed your %s!" ), mod.tname().c_str(),
+                     gun.tname().c_str() );
+        } else {
+            add_msg( m_bad, _( "You failed at installing the %s and damaged your %s!" ), mod.tname().c_str(),
+                     gun.tname().c_str() );
+        }
+
+    } else {
+        add_msg( m_info, _( "You failed at installing the %s." ), mod.tname().c_str() );
+    }
+}

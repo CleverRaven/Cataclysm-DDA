@@ -6,6 +6,7 @@
     "name": "No Joke Monsters",
     "author": "Rivet",
     "description": "Removes joke monsters from the game.",
+    "category": "monster_exclude",
     "path": "modinfo.json"
 },{
     "type": "MONSTER_BLACKLIST",

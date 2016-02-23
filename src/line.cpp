@@ -3,6 +3,8 @@
 #include "translations.h"
 #include <cstdlib>
 
+#include "output.h"
+
 #define SGN(a) (((a)<0) ? -1 : 1)
 
 void bresenham( const int x1, const int y1, const int x2, const int y2, int t,
@@ -226,16 +228,16 @@ std::vector <tripoint> line_to(const tripoint &loc1, const tripoint &loc2, int t
     return line;
 }
 
-int trig_dist(const int x1, const int y1, const int x2, const int y2)
+float trig_dist(const int x1, const int y1, const int x2, const int y2)
 {
     return trig_dist(tripoint(x1, y1, 0), tripoint(x2, y2, 0));
 }
 
-int trig_dist(const tripoint &loc1, const tripoint &loc2)
+float trig_dist(const tripoint &loc1, const tripoint &loc2)
 {
-    return int (sqrt(double((loc1.x - loc2.x) * (loc1.x - loc2.x)) +
-                     ((loc1.y - loc2.y) * (loc1.y - loc2.y)) +
-                     ((loc1.z - loc2.z) * (loc1.z - loc2.z))));
+    return sqrt(double((loc1.x - loc2.x) * (loc1.x - loc2.x)) +
+                ((loc1.y - loc2.y) * (loc1.y - loc2.y)) +
+                ((loc1.z - loc2.z) * (loc1.z - loc2.z)));
 }
 
 int square_dist(const int x1, const int y1, const int x2, const int y2)
@@ -334,6 +336,19 @@ std::pair<std::pair<double, double>, double> slope_of(const std::vector<tripoint
     // slope of <x, y> z
     std::pair<std::pair<double, double>, double> ret = std::make_pair(retXY, normDz);
     return ret;
+}
+
+float get_normalized_angle( const point &start, const point &end )
+{
+    // Taking the abs value of the difference puts the values in the first quadrant.
+    const float absx = std::abs( std::max(start.x, end.x) - std::min(start.x, end.x) );
+    const float absy = std::abs( std::max(start.y, end.y) - std::min(start.y, end.y) );
+    const float max = std::max( absx, absy );
+    if( max == 0 ) {
+        return 0;
+    }
+    const float min = std::min( absx, absy );
+    return min / max;
 }
 
 std::vector<point> continue_line(const std::vector<point> &line, const int distance)
@@ -454,6 +469,15 @@ std::string const& direction_name_short(direction const dir)
     return direction_name_impl(dir, true);
 }
 
+std::string direction_suffix( const tripoint& p, const tripoint& q )
+{
+    int dist = square_dist( p, q );
+    if ( dist <= 0 ) {
+        return std::string();
+    }
+    return string_format( "%d%s", dist, trim( direction_name_short( direction_from( p, q ) ) ).c_str() );
+}
+
 // Cardinals are cardinals. Result is cardinal and adjacent sub-cardinals.
 // Sub-Cardinals are sub-cardinals && abs(x) == abs(y). Result is sub-cardinal and adjacent cardinals.
 // Sub-sub-cardinals are direction && abs(x) > abs(y) or vice versa.
@@ -464,8 +488,12 @@ std::vector<tripoint> squares_closer_to( const tripoint &from, const tripoint &t
     std::vector<tripoint> adjacent_closer_squares;
     const int dx = to.x - from.x;
     const int dy = to.y - from.y;
+    const int dz = to.z - from.z;
     const int ax = std::abs( dx );
     const int ay = std::abs( dy );
+    if( dz != 0 ) {
+        adjacent_closer_squares.push_back( { from.x + SGN(dx), from.y + SGN(dy), from.z + SGN(dz) } );
+    }
     if( ax > ay ) {
         // X dominant.
         adjacent_closer_squares.push_back( { from.x + SGN(dx), from.y, from.z } );
@@ -488,6 +516,7 @@ std::vector<tripoint> squares_closer_to( const tripoint &from, const tripoint &t
         adjacent_closer_squares.push_back( { from.x + SGN(dx), from.y, from.z } );
         adjacent_closer_squares.push_back( { from.x, from.y + SGN(dy), from.z } );
     }
+
     return adjacent_closer_squares;
 }
 

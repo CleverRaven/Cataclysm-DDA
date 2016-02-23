@@ -256,23 +256,28 @@ bool game::opening_screen()
     dirent *dp;
     DIR *dir;
 
-    if (!assure_dir_exist(FILENAMES["savedir"])) {
-        popup(_("Unable to make save directory. Check permissions."));
+    if( !assure_dir_exist( FILENAMES["config_dir"] ) ) {
+        popup( _( "Unable to make config directory. Check permissions." ) );
         return false;
     }
 
-    if (!assure_dir_exist(FILENAMES["templatedir"].c_str())) {
-        popup(_("Unable to make templates directory. Check permissions."));
+    if( !assure_dir_exist( FILENAMES["savedir"] ) ) {
+        popup( _( "Unable to make save directory. Check permissions." ) );
         return false;
     }
-    dir = opendir(FILENAMES["templatedir"].c_str());
-    while ((dp = readdir(dir))) {
+
+    if( !assure_dir_exist( FILENAMES["templatedir"] ) ) {
+        popup( _( "Unable to make templates directory. Check permissions." ) );
+        return false;
+    }
+    dir = opendir( FILENAMES["templatedir"].c_str() );
+    while( ( dp = readdir( dir ) ) ) {
         std::string tmp = dp->d_name;
-        if (tmp.find(".template") != std::string::npos) {
-            templates.push_back(tmp.substr(0, tmp.find(".template")));
+        if( tmp.find(".template") != std::string::npos ) {
+            templates.push_back( tmp.substr( 0, tmp.find( ".template" ) ) );
         }
     }
-    closedir(dir);
+    closedir( dir );
 
     int sel1 = 1, sel2 = 1, sel3 = 1, layer = 1;
     input_context ctxt("MAIN_MENU");
@@ -347,7 +352,7 @@ bool game::opening_screen()
             }
             if ((action == "UP" || action == "CONFIRM") && sel1 > 0 && sel1 != 7) {
                 if (sel1 == 5) {
-                    show_options();
+                    get_options().show();
                 } else if (sel1 == 6) {
                     display_help();
                 } else if (sel1 == 8) {
@@ -407,21 +412,7 @@ bool game::opening_screen()
                         }
                         world_generator->set_active_world(world);
                         setup();
-                        int pgen = -1;
-                        bool rnd_scn = false;
-                        while (pgen < 0) {
-                            //create will return -1 (random character)
-                            //or -2 (random character and scenario) keeping the loop going
-                            //it will return 0 on exit, or 1 on success
-                            pgen = u.create((sel2 == 0) ? PLTYPE_CUSTOM : ((sel2 == 2) ?
-                                           (rnd_scn ? PLTYPE_RANDOM_WITH_SCENARIO : PLTYPE_RANDOM) :
-                                            PLTYPE_NOW));
-                            if (pgen < 0) {
-                                u = player();
-                                rnd_scn = pgen == -2;
-                            }
-                        }
-                        if (pgen == 0) {
+                        if( !u.create( sel2 == 0 ? PLTYPE_CUSTOM : ( sel2 == 2 ? PLTYPE_RANDOM : PLTYPE_NOW ) ) ) {
                             u = player();
                             continue;
                         }
@@ -429,7 +420,10 @@ bool game::opening_screen()
                         werase(w_background);
                         wrefresh(w_background);
 
-                        start_game(world->world_name);
+                        if( !start_game( world->world_name ) ) {
+                            u = player();
+                            continue;
+                        }
                         start = true;
                     } else if (sel2 == 1) {
                         layer = 3;
@@ -450,8 +444,13 @@ bool game::opening_screen()
                          color1 = c_ltcyan;
                          color2 = h_ltcyan;
                       } else {
-                         color1 = c_white;
-                         color2 = h_white;
+                         if (world_generator->world_need_lua_build(world_name)) {
+                            color1 = c_dkgray;
+                            color2 = h_dkgray;
+                         } else {
+                             color1 = c_white;
+                             color2 = h_white;
+                         }
                       }
                       mvwprintz(w_open, line, 15 + iMenuOffsetX + extra_w / 2,
                                 (sel2 == i ? color2 : color1 ), "%s (%d)",
@@ -614,9 +613,18 @@ bool game::opening_screen()
             }
         } else if (layer == 3) {
             bool available = false;
+
             if (sel1 == 2) { // Load Game
                 savegames = world_generator->all_worlds[world_generator->all_worldnames[sel2]]->world_saves;
-                if (savegames.empty()) {
+                std::string wn = world_generator->all_worldnames[sel2];
+
+                //hide savegames if lua is not available for a lua-built world
+                if ( (wn != "TUTORIAL" && wn != "DEFENSE") && world_generator->world_need_lua_build(wn) ) {
+                    savegames.clear();
+                    mvwprintz(w_open, iMenuOffsetY - 2, 15 + iMenuOffsetX + extra_w / 2,
+                              c_red, _("This world requires the game to be compiled with Lua."));
+                }
+                else if (savegames.empty()) {
                     mvwprintz(w_open, iMenuOffsetY - 2, 19 + 19 + iMenuOffsetX + extra_w / 2,
                               c_red, _("No save games found!"));
                 } else {
@@ -819,7 +827,10 @@ bool game::opening_screen()
                     }
                     werase(w_background);
                     wrefresh(w_background);
-                    start_game(world_generator->active_world->world_name);
+                    if( !start_game( world_generator->active_world->world_name ) ) {
+                        u = player();
+                        continue;
+                    }
                     start = true;
                 }
             }

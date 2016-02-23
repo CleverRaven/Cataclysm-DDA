@@ -51,7 +51,7 @@
                 "id" : "aikido_half_damage",
                 "name" : "Aikido",
                 "unarmed_allowed" : true,
-                "bash_mult" : 0.5,
+                "mult_bonuses" : [["damage", "bash", 0.5]],
                 "min_unarmed" : 0,
                 "buff_duration" : 2,
                 "description" : "Half damage to enemies"
@@ -74,13 +74,14 @@
             {
                 "id" : "boxing_static",
                 "name" : "Boxing",
-                "description" : "Dex/Per increases unarmed power, Str reduces block damage.",
+                "description" : "Per increases unarmed power, Str reduces block damage.",
                 "unarmed_allowed" : true,
                 "min_unarmed" : 0,
                 "max_stacks" : 1,
-                "bash_dex" : 0.15,
-                "bash_per" : 0.15,
-                "block_str" : 0.5
+                "flat_bonuses" : [
+                    ["damage", "bash", "per", 0.4],
+                    ["block", "str", 0.5]
+                ]
             }
         ],
         "onmove_buffs" : [
@@ -104,7 +105,7 @@
                 "unarmed_allowed" : true,
                 "max_stacks": 2,
                 "buff_duration" : 3,
-                "bash_mult" : 1.25
+                "mult_bonuses" : [["damage", "bash", 1.25]]
             }
         ],
         "techniques" : [
@@ -122,13 +123,13 @@
         "leg_block" : 99,
         "static_buffs" : [
             {
-        "id" : "judo_recovery",
-        "name" : "Judo",
-        "unarmed_allowed" : true,
-        "min_unarmed" : 0,
-        "buff_duration" : 2,
-        "throw_immune" : true,
-        "description" : "Immune to throws and knockdowns"
+                "id" : "judo_recovery",
+                "name" : "Judo",
+                "unarmed_allowed" : true,
+                "min_unarmed" : 0,
+                "buff_duration" : 2,
+                "throw_immune" : true,
+                "description" : "Immune to throws and knockdowns"
             }
         ],
         "techniques" : ["tec_judo_grab", "tec_judo_throw"]
@@ -146,8 +147,9 @@
                 "unarmed_allowed" : true,
                 "min_unarmed" : 0,
                 "buff_duration" : 2,
-                "block_per" : 0.8,
-                "description" : "Perception decreases damage when blocking"
+                "flat_bonuses" : [["block", "per", 1.0]],
+                "description" : "+1 Block.  Perception decreases damage when blocking.",
+                "bonus_blocks" : 1
             }
         ],
         "techniques" : ["tec_taichi_disarm", "tec_taichi_precise"]
@@ -168,7 +170,7 @@
                 "buff_duration" : 5,
                 "max_stacks" : 3,
                 "bonus_blocks" : 1,
-                "dodge" : 1
+                "flat_bonuses" : [["dodge", 1.0]]
             }
         ],
         "onmove_buffs" : [
@@ -180,8 +182,10 @@
                 "min_unarmed" : 2,
                 "buff_duration" : 3,
                 "max_stacks" : 3,
-                "bash" : 2,
-                "hit" : 1
+                "flat_bonuses" : [
+                    ["damage", "bash", 2.0],
+                    ["hit", 1.0]
+                ]
             }
         ],
         "techniques" : ["tec_capoeira_feint"]
@@ -198,14 +202,14 @@
                 "name" : "Krav Maga Hand-to-Hand",
                 "unarmed_allowed" : true,
                 "min_unarmed" : 0,
-                "bash_str" : 0.15,
+                "flat_bonuses" : [["damage", "bash", "str", 0.2]],
                 "description" : "Increased unarmed power"
             },{
                 "id" : "krav_maga_static_edged",
                 "name" : "Krav Maga Edged",
                 "melee_allowed" : true,
                 "min_unarmed" : 0,
-                "cut_mult" : 1.2,
+                "mult_bonuses" : [["damage", "stab", 1.2]],
                 "description" : "Increased cutting damage"
             }
         ],
@@ -228,8 +232,10 @@
                 "id" : "muay_thai_static",
                 "name" : "Muay Thai",
                 "unarmed_allowed" : true,
-                "bash" : -5,
-                "bash_str" : 0.5,
+                "flat_bonuses" : [
+                    ["damage", "bash", -5.0],
+                    ["damage", "bash", "str", 0.5]
+                ],
                 "description" : "Attacks scale better with strength"
             }
         ],
@@ -265,7 +271,7 @@
                 "buff_duration" : 2,
                 "max_stacks" : 1,
                 "bonus_dodges" : 1,
-                "hit_dex" : 0.17
+                "flat_bonuses" : [["hit", "dex", 0.17]]
             }
         ],
         "techniques" : ["tec_ninjutsu_precise"]
@@ -281,7 +287,7 @@
                 "id" : "taekwondo_static",
                 "name" : "Taekwondo",
                 "unarmed_allowed" : true,
-                "block_str" : 0.4,
+                "flat_bonuses" : [["block", "str", 0.5]],
                 "description" : "Strength decreases damage when blocking"
             }
         ],
@@ -335,7 +341,7 @@
                 "name" : "Zui Quan",
                 "description" : "Intelligence increases dodging ability",
                 "unarmed_allowed" : true,
-                "dodge_int": 0.12
+                "flat_bonuses" : [["dodge", "int", 0.12]]
             }
         ],
         "onattack_buffs" : [
@@ -355,8 +361,10 @@
                 "description" : "Extra damage and to-hit after successful dodge",
                 "unarmed_allowed" : true,
                 "max_stacks": 2,
-                "bash_int": 0.2,
-                "hit_int": 0.2
+                "flat_bonuses" : [
+                    ["damage", "bash", "int", 0.5],
+                    ["hit", "int", 0.2]
+                ]
             }
         ],
         "techniques" : [
@@ -389,7 +397,7 @@
                 "melee_allowed" : true,
                 "buff_duration" : 3,
                 "max_stacks": 4,
-                "hit_dex": 0.4
+                "flat_bonuses" : [["hit", "dex", 0.4]]
             }
         ],
         "techniques" : [
@@ -448,7 +456,9 @@
             "diamond_kukri",
             "knife_rambo",
             "knife_rm42",
-            "switchblade"
+            "switchblade",
+            "l-stick",
+            "l-stick_on"
         ]
     },{
         "type" : "martial_art",
@@ -466,8 +476,10 @@
                 "min_melee" : 2,
                 "buff_duration" : 2,
                 "max_stacks" : 2,
-                "stab" : 2,
-                "hit" : 1
+                "flat_bonuses" : [
+                    ["damage", "stab", 2.0],
+                    ["hit", 1.0]
+                ]
             }
         ],
         "techniques" : [
@@ -498,52 +510,53 @@
         "description" : "Niten Ichi-Ryu is an ancient school of combat, transmitting a style of classical Japanese swordsmanship conceived by the warrior Miyamoto Musashi.  It primarily focuses on the proper use of the katana and wakizashi, but includes staff techniques as well.",
         "arm_block" : 99,
         "leg_block" : 99,
-        "static_buffs" : [
+            "static_buffs" : [
             {
-                 "id": "niten_stationary_buff",
-                 "name" : "Niten Ichi-Ryu",
-                 "description" : "Perception increases dodging and damage.",
-                 "min_melee" : 2,
-                 "cut_per" : 1.1,
-                 "bash_per" : 1.1,
-                 "dodge_per" : 0.5
+                "id": "niten_stationary_buff",
+                "name" : "Niten Ichi-Ryu",
+                "description" : "Perception increases dodging and damage.",
+                "min_melee" : 2,
+                "flat_bonuses" : [
+                    ["damage", "cut", "per", 0.5],
+                    ["damage", "bash", "per", 0.5],
+                    ["dodge", "per", 0.5]
+                ]
             }
         ],
         "onmove_buffs" : [
-          {
-             "id" : "niten_move_buff",
-            "name" : "Blocking",
-            "description" : "You forgo dodging on the move, but gain more blocks.",
-            "min_melee" : 2,
-            "max_stacks" : 1,
-            "buff_duration" : 2,
-            "dodge" : -4,
-            "bonus_dodges" : -1,
-            "bonus_blocks" : 2
-         }
-      ],
-      "onhit_buffs" : [
-          {
-            "id" : "niten_hit_buff",
-            "name" : "Blocking",
-            "description" : "You forgo dodging on the offensive, but gain more blocks.",
-            "min_melee" : 2,
-            "max_stacks" : 1,
-            "buff_duration" : 2,
-            "dodge" : -4,
-            "bonus_dodges" : -1,
-            "bonus_blocks" : 2
-         }
-      ],
+            {
+                "id" : "niten_move_buff",
+                "name" : "Blocking",
+                "description" : "You forgo dodging on the move, but gain more blocks.",
+                "min_melee" : 2,
+                "max_stacks" : 1,
+                "buff_duration" : 2,
+                "flat_bonuses" : [["dodge", -10.0]],
+                "bonus_dodges" : -1,
+                "bonus_blocks" : 2
+            }
+        ],
+        "onhit_buffs" : [
+            {
+                "id" : "niten_hit_buff",
+                "name" : "Blocking",
+                "description" : "You forgo dodging on the offensive, but gain more blocks.",
+                "min_melee" : 2,
+                "max_stacks" : 1,
+                "buff_duration" : 2,
+                "flat_bonuses" : [["dodge", -10.0]],
+                "bonus_dodges" : -1,
+                "bonus_blocks" : 2
+            }
+        ],
         "ondodge_buffs" : [
             {
-                 "id" : "niten_set-up",
-                 "name" : "In-One Timing Set-Up",
-                 "description" : "You found a gap in the enemy's defense!",
-                 "min_melee" : 4,
-                 "buff_duration" : 2,
-                 "max_stacks" : 1,
-                 "cut_mult" : 1
+                "id" : "niten_set-up",
+                "name" : "In-One Timing Set-Up",
+                "description" : "You found a gap in the enemy's defense!",
+                "min_melee" : 4,
+                "buff_duration" : 2,
+                "max_stacks" : 1
             }
         ],
         "techniques" : [
@@ -564,7 +577,9 @@
             "q_staff",
             "cudgel",
             "nodachi",
-            "diamond_nodachi"
+            "diamond_nodachi",
+            "l-stick",
+            "l-stick_on"
         ]
       
     },{
@@ -580,7 +595,7 @@
                 "name" : "Eskrima Bashing",
                 "melee_allowed" : true,
                 "min_melee" : 1,
-                "bash_mult" : 1.2,
+                "mult_bonuses" : [["damage", "bash", 1.2]],
                 "description" : "Increased bashing damage"
             }
         ],
@@ -593,8 +608,11 @@
                 "min_melee" : 2,
                 "buff_duration" : 3,
                 "max_stacks" : 1,
-                "bash_mult": 1.1,
-                "cut_mult": 1.1
+                "mult_bonuses" : [
+                    ["damage", "bash", 1.1],
+                    ["damage", "cut", 1.1],
+                    ["damage", "stab", 1.1]
+                ]
             }
         ],
         "techniques" : [
@@ -647,7 +665,9 @@
             "kukri",
             "diamond_kukri",
             "knife_rambo",
-            "knife_rm42"
+            "knife_rm42",
+            "l-stick",
+            "l-stick_on"
         ]
     },{
         "type" : "martial_art",
@@ -662,20 +682,22 @@
                 "name" : "Crane's Precision",
                 "description" : "Damage bonus from dexterity at the cost of damage from strength.",
                 "unarmed_allowed" : true,
-                "bash_str" : -0.2,
-                "bash_dex" : 0.8
+                "flat_bonuses" : [
+                    ["damage", "bash", "dex", 0.8],
+                    ["damage", "bash", "str", -0.2]
+                ]
             }
         ],
         "onmove_buffs" : [
-                  {
-                      "id" : "crane_move_buff",
-                      "name" : "Crane's Flight",
-                      "description" : "+2 Dodge",
-                      "unarmed_allowed" : true,
-                      "min_unarmed" : 2,
-                      "buff_duration" : 2,
-                      "dodge" : 2
-                  }
+            {
+                "id" : "crane_move_buff",
+                "name" : "Crane's Flight",
+                "description" : "+2 Dodge",
+                "unarmed_allowed" : true,
+                "min_unarmed" : 2,
+                "buff_duration" : 2,
+                "flat_bonuses" : [["dodge", 2.0]]
+            }
         ],
         "techniques" : [
             "tec_crane_feint",
@@ -695,7 +717,7 @@
                 "name" : "Dragon Style",
                 "description" : "Bonus damage from intelligence.",
                 "unarmed_allowed" : true,
-                "bash_int" : 0.8
+                "flat_bonuses" : [["damage", "bash", "int", 0.8]]
             }
         ],
         "onmove_buffs" : [
@@ -706,8 +728,10 @@
                 "unarmed_allowed" : true,
                 "min_unarmed" : 2,
                 "buff_duration" : 2,
-                "hit" : 2,
-                "bash" : 2
+                "flat_bonuses" : [
+                    ["hit", 2.0],
+                    ["damage", "bash", 2]
+                ]
             }
         ],
         "techniques" : [
@@ -720,17 +744,19 @@
         "type" : "martial_art",
         "id" : "style_leopard",
         "name" : "Leopard Kung Fu",
-        "description": "One of the five Shaolin animal styles.  The Leopard focuses on rapid, strategically planned strikes.  Perception and Intelligence both boost accuracy, and moving further boosts your accuracy.",
+        "description": "One of the five Shaolin animal styles.  The Leopard focuses on rapid, strategically planned strikes.  Perception and Intelligence both boost dodging, and moving boosts your accuracy.",
         "arm_block" : 99,
         "leg_block" : 99,
         "static_buffs" : [
             {
                 "id" : "leopard_static",
                 "name" : "Leopard Strategy",
-                "description" : "Perception and intelligence provide a bonus to hit.",
+                "description" : "Perception and intelligence provide a bonus to dodge.",
                 "unarmed_allowed" : true,
-                "hit_per" : 0.2,
-                "hit_int" : 0.2
+                "flat_bonuses" : [
+                    ["dodge", "per", 0.15],
+                    ["dodge", "int", 0.15]
+                ]
             }
         ],
         "onmove_buffs" : [
@@ -741,7 +767,7 @@
                 "unarmed_allowed" : true,
                 "min_unarmed" : 2,
                 "buff_duration" : 2,
-                "hit" : 2
+                "flat_bonuses" : [["hit", 2.0]]
             }
         ],
         "techniques" : [
@@ -762,7 +788,7 @@
                 "name" : "Tiger Strength",
                 "description" : "Strength provides additional damage bonus.",
                 "unarmed_allowed" : true,
-                "hit_str" : 0.8
+                "flat_bonuses" : [["damage", "bash", "str", 0.8]]
             }
         ],
         "onhit_buffs" : [
@@ -774,7 +800,7 @@
                 "min_unarmed" : 2,
                 "buff_duration" : 3,
                 "max_stacks" : 8,
-                "bash" : 3
+                "flat_bonuses" : [["damage", "bash", "per", 3.0]]
             }
         ],
         "techniques" : [
@@ -784,16 +810,16 @@
         "type" : "martial_art",
         "id" : "style_snake",
         "name" : "Snake Kung Fu",
-        "description": "One of the five Shaolin animal styles.  The Snake focuses on sinuous movement and precision strikes.  Your Perception improves your accuracy and your damage.",
+        "description": "One of the five Shaolin animal styles.  The Snake focuses on sinuous movement and precision strikes.  Your Perception improves your damage.",
         "arm_block" : 99,
         "leg_block" : 99,
         "static_buffs" : [
             {
                 "id" : "snake_static",
                 "name" : "Snake Sight",
-                "description" : "Perception provides a bonus to hit.",
+                "description" : "Perception provides a bonus to damage.",
                 "unarmed_allowed" : true,
-                "hit_per" : 0.8
+                "flat_bonuses" : [["damage", "bash", "per", 0.8]]
             }
         ],
         "techniques" : [
@@ -818,7 +844,7 @@
                 "min_unarmed" : 1,
                 "buff_duration" : 3,
                 "max_stacks" : 8,
-                "speed" : 4
+                "flat_bonuses" : [["movecost", -4.0]]
             }
         ],
         "techniques" : [
@@ -837,7 +863,7 @@
                 "name" : "Scorpion Venom",
                 "description" : "+2 bashing damage.",
                 "unarmed_allowed" : true,
-                "bash" : 2
+                "flat_bonuses" : [["damage", "bash", 2.0]]
             }
         ],
         "techniques" : [
@@ -858,8 +884,11 @@
                 "description" : "Gain up to +6 armor while standing still",
                 "//" : "FWIW, this is twice the amount of armor provided by bionic plating.",
                 "unarmed_allowed" : true,
-                "arm_bash": 6,
-                "arm_cut": 6
+                "flat_bonuses" : [
+                    ["armor", "bash", 6.0],
+                    ["armor", "cut", 6.0],
+                    ["armor", "stab", 6.0]
+                ]
             }
         ],
         "onmove_buffs": [
@@ -871,8 +900,11 @@
                 "min_unarmed" : 0,
                 "buff_duration" : 6,
                 "max_stacks" : 6,
-                "arm_bash" : -1,
-                "arm_cut" : -1
+                "flat_bonuses" : [
+                    ["armor", "bash", -1.0],
+                    ["armor", "cut", -1.0],
+                    ["armor", "stab", -1.0]
+                ]
             }
         ],
         "techniques" : [
@@ -898,9 +930,9 @@
             {
                 "id" : "venom_snake_static",
                 "name" : "Viper Patience",
-                "description" : "You are trained to stick close and stay cool in a fight, waiting for the opportunity to strike...",
+                "description" : "+2 Dodge.  Dodging an attack initiates a combo.",
                 "unarmed_allowed" : true,
-                "dodge" : 2
+                "flat_bonuses" : [["dodge", 2.0]]
             }
         ],
         "ondodge_buffs": [
@@ -912,7 +944,7 @@
                 "min_unarmed" : 0,
                 "buff_duration" : 2,
                 "max_stacks" : 1,
-                "bash_mult" : 1.5,
+                "mult_bonuses" : [["damage", "bash", 1.5]],
                 "stun_dur" : 2
             }
         ],
@@ -924,11 +956,11 @@
                 "unarmed_allowed" : true,
                 "min_unarmed" : 0,
                 "req_buffs" : [
-                  "venom_snake_combo_initiate"
-                  ],
+                    "venom_snake_combo_initiate"
+                ],
                 "buff_duration" : 2,
                 "max_stacks" : 1,
-                "bash_mult" : 3
+                "mult_bonuses" : [["damage", "bash", 3]]
             }
         ],
         "techniques" : [
@@ -937,6 +969,32 @@
             "tec_venom_snake_break",
             "tec_venom_snake_bite",
             "tec_venom_snake_strike"
+        ]
+    },{
+        "type" : "martial_art",
+        "id" : "style_debug",
+        "name" : "Debug Mastery",
+        "description": "A secret martial art used only by developers and cheaters.",
+        "arm_block" : 99,
+        "leg_block" : 99,
+        "static_buffs" : [
+            {
+                "id" : "debug_elem_resist",
+                "name" : "Elemental resistance",
+                "description" : "+Strength bash armor, +Dexterity acid armor, +Intelligence electricity armor, +Perception fire armor.",
+                "unarmed_allowed" : true,
+                "strictly_unarmed" : true,
+                "flat_bonuses" : [
+                    ["armor", "bash", "str", 1.0],
+                    ["armor", "cut", "dex", 1.0],
+                    ["armor", "electric", "int", 1.0],
+                    ["armor", "heat", "per", 1.0]
+                ]
+            }
+        ],
+        "techniques" : [
+            "tec_debug_slow",
+            "tec_debug_arpen"
         ]
     }
 ]

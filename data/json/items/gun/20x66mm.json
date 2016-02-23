@@ -1,0 +1,31 @@
+[
+  {
+    "id": "rm20",
+    "type": "GUN",
+    "name": "RM20 autoshotgun",
+    "description": "Utilizing a powerful and unusual caliber, the Rivtech RM20 caseless automatic combat shotgun was designed with durability and overwhelming power in mind.",
+    "weight": 2820,
+    "volume": 7,
+    "price": 1320000,
+    "bashing": 11,
+    "to_hit": -1,
+    "material": ["superalloy", "ceramic"],
+    "symbol": "(",
+    "color": "dark_gray",
+    "skill": "shotgun",
+    "ammo": "20x66mm",
+    "dispersion": 90,
+    "sight_dispersion": 75,
+    "aim_speed" : 4,
+    "durability": 9,
+    "reload": 125,
+    "loudness" : 175,
+    "burst": 4,
+    "valid_mod_locations": [[ "accessories", 4 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
+    "magazine_well" : 2,
+    "magazines" : [
+        [ "20x66mm", ["20x66_20_mag", "20x66_40_mag"] ]
+    ],
+    "flags": ["MODE_BURST", "WATERPROOF_GUN", "NEVER_JAMS"]
+  }
+]

@@ -6,11 +6,17 @@
 #include <unordered_map>
 #include "omdata.h"
 #include "itype.h"
-#include "npc.h"
 #include "json.h"
+#include "npc_favor.h"
 
 class mission;
 class game;
+class npc;
+class Creature;
+class calendar;
+
+enum npc_class : int;
+enum npc_mission : int;
 
 enum mission_type_id {
     MISSION_NULL,
@@ -247,21 +253,7 @@ struct mission_type {
                  bool (mission_place::*PLACE)( const tripoint& ),
                  void (mission_start::*START)(mission *),
                  void (mission_end  ::*END  )(mission *),
-                 void (mission_fail ::*FAIL )(mission *)) :
-        id (ID), name (NAME), goal (GOAL), difficulty (DIF), value (VAL),
-        urgent(URGENT), place (PLACE), start (START), end (END), fail (FAIL)
-    {
-        deadline_low = 0;
-        deadline_high = 0;
-        item_id = "null";
-        item_count = 1;
-        target_id = 0;///(0);// = "";
-        recruit_class = NC_NONE;
-        target_npc_id = -1;
-        monster_type = "mon_null";
-        monster_kill_goal = -1;
-        follow_up = MISSION_NULL;
-    };
+                 void (mission_fail ::*FAIL )(mission *));
 
     mission create( int npc_id ) const;
 
@@ -329,30 +321,7 @@ public:
         using JsonDeserializer::deserialize;
         void deserialize(JsonIn &jsin) override;
 
-        mission()
-        {
-            type = NULL;
-            description = "";
-            failed = false;
-            value = 0;
-            uid = -1;
-            target = tripoint(INT_MIN, INT_MIN, INT_MIN);
-            item_id = "null";
-            item_count = 1;
-            target_id = 0;
-            recruit_class = NC_NONE;
-            target_npc_id = -1;
-            monster_type = "mon_null";
-            monster_kill_goal = -1;
-            deadline = 0;
-            npc_id = -1;
-            good_fac_id = -1;
-            bad_fac_id = -1;
-            step = 0;
-            player_id = -1;
-            was_started = false;
-        }
-
+        mission();
     /** Getters, they mostly return the member directly, mostly. */
     /*@{*/
     bool has_deadline() const;

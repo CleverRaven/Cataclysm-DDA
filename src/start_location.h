@@ -1,6 +1,9 @@
 #ifndef START_LOCATION_H
 #define START_LOCATION_H
 
+#include "string_id.h"
+
+#include <vector>
 #include <string>
 #include <map>
 #include <set>
@@ -10,31 +13,37 @@ class tinymap;
 class player;
 class JsonObject;
 struct tripoint;
-
-typedef std::map<std::string, class start_location> location_map;
+class start_location;
+template<typename T>
+class generic_factory;
 
 class start_location
 {
     public:
         start_location();
-        start_location( std::string ident, std::string name, std::string target );
 
-        std::string ident() const;
+        const string_id<start_location> &ident() const;
         std::string name() const;
         std::string target() const;
         const std::set<std::string> &flags() const;
 
-        static location_map::iterator begin();
-        static location_map::iterator end();
-        static start_location *find( const std::string ident );
         static void load_location( JsonObject &jsonobj );
+        static void reset();
+
+        static std::vector<const start_location *> get_all();
 
         /**
-         * Setup the player start location on the overmaps.
-         * It also initializes the map at that points using @ref prepare_map.
-         * @return The player start location in global, absolute overmap terrain coordinates.
+         * Find a suitable start location on the overmap.
+         * @return Global, absolute overmap terrain coordinates where the player should spawn.
+         * It may return `overmap::invalid_tripoint` if no suitable starting location could be found
+         * in the world.
          */
-        tripoint setup() const;
+        tripoint find_player_initial_location() const;
+        /**
+         * Initialize the map at players start location using @ref prepare_map.
+         * @param omtstart Global overmap terrain coordinates where the player is to be spawned.
+         */
+        void prepare_map( const tripoint &omtstart ) const;
         /**
          * Place the player somewher ein th reality bubble (g->m).
          */
@@ -50,16 +59,20 @@ class start_location
         /**
          * Adds a map special, see mapgen.h and mapgen.cpp. Look at the namespace MapExtras.
          */
-        void add_map_special( const tripoint &omtstart, const std::string& map_special ) const;
+        void add_map_special( const tripoint &omtstart, const std::string &map_special ) const;
 
         void handle_heli_crash( player &u ) const;
     private:
-        std::string _ident;
+        friend class generic_factory<start_location>;
+        string_id<start_location> id;
+        bool was_loaded = false;
         std::string _name;
         std::string _target;
         std::set<std::string> _flags;
 
-        void prepare_map(tinymap &m) const;
+        void load( JsonObject &jo );
+
+        void prepare_map( tinymap &m ) const;
 };
 
 #endif

@@ -22,14 +22,49 @@
 #include "field.h"
 #include "weather_gen.h"
 #include "weather.h"
+#include "cata_utility.h"
 
 #include <math.h>    //sqrt
 #include <algorithm> //std::min
 #include <sstream>
 
+// '!', '-' and '=' are uses as default bindings in the menu
+const invlet_wrapper bionic_chars("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ\"#&()*+./:;@[\\]^_{|}");
+
 const skill_id skilll_electronics( "electronics" );
 const skill_id skilll_firstaid( "firstaid" );
 const skill_id skilll_mechanics( "mechanics" );
+
+const efftype_id effect_adrenaline( "adrenaline" );
+const efftype_id effect_adrenaline_mycus( "adrenaline_mycus" );
+const efftype_id effect_bleed( "bleed" );
+const efftype_id effect_bloodworms( "bloodworms" );
+const efftype_id effect_brainworms( "brainworms" );
+const efftype_id effect_cig( "cig" );
+const efftype_id effect_datura( "datura" );
+const efftype_id effect_dermatik( "dermatik" );
+const efftype_id effect_drunk( "drunk" );
+const efftype_id effect_fungus( "fungus" );
+const efftype_id effect_hallu( "hallu" );
+const efftype_id effect_high( "high" );
+const efftype_id effect_iodine( "iodine" );
+const efftype_id effect_meth( "meth" );
+const efftype_id effect_paincysts( "paincysts" );
+const efftype_id effect_pblue( "pblue" );
+const efftype_id effect_pkill1( "pkill1" );
+const efftype_id effect_pkill2( "pkill2" );
+const efftype_id effect_pkill3( "pkill3" );
+const efftype_id effect_pkill_l( "pkill_l" );
+const efftype_id effect_poison( "poison" );
+const efftype_id effect_stung( "stung" );
+const efftype_id effect_tapeworm( "tapeworm" );
+const efftype_id effect_teleglow( "teleglow" );
+const efftype_id effect_tetanus( "tetanus" );
+const efftype_id effect_took_flumed( "took_flumed" );
+const efftype_id effect_took_prozac( "took_prozac" );
+const efftype_id effect_took_xanax( "took_xanax" );
+const efftype_id effect_visuals( "visuals" );
+const efftype_id effect_weed_high( "weed_high" );
 
 namespace {
 std::map<std::string, bionic_data> bionics;
@@ -443,20 +478,18 @@ void player::power_bionics()
                 continue;
             }
             redraw = true;
-            const char newch = popup_getkey(_("%s; enter new letter."),
+            const long newch = popup_getkey(_("%s; enter new letter."),
                     bionics[tmp->id].name.c_str());
             wrefresh(wBio);
             if(newch == ch || newch == ' ' || newch == KEY_ESCAPE) {
                 continue;
             }
-            bionic *otmp = bionic_by_invlet(newch);
-            // if there is already a bionic with the new invlet, the invlet
-            // is considered valid.
-            if(otmp == nullptr && inv_chars.find(newch) == std::string::npos) {
-                // TODO separate list of letters for bionics
-                popup(_("%c is not a valid inventory letter."), newch);
+            if( !bionic_chars.valid( newch ) ) {
+                popup( _("Invlid bionic letter. Only those characters are valid:\n\n%s"),
+                       bionic_chars.get_allowed_chars().c_str() );
                 continue;
             }
+            bionic *otmp = bionic_by_invlet(newch);
             if(otmp != nullptr) {
                 std::swap(tmp->invlet, otmp->invlet);
             } else {
@@ -699,7 +732,7 @@ bool player::activate_bionic(int b, bool eff_only)
             return false;
         }
     } else if (bio.id == "bio_nanobots") {
-        remove_effect("bleed");
+        remove_effect( effect_bleed );
         healall(4);
     } else if (bio.id == "bio_resonator") {
         //~Sound of a bionic sonic-resonator shaking the area
@@ -725,95 +758,98 @@ bool player::activate_bionic(int b, bool eff_only)
             apply_damage( nullptr, bp_torso, rng( 5, 15 ) );
         }
         if (one_in(5)) {
-            add_effect("teleglow", rng(50, 400));
+            add_effect( effect_teleglow, rng( 50, 400 ) );
         }
     } else if (bio.id == "bio_teleport") {
         g->teleport();
-        add_effect("teleglow", 300);
+        add_effect( effect_teleglow, 300 );
         // TODO: More stuff here (and bio_blood_filter)
     } else if(bio.id == "bio_blood_anal") {
         WINDOW *w = newwin(20, 40, 3 + ((TERMY > 25) ? (TERMY - 25) / 2 : 0),
                 10 + ((TERMX > 80) ? (TERMX - 80) / 2 : 0));
         draw_border(w);
-        if (has_effect("fungus")) {
+        if (has_effect( effect_fungus )) {
             bad.push_back(_("Fungal Parasite"));
         }
-        if (has_effect("dermatik")) {
+        if (has_effect( effect_dermatik )) {
             bad.push_back(_("Insect Parasite"));
         }
-        if (has_effect("stung")) {
+        if (has_effect( effect_stung )) {
             bad.push_back(_("Stung"));
         }
-        if (has_effect("poison")) {
+        if (has_effect( effect_poison )) {
             bad.push_back(_("Poison"));
         }
         if (radiation > 0) {
             bad.push_back(_("Irradiated"));
         }
-        if (has_effect("pkill1")) {
+        if (has_effect( effect_pkill1 )) {
             good.push_back(_("Minor Painkiller"));
         }
-        if (has_effect("pkill2")) {
+        if (has_effect( effect_pkill2 )) {
             good.push_back(_("Moderate Painkiller"));
         }
-        if (has_effect("pkill3")) {
+        if (has_effect( effect_pkill3 )) {
             good.push_back(_("Heavy Painkiller"));
         }
-        if (has_effect("pkill_l")) {
+        if (has_effect( effect_pkill_l )) {
             good.push_back(_("Slow-Release Painkiller"));
         }
-        if (has_effect("drunk")) {
+        if (has_effect( effect_drunk )) {
             good.push_back(_("Alcohol"));
         }
-        if (has_effect("cig")) {
+        if (has_effect( effect_cig )) {
             good.push_back(_("Nicotine"));
         }
-        if (has_effect("meth")) {
+        if (has_effect( effect_meth )) {
             good.push_back(_("Methamphetamines"));
         }
-        if (has_effect("high")) {
+        if (has_effect( effect_high )) {
             good.push_back(_("Intoxicant: Other"));
         }
-        if (has_effect("weed_high")) {
+        if (has_effect( effect_weed_high )) {
             good.push_back(_("THC Intoxication"));
         }
-        if (has_effect("hallu") || has_effect("visuals")) {
+        if (has_effect( effect_hallu ) || has_effect( effect_visuals )) {
             bad.push_back(_("Hallucinations"));
         }
-        if (has_effect("iodine")) {
-            good.push_back(_("Iodine"));
+        if (has_effect( effect_pblue )) {
+            good.push_back(_("Prussian Blue"));
         }
-        if (has_effect("datura")) {
+        if (has_effect( effect_iodine )) {
+            good.push_back(_("Potassium Iodide"));
+        }
+        if (has_effect( effect_datura )) {
             good.push_back(_("Anticholinergic Tropane Alkaloids"));
         }
-        if (has_effect("took_xanax")) {
+        if (has_effect( effect_took_xanax )) {
             good.push_back(_("Xanax"));
         }
-        if (has_effect("took_prozac")) {
+        if (has_effect( effect_took_prozac )) {
             good.push_back(_("Prozac"));
         }
-        if (has_effect("took_flumed")) {
+        if (has_effect( effect_took_flumed )) {
             good.push_back(_("Antihistamines"));
         }
-        if (has_effect("adrenaline")) {
+        if (has_effect( effect_adrenaline )) {
             good.push_back(_("Adrenaline Spike"));
         }
-        if (has_effect("adrenaline_mycus")) {
+        if (has_effect( effect_adrenaline_mycus )) {
             good.push_back(_("Mycal Spike"));
         }
-        if (has_effect("tapeworm")) {  // This little guy is immune to the blood filter though, as he lives in your bowels.
+        if (has_effect( effect_tapeworm )) {  // This little guy is immune to the blood filter though, as he lives in your bowels.
             good.push_back(_("Intestinal Parasite"));
         }
-        if (has_effect("bloodworms")) {
+        if (has_effect( effect_bloodworms )) {
             good.push_back(_("Hemolytic Parasites"));
         }
-        if (has_effect("brainworms")) {  // These little guys are immune to the blood filter too, as they live in your brain.
+        if (has_effect( effect_brainworms )) {  // These little guys are immune to the blood filter too, as they live in your brain.
             good.push_back(_("Intracranial Parasite"));
         }
-        if (has_effect("paincysts")) {  // These little guys are immune to the blood filter too, as they live in your muscles.
+        if (has_effect( effect_paincysts )) {  // These little guys are immune to the blood filter too, as they live in your muscles.
             good.push_back(_("Intramuscular Parasites"));
         }
-        if (has_effect("tetanus")) {  // Tetanus infection.
+        if (has_effect( effect_tetanus )) {  // Tetanus infection.
             good.push_back(_("Clostridium Tetani Infection"));
         }
         if (good.empty() && bad.empty()) {
@@ -832,28 +868,29 @@ bool player::activate_bionic(int b, bool eff_only)
         getch();
         delwin(w);
     } else if(bio.id == "bio_blood_filter") {
-        remove_effect("fungus");
-        remove_effect("dermatik");
-        remove_effect("bloodworms");
-        remove_effect("tetanus");
-        remove_effect("poison");
-        remove_effect("stung");
-        remove_effect("pkill1");
-        remove_effect("pkill2");
-        remove_effect("pkill3");
-        remove_effect("pkill_l");
-        remove_effect("drunk");
-        remove_effect("cig");
-        remove_effect("high");
-        remove_effect("hallu");
-        remove_effect("visuals");
-        remove_effect("iodine");
-        remove_effect("datura");
-        remove_effect("took_xanax");
-        remove_effect("took_prozac");
-        remove_effect("took_flumed");
-        remove_effect("adrenaline");
-        remove_effect("meth");
+        remove_effect( effect_fungus );
+        remove_effect( effect_dermatik );
+        remove_effect( effect_bloodworms );
+        remove_effect( effect_tetanus );
+        remove_effect( effect_poison );
+        remove_effect( effect_stung );
+        remove_effect( effect_pkill1 );
+        remove_effect( effect_pkill2 );
+        remove_effect( effect_pkill3 );
+        remove_effect( effect_pkill_l );
+        remove_effect( effect_drunk );
+        remove_effect( effect_cig );
+        remove_effect( effect_high );
+        remove_effect( effect_hallu );
+        remove_effect( effect_visuals );
+        remove_effect( effect_pblue );
+        remove_effect( effect_iodine );
+        remove_effect( effect_datura );
+        remove_effect( effect_took_xanax );
+        remove_effect( effect_took_prozac );
+        remove_effect( effect_took_flumed );
+        remove_effect( effect_adrenaline );
+        remove_effect( effect_meth );
         pkill = 0;
         stim = 0;
     } else if(bio.id == "bio_evap") {
@@ -874,6 +911,7 @@ bool player::activate_bionic(int b, bool eff_only)
             }
         }
     } else if(bio.id == "bio_lighter") {
+        g->refresh_all();
         if(!choose_adjacent(_("Start a fire where?"), dirp) ||
            (!g->m.add_field(dirp, fd_fire, 1, 0))) {
             add_msg_if_player(m_info, _("You can't light a fire there."));
@@ -881,7 +919,7 @@ bool player::activate_bionic(int b, bool eff_only)
         }
     } else if(bio.id == "bio_leukocyte") {
         set_healthy(std::min(100, get_healthy() + 2));
-        mod_healthy_mod(20);
+        mod_healthy_mod(20, 100);
     } else if(bio.id == "bio_geiger") {
         add_msg(m_info, _("Your radiation level: %d"), radiation);
     } else if(bio.id == "bio_radscrubber") {
@@ -891,10 +929,10 @@ bool player::activate_bionic(int b, bool eff_only)
             radiation = 0;
         }
     } else if(bio.id == "bio_adrenaline") {
-        if (has_effect("adrenaline")) {
-            add_effect("adrenaline", 50);
+        if (has_effect( effect_adrenaline )) {
+            add_effect( effect_adrenaline, 50);
         } else {
-            add_effect("adrenaline", 200);
+            add_effect( effect_adrenaline, 200);
         }
     } else if(bio.id == "bio_blaster") {
         tmp_item = weapon;
@@ -924,6 +962,7 @@ bool player::activate_bionic(int b, bool eff_only)
         }
         weapon = tmp_item;
     } else if (bio.id == "bio_emp") {
+        g->refresh_all();
         if(choose_adjacent(_("Create an EMP where?"), dirx, diry)) {
             g->emp_blast( tripoint( dirx, diry, posz() ) );
         } else {
@@ -935,8 +974,8 @@ bool player::activate_bionic(int b, bool eff_only)
         sounds::sound( pos(), 19, _("HISISSS!"));
     } else if (bio.id == "bio_water_extractor") {
         bool extracted = false;
-        for( auto it = g->m.i_at(posx(), posy()).begin();
-             it != g->m.i_at(posx(), posy()).end(); ++it) {
+        for( auto it = g->m.i_at(pos()).begin();
+             it != g->m.i_at(pos()).end(); ++it) {
             if( it->is_corpse() ) {
                 const int avail = it->get_var( "remaining_water", it->volume() / 2 );
                 if(avail > 0 && query_yn(_("Extract water from the %s"), it->tname().c_str())) {
@@ -963,7 +1002,7 @@ bool player::activate_bionic(int b, bool eff_only)
         for (int i = posx() - 10; i <= posx() + 10; i++) {
             for (int j = posy() - 10; j <= posy() + 10; j++) {
                 if (g->m.i_at(i, j).size() > 0) {
-                    traj = g->m.find_clear_path( {i, j, posz()}, pos3() );
+                    traj = g->m.find_clear_path( {i, j, posz()}, pos() );
                 }
                 traj.insert(traj.begin(), {i, j, posz()});
                 if( g->m.has_flag( "SEALED", i, j ) ) {
@@ -982,23 +1021,23 @@ bool player::activate_bionic(int b, bool eff_only)
                                 g->zombie(index).check_dead_state();
                                 g->m.add_item_or_charges(it->x, it->y, tmp_item);
                                 break;
-                            } else if (g->m.move_cost(it->x, it->y) == 0) {
+                            } else if (g->m.impassable(it->x, it->y)) {
                                 if (it != traj.begin()) {
                                     g->m.bash( tripoint( it->x, it->y, posz() ), tmp_item.weight() / 225 );
-                                    if (g->m.move_cost(it->x, it->y) == 0) {
+                                    if (g->m.impassable(it->x, it->y)) {
                                         g->m.add_item_or_charges((it - 1)->x, (it - 1)->y, tmp_item);
                                         break;
                                     }
                                 } else {
                                     g->m.bash( *it, tmp_item.weight() / 225 );
-                                    if (g->m.move_cost(it->x, it->y) == 0) {
+                                    if (g->m.impassable(it->x, it->y)) {
                                         break;
                                     }
                                 }
                             }
                         }
                         if (it == traj.end()) {
-                            g->m.add_item_or_charges(posx(), posy(), tmp_item);
+                            g->m.add_item_or_charges(pos(), tmp_item);
                         }
                     }
                 }
@@ -1007,6 +1046,7 @@ bool player::activate_bionic(int b, bool eff_only)
         moves -= 100;
     } else if(bio.id == "bio_lockpick") {
         tmp_item = item( "pseuso_bio_picklock", 0 );
+        g->refresh_all();
         if( invoke_item( &tmp_item ) == 0 ) {
             if (tmp_item.charges > 0) {
                 // restore the energy since CBM wasn't used
@@ -1018,9 +1058,9 @@ bool player::activate_bionic(int b, bool eff_only)
             // TODO: damage the player / their bionics
         }
     } else if(bio.id == "bio_flashbang") {
-        g->flashbang( pos3(), true);
+        g->flashbang( pos(), true);
     } else if(bio.id == "bio_shockwave") {
-        g->shockwave( pos3(), 3, 4, 2, 8, true );
+        g->shockwave( pos(), 3, 4, 2, 8, true );
         add_msg_if_player(m_neutral, _("You unleash a powerful shockwave!"));
     } else if(bio.id == "bio_meteorologist") {
         // Calculate local wind power
@@ -1032,13 +1072,24 @@ bool player::activate_bionic(int b, bool eff_only)
         }
         const oter_id &cur_om_ter = overmap_buffer.ter( global_omt_location() );
         std::string omtername = otermap[cur_om_ter].name;
-        int windpower = get_local_windpower(weatherPoint.windpower + vehwindspeed, omtername, g->is_sheltered(g->u.pos()));
-
-        add_msg_if_player(m_info, _("Temperature: %s."), print_temperature(g->get_temperature()).c_str());
-        add_msg_if_player(m_info, _("Relative Humidity: %s."), print_humidity(get_local_humidity(weatherPoint.humidity, g->weather, g->is_sheltered(g->u.pos()))).c_str());
-        add_msg_if_player(m_info, _("Pressure: %s."), print_pressure((int)weatherPoint.pressure).c_str());
-        add_msg_if_player(m_info, _("Wind Speed: %s."), print_windspeed((float)windpower).c_str());
-        add_msg_if_player(m_info, _("Feels Like: %s."), print_temperature(get_local_windchill(weatherPoint.temperature, weatherPoint.humidity, windpower) + g->get_temperature()).c_str());
+        /* windpower defined in internal velocity units (=.01 mph) */
+        double windpower = 100.0f * get_local_windpower( weatherPoint.windpower + vehwindspeed,
+                                                         omtername, g->is_sheltered( g->u.pos() ) );
+        add_msg_if_player( m_info, _( "Temperature: %s." ),
+                           print_temperature( g->get_temperature() ).c_str() );
+        add_msg_if_player( m_info, _( "Relative Humidity: %s." ),
+                           print_humidity(
+                               get_local_humidity( weatherPoint.humidity, g->weather,
+                                                   g->is_sheltered( g->u.pos() ) ) ).c_str() );
+        add_msg_if_player( m_info, _( "Pressure: %s."),
+                           print_pressure( (int)weatherPoint.pressure ).c_str() );
+        add_msg_if_player( m_info, _( "Wind Speed: %.1f %s." ),
+                           convert_velocity( int( windpower ), VU_WIND ),
+                           velocity_units( VU_WIND ) );
+        add_msg_if_player( m_info, _( "Feels Like: %s." ),
+                           print_temperature(
+                               get_local_windchill( weatherPoint.temperature, weatherPoint.humidity,
+                                                    windpower ) + g->get_temperature() ).c_str() );
     } else if(bio.id == "bio_claws") {
         if (weapon.has_flag ("NO_UNWIELD")) {
             add_msg(m_info, _("Deactivate your %s first!"),
@@ -1049,7 +1100,7 @@ bool player::activate_bionic(int b, bool eff_only)
         } else if(weapon.type->id != "null") {
             add_msg(m_warning, _("Your claws extend, forcing you to drop your %s."),
                     weapon.tname().c_str());
-            g->m.add_item_or_charges(posx(), posy(), weapon);
+            g->m.add_item_or_charges(pos(), weapon);
             weapon = item("bio_claws_weapon", 0);
             weapon.invlet = '#';
         } else {
@@ -1067,7 +1118,7 @@ bool player::activate_bionic(int b, bool eff_only)
         } else if(weapon.type->id != "null") {
             add_msg(m_warning, _("Your blade extends, forcing you to drop your %s."),
                     weapon.tname().c_str());
-            g->m.add_item_or_charges(posx(), posy(), weapon);
+            g->m.add_item_or_charges(pos(), weapon);
             weapon = item("bio_blade_weapon", 0);
             weapon.invlet = '#';
         } else {
@@ -1322,6 +1373,16 @@ bool player::uninstall_bionic(std::string const &b_id, int skill_level)
         return false;
     }
 
+	if( b_id == "bio_eye_optic" ) {
+        popup(_("The Telescopic Lenses are part of your eyes now.  Removing them would leave you blind.") );
+        return false;
+    }
+
+	if( b_id == "bio_blindfold" ) {
+        popup(_("You must remove the Anti-glare Compensators bionic to remove the Optical Dampers.") );
+        return false;
+    }
+
     // removal of bionics adds +2 difficulty over installation
     int chance_of_success;
     if (skill_level != -1){
@@ -1331,6 +1392,7 @@ bool player::uninstall_bionic(std::string const &b_id, int skill_level)
                                 skill_level,
                                 difficulty + 2);
     } else {
+        ///\EFFECT_INT increases chance of success removing bionics with unspecified skil level
         chance_of_success = bionic_manip_cos(int_cur,
                                 skillLevel( skilll_electronics ),
                                 skillLevel( skilll_firstaid ),
@@ -1381,7 +1443,7 @@ bool player::uninstall_bionic(std::string const &b_id, int skill_level)
         if (b_id == "bio_reactor" || b_id == "bio_advreactor") {
             remove_bionic("bio_plutdump");
         }
-        g->m.spawn_item(posx(), posy(), "burnt_out_bionic", 1);
+        g->m.spawn_item(pos(), "burnt_out_bionic", 1);
     } else {
         add_memorial_log(pgettext("memorial_male", "Removed bionic: %s."),
                          pgettext("memorial_female", "Removed bionic: %s."),
@@ -1442,6 +1504,7 @@ bool player::install_bionics(const itype &type, int skill_level)
                                 skill_level,
                                 difficult);
     } else {
+        ///\EFFECT_INT increases chance of success installing bionics with unspecified skill level
         chance_of_success = bionic_manip_cos(int_cur,
                                 skillLevel( skilll_electronics ),
                                 skillLevel( skilll_firstaid ),
@@ -1467,16 +1530,23 @@ bool player::install_bionics(const itype &type, int skill_level)
         add_msg(m_good, _("Successfully installed %s."), bionics[bioid].name.c_str());
         add_bionic(bioid);
 
-        if (bioid == "bio_ears") {
-            add_bionic("bio_earplugs"); // automatically add the earplugs, they're part of the same bionic
-        } else if (bioid == "bio_reactor_upgrade") {
-            remove_bionic("bio_reactor");
-            remove_bionic("bio_reactor_upgrade");
-            add_bionic("bio_advreactor");
-        } else if (bioid == "bio_reactor" || bioid == "bio_advreactor") {
-            add_bionic("bio_plutdump");
+        if( bioid == "bio_eye_optic" && has_trait( "HYPEROPIC" ) ) {
+            remove_mutation( "HYPEROPIC" );
         }
-    } else {
+        if( bioid == "bio_eye_optic" && has_trait( "MYOPIC" ) ) {
+            remove_mutation( "MYOPIC" );
+        } else if( bioid == "bio_ears" ) {
+            add_bionic( "bio_earplugs" ); // automatically add the earplugs, they're part of the same bionic
+        } else if( bioid == "bio_sunglasses" ) {
+			add_bionic( "bio_blindfold" ); // automatically add the Optical Dampers, they're part of the same bionic
+        } else if( bioid == "bio_reactor_upgrade" ) {
+            remove_bionic( "bio_reactor" );
+            remove_bionic( "bio_reactor_upgrade" );
+            add_bionic( "bio_advreactor" );
+        } else if( bioid == "bio_reactor" || bioid == "bio_advreactor" ) {
+            add_bionic( "bio_plutdump" );
+        }
+    } else{
         add_memorial_log(pgettext("memorial_male", "Installed bionic: %s."),
                          pgettext("memorial_female", "Installed bionic: %s."),
                          bionics[bioid].name.c_str());
@@ -1494,6 +1564,7 @@ void bionics_install_failure(player *u, int difficulty, int success)
 
     // it would be better for code reuse just to pass in skill as an argument from install_bionic
     // pl_skill should be calculated the same as in install_bionics
+    ///\EFFECT_INT randomly decreases severity of bionics installation failure
     int pl_skill = u->int_cur * 4 +
                    u->skillLevel( skilll_electronics ) * 4 +
                    u->skillLevel( skilll_firstaid )    * 3 +
@@ -1619,7 +1690,7 @@ void player::add_bionic( std::string const &b )
         return;
     }
     char newinv = ' ';
-    for( auto &inv_char : inv_chars ) {
+    for( auto &inv_char : bionic_chars ) {
         if( bionic_by_invlet( inv_char ) == nullptr ) {
             newinv = inv_char;
             break;
@@ -1648,11 +1719,14 @@ void player::remove_bionic(std::string const &b) {
             continue;
         }
 
-        // Ears and earplugs go together like peanut butter and jelly.
+        // Ears and earplugs and sunglasses and blindfold go together like peanut butter and jelly.
         // Therefore, removing one, should remove the other.
         if ((b == "bio_ears" && i.id == "bio_earplugs") ||
             (b == "bio_earplugs" && i.id == "bio_ears")) {
             continue;
+        } else if ((b == "bio_sunglasses" && i.id == "bio_blindfold") ||
+		           (b == "bio_blindfold" && i.id == "bio_sunglasses")) {
+				   continue;
         }
 
         new_my_bionics.push_back(bionic(i.id, i.invlet));
@@ -1704,7 +1778,7 @@ bionic& player::bionic_at_index(int i)
     return my_bionics[i];
 }
 
-bionic* player::bionic_by_invlet(char ch) {
+bionic* player::bionic_by_invlet( const long ch ) {
     for( auto &elem : my_bionics ) {
         if( elem.invlet == ch ) {
             return &elem;
