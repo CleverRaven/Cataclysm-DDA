@@ -1939,10 +1939,13 @@ classes = {
     itype = {
         attributes = {
             color = { type = "int", writable = true },
+            default_container = { type = "string", writable = true },
             description = { type = "string", writable = true },
             id = { type = "string" },
+            integral_volume = { type = "int", writable = true },
             light_emission = { type = "int", writable = true },
             m_to_hit = { type = "int", writable = true },
+            magazine_well = { type = "int", writable = true },
             melee_cut = { type = "int", writable = true },
             melee_dam = { type = "int", writable = true },
             min_dex = { type = "int", writable = true },
@@ -1951,6 +1954,8 @@ classes = {
             min_str = { type = "int", writable = true },
             phase = { type = "phase_id", writable = true },
             price = { type = "int", writable = true },
+            price_post = { type = "int", writable = true },
+            rigid = { type = "bool", writable = true },
             snippet_category = { type = "string", writable = true },
             stack_size = { type = "int", writable = true },
             sym = { type = "int", writable = true },
@@ -1959,6 +1964,7 @@ classes = {
         },
         functions = {
             { name = "can_use", rval = "bool", args = { "string" } },
+            { name = "charges_default", rval = "int", args = { } },
             { name = "charges_to_use", rval = "int", args = { } },
             { name = "count_by_charges", rval = "bool", args = { } },
             { name = "explode_in_fire", rval = "bool", args = { } },
@@ -2002,80 +2008,44 @@ classes = {
     it_comest = {
         parent = "itype",
         attributes = {
-            quench = {
-                type = "int",
-                writable = true
-            },
-            spoils_in = {
-                type = "int",
-                cpp_name = "spoils",
-                writable = true
-            },
-            addiction_potential = {
-                type = "int",
-                cpp_name = "addict",
-                writable = true
-            },
-            def_charges = {
-                type = "int",
-                writable = true
-            },
-            stim = {
-                type = "int",
-                writable = true
-            },
-            healthy = {
-                type = "int",
-                writable = true
-            },
-            brewtime = {
-                type = "int",
-                writable = true
-            },
-            fun = {
-                type = "int",
-                writable = true
-            },
-            tool = {
-                type = "string",
-                writable = true
-            },
-            comestible_type = {
-                type = "string",
-                cpp_name = "comesttype",
-                writable = true
-            }
+            add = { type = "add_type", writable = true },
+            addict = { type = "int", writable = true },
+            brewtime = { type = "int", writable = true },
+            comesttype = { type = "string", writable = true },
+            def_charges = { type = "int", writable = true },
+            fun = { type = "int", writable = true },
+            healthy = { type = "int", writable = true },
+            quench = { type = "int", writable = true },
+            spoils = { type = "int", writable = true },
+            stim = { type = "int", writable = true },
+            tool = { type = "string", writable = true },
         },
         functions = {
+            { name = "charges_default", rval = "int", args = { } },
+            { name = "count_by_charges", rval = "bool", args = { } },
+            { name = "get_calories", rval = "int", args = { } },
+            { name = "get_item_type_string", rval = "string", args = { } },
             { name = "get_nutrition", rval = "int", args = { } },
-            { name = "get_calories", rval = "int", args = { } }
+            { name = "is_food", rval = "bool", args = { } },
         }
     },
     it_tool = {
         parent = "itype",
         attributes = {
-            ammo_id = {
-                type = "string",
-                writable = true
-            },
-            max_charges = {
-                type = "int",
-                writable = true
-            },
-            def_charges = {
-                type = "int",
-                writable = true
-            },
-            charges_per_use = {
-                type = "int",
-                writable = true
-            },
-            turns_per_charge = {
-                type = "int",
-                writable = true
-            }
+            ammo_id = { type = "string", writable = true },
+            charges_per_use = { type = "int", writable = true },
+            def_charges = { type = "int", writable = true },
+            max_charges = { type = "int", writable = true },
+            revert_to = { type = "string", writable = true },
+            subtype = { type = "string", writable = true },
+            turns_per_charge = { type = "int", writable = true },
         },
         functions = {
+            { name = "charges_default", rval = "int", args = { } },
+            { name = "charges_to_use", rval = "int", args = { } },
+            { name = "get_item_type_string", rval = "string", args = { } },
+            { name = "is_tool", rval = "bool", args = { } },
+            { name = "maximum_charges", rval = "int", args = { } },
         }
     },
     w_point = {
