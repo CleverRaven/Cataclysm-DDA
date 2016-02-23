@@ -4189,11 +4189,19 @@ bool item::can_reload( const itype_id& ammo ) const {
         return false;
 
     } else if( magazine_integral() ) {
-        if( !ammo.empty() && ammo_data() ) {
-            return ammo_data()->id == ammo;
-        } else {
-            return ammo_remaining() < ammo_capacity();
+        if( !ammo.empty() ) {
+            if( ammo_data() ) {
+                if( ammo_data()->id != ammo ) {
+                    return false;
+                }
+            } else {
+                auto at = item_controller->find_template( ammo );
+                if( !at->ammo || ammo_type() != at->ammo->type ) {
+                    return false;
+                }
+            }
         }
+        return ammo_remaining() < ammo_capacity();
 
     } else {
         return ammo.empty() ? true : magazine_compatible().count( ammo );
