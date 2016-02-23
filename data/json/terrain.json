@@ -963,7 +963,7 @@
         "color": "ltgray",
         "move_cost": 0,
         "roof": "t_flat_roof",
-        "flags": ["FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "AUTO_WALL_SYMBOL"],
+        "flags": ["NOITEM", "SUPPORTS_ROOF", "WALL", "AUTO_WALL_SYMBOL"],
         "bash": {
             "str_min": 30, "str_max": 210,
             "sound": "crash!",
