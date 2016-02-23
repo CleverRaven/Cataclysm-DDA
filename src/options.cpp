@@ -1313,6 +1313,39 @@ void options_manager::init()
     }
 }
 
+#ifdef TILES
+// Helper method to isolate #ifdeffed tiles code.
+static void refresh_tiles( bool used_tiles_changed, bool pixel_minimap_height_changed, bool ingame )
+{
+    if( used_tiles_changed ) {
+        //try and keep SDL calls limited to source files that deal specifically with them
+        try {
+            tilecontext->reinit();
+            //g->init_ui is called when zoom is changed
+            g->reset_zoom();
+            if( ingame ) {
+                if( g->pixel_minimap_option ) {
+                    wrefresh(g->w_pixel_minimap);
+                }
+                g->refresh_all();
+            }
+            tilecontext->do_tile_loading_report();
+        } catch( const std::exception &err ) {
+            popup( _( "Loading the tileset failed: %s" ), err.what() );
+            use_tiles = false;
+        }
+    } else if( ingame && g->pixel_minimap_option && pixel_minimap_height_changed ) {
+        tilecontext->reinit_minimap();
+        g->init_ui();
+        wrefresh( g->w_pixel_minimap );
+        g->refresh_all();
+    }
+}
+#else
+static void refresh_tiles( bool, bool, bool ) {
+}
+#endif // TILES
+
 void options_manager::show(bool ingame)
 {
     auto OPTIONS_OLD = OPTIONS;
@@ -1627,36 +1660,7 @@ void options_manager::show(bool ingame)
         g->mmenu_refresh_credits();
     }
 
-    // We can't put this whole block into a single #ifdef because then the vars
-    // `used_tiles_changed` and `pixel_minimap_height_changed` will count as
-    // unused (-Werror=unused-but-set-variable).
-    if( used_tiles_changed ) {
-#ifdef TILES
-        //try and keep SDL calls limited to source files that deal specifically with them
-        try {
-            tilecontext->reinit();
-            //g->init_ui is called when zoom is changed
-            g->reset_zoom();
-            if( ingame ) {
-                if( g->pixel_minimap_option ) {
-                    wrefresh(g->w_pixel_minimap);
-                }
-                g->refresh_all();
-            }
-            tilecontext->do_tile_loading_report();
-        } catch( const std::exception &err ) {
-            popup(_("Loading the tileset failed: %s"), err.what());
-            use_tiles = false;
-        }
-#endif // TILES
-    } else if( ingame && g->pixel_minimap_option && pixel_minimap_height_changed ) {
-#ifdef TILES
-        tilecontext->reinit_minimap();
-        g->init_ui();
-        wrefresh( g->w_pixel_minimap );
-        g->refresh_all();
-#endif // TILES
-    }
+    refresh_tiles( used_tiles_changed, pixel_minimap_height_changed, ingame );
 
     delwin(w_options);
     delwin(w_options_border);
