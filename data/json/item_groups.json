@@ -1438,7 +1438,8 @@
   },{
     "type" : "item_group",
     "id" : "behindcounter",
-    "guns_with_ammo" : true,
+    "ammo": 50,
+    "magazine": 100,
     "items":[
       ["aspirin", 85],
       ["caffeine", 25],
@@ -4660,7 +4661,8 @@
     "type":"item_group",
     "id":"survivorweapons",
     "comment": "Please add only weapons and ammo that are easy to scavenge or create ",
-    "guns_with_ammo" : true,
+    "ammo": 50,
+    "magazine": 100,
     "items":[
       ["nailbat", 10],
       ["bwirebat",10],
@@ -9642,7 +9644,8 @@
   },{
     "type" : "item_group",
     "id" : "college_camping",
-    "guns_with_ammo" : true,
+    "ammo": 50,
+    "magazine": 100,
     "items":[
       ["rope_30", 10],
       ["hatchet", 50],
