@@ -1,4 +1,4 @@
-я╗┐#include "map.h"
+#include "map.h"
 
 #include "drawing_primitives.h"
 #include "lightmap.h"
