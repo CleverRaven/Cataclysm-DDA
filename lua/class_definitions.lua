@@ -1715,6 +1715,15 @@ enums = {
         "bp_torso",
         "num_bp",
     },
+    hp_part = {
+        "hp_head",
+        "hp_torso",
+        "hp_arm_l",
+        "hp_arm_r",
+        "hp_leg_l",
+        "hp_leg_r",
+        "num_hp_parts",
+    },
     morale_type = {
         "MORALE_NULL",
         "MORALE_FOOD_GOOD",
