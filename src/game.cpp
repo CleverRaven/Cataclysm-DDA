@@ -9429,7 +9429,7 @@ void game::draw_trail_to_square( const tripoint &t, bool bDrawX )
 
     std::vector<tripoint> pts;
     tripoint center = u.pos() + u.view_offset;
-    if( t.x != 0 || t.y != 0 || t.z ) {
+    if( t != tripoint_zero ) {
         //Draw trail
         pts = line_to( u.pos(), u.pos() + t, 0, 0 );
     } else {

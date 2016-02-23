@@ -180,6 +180,15 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
         blood_traj.push_back(trajectory[i]);
         prev_point = tp;
         tp = trajectory[i];
+
+        if( ( tp.z > prev_point.z && g->m.has_floor( tp ) ) ||
+            ( tp.z < prev_point.z && g->m.has_floor( prev_point ) ) ) {
+            // Currently strictly no shooting through floor
+            // TODO: Bash the floor
+            tp = prev_point;
+            i--;
+            break;
+        }
         // Drawing the bullet uses player u, and not player p, because it's drawn
         // relative to YOUR position, which may not be the gunman's position.
         if( do_animation && !do_draw_line ) {
@@ -248,6 +257,12 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
         } else {
             g->m.shoot( tp, proj, !no_item_damage && tp == target_arg );
             has_momentum = proj.impact.total_damage() > 0;
+        }
+
+        if( !has_momentum && g->m.impassable( tp ) ) {
+            // Don't let flamethrowers go through walls
+            // TODO: Let them go through bars
+            break;
         }
     } // Done with the trajectory!
 
@@ -802,16 +817,6 @@ static void do_aim( player *p, std::vector <Creature *> &t, int &target,
     }
 }
 
-std::vector<point> to_2d( const std::vector<tripoint> in )
-{
-    std::vector<point> ret;
-    for( const tripoint &p : in ) {
-        ret.push_back( point( p.x, p.y ) );
-    }
-
-    return ret;
-}
-
 // TODO: Shunt redundant drawing code elsewhere
 std::vector<tripoint> game::target( tripoint &p, const tripoint &low, const tripoint &high,
                                     std::vector<Creature *> t, int &target,
@@ -865,6 +870,8 @@ std::vector<tripoint> game::target( tripoint &p, const tripoint &low, const trip
     ctxt.register_action("FIRE");
     ctxt.register_action("NEXT_TARGET");
     ctxt.register_action("PREV_TARGET");
+    ctxt.register_action( "LEVEL_UP" );
+    ctxt.register_action( "LEVEL_DOWN" );
     if( mode == TARGET_MODE_FIRE ) {
         ctxt.register_action("AIM");
         ctxt.register_action("SWITCH_AIM");
@@ -928,6 +935,8 @@ std::vector<tripoint> game::target( tripoint &p, const tripoint &low, const trip
                                             t.size()), t.size());
     }
 
+    const tripoint old_offset = u.view_offset;
+    u.view_offset += p - u.pos();
     do {
         ret = g->m.find_clear_path( from, p );
 
@@ -964,10 +973,14 @@ std::vector<tripoint> game::target( tripoint &p, const tripoint &low, const trip
         int line_number = 1;
         Creature *critter = critter_at( p, true );
         if( p != from ) {
+            // Only draw those tiles which are on current z-level
+            auto ret_this_zlevel = ret;
+            ret_this_zlevel.erase( std::remove_if( ret_this_zlevel.begin(), ret_this_zlevel.end(),
+                [&center]( const tripoint &pt ) { return pt.z != center.z; } ), ret_this_zlevel.end() );
             // Only draw a highlighted trajectory if we can see the endpoint.
             // Provides feedback to the player, and avoids leaking information
             // about tiles they can't see.
-            draw_line( p, center, ret );
+            draw_line( p, center, ret_this_zlevel );
 
             // Print to target window
             if( !relevant ) {
@@ -1052,7 +1065,7 @@ std::vector<tripoint> game::target( tripoint &p, const tripoint &low, const trip
         // Clear the activity if any, we'll re-set it later if we need to.
         u.cancel_activity();
 
-        tripoint targ( 0, 0, p.z );
+        tripoint targ( 0, 0, 0 );
         // Our coordinates will either be determined by coordinate input(mouse),
         // by a direction key, or by the previous value.
         if( action == "SELECT" && ctxt.get_coordinates(g->w_terrain, targ.x, targ.y) ) {
@@ -1073,20 +1086,27 @@ std::vector<tripoint> game::target( tripoint &p, const tripoint &low, const trip
         if( action == "FIRE" && mode == TARGET_MODE_FIRE && aim_mode->has_threshold ) {
             action = aim_mode->action;
         }
+        if( g->m.has_zlevels() && action == "LEVEL_UP" ) {
+            p.z++;
+            u.view_offset.z++;
+        } else if( g->m.has_zlevels() && action == "LEVEL_DOWN" ) {
+            p.z--;
+            u.view_offset.z--;
+        }
 
         /* More drawing to terrain */
-        // TODO: Allow aiming up/down
-        if( targ.x != 0 || targ.y != 0 ) {
+        if( targ != tripoint_zero ) {
             const Creature *critter = critter_at( p, true );
             if( critter != nullptr ) {
                 draw_critter( *critter, center );
-            } else if( m.sees(u.pos(), p, -1 )) {
+            } else if( m.pl_sees( p, -1 ) ) {
                 m.drawsq( w_terrain, u, p, false, true, center );
             } else {
                 mvwputch( w_terrain, POSY, POSX, c_black, 'X' );
             }
             p.x += targ.x;
             p.y += targ.y;
+            p.z += targ.z;
             if( p.x < low.x ) {
                 p.x = low.x;
             } else if ( p.x > high.x ) {
@@ -1096,6 +1116,11 @@ std::vector<tripoint> game::target( tripoint &p, const tripoint &low, const trip
                 p.y = low.y;
             } else if ( p.y > high.y ) {
                 p.y = high.y;
+            }
+            if ( p.z < low.z ) {
+                p.z = low.z;
+            } else if ( p.z > high.z ) {
+                p.z = high.z;
             }
         } else if( (action == "PREV_TARGET") && (target != -1) ) {
             int newtarget = find_target( t, p ) - 1;
@@ -1153,6 +1178,7 @@ std::vector<tripoint> game::target( tripoint &p, const tripoint &low, const trip
                 wrefresh( w_target );
                 delwin( w_target );
                 w_target = nullptr;
+                u.view_offset = old_offset;
                 return ret;
             } else {
                 // We've run out of moves, set the activity to aim so we'll
@@ -1187,6 +1213,7 @@ std::vector<tripoint> game::target( tripoint &p, const tripoint &low, const trip
     wrefresh( w_target );
     delwin( w_target );
     w_target = nullptr;
+    u.view_offset = old_offset;
     return ret;
 }
 
