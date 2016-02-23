@@ -78,11 +78,7 @@
               { "item": "bandages", "prob": 50, "count-min": 1, "count-max": 3 },
               { "item": "1st_aid", "prob": 66 },
               { "item": "scissors" },
-              { "item": "morphine", "prob": 25 },
-              { "item": "tramadol", "prob": 33 },
-              { "item": "smoxygen_tank", "prob": 20 },
-              { "item": "antibiotics", "prob": 20 },
-              { "item": "quikclot", "prob": 20 },
+              { "group": "solider_meds" },
               { "item": "gloves_medical", "count-min": 1, "count-max": 2 },
               { "item": "scalpel", "container-item": "bag_plastic", "count-min": 1, "count-max": 2 },
               { "item": "syringe", "container-item": "bag_plastic", "count-min": 1, "count-max": 2 }
@@ -114,6 +110,18 @@
       { "item": "tshirt", "prob": 30 },
       { "item": "longshirt", "prob": 30 },
       { "item": "army_top", "prob": 20 }
+    ]
+  },
+  {
+    "id": "solider_meds",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "morphine", "prob": 20 },
+      { "item": "tramadol", "prob": 20 },
+      { "item": "smoxygen_tank", "prob": 20 },
+      { "item": "antibiotics", "prob": 20 },
+      { "item": "quikclot", "prob": 20 }
     ]
   },
   {
