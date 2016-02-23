@@ -992,7 +992,7 @@ void activity_handlers::reload_finish( player_activity *act, player *p )
         ss >> reloadable_pos;
         reloadable = &p->i_at(reloadable_pos);
     }
-    if( reloadable->reload(*p, act->position) ) {
+    if( reloadable->reload( *p, item_location( *p, &p->i_at( act->position ) ), act->index ) ) {
         if( reloadable->is_gun() && reloadable->has_flag("RELOAD_ONE") ) {
             if( reloadable->ammo_type() == "bolt" ) {
                 add_msg(_("You insert a bolt into your %s."),

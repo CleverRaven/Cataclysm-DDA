@@ -234,11 +234,11 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
      */
     item_location pick_reload_ammo( player &u ) const;
 
-    /** Reload item using ammo from inventory position returning true if sucessful */
-    bool reload( player &u, int pos );
-
-    /** Reload item using ammo from location returning true if sucessful */
-    bool reload( player &u, item_location loc );
+    /**
+     * Reload item using ammo from location returning true if sucessful
+     * @param qty if specified caps reloading to this (or fewer) units
+     */
+    bool reload( player &u, item_location loc, long qty = -1 );
 
     template<typename Archive>
     void io( Archive& );

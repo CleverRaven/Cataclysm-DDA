@@ -23,6 +23,7 @@ class item_location::impl
         virtual ~impl() = default;
         virtual std::string describe( const Character * ) const = 0;
         virtual int obtain( Character &ch, long qty ) = 0;
+        virtual int obtain_cost( const Character &ch, long qty ) const = 0;
         virtual void remove_item() = 0;
 
     protected:
@@ -56,16 +57,7 @@ class item_location::item_on_map : public item_location::impl
                 return INT_MIN;
             }
 
-            int mv = 0;
-
-            //@ todo handle unpacking costs
-
-            mv += dynamic_cast<player *>( &ch )->item_handling_cost( *what ) * ( square_dist( ch.pos(),
-                    cur ) + 1 );
-            mv *= MAP_HANDLING_FACTOR;
-
-            ch.moves -= mv;
-
+            ch.moves -= obtain_cost( ch, qty );
 
             item obj = what->split( qty );
             if( !obj.is_null() ) {
@@ -75,6 +67,26 @@ class item_location::item_on_map : public item_location::impl
                 remove_item();
                 return inv;
             }
+        }
+
+        int obtain_cost( const Character &ch, long qty ) const override {
+            if( !what ) {
+                return 0;
+            }
+
+            item obj = *what;
+            obj = obj.split( qty );
+            if( obj.is_null() ) {
+                obj = *what;
+            }
+
+            int mv = dynamic_cast<const player *>( &ch )->item_handling_cost( obj );
+            mv *= square_dist( ch.pos(), cur ) + 1;
+            mv *= MAP_HANDLING_FACTOR;
+
+            //@ todo handle unpacking costs
+
+            return mv;
         }
 
         void remove_item() override {
@@ -127,36 +139,11 @@ class item_location::item_on_person : public item_location::impl
                 return INT_MIN;
             }
 
-            int mv = 0;
-            bool was_worn = false;
-
-            item *holster = who.find_parent( *what );
-            if( holster && who.is_worn( *holster ) && holster->can_holster( *what, true ) ) {
-                // Immediate parent is a worn holster capable of holding this item
-                auto ptr = dynamic_cast<const holster_actor *>
-                           ( holster->type->get_use( "holster" )->get_actor_ptr() );
-                mv += dynamic_cast<player &>( who ).item_handling_cost( *what, false, ptr->draw_cost );
-                was_worn = true;
-            } else {
-                // Unpack the object followed by any nested containers starting with the innermost
-                mv += dynamic_cast<player &>( who ).item_handling_cost( *what );
-                for( auto obj = who.find_parent( *what ); obj &&
-                     who.find_parent( *obj ); obj = who.find_parent( *obj ) ) {
-                    mv += dynamic_cast<player &>( who ).item_handling_cost( *obj );
-                }
-            }
+            ch.moves -= obtain_cost( ch, qty );
 
             if( who.is_worn( *what ) ) {
                 what->on_takeoff( dynamic_cast<player &>( who ) );
-            } else if( !was_worn ) {
-                mv *= INVENTORY_HANDLING_FACTOR;
             }
-
-            if( &ch != &who ) {
-                // @todo implement movement cost for transfering item between characters
-            }
-
-            who.moves -= mv;
 
             if( &ch.i_at( ch.get_item_position( what ) ) == what ) {
                 // item already in target characters inventory at base of stack
@@ -171,6 +158,48 @@ class item_location::item_on_person : public item_location::impl
                 remove_item();
                 return inv;
             }
+        }
+
+
+        int obtain_cost( const Character &ch, long qty ) const override {
+            if( !what ) {
+                return 0;
+            }
+
+            int mv = 0;
+
+            item obj = *what;
+            obj = obj.split( qty );
+            if( obj.is_null() ) {
+                obj = *what;
+            }
+
+            auto parents = who.parents( *what );
+            if( !parents.empty() && who.is_worn( *parents.back() ) ) {
+                // if outermost parent item is worn status effects (eg. GRABBED) are not applied
+                // holsters may also adjust the volume cost factor
+
+                if( parents.back()->can_holster( obj, true ) ) {
+                    auto ptr = dynamic_cast<const holster_actor *>
+                               ( parents.back()->type->get_use( "holster" )->get_actor_ptr() );
+                    mv += dynamic_cast<player &>( who ).item_handling_cost( obj, false, ptr->draw_cost );
+
+                } else {
+                    mv += dynamic_cast<player &>( who ).item_handling_cost( obj, false );
+                }
+
+            } else {
+                // it is more expensive to obtain items from the inventory
+                // @todo calculate cost for searching in inventory proportional to item volume
+                mv += dynamic_cast<player &>( who ).item_handling_cost( obj );
+                mv *= INVENTORY_HANDLING_FACTOR;
+            }
+
+            if( &ch != &who ) {
+                // @todo implement movement cost for transfering item between characters
+            }
+
+            return mv;
         }
 
         void remove_item() override {
@@ -216,15 +245,7 @@ class item_location::item_on_vehicle : public item_location::impl
                 return INT_MIN;
             }
 
-            int mv = 0;
-
-            // @todo handle unpacking costs
-            // @todo account for distance
-
-            mv += dynamic_cast<player *>( &ch )->item_handling_cost( *what );
-            mv *= VEHICLE_HANDLING_FACTOR;
-
-            ch.moves -= mv;
+            ch.moves -= obtain_cost( ch, qty );
 
             item obj = what->split( qty );
             if( !obj.is_null() ) {
@@ -234,6 +255,26 @@ class item_location::item_on_vehicle : public item_location::impl
                 remove_item();
                 return inv;
             }
+        }
+
+        int obtain_cost( const Character &ch, long qty ) const override {
+            if( !what ) {
+                return 0;
+            }
+
+            item obj = *what;
+            obj = obj.split( qty );
+            if( obj.is_null() ) {
+                obj = *what;
+            }
+
+            int mv = dynamic_cast<const player *>( &ch )->item_handling_cost( obj );
+            mv *= square_dist( ch.pos(), cur.veh.global_part_pos3( cur.part ) ) + 1;
+            mv *= VEHICLE_HANDLING_FACTOR;
+
+            //@ todo handle unpacking costs
+
+            return mv;
         }
 
         void remove_item() override {
@@ -304,6 +345,11 @@ std::string item_location::describe( const Character *ch ) const
 int item_location::obtain( Character &ch, long qty )
 {
     return ptr ? ptr->obtain( ch, qty ) : INT_MIN;
+}
+
+int item_location::obtain_cost( const Character &ch, long qty ) const
+{
+    return ptr ? ptr->obtain_cost( ch, qty ) : 0;
 }
 
 void item_location::remove_item()
