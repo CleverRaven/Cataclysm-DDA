@@ -16,6 +16,7 @@
 #include "mtype.h"
 #include "field.h"
 #include "sounds.h"
+#include "iuse_actor.h"
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_NPC) << __FILE__ << ":" << __LINE__ << ": "
 #define TARGET_NONE INT_MIN
