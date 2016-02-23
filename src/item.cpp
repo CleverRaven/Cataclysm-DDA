@@ -4257,7 +4257,7 @@ item_location item::pick_reload_ammo( player &u ) const
         return lhs.moves > rhs.moves;
     } );
     std::stable_sort( ammo_list.begin(), ammo_list.end(), []( const reloadable& lhs, const reloadable& rhs ) {
-        return lhs.ammo->ammo_remaining() != 0 > rhs.ammo->ammo_remaining() != 0;
+        return ( lhs.ammo->ammo_remaining() != 0 ) > ( rhs.ammo->ammo_remaining() != 0 );
     } );
 
     if( ammo_list.size() == 1 ) {
