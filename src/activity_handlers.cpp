@@ -1500,9 +1500,7 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
     // Remember our level: we want to stop retrying on level up
     const int old_level = p->get_skill_level( actor->used_skill );
     const auto attempt = actor->repair( *p, *used_tool, fix );
-    if( attempt != repair_item_actor::AS_CANT ) {
-        p->consume_charges( *used_tool, charges_to_use );
-    }
+
 
     // Print message explaining why we stopped
     // But only if we didn't destroy the item (because then it's obvious)
@@ -1554,6 +1552,9 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
 
     // Otherwise keep retrying
     act->moves_left = actor->move_cost;
+    if( attempt != repair_item_actor::AS_CANT ) {
+        p->consume_charges( *used_tool, charges_to_use );
+    }
 }
 
 void activity_handlers::gunmod_add_finish( player_activity *act, player *p )
