@@ -13,6 +13,7 @@
 -- Member function: "func_" .. class_name .. "_" .. member_name
 -- Operators: "op_" .. class_name .. "_" .. operator_id
 -- Constructors: "new_" .. class_name
+-- Global functions get a "global_" prefix.
 -- This allows a data member "foo", as well as a function member "get_foo(...)".
 -- They would get "get_class_foo", "set_class_foo" and "func_class_get_foo" wrappers.
 
@@ -117,7 +118,7 @@ end
 -- Generates a function wrapper for a global function. "function_to_call" can be any string
 -- that works as a "function", including expressions like "g->add_msg"
 function generate_global_function_wrapper(function_name, function_to_call, args, rval)
-    local text = "static int "..function_name.."(lua_State *L) {"..br
+    local text = "static int global_"..function_name.."(lua_State *L) {"..br
 
     for i, arg in ipairs(args) do
         text = text .. tab .. "LuaType<"..member_type_to_cpp_type(arg)..">::check(L, "..i..");"..br
@@ -562,7 +563,7 @@ end
 cpp_output = cpp_output .. "static const struct luaL_Reg gamelib [] = {"..br
 
 for name, func in pairs(global_functions) do
-    cpp_output = cpp_output .. tab .. '{"'..name..'", '..name..'},'..br
+    cpp_output = cpp_output .. tab .. '{"'..name..'", global_'..name..'},'..br
 end
 
 cpp_output = cpp_output .. tab .. "{NULL, NULL}"..br.."};"..br
