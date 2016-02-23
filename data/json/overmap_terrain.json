@@ -6885,6 +6885,51 @@
         "see_cost" : 5,
         "mondensity" : 2,
         "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "campsite",
+        "name" : "campsite",
+        "sym" : 43,
+        "color" : "green",
+        "see_cost" : 5,
+        "extras" : "field",
+        "spawns" : { "group": "GROUP_FOREST", "population": [0, 1], "chance": 80 }
+    },{
+        "type" : "overmap_terrain",
+        "id" : "campsite_a",
+        "name" : "campsites",
+        "sym" : 43,
+        "color" : "green",
+        "see_cost" : 5,
+        "extras" : "field",
+        "spawns" : { "group": "GROUP_FOREST", "population": [0, 1], "chance": 80 }
+    },{
+        "type" : "overmap_terrain",
+        "id" : "campsite_cabin_incomplete",
+        "name" : "incomplete cabin",
+        "sym" : 43,
+        "color" : "light_green",
+        "see_cost" : 5,
+        "extras" : "field",
+        "spawns" : { "group": "GROUP_FOREST", "population": [0, 1], "chance": 80 }
+    },{
+        "type" : "overmap_terrain",
+        "id" : "campsite_field_biker",
+        "name" : "field campsite",
+        "sym" : 43,
+        "color" : "light_green",
+        "see_cost" : 5,
+        "extras" : "field",
+        "spawns" : { "group": "GROUP_FOREST", "population": [0, 1], "chance": 80 }
+    },{
+        "type" : "overmap_terrain",
+        "id" : "campsite_field_biker_destroyed",
+        "name" : "field campsite",
+        "sym" : 43,
+        "color" : "light_green",
+        "see_cost" : 5,
+        "extras" : "field",
+        "spawns" : { "group": "GROUP_FOREST", "population": [0, 1], "chance": 80 }
     }
 ]
 
