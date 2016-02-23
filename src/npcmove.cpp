@@ -1083,8 +1083,12 @@ bool npc::alt_attack_available()
                     used = &(slice[i]->front());
                 }
             }
-            if (used->charges >= 1) {
+            const auto use_fun = used->get_use( "iuse_transform" );
+            const iuse_transform *actor = dynamic_cast<const iuse_transform *>( use_fun->get_actor_ptr() );
+            if (actor == nullptr || actor->need_fire <= 0) {
                 return true;
+            } else {
+                return has_charges( actor->need_fire );
             }
         }
     }
