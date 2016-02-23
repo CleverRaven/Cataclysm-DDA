@@ -1089,7 +1089,7 @@ bool npc::alt_attack_available()
             if (actor == nullptr || actor->need_fire <= 0) {
                 return true;
             } else {
-                return has_charges( actor->need_fire );
+                return inv.has_charges("fire", 1);
             }
         }
     }
