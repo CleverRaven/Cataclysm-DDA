@@ -1076,6 +1076,7 @@ bool npc::alt_attack_available()
         if( ( !is_following() || rules.use_grenades ||
               !( item::find_type( elem )->item_tags.count( "GRENADE" ) ) ) &&
                 has_amount( elem, 1 ) ) {
+            item *used = nullptr;
             invslice slice = inv.slice();
             for (size_t i = 0; i < inv.size(); i++) {
                 if (slice[i]->front().type->id == elem) {
