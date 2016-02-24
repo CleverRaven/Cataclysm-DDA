@@ -4710,79 +4710,62 @@ int iuse::mp3(player *p, item *it, bool, const tripoint& )
     return it->type->charges_to_use();
 }
 
-// Some music descriptions affect the character additionally, e.g. increase player::stim, or
-// increase the morale from the music.
-struct music_description {
-    std::string sound;
-    int stim_bonus = 0;
-    int morale_bonus = 0;
-};
-music_description get_music_description( const player & p )
+const std::string &get_music_description()
 {
-    music_description result;
-    switch( rng( 1, 10 ) ) {
-        case 1:
-            result.sound = _("a sweet guitar solo!");
-            break;
-        case 2:
-            result.sound = _("a funky bassline.");
-            break;
-        case 3:
-            result.sound = _("some amazing vocals.");
-            break;
-        case 4:
-            result.sound = _("some pumping bass.");
-            break;
-        case 5:
-            result.sound = _("dramatic classical music.");
-            ///\EFFECT_INT increases possible morale benefit from listening to music
-            result.morale_bonus = p.int_cur;
-            break;
+    static const std::string no_description;
+    static const std::string rare = _("some bass-heavy post-glam speed polka.");
+    static const std::array<std::string, 5> descriptions = {{
+        _("a sweet guitar solo!"),
+        _("a funky bassline."),
+        _("some amazing vocals."),
+        _("some pumping bass."),
+        _("dramatic classical music.")
+        
+    }};
+
+    if( one_in( 50 ) ) {
+        return rare;
     }
-    if (one_in(50)) {
-        result.sound = _("some bass-heavy post-glam speed polka.");
+
+    size_t i = (size_t)rng( 0, descriptions.size() * 2 );
+    if( i < descriptions.size() ) {
+        return descriptions[i];
     }
-    return result;
+
+    return no_description;
 }
 
 void iuse::play_music( player * const p, const tripoint &source, int const volume, int const max_morale )
 {
     // TODO: what about other "player", e.g. when a NPC is listening or when the PC is listening,
     // the other characters around should be able to profit as well.
-
-    bool const do_effects = !p->has_effect( effect_music ) && p->can_hear( source, volume );
-    int morale_bonus = 0;
+    bool const do_effects = p->can_hear( source, volume );
     std::string sound;
     if( calendar::once_every(MINUTES(5)) ) {
         // Every 5 minutes, describe the music
-        auto const music = get_music_description( *p );
-        if ( !music.sound.empty() ) {
-            // return only music description by default
-            sound = music.sound;
+        const std::string &music = get_music_description();
+        if( !music.empty() ) {
+            sound = music;
             // music source is on player's square
             if( p->pos() == source && volume != 0 ) {
                 // generic stereo players without earphones
-                sound = string_format( _("You listen to %s"), music.sound.c_str() );
-            } else if ( p->pos() == source && volume == 0 && p->can_hear( source, volume)) {
+                sound = string_format( _("You listen to %s"), music.c_str() );
+            } else if( p->pos() == source && volume == 0 && p->can_hear( source, volume ) ) {
                 // in-ear music, such as mp3 player
-                p->add_msg_if_player( _( "You listen to %s"), music.sound.c_str() );
+                p->add_msg_if_player( _( "You listen to %s"), music.c_str() );
             }
-        }
-        if( do_effects ) {
-            p->stim += music.stim_bonus;
-            morale_bonus += music.morale_bonus;
         }
     }
     // do not process mp3 player
-    if ( volume != 0 ) {
-            sounds::ambient_sound( source, volume, sound );
+    if( volume != 0 ) {
+        sounds::ambient_sound( source, volume, sound );
     }
     if( do_effects ) {
-        p->add_effect( effect_music, 1);
-        p->add_morale(MORALE_MUSIC, 1, max_morale + morale_bonus, 5, 2);
+        p->add_effect( effect_music, 1 );
+        p->add_morale( MORALE_MUSIC, 1, max_morale, 5, 2 );
         // mp3 player reduces hearing
-        if ( volume == 0 ) {
-             p->add_effect( effect_earphones,1);
+        if( volume == 0 ) {
+             p->add_effect( effect_earphones, 1 );
         }
     }
 }
