@@ -4723,7 +4723,6 @@ music_description get_music_description( const player & p )
     switch( rng( 1, 10 ) ) {
         case 1:
             result.sound = _("a sweet guitar solo!");
-            result.stim_bonus = 1;
             break;
         case 2:
             result.sound = _("a funky bassline.");
