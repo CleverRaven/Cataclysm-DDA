@@ -870,8 +870,9 @@ void Pickup::pick_up( const tripoint &pos, int min )
         // Auto pickup will need to auto resume since there can be several of them on the stack.
         g->u.activity.auto_resume = true;
     }
-    for (size_t i = 0; i < here.size(); i++) {
-        if( getitem[here.size()-1-i] ) {
+    std::reverse( getitem.begin(), getitem.end() );
+    for( size_t i = 0; i < here.size(); i++ ) {
+        if( getitem[i] ) {
             g->u.activity.values.push_back( i );
             g->u.activity.values.push_back( pickup_count[i] );
         }
