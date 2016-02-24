@@ -8582,9 +8582,9 @@ void game::handle_multi_item_info( const tripoint &lp, WINDOW *w_look, const int
             return;
         }
         const maptile &cur_maptile = g->m.maptile_at( lp );
-        const item &display_item = cur_maptile.get_last_item();
+        const item &displayed_item = cur_maptile.get_uppermost_item();
 
-        trim_and_print(w_look, line++, column, getmaxx(w_look) - 2, c_ltgray, _("There is a %s there."), display_item.tname().c_str());
+        trim_and_print(w_look, line++, column, getmaxx(w_look) - 2, c_ltgray, _("There is a %s there."), displayed_item.tname().c_str());
         if (cur_maptile.get_item_count() > 1) {
             mvwprintw(w_look, line++, column, _("There are other items there as well."));
         }

@@ -283,7 +283,7 @@ public:
         return sm->itm[x][y].size();
     }
 
-    const item &get_last_item() const
+    const item &get_uppermost_item() const
     {
         return sm->itm[x][y].back();
     }

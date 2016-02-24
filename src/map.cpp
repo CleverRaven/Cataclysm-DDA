@@ -6047,9 +6047,9 @@ bool map::draw_maptile( WINDOW* w, player &u, const tripoint &p, const maptile &
             hi = true;
         } else {
             // otherwise override with the symbol of the last item
-            sym = curr_maptile.get_last_item().symbol();
+            sym = curr_maptile.get_uppermost_item().symbol();
             if (!draw_item_sym) {
-                tercol = curr_maptile.get_last_item().color();
+                tercol = curr_maptile.get_uppermost_item().color();
             }
             if( curr_maptile.get_item_count() > 1 ) {
                 invert = !invert;
