@@ -14,6 +14,7 @@ src/crafting_gui.cpp
 src/creature_tracker.cpp
 src/damage.cpp
 src/debug.cpp
+src/dependency_tree.cpp
 src/drawing_primitives.cpp
 src/gamemode.cpp
 src/item_action.cpp
