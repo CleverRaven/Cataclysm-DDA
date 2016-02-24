@@ -511,11 +511,11 @@ void Pickup::pick_up( const tripoint &pos, int min )
     if( from_vehicle ) {
         auto vehitems = veh->get_items(cargo_part);
         here.resize( vehitems.size() );
-        std::copy( vehitems.begin(), vehitems.end(), here.begin() );
+        std::copy( vehitems.rbegin(), vehitems.rend(), here.begin() );
     } else {
         auto mapitems = g->m.i_at(pos);
         here.resize( mapitems.size() );
-        std::copy( mapitems.begin(), mapitems.end(), here.begin() );
+        std::copy( mapitems.rbegin(), mapitems.rend(), here.begin() );
     }
 
     if (min == -1) {
@@ -871,7 +871,7 @@ void Pickup::pick_up( const tripoint &pos, int min )
         g->u.activity.auto_resume = true;
     }
     for (size_t i = 0; i < here.size(); i++) {
-        if( getitem[i] ) {
+        if( getitem[here.size()-1-i] ) {
             g->u.activity.values.push_back( i );
             g->u.activity.values.push_back( pickup_count[i] );
         }
