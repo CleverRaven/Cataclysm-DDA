@@ -6,6 +6,7 @@
     "items": [
       [ "38_fmj", 25 ],
       [ "38_special", 25 ],
+      [ "40sw", 40 ],
       [ "45_jhp", 40 ],
       [ "9mm", 100 ]
     ]
@@ -15,7 +16,9 @@
     "id" : "ammo_pistol_rare",
     "//" : "Less common pistol ammmo including that only used by police/paramilitary forces.",
     "items": [
+       [ "10mm", 15 ],
        [ "38_super", 20 ],
+       [ "40fmj", 30 ],
        [ "44magnum", 30],
        [ "44fmj", 10 ],
        [ "45_acp", 50 ],
@@ -50,9 +53,12 @@
     "id" : "ammo_pistol_reloaded",
     "//" : "Reloaded pistol ammmo balanced according to rarity.",
     "items": [
+       [ "reloaded_10mm", 10 ],
        [ "reloaded_38_fmj", 30 ],
        [ "reloaded_38_special", 80 ],
        [ "reloaded_38_super", 40 ],
+       [ "reloaded_40fmj", 20 ],
+       [ "reloaded_40sw", 50 ],
        [ "reloaded_44magnum", 60],
        [ "reloaded_44fmj", 30 ],
        [ "reloaded_45_acp", 80 ],
