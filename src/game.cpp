@@ -7556,10 +7556,11 @@ void game::smash()
         return;
     }
 
-    for (auto it = m.i_at(smashp).begin(); it != m.i_at(smashp).end(); ++it) {
-        if ( it->is_corpse() && it->damage < CORPSE_PULP_THRESHOLD ) {
+    for( const auto &maybe_corpse : m.i_at( smashp ) ) {
+        if ( maybe_corpse.is_corpse() && maybe_corpse.damage < CORPSE_PULP_THRESHOLD &&
+             maybe_corpse.get_mtype()->has_flag( MF_REVIVES ) ) {
             // do activity forever. ACT_PULP stops itself
-            u.assign_activity(ACT_PULP, INT_MAX, 0);
+            u.assign_activity( ACT_PULP, INT_MAX, 0 );
             u.activity.placement = smashp;
             return; // don't smash terrain if we've smashed a corpse
         }
