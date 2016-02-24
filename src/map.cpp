@@ -1,4 +1,4 @@
-﻿#include "map.h"
+#include "map.h"
 
 #include "drawing_primitives.h"
 #include "lightmap.h"
@@ -1226,6 +1226,7 @@ void map::board_vehicle( const tripoint &pos, player *p )
     }
     veh->parts[seat_part].set_flag(vehicle_part::passenger_flag);
     veh->parts[seat_part].passenger_id = p->getID();
+    veh->invalidate_mass();
 
     p->setpos( pos );
     p->in_vehicle = true;
@@ -1273,6 +1274,7 @@ void map::unboard_vehicle( const tripoint &p )
     passenger->controlling_vehicle = false;
     veh->parts[seat_part].remove_flag(vehicle_part::passenger_flag);
     veh->skidding = true;
+    veh->invalidate_mass();
 }
 
 void map::displace_vehicle( tripoint &p, const tripoint &dp )
