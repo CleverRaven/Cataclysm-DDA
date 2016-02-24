@@ -159,5 +159,28 @@
     "dispersion": 25,
     "recoil": 620,
     "effects": [ "COOKOFF", "INCENDIARY", "RECYCLED" ]
+  },
+  {
+    "id": "reloaded_3006fmj",
+    "type": "AMMO",
+    "name": "reloaded .30-06 M2 AP",
+    "name_plural": "reloaded .30-06 M2 AP",
+    "description": "Armor piercing .30-06 M2 ammunition with 168gr FMJ bullets.  It is an extremely powerful and accurate cartridge but pays for it's armor penetration abilities with lowered damage.  This one has been hand-reloaded.",
+    "weight": 20,
+    "volume": 1,
+    "price": 1500,
+    "count": 10,
+    "stack_size": 20,
+    "material": [ "steel", "powder" ],
+    "symbol": "=",
+    "color": "yellow",
+    "ammo_type": "3006",
+    "casing": "3006_casing",
+    "damage": 50,
+    "range": 75,
+    "pierce": 16,
+    "dispersion": 55,
+    "recoil": 640,
+    "effects": [ "COOKOFF" ]
   }
 ]
