@@ -118,6 +118,8 @@
       [ "22_cb", 30 ],
       [ "22_lr", 100 ],
       [ "22_ratshot", 30 ],
+      [ "270", 25 ],
+      [ "3006", 25 ],
       [ "308", 25 ]
     ]
   },
@@ -127,6 +129,7 @@
     "//" : "Less common rifle ammmo including that only used by police/paramilitary forces.",
     "items": [
       [ "22_fmj", 50 ],
+      [ "3006fmj", 50 ],
       [ "556", 100 ],
       [ "762_51", 50 ],
       [ "762_54R", 50 ],
@@ -139,6 +142,7 @@
     "id" : "ammo_rifle_milspec",
     "//" : "Military specification rifle ammmo found at military sites.",
     "items": [
+      [ "3006_incendiary", 30 ],
       [ "556_incendiary", 100 ],
       [ "762_51_incendiary", 50 ]
     ]
@@ -158,6 +162,10 @@
       [ "reloaded_223", 60 ],
       [ "reloaded_22_fmj", 20 ],
       [ "reloaded_22_lr", 70 ],
+      [ "reloaded_270", 15 ],
+      [ "reloaded_3006", 70 ],
+      [ "reloaded_3006fmj", 10 ],
+      [ "reloaded_3006_incendiary", 5 ],
       [ "reloaded_308", 40 ],
       [ "reloaded_556", 10 ],
       [ "reloaded_556_incendiary", 5 ],

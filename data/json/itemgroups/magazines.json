@@ -141,11 +141,12 @@
     "id" : "mags_rifle_common",
     "//" : "Factory specification rifle magazines commonly owned by citizens.",
     "items": [
-      ["m14mag", 20],
-      ["m14smallmag", 20],
-      ["ruger1022mag", 50],
-      ["stanag10", 50],
-      ["stanag30", 5]
+      ["blrmag", 5 ],
+      ["m14mag", 40 ],
+      ["m14smallmag", 40 ],
+      ["ruger1022mag", 100 ],
+      ["stanag10", 100 ],
+      ["stanag30", 10 ]
     ]
   },
   {
