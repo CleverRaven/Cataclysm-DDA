@@ -4737,9 +4737,7 @@ music_description get_music_description( const player & p )
         case 5:
             result.sound = _("dramatic classical music.");
             ///\EFFECT_INT increases possible morale benefit from listening to music
-            if( p.int_cur >= 10 ) {
-                result.morale_bonus = p.int_cur * 2;
-            }
+            result.morale_bonus = p.int_cur;
             break;
     }
     if (one_in(50)) {
@@ -4795,7 +4793,7 @@ int iuse::mp3_on(player *p, item *it, bool t, const tripoint &pos)
     if (t) { // Normal use
         if( p->has_item( *it ) ) {
             // mp3 player in inventory, we can listen
-            play_music( p, pos, 0, 50 );
+            play_music( p, pos, 0, 20 );
         }
     } else { // Turning it off
         p->add_msg_if_player(_("The mp3 player turns off."));
@@ -6741,7 +6739,7 @@ int iuse::einktabletpc(player *p, item *it, bool t, const tripoint &pos)
 
             //the more varied music, the better max mood.
             const int songs = it->get_var( "EIPC_MUSIC", 0 );
-            play_music( p, pos, 8, std::min( 100, songs ) );
+            play_music( p, pos, 8, std::min( 25, songs ) );
         }
         else {
             it->active = false;

@@ -1622,7 +1622,7 @@ void vehicle::play_music()
             return;
         }
         const auto radio_pos = tripoint( global_pos() + parts[p].precalc[0], smz );
-        iuse::play_music( &g->u, radio_pos, 15, 50 );
+        iuse::play_music( &g->u, radio_pos, 15, 30 );
     }
 }
 
