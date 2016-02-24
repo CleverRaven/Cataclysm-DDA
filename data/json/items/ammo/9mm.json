@@ -16,7 +16,7 @@
     "casing": "9mm_casing",
     "damage": 26,
     "range": 14,
-    "dispersion": 155,
+    "dispersion": 140,
     "recoil": 195,
     "effects": [ "COOKOFF" ]
   },
@@ -38,7 +38,7 @@
     "damage": 24,
     "range": 14,
     "pierce": 2,
-    "dispersion": 150,
+    "dispersion": 140,
     "recoil": 195,
     "effects": [ "COOKOFF" ]
 
@@ -58,10 +58,10 @@
     "color": "yellow",
     "ammo_type": "9mm",
     "casing": "9mm_casing",
-    "damage": 25,
+    "damage": 28,
     "range": 14,
-    "pierce": 4,
-    "dispersion": 135,
+    "pierce": 2,
+    "dispersion": 130,
     "recoil": 210,
     "effects": [ "COOKOFF" ]
   },
@@ -80,11 +80,11 @@
     "color": "yellow",
     "ammo_type": "9mm",
     "casing": "9mm_casing",
-    "damage": 26,
+    "damage": 28,
     "range": 16,
-    "pierce": 6,
-    "dispersion": 120,
-    "recoil": 225,
+    "pierce": 4,
+    "dispersion": 130,
+    "recoil": 230,
     "effects": [ "COOKOFF" ]
   },
   {
@@ -105,7 +105,7 @@
     "damage": 23,
     "range": 14,
     "pierce": 2,
-    "dispersion": 165,
+    "dispersion": 150,
     "recoil": 195,
     "effects": [ "COOKOFF", "RECYCLED" ]
   },
@@ -127,7 +127,7 @@
     "damage": 25,
     "range": 14,
     "pierce": 2,
-    "dispersion": 165,
+    "dispersion": 150,
     "recoil": 195,
     "effects": [ "COOKOFF", "RECYCLED" ]
   },
@@ -146,10 +146,10 @@
     "material": [ "steel", "powder" ],
     "ammo_type": "9mm",
     "casing": "9mm_casing",
-    "damage": 24,
+    "damage": 26,
     "range": 14,
-    "pierce": 4,
-    "dispersion": 150,
+    "pierce": 2,
+    "dispersion": 140,
     "recoil": 210,
     "effects": [ "COOKOFF", "RECYCLED" ]
   },
@@ -168,11 +168,11 @@
     "color": "yellow",
     "ammo_type": "9mm",
     "casing": "9mm_casing",
-    "damage": 25,
+    "damage": 26,
     "range": 16,
-    "pierce": 6,
-    "dispersion": 130,
-    "recoil": 225,
+    "pierce": 4,
+    "dispersion": 140,
+    "recoil": 230,
     "effects": [ "COOKOFF", "RECYCLED" ]
   }
 ]
