@@ -59,9 +59,11 @@
     "items": [
       ["fn57mag", 15],
       ["glockmag", 40],
+      ["glock40mag", 30],
       ["hk46mag", 5],
       ["m9mag", 5],
       ["mp5mag", 10],
+      ["sig40mag", 20],
       ["stanag10", 10],
       ["stanag30", 5]
     ] 
@@ -74,6 +76,7 @@
       { "group": "mags_police", "prob": 50 },
       ["fnp90mag", 20],
       ["glockbigmag", 10],
+      ["glock40bigmag", 10],
       ["hk46bigmag", 5],
       ["m9bigmag", 10],
       ["mp5bigmag", 20],
@@ -89,6 +92,7 @@
     "//" : "Factory specification pistol magazines commonly owned by citizens.",
     "items": [
       ["glockmag", 50],
+      ["glock40mag", 10],
       ["m1911mag", 25],
       ["mosquitomag", 10],
       ["sw22mag", 10]
@@ -102,8 +106,10 @@
       ["deaglemag", 40],
       ["fn57mag", 80],
       ["glockbigmag", 60],
+      ["glock40bigmag", 30],
       ["m1911bigmag", 40],
       ["m9bigmag", 20],
+      ["sig40mag", 40],
       ["sigp230mag", 40],
       ["taurus38mag", 30],
       ["ppkmag", 15]
