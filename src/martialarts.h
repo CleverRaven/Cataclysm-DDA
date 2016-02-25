@@ -218,7 +218,7 @@ class martialart
         bool leg_block_with_bio_armor_legs;
         std::set<matec_id> techniques; // all available techniques
         std::set<std::string> weapons; // all style weapons
-        bool allow_nonstrict_unarmed; // Punch daggers etc.
+        bool strictly_unarmed; // Punch daggers etc.
         std::vector<mabuff_id> static_buffs; // all buffs triggered by each condition
         std::vector<mabuff_id> onmove_buffs;
         std::vector<mabuff_id> onhit_buffs;
