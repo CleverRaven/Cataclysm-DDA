@@ -37,6 +37,7 @@ src/morale.cpp
 src/mtype.cpp
 src/name.cpp
 src/pathfinding.cpp
+src/player_activity.cpp
 src/posix_time.cpp
 src/profession.cpp
 src/recipe_dictionary.cpp
@@ -52,6 +53,7 @@ src/trap.cpp
 src/trapfunc.cpp
 src/vehicle_selector.cpp
 src/version.cpp
+src/weather_gen.cpp
 src/action.h
 src/active_item_cache.h
 src/activity_handlers.h
