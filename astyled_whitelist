@@ -15,6 +15,7 @@ src/creature_tracker.cpp
 src/damage.cpp
 src/debug.cpp
 src/drawing_primitives.cpp
+src/editmap.cpp
 src/gamemode.cpp
 src/item_action.cpp
 src/item_location.cpp
@@ -156,6 +157,7 @@ src/veh_interact.h
 src/veh_type.h
 src/vehicle_selector.h
 src/version.h
+src/visitable.h
 src/weather.h
 src/weighted_list.h
 src/worldfactory.h
