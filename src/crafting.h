@@ -37,76 +37,76 @@ struct byproduct {
 };
 
 struct recipe {
-private:
-    std::string ident_;
+    private:
+        std::string ident_;
 
-    friend void load_recipe(JsonObject &jsobj);
+        friend void load_recipe( JsonObject &jsobj );
 
-public:
-    itype_id result;
-    int time; // in movement points (100 per turn)
-    int difficulty;
-    requirement_data requirements;
-    std::vector<byproduct> byproducts;
-    std::string cat;
-    bool contained; // Does the item spawn contained?
-    std::string subcat;
-    skill_id skill_used;
-    std::map<skill_id, int> required_skills;
-    bool reversible; // can the item be disassembled?
-    bool autolearn; // do we learn it just by leveling skills?
-    int learn_by_disassembly; // what level (if any) do we learn it by disassembly?
+    public:
+        itype_id result;
+        int time; // in movement points (100 per turn)
+        int difficulty;
+        requirement_data requirements;
+        std::vector<byproduct> byproducts;
+        std::string cat;
+        bool contained; // Does the item spawn contained?
+        std::string subcat;
+        skill_id skill_used;
+        std::map<skill_id, int> required_skills;
+        bool reversible; // can the item be disassembled?
+        bool autolearn; // do we learn it just by leveling skills?
+        int learn_by_disassembly; // what level (if any) do we learn it by disassembly?
 
-    // maximum achievable time reduction, as percentage of the original time.
-    // if zero then the recipe has no batch crafting time reduction.
-    double batch_rscale;
-    int batch_rsize; // minimum batch size to needed to reach batch_rscale
-    int result_mult; // used by certain batch recipes that create more than one stack of the result
+        // maximum achievable time reduction, as percentage of the original time.
+        // if zero then the recipe has no batch crafting time reduction.
+        double batch_rscale;
+        int batch_rsize; // minimum batch size to needed to reach batch_rscale
+        int result_mult; // used by certain batch recipes that create more than one stack of the result
 
-    // only used during loading json data: book_id is the id of an book item, other stuff is copied
-    // into @ref islot_book::recipes.
-    struct bookdata_t {
-        std::string book_id;
-        int skill_level;
-        std::string recipe_name;
-        bool hidden;
-    };
-    std::vector<bookdata_t> booksets;
-    std::set<std::string> flags;
+        // only used during loading json data: book_id is the id of an book item, other stuff is copied
+        // into @ref islot_book::recipes.
+        struct bookdata_t {
+            std::string book_id;
+            int skill_level;
+            std::string recipe_name;
+            bool hidden;
+        };
+        std::vector<bookdata_t> booksets;
+        std::set<std::string> flags;
 
-    const std::string &ident() const;
+        const std::string &ident() const;
 
-    //Create a string list to describe the skill requirements fir this recipe
-    // Format: skill_name(amount), skill_name(amount)
-    std::string required_skills_string() const;
+        //Create a string list to describe the skill requirements fir this recipe
+        // Format: skill_name(amount), skill_name(amount)
+        std::string required_skills_string() const;
 
-    recipe();
+        recipe();
 
-    // Create an item instance as if the recipe was just finished,
-    // Contain charges multiplier
-    item create_result() const;
-    std::vector<item> create_results( int batch = 1 ) const;
+        // Create an item instance as if the recipe was just finished,
+        // Contain charges multiplier
+        item create_result() const;
+        std::vector<item> create_results( int batch = 1 ) const;
 
-    // Create byproduct instances as if the recipe was just finished
-    std::vector<item> create_byproducts( int batch = 1 ) const;
+        // Create byproduct instances as if the recipe was just finished
+        std::vector<item> create_byproducts( int batch = 1 ) const;
 
-    bool has_byproducts() const;
+        bool has_byproducts() const;
 
-    bool can_make_with_inventory( const inventory &crafting_inv, int batch = 1 ) const;
-    bool check_eligible_containers_for_crafting( int batch = 1 ) const;
+        bool can_make_with_inventory( const inventory &crafting_inv, int batch = 1 ) const;
+        bool check_eligible_containers_for_crafting( int batch = 1 ) const;
 
-    // Can this recipe be memorized?
-    bool valid_learn() const;
+        // Can this recipe be memorized?
+        bool valid_learn() const;
 
-    int print_items( WINDOW *w, int ypos, int xpos, nc_color col, int batch = 1 ) const;
-    void print_item( WINDOW *w, int ypos, int xpos, nc_color col,
-                     const byproduct &bp, int batch = 1 ) const;
-    int print_time( WINDOW *w, int ypos, int xpos, int width, nc_color col,
-                    int batch = 1 ) const;
+        int print_items( WINDOW *w, int ypos, int xpos, nc_color col, int batch = 1 ) const;
+        void print_item( WINDOW *w, int ypos, int xpos, nc_color col,
+                         const byproduct &bp, int batch = 1 ) const;
+        int print_time( WINDOW *w, int ypos, int xpos, int width, nc_color col,
+                        int batch = 1 ) const;
 
-    int batch_time( int batch = 1 ) const;
+        int batch_time( int batch = 1 ) const;
 
-    bool has_flag( const std::string &flag_name ) const;
+        bool has_flag( const std::string &flag_name ) const;
 
 };
 
