@@ -276,43 +276,43 @@ function generate_class_function_wrapper(class_name, function_name, func, cur_cl
     text = text .. tab .. load_instance(class_name)..br
 
     local cbc = function(indentation, stack_index, rval, function_to_call)
-    local tab = string.rep("    ", indentation)
-    text = tab
+        local tab = string.rep("    ", indentation)
+        text = tab
 
-    if rval then
-        text = text .. "auto && rval = "
-    end
+        if rval then
+            text = text .. "auto && rval = "
+        end
 
-    if cur_class_name == class_name then
-        text = text .. class_name .. "_instance"
-    else
-        --[[
-        If we call a function of the parent class is called, we need to call it through
-        a reference to the parent class, otherwise we get into trouble with default parameters:
-        Example:
-        class A {     void f(int = 0); }
-        class B : A { void f(int); }
-        This won't work: B b; b.f();
-        But this will:   B b; static_cast<A&>(b).f()
-        --]]
-        text = text .. "static_cast<"..cur_class_name.."&>(" .. class_name .. "_instance)"
-    end
-    text = text .. "."..function_to_call .. "("
+        if cur_class_name == class_name then
+            text = text .. class_name .. "_instance"
+        else
+            --[[
+            If we call a function of the parent class is called, we need to call it through
+            a reference to the parent class, otherwise we get into trouble with default parameters:
+            Example:
+            class A {     void f(int = 0); }
+            class B : A { void f(int); }
+            This won't work: B b; b.f();
+            But this will:   B b; static_cast<A&>(b).f()
+            --]]
+            text = text .. "static_cast<"..cur_class_name.."&>(" .. class_name .. "_instance)"
+        end
+        text = text .. "."..function_to_call .. "("
 
-    for i = 1,stack_index do
-        text = text .. "parameter"..i
-        if i < stack_index then text = text .. ", " end
-    end
+        for i = 1,stack_index do
+            text = text .. "parameter"..i
+            if i < stack_index then text = text .. ", " end
+        end
 
-    text = text .. ");"..br
+        text = text .. ");"..br
 
-    if rval then
-        text = text .. tab .. push_lua_value("rval", rval)..br
-        text = text .. tab .. "return 1; // 1 return values"..br
-    else
-        text = text .. tab .. "return 0; // 0 return values"..br
-    end
-    return text
+        if rval then
+            text = text .. tab .. push_lua_value("rval", rval)..br
+            text = text .. tab .. "return 1; // 1 return values"..br
+        else
+            text = text .. tab .. "return 0; // 0 return values"..br
+        end
+        return text
     end
 
     text = text .. insert_overload_resolution(function_name, func, cbc, 1, 1)
