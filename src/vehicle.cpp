@@ -6297,8 +6297,8 @@ bool vehicle::fire_turret( int p, bool manual )
     }
     
     // set up for burst shots
-    if(abs(parts[p].mode) > 1){
-        charges *= gun.burst_size();
+    if( abs(parts[p].mode) > 1 && !gun.is_charger_gun() ){
+        charges *= std::max( 1, gun.burst_size() );
         charges = std::min(charges, turret_data.charges);
     }
     
@@ -6421,7 +6421,7 @@ bool vehicle::automatic_fire_turret( int p, const itype &guntype, const itype &a
     tmp_ups.charges = drain( fuel_type_battery, 1000 );
     tmp.worn.insert( tmp.worn.end(), tmp_ups );
 
-    int to_fire = abs(parts[p].mode) > 1 ? gun.burst_size() : 1;  
+    int to_fire = abs(parts[p].mode) > 1 ? std::max( 1, gun.burst_size() ) : 1;
     tmp.fire_gun( targ, to_fire, gun );
 
     // Return whatever is left.
