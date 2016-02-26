@@ -122,7 +122,7 @@
     "id" : "stenmag",
     "type" : "MAGAZINE",
     "name" : "STEN magazine",
-    "description" : "A double-column, single-feed 9x19mm magazine used by the STEN submachine gun, based of the magazines for the German MP-28 and later MP-40.",
+    "description" : "A double-column, single-feed 9x19mm magazine used by the STEN submachine gun, based off the magazines for the German MP-28 and later MP-40.",
     "weight" : 255,
     "volume" : 2,
     "price" : 4000,
