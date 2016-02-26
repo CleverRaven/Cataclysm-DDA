@@ -82,10 +82,12 @@ classes = {
             { "int" },
             { "int", "int", "int", "season_type", "int" },
         },
+        by_value_and_reference = true,
         attributes = {
         },
         functions = {
             { name = "get_turn", rval = "int", args = { } },
+            { name = "increment", rval = nil, args = { } },
             { name = "minutes_past_midnight", rval = "int", args = { } },
             { name = "seconds_past_midnight", rval = "int", args = { } },
             { name = "is_night", rval = "bool", args = { } },
@@ -93,13 +95,13 @@ classes = {
             { name = "minutes", rval = "int", args = { } },
             { name = "hours", rval = "int", args = { } },
             { name = "days", rval = "int", args = { } },
-            { name = "years", rval = "int", args = { } }
-            --[[
-            TODO: Once return value as reference is done, re add these
-            { name = "sunlight", rval = "calendar", args = { } },
-            { name = "sunset", rval = "calendar", args = { } },
-            { name = "sunrise", rval = "calendar", args = { } },
-            --]]
+            { name = "years", rval = "int", args = { } },
+            -- Temporary implementation of return-by-value:
+            -- Use "new:[class_name]" for this. Works only as return type.
+            -- Requires `by_value_and_reference = true` for the returned type.
+            { name = "sunlight", rval = "new:calendar", args = { } },
+            { name = "sunset", rval = "new:calendar", args = { } },
+            { name = "sunrise", rval = "new:calendar", args = { } },
         }
     },
     Character = {
@@ -1080,6 +1082,7 @@ classes = {
     item_location = {
         attributes = {
         },
+        by_value = true,
         functions = {
             { name = "get_item", rval = "item", args = { } },
             { name = "remove_item", rval = nil, args = { } }

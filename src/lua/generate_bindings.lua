@@ -40,9 +40,15 @@ function member_type_to_cpp_type(member_type)
             if class_name == member_type then
                 if class.by_value then
                     return "LuaValue<" .. member_type .. ">"
+                elseif class.by_value_and_reference then
+                    return "LuaValueOrReference<" .. member_type .. ">"
                 else
                     return "LuaReference<" .. member_type .. ">"
                 end
+            elseif "new:" .. class_name == member_type then
+                -- Returns an object of type class_name by value, even through the class
+                -- is defined to be used as reference (`class.by_value` is false).
+                return "LuaValue<" .. class_name .. ">"
             end
         end
         for enum_name, _ in pairs(enums) do
@@ -62,7 +68,7 @@ function load_instance(class_name)
         error("'"..class_name.."' is not defined in class_definitions.lua")
     end
 
-    return class_name .. "& instance = " .. retrieve_lua_value(class_name, 1) .. ";"
+	return class_name .. "& instance = " .. retrieve_lua_value(class_name, 1) .. ";"
 end
 
 -- Returns a full statement that checks whether the given stack item has the given value.
@@ -511,11 +517,23 @@ function wrapper_base_class(class_name)
     end
 end
 
--- Create the static constant members of LuaValue
-for class_name, class in pairs(classes) do
-    local cpp_name = wrapper_base_class(class_name)
+function generate_LuaValue_constants(class_name, class, by_value_and_reference)
+    local cpp_name = ""
+    local metatable_name = ""
+    if by_value_and_reference then
+        -- A different metatable name, to allow the C++ wrappers to detect what the
+        -- object from Lua refers to. The wrappers can thereby be used by both types
+        -- at the same type. In other words: the created static functions `get_foo_member`
+        -- can be called on a value that was pushed to Lua via `Lua<foo>::push` (and is a value),
+        -- and values pushed via `LuaReference<foo>::push` (which is a pointer).
+        metatable_name = "value_of_" .. class_name .. "_metatable"
+        cpp_name = "LuaValue<" .. class_name .. ">"
+    else
+        metatable_name = class_name .. "_metatable"
+        cpp_name = wrapper_base_class(class_name)
+    end
     cpp_output = cpp_output .. "template<>" .. br
-    cpp_output = cpp_output .. "const char * const " .. cpp_name .. "::METATABLE_NAME = \"" .. class_name .. "_metatable\";" .. br
+    cpp_output = cpp_output .. "const char * const " .. cpp_name .. "::METATABLE_NAME = \"" .. metatable_name .. "\";" .. br
     cpp_output = cpp_output .. "template<>" .. br
     cpp_output = cpp_output .. cpp_name.."::Type *"..cpp_name.."::get_subclass( lua_State* const S, int const i) {"..br
     for child, class in pairs(classes) do
@@ -539,6 +557,17 @@ for class_name, class in pairs(classes) do
     generate_functions_static(cpp_name, class, class_name)
     generate_read_members_static(cpp_name, class, class_name)
     generate_write_members_static(cpp_name, class, class_name)
+end
+
+-- Create the static constant members of LuaValue
+for class_name, class in pairs(classes) do
+    generate_LuaValue_constants(class_name, class, false)
+    if class.by_value_and_reference then
+        if class.by_value then
+            error("by_value_and_reference only works with classes that have `by_value = false`")
+        end
+        generate_LuaValue_constants(class_name, class, true)
+    end
 end
 
 -- Create a function that calls load_metatable on all the registered LuaValue's

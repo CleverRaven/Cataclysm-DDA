@@ -703,6 +703,35 @@ template<typename E>
 struct LuaType<LuaEnum<E>> : public LuaEnum<E> {
 };
 
+/**
+ * Wrapper class to access objects in Lua that are stored as either a pointer or a value.
+ * Technically, this class could inherit from both `LuaValue<T>` and `LuaReference<T>`,
+ * but that would basically the same code anyway.
+ * It behaves like a LuaValue if there is a value on the stack, and like LuaReference is there
+ * is a reference on the stack. Functions behave like the functions in a `LuaType`.
+ * Note that it does not have a push function because it can not know whether to push a reference
+ * or a value (copy). The caller must decide this and must use `LuaValue` or `LuaReference`.
+ */
+template<typename T>
+class LuaValueOrReference {
+    public:
+        static T &get( lua_State* const L, int const stack_index ) {
+            if( LuaValue<T>::has( L, stack_index ) ) {
+                return LuaValue<T>::get( L, stack_index );
+            }
+            return LuaValue<T*>::get( L, stack_index );
+        }
+        static void check( lua_State* const L, int const stack_index ) {
+            if( LuaValue<T>::has( L, stack_index ) ) {
+                return;
+            }
+            LuaValue<T*>::check( L, stack_index );
+        }
+        static bool has( lua_State* const L, int const stack_index ) {
+            return LuaValue<T>::has( L, stack_index ) || LuaValue<T*>::has( L, stack_index );
+        }
+};
+
 void update_globals(lua_State *L)
 {
     LuaReference<player>::push( L, g->u );
