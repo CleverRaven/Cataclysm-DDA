@@ -23,15 +23,18 @@ local tab = "    "
 -- Generic helpers to generate C++ source code chunks for use in our lua binding.
 ---------------------------------------------------------------------------------
 
--- Convert a given type such as "string" to the corresponding C++
--- type string, e.g. "std::string". For types wrapped in LuaReference/LuaValue/LuaEnum, it
--- returns the wrapped type, e.g. "LuaValue<ter_t>"
+-- Convert a given type such as "string" to the corresponding C++ wrapper class,
+-- e.g. `LuaType<std::string>`. The wrapper class has various static functions:
+-- `get` to get a value of that type from Lua stack.
+-- `push` to push a value of that type to Lua stack.
+-- `check` and `has` to check for a value of that type on the stack.
+-- See catalua.h for their implementation.
 function member_type_to_cpp_type(member_type)
-    if member_type == "bool" then return "bool"
-    elseif member_type == "cstring" then return "const char*"
-    elseif member_type == "string" then return "std::string"
-    elseif member_type == "int" then return "int"
-    elseif member_type == "float" then return "float"
+    if member_type == "bool" then return "LuaType<bool>"
+    elseif member_type == "cstring" then return "LuaType<const char*>"
+    elseif member_type == "string" then return "LuaType<std::string>"
+    elseif member_type == "int" then return "LuaType<int>"
+    elseif member_type == "float" then return "LuaType<float>"
     else
         for class_name, class in pairs(classes) do
             if class_name == member_type then
@@ -65,25 +68,25 @@ end
 -- Returns a full statement that checks whether the given stack item has the given value.
 -- The statement does not return if the check fails (long jump back into the Lua error handling).
 function check_lua_value(value_type, stack_position)
-    return "LuaType<" .. member_type_to_cpp_type(value_type)..">::check(L, " .. stack_position .. ");"
+    return member_type_to_cpp_type(value_type).."::check(L, " .. stack_position .. ");"
 end
 
 -- Returns an expression that evaluates to `true` if the stack has an object of the given type
 -- at the given position.
 function has_lua_value(value_type, stack_position)
-    return "LuaType<" .. member_type_to_cpp_type(value_type) .. ">::has(L, " .. stack_position .. ")"
+    return member_type_to_cpp_type(value_type) .. "::has(L, " .. stack_position .. ")"
 end
 
 -- Returns code to retrieve a lua value from the stack and store it into
 -- a C++ variable
 function retrieve_lua_value(value_type, stack_position)
-    return "LuaType<" .. member_type_to_cpp_type(value_type) .. ">::get(L, " .. stack_position .. ")"
+    return member_type_to_cpp_type(value_type) .. "::get(L, " .. stack_position .. ")"
 end
 
 -- Returns code to take a C++ variable of the given type and push a lua version
 -- of it onto the stack.
 function push_lua_value(in_variable, value_type)
-    return "LuaType<" .. member_type_to_cpp_type(value_type) .. ">::push(L, " .. in_variable .. ");"
+    return member_type_to_cpp_type(value_type) .. "::push(L, " .. in_variable .. ");"
 end
 
 -- Generates a getter function for a specific class and member variable.
