@@ -3076,10 +3076,7 @@ bool game::handle_action()
             return false;
 
         case ACTION_QUICKLOAD:
-            MAPBUFFER.reset();
-            overmap_buffer.clear();
-            setup();
-            load( world_generator->active_world->world_name, base64_encode(u.name) );
+            quickload();
             return false;
 
         case ACTION_PL_INFO:
@@ -3651,6 +3648,7 @@ bool game::save()
              !save_uistate()){
             return false;
         } else {
+            world_generator->active_world->add_save( base64_encode( u.name ) );
             return true;
         }
     } catch (std::ios::failure &err) {
@@ -10485,7 +10483,7 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
             return false;
         }
 
-        if (cont->charges > 0 && cont->has_curammo() && cont->ammo_current() != liquid.typeId()) {
+        if( cont->charges > 0 && cont->ammo_current() != liquid.typeId() ) {
             add_msg(m_info, _("You can't mix loads in your %s."), cont->tname().c_str());
             return false;
         }
@@ -10571,7 +10569,7 @@ int game::move_liquid(item &liquid)
                 return -1;
             }
 
-            if (cont->charges > 0 && cont->has_curammo() && cont->ammo_current() != liquid.typeId()) {
+            if( cont->charges > 0 && cont->ammo_current() != liquid.typeId() ) {
                 add_msg(m_info, _("You can't mix loads in your %s."), cont->tname().c_str());
                 return -1;
             }
@@ -11008,25 +11006,19 @@ void game::plfire( bool burst, const tripoint &default_target )
             }
         }
 
-        if( gun.has_flag("NO_AMMO") ) {
-            gun.charges = 1;
-            gun.set_curammo( "generic_no_ammo" );
-        }
-
-
         if( gun.has_flag("FIRE_TWOHAND") && ( !u.has_two_arms() || u.worn_with_flag("RESTRICT_HANDS") ) ) {
             add_msg(m_info, _("You need two free hands to fire your %s."), gun.tname().c_str() );
             return;
         }
 
         if( gun.has_flag("RELOAD_AND_SHOOT") && gun.ammo_remaining() == 0 ) {
-            item_location ammo = gun.pick_reload_ammo( u );
-            if( !ammo ) {
+            item::reload_option opt = gun.pick_reload_ammo( u );
+            if( !opt ) {
                 return; // menu cancelled
             }
 
-            reload_time += u.item_reload_cost( gun, *ammo, 1 );
-            if( !gun.reload( u, std::move( ammo ), 1 ) ) {
+            reload_time += opt.moves;
+            if( !gun.reload( u, std::move( opt.ammo ), 1 ) ) {
                 return; // unable to reload
             }
 
@@ -11491,6 +11483,11 @@ void game::reload( int pos )
         return;
     }
 
+    // for holsters and ammo pouches try to reload any contained item
+    if( it->type->can_use( "holster" ) && !it->contents.empty() ) {
+        it = &it->contents[ 0 ];
+    }
+
     switch( u.rate_action_reload( *it ) ) {
         case HINT_IFFY:
             add_msg( m_info, _( "Your %s is already fully loaded!" ), it->tname().c_str() );
@@ -11504,38 +11501,14 @@ void game::reload( int pos )
             break;
     }
 
-    auto loc = it->pick_reload_ammo( u );
-    if( loc ) {
-        const item& ammo = loc->is_ammo_container() ? loc->contents[0] : *loc;
-
-        item *target = nullptr;
-        if( it->active_gunmod() && it->active_gunmod()->can_reload( ammo.typeId() ) ) {
-            target = it->active_gunmod(); // prefer reloading active gunmod
-
-        } else if( it->can_reload( ammo.typeId() ) ) {
-            target = it; // otherwise reload item itself
-
-        } else {
-            for( const auto mod : it->gunmods() ) {
-                if( mod->can_reload( ammo.typeId() ) ) {
-                    target = mod; // finally try to reload any other auxiliary gunmod
-                    break;
-                }
-            }
-        }
-        if( !target ) {
-            debugmsg( "Unable to find suitable reload target" );
-            return; // not expected when player::rate_action_reload() == true
-        }
-
-        int qty = 1;// @todo pick_reload_ammo should return also target and qty
-        if( ammo.is_ammo() && !target->has_flag( "RELOAD_ONE") ) {
-            qty = std::min( ammo.charges, target->ammo_capacity() - target->ammo_remaining() );
-        }
-
+    item::reload_option opt = it->pick_reload_ammo( u );
+    if( opt ) {
         std::stringstream ss;
         ss << pos;
-        u.assign_activity( ACT_RELOAD, u.item_reload_cost( *target, ammo, qty ), qty, loc.obtain( u, qty ), ss.str() );
+
+        long fetch = !opt.ammo->is_ammo_container() ? opt.qty : 1;
+        u.assign_activity( ACT_RELOAD, opt.moves, opt.qty, opt.ammo.obtain( u, fetch ), ss.str() );
+
         u.inv.restack( &u );
     }
 
@@ -14593,6 +14566,26 @@ void game::quicksave()
     //Now reset counters for autosaving, so we don't immediately autosave after a quicksave or autosave.
     moves_since_last_save = 0;
     last_save_timestamp = now;
+}
+
+void game::quickload()
+{
+    const WORLDPTR active_world = world_generator->active_world;
+    if ( active_world == nullptr ) {
+        return;
+    }
+
+    const std::string &save_name = base64_encode(u.name);
+    if( active_world->save_exists( save_name ) ) {
+        if( moves_since_last_save != 0 ) { // See if we need to reload anything
+            MAPBUFFER.reset();
+            overmap_buffer.clear();
+            setup();
+            load( active_world->world_name, save_name );
+        }
+    } else {
+        popup_getkey( _( "No saves for %s yet." ), u.name.c_str() );
+    }
 }
 
 void game::autosave()

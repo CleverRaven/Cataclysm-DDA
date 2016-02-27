@@ -5851,11 +5851,7 @@ int vehicle::get_turret_range( int p, bool manual )
         return -1;
     }
 
-    const item &gun = turret_data.gun;
-    const itype *am_itype = gun.get_curammo();
-    const auto &ammo_data = *am_itype->ammo;
-    const auto &gun_data = *gun.type->gun;
-    return gun_data.range + ammo_data.range;
+    return turret_data.gun.gun_range();
 }
 
 turret_fire_ability vehicle::turret_can_shoot( const int p, const tripoint &pos )
@@ -5940,8 +5936,7 @@ bool vehicle::aim_turrets()
     // Fake gun item to aim
     item pointer( "vehicle_pointer", 0 );
     pointer.set_curammo( "pointer_fake_ammo" );
-    auto tmpammo = pointer.get_curammo()->ammo.get();
-    tmpammo->range = range;
+    pointer.ammo_data()->ammo->range = range;
 
     target_mode tmode = TARGET_MODE_TURRET; // We can't aim here yet
     tripoint player_pos = g->u.pos();
@@ -6157,11 +6152,9 @@ vehicle::turret_ammo_data::turret_ammo_data( const vehicle &veh, int const part 
     // source NONE). They should (theoretically) require UPS charges, but that is checked above
     // and already included in the value of ammo_for.
     // UPS charges will be consumed directly in manual_fire_turret/automatic_fire_turret,
-    // gun needs to have a valid curamm, this is a required precondition.
     if( gun.has_flag( "NO_AMMO" ) ) {
         source = NONE;
         ammo = nullptr;
-        gun.set_curammo( "generic_no_ammo" );
         charges = ammo_for;
         return;
     }
@@ -6196,12 +6189,12 @@ vehicle::turret_ammo_data::turret_ammo_data( const vehicle &veh, int const part 
         }
 
         gun.set_curammo( ammo_id );
-        if( !gun.has_curammo() ) {
+        if( !gun.ammo_data() ) {
             debugmsg( "turret %s tried to use %s (which isn't an ammo type) as ammo for %s",
                       veh.part_info( part ).id.c_str(), ammo_id.c_str(), gun.typeId().c_str() );
             return; // charges is still 0, so the caller won't use gun.curammo
         }
-        ammo = gun.get_curammo();
+        ammo = gun.ammo_data();
         source = TANK;
         charges = std::min( ammo_for, liquid_fuel / charge_mult );
         return;
@@ -6219,7 +6212,7 @@ vehicle::turret_ammo_data::turret_ammo_data( const vehicle &veh, int const part 
 
     charges = std::min( ammo_for, items.front().charges );
     gun.set_curammo( items.front() );
-    ammo = gun.get_curammo();
+    ammo = gun.ammo_data();
     source = CARGO;
 }
 
@@ -6260,8 +6253,7 @@ bool vehicle::fire_turret( int p, bool manual )
     }
 
     const auto turret_data = turret_has_ammo( p );
-    const item &gun = turret_data.gun;
-    if( !gun.is_gun() ) {
+    if( !turret_data.gun.is_gun() ) {
         return false;
     }
 
@@ -6274,8 +6266,8 @@ bool vehicle::fire_turret( int p, bool manual )
 
     // note that NO_AMMO UPS guns can return 0 for ammo_required(), in which case 
     // turret_data.charges will be the number of individual shots we can take
-    long charges = std::max(1l, gun.ammo_required());
-    if( gun.is_charger_gun() ) {
+    long charges = std::max( turret_data.gun.ammo_required(), 1L );
+    if( turret_data.gun.is_charger_gun() ) {
         if( one_in(100) ) {
             charges = rng( 5, 8 ); // kaboom
         } else {
@@ -6298,17 +6290,23 @@ bool vehicle::fire_turret( int p, bool manual )
     
     // set up for burst shots
     if( abs(parts[p].mode) > 1 ){
-        charges *= gun.burst_size();
+        charges *= turret_data.gun.burst_size();
         charges = std::min(charges, turret_data.charges);
     }
     
-    const itype *am_type = turret_data.gun.get_curammo();
+    // Create a fake gun
+    // @todo damage the gun based on part hp
+    item gun( turret_data.gun.typeId(), turret_data.gun.bday, charges );
+    gun.set_curammo( turret_data.gun.ammo_current() );
+    gun.update_charger_gun_ammo();
+
     long charges_left = charges;
+
     // TODO sometime: change that g->u to a parameter, so that NPCs can shoot too
     const bool success = manual ?
     // TODO: unify those two functions.
-        manual_fire_turret( p, g->u, *gun.type, *am_type, charges_left ) :
-        automatic_fire_turret( p, *gun.type, *am_type, charges_left );
+        manual_fire_turret( p, g->u, gun, charges_left ) :
+        automatic_fire_turret( p, gun, charges_left );
     if( success ) {
         turret_data.consume( *this, p, charges - charges_left );
     }
@@ -6340,7 +6338,7 @@ void vehicle::turret_ammo_data::consume( vehicle &veh, int const part, long cons
     }
 }
 
-bool vehicle::automatic_fire_turret( int p, const itype &guntype, const itype &ammotype, long &charges )
+bool vehicle::automatic_fire_turret( int p, item& gun, long &charges )
 {
     tripoint pos = global_pos3();
     pos.x += parts[p].precalc[0].x;
@@ -6351,7 +6349,7 @@ bool vehicle::automatic_fire_turret( int p, const itype &guntype, const itype &a
     tmp.set_fake( true );
     tmp.add_effect( effect_on_roof, 1 );
     tmp.name = rmp_format(_("<veh_player>The %s"), part_info(p).name.c_str());
-    tmp.skillLevel( guntype.gun->skill_used ).level( 8 );
+    tmp.skillLevel( gun.gun_skill() ).level( 8 );
     tmp.skillLevel( skill_id( "gun" ) ).level(4);
     tmp.recoil = abs(velocity) / 100 / 4;
     tmp.setpos( pos );
@@ -6361,13 +6359,7 @@ bool vehicle::automatic_fire_turret( int p, const itype &guntype, const itype &a
     // Assume vehicle turrets are defending the player.
     tmp.attitude = NPCATT_DEFEND;
 
-    item gun( guntype.id, calendar::turn );
-    gun.set_curammo( ammotype.id );
-    gun.charges = charges;
-    gun.update_charger_gun_ammo();
-
-    int area = std::max( aoe_size( gun.ammo_data()->ammo->ammo_effects ),
-                         aoe_size( gun.type->gun->ammo_effects ) );
+    int area = aoe_size( gun.ammo_effects() );
     if( area > 0 ) {
         area += area == 1 ? 1 : 2; // Pad a bit for less friendly fire
     }
@@ -6431,20 +6423,13 @@ bool vehicle::automatic_fire_turret( int p, const itype &guntype, const itype &a
     return true;
 }
 
-bool vehicle::manual_fire_turret( int p, player &shooter, const itype &guntype,
-                                  const itype &ammotype, long &charges )
+bool vehicle::manual_fire_turret( int p, player &shooter, item &gun, long &charges )
 {
     tripoint pos = global_pos3() + tripoint( parts[p].precalc[0], 0 );
 
     // Place the shooter at the turret
     const tripoint &oldpos = shooter.pos();
     shooter.setpos( pos );
-
-    // Create a fake gun
-    // TODO: Damage the gun based on part hp
-    item gun( guntype.id, 0 );
-    gun.set_curammo( ammotype.id );
-    gun.charges = charges;
 
     // Spawn a fake UPS to power any turreted weapons that need electricity.
     item tmp_ups( "fake_UPS", 0 );
