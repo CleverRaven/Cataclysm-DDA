@@ -721,18 +721,6 @@ public:
         bool can_holster ( const item& obj, bool ignore = false ) const;
 
         /**
-         * Returns @ref curammo, the ammo that is currently load in this item.
-         * May return a null pointer.
-         * If non-null, the returned itype is quaranted to have an ammo slot:
-         * @code itm.get_curammo()->ammo->damage @endcode will work.
-         */
-        const itype* get_curammo() const;
-        /**
-         * Whether the item is currently loaded (which implies it has some non-null pointer
-         * as @ref curammo).
-         */
-        bool has_curammo() const;
-        /**
          * Sets the current ammo to nullptr. Note that it does not touch the charges or anything else.
          */
         void unset_curammo();
@@ -1108,6 +1096,12 @@ public:
          *  @param conversion whether to include the effect of any flags or mods which convert the type
          *  @return NULL if item does not use a specific ammo type (and is consequently not reloadable) */
         ammotype ammo_type( bool conversion = true ) const;
+
+        /** Get ammo effects for item optionally inclusive of any resulting from the loaded ammo */
+        std::set<std::string> ammo_effects( bool with_ammo = true ) const;
+
+        /** Returns casing type ejected by item (if any) which is always "null" if item is not a gun */
+        itype_id ammo_casing() const;
 
         /** Does item have an integral magazine (as opposed to allowing detachable magazines) */
         bool magazine_integral() const;

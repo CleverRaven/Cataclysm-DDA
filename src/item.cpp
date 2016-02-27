@@ -740,19 +740,27 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
 
         info.push_back( iteminfo( "GUN", _( "Skill used: " ), "<info>" + skill->name() + "</info>" ) );
 
-        if( magazine_integral() ) {
-            info.emplace_back( "GUN", _( "<bold>Capacity:</bold> " ),
-                               string_format( ngettext( "<num> round of %s", "<num> rounds of %s", mod->ammo_capacity() ),
-                                              ammo_name( mod->ammo_type() ).c_str() ), mod->ammo_capacity(), true );
+        if( mod->magazine_integral() ) {
+            if( !mod->has_flag( "NO_AMMO" ) ) {
+                info.emplace_back( "GUN", _( "<bold>Capacity:</bold> " ),
+                                   string_format( ngettext( "<num> round of %s", "<num> rounds of %s", mod->ammo_capacity() ),
+                                                  ammo_name( mod->ammo_type() ).c_str() ), mod->ammo_capacity(), true );
+            }
         } else {
-            info.emplace_back( "GUN", _( "Type: " ), ammo_name( ammo_type() ) );
-            if( magazine_current() ) {
-                info.emplace_back( "GUN", _( "Magazine: " ), string_format( "<stat>%s</stat>", magazine_current()->tname().c_str() ) );
+            info.emplace_back( "GUN", _( "Type: " ), ammo_name( mod->ammo_type() ) );
+            if( mod->magazine_current() ) {
+                info.emplace_back( "GUN", _( "Magazine: " ), string_format( "<stat>%s</stat>", mod->magazine_current()->tname().c_str() ) );
             }
         }
 
-        if( ammo_data() ) {
-            info.emplace_back( "AMMO", _( "Ammunition: " ), string_format( "<stat>%s</stat>", ammo_data()->nname( ammo_remaining() ).c_str() ) );
+        if( mod->ammo_data() ) {
+            info.emplace_back( "AMMO", _( "Ammunition: " ), string_format( "<stat>%s</stat>", mod->ammo_data()->nname( mod->ammo_remaining() ).c_str() ) );
+        }
+
+        if( mod->get_gun_ups_drain() ) {
+            info.emplace_back( "AMMO", string_format( ngettext( "Uses <stat>%i</stat> charge of UPS per shot",
+                                                                "Uses <stat>%i</stat> charges of UPS per shot", mod->get_gun_ups_drain() ),
+                                                      mod->get_gun_ups_drain() ) );
         }
 
         insert_separation_line();
@@ -3825,13 +3833,12 @@ int item::gun_range( bool with_ammo ) const
     for( const auto mod : gunmods() ) {
         ret += mod->type->gunmod->range;
     }
-    if( has_flag( "NO_AMMO" ) && !ammo_data() ) {
-        return ret;
-    }
-    if( with_ammo && is_charger_gun() ) {
-        ret += 5 + charges * 5;
-    } else if( with_ammo && ammo_data() ) {
-        ret += ammo_data()->ammo->range;
+    if( with_ammo ) {
+        if( is_charger_gun() ) {
+            ret += 5 + charges * 5;
+        } else if( ammo_data() ) {
+            ret += ammo_data()->ammo->range;
+        }
     }
     return std::max( 0, ret );
 }
@@ -4042,6 +4049,27 @@ ammotype item::ammo_type( bool conversion ) const
         return type->gunmod->ammo_modifier;
     }
     return "NULL";
+}
+
+std::set<std::string> item::ammo_effects( bool with_ammo ) const
+{
+    if( !is_gun() ) {
+        return std::set<std::string>();
+    }
+
+    std::set<std::string> res = type->gun->ammo_effects;
+    if( with_ammo && ammo_data() ) {
+        res.insert( ammo_data()->ammo->ammo_effects.begin(), ammo_data()->ammo->ammo_effects.end() );
+    }
+    return res;
+}
+
+itype_id item::ammo_casing() const
+{
+    if( !is_gun() || !ammo_data() ) {
+        return "null";
+    }
+    return ammo_data()->ammo->casing;
 }
 
 bool item::magazine_integral() const
@@ -4396,22 +4424,12 @@ item::reload_option item::pick_reload_ammo( player &u ) const
 // Helper to handle ejecting casings from guns that require them to be manually extracted.
 static void eject_casings( player &p, item& target )
 {
-    const auto curammo = target.ammo_data();
-
-    if( !target.has_flag( "RELOAD_EJECT" ) || !curammo ||
-        curammo->ammo->casing == "NULL" || curammo->ammo->casing.empty() ) {
+    int qty = target.get_var( "CASINGS", 0 );
+    if( !target.has_flag( "RELOAD_EJECT" ) || target.ammo_casing() == "null" || qty <= 0 ) {
         return;
     }
 
-    // Casings need a count of one to stack properly.
-    item casing( curammo->ammo->casing, calendar::turn );
-    casing.charges = 1;
-
-    // Drop all the casings on the ground under the player.
-    for( auto i = target.get_var( "CASINGS", 0 ); i > 0 ; --i ) {
-        g->m.add_item_or_charges( p.posx(), p.posy(), casing );
-    }
-
+    g->m.add_item_or_charges( p.pos(), item( target.ammo_casing(), calendar::turn, qty ) );
     target.erase_var( "CASINGS" );
 }
 
@@ -4708,7 +4726,7 @@ item::LIQUID_FILL_ERROR item::has_valid_capacity_for_liquid(const item &liquid) 
             return L_ERR_FULL;
         }
 
-        if (charges > 0 && has_curammo() && ammo_current() != liquid.type->id) {
+        if( charges > 0 && ammo_current() != liquid.type->id ) {
             return L_ERR_NO_MIX;
         }
     }
@@ -5074,17 +5092,6 @@ bool item::can_holster ( const item& obj, bool ignore ) const {
     }
 
     return true;
-}
-
-
-const itype *item::get_curammo() const
-{
-    return curammo;
-}
-
-bool item::has_curammo() const
-{
-    return curammo != nullptr;
 }
 
 void item::unset_curammo()

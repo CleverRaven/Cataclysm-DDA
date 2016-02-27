@@ -407,29 +407,10 @@ void Item_factory::add_category(const std::string &id, int sort_rank, const std:
     cat.name = name;
 }
 
-/**
- * Checks that ammo type is fake type or not.
- * @param ammo type for check.
- * @return true if ammo type is a fake, false otherwise.
- */
-static bool fake_ammo_type(const std::string &ammo)
-{
-    if (  ammo == "NULL" || ammo == "generic_no_ammo" ||
-          ammo == "pointer_fake_ammo" ) {
-        return true;
-    }
-    return false;
-}
-
 void Item_factory::check_ammo_type(std::ostream &msg, const std::string &ammo) const
 {
     // Skip fake types
-    if ( fake_ammo_type(ammo) ) {
-        return;
-    }
-
-    // Should be skipped too.
-    if ( ammo == "UPS" ) {
+    if ( ammo == "NULL" || ammo == "pointer_fake_ammo" ) {
         return;
     }
 
@@ -506,8 +487,12 @@ void Item_factory::check_definitions() const
         }
         if( type->ammo ) {
             check_ammo_type( msg, type->ammo->type );
-            if( type->ammo->casing != "NULL" && !has_template( type->ammo->casing ) ) {
+            if( type->ammo->casing != "null" && !has_template( type->ammo->casing ) ) {
                 msg << string_format( "invalid casing property %s", type->ammo->casing.c_str() ) << "\n";
+            }
+
+            if( type->item_tags.count( "NO_AMMO" ) && type->ammo->type != "NULL" ) {
+                msg << string_format("specified both ammo type and NO_AMMO.") << "\n";
             }
         }
         if( type->gun ) {
@@ -710,7 +695,7 @@ void Item_factory::load( islot_software &slot, JsonObject &jo )
 void Item_factory::load( islot_ammo &slot, JsonObject &jo )
 {
     slot.type = jo.get_string( "ammo_type" );
-    slot.casing = jo.get_string( "casing", "NULL" );
+    slot.casing = jo.get_string( "casing", slot.casing );
     slot.damage = jo.get_int( "damage", 0 );
     slot.pierce = jo.get_int( "pierce", 0 );
     slot.range = jo.get_int( "range", 0 );
@@ -731,7 +716,7 @@ void Item_factory::load_ammo(JsonObject &jo)
 
 void Item_factory::load( islot_gun &slot, JsonObject &jo )
 {
-    slot.ammo = jo.get_string( "ammo" );
+    slot.ammo = jo.get_string( "ammo", "NULL" );
     slot.skill_used = skill_id( jo.get_string( "skill" ) );
     slot.loudness = jo.get_int( "loudness", 0 );
     slot.damage = jo.get_int( "ranged_damage", 0 );

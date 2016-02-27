@@ -151,7 +151,7 @@ float resistances::get_effective_resist( const damage_unit &du ) const
     return effective_resist;
 }
 
-void ammo_effects( const tripoint &p, const std::set<std::string> &effects )
+void apply_ammo_effects( const tripoint &p, const std::set<std::string> &effects )
 {
     if( effects.count( "EXPLOSIVE_SMALL" ) > 0 ) {
         g->explosion( p, 24, 0.4 );

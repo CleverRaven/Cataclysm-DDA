@@ -7,12 +7,6 @@
     },
     {
         "type" : "ammunition_type",
-        "id" : "generic_no_ammo",
-        "name" : "none",
-        "default" : ""
-    },
-    {
-        "type" : "ammunition_type",
         "id" : "pointer_fake_ammo",
         "name" : "none", 
         "default" : "pointer_fake_ammo"
