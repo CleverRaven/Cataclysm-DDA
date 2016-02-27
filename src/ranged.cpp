@@ -1328,7 +1328,6 @@ item::sound_data item::gun_noise( bool const burst ) const
         return gunmod->gun_noise( burst );
     }
     const islot_gun &gun = *type->gun;
-    const auto &ammo_used = gun.ammo;
 
     int noise = gun.loudness;
     for( const auto mod : gunmods() ) {
@@ -1339,7 +1338,17 @@ item::sound_data item::gun_noise( bool const burst ) const
     }
 
     const auto &ammo_effects = gun.ammo_effects;
-    const auto &weapon_id = type->id;
+
+    if( ammo_type() == "40mm") {
+        return { 8, _( "Thunk!" ) };
+
+    } else if( typeId() == "hk_g80") {
+        return { 24, _( "tz-CRACKck!" ) };
+
+    } else if( ammo_type() == "gasoline" || ammo_type() == "66mm" ||
+               ammo_type() == "84x246mm" || ammo_type() == "m235" ) {
+        return { 4, _( "Fwoosh!" ) };
+    }
 
     const char* gunsound = "";
     // TODO: most of this could be statically allocated.
@@ -1396,17 +1405,6 @@ item::sound_data item::gun_noise( bool const burst ) const
         }
     }
 
-    if( ammo_used == "40mm") {
-        gunsound = _("Thunk!");
-        noise = 8;
-    } else if( weapon_id == "hk_g80") {
-        gunsound = _("tz-CRACKck!");
-        noise = 24;
-    } else if( ammo_used == "gasoline" || ammo_used == "66mm" ||
-               ammo_used == "84x246mm" || ammo_used == "m235" ) {
-        gunsound = _("Fwoosh!");
-        noise = 4;
-    }
     return sound_data { std::max( noise, 0 ), gunsound };
 }
 
