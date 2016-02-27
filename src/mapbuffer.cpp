@@ -1,4 +1,6 @@
 #include "mapbuffer.h"
+
+#include "coordinate_conversions.h"
 #include "output.h"
 #include "debug.h"
 #include "translations.h"
@@ -107,7 +109,7 @@ void mapbuffer::save( bool delete_after_save )
     int num_saved_submaps = 0;
     int num_total_submaps = submaps.size();
 
-    const tripoint map_origin = overmapbuffer::sm_to_omt_copy( g->m.get_abs_sub() );
+    const tripoint map_origin = sm_to_omt_copy( g->m.get_abs_sub() );
     const bool map_has_zlevels = g != nullptr && g->m.has_zlevels();
 
     // A set of already-saved submaps, in global overmap coordinates.
@@ -122,7 +124,7 @@ void mapbuffer::save( bool delete_after_save )
         // we're saving a 2x2 quad of submaps at a time.
         // Submaps are generated in quads, so we know if we have one member of a quad,
         // we have the rest of it, if that assumption is broken we have REAL problems.
-        const tripoint om_addr = overmapbuffer::sm_to_omt_copy( elem.first );
+        const tripoint om_addr = sm_to_omt_copy( elem.first );
         if( saved_submaps.count( om_addr ) != 0 ) {
             // Already handled this one.
             continue;
@@ -133,7 +135,7 @@ void mapbuffer::save( bool delete_after_save )
         // We're breaking them into subdirectories so there aren't too many files per directory.
         // Might want to make a set for this one too so it's only checked once per save().
         std::stringstream dirname;
-        tripoint segment_addr = overmapbuffer::omt_to_seg_copy( om_addr );
+        tripoint segment_addr = omt_to_seg_copy( om_addr );
         dirname << map_directory.str() << "/" << segment_addr.x << "." <<
                      segment_addr.y << "." << segment_addr.z;
 
@@ -169,7 +171,7 @@ void mapbuffer::save_quad( const std::string &dirname, const std::string &filena
 
     bool all_uniform = true;
     for( auto &offsets_offset : offsets ) {
-        tripoint submap_addr = overmapbuffer::omt_to_sm_copy( om_addr );
+        tripoint submap_addr = omt_to_sm_copy( om_addr );
         submap_addr.x += offsets_offset.x;
         submap_addr.y += offsets_offset.y;
         submap_addrs.push_back( submap_addr );
@@ -396,8 +398,8 @@ void mapbuffer::save_quad( const std::string &dirname, const std::string &filena
 submap *mapbuffer::unserialize_submaps( const tripoint &p )
 {
     // Map the tripoint to the submap quad that stores it.
-    const tripoint om_addr = overmapbuffer::sm_to_omt_copy( p );
-    const tripoint segment_addr = overmapbuffer::omt_to_seg_copy( om_addr );
+    const tripoint om_addr = sm_to_omt_copy( p );
+    const tripoint segment_addr = omt_to_seg_copy( om_addr );
     std::stringstream quad_path;
     quad_path << world_generator->active_world->world_path << "/maps/" <<
               segment_addr.x << "." << segment_addr.y << "." << segment_addr.z << "/" <<

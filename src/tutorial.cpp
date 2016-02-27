@@ -1,9 +1,11 @@
+#include "tutorial.h"
+
+#include "coordinate_conversions.h"
 #include "gamemode.h"
 #include "game.h"
 #include "map.h"
 #include "output.h"
 #include "action.h"
-#include "tutorial.h"
 #include "overmapbuffer.h"
 #include "translations.h"
 #include "profession.h"
@@ -62,7 +64,7 @@ bool tutorial_game::init()
  g->u.inv.add_item(lighter);
  g->u.skillLevel( skill_id( "gun" ) ).level(5);
  g->u.skillLevel( skill_id( "melee" ) ).level(5);
-    g->load_map( overmapbuffer::omt_to_sm_copy( tripoint( lx, ly, 0 ) ) );
+    g->load_map( omt_to_sm_copy( tripoint( lx, ly, 0 ) ) );
  g->u.setx( 2 );
  g->u.sety( 4 );
 

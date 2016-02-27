@@ -1,5 +1,6 @@
 #include "construction.h"
 
+#include "coordinate_conversions.h"
 #include "game.h"
 #include "map.h"
 #include "debug.h"
@@ -941,7 +942,7 @@ void unroll_digging( int const numer_of_2x4s )
 void construct::done_digormine_stair( point p, bool dig )
 {
     tripoint const abs_pos = g->m.getabs( tripoint( p.x, p.y, g->get_levz() ) );
-    tripoint const pos_sm = overmapbuffer::ms_to_sm_copy( abs_pos );
+    tripoint const pos_sm = ms_to_sm_copy( abs_pos );
     tinymap tmpmap;
     tmpmap.load( pos_sm.x, pos_sm.y, pos_sm.z - 1, false );
     tripoint const local_tmp = tmpmap.getlocal( abs_pos );
@@ -1176,7 +1177,7 @@ void construct::done_mine_downstair( point p )
 void construct::done_mine_upstair( point p )
 {
     tripoint const abs_pos = g->m.getabs( tripoint( p.x, p.y, g->get_levz() ) );
-    tripoint const pos_sm = overmapbuffer::ms_to_sm_copy( abs_pos );
+    tripoint const pos_sm = ms_to_sm_copy( abs_pos );
     tinymap tmpmap;
     tmpmap.load( pos_sm.x, pos_sm.y, pos_sm.z + 1, false );
     tripoint const local_tmp = tmpmap.getlocal( abs_pos );

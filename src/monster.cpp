@@ -1,4 +1,6 @@
 #include "monster.h"
+
+#include "coordinate_conversions.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mondeath.h"
@@ -1653,7 +1655,7 @@ void monster::die(Creature* nkiller)
     if( !is_hallucination() && has_flag( MF_QUEEN ) ) {
         // The submap coordinates of this monster, monster groups coordinates are
         // submap coordinates.
-        const point abssub = overmapbuffer::ms_to_sm_copy( g->m.getabs( posx(), posy() ) );
+        const point abssub = ms_to_sm_copy( g->m.getabs( posx(), posy() ) );
         // Do it for overmap above/below too
         for( int z = 1; z >= -1; --z ) {
             for( int x = -MAPSIZE / 2; x <= MAPSIZE / 2; x++ ) {

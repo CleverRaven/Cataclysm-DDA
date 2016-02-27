@@ -9,6 +9,7 @@ src/cata_utility.cpp
 src/char_validity_check.cpp
 src/clzones.cpp
 src/consumption.cpp
+src/coordinate_conversions.cpp
 src/craft_command.cpp
 src/crafting_gui.cpp
 src/creature_tracker.cpp
@@ -79,6 +80,7 @@ src/color.h
 src/compatibility.h
 src/computer.h
 src/construction.h
+src/coordinate_conversions.h
 src/coordinates.h
 src/craft_command.h
 src/crafting_gui.h

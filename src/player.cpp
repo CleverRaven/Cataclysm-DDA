@@ -1,5 +1,7 @@
 #include "player.h"
+
 #include "action.h"
+#include "coordinate_conversions.h"
 #include "profession.h"
 #include "bionics.h"
 #include "mission.h"
@@ -4183,12 +4185,12 @@ tripoint player::global_square_location() const
 
 tripoint player::global_sm_location() const
 {
-    return overmapbuffer::ms_to_sm_copy( global_square_location() );
+    return ms_to_sm_copy( global_square_location() );
 }
 
 tripoint player::global_omt_location() const
 {
-    return overmapbuffer::ms_to_omt_copy( global_square_location() );
+    return ms_to_omt_copy( global_square_location() );
 }
 
 const tripoint &player::pos() const
