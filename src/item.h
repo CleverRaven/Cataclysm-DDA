@@ -717,11 +717,6 @@ public:
          */
         const itype* get_curammo() const;
         /**
-         * Whether the item is currently loaded (which implies it has some non-null pointer
-         * as @ref curammo).
-         */
-        bool has_curammo() const;
-        /**
          * Sets the current ammo to nullptr. Note that it does not touch the charges or anything else.
          */
         void unset_curammo();

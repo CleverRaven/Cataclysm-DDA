@@ -6192,7 +6192,7 @@ vehicle::turret_ammo_data::turret_ammo_data( const vehicle &veh, int const part 
         }
 
         gun.set_curammo( ammo_id );
-        if( !gun.has_curammo() ) {
+        if( !gun.ammo_data() ) {
             debugmsg( "turret %s tried to use %s (which isn't an ammo type) as ammo for %s",
                       veh.part_info( part ).id.c_str(), ammo_id.c_str(), gun.typeId().c_str() );
             return; // charges is still 0, so the caller won't use gun.curammo

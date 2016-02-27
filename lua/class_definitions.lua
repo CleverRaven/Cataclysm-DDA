@@ -760,7 +760,6 @@ classes = {
             { name = "gun_recoil", rval = "int", args = { "bool" } },
             { name = "gun_recoil", rval = "int", args = { } },
             { name = "gun_skill", rval = "skill_id", args = { } },
-            { name = "has_curammo", rval = "bool", args = { } },
             { name = "has_flag", rval = "bool", args = { "string" } },
             { name = "has_quality", rval = "bool", args = { "string" } },
             { name = "has_quality", rval = "bool", args = { "string", "int" } },

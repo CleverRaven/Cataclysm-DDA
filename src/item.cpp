@@ -4717,7 +4717,7 @@ item::LIQUID_FILL_ERROR item::has_valid_capacity_for_liquid(const item &liquid) 
             return L_ERR_FULL;
         }
 
-        if (charges > 0 && has_curammo() && ammo_current() != liquid.type->id) {
+        if( charges > 0 && ammo_current() != liquid.type->id ) {
             return L_ERR_NO_MIX;
         }
     }
@@ -5089,11 +5089,6 @@ bool item::can_holster ( const item& obj, bool ignore ) const {
 const itype *item::get_curammo() const
 {
     return curammo;
-}
-
-bool item::has_curammo() const
-{
-    return curammo != nullptr;
 }
 
 void item::unset_curammo()
