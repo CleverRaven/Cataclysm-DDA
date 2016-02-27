@@ -132,8 +132,8 @@ void Character::mutation_effect(std::string mut)
         mut == "MUT_TOUGH" || mut == "MUT_TOUGH2" || mut == "MUT_TOUGH3") {
         recalc_hp();
 
-    } else if (mut == "WEBBED" || mut == "PAWS" || mut == "PAWS_LARGE" || mut == "ARM_TENTACLES" ||
-               mut == "ARM_TENTACLES_4" || mut == "ARM_TENTACLES_8") {
+    } else if( mut == "PAWS" || mut == "PAWS_LARGE" || mut == "ARM_TENTACLES" ||
+               mut == "ARM_TENTACLES_4" || mut == "ARM_TENTACLES_8" ) {
         // Push off gloves
         bps.push_back(bp_hand_l);
         bps.push_back(bp_hand_r);

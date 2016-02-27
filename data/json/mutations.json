@@ -3643,14 +3643,18 @@
         "type" : "mutation",
         "id" : "WEBBED",
         "name" : "Webbed Hands",
-        "points" : -3,
+        "points" : -2,
         "visibility" : 3,
         "ugliness" : 2,
-        "description" : "Your hands and feet are heavily webbed, reducing your dexterity by 1 and preventing you from wearing gloves.  However, you can swim much faster.  Slightly decreases wet penalties.",
+        "description" : "Your hands and feet are heavily webbed, reducing your dexterity by 1 and causing problems with gloves.  However, you can swim much faster.  Slightly decreases wet penalties.",
         "category" : ["MUTCAT_LIZARD", "MUTCAT_FISH", "MUTCAT_SLIME"],
         "wet_protection" : [
             { "part" : "HAND_L", "good" : 3 },
             { "part" : "HAND_R", "good" : 3 }
+        ],
+        "encumbrance_covered" : [
+            [ "HAND_L", 50 ],
+            [ "HAND_R", 50 ]
         ]
     },{
         "type" : "mutation",

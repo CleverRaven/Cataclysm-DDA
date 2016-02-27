@@ -1825,21 +1825,24 @@ int player::run_cost(int base_cost, bool diag) const
 int player::swim_speed() const
 {
     int ret = 440 + weight_carried() / 60 - 50 * get_skill_level( skill_swimming );
+    const auto usable = exclusive_flag_coverage( "ALLOWS_NATURAL_ATTACKS" );
+    float hand_bonus_mult = ( usable.test( bp_hand_l ) ? 0.5f : 0.0f ) +
+                            ( usable.test( bp_hand_r ) ? 0.5f : 0.0f );
     ///\EFFECT_STR increases swim speed bonus from PAWS
     if (has_trait("PAWS")) {
-        ret -= 20 + str_cur * 3;
+        ret -= hand_bonus_mult * (20 + str_cur * 3);
     }
     ///\EFFECT_STR increases swim speed bonus from PAWS_LARGE
     if (has_trait("PAWS_LARGE")) {
-        ret -= 20 + str_cur * 4;
+        ret -= hand_bonus_mult * (20 + str_cur * 4);
     }
     ///\EFFECT_STR increases swim speed bonus from swim_fins
     if (is_wearing("swim_fins")) {
         ret -= (15 * str_cur) / (3 - shoe_type_count("swim_fins"));
     }
     ///\EFFECT_STR increases swim speed bonus from WEBBED
-    if (has_trait("WEBBED")) {
-        ret -= 60 + str_cur * 5;
+    if( has_trait("WEBBED") ) {
+        ret -= hand_bonus_mult * (60 + str_cur * 5);
     }
     ///\EFFECT_STR increases swim speed bonus from TAIL_FIN
     if (has_trait("TAIL_FIN")) {
@@ -9975,9 +9978,6 @@ hint_rating player::rate_action_wear( const item &it ) const
     if (it.covers(bp_head) && encumb(bp_head) != 0) {
         return HINT_IFFY;
     }
-    if ((it.covers(bp_hand_l) || it.covers(bp_hand_r)) && has_trait("WEBBED")) {
-        return HINT_IFFY;
-    }
     if ((it.covers(bp_hand_l) || it.covers(bp_hand_r)) && has_trait("TALONS")) {
         return HINT_IFFY;
     }
@@ -10325,13 +10325,6 @@ bool player::wear_item( const item &to_wear, bool interactive )
             if(interactive) {
                 add_msg_if_player(m_info, _("The %s is much too small to fit your huge body!"),
                         to_wear.type_name().c_str());
-            }
-            return false;
-        }
-
-        if( (to_wear.covers(bp_hand_l) || to_wear.covers(bp_hand_r)) && has_trait("WEBBED") ) {
-            if( interactive ) {
-                add_msg_if_player(m_info, _("You cannot put %s over your webbed hands."), to_wear.type_name().c_str());
             }
             return false;
         }
