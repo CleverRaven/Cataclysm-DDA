@@ -17,6 +17,7 @@
     "damage" : 17,
     "range" : 5,
     "recoil" : 285,
+    "loudness": 130,
     "effects" : ["COOKOFF", "SHOT", "RECYCLED"],
     "flags" : ["NOGIB"]
   },
@@ -38,6 +39,7 @@
     "range" : 6,
     "dispersion" : 0,
     "recoil" : 390,
+    "loudness": 160,
     "effects" : ["COOKOFF", "SHOT", "RECYCLED"]
   },
   {
@@ -59,6 +61,7 @@
     "pierce" : 9,
     "range" : 9,
     "recoil" : 435,
+    "loudness": 140,
     "effects" : ["COOKOFF", "SHOT", "RECYCLED"]
   },
   {
@@ -80,6 +83,7 @@
     "range" : 12,
     "dispersion" : 105,
     "recoil" : 315,
+    "loudness": 140,
     "effects" : ["COOKOFF", "EXPLOSIVE_SMALL", "RECYCLED"]
   },
   {
@@ -102,6 +106,7 @@
     "range" : 12,
     "dispersion" : 75,
     "recoil" : 435,
+    "loudness": 160,
     "effects" : ["COOKOFF", "RECYCLED"]
   },
   {
@@ -122,6 +127,7 @@
     "damage" : 50,
     "range" : 6,
     "recoil" : 390,
+    "loudness": 160,
     "effects" : ["COOKOFF", "SHOT"]
   },
   {
@@ -144,6 +150,7 @@
     "dispersion" : 120,
     "recoil" : 300,
     "effects" : ["COOKOFF", "BEANBAG"],
+    "loudness": 120,
     "flags" : ["NOGIB"]
   },
   {
@@ -165,6 +172,7 @@
     "range" : 5,
     "recoil" : 270,
     "effects" : ["COOKOFF", "SHOT"],
+    "loudness": 130,
     "flags" : ["NOGIB"]
   },
   {
@@ -186,6 +194,7 @@
     "pierce" : 10,
     "range" : 9,
     "recoil" : 420,
+    "loudness": 140,
     "effects" : ["COOKOFF", "SHOT"]
   },
   {
@@ -207,6 +216,7 @@
     "range" : 12,
     "dispersion" : 90,
     "recoil" : 300,
+    "loudness": 140,
     "effects" : ["COOKOFF", "EXPLOSIVE_SMALL"]
   },
   {
@@ -228,6 +238,7 @@
     "range" : 4,
     "dispersion" : 2,
     "recoil" : 30,
+    "loudness": 160,
     "effects" : ["COOKOFF", "SHOT", "RECYCLED"]
   },
   { 
@@ -250,6 +261,7 @@
     "range" : 8,
     "dispersion" : 6,
     "recoil" : 28,
+    "loudness": 160,
     "effects" : ["COOKOFF", "RECYCLED"]
   },
   {
@@ -272,6 +284,7 @@
     "range" : 12,
     "dispersion" : 60,
     "recoil" : 420,
+    "loudness": 160,
     "effects" : ["COOKOFF"]
   }
 ]
