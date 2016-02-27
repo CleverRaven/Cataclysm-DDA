@@ -1544,8 +1544,10 @@ void player::complete_disassemble( int item_pos, const tripoint &loc,
     
     // If we're trying to disassemble usb drive with some software in it
     // Erase contents of the usb drive to prevent spawning of software as item in inventory
-    if ( dis_item.contents[0].is_software() ) {
-        dis_item.contents.erase( dis_item.contents.begin() );
+    if ( !dis_item.contents.empty() ) {
+        if ( dis_item.contents[0].is_software() ) {
+            dis_item.contents.erase( dis_item.contents.begin() );
+        }
     }
 
     add_msg(_("You disassemble the %s into its components."), dis_item.tname().c_str());
