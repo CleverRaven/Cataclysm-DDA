@@ -22,7 +22,6 @@
     "durability": 8,
     "burst": 3,
     "reload": 100,
-    "loudness" : 150,
     "barrel_length" : 1,
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
     "magazines" : [
@@ -50,7 +49,6 @@
     "aim_speed" : 6,
     "durability": 7,
     "reload": 100,
-    "loudness" : 150,
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
     "magazines" : [
       [ "223", [ "stanag30", "stanag10", "stanag50", "survivor223mag" ] ]
@@ -78,7 +76,6 @@
     "recoil": 30,
     "durability": 8,
     "reload": 100,
-    "loudness" : 150,
     "burst": 6,
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
     "magazines" : [
@@ -108,7 +105,6 @@
     "recoil": 75,
     "durability": 8,
     "reload": 100,
-    "loudness" : 150,
     "burst": 15,
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
     "magazines" : [
@@ -139,7 +135,6 @@
     "recoil": 60,
     "durability": 3,
     "reload": 100,
-    "loudness" : 150,
     "burst": 3,
     "valid_mod_locations": [[ "accessories", 4 ]],
     "magazines" : [
@@ -170,7 +165,6 @@
     "recoil": -180,
     "durability": 7,
     "reload": 100,
-    "loudness" : 150,
     "burst": 5,
     "valid_mod_locations": [[ "accessories", 2 ]],
     "magazines" : [
@@ -201,7 +195,6 @@
     "recoil": -150,
     "durability": 7,
     "reload": 100,
-    "loudness" : 150,
     "valid_mod_locations": [[ "accessories", 2 ]],
     "magazines" : [
       [ "223", [ "lw223mag", "lw223bigmag" ] ]
@@ -228,7 +221,6 @@
     "recoil": -90,
     "durability": 7,
     "reload": 100,
-    "loudness" : 150,
     "valid_mod_locations": [[ "accessories", 2 ]],
     "burst": 3,
     "magazines" : [
@@ -259,7 +251,6 @@
     "recoil": -165,
     "durability": 7,
     "reload": 100,
-    "loudness" : 150,
     "burst": 20,
     "valid_mod_locations": [[ "accessories", 2 ]],
     "magazines" : [
@@ -289,7 +280,6 @@
     "recoil": 90,
     "durability": 7,
     "reload": 400,
-    "loudness" : 160,
     "burst": 30,
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ]],
     "magazines" : [
@@ -321,7 +311,6 @@
     "recoil": 120,
     "durability": 8,
     "reload": 100,
-    "loudness" : 150,
     "burst": 15,
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
     "magazines" : [
@@ -351,7 +340,6 @@
     "recoil": 30,
     "durability": 6,
     "reload": 100,
-    "loudness" : 150,
     "burst": 10,
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
     "magazines" : [
@@ -381,7 +369,6 @@
     "recoil": -60,
     "durability": 8,
     "reload": 100,
-    "loudness" : 150,
     "barrel_length" : 2,
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "sights", 1 ]],
     "magazines": [
@@ -410,7 +397,6 @@
     "recoil": -60,
     "durability": 8,
     "reload": 100,
-    "loudness" : 150,
     "burst": 10,
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
     "magazines" : [
@@ -440,7 +426,6 @@
     "recoil": -120,
     "durability": 8,
     "reload": 100,
-    "loudness" : 150,
     "burst": 6,
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
     "magazines" : [
