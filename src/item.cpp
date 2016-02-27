@@ -4251,10 +4251,10 @@ item_location item::pick_reload_ammo( player &u ) const
 
     // sort in order of move cost (ascending), then remaining ammo (descending) with empty magazines always last
     std::stable_sort( ammo_list.begin(), ammo_list.end(), []( const reloadable& lhs, const reloadable& rhs ) {
-        return lhs.ammo->ammo_remaining() < rhs.ammo->ammo_remaining();
+        return lhs.ammo->ammo_remaining() > rhs.ammo->ammo_remaining();
     } );
     std::stable_sort( ammo_list.begin(), ammo_list.end(), []( const reloadable& lhs, const reloadable& rhs ) {
-        return lhs.moves > rhs.moves;
+        return lhs.moves < rhs.moves;
     } );
     std::stable_sort( ammo_list.begin(), ammo_list.end(), []( const reloadable& lhs, const reloadable& rhs ) {
         return ( lhs.ammo->ammo_remaining() != 0 ) > ( rhs.ammo->ammo_remaining() != 0 );
