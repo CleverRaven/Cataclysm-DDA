@@ -372,9 +372,6 @@ class Character : public Creature, public visitable<Character>
          */
         std::vector<item_location> find_ammo( const item& obj, bool empty = true, int radius = 1 );
 
-        /** Returns true if the character's current weapon can be reloaded (ammo must be available). */
-        bool can_reload();
-
         /** Maximum thrown range with a given item, taking all active effects into account. */
         int throw_range( const item & ) const;
 

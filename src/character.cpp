@@ -805,14 +805,6 @@ std::vector<item_location> Character::find_ammo( const item& obj, bool empty, in
     return res;
 }
 
-bool Character::can_reload()
-{
-    if (!weapon.is_gun()) {
-        return false;
-    }
-    return (weapon.charges < weapon.type->gun->clip && get_ammo(weapon.ammo_type()).size() > 0);
-}
-
 int Character::weight_carried() const
 {
     int ret = 0;
