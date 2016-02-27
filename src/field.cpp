@@ -836,7 +836,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                             g->explosion( p, ammo_type->damage / 2, 0.5f, 1 );
                                         } else if( special ) {
                                             // If it has a special effect just trigger it.
-                                            ammo_effects( p, ammo_type->ammo_effects );
+                                            apply_ammo_effects( p, ammo_type->ammo_effects );
                                         }
                                     }
                                     charges_remaining -= rounds_exploded;

@@ -278,7 +278,7 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
 
     drop_or_embed_projectile( attack );
 
-    ammo_effects(tp, proj.proj_effects);
+    apply_ammo_effects( tp, proj.proj_effects );
 
     // TODO: Move this outside now that we have hit point in return values?
     if( proj.proj_effects.count( "BOUNCE" ) ) {
