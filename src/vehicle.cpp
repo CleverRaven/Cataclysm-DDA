@@ -5936,8 +5936,7 @@ bool vehicle::aim_turrets()
     // Fake gun item to aim
     item pointer( "vehicle_pointer", 0 );
     pointer.set_curammo( "pointer_fake_ammo" );
-    auto tmpammo = pointer.get_curammo()->ammo.get();
-    tmpammo->range = range;
+    pointer.ammo_data()->ammo->range = range;
 
     target_mode tmode = TARGET_MODE_TURRET; // We can't aim here yet
     tripoint player_pos = g->u.pos();
@@ -6197,7 +6196,7 @@ vehicle::turret_ammo_data::turret_ammo_data( const vehicle &veh, int const part 
                       veh.part_info( part ).id.c_str(), ammo_id.c_str(), gun.typeId().c_str() );
             return; // charges is still 0, so the caller won't use gun.curammo
         }
-        ammo = gun.get_curammo();
+        ammo = gun.ammo_data();
         source = TANK;
         charges = std::min( ammo_for, liquid_fuel / charge_mult );
         return;
@@ -6215,7 +6214,7 @@ vehicle::turret_ammo_data::turret_ammo_data( const vehicle &veh, int const part 
 
     charges = std::min( ammo_for, items.front().charges );
     gun.set_curammo( items.front() );
-    ammo = gun.get_curammo();
+    ammo = gun.ammo_data();
     source = CARGO;
 }
 

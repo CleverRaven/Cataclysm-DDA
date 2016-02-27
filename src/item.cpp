@@ -5085,12 +5085,6 @@ bool item::can_holster ( const item& obj, bool ignore ) const {
     return true;
 }
 
-
-const itype *item::get_curammo() const
-{
-    return curammo;
-}
-
 void item::unset_curammo()
 {
     curammo = nullptr;

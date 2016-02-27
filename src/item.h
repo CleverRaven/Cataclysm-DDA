@@ -710,13 +710,6 @@ public:
         bool can_holster ( const item& obj, bool ignore = false ) const;
 
         /**
-         * Returns @ref curammo, the ammo that is currently load in this item.
-         * May return a null pointer.
-         * If non-null, the returned itype is quaranted to have an ammo slot:
-         * @code itm.get_curammo()->ammo->damage @endcode will work.
-         */
-        const itype* get_curammo() const;
-        /**
          * Sets the current ammo to nullptr. Note that it does not touch the charges or anything else.
          */
         void unset_curammo();
