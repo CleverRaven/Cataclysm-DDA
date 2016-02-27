@@ -6366,8 +6366,7 @@ bool vehicle::automatic_fire_turret( int p, const itype &guntype, const itype &a
     gun.charges = charges;
     gun.update_charger_gun_ammo();
 
-    int area = std::max( aoe_size( gun.ammo_data()->ammo->ammo_effects ),
-                         aoe_size( gun.type->gun->ammo_effects ) );
+    int area = aoe_size( gun.ammo_effects() );
     if( area > 0 ) {
         area += area == 1 ? 1 : 2; // Pad a bit for less friendly fire
     }

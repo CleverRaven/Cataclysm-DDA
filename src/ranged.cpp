@@ -415,7 +415,7 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
     for( ; curshot != shots; ++curshot ) {
 
 
-        if( !handle_gun_damage( *gun.type, gun.ammo_data() ? gun.ammo_data()->ammo->ammo_effects : std::set<std::string>() ) ) {
+        if( !handle_gun_damage( *gun.type, gun.ammo_effects() ) ) {
             break;
         }
 
@@ -1222,13 +1222,11 @@ static projectile make_gun_projectile( const item &gun ) {
     proj.speed  = 1000;
     proj.impact = damage_instance::physical( 0, gun.gun_damage(), 0, gun.gun_pierce() );
     proj.range = gun.gun_range();
+    proj.proj_effects = gun.ammo_effects();
 
     const auto curammo = gun.ammo_data();
 
-    // Consider both effects from the gun and ammo
     auto &fx = proj.proj_effects;
-    fx.insert( gun.type->gun->ammo_effects.begin(), gun.type->gun->ammo_effects.end() );
-    fx.insert( curammo->ammo->ammo_effects.begin(), curammo->ammo->ammo_effects.end() );
 
     if( curammo->phase == LIQUID || fx.count( "SHOT" ) || fx.count("BOUNCE" ) ) {
         fx.insert( "WIDE" );
