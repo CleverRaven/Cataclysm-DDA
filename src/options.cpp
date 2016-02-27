@@ -1641,6 +1641,12 @@ void options_manager::show(bool ingame)
             }
         }
     }
+    for( auto &iter : WOPTIONS_OLD ) {
+        if( iter.second.getValue() != ACTIVE_WORLD_OPTIONS[iter.first].getValue() ) {
+            options_changed = true;
+            world_options_changed = true;
+        }
+    }
 
     if (options_changed) {
         if(query_yn(_("Save changes?"))) {
