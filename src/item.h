@@ -236,7 +236,7 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
 
     /**
      * Reload item using ammo from location returning true if sucessful
-     * @param qty if specified caps reloading to this (or fewer) units
+     * @param qty caps reloading to this (or fewer) units
      */
     bool reload( player &u, item_location loc, long qty );
 
