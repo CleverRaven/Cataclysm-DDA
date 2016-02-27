@@ -1098,6 +1098,9 @@ public:
          *  @return NULL if item does not use a specific ammo type (and is consequently not reloadable) */
         ammotype ammo_type( bool conversion = true ) const;
 
+        /** Get ammo effects for item optionally inclusive of any resulting from the loaded ammo */
+        std::set<std::string> ammo_effects( bool with_ammo = true ) const;
+
         /** Does item have an integral magazine (as opposed to allowing detachable magazines) */
         bool magazine_integral() const;
 

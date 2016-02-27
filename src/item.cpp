@@ -4052,6 +4052,19 @@ ammotype item::ammo_type( bool conversion ) const
     return "NULL";
 }
 
+std::set<std::string> item::ammo_effects( bool with_ammo ) const
+{
+    if( !is_gun() ) {
+        return std::set<std::string>();
+    }
+
+    std::set<std::string> res = type->gun->ammo_effects;
+    if( with_ammo && ammo_data() ) {
+        res.insert( ammo_data()->ammo->ammo_effects.begin(), ammo_data()->ammo->ammo_effects.end() );
+    }
+    return res;
+}
+
 bool item::magazine_integral() const
 {
     // finds first ammo type which specifies at least one magazine
