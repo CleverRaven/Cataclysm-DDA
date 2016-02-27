@@ -874,7 +874,7 @@ void Pickup::pick_up( const tripoint &pos, int min )
     for( size_t i = 0; i < here.size(); i++ ) {
         if( getitem[i] ) {
             g->u.activity.values.push_back( i );
-            g->u.activity.values.push_back( pickup_count[i] );
+            g->u.activity.values.push_back( pickup_count[here.size() - i - 1] );
         }
     }
 
