@@ -32,7 +32,7 @@
   {
     "id": "garand",
     "type": "GUN",
-    "name": "M1 Garand Rifle",
+    "name": "M1 Garand",
     "description": "A semi-automatic .30-06 battle rifle, developed to replace the M1903 Springfield.  It didn't completely supplant the older bolt-action until after World War II.",
     "weight": 4280,
     "volume": 10,
@@ -60,7 +60,7 @@
   {
     "id": "m1903",
     "type": "GUN",
-    "name": "M1903 Rifle",
+    "name": "M1903 Springfield",
     "description": "A powerful military rifle chambered in .30-06, developed to replace the US Army's older Krag rifle.  Served as the main American rifle in World War I, was used alongside the M1 Garand in World War II, and was used as a sniper rifle as late as the Vietnam War.",
     "weight": 4080,
     "volume": 12,
