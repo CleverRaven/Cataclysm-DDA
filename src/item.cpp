@@ -3971,7 +3971,7 @@ bool item::ammo_consume( int qty, const tripoint& pos ) {
     if( is_magazine() ) {
         while( contents.size() ) {
             auto& e = *contents.rbegin();
-            if( qty > e.charges ) {
+            if( qty >= e.charges ) {
                 qty -= e.charges;
                 contents.pop_back();
             } else {
