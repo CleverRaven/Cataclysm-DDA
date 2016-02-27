@@ -4424,22 +4424,12 @@ item_location item::pick_reload_ammo( player &u ) const
 // Helper to handle ejecting casings from guns that require them to be manually extracted.
 static void eject_casings( player &p, item& target )
 {
-    const auto curammo = target.ammo_data();
-
-    if( !target.has_flag( "RELOAD_EJECT" ) || !curammo ||
-        curammo->ammo->casing == "NULL" || curammo->ammo->casing.empty() ) {
+    int qty = target.get_var( "CASINGS", 0 );
+    if( !target.has_flag( "RELOAD_EJECT" ) || target.ammo_casing() == "null" || qty <= 0 ) {
         return;
     }
 
-    // Casings need a count of one to stack properly.
-    item casing( curammo->ammo->casing, calendar::turn );
-    casing.charges = 1;
-
-    // Drop all the casings on the ground under the player.
-    for( auto i = target.get_var( "CASINGS", 0 ); i > 0 ; --i ) {
-        g->m.add_item_or_charges( p.posx(), p.posy(), casing );
-    }
-
+    g->m.add_item_or_charges( p.posx(), p.posy(), item( target.ammo_casing(), calendar::turn, qty ) );
     target.erase_var( "CASINGS" );
 }
 
