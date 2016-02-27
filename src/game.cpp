@@ -11491,6 +11491,11 @@ void game::reload( int pos )
         return;
     }
 
+    // for holsters and ammo pouches try to reload any contained item
+    if( it->type->can_use( "holster" ) && !it->contents.empty() ) {
+        it = &it->contents[ 0 ];
+    }
+
     switch( u.rate_action_reload( *it ) ) {
         case HINT_IFFY:
             add_msg( m_info, _( "Your %s is already fully loaded!" ), it->tname().c_str() );

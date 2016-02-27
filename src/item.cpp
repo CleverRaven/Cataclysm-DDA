@@ -4444,15 +4444,22 @@ bool item::reload( player &u, item_location loc, long qty )
     }
 
     // First determine what we are trying to reload
+    item *obj = this;
     item *target = nullptr;
 
-    if( is_gun() ) {
+    // for holsters and ammo pouches try to reload any contained item
+    if( type->can_use( "holster" ) && !contents.empty() ) {
+        // @todo add moves penalty
+        obj = &contents[ 0 ];
+    }
+
+    if( obj->is_gun() ) {
         // Firstly try reloading active gunmod, then gun itself, any other auxiliary gunmods and finally currently loaded magazine
-        std::vector<item *> opts = { active_gunmod(), this };
-        std::transform(contents.begin(), contents.end(), std::back_inserter(opts), [](item& mod){
+        std::vector<item *> opts = { obj->active_gunmod(), obj };
+        std::transform( obj->contents.begin(), obj->contents.end(), std::back_inserter( opts ), []( item& mod ) {
             return mod.is_auxiliary_gunmod() ? &mod : nullptr;
         });
-        opts.push_back( magazine_current() );
+        opts.push_back( obj->magazine_current() );
 
         for( auto e : opts ) {
             if( e != nullptr ) {
@@ -4471,10 +4478,10 @@ bool item::reload( player &u, item_location loc, long qty )
                 }
             }
         }
-    } else if( is_tool() || is_magazine() ) {
-        qty = std::min( qty, ammo_capacity() - ammo_remaining() );
-        if( ammo_type() == ammo->ammo_type() && qty > 0 ) {
-            target = this;
+    } else if( obj->is_tool() || obj->is_magazine() ) {
+        qty = std::min( qty, obj->ammo_capacity() - obj->ammo_remaining() );
+        if( obj->ammo_type() == ammo->ammo_type() && qty > 0 ) {
+            target = obj;
         }
     }
 
