@@ -4225,6 +4225,11 @@ item::reload_option item::pick_reload_ammo( player &u ) const
 
     auto opts = gunmods();
     opts.push_back( this );
+
+    if( magazine_current() ) {
+        opts.push_back( magazine_current() );
+    }
+
     for( const auto e : opts ) {
         for( item_location& ammo : u.find_ammo( *e ) ) {
             if( e->can_reload( ammo->is_ammo_container() ? ammo->contents[0].typeId() : ammo->typeId() ) ||
@@ -4442,11 +4447,12 @@ bool item::reload( player &u, item_location loc, long qty )
     item *target = nullptr;
 
     if( is_gun() ) {
-        // In order of preference reload active gunmod, then gun itself any finally any other auxiliary gunmods
+        // Firstly try reloading active gunmod, then gun itself, any other auxiliary gunmods and finally currently loaded magazine
         std::vector<item *> opts = { active_gunmod(), this };
         std::transform(contents.begin(), contents.end(), std::back_inserter(opts), [](item& mod){
             return mod.is_auxiliary_gunmod() ? &mod : nullptr;
         });
+        opts.push_back( magazine_current() );
 
         for( auto e : opts ) {
             if( e != nullptr ) {
