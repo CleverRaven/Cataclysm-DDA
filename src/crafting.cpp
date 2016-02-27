@@ -1333,6 +1333,12 @@ bool player::disassemble( item &dis_item, int dis_pos,
             recipe_ident = fake_recipe_book;
         }
     }
+    
+    // If we're trying to disassemble usb drive with some software in it
+    // Erase contents of the usb drive to prevent spawning of software as item in inventory
+    if ( dis_item.contents[0].is_software() ) {
+        dis_item.contents.erase( dis_item.contents.begin() );
+    }
 
     if( recipe_ident.empty() ) {
         // No recipe exists, or the item cannot be disassembled
