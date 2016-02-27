@@ -2793,7 +2793,7 @@ bool mattack::laser(monster *z)
     tmp.weapon = item("cerberus_laser", 0);
     tmp.weapon.set_curammo( "laser_capacitor" );
     tmp.weapon.charges = 100;
-    tmp.fire_gun( target->pos(), std::max( 1, tmp.weapon.burst_size() ) );
+    tmp.fire_gun( target->pos(), tmp.weapon.burst_size() );
     if (target == &g->u) {
         z->add_effect( effect_targeted, 3);
     }

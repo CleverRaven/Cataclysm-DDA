@@ -525,7 +525,7 @@ void npc::execute_action( npc_action action )
 
     case npc_shoot_burst:
         aim();
-        fire_gun( tar, std::max( 1, weapon.burst_size() ) );
+        fire_gun( tar, weapon.burst_size() );
         break;
 
     case npc_alt_attack:

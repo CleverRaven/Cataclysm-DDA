@@ -827,7 +827,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                                   ( ( has_flag( "RELOAD_ONE" ) ) ? _( "<num> per round" ) : "" ),
                                   gun->reload_time, true, "", true, true ) );
 
-        if( mod->burst_size() == 0 ) {
+        if( mod->burst_size() == 1 ) {
             if( skill->ident() == skill_id( "pistol" ) && has_flag( "RELOAD_ONE" ) ) {
                 info.push_back( iteminfo( "GUN", _( "Fire mode: <info>Revolver</info>." ) ) );
             } else {
@@ -3797,7 +3797,7 @@ int item::burst_size() const
     for( const auto mod : gunmods() ) {
         ret += mod->type->gunmod->burst;
     }
-    return std::max( 0, ret );
+    return std::max( 1, ret );
 }
 
 int item::gun_recoil( bool with_ammo ) const
