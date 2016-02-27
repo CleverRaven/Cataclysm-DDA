@@ -3833,13 +3833,12 @@ int item::gun_range( bool with_ammo ) const
     for( const auto mod : gunmods() ) {
         ret += mod->type->gunmod->range;
     }
-    if( has_flag( "NO_AMMO" ) && !ammo_data() ) {
-        return ret;
-    }
-    if( with_ammo && is_charger_gun() ) {
-        ret += 5 + charges * 5;
-    } else if( with_ammo && ammo_data() ) {
-        ret += ammo_data()->ammo->range;
+    if( with_ammo ) {
+        if( is_charger_gun() ) {
+            ret += 5 + charges * 5;
+        } else if( ammo_data() ) {
+            ret += ammo_data()->ammo->range;
+        }
     }
     return std::max( 0, ret );
 }
