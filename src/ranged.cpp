@@ -1291,8 +1291,7 @@ static inline void eject_casing( player& p, item& weap ) {
         g->m.add_item_or_charges( eject, item( mag->type->magazine->linkage, calendar::turn, 1 ) );
     }
 
-    itype_id casing_type = weap.ammo_data()->ammo->casing;
-    if( casing_type == "NULL" || casing_type.empty() ) {
+    if( weap.ammo_casing() == "null" ) {
         return;
     }
 
@@ -1303,11 +1302,11 @@ static inline void eject_casing( player& p, item& weap ) {
     }
 
     if( weap.has_gunmod( "brass_catcher" ) != -1 ) {
-        p.i_add( item( casing_type, calendar::turn, 1 ) );
+        p.i_add( item( weap.ammo_casing(), calendar::turn, 1 ) );
         return;
     }
 
-    g->m.add_item_or_charges( eject, item( casing_type, calendar::turn, 1 ) );
+    g->m.add_item_or_charges( eject, item( weap.ammo_casing(), calendar::turn, 1 ) );
     sfx::play_variant_sound( "fire_gun", "brass_eject", sfx::get_heard_volume( eject ), sfx::get_heard_angle( eject ) );
 }
 
