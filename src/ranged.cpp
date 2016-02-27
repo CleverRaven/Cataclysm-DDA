@@ -374,8 +374,8 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
 {
     const bool is_charger_gun = gun.update_charger_gun_ammo();
 
-    if( !gun.is_gun() || !gun.ammo_data() ) {
-        debugmsg( "%s tried to fire empty or non-gun (%s).", name.c_str(), gun.tname().c_str() );
+    if( !gun.is_gun() ) {
+        debugmsg( "%s tried to fire non-gun (%s).", name.c_str(), gun.tname().c_str() );
         return 0;
     }
 
