@@ -2199,8 +2199,17 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
 std::string item::display_name(unsigned int quantity) const
 {
     std::string name = tname(quantity);
+    std::string priority = "";
     std::string side = "";
     std::string qty  = "";
+
+    if( get_var( "priority" ) == "always" ) {
+        priority = " [*]";
+    } else if( get_var( "priority" ) == "safe" ) {
+        priority = " [#]";
+    } else if( get_var( "priority") == "never" ) {
+        priority = " [~]";
+    }
 
     switch (get_side()) {
         case LEFT:
@@ -2226,7 +2235,7 @@ std::string item::display_name(unsigned int quantity) const
         qty = string_format(" (%i)", charges);
     }
 
-    return string_format("%s%s%s", name.c_str(), side.c_str(), qty.c_str());
+    return string_format("%s%s%s", name.c_str(), priority.c_str(), side.c_str(), qty.c_str());
 }
 
 nc_color item::color() const
