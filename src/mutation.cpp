@@ -63,6 +63,7 @@ void Character::toggle_trait(const std::string &flag)
         mutation_loss_effect(flag);
     }
     recalc_sight_limits();
+    reset_encumbrance();
 }
 
 void Character::set_mutation(const std::string &flag)
@@ -74,6 +75,7 @@ void Character::set_mutation(const std::string &flag)
         debugmsg("Trying to set %s mutation, but the character already has it.", flag.c_str());
     }
     recalc_sight_limits();
+    reset_encumbrance();
 }
 
 void Character::unset_mutation(const std::string &flag)
@@ -85,6 +87,7 @@ void Character::unset_mutation(const std::string &flag)
         my_mutations.erase( iter );
     }
     recalc_sight_limits();
+    reset_encumbrance();
 }
 
 int Character::get_mod(std::string mut, std::string arg) const

@@ -935,8 +935,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         item  *pick_usb(); // Pick a usb drive, interactively if it matters
 
         bool covered_with_flag( const std::string &flag, const std::bitset<num_bp> &parts ) const;
-        /** Bitset of all the body parts covered only with items with `flag` (or nothing) */
-        std::bitset<num_bp> exclusive_flag_coverage( const std::string &flag ) const;
         bool is_waterproof( const std::bitset<num_bp> &parts ) const;
 
         // has_amount works ONLY for quantity.

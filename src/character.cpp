@@ -14,6 +14,7 @@
 #include "monster.h"
 #include "mtype.h"
 #include "player.h"
+#include "mutation.h"
 
 const efftype_id effect_beartrap( "beartrap" );
 const efftype_id effect_bite( "bite" );
@@ -1294,6 +1295,21 @@ int Character::encumb( body_part bp ) const
     return encumbrance_cache[bp].encumbrance;
 }
 
+void apply_mut_encumbrance( std::array<encumbrance_data, num_bp> &vals,
+                            const mutation_branch &mut,
+                            const std::bitset<num_bp> &oversize )
+{
+    for( const auto &enc : mut.encumbrance_always ) {
+        vals[enc.first].encumbrance += enc.second;
+    }
+
+    for( const auto &enc : mut.encumbrance_covered ) {
+        if( !oversize.test( enc.first ) ) {
+            vals[enc.first].encumbrance += enc.second;
+        }
+    }
+}
+
 void Character::mut_cbm_encumb( std::array<encumbrance_data, num_bp> &vals ) const
 {
     if( has_bionic("bio_stiff") ) {
@@ -1307,59 +1323,6 @@ void Character::mut_cbm_encumb( std::array<encumbrance_data, num_bp> &vals ) con
         vals[bp_eyes].encumbrance -= 10;
     }
 
-    if( has_trait("CHITIN3") || has_trait("CHITIN_FUR3") ) {
-        // All but mouth and eyes
-        for( auto &val : vals ) {
-            val.encumbrance += 10;
-        }
-
-        vals[bp_mouth].encumbrance -= 10;
-        vals[bp_eyes].encumbrance -= 10;
-    }
-
-    if( has_trait("SLIT_NOSTRILS") ) {
-        vals[bp_mouth].encumbrance += 10;
-    }
-    if( has_trait("ARM_FEATHERS") ) {
-        vals[bp_arm_l].encumbrance += 20;
-        vals[bp_arm_r].encumbrance += 20;
-    }
-    if( has_trait("INSECT_ARMS") ) {
-        vals[bp_arm_l].encumbrance += 30;
-        vals[bp_arm_r].encumbrance += 30;
-    }
-    if( has_trait("ARACHNID_ARMS") ) {
-        vals[bp_arm_l].encumbrance += 40;
-        vals[bp_arm_r].encumbrance += 40;
-    }
-    if( has_trait("PAWS") ) {
-        vals[bp_hand_l].encumbrance += 10;
-        vals[bp_hand_r].encumbrance += 10;
-    }
-    if( has_trait("PAWS_LARGE") ) {
-        vals[bp_hand_l].encumbrance += 20;
-        vals[bp_hand_r].encumbrance += 20;
-    }
-    if( has_trait("LARGE") ) {
-        vals[bp_torso].encumbrance += 10;
-        vals[bp_arm_l].encumbrance += 10;
-        vals[bp_arm_r].encumbrance += 10;
-    }
-    if( has_trait("WINGS_BUTTERFLY") ) {
-        vals[bp_torso].encumbrance += 10;
-    }
-    if( has_trait("SHELL2") ) {
-        vals[bp_torso].encumbrance += 10;
-    }
-    if( has_trait("ARM_TENTACLES") || has_trait("ARM_TENTACLES_4") ||
-        has_trait("ARM_TENTACLES_8") ) {
-        vals[bp_hand_l].encumbrance += 30;
-        vals[bp_hand_r].encumbrance += 30;
-    }
-    if( has_trait("CLAWS_TENTACLE") ) {
-        vals[bp_hand_l].encumbrance += 20;
-        vals[bp_hand_r].encumbrance += 20;
-    }
     if( has_bionic("bio_nostril") ) {
         vals[bp_mouth].encumbrance += 10;
     }
@@ -1370,6 +1333,31 @@ void Character::mut_cbm_encumb( std::array<encumbrance_data, num_bp> &vals ) con
     if( has_bionic("bio_pokedeye") ) {
         vals[bp_eyes].encumbrance += 10;
     }
+
+    // Lower penalty for bps covered only by XL armor
+    const auto oversize = exclusive_flag_coverage( "OVERSIZE" );
+    for( const auto &mut_pair : my_mutations ) {
+        const auto &branch = mutation_branch::get( mut_pair.first );
+        apply_mut_encumbrance( vals, branch, oversize );
+    }
+    for( const auto &trait : my_traits ) {
+        const auto &branch = mutation_branch::get( trait );
+        apply_mut_encumbrance( vals, branch, oversize );
+    }
+}
+
+std::bitset<num_bp> Character::exclusive_flag_coverage( const std::string &flag ) const
+{
+    std::bitset<num_bp> ret;
+    ret.set();
+    for( const auto &elem : worn ) {
+        if( !elem.has_flag( flag ) ) {
+            // Unset the parts covered by this item
+            ret &= ( ~elem.get_covered_body_parts() );
+        }
+    }
+
+    return ret;
 }
 
 /*

@@ -172,6 +172,9 @@ class Character : public Creature, public visitable<Character>
         /** Returns true if the character is wearing active power */
         bool is_wearing_active_power_armor() const;
 
+        /** Bitset of all the body parts covered only with items with `flag` (or nothing) */
+        std::bitset<num_bp> exclusive_flag_coverage( const std::string &flag ) const;
+
         /** Processes effects which may prevent the Character from moving (bear traps, crushed, etc.).
          *  Returns false if movement is stopped. */
         virtual bool move_effects(bool attacking) override;

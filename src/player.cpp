@@ -9420,20 +9420,6 @@ bool player::covered_with_flag( const std::string &flag, const std::bitset<num_b
     return (covered == parts);
 }
 
-std::bitset<num_bp> player::exclusive_flag_coverage( const std::string &flag ) const
-{
-    std::bitset<num_bp> ret;
-    ret.set();
-    for( const auto &elem : worn ) {
-        if( !elem.has_flag( flag ) ) {
-            // Unset the parts covered by this item
-            ret &= ( ~elem.get_covered_body_parts() );
-        }
-    }
-
-    return ret;
-}
-
 bool player::is_waterproof( const std::bitset<num_bp> &parts ) const
 {
     return covered_with_flag("WATERPROOF", parts);
