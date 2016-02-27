@@ -1224,24 +1224,25 @@ static projectile make_gun_projectile( const item &gun ) {
     proj.range = gun.gun_range();
     proj.proj_effects = gun.ammo_effects();
 
-    const auto curammo = gun.ammo_data();
-
     auto &fx = proj.proj_effects;
 
-    if( curammo->phase == LIQUID || fx.count( "SHOT" ) || fx.count("BOUNCE" ) ) {
+    if( ( gun.ammo_data() && gun.ammo_data()->phase == LIQUID ) ||
+        fx.count( "SHOT" ) || fx.count("BOUNCE" ) ) {
         fx.insert( "WIDE" );
     }
 
-    // Some projectiles have a chance of being recoverable
-    bool recover = std::any_of(fx.begin(), fx.end(), []( const std::string& e ) {
-        int n;
-        return sscanf( e.c_str(), "RECOVER_%i", &n ) == 1 && !one_in( n );
-    });
+    if( gun.ammo_data() ) {
+        // Some projectiles have a chance of being recoverable
+        bool recover = std::any_of(fx.begin(), fx.end(), []( const std::string& e ) {
+            int n;
+            return sscanf( e.c_str(), "RECOVER_%i", &n ) == 1 && !one_in( n );
+        });
 
-    if( recover && !fx.count( "IGNITE" ) && !fx.count( "EXPLOSIVE" ) ) {
-        item drop( curammo->id, calendar::turn, 1 );
-        drop.active = fx.count( "ACT_ON_RANGED_HIT" );
-        proj.set_drop( drop );
+        if( recover && !fx.count( "IGNITE" ) && !fx.count( "EXPLOSIVE" ) ) {
+            item drop( gun.ammo_current(), calendar::turn, 1 );
+            drop.active = fx.count( "ACT_ON_RANGED_HIT" );
+            proj.set_drop( drop );
+        }
     }
 
     return proj;
