@@ -1128,6 +1128,7 @@ bool npc::wear_if_wanted( const item &it )
     }
 
     bool encumb_ok = true;
+    const auto new_enc = get_encumbrance( it );
     do {
         // Strip until we can put the new item on
         // This is one of the reasons this command is not used by the AI
@@ -1142,10 +1143,7 @@ bool npc::wear_if_wanted( const item &it )
                 return false;
             }
 
-            double layers = 0;
-            int armor_enc = 0;
-            int enc = encumb( bp, layers, armor_enc, it );
-            if( enc > max_encumb[i] ) {
+            if( new_enc[i].encumbrance > max_encumb[i] ) {
                 encumb_ok = false;
                 break;
             }

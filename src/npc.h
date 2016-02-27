@@ -732,6 +732,8 @@ public:
     bool wont_hit_friend( const tripoint &p , int position = -1 ) const;
     bool need_to_reload() const; // Wielding a gun that is empty
     bool enough_time_to_reload( const item &gun ) const;
+    bool can_reload();
+    item_location find_usable_ammo();
 
     void aim();
 

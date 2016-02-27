@@ -14,6 +14,7 @@
 #include "monster.h"
 #include "mtype.h"
 #include "player.h"
+#include "mutation.h"
 
 const efftype_id effect_beartrap( "beartrap" );
 const efftype_id effect_bite( "bite" );
@@ -805,14 +806,6 @@ std::vector<item_location> Character::find_ammo( const item& obj, bool empty, in
     return res;
 }
 
-bool Character::can_reload()
-{
-    if (!weapon.is_gun()) {
-        return false;
-    }
-    return (weapon.charges < weapon.type->gun->clip && get_ammo(weapon.ammo_type()).size() > 0);
-}
-
 int Character::weight_carried() const
 {
     int ret = 0;
@@ -1172,6 +1165,193 @@ bool Character::has_nv()
     return nv;
 }
 
+void Character::reset_encumbrance()
+{
+    encumbrance_cache = calc_encumbrance();
+}
+
+std::array<encumbrance_data, num_bp> Character::calc_encumbrance() const
+{
+    return calc_encumbrance( ret_null );
+}
+
+std::array<encumbrance_data, num_bp> Character::calc_encumbrance( const item &new_item ) const
+{
+    std::array<encumbrance_data, num_bp> ret = {};
+
+    item_encumb( ret, new_item );
+    mut_cbm_encumb( ret );
+
+    return ret;
+}
+
+std::array<encumbrance_data, num_bp> Character::get_encumbrance() const
+{
+    return encumbrance_cache;
+}
+
+std::array<encumbrance_data, num_bp> Character::get_encumbrance( const item &new_item ) const
+{
+    return calc_encumbrance( new_item );
+}
+
+using layer_data = std::array<int, MAX_CLOTHING_LAYER>;
+
+void layer_item( std::array<encumbrance_data, num_bp> &vals,
+                 std::array<layer_data, num_bp> &layers,
+                 const item &it, bool power_armor )
+{
+    const auto item_layer = it.get_layer();
+    int encumber_val = it.get_encumber();
+    // For the purposes of layering penalty, set a min of 2 and a max of 10 per item.
+    int layering_encumbrance = std::min( 10, std::max( 2, encumber_val ) );
+
+    const int armorenc = !power_armor || !it.is_power_armor() ?
+        encumber_val : std::max( 0, encumber_val - 40 );
+
+    for( size_t i = 0; i < num_bp; i++ ) {
+        body_part bp = body_part( i );
+        if( !it.covers( bp ) ) {
+            continue;
+        }
+
+        int &this_layer = layers[i][item_layer];
+        this_layer = std::max( this_layer, layering_encumbrance );
+
+        vals[i].armor_encumbrance += armorenc;
+        vals[i].layer_penalty += layering_encumbrance;
+    }
+}
+
+bool Character::is_wearing_active_power_armor() const
+{
+    for( const auto &w : worn ) {
+        if( w.is_power_armor() && w.active ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+/*
+ * Encumbrance logic:
+ * Some clothing is intrinsically encumbering, such as heavy jackets, backpacks, body armor, etc.
+ * These simply add their encumbrance value to each body part they cover.
+ * In addition, each article of clothing after the first in a layer imposes an additional penalty.
+ * e.g. one shirt will not encumber you, but two is tight and starts to restrict movement.
+ * Clothes on seperate layers don't interact, so if you wear e.g. a light jacket over a shirt,
+ * they're intended to be worn that way, and don't impose a penalty.
+ * The default is to assume that clothes do not fit, clothes that are "fitted" either
+ * reduce the encumbrance penalty by ten, or if that is already 0, they reduce the layering effect.
+ *
+ * Use cases:
+ * What would typically be considered normal "street clothes" should not be considered encumbering.
+ * Tshirt, shirt, jacket on torso/arms, underwear and pants on legs, socks and shoes on feet.
+ * This is currently handled by each of these articles of clothing
+ * being on a different layer and/or body part, therefore accumulating no encumbrance.
+ */
+void Character::item_encumb( std::array<encumbrance_data, num_bp> &vals, const item &new_item ) const
+{
+    // The highest encumbrance of any one item on the layer.
+    std::array<layer_data, num_bp> layers = {};
+
+    const bool power_armored = is_wearing_active_power_armor();
+    for( auto& w : worn ) {
+        layer_item( vals, layers, w, power_armored );
+    }
+
+    if( !new_item.is_null() ) {
+        layer_item( vals, layers, new_item, power_armored );
+    }
+
+    // The stacking penalty applies by doubling the encumbrance of
+    // each item except the highest encumbrance one.
+    // So we add them together and then subtract out the highest.
+    for( size_t i = 0; i < num_bp; i++ ) {
+        for( size_t j = 0; j < MAX_CLOTHING_LAYER; j++ ) {
+            vals[i].layer_penalty -= std::max( 0, layers[i][j] );
+        }
+    }
+
+    // Make sure the values are sane
+    for( auto &elem : vals ) {
+        elem.armor_encumbrance = std::max( 0, elem.armor_encumbrance );
+        elem.layer_penalty = std::max( 0, elem.layer_penalty );
+        // Add armor and layering penalties for the final values
+        elem.encumbrance += elem.armor_encumbrance + elem.layer_penalty;
+    }
+}
+
+int Character::encumb( body_part bp ) const
+{
+    return encumbrance_cache[bp].encumbrance;
+}
+
+void apply_mut_encumbrance( std::array<encumbrance_data, num_bp> &vals,
+                            const mutation_branch &mut,
+                            const std::bitset<num_bp> &oversize )
+{
+    for( const auto &enc : mut.encumbrance_always ) {
+        vals[enc.first].encumbrance += enc.second;
+    }
+
+    for( const auto &enc : mut.encumbrance_covered ) {
+        if( !oversize.test( enc.first ) ) {
+            vals[enc.first].encumbrance += enc.second;
+        }
+    }
+}
+
+void Character::mut_cbm_encumb( std::array<encumbrance_data, num_bp> &vals ) const
+{
+    if( has_bionic("bio_stiff") ) {
+        // All but head, mouth and eyes
+        for( auto &val : vals ) {
+            val.encumbrance += 10;
+        }
+
+        vals[bp_head].encumbrance -= 10;
+        vals[bp_mouth].encumbrance -= 10;
+        vals[bp_eyes].encumbrance -= 10;
+    }
+
+    if( has_bionic("bio_nostril") ) {
+        vals[bp_mouth].encumbrance += 10;
+    }
+    if( has_bionic("bio_thumbs") ) {
+        vals[bp_hand_l].encumbrance += 10;
+        vals[bp_hand_r].encumbrance += 10;
+    }
+    if( has_bionic("bio_pokedeye") ) {
+        vals[bp_eyes].encumbrance += 10;
+    }
+
+    // Lower penalty for bps covered only by XL armor
+    const auto oversize = exclusive_flag_coverage( "OVERSIZE" );
+    for( const auto &mut_pair : my_mutations ) {
+        const auto &branch = mutation_branch::get( mut_pair.first );
+        apply_mut_encumbrance( vals, branch, oversize );
+    }
+    for( const auto &trait : my_traits ) {
+        const auto &branch = mutation_branch::get( trait );
+        apply_mut_encumbrance( vals, branch, oversize );
+    }
+}
+
+std::bitset<num_bp> Character::exclusive_flag_coverage( const std::string &flag ) const
+{
+    std::bitset<num_bp> ret;
+    ret.set();
+    for( const auto &elem : worn ) {
+        if( !elem.has_flag( flag ) ) {
+            // Unset the parts covered by this item
+            ret &= ( ~elem.get_covered_body_parts() );
+        }
+    }
+
+    return ret;
+}
+
 /*
  * Innate stats getters
  */
@@ -1379,6 +1559,8 @@ void Character::reset_bonuses()
     dex_bonus = 0;
     per_bonus = 0;
     int_bonus = 0;
+
+    reset_encumbrance();
 
     Creature::reset_bonuses();
 }
