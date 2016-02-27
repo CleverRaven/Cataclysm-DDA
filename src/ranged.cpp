@@ -1375,10 +1375,8 @@ item::sound_data item::gun_noise( bool const burst ) const
     } else if( ammo_effects.count("WHIP") ) {
         return { noise, _( "Crack!" ) };
 
-    } else {
-        if( noise <= 0 ) {
-            return { 0, "" }; // silent weapons
-        } else if (noise < 10) {
+    } else if( noise > 0 ) {
+        if( noise < 10 ) {
             return { noise, burst ? _( "Brrrip!" ) : _( "plink!" ) };
         } else if( noise < 150 ) {
             return { noise, burst ? _( "Brrrap!" ) : _( "bang!" ) };
@@ -1388,6 +1386,8 @@ item::sound_data item::gun_noise( bool const burst ) const
             return { noise, burst ? _( "Kaboom!!" ) : _( "kerblam!" ) };
         }
     }
+
+    return { 0, "" }; // silent weapons
 }
 
 // Little helper to clean up dispersion calculation methods.
