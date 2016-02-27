@@ -1330,18 +1330,6 @@ item::sound_data item::gun_noise( bool const burst ) const
     const islot_gun &gun = *type->gun;
     const auto &ammo_used = gun.ammo;
 
-    // TODO: make this a property of the ammo type.
-    static std::set<ammotype> const always_silent_ammotypes = {
-        ammotype( "bolt" ),
-        ammotype( "arrow" ),
-        ammotype( "pebble" ),
-        ammotype( "fishspear" ),
-        ammotype( "dart" ),
-    };
-    if( always_silent_ammotypes.count( ammo_used ) > 0 ) {
-        return sound_data{ 0, { "" } };
-    }
-
     int noise = gun.loudness;
     for( const auto mod : gunmods() ) {
         noise += mod->type->gunmod->loudness;
@@ -1379,7 +1367,9 @@ item::sound_data item::gun_noise( bool const burst ) const
         noise = 20;
         gunsound = _("Crack!");
     } else {
-        if (noise < 10) {
+        if( noise <= 0 ) {
+            // do nothing
+        } else if (noise < 10) {
             if (burst) {
                 gunsound = _("Brrrip!");
             } else {
@@ -1417,7 +1407,7 @@ item::sound_data item::gun_noise( bool const burst ) const
         gunsound = _("Fwoosh!");
         noise = 4;
     }
-    return sound_data{ noise, { gunsound } };
+    return sound_data { std::max( noise, 0 ), gunsound };
 }
 
 // Little helper to clean up dispersion calculation methods.
