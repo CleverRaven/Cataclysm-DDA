@@ -11020,13 +11020,13 @@ void game::plfire( bool burst, const tripoint &default_target )
         }
 
         if( gun.has_flag("RELOAD_AND_SHOOT") && gun.ammo_remaining() == 0 ) {
-            item_location ammo = gun.pick_reload_ammo( u );
-            if( !ammo ) {
+            item::reload_option opt = gun.pick_reload_ammo( u );
+            if( !opt ) {
                 return; // menu cancelled
             }
 
-            reload_time += u.item_reload_cost( gun, *ammo, 1 );
-            if( !gun.reload( u, std::move( ammo ), 1 ) ) {
+            reload_time += opt.moves;
+            if( !gun.reload( u, std::move( opt.ammo ), 1 ) ) {
                 return; // unable to reload
             }
 
@@ -11504,40 +11504,14 @@ void game::reload( int pos )
             break;
     }
 
-    auto loc = it->pick_reload_ammo( u );
-    if( loc ) {
-        const item& ammo = loc->is_ammo_container() ? loc->contents[0] : *loc;
-
-        item *target = nullptr;
-        if( it->active_gunmod() && it->active_gunmod()->can_reload( ammo.typeId() ) ) {
-            target = it->active_gunmod(); // prefer reloading active gunmod
-
-        } else if( it->can_reload( ammo.typeId() ) ) {
-            target = it; // otherwise reload item itself
-
-        } else {
-            for( const auto mod : it->gunmods() ) {
-                if( mod->can_reload( ammo.typeId() ) ) {
-                    target = mod; // finally try to reload any other auxiliary gunmod
-                    break;
-                }
-            }
-        }
-        if( !target ) {
-            debugmsg( "Unable to find suitable reload target" );
-            return; // not expected when player::rate_action_reload() == true
-        }
-
-        int qty = 1;// @todo pick_reload_ammo should return also target and qty
-        if( ammo.is_ammo() && !target->has_flag( "RELOAD_ONE") ) {
-            qty = std::min( ammo.charges, target->ammo_capacity() - target->ammo_remaining() );
-        }
-
-        int moves = u.item_reload_cost( *target, ammo, qty );
-
+    item::reload_option opt = it->pick_reload_ammo( u );
+    if( opt ) {
         std::stringstream ss;
         ss << pos;
-        u.assign_activity( ACT_RELOAD, moves, qty, loc.obtain( u, qty ), ss.str() );
+
+        long fetch = !opt.ammo->is_ammo_container() ? opt.qty : 1;
+        u.assign_activity( ACT_RELOAD, opt.moves, opt.qty, opt.ammo.obtain( u, fetch ), ss.str() );
+
         u.inv.restack( &u );
     }
 

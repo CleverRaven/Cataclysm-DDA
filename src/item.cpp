@@ -4219,15 +4219,9 @@ bool item::can_reload( const itype_id& ammo ) const {
     }
 }
 
-item_location item::pick_reload_ammo( player &u ) const
+item::reload_option item::pick_reload_ammo( player &u ) const
 {
-    using reloadable = struct {
-        const item *target;
-        item_location ammo;
-        long qty;
-        int moves;
-    };
-    std::vector<reloadable> ammo_list;
+    std::vector<reload_option> ammo_list;
 
     auto opts = gunmods();
     opts.push_back( this );
@@ -4236,40 +4230,42 @@ item_location item::pick_reload_ammo( player &u ) const
             if( e->can_reload( ammo->is_ammo_container() ? ammo->contents[0].typeId() : ammo->typeId() ) ||
                 e->has_flag( "RELOAD_AND_SHOOT" ) ) {
 
-                int qty = std::max( !e->has_flag( "RELOAD_ONE" ) ? e->ammo_capacity() - e->ammo_remaining() : 1, 1L );
-                int moves = ammo.obtain_cost( u, qty ) + u.item_reload_cost( *e, *ammo, qty );
-
-                ammo_list.emplace_back( reloadable { e, std::move( ammo ), qty, moves } );
+                reload_option sel;
+                sel.target = e;
+                sel.ammo = std::move( ammo );
+                sel.qty = std::max( !e->has_flag( "RELOAD_ONE" ) ? e->ammo_capacity() - e->ammo_remaining() : 1, 1L );
+                sel.moves = sel.ammo.obtain_cost( u, sel.qty ) + u.item_reload_cost( *e, *sel.ammo, sel.qty );
+                ammo_list.push_back( std::move( sel ) );
             }
         }
     }
 
     if( ammo_list.empty() ) {
         u.add_msg_if_player( m_info, _( "Out of %s!" ), is_gun() ? _("ammo") : ammo_name( ammo_type() ).c_str() );
-        return item_location();
+        return reload_option();
     }
 
     // sort in order of move cost (ascending), then remaining ammo (descending) with empty magazines always last
-    std::stable_sort( ammo_list.begin(), ammo_list.end(), []( const reloadable& lhs, const reloadable& rhs ) {
+    std::stable_sort( ammo_list.begin(), ammo_list.end(), []( const reload_option& lhs, const reload_option& rhs ) {
         return lhs.ammo->ammo_remaining() > rhs.ammo->ammo_remaining();
     } );
-    std::stable_sort( ammo_list.begin(), ammo_list.end(), []( const reloadable& lhs, const reloadable& rhs ) {
+    std::stable_sort( ammo_list.begin(), ammo_list.end(), []( const reload_option& lhs, const reload_option& rhs ) {
         return lhs.moves < rhs.moves;
     } );
-    std::stable_sort( ammo_list.begin(), ammo_list.end(), []( const reloadable& lhs, const reloadable& rhs ) {
+    std::stable_sort( ammo_list.begin(), ammo_list.end(), []( const reload_option& lhs, const reload_option& rhs ) {
         return ( lhs.ammo->ammo_remaining() != 0 ) > ( rhs.ammo->ammo_remaining() != 0 );
     } );
 
     if( ammo_list.size() == 1 ) {
         // Suppress display of reload prompt when...
         if( !is_gun() ) {
-            return std::move( ammo_list[ 0 ].ammo ); // reloading tools
+            return std::move( ammo_list[ 0 ]); // reloading tools
 
         } else if( magazine_integral() && ammo_remaining() > 0 ) {
-            return std::move( ammo_list[ 0 ].ammo ); // adding to partially filled integral magazines
+            return std::move( ammo_list[ 0 ] ); // adding to partially filled integral magazines
 
         } else if( has_flag( "RELOAD_AND_SHOOT" ) && u.has_item( *ammo_list[ 0 ].ammo ) ) {
-            return std::move( ammo_list[ 0 ].ammo ); // using bows etc and ammo is already in player possession
+            return std::move( ammo_list[ 0 ] ); // using bows etc and ammo is already in player possession
         }
     }
 
@@ -4279,7 +4275,7 @@ item_location item::pick_reload_ammo( player &u ) const
 
     // Construct item names
     std::vector<std::string> names;
-    std::transform( ammo_list.begin(), ammo_list.end(), std::back_inserter( names ), [&u]( const reloadable& e ) {
+    std::transform( ammo_list.begin(), ammo_list.end(), std::back_inserter( names ), [&u]( const reload_option& e ) {
         if( e.ammo->is_magazine() && e.ammo->ammo_data() ) {
             //~ magazine with ammo (count)
             return string_format( _( "%s with %s (%d)" ), e.ammo->type_name().c_str(),
@@ -4296,7 +4292,7 @@ item_location item::pick_reload_ammo( player &u ) const
 
     // Get location descriptions
     std::vector<std::string> where;
-    std::transform( ammo_list.begin(), ammo_list.end(), std::back_inserter( where ), [&u]( const reloadable& e ) {
+    std::transform( ammo_list.begin(), ammo_list.end(), std::back_inserter( where ), [&u]( const reload_option& e ) {
         if( e.ammo->is_ammo_container() && u.is_worn( *e.ammo ) ) {
             return e.ammo->type_name();
         }
@@ -4384,12 +4380,12 @@ item_location item::pick_reload_ammo( player &u ) const
     menu.query();
     if( menu.ret < 0 || menu.ret >= ( int ) ammo_list.size() ) {
         u.add_msg_if_player( m_info, _( "Never mind." ) );
-        return item_location();
+        return reload_option();
     }
 
-    item_location sel = std::move( ammo_list[ menu.ret ].ammo );
+    const item_location& sel = ammo_list[ menu.ret ].ammo;
     uistate.lastreload[ ammo_type() ] = sel->is_ammo_container() ? sel->contents[ 0 ].typeId() : sel->typeId();
-    return sel;
+    return std::move( ammo_list[ menu.ret ] );
 }
 
 // Helper to handle ejecting casings from guns that require them to be manually extracted.
