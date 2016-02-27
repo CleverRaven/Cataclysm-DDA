@@ -4428,7 +4428,7 @@ static void eject_casings( player &p, item& target )
         return;
     }
 
-    g->m.add_item_or_charges( p.posx(), p.posy(), item( target.ammo_casing(), calendar::turn, qty ) );
+    g->m.add_item_or_charges( p.pos(), item( target.ammo_casing(), calendar::turn, qty ) );
     target.erase_var( "CASINGS" );
 }
 
