@@ -3076,10 +3076,7 @@ bool game::handle_action()
             return false;
 
         case ACTION_QUICKLOAD:
-            MAPBUFFER.reset();
-            overmap_buffer.clear();
-            setup();
-            load( world_generator->active_world->world_name, base64_encode(u.name) );
+            quickload();
             return false;
 
         case ACTION_PL_INFO:
@@ -3651,6 +3648,7 @@ bool game::save()
              !save_uistate()){
             return false;
         } else {
+            world_generator->active_world->add_save( base64_encode( u.name ) );
             return true;
         }
     } catch (std::ios::failure &err) {
@@ -14568,6 +14566,26 @@ void game::quicksave()
     //Now reset counters for autosaving, so we don't immediately autosave after a quicksave or autosave.
     moves_since_last_save = 0;
     last_save_timestamp = now;
+}
+
+void game::quickload()
+{
+    const WORLDPTR active_world = world_generator->active_world;
+    if ( active_world == nullptr ) {
+        return;
+    }
+
+    const std::string &save_name = base64_encode(u.name);
+    if( active_world->save_exists( save_name ) ) {
+        if( moves_since_last_save != 0 ) { // See if we need to reload anything
+            MAPBUFFER.reset();
+            overmap_buffer.clear();
+            setup();
+            load( active_world->world_name, save_name );
+        }
+    } else {
+        popup_getkey( _( "No saves for %s yet." ), u.name.c_str() );
+    }
 }
 
 void game::autosave()
