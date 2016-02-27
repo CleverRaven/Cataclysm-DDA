@@ -70,8 +70,7 @@ std::vector<item> item::magazine_convert() {
         // limit ammo to base capacity and return any excess as a new item
         charges = std::min( charges, long( type->gun->clip ) );
         if( qty > 0 ) {
-            res.emplace_back( get_curammo() ? get_curammo()->id : default_ammo( ammo_type() ), calendar::turn );
-            res.back().charges = qty;
+            res.emplace_back( ammo_current() != "null" ? ammo_current() : default_ammo( ammo_type() ), calendar::turn, qty );
         }
 
         contents.erase( std::remove_if( contents.begin(), contents.end(), []( const item& e ) {
@@ -83,7 +82,7 @@ std::vector<item> item::magazine_convert() {
 
     // now handle items using the new detachable magazines that haven't yet been converted
     item mag( magazine_default(), calendar::turn );
-    item ammo( get_curammo() ? get_curammo()->id : default_ammo( ammo_type() ), calendar::turn );
+    item ammo( ammo_current() != "null" ? ammo_current() : default_ammo( ammo_type() ), calendar::turn );
 
     // give base item an appropriate magazine and add to that any ammo originally stored in base item
     if( !magazine_current() ) {
