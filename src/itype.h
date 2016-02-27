@@ -345,9 +345,9 @@ struct islot_ammo : common_ranged_data {
      */
     std::string type;
     /**
-     * Type id of casings, can be "NULL" for no casings at all.
+     * Type id of casings, can be "null" for no casings at all.
      */
-    std::string casing;
+    std::string casing = "null";
     /**
      * Default charges.
      */
@@ -356,8 +356,6 @@ struct islot_ammo : common_ranged_data {
      * TODO: document me.
      */
     std::set<std::string> ammo_effects;
-
-    islot_ammo() : casing ("NULL") { }
 };
 
 struct islot_variable_bigness {

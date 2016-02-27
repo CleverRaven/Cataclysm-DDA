@@ -1101,6 +1101,9 @@ public:
         /** Get ammo effects for item optionally inclusive of any resulting from the loaded ammo */
         std::set<std::string> ammo_effects( bool with_ammo = true ) const;
 
+        /** Returns casing type ejected by item (if any) which is always "null" if item is not a gun */
+        itype_id ammo_casing() const;
+
         /** Does item have an integral magazine (as opposed to allowing detachable magazines) */
         bool magazine_integral() const;
 

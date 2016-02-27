@@ -506,7 +506,7 @@ void Item_factory::check_definitions() const
         }
         if( type->ammo ) {
             check_ammo_type( msg, type->ammo->type );
-            if( type->ammo->casing != "NULL" && !has_template( type->ammo->casing ) ) {
+            if( type->ammo->casing != "null" && !has_template( type->ammo->casing ) ) {
                 msg << string_format( "invalid casing property %s", type->ammo->casing.c_str() ) << "\n";
             }
 
@@ -714,7 +714,7 @@ void Item_factory::load( islot_software &slot, JsonObject &jo )
 void Item_factory::load( islot_ammo &slot, JsonObject &jo )
 {
     slot.type = jo.get_string( "ammo_type" );
-    slot.casing = jo.get_string( "casing", "NULL" );
+    slot.casing = jo.get_string( "casing", slot.casing );
     slot.damage = jo.get_int( "damage", 0 );
     slot.pierce = jo.get_int( "pierce", 0 );
     slot.range = jo.get_int( "range", 0 );
