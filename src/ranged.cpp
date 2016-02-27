@@ -1323,13 +1323,8 @@ item::sound_data item::gun_noise( bool const burst ) const
     if( !is_gun() ) {
         return { 0, "" };
     }
-    item const* const gunmod = active_gunmod();
-    if( gunmod != nullptr ) {
-        return gunmod->gun_noise( burst );
-    }
-    const islot_gun &gun = *type->gun;
 
-    int noise = gun.loudness;
+    int noise = type->gun->loudness;
     for( const auto mod : gunmods() ) {
         noise += mod->type->gunmod->loudness;
     }
