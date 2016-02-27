@@ -741,9 +741,11 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         info.push_back( iteminfo( "GUN", _( "Skill used: " ), "<info>" + skill->name() + "</info>" ) );
 
         if( magazine_integral() ) {
-            info.emplace_back( "GUN", _( "<bold>Capacity:</bold> " ),
-                               string_format( ngettext( "<num> round of %s", "<num> rounds of %s", mod->ammo_capacity() ),
-                                              ammo_name( mod->ammo_type() ).c_str() ), mod->ammo_capacity(), true );
+            if( !mod->has_flag( "NO_AMMO" ) ) {
+                info.emplace_back( "GUN", _( "<bold>Capacity:</bold> " ),
+                                   string_format( ngettext( "<num> round of %s", "<num> rounds of %s", mod->ammo_capacity() ),
+                                                  ammo_name( mod->ammo_type() ).c_str() ), mod->ammo_capacity(), true );
+            }
         } else {
             info.emplace_back( "GUN", _( "Type: " ), ammo_name( ammo_type() ) );
             if( magazine_current() ) {
@@ -753,6 +755,12 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
 
         if( ammo_data() ) {
             info.emplace_back( "AMMO", _( "Ammunition: " ), string_format( "<stat>%s</stat>", ammo_data()->nname( ammo_remaining() ).c_str() ) );
+        }
+
+        if( mod->get_gun_ups_drain() ) {
+            info.emplace_back( "AMMO", string_format( ngettext( "Uses <stat>%i</stat> charge of UPS per shot",
+                                                                "Uses <stat>%i</stat> charges of UPS per shot", mod->get_gun_ups_drain() ),
+                                                      mod->get_gun_ups_drain() ) );
         }
 
         insert_separation_line();
