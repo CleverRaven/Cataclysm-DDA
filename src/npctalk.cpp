@@ -4108,7 +4108,7 @@ inventory inventory_exchange( inventory &inv,
 
     for( item *it : item_dump ) {
         if( without.count( it ) == 0 ) {
-            new_inv.push_back( *it );
+            new_inv.add_item( *it, true, false );
         }
     }
 
