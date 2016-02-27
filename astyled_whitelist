@@ -53,6 +53,7 @@ src/tileray.cpp
 src/translations.cpp
 src/trap.cpp
 src/trapfunc.cpp
+src/tutorial.cpp
 src/vehicle_selector.cpp
 src/version.cpp
 src/weather_gen.cpp
