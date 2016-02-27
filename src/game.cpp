@@ -3648,13 +3648,7 @@ bool game::save()
              !save_uistate()){
             return false;
         } else {
-            const std::string &player_name = base64_encode(u.name);
-            std::vector<std::string> &world_saves = world_generator->active_world->world_saves;
-
-            if( std::find( world_saves.begin(), world_saves.end(), player_name ) == world_saves.end() ) {
-                world_saves.push_back( player_name );
-            }
-
+            world_generator->active_world->add_save( base64_encode( u.name ) );
             return true;
         }
     } catch (std::ios::failure &err) {
@@ -14607,14 +14601,17 @@ void game::quickload()
         return; // There's no need to reload anything
     }
 
-    const std::string &player_name = base64_encode(u.name);
-    const std::vector<std::string> &world_saves = world_generator->active_world->world_saves;
+    const WORLDPTR active_world = world_generator->active_world;
+    if ( active_world == nullptr ) {
+        return;
+    }
 
-    if( std::find( world_saves.begin(), world_saves.end(), player_name ) != world_saves.end() ) {
+    const std::string &save_name = base64_encode(u.name);
+    if( active_world->save_exists( save_name ) ) {
         MAPBUFFER.reset();
         overmap_buffer.clear();
         setup();
-        load( world_generator->active_world->world_name, player_name );
+        load( active_world->world_name, save_name );
     } else {
         popup_getkey( _( "No saves for %s yet." ), u.name.c_str() );
     }

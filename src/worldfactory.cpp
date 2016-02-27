@@ -47,6 +47,18 @@ WORLD::WORLD()
     active_mod_order = world_generator->get_mod_manager()->get_default_mods();
 }
 
+bool WORLD::save_exists( const std::string &name ) const
+{
+    return std::find( world_saves.begin(), world_saves.end(), name ) != world_saves.end();
+}
+
+void WORLD::add_save( const std::string &name )
+{
+    if ( !save_exists( name ) ) {
+        world_saves.push_back( name );
+    }
+}
+
 worldfactory::worldfactory()
 : active_world( nullptr )
 , all_worlds()
