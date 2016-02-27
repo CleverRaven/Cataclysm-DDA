@@ -1651,6 +1651,9 @@ void options_manager::show(bool ingame)
     if (options_changed) {
         if(query_yn(_("Save changes?"))) {
             save(ingame && world_options_changed);
+            if( world_options_changed ) {
+                world_generator->save_world( world_generator->active_world, false );
+            }
         } else {
             used_tiles_changed = false;
             OPTIONS = OPTIONS_OLD;
