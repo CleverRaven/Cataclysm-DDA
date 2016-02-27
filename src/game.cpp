@@ -3076,10 +3076,7 @@ bool game::handle_action()
             return false;
 
         case ACTION_QUICKLOAD:
-            MAPBUFFER.reset();
-            overmap_buffer.clear();
-            setup();
-            load( world_generator->active_world->world_name, base64_encode(u.name) );
+            quickload();
             return false;
 
         case ACTION_PL_INFO:
@@ -14595,6 +14592,14 @@ void game::quicksave()
     //Now reset counters for autosaving, so we don't immediately autosave after a quicksave or autosave.
     moves_since_last_save = 0;
     last_save_timestamp = now;
+}
+
+void game::quickload()
+{
+    MAPBUFFER.reset();
+    overmap_buffer.clear();
+    setup();
+    load( world_generator->active_world->world_name, base64_encode(u.name) );
 }
 
 void game::autosave()
