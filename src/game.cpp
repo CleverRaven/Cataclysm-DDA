@@ -14597,10 +14597,6 @@ void game::quicksave()
 
 void game::quickload()
 {
-    if( moves_since_last_save == 0 ) {
-        return; // There's no need to reload anything
-    }
-
     const WORLDPTR active_world = world_generator->active_world;
     if ( active_world == nullptr ) {
         return;
@@ -14608,10 +14604,12 @@ void game::quickload()
 
     const std::string &save_name = base64_encode(u.name);
     if( active_world->save_exists( save_name ) ) {
-        MAPBUFFER.reset();
-        overmap_buffer.clear();
-        setup();
-        load( active_world->world_name, save_name );
+        if( moves_since_last_save != 0 ) { // See if we need to reload anything
+            MAPBUFFER.reset();
+            overmap_buffer.clear();
+            setup();
+            load( active_world->world_name, save_name );
+        }
     } else {
         popup_getkey( _( "No saves for %s yet." ), u.name.c_str() );
     }
