@@ -11008,12 +11008,6 @@ void game::plfire( bool burst, const tripoint &default_target )
             }
         }
 
-        if( gun.has_flag("NO_AMMO") ) {
-            gun.charges = 1;
-            gun.set_curammo( "generic_no_ammo" );
-        }
-
-
         if( gun.has_flag("FIRE_TWOHAND") && ( !u.has_two_arms() || u.worn_with_flag("RESTRICT_HANDS") ) ) {
             add_msg(m_info, _("You need two free hands to fire your %s."), gun.tname().c_str() );
             return;

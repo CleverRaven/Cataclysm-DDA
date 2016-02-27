@@ -6152,11 +6152,9 @@ vehicle::turret_ammo_data::turret_ammo_data( const vehicle &veh, int const part 
     // source NONE). They should (theoretically) require UPS charges, but that is checked above
     // and already included in the value of ammo_for.
     // UPS charges will be consumed directly in manual_fire_turret/automatic_fire_turret,
-    // gun needs to have a valid curamm, this is a required precondition.
     if( gun.has_flag( "NO_AMMO" ) ) {
         source = NONE;
         ammo = nullptr;
-        gun.set_curammo( "generic_no_ammo" );
         charges = ammo_for;
         return;
     }

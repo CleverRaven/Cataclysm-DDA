@@ -407,29 +407,10 @@ void Item_factory::add_category(const std::string &id, int sort_rank, const std:
     cat.name = name;
 }
 
-/**
- * Checks that ammo type is fake type or not.
- * @param ammo type for check.
- * @return true if ammo type is a fake, false otherwise.
- */
-static bool fake_ammo_type(const std::string &ammo)
-{
-    if (  ammo == "NULL" || ammo == "generic_no_ammo" ||
-          ammo == "pointer_fake_ammo" ) {
-        return true;
-    }
-    return false;
-}
-
 void Item_factory::check_ammo_type(std::ostream &msg, const std::string &ammo) const
 {
     // Skip fake types
-    if ( fake_ammo_type(ammo) ) {
-        return;
-    }
-
-    // Should be skipped too.
-    if ( ammo == "UPS" ) {
+    if ( ammo == "NULL" || ammo == "pointer_fake_ammo" ) {
         return;
     }
 
