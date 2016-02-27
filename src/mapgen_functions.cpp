@@ -2562,15 +2562,13 @@ void mapgen_generic_house(map *m, oter_id terrain_type, mapgendata dat, int turn
         }
     }
 
-    if ("house_base" == terrain_type.t().id_base ) {
+    if ( "house_base" == terrain_type.t().id_base ) {
         int attempts = 100;
         do {
-            rn = rng(lw + 1, rw - 1);
+            rn = rng( lw + 1, rw - 1 );
             attempts--;
-        } while (m->ter(rn, actual_house_height - 1) != t_floor && attempts);
-        if( m->ter(rn, actual_house_height - 1) == t_floor && attempts && !m->has_furn( rn, actual_house_height - 1 ) ) {
-            m->ter_set(rn, actual_house_height - 1, t_stairs_down);
-        }
+        } while ( m->ter( rn, actual_house_height - 1 ) != t_floor && attempts && !m->has_furn( rn, actual_house_height - 1 ) );
+            m->ter_set( rn, actual_house_height - 1, t_stairs_down );
     }
     if (one_in(100)) { // todo: region data // Houses have a 1 in 100 chance of wasps!
         for (int i = 0; i < SEEX * 2; i++) {
