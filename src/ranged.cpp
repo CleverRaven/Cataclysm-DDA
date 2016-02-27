@@ -1321,7 +1321,7 @@ void make_gun_sound_effect(player &p, bool burst, item *weapon)
 item::sound_data item::gun_noise( bool const burst ) const
 {
     if( !is_gun() ) {
-        return sound_data{ 0, { "" } };
+        return { 0, "" };
     }
     item const* const gunmod = active_gunmod();
     if( gunmod != nullptr ) {
@@ -1350,62 +1350,44 @@ item::sound_data item::gun_noise( bool const burst ) const
         return { 4, _( "Fwoosh!" ) };
     }
 
-    const char* gunsound = "";
-    // TODO: most of this could be statically allocated.
-    if( ammo_effects.count("LASER") || ammo_effects.count("PLASMA") ) {
-        if (noise < 20) {
-            gunsound = _("Fzzt!");
-        } else if (noise < 40) {
-            gunsound = _("Pew!");
-        } else if (noise < 60) {
-            gunsound = _("Tsewww!");
+    if( ammo_effects.count( "LASER" ) || ammo_effects.count( "PLASMA" ) ) {
+        if( noise < 20 ) {
+            return { noise, _( "Fzzt!" ) };
+        } else if( noise < 40 ) {
+            return { noise, _( "Pew!" ) };
+        } else if( noise < 60 ) {
+            return { noise, _( "Tsewww!" ) };
         } else {
-            gunsound = _("Kra-kow!!");
+            return { noise, _( "Kra-kow!!" ) };
         }
+
     } else if( ammo_effects.count("LIGHTNING") ) {
-        if (noise < 20) {
-            gunsound = _("Bzzt!");
-        } else if (noise < 40) {
-            gunsound = _("Bzap!");
-        } else if (noise < 60) {
-            gunsound = _("Bzaapp!");
+        if( noise < 20 ) {
+            return { noise, _( "Bzzt!" ) };
+        } else if( noise < 40 ) {
+            return { noise, _( "Bzap!" ) };
+        } else if( noise < 60 ) {
+            return { noise, _( "Bzaapp!" ) };
         } else {
-            gunsound = _("Kra-koom!!");
+            return { noise, _( "Kra-koom!!" ) };
         }
+
     } else if( ammo_effects.count("WHIP") ) {
-        noise = 20;
-        gunsound = _("Crack!");
+        return { noise, _( "Crack!" ) };
+
     } else {
         if( noise <= 0 ) {
-            // do nothing
+            return { 0, "" }; // silent weapons
         } else if (noise < 10) {
-            if (burst) {
-                gunsound = _("Brrrip!");
-            } else {
-                gunsound = _("plink!");
-            }
-        } else if (noise < 150) {
-            if (burst) {
-                gunsound = _("Brrrap!");
-            } else {
-                gunsound = _("bang!");
-            }
-        } else if (noise < 175) {
-            if (burst) {
-                gunsound = _("P-p-p-pow!");
-            } else {
-                gunsound = _("blam!");
-            }
+            return { noise, burst ? _( "Brrrip!" ) : _( "plink!" ) };
+        } else if( noise < 150 ) {
+            return { noise, burst ? _( "Brrrap!" ) : _( "bang!" ) };
+        } else if(noise < 175 ) {
+            return { noise, burst ? _( "P-p-p-pow!" ) : _( "blam!" ) };
         } else {
-            if (burst) {
-                gunsound = _("Kaboom!!");
-            } else {
-                gunsound = _("kerblam!");
-            }
+            return { noise, burst ? _( "Kaboom!!" ) : _( "kerblam!" ) };
         }
     }
-
-    return sound_data { std::max( noise, 0 ), gunsound };
 }
 
 // Little helper to clean up dispersion calculation methods.
