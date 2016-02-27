@@ -1784,6 +1784,7 @@ int game::inventory_item_menu(int pos, int iStartX, int iWidth, const inventory_
         addentry( 'w', pgettext("action", "wield"), HINT_GOOD );
         addentry( 't', pgettext("action", "throw"), HINT_GOOD );
         addentry( 'c', pgettext("action", "change side"), u.rate_action_change_side( oThisItem ) );
+        addentry( 'p', pgettext("action", "set priority"), u.rate_action_set_priority( oThisItem ) );
         addentry( 'T', pgettext("action", "take off"), u.rate_action_takeoff( oThisItem ) );
         addentry( 'd', pgettext("action", "drop"), rate_drop_item );
         addentry( 'U', pgettext("action", "unload"), u.rate_action_unload( oThisItem ) );
@@ -1861,6 +1862,9 @@ int game::inventory_item_menu(int pos, int iStartX, int iWidth, const inventory_
                 break;
             case 'c':
                 change_side(pos);
+                break;
+            case 'p':
+                set_priority(pos);
                 break;
             case 'T':
                 takeoff(pos);
@@ -11477,6 +11481,53 @@ void game::change_side(int pos)
 
     if (!u.change_side(pos)) {
         add_msg(m_info, _("Invalid selection."));
+    }
+}
+
+void game::set_priority( int pos )
+{
+    if( pos == INT_MIN ) {
+        pos = inv_for_filter( _( "Set priority for item:" ), [&]( const item& e ) {
+            return u.rate_action_set_priority( e );
+        } );
+    }
+
+    item& it = u.i_at( pos );
+    if( it.is_null() ) {
+        add_msg( _( "Never mind." ) );
+        return;
+
+    } else if( !u.rate_action_set_priority( it ) ) {
+        add_msg( _( "Invalid selection." ) );
+        return;
+    }
+
+    uimenu menu;
+    menu.text = string_format( _( "Set priority for %s" ), it.tname().c_str() );
+
+    menu.addentry( 0, true, 'p', _( "Prompt before use" ) );
+    menu.addentry( 1, true, 'a', _( "Always use" ) );
+    menu.addentry( 2, true, 's', _( "Always use if safe-mode" ) );
+    menu.addentry( 3, true, 'n', _( "Never use" ) );
+
+    menu.query();
+
+    switch( menu.ret ) {
+        case 0:
+            it.erase_var( "priority" );
+            break;
+
+        case 1:
+            it.set_var( "priority", "always" );
+            break;
+
+        case 2:
+            it.set_var( "priority", "safe" );
+            break;
+
+        case 3:
+            it.set_var( "priority", "never" );
+            break;
     }
 }
 

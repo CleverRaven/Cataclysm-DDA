@@ -10040,6 +10040,15 @@ hint_rating player::rate_action_change_side( const item &it ) const {
     return HINT_GOOD;
 }
 
+hint_rating player::rate_action_set_priority( const item &it ) const
+{
+    if( it.is_ammo() || it.is_magazine() ) {
+        return HINT_GOOD;
+    }
+    return HINT_CANT;
+}
+
+
 bool player::can_use( const item& it, bool interactive ) const {
     // First check stats
     std::string fail_stat;

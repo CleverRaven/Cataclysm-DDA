@@ -849,6 +849,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         hint_rating rate_action_use( const item &it ) const;
         hint_rating rate_action_wear( const item &it ) const;
         hint_rating rate_action_change_side( const item &it ) const;
+        hint_rating rate_action_set_priority( const item &it ) const;
         hint_rating rate_action_eat( const item &it ) const;
         hint_rating rate_action_read( const item &it ) const;
         hint_rating rate_action_takeoff( const item &it ) const;

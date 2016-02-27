@@ -675,6 +675,7 @@ class game
         void wear(int pos = INT_MIN); // Wear armor  'W' (or 'a')
         void takeoff(int pos = INT_MIN); // Remove armor  'T'
         void change_side(int pos = INT_MIN); // Change the side on which an item is worn 'c'
+        void set_priority( int pos = INT_MIN ); // Set automation priority for an item 'p'
         void reload(); // Reload a wielded gun/tool  'r'
         void reload(int pos);
 public:
