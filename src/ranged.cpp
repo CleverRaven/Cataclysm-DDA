@@ -713,7 +713,7 @@ static int draw_targeting_window( WINDOW *w_target, item *relevant, player &p, t
         title = _("Select a vehicle");
     } else {
         if( mode == TARGET_MODE_FIRE ) {
-            if(relevant->has_flag("RELOAD_AND_SHOOT")) {
+            if( relevant->has_flag( "RELOAD_AND_SHOOT" ) && relevant->ammo_data() ) {
                 title = string_format( _("Shooting %1$s from %2$s"),
                         p.weapon.ammo_data()->nname(1).c_str(), p.weapon.tname().c_str());
             } else if( relevant->has_flag("NO_AMMO") ) {
