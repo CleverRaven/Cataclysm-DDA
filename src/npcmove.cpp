@@ -355,8 +355,8 @@ void npc::execute_action( npc_action action )
 
         int reload_time = item_reload_cost( weapon, *usable_ammo );
 
-        if( !weapon.reload( *this, std::move( usable_ammo ),
-            weapon.ammo_capacity() - weapon.ammo_remaining() ) ) {
+        int qty = std::max( 1l, weapon.ammo_capacity() - weapon.ammo_remaining() );
+        if( !weapon.reload( *this, std::move( usable_ammo ), qty ) ) {
             debugmsg( "npc_reload failed: item could not be reloaded" );
             break;
         }

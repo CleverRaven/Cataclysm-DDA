@@ -4416,8 +4416,12 @@ static void eject_casings( player &p, item& target )
 
 bool item::reload( player &u, item_location loc, long qty )
 {
+    if( qty <= 0 ) {
+        debugmsg( "Tried to reload zero or less charges" );
+        return false;
+    }
     item *ammo = loc.get_item();
-    if( ammo == nullptr || ammo->is_null() || ammo->charges <= 0 ) {
+    if( ammo == nullptr || ammo->is_null() ) {
         debugmsg( "Tried to reload using non-existent ammo" );
         return false;
     }
