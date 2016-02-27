@@ -1337,8 +1337,6 @@ item::sound_data item::gun_noise( bool const burst ) const
         noise += ammo_data()->ammo->loudness;
     }
 
-    const auto &ammo_effects = gun.ammo_effects;
-
     if( ammo_type() == "40mm") {
         return { 8, _( "Thunk!" ) };
 
@@ -1350,7 +1348,9 @@ item::sound_data item::gun_noise( bool const burst ) const
         return { 4, _( "Fwoosh!" ) };
     }
 
-    if( ammo_effects.count( "LASER" ) || ammo_effects.count( "PLASMA" ) ) {
+    auto fx = ammo_effects();
+
+    if( fx.count( "LASER" ) || fx.count( "PLASMA" ) ) {
         if( noise < 20 ) {
             return { noise, _( "Fzzt!" ) };
         } else if( noise < 40 ) {
@@ -1361,7 +1361,7 @@ item::sound_data item::gun_noise( bool const burst ) const
             return { noise, _( "Kra-kow!!" ) };
         }
 
-    } else if( ammo_effects.count("LIGHTNING") ) {
+    } else if( fx.count( "LIGHTNING" ) ) {
         if( noise < 20 ) {
             return { noise, _( "Bzzt!" ) };
         } else if( noise < 40 ) {
@@ -1372,7 +1372,7 @@ item::sound_data item::gun_noise( bool const burst ) const
             return { noise, _( "Kra-koom!!" ) };
         }
 
-    } else if( ammo_effects.count("WHIP") ) {
+    } else if( fx.count( "WHIP" ) ) {
         return { noise, _( "Crack!" ) };
 
     } else if( noise > 0 ) {
