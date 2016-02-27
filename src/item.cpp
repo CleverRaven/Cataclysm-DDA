@@ -1912,23 +1912,23 @@ nc_color item::color_in_inventory() const
     return ret;
 }
 
-void item::on_wear( player &p  )
+void item::on_wear( player &p )
 {
     if (is_sided() && get_side() == BOTH) {
         // for sided items wear the item on the side which results in least encumbrance
         int lhs = 0, rhs = 0;
 
         set_side(LEFT);
-        lhs += covers(bp_hand_l) ? p.encumb(bp_hand_l, *this) : 0;
-        lhs += covers(bp_arm_l)  ? p.encumb(bp_arm_l,  *this) : 0;
-        lhs += covers(bp_leg_l)  ? p.encumb(bp_leg_l,  *this) : 0;
-        lhs += covers(bp_foot_l) ? p.encumb(bp_foot_l, *this) : 0;
+        const auto left_enc = p.get_encumbrance( *this );
+        for( size_t i = 0; i < num_bp; i++ ) {
+            lhs += left_enc[i].encumbrance;
+        }
 
         set_side(RIGHT);
-        rhs += covers(bp_hand_r) ? p.encumb(bp_hand_r, *this) : 0;
-        rhs += covers(bp_arm_r)  ? p.encumb(bp_arm_r,  *this) : 0;
-        rhs += covers(bp_leg_r)  ? p.encumb(bp_leg_r,  *this) : 0;
-        rhs += covers(bp_foot_r) ? p.encumb(bp_foot_r, *this) : 0;
+        const auto right_enc = p.get_encumbrance( *this );
+        for( size_t i = 0; i < num_bp; i++ ) {
+            rhs += right_enc[i].encumbrance;
+        }
 
         set_side(lhs <= rhs ? LEFT : RIGHT);
     }

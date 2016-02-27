@@ -120,18 +120,6 @@ struct stats : public JsonSerializer, public JsonDeserializer {
     }
 };
 
-struct encumbrance_data {
-    int iEnc = 0;
-    int iArmorEnc = 0;
-    int iBodyTempInt = 0;
-    double iLayers = 0.0;
-    bool operator ==( const encumbrance_data &RHS )
-    {
-        return this->iEnc == RHS.iEnc && this->iArmorEnc == RHS.iArmorEnc &&
-            this->iBodyTempInt == RHS.iBodyTempInt && this->iLayers == RHS.iLayers;
-    }
-};
-
 class player : public Character, public JsonSerializer, public JsonDeserializer
 {
     public:
@@ -860,18 +848,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int warmth(body_part bp) const;
         /** Returns warmth provided by an armor's bonus, like hoods, pockets, etc. */
         int bonus_item_warmth(body_part bp) const;
-        /** Returns ENC provided by armor, etc. */
-        int encumb(body_part bp) const;
-        /** Returns encumbrance that would apply for a body part if `new_item` was also worn */
-        int encumb( body_part bp, const item &new_item ) const;
-        /** Returns encumbrance caused by armor, etc., factoring in layering */
-        int encumb(body_part bp, double &layers, int &armorenc) const;
-        /** As above, but also treats the `new_item` as worn for encumbrance penalty purposes */
-        int encumb( body_part bp, double &layers, int &armorenc, const item &new_item ) const;
-        /** Returns encumbrance from mutations and bionics only */
-        int mut_cbm_encumb( body_part bp ) const;
-        /** Returns encumbrance from items only */
-        int item_encumb( body_part bp, double &layers, int &armorenc, const item &new_item ) const;
         /** Returns overall bashing resistance for the body_part */
         int get_armor_bash(body_part bp) const override;
         /** Returns overall cutting resistance for the body_part */
@@ -900,8 +876,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int shoe_type_count(const itype_id &it) const;
         /** Returns true if the player is wearing power armor */
         bool is_wearing_power_armor(bool *hasHelmet = NULL) const;
-        /** Returns true if the player is wearing active power */
-        bool is_wearing_active_power_armor() const;
         /** Returns wind resistance provided by armor, etc **/
         int get_wind_resistance(body_part bp) const;
 
@@ -1277,8 +1251,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          */
         void on_mission_finished( mission &mission );
 
-        // returns a struct describing the encumbrance of a body part
-        encumbrance_data get_encumbrance( size_t i ) const;
         // formats and prints encumbrance info to specified window
         void print_encumbrance( WINDOW * win, int line = -1, item *selected_limb = nullptr ) const;
 

@@ -152,6 +152,8 @@ stats player_stats;
 
 static const itype_id OPTICAL_CLOAK_ITEM_ID( "optical_cloak" );
 
+static bool should_combine_bps( const player &, size_t, size_t );
+
 
 player::player() : Character()
 {
@@ -241,7 +243,8 @@ player::player() : Character()
     drench_capacity[bp_hand_r] = 3;
     drench_capacity[bp_torso] = 40;
 
- recalc_sight_limits();
+    recalc_sight_limits();
+    reset_encumbrance();
 }
 
 player::~player()
@@ -3112,7 +3115,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
             if( action == "DOWN" ) {
                 if( line < num_bp - 1 ) {
                     if( bp_aiOther[line] == line + 1 && // first of a pair
-                    get_encumbrance( line ) == get_encumbrance( bp_aiOther[line] ) ) {
+                        should_combine_bps( *this, line, bp_aiOther[line] ) ) {
                         line += ( line < num_bp - 2 ) ? 2 : 0; // skip a line if we aren't at the last pair
                     } else {
                         line++; // unpaired or unequal
@@ -3121,7 +3124,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
             } else if( action == "UP" ) {
                 if( line > 0 ) {
                     if( bp_aiOther[line] == line - 1 && // second of a pair
-                         get_encumbrance( line ) == get_encumbrance( bp_aiOther[line] ) ) {
+                        should_combine_bps( *this, line, bp_aiOther[line] ) ) {
                         line -= ( line < num_bp - 2 ) ? 2 : 0; // skip a line if we aren't at the first pair
                     } else {
                         line--; // unpaired or unequal
@@ -10515,6 +10518,7 @@ bool player::wear_item( const item &to_wear, bool interactive )
     }
 
     recalc_sight_limits();
+    reset_encumbrance();
 
     return true;
 }
@@ -10549,6 +10553,8 @@ bool player::change_side (int pos, bool interactive) {
         add_msg_if_player(m_info, _("You swap the side on which your %s is worn."), it->tname().c_str());
         moves -= 250;
     }
+
+    reset_encumbrance();
 
     return true;
 }
@@ -10642,6 +10648,7 @@ bool player::takeoff(int inventory_position, bool autodrop, std::vector<item> *i
     }
 
     recalc_sight_limits();
+    reset_encumbrance();
 
     return taken_off;
 }
@@ -12025,165 +12032,6 @@ int player::bonus_item_warmth(body_part bp) const
     return ret;
 }
 
-template <typename arr>
-void layer_item( body_part bp, arr &layer, int &armorenc, const item &it, bool power_armor )
-{
-    if( !it.covers( bp ) ) {
-        return;
-    }
-
-    std::pair<int, int> &this_layer = layer[it.get_layer()];
-    int encumber_val = it.get_encumber();
-    // For the purposes of layering penalty, set a min of 2 and a max of 10 per item.
-    int layering_encumbrance = std::min( 10, std::max( 2, encumber_val ) );
-
-    this_layer.first += layering_encumbrance;
-    this_layer.second = std::max(this_layer.second, layering_encumbrance);
-
-    if( it.is_power_armor() && power_armor ) {
-        armorenc += std::max( 0, encumber_val - 40 );
-    } else {
-        armorenc += encumber_val;
-    }
-}
-
-/*
- * Encumbrance logic:
- * Some clothing is intrinsically encumbering, such as heavy jackets, backpacks, body armor, etc.
- * These simply add their encumbrance value to each body part they cover.
- * In addition, each article of clothing after the first in a layer imposes an additional penalty.
- * e.g. one shirt will not encumber you, but two is tight and starts to restrict movement.
- * Clothes on seperate layers don't interact, so if you wear e.g. a light jacket over a shirt,
- * they're intended to be worn that way, and don't impose a penalty.
- * The default is to assume that clothes do not fit, clothes that are "fitted" either
- * reduce the encumbrance penalty by ten, or if that is already 0, they reduce the layering effect.
- *
- * Use cases:
- * What would typically be considered normal "street clothes" should not be considered encumbering.
- * Tshirt, shirt, jacket on torso/arms, underwear and pants on legs, socks and shoes on feet.
- * This is currently handled by each of these articles of clothing
- * being on a different layer and/or body part, therefore accumulating no encumbrance.
- */
-int player::item_encumb( body_part bp, double &layers, int &armorenc, const item &new_item ) const
-{
-    int ret = 0;
-    // First is the total of encumbrance on the given layer,
-    // and second is the highest encumbrance of any one item on the layer.
-    std::array<std::pair<int, int>, MAX_CLOTHING_LAYER> layer = {{{0,0},{0,0},{0,0},{0,0},{0,0}}};
-
-    const bool power_armored = is_wearing_active_power_armor();
-    for( auto& w : worn ) {
-        layer_item( bp, layer, armorenc, w, power_armored );
-    }
-
-    if( !new_item.is_null() ) {
-        layer_item( bp, layer, armorenc, new_item, power_armored );
-    }
-
-    armorenc = std::max(0, armorenc);
-    ret += armorenc;
-
-    // The stacking penalty applies by doubling the encumbrance of
-    // each item except the highest encumbrance one.
-    // So we add them together and then subtract out the highest.
-    for( const auto &elem : layer ) {
-        layers += std::max(0, elem.first - elem.second);
-    }
-
-    ret += layers;
-    return std::max( 0, ret );
-}
-
-int player::encumb( body_part bp ) const
-{
-    int iArmorEnc = 0;
-    double iLayers = 0;
-    return encumb( bp, iLayers, iArmorEnc, ret_null );
-}
-
-int player::encumb( body_part bp, const item &new_item ) const {
-    int iArmorEnc = 0;
-    double iLayers = 0;
-    return encumb( bp, iLayers, iArmorEnc, new_item );
-}
-
-int player::encumb( body_part bp, double &layers, int &armorenc ) const
-{
-    return encumb( bp, layers, armorenc, ret_null );
-}
-
-int player::encumb( body_part bp, double &layers, int &armorenc, const item &new_item ) const
-{
-    int ret = 0;
-    // Armor
-    ret += item_encumb( bp, layers, armorenc, new_item );
-
-    // Bionics and mutation
-    ret += mut_cbm_encumb( bp );
-    return std::max( 0, ret );
-}
-
-int player::mut_cbm_encumb( body_part bp ) const
-{
-    int ret = 0;
-    if( bp != bp_head && bp != bp_mouth && bp != bp_eyes && has_bionic("bio_stiff") ) {
-        ret += 10;
-    }
-    if( bp != bp_eyes && bp != bp_mouth && (has_trait("CHITIN3") || has_trait("CHITIN_FUR3") ) ) {
-        ret += 10;
-    }
-    if( bp == bp_mouth && has_trait("SLIT_NOSTRILS") ) {
-        ret += 10;
-    }
-    if( (bp == bp_arm_l || bp == bp_arm_r) && has_trait("ARM_FEATHERS") ) {
-        ret += 20;
-    }
-    if( (bp == bp_arm_l || bp == bp_arm_r) && has_trait("INSECT_ARMS") ) {
-        ret += 30;
-    }
-    if( (bp == bp_arm_l || bp == bp_arm_r) && has_trait("ARACHNID_ARMS")) {
-        ret += 40;
-    }
-    if( (bp == bp_hand_l || bp == bp_hand_r) && has_trait("PAWS") ) {
-        ret += 10;
-    }
-    if( (bp == bp_hand_l || bp == bp_hand_r) && has_trait("PAWS_LARGE") ) {
-        ret += 20;
-    }
-    if( (bp == bp_arm_l || bp == bp_arm_r || bp == bp_torso ) && has_trait("LARGE") ) {
-        ret += 10;
-    }
-    if( bp == bp_torso && has_trait("WINGS_BUTTERFLY") ) {
-        ret += 10;
-    }
-    if( bp == bp_torso && has_trait("SHELL2") ) {
-        ret += 10;
-    }
-    if( (bp == bp_hand_l || bp == bp_hand_r) &&
-        (has_trait("ARM_TENTACLES") || has_trait("ARM_TENTACLES_4") ||
-         has_trait("ARM_TENTACLES_8")) ) {
-        ret += 30;
-    }
-    if( (bp == bp_hand_l || bp == bp_hand_r) &&
-        (has_trait("CLAWS_TENTACLE") )) {
-        ret += 20;
-    }
-    if( bp == bp_mouth &&
-        ( has_bionic("bio_nostril") ) ) {
-        ret += 10;
-    }
-    if( (bp == bp_hand_l || bp == bp_hand_r) &&
-        ( has_bionic("bio_thumbs") ) ) {
-        ret += 20;
-    }
-    if( bp == bp_eyes &&
-        ( has_bionic("bio_pokedeye") ) ) {
-        ret += 10;
-    }
-
-    return ret;
-}
-
 int player::get_armor_bash(body_part bp) const
 {
     return get_armor_bash_base(bp) + armor_bash_bonus;
@@ -12788,16 +12636,6 @@ bool player::is_wearing_power_armor(bool *hasHelmet) const {
     return result;
 }
 
-bool player::is_wearing_active_power_armor() const
-{
-    for( const auto &w : worn ) {
-        if( w.is_power_armor() && w.active ) {
-            return true;
-        }
-    }
-    return false;
-}
-
 int player::adjust_for_focus(int amount) const
 {
     int effective_focus = focus_pool;
@@ -13318,6 +13156,7 @@ void player::environmental_revert_effect()
     radiation = 0;
 
     recalc_sight_limits();
+    reset_encumbrance();
 }
 
 bool player::is_invisible() const
@@ -14043,12 +13882,17 @@ std::vector<mission*> player::get_failed_missions() const
     return failed_missions;
 }
 
-encumbrance_data player::get_encumbrance( size_t i ) const
+// Rescale temperature value to one that the player sees
+int temperature_print_rescaling( int temp )
 {
-    encumbrance_data enc_data;
-    enc_data.iBodyTempInt = ( temp_conv[i] / 100.0 ) * 2 - 100; // Scale of -100 to +100
-    enc_data.iEnc = encumb( bp_aBodyPart[i], enc_data.iLayers, enc_data.iArmorEnc );
-    return enc_data;
+    return ( temp / 100.0 ) * 2 - 100;
+}
+
+bool should_combine_bps( const player &p, size_t l, size_t r )
+{
+    const auto enc_data = p.get_encumbrance();
+    return enc_data[l] == enc_data[r] &&
+        temperature_print_rescaling( p.temp_conv[l] ) == temperature_print_rescaling( p.temp_conv[r] );
 }
 
 void player::print_encumbrance( WINDOW *win, int line, item *selected_clothing ) const
@@ -14067,7 +13911,7 @@ void player::print_encumbrance( WINDOW *win, int line, item *selected_clothing )
         if( !skip[off > 0] && line + off >= 0 && line + off < num_bp ) { // line+off is in bounds
             parts.insert( line + off );
             if( line + off != ( int )bp_aiOther[line + off] &&
-                 get_encumbrance( line + off ) == get_encumbrance( bp_aiOther[line + off] ) ) { // part of a pair
+                should_combine_bps( *this, line + off, bp_aiOther[line + off] ) ) { // part of a pair
                 skip[( int )bp_aiOther[line + off] > line + off ] = 1; // skip the next candidate in this direction
             }
         } else {
@@ -14086,15 +13930,13 @@ void player::print_encumbrance( WINDOW *win, int line, item *selected_clothing )
      *** If the player wants to see the total without having to do them maths, the  ***
      *** armor layers ui shows everything they want :-) -Davek                      ***/
     int row = 1;
+    const auto enc_data = get_encumbrance();
     for( auto bp : parts ) {
-        encumbrance_data e = get_encumbrance( bp );
-        bool combine = false;
+        const encumbrance_data &e = enc_data[bp];
         bool highlighted = ( selected_clothing == nullptr ) ? false :
             ( selected_clothing->covers( static_cast<body_part>( bp ) ) ||
               selected_clothing->covers( static_cast<body_part>( bp_aiOther[bp] ) ) );
-        if( e == get_encumbrance( bp_aiOther[bp] ) ) {
-            combine = true;
-        }
+        bool combine = should_combine_bps( *this, bp, bp_aiOther[bp] );
         out.clear();
         // limb, and possible color highlighting
         out = string_format( "%-7s", ( combine ? bpp_asText[bp] : bp_asText[bp] ).c_str() );
@@ -14105,15 +13947,15 @@ void player::print_encumbrance( WINDOW *win, int line, item *selected_clothing )
             ( highlighted ? c_green : c_ltgray );
         mvwprintz( win, row, 1, limb_color, out.c_str() );
         // take into account the new encumbrance system for layers
-        out = string_format( "(%1d) ", static_cast<int>( e.iLayers / 10.0 ) );
+        out = string_format( "(%1d) ", static_cast<int>( e.layer_penalty / 10.0 ) );
         wprintz( win, c_ltgray, out.c_str() );
         // accumulated encumbrance from clothing, plus extra encumbrance from layering
-        wprintz( win, encumb_color( e.iEnc ), string_format( "%3d", e.iArmorEnc ).c_str() );
+        wprintz( win, encumb_color( e.encumbrance ), string_format( "%3d", e.armor_encumbrance ).c_str() );
         // seperator in low toned color
         wprintz( win, c_ltgray, "+" );
-        wprintz( win, encumb_color( e.iEnc ), string_format( "%-3d", e.iEnc - e.iArmorEnc ).c_str() );
+        wprintz( win, encumb_color( e.encumbrance ), string_format( "%-3d", e.encumbrance - e.armor_encumbrance ).c_str() );
         // print warmth, tethered to right hand side of the window
-        out = string_format( "(% 3d)", e.iBodyTempInt );
+        out = string_format( "(% 3d)", temperature_print_rescaling( temp_conv[bp] ) );
         mvwprintz( win, row, getmaxx( win ) - 6, bodytemp_color( bp ), out.c_str() );
         row++;
     }

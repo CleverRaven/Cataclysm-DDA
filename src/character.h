@@ -39,6 +39,18 @@ enum fatigue_levels {
     MASSIVE_FATIGUE = 1000
 };
 
+struct encumbrance_data {
+    int encumbrance = 0;
+    int armor_encumbrance = 0;
+    int layer_penalty = 0;
+    bool operator ==( const encumbrance_data &rhs ) const
+    {
+        return encumbrance == rhs.encumbrance &&
+               armor_encumbrance == rhs.armor_encumbrance &&
+               layer_penalty == rhs.layer_penalty;
+    }
+};
+
 class Character : public Creature, public visitable<Character>
 {
     public:
@@ -147,6 +159,19 @@ class Character : public Creature, public visitable<Character>
         /** Handles stat and bonus reset. */
         virtual void reset() override;
 
+        /** Recalculates encumbrance cache. */
+        void reset_encumbrance();
+        /** Returns ENC provided by armor, etc. */
+        int encumb( body_part bp ) const;
+
+        /** Get encumbrance for all body parts. */
+        std::array<encumbrance_data, num_bp> get_encumbrance() const;
+        /** Get encumbrance for all body parts as if `new_item` was also worn. */
+        std::array<encumbrance_data, num_bp> get_encumbrance( const item &new_item ) const;
+
+        /** Returns true if the character is wearing active power */
+        bool is_wearing_active_power_armor() const;
+
         /** Processes effects which may prevent the Character from moving (bear traps, crushed, etc.).
          *  Returns false if movement is stopped. */
         virtual bool move_effects(bool attacking) override;
@@ -218,6 +243,16 @@ class Character : public Creature, public visitable<Character>
  protected:
         /** Applies stat mods to character. */
         void apply_mods(const std::string &mut, bool add_remove);
+
+        /** Recalculate encumbrance for all body parts. */
+        std::array<encumbrance_data, num_bp> calc_encumbrance() const;
+        /** Recalculate encumbrance for all body parts as if `new_item` was also worn. */
+        std::array<encumbrance_data, num_bp> calc_encumbrance( const item &new_item ) const;
+
+        /** Applies encumbrance from mutations and bionics only */
+        void mut_cbm_encumb( std::array<encumbrance_data, num_bp> &vals ) const;
+        /** Applies encumbrance from items only */
+        void item_encumb( std::array<encumbrance_data, num_bp> &vals, const item &new_item ) const;
  public:
         /** Handles things like destruction of armor, etc. */
         void mutation_effect(std::string mut);
@@ -509,6 +544,8 @@ class Character : public Creature, public visitable<Character>
         /** How healthy the character is. */
         int healthy;
         int healthy_mod;
+
+        std::array<encumbrance_data, num_bp> encumbrance_cache;
 
         /**
          * Traits / mutations of the character. Key is the mutation id (it's also a valid
