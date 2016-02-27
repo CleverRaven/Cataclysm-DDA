@@ -35,7 +35,7 @@
     "damage_modifier": -5,
     "dispersion_modifier": 15,
     "loudness_modifier": -30,
-    "recoil_modifier": -1
+    "recoil_modifier": -15
   },
   {
     "id": "muzzle_brake",
@@ -71,9 +71,8 @@
     "location": "muzzle",
     "mod_targets": [ "shotgun" ],
     "damage_modifier": -4,
-    "dispersion_modifier": 15,
     "loudness_modifier": -30,
-    "recoil_modifier": -2
+    "recoil_modifier": -15
   },
   {
     "id": "suppressor",
@@ -92,9 +91,8 @@
     "mod_targets": [ "pistol", "smg", "rifle" ],
     "install_time": 200,
     "damage_modifier": -4,
-    "dispersion_modifier": 15,
     "loudness_modifier": -50,
-    "recoil_modifier": -2
+    "recoil_modifier": -25
   },
   {
     "id": "suppressor_compact",
@@ -111,8 +109,7 @@
     "mod_targets": [ "pistol" ],
     "install_time": 200,
     "damage_modifier": -2,
-    "dispersion_modifier": 15,
     "loudness_modifier": -30,
-    "recoil_modifier": -2
+    "recoil_modifier": -15
   }
 ]
