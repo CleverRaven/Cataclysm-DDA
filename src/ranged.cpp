@@ -278,7 +278,7 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
 
     drop_or_embed_projectile( attack );
 
-    ammo_effects(tp, proj.proj_effects);
+    apply_ammo_effects( tp, proj.proj_effects );
 
     // TODO: Move this outside now that we have hit point in return values?
     if( proj.proj_effects.count( "BOUNCE" ) ) {
@@ -374,8 +374,8 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
 {
     const bool is_charger_gun = gun.update_charger_gun_ammo();
 
-    if( !gun.is_gun() || !gun.ammo_data() ) {
-        debugmsg( "%s tried to fire empty or non-gun (%s).", name.c_str(), gun.tname().c_str() );
+    if( !gun.is_gun() ) {
+        debugmsg( "%s tried to fire non-gun (%s).", name.c_str(), gun.tname().c_str() );
         return 0;
     }
 
@@ -415,7 +415,7 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
     for( ; curshot != shots; ++curshot ) {
 
 
-        if( !handle_gun_damage( *gun.type, gun.ammo_data() ? gun.ammo_data()->ammo->ammo_effects : std::set<std::string>() ) ) {
+        if( !handle_gun_damage( *gun.type, gun.ammo_effects() ) ) {
             break;
         }
 
@@ -713,7 +713,7 @@ static int draw_targeting_window( WINDOW *w_target, item *relevant, player &p, t
         title = _("Select a vehicle");
     } else {
         if( mode == TARGET_MODE_FIRE ) {
-            if(relevant->has_flag("RELOAD_AND_SHOOT")) {
+            if( relevant->has_flag( "RELOAD_AND_SHOOT" ) && relevant->ammo_data() ) {
                 title = string_format( _("Shooting %1$s from %2$s"),
                         p.weapon.ammo_data()->nname(1).c_str(), p.weapon.tname().c_str());
             } else if( relevant->has_flag("NO_AMMO") ) {
@@ -1222,28 +1222,27 @@ static projectile make_gun_projectile( const item &gun ) {
     proj.speed  = 1000;
     proj.impact = damage_instance::physical( 0, gun.gun_damage(), 0, gun.gun_pierce() );
     proj.range = gun.gun_range();
+    proj.proj_effects = gun.ammo_effects();
 
-    const auto curammo = gun.ammo_data();
-
-    // Consider both effects from the gun and ammo
     auto &fx = proj.proj_effects;
-    fx.insert( gun.type->gun->ammo_effects.begin(), gun.type->gun->ammo_effects.end() );
-    fx.insert( curammo->ammo->ammo_effects.begin(), curammo->ammo->ammo_effects.end() );
 
-    if( curammo->phase == LIQUID || fx.count( "SHOT" ) || fx.count("BOUNCE" ) ) {
+    if( ( gun.ammo_data() && gun.ammo_data()->phase == LIQUID ) ||
+        fx.count( "SHOT" ) || fx.count("BOUNCE" ) ) {
         fx.insert( "WIDE" );
     }
 
-    // Some projectiles have a chance of being recoverable
-    bool recover = std::any_of(fx.begin(), fx.end(), []( const std::string& e ) {
-        int n;
-        return sscanf( e.c_str(), "RECOVER_%i", &n ) == 1 && !one_in( n );
-    });
+    if( gun.ammo_data() ) {
+        // Some projectiles have a chance of being recoverable
+        bool recover = std::any_of(fx.begin(), fx.end(), []( const std::string& e ) {
+            int n;
+            return sscanf( e.c_str(), "RECOVER_%i", &n ) == 1 && !one_in( n );
+        });
 
-    if( recover && !fx.count( "IGNITE" ) && !fx.count( "EXPLOSIVE" ) ) {
-        item drop( curammo->id, calendar::turn, 1 );
-        drop.active = fx.count( "ACT_ON_RANGED_HIT" );
-        proj.set_drop( drop );
+        if( recover && !fx.count( "IGNITE" ) && !fx.count( "EXPLOSIVE" ) ) {
+            item drop( gun.ammo_current(), calendar::turn, 1 );
+            drop.active = fx.count( "ACT_ON_RANGED_HIT" );
+            proj.set_drop( drop );
+        }
     }
 
     return proj;
@@ -1292,8 +1291,7 @@ static inline void eject_casing( player& p, item& weap ) {
         g->m.add_item_or_charges( eject, item( mag->type->magazine->linkage, calendar::turn, 1 ) );
     }
 
-    itype_id casing_type = weap.ammo_data()->ammo->casing;
-    if( casing_type == "NULL" || casing_type.empty() ) {
+    if( weap.ammo_casing() == "null" ) {
         return;
     }
 
@@ -1304,11 +1302,11 @@ static inline void eject_casing( player& p, item& weap ) {
     }
 
     if( weap.has_gunmod( "brass_catcher" ) != -1 ) {
-        p.i_add( item( casing_type, calendar::turn, 1 ) );
+        p.i_add( item( weap.ammo_casing(), calendar::turn, 1 ) );
         return;
     }
 
-    g->m.add_item_or_charges( eject, item( casing_type, calendar::turn, 1 ) );
+    g->m.add_item_or_charges( eject, item( weap.ammo_casing(), calendar::turn, 1 ) );
     sfx::play_variant_sound( "fire_gun", "brass_eject", sfx::get_heard_volume( eject ), sfx::get_heard_angle( eject ) );
 }
 
