@@ -5851,11 +5851,7 @@ int vehicle::get_turret_range( int p, bool manual )
         return -1;
     }
 
-    const item &gun = turret_data.gun;
-    const itype *am_itype = gun.get_curammo();
-    const auto &ammo_data = *am_itype->ammo;
-    const auto &gun_data = *gun.type->gun;
-    return gun_data.range + ammo_data.range;
+    return turret_data.gun.gun_range();
 }
 
 turret_fire_ability vehicle::turret_can_shoot( const int p, const tripoint &pos )
