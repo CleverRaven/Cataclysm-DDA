@@ -7897,17 +7897,14 @@ int iuse::multicooker(player *p, item *it, bool t, const tripoint &pos)
         }
 
         if (cooktime <= 0) {
-            it->active = false;
-
-            item meal(it->get_var( "DISH" ), calendar::turn);
-            meal.active = true;
-
-            if (meal.has_flag("EATEN_HOT")) {
-                meal.item_tags.insert("HOT");
+            item& meal = it->emplace_back( it->get_var( "DISH" ) );
+            if( meal.has_flag( "EATEN_HOT" ) ) {
+                meal.active = true;
+                meal.item_tags.insert( "HOT" );
                 meal.item_counter = 600;
             }
 
-            it->put_in(meal);
+            it->active = false;
             it->erase_var( "DISH" );
             it->erase_var( "COOKTIME" );
 

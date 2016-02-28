@@ -111,8 +111,8 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
         item &operator=( const item & ) = default;
         virtual ~item() = default;
 
-        item( const itype_id& id, int turn, int qty = -1 );
-        item( const itype *type, int turn, int qty = -1 );
+        explicit item( const itype_id& id, int turn = -1, int qty = -1 );
+        explicit item( const itype *type, int turn = -1, int qty = -1 );
 
         struct default_charges_tag {};
         item( const itype_id& id, int turn, default_charges_tag );
@@ -427,6 +427,14 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
      * Puts the given item into this one, no checks are performed.
      */
     void put_in( item payload );
+
+    /** Stores a newly constructed item at the end of this item's contents */
+    template<typename ... Args>
+    item& emplace_back( Args&&... args ) {
+        contents.emplace_back( std::forward<Args>( args )... );
+        return contents.back();
+    }
+
     /**
      * Returns this item into its default container. If it does not have a default container,
      * returns this. It's intended to be used like \code newitem = newitem.in_its_container();\endcode
