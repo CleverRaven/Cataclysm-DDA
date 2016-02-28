@@ -150,7 +150,6 @@ classes = {
             { name = "can_pickVolume", rval = "bool", args = { "int", "bool" } },
             { name = "can_pickWeight", rval = "bool", args = { "int" } },
             { name = "can_pickWeight", rval = "bool", args = { "int", "bool" } },
-            { name = "can_reload", rval = "bool", args = { } },
             { name = "die", rval = nil, args = { "Creature" } },
             { name = "empty_skills", rval = nil, args = { } },
             { name = "empty_traits", rval = nil, args = { } },
@@ -389,10 +388,9 @@ classes = {
             { "encumbrance_data" },
         },
         attributes = {
-            iArmorEnc = { type = "int", writable = true },
-            iBodyTempInt = { type = "int", writable = true },
-            iEnc = { type = "int", writable = true },
-            iLayers = { type = "float", writable = true },
+            encumbrance = { type = "int", writable = true },
+            armor_encumbrance = { type = "int", writable = true },
+            layer_penalty = { type = "int", writable = true },
         },
         functions = {
         }
@@ -543,8 +541,6 @@ classes = {
             { name = "dump_memorial", rval = "string", args = { } },
             { name = "eat", rval = "bool", args = { "item" } },
             { name = "eat", rval = "bool", args = { "item", "bool" } },
-            { name = "encumb", rval = "int", args = { "body_part" } },
-            { name = "encumb", rval = "int", args = { "body_part", "item" } },
             { name = "environmental_revert_effect", rval = nil, args = { } },
             { name = "fall_asleep", rval = nil, args = { "int" } },
             { name = "fall_damage_mod", rval = "float", args = { } },
@@ -694,7 +690,6 @@ classes = {
             { name = "mod_pain", rval = nil, args = { "int" } },
             { name = "mod_stat", rval = nil, args = { "string", "int" } },
             { name = "get_morale_level", rval = "int", args = { } },
-            { name = "mut_cbm_encumb", rval = "int", args = { "body_part" } },
             { name = "mutate", rval = nil, args = { } },
             { name = "mutate_category", rval = nil, args = { "string" } },
             { name = "mutate_towards", rval = "bool", args = { "string" } },
