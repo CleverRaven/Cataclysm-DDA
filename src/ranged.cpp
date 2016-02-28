@@ -1141,6 +1141,7 @@ std::vector<tripoint> game::target( tripoint &p, const tripoint &low, const trip
                 u.assign_activity( ACT_AIM, 0, 0 );
                 u.activity.str_values.push_back( "AIM" );
                 ret.clear();
+                u.view_offset = old_offset;
                 return ret;
             }
         } else if( action == "SWITCH_AIM" ) {
@@ -1189,6 +1190,7 @@ std::vector<tripoint> game::target( tripoint &p, const tripoint &low, const trip
                 u.assign_activity( ACT_AIM, 0, 0 );
                 u.activity.str_values.push_back( action );
                 ret.clear();
+                u.view_offset = old_offset;
                 return ret;
             }
         } else if( action == "FIRE" ) {
