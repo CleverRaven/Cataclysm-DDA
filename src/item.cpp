@@ -200,6 +200,24 @@ item& item::convert( const itype_id& new_type )
     return *this;
 }
 
+item& item::deactivate( const Character *ch, bool alert )
+{
+    if( !active ) {
+        return *this; // no-op
+    }
+
+    const auto tool = dynamic_cast<const it_tool *>( type );
+    if( tool && tool->revert_to != "null" ) {
+        if( ch && alert && !tool->revert_msg.empty() ) {
+            ch->add_msg_if_player( m_info, _( tool->revert_msg.c_str() ), tname().c_str() );
+        }
+        convert( tool->revert_to );
+        active = false;
+
+    }
+    return *this;
+}
+
 item item::split( long qty )
 {
     if( !count_by_charges() || qty <= 0 || qty >= charges ) {
@@ -5432,8 +5450,7 @@ bool item::process_tool( player *carrier, const tripoint &pos )
         if( tmp->revert_to == "null" ) {
             return true; // reverts to nothing -> destroy the item
         }
-        convert( tmp->revert_to );
-        active = false;
+        deactivate( carrier );
     }
     // Keep the item
     return false;

@@ -128,6 +128,15 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
         item& convert( const itype_id& new_type );
 
         /**
+         * Filter converting this instance to the inactive type
+         * If the item is either inactive or cannot be deactivated is a no-op
+         * @param ch character currently possessing or acting upon the item (if any)
+         * @param alert whether to display any messages
+         * @return same instance to allow method chaining
+         */
+        item& deactivate( const Character *ch = nullptr, bool alert = true );
+
+        /**
          * Splits a count-by-charges item always leaving source item with minimum of 1 charge
          * @param qty number of required charges to split from source
          * @return new instance containing exactly qty charges or null item if splitting failed
