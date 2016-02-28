@@ -7969,7 +7969,7 @@
         "material" : ["cotton", "null"],
         "volume" : 7,
         "warmth" : 25,
-        "encumbrance" : 7,
+        "encumbrance" : 13,
         "coverage" : 95,
         "material_thickness" : 3
     },
