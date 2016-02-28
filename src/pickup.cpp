@@ -18,6 +18,14 @@
 #include <vector>
 #include <cstring>
 
+struct pickup_count {
+    bool pick = false;
+    int count = 0;
+    explicit operator bool() const {
+        return pick;
+    }
+};
+
 // Handles interactions with a vehicle in the examine menu.
 Pickup::interact_results Pickup::interact_with_vehicle( vehicle *veh, const tripoint &pos, int veh_root_part )
 {
@@ -216,7 +224,7 @@ Pickup::interact_results Pickup::interact_with_vehicle( vehicle *veh, const trip
     return DONE;
 }
 
-static bool select_autopickup_items( std::vector<item> &here, std::vector<bool> &getitem )
+static bool select_autopickup_items( std::vector<item> &here, std::vector<pickup_count> &getitem )
 {
     bool bFoundSomething = false;
 
@@ -255,7 +263,7 @@ static bool select_autopickup_items( std::vector<item> &here, std::vector<bool> 
             }
 
             if (bPickup) {
-                getitem[i] = bPickup;
+                getitem[i].pick = bPickup;
                 bFoundSomething = true;
             }
         }
@@ -575,15 +583,13 @@ void Pickup::pick_up( const tripoint &pos, int min )
 
     const int minmaxitems = sideStyle ? 6 : 9;
 
-    std::vector<bool> getitem;
-    getitem.resize(here.size(), false);
+    std::vector<pickup_count> getitem( here.size() );
 
     int maxitems = here.size();
     maxitems = (maxitems < minmaxitems ? minmaxitems : (maxitems > maxmaxitems ? maxmaxitems :
                 maxitems ));
 
     int itemcount = 0;
-    std::map<int, unsigned int> pickup_count; // Count of how many we'll pick up from each stack
 
     if (min == -1) { //Auto Pickup, select matching items
         if( !select_autopickup_items( here, getitem) ) {
@@ -697,9 +703,9 @@ void Pickup::pick_up( const tripoint &pos, int min )
 
             if( idx >= 0 && idx < (int)here.size()) {
                 if( getitem[idx] ) {
-                    if( pickup_count[idx] != 0 && (int)pickup_count[idx] < here[idx].charges ) {
+                    if( getitem[idx].count != 0 && getitem[idx].count < here[idx].charges ) {
                         item temp = here[idx];
-                        temp.charges = pickup_count[idx];
+                        temp.charges = getitem[idx].count;
                         new_weight -= temp.weight();
                         new_volume -= temp.volume();
                     } else {
@@ -707,28 +713,28 @@ void Pickup::pick_up( const tripoint &pos, int min )
                         new_volume -= here[idx].volume();
                     }
                 }
-                if (itemcount != 0 || pickup_count[idx] == 0) {
+                if (itemcount != 0 || getitem[idx].count == 0) {
                     if (itemcount >= here[idx].charges || !here[idx].count_by_charges()) {
                         // Ignore the count if we pickup the whole stack anyway
                         // or something that is not counted by charges (tools)
                         itemcount = 0;
                     }
-                    pickup_count[idx] = itemcount;
+                    getitem[idx].count = itemcount;
                     itemcount = 0;
                 }
 
                 // Note: this might not change the value of getitem[idx] at all!
-                getitem[idx] = ( ch == KEY_RIGHT ? true : ( ch == KEY_LEFT ? false : !getitem[idx] ) );
+                getitem[idx].pick = ( ch == KEY_RIGHT ? true : ( ch == KEY_LEFT ? false : !getitem[idx] ) );
                 if ( ch != KEY_RIGHT && ch != KEY_LEFT) {
                     selected = idx;
                     start = (int)( idx / maxitems ) * maxitems;
                 }
 
                 if (getitem[idx]) {
-                    if (pickup_count[idx] != 0 &&
-                        (int)pickup_count[idx] < here[idx].charges) {
+                    if (getitem[idx].count != 0 &&
+                        getitem[idx].count < here[idx].charges) {
                         item temp = here[idx];
-                        temp.charges = pickup_count[idx];
+                        temp.charges = getitem[idx].count;
                         new_weight += temp.weight();
                         new_volume += temp.volume();
                     } else {
@@ -736,7 +742,7 @@ void Pickup::pick_up( const tripoint &pos, int min )
                         new_volume += here[idx].volume();
                     }
                 } else {
-                    pickup_count[idx] = 0;
+                    getitem[idx].count = 0;
                 }
                 update = true;
             }
@@ -762,11 +768,11 @@ void Pickup::pick_up( const tripoint &pos, int min )
                         new_weight += here[i].weight();
                         new_volume += here[i].volume();
                     }
-                    getitem[i] = true;
+                    getitem[i].pick = true;
                 }
                 if (count == (int)here.size()) {
                     for (size_t i = 0; i < here.size(); i++) {
-                        getitem[i] = false;
+                        getitem[i].pick = false;
                     }
                     new_weight = g->u.weight_carried();
                     new_volume = g->u.volume_carried();
@@ -794,7 +800,7 @@ void Pickup::pick_up( const tripoint &pos, int min )
                                   char(pickup_chars[p1]), char(pickup_chars[p2]));
                     }
                     if (getitem[cur_it]) {
-                        if (pickup_count[cur_it] == 0) {
+                        if (getitem[cur_it].count == 0) {
                             wprintz(w_pickup, c_ltblue, " + ");
                         } else {
                             wprintz(w_pickup, c_ltblue, " # ");
@@ -874,7 +880,7 @@ void Pickup::pick_up( const tripoint &pos, int min )
     for( size_t i = 0; i < here.size(); i++ ) {
         if( getitem[i] ) {
             g->u.activity.values.push_back( i );
-            g->u.activity.values.push_back( pickup_count[here.size() - i - 1] );
+            g->u.activity.values.push_back( getitem[i].count );
         }
     }
 
