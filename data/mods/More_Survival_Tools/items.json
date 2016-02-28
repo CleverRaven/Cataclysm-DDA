@@ -45,9 +45,8 @@
     "qualities": [["COOK", 1]],
     "use_action": [
       {
-        "type": "auto_transform",
+        "type": "transform",
         "msg": "The ember is extinguished.",
-        "when_underwater": "The hobo stove is snuffed out.",
         "target": "hobo_stove",
         "active": false,
         "menu_option_text": "Extinguish"
@@ -127,9 +126,8 @@
         "moves_cost": 100
       },
       {
-        "type": "auto_transform",
+        "type": "transform",
         "msg": "The ember is extinguished.",
-        "when_underwater": "The ember carrier is snuffed out.",
         "target": "tinderbox",
         "active": false,
         "menu_option_text": "Extinguish"

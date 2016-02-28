@@ -1584,8 +1584,6 @@ void Item_factory::set_uses_from_object(JsonObject obj, std::vector<use_function
     use_function newfun;
     if (type == "transform") {
         newfun = load_actor<iuse_transform>( obj );
-    } else if (type == "auto_transform") {
-        newfun = load_actor<auto_iuse_transform>( obj );
     } else if (type == "delayed_transform") {
         newfun = load_actor<delayed_transform_iuse>( obj );
     } else if (type == "explosion") {
