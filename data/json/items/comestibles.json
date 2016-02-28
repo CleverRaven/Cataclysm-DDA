@@ -11301,6 +11301,7 @@
         "type" : "COMESTIBLE",
         "id" : "milk_powder",
         "name" : "powdered milk",
+        "name_plural" : "powdered milk",
         "weight" : 162,
         "color" : "white",
         "addiction_type" : "none",
