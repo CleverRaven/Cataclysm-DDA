@@ -554,6 +554,9 @@ void Item_factory::check_definitions() const
             if (tool->revert_to != "null" && !has_template(tool->revert_to)) {
                 msg << string_format("invalid revert_to property %s", tool->revert_to.c_str()) << "\n";
             }
+            if( !tool->revert_msg.empty() && tool->revert_to == "null" ) {
+                msg << _( "cannot specify revert_msg without revert_to" ) << "\n";
+            }
         }
         if( type->bionic ) {
             if (!is_valid_bionic(type->bionic->bionic_id)) {
