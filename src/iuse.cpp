@@ -1,4 +1,6 @@
 #include "iuse.h"
+
+#include "coordinate_conversions.h"
 #include "game.h"
 #include "map.h"
 #include "mapdata.h"
@@ -2591,7 +2593,7 @@ int iuse::fishing_rod(player *p, item *it, bool, const tripoint& )
         p->add_msg_if_player(m_info, _("You can't fish there!"));
         return 0;
     }
-    point op = overmapbuffer::ms_to_omt_copy( g->m.getabs( dirx, diry ) );
+    point op = ms_to_omt_copy( g->m.getabs( dirx, diry ) );
     if( !otermap[overmap_buffer.ter(op.x, op.y, g->get_levz())].has_flag(river_tile) ) {
         p->add_msg_if_player(m_info, _("That water does not contain any fish.  Try a river instead."));
         return 0;
@@ -2643,7 +2645,7 @@ int iuse::fish_trap(player *p, item *it, bool t, const tripoint &pos)
             p->add_msg_if_player(m_info, _("You can't fish there!"));
             return 0;
         }
-        point op = overmapbuffer::ms_to_omt_copy(g->m.getabs(dirx, diry));
+        point op = ms_to_omt_copy(g->m.getabs(dirx, diry));
         if( !otermap[overmap_buffer.ter(op.x, op.y, g->get_levz())].has_flag(river_tile) ) {
             p->add_msg_if_player(m_info, _("That water does not contain any fish, try a river instead."));
             return 0;
@@ -2674,7 +2676,7 @@ int iuse::fish_trap(player *p, item *it, bool t, const tripoint &pos)
             if (!g->m.has_flag("FISHABLE", pos)) {
                 return 0;
             }
-            point op = overmapbuffer::ms_to_omt_copy( g->m.getabs( pos.x, pos.y ) );
+            point op = ms_to_omt_copy( g->m.getabs( pos.x, pos.y ) );
            if( !otermap[overmap_buffer.ter(op.x, op.y, g->get_levz())].has_flag(river_tile) ) {
                 return 0;
             }

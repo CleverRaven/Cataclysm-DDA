@@ -1,4 +1,6 @@
 #include "game.h"
+
+#include "coordinate_conversions.h"
 #include "rng.h"
 #include "input.h"
 #include "output.h"
@@ -765,7 +767,7 @@ bool game::start_game(std::string worldname)
         // map is loaded.
         start_loc.add_map_special( omtstart, scen->get_map_special() );
     }
-    tripoint lev = overmapbuffer::omt_to_sm_copy( omtstart );
+    tripoint lev = omt_to_sm_copy( omtstart );
     // The player is centered in the map, but lev[xyz] refers to the top left point of the map
     lev.x -= MAPSIZE / 2;
     lev.y -= MAPSIZE / 2;
@@ -1440,7 +1442,7 @@ bool game::do_turn()
     // m.vehmove used to do this, but now it only give them moves instead.
     for( auto &elem : MAPBUFFER ) {
         tripoint sm_loc = elem.first;
-        point sm_topleft = overmapbuffer::sm_to_ms_copy(sm_loc.x, sm_loc.y);
+        point sm_topleft = sm_to_ms_copy(sm_loc.x, sm_loc.y);
         point in_reality = m.getlocal(sm_topleft);
 
         submap *sm = elem.second;
@@ -8860,8 +8862,8 @@ void game::zones_manager()
 
             } else if (action == "SHOW_ZONE_ON_MAP") {
                 //show zone position on overmap;
-                tripoint player_overmap_position = overmapbuffer::ms_to_omt_copy( m.getabs( u.pos() ) );
-                tripoint zone_overmap = overmapbuffer::ms_to_omt_copy( zones.zones[active_index].get_center_point() );
+                tripoint player_overmap_position = ms_to_omt_copy( m.getabs( u.pos() ) );
+                tripoint zone_overmap = ms_to_omt_copy( zones.zones[active_index].get_center_point() );
                 overmap::draw_zones( player_overmap_position, zone_overmap, active_index );
 
                 zones_manager_draw_borders(w_zones_border, w_zones_info_border, zone_ui_height, width);
@@ -15047,6 +15049,6 @@ overmap &game::get_cur_om() const
 {
     // The player is located in the middle submap of the map.
     const tripoint sm = m.get_abs_sub() + tripoint( MAPSIZE / 2, MAPSIZE / 2, 0 );
-    const tripoint pos_om = overmapbuffer::sm_to_om_copy( sm );
+    const tripoint pos_om = sm_to_om_copy( sm );
     return overmap_buffer.get( pos_om.x, pos_om.y );
 }

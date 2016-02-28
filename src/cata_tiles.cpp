@@ -1,5 +1,7 @@
 #if (defined TILES)
 #include "cata_tiles.h"
+
+#include "coordinate_conversions.h"
 #include "debug.h"
 #include "json.h"
 #include "path_info.h"
@@ -1039,7 +1041,7 @@ void cata_tiles::draw_rhombus(int destx, int desty, int size, SDL_Color color, i
 static tripoint convert_tripoint_to_abs_submap(const tripoint& p)
 {
     //get the submap coordinates of the current location
-    tripoint sm_loc = overmapbuffer::ms_to_sm_copy(p);
+    tripoint sm_loc = ms_to_sm_copy(p);
     //add it to the absolute map coordinates
     tripoint abs_sm_loc = g->m.get_abs_sub();
     return abs_sm_loc + sm_loc;
@@ -1128,7 +1130,7 @@ void cata_tiles::update_minimap_cache( const tripoint &loc, pixel &pix )
     it->second->touched = true;
 
     point offset( loc.x, loc.y );
-    overmapbuffer::ms_to_sm_remain( offset );
+    ms_to_sm_remain( offset );
 
     pixel &current_pix = it->second->minimap_colors[offset.y * SEEX + offset.x];
     if( current_pix != pix ) {

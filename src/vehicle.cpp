@@ -1,4 +1,6 @@
 #include "vehicle.h"
+
+#include "coordinate_conversions.h"
 #include "map.h"
 #include "mapbuffer.h"
 #include "output.h"
@@ -3738,7 +3740,7 @@ vehicle* vehicle::find_vehicle( const tripoint &where )
 
     // Nope. Load up its submap...
     point veh_in_sm = point( where.x, where.y );
-    point veh_sm = overmapbuffer::ms_to_sm_remain( veh_in_sm );
+    point veh_sm = ms_to_sm_remain( veh_in_sm );
 
     auto sm = MAPBUFFER.lookup_submap( veh_sm.x, veh_sm.y, where.z );
     if( sm == nullptr ) {
@@ -6711,7 +6713,7 @@ inline int modulo(int v, int m) {
 
 bool is_sm_tile_outside( const tripoint &real_global_pos )
 {
-    const tripoint smp = overmapbuffer::ms_to_sm_copy( real_global_pos );
+    const tripoint smp = ms_to_sm_copy( real_global_pos );
     const int px = modulo( real_global_pos.x, SEEX );
     const int py = modulo( real_global_pos.y, SEEY );
     auto sm = MAPBUFFER.lookup_submap( smp );

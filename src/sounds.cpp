@@ -1,4 +1,6 @@
 #include "sounds.h"
+
+#include "coordinate_conversions.h"
 #include "game.h"
 #include "map.h"
 #include "debug.h"
@@ -172,7 +174,7 @@ void sounds::process_sounds()
             // With this, volume 100 reaches 20 overmap tiles away.
             sig_power /= 5;
             const point abs_ms = g->m.getabs( source.x, source.y );
-            const point abs_sm = overmapbuffer::ms_to_sm_copy( abs_ms );
+            const point abs_sm = ms_to_sm_copy( abs_ms );
             const tripoint target( abs_sm.x, abs_sm.y, source.z );
             overmap_buffer.signal_hordes( target, sig_power );
         }
