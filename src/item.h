@@ -430,7 +430,7 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
 
     /** Stores a newly constructed item at the end of this item's contents */
     template<typename ... Args>
-    item& emplace_in( Args&&... args ) {
+    item& emplace_back( Args&&... args ) {
         contents.emplace_back( std::forward<Args>( args )... );
         return contents.back();
     }

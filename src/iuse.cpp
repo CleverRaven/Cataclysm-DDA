@@ -7895,7 +7895,7 @@ int iuse::multicooker(player *p, item *it, bool t, const tripoint &pos)
         }
 
         if (cooktime <= 0) {
-            item& meal = it->emplace_in( it->get_var( "DISH" ) );
+            item& meal = it->emplace_back( it->get_var( "DISH" ) );
             if( meal.has_flag( "EATEN_HOT" ) ) {
                 meal.active = true;
                 meal.item_tags.insert( "HOT" );
