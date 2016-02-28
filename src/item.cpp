@@ -2262,22 +2262,18 @@ int item::price( bool practical ) const
         // maximal damage is 4, maximal reduction is 40% of the value.
         ret -= ret * static_cast<double>( damage ) / 10;
     }
-    // The price from the json data is for the default-sized stack, like the volume
-    // calculation.
+
     if( count_by_charges() || made_of( LIQUID ) ) {
+        // Price from json data is for the default-sized stack, like the volume calculation.
         ret = ret * charges / static_cast<double>( type->stack_size );
-    }
 
-    // tools, guns and auxiliary gunmods may contain ammunition which can affect the price
-    if( ammo_remaining() > 0 && ammo_current() != "null" ) {
-        item tmp( ammo_current(), 0 );
-        tmp.charges = charges;
-        ret += tmp.price( practical );
-    }
+    } else if( ammo_remaining() > 0 && ammo_current() != "null" ) {
+        // tools, guns and auxiliary gunmods may contain ammunition which can affect the price
+        ret += item( ammo_current(), calendar::turn, charges ).price( practical );
 
-    // if tool has no ammo (eg. spray can) reduce price proportional to remaining charges
-    if( is_tool() && ammo_type() == "NULL" && ammo_remaining() > -1 ) {
-        ret *= ammo_remaining() / double( std::max( dynamic_cast<const it_tool *>( type )->def_charges, 1L ) );
+    } else if( is_tool() && ammo_type() == "NULL" && type->maximum_charges() > 0 ) {
+        // if tool has no ammo (eg. spray can) reduce price proportional to remaining charges
+        ret *= ammo_remaining() / double( std::max( type->charges_default(), 1 ) );
     }
 
     for( auto &elem : contents ) {
