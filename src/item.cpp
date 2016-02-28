@@ -2267,8 +2267,8 @@ int item::price( bool practical ) const
         // Price from json data is for the default-sized stack, like the volume calculation.
         ret = ret * charges / static_cast<double>( type->stack_size );
 
-    } else if( ammo_remaining() > 0 && ammo_current() != "null" ) {
-        // tools, guns and auxiliary gunmods may contain ammunition which can affect the price
+    } else if( magazine_integral() && ammo_remaining() && ammo_data() ) {
+        // tools, magazines, guns and auxiliary gunmods may contain ammunition which can affect the price
         ret += item( ammo_current(), calendar::turn, charges ).price( practical );
 
     } else if( is_tool() && ammo_type() == "NULL" && type->maximum_charges() > 0 ) {
