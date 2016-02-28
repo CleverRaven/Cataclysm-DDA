@@ -61,6 +61,57 @@ function tripoint_mt_test()
     game.popup("b: " .. b .. ", trp.x: " .. trp.x) -- b should be the same as before
 end
 
+function value_vs_reference_test()
+    -- Should be a reference to the global turn object.
+    local ref_to_global_turn = game.get_calendar_turn()
+    game.add_msg("ref_to_global_turn: " .. tostring(ref_to_global_turn:get_turn()))
+    ref_to_global_turn:increment()
+    -- Should have changed both numbers as ref_to_global_turn refers to the same object.
+    -- Both messages should print the same number, which should be one more than printed above
+    game.add_msg("ref_to_global_turn: " .. tostring(ref_to_global_turn:get_turn()))
+    game.add_msg("game.get_calendar_turn(): " .. tostring(game.get_calendar_turn():get_turn()))
+
+    -- sunset should be a new, separate object.
+    local sunset = ref_to_global_turn:sunset()
+    game.add_msg("sunset: " .. tostring(sunset:get_turn()))
+    sunset:increment()
+    -- Should be one more than printed above.
+    game.add_msg("sunset: " .. tostring(sunset:get_turn()))
+    -- Changing sunset should not have affected the global turn object.
+    -- Both messages should print the same number as before, independent of `sunrise`
+    game.add_msg("ref_to_global_turn: " .. tostring(ref_to_global_turn:get_turn()))
+    game.add_msg("game.get_calendar_turn(): " .. tostring(game.get_calendar_turn():get_turn()))
+
+    local some_turn = calendar(100)
+    -- Should print 100.
+    game.add_msg("some_turn: " .. tostring(some_turn:get_turn()))
+    some_turn:increment()
+    -- Should print 101.
+    game.add_msg("some_turn: " .. tostring(some_turn:get_turn()))
+    -- All three lines should show the same as before.
+    game.add_msg("sunset: " .. tostring(sunset:get_turn()))
+    game.add_msg("ref_to_global_turn: " .. tostring(ref_to_global_turn:get_turn()))
+    game.add_msg("game.get_calendar_turn(): " .. tostring(game.get_calendar_turn():get_turn()))
+end
+
+function value_vs_reference_test2()
+    -- Should be a reference to the item in the inventory, make sure you have one!
+    local ref_to_item = player:i_at(0)
+    game.add_msg("ref_to_item: " .. ref_to_item:tname())
+    ref_to_item.damage = 4 -- nearly destroyed
+    -- Should have a different name (including the damage).
+    game.add_msg("ref_to_item: " .. ref_to_item:tname())
+
+    -- Make a copy and reset its damage.
+    local new_item = item(ref_to_item)
+    new_item.damage = 0
+    -- ref_to_item should be unchanged, new_item should not have any damage.
+    game.add_msg("ref_to_item: " .. tostring(ref_to_item:tname()))
+    game.add_msg("new_item: " .. tostring(new_item:tname()))
+
+    player:i_add(new_item)
+end
+
 -- An iterator over all items on the map at a specific point.
 function item_stack_iterator(pos)
     local start = map:i_at(pos)

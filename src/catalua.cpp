@@ -361,7 +361,8 @@ public:
             lua_setglobal( L, global_name );
         }
     }
-    static void push( lua_State* const L, const T& value )
+    template<typename ...Args>
+    static void push( lua_State* const L, Args &&... args )
     {
         // Push user data,
         T* value_in_lua = static_cast<T*>( lua_newuserdata( L, sizeof( T ) ) );
@@ -370,7 +371,7 @@ public:
         // -1 would the the metatable, -2 is the uservalue, the table is popped
         lua_setmetatable( L, -2 );
         // This is where the copy happens:
-        new (value_in_lua) T( value );
+        new (value_in_lua) T( std::forward<Args>( args )... );
     }
     static int push_reg( lua_State* const L, const T& value )
     {
@@ -700,6 +701,36 @@ public:
 };
 template<typename E>
 struct LuaType<LuaEnum<E>> : public LuaEnum<E> {
+};
+
+/**
+ * Wrapper class to access objects in Lua that are stored as either a pointer or a value.
+ * Technically, this class could inherit from both `LuaValue<T>` and `LuaReference<T>`,
+ * but that would basically the same code anyway.
+ * It behaves like a LuaValue if there is a value on the stack, and like LuaReference is there
+ * is a reference on the stack. Functions behave like the functions in a `LuaType`.
+ * Note that it does not have a push function because it can not know whether to push a reference
+ * or a value (copy). The caller must decide this and must use `LuaValue` or `LuaReference`.
+ */
+template<typename T>
+class LuaValueOrReference {
+    public:
+        using proxy = typename LuaReference<T>::proxy;
+        static proxy get( lua_State* const L, int const stack_index ) {
+            if( LuaValue<T>::has( L, stack_index ) ) {
+                return proxy{ &LuaValue<T>::get( L, stack_index ) };
+            }
+            return LuaReference<T>::get( L, stack_index );
+        }
+        static void check( lua_State* const L, int const stack_index ) {
+            if( LuaValue<T>::has( L, stack_index ) ) {
+                return;
+            }
+            LuaValue<T*>::check( L, stack_index );
+        }
+        static bool has( lua_State* const L, int const stack_index ) {
+            return LuaValue<T>::has( L, stack_index ) || LuaValue<T*>::has( L, stack_index );
+        }
 };
 
 void update_globals(lua_State *L)
