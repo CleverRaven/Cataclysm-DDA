@@ -9788,8 +9788,9 @@ bool player::can_wear( const item& it, bool alert ) const
 
     if( amount_worn( it.typeId() ) >= MAX_WORN_PER_TYPE ) {
         if( alert ) {
-            add_msg_if_player(m_info, _("You can't wear more than two %s at once."),
-                    it.tname(MAX_WORN_PER_TYPE).c_str());
+            //~ always plural form
+            add_msg_if_player( m_info, _( "You can't wear %i or more %s at once." ),
+                               MAX_WORN_PER_TYPE + 1, it.tname( MAX_WORN_PER_TYPE + 1 ).c_str() );
         }
         return false;
     }
