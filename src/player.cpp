@@ -9715,6 +9715,246 @@ void player::rooted()
     }
 }
 
+bool player::can_wear( const item& it, bool alert ) const
+{
+    if( !it.is_armor() ) {
+        if( alert ) {
+            add_msg_if_player( m_info, _( "Putting on a %s would be tricky." ), it.tname().c_str() );
+        }
+        return false;
+    }
+
+    if( it.is_power_armor() ) {
+        for( auto &elem : worn ) {
+            if( ( elem.get_covered_body_parts() & it.get_covered_body_parts() ).any() ) {
+                if( alert ) {
+                    add_msg_if_player( m_info, _( "You can't wear power armor over other gear!" ) );
+                }
+                return false;
+            }
+        }
+        if( !it.covers( bp_torso ) ) {
+            bool power_armor = false;
+            if( worn.size() ) {
+                for( auto &elem : worn ) {
+                    if( elem.is_power_armor() ) {
+                        power_armor = true;
+                        break;
+                    }
+                }
+            }
+            if( !power_armor ) {
+                if( alert ) {
+                    add_msg_if_player( m_info, _( "You can only wear power armor components with power armor!" ) );
+                }
+                return false;
+            }
+        }
+
+        for( auto &i : worn ) {
+            if( i.is_power_armor() && i.typeId() == it.typeId() ) {
+                if( alert ) {
+                    add_msg_if_player( m_info, _( "You cannot wear more than one %s!" ),
+                                       it.tname().c_str() );
+                }
+                return false;
+            }
+        }
+    } else {
+        // Only headgear can be worn with power armor, except other power armor components.
+        // You can't wear headgear if power armor helmet is already sitting on your head.
+        if( is_wearing_on_bp( "power_armor_helmet_basic", bp_head ) == true ||
+            is_wearing_on_bp( "power_armor_helmet_light", bp_head ) == true ||
+            is_wearing_on_bp( "power_armor_helmet_heavy", bp_head ) == true ||
+            !it.covers( bp_head ) || !it.covers( bp_mouth ) || !it.covers( bp_eyes ) ) {
+            for( auto &i : worn ) {
+                if( i.is_power_armor() ) {
+                    if( alert ) {
+                        add_msg_if_player( m_info, _( "You can't wear %s with power armor!" ), it.tname().c_str() );
+                    }
+                    return false;
+                }
+            }
+        }
+    }
+
+    // Check if we don't have both hands available before wearing a briefcase, shield, etc. Also occurs if we're already wearing one.
+    if( it.has_flag( "RESTRICT_HANDS" ) && ( !has_two_arms() || worn_with_flag( "RESTRICT_HANDS" ) || weapon.is_two_handed( *this ) ) ) {
+        if(alert) {
+            add_msg_if_player( m_info, _("You don't have a hand free to wear that.") );
+        }
+        return false;
+    }
+
+    if( amount_worn( it.typeId() ) >= MAX_WORN_PER_TYPE ) {
+        if( alert ) {
+            add_msg_if_player(m_info, _("You can't wear more than two %s at once."),
+                    it.tname(MAX_WORN_PER_TYPE).c_str());
+        }
+        return false;
+    }
+
+    if( !it.has_flag( "OVERSIZE" ) ) {
+        if( has_trait( "WOOLALLERGY" ) && ( it.made_of("wool" ) || it.item_tags.count( "wooled" ) ) ) {
+            if( alert ) {
+                add_msg_if_player( m_info, _( "You can't wear that, it's made of wool!" ) );
+            }
+            return false;
+        }
+
+        if( it.covers( bp_head ) && ( encumb( bp_head ) > 10) && ( !( it.get_encumber() < 9) ) ) {
+            if(alert) {
+                add_msg_if_player( m_info, wearing_something_on( bp_head ) ?
+                                _( "You can't wear another helmet!" ) : _( "You can't wear a helmet!" ) );
+            }
+            return false;
+        }
+
+        if( ( it.covers( bp_hand_l ) || it.covers( bp_hand_r ) ||
+              it.covers( bp_arm_l )  || it.covers( bp_arm_r )  ||
+              it.covers( bp_leg_l )  || it.covers( bp_leg_r )  ||
+              it.covers( bp_foot_l ) || it.covers( bp_foot_r ) ||
+              it.covers( bp_torso )  || it.covers( bp_head) ) &&
+            ( has_trait( "HUGE" ) || has_trait( "HUGE_OK" ) ) ) {
+            if( alert ) {
+                add_msg_if_player( m_info, _( "The %s is much too small to fit your huge body!" ), it.type_name().c_str() );
+            }
+            return false;
+        }
+
+        if( ( it.covers( bp_hand_l ) || it.covers( bp_hand_r ) ) &&
+            ( has_trait( "ARM_TENTACLES" ) || has_trait( "ARM_TENTACLES_4" ) || has_trait( "ARM_TENTACLES_8" ) ) ) {
+            if( alert ) {
+                add_msg_if_player( m_info, _( "You cannot put %s over your tentacles." ), it.type_name().c_str() );
+            }
+            return false;
+        }
+
+        if( ( it.covers( bp_hand_l ) || it.covers( bp_hand_r ) ) && has_trait( "TALONS" ) ) {
+            if( alert ) {
+                add_msg_if_player( m_info, _( "You cannot put %s over your talons." ), it.type_name().c_str() );
+            }
+            return false;
+        }
+
+        if( ( it.covers( bp_hand_l ) || it.covers( bp_hand_r ) ) &&
+            ( has_trait( "PAWS" ) || has_trait( "PAWS_LARGE" ) ) ) {
+            if( alert ) {
+                add_msg_if_player( m_info, _( "You cannot get %s to stay on your paws." ), it.type_name().c_str() );
+            }
+            return false;
+        }
+
+        if( it.covers( bp_mouth ) && ( has_trait( "BEAK" ) || has_trait( "BEAK_PECK" ) || has_trait( "BEAK_HUM" ) ) ) {
+            if( alert ) {
+                add_msg_if_player( m_info, _( "You cannot put a %s over your beak." ), it.type_name().c_str() );
+            }
+            return false;
+        }
+
+        if( it.covers( bp_mouth ) &&
+            (has_trait( "MUZZLE" ) || has_trait( "MUZZLE_BEAR" ) || has_trait( "MUZZLE_LONG" ) || has_trait( "MUZZLE_RAT" ) ) ) {
+            if( alert ) {
+                add_msg_if_player( m_info, _( "You cannot fit the %s over your muzzle." ), it.type_name().c_str() );
+            }
+            return false;
+        }
+
+        if( it.covers( bp_mouth ) && has_trait( "MINOTAUR" ) ) {
+            if( alert ) {
+                add_msg_if_player( m_info, _( "You cannot fit the %s over your snout." ), it.type_name().c_str() );
+            }
+            return false;
+        }
+
+        if( it.covers( bp_mouth ) && has_trait( "SABER_TEETH" ) ) {
+            if( alert ) {
+                add_msg_if_player( m_info, _( "Your saber teeth are simply too large for %s to fit." ), it.type_name().c_str() );
+            }
+            return false;
+        }
+
+        if( it.covers(bp_mouth) && has_trait("MANDIBLES") ) {
+            if( alert ) {
+                add_msg_if_player(_("Your mandibles are simply too large for %s to fit."), it.type_name().c_str());
+            }
+            return false;
+        }
+
+        if( it.covers(bp_mouth) && has_trait( "PROBOSCIS" ) ) {
+            if( alert ) {
+                add_msg_if_player( m_info, _( "Your proboscis is simply too large for %s to fit." ), it.type_name().c_str() );
+            }
+            return false;
+        }
+
+        if( ( it.covers( bp_foot_l ) || it.covers( bp_foot_r ) ) && has_trait( "HOOVES" ) ) {
+            if( alert ) {
+                add_msg_if_player( m_info, _( "You cannot wear footwear on your hooves." ) );
+            }
+            return false;
+        }
+
+        if( ( it.covers( bp_foot_l ) || it.covers( bp_foot_r ) ) && has_trait( "LEG_TENTACLES" ) ) {
+            if( alert ) {
+                add_msg_if_player( m_info, _( "You cannot wear footwear on your tentacles." ) );
+            }
+            return false;
+        }
+
+        if( ( it.covers( bp_foot_l ) || it.covers( bp_foot_r ) ) && has_trait( "RAP_TALONS" ) ) {
+            if( alert ) {
+                add_msg_if_player( m_info, _( "Your talons are much too large for footgear." ) );
+            }
+            return false;
+        }
+
+        if( it.covers( bp_head ) && has_trait( "HORNS_CURLED" ) ) {
+            if( alert ) {
+                add_msg_if_player( m_info, _( "You cannot wear headgear over your horns." ) );
+            }
+            return false;
+        }
+
+        if( it.covers( bp_torso ) && (has_trait( "SHELL" ) || has_trait( "SHELL2" ) ) ) {
+            if( alert ) {
+                add_msg_if_player( m_info, _( "You cannot fit that over your shell." ) );
+            }
+            return false;
+        }
+
+        if( it.covers( bp_torso ) && ( has_trait( "INSECT_ARMS" ) || has_trait( "ARACHNID_ARMS" ) ) ) {
+            if( alert ) {
+                add_msg_if_player( m_info, _( "Your new limbs are too wriggly to fit under that." ) );
+            }
+            return false;
+        }
+
+        if( it.covers(bp_head) &&
+            !it.made_of( "wool" ) && !it.made_of( "cotton" ) &&
+            !it.made_of( "nomex" ) && !it.made_of( "leather" ) &&
+            ( has_trait( "HORNS_POINTED" ) || has_trait( "ANTENNAE" ) || has_trait( "ANTLERS" ) ) ) {
+            if( alert ) {
+                add_msg_if_player( m_info, _( "You cannot wear a helmet over your %s." ),
+                            ( has_trait( "HORNS_POINTED" ) ? _( "horns" ) :
+                            ( has_trait( "ANTENNAE" ) ? _( "antennae" ) : _( "antlers" ) ) ) );
+            }
+            return false;
+        }
+
+        if( ( ( it.covers( bp_foot_l ) && is_wearing_shoes( "left" ) ) ||
+              ( it.covers( bp_foot_r ) && is_wearing_shoes( "right") ) ) &&
+              !it.has_flag( "BELTED" ) && !it.has_flag( "SKINTIGHT" ) ) {
+            // Checks to see if the player is wearing shoes
+            if( alert ) {
+                add_msg_if_player( m_info, _( "You're already wearing footwear!" ) );
+            }
+            return false;
+        }
+    }
+    return true;
+}
+
 bool player::can_wield( const item &it, bool alert ) const
 {
     if( it.is_two_handed(*this) && ( !has_two_arms() || worn_with_flag("RESTRICT_HANDS") ) ) {
@@ -9944,78 +10184,7 @@ hint_rating player::rate_action_wear( const item &it ) const
         return HINT_CANT;
     }
 
-    // are we trying to put on power armor? If so, make sure we don't have any other gear on.
-    if (it.is_power_armor() && worn.size()) {
-        if (it.covers(bp_torso)) {
-            return HINT_IFFY;
-        } else if (it.covers(bp_head) && !worn.front().is_power_armor()) {
-            return HINT_IFFY;
-        }
-    }
-    // are we trying to wear something over power armor? We can't have that, unless it's a backpack, or similar.
-    if (worn.size() && worn.front().is_power_armor() && !(it.covers(bp_head))) {
-        if (!(it.covers(bp_torso) && it.color() == c_green)) {
-            return HINT_IFFY;
-        }
-    }
-
-    // Check if we have a hand free to wear a briefcase or shield, including if we're already wearing such a thing.
-    if (it.has_flag("RESTRICT_HANDS") &&  ( !has_two_arms() || worn_with_flag("RESTRICT_HANDS") || weapon.is_two_handed( *this ) )) {
-        return HINT_IFFY;
-    }
-
-    // Make sure we're not wearing 2 of the item already
-    int count = 0;
-    for (auto &i : worn) {
-        if (i.type->id == it.type->id) {
-            count++;
-        }
-    }
-    if (count == 2) {
-        return HINT_IFFY;
-    }
-    if (has_trait("WOOLALLERGY") && (it.made_of("wool") || it.item_tags.count("wooled") > 0)) {
-        return HINT_IFFY; //should this be HINT_CANT? I kinda think not, because HINT_CANT is more for things that can NEVER happen
-    }
-    if (it.covers(bp_head) && encumb(bp_head) != 0) {
-        return HINT_IFFY;
-    }
-    if ((it.covers(bp_hand_l) || it.covers(bp_hand_r)) && has_trait("TALONS")) {
-        return HINT_IFFY;
-    }
-    if ((it.covers(bp_hand_l) || it.covers(bp_hand_r)) && (has_trait("ARM_TENTACLES") ||
-            has_trait("ARM_TENTACLES_4") || has_trait("ARM_TENTACLES_8")) ) {
-        return HINT_IFFY;
-    }
-    if (it.covers(bp_mouth) && (has_trait("BEAK") ||
-            has_trait("BEAK_PECK") || has_trait("BEAK_HUM")) ) {
-        return HINT_IFFY;
-    }
-    if ((it.covers(bp_foot_l) || it.covers(bp_foot_r)) && has_trait("HOOVES")) {
-        return HINT_IFFY;
-    }
-    if ((it.covers(bp_foot_l) || it.covers(bp_foot_r)) && has_trait("LEG_TENTACLES")) {
-        return HINT_IFFY;
-     }
-    if (it.covers(bp_head) && has_trait("HORNS_CURLED")) {
-        return HINT_IFFY;
-    }
-    if (it.covers(bp_torso) && (has_trait("SHELL") || has_trait("SHELL2")))  {
-        return HINT_IFFY;
-    }
-    if (it.covers(bp_head) && !it.made_of("wool") &&
-          !it.made_of("cotton") && !it.made_of("leather") && !it.made_of("nomex") &&
-          (has_trait("HORNS_POINTED") || has_trait("ANTENNAE") || has_trait("ANTLERS"))) {
-        return HINT_IFFY;
-    }
-    // Checks to see if the player is wearing shoes
-    if (((it.covers(bp_foot_l) && is_wearing_shoes("left")) ||
-          (it.covers(bp_foot_r) && is_wearing_shoes("right"))) &&
-          !it.has_flag("BELTED") && !it.has_flag("SKINTIGHT")) {
-    return HINT_IFFY;
-    }
-
-    return HINT_GOOD;
+    return can_wear( it, false ) ? HINT_GOOD : HINT_IFFY;
 }
 
 
@@ -10204,253 +10373,8 @@ bool player::wear( int pos, bool interactive )
 
 bool player::wear_item( const item &to_wear, bool interactive )
 {
-    if( !to_wear.is_armor() ) {
-        if( interactive ) {
-            add_msg_if_player( m_info, _( "Putting on a %s would be tricky." ), to_wear.tname().c_str() );
-        }
+    if( !can_wear( to_wear, interactive ) ) {
         return false;
-    }
-
-    // are we trying to put on power armor? If so, make sure we don't have any other gear on.
-    if( to_wear.is_power_armor() ) {
-        for( auto &elem : worn ) {
-            if( ( elem.get_covered_body_parts() & to_wear.get_covered_body_parts() ).any() ) {
-                if( interactive ) {
-                    add_msg_if_player( m_info, _( "You can't wear power armor over other gear!" ) );
-                }
-                return false;
-            }
-        }
-
-        if( !to_wear.covers( bp_torso ) ) {
-            bool power_armor = false;
-
-            if( worn.size() ) {
-                for( auto &elem : worn ) {
-                    if( elem.is_power_armor() ) {
-                        power_armor = true;
-                        break;
-                    }
-                }
-            }
-
-            if( !power_armor ) {
-                if( interactive ) {
-                    add_msg_if_player( m_info, _( "You can only wear power armor components with power armor!" ) );
-                }
-                return false;
-            }
-        }
-
-        for( auto &i : worn ) {
-            if( i.is_power_armor() && i.typeId() == to_wear.typeId() ) {
-                if( interactive ) {
-                    add_msg_if_player( m_info, _( "You cannot wear more than one %s!" ),
-                                       to_wear.tname().c_str() );
-                }
-                return false;
-            }
-        }
-    } else {
-        // Only headgear can be worn with power armor, except other power armor components.
-        // You can't wear headgear if power armor helmet is already sitting on your head.
-        if( is_wearing_on_bp( "power_armor_helmet_basic", bp_head ) == true ||
-            is_wearing_on_bp( "power_armor_helmet_light", bp_head ) == true ||
-            is_wearing_on_bp( "power_armor_helmet_heavy", bp_head ) == true ||
-            !to_wear.covers( bp_head ) || !to_wear.covers( bp_mouth ) || !to_wear.covers( bp_eyes ) ) {
-            for( auto &i : worn ) {
-                if( i.is_power_armor() ) {
-                    if( interactive ) {
-                        add_msg_if_player( m_info, _( "You can't wear %s with power armor!" ),
-                                           to_wear.tname().c_str() );
-                    }
-                    return false;
-                }
-            }
-        }
-    }
-
-    // Check if we don't have both hands available before wearing a briefcase, shield, etc. Also occurs if we're already wearing one.
-    if (to_wear.has_flag("RESTRICT_HANDS") && ( !has_two_arms() || worn_with_flag("RESTRICT_HANDS") || weapon.is_two_handed( *this ) )) {
-        if(interactive) {
-            add_msg_if_player( m_info, _("You don't have a hand free to wear that.") );
-        }
-        return false;
-    }
-
-    // Make sure we're not wearing 2 of the item already
-    int count = amount_worn(to_wear.typeId());
-    if (count == MAX_WORN_PER_TYPE) {
-        if(interactive) {
-            add_msg_if_player(m_info, _("You can't wear more than two %s at once."),
-                    to_wear.tname(count).c_str());
-        }
-        return false;
-    }
-
-    if (!to_wear.has_flag("OVERSIZE")) {
-        if (has_trait("WOOLALLERGY") && (to_wear.made_of("wool") || to_wear.item_tags.count("wooled"))) {
-            if(interactive) {
-                add_msg_if_player(m_info, _("You can't wear that, it's made of wool!"));
-            }
-            return false;
-        }
-
-        // this simply checked if it was zero, I've updated this for the new encumb system
-        if (to_wear.covers(bp_head) && (encumb(bp_head) > 10) && (!(to_wear.get_encumber() < 9))) {
-            if(interactive) {
-                add_msg_if_player(m_info, wearing_something_on(bp_head) ?
-                                _("You can't wear another helmet!") : _("You can't wear a helmet!"));
-            }
-            return false;
-        }
-
-        if ((to_wear.covers(bp_hand_l) || to_wear.covers(bp_hand_r) ||
-              to_wear.covers(bp_arm_l) || to_wear.covers(bp_arm_r) ||
-              to_wear.covers(bp_leg_l) || to_wear.covers(bp_leg_r) ||
-              to_wear.covers(bp_foot_l) || to_wear.covers(bp_foot_r) ||
-              to_wear.covers(bp_torso) || to_wear.covers(bp_head)) &&
-            (has_trait("HUGE") || has_trait("HUGE_OK"))) {
-            if(interactive) {
-                add_msg_if_player(m_info, _("The %s is much too small to fit your huge body!"),
-                        to_wear.type_name().c_str());
-            }
-            return false;
-        }
-
-        if( (to_wear.covers(bp_hand_l) || to_wear.covers(bp_hand_r)) &&
-            (has_trait("ARM_TENTACLES") || has_trait("ARM_TENTACLES_4") ||
-             has_trait("ARM_TENTACLES_8")) ) {
-            if( interactive ) {
-                add_msg_if_player(m_info, _("You cannot put %s over your tentacles."), to_wear.type_name().c_str());
-            }
-            return false;
-        }
-
-        if( (to_wear.covers(bp_hand_l) || to_wear.covers(bp_hand_r)) && has_trait("TALONS") ) {
-            if( interactive ) {
-                add_msg_if_player(m_info, _("You cannot put %s over your talons."), to_wear.type_name().c_str());
-            }
-            return false;
-        }
-
-        if( (to_wear.covers(bp_hand_l) || to_wear.covers(bp_hand_r)) &&
-            (has_trait("PAWS") || has_trait("PAWS_LARGE")) ) {
-            if(interactive) {
-                add_msg_if_player(m_info, _("You cannot get %s to stay on your paws."), to_wear.type_name().c_str());
-            }
-            return false;
-        }
-
-        if( to_wear.covers(bp_mouth) && (has_trait("BEAK") || has_trait("BEAK_PECK") ||
-                                          has_trait("BEAK_HUM")) ) {
-            if( interactive ) {
-                add_msg_if_player(m_info, _("You cannot put a %s over your beak."), to_wear.type_name().c_str());
-            }
-            return false;
-        }
-
-        if( to_wear.covers(bp_mouth) &&
-            (has_trait("MUZZLE") || has_trait("MUZZLE_BEAR") || has_trait("MUZZLE_LONG") ||
-             has_trait("MUZZLE_RAT")) ) {
-            if( interactive ) {
-                add_msg_if_player(m_info, _("You cannot fit the %s over your muzzle."), to_wear.type_name().c_str());
-            }
-            return false;
-        }
-
-        if( to_wear.covers(bp_mouth) && has_trait("MINOTAUR") ) {
-            if( interactive ) {
-                add_msg_if_player(m_info, _("You cannot fit the %s over your snout."), to_wear.type_name().c_str());
-            }
-            return false;
-        }
-
-        if( to_wear.covers(bp_mouth) && has_trait("SABER_TEETH") ) {
-            if( interactive ) {
-                add_msg_if_player(m_info, _("Your saber teeth are simply too large for %s to fit."), to_wear.type_name().c_str());
-            }
-            return false;
-        }
-
-        if( to_wear.covers(bp_mouth) && has_trait("MANDIBLES") ) {
-            if( interactive ) {
-                add_msg_if_player(_("Your mandibles are simply too large for %s to fit."), to_wear.type_name().c_str());
-            }
-            return false;
-        }
-
-        if( to_wear.covers(bp_mouth) && has_trait("PROBOSCIS") ) {
-            if( interactive ) {
-                add_msg_if_player(m_info, _("Your proboscis is simply too large for %s to fit."), to_wear.type_name().c_str());
-            }
-            return false;
-        }
-
-        if( (to_wear.covers(bp_foot_l) || to_wear.covers(bp_foot_r)) && has_trait("HOOVES") ) {
-            if( interactive ) {
-                add_msg_if_player(m_info, _("You cannot wear footwear on your hooves."));
-            }
-            return false;
-        }
-
-        if( (to_wear.covers(bp_foot_l) || to_wear.covers(bp_foot_r)) && has_trait("LEG_TENTACLES") ) {
-            if( interactive ) {
-                add_msg_if_player(m_info, _("You cannot wear footwear on your tentacles."));
-            }
-            return false;
-        }
-
-        if( (to_wear.covers(bp_foot_l) || to_wear.covers(bp_foot_r)) && has_trait("RAP_TALONS")) {
-            if( interactive ) {
-                add_msg_if_player(m_info, _("Your talons are much too large for footgear."));
-            }
-            return false;
-        }
-
-        if( to_wear.covers(bp_head) && has_trait("HORNS_CURLED") ) {
-            if( interactive ) {
-                add_msg_if_player(m_info, _("You cannot wear headgear over your horns."));
-            }
-            return false;
-        }
-
-        if( to_wear.covers(bp_torso) && (has_trait("SHELL") || has_trait("SHELL2")) ) {
-            if( interactive ) {
-                add_msg_if_player(m_info, _("You cannot fit that over your shell."));
-            }
-            return false;
-        }
-
-        if( to_wear.covers(bp_torso) &&
-            ((has_trait("INSECT_ARMS")) || (has_trait("ARACHNID_ARMS"))) ) {
-            if( interactive ) {
-                add_msg_if_player(m_info, _("Your new limbs are too wriggly to fit under that."));
-            }
-            return false;
-        }
-
-        if( to_wear.covers(bp_head) &&
-            !to_wear.made_of("wool") && !to_wear.made_of("cotton") &&
-            !to_wear.made_of("nomex") && !to_wear.made_of("leather") &&
-            (has_trait("HORNS_POINTED") || has_trait("ANTENNAE") || has_trait("ANTLERS"))) {
-            if( interactive ) {
-                add_msg_if_player(m_info, _("You cannot wear a helmet over your %s."),
-                           (has_trait("HORNS_POINTED") ? _("horns") :
-                            (has_trait("ANTENNAE") ? _("antennae") : _("antlers"))));
-            }
-            return false;
-        }
-
-        if (((to_wear.covers(bp_foot_l) && is_wearing_shoes("left")) ||
-              (to_wear.covers(bp_foot_r) && is_wearing_shoes("right"))) &&
-              !to_wear.has_flag("BELTED") && !to_wear.has_flag("SKINTIGHT")) {
-            // Checks to see if the player is wearing shoes
-            if(interactive){
-                add_msg_if_player(m_info, _("You're already wearing footwear!"));
-            }
-            return false;
-        }
     }
 
     const bool was_deaf = is_deaf();
