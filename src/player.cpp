@@ -10168,50 +10168,35 @@ int player::item_reload_cost( const item& it, const item& ammo, long qty ) const
     return std::max( mv, 0 );
 }
 
-bool player::wear(int inventory_position, bool interactive)
+bool player::wear( int pos, bool interactive )
 {
-    item* to_wear = NULL;
-    if (inventory_position == -1)
-    {
-        to_wear = &weapon;
-    }
-    else if( inventory_position < -1 ) {
+    item& to_wear = i_at( pos );
+
+    if( is_worn( to_wear ) ) {
         if( interactive ) {
             add_msg( m_info, _( "You are already wearing that." ) );
         }
         return false;
     }
-    else
-    {
-        to_wear = &inv.find_item(inventory_position);
-    }
-
-    if (to_wear->is_null())
-    {
-        if(interactive)
-        {
-            add_msg(m_info, _("You don't have that item."));
+    if( to_wear.is_null() ) {
+        if( interactive ) {
+            add_msg( m_info, _( "You don't have that item. ") );
         }
-
         return false;
     }
 
-    if (!wear_item(*to_wear, interactive))
-    {
+    if( !wear_item( to_wear, interactive ) ) {
         return false;
     }
 
-    if (inventory_position == -1)
-    {
+    if( &to_wear == &weapon ) {
         weapon = ret_null;
-    }
-    else
-    {
+    } else {
         // it has been copied into worn vector, but assigned an invlet,
         // in case it's a stack, reset the invlet to avoid duplicates
-        to_wear->invlet = 0;
-        inv.remove_item(to_wear);
-        inv.restack(this);
+        to_wear.invlet = 0;
+        inv.remove_item( &to_wear );
+        inv.restack( this );
     }
 
     return true;
