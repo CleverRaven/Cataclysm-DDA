@@ -60,13 +60,95 @@
 
 void draw_tabs(WINDOW *w, std::string sTab);
 
-int set_stats(WINDOW *w, player *u, int &points);
-int set_traits(WINDOW *w, player *u, int &points);
-int set_scenario(WINDOW *w, player *u, int &points);
-int set_profession(WINDOW *w, player *u, int &points);
-int set_skills(WINDOW *w, player *u, int &points);
+struct points_left {
+    int stat_points = 0;
+    int trait_points = 0;
+    int skill_points = 0;
 
-int set_description(WINDOW *w, player *u, bool allow_reroll, int &points);
+    enum point_limit {
+        FREEFORM = 0,
+        ONE_POOL,
+        MULTI_POOL
+    } limit;
+
+    static points_left init_from_options()
+    {
+        points_left ret;
+        ret.stat_points = OPTIONS["INITIAL_STAT_POINTS"];
+        ret.trait_points = OPTIONS["INITIAL_TRAIT_POINTS"];
+        ret.skill_points = OPTIONS["INITIAL_SKILL_POINTS"];
+        if( OPTIONS["POINT_DISTRIBUTION"] == "multipool" ) {
+            ret.limit = MULTI_POOL;
+        } else if( OPTIONS["POINT_DISTRIBUTION"] == "onepool" ) {
+            ret.limit = ONE_POOL;
+        } else {
+            ret.limit = FREEFORM;
+        }
+
+        if( ret.limit != MULTI_POOL ) {
+            ret.pool();
+        }
+
+        return ret;
+    }
+
+    void pool()
+    {
+        stat_points += trait_points + skill_points;
+        trait_points = 0;
+        skill_points = 0;
+    }
+
+    int stat_points_left() const
+    {
+        return stat_points;
+    }
+
+    int trait_points_left() const
+    {
+        return stat_points + trait_points;
+    }
+
+    int skill_points_left() const
+    {
+        return stat_points + trait_points + skill_points;
+    }
+
+    bool is_valid()
+    {
+        return limit == FREEFORM ||
+            (stat_points_left() >= 0 && trait_points_left() >= 0 &&
+            skill_points_left() >= 0);
+    }
+
+    bool has_spare()
+    {
+        return limit != FREEFORM && is_valid() && skill_points_left() > 0;
+    }
+
+    std::string to_string()
+    {
+        if( limit == MULTI_POOL ) {
+            return string_format( _("Points left: %d%c%d%c%d=%d"),
+                stat_points, trait_points >= 0 ? '+' : '-',
+                abs(trait_points), skill_points >= 0 ? '+' : '-',
+                abs(skill_points),
+                stat_points + trait_points + skill_points );
+        } else if( limit == ONE_POOL ) {
+            return string_format( _("Points left: %4d"), stat_points );
+        } else {
+            return _("Freeform");
+        }
+    }
+};
+
+int set_stats(WINDOW *w, player *u, points_left &points);
+int set_traits(WINDOW *w, player *u, points_left &points);
+int set_scenario(WINDOW *w, player *u, points_left &points);
+int set_profession(WINDOW *w, player *u, points_left &points);
+int set_skills(WINDOW *w, player *u, points_left &points);
+
+int set_description(WINDOW *w, player *u, bool allow_reroll, points_left &points);
 
 void save_template(player *u);
 
@@ -126,8 +208,12 @@ bool player::load_template( const std::string &template_name )
     return true;
 }
 
-void player::randomize( const bool random_scenario, int &points )
+void player::randomize( const bool random_scenario, points_left &points_in )
 {
+    // TODO: Get rid of this part, make it randomize multi-pool properly
+    points_in.pool();
+    int &points = points_in.stat_points;
+
     const int max_trait_points = OPTIONS["MAX_TRAIT_POINTS"];
     // Reset everything to the defaults to have a clean state.
     *this = player();
@@ -317,13 +403,14 @@ bool player::create(character_type type, std::string tempname)
     }
 
     int tab = 0;
-    int points = OPTIONS["INITIAL_POINTS"];
+    points_left points = points_left::init_from_options();
 
     switch (type) {
     case PLTYPE_CUSTOM:
         break;
     case PLTYPE_NOW:
     case PLTYPE_RANDOM:
+        points.pool();
         randomize( false, points );
         tab = NEWCHAR_TAB_MAX;
         break;
@@ -331,7 +418,9 @@ bool player::create(character_type type, std::string tempname)
         if( !load_template( tempname ) ) {
             return false;
         }
-        points = 0;
+        points.stat_points = 0;
+        points.trait_points = 0;
+        points.skill_points = 0;
         tab = NEWCHAR_TAB_MAX;
         break;
     }
@@ -578,7 +667,7 @@ void draw_sorting_indicator(WINDOW *w_sorting, input_context ctxt, Compare sorte
     fold_and_print(w_sorting, 0, 16, (FULL_SCREEN_WIDTH / 2), c_ltgray, sort_help);
 }
 
-int set_stats(WINDOW *w, player *u, int &points)
+int set_stats(WINDOW *w, player *u, points_left &points)
 {
     unsigned char sel = 1;
     const int iSecondColumn = 27;
@@ -622,7 +711,7 @@ int set_stats(WINDOW *w, player *u, int &points)
         mvwprintz(w, FULL_SCREEN_HEIGHT - 2, 2, COL_NOTE_MAJOR, _("%s returns you to the main menu."),
                   ctxt.get_desc("PREV_TAB").c_str());
 
-        mvwprintz(w, 3, 2, c_ltgray, _("Points left:%4d "), points);
+        mvwprintz(w, 3, 2, c_ltgray, points.to_string().c_str() );
         mvwprintz(w, 3, iSecondColumn, c_black, clear);
         for (int i = 6; i < 13; i++) {
             mvwprintz(w, i, iSecondColumn, c_black, clear);
@@ -726,52 +815,52 @@ int set_stats(WINDOW *w, player *u, int &points)
         } else if (action == "LEFT") {
             if (sel == 1 && u->str_max > 4) {
                 if (u->str_max > HIGH_STAT) {
-                    points++;
+                    points.stat_points++;
                 }
                 u->str_max--;
-                points++;
+                points.stat_points++;
             } else if (sel == 2 && u->dex_max > 4) {
                 if (u->dex_max > HIGH_STAT) {
-                    points++;
+                    points.stat_points++;
                 }
                 u->dex_max--;
-                points++;
+                points.stat_points++;
             } else if (sel == 3 && u->int_max > 4) {
                 if (u->int_max > HIGH_STAT) {
-                    points++;
+                    points.stat_points++;
                 }
                 u->int_max--;
-                points++;
+                points.stat_points++;
             } else if (sel == 4 && u->per_max > 4) {
                 if (u->per_max > HIGH_STAT) {
-                    points++;
+                    points.stat_points++;
                 }
                 u->per_max--;
-                points++;
+                points.stat_points++;
             }
         } else if (action == "RIGHT") {
             if (sel == 1 && u->str_max < MAX_STAT) {
-                points--;
+                points.stat_points--;
                 if (u->str_max >= HIGH_STAT) {
-                    points--;
+                    points.stat_points--;
                 }
                 u->str_max++;
             } else if (sel == 2 && u->dex_max < MAX_STAT) {
-                points--;
+                points.stat_points--;
                 if (u->dex_max >= HIGH_STAT) {
-                    points--;
+                    points.stat_points--;
                 }
                 u->dex_max++;
             } else if (sel == 3 && u->int_max < MAX_STAT) {
-                points--;
+                points.stat_points--;
                 if (u->int_max >= HIGH_STAT) {
-                    points--;
+                    points.stat_points--;
                 }
                 u->int_max++;
             } else if (sel == 4 && u->per_max < MAX_STAT) {
-                points--;
+                points.stat_points--;
                 if (u->per_max >= HIGH_STAT) {
-                    points--;
+                    points.stat_points--;
                 }
                 u->per_max++;
             }
@@ -788,7 +877,7 @@ int set_stats(WINDOW *w, player *u, int &points)
     } while (true);
 }
 
-int set_traits(WINDOW *w, player *u, int &points)
+int set_traits(WINDOW *w, player *u, points_left &points)
 {
     const int max_trait_points = OPTIONS["MAX_TRAIT_POINTS"];
 
@@ -849,8 +938,8 @@ int set_traits(WINDOW *w, player *u, int &points)
     ctxt.register_action("QUIT");
 
     do {
-        mvwprintz(w, 3, 2, c_ltgray, _("Points left:%4d "), points);
-        mvwprintz(w, 3, 19, c_ltgreen, "%4d/%-4d", num_good, max_trait_points);
+        mvwprintz( w, 3, 2, c_ltgray, points.to_string().c_str() );
+        mvwprintz(w, 3, 24, c_ltgreen, "%4d/%-4d", num_good, max_trait_points);
         mvwprintz(w, 3, 29, c_ltred, "%5d/-%-4d ", num_bad, max_trait_points);
 
         // Clear the bottom of the screen.
@@ -1013,7 +1102,7 @@ int set_traits(WINDOW *w, player *u, int &points)
             //inc_type is either -1 or 1, so we can just multiply by it to invert
             if(inc_type != 0) {
                 u->toggle_trait(cur_trait);
-                points -= mdata.points * inc_type;
+                points.trait_points -= mdata.points * inc_type;
                 if (iCurWorkingPage == 0) {
                     num_good += mdata.points * inc_type;
                 } else {
@@ -1055,7 +1144,7 @@ struct {
     }
 } profession_sorter;
 
-int set_profession(WINDOW *w, player *u, int &points)
+int set_profession(WINDOW *w, player *u, points_left &points)
 {
     draw_tabs(w, _("PROFESSION"));
     int cur_id = 0;
@@ -1134,7 +1223,7 @@ int set_profession(WINDOW *w, player *u, int &points)
         }
 
         int netPointCost = sorted_profs[cur_id]->point_cost() - u->prof->point_cost();
-        bool can_pick = sorted_profs[cur_id]->can_pick(u, points);
+        bool can_pick = sorted_profs[cur_id]->can_pick(u, points.skill_points_left());
         // Magic number. Strongly related to window width (w_width - borders).
         const std::string empty_line(78, ' ');
 
@@ -1148,7 +1237,7 @@ int set_profession(WINDOW *w, player *u, int &points)
             pointsForProf *= -1;
         }
         // Draw header.
-        std::string points_msg = string_format(_("Points left: %2d"), points);
+        std::string points_msg = points.to_string();
         int pMsg_length = utf8_width(_(points_msg.c_str()));
         if (netPointCost > 0) {
             mvwprintz(w, 3, 2, c_ltgray, _(points_msg.c_str()));
@@ -1319,7 +1408,7 @@ int set_profession(WINDOW *w, player *u, int &points)
             }
         } else if (action == "CONFIRM") {
             u->prof = sorted_profs[cur_id];
-            points -= netPointCost;
+            points.skill_points -= netPointCost;
         } else if (action == "CHANGE_GENDER") {
             u->male = !u->male;
             profession_sorter.male = u->male;
@@ -1350,7 +1439,7 @@ int set_profession(WINDOW *w, player *u, int &points)
     return retval;
 }
 
-int set_skills(WINDOW *w, player *u, int &points)
+int set_skills(WINDOW *w, player *u, points_left &points)
 {
     draw_tabs(w, _("SKILLS"));
     const int iContentHeight = FULL_SCREEN_HEIGHT - 6;
@@ -1377,12 +1466,12 @@ int set_skills(WINDOW *w, player *u, int &points)
     ctxt.register_action("QUIT");
 
     do {
-        mvwprintz(w, 3, 2, c_ltgray, _("Points left:%4d "), points);
+        mvwprintz( w, 3, 2, c_ltgray, points.to_string().c_str() );
         // Clear the bottom of the screen.
         werase(w_description);
         mvwprintz(w, 3, 31, c_ltgray, "                                              ");
         int cost = std::max(1, (u->skillLevel(currentSkill) + 1) / 2);
-        mvwprintz(w, 3, 31, points >= cost ? COL_SKILL_USED : c_ltred,
+        mvwprintz(w, 3, 31, points.skill_points_left() >= cost ? COL_SKILL_USED : c_ltred,
                   ngettext("Upgrading %s costs %d point", "Upgrading %s costs %d points", cost),
                   currentSkill->name().c_str(), cost);
 
@@ -1508,10 +1597,10 @@ int set_skills(WINDOW *w, player *u, int &points)
             if (level) {
                 if (level == 2) {  // lower 2->0 for 1 point
                     level.level(0);
-                    points += 1;
+                    points.skill_points += 1;
                 } else {
                     level.level(level - 1);
-                    points += (level + 1) / 2;
+                    points.skill_points += (level + 1) / 2;
                 }
             }
         } else if (action == "RIGHT") {
@@ -1519,9 +1608,9 @@ int set_skills(WINDOW *w, player *u, int &points)
             if (level <= 19) {
                 if (level == 0) {  // raise 0->2 for 1 point
                     level.level(2);
-                    points -= 1;
+                    points.skill_points -= 1;
                 } else {
-                    points -= (level + 1) / 2;
+                    points.skill_points -= (level + 1) / 2;
                     level.level(level + 1);
                 }
             }
@@ -1564,7 +1653,7 @@ struct {
     }
 } scenario_sorter;
 
-int set_scenario(WINDOW *w, player *u, int &points)
+int set_scenario(WINDOW *w, player *u, points_left &points)
 {
     draw_tabs(w, _("SCENARIO"));
 
@@ -1655,7 +1744,7 @@ int set_scenario(WINDOW *w, player *u, int &points)
         }
 
         int netPointCost = sorted_scens[cur_id]->point_cost() - g->scen->point_cost();
-        bool can_pick = sorted_scens[cur_id]->can_pick(points);
+        bool can_pick = sorted_scens[cur_id]->can_pick(points.skill_points_left());
         const std::string empty_line(getmaxx(w_description), ' ');
 
         // Clear the bottom of the screen and header.
@@ -1669,7 +1758,7 @@ int set_scenario(WINDOW *w, player *u, int &points)
         }
 
         // Draw header.
-        std::string points_msg = string_format(_("Points left: %2d"), points);
+        std::string points_msg = points.to_string();
         int pMsg_length = utf8_width(_(points_msg.c_str()));
         if (netPointCost > 0) {
             mvwprintz(w, 3, 2, c_ltgray, _(points_msg.c_str()));
@@ -1829,7 +1918,8 @@ int set_scenario(WINDOW *w, player *u, int &points)
             u->empty_traits();
             u->empty_skills();
             u->add_traits();
-            points = OPTIONS["INITIAL_POINTS"] - sorted_scens[cur_id]->point_cost();
+            points = points_left::init_from_options();
+            points.skill_points -= sorted_scens[cur_id]->point_cost();
 
 
         } else if (action == "PREV_TAB" && query_yn(_("Return to main menu?"))) {
@@ -1851,7 +1941,7 @@ int set_scenario(WINDOW *w, player *u, int &points)
     return retval;
 }
 
-int set_description(WINDOW *w, player *u, const bool allow_reroll, int &points)
+int set_description(WINDOW *w, player *u, const bool allow_reroll, points_left &points)
 {
     draw_tabs(w, _("DESCRIPTION"));
 
@@ -1874,7 +1964,7 @@ int set_description(WINDOW *w, player *u, const bool allow_reroll, int &points)
     WINDOW *w_guide = newwin(4, FULL_SCREEN_WIDTH - 3, getbegy(w) + 19, getbegx(w) + 2);
     WINDOW_PTR w_guideptr( w_guide );
 
-    mvwprintz(w, 3, 2, c_ltgray, _("Points left:%4d "), points);
+    mvwprintz( w, 3, 2, c_ltgray, points.to_string().c_str() );
 
     const unsigned namebar_pos = 1 + utf8_width(_("Name:"));
     unsigned male_pos = 1 + utf8_width(_("Gender:"));
@@ -2056,11 +2146,11 @@ int set_description(WINDOW *w, player *u, const bool allow_reroll, int &points)
         const std::string action = ctxt.handle_input();
 
         if (action == "NEXT_TAB") {
-            if (points < 0) {
+            if( OPTIONS["POINT_DISTRIBUTION"] != "freeform" && !points.is_valid() ) {
                 popup(_("Too many points allocated, change some features and try again."));
                 redraw = true;
                 continue;
-            } else if (points > 0 &&
+            } else if( points.has_spare() &&
                        !query_yn(_("Remaining points will be discarded, are you sure you want to proceed?"))) {
                 redraw = true;
                 continue;
@@ -2083,22 +2173,24 @@ int set_description(WINDOW *w, player *u, const bool allow_reroll, int &points)
         } else if (action == "PREV_TAB") {
             return -1;
         } else if (action == "REROLL_CHARACTER" && allow_reroll ) {
-            points = OPTIONS["INITIAL_POINTS"];
+            points = points_left::init_from_options();
+            points.pool();
             u->randomize( false, points );
             // Return 0 so we re-enter this tab again, but it forces a complete redrawing of it.
             return 0;
         } else if (action == "REROLL_CHARACTER_WITH_SCENARIO" && allow_reroll ) {
-            points = OPTIONS["INITIAL_POINTS"];
+            points = points_left::init_from_options();
+            points.pool();
             u->randomize( true, points );
             // Return 0 so we re-enter this tab again, but it forces a complete redrawing of it.
             return 0;
         } else if (action == "SAVE_TEMPLATE") {
-            if (points > 0) {
+            if( points.has_spare() ) {
                 if(query_yn(_("You are attempting to save a template with unused points. "
                               "Any unspent points will be lost, are you sure you want to proceed?"))) {
                     save_template(u);
                 }
-            } else if (points < 0) {
+            } else if( !points.is_valid() ) {
                 popup(_("You cannot save a template with negative unused points"));
             } else {
                 save_template(u);

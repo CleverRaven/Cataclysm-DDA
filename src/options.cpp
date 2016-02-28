@@ -1104,10 +1104,29 @@ void options_manager::init()
 
     mOptionsSort["debug"]++;
 
-    OPTIONS["INITIAL_POINTS"] = cOpt("debug", _("Initial points"),
-                                     _("Initial points available on character generation."),
-                                     0, 1000, 6
-                                    );
+    optionNames["freeform"] = _("Freeform");
+    optionNames["onepool"] = _("One pool");
+    optionNames["multipool"] = _("Separate pools");
+
+    OPTIONS["POINT_DISTRIBUTION"] = cOpt( "debug", _("Point distribution"),
+                                          _("Set the restrictions on starting characters.  One pool means stats, traits and skills share a single point pool, multi pool keeps them partly separate, freeform doesn't enforce any limits."),
+                                          "freeform,onepool,multipool", "onepool"
+                                        );
+
+    OPTIONS["INITIAL_STAT_POINTS"] = cOpt("debug", _("Initial stat points"),
+                                          _("Initial points available to spend on stats on character generation."),
+                                          0, 1000, 2
+                                         );
+
+    OPTIONS["INITIAL_TRAIT_POINTS"] = cOpt("debug", _("Initial trait points"),
+                                           _("Initial points available to spend on traits on character generation."),
+                                           0, 1000, 2
+                                          );
+
+    OPTIONS["INITIAL_SKILL_POINTS"] = cOpt("debug", _("Initial skill points"),
+                                           _("Initial points available to spend on skills on character generation."),
+                                           0, 1000, 2
+                                           );
 
     OPTIONS["MAX_TRAIT_POINTS"] = cOpt("debug", _("Maximum trait points"),
                                        _("Maximum trait points available for character generation."),
