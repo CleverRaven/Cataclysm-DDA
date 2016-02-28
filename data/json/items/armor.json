@@ -3327,7 +3327,7 @@
         "material" : ["cotton", "null"],
         "volume" : 14,
         "warmth" : 30,
-        "encumbrance" : 8,
+        "encumbrance" : 10,
         "flags" : ["VARSIZE"],
         "coverage" : 95,
         "material_thickness" : 3
@@ -3364,7 +3364,7 @@
         "material" : ["cotton", "null"],
         "volume" : 17,
         "warmth" : 30,
-        "encumbrance" : 10,
+        "encumbrance" : 12,
         "flags" : ["VARSIZE", "OUTER", "POCKETS", "HOOD"],
         "coverage" : 95,
         "material_thickness" : 3
@@ -11163,7 +11163,7 @@
         "material" : ["wool", "null"],
         "volume" : 18,
         "warmth" : 45,
-        "encumbrance" : 10,
+        "encumbrance" : 12,
         "flags" : ["VARSIZE", "OUTER", "POCKETS", "HOOD"],
         "coverage" : 95,
         "material_thickness" : 3
