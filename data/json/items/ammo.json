@@ -303,6 +303,7 @@
         "damage" : 2,
         "range" : 10,
         "dispersion" : 14,
+        "loudness" : -999,
         "count" : 10,
         "effects" : ["NEVER_MISFIRES"]
     },
@@ -320,6 +321,7 @@
         "damage" : 3,
         "range" : 18,
         "dispersion" : 12,
+        "loudness" : -999,
         "count" : 20,
         "effects" : ["NEVER_MISFIRES"]
     },
@@ -337,6 +339,7 @@
         "damage" : 1,
         "range" : 30,
         "dispersion" : 5,
+        "loudness": -999,
         "count" : 10,
         "effects" : ["RECOVER_3", "NEVER_MISFIRES"]
     },
@@ -356,6 +359,7 @@
         "pierce" : 1,
         "range" : 15,
         "dispersion" : 14,
+        "loudness" : -999,
         "count" : 50,
         "effects" : ["NEVER_MISFIRES"]
     },

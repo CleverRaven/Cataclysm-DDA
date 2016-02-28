@@ -162,6 +162,7 @@
       "range" : 6,
       "dispersion" : 190,
       "recoil" : 0,
+      "loudness": -999,
       "count" : 10,
       "effects" : ["RECOVER_5"]
    },
@@ -183,6 +184,7 @@
       "range" : 6,
       "dispersion" : 175,
       "recoil" : 0,
+      "loudness": -999,
       "count" : 10,
       "effects" : ["RECOVER_5"]
    },
@@ -203,6 +205,7 @@
       "range" : 6,
       "dispersion" : 210,
       "recoil" : 0,
+      "loudness": -999,
       "count" : 10,
       "flags" : ["NOGIB"],
       "effects" : ["RECOVER_5"]
@@ -226,6 +229,7 @@
       "range" : 7,
       "dispersion" : 135,
       "recoil" : 0,
+      "loudness": -999,
       "count" : 10,
       "effects" : ["RECOVER_5"]
    },
@@ -247,6 +251,7 @@
       "range" : 7,
       "dispersion" : 135,
       "recoil" : 0,
+      "loudness": -999,
       "count" : 10,
       "effects" : ["RECOVER_10"]
    },
@@ -312,6 +317,7 @@
       "range" : 7,
       "dispersion" : 135,
       "recoil" : 0,
+      "loudness": -999,
       "count" : 10,
       "effects" : ["RECOVER_10"]
    },
@@ -334,6 +340,7 @@
       "range" : 8,
       "dispersion" : 60,
       "recoil" : 0,
+      "loudness": -999,
       "count" : 10,
       "effects" : ["RECOVER_10"]
    },
@@ -377,6 +384,7 @@
       "range" : 5,
       "dispersion" : 285,
       "recoil" : 0,
+      "loudness": -999,
       "count" : 10,
       "effects" : ["RECOVER_15"]
    },
@@ -399,6 +407,7 @@
       "range" : 10,
       "dispersion" : 60,
       "recoil" : 0,
+      "loudness": -999,
       "count" : 10,
       "effects" : ["RECOVER_15"]
    },
@@ -420,6 +429,7 @@
       "range" : 8,
       "dispersion" : 135,
       "recoil" : 0,
+      "loudness": -999,
       "count" : 8,
       "stack_size" : 10,
       "effects" : ["RECOVER_3"]
@@ -442,6 +452,7 @@
       "range" : 5,
       "dispersion" : 285,
       "recoil" : 0,
+      "loudness": -999,
       "count" : 5,
       "effects" : ["EXPLOSIVE_SMALL"]
    },
@@ -480,6 +491,7 @@
       "range" : 5,
       "dispersion" : 285,
       "recoil" : 0,
+      "loudness": -999,
       "count" : 5,
       "effects" : ["IGNITE"]
    },
@@ -501,6 +513,7 @@
       "range" : 0,
       "dispersion" : 150,
       "recoil" : 0,
+      "loudness": -999,
       "count" : 15,
       "effects" : ["RECOVER_5"]
    },
@@ -522,6 +535,7 @@
       "range" : 3,
       "dispersion" : 135,
       "recoil" : 0,
+      "loudness": -999,
       "count" : 10,
       "effects" : ["RECOVER_15"]
    },
@@ -543,6 +557,7 @@
       "range" : 6,
       "dispersion" : 120,
       "recoil" : 0,
+      "loudness": -999,
       "count" : 10,
       "effects" : ["RECOVER_25"]
    },
@@ -564,6 +579,7 @@
       "range" : 8,
       "dispersion" : 135,
       "recoil" : 0,
+      "loudness": -999,
       "count" : 1,
       "stack_size" : 10,
       "effects" : ["COOKOFF", "EXPLOSIVE_SMALL"]
@@ -1068,6 +1084,7 @@
         "range" : 6,
         "dispersion" : 150,
         "recoil" : 0,
+        "loudness": -999,
         "count" : 4,
         "effects" : ["RECOVER_5"]
     },
@@ -1089,6 +1106,7 @@
         "range" : 6,
         "dispersion" : 120,
         "recoil" : 0,
+        "loudness": -999,
         "count" : 4,
         "effects" : ["RECOVER_15"]
     },
@@ -1110,6 +1128,7 @@
         "range" : 10,
         "dispersion" : 90,
         "recoil" : 0,
+        "loudness": -999,
         "count" : 4,
         "effects" : ["RECOVER_3"]
     },
@@ -1132,6 +1151,7 @@
         "range":12,
         "dispersion":125,
         "recoil":0,
+        "loudness": -999,
         "count":10,
         "effects" : ["RECOVER_10"]
     }
