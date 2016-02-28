@@ -10241,34 +10241,66 @@ bool player::dispose_item( item& obj, const std::string& prompt )
     menu.text = prompt.empty() ? string_format( _( "Dispose of %s" ), obj.tname().c_str() ) : prompt;
     menu.return_invalid = true;
 
-    std::vector<std::function<void()>> actions;
+    using dispose_option = struct {
+        std::string prompt;
+        bool enabled;
+        char invlet;
+        int moves;
+        std::function<void()> action;
+    };
 
-    menu.addentry( -1, volume_carried() + obj.volume() <= volume_capacity(), '1', _( "Store in inventory" ) );
-    actions.emplace_back( [&]{
-        moves -= item_handling_cost( obj );
-        inv.add_item_keep_invlet( i_rem( &obj ) );
-        inv.unsort();
-    });
+    std::vector<dispose_option> opts;
 
-    menu.addentry( -1, true, '2', _( "Drop item" ) );
-    actions.emplace_back( [&]{ g->m.add_item_or_charges( pos(), i_rem( &obj ) ); } );
+    opts.emplace_back( dispose_option {
+        _( "Store in inventory" ), volume_carried() + obj.volume() <= volume_capacity(), '1',
+        item_handling_cost( obj ) * INVENTORY_HANDLING_FACTOR,
+        [this,&obj]{
+            moves -= item_handling_cost( obj ) * INVENTORY_HANDLING_FACTOR;
+            inv.add_item_keep_invlet( i_rem( &obj ) );
+            inv.unsort();
+        }
+    } );
 
-    menu.addentry( -1, rate_action_wear( obj ) == HINT_GOOD, '3', _( "Wear item" ) );
-    actions.emplace_back( [&]{ wear_item( i_rem( &obj ) ); } );
+    opts.emplace_back( dispose_option {
+        _( "Drop item" ), true, '2', 0,
+        [this,&obj]{ g->m.add_item_or_charges( pos(), i_rem( &obj ) ); }
+    } );
+
+    opts.emplace_back( dispose_option {
+        _( "Wear item" ), can_wear( obj ), '3', item_wear_cost( obj ),
+        [this,&obj]{ wear_item( i_rem( &obj ) ); }
+    } );
 
     for( auto& e : worn ) {
         if( e.can_holster( obj ) ) {
-            menu.addentry( -1, true, e.invlet, _( "Store in %s" ), e.tname().c_str() );
-            actions.emplace_back( [&]{
-                auto ptr = dynamic_cast<const holster_actor *>( e.type->get_use( "holster" )->get_actor_ptr() );
-                ptr->store( *this, e, obj );
-            });
+            auto ptr = dynamic_cast<const holster_actor *>( e.type->get_use( "holster" )->get_actor_ptr() );
+            opts.emplace_back( dispose_option {
+                string_format( _( "Store in %s" ), e.tname().c_str() ), true, e.invlet,
+                item_store_cost( obj, e, false, ptr->draw_cost ),
+                [this,ptr,&e,&obj]{ ptr->store( *this, e, obj ); }
+            } );
         }
+    }
+
+    int w = utf8_width( menu.text, true ) + 4;
+    for( const auto& e : opts ) {
+        w = std::max( w, utf8_width( e.prompt, true ) + 4 );
+    };
+    for( auto& e : opts ) {
+        e.prompt += std::string( w - utf8_width( e.prompt, true ), ' ' );
+    }
+
+    menu.text.insert( 0, 2, ' ' ); // add space for UI hotkeys
+    menu.text += std::string( w + 2 - utf8_width( menu.text, true ), ' ' );
+    menu.text += _( " | Moves  " );
+
+    for( const auto& e : opts ) {
+        menu.addentry( -1, e.enabled, e.invlet, string_format( e.enabled ? "%s | %-7d" : "%s |", e.prompt.c_str(), e.moves ) );
     }
 
     menu.query();
     if( menu.ret >= 0 ) {
-        actions[ menu.ret ]();
+        opts[ menu.ret ].action();
         return true;
     }
     return false;
