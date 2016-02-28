@@ -1070,12 +1070,7 @@
     "turns_per_charge": 120,
     "ammo": "NULL",
     "revert_to": "lightstrip_dead",
-    "use_action": {
-        "type": "auto_transform",
-        "target": "lightstrip_dead",
-        "non_interactive_msg": "You can not deactivate the lightstrip.",
-        "msg": "The lightstrip dies."
-    }
+    "revert_msg": "The lightstrip dies."
   },
   {
     "id": "glowstick",
@@ -1121,12 +1116,7 @@
     "turns_per_charge": 2,
     "ammo": "NULL",
     "revert_to": "glowstick_dead",
-    "use_action": {
-        "type": "auto_transform",
-        "target": "glowstick_dead",
-        "non_interactive_msg": "You can't turn off a glowstick.",
-        "msg": "The glowstick fades out."
-    }
+    "revert_msg": "The glowstick fades out."
   },
   {
     "id": "glowstick_dead",
@@ -1195,12 +1185,7 @@
     "turns_per_charge": 2,
     "ammo": "NULL",
     "revert_to": "handflare_dead",
-    "use_action": {
-        "type": "auto_transform",
-        "target": "handflare_dead",
-        "non_interactive_msg": "You can't turn off a flare.",
-        "msg": "The flare sputters out."
-    }
+    "revert_msg": "The flare sputters out"
   },
   {
     "id": "hotplate",
