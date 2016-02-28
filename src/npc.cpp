@@ -1075,13 +1075,8 @@ void npc::starting_weapon(npc_class type)
     }
     weapon = sel_weapon;
 
-    if (weapon.is_gun())
-    {
-        const std::string tmp = default_ammo( weapon.type->gun->ammo );
-        if( tmp != "" ) {
-            weapon.charges = weapon.type->gun->clip;
-            weapon.set_curammo( tmp );
-        }
+    if( weapon.is_gun() ) {
+        weapon.ammo_set( default_ammo( weapon.type->gun->ammo ) );
     }
 }
 
