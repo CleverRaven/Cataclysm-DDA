@@ -2249,37 +2249,37 @@ nc_color item::color() const
 
 int item::price( bool practical ) const
 {
-    if( is_null() ) {
-        return 0;
-    }
+    int res = 0;
 
-    int ret = practical ? type->price_post : type->price;
-    if( rotten() ) {
-        // better price here calculation? No value at all?
-        ret = type->price / 10;
-    }
-    if( damage > 0 ) {
-        // maximal damage is 4, maximal reduction is 40% of the value.
-        ret -= ret * static_cast<double>( damage ) / 10;
-    }
+    visit_items_const( [&res,&practical]( const item *e ) {
+        int child = practical ? e->type->price_post : e->type->price;
 
-    if( count_by_charges() || made_of( LIQUID ) ) {
-        // Price from json data is for the default-sized stack, like the volume calculation.
-        ret = ret * charges / static_cast<double>( type->stack_size );
+        if( e->rotten() ) {
+            child /= 10; // @todo better price here calculation?
+        }
+        if( e->damage > 0 ) {
+            // maximal damage is 4, maximal reduction is 40% of the value.
+            child -= child * static_cast<double>( e->damage ) / 10;
+        }
 
-    } else if( magazine_integral() && ammo_remaining() && ammo_data() ) {
-        // tools, magazines, guns and auxiliary gunmods may contain ammunition which can affect the price
-        ret += item( ammo_current(), calendar::turn, charges ).price( practical );
+        if( e->count_by_charges() || e->made_of( LIQUID ) ) {
+            // price from json data is for default-sized stack similar to volume calculation
+            child *= e->charges / static_cast<double>( e->type->stack_size );
 
-    } else if( is_tool() && ammo_type() == "NULL" && type->maximum_charges() > 0 ) {
-        // if tool has no ammo (eg. spray can) reduce price proportional to remaining charges
-        ret *= ammo_remaining() / double( std::max( type->charges_default(), 1 ) );
-    }
+        } else if( e->magazine_integral() && e->ammo_remaining() && e->ammo_data() ) {
+            // items with integral magazines may contain ammunition which can affect the price
+            child += item( e->ammo_data(), calendar::turn, e->charges ).price( practical );
 
-    for( auto &elem : contents ) {
-        ret += elem.price( practical );
-    }
-    return ret;
+        } else if( e->is_tool() && e->ammo_type() == "NULL" && e->type->maximum_charges() > 0 ) {
+            // if tool has no ammo (eg. spray can) reduce price proportional to remaining charges
+            child *= e->ammo_remaining() / double( std::max( e->type->charges_default(), 1 ) );
+        }
+
+        res += child;
+        return VisitResponse::NEXT;
+    } );
+
+    return res;
 }
 
 // MATERIALS-TODO: add a density field to materials.json
