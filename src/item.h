@@ -111,8 +111,8 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
         item &operator=( const item & ) = default;
         virtual ~item() = default;
 
-        item( const itype_id& id, int turn = -1, int qty = -1 );
-        item( const itype *type, int turn = -1, int qty = -1 );
+        explicit item( const itype_id& id, int turn = -1, int qty = -1 );
+        explicit item( const itype *type, int turn = -1, int qty = -1 );
 
         struct default_charges_tag {};
         item( const itype_id& id, int turn, default_charges_tag );
