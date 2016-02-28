@@ -20,7 +20,6 @@
     "recoil": 60,
     "durability": 6,
     "reload": 100,
-    "loudness" : 150,
     "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "bore", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
     "//": "10 and 12-round magazines exist, but were made for the newer PMM, might not be compatible with the old PM.",
     "magazine_well" : 1,
@@ -50,7 +49,6 @@
     "recoil": -15,
     "durability": 6,
     "reload": 100,
-    "loudness" : 150,
     "burst": 8,
     "valid_mod_locations": [[ "accessories", 3 ],[ "barrel", 1 ],[ "bore", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
     "magazines" : [

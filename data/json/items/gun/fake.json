@@ -19,7 +19,6 @@
     "recoil": 30,
     "durability": 6,
     "reload": 100,
-    "loudness" : 150,
     "clip_size": 1000,
     "burst": 10,
     "flags": "MODE_BURST"
@@ -44,7 +43,6 @@
     "recoil": -45,
     "durability": 8,
     "reload": 100,
-    "loudness" : 150,
     "clip_size": 1000,
     "burst": 8,
     "flags": "MODE_BURST"

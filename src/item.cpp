@@ -123,19 +123,15 @@ item::item( const itype *type, int turn, int qty ) : type( type )
 
     if( type->gun ) {
         for( const auto &mod : type->gun->built_in_mods ){
-            item temp( mod, turn, qty );
-            temp.item_tags.insert( "IRREMOVABLE" );
-            contents.push_back( temp );
+            emplace_back( mod, turn, qty ).item_tags.insert( "IRREMOVABLE" );
         }
         for( const auto &mod : type->gun->default_mods ) {
-            contents.emplace_back( mod, turn, qty );
+            emplace_back( mod, turn, qty );
         }
 
     } else if( type->magazine ) {
         if( type->magazine->count > 0 ) {
-            item ammo ( default_ammo( type->magazine->type ), calendar::turn );
-            ammo.charges = type->magazine->count;
-            contents.push_back( ammo );
+            emplace_back( default_ammo( type->magazine->type ), calendar::turn, type->magazine->count );
         }
 
     } else if( type->is_food() ) {
@@ -2267,41 +2263,37 @@ nc_color item::color() const
 
 int item::price( bool practical ) const
 {
-    if( is_null() ) {
-        return 0;
-    }
+    int res = 0;
 
-    int ret = practical ? type->price_post : type->price;
-    if( rotten() ) {
-        // better price here calculation? No value at all?
-        ret = type->price / 10;
-    }
-    if( damage > 0 ) {
-        // maximal damage is 4, maximal reduction is 40% of the value.
-        ret -= ret * static_cast<double>( damage ) / 10;
-    }
-    // The price from the json data is for the default-sized stack, like the volume
-    // calculation.
-    if( count_by_charges() || made_of( LIQUID ) ) {
-        ret = ret * charges / static_cast<double>( type->stack_size );
-    }
+    visit_items_const( [&res,&practical]( const item *e ) {
+        int child = practical ? e->type->price_post : e->type->price;
 
-    // tools, guns and auxiliary gunmods may contain ammunition which can affect the price
-    if( ammo_remaining() > 0 && ammo_current() != "null" ) {
-        item tmp( ammo_current(), 0 );
-        tmp.charges = charges;
-        ret += tmp.price( practical );
-    }
+        if( e->rotten() ) {
+            child /= 10; // @todo better price here calculation?
+        }
+        if( e->damage > 0 ) {
+            // maximal damage is 4, maximal reduction is 40% of the value.
+            child -= child * static_cast<double>( e->damage ) / 10;
+        }
 
-    // if tool has no ammo (eg. spray can) reduce price proportional to remaining charges
-    if( is_tool() && ammo_type() == "NULL" && ammo_remaining() > -1 ) {
-        ret *= ammo_remaining() / double( std::max( dynamic_cast<const it_tool *>( type )->def_charges, 1L ) );
-    }
+        if( e->count_by_charges() || e->made_of( LIQUID ) ) {
+            // price from json data is for default-sized stack similar to volume calculation
+            child *= e->charges / static_cast<double>( e->type->stack_size );
 
-    for( auto &elem : contents ) {
-        ret += elem.price( practical );
-    }
-    return ret;
+        } else if( e->magazine_integral() && e->ammo_remaining() && e->ammo_data() ) {
+            // items with integral magazines may contain ammunition which can affect the price
+            child += item( e->ammo_data(), calendar::turn, e->charges ).price( practical );
+
+        } else if( e->is_tool() && e->ammo_type() == "NULL" && e->type->maximum_charges() > 0 ) {
+            // if tool has no ammo (eg. spray can) reduce price proportional to remaining charges
+            child *= e->ammo_remaining() / double( std::max( e->type->charges_default(), 1 ) );
+        }
+
+        res += child;
+        return VisitResponse::NEXT;
+    } );
+
+    return res;
 }
 
 // MATERIALS-TODO: add a density field to materials.json
