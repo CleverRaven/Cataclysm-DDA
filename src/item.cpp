@@ -220,6 +220,15 @@ item& item::deactivate( const Character *ch, bool alert )
 
 item& item::ammo_set( const itype_id& ammo, long qty )
 {
+    // if zero or negative qty try and completely fill the item
+    if( qty <= 0 ) {
+        if( magazine_integral() || magazine_current() ) {
+            qty = ammo_capacity();
+        } else {
+            qty = item( magazine_default() ).ammo_capacity();
+        }
+    }
+
     // check ammo is valid for the item
     const itype *atype = item_controller->find_template( ammo );
     if( qty <= 0 || !atype->ammo || atype->ammo->type != ammo_type() ) {
