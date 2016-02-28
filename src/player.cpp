@@ -10295,6 +10295,20 @@ int player::item_handling_cost( const item& it, bool effects, int factor ) const
     return std::min( std::max( mv, 0 ), MAX_HANDLING_COST );
 }
 
+int player::item_store_cost( const item& it, const item& /* container */, bool effects, int factor ) const
+{
+    ///\EFFECT_PISTOL decreases time taken to store a pistol
+    ///\EFFECT_SMG decreases time taken to store an SMG
+    ///\EFFECT_RIFLE decreases time taken to store a rifle
+    ///\EFFECT_SHOTGUN decreases time taken to store a shotgun
+    ///\EFFECT_LAUNCHER decreases time taken to store a launcher
+    ///\EFFECT_STABBING decreases time taken to store a stabbing weapon
+    ///\EFFECT_CUTTING decreases time taken to store a cutting weapon
+    ///\EFFECT_BASHING decreases time taken to store a bashing weapon
+    int lvl = get_skill_level( it.is_gun() ? it.gun_skill() : it.weap_skill() );
+    return item_handling_cost( it, effects, factor ) / std::max( sqrt( ( lvl + 3 ) / 3 ), 1.0 );
+}
+
 int player::item_reload_cost( const item& it, const item& ammo, long qty ) const
 {
     if( ammo.is_ammo() ) {
@@ -12911,17 +12925,8 @@ bool player::wield_contents( item *container, int pos, int factor, bool effects 
 
 void player::store(item* container, item* put, int factor, bool effects)
 {
-    ///\EFFECT_PISTOL decreases time taken to holster a pistol
-    ///\EFFECT_SMG decreases time taken to holster an SMG
-    ///\EFFECT_RIFLE decreases time taken to holster a rifle
-    ///\EFFECT_SHOTGUN decreases time taken to holster a shotgun
-    ///\EFFECT_LAUNCHER decreases time taken to holster a launcher
-    ///\EFFECT_STABBING decreases time taken to sheath a stabbing weapon
-    ///\EFFECT_CUTTING decreases time taken to sheath a cutting weapon
-    ///\EFFECT_BASHING decreases time taken to holster a bashing weapon
-    int lvl = get_skill_level( put->is_gun() ? put->gun_skill() : put->weap_skill() );
-    moves -= item_handling_cost( *put, effects, factor ) / std::max( sqrt( ( lvl + 3 ) / 3 ), 1.0 );
-    container->put_in(i_rem(put));
+    moves -= item_store_cost( *put, *container, factor, effects );
+    container->put_in( i_rem( put ) );
 }
 
 nc_color encumb_color(int level)
