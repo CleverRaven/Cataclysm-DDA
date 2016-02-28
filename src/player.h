@@ -765,6 +765,9 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          */
         int item_reload_cost( const item& it, const item& ammo, long qty = -1 ) const;
 
+        /** Calculate (but do not deduct) the number of moves required to wear an item */
+        int item_wear_cost( const item& to_wear ) const;
+
         /** Wear item; returns false on fail. If interactive is false, don't alert the player or drain moves on completion. */
         bool wear(int pos, bool interactive = true);
         /** Wear item; returns false on fail. If interactive is false, don't alert the player or drain moves on completion. */

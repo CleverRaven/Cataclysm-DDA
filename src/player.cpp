@@ -10338,6 +10338,33 @@ int player::item_reload_cost( const item& it, const item& ammo, long qty ) const
     return std::max( mv, 0 );
 }
 
+int player::item_wear_cost( const item& it ) const
+{
+    double mv = item_handling_cost( it );
+
+    switch( it.get_layer() ) {
+        case UNDERWEAR:
+            mv *= 1.5;
+            break;
+
+        case REGULAR_LAYER:
+            break;
+
+        case WAIST_LAYER:
+        case OUTER_LAYER:
+            mv /= 1.5;
+            break;
+
+        case BELTED_LAYER:
+            mv /= 2.0;
+            break;
+    }
+
+    mv *= std::max( it.get_encumber() / 10.0, 1.0 );
+
+    return mv;
+}
+
 bool player::wear( int pos, bool interactive )
 {
     item& to_wear = i_at( pos );
@@ -10384,7 +10411,7 @@ bool player::wear_item( const item &to_wear, bool interactive )
 
     if( interactive ) {
         add_msg( _("You put on your %s."), to_wear.tname().c_str() );
-        moves -= 350; // TODO: Make this variable?
+        moves -= item_wear_cost( to_wear );
 
         worn.back().on_wear( *this );
 
