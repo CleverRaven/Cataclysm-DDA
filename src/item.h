@@ -427,6 +427,14 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
      * Puts the given item into this one, no checks are performed.
      */
     void put_in( item payload );
+
+    /** Stores a newly constructed item at the end of this item's contents */
+    template<typename ... Args>
+    item& emplace_in( Args&&... args ) {
+        contents.emplace_back( std::forward<Args>( args )... );
+        return contents.back();
+    }
+
     /**
      * Returns this item into its default container. If it does not have a default container,
      * returns this. It's intended to be used like \code newitem = newitem.in_its_container();\endcode
