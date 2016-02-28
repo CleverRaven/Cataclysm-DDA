@@ -11665,10 +11665,16 @@ void game::unload( item &it )
         }
 
         // Construct a new ammo item and try to drop it
-        item ammo( target->ammo_current(), calendar::turn );
-        ammo.charges = qty;
+        item ammo( target->ammo_current(), calendar::turn, qty );
 
-        if( !add_or_drop_with_msg( u, ammo ) ) {
+        if( ammo.made_of( LIQUID ) ) {
+            add_or_drop_with_msg( u, ammo );
+            qty -= ammo.charges;
+            if( qty <= 0 ) {
+                return; // no liquid was moved
+            }
+
+        } else if( !add_or_drop_with_msg( u, ammo ) ) {
             return;
         }
 
