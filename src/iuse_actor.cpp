@@ -111,8 +111,7 @@ long iuse_transform::use(player *p, item *it, bool t, const tripoint &pos ) cons
         // Transform into something in a container, assume the content is
         // "created" right now and give the content the current time as birthday
         it->convert( container_id );
-        it->unset_curammo();
-        target = &it->emplace_in( target_id, calendar::turn, -1 );
+        target = &it->emplace_in( target_id );
     }
     target->active = active;
     if (target_charges > -2) {
