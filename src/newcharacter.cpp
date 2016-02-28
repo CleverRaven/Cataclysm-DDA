@@ -87,33 +87,48 @@ struct points_left {
             ret.limit = FREEFORM;
         }
 
-        if( ret.limit != MULTI_POOL ) {
-            ret.pool();
-        }
-
         return ret;
     }
 
-    void pool()
-    {
-        stat_points += trait_points + skill_points;
-        trait_points = 0;
-        skill_points = 0;
-    }
-
+    // Highest amount of points to spend on stats without points going invalid
     int stat_points_left() const
     {
-        return stat_points;
+        switch( limit ) {
+            case FREEFORM:
+            case ONE_POOL:
+                return stat_points + trait_points + skill_points;
+            case MULTI_POOL:
+                return std::min( trait_points_left(),
+                                 stat_points + std::min( 0, trait_points + skill_points ) );
+        }
+
+        return 0;
     }
 
     int trait_points_left() const
     {
-        return stat_points + trait_points;
+        switch( limit ) {
+            case FREEFORM:
+            case ONE_POOL:
+                return stat_points + trait_points + skill_points;
+            case MULTI_POOL:
+                return stat_points + trait_points + std::min( 0, skill_points );
+        }
+
+        return 0;
     }
 
     int skill_points_left() const
     {
-        return stat_points + trait_points + skill_points;
+        switch( limit ) {
+            case FREEFORM:
+            case ONE_POOL:
+                return stat_points + trait_points + skill_points;
+            case MULTI_POOL:
+                return stat_points + trait_points + skill_points;
+        }
+
+        return 0;
     }
 
     bool is_valid()
@@ -125,7 +140,7 @@ struct points_left {
 
     bool has_spare()
     {
-        return limit != FREEFORM && is_valid() && skill_points_left() > 0;
+        return is_valid() && skill_points_left() > 0;
     }
 
     std::string to_string()
@@ -137,7 +152,7 @@ struct points_left {
                 abs(skill_points),
                 stat_points + trait_points + skill_points );
         } else if( limit == ONE_POOL ) {
-            return string_format( _("Points left: %4d"), stat_points );
+            return string_format( _("Points left: %4d"), skill_points_left() );
         } else {
             return _("Freeform");
         }
@@ -269,7 +284,8 @@ void player::randomize( const bool random_scenario, points_left &points )
     /* The loops variable is used to prevent the algorithm running in an infinite loop */
     unsigned int loops = 0;
 
-    while( loops <= 30000 && (!points.is_valid() || rng(-3, 20) > points.skill_points_left()) ) {
+    while( loops <= 100000 && ( !points.is_valid() || rng(-3, 20) > points.skill_points_left() ) ) {
+        loops++;
         if (num_btraits < max_trait_points && one_in(3)) {
             tries = 0;
             do {
@@ -314,10 +330,11 @@ void player::randomize( const bool random_scenario, points_left &points )
     }
 
     loops = 0;
-    while( points.has_spare() > 0 && loops <= 30000 ) {
+    while( points.has_spare() && loops <= 100000 ) {
         const bool allow_stats = points.stat_points_left() > 0;
         const bool allow_traits = points.trait_points_left() > 0 && num_gtraits < max_trait_points;
-        switch( rng( 1, 9 ) ) {
+        int r = rng( 1, 9 );
+        switch( r ) {
         case 1:
         case 2:
         case 3:
@@ -332,52 +349,52 @@ void player::randomize( const bool random_scenario, points_left &points )
                     points.trait_points -= mdata.points;
                     num_gtraits += mdata.points;
                 }
+                break;
             }
-            break;
+            // Otherwise fallthrough
         case 5:
-            if( !allow_stats ) {
+            if( allow_stats ) {
+                switch (rng(1, 4)) {
+                case 1:
+                    if( str_max < HIGH_STAT ) {
+                        str_max++;
+                        points.stat_points--;
+                    } else if( points.stat_points_left() >= 2 && str_max < MAX_STAT ) {
+                        str_max++;
+                        points.stat_points = points.stat_points - 2;
+                    }
+                    break;
+                case 2:
+                    if( dex_max < HIGH_STAT ) {
+                        dex_max++;
+                        points.stat_points--;
+                    } else if( points.stat_points_left() >= 2 && dex_max < MAX_STAT ) {
+                        dex_max++;
+                        points.stat_points = points.stat_points - 2;
+                    }
+                    break;
+                case 3:
+                    if( int_max < HIGH_STAT ) {
+                        int_max++;
+                        points.stat_points--;
+                    } else if( points.stat_points_left() >= 2 && int_max < MAX_STAT ) {
+                        int_max++;
+                        points.stat_points = points.stat_points - 2;
+                    }
+                    break;
+                case 4:
+                    if( per_max < HIGH_STAT ) {
+                        per_max++;
+                        points.stat_points--;
+                    } else if( points.stat_points_left() >= 2 && per_max < MAX_STAT ) {
+                        per_max++;
+                        points.stat_points = points.stat_points - 2;
+                    }
+                    break;
+                }
                 break;
             }
-
-            switch (rng(1, 4)) {
-            case 1:
-                if (str_max < HIGH_STAT) {
-                    str_max++;
-                    points.stat_points--;
-                } else if (points.stat_points >= 2 && str_max < MAX_STAT) {
-                    str_max++;
-                    points.stat_points = points.stat_points - 2;
-                }
-                break;
-            case 2:
-                if (dex_max < HIGH_STAT) {
-                    dex_max++;
-                    points.stat_points--;
-                } else if (points.stat_points >= 2 && dex_max < MAX_STAT) {
-                    dex_max++;
-                    points.stat_points = points.stat_points - 2;
-                }
-                break;
-            case 3:
-                if (int_max < HIGH_STAT) {
-                    int_max++;
-                    points.stat_points--;
-                } else if (points.stat_points >= 2 && int_max < MAX_STAT) {
-                    int_max++;
-                    points.stat_points = points.stat_points - 2;
-                }
-                break;
-            case 4:
-                if (per_max < HIGH_STAT) {
-                    per_max++;
-                    points.stat_points--;
-                } else if (points.stat_points >= 2 && per_max < MAX_STAT) {
-                    per_max++;
-                    points.stat_points = points.stat_points - 2;
-                }
-                break;
-            }
-            break;
+            // Otherwise fallthrough
         case 6:
         case 7:
         case 8:
@@ -418,7 +435,6 @@ bool player::create(character_type type, std::string tempname)
         break;
     case PLTYPE_NOW:
     case PLTYPE_RANDOM:
-        points.pool();
         randomize( false, points );
         tab = NEWCHAR_TAB_MAX;
         break;
@@ -2186,13 +2202,11 @@ int set_description(WINDOW *w, player *u, const bool allow_reroll, points_left &
             return -1;
         } else if (action == "REROLL_CHARACTER" && allow_reroll ) {
             points = points_left::init_from_options();
-            points.pool();
             u->randomize( false, points );
             // Return 0 so we re-enter this tab again, but it forces a complete redrawing of it.
             return 0;
         } else if (action == "REROLL_CHARACTER_WITH_SCENARIO" && allow_reroll ) {
             points = points_left::init_from_options();
-            points.pool();
             u->randomize( true, points );
             // Return 0 so we re-enter this tab again, but it forces a complete redrawing of it.
             return 0;
