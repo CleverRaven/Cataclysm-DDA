@@ -10205,7 +10205,9 @@ bool player::wear( int pos, bool interactive )
 bool player::wear_item( const item &to_wear, bool interactive )
 {
     if( !to_wear.is_armor() ) {
-        add_msg_if_player( m_info, _( "Putting on a %s would be tricky." ), to_wear.tname().c_str() );
+        if( interactive ) {
+            add_msg_if_player( m_info, _( "Putting on a %s would be tricky." ), to_wear.tname().c_str() );
+        }
         return false;
     }
 
