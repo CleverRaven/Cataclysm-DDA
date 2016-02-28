@@ -5450,8 +5450,7 @@ bool item::process_tool( player *carrier, const tripoint &pos )
         if( tmp->revert_to == "null" ) {
             return true; // reverts to nothing -> destroy the item
         }
-        convert( tmp->revert_to );
-        active = false;
+        deactivate( carrier );
     }
     // Keep the item
     return false;
