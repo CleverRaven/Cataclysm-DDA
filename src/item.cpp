@@ -123,19 +123,15 @@ item::item( const itype *type, int turn, int qty ) : type( type )
 
     if( type->gun ) {
         for( const auto &mod : type->gun->built_in_mods ){
-            item temp( mod, turn, qty );
-            temp.item_tags.insert( "IRREMOVABLE" );
-            contents.push_back( temp );
+            emplace_back( mod, turn, qty ).item_tags.insert( "IRREMOVABLE" );
         }
         for( const auto &mod : type->gun->default_mods ) {
-            contents.emplace_back( mod, turn, qty );
+            emplace_back( mod, turn, qty );
         }
 
     } else if( type->magazine ) {
         if( type->magazine->count > 0 ) {
-            item ammo ( default_ammo( type->magazine->type ), calendar::turn );
-            ammo.charges = type->magazine->count;
-            contents.push_back( ammo );
+            emplace_back( default_ammo( type->magazine->type ), calendar::turn, type->magazine->count );
         }
 
     } else if( type->is_food() ) {
