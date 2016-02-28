@@ -675,7 +675,7 @@ public:
 
 struct it_tool : itype {
     std::string ammo_id;
-    std::string revert_to;
+    itype_id revert_to = "null";
     std::string subtype;
 
     long max_charges = 0;
