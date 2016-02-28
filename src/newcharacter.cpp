@@ -58,6 +58,8 @@
 
 #define NEWCHAR_TAB_MAX 5 // The ID of the rightmost tab
 
+const char clear_str[] = "                                                ";
+
 void draw_tabs(WINDOW *w, std::string sTab);
 
 struct points_left {
@@ -691,8 +693,6 @@ int set_stats(WINDOW *w, player *u, points_left &points)
     u->setx( -1 );
     u->reset();
 
-    const char clear[] = "                                                ";
-
     do {
         werase(w);
         draw_tabs(w, _("STATS"));
@@ -711,11 +711,14 @@ int set_stats(WINDOW *w, player *u, points_left &points)
         mvwprintz(w, FULL_SCREEN_HEIGHT - 2, 2, COL_NOTE_MAJOR, _("%s returns you to the main menu."),
                   ctxt.get_desc("PREV_TAB").c_str());
 
-        mvwprintz(w, 3, 2, c_ltgray, points.to_string().c_str() );
-        mvwprintz(w, 3, iSecondColumn, c_black, clear);
+        mvwprintz(w, 3, iSecondColumn, c_black, clear_str);
         for (int i = 6; i < 13; i++) {
-            mvwprintz(w, i, iSecondColumn, c_black, clear);
+            mvwprintz(w, i, iSecondColumn, c_black, clear_str);
         }
+
+        mvwprintz(w, 3, 2, c_black, clear_str);
+        mvwprintz(w, 3, 2, c_ltgray, points.to_string().c_str() );
+
         mvwprintz(w, 6,  2, c_ltgray, _("Strength:"));
         mvwprintz(w, 6, 16, c_ltgray, "%2d", u->str_max);
         mvwprintz(w, 7,  2, c_ltgray, _("Dexterity:"));
@@ -938,9 +941,10 @@ int set_traits(WINDOW *w, player *u, points_left &points)
     ctxt.register_action("QUIT");
 
     do {
-        mvwprintz( w, 3, 2, c_ltgray, points.to_string().c_str() );
-        mvwprintz(w, 3, 24, c_ltgreen, "%4d/%-4d", num_good, max_trait_points);
-        mvwprintz(w, 3, 29, c_ltred, "%5d/-%-4d ", num_bad, max_trait_points);
+        mvwprintz(w, 3, 2, c_black, clear_str);
+        mvwprintz(w, 3, 2, c_ltgray, points.to_string().c_str() );
+        mvwprintz(w, 3, 26, c_ltgreen, "%2d/%-2d", num_good, max_trait_points);
+        mvwprintz(w, 3, 32, c_ltred, "%3d/-%-2d ", num_bad, max_trait_points);
 
         // Clear the bottom of the screen.
         werase(w_description);
@@ -1466,7 +1470,8 @@ int set_skills(WINDOW *w, player *u, points_left &points)
     ctxt.register_action("QUIT");
 
     do {
-        mvwprintz( w, 3, 2, c_ltgray, points.to_string().c_str() );
+        mvwprintz(w, 3, 2, c_black, clear_str);
+        mvwprintz(w, 3, 2, c_ltgray, points.to_string().c_str() );
         // Clear the bottom of the screen.
         werase(w_description);
         mvwprintz(w, 3, 31, c_ltgray, "                                              ");
@@ -1964,7 +1969,8 @@ int set_description(WINDOW *w, player *u, const bool allow_reroll, points_left &
     WINDOW *w_guide = newwin(4, FULL_SCREEN_WIDTH - 3, getbegy(w) + 19, getbegx(w) + 2);
     WINDOW_PTR w_guideptr( w_guide );
 
-    mvwprintz( w, 3, 2, c_ltgray, points.to_string().c_str() );
+    mvwprintz(w, 3, 2, c_black, clear_str);
+    mvwprintz(w, 3, 2, c_ltgray, points.to_string().c_str() );
 
     const unsigned namebar_pos = 1 + utf8_width(_("Name:"));
     unsigned male_pos = 1 + utf8_width(_("Gender:"));
