@@ -126,7 +126,7 @@ SET(CATACLYSM_DDA_SOURCES
     ${CMAKE_SOURCE_DIR}/src/auto_pickup.cpp
     ${CMAKE_SOURCE_DIR}/src/iuse_actor.cpp
     ${CMAKE_SOURCE_DIR}/src/cata_tiles.cpp
-	${CMAKE_SOURCE_DIR}/src/cata_utility.cpp
+    ${CMAKE_SOURCE_DIR}/src/cata_utility.cpp
     ${CMAKE_SOURCE_DIR}/src/profession.cpp
     ${CMAKE_SOURCE_DIR}/src/init.cpp
     ${CMAKE_SOURCE_DIR}/src/sounds.cpp
@@ -135,12 +135,13 @@ SET(CATACLYSM_DDA_SOURCES
     ${CMAKE_SOURCE_DIR}/src/clzones.cpp
     ${CMAKE_SOURCE_DIR}/src/character.cpp
     ${CMAKE_SOURCE_DIR}/src/live_view.cpp
-	${CMAKE_SOURCE_DIR}/src/lua_console.cpp
+    ${CMAKE_SOURCE_DIR}/src/lua_console.cpp
     ${CMAKE_SOURCE_DIR}/src/iexamine.cpp
     ${CMAKE_SOURCE_DIR}/src/gamemode.cpp
     ${CMAKE_SOURCE_DIR}/src/creature.cpp
     ${CMAKE_SOURCE_DIR}/src/inventory_ui.cpp
     ${CMAKE_SOURCE_DIR}/src/char_validity_check.cpp
+    ${CMAKE_SOURCE_DIR}/src/coordinate_conversions.cpp
     ${CMAKE_SOURCE_DIR}/src/bodypart.cpp
     ${CMAKE_SOURCE_DIR}/src/line.cpp
     ${CMAKE_SOURCE_DIR}/src/overmap.cpp
@@ -230,6 +231,7 @@ SET (CATACLYSM_DDA_HEADERS
     ${CMAKE_SOURCE_DIR}/src/cata_utility.h
     ${CMAKE_SOURCE_DIR}/src/char_validity_check.h
     ${CMAKE_SOURCE_DIR}/src/coordinates.h
+    ${CMAKE_SOURCE_DIR}/src/coordinate_conversions.h
     ${CMAKE_SOURCE_DIR}/src/field.h
     ${CMAKE_SOURCE_DIR}/src/monstergenerator.h
     ${CMAKE_SOURCE_DIR}/src/monfaction.h
@@ -256,7 +258,7 @@ SET (CATACLYSM_DDA_HEADERS
     ${CMAKE_SOURCE_DIR}/src/line.h
     ${CMAKE_SOURCE_DIR}/src/mtype.h
     ${CMAKE_SOURCE_DIR}/src/live_view.h
-	${CMAKE_SOURCE_DIR}/src/lua_console.h
+    ${CMAKE_SOURCE_DIR}/src/lua_console.h
     ${CMAKE_SOURCE_DIR}/src/character.h
     ${CMAKE_SOURCE_DIR}/src/name.h
     ${CMAKE_SOURCE_DIR}/src/tile_id_data.h
