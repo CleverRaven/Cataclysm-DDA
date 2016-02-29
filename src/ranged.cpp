@@ -1303,7 +1303,7 @@ static inline void eject_casing( player& p, item& weap ) {
         return;
     }
 
-    if( weap.has_gunmod( "brass_catcher" ) != -1 ) {
+    if( weap.gunmod_find( "brass_catcher" ) ) {
         p.i_add( item( weap.ammo_casing(), calendar::turn, 1 ) );
         return;
     }

@@ -10958,7 +10958,7 @@ void game::plfire( bool burst, const tripoint &default_target )
 
                 actions.push_back( [&]{ u.invoke_item( &w, "holster" ); } );
 
-            } else if( w.is_gun() && w.has_gunmod( "shoulder_strap" ) >= 0 ) {
+            } else if( w.is_gun() && w.gunmod_find( "shoulder_strap" ) ) {
                 // wield item currently worn using shoulder strap
                 options.push_back( w.display_name() );
                 actions.push_back( [&]{ u.wield( w ); } );

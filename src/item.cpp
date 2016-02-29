@@ -2181,7 +2181,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
         modtext += _( "atomic " );
     }
 
-    if( has_gunmod( "barrel_small" ) != -1 ) {
+    if( gunmod_find( "barrel_small" ) ) {
         modtext += _( "sawn-off ");
     }
 
@@ -2344,7 +2344,7 @@ int item::weight() const
     }
 
     // reduce weight for sawn-off weepons capped to the apportioned weight of the barrel
-    if( has_gunmod( "barrel_small" ) != -1 ) {
+    if( gunmod_find( "barrel_small" ) ) {
         float b = type->gun->barrel_length;
         ret -= std::min( b * 250, b / type->volume * type->weight );
     }
@@ -2424,7 +2424,7 @@ int item::volume( bool integral ) const
             else                    ret -= 7;
         }
 
-        if( has_gunmod( "barrel_small" ) != -1 ) {
+        if( gunmod_find( "barrel_small" ) ) {
             ret -= type->gun->barrel_length;
         }
     }
@@ -4156,7 +4156,7 @@ bool item::gunmod_compatible( const item& mod, bool alert, bool effects ) const
     } else if( is_gunmod() ) {
         msg = string_format( _( "That %s is a gunmod, it can not be modded." ), tname().c_str() );
 
-    } else if( has_gunmod( mod.typeId() ) != -1 ) {
+    } else if( gunmod_find( mod.typeId() ) ) {
         msg = string_format( _( "Your %1$s already has a %2$s." ), tname().c_str(), mod.tname( 1 ).c_str() );
 
     } else if( !type->gun->valid_mod_locations.count( mod.type->gunmod->location ) ) {
