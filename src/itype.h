@@ -240,7 +240,7 @@ struct islot_gun : common_firing_data {
     /**
      * What type of ammo this gun uses.
      */
-    itype_id ammo = "NULL";
+    ammotype ammo = "NULL";
     /**
      * Gun durability, affects gun being damaged during shooting.
      */
