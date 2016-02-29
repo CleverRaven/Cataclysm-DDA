@@ -504,10 +504,18 @@ void Item_factory::check_definitions() const
                     msg << "cannot specify clip_size or magazine without ammo type" << "\n";
                 }
 
+                if( type->item_tags.count( "RELOAD_AND_SHOOT" ) ) {
+                    msg << "RELOAD_AND_SHOOT requires an ammo type to be specified" << "\n";
+                }
+
             } else {
                 // whereas if it does use ammo enforce specifying either (but not both)
                 if( bool( type->gun->clip ) == !type->magazines.empty() ) {
                     msg << "missing or duplicte clip_size or magazine" << "\n";
+                }
+
+                if( type->item_tags.count( "RELOAD_AND_SHOOT" ) && !type->magazines.empty() ) {
+                    msg << "RELOAD_AND_SHOOT cannot be used with magazines" << "\n";
                 }
 
                 if( type->item_tags.count( "BIO_WEAPON" ) ) {
