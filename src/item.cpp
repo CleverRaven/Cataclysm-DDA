@@ -3825,10 +3825,6 @@ int item::gun_range( bool with_ammo ) const
 
 int item::gun_range( const player *p ) const
 {
-    const item *gunmod = active_gunmod();
-    if( gunmod != nullptr ) {
-        return gunmod->gun_range( p );
-    }
     int ret = gun_range( true );
     if( p == nullptr ) {
         return ret;
