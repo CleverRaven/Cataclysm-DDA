@@ -1253,7 +1253,9 @@ bool Character::is_wearing_active_power_armor() const
 void Character::item_encumb( std::array<encumbrance_data, num_bp> &vals, const item &new_item ) const
 {
     // The highest encumbrance of any one item on the layer.
-    std::array<layer_data, num_bp> layers;
+    std::array<layer_data, num_bp> layers = {{
+        {{}}, {{}}, {{}}, {{}}, {{}}, {{}}, {{}}, {{}}, {{}}, {{}}, {{}}, {{}}
+    }};
 
     const bool power_armored = is_wearing_active_power_armor();
     for( auto& w : worn ) {
