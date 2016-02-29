@@ -4102,10 +4102,12 @@ const item * item::magazine_current() const
 std::vector<item *> item::gunmods()
 {
     std::vector<item *> res;
-    res.reserve( contents.size() );
-    for( auto& e : contents ) {
-        if( e.is_gunmod() ) {
-            res.push_back( &e );
+    if( is_gun() ) {
+        res.reserve( contents.size() );
+        for( auto& e : contents ) {
+            if( e.is_gunmod() ) {
+                res.push_back( &e );
+            }
         }
     }
     return res;
@@ -4114,10 +4116,12 @@ std::vector<item *> item::gunmods()
 std::vector<const item *> item::gunmods() const
 {
     std::vector<const item *> res;
-    res.reserve( contents.size() );
-    for( auto& e : contents ) {
-        if( e.is_gunmod() ) {
-            res.push_back( &e );
+    if( is_gun() ) {
+        res.reserve( contents.size() );
+        for( auto& e : contents ) {
+            if( e.is_gunmod() ) {
+                res.push_back( &e );
+            }
         }
     }
     return res;
