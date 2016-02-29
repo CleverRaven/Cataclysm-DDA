@@ -2926,23 +2926,6 @@ bool item::craft_has_charges()
     return false;
 }
 
-long item::num_charges()
-{
-    if (is_gun()) {
-        if (is_in_auxiliary_mode()) {
-            item* gunmod = active_gunmod();
-            if (gunmod != NULL)
-                return gunmod->charges;
-        } else {
-            return charges;
-        }
-    }
-    if( is_gunmod() && is_in_auxiliary_mode() ) {
-        return charges;
-    }
-    return 0;
-}
-
 int item::bash_resist( bool to_self ) const
 {
     float resist = 0;
@@ -5490,7 +5473,7 @@ bool item::update_charger_gun_ammo()
     }
     const auto tmpammo = ammo_data()->ammo.get();
 
-    long charges = num_charges();
+    long charges = ammo_remaining();
     tmpammo->damage = charges * charges;
     tmpammo->pierce = ( charges >= 4 ? ( charges - 3 ) * 2.5 : 0 );
     if( charges <= 4 ) {

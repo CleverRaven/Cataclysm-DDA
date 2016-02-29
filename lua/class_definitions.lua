@@ -1052,7 +1052,6 @@ classes = {
             { name = "merge_charges", rval = "bool", args = { "item" } },
             { name = "needs_processing", rval = "bool", args = { } },
             { name = "next_mode", rval = nil, args = { } },
-            { name = "num_charges", rval = "int", args = { } },
             { name = "on_pickup", rval = nil, args = { "Character" } },
             { name = "on_takeoff", rval = nil, args = { "player" } },
             { name = "on_wear", rval = nil, args = { "player" } },
