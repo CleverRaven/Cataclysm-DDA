@@ -3999,7 +3999,7 @@ bool item::ammo_consume( int qty, const tripoint& pos ) {
     if( is_tool() || is_gun() ) {
         charges -= qty;
         if( charges == 0 ) {
-            unset_curammo();
+            curammo = nullptr;
         }
         return true;
     }
