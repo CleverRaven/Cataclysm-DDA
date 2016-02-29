@@ -18,7 +18,6 @@
     "sight_dispersion": 150,
     "aim_speed": 0,
     "durability": 10,
-    "clip_size": 1,
     "reload": 500,
     "apply_ammo_effects": [ "PLASMA", "EXPLOSIVE", "FLAME" ],
     "flags": [ "NO_AMMO", "BIO_WEAPON", "NEVER_JAMS" ]
@@ -42,7 +41,6 @@
     "sight_dispersion": 150,
     "aim_speed": 0,
     "durability": 10,
-    "clip_size": 1,
     "reload": 500,
     "apply_ammo_effects": [ "LASER", "INCENDIARY" ],
     "flags": [ "NO_AMMO", "BIO_WEAPON", "NEVER_JAMS" ]
@@ -65,7 +63,6 @@
     "sight_dispersion": 150,
     "aim_speed": 0,
     "durability": 10,
-    "clip_size": 10,
     "reload": 500,
     "apply_ammo_effects": [ "LIGHTNING", "BOUNCE" ],
     "flags": [ "NO_AMMO", "BIO_WEAPON", "NEVER_JAMS" ]
