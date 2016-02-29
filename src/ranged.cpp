@@ -714,12 +714,11 @@ static int draw_targeting_window( WINDOW *w_target, item *relevant, player &p, t
     } else {
         if( mode == TARGET_MODE_FIRE ) {
             if( relevant->has_flag( "RELOAD_AND_SHOOT" ) && relevant->ammo_data() ) {
-                title = string_format( _("Shooting %1$s from %2$s"),
-                        p.weapon.ammo_data()->nname(1).c_str(), p.weapon.tname().c_str());
-            } else if( relevant->has_flag("NO_AMMO") ) {
-                title = string_format( _("Firing %s"), p.weapon.tname().c_str());
+                title = string_format( _( "Shooting %1$s from %2$s" ),
+                        relevant->ammo_data()->nname( relevant->ammo_required() ).c_str(),
+                        relevant->tname().c_str() );
             } else {
-                title = string_format( _("Firing %s"), p.print_gun_mode().c_str() );
+                title = string_format( _( "Firing %s" ), relevant->tname().c_str() );
             }
             title += " ";
             title += p.print_recoil();
