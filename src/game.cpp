@@ -6503,50 +6503,47 @@ void game::explosion( const tripoint &p, float power, float factor,
     }
 }
 
-void game::shrapnel( const tripoint &p, int power, int count, int radius )
+void game::shrapnel( const tripoint &src, int power, int count, int range )
 {
-    if( power <= 0 ) {
-        return;
-    }
+    int mass = 10;
 
-    if( radius < 0 ) {
-        return;
-    }
-
-    npc fake_npc;
-    fake_npc.name = _("Shrapnel");
-    fake_npc.set_fake(true);
-    fake_npc.setpos( p );
     projectile proj;
-    proj.speed = 100;
-    proj.range = radius;
-    proj.proj_effects.insert( "DRAW_AS_LINE" );
+    proj.speed = 1000; // no dodging shrapnel
+    proj.range = range;
     proj.proj_effects.insert( "NULL_SOURCE" );
-    for( int i = 0; i < count; i++ ) {
-        // TODO: Z-level shrapnel, but not before z-level ranged attacks
-        tripoint sp{ static_cast<int> (rng( p.x - radius, p.x + radius )),
-                     static_cast<int> (rng( p.y - radius, p.y + radius )),
-                     p.z };
 
-        proj.impact = damage_instance::physical( power, power, 0, 0 );
+    for( auto i = 0; i != count; ++i ) {
+        // shrapnel expands randomly in all directions
+        tripoint dst = m.random_perimeter( src, range );
 
-        Creature *critter_in_center = critter_at( p ); // Very unfortunate critter
-        if( critter_in_center != nullptr ) {
-            dealt_projectile_attack dda; // Cool variable name
-            dda.proj = proj;
-            // For first shrapnel piece:
-            // 50% chance for 50%-100% base (power to 2 * power)
-            // 50% chance for 0-25% base
-            // Each one after that gets a progressively lower chance of hitting
-            dda.missed_by = rng_float( 0.4, 1.0 ) + (i * 1.0 / count);
-            critter_in_center->deal_projectile_attack( nullptr, dda );
-        }
+        int kinetic = power;
+        bresenham( src, dst, 0, 0, [this,&i,&src,&kinetic,&mass,&proj]( const tripoint& e ) {
+            auto critter = critter_at( e );
+            if( critter && !critter->is_dead_state() ) {
+                // special case critter on same tile as epicenter to have lesser chance
+                if( src == e && !one_in( 3 ) ) {
+                    return true;
+                }
 
-        if( sp != p ) {
-            // This needs to be high enough to prevent game from thinking that
-            //  the fake npc is scoring headshots.
-            fake_npc.projectile_attack( proj, sp, 3600 );
-        }
+                dealt_projectile_attack frag;
+                frag.proj = proj;
+                frag.missed_by = 0;
+                frag.proj.impact = damage_instance::physical( 0, kinetic, 0, std::min( kinetic, mass ) );
+
+                add_msg( m_debug, "fragment %i hit %s with kinetic=%i", i, critter->get_name().c_str(), kinetic );
+                critter->deal_projectile_attack( nullptr, frag );
+                return false;
+            }
+
+            if( m.impassable( e ) ) {
+                // massive shrapnel can smash a path through obstacles
+                kinetic -= m.bash_resistance( e );
+                return m.bash( e, mass, true ).success;
+            }
+
+            kinetic -= m.move_cost( e );
+            return kinetic > 0;
+        } );
     }
 }
 
