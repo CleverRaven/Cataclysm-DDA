@@ -6499,7 +6499,7 @@ void game::explosion( const tripoint &p, float power, float factor,
 
     if( shrapnel_count > 0 ) {
         const int radius = 4 * int(sqrt(double(power / 4)));
-        shrapnel( p, power * 2, shrapnel_count, radius );
+        shrapnel( p, power * 4, shrapnel_count, radius );
     }
 }
 
