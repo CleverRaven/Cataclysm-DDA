@@ -788,7 +788,7 @@
     "aim_speed" : 0,
     "recoil": 0,
     "durability": 8,
-    "clip_size": 0,
+    "clip_size": 100,
     "reload": 200
   },
   {
@@ -842,7 +842,6 @@
     "aim_speed" : 6,
     "recoil": 0,
     "durability": 8,
-    "clip_size": 10,
     "reload": 0,
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
@@ -2446,7 +2445,7 @@
     "recoil": 0,
     "durability": 10,
     "burst": 5,
-    "clip_size": 0,
+    "clip_size": 100,
     "reload": 0
   },
   {
@@ -2474,7 +2473,7 @@
     "recoil": 0,
     "durability": 10,
     "burst": 0,
-    "clip_size": 0,
+    "clip_size": 1,
     "reload": 0
   },
   {
