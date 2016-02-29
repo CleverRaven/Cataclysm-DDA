@@ -1253,12 +1253,7 @@ public:
          */
         item* active_gunmod();
         item const* active_gunmod() const;
-        /**
-         * Returns the index of a gunmod item of the given type. The actual gunmod item is in
-         * the @ref contents vector, the returned index point into that vector.
-         * Returns -1 if this is not a gun, or if it has no such gunmod.
-         */
-        int has_gunmod( const itype_id& type ) const;
+
         /**
          * Number of mods that can still be installed into the given mod location,
          * for non-guns it always returns 0.

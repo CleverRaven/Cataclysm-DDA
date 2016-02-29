@@ -2635,19 +2635,6 @@ std::set<matec_id> item::get_techniques() const
     return result;
 }
 
-int item::has_gunmod( const itype_id& mod_type ) const
-{
-    if( !is_gun() ) {
-        return -1;
-    }
-    for( size_t i = 0; i < contents.size(); i++ ) {
-        if( contents[i].is_gunmod() && contents[i].typeId() == mod_type ) {
-            return i;
-        }
-    }
-    return -1;
-}
-
 bool item::is_going_bad() const
 {
     const it_comest *comest = dynamic_cast<const it_comest *>(type);
