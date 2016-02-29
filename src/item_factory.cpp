@@ -706,6 +706,10 @@ void Item_factory::load( islot_ammo &slot, JsonObject &jo )
     slot.recoil = jo.get_int( "recoil", 0 );
     slot.def_charges = jo.get_long( "count" );
     slot.ammo_effects = jo.get_tags( "effects" );
+
+    if( !jo.read( "loudness", slot.loudness ) ) {
+        slot.loudness = std::max( std::max( { slot.damage, slot.pierce, slot.range } ) * 3, slot.recoil / 3 );
+    }
 }
 
 void Item_factory::load_ammo(JsonObject &jo)
