@@ -490,10 +490,6 @@ void Item_factory::check_definitions() const
             if( type->ammo->casing != "null" && !has_template( type->ammo->casing ) ) {
                 msg << string_format( "invalid casing property %s", type->ammo->casing.c_str() ) << "\n";
             }
-
-            if( type->item_tags.count( "NO_AMMO" ) && type->ammo->type != "NULL" ) {
-                msg << string_format("specified both ammo type and NO_AMMO.") << "\n";
-            }
         }
         if( type->gun ) {
             check_ammo_type( msg, type->gun->ammo );
