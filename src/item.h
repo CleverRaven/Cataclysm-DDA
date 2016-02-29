@@ -1149,6 +1149,10 @@ public:
         std::vector<item *> gunmods();
         std::vector<const item *> gunmods() const;
 
+        /** Get first attached gunmod matching type or nullptr if no such mod or item is not a gun */
+        item * gunmod_find( const itype_id& mod );
+        const item * gunmod_find( const itype_id& mod ) const;
+
         /*
          * Checks if mod can be applied to this item considering any current state (jammed, loaded etc.)
          * @param alert whether to display message describing reason for any incompatibility
