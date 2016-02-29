@@ -999,7 +999,7 @@ std::vector<tripoint> game::target( tripoint &p, const tripoint &low, const trip
                 if( u.weapon.get_gun_mode() == "MODE_BURST" ) {
                     mode = _("Burst");
                 } else {
-                    item *gunmod = u.weapon.active_gunmod();
+                    item *gunmod = u.weapon.gunmod_current();
                     if( gunmod != NULL ) {
                         mode = gunmod->type_name();
                     }
@@ -1397,7 +1397,7 @@ static int rand_or_max( bool random, int max )
 double player::get_weapon_dispersion( const item *weapon, bool random ) const
 {
     if( weapon->is_gun() && weapon->is_in_auxiliary_mode() ) {
-        const auto gunmod = weapon->active_gunmod();
+        const auto gunmod = weapon->gunmod_current();
         if( gunmod != nullptr ) {
             return get_weapon_dispersion( gunmod, random );
         }

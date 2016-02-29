@@ -10975,7 +10975,7 @@ void game::plfire( bool burst, const tripoint &default_target )
         return;
     }
 
-    item& gun = u.weapon.active_gunmod() ? *u.weapon.active_gunmod() : u.weapon;
+    item& gun = u.weapon.gunmod_current() ? *u.weapon.gunmod_current() : u.weapon;
 
     if( !gun.is_gun() && !gun.has_flag( "REACH_ATTACK" ) ) {
         return;

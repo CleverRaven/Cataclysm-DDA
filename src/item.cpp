@@ -731,7 +731,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         }
 
     } else {
-        auto mod = active_gunmod();
+        auto mod = gunmod_current();
         if( mod == nullptr ) {
             mod = this;
         } else {
@@ -2530,7 +2530,7 @@ bool item::has_flag( const std::string &f ) const
     // e.g. for the NEVER_JAMS flag, that should not be inherited to the gun mod
     if (is_gun()) {
         if (is_in_auxiliary_mode()) {
-            item const* gunmod = active_gunmod();
+            item const* gunmod = gunmod_current();
             if( gunmod != NULL )
                 ret = gunmod->has_flag(f);
             if (ret) return ret;
@@ -3536,12 +3536,12 @@ bool item::operator<(const item& other) const
     }
 }
 
-item* item::active_gunmod()
+item* item::gunmod_current()
 {
-    return const_cast<item*>( const_cast<const item*>( this )->active_gunmod() );
+    return const_cast<item*>( const_cast<const item*>( this )->gunmod_current() );
 }
 
-item const* item::active_gunmod() const
+item const* item::gunmod_current() const
 {
     if( is_in_auxiliary_mode() ) {
         const auto mods = gunmods();
@@ -4475,7 +4475,7 @@ bool item::reload( player &u, item_location loc, long qty )
 
     if( obj->is_gun() ) {
         // Firstly try reloading active gunmod, then gun itself, any other auxiliary gunmods and finally currently loaded magazine
-        std::vector<item *> opts = { obj->active_gunmod(), obj };
+        std::vector<item *> opts = { obj->gunmod_current(), obj };
         std::transform( obj->contents.begin(), obj->contents.end(), std::back_inserter( opts ), []( item& mod ) {
             return mod.is_auxiliary_gunmod() ? &mod : nullptr;
         });

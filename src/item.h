@@ -1153,6 +1153,14 @@ public:
         item * gunmod_find( const itype_id& mod );
         const item * gunmod_find( const itype_id& mod ) const;
 
+        /**
+         * Returns currently active auxiliary (@ref is_auxiliary_gunmod) gun mod item.
+         * May return null if there is no such gun mod or if the gun is not in the
+         * auxiliary mode (@ref is_in_auxiliary_mode).
+         */
+        item * gunmod_current();
+        item const * gunmod_current() const;
+
         /*
          * Checks if mod can be applied to this item considering any current state (jammed, loaded etc.)
          * @param alert whether to display message describing reason for any incompatibility
@@ -1245,14 +1253,6 @@ public:
 
         /** Get the type of a ranged weapon (eg. "rifle", "crossbow"), or empty string if non-gun */
         std::string gun_type() const;
-
-        /**
-         * Returns the currently active auxiliary (@ref is_auxiliary_gunmod) gun mod item.
-         * May return null if there is no such gun mod or if the gun is not in the
-         * auxiliary mode (@ref is_in_auxiliary_mode).
-         */
-        item* active_gunmod();
-        item const* active_gunmod() const;
 
         /**
          * Number of mods that can still be installed into the given mod location,
