@@ -2533,7 +2533,7 @@ double player::gun_value( const item &weap, long ammo ) const
         return 0.0;
     }
 
-    if( ammo == 0 && !weap.has_flag("NO_AMMO") ) {
+    if( ammo < weap.ammo_required() ) {
         return 0.0;
     }
 

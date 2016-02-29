@@ -755,7 +755,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         info.push_back( iteminfo( "GUN", _( "Skill used: " ), "<info>" + skill->name() + "</info>" ) );
 
         if( mod->magazine_integral() ) {
-            if( !mod->has_flag( "NO_AMMO" ) ) {
+            if( mod->ammo_capacity() ) {
                 info.emplace_back( "GUN", _( "<bold>Capacity:</bold> " ),
                                    string_format( ngettext( "<num> round of %s", "<num> rounds of %s", mod->ammo_capacity() ),
                                                   ammo_name( mod->ammo_type() ).c_str() ), mod->ammo_capacity(), true );
