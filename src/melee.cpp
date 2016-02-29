@@ -2570,17 +2570,6 @@ double player::gun_value( const item &weap, long ammo ) const
     // Point blank shotgun blasts don't require much skill
     gun_value += damage_bonus * std::max( 1.0, skill_scaling );
 
-    // Bonus that only applies when we have ammo to spare
-    double multi_ammo_bonus = gun.burst / 2.0;
-    multi_ammo_bonus += gun.clip / 2.5;
-    if( ammo <= 10 && !weap.has_flag("NO_AMMO") ) {
-        gun_value = gun_value * ammo / 10;
-    } else if( ammo < 30 ) {
-        gun_value += multi_ammo_bonus * (30.0 / ammo);
-    } else {
-        gun_value += multi_ammo_bonus;
-    }
-
     add_msg( m_debug, "%s as gun: %.1f total, %.1f for damage+pierce, %.1f skill scaling",
              weap.tname().c_str(), gun_value, damage_bonus, skill_scaling );
     return std::max( 0.0, gun_value );
