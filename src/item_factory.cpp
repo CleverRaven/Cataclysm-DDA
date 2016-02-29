@@ -503,10 +503,15 @@ void Item_factory::check_definitions() const
                 if( bool( type->gun->clip ) || !type->magazines.empty() ) {
                     msg << "cannot specify clip_size or magazine without ammo type" << "\n";
                 }
+
             } else {
                 // whereas if it does use ammo enforce specifying either (but not both)
                 if( bool( type->gun->clip ) == !type->magazines.empty() ) {
                     msg << "missing or duplicte clip_size or magazine" << "\n";
+                }
+
+                if( type->item_tags.count( "BIO_WEAPON" ) ) {
+                    msg << "BIO_WEAPON must not be specified with an ammo type" << "\n";
                 }
             }
 
