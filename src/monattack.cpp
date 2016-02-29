@@ -2790,7 +2790,10 @@ bool mattack::laser(monster *z)
     if (g->u.sees( *z )) {
         add_msg(m_warning, _("The %s's barrel spins and fires!"), z->name().c_str());
     }
-    tmp.weapon = item( "cerberus_laser" ).ammo_set( "laser_capacitor", 100 );
+
+    tmp.weapon = item("cerberus_laser", 0);
+    tmp.weapon.set_curammo( "laser_capacitor" );
+    tmp.weapon.charges = 100;
 
     tmp.fire_gun( target->pos(), tmp.weapon.burst_size() );
     if (target == &g->u) {
