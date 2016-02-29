@@ -3926,35 +3926,32 @@ long item::ammo_capacity() const
         res = type->magazine->capacity;
     }
 
-    if( has_flag("NO_AMMO") ) {
-        res = 0;
-    }
-
     return res;
 }
 
-long item::ammo_required() const {
-    long res = 0;
+long item::ammo_required() const
+{
+    if( ammo_type() == "NULL" ) {
+        return 0;
+    }
 
     if( is_tool() ) {
-        res = std::max( type->charges_to_use(), 0 );
+        return std::max( type->charges_to_use(), 0 );
     }
 
     if( is_gun() ) {
-        if( has_flag( "NO_AMMO" ) ) {
-            res = 0;
-        } else if( has_flag( "FIRE_100" ) ) {
-            res = 100;
+        if( has_flag( "FIRE_100" ) ) {
+            return 100;
         } else if( has_flag( "FIRE_50" ) ) {
-            res = 50;
+            return 50;
         } else if( has_flag( "FIRE_20" ) ) {
-            res = 20;
+            return 20;
         } else {
-            res = 1;
+            return 1;
         }
     }
 
-    return res;
+    return 0;
 }
 
 bool item::ammo_consume( int qty, const tripoint& pos ) {
