@@ -2458,7 +2458,7 @@
     "description": "Doesn't actually fire anything, just there to aim the turrets.",
     "price": 0,
     "material": "null",
-    "flags": ["NO_AMMO", "NEVER_JAMS", "MOUNTED_GUN"],
+    "flags": ["NEVER_JAMS", "MOUNTED_GUN"],
     "skill": "computer",
     "ammo": "pointer_fake_ammo",
     "weight": 0,

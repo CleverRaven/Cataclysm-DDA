@@ -25,7 +25,7 @@
     "valid_mod_locations": [ [ "accessories", 4 ], [ "grip", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "ups_charges": 70,
     "apply_ammo_effects": [ "DRAW_LASER_BEAM", "EMP" ],
-    "flags": [ "NO_AMMO", "MODE_BURST", "NEVER_JAMS", "NO_UNLOAD" ]
+    "flags": [ "MODE_BURST", "NEVER_JAMS", "NO_UNLOAD" ]
   },
   {
     "id": "laser_cannon",
@@ -51,7 +51,7 @@
     "reload": 200,
     "ups_charges": 25,
     "apply_ammo_effects": [ "LASER", "INCENDIARY" ],
-    "flags": [ "NO_AMMO", "NO_UNLOAD" ]
+    "flags": [ "NO_UNLOAD" ]
   },
   {
     "id": "laser_rifle",
@@ -79,7 +79,7 @@
     "valid_mod_locations": [ [ "accessories", 4 ], [ "grip", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "ups_charges": 40,
     "apply_ammo_effects": [ "LASER", "INCENDIARY" ],
-    "flags": [ "NO_AMMO", "MODE_BURST", "NEVER_JAMS", "NO_UNLOAD" ]
+    "flags": [ "MODE_BURST", "NEVER_JAMS", "NO_UNLOAD" ]
   },
   {
     "id": "unbio_blaster_gun",
@@ -105,7 +105,7 @@
     "valid_mod_locations": [ [ "grip", 1 ], [ "sights", 1 ], [ "stock", 1 ] ],
     "ups_charges": 40,
     "apply_ammo_effects": [ "PLASMA", "EXPLOSIVE", "FLAME", "NEVER_JAMS" ],
-    "flags": [ "NO_AMMO", "NO_UNLOAD" ]
+    "flags": [ "NO_UNLOAD" ]
   },
   {
     "id": "v29",
@@ -132,7 +132,7 @@
     "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "ups_charges": 20,
     "apply_ammo_effects": [ "LASER", "INCENDIARY" ],
-    "flags": [ "NO_AMMO", "NEVER_JAMS", "NO_UNLOAD" ]
+    "flags": [ "NEVER_JAMS", "NO_UNLOAD" ]
   },
   {
     "id": "v29_cheap",
@@ -159,6 +159,6 @@
     "valid_mod_locations": [ [ "accessories", 2 ], [ "grip", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ] ],
     "ups_charges": 20,
     "apply_ammo_effects": [ "LASER", "INCENDIARY" ],
-    "flags": [ "NO_AMMO", "NO_UNLOAD" ]
+    "flags": [ "NO_UNLOAD" ]
   }
 ]
