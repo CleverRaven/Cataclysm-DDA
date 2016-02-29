@@ -497,6 +497,19 @@ void Item_factory::check_definitions() const
         }
         if( type->gun ) {
             check_ammo_type( msg, type->gun->ammo );
+
+            if( type->gun->ammo == "NULL" ) {
+                // if gun doesn't use ammo forbid both integral or detachable magazines
+                if( bool( type->gun->clip ) || !type->magazines.empty() ) {
+                    msg << "cannot specify clip_size or magazine without ammo type" << "\n";
+                }
+            } else {
+                // whereas if it does use ammo enforce specifying either (but not both)
+                if( bool( type->gun->clip ) == !type->magazines.empty() ) {
+                    msg << "missing or duplicte clip_size or magazine" << "\n";
+                }
+            }
+
             if( !type->gun->skill_used ) {
                 msg << string_format("uses no skill") << "\n";
             } else if( !type->gun->skill_used.is_valid() ) {
