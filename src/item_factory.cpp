@@ -723,7 +723,7 @@ void Item_factory::load_ammo(JsonObject &jo)
 
 void Item_factory::load( islot_gun &slot, JsonObject &jo )
 {
-    slot.ammo = jo.get_string( "ammo", "NULL" );
+    slot.ammo = jo.get_string( "ammo", slot.ammo );
     slot.skill_used = skill_id( jo.get_string( "skill" ) );
     slot.loudness = jo.get_int( "loudness", 0 );
     slot.damage = jo.get_int( "ranged_damage", 0 );
