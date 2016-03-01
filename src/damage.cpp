@@ -162,11 +162,11 @@ void apply_ammo_effects( const tripoint &p, const std::set<std::string> &effects
     }
 
     if( effects.count( "FRAG" ) > 0 ) {
-        g->explosion( p, 24, 0.4, 28, false );
+        g->explosion( p, 24, 0.4, false, 28 );
     }
 
     if( effects.count( "NAPALM" ) > 0 ) {
-        g->explosion( p, 4, 0.7, 0, true );
+        g->explosion( p, 4, 0.7, true );
         // More intense fire near the center
         for( auto && pt : g->m.points_in_radius( p, 1, 0 ) ) {
             g->m.add_field( pt, fd_fire, 1, 0 );
@@ -174,7 +174,7 @@ void apply_ammo_effects( const tripoint &p, const std::set<std::string> &effects
     }
 
     if( effects.count( "NAPALM_BIG" ) > 0 ) {
-        g->explosion( p, 24, 0.8, 0, true );
+        g->explosion( p, 24, 0.8, true );
         // More intense fire near the center
         for( auto && pt : g->m.points_in_radius( p, 3, 0 ) ) {
             g->m.add_field( pt, fd_fire, 1, 0 );

@@ -203,7 +203,7 @@ long explosion_iuse::use(player *p, item *it, bool t, const tripoint &pos) const
         return 0;
     }
     if (explosion_power >= 0) {
-        g->explosion( pos, explosion_power, explosion_distance_factor, explosion_shrapnel, explosion_fire );
+        g->explosion( pos, explosion_power, explosion_distance_factor, explosion_fire, shrapnel_count );
     }
     if (draw_explosion_radius >= 0) {
         g->draw_explosion( pos, draw_explosion_radius, draw_explosion_color);
