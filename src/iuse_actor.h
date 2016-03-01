@@ -20,6 +20,7 @@ using skill_id = string_id<Skill>;
 class effect_type;
 using efftype_id = string_id<effect_type>;
 using ammotype = std::string;
+using itype_id = std::string;
 
 /**
  * Transform an item into a specific type.
@@ -123,6 +124,11 @@ class explosion_iuse : public iuse_actor
         bool explosion_fire;
         int shrapnel_count = 0;
         int shrapnel_mass = 10;
+
+        /** Maximum percentage of count that should be dropped within area of effect */
+        int shrapnel_recovery = 0;
+        /** What type of shrapnel to drop */
+        itype_id shrapnel_drop = "null";
 
         // Those 2 values are forwarded to game::draw_explosion,
         // Nothing is drawn if radius < 0 (game::explosion might still draw something)
