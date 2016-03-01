@@ -8337,16 +8337,17 @@ void player::suffer()
         } else if (radiation > 2000) {
             radiation = 2000;
         }
-        if( OPTIONS["RAD_MUTATION"] && rng(60, 2500) < radiation ) {
+        if( OPTIONS["RAD_MUTATION"] && rng(100, 4000) < radiation ) {
             mutate();
             radiation -= 50;
-        } else if( radiation > 100 && rng(1, 1500) < radiation ) {
+        } else if( radiation > 100 && rng(1, 3000) < radiation ) {
             vomit();
             radiation -= 5;
         }
     }
 
-    if( has_trait("RADIOGENIC") && int(calendar::turn) % MINUTES(30) == 0 && radiation > 0 ) {
+    const bool radiogenic = has_trait("RADIOGENIC");
+    if( radiogenic && int(calendar::turn) % MINUTES(30) == 0 && radiation > 0 ) {
         // At 200 irradiation, twice as fast as REGEN
         if( x_in_y( radiation, 200 ) ) {
             healall( 1 );
@@ -8358,9 +8359,17 @@ void player::suffer()
         }
     }
 
+    if( !radiogenic && radiation > 0 ) {
+        // Even if you heal the radiation itself, the damage is done.
+        // Until you heal it with vitamins...
+        const int hmod = get_healthy_mod();
+        if( hmod > 200 - radiation ) {
+            set_healthy_mod( std::max( -200, 200 - radiation ) );
+        }
+    }
+
     if( radiation > 200 && ( int(calendar::turn) % MINUTES(10) == 0 ) && x_in_y( radiation, 1000 ) ) {
         hurtall( 1, nullptr );
-        mod_healthy_mod( -1, -200 );
         radiation -= 5;
     }
 

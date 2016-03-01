@@ -3763,16 +3763,16 @@
         "name" : "Minor Radioactivity",
         "points" : -2,
         "bodytemp_modifiers" : [250, 250],
-        "description" : "Your body has become radioactive!  You continuously emit low levels of radiation, which results in a chronic case of radiation poisoning.",
+        "description" : "Your body has become radioactive!  You continuously emit low levels of radiation, which slowly contaminates the world around you.",
         "changes_to" : ["RADIOACTIVE2"],
         "category" : ["MUTCAT_SLIME"]
     },{
         "type" : "mutation",
         "id" : "RADIOACTIVE2",
         "name" : "Radioactivity",
-        "points" : -6,
+        "points" : -4,
         "bodytemp_modifiers" : [750, 750],
-        "description" : "Your body has become radioactive!  You continuously emit moderate levels of radiation, some of which will be absorbed by you, and some of which will contaminate the world around you.",
+        "description" : "Your body has become radioactive!  You continuously emit moderate levels of radiation, which contaminates the world around you.",
         "prereqs" : ["RADIOACTIVE1"],
         "changes_to" : ["RADIOACTIVE3"],
         "category": ["MUTCAT_ELFA"]
@@ -3780,9 +3780,9 @@
         "type" : "mutation",
         "id" : "RADIOACTIVE3",
         "name" : "Severe Radioactivity",
-        "points" : -10,
+        "points" : -6,
         "bodytemp_modifiers" : [1500, 1500],
-        "description" : "Your body has become radioactive!  You continuously emit heavy levels of radiation, some of which will be absorbed by you, and some of which will contaminate the world around you.",
+        "description" : "Your body has become radioactive!  You continuously emit heavy levels of radiation, making your surroundings unlivable.",
         "prereqs" : ["RADIOACTIVE2"]
     },{
         "type" : "mutation",
