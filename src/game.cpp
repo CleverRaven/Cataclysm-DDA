@@ -6503,8 +6503,10 @@ void game::explosion( const tripoint &p, float power, float factor,
     }
 }
 
-void game::shrapnel( const tripoint &src, int power, int count, int mass, int range )
+std::map<tripoint,int> game::shrapnel( const tripoint &src, int power, int count, int mass, int range )
 {
+    // contains of all tiles considered with value being sum of damage received (if any)
+    std::map<tripoint,int> distrib;
 
     projectile proj;
     proj.speed = 1000; // no dodging shrapnel
@@ -6516,7 +6518,10 @@ void game::shrapnel( const tripoint &src, int power, int count, int mass, int ra
         tripoint dst = m.random_perimeter( src, range );
 
         int kinetic = power;
-        bresenham( src, dst, 0, 0, [this,&i,&src,&kinetic,&mass,&proj]( const tripoint& e ) {
+        bresenham( src, dst, 0, 0, [this,&distrib,&i,&src,&kinetic,&mass,&proj]( const tripoint& e ) {
+
+            distrib[ e ] += 0; // add this tile to the distribution
+
             auto critter = critter_at( e );
             if( critter && !critter->is_dead_state() ) {
                 // special case critter on same tile as epicenter to have lesser chance
@@ -6529,6 +6534,8 @@ void game::shrapnel( const tripoint &src, int power, int count, int mass, int ra
                 frag.missed_by = 0;
                 frag.proj.impact = damage_instance::physical( 0, kinetic, 0, std::min( kinetic, mass ) );
 
+                distrib[ e ] += kinetic; // increase received damage for tile in distribution
+
                 add_msg( m_debug, "fragment %i hit %s with kinetic=%i", i, critter->get_name().c_str(), kinetic );
                 critter->deal_projectile_attack( nullptr, frag );
                 return false;
@@ -6536,14 +6543,22 @@ void game::shrapnel( const tripoint &src, int power, int count, int mass, int ra
 
             if( m.impassable( e ) ) {
                 // massive shrapnel can smash a path through obstacles
-                kinetic -= m.bash_resistance( e );
-                return m.bash( e, std::min( kinetic, mass ), true ).success;
+                int resistance = m.bash_resistance( e );
+                if( m.bash( e, std::min( kinetic, mass ), true ).success ) {
+                    distrib[ e ] += resistance; // obstacle absorbed only some of the force
+                    return( ( kinetic -= resistance ) > 0 );
+                } else {
+                    distrib[ e ] += kinetic; // obstacle absorbed all of the force
+                    return false;
+                }
             }
 
             kinetic -= m.move_cost( e );
             return kinetic > 0;
         } );
     }
+
+    return distrib;
 }
 
 void game::flashbang( const tripoint &p, bool player_immune)
