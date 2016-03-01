@@ -3615,15 +3615,6 @@
     ]
   },{
     "type" : "item_group",
-    "id" : "cop_armory",
-    "items":[
-      { "group": "ammo_cop", "prob": 100 },
-      { "group": "guns_cop", "prob": 100 },
-      { "group": "mags_swat", "prob": 100 },
-      ["survnote", 1]
-    ]
-  },{
-    "type" : "item_group",
     "id" : "prison_weapons",
     "items":[
       ["tonfa", 50],
