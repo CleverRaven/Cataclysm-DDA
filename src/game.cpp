@@ -6476,9 +6476,12 @@ void game::do_blast( const tripoint &p, const float power,
 }
 
 
-void game::explosion( const tripoint &p, float power, float factor,
-                      int shrapnel_count, bool fire )
+std::map<tripoint,std::pair<int,int>> game::explosion( const tripoint &p, float power, float factor,
+                                                       int shrapnel_count, bool fire )
 {
+    // contains all tiles considered plus sum of damage received by each from shockwave and/or shrapnel
+    std::map<tripoint,std::pair<int,int>> distrib;
+
     const int noise = power * (fire ? 2 : 10);
     if( noise >= 30 ) {
         sounds::sound( p, noise, _("a huge explosion!") );
@@ -6494,13 +6497,19 @@ void game::explosion( const tripoint &p, float power, float factor,
     if( factor >= 1.0f ) {
         debugmsg( "called game::explosion with factor >= 1.0 (infinite size)" );
     } else if( factor > 0.0f ) {
+        // @todo return map containing distribution of damage
         do_blast( p, power, factor, fire );
     }
 
     if( shrapnel_count > 0 ) {
         const int radius = 4 * int(sqrt(double(power / 4)));
-        shrapnel( p, power * 4, shrapnel_count, 10, radius );
+        auto res = shrapnel( p, power * 4, shrapnel_count, 10, radius );
+        for( const auto& e : res ) {
+            distrib[ e.first ].second = e.second;
+        }
     }
+
+    return distrib;
 }
 
 std::map<tripoint,int> game::shrapnel( const tripoint &src, int power, int count, int mass, int range )
