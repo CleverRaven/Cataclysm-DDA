@@ -217,5 +217,27 @@
       { "group": "guns_rifle_obscure", "prob": 70 },
       { "group": "guns_shotgun_obscure", "prob": 30 }
     ]
+  },
+  {
+    "type" : "item_group",
+    "id" : "guns_cop",
+    "//" : "Police issue weapons of all types",
+    "items":[
+      ["ar15", 15],
+      ["cx4", 20],
+      ["fn57", 20],
+      ["fn_p90", 5],
+      ["glock_19", 15],
+      ["glock_22", 20],
+      ["hk_mp5", 10],
+      ["l_enforcer_45", 10],
+      ["m9",5],
+      ["mossberg_500", 15],
+      ["remington_700", 5],
+      ["remington_870", 20],
+      ["sig_40", 20],
+      ["usp_45", 10],
+      ["usp_9mm", 10]
+    ]
   }
 ]
