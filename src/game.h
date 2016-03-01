@@ -205,7 +205,7 @@ class game
             If factor <= 0, no blast is produced */
         std::map<tripoint,std::pair<int,int>> explosion(
             const tripoint &p, float power, float factor = 0.8f,
-            bool fire = false, int shrapnel = 0
+            bool fire = false, int shrapnel_count = 0, int shrapnel_mass = 10
         );
 
         /** Helper for explosion, does the actual blast. */

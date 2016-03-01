@@ -6477,7 +6477,7 @@ void game::do_blast( const tripoint &p, const float power,
 
 
 std::map<tripoint,std::pair<int,int>> game::explosion( const tripoint &p, float power, float factor,
-                                                       bool fire, int shrapnel_count )
+                                                       bool fire, int shrapnel_count, int shrapnel_mass )
 {
     // contains all tiles considered plus sum of damage received by each from shockwave and/or shrapnel
     std::map<tripoint,std::pair<int,int>> distrib;
@@ -6503,7 +6503,7 @@ std::map<tripoint,std::pair<int,int>> game::explosion( const tripoint &p, float 
 
     if( shrapnel_count > 0 ) {
         const int radius = 4 * int(sqrt(double(power / 4)));
-        auto res = shrapnel( p, power * 4, shrapnel_count, 10, radius );
+        auto res = shrapnel( p, power * 4, shrapnel_count, shrapnel_mass, radius );
         for( const auto& e : res ) {
             distrib[ e.first ].second = e.second;
         }

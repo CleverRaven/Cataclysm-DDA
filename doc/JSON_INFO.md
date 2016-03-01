@@ -873,7 +873,8 @@ The contents of use_action fields can either be a string indicating a built-in f
     "explosion_shrapnel": 28, // abritrary measure of quantity shrapnel emitted affecting number of hits (legacy field)
     "explosion_fire" : 33, // Power of flames produced by explosion.
     "shrapnel": { // optional
-      "count": 28 // abritrary measure of quantity shrapnel emitted affecting number of hits
+      "count": 28, // abritrary measure of quantity shrapnel emitted affecting number of hits
+      "mass": 10 // determines how readily terrain constrains shrapnel and also caps pierce damage
     }
     "draw_explosion_radius" : 5, // How large to draw the radius of the explosion.
     "draw_explosion_color" : "ltblue", // The color to use when drawing the explosion.

@@ -116,12 +116,13 @@ class auto_iuse_transform : public iuse_transform
 class explosion_iuse : public iuse_actor
 {
     public:
-        // Those 4 values are forwarded to game::explosion.
+        // These values are forwarded to game::explosion.
         // No explosion is done if power < 0
         float explosion_power;
         float explosion_distance_factor;
         bool explosion_fire;
         int shrapnel_count = 0;
+        int shrapnel_mass = 10;
 
         // Those 2 values are forwarded to game::draw_explosion,
         // Nothing is drawn if radius < 0 (game::explosion might still draw something)

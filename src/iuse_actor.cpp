@@ -161,6 +161,7 @@ void explosion_iuse::load( JsonObject &obj )
 
     if( obj.has_object( "shrapnel" ) ) {
         obj.read( "count", shrapnel_count );
+        obj.read( "mass", shrapnel_mass );
     } else {
         // handle legacy JSON
         obj.read( "explosion_shrapnel", shrapnel_count );
@@ -203,7 +204,7 @@ long explosion_iuse::use(player *p, item *it, bool t, const tripoint &pos) const
         return 0;
     }
     if (explosion_power >= 0) {
-        g->explosion( pos, explosion_power, explosion_distance_factor, explosion_fire, shrapnel_count );
+        g->explosion( pos, explosion_power, explosion_distance_factor, explosion_fire, shrapnel_count, shrapnel_mass );
     }
     if (draw_explosion_radius >= 0) {
         g->draw_explosion( pos, draw_explosion_radius, draw_explosion_color);
