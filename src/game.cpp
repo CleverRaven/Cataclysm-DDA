@@ -6537,7 +6537,7 @@ void game::shrapnel( const tripoint &src, int power, int count, int mass, int ra
             if( m.impassable( e ) ) {
                 // massive shrapnel can smash a path through obstacles
                 kinetic -= m.bash_resistance( e );
-                return m.bash( e, mass, true ).success;
+                return m.bash( e, std::min( kinetic, mass ), true ).success;
             }
 
             kinetic -= m.move_cost( e );
