@@ -27,7 +27,7 @@
     "recoil": 0,
     "durability": 8,
     "burst": 3,
-    "clip_size": 0,
+    "clip_size": 3,
     "reload": 0,
     "valid_mod_locations": []
   },
@@ -58,7 +58,7 @@
     "recoil": 0,
     "durability": 8,
     "burst": 1,
-    "clip_size": 0,
+    "clip_size": 1,
     "reload": 0,
     "valid_mod_locations": []
   },
@@ -89,7 +89,7 @@
     "recoil": 0,
     "durability": 8,
     "burst": 2,
-    "clip_size": 0,
+    "clip_size": 2,
     "reload": 0,
     "valid_mod_locations": []
   },
@@ -120,7 +120,7 @@
     "recoil": 0,
     "durability": 8,
     "burst": 0,
-    "clip_size": 0,
+    "clip_size": 1,
     "reload": 0,
     "valid_mod_locations": []
   },
@@ -151,7 +151,7 @@
     "recoil": 0,
     "durability": 8,
     "burst": 4,
-    "clip_size": 0,
+    "clip_size": 4,
     "reload": 0,
     "valid_mod_locations": []
   },
@@ -181,7 +181,7 @@
     "recoil": 0,
     "durability": 8,
     "burst": 5,
-    "clip_size": 0,
+    "clip_size": 5,
     "reload": 2750,
     "valid_mod_locations": []
   },
@@ -210,7 +210,7 @@
     "recoil": 0,
     "durability": 8,
     "burst": 1,
-    "clip_size": 0,
+    "clip_size": 1,
     "reload": 750,
     "valid_mod_locations": []
   },{
@@ -239,7 +239,7 @@
     "recoil": 0,
     "durability": 8,
     "burst": 5,
-    "clip_size": 0,
+    "clip_size": 5,
     "reload": 750,
     "valid_mod_locations": []
   },
@@ -268,7 +268,7 @@
     "recoil": 0,
     "durability": 8,
     "burst": 1,
-    "clip_size": 0,
+    "clip_size": 1,
     "reload": 1000,
     "valid_mod_locations": []
   },
@@ -297,7 +297,7 @@
     "recoil": 0,
     "durability": 9,
     "burst": 5,
-    "clip_size": 0,
+    "clip_size": 5,
     "reload": 2000
   },  {
     "id": "gattler",
@@ -324,7 +324,7 @@
     "recoil": 0,
     "durability": 8,
     "burst": 3,
-    "clip_size": 0,
+    "clip_size": 3,
     "reload": 750,
     "valid_mod_locations": []
   },
@@ -353,7 +353,7 @@
     "recoil": 0,
     "durability": 8,
     "burst": 10,
-    "clip_size": 0,
+    "clip_size": 10,
     "reload": 750,
     "valid_mod_locations": []
   },
@@ -383,7 +383,7 @@
     "recoil": 0,
     "durability": 9,
     "burst": 3,
-    "clip_size": 0,
+    "clip_size": 3,
     "reload": 150
   },
   {
@@ -412,7 +412,7 @@
     "recoil": 0,
     "durability": 5,
     "burst": 20,
-    "clip_size": 0,
+    "clip_size": 20,
     "reload": 750,
     "valid_mod_locations": []
   },
@@ -443,7 +443,7 @@
     "recoil": 0,
     "durability": 5,
     "burst": 1,
-    "clip_size": 0,
+    "clip_size": 1,
     "reload": 750,
     "valid_mod_locations": []
   },
@@ -501,7 +501,7 @@
     "recoil": 0,
     "durability": 8,
     "burst": 1,
-    "clip_size": 0,
+    "clip_size": 1,
     "reload": 750,
     "valid_mod_locations": []
   }

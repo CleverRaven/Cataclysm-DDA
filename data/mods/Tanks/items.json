@@ -368,7 +368,7 @@
   "recoil": 15,
   "durability": 8,
   "burst": 5,
-  "clip_size": 0,
+  "clip_size": 5,
   "reload": 100,
   "loudness" : 175
 },{
@@ -393,7 +393,7 @@
   "aim_speed" : 3,
   "recoil": 10,
   "durability": 9,
-  "clip_size": 0,
+  "clip_size": 1,
   "reload": 100,
   "loudness" : 300
 },{
@@ -417,7 +417,7 @@
   "aim_speed" : 3,
   "recoil": -10,
   "durability": 9,
-  "clip_size": 0,
+  "clip_size": 1,
   "reload": 100,
   "loudness" : 300
 },{
@@ -441,7 +441,7 @@
   "aim_speed" : 3,
   "recoil": -20,
   "durability": 8,
-  "clip_size": 0,
+  "clip_size": 1,
   "reload": 100,
   "loudness" : 300
 },{
@@ -466,7 +466,7 @@
   "aim_speed" : 4,
   "recoil": 20,
   "durability": 9,
-  "clip_size": 0,
+  "clip_size": 1,
   "reload": 100,
   "loudness" : 400
 },{
@@ -514,7 +514,7 @@
   "aim_speed" : 6,
   "recoil": -10,
   "durability": 9,
-  "clip_size": 0,
+  "clip_size": 1,
   "reload": 100,
   "loudness" : 200
 },{
