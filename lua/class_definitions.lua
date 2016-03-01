@@ -367,7 +367,6 @@ classes = {
             { name = "save", rval = "bool", args = { } },
             { name = "scrambler_blast", rval = nil, args = { "tripoint" } },
             { name = "shockwave", rval = nil, args = { "tripoint", "int", "int", "int", "int", "bool" } },
-            { name = "shrapnel", rval = nil, args = { "tripoint", "int", "int", "int" } },
             { name = "spawn_hallucination", rval = "bool", args = { } },
             { name = "spread_fungus", rval = "bool", args = { "tripoint" } },
             { name = "summon_mon", rval = "bool", args = { "mtype_id", "tripoint" } },

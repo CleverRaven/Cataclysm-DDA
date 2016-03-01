@@ -208,7 +208,7 @@ class game
         /** Helper for explosion, does the actual blast. */
         void do_blast( const tripoint &p, float power, float factor, bool fire );
         /** Shoot shrapnel from point p */
-        void shrapnel( const tripoint &p, int power, int count, int radius );
+        void shrapnel( const tripoint &src, int power, int count, int mass, int range );
         /** Triggers a flashbang explosion at p. */
         void flashbang( const tripoint &p, bool player_immune = false );
         /** Moves the player vertically. If force == true then they are falling. */

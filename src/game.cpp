@@ -6499,13 +6499,12 @@ void game::explosion( const tripoint &p, float power, float factor,
 
     if( shrapnel_count > 0 ) {
         const int radius = 4 * int(sqrt(double(power / 4)));
-        shrapnel( p, power * 4, shrapnel_count, radius );
+        shrapnel( p, power * 4, shrapnel_count, 10, radius );
     }
 }
 
-void game::shrapnel( const tripoint &src, int power, int count, int range )
+void game::shrapnel( const tripoint &src, int power, int count, int mass, int range )
 {
-    int mass = 10;
 
     projectile proj;
     proj.speed = 1000; // no dodging shrapnel
