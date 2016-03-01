@@ -239,5 +239,16 @@
       ["usp_45", 10],
       ["usp_9mm", 10]
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_swat",
+    "//": "Guns issued to paramilitary forces in addition to standard police issue.",
+    "items": [
+      { "group": "guns_cop", "prob": 100 },
+      [ "hk_ump45", 15 ],
+      [ "m1014", 10 ],
+      [ "m4a1", 35 ]
+    ]
   }
 ]
