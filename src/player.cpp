@@ -5413,7 +5413,8 @@ void player::update_body( int from, int to )
     }
 
     if( ticks_between( from, to, HOURS(6) ) ) {
-        update_health();
+        // Radiation kills health even at low doses
+        update_health( has_trait( "RADIOGENIC" ) ? 0 : -radiation );
     }
 }
 
@@ -5794,7 +5795,12 @@ void player::regen( int rate_multiplier )
     }
 
     if( radiation > 0 ) {
-        radiation = std::max( 0, radiation - divide_roll_remainder( rate_multiplier / 10.0f, 1.0f ) );
+        // Radiation regen rate is:
+        // 1 per 300 minutes near 0 radiation
+        // 1 per 180 minutes at 100 radiation
+        // 1 per 60 minutes at 200+ radiation
+        const float div = std::min( 2.0f, 10.0f - (radiation / 25.0f) );
+        radiation = std::max( 0, radiation - roll_remainder( rate_multiplier / div ) );
     }
 }
 
@@ -8246,7 +8252,7 @@ void player::suffer()
 
     // Spread less radiation when sleeping (slower metabolism etc.)
     // Otherwise it can quickly get to the point where you simply can't sleep at all
-    const bool rad_mut_proc = rad_mut > 0 && x_in_y( rad_mut, in_sleep_state() ? 300 : 100 );
+    const bool rad_mut_proc = rad_mut > 0 && x_in_y( rad_mut, in_sleep_state() ? HOURS(3) : MINUTES(30) );
 
     if( item_radiation > 0 || map_radiation > 0 || rad_mut_proc ) {
         bool has_helmet = false;
@@ -8259,19 +8265,20 @@ void player::suffer()
             // Power armor protects completely from radiation
             rads = 0.0;
         } else if( rad_resist ) {
-            rads = map_radiation / 200.0f + item_radiation / 10.0f;
+            rads = map_radiation / 300.0f + item_radiation / 30.0f;
         } else {
-            rads = map_radiation / 32.0f + item_radiation / 3.0f;
+            rads = map_radiation / 100.0f + item_radiation / 10.0f;
         }
 
         if( rad_mut_proc ) {
             if( rad_immune || (rad_resist && !one_in( 4 )) ) {
+                // You do NOT want to wear a hazmat/cleansuit when "glowing"
                 radiation++;
             } else {
                 // Irradiate a random nearby point
                 // If you can't, irradiate the player instead
                 tripoint rad_point = pos() + point( rng( -3, 3 ), rng( -3, 3 ) );
-                if( g->m.get_radiation( rad_point ) < rad_mut ) {
+                if( g->m.get_radiation( rad_point ) < rng( 0, rad_mut ) ) {
                     g->m.adjust_radiation( rad_point, 1 );
                 } else {
                     radiation++;
@@ -8287,7 +8294,7 @@ void player::suffer()
             add_msg_if_player(m_warning, _("You feel anomalous sensation coming from your radiation sensors."));
         }
 
-        int rads_max = divide_roll_remainder( rads, 1.0 );
+        int rads_max = roll_remainder( rads );
         radiation += rng( 0, rads_max );
 
         // Apply rads to any radiation badges.
@@ -8332,9 +8339,10 @@ void player::suffer()
         }
         if( OPTIONS["RAD_MUTATION"] && rng(60, 2500) < radiation ) {
             mutate();
-        } else if( radiation > 100 && rng(1, 1500) < radiation &&
-                   (get_stomach_food() > 0 || get_stomach_water() > 0) ) {
+            radiation -= 50;
+        } else if( radiation > 100 && rng(1, 1500) < radiation ) {
             vomit();
+            radiation -= 5;
         }
     }
 
@@ -8350,12 +8358,9 @@ void player::suffer()
         }
     }
 
-    if( radiation > 25 && x_in_y( radiation, 200 ) && !has_trait( "RADIOGENIC" ) ) {
-        mod_healthy_mod( -1, -radiation );
-    }
-
     if( radiation > 200 && ( int(calendar::turn) % MINUTES(10) == 0 ) && x_in_y( radiation, 1000 ) ) {
         hurtall( 1, nullptr );
+        mod_healthy_mod( -1, -200 );
         radiation -= 5;
     }
 
@@ -8429,9 +8434,9 @@ void player::suffer()
             reactor_plut *= 0.6;
             tank_plut *= 0.6;
         }
-        while (slow_rad >= 500) {
+        while (slow_rad >= 1000) {
             radiation += 1;
-            slow_rad -=500;
+            slow_rad -= 1000;
         }
     }
 
@@ -8529,6 +8534,10 @@ void player::mend( int rate_multiplier )
         healing_factor *= 0.5;
     }
 
+    if( radiation > 0 && !has_trait( "RADIOGENIC" ) ) {
+        healing_factor *= std::max( 0.0f, (1000.0f - radiation) / 1000.0f );
+    }
+
     // Bed rest speeds up mending
     if( has_effect( effect_sleep ) ) {
         healing_factor *= 4.0;
@@ -8539,7 +8548,7 @@ void player::mend( int rate_multiplier )
 
     // Being healthy helps.
     if( get_healthy() > 0 ) {
-        healing_factor *= 2.0;
+        healing_factor *= get_healthy() / 200.0f;
     }
 
     // And being well fed...

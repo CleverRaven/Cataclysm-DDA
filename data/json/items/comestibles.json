@@ -12038,7 +12038,7 @@
             "effects" : [
                 {
                     "id": "iodine",
-                    "duration": 2400
+                    "duration": 3600
                 }
             ]},
         "stim" : 0,
@@ -12071,7 +12071,7 @@
             "effects" : [
                 {
                     "id": "pblue",
-                    "duration": 1200
+                    "duration": 2400
                 }
             ]},
         "stim" : 0,
