@@ -872,7 +872,6 @@ The contents of use_action fields can either be a string indicating a built-in f
     "explosion_power": 12, // Power of the resulting explosion.
     "explosion_shrapnel": 28, // Power of shrapnel produced by explosion.
     "explosion_fire" : 33, // Power of flames produced by explosion.
-    "explosion_blast" : 22, // Power of blast from explosion.
     "draw_explosion_radius" : 5, // How large to draw the radius of the explosion.
     "draw_explosion_color" : "ltblue", // The color to use when drawing the explosion.
     "do_flashbang" : true, // Whether to do the flashbang effect.
