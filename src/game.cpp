@@ -6476,11 +6476,11 @@ void game::do_blast( const tripoint &p, const float power,
 }
 
 
-std::map<tripoint,std::pair<int,int>> game::explosion( const tripoint &p, float power, float factor,
+std::unordered_map<tripoint,std::pair<int,int>> game::explosion( const tripoint &p, float power, float factor,
                                                        bool fire, int shrapnel_count, int shrapnel_mass )
 {
     // contains all tiles considered plus sum of damage received by each from shockwave and/or shrapnel
-    std::map<tripoint,std::pair<int,int>> distrib;
+    std::unordered_map<tripoint,std::pair<int,int>> distrib;
 
     const int noise = power * (fire ? 2 : 10);
     if( noise >= 30 ) {
@@ -6512,10 +6512,10 @@ std::map<tripoint,std::pair<int,int>> game::explosion( const tripoint &p, float 
     return distrib;
 }
 
-std::map<tripoint,int> game::shrapnel( const tripoint &src, int power, int count, int mass, int range )
+std::unordered_map<tripoint,int> game::shrapnel( const tripoint &src, int power, int count, int mass, int range )
 {
     // contains of all tiles considered with value being sum of damage received (if any)
-    std::map<tripoint,int> distrib;
+    std::unordered_map<tripoint,int> distrib;
 
     projectile proj;
     proj.speed = 1000; // no dodging shrapnel

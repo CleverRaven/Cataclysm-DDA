@@ -11,6 +11,7 @@
 
 #include <vector>
 #include <map>
+#include <unordered_map>
 #include <list>
 #include <stdarg.h>
 
@@ -203,7 +204,7 @@ class game
         /** Create explosion at p of intensity (power) with (shrapnel) chunks of shrapnel.
             Explosion intensity formula is roughly power*factor^distance.
             If factor <= 0, no blast is produced */
-        std::map<tripoint,std::pair<int,int>> explosion(
+        std::unordered_map<tripoint,std::pair<int,int>> explosion(
             const tripoint &p, float power, float factor = 0.8f,
             bool fire = false, int shrapnel_count = 0, int shrapnel_mass = 10
         );
@@ -220,7 +221,7 @@ class game
          * @param range maximum distance shrapnel may travel
          * @return map containing all tiles considered with value being sum of damage received (if any)
          */
-        std::map<tripoint,int> shrapnel( const tripoint &src, int power, int count, int mass, int range );
+        std::unordered_map<tripoint,int> shrapnel( const tripoint &src, int power, int count, int mass, int range );
 
         /** Triggers a flashbang explosion at p. */
         void flashbang( const tripoint &p, bool player_immune = false );
