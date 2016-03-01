@@ -299,5 +299,19 @@
       [ "shot_00", 40 ],
       [ "shot_beanbag", 40 ]
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_swat",
+    "//": "Ammo issued to paramilitary forces in addition to standard police issue.",
+    "items": [
+      { "group": "ammo_cop", "prob": 100 },
+      [ "40mm_concussive", 5 ],
+      [ "40mm_flashbang", 20 ],
+      [ "40mm_smoke", 5 ],
+      [ "40mm_teargas", 20 ],
+      [ "556", 10 ],
+      [ "shot_slug", 20 ]
+    ]
   }
 ]
