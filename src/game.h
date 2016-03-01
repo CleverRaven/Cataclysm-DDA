@@ -215,7 +215,7 @@ class game
          * Emits shrapnel damaging creatures and sometimes terrain/furniture within range
          * @param src source from which shrapnel radiates outwards in a uniformly random distribtion
          * @param power raw kinetic energy which is responsible for damage and reduced by effects of cover
-         * @param count abrtirtrary measure of quantity shrapnel emitted affecting number of hits
+         * @param count abritrary measure of quantity shrapnel emitted affecting number of hits
          * @param mass determines how readily terrain constrains shrapnel and also caps pierce damage
          * @param range maximum distance shrapnel may travel
          * @return map containing all tiles considered with value being sum of damage received (if any)
