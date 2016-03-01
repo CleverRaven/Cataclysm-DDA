@@ -137,6 +137,22 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
         item& deactivate( const Character *ch = nullptr, bool alert = true );
 
         /**
+         * Filter setting the ammo for this instance
+         * Any existing ammo is removed. If necessary a default magazine is also added.
+         * @param ammo specific type of ammo (must be compatible with item ammo type)
+         * @param qty maximum ammo (capped by item capacity) or negative to fill to capacity
+         * @return same instance to allow method chaining
+         */
+        item& ammo_set( const itype_id& ammo, long qty = -1 );
+
+        /**
+         * Filter removing all ammo from this instance
+         * If the item is neither a tool, gun nor magazine is a no-op
+         * For items reloading using magazines any empty magazine remains present.
+         */
+        item& ammo_unset();
+
+        /**
          * Splits a count-by-charges item always leaving source item with minimum of 1 charge
          * @param qty number of required charges to split from source
          * @return new instance containing exactly qty charges or null item if splitting failed

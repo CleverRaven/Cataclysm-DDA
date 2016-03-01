@@ -2790,9 +2790,11 @@ bool mattack::laser(monster *z)
     if (g->u.sees( *z )) {
         add_msg(m_warning, _("The %s's barrel spins and fires!"), z->name().c_str());
     }
+
     tmp.weapon = item("cerberus_laser", 0);
     tmp.weapon.set_curammo( "laser_capacitor" );
     tmp.weapon.charges = 100;
+
     tmp.fire_gun( target->pos(), tmp.weapon.burst_size() );
     if (target == &g->u) {
         z->add_effect( effect_targeted, 3);
@@ -2871,12 +2873,10 @@ void mattack::rifle( monster *z, Creature *target )
     if (g->u.sees( *z )) {
         add_msg(m_warning, _("The %s opens up with its rifle!"), z->name().c_str());
     }
-    tmp.weapon = item( "fake_rifle", calendar::turn );
-    tmp.weapon.set_curammo( ammo_type );
-    tmp.weapon.charges = std::max(z->ammo[ammo_type], 30);
-    z->ammo[ammo_type] -= tmp.weapon.charges;
-    tmp.fire_gun( target->pos(), tmp.weapon.burst_size() );
-    z->ammo[ammo_type] += tmp.weapon.charges;
+
+    tmp.weapon = item( "m4a1" ).ammo_set( ammo_type, z->ammo[ ammo_type ] );
+    z->ammo[ ammo_type ] -= tmp.fire_gun( target->pos(), tmp.weapon.burst_size() ) * tmp.weapon.ammo_required();
+
     if (target == &g->u) {
         z->add_effect( effect_targeted, 3);
     }
@@ -2920,12 +2920,9 @@ void mattack::frag( monster *z, Creature *target ) // This is for the bots, not 
     if (g->u.sees( *z )) {
         add_msg(m_warning, _("The %s's grenade launcher fires!"), z->name().c_str());
     }
-    tmp.weapon = item("mgl", 0);
-    tmp.weapon.set_curammo( ammo_type );
-    tmp.weapon.charges = std::max(z->ammo[ammo_type], 30);
-    z->ammo[ammo_type] -= tmp.weapon.charges;
-    tmp.fire_gun( target->pos(), tmp.weapon.burst_size() );
-    z->ammo[ammo_type] += tmp.weapon.charges;
+    tmp.weapon = item( "mgl" ).ammo_set( ammo_type, z->ammo[ ammo_type ] );
+    z->ammo[ ammo_type ] -= tmp.fire_gun( target->pos(), tmp.weapon.burst_size() ) * tmp.weapon.ammo_required();
+
     if (target == &g->u) {
         z->add_effect( effect_targeted, 3);
     }
@@ -2985,12 +2982,8 @@ void mattack::tankgun( monster *z, Creature *target )
     if (g->u.sees( *z )) {
         add_msg(m_warning, _("The %s's 120mm cannon fires!"), z->name().c_str());
     }
-    tmp.weapon = item("TANK", 0);
-    tmp.weapon.set_curammo( ammo_type );
-    tmp.weapon.charges = std::max(z->ammo[ammo_type], 5);
-    z->ammo[ammo_type] -= tmp.weapon.charges;
-    tmp.fire_gun( aim_point );
-    z->ammo[ammo_type] += tmp.weapon.charges;
+    tmp.weapon = item( "TANK" ).ammo_set( ammo_type, z->ammo[ ammo_type ] );
+    z->ammo[ ammo_type ] -= tmp.fire_gun( target->pos(), tmp.weapon.burst_size() ) * tmp.weapon.ammo_required();
 }
 
 bool mattack::searchlight(monster *z)

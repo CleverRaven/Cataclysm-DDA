@@ -214,6 +214,61 @@ item& item::deactivate( const Character *ch, bool alert )
     return *this;
 }
 
+item& item::ammo_set( const itype_id& ammo, long qty )
+{
+    // if zero or negative qty try and completely fill the item
+    if( qty <= 0 ) {
+        if( magazine_integral() || magazine_current() ) {
+            qty = ammo_capacity();
+        } else {
+            qty = item( magazine_default() ).ammo_capacity();
+        }
+    }
+
+    // check ammo is valid for the item
+    const itype *atype = item_controller->find_template( ammo );
+    if( qty <= 0 || !atype->ammo || atype->ammo->type != ammo_type() ) {
+        debugmsg( "Tried to set invalid ammo of %s (%i) for %s", atype->nname( qty ).c_str(), qty, tname().c_str() );
+        return *this;
+    }
+
+    if( is_magazine() ) {
+        ammo_unset();
+        emplace_back( ammo, calendar::turn, std::min( qty, ammo_capacity() ) );
+
+    } else if( magazine_integral() ) {
+        curammo = atype;
+        charges = std::min( qty, ammo_capacity() );
+
+    } else {
+        if( !magazine_current() ) {
+            emplace_back( magazine_default() );
+        }
+        magazine_current()->ammo_set( ammo, qty );
+    }
+
+    return *this;
+}
+
+item& item::ammo_unset()
+{
+    if( !is_tool() || !is_gun() || !is_magazine() ) {
+        ; // do nothing
+
+    } else if( is_magazine() ) {
+        contents.clear();
+
+    } else if( magazine_integral() ) {
+        curammo = nullptr;
+        charges = 0;
+
+    } else if( magazine_current() ) {
+        magazine_current()->ammo_unset();
+    }
+
+    return *this;
+}
+
 item item::split( long qty )
 {
     if( !count_by_charges() || qty <= 0 || qty >= charges ) {
