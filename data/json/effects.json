@@ -717,7 +717,7 @@
         "type": "effect_type",
         "id": "pblue",
         "base_mods": {
-            "rad_chance": [16],
+            "rad_chance": [100],
             "rad_min": [-1]
         }
     },
