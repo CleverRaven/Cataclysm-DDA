@@ -1661,8 +1661,7 @@ std::vector<npc::item_pricing> npc::init_selling()
         // sort them by types and values
         // allow selling some of them
         auto &it = i->front();
-        if( it.type->id == "lighter" && !found_lighter
-            && it.num_charges() >= 10 ) {
+        if( it.type->id == "lighter" && !found_lighter && it.ammo_remaining() >= 10 ) {
             found_lighter = true;
             continue;
         }

@@ -731,7 +731,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         }
 
     } else {
-        auto mod = active_gunmod();
+        auto mod = gunmod_current();
         if( mod == nullptr ) {
             mod = this;
         } else {
@@ -2181,7 +2181,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
         modtext += _( "atomic " );
     }
 
-    if( has_gunmod( "barrel_small" ) != -1 ) {
+    if( gunmod_find( "barrel_small" ) ) {
         modtext += _( "sawn-off ");
     }
 
@@ -2344,7 +2344,7 @@ int item::weight() const
     }
 
     // reduce weight for sawn-off weepons capped to the apportioned weight of the barrel
-    if( has_gunmod( "barrel_small" ) != -1 ) {
+    if( gunmod_find( "barrel_small" ) ) {
         float b = type->gun->barrel_length;
         ret -= std::min( b * 250, b / type->volume * type->weight );
     }
@@ -2424,7 +2424,7 @@ int item::volume( bool integral ) const
             else                    ret -= 7;
         }
 
-        if( has_gunmod( "barrel_small" ) != -1 ) {
+        if( gunmod_find( "barrel_small" ) ) {
             ret -= type->gun->barrel_length;
         }
     }
@@ -2530,7 +2530,7 @@ bool item::has_flag( const std::string &f ) const
     // e.g. for the NEVER_JAMS flag, that should not be inherited to the gun mod
     if (is_gun()) {
         if (is_in_auxiliary_mode()) {
-            item const* gunmod = active_gunmod();
+            item const* gunmod = gunmod_current();
             if( gunmod != NULL )
                 ret = gunmod->has_flag(f);
             if (ret) return ret;
@@ -2633,19 +2633,6 @@ std::set<matec_id> item::get_techniques() const
     std::set<matec_id> result = type->techniques;
     result.insert( techniques.begin(), techniques.end() );
     return result;
-}
-
-int item::has_gunmod( const itype_id& mod_type ) const
-{
-    if( !is_gun() ) {
-        return -1;
-    }
-    for( size_t i = 0; i < contents.size(); i++ ) {
-        if( contents[i].is_gunmod() && contents[i].typeId() == mod_type ) {
-            return i;
-        }
-    }
-    return -1;
 }
 
 bool item::is_going_bad() const
@@ -2924,23 +2911,6 @@ bool item::craft_has_charges()
     }
 
     return false;
-}
-
-long item::num_charges()
-{
-    if (is_gun()) {
-        if (is_in_auxiliary_mode()) {
-            item* gunmod = active_gunmod();
-            if (gunmod != NULL)
-                return gunmod->charges;
-        } else {
-            return charges;
-        }
-    }
-    if( is_gunmod() && is_in_auxiliary_mode() ) {
-        return charges;
-    }
-    return 0;
 }
 
 int item::bash_resist( bool to_self ) const
@@ -3566,12 +3536,12 @@ bool item::operator<(const item& other) const
     }
 }
 
-item* item::active_gunmod()
+item* item::gunmod_current()
 {
-    return const_cast<item*>( const_cast<const item*>( this )->active_gunmod() );
+    return const_cast<item*>( const_cast<const item*>( this )->gunmod_current() );
 }
 
-item const* item::active_gunmod() const
+item const* item::gunmod_current() const
 {
     if( is_in_auxiliary_mode() ) {
         const auto mods = gunmods();
@@ -3855,10 +3825,6 @@ int item::gun_range( bool with_ammo ) const
 
 int item::gun_range( const player *p ) const
 {
-    const item *gunmod = active_gunmod();
-    if( gunmod != nullptr ) {
-        return gunmod->gun_range( p );
-    }
     int ret = gun_range( true );
     if( p == nullptr ) {
         return ret;
@@ -4119,10 +4085,12 @@ const item * item::magazine_current() const
 std::vector<item *> item::gunmods()
 {
     std::vector<item *> res;
-    res.reserve( contents.size() );
-    for( auto& e : contents ) {
-        if( e.is_gunmod() ) {
-            res.push_back( &e );
+    if( is_gun() ) {
+        res.reserve( contents.size() );
+        for( auto& e : contents ) {
+            if( e.is_gunmod() ) {
+                res.push_back( &e );
+            }
         }
     }
     return res;
@@ -4131,13 +4099,29 @@ std::vector<item *> item::gunmods()
 std::vector<const item *> item::gunmods() const
 {
     std::vector<const item *> res;
-    res.reserve( contents.size() );
-    for( auto& e : contents ) {
-        if( e.is_gunmod() ) {
-            res.push_back( &e );
+    if( is_gun() ) {
+        res.reserve( contents.size() );
+        for( auto& e : contents ) {
+            if( e.is_gunmod() ) {
+                res.push_back( &e );
+            }
         }
     }
     return res;
+}
+
+item * item::gunmod_find( const itype_id& mod )
+{
+    auto mods = gunmods();
+    auto it = std::find_if( mods.begin(), mods.end(), [&mod]( item *e ) {
+        return e->typeId() == mod;
+    } );
+    return it != mods.end() ? *it : nullptr;
+}
+
+const item * item::gunmod_find( const itype_id& mod ) const
+{
+    return const_cast<item *>( this )->gunmod_find( mod );
 }
 
 bool item::gunmod_compatible( const item& mod, bool alert, bool effects ) const
@@ -4155,7 +4139,7 @@ bool item::gunmod_compatible( const item& mod, bool alert, bool effects ) const
     } else if( is_gunmod() ) {
         msg = string_format( _( "That %s is a gunmod, it can not be modded." ), tname().c_str() );
 
-    } else if( has_gunmod( mod.typeId() ) != -1 ) {
+    } else if( gunmod_find( mod.typeId() ) ) {
         msg = string_format( _( "Your %1$s already has a %2$s." ), tname().c_str(), mod.tname( 1 ).c_str() );
 
     } else if( !type->gun->valid_mod_locations.count( mod.type->gunmod->location ) ) {
@@ -4487,7 +4471,7 @@ bool item::reload( player &u, item_location loc, long qty )
 
     if( obj->is_gun() ) {
         // Firstly try reloading active gunmod, then gun itself, any other auxiliary gunmods and finally currently loaded magazine
-        std::vector<item *> opts = { obj->active_gunmod(), obj };
+        std::vector<item *> opts = { obj->gunmod_current(), obj };
         std::transform( obj->contents.begin(), obj->contents.end(), std::back_inserter( opts ), []( item& mod ) {
             return mod.is_auxiliary_gunmod() ? &mod : nullptr;
         });
@@ -5490,7 +5474,7 @@ bool item::update_charger_gun_ammo()
     }
     const auto tmpammo = ammo_data()->ammo.get();
 
-    long charges = num_charges();
+    long charges = ammo_remaining();
     tmpammo->damage = charges * charges;
     tmpammo->pierce = ( charges >= 4 ? ( charges - 3 ) * 2.5 : 0 );
     if( charges <= 4 ) {

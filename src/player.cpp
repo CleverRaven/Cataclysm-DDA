@@ -3522,7 +3522,7 @@ int player::print_aim_bars( WINDOW *w, int line_number, item *weapon, Creature *
 std::string player::print_gun_mode() const
 {
     // Print current weapon, or attachment if active.
-    const item* gunmod = weapon.active_gunmod();
+    const item* gunmod = weapon.gunmod_current();
     std::stringstream attachment;
     if (gunmod != NULL) {
         attachment << gunmod->type_name().c_str();

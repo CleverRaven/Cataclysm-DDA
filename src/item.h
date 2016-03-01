@@ -464,7 +464,6 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
     bool has_quality( std::string quality_id, int quality_value ) const;
     bool count_by_charges() const;
     bool craft_has_charges();
-    long num_charges();
 
     /**
      * Reduce the charges of this item, only use for items counted by charges!
@@ -1150,6 +1149,18 @@ public:
         std::vector<item *> gunmods();
         std::vector<const item *> gunmods() const;
 
+        /** Get first attached gunmod matching type or nullptr if no such mod or item is not a gun */
+        item * gunmod_find( const itype_id& mod );
+        const item * gunmod_find( const itype_id& mod ) const;
+
+        /**
+         * Returns currently active auxiliary (@ref is_auxiliary_gunmod) gun mod item.
+         * May return null if there is no such gun mod or if the gun is not in the
+         * auxiliary mode (@ref is_in_auxiliary_mode).
+         */
+        item * gunmod_current();
+        item const * gunmod_current() const;
+
         /*
          * Checks if mod can be applied to this item considering any current state (jammed, loaded etc.)
          * @param alert whether to display message describing reason for any incompatibility
@@ -1243,19 +1254,6 @@ public:
         /** Get the type of a ranged weapon (eg. "rifle", "crossbow"), or empty string if non-gun */
         std::string gun_type() const;
 
-        /**
-         * Returns the currently active auxiliary (@ref is_auxiliary_gunmod) gun mod item.
-         * May return null if there is no such gun mod or if the gun is not in the
-         * auxiliary mode (@ref is_in_auxiliary_mode).
-         */
-        item* active_gunmod();
-        item const* active_gunmod() const;
-        /**
-         * Returns the index of a gunmod item of the given type. The actual gunmod item is in
-         * the @ref contents vector, the returned index point into that vector.
-         * Returns -1 if this is not a gun, or if it has no such gunmod.
-         */
-        int has_gunmod( const itype_id& type ) const;
         /**
          * Number of mods that can still be installed into the given mod location,
          * for non-guns it always returns 0.
