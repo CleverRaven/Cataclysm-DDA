@@ -883,69 +883,56 @@ std::list<item> starting_clothes( npc_class type, bool male )
  return ret;
 }
 
-std::list<item> starting_inv(npc *me, npc_class type)
+std::list<item> starting_inv( npc *me, npc_class type )
 {
- int total_space = me->volume_capacity();
- std::list<item> ret;
- ret.emplace_back( "lighter", 0 );
- itype_id tmp;
- item tmpitem;
+    std::list<item> res;
+    res.emplace_back( "lighter" );
 
-// First, if we're wielding a gun, get some ammo for it
- if (me->weapon.is_gun()) {
-  tmp = default_ammo(me->weapon.type->gun->ammo);
-  if (tmp == "" || tmp == "UPS"){
-    add_msg( m_debug, "Unknown ammo type for spawned NPC: '%s'", tmp.c_str() );
-  }else {
-      item itammo( tmp, 0 );
-      itammo = itammo.in_its_container();
-      if( itammo.made_of( LIQUID ) ) {
-          item container( "bottle_plastic", 0 );
-          container.put_in( itammo );
-          itammo = container;
-      }
-      if (total_space >= itammo.volume()) {
-       ret.push_back(itammo);
-       total_space -= ret.back().volume();
-      }
-      while ((type == NC_COWBOY || type == NC_BOUNTY_HUNTER || !one_in(3)) &&
-             !one_in(2) && total_space >= itammo.volume()) {
-       ret.push_back(itammo);
-       total_space -= ret.back().volume();
-      }
-  }
- }
+    // If wielding a gun, get some additional ammo for it
+    if( me->weapon.is_gun() ) {
+        item ammo( default_ammo( me->weapon.ammo_type() ) );
+        ammo = ammo.in_its_container();
+        if( ammo.made_of( LIQUID ) ) {
+            item container( "bottle_plastic" );
+            container.put_in( ammo );
+            ammo = container;
+        }
 
- int stopChance = 25;
- if (type == NC_ARSONIST)
-  ret.push_back(item("molotov", 0));
- if (type == NC_EVAC_SHOPKEEP || type == NC_TRADER){
-  total_space += 30;
-  stopChance = 40;
- }
+        // NC_COWBOY and NC_BOUNTY_HUNTER get 2-4 whilst all others get 1 or 2
+        int qty = 1 + ( type == NC_COWBOY || type == NC_BOUNTY_HUNTER );
+        qty = rng( qty, qty * 2 );
 
- while (total_space > 0 && !one_in(stopChance)) {
-    tmpitem = random_item_from( type, "misc" );
-    if( tmpitem.is_null() ) {
-        continue;
+        while ( qty-- != 0 && me->can_pickVolume( ammo.volume() ) ) {
+            // @todo give NPC a default magazine instead
+            res.push_back( ammo );
+        }
     }
-    if( !one_in( 3 ) && tmpitem.has_flag( "VARSIZE" ) ) {
-        tmpitem.item_tags.insert( "FIT" );
-    }
-    if (total_space >= tmpitem.volume()) {
-        ret.push_back(tmpitem);
-        ret.back() = ret.back().in_its_container();
-        total_space -= ret.back().volume();
-    }
- }
 
- for (std::list<item>::iterator iter = ret.begin(); iter != ret.end(); ++iter) {
-  if(item_group::group_contains_item("trader_avoid", iter->type->id)) {
-   iter = ret.erase(iter);
-   --iter;
-  }
- }
- return ret;
+    if( type == NC_ARSONIST ) {
+        res.emplace_back( "molotov" );
+    }
+
+    // NC_COWBOY and NC_BOUNTY_HUNTER get 5-15 whilst all others get 3-6
+    int qty = ( type == NC_EVAC_SHOPKEEP || type == NC_TRADER ) ? 5 : 2;
+    qty = rng( qty, qty * 3 );
+
+    while ( qty-- != 0 ) {
+        item tmp = random_item_from( type, "misc" ).in_its_container();
+        if( !tmp.is_null() ) {
+            if( !one_in( 3 ) && tmp.has_flag( "VARSIZE" ) ) {
+                tmp.item_tags.insert( "FIT" );
+            }
+            if( me->can_pickVolume( tmp.volume() ) ) {
+                res.push_back( tmp );
+            }
+        }
+    }
+
+    res.erase( std::remove_if( res.begin(), res.end(), [&]( const item& e ) {
+        return item_group::group_contains_item( "trader_avoid", e.typeId() );
+    } ), res.end() );
+
+    return res;
 }
 
 void npc::spawn_at(int x, int y, int z)
