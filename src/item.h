@@ -114,9 +114,15 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
         explicit item( const itype_id& id, int turn = -1, int qty = -1 );
         explicit item( const itype *type, int turn = -1, int qty = -1 );
 
+        /** Suppress randomisation and always start with default quantity of charges */
         struct default_charges_tag {};
         item( const itype_id& id, int turn, default_charges_tag );
         item( const itype *type, int turn, default_charges_tag );
+
+        /** Default (or randomised) charges except if counted by charges then only one charge */
+        struct solitary_tag {};
+        item( const itype_id& id, int turn, solitary_tag );
+        item( const itype *type, int turn, solitary_tag );
 
         item( JsonObject &jo );
 
