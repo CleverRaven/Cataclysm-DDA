@@ -8349,7 +8349,7 @@ void player::suffer()
             radiation -= 50;
         } else if( radiation > 50 && rng(1, 3000) < radiation &&
                    ( get_stomach_food() > 0 || get_stomach_water() > 0 ||
-                     radiation_increasing ) ) {
+                     radiation_increasing || !in_sleep_state() ) ) {
             vomit();
             radiation -= 10;
         }
