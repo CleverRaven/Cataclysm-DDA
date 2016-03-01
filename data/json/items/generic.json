@@ -943,6 +943,8 @@
         "cutting": 6,
         "to_hit": -3
     },
+    {
+        "type":"GENERIC",
         "id": "processor",
         "symbol": ",",
         "color": "dark_gray",

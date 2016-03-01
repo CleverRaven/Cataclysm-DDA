@@ -178,8 +178,6 @@
     },
     {
         "type":"GENERIC",
-    {
-        "type":"GENERIC",
         "id": "fan",
         "symbol": ",",
         "color": "light_gray",
