@@ -160,10 +160,11 @@ void explosion_iuse::load( JsonObject &obj )
     obj.read( "explosion_fire", explosion_fire );
 
     if( obj.has_object( "shrapnel" ) ) {
-        obj.read( "count", shrapnel_count );
-        obj.read( "mass", shrapnel_mass );
-        obj.read( "recovery", shrapnel_recovery );
-        obj.read( "drop", shrapnel_drop );
+        auto shrapnel = obj.get_object( "shrapnel" );
+        shrapnel.read( "count", shrapnel_count );
+        shrapnel.read( "mass", shrapnel_mass );
+        shrapnel.read( "recovery", shrapnel_recovery );
+        shrapnel.read( "drop", shrapnel_drop );
     } else {
         // handle legacy JSON
         obj.read( "explosion_shrapnel", shrapnel_count );
