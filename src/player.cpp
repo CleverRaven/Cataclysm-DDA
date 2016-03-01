@@ -8351,7 +8351,7 @@ void player::suffer()
                    ( get_stomach_food() > 0 || get_stomach_water() > 0 ||
                      radiation_increasing || !in_sleep_state() ) ) {
             vomit();
-            radiation -= 10;
+            radiation -= 1;
         }
     }
 
