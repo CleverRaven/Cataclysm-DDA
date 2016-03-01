@@ -3657,21 +3657,9 @@
     ]
   },{
     "type" : "item_group",
-    "id" : "cop_ammo",
-    "items":[
-      ["223", 10],
-      ["3006", 5],
-      ["9mm", 30],
-      ["45_acp", 5],
-      ["57mm", 5],
-      ["shot_00", 15],
-      ["shot_beanbag", 5]
-    ]
-  },{
-    "type" : "item_group",
     "id" : "cop_armory",
     "items":[
-      { "group": "cop_ammo", "prob": 100 },
+      { "group": "ammo_cop", "prob": 100 },
       { "group": "guns_cop", "prob": 100 },
       { "group": "mags_swat", "prob": 100 },
       ["survnote", 1]

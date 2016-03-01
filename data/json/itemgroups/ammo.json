@@ -284,5 +284,20 @@
       { "group": "ammo_rifle_reloaded", "prob": 100 },
       { "group": "ammo_shotgun_reloaded", "prob": 20 }
     ]
+  },
+  {
+    "type" : "item_group",
+    "id" : "ammo_cop",
+    "//" : "Ammo for police issue firearms.",
+    "items":[
+      [ "223", 30 ],
+      [ "3006", 10 ],
+      [ "40sw", 50 ],
+      [ "45_acp", 20 ],
+      [ "57mm", 80 ],
+      [ "9mm", 100 ],
+      [ "shot_00", 40 ],
+      [ "shot_beanbag", 40 ]
+    ]
   }
 ]
