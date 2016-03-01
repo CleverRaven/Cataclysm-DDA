@@ -2,6 +2,7 @@
   {
     "id" : "cop_armory",
     "type" : "item_group",
+    "magazine": 100,
     "items":[
       { "group": "ammo_cop",  "prob":  80 },
       { "group": "guns_cop",  "prob": 100 },
