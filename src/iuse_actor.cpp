@@ -156,9 +156,16 @@ extern std::vector<tripoint> points_for_gas_cloud(const tripoint &center, int ra
 void explosion_iuse::load( JsonObject &obj )
 {
     obj.read( "explosion_power", explosion_power );
-    obj.read( "explosion_shrapnel", explosion_shrapnel );
     obj.read( "explosion_distance_factor", explosion_distance_factor );
     obj.read( "explosion_fire", explosion_fire );
+
+    if( obj.has_object( "shrapnel" ) ) {
+        obj.read( "count", shrapnel_count );
+    } else {
+        // handle legacy JSON
+        obj.read( "explosion_shrapnel", shrapnel_count );
+    }
+
     obj.read( "draw_explosion_radius", draw_explosion_radius );
     if( obj.has_member( "draw_explosion_color" ) ) {
         draw_explosion_color = color_from_string( obj.get_string( "draw_explosion_color" ) );

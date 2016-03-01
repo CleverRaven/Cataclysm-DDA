@@ -120,8 +120,9 @@ class explosion_iuse : public iuse_actor
         // No explosion is done if power < 0
         float explosion_power;
         float explosion_distance_factor;
-        int explosion_shrapnel;
         bool explosion_fire;
+        int shrapnel_count = 0;
+
         // Those 2 values are forwarded to game::draw_explosion,
         // Nothing is drawn if radius < 0 (game::explosion might still draw something)
         int draw_explosion_radius;
@@ -149,7 +150,6 @@ class explosion_iuse : public iuse_actor
             : iuse_actor()
             , explosion_power(-1)
             , explosion_distance_factor(0.8f)
-            , explosion_shrapnel(-1)
             , explosion_fire(false)
             , draw_explosion_radius(-1)
             , draw_explosion_color(c_white)
