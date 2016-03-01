@@ -5795,12 +5795,7 @@ void player::regen( int rate_multiplier )
     }
 
     if( radiation > 0 ) {
-        // Radiation regen rate is:
-        // 1 per 300 minutes near 0 radiation
-        // 1 per 180 minutes at 100 radiation
-        // 1 per 60 minutes at 200+ radiation
-        const float div = std::min( 2.0f, 10.0f - (radiation / 25.0f) );
-        radiation = std::max( 0, radiation - roll_remainder( rate_multiplier / div ) );
+        radiation = std::max( 0, radiation - roll_remainder( rate_multiplier / 10.0f ) );
     }
 }
 
@@ -8254,7 +8249,10 @@ void player::suffer()
     // Otherwise it can quickly get to the point where you simply can't sleep at all
     const bool rad_mut_proc = rad_mut > 0 && x_in_y( rad_mut, in_sleep_state() ? HOURS(3) : MINUTES(30) );
 
-    if( item_radiation > 0 || map_radiation > 0 || rad_mut_proc ) {
+    // Used to control vomiting from radiation to make it not-annoying
+    bool radiation_increasing = false;
+
+    if( item_radiation > 0 || map_radiation > 0 || rad_mut > 0 ) {
         bool has_helmet = false;
         const bool power_armored = is_wearing_power_armor(&has_helmet);
         const bool rad_immune = (power_armored && has_helmet) || worn_with_flag("RAD_PROOF");
@@ -8263,31 +8261,36 @@ void player::suffer()
         float rads;
         if( rad_immune ) {
             // Power armor protects completely from radiation
-            rads = 0.0;
+            rads = 0.0f;
         } else if( rad_resist ) {
-            rads = map_radiation / 300.0f + item_radiation / 30.0f;
+            rads = map_radiation / 400.0f + item_radiation / 40.0f;
         } else {
             rads = map_radiation / 100.0f + item_radiation / 10.0f;
         }
 
-        if( rad_mut_proc ) {
-            if( rad_immune || (rad_resist && !one_in( 4 )) ) {
-                // You do NOT want to wear a hazmat/cleansuit when "glowing"
-                radiation++;
-            } else {
+        if( rad_mut > 0 ) {
+            const bool kept_in = rad_immune || (rad_resist && !one_in( 4 ));
+            if( kept_in ) {
+                // As if standing on a map tile with radiation level equal to rad_mut
+                rads += rad_mut / 100.0f;
+            }
+
+            if( rad_mut_proc && !kept_in ) {
                 // Irradiate a random nearby point
                 // If you can't, irradiate the player instead
                 tripoint rad_point = pos() + point( rng( -3, 3 ), rng( -3, 3 ) );
-                if( g->m.get_radiation( rad_point ) < rng( 0, rad_mut ) ) {
+                // TODO: Radioactive vehicles?
+                if( g->m.get_radiation( rad_point ) < rad_mut ) {
                     g->m.adjust_radiation( rad_point, 1 );
                 } else {
-                    radiation++;
+                    rads += rad_mut;
                 }
             }
         }
-    
+
         if( has_effect( effect_iodine ) ) {
-            rads *= 0.2f;
+            // Radioactive mutation makes iodine less efficient (but more useful)
+            rads *= 0.3f + 0.1f * rad_mut;
         }
 
         if( rads > 0.0f && calendar::once_every(MINUTES(3)) && has_bionic("bio_geiger") ) {
@@ -8296,6 +8299,10 @@ void player::suffer()
 
         int rads_max = roll_remainder( rads );
         radiation += rng( 0, rads_max );
+
+        if( rads > 0.0f ) {
+            radiation_increasing = true;
+        }
 
         // Apply rads to any radiation badges.
         for (item *const it : inv_dump()) {
@@ -8337,12 +8344,14 @@ void player::suffer()
         } else if (radiation > 2000) {
             radiation = 2000;
         }
-        if( OPTIONS["RAD_MUTATION"] && rng(100, 4000) < radiation ) {
+        if( OPTIONS["RAD_MUTATION"] && rng(100, 10000) < radiation ) {
             mutate();
             radiation -= 50;
-        } else if( radiation > 100 && rng(1, 3000) < radiation ) {
+        } else if( radiation > 50 && rng(1, 3000) < radiation &&
+                   ( get_stomach_food() > 0 || get_stomach_water() > 0 ||
+                     radiation_increasing ) ) {
             vomit();
-            radiation -= 5;
+            radiation -= 10;
         }
     }
 
