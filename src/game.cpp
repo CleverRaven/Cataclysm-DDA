@@ -6562,7 +6562,7 @@ std::unordered_map<tripoint,int> game::shrapnel( const tripoint &src, int power,
                 int resistance = m.bash_resistance( e );
                 if( m.bash( e, std::min( kinetic, mass ), true ).success ) {
                     distrib[ e ] += resistance; // obstacle absorbed only some of the force
-                    return( ( kinetic -= resistance ) > 0 );
+                    kinetic -= resistance;
                 } else {
                     distrib[ e ] += kinetic; // obstacle absorbed all of the force
                     return false;
