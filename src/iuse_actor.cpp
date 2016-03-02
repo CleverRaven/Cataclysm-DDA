@@ -206,9 +206,32 @@ long explosion_iuse::use(player *p, item *it, bool t, const tripoint &pos) const
         }
         return 0;
     }
-    if (explosion_power >= 0) {
-        g->explosion( pos, explosion_power, explosion_distance_factor, explosion_fire, shrapnel_count, shrapnel_mass );
+
+    if( explosion_power >= 0 ) {
+        auto distrib = g->explosion( pos, explosion_power, explosion_distance_factor, explosion_fire, shrapnel_count, shrapnel_mass );
+
+        // if explosion drops shrapnel...
+        if( shrapnel_count > 0 && shrapnel_recovery > 0 && shrapnel_drop != "null" ) {
+
+            // extract only passable tiles affected by shrapnel
+            std::vector<tripoint> tiles;
+            for( const auto& e : distrib ) {
+                if( g->m.passable( e.first ) && e.second.second >= 0 ) {
+                    tiles.push_back( e.first );
+                }
+            }
+
+            // truncate to a random selection
+            int qty = shrapnel_count * std::min( shrapnel_recovery, 100 ) / 100;
+            std::random_shuffle( tiles.begin(), tiles.end() );
+            tiles.resize( std::min( int( tiles.size() ), qty ) );
+
+            for( const auto& e : tiles ) {
+                g->m.add_item_or_charges( e, item( shrapnel_drop, calendar::turn, item::solitary_tag{} ) );
+            }
+        }
     }
+
     if (draw_explosion_radius >= 0) {
         g->draw_explosion( pos, draw_explosion_radius, draw_explosion_color);
     }
