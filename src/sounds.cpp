@@ -574,7 +574,7 @@ void sfx::generate_gun_sound( const player &p, const item &firing )
         selected_sound = "fire_gun";
 
         const auto mods = firing.gunmods();
-        if( std::any_of( mods.begin(), mods.end(), []( const item *e ) { return e->type->gunmod->loudness < 0; } ) {
+        if( std::any_of( mods.begin(), mods.end(), []( const item *e ) { return e->type->gunmod->loudness < 0; } ) ) {
             weapon_id = "weapon_fire_suppressed";
         }
 
