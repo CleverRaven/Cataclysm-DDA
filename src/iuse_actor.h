@@ -123,7 +123,7 @@ class explosion_iuse : public iuse_actor
         float explosion_distance_factor;
         bool explosion_fire;
         int shrapnel_count = 0;
-        int shrapnel_mass = 10;
+        int shrapnel_mass = 4;
 
         /** Maximum percentage of count that should be dropped within area of effect */
         int shrapnel_recovery = 0;
