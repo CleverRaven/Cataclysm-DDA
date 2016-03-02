@@ -11492,8 +11492,10 @@ void game::reload( int pos )
 
     switch( u.rate_action_reload( *it ) ) {
         case HINT_IFFY:
-            add_msg( m_info, _( "Your %s is already fully loaded!" ), it->tname().c_str() );
-            return;
+            if( it->ammo_remaining() > 0 && it->ammo_remaining() == it->ammo_capacity() ) {
+                add_msg( m_info, _( "The %s is already fully loaded!" ), it->tname().c_str() );
+                return;
+            } // intentional fall-through
 
         case HINT_CANT:
             add_msg( m_info, _( "You can't reload a %s!." ), it->tname().c_str() );
