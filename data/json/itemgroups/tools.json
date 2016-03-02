@@ -36,6 +36,22 @@
     ]
   },
   {
+    "id" : "tools_lighting",
+    "type" : "item_group",
+    "//": "Light sources balanced according to rarity",
+    "items" : [
+      [ "candle", 70 ],
+      [ "electric_lantern", 20 ],
+      [ "handflare", 50 ],
+      [ "flashlight", 100 ],
+      [ "gasoline_lantern", 10 ],
+      [ "glowstick", 60 ],
+      [ "heavy_flashlight", 30 ],
+      [ "oil_lamp", 10 ],
+      [ "wearable_light", 15 ]
+    ]
+  },
+  {
     "id" : "tools_tailor",
     "type" : "item_group",
     "items" : [
