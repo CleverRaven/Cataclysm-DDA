@@ -34,5 +34,15 @@
       [ "hammer_sledge", 20 ],
       [ "halligan", 10 ]
     ]
+  },
+  {
+    "id" : "tools_tailor",
+    "type" : "item_group",
+    "items" : [
+      [ "needle_curved", 30 ],
+      [ "scissors", 1000 ],
+      [ "sewing_kit", 100 ],
+      [ "tailors_kit", 30 ]
+    ]
   }
 ]
