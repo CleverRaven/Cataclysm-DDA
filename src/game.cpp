@@ -6503,9 +6503,16 @@ std::unordered_map<tripoint,std::pair<int,int>> game::explosion( const tripoint 
 
     if( shrapnel_count > 0 ) {
         const int radius = 4 * int(sqrt(double(power / 4)));
+
         auto res = shrapnel( p, power * 4, shrapnel_count, shrapnel_mass, radius );
         for( const auto& e : res ) {
-            distrib[ e.first ].second = e.second;
+            if( distrib.count( e.first ) ) {
+                // if tile was already affected by blast just update the shrapnel field
+                distrib[ e.first ].second = e.second;
+            } else {
+                // otherwise add the tile but mark is as unaffected by the blast (-1)
+                distrib[ e.first ] = std::make_pair( -1, e.second );
+            }
         }
     }
 
