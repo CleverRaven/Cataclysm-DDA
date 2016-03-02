@@ -1,7 +1,18 @@
 [
   {
+    "id" : "tools_blacksmith",
     "type" : "item_group",
+    "//" : "Hand tools commonly used by blacksmiths",
+    "items": [
+      ["anvil", 50],
+      ["crucible", 50],
+      ["swage", 80],
+      ["tongs", 100]
+    ]
+  },
+  {
     "id" : "tools_common",
+    "type" : "item_group",
     "//" : "Common household tools",
     "items": [
       [ "hacksaw", 50 ],
@@ -14,19 +25,8 @@
     ]
   },
   {
-    "type" : "item_group",
-    "id" : "tools_blacksmith",
-    "//" : "Hand tools commonly used by blacksmiths",
-    "items": [
-      ["anvil", 50],
-      ["crucible", 50],
-      ["swage", 80],
-      ["tongs", 100]
-    ]
-  },
-  {
-    "type": "item_group",
     "id": "tools_entry",
+    "type": "item_group",
     "//": "Tools used for forcing entry into a building",
     "items": [
       [ "boltcutters", 30 ],
