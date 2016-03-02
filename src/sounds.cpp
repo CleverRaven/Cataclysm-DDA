@@ -19,6 +19,7 @@
 #include "options.h"
 #include "time.h"
 #include "mapdata.h"
+#include "itype.h"
 #include <chrono>
 #ifdef SDL_SOUND
 #   include <SDL_mixer.h>
