@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cataclysm-dda 0.C\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-02 11:21+0300\n"
+"POT-Creation-Date: 2016-03-02 13:18+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -58821,6 +58821,54 @@ msgid ""
 "several are no longer responding to communications.  Dr. Savage has proposed "
 "a strategic redeployment to the underground complex known as the VAULT, and "
 "continuing production of PE062 there."
+msgstr ""
+
+#: lang/json/mapgen_from_json.py
+msgid "the name is gone but a slogan remains: 'We'll repair you all the way'"
+msgstr ""
+
+#: lang/json/mapgen_from_json.py
+msgid "the address has been defaced"
+msgstr ""
+
+#: lang/json/mapgen_from_json.py
+msgid "the address is unreadable"
+msgstr ""
+
+#: lang/json/mapgen_from_json.py
+msgid "it works again."
+msgstr ""
+
+#: lang/json/mapgen_from_json.py
+msgid "<given_name> <family_name> owned <full_name> at <city>"
+msgstr ""
+
+#: lang/json/mapgen_from_json.py
+msgid "<given_name>, <given_name>, and <given_name> were here!"
+msgstr ""
+
+#: lang/json/mapgen_from_json.py
+msgid "Scoop the Poop!"
+msgstr ""
+
+#: lang/json/mapgen_from_json.py
+msgid "DANGER! Doggy Minefield!"
+msgstr ""
+
+#: lang/json/mapgen_from_json.py
+msgid "Dog Park: Off Leash Area"
+msgstr ""
+
+#: lang/json/mapgen_from_json.py
+msgid "Watch your step!"
+msgstr ""
+
+#: lang/json/mapgen_from_json.py
+msgid "Use park at your own risk."
+msgstr ""
+
+#: lang/json/mapgen_from_json.py
+msgid "The Red Dragon Tea Shop"
 msgstr ""
 
 #: lang/json/martial_art_from_json.py src/player.cpp
