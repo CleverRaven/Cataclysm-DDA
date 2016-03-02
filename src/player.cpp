@@ -10641,7 +10641,11 @@ hint_rating player::rate_action_reload( const item &it ) const
         }
     }
 
-    return it.can_reload() ? HINT_GOOD : res;
+    if( !it.is_reloadable() ) {
+        return res;
+    }
+
+    return it.can_reload() ? HINT_GOOD : HINT_IFFY;
 }
 
 hint_rating player::rate_action_unload( const item &it ) const
