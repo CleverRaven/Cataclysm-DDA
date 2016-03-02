@@ -206,7 +206,7 @@
     "price": 500,
     "material": ["steel"],
     "ammo_effects": ["TRAIL", "SMOKE"],
-    "flags": ["NEVER_JAMS"],
+    "flags": ["NEVER_JAMS", "NO_RELOAD"],
     "skill": "melee",
     "ammo": "charcoal",
     "weight": 1003,
