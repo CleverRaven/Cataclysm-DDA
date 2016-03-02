@@ -6531,6 +6531,7 @@ std::unordered_map<tripoint,int> game::shrapnel( const tripoint &src, int power,
     proj.speed = 1000; // no dodging shrapnel
     proj.range = range;
     proj.proj_effects.insert( "NULL_SOURCE" );
+    proj.proj_effects.insert( "WIDE" ); // suppress MF_HARDTOSHOOT
 
     for( auto i = 0; i != count; ++i ) {
         // shrapnel expands randomly in all directions
@@ -6550,7 +6551,7 @@ std::unordered_map<tripoint,int> game::shrapnel( const tripoint &src, int power,
 
                 dealt_projectile_attack frag;
                 frag.proj = proj;
-                frag.missed_by = 0;
+                frag.missed_by = rng( 0.2, 0.6 );
                 frag.proj.impact = damage_instance::physical( 0, kinetic, 0, std::min( kinetic, mass ) );
 
                 distrib[ e ] += kinetic; // increase received damage for tile in distribution
