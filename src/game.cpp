@@ -6573,7 +6573,7 @@ std::unordered_map<tripoint,int> game::shrapnel( const tripoint &src, int power,
                 }
             }
 
-            kinetic -= m.move_cost( e );
+            // @todo apply effects of soft cover
             return kinetic > 0;
         } );
     }
