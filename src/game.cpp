@@ -11480,7 +11480,7 @@ void game::reload( int pos )
 
     // bows etc do not need to reload.
     if( it->has_flag( "RELOAD_AND_SHOOT" ) ) {
-        add_msg( m_info, _( "Your %s does not need to be reloaded, it reloads and fires in a single motion." ),
+        add_msg( m_info, _( "The %s does not need to be reloaded, it reloads and fires in a single motion." ),
                  it->tname().c_str() );
         return;
     }
