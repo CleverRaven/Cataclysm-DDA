@@ -843,13 +843,18 @@
         "volume" : 1,
         "weight" : 1803,
         "ammo_type" : "120mm",
-        "damage" : 4000,
-        "pierce" : 800,
+        "damage" : 40,
+        "pierce" : 10,
         "range" : 80,
         "dispersion" : 5,
         "recoil" : 30,
         "count" : 1,
-        "effects" : ["COOKOFF", "EXPLOSIVE", "TRAIL"]
+        "effects" : ["CUSTOM_EXPLOSION", "TRAIL"],
+        "explode_in_fire" : true,
+        "explosion" : {
+            "power": 1000,
+            "distance_factor": 0.5
+        }
     },
     {   "type" : "AMMO",
         "id" : "12mm",

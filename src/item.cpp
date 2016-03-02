@@ -5014,12 +5014,12 @@ iteminfo::iteminfo(std::string Type, std::string Name, std::string Fmt,
 
 void item::detonate( const tripoint &p ) const
 {
-    if (type == NULL || type->explosion_on_fire_data.power < 0) {
+    if( type == nullptr || type->explosion.power < 0 ) {
         return;
     }
 
-    g->explosion( p, type->explosion_on_fire_data.power, type->explosion_on_fire_data.distance_factor,
-                     type->explosion_on_fire_data.shrapnel, type->explosion_on_fire_data.fire );
+    g->explosion( p, type->explosion.power, type->explosion.distance_factor,
+                     type->explosion.shrapnel, type->explosion.fire );
 }
 
 bool item_ptr_compare_by_charges( const item *left, const item *right)

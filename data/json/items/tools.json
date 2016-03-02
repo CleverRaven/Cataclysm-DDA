@@ -3652,7 +3652,8 @@
     "flags": ["RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB"],
     "revert_to": "null",
     "category": "weapons",
-    "explode_in_fire" : {
+    "explode_in_fire" : true,
+    "explosion" : {
         "power": 60,
         "shrapnel": 0
     },
@@ -3687,7 +3688,8 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category": "weapons",
-    "explode_in_fire" : {
+    "explode_in_fire" : true,
+    "explosion" : {
         "power": 60,
         "shrapnel": 0
     },
@@ -9800,7 +9802,8 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category": "weapons",
-    "explode_in_fire" : {
+    "explode_in_fire" : true,
+    "explosion" : {
         "power": 80,
         "shrapnel": 0
     },
@@ -9835,7 +9838,8 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category": "weapons",
-    "explode_in_fire" : {
+    "explode_in_fire" : true,
+    "explosion" : {
         "power": 80,
         "shrapnel": 0
     },

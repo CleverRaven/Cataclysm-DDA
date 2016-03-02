@@ -494,8 +494,10 @@ public:
     int min_per = 0;
     std::map<skill_id, int> min_skills;
 
-    // Explosion that happens when the item is set on fire
-    explosion_data explosion_on_fire_data;
+    // Should the item explode when lit on fire
+    bool explode_in_fire;
+    // How should the item explode
+    explosion_data explosion;
 
     phase_id phase      = SOLID; // e.g. solid, liquid, gas
     unsigned price      = 0; // Its value
@@ -527,11 +529,6 @@ public:
 
     /** Volume above which the magazine starts to protrude from the item and add extra volume */
     int magazine_well;
-
-    bool explode_in_fire() const
-    {
-        return explosion_on_fire_data.power >= 0;
-    }
 
     virtual std::string get_item_type_string() const
     {

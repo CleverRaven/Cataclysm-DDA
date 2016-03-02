@@ -9,6 +9,7 @@
 #include "field.h"
 #include "mtype.h"
 #include "json.h"
+#include "itype.h"
 
 #include <map>
 
@@ -262,7 +263,6 @@ void apply_ammo_effects( const tripoint &p, const std::set<std::string> &effects
             }
         }
     }
-
 }
 
 
@@ -287,6 +287,12 @@ int aoe_size( const std::set<std::string> &tags )
     return 0;
 }
 
+void apply_custom_explosion( const tripoint &p, const explosion_data &ex )
+{
+    if( ex.power > 0.0f ) {
+        g->explosion( p, ex.power, ex.distance_factor, ex.shrapnel, ex.fire );
+    }
+}
 
 static const std::map<std::string, damage_type> dt_map = {
     { "true", DT_TRUE },
@@ -324,8 +330,12 @@ const std::string &name_by_dt( const damage_type &dt )
 }
 
 projectile::projectile() :
-    speed( 0 ), range( 0 ), drop( nullptr )
+    speed( 0 ), range( 0 ), drop( nullptr ), custom_explosion( nullptr )
 { }
+
+projectile::~projectile()
+{
+}
 
 projectile::projectile( const projectile &other )
 {
@@ -339,6 +349,7 @@ projectile &projectile::operator=( const projectile &other )
     range = other.range;
     proj_effects = other.proj_effects;
     set_drop( other.get_drop() );
+    set_custom_explosion( other.get_custom_explosion() );
 
     return *this;
 }
@@ -374,6 +385,26 @@ void projectile::set_drop( item &&it )
 void projectile::unset_drop()
 {
     drop.reset( nullptr );
+}
+
+const explosion_data &projectile::get_custom_explosion() const
+{
+    if( custom_explosion != nullptr ) {
+        return *custom_explosion;
+    }
+
+    static const explosion_data null_explosion{};
+    return null_explosion;
+}
+
+void projectile::set_custom_explosion( const explosion_data &ex )
+{
+    custom_explosion.reset( new explosion_data( ex ) );
+}
+
+void projectile::unset_custom_explosion()
+{
+    custom_explosion.reset();
 }
 
 damage_unit load_damage_unit( JsonObject &curr )
