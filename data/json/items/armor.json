@@ -976,10 +976,10 @@
         "material" : ["cotton", "null"],
         "volume" : 5,
         "warmth" : 5,
-        "encumbrance" : 5,
+        "encumbrance" : 2,
         "flags" : ["VARSIZE"],
         "coverage" : 40,
-        "material_thickness" : 2
+        "material_thickness" : 3
     },
     {
         "type" : "ARMOR",
@@ -997,10 +997,10 @@
         "material" : ["cotton", "null"],
         "volume" : 8,
         "warmth" : 10,
-        "encumbrance" : 10,
+        "encumbrance" : 16,
         "flags" : ["VARSIZE", "POCKETS"],
         "coverage" : 95,
-        "material_thickness" : 2
+        "material_thickness" : 3
     },
     {
         "type" : "ARMOR",
@@ -1018,7 +1018,7 @@
         "material" : ["cotton", "null"],
         "volume" : 8,
         "warmth" : 15,
-        "encumbrance" : 15,
+        "encumbrance" : 11,
         "flags" : ["VARSIZE", "POCKETS"],
         "coverage" : 95,
         "material_thickness" : 2
@@ -1059,8 +1059,8 @@
         "material" : ["leather", "null"],
         "volume" : 5,
         "warmth" : 10,
-        "encumbrance" : 0,
-        "flags" : ["VARSIZE", "OUTER"],
+        "encumbrance" : 3,
+        "flags" : ["OUTER"],
         "coverage" : 65,
         "material_thickness" : 3
     },
@@ -1079,7 +1079,7 @@
         "material" : ["cotton", "null"],
         "volume" : 9,
         "warmth" : 15,
-        "encumbrance" : 15,
+        "encumbrance" : 16,
         "flags" : ["VARSIZE", "POCKETS"],
         "coverage" : 95,
         "material_thickness" : 2
@@ -1099,7 +1099,7 @@
         "material" : ["cotton", "plastic"],
         "volume" : 10,
         "warmth" : 20,
-        "encumbrance" : 15,
+        "encumbrance" : 18,
         "flags" : ["VARSIZE", "POCKETS"],
         "coverage" : 95,
         "material_thickness" : 2
@@ -1119,10 +1119,10 @@
         "material" : ["cotton", "plastic"],
         "volume" : 10,
         "warmth" : 50,
-        "encumbrance" : 20,
+        "encumbrance" : 22,
         "flags" : ["VARSIZE", "POCKETS"],
         "coverage" : 95,
-        "material_thickness" : 4
+        "material_thickness" : 3
     },
     {
         "type" : "ARMOR",
@@ -1162,7 +1162,7 @@
         "encumbrance" : 20,
         "flags" : ["VARSIZE", "POCKETS", "HOOD", "OUTER"],
         "coverage" : 95,
-        "material_thickness" : 4
+        "material_thickness" : 3
     },
     {
         "type" : "ARMOR",
@@ -1443,8 +1443,8 @@
         "material" : ["cotton", "null"],
         "volume" : 1,
         "warmth" : 20,
-        "encumbrance" : 3,
-        "flags" : ["VARSIZE", "SKINTIGHT"],
+        "encumbrance" : 1,
+        "flags" : ["SKINTIGHT"],
         "coverage" : 80,
         "material_thickness" : 1
     },
@@ -1462,10 +1462,10 @@
         "material" : ["cotton", "null"],
         "volume" : 2,
         "warmth" : 20,
-        "encumbrance" : 3,
-        "flags" : ["VARSIZE", "SKINTIGHT"],
+        "encumbrance" : 1,
+        "flags" : ["SKINTIGHT"],
         "coverage" : 60,
-        "material_thickness" : 2
+        "material_thickness" : 1
     },
     {
         "type" : "ARMOR",
@@ -1595,10 +1595,10 @@
         "material" : ["cotton", "plastic"],
         "volume" : 14,
         "warmth" : 15,
-        "encumbrance" : 3,
+        "encumbrance" : 2,
         "flags" : ["VARSIZE", "POCKETS"],
         "coverage" : 95,
-        "material_thickness" : 2
+        "material_thickness" : 1
     },
     {
         "type" : "ARMOR",
@@ -1635,10 +1635,10 @@
         "material" : ["cotton", "plastic"],
         "volume" : 20,
         "warmth" : 15,
-        "encumbrance" : 10,
-        "flags" : ["VARSIZE", "POCKETS", "OVERSIZE"],
+        "encumbrance" : 2,
+        "flags" : ["POCKETS", "OVERSIZE"],
         "coverage" : 95,
-        "material_thickness" : 2
+        "material_thickness" : 1
     },
     {
         "type" : "ARMOR",
@@ -1980,8 +1980,8 @@
         "material" : ["cotton", "kevlar"],
         "volume" : 10,
         "warmth" : 25,
-        "encumbrance" : 0,
-        "flags" : ["VARSIZE", "OUTER"],
+        "encumbrance" : 5,
+        "flags" : ["OUTER"],
         "coverage" : 100,
         "material_thickness" : 2
     },
@@ -1997,10 +1997,8 @@
         "price" : 3500,
         "material" : ["cotton", "steel"],
         "volume" : 5,
-        "warmth" : 35,
-        "environmental_protection" : 1,
-        "encumbrance" : 25,
-        "flags" : ["VARSIZE"],
+        "warmth" : 10,
+        "encumbrance" : 10,
         "coverage" : 90,
         "material_thickness" : 2
     },
@@ -2333,7 +2331,7 @@
         "material" : ["chitin", "null"],
         "volume" : 70,
         "warmth" : 10,
-        "encumbrance" : 27,
+        "encumbrance" : 10,
         "bashing" : 2,
         "flags" : ["STURDY"],
         "coverage" : 90,
@@ -2354,7 +2352,7 @@
         "material" : ["bone", "leather"],
         "volume" : 50,
         "warmth" : 20,
-        "encumbrance" : 37,
+        "encumbrance" : 24,
         "bashing" : 2,
         "flags" : ["VARSIZE", "STURDY"],
         "coverage" : 95,
@@ -2376,7 +2374,7 @@
         "material" : ["leather", "null"],
         "volume" : 28,
         "warmth" : 25,
-        "encumbrance" : 23,
+        "encumbrance" : 20,
         "bashing" : 2,
         "flags" : ["VARSIZE", "POCKETS", "STURDY"],
         "coverage" : 90,
@@ -2398,7 +2396,7 @@
         "material" : ["leather", "null"],
         "volume" : 38,
         "warmth" : 20,
-        "encumbrance" : 28,
+        "encumbrance" : 22,
         "bashing" : 2,
         "flags" : ["VARSIZE", "POCKETS", "STURDY"],
         "coverage" : 90,
@@ -2420,7 +2418,7 @@
         "material" : ["fur", "leather"],
         "volume" : 40,
         "warmth" : 60,
-        "encumbrance" : 27,
+        "encumbrance" : 25,
         "bashing" : 2,
         "flags" : ["VARSIZE", "POCKETS", "WATERPROOF", "STURDY"],
         "coverage" : 90,
@@ -2443,7 +2441,7 @@
         "volume" : 36,
         "warmth" : 25,
         "environmental_protection" : 1,
-        "encumbrance" : 30,
+        "encumbrance" : 24,
         "bashing" : 2,
         "flags" : ["VARSIZE", "POCKETS", "STURDY"],
         "coverage" : 90,
@@ -2464,6 +2462,7 @@
         "material" : ["leather", "nomex"],
         "volume" : 26,
         "warmth" : 25,
+        "environmental_protection" : 2,
         "encumbrance" : 15,
         "bashing" : 2,
         "flags" : ["VARSIZE", "WATERPROOF", "RAINPROOF"],
@@ -2979,7 +2978,7 @@
         "material" : ["cotton", "null"],
         "volume" : 3,
         "warmth" : 15,
-        "encumbrance" : 7,
+        "encumbrance" : 5,
         "flags" : ["VARSIZE"],
         "coverage" : 90,
         "material_thickness" : 1
@@ -3346,7 +3345,7 @@
         "material" : ["wool", "null"],
         "volume" : 8,
         "warmth" : 40,
-        "encumbrance" : 15,
+        "encumbrance" : 10,
         "flags" : ["VARSIZE"],
         "coverage" : 95,
         "material_thickness" : 3
@@ -3365,7 +3364,7 @@
         "material" : ["cotton", "null"],
         "volume" : 17,
         "warmth" : 30,
-        "encumbrance" : 10,
+        "encumbrance" : 12,
         "flags" : ["VARSIZE", "OUTER", "POCKETS", "HOOD"],
         "coverage" : 95,
         "material_thickness" : 3
@@ -3413,7 +3412,7 @@
         "material" : ["cotton", "null"],
         "volume" : 9,
         "warmth" : 25,
-        "encumbrance" : 5,
+        "encumbrance" : 7,
         "flags" : ["VARSIZE"],
         "coverage" : 90,
         "material_thickness" : 3
@@ -3546,7 +3545,7 @@
         "material" : ["cotton", "null"],
         "volume" : 9,
         "warmth" : 25,
-        "encumbrance" : 10,
+        "encumbrance" : 8,
         "flags" : ["VARSIZE", "POCKETS", "HOOD", "OUTER"],
         "coverage" : 90,
         "material_thickness" : 2
@@ -3565,7 +3564,7 @@
         "material" : ["cotton", "null"],
         "volume" : 13,
         "warmth" : 30,
-        "encumbrance" : 13,
+        "encumbrance" : 11,
         "flags" : ["VARSIZE", "POCKETS", "OUTER"],
         "coverage" : 90,
         "material_thickness" : 3
@@ -3584,7 +3583,7 @@
         "material" : ["cotton", "null"],
         "volume" : 17,
         "warmth" : 35,
-        "encumbrance" : 15,
+        "encumbrance" : 13,
         "flags" : ["VARSIZE", "POCKETS", "OUTER"],
         "coverage" : 90,
         "material_thickness" : 4
@@ -3624,7 +3623,7 @@
         "volume" : 18,
         "warmth" : 30,
         "environmental_protection" : 1,
-        "encumbrance" : 17,
+        "encumbrance" : 15,
         "flags" : ["VARSIZE", "POCKETS", "OUTER"],
         "coverage" : 90,
         "material_thickness" : 3
@@ -3645,7 +3644,7 @@
         "volume" : 22,
         "warmth" : 30,
         "environmental_protection" : 1,
-        "encumbrance" : 27,
+        "encumbrance" : 24,
         "flags" : ["VARSIZE", "POCKETS", "OUTER"],
         "coverage" : 85,
         "material_thickness" : 3
@@ -3666,7 +3665,7 @@
         "volume" : 12,
         "warmth" : 30,
         "environmental_protection" : 1,
-        "encumbrance" : 27,
+        "encumbrance" : 24,
         "flags" : ["VARSIZE", "POCKETS", "OUTER"],
         "coverage" : 90,
         "material_thickness" : 3
@@ -4162,10 +4161,10 @@
         "volume" : 12,
         "warmth" : 10,
         "environmental_protection" : 3,
-        "encumbrance" : 15,
+        "encumbrance" : 20,
         "flags" : ["VARSIZE", "POCKETS", "STURDY", "WATERPROOF"],
-        "coverage" : 90,
-        "material_thickness" : 2
+        "coverage" : 100,
+        "material_thickness" : 4
     },
     {
         "type" : "ARMOR",
@@ -4307,9 +4306,9 @@
         "cutting" : -5,
         "warmth" : 20,
         "environmental_protection" : 1,
-        "encumbrance" : 5,
+        "encumbrance" : 8,
         "flags" : ["VARSIZE", "POCKETS", "OUTER"],
-        "coverage" : 95,
+        "coverage" : 90,
         "material_thickness" : 3
     },
     {
@@ -4400,9 +4399,9 @@
         "volume" : 12,
         "warmth" : 20,
         "environmental_protection" : 1,
-        "encumbrance" : 10,
-        "flags" : ["BELTED", "WATER_FRIENDLY"],
-        "coverage" : 70,
+        "encumbrance" : 5,
+        "flags" : ["BELTED", "WATER_FRIENDLY", "BLOCK_WHILE_WORN"],
+        "coverage" : 80,
         "material_thickness" : 3
     },
     {
@@ -4464,8 +4463,8 @@
         "material" : ["leather", "null"],
         "volume" : 8,
         "warmth" : 25,
-        "encumbrance" : 23,
-        "flags" : ["VARSIZE", "STURDY", "BLOCK_WHILE_WORN"],
+        "encumbrance" : 16,
+        "flags" : ["STURDY", "BLOCK_WHILE_WORN"],
         "coverage" : 90,
         "material_thickness" : 4
     },
@@ -4486,8 +4485,8 @@
         "volume" : 12,
         "warmth" : 20,
         "environmental_protection" : 1,
-        "encumbrance" : 37,
-        "flags" : ["VARSIZE", "STURDY", "BLOCK_WHILE_WORN"],
+        "encumbrance" : 22,
+        "flags" : ["STURDY", "BLOCK_WHILE_WORN"],
         "coverage" : 95,
         "material_thickness" : 4
     },
@@ -4510,8 +4509,8 @@
         "environmental_protection" : 2,
         "encumbrance" : 10,
         "flags" : ["STURDY", "BELTED", "BLOCK_WHILE_WORN"],
-        "coverage" : 75,
-        "material_thickness" : 4
+        "coverage" : 90,
+        "material_thickness" : 3
     },
     {
         "type" : "ARMOR",
@@ -4533,7 +4532,7 @@
         "warmth" : 0,
         "environmental_protection" : 1,
         "encumbrance" : 15,
-        "coverage" : 50,
+        "coverage" : 80,
         "material_thickness" : 3
     },
     {
@@ -4551,8 +4550,8 @@
         "material" : ["cotton", "null"],
         "volume" : 1,
         "warmth" : 15,
-        "encumbrance" : 0,
-        "flags" : ["VARSIZE", "WATER_FRIENDLY", "SKINTIGHT"],
+        "encumbrance" : 1,
+        "flags" : ["WATER_FRIENDLY", "SKINTIGHT"],
         "coverage" : 95,
         "material_thickness" : 1
     },
@@ -4571,7 +4570,7 @@
         "material" : ["cotton", "null"],
         "volume" : 1,
         "warmth" : 20,
-        "encumbrance" : 0,
+        "encumbrance" : 2,
         "flags" : ["WATER_FRIENDLY"],
         "coverage" : 95,
         "material_thickness" : 2
@@ -4630,7 +4629,7 @@
         "material" : ["wool", "null"],
         "volume" : 1,
         "warmth" : 60,
-        "encumbrance" : 25,
+        "encumbrance" : 20,
         "coverage" : 95,
         "material_thickness" : 3
     },
@@ -4689,8 +4688,8 @@
         "volume" : 1,
         "warmth" : 25,
         "environmental_protection" : 5,
-        "encumbrance" : 30,
-        "flags" : ["VARSIZE", "WATERPROOF", "STURDY"],
+        "encumbrance" : 20,
+        "flags" : ["WATERPROOF", "STURDY"],
         "coverage" : 95,
         "material_thickness" : 3
     },
@@ -4775,7 +4774,7 @@
         "encumbrance" : 40,
         "flags" : ["WATERPROOF"],
         "coverage" : 100,
-        "material_thickness" : 2
+        "material_thickness" : 3
     },
     {
         "type" : "ARMOR",
@@ -4834,7 +4833,7 @@
         "encumbrance" : 30,
         "flags" : ["WATERPROOF"],
         "coverage" : 100,
-        "material_thickness" : 2,
+        "material_thickness" : 3,
         "use_action" : {
             "type": "holster",
              "holster_prompt": "Sheath knife",
@@ -4861,9 +4860,9 @@
         "volume" : 0,
         "warmth" : 0,
         "environmental_protection" : 6,
-        "encumbrance" : 0,
+        "encumbrance" : 1,
         "flags" : ["WATER_FRIENDLY","WATERPROOF","SKINTIGHT"],
-        "coverage" : 100,
+        "coverage" : 90,
         "material_thickness" : 1
     },
     {
@@ -4882,7 +4881,7 @@
         "material" : ["leather", "nomex"],
         "volume" : 4,
         "warmth" : 25,
-        "environmental_protection" : 4,
+        "environmental_protection" : 6,
         "encumbrance" : 50,
         "flags" : ["VARSIZE", "STURDY", "WATERPROOF"],
         "coverage" : 100,
@@ -4905,10 +4904,10 @@
         "volume" : 7,
         "warmth" : 20,
         "environmental_protection" : 4,
-        "encumbrance" : 10,
+        "encumbrance" : 12,
         "bashing" : 2,
         "flags" : ["STURDY"],
-        "coverage" : 85,
+        "coverage" : 95,
         "material_thickness" : 4
     },
     {
@@ -4930,8 +4929,8 @@
         "environmental_protection" : 4,
         "encumbrance" : 15,
         "bashing" : 2,
-        "flags" : ["VARSIZE", "STURDY"],
-        "coverage" : 90,
+        "flags" : ["STURDY"],
+        "coverage" : 95,
         "material_thickness" : 4
     },
     {
@@ -4951,7 +4950,7 @@
         "volume" : 3,
         "warmth" : 15,
         "environmental_protection" : 1,
-        "encumbrance" : 10,
+        "encumbrance" : 4,
         "bashing" : 2,
         "flags" : ["VARSIZE", "STURDY", "ALLOWS_NATURAL_ATTACKS"],
         "coverage" : 60,
@@ -4972,7 +4971,7 @@
         "volume" : 0,
         "warmth" : 5,
         "environmental_protection" : 2,
-        "encumbrance" : 10,
+        "encumbrance" : 8,
         "coverage" : 100,
         "material_thickness" : 1
     },
@@ -4991,7 +4990,7 @@
         "volume" : 1,
         "warmth" : 5,
         "environmental_protection" : 1,
-        "encumbrance" : 0,
+        "encumbrance" : 1,
         "coverage" : 95,
         "material_thickness" : 1
     },
@@ -5032,7 +5031,6 @@
         "warmth" : 15,
         "environmental_protection" : 7,
         "encumbrance" : 20,
-        "bashing" : 1,
         "coverage" : 100,
         "material_thickness" : 2
     },
@@ -5296,7 +5294,7 @@
         "volume" : 1,
         "warmth" : 0,
         "environmental_protection" : 1,
-        "encumbrance" : 0,
+        "encumbrance" : 1,
         "flags" : ["WATER_FRIENDLY", "SUN_GLASSES"],
         "qualities" : [["GLARE", 1]],
         "coverage" : 85,
@@ -5318,7 +5316,7 @@
         "volume" : 1,
         "warmth" : 0,
         "environmental_protection" : 1,
-        "encumbrance" : 0,
+        "encumbrance" : 1,
         "flags" : ["WATER_FRIENDLY", "SUN_GLASSES", "VARSIZE", "OUTER"],
         "qualities" : [["GLARE", 1]],
         "coverage" : 90,
@@ -5340,7 +5338,7 @@
         "volume" : 1,
         "warmth" : 0,
         "environmental_protection" : 1,
-        "encumbrance" : 0,
+        "encumbrance" : 1,
         "flags" : ["FANCY", "WATER_FRIENDLY", "SUN_GLASSES"],
         "qualities" : [["GLARE", 1]],
         "coverage" : 95,
@@ -5736,7 +5734,7 @@
         "volume" : 6,
         "warmth" : 5,
         "environmental_protection" : 2,
-        "encumbrance" : 5,
+        "encumbrance" : 6,
         "flags" : ["VARSIZE", "WATER_FRIENDLY", "SKINTIGHT", "STURDY"],
         "coverage" : 100,
         "material_thickness" : 2
@@ -5756,7 +5754,7 @@
         "volume" : 2,
         "warmth" : 5,
         "environmental_protection" : 2,
-        "encumbrance" : 5,
+        "encumbrance" : 6,
         "flags" : ["VARSIZE", "WATER_FRIENDLY", "SKINTIGHT", "STURDY"],
         "coverage" : 100,
         "material_thickness" : 3
@@ -5777,7 +5775,7 @@
         "volume" : 2,
         "warmth" : 5,
         "environmental_protection" : 2,
-        "encumbrance" : 5,
+        "encumbrance" : 6,
         "flags" : ["VARSIZE", "WATER_FRIENDLY", "SKINTIGHT", "STURDY"],
         "coverage" : 100,
         "material_thickness" : 2
@@ -5798,7 +5796,7 @@
         "volume" : 3,
         "warmth" : 5,
         "environmental_protection" : 2,
-        "encumbrance" : 0,
+        "encumbrance" : 6,
         "flags" : ["VARSIZE", "WATER_FRIENDLY", "SKINTIGHT", "STURDY"],
         "coverage" : 100,
         "material_thickness" : 2
@@ -6064,7 +6062,7 @@
         "volume" : 10,
         "warmth" : 20,
         "environmental_protection" : 4,
-        "encumbrance" : 20,
+        "encumbrance" : 10,
         "bashing" : 2,
         "flags" : ["WATERPROOF", "STURDY"],
         "coverage" : 90,
@@ -6086,7 +6084,7 @@
         "volume" : 17,
         "warmth" : 10,
         "environmental_protection" : 3,
-        "encumbrance" : 35,
+        "encumbrance" : 25,
         "bashing" : 2,
         "flags" : ["VARSIZE", "WATERPROOF", "STURDY"],
         "coverage" : 100,
@@ -6111,7 +6109,7 @@
         "encumbrance" : 40,
         "bashing" : 10,
         "flags" : ["VARSIZE", "STURDY"],
-        "coverage" : 95,
+        "coverage" : 100,
         "material_thickness" : 5
     },
     {
@@ -6507,8 +6505,7 @@
         "symbol" : "[",
         "bashing" : 1,
         "warmth" : 0,
-        "environmental_protection" : 5,
-        "flags" : ["WAIST", "VARSIZE"]
+        "flags" : ["WAIST"]
     },
     {
         "type" : "ARMOR",
@@ -7258,7 +7255,7 @@
         "encumbrance" : 15,
         "coverage" : 100,
         "flags" : ["OVERSIZE", "OUTER", "ALLOWS_NATURAL_ATTACKS"],
-        "material_thickness" : 3
+        "material_thickness" : 1
     },
     {
         "type" : "ARMOR",
@@ -7416,9 +7413,9 @@
         "volume" : 12,
         "warmth" : 30,
         "environmental_protection" : 3,
-        "encumbrance" : 10,
+        "encumbrance" : 4,
         "coverage" : 65,
-        "flags" : ["OVERSIZE", "HOOD", "OUTER", "VARSIZE"],
+        "flags" : ["OVERSIZE", "HOOD", "OUTER"],
         "material_thickness" : 2
     },
     {
@@ -7436,9 +7433,9 @@
         "volume" : 15,
         "warmth" : 50,
         "environmental_protection" : 3,
-        "encumbrance" : 12,
+        "encumbrance" : 5,
         "coverage" : 65,
-        "flags" : ["OVERSIZE", "HOOD", "OUTER", "VARSIZE"],
+        "flags" : ["OVERSIZE", "HOOD", "OUTER"],
         "material_thickness" : 2
     },
     {
@@ -7481,9 +7478,9 @@
         "volume" : 16,
         "warmth" : 60,
         "environmental_protection" : 3,
-        "encumbrance" : 15,
+        "encumbrance" : 6,
         "coverage" : 65,
-        "flags" : ["OVERSIZE", "HOOD", "OUTER", "VARSIZE"],
+        "flags" : ["OVERSIZE", "HOOD", "OUTER"],
         "material_thickness" : 2
     },
     {
@@ -7501,9 +7498,9 @@
         "volume" : 14,
         "warmth" : 40,
         "environmental_protection" : 3,
-        "encumbrance" : 17,
+        "encumbrance" : 6,
         "coverage" : 65,
-        "flags" : ["OVERSIZE", "HOOD", "OUTER", "VARSIZE"],
+        "flags" : ["OVERSIZE", "HOOD", "OUTER"],
         "material_thickness" : 2
     },
     {
@@ -7521,9 +7518,9 @@
         "volume" : 10,
         "warmth" : 50,
         "environmental_protection" : 5,
-        "encumbrance" : 5,
-        "coverage" : 95,
-        "flags" : ["OVERSIZE", "OUTER", "VARSIZE"],
+        "encumbrance" : 3,
+        "coverage" : 65,
+        "flags" : ["OVERSIZE", "OUTER"],
         "material_thickness" : 2
     },
     {
@@ -7826,7 +7823,7 @@
         "volume" : 6,
         "warmth" : 0,
         "encumbrance" : 0,
-        "flags" : ["VARSIZE", "WATER_FRIENDLY", "BELTED"],
+        "flags" : ["WATER_FRIENDLY", "BELTED"],
         "coverage" : 30,
         "material_thickness" : 5
     },
@@ -7847,7 +7844,7 @@
         "material" : ["iron", "leather"],
         "volume" : 22,
         "warmth" : 10,
-        "encumbrance" : 15,
+        "encumbrance" : 6,
         "coverage" : 70,
         "material_thickness" : 4
     },
@@ -7972,7 +7969,7 @@
         "material" : ["cotton", "null"],
         "volume" : 7,
         "warmth" : 25,
-        "encumbrance" : 7,
+        "encumbrance" : 13,
         "coverage" : 95,
         "material_thickness" : 3
     },
@@ -8011,9 +8008,9 @@
         "material" : ["steel", "null"],
         "cutting" : 8,
         "warmth" : 20,
-        "encumbrance" : 45,
+        "encumbrance" : 15,
         "bashing" : 6,
-        "flags" : ["VARSIZE", "OUTER"],
+        "flags" : ["OUTER"],
         "volume": 62,
         "coverage" : 90,
         "material_thickness" : 3
@@ -8035,8 +8032,8 @@
         "volume" : 38,
         "cutting" : -10,
         "warmth" : 10,
-        "encumbrance" : 20,
-        "coverage" : 75,
+        "encumbrance" : 5,
+        "coverage" : 80,
         "material_thickness" : 3
     },
     {
@@ -8046,7 +8043,7 @@
         "name_plural" : "pairs of 2-by-arm guards",
         "category" : "armor",
         "description" : "A pair of improvised arm guards made from broken pieces of a two by four that are tied to your arms with rags and string, they offer good protection but are really uncomfortable to wear.",
-        "flags" : ["BELTED"],
+        "flags" : ["BELTED", "BLOCK_WHILE_WORN"],
         "weight" : 300,
         "techniques" : ["WBLOCK_1"],
         "color" : "brown",
@@ -8078,10 +8075,10 @@
         "volume" : 6,
         "warmth" : 5,
         "to_hit" : -1,
-        "encumbrance" : 25,
+        "encumbrance" : 5,
         "bashing" : 8,
         "symbol" : "[",
-        "coverage" : 45,
+        "coverage" : 75,
         "material_thickness" : 3
     },
     {
@@ -8132,7 +8129,6 @@
         "weight" : 5100,
         "color" : "green",
         "covers" : ["LEGS", "TORSO", "ARMS"],
-        "to_hit" : -3,
         "storage" : 30,
         "symbol" : "[",
         "description" : "A lightweight, home-built combination armor made from a cut-down bulletproof vest and a reinforced jumpsuit made out of fabric.  Protects from the elements as well as from harm.",
@@ -8142,7 +8138,6 @@
         "warmth" : 15,
         "environmental_protection" : 3,
         "encumbrance" : 15,
-        "bashing" : 6,
         "flags" : ["VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY"],
         "coverage" : 100,
         "material_thickness" : 4
@@ -8155,7 +8150,6 @@
         "weight" : 3000,
         "color" : "green",
         "covers" : ["TORSO"],
-        "to_hit" : -3,
         "storage" : 10,
         "symbol" : "[",
         "description" : "Lightweight, custom built body armor made from kevlar and tough fabric.  Mostly waterproof.",
@@ -8164,8 +8158,7 @@
         "volume" : 24,
         "warmth" : 15,
         "environmental_protection" : 1,
-        "encumbrance" : 15,
-        "bashing" : 6,
+        "encumbrance" : 16,
         "flags" : ["VARSIZE", "WATERPROOF", "RAINPROOF", "STURDY"],
         "coverage" : 95,
         "material_thickness" : 4
@@ -8178,7 +8171,6 @@
         "weight" : 2100,
         "color" : "green",
         "covers" : ["LEGS"],
-        "to_hit" : -3,
         "storage" : 10,
         "symbol" : "[",
         "description" : "Lightweight, kevlar armored cargo pants designed to hold as much as possible.  Strong and mostly waterproof.",
@@ -8187,8 +8179,7 @@
         "volume" : 14,
         "warmth" : 15,
         "environmental_protection" : 1,
-        "encumbrance" : 15,
-        "bashing" : 6,
+        "encumbrance" : 16,
         "flags" : ["VARSIZE", "WATERPROOF", "POCKETS", "RAINPROOF", "STURDY"],
         "coverage" : 95,
         "material_thickness" : 3
@@ -8201,7 +8192,6 @@
         "weight" : 6800,
         "color" : "brown",
         "covers" : ["LEGS", "TORSO", "ARMS"],
-        "to_hit" : -3,
         "storage" : 28,
         "symbol" : "[",
         "description" : "A home-built combination armor made from a bulletproof vest and a reinforced jumpsuit made out of leather.  Protects from the elements as well as from harm.",
@@ -8211,7 +8201,6 @@
         "warmth" : 15,
         "environmental_protection" : 3,
         "encumbrance" : 25,
-        "bashing" : 6,
         "flags" : ["VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY"],
         "coverage" : 100,
         "material_thickness" : 4
@@ -9012,10 +9001,10 @@
         "material" : ["steel", "leather"],
         "volume" : 70,
         "warmth" : 20,
-        "encumbrance" : 30,
+        "encumbrance" : 20,
         "bashing" : 8,
         "flags" : ["VARSIZE", "OUTER", "STURDY"],
-        "coverage" : 90,
+        "coverage" : 95,
         "material_thickness" : 4
     },
     {
@@ -9055,9 +9044,8 @@
         "volume" : 8,
         "warmth" : 10,
         "encumbrance" : 20,
-        "bashing" : 6,
         "flags" : ["VARSIZE", "WATER_FRIENDLY", "STURDY"],
-        "coverage" : 75,
+        "coverage" : 85,
         "material_thickness" : 3
     },
     {
@@ -9120,9 +9108,9 @@
         "volume" : 9,
         "warmth" : 15,
         "environmental_protection" : 1,
-        "encumbrance" : 27,
+        "encumbrance" : 10,
         "flags" : ["VARSIZE", "POCKETS", "BELTED"],
-        "coverage" : 60,
+        "coverage" : 70,
         "material_thickness" : 3
     },
     {
@@ -9764,10 +9752,10 @@
         "material" : ["cotton", "null"],
         "volume" : 8,
         "warmth" : 10,
-        "encumbrance" : 10,
+        "encumbrance" : 16,
         "flags" : ["VARSIZE", "POCKETS", "FANCY"],
         "coverage" : 95,
-        "material_thickness" : 2
+        "material_thickness" : 3
     },
     {
         "type" : "ARMOR",
@@ -10204,7 +10192,7 @@
         "volume" : 39,
         "warmth" : 50,
         "environmental_protection" : 1,
-        "encumbrance" : 25,
+        "encumbrance" : 19,
         "flags" : ["VARSIZE", "POCKETS", "OUTER", "WATERPROOF", "RAINPROOF"],
         "coverage" : 90,
         "material_thickness" : 3
@@ -10226,7 +10214,7 @@
         "volume" : 33,
         "warmth" : 50,
         "environmental_protection" : 1,
-        "encumbrance" : 25,
+        "encumbrance" : 19,
         "flags" : ["VARSIZE", "POCKETS", "OUTER", "WATERPROOF", "RAINPROOF"],
         "coverage" : 90,
         "material_thickness" : 3
@@ -10514,8 +10502,8 @@
         "warmth" : 15,
         "encumbrance" : 10,
         "flags" : ["VARSIZE"],
-        "coverage" : 100,
-        "material_thickness" : 2
+        "coverage" : 95,
+        "material_thickness" : 3
     },
     {
         "type" : "ARMOR",
@@ -10817,7 +10805,7 @@
         "weight" : 360,
         "color" : "blue",
         "covers" : ["ARMS"],
-        "flags" : ["BELTED"],
+        "flags" : ["BELTED", "BLOCK_WHILE_WORN"],
         "to_hit" : 1,
         "symbol" : "[",
         "description" : "Arm guards made of stacked paper sheets held together with duct tape.",
@@ -10826,7 +10814,7 @@
         "volume" : 2,
         "warmth" : 5,
         "encumbrance" : 10,
-        "coverage" : 50,
+        "coverage" : 80,
         "material_thickness" : 3
     },
     {
@@ -10846,7 +10834,7 @@
         "volume" : 2,
         "warmth" : 5,
         "encumbrance" : 10,
-        "coverage" : 50,
+        "coverage" : 80,
         "material_thickness" : 3
     },
     {
@@ -10903,7 +10891,7 @@
         "volume" : 2,
         "warmth" : 10,
         "environmental_protection" : 1,
-        "encumbrance" : 10,
+        "encumbrance" : 8,
         "coverage" : 90,
         "material_thickness" : 1
     },
@@ -10920,8 +10908,8 @@
         "material" : ["cotton", "null"],
         "volume" : 4,
         "warmth" : 15,
-        "encumbrance" : 10,
-        "flags" : ["VARSIZE", "OVERSIZE"],
+        "encumbrance" : 5,
+        "flags" : ["OVERSIZE"],
         "coverage" : 65,
         "material_thickness" : 1
     },
@@ -11175,7 +11163,7 @@
         "material" : ["wool", "null"],
         "volume" : 18,
         "warmth" : 45,
-        "encumbrance" : 20,
+        "encumbrance" : 12,
         "flags" : ["VARSIZE", "OUTER", "POCKETS", "HOOD"],
         "coverage" : 95,
         "material_thickness" : 3

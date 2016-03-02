@@ -1450,8 +1450,8 @@
         "covers" : ["MOUTH"],
         "flags" : ["OUTER"],
         "warmth" : 20,
-        "environmental_protection" : 2,
-        "encumbrance" : 0,
+        "environmental_protection" : 1,
+        "encumbrance" : 3,
         "coverage" : 85,
         "material_thickness" : 1
     },
@@ -1484,7 +1484,7 @@
         "flags" : ["OUTER", "ALLOWS_NATURAL_ATTACKS"],
         "warmth" : 10,
         "environmental_protection" : 1,
-        "encumbrance" : 0,
+        "encumbrance" : 2,
         "coverage" : 45,
         "material_thickness" : 1
     },
@@ -1516,8 +1516,8 @@
         "covers" : ["MOUTH"],
         "flags" : ["OVERSIZE", "POCKETS", "OUTER"],
         "warmth" : 20,
-        "environmental_protection" : 2,
-        "encumbrance" : 0,
+        "environmental_protection" : 1,
+        "encumbrance" : 3,
         "coverage" : 85,
         "material_thickness" : 1
     },
@@ -1550,7 +1550,7 @@
         "flags" : ["OVERSIZE", "POCKETS", "OUTER", "ALLOWS_NATURAL_ATTACKS"],
         "warmth" : 10,
         "environmental_protection" : 1,
-        "encumbrance" : 0,
+        "encumbrance" : 2,
         "coverage" : 45,
         "material_thickness" : 1
     },
@@ -1583,7 +1583,7 @@
         "flags" : ["OUTER"],
         "warmth" : 30,
         "environmental_protection" : 2,
-        "encumbrance" : 0,
+        "encumbrance" : 3,
         "coverage" : 85,
         "material_thickness" : 2
     },
@@ -1616,7 +1616,7 @@
         "flags" : ["OUTER", "ALLOWS_NATURAL_ATTACKS"],
         "warmth" : 15,
         "environmental_protection" : 1,
-        "encumbrance" : 0,
+        "encumbrance" : 2,
         "coverage" : 45,
         "material_thickness" : 2
     },
@@ -1649,7 +1649,7 @@
         "flags" : ["OVERSIZE", "POCKETS", "OUTER"],
         "warmth" : 30,
         "environmental_protection" : 2,
-        "encumbrance" : 0,
+        "encumbrance" : 3,
         "coverage" : 85,
         "material_thickness" : 2
     },
@@ -1682,7 +1682,7 @@
         "flags" : ["OVERSIZE", "POCKETS", "OUTER", "ALLOWS_NATURAL_ATTACKS"],
         "warmth" : 15,
         "environmental_protection" : 1,
-        "encumbrance" : 0,
+        "encumbrance" : 2,
         "coverage" : 45,
         "material_thickness" : 2
     },
@@ -1715,7 +1715,7 @@
         "flags" : ["OUTER"],
         "warmth" : 50,
         "environmental_protection" : 2,
-        "encumbrance" : 0,
+        "encumbrance" : 3,
         "coverage" : 85,
         "material_thickness" : 2
     },
@@ -1748,7 +1748,7 @@
         "flags" : ["OUTER", "ALLOWS_NATURAL_ATTACKS"],
         "warmth" : 25,
         "environmental_protection" : 1,
-        "encumbrance" : 0,
+        "encumbrance" : 2,
         "coverage" : 45,
         "material_thickness" : 2
     },
@@ -1781,7 +1781,7 @@
         "flags" : ["OVERSIZE", "POCKETS", "OUTER"],
         "warmth" : 50,
         "environmental_protection" : 2,
-        "encumbrance" : 0,
+        "encumbrance" : 3,
         "coverage" : 85,
         "material_thickness" : 2
     },
@@ -1814,7 +1814,7 @@
         "flags" : ["OVERSIZE", "POCKETS", "OUTER", "ALLOWS_NATURAL_ATTACKS"],
         "warmth" : 25,
         "environmental_protection" : 1,
-        "encumbrance" : 0,
+        "encumbrance" : 2,
         "coverage" : 45,
         "material_thickness" : 2
     },
