@@ -12905,13 +12905,13 @@ void mx_minefield(map &m, const tripoint &abs_sub)
     int x2 = (SEEX * 2 - 1);
     int y2 = (SEEY * 2 - 1);
     m.furn_set(x1, y1, "f_sign");
-    m.set_signage( tripoint( x1,  y1, abs_sub.z ), "DANGER! MINEFIELD!");
+    m.set_signage( tripoint( x1,  y1, abs_sub.z ), _("DANGER! MINEFIELD!"));
     m.furn_set(x1, y2, "f_sign");
-    m.set_signage( tripoint( x1,  y2, abs_sub.z ), "DANGER! MINEFIELD!");
+    m.set_signage( tripoint( x1,  y2, abs_sub.z ), _("DANGER! MINEFIELD!"));
     m.furn_set(x2, y1, "f_sign");
-    m.set_signage( tripoint( x2,  y1, abs_sub.z ), "DANGER! MINEFIELD!");
+    m.set_signage( tripoint( x2,  y1, abs_sub.z ), _("DANGER! MINEFIELD!"));
     m.furn_set(x2, y2, "f_sign");
-    m.set_signage( tripoint( x2,  y2, abs_sub.z ), "DANGER! MINEFIELD!");
+    m.set_signage( tripoint( x2,  y2, abs_sub.z ), _("DANGER! MINEFIELD!"));
 }
 
 void mx_crater(map &m, const tripoint &abs_sub)
