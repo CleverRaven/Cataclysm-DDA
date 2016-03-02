@@ -295,5 +295,21 @@
       [ "m1014", 10 ],
       [ "m4a1", 35 ]
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_survival",
+    "//": "Guns typically carried by survivors, either improvised or thematically appropriate.",
+    "items": [
+      { "group": "guns_improvised", "prob": 100 },
+      [ "ar15", 5 ],
+      [ "mossberg_500", 5 ],
+      [ "remington_870", 5 ],
+      [ "ruger_1022", 15 ],
+      [ "shotgun_s", 10 ],
+      [ "shotgun_d", 10 ],
+      [ "sten", 20 ],
+      [ "sks", 10 ]
+    ]
   }
 ]
