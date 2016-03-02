@@ -111,7 +111,6 @@ void init_mapgen_builtin_functions() {
     mapgen_cfunction_map["lmoe"] = &mapgen_lmoe;
     mapgen_cfunction_map["basement_generic_layout"] = &mapgen_basement_generic_layout; // empty, not bound
     mapgen_cfunction_map["basement_junk"] = &mapgen_basement_junk;
-    mapgen_cfunction_map["basement_survivalist"] = &mapgen_basement_survivalist;
     mapgen_cfunction_map["basement_chemlab"] = &mapgen_basement_chemlab;
     mapgen_cfunction_map["basement_weed"] = &mapgen_basement_weed;
     mapgen_cfunction_map["basement_game"] = &mapgen_basement_game;
@@ -3272,30 +3271,6 @@ void mapgen_basement_junk(map *m, oter_id terrain_type, mapgendata dat, int turn
     m->place_items("homeguns", 10, 1, 1, SEEX * 2 - 2, SEEY * 2 - 2, false, 0);
     // Chance of zombies in the basement, only appear north of the anteroom the stairs are in.
     m->place_spawns( mongroup_id( "GROUP_ZOMBIE" ), 2, 1, 1, SEEX * 2 - 1, SEEX * 2 - 5, density);
-}
-
-void mapgen_basement_survivalist(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
-{
-    // Survival Bunker
-    mapgen_basement_generic_layout(m, terrain_type, dat, turn, density);
-    m->furn_set(1, 1, f_bed);
-    m->furn_set(1, 2, f_bed);
-    m->furn_set(SEEX * 2 - 2, 1, f_bed);
-    m->furn_set(SEEX * 2 - 2, 2, f_bed);
-    for (int i = 1; i < SEEY; i++) {
-        m->furn_set(SEEX - 1, i, f_rack);
-        m->furn_set(SEEX    , i, f_rack);
-    }
-    m->place_items("softdrugs",  86, SEEX - 1,  1, SEEX,  2, false, 0);
-    m->place_items("cannedfood",  92, SEEX - 1,  3, SEEX,  6, false, 0);
-    m->place_items("homeguns",  51, SEEX - 1,  7, SEEX,  7, false, 0);
-    m->place_items("lmoe_guns",  31, SEEX - 1,  7, SEEX,  7, false, 0);
-    m->place_items("survival_tools", 83, SEEX - 1,  8, SEEX, 10, false, 0);
-    m->place_items("manuals",  60, SEEX - 1, 11, SEEX, 11, false, 0);
-    m->place_items("bed",  60, 1, 1, 1, 2, false, 0);
-    m->place_items("bed",  60, SEEX * 2 - 2, 1, SEEX * 2 - 2, 2, false, 0);
-    // Chance of zombies in the basement, only appear north of the anteroom the stairs are in.
-    m->place_spawns( mongroup_id( "GROUP_PREPPER_HOUSE" ), 2, 1, 1, SEEX * 2 - 1, SEEX * 2 - 5, 0.2f);
 }
 
 void mapgen_basement_chemlab(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
