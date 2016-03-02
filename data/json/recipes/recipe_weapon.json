@@ -1900,6 +1900,40 @@
     ]
   ]
 },{
+  "type": "recipe",
+  "result": "nail_bomb",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_EXPLOSIVE",
+  "skill_used": "fabrication",
+  "skills_required": [ "mechanics", 1 ],
+  "difficulty": 2,
+  "time": 5000,
+  "reversible": true,
+  "autolearn": true,
+  "qualities" : [],
+  "components": [
+    [
+      [ "superglue", 1 ],
+      [ "duct_tape", 75 ],
+      [ "string_36", 1 ]
+    ],
+    [
+      [ "bottle_glass", 1 ],
+      [ "clay_canister", 1 ],
+      [ "flask_glass", 1 ]
+    ],
+    [
+      [ "nail", 40 ]
+    ],
+    [
+      [ "gunpowder", 72 ],
+      [ "chem_black_powder", 144 ],
+      [ "gasoline", 200 ],
+      [ "diesel", 200 ],
+      [ "shot_bird", 6 ]
+    ]
+  ]
+},{
   "type" : "recipe",
   "result": "combatsaw_off",
   "category": "CC_WEAPON",
