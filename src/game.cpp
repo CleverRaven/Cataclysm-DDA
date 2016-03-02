@@ -6543,8 +6543,8 @@ std::unordered_map<tripoint,int> game::shrapnel( const tripoint &src, int power,
 
             auto critter = critter_at( e );
             if( critter && !critter->is_dead_state() ) {
-                // special case critter on same tile as epicenter to have lesser chance
-                if( src == e && !one_in( 3 ) ) {
+                // special case critter at epicenter to have equivalent chance to adjacent tile
+                if( src == e && !one_in( 8 ) ) {
                     return true;
                 }
 
