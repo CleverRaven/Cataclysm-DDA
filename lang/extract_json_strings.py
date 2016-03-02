@@ -32,6 +32,7 @@ ignore_files = {
 ignorable = {
     "BULLET_PULLING",
     "ITEM_BLACKLIST",
+    "ITEM_OPTION",
     "MONSTER_BLACKLIST",
     "MONSTER_FACTION",
     "MONSTER_WHITELIST",
