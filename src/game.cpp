@@ -6498,11 +6498,12 @@ std::unordered_map<tripoint,std::pair<int,int>> game::explosion( const tripoint 
         debugmsg( "called game::explosion with factor >= 1.0 (infinite size)" );
     } else if( factor > 0.0f ) {
         // @todo return map containing distribution of damage
-        do_blast( p, power, factor, fire );
+        // do_blast( p, power, factor, fire );
     }
 
     if( shrapnel_count > 0 ) {
-        auto res = shrapnel( p, power * 4, shrapnel_count, shrapnel_mass );
+        int shrapnel_power = ( log( power ) + 1 ) * shrapnel_mass;
+        auto res = shrapnel( p, shrapnel_power, shrapnel_count, shrapnel_mass );
         for( const auto& e : res ) {
             if( distrib.count( e.first ) ) {
                 // if tile was already affected by blast just update the shrapnel field
