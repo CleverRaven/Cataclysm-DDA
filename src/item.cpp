@@ -5756,6 +5756,21 @@ bool item::is_dangerous() const
     } );
 }
 
+bool item::is_reloadable() const
+{
+    if( !is_gun() && !is_tool() && !is_magazine() ) {
+        return false;
+
+    } else if( has_flag( "NO_RELOAD") || has_flag( "RELOAD_AND_SHOOT" ) ) {
+        return false;
+
+    } else if( ammo_type() == "NULL" ) {
+        return false;
+    }
+
+    return true;
+}
+
 std::string item::type_name( unsigned int quantity ) const
 {
     const auto iter = item_vars.find( "name" );
