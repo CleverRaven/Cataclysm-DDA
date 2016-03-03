@@ -2151,7 +2151,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
     else if (iname != item_vars.end()) {
         maintext = iname->second;
     }
-    else if (is_gun() && !contents.empty() ) {
+    else if( is_gun() || is_tool() || is_magazine() ) {
         ret.str("");
         ret << label(quantity);
         for( const auto mod : gunmods() ) {
@@ -2166,8 +2166,6 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
         ret << label(quantity);
         ret << "+";
         maintext = ret.str();
-    } else if( is_magazine() ) {
-        maintext = label( quantity );
     } else if (contents.size() == 1) {
         if(contents[0].made_of(LIQUID)) {
             maintext = rmp_format(_("<item_name>%s of %s"), label(quantity).c_str(), contents[0].tname( quantity, with_prefix ).c_str());
@@ -2295,7 +2293,7 @@ std::string item::display_name(unsigned int quantity) const
         // a book which has remaining unread chapters
         qty = string_format(" (%i)", get_remaining_chapters(g->u));
     } else if( ammo_capacity() > 0 ) {
-        // anything that can be reloaded including tools, guns and auxiliary gunmods
+        // anything that can be reloaded including tools, magazines, guns and auxiliary gunmods
         qty = string_format(" (%i)", ammo_remaining());
     } else if( is_ammo_container() && !contents.empty() ) {
         qty = string_format( " (%i)", contents[0].charges );
