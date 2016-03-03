@@ -216,6 +216,8 @@ class mapgen_function_json : public virtual mapgen_function {
 private:
     jmapgen_objects objects;
     jmapgen_int rotation;
+
+    void formatted_set_incredibly_simple( map *m ) const;
 };
 
 /////////////////////////////////////////////////////////////////////////////////
