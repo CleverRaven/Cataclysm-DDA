@@ -46,8 +46,8 @@ void formatted_set_simple(map* m, const int startx, const int starty, const char
             tdata.fix_bindings(*p);
             fdata.fix_bindings(*p);
             // bindings should be ter_id / furn_id
-            ter_id ter = ter_id( tdata.bindings[*p](m, x, y) );
-            furn_id furn = furn_id( fdata.bindings[*p](m, x, y) );
+            ter_id ter = ter_id( tdata.bindings[*p] );
+            furn_id furn = furn_id( fdata.bindings[*p] );
             if (ter != t_null) {
                 m->ter_set(x, y, ter);
             }

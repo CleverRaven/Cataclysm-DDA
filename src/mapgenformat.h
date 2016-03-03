@@ -62,7 +62,7 @@ class determine_terrain
         determine_terrain() : id( 0 ) {}
         determine_terrain( int pid ) : id( pid ) {}
         ~determine_terrain() {}
-        int operator()( map *, const int /*x*/, const int /*y*/ ) {
+        operator int() const {
             return id;
         }
 };
