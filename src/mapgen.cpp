@@ -1607,27 +1607,22 @@ bool jmapgen_setmap::apply( map *m ) {
 
 void mapgen_function_json::formatted_set_incredibly_simple( map * const m ) const
 {
-    const auto &data = format;
-    const int width = mapgensize;
-    const int height = mapgensize;
-    const ter_id defter = fill_ter;
-
-    for( int y = 0; y < height; y++ ) {
-        for( int x = 0; x < width; x++ ) {
+    for( size_t y = 0; y < mapgensize; y++ ) {
+        for( size_t x = 0; x < mapgensize; x++ ) {
             const size_t index = calc_index( x, y );
-            const ter_furn_id &tdata = data[index];
+            const ter_furn_id &tdata = format[index];
             if( tdata.furn != f_null ) {
                 if( tdata.ter != t_null ) {
                     m->set( x, y, tdata.ter, tdata.furn );
-                } else if( defter != t_null ) {
-                    m->set( x, y, defter, tdata.furn );
+                } else if( fill_ter != t_null ) {
+                    m->set( x, y, fill_ter, tdata.furn );
                 } else {
                     m->furn_set( x, y, tdata.furn );
                 }
             } else if( tdata.ter != t_null ) {
                 m->ter_set( x, y, tdata.ter );
-            } else if( defter != t_null ) {
-                m->ter_set( x, y, defter );
+            } else if( fill_ter != t_null ) {
+                m->ter_set( x, y, fill_ter );
             }
         }
     }
