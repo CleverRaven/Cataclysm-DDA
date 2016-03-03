@@ -15,8 +15,7 @@ namespace mapf
 {
 
 void formatted_set_simple(map* m, const int startx, const int starty, const char* cstr,
-                       format_effect<ter_id> ter_b, format_effect<furn_id> furn_b,
-                       const bool empty_toilets)
+                       format_effect<ter_id> ter_b, format_effect<furn_id> furn_b )
 {
     const char* p = cstr;
     int x = startx;
@@ -32,7 +31,7 @@ void formatted_set_simple(map* m, const int startx, const int starty, const char
                 m->ter_set(x, y, ter);
             }
             if (furn != f_null) {
-                if (furn == f_toilet && !empty_toilets) {
+                if (furn == f_toilet) {
                     m->place_toilet(x, y);
                 } else {
                     m->furn_set(x, y, furn);

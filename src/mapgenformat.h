@@ -25,8 +25,7 @@ class format_effect;
  * You will have specify the values you want to track with a parameter.
  */
 void formatted_set_simple( map *m, const int startx, const int starty, const char *cstr,
-                           format_effect<ter_id> ter_b, format_effect<furn_id> furn_b,
-                           const bool empty_toilets = false );
+                           format_effect<ter_id> ter_b, format_effect<furn_id> furn_b );
 
 // This class will become an interface in the future.
 template<typename ID>
