@@ -1,4 +1,6 @@
 #include "game.h"
+
+#include "coordinate_conversions.h"
 #include "input.h"
 #include "output.h"
 #include "line.h"
@@ -309,8 +311,8 @@ bool editmap::eget_direction( tripoint &p, const std::string &action ) const
     } else if( action == "LEVEL_UP" ) {
         p.z = 1;
     } else {
-        input_context ctxt("EGET_DIRECTION");
-        ctxt.set_iso(true);
+        input_context ctxt( "EGET_DIRECTION" );
+        ctxt.set_iso( true );
         if( !ctxt.get_direction( p.x, p.y, action ) ) {
             return false;
         }
@@ -351,7 +353,7 @@ tripoint editmap::edit()
 {
     target = g->u.pos() + g->u.view_offset;
     input_context ctxt( "EDITMAP" );
-    ctxt.set_iso(true);
+    ctxt.set_iso( true );
     ctxt.register_directions();
     ctxt.register_action( "LEFT_WIDE" );
     ctxt.register_action( "RIGHT_WIDE" );
@@ -618,26 +620,26 @@ void editmap::update_view( bool update_info )
         }
         const auto &map_cache = g->m.get_cache( target.z );
 
-        mvwprintw(w_info, off++, 1, _("dist: %d u_see: %d v_in: %d scent: %d"),
-                  rl_dist( g->u.pos(), target ), g->u.sees( target ), veh_in, g->scent( target ));
-        mvwprintw(w_info, off++, 1, _("sight_range: %d, daylight_sight_range: %d,"),
-                  g->u.sight_range( g->light_level( g->u.posz() ) ), g->u.sight_range(DAYLIGHT_LEVEL) );
-        mvwprintw(w_info, off++, 1, _("transparency: %.5f, visibility: %.5f,"),
-                  map_cache.transparency_cache[target.x][target.y],
-                  map_cache.seen_cache[target.x][target.y] );
-        mvwprintw(w_info, off++, 1, _("apparent light: %.2f, light_at: %.2f"),
-                  map_cache.seen_cache[target.x][target.y] * map_cache.lm[target.x][target.y],
-                  map_cache.lm[target.x][target.y] );
-        mvwprintw(w_info, off++, 1, _("outside: %d"), g->m.is_outside( target ) );
+        mvwprintw( w_info, off++, 1, _( "dist: %d u_see: %d v_in: %d scent: %d" ),
+                   rl_dist( g->u.pos(), target ), g->u.sees( target ), veh_in, g->scent( target ) );
+        mvwprintw( w_info, off++, 1, _( "sight_range: %d, daylight_sight_range: %d," ),
+                   g->u.sight_range( g->light_level( g->u.posz() ) ), g->u.sight_range( DAYLIGHT_LEVEL ) );
+        mvwprintw( w_info, off++, 1, _( "transparency: %.5f, visibility: %.5f," ),
+                   map_cache.transparency_cache[target.x][target.y],
+                   map_cache.seen_cache[target.x][target.y] );
+        mvwprintw( w_info, off++, 1, _( "apparent light: %.2f, light_at: %.2f" ),
+                   map_cache.seen_cache[target.x][target.y] * map_cache.lm[target.x][target.y],
+                   map_cache.lm[target.x][target.y] );
+        mvwprintw( w_info, off++, 1, _( "outside: %d" ), g->m.is_outside( target ) );
         std::string extras = "";
         if( veh_in >= 0 ) {
             extras += _( " [vehicle]" );
         }
         if( g->m.has_flag( TFLAG_INDOORS, target ) ) {
-            extras += _(" [indoors]");
+            extras += _( " [indoors]" );
         }
         if( g->m.has_flag( TFLAG_SUPPORTS_ROOF, target ) ) {
-            extras += _(" [roof]");
+            extras += _( " [roof]" );
         }
 
         mvwprintw( w_info, off, 1, "%s %s", g->m.features( target ).c_str(), extras.c_str() );
@@ -1247,7 +1249,7 @@ int editmap::edit_trp()
             mvwprintz( w_picktrap, t + 1 - tshift, 1, c_white, "%s", padding.c_str() );
             if( t < num_trap_types ) {
                 auto &tr = trap_id( t ).obj();
-                if ( tr.is_null() ) {
+                if( tr.is_null() ) {
                     tnam = _( "-clear-" );
                 } else {
                     if( tr.name.length() > 0 ) {
@@ -1259,7 +1261,8 @@ int editmap::edit_trp()
                 }
                 mvwputch( w_picktrap, t + 1 - tshift, 2, tr.color, tr.sym );
                 mvwprintz( w_picktrap, t + 1 - tshift, 4,
-                           ( trsel == tr.loadid ? h_white : ( cur_trap == tr.loadid ? c_green : c_ltgray ) ), "%d %s", t, tnam.c_str() );
+                           ( trsel == tr.loadid ? h_white : ( cur_trap == tr.loadid ? c_green : c_ltgray ) ), "%d %s", t,
+                           tnam.c_str() );
             }
         }
         wrefresh( w_picktrap );
@@ -1351,15 +1354,15 @@ int editmap::edit_itm()
                 if( imenu.ret >= 0 && imenu.ret < imenu_savetest ) {
                     int intval = -1;
                     switch( imenu.ret ) {
-                    case imenu_bday:
-                        intval = ( int )it->bday;
-                        break;
-                    case imenu_damage:
-                        intval = ( int )it->damage;
-                        break;
-                    case imenu_burnt:
-                        intval = ( int )it->burnt;
-                        break;
+                        case imenu_bday:
+                            intval = ( int )it->bday;
+                            break;
+                        case imenu_damage:
+                            intval = ( int )it->damage;
+                            break;
+                        case imenu_burnt:
+                            intval = ( int )it->burnt;
+                            break;
                     }
                     int retval = std::atoi(
                                      string_input_popup( "set: ", 20, to_string( intval ) ).c_str()
@@ -1439,52 +1442,52 @@ tripoint editmap::recalc_target( shapetype shape )
     tripoint ret = target;
     target_list.clear();
     switch( shape ) {
-    case editmap_circle: {
-        int radius = rl_dist( origin, target );
-        for( int x = origin.x - radius; x <= origin.x + radius; x++ ) {
-            for( int y = origin.y - radius; y <= origin.y + radius; y++ ) {
-                if( rl_dist( {x, y, z}, origin ) <= radius ) {
-                    if( inbounds( x, y, z ) ) {
-                        target_list.push_back( tripoint( x, y, z ) );
-                    }
-                }
-            }
-        }
-    }
-    break;
-    case editmap_rect_filled:
-    case editmap_rect:
-        int sx;
-        int sy;
-        int ex;
-        int ey;
-        if( target.x < origin.x ) {
-            sx = target.x;
-            ex = origin.x;
-        } else {
-            sx = origin.x;
-            ex = target.x;
-        }
-        if( target.y < origin.y ) {
-            sy = target.y;
-            ey = origin.y;
-        } else {
-            sy = origin.y;
-            ey = target.y;
-        }
-        for( int x = sx; x <= ex; x++ ) {
-            for( int y = sy; y <= ey; y++ ) {
-                if( shape == editmap_rect_filled || x == sx || x == ex || y == sy || y == ey ) {
-                    if( inbounds( x, y, z ) ) {
-                        target_list.push_back( tripoint( x, y, z ) );
+        case editmap_circle: {
+            int radius = rl_dist( origin, target );
+            for( int x = origin.x - radius; x <= origin.x + radius; x++ ) {
+                for( int y = origin.y - radius; y <= origin.y + radius; y++ ) {
+                    if( rl_dist( {x, y, z}, origin ) <= radius ) {
+                        if( inbounds( x, y, z ) ) {
+                            target_list.push_back( tripoint( x, y, z ) );
+                        }
                     }
                 }
             }
         }
         break;
-    case editmap_line:
-        target_list = line_to( origin, target, 0, 0 );
-        break;
+        case editmap_rect_filled:
+        case editmap_rect:
+            int sx;
+            int sy;
+            int ex;
+            int ey;
+            if( target.x < origin.x ) {
+                sx = target.x;
+                ex = origin.x;
+            } else {
+                sx = origin.x;
+                ex = target.x;
+            }
+            if( target.y < origin.y ) {
+                sy = target.y;
+                ey = origin.y;
+            } else {
+                sy = origin.y;
+                ey = target.y;
+            }
+            for( int x = sx; x <= ex; x++ ) {
+                for( int y = sy; y <= ey; y++ ) {
+                    if( shape == editmap_rect_filled || x == sx || x == ex || y == sy || y == ey ) {
+                        if( inbounds( x, y, z ) ) {
+                            target_list.push_back( tripoint( x, y, z ) );
+                        }
+                    }
+                }
+            }
+            break;
+        case editmap_line:
+            target_list = line_to( origin, target, 0, 0 );
+            break;
     }
 
     return ret;
@@ -1546,7 +1549,7 @@ int editmap::select_shape( shapetype shape, int mode )
     tripoint orig = target;
     tripoint origor = origin;
     input_context ctxt( "EDITMAP_SHAPE" );
-    ctxt.set_iso(true);
+    ctxt.set_iso( true );
     ctxt.register_directions();
     ctxt.register_action( "LEFT_WIDE" );
     ctxt.register_action( "RIGHT_WIDE" );
@@ -1675,7 +1678,7 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
     update_view( true );
 
     // Coordinates of the overmap terrain that should be generated.
-    const point omt_pos = overmapbuffer::ms_to_omt_copy( tc.abs_pos );
+    const point omt_pos = ms_to_omt_copy( tc.abs_pos );
     oter_id &omt_ref = overmap_buffer.ter( omt_pos.x, omt_pos.y, target.z );
     // Copy to store the original value, to restore it upon canceling
     const oter_id orig_oters = omt_ref;
@@ -1873,7 +1876,7 @@ int editmap::mapgen_retarget()
 {
     int ret = 0;
     input_context ctxt( "EDITMAP_RETARGET" );
-    ctxt.set_iso(true);
+    ctxt.set_iso( true );
     ctxt.register_directions();
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "CONFIRM" );

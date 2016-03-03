@@ -278,7 +278,7 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
 
     drop_or_embed_projectile( attack );
 
-    ammo_effects(tp, proj.proj_effects);
+    apply_ammo_effects( tp, proj.proj_effects );
 
     // TODO: Move this outside now that we have hit point in return values?
     if( proj.proj_effects.count( "BOUNCE" ) ) {
@@ -374,8 +374,8 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
 {
     const bool is_charger_gun = gun.update_charger_gun_ammo();
 
-    if( !gun.is_gun() || !gun.ammo_data() ) {
-        debugmsg( "%s tried to fire empty or non-gun (%s).", name.c_str(), gun.tname().c_str() );
+    if( !gun.is_gun() ) {
+        debugmsg( "%s tried to fire non-gun (%s).", name.c_str(), gun.tname().c_str() );
         return 0;
     }
 
@@ -415,7 +415,7 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
     for( ; curshot != shots; ++curshot ) {
 
 
-        if( !handle_gun_damage( *gun.type, gun.ammo_data() ? gun.ammo_data()->ammo->ammo_effects : std::set<std::string>() ) ) {
+        if( !handle_gun_damage( *gun.type, gun.ammo_effects() ) ) {
             break;
         }
 
@@ -713,7 +713,7 @@ static int draw_targeting_window( WINDOW *w_target, item *relevant, player &p, t
         title = _("Select a vehicle");
     } else {
         if( mode == TARGET_MODE_FIRE ) {
-            if(relevant->has_flag("RELOAD_AND_SHOOT")) {
+            if( relevant->has_flag( "RELOAD_AND_SHOOT" ) && relevant->ammo_data() ) {
                 title = string_format( _("Shooting %1$s from %2$s"),
                         p.weapon.ammo_data()->nname(1).c_str(), p.weapon.tname().c_str());
             } else if( relevant->has_flag("NO_AMMO") ) {
@@ -999,7 +999,7 @@ std::vector<tripoint> game::target( tripoint &p, const tripoint &low, const trip
                 if( u.weapon.get_gun_mode() == "MODE_BURST" ) {
                     mode = _("Burst");
                 } else {
-                    item *gunmod = u.weapon.active_gunmod();
+                    item *gunmod = u.weapon.gunmod_current();
                     if( gunmod != NULL ) {
                         mode = gunmod->type_name();
                     }
@@ -1141,6 +1141,7 @@ std::vector<tripoint> game::target( tripoint &p, const tripoint &low, const trip
                 u.assign_activity( ACT_AIM, 0, 0 );
                 u.activity.str_values.push_back( "AIM" );
                 ret.clear();
+                u.view_offset = old_offset;
                 return ret;
             }
         } else if( action == "SWITCH_AIM" ) {
@@ -1189,6 +1190,7 @@ std::vector<tripoint> game::target( tripoint &p, const tripoint &low, const trip
                 u.assign_activity( ACT_AIM, 0, 0 );
                 u.activity.str_values.push_back( action );
                 ret.clear();
+                u.view_offset = old_offset;
                 return ret;
             }
         } else if( action == "FIRE" ) {
@@ -1222,28 +1224,27 @@ static projectile make_gun_projectile( const item &gun ) {
     proj.speed  = 1000;
     proj.impact = damage_instance::physical( 0, gun.gun_damage(), 0, gun.gun_pierce() );
     proj.range = gun.gun_range();
+    proj.proj_effects = gun.ammo_effects();
 
-    const auto curammo = gun.ammo_data();
-
-    // Consider both effects from the gun and ammo
     auto &fx = proj.proj_effects;
-    fx.insert( gun.type->gun->ammo_effects.begin(), gun.type->gun->ammo_effects.end() );
-    fx.insert( curammo->ammo->ammo_effects.begin(), curammo->ammo->ammo_effects.end() );
 
-    if( curammo->phase == LIQUID || fx.count( "SHOT" ) || fx.count("BOUNCE" ) ) {
+    if( ( gun.ammo_data() && gun.ammo_data()->phase == LIQUID ) ||
+        fx.count( "SHOT" ) || fx.count("BOUNCE" ) ) {
         fx.insert( "WIDE" );
     }
 
-    // Some projectiles have a chance of being recoverable
-    bool recover = std::any_of(fx.begin(), fx.end(), []( const std::string& e ) {
-        int n;
-        return sscanf( e.c_str(), "RECOVER_%i", &n ) == 1 && !one_in( n );
-    });
+    if( gun.ammo_data() ) {
+        // Some projectiles have a chance of being recoverable
+        bool recover = std::any_of(fx.begin(), fx.end(), []( const std::string& e ) {
+            int n;
+            return sscanf( e.c_str(), "RECOVER_%i", &n ) == 1 && !one_in( n );
+        });
 
-    if( recover && !fx.count( "IGNITE" ) && !fx.count( "EXPLOSIVE" ) ) {
-        item drop( curammo->id, calendar::turn, 1 );
-        drop.active = fx.count( "ACT_ON_RANGED_HIT" );
-        proj.set_drop( drop );
+        if( recover && !fx.count( "IGNITE" ) && !fx.count( "EXPLOSIVE" ) ) {
+            item drop( gun.ammo_current(), calendar::turn, 1 );
+            drop.active = fx.count( "ACT_ON_RANGED_HIT" );
+            proj.set_drop( drop );
+        }
     }
 
     return proj;
@@ -1292,8 +1293,7 @@ static inline void eject_casing( player& p, item& weap ) {
         g->m.add_item_or_charges( eject, item( mag->type->magazine->linkage, calendar::turn, 1 ) );
     }
 
-    itype_id casing_type = weap.ammo_data()->ammo->casing;
-    if( casing_type == "NULL" || casing_type.empty() ) {
+    if( weap.ammo_casing() == "null" ) {
         return;
     }
 
@@ -1303,12 +1303,12 @@ static inline void eject_casing( player& p, item& weap ) {
         return;
     }
 
-    if( weap.has_gunmod( "brass_catcher" ) != -1 ) {
-        p.i_add( item( casing_type, calendar::turn, 1 ) );
+    if( weap.gunmod_find( "brass_catcher" ) ) {
+        p.i_add( item( weap.ammo_casing(), calendar::turn, 1 ) );
         return;
     }
 
-    g->m.add_item_or_charges( eject, item( casing_type, calendar::turn, 1 ) );
+    g->m.add_item_or_charges( eject, item( weap.ammo_casing(), calendar::turn, 1 ) );
     sfx::play_variant_sound( "fire_gun", "brass_eject", sfx::get_heard_volume( eject ), sfx::get_heard_angle( eject ) );
 }
 
@@ -1323,100 +1323,68 @@ void make_gun_sound_effect(player &p, bool burst, item *weapon)
 item::sound_data item::gun_noise( bool const burst ) const
 {
     if( !is_gun() ) {
-        return sound_data{ 0, { "" } };
-    }
-    item const* const gunmod = active_gunmod();
-    if( gunmod != nullptr ) {
-        return gunmod->gun_noise( burst );
-    }
-    const islot_gun &gun = *type->gun;
-    const auto &ammo_used = gun.ammo;
-
-    // TODO: make this a property of the ammo type.
-    static std::set<ammotype> const always_silent_ammotypes = {
-        ammotype( "bolt" ),
-        ammotype( "arrow" ),
-        ammotype( "pebble" ),
-        ammotype( "fishspear" ),
-        ammotype( "dart" ),
-    };
-    if( always_silent_ammotypes.count( ammo_used ) > 0 ) {
-        return sound_data{ 0, { "" } };
+        return { 0, "" };
     }
 
-    int noise = gun.loudness + (ammo_data() ? ammo_data()->ammo->damage : 0);
+    int noise = type->gun->loudness;
     for( const auto mod : gunmods() ) {
         noise += mod->type->gunmod->loudness;
     }
+    if( ammo_data() ) {
+        noise += ammo_data()->ammo->loudness;
+    }
 
-    const auto &ammo_effects = gun.ammo_effects;
-    const auto &weapon_id = type->id;
+    if( ammo_type() == "40mm") {
+        return { 8, _( "Thunk!" ) };
 
-    const char* gunsound = "";
-    // TODO: most of this could be statically allocated.
-    if( ammo_effects.count("LASER") || ammo_effects.count("PLASMA") ) {
-        if (noise < 20) {
-            gunsound = _("Fzzt!");
-        } else if (noise < 40) {
-            gunsound = _("Pew!");
-        } else if (noise < 60) {
-            gunsound = _("Tsewww!");
+    } else if( typeId() == "hk_g80") {
+        return { 24, _( "tz-CRACKck!" ) };
+
+    } else if( ammo_type() == "gasoline" || ammo_type() == "66mm" ||
+               ammo_type() == "84x246mm" || ammo_type() == "m235" ) {
+        return { 4, _( "Fwoosh!" ) };
+    }
+
+    auto fx = ammo_effects();
+
+    if( fx.count( "LASER" ) || fx.count( "PLASMA" ) ) {
+        if( noise < 20 ) {
+            return { noise, _( "Fzzt!" ) };
+        } else if( noise < 40 ) {
+            return { noise, _( "Pew!" ) };
+        } else if( noise < 60 ) {
+            return { noise, _( "Tsewww!" ) };
         } else {
-            gunsound = _("Kra-kow!!");
+            return { noise, _( "Kra-kow!!" ) };
         }
-    } else if( ammo_effects.count("LIGHTNING") ) {
-        if (noise < 20) {
-            gunsound = _("Bzzt!");
-        } else if (noise < 40) {
-            gunsound = _("Bzap!");
-        } else if (noise < 60) {
-            gunsound = _("Bzaapp!");
+
+    } else if( fx.count( "LIGHTNING" ) ) {
+        if( noise < 20 ) {
+            return { noise, _( "Bzzt!" ) };
+        } else if( noise < 40 ) {
+            return { noise, _( "Bzap!" ) };
+        } else if( noise < 60 ) {
+            return { noise, _( "Bzaapp!" ) };
         } else {
-            gunsound = _("Kra-koom!!");
+            return { noise, _( "Kra-koom!!" ) };
         }
-    } else if( ammo_effects.count("WHIP") ) {
-        noise = 20;
-        gunsound = _("Crack!");
-    } else {
-        if (noise < 10) {
-            if (burst) {
-                gunsound = _("Brrrip!");
-            } else {
-                gunsound = _("plink!");
-            }
-        } else if (noise < 150) {
-            if (burst) {
-                gunsound = _("Brrrap!");
-            } else {
-                gunsound = _("bang!");
-            }
-        } else if (noise < 175) {
-            if (burst) {
-                gunsound = _("P-p-p-pow!");
-            } else {
-                gunsound = _("blam!");
-            }
+
+    } else if( fx.count( "WHIP" ) ) {
+        return { noise, _( "Crack!" ) };
+
+    } else if( noise > 0 ) {
+        if( noise < 10 ) {
+            return { noise, burst ? _( "Brrrip!" ) : _( "plink!" ) };
+        } else if( noise < 150 ) {
+            return { noise, burst ? _( "Brrrap!" ) : _( "bang!" ) };
+        } else if(noise < 175 ) {
+            return { noise, burst ? _( "P-p-p-pow!" ) : _( "blam!" ) };
         } else {
-            if (burst) {
-                gunsound = _("Kaboom!!");
-            } else {
-                gunsound = _("kerblam!");
-            }
+            return { noise, burst ? _( "Kaboom!!" ) : _( "kerblam!" ) };
         }
     }
 
-    if( ammo_used == "40mm") {
-        gunsound = _("Thunk!");
-        noise = 8;
-    } else if( weapon_id == "hk_g80") {
-        gunsound = _("tz-CRACKck!");
-        noise = 24;
-    } else if( ammo_used == "gasoline" || ammo_used == "66mm" ||
-               ammo_used == "84x246mm" || ammo_used == "m235" ) {
-        gunsound = _("Fwoosh!");
-        noise = 4;
-    }
-    return sound_data{ noise, { gunsound } };
+    return { 0, "" }; // silent weapons
 }
 
 // Little helper to clean up dispersion calculation methods.
@@ -1429,7 +1397,7 @@ static int rand_or_max( bool random, int max )
 double player::get_weapon_dispersion( const item *weapon, bool random ) const
 {
     if( weapon->is_gun() && weapon->is_in_auxiliary_mode() ) {
-        const auto gunmod = weapon->active_gunmod();
+        const auto gunmod = weapon->gunmod_current();
         if( gunmod != nullptr ) {
             return get_weapon_dispersion( gunmod, random );
         }

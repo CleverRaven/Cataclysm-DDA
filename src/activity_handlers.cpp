@@ -21,6 +21,7 @@
 #include "field.h"
 #include "weather.h"
 #include "ui.h"
+#include "map_iterator.h"
 
 #include <math.h>
 #include <sstream>
@@ -138,22 +139,23 @@ void set_up_butchery( player_activity &act, player &u )
 
     const mtype *corpse = items[act.index].get_mtype();
     int time_to_cut = 0;
-    switch( corpse->size ) { // Time (roughly) in turns to cut up the corpse
-    case MS_TINY:
-        time_to_cut = 12;
-        break;
-    case MS_SMALL:
-        time_to_cut = 25;
-        break;
-    case MS_MEDIUM:
-        time_to_cut = 50;
-        break;
-    case MS_LARGE:
-        time_to_cut = 80;
-        break;
-    case MS_HUGE:
-        time_to_cut = 150;
-        break;
+    switch( corpse->size ) {
+        // Time (roughly) in turns to cut up the corpse
+        case MS_TINY:
+            time_to_cut = 25;
+            break;
+        case MS_SMALL:
+            time_to_cut = 50;
+            break;
+        case MS_MEDIUM:
+            time_to_cut = 75;
+            break;
+        case MS_LARGE:
+            time_to_cut = 100;
+            break;
+        case MS_HUGE:
+            time_to_cut = 300;
+            break;
     }
 
     // At factor 0, 10 time_to_cut is 10 turns. At factor 50, it's 5 turns, at 75 it's 2.5
@@ -196,66 +198,65 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     int wool = 0;
     bool stomach = false;
 
+    int max_practice = 4;
     switch (corpse->size) {
-    case MS_TINY:
-        pieces = 1;
-        skins = 1;
-        bones = 1;
-        fats = 1;
-        sinews = 1;
-        feathers = 2;
-        wool = 1;
-        break;
-    case MS_SMALL:
-        pieces = 2;
-        skins = 2;
-        bones = 4;
-        fats = 2;
-        sinews = 4;
-        feathers = 6;
-        wool = 2;
-        break;
-    case MS_MEDIUM:
-        pieces = 4;
-        skins = 4;
-        bones = 9;
-        fats = 4;
-        sinews = 9;
-        feathers = 11;
-        wool = 4;
-        break;
-    case MS_LARGE:
-        pieces = 8;
-        skins = 8;
-        bones = 14;
-        fats = 8;
-        sinews = 14;
-        feathers = 17;
-        wool = 8;
-        break;
-    case MS_HUGE:
-        pieces = 16;
-        skins = 16;
-        bones = 21;
-        fats = 16;
-        sinews = 21;
-        feathers = 24;
-        wool = 16;
-        break;
+        case MS_TINY:
+            pieces = 1;
+            skins = 1;
+            bones = 1;
+            fats = 1;
+            sinews = 1;
+            feathers = 2;
+            wool = 1;
+            break;
+        case MS_SMALL:
+            pieces = 2;
+            skins = 2;
+            bones = 4;
+            fats = 2;
+            sinews = 4;
+            feathers = 6;
+            wool = 2;
+            break;
+        case MS_MEDIUM:
+            pieces = 4;
+            skins = 4;
+            bones = 9;
+            fats = 4;
+            sinews = 9;
+            feathers = 11;
+            wool = 4;
+            break;
+        case MS_LARGE:
+            pieces = 8;
+            skins = 8;
+            bones = 14;
+            fats = 8;
+            sinews = 14;
+            feathers = 17;
+            wool = 8;
+            max_practice = 5;
+            break;
+        case MS_HUGE:
+            pieces = 16;
+            skins = 16;
+            bones = 21;
+            fats = 16;
+            sinews = 21;
+            feathers = 24;
+            wool = 16;
+            max_practice = 6;
+            break;
     }
 
     const int skill_level = p->skillLevel( skill_survival );
 
     auto roll_butchery = [&] () {
         double skill_shift = 0.0;
-        ///\EFFECT_SURVIVAL randomly increases butcher rolls, slightly
+        ///\EFFECT_SURVIVAL randomly increases butcher rolls
         skill_shift += rng_float( 0, skill_level - 3 );
         ///\EFFECT_DEX >8 randomly increases butcher rolls, slightly, <8 decreases
         skill_shift += rng_float( 0, p->dex_cur - 8 ) / 4.0;
-        ///\EFFECT_STR >4 randomly increases butcher rolls, <4 decreases
-        if( p->str_cur < 4 ) {
-            skill_shift -= rng_float( 0, 5 * ( 4 - p->str_cur ) ) / 4.0;
-        }
 
         if( factor < 0 ) {
             skill_shift -= rng_float( 0, -factor / 5.0 );
@@ -264,9 +265,9 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         return static_cast<int>( round( skill_shift ) );
     };
 
-    int practice = std::max( 0, 4 + pieces + roll_butchery());
+    int practice = std::max( 0, 4 + pieces + roll_butchery() );
 
-    p->practice( skill_survival, practice );
+    p->practice( skill_survival, practice, max_practice );
 
     // Lose some meat, skins, etc if the rolls are low
     pieces +=   std::min( 0, roll_butchery() );
@@ -461,9 +462,9 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     }
 
     if( pieces <= 0 ) {
-        p->add_msg_if_player(m_bad, _("Your clumsy butchering destroys the meat!"));
+        p->add_msg_if_player(m_bad, _("Your clumsy butchering destroys the flesh!"));
     } else {
-        p->add_msg_if_player(m_good, _("You harvest some meat."));
+        p->add_msg_if_player(m_good, _("You harvest some flesh."));
         const itype_id meat = corpse->get_meat_itype();
         if( meat == "null" ) {
             return;
@@ -864,66 +865,93 @@ void activity_handlers::pulp_do_turn( player_activity *act, player *p )
 {
     const tripoint &pos = act->placement;
 
-    // numbers logic: a str 8 character with a butcher knife (4 bash, 18 cut)
-    // should have at least a 50% chance of damaging an intact zombie corpse (75 volume).
-    // a str 8 character with a baseball bat (28 bash, 0 cut) should have around a 25% chance.
-
     int cut_power = p->weapon.type->melee_cut;
-    // stabbing weapons are a lot less effective at pulping
+    // Stabbing weapons are a lot less effective at pulping
     if( p->weapon.has_flag("STAB") || p->weapon.has_flag("SPEAR") ) {
         cut_power /= 2;
     }
+
+    // Slicing weapons are a moderately less effective at pulping
+    if( p->weapon.has_flag("SLICE") ) {
+        cut_power = cut_power * 2 / 3;
+    }
     ///\EFFECT_STR increases pulping power, with diminishing returns
-    double pulp_power = sqrt((double)(p->str_cur + p->weapon.type->melee_dam)) *
-        std::min(1.0, sqrt((double)(cut_power + 1)));
-    ///\EFFECT_STR caps pulping power
-    pulp_power = std::min(pulp_power, (double)p->str_cur);
-    pulp_power *= 20; // constant multiplier to get the chance right
+    float pulp_power = sqrt( (p->str_cur + p->weapon.type->melee_dam) * ( cut_power + 1.0f ) );
+    // Multiplier to get the chance right + some bonus for survival skill
+    pulp_power *= 40 + p->get_skill_level( skill_survival ) * 5;
+
+    const int mess_radius = p->weapon.has_flag("MESSY") ? 2 : 1;
 
     int moves = 0;
     int &num_corpses = act->index; // use this to collect how many corpse are pulped
     auto corpse_pile = g->m.i_at(pos);
     for( auto corpse = corpse_pile.begin(); corpse != corpse_pile.end(); ++corpse ) {
+        if( !corpse->is_corpse() || !corpse->get_mtype()->has_flag( MF_REVIVES )  ) {
+            // Don't smash non-rezing corpses
+            continue;
+        }
 
-        if( !corpse->is_corpse() || corpse->damage >= CORPSE_PULP_THRESHOLD ) {
-            continue; // no corpse or already pulped
+        if( corpse->damage >= CORPSE_PULP_THRESHOLD ) {
+            // Deactivate already-pulped corpses that weren't properly deactivated
+            corpse->active = false;
+            continue;
         }
 
         while( corpse->damage < CORPSE_PULP_THRESHOLD ) {
-
             // Increase damage as we keep smashing ensuring we eventually smash the target.
             if( x_in_y( pulp_power, corpse->volume() ) ) {
                 if( ++corpse->damage == CORPSE_PULP_THRESHOLD ) {
                     corpse->active = false;
                     num_corpses++;
                 }
-                p->handle_melee_wear();
             }
 
             // Splatter some blood around
             tripoint tmp = pos;
             field_id type_blood = corpse->get_mtype()->bloodType();
-            if( type_blood != fd_null ) {
-                for( tmp.x = pos.x - 1; tmp.x <= pos.x + 1; tmp.x++ ) {
-                    for( tmp.y = pos.y - 1; tmp.y <= pos.y + 1; tmp.y++ ) {
-                        if( !one_in( pulp_power / std::min( corpse->volume(), 1 ) ) ) {
-                            g->m.add_field( tmp, type_blood, 1, 0 );
+            if( mess_radius > 1 && x_in_y( pulp_power, 10000 ) ) {
+                // Make gore instead of blood this time
+                type_blood = corpse->get_mtype()->gibType();
+            }
+            if( type_blood != fd_null && x_in_y( pulp_power, corpse->volume() ) ) {
+                // Splatter a bit more randomly, so that it looks cooler
+                const int radius = mess_radius + x_in_y( pulp_power, 500 ) + x_in_y( pulp_power, 1000 );
+                const tripoint dest( pos.x + rng( -radius, radius ), pos.y + rng( -radius, radius ), pos.z );
+                const auto blood_line = line_to( pos, dest );
+                int line_len = blood_line.size();
+                for( const auto &elem : blood_line ) {
+                    g->m.adjust_field_strength( elem, type_blood, 1 );
+                    line_len--;
+                    if( g->m.impassable( elem ) ) {
+                        // Blood splatters stop at walls.
+                        if( line_len > 0 ) {
+                            // But splatter the rest of the blood at the wall
+                            g->m.adjust_field_strength( elem, type_blood, line_len );
                         }
+
+                        break;
                     }
                 }
             }
 
-            p->mod_stat( "stamina", -20 - ( p->weapon.weight() / 100 ) );
+            float stamina_ratio = (float)p->stamina / p->get_stamina_max();
+            p->mod_stat( "stamina", stamina_ratio * -40 );
 
-            moves += p->weapon.is_null() ? 80 : p->weapon.attack_time() * 0.8;
+            moves += 100 / std::max( 0.25f, stamina_ratio );
+            if( one_in( 10 ) ) {
+                // Smashing may not be butchery, but it involves some zombie anatomy
+                p->practice( skill_survival, 2, 2 );
+            }
+
             if( moves >= p->moves ) {
-                p->moves -= moves; // enough for this turn;
+                // Enough for this turn;
+                p->moves -= moves;
                 return;
             }
         }
     }
 
-   // If we reach this, all corpses have been pulped, finish the activity
+    // If we reach this, all corpses have been pulped, finish the activity
     act->moves_left = 0;
     if( num_corpses == 0 ) {
         add_msg(m_bad, _("The corpse moved before you could finish smashing it!"));

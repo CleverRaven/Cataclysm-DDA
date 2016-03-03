@@ -1,4 +1,6 @@
 #include "game.h"
+
+#include "coordinate_conversions.h"
 #include "rng.h"
 #include "input.h"
 #include "output.h"
@@ -765,7 +767,7 @@ bool game::start_game(std::string worldname)
         // map is loaded.
         start_loc.add_map_special( omtstart, scen->get_map_special() );
     }
-    tripoint lev = overmapbuffer::omt_to_sm_copy( omtstart );
+    tripoint lev = omt_to_sm_copy( omtstart );
     // The player is centered in the map, but lev[xyz] refers to the top left point of the map
     lev.x -= MAPSIZE / 2;
     lev.y -= MAPSIZE / 2;
@@ -1440,7 +1442,7 @@ bool game::do_turn()
     // m.vehmove used to do this, but now it only give them moves instead.
     for( auto &elem : MAPBUFFER ) {
         tripoint sm_loc = elem.first;
-        point sm_topleft = overmapbuffer::sm_to_ms_copy(sm_loc.x, sm_loc.y);
+        point sm_topleft = sm_to_ms_copy(sm_loc.x, sm_loc.y);
         point in_reality = m.getlocal(sm_topleft);
 
         submap *sm = elem.second;
@@ -3076,10 +3078,7 @@ bool game::handle_action()
             return false;
 
         case ACTION_QUICKLOAD:
-            MAPBUFFER.reset();
-            overmap_buffer.clear();
-            setup();
-            load( world_generator->active_world->world_name, base64_encode(u.name) );
+            quickload();
             return false;
 
         case ACTION_PL_INFO:
@@ -3651,6 +3650,7 @@ bool game::save()
              !save_uistate()){
             return false;
         } else {
+            world_generator->active_world->add_save( base64_encode( u.name ) );
             return true;
         }
     } catch (std::ios::failure &err) {
@@ -7556,10 +7556,11 @@ void game::smash()
         return;
     }
 
-    for (auto it = m.i_at(smashp).begin(); it != m.i_at(smashp).end(); ++it) {
-        if ( it->is_corpse() && it->damage < CORPSE_PULP_THRESHOLD ) {
+    for( const auto &maybe_corpse : m.i_at( smashp ) ) {
+        if ( maybe_corpse.is_corpse() && maybe_corpse.damage < CORPSE_PULP_THRESHOLD &&
+             maybe_corpse.get_mtype()->has_flag( MF_REVIVES ) ) {
             // do activity forever. ACT_PULP stops itself
-            u.assign_activity(ACT_PULP, INT_MAX, 0);
+            u.assign_activity( ACT_PULP, INT_MAX, 0 );
             u.activity.placement = smashp;
             return; // don't smash terrain if we've smashed a corpse
         }
@@ -8581,9 +8582,11 @@ void game::handle_multi_item_info( const tripoint &lp, WINDOW *w_look, const int
             // items are displayed from the live view, don't do this here
             return;
         }
-        auto items = m.i_at( lp );
-        trim_and_print(w_look, line++, column, getmaxx(w_look) - 2, c_ltgray, _("There is a %s there."), items[0].tname().c_str());
-        if (items.size() > 1) {
+        const maptile &cur_maptile = g->m.maptile_at( lp );
+        const item &displayed_item = cur_maptile.get_uppermost_item();
+
+        trim_and_print(w_look, line++, column, getmaxx(w_look) - 2, c_ltgray, _("There is a %s there."), displayed_item.tname().c_str());
+        if (cur_maptile.get_item_count() > 1) {
             mvwprintw(w_look, line++, column, _("There are other items there as well."));
         }
     } else if (m.has_flag("CONTAINER", lp) && !m.could_see_items( lp, u)) {
@@ -8859,8 +8862,8 @@ void game::zones_manager()
 
             } else if (action == "SHOW_ZONE_ON_MAP") {
                 //show zone position on overmap;
-                tripoint player_overmap_position = overmapbuffer::ms_to_omt_copy( m.getabs( u.pos() ) );
-                tripoint zone_overmap = overmapbuffer::ms_to_omt_copy( zones.zones[active_index].get_center_point() );
+                tripoint player_overmap_position = ms_to_omt_copy( m.getabs( u.pos() ) );
+                tripoint zone_overmap = ms_to_omt_copy( zones.zones[active_index].get_center_point() );
                 overmap::draw_zones( player_overmap_position, zone_overmap, active_index );
 
                 zones_manager_draw_borders(w_zones_border, w_zones_info_border, zone_ui_height, width);
@@ -10482,7 +10485,7 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
             return false;
         }
 
-        if (cont->charges > 0 && cont->has_curammo() && cont->ammo_current() != liquid.typeId()) {
+        if( cont->charges > 0 && cont->ammo_current() != liquid.typeId() ) {
             add_msg(m_info, _("You can't mix loads in your %s."), cont->tname().c_str());
             return false;
         }
@@ -10568,7 +10571,7 @@ int game::move_liquid(item &liquid)
                 return -1;
             }
 
-            if (cont->charges > 0 && cont->has_curammo() && cont->ammo_current() != liquid.typeId()) {
+            if( cont->charges > 0 && cont->ammo_current() != liquid.typeId() ) {
                 add_msg(m_info, _("You can't mix loads in your %s."), cont->tname().c_str());
                 return -1;
             }
@@ -10955,7 +10958,7 @@ void game::plfire( bool burst, const tripoint &default_target )
 
                 actions.push_back( [&]{ u.invoke_item( &w, "holster" ); } );
 
-            } else if( w.is_gun() && w.has_gunmod( "shoulder_strap" ) >= 0 ) {
+            } else if( w.is_gun() && w.gunmod_find( "shoulder_strap" ) ) {
                 // wield item currently worn using shoulder strap
                 options.push_back( w.display_name() );
                 actions.push_back( [&]{ u.wield( w ); } );
@@ -10972,7 +10975,7 @@ void game::plfire( bool burst, const tripoint &default_target )
         return;
     }
 
-    item& gun = u.weapon.active_gunmod() ? *u.weapon.active_gunmod() : u.weapon;
+    item& gun = u.weapon.gunmod_current() ? *u.weapon.gunmod_current() : u.weapon;
 
     if( !gun.is_gun() && !gun.has_flag( "REACH_ATTACK" ) ) {
         return;
@@ -11005,25 +11008,19 @@ void game::plfire( bool burst, const tripoint &default_target )
             }
         }
 
-        if( gun.has_flag("NO_AMMO") ) {
-            gun.charges = 1;
-            gun.set_curammo( "generic_no_ammo" );
-        }
-
-
         if( gun.has_flag("FIRE_TWOHAND") && ( !u.has_two_arms() || u.worn_with_flag("RESTRICT_HANDS") ) ) {
             add_msg(m_info, _("You need two free hands to fire your %s."), gun.tname().c_str() );
             return;
         }
 
         if( gun.has_flag("RELOAD_AND_SHOOT") && gun.ammo_remaining() == 0 ) {
-            item_location ammo = gun.pick_reload_ammo( u );
-            if( !ammo ) {
+            item::reload_option opt = gun.pick_reload_ammo( u );
+            if( !opt ) {
                 return; // menu cancelled
             }
 
-            reload_time += u.item_reload_cost( gun, *ammo, 1 );
-            if( !gun.reload( u, std::move( ammo ), 1 ) ) {
+            reload_time += opt.moves;
+            if( !gun.reload( u, std::move( opt.ammo ), 1 ) ) {
                 return; // unable to reload
             }
 
@@ -11488,6 +11485,11 @@ void game::reload( int pos )
         return;
     }
 
+    // for holsters and ammo pouches try to reload any contained item
+    if( it->type->can_use( "holster" ) && !it->contents.empty() ) {
+        it = &it->contents[ 0 ];
+    }
+
     switch( u.rate_action_reload( *it ) ) {
         case HINT_IFFY:
             add_msg( m_info, _( "Your %s is already fully loaded!" ), it->tname().c_str() );
@@ -11501,38 +11503,14 @@ void game::reload( int pos )
             break;
     }
 
-    auto loc = it->pick_reload_ammo( u );
-    if( loc ) {
-        const item& ammo = loc->is_ammo_container() ? loc->contents[0] : *loc;
-
-        item *target = nullptr;
-        if( it->active_gunmod() && it->active_gunmod()->can_reload( ammo.typeId() ) ) {
-            target = it->active_gunmod(); // prefer reloading active gunmod
-
-        } else if( it->can_reload( ammo.typeId() ) ) {
-            target = it; // otherwise reload item itself
-
-        } else {
-            for( const auto mod : it->gunmods() ) {
-                if( mod->can_reload( ammo.typeId() ) ) {
-                    target = mod; // finally try to reload any other auxiliary gunmod
-                    break;
-                }
-            }
-        }
-        if( !target ) {
-            debugmsg( "Unable to find suitable reload target" );
-            return; // not expected when player::rate_action_reload() == true
-        }
-
-        int qty = 1;// @todo pick_reload_ammo should return also target and qty
-        if( ammo.is_ammo() && !target->has_flag( "RELOAD_ONE") ) {
-            qty = std::min( ammo.charges, target->ammo_capacity() - target->ammo_remaining() );
-        }
-
+    item::reload_option opt = it->pick_reload_ammo( u );
+    if( opt ) {
         std::stringstream ss;
         ss << pos;
-        u.assign_activity( ACT_RELOAD, u.item_reload_cost( *target, ammo, qty ), qty, loc.obtain( u, qty ), ss.str() );
+
+        long fetch = !opt.ammo->is_ammo_container() ? opt.qty : 1;
+        u.assign_activity( ACT_RELOAD, opt.moves, opt.qty, opt.ammo.obtain( u, fetch ), ss.str() );
+
         u.inv.restack( &u );
     }
 
@@ -11687,10 +11665,16 @@ void game::unload( item &it )
         }
 
         // Construct a new ammo item and try to drop it
-        item ammo( target->ammo_current(), calendar::turn );
-        ammo.charges = qty;
+        item ammo( target->ammo_current(), calendar::turn, qty );
 
-        if( !add_or_drop_with_msg( u, ammo ) ) {
+        if( ammo.made_of( LIQUID ) ) {
+            add_or_drop_with_msg( u, ammo );
+            qty -= ammo.charges;
+            if( qty <= 0 ) {
+                return; // no liquid was moved
+            }
+
+        } else if( !add_or_drop_with_msg( u, ammo ) ) {
             return;
         }
 
@@ -14592,6 +14576,26 @@ void game::quicksave()
     last_save_timestamp = now;
 }
 
+void game::quickload()
+{
+    const WORLDPTR active_world = world_generator->active_world;
+    if ( active_world == nullptr ) {
+        return;
+    }
+
+    const std::string &save_name = base64_encode(u.name);
+    if( active_world->save_exists( save_name ) ) {
+        if( moves_since_last_save != 0 ) { // See if we need to reload anything
+            MAPBUFFER.reset();
+            overmap_buffer.clear();
+            setup();
+            load( active_world->world_name, save_name );
+        }
+    } else {
+        popup_getkey( _( "No saves for %s yet." ), u.name.c_str() );
+    }
+}
+
 void game::autosave()
 {
     //Don't autosave if the min-autosave interval has not passed since the last autosave/quicksave.
@@ -15051,6 +15055,6 @@ overmap &game::get_cur_om() const
 {
     // The player is located in the middle submap of the map.
     const tripoint sm = m.get_abs_sub() + tripoint( MAPSIZE / 2, MAPSIZE / 2, 0 );
-    const tripoint pos_om = overmapbuffer::sm_to_om_copy( sm );
+    const tripoint pos_om = sm_to_om_copy( sm );
     return overmap_buffer.get( pos_om.x, pos_om.y );
 }

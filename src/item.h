@@ -111,8 +111,8 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
         item &operator=( const item & ) = default;
         virtual ~item() = default;
 
-        item( const itype_id& id, int turn, int qty = -1 );
-        item( const itype *type, int turn, int qty = -1 );
+        explicit item( const itype_id& id, int turn = -1, int qty = -1 );
+        explicit item( const itype *type, int turn = -1, int qty = -1 );
 
         struct default_charges_tag {};
         item( const itype_id& id, int turn, default_charges_tag );
@@ -126,6 +126,31 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
          * @return same instance to allow method chaining
          */
         item& convert( const itype_id& new_type );
+
+        /**
+         * Filter converting this instance to the inactive type
+         * If the item is either inactive or cannot be deactivated is a no-op
+         * @param ch character currently possessing or acting upon the item (if any)
+         * @param alert whether to display any messages
+         * @return same instance to allow method chaining
+         */
+        item& deactivate( const Character *ch = nullptr, bool alert = true );
+
+        /**
+         * Filter setting the ammo for this instance
+         * Any existing ammo is removed. If necessary a default magazine is also added.
+         * @param ammo specific type of ammo (must be compatible with item ammo type)
+         * @param qty maximum ammo (capped by item capacity) or negative to fill to capacity
+         * @return same instance to allow method chaining
+         */
+        item& ammo_set( const itype_id& ammo, long qty = -1 );
+
+        /**
+         * Filter removing all ammo from this instance
+         * If the item is neither a tool, gun nor magazine is a no-op
+         * For items reloading using magazines any empty magazine remains present.
+         */
+        item& ammo_unset();
 
         /**
          * Splits a count-by-charges item always leaving source item with minimum of 1 charge
@@ -228,17 +253,28 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
      */
     bool can_reload( const itype_id& ammo = std::string() ) const;
 
+    struct reload_option {
+        const item *target = nullptr;
+        item_location ammo;
+        long qty = 0;
+        int moves = 0;
+
+        operator bool() const {
+            return target && ammo && qty > 0;
+        }
+    };
+
     /**
      * Select suitable ammo with which to reload the item
      * @param u player inventory to search for suitable ammo.
      */
-    item_location pick_reload_ammo( player &u ) const;
+    reload_option pick_reload_ammo( player &u ) const;
 
     /**
      * Reload item using ammo from location returning true if sucessful
-     * @param qty if specified caps reloading to this (or fewer) units
+     * @param qty caps reloading to this (or fewer) units
      */
-    bool reload( player &u, item_location loc, long qty = -1 );
+    bool reload( player &u, item_location loc, long qty );
 
     template<typename Archive>
     void io( Archive& );
@@ -416,6 +452,14 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
      * Puts the given item into this one, no checks are performed.
      */
     void put_in( item payload );
+
+    /** Stores a newly constructed item at the end of this item's contents */
+    template<typename ... Args>
+    item& emplace_back( Args&&... args ) {
+        contents.emplace_back( std::forward<Args>( args )... );
+        return contents.back();
+    }
+
     /**
      * Returns this item into its default container. If it does not have a default container,
      * returns this. It's intended to be used like \code newitem = newitem.in_its_container();\endcode
@@ -436,7 +480,6 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
     bool has_quality( std::string quality_id, int quality_value ) const;
     bool count_by_charges() const;
     bool craft_has_charges();
-    long num_charges();
 
     /**
      * Reduce the charges of this item, only use for items counted by charges!
@@ -709,18 +752,6 @@ public:
          *  @param ignore only check item is compatible and ignore any existing contents */
         bool can_holster ( const item& obj, bool ignore = false ) const;
 
-        /**
-         * Returns @ref curammo, the ammo that is currently load in this item.
-         * May return a null pointer.
-         * If non-null, the returned itype is quaranted to have an ammo slot:
-         * @code itm.get_curammo()->ammo->damage @endcode will work.
-         */
-        const itype* get_curammo() const;
-        /**
-         * Whether the item is currently loaded (which implies it has some non-null pointer
-         * as @ref curammo).
-         */
-        bool has_curammo() const;
         /**
          * Sets the current ammo to nullptr. Note that it does not touch the charges or anything else.
          */
@@ -1098,6 +1129,12 @@ public:
          *  @return NULL if item does not use a specific ammo type (and is consequently not reloadable) */
         ammotype ammo_type( bool conversion = true ) const;
 
+        /** Get ammo effects for item optionally inclusive of any resulting from the loaded ammo */
+        std::set<std::string> ammo_effects( bool with_ammo = true ) const;
+
+        /** Returns casing type ejected by item (if any) which is always "null" if item is not a gun */
+        itype_id ammo_casing() const;
+
         /** Does item have an integral magazine (as opposed to allowing detachable magazines) */
         bool magazine_integral() const;
 
@@ -1127,6 +1164,18 @@ public:
         /** Returns all gunmods currently attached to this item (always empty if item not a gun) */
         std::vector<item *> gunmods();
         std::vector<const item *> gunmods() const;
+
+        /** Get first attached gunmod matching type or nullptr if no such mod or item is not a gun */
+        item * gunmod_find( const itype_id& mod );
+        const item * gunmod_find( const itype_id& mod ) const;
+
+        /**
+         * Returns currently active auxiliary (@ref is_auxiliary_gunmod) gun mod item.
+         * May return null if there is no such gun mod or if the gun is not in the
+         * auxiliary mode (@ref is_in_auxiliary_mode).
+         */
+        item * gunmod_current();
+        item const * gunmod_current() const;
 
         /*
          * Checks if mod can be applied to this item considering any current state (jammed, loaded etc.)
@@ -1221,19 +1270,6 @@ public:
         /** Get the type of a ranged weapon (eg. "rifle", "crossbow"), or empty string if non-gun */
         std::string gun_type() const;
 
-        /**
-         * Returns the currently active auxiliary (@ref is_auxiliary_gunmod) gun mod item.
-         * May return null if there is no such gun mod or if the gun is not in the
-         * auxiliary mode (@ref is_in_auxiliary_mode).
-         */
-        item* active_gunmod();
-        item const* active_gunmod() const;
-        /**
-         * Returns the index of a gunmod item of the given type. The actual gunmod item is in
-         * the @ref contents vector, the returned index point into that vector.
-         * Returns -1 if this is not a gun, or if it has no such gunmod.
-         */
-        int has_gunmod( const itype_id& type ) const;
         /**
          * Number of mods that can still be installed into the given mod location,
          * for non-guns it always returns 0.

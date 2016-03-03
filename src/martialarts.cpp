@@ -181,7 +181,7 @@ void martialart::load( JsonObject &jo )
     optional( jo, was_loaded, "techniques", techniques, auto_flags_reader<matec_id>{} );
     optional( jo, was_loaded, "weapons", weapons, auto_flags_reader<itype_id>{} );
 
-    optional( jo, was_loaded, "allow_nonstrict_unarmed", allow_nonstrict_unarmed, true );
+    optional( jo, was_loaded, "strictly_unarmed", strictly_unarmed, false );
 
     optional( jo, was_loaded, "leg_block", leg_block, 99 );
     optional( jo, was_loaded, "arm_block", arm_block, 99 );
@@ -333,10 +333,10 @@ bool ma_requirements::is_valid_player( const player &u ) const
     // There are 4 different cases of "armedness":
     // Truly unarmed, unarmed weapon, style-allowed weapon, generic weapon
     bool valid_weapon =
-        (unarmed_allowed && u.unarmed_attack() &&
-            (!strictly_unarmed || !u.is_armed())) ||
-        (melee_allowed &&
-            (is_valid_weapon(u.weapon) || u.style_selected.obj().has_weapon(u.weapon.type->id) ));
+        ( unarmed_allowed && u.unarmed_attack() &&
+            ( !strictly_unarmed || !u.is_armed() ) ) ||
+        ( is_valid_weapon( u.weapon ) &&
+            ( melee_allowed || u.style_selected.obj().has_weapon( u.weapon.type->id ) ) );
     if( !valid_weapon ) {
         return false;
     }
@@ -547,9 +547,9 @@ bool martialart::has_technique( const player &u, const matec_id &tec_id ) const
     return false;
 }
 
-bool martialart::has_weapon( const itype_id &item ) const
+bool martialart::has_weapon( const itype_id &itt ) const
 {
-    return weapons.count(item);
+    return weapons.count( itt ) > 0;
 }
 
 bool martialart::weapon_valid( const item &it ) const
@@ -562,7 +562,7 @@ bool martialart::weapon_valid( const item &it ) const
         return true;
     }
 
-    return !allow_nonstrict_unarmed && it.has_flag( "UNARMED_WEAPON" );
+    return !strictly_unarmed && it.has_flag( "UNARMED_WEAPON" );
 }
 
 // Player stuff

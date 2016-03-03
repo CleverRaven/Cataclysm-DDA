@@ -1,0 +1,32 @@
+[
+  {
+    "id": "clothing_glasses",
+    "type": "item_group",
+    "items": [
+      { "distribution": [
+          { "distribution": [
+            { "item": "sunglasses", "prob": 80 },
+            { "item": "fancy_sunglasses", "prob": 20 }
+          ], "prob": 25 },
+          { "collection": [
+            { "distribution": [
+              { "item": "glasses_eye", "prob": 80 },
+              { "item": "glasses_reading", "prob": 10 },
+              { "item": "glasses_bifocal", "prob": 5 },
+              { "item": "glasses_monocle", "prob": 5 }
+            ] },
+            { "item": "fitover_sunglasses" }
+          ], "prob": 75 }
+      ] }
+    ]
+  },
+  {
+    "id": "clothing_watch",
+    "type": "item_group",
+    "items": [
+      [ "gold_watch", 10 ],
+      [ "pocketwatch", 25 ],
+      [ "wristwatch", 100 ]
+    ]
+  }
+]

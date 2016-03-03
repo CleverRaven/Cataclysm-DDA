@@ -346,27 +346,17 @@ void npc::execute_action( npc_action action )
         break;
 
     case npc_reload: {
-        // fetch potential ammo from npc possessions only and exclude empty magazines
-        auto ammo = find_ammo( weapon, false, -1 );
-        ammo.erase( std::remove_if( ammo.begin(), ammo.end(), [this]( const item_location& e ) {
-            return weapon.can_reload( e->typeId() );
-        } ), ammo.end() );
+        auto usable_ammo = find_usable_ammo();
 
-        // prefer either most full magazine or most plentiful ammo stack
-        std::sort( ammo.begin(), ammo.end(), []( const item_location& lhs, const item_location& rhs ) {
-            return rhs->ammo_remaining() < lhs->ammo_remaining();
-        } );
-
-        // @todo handle reloading of empty magazines
-
-        if( ammo.empty() ) {
+        if( !usable_ammo ) {
             debugmsg( "npc_reload failed: no usable ammo" );
             break;
         }
 
-        int reload_time = item_reload_cost( weapon, *ammo[0] );
+        int reload_time = item_reload_cost( weapon, *usable_ammo );
 
-        if( !weapon.reload( *this, std::move( ammo[0] ) ) ) {
+        int qty = std::max( 1l, weapon.ammo_capacity() - weapon.ammo_remaining() );
+        if( !weapon.reload( *this, std::move( usable_ammo ), qty ) ) {
             debugmsg( "npc_reload failed: item could not be reloaded" );
             break;
         }
@@ -374,7 +364,7 @@ void npc::execute_action( npc_action action )
         moves -= reload_time;
         recoil = MIN_RECOIL;
 
-        if (g->u.sees( *this )) {
+        if( g->u.sees( *this ) ) {
             add_msg( _( "%1$s reloads their %2$s." ), name.c_str(), weapon.tname().c_str() );
             sfx::play_variant_sound( "reload", weapon.typeId(), sfx::get_heard_volume( pos() ),
                                      sfx::get_heard_angle( pos() ) );
@@ -525,7 +515,7 @@ void npc::execute_action( npc_action action )
 
     case npc_shoot_burst:
         aim();
-        fire_gun( tar, std::max( 1, weapon.burst_size() ) );
+        fire_gun( tar, weapon.burst_size() );
         break;
 
     case npc_alt_attack:
@@ -865,7 +855,7 @@ npc_action npc::method_of_attack()
             return npc_alt_attack;
         }
         if( weapon.is_gun() && (!use_silent || weapon.is_silent()) &&
-            weapon.ammo_remaining() > weapon.ammo_required() ) {
+            weapon.ammo_remaining() >= weapon.ammo_required() ) {
             const int confident = confident_gun_range( weapon );
             if( dist > confident ) {
                 if( can_reload() && (enough_time_to_reload( weapon ) || in_vehicle) ) {
@@ -939,6 +929,33 @@ bool need_heal( const Character &n )
 npc_action npc::address_needs()
 {
     return address_needs( ai_cache.danger );
+}
+
+bool npc::can_reload()
+{
+    return find_usable_ammo();
+}
+
+item_location npc::find_usable_ammo()
+{
+    if( !weapon.is_gun() || !weapon.can_reload() ) {
+        return item_location();
+    }
+
+    auto ammo = find_ammo( weapon, false, -1 );
+    ammo.erase( std::remove_if( ammo.begin(), ammo.end(), [this]( const item_location& e ) {
+        return !weapon.can_reload( e->is_ammo_container() ? e->contents[0].typeId() : e->typeId() );
+    } ), ammo.end() );
+
+    std::sort( ammo.begin(), ammo.end(), []( const item_location& lhs, const item_location& rhs ) {
+        return rhs->ammo_remaining() < lhs->ammo_remaining();
+    } );
+
+    if( ammo.empty() ) {
+        return item_location();
+    }
+
+    return std::move( ammo[0] );
 }
 
 npc_action npc::address_needs( int danger )

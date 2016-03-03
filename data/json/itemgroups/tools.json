@@ -23,5 +23,16 @@
       ["swage", 80],
       ["tongs", 100]
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "tools_entry",
+    "//": "Tools used for forcing entry into a building",
+    "items": [
+      [ "boltcutters", 30 ],
+      [ "crowbar", 50 ],
+      [ "hammer_sledge", 20 ],
+      [ "halligan", 10 ]
+    ]
   }
 ]

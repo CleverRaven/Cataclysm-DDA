@@ -2580,7 +2580,6 @@
     ],
     [
       [ "rag", 2 ],
-      [ "muffler", 1 ],
       [ "bandana", 2 ],
       [ "paper", 10 ]
     ],
@@ -8937,6 +8936,44 @@
       [ "tshirt_text", 1 ]
     ]
   ]
+},{
+  "type" : "recipe",
+  "result": "tunic",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_TORSO",
+  "skill_used": "tailor",
+  "difficulty": 3,
+  "time": 45000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [ [ [ "sewing_kit", 10 ] ] ],
+  "components": [ [ [ "rag", 10 ] ] ]
+},{
+  "type" : "recipe",
+  "result": "sleeveless_tunic",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_TORSO",
+  "skill_used": "tailor",
+  "difficulty": 3,
+  "time": 40000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [ [ [ "sewing_kit", 8 ] ] ],
+  "components": [ [ [ "rag", 8 ] ] ]
+},{
+  "type" : "recipe",
+  "result": "sleeveless_tunic",
+  "id_suffix": "cutting",
+  "byproducts": { "id" : "rag", "amount" : 2 },
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_TORSO",
+  "skill_used": "tailor",
+  "difficulty": 2,
+  "time": 21000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [{"id":"CUT","level":1,"amount":1}],
+  "components": [ [ [ "tunic", 1 ] ] ]
 },
 {
   "type" : "recipe",

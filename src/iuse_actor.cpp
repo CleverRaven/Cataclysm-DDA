@@ -111,10 +111,7 @@ long iuse_transform::use(player *p, item *it, bool t, const tripoint &pos ) cons
         // Transform into something in a container, assume the content is
         // "created" right now and give the content the current time as birthday
         it->convert( container_id );
-        it->unset_curammo();
-        it->charges = -1;
-        it->contents.push_back(item(target_id, calendar::turn));
-        target = &it->contents.back();
+        target = &it->emplace_back( target_id );
     }
     target->active = active;
     if (target_charges > -2) {
@@ -143,51 +140,6 @@ std::string iuse_transform::get_name() const
     }
     return iuse_actor::get_name();
 }
-
-
-
-auto_iuse_transform::~auto_iuse_transform()
-{
-}
-
-iuse_actor *auto_iuse_transform::clone() const
-{
-    return new auto_iuse_transform(*this);
-}
-
-void auto_iuse_transform::load( JsonObject &obj )
-{
-    iuse_transform::load( obj );
-    obj.read( "when_underwater", when_underwater );
-    obj.read( "non_interactive_msg", non_interactive_msg );
-}
-
-long auto_iuse_transform::use(player *p, item *it, bool t, const tripoint &pos) const
-{
-    if (t) {
-        if (!when_underwater.empty() && p != NULL && p->is_underwater()) {
-            // Dirty hack to display the "when underwater" message instead of the normal message
-            std::swap(const_cast<auto_iuse_transform *>(this)->when_underwater,
-                      const_cast<auto_iuse_transform *>(this)->msg_transform);
-            const long tmp = iuse_transform::use(p, it, t, pos);
-            std::swap(const_cast<auto_iuse_transform *>(this)->when_underwater,
-                      const_cast<auto_iuse_transform *>(this)->msg_transform);
-            return tmp;
-        }
-        // Normal use, don't need to do anything here.
-        return 0;
-    }
-    if (it->charges > 0 && !non_interactive_msg.empty()) {
-        if( p != nullptr ) {
-            p->add_msg_if_player(m_info, _( non_interactive_msg.c_str() ), it->tname().c_str());
-        }
-        // Activated by the player, but not allowed to do so
-        return 0;
-    }
-    return iuse_transform::use(p, it, t, pos);
-}
-
-
 
 explosion_iuse::~explosion_iuse()
 {

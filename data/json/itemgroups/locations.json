@@ -1,5 +1,19 @@
 [
   {
+    "id" : "cop_armory",
+    "type" : "item_group",
+    "magazine": 100,
+    "items":[
+      { "group": "ammo_cop",  "prob":  80 },
+      { "group": "guns_cop",  "prob": 100 },
+      { "group": "mags_cop",  "prob":  40 },
+      { "group": "ammo_swat", "prob":  20 },
+      { "group": "guns_swat", "prob":  20 },
+      { "group": "mags_swat", "prob":  20 },
+      [ "survnote", 1 ]
+    ]
+  },
+  {
     "type":"item_group",
     "id":"homeguns",
     "ammo": 50,

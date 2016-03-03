@@ -1,7 +1,9 @@
+#include "weather.h"
+
+#include "coordinate_conversions.h"
 #include "options.h"
 #include "game.h"
 #include "map.h"
-#include "weather.h"
 #include "messages.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
@@ -58,7 +60,7 @@ int get_rot_since( const int startturn, const int endturn, const tripoint &locat
 {
     // Ensure food doesn't rot in ice labs, where the
     // temperature is much less than the weather specifies.
-    tripoint const omt_pos = overmapbuffer::ms_to_omt_copy( location );
+    tripoint const omt_pos = ms_to_omt_copy( location );
     oter_id const & oter = overmap_buffer.ter( omt_pos );
     // TODO: extract this into a property of the overmap terrain
     if (is_ot_type("ice_lab", oter)) {
@@ -541,7 +543,7 @@ std::string weather_forecast( point const &abs_sm_pos )
     // int weather_proportions[NUM_WEATHER_TYPES] = {0};
     double high = -100.0;
     double low = 100.0;
-    point const abs_ms_pos = overmapbuffer::sm_to_ms_copy( abs_sm_pos );
+    point const abs_ms_pos = sm_to_ms_copy( abs_sm_pos );
     // TODO wind direction and speed
     int last_hour = calendar::turn - ( calendar::turn % HOURS(1) );
     for(int d = 0; d < 6; d++) {

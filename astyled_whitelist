@@ -9,12 +9,15 @@ src/cata_utility.cpp
 src/char_validity_check.cpp
 src/clzones.cpp
 src/consumption.cpp
+src/coordinate_conversions.cpp
 src/craft_command.cpp
 src/crafting_gui.cpp
 src/creature_tracker.cpp
 src/damage.cpp
 src/debug.cpp
+src/dependency_tree.cpp
 src/drawing_primitives.cpp
+src/editmap.cpp
 src/gamemode.cpp
 src/item_action.cpp
 src/item_location.cpp
@@ -36,6 +39,7 @@ src/morale.cpp
 src/mtype.cpp
 src/name.cpp
 src/pathfinding.cpp
+src/player_activity.cpp
 src/posix_time.cpp
 src/profession.cpp
 src/recipe_dictionary.cpp
@@ -49,8 +53,10 @@ src/tileray.cpp
 src/translations.cpp
 src/trap.cpp
 src/trapfunc.cpp
+src/tutorial.cpp
 src/vehicle_selector.cpp
 src/version.cpp
+src/weather_gen.cpp
 src/action.h
 src/active_item_cache.h
 src/activity_handlers.h
@@ -75,6 +81,7 @@ src/color.h
 src/compatibility.h
 src/computer.h
 src/construction.h
+src/coordinate_conversions.h
 src/coordinates.h
 src/craft_command.h
 src/crafting_gui.h
@@ -156,6 +163,7 @@ src/veh_interact.h
 src/veh_type.h
 src/vehicle_selector.h
 src/version.h
+src/visitable.h
 src/weather.h
 src/weighted_list.h
 src/worldfactory.h

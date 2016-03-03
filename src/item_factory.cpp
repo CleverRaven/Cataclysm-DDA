@@ -407,29 +407,10 @@ void Item_factory::add_category(const std::string &id, int sort_rank, const std:
     cat.name = name;
 }
 
-/**
- * Checks that ammo type is fake type or not.
- * @param ammo type for check.
- * @return true if ammo type is a fake, false otherwise.
- */
-static bool fake_ammo_type(const std::string &ammo)
-{
-    if (  ammo == "NULL" || ammo == "generic_no_ammo" ||
-          ammo == "pointer_fake_ammo" ) {
-        return true;
-    }
-    return false;
-}
-
 void Item_factory::check_ammo_type(std::ostream &msg, const std::string &ammo) const
 {
     // Skip fake types
-    if ( fake_ammo_type(ammo) ) {
-        return;
-    }
-
-    // Should be skipped too.
-    if ( ammo == "UPS" ) {
+    if ( ammo == "NULL" || ammo == "pointer_fake_ammo" ) {
         return;
     }
 
@@ -506,8 +487,12 @@ void Item_factory::check_definitions() const
         }
         if( type->ammo ) {
             check_ammo_type( msg, type->ammo->type );
-            if( type->ammo->casing != "NULL" && !has_template( type->ammo->casing ) ) {
+            if( type->ammo->casing != "null" && !has_template( type->ammo->casing ) ) {
                 msg << string_format( "invalid casing property %s", type->ammo->casing.c_str() ) << "\n";
+            }
+
+            if( type->item_tags.count( "NO_AMMO" ) && type->ammo->type != "NULL" ) {
+                msg << string_format("specified both ammo type and NO_AMMO.") << "\n";
             }
         }
         if( type->gun ) {
@@ -568,6 +553,9 @@ void Item_factory::check_definitions() const
             check_ammo_type(msg, tool->ammo_id);
             if (tool->revert_to != "null" && !has_template(tool->revert_to)) {
                 msg << string_format("invalid revert_to property %s", tool->revert_to.c_str()) << "\n";
+            }
+            if( !tool->revert_msg.empty() && tool->revert_to == "null" ) {
+                msg << _( "cannot specify revert_msg without revert_to" ) << "\n";
             }
         }
         if( type->bionic ) {
@@ -710,7 +698,7 @@ void Item_factory::load( islot_software &slot, JsonObject &jo )
 void Item_factory::load( islot_ammo &slot, JsonObject &jo )
 {
     slot.type = jo.get_string( "ammo_type" );
-    slot.casing = jo.get_string( "casing", "NULL" );
+    slot.casing = jo.get_string( "casing", slot.casing );
     slot.damage = jo.get_int( "damage", 0 );
     slot.pierce = jo.get_int( "pierce", 0 );
     slot.range = jo.get_int( "range", 0 );
@@ -718,6 +706,10 @@ void Item_factory::load( islot_ammo &slot, JsonObject &jo )
     slot.recoil = jo.get_int( "recoil", 0 );
     slot.def_charges = jo.get_long( "count" );
     slot.ammo_effects = jo.get_tags( "effects" );
+
+    if( !jo.read( "loudness", slot.loudness ) ) {
+        slot.loudness = std::max( std::max( { slot.damage, slot.pierce, slot.range } ) * 3, slot.recoil / 3 );
+    }
 }
 
 void Item_factory::load_ammo(JsonObject &jo)
@@ -731,7 +723,7 @@ void Item_factory::load_ammo(JsonObject &jo)
 
 void Item_factory::load( islot_gun &slot, JsonObject &jo )
 {
-    slot.ammo = jo.get_string( "ammo" );
+    slot.ammo = jo.get_string( "ammo", "NULL" );
     slot.skill_used = skill_id( jo.get_string( "skill" ) );
     slot.loudness = jo.get_int( "loudness", 0 );
     slot.damage = jo.get_int( "ranged_damage", 0 );
@@ -831,7 +823,10 @@ void Item_factory::load_tool(JsonObject &jo)
     tool_template->def_charges = jo.get_long("initial_charges");
     tool_template->charges_per_use = jo.get_int("charges_per_use");
     tool_template->turns_per_charge = jo.get_int("turns_per_charge");
-    tool_template->revert_to = jo.get_string("revert_to");
+
+    tool_template->revert_to = jo.get_string("revert_to", tool_template->revert_to );
+    jo.read( "revert_msg", tool_template->revert_msg );
+
     tool_template->subtype = jo.get_string("sub", "");
 
     itype *new_item_template = tool_template;
@@ -1596,8 +1591,6 @@ void Item_factory::set_uses_from_object(JsonObject obj, std::vector<use_function
     use_function newfun;
     if (type == "transform") {
         newfun = load_actor<iuse_transform>( obj );
-    } else if (type == "auto_transform") {
-        newfun = load_actor<auto_iuse_transform>( obj );
     } else if (type == "delayed_transform") {
         newfun = load_actor<delayed_transform_iuse>( obj );
     } else if (type == "explosion") {

@@ -138,7 +138,7 @@
     "color": "light_gray",
     "name": "limestone shard",
     "category": "spare_parts",
-    "description": "A small shard of limestone.  Pretty flimsy and not much of a weapon, but it's alkaline properties may yet find some use",
+    "description": "A small shard of limestone.  Pretty flimsy and not much of a weapon, but its alkaline properties may yet find some use.",
     "price": 500,
     "material": "stone",
     "weight": 700,

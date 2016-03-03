@@ -1,5 +1,7 @@
 #if (defined TILES)
 #include "cata_tiles.h"
+
+#include "coordinate_conversions.h"
 #include "debug.h"
 #include "json.h"
 #include "path_info.h"
@@ -24,6 +26,7 @@
 #include "field.h"
 #include "weather.h"
 #include "weighted_list.h"
+#include "submap.h"
 
 #include <algorithm>
 #include <fstream>
@@ -1038,7 +1041,7 @@ void cata_tiles::draw_rhombus(int destx, int desty, int size, SDL_Color color, i
 static tripoint convert_tripoint_to_abs_submap(const tripoint& p)
 {
     //get the submap coordinates of the current location
-    tripoint sm_loc = overmapbuffer::ms_to_sm_copy(p);
+    tripoint sm_loc = ms_to_sm_copy(p);
     //add it to the absolute map coordinates
     tripoint abs_sm_loc = g->m.get_abs_sub();
     return abs_sm_loc + sm_loc;
@@ -1127,7 +1130,7 @@ void cata_tiles::update_minimap_cache( const tripoint &loc, pixel &pix )
     it->second->touched = true;
 
     point offset( loc.x, loc.y );
-    overmapbuffer::ms_to_sm_remain( offset );
+    ms_to_sm_remain( offset );
 
     pixel &current_pix = it->second->minimap_colors[offset.y * SEEX + offset.x];
     if( current_pix != pix ) {
@@ -2043,15 +2046,15 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, lit_level ll, int &heigh
         if( !g->m.sees_some_items( p, g->u ) ) {
             return false;
         }
-        auto items = g->m.i_at( p );
+        const maptile &cur_maptile = g->m.maptile_at( p );
         // get the last item in the stack, it will be used for display
-        const item &display_item = items[items.size() - 1];
+        const item &displayed_item = cur_maptile.get_uppermost_item();
         // get the item's name, as that is the key used to find it in the map
-        const std::string &it_name = display_item.type->id;
-        const std::string it_category = display_item.type->get_item_type_string();
+        const std::string &it_name = displayed_item.type->id;
+        const std::string it_category = displayed_item.type->get_item_type_string();
         ret_draw_item = draw_from_id_string( it_name, C_ITEM, it_category, p, 0, 0, ll,
                                              nv_goggles_activated, height_3d );
-        if ( ret_draw_item && items.size() > 1 ) {
+        if ( ret_draw_item && cur_maptile.get_item_count() > 1 ) {
             draw_item_highlight( p );
         }
     }

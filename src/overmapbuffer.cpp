@@ -1,6 +1,6 @@
-#include <stdlib.h>
-
 #include "overmapbuffer.h"
+
+#include "coordinate_conversions.h"
 #include "overmap_types.h"
 #include "overmap.h"
 #include "game.h"
@@ -13,17 +13,13 @@
 #include "npc.h"
 #include "vehicle.h"
 
+#include <algorithm>
+#include <cassert>
 #include <fstream>
 #include <sstream>
-#include <cassert>
-#include <algorithm>
+#include <stdlib.h>
 
 overmapbuffer overmap_buffer;
-
-/** Mathematical modulo (only for positive m): 0 <= result < m */
-inline int modulo(int v, int m);
-inline int divide(int v, int m);
-inline int divide(int v, int m, int &r);
 
 overmapbuffer::overmapbuffer()
 : last_requested_overmap( nullptr )
@@ -682,7 +678,7 @@ std::vector<npc*> overmapbuffer::get_npcs_near_omt(int x, int y, int z, int radi
 radio_tower_reference create_radio_tower_reference( overmap &om, radio_tower &t, const tripoint &center )
 {
     // global submap coordinates, same as center is
-    const point pos = point( t.x, t.y ) + overmapbuffer::om_to_sm_copy( om.pos() );
+    const point pos = point( t.x, t.y ) + om_to_sm_copy( om.pos() );
     const int strength = t.strength - rl_dist( tripoint( pos, 0 ), center );
     return radio_tower_reference{ &om, &t, pos, strength };
 }
@@ -741,6 +737,14 @@ city_reference overmapbuffer::closest_city( const tripoint &center )
         }
     }
     return result;
+}
+
+static int modulo(int v, int m) {
+    // C++11: negative v and positive m result in negative v%m (or 0),
+    // but this is supposed to be mathematical modulo: 0 <= v%m < m,
+    const int r = v % m;
+    // Adding m in that (and only that) case.
+    return r >= 0 ? r : r + m;
 }
 
 void overmapbuffer::spawn_monster(const int x, const int y, const int z)
@@ -820,169 +824,4 @@ bool overmapbuffer::is_safe(int x, int y, int z)
         }
     }
     return true;
-}
-
-inline int modulo(int v, int m) {
-    // C++11: negative v and positive m result in negative v%m (or 0),
-    // but this is supposed to be mathematical modulo: 0 <= v%m < m,
-    const int r = v % m;
-    // Adding m in that (and only that) case.
-    return r >= 0 ? r : r + m;
-}
-
-inline int divide(int v, int m) {
-    if (v >= 0) {
-        return v / m;
-    }
-    return (v - m + 1) / m;
-}
-
-inline int divide(int v, int m, int &r) {
-    const int result = divide(v, m);
-    r = v - result * m;
-    return result;
-}
-
-point overmapbuffer::omt_to_om_copy(int x, int y) {
-    return point(divide(x, OMAPX), divide(y, OMAPY));
-}
-
-tripoint overmapbuffer::omt_to_om_copy(const tripoint& p) {
-    return tripoint(divide(p.x, OMAPX), divide(p.y, OMAPY), p.z);
-}
-
-void overmapbuffer::omt_to_om(int &x, int &y) {
-    x = divide(x, OMAPX);
-    y = divide(y, OMAPY);
-}
-
-point overmapbuffer::omt_to_om_remain(int &x, int &y) {
-    return point(divide(x, OMAPX, x), divide(y, OMAPY, y));
-}
-
-
-
-point overmapbuffer::sm_to_omt_copy(int x, int y) {
-    return point(divide(x, 2), divide(y, 2));
-}
-
-tripoint overmapbuffer::sm_to_omt_copy(const tripoint& p) {
-    return tripoint(divide(p.x, 2), divide(p.y, 2), p.z);
-}
-
-void overmapbuffer::sm_to_omt(int &x, int &y) {
-    x = divide(x, 2);
-    y = divide(y, 2);
-}
-
-point overmapbuffer::sm_to_omt_remain(int &x, int &y) {
-    return point(divide(x, 2, x), divide(y, 2, y));
-}
-
-
-
-point overmapbuffer::sm_to_om_copy(int x, int y) {
-    return point(divide(x, 2 * OMAPX), divide(y, 2 * OMAPY));
-}
-
-tripoint overmapbuffer::sm_to_om_copy(const tripoint& p) {
-    return tripoint(divide(p.x, 2 * OMAPX), divide(p.y, 2 * OMAPY), p.z);
-}
-
-void overmapbuffer::sm_to_om(int &x, int &y) {
-    x = divide(x, 2 * OMAPX);
-    y = divide(y, 2 * OMAPY);
-}
-
-point overmapbuffer::sm_to_om_remain(int &x, int &y) {
-    return point(divide(x, 2 * OMAPX, x), divide(y, 2 * OMAPY, y));
-}
-
-
-
-point overmapbuffer::omt_to_sm_copy(int x, int y) {
-    return point(x * 2, y * 2);
-}
-
-tripoint overmapbuffer::omt_to_sm_copy(const tripoint& p) {
-    return tripoint(p.x * 2, p.y * 2, p.z);
-}
-
-void overmapbuffer::omt_to_sm(int &x, int &y) {
-    x *= 2;
-    y *= 2;
-}
-
-
-
-point overmapbuffer::om_to_sm_copy(int x, int y) {
-    return point(x * 2 * OMAPX, y * 2 * OMAPX);
-}
-
-tripoint overmapbuffer::om_to_sm_copy(const tripoint& p) {
-    return tripoint(p.x * 2 * OMAPX, p.y * 2 * OMAPX, p.z);
-}
-
-void overmapbuffer::om_to_sm(int &x, int &y) {
-    x *= 2 * OMAPX;
-    y *= 2 * OMAPY;
-}
-
-
-
-point overmapbuffer::ms_to_sm_copy(int x, int y) {
-    return point(divide(x, SEEX), divide(y, SEEY));
-}
-
-tripoint overmapbuffer::ms_to_sm_copy(const tripoint& p) {
-    return tripoint(divide(p.x, SEEX), divide(p.y, SEEY), p.z);
-}
-
-void overmapbuffer::ms_to_sm(int &x, int &y) {
-    x = divide(x, SEEX);
-    y = divide(y, SEEY);
-}
-
-point overmapbuffer::ms_to_sm_remain(int &x, int &y) {
-    return point(divide(x, SEEX, x), divide(y, SEEY, y));
-}
-
-
-
-point overmapbuffer::sm_to_ms_copy(int x, int y) {
-    return point(x * SEEX, y * SEEY);
-}
-
-tripoint overmapbuffer::sm_to_ms_copy(const tripoint& p) {
-    return tripoint(p.x * SEEX, p.y * SEEY, p.z);
-}
-
-void overmapbuffer::sm_to_ms(int &x, int &y) {
-    x *= SEEX;
-    y *= SEEY;
-}
-
-
-
-point overmapbuffer::ms_to_omt_copy(int x, int y) {
-    return point(divide(x, SEEX * 2), divide(y, SEEY * 2));
-}
-
-tripoint overmapbuffer::ms_to_omt_copy(const tripoint& p) {
-    return tripoint(divide(p.x, SEEX * 2), divide(p.y, SEEY * 2), p.z);
-}
-
-void overmapbuffer::ms_to_omt(int &x, int &y) {
-    x = divide(x, SEEX * 2);
-    y = divide(y, SEEY * 2);
-}
-
-point overmapbuffer::ms_to_omt_remain(int &x, int &y) {
-    return point(divide(x, SEEX * 2, x), divide(y, SEEY * 2, y));
-}
-
-
-
-tripoint overmapbuffer::omt_to_seg_copy(const tripoint& p) {
-    return tripoint(divide(p.x, 32), divide(p.y, 32), p.z);
 }

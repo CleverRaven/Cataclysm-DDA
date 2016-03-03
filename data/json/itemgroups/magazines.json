@@ -54,14 +54,16 @@
   },
   {
     "type" : "item_group",
-    "id" : "mags_police",
+    "id" : "mags_cop",
     "//" : "Standard issue police magazines.",
     "items": [
       ["fn57mag", 15],
       ["glockmag", 40],
+      ["glock40mag", 30],
       ["hk46mag", 5],
       ["m9mag", 5],
       ["mp5mag", 10],
+      ["sig40mag", 20],
       ["stanag10", 10],
       ["stanag30", 5]
     ] 
@@ -71,9 +73,10 @@
     "id" : "mags_swat",
     "//" : "Magazines issued to paramilitary forces in addition to standard police issue.",
     "items": [
-      { "group": "mags_police", "prob": 50 },
+      { "group": "mags_cop", "prob": 50 },
       ["fnp90mag", 20],
       ["glockbigmag", 10],
+      ["glock40bigmag", 10],
       ["hk46bigmag", 5],
       ["m9bigmag", 10],
       ["mp5bigmag", 20],
@@ -89,6 +92,7 @@
     "//" : "Factory specification pistol magazines commonly owned by citizens.",
     "items": [
       ["glockmag", 50],
+      ["glock40mag", 10],
       ["m1911mag", 25],
       ["mosquitomag", 10],
       ["sw22mag", 10]
@@ -102,8 +106,10 @@
       ["deaglemag", 40],
       ["fn57mag", 80],
       ["glockbigmag", 60],
+      ["glock40bigmag", 30],
       ["m1911bigmag", 40],
       ["m9bigmag", 20],
+      ["sig40mag", 40],
       ["sigp230mag", 40],
       ["taurus38mag", 30],
       ["ppkmag", 15]
@@ -141,11 +147,12 @@
     "id" : "mags_rifle_common",
     "//" : "Factory specification rifle magazines commonly owned by citizens.",
     "items": [
-      ["m14mag", 20],
-      ["m14smallmag", 20],
-      ["ruger1022mag", 50],
-      ["stanag10", 50],
-      ["stanag30", 5]
+      ["blrmag", 5 ],
+      ["m14mag", 40 ],
+      ["m14smallmag", 40 ],
+      ["ruger1022mag", 100 ],
+      ["stanag10", 100 ],
+      ["stanag30", 10 ]
     ]
   },
   {

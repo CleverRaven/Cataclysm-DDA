@@ -1,5 +1,22 @@
 [
   {
+    "id" : "blrmag",
+    "type" : "MAGAZINE",
+    "name" : "Browning BLR magazine",
+    "description" : "A compact 4-round box magazine for the Browning BLR.",
+    "weight" : 40,
+    "volume" : 1,
+    "price" : 5600,
+    "material" : "steel",
+    "symbol" : "#",
+    "color" : "ltgray",
+    "ammo_type" : "3006",
+    "capacity" : 4,
+    "reliability" : 10,
+    "reload_time" : 100,
+    "flags": [ "MAG_COMPACT" ]
+  },
+  {
     "id" : "garandclip",
     "type" : "MAGAZINE",
     "name" : "M1 Garand Clip",

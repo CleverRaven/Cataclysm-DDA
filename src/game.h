@@ -758,6 +758,7 @@ private:
         //  int autosave_timeout();  // If autosave enabled, how long we should wait for user inaction before saving.
         void autosave();         // automatic quicksaves - Performs some checks before calling quicksave()
         void quicksave();        // Saves the game without quitting
+        void quickload();        // Loads the previously saved game if it exists
 
         // Input related
         bool handle_mouseview(input_context &ctxt,

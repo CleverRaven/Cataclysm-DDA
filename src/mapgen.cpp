@@ -1,4 +1,6 @@
 #include "map.h"
+
+#include "coordinate_conversions.h"
 #include "omdata.h"
 #include "output.h"
 #include "game.h"
@@ -134,7 +136,7 @@ void map::generate(const int x, const int y, const int z, const int turn)
     // x, and y are submap coordinates, convert to overmap terrain coordinates
     int overx = x;
     int overy = y;
-    overmapbuffer::sm_to_omt(overx, overy);
+    sm_to_omt(overx, overy);
     const regional_settings *rsettings = &overmap_buffer.get_settings(overx, overy, z);
     oter_id terrain_type = overmap_buffer.ter(overx, overy, z);
     oter_id t_above = overmap_buffer.ter( overx    , overy    , z + 1 );
@@ -10548,7 +10550,7 @@ void map::place_spawns(const mongroup_id& group, const int chance,
     }
 
     if( !group.is_valid() ) {
-        const point omt = overmapbuffer::sm_to_omt_copy( get_abs_sub().x, get_abs_sub().y );
+        const point omt = sm_to_omt_copy( get_abs_sub().x, get_abs_sub().y );
         const oter_id &oid = overmap_buffer.ter( omt.x, omt.y, get_abs_sub().z );
         debugmsg("place_spawns: invalid mongroup '%s', om_terrain = '%s' (%s)", group.c_str(), oid.t().id.c_str(), oid.t().id_mapgen.c_str() );
         return;
@@ -10656,7 +10658,7 @@ int map::place_items(items_location loc, int chance, int x1, int y1,
         return 0;
     }
     if (!item_group::group_is_defined(loc)) {
-        const point omt = overmapbuffer::sm_to_omt_copy( get_abs_sub().x, get_abs_sub().y );
+        const point omt = sm_to_omt_copy( get_abs_sub().x, get_abs_sub().y );
         const oter_id &oid = overmap_buffer.ter( omt.x, omt.y, get_abs_sub().z );
         debugmsg("place_items: invalid item group '%s', om_terrain = '%s' (%s)",
                  loc.c_str(), oid.t().id.c_str(), oid.t().id_mapgen.c_str() );

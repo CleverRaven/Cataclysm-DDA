@@ -58,20 +58,21 @@ std::vector<item> item::magazine_convert() {
         return res;
     }
 
+    item *spare_mag = gunmod_find( "spare_mag" );
+
     // if item has integral magazine remove any magazine mods but do not mark item as converted
     if( magazine_integral() ) {
         if( !is_gun() ) {
             return res; // only guns can have attached gunmods
         }
 
-        int qty = has_gunmod( "spare_mag" ) >= 0 ? contents[ has_gunmod( "spare_mag" ) ].charges : 0;
+        int qty = spare_mag ? spare_mag->charges : 0;
         qty += charges - type->gun->clip; // excess ammo from magazine extensions
 
         // limit ammo to base capacity and return any excess as a new item
         charges = std::min( charges, long( type->gun->clip ) );
         if( qty > 0 ) {
-            res.emplace_back( get_curammo() ? get_curammo()->id : default_ammo( ammo_type() ), calendar::turn );
-            res.back().charges = qty;
+            res.emplace_back( ammo_current() != "null" ? ammo_current() : default_ammo( ammo_type() ), calendar::turn, qty );
         }
 
         contents.erase( std::remove_if( contents.begin(), contents.end(), []( const item& e ) {
@@ -83,7 +84,7 @@ std::vector<item> item::magazine_convert() {
 
     // now handle items using the new detachable magazines that haven't yet been converted
     item mag( magazine_default(), calendar::turn );
-    item ammo( get_curammo() ? get_curammo()->id : default_ammo( ammo_type() ), calendar::turn );
+    item ammo( ammo_current() != "null" ? ammo_current() : default_ammo( ammo_type() ), calendar::turn );
 
     // give base item an appropriate magazine and add to that any ammo originally stored in base item
     if( !magazine_current() ) {
@@ -96,7 +97,6 @@ std::vector<item> item::magazine_convert() {
     }
 
     // remove any spare magazine and replace it with an equivalent loaded magazine
-    item *spare_mag = has_gunmod( "spare_mag" ) >= 0 ? &contents[ has_gunmod( "spare_mag" ) ] : nullptr;
     if( spare_mag ) {
         res.push_back( mag );
         if( spare_mag->charges > 0 ) {
@@ -1389,7 +1389,11 @@ void item::io( Archive& archive )
     };
 
     archive.template io<const itype>( "typeid", type, load_type, []( const itype& i ) { return i.id; }, io::required_tag() );
-    archive.io( "charges", charges, -1l );
+
+    // normalize legacy saves to always have charges >= 0
+    archive.io( "charges", charges, 0L );
+    charges = std::max( charges, 0L );
+
     archive.io( "burnt", burnt, 0 );
     archive.io( "poison", poison, 0 );
     archive.io( "bigness", bigness, 0 );

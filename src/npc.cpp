@@ -1,7 +1,6 @@
-#include <fstream>
-#include <sstream>
-
 #include "npc.h"
+
+#include "coordinate_conversions.h"
 #include "rng.h"
 #include "map.h"
 #include "game.h"
@@ -24,6 +23,8 @@
 #include "iuse_actor.h"
 
 #include <algorithm>
+#include <fstream>
+#include <sstream>
 #include <string>
 
 #define NPC_LOW_VALUE       5
@@ -882,69 +883,56 @@ std::list<item> starting_clothes( npc_class type, bool male )
  return ret;
 }
 
-std::list<item> starting_inv(npc *me, npc_class type)
+std::list<item> starting_inv( npc *me, npc_class type )
 {
- int total_space = me->volume_capacity();
- std::list<item> ret;
- ret.emplace_back( "lighter", 0 );
- itype_id tmp;
- item tmpitem;
+    std::list<item> res;
+    res.emplace_back( "lighter" );
 
-// First, if we're wielding a gun, get some ammo for it
- if (me->weapon.is_gun()) {
-  tmp = default_ammo(me->weapon.type->gun->ammo);
-  if (tmp == "" || tmp == "UPS"){
-    add_msg( m_debug, "Unknown ammo type for spawned NPC: '%s'", tmp.c_str() );
-  }else {
-      item itammo( tmp, 0 );
-      itammo = itammo.in_its_container();
-      if( itammo.made_of( LIQUID ) ) {
-          item container( "bottle_plastic", 0 );
-          container.put_in( itammo );
-          itammo = container;
-      }
-      if (total_space >= itammo.volume()) {
-       ret.push_back(itammo);
-       total_space -= ret.back().volume();
-      }
-      while ((type == NC_COWBOY || type == NC_BOUNTY_HUNTER || !one_in(3)) &&
-             !one_in(2) && total_space >= itammo.volume()) {
-       ret.push_back(itammo);
-       total_space -= ret.back().volume();
-      }
-  }
- }
+    // If wielding a gun, get some additional ammo for it
+    if( me->weapon.is_gun() ) {
+        item ammo( default_ammo( me->weapon.ammo_type() ) );
+        ammo = ammo.in_its_container();
+        if( ammo.made_of( LIQUID ) ) {
+            item container( "bottle_plastic" );
+            container.put_in( ammo );
+            ammo = container;
+        }
 
- int stopChance = 25;
- if (type == NC_ARSONIST)
-  ret.push_back(item("molotov", 0));
- if (type == NC_EVAC_SHOPKEEP || type == NC_TRADER){
-  total_space += 30;
-  stopChance = 40;
- }
+        // NC_COWBOY and NC_BOUNTY_HUNTER get 2-4 whilst all others get 1 or 2
+        int qty = 1 + ( type == NC_COWBOY || type == NC_BOUNTY_HUNTER );
+        qty = rng( qty, qty * 2 );
 
- while (total_space > 0 && !one_in(stopChance)) {
-    tmpitem = random_item_from( type, "misc" );
-    if( tmpitem.is_null() ) {
-        continue;
+        while ( qty-- != 0 && me->can_pickVolume( ammo.volume() ) ) {
+            // @todo give NPC a default magazine instead
+            res.push_back( ammo );
+        }
     }
-    if( !one_in( 3 ) && tmpitem.has_flag( "VARSIZE" ) ) {
-        tmpitem.item_tags.insert( "FIT" );
-    }
-    if (total_space >= tmpitem.volume()) {
-        ret.push_back(tmpitem);
-        ret.back() = ret.back().in_its_container();
-        total_space -= ret.back().volume();
-    }
- }
 
- for (std::list<item>::iterator iter = ret.begin(); iter != ret.end(); ++iter) {
-  if(item_group::group_contains_item("trader_avoid", iter->type->id)) {
-   iter = ret.erase(iter);
-   --iter;
-  }
- }
- return ret;
+    if( type == NC_ARSONIST ) {
+        res.emplace_back( "molotov" );
+    }
+
+    // NC_COWBOY and NC_BOUNTY_HUNTER get 5-15 whilst all others get 3-6
+    int qty = ( type == NC_EVAC_SHOPKEEP || type == NC_TRADER ) ? 5 : 2;
+    qty = rng( qty, qty * 3 );
+
+    while ( qty-- != 0 ) {
+        item tmp = random_item_from( type, "misc" ).in_its_container();
+        if( !tmp.is_null() ) {
+            if( !one_in( 3 ) && tmp.has_flag( "VARSIZE" ) ) {
+                tmp.item_tags.insert( "FIT" );
+            }
+            if( me->can_pickVolume( tmp.volume() ) ) {
+                res.push_back( tmp );
+            }
+        }
+    }
+
+    res.erase( std::remove_if( res.begin(), res.end(), [&]( const item& e ) {
+        return item_group::group_contains_item( "trader_avoid", e.typeId() );
+    } ), res.end() );
+
+    return res;
 }
 
 void npc::spawn_at(int x, int y, int z)
@@ -954,7 +942,7 @@ void npc::spawn_at(int x, int y, int z)
     position.x = rng(0, SEEX - 1);
     position.y = rng(0, SEEY - 1);
     position.z = z;
-    const point pos_om = overmapbuffer::sm_to_om_copy( mapx, mapy );
+    const point pos_om = sm_to_om_copy( mapx, mapy );
     overmap &om = overmap_buffer.get( pos_om.x, pos_om.y );
     om.npcs.push_back(this);
 }
@@ -1074,13 +1062,8 @@ void npc::starting_weapon(npc_class type)
     }
     weapon = sel_weapon;
 
-    if (weapon.is_gun())
-    {
-        const std::string tmp = default_ammo( weapon.type->gun->ammo );
-        if( tmp != "" ) {
-            weapon.charges = weapon.type->gun->clip;
-            weapon.set_curammo( tmp );
-        }
+    if( weapon.is_gun() ) {
+        weapon.ammo_set( default_ammo( weapon.type->gun->ammo ) );
     }
 }
 
@@ -1128,6 +1111,7 @@ bool npc::wear_if_wanted( const item &it )
     }
 
     bool encumb_ok = true;
+    const auto new_enc = get_encumbrance( it );
     do {
         // Strip until we can put the new item on
         // This is one of the reasons this command is not used by the AI
@@ -1142,10 +1126,7 @@ bool npc::wear_if_wanted( const item &it )
                 return false;
             }
 
-            double layers = 0;
-            int armor_enc = 0;
-            int enc = encumb( bp, layers, armor_enc, it );
-            if( enc > max_encumb[i] ) {
+            if( new_enc[i].encumbrance > max_encumb[i] ) {
                 encumb_ok = false;
                 break;
             }
@@ -1675,8 +1656,7 @@ std::vector<npc::item_pricing> npc::init_selling()
         // sort them by types and values
         // allow selling some of them
         auto &it = i->front();
-        if( it.type->id == "lighter" && !found_lighter
-            && it.num_charges() >= 10 ) {
+        if( it.type->id == "lighter" && !found_lighter && it.ammo_remaining() >= 10 ) {
             found_lighter = true;
             continue;
         }
@@ -2222,10 +2202,10 @@ void npc::shift(int sx, int sy)
 
     position.x -= shiftx;
     position.y -= shifty;
-    const point pos_om_old = overmapbuffer::sm_to_om_copy( mapx, mapy );
+    const point pos_om_old = sm_to_om_copy( mapx, mapy );
     mapx += sx;
     mapy += sy;
-    const point pos_om_new = overmapbuffer::sm_to_om_copy( mapx, mapy );
+    const point pos_om_new = sm_to_om_copy( mapx, mapy );
     if( pos_om_old != pos_om_new ) {
         overmap &om_old = overmap_buffer.get( pos_om_old.x, pos_om_old.y );
         overmap &om_new = overmap_buffer.get( pos_om_new.x, pos_om_new.y );

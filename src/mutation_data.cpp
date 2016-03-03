@@ -142,6 +142,22 @@ void mutation_branch::load( JsonObject &jsobj )
         tripoint protect = tripoint(ignored, neutral, good);
         new_mut.protection[get_body_part_token( part_id )] = protect;
     }
+
+    jsarr = jsobj.get_array("encumbrance_always");
+    while (jsarr.has_more()) {
+        JsonArray jo = jsarr.next_array();
+        std::string part_id = jo.next_string();
+        int enc = jo.next_int();
+        new_mut.encumbrance_always[get_body_part_token( part_id )] = enc;
+    }
+
+    jsarr = jsobj.get_array("encumbrance_covered");
+    while (jsarr.has_more()) {
+        JsonArray jo = jsarr.next_array();
+        std::string part_id = jo.next_string();
+        int enc = jo.next_int();
+        new_mut.encumbrance_covered[get_body_part_token( part_id )] = enc;
+    }
 }
 
 static void check_consistency( const std::vector<std::string> &mvec, const std::string &mid, const std::string &what )

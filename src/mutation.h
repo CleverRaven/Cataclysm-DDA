@@ -69,6 +69,9 @@ struct mutation_branch {
     std::vector<std::string> category; // Mutation Categories
     std::set<std::string> flags; // Mutation flags
     std::map<body_part, tripoint> protection; // Mutation wet effects
+    std::map<body_part, int> encumbrance_always; // Mutation encumbrance that always applies
+    std::map<body_part, int>
+    encumbrance_covered; // Mutation encumbrance that applies when covered with unfitting item
     /** Key pair is <active: bool, mod type: "STR"> */
     std::unordered_map<std::pair<bool, std::string>, int> mods; // Mutation stat mods
     std::vector<matype_id>
