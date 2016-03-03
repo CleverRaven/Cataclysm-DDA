@@ -6533,60 +6533,61 @@ std::unordered_map<tripoint,int> game::shrapnel( const tripoint &src, int power,
     proj.proj_effects.insert( "NULL_SOURCE" );
     proj.proj_effects.insert( "WIDE" ); // suppress MF_HARDTOSHOOT
 
-    for( auto i = 0; i != count; ++i ) {
-        // shrapnel expands randomly in all directions
-        tripoint dst = m.random_perimeter( src, range );
+    auto func = [this,&distrib,&mass,&proj]( const tripoint& e, int& kinetic ) {
+        distrib[ e ] += 0; // add this tile to the distribution
 
-        int kinetic = power;
-        bresenham( src, dst, 0, 0, [this,&distrib,&i,&src,&kinetic,&mass,&proj]( const tripoint& e ) {
+        auto critter = critter_at( e );
+        if( critter && !critter->is_dead_state() ) {
+            dealt_projectile_attack frag;
+            frag.proj = proj;
+            frag.missed_by = rng_float( 0.2, 0.6 );
+            frag.proj.impact = damage_instance::physical( 0, kinetic * 3, 0, std::min( kinetic, mass ) );
 
-            distrib[ e ] += 0; // add this tile to the distribution
+            distrib[ e ] += kinetic; // increase received damage for tile in distribution
 
-            auto critter = critter_at( e );
-            if( critter && !critter->is_dead_state() ) {
-                // special case critter at epicenter to have equivalent chance to adjacent tile
-                if( src == e && !one_in( 8 ) ) {
-                    return true;
-                }
+            critter->deal_projectile_attack( nullptr, frag );
+            return false;
+        }
 
-                dealt_projectile_attack frag;
-                frag.proj = proj;
-                frag.missed_by = rng_float( 0.2, 0.6 );
-                frag.proj.impact = damage_instance::physical( 0, kinetic * 3, 0, std::min( kinetic, mass ) );
+        if( m.impassable( e ) ) {
+            // massive shrapnel can smash a path through obstacles
+            int force = std::min( kinetic, mass );
+            int resistance;
 
-                distrib[ e ] += kinetic; // increase received damage for tile in distribution
+            int vpart;
+            vehicle *veh = m.veh_at( e, vpart );
+            if( veh != nullptr & vpart >= 0 ) {
+                resistance = force - veh->damage( vpart, force );
 
-                add_msg( m_debug, "fragment %i hit %s with kinetic=%i", i, critter->get_name().c_str(), kinetic );
-                critter->deal_projectile_attack( nullptr, frag );
+            } else {
+                resistance = std::max( m.bash_resistance( e ), 0 );
+                m.bash( e, force, true );
+            }
+
+            if( m.passable( e ) ) {
+                distrib[ e ] += resistance; // obstacle absorbed only some of the force
+                kinetic -= resistance;
+            } else {
+                distrib[ e ] += kinetic; // obstacle absorbed all of the force
                 return false;
             }
+        }
 
-            if( m.impassable( e ) ) {
-                // massive shrapnel can smash a path through obstacles
-                int force = std::min( kinetic, mass );
-                int resistance;
+        // @todo apply effects of soft cover
+        return kinetic > 0;
+    };
 
-                int vpart;
-                vehicle *veh = m.veh_at( e, vpart );
-                if( veh != nullptr & vpart >= 0 ) {
-                    resistance = force - veh->damage( vpart, force );
+    for( auto i = 0; i != count; ++i ) {
+        int kinetic = power;
 
-                } else {
-                    resistance = std::max( m.bash_resistance( e ), 0 );
-                    m.bash( e, force, true );
-                }
+        // special case critter at epicenter to have equivalent chance to adjacent tile
+        if( one_in( 8 ) && !func( src, kinetic ) ) {
+            continue;
+        }
 
-                if( m.passable( e ) ) {
-                    distrib[ e ] += resistance; // obstacle absorbed only some of the force
-                    kinetic -= resistance;
-                } else {
-                    distrib[ e ] += kinetic; // obstacle absorbed all of the force
-                    return false;
-                }
-            }
-
-            // @todo apply effects of soft cover
-            return kinetic > 0;
+        // shrapnel otherwise expands randomly in all directions
+        bresenham( src, m.random_perimeter( src, range ), 0, 0, [&func,&kinetic]( const tripoint& e ) {
+            return func( e, kinetic );
         } );
     }
 
