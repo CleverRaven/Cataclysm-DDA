@@ -30,9 +30,6 @@ void formatted_set_simple( map *m, const int startx, const int starty, const cha
                            internal::format_effect<ter_id> ter_b, internal::format_effect<furn_id> furn_b,
                            const bool empty_toilets = false );
 
-internal::format_effect<ter_id> ter_bind( std::string characters, ... );
-internal::format_effect<furn_id> furn_bind( std::string characters, ... );
-
 // Anything specified in here isn't finalized
 namespace internal
 {
@@ -46,12 +43,32 @@ class format_effect
 
     public:
         format_effect( std::string characters,
-                       std::vector<ID> &determiners );
+                       std::vector<ID> determiners );
 
         ID translate( char c ) const;
 };
 
 } //END NAMESPACE mapf::internal
+
+template<size_t N, typename ...Args>
+inline internal::format_effect<ter_id> ter_bind( const char ( &characters )[N], Args... ids )
+{
+    // Note to self: N contains the 0-char at the end of a string literal!
+    static_assert( N % 2 == 0, "list of characters to bind to must be odd, e.g. \"a b c\"" );
+    static_assert( N / 2 == sizeof...( Args ),
+                   "list of characters to bind to must match the size of the remaining arguments" );
+    return internal::format_effect<ter_id>( characters, { std::forward<Args>( ids )... } );
+}
+
+template<size_t N, typename ...Args>
+inline internal::format_effect<furn_id> furn_bind( const char ( &characters )[N], Args... ids )
+{
+    // Note to self: N contains the 0-char at the end of a string literal!
+    static_assert( N % 2 == 0, "list of characters to bind to must be odd, e.g. \"a b c\"" );
+    static_assert( N / 2 == sizeof...( Args ),
+                   "list of characters to bind to must match the size of the remaining arguments" );
+    return internal::format_effect<furn_id>( characters, { std::forward<Args>( ids )... } );
+}
 
 } //END NAMESPACE mapf
 
