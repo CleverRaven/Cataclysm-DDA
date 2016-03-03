@@ -1350,7 +1350,7 @@ bool mapgen_function_json::setup() {
             tmpval = "";
         }
 
-        format.reset(new ter_furn_id[ mapgensize * mapgensize ]);
+        format.resize( mapgensize * mapgensize );
         // just like mapf::basic_bind("stuff",blargle("foo", etc) ), only json input and faster when applying
         if ( jo.has_array("rows") ) {
             placing_map format_placings;
@@ -1605,7 +1605,7 @@ bool jmapgen_setmap::apply( map *m ) {
     return true;
 }
 
-void formatted_set_incredibly_simple( map * m, const ter_furn_id data[], const int width, const int height, const int startx, const int starty, const ter_id defter ) {
+void formatted_set_incredibly_simple( map * m, const std::vector<ter_furn_id> &data, const int width, const int height, const int startx, const int starty, const ter_id defter ) {
     (void)startx; (void)starty; // FIXME: unused
     for ( int y = 0; y < height; y++ ) {
         const int mul = y * height;
@@ -1637,7 +1637,7 @@ void mapgen_function_json::generate( map *m, oter_id terrain_type, mapgendata md
         m->draw_fill_background( fill_ter );
     }
     if ( do_format ) {
-        formatted_set_incredibly_simple(m, format.get(), mapgensize, mapgensize, 0, 0, fill_ter );
+        formatted_set_incredibly_simple(m, format, mapgensize, mapgensize, 0, 0, fill_ter );
     }
     for( auto &elem : setmap_points ) {
         elem.apply( m );

@@ -193,7 +193,7 @@ class mapgen_function_json : public virtual mapgen_function {
     std::string jdata;
     size_t mapgensize;
     ter_id fill_ter;
-    std::unique_ptr<ter_furn_id[]> format;
+    std::vector<ter_furn_id> format;
     std::vector<jmapgen_setmap> setmap_points;
 
     /**
