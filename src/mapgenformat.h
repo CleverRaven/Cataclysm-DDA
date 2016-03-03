@@ -54,7 +54,6 @@ class format_effect
     public:
         format_effect( std::string characters,
                        std::vector<std::shared_ptr<determine_terrain> > &determiners );
-        virtual ~format_effect();
 
         void execute( format_data &data );
 };

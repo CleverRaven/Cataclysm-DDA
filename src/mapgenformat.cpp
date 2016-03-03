@@ -158,8 +158,6 @@ namespace internal
     {
     }
 
-    format_effect::~format_effect() {}
-
     void format_effect::execute(format_data& data)
     {
         for( size_t i = 0; i < characters.size(); ++i ) {
