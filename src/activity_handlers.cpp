@@ -1023,15 +1023,15 @@ void activity_handlers::reload_finish( player_activity *act, player *p )
     if( reloadable->reload( *p, item_location( *p, &p->i_at( act->position ) ), act->index ) ) {
         if( reloadable->is_gun() && reloadable->has_flag("RELOAD_ONE") ) {
             if( reloadable->ammo_type() == "bolt" ) {
-                add_msg(_("You insert a bolt into your %s."),
+                add_msg(_("You insert a bolt into the %s."),
                         reloadable->tname().c_str());
             } else {
-                add_msg(_("You insert a cartridge into your %s."),
+                add_msg(_("You insert a cartridge into the %s."),
                         reloadable->tname().c_str());
             }
             p->recoil = std::max(MIN_RECOIL, (MIN_RECOIL + p->recoil) / 2);
         } else {
-            add_msg(_("You reload your %s."), reloadable->tname().c_str());
+            add_msg(_("You reload the %s."), reloadable->tname().c_str());
             p->recoil = MIN_RECOIL;
         }
 
@@ -1045,7 +1045,7 @@ void activity_handlers::reload_finish( player_activity *act, player *p )
             }
         }
     } else {
-        add_msg(m_info, _("Can't reload your %s."), reloadable->tname().c_str());
+        add_msg(m_info, _("Can't reload the %s."), reloadable->tname().c_str());
     }
     act->type = ACT_NULL;
 }

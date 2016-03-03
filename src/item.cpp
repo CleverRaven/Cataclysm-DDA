@@ -4267,13 +4267,7 @@ item *item::get_usable_item( const std::string &use_name )
 }
 
 bool item::can_reload( const itype_id& ammo ) const {
-    if( !is_gun() && !is_tool() && !is_magazine() ) {
-        return false;
-
-    } else if( has_flag( "NO_RELOAD") || has_flag( "RELOAD_AND_SHOOT" ) ) {
-        return false;
-
-    } else if( ammo_type() == "NULL" ) {
+    if( !is_reloadable() ) {
         return false;
 
     } else if( magazine_integral() ) {
@@ -5754,6 +5748,21 @@ bool item::is_dangerous() const
     return std::any_of( contents.begin(), contents.end(), []( const item &it ) {
         return it.is_dangerous();
     } );
+}
+
+bool item::is_reloadable() const
+{
+    if( !is_gun() && !is_tool() && !is_magazine() ) {
+        return false;
+
+    } else if( has_flag( "NO_RELOAD") || has_flag( "RELOAD_AND_SHOOT" ) ) {
+        return false;
+
+    } else if( ammo_type() == "NULL" ) {
+        return false;
+    }
+
+    return true;
 }
 
 std::string item::type_name( unsigned int quantity ) const

@@ -718,6 +718,13 @@ public:
  bool is_var_veh_part() const;
  bool is_artifact() const;
 
+        /**
+         * Is it ever possible to reload this item?
+         * Only the base item is considered with any mods ignored
+         * @see item::can_reload() to check current state of base item
+         */
+        bool is_reloadable() const;
+
         bool is_dangerous() const; // Is it an active grenade or something similar that will hurt us?
 
         /**
