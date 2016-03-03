@@ -95,21 +95,6 @@ class determine_terrain_with_simple_method : public determine_terrain
         }
 };
 
-//TODO: make use of this
-class determine_terrain_with_complex_method : public determine_terrain
-{
-    private:
-        ter_id( *f )( map *, const int, const int );
-    public:
-        determine_terrain_with_complex_method(): f( NULL ) {}
-        determine_terrain_with_complex_method( ter_id( *pf )( map *, const int, const int ) ): f( pf ) {}
-        virtual ~determine_terrain_with_complex_method() {}
-        virtual int operator()( map *m, const int x, const int y ) override {
-            return f( m, x, y );
-        }
-};
-
-
 } //END NAMESPACE mapf::internal
 
 } //END NAMESPACE mapf
