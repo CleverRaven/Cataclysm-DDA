@@ -1334,10 +1334,6 @@ void Character::mut_cbm_encumb( std::array<encumbrance_data, num_bp> &vals ) con
         const auto &branch = mutation_branch::get( mut_pair.first );
         apply_mut_encumbrance( vals, branch, oversize );
     }
-    for( const auto &trait : my_traits ) {
-        const auto &branch = mutation_branch::get( trait );
-        apply_mut_encumbrance( vals, branch, oversize );
-    }
 }
 
 std::bitset<num_bp> Character::exclusive_flag_coverage( const std::string &flag ) const
