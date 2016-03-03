@@ -1,5 +1,4 @@
 #include <iostream>
-#include <map>
 
 #include <string>
 
@@ -9,6 +8,7 @@
 
 #include "output.h"
 #include "mapdata.h"
+#include "map.h"
 #include "mapgenformat.h"
 
 namespace mapf

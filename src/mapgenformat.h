@@ -1,10 +1,16 @@
 #ifndef MAPGENFORMAT_H
 #define MAPGENFORMAT_H
 
-#include <vector>
-#include <memory>
+#include "int_id.h"
 
-#include "map.h"
+#include <vector>
+#include <string>
+
+struct ter_t;
+using ter_id = int_id<ter_t>;
+struct furn_t;
+using furn_id = int_id<furn_t>;
+class map;
 
 namespace mapf
 {
