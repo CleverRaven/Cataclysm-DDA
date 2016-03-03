@@ -4524,11 +4524,12 @@ bool item::reload( player &u, item_location loc, long qty )
         obj = &contents[ 0 ];
     }
 
-    if( obj->is_gun() ) {
+    if( obj->is_gun() || obj->is_tool() || obj->is_magazine() ) {
         // Firstly try reloading active gunmod, then gun itself, any other auxiliary gunmods and finally currently loaded magazine
         std::vector<item *> opts = { obj->gunmod_current(), obj };
-        std::transform( obj->contents.begin(), obj->contents.end(), std::back_inserter( opts ), []( item& mod ) {
-            return mod.is_auxiliary_gunmod() ? &mod : nullptr;
+        auto mods = obj->gunmods();
+        std::copy_if( mods.begin(), mods.end(), std::back_inserter( opts ), []( item *e ) {
+            return e->is_auxiliary_gunmod();
         });
         opts.push_back( obj->magazine_current() );
 
@@ -4548,11 +4549,6 @@ bool item::reload( player &u, item_location loc, long qty )
                     break;
                 }
             }
-        }
-    } else if( obj->is_tool() || obj->is_magazine() ) {
-        qty = std::min( qty, obj->ammo_capacity() - obj->ammo_remaining() );
-        if( obj->ammo_type() == ammo->ammo_type() && qty > 0 ) {
-            target = obj;
         }
     }
 
