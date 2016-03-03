@@ -6552,7 +6552,7 @@ std::unordered_map<tripoint,int> game::shrapnel( const tripoint &src, int power,
                 dealt_projectile_attack frag;
                 frag.proj = proj;
                 frag.missed_by = rng_float( 0.2, 0.6 );
-                frag.proj.impact = damage_instance::physical( 0, kinetic, 0, std::min( kinetic, mass ) );
+                frag.proj.impact = damage_instance::physical( 0, kinetic * 3, 0, std::min( kinetic, mass ) );
 
                 distrib[ e ] += kinetic; // increase received damage for tile in distribution
 
