@@ -34,12 +34,6 @@ internal::format_effect<furn_id> furn_bind( std::string characters, ... );
 // Anything specified in here isn't finalized
 namespace internal
 {
-template<typename ID>
-struct format_data {
-    std::map<char, ID> bindings;
-    bool fix_bindings( const char c );
-};
-
 // This class will become an interface in the future.
 template<typename ID>
 class format_effect
@@ -52,7 +46,7 @@ class format_effect
         format_effect( std::string characters,
                        std::vector<ID> &determiners );
 
-        void execute( format_data<ID> &data );
+        ID translate( char c ) const;
 };
 
 } //END NAMESPACE mapf::internal
