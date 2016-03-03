@@ -22,18 +22,17 @@ class visitable
          * Traverses this object and any child items contained using a visitor pattern
          *
          * @param func visitor function called for each node which controls whether traversal continues.
-         * The first argument is the node, the second is the parent node (if any) and the third is the item location
-         * on the map which may be nullptr for items found within a character inventory.
+         * The first argument is the node and the second is the parent node (if any)
          *
          * The visitor function should return VisitResponse::Next to recursively process child items,
          * VisitResponse::Skip to ignore children of the current node or VisitResponse::Abort to skip all remaining nodes
          *
          * @return This method itself only ever returns VisitResponse::Next or VisitResponse::Abort.
          */
-        VisitResponse visit_items_with_loc(
-            const std::function<VisitResponse( item *, item *, const tripoint * )> &func );
-        VisitResponse visit_items_with_loc_const(
-            const std::function<VisitResponse( const item *, const item *, const tripoint * )> &func ) const;
+        VisitResponse visit_items_with_parent(
+            const std::function<VisitResponse( item *, item * )> &func );
+        VisitResponse visit_items_with_parent_const(
+            const std::function<VisitResponse( const item *, const item * )> &func ) const;
 
         /** Lightweight version which provides only the current node */
         VisitResponse visit_items( const std::function<VisitResponse( item * )> &func );
