@@ -5093,9 +5093,9 @@ int iuse::oxytorch(player *p, item *it, bool, const tripoint& )
         return 0;
     }
 
-    const int charges = moves / 100 * it->type->charges_to_use();
+    const int charges = moves / 100 * it->ammo_required();
 
-    if( charges > it->charges ) {
+    if( charges > it->ammo_remaining() ) {
         add_msg( m_info, _("Your torch doesn't have enough acetylene to cut that.") );
         return 0;
     }
