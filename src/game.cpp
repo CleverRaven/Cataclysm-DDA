@@ -4418,7 +4418,7 @@ void game::debug()
             wrefresh( w_terrain );
             getch();
 #else
-            popup( "This binary was not compiled with tiles support." );
+            popup( _( "This binary was not compiled with tiles support." ) );
 #endif
         }
         break;
