@@ -40,7 +40,7 @@ namespace internal
 {
 class determine_terrain;
 struct format_data {
-    std::map<char, std::shared_ptr<determine_terrain> > bindings;
+    std::map<char, determine_terrain> bindings;
     bool fix_bindings( const char c );
 };
 

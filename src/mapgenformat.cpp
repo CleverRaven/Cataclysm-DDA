@@ -46,7 +46,7 @@ bool internal::format_data::fix_bindings(const char c)
     if( bindings.find(c) != bindings.end() ) {
         return false;
     }
-    bindings[c].reset( new determine_terrain() );
+    bindings[c] = determine_terrain();
     return true;
 }
 
@@ -73,8 +73,8 @@ void formatted_set_simple(map* m, const int startx, const int starty, const char
             tdata.fix_bindings(*p);
             fdata.fix_bindings(*p);
             // bindings should be ter_id / furn_id
-            ter_id ter = ter_id( (*tdata.bindings[*p])(m, x, y) );
-            furn_id furn = furn_id( (*fdata.bindings[*p])(m, x, y) );
+            ter_id ter = ter_id( tdata.bindings[*p](m, x, y) );
+            furn_id furn = furn_id( fdata.bindings[*p](m, x, y) );
             if (ter != t_null) {
                 m->ter_set(x, y, ter);
             }
@@ -161,7 +161,7 @@ namespace internal
     void format_effect::execute(format_data& data)
     {
         for( size_t i = 0; i < characters.size(); ++i ) {
-            data.bindings[characters[i]] = determiners[i];
+            data.bindings[characters[i]] = *determiners[i];
         }
     }
 }
