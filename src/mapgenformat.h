@@ -34,9 +34,8 @@ internal::format_effect furn_str_bind( std::string characters, ... );
 // Anything specified in here isn't finalized
 namespace internal
 {
-class determine_terrain;
 struct format_data {
-    std::map<char, determine_terrain> bindings;
+    std::map<char, int> bindings;
     bool fix_bindings( const char c );
 };
 
@@ -45,26 +44,13 @@ class format_effect
 {
     private:
         std::string characters;
-        std::vector<determine_terrain> determiners;
+        std::vector<int> determiners;
 
     public:
         format_effect( std::string characters,
-                       std::vector<determine_terrain> &determiners );
+                       std::vector<int> &determiners );
 
         void execute( format_data &data );
-};
-
-class determine_terrain
-{
-    private:
-        int id;
-    public:
-        determine_terrain() : id( 0 ) {}
-        determine_terrain( int pid ) : id( pid ) {}
-        ~determine_terrain() {}
-        operator int() const {
-            return id;
-        }
 };
 
 } //END NAMESPACE mapf::internal

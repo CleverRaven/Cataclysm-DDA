@@ -19,7 +19,7 @@ bool internal::format_data::fix_bindings(const char c)
     if( bindings.find(c) != bindings.end() ) {
         return false;
     }
-    bindings[c] = determine_terrain();
+    bindings[c] = int();
     return true;
 }
 
@@ -67,12 +67,12 @@ void formatted_set_simple(map* m, const int startx, const int starty, const char
 internal::format_effect basic_bind(std::string characters, ...)
 {
     characters.erase( std::remove_if(characters.begin(), characters.end(), isspace), characters.end());
-    std::vector<internal::determine_terrain> determiners;
+    std::vector<int> determiners;
     va_list vl;
     va_start(vl,characters);
     determiners.resize(characters.size());
     for( size_t i = 0; i < characters.size(); ++i ) {
-        determiners[i] = internal::determine_terrain( ter_id( va_arg(vl,int) ) );
+        determiners[i] = int( ter_id( va_arg(vl,int) ) );
     }
     va_end(vl);
     return internal::format_effect(characters, determiners);
@@ -88,14 +88,14 @@ internal::format_effect ter_str_bind(std::string characters, ...)
     }
     characters = temp;
 
-    std::vector<internal::determine_terrain> determiners;
+    std::vector<int> determiners;
     va_list vl;
     va_start(vl,characters);
     determiners.resize(characters.size());
     for( size_t i = 0; i < characters.size(); ++i ) {
         const std::string sid = va_arg(vl,char *);
         const ter_id iid = ( termap.find( sid ) != termap.end() ? termap[ sid ].loadid : t_null );
-        determiners[i] = internal::determine_terrain( iid );
+        determiners[i] = int( iid );
     }
     va_end(vl);
     return internal::format_effect(characters, determiners);
@@ -111,14 +111,14 @@ internal::format_effect furn_str_bind(std::string characters, ...)
     }
     characters = temp;
 
-    std::vector<internal::determine_terrain> determiners;
+    std::vector<int> determiners;
     va_list vl;
     va_start(vl,characters);
     determiners.resize(characters.size());
     for( size_t i = 0; i < characters.size(); ++i ) {
         const std::string sid = va_arg(vl,char *);
         const furn_id iid = ( furnmap.find( sid ) != furnmap.end() ? furnmap[ sid ].loadid : f_null );
-        determiners[i] = internal::determine_terrain( iid );
+        determiners[i] = int( iid );
     }
     va_end(vl);
     return internal::format_effect(characters, determiners);
@@ -126,7 +126,7 @@ internal::format_effect furn_str_bind(std::string characters, ...)
 
 namespace internal
 {
-    format_effect::format_effect(std::string characters, std::vector<determine_terrain> &determiners)
+    format_effect::format_effect(std::string characters, std::vector<int> &determiners)
         : characters( characters ), determiners( determiners )
     {
     }
