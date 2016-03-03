@@ -151,29 +151,6 @@ std::shared_ptr<internal::format_effect> furn_str_bind(std::string characters, .
     return std::shared_ptr<internal::format_effect>(new internal::format_effect(characters, determiners));
 }
 
-
-
-std::shared_ptr<internal::format_effect> simple_method_bind(std::string characters, ...)
-{
-    std::string temp;
-    for( auto &character : characters ) {
-        if( character != ' ' ) {
-            temp += character;
-        }
-    }
-    characters = temp;
-
-    std::vector<std::shared_ptr<internal::determine_terrain> > determiners;
-    va_list vl;
-    va_start(vl,characters);
-    determiners.resize(characters.size());
-    for( size_t i = 0; i < characters.size(); ++i ) {
-        determiners[i].reset( new internal::determine_terrain_with_simple_method( va_arg(vl, internal::determine_terrain_with_simple_method::ter_id_func ) ));
-    }
-    va_end(vl);
-    return std::shared_ptr<internal::format_effect>(new internal::format_effect(characters, determiners));
-}
-
 namespace internal
 {
     format_effect::format_effect(std::string characters, std::vector<std::shared_ptr<determine_terrain> > &determiners)
