@@ -51,13 +51,13 @@ bool internal::format_data::fix_bindings(const char c)
 }
 
 void formatted_set_simple(map* m, const int startx, const int starty, const char* cstr,
-                       std::shared_ptr<internal::format_effect> ter_b, std::shared_ptr<internal::format_effect> furn_b,
+                       internal::format_effect ter_b, internal::format_effect furn_b,
                        const bool empty_toilets)
 {
     internal::format_data tdata;
     internal::format_data fdata;
-    ter_b->execute(tdata);
-    furn_b->execute(fdata);
+    ter_b.execute(tdata);
+    furn_b.execute(fdata);
 
     tdata.fix_bindings(' ');
     fdata.fix_bindings(' ');
@@ -91,7 +91,7 @@ void formatted_set_simple(map* m, const int startx, const int starty, const char
     }
 }
 
-std::shared_ptr<internal::format_effect> basic_bind(std::string characters, ...)
+internal::format_effect basic_bind(std::string characters, ...)
 {
     characters.erase( std::remove_if(characters.begin(), characters.end(), isspace), characters.end());
     std::vector<internal::determine_terrain> determiners;
@@ -102,10 +102,10 @@ std::shared_ptr<internal::format_effect> basic_bind(std::string characters, ...)
         determiners[i] = internal::determine_terrain( ter_id( va_arg(vl,int) ) );
     }
     va_end(vl);
-    return std::shared_ptr<internal::format_effect>(new internal::format_effect(characters, determiners));
+    return internal::format_effect(characters, determiners);
 }
 
-std::shared_ptr<internal::format_effect> ter_str_bind(std::string characters, ...)
+internal::format_effect ter_str_bind(std::string characters, ...)
 {
     std::string temp;
     for( auto &character : characters ) {
@@ -125,10 +125,10 @@ std::shared_ptr<internal::format_effect> ter_str_bind(std::string characters, ..
         determiners[i] = internal::determine_terrain( iid );
     }
     va_end(vl);
-    return std::shared_ptr<internal::format_effect>(new internal::format_effect(characters, determiners));
+    return internal::format_effect(characters, determiners);
 }
 
-std::shared_ptr<internal::format_effect> furn_str_bind(std::string characters, ...)
+internal::format_effect furn_str_bind(std::string characters, ...)
 {
     std::string temp;
     for( auto &character : characters ) {
@@ -148,7 +148,7 @@ std::shared_ptr<internal::format_effect> furn_str_bind(std::string characters, .
         determiners[i] = internal::determine_terrain( iid );
     }
     va_end(vl);
-    return std::shared_ptr<internal::format_effect>(new internal::format_effect(characters, determiners));
+    return internal::format_effect(characters, determiners);
 }
 
 namespace internal

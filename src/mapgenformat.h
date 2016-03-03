@@ -28,12 +28,12 @@ class format_effect;
  * You will have specify the values you want to track with a parameter.
  */
 void formatted_set_simple( map *m, const int startx, const int starty, const char *cstr,
-                           std::shared_ptr<internal::format_effect> ter_b, std::shared_ptr<internal::format_effect> furn_b,
+                           internal::format_effect ter_b, internal::format_effect furn_b,
                            const bool empty_toilets = false );
 
-std::shared_ptr<internal::format_effect> basic_bind( std::string characters, ... );
-std::shared_ptr<internal::format_effect> ter_str_bind( std::string characters, ... );
-std::shared_ptr<internal::format_effect> furn_str_bind( std::string characters, ... );
+internal::format_effect basic_bind( std::string characters, ... );
+internal::format_effect ter_str_bind( std::string characters, ... );
+internal::format_effect furn_str_bind( std::string characters, ... );
 
 // Anything specified in here isn't finalized
 namespace internal
