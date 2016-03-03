@@ -15,7 +15,7 @@ namespace mapf
 {
 
 void formatted_set_simple(map* m, const int startx, const int starty, const char* cstr,
-                       internal::format_effect<ter_id> ter_b, internal::format_effect<furn_id> furn_b,
+                       format_effect<ter_id> ter_b, format_effect<furn_id> furn_b,
                        const bool empty_toilets)
 {
     const char* p = cstr;
@@ -44,27 +44,24 @@ void formatted_set_simple(map* m, const int startx, const int starty, const char
     }
 }
 
-namespace internal
+template<typename ID>
+format_effect<ID>::format_effect( std::string chars, std::vector<ID> dets )
+    : characters( chars ), determiners( dets )
 {
-    template<typename ID>
-    format_effect<ID>::format_effect( std::string chars, std::vector<ID> dets )
-        : characters( chars ), determiners( dets )
-    {
-        characters.erase( std::remove_if( characters.begin(), characters.end(), isspace ), characters.end() );
-    }
-
-    template<typename ID>
-    ID format_effect<ID>::translate( const char c ) const
-    {
-        const auto index = characters.find( c );
-        if( index == std::string::npos ) {
-            return ID( 0 );
-        }
-        return determiners[index];
-    }
-
-    template class format_effect<furn_id>;
-    template class format_effect<ter_id>;
+    characters.erase( std::remove_if( characters.begin(), characters.end(), isspace ), characters.end() );
 }
+
+template<typename ID>
+ID format_effect<ID>::translate( const char c ) const
+{
+    const auto index = characters.find( c );
+    if( index == std::string::npos ) {
+        return ID( 0 );
+    }
+    return determiners[index];
+}
+
+template class format_effect<furn_id>;
+template class format_effect<ter_id>;
 
 }//END NAMESPACE mapf
