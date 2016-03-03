@@ -283,6 +283,12 @@
     },
     {
         "type" : "ammunition_type",
+        "id" : "weldgas",
+        "name" : "welding gas",
+        "default" : "oxyacetylene"
+    },
+    {
+        "type" : "ammunition_type",
         "id" : "conc_alcohol",
         "name" : "concentrated alcohol",
         "default" : "denat_alcohol"
