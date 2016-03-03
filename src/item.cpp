@@ -1292,7 +1292,10 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                                          ammo_capacity() );
                 }
             }
-            info.push_back( iteminfo( "TOOL", "", temp_fmt, ammo_capacity() ) );
+            if( !magazine_integral() ) {
+                // @todo refactor this as part of the above conditionals
+                info.emplace_back( "TOOL", "", temp_fmt, ammo_capacity() );
+            }
         }
     }
 
