@@ -5,11 +5,7 @@
 #include <memory>
 
 #include "map.h"
-/////
 
-struct ter_furn_id;
-
-/////
 namespace mapf
 {
 namespace internal
