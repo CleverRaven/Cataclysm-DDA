@@ -4915,36 +4915,63 @@ long item::charges_of( const itype_id& id ) const
     return qty;
 }
 
-bool item::use_charges(const itype_id &it, long &quantity, std::list<item> &used)
+bool item::use_charges( const itype_id& id, long& qty, std::list<item>& used )
 {
-    // First, check contents
-    for( auto a = contents.begin(); a != contents.end() && quantity > 0; ) {
-        if (a->use_charges(it, quantity, used)) {
-            a = contents.erase(a);
-        } else {
-            ++a;
+    // items counted by charges are destroyed when the final charge is consumed
+    // so in this circumstance we need to signal to the caller to remove the item
+    bool del = false;
+
+    // recursively remove available charges from this or any contained items
+    visit_items_with_parent( [&]( item *e, item *parent ) {
+        if( qty <= 0 ) {
+            return VisitResponse::ABORT; // already found sufficient charges
         }
-    }
-    // Now check the item itself
-    if( !((type->id == it) || (is_tool() && (dynamic_cast<const it_tool *>(type))->subtype == it)) ||
-        quantity <= 0 || !contents.empty() ) {
-        return false;
-    }
-    if (charges <= quantity) {
-        used.push_back(*this);
-        if (charges < 0) {
-            quantity--;
-        } else {
-            quantity -= charges;
+
+        if( e->is_gun() || e->is_magazine() ) {
+            return VisitResponse::SKIP; // @see item::charges_of
+
+        } else if( e->is_tool() ) {
+            if( ( e->typeId() == id || dynamic_cast<const it_tool *>( e->type)->subtype == id ) && e->ammo_remaining() ) {
+                // @todo use correct location
+                used.push_back( *e );
+                int n = std::min( e->ammo_remaining(), qty );
+                qty -= e->ammo_consume( n, g->u.pos() );
+                qty -= n;
+            }
+            return VisitResponse::SKIP;
+
+        } else if( e->count_by_charges() ) {
+            if( e->typeId() == id ) {
+
+                // if can supply more than required charges split those off leaving original in-situ
+                if( e->charges > qty ) {
+                    used.push_back( e->split( qty ) );
+                    qty = 0;
+                    return VisitResponse::ABORT;
+
+                // otherwise either ourselves or the caller will need to remove the depleted item
+                } else {
+                    used.push_back( *e );
+                    qty -= e->charges;
+                    if( parent ) {
+                        parent->contents.erase( std::remove_if( parent->contents.begin(), parent->contents.end(), [&e]( const item& obj ) {
+                            return &obj == e;
+                        } ) );
+                    } else {
+                        del = true; // this was the top item so the caller must delete us
+                        return VisitResponse::ABORT;
+                    }
+                }
+            }
+            // items counted by charges are not themselves expected to be containers
+            return VisitResponse::SKIP;
         }
-        charges = 0;
-        return destroyed_at_zero_charges();
-    }
-    used.push_back(*this);
-    used.back().charges = quantity;
-    charges -= quantity;
-    quantity = 0;
-    return false;
+
+        // recurse through any nested containers
+        return VisitResponse::NEXT;
+    } );
+
+    return del;
 }
 
 void item::set_snippet( const std::string &snippet_id )
