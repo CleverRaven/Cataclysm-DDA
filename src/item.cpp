@@ -4881,23 +4881,38 @@ bool item::fill_with( item &liquid, std::string &err )
     return true;
 }
 
-long item::charges_of(const itype_id &it) const
+long item::charges_of( const itype_id& id ) const
 {
-    long count = 0;
+    long qty = 0;
 
-    if (((type->id == it) || (is_tool() && (dynamic_cast<const it_tool *>(type))->subtype == it)) && contents.empty()) {
-        // If we're specifically looking for a container, only say we have it if it's empty.
-        if (charges < 0) {
-            count++;
-        } else {
-            count += charges;
+    // recursively find available charges from this or any contained items
+    visit_items_const( [&]( const item *e ) {
+
+        if( e->is_gun() || e->is_magazine() ) {
+            // charges in magazines are unavailable except when loaded in a tool
+            // charges in guns are never available
+            return VisitResponse::SKIP;
+
+        } else if( e->is_tool() ) {
+            // for tools we also need to check if this item is a subtype of the required id
+            if( e->typeId() == id || dynamic_cast<const it_tool *>( e->type)->subtype == id ) {
+                qty += e->ammo_remaining(); // includes charges from any contained magazine
+            }
+            return VisitResponse::SKIP;
+
+        } else if( e->count_by_charges() ) {
+            if( e->typeId() == id ) {
+                qty += e->charges;
+            }
+            // items counted by charges are not themselves expected to be containers
+            return VisitResponse::SKIP;
         }
-    } else {
-        for( const auto &elem : contents ) {
-            count += elem.charges_of( it );
-        }
-    }
-    return count;
+
+        // recurse through any nested containers
+        return VisitResponse::NEXT;
+    } );
+
+    return qty;
 }
 
 bool item::use_charges(const itype_id &it, long &quantity, std::list<item> &used)
