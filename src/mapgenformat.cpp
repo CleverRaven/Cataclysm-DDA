@@ -14,12 +14,13 @@
 namespace mapf
 {
 
-bool internal::format_data::fix_bindings(const char c)
+template<typename ID>
+bool internal::format_data<ID>::fix_bindings(const char c)
 {
     if( bindings.find(c) != bindings.end() ) {
         return false;
     }
-    bindings[c] = int();
+    bindings[c] = ID();
     return true;
 }
 
@@ -27,8 +28,8 @@ void formatted_set_simple(map* m, const int startx, const int starty, const char
                        internal::format_effect ter_b, internal::format_effect furn_b,
                        const bool empty_toilets)
 {
-    internal::format_data tdata;
-    internal::format_data fdata;
+    internal::format_data<ter_id> tdata;
+    internal::format_data<furn_id> fdata;
     ter_b.execute(tdata);
     furn_b.execute(fdata);
 
@@ -45,9 +46,8 @@ void formatted_set_simple(map* m, const int startx, const int starty, const char
         } else {
             tdata.fix_bindings(*p);
             fdata.fix_bindings(*p);
-            // bindings should be ter_id / furn_id
-            ter_id ter = ter_id( tdata.bindings[*p] );
-            furn_id furn = furn_id( fdata.bindings[*p] );
+            ter_id ter = tdata.bindings[*p];
+            furn_id furn = fdata.bindings[*p];
             if (ter != t_null) {
                 m->ter_set(x, y, ter);
             }
@@ -85,10 +85,11 @@ namespace internal
     {
     }
 
-    void format_effect::execute(format_data& data)
+    template<typename ID>
+    void format_effect::execute(format_data<ID>& data)
     {
         for( size_t i = 0; i < characters.size(); ++i ) {
-            data.bindings[characters[i]] = determiners[i];
+            data.bindings[characters[i]] = ID(determiners[i]);
         }
     }
 }

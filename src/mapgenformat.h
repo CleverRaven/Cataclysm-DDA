@@ -32,8 +32,9 @@ internal::format_effect basic_bind( std::string characters, ... );
 // Anything specified in here isn't finalized
 namespace internal
 {
+template<typename ID>
 struct format_data {
-    std::map<char, int> bindings;
+    std::map<char, ID> bindings;
     bool fix_bindings( const char c );
 };
 
@@ -48,7 +49,8 @@ class format_effect
         format_effect( std::string characters,
                        std::vector<int> &determiners );
 
-        void execute( format_data &data );
+        template<typename ID>
+        void execute( format_data<ID> &data );
 };
 
 } //END NAMESPACE mapf::internal
