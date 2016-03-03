@@ -78,29 +78,6 @@ internal::format_effect basic_bind(std::string characters, ...)
     return internal::format_effect(characters, determiners);
 }
 
-internal::format_effect furn_str_bind(std::string characters, ...)
-{
-    std::string temp;
-    for( auto &character : characters ) {
-        if( character != ' ' ) {
-            temp += character;
-        }
-    }
-    characters = temp;
-
-    std::vector<int> determiners;
-    va_list vl;
-    va_start(vl,characters);
-    determiners.resize(characters.size());
-    for( size_t i = 0; i < characters.size(); ++i ) {
-        const std::string sid = va_arg(vl,char *);
-        const furn_id iid = ( furnmap.find( sid ) != furnmap.end() ? furnmap[ sid ].loadid : f_null );
-        determiners[i] = int( iid );
-    }
-    va_end(vl);
-    return internal::format_effect(characters, determiners);
-}
-
 namespace internal
 {
     format_effect::format_effect(std::string characters, std::vector<int> &determiners)
