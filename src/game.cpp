@@ -6563,8 +6563,20 @@ std::unordered_map<tripoint,int> game::shrapnel( const tripoint &src, int power,
 
             if( m.impassable( e ) ) {
                 // massive shrapnel can smash a path through obstacles
-                int resistance = m.bash_resistance( e );
-                if( m.bash( e, std::min( kinetic, mass ), true ).success ) {
+                int force = std::min( kinetic, mass );
+                int resistance;
+
+                int vpart;
+                vehicle *veh = m.veh_at( e, vpart );
+                if( veh != nullptr & vpart >= 0 ) {
+                    resistance = force - veh->damage( vpart, force );
+
+                } else {
+                    resistance = std::max( m.bash_resistance( e ), 0 );
+                    m.bash( e, force, true );
+                }
+
+                if( m.passable( e ) ) {
                     distrib[ e ] += resistance; // obstacle absorbed only some of the force
                     kinetic -= resistance;
                 } else {
