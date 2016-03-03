@@ -27,7 +27,8 @@ void formatted_set_simple( map *m, const int startx, const int starty, const cha
                            internal::format_effect ter_b, internal::format_effect furn_b,
                            const bool empty_toilets = false );
 
-internal::format_effect basic_bind( std::string characters, ... );
+internal::format_effect ter_bind( std::string characters, ... );
+internal::format_effect furn_bind( std::string characters, ... );
 
 // Anything specified in here isn't finalized
 namespace internal

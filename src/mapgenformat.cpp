@@ -64,18 +64,37 @@ void formatted_set_simple(map* m, const int startx, const int starty, const char
     }
 }
 
-internal::format_effect basic_bind(std::string characters, ...)
+
+internal::format_effect basic_bind( std::string &characters, va_list args )
 {
     characters.erase( std::remove_if(characters.begin(), characters.end(), isspace), characters.end());
     std::vector<int> determiners;
     va_list vl;
-    va_start(vl,characters);
+    va_copy( vl, args );
     determiners.resize(characters.size());
     for( size_t i = 0; i < characters.size(); ++i ) {
         determiners[i] = int( ter_id( va_arg(vl,int) ) );
     }
     va_end(vl);
     return internal::format_effect(characters, determiners);
+}
+
+internal::format_effect ter_bind( std::string characters, ... )
+{
+    va_list ap;
+    va_start( ap, characters );
+    auto result = basic_bind( characters, ap );
+    va_end( ap );
+    return result;
+}
+
+internal::format_effect furn_bind(std::string characters, ...)
+{
+    va_list ap;
+    va_start( ap, characters );
+    auto result = basic_bind( characters, ap );
+    va_end( ap );
+    return result;
 }
 
 namespace internal
