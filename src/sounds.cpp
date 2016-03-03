@@ -1,4 +1,6 @@
 #include "sounds.h"
+
+#include "coordinate_conversions.h"
 #include "game.h"
 #include "map.h"
 #include "debug.h"
@@ -17,6 +19,7 @@
 #include "options.h"
 #include "time.h"
 #include "mapdata.h"
+#include "itype.h"
 #include <chrono>
 #ifdef SDL_SOUND
 #   include <SDL_mixer.h>
@@ -172,7 +175,7 @@ void sounds::process_sounds()
             // With this, volume 100 reaches 20 overmap tiles away.
             sig_power /= 5;
             const point abs_ms = g->m.getabs( source.x, source.y );
-            const point abs_sm = overmapbuffer::ms_to_sm_copy( abs_ms );
+            const point abs_sm = ms_to_sm_copy( abs_ms );
             const tripoint target( abs_sm.x, abs_sm.y, source.z );
             overmap_buffer.signal_hordes( target, sig_power );
         }
@@ -570,9 +573,12 @@ void sfx::generate_gun_sound( const player &p, const item &firing )
         angle = 0;
         distance = 0;
         selected_sound = "fire_gun";
-        if( firing.has_gunmod( "suppressor" ) == 1 || firing.has_gunmod( "homemade suppressor" ) == 1 ) {
+
+        const auto mods = firing.gunmods();
+        if( std::any_of( mods.begin(), mods.end(), []( const item *e ) { return e->type->gunmod->loudness < 0; } ) ) {
             weapon_id = "weapon_fire_suppressed";
         }
+
     } else {
         angle = get_heard_angle( source );
         distance = rl_dist( g->u.pos(), source );

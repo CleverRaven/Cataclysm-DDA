@@ -1,17 +1,20 @@
-#include <algorithm>
 #include "start_location.h"
-#include "output.h"
+
+#include "coordinate_conversions.h"
 #include "debug.h"
-#include "map.h"
-#include "game.h"
-#include "overmapbuffer.h"
 #include "enums.h"
-#include "json.h"
-#include "overmap.h"
 #include "field.h"
-#include "mapgen.h"
+#include "game.h"
 #include "generic_factory.h"
+#include "json.h"
+#include "map.h"
+#include "mapgen.h"
+#include "output.h"
+#include "overmap.h"
+#include "overmapbuffer.h"
 #include "player.h"
+
+#include <algorithm>
 
 const efftype_id effect_bleed( "bleed" );
 
@@ -237,7 +240,7 @@ tripoint start_location::find_player_initial_location() const
 void start_location::prepare_map( const tripoint &omtstart ) const
 {
     // Now prepare the initial map (change terrain etc.)
-    const point player_location = overmapbuffer::omt_to_sm_copy( omtstart.x, omtstart.y );
+    const point player_location = omt_to_sm_copy( omtstart.x, omtstart.y );
     tinymap player_start;
     player_start.load( player_location.x, player_location.y, omtstart.z, false );
     prepare_map( player_start );
@@ -374,7 +377,7 @@ void start_location::place_player( player &u ) const
 void start_location::burn( const tripoint &omtstart,
                            const size_t count, const int rad ) const
 {
-    const tripoint player_location = overmapbuffer::omt_to_sm_copy( omtstart );
+    const tripoint player_location = omt_to_sm_copy( omtstart );
     tinymap m;
     m.load( player_location.x, player_location.y, player_location.z, false );
     m.build_outside_cache( m.get_abs_sub().z );
@@ -406,7 +409,7 @@ void start_location::burn( const tripoint &omtstart,
 void start_location::add_map_special( const tripoint &omtstart,
                                       const std::string &map_special ) const
 {
-    const tripoint player_location = overmapbuffer::omt_to_sm_copy( omtstart );
+    const tripoint player_location = omt_to_sm_copy( omtstart );
     tinymap m;
     m.load( player_location.x, player_location.y, player_location.z, false );
 

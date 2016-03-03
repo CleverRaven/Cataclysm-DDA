@@ -385,6 +385,8 @@
 		<Unit filename="src/construction.cpp" />
 		<Unit filename="src/construction.h" />
 		<Unit filename="src/consumption.cpp" />
+		<Unit filename="src/coordinate_conversions.cpp" />
+		<Unit filename="src/coordinate_conversions.h" />
 		<Unit filename="src/coordinates.h" />
 		<Unit filename="src/craft_command.cpp" />
 		<Unit filename="src/craft_command.h" />
@@ -480,8 +482,8 @@
 		<Unit filename="src/main_menu.cpp" />
 		<Unit filename="src/map.cpp" />
 		<Unit filename="src/map.h" />
-		<Unit filename="src/map_selector.h" />
 		<Unit filename="src/map_selector.cpp" />
+		<Unit filename="src/map_selector.h" />
 		<Unit filename="src/mapbuffer.cpp" />
 		<Unit filename="src/mapbuffer.h" />
 		<Unit filename="src/mapdata.cpp" />
@@ -616,14 +618,14 @@
 		<Unit filename="src/uistate.h" />
 		<Unit filename="src/veh_interact.cpp" />
 		<Unit filename="src/veh_interact.h" />
-		<Unit filename="src/vehicle_selector.h" />
-		<Unit filename="src/vehicle_selector.cpp" />
 		<Unit filename="src/veh_type.cpp" />
 		<Unit filename="src/veh_type.h" />
 		<Unit filename="src/vehicle.cpp" />
 		<Unit filename="src/vehicle.h" />
 		<Unit filename="src/vehicle_group.cpp" />
 		<Unit filename="src/vehicle_group.h" />
+		<Unit filename="src/vehicle_selector.cpp" />
+		<Unit filename="src/vehicle_selector.h" />
 		<Unit filename="src/version.cpp" />
 		<Unit filename="src/visitable.cpp" />
 		<Unit filename="src/visitable.h" />

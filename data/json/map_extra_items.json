@@ -92,19 +92,13 @@
             { "group": "underwear", "damage-min": 1, "damage-max": 3 }
         ]
     }, {
+        "id": "map_extra_police",
         "type" : "item_group",
         "subtype": "collection",
-        "id": "map_extra_police",
         "entries":
         [
             { "item": "corpse", "damage": 3 },
-            { "group": "cop_torso", "damage-min": 1, "damage-max": 4 },
-            { "group": "cop_armory", "damage-min": 1, "damage-max": 4, "prob": 30 },
-            { "group": "cop_weapons", "damage-min": 1, "damage-max": 4, "prob": 86 },
-            { "group": "prison_armor", "damage-min": 1, "damage-max": 4, "prob": 86 },
-            { "group": "cop_pants", "damage-min": 1, "damage-max": 4 },
-            { "group": "cop_shoes", "damage-min": 1, "damage-max": 4 },
-            { "group": "underwear", "damage-min": 1, "damage-max": 3 }
+            { "group": "mon_zombie_cop_death_drops" }
         ]
     }, {
         "type" : "item_group",

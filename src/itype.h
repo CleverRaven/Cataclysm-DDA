@@ -203,6 +203,10 @@ struct common_ranged_data {
      * Recoil "bonus" from gun.
      */
     int recoil = 0;
+    /**
+     * loudness for guns/gunmods and ammo
+     */
+    int loudness = 0;
 };
 
 /**
@@ -225,10 +229,6 @@ struct common_firing_data : common_ranged_data {
      * Burst size.
      */
     int burst = 0;
-    /**
-     * loudness for guns/gunmods
-     */
-    int loudness = 0;
 };
 
 // TODO: this shares a lot with the ammo item type, merge into a separate slot type?
@@ -675,7 +675,10 @@ public:
 
 struct it_tool : itype {
     std::string ammo_id;
-    std::string revert_to;
+
+    itype_id revert_to = "null";
+    std::string revert_msg;
+
     std::string subtype;
 
     long max_charges = 0;

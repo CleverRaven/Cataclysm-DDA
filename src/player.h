@@ -717,6 +717,11 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Handles rooting effects */
         void rooted_message() const;
         void rooted();
+
+        /** Check player capable of wearing an item.
+          * @param alert display reason for any failure */
+        bool can_wear( const item& it, bool alert = true ) const;
+
         /** Check player capable of wielding an item.
           * @param alert display reason for any failure */
         bool can_wield( const item& it, bool alert = true ) const;
@@ -754,12 +759,23 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int item_handling_cost( const item& it, bool effects = true, int factor = VOLUME_MOVE_COST) const;
 
         /**
+         * Calculate (but do not deduct) the number of moves required when storing an item in a container
+         * @param effects whether temporary player effects should be considered (eg. GRABBED, DOWNED)
+         * @param factor base move cost per unit volume before considering any other modifiers
+         * @return cost in moves ranging from 0 to MAX_HANDLING_COST
+         */
+        int item_store_cost( const item& it, const item& container, bool effects = true, int factor = VOLUME_MOVE_COST ) const;
+
+        /**
          * Calculate (but do not deduct) the number of moves required to reload an item with specified quantity of ammo
          * @param ammo either ammo or magazine to use when reloading the item
          * @param qty maximum units of ammo to reload capped by remaining capacity. Defaults to remaining capacity
          * (or 1 if RELOAD_ONE). Ignored if reloading using a magazine.
          */
         int item_reload_cost( const item& it, const item& ammo, long qty = -1 ) const;
+
+        /** Calculate (but do not deduct) the number of moves required to wear an item */
+        int item_wear_cost( const item& to_wear ) const;
 
         /** Wear item; returns false on fail. If interactive is false, don't alert the player or drain moves on completion. */
         bool wear(int pos, bool interactive = true);

@@ -58,13 +58,15 @@ std::vector<item> item::magazine_convert() {
         return res;
     }
 
+    item *spare_mag = gunmod_find( "spare_mag" );
+
     // if item has integral magazine remove any magazine mods but do not mark item as converted
     if( magazine_integral() ) {
         if( !is_gun() ) {
             return res; // only guns can have attached gunmods
         }
 
-        int qty = has_gunmod( "spare_mag" ) >= 0 ? contents[ has_gunmod( "spare_mag" ) ].charges : 0;
+        int qty = spare_mag ? spare_mag->charges : 0;
         qty += charges - type->gun->clip; // excess ammo from magazine extensions
 
         // limit ammo to base capacity and return any excess as a new item
@@ -95,7 +97,6 @@ std::vector<item> item::magazine_convert() {
     }
 
     // remove any spare magazine and replace it with an equivalent loaded magazine
-    item *spare_mag = has_gunmod( "spare_mag" ) >= 0 ? &contents[ has_gunmod( "spare_mag" ) ] : nullptr;
     if( spare_mag ) {
         res.push_back( mag );
         if( spare_mag->charges > 0 ) {

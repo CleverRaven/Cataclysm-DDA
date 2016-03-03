@@ -865,11 +865,6 @@ The contents of use_action fields can either be a string indicating a built-in f
     "moves" : 500         // Moves required to transform the item in excess of a normal action.
 },
 "use_action": {
-    "type: : "auto_transform", // Like transform, but it transforms automatically when a condition is met.
-    "when_underwater" : "The candle is extinguished.", // Message to display if the item goes underwater, also cause the item to transform when it goes underwater.
-    "non_interactive_message" " "You can not deactivate the lightstrip.",  // Message to display if the player tries to activate the item, also prevents activation by player from working.
-},
-"use_action": {
     "type": "explosion", // An item that explodes when it runs out of charges.
     "sound_volume": 0, // Volume of a sound the item makes every turn.
     "sound_msg": "Tick.", // Message describing sound the item makes every turn.

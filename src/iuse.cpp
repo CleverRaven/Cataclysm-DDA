@@ -1,4 +1,6 @@
 #include "iuse.h"
+
+#include "coordinate_conversions.h"
 #include "game.h"
 #include "map.h"
 #include "mapdata.h"
@@ -2591,7 +2593,7 @@ int iuse::fishing_rod(player *p, item *it, bool, const tripoint& )
         p->add_msg_if_player(m_info, _("You can't fish there!"));
         return 0;
     }
-    point op = overmapbuffer::ms_to_omt_copy( g->m.getabs( dirx, diry ) );
+    point op = ms_to_omt_copy( g->m.getabs( dirx, diry ) );
     if( !otermap[overmap_buffer.ter(op.x, op.y, g->get_levz())].has_flag(river_tile) ) {
         p->add_msg_if_player(m_info, _("That water does not contain any fish.  Try a river instead."));
         return 0;
@@ -2643,7 +2645,7 @@ int iuse::fish_trap(player *p, item *it, bool t, const tripoint &pos)
             p->add_msg_if_player(m_info, _("You can't fish there!"));
             return 0;
         }
-        point op = overmapbuffer::ms_to_omt_copy(g->m.getabs(dirx, diry));
+        point op = ms_to_omt_copy(g->m.getabs(dirx, diry));
         if( !otermap[overmap_buffer.ter(op.x, op.y, g->get_levz())].has_flag(river_tile) ) {
             p->add_msg_if_player(m_info, _("That water does not contain any fish, try a river instead."));
             return 0;
@@ -2674,7 +2676,7 @@ int iuse::fish_trap(player *p, item *it, bool t, const tripoint &pos)
             if (!g->m.has_flag("FISHABLE", pos)) {
                 return 0;
             }
-            point op = overmapbuffer::ms_to_omt_copy( g->m.getabs( pos.x, pos.y ) );
+            point op = ms_to_omt_copy( g->m.getabs( pos.x, pos.y ) );
            if( !otermap[overmap_buffer.ter(op.x, op.y, g->get_levz())].has_flag(river_tile) ) {
                 return 0;
             }
@@ -5386,7 +5388,7 @@ int iuse::LAW(player *p, item *it, bool, const tripoint& )
 {
     p->add_msg_if_player(_("You pull the activating lever, readying the LAW to fire."));
     // When converting a tool to a gun, you need to set the current ammo type, this is usually done when a gun is reloaded.
-    it->convert( "LAW" ).set_curammo( "66mm_HEAT" );
+    it->convert( "LAW" ).ammo_set( "66mm_HEAT" );
     return it->type->charges_to_use();
 }
 
@@ -7895,17 +7897,14 @@ int iuse::multicooker(player *p, item *it, bool t, const tripoint &pos)
         }
 
         if (cooktime <= 0) {
-            it->active = false;
-
-            item meal(it->get_var( "DISH" ), calendar::turn);
-            meal.active = true;
-
-            if (meal.has_flag("EATEN_HOT")) {
-                meal.item_tags.insert("HOT");
+            item& meal = it->emplace_back( it->get_var( "DISH" ) );
+            if( meal.has_flag( "EATEN_HOT" ) ) {
+                meal.active = true;
+                meal.item_tags.insert( "HOT" );
                 meal.item_counter = 600;
             }
 
-            it->put_in(meal);
+            it->active = false;
             it->erase_var( "DISH" );
             it->erase_var( "COOKTIME" );
 

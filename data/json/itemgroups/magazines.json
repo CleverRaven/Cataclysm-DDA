@@ -54,7 +54,7 @@
   },
   {
     "type" : "item_group",
-    "id" : "mags_police",
+    "id" : "mags_cop",
     "//" : "Standard issue police magazines.",
     "items": [
       ["fn57mag", 15],
@@ -73,7 +73,7 @@
     "id" : "mags_swat",
     "//" : "Magazines issued to paramilitary forces in addition to standard police issue.",
     "items": [
-      { "group": "mags_police", "prob": 50 },
+      { "group": "mags_cop", "prob": 50 },
       ["fnp90mag", 20],
       ["glockbigmag", 10],
       ["glock40bigmag", 10],

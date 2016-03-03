@@ -1068,12 +1068,7 @@
     "turns_per_charge": 300,
     "ammo": "NULL",
     "revert_to": "stormbringer",
-    "use_action": {
-        "type": "auto_transform",
-        "target": "stormbringer",
-        "non_interactive_msg": "\"The black blade will not be thwarted!\"  The effect cannot be dispeled until its energy has run out.",
-        "msg": "The malevolent energy fades from the cursed blade, returning it to normal."
-    },
+    "revert_msg": "The malevolent energy fades from the cursed blade, returning it to normal",
     "category" : "weapons",
     "//" : "Funny as it'd be to add the bad weather effect too, that would be a tad silly",
     "artifact_data" : {

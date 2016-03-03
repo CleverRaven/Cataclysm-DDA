@@ -136,7 +136,6 @@
     "burst": 5,
     "clip_size": 100,
     "reload": 350,
-    "loudness" : 5,
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "grip", 1 ],[ "sights", 1 ],[ "stock", 1 ]]
   },
   {
@@ -163,7 +162,6 @@
     "durability": 7,
     "clip_size": 20,
     "reload": 500,
-    "loudness" : 5,
     "valid_mod_locations": [[ "accessories", 4 ],[ "sights", 1 ],[ "stock", 1 ]]
   },
   {
@@ -327,7 +325,7 @@
     "durability": 6,
     "clip_size": 1,
     "reload": 250,
-    "loudness" : 150,
+    "loudness" : 25,
     "barrel_length" : 2,
     "valid_mod_locations": [[ "muzzle", 1 ],[ "stock", 1 ]]
   },
@@ -357,7 +355,7 @@
     "durability": 6,
     "clip_size": 1,
     "reload": 250,
-    "loudness" : 150,
+    "loudness" : 25,
     "barrel_length" : 3,
     "valid_mod_locations": [[ "muzzle", 1 ],[ "stock", 1 ]]
   },
@@ -387,7 +385,6 @@
     "durability": 9,
     "clip_size": 7,
     "reload": 75,
-    "loudness" : 125,
     "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "bore", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
@@ -415,7 +412,7 @@
     "durability": 6,
     "clip_size": 6,
     "reload": 60,
-    "loudness" : 160,
+    "loudness" : 25,
     "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "bore", 1 ],[ "grip", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
@@ -444,7 +441,6 @@
     "durability": 8,
     "clip_size": 5,
     "reload": 80,
-    "loudness" : 160,
     "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
@@ -473,7 +469,6 @@
     "durability": 8,
     "clip_size": 5,
     "reload": 80,
-    "loudness" : 160,
     "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
@@ -502,7 +497,7 @@
     "durability": 7,
     "clip_size": 5, "//": "Homemade tube magazine system, part of the reason for the size/weight",
     "reload": 110,
-    "loudness" : 160,
+    "loudness" : 25,
     "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
@@ -531,7 +526,6 @@
     "durability": 8,
     "clip_size": 6,
     "reload": 75,
-    "loudness" : 150,
     "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "bore", 1 ],[ "grip", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
@@ -561,7 +555,6 @@
     "durability": 8,
     "clip_size": 5,
     "reload": 75,
-    "loudness" : 150,
     "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "bore", 1 ],[ "grip", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
@@ -590,7 +583,6 @@
     "durability": 7,
     "clip_size": 7,
     "reload": 120,
-    "loudness" : 200,
     "built_in_mods" : ["ksg_aux_shotgun"],
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
@@ -621,7 +613,6 @@
     "burst": 30,
     "clip_size": 165,
     "reload": 500,
-    "loudness" : 150,
     "barrel_length" : 1,
     "valid_mod_locations": [[ "accessories", 3 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
@@ -652,7 +643,6 @@
     "burst": 8,
     "clip_size": 32,
     "reload": 400,
-    "loudness" : 150,
     "valid_mod_locations": [[ "accessories", 3 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
@@ -682,7 +672,6 @@
     "burst": 20,
     "clip_size": 50,
     "reload": 500,
-    "loudness" : 150,
     "valid_mod_locations": [[ "accessories", 3 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
@@ -712,7 +701,6 @@
     "durability": 9,
     "clip_size": 7,
     "reload": 100,
-    "loudness" : 150,
     "barrel_length" : 2,
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
@@ -742,7 +730,7 @@
     "durability": 2,
     "clip_size": 1,
     "reload": 75,
-    "loudness" : 160,
+    "loudness" : 25,
     "barrel_length" : 2,
     "valid_mod_locations": [[ "accessories", 4 ],[ "bore", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "sights", 1 ]]
   },
@@ -771,7 +759,7 @@
     "durability": 6,
     "clip_size": 1,
     "reload": 75,
-    "loudness" : 160,
+    "loudness" : 25,
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "sights", 1 ],[ "underbarrel", 1 ]]
   },
   {
@@ -799,7 +787,7 @@
     "durability": 6,
     "clip_size": 10,
     "reload": 100,
-    "loudness" : 160,
+    "loudness" : 25,
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
@@ -826,7 +814,7 @@
     "durability": 6,
     "clip_size": 8,
     "reload": 105,
-    "loudness" : 160,
+    "loudness" : 25,
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
@@ -855,7 +843,6 @@
     "durability": 8,
     "clip_size": 5,
     "reload": 480,
-    "loudness" : 150,
     "barrel_length" : 2,
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
@@ -1050,7 +1037,6 @@
     "durability": 6,
     "clip_size": 1,
     "reload": 350,
-    "loudness" : 175,
     "valid_mod_locations": [[ "stock", 1 ]]
   },
   {
@@ -1077,7 +1063,6 @@
     "burst": 3,
     "clip_size": 3,
     "reload": 350,
-    "loudness" : 175,
     "valid_mod_locations": [[ "accessories", 4 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
@@ -1105,7 +1090,6 @@
     "durability": 8,
     "clip_size": 1,
     "reload": 250,
-    "loudness" : 160,
     "valid_mod_locations": [[ "accessories", 4 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ]]
   },
   {
@@ -1132,7 +1116,6 @@
     "durability": 9,
     "clip_size": 1,
     "reload": 150,
-    "loudness" : 160,
     "valid_mod_locations": [[ "accessories", 4 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
@@ -1161,7 +1144,6 @@
     "burst": 2,
     "clip_size": 6,
     "reload": 300,
-    "loudness" : 160,
     "valid_mod_locations": [[ "accessories", 4 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
@@ -1188,7 +1170,6 @@
     "durability": 9,
     "clip_size": 4,
     "reload": 100,
-    "loudness" : 120,
     "valid_mod_locations": [[ "accessories", 4 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
@@ -1245,8 +1226,7 @@
     "recoil": 75,
     "durability": 9,
     "clip_size": 1,
-    "reload": 150,
-    "loudness" : 200
+    "reload": 150
   },
   {
     "id": "TANK",
@@ -1383,7 +1363,7 @@
     "durability": 6,
     "clip_size": 6,
     "reload": 100,
-    "loudness" : 160,
+    "loudness" : 25,
     "barrel_length" : 1,
     "valid_mod_locations": [[ "accessories", 3 ],[ "barrel", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ]]
   },
@@ -1412,7 +1392,7 @@
     "durability": 6,
     "clip_size": 1,
     "reload": 100,
-    "loudness" : 175,
+    "loudness" : 25,
     "barrel_length" : 4,
     "valid_mod_locations": [[ "stock", 1 ]]
   },{
@@ -1469,7 +1449,7 @@
     "burst": 2,
     "clip_size": 2,
     "reload": 100,
-    "loudness" : 175,
+    "loudness" : 25,
     "barrel_length" : 5,
     "valid_mod_locations": [[ "stock", 1 ]]
   },
@@ -1498,7 +1478,7 @@
     "durability": 6,
     "clip_size": 1,
     "reload": 100,
-    "loudness" : 150,
+    "loudness" : 25,
     "barrel_length" : 2,
     "built_in_mods" : ["combination_gun_shotgun_pipe"],
     "valid_mod_locations": [[ "muzzle", 1 ],[ "stock", 1 ]]
@@ -1558,7 +1538,6 @@
     "durability": 9,
     "clip_size": 5,
     "reload": 100,
-    "loudness" : 175,
     "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
@@ -1645,7 +1624,7 @@
     "burst": 6,
     "clip_size": 6,
     "reload": 110,
-    "loudness" : 175,
+    "loudness" : 25,
     "valid_mod_locations": [[ "accessories", 4 ],[ "grip", 1 ],[ "sights", 1 ],[ "stock", 1 ]]
   },
   {
@@ -1672,7 +1651,6 @@
     "recoil": 300,
     "durability": 7,
     "clip_size": 1,
-    "loudness" : 5,
     "reload": 800
   },
   {
@@ -1700,7 +1678,7 @@
     "durability": 6,
     "clip_size": 1,
     "reload": 80,
-    "loudness" : 200,
+    "loudness" : 25,
     "valid_mod_locations": [[ "accessories", 1 ],[ "grip", 1 ],[ "stock", 1 ],[ "mechanism", 4 ],[ "sights", 1 ]]
   },
   {
@@ -1727,7 +1705,7 @@
     "durability": 7,
     "clip_size": 1,
     "reload": 80,
-    "loudness" : 50,
+    "loudness" : 40,
     "valid_mod_locations": [[ "accessories", 4],[ "grip", 1 ],[ "stock", 1 ]]
   },
   {
@@ -1902,7 +1880,6 @@
     "durability": 10,
     "clip_size": 1,
     "reload": 150,
-    "loudness" : 200,
     "valid_mod_locations": [[ "accessories", 4 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "sights", 1 ]]
   },
   {
@@ -2019,7 +1996,6 @@
     "durability": 9,
     "clip_size": 5,
     "reload": 80,
-    "loudness" : 175,
     "barrel_length" : 3,
     "valid_mod_locations": [[ "accessories", 4 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
@@ -2048,7 +2024,6 @@
     "burst": 2,
     "clip_size": 2,
     "reload": 70,
-    "loudness" : 175,
     "valid_mod_locations": [[ "accessories", 3 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ]]
   },
   {
@@ -2078,7 +2053,6 @@
     "durability": 8,
     "clip_size": 10,
     "reload": 340,
-    "loudness" : 175,
     "barrel_length" : 5,
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
  },
@@ -2110,7 +2084,6 @@
     "burst": 25,
     "clip_size": 200,
     "reload": 800,
-    "loudness" : 175,
     "barrel_length" : 5,
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "sights", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ]]
   },
@@ -2141,7 +2114,7 @@
     "burst": 1,
     "clip_size": 1,
     "reload": 100,
-    "loudness" : 200,
+    "loudness" : 40,
     "barrel_length" : 4,
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "sights", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "stock", 1 ],[ "grip", 1 ]]
  },
@@ -2172,7 +2145,6 @@
     "burst": 10,
     "clip_size": 80,
     "reload": 800,
-    "loudness" : 175,
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "sights", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "sights", 1 ]]
  },
   {
@@ -2202,7 +2174,6 @@
     "burst": 3,
     "clip_size": 30,
     "reload": 400,
-    "loudness" : 150,
     "barrel_length" : 1,
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
@@ -2232,7 +2203,6 @@
     "durability": 8,
     "clip_size": 1,
     "reload": 700,
-    "loudness" : 5,
     "valid_mod_locations": [[ "accessories", 4 ],[ "grip", 1 ],[ "sights", 1 ],[ "stock", 1 ]]
   },
   {
@@ -2259,7 +2229,6 @@
     "durability": 8,
     "clip_size": 1,
     "reload": 600,
-    "loudness" : 5,
     "valid_mod_locations": [[ "accessories", 2 ],[ "grip", 1 ],[ "sights", 1 ],[ "stock", 1 ]]
   },
   {
@@ -2288,7 +2257,6 @@
     "durability": 7,
     "clip_size": 2,
     "reload": 700,
-    "loudness" : 5,
     "valid_mod_locations": [[ "accessories", 4 ],[ "grip", 1 ],[ "sights", 1 ],[ "stock", 1 ]]
   },
   {
@@ -2317,7 +2285,6 @@
     "durability": 8,
     "clip_size": 4,
     "reload": 800,
-    "loudness" : 5,
     "valid_mod_locations": [[ "accessories", 4 ],[ "grip", 1 ],[ "sights", 1 ],[ "stock", 1 ]]
   },
   {
@@ -2344,7 +2311,6 @@
     "durability": 6,
     "clip_size": 8,
     "reload": 300,
-    "loudness" : 150,
     "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
@@ -2374,7 +2340,6 @@
     "burst": 8,
     "clip_size": 35,
     "reload": 400,
-    "loudness" : 150,
     "valid_mod_locations": [[ "accessories", 3 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
@@ -2403,7 +2368,6 @@
     "durability": 8,
     "clip_size": 3,
     "reload": 100,
-    "loudness" : 150,
     "barrel_length" : 3,
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
@@ -2432,7 +2396,6 @@
     "durability": 8,
     "clip_size": 3,
     "reload": 100,
-    "loudness" : 150,
     "barrel_length" : 3,
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
@@ -2461,7 +2424,6 @@
     "durability": 7,
     "clip_size": 6,
     "reload" : 130,
-    "loudness" : 160,
     "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
@@ -2489,7 +2451,6 @@
     "durability": 7,
     "clip_size": 5,
     "reload" : 150,
-    "loudness" : 160,
     "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
@@ -2518,7 +2479,6 @@
     "durability": 6,
     "clip_size": 1,
     "reload": 1300,
-    "loudness" : 150,
     "barrel_length" : 2,
     "valid_mod_locations": [[ "accessories", 4 ],[ "grip", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
@@ -2548,7 +2508,6 @@
     "durability": 6,
     "clip_size": 1,
     "reload": 1150,
-    "loudness" : 150,
     "barrel_length" : 1,
     "valid_mod_locations": [[ "accessories", 4 ],[ "grip", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
@@ -2576,7 +2535,6 @@
     "durability": 6,
     "clip_size": 1,
     "reload": 1000,
-    "loudness" : 150,
     "valid_mod_locations": [[ "accessories", 2 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
@@ -2603,7 +2561,6 @@
     "durability": 6,
     "clip_size": 6,
     "reload": 1000,
-    "loudness" : 150,
     "valid_mod_locations": [[ "accessories", 2 ],[ "grip", 1 ],[ "sights", 1 ],[ "stock", 1 ]]
   },
   {
@@ -2631,7 +2588,6 @@
     "durability": 8,
     "clip_size": 1,
     "reload": 1000,
-    "loudness" : 175,
     "barrel_length" : 4,
     "valid_mod_locations": [[ "accessories", 4 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },{
@@ -2658,7 +2614,7 @@
     "durability": 8,
     "clip_size": 1,
     "reload": 100,
-    "loudness" : 150,
+    "loudness" : 25,
     "barrel_length" : 2,
     "built_in_mods" : ["combination_gun_shotgun"],
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "sights", 1 ],[ "stock", 1 ], [ "underbarrel", 1 ]]
@@ -2805,7 +2761,7 @@
   "burst": 5,
   "clip_size": 20,
   "reload": 800,
-  "loudness": 200,
+  "loudness": 25,
   "barrel_length" : 3,
   "valid_mod_locations": [["accessories", 4],["mechanism", 4],["rail", 1],["sights", 1]]
 },
@@ -2834,7 +2790,7 @@
     "durability": 1,
     "clip_size": 25,
     "reload": 300,
-    "loudness" : 150,    
+    "loudness" : 150,
     "built_in_mods": ["m203", "rifle_scope", "muzzle_brake"],
     "default_mods": ["pistol_grip", "rail_laser_sight"],
     "valid_mod_locations": [[ "accessories", 10 ],[ "barrel", 10 ],[ "bore", 10 ],[ "conversion", 10 ],[ "grip", 10 ],[ "mechanism", 10 ],[ "muzzle", 10 ],[ "rail", 10 ],[ "sights", 10 ],[ "stock", 10 ],[ "underbarrel", 10 ]]

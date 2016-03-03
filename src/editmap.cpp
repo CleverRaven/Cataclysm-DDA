@@ -1,4 +1,6 @@
 #include "game.h"
+
+#include "coordinate_conversions.h"
 #include "input.h"
 #include "output.h"
 #include "line.h"
@@ -1676,7 +1678,7 @@ int editmap::mapgen_preview( real_coords &tc, uimenu &gmenu )
     update_view( true );
 
     // Coordinates of the overmap terrain that should be generated.
-    const point omt_pos = overmapbuffer::ms_to_omt_copy( tc.abs_pos );
+    const point omt_pos = ms_to_omt_copy( tc.abs_pos );
     oter_id &omt_ref = overmap_buffer.ter( omt_pos.x, omt_pos.y, target.z );
     // Copy to store the original value, to restore it upon canceling
     const oter_id orig_oters = omt_ref;

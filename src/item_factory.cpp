@@ -554,6 +554,9 @@ void Item_factory::check_definitions() const
             if (tool->revert_to != "null" && !has_template(tool->revert_to)) {
                 msg << string_format("invalid revert_to property %s", tool->revert_to.c_str()) << "\n";
             }
+            if( !tool->revert_msg.empty() && tool->revert_to == "null" ) {
+                msg << _( "cannot specify revert_msg without revert_to" ) << "\n";
+            }
         }
         if( type->bionic ) {
             if (!is_valid_bionic(type->bionic->bionic_id)) {
@@ -703,6 +706,10 @@ void Item_factory::load( islot_ammo &slot, JsonObject &jo )
     slot.recoil = jo.get_int( "recoil", 0 );
     slot.def_charges = jo.get_long( "count" );
     slot.ammo_effects = jo.get_tags( "effects" );
+
+    if( !jo.read( "loudness", slot.loudness ) ) {
+        slot.loudness = std::max( std::max( { slot.damage, slot.pierce, slot.range } ) * 3, slot.recoil / 3 );
+    }
 }
 
 void Item_factory::load_ammo(JsonObject &jo)
@@ -816,7 +823,10 @@ void Item_factory::load_tool(JsonObject &jo)
     tool_template->def_charges = jo.get_long("initial_charges");
     tool_template->charges_per_use = jo.get_int("charges_per_use");
     tool_template->turns_per_charge = jo.get_int("turns_per_charge");
-    tool_template->revert_to = jo.get_string("revert_to");
+
+    tool_template->revert_to = jo.get_string("revert_to", tool_template->revert_to );
+    jo.read( "revert_msg", tool_template->revert_msg );
+
     tool_template->subtype = jo.get_string("sub", "");
 
     itype *new_item_template = tool_template;
@@ -1581,8 +1591,6 @@ void Item_factory::set_uses_from_object(JsonObject obj, std::vector<use_function
     use_function newfun;
     if (type == "transform") {
         newfun = load_actor<iuse_transform>( obj );
-    } else if (type == "auto_transform") {
-        newfun = load_actor<auto_iuse_transform>( obj );
     } else if (type == "delayed_transform") {
         newfun = load_actor<delayed_transform_iuse>( obj );
     } else if (type == "explosion") {

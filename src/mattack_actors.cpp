@@ -384,9 +384,7 @@ void gun_actor::shoot( monster &z, Creature &target ) const
     tmp.dex_cur = fake_dex;
     tmp.int_cur = fake_int;
     tmp.per_cur = fake_per;
-    tmp.weapon = item( gun_type, 0 );
-    tmp.weapon.set_curammo( ammo_type );
-    tmp.weapon.charges = z.ammo[ammo_type];
+
     if( z.friendly != 0 ) {
         tmp.attitude = NPCATT_DEFEND;
     } else {
@@ -397,14 +395,16 @@ void gun_actor::shoot( monster &z, Creature &target ) const
         tmp.skillLevel( pr.first ).level( pr.second );
     }
 
+    tmp.weapon = item( gun_type ).ammo_set( ammo_type, z.ammo[ ammo_type ] );
+
     const auto distance = rl_dist( z.pos(), target.pos() );
     int burst_size = std::min( burst_limit, tmp.weapon.burst_size() );
-    if( distance > range_no_burst || burst_size < 1 ) {
+    if( distance > range_no_burst ) {
         burst_size = 1;
     }
 
-    tmp.fire_gun( target.pos(), burst_size );
-    z.ammo[ammo_type] = tmp.weapon.charges;
+    z.ammo[ammo_type] -= tmp.fire_gun( target.pos(), std::max( burst_size, 1 ) );
+
     if( require_targeting ) {
         z.add_effect( effect_targeted, targeting_timeout_extend );
     }

@@ -47,52 +47,6 @@ struct city_reference {
     }
 };
 
-/**
- * Coordinate systems used here are:
- * overmap (om): the position of an overmap. Each overmap stores
- * this as overmap::loc (access with overmap::pos()).
- * There is a unique overmap for each overmap coord.
- *
- * segment (seg): A segment is a unit of terrain saved to a directory.
- * Each segment contains 32x32 overmap terrains, and is used only for
- * saving/loading submaps, see mapbuffer.cpp.
- * Translation from omt to seg:
- * om.x /= 32
- * om.y /= 32
- * (with special handling for negative values).
- *
- * overmap terrain (omt): the position of a overmap terrain (oter_id).
- * Each overmap contains (OMAPX * OMAPY) overmap terrains.
- * Translation from omt to om:
- * om.x /= OMAPX
- * om.y /= OMAPY
- * (with special handling for negative values).
- *
- * Z-components are never considered and simply copied.
- *
- * submap (sm): each overmap terrain contains (2*2) submaps.
- * Translating from sm to omt coordinates:
- * sm.x /= 2
- * sm.y /= 2
- *
- * map square (ms): used by @ref map, each map square may contain a single
- * piece of furniture, it has a terrain (ter_t).
- * There are SEEX*SEEY map squares in each submap.
- *
- * The class provides static translation functions, named like this:
-    static point <from>_to_<to>_copy(int x, int y);
-    static point <from>_to_<to>_copy(const point& p);
-    static tripoint <from>_to_<to>_copy(const tripoint& p);
-    static void <from>_to_<to>(int &x, int &y);
-    static void <from>_to_<to>(point& p);
-    static void <from>_to_<to>(tripoint& p);
-    static point <from>_to_<to>_remain(int &x, int &y);
-    static point <from>_to_<to>_remain(point& p);
- * Functions ending with _copy return the translated coordinates,
- * other functions change the parameters itself and don't return anything.
- * Functions ending with _remain return teh translated coordinates and
- * store the remainder in the parameters.
- */
 class overmapbuffer
 {
 public:
@@ -349,77 +303,6 @@ public:
      * calculated as distance to this point. In global submap coordinates!
      */
     city_reference closest_city( const tripoint &center );
-
-    // overmap terrain to overmap
-    static point omt_to_om_copy(int x, int y);
-    static point omt_to_om_copy(const point& p) { return omt_to_om_copy(p.x, p.y); }
-    static tripoint omt_to_om_copy(const tripoint& p);
-    static void omt_to_om(int &x, int &y);
-    static void omt_to_om(point& p) { omt_to_om(p.x, p.y); }
-    static void omt_to_om(tripoint& p) { omt_to_om(p.x, p.y); }
-    static point omt_to_om_remain(int &x, int &y);
-    static point omt_to_om_remain(point& p) { return omt_to_om_remain(p.x, p.y); }
-    // submap to overmap terrain
-    static point sm_to_omt_copy(int x, int y);
-    static point sm_to_omt_copy(const point& p) { return sm_to_omt_copy(p.x, p.y); }
-    static tripoint sm_to_omt_copy(const tripoint& p);
-    static void sm_to_omt(int &x, int &y);
-    static void sm_to_omt(point& p) { sm_to_omt(p.x, p.y); }
-    static void sm_to_omt(tripoint& p) { sm_to_omt(p.x, p.y); }
-    static point sm_to_omt_remain(int &x, int &y);
-    static point sm_to_omt_remain(point& p) { return sm_to_omt_remain(p.x, p.y); }
-    // submap to overmap, basically: x / (OMAPX * 2)
-    static point sm_to_om_copy(int x, int y);
-    static point sm_to_om_copy(const point& p) { return sm_to_om_copy(p.x, p.y); }
-    static tripoint sm_to_om_copy(const tripoint& p);
-    static void sm_to_om(int &x, int &y);
-    static void sm_to_om(point& p) { sm_to_om(p.x, p.y); }
-    static void sm_to_om(tripoint& p) { sm_to_om(p.x, p.y); }
-    static point sm_to_om_remain(int &x, int &y);
-    static point sm_to_om_remain(point& p) { return sm_to_om_remain(p.x, p.y); }
-    // overmap terrain to submap, basically: x *= 2
-    static point omt_to_sm_copy(int x, int y);
-    static point omt_to_sm_copy(const point& p) { return omt_to_sm_copy(p.x, p.y); }
-    static tripoint omt_to_sm_copy(const tripoint& p);
-    static void omt_to_sm(int &x, int &y);
-    static void omt_to_sm(point& p) { omt_to_sm(p.x, p.y); }
-    static void omt_to_sm(tripoint& p) { omt_to_sm(p.x, p.y); }
-    // overmap to submap, basically: x *= 2 * OMAPX
-    static point om_to_sm_copy(int x, int y);
-    static point om_to_sm_copy(const point& p) { return om_to_sm_copy(p.x, p.y); }
-    static tripoint om_to_sm_copy(const tripoint& p);
-    static void om_to_sm(int &x, int &y);
-    static void om_to_sm(point& p) { om_to_sm(p.x, p.y); }
-    static void om_to_sm(tripoint& p) { om_to_sm(p.x, p.y); }
-    // map squares to submap, basically: x /= SEEX
-    static point ms_to_sm_copy(int x, int y);
-    static point ms_to_sm_copy(const point& p) { return ms_to_sm_copy(p.x, p.y); }
-    static tripoint ms_to_sm_copy(const tripoint& p);
-    static void ms_to_sm(int &x, int &y);
-    static void ms_to_sm(point& p) { ms_to_sm(p.x, p.y); }
-    static void ms_to_sm(tripoint& p) { ms_to_sm(p.x, p.y); }
-    static point ms_to_sm_remain(int &x, int &y);
-    static point ms_to_sm_remain(point& p) { return ms_to_sm_remain(p.x, p.y); }
-    // submap back to map squares, basically: x *= SEEX
-    // Note: this gives you the map square coords of the top-left corner
-    // of the given submap.
-    static point sm_to_ms_copy(int x, int y);
-    static point sm_to_ms_copy(const point& p) { return sm_to_ms_copy(p.x, p.y); }
-    static tripoint sm_to_ms_copy(const tripoint& p);
-    static void sm_to_ms(int &x, int &y);
-    static void sm_to_ms(point& p) { sm_to_ms(p.x, p.y); }
-    static void sm_to_ms(tripoint& p) { sm_to_ms(p.x, p.y); }
-    // map squares to overmap terrain, basically: x /= SEEX * 2
-    static point ms_to_omt_copy(int x, int y);
-    static point ms_to_omt_copy(const point& p) { return ms_to_omt_copy(p.x, p.y); }
-    static tripoint ms_to_omt_copy(const tripoint& p);
-    static void ms_to_omt(int &x, int &y);
-    static void ms_to_omt(point& p) { ms_to_omt(p.x, p.y); }
-    static void ms_to_omt(tripoint& p) { ms_to_omt(p.x, p.y); }
-    static point ms_to_omt_remain(int &x, int &y);
-    static point ms_to_omt_remain(point& p) { return ms_to_omt_remain(p.x, p.y); }
-    // overmap terrain to map segment.
-    static tripoint omt_to_seg_copy(const tripoint& p);
 
 private:
     std::unordered_map< point, std::unique_ptr< overmap > > overmaps;

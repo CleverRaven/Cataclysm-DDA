@@ -1,5 +1,6 @@
 #include "map.h"
 
+#include "coordinate_conversions.h"
 #include "drawing_primitives.h"
 #include "lightmap.h"
 #include "output.h"
@@ -3392,7 +3393,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
         if( rl_dist( g->u.pos(), p ) <= 3 ) {
             g->u.add_memorial_log(pgettext("memorial_male", "Set off an alarm."),
                                   pgettext("memorial_female", "Set off an alarm."));
-            const point abs = overmapbuffer::ms_to_sm_copy( getabs( p.x, p.y ) );
+            const point abs = ms_to_sm_copy( getabs( p.x, p.y ) );
             g->add_event(EVENT_WANTED, int(calendar::turn) + 300, 0, tripoint( abs.x, abs.y, p.z ) );
         }
     }
@@ -3798,7 +3799,7 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
 
     if( has_flag("ALARMED", p) && !g->event_queued(EVENT_WANTED) ) {
         sounds::sound(p, 30, _("An alarm sounds!"));
-        const tripoint abs = overmapbuffer::ms_to_sm_copy( getabs( p ) );
+        const tripoint abs = ms_to_sm_copy( getabs( p ) );
         g->add_event(EVENT_WANTED, int(calendar::turn) + 300, 0, abs );
     }
 
@@ -5725,7 +5726,7 @@ void map::update_visibility_cache( visibility_variables &cache, const int zlev )
             if( sm_squares_seen[gridx][gridy] > 36 ) { // 25% of the submap is visible
                 const tripoint sm( gridx, gridy, 0 );
                 const auto abs_sm = map::abs_sub + sm;
-                const auto abs_omt = overmapbuffer::sm_to_omt_copy( abs_sm );
+                const auto abs_omt = sm_to_omt_copy( abs_sm );
                 overmap_buffer.set_seen( abs_omt.x, abs_omt.y, abs_omt.z, true);
             }
         }
@@ -6710,7 +6711,7 @@ void map::loadn( const int gridx, const int gridy, const int gridz, const bool u
         // Short-circuit if the map tile is uniform
         int overx = newmapx;
         int overy = newmapy;
-        overmapbuffer::sm_to_omt( overx, overy );
+        sm_to_omt( overx, overy );
         oter_id terrain_type = overmap_buffer.ter( overx, overy, gridz );
         if( terrain_type == rock || terrain_type == air ) {
             generate_uniform( newmapx, newmapy, gridz, terrain_type );
@@ -7085,7 +7086,7 @@ void map::spawn_monsters_submap_group( const tripoint &gp, mongroup &group, bool
     // Find horde's target submap
     tripoint horde_target( group.target.x - abs_sub.x,
         group.target.y - abs_sub.y, abs_sub.z );
-    overmapbuffer::sm_to_ms( horde_target );
+    sm_to_ms( horde_target );
     for( auto &tmp : group.monsters ) {
         for( int tries = 0; tries < 10 && !locations.empty(); tries++ ) {
             const tripoint p = random_entry_removed( locations );
