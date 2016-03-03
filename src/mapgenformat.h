@@ -49,11 +49,11 @@ class format_effect
 {
     private:
         std::string characters;
-        std::vector< std::shared_ptr<determine_terrain> > determiners;
+        std::vector<determine_terrain> determiners;
 
     public:
         format_effect( std::string characters,
-                       std::vector<std::shared_ptr<determine_terrain> > &determiners );
+                       std::vector<determine_terrain> &determiners );
 
         void execute( format_data &data );
 };
