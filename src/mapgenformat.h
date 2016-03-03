@@ -38,8 +38,7 @@ std::shared_ptr<internal::format_effect> furn_str_bind( std::string characters, 
 // Anything specified in here isn't finalized
 namespace internal
 {
-class statically_determine_terrain;
-using determine_terrain = statically_determine_terrain;
+class determine_terrain;
 struct format_data {
     std::map<char, std::shared_ptr<determine_terrain> > bindings;
     bool fix_bindings( const char c );
@@ -59,14 +58,14 @@ class format_effect
         void execute( format_data &data );
 };
 
-class statically_determine_terrain
+class determine_terrain
 {
     private:
         int id;
     public:
-        statically_determine_terrain() : id( 0 ) {}
-        statically_determine_terrain( int pid ) : id( pid ) {}
-        ~statically_determine_terrain() {}
+        determine_terrain() : id( 0 ) {}
+        determine_terrain( int pid ) : id( pid ) {}
+        ~determine_terrain() {}
         int operator()( map *, const int /*x*/, const int /*y*/ ) {
             return id;
         }

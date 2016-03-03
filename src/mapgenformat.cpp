@@ -46,7 +46,7 @@ bool internal::format_data::fix_bindings(const char c)
     if( bindings.find(c) != bindings.end() ) {
         return false;
     }
-    bindings[c].reset( new statically_determine_terrain() );
+    bindings[c].reset( new determine_terrain() );
     return true;
 }
 
@@ -99,7 +99,7 @@ std::shared_ptr<internal::format_effect> basic_bind(std::string characters, ...)
     va_start(vl,characters);
     determiners.resize(characters.size());
     for( size_t i = 0; i < characters.size(); ++i ) {
-        determiners[i].reset( new internal::statically_determine_terrain( ter_id( va_arg(vl,int) ) ));
+        determiners[i].reset( new internal::determine_terrain( ter_id( va_arg(vl,int) ) ));
     }
     va_end(vl);
     return std::shared_ptr<internal::format_effect>(new internal::format_effect(characters, determiners));
@@ -122,7 +122,7 @@ std::shared_ptr<internal::format_effect> ter_str_bind(std::string characters, ..
     for( size_t i = 0; i < characters.size(); ++i ) {
         const std::string sid = va_arg(vl,char *);
         const ter_id iid = ( termap.find( sid ) != termap.end() ? termap[ sid ].loadid : t_null );
-        determiners[i].reset( new internal::statically_determine_terrain( iid ) );
+        determiners[i].reset( new internal::determine_terrain( iid ) );
     }
     va_end(vl);
     return std::shared_ptr<internal::format_effect>(new internal::format_effect(characters, determiners));
@@ -145,7 +145,7 @@ std::shared_ptr<internal::format_effect> furn_str_bind(std::string characters, .
     for( size_t i = 0; i < characters.size(); ++i ) {
         const std::string sid = va_arg(vl,char *);
         const furn_id iid = ( furnmap.find( sid ) != furnmap.end() ? furnmap[ sid ].loadid : f_null );
-        determiners[i].reset( new internal::statically_determine_terrain( iid ) );
+        determiners[i].reset( new internal::determine_terrain( iid ) );
     }
     va_end(vl);
     return std::shared_ptr<internal::format_effect>(new internal::format_effect(characters, determiners));
