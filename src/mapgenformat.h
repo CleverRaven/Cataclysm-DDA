@@ -14,6 +14,7 @@ namespace mapf
 {
 namespace internal
 {
+template<typename ID>
 class format_effect;
 }
 /** The return statement for this method is not finalized.
@@ -24,11 +25,11 @@ class format_effect;
  * You will have specify the values you want to track with a parameter.
  */
 void formatted_set_simple( map *m, const int startx, const int starty, const char *cstr,
-                           internal::format_effect ter_b, internal::format_effect furn_b,
+                           internal::format_effect<ter_id> ter_b, internal::format_effect<furn_id> furn_b,
                            const bool empty_toilets = false );
 
-internal::format_effect ter_bind( std::string characters, ... );
-internal::format_effect furn_bind( std::string characters, ... );
+internal::format_effect<ter_id> ter_bind( std::string characters, ... );
+internal::format_effect<furn_id> furn_bind( std::string characters, ... );
 
 // Anything specified in here isn't finalized
 namespace internal
@@ -40,17 +41,17 @@ struct format_data {
 };
 
 // This class will become an interface in the future.
+template<typename ID>
 class format_effect
 {
     private:
         std::string characters;
-        std::vector<int> determiners;
+        std::vector<ID> determiners;
 
     public:
         format_effect( std::string characters,
-                       std::vector<int> &determiners );
+                       std::vector<ID> &determiners );
 
-        template<typename ID>
         void execute( format_data<ID> &data );
 };
 

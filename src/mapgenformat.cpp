@@ -25,7 +25,7 @@ bool internal::format_data<ID>::fix_bindings(const char c)
 }
 
 void formatted_set_simple(map* m, const int startx, const int starty, const char* cstr,
-                       internal::format_effect ter_b, internal::format_effect furn_b,
+                       internal::format_effect<ter_id> ter_b, internal::format_effect<furn_id> furn_b,
                        const bool empty_toilets)
 {
     internal::format_data<ter_id> tdata;
@@ -64,53 +64,57 @@ void formatted_set_simple(map* m, const int startx, const int starty, const char
     }
 }
 
-
-internal::format_effect basic_bind( std::string &characters, va_list args )
+template<typename ID>
+internal::format_effect<ID> basic_bind( std::string &characters, va_list args )
 {
     characters.erase( std::remove_if(characters.begin(), characters.end(), isspace), characters.end());
-    std::vector<int> determiners;
+    std::vector<ID> determiners;
     va_list vl;
     va_copy( vl, args );
     determiners.resize(characters.size());
     for( size_t i = 0; i < characters.size(); ++i ) {
-        determiners[i] = int( ter_id( va_arg(vl,int) ) );
+        determiners[i] = ID( va_arg(vl,int) );
     }
     va_end(vl);
-    return internal::format_effect(characters, determiners);
+    return internal::format_effect<ID>( characters, determiners );
 }
 
-internal::format_effect ter_bind( std::string characters, ... )
+internal::format_effect<ter_id> ter_bind( std::string characters, ... )
 {
     va_list ap;
     va_start( ap, characters );
-    auto result = basic_bind( characters, ap );
+    auto result = basic_bind<ter_id>( characters, ap );
     va_end( ap );
     return result;
 }
 
-internal::format_effect furn_bind(std::string characters, ...)
+internal::format_effect<furn_id> furn_bind(std::string characters, ...)
 {
     va_list ap;
     va_start( ap, characters );
-    auto result = basic_bind( characters, ap );
+    auto result = basic_bind<furn_id>( characters, ap );
     va_end( ap );
     return result;
 }
 
 namespace internal
 {
-    format_effect::format_effect(std::string characters, std::vector<int> &determiners)
+    template<typename ID>
+    format_effect<ID>::format_effect(std::string characters, std::vector<ID> &determiners)
         : characters( characters ), determiners( determiners )
     {
     }
 
     template<typename ID>
-    void format_effect::execute(format_data<ID>& data)
+    void format_effect<ID>::execute(format_data<ID>& data)
     {
         for( size_t i = 0; i < characters.size(); ++i ) {
-            data.bindings[characters[i]] = ID(determiners[i]);
+            data.bindings[characters[i]] = determiners[i];
         }
     }
+
+    template class format_effect<furn_id>;
+    template class format_effect<ter_id>;
 }
 
 }//END NAMESPACE mapf
