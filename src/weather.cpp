@@ -35,16 +35,16 @@ const efftype_id effect_glare( "glare" );
  */
 void weather_effect::glare()
 {
-    if (PLAYER_OUTSIDE && g->is_in_sunlight(g->u.pos()) &&
-        !g->u.worn_with_flag("SUN_GLASSES") && !g->u.has_bionic("bio_sunglasses")) {
-        if(!g->u.has_effect( effect_glare)) {
-            if (g->u.has_trait("CEPH_VISION")) {
+    if( PLAYER_OUTSIDE && g->is_in_sunlight( g->u.pos() ) && !g->u.in_sleep_state() == true &&
+        !g->u.worn_with_flag( "SUN_GLASSES" ) && !g->u.has_bionic( "bio_sunglasses" ) ) {
+        if( !g->u.has_effect( effect_glare ) ) {
+            if( g->u.has_trait( "CEPH_VISION" ) ) {
                 g->u.add_env_effect( effect_glare, bp_eyes, 2, 4 );
             } else {
                 g->u.add_env_effect( effect_glare, bp_eyes, 2, 2 );
             }
         } else {
-            if (g->u.has_trait("CEPH_VISION")) {
+            if( g->u.has_trait( "CEPH_VISION" ) ) {
                 g->u.add_env_effect( effect_glare, bp_eyes, 2, 2 );
             } else {
                 g->u.add_env_effect( effect_glare, bp_eyes, 2, 1 );
