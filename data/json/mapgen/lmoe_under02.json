@@ -82,7 +82,7 @@
                 { "item": "cannedfood", "chance": 90, "x": [17,20], "y": [9,9] },
                 { "item": "cannedfood", "chance": 90, "x": [12,13], "y": [9,9] },
                 { "item": "cannedfood", "chance": 90, "x": [11,16], "y": [7,7] },
-                { "item": "survival_tools", "chance": 80, "x": [21,21], "y": [11,14] },
+                { "item": "gear_survival", "chance": 80, "x": [21,21], "y": [11,14] },
                 { "item": "bags", "chance": 50, "x": [21,21], "y": [11,14] },
                 { "item": "shelter", "chance": 70, "x": [21,21], "y": [11,14] },
                 { "item": "tools", "chance": 90, "x": [17,19], "y": [13,13] },

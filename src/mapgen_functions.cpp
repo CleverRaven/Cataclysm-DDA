@@ -4920,7 +4920,7 @@ void mapgen_cave(map *m, oter_id, mapgendata dat, int turn, float density)
                 m->add_item_or_charges(hermx, hermy, item::make_corpse() );
                 // This seems verbose.  Maybe a function to spawn from a list of item groups?
                 m->place_items("stash_food", 50, hermx - 1, hermy - 1, hermx + 1, hermy + 1, true, 0);
-                m->place_items("survival_tools", 50, hermx - 1, hermy - 1, hermx + 1, hermy + 1, true, 0);
+                m->place_items("gear_survival", 50, hermx - 1, hermy - 1, hermx + 1, hermy + 1, true, 0);
                 m->place_items("survival_armor", 50, hermx - 1, hermy - 1, hermx + 1, hermy + 1, true, 0);
                 m->place_items("weapons", 40, hermx - 1, hermy - 1, hermx + 1, hermy + 1, true, 0);
                 m->place_items("magazines", 40, hermx - 1, hermy - 1, hermx + 1, hermy + 1, true, 0);
