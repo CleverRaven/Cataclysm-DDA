@@ -1339,7 +1339,7 @@ int player::floor_bedding_warmth( const tripoint &pos )
     const furn_id furn_at_pos = g->m.furn( pos );
     int floor_bedding_warmth = 0;
 
-    
+
     int vpart = -1;
     vehicle *veh = g->m.veh_at( pos, vpart );
     bool veh_bed = ( veh != nullptr && veh->part_with_feature( vpart, "BED" ) >= 0 );
@@ -3611,7 +3611,7 @@ void player::disp_status( WINDOW *w, WINDOW *w2 )
     } else {
         style = _( "No Style" );
     }
-    
+
     if( !style.empty() ) {
         int x = sideStyle ? ( getmaxx( weapwin ) - 13 ) : 0;
         mvwprintz( weapwin, 1, x, style_color, style.c_str() );
@@ -5603,7 +5603,7 @@ void player::update_needs( int rate_multiplier )
     if( is_wearing("stillsuit") ) {
         thirst_rate -= 0.3f;
     }
-    
+
     if( has_trait("THIRST") ) {
         thirst_rate += 0.5f;
     } else if( has_trait("THIRST2") ) {
@@ -10267,7 +10267,7 @@ bool player::dispose_item( item& obj, const std::string& prompt )
     } );
 
     opts.emplace_back( dispose_option {
-        _( "Wear item" ), can_wear( obj ), '3', item_wear_cost( obj ),
+        _( "Wear item" ), can_wear( obj, false ), '3', item_wear_cost( obj ),
         [this,&obj]{ wear_item( i_rem( &obj ) ); }
     } );
 
