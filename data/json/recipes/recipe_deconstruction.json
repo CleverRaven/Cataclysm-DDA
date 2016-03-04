@@ -1594,6 +1594,43 @@
             [ [ "scrap", 4 ] ]
         ]
     },{
+        "type" : "recipe",
+        "result": "polisher",
+        "category": "CC_NONCRAFT",
+        "subcategory": "CSC_NONCRAFT",
+        "skill_used": "electronics",
+        "difficulty": 2,
+        "time": 10000,
+        "reversible": true,
+        "autolearn": false,
+        "qualities" : [
+            {"id":"SCREW","level":1,"amount":1}
+        ], "tools": [
+            [ [ "soldering_iron", 10 ], [ "toolset", 10 ] ]
+        ], "components": [
+            [ [ "plastic_chunk", 8 ] ],
+            [ [ "motor_small", 1 ] ],
+            [ [ "scrap", 4 ] ]
+        ]
+    },{
+        "type" : "recipe",
+        "result": "heavy_flashlight",
+        "category": "CC_NONCRAFT",
+        "subcategory": "CSC_NONCRAFT",
+        "skill_used": "electronics",
+        "difficulty": 3,
+        "time": 10000,
+        "reversible": true,
+        "autolearn": false,
+        "qualities" : [
+            {"id":"SCREW","level":1,"amount":1},
+            {"id":"SAW_M","level":1,"amount":1}
+        ], "components": [
+            [ [ "cable", 12 ] ],
+            [ [ "amplifier", 2 ] ],
+            [ [ "scrap", 4 ] ]
+        ]
+    },{
   "type" : "recipe",
   "result": "gold",
   "id_suffix": "uncraft",
