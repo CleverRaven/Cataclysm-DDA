@@ -266,7 +266,7 @@
     "clip_size": 1,
     "reload": 250,
     "barrel_length": 3,
-    "valid_mod_locations": [ [ "muzzle", 1 ], [ "stock", 1 ] ],
+    "valid_mod_locations": [ [ "accessories", 2 ], [ "muzzle", 1 ], [ "stock", 1 ] ],
     "flags": [ "RELOAD_ONE", "RELOAD_EJECT" ]
   },
   {
