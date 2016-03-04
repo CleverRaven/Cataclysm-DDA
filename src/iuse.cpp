@@ -8478,7 +8478,7 @@ int iuse::capture_monster_act( player *p, item *it, bool, const tripoint &pos )
             }
             p->moves -= 100;
         } else {
-            add_msg(_("The %s can't capture nothing"),it->tname().c_str());
+            add_msg(_("The %s can't capture anything."),it->tname().c_str());
             return 0;
         }
     }
