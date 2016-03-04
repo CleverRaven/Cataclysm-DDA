@@ -6498,7 +6498,7 @@ std::unordered_map<tripoint,std::pair<int,int>> game::explosion( const tripoint 
         debugmsg( "called game::explosion with factor >= 1.0 (infinite size)" );
     } else if( factor > 0.0f ) {
         // @todo return map containing distribution of damage
-        // do_blast( p, power, factor, fire );
+        do_blast( p, power, factor, fire );
     }
 
     if( shrapnel_count > 0 ) {
