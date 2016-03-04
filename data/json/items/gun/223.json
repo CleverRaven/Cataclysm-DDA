@@ -432,5 +432,33 @@
       [ "223", [ "stanag30", "stanag10", "stanag50", "survivor223mag" ] ]
     ],
     "flags": "MODE_BURST"
+  },
+  {
+    "id": "surv_carbine_223",
+    "type": "GUN",
+    "name": "survivor carbine",
+    "description": "A well designed improvised carbine with a shortened barrel.  Accepting crude detachable magazines this is one of the better homemade weapons.",
+    "weight": 1950,
+    "volume": 6,
+    "price": 10000,
+    "bashing": 6,
+    "to_hit": -1,
+    "material": [ "steel", "wood" ],
+    "symbol": "(",
+    "color": "brown",
+    "skill": "rifle",
+    "ammo": "223",
+    "ranged_damage": -2,
+    "dispersion": 155,
+    "sight_dispersion": 60,
+    "aim_speed": 4,
+    "recoil": 30,
+    "durability": 6,
+    "reload": 140,
+    "loudness": 25,
+    "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "muzzle", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
+    "magazines": [
+      [ "223", [ "survivor223mag" ] ]
+    ]
   }
 ]

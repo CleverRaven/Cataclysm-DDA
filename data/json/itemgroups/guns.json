@@ -194,9 +194,10 @@
     "id" : "guns_rifle_improvised",
     "//" : "Makeshift or otherwise poor quality rifles.",
     "items": [
-      [ "rifle_22", 100 ],
-      [ "rifle_3006", 50 ],
-      [ "rifle_9mm", 100 ]
+      [ "rifle_22", 60 ],
+      [ "rifle_3006", 30 ],
+      [ "rifle_9mm", 60 ],
+      [ "surv_carbine_223", 120 ]
     ]
   },
   {
