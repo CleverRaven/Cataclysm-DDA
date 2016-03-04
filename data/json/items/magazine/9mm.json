@@ -3,7 +3,7 @@
     "id" : "glockbigmag",
     "type" : "MAGAZINE",
     "name" : "Glock extended magazine",
-    "description" : "A compact light-weight polymer magazine for use with Glock compatible firearms.",
+    "description" : "An extended 30-round polymer magazine for use with Glock compatible firearms.",
     "weight" : 210,
     "volume" : 2,
     "price" : 4700,
