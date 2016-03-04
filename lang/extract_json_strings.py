@@ -32,6 +32,7 @@ ignore_files = {
 ignorable = {
     "BULLET_PULLING",
     "ITEM_BLACKLIST",
+    "ITEM_OPTION",
     "MONSTER_BLACKLIST",
     "MONSTER_FACTION",
     "MONSTER_WHITELIST",
@@ -273,7 +274,7 @@ def extract_mapgen(item):
     outfile = get_outfile("mapgen")
     # writestr will not write string if it is None.
     for objkey in item["object"]:
-        if objkey == "place_specials":
+        if objkey == "place_specials" or objkey == "place_signs":
             for special in item["object"][objkey]:
                 for speckey in special:
                     if speckey == "signage":
