@@ -1414,6 +1414,10 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
             }
         }
 
+        for( const auto &method : type->use_methods ) {
+            method.dump_info( *this, info );
+        }
+
         insert_separation_line();
 
         if( is_armor() ) {

@@ -1212,6 +1212,13 @@ use_function &use_function::operator=( const use_function &other )
     return *this;
 }
 
+void use_function::dump_info( const item &it, std::vector<iteminfo> &dump ) const
+{
+    if( actor != nullptr ) {
+        actor->info( it, dump );
+    }
+}
+
 long use_function::call( player *player_instance, item *item_instance, bool active, const tripoint &pos ) const
 {
     if( !actor ) {
