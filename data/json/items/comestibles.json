@@ -14708,7 +14708,8 @@
         "volume" : 1,
         "charges" : 3,
         "bashing" : 1,
-        "fun" : 6
+        "flags" : ["EATEN_HOT"],
+        "fun" : 5
     },
     {
         "type" : "COMESTIBLE",
