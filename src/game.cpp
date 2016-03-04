@@ -6556,7 +6556,7 @@ std::unordered_map<tripoint,int> game::shrapnel( const tripoint &src, int power,
 
             int vpart;
             vehicle *veh = m.veh_at( e, vpart );
-            if( veh != nullptr & vpart >= 0 ) {
+            if( veh != nullptr && vpart >= 0 ) {
                 resistance = force - veh->damage( vpart, force );
 
             } else {
