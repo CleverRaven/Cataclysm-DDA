@@ -2618,26 +2618,6 @@
       ["wrapper", 30],
       ["flyer", 15]
     ]
-  },{
-    "type" : "item_group",
-    "id" : "gunsmith_casings",
-    "items":[
-      ["22_casing", 24],
-      ["shot_hull", 12],
-      ["9mm_casing", 18],
-      ["38_casing", 10],
-      ["40_casing", 12],
-      ["44_casing", 10],
-      ["45_casing", 18],
-      ["454_casing", 3],
-      ["500_casing", 3],
-      ["57mm_casing", 12],
-      ["46mm_casing", 12],
-      ["762_casing", 10],
-      ["223_casing", 10],
-      ["3006_casing", 10],
-      ["308_casing", 10]
-    ]
  },{
     "type" : "item_group",
     "id" : "shoes",
