@@ -24,13 +24,16 @@
       [ "bwirebat",15 ],
       [ "crowbar", 5 ],
       [ "nailboard", 15 ],
+      [ "knife_copper", 5 ],
       [ "machete", 5 ],
       [ "makeshift_crowbar", 25 ],
       [ "makeshift_knife", 20 ],
       [ "makeshift_machete", 15 ],
       [ "makeshift_halberd", 5 ],
       [ "nailbat", 15 ],
-      [ "spear_knife", 15 ]
+      [ "spear_knife", 15 ],
+      [ "spear_copper", 5 ],
+      [ "spear_wood", 5 ]
     ]
   },
   {
@@ -48,8 +51,8 @@
     "id" : "survivor_weapons",
     "type" : "item_group",
     "items":[
-      { "group": "survivor_melee", "prob": 60 },
-      { "group": "guns_survival", "prob": 40 }
+      { "group": "survivor_melee", "prob": 40 },
+      { "group": "guns_survival", "prob": 60 }
     ]
   }
 ]
