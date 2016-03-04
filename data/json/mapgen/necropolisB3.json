@@ -7239,7 +7239,7 @@
                 "  |.|-------------------"
             ],
             "items": {
-                "c": { "item": "tailor", "chance": 50 }
+                "c": { "item": "tools_tailor", "chance": 50 }
             },
             "item": {
             "r": [
@@ -7401,7 +7401,7 @@
             "items": {
                 "@": { "item": "bed", "chance": 60 },
                 "c": { "item": "bedroom", "chance": 15 },
-                "r": { "item": "tailor", "chance": 60 },
+                "r": { "item": "tools_tailor", "chance": 60 },
                 "b": { "item": "magazines", "chance": 30 },
                 "L": { "item": "traveler", "chance": 60 }
             },

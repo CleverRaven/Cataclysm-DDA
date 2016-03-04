@@ -9329,15 +9329,6 @@
     ]
   },{
     "type" : "item_group",
-    "id" : "tailor",
-    "items" : [
-      ["sewing_kit", 30],
-      ["tailors_kit", 20],
-      ["thread", 80],
-      ["scissors", 50]
-    ]
-  },{
-    "type" : "item_group",
     "id" : "waitingroom",
     "items":[
       ["mag_barter", 150],

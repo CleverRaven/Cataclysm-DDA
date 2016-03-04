@@ -25,5 +25,20 @@
       [ "pocket_firearms", 100 ],
       [ "recipe_bullets", 80 ]
     ]
+  },
+  {
+    "type" : "item_group",
+    "id" : "book_survival",
+    "//" : "Survival skill books weighted according to level",
+    "items": [
+      [ "atomic_survival", 12 ],
+      [ "fun_survival", 33 ],
+      [ "mag_dude", 100 ],
+      [ "mag_survival", 100 ],
+      [ "manual_survival", 33 ],
+      [ "pocket_survival", 50 ],
+      [ "survival_book", 12 ],
+      [ "textbook_survival", 17 ]
+    ]
   }
 ]
