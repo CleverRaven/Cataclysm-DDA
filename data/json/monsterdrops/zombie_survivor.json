@@ -1,0 +1,18 @@
+[
+  {
+    "type" : "item_group",
+    "subtype": "collection",
+    "id": "mon_zombie_survivor_death_drops",
+    "entries": [
+      { "group": "clothing_outdoor_set", "damage": [1,4] },
+      { "group": "bags", "damage": [1,4], "prob": 10 },
+      { "distribution": [
+        { "group": "book_survival", "prob": 25 },
+        { "group": "gear_survival", "prob": 25, "damage": [ 1, 4 ] },
+        { "group": "guns_survival", "prob": 25, "damage": [ 1, 4 ] },
+        { "group": "stash_food", "prob": 40 }
+      ] },
+      { "item": "cash_card" }
+    ]
+  }
+]

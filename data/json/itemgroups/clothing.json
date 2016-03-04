@@ -21,6 +21,76 @@
     ]
   },
   {
+    "id": "clothing_outdoor_set",
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "Standard (non-winter) set of clothes for wearing outdoors.",
+    "items": [
+      { "group": "clothing_outdoor_torso" },
+      { "group": "clothing_outdoor_pants" },
+      { "group": "clothing_outdoor_shoes" },
+      { "group": "underwear" },
+      { "group": "clothing_glasses", "prob": 5 },
+      { "group": "clothing_watch", "prob": 5 }
+    ]
+  },
+  {
+    "id": "clothing_outdoor_pants",
+    "type": "item_group",
+    "//": "Standard (non-winter) pants suitable for wearing outdoors.",
+    "items": [
+      { "collection": [
+        { "distribution": [
+          { "item": "jeans", "prob": 60 },
+          { "item": "pants", "prob": 100 },
+          { "item": "pants_leather", "prob": 30 },
+          { "item": "pants_cargo", "prob": 30 },
+          { "item": "shorts_cargo", "prob": 60 }
+        ] },
+          { "item": "leather_belt", "prob": 30 }
+      ] }
+    ]
+  },
+  {
+    "id": "clothing_outdoor_shoes",
+    "type": "item_group",
+    "//": "Standard (non-winter) shoes suitable for wearing outdoors.",
+    "items": [
+      [ "boots", 100 ],
+      [ "boots_combat", 10 ],
+      [ "boots_hiking", 40 ],
+      [ "boots_western", 15 ],
+      [ "knee_high_boots", 20 ],
+      [ "thigh_high_boots", 20 ]
+    ]
+  },
+  {
+    "id" : "clothing_outdoor_torso",
+    "type": "item_group",
+    "//": "Standard (non-winter) shirts and jackets suitable for wearing outdoors.",
+    "items": [
+      { "collection": [
+        { "distribution": [
+          { "item": "longshirt", "prob": 80 },
+          { "item": "polo_shirt", "prob": 50 },
+          { "item": "tshirt", "prob": 80 },
+          { "item": "linuxtshirt", "prob": 10 }
+        ] },
+        { "distribution": [
+          { "item": "coat_rain", "prob": 30 },
+          { "item": "duster", "prob": 30 },
+          { "item": "hoodie", "prob": 60 },
+          { "item": "jacket_jean", "prob": 20 },
+          { "item": "jacket_leather", "prob": 20 },
+          { "item": "jacket_light", "prob": 40 },
+          { "item": "jacket_windbreaker", "prob": 20 },
+          { "item": "sweater", "prob": 50 },
+          { "item": "trenchcoat", "prob": 10 }
+        ], "prob": 30 }
+      ] }
+    ]
+  },
+  {
     "id": "clothing_watch",
     "type": "item_group",
     "items": [
