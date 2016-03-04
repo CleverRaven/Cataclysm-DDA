@@ -287,13 +287,6 @@ int aoe_size( const std::set<std::string> &tags )
     return 0;
 }
 
-void apply_custom_explosion( const tripoint &p, const explosion_data &ex )
-{
-    if( ex.power > 0.0f ) {
-        g->explosion( p, ex.power, ex.distance_factor, ex.shrapnel, ex.fire );
-    }
-}
-
 static const std::map<std::string, damage_type> dt_map = {
     { "true", DT_TRUE },
     { "biological", DT_BIOLOGICAL },

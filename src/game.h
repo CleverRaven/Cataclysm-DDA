@@ -106,6 +106,7 @@ class faction;
 class live_view;
 typedef int nc_color;
 struct w_point;
+struct explosion_data;
 
 // Note: this is copied from inventory.h
 // Entire inventory.h would also bring item.h here

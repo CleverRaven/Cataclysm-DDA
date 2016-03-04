@@ -6,6 +6,7 @@
 #include "color.h"
 #include "bodypart.h"
 #include "string_id.h"
+#include "explosion.h"
 #include <limits.h>
 
 struct vehicle_prototype;
@@ -117,13 +118,9 @@ class auto_iuse_transform : public iuse_transform
 class explosion_iuse : public iuse_actor
 {
     public:
-        // These values are forwarded to game::explosion.
-        // No explosion is done if power < 0
-        float explosion_power;
-        float explosion_distance_factor;
-        bool explosion_fire;
-        int shrapnel_count = 0;
-        int shrapnel_mass = 4;
+        // Structure describing the explosion + shrapnel
+        // Ignored if its power field is < 0
+        explosion_data explosion;
 
         /** Maximum percentage of count that should be dropped within area of effect */
         int shrapnel_recovery = 0;
@@ -155,9 +152,6 @@ class explosion_iuse : public iuse_actor
 
         explosion_iuse()
             : iuse_actor()
-            , explosion_power(-1)
-            , explosion_distance_factor(0.8f)
-            , explosion_fire(false)
             , draw_explosion_radius(-1)
             , draw_explosion_color(c_white)
             , do_flashbang(false)

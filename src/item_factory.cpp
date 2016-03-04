@@ -1162,10 +1162,7 @@ void Item_factory::load_basic_info(JsonObject &jo, itype *new_item_template)
 
     if( jo.has_member("explosion" ) ) {
         JsonObject je = jo.get_object( "explosion" );
-        je.read( "power", new_item_template->explosion.power );
-        je.read( "distance_factor", new_item_template->explosion.distance_factor );
-        je.read( "shrapnel", new_item_template->explosion.shrapnel );
-        je.read( "fire", new_item_template->explosion.fire );
+        new_item_template->explosion = load_explosion_data( je );
     }
 
     new_item_template->explode_in_fire = jo.get_bool( "explode_in_fire", false );

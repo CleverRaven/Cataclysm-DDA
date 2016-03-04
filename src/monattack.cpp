@@ -4462,15 +4462,15 @@ bool mattack::kamikaze(monster *z)
         radius = exp_actor->emp_blast_radius;
     }
     // Extra check here to avoid sqrt if not needed
-    if (exp_actor->explosion_power > -1) {
-        int tmp = int(sqrt(double(exp_actor->explosion_power / 4)));
+    if (exp_actor->explosion.power > -1) {
+        int tmp = int(sqrt(double(exp_actor->explosion.power / 4)));
         if (tmp > radius) {
             radius = tmp;
         }
     }
-    if( exp_actor->shrapnel_count > 0 ) {
+    if( exp_actor->explosion.shrapnel.count > 0 ) {
         // Actual factor is 2 * radius, but figure most pieces of shrapnel will miss
-        int tmp = int(sqrt(double(exp_actor->explosion_power / 4)));
+        int tmp = int(sqrt(double(exp_actor->explosion.power / 4)));
         if (tmp > radius) {
             radius = tmp;
         }
