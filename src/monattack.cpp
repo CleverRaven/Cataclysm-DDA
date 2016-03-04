@@ -4468,7 +4468,7 @@ bool mattack::kamikaze(monster *z)
             radius = tmp;
         }
     }
-    if (exp_actor->explosion_shrapnel > -1) {
+    if( exp_actor->shrapnel_count > 0 ) {
         // Actual factor is 2 * radius, but figure most pieces of shrapnel will miss
         int tmp = int(sqrt(double(exp_actor->explosion_power / 4)));
         if (tmp > radius) {

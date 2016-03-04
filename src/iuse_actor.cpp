@@ -156,9 +156,20 @@ extern std::vector<tripoint> points_for_gas_cloud(const tripoint &center, int ra
 void explosion_iuse::load( JsonObject &obj )
 {
     obj.read( "explosion_power", explosion_power );
-    obj.read( "explosion_shrapnel", explosion_shrapnel );
     obj.read( "explosion_distance_factor", explosion_distance_factor );
     obj.read( "explosion_fire", explosion_fire );
+
+    if( obj.has_object( "shrapnel" ) ) {
+        auto shrapnel = obj.get_object( "shrapnel" );
+        shrapnel.read( "count", shrapnel_count );
+        shrapnel.read( "mass", shrapnel_mass );
+        shrapnel.read( "recovery", shrapnel_recovery );
+        shrapnel.read( "drop", shrapnel_drop );
+    } else {
+        // handle legacy JSON
+        obj.read( "explosion_shrapnel", shrapnel_count );
+    }
+
     obj.read( "draw_explosion_radius", draw_explosion_radius );
     if( obj.has_member( "draw_explosion_color" ) ) {
         draw_explosion_color = color_from_string( obj.get_string( "draw_explosion_color" ) );
@@ -195,9 +206,32 @@ long explosion_iuse::use(player *p, item *it, bool t, const tripoint &pos) const
         }
         return 0;
     }
-    if (explosion_power >= 0) {
-        g->explosion( pos, explosion_power, explosion_distance_factor, explosion_shrapnel, explosion_fire );
+
+    if( explosion_power >= 0 ) {
+        auto distrib = g->explosion( pos, explosion_power, explosion_distance_factor, explosion_fire, shrapnel_count, shrapnel_mass );
+
+        // if explosion drops shrapnel...
+        if( shrapnel_count > 0 && shrapnel_recovery > 0 && shrapnel_drop != "null" ) {
+
+            // extract only passable tiles affected by shrapnel
+            std::vector<tripoint> tiles;
+            for( const auto& e : distrib ) {
+                if( g->m.passable( e.first ) && e.second.second >= 0 ) {
+                    tiles.push_back( e.first );
+                }
+            }
+
+            // truncate to a random selection
+            int qty = shrapnel_count * std::min( shrapnel_recovery, 100 ) / 100;
+            std::random_shuffle( tiles.begin(), tiles.end() );
+            tiles.resize( std::min( int( tiles.size() ), qty ) );
+
+            for( const auto& e : tiles ) {
+                g->m.add_item_or_charges( e, item( shrapnel_drop, calendar::turn, item::solitary_tag{} ) );
+            }
+        }
     }
+
     if (draw_explosion_radius >= 0) {
         g->draw_explosion( pos, draw_explosion_radius, draw_explosion_color);
     }

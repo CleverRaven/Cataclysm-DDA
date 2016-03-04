@@ -164,6 +164,12 @@ item::item( const itype *type, int turn, default_charges_tag )
 item::item( const itype_id& id, int turn, default_charges_tag tag )
     : item( item::find_type( id ), turn, tag ) {}
 
+item::item( const itype *type, int turn, solitary_tag )
+    : item( type, turn, type->count_by_charges() ? 1 : -1 ) {}
+
+item::item( const itype_id& id, int turn, solitary_tag tag )
+    : item( item::find_type( id ), turn, tag ) {}
+
 item item::make_corpse( const mtype_id& mt, int turn, const std::string &name )
 {
     if( !mt.is_valid() ) {
@@ -5008,7 +5014,7 @@ void item::detonate( const tripoint &p ) const
     }
 
     g->explosion( p, type->explosion_on_fire_data.power, type->explosion_on_fire_data.distance_factor,
-                     type->explosion_on_fire_data.shrapnel, type->explosion_on_fire_data.fire );
+                     type->explosion_on_fire_data.fire, type->explosion_on_fire_data.shrapnel );
 }
 
 bool item_ptr_compare_by_charges( const item *left, const item *right)
