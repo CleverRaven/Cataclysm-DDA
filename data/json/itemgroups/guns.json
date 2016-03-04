@@ -241,8 +241,10 @@
     "id" : "guns_shotgun_improvised",
     "//" : "Makeshift or otherwise poor quality shotguns.",
     "items": [
+      [ "pipe_double_shotgun", 70 ],
       [ "pipe_shotgun", 100 ],
-      [ "blunderbuss", 100 ]
+      [ "blunderbuss", 70 ],
+      [ "revolver_shotgun", 30 ]
     ]
   },
   {
