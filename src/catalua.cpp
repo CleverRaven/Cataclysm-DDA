@@ -1230,7 +1230,7 @@ int lua_monster_move( monster * )
     return 0;
 }
 int call_lua( std::string ) {
-    popup( "This binary was not compiled with Lua support." );
+    popup( _( "This binary was not compiled with Lua support." ) );
     return 0;
 }
 // Implemented in mapgen.cpp:

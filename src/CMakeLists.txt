@@ -70,6 +70,7 @@ SET(CATACLYSM_DDA_SOURCES
     ${CMAKE_SOURCE_DIR}/src/dependency_tree.cpp
     ${CMAKE_SOURCE_DIR}/src/monster.cpp
     ${CMAKE_SOURCE_DIR}/src/editmap.cpp
+    ${CMAKE_SOURCE_DIR}/src/explosion.cpp
     ${CMAKE_SOURCE_DIR}/src/mapsharing.cpp
     ${CMAKE_SOURCE_DIR}/src/requirements.cpp
     ${CMAKE_SOURCE_DIR}/src/cursesport.cpp
@@ -209,6 +210,7 @@ SET (CATACLYSM_DDA_HEADERS
     ${CMAKE_SOURCE_DIR}/src/worldfactory.h
     ${CMAKE_SOURCE_DIR}/src/editmap.h
     ${CMAKE_SOURCE_DIR}/src/effect.h
+    ${CMAKE_SOURCE_DIR}/src/explosion.h
     ${CMAKE_SOURCE_DIR}/src/creature.h
     ${CMAKE_SOURCE_DIR}/src/vehicle.h
     ${CMAKE_SOURCE_DIR}/src/vehicle_group.h

@@ -14,6 +14,7 @@
 #include "active_item_cache.h"
 #include "int_id.h"
 #include "string_id.h"
+#include "rng.h"
 
 //TODO: include comments about how these variables work. Where are they used. Are they constant etc.
 #define CAMPSIZE 1
@@ -1209,6 +1210,15 @@ public:
     void build_floor_cache( int zlev );
     // We want this visible in `game`, because we want it built earlier in the turn than the rest
     void build_floor_caches();
+
+    /** Get random tile on circumference of a circle */
+    tripoint random_perimeter( const tripoint& src, int radius ) const
+    {
+        tripoint dst;
+        calc_ray_end( rng( 1, 360 ), radius, src, dst );
+        return dst;
+    }
+
 protected:
  void generate_lightmap( int zlev );
  void build_seen_cache( const tripoint &origin, int target_z );

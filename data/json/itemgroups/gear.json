@@ -87,6 +87,20 @@
       [ "tac_fullhelmet", 5 ],
       [ "tac_helmet", 10 ]
     ]
+  },
+  {
+    "id": "gear_survival",
+    "type": "item_group",
+    "comment" : "Lightweight, simple and portable items useful for survival.",
+    "items": [
+        { "group": "drugs_heal_simple", "prob": 60 },
+        { "group": "tools_lighting", "prob":  50 },
+        { "group": "tools_survival", "prob":  100 },
+        { "group": "tools_tailor", "prob":  20 },
+        [ "battery", 10 ],
+        [ "duct_tape", 10 ],
+        [ "survivormap", 5 ]
+    ]
   }
 ]
 

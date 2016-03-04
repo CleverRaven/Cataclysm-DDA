@@ -4887,7 +4887,7 @@ void vehicle::handle_trap( const tripoint &p, int part )
         damage_direct( pwh, part_damage );
     }
     if( expl > 0 ) {
-        g->explosion( p, expl, 0.5f, shrap, false );
+        g->explosion( p, expl, 0.5f, false, shrap );
     }
 }
 
@@ -5758,7 +5758,7 @@ int vehicle::damage_direct( int p, int dmg, damage_type type )
                     g->explosion( tripoint( global_x() + parts[p].precalc[0].x,
                                             global_y() + parts[p].precalc[0].y,
                                             smz ),
-                                  pow, 0.7, 0, fiery_explosion );
+                                  pow, 0.7, fiery_explosion );
                     parts[p].hp = 0;
                     parts[p].amount = 0;
                 }
@@ -6150,11 +6150,11 @@ vehicle::turret_ammo_data::turret_ammo_data( const vehicle &veh, int const part 
         }
     }
 
-    // NO_AMMO guns don't have specific ammo type that could be consumed after firing, (therefor
+    // Some guns don't have specific ammo type that could be consumed after firing, (therefor
     // source NONE). They should (theoretically) require UPS charges, but that is checked above
     // and already included in the value of ammo_for.
     // UPS charges will be consumed directly in manual_fire_turret/automatic_fire_turret,
-    if( gun.has_flag( "NO_AMMO" ) ) {
+    if( gun.ammo_type() == "NULL" ) {
         source = NONE;
         ammo = nullptr;
         charges = ammo_for;
@@ -6266,7 +6266,7 @@ bool vehicle::fire_turret( int p, bool manual )
         return false;
     }
 
-    // note that NO_AMMO UPS guns can return 0 for ammo_required(), in which case 
+    // note that guns that don't use ammo return 0 for ammo_required(), in which case
     // turret_data.charges will be the number of individual shots we can take
     long charges = std::max( turret_data.gun.ammo_required(), 1L );
     if( turret_data.gun.is_charger_gun() ) {

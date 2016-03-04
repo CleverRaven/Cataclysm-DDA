@@ -164,6 +164,12 @@ item::item( const itype *type, int turn, default_charges_tag )
 item::item( const itype_id& id, int turn, default_charges_tag tag )
     : item( item::find_type( id ), turn, tag ) {}
 
+item::item( const itype *type, int turn, solitary_tag )
+    : item( type, turn, type->count_by_charges() ? 1 : -1 ) {}
+
+item::item( const itype_id& id, int turn, solitary_tag tag )
+    : item( item::find_type( id ), turn, tag ) {}
+
 item item::make_corpse( const mtype_id& mt, int turn, const std::string &name )
 {
     if( !mt.is_valid() ) {
@@ -810,7 +816,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         info.push_back( iteminfo( "GUN", _( "Skill used: " ), "<info>" + skill->name() + "</info>" ) );
 
         if( mod->magazine_integral() ) {
-            if( !mod->has_flag( "NO_AMMO" ) ) {
+            if( mod->ammo_capacity() ) {
                 info.emplace_back( "GUN", _( "<bold>Capacity:</bold> " ),
                                    string_format( ngettext( "<num> round of %s", "<num> rounds of %s", mod->ammo_capacity() ),
                                                   ammo_name( mod->ammo_type() ).c_str() ), mod->ammo_capacity(), true );
@@ -3947,35 +3953,30 @@ long item::ammo_capacity() const
         res = type->magazine->capacity;
     }
 
-    if( has_flag("NO_AMMO") ) {
-        res = 0;
-    }
-
     return res;
 }
 
-long item::ammo_required() const {
-    long res = 0;
-
+long item::ammo_required() const
+{
     if( is_tool() ) {
-        res = std::max( type->charges_to_use(), 0 );
+        return std::max( type->charges_to_use(), 0 );
     }
 
     if( is_gun() ) {
-        if( has_flag( "NO_AMMO" ) ) {
-            res = 0;
+        if( ammo_type() == "NULL" ) {
+            return 0;
         } else if( has_flag( "FIRE_100" ) ) {
-            res = 100;
+            return 100;
         } else if( has_flag( "FIRE_50" ) ) {
-            res = 50;
+            return 50;
         } else if( has_flag( "FIRE_20" ) ) {
-            res = 20;
+            return 20;
         } else {
-            res = 1;
+            return 1;
         }
     }
 
-    return res;
+    return 0;
 }
 
 bool item::ammo_consume( int qty, const tripoint& pos ) {
@@ -4023,7 +4024,7 @@ bool item::ammo_consume( int qty, const tripoint& pos ) {
     if( is_tool() || is_gun() ) {
         charges -= qty;
         if( charges == 0 ) {
-            unset_curammo();
+            curammo = nullptr;
         }
         return true;
     }
@@ -4267,13 +4268,7 @@ item *item::get_usable_item( const std::string &use_name )
 }
 
 bool item::can_reload( const itype_id& ammo ) const {
-    if( !is_gun() && !is_tool() && !is_magazine() ) {
-        return false;
-
-    } else if( has_flag( "NO_RELOAD") || has_flag( "RELOAD_AND_SHOOT" ) ) {
-        return false;
-
-    } else if( ammo_type() == "NULL" ) {
+    if( !is_reloadable() ) {
         return false;
 
     } else if( magazine_integral() ) {
@@ -5018,8 +5013,7 @@ void item::detonate( const tripoint &p ) const
         return;
     }
 
-    g->explosion( p, type->explosion.power, type->explosion.distance_factor,
-                     type->explosion.shrapnel, type->explosion.fire );
+    g->explosion( p, type->explosion );
 }
 
 bool item_ptr_compare_by_charges( const item *left, const item *right)
@@ -5754,6 +5748,21 @@ bool item::is_dangerous() const
     return std::any_of( contents.begin(), contents.end(), []( const item &it ) {
         return it.is_dangerous();
     } );
+}
+
+bool item::is_reloadable() const
+{
+    if( !is_gun() && !is_tool() && !is_magazine() ) {
+        return false;
+
+    } else if( has_flag( "NO_RELOAD") || has_flag( "RELOAD_AND_SHOOT" ) ) {
+        return false;
+
+    } else if( ammo_type() == "NULL" ) {
+        return false;
+    }
+
+    return true;
 }
 
 std::string item::type_name( unsigned int quantity ) const

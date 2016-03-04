@@ -4067,7 +4067,7 @@ int iuse::pipebomb_act(player *, item *it, bool t, const tripoint &pos)
                 add_msg(_("The pipe bomb fizzles out."));
             }
         } else {
-            g->explosion( pos, rng(10, 24), 0.6, rng(0, 4), false);
+            g->explosion( pos, rng( 10, 24 ), 0.6, false, rng(0, 4) );
         }
     }
     return 0;
@@ -4295,7 +4295,7 @@ int iuse::grenade_inc_act(player *p, item *it, bool t, const tripoint &pos)
                 g->m.add_field( flame, fd_fire, rng( 0, 2 ), 0 );
             }
         }
-        g->explosion( pos, 8, 0.8, 0, true );
+        g->explosion( pos, 8, 0.8, true );
         for (int i = -2; i <= 2; i++) {
             for (int j = -2; j <= 2; j++) {
                 g->m.add_field( { pos.x + i, pos.y + j, pos.z }, fd_incendiary, 3, 0 );
@@ -5471,7 +5471,7 @@ int iuse::artifact(player *p, item *it, bool, const tripoint& )
             case AEA_FIREBALL: {
                 tripoint fireball = g->look_around();
                 if( fireball != tripoint_min ) {
-                    g->explosion( fireball, 24, 0.5, 0, true );
+                    g->explosion( fireball, 24, 0.5, true );
                 }
             }
             break;

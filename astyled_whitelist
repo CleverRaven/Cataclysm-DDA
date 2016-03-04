@@ -18,6 +18,7 @@ src/debug.cpp
 src/dependency_tree.cpp
 src/drawing_primitives.cpp
 src/editmap.cpp
+src/explosion.cpp
 src/gamemode.cpp
 src/item_action.cpp
 src/item_location.cpp
@@ -92,6 +93,7 @@ src/debug.h
 src/dependency_tree.h
 src/drawing_primitives.h
 src/editmap.h
+src/explosion.h
 src/event.h
 src/faction.h
 src/filesystem.h

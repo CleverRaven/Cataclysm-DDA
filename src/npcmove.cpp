@@ -1279,13 +1279,12 @@ bool npc::wont_hit_friend( const tripoint &tar, int weapon_index ) const
 
 bool npc::need_to_reload() const
 {
-    if( !weapon.is_gun() ) {
+    if( !weapon.can_reload() ) {
         return false;
     }
 
-    const auto remaining = weapon.ammo_remaining();
-    return (remaining < weapon.ammo_required() || remaining < weapon.ammo_capacity() * 0.1f) &&
-        !weapon.has_flag("NO_AMMO") && !weapon.has_flag("RELOAD_AND_SHOOT");
+    return ( weapon.ammo_remaining() < weapon.ammo_required() ||
+             weapon.ammo_remaining() < weapon.ammo_capacity() * 0.1 );
 }
 
 bool npc::enough_time_to_reload( const item &gun ) const

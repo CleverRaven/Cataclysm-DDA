@@ -7,6 +7,7 @@
 #include "pldata.h" // add_type
 #include "bodypart.h" // body_part::num_bp
 #include "string_id.h"
+#include "explosion.h"
 
 #include <string>
 #include <vector>
@@ -41,14 +42,6 @@ enum bigness_property_aspect : int {
 std::string ammo_name(std::string const &t);
 // Returns the default ammo for a category of ammo (e.g. ""00_shot"")
 std::string const& default_ammo(std::string const &guntype);
-
-struct explosion_data {
-    // Those 4 values are forwarded to game::explosion.
-    float power           = -1.0f;
-    float distance_factor = 0.8f;
-    int shrapnel          = 0;
-    bool fire             = false;
-};
 
 struct islot_container {
     /**
@@ -240,7 +233,7 @@ struct islot_gun : common_firing_data {
     /**
      * What type of ammo this gun uses.
      */
-    std::string ammo;
+    ammotype ammo = "NULL";
     /**
      * Gun durability, affects gun being damaged during shooting.
      */
