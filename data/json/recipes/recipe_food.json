@@ -2460,6 +2460,43 @@
       [ "nachos", 3 ]
     ]
   ]
+  },{
+  "type" : "recipe",
+  "result": "fresh_fries",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_VEGGI",
+  "skill_used": "cooking",
+  "difficulty": 3,
+  "time": 16000,
+  "reversible": false,
+  "autolearn": true,
+  "note": "the cooking oil isn't supposed to be expended since you can recycle it after frying the onions",
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1},
+    {"id":"COOK","level":2,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "hotplate", 8 ],
+      [ "char_smoker", 8 ],
+      [ "toolset", 8 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "cooking_oil", -1 ],
+      [ "tallow", -1 ],
+      [ "lard", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "potato_raw", 1 ]'
+      [ "potato_irradiated", 1 ]
+    ],
+    [
+      [ "salt", 1 ]
+    ]
+  ]
 },{
   "type" : "recipe",
    "result": "cheese_fries",
@@ -2488,7 +2525,8 @@
       [ "can_cheese", 1]
     ],
     [
-      [ "fries", 3 ]
+      [ "fries", 3 ],
+      [ "fresh_fries", 3 ]
     ]
   ]
 },{
