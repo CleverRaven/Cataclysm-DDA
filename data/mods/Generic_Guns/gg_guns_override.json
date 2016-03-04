@@ -20,10 +20,13 @@
      "aim_speed" : 4,
      "recoil": 90,
      "durability": 6,
-     "clip_size": 15,
-     "reload": 300,
+     "reload": 100,
      "loudness" : 150,
-     "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
+     "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
+     "magazine_well": 1,
+     "magazines": [
+       [ "9mm", [ "glockmag", "glockbigmag" ] ]
+     ]
     },
     {
      "id": "m9",
@@ -64,8 +67,8 @@
      "flags": "MODE_BURST",
      "skill": "smg",
      "ammo": "9mm",
-     "weight": 2900,
-     "volume": 7,
+     "weight": 2550,
+     "volume": 5,
      "bashing": 10,
      "to_hit": -2,
      "ranged_damage": 1,
@@ -75,10 +78,12 @@
      "recoil": -45,
      "durability": 8,
      "burst": 8,
-     "clip_size": 30,
-     "reload": 400,
+     "reload": 100,
      "loudness" : 150,
-     "valid_mod_locations": [[ "accessories", 3 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
+     "valid_mod_locations": [[ "accessories", 3 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
+     "magazines" : [
+       [ "9mm", [ "mp5mag", "mp5bigmag" ] ]
+     ]
     },
     {
      "id": "calico",
@@ -116,13 +121,13 @@
      "color": "dark_gray",
      "name": "plinking carbine",
      "name_plural": "plinking carbines",
-     "description": "A cheap carbine made for target practice or varmint hunting.  It holds ten rounds of pistol ammo in a detachable magazine.",   
+     "description": "A cheap carbine made for target practice or varmint hunting.  It uses detachable pistol magazines.",   
      "price": 30000,
      "material": ["steel", "plastic"],
      "skill": "rifle",
      "ammo": "9mm",
-     "weight": 2575,
-     "volume": 7,
+     "weight": 2300,
+     "volume": 6,
      "bashing": 8,
      "to_hit": -1,
      "range": 20,
@@ -131,10 +136,13 @@
      "aim_speed" : 5,
      "recoil": -15,
      "durability": 10,
-     "clip_size": 15,
-     "reload": 300,
+     "reload": 100,
      "loudness" : 150,
-     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
+     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
+     "magazine_well": 1,
+     "magazines": [
+       [ "9mm", [ "glockmag", "glockbigmag" ] ]
+     ]
     },
     {
      "id": "ruger_redhawk",
@@ -232,8 +240,8 @@
      "material": ["steel", "wood"],
      "skill": "rifle",
      "ammo": "223",
-     "weight": 2900,
-     "volume": 9,
+     "weight": 2800,
+     "volume": 8,
      "bashing": 12,
      "to_hit": -1,
      "ranged_damage": 4,
@@ -242,10 +250,12 @@
      "aim_speed" : 6,
      "recoil": -60,
      "durability": 8,
-     "clip_size": 10,
-     "reload": 500,
+     "reload": 100,
      "loudness" : 150,
-     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "sights", 1 ]]
+     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "sights", 1 ]],
+     "magazines": [
+       [ "223", [  "stanag10" ] ]
+     ]
     },
     {
      "id": "m4a1",
@@ -254,14 +264,14 @@
      "color": "dark_gray",
      "name": "assault rifle",
      "name_plural": "assault rifles",
-     "description": "A lightweight assault rifle used by US military, it also has hundreds of commercial knockoffs for the civilian market.  It holds thirty light rifle rounds in a detachable magazine.",
+     "description": "A lightweight assault rifle used by US military, it also has hundreds of commercial knockoffs for the civilian market.  It uses detachable magazines of various capacities.",
      "price": 240000,
      "material": ["steel", "plastic"],
      "flags": "MODE_BURST",
      "skill": "rifle",
      "ammo": "223",
-     "weight": 2880,
-     "volume": 9,
+     "weight": 2520,
+     "volume": 7,
      "bashing": 12,
      "to_hit": -1,
      "ranged_damage": 4,
@@ -271,10 +281,12 @@
      "recoil": 30,
      "durability": 6,
      "burst": 10,
-     "clip_size": 30,
-     "reload": 475,
+     "reload": 100,
      "loudness" : 150,
-     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
+     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
+     "magazines": [
+       [ "223", [  "stanag30", "stanag10" ] ]
+     ]
     },
     {
      "id": "ak47",
@@ -283,14 +295,14 @@
      "color": "brown",
      "name": "foreign assault rifle",
      "name_plural": "foreign assault rifle",
-     "description": "A cheap but reliable assault rifle imported from overseas.  It holds thirty rounds of rifle ammo in a detachable magazine.",
+     "description": "A cheap but reliable assault rifle imported from overseas.  It uses imported magazines which are incompatible with standard rifle magazines.",
      "price": 290000, "//" : "AKs likewise aren't commercially traded in the US.",
      "material": ["steel", "wood"],
      "flags": ["MODE_BURST", "NEVER_JAMS"],
      "skill": "rifle",
      "ammo": "223",
-     "weight": 4300,
-     "volume": 9,
+     "weight": 3870,
+     "volume": 7,
      "bashing": 12,
      "to_hit": -1,
      "dispersion": 45,
@@ -299,10 +311,12 @@
      "recoil": 60,
      "durability": 9,
      "burst": 8,
-     "clip_size": 30,
-     "reload": 475,
+     "reload": 100,
      "loudness": 150,
-     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
+     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
+     "magazines": [
+       [ "762", [ "akmmag", "akmbigmag" ] ]
+     ]
     },
     {
      "id": "m249",
@@ -311,14 +325,14 @@
      "color": "dark_gray",
      "name": "light machine gun",
      "name_plural": "light machine gun",
-     "description": "A portable lightweight machine gun built for laying down suppressive fire rather than placing accurate shots.  It can hold two hundred light rifle rounds in a detachable belt drum.",
+     "description": "A portable lightweight machine gun built for laying down suppressive fire rather than placing accurate shots.  It can be reloaded using both drum magazines and ammo belts.",
      "price": 750000,
      "material": ["steel", "plastic"],
      "flags": "MODE_BURST",
      "skill": "rifle",
      "ammo": "223",
-     "weight": 7500,
-     "volume": 14,
+     "weight": 6800,
+     "volume": 12,
      "bashing": 12,
      "to_hit": -1,
      "ranged_damage": -6,
@@ -328,10 +342,12 @@
      "recoil": 90,
      "durability": 7,
      "burst": 30,
-     "clip_size": 200,
-     "reload": 750,
+     "reload": 400,
      "loudness" : 160,
-     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ]]
+     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ]],
+     "magazines" : [
+      [ "223", [ "stanag50", "belt223" ] ]
+     ]
     },
     {
      "id": "m60",
@@ -340,14 +356,14 @@
      "color": "dark_gray",
      "name": "general purpose machine gun",
      "name_plural": "general purpose machine gun",
-     "description": "A hefty machine gun meant to be fired from bipods or mounted to vehicles.  It holds three hundred rounds of light rifle ammo in a detachable belt drum.",
+     "description": "A hefty machine gun meant to be fired from bipods or mounted to vehicles.  Unlike the lighter version this can only be reloaded using ammo belts",
      "price": 1000000,
      "material": ["steel", "plastic"],
      "flags": "MODE_BURST",
      "skill": "rifle",
-     "ammo": "223",
-     "weight": 10500,
-     "volume": 16,
+     "ammo": "9mm",
+     "weight": 8700,
+     "volume": 14,
      "bashing": 15,
      "to_hit": -1,
      "ranged_damage": 0,
@@ -357,10 +373,12 @@
      "recoil": 140,
      "durability": 7,
      "burst": 20,
-     "clip_size": 300,
-     "reload": 750,
+     "reload": 400,
      "loudness" : 160,
-     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ]]
+     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ]],
+     "magazines" : [
+      [ "223", [ "belt223" ] ]
+     ]
     },
     {
      "id": "m134",
@@ -453,7 +471,7 @@
      "color": "dark_gray",
      "name": "battle rifle",
      "name_plural": "battle rifles",
-     "description": "A highly modular, selective fire battle rifle used by the US military.  It holds twenty rounds of rifle ammo in a detachable magazine.",
+     "description": "A highly modular, selective fire battle rifle used by the US military.  It uses either compact 20-round or bulkier 30-round detachable magazines.",
      "price": 295000,
      "material": ["steel", "plastic"],
      "flags": "MODE_BURST",
@@ -470,10 +488,13 @@
      "recoil": -60,
      "durability": 8,
      "burst": 8,
-     "clip_size": 20,
      "reload": 550,
      "loudness" : 150,
-     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
+     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
+     "magazine_well": 1,
+     "magazines": [
+       [ "308", [ "scarhmag", "scarhbigmag" ] ]
+     ]
     },
     {
      "id": "m240",
@@ -482,14 +503,14 @@
      "color": "dark_gray",
      "name": "medium machine gun",
      "name_plural": "medium machine guns",
-     "description": "A medium machine gun used by the US military, meant to be fired from bipods or mounted to vehicles.  It holds up to two hundred rounds of rifle ammo in a detachable belt drum.",
+     "description": "A medium machine gun used by the US military, meant to be fired from bipods or mounted to vehicles.  It uses ammo belts of up to 200-rounds.",
      "price": 1000000,
      "material": ["steel", "plastic"],
      "flags": "MODE_BURST",
      "skill": "rifle",
      "ammo": "308",
-     "weight": 12500,
-     "volume": 16,
+     "weight": 9200,
+     "volume": 12,
      "bashing": 13,
      "to_hit": -1,
      "ranged_damage": -2,
@@ -499,10 +520,12 @@
      "recoil": 120,
      "durability": 7,
      "burst": 25,
-     "clip_size": 200,
-     "reload": 750,
+     "reload": 400,
      "loudness" : 160,
-     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ]]
+     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ]],
+     "magazines": [
+      [ "308", [ "belt308" ] ]
+     ]
     },
     {
      "id": "m107a1",
