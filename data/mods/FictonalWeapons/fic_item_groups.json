@@ -103,7 +103,7 @@
     },
     {
       "type" : "item_group",
-      "id" : "gunxtras",
+      "id" : "gunmod_rare",
       "items":[
         ["emas", 5],
         ["retool_flaregun",7]

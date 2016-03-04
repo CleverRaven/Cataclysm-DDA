@@ -73,12 +73,18 @@
     },
     {
         "type": "item_group",
-        "id": "gunxtras",
+        "id": "gunmod_rare",
         "items": [
-          ["654_casing", 10],
           ["retool_654", 1],
           ["retool_545", 1],
           ["retool_762", 1]
+        ]
+    },
+    {
+        "id": "ammo_casings",
+        "type": "item_group",
+        "items": [
+          [ "654_casing", 100 ]
         ]
     },
     {
