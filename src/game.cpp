@@ -12462,12 +12462,12 @@ void game::place_player( const tripoint &dest_loc )
     if (m.has_flag("ROUGH", dest_loc) && (!u.in_vehicle)) {
         if (one_in(5) && u.get_armor_bash(bp_foot_l) < rng(2, 5)) {
             add_msg(m_bad, _("You hurt your left foot on the %s!"),
-                    m.has_flag_ter_or_furn( "ROUGH", dest_loc) ? m.tername(dest_loc).c_str() : m.furnname(dest_loc).c_str() );
+                    m.has_flag_ter( "ROUGH", dest_loc) ? m.tername(dest_loc).c_str() : m.furnname(dest_loc).c_str() );
             u.deal_damage( nullptr, bp_foot_l, damage_instance( DT_CUT, 1 ) );
         }
         if (one_in(5) && u.get_armor_bash(bp_foot_r) < rng(2, 5)) {
             add_msg(m_bad, _("You hurt your right foot on the %s!"),
-                    m.has_flag_ter_or_furn( "ROUGH", dest_loc) ? m.tername(dest_loc).c_str() : m.furnname(dest_loc).c_str() );
+                    m.has_flag_ter( "ROUGH", dest_loc) ? m.tername(dest_loc).c_str() : m.furnname(dest_loc).c_str() );
             u.deal_damage( nullptr, bp_foot_l, damage_instance( DT_CUT, 1 ) );
         }
     }
