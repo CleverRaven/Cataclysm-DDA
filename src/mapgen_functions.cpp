@@ -1228,7 +1228,7 @@ void mapgen_road( map *m, oter_id terrain_type, mapgendata dat, int turn, float 
         for( int dir = 0; dir < 4; dir++ ) {
             if( roads_nesw[dir] ) {
                 int max_y = SEEY;
-                if ( num_dirs == 4 || ( num_dirs == 3 && dir == 0 ) ) {                    
+                if ( num_dirs == 4 || ( num_dirs == 3 && dir == 0 ) ) {
                     max_y = 4; // dots don't extend into some intersections
                 }
                 for( int x = SEEX - 1; x <= SEEX; x++ ) {
@@ -2676,10 +2676,10 @@ void mapgen_church_new_england(map *m, oter_id terrain_type, mapgendata dat, int
          O ss O       s \n\
      ^^    ss    ^^   s \n\
      ^^    ss    ^^   s \n",
-       mapf::basic_bind("O 6 ^ . - | # t + = D w T S e o h c d l s", t_column, t_console, t_shrub, t_floor,
+       mapf::ter_bind("O 6 ^ . - | # t + = D w T S e o h c d l s", t_column, t_console, t_shrub, t_floor,
                t_wall, t_wall, t_floor, t_floor, t_door_c, t_door_locked_alarm, t_door_locked, t_window,
                t_floor,  t_floor, t_floor,  t_floor,    t_floor, t_floor,   t_floor, t_floor,  t_sidewalk),
-       mapf::basic_bind("O 6 ^ . - | # t + = D w T S e o h c d l s", f_null,   f_null,    f_null,  f_null,
+       mapf::furn_bind("O 6 ^ . - | # t + = D w T S e o h c d l s", f_null,   f_null,    f_null,  f_null,
                f_null,   f_null,   f_bench, f_table, f_null,   f_null,              f_null,        f_null,
                f_toilet, f_sink,  f_fridge, f_bookcase, f_chair, f_counter, f_desk,  f_locker, f_null)
     );
@@ -2726,11 +2726,11 @@ s W..WWWWWW++WWWWWW6.W s\n\
 s W.CWW$$WWssWW$$WW..W s\n\
 s WWWWW    ss    WWWWW s\n\
 ssssssssssssssssssssssss\n",
-       mapf::basic_bind("C V G B W R r 6 $ . - | # t + g T S h c l s", t_floor,   t_window_stained_red,
+       mapf::ter_bind("C V G B W R r 6 $ . - | # t + g T S h c l s", t_floor,   t_window_stained_red,
                t_window_stained_green, t_window_stained_blue, t_rock, t_railing_v, t_railing_h, t_console, t_shrub,
                t_rock_floor, t_wall, t_wall, t_rock_floor, t_rock_floor, t_door_c, t_door_glass_c,
                t_rock_floor, t_rock_floor, t_rock_floor, t_rock_floor, t_rock_floor, t_sidewalk),
-       mapf::basic_bind("C V G B W R r 6 $ . - | # t + g T S h c l s", f_crate_c, f_null,
+       mapf::furn_bind("C V G B W R r 6 $ . - | # t + g T S h c l s", f_crate_c, f_null,
                f_null,                 f_null,                f_null, f_null,      f_null,      f_null,    f_null,
                f_null,       f_null,   f_null,   f_bench,      f_table,      f_null,   f_null,         f_toilet,
                f_sink,       f_chair,      f_counter,    f_locker,     f_null)
@@ -3086,9 +3086,9 @@ void mapgen_shelter(map *m, oter_id, mapgendata dat, int, float) {
 | b b b    c   |\n\
 |          c  x|\n\
 |----:-++-:----|\n",
-                                   mapf::basic_bind("- | + : 6 x >", t_wall, t_wall, t_door_c, t_window_domestic,  t_console,
+                                   mapf::ter_bind("- | + : 6 x >", t_wall, t_wall, t_door_c, t_window_domestic,  t_console,
                                            t_console_broken, t_stairs_down),
-                                   mapf::basic_bind("b c l", f_bench, f_counter, f_locker));
+                                   mapf::furn_bind("b c l", f_bench, f_counter, f_locker));
         computer * tmpcomp = m->add_computer( tripoint( SEEX + 6, 5, m->get_abs_sub().z ), _("Evac shelter computer"), 0);
         tmpcomp->add_option(_("Emergency Message"), COMPACT_EMERG_MESS, 0);
         tmpcomp->add_option(_("Disable External Power"), COMPACT_COMPLETE_MISSION, 0);
@@ -3391,10 +3391,10 @@ void mapgen_basement_game(map *m, oter_id /*terrain_type*/, mapgendata dat,
 #.........#..#.........#\n\
 #.........#<<#.........#\n\
 ########################\n",
-                                  mapf::basic_bind(". # < + p t c s a r f & i", t_rock_floor, t_rock, t_stairs_up, t_door_c, t_rock_floor,
+                                  mapf::ter_bind(". # < + p t c s a r f & i", t_rock_floor, t_rock, t_stairs_up, t_door_c, t_rock_floor,
                                                     t_rock_floor, t_rock_floor, t_rock_floor,t_rock_floor, t_rock_floor, t_rock_floor,
                                                     t_rock_floor, t_rock_floor),
-                                  mapf::basic_bind(". # < + p t c s a r f & i", f_null, f_null, f_null, f_null, f_pool_table,
+                                  mapf::furn_bind(". # < + p t c s a r f & i", f_null, f_null, f_null, f_null, f_pool_table,
                                                     f_table, f_counter, f_sofa,f_armchair, f_rack, f_fridge, f_sink, f_toilet));
         // Place different furniture sets
         if (one_in(2)){
@@ -3489,11 +3489,11 @@ void mapgen_office_doctor(map *m, oter_id terrain_type, mapgendata dat, int, flo
    |-++--wwww-wwww---|  \n\
      ss                 \n\
      ss                 \n",
-                                   mapf::basic_bind(". - | 6 X # r t + = D w T S e o h c d l s", t_floor, t_wall, t_wall,
+                                   mapf::ter_bind(". - | 6 X # r t + = D w T S e o h c d l s", t_floor, t_wall, t_wall,
                                            t_console, t_door_metal_locked, t_floor, t_floor,    t_floor, t_door_c, t_door_locked_alarm,
                                            t_door_locked, t_window, t_floor,  t_floor, t_floor,  t_floor,    t_floor, t_floor,   t_floor,
                                            t_floor,  t_sidewalk),
-                                   mapf::basic_bind(". - | 6 X # r t + = D w T S e o h c d l s", f_null,  f_null,   f_null,   f_null,
+                                   mapf::furn_bind(". - | 6 X # r t + = D w T S e o h c d l s", f_null,  f_null,   f_null,   f_null,
                                            f_null,              f_bench, f_trashcan, f_table, f_null,   f_null,              f_null,
                                            f_null,   f_toilet, f_sink,  f_fridge, f_bookcase, f_chair, f_counter, f_desk,  f_locker, f_null));
         computer * tmpcomp = m->add_computer( tripoint( 20, 4, m->get_abs_sub().z ), _("Medical Supply Access"), 2);
