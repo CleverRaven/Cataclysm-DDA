@@ -3931,16 +3931,14 @@ long item::ammo_capacity() const
 
 long item::ammo_required() const
 {
-    if( ammo_type() == "NULL" ) {
-        return 0;
-    }
-
     if( is_tool() ) {
         return std::max( type->charges_to_use(), 0 );
     }
 
     if( is_gun() ) {
-        if( has_flag( "FIRE_100" ) ) {
+        if( ammo_type() == "NULL" ) {
+            return 0;
+        } else if( has_flag( "FIRE_100" ) ) {
             return 100;
         } else if( has_flag( "FIRE_50" ) ) {
             return 50;
