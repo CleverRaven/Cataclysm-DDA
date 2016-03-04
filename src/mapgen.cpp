@@ -1350,7 +1350,7 @@ bool mapgen_function_json::setup() {
             tmpval = "";
         }
 
-        format.reset(new ter_furn_id[ mapgensize * mapgensize ]);
+        format.resize( mapgensize * mapgensize );
         // just like mapf::basic_bind("stuff",blargle("foo", etc) ), only json input and faster when applying
         if ( jo.has_array("rows") ) {
             placing_map format_placings;
@@ -1605,6 +1605,29 @@ bool jmapgen_setmap::apply( map *m ) {
     return true;
 }
 
+void mapgen_function_json::formatted_set_incredibly_simple( map * const m ) const
+{
+    for( size_t y = 0; y < mapgensize; y++ ) {
+        for( size_t x = 0; x < mapgensize; x++ ) {
+            const size_t index = calc_index( x, y );
+            const ter_furn_id &tdata = format[index];
+            if( tdata.furn != f_null ) {
+                if( tdata.ter != t_null ) {
+                    m->set( x, y, tdata.ter, tdata.furn );
+                } else if( fill_ter != t_null ) {
+                    m->set( x, y, fill_ter, tdata.furn );
+                } else {
+                    m->furn_set( x, y, tdata.furn );
+                }
+            } else if( tdata.ter != t_null ) {
+                m->ter_set( x, y, tdata.ter );
+            } else if( fill_ter != t_null ) {
+                m->ter_set( x, y, fill_ter );
+            }
+        }
+    }
+}
+
 /*
  * Apply mapgen as per a derived-from-json recipe; in theory fast, but not very versatile
  */
@@ -1613,7 +1636,7 @@ void mapgen_function_json::generate( map *m, oter_id terrain_type, mapgendata md
         m->draw_fill_background( fill_ter );
     }
     if ( do_format ) {
-        formatted_set_incredibly_simple(m, format.get(), mapgensize, mapgensize, 0, 0, fill_ter );
+        formatted_set_incredibly_simple( m );
     }
     for( auto &elem : setmap_points ) {
         elem.apply( m );
@@ -1666,7 +1689,7 @@ int lua_mapgen( map *m, std::string id, mapgendata md, int t, float d, const std
  *     *   *  ***\n\
  *     *   * *   *\n\
  *****  ***  *   *\n\
-", mapf::basic_bind("*", t_paper), mapf::basic_bind(""));
+", mapf::ter_bind("*", t_paper), mapf::basic_bind(""));
     return 0;
 }
 #endif
@@ -1771,13 +1794,13 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
                       ss\n\
                       ss\n\
                       ss\n",
-                                   mapf::basic_bind("u A F E > < a R # G r x % ^ . - | t B + D = X w b T S e O h c d l s o", t_floor,
+                                   mapf::ter_bind("u A F E > < a R # G r x % ^ . - | t B + D = X w b T S e O h c d l s o", t_floor,
                                            t_floor,    t_floor, t_elevator, t_stairs_down, t_stairs_up, t_railing_h, t_railing_v, t_rock,
                                            t_door_glass_c, t_floor, t_console_broken, t_shrub, t_floor,        t_floor, t_wall, t_wall,
                                            t_floor, t_floor, t_door_c, t_door_locked_interior, t_door_metal_c, t_door_locked, t_window,
                                            t_floor,   t_floor,  t_floor, t_floor,  t_floor, t_floor, t_floor,   t_floor,   t_floor,
                                            t_sidewalk, t_floor),
-                                   mapf::basic_bind("u A F E > < a R # G r x % ^ . - | t B + D = X w b T S e O h c d l s o",
+                                   mapf::furn_bind("u A F E > < a R # G r x % ^ . - | t B + D = X w b T S e O h c d l s o",
                                            f_cupboard, f_armchair, f_sofa,  f_null,     f_null,        f_null,      f_null,      f_null,
                                            f_null, f_null,         f_rack,  f_null,           f_null,  f_indoor_plant, f_null,  f_null,
                                            f_null,   f_table, f_bed,   f_null,   f_null,                 f_null,         f_null,        f_null,
@@ -1866,13 +1889,13 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
  Rssw..............D....\n\
  Rss|..ooo.FFFF...^|....\n\
  R|-|--------------|....\n",
-                                       mapf::basic_bind("u A F E > < a R # G r x % ^ . - | t B + D = X w b T S e O h c d l s o", t_floor,
+                                       mapf::ter_bind("u A F E > < a R # G r x % ^ . - | t B + D = X w b T S e O h c d l s o", t_floor,
                                                t_floor,    t_floor, t_elevator, t_stairs_down, t_stairs_up, t_railing_h, t_railing_v, t_rock,
                                                t_door_glass_c, t_floor, t_console_broken, t_shrub, t_floor,        t_floor, t_wall, t_wall,
                                                t_floor, t_floor, t_door_c, t_door_locked_interior, t_door_metal_c, t_door_locked, t_window,
                                                t_floor,   t_floor,  t_floor, t_floor,  t_floor, t_floor, t_floor,   t_floor,   t_floor,
                                                t_sidewalk, t_floor),
-                                       mapf::basic_bind("u A F E > < a R # G r x % ^ . - | t B + D = X w b T S e O h c d l s o",
+                                       mapf::furn_bind("u A F E > < a R # G r x % ^ . - | t B + D = X w b T S e O h c d l s o",
                                                f_cupboard, f_armchair, f_sofa,  f_null,     f_null,        f_null,      f_null,      f_null,
                                                f_null, f_null,         f_rack,  f_null,           f_null,  f_indoor_plant, f_null,  f_null,
                                                f_null,   f_table, f_bed,   f_null,   f_null,                 f_null,         f_null,        f_null,
@@ -1957,13 +1980,13 @@ ss                      \n\
 ss                      \n\
 ss                      \n\
 ss                      \n",
-                                       mapf::basic_bind("u A F E > < a R # G r x % ^ . - | t B + D = X w b T S e O h c d l s o", t_floor,
+                                       mapf::ter_bind("u A F E > < a R # G r x % ^ . - | t B + D = X w b T S e O h c d l s o", t_floor,
                                                t_floor,    t_floor, t_elevator, t_stairs_down, t_stairs_up, t_railing_h, t_railing_v, t_rock,
                                                t_door_glass_c, t_floor, t_console_broken, t_shrub, t_floor,        t_floor, t_wall, t_wall,
                                                t_floor, t_floor, t_door_c, t_door_locked_interior, t_door_metal_c, t_door_locked, t_window,
                                                t_floor,   t_floor,  t_floor, t_floor,  t_floor, t_floor, t_floor,   t_floor,   t_floor,
                                                t_sidewalk, t_floor),
-                                       mapf::basic_bind("u A F E > < a R # G r x % ^ . - | t B + D = X w b T S e O h c d l s o",
+                                       mapf::furn_bind("u A F E > < a R # G r x % ^ . - | t B + D = X w b T S e O h c d l s o",
                                                f_cupboard, f_armchair, f_sofa,  f_null,     f_null,        f_null,      f_null,      f_null,
                                                f_null, f_null,         f_rack,  f_null,           f_null,  f_indoor_plant, f_null,  f_null,
                                                f_null,   f_table, f_bed,   f_null,   f_null,                 f_null,         f_null,        f_null,
@@ -2045,13 +2068,13 @@ EE|.+..........e|ssR    \n\
 ....D..............wssR \n\
 ....|^....A..FFFF..|ssR \n\
 ....|--------------|-|R \n",
-                                       mapf::basic_bind("u A F E > < a R # G r x % ^ . - | t B + D = X w b T S e O h c d l s o", t_floor,
+                                       mapf::ter_bind("u A F E > < a R # G r x % ^ . - | t B + D = X w b T S e O h c d l s o", t_floor,
                                                t_floor,    t_floor, t_elevator, t_stairs_down, t_stairs_up, t_railing_h, t_railing_v, t_rock,
                                                t_door_glass_c, t_floor, t_console_broken, t_shrub, t_floor,        t_floor, t_wall, t_wall,
                                                t_floor, t_floor, t_door_c, t_door_locked_interior, t_door_metal_c, t_door_locked, t_window,
                                                t_floor,   t_floor,  t_floor, t_floor,  t_floor, t_floor, t_floor,   t_floor,   t_floor,
                                                t_sidewalk, t_floor),
-                                       mapf::basic_bind("u A F E > < a R # G r x % ^ . - | t B + D = X w b T S e O h c d l s o",
+                                       mapf::furn_bind("u A F E > < a R # G r x % ^ . - | t B + D = X w b T S e O h c d l s o",
                                                f_cupboard, f_armchair, f_sofa,  f_null,     f_null,        f_null,      f_null,      f_null,
                                                f_null, f_null,         f_rack,  f_null,           f_null,  f_indoor_plant, f_null,  f_null,
                                                f_null,   f_table, f_bed,   f_null,   f_null,                 f_null,         f_null,        f_null,
@@ -2137,13 +2160,13 @@ ss%% x_,,,,_  __,,__  %%\n\
 ss    __,,__  _,,,,_    \n\
 ssssss__,,__ss__,,__ssss\n\
 ssssss______ss______ssss\n",
-                                   mapf::basic_bind("E > < R # X G C , _ r V H 6 x % ^ . - | t + = D w T S e o h c d l s", t_elevator,
+                                   mapf::ter_bind("E > < R # X G C , _ r V H 6 x % ^ . - | t + = D w T S e o h c d l s", t_elevator,
                                            t_stairs_down, t_stairs_up, t_railing_v, t_rock, t_door_metal_locked, t_door_glass_c, t_floor,
                                            t_pavement_y, t_pavement, t_floor, t_wall_glass, t_wall_glass, t_console, t_console_broken,
                                            t_shrub, t_floor,        t_floor, t_wall, t_wall, t_floor, t_door_c, t_door_locked,
                                            t_door_locked_alarm, t_window, t_floor,  t_floor, t_floor,  t_floor,    t_floor, t_floor,   t_floor,
                                            t_floor,  t_sidewalk),
-                                   mapf::basic_bind("E > < R # X G C , _ r V H 6 x % ^ . - | t + = D w T S e o h c d l s", f_null,
+                                   mapf::furn_bind("E > < R # X G C , _ r V H 6 x % ^ . - | t + = D w T S e o h c d l s", f_null,
                                            f_null,        f_null,      f_null,      f_null, f_null,              f_null,         f_crate_c,
                                            f_null,       f_null,     f_rack,  f_null,         f_null,         f_null,    f_null,
                                            f_null,  f_indoor_plant, f_null,  f_null,   f_null,   f_table, f_null,   f_null,        f_null,
@@ -2215,12 +2238,12 @@ ss%V.h..+...............\n\
 ss%V...^|...|---|---|...\n\
 ss%|----|...|.R>|EEE|...\n\
 ss%|rrrr|...|.R.|EEED...\n",
-                                       mapf::basic_bind("E > R # X G C , _ r V H 6 x % ^ . - | t + = D w T S e o h c d l s", t_elevator,
+                                       mapf::ter_bind("E > R # X G C , _ r V H 6 x % ^ . - | t + = D w T S e o h c d l s", t_elevator,
                                                t_stairs_down, t_railing_v, t_rock, t_door_metal_locked, t_door_glass_c, t_floor,   t_pavement_y,
                                                t_pavement, t_floor, t_wall_glass, t_wall_glass, t_console, t_console_broken, t_shrub, t_floor,
                                                t_floor, t_wall, t_wall, t_floor, t_door_c, t_door_locked, t_door_locked_alarm, t_window,
                                                t_floor,  t_floor, t_floor,  t_floor,    t_floor, t_floor,   t_floor, t_floor,  t_sidewalk),
-                                       mapf::basic_bind("E > R # X G C , _ r V H 6 x % ^ . - | t + = D w T S e o h c d l s", f_null,
+                                       mapf::furn_bind("E > R # X G C , _ r V H 6 x % ^ . - | t + = D w T S e o h c d l s", f_null,
                                                f_null,        f_null,      f_null, f_null,              f_null,         f_crate_c, f_null,
                                                f_null,     f_rack,  f_null,         f_null,         f_null,    f_null,           f_null,
                                                f_indoor_plant, f_null,  f_null,   f_null,   f_table, f_null,   f_null,        f_null,
@@ -2292,13 +2315,13 @@ ss%|rrrr|...|.R.|EEED...\n",
       ssssssss        ss\n\
 ssssssssssssssssssssssss\n\
 ssssssssssssssssssssssss\n",
-                                       mapf::basic_bind("E > < R # X G C , _ r V H 6 x % ^ . - | t + = D w T S e o h c d l s", t_elevator,
+                                       mapf::ter_bind("E > < R # X G C , _ r V H 6 x % ^ . - | t + = D w T S e o h c d l s", t_elevator,
                                                t_stairs_down, t_stairs_up, t_railing_v, t_rock, t_door_metal_locked, t_door_glass_c, t_floor,
                                                t_pavement_y, t_pavement, t_floor, t_wall_glass, t_wall_glass, t_console, t_console_broken,
                                                t_shrub, t_floor,        t_floor, t_wall, t_wall, t_floor, t_door_c, t_door_locked,
                                                t_door_locked_alarm, t_window, t_floor,  t_floor, t_floor,  t_floor,    t_floor, t_floor,   t_floor,
                                                t_floor,  t_sidewalk),
-                                       mapf::basic_bind("E > < R # X G C , _ r V H 6 x % ^ . - | t + = D w T S e o h c d l s", f_null,
+                                       mapf::furn_bind("E > < R # X G C , _ r V H 6 x % ^ . - | t + = D w T S e o h c d l s", f_null,
                                                f_null,        f_null,      f_null,      f_null, f_null,              f_null,         f_crate_c,
                                                f_null,       f_null,     f_rack,  f_null,         f_null,         f_null,    f_null,
                                                f_null,  f_indoor_plant, f_null,  f_null,   f_null,   f_table, f_null,   f_null,        f_null,
@@ -2360,12 +2383,12 @@ ssssssssssssssssssssssss\n\
 ...|---|---|..|l.dddV%ss\n\
 ...|xEE|.R>|......hdV%ss\n\
 ...DEEE|.R.|..|.....V%ss\n",
-                                       mapf::basic_bind("E > R # X G C , _ r V H 6 x % ^ . - | t + = D w T S e o h c d l s", t_elevator,
+                                       mapf::ter_bind("E > R # X G C , _ r V H 6 x % ^ . - | t + = D w T S e o h c d l s", t_elevator,
                                                t_stairs_down, t_railing_v, t_rock, t_door_metal_locked, t_door_glass_c, t_floor,   t_pavement_y,
                                                t_pavement, t_floor, t_wall_glass, t_wall_glass, t_console, t_console_broken, t_shrub, t_floor,
                                                t_floor, t_wall, t_wall, t_floor, t_door_c, t_door_locked, t_door_locked_alarm, t_window,
                                                t_floor,  t_floor, t_floor,  t_floor,    t_floor, t_floor,   t_floor, t_floor,  t_sidewalk),
-                                       mapf::basic_bind("E > R # X G C , _ r V H 6 x % ^ . - | t + = D w T S e o h c d l s", f_null,
+                                       mapf::furn_bind("E > R # X G C , _ r V H 6 x % ^ . - | t + = D w T S e o h c d l s", f_null,
                                                f_null,        f_null,      f_null, f_null,              f_null,         f_crate_c, f_null,
                                                f_null,     f_rack,  f_null,         f_null,         f_null,    f_null,           f_null,
                                                f_indoor_plant, f_null,  f_null,   f_null,   f_table, f_null,   f_null,        f_null,
@@ -2429,13 +2452,13 @@ ssssssssssssssssssssssss\n\
 ssssssssssssssssssssssss\n\
 ssssssssssssssssssssssss\n\
 ssssssssssssssssssssssss\n",
-                                   mapf::basic_bind("E s > < R # X G C , . r V H 6 x % ^ _ - | t + = D w T S e o h c d l S",
+                                   mapf::ter_bind("E s > < R # X G C , . r V H 6 x % ^ _ - | t + = D w T S e o h c d l S",
                                            t_elevator, t_rock, t_stairs_down, t_stairs_up, t_railing_v, t_floor, t_door_metal_locked,
                                            t_door_glass_c, t_floor,   t_pavement_y, t_pavement, t_floor, t_wall_glass, t_wall_glass,
                                            t_console, t_console_broken, t_shrub, t_floor,        t_floor, t_wall, t_wall, t_floor,
                                            t_door_c, t_door_locked, t_door_locked_alarm, t_window, t_floor,  t_floor, t_floor,  t_floor,
                                            t_floor, t_floor,   t_floor, t_floor,  t_sidewalk),
-                                   mapf::basic_bind("E s > < R # X G C , . r V H 6 x % ^ _ - | t + = D w T S e o h c d l S", f_null,
+                                   mapf::furn_bind("E s > < R # X G C , . r V H 6 x % ^ _ - | t + = D w T S e o h c d l S", f_null,
                                            f_null, f_null,        f_null,      f_null,      f_bench, f_null,              f_null,
                                            f_crate_c, f_null,       f_null,     f_rack,  f_null,         f_null,         f_null,    f_null,
                                            f_null,  f_indoor_plant, f_null,  f_null,   f_null,   f_table, f_null,   f_null,        f_null,
@@ -2490,13 +2513,13 @@ sss|........,....,....,S\n\
 sss|........|---|---|HHG\n\
 sss|........|.R<|EEE|___\n\
 sss|........|.R.|EEED___\n",
-                                       mapf::basic_bind("E s < R # X G C , . r V H 6 x % ^ _ - | t + = D w T S e o h c d l S", t_elevator,
+                                       mapf::ter_bind("E s < R # X G C , . r V H 6 x % ^ _ - | t + = D w T S e o h c d l S", t_elevator,
                                                t_rock, t_stairs_up, t_railing_v, t_floor, t_door_metal_locked, t_door_glass_c, t_floor,
                                                t_pavement_y, t_pavement, t_floor, t_wall_glass, t_wall_glass, t_console, t_console_broken,
                                                t_shrub, t_floor,        t_floor, t_wall, t_wall, t_floor, t_door_c, t_door_locked,
                                                t_door_locked_alarm, t_window, t_floor,  t_floor, t_floor,  t_floor,    t_floor, t_floor,   t_floor,
                                                t_floor, t_sidewalk),
-                                       mapf::basic_bind("E s < R # X G C , . r V H 6 x % ^ _ - | t + = D w T S e o h c d l S", f_null,
+                                       mapf::furn_bind("E s < R # X G C , . r V H 6 x % ^ _ - | t + = D w T S e o h c d l S", f_null,
                                                f_null, f_null,      f_null,      f_bench, f_null,              f_null,         f_crate_c, f_null,
                                                f_null,     f_rack,  f_null,         f_null,         f_null,    f_null,           f_null,
                                                f_indoor_plant, f_null,  f_null,   f_null,   f_table, f_null,   f_null,        f_null,
@@ -2591,13 +2614,13 @@ ssssssssssssssssssssssss\n\
 ssssssssssssssssssssssss\n\
 ssssssssssssssssssssssss\n\
 ssssssssssssssssssssssss\n",
-                                       mapf::basic_bind("E s > < R # X G C , . r V H 6 x % ^ _ - | t + = D w T S e o h c d l S",
+                                       mapf::ter_bind("E s > < R # X G C , . r V H 6 x % ^ _ - | t + = D w T S e o h c d l S",
                                                t_elevator, t_rock, t_stairs_down, t_stairs_up, t_railing_v, t_floor, t_door_metal_locked,
                                                t_door_glass_c, t_floor,   t_pavement_y, t_pavement, t_floor, t_wall_glass, t_wall_glass,
                                                t_console, t_console_broken, t_shrub, t_floor,        t_floor, t_wall, t_wall, t_floor,
                                                t_door_c, t_door_locked, t_door_locked_alarm, t_window, t_floor,  t_floor, t_floor,  t_floor,
                                                t_floor, t_floor,   t_floor, t_floor,  t_sidewalk),
-                                       mapf::basic_bind("E s > < R # X G C , . r V H 6 x % ^ _ - | t + = D w T S e o h c d l S", f_null,
+                                       mapf::furn_bind("E s > < R # X G C , . r V H 6 x % ^ _ - | t + = D w T S e o h c d l S", f_null,
                                                f_null, f_null,        f_null,      f_null,      f_bench, f_null,              f_null,
                                                f_crate_c, f_null,       f_null,     f_rack,  f_null,         f_null,         f_null,    f_null,
                                                f_null,  f_indoor_plant, f_null,  f_null,   f_null,   f_table, f_null,   f_null,        f_null,
@@ -2684,13 +2707,13 @@ S,....,....,........|sss\n\
 GHH|---|---|........|sss\n\
 ___|xEE|.R<|........|sss\n\
 ___DEEE|.R.|...,,...|sss\n",
-                                       mapf::basic_bind("E s < R # X G C , . r V H 6 x % ^ _ - | t + = D w T S e o h c d l S", t_elevator,
+                                       mapf::ter_bind("E s < R # X G C , . r V H 6 x % ^ _ - | t + = D w T S e o h c d l S", t_elevator,
                                                t_rock, t_stairs_up, t_railing_v, t_floor, t_door_metal_locked, t_door_glass_c, t_floor,
                                                t_pavement_y, t_pavement, t_floor, t_wall_glass, t_wall_glass, t_console, t_console_broken,
                                                t_shrub, t_floor,        t_floor, t_wall, t_wall, t_floor, t_door_c, t_door_locked,
                                                t_door_locked_alarm, t_window, t_floor,  t_floor, t_floor,  t_floor,    t_floor, t_floor,   t_floor,
                                                t_floor, t_sidewalk),
-                                       mapf::basic_bind("E s < R # X G C , . r V H 6 x % ^ _ - | t + = D w T S e o h c d l S", f_null,
+                                       mapf::furn_bind("E s < R # X G C , . r V H 6 x % ^ _ - | t + = D w T S e o h c d l S", f_null,
                                                f_null, f_null,      f_null,      f_bench, f_null,              f_null,         f_crate_c, f_null,
                                                f_null,     f_rack,  f_null,         f_null,         f_null,    f_null,           f_null,
                                                f_indoor_plant, f_null,  f_null,   f_null,   f_table, f_null,   f_null,        f_null,
@@ -2786,13 +2809,13 @@ ss                  ssss\n\
 ss                  ssss\n\
 ssssssssssssssssssssssss\n\
 ssssssssssssssssssssssss\n",
-                                   mapf::basic_bind("b E > < R # X G C , _ r V H 6 x % ^ . - | t + = D w T S e o h c d l s", t_floor,
+                                   mapf::ter_bind("b E > < R # X G C , _ r V H 6 x % ^ . - | t + = D w T S e o h c d l s", t_floor,
                                            t_elevator, t_stairs_down, t_stairs_up, t_railing_v, t_rock, t_door_metal_locked, t_door_glass_c,
                                            t_floor,   t_pavement_y, t_pavement, t_railing_h, t_wall_glass, t_wall_glass, t_console,
                                            t_console_broken, t_shrub, t_floor,        t_floor, t_wall, t_wall, t_floor, t_door_c,
                                            t_door_locked, t_door_locked_interior, t_window_stained_red, t_floor,  t_floor, t_floor,  t_floor,
                                            t_floor, t_floor,   t_floor, t_floor,  t_sidewalk),
-                                   mapf::basic_bind("b E > < R # X G C , _ r V H 6 x % ^ . - | t + = D w T S e o h c d l s", f_bench,
+                                   mapf::furn_bind("b E > < R # X G C , _ r V H 6 x % ^ . - | t + = D w T S e o h c d l s", f_bench,
                                            f_null,     f_null,        f_null,      f_null,      f_null, f_null,              f_null,
                                            f_crate_c, f_null,       f_null,     f_null,      f_null,         f_null,         f_null,    f_null,
                                            f_null,  f_indoor_plant, f_null,  f_null,   f_null,   f_table, f_null,   f_null,        f_null,
@@ -2865,13 +2888,13 @@ sssssssssss>#...........\n\
 sssssssssssswbbbb...bbbb\n\
 ss          w...........\n\
 ss          #bbbb...bbbb\n",
-                                       mapf::basic_bind("b E > < R # X G C , _ r V H 6 x % ^ . - | t + = D w T S e o h c d l s", t_floor,
+                                       mapf::ter_bind("b E > < R # X G C , _ r V H 6 x % ^ . - | t + = D w T S e o h c d l s", t_floor,
                                                t_elevator, t_stairs_down, t_stairs_up, t_railing_v, t_rock, t_door_metal_locked, t_door_glass_c,
                                                t_floor,   t_pavement_y, t_pavement, t_railing_h, t_wall_glass, t_wall_glass, t_console,
                                                t_console_broken, t_shrub, t_floor,        t_floor, t_wall, t_wall, t_floor, t_door_c,
                                                t_door_locked, t_door_locked_interior, t_window_stained_red, t_floor,  t_floor, t_floor,  t_floor,
                                                t_floor, t_floor,   t_floor, t_floor,  t_sidewalk),
-                                       mapf::basic_bind("b E > < R # X G C , _ r V H 6 x % ^ . - | t + = D w T S e o h c d l s", f_bench,
+                                       mapf::furn_bind("b E > < R # X G C , _ r V H 6 x % ^ . - | t + = D w T S e o h c d l s", f_bench,
                                                f_null,     f_null,        f_null,      f_null,      f_null, f_null,              f_null,
                                                f_crate_c, f_null,       f_null,     f_null,      f_null,         f_null,         f_null,    f_null,
                                                f_null,  f_indoor_plant, f_null,  f_null,   f_null,   f_table, f_null,   f_null,        f_null,
@@ -2941,13 +2964,13 @@ sss                   ss\n\
 sss                   ss\n\
 ssssssssssssssssssssssss\n\
 ssssssssssssssssssssssss\n",
-                                       mapf::basic_bind("b E > < R # X G C , _ r V H 6 x % ^ . - | t + = D w T S e o h c d l s", t_floor,
+                                       mapf::ter_bind("b E > < R # X G C , _ r V H 6 x % ^ . - | t + = D w T S e o h c d l s", t_floor,
                                                t_elevator, t_stairs_down, t_stairs_up, t_railing_v, t_rock, t_door_metal_locked, t_door_glass_c,
                                                t_floor,   t_pavement_y, t_pavement, t_railing_h, t_wall_glass, t_wall_glass, t_console,
                                                t_console_broken, t_shrub, t_floor,        t_floor, t_wall, t_wall, t_floor, t_door_c,
                                                t_door_locked, t_door_locked_interior, t_window_stained_red, t_floor,  t_floor, t_floor,  t_floor,
                                                t_floor, t_floor,   t_floor, t_floor,  t_sidewalk),
-                                       mapf::basic_bind("b E > < R # X G C , _ r V H 6 x % ^ . - | t + = D w T S e o h c d l s", f_bench,
+                                       mapf::furn_bind("b E > < R # X G C , _ r V H 6 x % ^ . - | t + = D w T S e o h c d l s", f_bench,
                                                f_null,     f_null,        f_null,      f_null,      f_null, f_null,              f_null,
                                                f_crate_c, f_null,       f_null,     f_null,      f_null,         f_null,         f_null,    f_null,
                                                f_null,  f_indoor_plant, f_null,  f_null,   f_null,   f_table, f_null,   f_null,        f_null,
@@ -3013,13 +3036,13 @@ bbb...bbbb##sss##       \n\
 bbb...bbbbwsssssssssssss\n\
 ..........w           ss\n\
 bbb...bbbb#           ss\n",
-                                       mapf::basic_bind("b E > < R # X G C , _ r V H 6 x % ^ . - | t + = D w T S e o h c d l s", t_floor,
+                                       mapf::ter_bind("b E > < R # X G C , _ r V H 6 x % ^ . - | t + = D w T S e o h c d l s", t_floor,
                                                t_elevator, t_stairs_down, t_stairs_up, t_railing_v, t_rock, t_door_metal_locked, t_door_glass_c,
                                                t_floor,   t_pavement_y, t_pavement, t_railing_h, t_wall_glass, t_wall_glass, t_console,
                                                t_console_broken, t_shrub, t_floor,        t_floor, t_wall, t_wall, t_floor, t_door_c,
                                                t_door_locked, t_door_locked_interior, t_window_stained_red, t_floor,  t_floor, t_floor,  t_floor,
                                                t_floor, t_floor,   t_floor, t_floor,  t_sidewalk),
-                                       mapf::basic_bind("b E > < R # X G C , _ r V H 6 x % ^ . - | t + = D w T S e o h c d l s", f_bench,
+                                       mapf::furn_bind("b E > < R # X G C , _ r V H 6 x % ^ . - | t + = D w T S e o h c d l s", f_bench,
                                                f_null,     f_null,        f_null,      f_null,      f_null, f_null,              f_null,
                                                f_crate_c, f_null,       f_null,     f_null,      f_null,         f_null,         f_null,    f_null,
                                                f_null,  f_indoor_plant, f_null,  f_null,   f_null,   f_table, f_null,   f_null,        f_null,
@@ -3084,13 +3107,13 @@ bbb...bbbb#           ss\n",
 ########################\n\
 ########################\n\
 ########################\n",
-                                   mapf::basic_bind("O E > < # X G C , _ r V H 6 x ^ . - | t + = D w T S e o h c d l s", t_floor,
+                                   mapf::ter_bind("O E > < # X G C , _ r V H 6 x ^ . - | t + = D w T S e o h c d l s", t_floor,
                                            t_elevator, t_stairs_down, t_stairs_up, t_rock, t_door_metal_locked, t_door_glass_c, t_floor,
                                            t_pavement_y, t_pavement, t_floor, t_wall_glass, t_wall_glass, t_console, t_console_broken,
                                            t_floor,        t_floor, t_wall, t_wall, t_floor, t_door_c, t_door_locked,
                                            t_door_locked_interior, t_window_stained_red, t_floor,  t_floor, t_floor,  t_column, t_floor,
                                            t_floor,   t_floor, t_floor,  t_sidewalk),
-                                   mapf::basic_bind("O E > < # X G C , _ r V H 6 x ^ . - | t + = D w T S e o h c d l s", f_oven,
+                                   mapf::furn_bind("O E > < # X G C , _ r V H 6 x ^ . - | t + = D w T S e o h c d l s", f_oven,
                                            f_null,     f_null,        f_null,      f_null, f_null,              f_null,
                                            f_makeshift_bed, f_null,       f_null,     f_rack,  f_null,         f_null,         f_null,
                                            f_null,           f_indoor_plant, f_null,  f_null,   f_null,   f_table, f_null,   f_null,
@@ -3159,13 +3182,13 @@ bbb...bbbb#           ss\n",
 ##########|-|--------|..\n\
 ############|..S.S.S.|..\n\
 ############|........+..\n",
-                                       mapf::basic_bind("O E > < # X G C , _ r V H 6 x ^ . - | t + = D w T S e o h c d l s", t_floor,
+                                       mapf::ter_bind("O E > < # X G C , _ r V H 6 x ^ . - | t + = D w T S e o h c d l s", t_floor,
                                                t_elevator, t_stairs_down, t_stairs_up, t_rock, t_door_metal_locked, t_door_glass_c, t_floor,
                                                t_pavement_y, t_pavement, t_floor, t_wall_glass, t_wall_glass, t_console, t_console_broken,
                                                t_floor,        t_floor, t_wall, t_wall, t_floor, t_door_c, t_door_locked,
                                                t_door_locked_interior, t_window_stained_red, t_floor,  t_floor, t_floor,  t_column, t_floor,
                                                t_floor,   t_floor, t_floor,  t_sidewalk),
-                                       mapf::basic_bind("O E > < # X G C , _ r V H 6 x ^ . - | t + = D w T S e o h c d l s", f_oven,
+                                       mapf::furn_bind("O E > < # X G C , _ r V H 6 x ^ . - | t + = D w T S e o h c d l s", f_oven,
                                                f_null,     f_null,        f_null,      f_null, f_null,              f_null,
                                                f_makeshift_bed, f_null,       f_null,     f_rack,  f_null,         f_null,         f_null,
                                                f_null,           f_indoor_plant, f_null,  f_null,   f_null,   f_table, f_null,   f_null,
@@ -3224,13 +3247,13 @@ cc-|-D----|#############\n\
 ########################\n\
 ########################\n\
 ########################\n",
-                                       mapf::basic_bind("O E > < # X G C , _ r V H 6 x ^ . - | t + = D w T S e o h c d l s", t_floor,
+                                       mapf::ter_bind("O E > < # X G C , _ r V H 6 x ^ . - | t + = D w T S e o h c d l s", t_floor,
                                                t_elevator, t_stairs_down, t_stairs_up, t_rock, t_door_metal_locked, t_door_glass_c, t_floor,
                                                t_pavement_y, t_pavement, t_floor, t_wall_glass, t_wall_glass, t_console, t_console_broken,
                                                t_floor,        t_floor, t_wall, t_wall, t_floor, t_door_c, t_door_locked,
                                                t_door_locked_interior, t_window_stained_red, t_floor,  t_floor, t_floor,  t_column, t_floor,
                                                t_floor,   t_floor, t_floor,  t_sidewalk),
-                                       mapf::basic_bind("O E > < # X G C , _ r V H 6 x ^ . - | t + = D w T S e o h c d l s", f_oven,
+                                       mapf::furn_bind("O E > < # X G C , _ r V H 6 x ^ . - | t + = D w T S e o h c d l s", f_oven,
                                                f_null,     f_null,        f_null,      f_null, f_null,              f_null,
                                                f_makeshift_bed, f_null,       f_null,     f_rack,  f_null,         f_null,         f_null,
                                                f_null,           f_indoor_plant, f_null,  f_null,   f_null,   f_table, f_null,   f_null,
@@ -3290,13 +3313,13 @@ C..C..C...|hhh|#########\n\
 .|--------|-|###########\n\
 .|.S.S.S..|#############\n\
 .+........|#############\n",
-                                       mapf::basic_bind("O E > < # X G C , _ r V H 6 x ^ . - | t + = D w T S e o h c d l s", t_floor,
+                                       mapf::ter_bind("O E > < # X G C , _ r V H 6 x ^ . - | t + = D w T S e o h c d l s", t_floor,
                                                t_elevator, t_stairs_down, t_stairs_up, t_rock, t_door_metal_locked, t_door_glass_c, t_floor,
                                                t_pavement_y, t_pavement, t_floor, t_wall_glass, t_wall_glass, t_console, t_console_broken,
                                                t_floor,        t_floor, t_wall, t_wall, t_floor, t_door_c, t_door_locked,
                                                t_door_locked_interior, t_window_stained_red, t_floor,  t_floor, t_floor,  t_column, t_floor,
                                                t_floor,   t_floor, t_floor,  t_sidewalk),
-                                       mapf::basic_bind("O E > < # X G C , _ r V H 6 x ^ . - | t + = D w T S e o h c d l s", f_oven,
+                                       mapf::furn_bind("O E > < # X G C , _ r V H 6 x ^ . - | t + = D w T S e o h c d l s", f_oven,
                                                f_null,     f_null,        f_null,      f_null, f_null,              f_null,
                                                f_makeshift_bed, f_null,       f_null,     f_rack,  f_null,         f_null,         f_null,
                                                f_null,           f_indoor_plant, f_null,  f_null,   f_null,   f_table, f_null,   f_null,
@@ -3471,11 +3494,11 @@ C..C..C...|hhh|#########\n\
 |b....+..|6...|..|..|..|\n\
 |b...l|..|....|bb|bb|bb|\n\
 |-----|--|-..-|--|--|--|\n",
-                                               mapf::basic_bind("b l A r d C h 6 x g G , . - | + D t c S T", t_rock_floor, t_rock_floor, t_floor,
+                                               mapf::ter_bind("b l A r d C h 6 x g G , . - | + D t c S T", t_rock_floor, t_rock_floor, t_floor,
                                                        t_rock_floor, t_rock_floor, t_centrifuge, t_rock_floor, t_console, t_console_broken,
                                                        t_reinforced_glass, t_reinforced_glass, t_floor_blue, t_rock_floor, t_concrete_wall, t_concrete_wall,
                                                        t_door_metal_c, t_door_metal_locked, t_rock_floor, t_rock_floor, t_rock_floor, t_rock_floor),
-                                               mapf::basic_bind("b l A r d C h 6 x g G , . - | + D t c S T", f_bed,        f_locker,     f_crate_c,
+                                               mapf::furn_bind("b l A r d C h 6 x g G , . - | + D t c S T", f_bed,        f_locker,     f_crate_c,
                                                        f_rack,       f_desk,       f_null,       f_chair,      f_null,    f_null,           f_null,
                                                        f_null,               f_null,       f_null,       f_null,       f_null,       f_null,
                                                        f_null,              f_table,      f_counter,    f_sink,       f_toilet));
@@ -3543,11 +3566,11 @@ C..C..C...|hhh|#########\n\
 |.hd....r|....|........|\n\
 |........|....|..cxcC..|\n\
 |--------|-..-|--------|\n",
-                                               mapf::basic_bind("b l A r d C h 6 x g G , . - | + D t c S T", t_rock_floor, t_rock_floor, t_floor,
+                                               mapf::ter_bind("b l A r d C h 6 x g G , . - | + D t c S T", t_rock_floor, t_rock_floor, t_floor,
                                                        t_rock_floor, t_rock_floor, t_centrifuge, t_rock_floor, t_console, t_console_broken,
                                                        t_reinforced_glass, t_reinforced_glass, t_floor_blue, t_rock_floor, t_concrete_wall, t_concrete_wall,
                                                        t_door_metal_c, t_door_metal_locked, t_rock_floor, t_rock_floor, t_rock_floor, t_rock_floor),
-                                               mapf::basic_bind("b l A r d C h 6 x g G , . - | + D t c S T", f_bed,        f_locker,     f_crate_c,
+                                               mapf::furn_bind("b l A r d C h 6 x g G , . - | + D t c S T", f_bed,        f_locker,     f_crate_c,
                                                        f_rack,       f_desk,       f_null,       f_chair,      f_null,    f_null,           f_null,
                                                        f_null,               f_null,       f_null,       f_null,       f_null,       f_null,
                                                        f_null,              f_table,      f_counter,    f_sink,       f_toilet));
@@ -3855,11 +3878,11 @@ C..C..C...|hhh|#########\n\
 .......................|\n\
 .......................|\n\
 -----------++----------|\n",
-                                                   mapf::basic_bind("l A r d C h 6 x g G , . - | + D t c S", t_rock_floor, t_floor,   t_rock_floor,
+                                                   mapf::ter_bind("l A r d C h 6 x g G , . - | + D t c S", t_rock_floor, t_floor,   t_rock_floor,
                                                            t_rock_floor, t_centrifuge, t_rock_floor, t_console, t_console_broken, t_reinforced_glass,
                                                            t_reinforced_glass, t_floor_blue, t_rock_floor, t_concrete_wall, t_concrete_wall, t_door_metal_c,
                                                            t_door_metal_locked, t_rock_floor, t_rock_floor, t_rock_floor),
-                                                   mapf::basic_bind("l A r d C h 6 x g G , . - | + D t c S", f_locker,     f_crate_c, f_rack,
+                                                   mapf::furn_bind("l A r d C h 6 x g G , . - | + D t c S", f_locker,     f_crate_c, f_rack,
                                                            f_desk,       f_null,       f_chair,      f_null,    f_null,           f_null,               f_null,
                                                            f_null,       f_null,       f_null,       f_null,       f_null,         f_null ,
                                                            f_table,      f_counter,    f_sink));
@@ -3930,13 +3953,13 @@ A.AA...D.........g.....|\n\
 A......D.........|dh...|\n\
 .A.AA..D.........|dxd.^|\n\
 -------|---++----|-----|\n",
-                                                   mapf::basic_bind("M D & P S p l H O f F A r d C h 6 x g G , . - | + D t c ^",
+                                                   mapf::ter_bind("M D & P S p l H O f F A r d C h 6 x g G , . - | + D t c ^",
                                                            t_gates_control_concrete, t_door_metal_locked, t_radio_tower, t_generator_broken, t_sewage_pump,
                                                            t_sewage_pipe, t_floor,  t_chaingate_c, t_column, t_chainfence_v, t_chainfence_h, t_floor,
                                                            t_floor, t_floor, t_centrifuge, t_null,  t_console, t_console_broken, t_wall_glass,
                                                            t_wall_glass, t_rock_blue, t_rock_floor, t_concrete_wall, t_concrete_wall, t_door_metal_c,
                                                            t_door_metal_locked, t_floor,  t_floor,   t_floor),
-                                                   mapf::basic_bind("M D & P S p l H O f F A r d C h 6 x g G , . - | + D t c ^", f_null,
+                                                   mapf::furn_bind("M D & P S p l H O f F A r d C h 6 x g G , . - | + D t c ^", f_null,
                                                            f_null,              f_null,        f_null,             f_null,        f_null,        f_locker,
                                                            f_null,        f_null,   f_null,         f_null,         f_crate_c, f_rack,  f_desk,  f_null,
                                                            f_chair, f_null,    f_null,           f_null,         f_null,         f_null,      f_null,
@@ -3993,13 +4016,13 @@ ff.......|....|WWWWWWWW|\n\
 ...htth..g....gWWWWWWhd|\n\
 ........^|....|rrrWWdxd|\n\
 ---------|-++-|--------|\n",
-                                                   mapf::basic_bind("D l H O f A r d C h 6 x g G , . - | + D t c ^ w W e E % T S =",
+                                                   mapf::ter_bind("D l H O f A r d C h 6 x g G , . - | + D t c ^ w W e E % T S =",
                                                            t_door_metal_locked, t_floor,  t_chaingate_c, t_column, t_floor,  t_floor,   t_floor, t_floor,
                                                            t_centrifuge, t_floor, t_console, t_console_broken, t_reinforced_glass, t_reinforced_glass,
                                                            t_rock_blue, t_rock_floor, t_concrete_wall, t_concrete_wall, t_door_metal_c, t_door_metal_locked, t_floor,
                                                            t_floor,   t_floor,        t_water_sh, t_water_dp, t_elevator_control_off, t_elevator, t_rock,
                                                            t_floor,  t_floor, t_door_c),
-                                                   mapf::basic_bind("D l H O f A r d C h 6 x g G , . - | + D t c ^ w W e E % T S =", f_null,
+                                                   mapf::furn_bind("D l H O f A r d C h 6 x g G , . - | + D t c ^ w W e E % T S =", f_null,
                                                            f_locker, f_null,        f_null,   f_fridge, f_crate_c, f_rack,  f_desk,  f_null,       f_chair,
                                                            f_null,    f_null,           f_null,               f_null,               f_null,      f_null,
                                                            f_null,       f_null,       f_null,         f_null,              f_table, f_counter, f_indoor_plant,
@@ -4050,11 +4073,11 @@ ff.......|....|WWWWWWWW|\n\
 .......................|\n\
 .......................|\n\
 -----------++----------|\n",
-                                                   mapf::basic_bind("r d h 6 x g G , . - | + D t c ^ % = &", t_railing_h, t_rock_floor, t_rock_floor,
+                                                   mapf::ter_bind("r d h 6 x g G , . - | + D t c ^ % = &", t_railing_h, t_rock_floor, t_rock_floor,
                                                            t_console, t_console_broken, t_wall_glass, t_wall_glass, t_floor_blue, t_rock_floor,
                                                            t_concrete_wall, t_concrete_wall, t_door_metal_c, t_door_metal_locked, t_rock_floor, t_rock_floor,
                                                            t_floor,        t_rock, t_door_c, t_radio_tower),
-                                                   mapf::basic_bind("r d h 6 x g G , . - | + D t c ^ % = &", f_null,      f_desk,       f_chair,
+                                                   mapf::furn_bind("r d h 6 x g G , . - | + D t c ^ % = &", f_null,      f_desk,       f_chair,
                                                            f_null,    f_null,           f_null,         f_null,         f_null,       f_null,       f_null,
                                                            f_null,       f_null,         f_null,              f_table,      f_counter,    f_indoor_plant,
                                                            f_null, f_null,   f_null));
@@ -5888,12 +5911,12 @@ ff.......|....|WWWWWWWW|\n\
  |o.h..|..h..|  ss      \n\
  |-www-|-www-|  ss      \n\
                 ss      \n",
-                                   mapf::basic_bind(". - | 6 a r + = D W w t S e o h c d x l F f _ & G s", t_floor, t_wall, t_wall,
+                                   mapf::ter_bind(". - | 6 a r + = D W w t S e o h c d x l F f _ & G s", t_floor, t_wall, t_wall,
                                            t_console, t_floor,    t_floor,    t_door_c, t_door_locked_alarm, t_door_locked, t_window,
                                            t_window_alarm, t_floor,  t_floor, t_floor,  t_floor,    t_floor, t_floor,   t_floor,
                                            t_console_broken, t_floor,  t_chainfence_v, t_chainfence_h, t_pavement, t_radio_tower,
                                            t_chaingate_l, t_sidewalk),
-                                   mapf::basic_bind(". - | 6 a r + = D W w t S e o h c d x l F f _ & G s", f_null,  f_null,   f_null,
+                                   mapf::furn_bind(". - | 6 a r + = D W w t S e o h c d x l F f _ & G s", f_null,  f_null,   f_null,
                                            f_null,    f_armchair, f_trashcan, f_null,   f_null,              f_null,        f_null,   f_null,
                                            f_toilet, f_sink,  f_fridge, f_bookcase, f_chair, f_counter, f_desk,  f_null,           f_locker,
                                            f_null,         f_null,         f_null,     f_null,        f_null,        f_null));
@@ -5949,12 +5972,12 @@ ff.......|....|WWWWWWWW|\n\
     ____________________\n\
     ____________________\n\
     ____________________\n",
-                                   mapf::basic_bind("P C G , _ r f F 6 x $ ^ . - | t + = D w T S e o h c d l s", t_floor,      t_floor,
+                                   mapf::ter_bind("P C G , _ r f F 6 x $ ^ . - | t + = D w T S e o h c d l s", t_floor,      t_floor,
                                            t_grate, t_pavement_y, t_pavement, t_floor, t_chainfence_v, t_chainfence_h, t_console,
                                            t_console_broken, t_shrub, t_floor,        t_floor, t_wall, t_wall, t_floor, t_door_c,
                                            t_door_locked, t_door_locked_alarm, t_window, t_floor,  t_floor, t_floor,  t_floor,    t_floor,
                                            t_floor,   t_floor, t_floor,  t_sidewalk),
-                                   mapf::basic_bind("P C G , _ r f F 6 x $ ^ . - | t + = D w T S e o h c d l s", f_pool_table,
+                                   mapf::furn_bind("P C G , _ r f F 6 x $ ^ . - | t + = D w T S e o h c d l s", f_pool_table,
                                            f_crate_c, f_null,  f_null,       f_null,     f_rack,  f_null,         f_null,         f_null,
                                            f_null,           f_null,  f_indoor_plant, f_null,  f_null,   f_null,   f_table, f_null,   f_null,
                                            f_null,              f_null,   f_toilet, f_sink,  f_fridge, f_bookcase, f_chair, f_counter, f_desk,
@@ -6008,12 +6031,12 @@ ff.......|....|WWWWWWWW|\n\
  f  ____________________\n\
  f  ____________________\n\
  f  ____________________\n",
-                                       mapf::basic_bind("P C G , _ r f F 6 x $ ^ . - | t + = D w T S e o h c d l s", t_floor,      t_floor,
+                                       mapf::ter_bind("P C G , _ r f F 6 x $ ^ . - | t + = D w T S e o h c d l s", t_floor,      t_floor,
                                                t_grate, t_pavement_y, t_pavement, t_floor, t_chainfence_v, t_chainfence_h, t_console,
                                                t_console_broken, t_shrub, t_floor,        t_floor, t_wall, t_wall, t_floor, t_door_c,
                                                t_door_locked, t_door_locked_alarm, t_window, t_floor,  t_floor, t_floor,  t_floor,    t_floor,
                                                t_floor,   t_floor, t_floor,  t_sidewalk),
-                                       mapf::basic_bind("P C G , _ r f F 6 x $ ^ . - | t + = D w T S e o h c d l s", f_pool_table,
+                                       mapf::furn_bind("P C G , _ r f F 6 x $ ^ . - | t + = D w T S e o h c d l s", f_pool_table,
                                                f_crate_c, f_null,  f_null,       f_null,     f_rack,  f_null,         f_null,         f_null,
                                                f_null,           f_null,  f_indoor_plant, f_null,  f_null,   f_null,   f_table, f_null,   f_null,
                                                f_null,              f_null,   f_toilet, f_sink,  f_fridge, f_bookcase, f_chair, f_counter, f_desk,
@@ -6070,12 +6093,12 @@ ____sss|-www--www-|     \n\
 ____sss                 \n\
 ____sss                 \n\
 ____sss                 \n",
-                                       mapf::basic_bind("P C G , _ r f F 6 x $ ^ . - | t + = D w T S e o h c d l s", t_floor,      t_floor,
+                                       mapf::ter_bind("P C G , _ r f F 6 x $ ^ . - | t + = D w T S e o h c d l s", t_floor,      t_floor,
                                                t_chaingate_l, t_pavement_y, t_pavement, t_floor, t_chainfence_v, t_chainfence_h, t_console,
                                                t_console_broken, t_shrub, t_floor,        t_floor, t_wall, t_wall, t_floor, t_door_c,
                                                t_door_locked, t_door_locked_alarm, t_window, t_floor,  t_floor, t_floor,  t_floor,    t_floor,
                                                t_floor,   t_floor, t_floor,  t_sidewalk),
-                                       mapf::basic_bind("P C G , _ r f F 6 x $ ^ . - | t + = D w T S e o h c d l s", f_pool_table,
+                                       mapf::furn_bind("P C G , _ r f F 6 x $ ^ . - | t + = D w T S e o h c d l s", f_pool_table,
                                                f_crate_c, f_null,  f_null,       f_null,     f_rack,  f_null,         f_null,         f_null,
                                                f_null,           f_null,  f_indoor_plant, f_null,  f_null,   f_null,   f_table, f_null,   f_null,
                                                f_null,              f_null,   f_toilet, f_sink,  f_fridge, f_bookcase, f_chair, f_counter, f_desk,
@@ -6124,12 +6147,12 @@ __________ |r....r|  f  \n\
 __________ |r....r|  f  \n\
 __________ |--ww--|  f  \n\
 __________           f  \n",
-                                       mapf::basic_bind("O P C G , _ r f F 6 x $ ^ . - | t + = D w T S e o h c d l s", t_column, t_floor,
+                                       mapf::ter_bind("O P C G , _ r f F 6 x $ ^ . - | t + = D w T S e o h c d l s", t_column, t_floor,
                                                t_floor,   t_grate, t_pavement_y, t_pavement, t_floor, t_chainfence_v, t_chainfence_h, t_console,
                                                t_console_broken, t_shrub, t_floor,        t_floor, t_wall, t_wall, t_floor, t_door_c,
                                                t_door_locked, t_door_locked_alarm, t_window, t_floor,  t_floor, t_floor,  t_floor,    t_floor,
                                                t_floor,   t_floor, t_floor,  t_sidewalk),
-                                       mapf::basic_bind("O P C G , _ r f F 6 x $ ^ . - | t + = D w T S e o h c d l s", f_null,
+                                       mapf::furn_bind("O P C G , _ r f F 6 x $ ^ . - | t + = D w T S e o h c d l s", f_null,
                                                f_pool_table, f_crate_c, f_null,  f_null,       f_null,     f_rack,  f_null,         f_null,
                                                f_null,    f_null,           f_null,  f_indoor_plant, f_null,  f_null,   f_null,   f_table, f_null,
                                                f_null,        f_null,              f_null,   f_toilet, f_sink,  f_fridge, f_bookcase, f_chair,
@@ -6215,11 +6238,11 @@ ss|--------------------|\n\
 ss                      \n\
 ssssssssssssssssssssssss\n\
 ssssssssssssssssssssssss\n",
-                                   mapf::basic_bind("_ L O f G x $ ^ . - | # t + = D w T S e o h c d l s", t_pavement, t_pavement_y,
+                                   mapf::ter_bind("_ L O f G x $ ^ . - | # t + = D w T S e o h c d l s", t_pavement, t_pavement_y,
                                            t_column, t_chainfence_h, t_chaingate_c, t_console_broken, t_shrub, t_floor,        t_floor,
                                            t_wall, t_wall, t_floor, t_floor, t_door_c, t_door_locked_alarm, t_door_locked, t_window,
                                            t_floor,  t_floor, t_floor,  t_floor,    t_floor, t_floor,   t_floor, t_floor,  t_sidewalk),
-                                   mapf::basic_bind("_ L O f G x $ ^ . - | # t + = D w T S e o h c d l s", f_null,     f_null,
+                                   mapf::furn_bind("_ L O f G x $ ^ . - | # t + = D w T S e o h c d l s", f_null,     f_null,
                                            f_null,   f_null,         f_null,        f_null,           f_null,  f_indoor_plant, f_null,  f_null,
                                            f_null,   f_bench, f_table, f_null,   f_null,              f_null,        f_null,   f_toilet,
                                            f_sink,  f_fridge, f_bookcase, f_chair, f_counter, f_desk,  f_locker, f_null));
@@ -6264,11 +6287,11 @@ l.......l|...|------||  \n\
    sss                  \n\
 ssssssssssssssssssssssss\n\
 ssssssssssssssssssssssss\n",
-                                   mapf::basic_bind("_ L O f G x $ ^ . - | # t + = D w T S e o h c d l s", t_pavement, t_pavement_y,
+                                   mapf::ter_bind("_ L O f G x $ ^ . - | # t + = D w T S e o h c d l s", t_pavement, t_pavement_y,
                                            t_column, t_chainfence_h, t_chaingate_c, t_console_broken, t_shrub, t_floor,        t_floor,
                                            t_wall, t_wall, t_floor, t_floor, t_door_c, t_door_locked_alarm, t_door_locked, t_window,
                                            t_floor,  t_floor, t_floor,  t_floor,    t_floor, t_floor,   t_floor, t_floor,  t_sidewalk),
-                                   mapf::basic_bind("_ L O f G x $ ^ . - | # t + = D w T S e o h c d l s", f_null,     f_null,
+                                   mapf::furn_bind("_ L O f G x $ ^ . - | # t + = D w T S e o h c d l s", f_null,     f_null,
                                            f_null,   f_null,         f_null,        f_null,           f_null,  f_indoor_plant, f_null,  f_null,
                                            f_null,   f_bench, f_table, f_null,   f_null,              f_null,        f_null,   f_toilet,
                                            f_sink,  f_fridge, f_bookcase, f_chair, f_counter, f_desk,  f_locker, f_null));
@@ -6323,11 +6346,11 @@ ss_____________________s\n\
 ssLLLLLLL_______LLLLLLLs\n\
 ss$$   $$_______$$   $$s\n\
 sssssssss_______ssssssss\n",
-                                   mapf::basic_bind("_ L O f G x $ ^ . - | # t + = D w T S e o h c d l s", t_pavement, t_pavement_y,
+                                   mapf::ter_bind("_ L O f G x $ ^ . - | # t + = D w T S e o h c d l s", t_pavement, t_pavement_y,
                                            t_column, t_chainfence_h, t_chaingate_c, t_console_broken, t_shrub, t_floor,        t_floor,
                                            t_wall, t_wall, t_floor, t_floor, t_door_c, t_door_locked_alarm, t_door_locked, t_window,
                                            t_floor,  t_floor, t_floor,  t_floor,    t_floor, t_floor,   t_floor, t_floor,  t_sidewalk),
-                                   mapf::basic_bind("_ L O f G x $ ^ . - | # t + = D w T S e o h c d l s", f_null,     f_null,
+                                   mapf::furn_bind("_ L O f G x $ ^ . - | # t + = D w T S e o h c d l s", f_null,     f_null,
                                            f_null,   f_null,         f_null,        f_null,           f_null,  f_indoor_plant, f_null,  f_null,
                                            f_null,   f_bench, f_table, f_null,   f_null,              f_null,        f_null,   f_toilet,
                                            f_sink,  f_fridge, f_bookcase, f_chair, f_counter, f_desk,  f_locker, f_null));
@@ -6396,11 +6419,11 @@ sssssssss_______ssssssss\n",
  wh.h.h.h.|....^ccc^ccc^\n\
  w........+.............\n\
  |l..ttt..|.............\n",
-                                   mapf::basic_bind("_ L O f G x $ ^ . - | # t + = D w T S e o h c d l s", t_pavement, t_pavement_y,
+                                   mapf::ter_bind("_ L O f G x $ ^ . - | # t + = D w T S e o h c d l s", t_pavement, t_pavement_y,
                                            t_column, t_chainfence_h, t_chaingate_c, t_console_broken, t_shrub, t_floor,        t_floor,
                                            t_wall, t_wall, t_floor, t_floor, t_door_c, t_door_locked_alarm, t_door_locked, t_window,
                                            t_floor,  t_floor, t_floor,  t_floor,    t_floor, t_floor,   t_floor, t_floor,  t_sidewalk),
-                                   mapf::basic_bind("_ L O f G x $ ^ . - | # t + = D w T S e o h c d l s", f_null,     f_null,
+                                   mapf::furn_bind("_ L O f G x $ ^ . - | # t + = D w T S e o h c d l s", f_null,     f_null,
                                            f_null,   f_null,         f_null,        f_null,           f_null,  f_indoor_plant, f_null,  f_null,
                                            f_null,   f_bench, f_table, f_null,   f_null,              f_null,        f_null,   f_toilet,
                                            f_sink,  f_fridge, f_bookcase, f_chair, f_counter, f_desk,  f_locker, f_null));
@@ -6455,11 +6478,11 @@ sssssssss_______ssssssss\n",
 ........................\n\
 .........|---|-------|--\n\
 ........l|l.l|^...ccl|$ \n",
-                                   mapf::basic_bind("_ L O f G x $ ^ . - | # t + = D w T S e o h c d l s", t_pavement, t_pavement_y,
+                                   mapf::ter_bind("_ L O f G x $ ^ . - | # t + = D w T S e o h c d l s", t_pavement, t_pavement_y,
                                            t_column, t_chainfence_h, t_chaingate_c, t_console_broken, t_shrub, t_floor,        t_floor,
                                            t_wall, t_wall, t_floor, t_floor, t_door_c, t_door_locked_alarm, t_door_locked, t_window,
                                            t_floor,  t_floor, t_floor,  t_floor,    t_floor, t_floor,   t_floor, t_floor,  t_sidewalk),
-                                   mapf::basic_bind("_ L O f G x $ ^ . - | # t + = D w T S e o h c d l s", f_null,     f_null,
+                                   mapf::furn_bind("_ L O f G x $ ^ . - | # t + = D w T S e o h c d l s", f_null,     f_null,
                                            f_null,   f_null,         f_null,        f_null,           f_null,  f_indoor_plant, f_null,  f_null,
                                            f_null,   f_bench, f_table, f_null,   f_null,              f_null,        f_null,   f_toilet,
                                            f_sink,  f_fridge, f_bookcase, f_chair, f_counter, f_desk,  f_locker, f_null));
@@ -6518,11 +6541,11 @@ sssssssss_______ssssssss\n",
 ..............|..dh...l|\n\
 -----------++-|--------|\n\
 ssssssssssssssssssssssss\n",
-                                   mapf::basic_bind("_ L O f G x $ ^ . - | # t + = D w T S e o h c d l s", t_pavement, t_pavement_y,
+                                   mapf::ter_bind("_ L O f G x $ ^ . - | # t + = D w T S e o h c d l s", t_pavement, t_pavement_y,
                                            t_column, t_chainfence_h, t_chaingate_c, t_console_broken, t_shrub, t_floor,        t_floor,
                                            t_wall, t_wall, t_floor, t_floor, t_door_c, t_door_locked_alarm, t_door_locked, t_window,
                                            t_floor,  t_floor, t_floor,  t_floor,    t_floor, t_floor,   t_floor, t_floor,  t_sidewalk),
-                                   mapf::basic_bind("_ L O f G x $ ^ . - | # t + = D w T S e o h c d l s", f_null,     f_null,
+                                   mapf::furn_bind("_ L O f G x $ ^ . - | # t + = D w T S e o h c d l s", f_null,     f_null,
                                            f_null,   f_null,         f_null,        f_null,           f_null,  f_indoor_plant, f_null,  f_null,
                                            f_null,   f_bench, f_table, f_null,   f_null,              f_null,        f_null,   f_toilet,
                                            f_sink,  f_fridge, f_bookcase, f_chair, f_counter, f_desk,  f_locker, f_null));
@@ -6577,11 +6600,11 @@ ssssssssssssssssssssssss\n",
  |T|T|.SSS|....|.h.h.h.h\n\
  |-|-|----|....|.d.d.d.d\n\
  |l..hd...|....|.h.h.h.h\n",
-                                   mapf::basic_bind("_ L O f G x $ ^ . - | # t + = D w T S e o h c d l s", t_pavement, t_pavement_y,
+                                   mapf::ter_bind("_ L O f G x $ ^ . - | # t + = D w T S e o h c d l s", t_pavement, t_pavement_y,
                                            t_column, t_chainfence_h, t_chaingate_c, t_console_broken, t_shrub, t_floor,        t_floor,
                                            t_wall, t_wall, t_floor, t_floor, t_door_c, t_door_locked_alarm, t_door_locked, t_window,
                                            t_floor,  t_floor, t_floor,  t_floor,    t_floor, t_floor,   t_floor, t_floor,  t_sidewalk),
-                                   mapf::basic_bind("_ L O f G x $ ^ . - | # t + = D w T S e o h c d l s", f_null,     f_null,
+                                   mapf::furn_bind("_ L O f G x $ ^ . - | # t + = D w T S e o h c d l s", f_null,     f_null,
                                            f_null,   f_null,         f_null,        f_null,           f_null,  f_indoor_plant, f_null,  f_null,
                                            f_null,   f_bench, f_table, f_null,   f_null,              f_null,        f_null,   f_toilet,
                                            f_sink,  f_fridge, f_bookcase, f_chair, f_counter, f_desk,  f_locker, f_null));
@@ -6636,11 +6659,11 @@ w                       \n\
 |                       \n\
 |-www-wwww--wwww-www----\n\
 |....................+.l\n",
-                                   mapf::basic_bind("_ L O f G x $ ^ . - | # t + = D w T S e o h c d l s", t_pavement, t_pavement_y,
+                                   mapf::ter_bind("_ L O f G x $ ^ . - | # t + = D w T S e o h c d l s", t_pavement, t_pavement_y,
                                            t_column, t_chainfence_h, t_chaingate_c, t_console_broken, t_shrub, t_floor,        t_floor,
                                            t_wall, t_wall, t_floor, t_floor, t_door_c, t_door_locked_alarm, t_door_locked, t_window,
                                            t_floor,  t_floor, t_floor,  t_floor,    t_floor, t_floor,   t_floor, t_floor,  t_sidewalk),
-                                   mapf::basic_bind("_ L O f G x $ ^ . - | # t + = D w T S e o h c d l s", f_null,     f_null,
+                                   mapf::furn_bind("_ L O f G x $ ^ . - | # t + = D w T S e o h c d l s", f_null,     f_null,
                                            f_null,   f_null,         f_null,        f_null,           f_null,  f_indoor_plant, f_null,  f_null,
                                            f_null,   f_bench, f_table, f_null,   f_null,              f_null,        f_null,   f_toilet,
                                            f_sink,  f_fridge, f_bookcase, f_chair, f_counter, f_desk,  f_locker, f_null));
@@ -6687,12 +6710,12 @@ wd.d.d.d.|....|----|-|-|\n\
 |h.h.h.h.|....|..ttt..l|\n\
 |d.d.d.d.|....+........w\n\
 |h.h.h.h.|....|.h.h.h.hw\n",
-                                   mapf::basic_bind("e r _ L O f G x $ ^ . - | # t + = D w T S e o h c d l s", t_floor,  t_floor,
+                                   mapf::ter_bind("e r _ L O f G x $ ^ . - | # t + = D w T S e o h c d l s", t_floor,  t_floor,
                                            t_pavement, t_pavement_y, t_column, t_chainfence_h, t_chaingate_c, t_console_broken, t_shrub,
                                            t_floor,        t_floor, t_wall, t_wall, t_floor, t_floor, t_door_c, t_door_locked_alarm,
                                            t_door_locked, t_window, t_floor,  t_floor, t_floor,  t_floor,    t_floor, t_floor,   t_floor,
                                            t_floor,  t_sidewalk),
-                                   mapf::basic_bind("e r _ L O f G x $ ^ . - | # t + = D w T S e o h c d l s", f_fridge, f_rack,
+                                   mapf::furn_bind("e r _ L O f G x $ ^ . - | # t + = D w T S e o h c d l s", f_fridge, f_rack,
                                            f_null,     f_null,       f_null,   f_null,         f_null,        f_null,           f_null,
                                            f_indoor_plant, f_null,  f_null,   f_null,   f_bench, f_table, f_null,   f_null,
                                            f_null,        f_null,   f_toilet, f_sink,  f_fridge, f_bookcase, f_chair, f_counter, f_desk,
@@ -6754,12 +6777,12 @@ wd.d.d.d.|....|----|-|-|\n\
                         \n\
                         \n\
                         \n",
-                                   mapf::basic_bind("# E g r + = h c l w s _ o d x T b G , B - | % f F S", t_floor, t_floor,
+                                   mapf::ter_bind("# E g r + = h c l w s _ o d x T b G , B - | % f F S", t_floor, t_floor,
                                            t_reinforced_glass, t_floor, t_door_locked_interior, t_door_c, t_floor, t_floor,   t_floor,
                                            t_window, t_sidewalk, t_pavement, t_floor,    t_floor, t_console_broken, t_floor,  t_floor,
                                            t_door_bar_locked, t_floor, t_bars, t_concrete_wall, t_concrete_wall, t_fence_barbed, t_chainfence_h,
                                            t_chainfence_v, t_floor),
-                                   mapf::basic_bind("# E g r + = h c l w s _ o d x T b G , B - | % f F S", f_bench, f_exercise, f_null,
+                                   mapf::furn_bind("# E g r + = h c l w s _ o d x T b G , B - | % f F S", f_bench, f_exercise, f_null,
                                            f_rack,  f_null,                 f_null,   f_chair, f_counter, f_locker, f_null,   f_null,
                                            f_null,     f_bookcase, f_desk,  f_null,           f_toilet, f_bed,   f_null,            f_null,
                                            f_null, f_null,       f_null,       f_null,         f_null,         f_null,         f_sink));
@@ -6817,12 +6840,12 @@ fffffffffHHHHHHfffffffff\n\
     wdxdw______         \n\
     |www|______         \n\
          ______         \n",
-                                   mapf::basic_bind("H # E g r + = h c l w s _ o d x T b G , B - | % f F S", t_chaingate_l, t_floor,
+                                   mapf::ter_bind("H # E g r + = h c l w s _ o d x T b G , B - | % f F S", t_chaingate_l, t_floor,
                                            t_floor,    t_reinforced_glass, t_floor, t_door_locked_interior, t_door_c, t_floor, t_floor,
                                            t_floor,  t_window, t_sidewalk, t_pavement, t_floor,    t_floor, t_console_broken, t_floor,
                                            t_floor, t_door_bar_locked, t_floor, t_bars, t_concrete_wall, t_concrete_wall, t_fence_barbed,
                                            t_chainfence_h, t_chainfence_v, t_floor),
-                                   mapf::basic_bind("H # E g r + = h c l w s _ o d x T b G , B - | % f F S", f_null,        f_bench,
+                                   mapf::furn_bind("H # E g r + = h c l w s _ o d x T b G , B - | % f F S", f_null,        f_bench,
                                            f_exercise, f_null,               f_rack,  f_null,                 f_null,   f_chair, f_counter,
                                            f_locker, f_null,   f_null,     f_null,     f_bookcase, f_desk,  f_null,           f_toilet, f_bed,
                                            f_null,            f_null,  f_null, f_null,       f_null,       f_null,         f_null,
@@ -6882,12 +6905,12 @@ fffffffffffffffff|,,| % \n\
                         \n\
                         \n\
                         \n",
-                                   mapf::basic_bind("# E g r + = h c l w s _ o d x T b G , B - | % f F S", t_floor, t_floor,
+                                   mapf::ter_bind("# E g r + = h c l w s _ o d x T b G , B - | % f F S", t_floor, t_floor,
                                            t_reinforced_glass, t_floor, t_door_locked_interior, t_door_c, t_floor, t_floor,   t_floor,
                                            t_window, t_sidewalk, t_pavement, t_floor,    t_floor, t_console_broken, t_floor,  t_floor,
                                            t_door_bar_locked, t_floor, t_bars, t_concrete_wall, t_concrete_wall, t_fence_barbed, t_chainfence_h,
                                            t_chainfence_v, t_floor),
-                                   mapf::basic_bind("# E g r + = h c l w s _ o d x T b G , B - | % f F S", f_bench, f_exercise, f_null,
+                                   mapf::furn_bind("# E g r + = h c l w s _ o d x T b G , B - | % f F S", f_bench, f_exercise, f_null,
                                            f_rack,  f_null,                 f_null,   f_chair, f_counter, f_locker, f_null,   f_null,
                                            f_null,     f_bookcase, f_desk,  f_null,           f_toilet, f_bed,   f_null,            f_null,
                                            f_null, f_null,       f_null,       f_null,         f_null,         f_null,         f_sink));
@@ -6945,12 +6968,12 @@ fffffffffffffffff|,,| % \n\
  %  F    |----|,,,,,,|--\n\
  %  F    |T,,,B,,,,,,B,,\n\
  %  F    |,,,,G,,,,,,G,,\n",
-                                   mapf::basic_bind("# E g r + = h c l w s _ o d x T b G , B - | % f F S", t_floor, t_floor,
+                                   mapf::ter_bind("# E g r + = h c l w s _ o d x T b G , B - | % f F S", t_floor, t_floor,
                                            t_reinforced_glass, t_floor, t_door_locked_interior, t_door_c, t_floor, t_floor,   t_floor,
                                            t_window, t_sidewalk, t_pavement, t_floor,    t_floor, t_console_broken, t_floor,  t_floor,
                                            t_door_bar_locked, t_floor, t_bars, t_concrete_wall, t_concrete_wall, t_fence_barbed, t_chainfence_h,
                                            t_chainfence_v, t_floor),
-                                   mapf::basic_bind("# E g r + = h c l w s _ o d x T b G , B - | % f F S", f_bench, f_exercise, f_null,
+                                   mapf::furn_bind("# E g r + = h c l w s _ o d x T b G , B - | % f F S", f_bench, f_exercise, f_null,
                                            f_rack,  f_null,                 f_null,   f_chair, f_counter, f_locker, f_null,   f_null,
                                            f_null,     f_bookcase, f_desk,  f_null,           f_toilet, f_bed,   f_null,            f_null,
                                            f_null, f_null,       f_null,       f_null,         f_null,         f_null,         f_sink));
@@ -7012,12 +7035,12 @@ bb|,,,,,|,,,,,,|,,,,,|bb\n\
 --|  ss__________ss  |--\n\
 bb| ss____________ss |bb\n\
 ,,|ss______________ss|,,\n",
-                                   mapf::basic_bind("< # E g r + = h c l w s _ o d x T b G , B - | % f F S", t_stairs_down, t_floor,
+                                   mapf::ter_bind("< # E g r + = h c l w s _ o d x T b G , B - | % f F S", t_stairs_down, t_floor,
                                            t_floor,    t_reinforced_glass, t_floor, t_door_locked_interior, t_door_c, t_floor, t_floor,
                                            t_floor,  t_window, t_sidewalk, t_pavement, t_floor,    t_floor, t_console_broken, t_floor,
                                            t_floor, t_door_bar_locked, t_floor, t_bars, t_concrete_wall, t_concrete_wall, t_fence_barbed,
                                            t_chainfence_h, t_chainfence_v, t_floor),
-                                   mapf::basic_bind("< # E g r + = h c l w s _ o d x T b G , B - | % f F S", f_null,        f_bench,
+                                   mapf::furn_bind("< # E g r + = h c l w s _ o d x T b G , B - | % f F S", f_null,        f_bench,
                                            f_exercise, f_null,               f_rack,  f_null,                 f_null,   f_chair, f_counter,
                                            f_locker, f_null,   f_null,     f_null,     f_bookcase, f_desk,  f_null,           f_toilet, f_bed,
                                            f_null,            f_null,  f_null, f_null,       f_null,       f_null,         f_null,
@@ -7084,12 +7107,12 @@ bb| ss____________ss |bb\n\
 --|,,,,,,|----|    F  % \n\
 ,,B,,,,,,B,,,T|    F  % \n\
 ,,G,,,,,,G,,,,|    F  % \n",
-                                   mapf::basic_bind("# E g r + = h c l w s _ o d x T b G , B - | % f F S", t_floor, t_floor,
+                                   mapf::ter_bind("# E g r + = h c l w s _ o d x T b G , B - | % f F S", t_floor, t_floor,
                                            t_reinforced_glass, t_floor, t_door_locked_interior, t_door_c, t_floor, t_floor,   t_floor,
                                            t_window, t_sidewalk, t_pavement, t_floor,    t_floor, t_console_broken, t_floor,  t_floor,
                                            t_door_bar_locked, t_floor, t_bars, t_concrete_wall, t_concrete_wall, t_fence_barbed, t_chainfence_h,
                                            t_chainfence_v, t_floor),
-                                   mapf::basic_bind("# E g r + = h c l w s _ o d x T b G , B - | % f F S", f_bench, f_exercise, f_null,
+                                   mapf::furn_bind("# E g r + = h c l w s _ o d x T b G , B - | % f F S", f_bench, f_exercise, f_null,
                                            f_rack,  f_null,                 f_null,   f_chair, f_counter, f_locker, f_null,   f_null,
                                            f_null,     f_bookcase, f_desk,  f_null,           f_toilet, f_bed,   f_null,            f_null,
                                            f_null, f_null,       f_null,       f_null,         f_null,         f_null,         f_sink));
@@ -7151,12 +7174,12 @@ bb| ss____________ss |bb\n\
  %  F    |bb,,B,,,,,,B,,\n\
  %  F    |,,,,G,,,,,,G,,\n\
  %  F    |T,,,B,,,,,,B,,\n",
-                                   mapf::basic_bind("# E g r + = h c l w s _ o d x T b G , B - | % f F S", t_floor, t_floor,
+                                   mapf::ter_bind("# E g r + = h c l w s _ o d x T b G , B - | % f F S", t_floor, t_floor,
                                            t_reinforced_glass, t_floor, t_door_locked_interior, t_door_c, t_floor, t_floor,   t_floor,
                                            t_window, t_sidewalk, t_pavement, t_floor,    t_floor, t_console_broken, t_floor,  t_floor,
                                            t_door_bar_locked, t_floor, t_bars, t_concrete_wall, t_concrete_wall, t_fence_barbed, t_chainfence_h,
                                            t_chainfence_v, t_floor),
-                                   mapf::basic_bind("# E g r + = h c l w s _ o d x T b G , B - | % f F S", f_bench, f_exercise, f_null,
+                                   mapf::furn_bind("# E g r + = h c l w s _ o d x T b G , B - | % f F S", f_bench, f_exercise, f_null,
                                            f_rack,  f_null,                 f_null,   f_chair, f_counter, f_locker, f_null,   f_null,
                                            f_null,     f_bookcase, f_desk,  f_null,           f_toilet, f_bed,   f_null,            f_null,
                                            f_null, f_null,       f_null,       f_null,         f_null,         f_null,         f_sink));
@@ -7214,12 +7237,12 @@ bb|ssssssssssssssssss|bb\n\
 ,T|oooo<|,bb,,l|,,,,,|T,\n\
 ,,|,,,,,=,,,,,l|,,,,,|,,\n\
 bb|o,,,,|,,,,,l|,,,,,|bb\n",
-                                   mapf::basic_bind("< # E g r + = h c l w s _ o d x T b G , B - | % f F S", t_stairs_down, t_floor,
+                                   mapf::ter_bind("< # E g r + = h c l w s _ o d x T b G , B - | % f F S", t_stairs_down, t_floor,
                                            t_floor,    t_reinforced_glass, t_floor, t_door_locked_interior, t_door_c, t_floor, t_floor,
                                            t_floor,  t_window, t_sidewalk, t_pavement, t_floor,    t_floor, t_console_broken, t_floor,
                                            t_floor, t_door_bar_locked, t_floor, t_bars, t_concrete_wall, t_concrete_wall, t_fence_barbed,
                                            t_chainfence_h, t_chainfence_v, t_floor),
-                                   mapf::basic_bind("< # E g r + = h c l w s _ o d x T b G , B - | % f F S", f_null,        f_bench,
+                                   mapf::furn_bind("< # E g r + = h c l w s _ o d x T b G , B - | % f F S", f_null,        f_bench,
                                            f_exercise, f_null,               f_rack,  f_null,                 f_null,   f_chair, f_counter,
                                            f_locker, f_null,   f_null,     f_null,     f_bookcase, f_desk,  f_null,           f_toilet, f_bed,
                                            f_null,            f_null,  f_null, f_null,       f_null,       f_null,         f_null,
@@ -7294,12 +7317,12 @@ fffffffffffffffff|,,| % \n\
 ,,B,,,,,,B,,bb|    F  % \n\
 ,,G,,,,,,G,,,,|    F  % \n\
 ,,B,,,,,,B,,,T|    F  % \n",
-                                   mapf::basic_bind("# E g r + = h c l w s _ o d x T b G , B - | % f F S", t_floor, t_floor,
+                                   mapf::ter_bind("# E g r + = h c l w s _ o d x T b G , B - | % f F S", t_floor, t_floor,
                                            t_reinforced_glass, t_floor, t_door_locked_interior, t_door_c, t_floor, t_floor,   t_floor,
                                            t_window, t_sidewalk, t_pavement, t_floor,    t_floor, t_console_broken, t_floor,  t_floor,
                                            t_door_bar_locked, t_floor, t_bars, t_concrete_wall, t_concrete_wall, t_fence_barbed, t_chainfence_h,
                                            t_chainfence_v, t_floor),
-                                   mapf::basic_bind("# E g r + = h c l w s _ o d x T b G , B - | % f F S", f_bench, f_exercise, f_null,
+                                   mapf::furn_bind("# E g r + = h c l w s _ o d x T b G , B - | % f F S", f_bench, f_exercise, f_null,
                                            f_rack,  f_null,                 f_null,   f_chair, f_counter, f_locker, f_null,   f_null,
                                            f_null,     f_bookcase, f_desk,  f_null,           f_toilet, f_bed,   f_null,            f_null,
                                            f_null, f_null,       f_null,       f_null,         f_null,         f_null,         f_sink));
@@ -7357,12 +7380,12 @@ bb|#####################\n\
 ########################\n\
 ########################\n\
 ########################\n",
-                                   mapf::basic_bind("# E g r + = h c l w s _ o d x T b G . , B - | % f F S", t_rock, t_floor,
+                                   mapf::ter_bind("# E g r + = h c l w s _ o d x T b G . , B - | % f F S", t_rock, t_floor,
                                            t_reinforced_glass, t_floor, t_door_locked_interior, t_door_c, t_floor, t_floor,   t_floor,
                                            t_window, t_sidewalk, t_pavement, t_floor,    t_floor, t_console_broken, t_floor,  t_floor,
                                            t_door_bar_locked, t_grass, t_floor, t_bars, t_concrete_wall, t_concrete_wall, t_fence_barbed,
                                            t_chainfence_h, t_chainfence_v, t_floor),
-                                   mapf::basic_bind("# E g r + = h c l w s _ o d x T b G . , B - | % f F S", f_null, f_exercise,
+                                   mapf::furn_bind("# E g r + = h c l w s _ o d x T b G . , B - | % f F S", f_null, f_exercise,
                                            f_null,               f_rack,  f_null,                 f_null,   f_chair, f_counter, f_locker,
                                            f_null,   f_null,     f_null,     f_bookcase, f_desk,  f_null,           f_toilet, f_bed,   f_null,
                                            f_null,  f_null,  f_null, f_null,       f_null,       f_null,         f_null,         f_null,
@@ -7420,12 +7443,12 @@ bb|#####################\n\
 ########################\n\
 ########################\n\
 ########################\n",
-                                       mapf::basic_bind("# E g r + = h c l w s _ o d x T b G . , B - | % f F S", t_rock, t_floor,
+                                       mapf::ter_bind("# E g r + = h c l w s _ o d x T b G . , B - | % f F S", t_rock, t_floor,
                                                t_reinforced_glass, t_floor, t_door_locked_interior, t_door_c, t_floor, t_floor,   t_floor,
                                                t_window, t_sidewalk, t_pavement, t_floor,    t_floor, t_console_broken, t_floor,  t_floor,
                                                t_door_bar_locked, t_grass, t_floor, t_bars, t_concrete_wall, t_concrete_wall, t_fence_barbed,
                                                t_chainfence_h, t_chainfence_v, t_floor),
-                                       mapf::basic_bind("# E g r + = h c l w s _ o d x T b G . , B - | % f F S", f_null, f_exercise,
+                                       mapf::furn_bind("# E g r + = h c l w s _ o d x T b G . , B - | % f F S", f_null, f_exercise,
                                                f_null,               f_rack,  f_null,                 f_null,   f_chair, f_counter, f_locker,
                                                f_null,   f_null,     f_null,     f_bookcase, f_desk,  f_null,           f_toilet, f_bed,   f_null,
                                                f_null,  f_null,  f_null, f_null,       f_null,       f_null,         f_null,         f_null,
@@ -7480,12 +7503,12 @@ bb|#####################\n\
 ########################\n\
 ########################\n\
 ########################\n",
-                                       mapf::basic_bind("# E g r + = h c l w s _ o d x T b G . , B - | % f F S", t_rock, t_floor,
+                                       mapf::ter_bind("# E g r + = h c l w s _ o d x T b G . , B - | % f F S", t_rock, t_floor,
                                                t_reinforced_glass, t_floor, t_door_locked_interior, t_door_c, t_floor, t_floor,   t_floor,
                                                t_window, t_sidewalk, t_pavement, t_floor,    t_floor, t_console_broken, t_floor,  t_floor,
                                                t_door_bar_locked, t_grass, t_floor, t_bars, t_concrete_wall, t_concrete_wall, t_fence_barbed,
                                                t_chainfence_h, t_chainfence_v, t_floor),
-                                       mapf::basic_bind("# E g r + = h c l w s _ o d x T b G . , B - | % f F S", f_null, f_exercise,
+                                       mapf::furn_bind("# E g r + = h c l w s _ o d x T b G . , B - | % f F S", f_null, f_exercise,
                                                f_null,               f_rack,  f_null,                 f_null,   f_chair, f_counter, f_locker,
                                                f_null,   f_null,     f_null,     f_bookcase, f_desk,  f_null,           f_toilet, f_bed,   f_null,
                                                f_null,  f_null,  f_null, f_null,       f_null,       f_null,         f_null,         f_null,
@@ -7526,12 +7549,12 @@ bb|#####################\n\
 #########|----|,,,,,,|--\n\
 #########|T,,,|,,,,,,|,,\n\
 #########|,,,,G,,,,,,G,,\n",
-                                       mapf::basic_bind("# E g r + = h c l w s _ o d x T b G . , B - | % f F S", t_rock, t_floor,
+                                       mapf::ter_bind("# E g r + = h c l w s _ o d x T b G . , B - | % f F S", t_rock, t_floor,
                                                t_reinforced_glass, t_floor, t_door_locked_interior, t_door_c, t_floor, t_floor,   t_floor,
                                                t_window, t_sidewalk, t_pavement, t_floor,    t_floor, t_console_broken, t_floor,  t_floor,
                                                t_door_bar_locked, t_grass, t_floor, t_bars, t_concrete_wall, t_concrete_wall, t_fence_barbed,
                                                t_chainfence_h, t_chainfence_v, t_floor),
-                                       mapf::basic_bind("# E g r + = h c l w s _ o d x T b G . , B - | % f F S", f_null, f_exercise,
+                                       mapf::furn_bind("# E g r + = h c l w s _ o d x T b G . , B - | % f F S", f_null, f_exercise,
                                                f_null,               f_rack,  f_null,                 f_null,   f_chair, f_counter, f_locker,
                                                f_null,   f_null,     f_null,     f_bookcase, f_desk,  f_null,           f_toilet, f_bed,   f_null,
                                                f_null,  f_null,  f_null, f_null,       f_null,       f_null,         f_null,         f_null,
@@ -7586,12 +7609,12 @@ bb|,htth,O,,,,O,htth,|##\n\
 --|,htth,,,,,,,,htth,|##\n\
 bb|,,,,,,,,,,,,,,,,,,|##\n\
 ,,|,,,,,,,,,,,,,,,,,,|##\n",
-                                       mapf::basic_bind("t > O # E g r + = h c l w s _ o d x T b G . , B - | % f F S", t_floor,
+                                       mapf::ter_bind("t > O # E g r + = h c l w s _ o d x T b G . , B - | % f F S", t_floor,
                                                t_stairs_up, t_column, t_rock, t_floor,    t_reinforced_glass, t_floor, t_door_locked_interior,
                                                t_door_c, t_floor, t_floor,   t_floor,  t_window, t_sidewalk, t_pavement, t_floor,    t_floor,
                                                t_console_broken, t_floor,  t_floor, t_door_bar_locked, t_grass, t_floor, t_bars, t_concrete_wall,
                                                t_concrete_wall, t_fence_barbed, t_chainfence_h, t_chainfence_v, t_floor),
-                                       mapf::basic_bind("t > O # E g r + = h c l w s _ o d x T b G . , B - | % f F S", f_table, f_null,
+                                       mapf::furn_bind("t > O # E g r + = h c l w s _ o d x T b G . , B - | % f F S", f_table, f_null,
                                                f_null,   f_null, f_exercise, f_null,               f_rack,  f_null,                 f_null,
                                                f_chair, f_counter, f_locker, f_null,   f_null,     f_null,     f_bookcase, f_desk,  f_null,
                                                f_toilet, f_bed,   f_null,            f_null,  f_null,  f_null, f_null,       f_null,       f_null,
@@ -7661,12 +7684,12 @@ h,h,g,,,|###############\n\
 ####|,,|################\n\
 ####|,,|################\n\
 ####|,,|################\n",
-                                       mapf::basic_bind("D W # t g r + = h c l w s _ o d x T b G . , B - | % f F S", t_floor, t_floor,
+                                       mapf::ter_bind("D W # t g r + = h c l w s _ o d x T b G . , B - | % f F S", t_floor, t_floor,
                                                t_rock, t_floor, t_reinforced_glass, t_floor, t_door_locked_interior, t_door_c, t_floor, t_floor,
                                                t_floor,  t_window, t_sidewalk, t_pavement, t_floor,    t_floor, t_console_broken, t_floor,
                                                t_floor, t_door_bar_locked, t_grass, t_floor, t_bars, t_concrete_wall, t_concrete_wall, t_fence_barbed,
                                                t_chainfence_h, t_chainfence_v, t_floor),
-                                       mapf::basic_bind("D W # t g r + = h c l w s _ o d x T b G . , B - | % f F S", f_dryer, f_washer,
+                                       mapf::furn_bind("D W # t g r + = h c l w s _ o d x T b G . , B - | % f F S", f_dryer, f_washer,
                                                f_null, f_table, f_null,               f_rack,  f_null,                 f_null,   f_chair,
                                                f_counter, f_locker, f_null,   f_null,     f_null,     f_bookcase, f_desk,  f_null,
                                                f_toilet, f_bed,   f_null,            f_null,  f_null,  f_null, f_null,       f_null,       f_null,
@@ -7717,12 +7740,12 @@ h,h,g,,,|###############\n\
 ############|..........|\n\
 ############|---|++|---|\n\
 ############|rrr|,,|####\n",
-                                       mapf::basic_bind("# E g r + = h c l w s _ o d x T b G . , B - | % f F S", t_rock, t_floor,
+                                       mapf::ter_bind("# E g r + = h c l w s _ o d x T b G . , B - | % f F S", t_rock, t_floor,
                                                t_reinforced_glass, t_floor, t_door_locked_interior, t_door_c, t_floor, t_floor,   t_floor,
                                                t_window, t_sidewalk, t_pavement, t_floor,    t_floor, t_console_broken, t_floor,  t_floor,
                                                t_door_bar_locked, t_grass, t_floor, t_bars, t_concrete_wall, t_concrete_wall, t_fence_barbed,
                                                t_chainfence_h, t_chainfence_v, t_floor),
-                                       mapf::basic_bind("# E g r + = h c l w s _ o d x T b G . , B - | % f F S", f_null, f_exercise,
+                                       mapf::furn_bind("# E g r + = h c l w s _ o d x T b G . , B - | % f F S", f_null, f_exercise,
                                                f_null,               f_rack,  f_null,                 f_null,   f_chair, f_counter, f_locker,
                                                f_null,   f_null,     f_null,     f_bookcase, f_desk,  f_null,           f_toilet, f_bed,   f_null,
                                                f_null,  f_null,  f_null, f_null,       f_null,       f_null,         f_null,         f_null,
@@ -7768,12 +7791,12 @@ h,h,g,,,|###############\n\
 ##|,,,,>|,,,,,l|c,cSScee\n\
 ##|h,,,,+,,,,,,|o,,,,,,,\n\
 ##|t,,,,|cScScc|o,,,,,,,\n",
-                                       mapf::basic_bind("t e o > O # E g r + = h c l w s _ d x T b G . , B - | % f F S", t_floor, t_floor,
+                                       mapf::ter_bind("t e o > O # E g r + = h c l w s _ d x T b G . , B - | % f F S", t_floor, t_floor,
                                                t_floor, t_stairs_up, t_column, t_rock, t_floor,    t_reinforced_glass, t_floor,
                                                t_door_locked_interior, t_door_c, t_floor, t_floor,   t_floor,  t_window, t_sidewalk, t_pavement,
                                                t_floor, t_console_broken, t_floor,  t_floor, t_door_bar_locked, t_grass, t_floor, t_bars,
                                                t_concrete_wall, t_concrete_wall, t_fence_barbed, t_chainfence_h, t_chainfence_v, t_floor),
-                                       mapf::basic_bind("t e o > O # E g r + = h c l w s _ d x T b G . , B - | % f F S", f_table, f_fridge,
+                                       mapf::furn_bind("t e o > O # E g r + = h c l w s _ d x T b G . , B - | % f F S", f_table, f_fridge,
                                                f_oven,  f_null,      f_null,   f_null, f_exercise, f_null,               f_rack,  f_null,
                                                f_null,   f_chair, f_counter, f_locker, f_null,   f_null,     f_null,     f_desk,  f_null,
                                                f_toilet, f_bed,   f_null,            f_null,  f_null,  f_null, f_null,       f_null,       f_null,
@@ -7813,11 +7836,11 @@ h,h,g,,,|###############\n\
 ee|,,,,,,r|#############\n\
 ,,+,,,,,,r|#############\n\
 ,,|-------|#############\n",
-                                       mapf::basic_bind("e # r + = h c l w s _ o d x T b G . , B - | S", t_floor,  t_rock, t_floor,
+                                       mapf::ter_bind("e # r + = h c l w s _ o d x T b G . , B - | S", t_floor,  t_rock, t_floor,
                                                t_door_locked_interior, t_door_c, t_floor, t_floor,   t_floor,  t_window, t_sidewalk, t_pavement,
                                                t_floor,    t_floor, t_console_broken, t_floor,  t_floor, t_door_metal_locked, t_grass, t_floor,
                                                t_bars, t_concrete_wall, t_concrete_wall, t_floor),
-                                       mapf::basic_bind("e # r + = h c l w s _ o d x T b G . , B - | S", f_fridge, f_null, f_rack,  f_null,
+                                       mapf::furn_bind("e # r + = h c l w s _ o d x T b G . , B - | S", f_fridge, f_null, f_rack,  f_null,
                                                f_null,   f_chair, f_counter, f_locker, f_null,   f_null,     f_null,     f_bookcase, f_desk,
                                                f_null,           f_toilet, f_bed,   f_null,              f_null,  f_null,  f_null, f_null,
                                                f_null,       f_sink));
@@ -7914,11 +7937,11 @@ ee|,,,,,,r|#############\n\
    |-++--wwww-wwww---|  \n\
      ss                 \n\
      ss                 \n",
-                                   mapf::basic_bind(". - | 6 X # r t + = D w T S e o h c d l s", t_floor, t_wall, t_wall,
+                                   mapf::ter_bind(". - | 6 X # r t + = D w T S e o h c d l s", t_floor, t_wall, t_wall,
                                            t_console, t_door_metal_locked, t_floor, t_floor,    t_floor, t_door_c, t_door_locked_alarm,
                                            t_door_locked, t_window, t_floor,  t_floor, t_floor,  t_floor,    t_floor, t_floor,   t_floor,
                                            t_floor,  t_sidewalk),
-                                   mapf::basic_bind(". - | 6 X # r t + = D w T S e o h c d l s", f_null,  f_null,   f_null,   f_null,
+                                   mapf::furn_bind(". - | 6 X # r t + = D w T S e o h c d l s", f_null,  f_null,   f_null,   f_null,
                                            f_null,              f_bench, f_trashcan, f_table, f_null,   f_null,              f_null,
                                            f_null,   f_toilet, f_sink,  f_fridge, f_bookcase, f_chair, f_counter, f_desk,  f_locker, f_null));
         tmpcomp = add_computer( tripoint( 20,  4, abs_sub.z ), _("Medical Supply Access"), 2);
@@ -8017,13 +8040,13 @@ ee|,,,,,,r|#############\n\
         _______         \n\
         _______         \n\
         _______         \n",
-                                   mapf::basic_bind("1 & V C G 5 % Q E , _ r X f F 6 x $ ^ . - | # t + = D w T S e o h c d l s",
+                                   mapf::ter_bind("1 & V C G 5 % Q E , _ r X f F 6 x $ ^ . - | # t + = D w T S e o h c d l s",
                                            t_sewage_pipe, t_sewage_pump, t_vat,  t_floor,   t_grate, t_wall_glass, t_wall_glass, t_sewage,
                                            t_elevator, t_pavement_y, t_pavement, t_floor, t_door_metal_locked, t_chainfence_v, t_chainfence_h,
                                            t_console, t_console_broken, t_shrub, t_floor,        t_floor, t_wall, t_wall, t_rock, t_floor,
                                            t_door_c, t_door_metal_c, t_door_locked, t_window, t_floor,  t_floor, t_floor,  t_floor,    t_floor,
                                            t_floor,   t_floor, t_floor,  t_sidewalk),
-                                   mapf::basic_bind("1 & V C G 5 % Q E , _ r X f F 6 x $ ^ . - | # t + = D w T S e o h c d l s",
+                                   mapf::furn_bind("1 & V C G 5 % Q E , _ r X f F 6 x $ ^ . - | # t + = D w T S e o h c d l s",
                                            f_null,        f_null,        f_null, f_crate_c, f_null,  f_null,         f_null,         f_null,
                                            f_null,     f_null,       f_null,     f_rack,  f_null,              f_null,         f_null,
                                            f_null,    f_null,           f_null,  f_indoor_plant, f_null,  f_null,   f_null,   f_null, f_table,
@@ -8086,13 +8109,13 @@ ee|,,,,,,r|#############\n\
  f   ##________x|x.r|   \n\
  f    |_________%..r| |-\n\
  f    |_________%..r| |^\n",
-                                       mapf::basic_bind("1 & V C G 5 % Q E , _ r X f F 6 x $ ^ . - | # t + = D w T S e o h c d l s",
+                                       mapf::ter_bind("1 & V C G 5 % Q E , _ r X f F 6 x $ ^ . - | # t + = D w T S e o h c d l s",
                                                t_sewage_pipe, t_sewage_pump, t_vat,  t_floor,   t_grate, t_wall_glass, t_wall_glass, t_sewage,
                                                t_elevator, t_pavement_y, t_pavement, t_floor, t_door_metal_locked, t_chainfence_v, t_chainfence_h,
                                                t_console, t_console_broken, t_shrub, t_floor,        t_floor, t_wall, t_wall, t_rock, t_floor,
                                                t_door_c, t_door_metal_c, t_door_locked, t_window, t_floor,  t_floor, t_floor,  t_floor,    t_floor,
                                                t_floor,   t_floor, t_floor,  t_sidewalk),
-                                       mapf::basic_bind("1 & V C G 5 % Q E , _ r X f F 6 x $ ^ . - | # t + = D w T S e o h c d l s",
+                                       mapf::furn_bind("1 & V C G 5 % Q E , _ r X f F 6 x $ ^ . - | # t + = D w T S e o h c d l s",
                                                f_null,        f_null,        f_null, f_crate_c, f_null,  f_null,         f_null,         f_null,
                                                f_null,     f_null,       f_null,     f_rack,  f_null,              f_null,         f_null,
                                                f_null,    f_null,           f_null,  f_indoor_plant, f_null,  f_null,   f_null,   f_null, f_table,
@@ -8164,13 +8187,13 @@ FFFFFFFFFFFFFFFFFFFFFFf \n\
                         \n\
                         \n\
                         \n",
-                                       mapf::basic_bind("1 & V C G 5 % Q E , _ r X f F V H 6 x $ ^ . - | # t + = D w T S e o h c d l s",
+                                       mapf::ter_bind("1 & V C G 5 % Q E , _ r X f F V H 6 x $ ^ . - | # t + = D w T S e o h c d l s",
                                                t_sewage_pipe, t_sewage_pump, t_vat,  t_floor,   t_grate, t_wall_glass, t_wall_glass, t_sewage,
                                                t_elevator, t_pavement_y, t_pavement, t_floor, t_door_metal_locked, t_chainfence_v, t_chainfence_h,
                                                t_wall_glass, t_wall_glass, t_console, t_console_broken, t_shrub, t_floor,        t_floor,
                                                t_wall, t_wall, t_rock, t_floor, t_door_c, t_door_locked_alarm, t_door_locked, t_window,
                                                t_floor,  t_floor, t_floor,  t_floor,    t_floor, t_floor,   t_floor, t_floor,  t_sidewalk),
-                                       mapf::basic_bind("1 & V C G 5 % Q E , _ r X f F V H 6 x $ ^ . - | # t + = D w T S e o h c d l s",
+                                       mapf::furn_bind("1 & V C G 5 % Q E , _ r X f F V H 6 x $ ^ . - | # t + = D w T S e o h c d l s",
                                                f_null,        f_null,        f_null, f_crate_c, f_null,  f_null,         f_null,         f_null,
                                                f_null,     f_null,       f_null,     f_rack,  f_null,              f_null,         f_null,
                                                f_null,         f_null,         f_null,    f_null,           f_null,  f_indoor_plant, f_null,
@@ -8224,13 +8247,13 @@ FFFFFFFFFFFFFFFFFFFFFFf \n\
                       f \n\
 ------|---|--|---www| f \n\
 .x6x..|S.T|l.|^.ddd.| f \n",
-                                       mapf::basic_bind("R 1 & V C G 5 % Q E , _ r X f F 6 x $ ^ . - | # t + = D w T S e o h c d l s",
+                                       mapf::ter_bind("R 1 & V C G 5 % Q E , _ r X f F 6 x $ ^ . - | # t + = D w T S e o h c d l s",
                                                t_elevator_control_off, t_sewage_pipe, t_sewage_pump, t_vat,  t_floor,   t_grate, t_wall_glass,
                                                t_wall_glass, t_sewage, t_elevator, t_pavement_y, t_pavement, t_floor, t_door_metal_locked,
                                                t_chainfence_v, t_chainfence_h, t_console, t_console_broken, t_shrub, t_floor,        t_floor,
                                                t_wall, t_wall, t_rock, t_floor, t_door_c, t_door_locked_alarm, t_door_locked, t_window,
                                                t_floor,  t_floor, t_floor,  t_floor,    t_floor, t_floor,   t_floor, t_floor,  t_sidewalk),
-                                       mapf::basic_bind("R 1 & V C G 5 % Q E , _ r X f F 6 x $ ^ . - | # t + = D w T S e o h c d l s",
+                                       mapf::furn_bind("R 1 & V C G 5 % Q E , _ r X f F 6 x $ ^ . - | # t + = D w T S e o h c d l s",
                                                f_null,                 f_null,        f_null,        f_null, f_crate_c, f_null,  f_null,
                                                f_null,         f_null,   f_null,     f_null,       f_null,     f_rack,  f_null,
                                                f_null,         f_null,         f_null,    f_null,           f_null,  f_indoor_plant, f_null,
@@ -8306,11 +8329,11 @@ FFFFFFFFFFFFFFFFFFFFFFf \n\
 ####|___________________\n\
 ####|___________________\n\
 ####|-------------------\n",
-                                   mapf::basic_bind("= + E & 6 H V c h d r M _ $ | - # . , l S T", t_door_metal_c, t_door_metal_o,
+                                   mapf::ter_bind("= + E & 6 H V c h d r M _ $ | - # . , l S T", t_door_metal_c, t_door_metal_o,
                                            t_elevator, t_elevator_control_off, t_console, t_reinforced_glass, t_reinforced_glass, t_floor,
                                            t_floor, t_floor, t_floor, t_gates_control_concrete, t_sewage, t_door_metal_locked, t_concrete_wall,
                                            t_concrete_wall, t_rock, t_rock_floor, t_metal_floor, t_floor,  t_floor, t_floor),
-                                   mapf::basic_bind("= + E & 6 H V c h d r M _ $ | - # . , l S T", f_null,         f_null,
+                                   mapf::furn_bind("= + E & 6 H V c h d r M _ $ | - # . , l S T", f_null,         f_null,
                                            f_null,     f_null,                 f_null,    f_null,               f_null,
                                            f_counter, f_chair, f_desk,  f_rack,  f_null,                   f_null,   f_null,
                                            f_null,       f_null,       f_null, f_null,       f_null,        f_locker, f_sink,  f_toilet));
@@ -8394,11 +8417,11 @@ FFFFFFFFFFFFFFFFFFFFFFf \n\
 |_________$..........|,,\n\
 |_________|..........|,,\n\
 |---------|#.........|-$\n",
-                                       mapf::basic_bind("= + E & 6 H V c h d r M _ $ | - # . , l S T", t_door_metal_c, t_door_metal_o,
+                                       mapf::ter_bind("= + E & 6 H V c h d r M _ $ | - # . , l S T", t_door_metal_c, t_door_metal_o,
                                                t_elevator, t_elevator_control_off, t_console, t_reinforced_glass, t_reinforced_glass, t_floor,
                                                t_floor, t_floor, t_floor, t_gates_control_concrete, t_sewage, t_door_metal_locked, t_concrete_wall,
                                                t_concrete_wall, t_rock, t_rock_floor, t_metal_floor, t_floor,  t_floor, t_floor),
-                                       mapf::basic_bind("= + E & 6 H V c h d r M _ $ | - # . , l S T", f_null,         f_null,
+                                       mapf::furn_bind("= + E & 6 H V c h d r M _ $ | - # . , l S T", f_null,         f_null,
                                                f_null,     f_null,                 f_null,    f_null,               f_null,
                                                f_counter, f_chair, f_desk,  f_rack,  f_null,                   f_null,   f_null,
                                                f_null,       f_null,       f_null, f_null,       f_null,        f_locker, f_sink,  f_toilet));
@@ -8481,11 +8504,11 @@ FFFFFFFFFFFFFFFFFFFFFFf \n\
 |___________________|###\n\
 |___________________|###\n\
 |-------------------|###\n",
-                                       mapf::basic_bind("= + E & 6 H V c h d r M _ $ | - # . , l S T", t_door_metal_c, t_door_metal_o,
+                                       mapf::ter_bind("= + E & 6 H V c h d r M _ $ | - # . , l S T", t_door_metal_c, t_door_metal_o,
                                                t_elevator, t_elevator_control_off, t_console, t_reinforced_glass, t_reinforced_glass, t_floor,
                                                t_floor, t_floor, t_floor, t_gates_control_concrete, t_sewage, t_door_metal_locked, t_concrete_wall,
                                                t_concrete_wall, t_rock, t_rock_floor, t_metal_floor, t_floor,  t_floor, t_floor),
-                                       mapf::basic_bind("= + E & 6 H V c h d r M _ $ | - # . , l S T", f_null,         f_null,
+                                       mapf::furn_bind("= + E & 6 H V c h d r M _ $ | - # . , l S T", f_null,         f_null,
                                                f_null,     f_null,                 f_null,    f_null,               f_null,
                                                f_counter, f_chair, f_desk,  f_rack,  f_null,                   f_null,   f_null,
                                                f_null,       f_null,       f_null, f_null,       f_null,        f_locker, f_sink,  f_toilet));
@@ -8564,11 +8587,11 @@ $$$--###################\n\
 ,,,,,+,,,,,,+,,c6c,|####\n\
 ,,,,M|,,,,,,|r,,,,,|####\n\
 $$$$-|-|=HH-|-HHHH-|####\n",
-                                       mapf::basic_bind("= + E & 6 H V c h d r M _ $ | - # . , l S T", t_door_metal_c, t_door_metal_o,
+                                       mapf::ter_bind("= + E & 6 H V c h d r M _ $ | - # . , l S T", t_door_metal_c, t_door_metal_o,
                                                t_elevator, t_elevator_control_off, t_console, t_reinforced_glass, t_reinforced_glass, t_floor,
                                                t_floor, t_floor, t_floor, t_gates_control_concrete, t_sewage, t_door_metal_locked, t_concrete_wall,
                                                t_concrete_wall, t_rock, t_rock_floor, t_metal_floor, t_floor,  t_floor, t_floor),
-                                       mapf::basic_bind("= + E & 6 H V c h d r M _ $ | - # . , l S T", f_null,         f_null,
+                                       mapf::furn_bind("= + E & 6 H V c h d r M _ $ | - # . , l S T", f_null,         f_null,
                                                f_null,     f_null,                 f_null,    f_null,               f_null,
                                                f_counter, f_chair, f_desk,  f_rack,  f_null,                   f_null,   f_null,
                                                f_null,       f_null,       f_null, f_null,       f_null,        f_locker, f_sink,  f_toilet));
@@ -8680,11 +8703,11 @@ $$$$-|-|=HH-|-HHHH-|####\n",
                         \n\
 FFFFFFFFFFFFFFFFFFFFFFFF\n\
 ,,,,,,,,,,,,,,,,,,,,,,,,\n",
-                                       mapf::basic_bind(", F . _ H u e S T o b l # % 1 D + - | w k h B d &", t_dirt, t_fence_barbed, t_floor,
+                                       mapf::ter_bind(", F . _ H u e S T o b l # % 1 D + - | w k h B d &", t_dirt, t_fence_barbed, t_floor,
                                                t_dirtfloor, t_floor,    t_floor,    t_floor,  t_floor, t_floor,  t_floor, t_floor,   t_floor,
                                                t_wall_wood, t_shrub, t_column, t_dirtmound, t_door_c, t_wall, t_wall, t_window_domestic,
                                                t_floor, t_floor, t_floor, t_floor, t_water_pump),
-                                       mapf::basic_bind(", F . _ H u e S T o b l # % 1 D + - | w k h B d", f_null, f_null,         f_null,
+                                       mapf::furn_bind(", F . _ H u e S T o b l # % 1 D + - | w k h B d", f_null, f_null,         f_null,
                                                f_null,      f_armchair, f_cupboard, f_fridge, f_sink,  f_toilet, f_oven,  f_bathtub, f_locker,
                                                f_null,      f_null,  f_null,   f_null,      f_null,   f_null,   f_null,   f_null,
                                                f_desk,  f_chair, f_bed,   f_dresser));
@@ -8732,11 +8755,11 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
                         \n\
 FFFFFFFFFFFFFFFFFFFFFFFF\n\
 ,,,,,,,,,,,,,,,,,,,,,,,,\n",
-                                       mapf::basic_bind("m , F . _ H u e S T o b l # % 1 D + - | w k h B d &", t_floor,         t_dirt,
+                                       mapf::ter_bind("m , F . _ H u e S T o b l # % 1 D + - | w k h B d &", t_floor,         t_dirt,
                                                t_fence_barbed, t_floor, t_dirtfloor, t_floor,    t_floor,    t_floor,  t_floor, t_floor,  t_floor,
                                                t_floor,   t_floor,  t_wall_wood, t_shrub, t_column, t_dirtmound, t_door_c, t_wall, t_wall,
                                                t_window_domestic, t_floor, t_floor, t_floor, t_floor, t_water_pump),
-                                       mapf::basic_bind("m , F . _ H u e S T o b l # % 1 D + - | w k h B d", f_makeshift_bed, f_null,
+                                       mapf::furn_bind("m , F . _ H u e S T o b l # % 1 D + - | w k h B d", f_makeshift_bed, f_null,
                                                f_null,         f_null,  f_null,      f_armchair, f_cupboard, f_fridge, f_sink,  f_toilet, f_oven,
                                                f_bathtub, f_locker, f_null,      f_null,  f_null,   f_null,      f_null,   f_null,   f_null,
                                                f_null,            f_desk,  f_chair, f_bed,   f_dresser));
@@ -11419,8 +11442,8 @@ void science_room(map *m, int x1, int y1, int x2, int y2, int z, int rotate)
 ---\n\
 |c=\n\
 ---\n",
-                                       mapf::basic_bind("- | =", t_concrete_wall, t_concrete_wall, t_reinforced_glass),
-                                       mapf::basic_bind("c", f_counter));
+                                       mapf::ter_bind("- | =", t_concrete_wall, t_concrete_wall, t_reinforced_glass),
+                                       mapf::furn_bind("c", f_counter));
             m->place_items("bionics_common", 70, biox, bioy, biox, bioy, false, 0);
 
             m->ter_set(biox, bioy+2, t_console);
@@ -11436,8 +11459,8 @@ void science_room(map *m, int x1, int y1, int x2, int y2, int z, int rotate)
 ---\n\
 =c|\n\
 ---\n",
-                                       mapf::basic_bind("- | =", t_concrete_wall, t_concrete_wall, t_reinforced_glass),
-                                       mapf::basic_bind("c", f_counter));
+                                       mapf::ter_bind("- | =", t_concrete_wall, t_concrete_wall, t_reinforced_glass),
+                                       mapf::furn_bind("c", f_counter));
             m->place_items("bionics_common", 70, biox, bioy, biox, bioy, false, 0);
 
             m->ter_set(biox, bioy-2, t_console);
@@ -11453,8 +11476,8 @@ void science_room(map *m, int x1, int y1, int x2, int y2, int z, int rotate)
 |-|\n\
 |c|\n\
 |=|\n",
-                                       mapf::basic_bind("- | =", t_concrete_wall, t_concrete_wall, t_reinforced_glass),
-                                       mapf::basic_bind("c", f_counter));
+                                       mapf::ter_bind("- | =", t_concrete_wall, t_concrete_wall, t_reinforced_glass),
+                                       mapf::furn_bind("c", f_counter));
             m->place_items("bionics_common", 70, biox, bioy, biox, bioy, false, 0);
 
             m->ter_set(biox+2, bioy, t_console);
@@ -11470,8 +11493,8 @@ void science_room(map *m, int x1, int y1, int x2, int y2, int z, int rotate)
 |=|\n\
 |c|\n\
 |-|\n",
-                                       mapf::basic_bind("- | =", t_concrete_wall, t_concrete_wall, t_reinforced_glass),
-                                       mapf::basic_bind("c", f_counter));
+                                       mapf::ter_bind("- | =", t_concrete_wall, t_concrete_wall, t_reinforced_glass),
+                                       mapf::furn_bind("c", f_counter));
             m->place_items("bionics_common", 70, biox, bioy, biox, bioy, false, 0);
 
             m->ter_set(biox-2, bioy, t_console);
