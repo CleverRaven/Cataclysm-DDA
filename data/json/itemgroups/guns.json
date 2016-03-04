@@ -301,7 +301,7 @@
     "id": "guns_survival",
     "//": "Guns typically carried by survivors, either improvised or thematically appropriate.",
     "items": [
-      { "group": "guns_improvised", "prob": 100 },
+      { "group": "guns_improvised", "prob": 200 },
       [ "ar15", 5 ],
       [ "mossberg_500", 5 ],
       [ "remington_870", 5 ],
