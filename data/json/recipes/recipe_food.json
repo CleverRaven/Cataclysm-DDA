@@ -2470,7 +2470,7 @@
   "time": 16000,
   "reversible": false,
   "autolearn": true,
-  "note": "the cooking oil isn't supposed to be expended since you can recycle it after frying the potatos",
+  "note": "the cooking oil isn't supposed to be expended since you can recycle it after frying the potatoes",
   "qualities" : [
     {"id":"CUT","level":1,"amount":1},
     {"id":"COOK","level":2,"amount":1}
