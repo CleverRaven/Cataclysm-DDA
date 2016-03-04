@@ -419,7 +419,8 @@
   "durability": 9,
   "clip_size": 1,
   "reload": 100,
-  "loudness" : 300
+  "loudness" : 300,
+  "flags" : [ "NO_RELOAD" ]
 },{
   "id": "tank_gun_rws",
   "type": "GUN",
