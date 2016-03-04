@@ -54,7 +54,7 @@
         [ "20x66mm", ["20x66_20_mag", "20x66_40_mag"] ]
     ],
     "flags": ["MODE_BURST", "WATERPROOF_GUN", "NEVER_JAMS"]
-  }
+  },
   {
     "id": "rm228",
     "type": "GUN",
