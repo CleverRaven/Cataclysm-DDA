@@ -8,7 +8,7 @@
     "description": "This weapon is an... odd combination of blob and human ingenuity.  A constructed skeleton made of shaped bones, held together by a living blob.  It is capable of digesting fed materials; the resulting waste is then launched towards any nearby hostiles.  Once empty, the creature goes dormant until fed.  While the projectile itself is small, it travels quickly, and there's no shortage of... well, whatever it is, it isn't edible.",
     "price": 0,
     "material": ["flesh", "bone"],
-    "flags": ["NEVER_JAMS", "MOUNTED_GUN", "NO_BOOM"],
+    "flags": ["NEVER_JAMS", "MOUNTED_GUN", "NO_BOOM", "NO_RELOAD"],
     "skill": "pistol",
     "ammo": "components",
     "weight": 12142,
@@ -23,7 +23,7 @@
     "recoil": 0,
     "durability": 10,
     "burst": 1,
-    "clip_size": 0,
+    "clip_size": 1,
     "reload": 0
   },
   {
@@ -35,7 +35,7 @@
     "description": "This weapon is an... odd combination of blob and human ingenuity.  A constructed skeleton made of shaped bones, held together by a living blob.  The structure's blob secretes a venomous substance.  Which, when fed darts; is then coated onto darts.  The blob then ejects the darts at nearby hostiles as a self-defense mechanism.  The venom itself recedes quickly, but is capable of temporarily disorienting what it strikes; including other blob-based organisms.",
     "price": 0,
     "material": ["flesh", "bone"],
-    "flags": ["NEVER_JAMS", "MOUNTED_GUN", "NO_BOOM"],
+    "flags": ["NEVER_JAMS", "MOUNTED_GUN", "NO_BOOM", "NO_RELOAD"],
     "ammo_effects": "BEANBAG",
     "skill": "pistol",
     "ammo": "dart",
@@ -51,7 +51,7 @@
     "recoil": 0,
     "durability": 10,
     "burst": 1,
-    "clip_size": 0,
+    "clip_size": 1,
     "reload": 0
   },
   {
@@ -63,7 +63,7 @@
     "description": "This weapon is an... odd combination of blob and human ingenuity.  A constructed skeleton made of shaped bones, held together by a living blob.  When fed, it produces an extremely corrosive liquid.  The blob then spits out this \"acid\" at nearby enemies.  The liquid's effectiveness against hostiles is only matched by its horrible smell.",
     "price": 0,
     "material": ["flesh", "bone"],
-    "flags": ["NEVER_JAMS", "MOUNTED_GUN", "NO_BOOM"],
+    "flags": ["NEVER_JAMS", "MOUNTED_GUN", "NO_BOOM", "NO_RELOAD"],
     "ammo_effects": ["ACIDBOMB", "JET"],
     "skill": "launcher",
     "ammo": "bfeed",
@@ -79,7 +79,7 @@
     "recoil": 0,
     "durability": 10,
     "burst": 1,
-    "clip_size": 0,
+    "clip_size": 1,
     "reload": 0
   },
   {
@@ -91,7 +91,7 @@
     "description": "This weapon is an... odd combination of blob and human ingenuity.  A constructed skeleton made of shaped bones, held together by a living blob.  The size of this creature is significant, and such it is capable of hurling its projectile with significant strength.",
     "price": 0,
     "material": ["flesh", "bone"],
-    "flags": ["NEVER_JAMS", "MOUNTED_GUN"],
+    "flags": ["NEVER_JAMS", "MOUNTED_GUN", "NO_RELOAD"],
     "skill": "launcher",
     "ammo": "h_projectile",
     "weight": 24142,
@@ -106,7 +106,7 @@
     "recoil": 0,
     "durability": 10,
     "burst": 1,
-    "clip_size": 0,
+    "clip_size": 1,
     "reload": 0
   },
   {
@@ -118,7 +118,7 @@
     "description": "This weapon is an... odd combination of blob and human ingenuity.  A constructed skeleton made of shaped bones, held together by a living blob.  Within the blob you see a maelstrom of what appear to be threads.  When a hostile creature gets too near, the blob gathers these threads towards a single point and then thrusts it towards the hostile creature while simultaneously hardening the tip of this \"spear\".  It retracts it quickly after firing.",
     "price": 0,
     "material": ["flesh", "bone"],
-    "flags": ["NEVER_JAMS", "MOUNTED_GUN", "NO_BOOM", "WHIP"],
+    "flags": ["NEVER_JAMS", "MOUNTED_GUN", "NO_BOOM", "WHIP", "NO_RELOAD"],
     "ammo_effects": ["WHIP"],
     "skill": "rifle",
     "ammo": "bfeed",
@@ -135,7 +135,7 @@
     "recoil": 0,
     "durability": 10,
     "burst": 1,
-    "clip_size": 0,
+    "clip_size": 1,
     "reload": 0
   },
   {
