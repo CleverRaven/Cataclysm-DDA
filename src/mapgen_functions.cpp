@@ -3214,7 +3214,7 @@ void mapgen_basement_junk(map *m, oter_id terrain_type, mapgendata dat, int turn
                         m->spawn_item(i, j, "cash_card", 2);
                     } else {
                         m->place_items("ammo", 96,  i,  j, i,  j, false, 0);
-                        m->place_items("lmoe_guns", 90,  i,  j, i,  j, false, 0);
+                        m->place_items("guns_survival", 90,  i,  j, i,  j, false, 0);
                     }
                 }
                 if (one_in(20)){
