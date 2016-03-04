@@ -11,6 +11,7 @@
 
 #include <vector>
 #include <map>
+#include <unordered_map>
 #include <list>
 #include <stdarg.h>
 
@@ -203,12 +204,25 @@ class game
         /** Create explosion at p of intensity (power) with (shrapnel) chunks of shrapnel.
             Explosion intensity formula is roughly power*factor^distance.
             If factor <= 0, no blast is produced */
-        void explosion( const tripoint &p, float power, float factor = 0.8f,
-                        int shrapnel = 0, bool fire = false );
+        std::unordered_map<tripoint,std::pair<int,int>> explosion(
+            const tripoint &p, float power, float factor = 0.8f,
+            bool fire = false, int shrapnel_count = 0, int shrapnel_mass = 10
+        );
+
         /** Helper for explosion, does the actual blast. */
         void do_blast( const tripoint &p, float power, float factor, bool fire );
-        /** Shoot shrapnel from point p */
-        void shrapnel( const tripoint &p, int power, int count, int radius );
+
+        /*
+         * Emits shrapnel damaging creatures and sometimes terrain/furniture within range
+         * @param src source from which shrapnel radiates outwards in a uniformly random distribtion
+         * @param power raw kinetic energy which is responsible for damage and reduced by effects of cover
+         * @param count abritrary measure of quantity shrapnel emitted affecting number of hits
+         * @param mass determines how readily terrain constrains shrapnel and also caps pierce damage
+         * @param range maximum distance shrapnel may travel
+         * @return map containing all tiles considered with value being sum of damage received (if any)
+         */
+        std::unordered_map<tripoint,int> shrapnel( const tripoint &src, int power, int count, int mass, int range = -1 );
+
         /** Triggers a flashbang explosion at p. */
         void flashbang( const tripoint &p, bool player_immune = false );
         /** Moves the player vertically. If force == true then they are falling. */
