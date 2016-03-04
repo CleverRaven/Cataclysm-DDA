@@ -16,15 +16,12 @@
   {
     "type":"item_group",
     "id":"homeguns",
-    "ammo": 50,
+    "ammo": 70,
     "magazine": 100,
     "subtype": "distribution",
     "entries" : [
-      { "group": "guns_pistol_common", "prob": 120 },
-      { "group": "guns_rifle_common", "prob": 20 },
-      { "group": "guns_smg_common", "prob": 5 },
-      { "group": "guns_shotgun_common", "prob": 50 },
-      { "group": "ammo_common", "prob": 100 }
+      { "group": "guns_common", "prob": 100 },
+      { "group": "ammo_common", "prob": 50 }
     ]
   },{
     "type":"item_group",
