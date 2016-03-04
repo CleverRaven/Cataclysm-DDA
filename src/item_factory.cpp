@@ -490,13 +490,35 @@ void Item_factory::check_definitions() const
             if( type->ammo->casing != "null" && !has_template( type->ammo->casing ) ) {
                 msg << string_format( "invalid casing property %s", type->ammo->casing.c_str() ) << "\n";
             }
-
-            if( type->item_tags.count( "NO_AMMO" ) && type->ammo->type != "NULL" ) {
-                msg << string_format("specified both ammo type and NO_AMMO.") << "\n";
-            }
         }
         if( type->gun ) {
             check_ammo_type( msg, type->gun->ammo );
+
+            if( type->gun->ammo == "NULL" ) {
+                // if gun doesn't use ammo forbid both integral or detachable magazines
+                if( bool( type->gun->clip ) || !type->magazines.empty() ) {
+                    msg << "cannot specify clip_size or magazine without ammo type" << "\n";
+                }
+
+                if( type->item_tags.count( "RELOAD_AND_SHOOT" ) ) {
+                    msg << "RELOAD_AND_SHOOT requires an ammo type to be specified" << "\n";
+                }
+
+            } else {
+                // whereas if it does use ammo enforce specifying either (but not both)
+                if( bool( type->gun->clip ) == !type->magazines.empty() ) {
+                    msg << "missing or duplicte clip_size or magazine" << "\n";
+                }
+
+                if( type->item_tags.count( "RELOAD_AND_SHOOT" ) && !type->magazines.empty() ) {
+                    msg << "RELOAD_AND_SHOOT cannot be used with magazines" << "\n";
+                }
+
+                if( type->item_tags.count( "BIO_WEAPON" ) ) {
+                    msg << "BIO_WEAPON must not be specified with an ammo type" << "\n";
+                }
+            }
+
             if( !type->gun->skill_used ) {
                 msg << string_format("uses no skill") << "\n";
             } else if( !type->gun->skill_used.is_valid() ) {
@@ -723,7 +745,7 @@ void Item_factory::load_ammo(JsonObject &jo)
 
 void Item_factory::load( islot_gun &slot, JsonObject &jo )
 {
-    slot.ammo = jo.get_string( "ammo", "NULL" );
+    slot.ammo = jo.get_string( "ammo", slot.ammo );
     slot.skill_used = skill_id( jo.get_string( "skill" ) );
     slot.loudness = jo.get_int( "loudness", 0 );
     slot.damage = jo.get_int( "ranged_damage", 0 );
