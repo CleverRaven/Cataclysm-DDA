@@ -167,3 +167,4 @@ src/visitable.h
 src/weather.h
 src/weighted_list.h
 src/worldfactory.h
+src/explosion.h

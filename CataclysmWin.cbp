@@ -417,6 +417,8 @@
 		<Unit filename="src/enums.h" />
 		<Unit filename="src/event.cpp" />
 		<Unit filename="src/event.h" />
+		<Unit filename="src/explosion.h" />
+		<Unit filename="src/explosion.cpp" />
 		<Unit filename="src/faction.cpp" />
 		<Unit filename="src/faction.h" />
 		<Unit filename="src/field.cpp" />
