@@ -36,6 +36,17 @@
     ]
   },
   {
+    "id": "tools_gunsmith",
+    "type": "item_group",
+    "//": "Tools used for working with guns and ammo",
+    "items": [
+      { "group": "tools_common", "prob": 50 },
+      { "group": "tools_blacksmith", "prob": 50 },
+      [ "puller", 100 ],
+      [ "press", 100 ]
+    ]
+  },
+  {
     "id" : "tools_lighting",
     "type" : "item_group",
     "//": "Light sources balanced according to rarity",
