@@ -195,6 +195,7 @@
     "//" : "Makeshift or otherwise poor quality rifles.",
     "items": [
       [ "rifle_22", 100 ],
+      [ "rifle_3006", 50 ],
       [ "rifle_9mm", 100 ]
     ]
   },
