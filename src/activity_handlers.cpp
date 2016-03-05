@@ -1241,10 +1241,10 @@ void activity_handlers::oxytorch_do_turn( player_activity *act, player *p )
 {
     item &it = p->i_at( act->position );
     // act->values[0] is the number of charges yet to be consumed
-    const int charges_used = std::min( act->values[0], it.type->charges_to_use() );
+    const long charges_used = std::min( long( act->values[0] ), it.ammo_required() );
 
-    it.charges -= charges_used;
-    act->values[0] -= charges_used;
+    it.ammo_consume( charges_used, p->pos() );
+    act->values[0] -= int( charges_used );
 
     if( calendar::once_every(2) ) {
         sounds::sound( act->placement, 10, _("hissssssssss!") );

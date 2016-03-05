@@ -327,11 +327,11 @@ struct islot_magazine {
      * How reliable this this magazine on a range of 0 to 10?
      * @see doc/GAME_BALANCE.md
      */
-    int reliability;
+    int reliability = 10;
     /**
      * How long it takes to load each unit of ammo into the magazine
      */
-    int reload_time;
+    int reload_time = 0;
     /**
      * For ammo belts one linkage (of given type) is dropped for each unit of ammo consumed
      */

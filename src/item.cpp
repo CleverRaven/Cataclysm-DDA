@@ -1298,7 +1298,10 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                                          ammo_capacity() );
                 }
             }
-            info.push_back( iteminfo( "TOOL", "", temp_fmt, ammo_capacity() ) );
+            if( !magazine_integral() ) {
+                // @todo refactor this as part of the above conditionals
+                info.emplace_back( "TOOL", "", temp_fmt, ammo_capacity() );
+            }
         }
     }
 
@@ -2157,7 +2160,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
     else if (iname != item_vars.end()) {
         maintext = iname->second;
     }
-    else if (is_gun() && !contents.empty() ) {
+    else if( is_gun() || is_tool() || is_magazine() ) {
         ret.str("");
         ret << label(quantity);
         for( const auto mod : gunmods() ) {
@@ -2172,8 +2175,6 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
         ret << label(quantity);
         ret << "+";
         maintext = ret.str();
-    } else if( is_magazine() ) {
-        maintext = label( quantity );
     } else if (contents.size() == 1) {
         if(contents[0].made_of(LIQUID)) {
             maintext = rmp_format(_("<item_name>%s of %s"), label(quantity).c_str(), contents[0].tname( quantity, with_prefix ).c_str());
@@ -2301,7 +2302,7 @@ std::string item::display_name(unsigned int quantity) const
         // a book which has remaining unread chapters
         qty = string_format(" (%i)", get_remaining_chapters(g->u));
     } else if( ammo_capacity() > 0 ) {
-        // anything that can be reloaded including tools, guns and auxiliary gunmods
+        // anything that can be reloaded including tools, magazines, guns and auxiliary gunmods
         qty = string_format(" (%i)", ammo_remaining());
     } else if( is_ammo_container() && !contents.empty() ) {
         qty = string_format( " (%i)", contents[0].charges );
@@ -4519,11 +4520,12 @@ bool item::reload( player &u, item_location loc, long qty )
         obj = &contents[ 0 ];
     }
 
-    if( obj->is_gun() ) {
+    if( obj->is_gun() || obj->is_tool() || obj->is_magazine() ) {
         // Firstly try reloading active gunmod, then gun itself, any other auxiliary gunmods and finally currently loaded magazine
         std::vector<item *> opts = { obj->gunmod_current(), obj };
-        std::transform( obj->contents.begin(), obj->contents.end(), std::back_inserter( opts ), []( item& mod ) {
-            return mod.is_auxiliary_gunmod() ? &mod : nullptr;
+        auto mods = obj->gunmods();
+        std::copy_if( mods.begin(), mods.end(), std::back_inserter( opts ), []( item *e ) {
+            return e->is_auxiliary_gunmod();
         });
         opts.push_back( obj->magazine_current() );
 
@@ -4543,11 +4545,6 @@ bool item::reload( player &u, item_location loc, long qty )
                     break;
                 }
             }
-        }
-    } else if( obj->is_tool() || obj->is_magazine() ) {
-        qty = std::min( qty, obj->ammo_capacity() - obj->ammo_remaining() );
-        if( obj->ammo_type() == ammo->ammo_type() && qty > 0 ) {
-            target = obj;
         }
     }
 
@@ -4882,55 +4879,97 @@ bool item::fill_with( item &liquid, std::string &err )
     return true;
 }
 
-long item::charges_of(const itype_id &it) const
+long item::charges_of( const itype_id& id ) const
 {
-    long count = 0;
+    long qty = 0;
 
-    if (((type->id == it) || (is_tool() && (dynamic_cast<const it_tool *>(type))->subtype == it)) && contents.empty()) {
-        // If we're specifically looking for a container, only say we have it if it's empty.
-        if (charges < 0) {
-            count++;
-        } else {
-            count += charges;
+    // recursively find available charges from this or any contained items
+    visit_items_const( [&]( const item *e ) {
+
+        if( e->is_gun() || e->is_magazine() ) {
+            // charges in magazines are unavailable except when loaded in a tool
+            // charges in guns are never available
+            return VisitResponse::SKIP;
+
+        } else if( e->is_tool() ) {
+            // for tools we also need to check if this item is a subtype of the required id
+            if( e->typeId() == id || dynamic_cast<const it_tool *>( e->type)->subtype == id ) {
+                qty += e->ammo_remaining(); // includes charges from any contained magazine
+            }
+            return VisitResponse::SKIP;
+
+        } else if( e->count_by_charges() ) {
+            if( e->typeId() == id ) {
+                qty += e->charges;
+            }
+            // items counted by charges are not themselves expected to be containers
+            return VisitResponse::SKIP;
         }
-    } else {
-        for( const auto &elem : contents ) {
-            count += elem.charges_of( it );
-        }
-    }
-    return count;
+
+        // recurse through any nested containers
+        return VisitResponse::NEXT;
+    } );
+
+    return qty;
 }
 
-bool item::use_charges(const itype_id &it, long &quantity, std::list<item> &used)
+bool item::use_charges( const itype_id& id, long& qty, std::list<item>& used )
 {
-    // First, check contents
-    for( auto a = contents.begin(); a != contents.end() && quantity > 0; ) {
-        if (a->use_charges(it, quantity, used)) {
-            a = contents.erase(a);
-        } else {
-            ++a;
+    // items counted by charges are destroyed when the final charge is consumed
+    // so in this circumstance we need to signal to the caller to remove the item
+    bool del = false;
+
+    // recursively remove available charges from this or any contained items
+    visit_items_with_parent( [&]( item *e, item *parent ) {
+        if( qty <= 0 ) {
+            return VisitResponse::ABORT; // already found sufficient charges
         }
-    }
-    // Now check the item itself
-    if( !((type->id == it) || (is_tool() && (dynamic_cast<const it_tool *>(type))->subtype == it)) ||
-        quantity <= 0 || !contents.empty() ) {
-        return false;
-    }
-    if (charges <= quantity) {
-        used.push_back(*this);
-        if (charges < 0) {
-            quantity--;
-        } else {
-            quantity -= charges;
+
+        if( e->is_gun() || e->is_magazine() ) {
+            return VisitResponse::SKIP; // @see item::charges_of
+
+        } else if( e->is_tool() ) {
+            if( ( e->typeId() == id || dynamic_cast<const it_tool *>( e->type)->subtype == id ) && e->ammo_remaining() ) {
+                // @todo use correct location
+                used.push_back( *e );
+                int n = std::min( e->ammo_remaining(), qty );
+                qty -= e->ammo_consume( n, g->u.pos() );
+                qty -= n;
+            }
+            return VisitResponse::SKIP;
+
+        } else if( e->count_by_charges() ) {
+            if( e->typeId() == id ) {
+
+                // if can supply more than required charges split those off leaving original in-situ
+                if( e->charges > qty ) {
+                    used.push_back( e->split( qty ) );
+                    qty = 0;
+                    return VisitResponse::ABORT;
+
+                // otherwise either ourselves or the caller will need to remove the depleted item
+                } else {
+                    used.push_back( *e );
+                    qty -= e->charges;
+                    if( parent ) {
+                        parent->contents.erase( std::remove_if( parent->contents.begin(), parent->contents.end(), [&e]( const item& obj ) {
+                            return &obj == e;
+                        } ) );
+                    } else {
+                        del = true; // this was the top item so the caller must delete us
+                        return VisitResponse::ABORT;
+                    }
+                }
+            }
+            // items counted by charges are not themselves expected to be containers
+            return VisitResponse::SKIP;
         }
-        charges = 0;
-        return destroyed_at_zero_charges();
-    }
-    used.push_back(*this);
-    used.back().charges = quantity;
-    charges -= quantity;
-    quantity = 0;
-    return false;
+
+        // recurse through any nested containers
+        return VisitResponse::NEXT;
+    } );
+
+    return del;
 }
 
 void item::set_snippet( const std::string &snippet_id )
