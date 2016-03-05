@@ -8784,7 +8784,7 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
                         place_items("livingroom", 20,  i,  j, i,  j, false, 0);
                         place_items("survival_armor", 20,  i,  j, i,  j, false, 0);
                         place_items("camping", 20,  i,  j, i,  j, false, 0);
-                        place_items("survival_tools", 20,  i,  j, i,  j, false, 0);
+                        place_items("gear_survival", 20,  i,  j, i,  j, false, 0);
                         place_items("bed", 40,  i,  j, i,  j, false, 0);
                     }
                     if ( dat.is_groundcover( this->ter(i, j) ) ) {
@@ -11747,7 +11747,7 @@ void silo_rooms(map *m)
                 used1 = "electronics";
                 break;
             case 12:
-                used1 = "survival_tools";
+                used1 = "gear_survival";
                 break;
             case 13:
             case 14:

@@ -761,7 +761,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                             // explosions will destroy items on this square, iterating
                             // backwards makes sure that every item is visited.
                             for( auto explosive = items_here.begin(); explosive != items_here.end(); ) {
-                                if( explosive->type->explode_in_fire() ) {
+                                if( explosive->type->explode_in_fire ) {
                                     // Make a copy and let the copy explode.
                                     item tmp = *explosive;
                                     i_rem( p, explosive );

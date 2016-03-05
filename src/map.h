@@ -1175,7 +1175,7 @@ protected:
         void remove_rotten_items( Container &items, const tripoint &p );
         /**
          * Try to fill funnel based items here. Simulates rain from `since_turn` till now.
-         * @param pnt The location in this map where to fill funnels.
+         * @param p The location in this map where to fill funnels.
          * @param since_turn First turn of simulated filling.
          */
         void fill_funnels( const tripoint &p, int since_turn );
@@ -1189,6 +1189,10 @@ protected:
          * called the last time.
          */
         void restock_fruits( const tripoint &p, int time_since_last_actualize );
+        /**
+         * Radiation-related plant (and fungus?) death.
+         */
+        void rad_scorch( const tripoint &p, int time_since_last_actualize );
         void player_in_field( player &u );
         void monster_in_field( monster &z );
         /**

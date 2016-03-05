@@ -318,7 +318,7 @@
     ]
   },{
     "type":"item_group",
-    "id":"survivorweapons",
+    "id":"survivor_weapons",
     "comment": "Please add only weapons and ammo that are easy to scavenge or create ",
     "guns_with_ammo" : true,
     "items":[

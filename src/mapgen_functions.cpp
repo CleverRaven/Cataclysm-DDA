@@ -3214,7 +3214,7 @@ void mapgen_basement_junk(map *m, oter_id terrain_type, mapgendata dat, int turn
                         m->spawn_item(i, j, "cash_card", 2);
                     } else {
                         m->place_items("ammo", 96,  i,  j, i,  j, false, 0);
-                        m->place_items("lmoe_guns", 90,  i,  j, i,  j, false, 0);
+                        m->place_items("guns_survival", 90,  i,  j, i,  j, false, 0);
                     }
                 }
                 if (one_in(20)){
@@ -4920,7 +4920,7 @@ void mapgen_cave(map *m, oter_id, mapgendata dat, int turn, float density)
                 m->add_item_or_charges(hermx, hermy, item::make_corpse() );
                 // This seems verbose.  Maybe a function to spawn from a list of item groups?
                 m->place_items("stash_food", 50, hermx - 1, hermy - 1, hermx + 1, hermy + 1, true, 0);
-                m->place_items("survival_tools", 50, hermx - 1, hermy - 1, hermx + 1, hermy + 1, true, 0);
+                m->place_items("gear_survival", 50, hermx - 1, hermy - 1, hermx + 1, hermy + 1, true, 0);
                 m->place_items("survival_armor", 50, hermx - 1, hermy - 1, hermx + 1, hermy + 1, true, 0);
                 m->place_items("weapons", 40, hermx - 1, hermy - 1, hermx + 1, hermy + 1, true, 0);
                 m->place_items("magazines", 40, hermx - 1, hermy - 1, hermx + 1, hermy + 1, true, 0);

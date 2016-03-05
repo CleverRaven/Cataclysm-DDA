@@ -11,6 +11,7 @@ class item;
 class player;
 class JsonObject;
 class MonsterGenerator;
+struct iteminfo;
 
 // iuse methods returning a bool indicating whether to consume a charge of the item being used.
 class iuse
@@ -236,6 +237,7 @@ public:
     virtual ~iuse_actor() { }
     virtual long use( player*, item*, bool, const tripoint& ) const = 0;
     virtual bool can_use( const player*, const item*, bool, const tripoint& ) const { return true; }
+    virtual void info( const item &, std::vector<iteminfo> & ) const {};
     /**
      * Returns a deep copy of this object. Example implementation:
      * \code
@@ -278,6 +280,8 @@ public:
     std::string get_type() const;
     /** @return See @ref iuse_actor::get_name */
     std::string get_name() const;
+    /** @return Used by @ref item::info to get description of the actor */
+    void dump_info( const item &, std::vector<iteminfo> & ) const;
 
     bool can_call(const player *p, const item *it, bool t, const tripoint &pos) const
     {

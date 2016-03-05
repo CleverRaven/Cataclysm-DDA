@@ -7,6 +7,7 @@
 #include "pldata.h" // add_type
 #include "bodypart.h" // body_part::num_bp
 #include "string_id.h"
+#include "explosion.h"
 
 #include <string>
 #include <vector>
@@ -41,14 +42,6 @@ enum bigness_property_aspect : int {
 std::string ammo_name(std::string const &t);
 // Returns the default ammo for a category of ammo (e.g. ""00_shot"")
 std::string const& default_ammo(std::string const &guntype);
-
-struct explosion_data {
-    // Those 4 values are forwarded to game::explosion.
-    float power           = -1.0f;
-    float distance_factor = 0.8f;
-    int shrapnel          = 0;
-    bool fire             = false;
-};
 
 struct islot_container {
     /**
@@ -494,8 +487,10 @@ public:
     int min_per = 0;
     std::map<skill_id, int> min_skills;
 
-    // Explosion that happens when the item is set on fire
-    explosion_data explosion_on_fire_data;
+    // Should the item explode when lit on fire
+    bool explode_in_fire;
+    // How should the item explode
+    explosion_data explosion;
 
     phase_id phase      = SOLID; // e.g. solid, liquid, gas
     unsigned price      = 0; // Its value
@@ -527,11 +522,6 @@ public:
 
     /** Volume above which the magazine starts to protrude from the item and add extra volume */
     int magazine_well;
-
-    bool explode_in_fire() const
-    {
-        return explosion_on_fire_data.power >= 0;
-    }
 
     virtual std::string get_item_type_string() const
     {

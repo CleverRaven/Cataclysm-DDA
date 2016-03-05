@@ -1414,6 +1414,10 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
             }
         }
 
+        for( const auto &method : type->use_methods ) {
+            method.dump_info( *this, info );
+        }
+
         insert_separation_line();
 
         if( is_armor() ) {
@@ -4992,12 +4996,11 @@ iteminfo::iteminfo(std::string Type, std::string Name, std::string Fmt,
 
 void item::detonate( const tripoint &p ) const
 {
-    if (type == NULL || type->explosion_on_fire_data.power < 0) {
+    if( type == nullptr || type->explosion.power < 0 ) {
         return;
     }
 
-    g->explosion( p, type->explosion_on_fire_data.power, type->explosion_on_fire_data.distance_factor,
-                     type->explosion_on_fire_data.fire, type->explosion_on_fire_data.shrapnel );
+    g->explosion( p, type->explosion );
 }
 
 bool item_ptr_compare_by_charges( const item *left, const item *right)

@@ -3054,8 +3054,10 @@
         "sound_volume": 0,
         "sound_msg": "Tick.",
         "no_deactivate_msg": "You've already pulled the %s's pin, try throwing it instead.",
-        "explosion_power": 12,
-        "explosion_shrapnel": 28
+        "explosion": {
+            "power": 12,
+            "shrapnel": 28
+        }
     }
   },
   {
@@ -3652,7 +3654,8 @@
     "flags": ["RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB"],
     "revert_to": "null",
     "category": "weapons",
-    "explode_in_fire" : {
+    "explode_in_fire" : true,
+    "explosion" : {
         "power": 60,
         "shrapnel": 0
     },
@@ -3687,7 +3690,8 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category": "weapons",
-    "explode_in_fire" : {
+    "explode_in_fire" : true,
+    "explosion" : {
         "power": 60,
         "shrapnel": 0
     },
@@ -3696,8 +3700,9 @@
         "sound_volume": 0,
         "sound_msg": "ssss...",
         "no_deactivate_msg": "You've already lit the %s, try throwing it instead.",
-        "explosion_power": 60,
-        "explosion_shrapnel": 0
+        "explosion": {
+            "power": 60
+        }
     }
   },
   {
@@ -3836,8 +3841,9 @@
         "sound_volume": 2,
         "sound_msg": "Tick.",
         "no_deactivate_msg": "You've already set the %s's timer, you might want to get away from it.",
-        "explosion_power": 450,
-        "explosion_shrapnel": 0,
+        "explosion": {
+            "power": 450
+        },
         "fields_type": "fd_nuke_gas",
         "fields_radius": 6,
         "fields_min_density": 3,
@@ -4554,8 +4560,10 @@
         "sound_volume": 0,
         "sound_msg": "Tick.",
         "no_deactivate_msg": "You've already set the %s's timer, you might want to get away from it.",
-        "explosion_power": 40,
-        "explosion_shrapnel": 3
+        "explosion": {
+            "power": 40,
+            "shrapnel": 3
+        }
     }
   },
   {
@@ -8174,8 +8182,9 @@
         "sound_volume": 0,
         "sound_msg": "ssss...",
         "no_deactivate_msg": "You've already lit the %s, try throwing it instead.",
-        "explosion_power": 24,
-        "explosion_shrapnel": 0
+        "explosion": {
+            "power": 24
+        }
     }
   },
  {
@@ -9564,8 +9573,10 @@
     "use_action": {
         "type": "explosion",
         "no_deactivate_msg": "You can't disarm your %s'.  Place it, get away, and use the remote control to detonate.",
-        "explosion_power": 12,
-        "explosion_shrapnel": 4
+        "explosion": {
+            "power": 12,
+            "shrapnel": 4
+        }
     }
   },
   {
@@ -9619,8 +9630,9 @@
     "use_action": {
         "type": "explosion",
         "no_deactivate_msg": "You can't disarm your %s'.  Place it, get away and use the remote control to detonate.",
-        "explosion_power": 60,
-        "explosion_shrapnel": 0
+        "explosion": {
+            "power": 60
+        }
     }
   },
   {
@@ -9800,7 +9812,8 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category": "weapons",
-    "explode_in_fire" : {
+    "explode_in_fire" : true,
+    "explosion" : {
         "power": 80,
         "shrapnel": 0
     },
@@ -9835,7 +9848,8 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category": "weapons",
-    "explode_in_fire" : {
+    "explode_in_fire" : true,
+    "explosion" : {
         "power": 80,
         "shrapnel": 0
     },
@@ -9844,7 +9858,9 @@
         "sound_volume": 0,
         "sound_msg": "ssss...",
         "no_deactivate_msg": "You've already lit the %s, try throwing it instead.",
-        "explosion_power": 80
+        "explosion": {
+            "power": 80
+        }
     }
   },
   {
@@ -10294,8 +10310,10 @@
         "sound_volume": 0,
         "sound_msg": "Tick.",
         "no_deactivate_msg": "You've already lit the fuse – run!",
-        "explosion_power": 500,
-        "explosion_shrapnel": 50
+        "explosion": {
+            "power": 500,
+            "shrapnel": 50
+        }
     }
   },
   {
@@ -10353,8 +10371,10 @@
         "sound_volume": 0,
         "sound_msg": "Kshhh.",
         "no_deactivate_msg": "You've already lit the fuse – throw it!",
-        "explosion_power": 10,
-        "explosion_shrapnel": 5
+        "explosion": {
+            "power": 10,
+            "shrapnel": 5
+        }
     }
   },
   {
@@ -10410,8 +10430,10 @@
         "sound_volume": 0,
         "sound_msg": "Kshhh.",
         "no_deactivate_msg": "You've already lit the fuse – run!",
-        "explosion_power": 60,
-        "explosion_shrapnel": 30
+        "explosion": {
+            "power": 60,
+            "shrapnel": 30
+        }
     }
   },
   {
@@ -10470,8 +10492,10 @@
         "sound_volume": 0,
         "sound_msg": "Kshhh.",
         "no_deactivate_msg": "You've already lit the fuse – what are you waiting for?",
-        "explosion_power": 9,
-        "explosion_shrapnel": 40
+        "explosion": {
+            "power": 9,
+            "shrapnel": 40
+        }
     }
   },
   {
@@ -10529,8 +10553,10 @@
         "sound_volume": 0,
         "sound_msg": "Kshhh.",
         "no_deactivate_msg": "You've already lit the fuse – clear the area immediately!",
-        "explosion_power": 750,
-        "explosion_shrapnel": 200
+        "explosion": {
+            "power": 750,
+            "shrapnel": 200
+        }
     }
   },
   {
@@ -10588,7 +10614,9 @@
         "sound_volume": 5,
         "sound_msg": "Hsssss.",
         "no_deactivate_msg": "You've already lit the fuse – get rid of it immediately!",
-        "explosion_power": 1,
+        "explosion": {
+            "power": 1
+        },
         "fields_radius": 2,
         "fields_type": "fd_smoke",
         "fields_min_density": 2,

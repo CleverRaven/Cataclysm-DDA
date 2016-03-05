@@ -5414,7 +5414,8 @@ void player::update_body( int from, int to )
     }
 
     if( ticks_between( from, to, HOURS(6) ) ) {
-        update_health();
+        // Radiation kills health even at low doses
+        update_health( has_trait( "RADIOGENIC" ) ? 0 : -radiation );
     }
 }
 
@@ -5795,7 +5796,7 @@ void player::regen( int rate_multiplier )
     }
 
     if( radiation > 0 ) {
-        radiation = std::max( 0, radiation - divide_roll_remainder( rate_multiplier / 3.0f, 1.0f ) );
+        radiation = std::max( 0, radiation - roll_remainder( rate_multiplier / 10.0f ) );
     }
 }
 
@@ -7303,7 +7304,10 @@ void player::hardcoded_effects(effect &it)
             it.set_duration(0);
         }
     } else if( id == effect_asthma ) {
-        if (dur > 1200) {
+        if( has_effect( effect_adrenaline ) || has_effect( effect_datura ) ) {
+            add_msg_if_player( m_good, _("Your asthma attack stops.") );
+            it.set_duration( 0 );
+        } else if( dur > 1200 ) {
             add_msg_if_player(m_bad, _("Your asthma overcomes you.\nYou asphyxiate."));
             if (is_player()) {
                 add_memorial_log(pgettext("memorial_male", "Succumbed to an asthma attack."),
@@ -7376,10 +7380,6 @@ void player::hardcoded_effects(effect &it)
             }
         }
     } else if( id == effect_datura ) {
-        if( has_effect( effect_asthma ) ) {
-            add_msg_if_player(m_good, _("You can breathe again!"));
-            remove_effect( effect_asthma );
-        }
         if (dur > 1000 && focus_pool >= 1 && one_in(4)) {
             focus_pool--;
         }
@@ -7790,21 +7790,21 @@ void player::suffer()
             if (mdata.hunger){
                 mod_hunger(mdata.cost);
                 if (get_hunger() >= 700) { // Well into Famished
-                    add_msg(m_warning, _("You're too famished to keep your %s going."), mdata.name.c_str());
+                    add_msg_if_player(m_warning, _("You're too famished to keep your %s going."), mdata.name.c_str());
                     tdata.powered = false;
                 }
             }
             if (mdata.thirst){
                 thirst += mdata.cost;
                 if (thirst >= 260) { // Well into Dehydrated
-                    add_msg(m_warning, _("You're too dehydrated to keep your %s going."), mdata.name.c_str());
+                    add_msg_if_player(m_warning, _("You're too dehydrated to keep your %s going."), mdata.name.c_str());
                     tdata.powered = false;
                 }
             }
             if (mdata.fatigue){
                 fatigue += mdata.cost;
                 if (fatigue >= EXHAUSTED) { // Exhausted
-                    add_msg(m_warning, _("You're too exhausted to keep your %s going."), mdata.name.c_str());
+                    add_msg_if_player(m_warning, _("You're too exhausted to keep your %s going."), mdata.name.c_str());
                     tdata.powered = false;
                 }
             }
@@ -7827,7 +7827,7 @@ void player::suffer()
                 oxygen += 5;
                 charge_power(-25);
             } else {
-                add_msg(m_bad, _("You're drowning!"));
+                add_msg_if_player(m_bad, _("You're drowning!"));
                 apply_damage( nullptr, bp_torso, rng( 1, 4 ) );
             }
         }
@@ -7841,7 +7841,7 @@ void player::suffer()
     double shoe_factor = footwear_factor();
     if( has_trait("ROOTS3") && g->m.has_flag("DIGGABLE", pos()) && !shoe_factor) {
         if (one_in(100)) {
-            add_msg(m_good, _("This soil is delicious!"));
+            add_msg_if_player(m_good, _("This soil is delicious!"));
             if (get_hunger() > -20) {
                 mod_hunger(-2);
             }
@@ -7909,37 +7909,37 @@ void player::suffer()
         }
         if (has_trait("CHEMIMBALANCE")) {
             if (one_in(3600) && (!(has_trait("NOPAIN")))) {
-                add_msg(m_bad, _("You suddenly feel sharp pain for no reason."));
+                add_msg_if_player(m_bad, _("You suddenly feel sharp pain for no reason."));
                 mod_pain( 3 * rng(1, 3) );
             }
             if (one_in(3600)) {
                 int pkilladd = 5 * rng(-1, 2);
                 if (pkilladd > 0) {
-                    add_msg(m_bad, _("You suddenly feel numb."));
+                    add_msg_if_player(m_bad, _("You suddenly feel numb."));
                 } else if ((pkilladd < 0) && (!(has_trait("NOPAIN")))) {
-                    add_msg(m_bad, _("You suddenly ache."));
+                    add_msg_if_player(m_bad, _("You suddenly ache."));
                 }
                 pkill += pkilladd;
             }
             if (one_in(3600)) {
-                add_msg(m_bad, _("You feel dizzy for a moment."));
+                add_msg_if_player(m_bad, _("You feel dizzy for a moment."));
                 moves -= rng(10, 30);
             }
             if (one_in(3600)) {
                 int hungadd = 5 * rng(-1, 3);
                 if (hungadd > 0) {
-                    add_msg(m_bad, _("You suddenly feel hungry."));
+                    add_msg_if_player(m_bad, _("You suddenly feel hungry."));
                 } else {
-                    add_msg(m_good, _("You suddenly feel a little full."));
+                    add_msg_if_player(m_good, _("You suddenly feel a little full."));
                 }
                 mod_hunger(hungadd);
             }
             if (one_in(3600)) {
-                add_msg(m_bad, _("You suddenly feel thirsty."));
+                add_msg_if_player(m_bad, _("You suddenly feel thirsty."));
                 thirst += 5 * rng(1, 3);
             }
             if (one_in(3600)) {
-                add_msg(m_good, _("You feel fatigued all of a sudden."));
+                add_msg_if_player(m_good, _("You feel fatigued all of a sudden."));
                 fatigue += 10 * rng(2, 4);
             }
             if (one_in(4800)) {
@@ -7951,12 +7951,12 @@ void player::suffer()
             }
             if (one_in(3600)) {
                 if (one_in(3)) {
-                    add_msg(m_bad, _("You suddenly feel very cold."));
+                    add_msg_if_player(m_bad, _("You suddenly feel very cold."));
                     for (int i = 0 ; i < num_bp ; i++) {
                         temp_cur[i] = BODYTEMP_VERY_COLD;
                     }
                 } else {
-                    add_msg(m_bad, _("You suddenly feel cold."));
+                    add_msg_if_player(m_bad, _("You suddenly feel cold."));
                     for (int i = 0 ; i < num_bp ; i++) {
                         temp_cur[i] = BODYTEMP_COLD;
                     }
@@ -7964,12 +7964,12 @@ void player::suffer()
             }
             if (one_in(3600)) {
                 if (one_in(3)) {
-                    add_msg(m_bad, _("You suddenly feel very hot."));
+                    add_msg_if_player(m_bad, _("You suddenly feel very hot."));
                     for (int i = 0 ; i < num_bp ; i++) {
                         temp_cur[i] = BODYTEMP_VERY_HOT;
                     }
                 } else {
-                    add_msg(m_bad, _("You suddenly feel hot."));
+                    add_msg_if_player(m_bad, _("You suddenly feel hot."));
                     for (int i = 0 ; i < num_bp ; i++) {
                         temp_cur[i] = BODYTEMP_HOT;
                     }
@@ -7988,10 +7988,10 @@ void player::suffer()
                     add_effect( effect_visuals, rng( 15, 60 ) );
                     break;
                 case 2:
-                    add_msg(m_warning, _("From the south you hear glass breaking."));
+                    add_msg_if_player(m_warning, _("From the south you hear glass breaking."));
                     break;
                 case 3:
-                    add_msg(m_warning, _("YOU SHOULD QUIT THE GAME IMMEDIATELY."));
+                    add_msg_if_player(m_warning, _("YOU SHOULD QUIT THE GAME IMMEDIATELY."));
                     add_morale(MORALE_FEELING_BAD, -50, -150);
                     break;
                 case 4:
@@ -8000,11 +8000,11 @@ void player::suffer()
                     }
                     break;
                 case 5:
-                    add_msg(m_bad, _("You suddenly feel so numb..."));
+                    add_msg_if_player(m_bad, _("You suddenly feel so numb..."));
                     pkill += 25;
                     break;
                 case 6:
-                    add_msg(m_bad, _("You start to shake uncontrollably."));
+                    add_msg_if_player(m_bad, _("You start to shake uncontrollably."));
                     add_effect( effect_shakes, 10 * rng( 2, 5 ) );
                     break;
                 case 7:
@@ -8013,11 +8013,11 @@ void player::suffer()
                     }
                     break;
                 case 8:
-                    add_msg(m_bad, _("It's a good time to lie down and sleep."));
+                    add_msg_if_player(m_bad, _("It's a good time to lie down and sleep."));
                     add_effect( effect_lying_down, 200);
                     break;
                 case 9:
-                    add_msg(m_bad, _("You have the sudden urge to SCREAM!"));
+                    add_msg_if_player(m_bad, _("You have the sudden urge to SCREAM!"));
                     shout(_("AHHHHHHH!"));
                     break;
                 case 10:
@@ -8068,7 +8068,8 @@ void player::suffer()
         }
     } // Done with while-awake-only effects
 
-    if (has_trait("ASTHMA") && one_in(3600 - stim * 50)) {
+    if( has_trait("ASTHMA") && one_in(3600 - stim * 50) &&
+        !has_effect( effect_adrenaline ) & !has_effect( effect_datura ) ) {
         bool auto_use = has_charges("inhaler", 1);
         if (underwater) {
             oxygen = int(oxygen / 2);
@@ -8199,47 +8200,23 @@ void player::suffer()
     // and visuals about once every 30 min.
     if (has_trait("PER_SLIME")) {
         if (one_in(600) && !has_effect( effect_deaf )) {
-            add_msg(m_bad, _("Suddenly, you can't hear anything!"));
+            add_msg_if_player(m_bad, _("Suddenly, you can't hear anything!"));
             add_effect( effect_deaf, 100 * rng ( 2, 6 ) ) ;
         }
         if (one_in(600) && !(has_effect( effect_blind ))) {
-            add_msg(m_bad, _("Suddenly, your eyes stop working!"));
+            add_msg_if_player(m_bad, _("Suddenly, your eyes stop working!"));
             add_effect( effect_blind, 10 * rng ( 2, 6 ) ) ;
         }
         // Yes, you can be blind and hallucinate at the same time.
         // Your post-human biology is truly remarkable.
         if (one_in(300) && !(has_effect( effect_visuals ))) {
-            add_msg(m_bad, _("Your visual centers must be acting up..."));
+            add_msg_if_player(m_bad, _("Your visual centers must be acting up..."));
             add_effect( effect_visuals, 120 * rng ( 3, 6 ) ) ;
         }
     }
 
     if (has_trait("WEB_SPINNER") && !in_vehicle && one_in(3)) {
         g->m.add_field( pos(), fd_web, 1, 0 ); //this adds density to if its not already there.
-    }
-
-    if( has_trait("RADIOGENIC") && int(calendar::turn) % MINUTES(30) == 0 && radiation > 0 ) {
-        // At 100 irradiation, twice as fast as REGEN
-        if( x_in_y( radiation, 100 ) ) {
-            healall( 1 );
-            radiation -= 5;
-        }
-    }
-
-    int rad_mut = 0;
-    if (has_trait("RADIOACTIVE3") ) {
-        rad_mut = 3;
-    } else if (has_trait("RADIOACTIVE2")) {
-        rad_mut = 2;
-    } else if (has_trait("RADIOACTIVE1")) {
-        rad_mut = 1;
-    }
-    if( rad_mut > 0 ) {
-        if( g->m.get_radiation( pos() ) < rad_mut - 1 && one_in( 600 / rad_mut ) ) {
-            g->m.adjust_radiation( pos(), 1 );
-        } else if( one_in( 300 / rad_mut ) ) {
-            radiation++;
-        }
     }
 
     if (has_trait("UNSTABLE") && one_in(28800)) { // Average once per 2 days
@@ -8256,38 +8233,77 @@ void player::suffer()
     }
 
     // checking for radioactive items in inventory
-    int selfRadiation = 0;
-    selfRadiation = leak_level("RADIOACTIVE");
+    const int item_radiation = leak_level("RADIOACTIVE");
 
-    int localRadiation = g->m.get_radiation( pos() );
+    const int map_radiation = g->m.get_radiation( pos() );
 
-    if (localRadiation || selfRadiation) {
+    int rad_mut = 0;
+    if( has_trait("RADIOACTIVE3") ) {
+        rad_mut = 3;
+    } else if( has_trait("RADIOACTIVE2") ) {
+        rad_mut = 2;
+    } else if( has_trait("RADIOACTIVE1") ) {
+        rad_mut = 1;
+    }
+
+    // Spread less radiation when sleeping (slower metabolism etc.)
+    // Otherwise it can quickly get to the point where you simply can't sleep at all
+    const bool rad_mut_proc = rad_mut > 0 && x_in_y( rad_mut, in_sleep_state() ? HOURS(3) : MINUTES(30) );
+
+    // Used to control vomiting from radiation to make it not-annoying
+    bool radiation_increasing = false;
+
+    if( item_radiation > 0 || map_radiation > 0 || rad_mut > 0 ) {
         bool has_helmet = false;
+        const bool power_armored = is_wearing_power_armor(&has_helmet);
+        const bool rad_immune = (power_armored && has_helmet) || worn_with_flag("RAD_PROOF");
+        const bool rad_resist = rad_immune || power_armored || worn_with_flag("RAD_RESIST");
 
-        bool power_armored = is_wearing_power_armor(&has_helmet);
-
-        double rads;
-        if ((power_armored && has_helmet) || worn_with_flag("RAD_PROOF")) {
-            rads = 0; // Power armor protects completely from radiation
-        } else if (power_armored || worn_with_flag("RAD_RESIST")) {
-            rads = localRadiation / 200.0f + selfRadiation / 10.0f;
+        float rads;
+        if( rad_immune ) {
+            // Power armor protects completely from radiation
+            rads = 0.0f;
+        } else if( rad_resist ) {
+            rads = map_radiation / 400.0f + item_radiation / 40.0f;
         } else {
-            rads = localRadiation / 32.0f + selfRadiation / 3.0f;
+            rads = map_radiation / 100.0f + item_radiation / 10.0f;
         }
-        if (has_effect( effect_iodine )) {
-            rads *= 0.33;
-        }
-        int rads_max = 0;
-        if( rads > 0 ) {
-            rads_max = static_cast<int>( rads );
-            if( x_in_y( rads - rads_max, 1 ) ) {
-                rads_max++;
+
+        if( rad_mut > 0 ) {
+            const bool kept_in = rad_immune || (rad_resist && !one_in( 4 ));
+            if( kept_in ) {
+                // As if standing on a map tile with radiation level equal to rad_mut
+                rads += rad_mut / 100.0f;
             }
-            if( calendar::once_every(MINUTES(3)) && has_bionic("bio_geiger") && localRadiation > 0 ) {
-                add_msg(m_warning, _("You feel anomalous sensation coming from your radiation sensors."));
+
+            if( rad_mut_proc && !kept_in ) {
+                // Irradiate a random nearby point
+                // If you can't, irradiate the player instead
+                tripoint rad_point = pos() + point( rng( -3, 3 ), rng( -3, 3 ) );
+                // TODO: Radioactive vehicles?
+                if( g->m.get_radiation( rad_point ) < rad_mut ) {
+                    g->m.adjust_radiation( rad_point, 1 );
+                } else {
+                    rads += rad_mut;
+                }
             }
         }
+
+        if( has_effect( effect_iodine ) ) {
+            // Radioactive mutation makes iodine less efficient (but more useful)
+            rads *= 0.3f + 0.1f * rad_mut;
+        }
+
+        if( rads > 0.0f && calendar::once_every(MINUTES(3)) && has_bionic("bio_geiger") ) {
+            add_msg_if_player(m_warning, _("You feel anomalous sensation coming from your radiation sensors."));
+        }
+
+        int rads_max = roll_remainder( rads );
         radiation += rng( 0, rads_max );
+
+        if( rads > 0.0f ) {
+            radiation_increasing = true;
+        }
 
         // Apply rads to any radiation badges.
         for (item *const it : inv_dump()) {
@@ -8318,8 +8334,8 @@ void player::suffer()
                 continue;
             }
 
-            add_msg_if_player(m_warning, _("Your radiation badge changes from %1$s to %2$s!"),
-                col_before.c_str(), col_after.c_str() );
+            add_msg_if_player( m_warning, _("Your radiation badge changes from %1$s to %2$s!"),
+                               col_before.c_str(), col_after.c_str() );
         }
     }
 
@@ -8329,18 +8345,42 @@ void player::suffer()
         } else if (radiation > 2000) {
             radiation = 2000;
         }
-        if (OPTIONS["RAD_MUTATION"] && rng(60, 2500) < radiation) {
+        if( OPTIONS["RAD_MUTATION"] && rng(100, 10000) < radiation ) {
             mutate();
-            radiation /= 2;
-            radiation -= 5;
-        } else if (radiation > 100 && rng(1, 1500) < radiation) {
-            vomit();
             radiation -= 50;
+        } else if( radiation > 50 && rng(1, 3000) < radiation &&
+                   ( get_stomach_food() > 0 || get_stomach_water() > 0 ||
+                     radiation_increasing || !in_sleep_state() ) ) {
+            vomit();
+            radiation -= 1;
         }
     }
 
-    if( radiation > 150 && ( int(calendar::turn) % MINUTES(10) == 0 ) ) {
-        hurtall(radiation / 100, nullptr);
+    const bool radiogenic = has_trait("RADIOGENIC");
+    if( radiogenic && int(calendar::turn) % MINUTES(30) == 0 && radiation > 0 ) {
+        // At 200 irradiation, twice as fast as REGEN
+        if( x_in_y( radiation, 200 ) ) {
+            healall( 1 );
+            if( rad_mut == 0 ) {
+                // Don't heal radiation if we're generating it naturally
+                // That would counter the main downside of radioactivity
+                radiation -= 5;
+            }
+        }
+    }
+
+    if( !radiogenic && radiation > 0 ) {
+        // Even if you heal the radiation itself, the damage is done.
+        // Until you heal it with vitamins...
+        const int hmod = get_healthy_mod();
+        if( hmod > 200 - radiation ) {
+            set_healthy_mod( std::max( -200, 200 - radiation ) );
+        }
+    }
+
+    if( radiation > 200 && ( int(calendar::turn) % MINUTES(10) == 0 ) && x_in_y( radiation, 1000 ) ) {
+        hurtall( 1, nullptr );
+        radiation -= 5;
     }
 
     if (reactor_plut || tank_plut || slow_rad) {
@@ -8401,7 +8441,7 @@ void player::suffer()
                 while (power_gen >= 250) {
                     apply_damage( nullptr, bp_torso, 1);
                     mod_pain(1);
-                    add_msg(m_bad, _("Your chest burns as your power systems overload!"));
+                    add_msg_if_player(m_bad, _("Your chest burns as your power systems overload!"));
                     charge_power(50);
                     power_gen -= 60; // ten units of power lost due to short-circuiting into you
                 }
@@ -8413,33 +8453,37 @@ void player::suffer()
             reactor_plut *= 0.6;
             tank_plut *= 0.6;
         }
-        while (slow_rad >= 500) {
+        while (slow_rad >= 1000) {
             radiation += 1;
-            slow_rad -=500;
+            slow_rad -= 1000;
         }
     }
 
     // Negative bionics effects
     if (has_bionic("bio_dis_shock") && one_in(1200)) {
-        add_msg(m_bad, _("You suffer a painful electrical discharge!"));
+        add_msg_if_player(m_bad, _("You suffer a painful electrical discharge!"));
         mod_pain(1);
         moves -= 150;
 
         if (weapon.type->id == "e_handcuffs" && weapon.charges > 0) {
             weapon.charges -= rng(1, 3) * 50;
-            if (weapon.charges < 1) weapon.charges = 1;
-            add_msg(m_good, _("The %s seems to be affected by the discharge."), weapon.tname().c_str());
+            if (weapon.charges < 1) {
+                weapon.charges = 1;
+            }
+
+            add_msg_if_player(m_good, _("The %s seems to be affected by the discharge."), weapon.tname().c_str());
         }
     }
     if (has_bionic("bio_dis_acid") && one_in(1500)) {
-        add_msg(m_bad, _("You suffer a burning acidic discharge!"));
+        add_msg_if_player(m_bad, _("You suffer a burning acidic discharge!"));
         hurtall(1, nullptr);
     }
     if (has_bionic("bio_drain") && power_level > 24 && one_in(600)) {
-        add_msg(m_bad, _("Your batteries discharge slightly."));
+        add_msg_if_player(m_bad, _("Your batteries discharge slightly."));
         charge_power(-25);
     }
     if (has_bionic("bio_noise") && one_in(500)) {
+        // TODO: NPCs with said bionic
         if(!is_deaf()) {
             add_msg(m_bad, _("A bionic emits a crackle of noise!"));
         } else {
@@ -8452,17 +8496,17 @@ void player::suffer()
         mod_str_bonus(-3);
     }
     if (has_bionic("bio_trip") && one_in(500) && !has_effect( effect_visuals )) {
-        add_msg(m_bad, _("Your vision pixelates!"));
+        add_msg_if_player(m_bad, _("Your vision pixelates!"));
         add_effect( effect_visuals, 100 );
     }
     if (has_bionic("bio_spasm") && one_in(3000) && !has_effect( effect_downed )) {
-        add_msg(m_bad, _("Your malfunctioning bionic causes you to spasm and fall to the floor!"));
+        add_msg_if_player(m_bad, _("Your malfunctioning bionic causes you to spasm and fall to the floor!"));
         mod_pain(1);
         add_effect( effect_stunned, 1);
         add_effect( effect_downed, 1, num_bp, false, 0, true );
     }
     if (has_bionic("bio_shakes") && power_level > 24 && one_in(1200)) {
-        add_msg(m_bad, _("Your bionics short-circuit, causing you to tremble and shiver."));
+        add_msg_if_player(m_bad, _("Your bionics short-circuit, causing you to tremble and shiver."));
         charge_power(-25);
         add_effect( effect_shakes, 50 );
     }
@@ -8473,8 +8517,8 @@ void player::suffer()
         fatigue++;
     }
     if (has_bionic("bio_itchy") && one_in(500) && !has_effect( effect_formication )) {
-        add_msg(m_bad, _("Your malfunctioning bionic itches!"));
-      body_part bp = random_body_part(true);
+        add_msg_if_player(m_bad, _("Your malfunctioning bionic itches!"));
+        body_part bp = random_body_part(true);
         add_effect( effect_formication, 100, bp );
     }
 
@@ -8509,6 +8553,10 @@ void player::mend( int rate_multiplier )
         healing_factor *= 0.5;
     }
 
+    if( radiation > 0 && !has_trait( "RADIOGENIC" ) ) {
+        healing_factor *= std::max( 0.0f, (1000.0f - radiation) / 1000.0f );
+    }
+
     // Bed rest speeds up mending
     if( has_effect( effect_sleep ) ) {
         healing_factor *= 4.0;
@@ -8519,7 +8567,7 @@ void player::mend( int rate_multiplier )
 
     // Being healthy helps.
     if( get_healthy() > 0 ) {
-        healing_factor *= 2.0;
+        healing_factor *= get_healthy() / 200.0f;
     }
 
     // And being well fed...

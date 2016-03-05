@@ -2949,8 +2949,8 @@ void mattack::tankgun( monster *z, Creature *target )
         target->add_msg_if_player( m_warning, _("You're not sure why you've got a laser dot on you...") );
         //~ Sound of a tank turret swiveling into place
         sounds::sound(z->pos(), 10, _("whirrrrrclick."));
-        z->add_effect( effect_targeted, 5);
-        target->add_effect( effect_laserlocked, 5 );
+        z->add_effect( effect_targeted, 10 );
+        target->add_effect( effect_laserlocked, 10 );
         z->moves -= 200;
         // Should give some ability to get behind cover,
         // even though it's patently unrealistic.
@@ -4462,15 +4462,15 @@ bool mattack::kamikaze(monster *z)
         radius = exp_actor->emp_blast_radius;
     }
     // Extra check here to avoid sqrt if not needed
-    if (exp_actor->explosion_power > -1) {
-        int tmp = int(sqrt(double(exp_actor->explosion_power / 4)));
+    if (exp_actor->explosion.power > -1) {
+        int tmp = int(sqrt(double(exp_actor->explosion.power / 4)));
         if (tmp > radius) {
             radius = tmp;
         }
     }
-    if( exp_actor->shrapnel_count > 0 ) {
+    if( exp_actor->explosion.shrapnel.count > 0 ) {
         // Actual factor is 2 * radius, but figure most pieces of shrapnel will miss
-        int tmp = int(sqrt(double(exp_actor->explosion_power / 4)));
+        int tmp = int(sqrt(double(exp_actor->explosion.power / 4)));
         if (tmp > radius) {
             radius = tmp;
         }

@@ -36,6 +36,7 @@ class start_location;
 using start_location_id = string_id<start_location>;
 struct it_comest;
 struct w_point;
+struct points_left;
 
 // This tries to represent both rating and
 // player's decision to respect said rating
@@ -132,7 +133,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         // newcharacter.cpp
         bool create(character_type type, std::string tempname = "");
-        void randomize( bool random_scenario, int &points );
+        void randomize( bool random_scenario, points_left &points );
         bool load_template( const std::string &template_name );
         /** Calls Character::normalize()
          *  normalizes HP and bodytemperature

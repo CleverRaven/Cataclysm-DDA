@@ -287,6 +287,21 @@
   },
   {
     "type" : "item_group",
+    "id" : "ammo_parts",
+    "//" : "Raw materials for assembling ammo excluding casings.",
+    "items":[
+      [ "gunpowder", 320 ],
+      [ "incendiary", 20 ],
+      [ "lead", 160 ],
+      [ "shotgun_primer", 80 ],
+      [ "smpistol_primer", 80 ],
+      [ "smrifle_primer", 80 ],
+      [ "lgpistol_primer", 40 ],
+      [ "lgrifle_primer", 40 ]
+    ]
+  },
+  {
+    "type" : "item_group",
     "id" : "ammo_cop",
     "//" : "Ammo for police issue firearms.",
     "items":[

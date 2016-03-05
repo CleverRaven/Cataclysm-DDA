@@ -155,19 +155,9 @@ extern std::vector<tripoint> points_for_gas_cloud(const tripoint &center, int ra
 
 void explosion_iuse::load( JsonObject &obj )
 {
-    obj.read( "explosion_power", explosion_power );
-    obj.read( "explosion_distance_factor", explosion_distance_factor );
-    obj.read( "explosion_fire", explosion_fire );
-
-    if( obj.has_object( "shrapnel" ) ) {
-        auto shrapnel = obj.get_object( "shrapnel" );
-        shrapnel.read( "count", shrapnel_count );
-        shrapnel.read( "mass", shrapnel_mass );
-        shrapnel.read( "recovery", shrapnel_recovery );
-        shrapnel.read( "drop", shrapnel_drop );
-    } else {
-        // handle legacy JSON
-        obj.read( "explosion_shrapnel", shrapnel_count );
+    if( obj.has_object( "explosion" ) ) {
+        auto expl = obj.get_object( "explosion" );
+        explosion = load_explosion_data( expl );
     }
 
     obj.read( "draw_explosion_radius", draw_explosion_radius );
@@ -207,29 +197,8 @@ long explosion_iuse::use(player *p, item *it, bool t, const tripoint &pos) const
         return 0;
     }
 
-    if( explosion_power >= 0 ) {
-        auto distrib = g->explosion( pos, explosion_power, explosion_distance_factor, explosion_fire, shrapnel_count, shrapnel_mass );
-
-        // if explosion drops shrapnel...
-        if( shrapnel_count > 0 && shrapnel_recovery > 0 && shrapnel_drop != "null" ) {
-
-            // extract only passable tiles affected by shrapnel
-            std::vector<tripoint> tiles;
-            for( const auto& e : distrib ) {
-                if( g->m.passable( e.first ) && e.second.second >= 0 ) {
-                    tiles.push_back( e.first );
-                }
-            }
-
-            // truncate to a random selection
-            int qty = shrapnel_count * std::min( shrapnel_recovery, 100 ) / 100;
-            std::random_shuffle( tiles.begin(), tiles.end() );
-            tiles.resize( std::min( int( tiles.size() ), qty ) );
-
-            for( const auto& e : tiles ) {
-                g->m.add_item_or_charges( e, item( shrapnel_drop, calendar::turn, item::solitary_tag{} ) );
-            }
-        }
+    if( explosion.power >= 0.0f ) {
+        g->explosion( pos, explosion );
     }
 
     if (draw_explosion_radius >= 0) {
@@ -2790,4 +2759,35 @@ hp_part heal_actor::use_healing_item( player &healer, player &patient, item &it,
     }
 
     return healed;
+}
+
+void heal_actor::info( const item &, std::vector<iteminfo> &dump ) const
+{
+    if( head_power > 0 || torso_power > 0 || limb_power > 0 ) {
+        dump.emplace_back( "TOOL", _( "<bold>Base healing:</bold> " ), "", -999, true, "", true );
+        dump.emplace_back( "TOOL", _( "Head: " ), "", head_power, true, "", false );
+        dump.emplace_back( "TOOL", _( "  Torso: " ), "", torso_power, true, "", false );
+        dump.emplace_back( "TOOL", _( "  Limbs: " ), "", limb_power, true, "", true );
+        if( g != nullptr ) {
+            dump.emplace_back( "TOOL", _( "<bold>Actual healing:</bold> " ), "", -999, true, "", true );
+            dump.emplace_back( "TOOL", _( "Head: " ), "", get_heal_value( g->u, hp_head ), true, "", false );
+            dump.emplace_back( "TOOL", _( "  Torso: " ), "", get_heal_value( g->u, hp_torso ), true, "", false );
+            dump.emplace_back( "TOOL", _( "  Limbs: " ), "", get_heal_value( g->u, hp_arm_l ), true, "", true );
+        }
+    }
+
+    if( bleed > 0.0f || bite > 0.0f || infect > 0.0f ) {
+        dump.emplace_back( "TOOL", _( "<bold>Chance to heal (percent):</bold> " ), "", -999, true, "", true );
+        if( bleed > 0.0f ) {
+            dump.emplace_back( "TOOL", _( "<bold>Bleeding</bold>:" ), "", (int)(bleed * 100), true, "", true );
+        }
+        if( bite > 0.0f ) {
+            dump.emplace_back( "TOOL", _( "<bold>Bite</bold>:" ), "", (int)(bite * 100), true, "", true );
+        }
+        if( infect > 0.0f ) {
+            dump.emplace_back( "TOOL", _( "<bold>Infection</bold>:" ), "", (int)(infect * 100), true, "", true );
+        }
+    }
+
+    dump.emplace_back( "TOOL", _( "<bold>Moves to use</bold>:" ), "", move_cost );
 }

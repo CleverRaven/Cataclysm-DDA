@@ -51,11 +51,14 @@
         "sound_msg": "Hiss.",
         "no_deactivate_msg": "You've already lit the %s's fuse, try throwing it instead.",
         "explosion_power": 5,
-        "shrapnel": {
-            "count": 40,
-            "mass": 4,
-            "recovery": 10,
-            "drop": "nail"
+        "explosion": {
+            "power": 12,
+            "shrapnel": {
+                "count": 40,
+                "mass": 4,
+                "recovery": 10,
+                "drop": "nail"
+            }
         }
     },
     "flags": [ "BOMB" ]

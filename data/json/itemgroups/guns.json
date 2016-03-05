@@ -242,6 +242,28 @@
     ]
   },
   {
+    "type": "item_group",
+    "id": "guns_common",
+    "//": "Guns of all types commonly owned by citizens and found in many locations.",
+    "items": [
+      { "group": "guns_pistol_common", "prob": 100 },
+      { "group": "guns_rifle_common", "prob": 20 },
+      { "group": "guns_smg_common", "prob": 5 },
+      { "group": "guns_shotgun_common", "prob": 40 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_rare",
+    "//": "Less common guns of all types including those only used by police/paramilitary forces.",
+    "items": [
+      { "group": "guns_pistol_rare", "prob": 100 },
+      { "group": "guns_smg_rare", "prob": 30 },
+      { "group": "guns_rifle_rare", "prob": 70 },
+      { "group": "guns_shotgun_rare", "prob": 70 }
+    ]
+  },
+  {
     "type" : "item_group",
     "id" : "guns_obscure",
     "//" : "Imported or otherwise very obscure guns of all types.",
@@ -301,7 +323,7 @@
     "id": "guns_survival",
     "//": "Guns typically carried by survivors, either improvised or thematically appropriate.",
     "items": [
-      { "group": "guns_improvised", "prob": 100 },
+      { "group": "guns_improvised", "prob": 200 },
       [ "ar15", 5 ],
       [ "mossberg_500", 5 ],
       [ "remington_870", 5 ],

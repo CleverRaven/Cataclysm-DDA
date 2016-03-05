@@ -279,6 +279,7 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
     drop_or_embed_projectile( attack );
 
     apply_ammo_effects( tp, proj.proj_effects );
+    g->explosion( tp, proj.get_custom_explosion() );
 
     // TODO: Move this outside now that we have hit point in return values?
     if( proj.proj_effects.count( "BOUNCE" ) ) {
@@ -668,6 +669,9 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
 
     // Put the item into the projectile
     proj.set_drop( std::move( thrown ) );
+    if( thrown.has_flag( "CUSTOM_EXPLOSION" ) ) {
+        proj.set_custom_explosion( thrown.type->explosion );
+    }
     const int range = rl_dist( pos(), target );
     proj.range = range;
 
@@ -1243,6 +1247,10 @@ static projectile make_gun_projectile( const item &gun ) {
             item drop( gun.ammo_current(), calendar::turn, 1 );
             drop.active = fx.count( "ACT_ON_RANGED_HIT" );
             proj.set_drop( drop );
+        }
+
+        if( fx.count( "CUSTOM_EXPLOSION" ) > 0  ) {
+            proj.set_custom_explosion( gun.ammo_data()->explosion );
         }
     }
 

@@ -2739,6 +2739,24 @@
         }
     },{
         "type" : "terrain",
+        "id" : "t_tree_dead",
+        "name": "dead tree",
+        "symbol": "7",
+        "color": "brown",
+        "move_cost": 0,
+        "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT"],
+        "bash": {
+            "str_min": 70, "str_max": 140,
+            "sound": "crunch!",
+            "sound_fail": "whack!",
+            "ter_set": "t_dirt",
+            "items": [
+                { "item": "stick", "count": [3, 10] },
+                { "item": "splinter", "count": [10, 25] }
+            ]
+        }
+    },{
+        "type" : "terrain",
         "id" : "t_tree_young",
         "name": "young tree",
         "symbol": "1",
