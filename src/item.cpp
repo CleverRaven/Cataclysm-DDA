@@ -4565,7 +4565,7 @@ bool item::reload( player &u, item_location loc, long qty )
         } else if ( !target->magazine_integral() ) {
             // if we already have a magazine loaded prompt to eject it
             if( target->magazine_current() ) {
-                std::string prompt = string_format( _( "Eject %s from %s?" ), ammo->tname().c_str(), target->tname().c_str() );
+                std::string prompt = string_format( _( "Eject %1$s from %2$s?" ), ammo->tname().c_str(), target->tname().c_str() );
                 if( !u.dispose_item( *target->magazine_current(), prompt ) ) {
                     return false;
                 }
