@@ -18,7 +18,8 @@ LDFLAGS += -L.
 # Allow use of any header files from cataclysm.
 # Catch sections throw unused variable warnings.
 # Add no-sign-compare to fix MXE issue when compiling
-CXXFLAGS += -I../src -Wno-unused-variable -Wno-sign-compare
+# Catch also uses "#pragma gcc diagnostic", which is not recognized on some supported compilers.
+CXXFLAGS += -I../src -Wno-unused-variable -Wno-sign-compare -Wno-unknown-pragmas
 
 tests: cata_test
 
