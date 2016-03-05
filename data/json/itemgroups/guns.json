@@ -20,16 +20,18 @@
     "id" : "guns_pistol_rare",
     "//" : "Less common pistols including those only used by police/paramilitary forces.",
     "items": [
-      [ "deagle_44", 30 ],
+      [ "deagle_44", 35 ],
       [ "fn57", 80 ],
-      [ "l_sp_45", 30 ],
+      [ "l_enforcer_45", 25 ],
+      [ "l_lookout_9mm", 20 ],
+      [ "l_sp_45", 35 ],
       [ "l_sp_9mm", 60 ],
-      [ "ruger_lcr_22", 30 ],
-      [ "sig_40", 30 ],
-      [ "sig_p230", 40 ],
-      [ "taurus_38", 30 ],
+      [ "ruger_lcr_22", 35 ],
+      [ "sig_40", 35 ],
+      [ "sig_p230", 45 ],
+      [ "taurus_38", 35 ],
       [ "usp_45", 70 ],
-      [ "usp_9mm", 130 ]
+      [ "usp_9mm", 120 ]
     ]
   },
   {
@@ -38,10 +40,11 @@
     "//" : "Military specification pistols only ever found at military sites.",
     "items": [
       [ "hk_ucp", 100 ],
+      [ "l_bak_223", 60 ],
       [ "l_mp_45", 70 ],
       [ "l_mp_9mm", 100 ],
-      [ "needlepistol", 30 ],
-      [ "rm103a_pistol", 20 ]
+      [ "needlepistol", 45 ],
+      [ "rm103a_pistol", 35 ]
     ]
   },
   {
@@ -144,6 +147,7 @@
       [ "l_base_223", 30 ],
       [ "l_car_223", 20 ],
       [ "l_dsr_223", 10 ],
+      [ "l_long_45", 30 ],
       [ "m14ebr", 15 ],
       [ "m4a1", 45 ],
       [ "m1903", 15 ],
@@ -192,8 +196,10 @@
     "id" : "guns_rifle_improvised",
     "//" : "Makeshift or otherwise poor quality rifles.",
     "items": [
-      [ "rifle_22", 100 ],
-      [ "rifle_9mm", 100 ]
+      [ "rifle_22", 60 ],
+      [ "rifle_3006", 30 ],
+      [ "rifle_9mm", 60 ],
+      [ "surv_carbine_223", 120 ]
     ]
   },
   {
@@ -212,7 +218,9 @@
     "id" : "guns_shotgun_rare",
     "//" : "Less common shotguns including those only used by police/paramilitary forces.",
     "items": [
-      [ "m1014", 100 ],
+      [ "m1014", 80 ],
+      [ "rm120c", 30 ],
+      [ "rm228", 30 ],
       [ "saiga_12", 50 ]
     ]
   },
@@ -237,8 +245,10 @@
     "id" : "guns_shotgun_improvised",
     "//" : "Makeshift or otherwise poor quality shotguns.",
     "items": [
+      [ "pipe_double_shotgun", 70 ],
       [ "pipe_shotgun", 100 ],
-      [ "blunderbuss", 100 ]
+      [ "blunderbuss", 70 ],
+      [ "revolver_shotgun", 30 ]
     ]
   },
   {
