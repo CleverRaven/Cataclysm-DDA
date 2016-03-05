@@ -1689,7 +1689,7 @@ int lua_mapgen( map *m, std::string id, mapgendata md, int t, float d, const std
  *     *   *  ***\n\
  *     *   * *   *\n\
  *****  ***  *   *\n\
-", mapf::ter_bind("*", t_paper), mapf::basic_bind(""));
+", mapf::ter_bind("*", t_paper), mapf::furn_bind("*", f_null));
     return 0;
 }
 #endif

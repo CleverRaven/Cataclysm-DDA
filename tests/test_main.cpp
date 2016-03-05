@@ -36,7 +36,7 @@ void init_global_game_state() {
     g->m.load( g->get_levx(), g->get_levy(), g->get_levz(), false );
 }
 
-int main( int argc, char* const argv[] )
+int main( int argc, const char *argv[] )
 {
   // TODO: Only init game if we're running tests that need it.
   init_global_game_state();
