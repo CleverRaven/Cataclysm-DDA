@@ -1,4 +1,4 @@
-#include "morale.h"
+#include "morale_types.h"
 
 #include "cata_utility.h"
 #include "debug.h"

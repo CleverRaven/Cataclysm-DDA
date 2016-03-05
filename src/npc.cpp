@@ -17,7 +17,7 @@
 #include "mission.h"
 #include "json.h"
 #include "sounds.h"
-#include "morale.h"
+#include "morale_types.h"
 #include "overmap.h"
 #include "vehicle.h"
 #include "mtype.h"

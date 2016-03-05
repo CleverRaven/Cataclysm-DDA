@@ -10,7 +10,7 @@
 #include "mondeath.h"
 #include "iuse_actor.h"
 #include "translations.h"
-#include "morale.h"
+#include "morale_types.h"
 #include "event.h"
 #include "itype.h"
 #include "mtype.h"

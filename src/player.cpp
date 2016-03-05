@@ -27,7 +27,7 @@
 #include "sounds.h"
 #include "item_action.h"
 #include "mongroup.h"
-#include "morale.h"
+#include "morale_types.h"
 #include "input.h"
 #include "veh_type.h"
 #include "overmap.h"

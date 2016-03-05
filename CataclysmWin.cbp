@@ -529,7 +529,7 @@
 		<Unit filename="src/monstergenerator.h" />
 		<Unit filename="src/morale.cpp" />
 		<Unit filename="src/morale.h" />
-		<Unit filename="src/moraledata.h" />
+		<Unit filename="src/morale_types.h" />
 		<Unit filename="src/mtype.cpp" />
 		<Unit filename="src/mtype.h" />
 		<Unit filename="src/mutation.cpp" />

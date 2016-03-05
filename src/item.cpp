@@ -29,7 +29,6 @@
 #include "mtype.h"
 #include "field.h"
 #include "weather.h"
-#include "morale.h"
 #include "catacharset.h"
 #include "cata_utility.h"
 #include "input.h"
@@ -1535,7 +1534,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                 }
             }
         }
-        
+
         if( is_gun() && has_flag( "FIRE_TWOHAND" ) ) {
             info.push_back( iteminfo( "DESCRIPTION",
                                       _( "* This weapon needs <info>two free hands</info> to fire." ) ) );

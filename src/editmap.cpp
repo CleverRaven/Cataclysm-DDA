@@ -17,7 +17,6 @@
 #include "overmapbuffer.h"
 #include "compatibility.h"
 #include "translations.h"
-#include "morale.h"
 #include "coordinates.h"
 #include "npc.h"
 #include "vehicle.h"

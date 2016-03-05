@@ -9,7 +9,7 @@
 #include "overmapbuffer.h"
 #include "messages.h"
 #include "sounds.h"
-#include "morale.h"
+#include "morale_types.h"
 #include "mapdata.h"
 
 #include <climits>

@@ -14,7 +14,6 @@
 #include "filesystem.h"
 #include "path_info.h"
 #include "mapsharing.h"
-#include "morale.h"
 #include "sounds.h"
 
 #include <fstream>
@@ -260,7 +259,7 @@ bool game::opening_screen()
         popup( _( "Unable to make config directory. Check permissions." ) );
         return false;
     }
-    
+
     if( !assure_dir_exist( FILENAMES["savedir"] ) ) {
         popup( _( "Unable to make save directory. Check permissions." ) );
         return false;

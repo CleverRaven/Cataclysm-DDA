@@ -24,7 +24,7 @@
 #include "ui.h"
 #include "mongroup.h"
 #include "itype.h"
-#include "morale.h"
+#include "morale_types.h"
 #include "trap.h"
 #include "overmap.h"
 #include "mtype.h"

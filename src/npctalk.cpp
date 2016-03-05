@@ -9,7 +9,7 @@
 #include "catacharset.h"
 #include "messages.h"
 #include "mission.h"
-#include "morale.h"
+#include "morale_types.h"
 #include "ammo.h"
 #include "overmapbuffer.h"
 #include "json.h"
