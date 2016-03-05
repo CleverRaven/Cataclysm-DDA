@@ -30,7 +30,7 @@ void calculate_bodypart_distribution( monster &attacker, monster &defender, int 
 
     for( auto weight : selected_part_histogram ) {
         CHECK( Approx(expected[weight.first] / total_weight).epsilon(0.01) ==
-               weight.second / 15000.0 );
+               ( weight.second / 15000.0 ) );
     }
 }
 
