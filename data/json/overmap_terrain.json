@@ -742,7 +742,7 @@
     },{
         "type" : "overmap_terrain",
         "id" : "s_teashop",
-        "name" : "teashop shop",
+        "name" : "teashop",
         "rotate" : true,
         "sym" : [94, 62, 118, 60],
         "color" : "white_magenta",
