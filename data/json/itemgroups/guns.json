@@ -248,7 +248,8 @@
       [ "pipe_double_shotgun", 70 ],
       [ "pipe_shotgun", 100 ],
       [ "blunderbuss", 70 ],
-      [ "revolver_shotgun", 30 ]
+      [ "revolver_shotgun", 30 ],
+      [ "surv_levershotgun", 40 ]
     ]
   },
   {

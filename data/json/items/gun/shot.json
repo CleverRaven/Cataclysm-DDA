@@ -269,5 +269,33 @@
     "barrel_length": 4,
     "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ]
+  },
+  {
+    "id": "surv_levershotgun",
+    "type": "GUN",
+    "name": "makeshift lever shotgun",
+    "description": "A well designed homemade lever-action shotgun.  With a 8 round magazine, this is one of the better homemade weapons.",
+    "weight": 3934,
+    "volume": 10,
+    "price": 135000,
+    "bashing": 12,
+    "to_hit": -1,
+    "material": [ "steel", "wood" ],
+    "symbol": "(",
+    "color": "brown",
+    "skill": "shotgun",
+    "ammo": "shot",
+    "ranged_damage": 1,
+    "dispersion": 155,
+    "sight_dispersion": 115,
+    "aim_speed": 5,
+    "recoil": 35,
+    "durability": 6,
+    "loudness": 25,
+    "clip_size": 8,
+    "reload": 100,
+    "barrel_length": 4,
+    "valid_mod_locations": [ [ "accessories", 2 ], [ "stock", 1 ], [ "barrel", 1 ] ],
+    "flags": [ "RELOAD_ONE" ]
   }
 ]
