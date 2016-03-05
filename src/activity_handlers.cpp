@@ -1612,7 +1612,7 @@ void activity_handlers::gunmod_add_finish( player_activity *act, player *p )
     }
 
     if( rng( 0, 100 ) <= roll ) {
-        add_msg( m_good, _( "You sucessfully attached the %1$s to your %2$s." ), mod.tname().c_str(),
+        add_msg( m_good, _( "You successfully attached the %1$s to your %2$s." ), mod.tname().c_str(),
                  gun.tname().c_str() );
         gun.contents.push_back( p->i_rem( &mod ) );
 
