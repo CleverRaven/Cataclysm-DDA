@@ -14672,7 +14672,7 @@
         "quench" : -1,
         "healthy" : -1,
         "addiction_potential" : 0,
-        "nutrition" : 3,
+        "nutrition" : 6,
         "description" : "Deep fried potatoes with a touch of salt.  Crunchy and delicious.",
         "price" : 120,
         "material" : "junk",
