@@ -26,7 +26,7 @@
             [ "bedroom", 16 ],
             [ "softdrugs", 5 ],
             [ "harddrugs", 1 ],
-            [ "tools", 20 ],
+            [ "tools_home", 20 ],
             [ "trash", 7 ],
             [ "ammo_pistol_common", 2 ],
             [ "ammo_shotgun_common", 1 ],
