@@ -80,6 +80,18 @@
     ]
   },
   {
+    "id": "tools_mechanic",
+    "type": "item_group",
+    "//": "Equipment of any size commonly used by engineers and mechanics",
+    "items": [
+      [ "forge", 100 ],
+      [ "jack", 100 ],
+      [ "oxy_torch", 100 ],
+      [ "polisher", 100 ],
+      [ "welder", 100 ]
+    ]
+  },
+  {
     "id": "tools_gunsmith",
     "type": "item_group",
     "//": "Tools used for working with guns and ammo",
