@@ -17,6 +17,7 @@
     "items": [
       [ "hacksaw", 50 ],
       [ "hammer", 80 ],
+      [ "misc_repairkit", 25 ],
       [ "pliers", 60 ],
       [ "saw", 60 ],
       [ "screwdriver", 100 ],
