@@ -67,7 +67,7 @@
                 { "item": "camping", "chance": 70, "x": 19, "y": [16,19] },
                 { "item": "dresser", "chance": 70, "x": 16, "y": 10 },
                 { "item": "dresser", "chance": 70, "x": 19, "y": 10 },
-                { "item": "tools", "chance": 70, "x": [5,9], "y": 3 },
+                { "item": "tools_earthworking", "chance": 70, "x": [5,9], "y": 3 },
                 { "item": "bed", "chance": 60, "x": [17,18], "y": [10,11] }
             ],
             "place_monsters": [
