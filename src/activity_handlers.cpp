@@ -1412,7 +1412,8 @@ enum repeat_type : int {
     REPEAT_FOREVER,     // Repeat for as long as possible
     REPEAT_FULL,        // Repeat until damage==0
     REPEAT_EVENT,       // Repeat until something interesting happens
-    REPEAT_CANCEL       // Stop repeating
+    REPEAT_CANCEL,      // Stop repeating
+    REPEAT_INIT         // Haven't found repeat value yet.
 };
 
 repeat_type repeat_menu( const std::string &title, repeat_type last_selection )
@@ -1492,11 +1493,10 @@ struct weldrig_hack {
 void activity_handlers::repair_item_finish( player_activity *act, player *p )
 {
     const std::string iuse_name_string = act->get_str_value( 0, "repair_item" );
-    const repeat_type repeat = (repeat_type)act->get_value( 0, REPEAT_ONCE );
+    repeat_type repeat = (repeat_type)act->get_value( 0, REPEAT_INIT );
     weldrig_hack w_hack;
     item &main_tool = !w_hack.init( *act ) ?
-        p->i_at( act->index ) :
-        w_hack.get_item();
+        p->i_at( act->index ) : w_hack.get_item();
 
     item *used_tool = main_tool.get_usable_item( iuse_name_string );
     if( used_tool == nullptr ) {
@@ -1504,6 +1504,7 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
         act->type = ACT_NULL;
         return;
     }
+    bool event_happened = false;
 
     const auto use_fun = used_tool->get_use( iuse_name_string );
     // TODO: De-uglify this block. Something like get_use<iuse_actor_type>() maybe?
@@ -1525,35 +1526,40 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
 
     item &fix = p->i_at( act->position );
 
-    // Remember our level: we want to stop retrying on level up
-    const int old_level = p->get_skill_level( actor->used_skill );
-    const auto attempt = actor->repair( *p, *used_tool, fix );
-    if( attempt != repair_item_actor::AS_CANT ) {
-        p->consume_charges( *used_tool, charges_to_use );
-    }
+    // The first time through we just find out how many times the player wants to repeat the action.
+    if( repeat != REPEAT_INIT ) {
+        // Remember our level: we want to stop retrying on level up
+        const int old_level = p->get_skill_level( actor->used_skill );
+        const auto attempt = actor->repair( *p, *used_tool, fix );
+        if( attempt != repair_item_actor::AS_CANT ) {
+            p->consume_charges( *used_tool, charges_to_use );
+        }
 
-    // Print message explaining why we stopped
-    // But only if we didn't destroy the item (because then it's obvious)
-    const bool destroyed = attempt == repair_item_actor::AS_DESTROYED;
-    if( attempt == repair_item_actor::AS_CANT ||
-        destroyed ||
-        !actor->can_repair( *p, *used_tool, fix, !destroyed ) ) {
-        // Can't repeat any more
-        act->type = ACT_NULL;
-        w_hack.clean_up();
-        return;
+        // Print message explaining why we stopped
+        // But only if we didn't destroy the item (because then it's obvious)
+        const bool destroyed = attempt == repair_item_actor::AS_DESTROYED;
+        if( attempt == repair_item_actor::AS_CANT ||
+            destroyed ||
+            !actor->can_repair( *p, *used_tool, fix, !destroyed ) ) {
+            // Can't repeat any more
+            act->type = ACT_NULL;
+            w_hack.clean_up();
+            return;
+        }
+
+        event_happened =
+            attempt == repair_item_actor::AS_FAILURE ||
+            attempt == repair_item_actor::AS_SUCCESS ||
+            old_level != p->get_skill_level( actor->used_skill );
+    } else {
+        repeat = REPEAT_ONCE;
     }
 
     w_hack.clean_up();
-
-    const bool event_happened =
-        attempt == repair_item_actor::AS_FAILURE ||
-        attempt == repair_item_actor::AS_SUCCESS ||
-        old_level != p->get_skill_level( actor->used_skill );
     const bool need_input =
         repeat == REPEAT_ONCE ||
-        (repeat == REPEAT_EVENT && event_happened) ||
-        (repeat == REPEAT_FULL && fix.damage <= 0);
+        ( repeat == REPEAT_EVENT && event_happened ) ||
+        ( repeat == REPEAT_FULL && fix.damage <= 0 );
 
     if( need_input ) {
         g->draw();
