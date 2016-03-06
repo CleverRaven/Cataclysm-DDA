@@ -51,6 +51,24 @@
     ]
   },
   {
+    "id": "tools_earthworking",
+    "type": "item_group",
+    "//": "Portable tools for earthworking or farming",
+    "items": [
+      [ "ax", 80 ],
+      [ "chainsaw_off", 30 ],
+      [ "elec_chainsaw_off", 30 ],
+      [ "g_shovel", 40 ],
+      [ "hoe", 60 ],
+      [ "pickaxe", 80 ],
+      [ "pitchfork", 60 ],
+      [ "trimmer_off", 20 ],
+      [ "scythe", 40 ],
+      [ "shovel", 120 ],
+      [ "sickle", 40 ]
+    ]
+  },
+  {
     "id": "tools_entry",
     "type": "item_group",
     "//": "Tools used for forcing entry into a building",
