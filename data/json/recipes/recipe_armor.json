@@ -7534,7 +7534,39 @@
     ],
      "components": [
       [
-        [ "rag", 2 ]
+        [ "rag", 4 ]
+      ],
+      [
+        [ "string_6", 4 ],
+        [ "thread", 40 ],
+        [ "plant_fibre", 40 ]
+      ]
+    ]
+  },{
+    "type" : "recipe",
+    "result": "grenade_pouch",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "tailor",
+    "skills_required": [ [ "gun", 1 ], [ "launcher", 1 ] ],
+    "difficulty": 3,
+    "time": 80000,
+    "reversible": false,
+    "autolearn": true,
+    "tools": [
+      [
+        [ "sewing_kit", 20 ]
+      ],
+      [
+        [ "mold_plastic", -1 ]
+      ]
+    ],
+     "components": [
+      [
+        [ "rag", 4 ]
+      ],
+      [
+        [ "plastic_chunk", 2 ]
       ],
       [
         [ "string_6", 2 ],

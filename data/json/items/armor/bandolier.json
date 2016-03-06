@@ -86,5 +86,27 @@
         "ammo": [ "22", "223", "3006", "308", "762", "762R" ]
     },
     "flags": [ "WATER_FRIENDLY", "BELTED", "ALLOWS_NATURAL_ATTACKS" ]
+  },
+  {
+    "id": "grenade_pouch",
+    "type": "ARMOR",
+    "name": "grenade pouch",
+    "description" : "A small pouch for storing cartridge grenades with straps for attaching it to your belt or other webbing.",
+    "weight": 90,
+    "volume": 1,
+    "price": 5900,
+    "material": [ "cotton", "plastic" ],
+    "symbol": "[",
+    "color": "dark_gray",
+    "covers": [ "LEG_EITHER" ],
+    "coverage": 10,
+    "encumbrance": 4,
+    "material_thickness": 1,
+    "use_action": {
+        "type": "bandolier",
+        "capacity": 4,
+        "ammo": [ "40mm" ]
+    },
+    "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE" ]
   }
 ]
