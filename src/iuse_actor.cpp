@@ -1888,6 +1888,23 @@ void bandolier_actor::load( JsonObject &obj )
     ammo = obj.get_tags( "ammo" );
 }
 
+void bandolier_actor::info( const item&, std::vector<iteminfo>& dump ) const
+{
+    if( !ammo.empty() ) {
+        auto str = std::accumulate( std::next( ammo.begin() ), ammo.end(),
+                                    string_format( "<stat>%s</stat>", ammo_name( *ammo.begin() ).c_str() ),
+                                    [&]( const std::string& lhs, const ammotype& rhs ) {
+                return lhs + string_format( ", <stat>%s</stat>", ammo_name( rhs ).c_str() );
+        } );
+
+        dump.emplace_back( "TOOL", string_format(
+            ngettext( "Can be activated to store a single round of ",
+                      "Can be activated to store up to <stat>%i</stat> rounds of ", capacity ),
+                      capacity ),
+            str );
+    }
+}
+
 bool bandolier_actor::can_store( const item &bandolier, const item &obj ) const
 {
     if( !obj.is_ammo() ) {
