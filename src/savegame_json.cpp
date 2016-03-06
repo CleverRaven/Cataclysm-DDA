@@ -292,6 +292,7 @@ void Character::load(JsonObject &data)
     for( auto it = my_mutations.begin(); it != my_mutations.end(); ) {
         const auto &mid = it->first;
         if( mutation_branch::has( mid ) ) {
+            on_mutation_gain( mid );
             ++it;
         } else {
             debugmsg( "character %s has invalid mutation %s, it will be ignored", name.c_str(), mid.c_str() );
@@ -303,6 +304,9 @@ void Character::load(JsonObject &data)
 
     worn.clear();
     data.read( "worn", worn );
+    for( auto &w : worn ) {
+        on_item_wear( w );
+    }
 
     if( !data.read( "hp_cur", hp_cur ) ) {
         debugmsg("Error, incompatible hp_cur in save file '%s'", parray.str().c_str());
@@ -2009,6 +2013,5 @@ void player_morale::store( JsonOut &jsout ) const
 
 void player_morale::load( JsonObject &jsin )
 {
-    clear();
     jsin.read( "morale", points );
 }

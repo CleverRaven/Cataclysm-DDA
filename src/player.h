@@ -1269,6 +1269,26 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          * Check @ref mission::failed to see which case it is.
          */
         void on_mission_finished( mission &mission );
+        /**
+         * Called when a mutation is gained
+         */
+        virtual void on_mutation_gain( const std::string &mid ) override;
+        /**
+         * Called when a mutation is lost
+         */
+        virtual void on_mutation_loss( const std::string &mid ) override;
+        /**
+         * Called when an item is worn
+         */
+        virtual void on_item_wear( const item &it ) override;
+        /**
+         * Called when an item is taken off
+         */
+        virtual void on_item_takeoff( const item &it ) override;
+        /**
+         * Called when an effect has been somehow changed
+         */
+        virtual void on_effect_change( const effect &e ) override;
 
         // returns a struct describing the encumbrance of a body part
         encumbrance_data get_encumbrance( size_t i ) const;

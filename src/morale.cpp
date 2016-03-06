@@ -1,3 +1,4 @@
+#include "morale.h"
 #include "morale_types.h"
 
 #include "cata_utility.h"
@@ -167,8 +168,8 @@ std::string player_morale::morale_point::get_name() const
 
 int player_morale::morale_point::get_net_bonus() const
 {
-    return bonus * ( ( duration > 0 &&
-                       age > decay_start ) ? logarithmic_range( decay_start, duration, age ) : 1 );
+    return bonus * ( ( !is_permanent() && age > decay_start ) ?
+        logarithmic_range( decay_start, duration, age ) : 1 );
 }
 
 int player_morale::morale_point::get_net_bonus( const morale_mult &mult ) const
@@ -178,8 +179,13 @@ int player_morale::morale_point::get_net_bonus( const morale_mult &mult ) const
 
 bool player_morale::morale_point::is_expired() const
 {
-    return ( duration > 0 && duration <= age ) ||
-           bonus == 0; // Zero morale bonuses will be shown occasionally anyway
+    // Zero morale bonuses will be shown occasionally anyway
+    return ( !is_permanent() && age >= duration ) || bonus == 0;
+}
+
+bool player_morale::morale_point::is_permanent() const
+{
+    return ( duration == 0 );
 }
 
 bool player_morale::morale_point::matches( morale_type _type, const itype *_item_type ) const
@@ -209,7 +215,7 @@ void player_morale::morale_point::add( int new_bonus, int new_max_bonus, int new
         bonus = new_max_bonus;
     }
 
-    age = 0; // Brand new. The assignment should stay below.
+    age = 0; // Brand new. The assignment should stay below get_net_bonus() and pick_time().
 }
 
 int player_morale::morale_point::pick_time( int current_time, int new_time, bool same_sign ) const
@@ -321,7 +327,7 @@ int player_morale::get_level() const
             level += m.get_net_bonus( mult );
         }
 
-        if( took_prozak ) {
+        if( took_prozac ) {
             level *= morale_mults::prozac;
         }
 
@@ -411,7 +417,7 @@ void player_morale::clear()
 {
     points.clear();
     covered.fill( 0 );
-    took_prozak = false;
+    took_prozac = false;
     stylish = false;
     super_fancy_bonus = 0;
 
@@ -423,52 +429,46 @@ void player_morale::invalidate()
     level_is_valid = false;
 }
 
-void player_morale::on_trait_gain( const std::string &trait )
+void player_morale::on_mutation_gain( const std::string &mid )
 {
-    if( trait == "OPTIMIST" ) {
-        add_permanent( MORALE_PERM_OPTIMIST, 4 );
-    } else if( trait == "BADTEMPER" ) {
-        add_permanent( MORALE_PERM_BADTEMPER, -4 );
-    } else if( trait == "STYLISH" ) {
-        if( !stylish ) {
-            stylish = true;
-            update_stylish_bonus();
-        }
+    if( mid == "OPTIMISTIC" ) {
+        add_permanent( MORALE_PERM_OPTIMIST, 4, 4 );
+    } else if( mid == "BADTEMPER" ) {
+        add_permanent( MORALE_PERM_BADTEMPER, -4, -4 );
+    } else if( mid == "STYLISH" ) {
+        set_stylish( true );
     }
 }
 
-void player_morale::on_trait_loss( const std::string &trait )
+void player_morale::on_mutation_loss( const std::string &mid )
 {
-    if( trait == "OPTIMIST" ) {
+    if( mid == "OPTIMISTIC" ) {
         remove( MORALE_PERM_OPTIMIST );
-    } else if( trait == "BADTEMPER" ) {
+    } else if( mid == "BADTEMPER" ) {
         remove( MORALE_PERM_BADTEMPER );
-    } else if( trait == "STYLISH" ) {
-        if( stylish ) {
-            stylish = false;
-            update_stylish_bonus();
-        }
+    } else if( mid == "STYLISH" ) {
+        set_stylish( false );
     }
 }
 
 void player_morale::on_effect_change( const effect &e )
 {
     if( e.get_effect_type()->id == effect_took_prozac ) {
-        set_prozak( e.get_intensity() != 0 );
+        set_prozac( e.get_intensity() != 0 );
     }
 }
 
 void player_morale::on_item_wear( const item &it )
 {
-    set_wear_state( it, true );
+    set_worn( it, true );
 }
 
 void player_morale::on_item_takeoff( const item &it )
 {
-    set_wear_state( it, false );
+    set_worn( it, false );
 }
 
-void player_morale::set_wear_state( const item &it, bool worn )
+void player_morale::set_worn( const item &it, bool worn )
 {
     const bool just_fancy = it.has_flag( "FANCY" );
     const bool super_fancy = it.has_flag( "SUPER_FANCY" );
@@ -477,8 +477,9 @@ void player_morale::set_wear_state( const item &it, bool worn )
         const int sign = ( worn ) ? 1 : -1;
 
         for( int i = 0; i < num_bp; i++ ) {
-            if( it.covers( ( body_part )i ) ) {
-                covered[i] += sign;
+            const auto bp = static_cast<body_part>( i );
+            if( it.covers( bp ) ) {
+                covered[i] = std::max( covered[i] + sign, 0 );
             }
         }
 
@@ -490,11 +491,19 @@ void player_morale::set_wear_state( const item &it, bool worn )
     }
 }
 
-void player_morale::set_prozak( bool new_took_prozak )
+void player_morale::set_prozac( bool new_took_prozac )
 {
-    if( took_prozak != new_took_prozak ) {
-        took_prozak = new_took_prozak;
+    if( took_prozac != new_took_prozac ) {
+        took_prozac = new_took_prozac;
         invalidate();
+    }
+}
+
+void player_morale::set_stylish( bool new_stylish )
+{
+    if( stylish != new_stylish ) {
+        stylish = new_stylish;
+        update_stylish_bonus();
     }
 }
 
@@ -525,8 +534,8 @@ void player_morale::update_stylish_bonus()
             bonus += 1;
         }
 
-        bonus += super_fancy_bonus;
+        bonus = std::min( bonus + super_fancy_bonus, 20 );
     }
 
-    add_permanent( MORALE_PERM_FANCY, bonus, 20, true );
+    add_permanent( MORALE_PERM_FANCY, bonus, bonus, true );
 }

@@ -1479,3 +1479,8 @@ void Creature::check_dead_state() {
         die( nullptr );
     }
 }
+
+void Creature::on_effect_change( const effect & )
+{
+    // Intentionally left blank
+}

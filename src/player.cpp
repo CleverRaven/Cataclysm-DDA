@@ -556,59 +556,6 @@ void player::apply_persistent_morale()
         }
     }
 
-    // The stylish get a morale bonus for each body part covered in an item
-    // with the FANCY or SUPER_FANCY tag.
-    if( has_trait("STYLISH") ) {
-        int bonus = 0;
-        std::string basic_flag = "FANCY";
-        std::string bonus_flag = "SUPER_FANCY";
-
-        std::bitset<num_bp> covered; // body parts covered
-        for( auto &elem : worn ) {
-            if( elem.has_flag( basic_flag ) || elem.has_flag( bonus_flag ) ) {
-                covered |= elem.get_covered_body_parts();
-            }
-            if( elem.has_flag( bonus_flag ) ) {
-              bonus+=2;
-            } else if( elem.has_flag( basic_flag ) ) {
-                if( ( covered & elem.get_covered_body_parts() ).none() ) {
-                    bonus += 1;
-                }
-            }
-        }
-        if(covered.test(bp_torso)) {
-            bonus += 6;
-        }
-        if(covered.test(bp_leg_l) || covered.test(bp_leg_r)) {
-            bonus += 2;
-        }
-        if(covered.test(bp_foot_l) || covered.test(bp_foot_r)) {
-            bonus += 1;
-        }
-        if(covered.test(bp_hand_l) || covered.test(bp_hand_r)) {
-            bonus += 1;
-        }
-        if(covered.test(bp_head)) {
-            bonus += 3;
-        }
-        if(covered.test(bp_eyes)) {
-            bonus += 2;
-        }
-        if(covered.test(bp_arm_l) || covered.test(bp_arm_r)) {
-            bonus += 1;
-        }
-        if(covered.test(bp_mouth)) {
-            bonus += 2;
-        }
-
-        if(bonus > 20)
-            bonus = 20;
-
-        if(bonus) {
-            add_morale(MORALE_PERM_FANCY, bonus, bonus, 5, 5, true);
-        }
-    }
-
     // Floral folks really don't like having their flowers covered.
     if( has_trait("FLOWERS") && wearing_something_on(bp_head) ) {
         add_morale(MORALE_PERM_CONSTRAINED, -10, -10, 5, 5, true);
@@ -636,17 +583,6 @@ void player::apply_persistent_morale()
         if (bonus != 0) {
             add_morale(MORALE_PERM_MASOCHIST, bonus, bonus, 5, 5, true);
         }
-    }
-
-    // Optimist gives a base +4 to morale.
-    // The +25% boost from optimist also applies here, for a net of +5.
-    if (has_trait("OPTIMISTIC")) {
-        add_morale(MORALE_PERM_OPTIMIST, 4, 4, 5, 5, true);
-    }
-
-    // And Bad Temper works just the same way.  But in reverse.  ):
-    if (has_trait("BADTEMPER")) {
-        add_morale(MORALE_PERM_BADTEMPER, -4, -4, 5, 5, true);
     }
 }
 
@@ -10356,6 +10292,7 @@ bool player::wear_item( const item &to_wear, bool interactive )
             add_msg_if_player( m_info, _( "You're deafened!" ) );
         }
     } else {
+        on_item_wear( to_wear );
         add_msg_if_npc( _("<npcname> puts on their %s."), to_wear.tname().c_str() );
     }
 
@@ -13821,6 +13758,31 @@ bool player::has_items_with_quality( const std::string &quality_id, int level, i
     } );
 
     return amount <= 0;
+}
+
+void player::on_mutation_gain( const std::string &mid )
+{
+    morale.on_mutation_gain( mid );
+}
+
+void player::on_mutation_loss( const std::string &mid )
+{
+    morale.on_mutation_loss( mid );
+}
+
+void player::on_item_wear( const item &it )
+{
+    morale.on_item_wear( it );
+}
+
+void player::on_item_takeoff( const item &it )
+{
+    morale.on_item_takeoff( it );
+}
+
+void player::on_effect_change( const effect &e )
+{
+    morale.on_effect_change( e );
 }
 
 void player::on_mission_assignment( mission &new_mission )

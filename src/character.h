@@ -471,6 +471,12 @@ class Character : public Creature, public visitable<Character>
         std::vector<bionic> my_bionics;
 
     protected:
+        virtual void on_mutation_gain( const std::string & ) {};
+        virtual void on_mutation_loss( const std::string & ) {};
+        virtual void on_item_wear( const item & ) {};
+        virtual void on_item_takeoff( const item & ) {};
+
+    protected:
         Character();
         Character(const Character &) = default;
         Character(Character &&) = default;

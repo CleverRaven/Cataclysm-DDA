@@ -278,6 +278,8 @@ void Character::mutation_effect(std::string mut)
         }
         return true;
     } );
+
+    on_mutation_gain( mut );
 }
 
 void Character::mutation_loss_effect(std::string mut)
@@ -338,6 +340,8 @@ void Character::mutation_loss_effect(std::string mut)
     } else {
         apply_mods(mut, false);
     }
+
+    on_mutation_loss( mut );
 }
 
 bool Character::has_active_mutation(const std::string & b) const

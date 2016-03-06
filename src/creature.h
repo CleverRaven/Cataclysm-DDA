@@ -504,6 +504,9 @@ class Creature
         Creature &operator=(const Creature &) = default;
         Creature &operator=(Creature &&) = default;
 
+ protected:
+        virtual void on_effect_change( const effect &e );
+
  public:
         body_part select_body_part(Creature *source, int hit_roll) const;
  protected:
