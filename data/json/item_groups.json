@@ -2489,7 +2489,8 @@
       ["slingshot", 10],
       ["wristrocket", 5],
       ["iceaxe", 30],
-      ["powered_earmuffs", 80]
+      ["powered_earmuffs", 80],
+      ["bandolier_wrist", 100]
     ]
   },{
     "type" : "item_group",
