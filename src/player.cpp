@@ -159,10 +159,8 @@ static bool should_combine_bps( const player &, size_t, size_t );
 
 player::player() : Character()
 {
-    if( is_player() ) {
-        // Has to be 1
-        global_id = 1;
-    }
+    // ID 0 means "not assigned yet"
+    global_id = 0;
  id = -1; // -1 is invalid
  str_cur = 8;
  str_max = 8;

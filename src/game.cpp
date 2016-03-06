@@ -886,7 +886,7 @@ void game::load_npcs()
             }
 
             const Creature *other = critter_with_id( temp->get_id() );
-            while( other != nullptr && other == temp ) {
+            while( other != nullptr && other != temp ) {
                 debugmsg( "%s had id %ld, which belongs to %s",
                           temp->disp_name().c_str(), temp->get_id(),
                           other->disp_name().c_str() );
@@ -3470,6 +3470,7 @@ void game::load(std::string worldname, std::string name)
     // Now load up the master game data; factions (and more?)
     load_master(worldname);
     u = player();
+    u.set_id( 1 );
     u.name = base64_decode(name);
     // This should be initialized more globally (in player/Character constructor)
     u.ret_null = item( "null", 0 );
@@ -10646,6 +10647,7 @@ std::vector<tripoint> game::pl_target_ui( tripoint &p, int range, item *relevant
             break;
         }
     }
+debugmsg("last_target: %ld, passtarget: %d", last_target, passtarget);
     // target() sets x and y, and returns an empty vector if we canceled (Esc)
     const tripoint range_point( range, range, range );
     std::vector<tripoint> trajectory = target( p, u.pos() - range_point, u.pos() + range_point,
