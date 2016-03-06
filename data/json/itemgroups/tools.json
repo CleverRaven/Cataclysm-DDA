@@ -90,6 +90,17 @@
     ]
   },
   {
+    "id": "tools_home",
+    "type": "item_group",
+    "//": "Tools commonly found in the home or other domestic settings",
+    "items": [
+      { "group": "tools_common", "prob": 100 },
+      { "group": "tools_lighting", "prob": 50 },
+      { "group": "tools_tailor", "prob": 50 },
+      [ "toolbox", 5 ]
+    ]
+  },
+  {
     "id": "tools_mechanic",
     "type": "item_group",
     "//": "Equipment of any size commonly used by engineers and mechanics",
