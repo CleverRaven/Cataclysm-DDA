@@ -4,10 +4,11 @@
     "type" : "item_group",
     "//" : "Hand tools commonly used by blacksmiths",
     "items": [
-      ["anvil", 50],
-      ["crucible", 50],
-      ["swage", 80],
-      ["tongs", 100]
+      [ "anvil", 30 ],
+      [ "chisel", 90 ],
+      [ "crucible", 30 ],
+      [ "swage", 60 ],
+      [ "tongs", 90 ]
     ]
   },
   {
