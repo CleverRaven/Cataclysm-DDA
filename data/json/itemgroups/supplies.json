@@ -1,5 +1,23 @@
 [
   {
+    "id": "supplies_electronics",
+    "type": "item_group",
+    "//": "Parts for electronics crafting or repair",
+    "items": [
+      [ "amplifier", 40 ],
+      [ "antenna", 40 ],
+      [ "battery", 100 ],
+      [ "cable", 60 ],
+      [ "processor", 20 ],
+      [ "solar_cell", 10 ],
+      [ "solder_wire", 60 ],
+      [ "RAM", 20 ],
+      [ "radiocontrol", 10 ],
+      [ "receiver", 30 ],
+      [ "transponder", 30 ]
+    ]
+  },
+  {
     "id": "supplies_farming",
     "type": "item_group",
     "//": "Consumable supplies excluding seeds used for farming or other agriculture",
