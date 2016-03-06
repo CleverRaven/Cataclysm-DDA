@@ -396,6 +396,8 @@ void game::wishmonster( const tripoint &p )
             if( spawn != tripoint_min ) {
                 std::vector<tripoint> spawn_points = closest_tripoints_first( cb->group, spawn );
                 for( auto spawn_point : spawn_points ) {
+                    // Set id to 0 to assign new one on spawn
+                    mon.set_id( 0 );
                     mon.spawn( spawn_point );
                     add_zombie(mon, true);
                 }

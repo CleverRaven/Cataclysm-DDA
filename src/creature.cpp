@@ -78,6 +78,8 @@ const std::map<std::string, m_size> Creature::size_map = {
 
 Creature::Creature()
 {
+    global_id = 0;
+
     moves = 0;
     pain = 0;
     killer = NULL;
