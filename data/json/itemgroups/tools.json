@@ -12,6 +12,17 @@
     ]
   },
   {
+    "id": "tools_carpentry",
+    "type": "item_group",
+    "//": "Portable tools used for carpentry",
+    "items": [
+      { "group": "tools_common", "prob": 100 },
+      [ "circsaw_off", 100 ],
+      [ "cordless_drill", 100 ],
+      [ "nailgun", 100 ]
+    ]
+  },
+  {
     "id" : "tools_common",
     "type" : "item_group",
     "//" : "Common household tools",
