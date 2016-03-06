@@ -5982,7 +5982,7 @@ ff.......|....|WWWWWWWW|\n\
                                            f_null,           f_null,  f_indoor_plant, f_null,  f_null,   f_null,   f_table, f_null,   f_null,
                                            f_null,              f_null,   f_toilet, f_sink,  f_fridge, f_bookcase, f_chair, f_counter, f_desk,
                                            f_locker, f_null));
-        place_items("bigtools", 80,  18, 7, 21,  7, false, 0);
+        place_items("tools_construction", 80,  18, 7, 21,  7, false, 0);
         place_items("office", 80,  18,  11, 20,  11, false, 0);
         place_items("office", 60,  18,  13, 18,  13, false, 0);
         place_spawns( GROUP_PUBLICWORKERS, 1, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, 0.2);
@@ -6157,9 +6157,9 @@ __________           f  \n",
                                                f_null,    f_null,           f_null,  f_indoor_plant, f_null,  f_null,   f_null,   f_table, f_null,
                                                f_null,        f_null,              f_null,   f_toilet, f_sink,  f_fridge, f_bookcase, f_chair,
                                                f_counter, f_desk,  f_locker, f_null));
-            place_items("tools", 85,  14, 18, 17,  18, false, 0);
-            place_items("tools", 85,  17,  20, 17,  21, false, 0);
-            place_items("tools", 85,  12,  20, 12,  21, false, 0);
+            place_items("tools_carpentry", 85,  14, 18, 17,  18, false, 0);
+            place_items("tools_construction", 85,  17,  20, 17,  21, false, 0);
+            place_items("tools_earthworking", 85,  12,  20, 12,  21, false, 0);
             place_items("mechanics", 85,  21, 12, 21,  15, false, 0);
             place_items("mechanics", 85,  21,  4, 21,  7, false, 0);
             place_items("mechanics", 85,  14,  9, 16,  9, false, 0);
