@@ -2,7 +2,7 @@
   {
     "id" : "tools_blacksmith",
     "type" : "item_group",
-    "//" : "Hand tools commonly used by blacksmiths",
+    "//" : "Tools commonly used by blacksmiths",
     "items": [
       [ "anvil", 30 ],
       [ "chisel", 90 ],
