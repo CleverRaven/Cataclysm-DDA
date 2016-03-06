@@ -13780,9 +13780,9 @@ void player::on_item_takeoff( const item &it )
     morale.on_item_takeoff( it );
 }
 
-void player::on_effect_change( const effect &e )
+void player::on_effect_int_change( const efftype_id &eid, int intensity, body_part bp )
 {
-    morale.on_effect_change( e );
+    morale.on_effect_int_change( eid, intensity, bp );
 }
 
 void player::on_mission_assignment( mission &new_mission )

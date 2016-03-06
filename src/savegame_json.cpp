@@ -1942,7 +1942,11 @@ void Creature::load( JsonObject &jsin )
                     if ( !(std::istringstream(i.first) >> key_num) ) {
                         key_num = 0;
                     }
-                    effects[id][(body_part)key_num] = i.second;
+                    const body_part bp = static_cast<body_part>( key_num );
+                    effect &e = i.second;
+
+                    effects[id][bp] = e;
+                    on_effect_int_change( id, e.get_intensity(), bp );
                 }
             }
         }

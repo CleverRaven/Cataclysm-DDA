@@ -19,12 +19,12 @@ class player_morale
 {
     public:
         player_morale() :
-            covered{{}},
-            level( 0 ),
-            level_is_valid( false ),
-            took_prozac( false ),
-            stylish( false ),
-            super_fancy_bonus( 0 ) {};
+            covered {{}},
+        level( 0 ),
+               level_is_valid( false ),
+               took_prozac( false ),
+               stylish( false ),
+        super_fancy_bonus( 0 ) {};
         player_morale( player_morale && ) = default;
         player_morale( const player_morale & ) = default;
         player_morale &operator =( player_morale && ) = default;
@@ -53,7 +53,7 @@ class player_morale
         void on_mutation_loss( const std::string &mid );
         void on_item_wear( const item &it );
         void on_item_takeoff( const item &it );
-        void on_effect_change( const effect &e );
+        void on_effect_int_change( const efftype_id &eid, int intensity, body_part bp = num_bp );
 
         void store( JsonOut &jsout ) const;
         void load( JsonObject &jsin );

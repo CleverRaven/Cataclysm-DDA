@@ -169,7 +169,7 @@ std::string player_morale::morale_point::get_name() const
 int player_morale::morale_point::get_net_bonus() const
 {
     return bonus * ( ( !is_permanent() && age > decay_start ) ?
-        logarithmic_range( decay_start, duration, age ) : 1 );
+                     logarithmic_range( decay_start, duration, age ) : 1 );
 }
 
 int player_morale::morale_point::get_net_bonus( const morale_mult &mult ) const
@@ -345,6 +345,7 @@ void player_morale::decay( int ticks )
 
     std::for_each( points.begin(), points.end(), do_decay );
     remove_expired();
+    invalidate();
 }
 
 void player_morale::display()
@@ -451,13 +452,6 @@ void player_morale::on_mutation_loss( const std::string &mid )
     }
 }
 
-void player_morale::on_effect_change( const effect &e )
-{
-    if( e.get_effect_type()->id == effect_took_prozac ) {
-        set_prozac( e.get_intensity() != 0 );
-    }
-}
-
 void player_morale::on_item_wear( const item &it )
 {
     set_worn( it, true );
@@ -466,6 +460,13 @@ void player_morale::on_item_wear( const item &it )
 void player_morale::on_item_takeoff( const item &it )
 {
     set_worn( it, false );
+}
+
+void player_morale::on_effect_int_change( const efftype_id &eid, int intensity, body_part bp )
+{
+    if( eid == effect_took_prozac && bp == num_bp ) {
+        set_prozac( intensity != 0 );
+    }
 }
 
 void player_morale::set_worn( const item &it, bool worn )

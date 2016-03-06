@@ -1286,9 +1286,9 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          */
         virtual void on_item_takeoff( const item &it ) override;
         /**
-         * Called when an effect has been somehow changed
+         * Called when effect intensity has been changed
          */
-        virtual void on_effect_change( const effect &e ) override;
+        virtual void on_effect_int_change( const efftype_id &eid, int intensity, body_part bp = num_bp ) override;
 
         // returns a struct describing the encumbrance of a body part
         encumbrance_data get_encumbrance( size_t i ) const;
