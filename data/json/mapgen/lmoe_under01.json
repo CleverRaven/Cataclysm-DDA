@@ -86,7 +86,7 @@
                 { "item": "softdrugs", "chance": 50, "x": [3,7], "y": [11,11] },
                 { "item": "manuals", "chance": 60, "x": [5,8], "y": [13,13] },
                 { "item": "textbooks", "chance": 60, "x": [5,8], "y": [13,13] },
-                { "item": "tools", "chance": 90, "x": [5,6], "y": [15,17] },
+                { "item": "tools_common", "chance": 90, "x": [5,6], "y": [15,17] },
                 { "item": "hardware", "chance": 70, "x": [3,3], "y": [13,20] },
                 { "item": "stash_wood", "chance": 70, "x": [3,9], "y": [20,20] },
                 { "item": "shelter", "chance": 70, "x": [18,20], "y": [13,14] },

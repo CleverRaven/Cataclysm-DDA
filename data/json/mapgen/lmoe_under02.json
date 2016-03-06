@@ -85,7 +85,7 @@
                 { "item": "gear_survival", "chance": 80, "x": [21,21], "y": [11,14] },
                 { "item": "bags", "chance": 50, "x": [21,21], "y": [11,14] },
                 { "item": "shelter", "chance": 70, "x": [21,21], "y": [11,14] },
-                { "item": "tools", "chance": 90, "x": [17,19], "y": [13,13] },
+                { "item": "tools_common", "chance": 90, "x": [17,19], "y": [13,13] },
                 { "item": "hardware", "chance": 70, "x": [16,20], "y": [11,11] },
                 { "item": "softdrugs", "chance": 50, "x": [21,21], "y": [16,16] },
                 { "item": "office", "chance": 50, "x": [21,21], "y": [16,16] },
