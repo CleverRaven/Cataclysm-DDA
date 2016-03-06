@@ -1,0 +1,12 @@
+[
+  {
+    "id": "supplies_farming",
+    "type": "item_group",
+    "//": "Consumable supplies excluding seeds used for farming or other agriculture",
+    "items": [
+      [ "fertilizer_commercial", 100 ],
+      [ "fertilizer_liquid", 60 ],
+      [ "material_quicklime", 80 ]
+    ]
+  }
+]
