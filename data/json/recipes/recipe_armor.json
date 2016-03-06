@@ -7443,6 +7443,107 @@
     ]
   },{
     "type" : "recipe",
+    "result": "bandolier_pistol",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "tailor",
+    "skills_required": [ [ "gun", 1 ], [ "pistol", 1 ] ],
+    "difficulty": 3,
+    "time": 80000,
+    "reversible": false,
+    "autolearn": true,
+    "tools": [
+      [
+        [ "sewing_kit", 40 ]
+      ]
+    ],
+     "components": [
+      [
+        [ "leather", 8 ]
+      ],
+      [
+        [ "string_36", 1 ],
+        [ "string_6", 6 ]
+      ]
+    ]
+  },{
+    "type" : "recipe",
+    "result": "bandolier_rifle",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "tailor",
+    "skills_required": [ [ "gun", 1 ], [ "rifle", 1 ] ],
+    "difficulty": 3,
+    "time": 80000,
+    "reversible": false,
+    "autolearn": true,
+    "tools": [
+      [
+        [ "sewing_kit", 40 ]
+      ]
+    ],
+     "components": [
+      [
+        [ "leather", 8 ]
+      ],
+      [
+        [ "string_36", 1 ],
+        [ "string_6", 6 ]
+      ]
+    ]
+  },{
+    "type" : "recipe",
+    "result": "bandolier_shotgun",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "tailor",
+    "skills_required": [ [ "gun", 1 ], [ "shotgun", 1 ] ],
+    "difficulty": 3,
+    "time": 80000,
+    "reversible": false,
+    "autolearn": true,
+    "tools": [
+      [
+        [ "sewing_kit", 40 ]
+      ]
+    ],
+     "components": [
+      [
+        [ "leather", 8 ]
+      ],
+      [
+        [ "string_36", 1 ],
+        [ "string_6", 6 ]
+      ]
+    ]
+  },{
+    "type" : "recipe",
+    "result": "bandolier_wrist",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "tailor",
+    "skills_required": [ [ "gun", 1 ], [ "rifle", 1 ] ],
+    "difficulty": 3,
+    "time": 80000,
+    "reversible": false,
+    "autolearn": true,
+    "tools": [
+      [
+        [ "sewing_kit", 20 ]
+      ]
+    ],
+     "components": [
+      [
+        [ "rag", 2 ]
+      ],
+      [
+        [ "string_6", 2 ],
+        [ "thread", 20 ],
+        [ "plant_fibre", 20 ]
+      ]
+    ]
+  },{
+    "type" : "recipe",
     "result": "bootsheath",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_STORAGE",
