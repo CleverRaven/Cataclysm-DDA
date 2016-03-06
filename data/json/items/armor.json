@@ -9772,7 +9772,7 @@
         "material" : ["leather", "null"],
         "volume" : 6,
         "warmth" : 10,
-        "encumbrance" : 50,
+        "encumbrance" : 20,
         "bashing" : 1,
         "flags" : ["VARSIZE", "FANCY"],
         "coverage" : 60,
