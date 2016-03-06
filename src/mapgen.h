@@ -179,10 +179,10 @@ private:
 
 class mapgen_function_json : public virtual mapgen_function {
     public:
-    bool check_inbounds( const jmapgen_int & var ) const;
-    void setup_setmap(JsonArray &parray);
+    bool check_inbounds( const jmapgen_int &var ) const;
+    void setup_setmap( JsonArray &parray );
     virtual bool setup() override;
-    virtual void generate(map*, oter_id, mapgendata, int, float) override;
+    virtual void generate(map *, oter_id, mapgendata, int, float) override;
 
     mapgen_function_json( std::string s, int w = 1000 );
     ~mapgen_function_json() {

@@ -4539,8 +4539,6 @@ void map::spawn_natural_artifact(const tripoint &p, artifact_natural_property pr
     add_item_or_charges( p, item( new_natural_artifact( prop ), 0 ) );
 }
 
-//New spawn_item method, using item factory
-// added argument to spawn at various damage levels
 void map::spawn_item(const tripoint &p, const std::string &type_id,
                      const unsigned quantity, const long charges,
                      const unsigned birthday, const int damlevel)
@@ -4553,8 +4551,7 @@ void map::spawn_item(const tripoint &p, const std::string &type_id,
         return;
     }
     // recurse to spawn (quantity - 1) items
-    for( size_t i = 1; i < quantity; i++ )
-    {
+    for( size_t i = 1; i < quantity; i++ ) {
         spawn_item( p, type_id, 1, charges, birthday, damlevel );
     }
     // spawn the item
