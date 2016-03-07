@@ -540,14 +540,12 @@
             {"x": -5, "y": 3, "part": "plating_steel"}
         ],
          "items" : [
-            {"x": 0, "y": 1, "chance": 70, "items": ["hk_ucp"]},
-            {"x": 0, "y": 1, "chance": 50, "items": ["46mm"]},
+            {"x": 0, "y": 1, "chance": 70, "item_groups": [ "guns_cop" ], "magazine": 100, "ammo": 50 },
             {"x": -2, "y": 0, "chance": 50, "items": ["silver", "silver", "silver", "silver"]},
             {"x": -2, "y": 0, "chance": 50, "items": ["silver_small", "silver_small", "silver_small", "silver_small"]},
             {"x": -3, "y": 0, "chance": 20, "items": ["gold", "gold", "gold", "gold"]},
             {"x": -4, "y": 0, "chance": 20, "items": ["gold", "gold", "gold", "gold"]},
-            {"x": -4, "y": 0, "chance": 20, "items": ["diamond", "diamond", "diamond", "diamond", "diamond"]},
-            {"x": 0, "y": 1, "chance": 25, "items": ["46mm"]}
+            {"x": -4, "y": 0, "chance": 20, "items": ["diamond", "diamond", "diamond", "diamond", "diamond"]}
         ]
     },{
         "type" : "vehicle",

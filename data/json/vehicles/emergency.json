@@ -89,7 +89,7 @@
         "items" : [
             {"x": -2, "y": 0, "chance": 5, "item_groups": ["tools_entry"]},
             {"x": -2, "y": 0, "chance": 5, "item_groups": ["cop_gear"]},
-            {"x": -2, "y": 1, "chance": 3, "item_groups": ["cop_weapons"]}
+            {"x": -2, "y": 1, "chance": 3, "item_groups": ["cop_weapons"], "magazine": 100, "ammo": 50 }
         ]
     },{
         "type" : "vehicle",
@@ -178,7 +178,7 @@
             {"x": -3, "y": 2, "part": "wheel"}
         ],
         "items" : [
-            { "x": -2, "y": 1, "chance": 75, "item_groups": [ "guns_cop" ] }
+            { "x": -2, "y": 1, "chance": 75, "item_groups": [ "guns_cop" ], "magazine": 100, "ammo": 50 }
         ]            
     },{
         "type" : "vehicle",
