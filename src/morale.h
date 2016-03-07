@@ -51,7 +51,7 @@ class player_morale
         /** Ticks down morale counters and removes them */
         void decay( int ticks = 1 );
         /** Displays morale screen */
-        void display();
+        void display( double focus_gain );
 
         void on_mutation_gain( const std::string &mid );
         void on_mutation_loss( const std::string &mid );

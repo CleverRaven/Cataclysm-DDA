@@ -3,10 +3,10 @@
 
 #include "cata_utility.h"
 #include "debug.h"
+#include "item.h"
 #include "itype.h"
 #include "output.h"
 #include "bodypart.h"
-#include "player.h"
 #include "catacharset.h"
 #include "game.h"
 #include "weather.h"
@@ -355,7 +355,7 @@ void player_morale::decay( int ticks )
     invalidate();
 }
 
-void player_morale::display()
+void player_morale::display( double focus_gain )
 {
     // Create and draw the window itself.
     WINDOW *w = newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
@@ -369,46 +369,46 @@ void player_morale::display()
         int length = utf8_width( i.get_name() );
         if( length > name_column_width ) {
             name_column_width = length;
+            // If it's too wide, truncate.
+            if( name_column_width >= 72 ) {
+                name_column_width = 72;
+                break;
+            }
         }
     }
-
-    // If it's too wide, truncate.
-    if( name_column_width > 72 ) {
-        name_column_width = 72;
-    }
-
-    // Start printing the number right after the name column.
-    // We'll right-justify it later.
-    int number_pos = name_column_width + 1;
 
     // Header
     mvwprintz( w, 1,  1, c_white, _( "Morale Modifiers:" ) );
     mvwprintz( w, 2,  1, c_ltgray, _( "Name" ) );
     mvwprintz( w, 2, name_column_width + 2, c_ltgray, _( "Value" ) );
 
+    // Start printing the number right after the name column.
+    // We'll right-justify it later.
+    int number_pos = name_column_width + 1;
+
     const morale_mult mult = get_temper_mult();
     // Print out the morale entries.
     for( size_t i = 0; i < points.size(); i++ ) {
-        std::string name = points[i].get_name();
-        int bonus = points[i].get_net_bonus( mult );
+        const std::string name = points[i].get_name();
+        const int bonus = points[i].get_net_bonus( mult );
+        const nc_color bonus_color = ( bonus < 0 ? c_red : c_green );
 
         // Print out the name.
-        trim_and_print( w, i + 3,  1, name_column_width, ( bonus < 0 ? c_red : c_green ), name.c_str() );
+        trim_and_print( w, i + 3,  1, name_column_width, bonus_color, name.c_str() );
 
         // Print out the number, right-justified.
-        mvwprintz( w, i + 3, number_pos, ( bonus < 0 ? c_red : c_green ),
-                   "% 6d", bonus );
+        mvwprintz( w, i + 3, number_pos, bonus_color, "% 6d", bonus );
     }
 
     // Print out the total morale, right-justified.
-    int mor = get_level();
-    mvwprintz( w, 20, 1, ( mor < 0 ? c_red : c_green ), _( "Total:" ) );
-    mvwprintz( w, 20, number_pos, ( mor < 0 ? c_red : c_green ), "% 6d", mor );
+    const nc_color level_color = ( get_level() < 0 ? c_red : c_green );
+    mvwprintz( w, 20, 1, level_color, _( "Total:" ) );
+    mvwprintz( w, 20, number_pos, level_color, "% 6d", get_level() );
 
     // Print out the focus gain rate, right-justified.
-    double gain = ( g->u.calc_focus_equilibrium() - g->u.focus_pool ) / 100.0;
-    mvwprintz( w, 22, 1, ( gain < 0 ? c_red : c_green ), _( "Focus gain:" ) );
-    mvwprintz( w, 22, number_pos - 3, ( gain < 0 ? c_red : c_green ), _( "%6.2f per minute" ), gain );
+    const nc_color gain_color = ( focus_gain < 0 ? c_red : c_green );
+    mvwprintz( w, 22, 1, gain_color, _( "Focus gain:" ) );
+    mvwprintz( w, 22, number_pos - 3, gain_color, _( "%6.2f per minute" ), focus_gain );
 
     // Make sure the changes are shown.
     wrefresh( w );

@@ -3278,7 +3278,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
 
 void player::disp_morale()
 {
-    morale.display();
+    morale.display( ( calc_focus_equilibrium() - focus_pool ) / 100.0 );
 }
 
 int player::print_aim_bars( WINDOW *w, int line_number, item *weapon, Creature *target, int predicted_recoil ) {
