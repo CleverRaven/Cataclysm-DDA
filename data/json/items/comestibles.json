@@ -14679,6 +14679,7 @@
         "tool" : "null",
         "volume" : 1,
         "charges" : 3,
+        "flags" : ["EATEN_HOT"],
         "fun" : 3
     },
     {
@@ -14704,6 +14705,7 @@
         "tool" : "null",
         "volume" : 1,
         "charges" : 3,
+        "flags" : ["EATEN_HOT"],
         "fun" : 6
     },
     {
