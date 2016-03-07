@@ -407,7 +407,7 @@
                 { "item": "army_personal_locker", "chance": 70, "x": [ 15,15 ], "y": [ 10,10 ]},
                 { "item": "army_personal_locker", "chance": 70, "x": [ 13,13 ], "y": [ 1,1 ]},
                 { "item": "army_personal_locker", "chance": 70, "x": [ 15,15 ], "y": [ 1,1 ]},
-                { "item": "army_rifles", "chance": 85, "x": [ 0,5 ], "y": [ 8,8 ]},
+                { "item": "guns_rifle_milspec", "chance": 85, "x": [ 0,5 ], "y": [ 8,8 ], "magazine": 50 },
                 { "item": "grenades", "chance": 85, "x": [ 6,6 ], "y": [ 8,12 ]},
                 { "item": "launchers", "chance": 70, "x": [ 1,3 ], "y": [ 10,11 ]},
                 { "item": "mil_books", "chance": 50, "x": [ 10,10 ], "y": [ 6,6 ]},
