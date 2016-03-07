@@ -6298,9 +6298,12 @@ bool vehicle::fire_turret( int p, bool manual )
     
     // Create a fake gun
     // @todo damage the gun based on part hp
-    item gun( turret_data.gun.typeId(), turret_data.gun.bday, charges );
-    gun.set_curammo( turret_data.gun.ammo_current() );
-    gun.update_charger_gun_ammo();
+    item gun( turret_data.gun.typeId(), turret_data.gun.bday );
+    if( gun.is_charger_gun() ) {
+        gun.update_charger_gun_ammo();
+    } else if( turret_data.gun.ammo_current() != "null" ) {
+        gun.ammo_set( turret_data.gun.ammo_current(), charges );
+    }
 
     // TODO sometime: change that g->u to a parameter, so that NPCs can shoot too
     // TODO: unify those two functions.
