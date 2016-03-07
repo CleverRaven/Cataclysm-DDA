@@ -6302,19 +6302,13 @@ bool vehicle::fire_turret( int p, bool manual )
     gun.set_curammo( turret_data.gun.ammo_current() );
     gun.update_charger_gun_ammo();
 
-    long charges_left = charges;
-
     // TODO sometime: change that g->u to a parameter, so that NPCs can shoot too
-    const bool success = manual ?
     // TODO: unify those two functions.
-        manual_fire_turret( p, g->u, gun, charges_left ) :
-        automatic_fire_turret( p, gun, charges_left );
-    if( success ) {
-        turret_data.consume( *this, p, charges - charges_left );
-    }
+    int shots = manual ? manual_fire_turret( p, g->u, gun ) : automatic_fire_turret( p, gun );
+    turret_data.consume( *this, p, shots * gun.ammo_required() );
 
     // If manual, we need to know if the shot was actually executed
-    return !manual || success;
+    return shots > 0 || manual == false;
 }
 
 void vehicle::turret_ammo_data::consume( vehicle &veh, int const part, long const charges_consumed ) const
@@ -6340,8 +6334,10 @@ void vehicle::turret_ammo_data::consume( vehicle &veh, int const part, long cons
     }
 }
 
-bool vehicle::automatic_fire_turret( int p, item& gun, long &charges )
+int vehicle::automatic_fire_turret( int p, item& gun  )
 {
+    int res = 0; // number of shots actually fired
+
     tripoint pos = global_pos3();
     pos.x += parts[p].precalc[0].x;
     pos.y += parts[p].precalc[0].y;
@@ -6380,7 +6376,7 @@ bool vehicle::automatic_fire_turret( int p, item& gun, long &charges )
                                               boo_hoo),
                             tmp.name.c_str(), boo_hoo);
             }
-            return false;
+            return 0;
         }
 
         targ = auto_target->pos();
@@ -6389,7 +6385,7 @@ bool vehicle::automatic_fire_turret( int p, item& gun, long &charges )
         // Make sure we didn't move between aiming and firing (it's a bug if we did)
         if( targ != target.first ) {
             target.second = target.first;
-            return false;
+            return 0;
         }
 
         targ = target.second;
@@ -6398,7 +6394,7 @@ bool vehicle::automatic_fire_turret( int p, item& gun, long &charges )
     } else {
         // Shouldn't happen
         target.first = target.second;
-        return false;
+        return 0;
     }
 
     // notify player if player can see the shot
@@ -6412,17 +6408,18 @@ bool vehicle::automatic_fire_turret( int p, item& gun, long &charges )
     tmp.worn.insert( tmp.worn.end(), tmp_ups );
 
     const int to_fire = std::min( abs(parts[p].mode), gun.burst_size() );
-    tmp.fire_gun( targ, to_fire, gun );
+    res = tmp.fire_gun( targ, to_fire, gun );
 
     // Return whatever is left.
     refill( fuel_type_battery, tmp.worn.back().charges );
-    charges = gun.charges; // Return real ammo, in case of burst ending early
 
-    return true;
+    return res;
 }
 
-bool vehicle::manual_fire_turret( int p, player &shooter, item &gun, long &charges )
+int vehicle::manual_fire_turret( int p, player &shooter, item &gun )
 {
+    int res = 0; // number of shots actually fired
+
     tripoint pos = global_pos3() + tripoint( parts[p].precalc[0], 0 );
 
     // Place the shooter at the turret
@@ -6450,7 +6447,7 @@ bool vehicle::manual_fire_turret( int p, player &shooter, item &gun, long &charg
         shooter.add_effect( effect_on_roof, 1 );
         
         int to_fire = abs(parts[p].mode) > 1 ? gun.burst_size() : 1; 
-        shooter.fire_gun( targ, to_fire, gun );
+        res = shooter.fire_gun( targ, to_fire, gun );
         // And now back - we don't want to get any weird behavior
         shooter.remove_effect( effect_on_roof );
     }
@@ -6471,8 +6468,6 @@ bool vehicle::manual_fire_turret( int p, player &shooter, item &gun, long &charg
         }
     }
 
-    charges = gun.charges;
-
     // Place the shooter back where we took them from
     shooter.setpos( oldpos );
 
@@ -6482,7 +6477,7 @@ bool vehicle::manual_fire_turret( int p, player &shooter, item &gun, long &charg
         add_msg( m_warning, _("Deactivating automatic target acquisition for this turret" ));
     }
 
-    return !trajectory.empty();
+    return res;
 }
 
 /**
