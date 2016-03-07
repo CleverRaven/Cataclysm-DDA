@@ -1284,3 +1284,22 @@ std::string input_context::press_x(const std::string &action_id, const std::stri
 void input_context::set_iso(bool mode) {
     iso_mode = mode;
 }
+void input_broadcaster::subscribe( listener l )
+{
+    for( const auto &action_str : l.listens_to ) {
+        input_context::register_action( action_str );
+    }
+
+    listeners.push_back( l.l_action );
+}
+
+const std::string &input_broadcaster::handle_input_and_broadcast()
+{
+    const std::string &action = input_context::handle_input();
+
+    for( auto &l : listeners ) {
+        l( action );
+    }
+
+    return action;
+}

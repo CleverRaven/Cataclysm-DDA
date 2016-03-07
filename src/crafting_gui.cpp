@@ -594,7 +594,7 @@ static void draw_recipe_subtabs( WINDOW *w, std::string tab, std::string subtab,
             int pos_x = 2;//draw the tabs on each other
             int tab_step = 3;//step between tabs, two for tabs border
             for( const auto stt : craft_subcat_list[tab] ) {
-                draw_subtab( w, pos_x, normalized_names[stt], subtab == stt );
+                draw_subtab( w, pos_x, 0, normalized_names[stt], subtab == stt );
                 pos_x += utf8_width( normalized_names[stt] ) + tab_step;
             }
             break;

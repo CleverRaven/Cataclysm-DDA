@@ -364,6 +364,8 @@
 		<Unit filename="src/calendar.h" />
 		<Unit filename="src/cata_tiles.cpp" />
 		<Unit filename="src/cata_tiles.h" />
+		<Unit filename="src/cata_ui.cpp" />
+		<Unit filename="src/cata_ui.h" />
 		<Unit filename="src/cata_utility.cpp" />
 		<Unit filename="src/cata_utility.h" />
 		<Unit filename="src/catacharset.cpp" />

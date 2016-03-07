@@ -1466,7 +1466,7 @@ std::string word_rewrap (const std::string &in, int width)
     return o.str();
 }
 
-void draw_tab(WINDOW *w, int iOffsetX, std::string sText, bool bSelected)
+int draw_tab(WINDOW *w, int iOffsetX, std::string sText, bool bSelected)
 {
     int iOffsetXRight = iOffsetX + utf8_width( sText ) + 1;
 
@@ -1496,22 +1496,26 @@ void draw_tab(WINDOW *w, int iOffsetX, std::string sText, bool bSelected)
         mvwputch(w, 2, iOffsetX,      c_ltgray, LINE_XXOX); // _|_
         mvwputch(w, 2, iOffsetXRight, c_ltgray, LINE_XXOX); // _|_
     }
+
+    return iOffsetXRight - iOffsetX;
 }
 
-void draw_subtab(WINDOW *w, int iOffsetX, std::string sText, bool bSelected, bool bDecorate)
+int draw_subtab(WINDOW *w, int iOffsetX, int iOffsetY, std::string sText, bool bSelected, bool bDecorate)
 {
     int iOffsetXRight = iOffsetX + utf8_width( sText ) + 1;
 
-    mvwprintz(w, 0, iOffsetX + 1, (bSelected) ? h_ltgray : c_ltgray, "%s", sText.c_str());
+    mvwprintz(w, iOffsetY, iOffsetX + 1, (bSelected) ? h_ltgray : c_ltgray, "%s", sText.c_str());
 
     if (bSelected) {
-        mvwputch(w, 0, iOffsetX - bDecorate,      h_ltgray, '<');
-        mvwputch(w, 0, iOffsetXRight + bDecorate, h_ltgray, '>');
+        mvwputch(w, iOffsetY, iOffsetX - bDecorate,      h_ltgray, '<');
+        mvwputch(w, iOffsetY, iOffsetXRight + bDecorate, h_ltgray, '>');
 
         for (int i = iOffsetX + 1; bDecorate && i < iOffsetXRight; i++) {
-            mvwputch(w, 1, i, c_black, ' ');
+            mvwputch(w, iOffsetY + 1, i, c_black, ' ');
         }
     }
+
+    return iOffsetXRight - iOffsetX;
 }
 
 /**
@@ -2310,6 +2314,65 @@ int msgtype_to_tilecolor(const game_message_type type, const bool bOldMsg)
     }
 
     return -1;
+}
+
+long get_border_char( bool up, bool down, bool left, bool right )
+{
+    long ret = ' ';
+
+    if( left ) {
+        ret = LINE_OXOX; // '-'
+    }
+
+    if( up ) {
+        if( left ) {
+            ret = LINE_XOOX; // '_|'
+        } else {
+            ret = LINE_XOXO; // '|'
+        }
+    }
+
+    if( right ) {
+        if( up ) {
+            if( left ) {
+                ret = LINE_XXOX; // '_|_'
+            } else {
+                ret = LINE_XXOO; // '|_'
+            }
+        } else {
+            ret = LINE_OXOX; // '-'
+        }
+    }
+
+    if( down ) {
+        if( right ) {
+            if( up ) {
+                if( left ) {
+                    ret = LINE_XXXX; // '-|-'
+                } else {
+                    ret = LINE_XXXO; // '|-'
+                }
+            } else {
+                if( left ) {
+                    ret = LINE_OXXX; // '^|^'
+                } else {
+                    ret = LINE_OXXO; // '|^'
+                }
+            }
+        } else {
+            if( left ) {
+                if( up ) {
+                    ret = LINE_XOXX; // '-|'
+                } else {
+                    ret = LINE_OOXX; // '^|'
+                }
+            } else {
+                ret = LINE_XOXO; // '|'
+            }
+        }
+    }
+
+    return ret;
 }
 
 // In non-SDL mode, width/height is just what's specified in the menu

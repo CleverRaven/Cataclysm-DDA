@@ -80,6 +80,8 @@
 #include "recipe_dictionary.h"
 #include "cata_utility.h"
 
+#include "cata_ui.h"
+
 #include <map>
 #include <set>
 #include <algorithm>
@@ -4903,137 +4905,90 @@ faction *game::list_factions(std::string title)
     return cur_frac;
 }
 
+void init_missions_tab( tabbed_window &win, input_broadcaster &ib, std::string &&tab_name, std::vector<mission *> &&data, std::string &&if_empty, bool can_confirm )
+{
+    auto tab = win.create_tab( tab_name );
+
+    constexpr size_t list_width = 30;
+    const size_t list_height = tab->get_rect().size_y;
+    constexpr auto draw_lambda = []( nc_color color, mission *miss )
+        {
+            auto name = miss->name();
+
+            nc_color col = color;
+            if( g->u.get_active_mission() == miss ) {
+                col = c_ltgreen;
+            }
+
+            return std::pair<std::string, nc_color>{name, col};
+        }; // get name from mission, highlight active mission.
+
+    auto _list = tab->create_child<ui_vertical_list<mission *, decltype(draw_lambda), nullptr>>( list_width, list_height, 0, 0, ui_anchor::top_left, draw_lambda );
+    _list->set_items( data );
+
+    ib.subscribe( _list->default_action_handler() );
+
+    auto _border = tab->create_child<ui_border>( 1, list_height );
+    _border->after( *_list );
+
+    auto _desc = tab->create_child<ui_label>( _list->empty() ? if_empty : "" ); // If our list is empty our description will be like "you don't have any missions"
+    _desc->text_color = _list->empty() ? c_ltred : _desc->text_color; // Also, the color will be red
+    _desc->after( *_border );
+
+    auto _target = tab->create_child<ui_label>( "" );
+    _target->below( *_desc );
+    auto _deadline = tab->create_child<ui_label>( "" );
+    _deadline->below( *_target );
+
+    // Hook some actions to our list's events
+    _list->on_scroll += [_list, _desc, _target, _deadline]() {
+        auto miss = _list->current();
+        _desc->set_text( miss->get_description() );
+        if( miss->has_deadline() ) {
+            // TODO: proper formatting of turns, see calendar class, it has some nice functions
+            _deadline->set_text( string_format( _("Deadline: %d (%d)"),
+                      int(miss->get_deadline()), int(calendar::turn)) );
+        }
+        if( miss->has_target() ) {
+            const tripoint pos = g->u.global_omt_location();
+            // TODO: target does not contain a z-component, targets are assumed to be on z=0
+            _target->set_text( string_format( _("Target: (%d, %d)   You: (%d, %d)"),
+                      miss->get_target().x, miss->get_target().y, pos.x, pos.y) );
+        }
+    };
+
+    // Used for the active missions tab, where we can also select a mission
+    if( can_confirm ) {
+        _list->on_select += [_list]() {
+            auto miss = _list->current();
+            g->u.set_active_mission( *miss );
+        };
+    }
+}
+
 void game::list_missions()
 {
-    WINDOW *w_missions = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                                (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0,
-                                (TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 : 0);
+    static const size_t win_width = FULL_SCREEN_WIDTH;
+    static const size_t win_height = FULL_SCREEN_HEIGHT;
+    static const int start_x = (TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 : 0;
+    static const int start_y = (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0;
 
-    int tab = 0;
-    size_t selection = 0;
-    input_context ctxt("MISSIONS");
-    ctxt.register_cardinal();
-    ctxt.register_action("CONFIRM");
-    ctxt.register_action("QUIT");
-    ctxt.register_action("HELP_KEYBINDINGS");
-    while (true) {
-        werase(w_missions);
-        std::vector<mission*> umissions;
-        switch (tab) {
-        case 0:
-            umissions = u.get_active_missions();
-            break;
-        case 1:
-            umissions = u.get_completed_missions();
-            break;
-        case 2:
-            umissions = u.get_failed_missions();
-            break;
-        }
+    tabbed_window win( win_width, win_height, start_x, start_y );
 
-        for (int i = 1; i < FULL_SCREEN_WIDTH - 1; i++) {
-            mvwputch(w_missions, 2, i, BORDER_COLOR, LINE_OXOX);
-            mvwputch(w_missions, FULL_SCREEN_HEIGHT - 1, i, BORDER_COLOR, LINE_OXOX);
+    input_broadcaster ib;
+    ib.subscribe( win.default_action_handler() );
 
-            if (i > 2 && i < FULL_SCREEN_HEIGHT - 1) {
-                mvwputch(w_missions, i, 0, BORDER_COLOR, LINE_XOXO);
-                mvwputch(w_missions, i, 30, BORDER_COLOR, LINE_XOXO);
-                mvwputch(w_missions, i, FULL_SCREEN_WIDTH - 1, BORDER_COLOR, LINE_XOXO);
-            }
-        }
+    init_missions_tab( win, ib, _("ACTIVE MISSIONS"), u.get_active_missions(), _("You have no active missions!"), true );
+    init_missions_tab( win, ib, _("COMPLETED MISSIONS"), u.get_completed_missions(), _("You haven't completed any missions!"), false );
+    init_missions_tab( win, ib, _("FAILED MISSIONS"), u.get_failed_missions(), _("You haven't failed any missions!"), false );
 
-        draw_tab(w_missions, 7, _("ACTIVE MISSIONS"), (tab == 0) ? true : false);
-        draw_tab(w_missions, 30, _("COMPLETED MISSIONS"), (tab == 1) ? true : false);
-        draw_tab(w_missions, 56, _("FAILED MISSIONS"), (tab == 2) ? true : false);
+    while( true ) {
+        win.draw();
 
-        mvwputch(w_missions, 2, 0, BORDER_COLOR, LINE_OXXO); // |^
-        mvwputch(w_missions, 2, FULL_SCREEN_WIDTH - 1, BORDER_COLOR, LINE_OOXX); // ^|
-
-        mvwputch(w_missions, FULL_SCREEN_HEIGHT - 1, 0, BORDER_COLOR, LINE_XXOO); // |
-        mvwputch(w_missions, FULL_SCREEN_HEIGHT - 1, FULL_SCREEN_WIDTH - 1, BORDER_COLOR, LINE_XOOX); // _|
-
-        mvwputch(w_missions, 2, 30, BORDER_COLOR, (tab == 1) ? LINE_XOXX : LINE_XXXX); // + || -|
-        mvwputch(w_missions, FULL_SCREEN_HEIGHT - 1, 30, BORDER_COLOR, LINE_XXOX); // _|_
-
-        for (size_t i = 0; i < umissions.size(); i++) {
-            const auto miss = umissions[i];
-            nc_color col = c_white;
-            if( u.get_active_mission() == miss ) {
-                col = c_ltred;
-            }
-            if (selection == i) {
-                mvwprintz(w_missions, 3 + i, 1, hilite(col), "%s", miss->name().c_str());
-            } else {
-                mvwprintz(w_missions, 3 + i, 1, col, "%s", miss->name().c_str());
-            }
-        }
-
-        if (selection < umissions.size()) {
-            const auto miss = umissions[selection];
-            mvwprintz(w_missions, 4, 31, c_white, "%s", miss->get_description().c_str());
-            if( miss->has_deadline() ) {
-                // TODO: proper formatting of turns, see calendar class, it has some nice functions
-                mvwprintz(w_missions, 5, 31, c_white, _("Deadline: %d (%d)"),
-                          int(miss->get_deadline()), int(calendar::turn));
-            }
-            if( miss->has_target() ) {
-                const tripoint pos = u.global_omt_location();
-                // TODO: target does not contain a z-component, targets are assumed to be on z=0
-                mvwprintz(w_missions, 6, 31, c_white, _("Target: (%d, %d)   You: (%d, %d)"),
-                          miss->get_target().x, miss->get_target().y, pos.x, pos.y);
-            }
-        } else {
-            std::string nope;
-            switch (tab) {
-            case 0:
-                nope = _("You have no active missions!");
-                break;
-            case 1:
-                nope = _("You haven't completed any missions!");
-                break;
-            case 2:
-                nope = _("You haven't failed any missions!");
-                break;
-            }
-            mvwprintz(w_missions, 4, 31, c_ltred, "%s", nope.c_str());
-        }
-
-        wrefresh(w_missions);
-        const std::string action = ctxt.handle_input();
-        if (action == "RIGHT") {
-            tab++;
-            if (tab == 3) {
-                tab = 0;
-            }
-        } else if (action == "LEFT") {
-            tab--;
-            if (tab < 0) {
-                tab = 2;
-            }
-        } else if (action == "DOWN") {
-            selection++;
-            if (selection >= umissions.size()) {
-                selection = 0;
-            }
-        } else if (action == "UP") {
-            if (selection == 0) {
-                selection = umissions.size() - 1;
-            } else {
-                selection--;
-            }
-        } else if (action == "CONFIRM") {
-            if( tab == 0 && selection < umissions.size() ) {
-                u.set_active_mission( *umissions[selection] );
-            }
-            break;
-        } else if (action == "QUIT") {
+        if( ib.handle_input_and_broadcast() == "QUIT" ) {
             break;
         }
     }
-
-    werase(w_missions);
-    delwin(w_missions);
-    refresh_all();
 }
 
 // A little helper to draw footstep glyphs.

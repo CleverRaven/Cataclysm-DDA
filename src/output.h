@@ -36,6 +36,8 @@ enum direction : unsigned;
 #define LINE_OXXX_C 0xa9
 #define LINE_XXXX_C 0xaa
 
+long get_border_char( bool up, bool down, bool left, bool right );
+
 // a consistent border colour
 #define BORDER_COLOR c_ltgray
 
@@ -413,8 +415,8 @@ std::pair<std::string, nc_color> const& get_item_hp_bar(int dmg);
 
 std::pair<std::string, nc_color> const& get_light_level(const float light);
 
-void draw_tab(WINDOW *w, int iOffsetX, std::string sText, bool bSelected);
-void draw_subtab(WINDOW *w, int iOffsetX, std::string sText, bool bSelected, bool bDecorate = true);
+int draw_tab(WINDOW *w, int iOffsetX, std::string sText, bool bSelected);
+int draw_subtab(WINDOW *w, int iOffsetX, int iOffsetY, std::string sText, bool bSelected, bool bDecorate = true);
 void draw_scrollbar(WINDOW *window, const int iCurrentLine, const int iContentHeight,
                     const int iNumEntries, const int iOffsetY = 0, const int iOffsetX = 0,
                     nc_color bar_color = c_white, const bool bTextScroll = false);
