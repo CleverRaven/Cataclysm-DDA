@@ -1344,6 +1344,8 @@ item::sound_data item::gun_noise( bool const burst ) const
         noise += ammo_data()->ammo->loudness;
     }
 
+    noise = std::max( noise, 0 );
+
     if( ammo_type() == "40mm") {
         return { 8, _( "Thunk!" ) };
 
