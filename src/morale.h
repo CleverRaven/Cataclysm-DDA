@@ -19,12 +19,16 @@ class player_morale
 {
     public:
         player_morale() :
+
             covered {{}},
+        hot {{}},
+        cold {{}},
         level( 0 ),
                level_is_valid( false ),
                took_prozac( false ),
                stylish( false ),
         super_fancy_bonus( 0 ) {};
+
         player_morale( player_morale && ) = default;
         player_morale( const player_morale & ) = default;
         player_morale &operator =( player_morale && ) = default;
@@ -118,11 +122,15 @@ class player_morale
         void remove_if( const std::function<bool( const morale_point & )> &func );
         void remove_expired();
         void invalidate();
+
         void update_stylish_bonus();
+        void update_bodytemp_penalty();
 
     private:
         std::vector<morale_point> points;
         std::array<int, num_bp> covered;
+        std::array<int, num_bp> hot;
+        std::array<int, num_bp> cold;
 
         // Mutability is required for lazy initialization
         mutable int level;

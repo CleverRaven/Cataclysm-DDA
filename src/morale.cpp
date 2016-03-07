@@ -14,6 +14,8 @@
 #include <stdlib.h>
 #include <algorithm>
 
+static const efftype_id effect_cold( "cold" );
+static const efftype_id effect_hot( "hot" );
 static const efftype_id effect_took_prozac( "took_prozac" );
 
 namespace
@@ -345,6 +347,11 @@ void player_morale::decay( int ticks )
 
     std::for_each( points.begin(), points.end(), do_decay );
     remove_expired();
+
+    for( int i = 0; i < ticks; i++ ) {
+        update_bodytemp_penalty();
+    }
+
     invalidate();
 }
 
@@ -418,6 +425,8 @@ void player_morale::clear()
 {
     points.clear();
     covered.fill( 0 );
+    cold.fill( 0 );
+    hot.fill( 0 );
     took_prozac = false;
     stylish = false;
     super_fancy_bonus = 0;
@@ -466,6 +475,10 @@ void player_morale::on_effect_int_change( const efftype_id &eid, int intensity, 
 {
     if( eid == effect_took_prozac && bp == num_bp ) {
         set_prozac( intensity != 0 );
+    } else if( eid == effect_cold && bp < num_bp ) {
+        cold[bp] = intensity;
+    } else if( eid == effect_hot && bp < num_bp ) {
+        hot[bp] = intensity;
     }
 }
 
@@ -539,4 +552,30 @@ void player_morale::update_stylish_bonus()
     }
 
     add_permanent( MORALE_PERM_FANCY, bonus, bonus, true );
+}
+
+void player_morale::update_bodytemp_penalty()
+{
+    const auto bp_pen = [ this ]( body_part bp, double mul ) -> int {
+        return mul * ( hot[bp] - cold[bp] );
+    };
+
+    const int pen =
+        bp_pen( bp_head,    2 ) +
+        bp_pen( bp_torso,   2 ) +
+        bp_pen( bp_mouth,   2 ) +
+        bp_pen( bp_arm_l,  .5 ) +
+        bp_pen( bp_arm_r,  .5 ) +
+        bp_pen( bp_leg_l,  .5 ) +
+        bp_pen( bp_leg_r,  .5 ) +
+        bp_pen( bp_hand_l, .5 ) +
+        bp_pen( bp_hand_r, .5 ) +
+        bp_pen( bp_foot_l, .5 ) +
+        bp_pen( bp_foot_r, .5 );
+
+    if( pen < 0 ) {
+        add( MORALE_COLD, -2, pen, 10, 5, true );
+    } else if( pen > 0 ) {
+        add( MORALE_HOT, -2, -pen, 10, 5, true );
+    }
 }

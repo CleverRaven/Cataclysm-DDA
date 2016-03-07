@@ -760,8 +760,6 @@ void player::update_bodytemp()
     // Temperature norms
     // Ambient normal temperature is lower while asleep
     const int ambient_norm = has_sleep ? 3100 : 1900;
-    // This gets incremented in the for loop and used in the morale calculation
-    int morale_pen = 0;
 
     /**
      * Calculations that affect all body parts equally go here, not in the loop
@@ -1066,33 +1064,6 @@ void player::update_bodytemp()
                 remove_effect( effect_hot, (body_part)i );
             }
         }
-        // MORALE : a negative morale_pen means the player is cold
-        // Intensity multiplier is negative for cold, positive for hot
-        if( has_effect( effect_cold, (body_part)i ) || has_effect( effect_hot, (body_part)i ) ) {
-            int cold_int = get_effect_int( effect_cold, (body_part)i );
-            int hot_int = get_effect_int( effect_hot, (body_part)i );
-            int intensity_mult = hot_int - cold_int;
-
-            switch (i) {
-            case bp_head:
-            case bp_torso:
-            case bp_mouth:
-                morale_pen += 2 * intensity_mult;
-                break;
-            case bp_arm_l:
-            case bp_arm_r:
-            case bp_leg_l:
-            case bp_leg_r:
-                morale_pen += .5 * intensity_mult;
-                break;
-            case bp_hand_l:
-            case bp_hand_r:
-            case bp_foot_l:
-            case bp_foot_r:
-                morale_pen += .5 * intensity_mult;
-                break;
-            }
-        }
         // FROSTBITE - only occurs to hands, feet, face
         /**
 
@@ -1233,13 +1204,6 @@ void player::update_bodytemp()
         } else if( temp_conv[i] <= BODYTEMP_COLD && windchill < -30 && one_in(50) ) {
             add_msg(m_bad, _("Your clothing is not providing enough protection from the wind for your %s!"), body_part_name(body_part(i)).c_str());
         }
-    }
-    // Morale penalties, updated at the same rate morale is
-    if( morale_pen < 0 && calendar::once_every(MINUTES(1)) ) {
-        add_morale(MORALE_COLD, -2, -abs(morale_pen), 10, 5, true);
-    }
-    if( morale_pen > 0 && calendar::once_every(MINUTES(1)) ) {
-        add_morale(MORALE_HOT,  -2, -abs(morale_pen), 10, 5, true);
     }
 }
 
