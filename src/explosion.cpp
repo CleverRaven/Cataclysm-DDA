@@ -279,14 +279,14 @@ std::unordered_map<tripoint, std::pair<int, int>> game::explosion( const tripoin
     } else if( noise >= 4 ) {
         sounds::sound( p, noise, _( "an explosion!" ) );
         sfx::play_variant_sound( "explosion", "default", 100 );
-    } else {
+    } else if( noise > 0 ) {
         sounds::sound( p, 3, _( "a loud pop!" ) );
         sfx::play_variant_sound( "explosion", "small", 100 );
     }
 
     if( ex.distance_factor >= 1.0f ) {
         debugmsg( "called game::explosion with factor >= 1.0 (infinite size)" );
-    } else if( ex.distance_factor > 0.0f ) {
+    } else if( ex.distance_factor > 0.0f && ex.power > 0.0f ) {
         // @todo return map containing distribution of damage
         do_blast( p, ex.power, ex.distance_factor, ex.fire );
     }
