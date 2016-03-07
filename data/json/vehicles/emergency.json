@@ -358,12 +358,12 @@
         ],
         "items" : [
             {"x": -2, "y": 0, "chance": 50, "item_groups": [ "swat_gear" ] },
-            {"x": -2, "y": 2, "chance": 50, "item_groups": [ "guns_swat" ] },
+            {"x": -2, "y": 2, "chance": 50, "item_groups": [ "guns_swat" ], "magazine": 100, "ammo": 50 },
             {"x": -2, "y": 2, "chance": 50, "item_groups": [ "ammo_swat" ] },
-            {"x": -3, "y": 0, "chance": 50, "item_groups": [ "guns_swat" ] },
+            {"x": -3, "y": 0, "chance": 50, "item_groups": [ "guns_swat" ], "magazine": 100, "ammo": 50 },
             {"x": -3, "y": 0, "chance": 50, "item_groups": [ "mags_swat" ] },
             {"x": -3, "y": 2, "chance": 50, "item_groups": [ "swat_gear" ] },
-            {"x": -4, "y": 0, "chance": 50, "item_groups": [ "guns_swat" ] },
+            {"x": -4, "y": 0, "chance": 50, "item_groups": [ "guns_swat" ], "magazine": 100, "ammo": 50 },
             {"x": -4, "y": 0, "chance": 50, "item_groups": [ "ammo_swat" ] },
             {"x": -4, "y": 2, "chance": 50, "item_groups": [ "swat_gear" ] }
         ]
