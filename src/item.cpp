@@ -5742,7 +5742,7 @@ bool item::is_reloadable() const
     if( !is_gun() && !is_tool() && !is_magazine() ) {
         return false;
 
-    } else if( has_flag( "NO_RELOAD") || has_flag( "RELOAD_AND_SHOOT" ) ) {
+    } else if( has_flag( "NO_RELOAD") ) {
         return false;
 
     } else if( ammo_type() == "NULL" ) {
