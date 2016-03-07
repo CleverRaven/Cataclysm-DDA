@@ -12,6 +12,8 @@
 
 TEST_CASE( "player_morale" )
 {
+    static const efftype_id effect_cold( "cold" );
+    static const efftype_id effect_hot( "hot" );
     static const efftype_id effect_took_prozac( "took_prozac" );
 
     player_morale m;
@@ -186,6 +188,178 @@ TEST_CASE( "player_morale" )
             AND_WHEN( "not anymore" ) {
                 m.on_mutation_loss( "STYLISH" );
                 CHECK( m.get_level() == 0 );
+            }
+        }
+    }
+
+    GIVEN( "tough temperature conditions" ) {
+        WHEN( "chilly" ) {
+            m.on_effect_int_change( effect_cold, 1, bp_torso );
+            m.on_effect_int_change( effect_cold, 1, bp_head );
+            m.on_effect_int_change( effect_cold, 1, bp_eyes );
+            m.on_effect_int_change( effect_cold, 1, bp_mouth );
+            m.on_effect_int_change( effect_cold, 1, bp_arm_l );
+            m.on_effect_int_change( effect_cold, 1, bp_arm_r );
+            m.on_effect_int_change( effect_cold, 1, bp_leg_l );
+            m.on_effect_int_change( effect_cold, 1, bp_leg_r );
+            m.on_effect_int_change( effect_cold, 1, bp_hand_l );
+            m.on_effect_int_change( effect_cold, 1, bp_hand_r );
+            m.on_effect_int_change( effect_cold, 1, bp_foot_l );
+            m.on_effect_int_change( effect_cold, 1, bp_foot_r );
+
+            AND_WHEN( "no time has passed" ) {
+                CHECK( m.get_level() == 0 );
+            }
+            AND_WHEN( "1 minute has passed" ) {
+                m.decay( 1 );
+                CHECK( m.get_level() == -2 );
+            }
+            AND_WHEN( "2 minutes have passed" ) {
+                m.decay( 2 );
+                CHECK( m.get_level() == -4 );
+            }
+            AND_WHEN( "3 minutes have passed" ) {
+                m.decay( 3 );
+                CHECK( m.get_level() == -6 );
+            }
+            AND_WHEN( "an hour has passed" ) {
+                m.decay( 60 );
+                CHECK( m.get_level() == -6 );
+            }
+        }
+
+        WHEN( "cold" ) {
+            m.on_effect_int_change( effect_cold, 2, bp_torso );
+            m.on_effect_int_change( effect_cold, 2, bp_head );
+            m.on_effect_int_change( effect_cold, 2, bp_eyes );
+            m.on_effect_int_change( effect_cold, 2, bp_mouth );
+            m.on_effect_int_change( effect_cold, 2, bp_arm_l );
+            m.on_effect_int_change( effect_cold, 2, bp_arm_r );
+            m.on_effect_int_change( effect_cold, 2, bp_leg_l );
+            m.on_effect_int_change( effect_cold, 2, bp_leg_r );
+            m.on_effect_int_change( effect_cold, 2, bp_hand_l );
+            m.on_effect_int_change( effect_cold, 2, bp_hand_r );
+            m.on_effect_int_change( effect_cold, 2, bp_foot_l );
+            m.on_effect_int_change( effect_cold, 2, bp_foot_r );
+
+            AND_WHEN( "no time has passed" ) {
+                CHECK( m.get_level() == 0 );
+            }
+            AND_WHEN( "1 minute has passed" ) {
+                m.decay( 1 );
+                CHECK( m.get_level() == -2 );
+            }
+            AND_WHEN( "9 minutes have passed" ) {
+                m.decay( 9 );
+                CHECK( m.get_level() == -18 );
+            }
+            AND_WHEN( "10 minutes have passed" ) {
+                m.decay( 10 );
+                CHECK( m.get_level() == -20 );
+            }
+            AND_WHEN( "an hour has passed" ) {
+                m.decay( 60 );
+                CHECK( m.get_level() == -20 );
+            }
+        }
+
+        WHEN( "warm" ) {
+            m.on_effect_int_change( effect_hot, 1, bp_torso );
+            m.on_effect_int_change( effect_hot, 1, bp_head );
+            m.on_effect_int_change( effect_hot, 1, bp_eyes );
+            m.on_effect_int_change( effect_hot, 1, bp_mouth );
+            m.on_effect_int_change( effect_hot, 1, bp_arm_l );
+            m.on_effect_int_change( effect_hot, 1, bp_arm_r );
+            m.on_effect_int_change( effect_hot, 1, bp_leg_l );
+            m.on_effect_int_change( effect_hot, 1, bp_leg_r );
+            m.on_effect_int_change( effect_hot, 1, bp_hand_l );
+            m.on_effect_int_change( effect_hot, 1, bp_hand_r );
+            m.on_effect_int_change( effect_hot, 1, bp_foot_l );
+            m.on_effect_int_change( effect_hot, 1, bp_foot_r );
+
+            AND_WHEN( "no time has passed" ) {
+                CHECK( m.get_level() == 0 );
+            }
+            AND_WHEN( "1 minute has passed" ) {
+                m.decay( 1 );
+                CHECK( m.get_level() == -2 );
+            }
+            AND_WHEN( "2 minutes have passed" ) {
+                m.decay( 2 );
+                CHECK( m.get_level() == -4 );
+            }
+            AND_WHEN( "3 minutes have passed" ) {
+                m.decay( 3 );
+                CHECK( m.get_level() == -6 );
+            }
+            AND_WHEN( "an hour has passed" ) {
+                m.decay( 60 );
+                CHECK( m.get_level() == -6 );
+            }
+        }
+
+        WHEN( "hot" ) {
+            m.on_effect_int_change( effect_hot, 2, bp_torso );
+            m.on_effect_int_change( effect_hot, 2, bp_head );
+            m.on_effect_int_change( effect_hot, 2, bp_eyes );
+            m.on_effect_int_change( effect_hot, 2, bp_mouth );
+            m.on_effect_int_change( effect_hot, 2, bp_arm_l );
+            m.on_effect_int_change( effect_hot, 2, bp_arm_r );
+            m.on_effect_int_change( effect_hot, 2, bp_leg_l );
+            m.on_effect_int_change( effect_hot, 2, bp_leg_r );
+            m.on_effect_int_change( effect_hot, 2, bp_hand_l );
+            m.on_effect_int_change( effect_hot, 2, bp_hand_r );
+            m.on_effect_int_change( effect_hot, 2, bp_foot_l );
+            m.on_effect_int_change( effect_hot, 2, bp_foot_r );
+
+            AND_WHEN( "no time has passed" ) {
+                CHECK( m.get_level() == 0 );
+            }
+            AND_WHEN( "1 minute has passed" ) {
+                m.decay( 1 );
+                CHECK( m.get_level() == -2 );
+            }
+            AND_WHEN( "9 minutes have passed" ) {
+                m.decay( 9 );
+                CHECK( m.get_level() == -18 );
+            }
+            AND_WHEN( "10 minutes have passed" ) {
+                m.decay( 10 );
+                CHECK( m.get_level() == -20 );
+            }
+            AND_WHEN( "an hour has passed" ) {
+                m.decay( 60 );
+                CHECK( m.get_level() == -20 );
+            }
+        }
+
+        WHEN( "mixed" ) {
+            // TODO: Awfully low penalty for such conditions. Something has to be done about that.
+            // I think the penalties should be calculated independently for 'hot' and 'cold' effects.
+            m.on_effect_int_change( effect_hot, 3,  bp_torso );
+            m.on_effect_int_change( effect_cold, 2, bp_head );
+            m.on_effect_int_change( effect_cold, 3, bp_mouth );
+            m.on_effect_int_change( effect_cold, 3, bp_hand_l );
+            m.on_effect_int_change( effect_hot, 1,  bp_leg_r );
+
+            AND_WHEN( "no time has passed" ) {
+                CHECK( m.get_level() == 0 );
+            }
+            AND_WHEN( "1 minute has passed" ) {
+                m.decay( 1 );
+                CHECK( m.get_level() == -2 );
+            }
+            AND_WHEN( "2 minutes have passed" ) {
+                m.decay( 2 );
+                CHECK( m.get_level() == -4 );
+            }
+            AND_WHEN( "3 minutes have passed" ) {
+                m.decay( 10 );
+                CHECK( m.get_level() == -5 );
+            }
+            AND_WHEN( "an hour has passed" ) {
+                m.decay( 60 );
+                CHECK( m.get_level() == -5 );
             }
         }
     }
