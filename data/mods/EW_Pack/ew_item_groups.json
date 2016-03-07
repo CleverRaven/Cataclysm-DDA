@@ -9,14 +9,6 @@
     },
     {
         "type": "item_group",
-        "id" : "assault",
-        "items" :[
-          ["svs-24", 3],
-          ["svs-24c", 2]
-        ]
-    },
-    {
-        "type": "item_group",
         "id": "mansion_guns",
         "items": [
           ["cw-24", 6],
