@@ -1,19 +1,6 @@
 [
     {
         "type": "item_group",
-        "id": "allguns",
-        "items": [
-          ["ficrico", 2],
-          ["gunsword", 3],
-          ["gunknife", 3],
-          ["50pistol", 2],
-          ["hk_mp5eod", 3],
-          ["ltcarb", 5],
-          ["arccan", 5]
-        ]
-    },
-    {
-        "type": "item_group",
         "id": "mansion_guns",
         "items": [
           ["50pistol", 2],

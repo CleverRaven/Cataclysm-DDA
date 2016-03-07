@@ -625,17 +625,6 @@
     ]
   },{
     "type" : "item_group",
-    "id" : "allguns",
-    "subtype": "distribution",
-    "entries" : [
-      { "group": "pistols", "prob": 1000 },
-      { "group": "shotguns", "prob": 1000 },
-      { "group": "smg", "prob": 1000 },
-      { "group": "rifles", "prob": 1000 },
-      { "group": "assault", "prob": 1000 }
-    ]
-  },{
-    "type" : "item_group",
     "id" : "ammo",
     "subtype": "distribution",
     "entries" : [

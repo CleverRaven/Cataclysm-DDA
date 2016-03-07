@@ -17,16 +17,6 @@
     },
     {
         "type": "item_group",
-        "id": "allguns",
-        "items": [
-          ["svs-24", 3],
-          ["svs-24c", 2],
-          ["cw-24", 4],
-          ["cwd-63", 5]
-        ]
-    },
-    {
-        "type": "item_group",
         "id": "mansion_guns",
         "items": [
           ["cw-24", 6],
