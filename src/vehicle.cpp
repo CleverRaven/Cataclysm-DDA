@@ -6401,10 +6401,6 @@ bool vehicle::automatic_fire_turret( int p, item& gun, long &charges )
         return false;
     }
 
-    // Move the charger gun "whoosh" here - no need to pass it from above
-    if( gun.is_charger_gun() && charges > 20 ) {
-        sounds::sound( targ, 20, _("whoosh!") );
-    }
     // notify player if player can see the shot
     if( g->u.sees( pos ) ) {
         add_msg(_("The %1$s fires its %2$s!"), name.c_str(), part_info(p).name.c_str());
