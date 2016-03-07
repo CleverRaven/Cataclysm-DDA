@@ -5061,21 +5061,18 @@ void vehicle::place_spawn_items()
                 for( auto &elem : next_spawn->item_ids ) {
                     if ( partbroken ) {
                         int idmg = rng(1, 10);
-                        if ( idmg > 5 ) {
+                        if ( idmg > MAX_ITEM_DAMAGE ) {
                             continue;
                         }
                     }
-                    item new_item( elem, calendar::turn );
-                    new_item = new_item.in_its_container();
-                    if ( idmg > 0 ) {
-                        new_item.damage = (signed char)idmg;
-                    }
+                    item new_item = item( elem ).in_its_container();
+                    new_item.damage = idmg;
                     add_item(part, new_item);
                 }
                 for( auto &elem : next_spawn->item_groups ) {
                     if ( partbroken ) {
                         int idmg = rng(1, 10);
-                        if ( idmg > 5 ) {
+                        if ( idmg > MAX_ITEM_DAMAGE ) {
                             continue;
                         }
                     }
@@ -5083,9 +5080,7 @@ void vehicle::place_spawn_items()
                     if( new_item.is_null() ) {
                         continue;
                     }
-                    if ( idmg > 0 ) {
-                        new_item.damage = (signed char)idmg;
-                    }
+                    new_item.damage = idmg;
                     add_item(part, new_item);
                 }
             }
