@@ -351,5 +351,24 @@
       "recoil" : 0,
       "count" : 10,
       "stack_size" : 100
-   }
+   },
+   {
+     "type" : "ARMOR",
+     "id" : "helmet_netting",
+     "name" : "helmet netting",
+     "weight" : 25,
+     "color" : "green",
+     "covers" : ["HEAD"],
+     "to_hit" : -1,
+     "symbol" : "[",
+     "description" : "A webbing of strings worn on a helmet, to attach camouflage.",
+     "flags" : ["OVERSIZE", "BELTED", "WATER_FRIENDLY"],
+     "price" : 2000,
+     "material" : ["cotton", "null"],
+     "volume" : 0,
+     "warmth" : 0,
+     "encumbrance" : 0,
+     "coverage" : 12,
+     "material_thickness" : 1
+  }
 ]
