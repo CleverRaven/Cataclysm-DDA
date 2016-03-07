@@ -567,21 +567,6 @@
       ["20x66_beanbag", 6],
       ["shot_slug", 20]
     ]
-  },{
-    "type" : "item_group",
-    "id" : "army_pistols",
-    "items" : [
-      ["glock_19", 50],
-      ["9mm", 50]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "army_rifles",
-    "items" : [
-      ["m4a1", 50],
-      ["m249", 10],
-      ["556", 50]
-    ]
   }
 ]
 
