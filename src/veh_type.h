@@ -10,6 +10,8 @@
 #include <string>
 #include <memory>
 
+using itype_id = std::string;
+
 struct vpart_info;
 using vpart_str_id = string_id<vpart_info>;
 using vpart_id = int_id<vpart_info>;
@@ -118,7 +120,7 @@ struct vpart_info {
 struct vehicle_item_spawn {
     point pos;
     int chance;
-    std::vector<std::string> item_ids;
+    std::vector<itype_id> item_ids;
     std::vector<std::string> item_groups;
 };
 

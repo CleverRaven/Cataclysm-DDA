@@ -5047,41 +5047,36 @@ void vehicle::place_spawn_items()
     if( !type.is_valid() ) {
         return;
     }
-    for( auto &spawn : type.obj().item_spawns ) {
-        const vehicle_item_spawn *next_spawn = &spawn;
-        if(rng(1, 100) <= next_spawn->chance) {
-            //Find the cargo part in that square
-            int part = part_with_feature_at_relative(next_spawn->pos, "CARGO", false);
-            if(part < 0) {
-                debugmsg("No CARGO parts at (%d, %d) of %s!",
-                        next_spawn->pos.x, next_spawn->pos.y, name.c_str());
+
+    for( const auto& spawn : type.obj().item_spawns ) {
+        if( rng( 1, 100 ) <= spawn.chance ) {
+            int part = part_with_feature_at_relative( spawn.pos, "CARGO", false );
+            if( part < 0 ) {
+                debugmsg( "No CARGO parts at (%d, %d) of %s!", spawn.pos.x, spawn.pos.y, name.c_str() );
+
             } else {
-                bool partbroken = ( parts[part].hp < 1 );
-                int idmg = 0;
-                for( auto &elem : next_spawn->item_ids ) {
-                    if ( partbroken ) {
-                        int idmg = rng(1, 10);
-                        if ( idmg > MAX_ITEM_DAMAGE ) {
-                            continue;
-                        }
-                    }
-                    item new_item = item( elem ).in_its_container();
-                    new_item.damage = idmg;
-                    add_item(part, new_item);
+                // if vehicle part is broken only 50% of items spawn and they will be variably damaged
+                bool broken = parts[ part ].hp < 1;
+                if( broken && one_in( 2 ) ) {
+                    continue;
                 }
-                for( auto &elem : next_spawn->item_groups ) {
-                    if ( partbroken ) {
-                        int idmg = rng(1, 10);
-                        if ( idmg > MAX_ITEM_DAMAGE ) {
-                            continue;
-                        }
-                    }
-                    item new_item = item_group::item_from( elem, 0 );
-                    if( new_item.is_null() ) {
+
+                std::vector<item> created;
+                for( const itype_id& e : spawn.item_ids ) {
+                    created.emplace_back( item( e ).in_its_container() );
+                }
+                for( const std::string& e : spawn.item_groups ) {
+                    created.emplace_back( item_group::item_from( e, calendar::turn ) );
+                }
+
+                for( item& e : created ) {
+                    if( e.is_null() ) {
                         continue;
                     }
-                    new_item.damage = idmg;
-                    add_item(part, new_item);
+                    if( broken ) {
+                        e.damage = rng( 1, MAX_ITEM_DAMAGE );
+                    }
+                    add_item( part, e);
                 }
             }
         }
