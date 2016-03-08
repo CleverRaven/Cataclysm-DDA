@@ -769,12 +769,20 @@ public:
     // Set up the turret to fire
     bool fire_turret( int p, bool manual );
 
-    // Fire turret at some automatically acquired target
-    bool automatic_fire_turret( int p, item &gun, long &charges );
+    /*
+     * Fire turret at some automatically acquired target
+     * @param p part number for the turret
+     * @return number of shots actually fired (which may be zero)
+     */
+    int automatic_fire_turret( int p, item &gun );
 
-    // Aim and fire turret manually
+    /*
+     * Aim and fire turret manually
+     * @param p part number for the turret
+     * @return number of shots actually fired (which may be zero)
+     */
     // TODO: Make it work correctly with UPS-powered turrets when player has a UPS already
-    bool manual_fire_turret( int p, player &shooter, item &gun, long &charges );
+    int manual_fire_turret( int p, player &shooter, item &gun );
 
     // Update the set of occupied points and return a reference to it
     std::set<tripoint> &get_points( bool force_refresh = false );
