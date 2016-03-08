@@ -37,7 +37,6 @@
 
           { "collection": [
               { "item": "helmet_army" },
-              { "item": "helmet_netting", "prob": 33, "damage-min": 1, "damage-max": 4 },
               { "item": "elbow_pads", "prob": 33, "damage-min": 1, "damage-max": 4 },
               { "item": "knee_pads", "prob": 75, "damage-min": 1, "damage-max": 4 },
               { "item": "gloves_tactical", "prob": 10, "damage-min": 1, "damage-max": 4 },
@@ -68,7 +67,6 @@
 
           { "collection": [
               { "item": "helmet_army" },
-              { "item": "helmet_netting", "prob": 33, "damage-min": 1, "damage-max": 4 },
               { "group": "guns_rifle_milspec", "prob": 10, "damage-min": 1, "damage-max": 3 },
               { "group": "guns_pistol_milspec", "prob": 20, "damage-min": 1, "damage-max": 3 },
               { "item": "ear_plugs", "count-min": 1, "count-max": 2 },
