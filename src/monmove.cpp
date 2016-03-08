@@ -623,15 +623,32 @@ void monster::move()
                 next_step = candidate;
                 break;
             }
+
+            // Allow non-stumbling critters to stumble when most direct choice is bad
+            bool bad_choice = false;
             // Bail out if we can't move there and we can't bash.
-            if( !can_move_to( candidate ) &&
-                !( can_bash && g->m.bash_rating( bash_estimate(), candidate ) >= 1 ) ) {
-                continue;
+            if( !can_move_to( candidate ) ) {
+                if( !can_bash ) {
+                    continue;
+                }
+
+                const int estimate = g->m.bash_rating( bash_estimate(), candidate );
+                if( estimate <= 0 ) {
+                    continue;
+                }
+
+                if( estimate < 5 ) {
+                    bad_choice = true;
+                }
             }
             // Bail out if there's a non-hostile monster in the way and we're not pushy.
-            if( target != nullptr && attitude_to( *target ) != A_HOSTILE &&
-                !has_flag( MF_ATTACKMON ) && !has_flag( MF_PUSH_MON ) ) {
-                continue;
+            if( target != nullptr && attitude_to( *target ) != A_HOSTILE ) {
+                if( !has_flag( MF_ATTACKMON ) && !has_flag( MF_PUSH_MON ) ) {
+                    continue;
+                }
+
+                // Friendly fire and pushing are always bad choices - they take a lot of time
+                bad_choice = true;
             }
             const float progress = distance_to_target - trig_dist( candidate, destination );
             // The x2 makes the first (and most direct) path twice as likely,
@@ -643,7 +660,8 @@ void monster::move()
                 next_step = candidate;
                 // If we stumble, pick a random square, otherwise take the first one,
                 // which is the most direct path.
-                if( !staggers ) {
+                // Except if the direct path is bad, then check others
+                if( !staggers && !bad_choice ) {
                     break;
                 }
             }
@@ -1175,7 +1193,7 @@ bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
         }
 
         // Pushing forward is easier than pushing aside
-        const int direction_penalty = abs( dx - dir.x ) + abs( dy + dir.y );
+        const int direction_penalty = abs( dx - dir.x ) + abs( dy - dir.y );
         if( direction_penalty > 2 ) {
             continue;
         }
