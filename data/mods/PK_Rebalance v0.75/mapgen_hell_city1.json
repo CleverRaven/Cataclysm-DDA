@@ -1,0 +1,168 @@
+[
+
+    {
+    "type": "mapgen",
+        "om_terrain": [
+            "hell_city_entrance"
+        ],
+		"method": "json",
+        "weight": 100,
+        "object": {
+            "fill_ter": "t_dirt",
+            "rows": [
+                "^ ^x xxxx^x^xx   x^x x  ",
+                "  x^xxx^^xxxx^x xxxx  xx",
+                "xx^   ^^xxxxxxxxxxx ~~^x",
+				" ^x S ^xxxxxxxxxxx ~~   ",
+				" ^x   xxx######xx ~~  x ",
+				"xxxxxxxx######## ~~ xxx ",
+				" xxxxxx###S~~S###  xxx  ",
+				"^xxxxx##1......1##xxxxxx",
+				"^xxxx###..>11>..###xxxxx",
+				"x^xxx##x.........##xxxx^",
+				"^xxxx##..1.Sx.1..##x^xxx",
+				"^^xxx##..........##xxx^x",
+				"^^xxx ##..1..1..## xxx^x",
+				"xxxxx  #..1..1..#  xxxxx",
+				"xxxxx  S        S  x^x^x",
+				"^xxxx              ^xxxx",
+				" xxxxx            xxxxxx",
+				"x^xxxxxxxxxxxxxxxxxxxx^x",
+				"x^^xx^^^xxxxxxxxxxxxxxx^",
+				"xxxxx^1^xxxxxxxx1x^x^^x ",
+				" ^xxx^^^xxxxxxxxx^xxxxxx",
+				"^xxxxxxxxxxxxxxxx^xx^xxx",
+				"  x^xxx^xxxxxxx^^xxxxx^ ",
+				"x ^^xx xxx x^xx^^x  xxxx"
+            ],
+            "terrain": {
+                ".": "t_rock_floor",
+                "#": "t_rock",
+				">": "t_slope_down",
+				"1": "t_column",
+				"~": "t_lava"
+            },
+            "furniture": {
+                "^": "f_rubble_rock",
+				"S": "f_statue",
+				"x": "f_ash"
+            }
+        }
+    },
+	
+	{
+    "type": "mapgen",
+        "om_terrain": [
+            "hell_city_tunnel_1"
+        ],
+		"method": "json",
+        "weight": 100,
+        "object": {
+            "fill_ter": "t_rock",
+        "rows": [
+                "                       ~",
+                "       ##############~~ ",
+                "       #^^........~~~~~ ",
+                "       #@........~~~1~~ ",
+                "       ###....####~~~~  ",
+                "         #....#   ~~    ",
+                "        #......# ~~     ",
+                "       #...SS...#~      ",
+                "      #...<SS<...#      ",
+                "       #...SS...#       ",
+                "        #......#        ",
+                "         #....#         ",
+                "         #p..p#         ",
+                "         #p..p#         ",
+                "         #p..p#         ",
+                "         #p..p#         ",
+                "         #p..p#         ",
+                "         #p..p#         ",
+                "         #p..p#         ",
+                "         ##..##         ",
+                "          #>>#          ",
+                "          #^^#          ",
+                "          ####          ",
+                "                        "
+            ],
+            "terrain": {
+                ".": "t_rock_floor",
+                "#": "t_rock",
+				">": "t_slope_down",
+				"<": "t_slope_up",
+				"1": "t_column",
+				"~": "t_lava",
+				"@": "t_pit_corpsed",
+				"p": "t_pit_spiked"
+            },
+            "furniture": {
+                "^": "f_rubble_rock",
+				"S": "f_statue",
+				"x": "f_ash"
+            }
+        }
+    },
+	
+	{
+    "type": "mapgen",
+        "om_terrain": [
+            "hell_city_tunnel_2"
+        ],
+		"method": "json",
+        "weight": 100,
+        "object": {
+            "fill_ter": "t_rock",
+        "rows": [
+                "                        ",
+                "        ########        ",
+                "       #.1.>>.1.#       ",
+                "      #..........#      ",
+                "      #..........#      ",
+                "      S..1....1..S      ",
+                "      #..........#      ",
+                "      #..........#      ",
+                "      #..........#      ",
+                "      S..1....1..S      ",
+                "      #...S..S...#      ",
+                "      #..........#      ",
+                "      #..........#      ",
+                "      #...S..S...#      ",
+                "      S..1....1..S      ",
+                "      #..........#      ",
+                "      #..........#      ",
+                "      #..........#      ",
+                "      S..1....1..S      ",
+                "      #..........#      ",
+                "      #..........#      ",
+                "       #.1.<<.1.#       ",
+                "        ########        ",
+                "                        "
+            ],
+            "terrain": {
+                ".": "t_rock_floor",
+                "#": "t_rock",
+				">": "t_slope_down",
+				"<": "t_slope_up",
+				"1": "t_column",
+				"~": "t_lava",
+				"@": "t_pit_corpsed",
+				"p": "t_pit_spiked"
+            },
+            "furniture": {
+                "^": "f_rubble_rock",
+				"S": "f_statue",
+				"x": "f_ash"
+            },
+		"set": [
+				{ "point": "trap", "id": "tr_spike_pit", "x": [11, 12], "y": 3, "chance": 2},
+				{ "point": "trap", "id": "tr_spike_pit", "x": [11, 12], "y": 20, "chance": 2},
+				{ "point": "trap", "id": "tr_spike_pit", "x": [ 8, 17 ], "y": [ 4, 21 ], "repeat": [ 3, 12 ], "chance": 3 },
+				{ "point": "trap", "id": "tr_lava", "x": [ 8, 17 ], "y": [ 4, 21 ], "repeat": [ 3, 7 ], "chance": 3 },
+                { "point": "trap", "id": "tr_drain", "x": [ 8, 17 ], "y": [ 4, 21 ], "repeat": [ 3, 7 ], "chance": 5 },
+				{ "point": "trap", "id": "tr_drain", "x": [ 8, 17 ], "y": [ 4, 21 ], "repeat": [ 3, 7 ], "chance": 5 },
+                { "point": "trap", "id": "tr_sinkhole", "x": [ 8, 17 ], "y": [ 4, 21 ], "repeat": [ 2, 6 ], "chance": 5 }
+            ]
+        }
+    }
+	
+]

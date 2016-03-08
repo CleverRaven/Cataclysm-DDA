@@ -1,0 +1,36 @@
+[
+
+    {
+        "type" : "MONSTER_FACTION",
+        "name" : "fungus",
+        "neutral" : ["vermin", "finfected", "small_animal", "utility_bot"]
+    },{
+        "type" : "MONSTER_FACTION",
+        "name" : "finfected",
+		"base_faction" : "fungus",
+		"by_mood" : ["small_animal", "utility_bot"]
+    },{
+        "type" : "MONSTER_FACTION",
+        "name" : "ant",
+		"base_faction" : "insect",
+        "neutral" : ["vermin", "small_animal"],
+        "by_mood" : ["insect", "zombie"]
+    },{
+        "type" : "MONSTER_FACTION",
+        "name" : "zombie",
+        "friendly" : ["blob", "cult"],
+        "neutral" : ["small_animal", "insect"],
+		"by_mood" : ["ant"]
+    },{
+        "type" : "MONSTER_FACTION",
+        "name" : "doom",
+        "neutral" : ["vermin"],
+		"by_mood" : ["small_animal"]
+    },{
+        "type" : "MONSTER_FACTION",
+		"base_faction" : "doom",
+        "name" : "upper_doom",
+        "neutral" : ["vermin", "small_animal", "bot"]
+    }
+	
+]
