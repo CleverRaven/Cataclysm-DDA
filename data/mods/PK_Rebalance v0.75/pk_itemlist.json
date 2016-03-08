@@ -1,0 +1,216 @@
+[
+
+	{
+        "type" : "item_group",
+        "subtype": "collection",
+        "comment": "9mm drops",
+        "id": "furvivor_glock",
+        "entries":
+        [
+            { "group": "mon_zombie_survivor_death_drops", "damage": [3, 4] },
+            { "group": "bags", "damage": [2, 4], "prob": 10 },
+			{ "group": "furvivor_ninemm", "damage": [3, 4], "prob": 75, "count": [1, 2]}
+        ]
+    },{
+        "type" : "item_group",
+        "subtype": "collection",
+        "comment": "shot drops",
+        "id": "furvivor_shotgun",
+        "entries":
+        [
+            { "group": "mon_zombie_survivor_death_drops", "damage": [3, 4] },
+            { "group": "bags", "damage": [2, 4], "prob": 10 },
+			{ "group": "furvivor_shot_gun", "damage": [3, 4], "prob": 80},
+			{ "group": "furvivor_shot_ammo", "damage": [3, 4], "prob": 25}
+        ]
+    },{
+        "type" : "item_group",
+        "subtype": "collection",
+        "comment": "shot drops",
+        "id": "furvivor_deagle",
+        "entries":
+        [
+            { "group": "mon_zombie_survivor_death_drops", "damage": [3, 4] },
+            { "group": "bags", "damage": [2, 4], "prob": 10 },
+			{ "group": "furvivor_deagle_gun", "damage": [3, 4], "prob": 80},
+			{ "group": "furvivor_deagle_ammo", "damage": [3, 4], "prob": 15}
+        ]
+    },{
+        "type" : "item_group",
+        "subtype": "collection",
+        "comment": "shot drops",
+        "id": "furvivor_smg",
+        "entries":
+        [
+            { "group": "mon_zombie_survivor_death_drops", "damage": [3, 4] },
+            { "group": "bags", "damage": [2, 4], "prob": 10 },
+			{ "group": "furvivor_uzi", "damage": [3, 4], "prob": 75, "count": [1, 2]}
+        ]
+    },{
+        "type" : "item_group",
+        "subtype": "collection",
+        "comment": "shot drops",
+        "id": "furvivor_pk",
+        "entries":
+        [
+            { "group": "mon_zombie_survivor_death_drops", "damage": [3, 4] },
+            { "group": "bags", "damage": [2, 4], "prob": 10 },
+			{ "group": "furvivor_melee", "damage": [3, 4], "prob": 50}
+        ]
+    },{
+        "type" : "item_group",
+        "subtype": "collection",
+        "comment": "shot drops",
+        "id": "marloss_man_drops",
+        "entries":
+        [
+            { "group": "mon_zombie_survivor_death_drops", "damage": [2, 4] },
+            { "group": "bags", "damage": [2, 4], "prob": 10 },
+			{ "group": "marloss_man_gear", "damage": [3, 4], "prob": 33 },
+			{ "group": "marloss_man_nommies", "damage": [0, 1], "prob": 95, "count": [3, 5] }
+        ]
+    },
+	
+	{
+    "type" : "item_group",
+    "id" : "furvivor_ninemm",
+    "//" : "cheap glock and mag for glock",
+    "items": [
+      ["glockmag", 10],
+	  ["glock_19", 10],
+	  ["9mm", 4],
+	  ["reloaded_9mm", 1]
+    ] 
+    },{
+    "type" : "item_group",
+    "id" : "furvivor_shot_gun",
+    "//" : "cheap shot guns",
+    "items": [
+	  ["pipe_shotgun", 15],
+      ["shotgun_s", 10],
+	  ["shotgun_d", 5],
+	  ["mossberg_500", 1]
+    ] 
+    },{
+    "type" : "item_group",
+    "id" : "furvivor_shot_ammo",
+    "//" : "cheap shot ammo",
+    "items": [
+	  ["reloaded_shot_00", 5],
+	  ["reloaded_shot_bird", 5]
+    ] 
+    },{
+    "type" : "item_group",
+    "id" : "furvivor_deagle_gun",
+    "//" : "cheap .44 gun",
+    "items": [
+	  ["deagle_44", 5],
+	  ["sw629", 2]
+    ] 
+    },{
+    "type" : "item_group",
+    "id" : "furvivor_deagle_ammo",
+    "//" : "cheap .44 ammo",
+    "items": [
+	  [ "deaglemag", 4],
+	  ["44fmj", 1],
+	  ["reloaded_44fmj", 5]
+    ] 
+    },{
+    "type" : "item_group",
+    "id" : "furvivor_uzi",
+    "//" : "cheap 9mm ammo",
+    "items": [
+	  [ "uzimag", 4],
+	  ["9mm", 1],
+	  ["uzi", 5],
+	  ["reloaded_44fmj", 5]
+    ] 
+    },{
+    "type" : "item_group",
+    "id" : "furvivor_melee",
+    "//" : "weapons, some uncommon",
+    "items": [
+	  [ "stick", 10],
+	  ["spear_rebar", 10],
+	  ["pointy_stick", 5],
+	  ["q_staff", 5],
+	  ["spear_wood", 5],
+	  ["spear_forked", 5],
+	  ["spear_steel", 5],
+	  ["spear_copper", 3],
+	  ["sword_crude", 3],
+	  ["homewrecker", 3],
+	  ["halberd_fake", 3],
+	  ["javelin_iron", 3],
+	  ["bwirebat", 3],
+	  ["i_staff", 2],
+	  ["lajatang", 2],
+	  ["canister_empty", 2],
+	  ["sword_wood", 2],
+	  ["hammer_sledge", 2],
+	  ["knife_butter", 1],
+	  ["baton-extended", 1],
+	  ["mace", 1],
+	  ["spike", 1],
+	  ["torch_done", 1],
+	  ["rock", 1],
+	  ["sharp_rock", 1],
+	  ["pipe", 1],
+	  ["golf_club", 1],
+	  ["glass_macuahuitl", 1],
+	  ["longsword_inferior", 1] 
+    ]
+    },{
+    "type" : "item_group",
+    "id" : "marloss_man_gear",
+    "//" : "Having Killed MM, who is def an endgame mob, you deserve a badly damaged gun that is mostly useless, unless mounted, and is pretty common anywho.",
+    "items": [
+	  [ "m249", 12],
+	  ["l_lmg_223", 7],
+	  [ "lw223mag", 2],
+      ["lw223bigmag", 1],
+	  ["stanag50", 1],
+	  ["stanag30", 2],
+	  ["belt223", 2 ],
+      ["belt308", 1],
+	  ["223", 4],
+	  ["reloaded_556_incendiary", 3],
+	  ["granade", 1]
+    ] 
+    },{
+    "type" : "item_group",
+    "id" : "marloss_man_nommies",
+    "//" : "This is what he's eating.  We've decided that killing our bretheren is not the way to attain enlightenment.",
+    "items": [
+	  ["marloss_berry", 4],
+	  ["marloss_seed", 1]
+    ] 
+    },{
+        "type" : "item_group",
+        "subtype": "collection",
+        "comment": "revenant rocket drops",
+        "id": "revenant_death_drops",
+        "entries":
+        [
+            { "group": "revenant_rockets", "prob": 35, "count": [0, 4]},
+            { "group": "revenant_rocket_cores", "prob": 5, "count": [0, 2] }
+        ]
+    },{
+    "type" : "item_group",
+    "id" : "revenant_rockets",
+    "//" : "revenant rocket bots.",
+    "items": [
+	  [ "bot_manhack_missile", 1]
+    ] 
+    },{
+    "type" : "item_group",
+    "id" : "revenant_rocket_cores",
+    "//" : "rockets in bomb form.",
+    "items": [
+	  [ "rocket_core", 1]
+	  
+    ] 
+    }
+	
+]
