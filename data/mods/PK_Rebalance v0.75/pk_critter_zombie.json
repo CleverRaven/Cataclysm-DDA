@@ -73,7 +73,7 @@
     "armor_bash":5,
     "armor_cut":8,
     "hp":240,
-    "special_when_hit":["ZAPBACK", 20]
+    "special_when_hit":["ZAPBACK", 75]
     },{
     "type" : "MONSTER",
     "id" : "mon_zombie",
@@ -293,8 +293,8 @@
     "special_attacks":[["SMASH", 30], ["BIO_OP_TAKEDOWN", 20], ["RANGED_PULL", 20], ["GRAB_DRAG", 10],
             {
             "type" : "bite",
-            "cooldown" : 10,
-            "no_infection_chance" : 20,
+            "cooldown" : 15,
+            "no_infection_chance" : 5,
             "min_mul" : 0.5, "//" : "stronger jaws"
         }],
     "description":"A slab of festering muscle the size of a well-toned bodybuilder. Seems more eager to strangle the life from you than eat you, though is probably capable of both.",
@@ -369,11 +369,11 @@
     "death_function":["NORMAL"],
     "special_attacks":[        {
             "type" : "bite",
-            "cooldown" : 3,
+            "cooldown" : 10,
             "accuracy" : 7
         },
-    ["GRAB", 8]],
-    "description":"A corpse that rots even as it moves to kill.  A swarm of flies dart in and out of this monsters many bloated and oozing wounds..",
+    ["GRAB", 6]],
+    "description":"A corpse that rots even as it moves to kill.  Swarms of flies dart in and out of this monsters many bloated and oozing wounds..",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "BLEED", "NO_BREATHE", "REVIVES", "BONES", "PUSH_MON"],
     "categories":["CLASSIC"]
     },{
@@ -411,7 +411,7 @@
     "special_attacks":[{
             "type" : "bite",
             "cooldown" : 10,
-            "no_infection_chance" : 75
+            "no_infection_chance" : 50
         },
         ["LUNGE", 30]],
     "description":"Its skin stretched so tight as to have split in several places, this once-human corpse bears bones jutting out at unnatural angles.",
@@ -446,7 +446,7 @@
     "special_attacks":[{
             "type" : "bite",
             "cooldown" : 10,
-            "no_infection_chance" : 80
+            "no_infection_chance" : 50
             },
         ["LUNGE", 15], ["IMPALE",30]],
     "description":"So dessicated that it makes sounds like rustling leaves as it shuffles aimlessly, this abomination is hardly more than a tanned hide pulled over a bone frame.  What flesh it does have seems to be devoted to the perception of prey; at which it launches itself at with abandon.",
@@ -525,7 +525,7 @@
     "special_attacks":[{
             "type" : "bite",
             "cooldown" : 8,
-            "no_infection_chance" : 50
+            "no_infection_chance" : 2
         },
         ["GRAB", 5], ["GRAB_DRAG", 2]],
     "description":"This zombie seems to be more comfortable in water than out.  Its skin has hardened into a flaky chitonous layer, and its ponderous movements belie its hostility.",
@@ -591,8 +591,8 @@
             "cooldown" : 10
         },
         ["ACID_ACCURATE", 30], ["ACID_BARF", 30], ["GRAB", 20]],
-    "special_when_hit":["ACIDSPLASH", 2],
-    "description":"Dragging its distended belly with powerful arms, this zomebie's mangled, chunky legs appear to be leaking a flim of acid.  It appears to have poor sight, and might be dangerous to attack.  Then again, it seems to be capable of spitting acid as well.",
+    "special_when_hit":["ACIDSPLASH", 80],
+    "description":"Dragging its distended belly with powerful arms, this zombie's mangled, chunky legs appear to be leaking a flim of acid.  It appears to have poor sight, and might be dangerous to attack.  Then again, it seems to be capable of spitting acid as well.",
     "flags":["ACIDPROOF", "ACID_BLOOD", "ACIDTRAIL", "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GRABS", "POISON", "NO_BREATHE", "REVIVES", "BONES"],
     "categories":["CLASSIC"]
     },{
@@ -636,7 +636,7 @@
             "cooldown" : 10,
             "min_mul" : 0.30
         }],
-    "description":"Although it has the face of a child, its knuckles bear oozing calluses.  It appears to take joy in combat, evident by a slick smile and a gleam in its eye when striking an opponent..",
+    "description":"Although it has the face of a child, its knuckles bear oozing calluses.  It appears to take joy in combat, evident by a slick smile and a gleam in its eye...",
     "flags":["GRABS", "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "BLEED", "POISON", "GUILT", "NO_BREATHE", "REVIVES", "BONES"],
     "categories":["CLASSIC"]
     },{
@@ -660,8 +660,8 @@
     "dodge":5,
     "armor_bash":10,
     "armor_cut":6,
-    "armor_fire":3,
-    "armor_acid":3,
+    "armor_fire":4,
+    "armor_acid":4,
     "vision_day":35,
     "vision_night":4,
     "death_drops": {
@@ -712,7 +712,7 @@
     "hp":180,
     "death_function":["NORMAL", "BLOBSPLIT"],
     "special_attacks":[["UPGRADE", 30], ["RESURRECT", 30], ["FORMBLOB", 180], ["LONGSWIPE", 10]],
-    "description":"Standing with errect back and mocking smile, this graceful zombie appears to actually direct nearby zombies with glares and the twitching of its jagged claws.  Its skin is a revolting shade of pink, and every once in a while it stops what it is doing to excrete a few gooey, animate blobs.",
+    "description":"Standing with erect back and mocking smile, this graceful zombie appears to actually direct nearby zombies with glares and the twitching of its jagged claws.  Its skin is a revolting shade of pink, and every once in a while it stops what it is doing to excrete a few gooey, animate blobs.",
     "flags":["SEES", "HEARS", "GOODHEARING", "SMELLS", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "BONES"],
     "anger_triggers":["PLAYER_CLOSE", "PLAYER_WEAK"],
     "fear_triggers":["HURT"]
@@ -777,10 +777,10 @@
     "vision_day":50,
     "vision_night":4,
     "death_drops": "mon_zombie_hulk_death_drops",
-    "hp":666,
+    "hp":650,
     "death_function":["NORMAL"],
     "special_attacks":[["SMASH", 20], ["BIO_OP_TAKEDOWN", 30]],
-    "description":"Rumored to be the conjoining of several bodies, the massive Zombie Tank is perhaps the ultimate tool of destruction.  Making up for what it lacks in skill with brutality, it is the demolisions of the zombie scourge.",
+    "description":"Rumored to be the conjoining of several bodies, the massive Zombie Tank is perhaps the ultimate tool of destruction.  Making up for what it lacks in skill with brutality, it is the wrecking ball of the zombie scourge.",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "DESTROYS", "POISON", "ATTACKMON", "LEATHER", "NO_BREATHE", "REVIVES", "BONES", "FAT", "PUSH_MON"]
     },{
     "type" : "MONSTER",
@@ -814,7 +814,7 @@
             "cooldown" : 30
         },
         ["GRAB_DRAG", 12], ["GRAB", 8], ["STRETCH_ATTACK", 15]],
-    "description":"A fetid body with a featureless face that emits a noxious gas of unknown make.  Its skin knots and reforms into putty-like globs as it walks and attacks, and bullets seem to pass through its morphing form.  Upon death its body rapidly deteriorates into a vicous pink sludge reminicent of boomers.",
+    "description":"A fetid body with a featureless face that emits a noxious gas of unknown makeup.  Its skin knots and reforms into putty-like globs as it walks and attacks, and bullets seem to pass through its morphing form.  A glimmering sludge drips from its open mouth.",
     "flags":["LEAKSGAS", "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "HARDTOSHOOT", "NO_BREATHE", "REVIVES", "BONES", "PUSH_MON"]
     },{
     "type" : "MONSTER",
@@ -873,11 +873,11 @@
     "armor_bash":8,
     "armor_cut":12,
     "armor_stab":20,
-    "armor_acid":4,
+    "armor_acid":5,
     "armor_fire":15,
     "vision_day":40,
     "vision_night":4,
-    "hp":50,
+    "hp":60,
     "death_function":"NORMAL",
     "special_attacks":[["SMOKECLOUD", 1],
         {
@@ -886,8 +886,8 @@
             "accuracy" : 12,
             "min_mul" : 0.5, "//" : "stronger jaws"
         },
-        ["SHRIEK", 50],  ["SHRIEK_STUN", 20]],
-    "description":"Through its smoke you can make out a lithe, tightly wound frame.  From time to time it emits a loud, coarse howl noise that sounds like the fires of the underworld would.",
+        ["SHRIEK_ALERT", 50],  ["SHRIEK_STUN", 1]],
+    "description":"Through its smoke you can make out a lithe, tightly wound frame.  From time to time it emits a coarse, rumbling howl that sounds like it came from the bowels of the Earth.",
     "flags":["SEES", "HEARS", "NO_BREATHE", "HARDTOSHOOT", "REVIVES", "BASHES", "WARM"]
     },{
     "type" : "MONSTER",
