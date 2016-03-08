@@ -8661,7 +8661,7 @@ void player::vomit()
         set_stomach_food(0);
         set_stomach_water(0);
 
-        g->m.add_field( pos(), fd_bile, 1, 0 );
+        g->m.add_field( adjacent_tile(), fd_bile, 1, 0 );
 
         add_msg_player_or_npc( m_bad, _("You throw up heavily!"), _("<npcname> throws up heavily!") );
     } else {
