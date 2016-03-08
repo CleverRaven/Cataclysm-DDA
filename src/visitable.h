@@ -2,6 +2,7 @@
 #define VISITABLE_H
 
 #include <vector>
+#include <list>
 #include <functional>
 
 #include "enums.h"
@@ -58,6 +59,15 @@ class visitable
 
         /** Returns true if any item (including those within a container) matches the filter */
         bool has_item_with( const std::function<bool( const item & )> &filter ) const;
+
+        /**
+         * Removes items contained by this instance which match the filter
+         * @note if this instance itself is an item it will not be considered by the filter
+         * @param filter a UnaryPredicate which should return true if the item is to be removed
+         * @param count maximum number of items to remove or negative for unlimited. A count of zero is a no-op
+         * @return any items removed (items counted by charges are not guaranteed to be stacked)
+         */
+        std::list<item> remove_items_with( const std::function<bool( const item& )>& filter, int count = -1 );
 };
 
 #endif

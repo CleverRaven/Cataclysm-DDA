@@ -212,6 +212,127 @@ VisitResponse visitable<vehicle_selector>::visit_items_with_parent(
     return VisitResponse::NEXT;
 }
 
+// Specialize visitable<T>::remove_items_with() for each class that will implement the visitable interface
+
+template <typename OutputIterator>
+static void remove_internal( const std::function<bool( item& )>& filter, item& node, int& count, OutputIterator out ) {
+    for( auto it = node.contents.begin(); it != node.contents.end(); ) {
+        if( filter( *it ) ) {
+            out = std::move( *it );
+            it = node.contents.erase( it );
+            if( --count == 0 ) {
+                return;
+            }
+        } else {
+            remove_internal( filter, *it, count, out );
+            ++it;
+        }
+    }
+}
+
+template <>
+std::list<item> visitable<item>::remove_items_with( const std::function<bool( const item& e )>& filter, int count )
+{
+    auto it = static_cast<item *>( this );
+    std::list<item> res;
+
+    if( count == 0 ) {
+        return res; // nothing to do
+    }
+
+    remove_internal( filter, *it, count, std::back_inserter( res ) );
+    return res;
+}
+
+
+template <>
+std::list<item> visitable<inventory>::remove_items_with( const std::function<bool( const item& e )>& filter, int count )
+{
+    auto inv = static_cast<inventory *>( this );
+    std::list<item> res;
+
+    if( count == 0 ) {
+        return res; // nothing to do
+    }
+
+    for( auto stack = inv->items.begin(); stack != inv->items.end(); ) {
+        // all items in a stack are identical so we only need to call the predicate once
+        if( filter( stack->front() ) ) {
+
+            if( count < 0 || count >= int( stack->size() ) ) {
+                // remove the entire stack
+                count -= stack->size();
+                res.splice( res.end(), *stack );
+                stack = inv->items.erase( stack );
+                if( count == 0 ) {
+                    return res;
+                }
+
+            } else {
+                // remove only some of the stack
+                char invlet = stack->front().invlet;
+                auto fin = stack->begin();
+                std::advance( fin, count );
+                res.splice( res.end(), *stack, stack->begin(), fin );
+                stack->front().invlet = invlet; // preserve invlet for remaining stacked items
+                return res;
+            }
+
+        } else {
+            // recurse through the contents of each stacked item separately
+            for( auto& e : *stack ) {
+                remove_internal( filter, e, count, std::back_inserter( res ) );
+                if( count == 0 ) {
+                    return res;
+                }
+            }
+
+            ++stack;
+        }
+    }
+    return res;
+}
+
+template <>
+std::list<item> visitable<Character>::remove_items_with( const std::function<bool( const item& e )>& filter, int count )
+{
+    auto ch = static_cast<Character *>( this );
+    std::list<item> res;
+
+    // first try and remove items from the inventory
+    res = ch->inv.remove_items_with( filter, count );
+    count -= res.size();
+    if( count == 0 ) {
+        return res;
+    }
+
+    // then try any worn items
+    for( auto iter = ch->worn.begin(); iter != ch->worn.end(); ) {
+        if( filter( *iter ) ) {
+            res.splice( res.end(), ch->worn, iter++ );
+            if( --count == 0 ) {
+                return res;
+            }
+        } else {
+            remove_internal( filter, *iter, count, std::back_inserter( res ) );
+            if( count == 0 ) {
+                return res;
+            }
+            ++iter;
+        }
+    }
+
+    // finally try the currently wielded item (if any)
+    if( filter( ch->weapon ) ) {
+        res.push_back( ch->remove_weapon() );
+        count--;
+    } else {
+        remove_internal( filter, ch->weapon, count, std::back_inserter( res ) );
+    }
+
+    return res;
+}
+
 // explicit template initialization for all classes implementing the visitable interface
 template class visitable<item>;
 template class visitable<inventory>;
