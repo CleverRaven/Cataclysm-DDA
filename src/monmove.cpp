@@ -126,6 +126,10 @@ float monster::rate_target( Creature &c, float best, bool smart ) const
         return INT_MAX;
     }
 
+    if( !smart ) {
+        return d;
+    }
+
     float power = c.power_rating();
     monster *mon = dynamic_cast< monster * >( &c );
     // Their attitude to us and not ours to them, so that bobcats won't get gunned down
