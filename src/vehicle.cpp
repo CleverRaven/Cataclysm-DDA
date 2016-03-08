@@ -6312,7 +6312,7 @@ bool vehicle::fire_turret( int p, bool manual )
     turret_data.consume( *this, p, shots * gun.ammo_required() );
 
     // If manual, we need to know if the shot was actually executed
-    return shots > 0 || manual == false;
+    return !manual || shots > 0;
 }
 
 void vehicle::turret_ammo_data::consume( vehicle &veh, int const part, long const charges_consumed ) const
