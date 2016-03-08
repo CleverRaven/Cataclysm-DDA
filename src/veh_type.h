@@ -10,6 +10,8 @@
 #include <string>
 #include <memory>
 
+using itype_id = std::string;
+
 struct vpart_info;
 using vpart_str_id = string_id<vpart_info>;
 using vpart_id = int_id<vpart_info>;
@@ -118,7 +120,11 @@ struct vpart_info {
 struct vehicle_item_spawn {
     point pos;
     int chance;
-    std::vector<std::string> item_ids;
+    /** Chance [0-100%] for items to spawn with ammo (plus default magazine if necesssary) */
+    int with_ammo = 0;
+    /** Chance [0-100%] for items to spawn with their default magazine (if any) */
+    int with_magazine = 0;
+    std::vector<itype_id> item_ids;
     std::vector<std::string> item_groups;
 };
 
