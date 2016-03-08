@@ -78,7 +78,7 @@
     "color": "dark_gray",
     "covers": [ "HAND_EITHER" ],
     "coverage": 5,
-    "encumbrance": 2,
+    "encumbrance": 4,
     "material_thickness": 1,
     "use_action": {
         "type": "bandolier",
