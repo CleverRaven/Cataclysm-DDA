@@ -77,15 +77,15 @@ void draw_frame( WINDOW *win, const bool empty_list )
 {
     draw_border( win );
     // lines below header & above footer:
-    mvwhline( win, 2, 1, 0, win->width - 2 );
-    mvwhline( win, win->height - 6, 1, 0, win->width - 2 );
+    mvwhline( win, 2, 1, 0, getmaxx( win ) - 2 );
+    mvwhline( win, getmaxy( win ) - 6, 1, 0, getmaxx( win ) - 2 );
 
     // intersections:
     wattron( win, BORDER_COLOR );
     mvwaddch( win, 2, 0, LINE_XXXO );
-    mvwaddch( win, 2, win->width - 1, LINE_XOXX );
-    mvwaddch( win, win->height - 6, 0, LINE_XXXO );
-    mvwaddch( win, win->height - 6, win->width - 1, LINE_XOXX );
+    mvwaddch( win, 2, getmaxx( win ) - 1, LINE_XOXX );
+    mvwaddch( win, getmaxy( win ) - 6, 0, LINE_XXXO );
+    mvwaddch( win, getmaxy( win ) - 6, getmaxx( win ) - 1, LINE_XOXX );
     wattroff( win, BORDER_COLOR );
 
     if( empty_list ) {
@@ -99,9 +99,9 @@ void draw_frame( WINDOW *win, const bool empty_list )
         }};
         const std::array<int, 3> pos = {{
             2,
-            std::max( win->width * 1 / 2 - utf8_width( titles[1].c_str() ) / 2 ,
+            std::max( getmaxx( win ) / 2 - utf8_width( titles[1].c_str() ) / 2 ,
                       pos[0] + utf8_width( titles[0].c_str() ) + 2 ),
-            std::max( win->width * 2 / 3 + 7, pos[1] + utf8_width( titles[1].c_str() ) + 2)
+            std::max( getmaxx( win ) * 2 / 3 + 7, pos[1] + utf8_width( titles[1].c_str() ) + 2)
         }};
         for( size_t i = 0; i < std::min( titles.size(), pos.size() ); ++i ) {
             mvwprintw( win, 3, pos[i], titles[i].c_str() );
@@ -120,11 +120,11 @@ void draw_header( WINDOW *win, const std::string power_string, const std::string
     // left / center / right aligned elements
     const std::array<int, 3> pos = {{
         0,
-        ( win->width - utf8_width( titles[1] ) ) / 2 + 1,
-        ( win->width - utf8_width( titles[2], true ) - 1 )
+        ( getmaxx( win ) - utf8_width( titles[1] ) ) / 2 + 1,
+        ( getmaxx( win ) - utf8_width( titles[2], true ) - 1 )
     }};
     for( size_t i = 0; i < std::min( titles.size(), pos.size() ); ++i ) {
-        fold_and_print( win, 0, pos[i], win->width - 3, c_white, titles[i].c_str() );
+        fold_and_print( win, 0, pos[i], getmaxx( win ) - 3, c_white, titles[i].c_str() );
     }
     wrefresh( win );
 }
@@ -707,7 +707,7 @@ void player::power_bionics()
 void player::power_bionics_new()
 {
     // initialization
-    const int win_h = std::min( TERMY, FULL_SCREEN_HEIGHT );
+    const int win_h = FULL_SCREEN_HEIGHT + ( TERMY - FULL_SCREEN_HEIGHT ) * 2 / 3;
     const int win_w = FULL_SCREEN_WIDTH + ( TERMX - FULL_SCREEN_WIDTH ) / 3;
     const int win_x = TERMX / 2 - win_w / 2;
     const int win_y = TERMY / 2 - win_h / 2;
@@ -718,11 +718,11 @@ void player::power_bionics_new()
     WINDOW *w_bio_header = newwin( 1, win_w - 3, win_y + 1, win_x + 2 );
     WINDOW_PTR w_bio_header_ptr( w_bio_header );
 
-    WINDOW *w_bio_description = newwin( 4, win_w - 3, win_h - 5, win_x + 2 );
+    WINDOW *w_bio_description = newwin( 4, win_w - 3, win_y + win_h - 5, win_x + 2 );
     WINDOW_PTR w_bio_description_ptr( w_bio_description );
 
-    WINDOW *w_bio_list = newwin( win_h - w_bio_header->height - w_bio_description->height - 5,
-                                 win_w - 1, win_y + 4, win_x );
+    WINDOW *w_bio_list = newwin( win_h - getmaxy( w_bio_header ) - getmaxy( w_bio_description ) -
+                                 5, win_w - 1, win_y + 4, win_x );
     WINDOW_PTR w_bio_list_ptr( w_bio_list );
 
 
@@ -736,11 +736,12 @@ void player::power_bionics_new()
 
     int cursor = 0;
     int scroll_position = 0;
-    const int max_scroll_position = std::max( 0, static_cast<int>( my_bionics.size() ) - w_bio_list->height );
+    const int max_scroll_position = std::max( 0, static_cast<int>( my_bionics.size() ) -
+                                              getmaxy( w_bio_list ) );
     bool redraw = true;
 
     // main loop
-    for (;;) {
+    for( ;; ) {
         if( redraw ) {
             draw_frame( w_bionics, my_bionics.empty() );
             draw_header( w_bio_header, string_format( _( "Power: %i/%i" ),
@@ -748,9 +749,9 @@ void player::power_bionics_new()
                                                       int( max_power_level ) ),
                          ctxt.get_desc( "HELP_KEYBINDINGS" ) );
             werase( w_bio_list );
-            draw_scrollbar( w_bio_list, cursor, w_bio_list->height, my_bionics.size(),
+            draw_scrollbar( w_bio_list, cursor, getmaxy( w_bio_list ), my_bionics.size(),
                             0, 0, BORDER_COLOR, false );
-            for (int i = scroll_position; i < std::min( w_bio_list->height + scroll_position,
+            for( int i = scroll_position; i < std::min( getmaxy( w_bio_list ) + scroll_position,
                                                         int( my_bionics.size() ) ); ++i ) {
                 const bionic& b = my_bionics[i];
                 const bool highlighted = ( i == cursor );
@@ -759,8 +760,8 @@ void player::power_bionics_new()
 
                 // highlight the current line
                 if( highlighted ){
-                    for(int j = 3; j < w_bio_list->width - 1; ++j ) {
-                        wputch( w_bio_list, h_white, ' ');
+                    for( int j = 3; j < getmaxx( w_bio_list ) - 1; ++j ) {
+                        wputch( w_bio_list, h_white, ' ' );
                     }
                 }
 
@@ -768,7 +769,7 @@ void player::power_bionics_new()
                            bionic_info( b.id ).name.c_str() );
                 if( bionic_info( b.id ).toggled ) {
                     //~illi-kun: todo: some lines are still not filtered, so fix it!
-                    mvwprintz( w_bio_list, i - scroll_position, w_bio_list->width / 2,
+                    mvwprintz( w_bio_list, i - scroll_position, getmaxx( w_bio_list ) / 2,
                                get_bionic_text_color( b, highlighted ),
                                b.powered ? _( "ON" ) : _( "OFF" ) );
                 }
@@ -777,13 +778,11 @@ void player::power_bionics_new()
                 std::ostringstream power_desc;
                 bool hasPreviousText = false;
                 if( bionics[b.id].power_over_time > 0 && bionics[b.id].charge_time > 0 ) {
-                    power_desc << (
-                        bionics[b.id].charge_time == 1
-                      ? string_format( _("%d PU / turn" ),
-                            bionics[b.id].power_over_time)
-                      : string_format( _("%d PU / %d turns" ),
-                            bionics[b.id].power_over_time,
-                            bionics[b.id].charge_time ) );
+                    power_desc << ( bionics[b.id].charge_time == 1 ?
+                                    string_format( _("%d PU / turn" ),
+                            bionics[b.id].power_over_time ) :
+                            string_format( _("%d PU / %d turns" ),
+                            bionics[b.id].power_over_time, bionics[b.id].charge_time ) );
                     hasPreviousText = true;
                 }
                 if( bionics[b.id].power_activate > 0 && !bionics[b.id].charge_time ) {
@@ -802,15 +801,15 @@ void player::power_bionics_new()
                                     bionics[b.id].power_deactivate );
                 }
                 mvwprintz( w_bio_list, i - scroll_position,
-                           std::min( w_bio_list->width * 2 / 3 + 8,
-                                     w_bio_list->width - utf8_width( power_desc.str() ) - 1 ),
+                           std::min( getmaxx( w_bio_list ) * 2 / 3 + 8,
+                                     getmaxx( w_bio_list ) - utf8_width( power_desc.str() ) - 1 ),
                            get_bionic_text_color( b, highlighted ), power_desc.str().c_str() );
             }
             wrefresh( w_bio_list );
 
             //~illi-kun: todo: dedicated function?
             werase( w_bio_description );
-            fold_and_print( w_bio_description, 0, 0, w_bio_description->width, c_ltgray,
+            fold_and_print( w_bio_description, 0, 0, getmaxx( w_bio_description ), c_ltgray,
                             bionic_info( my_bionics[cursor].id ).description.c_str() );
             wrefresh( w_bio_description );
 
@@ -832,7 +831,7 @@ void player::power_bionics_new()
             } else {
                 cursor--;
             }
-            if( scroll_position > 0 && cursor - scroll_position < w_bio_list->height / 2 ) {
+            if( scroll_position > 0 && cursor - scroll_position < getmaxy( w_bio_list ) / 2 ) {
                 scroll_position--;
             }
             redraw = true;
@@ -845,7 +844,7 @@ void player::power_bionics_new()
                 scroll_position = 0;
             }
             if( scroll_position < max_scroll_position &&
-                cursor - scroll_position > w_bio_list->height / 2 ) {
+                cursor - scroll_position > getmaxy( w_bio_list ) / 2 ) {
                 scroll_position++;
             }
 
