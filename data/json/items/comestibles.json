@@ -5170,7 +5170,6 @@
         "tool" : "null",
         "volume" : 1,
         "charges" : 1,
-        "bashing" : 1,
         "fun" : 5
     },
     {
@@ -5265,7 +5264,6 @@
         "tool" : "null",
         "volume" : 1,
         "charges" : 1,
-        "bashing" : 1,
         "fun" : 5
     },
     {
@@ -14730,7 +14728,6 @@
         "tool" : "null",
         "volume" : 1,
         "charges" : 3,
-        "bashing" : 1,
         "fun" : 6
     },
     {
