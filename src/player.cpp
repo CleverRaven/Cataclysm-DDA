@@ -8655,14 +8655,18 @@ void player::vomit()
                      pgettext("memorial_female", "Threw up."));
 
     if (get_stomach_food() != 0 || get_stomach_water() != 0) {
+        mod_hunger(get_stomach_food());
+        thirst += get_stomach_water();
+
+        set_stomach_food(0);
+        set_stomach_water(0);
+
+        g->m.add_field( pos(), fd_bile, 1, 0 );
+
         add_msg_player_or_npc( m_bad, _("You throw up heavily!"), _("<npcname> throws up heavily!") );
     } else {
         add_msg_if_player(m_warning, _("You feel nauseous, but your stomach is empty."));
     }
-    mod_hunger(get_stomach_food());
-    thirst += get_stomach_water();
-    set_stomach_food(0);
-    set_stomach_water(0);
     moves -= 100;
     for( auto &elem : effects ) {
         for( auto &_effect_it : elem.second ) {
