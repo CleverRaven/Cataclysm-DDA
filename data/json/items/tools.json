@@ -10639,16 +10639,17 @@
     "ammo": "NULL",
     "use_action": {
         "type": "musical_instrument",
-        "speed_penalty": 10,
+        "speed_penalty_per_part": 3,
         "volume": 12,
-        "fun": -5,
-        "fun_bonus": 2,
+        "fun": -20,
+        "fun_bonus": 4,
         "description_frequency": 20,
         "descriptions": [
             "You play a little tune on your flute.",
             "You play a beautiful piece on your flute.",
             "You play a piece on your flute that sounds harmonious with nature."
-        ]
+        ],
+        "played_with": [["MOUTH", 5], ["HANDS", 10]]
     },
     "revert_to": "null",
     "symbol" : "-",
@@ -10675,16 +10676,17 @@
     "ammo": "NULL",
     "use_action": {
         "type": "musical_instrument",
-        "speed_penalty": 13,
+        "speed_penalty_per_part": 4,
         "volume": 14,
-        "fun": -5,
-        "fun_bonus": 2,
+        "fun": -20,
+        "fun_bonus": 4,
         "description_frequency": 20,
         "descriptions": [
             "You play a little tune on your clarinet.",
             "You play a moving, orchestral piece on your clarinet.",
             "You play an uplifting marching tune on your clarinet."
-        ]
+        ],
+        "played_with": [["MOUTH", 5], ["HANDS", 10]]
     },
     "revert_to": "null",
     "symbol" : "|",
@@ -10711,16 +10713,17 @@
     "ammo": "NULL",
     "use_action": {
         "type": "musical_instrument",
-        "speed_penalty": 17,
+        "speed_penalty_per_part": 6,
         "volume": 21,
-        "fun": -3,
-        "fun_bonus": 4,
+        "fun": -12,
+        "fun_bonus": 8,
         "description_frequency": 20,
         "descriptions": [
             "You play a little tune on your trumpet.",
             "You play a slow, mourning piece on your trumpet.",
             "You play a little ballad on your trumpet."
-        ]
+        ],
+        "played_with": [["MOUTH", 10], ["HANDS", 15]]
     },
     "revert_to": "null",
     "symbol" : "-",
@@ -10747,16 +10750,17 @@
     "ammo": "NULL",
     "use_action": {
         "type": "musical_instrument",
-        "speed_penalty": 20,
+        "speed_penalty_per_part": 10,
         "volume": 16,
-        "fun": -3,
-        "fun_bonus": 2,
+        "fun": -12,
+        "fun_bonus": 4,
         "description_frequency": 20,
         "descriptions": [
             "You play a little tune on your ukulele.",
             "You play a cute little ditty on your ukulele.",
             "You play a small jam on your ukulele."
-        ]
+        ],
+        "played_with": [["HANDS", 5]]
     },
     "revert_to": "null",
     "symbol" : "(",
@@ -10783,16 +10787,17 @@
     "ammo": "NULL",
     "use_action": {
         "type": "musical_instrument",
-        "speed_penalty": 18,
+        "speed_penalty_per_part": 9,
         "volume": 18,
-        "fun": -3,
-        "fun_bonus": 2,
+        "fun": -12,
+        "fun_bonus": 4,
         "description_frequency": 20,
         "descriptions": [
             "You play a little tune on your banjo.",
             "You play a bluegrass tune on your banjo.",
             "You play a quick, Southern ditty on your banjo."
-        ]
+        ],
+        "played_with": [["HANDS", 10]]
     },
     "revert_to": "null",
     "symbol" : "|",
@@ -10819,16 +10824,17 @@
     "ammo": "NULL",
     "use_action": {
         "type": "musical_instrument",
-        "speed_penalty": 25,
+        "speed_penalty_per_part": 12,
         "volume": 18,
-        "fun": -2,
-        "fun_bonus": 3,
+        "fun": -8,
+        "fun_bonus": 6,
         "description_frequency": 20,
         "descriptions": [
             "You play a little tune on your violin.",
             "You play a beautiful orchestral piece on your violin.",
             "You play a quick, southern ditty on your fiddle."
-        ]
+        ],
+        "played_with": [["HANDS", 10]]
     },
     "revert_to": "null",
     "symbol" : "}",
@@ -10855,16 +10861,17 @@
     "ammo": "NULL",
     "use_action": {
         "type": "musical_instrument",
-        "speed_penalty": 25,
+        "speed_penalty_per_part": 12,
         "volume": 25,
-        "fun": 1,
-        "fun_bonus": 4,
+        "fun": 2,
+        "fun_bonus": 8,
         "description_frequency": 10,
         "descriptions": [
             "You play a quick, folksy tune on your fiddle.",
             "As you pull the bow across its strings, it makes an evil hiss.",
             "You play a tune so fierce, it feels like hell's broke loose."
-        ]
+        ],
+        "played_with": ["HANDS"]
     },
     "revert_to": "null",
     "symbol" : "}",

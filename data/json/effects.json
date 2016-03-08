@@ -1461,17 +1461,48 @@
     },
     {
         "type": "effect_type",
-        "name": ["Playing an instrument"],
-        "desc": ["You're playing an instrument.\nFocusing on playing music distracts you, slowing you down."],
         "id": "playing_instrument",
+        "name": ["Playing" ],
+        "desc": ["You're playing an instrument with your %s.\nFocusing on playing music distracts you, slowing you down."],
+        "speed_name": "Playing music",
         "rating": "neutral",
-        "max_duration": 2,
+        "max_duration": 1,
         "max_intensity": 100,
+        "part_descs": true,
         "base_mods": {
             "speed_mod": [-1]
         },
         "scaling_mods": {
             "speed_mod": [-1]
+        }
+    },
+    {
+        "type": "effect_type",
+        "id": "playing_instrument_boredom",
+        "name": [	
+            "",
+	   "A bit bored (pl. music)",
+            "Bored (playing music)",
+	   "Bothered (playing music)",
+	   "Wrathful (playing music)",
+	   "Furious (playing music)",
+	   "Mad (playing music)"
+        ],
+        "desc": [
+            "",
+            "Fun of playing -10 and less;\nYou're just a bit bored of playing musical instruments.",
+            "Fun of playing -20 and less;\nYou're bored of playing musical instruments.",
+            "Fun of playing -30 and less;\nYou're bothered with playing musical instruments.",
+            "Fun of playing -40 and less;\nYou're wrathful about musical instruments generally.",
+            "Fun of playing -50 and less;\nYou swear you'll never ever play a musical instrument again.",
+            "Fun of playing -60 and less;\nYou just can't stand playing music anymore. Aargh!!!"
+        ],
+        "rating": "bad",
+        "int_dur_factor": 250,
+        "max_intensity": 7,
+        "remove_message": "You can now fully enjoy playing musical instruments like you did before!",
+        "scaling_mods": {
+            "int_mod": [-0.334]
         }
     },
     {

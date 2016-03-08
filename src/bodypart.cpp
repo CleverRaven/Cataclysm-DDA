@@ -3,6 +3,7 @@
 #include "rng.h"
 #include "debug.h"
 #include <unordered_map>
+#include <sstream>
 
 namespace {
     const std::unordered_map<std::string, body_part> &get_body_parts_map()
@@ -68,6 +69,28 @@ std::string body_part_name (body_part bp)
         return _("appendix");
     }
 }
+
+std::string body_part_paired_name(body_part bp)
+{
+    switch (bp) {
+    case bp_arm_l:
+    case bp_arm_r:
+        return  _("arms");
+    case bp_hand_l:
+    case bp_hand_r:
+        return _("hands");
+    case bp_leg_l:
+    case bp_leg_r:
+        return _("legs");
+    case bp_foot_l:
+    case bp_foot_r:
+        return _("feet");
+    default:
+        return body_part_name(bp);
+    }
+}
+
+//TODO: Add function 'body_part_paired_name_accusative'. Both names may be shorten a bit to something like 'body_part_name_accus'
 
 std::string body_part_name_accusative (body_part bp)
 {
@@ -219,6 +242,13 @@ body_part mutate_to_main_part(body_part bp)
     }
 }
 
+bool paired_body_parts(body_part bp1, body_part bp2)
+{
+    const int sum = int(bp1) + int(bp2);
+    // Paired limbs must be adjacent in the enum to keep it working. Order of pairs doesn't matter.
+    return sum == (bp_arm_l + bp_arm_r) || sum == (bp_hand_l + bp_hand_r) || sum == (bp_leg_l + bp_leg_r) || sum == (bp_foot_l + bp_foot_r);
+}
+
 std::string get_body_part_id(body_part bp)
 {
     switch (bp) {
@@ -250,4 +280,33 @@ std::string get_body_part_id(body_part bp)
         debugmsg( "bad body part: %d", bp );
         return "HEAD";
     }
+}
+
+std::string recite_body_parts(const std::bitset<num_bp> &body_parts)
+{
+    int cnt = body_parts.count();
+    std::stringstream res;
+
+    if ( cnt == 0 ) {
+        return res.str();
+    }
+    for( int i = 0; i < num_bp; i++ ) {
+        const body_part bp1 = body_part(i);
+        if (!body_parts.test(bp1)) {
+            continue;
+        }
+        const body_part bp2 = body_part(i+1);
+        const bool paired = body_parts.test(bp2) && paired_body_parts(bp1, bp2);
+        if (paired) {
+            cnt-=2;
+            i++;
+        } else {
+            cnt-=1;
+        }
+        if (res.rdbuf()->in_avail() != 0) { // Indicates that stream is not empty
+            (cnt == 0) ? res << " " << _("and") << " " : res << ", ";
+        }
+        res << ((paired) ? body_part_paired_name(bp1) : body_part_name(bp1));
+    }
+    return res.str();
 }

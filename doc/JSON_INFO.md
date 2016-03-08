@@ -996,7 +996,7 @@ The contents of use_action fields can either be a string indicating a built-in f
 },
 "use_action": {
     "type": "musical_instrument", // The character plays an instrument (this item) while walking around.
-    "speed_penalty": 10, // This is subtracted from the characters speed.
+    "speed_penalty_per_part": 3, // This is subtracted from the characters speed N times, where N is count of body parts involved into playing
     "volume": 12, // Volume of the sound of the instrument.
     "fun": -5, // Together with fun_bonus, this defines how much morale the character gets from playing the instrument. They get `fun + fun_bonus * <character-perception>` morale points out of it. Both values and the result may be negative.
     "fun_bonus": 2,
@@ -1005,7 +1005,8 @@ The contents of use_action fields can either be a string indicating a built-in f
         "You play a little tune on your flute.",
         "You play a beautiful piece on your flute.",
         "You play a piece on your flute that sounds harmonious with nature."
-    ]
+    ],
+    "played_with": [["MOUTH", 5], ["HANDS", 10]]  // Body parts required to play and max allowed encumbrance (optional, default: 0) per each.
 },
 "use_action": {
     "type": "holster", // Holster or draw a weapon

@@ -76,6 +76,8 @@ const std::string &get_morale_data( const morale_type id )
 
             { _( "Got a Haircut" ) },
             { _( "Freshly Shaven" ) },
+
+            { _( "Playing %i" ) },
         }
     };
 
