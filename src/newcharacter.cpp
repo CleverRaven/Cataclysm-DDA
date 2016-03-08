@@ -2381,9 +2381,13 @@ std::vector<std::string> Character::get_mutations() const
 
 void Character::empty_traits()
 {
+    for( auto &mut : my_mutations ) {
+        on_mutation_loss( mut.first );
+    }
     my_traits.clear();
     my_mutations.clear();
 }
+
 void Character::empty_skills()
 {
     for( auto &skill : Skill::skills ) {

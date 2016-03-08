@@ -8,7 +8,7 @@
 #include "overmapbuffer.h"
 #include "sounds.h"
 #include "translations.h"
-#include "morale.h"
+#include "morale_types.h"
 #include "messages.h"
 #include "material.h"
 #include "event.h"

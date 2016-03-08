@@ -10,7 +10,6 @@
 #include "json.h"
 #include "map.h"
 #include "messages.h"
-#include "morale.h"
 #include "npc.h"
 #include "options.h"
 #include "output.h"
@@ -205,7 +204,7 @@ bool player::crafting_allowed( const std::string &rec_name )
 
 bool player::crafting_allowed( const recipe &rec )
 {
-    if( !has_morale_to_craft() ) { // See morale.h
+    if( !has_morale_to_craft() ) {
         add_msg( m_info, _( "Your morale is too low to craft..." ) );
         return false;
     }

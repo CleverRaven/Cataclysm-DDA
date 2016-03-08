@@ -2,7 +2,7 @@
 #include "debug.h"
 #include "pldata.h"
 #include "player.h"
-#include "morale.h"
+#include "morale_types.h"
 #include "rng.h"
 #include "translations.h"
 

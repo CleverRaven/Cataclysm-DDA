@@ -17,7 +17,7 @@
 #include "weighted_list.h"
 #include "mongroup.h"
 #include "translations.h"
-#include "morale.h"
+#include "morale_types.h"
 #include "npc.h"
 #include "event.h"
 #include "ui.h"
@@ -3851,9 +3851,9 @@ bool mattack::longswipe(monster *z)
                 !z->sees( *target ) ) {
                 return false; // Out of range
             }
-            
+
             z->moves -= 150;
-            
+
             if (target->uncanny_dodge()) {
                 return true;
             }
@@ -3893,7 +3893,7 @@ bool mattack::longswipe(monster *z)
 
     // Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
     if (dodge_check(z, target)) {
-        target->add_msg_player_or_npc( _("The %s slashes at your neck! You duck!"), 
+        target->add_msg_player_or_npc( _("The %s slashes at your neck! You duck!"),
                                     _("The %s slashes at <npcname>'s neck! They duck!"), z->name().c_str() );
         target->on_dodge( z, z->type->melee_skill * 2  );
         return true;
