@@ -2,12 +2,36 @@
   {
     "id" : "tools_blacksmith",
     "type" : "item_group",
-    "//" : "Hand tools commonly used by blacksmiths",
+    "//" : "Tools commonly used by blacksmiths",
     "items": [
-      ["anvil", 50],
-      ["crucible", 50],
-      ["swage", 80],
-      ["tongs", 100]
+      [ "anvil", 30 ],
+      [ "chisel", 90 ],
+      [ "crucible", 30 ],
+      [ "swage", 60 ],
+      [ "tongs", 90 ]
+    ]
+  },
+  {
+    "id": "tools_carpentry",
+    "type": "item_group",
+    "//": "Portable tools used for carpentry",
+    "items": [
+      { "group": "tools_common", "prob": 100 },
+      [ "circsaw_off", 100 ],
+      [ "cordless_drill", 100 ],
+      [ "nailgun", 100 ]
+    ]
+  },
+  {
+    "id": "tools_construction",
+    "type": "item_group",
+    "//": "Industrial machinery used for construction",
+    "items": [
+      [ "brick_kiln", 80 ],
+      [ "con_mix", 120 ],
+      [ "elec_jackhammer", 30 ],
+      [ "jackhammer", 30 ],
+      [ "jacqueshammer", 30 ]
     ]
   },
   {
@@ -17,11 +41,41 @@
     "items": [
       [ "hacksaw", 50 ],
       [ "hammer", 80 ],
+      [ "misc_repairkit", 25 ],
       [ "pliers", 60 ],
       [ "saw", 60 ],
       [ "screwdriver", 100 ],
       [ "screwdriver_set", 50 ],
-      [ "wrench", 40 ]
+      [ "wrench", 40 ],
+      [ "xacto", 40 ]
+    ]
+  },
+  {
+    "id": "tools_earthworking",
+    "type": "item_group",
+    "//": "Portable tools for earthworking or farming",
+    "items": [
+      [ "ax", 80 ],
+      [ "chainsaw_off", 30 ],
+      [ "elec_chainsaw_off", 30 ],
+      [ "g_shovel", 40 ],
+      [ "hoe", 60 ],
+      [ "pickaxe", 80 ],
+      [ "pitchfork", 60 ],
+      [ "trimmer_off", 20 ],
+      [ "scythe", 40 ],
+      [ "shovel", 120 ],
+      [ "sickle", 40 ]
+    ]
+  },
+  {
+    "id": "tools_electronics",
+    "type": "item_group",
+    "//": "Portable tools used by electricians and for electronics repair",
+    "items": [
+      { "group": "tools_common", "prob": 100 },
+      [ "soldering_iron", 100 ],
+      [ "magnifying_glass", 100 ]
     ]
   },
   {
@@ -33,6 +87,29 @@
       [ "crowbar", 50 ],
       [ "hammer_sledge", 20 ],
       [ "halligan", 10 ]
+    ]
+  },
+  {
+    "id": "tools_home",
+    "type": "item_group",
+    "//": "Tools commonly found in the home or other domestic settings",
+    "items": [
+      { "group": "tools_common", "prob": 100 },
+      { "group": "tools_lighting", "prob": 50 },
+      { "group": "tools_tailor", "prob": 50 },
+      [ "toolbox", 5 ]
+    ]
+  },
+  {
+    "id": "tools_mechanic",
+    "type": "item_group",
+    "//": "Equipment of any size commonly used by engineers and mechanics",
+    "items": [
+      [ "forge", 100 ],
+      [ "jack", 100 ],
+      [ "oxy_torch", 100 ],
+      [ "polisher", 100 ],
+      [ "welder", 100 ]
     ]
   },
   {
