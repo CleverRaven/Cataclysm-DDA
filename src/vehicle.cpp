@@ -6300,6 +6300,7 @@ bool vehicle::fire_turret( int p, bool manual )
     // @todo damage the gun based on part hp
     item gun( turret_data.gun.typeId(), turret_data.gun.bday );
     if( gun.is_charger_gun() ) {
+        gun.charges = charges;
         gun.update_charger_gun_ammo();
     } else if( turret_data.gun.ammo_current() != "null" ) {
         gun.ammo_set( turret_data.gun.ammo_current(), charges );
