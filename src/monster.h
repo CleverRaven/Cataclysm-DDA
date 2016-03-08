@@ -162,7 +162,6 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         void footsteps( const tripoint &p ); // noise made by movement
 
         tripoint scent_move();
-        tripoint wander_next();
         int calc_movecost( const tripoint &f, const tripoint &t ) const;
         int calc_climb_cost( const tripoint &f, const tripoint &t ) const;
 

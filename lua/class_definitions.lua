@@ -1765,7 +1765,6 @@ classes = {
             { name = "hasten_upgrade", rval = nil, args = { } },
             { name = "unset_dest", rval = nil, args = { } },
             { name = "wander", rval = "bool", args = { } },
-            { name = "wander_next", rval = "tripoint", args = { } },
             { name = "wander_to", rval = nil, args = { "tripoint", "int" } },
             { name = "will_reach", rval = "bool", args = { "int", "int" } },
         }
