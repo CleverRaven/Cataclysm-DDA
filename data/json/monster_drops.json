@@ -255,7 +255,7 @@
                 "damage": [1, 4]
             },
             { "distribution": [
-                { "group": "allguns", "prob": 24 },
+                { "group": "guns_common", "prob": 24 },
                 { "group": "grenades", "prob": 10 },
                 { "group": "mil_rifles", "prob": 8 },
                 { "group": "mil_hw", "prob": 1 },

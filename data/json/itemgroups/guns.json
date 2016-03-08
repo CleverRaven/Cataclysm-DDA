@@ -275,6 +275,17 @@
     ]
   },
   {
+    "type": "item_group",
+    "id": "guns_milspec",
+    "//": "Military specification guns of all types.",
+    "items": [
+      { "group": "guns_pistol_milspec", "prob": 50 },
+      { "group": "guns_smg_milspec", "prob": 25 },
+      { "group": "guns_rifle_milspec", "prob": 100 },
+      { "group": "guns_shotgun_milspec", "prob": 25 }
+    ]
+  },
+  {
     "type" : "item_group",
     "id" : "guns_obscure",
     "//" : "Imported or otherwise very obscure guns of all types.",

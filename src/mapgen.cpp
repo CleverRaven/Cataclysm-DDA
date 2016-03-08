@@ -4271,8 +4271,8 @@ ff.......|....|WWWWWWWW|\n\
                 furn_set(SEEX - 1, SEEY    , f_rack);
                 furn_set(SEEX    , SEEY    , f_rack);
                 furn_set(SEEX + 1, SEEY    , f_rack);
-                place_items("ammo", 96, SEEX - 2, SEEY - 1, SEEX + 1, SEEY - 1, false, 0);
-                place_items("allguns", 96, SEEX - 2, SEEY, SEEX + 1, SEEY, false, 0);
+                place_items("ammo_rare", 96, SEEX - 2, SEEY - 1, SEEX + 1, SEEY - 1, false, 0);
+                place_items("guns_rare", 96, SEEX - 2, SEEY, SEEX + 1, SEEY, false, 0);
                 spawn_item(SEEX + 1, SEEY    , "solar_panel_v3"); //quantum solar panel, 5 panels in one!
             }
             break;
@@ -11731,7 +11731,7 @@ void silo_rooms(map *m)
                 break;
             case  5:
             case  6:
-                used1 = "allguns";
+                used1 = "guns_common";
                 used2 = "ammo";
                 break;
             case  7:
@@ -12512,7 +12512,7 @@ void mx_helicopter(map &m, const tripoint &abs_sub)
         extra_items = "science";
         break;
     case 3:
-        extra_items = "allguns";
+        extra_items = "guns_milspec";
         break;
     case 4:
         extra_items = "bionics";
