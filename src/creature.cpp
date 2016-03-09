@@ -1077,12 +1077,23 @@ std::string Creature::get_value( const std::string key ) const
 
 void Creature::mod_pain(int npain)
 {
-    pain += npain;
+    mod_pain_noresist( npain );
+}
+
+void Creature::mod_pain_noresist(int npain)
+{
+    set_pain( pain + npain );
+}
+
+void Creature::set_pain(int npain)
+{
+    pain = npain;
     // Pain should never go negative
     if (pain < 0) {
         pain = 0;
     }
 }
+
 void Creature::mod_moves(int nmoves)
 {
     moves += nmoves;

@@ -705,7 +705,7 @@ bool player::activate_bionic(int b, bool eff_only)
     // On activation effects go here
     if(bio.id == "bio_painkiller") {
         pkill += 6;
-        pain -= 2;
+        mod_pain( -2 );
         if (pkill > pain) {
             pkill = pain;
         }

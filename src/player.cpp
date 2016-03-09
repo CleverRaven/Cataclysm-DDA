@@ -5570,7 +5570,7 @@ void player::update_needs( int rate_multiplier )
     // Huge folks take penalties for cramming themselves in vehicles
     if( (has_trait("HUGE") || has_trait("HUGE_OK")) && in_vehicle ) {
         add_msg_if_player(m_bad, _("You're cramping up from stuffing yourself in this vehicle."));
-        pain += 2 * rng(2, 3);
+        mod_pain_noresist( 2 * rng(2, 3) );
         focus_pool -= 1;
     }
 
@@ -5586,11 +5586,11 @@ void player::regen( int rate_multiplier )
 {
     int pain_ticks = rate_multiplier;
     while( pain > 0 && pain_ticks-- > 0 ) {
-        pain -= 1 + int( pain / 10 );
+        mod_pain( -( 1 + int( pain / 10 ) ) );
     }
 
     if( pain < 0 ) {
-        pain = 0;
+        set_pain( 0 );
     }
 
     float heal_rate = 0.0f;
@@ -7935,13 +7935,13 @@ void player::suffer()
 
     if (pain > 0) {
         if (has_trait("PAINREC1") && one_in(600)) {
-            pain--;
+            mod_pain( -1 );
         }
         if (has_trait("PAINREC2") && one_in(300)) {
-            pain--;
+            mod_pain( -1 );
         }
         if (has_trait("PAINREC3") && one_in(150)) {
-            pain--;
+            mod_pain( -1 );
         }
     }
 
@@ -7998,8 +7998,7 @@ void player::suffer()
     if (has_trait("SORES")) {
         for (int i = bp_head; i < num_bp; i++) {
             int sores_pain = 5 + (int)(0.4 * abs( encumb( body_part( i ) ) ) );
-            if ((pain < sores_pain) && (!(has_trait("NOPAIN")))) {
-                pain = 0;
+            if (pain < sores_pain) {
                 mod_pain( sores_pain );
             }
         }
@@ -12913,7 +12912,7 @@ void player::environmental_revert_effect()
     set_healthy(0);
     set_healthy_mod(0);
     stim = 0;
-    pain = 0;
+    set_pain(0);
     pkill = 0;
     radiation = 0;
 

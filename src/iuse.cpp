@@ -1367,7 +1367,7 @@ static void test_crossing_threshold(player *p, const mutation_category_trait &m_
                 p->add_msg_if_player(m_bad, _("You feel extremely Bugged."));
             } else {
                 p->add_msg_if_player(m_bad, _("You stagger with a piercing headache!"));
-                p->pain += 8;
+                p->mod_pain_noresist( 8 );
                 p->add_effect( effect_stunned, rng(3, 5));
             }
         } else if (p->mutation_category_level[primary] > 80) {
@@ -1375,7 +1375,7 @@ static void test_crossing_threshold(player *p, const mutation_category_trait &m_
                 p->add_msg_if_player(m_bad, _("You feel very Bugged."));
             } else {
                 p->add_msg_if_player(m_bad, _("Your head throbs with memories of your life, before all this..."));
-                p->pain += 6;
+                p->mod_pain_noresist( 6 );
                 p->add_effect( effect_stunned, rng(2, 4));
             }
         } else if (p->mutation_category_level[primary] > 60) {
@@ -4721,7 +4721,7 @@ const std::string &get_music_description()
         _("some amazing vocals."),
         _("some pumping bass."),
         _("dramatic classical music.")
-        
+
     }};
 
     if( one_in( 50 ) ) {
@@ -5645,7 +5645,7 @@ int iuse::artifact(player *p, item *it, bool, const tripoint& )
                 // OK, the Lovecraftian thingamajig can bring Deadened
                 // masochists & Cenobites the stimulation they've been
                 // craving ;)
-                p->pain += rng(5, 15);
+                p->mod_pain_noresist( rng(5, 15) );
                 break;
 
             case AEA_MUTATE:
