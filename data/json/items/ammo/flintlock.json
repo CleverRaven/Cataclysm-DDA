@@ -14,7 +14,7 @@
     "color": "white",
     "ammo_type": "flintlock",
     "damage": 40,
-    "range": 12,
+    "range": 6,
     "dispersion": 120,
     "recoil": 420,
     "effects": [ "COOKOFF" ]
@@ -34,7 +34,7 @@
     "color": "white",
     "ammo_type": "flintlock",
     "damage": 35,
-    "range": 6,
+    "range": 4,
     "dispersion": 20,
     "recoil": 420,
     "effects": [ "COOKOFF", "SHOT" ]
