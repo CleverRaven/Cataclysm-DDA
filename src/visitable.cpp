@@ -15,12 +15,12 @@ item *visitable<T>::find_parent( const item &it )
 {
     item *res = nullptr;
     if( visit_items_with_parent( [&]( item * node, item * parent ) {
-                if( node == &it ) {
-                    res = parent;
-                    return VisitResponse::ABORT;
-                }
-                return VisitResponse::NEXT;
-            } ) != VisitResponse::ABORT ) {
+    if( node == &it ) {
+            res = parent;
+            return VisitResponse::ABORT;
+        }
+        return VisitResponse::NEXT;
+    } ) != VisitResponse::ABORT ) {
         debugmsg( "Tried to find item parent using an object that doesn't contain it" );
     }
     return res;
@@ -215,7 +215,9 @@ VisitResponse visitable<vehicle_selector>::visit_items_with_parent(
 // Specialize visitable<T>::remove_items_with() for each class that will implement the visitable interface
 
 template <typename OutputIterator>
-static void remove_internal( const std::function<bool( item& )>& filter, item& node, int& count, OutputIterator out ) {
+static void remove_internal( const std::function<bool( item & )> &filter, item &node, int &count,
+                             OutputIterator out )
+{
     for( auto it = node.contents.begin(); it != node.contents.end(); ) {
         if( filter( *it ) ) {
             out = std::move( *it );
@@ -231,7 +233,8 @@ static void remove_internal( const std::function<bool( item& )>& filter, item& n
 }
 
 template <>
-std::list<item> visitable<item>::remove_items_with( const std::function<bool( const item& e )>& filter, int count )
+std::list<item> visitable<item>::remove_items_with( const std::function<bool( const item &e )>
+        &filter, int count )
 {
     auto it = static_cast<item *>( this );
     std::list<item> res;
@@ -246,7 +249,8 @@ std::list<item> visitable<item>::remove_items_with( const std::function<bool( co
 
 
 template <>
-std::list<item> visitable<inventory>::remove_items_with( const std::function<bool( const item& e )>& filter, int count )
+std::list<item> visitable<inventory>::remove_items_with( const
+        std::function<bool( const item &e )> &filter, int count )
 {
     auto inv = static_cast<inventory *>( this );
     std::list<item> res;
@@ -280,7 +284,7 @@ std::list<item> visitable<inventory>::remove_items_with( const std::function<boo
 
         } else {
             // recurse through the contents of each stacked item separately
-            for( auto& e : *stack ) {
+            for( auto &e : *stack ) {
                 remove_internal( filter, e, count, std::back_inserter( res ) );
                 if( count == 0 ) {
                     return res;
@@ -294,7 +298,8 @@ std::list<item> visitable<inventory>::remove_items_with( const std::function<boo
 }
 
 template <>
-std::list<item> visitable<Character>::remove_items_with( const std::function<bool( const item& e )>& filter, int count )
+std::list<item> visitable<Character>::remove_items_with( const
+        std::function<bool( const item &e )> &filter, int count )
 {
     auto ch = static_cast<Character *>( this );
     std::list<item> res;

@@ -67,7 +67,8 @@ class visitable
          * @param count maximum number of items to remove or negative for unlimited. A count of zero is a no-op
          * @return any items removed (items counted by charges are not guaranteed to be stacked)
          */
-        std::list<item> remove_items_with( const std::function<bool( const item& )>& filter, int count = -1 );
+        std::list<item> remove_items_with( const std::function<bool( const item & )> &filter,
+                                           int count = -1 );
 };
 
 #endif
