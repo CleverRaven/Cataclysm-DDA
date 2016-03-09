@@ -2049,7 +2049,7 @@ bool npc::wield_better_weapon()
         }
 
         bool allowed = can_use_gun && node->is_gun() && ( !use_silent || node->is_silent() );
-        if( allowed && node->ammo_remaining() > node->ammo_required() ) {
+        if( allowed && node->ammo_remaining() >= node->ammo_required() ) {
             compare_weapon( *node, true );
         } else if( allowed && enough_time_to_reload( *node ) ) {
             empty_guns.push_back( node );
