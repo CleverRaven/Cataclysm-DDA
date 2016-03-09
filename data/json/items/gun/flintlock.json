@@ -25,7 +25,7 @@
     "reload": 1150,
     "barrel_length": 1,
     "valid_mod_locations": [ [ "accessories", 1 ] ],
-    "flags": [ "NEVER_JAMS", "RELOAD_ONE" ]
+    "flags": [ "NEVER_JAMS" ]
   },
   {
     "id": "pistol_flintlock",
@@ -51,7 +51,7 @@
     "clip_size": 1,
     "reload": 1000,
     "valid_mod_locations": [ [ "accessories", 1 ] ],
-    "flags": [ "NEVER_JAMS", "RELOAD_ONE" ]
+    "flags": [ "NEVER_JAMS" ]
   },
   {
     "id": "pistol_pepperbox",
@@ -104,6 +104,6 @@
     "reload": 1300,
     "barrel_length": 2,
     "valid_mod_locations": [ [ "accessories", 1 ] ],
-    "flags": [ "NEVER_JAMS", "RELOAD_ONE" ]
+    "flags": [ "NEVER_JAMS" ]
   }
 ]
