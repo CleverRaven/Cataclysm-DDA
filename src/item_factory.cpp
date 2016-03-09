@@ -894,30 +894,30 @@ void Item_factory::load_book( JsonObject &jo )
 void Item_factory::load_comestible(JsonObject &jo)
 {
     it_comest *comest_template = new it_comest();
-    comest_template->comesttype = jo.get_string("comestible_type");
-    comest_template->tool = jo.get_string("tool", "null");
-    comest_template->quench = jo.get_int("quench", 0);
-    comest_template->nutr = jo.get_int("nutrition", -1);
-    comest_template->kcal = jo.get_int("calories", 0);
-    comest_template->spoils = jo.get_int("spoils_in", 0);
+    comest_template->comesttype = jo.get_string( "comestible_type" );
+    comest_template->tool = jo.get_string( "tool", "null" );
+    comest_template->quench = jo.get_int( "quench", 0 );
+    comest_template->nutr = jo.get_int( "nutrition", -1 );
+    comest_template->kcal = jo.get_int( "calories", 0 );
+    comest_template->spoils = jo.get_int( "spoils_in", 0 );
     // In json it's in hours, here it shall be in turns, as item::rot is also in turns.
     comest_template->spoils *= 600;
-    comest_template->brewtime = jo.get_int("brew_time", 0);
-    comest_template->addict = jo.get_int("addiction_potential", 0);
-    comest_template->def_charges = jo.get_long("charges", 0);
-    if (jo.has_member("stack_size")) {
-        comest_template->stack_size = jo.get_long("stack_size");
+    comest_template->brewtime = jo.get_int( "brew_time", 0 );
+    comest_template->addict = jo.get_int( "addiction_potential", 0 );
+    comest_template->def_charges = jo.get_long( "charges", 0 );
+    if ( jo.has_member( "stack_size" ) ) {
+        comest_template->stack_size = jo.get_long( "stack_size" );
     } else {
         comest_template->stack_size = comest_template->def_charges;
     }
-    comest_template->stim = jo.get_int("stim", 0);
-    comest_template->healthy = jo.get_int("healthy", 0);
-    comest_template->fun = jo.get_int("fun", 0);
+    comest_template->stim = jo.get_int( "stim", 0 );
+    comest_template->healthy = jo.get_int( "healthy", 0 );
+    comest_template->fun = jo.get_int( "fun", 0 );
 
-    comest_template->add = addiction_type( jo.get_string( "addiction_type", "none" ) );
+    comest_template->add = jo.get_string( "addiction_type", "none" );
 
     itype *new_item_template = comest_template;
-    load_basic_info(jo, new_item_template);
+    load_basic_info( jo, new_item_template );
     load_slot( new_item_template->spawn, jo );
 }
 
