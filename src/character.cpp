@@ -55,7 +55,6 @@ Character::Character()
     stomach_water = 0;
 
     name = "";
-    Creature::set_speed_base(100);
 }
 
 field_id Character::bloodType() const

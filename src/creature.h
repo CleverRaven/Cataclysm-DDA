@@ -430,7 +430,7 @@ class Creature
         virtual int weight_capacity() const;
         virtual int get_weight() const;
 
-        int moves, pain;
+        int moves;
         bool underwater;
 
         void draw(WINDOW *w, int plx, int ply, bool inv) const;
@@ -556,6 +556,9 @@ class Creature
         void store(JsonOut &jsout) const;
         // Load creature data from the given json object.
         void load(JsonObject &jsin);
+
+    private:
+        int pain;
 };
 
 #endif

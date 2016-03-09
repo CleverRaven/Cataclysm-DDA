@@ -157,7 +157,7 @@ static const itype_id OPTICAL_CLOAK_ITEM_ID( "optical_cloak" );
 static bool should_combine_bps( const player &, size_t, size_t );
 
 
-player::player() : Character()
+player::player()
 {
  id = -1; // -1 is invalid
  str_cur = 8;
@@ -168,7 +168,6 @@ player::player() : Character()
  int_max = 8;
  per_cur = 8;
  per_max = 8;
- underwater = false;
  dodges_left = 1;
  blocks_left = 1;
  power_level = 0;
@@ -177,7 +176,6 @@ player::player() : Character()
  fatigue = 0;
  stamina = get_stamina_max();
  stim = 0;
- pain = 0;
  pkill = 0;
  radiation = 0;
  tank_plut = 0;
@@ -328,7 +326,7 @@ void player::reset_stats()
     }
 
     // Pain
-    if (pain > pkill) {
+    if ( get_perceived_pain() > 0 ) {
         if (!(has_trait("CENOBITE"))) {
             mod_str_bonus(-int(get_perceived_pain() / 15));
             mod_dex_bonus(-int(get_perceived_pain() / 15));
