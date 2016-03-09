@@ -914,7 +914,7 @@ void Item_factory::load_comestible(JsonObject &jo)
     comest_template->healthy = jo.get_int("healthy", 0);
     comest_template->fun = jo.get_int("fun", 0);
 
-    comest_template->add = addiction_type(jo.get_string("addiction_type"));
+    comest_template->add = addiction_type( jo.get_string( "addiction_type", "none" ) );
 
     itype *new_item_template = comest_template;
     load_basic_info(jo, new_item_template);
