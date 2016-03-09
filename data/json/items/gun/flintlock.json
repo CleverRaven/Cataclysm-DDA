@@ -24,7 +24,7 @@
     "clip_size": 1,
     "reload": 1150,
     "barrel_length": 1,
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "grip", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
+    "valid_mod_locations": [ [ "accessories", 1 ] ],
     "flags": [ "NEVER_JAMS", "RELOAD_ONE" ]
   },
   {
@@ -49,7 +49,7 @@
     "durability": 6,
     "clip_size": 1,
     "reload": 1000,
-    "valid_mod_locations": [ [ "accessories", 2 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
+    "valid_mod_locations": [ [ "accessories", 1 ] ],
     "flags": [ "NEVER_JAMS", "RELOAD_ONE" ]
   },
   {
@@ -74,7 +74,7 @@
     "durability": 6,
     "clip_size": 6,
     "reload": 1000,
-    "valid_mod_locations": [ [ "accessories", 2 ], [ "grip", 1 ], [ "sights", 1 ], [ "stock", 1 ] ],
+    "valid_mod_locations": [ [ "accessories", 1 ] ],
     "flags": [ "NEVER_JAMS", "RELOAD_ONE" ]
   },
   {
@@ -102,7 +102,7 @@
     "clip_size": 1,
     "reload": 1300,
     "barrel_length": 2,
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "grip", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
+    "valid_mod_locations": [ [ "accessories", 1 ] ],
     "flags": [ "NEVER_JAMS", "RELOAD_ONE" ]
   }
 ]
