@@ -80,7 +80,7 @@ void addict_effect(player &u, addiction &add,
             u.mod_str_bonus(-(1 + int(in / 7)));
             u.mod_per_bonus(-1);
             u.mod_dex_bonus(-1);
-            if (u.pain < in * 3) {
+            if (u.get_pain() < in * 3) {
                 u.mod_pain(1);
             }
             if (in >= 40 || one_in(1200 - 30 * in)) {

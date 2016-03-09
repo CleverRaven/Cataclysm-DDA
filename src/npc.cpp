@@ -1867,7 +1867,7 @@ item &npc::get_healing_item( bool bleed, bool bite, bool infect, bool first_best
 
 bool npc::has_painkiller()
 {
-    return inv.has_enough_painkiller( pain );
+    return inv.has_enough_painkiller( get_pain() );
 }
 
 bool npc::took_painkiller() const

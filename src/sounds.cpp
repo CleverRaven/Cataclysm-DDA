@@ -218,7 +218,7 @@ void sounds::process_sound_markers( player *p )
                 p->add_effect( effect_deaf, duration );
                 if( !p->has_trait( "DEADENED" ) ) {
                     p->add_msg_if_player( m_bad, _( "Your eardrums suddenly ache!" ) );
-                    if( p->pain < 10 ) {
+                    if( p->get_pain() < 10 ) {
                         p->mod_pain( rng( 0, 2 ) );
                     }
                 }

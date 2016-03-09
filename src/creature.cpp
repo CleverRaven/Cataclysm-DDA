@@ -1094,6 +1094,16 @@ void Creature::set_pain(int npain)
     }
 }
 
+int Creature::get_pain() const
+{
+    return pain;
+}
+
+int Creature::get_perceived_pain() const
+{
+    return get_pain();
+}
+
 void Creature::mod_moves(int nmoves)
 {
     moves += nmoves;

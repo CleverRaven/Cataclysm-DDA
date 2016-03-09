@@ -622,6 +622,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void apply_damage(Creature *source, body_part bp, int amount) override;
         /** Modifies a pain value by player traits before passing it to Creature::mod_pain() */
         void mod_pain(int npain) override;
+        /** Returns perceived pain (reduced with painkillers)*/
+        int get_perceived_pain() const override;
 
         void cough(bool harmful = false, int volume = 4);
 

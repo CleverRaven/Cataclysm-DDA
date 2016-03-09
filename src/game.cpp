@@ -4228,7 +4228,7 @@ void game::debug()
                     }
                     break;
                     case D_PAIN: {
-                        int dbg_damage = query_int( "Cause how much pain? pain: %d", p.pain );
+                        int dbg_damage = query_int( "Cause how much pain? pain: %d", p.get_pain() );
                         p.mod_pain( dbg_damage );
                     }
                     break;

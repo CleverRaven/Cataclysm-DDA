@@ -215,7 +215,7 @@ void npc::move()
 {
     regen_ai_cache();
     npc_action action = npc_undecided;
-    
+
     add_msg( m_debug, "NPC %s: target = %d, danger = %d, range = %d",
                  name.c_str(), ai_cache.target, ai_cache.danger, confident_range(-1));
 
@@ -268,7 +268,7 @@ void npc::move()
         // No present danger
         action = address_needs();
         print_action( "address_needs %s", action );
-        
+
         if( action == npc_undecided ) {
             action = address_player();
             print_action( "address_player %s", action );
@@ -964,7 +964,7 @@ npc_action npc::address_needs( int danger )
         return npc_heal;
     }
 
-    if( pain - pkill >= 15 && has_painkiller() && !took_painkiller() ) {
+    if( get_perceived_pain() >= 15 && has_painkiller() && !took_painkiller() ) {
         return npc_use_painkiller;
     }
 
@@ -1998,7 +1998,7 @@ bool npc::wield_better_weapon()
     compare_weapon( weapon );
     // To prevent changing to barely better stuff
     best_value *= 1.1;
-    
+
     std::vector<item *> empty_guns;
     for( auto &i : slice ) {
         item &it = i->front();
@@ -2300,7 +2300,7 @@ void npc::heal_self()
 void npc::use_painkiller()
 {
     // First, find the best painkiller for our pain level
-    item *it = inv.most_appropriate_painkiller(pain);
+    item *it = inv.most_appropriate_painkiller( get_pain() );
 
     if (it->is_null()) {
         debugmsg("NPC tried to use painkillers, but has none!");
@@ -2501,7 +2501,7 @@ void npc::reach_destination()
 
     if( path.size() > 1 ) {
         // No point recalculating the path to get home
-        move_to_next();    
+        move_to_next();
     } else if( guard_pos != no_goal_point ) {
         const tripoint dest( guard_pos.x - mapx * SEEX,
                              guard_pos.y - mapy * SEEY,

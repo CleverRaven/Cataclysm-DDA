@@ -706,8 +706,8 @@ bool player::activate_bionic(int b, bool eff_only)
     if(bio.id == "bio_painkiller") {
         pkill += 6;
         mod_pain( -2 );
-        if (pkill > pain) {
-            pkill = pain;
+        if (pkill > get_pain()) {
+            pkill = get_pain();
         }
     } else if (bio.id == "bio_ears" && has_active_bionic("bio_earplugs")) {
         for (auto &i : my_bionics) {
