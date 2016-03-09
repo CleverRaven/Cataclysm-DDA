@@ -677,7 +677,6 @@ protected:
     bool process_litcig(player *carrier, const tripoint &pos);
     bool process_cable(player *carrier, const tripoint &pos);
     bool process_tool(player *carrier, const tripoint &pos);
-    bool process_charger_gun(player *carrier, const tripoint &pos);
 public:
     /**
      * Helper to bring a cable back to its initial state.
@@ -1077,40 +1076,6 @@ public:
          * the same type are not affected by this.
          */
         void add_technique( const matec_id & tech );
-        /*@}*/
-
-        /**
-         * @name Charger gun
-         *
-         * These functions are used on charger guns. Those items are activated, load over time
-         * (using the wielders UPS), and fire like a normal gun using pseudo ammo.
-         * Each function returns false when called on items that are not charger guns.
-         * Nothing is done in that case, so it's save to call them even when it's unknown whether
-         * the item is a charger gun.
-         * You must all @ref update_charger_gun_ammo before using properties of it as they depend
-         * on the charges of the gun.
-         */
-        /*@{*/
-        /**
-         * Deactivate the gun.
-         */
-        bool deactivate_charger_gun();
-        /**
-         * Activate the gun, it will now load charges over time.
-         * The item must be in the possessions of a player (given as parameter).
-         * The function will show a message regarding the loading status. If the player does not
-         * have a power source, it will not start loading and a different message is displayed.
-         * Can be called on npcs (no messages than).
-         */
-        bool activate_charger_gun( player &u );
-        /**
-         * Update the charges ammo settings. This must be called right before firing the gun because
-         * the properties of the ammo depend on the loading of the gun.
-         * E.g. a gun with many charges provides more ammo effects.
-         */
-        bool update_charger_gun_ammo();
-        /** Whether this is a charger gun. */
-        bool is_charger_gun() const;
         /*@}*/
 
         /**

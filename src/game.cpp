@@ -10723,12 +10723,6 @@ void game::plfire( bool burst, const tripoint &default_target )
             return;
         }
 
-        if( !gun.active && !gun.is_in_auxiliary_mode() ) {
-            if( gun.activate_charger_gun( u ) ) {
-                return;
-            }
-        }
-
         if( gun.has_flag("FIRE_TWOHAND") && ( !u.has_two_arms() || u.worn_with_flag("RESTRICT_HANDS") ) ) {
             add_msg(m_info, _("You need two free hands to fire your %s."), gun.tname().c_str() );
             return;
