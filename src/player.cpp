@@ -462,8 +462,9 @@ void player::process_turn()
         charge_power(25);
     }
 
-    remove_items_with( [this]( item &itm ) {
-        return itm.process_artifact( this, pos() );
+    visit_items( [this]( item *e ) {
+        e->process_artifact( this, pos() );
+        return VisitResponse::NEXT;
     } );
 
     suffer();

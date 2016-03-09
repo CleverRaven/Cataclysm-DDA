@@ -695,12 +695,10 @@ public:
     /**
      * Process and apply artifact effects. This should be called exactly once each turn, it may
      * modify character stats (like speed, strength, ...), so call it after those have been reset.
-     * @return True if the item should be destroyed (it has run out of charges or similar), false
-     * if the item should be kept. Artifacts usually return false as they never get destroyed.
      * @param carrier The character carrying the artifact, can be null.
      * @param pos The location of the artifact (should be the player location if carried).
      */
-    bool process_artifact( player *carrier, const tripoint &pos );
+    void process_artifact( player *carrier, const tripoint &pos );
 
  bool destroyed_at_zero_charges() const;
 // Most of the is_whatever() functions call the same function in our itype
