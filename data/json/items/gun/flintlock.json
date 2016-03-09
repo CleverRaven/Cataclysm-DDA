@@ -22,7 +22,7 @@
     "recoil": 45,
     "durability": 6,
     "clip_size": 1,
-    "reload": 1150,
+    "reload": 800,
     "barrel_length": 1,
     "valid_mod_locations": [ [ "accessories", 1 ] ],
     "flags": [ "NEVER_JAMS" ]
@@ -50,7 +50,7 @@
     "recoil": 120,
     "durability": 6,
     "clip_size": 1,
-    "reload": 1000,
+    "reload": 800,
     "valid_mod_locations": [ [ "accessories", 1 ] ],
     "flags": [ "NEVER_JAMS" ]
   },
@@ -75,7 +75,7 @@
     "recoil": 120,
     "durability": 6,
     "clip_size": 6,
-    "reload": 1000,
+    "reload": 1200,
     "valid_mod_locations": [ [ "accessories", 1 ] ],
     "flags": [ "NEVER_JAMS", "RELOAD_ONE" ]
   },
@@ -102,7 +102,7 @@
     "recoil": 30,
     "durability": 6,
     "clip_size": 1,
-    "reload": 1300,
+    "reload": 1200,
     "barrel_length": 2,
     "valid_mod_locations": [ [ "accessories", 1 ] ],
     "flags": [ "NEVER_JAMS" ]
