@@ -748,7 +748,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          * @param prompt optional message to display in any menu
          * @return whether the item was successfully disposed of
          */
-        bool dispose_item( item& obj, const std::string& prompt = std::string() );
+        virtual bool dispose_item( item& obj, const std::string& prompt = std::string() );
 
         /**
          * Calculate (but do not deduct) the number of moves required when handling (eg. storing, drawing etc.) an item

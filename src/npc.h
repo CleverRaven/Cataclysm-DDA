@@ -732,10 +732,19 @@ public:
     bool wont_hit_friend( const tripoint &p , int position = -1 ) const;
     bool need_to_reload() const; // Wielding a gun that is empty
     bool enough_time_to_reload( const item &gun ) const;
+    /** Can reload currently wielded gun? */
     bool can_reload();
-    item_location find_usable_ammo();
+    /** Has a gun or magazine that can be reloaded */
+    const item &find_reloadable() const;
+    item &find_reloadable();
+    /** Finds ammo the NPC could use to reload a given object */
+    item_location find_usable_ammo( const item &weap );
+    const item_location find_usable_ammo( const item &weap ) const;
+
+    bool dispose_item( item& obj, const std::string& prompt = std::string() ) override;
 
     void aim();
+    void do_reload( item &what );
 
 // Physical movement from one tile to the next
  void update_path( const tripoint &p, bool no_bashing = false );
