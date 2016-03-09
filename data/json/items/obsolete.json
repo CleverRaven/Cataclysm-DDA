@@ -370,5 +370,29 @@
      "encumbrance" : 0,
      "coverage" : 12,
      "material_thickness" : 1
+  },
+  {
+    "id": "nx17",
+    "type": "GUN",
+    "symbol": "(",
+    "color": "magenta",
+    "name": "NX-17 charge rifle",
+    "description": "A multi-purpose rifle, designed for use in conjunction with a unified power supply, or UPS.  It does not reload normally; instead, press fire once to start charging it from your UPS, then again to unload the charge.",
+    "price": 1200000,
+    "material": ["steel", "plastic"],
+    "flags": ["CHARGE", "NO_UNLOAD", "NEVER_JAMS", "NO_UNLOAD"],
+    "skill": "rifle",
+    "weight": 1814,
+    "volume": 13,
+    "bashing": 8,
+    "cutting": 0,
+    "to_hit": -1,
+    "dispersion": 10,
+    "sight_dispersion": 60,
+    "aim_speed" : 6,
+    "recoil": 0,
+    "durability": 8,
+    "reload": 0,
+    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   }
 ]
