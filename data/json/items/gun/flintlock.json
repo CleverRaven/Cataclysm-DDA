@@ -23,9 +23,8 @@
     "durability": 6,
     "clip_size": 1,
     "reload": 800,
-    "barrel_length": 1,
     "valid_mod_locations": [ [ "accessories", 1 ] ],
-    "flags": [ "NEVER_JAMS" ]
+    "flags": [ "NEVER_JAMS", "DURABLE_MELEE" ]
   },
   {
     "id": "pistol_flintlock",
@@ -103,8 +102,8 @@
     "durability": 6,
     "clip_size": 1,
     "reload": 1200,
-    "barrel_length": 2,
-    "valid_mod_locations": [ [ "accessories", 1 ] ],
-    "flags": [ "NEVER_JAMS" ]
+    "valid_mod_locations": [ [ "accessories", 1 ], [ "underbarrel", 1 ] ],
+    "built_in_mods": [ "bayonet" ],
+    "flags": [ "NEVER_JAMS", "DURABLE_MELEE" ]
   }
 ]
