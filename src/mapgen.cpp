@@ -4336,7 +4336,7 @@ ff.......|....|WWWWWWWW|\n\
             square_furn(this, f_counter, SEEX - 1, SEEY - 1, SEEX, SEEY);
             int item_count = 0;
             while (item_count < 5) {
-                item_count += place_items("bionics", 75, SEEX - 1, SEEY - 1, SEEX, SEEY, false, 0);
+                item_count += place_items( "bionics", 75, SEEX - 1, SEEY - 1, SEEX, SEEY, false, 0 ).size();
             }
             line(this, t_reinforced_glass, SEEX - 2, SEEY - 2, SEEX + 1, SEEY - 2);
             line(this, t_reinforced_glass, SEEX - 2, SEEY + 1, SEEX + 1, SEEY + 1);
@@ -10670,25 +10670,26 @@ int map::place_npc(int x, int y, std::string type)
 
 // A chance of 100 indicates that items should always spawn,
 // the item group should be responsible for determining the amount of items.
-int map::place_items(items_location loc, int chance, int x1, int y1,
-                     int x2, int y2, bool ongrass, int turn )
+std::vector<item *> map::place_items( items_location loc, int chance, int x1, int y1,
+                                      int x2, int y2, bool ongrass, int turn )
 {
+    std::vector<item *> res;
+
     const float spawn_rate = ACTIVE_WORLD_OPTIONS["ITEM_SPAWNRATE"];
 
     if (chance > 100 || chance <= 0) {
         debugmsg("map::place_items() called with an invalid chance (%d)", chance);
-        return 0;
+        return res;
     }
     if (!item_group::group_is_defined(loc)) {
         const point omt = sm_to_omt_copy( get_abs_sub().x, get_abs_sub().y );
         const oter_id &oid = overmap_buffer.ter( omt.x, omt.y, get_abs_sub().z );
         debugmsg("place_items: invalid item group '%s', om_terrain = '%s' (%s)",
                  loc.c_str(), oid.t().id.c_str(), oid.t().id_mapgen.c_str() );
-        return 0;
+        return res;
     }
 
     int px, py;
-    int item_num = 0;
     while (chance == 100 || rng(0, 99) < chance) {
         float lets_spawn = spawn_rate;
         while( rng_float( 0.0, 1.0 ) <= lets_spawn ) {
@@ -10708,14 +10709,15 @@ int map::place_items(items_location loc, int chance, int x1, int y1,
                 tries++;
             } while ( is_valid_terrain(px,py) && tries < 20 );
             if (tries < 20) {
-                item_num += put_items_from_loc( loc, tripoint( px, py, abs_sub.z ), turn ).size();
+                auto put = put_items_from_loc( loc, tripoint( px, py, abs_sub.z ), turn );
+                res.insert( res.end(), put.begin(), put.end() );
             }
         }
         if (chance == 100) {
             break;
         }
     }
-    return item_num;
+    return res;
 }
 
 std::vector<item*> map::put_items_from_loc(items_location loc, const tripoint &p, int turn)
@@ -12875,7 +12877,7 @@ void mx_supplydrop(map &m, const tripoint &abs_sub)
         }
         int items_created = 0;
         for(int i = 0; i < 10 && items_created < 2; i++) {
-            items_created += m.place_items(item_group, 80, x, y, x, y, true, 0);
+            items_created += m.place_items(item_group, 80, x, y, x, y, true, 0).size();
         }
         if (m.i_at(x, y).empty()) {
             m.destroy( tripoint( x,  y, abs_sub.z ), true );
