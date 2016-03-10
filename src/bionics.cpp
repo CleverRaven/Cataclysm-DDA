@@ -876,12 +876,36 @@ void player::power_bionics_new()
                 continue;
             }
 
+        } else if( action == "CONFIRM" ) {
+            bionic *tmp = bionic_by_invlet( my_bionics[cursor].invlet );
+            if( tmp == nullptr ) {
+                // Selected an non-existing bionic
+                // this should not happen because we're choosing bionic via cursor
+                continue;
+            } else {
+                redraw = true;
+                if( bionics[tmp->id].activated ) {
+                    int b = tmp - &my_bionics[0];
+                    if( tmp->powered ) {
+                        deactivate_bionic( b );
+                    } else {
+                        activate_bionic( b );
+                    }
+                    // update message log and the menu
+                    g->refresh_all();
+                    continue;
+                } else {
+                    popup( _("You can not activate %s!" ), bionic_info( tmp->id ).name.c_str() );
+                }
+            }
+
         } else if( action == "ANY_INPUT" ) {
             long ch = ctxt.get_raw_input().get_first_input();
             if( ch == KEY_ESCAPE ) {
                 return;
             }
 
+            //todo: remove code duplication
             bionic *tmp = bionic_by_invlet( ch );
             if( tmp == nullptr ) {
                 // Selected an non-existing bionic
@@ -907,6 +931,7 @@ void player::power_bionics_new()
     }
 }
 
+// OBSOLETE:
 void draw_exam_window(WINDOW *win, int border_line, bool examination)
 {
     int width = getmaxx(win);
