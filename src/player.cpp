@@ -577,7 +577,7 @@ void player::apply_persistent_morale()
 
     // Masochists get a morale bonus from pain.
     if (has_trait("MASOCHIST") || has_trait("MASOCHIST_MED") ||  has_trait("CENOBITE")) {
-        int bonus = get_pain() / 2.5;
+        int bonus = get_perceived_pain() / 2.5;
         // Advanced masochists really get a morale bonus from pain.
         // (It's not capped.)
         if (has_trait("MASOCHIST") && (bonus > 25)) {
@@ -633,12 +633,6 @@ void player::update_mental_focus()
 // with some small edits/corrections by Soron
 int player::calc_focus_equilibrium() const
 {
-    // Factor in pain, since it's harder to rest your mind while your body hurts.
-    int eff_morale = get_morale_level() - get_pain();
-    // Cenobites don't mind, though
-    if (has_trait("CENOBITE")) {
-        eff_morale = eff_morale + get_pain();
-    }
     int focus_gain_rate = 100;
 
     if (activity.type == ACT_READ) {
@@ -651,6 +645,13 @@ int player::calc_focus_equilibrium() const
                 focus_gain_rate -= 50;
             }
         }
+    }
+
+    int eff_morale = get_morale_level();
+    // Factor in perceived pain, since it's harder to rest your mind while your body hurts.
+    // Cenobites don't mind, though
+    if( !has_trait( "CENOBITE" ) ) {
+        eff_morale = eff_morale - get_perceived_pain();
     }
 
     if (eff_morale < -99) {
@@ -7998,7 +7999,7 @@ void player::suffer()
         for (int i = bp_head; i < num_bp; i++) {
             int sores_pain = 5 + (int)(0.4 * abs( encumb( body_part( i ) ) ) );
             if (get_pain() < sores_pain) {
-                mod_pain( sores_pain );
+                set_pain( sores_pain );
             }
         }
     }
