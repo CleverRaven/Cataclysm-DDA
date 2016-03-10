@@ -27,7 +27,7 @@
 #include "iuse_actor.h" // For firestarter
 #include "mongroup.h"
 #include "translations.h"
-#include "morale.h"
+#include "morale_types.h"
 #include "input.h"
 #include "npc.h"
 #include "event.h"
@@ -1000,7 +1000,6 @@ int iuse::prozac(player *p, item *it, bool, const tripoint& )
 {
     if( !p->has_effect( effect_took_prozac) && p->get_morale_level() < 0 ) {
         p->add_effect( effect_took_prozac, 7200);
-        p->invalidate_morale_level();
     } else {
         p->stim += 3;
     }
@@ -8098,7 +8097,7 @@ int iuse::multicooker(player *p, item *it, bool t, const tripoint &pos)
 
         if (mc_upgrade == choice) {
 
-            if( !p->has_morale_to_craft() ) { // See morale.h
+            if( !p->has_morale_to_craft() ) {
                 add_msg(m_info, _("Your morale is too low to craft..."));
                 return false;
             }

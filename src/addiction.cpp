@@ -2,7 +2,7 @@
 #include "debug.h"
 #include "pldata.h"
 #include "player.h"
-#include "morale.h"
+#include "morale_types.h"
 #include "rng.h"
 #include "translations.h"
 
@@ -94,7 +94,6 @@ void addict_effect(player &u, addiction &add,
                 u.add_msg_if_player(m_bad, _("You feel anxious.  You need your painkillers!"));
                 u.add_morale(MORALE_CRAVING_OPIATE, -30, -200);
             } else if (one_in(50) && dice(3, 50) < in) {
-                u.add_msg_if_player(m_bad, _("You throw up heavily!"));
                 cancel_activity(_("Throwing up."));
                 u.vomit();
             }
@@ -199,7 +198,6 @@ void addict_effect(player &u, addiction &add,
         } else if (!u.has_effect( effect_hallu) && rng(10, 3200) < in) {
             u.add_effect( effect_hallu, 3600);
         } else if (one_in(50) && dice(3, 50) < in) {
-            u.add_msg_if_player(m_bad, _("You throw up heavily!"));
             cancel_activity(_("Throwing up."));
             u.vomit();
         }

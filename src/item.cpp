@@ -29,7 +29,6 @@
 #include "mtype.h"
 #include "field.h"
 #include "weather.h"
-#include "morale.h"
 #include "catacharset.h"
 #include "cata_utility.h"
 #include "input.h"
@@ -1628,7 +1627,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                 }
             }
         }
-        
+
         if( is_gun() && has_flag( "FIRE_TWOHAND" ) ) {
             info.push_back( iteminfo( "DESCRIPTION",
                                       _( "* This weapon needs <info>two free hands</info> to fire." ) ) );
@@ -2024,11 +2023,13 @@ void item::on_wear( player &p )
     if( &p == &g->u && type->artifact ) {
         g->add_artifact_messages( type->artifact->effects_worn );
     }
+
+    p.on_item_wear( *this );
 }
 
 void item::on_takeoff (player &p)
 {
-    (void) p; // suppress unused variable warning
+    p.on_item_takeoff( *this );
 
     if (is_sided()) {
         set_side(BOTH);

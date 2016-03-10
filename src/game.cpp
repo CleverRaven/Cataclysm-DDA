@@ -62,7 +62,7 @@
 #include "mission.h"
 #include "compatibility.h"
 #include "mongroup.h"
-#include "morale.h"
+#include "morale_types.h"
 #include "worldfactory.h"
 #include "material.h"
 #include "martialarts.h"

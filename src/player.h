@@ -24,7 +24,6 @@ class mission;
 class profession;
 nc_color encumb_color(int level);
 enum morale_type : int;
-class morale_point;
 enum game_message_type : int;
 class ma_technique;
 class martialart;
@@ -906,7 +905,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void cancel_activity();
 
         int get_morale_level() const; // Modified by traits, &c
-        void invalidate_morale_level();
         void add_morale( morale_type type, int bonus, int max_bonus = 0, int duration = 60,
                         int decay_start = 30, bool capped = false, const itype *item_type = nullptr );
         int has_morale( morale_type type ) const;
@@ -1144,7 +1142,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         std::array<int, num_bp> drench_capacity;
         std::array<int, num_bp> body_wetness;
 
-        std::vector<morale_point> morale;
+        player_morale morale;
 
         int focus_pool;
 
@@ -1265,6 +1263,26 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          * Check @ref mission::failed to see which case it is.
          */
         void on_mission_finished( mission &mission );
+        /**
+         * Called when a mutation is gained
+         */
+        virtual void on_mutation_gain( const std::string &mid ) override;
+        /**
+         * Called when a mutation is lost
+         */
+        virtual void on_mutation_loss( const std::string &mid ) override;
+        /**
+         * Called when an item is worn
+         */
+        virtual void on_item_wear( const item &it ) override;
+        /**
+         * Called when an item is taken off
+         */
+        virtual void on_item_takeoff( const item &it ) override;
+        /**
+         * Called when effect intensity has been changed
+         */
+        virtual void on_effect_int_change( const efftype_id &eid, int intensity, body_part bp = num_bp ) override;
 
         // formats and prints encumbrance info to specified window
         void print_encumbrance( WINDOW * win, int line = -1, item *selected_limb = nullptr ) const;
@@ -1284,15 +1302,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void load(JsonObject &jsin);
 
     private:
-        // Mutability is required for lazy initialization
-        mutable int morale_level;
-        mutable bool morale_level_is_valid;
-
-        /** Returns current traits multiplier for morale */
-        morale_mult get_traits_mult() const;
-        /** Returns current effects multiplier for morale */
-        morale_mult get_effects_mult() const;
-
         // Items the player has identified.
         std::unordered_set<std::string> items_identified;
         /** Check if an area-of-effect technique has valid targets */

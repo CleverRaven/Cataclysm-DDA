@@ -370,7 +370,9 @@ void map::vehmove()
         }
     }
     // Process item removal on the vehicles that were modified this turn.
-    for( const auto &elem : dirty_vehicle_list ) {
+    // Use a copy because part_removal_cleanup can modify the container.
+    auto temp = dirty_vehicle_list;
+    for( const auto &elem : temp ) {
         ( elem )->part_removal_cleanup();
     }
     dirty_vehicle_list.clear();

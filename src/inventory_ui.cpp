@@ -7,7 +7,6 @@
 #include "translations.h"
 #include "options.h"
 #include "messages.h"
-#include "morale.h"
 #include "input.h"
 #include "catacharset.h"
 #include "item_location.h"
