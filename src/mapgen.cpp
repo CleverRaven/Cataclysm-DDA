@@ -10671,7 +10671,8 @@ int map::place_npc(int x, int y, std::string type)
 // A chance of 100 indicates that items should always spawn,
 // the item group should be responsible for determining the amount of items.
 std::vector<item *> map::place_items( items_location loc, int chance, int x1, int y1,
-                                      int x2, int y2, bool ongrass, int turn )
+                                      int x2, int y2, bool ongrass, int turn,
+                                      int magazine, int ammo )
 {
     std::vector<item *> res;
 
@@ -10715,6 +10716,14 @@ std::vector<item *> map::place_items( items_location loc, int chance, int x1, in
         }
         if (chance == 100) {
             break;
+        }
+    }
+    for( auto e : res ) {
+        if( rng( 0, 99 ) < magazine && !e->magazine_integral() && !e->magazine_current() ) {
+            e->contents.emplace_back( e->magazine_default(), e->bday );
+        }
+        if( rng( 0, 99 ) < ammo && e->ammo_type() != "NULL" && e->ammo_remaining() == 0 ) {
+            e->ammo_set( default_ammo( e->ammo_type() ), e->ammo_capacity() );
         }
     }
     return res;
