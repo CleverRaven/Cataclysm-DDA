@@ -3928,7 +3928,6 @@
     "time": 20000,
     "reversible": false,
     "autolearn": true,
-    "qualities": [],
     "components": [
       [
         [ "gunpowder", 300 ],
@@ -3958,7 +3957,6 @@
     "time": 20000,
     "reversible": false,
     "autolearn": true,
-    "qualities": [],
     "components": [
       [
         [ "gunpowder", 300 ],
