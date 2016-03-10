@@ -1,7 +1,7 @@
 [
     {
         "type": "item_group",
-        "id" : "rifles",
+        "id" : "guns_rifle_rare",
         "items" :[
           ["cw-24", 4],
           ["cwd-63", 5]
@@ -36,14 +36,6 @@
           ["654t", 1],
           ["654_casing", 5]
        ]
-    },
-    {
-        "type": "item_group",
-        "id": "lmoe_guns",
-        "items": [
-          ["cw-24", 6],
-          ["cwd-63", 5]
-        ]
     },
     {
         "type": "item_group",
