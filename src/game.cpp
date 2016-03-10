@@ -8973,7 +8973,7 @@ tripoint game::look_around( WINDOW *w_info, const tripoint &start_point,
                     new_levz = -OVERMAP_DEPTH;
                 }
 
-                add_msg("levx: %d, levy: %d, levz :%d", get_levx(), get_levy(), new_levz );
+                add_msg( m_debug, "levx: %d, levy: %d, levz :%d", get_levx(), get_levy(), new_levz );
                 u.view_offset.z = new_levz - u.posz();
                 lp.z = new_levz;
                 refresh_all();
