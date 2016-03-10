@@ -7,6 +7,7 @@
 #include "map_selector.h"
 #include "vehicle_selector.h"
 #include "map.h"
+#include "submap.h"
 #include "vehicle.h"
 #include "game.h"
 
@@ -333,6 +334,66 @@ std::list<item> visitable<Character>::remove_items_with( const
         count--;
     } else {
         remove_internal( filter, ch->weapon, count, std::back_inserter( res ) );
+    }
+
+    return res;
+}
+
+template <>
+std::list<item> visitable<map_cursor>::remove_items_with( const
+        std::function<bool( const item &e )> &filter, int count )
+{
+    auto cur = static_cast<map_cursor *>( this );
+    std::list<item> res;
+
+    if( count == 0 ) {
+        return res; // nothing to do
+    }
+
+    if( !g->m.inbounds( *cur ) ) {
+        debugmsg( "cannot remove items from map: cursor out-of-bounds" );
+        return res;
+    }
+
+    // fetch the appropriate item stack
+    int x, y;
+    submap *sub = g->m.get_submap_at( *cur, x, y );
+
+    for( auto iter = sub->itm[ x ][ y ].begin(); iter != sub->itm[ x ][ y ].end(); ) {
+        if( filter( *iter ) ) {
+            // check for presence in the active items cache
+            if( sub->active_items.has( iter, point( x, y ) ) ) {
+                sub->active_items.remove( iter, point( x, y ) );
+            }
+
+            // if necessary remove item from the luminosity map
+            sub->update_lum_rem( *iter, x, y );
+
+            // finally remove the item
+            res.splice( res.end(), sub->itm[ x ][ y ], iter++ );
+
+            if( --count == 0 ) {
+                return res;
+            }
+        } else {
+            remove_internal( filter, *iter, count, std::back_inserter( res ) );
+            if( count == 0 ) {
+                return res;
+            }
+            ++iter;
+        }
+    }
+    return res;
+}
+
+template <>
+std::list<item> visitable<map_selector>::remove_items_with( const
+        std::function<bool( const item &e )> &filter, int count )
+{
+    std::list<item> res;
+
+    for( auto &cursor : static_cast<map_selector &>( *this ) ) {
+        res.splice( res.end(), cursor.remove_items_with( filter, count ) );
     }
 
     return res;
