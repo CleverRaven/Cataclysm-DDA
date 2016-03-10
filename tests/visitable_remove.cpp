@@ -6,6 +6,8 @@
 #include "itype.h"
 #include "map.h"
 #include "rng.h"
+#include "vehicle.h"
+#include "vehicle_selector.h"
 
 template <typename T>
 static int count_items( const T& src, const itype_id& id ) {
@@ -36,7 +38,14 @@ TEST_CASE( "visitable_remove", "[visitable]" ) {
     auto suitable = []( const tripoint& pos, int radius ) {
         auto tiles = closest_tripoints_first( radius, pos );
         return std::all_of( tiles.begin(), tiles.end(), []( const tripoint& e ) {
-            return g->m.inbounds( e ) && g->m.passable( e );
+            if( !g->m.inbounds( e ) ) {
+                return false;
+            }
+            if( g->m.veh_at( e ) ) {
+                g->m.destroy_vehicle( g->m.veh_at( e ) );
+            }
+            g->m.i_clear( e );
+            return g->m.passable( e );
         } );
     };
 
@@ -45,9 +54,10 @@ TEST_CASE( "visitable_remove", "[visitable]" ) {
         p.setpos( random_entry( closest_tripoints_first( 1, p.pos() ) ) );
     }
 
-    for( const auto& e: closest_tripoints_first( 1, p.pos() ) ) {
-        g->m.i_clear( e );
-    }
+    auto tiles = closest_tripoints_first( 1, p.pos() );
+    tiles.erase( tiles.begin() ); // player tile
+    tripoint veh = random_entry( tiles );
+    REQUIRE( g->m.add_vehicle( vproto_id( "shopping_cart" ), veh, 0 ) );
 
     item obj = item( liquid_id ).in_its_container();
     REQUIRE( obj.contents.size() == 1 );
@@ -365,6 +375,82 @@ TEST_CASE( "visitable_remove", "[visitable]" ) {
             }
             THEN( "the correct number of items were removed" ) {
                 REQUIRE( del.size() == our );
+
+                AND_THEN( "the removed items were all bottles" ) {
+                    CHECK( std::all_of( del.begin(), del.end(), [&container_id]( const item& e ) {
+                        return e.typeId() == container_id;
+                    } ) );
+                }
+                AND_THEN( "the removed items all contained water" ) {
+                    CHECK( std::all_of( del.begin(), del.end(), [&liquid_id]( const item& e ) {
+                        return e.contents.size() == 1 && e.contents[ 0 ].typeId() == liquid_id;
+                    } ) );
+                }
+            }
+        }
+    }
+
+    GIVEN( "An adjacent vehicle contains several bottles of water" ) {
+        auto tiles = closest_tripoints_first( 1, p.pos() );
+        REQUIRE( std::count_if( tiles.begin(), tiles.end(), []( const tripoint& e ) {
+            return g->m.veh_at( e );
+        } ) == 1 );
+
+        int part = -1;
+        vehicle *v = g->m.veh_at( veh, part );
+        REQUIRE( v != nullptr );
+        REQUIRE( part >= 0 );
+        part = v->part_with_feature( part, "CARGO" );
+        REQUIRE( part >= 0 );
+        for( int i = 0; i != count; ++i ) {
+            v->add_item( part, obj );
+        }
+
+        vehicle_selector sel( p.pos(), 1 );
+
+        REQUIRE( count_items( sel, container_id ) == count );
+        REQUIRE( count_items( sel, liquid_id ) == count );
+
+        WHEN( "all the bottles are removed" ) {
+            std::list<item> del = sel.remove_items_with( [&container_id]( const item& e ) {
+                return e.typeId() == container_id;
+            } );
+
+            THEN( "no bottles remain within the vehicle" ) {
+                REQUIRE( count_items( sel, container_id ) == 0 );
+            }
+            THEN( "no water remains within the vehicle" ) {
+                REQUIRE( count_items( sel, liquid_id ) == 0 );
+            }
+            THEN( "the correct number of items were removed" ) {
+                REQUIRE( del.size() == count );
+
+                AND_THEN( "the removed items were all bottles" ) {
+                    CHECK( std::all_of( del.begin(), del.end(), [&container_id]( const item& e ) {
+                        return e.typeId() == container_id;
+                    } ) );
+                }
+                AND_THEN( "the removed items all contain water" ) {
+                    CHECK( std::all_of( del.begin(), del.end(), [&liquid_id]( const item& e ) {
+                        return e.contents.size() == 1 && e.contents[ 0 ].typeId() == liquid_id;
+                    } ) );
+                }
+            }
+        }
+
+        WHEN( "one of the bottles is removed" ) {
+            std::list<item> del = sel.remove_items_with( [&container_id]( const item& e ) {
+                return e.typeId() == container_id;
+            }, 1 );
+
+            THEN( "there is one less bottle within the vehicle" ) {
+                REQUIRE( count_items( sel, container_id ) == count - 1 );
+            }
+            THEN( "there is one less water within the vehicle" ) {
+                REQUIRE( count_items( sel, liquid_id ) == count - 1 );
+            }
+            THEN( "the correct number of items were removed" ) {
+                REQUIRE( del.size() == 1 );
 
                 AND_THEN( "the removed items were all bottles" ) {
                     CHECK( std::all_of( del.begin(), del.end(), [&container_id]( const item& e ) {
