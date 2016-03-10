@@ -5996,26 +5996,6 @@
     ]
   },{
     "type" : "item_group",
-    "id" : "mil_books",
-    "//" : "Primarily combat manuals and such.",
-    "items":[
-      ["manual_melee", 4],
-      ["manual_bashing", 4],
-      ["manual_stabbing", 7],
-      ["manual_knives", 4],
-      ["manual_krav_maga", 5],
-      ["manual_ninjutsu", 5],
-      ["manual_taekwondo", 6],
-      ["manual_eskrima", 2],
-      ["manual_silat", 2],
-      ["manual_rifle", 10],
-      ["manual_smg", 8],
-      ["manual_launcher", 5],
-      ["textbook_firstaid", 4],
-      ["manual_swimming", 4]
-    ]
-  },{
-    "type" : "item_group",
     "id" : "bionics_mil",
     "items":[
       ["bio_power_storage", 10],

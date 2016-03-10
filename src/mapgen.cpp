@@ -3504,8 +3504,12 @@ C..C..C...|hhh|#########\n\
                     for (int i = 0; i <= 23; i++) {
                         for (int j = 0; j <= 23; j++) {
                             if (this->furn(i, j) == f_locker) {
-                                place_items( "clothing_soldier_set", 50,  i, j, i, j, false, 0 );
-                                place_items( "gear_soldier_sidearm", 50,  i, j, i, j, false, 0, 100, 100 );
+                                place_items( "clothing_soldier_set", 100,  i, j, i, j, false, 0 );
+                                if( one_in( 2 ) ) {
+                                    place_items( "gear_soldier_sidearm", 100,  i, j, i, j, false, 0, 100, 100 );
+                                } else {
+                                    place_items( "book_military", 100,  i, j, i, j, false, 0 );
+                                }
                             } else if (this->furn(i, j) == f_desk) {
                                 place_items("office", 50,  i,  j, i,  j, false, 0);
                             } else if (this->furn(i, j) == f_rack) {
@@ -4583,7 +4587,7 @@ ff.......|....|WWWWWWWW|\n\
                         place_items("bed", 50, bx2 - 2, i, bx2 - 1, i, false, 0);
                     }
                     place_items("bedroom", 84, bx1 + 1, by1 + 1, bx2 - 1, by2 - 1, false, 0);
-                    place_items("mil_books", 45, bx1 + 1, by1 + 1, bx2 - 1, by2 - 1, false, 0);
+                    place_items("book_military", 45, bx1 + 1, by1 + 1, bx2 - 1, by2 - 1, false, 0);
                     break;
                 case 2: // Armory
                     line_furn(this, f_counter, bx1 + 1, by1 + 1, bx2 - 1, by1 + 1);
