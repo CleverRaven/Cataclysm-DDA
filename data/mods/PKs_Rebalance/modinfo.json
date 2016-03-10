@@ -4,8 +4,8 @@
     "mod-type": "SUPPLEMENTAL",
     "ident": "PK_REBALANCE",
     "name": "PKs Rebalancing",
-    "description": "Rebalances zombie spawning and evolution.",
-    "category": "rebalance",
+    "description": "Rebalances spawning and adds critters",
+    "category": "creatures",
     "author": "pisskop",
     "path": ""
 }

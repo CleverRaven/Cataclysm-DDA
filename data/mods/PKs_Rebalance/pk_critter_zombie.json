@@ -166,7 +166,7 @@
     "id" : "mon_zombie_brute",
     "edit-mode" : "modify",
         "upgrades":{
-      "into_group": "GROUP_ZOMBIE_BRUTE",
+      "into_group": "GROUP_ZOMBIE_MID",
       "half_life": 28
       }
     },{
@@ -324,7 +324,7 @@
     "vision_night":3,
     "death_drops": "default_zombie_death_drops",
     "upgrades":{
-        "into_group": "GROUP_ZOMBIE_EVO",
+        "into_group": "GROUP_ZOMBIE_MID",
         "half_life": 28
     },
     "hp":100,
@@ -362,7 +362,7 @@
     "vision_night":3,
     "death_drops": "default_zombie_death_drops",
     "upgrades":{
-      "into_group": "GROUP_ZOMBIE_DECAY",
+      "into_group": "GROUP_ZOMBIE_MID",
       "half_life": 21
     },
     "hp":80,
