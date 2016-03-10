@@ -3504,18 +3504,19 @@ C..C..C...|hhh|#########\n\
                     for (int i = 0; i <= 23; i++) {
                         for (int j = 0; j <= 23; j++) {
                             if (this->furn(i, j) == f_locker) {
-                                place_items("mil_surplus", 50,  i,  j, i,  j, false, 0);
+                                place_items( "clothing_soldier_set", 50,  i, j, i, j, false, 0 );
+                                place_items( "gear_soldier_sidearm", 50,  i, j, i, j, false, 0, 100, 100 );
                             } else if (this->furn(i, j) == f_desk) {
                                 place_items("office", 50,  i,  j, i,  j, false, 0);
                             } else if (this->furn(i, j) == f_rack) {
                                 if (one_in(3)) {
-                                    place_items("mil_surplus", 30,  i,  j, i,  j, false, 0);
+                                    place_items( "military", 30,  i,  j, i,  j, false, 0 );
                                 } else if (one_in(2)) {
-                                    place_items("ammo", 30,  i,  j, i,  j, false, 0);
-                                } else if (one_in(3)) {
-                                    place_items("military", 30,  i,  j, i,  j, false, 0);
+                                    place_items( "ammo_milspec", 30,  i,  j, i,  j, false, 0 );
+                                } else if (one_in(4)) {
+                                    place_items( "mags_milspec", 30,  i,  j, i,  j, false, 0 );
                                 } else {
-                                    place_items("mil_rifles", 30,  i,  j, i,  j, false, 0);
+                                    place_items( "guns_milspec", 30,  i,  j, i,  j, false, 0, 100 );
                                 }
                             } else if (this->furn(i, j) == f_bed) {
                                 place_items("bed", 50,  i,  j, i,  j, false, 0);
