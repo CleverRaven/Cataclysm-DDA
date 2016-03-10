@@ -622,6 +622,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void apply_damage(Creature *source, body_part bp, int amount) override;
         /** Modifies a pain value by player traits before passing it to Creature::mod_pain() */
         void mod_pain(int npain) override;
+        /** Sets new intensity of pain an reacts to it */
+        void set_pain(int npain) override;
         /** Returns perceived pain (reduced with painkillers)*/
         int get_perceived_pain() const override;
 
@@ -1344,6 +1346,9 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void deactivate_mutation( const std::string &mut );
         bool has_fire(const int quantity) const;
         void use_fire(const int quantity);
+
+        void react_to_felt_pain( int intensity );
+
         /**
          * Has the item enough charges to invoke its use function?
          * Also checks if UPS from this player is used instead of item charges.

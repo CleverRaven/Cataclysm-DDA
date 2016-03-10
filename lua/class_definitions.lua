@@ -687,6 +687,7 @@ classes = {
             { name = "metabolic_rate", rval = "float", args = { } },
             { name = "metabolic_rate_base", rval = "float", args = { } },
             { name = "mod_pain", rval = nil, args = { "int" } },
+            { name = "set_pain", rval = nil, args = { "int" } },
             { name = "get_perceived_pain", rval = "int", args = { } },
             { name = "mod_stat", rval = nil, args = { "string", "int" } },
             { name = "get_morale_level", rval = "int", args = { } },

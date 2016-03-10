@@ -4772,46 +4772,57 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp, const 
 
 void player::mod_pain(int npain) {
     if( npain > 0 ) {
-        if (has_trait("NOPAIN")) {
+        if( has_trait( "NOPAIN" ) ) {
             return;
         }
-        if (has_trait("PAINRESIST") && npain > 1) {
-            // if it's 1 it'll just become 0, which is bad
-            npain = npain * 4 / rng(4,8);
-        }
-        // Dwarves get better pain-resist, what with mining and all
-        if (has_trait("PAINRESIST_TROGLO") && npain > 1) {
-            npain = npain * 4 / rng(6,9);
-        }
-        // reduce new felt pain by excess pkill, if any.
-        int felt_pain = npain - std::max(0, pkill - get_pain());
-        // Only trigger the "you felt it" effects if we are going to feel it.
-        if (felt_pain > 0) {
-            // Putting the threshold at 2 here to avoid most basic "ache" style
-            // effects from constantly asking you to stop crafting.
-            if (!is_npc() && felt_pain >= 2) {
-                g->cancel_activity_query(_("Ouch, something hurts!"));
+        if( npain > 1 ) { // if it's 1 it'll just become 0, which is bad
+            if( has_trait( "PAINRESIST" ) ) {
+                npain = npain * 4 / rng( 4,8 );
             }
-            // Only a large pain burst will actually wake people while sleeping.
-            if(in_sleep_state()) {
-                int pain_thresh = rng(3, 5);
-                if (has_trait("HEAVYSLEEPER")) {
-                    pain_thresh += 2;
-                } else if (has_trait("HEAVYSLEEPER2")) {
-                    pain_thresh += 5;
-                }
-                if (felt_pain >= pain_thresh) {
-                    wake_up();
-                }
+            // Dwarves get better pain-resist, what with mining and all
+            if( has_trait( "PAINRESIST_TROGLO" ) ) {
+                npain = npain * 4 / rng( 6,9 );
             }
         }
     }
-    Creature::mod_pain(npain);
+    Creature::mod_pain( npain );
+}
+
+void player::set_pain(int npain)
+{
+    const int prev_pain = get_perceived_pain();
+
+    Creature::set_pain( npain );
+    react_to_felt_pain( get_perceived_pain() - prev_pain );
 }
 
 int player::get_perceived_pain() const
 {
     return std::max( get_pain() - pkill, 0 );
+}
+
+void player::react_to_felt_pain( int intensity )
+{
+    if( intensity <= 0 ) {
+        return;
+    }
+    if( is_player() && intensity >= 2 ) {
+        g->cancel_activity_query( _( "Ouch, something hurts!" ) );
+    }
+    // Only a large pain burst will actually wake people while sleeping.
+    if( in_sleep_state() ) {
+        int pain_thresh = rng( 3, 5 );
+
+        if( has_trait( "HEAVYSLEEPER" ) ) {
+            pain_thresh += 2;
+        } else if ( has_trait( "HEAVYSLEEPER2" ) ) {
+            pain_thresh += 5;
+        }
+
+        if( intensity >= pain_thresh ) {
+            wake_up();
+        }
+    }
 }
 
 /*
