@@ -401,6 +401,61 @@ std::list<item> visitable<map_selector>::remove_items_with( const
     return res;
 }
 
+template <>
+std::list<item> visitable<vehicle_cursor>::remove_items_with( const
+        std::function<bool( const item &e )> &filter, int count )
+{
+    auto cur = static_cast<vehicle_cursor *>( this );
+    std::list<item> res;
+
+    if( count == 0 ) {
+        return res; // nothing to do
+    }
+
+    vehicle_part& part = cur->veh.parts[ cur->part ];
+    for( auto iter = part.items.begin(); iter != part.items.end(); ) {
+        if( filter( *iter ) ) {
+            // check for presence in the active items cache
+            if( cur->veh.active_items.has( iter, part.mount ) ) {
+                cur->veh.active_items.remove( iter, part.mount );
+            }
+            res.splice( res.end(), part.items, iter++ );
+            if( --count == 0 ) {
+                return res;
+            }
+        } else {
+            remove_internal( filter, *iter, count, std::back_inserter( res ) );
+            if( count == 0 ) {
+                return res;
+            }
+            ++iter;
+        }
+    }
+
+    if( !res.empty() ) {
+        // if we removed any items then invalidate the cached mass
+        cur->veh.invalidate_mass();
+    }
+
+    return res;
+}
+
+template <>
+std::list<item> visitable<vehicle_selector>::remove_items_with( const
+        std::function<bool( const item &e )> &filter, int count )
+{
+    std::list<item> res;
+
+    for( auto &cursor : static_cast<vehicle_selector &>( *this ) ) {
+        std::list<item> out = cursor.remove_items_with( filter, count );
+        count -= out.size();
+        res.splice( res.end(), out );
+    }
+
+    return res;
+}
+
+
 // explicit template initialization for all classes implementing the visitable interface
 template class visitable<item>;
 template class visitable<inventory>;
