@@ -76,13 +76,6 @@
     },
     {
       "type" : "item_group",
-      "id" : "mil_rifles",
-      "items":[
-        ["emas", 5]
-      ]
-    },
-    {
-      "type" : "item_group",
       "id" : "military",
       "items":[
         ["emas", 5]

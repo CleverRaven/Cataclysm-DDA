@@ -12857,12 +12857,12 @@ void mx_supplydrop(map &m, const tripoint &abs_sub)
             item_group = "mil_armor";
             break;
         case 10:
-            item_group = "mil_rifles";
+            item_group = "guns_rifle_milspec";
             break;
         }
         int items_created = 0;
         for(int i = 0; i < 10 && items_created < 2; i++) {
-            items_created += m.place_items(item_group, 80, x, y, x, y, true, 0).size();
+            items_created += m.place_items( item_group, 80, x, y, x, y, true, 0, 100 ).size();
         }
         if (m.i_at(x, y).empty()) {
             m.destroy( tripoint( x,  y, abs_sub.z ), true );

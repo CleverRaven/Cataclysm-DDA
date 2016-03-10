@@ -257,7 +257,6 @@
             { "distribution": [
                 { "group": "guns_common", "prob": 24 },
                 { "group": "grenades", "prob": 10 },
-                { "group": "mil_rifles", "prob": 8 },
                 { "group": "mil_hw", "prob": 1 },
                 { "group": "launchers", "prob": 1 },
                 { "group": "stash_food", "prob": 40 },
