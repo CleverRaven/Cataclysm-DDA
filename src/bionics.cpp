@@ -159,6 +159,7 @@ bionic_data::bionic_data(std::string nname, bool ps, bool tog, int pac, int pad,
 {
 }
 
+// OBSOLETE:
 void show_bionics_titlebar(WINDOW *window, player *p, std::string menu_mode)
 {
     werase(window);
@@ -286,6 +287,7 @@ nc_color get_bionic_text_color(bionic const &bio, bool const isHighlightedBionic
     return type;
 }
 
+// OBSOLETE:
 void player::power_bionics()
 {
     if( query_yn( _( "New UI?" ) ) ) {
@@ -768,7 +770,6 @@ void player::power_bionics_new()
                 mvwprintz( w_bio_list, i - scroll_position, 5, get_bionic_text_color( b, highlighted ),
                            bionic_info( b.id ).name.c_str() );
                 if( bionic_info( b.id ).toggled ) {
-                    //~illi-kun: todo: some lines are still not filtered, so fix it!
                     mvwprintz( w_bio_list, i - scroll_position, getmaxx( w_bio_list ) / 2,
                                get_bionic_text_color( b, highlighted ),
                                b.powered ? _( "ON" ) : _( "OFF" ) );
@@ -807,7 +808,7 @@ void player::power_bionics_new()
             }
             wrefresh( w_bio_list );
 
-            //~illi-kun: todo: dedicated function?
+            //update content of description window
             werase( w_bio_description );
             fold_and_print( w_bio_description, 0, 0, getmaxx( w_bio_description ), c_ltgray,
                             bionic_info( my_bionics[cursor].id ).description.c_str() );
@@ -816,16 +817,11 @@ void player::power_bionics_new()
             redraw = false;
         }
         const std::string action = ctxt.handle_input();
-        if( action == "CONFIRM" ) {
-            return;
-        }
-
-        if(action == "HELP_KEYBINDINGS" ) {
+        if( action == "HELP_KEYBINDINGS" ) {
             wrefresh( w_bionics );
             redraw = true;
-        }
 
-        if( action == "UP" ) {
+        } else if( action == "UP" ) {
             if( cursor == 0 ) {
                 cursor = static_cast<int>( my_bionics.size() ) - 1;
             } else {
@@ -835,9 +831,8 @@ void player::power_bionics_new()
                 scroll_position--;
             }
             redraw = true;
-        }
 
-        if( action == "DOWN" ) {
+        } else if( action == "DOWN" ) {
             cursor++;
             if( cursor >= static_cast<int>( my_bionics.size() ) ) {
                 cursor = 0;
@@ -847,10 +842,68 @@ void player::power_bionics_new()
                 cursor - scroll_position > getmaxy( w_bio_list ) / 2 ) {
                 scroll_position++;
             }
+            redraw = true;
 
+        } else if( action == "REASSIGN" ) {
+            const long ch = my_bionics[cursor].invlet;
+            bionic *tmp = bionic_by_invlet( ch );
+            if( tmp == nullptr ) {
+                // Selected an non-existing bionic (or escape, or ...)
+                continue;
+            }
+            redraw = true;
+            const long newch = popup_getkey( _( "%s; enter new letter." ),
+                                             bionics[tmp->id].name.c_str() );
+            wrefresh( w_bionics );
+            if( newch == ch || newch == ' ' || newch == KEY_ESCAPE ) {
+                continue;
+            }
+            if( !bionic_chars.valid( newch ) ) {
+                popup( _( "Invalid bionic letter. Only those characters are valid:\n\n%s" ),
+                       bionic_chars.get_allowed_chars().c_str() );
+                continue;
+            }
+            bionic *otmp = bionic_by_invlet( newch );
+            if( otmp != nullptr ) {
+                std::swap( tmp->invlet, otmp->invlet );
+            } else {
+                tmp->invlet = newch;
+            }
+
+        } else if( action == "REMOVE" ) {
+            if( uninstall_bionic( my_bionics[cursor].id ) ) {
+                redraw = true;
+                continue;
+            }
+
+        } else if( action == "ANY_INPUT" ) {
+            long ch = ctxt.get_raw_input().get_first_input();
+            if( ch == KEY_ESCAPE ) {
+                return;
+            }
+
+            bionic *tmp = bionic_by_invlet( ch );
+            if( tmp == nullptr ) {
+                // Selected an non-existing bionic
+                continue;
+            } else {
+                redraw = true;
+                if( bionics[tmp->id].activated ) {
+                    int b = tmp - &my_bionics[0];
+                    if( tmp->powered ) {
+                        deactivate_bionic( b );
+                    } else {
+                        activate_bionic( b );
+                    }
+                    // update message log and the menu
+                    g->refresh_all();
+                    continue;
+                } else {
+                    popup( _("You can not activate %s!" ), bionic_info( tmp->id ).name.c_str() );
+                }
+            }
             redraw = true;
         }
-
     }
 }
 
