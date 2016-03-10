@@ -4458,74 +4458,43 @@ ff.......|....|WWWWWWWW|\n\
                 // Fill rooms with items!
                 for (int i = 2; i <= 15; i += 13) {
                     items_location goods;
-                    int size = 0;
-                    bool HW = 0;
-                    switch (rng(1, 14)) {
-                    case  1:
-                    case  2:
-                        goods = "bots";
-                        size = 85;
-                        HW = 0;
-                        break;
-                    case  3:
-                    case  4:
-                        goods = "launchers";
-                        size = 83;
-                        HW = 0;
-                        break;
-                    case  5:
-                    case  6:
-                        goods = "mil_rifles";
-                        size = 87;
-                        HW = 0;
-                        break;
-                    case  7:
-                    case  8:
-                        goods = "grenades";
-                        size = 88;
-                        HW = 0;
-                        break;
-                    case  9:
-                    case 10:
-                        goods = "mil_armor";
-                        size = 85;
-                        HW = 0;
-                        break;
-                    case 11:
-                        goods = "mil_hw";
-                        size = 82;
-                        HW = 1;
-                        break;
-                    case 12:
-                    case 13:
-                        goods = "mil_food";
-                        size = 90;
-                        HW = 0;
-                        break;
-                    case 14:
-                        goods = "bionics_mil";
-                        size = 78;
-                        HW = 0;
-                        break;
+                    switch( rng( 1, 14 ) ) {
+                        case 1:
+                            goods = "bots";
+                            break;
+                        case 2:
+                            goods = "launchers";
+                            break;
+                        case 3:
+                        case 4:
+                            goods = "guns_rifle_milspec";
+                            break;
+                        case 5:
+                            goods = "mags_milspec";
+                            break;
+                        case 6:
+                        case 7:
+                        case 8:
+                            goods = "ammo_milspec";
+                            break;
+                        case  9:
+                            goods = "grenades";
+                            break;
+                        case 10:
+                            goods = "mil_armor";
+                            break;
+                        case 11:
+                            goods = "mil_hw";
+                            break;
+                        case 12:
+                        case 13:
+                            goods = "mil_food";
+                            break;
+                        case 14:
+                            goods = "bionics_mil";
+                            break;
                     }
-                    place_items(goods, size, i, j, i + 6, j + 5, false, 0);
-                      if (HW == 1) {
-                        if (one_in(2)) {
-                        spawn_item(i + 2, j + 1, "556", 2);
-                        }
-                        if (one_in(4)) {
-                        spawn_item(i + 2, j + 1, "8mm_fmj", 2);
-                        }
-                        if (one_in(4)) {
-                        spawn_item(i + 2, j + 1, "8mm_inc", 2);
-                        }
-                        if (one_in(5)) {
-                        spawn_item(i + 2, j + 1, "20x66_flechette", 2);
-                        }
-                        if (one_in(5)) {
-                        spawn_item(i + 2, j + 1, "40mm_concussive", 2);
-                        }
-                      }
+                    place_items( goods, 80, i, j, i + 6, j + 5, false, 0, 100 );
                 }
             }
             line(this, t_wall_metal, 1, 1, SEEX * 2 - 2, 1);
@@ -4594,7 +4563,9 @@ ff.......|....|WWWWWWWW|\n\
                     line_furn(this, f_counter, bx1 + 1, by2 - 1, bx2 - 1, by2 - 1);
                     line_furn(this, f_counter, bx1 + 1, by1 + 2, bx1 + 1, by2 - 2);
                     line_furn(this, f_counter, bx2 - 1, by1 + 2, bx2 - 1, by2 - 2);
-                    place_items("mil_rifles", 40, bx1 + 1, by1 + 1, bx2 - 1, by1 + 1, false, 0);
+                    place_items( "guns_rifle_milspec", 40, bx1 + 1, by1 + 1, bx2 - 1, by1 + 1, false, 0, 100 );
+                    place_items( "mags_milspec", 40, bx1 + 1, by1 + 1, bx2 - 1, by1 + 1, false, 0 );
+                    place_items( "ammo_milspec", 40, bx1 + 1, by1 + 1, bx2 - 1, by1 + 1, false, 0 );
                     place_items("launchers",  40, bx1 + 1, by2 - 1, bx2 - 1, by2 - 1, false, 0);
                     place_items("grenades",   40, bx1 + 1, by1 + 2, bx1 + 1, by2 - 2, false, 0);
                     place_items("mil_armor",  40, bx2 - 1, by1 + 2, bx2 - 1, by2 - 2, false, 0);
@@ -4705,12 +4676,10 @@ ff.......|....|WWWWWWWW|\n\
                 if (one_in(5)) { // Military zombie
                     add_spawn(mon_zombie_soldier, 1, rnx, rny);
                 } else if (one_in(2)) {
-                    add_item( rnx, rny, item::make_corpse() );
-                    place_items("launchers",  10, rnx, rny, rnx, rny, true, 0);
-                    place_items("mil_rifles", 30, rnx, rny, rnx, rny, true, 0);
-                    place_items("mil_armor",  70, rnx, rny, rnx, rny, true, 0);
-                    place_items("mil_food",   40, rnx, rny, rnx, rny, true, 0);
-                    spawn_item(rnx, rny, "id_military");
+                    add_item( rnx, rny, item::make_corpse( mon_zombie_soldier ) );
+                    if( one_in( 3 ) ) {
+                        place_items( "mon_zombie_soldier_death_drops", 100, rnx, rny, rnx, rny, true, 0, 100 );
+                    }
                 } else if (one_in(4)) { // Bionic Op zombie!
                     add_spawn(mon_zombie_bio_op, 1, rnx, rny);
                 } else if (one_in(4)) {
@@ -10030,7 +9999,9 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
             place_items("allclothes", 90, 5, 6, 7, 7, false, 0);
             place_items("softdrugs", 90, 5, 11, 7, 12, false, 0);
             place_items("hardware", 90, 5, 16, 7, 17, false, 0);
-            place_items("mil_rifles", 90, 18, 9, 18, 14, false, 0);
+            if( one_in( 3 ) ) {
+                place_items( "guns_rifle_milspec", 90, 18, 9, 18, 14, false, 0, 100, 100 );
+            }
             place_items("office", 80, 10, 11, 13, 12, false, 0);
             add_spawn(mon_zombie_soldier, rng(1, 6), 12, 14);
         } else {
