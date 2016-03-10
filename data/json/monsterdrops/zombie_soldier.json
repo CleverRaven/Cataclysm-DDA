@@ -6,27 +6,16 @@
     "magazine": 100,
     "ammo": 40,
     "entries": [
-      { "group": "underwear", "damage-min": 1, "damage-max": 4 },
-      { "group": "soldier_shirt", "damage-min": 1, "damage-max": 4 },
       { "distribution": [
-          { "collection": [
-            { "item": "winter_jacket_army", "damage-min": 1, "damage-max": 4 },
-            { "item": "winter_gloves_army", "damage-min": 1, "damage-max": 4 },
-            { "item": "winter_pants_army", "damage-min": 1, "damage-max": 4 }
-          ], "prob": 35 },
-          { "collection": [
-            { "item": "jacket_army", "damage-min": 1, "damage-max": 4 },
-            { "item": "pants_army", "damage-min": 1, "damage-max": 4 }
-          ], "prob": 65 }
-        ]
-      },
-      { "item": "boots_combat", "damage-min": 1, "damage-max": 4 },
-      { "item": "wristwatch", "prob": 20, "damage-min": 1, "damage-max": 4 },
-      { "item": "sunglasses", "prob": 20, "damage-min": 1, "damage-max": 4 },
+        { "group": "clothing_soldier_set", "prob": 65, "damage-min": 1, "damage-max": 4 },
+        { "group": "clothing_soldier_winter_set", "prob": 35, "damage-min": 1, "damage-max": 4 }
+      ] },
+
       { "item": "grenade", "prob": 5 },
       { "item": "knife_combat", "prob": 15 },
       { "item": "cash_card" },
       { "item": "cig", "prob": 50 },
+
       { "distribution": [
 
           { "collection": [
@@ -36,12 +25,6 @@
           ], "prob": 80 },
 
           { "collection": [
-              { "item": "helmet_army" },
-              { "item": "elbow_pads", "prob": 33, "damage-min": 1, "damage-max": 4 },
-              { "item": "knee_pads", "prob": 75, "damage-min": 1, "damage-max": 4 },
-              { "item": "gloves_tactical", "prob": 10, "damage-min": 1, "damage-max": 4 },
-              { "item": "legrig", "prob": 15, "damage-min": 1, "damage-max": 4 },
-              { "item": "glasses_bal", "prob": 33, "damage-min": 1, "damage-max": 4 },
               { "item": "LAW_Packed", "prob": 5 },
               { "item": "c4", "prob": 5 },
               { "group": "soldier_m320", "prob": 20 },
@@ -54,9 +37,6 @@
               { "item": "two_way_radio", "prob": 15 },
               { "group": "mil_food", "prob": 5 },
               { "item": "grapnel", "prob": 2 },
-              { "item": "chestrig", "prob": 33, "damage-min": 1, "damage-max": 4 },
-              { "item": "goggles_nv", "prob": 5, "damage-min": 1, "damage-max": 4 },
-              { "item": "goggles_ir", "prob": 5, "damage-min": 1, "damage-max": 4 },
               { "group": "soldier_primary", "prob": 25 },
               { "group": "guns_pistol_milspec", "prob": 30, "damage-min": 1, "damage-max": 3 },
               { "group": "soldier_weapon_mods", "prob": 10, "count-min": 1, "count-max": 2, "damage-min": 1, "damage-max": 4 },
@@ -66,13 +46,10 @@
           },
 
           { "collection": [
-              { "item": "helmet_army" },
               { "group": "guns_rifle_milspec", "prob": 10, "damage-min": 1, "damage-max": 3 },
               { "group": "guns_pistol_milspec", "prob": 20, "damage-min": 1, "damage-max": 3 },
               { "item": "ear_plugs", "count-min": 1, "count-max": 2 },
-              { "item": "chestrig", "damage-min": 1, "damage-max": 4 },
               { "item": "water_clean", "prob": 20, "container_item": "canteen", "charges-min": 1, "charges-max": 7 },
-              { "item": "molle_pack", "damage-min": 1, "damage-max": 4 },
               { "item": "bandages", "prob": 50, "count-min": 1, "count-max": 3 },
               { "item": "1st_aid", "prob": 66 },
               { "item": "scissors" },
@@ -98,16 +75,6 @@
       { "item": "pistol_grip", "prob": 30 },
       { "item": "suppressor", "prob": 20 },
       { "item": "laser_sight", "prob": 20 }
-    ]
-  },
-  {
-    "id": "soldier_shirt",
-    "type": "item_group",
-    "subtype": "distribution",
-    "entries": [
-      { "item": "tshirt", "prob": 30 },
-      { "item": "longshirt", "prob": 30 },
-      { "item": "army_top", "prob": 20 }
     ]
   },
   {
