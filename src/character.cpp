@@ -34,7 +34,7 @@ const efftype_id effect_webbed( "webbed" );
 
 const skill_id skill_throw( "throw" );
 
-Character::Character()
+Character::Character() : Creature(), visitable<Character>()
 {
     str_max = 0;
     dex_max = 0;

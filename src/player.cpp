@@ -157,7 +157,7 @@ static const itype_id OPTICAL_CLOAK_ITEM_ID( "optical_cloak" );
 static bool should_combine_bps( const player &, size_t, size_t );
 
 
-player::player()
+player::player() : Character()
 {
  id = -1; // -1 is invalid
  str_cur = 8;
