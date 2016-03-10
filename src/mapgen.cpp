@@ -10650,7 +10650,7 @@ void map::place_vending(int x, int y, std::string type)
     } else {
         furn_set(x, y, f_vending_c);
     }
-    place_items(type, broken ? 40 : 99, x, y, x, y, false, 0, false);
+    place_items( type, broken ? 40 : 99, x, y, x, y, false, 0 );
 }
 
 int map::place_npc(int x, int y, std::string type)
@@ -10671,7 +10671,7 @@ int map::place_npc(int x, int y, std::string type)
 // A chance of 100 indicates that items should always spawn,
 // the item group should be responsible for determining the amount of items.
 int map::place_items(items_location loc, int chance, int x1, int y1,
-                     int x2, int y2, bool ongrass, int turn, bool)
+                     int x2, int y2, bool ongrass, int turn )
 {
     const float spawn_rate = ACTIVE_WORLD_OPTIONS["ITEM_SPAWNRATE"];
 
