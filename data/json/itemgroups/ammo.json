@@ -44,9 +44,11 @@
     "id" : "ammo_pistol_obscure",
     "//" : "Imported or otherwise very obscure pistol ammmo.",
     "items": [
-      [ "9x18mm", 100 ],
+      [ "454_Casull", 50 ],
+      [ "500_Magnum", 50 ],
+      [ "9x18mm", 50 ],
       [ "9x18mmfmj", 50 ],
-      [ "9x18mmP2", 20 ]
+      [ "9x18mmP2", 50 ]
     ]
   },
   {
@@ -160,6 +162,7 @@
     "id" : "ammo_rifle_obscure",
     "//" : "Imported or otherwise very obscure rifle ammmo.",
     "items": [
+      [ "700nx", 100 ]
     ]
   },
   {
