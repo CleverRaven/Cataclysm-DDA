@@ -4339,7 +4339,6 @@ item::reload_option item::pick_reload_ammo( player &u ) const
         return ( lhs.ammo->ammo_remaining() != 0 ) > ( rhs.ammo->ammo_remaining() != 0 );
     } );
 
-    // NPCs always use the first option
     if( u.is_npc() ) {
         return std::move( ammo_list[ 0 ] );
     }

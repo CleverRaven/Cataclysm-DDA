@@ -2875,9 +2875,8 @@ void npc::do_reload( item &it )
         return;
     }
 
-    int reload_time = item_reload_cost( it, *usable_ammo );
-
-    int qty = std::max( 1l, it.ammo_capacity() - it.ammo_remaining() );
+    long qty = std::max( 1l, std::min( usable_ammo->charges, it.ammo_capacity() - it.ammo_remaining() ) );
+    int reload_time = item_reload_cost( it, *usable_ammo, qty );
     if( !it.reload( *this, std::move( usable_ammo ), qty ) ) {
         debugmsg( "do_reload failed: item could not be reloaded" );
         return;
