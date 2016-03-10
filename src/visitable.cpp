@@ -393,7 +393,9 @@ std::list<item> visitable<map_selector>::remove_items_with( const
     std::list<item> res;
 
     for( auto &cursor : static_cast<map_selector &>( *this ) ) {
-        res.splice( res.end(), cursor.remove_items_with( filter, count ) );
+        std::list<item> out = cursor.remove_items_with( filter, count );
+        count -= out.size();
+        res.splice( res.end(), out );
     }
 
     return res;
