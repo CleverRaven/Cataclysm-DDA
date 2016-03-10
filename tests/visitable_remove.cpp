@@ -4,6 +4,18 @@
 #include "player.h"
 #include "visitable.h"
 #include "itype.h"
+#include "map.h"
+#include "rng.h"
+
+template <typename T>
+static int count_items( const T& src, const itype_id& id ) {
+    int n;
+    src.visit_items_const( [&n,&id]( const item *e ) {
+        n += ( e->typeId() == id );
+        return VisitResponse::NEXT;
+    } );
+    return n;
+};
 
 TEST_CASE( "visitable_remove", "[visitable]" ) {
     const std::string liquid_id = "water";
@@ -20,25 +32,33 @@ TEST_CASE( "visitable_remove", "[visitable]" ) {
     p.remove_weapon();
     p.wear_item( item( "backpack" ) ); // so we don't drop anything
 
+    // check if all tiles within radius are loaded within current submap and passable
+    auto suitable = []( const tripoint& pos, int radius ) {
+        auto tiles = closest_tripoints_first( radius, pos );
+        return std::all_of( tiles.begin(), tiles.end(), []( const tripoint& e ) {
+            return g->m.inbounds( e ) && g->m.passable( e );
+        } );
+    };
+
+    // move player randomly until we find a suitable position
+    while( !suitable( p.pos(), 1 ) ) {
+        p.setpos( random_entry( closest_tripoints_first( 1, p.pos() ) ) );
+    }
+
+    for( const auto& e: closest_tripoints_first( 1, p.pos() ) ) {
+        g->m.i_clear( e );
+    }
+
     item obj = item( liquid_id ).in_its_container();
     REQUIRE( obj.contents.size() == 1 );
     REQUIRE( obj.contents[ 0 ].typeId() == liquid_id );
-    for( int i = 0; i != count; ++i ) {
-        p.i_add( obj );
-    }
-
-    auto count_items = [&p]( const itype_id& id ) {
-        int n;
-        p.visit_items( [&n,&id]( const item *e ) {
-            n += ( e->typeId() == id );
-            return VisitResponse::NEXT;
-        } );
-        return n;
-    };
 
     GIVEN( "A player with several bottles of water" ) {
-        REQUIRE( count_items( container_id ) == count );
-        REQUIRE( count_items( liquid_id ) == count );
+        for( int i = 0; i != count; ++i ) {
+            p.i_add( obj );
+        }
+        REQUIRE( count_items( p, container_id ) == count );
+        REQUIRE( count_items( p, liquid_id ) == count );
 
         WHEN( "all the bottles are removed" ) {
             std::list<item> del = p.remove_items_with( [&container_id]( const item& e ) {
@@ -46,10 +66,10 @@ TEST_CASE( "visitable_remove", "[visitable]" ) {
             } );
 
             THEN( "no bottles remain in the players possession" ) {
-                REQUIRE( count_items( container_id ) == 0 );
+                REQUIRE( count_items( p, container_id ) == 0 );
             }
             THEN( "no water remain in the players possession" ) {
-                REQUIRE( count_items( liquid_id ) == 0 );
+                REQUIRE( count_items( p, liquid_id ) == 0 );
             }
             THEN( "the correct number of items were removed" ) {
                 REQUIRE( del.size() == count );
@@ -73,10 +93,10 @@ TEST_CASE( "visitable_remove", "[visitable]" ) {
             }, 1 );
 
             THEN( "there is one less bottle in the players possession" ) {
-                REQUIRE( count_items( container_id ) == count - 1 );
+                REQUIRE( count_items( p, container_id ) == count - 1 );
             }
             THEN( "there is one less water in the players possession" ) {
-                REQUIRE( count_items( liquid_id ) == count - 1 );
+                REQUIRE( count_items( p, liquid_id ) == count - 1 );
             }
             THEN( "the correct number of items were removed" ) {
                 REQUIRE( del.size() == 1 );
@@ -97,8 +117,8 @@ TEST_CASE( "visitable_remove", "[visitable]" ) {
         WHEN( "one of the bottles is wielded" ) {
             p.wield( p.i_at( 0 ) );
             REQUIRE( p.weapon.typeId() == container_id );
-            REQUIRE( count_items( container_id ) == count );
-            REQUIRE( count_items( liquid_id ) == count );
+            REQUIRE( count_items( p, container_id ) == count );
+            REQUIRE( count_items( p, liquid_id ) == count );
 
             AND_WHEN( "all the bottles are removed" ) {
                 std::list<item> del = p.remove_items_with( [&container_id]( const item& e ) {
@@ -106,10 +126,10 @@ TEST_CASE( "visitable_remove", "[visitable]" ) {
                 } );
 
                 THEN( "no bottles remain in the players possession" ) {
-                    REQUIRE( count_items( container_id ) == 0 );
+                    REQUIRE( count_items( p, container_id ) == 0 );
                 }
                 THEN( "no water remain in the players possession" ) {
-                    REQUIRE( count_items( liquid_id ) == 0 );
+                    REQUIRE( count_items( p, liquid_id ) == 0 );
                 }
                 THEN( "there is no currently wielded item" ) {
                     REQUIRE( p.weapon.is_null() );
@@ -136,7 +156,7 @@ TEST_CASE( "visitable_remove", "[visitable]" ) {
                 }, count - 1 );
 
                 THEN( "there is only one bottle remaining in the players possession" ) {
-                    REQUIRE( count_items( container_id ) == 1 );
+                    REQUIRE( count_items( p, container_id ) == 1 );
                     AND_THEN( "the remaining bottle is currently wielded" ) {
                         REQUIRE( p.weapon.typeId() == container_id );
 
@@ -147,7 +167,7 @@ TEST_CASE( "visitable_remove", "[visitable]" ) {
                     }
                 }
                 THEN( "there is only one water remaining in the players possession" ) {
-                    REQUIRE( count_items( liquid_id ) == 1 );
+                    REQUIRE( count_items( p, liquid_id ) == 1 );
                 }
 
                 THEN( "the correct number of items were removed" ) {
@@ -172,8 +192,8 @@ TEST_CASE( "visitable_remove", "[visitable]" ) {
             obj.emplace_back( liquid_id, calendar::turn, obj.type->container->contains );
             p.wear_item( obj );
 
-            REQUIRE( count_items( container_id ) == count );
-            REQUIRE( count_items( liquid_id ) == count + 1 );
+            REQUIRE( count_items( p, container_id ) == count );
+            REQUIRE( count_items( p, liquid_id ) == count + 1 );
 
             AND_WHEN( "all but one of the water is removed" ) {
                 std::list<item> del = p.remove_items_with( [&liquid_id]( const item& e ) {
@@ -181,7 +201,7 @@ TEST_CASE( "visitable_remove", "[visitable]" ) {
                 }, count );
 
                 THEN( "all of the bottles remain in the players possession" ) {
-                    REQUIRE( count_items( container_id ) == 5 );
+                    REQUIRE( count_items( p, container_id ) == 5 );
                     AND_THEN( "all of the bottles are now empty" ) {
                         REQUIRE( p.visit_items_const( [&container_id]( const item *e ) {
                             return ( e->typeId() != container_id || e->contents.empty() ) ?
@@ -204,7 +224,7 @@ TEST_CASE( "visitable_remove", "[visitable]" ) {
                     }
                 }
                 THEN( "there is only one water remaining in the players possession" ) {
-                    REQUIRE( count_items( liquid_id ) == 1 );
+                    REQUIRE( count_items( p, liquid_id ) == 1 );
                 }
                 THEN( "the correct number of items were removed" ) {
                     REQUIRE( del.size() == count );
@@ -222,7 +242,7 @@ TEST_CASE( "visitable_remove", "[visitable]" ) {
                     }, 1 );
 
                     THEN( "no water remain in the players possession" ) {
-                        REQUIRE( count_items( liquid_id ) == 0 );
+                        REQUIRE( count_items( p, liquid_id ) == 0 );
                     }
 
                     THEN( "the hip flask remains in the players posession" ) {
@@ -238,6 +258,123 @@ TEST_CASE( "visitable_remove", "[visitable]" ) {
                             }
                         }
                     }
+                }
+            }
+        }
+    }
+
+    GIVEN( "A player surrounded by several bottles of water" ) {
+        auto tiles = closest_tripoints_first( 1, p.pos() );
+        tiles.erase( tiles.begin() ); // player tile
+
+        int our = 0; // bottles placed on player tile
+        int adj = 0; // bottles placed on adjacent tiles
+
+        for( int i = 0; i != count; ++i ) {
+            if( i == 0 || tiles.empty() ) {
+                // always place at least one bottle on player tile
+                our++;
+                g->m.add_item( p.pos(), obj );
+            } else {
+                // randomly place bottles on adjacent tiles
+                adj++;
+                g->m.add_item( random_entry( tiles ), obj );
+            }
+        }
+        REQUIRE( our + adj == count );
+
+        map_selector sel( p.pos(), 1 );
+        map_cursor cur( p.pos() );
+
+        REQUIRE( count_items( sel, container_id ) == count );
+        REQUIRE( count_items( sel, liquid_id ) == count );
+
+        REQUIRE( count_items( cur, container_id ) == our );
+        REQUIRE( count_items( cur, liquid_id ) == our );
+
+        WHEN( "all the bottles are removed" ) {
+            std::list<item> del = sel.remove_items_with( [&container_id]( const item& e ) {
+                return e.typeId() == container_id;
+            } );
+
+            THEN( "no bottles remain on the map" ) {
+                REQUIRE( count_items( sel, container_id ) == 0 );
+            }
+            THEN( "no water remains on the map" ) {
+                REQUIRE( count_items( sel, liquid_id ) == 0 );
+            }
+            THEN( "the correct number of items were removed" ) {
+                REQUIRE( del.size() == count );
+
+                AND_THEN( "the removed items were all bottles" ) {
+                    CHECK( std::all_of( del.begin(), del.end(), [&container_id]( const item& e ) {
+                        return e.typeId() == container_id;
+                    } ) );
+                }
+                AND_THEN( "the removed items all contain water" ) {
+                    CHECK( std::all_of( del.begin(), del.end(), [&liquid_id]( const item& e ) {
+                        return e.contents.size() == 1 && e.contents[ 0 ].typeId() == liquid_id;
+                    } ) );
+                }
+            }
+        }
+
+        WHEN( "one of the bottles is removed" ) {
+            std::list<item> del = sel.remove_items_with( [&container_id]( const item& e ) {
+                return e.typeId() == container_id;
+            }, 1 );
+
+            THEN( "there is one less bottle on the map" ) {
+                REQUIRE( count_items( sel, container_id ) == count - 1 );
+            }
+            THEN( "there is one less water on the map" ) {
+                REQUIRE( count_items( sel, liquid_id ) == count - 1 );
+            }
+            THEN( "the correct number of items were removed" ) {
+                REQUIRE( del.size() == 1 );
+
+                AND_THEN( "the removed items were all bottles" ) {
+                    CHECK( std::all_of( del.begin(), del.end(), [&container_id]( const item& e ) {
+                        return e.typeId() == container_id;
+                    } ) );
+                }
+                AND_THEN( "the removed items all contained water" ) {
+                    CHECK( std::all_of( del.begin(), del.end(), [&liquid_id]( const item& e ) {
+                        return e.contents.size() == 1 && e.contents[ 0 ].typeId() == liquid_id;
+                    } ) );
+                }
+            }
+        }
+
+        WHEN( "all of the bottles on the player tile are removed" ) {
+            std::list<item> del = cur.remove_items_with( [&container_id]( const item& e ) {
+                return e.typeId() == container_id;
+            }, our );
+
+            THEN( "no bottles remain on the player tile" ) {
+                REQUIRE( count_items( cur, container_id ) == 0 );
+            }
+            THEN( "no water remains on the player tile" ) {
+                REQUIRE( count_items( cur, liquid_id ) == 0 );
+            }
+            THEN( "the correct amount of bottles remains on the map" ) {
+                REQUIRE( count_items( sel, container_id ) == count - our );
+            }
+            THEN( "there correct amount of water remains on the map" ) {
+                REQUIRE( count_items( sel, liquid_id ) == count - our );
+            }
+            THEN( "the correct number of items were removed" ) {
+                REQUIRE( del.size() == our );
+
+                AND_THEN( "the removed items were all bottles" ) {
+                    CHECK( std::all_of( del.begin(), del.end(), [&container_id]( const item& e ) {
+                        return e.typeId() == container_id;
+                    } ) );
+                }
+                AND_THEN( "the removed items all contained water" ) {
+                    CHECK( std::all_of( del.begin(), del.end(), [&liquid_id]( const item& e ) {
+                        return e.contents.size() == 1 && e.contents[ 0 ].typeId() == liquid_id;
+                    } ) );
                 }
             }
         }
