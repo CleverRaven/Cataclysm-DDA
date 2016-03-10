@@ -1488,8 +1488,8 @@ void player::recalc_speed_bonus()
         }
         mod_speed_bonus(-pain_penalty);
     }
-    if (pkill >= 10) {
-        int pkill_penalty = int(pkill * .1);
+    if (get_painkiller() >= 10) {
+        int pkill_penalty = int(get_painkiller() * .1);
         if (pkill_penalty > 30) {
             pkill_penalty = 30;
         }
@@ -2736,8 +2736,8 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
                   (pen < 10 ? " " : ""), pen);
         line++;
     }
-    if (pkill >= 10) {
-        pen = int(pkill * .1);
+    if (get_painkiller() >= 10) {
+        pen = int(get_painkiller() * .1);
         mvwprintz(w_speed, line, 1, c_red, _("Painkillers         -%s%d%%"),
                   (pen < 10 ? " " : ""), pen);
         line++;
@@ -4798,7 +4798,25 @@ void player::set_pain(int npain)
 
 int player::get_perceived_pain() const
 {
-    return std::max( get_pain() - pkill, 0 );
+    return std::max( get_pain() - get_painkiller(), 0 );
+}
+
+void player::mod_painkiller(int npkill)
+{
+    set_painkiller( pkill + npkill );
+}
+
+void player::set_painkiller(int npkill)
+{
+    const int prev_pain = get_perceived_pain();
+
+    pkill = std::max( npkill, 0 );
+    react_to_felt_pain( get_perceived_pain() - prev_pain );
+}
+
+int player::get_painkiller() const
+{
+    return pkill;
 }
 
 void player::react_to_felt_pain( int intensity )
@@ -4852,7 +4870,7 @@ void player::apply_damage(Creature *source, body_part hurt, int dam)
     }
 
     lifetime_stats()->damage_taken += dam;
-    if( dam > pkill ) {
+    if( dam > get_painkiller() ) {
         on_hurt( source );
     }
 }
@@ -5327,7 +5345,7 @@ void player::check_needs_extremes()
         add_memorial_log(pgettext("memorial_male", "Died of a drug overdose."),
                            pgettext("memorial_female", "Died of a drug overdose."));
         hp_cur[hp_torso] = 0;
-    } else if (stim < -200 || pkill > 240) {
+    } else if (stim < -200 || get_painkiller() > 240) {
         add_msg_if_player(m_bad, _("Your breathing stops completely."));
         add_memorial_log(pgettext("memorial_male", "Died of a drug overdose."),
                            pgettext("memorial_female", "Died of a drug overdose."));
@@ -5568,10 +5586,8 @@ void player::update_needs( int rate_multiplier )
         stim = std::max( stim - rate_multiplier, 0 );
     }
 
-    if( pkill < 0 ) {
-        pkill = std::min( pkill + rate_multiplier, 0 );
-    } else if( pkill > 0 ) {
-        pkill = std::max( pkill - rate_multiplier, 0 );
+    if( get_painkiller() > 0 ) {
+        mod_painkiller( - rate_multiplier );
     }
 
     if( has_bionic("bio_solar") && g->is_in_sunlight( pos() ) ) {
@@ -6035,8 +6051,8 @@ void player::add_eff_effects(effect e, bool reduced)
     }
     // Add pkill
     if (e.get_amount("PKILL", reduced) > 0) {
-        pkill += bound_mod_to_vals(pkill, e.get_amount("PKILL", reduced),
-                        e.get_max_val("PKILL", reduced), 0);
+        mod_painkiller(bound_mod_to_vals(pkill, e.get_amount("PKILL", reduced),
+                        e.get_max_val("PKILL", reduced), 0));
     }
 
     // Add radiation
@@ -6298,7 +6314,7 @@ void player::process_effects() {
             if (val != 0) {
                 mod = it.get_addict_mod("PKILL", addiction_level(ADD_PKILLER));
                 if(it.activated(calendar::turn, "PKILL", val, reduced, mod)) {
-                    pkill += bound_mod_to_vals(pkill, val, it.get_max_val("PKILL", reduced), 0);
+                    mod_painkiller(bound_mod_to_vals(pkill, val, it.get_max_val("PKILL", reduced), 0));
                 }
             }
 
@@ -7756,7 +7772,7 @@ void player::suffer()
                 } else if ((pkilladd < 0) && (!(has_trait("NOPAIN")))) {
                     add_msg_if_player(m_bad, _("You suddenly ache."));
                 }
-                pkill += pkilladd;
+                mod_painkiller(pkilladd);
             }
             if (one_in(3600)) {
                 add_msg_if_player(m_bad, _("You feel dizzy for a moment."));
@@ -7838,7 +7854,7 @@ void player::suffer()
                     break;
                 case 5:
                     add_msg_if_player(m_bad, _("You suddenly feel so numb..."));
-                    pkill += 25;
+                    mod_painkiller(25);
                     break;
                 case 6:
                     add_msg_if_player(m_bad, _("You start to shake uncontrollably."));
@@ -12924,7 +12940,7 @@ void player::environmental_revert_effect()
     set_healthy_mod(0);
     stim = 0;
     set_pain(0);
-    pkill = 0;
+    set_painkiller(0);
     radiation = 0;
 
     recalc_sight_limits();

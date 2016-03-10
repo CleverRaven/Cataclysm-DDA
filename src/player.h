@@ -631,6 +631,13 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         void add_pain_msg(int val, body_part bp) const;
 
+        /** Modifies intensity of painkillers  */
+        void mod_painkiller(int npkill);
+        /** Sets intensity of painkillers  */
+        void set_painkiller(int npkill);
+        /** Returns intensity of painkillers  */
+        int get_painkiller() const;
+
         /** Heals a body_part for dam */
         void heal(body_part healed, int dam);
         /** Heals an hp_part for dam */
@@ -1129,7 +1136,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int driving_recoil;
         int scent;
         int dodges_left, blocks_left;
-        int stim, pkill, radiation;
+        int stim, radiation;
         unsigned long cash;
         int movecounter;
         std::array<int, num_bp> temp_cur, frostbite_timer, temp_conv;
@@ -1357,6 +1364,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         bool can_study_recipe(const itype &book) const;
         bool try_study_recipe(const itype &book);
+
+        int pkill;
 
         std::vector<tripoint> auto_move_route;
         // Used to make sure auto move is canceled if we stumble off course

@@ -704,10 +704,10 @@ bool player::activate_bionic(int b, bool eff_only)
 
     // On activation effects go here
     if(bio.id == "bio_painkiller") {
-        pkill += 6;
         mod_pain( -2 );
-        if (pkill > get_pain()) {
-            pkill = get_pain();
+        mod_painkiller( 6 );
+        if ( get_painkiller() > get_pain() ) {
+            set_painkiller( get_pain() );
         }
     } else if (bio.id == "bio_ears" && has_active_bionic("bio_earplugs")) {
         for (auto &i : my_bionics) {
@@ -891,7 +891,7 @@ bool player::activate_bionic(int b, bool eff_only)
         remove_effect( effect_took_flumed );
         remove_effect( effect_adrenaline );
         remove_effect( effect_meth );
-        pkill = 0;
+        set_painkiller( 0 );
         stim = 0;
     } else if(bio.id == "bio_evap") {
         item water = item("water_clean", 0);
