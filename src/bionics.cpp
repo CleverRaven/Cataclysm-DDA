@@ -798,7 +798,7 @@ void player::power_bionics_new()
                     if( hasPreviousText ){
                         power_desc << ", ";
                     }
-                    power_desc << string_format( _( "%d PU deact" ),
+                    power_desc << string_format( _( "%d PU / deactivation" ),
                                     bionics[b.id].power_deactivate );
                 }
                 mvwprintz( w_bio_list, i - scroll_position,
@@ -877,7 +877,7 @@ void player::power_bionics_new()
             }
 
         } else if( action == "CONFIRM" ) {
-            bionic *tmp = bionic_by_invlet( my_bionics[cursor].invlet );
+            bionic *tmp = &my_bionics[cursor];
             if( tmp == nullptr ) {
                 // Selected an non-existing bionic
                 // this should not happen because we're choosing bionic via cursor

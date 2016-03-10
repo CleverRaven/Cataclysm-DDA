@@ -40,7 +40,7 @@ data/json/items/gun/8x40mm.json
 data/json/items/gun/9mm.json
 data/json/items/gun/9x18.json
 data/json/items/gun/shot.json
-data/json/items/gunmod/
+data/json/items/gunmod
 data/json/items/gunmod/accessories.json
 data/json/items/gunmod/barrel.json
 data/json/items/gunmod/bore.json
