@@ -346,29 +346,7 @@ void npc::execute_action( npc_action action )
         break;
 
     case npc_reload: {
-        auto usable_ammo = find_usable_ammo();
-
-        if( !usable_ammo ) {
-            debugmsg( "npc_reload failed: no usable ammo" );
-            break;
-        }
-
-        int reload_time = item_reload_cost( weapon, *usable_ammo );
-
-        int qty = std::max( 1l, weapon.ammo_capacity() - weapon.ammo_remaining() );
-        if( !weapon.reload( *this, std::move( usable_ammo ), qty ) ) {
-            debugmsg( "npc_reload failed: item could not be reloaded" );
-            break;
-        }
-
-        moves -= reload_time;
-        recoil = MIN_RECOIL;
-
-        if( g->u.sees( *this ) ) {
-            add_msg( _( "%1$s reloads their %2$s." ), name.c_str(), weapon.tname().c_str() );
-            sfx::play_variant_sound( "reload", weapon.typeId(), sfx::get_heard_volume( pos() ),
-                                     sfx::get_heard_angle( pos() ) );
-        }
+        do_reload( weapon );
     }
     break;
 
@@ -848,7 +826,7 @@ npc_action npc::method_of_attack()
 
     // TODO: Make NPCs understand reinforced glass and vehicles blocking line of fire
     if( can_use_gun ) {
-        if( need_to_reload() && can_reload() ) {
+        if( need_to_reload() && can_reload_current() ) {
             return npc_reload;
         }
         if( emergency() && alt_attack_available() ) {
@@ -858,7 +836,7 @@ npc_action npc::method_of_attack()
             weapon.ammo_remaining() >= weapon.ammo_required() ) {
             const int confident = confident_gun_range( weapon );
             if( dist > confident ) {
-                if( can_reload() && (enough_time_to_reload( weapon ) || in_vehicle) ) {
+                if( can_reload_current() && (enough_time_to_reload( weapon ) || in_vehicle) ) {
                     return npc_reload;
                 } else if( dont_move && dist > reach_range ) {
                     return npc_pause;
@@ -870,7 +848,7 @@ npc_action npc::method_of_attack()
             }
             if( !wont_hit_friend( tar ) ) {
                 if( dont_move ) {
-                    if( can_reload() ) {
+                    if( can_reload_current() ) {
                         return npc_reload;
                     } else {
                         // Wait for clear shot
@@ -931,31 +909,91 @@ npc_action npc::address_needs()
     return address_needs( ai_cache.danger );
 }
 
-bool npc::can_reload()
+bool wants_to_reload( const item &it )
 {
-    return find_usable_ammo();
+    if( !it.can_reload() ) {
+        return false;
+    }
+
+    const int required = it.ammo_required();
+    // TODO: Add bandolier check here, once they can be reloaded
+    if( required < 1 && !it.is_magazine() ) {
+        return false;
+    }
+
+    const int remaining = it.ammo_remaining();
+    return remaining < required || remaining < it.ammo_capacity();
 }
 
-item_location npc::find_usable_ammo()
+bool wants_to_reload_with( const item &weap, const item &ammo )
 {
-    if( !weapon.is_gun() || !weapon.can_reload() ) {
-        return item_location();
+    if( ammo.is_magazine() && ammo.ammo_remaining() <= weap.ammo_remaining() ) {
+        return false;
     }
 
-    auto ammo = find_ammo( weapon, false, -1 );
-    ammo.erase( std::remove_if( ammo.begin(), ammo.end(), [this]( const item_location& e ) {
-        return !weapon.can_reload( e->is_ammo_container() ? e->contents[0].typeId() : e->typeId() );
-    } ), ammo.end() );
+    return true;
+}
 
-    std::sort( ammo.begin(), ammo.end(), []( const item_location& lhs, const item_location& rhs ) {
-        return rhs->ammo_remaining() < lhs->ammo_remaining();
+item &npc::find_reloadable()
+{
+    // Check wielded gun, non-wielded guns, mags and tools
+    // TODO: Build a proper gun->mag->ammo DAG (Directed Acyclic Graph)
+    // to avoid checking same properties over and over
+    // TODO: Make this understand bandoliers, pouches etc.
+    // TODO: Cache items checked for reloading to avoid re-checking same items every turn
+    // TODO: Make it understand smaller and bigger magazines
+    item *reloadable = nullptr;
+    visit_items( [this, &reloadable]( item *node ) {
+        if( !wants_to_reload( *node ) ) {
+            return VisitResponse::SKIP;
+        }
+        const auto it_loc = std::move( node->pick_reload_ammo( *this ).ammo );
+        if( it_loc && wants_to_reload_with( *node, *it_loc ) ) {
+            reloadable = node;
+            return VisitResponse::ABORT;
+        }
+
+        return VisitResponse::SKIP;
     } );
 
-    if( ammo.empty() ) {
+    if( reloadable != nullptr ) {
+        return *reloadable;
+    }
+
+    return ret_null;
+}
+
+const item &npc::find_reloadable() const
+{
+    return const_cast<const item &>( const_cast<npc *>( this )->find_reloadable() );
+}
+
+bool npc::can_reload_current()
+{
+    if( !weapon.is_gun() ) {
+        return false;
+    }
+
+    return find_usable_ammo( weapon );
+}
+
+item_location npc::find_usable_ammo( const item &weap )
+{
+    if( !weap.can_reload() ) {
         return item_location();
     }
 
-    return std::move( ammo[0] );
+    auto loc = std::move( weap.pick_reload_ammo( *this ).ammo );
+    if( !loc || !wants_to_reload_with( weap, *loc ) ) {
+        return item_location();
+    }
+
+    return std::move( loc );
+}
+
+const item_location npc::find_usable_ammo( const item &weap ) const
+{
+    return std::move( const_cast<npc *>( this )->find_usable_ammo( weap ) );
 }
 
 npc_action npc::address_needs( int danger )
@@ -968,8 +1006,14 @@ npc_action npc::address_needs( int danger )
         return npc_use_painkiller;
     }
 
-    if( can_reload() ) {
+    if( can_reload_current() ) {
         return npc_reload;
+    }
+
+    item &reloadable = find_reloadable();
+    if( !reloadable.is_null() ) {
+        do_reload( reloadable );
+        return npc_noop;
     }
 
     if ((danger <= NPC_DANGER_VERY_LOW && (get_hunger() > 40 || thirst > 40)) ||
@@ -1984,47 +2028,50 @@ bool npc::wield_better_weapon()
     item *best = &weapon;
     double best_value = -100.0;
 
-    const auto compare_weapon = [&best, &best_value, can_use_gun, use_silent, this]( item &it ) {
-        double val = ( (can_use_gun || !weapon.is_gun()) &&
-          (!use_silent && weapon.is_silent()) ) ?
-            weapon_value( weapon ) :
-            melee_value( weapon );
+    const auto compare_weapon =
+        [this, &best, &best_value, can_use_gun, use_silent]( item &it, bool allow_ranged ) {
+        double val = allow_ranged ? weapon_value( it ) : melee_value( it );
         if( val > best_value ) {
             best = &it;
             best_value = val;
         }
     };
 
-    compare_weapon( weapon );
+    compare_weapon( weapon, can_use_gun );
     // To prevent changing to barely better stuff
     best_value *= 1.1;
     
     std::vector<item *> empty_guns;
-    for( auto &i : slice ) {
-        item &it = i->front();
-        bool allowed = can_use_gun && it.is_gun() && (!use_silent || it.is_silent());
-        if( allowed && it.ammo_remaining() > it.ammo_required() ) {
-            compare_weapon( it );
-        } else if( allowed && enough_time_to_reload( it ) ) {
-            empty_guns.push_back( &it );
-        } else {
-            compare_weapon( weapon );
+    visit_items( [this, &compare_weapon, &empty_guns, can_use_gun, use_silent]( item *node ) {
+        // Skip some bad items
+        if( !node->is_gun() && node->type->melee_dam + node->type->melee_cut < 5 ) {
+            return VisitResponse::SKIP;
         }
-    }
+
+        bool allowed = can_use_gun && node->is_gun() && ( !use_silent || node->is_silent() );
+        if( allowed && node->ammo_remaining() >= node->ammo_required() ) {
+            compare_weapon( *node, true );
+        } else if( allowed && enough_time_to_reload( *node ) ) {
+            empty_guns.push_back( node );
+        } else {
+            compare_weapon( *node, false );
+        }
+
+        return VisitResponse::SKIP;
+    } );
 
     for( auto &i : empty_guns ) {
-        for( auto &j : slice ) {
-            item &it = j->front();
-            if (it.is_ammo() &&
-                it.ammo_type() == i->ammo_type()) {
-                compare_weapon( *i );
-            }
-        }
+        compare_weapon( *i, find_usable_ammo( *i ) );
     }
 
     if( best == &weapon ) {
+        add_msg( m_debug, "Wielded %s is best at %.1f, not switching",
+                 best->display_name().c_str(), best_value );
         return false;
     }
+
+    add_msg( m_debug, "Wielding %s at value %.1f",
+             best->display_name().c_str(), best_value );
 
     wield( *best );
     return true;
@@ -2817,4 +2864,30 @@ bool npc::complain()
 
     // TODO: Complain about hunger and thirst, when NPCs can have those
     return false;
+}
+
+void npc::do_reload( item &it )
+{
+    auto usable_ammo = find_usable_ammo( it );
+
+    if( !usable_ammo ) {
+        debugmsg( "do_reload failed: no usable ammo" );
+        return;
+    }
+
+    long qty = std::max( 1l, std::min( usable_ammo->charges, it.ammo_capacity() - it.ammo_remaining() ) );
+    int reload_time = item_reload_cost( it, *usable_ammo, qty );
+    if( !it.reload( *this, std::move( usable_ammo ), qty ) ) {
+        debugmsg( "do_reload failed: item could not be reloaded" );
+        return;
+    }
+
+    moves -= reload_time;
+    recoil = MIN_RECOIL;
+
+    if( g->u.sees( *this ) ) {
+        add_msg( _( "%1$s reloads their %2$s." ), name.c_str(), it.tname().c_str() );
+        sfx::play_variant_sound( "reload", it.typeId(), sfx::get_heard_volume( pos() ),
+                                 sfx::get_heard_angle( pos() ) );
+    }
 }
