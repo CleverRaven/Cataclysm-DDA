@@ -826,7 +826,7 @@ npc_action npc::method_of_attack()
 
     // TODO: Make NPCs understand reinforced glass and vehicles blocking line of fire
     if( can_use_gun ) {
-        if( need_to_reload() && can_reload() ) {
+        if( need_to_reload() && can_reload_current() ) {
             return npc_reload;
         }
         if( emergency() && alt_attack_available() ) {
@@ -836,7 +836,7 @@ npc_action npc::method_of_attack()
             weapon.ammo_remaining() >= weapon.ammo_required() ) {
             const int confident = confident_gun_range( weapon );
             if( dist > confident ) {
-                if( can_reload() && (enough_time_to_reload( weapon ) || in_vehicle) ) {
+                if( can_reload_current() && (enough_time_to_reload( weapon ) || in_vehicle) ) {
                     return npc_reload;
                 } else if( dont_move && dist > reach_range ) {
                     return npc_pause;
@@ -848,7 +848,7 @@ npc_action npc::method_of_attack()
             }
             if( !wont_hit_friend( tar ) ) {
                 if( dont_move ) {
-                    if( can_reload() ) {
+                    if( can_reload_current() ) {
                         return npc_reload;
                     } else {
                         // Wait for clear shot
@@ -968,7 +968,7 @@ const item &npc::find_reloadable() const
     return const_cast<const item &>( const_cast<npc *>( this )->find_reloadable() );
 }
 
-bool npc::can_reload()
+bool npc::can_reload_current()
 {
     if( !weapon.is_gun() ) {
         return false;
@@ -1006,7 +1006,7 @@ npc_action npc::address_needs( int danger )
         return npc_use_painkiller;
     }
 
-    if( can_reload() ) {
+    if( can_reload_current() ) {
         return npc_reload;
     }
 
