@@ -82,7 +82,7 @@
         "id": "ammo_smg_rare",
         "items": [
           ["20_dread", 2]
-	]
+        ]
     },
     {
         "type": "item_group",
