@@ -26,7 +26,8 @@
     "barrel_length": 1,
     "valid_mod_locations": [ [ "accessories", 3 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "magazines": [
-      [ "22", [ "a180mag" ] ]
+      [ "22", [ "a180mag" ] ],
+      [ "57", [ "fnp90mag" ] ]
     ],
     "flags": [ "MODE_BURST" ]
   },
@@ -164,7 +165,9 @@
     "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "magazine_well": 1,
     "magazines": [
-      [ "22", [ "ruger1022mag", "ruger1022bigmag" ] ]
+      [ "22", [ "ruger1022mag", "ruger1022bigmag" ] ],
+      [ "46", [ "hk46mag", "hk46bigmag" ] ],
+      [ "57", [ "fn57mag" ] ]
     ]
   },
   {
