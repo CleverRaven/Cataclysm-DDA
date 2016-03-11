@@ -1046,13 +1046,13 @@ void npc::starting_weapon(npc_class type)
     } else if (best->ident() == skill_archery ) {
         sel_weapon = random_item_from( type, "archery" );
     }else if (best->ident() == skill_pistol ) {
-        sel_weapon = random_item_from( type, "pistols", "pistols" );
+        sel_weapon = random_item_from( type, "pistol", "guns_pistol_common" );
     }else if (best->ident() == skill_shotgun ) {
-        sel_weapon = random_item_from( type, "shotgun", "shotguns" );
+        sel_weapon = random_item_from( type, "shotgun", "guns_shotgun_common" );
     }else if (best->ident() == skill_smg ) {
-        sel_weapon = random_item_from( type, "smg", "smg" );
+        sel_weapon = random_item_from( type, "smg", "guns_smg_common" );
     }else if (best->ident() == skill_rifle ) {
-        sel_weapon = random_item_from( type, "rifle", "rifles" );
+        sel_weapon = random_item_from( type, "rifle", "guns_rifle_common" );
     }else if (best->ident() == skill_launcher ) {
         sel_weapon = random_item_from( type, "launcher" );
     }

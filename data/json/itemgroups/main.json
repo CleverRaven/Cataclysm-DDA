@@ -259,47 +259,6 @@
       ["rm103a_pistol", 10],
       ["needlepistol", 20]
     ]
- },{
-    "type" : "item_group",
-    "id" : "pistols_with_ammo",
-    "ammo": 100,
-    "magazine": 100,
-    "items":[
-      ["sig_mosquito", 50],
-      ["cop_38", 5],
-      ["moss_brownie", 5],
-      ["sw_22", 50],
-      ["glock_19", 250],
-      ["usp_9mm", 50],
-      ["l_lookout_9mm", 50],
-      ["l_sp_9mm", 50],
-      ["l_mp_9mm", 30],
-      ["walther_ppk", 50],
-      ["sig_p230", 50],
-      ["sw_619", 50],
-      ["sw629", 75],
-      ["taurus_38", 50],
-      ["tokarev", 10],
-      ["makarov", 10],
-      ["sig_40", 40],
-      ["sw_610", 30],
-      ["ruger_redhawk", 50],
-      ["deagle_44", 20],
-      ["l_enforcer_45", 60],
-      ["l_sp_45", 10],
-      ["l_mp_45", 80],
-      ["usp_45", 50],
-      ["m1911", 110],
-      ["fn57", 20],
-      ["hk_ucp", 20],
-      ["raging_bull", 30],
-      ["sw_500", 10],
-      ["l_bak_223", 10],
-      ["lemat_revolver", 1],
-      ["rm99_pistol", 10],
-      ["rm103a_pistol", 10],
-      ["needlepistol", 20]
-    ]
   },{
     "type" : "item_group",
     "id" : "smg",
@@ -326,65 +285,6 @@
     ]
   },{
     "type" : "item_group",
-    "id" : "smg_with_ammo",
-    "ammo": 100,
-    "magazine": 100,
-    "items":[
-      ["american_180", 15],
-      ["skorpion_61", 5],
-      ["skorpion_82", 5],
-      ["ppsh", 5],
-      ["sten", 10],
-      ["l_mp_9mm", 55],
-      ["uzi", 80],
-      ["tec9", 60],
-      ["calico", 25],
-      ["hk_mp5", 100],
-      ["tommygun", 20],
-      ["mac_10", 60],
-      ["hk_ump45", 40],
-      ["TDI", 40],
-      ["fn_p90", 40],
-      ["hk_mp7", 50],
-      ["briefcase_smg", 1],
-      ["rm360_carbine", 20],
-      ["rm2000_smg", 5]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "pistol_ammo",
-    "items":[
-      ["22_lr", 50],
-      ["22_fmj", 50],
-      ["22_cb", 50],
-      ["22_ratshot", 10],
-      ["9mm", 300],
-      ["9mmP", 20],
-      ["9mmP2", 20],
-      ["9mmfmj", 20],
-      ["9x18mm", 50],
-      ["9x18mmP2", 10],
-      ["9x18mmfmj", 10],
-      ["57mm", 50],
-      ["46mm", 50],
-      ["32_acp", 50],
-      ["38_special", 50],
-      ["38_super", 20],
-      ["38_fmj", 20],
-      ["10mm", 50],
-      ["40sw", 20],
-      ["40fmj", 20],
-      ["44magnum", 50],
-      ["45_acp", 50],
-      ["45_jhp", 20],
-      ["45_super", 20],
-      ["454_Casull", 20],
-      ["500_Magnum", 20],
-      ["5x50dart", 10],
-      ["5x50heavy", 5]
-    ]
-  },{
-    "type" : "item_group",
     "id" : "shotguns",
     "items":[
       ["shotgun_s", 80],
@@ -399,45 +299,6 @@
       ["ksg", 5],
       ["lemat_revolver", 1],
       ["combination_gun_shotgun", 3]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "shotguns_with_ammo",
-    "ammo": 100,
-    "magazine": 100,
-    "items":[
-      ["shotgun_s", 80],
-      ["shotgun_d", 100],
-      ["remington_870", 70],
-      ["mossberg_500", 200],
-      ["saiga_12", 50],
-      ["l_def_12", 50],
-      ["rm228", 20],
-      ["rm120c", 20],
-      ["rm20", 5],
-      ["ksg", 5],
-      ["lemat_revolver", 1],
-      ["combination_gun_shotgun", 3]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "shotgun_ammo",
-    "//" : "some set to 0 so they won't spawn in civilian areas.",
-    "items":[
-      ["shot_bird", 150],
-      ["shot_00", 200],
-      ["shot_flechette", 0],
-      ["shot_slug", 150],
-      ["shot_beanbag", 10],
-      ["shot_he", 0],
-      ["20x66_shot", 50],
-      ["20x66_exp", 0],
-      ["20x66_inc", 0],
-      ["20x66_flare", 10],
-      ["20x66_frag", 0],
-      ["20x66_slug", 50],
-      ["20x66_flechette", 0],
-      ["20x66_beanbag", 10]
     ]
   },{
     "type" : "item_group",
@@ -470,107 +331,12 @@
     ]
   },{
     "type" : "item_group",
-    "id" : "rifles_with_ammo",
-    "ammo": 100,
-    "magazine": 100,
-    "items":[
-      ["marlin_9a", 120],
-      ["ruger_1022", 120],
-      ["cx4", 40],
-      ["l_long_45", 30],
-      ["ruger_mini", 75],
-      ["ar15", 120],
-      ["l_dsr_223", 2],
-      ["savage_111f", 70],
-      ["remington_700", 80],
-      ["m1903", 10],
-      ["garand", 10],
-      ["win70", 60],
-      ["m107a1", 5],
-      ["m14ebr", 5],
-      ["weatherby_5", 30],
-      ["mosin91_30", 25],
-      ["mosin44", 10],
-      ["mosin91_30_ebr", 10],
-      ["mosin44_ebr", 10],
-      ["sks", 50],
-      ["combination_gun", 40],
-      ["rm11b_sniper_rifle", 1],
-      ["trex_gun", 0]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "rifle_ammo",
-    "//" : "some set to 0 so they won't spawn in civilian areas.",
-    "items":[
-      ["22_lr", 200],
-      ["22_fmj", 50],
-      ["22_cb", 30],
-      ["22_ratshot", 30],
-      ["545", 40],
-      ["545_ap", 0],
-      ["223", 150],
-      ["556", 150],
-      ["556_incendiary", 0],
-      ["762_54R", 50],
-      ["762_25", 20],
-      ["762_m43", 100],
-      ["762_m87", 20],
-      ["762_51", 200],
-      ["762_51_incendiary", 0],
-      ["270", 50],
-      ["300_winmag", 50],
-      ["308", 100],
-      ["3006", 50],
-      ["3006fmj", 20],
-      ["3006_incendiary", 0],
-      ["50bmg", 30],
-      ["50ss", 0],
-      ["50_incendiary", 0],
-      ["8mm_jhp", 20],
-      ["8mm_inc", 0],
-      ["8mm_hvp", 0],
-      ["8mm_fmj", 20],
-      ["8mm_caseless", 10],
-      ["8mm_civilian", 50],
-      ["5x50dart", 10],
-      ["5x50heavy", 5],
-      ["700nx", 0]
-    ]
-  },{
-    "type" : "item_group",
     "id" : "ammo",
     "subtype": "distribution",
     "entries" : [
-      { "group": "pistol_ammo", "prob": 1000 },
-      { "group": "shotgun_ammo", "prob": 1000 },
-      { "group": "rifle_ammo", "prob": 1000 }
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "restricted_ammo",
-    "//" : "ammo types restricted or illegal for civilians.",
-    "items":[
-      ["shot_flechette", 50],
-      ["shot_he", 30],
-      ["20x66_shot", 50],
-      ["20x66_exp", 40],
-      ["20x66_inc", 40],
-      ["20x66_flare", 40],
-      ["20x66_frag", 40],
-      ["20x66_flechette", 40],
-      ["545_ap", 20],
-      ["556_incendiary", 100],
-      ["762_51_incendiary", 100],
-      ["3006_incendiary", 50],
-      ["50ss", 50],
-      ["50_incendiary", 50],
-      ["8mm_jhp", 100],
-      ["8mm_inc", 50],
-      ["8mm_hvp", 50],
-      ["8mm_fmj", 50],
-      ["5x50dart", 50],
-      ["5x50heavy", 50]
+      { "group": "ammo_pistol_common", "prob": 1000 },
+      { "group": "ammo_shotgun_common", "prob": 1000 },
+      { "group": "ammo_rifle_common", "prob": 1000 }
     ]
   },{
     "type" : "item_group",
@@ -587,57 +353,6 @@
       ["RPG", 40],
       ["flamethrower", 50],
       ["rm451_flamethrower", 40]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "explosive_ammo",
-    "items":[
-      ["napalm", 50],
-      ["40mm_concussive", 20],
-      ["40mm_frag", 50],
-      ["40mm_flechette", 20],
-      ["40mm_flashbang", 20],
-      ["40mm_flare", 20],
-      ["40mm_teargas", 20],
-      ["40mm_smoke", 20],
-      ["40mm_incendiary", 20],
-      ["40mm_acidbomb", 20],
-      ["40mm_shot", 20],
-      ["RPG-7_ammo", 80],
-      ["m235tpa", 50],
-      ["84x246mm_he", 50],
-      ["84x246mm_hedp", 50],
-      ["84x246mm_smoke", 50],
-      ["m202_flash", 4],
-      ["66mm_HEAT", 0],
-      ["120mm_HEAT", 0],
-      ["mininuke_mod", 0]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "future_guns",
-    "items":[
-      ["v29_cheap", 40],
-      ["v29", 80],
-      ["laser_rifle", 60],
-      ["emp_gun", 30],
-      ["plasma_rifle", 50],
-      ["ftk93", 40],
-      ["nx17", 40],
-      ["hk_g80", 20],
-      ["cerberus_laser", 50]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "future_ammo",
-    "items":[
-      ["laser_pack", 50],
-      ["laser_capacitor", 40],
-      ["plasma", 50],
-      ["12mm", 50],
-      ["plut_cell", 50],
-      ["adv_UPS_off", 5],
-      ["UPS_off", 5]
     ]
   },{
     "type" : "item_group",
@@ -671,52 +386,6 @@
       ["flintlock_shot", 40],
       ["36navy", 50],
       ["44army", 50]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "homemade_guns",
-    "items":[
-      ["nailrifle", 100],
-      ["rifle_9mm", 150],
-      ["rifle_22", 150],
-      ["rifle_308", 100],
-      ["pipe_double_shotgun", 70],
-      ["blunderbuss", 50],
-      ["2_shot_special", 80],
-      ["surv_six_shooter", 70],
-      ["surv_hand_cannon", 80],
-      ["survivor_special_700", 50],
-      ["surv_carbine_223", 50],
-      ["flamethrower_simple", 5],
-      ["launcher_simple", 5],
-      ["coilgun", 20],
-      ["rebar_rifle", 10],
-      ["heavy_rail_rifle", 5],
-      ["ashot", 5],
-      ["tihar", 5],
-      ["helsing", 5],
-      ["bigun", 5],
-      ["mininuke_launcher", 0],
-      ["unbio_blaster_gun", 0],
-      ["surv_rocket_launcher", 0],
-      ["chemical_thrower", 0]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "homemade_ammo",
-    "items":[
-      ["rebar_rail", 10],
-      ["steel_rail", 10],
-      ["combatnail", 50],
-      ["blun_slug", 20],
-      ["blun_shot", 20],
-      ["blun_flechette", 20],
-      ["spiked_rocket", 20],
-      ["explosive_hm_rocket", 10],
-      ["incendiary_hm_rocket", 10],
-      ["reloaded_40mm_flechette", 20],
-      ["reloaded_40mm_shot", 20],
-      ["reloaded_laser_pack", 5]
     ]
   },{
     "type" : "item_group",

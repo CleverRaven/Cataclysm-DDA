@@ -1,15 +1,6 @@
 [
     {
         "type": "item_group",
-        "id": "mansion_guns",
-        "items": [
-          ["50pistol", 2],
-          ["ficrico", 2],
-          ["gunknife", 2]
-        ]
-    },
-    {
-        "type": "item_group",
         "id": "rare",
         "items": [
           ["ficrico", 3],
@@ -20,7 +11,7 @@
     },
     {
       "type" : "item_group",
-      "id" : "pistols",
+      "id" : "guns_pistol_rare",
       "items":[
         ["ficrico", 2],
         ["gunsword", 2],
@@ -30,25 +21,17 @@
     },
     {
       "type" : "item_group",
-      "id" : "rifles",
+      "id" : "guns_rifle_rare",
       "items":[
         ["arccan", 5]
     ]
     },
     {
       "type" : "item_group",
-      "id" : "smg",
+      "id" : "guns_smg_rare",
       "items":[
         ["hk_mp5eod", 2],
         ["ltcarb", 4]
-      ]
-    },
-    {
-      "type" : "item_group",
-      "id" : "lmoe_guns",
-      "items":[
-        ["hk_mp5eod", 2],
-        ["50pistol", 2]
       ]
     },
     {
