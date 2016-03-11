@@ -705,6 +705,7 @@ public:
 // Movement; the following are defined in npcmove.cpp
  void move(); // Picks an action & a target and calls execute_action
  void execute_action( npc_action action ); // Performs action
+    void process_turn() override;
 
     void choose_monster_target();
     void assess_danger();

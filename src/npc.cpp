@@ -2708,3 +2708,30 @@ bool npc::dispose_item( item& obj, const std::string & )
     mn->action();
     return true;
 }
+
+void npc::process_turn()
+{
+    player::process_turn();
+
+    if( is_following() && calendar::once_every( HOURS(1) ) &&
+        get_hunger() < 200 && thirst < 100 && op_of_u.trust < 5 ) {
+        // Friends who are well fed will like you more
+        // 24 checks per day, best case chance at trust 0 is 1 in 48 for +1 trust per 2 days
+        float trust_chance = 5 - op_of_u.trust;
+        // Penalize for bad impression
+        // TODO: Penalize for traits and actions (especially murder, unless NPC is psycho)
+        int op_penalty = std::max( 0, op_of_u.anger ) +
+                         std::max( 0, -op_of_u.value ) +
+                         std::max( 0, op_of_u.fear );
+        // Being barely hungry and thirsty, not in pain and not wounded means good care
+        int state_penalty = get_hunger() + thirst + (100 - hp_percentage()) + get_pain();
+        if( x_in_y( trust_chance, 240 + 10 * op_penalty + state_penalty ) ) {
+            op_of_u.trust++;
+        }
+
+        // TODO: Similar checks for fear and anger
+    }
+
+    // TODO: Add decreasing trust/value/etc. here when player doesn't provide food
+    // TODO: Make NPCs leave the player if there's a path out of map and player is sleeping/unseen/etc.
+}

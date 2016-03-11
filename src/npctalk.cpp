@@ -3935,9 +3935,10 @@ bool dialogue::print_responses( int const yoffset )
         }
     }
     // Those are always available, their key bindings are fixed as well.
-    mvwprintz( win, curline + 2, xoffset, c_magenta, _( "Shift+L: Look at" ) );
-    mvwprintz( win, curline + 3, xoffset, c_magenta, _( "Shift+S: Size up stats" ) );
-    mvwprintz( win, curline + 4, xoffset, c_magenta, _( "Shift+Y: Yell" ) );
+    mvwprintz( win, curline + 1, xoffset, c_magenta, _( "Shift+L: Look at" ) );
+    mvwprintz( win, curline + 2, xoffset, c_magenta, _( "Shift+S: Size up stats" ) );
+    mvwprintz( win, curline + 3, xoffset, c_magenta, _( "Shift+Y: Yell" ) );
+    mvwprintz( win, curline + 4, xoffset, c_magenta, _( "Shift+O: Check opinion" ) );
     return curline > max_line; // whether there is more to print.
 }
 
@@ -4118,11 +4119,8 @@ std::string special_talk(char ch)
             return "TALK_LOOK_AT";
         case 'S':
             return "TALK_SIZE_UP";
-        /*
-        // Wasn't listed - should be hidden?
         case 'O':
-        return "TALK_OPINION";
-        */
+            return "TALK_OPINION";
         case 'Y':
             return "TALK_SHOUT";
         default:
@@ -4740,7 +4738,9 @@ bool try_consume( npc &p, item &it, bool &used, std::string &reason )
         return false;
     }
 
-    if( p.op_of_u.trust < 5 && !g->u.has_trait( "DEBUG_MIND_CONTROL" ) ) {
+    if( ( !it.type->use_methods.empty() || comest->quench < 0 || it.poison > 0 ) &&
+        p.op_of_u.trust < 5 &&
+        !g->u.has_trait( "DEBUG_MIND_CONTROL" ) ) {
         // TODO: Get some better check here
         reason = _("I don't <swear> trust you enough to eat from your hand...");
         return false;
