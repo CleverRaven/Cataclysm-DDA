@@ -1516,10 +1516,12 @@ int Character::get_hunger() const
 {
     return hunger;
 }
+
 void Character::mod_hunger(int nhunger)
 {
-    hunger += nhunger;
+    set_hunger( hunger + nhunger );
 }
+
 void Character::set_hunger(int nhunger)
 {
     hunger = nhunger;
