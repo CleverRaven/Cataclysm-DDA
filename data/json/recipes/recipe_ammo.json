@@ -3928,22 +3928,18 @@
     "time": 20000,
     "reversible": false,
     "autolearn": true,
-    "book_learn": [[ "manual_rifle", 2 ] , [ "manual_pistol", 2 ] , [ "recipe_bullets", 2 ]],
-    "qualities":[
-      {"id":"CUT","level":1,"amount":1}
-    ],
     "components": [
       [
-        [ "gunpowder", 600 ],
-        [ "chem_black_powder", 1200 ]
+        [ "gunpowder", 300 ],
+        [ "chem_black_powder", 600 ]
       ],
       [
-        [ "lead", 400 ],
-        [ "gold_small", 400 ],
-        [ "silver_small", 400 ],
-        [ "tin", 400 ],
-        [ "bismuth", 400 ],
-        [ "solder_wire", 400 ]
+        [ "lead", 300 ],
+        [ "gold_small", 300 ],
+        [ "silver_small", 300 ],
+        [ "tin", 300 ],
+        [ "bismuth", 300 ],
+        [ "solder_wire", 300 ]
       ],
       [
         [ "bag_plastic", 1 ],
@@ -3961,22 +3957,18 @@
     "time": 20000,
     "reversible": false,
     "autolearn": true,
-    "book_learn": [[ "manual_rifle", 2 ] , [ "manual_pistol", 2 ] , [ "recipe_bullets", 2 ]],
-    "qualities":[
-      {"id":"CUT","level":1,"amount":1}
-    ],
     "components": [
       [
-        [ "gunpowder", 600 ],
-        [ "chem_black_powder", 1200 ]
+        [ "gunpowder", 300 ],
+        [ "chem_black_powder", 600 ]
       ],
       [
-        [ "lead", 400 ],
-        [ "gold_small", 400 ],
-        [ "silver_small", 400 ],
-        [ "tin", 400 ],
-        [ "bismuth", 400 ],
-        [ "solder_wire", 400 ]
+        [ "lead", 300 ],
+        [ "gold_small", 300 ],
+        [ "silver_small", 300 ],
+        [ "tin", 300 ],
+        [ "bismuth", 300 ],
+        [ "solder_wire", 300 ]
       ],
       [
         [ "bag_plastic", 1 ],

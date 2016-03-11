@@ -397,7 +397,7 @@
     },
     {
         "type" : "ammunition_type",
-        "id" : "ammo_flintlock",
+        "id" : "flintlock",
         "name" : "paper cartridge",
         "default" : "flintlock_ammo"
     },

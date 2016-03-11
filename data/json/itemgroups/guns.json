@@ -59,6 +59,8 @@
       [ "lemat_revolver", 150 ],
       [ "makarov", 100 ],
       [ "moss_brownie", 100 ],
+      [ "pistol_flintlock", 150 ],
+      [ "pistol_pepperbox", 150 ],
       [ "raging_bull", 100 ],
       [ "walther_ppk", 100 ]
     ]
@@ -190,10 +192,12 @@
     "id" : "guns_rifle_obscure",
     "//" : "Imported or otherwise very obscure rifles.",
     "items": [
-      [ "ak47", 200 ],
-      [ "ak74", 50 ],
-      [ "an94", 20 ],
-      [ "steyr_aug", 80 ],
+      [ "ak47", 100 ],
+      [ "ak74", 60 ],
+      [ "an94", 40 ],
+      [ "carbine_flintlock", 140 ],
+      [ "rifle_flintlock", 180 ],
+      [ "steyr_aug", 40 ],
       [ "trex_gun", 60 ]
     ]
   },
