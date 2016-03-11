@@ -62,7 +62,7 @@ enum npc_action : int {
     npc_reload, npc_sleep, // 2, 3
     npc_pickup, // 4
     npc_escape_item, npc_wield_melee, npc_wield_loaded_gun, npc_wield_empty_gun,
-    npc_heal, npc_use_painkiller, npc_eat, npc_drop_items, // 5 - 12
+    npc_heal, npc_use_painkiller, npc_drop_items, // 5 - 12
     npc_flee, npc_melee, npc_shoot, npc_shoot_burst, npc_alt_attack, // 13 - 17
     npc_look_for_player, npc_heal_player, npc_follow_player, npc_follow_embarked,
     npc_talk_to_player, npc_mug_player, // 18 - 23
@@ -438,10 +438,6 @@ void npc::execute_action( npc_action action )
 
     case npc_use_painkiller:
         use_painkiller();
-        break;
-
-    case npc_eat:
-        pick_and_eat();
         break;
 
     case npc_drop_items:
@@ -1016,11 +1012,11 @@ npc_action npc::address_needs( int danger )
         return npc_noop;
     }
 
-    if ((danger <= NPC_DANGER_VERY_LOW && (get_hunger() > 40 || thirst > 40)) ||
-        thirst > 80 || get_hunger() > 160) {
-        //return npc_eat; // TODO: Make eating work when then NPC doesn't have enough food
-        set_hunger(0);
-        thirst = 0;
+    if( ( danger <= NPC_DANGER_VERY_LOW && ( get_hunger() > 40 || thirst > 40 ) ) ||
+        thirst > 80 || get_hunger() > 160 ) {
+        if( consume_food() ) {
+            return npc_noop;
+        }
     }
 
     // TODO: More risky attempts at sleep when exhausted
@@ -2361,47 +2357,105 @@ void npc::use_painkiller()
     }
 }
 
-void npc::pick_and_eat()
+// We want our food to:
+// Provide enough nutrition and quench
+// Not provide too much of either (don't waste food)
+// Not be unhealthy
+// Not have side effects
+// Be eaten before it rots (favor soon-to-rot perishables)
+float rate_food( const item &it, int want_nutr, int want_quench )
 {
-    int best_hunger = 999, best_thirst = 999, index = -1;
-    bool thirst_more_important = (thirst > get_hunger() * 1.5);
+    const it_comest *food = dynamic_cast<const it_comest *>( it.type );
+    if( food == nullptr ) {
+        // Not food
+        return 0.0f;
+    }
+
+    int nutr = food->get_nutrition();
+    int quench = food->quench;
+
+    if( nutr <= 0 && quench <= 0 ) {
+        // Not food - may be salt, drugs etc.
+        return 0.0f;
+    }
+
+    if( nutr > want_nutr ) {
+        // TODO: Allow overeating in some cases
+        return 0.0f;
+    }
+
+    if( !it.type->use_methods.empty() ) {
+        // TODO: Get a good method of telling apart:
+        // raw meat (parasites - don't eat unless mutant)
+        // zed meat (poison - don't eat unless mutant)
+        // alcohol (debuffs, health drop - supplement diet but don't bulk-consume)
+        // caffeine (fine to consume, but expensive and prevents sleep)
+        // hallu shrooms (NPCs don't hallucinate, so don't eat those)
+        // honeycomb (harmless iuse)
+        // royal jelly (way too expensive to eat as food)
+        // mutagenic crap (don't eat, we want player to micromanage muties)
+        // marloss (NPCs don't turn fungal)
+        // weed brownies (small debuff)
+        // seeds (too expensive)
+
+        // For now skip all of those
+        return 0.0f;
+    }
+
+    if( it.rotten() ) {
+        // TODO: Allow sapro mutants to eat it anyway and make them prefer it
+        return 0.0f;
+    }
+
+    float weight = std::max( 0.1f, it.get_relative_rot() );
+    if( food->fun < 0 ) {
+        // This helps to avoid eating stuff like flour
+        weight /= -food->fun + 1;
+    }
+
+    if( food->healthy < 0 ) {
+        weight /= -food->healthy + 1;
+    }
+
+    if( quench > want_quench ) {
+        weight -= 0.01f * (quench - want_quench);
+    }
+
+    if( it.poison > 0 ) {
+        weight /= it.poison;
+    }
+
+    return weight;
+}
+
+bool npc::consume_food()
+{
+    float best_weight = 0.0f;
+    int index = -1;
+    int want_hunger = get_hunger();
+    int want_quench = thirst;
     invslice slice = inv.slice();
-    for (size_t i = 0; i < slice.size(); i++) {
-        int eaten_hunger = -1, eaten_thirst = -1;
-        const it_comest *food = NULL;
-        item &it = slice[i]->front();
-        if (it.is_food()) {
-            food = dynamic_cast<const it_comest *>(it.type);
-        } else if (it.is_food_container()) {
-            food = dynamic_cast<const it_comest *>(it.contents[0].type);
-        }
-        if (food != NULL) {
-            eaten_hunger = get_hunger() - food->get_nutrition();
-            eaten_thirst = thirst - food->quench;
-        }
-        if (eaten_hunger > 0) { // <0 means we have a chance of puking
-            if ((thirst_more_important && eaten_thirst < best_thirst) ||
-                (!thirst_more_important && eaten_hunger < best_hunger) ||
-                (eaten_thirst == best_thirst && eaten_hunger < best_hunger) ||
-                (eaten_hunger == best_hunger && eaten_thirst < best_thirst)   ) {
-                if (eaten_hunger < best_hunger) {
-                    best_hunger = eaten_hunger;
-                }
-                if (eaten_thirst < best_thirst) {
-                    best_thirst = eaten_thirst;
-                }
-                index = i;
-            }
+    for( size_t i = 0; i < slice.size(); i++ ) {
+        const item &it = slice[i]->front();
+        float cur_weight = it.is_food_container() ?
+            rate_food( it.contents[0], want_hunger, want_quench ) :
+            rate_food( it, want_hunger, want_quench );
+        if( cur_weight > best_weight ) {
+            best_weight = cur_weight;
+            index = i;
         }
     }
 
-    if (index == -1) {
-        move_pause();
-        return;
+    if( index == -1 ) {
+        if( !is_friend() ) {
+            // TODO: Remove this and let player "exploit" hungry NPCs
+            set_hunger( 0 );
+            thirst = 0;
+        }
+        return false;
     }
 
-    consume(index);
-    moves = 0;
+    return consume( index );
 }
 
 void npc::mug_player(player &mark)
@@ -2724,8 +2778,6 @@ std::string npc_action_name(npc_action action)
         return _("Heal self");
     case npc_use_painkiller:
         return _("Use painkillers");
-    case npc_eat:
-        return _("Eat");
     case npc_drop_items:
         return _("Drop items");
     case npc_flee:
@@ -2813,6 +2865,8 @@ bool npc::complain()
     static const std::string bite_string = "bite";
     static const std::string bleed_string = "bleed";
     static const std::string radiation_string = "radiation";
+    static const std::string hunger_string = "hunger";
+    static const std::string thirst_string = "thirst";
     // TODO: Allow calling for help when scared
     if( !is_following() || !g->u.sees( *this ) ) {
         return false;
@@ -2862,7 +2916,24 @@ bool npc::complain()
         return true;
     }
 
-    // TODO: Complain about hunger and thirst, when NPCs can have those
+    // Hunger every 6 hours
+    // Since NPCs can't starve to death, respect the rules
+    if( get_hunger() > 100
+        && complaints[hunger_string] < calendar::turn - HOURS(6) &&
+        rules.allow_complain ) {
+        say( _("<hungry>") );
+        complaints[hunger_string] = calendar::turn;
+    }
+
+    // Thirst every 2 hours
+    // Since NPCs can't dry to death, respect the rules
+    if( thirst > 50
+        && complaints[thirst_string] < calendar::turn - HOURS(2) &&
+        rules.allow_complain ) {
+        say( _("<thirsty>") );
+        complaints[thirst_string] = calendar::turn;
+    }
+
     return false;
 }
 

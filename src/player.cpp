@@ -5489,6 +5489,12 @@ void player::update_needs( int rate_multiplier )
         thirst_rate *= (2.0f / 7.0f);
     }
 
+    if( is_npc() ) {
+        // Hunger and thirst advance *much* more slowly whilst we aren't a player.
+        hunger_rate *= 0.125f;
+        thirst_rate *= 0.125f;
+    }
+
     if( !debug_ls && hunger_rate > 0.0f ) {
         const int rolled_hunger = divide_roll_remainder( hunger_rate * rate_multiplier, 1.0 );
         mod_hunger( rolled_hunger );
@@ -5594,12 +5600,9 @@ void player::update_needs( int rate_multiplier )
         charge_power( rate_multiplier * 25 );
     }
 
-    if( is_npc() ) {
-        // TODO: Remove this `if` once NPCs start eating and getting huge
-        return;
-    }
     // Huge folks take penalties for cramming themselves in vehicles
-    if( (has_trait("HUGE") || has_trait("HUGE_OK")) && in_vehicle ) {
+    if( in_vehicle && (has_trait("HUGE") || has_trait("HUGE_OK")) ) {
+        // TODO: Make NPCs complain
         add_msg_if_player(m_bad, _("You're cramping up from stuffing yourself in this vehicle."));
         mod_pain_noresist( 2 * rng(2, 3) );
         focus_pool -= 1;
@@ -5611,6 +5614,17 @@ void player::update_needs( int rate_multiplier )
     dec_stom_water = dec_stom_water < 10 ? 10 : dec_stom_water;
     mod_stomach_food(-dec_stom_food);
     mod_stomach_water(-dec_stom_water);
+
+    if( is_npc() ) {
+        // Caps because NPCs are dumb
+        if( get_hunger() > 500 ) {
+            set_hunger( 500 );
+        }
+
+        if( thirst > 300 ) {
+            thirst = 300;
+        }
+    }
 }
 
 void player::regen( int rate_multiplier )

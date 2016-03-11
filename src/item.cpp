@@ -2729,7 +2729,7 @@ bool item::has_rotten_away() const
     return false;
 }
 
-float item::get_relative_rot()
+float item::get_relative_rot() const
 {
     const it_comest *comest = dynamic_cast<const it_comest *>( type );
     if( comest != nullptr && comest->spoils > 0 ) {
