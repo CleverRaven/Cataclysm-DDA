@@ -137,7 +137,7 @@ item::item( const itype *type, int turn, int qty ) : type( type )
         active = goes_bad() && !rotten();
 
     } else if( type->is_tool() ) {
-        if( ammo_remaining() && ammo_type() != "NULL" ) {
+        if( ( ammo_remaining() >= 0 ) && ( ammo_type() != "NULL" ) ) {
             set_curammo( default_ammo( ammo_type() ) );
         }
     }
