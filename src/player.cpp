@@ -10668,25 +10668,26 @@ void player::use(int inventory_position)
     } else if (used->is_book()) {
         read(inventory_position);
         return;
+
     } else if (used->is_gun()) {
+        auto mods = used->gunmods();
 
-        auto& mods = used->contents;
+        if( mods.empty() ) {
+            add_msg( m_info, _( "Your %s doesn't appear to be modded." ), used->tname().c_str() );
+        }
 
-        bool can_remove = std::any_of( mods.begin(), mods.end(), []( const item& e ) {
-            return e.is_gunmod() && !e.has_flag( "IRREMOVABLE" );
-        } );
-        if( !can_remove ) {
-            add_msg(m_info, _("Your %s doesn't appear to be modded."), used->tname().c_str());
+        mods.erase( std::remove_if( mods.begin(), mods.end(), []( const item *e ) {
+            return e->has_flag( "IRREMOVABLE" );
+        } ), mods.end() );
+
+        if( mods.empty() ) {
+            add_msg( m_info, _( "You can't remove any of the mods from your %s." ), used->tname().c_str() );
             return;
         }
-        if( inventory_position < -1 ) {
+
+        if( is_worn( *used ) ) {
             // Prevent removal of shoulder straps and thereby making the gun un-wearable again.
             add_msg( _( "You can not modify your %s while it's worn." ), used->tname().c_str() );
-            return;
-        }
-        if( used->ammo_remaining() > 0 || used->magazine_current() ) {
-            // Prevent removal of a ammo type conversion whilst the gun is loaded
-            add_msg( _( "Unload your %s before trying to modify it." ), used->tname().c_str() );
             return;
         }
 
@@ -10696,28 +10697,16 @@ void player::use(int inventory_position)
         prompt.return_invalid = true;
 
         for( decltype( mods.size() ) i = 0; i != mods.size(); ++i ) {
-            if( mods[i].is_gunmod() && !mods[i].has_flag( "IRREMOVABLE" ) ) {
-                prompt.addentry( i + 1, true, -1, mods[i].tname() );
-            }
+            prompt.addentry( i, true, -1, mods[ i ]->tname() );
         }
 
-        prompt.addentry( 0, true, 'r', _("Remove all") );
         prompt.query();
 
-        if( prompt.ret > 0 ) {
-            add_msg( _( "You remove your %1$s from your %2$s." ),
-                     mods[ prompt.ret - 1 ].tname().c_str(), used->tname().c_str() );
-
-            remove_gunmod( used, prompt.ret - 1 );
-
-        } else if( prompt.ret == 0 ) {
-            add_msg( _( "You remove all the modifications from your %s." ), used->tname().c_str() );
-
-            for( int i = mods.size() - 1; i >= 0; --i ) {
-                if( mods[i].is_gunmod() && !mods[i].has_flag( "IRREMOVABLE" ) ) {
-                    remove_gunmod( used, i );
-                }
-            }
+        if( prompt.ret >= 0 ) {
+            item *gm = mods[ prompt.ret ];
+            std::string name = gm->tname().c_str();
+            gunmod_remove( *used, *gm );
+            add_msg( _( "You remove your %1$s from your %2$s." ), name.c_str(), used->tname().c_str() );
 
         } else {
             add_msg( _( "Never mind." ) );
