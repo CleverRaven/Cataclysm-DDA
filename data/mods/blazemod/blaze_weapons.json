@@ -311,7 +311,7 @@
     "flags": ["MODE_BURST", "NEVER_JAMS", "MOUNTED_GUN", "NO_RELOAD"],
     "ammo_effects": ["SHOT"],
     "skill": "rifle",
-    "ammo": "ammo_flintlock",
+    "ammo": "flintlock",
     "weight": 13713,
     "volume": 15,
     "bashing": 12,
