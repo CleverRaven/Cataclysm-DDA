@@ -28,7 +28,11 @@
     "reload": 100,
     "burst": 3,
     "magazines" : [
-      [ "9mm", [ "stenmag", "survivor9mm_mag" ] ]
+      [ "9mm", [ "stenmag", "survivor9mm_mag" ] ],
+      [ "22", [ "a180mag" ] ],
+      [ "45", [ "thompson_mag", "thompson_bigmag", "thompson_drum" ] ],
+      [ "46", [ "hk46mag", "hk46bigmag" ] ],
+      [ "57", [ "fnp90mag" ] ]
     ],
     "flags": ["MODE_BURST", "OVERSIZE", "BELTED", "FANCY", "RESTRICT_HANDS"]
   },
@@ -59,7 +63,10 @@
     "valid_mod_locations": [ [ "accessories", 3 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "magazine_well": 1,
     "magazines": [
-      [ "9mm", [ "calicomag" ] ]
+      [ "9mm", [ "calicomag" ] ],
+      [ "22", [ "a180mag" ] ],
+      [ "45", [ "thompson_drum" ] ],
+      [ "57", [ "fnp90mag" ] ]
     ],
     "flags": [ "MODE_BURST" ]
   },
@@ -89,7 +96,11 @@
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
     "magazine_well" : 1,
     "magazines": [
-        [ "9mm", [ "m9bigmag", "m9mag" ] ]
+        [ "9mm", [ "m9bigmag", "m9mag" ] ],
+        [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
+        [ "45", [ "m1911mag", "m1911bigmag" ] ],
+        [ "46", [ "hk46mag", "hk46bigmag" ] ],
+        [ "57", [ "fn57mag" ] ]
     ]
   },
   {
@@ -117,7 +128,10 @@
     "magazine_well" : 1,
     "magazines": [
       [ "9mm", [ "glockmag", "glockbigmag" ] ],
-      [ "45", [ "m1911mag", "m1911bigmag" ] ]
+      [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
+      [ "45", [ "m1911mag", "m1911bigmag" ] ],
+      [ "46", [ "hk46mag", "hk46bigmag" ] ],
+      [ "57", [ "fn57mag" ] ]
     ]
   },
   {
@@ -145,7 +159,11 @@
     "burst": 8,
     "valid_mod_locations": [[ "accessories", 3 ],[ "barrel", 1 ],[ "bore", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
     "magazines" : [
-      [ "9mm", [ "mp5mag", "mp5bigmag" ] ]
+      [ "9mm", [ "mp5mag", "mp5bigmag" ] ],
+      [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
+      [ "45", [ "ump45mag" ] ],
+      [ "46", [ "hk46mag", "hk46bigmag" ] ],
+      [ "57", [ "fn57mag" ] ]
     ],
     "flags": "MODE_BURST"
   },
@@ -176,7 +194,11 @@
     "built_in_mods": [ "folding_stock" ],
     "magazine_well" : 1,
     "magazines": [
-        [ "9mm", [ "glockmag", "glockbigmag" ] ]
+        [ "9mm", [ "glockmag", "glockbigmag" ] ],
+        [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
+        [ "45", [ "m1911mag", "m1911bigmag" ] ],
+        [ "46", [ "hk46mag", "hk46bigmag" ] ],
+        [ "57", [ "fn57mag" ] ]
     ]
   },
   {
@@ -295,7 +317,11 @@
     "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "bore", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
     "magazine_well" : 1,
     "magazines" : [
-      [ "9mm", [ "m9mag", "m9bigmag" ] ]
+      [ "9mm", [ "m9mag", "m9bigmag" ] ],
+      [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
+      [ "45", [ "m1911mag", "m1911bigmag" ] ],
+      [ "46", [ "hk46mag", "hk46bigmag" ] ],
+      [ "57", [ "fn57mag" ] ]
     ]
   },
   {
@@ -350,7 +376,11 @@
     "burst": 3,
     "valid_mod_locations": [[ "accessories", 2 ],[ "muzzle", 1 ],[ "stock", 1 ]],
     "magazines" : [
-        [ "9mm", [ "stenmag", "survivor9mm_mag" ] ]
+        [ "9mm", [ "stenmag", "survivor9mm_mag" ] ],
+        [ "22", [ "a180mag" ] ],
+        [ "45", [ "mac10mag" ] ],
+        [ "46", [ "hk46mag", "hk46bigmag" ] ],
+        [ "57", [ "fnp90mag" ] ]
     ],
     "flags": "MODE_BURST"
   },
@@ -381,7 +411,11 @@
     "valid_mod_locations": [ [ "accessories", 3 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "magazine_well": 1,
     "magazines": [
-        [ "9mm", [ "tec9mag" ] ]
+        [ "9mm", [ "tec9mag" ] ],
+        [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
+        [ "45", [ "mac10mag" ] ],
+        [ "46", [ "hk46mag", "hk46bigmag" ] ],
+        [ "57", [ "fn57mag" ] ]
     ],
     "flags": [ "MODE_BURST" ]
   },
@@ -411,7 +445,10 @@
     "magazine_well": 1,
     "magazines" : [
       [ "9mm", [ "usp9mag" ] ],
-      [ "45", [ "usp45mag" ] ]
+      [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
+      [ "45", [ "usp45mag" ] ],
+      [ "46", [ "hk46mag", "hk46bigmag" ] ],
+      [ "57", [ "fn57mag" ] ]
     ]
   },
   {
@@ -439,7 +476,11 @@
     "burst": 12,
     "valid_mod_locations": [[ "accessories", 3 ],[ "barrel", 1 ],[ "bore", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
     "magazines" : [
-        [ "9mm", [ "uzimag" ] ]
+        [ "9mm", [ "uzimag" ] ],
+        [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
+        [ "45", [ "tdi_mag" ] ],
+        [ "46", [ "hk46mag", "hk46bigmag" ] ],
+        [ "57", [ "fn57mag" ] ]
     ]
   }
 ]
