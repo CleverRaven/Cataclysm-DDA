@@ -51,6 +51,7 @@ Character::Character() : Creature(), visitable<Character>()
     healthy = 0;
     healthy_mod = 0;
     hunger = 0;
+    thirst = 0;
     stomach_food = 0;
     stomach_water = 0;
 

@@ -247,6 +247,7 @@ void Character::load(JsonObject &data)
     data.read( "int_bonus", int_bonus );
 
     // needs
+    data.read("thirst", thirst);
     data.read("hunger", hunger);
     data.read( "stomach_food", stomach_food);
     data.read( "stomach_water", stomach_water);
@@ -370,6 +371,7 @@ void Character::store(JsonOut &json) const
     json.member( "healthy_mod", healthy_mod );
 
     // needs
+    json.member( "thirst", thirst );
     json.member( "hunger", hunger );
     json.member( "stomach_food", stomach_food );
     json.member( "stomach_water", stomach_water );
@@ -413,7 +415,6 @@ void player::load(JsonObject &data)
     if( !data.read("posz", position.z) && g != nullptr ) {
       position.z = g->get_levz();
     }
-    data.read("thirst", thirst);
     data.read("fatigue", fatigue);
     data.read("stim", stim);
     data.read("pkill", pkill);
@@ -491,8 +492,6 @@ void player::store(JsonOut &json) const
     json.member( "posy", position.y );
     json.member( "posz", position.z );
 
-    // om-noms or lack thereof
-    json.member( "thirst", thirst );
     // energy
     json.member( "fatigue", fatigue );
     json.member( "stim", stim );

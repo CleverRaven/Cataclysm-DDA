@@ -80,7 +80,6 @@ npc::npc()
     guard_pos = no_goal_point;
     goal = no_goal_point;
     fatigue = 0;
-    thirst = 0;
     fetching_item = false;
     has_new_items = true;
     worst_item_value = 0;

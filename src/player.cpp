@@ -172,7 +172,6 @@ player::player() : Character()
  blocks_left = 1;
  power_level = 0;
  max_power_level = 0;
- thirst = 0;
  fatigue = 0;
  stamina = get_stamina_max();
  stim = 0;

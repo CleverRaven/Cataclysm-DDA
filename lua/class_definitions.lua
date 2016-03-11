@@ -438,7 +438,6 @@ classes = {
             stim = { type = "int", writable = true },
             style_selected = { type = "matype_id", writable = true },
             tank_plut = { type = "int", writable = true },
-            thirst = { type = "int", writable = true },
             view_offset = { type = "tripoint", writable = true },
             volume = { type = "int", writable = true },
         },

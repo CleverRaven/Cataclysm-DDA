@@ -511,6 +511,8 @@ class Character : public Creature, public visitable<Character>
 
         std::vector<bionic> my_bionics;
 
+        int thirst;
+
     protected:
         virtual void on_mutation_gain( const std::string & ) {};
         virtual void on_mutation_loss( const std::string & ) {};
