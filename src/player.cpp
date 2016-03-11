@@ -538,6 +538,7 @@ void player::action_taken()
 void player::update_morale()
 {
     morale.decay( 1 );
+    apply_persistent_morale();
 }
 
 void player::apply_persistent_morale()
