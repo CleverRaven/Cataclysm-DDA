@@ -78,7 +78,7 @@ void Item_factory::finialize_item_blacklist()
             if( type->magazine_default.empty() ) {
                 continue;
             }
-            itype *default_magazine = m_templates[ type->magazine_default.begin()->second ];
+            itype *default_magazine = m_templates[ type->magazine_default[ type->gun->ammo ] ];
             type->gun->clip = default_magazine->magazine->capacity;
             type->gun->reload_time = default_magazine->magazine->capacity *
                 default_magazine->magazine->reload_time;
