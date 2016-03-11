@@ -2402,7 +2402,8 @@ float rate_food( const item &it, int want_nutr, int want_quench )
         return 0.0f;
     }
 
-    float weight = std::max( 0.1f, it.get_relative_rot() );
+    float relative_rot = it.get_relative_rot();
+    float weight = std::max( 1.0f, 10.0f * relative_rot );
     if( food->fun < 0 ) {
         // This helps to avoid eating stuff like flour
         weight /= (-food->fun) + 1;
@@ -2412,8 +2413,9 @@ float rate_food( const item &it, int want_nutr, int want_quench )
         weight /= (-food->healthy) + 1;
     }
 
-    if( quench > want_quench ) {
-        weight -= 0.01f * (quench - want_quench);
+    // Avoid wasting quench values unless it's about to rot away
+    if( relative_rot < 0.9f && quench > want_quench ) {
+        weight -= (1.0f - relative_rot) * (quench - want_quench);
     }
 
     if( quench < 0 && want_quench > 0 && want_nutr < want_quench ) {
@@ -2427,11 +2429,13 @@ float rate_food( const item &it, int want_nutr, int want_quench )
             return 0.0f;
         }
 
-        weight -= 0.01f * (nutr - want_nutr);
+        if( relative_rot < 0.9f ) {
+            weight /= nutr - want_nutr;
+        }
     }
 
     if( it.poison > 0 ) {
-        weight /= it.poison;
+        weight -= it.poison;
     }
 
     return weight;
