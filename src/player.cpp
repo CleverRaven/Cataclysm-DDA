@@ -10805,38 +10805,25 @@ bool player::invoke_item( item* used, const std::string &method, const tripoint 
     return ( used->is_tool() || used->is_food() ) && consume_charges( *actually_used, charges_used );
 }
 
-void player::remove_gunmod( item *weapon, unsigned id )
+bool player::gunmod_remove( item &gun, item& mod )
 {
-    if( id >= weapon->contents.size() ) {
-        return;
+    auto iter = std::find_if( gun.contents.begin(), gun.contents.end(), [&mod]( const item& e ) {
+        return &mod == &e;
+    } );
+    if( iter == gun.contents.end() ) {
+        debugmsg( "Cannot remove non-existent gunmod" );
+        return false;
     }
-    item *gunmod = &weapon->contents[id];
-    item ammo;
-    if( gunmod->charges > 0 ) {
-        if( gunmod->ammo_current() != "null" ) {
-            ammo = item( gunmod->ammo_current(), calendar::turn );
-        } else {
-            ammo = item( default_ammo( weapon->ammo_type() ), calendar::turn );
-        }
-        ammo.charges = gunmod->charges;
-        if( ammo.made_of( LIQUID ) ) {
-            while( !g->handle_liquid( ammo, false, false ) ) {
-                // handled only part of it, retry
-            }
-        } else {
-            i_add_or_drop( ammo );
-        }
-        gunmod->unset_curammo();
-        gunmod->charges = 0;
-    }
-    if( gunmod->is_in_auxiliary_mode() ) {
-        weapon->next_mode();
+    if( mod.ammo_remaining() && !g->unload( mod ) ) {
+        return false;
     }
 
-    moves -= gunmod->type->gunmod->install_time / 2;
+    gun.set_gun_mode( "NULL" );
+    moves -= mod.type->gunmod->install_time / 2;
 
-    i_add_or_drop( *gunmod );
-    weapon->contents.erase( weapon->contents.begin() + id );
+    i_add_or_drop( mod );
+    gun.contents.erase( iter );
+    return true;
 }
 
 void player::gunmod_add( item &gun, item &mod )
