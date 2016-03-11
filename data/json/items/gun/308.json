@@ -84,7 +84,8 @@
     "barrel_length": 2,
     "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "magazines": [
-      [ "308", [ "falmag", "falbigmag" ] ]
+      [ "308", [ "falmag", "falbigmag" ] ],
+      [ "223", [ "stanag30", "stanag10", "stanag50" ] ]
     ],
     "flags": [ "MODE_BURST" ]
   },
@@ -113,7 +114,8 @@
     "reload": 100,
     "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "magazines": [
-      [ "308", [ "g3mag", "g3bigmag" ] ]
+      [ "308", [ "g3mag", "g3bigmag" ] ],
+      [ "223", [ "stanag30", "stanag10", "stanag50" ] ]
     ],
     "flags": [ "MODE_BURST" ]
   },
@@ -169,7 +171,8 @@
     "reload": 100,
     "barrel_length": 2,
     "magazines": [
-      [ "308", [ "m14mag", "m14smallmag" ] ]
+      [ "308", [ "m14mag", "m14smallmag" ] ],
+      [ "223", [ "stanag10" ] ]
     ],
     "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "sights", 1 ] ]
   },
@@ -197,7 +200,8 @@
     "reload": 100,
     "barrel_length": 2,
     "magazines": [
-      [ "308", [ "m14mag", "m14smallmag" ] ]
+      [ "308", [ "m14mag", "m14smallmag" ] ],
+      [ "223", [ "stanag10" ] ]
     ],
     "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ]
   },
@@ -281,7 +285,8 @@
     "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "magazine_well": 1,
     "magazines": [
-      [ "308", [ "scarhmag", "scarhbigmag" ] ]
+      [ "308", [ "scarhmag", "scarhbigmag" ] ],
+      [ "223", [ "stanag30", "stanag10", "stanag50" ] ]
     ],
     "flags": [ "MODE_BURST" ]
   }
