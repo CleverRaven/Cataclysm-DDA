@@ -75,7 +75,7 @@ void Item_factory::finialize_item_blacklist()
         for( std::pair<const std::string, itype *> &entry : m_templates ) {
             itype *type = entry.second;
             // find the guns, look up their default magazine, and add its capacity to the gun.
-            if( type->magazine_default.empty() ) {
+            if( !type->gun || type->magazine_default.empty() ) {
                 continue;
             }
             itype *default_magazine = m_templates[ type->magazine_default[ type->gun->ammo ] ];
