@@ -697,7 +697,7 @@ class game
         void reload(); // Reload a wielded gun/tool  'r'
         void reload(int pos);
 public:
-        void unload(item &it); // Unload a gun/tool  'U'
+        bool unload( item &it ); // Unload a gun/tool  'U'
         void unload(int pos = INT_MIN);
 private:
         void wield(int pos = INT_MIN); // Wield a weapon  'w'
