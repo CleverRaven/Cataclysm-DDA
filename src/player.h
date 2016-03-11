@@ -622,10 +622,21 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void apply_damage(Creature *source, body_part bp, int amount) override;
         /** Modifies a pain value by player traits before passing it to Creature::mod_pain() */
         void mod_pain(int npain) override;
+        /** Sets new intensity of pain an reacts to it */
+        void set_pain(int npain) override;
+        /** Returns perceived pain (reduced with painkillers)*/
+        int get_perceived_pain() const override;
 
         void cough(bool harmful = false, int volume = 4);
 
         void add_pain_msg(int val, body_part bp) const;
+
+        /** Modifies intensity of painkillers  */
+        void mod_painkiller(int npkill);
+        /** Sets intensity of painkillers  */
+        void set_painkiller(int npkill);
+        /** Returns intensity of painkillers  */
+        int get_painkiller() const;
 
         /** Heals a body_part for dam */
         void heal(body_part healed, int dam);
@@ -747,7 +758,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          * @param prompt optional message to display in any menu
          * @return whether the item was successfully disposed of
          */
-        bool dispose_item( item& obj, const std::string& prompt = std::string() );
+        virtual bool dispose_item( item& obj, const std::string& prompt = std::string() );
 
         /**
          * Calculate (but do not deduct) the number of moves required when handling (eg. storing, drawing etc.) an item
@@ -1125,7 +1136,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int driving_recoil;
         int scent;
         int dodges_left, blocks_left;
-        int stim, pkill, radiation;
+        int stim, radiation;
         unsigned long cash;
         int movecounter;
         std::array<int, num_bp> temp_cur, frostbite_timer, temp_conv;
@@ -1342,6 +1353,9 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void deactivate_mutation( const std::string &mut );
         bool has_fire(const int quantity) const;
         void use_fire(const int quantity);
+
+        void react_to_felt_pain( int intensity );
+
         /**
          * Has the item enough charges to invoke its use function?
          * Also checks if UPS from this player is used instead of item charges.
@@ -1350,6 +1364,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         bool can_study_recipe(const itype &book) const;
         bool try_study_recipe(const itype &book);
+
+        int pkill;
 
         std::vector<tripoint> auto_move_route;
         // Used to make sure auto move is canceled if we stumble off course

@@ -1,0 +1,20 @@
+[
+
+    {
+    "type" : "MONSTER",
+    "id" : "mon_blob_large",
+    "edit-mode" : "modify",
+    "special_attacks":[["FORMBLOB", 60]]
+    },{
+    "type" : "MONSTER",
+    "id" : "mon_blob",
+    "edit-mode" : "modify",
+    "special_attacks":[["FORMBLOB", 90]]
+    },{
+    "type" : "MONSTER",
+    "id" : "mon_blob_small",
+    "edit-mode" : "modify",
+    "death_function":["MELT"]
+    }   
+    
+]

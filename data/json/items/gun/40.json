@@ -24,7 +24,10 @@
     "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "magazine_well": 1,
     "magazines": [
-      [ "40", [ "glock40mag", "glock40bigmag" ] ]
+      [ "40", [ "glock40mag", "glock40bigmag" ] ],
+      [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
+      [ "45", [ "m1911mag", "m1911bigmag" ] ],
+      [ "9mm", [ "glockmag", "glockbigmag" ] ]
     ]
   },
   {
@@ -52,7 +55,10 @@
     "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "magazine_well": 1,
     "magazines": [
-      [ "40", [ "sig40mag" ] ]
+      [ "40", [ "sig40mag" ] ],
+      [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
+      [ "45", [ "m1911mag", "m1911bigmag" ] ],
+      [ "9mm", [ "glockmag", "glockbigmag" ] ]
     ]
   },
   {

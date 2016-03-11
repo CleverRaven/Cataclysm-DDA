@@ -2522,7 +2522,9 @@ double player::weapon_value( const item &weap, long ammo ) const
     const double less = std::min( val_gun, val_melee );
 
     // A small bonus for guns you can also use to hit stuff with (bayonets etc.)
-    return more + (less / 2.0);
+    const double my_val = more + (less / 2.0);
+    add_msg( m_debug, "%s sum value: %.1f", weap.tname().c_str(), my_val );
+    return my_val;
 }
 
 double player::gun_value( const item &weap, long ammo ) const
@@ -2618,6 +2620,8 @@ double player::melee_value( const item &weap ) const
     if( reach > 1.0f ) {
         my_value *= 1.0f + 0.5f * (sqrtf( reach ) - 1.0f);
     }
+
+    add_msg( m_debug, "%s as melee: %.1f", weap.tname().c_str(), my_value );
 
     return std::max( 0.0, my_value );
 }

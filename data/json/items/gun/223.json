@@ -25,7 +25,9 @@
     "barrel_length" : 1,
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
     "magazines" : [
-      [ "223", [ "stanag30", "stanag10", "stanag50", "survivor223mag" ] ]
+      [ "223", [ "stanag30", "stanag10", "stanag50", "survivor223mag" ] ],
+      [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
+      [ "308", [ "g3mag", "g3bigmag" ] ]
     ],
     "flags": "MODE_BURST"
   },
@@ -51,7 +53,9 @@
     "reload": 100,
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
     "magazines" : [
-      [ "223", [ "stanag30", "stanag10", "stanag50", "survivor223mag" ] ]
+      [ "223", [ "stanag30", "stanag10", "stanag50", "survivor223mag" ] ],
+      [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
+      [ "308", [ "g3mag", "g3bigmag" ] ]
     ]
   },
   {
@@ -79,7 +83,9 @@
     "burst": 6,
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
     "magazines" : [
-       [ "223", [ "stanag30", "stanag10", "survivor223mag" ] ]
+       [ "223", [ "stanag30", "stanag10", "survivor223mag" ] ],
+       [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
+       [ "308", [ "g3mag", "g3bigmag" ] ]
     ],
     "flags": "MODE_BURST"
   },
@@ -108,7 +114,9 @@
     "burst": 15,
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
     "magazines" : [
-      [ "223", [ "stanag30", "stanag10", "stanag50", "survivor223mag" ] ]
+      [ "223", [ "stanag30", "stanag10", "stanag50", "survivor223mag" ] ],
+      [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
+      [ "308", [ "g3mag", "g3bigmag" ] ]
     ],
     "flags": "MODE_BURST"
   },
@@ -342,7 +350,9 @@
     "burst": 15,
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
     "magazines" : [
-      [ "223", [ "stanag50", "stanag30", "stanag10" ] ]
+      [ "223", [ "stanag50", "stanag30", "stanag10" ] ],
+      [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
+      [ "308", [ "g3mag", "g3bigmag" ] ]
     ],
     "flags": "MODE_BURST"
   },
@@ -371,7 +381,9 @@
     "burst": 10,
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
     "magazines" : [
-      [ "223", [ "stanag30", "stanag10", "survivor223mag" ] ]
+      [ "223", [ "stanag30", "stanag10", "survivor223mag" ] ],
+      [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
+      [ "308", [ "g3mag", "g3bigmag" ] ]
     ],
     "flags": "MODE_BURST"
   },
@@ -400,7 +412,9 @@
     "barrel_length" : 2,
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "sights", 1 ]],
     "magazines": [
-      [ "223", [ "stanag10", "survivor223mag" ] ]
+      [ "223", [ "stanag10", "survivor223mag" ] ],
+      [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
+      [ "308", [ "g3mag" ] ]
     ]
   },
   {
@@ -428,7 +442,9 @@
     "burst": 10,
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
     "magazines" : [
-      [ "223", [ "stanag30", "stanag10", "stanag50", "survivor223mag" ] ]
+      [ "223", [ "stanag30", "stanag10", "stanag50", "survivor223mag" ] ],
+      [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
+      [ "308", [ "scarhmag", "scarhbigmag" ] ]
     ],
     "flags": "MODE_BURST"
   },
@@ -457,7 +473,9 @@
     "burst": 6,
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
     "magazines" : [
-      [ "223", [ "stanag30", "stanag10", "stanag50", "survivor223mag" ] ]
+      [ "223", [ "stanag30", "stanag10", "stanag50", "survivor223mag" ] ],
+      [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
+      [ "308", [ "g3mag", "g3bigmag" ] ]
     ],
     "flags": "MODE_BURST"
   },

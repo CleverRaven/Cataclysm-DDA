@@ -255,7 +255,7 @@ item& item::ammo_set( const itype_id& ammo, long qty )
 
 item& item::ammo_unset()
 {
-    if( !is_tool() || !is_gun() || !is_magazine() ) {
+    if( !is_tool() && !is_gun() && !is_magazine() ) {
         ; // do nothing
 
     } else if( is_magazine() ) {
@@ -4290,6 +4290,7 @@ bool item::can_reload( const itype_id& ammo ) const {
     }
 }
 
+// TODO: Constify the player &u
 item::reload_option item::pick_reload_ammo( player &u ) const
 {
     std::vector<reload_option> ammo_list;
@@ -4331,6 +4332,10 @@ item::reload_option item::pick_reload_ammo( player &u ) const
     std::stable_sort( ammo_list.begin(), ammo_list.end(), []( const reload_option& lhs, const reload_option& rhs ) {
         return ( lhs.ammo->ammo_remaining() != 0 ) > ( rhs.ammo->ammo_remaining() != 0 );
     } );
+
+    if( u.is_npc() ) {
+        return std::move( ammo_list[ 0 ] );
+    }
 
     if( ammo_list.size() == 1 ) {
         // Suppress display of reload prompt when...

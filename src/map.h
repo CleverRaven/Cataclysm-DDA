@@ -795,8 +795,9 @@ void add_corpse( const tripoint &p );
     void add_item(const int x, const int y, item new_item);
     void spawn_an_item( const int x, const int y, item new_item,
                         const long charges, const int damlevel );
-    int place_items(items_location loc, const int chance, const int x1, const int y1,
-                  const int x2, const int y2, bool ongrass, const int turn, bool rand = true);
+    std::vector<item *> place_items( items_location loc, const int chance, const int x1, const int y1,
+                                     const int x2, const int y2, bool ongrass, const int turn,
+                                     int magazine = 0, int ammo = 0 );
     void spawn_items(const int x, const int y, const std::vector<item> &new_items);
     void create_anomaly(const int cx, const int cy, artifact_natural_property prop);
 // Items: 3D
@@ -856,10 +857,13 @@ void add_corpse( const tripoint &p );
     * all. Values <= 0 or > 100 are invalid.
     * @param ongrass If false the items won't spawn on flat terrain (grass, floor, ...).
     * @param turn The birthday that the created items shall have.
-    * @return The number of placed items.
+    * @param magazine percentage chance item will contain the default magazine
+    * @param ammo percentage chance item will be filled with default ammo
+    * @return vector containing all placed items
     */
-    int place_items( items_location loc, const int chance, const tripoint &f,
-                     const tripoint &t, bool ongrass, const int turn, bool rand = true );
+    std::vector<item *> place_items( items_location loc, const int chance, const tripoint &f,
+                                     const tripoint &t, bool ongrass, const int turn,
+                                     int magazine = 0, int ammo = 0 );
     /**
     * Place items from an item group at p. Places as much items as the item group says.
     * (Most item groups are distributions and will only create one item.)

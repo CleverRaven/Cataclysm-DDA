@@ -71,16 +71,16 @@ void addict_effect(player &u, addiction &add,
         break;
 
     case ADD_PKILLER:
-        if ((in >= 25 || int(calendar::turn) % (100 - in * 4) == 0) && u.pkill > 0) {
-            u.pkill--;    // Tolerance increases!
+        if ((in >= 25 || int(calendar::turn) % (100 - in * 4) == 0) && u.get_painkiller() > 0) {
+            u.mod_painkiller( -1 );    // Tolerance increases!
         }
-        if (u.pkill >= 35) { // No further effects if we're doped up.
+        if (u.get_painkiller() >= 35) { // No further effects if we're doped up.
             add.sated = 0;
         } else {
             u.mod_str_bonus(-(1 + int(in / 7)));
             u.mod_per_bonus(-1);
             u.mod_dex_bonus(-1);
-            if (u.pain < in * 3) {
+            if (u.get_pain() < in * 3) {
                 u.mod_pain(1);
             }
             if (in >= 40 || one_in(1200 - 30 * in)) {
@@ -94,7 +94,6 @@ void addict_effect(player &u, addiction &add,
                 u.add_msg_if_player(m_bad, _("You feel anxious.  You need your painkillers!"));
                 u.add_morale(MORALE_CRAVING_OPIATE, -30, -200);
             } else if (one_in(50) && dice(3, 50) < in) {
-                u.add_msg_if_player(m_bad, _("You throw up heavily!"));
                 cancel_activity(_("Throwing up."));
                 u.vomit();
             }
@@ -199,7 +198,6 @@ void addict_effect(player &u, addiction &add,
         } else if (!u.has_effect( effect_hallu) && rng(10, 3200) < in) {
             u.add_effect( effect_hallu, 3600);
         } else if (one_in(50) && dice(3, 50) < in) {
-            u.add_msg_if_player(m_bad, _("You throw up heavily!"));
             cancel_activity(_("Throwing up."));
             u.vomit();
         }

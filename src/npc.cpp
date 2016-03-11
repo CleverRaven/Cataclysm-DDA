@@ -1046,13 +1046,13 @@ void npc::starting_weapon(npc_class type)
     } else if (best->ident() == skill_archery ) {
         sel_weapon = random_item_from( type, "archery" );
     }else if (best->ident() == skill_pistol ) {
-        sel_weapon = random_item_from( type, "pistols", "pistols" );
+        sel_weapon = random_item_from( type, "pistol", "guns_pistol_common" );
     }else if (best->ident() == skill_shotgun ) {
-        sel_weapon = random_item_from( type, "shotgun", "shotguns" );
+        sel_weapon = random_item_from( type, "shotgun", "guns_shotgun_common" );
     }else if (best->ident() == skill_smg ) {
-        sel_weapon = random_item_from( type, "smg", "smg" );
+        sel_weapon = random_item_from( type, "smg", "guns_smg_common" );
     }else if (best->ident() == skill_rifle ) {
-        sel_weapon = random_item_from( type, "rifle", "rifles" );
+        sel_weapon = random_item_from( type, "rifle", "guns_rifle_common" );
     }else if (best->ident() == skill_launcher ) {
         sel_weapon = random_item_from( type, "launcher" );
     }
@@ -1299,7 +1299,7 @@ void npc::form_opinion(player *u)
   op_of_u.trust -= 2;
  if (u->stim > 20 || u->stim < -20)
   op_of_u.trust -= 1;
- if (u->pkill > 30)
+ if (u->get_painkiller() > 30)
   op_of_u.trust -= 1;
 
  if (u->has_trait("PRETTY"))
@@ -1867,7 +1867,7 @@ item &npc::get_healing_item( bool bleed, bool bite, bool infect, bool first_best
 
 bool npc::has_painkiller()
 {
-    return inv.has_enough_painkiller( pain );
+    return inv.has_enough_painkiller( get_pain() );
 }
 
 bool npc::took_painkiller() const
@@ -2662,4 +2662,49 @@ float npc::speed_rating() const
     ret *= 100.0f / run_cost( 100, false );
 
     return ret;
+}
+
+bool npc::dispose_item( item& obj, const std::string & )
+{
+    using dispose_option = struct {
+        int moves;
+        std::function<void()> action;
+    };
+
+    std::vector<dispose_option> opts;
+
+    for( auto& e : worn ) {
+        if( e.can_holster( obj ) ) {
+            auto ptr = dynamic_cast<const holster_actor *>( e.type->get_use( "holster" )->get_actor_ptr() );
+            opts.emplace_back( dispose_option {
+                item_store_cost( obj, e, false, ptr->draw_cost ),
+                [this,ptr,&e,&obj]{ ptr->store( *this, e, obj ); }
+            } );
+        }
+    }
+
+    if( volume_carried() + obj.volume() <= volume_capacity() ) {
+        opts.emplace_back( dispose_option {
+            item_handling_cost( obj ) * INVENTORY_HANDLING_FACTOR,
+            [this,&obj] {
+                moves -= item_handling_cost( obj ) * INVENTORY_HANDLING_FACTOR;
+                inv.add_item_keep_invlet( i_rem( &obj ) );
+                inv.unsort();
+            }
+        } );
+    }
+
+    if( opts.empty() ) {
+        // Drop it
+        g->m.add_item_or_charges( pos(), i_rem( &obj ) );
+        return true;
+    }
+
+    const auto mn = std::min_element( opts.begin(), opts.end(),
+        []( const dispose_option &lop, const dispose_option &rop ) {
+        return lop.moves < rop.moves;
+    } );
+
+    mn->action();
+    return true;
 }

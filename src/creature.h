@@ -315,6 +315,11 @@ class Creature
 
         // not-quite-stats, maybe group these with stats later
         virtual void mod_pain(int npain);
+        virtual void mod_pain_noresist(int npain);
+        virtual void set_pain(int npain);
+        virtual int get_pain() const;
+        virtual int get_perceived_pain() const;
+
         virtual void mod_moves(int nmoves);
         virtual void set_moves(int nmoves);
 
@@ -425,7 +430,7 @@ class Creature
         virtual int weight_capacity() const;
         virtual int get_weight() const;
 
-        int moves, pain;
+        int moves;
         bool underwater;
 
         void draw(WINDOW *w, int plx, int ply, bool inv) const;
@@ -551,6 +556,9 @@ class Creature
         void store(JsonOut &jsout) const;
         // Load creature data from the given json object.
         void load(JsonObject &jsin);
+
+    private:
+        int pain;
 };
 
 #endif

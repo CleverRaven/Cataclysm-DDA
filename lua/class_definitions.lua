@@ -427,7 +427,6 @@ classes = {
             movecounter = { type = "int", writable = true },
             next_climate_control_check = { type = "int", writable = true },
             oxygen = { type = "int", writable = true },
-            pkill = { type = "int", writable = true },
             power_level = { type = "int", writable = true },
             radiation = { type = "int", writable = true },
             reactor_plut = { type = "int", writable = true },
@@ -687,6 +686,11 @@ classes = {
             { name = "metabolic_rate", rval = "float", args = { } },
             { name = "metabolic_rate_base", rval = "float", args = { } },
             { name = "mod_pain", rval = nil, args = { "int" } },
+            { name = "set_pain", rval = nil, args = { "int" } },
+            { name = "get_perceived_pain", rval = "int", args = { } },
+            { name = "mod_painkiller", rval = nil, args = { "int" } },
+            { name = "set_painkiller", rval = nil, args = { "int" } },
+            { name = "get_painkiller", rval = "int", args = { } },
             { name = "mod_stat", rval = nil, args = { "string", "int" } },
             { name = "get_morale_level", rval = "int", args = { } },
             { name = "mutate", rval = nil, args = { } },
@@ -1362,8 +1366,6 @@ classes = {
             { name = "pl_sees", rval = "bool", args = { "tripoint", "int" } },
             { name = "place_gas_pump", rval = nil, args = { "int", "int", "int" } },
             { name = "place_gas_pump", rval = nil, args = { "int", "int", "int", "string" } },
-            { name = "place_items", rval = "int", args = { "string", "int", "int", "int", "int", "int", "bool", "int" } },
-            { name = "place_items", rval = "int", args = { "string", "int", "int", "int", "int", "int", "bool", "int", "bool" } },
             { name = "place_npc", rval = "int", args = { "int", "int", "string" } },
             { name = "place_spawns", rval = nil, args = { "mongroup_id", "int", "int", "int", "int", "int", "float" } },
             { name = "place_toilet", rval = nil, args = { "int", "int" } },
@@ -1455,7 +1457,6 @@ classes = {
     },
     Creature = {
         attributes = {
-            pain = { type = "int", writable = true }
         },
         functions = {
             { name = "add_effect", rval = nil, args = { "efftype_id", "int" } },
@@ -1558,6 +1559,10 @@ classes = {
             { name = "mod_hit_bonus", rval = nil, args = { "int" } },
             { name = "mod_moves", rval = nil, args = { "int" } },
             { name = "mod_pain", rval = nil, args = { "int" } },
+            { name = "mod_pain_noresist", rval = nil, args = { "int" } },
+            { name = "set_pain", rval = nil, args = { "int" } },
+            { name = "get_pain", rval = "int", args = { } },
+            { name = "get_perceived_pain", rval = "int", args = { } },
             { name = "mod_speed_bonus", rval = nil, args = { "int" } },
             { name = "mod_stat", rval = nil, args = { "string", "int" } },
             { name = "move_effects", rval = "bool", args = { "bool" } },
