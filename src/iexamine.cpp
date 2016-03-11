@@ -607,11 +607,6 @@ void iexamine::cardreader(player *p, map *m, const tripoint &examp)
                           "id_military");
     if (p->has_amount(card_type, 1) && query_yn(_("Swipe your ID card?"))) {
         p->moves -= 100;
-        for(const tripoint &tmp : m->points_in_radius( examp, 3 ) ) {
-            if (m->ter(tmp) == t_door_metal_locked) {
-                m->ter_set(tmp, t_floor);
-            }
-        }
         //TODO only despawn turrets "behind" the door
         for (int i = 0; i < (int)g->num_zombies(); i++) {
             if ( (g->zombie(i).type->id == mon_turret) ||
@@ -621,8 +616,18 @@ void iexamine::cardreader(player *p, map *m, const tripoint &examp)
             }
         }
         add_msg(_("You insert your ID card."));
-        add_msg(m_good, _("The nearby doors slide into the floor."));
         p->use_amount(card_type, 1);
+
+        bool open = false;
+        for(const tripoint &tmp : m->points_in_radius( examp, 2 ) ) {
+            if (m->ter(tmp) == t_door_metal_locked) {
+                m->ter_set(tmp, t_door_metal_o);
+                open = true;
+            }
+        }
+        if(open){
+            add_msg(m_good, _("The nearby door slides open!"));
+        }
     } else {
         switch( hack_attempt( *p ) ) {
             case HACK_FAIL:
@@ -634,12 +639,16 @@ void iexamine::cardreader(player *p, map *m, const tripoint &examp)
             case HACK_SUCCESS:
                 {
                     add_msg(_("You activate the panel!"));
-                    add_msg(m_good, _("The nearby doors slide into the floor."));
                     m->ter_set(examp, t_card_reader_broken);
-                    for(const tripoint &tmp : m->points_in_radius( examp, 3 ) ) {
+                    bool open = false;
+                    for(const tripoint &tmp : m->points_in_radius( examp, 2 ) ) {
                         if (m->ter(tmp) == t_door_metal_locked) {
-                            m->ter_set(tmp, t_floor);
+                            m->ter_set(tmp, t_door_metal_o);
+                            open = true;
                         }
+                    }
+                    if(open){
+                        add_msg(m_good, _("The nearby door slides open!"));
                     }
                 }
                 break;
