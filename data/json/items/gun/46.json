@@ -24,7 +24,8 @@
     "valid_mod_locations": [[ "accessories", 3 ],[ "barrel", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
     "magazine_well" : 1,
     "magazines" : [
-        [ "46", [ "hk46mag", "hk46bigmag" ] ]
+        [ "46", [ "hk46mag", "hk46bigmag" ] ],
+        [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ]
     ],
     "flags": "MODE_BURST"
   },
@@ -52,7 +53,8 @@
     "reload": 100,
     "magazine_well" : 1,
     "magazines" : [
-        [ "46", [ "hk46mag", "hk46bigmag" ] ]
+        [ "46", [ "hk46mag", "hk46bigmag" ] ],
+        [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ]
     ],
     "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   }
