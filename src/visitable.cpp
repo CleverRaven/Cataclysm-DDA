@@ -215,6 +215,18 @@ VisitResponse visitable<vehicle_selector>::visit_items_with_parent(
 
 // Specialize visitable<T>::remove_items_with() for each class that will implement the visitable interface
 
+template <typename T>
+item visitable<T>::remove_item( item& it ) {
+    auto obj = remove_items_with( [&it]( const item& e ) { return &e == &it; }, 1 );
+    if( !obj.empty() ) {
+        return obj.front();
+
+    } else {
+        debugmsg( "Tried removing item from object which did not contain it" );
+        return item();
+    }
+}
+
 template <typename OutputIterator>
 static void remove_internal( const std::function<bool( item & )> &filter, item &node, int &count,
                              OutputIterator out )

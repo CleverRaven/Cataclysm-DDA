@@ -69,6 +69,9 @@ class visitable
          */
         std::list<item> remove_items_with( const std::function<bool( const item & )> &filter,
                                            int count = INT_MAX );
+
+        /** Removes and returns the item which must be contained by this instance */
+        item remove_item( item& it );
 };
 
 #endif
