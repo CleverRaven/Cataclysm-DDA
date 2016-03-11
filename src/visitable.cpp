@@ -240,7 +240,7 @@ std::list<item> visitable<item>::remove_items_with( const std::function<bool( co
     auto it = static_cast<item *>( this );
     std::list<item> res;
 
-    if( count == 0 ) {
+    if( count <= 0 ) {
         return res; // nothing to do
     }
 
@@ -256,7 +256,7 @@ std::list<item> visitable<inventory>::remove_items_with( const
     auto inv = static_cast<inventory *>( this );
     std::list<item> res;
 
-    if( count == 0 ) {
+    if( count <= 0 ) {
         return res; // nothing to do
     }
 
@@ -264,7 +264,7 @@ std::list<item> visitable<inventory>::remove_items_with( const
         // all items in a stack are identical so we only need to call the predicate once
         if( filter( stack->front() ) ) {
 
-            if( count < 0 || count >= int( stack->size() ) ) {
+            if( count >= int( stack->size() ) ) {
                 // remove the entire stack
                 count -= stack->size();
                 res.splice( res.end(), *stack );
@@ -304,6 +304,10 @@ std::list<item> visitable<Character>::remove_items_with( const
 {
     auto ch = static_cast<Character *>( this );
     std::list<item> res;
+
+    if( count <= 0 ) {
+        return res; // nothing to do
+    }
 
     // first try and remove items from the inventory
     res = ch->inv.remove_items_with( filter, count );
@@ -346,7 +350,7 @@ std::list<item> visitable<map_cursor>::remove_items_with( const
     auto cur = static_cast<map_cursor *>( this );
     std::list<item> res;
 
-    if( count == 0 ) {
+    if( count <= 0 ) {
         return res; // nothing to do
     }
 
@@ -408,7 +412,7 @@ std::list<item> visitable<vehicle_cursor>::remove_items_with( const
     auto cur = static_cast<vehicle_cursor *>( this );
     std::list<item> res;
 
-    if( count == 0 ) {
+    if( count <= 0 ) {
         return res; // nothing to do
     }
 
