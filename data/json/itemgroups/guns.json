@@ -79,8 +79,10 @@
     "id" : "guns_smg_common",
     "//" : "SMGs commonly owned by citizens and found in many locations.",
     "items": [
+      [ "american_180", 70 ],
       [ "briefcase_smg", 20 ],
-      [ "sten", 100 ]
+      [ "sten", 100 ],
+      [ "tec9", 100 ]
     ]
   },
   {
@@ -88,6 +90,7 @@
     "id" : "guns_smg_rare",
     "//" : "Less common SMGs including those only used by police/paramilitary forces.",
     "items": [
+      [ "calico", 30 ],
       [ "fn_p90", 50 ],
       [ "hk_mp5", 100 ],
       [ "hk_ump45", 30 ],

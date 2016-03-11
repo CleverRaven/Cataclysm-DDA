@@ -98,8 +98,8 @@
      "flags": "MODE_BURST",
      "skill": "smg",
      "ammo": "9mm",
-     "weight": 2170,
-     "volume": 6,
+     "weight": 1680,
+     "volume": 4,
      "bashing": 9,
      "to_hit": -2,
      "ranged_damage": -3,
@@ -109,9 +109,12 @@
      "recoil": -60,
      "durability": 6,
      "burst": 20,
-     "clip_size": 50,
-     "reload": 500,
+     "reload": 100,
      "loudness" : 150,
+     "magazine_well": 1,
+     "magazines": [
+       [ "9mm", [ "calicomag" ] ]
+     ],
      "valid_mod_locations": [[ "accessories", 3 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
     },
     {
