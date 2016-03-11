@@ -191,7 +191,12 @@ void Item_modifier::modify(item &new_item) const
             // spawn a "water (0)" item.
             new_item.charges = std::max( 1l, ch );
         } else if(t != NULL) {
-            new_item.charges = std::min(ch, t->max_charges);
+            const auto a = new_item.ammo_type();
+            const auto c = std::min(ch, t->max_charges);
+            new_item.charges = c;
+            if( ( a != "NULL" ) && ( c > 0 ) ) {
+                new_item.ammo_set( a, c );
+            }
         } else if (g == nullptr){
             //not gun, food, ammo or tool. 
             new_item.charges = ch;
