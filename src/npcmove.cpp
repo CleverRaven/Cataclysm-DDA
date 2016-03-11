@@ -2379,11 +2379,6 @@ float rate_food( const item &it, int want_nutr, int want_quench )
         return 0.0f;
     }
 
-    if( nutr > want_nutr ) {
-        // TODO: Allow overeating in some cases
-        return 0.0f;
-    }
-
     if( !it.type->use_methods.empty() ) {
         // TODO: Get a good method of telling apart:
         // raw meat (parasites - don't eat unless mutant)
@@ -2410,15 +2405,29 @@ float rate_food( const item &it, int want_nutr, int want_quench )
     float weight = std::max( 0.1f, it.get_relative_rot() );
     if( food->fun < 0 ) {
         // This helps to avoid eating stuff like flour
-        weight /= -food->fun + 1;
+        weight /= (-food->fun) + 1;
     }
 
     if( food->healthy < 0 ) {
-        weight /= -food->healthy + 1;
+        weight /= (-food->healthy) + 1;
     }
 
     if( quench > want_quench ) {
         weight -= 0.01f * (quench - want_quench);
+    }
+
+    if( quench < 0 && want_quench > 0 && want_nutr < want_quench ) {
+        // Avoid stuff that makes us thirsty when we're more thirsty than hungry
+        weight = weight * want_nutr / want_quench;
+    }
+
+    if( nutr > want_nutr ) {
+        // TODO: Allow overeating in some cases
+        if( nutr >= 5 ) {
+            return 0.0f;
+        }
+
+        weight -= 0.01f * (nutr - want_nutr);
     }
 
     if( it.poison > 0 ) {
@@ -2872,13 +2881,16 @@ bool npc::complain()
         return false;
     }
 
+    // Don't wake player up with non-serious complaints
+    const bool do_complain = rules.allow_complain && !g->u.in_sleep_state();
+
     // When infected, complain every (4-intensity) hours
     // At intensity 3, ignore player wanting us to shut up
     if( has_effect( effect_infected ) ) {
         body_part bp = bp_affected( *this, effect_infected );
         const auto &eff = get_effect( effect_infected, bp );
         if( complaints[infected_string] < calendar::turn - HOURS(4 - eff.get_intensity()) &&
-            (rules.allow_complain || eff.get_intensity() >= 3) ) {
+            (do_complain || eff.get_intensity() >= 3) ) {
             say( _("My %s wound is infected..."), body_part_name( bp ).c_str() );
             complaints[infected_string] = calendar::turn;
             // Only one complaint per turn
@@ -2889,7 +2901,7 @@ bool npc::complain()
     // When bitten, complain every hour, but respect restrictions
     if( has_effect( effect_bite ) ) {
         body_part bp = bp_affected( *this, effect_bite );
-        if( rules.allow_complain &&
+        if( do_complain &&
             complaints[bite_string] < calendar::turn - HOURS(1) ) {
             say( _("The bite wound on my %s looks bad."), body_part_name( bp ).c_str() );
             complaints[bite_string] = calendar::turn;
@@ -2901,7 +2913,7 @@ bool npc::complain()
     // If massively tired, ignore restrictions
     if( fatigue > TIRED &&
         complaints[fatigue_string] < calendar::turn - MINUTES(30) &&
-        (rules.allow_complain || fatigue > MASSIVE_FATIGUE - 100) ) {
+        (do_complain || fatigue > MASSIVE_FATIGUE - 100) ) {
         say( "<yawn>" );
         complaints[fatigue_string] = calendar::turn;
         return true;
@@ -2910,28 +2922,30 @@ bool npc::complain()
     // Radiation every 10 minutes
     if( radiation > 90 &&
         complaints[radiation_string] < calendar::turn - MINUTES(10) &&
-        (rules.allow_complain || radiation > 150) ) {
+        (do_complain || radiation > 150) ) {
         say( _("I'm suffering from radiation sickness...") );
         complaints[radiation_string] = calendar::turn;
         return true;
     }
 
-    // Hunger every 6 hours
+    // Hunger every 3-6 hours
     // Since NPCs can't starve to death, respect the rules
-    if( get_hunger() > 100
-        && complaints[hunger_string] < calendar::turn - HOURS(6) &&
-        rules.allow_complain ) {
+    if( get_hunger() > 160 &&
+        complaints[hunger_string] < calendar::turn - std::max( HOURS(3), MINUTES(60*8 - get_hunger()) ) &&
+        do_complain ) {
         say( _("<hungry>") );
         complaints[hunger_string] = calendar::turn;
+        return true;
     }
 
     // Thirst every 2 hours
     // Since NPCs can't dry to death, respect the rules
-    if( thirst > 50
+    if( thirst > 80
         && complaints[thirst_string] < calendar::turn - HOURS(2) &&
-        rules.allow_complain ) {
+        do_complain ) {
         say( _("<thirsty>") );
         complaints[thirst_string] = calendar::turn;
+        return true;
     }
 
     return false;

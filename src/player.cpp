@@ -5490,9 +5490,8 @@ void player::update_needs( int rate_multiplier )
     }
 
     if( is_npc() ) {
-        // Hunger and thirst advance *much* more slowly whilst we aren't a player.
-        hunger_rate *= 0.125f;
-        thirst_rate *= 0.125f;
+        hunger_rate *= 0.25f;
+        thirst_rate *= 0.25f;
     }
 
     if( !debug_ls && hunger_rate > 0.0f ) {
