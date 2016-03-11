@@ -71,10 +71,16 @@
     },
     {
         "type": "item_group",
-        "id": "stash_ammo",
+        "id": "ammo_rifle_rare",
         "items": [
           ["654", 5],
-          ["654t", 2],
+          ["654t", 2]
+        ]
+    },
+    {
+        "type": "item_group",
+        "id": "ammo_smg_rare",
+        "items": [
           ["20_dread", 2]
         ]
     },

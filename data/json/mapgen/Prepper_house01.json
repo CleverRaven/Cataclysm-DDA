@@ -114,7 +114,7 @@
                 { "item": "oven", "chance": 80,  "x": [ 2,2 ], "y": [ 19,19 ] },
                 { "item": "homeguns", "chance": 60,  "x": [ 4,8 ], "y": [ 21,21 ] },
                 { "item": "lmoe_guns", "chance": 40,  "x": [ 4,8 ], "y": [ 21,21 ] },
-                { "item": "stash_ammo", "chance": 30,  "x": [ 4,8 ], "y": [ 21,21 ] },
+                { "item": "ammo_reloaded", "chance": 30,  "x": [ 4,8 ], "y": [ 21,21 ] },
                 { "item": "magazines", "chance": 50, "x": [ 8,8 ], "y": [ 3,5 ] },
                 { "item": "novels", "chance": 70, "x": [ 13,13 ], "y": [ 10,12 ] },
                 { "item": "cleaning", "chance": 70, "x": [ 15,21 ], "y": [ 2,5 ] },
