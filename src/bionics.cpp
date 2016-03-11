@@ -70,6 +70,12 @@ namespace {
 std::map<std::string, bionic_data> bionics;
 std::vector<std::string> faulty_bionics;
 
+std::string bodyparts[] = { _( "Torso" ), _( "Head" ), _( "Eyes" ), _( "Mouth" ),
+                            _( "L. Arm" ), _( "R. Arm" ), _( "L. Hand" ), _( "R. Hand" ),
+                            _( "L. Leg" ), _( "R. Leg" ), _( "L. Foot" ), _( "R. Foot" ),
+                            _( "Other" ), _( "All" )
+                          };
+
 void draw_frame( WINDOW *win, const bool empty_list );
 void draw_header( WINDOW *win, const std::pair<int, int> power_units, const std::string help_key );
 
@@ -93,7 +99,7 @@ void draw_frame( WINDOW *win, const bool empty_list )
     } else {
         // titles
         static const std::array<std::string, 3> titles = {{
-            _( "Body Part (Used/Total Pts.)" ),
+            _( "Bionic [Size]" ),
             _( "Condition" ),
             _( "Usage Cost" )
         }};
@@ -110,10 +116,11 @@ void draw_frame( WINDOW *win, const bool empty_list )
     wrefresh( win );
 }
 
-void draw_header( WINDOW *win, const std::string power_string, const std::string help_key )
+void draw_header( WINDOW *win, const size_t tab_index, const std::string power_string,
+                  const std::string help_key )
 {
-    static const std::array<std::string, 3> titles = {{
-        string_format( _( "Body Parts <color_yellow><< %s >></color>" ), _( "All" ) ),
+    const std::array<std::string, 3> titles = {{
+        string_format( _( "Body Parts <color_yellow><< %s >></color>" ), bodyparts[tab_index].c_str() ),
         power_string,
         string_format( _( "Press '<color_yellow>%s</color>' for help" ), help_key.c_str() )
     }};
@@ -123,13 +130,17 @@ void draw_header( WINDOW *win, const std::string power_string, const std::string
         ( getmaxx( win ) - utf8_width( titles[1] ) ) / 2 + 1,
         ( getmaxx( win ) - utf8_width( titles[2], true ) - 1 )
     }};
+
+    werase( win );
     for( size_t i = 0; i < std::min( titles.size(), pos.size() ); ++i ) {
         fold_and_print( win, 0, pos[i], getmaxx( win ) - 3, c_white, titles[i].c_str() );
     }
     wrefresh( win );
 }
 
+
 } //namespace
+
 
 bool is_valid_bionic(std::string const& id)
 {
@@ -727,15 +738,16 @@ void player::power_bionics_new()
                                  5, win_w - 1, win_y + 4, win_x );
     WINDOW_PTR w_bio_list_ptr( w_bio_list );
 
-
     input_context ctxt( "BIONICS" );
-    ctxt.register_updown();
+    ctxt.register_cardinal();
     ctxt.register_action( "ANY_INPUT" );
     ctxt.register_action( "REASSIGN" );
     ctxt.register_action( "REMOVE" );
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
 
+    size_t tab_count = num_bp + 2;
+    size_t tab_index = tab_count - 1;
     int cursor = 0;
     int scroll_position = 0;
     const int max_scroll_position = std::max( 0, static_cast<int>( my_bionics.size() ) -
@@ -746,9 +758,9 @@ void player::power_bionics_new()
     for( ;; ) {
         if( redraw ) {
             draw_frame( w_bionics, my_bionics.empty() );
-            draw_header( w_bio_header, string_format( _( "Power: %i/%i" ),
-                                                      int( power_level ),
-                                                      int( max_power_level ) ),
+            draw_header( w_bio_header, tab_index, string_format( _( "Power: %i/%i" ),
+                                                                 int( power_level ),
+                                                                 int( max_power_level ) ),
                          ctxt.get_desc( "HELP_KEYBINDINGS" ) );
             werase( w_bio_list );
             draw_scrollbar( w_bio_list, cursor, getmaxy( w_bio_list ), my_bionics.size(),
@@ -757,8 +769,8 @@ void player::power_bionics_new()
                                                         int( my_bionics.size() ) ); ++i ) {
                 const bionic& b = my_bionics[i];
                 const bool highlighted = ( i == cursor );
-                mvwputch( w_bio_list, i - scroll_position, 2,
-                          get_bionic_text_color( b, highlighted ), b.invlet );
+                const nc_color cbm_color = get_bionic_text_color( b, highlighted );
+                mvwputch( w_bio_list, i - scroll_position, 2, cbm_color, b.invlet );
 
                 // highlight the current line
                 if( highlighted ){
@@ -767,12 +779,12 @@ void player::power_bionics_new()
                     }
                 }
 
-                mvwprintz( w_bio_list, i - scroll_position, 5, get_bionic_text_color( b, highlighted ),
+                mvwprintz( w_bio_list, i - scroll_position, 5, cbm_color,
                            bionic_info( b.id ).name.c_str() );
+                wprintz( w_bio_list, cbm_color, " [%d]", b.occupied_size );
                 if( bionic_info( b.id ).toggled ) {
                     mvwprintz( w_bio_list, i - scroll_position, getmaxx( w_bio_list ) / 2,
-                               get_bionic_text_color( b, highlighted ),
-                               b.powered ? _( "ON" ) : _( "OFF" ) );
+                               cbm_color, b.powered ? _( "ON" ) : _( "OFF" ) );
                 }
 
                 //~illi-kun: copy-pasted from dedicated function
@@ -842,6 +854,14 @@ void player::power_bionics_new()
                 cursor - scroll_position > getmaxy( w_bio_list ) / 2 ) {
                 scroll_position++;
             }
+            redraw = true;
+
+        } else if( action == "LEFT" ) {
+            ( tab_index > 0 ) ? tab_index-- : tab_index = tab_count - 1;
+            redraw = true;
+
+        } else if( action == "RIGHT" ) {
+            tab_index = ( tab_index + 1 ) % tab_count;
             redraw = true;
 
         } else if( action == "REASSIGN" ) {
@@ -2138,6 +2158,8 @@ void bionic::serialize(JsonOut &json) const
     json.member("invlet", (int)invlet);
     json.member("powered", powered);
     json.member("charge", charge);
+    json.member("occupied_size", occupied_size );
+    json.member("occupied_bp", occupied_bp );
     json.end_object();
 }
 
@@ -2148,4 +2170,6 @@ void bionic::deserialize(JsonIn &jsin)
     invlet = jo.get_int("invlet");
     powered = jo.get_bool("powered");
     charge = jo.get_int("charge");
+    occupied_size = jo.get_int( "occupied_size", 0 );
+    occupied_bp = static_cast<body_part>( jo.get_int( "occupied_bp", 12 ) );
 }

@@ -42,6 +42,8 @@ struct bionic : public JsonSerializer, public JsonDeserializer {
     int         charge  = 0;
     char        invlet  = 'a';
     bool        powered = false;
+    int         occupied_size = 0;
+    body_part   occupied_bp = static_cast<body_part>( 12 );
 
     bionic()
         : id( "bio_batteries" ) { }
