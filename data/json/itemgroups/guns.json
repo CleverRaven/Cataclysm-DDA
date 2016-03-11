@@ -77,6 +77,7 @@
     "id" : "guns_smg_common",
     "//" : "SMGs commonly owned by citizens and found in many locations.",
     "items": [
+      [ "american_180", 70 ],
       [ "briefcase_smg", 20 ],
       [ "sten", 100 ]
     ]

@@ -120,6 +120,7 @@
     "id" : "mags_smg_common",
     "//" : "Factory specification smg magazines commonly owned by citizens.",
     "items": [
+      ["a180mag",10],
       ["mac10mag", 10],
       ["mp5mag", 10],
       ["stenmag", 5],
