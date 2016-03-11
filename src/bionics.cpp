@@ -7,6 +7,7 @@
 #include "input.h"
 #include "item.h"
 #include "bionics.h"
+#include "bodypart.h"
 #include "line.h"
 #include "json.h"
 #include "messages.h"
@@ -803,7 +804,7 @@ void player::power_bionics_new()
                         power_desc << ", ";
                     }
                     power_desc << string_format( _( "%d PU / activation" ),
-                                    bionics[b.id].power_activate );
+                                                 bionics[b.id].power_activate );
                     hasPreviousText = true;
                 }
                 if( bionics[b.id].power_deactivate > 0 && !bionics[b.id].charge_time ) {
@@ -1590,6 +1591,68 @@ void player::process_bionic(int b)
         // Sound of hissing hydraulic muscle! (not quite as loud as a car horn)
         sounds::sound( pos(), 19, _("HISISSS!"));
     }
+}
+
+void player::refresh_bionics_slots()
+{
+    for( auto& bio : my_bionics ) {
+        bionics_slots[bio.occupied_bp].first += bio.occupied_size;
+    }
+    for( int i = 0; i < num_bp; ++i ) {
+        switch( static_cast<body_part>( i ) ) {
+            case bp_torso:
+                bionics_slots[i].second = 20;
+
+            case bp_head:
+                bionics_slots[i].second = 5;
+
+            case bp_eyes:
+                bionics_slots[i].second = 2;
+
+            case bp_mouth:
+                bionics_slots[i].second = 2;
+
+            case bp_arm_l:
+            case bp_arm_r:
+                bionics_slots[i].second = 8;
+
+            case bp_hand_l:
+            case bp_hand_r:
+                bionics_slots[i].second = 3;
+
+            case bp_leg_l:
+            case bp_leg_r:
+                if( has_trait( "LEG_TENTACLES" ) ) {
+                    // 3 tentacles, 4 slots ea
+                    bionics_slots[i].second = 3 * 4;
+                } else {
+                    // boring regular legs
+                    bionics_slots[i].second = 10;
+                }
+
+            case bp_foot_l:
+            case bp_foot_r:
+                bionics_slots[i].second = 4;
+
+            case num_bp:
+                bionics_slots[i].second = INT_MAX;
+        }
+    }
+}
+
+int player::get_used_bionics_slots( int bp )
+{
+    return bionics_slots[bp].first;
+}
+
+int player::get_total_bionics_slots( int bp )
+{
+    return bionics_slots[bp].second;
+}
+
+int player::get_free_bionics_slots( int bp )
+{
+    return get_total_bionics_slots( bp ) - get_used_bionics_slots( bp );
 }
 
 void bionics_uninstall_failure(player *u)

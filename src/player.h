@@ -1163,7 +1163,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void boost_skill_level(const skill_id &ident, int level);
 
         std::map<std::string, const recipe *> learned_recipes;
-
         std::vector<matype_id> ma_styles;
         matype_id style_selected;
         bool keep_hands_free;
@@ -1176,6 +1175,16 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         std::string lastrecipe;
         int last_batch;
         itype_id lastconsumed;        //used in crafting.cpp and construction.cpp
+
+        // used and total number of bionics slots in each bodypart
+        std::array<std::pair<int, int>, num_bp> bionics_slots;
+
+        // update content of bionics_slots[]
+        void refresh_bionics_slots();
+
+        int get_used_bionics_slots( int bp );
+        int get_total_bionics_slots( int bp );
+        int get_free_bionics_slots( int bp );
 
         //Dumps all memorial events into a single newline-delimited string
         std::string dump_memorial() const;
