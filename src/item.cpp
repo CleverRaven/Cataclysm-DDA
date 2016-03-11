@@ -257,7 +257,7 @@ item& item::ammo_set( const itype_id& ammo, long qty )
 
 item& item::ammo_unset()
 {
-    if( !is_tool() || !is_gun() || !is_magazine() ) {
+    if( !is_tool() && !is_gun() && !is_magazine() ) {
         ; // do nothing
 
     } else if( is_magazine() ) {
