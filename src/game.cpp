@@ -11358,7 +11358,7 @@ bool game::unload( item &it )
             }
             u.moves -= u.item_reload_cost( *target, e ) / 2;
             return true;
-        } ), it.contents.end() );
+        } ), target->contents.end() );
 
         add_msg( _( "You unload your %s." ), target->tname().c_str() );
         return true;
