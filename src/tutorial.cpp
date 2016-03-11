@@ -91,7 +91,7 @@ void tutorial_game::per_turn()
         }
     }
 
-    if( g->u.pain > 0 ) {
+    if( g->u.get_pain() > 0 ) {
         add_message( LESSON_PAIN );
     }
 

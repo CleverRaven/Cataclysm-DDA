@@ -3322,7 +3322,7 @@ bool game::is_game_over()
         // deny player movement and dodging
         u.moves = 0;
         // prevent pain from updating
-        u.pain = 0;
+        u.set_pain( 0 );
         // prevent dodging
         u.dodges_left = 0;
         return false;
@@ -4228,7 +4228,7 @@ void game::debug()
                     }
                     break;
                     case D_PAIN: {
-                        int dbg_damage = query_int( "Cause how much pain? pain: %d", p.pain );
+                        int dbg_damage = query_int( "Cause how much pain? pain: %d", p.get_pain() );
                         p.mod_pain( dbg_damage );
                     }
                     break;
@@ -14416,7 +14416,7 @@ void game::process_artifact(item *it, player *p)
             case ARTC_PAIN:
                 if (calendar::turn.seconds() == 0) {
                     add_msg(m_bad, _("You suddenly feel sharp pain for no reason."));
-                    p->pain += 3 * rng(1, 3);
+                    p->mod_pain_noresist( 3 * rng(1, 3) );
                     it->charges++;
                 }
                 break;

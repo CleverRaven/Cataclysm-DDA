@@ -1119,16 +1119,12 @@ void monster::deal_damage_handle_type(const damage_unit& du, body_part bp, int& 
     switch (du.type) {
     case DT_ELECTRIC:
         if (has_flag(MF_ELECTRIC)) {
-            damage += 0; // immunity
-            pain += 0;
-            return; // returns, since we don't want a fallthrough
+            return; // immunity
         }
         break;
     case DT_COLD:
         if (!has_flag(MF_WARM)) {
-            damage += 0; // immunity
-            pain += 0;
-            return;
+            return; // immunity
         }
         break;
     case DT_BASH:
@@ -1143,9 +1139,7 @@ void monster::deal_damage_handle_type(const damage_unit& du, body_part bp, int& 
         break;
     case DT_ACID:
         if( has_flag( MF_ACIDPROOF ) ) {
-            damage += 0; // immunity
-            pain += 0;
-            return;
+            return; // immunity
         }
     case DT_TRUE: // typeless damage, should always go through
     case DT_BIOLOGICAL: // internal damage, like from smoke or poison

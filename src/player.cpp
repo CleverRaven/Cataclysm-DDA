@@ -168,7 +168,6 @@ player::player() : Character()
  int_max = 8;
  per_cur = 8;
  per_max = 8;
- underwater = false;
  dodges_left = 1;
  blocks_left = 1;
  power_level = 0;
@@ -177,7 +176,6 @@ player::player() : Character()
  fatigue = 0;
  stamina = get_stamina_max();
  stim = 0;
- pain = 0;
  pkill = 0;
  radiation = 0;
  tank_plut = 0;
@@ -328,19 +326,19 @@ void player::reset_stats()
     }
 
     // Pain
-    if (pain > pkill) {
+    if ( get_perceived_pain() > 0 ) {
         if (!(has_trait("CENOBITE"))) {
-            mod_str_bonus(-int((pain - pkill) / 15));
-            mod_dex_bonus(-int((pain - pkill) / 15));
-            add_miss_reason(_("Your pain distracts you!"), int(pain - pkill) / 15);
+            mod_str_bonus(-int(get_perceived_pain() / 15));
+            mod_dex_bonus(-int(get_perceived_pain() / 15));
+            add_miss_reason(_("Your pain distracts you!"), int( get_perceived_pain() / 15 ));
         }
-        mod_per_bonus(-int((pain - pkill) / 20));
+        mod_per_bonus(-int(get_perceived_pain() / 20));
         if (!(has_trait("INT_SLIME"))) {
-            mod_int_bonus(-(1 + int((pain - pkill) / 25)));
+            mod_int_bonus(-(1 + int(get_perceived_pain() / 25)));
         } else if (has_trait("INT_SLIME")) {
         // Having one's brain throughout one's body does have its downsides.
         // Be glad we don't assess permanent damage.
-            mod_int_bonus(-(1 + int(pain - pkill)));
+            mod_int_bonus(-( 1 + get_perceived_pain() ));
         }
     }
     // Morale
@@ -579,7 +577,7 @@ void player::apply_persistent_morale()
 
     // Masochists get a morale bonus from pain.
     if (has_trait("MASOCHIST") || has_trait("MASOCHIST_MED") ||  has_trait("CENOBITE")) {
-        int bonus = pain / 2.5;
+        int bonus = get_perceived_pain() / 2.5;
         // Advanced masochists really get a morale bonus from pain.
         // (It's not capped.)
         if (has_trait("MASOCHIST") && (bonus > 25)) {
@@ -635,12 +633,6 @@ void player::update_mental_focus()
 // with some small edits/corrections by Soron
 int player::calc_focus_equilibrium() const
 {
-    // Factor in pain, since it's harder to rest your mind while your body hurts.
-    int eff_morale = get_morale_level() - pain;
-    // Cenobites don't mind, though
-    if (has_trait("CENOBITE")) {
-        eff_morale = eff_morale + pain;
-    }
     int focus_gain_rate = 100;
 
     if (activity.type == ACT_READ) {
@@ -653,6 +645,13 @@ int player::calc_focus_equilibrium() const
                 focus_gain_rate -= 50;
             }
         }
+    }
+
+    int eff_morale = get_morale_level();
+    // Factor in perceived pain, since it's harder to rest your mind while your body hurts.
+    // Cenobites don't mind, though
+    if( !has_trait( "CENOBITE" ) ) {
+        eff_morale = eff_morale - get_perceived_pain();
     }
 
     if (eff_morale < -99) {
@@ -1478,8 +1477,8 @@ void player::recalc_speed_bonus()
     }
     mod_speed_bonus(-carry_penalty);
 
-    if (pain > pkill) {
-        int pain_penalty = int((pain - pkill) * .7);
+    if (get_perceived_pain() > 0) {
+        int pain_penalty = int(get_perceived_pain() * .7);
         // Cenobites aren't slowed nearly as much by pain
         if (has_trait("CENOBITE")) {
             pain_penalty /= 4;
@@ -1489,8 +1488,8 @@ void player::recalc_speed_bonus()
         }
         mod_speed_bonus(-pain_penalty);
     }
-    if (pkill >= 10) {
-        int pkill_penalty = int(pkill * .1);
+    if (get_painkiller() >= 10) {
+        int pkill_penalty = int(get_painkiller() * .1);
         if (pkill_penalty > 30) {
             pkill_penalty = 30;
         }
@@ -2078,9 +2077,9 @@ void player::memorial( std::ofstream &memorial_file, std::string epitaph )
       had_effect = true;
       memorial_file << indent << _("Depressed") << "\n";
     }
-    if(pain - pkill > 0) {
+    if(get_perceived_pain() > 0) {
       had_effect = true;
-      memorial_file << indent << _("Pain") << " (" << (pain - pkill) << ")";
+      memorial_file << indent << _("Pain") << " (" << get_perceived_pain() << ")";
     }
     if(stim > 0) {
       had_effect = true;
@@ -2356,20 +2355,20 @@ void player::disp_info()
             int( get_morale_level() / 100 ) << "   ";
         effect_text.push_back(morale_text.str());
     }
-    if (pain - pkill > 0) {
+    if (get_perceived_pain() > 0) {
         effect_name.push_back(_("Pain"));
         std::stringstream pain_text;
         // Cenobites aren't markedly physically impaired by pain.
-        if ((pain - pkill >= 15) && (!(has_trait("CENOBITE")))) {
-            pain_text << _("Strength") << " -" << int((pain - pkill) / 15) << "   " << _("Dexterity") << " -" <<
-                int((pain - pkill) / 15) << "   ";
+        if ((get_perceived_pain() >= 15) && (!(has_trait("CENOBITE")))) {
+            pain_text << _("Strength") << " -" << int(get_perceived_pain() / 15) << "   " << _("Dexterity") << " -" <<
+                int(get_perceived_pain() / 15) << "   ";
         }
         // They do find the sensations distracting though.
         // Pleasurable...but distracting.
-        if (pain - pkill >= 20) {
-            pain_text << _("Perception") << " -" << int((pain - pkill) / 15) << "   ";
+        if (get_perceived_pain() >= 20) {
+            pain_text << _("Perception") << " -" << int(get_perceived_pain() / 15) << "   ";
         }
-        pain_text << _("Intelligence") << " -" << 1 + int((pain - pkill) / 25);
+        pain_text << _("Intelligence") << " -" << 1 + int(get_perceived_pain() / 25);
         effect_text.push_back(pain_text.str());
     }
     if (stim > 0) {
@@ -2726,7 +2725,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
                       (abs(pen) < 10 ? " " : ""), abs(pen));
         line++;
     }
-    pen = int((pain - pkill) * .7);
+    pen = int(get_perceived_pain() * .7);
     if (has_trait("CENOBITE")) {
         pen /= 4;
     }
@@ -2737,8 +2736,8 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
                   (pen < 10 ? " " : ""), pen);
         line++;
     }
-    if (pkill >= 10) {
-        pen = int(pkill * .1);
+    if (get_painkiller() >= 10) {
+        pen = int(get_painkiller() * .1);
         mvwprintz(w_speed, line, 1, c_red, _("Painkillers         -%s%d%%"),
                   (pen < 10 ? " " : ""), pen);
         line++;
@@ -3591,13 +3590,13 @@ void player::disp_status( WINDOW *w, WINDOW *w2 )
     wprintz( w, col_xp, " %d", focus_pool );
 
     nc_color col_pain = c_yellow;
-    if( pain - pkill >= 60 ) {
+    if( get_perceived_pain() >= 60 ) {
         col_pain = c_red;
-    } else if( pain - pkill >= 40 ) {
+    } else if( get_perceived_pain() >= 40 ) {
         col_pain = c_ltred;
     }
-    if( pain - pkill > 0 ) {
-        mvwprintz( w, sideStyle ? 0 : 3, 0, col_pain, _( "Pain %d" ), pain - pkill );
+    if( get_perceived_pain() > 0 ) {
+        mvwprintz( w, sideStyle ? 0 : 3, 0, col_pain, _( "Pain %d" ), get_perceived_pain() );
     }
 
     int morale_cur = get_morale_level();
@@ -4772,40 +4771,76 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp, const 
 }
 
 void player::mod_pain(int npain) {
-    if ((has_trait("NOPAIN"))) {
+    if( npain > 0 ) {
+        if( has_trait( "NOPAIN" ) ) {
+            return;
+        }
+        if( npain > 1 ) { // if it's 1 it'll just become 0, which is bad
+            if( has_trait( "PAINRESIST" ) ) {
+                npain = npain * 4 / rng( 4,8 );
+            }
+            // Dwarves get better pain-resist, what with mining and all
+            if( has_trait( "PAINRESIST_TROGLO" ) ) {
+                npain = npain * 4 / rng( 6,9 );
+            }
+        }
+    }
+    Creature::mod_pain( npain );
+}
+
+void player::set_pain(int npain)
+{
+    const int prev_pain = get_perceived_pain();
+
+    Creature::set_pain( npain );
+    react_to_felt_pain( get_perceived_pain() - prev_pain );
+}
+
+int player::get_perceived_pain() const
+{
+    return std::max( get_pain() - get_painkiller(), 0 );
+}
+
+void player::mod_painkiller(int npkill)
+{
+    set_painkiller( pkill + npkill );
+}
+
+void player::set_painkiller(int npkill)
+{
+    const int prev_pain = get_perceived_pain();
+
+    pkill = std::max( npkill, 0 );
+    react_to_felt_pain( get_perceived_pain() - prev_pain );
+}
+
+int player::get_painkiller() const
+{
+    return pkill;
+}
+
+void player::react_to_felt_pain( int intensity )
+{
+    if( intensity <= 0 ) {
         return;
     }
-    if (has_trait("PAINRESIST") && npain > 1) {
-        // if it's 1 it'll just become 0, which is bad
-        npain = npain * 4 / rng(4,8);
+    if( is_player() && intensity >= 2 ) {
+        g->cancel_activity_query( _( "Ouch, something hurts!" ) );
     }
-    // Dwarves get better pain-resist, what with mining and all
-    if (has_trait("PAINRESIST_TROGLO") && npain > 1) {
-        npain = npain * 4 / rng(6,9);
-    }
-    // reduce new felt pain by excess pkill, if any.
-    int felt_pain = npain - std::max(0, pkill - pain);
-    // Only trigger the "you felt it" effects if we are going to feel it.
-    if (felt_pain > 0) {
-        // Putting the threshold at 2 here to avoid most basic "ache" style
-        // effects from constantly asking you to stop crafting.
-        if (!is_npc() && felt_pain >= 2) {
-            g->cancel_activity_query(_("Ouch, something hurts!"));
+    // Only a large pain burst will actually wake people while sleeping.
+    if( in_sleep_state() ) {
+        int pain_thresh = rng( 3, 5 );
+
+        if( has_trait( "HEAVYSLEEPER" ) ) {
+            pain_thresh += 2;
+        } else if ( has_trait( "HEAVYSLEEPER2" ) ) {
+            pain_thresh += 5;
         }
-        // Only a large pain burst will actually wake people while sleeping.
-        if(in_sleep_state()) {
-            int pain_thresh = rng(3, 5);
-            if (has_trait("HEAVYSLEEPER")) {
-                pain_thresh += 2;
-            } else if (has_trait("HEAVYSLEEPER2")) {
-                pain_thresh += 5;
-            }
-            if (felt_pain >= pain_thresh) {
-                wake_up();
-            }
+
+        if( intensity >= pain_thresh ) {
+            wake_up();
         }
     }
-    Creature::mod_pain(npain);
 }
 
 /*
@@ -4835,7 +4870,7 @@ void player::apply_damage(Creature *source, body_part hurt, int dam)
     }
 
     lifetime_stats()->damage_taken += dam;
-    if( dam > pkill ) {
+    if( dam > get_painkiller() ) {
         on_hurt( source );
     }
 }
@@ -5310,7 +5345,7 @@ void player::check_needs_extremes()
         add_memorial_log(pgettext("memorial_male", "Died of a drug overdose."),
                            pgettext("memorial_female", "Died of a drug overdose."));
         hp_cur[hp_torso] = 0;
-    } else if (stim < -200 || pkill > 240) {
+    } else if (stim < -200 || get_painkiller() > 240) {
         add_msg_if_player(m_bad, _("Your breathing stops completely."));
         add_memorial_log(pgettext("memorial_male", "Died of a drug overdose."),
                            pgettext("memorial_female", "Died of a drug overdose."));
@@ -5523,7 +5558,7 @@ void player::update_needs( int rate_multiplier )
         }
 
         // Untreated pain causes a flat penalty to fatigue reduction
-        recovery_rate -= float(pain - pkill) / 60;
+        recovery_rate -= float(get_perceived_pain()) / 60;
 
         if( recovery_rate > 0.0f ) {
             int recovered = divide_roll_remainder( recovery_rate * rate_multiplier, 1.0 );
@@ -5551,10 +5586,8 @@ void player::update_needs( int rate_multiplier )
         stim = std::max( stim - rate_multiplier, 0 );
     }
 
-    if( pkill < 0 ) {
-        pkill = std::min( pkill + rate_multiplier, 0 );
-    } else if( pkill > 0 ) {
-        pkill = std::max( pkill - rate_multiplier, 0 );
+    if( get_painkiller() > 0 ) {
+        mod_painkiller( - rate_multiplier );
     }
 
     if( has_bionic("bio_solar") && g->is_in_sunlight( pos() ) ) {
@@ -5568,7 +5601,7 @@ void player::update_needs( int rate_multiplier )
     // Huge folks take penalties for cramming themselves in vehicles
     if( (has_trait("HUGE") || has_trait("HUGE_OK")) && in_vehicle ) {
         add_msg_if_player(m_bad, _("You're cramping up from stuffing yourself in this vehicle."));
-        pain += 2 * rng(2, 3);
+        mod_pain_noresist( 2 * rng(2, 3) );
         focus_pool -= 1;
     }
 
@@ -5583,12 +5616,8 @@ void player::update_needs( int rate_multiplier )
 void player::regen( int rate_multiplier )
 {
     int pain_ticks = rate_multiplier;
-    while( pain > 0 && pain_ticks-- > 0 ) {
-        pain -= 1 + int( pain / 10 );
-    }
-
-    if( pain < 0 ) {
-        pain = 0;
+    while( get_pain() > 0 && pain_ticks-- > 0 ) {
+        mod_pain( -( 1 + int( get_pain() / 10 ) ) );
     }
 
     float heal_rate = 0.0f;
@@ -6022,8 +6051,8 @@ void player::add_eff_effects(effect e, bool reduced)
     }
     // Add pkill
     if (e.get_amount("PKILL", reduced) > 0) {
-        pkill += bound_mod_to_vals(pkill, e.get_amount("PKILL", reduced),
-                        e.get_max_val("PKILL", reduced), 0);
+        mod_painkiller(bound_mod_to_vals(pkill, e.get_amount("PKILL", reduced),
+                        e.get_max_val("PKILL", reduced), 0));
     }
 
     // Add radiation
@@ -6065,7 +6094,7 @@ void player::add_eff_effects(effect e, bool reduced)
     }
     // Add pain
     if (e.get_amount("PAIN", reduced) > 0) {
-        int pain_inc = bound_mod_to_vals(pain, e.get_amount("PAIN", reduced),
+        int pain_inc = bound_mod_to_vals(get_pain(), e.get_amount("PAIN", reduced),
                         e.get_max_val("PAIN", reduced), 0);
         mod_pain(pain_inc);
         if (pain_inc > 0) {
@@ -6228,7 +6257,7 @@ void player::process_effects() {
                     }
                 }
                 if(it.activated(calendar::turn, "PAIN", val, reduced, mod)) {
-                    int pain_inc = bound_mod_to_vals(pain, val, it.get_max_val("PAIN", reduced), 0);
+                    int pain_inc = bound_mod_to_vals(get_pain(), val, it.get_max_val("PAIN", reduced), 0);
                     mod_pain(pain_inc);
                     if (pain_inc > 0) {
                         add_pain_msg(val, bp);
@@ -6285,7 +6314,7 @@ void player::process_effects() {
             if (val != 0) {
                 mod = it.get_addict_mod("PKILL", addiction_level(ADD_PKILLER));
                 if(it.activated(calendar::turn, "PKILL", val, reduced, mod)) {
-                    pkill += bound_mod_to_vals(pkill, val, it.get_max_val("PKILL", reduced), 0);
+                    mod_painkiller(bound_mod_to_vals(pkill, val, it.get_max_val("PKILL", reduced), 0));
                 }
             }
 
@@ -7743,7 +7772,7 @@ void player::suffer()
                 } else if ((pkilladd < 0) && (!(has_trait("NOPAIN")))) {
                     add_msg_if_player(m_bad, _("You suddenly ache."));
                 }
-                pkill += pkilladd;
+                mod_painkiller(pkilladd);
             }
             if (one_in(3600)) {
                 add_msg_if_player(m_bad, _("You feel dizzy for a moment."));
@@ -7825,7 +7854,7 @@ void player::suffer()
                     break;
                 case 5:
                     add_msg_if_player(m_bad, _("You suddenly feel so numb..."));
-                    pkill += 25;
+                    mod_painkiller(25);
                     break;
                 case 6:
                     add_msg_if_player(m_bad, _("You start to shake uncontrollably."));
@@ -7931,15 +7960,15 @@ void player::suffer()
         mod_hunger(-1);
     }
 
-    if (pain > 0) {
+    if (get_pain() > 0) {
         if (has_trait("PAINREC1") && one_in(600)) {
-            pain--;
+            mod_pain( -1 );
         }
         if (has_trait("PAINREC2") && one_in(300)) {
-            pain--;
+            mod_pain( -1 );
         }
         if (has_trait("PAINREC3") && one_in(150)) {
-            pain--;
+            mod_pain( -1 );
         }
     }
 
@@ -7996,9 +8025,8 @@ void player::suffer()
     if (has_trait("SORES")) {
         for (int i = bp_head; i < num_bp; i++) {
             int sores_pain = 5 + (int)(0.4 * abs( encumb( body_part( i ) ) ) );
-            if ((pain < sores_pain) && (!(has_trait("NOPAIN")))) {
-                pain = 0;
-                mod_pain( sores_pain );
+            if (get_pain() < sores_pain) {
+                set_pain( sores_pain );
             }
         }
     }
@@ -12915,8 +12943,8 @@ void player::environmental_revert_effect()
     set_healthy(0);
     set_healthy_mod(0);
     stim = 0;
-    pain = 0;
-    pkill = 0;
+    set_pain(0);
+    set_painkiller(0);
     radiation = 0;
 
     recalc_sight_limits();
@@ -13075,7 +13103,7 @@ void player::burn_move_stamina( int moves )
     if ((current_weight > max_weight) && (has_trait("BADBACK") || stamina == 0) && one_in(35 - 5 * current_weight / (max_weight / 2))) {
         add_msg_if_player(m_bad, _("Your body strains under the weight!"));
         // 1 more pain for every 800 grams more (5 per extra STR needed)
-        if ( ((current_weight - max_weight) / 800 > pain && pain < 100)) {
+        if ( ((current_weight - max_weight) / 800 > get_pain() && get_pain() < 100)) {
             mod_pain(1);
         }
     }

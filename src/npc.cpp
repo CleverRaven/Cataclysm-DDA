@@ -1299,7 +1299,7 @@ void npc::form_opinion(player *u)
   op_of_u.trust -= 2;
  if (u->stim > 20 || u->stim < -20)
   op_of_u.trust -= 1;
- if (u->pkill > 30)
+ if (u->get_painkiller() > 30)
   op_of_u.trust -= 1;
 
  if (u->has_trait("PRETTY"))
@@ -1867,7 +1867,7 @@ item &npc::get_healing_item( bool bleed, bool bite, bool infect, bool first_best
 
 bool npc::has_painkiller()
 {
-    return inv.has_enough_painkiller( pain );
+    return inv.has_enough_painkiller( get_pain() );
 }
 
 bool npc::took_painkiller() const

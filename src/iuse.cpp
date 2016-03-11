@@ -473,7 +473,7 @@ int alcohol(player *p, item *it, int strength)
         duration += STR(120, 300, 450);
     }
     if (!(p->has_trait("ALCMET"))) {
-        p->pkill += STR(4, 8, 12);
+        p->mod_painkiller( STR(4, 8, 12) );
     }
     p->add_effect( effect_drunk, duration);
     return it->type->charges_to_use();
@@ -541,9 +541,8 @@ int iuse::smoking(player *p, item *it, bool, const tripoint& )
         cig.item_counter = 40;
         p->mod_hunger(4);
         p->thirst += 6;
-        if (p->pkill < 5) {
-            p->pkill += 3;
-            p->pkill *= 2;
+        if( p->get_painkiller() < 5 ) {
+            p->set_painkiller( ( p->get_painkiller() + 3 ) * 2 );
         }
     } else {
         p->add_msg_if_player(m_bad,
@@ -807,9 +806,8 @@ int iuse::weed_brownie(player *p, item *it, bool, const tripoint& )
     }
     p->mod_hunger(2);
     p->thirst += 6;
-    if (p->pkill < 5) {
-        p->pkill += 3;
-        p->pkill *= 2;
+    if( p->get_painkiller() < 5 ) {
+        p->set_painkiller( ( p->get_painkiller() + 3 ) * 2 );
     }
     p->add_effect( effect_weed_high, duration);
     p->moves -= 100;
@@ -1069,10 +1067,10 @@ int iuse::oxygen_bottle(player *p, item *it, bool, const tripoint& )
         p->remove_effect( effect_asthma);
     } else if (p->stim < 16) {
         p->stim += 8;
-        p->pkill += 2;
+        p->mod_painkiller( 2 );
     }
     p->remove_effect( effect_winded);
-    p->pkill += 2;
+    p->mod_painkiller( 2 );
     return it->type->charges_to_use();
 }
 
@@ -1367,7 +1365,7 @@ static void test_crossing_threshold(player *p, const mutation_category_trait &m_
                 p->add_msg_if_player(m_bad, _("You feel extremely Bugged."));
             } else {
                 p->add_msg_if_player(m_bad, _("You stagger with a piercing headache!"));
-                p->pain += 8;
+                p->mod_pain_noresist( 8 );
                 p->add_effect( effect_stunned, rng(3, 5));
             }
         } else if (p->mutation_category_level[primary] > 80) {
@@ -1375,7 +1373,7 @@ static void test_crossing_threshold(player *p, const mutation_category_trait &m_
                 p->add_msg_if_player(m_bad, _("You feel very Bugged."));
             } else {
                 p->add_msg_if_player(m_bad, _("Your head throbs with memories of your life, before all this..."));
-                p->pain += 6;
+                p->mod_pain_noresist( 6 );
                 p->add_effect( effect_stunned, rng(2, 4));
             }
         } else if (p->mutation_category_level[primary] > 60) {
@@ -1710,7 +1708,7 @@ int iuse::marloss(player *p, item *it, bool t, const tripoint &pos)
         p->thirst += 10;
     } else if (effect <= 6) { // Radiation cleanse is below
         p->add_msg_if_player(m_good, _("This berry makes you feel better all over."));
-        p->pkill += 30;
+        p->mod_painkiller(30);
         this->purifier(p, it, t, pos);
         if (effect == 6) {
             p->radiation = 0;
@@ -1817,7 +1815,7 @@ int iuse::marloss_seed(player *p, item *it, bool t, const tripoint &pos)
         p->thirst += 10;
     } else if (effect <= 6) { // Radiation cleanse is below
         p->add_msg_if_player(m_good, _("This seed makes you feel better all over."));
-        p->pkill += 30;
+        p->mod_painkiller(30);
         this->purifier(p, it, t, pos);
         if (effect == 6) {
             p->radiation = 0;
@@ -1921,7 +1919,7 @@ int iuse::marloss_gel(player *p, item *it, bool t, const tripoint &pos)
         p->thirst += 10;
     } else if (effect <= 6) { // Radiation cleanse is below
         p->add_msg_if_player(m_good, _("This jelly makes you feel better all over."));
-        p->pkill += 30;
+        p->mod_painkiller(30);
         this->purifier(p, it, t, pos);
         if (effect == 6) {
             p->radiation = 0;
@@ -1983,7 +1981,7 @@ int iuse::mycus(player *p, item *it, bool t, const tripoint &pos)
                         pgettext("memorial_female", "Became one with the Mycus."));
         p->add_msg_if_player(m_neutral, _("The apple tastes amazing, and you finish it quickly, not even noticing the lack of any core or seeds."));
         p->add_msg_if_player(m_good, _("You feel better all over."));
-        p->pkill += 30;
+        p->mod_painkiller(30);
         this->purifier(p, it, t, pos); // Clear out some of that goo you may have floating around
         p->radiation = 0;
         p->healall(4); // Can't make you a whole new person, but not for lack of trying
@@ -2020,7 +2018,7 @@ int iuse::mycus(player *p, item *it, bool t, const tripoint &pos)
             p->add_morale(MORALE_MARLOSS, 25, 200); // still covers up mutation pain
         }
     } else if (p->has_trait("THRESH_MYCUS")) {
-        p->pkill += 5;
+        p->mod_painkiller(5);
         p->stim += 5;
     } else { // In case someone gets one without having been adapted first.
         // Marloss is the Mycus' method of co-opting humans.  Mycus fruit is for symbiotes' maintenance and development.
@@ -4721,7 +4719,7 @@ const std::string &get_music_description()
         _("some amazing vocals."),
         _("some pumping bass."),
         _("dramatic classical music.")
-        
+
     }};
 
     if( one_in( 50 ) ) {
@@ -5645,7 +5643,7 @@ int iuse::artifact(player *p, item *it, bool, const tripoint& )
                 // OK, the Lovecraftian thingamajig can bring Deadened
                 // masochists & Cenobites the stimulation they've been
                 // craving ;)
-                p->pain += rng(5, 15);
+                p->mod_pain_noresist( rng(5, 15) );
                 break;
 
             case AEA_MUTATE:
@@ -6084,7 +6082,7 @@ int iuse::jet_injector(player *p, item *it, bool, const tripoint& )
         p->add_msg_if_player(_("You inject yourself with the jet injector."));
         // Intensity is 2 here because intensity = 1 is the comedown
         p->add_effect( effect_jetinjector, 200, num_bp, false, 2);
-        p->pkill += 20;
+        p->mod_painkiller(20);
         p->stim += 10;
         p->healall(20);
     }
@@ -6110,7 +6108,7 @@ int iuse::stimpack(player *p, item *it, bool, const tripoint& )
         p->add_msg_if_player(_("You inject yourself with the stimulants."));
         // Intensity is 2 here because intensity = 1 is the comedown
         p->add_effect( effect_stimpack, 250, num_bp, false, 2);
-        p->pkill += 2;
+        p->mod_painkiller(2);
         p->stim += 20;
         p->fatigue -= 100;
         p->stamina = p->get_stamina_max();
