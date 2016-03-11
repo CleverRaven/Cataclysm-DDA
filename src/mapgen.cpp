@@ -3504,18 +3504,23 @@ C..C..C...|hhh|#########\n\
                     for (int i = 0; i <= 23; i++) {
                         for (int j = 0; j <= 23; j++) {
                             if (this->furn(i, j) == f_locker) {
-                                place_items("mil_surplus", 50,  i,  j, i,  j, false, 0);
+                                place_items( "clothing_soldier_set", 100,  i, j, i, j, false, 0 );
+                                if( one_in( 2 ) ) {
+                                    place_items( "gear_soldier_sidearm", 100,  i, j, i, j, false, 0, 100, 100 );
+                                } else {
+                                    place_items( "book_military", 100,  i, j, i, j, false, 0 );
+                                }
                             } else if (this->furn(i, j) == f_desk) {
                                 place_items("office", 50,  i,  j, i,  j, false, 0);
                             } else if (this->furn(i, j) == f_rack) {
                                 if (one_in(3)) {
-                                    place_items("mil_surplus", 30,  i,  j, i,  j, false, 0);
+                                    place_items( "military", 30,  i,  j, i,  j, false, 0 );
                                 } else if (one_in(2)) {
-                                    place_items("ammo", 30,  i,  j, i,  j, false, 0);
-                                } else if (one_in(3)) {
-                                    place_items("military", 30,  i,  j, i,  j, false, 0);
+                                    place_items( "ammo_milspec", 30,  i,  j, i,  j, false, 0 );
+                                } else if (one_in(4)) {
+                                    place_items( "mags_milspec", 30,  i,  j, i,  j, false, 0 );
                                 } else {
-                                    place_items("mil_rifles", 30,  i,  j, i,  j, false, 0);
+                                    place_items( "guns_milspec", 30,  i,  j, i,  j, false, 0, 100 );
                                 }
                             } else if (this->furn(i, j) == f_bed) {
                                 place_items("bed", 50,  i,  j, i,  j, false, 0);
@@ -4336,7 +4341,7 @@ ff.......|....|WWWWWWWW|\n\
             square_furn(this, f_counter, SEEX - 1, SEEY - 1, SEEX, SEEY);
             int item_count = 0;
             while (item_count < 5) {
-                item_count += place_items("bionics", 75, SEEX - 1, SEEY - 1, SEEX, SEEY, false, 0);
+                item_count += place_items( "bionics", 75, SEEX - 1, SEEY - 1, SEEX, SEEY, false, 0 ).size();
             }
             line(this, t_reinforced_glass, SEEX - 2, SEEY - 2, SEEX + 1, SEEY - 2);
             line(this, t_reinforced_glass, SEEX - 2, SEEY + 1, SEEX + 1, SEEY + 1);
@@ -4453,74 +4458,43 @@ ff.......|....|WWWWWWWW|\n\
                 // Fill rooms with items!
                 for (int i = 2; i <= 15; i += 13) {
                     items_location goods;
-                    int size = 0;
-                    bool HW = 0;
-                    switch (rng(1, 14)) {
-                    case  1:
-                    case  2:
-                        goods = "bots";
-                        size = 85;
-                        HW = 0;
-                        break;
-                    case  3:
-                    case  4:
-                        goods = "launchers";
-                        size = 83;
-                        HW = 0;
-                        break;
-                    case  5:
-                    case  6:
-                        goods = "mil_rifles";
-                        size = 87;
-                        HW = 0;
-                        break;
-                    case  7:
-                    case  8:
-                        goods = "grenades";
-                        size = 88;
-                        HW = 0;
-                        break;
-                    case  9:
-                    case 10:
-                        goods = "mil_armor";
-                        size = 85;
-                        HW = 0;
-                        break;
-                    case 11:
-                        goods = "mil_hw";
-                        size = 82;
-                        HW = 1;
-                        break;
-                    case 12:
-                    case 13:
-                        goods = "mil_food";
-                        size = 90;
-                        HW = 0;
-                        break;
-                    case 14:
-                        goods = "bionics_mil";
-                        size = 78;
-                        HW = 0;
-                        break;
+                    switch( rng( 1, 14 ) ) {
+                        case 1:
+                            goods = "bots";
+                            break;
+                        case 2:
+                            goods = "launchers";
+                            break;
+                        case 3:
+                        case 4:
+                            goods = "guns_rifle_milspec";
+                            break;
+                        case 5:
+                            goods = "mags_milspec";
+                            break;
+                        case 6:
+                        case 7:
+                        case 8:
+                            goods = "ammo_milspec";
+                            break;
+                        case  9:
+                            goods = "grenades";
+                            break;
+                        case 10:
+                            goods = "mil_armor";
+                            break;
+                        case 11:
+                            goods = "mil_hw";
+                            break;
+                        case 12:
+                        case 13:
+                            goods = "mil_food";
+                            break;
+                        case 14:
+                            goods = "bionics_mil";
+                            break;
                     }
-                    place_items(goods, size, i, j, i + 6, j + 5, false, 0);
-                      if (HW == 1) {
-                        if (one_in(2)) {
-                        spawn_item(i + 2, j + 1, "556", 2);
-                        }
-                        if (one_in(4)) {
-                        spawn_item(i + 2, j + 1, "8mm_fmj", 2);
-                        }
-                        if (one_in(4)) {
-                        spawn_item(i + 2, j + 1, "8mm_inc", 2);
-                        }
-                        if (one_in(5)) {
-                        spawn_item(i + 2, j + 1, "20x66_flechette", 2);
-                        }
-                        if (one_in(5)) {
-                        spawn_item(i + 2, j + 1, "40mm_concussive", 2);
-                        }
-                      }
+                    place_items( goods, 80, i, j, i + 6, j + 5, false, 0, 100 );
                 }
             }
             line(this, t_wall_metal, 1, 1, SEEX * 2 - 2, 1);
@@ -4582,14 +4556,16 @@ ff.......|....|WWWWWWWW|\n\
                         place_items("bed", 50, bx2 - 2, i, bx2 - 1, i, false, 0);
                     }
                     place_items("bedroom", 84, bx1 + 1, by1 + 1, bx2 - 1, by2 - 1, false, 0);
-                    place_items("mil_books", 45, bx1 + 1, by1 + 1, bx2 - 1, by2 - 1, false, 0);
+                    place_items("book_military", 45, bx1 + 1, by1 + 1, bx2 - 1, by2 - 1, false, 0);
                     break;
                 case 2: // Armory
                     line_furn(this, f_counter, bx1 + 1, by1 + 1, bx2 - 1, by1 + 1);
                     line_furn(this, f_counter, bx1 + 1, by2 - 1, bx2 - 1, by2 - 1);
                     line_furn(this, f_counter, bx1 + 1, by1 + 2, bx1 + 1, by2 - 2);
                     line_furn(this, f_counter, bx2 - 1, by1 + 2, bx2 - 1, by2 - 2);
-                    place_items("mil_rifles", 40, bx1 + 1, by1 + 1, bx2 - 1, by1 + 1, false, 0);
+                    place_items( "guns_rifle_milspec", 40, bx1 + 1, by1 + 1, bx2 - 1, by1 + 1, false, 0, 100 );
+                    place_items( "mags_milspec", 40, bx1 + 1, by1 + 1, bx2 - 1, by1 + 1, false, 0 );
+                    place_items( "ammo_milspec", 40, bx1 + 1, by1 + 1, bx2 - 1, by1 + 1, false, 0 );
                     place_items("launchers",  40, bx1 + 1, by2 - 1, bx2 - 1, by2 - 1, false, 0);
                     place_items("grenades",   40, bx1 + 1, by1 + 2, bx1 + 1, by2 - 2, false, 0);
                     place_items("mil_armor",  40, bx2 - 1, by1 + 2, bx2 - 1, by2 - 2, false, 0);
@@ -4700,12 +4676,10 @@ ff.......|....|WWWWWWWW|\n\
                 if (one_in(5)) { // Military zombie
                     add_spawn(mon_zombie_soldier, 1, rnx, rny);
                 } else if (one_in(2)) {
-                    add_item( rnx, rny, item::make_corpse() );
-                    place_items("launchers",  10, rnx, rny, rnx, rny, true, 0);
-                    place_items("mil_rifles", 30, rnx, rny, rnx, rny, true, 0);
-                    place_items("mil_armor",  70, rnx, rny, rnx, rny, true, 0);
-                    place_items("mil_food",   40, rnx, rny, rnx, rny, true, 0);
-                    spawn_item(rnx, rny, "id_military");
+                    add_item( rnx, rny, item::make_corpse( mon_zombie_soldier ) );
+                    if( one_in( 3 ) ) {
+                        place_items( "mon_zombie_soldier_death_drops", 100, rnx, rny, rnx, rny, true, 0, 100 );
+                    }
                 } else if (one_in(4)) { // Bionic Op zombie!
                     add_spawn(mon_zombie_bio_op, 1, rnx, rny);
                 } else if (one_in(4)) {
@@ -10025,7 +9999,9 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
             place_items("allclothes", 90, 5, 6, 7, 7, false, 0);
             place_items("softdrugs", 90, 5, 11, 7, 12, false, 0);
             place_items("hardware", 90, 5, 16, 7, 17, false, 0);
-            place_items("mil_rifles", 90, 18, 9, 18, 14, false, 0);
+            if( one_in( 3 ) ) {
+                place_items( "guns_rifle_milspec", 90, 18, 9, 18, 14, false, 0, 100, 100 );
+            }
             place_items("office", 80, 10, 11, 13, 12, false, 0);
             add_spawn(mon_zombie_soldier, rng(1, 6), 12, 14);
         } else {
@@ -10650,7 +10626,7 @@ void map::place_vending(int x, int y, std::string type)
     } else {
         furn_set(x, y, f_vending_c);
     }
-    place_items(type, broken ? 40 : 99, x, y, x, y, false, 0, false);
+    place_items( type, broken ? 40 : 99, x, y, x, y, false, 0 );
 }
 
 int map::place_npc(int x, int y, std::string type)
@@ -10670,25 +10646,27 @@ int map::place_npc(int x, int y, std::string type)
 
 // A chance of 100 indicates that items should always spawn,
 // the item group should be responsible for determining the amount of items.
-int map::place_items(items_location loc, int chance, int x1, int y1,
-                     int x2, int y2, bool ongrass, int turn, bool)
+std::vector<item *> map::place_items( items_location loc, int chance, int x1, int y1,
+                                      int x2, int y2, bool ongrass, int turn,
+                                      int magazine, int ammo )
 {
+    std::vector<item *> res;
+
     const float spawn_rate = ACTIVE_WORLD_OPTIONS["ITEM_SPAWNRATE"];
 
     if (chance > 100 || chance <= 0) {
         debugmsg("map::place_items() called with an invalid chance (%d)", chance);
-        return 0;
+        return res;
     }
     if (!item_group::group_is_defined(loc)) {
         const point omt = sm_to_omt_copy( get_abs_sub().x, get_abs_sub().y );
         const oter_id &oid = overmap_buffer.ter( omt.x, omt.y, get_abs_sub().z );
         debugmsg("place_items: invalid item group '%s', om_terrain = '%s' (%s)",
                  loc.c_str(), oid.t().id.c_str(), oid.t().id_mapgen.c_str() );
-        return 0;
+        return res;
     }
 
     int px, py;
-    int item_num = 0;
     while (chance == 100 || rng(0, 99) < chance) {
         float lets_spawn = spawn_rate;
         while( rng_float( 0.0, 1.0 ) <= lets_spawn ) {
@@ -10708,14 +10686,23 @@ int map::place_items(items_location loc, int chance, int x1, int y1,
                 tries++;
             } while ( is_valid_terrain(px,py) && tries < 20 );
             if (tries < 20) {
-                item_num += put_items_from_loc( loc, tripoint( px, py, abs_sub.z ), turn ).size();
+                auto put = put_items_from_loc( loc, tripoint( px, py, abs_sub.z ), turn );
+                res.insert( res.end(), put.begin(), put.end() );
             }
         }
         if (chance == 100) {
             break;
         }
     }
-    return item_num;
+    for( auto e : res ) {
+        if( rng( 0, 99 ) < magazine && !e->magazine_integral() && !e->magazine_current() ) {
+            e->contents.emplace_back( e->magazine_default(), e->bday );
+        }
+        if( rng( 0, 99 ) < ammo && e->ammo_type() != "NULL" && e->ammo_remaining() == 0 ) {
+            e->ammo_set( default_ammo( e->ammo_type() ), e->ammo_capacity() );
+        }
+    }
+    return res;
 }
 
 std::vector<item*> map::put_items_from_loc(items_location loc, const tripoint &p, int turn)
@@ -12870,12 +12857,12 @@ void mx_supplydrop(map &m, const tripoint &abs_sub)
             item_group = "mil_armor";
             break;
         case 10:
-            item_group = "mil_rifles";
+            item_group = "guns_rifle_milspec";
             break;
         }
         int items_created = 0;
         for(int i = 0; i < 10 && items_created < 2; i++) {
-            items_created += m.place_items(item_group, 80, x, y, x, y, true, 0);
+            items_created += m.place_items( item_group, 80, x, y, x, y, true, 0, 100 ).size();
         }
         if (m.i_at(x, y).empty()) {
             m.destroy( tripoint( x,  y, abs_sub.z ), true );

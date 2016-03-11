@@ -54,7 +54,7 @@
                 { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.70 }
             ],
             "place_items": [
-                { "item": "mil_books", "chance": 50, "x": [ 8,8 ], "y": [ 6,6 ]},
+                { "item": "book_military", "chance": 50, "x": [ 8,8 ], "y": [ 6,6 ]},
                 { "item": "office", "chance": 70, "x": [ 12,14 ], "y": [ 6,6 ]},
                 { "item": "cleaning", "chance": 70, "x": [ 15,15 ], "y": [ 17,17 ]},
                 { "item": "cleaning", "chance": 70, "x": [ 23,23 ], "y": [ 17,17 ]},
@@ -235,7 +235,7 @@
                 { "item": "guns_rifle_milspec", "chance": 85, "x": [ 11,23 ], "y": [ 8,8 ], "magazine": 100 },
                 { "item": "guns_pistol_milspec", "chance": 85, "x": [ 10,10 ], "y": [ 8,12 ], "magazine": 100 },
                 { "item": "bionics_mil", "chance": 50, "x": [ 13,15 ], "y": [ 10,11 ]},
-                { "item": "mil_books", "chance": 50, "x": [ 6,6 ], "y": [ 6,6 ]},
+                { "item": "book_military", "chance": 50, "x": [ 6,6 ], "y": [ 6,6 ]},
                 { "item": "office", "chance": 70, "x": [ 0,2 ], "y": [ 6,6 ]},
                 { "item": "army_bed", "chance": 70, "x": [ 5,6], "y": [ 23,23 ]},
                 { "item": "army_bed", "chance": 70, "x": [ 5,6 ], "y": [ 19,19 ]},
@@ -410,7 +410,7 @@
                 { "item": "guns_rifle_milspec", "chance": 85, "x": [ 0,5 ], "y": [ 8,8 ], "magazine": 50 },
                 { "item": "grenades", "chance": 85, "x": [ 6,6 ], "y": [ 8,12 ]},
                 { "item": "launchers", "chance": 70, "x": [ 1,3 ], "y": [ 10,11 ]},
-                { "item": "mil_books", "chance": 50, "x": [ 10,10 ], "y": [ 6,6 ]},
+                { "item": "book_military", "chance": 50, "x": [ 10,10 ], "y": [ 6,6 ]},
                 { "item": "office", "chance": 70, "x": [ 14,16 ], "y": [ 6,6 ]},
                 { "item": "army_bed", "chance": 70, "x": [ 11,12 ], "y": [ 3,4 ]},
                 { "item": "army_bed", "chance": 70, "x": [ 10,11], "y": [ 11,11 ]},
@@ -583,7 +583,7 @@
                 { "item": "army_personal_locker", "chance": 70, "x": [ 3,3 ], "y": [ 16,16]},
                 { "item": "army_personal_locker", "chance": 70, "x": [ 5,5 ], "y": [ 10,10]},
                 { "item": "army_personal_locker", "chance": 70, "x": [ 3,3 ], "y": [ 10,10]},
-                { "item": "mil_books", "chance": 50, "x": [ 8,8 ], "y": [ 6,6 ]},
+                { "item": "book_military", "chance": 50, "x": [ 8,8 ], "y": [ 6,6 ]},
                 { "item": "office", "chance": 70, "x": [ 2,4 ], "y": [ 6,6 ]},
                 { "item": "cleaning", "chance": 70, "x": [ 1,1 ], "y": [ 17,17 ]},
                 { "item": "army_personal_locker", "chance": 70, "x": [ 8,8 ], "y": [ 3,3 ]},
@@ -5402,7 +5402,7 @@
             "place_items": [
                 { "item": "museum_misc", "chance": 80, "x": [ 8,9 ], "y": [ 22,22 ]},
                 { "item": "museum_melee", "chance": 80, "x": [ 13,14 ], "y": [ 22,22 ]},
-                { "item": "mil_books", "chance": 70, "x": [ 16,17 ], "y": [ 5,5 ]},
+                { "item": "book_military", "chance": 70, "x": [ 16,17 ], "y": [ 5,5 ]},
                 { "item": "cop_gear", "chance": 50, "x": [ 19,19 ], "y": [ 1,3 ]}
             ],
             "terrain": {

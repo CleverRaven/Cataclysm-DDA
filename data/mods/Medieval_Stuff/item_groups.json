@@ -77,7 +77,7 @@
     ]
   },{
     "type" : "item_group",
-    "id" : "mil_books",
+    "id" : "book_military",
     "items":[
       ["manual_pankration", 1]
     ]

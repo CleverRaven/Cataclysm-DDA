@@ -89,6 +89,24 @@
     ]
   },
   {
+    "id": "gear_soldier_sidearm",
+    "type": "item_group",
+    "comment": "Sidearm and appropriate holster or sheath for soldiers or other paramilitary forces.",
+    "items": [
+      { "distribution": [
+        { "item": "PR24-retracted", "prob": 20 },
+        { "collection": [
+          { "item": "knife_combat" },
+          { "item": "sheath" }
+        ], "prob": 30 },
+        { "collection": [
+          { "group": "guns_pistol_milspec" },
+          { "item": "holster" }
+        ], "prob": 50 }
+      ] }
+    ]
+  },
+  {
     "id": "gear_survival",
     "type": "item_group",
     "comment" : "Lightweight, simple and portable items useful for survival.",

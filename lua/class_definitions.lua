@@ -1366,8 +1366,6 @@ classes = {
             { name = "pl_sees", rval = "bool", args = { "tripoint", "int" } },
             { name = "place_gas_pump", rval = nil, args = { "int", "int", "int" } },
             { name = "place_gas_pump", rval = nil, args = { "int", "int", "int", "string" } },
-            { name = "place_items", rval = "int", args = { "string", "int", "int", "int", "int", "int", "bool", "int" } },
-            { name = "place_items", rval = "int", args = { "string", "int", "int", "int", "int", "int", "bool", "int", "bool" } },
             { name = "place_npc", rval = "int", args = { "int", "int", "string" } },
             { name = "place_spawns", rval = nil, args = { "mongroup_id", "int", "int", "int", "int", "int", "float" } },
             { name = "place_toilet", rval = nil, args = { "int", "int" } },
