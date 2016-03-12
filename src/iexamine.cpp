@@ -73,7 +73,7 @@ void iexamine::gaspump(player &p, const tripoint &examp)
                 item spill( item_it->type->id, calendar::turn );
                 const auto min = item_it->liquid_charges( 1 );
                 ///\EFFECT_DEX decreases amount of gas spilled from a pump
-                const auto max = item_it->liquid_charges( 1 ) * 8.0 / p.dex_cur;
+                const auto max = item_it->liquid_charges( 1 ) * 8.0 / ( std::max( 1, p->dex_cur) );
                 spill.charges = rng( min, max );
                 g->m.add_item_or_charges( p.pos(), spill, 1 );
                 item_it->charges -= spill.charges;
