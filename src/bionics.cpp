@@ -77,10 +77,11 @@ std::string bodyparts[] = { _( "Torso" ), _( "Head" ), _( "Eyes" ), _( "Mouth" )
                             _( "Other" ), _( "All" )
                           };
 
-void draw_frame( WINDOW *win, const bool empty_list );
+void draw_background( WINDOW *win, const bool empty_list );
 void draw_header( WINDOW *win, const std::pair<int, int> power_units, const std::string help_key );
+const char *power_description( std::string const &id );
 
-void draw_frame( WINDOW *win, const bool empty_list )
+void draw_background( WINDOW *win, const bool empty_list )
 {
     draw_border( win );
     // lines below header & above footer:
@@ -139,6 +140,34 @@ void draw_header( WINDOW *win, const size_t tab_index, const std::string power_s
     wrefresh( win );
 }
 
+const char *power_description( std::string const &id )
+{
+    std::ostringstream power_desc;
+    bool has_previous_text = false;
+    if( bionics[id].power_over_time > 0 && bionics[id].charge_time > 0 ) {
+        power_desc << ( bionics[id].charge_time == 1 ?
+                        string_format( _("%d PU / turn" ), bionics[id].power_over_time ) :
+                        string_format( _("%d PU / %d turns" ), bionics[id].power_over_time,
+                                       bionics[id].charge_time ) );
+        has_previous_text = true;
+    }
+    if( bionics[id].power_activate > 0 && bionics[id].charge_time == 0 ) {
+        if( has_previous_text ) {
+            power_desc << ", ";
+        }
+        power_desc << string_format( _( "%d PU / activation" ),
+                                     bionics[id].power_activate );
+        has_previous_text = true;
+    }
+    if( bionics[id].power_deactivate > 0 && bionics[id].charge_time == 0 ) {
+        if( has_previous_text ) {
+            power_desc << ", ";
+        }
+        power_desc << string_format( _( "%d PU / deactivation" ),
+                                     bionics[id].power_deactivate );
+    }
+    return power_desc.str().c_str();
+}
 
 } //namespace
 
@@ -243,6 +272,7 @@ std::string build_bionic_poweronly_string(bionic const &bio)
     return power_desc.str();
 }
 
+//OBSOLETE:
 //generates the string that show how much power a bionic uses
 std::string build_bionic_powerdesc_string(bionic const &bio)
 {
@@ -754,11 +784,17 @@ void player::power_bionics_new()
     const int max_scroll_position = std::max( 0, static_cast<int>( my_bionics.size() ) -
                                               getmaxy( w_bio_list ) );
     bool redraw = true;
+    bool recalc = true;
 
     // main loop
     for( ;; ) {
+        if( recalc ) {
+            refresh_bionics_slots();
+            // todo: build cache of bionics in each bodypart here
+            recalc = false;
+        }
         if( redraw ) {
-            draw_frame( w_bionics, my_bionics.empty() );
+            draw_background( w_bionics, my_bionics.empty() );
             draw_header( w_bio_header, tab_index, string_format( _( "Power: %i/%i" ),
                                                                  int( power_level ),
                                                                  int( max_power_level ) ),
@@ -788,36 +824,11 @@ void player::power_bionics_new()
                                cbm_color, b.powered ? _( "ON" ) : _( "OFF" ) );
                 }
 
-                //~illi-kun: copy-pasted from dedicated function
-                std::ostringstream power_desc;
-                bool hasPreviousText = false;
-                if( bionics[b.id].power_over_time > 0 && bionics[b.id].charge_time > 0 ) {
-                    power_desc << ( bionics[b.id].charge_time == 1 ?
-                                    string_format( _("%d PU / turn" ),
-                            bionics[b.id].power_over_time ) :
-                            string_format( _("%d PU / %d turns" ),
-                            bionics[b.id].power_over_time, bionics[b.id].charge_time ) );
-                    hasPreviousText = true;
-                }
-                if( bionics[b.id].power_activate > 0 && !bionics[b.id].charge_time ) {
-                    if( hasPreviousText ){
-                        power_desc << ", ";
-                    }
-                    power_desc << string_format( _( "%d PU / activation" ),
-                                                 bionics[b.id].power_activate );
-                    hasPreviousText = true;
-                }
-                if( bionics[b.id].power_deactivate > 0 && !bionics[b.id].charge_time ) {
-                    if( hasPreviousText ){
-                        power_desc << ", ";
-                    }
-                    power_desc << string_format( _( "%d PU / deactivation" ),
-                                    bionics[b.id].power_deactivate );
-                }
+                const char* desc = power_description( b.id );
                 mvwprintz( w_bio_list, i - scroll_position,
                            std::min( getmaxx( w_bio_list ) * 2 / 3 + 8,
-                                     getmaxx( w_bio_list ) - utf8_width( power_desc.str() ) - 1 ),
-                           get_bionic_text_color( b, highlighted ), power_desc.str().c_str() );
+                                     getmaxx( w_bio_list ) - utf8_width( desc ) - 1 ),
+                           get_bionic_text_color( b, highlighted ), desc );
             }
             wrefresh( w_bio_list );
 
@@ -893,6 +904,7 @@ void player::power_bionics_new()
 
         } else if( action == "REMOVE" ) {
             if( uninstall_bionic( my_bionics[cursor].id ) ) {
+                recalc = true;
                 redraw = true;
                 continue;
             }
