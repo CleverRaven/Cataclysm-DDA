@@ -44,7 +44,7 @@
     "id": "barrel_small",
     "type": "GUNMOD",
     "name": "shortened barrel",
-    "description": "A shortened barrel results in markedly reduced accuracy, and a minor increase in noise, but also greatly improves the ease with which the weapon can be carried and wielded.",
+    "description": "A shortened barrel markedly reduces effective range but also greatly improves the ease with which the weapon can be carried and aimed.",
     "weight": 0,
     "volume": 0,
     "price": 12000,
@@ -53,8 +53,6 @@
     "color": "light_gray",
     "location": "barrel",
     "mod_targets": [ "smg", "rifle", "shotgun" ],
-    "dispersion_modifier": 75,
-    "loudness_modifier": 2,
     "flags": [ "IRREMOVABLE" ]
   },
   {

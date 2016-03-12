@@ -3742,17 +3742,25 @@ int item::gun_dispersion( bool with_ammo ) const
     if( !is_gun() ) {
         return 0;
     }
-    int dispersion_sum = type->gun->dispersion;
+
+    int res = type->gun->dispersion;
     for( const auto mod : gunmods() ) {
-        dispersion_sum += mod->type->gunmod->dispersion;
+        res += mod->type->gunmod->dispersion;
     }
-    dispersion_sum += damage * 60;
-    dispersion_sum = std::max(dispersion_sum, 0);
+
+    auto barrel = gunmod_find( "barrel_small" );
+    if( barrel ) {
+        res += type->gun->barrel_length * 20;
+    }
+
+    res += damage * 60;
+    res = std::max( res, 0 );
+
     if( with_ammo && ammo_data() ) {
-        dispersion_sum += ammo_data()->ammo->dispersion;
+        res = std::max( res + ammo_data()->ammo->dispersion, 0 );
     }
-    dispersion_sum = std::max(dispersion_sum, 0);
-    return dispersion_sum;
+
+    return res;
 }
 
 // Sight dispersion and aim speed pick the best sight bonus to use.
@@ -3818,6 +3826,12 @@ int item::gun_damage( bool with_ammo ) const
     for( const auto mod : gunmods() ) {
         ret += mod->type->gunmod->damage;
     }
+
+    auto barrel = gunmod_find( "barrel_small" );
+    if( barrel ) {
+        ret -= type->gun->barrel_length;
+    }
+
     ret -= damage * 2;
     return ret;
 }
@@ -3879,6 +3893,12 @@ int item::gun_range( bool with_ammo ) const
     for( const auto mod : gunmods() ) {
         ret += mod->type->gunmod->range;
     }
+
+    auto barrel = gunmod_find( "barrel_small" );
+    if( barrel ) {
+        ret -= type->gun->barrel_length * 3;
+    }
+
     if( with_ammo ) {
         if( is_charger_gun() ) {
             ret += 5 + charges * 5;
