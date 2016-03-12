@@ -454,12 +454,12 @@ void player::load(JsonObject &data)
 
     // Add the earplugs.
     if( has_bionic( "bio_ears" ) && !has_bionic( "bio_earplugs" ) ) {
-        add_bionic("bio_earplugs");
+        add_bionic("bio_earplugs", static_cast<body_part>( 12 ) );
     }
 
     // Add the blindfold.
     if( has_bionic( "bio_sunglasses" ) && !has_bionic( "bio_blindfold" ) ) {
-        add_bionic( "bio_blindfold" );
+        add_bionic( "bio_blindfold", static_cast<body_part>( 12 ) );
     }
 
     // Fixes bugged characters for telescopic eyes CBM.

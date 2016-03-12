@@ -293,7 +293,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Returns true if the player is wearing an active optical cloak */
         bool has_active_optcloak() const;
         /** Adds a bionic to my_bionics[] */
-        void add_bionic(std::string const &b);
+        void add_bionic( std::string const &b, body_part bp );
         /** Removes a bionic from my_bionics[] */
         void remove_bionic(std::string const &b);
         /** Used by the player to perform surgery to remove bionics and possibly retrieve parts */
@@ -1176,12 +1176,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         std::string lastrecipe;
         int last_batch;
         itype_id lastconsumed;        //used in crafting.cpp and construction.cpp
-
-        // used and total number of bionics slots in each bodypart
-        std::array<std::pair<int, int>, num_bp> bionics_slots;
-
-        // update content of bionics_slots[]
-        void refresh_bionics_slots();
 
         int get_used_bionics_slots( int bp );
         int get_total_bionics_slots( int bp );

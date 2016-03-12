@@ -24,6 +24,7 @@
 #include "weather_gen.h"
 #include "weather.h"
 #include "cata_utility.h"
+#include "ui.h"
 
 #include <math.h>    //sqrt
 #include <algorithm> //std::min
@@ -71,6 +72,7 @@ namespace {
 std::map<std::string, bionic_data> bionics;
 std::vector<std::string> faulty_bionics;
 
+// similar to content of body_part_name() but with extra entry 'Other'
 std::string bodyparts[] = { _( "Torso" ), _( "Head" ), _( "Eyes" ), _( "Mouth" ),
                             _( "L. Arm" ), _( "R. Arm" ), _( "L. Hand" ), _( "R. Hand" ),
                             _( "L. Leg" ), _( "R. Leg" ), _( "L. Foot" ), _( "R. Foot" ),
@@ -190,7 +192,7 @@ bionic_data const& bionic_info(std::string const &id)
     return null_value;
 }
 
-void bionics_install_failure(player *u, int difficulty, int success);
+void bionics_install_failure(player *u, int difficulty, int success, body_part bp);
 
 bionic_data::bionic_data(std::string nname, bool ps, bool tog, int pac, int pad, int pot,
                          int ct, int cap, std::string desc, bool fault
@@ -784,15 +786,9 @@ void player::power_bionics_new()
     const int max_scroll_position = std::max( 0, static_cast<int>( my_bionics.size() ) -
                                               getmaxy( w_bio_list ) );
     bool redraw = true;
-    bool recalc = true;
 
     // main loop
     for( ;; ) {
-        if( recalc ) {
-            refresh_bionics_slots();
-            // todo: build cache of bionics in each bodypart here
-            recalc = false;
-        }
         if( redraw ) {
             draw_background( w_bionics, my_bionics.empty() );
             draw_header( w_bio_header, tab_index, string_format( _( "Power: %i/%i" ),
@@ -904,7 +900,6 @@ void player::power_bionics_new()
 
         } else if( action == "REMOVE" ) {
             if( uninstall_bionic( my_bionics[cursor].id ) ) {
-                recalc = true;
                 redraw = true;
                 continue;
             }
@@ -938,7 +933,7 @@ void player::power_bionics_new()
                 return;
             }
 
-            //todo: remove code duplication
+            // todo: remove code duplication
             bionic *tmp = bionic_by_invlet( ch );
             if( tmp == nullptr ) {
                 // Selected an non-existing bionic
@@ -1605,61 +1600,61 @@ void player::process_bionic(int b)
     }
 }
 
-void player::refresh_bionics_slots()
-{
-    for( auto& bio : my_bionics ) {
-        bionics_slots[bio.occupied_bp].first += bio.occupied_size;
-    }
-    for( int i = 0; i < num_bp; ++i ) {
-        switch( static_cast<body_part>( i ) ) {
-            case bp_torso:
-                bionics_slots[i].second = 20;
-
-            case bp_head:
-                bionics_slots[i].second = 5;
-
-            case bp_eyes:
-                bionics_slots[i].second = 2;
-
-            case bp_mouth:
-                bionics_slots[i].second = 2;
-
-            case bp_arm_l:
-            case bp_arm_r:
-                bionics_slots[i].second = 8;
-
-            case bp_hand_l:
-            case bp_hand_r:
-                bionics_slots[i].second = 3;
-
-            case bp_leg_l:
-            case bp_leg_r:
-                if( has_trait( "LEG_TENTACLES" ) ) {
-                    // 3 tentacles, 4 slots ea
-                    bionics_slots[i].second = 3 * 4;
-                } else {
-                    // boring regular legs
-                    bionics_slots[i].second = 10;
-                }
-
-            case bp_foot_l:
-            case bp_foot_r:
-                bionics_slots[i].second = 4;
-
-            case num_bp:
-                bionics_slots[i].second = INT_MAX;
-        }
-    }
-}
-
 int player::get_used_bionics_slots( int bp )
 {
-    return bionics_slots[bp].first;
+    int used_slots = 0;
+    for( auto& bio : my_bionics ) {
+        if( bio.occupied_bp == bp) {
+            used_slots += bio.occupied_size;
+        }
+    }
+
+    return used_slots;
 }
 
 int player::get_total_bionics_slots( int bp )
 {
-    return bionics_slots[bp].second;
+    int total_slots = 0;
+    switch( static_cast<body_part>( bp ) ) {
+    case bp_torso:
+        total_slots = 20;
+
+    case bp_head:
+        total_slots = 5;
+
+    case bp_eyes:
+        total_slots = 2;
+
+    case bp_mouth:
+        total_slots = 2;
+
+    case bp_arm_l:
+    case bp_arm_r:
+        total_slots = 8;
+
+    case bp_hand_l:
+    case bp_hand_r:
+        total_slots = 3;
+
+    case bp_leg_l:
+    case bp_leg_r:
+        if( has_trait( "LEG_TENTACLES" ) ) {
+            // 3 tentacles per side, 4 slots ea
+            total_slots = 3 * 4;
+        } else {
+            // boring regular legs
+            total_slots = 10;
+        }
+
+    case bp_foot_l:
+    case bp_foot_r:
+        total_slots = 4;
+
+    case num_bp:
+        total_slots = INT_MAX;
+    }
+
+    return total_slots;
 }
 
 int player::get_free_bionics_slots( int bp )
@@ -1853,6 +1848,8 @@ bool player::install_bionics(const itype &type, int skill_level)
         popup("invalid / unknown bionic id %s", bioid.c_str());
         return false;
     }
+
+    // this code should be removed after complete implementation of bionics slots system
     if (bioid == "bio_reactor" || bioid == "bio_advreactor") {
         if (has_bionic("bio_furnace") && has_bionic("bio_storage")) {
             popup(_("Your internal storage and furnace take up too much room!"));
@@ -1900,9 +1897,38 @@ bool player::install_bionics(const itype &type, int skill_level)
                                 difficult);
     }
 
-    if (!query_yn(
-            _("WARNING: %i percent chance of genetic damage, blood loss, or damage to existing bionics! Install anyway?"),
-            100 - chance_of_success)) {
+    std::string warning = string_format(
+_( "WARNING: %i%% chance of genetic damage, blood loss, or damage to existing bionics!" ),
+                                              100 - chance_of_success );
+    uimenu bp_selection;
+    bp_selection.return_invalid = true;
+    bp_selection.title = string_format( _( "Bionic Installation: %s" ),
+                                        bionics[bioid].name.c_str() );
+    bp_selection.text = string_format( _( "%s Choose body part for installation:" ),
+                                       warning.c_str() );
+    std::vector<body_part> available_bodyparts;
+    for( size_t i = 0; i < num_bp; ++i ) {
+        if( get_free_bionics_slots( i ) > 0 ) {
+            bp_selection.addentry( bp_asText[i] );
+            available_bodyparts.push_back( static_cast<body_part>( i ) );
+        }
+    }
+    if( available_bodyparts.empty() ) {
+        popup( _( "No enough space for bionic installation!" ) );
+        return false;
+    } else if( available_bodyparts.size() == 1 ) {
+        // only one option is possible
+        bp_selection.ret = 0;
+        if( !query_yn( string_format( _( "%s Continue anyway?" ), warning.c_str() ).c_str() ) ) {
+            return false;
+        }
+    } else {
+        bp_selection.addentry( INT_MAX, true, 'q', _( "Cancel" ) );
+        bp_selection.selected = 0;
+        bp_selection.query();
+    }
+
+    if( bp_selection.ret == UIMENU_INVALID || bp_selection.ret == INT_MAX ) {
         return false;
     }
 
@@ -1916,7 +1942,7 @@ bool player::install_bionics(const itype &type, int skill_level)
                          bionics[bioid].name.c_str());
 
         add_msg(m_good, _("Successfully installed %s."), bionics[bioid].name.c_str());
-        add_bionic(bioid);
+        add_bionic(bioid, available_bodyparts[bp_selection.ret] );
 
         if( bioid == "bio_eye_optic" && has_trait( "HYPEROPIC" ) ) {
             remove_mutation( "HYPEROPIC" );
@@ -1924,27 +1950,29 @@ bool player::install_bionics(const itype &type, int skill_level)
         if( bioid == "bio_eye_optic" && has_trait( "MYOPIC" ) ) {
             remove_mutation( "MYOPIC" );
         } else if( bioid == "bio_ears" ) {
-            add_bionic( "bio_earplugs" ); // automatically add the earplugs, they're part of the same bionic
+            // automatically add the earplugs, they're part of the same bionic
+            add_bionic( "bio_earplugs", static_cast<body_part>( num_bp ) );
         } else if( bioid == "bio_sunglasses" ) {
-			add_bionic( "bio_blindfold" ); // automatically add the Optical Dampers, they're part of the same bionic
+			// automatically add the Optical Dampers, they're part of the same bionic
+			add_bionic( "bio_blindfold", static_cast<body_part>( num_bp ) );
         } else if( bioid == "bio_reactor_upgrade" ) {
             remove_bionic( "bio_reactor" );
             remove_bionic( "bio_reactor_upgrade" );
-            add_bionic( "bio_advreactor" );
+            add_bionic( "bio_advreactor", static_cast<body_part>( num_bp ) );
         } else if( bioid == "bio_reactor" || bioid == "bio_advreactor" ) {
-            add_bionic( "bio_plutdump" );
+            add_bionic( "bio_plutdump", static_cast<body_part>( num_bp ) );
         }
     } else{
         add_memorial_log(pgettext("memorial_male", "Installed bionic: %s."),
                          pgettext("memorial_female", "Installed bionic: %s."),
                          bionics[bioid].name.c_str());
-        bionics_install_failure(this, difficult, success);
+        bionics_install_failure(this, difficult, success, available_bodyparts[bp_selection.ret] );
     }
     g->refresh_all();
     return true;
 }
 
-void bionics_install_failure(player *u, int difficulty, int success)
+void bionics_install_failure(player *u, int difficulty, int success, body_part bp)
 {
     // "success" should be passed in as a negative integer representing how far off we
     // were for a successful install.  We use this to determine consequences for failing.
@@ -2061,7 +2089,7 @@ void bionics_install_failure(player *u, int difficulty, int success)
             // TODO: What if we can't lose power capacity?  No penalty?
         } else {
             const std::string& id = random_entry( valid );
-            u->add_bionic( id );
+            u->add_bionic( id, bp );
             u->add_memorial_log(pgettext("memorial_male", "Installed bad bionic: %s."),
                                 pgettext("memorial_female", "Installed bad bionic: %s."),
                                 bionics[ id ].name.c_str());
@@ -2071,7 +2099,7 @@ void bionics_install_failure(player *u, int difficulty, int success)
     }
 }
 
-void player::add_bionic( std::string const &b )
+void player::add_bionic( std::string const &b, body_part bp )
 {
     if( has_bionic( b ) ) {
         debugmsg( "Tried to install bionic %s that is already installed!", b.c_str() );
@@ -2093,7 +2121,7 @@ void player::add_bionic( std::string const &b )
         return;
     }
 
-    my_bionics.push_back( bionic( b, newinv ) );
+    my_bionics.push_back( bionic( b, newinv, bp ) );
     if ( b == "bio_tools" || b == "bio_ears" ) {
         activate_bionic(my_bionics.size() -1);
     }
@@ -2117,7 +2145,7 @@ void player::remove_bionic(std::string const &b) {
 				   continue;
         }
 
-        new_my_bionics.push_back(bionic(i.id, i.invlet));
+        new_my_bionics.push_back(bionic(i.id, i.invlet, i.occupied_bp));
     }
     my_bionics = new_my_bionics;
     recalc_sight_limits();
@@ -2245,6 +2273,7 @@ void bionic::deserialize(JsonIn &jsin)
     invlet = jo.get_int("invlet");
     powered = jo.get_bool("powered");
     charge = jo.get_int("charge");
-    occupied_size = jo.get_int( "occupied_size", 0 );
-    occupied_bp = static_cast<body_part>( jo.get_int( "occupied_bp", 12 ) );
+    occupied_size = jo.get_int( "occupied_size", 1 );
+    occupied_bp = static_cast<body_part>( jo.get_int( "occupied_bp", 0 ) );
 }
+

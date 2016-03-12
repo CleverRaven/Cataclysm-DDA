@@ -47,8 +47,8 @@ struct bionic : public JsonSerializer, public JsonDeserializer {
 
     bionic()
         : id( "bio_batteries" ) { }
-    bionic( std::string pid, char pinvlet )
-        : id( std::move( pid ) ), invlet( pinvlet ) { }
+    bionic( std::string pid, char pinvlet, body_part bp )
+        : id( std::move( pid ) ), invlet( pinvlet ), occupied_bp( bp ) { }
 
     bionic_data const &info() const {
         return bionic_info( id );
