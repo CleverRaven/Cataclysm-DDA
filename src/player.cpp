@@ -10704,7 +10704,7 @@ void player::use(int inventory_position)
 
         if( prompt.ret >= 0 ) {
             item *gm = mods[ prompt.ret ];
-            std::string name = gm->tname().c_str();
+            std::string name = gm->tname();
             gunmod_remove( *used, *gm );
             add_msg( _( "You remove your %1$s from your %2$s." ), name.c_str(), used->tname().c_str() );
 
