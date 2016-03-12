@@ -21,6 +21,7 @@
 
 #include <algorithm>
 #include <sstream>
+#include <unordered_map>
 
 static const std::string category_id_guns("guns");
 static const std::string category_id_ammo("ammo");
@@ -35,6 +36,14 @@ static const std::string category_id_magazines("magazines");
 static const std::string category_id_cbm("bionics");
 static const std::string category_id_mutagen("mutagen");
 static const std::string category_id_other("other");
+
+static const std::unordered_map<skill_id, int> default_aim_speed = {
+    { skill_id( "pistol"   ),  4 },
+    { skill_id( "smg"      ),  6 },
+    { skill_id( "rifle"    ),  8 },
+    { skill_id( "shotgun"  ),  6 },
+    { skill_id( "launcher" ), 10 }
+};
 
 typedef std::set<std::string> t_string_set;
 static t_string_set item_blacklist;
@@ -754,11 +763,19 @@ void Item_factory::load( islot_gun &slot, JsonObject &jo )
     slot.range = jo.get_int( "range", 0 );
     slot.dispersion = jo.get_int( "dispersion", 0 );
     slot.sight_dispersion = jo.get_int("sight_dispersion", 0 );
-    slot.aim_speed = jo.get_int("aim_speed");
     slot.recoil = jo.get_int( "recoil", 0 );
     slot.durability = jo.get_int( "durability" );
     slot.burst = jo.get_int( "burst", 0 );
     slot.clip = jo.get_int( "clip_size", 0 );
+
+    if( !jo.read( "aim_speed", slot.aim_speed ) ) {
+        auto iter = default_aim_speed.find( slot.skill_used );
+        if( iter != default_aim_speed.end() ) {
+            slot.aim_speed = iter->second;
+        } else {
+            jo.throw_error( "aim_speed was unspecified and no suitable default was available" );
+        }
+    }
 
     jo.read( "reload", slot.reload_time );
     slot.reload_noise = jo.get_string( "reload_noise", _ ("click.") );
