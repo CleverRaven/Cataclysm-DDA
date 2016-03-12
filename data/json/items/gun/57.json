@@ -20,7 +20,6 @@
     "aim_speed" : 4,
     "recoil": 90,
     "durability": 8,
-    "reload": 100,
     "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
     "magazine_well" : 1,
     "magazines" : [
@@ -47,7 +46,6 @@
     "sight_dispersion": 90,
     "aim_speed" : 4,
     "durability": 8,
-    "reload": 100,
     "burst": 20,
     "valid_mod_locations": [[ "accessories", 3 ],[ "barrel", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
     "magazine_well" : 2,
