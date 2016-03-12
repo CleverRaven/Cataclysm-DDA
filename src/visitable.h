@@ -71,7 +71,7 @@ class visitable
                                            int count = INT_MAX );
 
         /** Removes and returns the item which must be contained by this instance */
-        item remove_item( item& it );
+        item remove_item( item &it );
 };
 
 #endif
