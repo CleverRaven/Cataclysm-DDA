@@ -4236,7 +4236,7 @@ void game::debug()
                         uimenu smenu;
                         smenu.return_invalid = true;
                         smenu.addentry( 0, true, 'h', "%s: %d", _( "Hunger" ), p.get_hunger() );
-                        smenu.addentry( 1, true, 't', "%s: %d", _( "Thirst" ), p.thirst );
+                        smenu.addentry( 1, true, 't', "%s: %d", _( "Thirst" ), p.get_thirst() );
                         smenu.addentry( 2, true, 'f', "%s: %d", _( "Fatigue" ), p.fatigue );
                         smenu.addentry( 999, true, 'q', "%s", _( "[q]uit" ) );
                         smenu.selected = 0;
@@ -4249,7 +4249,7 @@ void game::debug()
                                 valid = true;
                                 break;
                             case 1:
-                                cur = p.thirst;
+                                cur = p.get_thirst();
                                 valid = true;
                                 break;
                             case 2:
@@ -4266,7 +4266,7 @@ void game::debug()
                                     p.set_hunger( value );
                                     break;
                                 case 1:
-                                    p.thirst = value;
+                                    p.set_thirst( value );
                                     break;
                                 case 2:
                                     p.fatigue = value;
@@ -13258,7 +13258,7 @@ tripoint game::find_or_make_stairs( map &mp, const int z_after, bool &rope_ladde
                     u.mod_pain(5);
                     u.apply_damage( nullptr, bp_torso, 5 );
                     u.mod_hunger(10);
-                    u.thirst += 10;
+                    u.mod_thirst(10);
                 } else {
                     add_msg(_("You gingerly descend using your vines."));
                 }
@@ -13266,7 +13266,7 @@ tripoint game::find_or_make_stairs( map &mp, const int z_after, bool &rope_ladde
                 add_msg(_("You effortlessly lower yourself and leave a vine rooted for future use."));
                 rope_ladder = true;
                 u.mod_hunger(10);
-                u.thirst += 10;
+                u.mod_thirst(10);
             }
         } else {
             return tripoint_min;
@@ -14490,7 +14490,7 @@ void game::process_artifact(item *it, player *p)
 
         case AEP_THIRST:
             if (one_in(120)) {
-                p->thirst++;
+                p->mod_thirst(1);
             }
             break;
 

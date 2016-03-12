@@ -18,7 +18,7 @@ void on_load_test( npc &who, calendar from, calendar to )
 void sane( const npc &who )
 {
     CHECK( who.get_hunger() >= 0 );
-    CHECK( who.thirst >= 0 );
+    CHECK( who.get_thirst() >= 0 );
     CHECK( who.fatigue >= -25 );
 }
 
@@ -28,7 +28,7 @@ npc create_model()
     model_npc.normalize();
     model_npc.randomize();
     model_npc.set_hunger( 0 );
-    model_npc.thirst = 0;
+    model_npc.set_thirst( 0 );
     model_npc.fatigue = 0;
     model_npc.remove_effect( efftype_id( "sleep" ) );
     // An ugly hack to prevent NPC falling asleep during testing due to massive fatigue
@@ -48,10 +48,10 @@ TEST_CASE("on_load-sane-values")
 
         const int margin = 1;
         CHECK( test_npc.get_hunger() <= five_min_ticks + margin );
-        CHECK( test_npc.thirst <= five_min_ticks + margin );
+        CHECK( test_npc.get_thirst() <= five_min_ticks + margin );
         CHECK( test_npc.fatigue <= five_min_ticks + margin );
         CHECK( test_npc.get_hunger() >= five_min_ticks - margin );
-        CHECK( test_npc.thirst >= five_min_ticks - margin );
+        CHECK( test_npc.get_thirst() >= five_min_ticks - margin );
         CHECK( test_npc.fatigue >= five_min_ticks - margin );
     }
 
@@ -62,10 +62,10 @@ TEST_CASE("on_load-sane-values")
 
         const int margin = 10;
         CHECK( test_npc.get_hunger() <= five_min_ticks + margin );
-        CHECK( test_npc.thirst <= five_min_ticks + margin );
+        CHECK( test_npc.get_thirst() <= five_min_ticks + margin );
         CHECK( test_npc.fatigue <= five_min_ticks + margin );
         CHECK( test_npc.get_hunger() >= five_min_ticks - margin );
-        CHECK( test_npc.thirst >= five_min_ticks - margin );
+        CHECK( test_npc.get_thirst() >= five_min_ticks - margin );
         CHECK( test_npc.fatigue >= five_min_ticks - margin );
     }
 
@@ -86,10 +86,10 @@ TEST_CASE("on_load-sane-values")
 
         const int margin = 10;
         CHECK( test_npc.get_hunger() <= expected_change + margin );
-        CHECK( test_npc.thirst <= expected_change + margin );
+        CHECK( test_npc.get_thirst() <= expected_change + margin );
         //CHECK( test_npc.fatigue <= 1000 - expected_fatigue_change + margin );
         CHECK( test_npc.get_hunger() >= expected_change - margin );
-        CHECK( test_npc.thirst >= expected_change - margin );
+        CHECK( test_npc.get_thirst() >= expected_change - margin );
         //CHECK( test_npc.fatigue >= 1000 - expected_fatigue_change - margin );
     }
 }
@@ -109,10 +109,10 @@ TEST_CASE("on_load-similar-to-per-turn")
 
         const int margin = 1;
         CHECK( on_load_npc.get_hunger() <= iterated_npc.get_hunger() + margin );
-        CHECK( on_load_npc.thirst <= iterated_npc.thirst + margin );
+        CHECK( on_load_npc.get_thirst() <= iterated_npc.get_thirst() + margin );
         CHECK( on_load_npc.fatigue <= iterated_npc.fatigue + margin );
         CHECK( on_load_npc.get_hunger() >= iterated_npc.get_hunger() - margin );
-        CHECK( on_load_npc.thirst >= iterated_npc.thirst - margin );
+        CHECK( on_load_npc.get_thirst() >= iterated_npc.get_thirst() - margin );
         CHECK( on_load_npc.fatigue >= iterated_npc.fatigue - margin );
     }
 
@@ -127,10 +127,10 @@ TEST_CASE("on_load-similar-to-per-turn")
 
         const int margin = 10;
         CHECK( on_load_npc.get_hunger() <= iterated_npc.get_hunger() + margin );
-        CHECK( on_load_npc.thirst <= iterated_npc.thirst + margin );
+        CHECK( on_load_npc.get_thirst() <= iterated_npc.get_thirst() + margin );
         CHECK( on_load_npc.fatigue <= iterated_npc.fatigue + margin );
         CHECK( on_load_npc.get_hunger() >= iterated_npc.get_hunger() - margin );
-        CHECK( on_load_npc.thirst >= iterated_npc.thirst - margin );
+        CHECK( on_load_npc.get_thirst() >= iterated_npc.get_thirst() - margin );
         CHECK( on_load_npc.fatigue >= iterated_npc.fatigue - margin );
     }
 }

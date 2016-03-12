@@ -1646,7 +1646,7 @@ void iexamine::aggie_plant(player *p, map *m, const tripoint &examp)
         } else if (seedType == "marloss_seed") {
             fungus(p, m, examp);
             m->i_clear(examp);
-            if (p->has_trait("M_DEPENDENT") && ((p->get_hunger() > 500) || p->thirst > 300 )) {
+            if (p->has_trait("M_DEPENDENT") && ((p->get_hunger() > 500) || p->get_thirst() > 300 )) {
                 m->ter_set(examp, t_marloss);
                 add_msg(m_info, _("We have altered this unit's configuration to extract and provide local nutriment.  The Mycus provides."));
             } else if ( (p->has_trait("M_DEFENDER")) || ( (p->has_trait("M_SPORES") || p->has_trait("M_FERTILE")) &&

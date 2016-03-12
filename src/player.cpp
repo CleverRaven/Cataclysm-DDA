@@ -385,14 +385,14 @@ void player::reset_stats()
         mod_int_bonus( -int(get_hunger() / 1000) );
     }
     // Thirst
-    if( thirst >= 200 ) {
+    if( get_thirst() >= 200 ) {
         // We die at 1200
-        const int dex_mod = -int(thirst / 200);
+        const int dex_mod = -int(get_thirst() / 200);
         add_miss_reason(_("You're weak from thirst."), -dex_mod);
-        mod_str_bonus( -int(thirst / 200) );
+        mod_str_bonus( -int(get_thirst() / 200) );
         mod_dex_bonus( dex_mod );
-        mod_int_bonus( -int(thirst / 200) );
-        mod_per_bonus( -int(thirst / 200) );
+        mod_int_bonus( -int(get_thirst() / 200) );
+        mod_per_bonus( -int(get_thirst() / 200) );
     }
 
     // Dodge-related effects
@@ -1513,8 +1513,8 @@ void player::recalc_speed_bonus()
         mod_speed_bonus(-rad_penalty);
     }
 
-    if( thirst > 40 ) {
-        mod_speed_bonus( thirst_speed_penalty( thirst ) );
+    if( get_thirst() > 40 ) {
+        mod_speed_bonus( thirst_speed_penalty( get_thirst() ) );
     }
     if( get_hunger() > 100 ) {
         mod_speed_bonus( hunger_speed_penalty( get_hunger() ) );
@@ -2267,7 +2267,7 @@ stats player::get_stats() const
 void player::mod_stat( const std::string &stat, int modifier )
 {
     if( stat == "thirst" ) {
-        thirst += modifier;
+        mod_thirst( modifier );
     } else if( stat == "fatigue" ) {
         fatigue += modifier;
     } else if( stat == "oxygen" ) {
@@ -2751,8 +2751,8 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
                       (abs(pen) < 10 ? " " : ""), abs(pen));
         line++;
     }
-    if (thirst > 40) {
-        pen = abs(thirst_speed_penalty( thirst ));
+    if (get_thirst() > 40) {
+        pen = abs(thirst_speed_penalty( get_thirst() ));
         mvwprintz(w_speed, line, 1, c_red, _("Thirst              -%s%d%%"),
                   (pen < 10 ? " " : ""), pen);
         line++;
@@ -3553,19 +3553,19 @@ void player::disp_status( WINDOW *w, WINDOW *w2 )
     volume = 0;
 
     wmove( w, 2, sideStyle ? 0 : 15 );
-    if( thirst > 520 ) {
+    if( get_thirst() > 520 ) {
         wprintz( w, c_ltred,  _( "Parched" ) );
-    } else if( thirst > 240 ) {
+    } else if( get_thirst() > 240 ) {
         wprintz( w, c_ltred,  _( "Dehydrated" ) );
-    } else if( thirst > 80 ) {
+    } else if( get_thirst() > 80 ) {
         wprintz( w, c_yellow, _( "Very thirsty" ) );
-    } else if( thirst > 40 ) {
+    } else if( get_thirst() > 40 ) {
         wprintz( w, c_yellow, _( "Thirsty" ) );
-    } else if( thirst < 0 ) {
+    } else if( get_thirst() < 0 ) {
         wprintz( w, c_green,  _( "Slaked" ) );
-    } else if( thirst < -20 ) {
+    } else if( get_thirst() < -20 ) {
         wprintz( w, c_green,  _( "Hydrated" ) );
-    } else if( thirst < -60 ) {
+    } else if( get_thirst() < -60 ) {
         wprintz( w, c_green,  _( "Turgid" ) );
     }
 
@@ -5387,15 +5387,15 @@ void player::check_needs_extremes()
     }
 
     // Check if we're dying of thirst
-    if( is_player() && thirst >= 600 ) {
-        if( thirst >= 1200 ) {
+    if( is_player() && get_thirst() >= 600 ) {
+        if( get_thirst() >= 1200 ) {
             add_msg_if_player(m_bad, _("You have died of dehydration."));
             add_memorial_log(pgettext("memorial_male", "Died of thirst."),
                                pgettext("memorial_female", "Died of thirst."));
             hp_cur[hp_torso] = 0;
-        } else if( thirst >= 1000 && calendar::once_every(MINUTES(30)) ) {
+        } else if( get_thirst() >= 1000 && calendar::once_every(MINUTES(30)) ) {
             add_msg_if_player(m_warning, _("Even your eyes feel dry..."));
-        } else if( thirst >= 800 && calendar::once_every(MINUTES(30)) ) {
+        } else if( get_thirst() >= 800 && calendar::once_every(MINUTES(30)) ) {
             add_msg_if_player(m_warning, _("You are THIRSTY!"));
         } else if( calendar::once_every(MINUTES(30)) ) {
             add_msg_if_player(m_warning, _("Your mouth feels so dry..."));
@@ -5494,7 +5494,7 @@ void player::update_needs( int rate_multiplier )
     }
 
     if( !debug_ls && thirst_rate > 0.0f ) {
-        thirst += divide_roll_remainder( thirst_rate * rate_multiplier, 1.0 );
+        mod_thirst( divide_roll_remainder( thirst_rate * rate_multiplier, 1.0 ) );
     }
 
     // Sanity check for negative fatigue value.
@@ -5689,7 +5689,7 @@ bool player::is_hibernating() const
     // a little, and came out of it well into Parched.  Hibernating shouldn't endanger your
     // life like that--but since there's much less fluid reserve than food reserve,
     // simply using the same numbers won't work.
-    return has_effect( effect_sleep ) && get_hunger() <= -60 && thirst <= 80 && has_active_mutation("HIBERNATE");
+    return has_effect( effect_sleep ) && get_hunger() <= -60 && get_thirst() <= 80 && has_active_mutation("HIBERNATE");
 }
 
 void player::sleep_hp_regen( int rate_multiplier )
@@ -6083,8 +6083,8 @@ void player::add_eff_effects(effect e, bool reduced)
     }
     // Add thirst
     if (e.get_amount("THIRST", reduced) > 0) {
-        thirst += bound_mod_to_vals(thirst, e.get_amount("THIRST", reduced),
-                        e.get_max_val("THIRST", reduced), e.get_min_val("THIRST", reduced));
+        mod_thirst(bound_mod_to_vals(get_thirst(), e.get_amount("THIRST", reduced),
+                        e.get_max_val("THIRST", reduced), e.get_min_val("THIRST", reduced)));
     }
     // Add fatigue
     if (e.get_amount("FATIGUE", reduced) > 0) {
@@ -6210,8 +6210,8 @@ void player::process_effects() {
             if (val != 0) {
                 mod = 1;
                 if(it.activated(calendar::turn, "THIRST", val, reduced, mod)) {
-                    thirst += bound_mod_to_vals(thirst, val, it.get_max_val("THIRST", reduced),
-                                                it.get_min_val("THIRST", reduced));
+                    mod_thirst(bound_mod_to_vals(get_thirst(), val, it.get_max_val("THIRST", reduced),
+                                                it.get_min_val("THIRST", reduced)));
                 }
             }
 
@@ -6419,7 +6419,7 @@ void player::hardcoded_effects(effect &it)
                 int awfulness = rng(0,70);
                 moves = -200;
                 mod_hunger(awfulness);
-                thirst += awfulness;
+                mod_thirst(awfulness);
                 ///\EFFECT_STR decreases damage taken by fungus effect
                 apply_damage( nullptr, bp_torso, awfulness / std::max( str_cur, 1 ) ); // can't be healthy
             }
@@ -7453,8 +7453,8 @@ void player::hardcoded_effects(effect &it)
             if (get_hunger() >= -30) {
                 mod_hunger(-5);
             }
-            if (thirst >= -30) {
-                thirst -= 5;
+            if (get_thirst() >= -30) {
+                mod_thirst(-5);
             }
         }
 
@@ -7488,8 +7488,8 @@ void player::hardcoded_effects(effect &it)
                     if (one_in(8)) {
                         mutate_category("MUTCAT_MYCUS");
                         mod_hunger(10);
+                        mod_thirst(10);
                         fatigue += 5;
-                        thirst += 10;
                     }
                 }
             }
@@ -7647,8 +7647,8 @@ void player::suffer()
                 }
             }
             if (mdata.thirst){
-                thirst += mdata.cost;
-                if (thirst >= 260) { // Well into Dehydrated
+                mod_thirst(mdata.cost);
+                if (get_thirst() >= 260) { // Well into Dehydrated
                     add_msg_if_player(m_warning, _("You're too dehydrated to keep your %s going."), mdata.name.c_str());
                     tdata.powered = false;
                 }
@@ -7697,8 +7697,8 @@ void player::suffer()
             if (get_hunger() > -20) {
                 mod_hunger(-2);
             }
-            if (thirst > -20) {
-                thirst -= 2;
+            if (get_thirst() > -20) {
+                mod_thirst(-2);
             }
             mod_healthy_mod(10, 50);
             // No losing oneself in the fertile embrace of rich
@@ -7711,8 +7711,8 @@ void player::suffer()
             if (get_hunger() > -20) {
                 mod_hunger(-1);
             }
-            if (thirst > -20) {
-                thirst--;
+            if (get_thirst() > -20) {
+                mod_thirst(-1);
             }
             mod_healthy_mod(5, 50);
         }
@@ -7788,7 +7788,7 @@ void player::suffer()
             }
             if (one_in(3600)) {
                 add_msg_if_player(m_bad, _("You suddenly feel thirsty."));
-                thirst += 5 * rng(1, 3);
+                mod_thirst(5 * rng(1, 3));
             }
             if (one_in(3600)) {
                 add_msg_if_player(m_good, _("You feel fatigued all of a sudden."));
@@ -8426,7 +8426,7 @@ void player::mend( int rate_multiplier )
         healing_factor *= 2.0;
     }
 
-    if(thirst < 0) {
+    if( get_thirst() < 0 ) {
         healing_factor *= 2.0;
     }
 
@@ -8507,7 +8507,7 @@ void player::vomit()
 
     if (get_stomach_food() != 0 || get_stomach_water() != 0) {
         mod_hunger(get_stomach_food());
-        thirst += get_stomach_water();
+        mod_thirst(get_stomach_water());
 
         set_stomach_food(0);
         set_stomach_water(0);
@@ -9536,8 +9536,8 @@ void player::rooted()
             if (get_hunger() > -20) {
                 mod_hunger(-1);
             }
-            if (thirst > -20) {
-                thirst--;
+            if (get_thirst() > -20) {
+                mod_thirst(-1);
             }
             mod_healthy_mod(5, 50);
         }
@@ -11314,8 +11314,8 @@ void player::do_read( item *book )
                 if (get_hunger() > -20) {
                     mod_hunger(-root_factor * foot_factor);
                 }
-                if (thirst > -20) {
-                    thirst -= root_factor * foot_factor;
+                if (get_thirst() > -20) {
+                    mod_thirst(-root_factor * foot_factor);
                 }
                 mod_healthy_mod(root_factor * foot_factor, 50);
             }
@@ -11360,8 +11360,8 @@ void player::do_read( item *book )
             if (get_hunger() > -20) {
                 mod_hunger(-root_factor * foot_factor);
             }
-            if (thirst > -20) {
-                thirst -= root_factor * foot_factor;
+            if (get_thirst() > -20) {
+                mod_thirst(-root_factor * foot_factor);
             }
             mod_healthy_mod(root_factor * foot_factor, 50);
         }
@@ -12937,7 +12937,7 @@ void player::environmental_revert_effect()
         hp_cur[part] = hp_max[part];
     }
     set_hunger(0);
-    thirst = 0;
+    set_thirst(0);
     fatigue = 0;
     set_healthy(0);
     set_healthy_mod(0);

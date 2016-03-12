@@ -522,25 +522,25 @@ int iuse::smoking(player *p, item *it, bool, const tripoint& )
     if (it->type->id == "cig") {
         cig = item("cig_lit", int(calendar::turn));
         cig.item_counter = 40;
-        p->thirst += 2;
         p->mod_hunger(-3);
+        p->mod_thirst(2);
     } else if (it->type->id == "handrolled_cig") {
         // This transforms the hand-rolled into a normal cig, which isn't exactly
         // what I want, but leaving it for now.
         cig = item("cig_lit", int(calendar::turn));
         cig.item_counter = 40;
-        p->thirst += 2;
+        p->mod_thirst(2);
         p->mod_hunger(-3);
     } else if (it->type->id == "cigar") {
         cig = item("cigar_lit", int(calendar::turn));
         cig.item_counter = 120;
-        p->thirst += 3;
+        p->mod_thirst(3);
         p->mod_hunger(-4);
     } else if (it->type->id == "joint") {
         cig = item("joint_lit", int(calendar::turn));
         cig.item_counter = 40;
         p->mod_hunger(4);
-        p->thirst += 6;
+        p->mod_thirst(6);
         if( p->get_painkiller() < 5 ) {
             p->set_painkiller( ( p->get_painkiller() + 3 ) * 2 );
         }
@@ -585,7 +585,7 @@ int iuse::ecig(player *p, item *it, bool, const tripoint& )
         }
     }
 
-    p->thirst += 1;
+    p->mod_thirst(1);
     p->mod_hunger(-1);
     p->add_effect( effect_cig, 100);
     if (p->get_effect_dur( effect_cig ) > (100 * (p->addiction_level(ADD_CIG) + 1))) {
@@ -805,7 +805,7 @@ int iuse::weed_brownie(player *p, item *it, bool, const tripoint& )
         duration = 150;
     }
     p->mod_hunger(2);
-    p->thirst += 6;
+    p->mod_thirst(6);
     if( p->get_painkiller() < 5 ) {
         p->set_painkiller( ( p->get_painkiller() + 3 ) * 2 );
     }
@@ -1107,7 +1107,7 @@ int iuse::plantblech(player *p, item *it, bool, const tripoint &pos)
         const auto food = dynamic_cast<const it_comest*>(it->type);
         //reverses the harmful values of drinking fertilizer
         p->mod_hunger(p->nutrition_for(food) * multiplier);
-        p->thirst -= food->quench * multiplier;
+        p->mod_thirst(-food->quench * multiplier);
         p->mod_healthy_mod(food->healthy * multiplier, food->healthy * multiplier);
         p->add_morale(MORALE_FOOD_GOOD, -10 * multiplier, 60, 60, 30, false, food);
         return it->type->charges_to_use();
@@ -1248,14 +1248,14 @@ int iuse::mutagen(player *p, item *it, bool, const tripoint& )
         p->mutate();
         p->mod_pain(2 * rng(1, 5));
         p->mod_hunger(10);
+        p->mod_thirst(10);
         p->fatigue += 5;
-        p->thirst += 10;
         if (!one_in(3)) {
             p->mutate();
             p->mod_pain(2 * rng(1, 5));
             p->mod_hunger(10);
+            p->mod_thirst(10);
             p->fatigue += 5;
-            p->thirst += 10;
             if (one_in(4)) {
                 downed = true;
             }
@@ -1264,8 +1264,8 @@ int iuse::mutagen(player *p, item *it, bool, const tripoint& )
             p->mutate();
             p->mod_pain(2 * rng(1, 5));
             p->mod_hunger(10);
+            p->mod_thirst(10);
             p->fatigue += 5;
-            p->thirst += 10;
             p->add_msg_player_or_npc( m_bad,
                 _("Oops.  You must've blacked out for a minute there."),
                 _("<npcname> suddenly collapses!") );
@@ -1281,8 +1281,8 @@ int iuse::mutagen(player *p, item *it, bool, const tripoint& )
             p->mutate();
             p->mod_pain(2 * rng(1, 5));
             p->mod_hunger(10);
+            p->mod_thirst(10);
             p->fatigue += 5;
-            p->thirst += 10;
             if (one_in(4)) {
                 downed = true;
             }
@@ -1297,8 +1297,8 @@ int iuse::mutagen(player *p, item *it, bool, const tripoint& )
                 p->mutate_category(mutation_category);
                 p->mod_pain(m_category.mutagen_pain * rng(1, 5));
                 p->mod_hunger(m_category.mutagen_hunger);
+                p->mod_thirst(m_category.mutagen_thirst);
                 p->fatigue += m_category.mutagen_fatigue;
-                p->thirst += m_category.mutagen_thirst;
                 break;
             }
         }
@@ -1433,29 +1433,29 @@ int iuse::mut_iv(player *p, item *it, bool, const tripoint& )
         //Standard IV-mutagen effect: 10 hunger/thirst & 5 Fatigue *per mutation*.
         // Numbers may vary based on mutagen.
         p->mod_hunger(10);
+        p->mod_thirst(10);
         p->fatigue += 5;
-        p->thirst += 10;
         p->mutate();
         p->mod_pain(2 * rng(1, 3));
         p->mod_hunger(10);
+        p->mod_thirst(10);
         p->fatigue += 5;
-        p->thirst += 10;
         p->mutate();
         p->mod_hunger(10);
+        p->mod_thirst(10);
         p->fatigue += 5;
-        p->thirst += 10;
         p->mod_pain(3 * rng(1, 2));
         if (!one_in(4)) {
             p->mutate();
             p->mod_hunger(10);
+            p->mod_thirst(10);
             p->fatigue += 5;
-            p->thirst += 10;
         }
         if (!one_in(3)) {
             p->mutate();
             p->mod_hunger(10);
+            p->mod_thirst(10);
             p->fatigue += 5;
-            p->thirst += 10;
             p->add_msg_player_or_npc( m_bad,
                 _("You writhe and collapse to the ground."),
                 _("<npcname> writhes and collapses to the ground.") );
@@ -1465,8 +1465,8 @@ int iuse::mut_iv(player *p, item *it, bool, const tripoint& )
             //Jackpot! ...kinda, don't wanna go unconscious in dangerous territory
             p->mutate();
             p->mod_hunger(10);
+            p->mod_thirst(10);
             p->fatigue += 5;
-            p->thirst += 10;
             p->add_msg_player_or_npc( m_bad,
                 _("It all goes dark..."),
                 _("<npcname> suddenly falls over!") );
@@ -1502,16 +1502,16 @@ int iuse::mut_iv(player *p, item *it, bool, const tripoint& )
                     p->mutate_category(mutation_category);
                     p->mod_pain(m_category.iv_pain * rng(1, 5));
                     p->mod_hunger(m_category.iv_hunger);
+                    p->mod_thirst(m_category.iv_thirst);
                     p->fatigue += m_category.iv_fatigue;
-                    p->thirst += m_category.iv_thirst;
                 }
                 for (int i=0; i < m_category.iv_additional_mutations; i++){
                     if (!one_in(m_category.iv_additional_mutations_chance)) {
                         p->mutate_category(mutation_category);
                         p->mod_pain(m_category.iv_pain * rng(1, 5));
                         p->mod_hunger(m_category.iv_hunger);
+                        p->mod_thirst(m_category.iv_thirst);
                         p->fatigue += m_category.iv_fatigue;
-                        p->thirst += m_category.iv_thirst;
                     }
                 }
                 if (m_category.category == "CHIMERA"){
@@ -1625,8 +1625,8 @@ int iuse::purify_iv(player *p, item *it, bool, const tripoint& )
             p->mod_pain(2 * num_cured); //Hurts worse as it fixes more
             p->add_msg_if_player(m_warning, _("Feels like you're on fire, but you're OK."));
         }
-        p->thirst += 2 * num_cured;
         p->mod_hunger(2 * num_cured);
+        p->mod_thirst(2 * num_cured);
         p->fatigue += 2 * num_cured;
     }
     return it->type->charges_to_use();
@@ -1704,8 +1704,8 @@ int iuse::marloss(player *p, item *it, bool t, const tripoint &pos)
         // Gruss dich, mutation drain, missed you!
         p->mod_pain(2 * rng(1, 5));
         p->mod_hunger(10);
+        p->mod_thirst(10);
         p->fatigue += 5;
-        p->thirst += 10;
     } else if (effect <= 6) { // Radiation cleanse is below
         p->add_msg_if_player(m_good, _("This berry makes you feel better all over."));
         p->mod_painkiller(30);
@@ -1811,8 +1811,8 @@ int iuse::marloss_seed(player *p, item *it, bool t, const tripoint &pos)
         // HELLO MY NAME IS MUTATION DRAIN YOU KILLED MY MUTAGEN PREPARE TO DIE! ;-)
         p->mod_pain(2 * rng(1, 5));
         p->mod_hunger(10);
+        p->mod_thirst(10);
         p->fatigue += 5;
-        p->thirst += 10;
     } else if (effect <= 6) { // Radiation cleanse is below
         p->add_msg_if_player(m_good, _("This seed makes you feel better all over."));
         p->mod_painkiller(30);
@@ -1915,8 +1915,8 @@ int iuse::marloss_gel(player *p, item *it, bool t, const tripoint &pos)
         // hihi! wavewave! mutation draindrain!
         p->mod_pain(2 * rng(1, 5));
         p->mod_hunger(10);
+        p->mod_thirst(10);
         p->fatigue += 5;
-        p->thirst += 10;
     } else if (effect <= 6) { // Radiation cleanse is below
         p->add_msg_if_player(m_good, _("This jelly makes you feel better all over."));
         p->mod_painkiller(30);
@@ -2013,8 +2013,8 @@ int iuse::mycus(player *p, item *it, bool t, const tripoint &pos)
         if (!one_in(3)) {
             p->mutate_category("MUTCAT_MYCUS");
             p->mod_hunger(10);
+            p->mod_thirst(10);
             p->fatigue += 5;
-            p->thirst += 10;
             p->add_morale(MORALE_MARLOSS, 25, 200); // still covers up mutation pain
         }
     } else if (p->has_trait("THRESH_MYCUS")) {
@@ -2026,8 +2026,8 @@ int iuse::mycus(player *p, item *it, bool t, const tripoint &pos)
         p->mutate();
         p->mod_pain(2 * rng(1, 5));
         p->mod_hunger(10);
+        p->mod_thirst(10);
         p->fatigue += 5;
-        p->thirst += 10;
         p->vomit(); // no hunger/quench benefit for you
         p->mod_healthy_mod(-8, -50);
     }

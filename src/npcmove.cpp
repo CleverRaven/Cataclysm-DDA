@@ -1016,11 +1016,11 @@ npc_action npc::address_needs( int danger )
         return npc_noop;
     }
 
-    if ((danger <= NPC_DANGER_VERY_LOW && (get_hunger() > 40 || thirst > 40)) ||
-        thirst > 80 || get_hunger() > 160) {
+    if ((danger <= NPC_DANGER_VERY_LOW && (get_hunger() > 40 || get_thirst() > 40)) ||
+        get_thirst() > 80 || get_hunger() > 160) {
         //return npc_eat; // TODO: Make eating work when then NPC doesn't have enough food
         set_hunger(0);
-        thirst = 0;
+        set_thirst(0);
     }
 
     // TODO: More risky attempts at sleep when exhausted
@@ -2364,7 +2364,7 @@ void npc::use_painkiller()
 void npc::pick_and_eat()
 {
     int best_hunger = 999, best_thirst = 999, index = -1;
-    bool thirst_more_important = (thirst > get_hunger() * 1.5);
+    bool thirst_more_important = (get_thirst() > get_hunger() * 1.5);
     invslice slice = inv.slice();
     for (size_t i = 0; i < slice.size(); i++) {
         int eaten_hunger = -1, eaten_thirst = -1;
@@ -2377,7 +2377,7 @@ void npc::pick_and_eat()
         }
         if (food != NULL) {
             eaten_hunger = get_hunger() - food->get_nutrition();
-            eaten_thirst = thirst - food->quench;
+            eaten_thirst = get_thirst() - food->quench;
         }
         if (eaten_hunger > 0) { // <0 means we have a chance of puking
             if ((thirst_more_important && eaten_thirst < best_thirst) ||

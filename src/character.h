@@ -122,16 +122,19 @@ class Character : public Creature, public visitable<Character>
 
         /** Getter for need values exclusive to characters */
         virtual int get_hunger() const;
+        virtual int get_thirst() const;
         virtual int get_stomach_food() const;
         virtual int get_stomach_water() const;
 
         /** Modifiers for need values exclusive to characters */
         virtual void mod_hunger(int nhunger);
+        virtual void mod_thirst(int nthirst);
         virtual void mod_stomach_food(int n_stomach_food);
         virtual void mod_stomach_water(int n_stomach_water);
 
         /** Setters for need values exclusive to characters */
         virtual void set_hunger(int nhunger);
+        virtual void set_thirst(int nthirst);
         virtual void set_stomach_food(int n_stomach_food);
         virtual void set_stomach_water(int n_stomach_water);
 
@@ -511,8 +514,6 @@ class Character : public Creature, public visitable<Character>
 
         std::vector<bionic> my_bionics;
 
-        int thirst;
-
     protected:
         virtual void on_mutation_gain( const std::string & ) {};
         virtual void on_mutation_loss( const std::string & ) {};
@@ -572,7 +573,11 @@ class Character : public Creature, public visitable<Character>
 
         // --------------- Values ---------------
         /** Needs (hunger, thirst, fatigue, etc.) */
-        int hunger, stomach_food, stomach_water;
+        int hunger;
+        int thirst;
+
+        int stomach_food;
+        int stomach_water;
 
         std::map<const Skill*, SkillLevel> _skills;
 

@@ -1527,6 +1527,21 @@ void Character::set_hunger(int nhunger)
     hunger = nhunger;
 }
 
+int Character::get_thirst() const
+{
+    return thirst;
+}
+
+void Character::mod_thirst(int nthirst)
+{
+    set_thirst( thirst + nthirst );
+}
+
+void Character::set_thirst(int nthirst)
+{
+    thirst = nthirst;
+}
+
 int Character::get_stomach_food() const
 {
     return stomach_food;
