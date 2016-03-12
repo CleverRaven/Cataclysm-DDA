@@ -8100,10 +8100,10 @@ void game::examine( const tripoint &examp )
 
     const tripoint player_pos = u.pos();
 
-    if (m.has_furn(examp)) {
-        xfurn_t.examine(&u, &m, examp);
+    if( m.has_furn( examp ) ) {
+        xfurn_t.examine( u, examp );
     } else {
-        xter_t.examine(&u, &m, examp);
+        xter_t.examine( u, examp );
     }
 
     // Did the player get moved? Bail out if so; our examp probably
@@ -8136,7 +8136,7 @@ void game::examine( const tripoint &examp )
     }
 
     if( !m.tr_at( examp ).is_null() ) {
-        iexamine::trap(&u, &m, examp);
+        iexamine::trap( u, examp );
         draw_ter();
     }
 

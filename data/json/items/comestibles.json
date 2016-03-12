@@ -5170,7 +5170,6 @@
         "tool" : "null",
         "volume" : 1,
         "charges" : 1,
-        "bashing" : 1,
         "fun" : 5
     },
     {
@@ -5265,7 +5264,6 @@
         "tool" : "null",
         "volume" : 1,
         "charges" : 1,
-        "bashing" : 1,
         "fun" : 5
     },
     {
@@ -14634,8 +14632,8 @@
     {
         "type" : "COMESTIBLE",
         "id" : "fries",
-        "name" : "French fries",
-        "name_plural" : "French fries",
+        "name" : "fast-food French fries",
+        "name_plural" : "fast-food French fries",
         "weight" : 115,
         "color" : "yellow",
         "addiction_type" : "none",
@@ -14645,7 +14643,7 @@
         "comestible_type" : "FOOD",
         "symbol" : "%",
         "quench" : -1,
-        "healthy" : 0,
+        "healthy" : -1,
         "addiction_potential" : 0,
         "nutrition" : 8,
         "description" : "A box of fast-food fried potatoes.  Somehow, they're still edible.",
@@ -14654,8 +14652,33 @@
         "tool" : "null",
         "volume" : 1,
         "charges" : 3,
-        "bashing" : 1,
         "fun" : 4
+    },
+    {
+        "type" : "COMESTIBLE",
+        "id" : "fresh_fries",
+        "name" : "French fries",
+        "name_plural" : "French fries",
+        "weight" : 115,
+        "color" : "yellow",
+        "addiction_type" : "none",
+        "spoils_in" : 72,
+        "stim" : 0,
+        "container" : "box_small",
+        "comestible_type" : "FOOD",
+        "symbol" : "%",
+        "quench" : -1,
+        "healthy" : -1,
+        "addiction_potential" : 0,
+        "nutrition" : 6,
+        "description" : "Deep fried potatoes with a touch of salt.  Crunchy and delicious.",
+        "price" : 120,
+        "material" : "junk",
+        "tool" : "null",
+        "volume" : 1,
+        "charges" : 3,
+        "flags" : ["EATEN_HOT"],
+        "fun" : 3
     },
     {
         "type" : "COMESTIBLE",
@@ -14671,7 +14694,7 @@
         "comestible_type" : "FOOD",
         "symbol" : "%",
         "quench" : 0,
-        "healthy" : 0,
+        "healthy" : -1,
         "addiction_potential" : 0,
         "nutrition" : 12,
         "description" : "A box of fast-food fried potatoes with delicious cheese smothered on top.",
@@ -14680,7 +14703,7 @@
         "tool" : "null",
         "volume" : 1,
         "charges" : 3,
-        "bashing" : 1,
+        "flags" : ["EATEN_HOT"],
         "fun" : 6
     },
     {
@@ -14705,7 +14728,6 @@
         "tool" : "null",
         "volume" : 1,
         "charges" : 3,
-        "bashing" : 1,
         "fun" : 6
     },
     {
