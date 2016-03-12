@@ -203,8 +203,8 @@ void Item_modifier::modify(item &new_item) const
     if( new_item.is_gun() && ( ammo.get() != nullptr || ch > 0 ) ) {
         if( ammo.get() == nullptr ) {
             // In case there is no explicit ammo item defined, use the default ammo
-            new_item.charges = ch;
             if( new_item.ammo_type() != "NULL" ) {
+                new_item.charges = ch;
                 new_item.set_curammo( new_item.ammo_type() );
             }
         } else {
