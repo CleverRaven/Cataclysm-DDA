@@ -2574,7 +2574,7 @@ int item::damage_by_type( damage_type dt ) const
 
 int item::reach_range() const
 {
-    if( !has_flag( "REACH_ATTACK" ) ) {
+    if( is_gunmod() || !has_flag( "REACH_ATTACK" ) ) {
         return 1;
     }
     
