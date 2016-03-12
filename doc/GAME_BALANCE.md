@@ -141,6 +141,80 @@ At high skill, bashing damage is generally the strongest, but still suffers from
 Exotic damage types (currently only fire) do not scale with skills or crits.
 
 # RANGE WEAPONS
+
+## Guns
+
+### Effectiveness
+
+Damage, recoil and loudness are defined by the specific ammo used and then adjusted by
+the type of gun and finally any modifiers. Specific guns may provide some further minor
+adjustments where appropriate. Piercing damage should never be adjusted by the gun.
+
+Dispersion and recoil is determined by both the ammo and the gun, with longer and heavier
+firearms being inherrently more accurate and controllable when using the same ammo.
+
+Aim speed is affected only by the gun (and any attached mods) and should be roughly
+proportional to barrel length.
+
+Range is considered to be the engagement distance as opposed to any real-world metric.
+It is a function of both the ammo and type of gun with SMG's and carbines improving
+the effective engagement distance of pistol ammo.
+
+| type      | range | aim_speed | dispersion | sights | recoil | damage | loudness |
+|-----------|-------|-----------|------------|--------|--------|--------|----------|
+| pistol    |       | 4         | 200        | 90     |    0   |        |          |
+| smg       |    4  | 6         | 150        | 60     | -100   | +2     |          |
+| rifle     |   10  | 8         | 100        | 60     | -150   | +4     |          |
+| shotgun   |    2  | 6         |            | 90     | -200   |        |          |
+
+
+| modifier  | range | aim_speed | dispersion | sights | recoil | damage | loudness |
+|-----------|-------|-----------|------------|--------|--------|--------|----------|
+| revolver  |       |           |            |        |        |        |  +25     |
+| makeshift |   -4  |           | +100       | +30    |  +50   | -2     |  +25     |
+| carbines* |   -3  | -1        | +20        |        |        | -1     |          |
+| burstable |   -2  |           | +20        |        |        |        |          |
+
+* per unit of volume reduced (see also barrel_length for sawn-down variants)
+
+### Reload times
+
+Should consider only the time required to load the gun itself. Larger or bulky magazines
+already receive a penalty and this should **not** be additionally considered here. 
+
+* By default a magazine should take 100 moves to insert
+
+* Ammo belts or other awkward magazines should default to 400 moves
+
+* `RELOAD_ONE` guns should default to 100 with scope for adjustment if appropriate.
+
+* Makeshift guns should take twice as long to reload as otherwise typical
+
+### Bashing damage
+
+Excluding the effect of any gunmods guns used as melee weapons result in bashing damage
+equal to their volume (min 4, max 12) with hit chance determined as follows:
+
+| volume | to_hit |
+|--------|--------|
+|  1     | -4     |
+|  2-4   | -3     |
+|  5-8   | -2     |
+|  9-12  | -1     |
+|  13+   |  0     |
+
+Where improved melee performance is appropriate consider adding `DURABLE_MELEE` as opposed to
+changing the above. Attack speed is a function of weight and need not be separately considered.
+
+Makeshift guns get a 1/3 reduction in bashing damage (with an appropriate to_hit then chosen).
+
+### Balancing
+
+When trying to balance/differentiate guns try and follow the above rules initially. Given a pair
+of otherwise equivalent rifles if one has a longer barrel then apply the rules for `barrel_length`
+
+Similarly if one has a larger burst then apply a proportional penalty to `dispersion` and `range`
+
 ## Magazines
 ### Reload times
 The overall balance is that magazines themselves are slow to reload whereas changing a magazine should be fast. For standard box magazines a default `reload_time` of 100 (per round) is appropriate with this value increasing for poor quality or extended magazines. Guns themselves should also specify `reload` of 100 (per magazine) unless their magazines are particularly awkward to reload (eg. ammo belts). The game logic intrinsically handles higher volume magazines consuming more time to attach to a gun so you need not consider this.
