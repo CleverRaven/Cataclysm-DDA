@@ -214,7 +214,7 @@
     "clip_size": 5,
     "reload": 200,
     "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
-    "flags": [ "RELOAD_ONE" ]
+    "flags": [ "RELOAD_ONE", "MAKESHIFT" ]
   },
   {
     "id": "TDI",

@@ -1282,6 +1282,18 @@ void Item_factory::load_basic_info(JsonObject &jo, itype *new_item_template)
     load_slot_optional( new_item_template->seed, jo, "seed_data" );
     load_slot_optional( new_item_template->software, jo, "software_data" );
     load_slot_optional( new_item_template->artifact, jo, "artifact_data" );
+
+    if( new_item_template->item_tags.count( "MAKESHIFT" ) ) {
+        if( new_item_template->gun ) {
+            auto gun = new_item_template->gun.get();
+            gun->range -= 4;
+            gun->dispersion += 100;
+            gun->recoil += 50;
+            gun->loudness += 50;
+            gun->damage -= 2;
+        }
+    }
+
     // Make sure this one is at/near the end
     // TODO: Get rid of it when it is no longer needed (unless it's desired here)
     set_allergy_flags( *new_item_template );

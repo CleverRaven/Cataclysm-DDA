@@ -1042,6 +1042,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```REDUCED_WEIGHT``` ... Gunmod flag; reduces the item's base weight by 25%.
 - ```REDUCED_BASHING``` ... Gunmod flag; reduces the item's bashing damage by 50%.
 - ```PSEUDO``` ... Used internally to mark items that are referred to in the crafting inventory but are not actually items. They can be used as tools, but not as components.
+- ```MAKESHIFT``` Item is improvised and poor quality. When applied to guns adds appropriate stat penalties.
 
 ## Skills
 

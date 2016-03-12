@@ -23,6 +23,6 @@
     "clip_size": 1,
     "reload": 300,
     "valid_mod_locations": [ [ "stock", 1 ] ],
-    "flags": [ "RELOAD_ONE" ]
+    "flags": [ "RELOAD_ONE", "MAKESHIFT" ]
   }
 ]

@@ -21,7 +21,7 @@
     "clip_size": 2,
     "reload": 200,
     "valid_mod_locations": [ [ "accessories", 4 ], [ "grip", 1 ], [ "sights", 1 ], [ "underbarrel", 1 ] ],
-    "flags": [ "RELOAD_ONE", "RELOAD_EJECT" ]
+    "flags": [ "RELOAD_ONE", "RELOAD_EJECT", "MAKESHIFT" ]
   },
   {
     "id": "cop_38",

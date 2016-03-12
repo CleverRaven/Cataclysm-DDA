@@ -97,7 +97,7 @@
     "reload": 200,
     "barrel_length": 4,
     "valid_mod_locations": [ [ "accessories", 2 ], [ "stock", 1 ], [ "barrel", 1 ] ],
-    "flags": [ "RELOAD_ONE", "NEVER_JAMS", "MODE_BURST", "RELOAD_EJECT" ]
+    "flags": [ "RELOAD_ONE", "NEVER_JAMS", "MODE_BURST", "RELOAD_EJECT", "MAKESHIFT" ]
   },
   {
     "id": "pipe_shotgun",
@@ -123,7 +123,7 @@
     "reload": 200,
     "barrel_length": 4,
     "valid_mod_locations": [ [ "accessories", 2 ], [ "stock", 1 ], [ "barrel", 1 ] ],
-    "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ]
+    "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT", "MAKESHIFT" ]
   },
   {
     "id": "remington_870",
@@ -172,7 +172,7 @@
     "reload": 200,
     "barrel_length": 4,
     "valid_mod_locations": [ [ "accessories", 2 ], [ "stock", 1 ], [ "barrel", 1 ] ],
-    "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ]
+    "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT", "MAKESHIFT" ]
   },
   {
     "id": "saiga_12",
@@ -269,6 +269,6 @@
     "reload": 200,
     "barrel_length": 4,
     "valid_mod_locations": [ [ "accessories", 2 ], [ "stock", 1 ], [ "barrel", 1 ] ],
-    "flags": [ "RELOAD_ONE" ]
+    "flags": [ "RELOAD_ONE", "MAKESHIFT" ]
   }
 ]
