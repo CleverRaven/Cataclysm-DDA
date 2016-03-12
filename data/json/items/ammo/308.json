@@ -18,7 +18,6 @@
     "damage": 60,
     "pierce": 2,
     "dispersion": 15,
-    "recoil": 500,
     "effects": [ "COOKOFF" ]
   },
   {
@@ -40,7 +39,7 @@
     "damage": 57,
     "pierce": 8,
     "dispersion": 30,
-    "recoil": 510,
+    "recoil": -60,
     "effects": [ "COOKOFF", "NEVER_MISFIRES" ]
   },
   {
@@ -61,7 +60,7 @@
     "casing": "308_casing",
     "damage": 57,
     "pierce": 8,
-    "recoil": 510,
+    "recoil": -60,
     "effects": [ "COOKOFF", "INCENDIARY", "NEVER_MISFIRES" ]
   },
   {
@@ -83,7 +82,6 @@
     "damage": 57,
     "pierce": 2,
     "dispersion": 20,
-    "recoil": 500,
     "effects": [ "COOKOFF", "RECYCLED" ]
   },
   {
@@ -105,7 +103,7 @@
     "damage": 54,
     "pierce": 7,
     "dispersion": 40,
-    "recoil": 510,
+    "recoil": -60,
     "effects": [ "COOKOFF", "RECYCLED" ]
   },
   {
@@ -127,7 +125,7 @@
     "damage": 29,
     "pierce": 24,
     "dispersion": 7,
-    "recoil": 495,
+    "recoil": -60,
     "effects": [ "COOKOFF", "INCENDIARY", "RECYCLED" ]
   }
 ]

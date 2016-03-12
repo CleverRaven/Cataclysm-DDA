@@ -18,7 +18,6 @@
     "damage": 36,
     "pierce": 8,
     "dispersion": 150,
-    "recoil": 400,
     "effects": [ "COOKOFF" ]
   },
   {
@@ -40,7 +39,6 @@
     "damage": 40,
     "pierce": 4,
     "dispersion": 150,
-    "recoil": 400,
     "effects": [ "COOKOFF" ]
   },
   {
@@ -62,7 +60,6 @@
     "damage": 33,
     "pierce": 7,
     "dispersion": 165,
-    "recoil": 345,
     "effects": [ "COOKOFF", "RECYCLED" ]
   },
   {
@@ -84,7 +81,6 @@
     "damage": 38,
     "pierce": 3,
     "dispersion": 165,
-    "recoil": 400,
     "effects": [ "COOKOFF", "RECYCLED" ]
   }
 ]

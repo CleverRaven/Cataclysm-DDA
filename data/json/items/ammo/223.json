@@ -17,7 +17,6 @@
     "damage": 44,
     "pierce": 2,
     "dispersion": 80,
-    "recoil": 450,
     "effects": [ "COOKOFF" ]
   },
   {
@@ -39,7 +38,7 @@
     "range": 2,
     "pierce": 8,
     "dispersion": 60,
-    "recoil": 480,
+    "recoil": 30,
     "effects": [ "COOKOFF", "NEVER_MISFIRES" ]
   },
   {
@@ -61,7 +60,7 @@
     "range": 2,
     "pierce": 8,
     "dispersion": 45,
-    "recoil": 480,
+    "recoil": 30,
     "effects": [ "COOKOFF", "INCENDIARY", "NEVER_MISFIRES" ]
   },
   {
@@ -82,9 +81,7 @@
     "damage": 42,
     "pierce": 2,
     "dispersion": 90,
-    "recoil": 450,
     "effects": [ "COOKOFF", "RECYCLED" ]
-
   },
   {
     "id": "reloaded_556",
@@ -105,7 +102,7 @@
     "range": 2,
     "pierce": 4,
     "dispersion": 70,
-    "recoil": 480,
+    "recoil": 30,
     "effects": [ "COOKOFF", "RECYCLED" ]
   },
   {
@@ -127,7 +124,7 @@
     "range": 2,
     "pierce": 7,
     "dispersion": 75,
-    "recoil": 495,
+    "recoil": 30,
     "effects": [ "COOKOFF", "INCENDIARY", "RECYCLED" ]
   }
 ]

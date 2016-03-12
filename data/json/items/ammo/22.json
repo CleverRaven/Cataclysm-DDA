@@ -17,7 +17,7 @@
     "damage" : 5,
     "range": -2,
     "dispersion" : 75,
-    "recoil" : 60,
+    "recoil" : -30,
     "effects" : ["COOKOFF"]
   },
   {
@@ -38,7 +38,6 @@
     "damage" : 17,
     "pierce" : 3,
     "dispersion" : 60,
-    "recoil" : 90,
     "effects" : ["COOKOFF"]
   },
   {
@@ -58,7 +57,6 @@
     "casing" : "22_casing",
     "damage" : 12,
     "dispersion" : 60,
-    "recoil" : 90,
     "effects" : ["COOKOFF"]
   },
   {
@@ -78,7 +76,7 @@
     "casing" : "22_casing",
     "damage" : 4,
     "range": -4,
-    "recoil" : 30,
+    "recoil" : -60,
     "effects" : ["COOKOFF", "SHOT"],
     "flags" : ["NOGIB"]
   },
@@ -99,7 +97,6 @@
     "casing" : "22_casing",
     "damage" : 10,
     "dispersion" : 75,
-    "recoil" : 105,
     "effects" : ["COOKOFF", "RECYCLED"]
   },
   {
@@ -120,7 +117,6 @@
     "damage" : 15,
     "pierce" : 3,
     "dispersion" : 75,
-    "recoil" : 105,
     "effects" : ["COOKOFF", "RECYCLED"]
   }
 ]

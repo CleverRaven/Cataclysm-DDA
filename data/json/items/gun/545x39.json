@@ -42,7 +42,6 @@
     "ammo": "545x39",
     "dispersion": 35,
     "sight_dispersion": 50,
-    "recoil": -10,
     "durability": 7,
     "barrel_length" : 1,
     "burst": 2,

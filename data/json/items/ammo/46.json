@@ -17,7 +17,6 @@
     "damage" : 18,
     "pierce" : 20,
     "dispersion" : 90,
-    "recoil" : 90,
     "effects" : ["COOKOFF"]
   },
   {
@@ -38,7 +37,6 @@
     "damage" : 16,
     "pierce" : 29,
     "dispersion" : 105,
-    "recoil" : 105,
     "effects" : ["COOKOFF"]
   }
 ]

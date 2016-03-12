@@ -17,7 +17,6 @@
     "casing": "32_casing",
     "damage": 16,
     "dispersion": 100,
-    "recoil": 90,
     "effects": [ "COOKOFF" ]
   },
   {
@@ -38,7 +37,6 @@
     "casing": "32_casing",
     "damage": 14,
     "dispersion": 110,
-    "recoil": 90,
     "effects": [ "COOKOFF", "RECYCLED" ]
   }
 ]

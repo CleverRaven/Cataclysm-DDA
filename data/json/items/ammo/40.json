@@ -18,7 +18,7 @@
     "damage": 24,
     "pierce": 4,
     "dispersion": 160,
-    "recoil": 300,
+    "recoil": 50,
     "effects": [ "COOKOFF" ]
   },
   {
@@ -40,7 +40,6 @@
     "damage": 26,
     "pierce": 4,
     "dispersion": 160,
-    "recoil": 230,
     "effects": [ "COOKOFF" ]
   },
   {
@@ -62,7 +61,6 @@
     "damage": 28,
     "pierce": 2,
     "dispersion": 160,
-    "recoil": 230,
     "effects": [ "COOKOFF" ]
   },
   {
@@ -84,7 +82,7 @@
     "damage": 22,
     "pierce": 4,
     "dispersion": 170,
-    "recoil": 315,
+    "recoil": 50,
     "effects": [ "COOKOFF", "RECYCLED" ]
   },
   {
@@ -106,7 +104,6 @@
     "damage": 21,
     "pierce": 4,
     "dispersion": 170,
-    "recoil": 315,
     "effects": [ "COOKOFF", "RECYCLED" ]
   },
   {
@@ -128,7 +125,6 @@
     "damage": 22,
     "pierce": 2,
     "dispersion": 170,
-    "recoil": 255,
     "effects": [ "COOKOFF", "RECYCLED" ]
   }
 ]

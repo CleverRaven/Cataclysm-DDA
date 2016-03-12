@@ -21,6 +21,7 @@ class ammunition_type
         }
 
         int range = 0; /** default range which may be modified by the specific subtype */
+        int recoil = 0; /** default recoil which may be modified by the specific subtype */
 
         static ammunition_type const &find_ammunition_type( std::string const &ident );
     private:

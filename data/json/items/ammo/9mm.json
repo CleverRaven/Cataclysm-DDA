@@ -16,7 +16,6 @@
     "casing": "9mm_casing",
     "damage": 26,
     "dispersion": 140,
-    "recoil": 195,
     "effects": [ "COOKOFF" ]
   },
   {
@@ -37,7 +36,6 @@
     "damage": 24,
     "pierce": 2,
     "dispersion": 140,
-    "recoil": 195,
     "effects": [ "COOKOFF" ]
 
   },
@@ -60,7 +58,7 @@
     "range": 2,
     "pierce": 2,
     "dispersion": 130,
-    "recoil": 210,
+    "recoil": 30,
     "effects": [ "COOKOFF" ]
   },
   {
@@ -82,7 +80,7 @@
     "range": 4,
     "pierce": 4,
     "dispersion": 130,
-    "recoil": 230,
+    "recoil": 60,
     "effects": [ "COOKOFF" ]
   },
   {
@@ -103,7 +101,6 @@
     "damage": 23,
     "pierce": 2,
     "dispersion": 150,
-    "recoil": 195,
     "effects": [ "COOKOFF", "RECYCLED" ]
   },
   {
@@ -124,7 +121,6 @@
     "damage": 25,
     "pierce": 2,
     "dispersion": 150,
-    "recoil": 195,
     "effects": [ "COOKOFF", "RECYCLED" ]
   },
   {
@@ -145,7 +141,7 @@
     "damage": 26,
     "pierce": 2,
     "dispersion": 140,
-    "recoil": 210,
+    "recoil": 30,
     "effects": [ "COOKOFF", "RECYCLED" ]
   },
   {
@@ -166,7 +162,7 @@
     "damage": 26,
     "pierce": 4,
     "dispersion": 140,
-    "recoil": 230,
+    "recoil": 60,
     "effects": [ "COOKOFF", "RECYCLED" ]
   }
 ]

@@ -38,22 +38,6 @@ static const std::string category_id_cbm("bionics");
 static const std::string category_id_mutagen("mutagen");
 static const std::string category_id_other("other");
 
-static const std::unordered_map<skill_id, int> default_aim_speed = {
-    { skill_id( "pistol"   ),  4 },
-    { skill_id( "smg"      ),  6 },
-    { skill_id( "rifle"    ),  8 },
-    { skill_id( "shotgun"  ),  6 },
-    { skill_id( "launcher" ), 10 }
-};
-
-static const std::unordered_map<skill_id, int> base_range = {
-    { skill_id( "pistol"   ),  0 },
-    { skill_id( "smg"      ),  4 },
-    { skill_id( "rifle"    ), 10 },
-    { skill_id( "shotgun"  ),  2 },
-    { skill_id( "launcher" ),  0 }
-};
-
 typedef std::set<std::string> t_string_set;
 static t_string_set item_blacklist;
 static t_string_set item_whitelist;
@@ -78,8 +62,11 @@ void Item_factory::finalize() {
     finialize_item_blacklist();
 
     for( auto& e : m_templates ) {
-        if( e.second->ammo ) {
-            e.second->ammo->range += ammunition_type::find_ammunition_type( e.second->ammo->type ).range;
+        auto ammo = e.second->ammo.get();
+        if( ammo ) {
+            auto base = ammunition_type::find_ammunition_type( ammo->type );
+            ammo->range += base.range;
+            ammo->recoil += base.recoil;
         }
     }
 }
@@ -775,32 +762,35 @@ void Item_factory::load_ammo(JsonObject &jo)
 
 void Item_factory::load( islot_gun &slot, JsonObject &jo )
 {
-    slot.ammo = jo.get_string( "ammo", slot.ammo );
+    struct gun_base {
+        gun_base( int aim_speed = 0, int range = 0, int recoil = 0) :
+            aim_speed( aim_speed ), range( range ), recoil( recoil ) {}
+        const int aim_speed;
+        const int range;
+        const int recoil;
+    };
+    static std::unordered_map<skill_id, gun_base> base = {
+        { skill_id( "pistol"   ), gun_base(  4,   0,    0 ) },
+        { skill_id( "smg"      ), gun_base(  6,   4,  -75 ) },
+        { skill_id( "rifle"    ), gun_base(  8,  10, -150 ) },
+        { skill_id( "shotgun"  ), gun_base(  6,   2, -200 ) },
+        { skill_id( "launcher" ), gun_base( 10,   0,    0 ) }
+    };
+
+    // always load skill first as we may need it to derive some of the other properties
     slot.skill_used = skill_id( jo.get_string( "skill" ) );
+
+    slot.ammo = jo.get_string( "ammo", slot.ammo );
     slot.loudness = jo.get_int( "loudness", 0 );
     slot.damage = jo.get_int( "ranged_damage", 0 );
+    slot.range = jo.get_int( "range", slot.range ) + base[ slot.skill_used ].range;
     slot.dispersion = jo.get_int( "dispersion", 0 );
     slot.sight_dispersion = jo.get_int("sight_dispersion", 0 );
-    slot.recoil = jo.get_int( "recoil", 0 );
+    slot.aim_speed = jo.get_int( "aim_speed", base[ slot.skill_used ].aim_speed );
+    slot.recoil = jo.get_int( "recoil", slot.recoil ) + base[ slot.skill_used ].recoil;
     slot.durability = jo.get_int( "durability" );
     slot.burst = jo.get_int( "burst", 0 );
     slot.clip = jo.get_int( "clip_size", 0 );
-
-    if( !jo.read( "aim_speed", slot.aim_speed ) ) {
-        auto iter = default_aim_speed.find( slot.skill_used );
-        if( iter != default_aim_speed.end() ) {
-            slot.aim_speed = iter->second;
-        } else {
-            jo.throw_error( "aim_speed was unspecified and no suitable default was available" );
-        }
-    }
-
-    jo.read( "range", slot.range );
-    auto base = base_range.find( slot.skill_used );
-    if( base != base_range.end() ) {
-        slot.range += base->second;
-    }
-
     jo.read( "reload", slot.reload_time );
     slot.reload_noise = jo.get_string( "reload_noise", _ ("click.") );
     slot.reload_noise_volume = jo.get_int( "reload_noise_volume", -1 );

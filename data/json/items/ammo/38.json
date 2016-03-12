@@ -18,7 +18,6 @@
     "damage": 20,
     "pierce": 2,
     "dispersion": 125,
-    "recoil": 125,
     "effects": [ "COOKOFF" ]
   },
   {
@@ -39,7 +38,6 @@
     "casing": "38_casing",
     "damage": 22,
     "dispersion": 125,
-    "recoil": 125,
     "effects": [ "COOKOFF" ]
   },
   {
@@ -61,7 +59,6 @@
     "damage": 26,
     "pierce": 4,
     "dispersion": 145,
-    "recoil": 190,
     "effects": [ "COOKOFF" ]
   },
   {
@@ -83,7 +80,6 @@
     "damage": 18,
     "pierce": 2,
     "dispersion": 125,
-    "recoil": 125,
     "effects": [ "COOKOFF", "RECYCLED" ]
   },
   {
@@ -104,7 +100,6 @@
     "casing": "38_casing",
     "damage": 20,
     "dispersion": 125,
-    "recoil": 125,
     "effects": [ "COOKOFF", "RECYCLED" ]
   },
   {
@@ -126,7 +121,6 @@
     "damage": 24,
     "pierce": 4,
     "dispersion": 145,
-    "recoil": 190,
     "effects": [ "COOKOFF", "RECYCLED" ]
   }
 ]
