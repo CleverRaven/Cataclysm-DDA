@@ -16,7 +16,6 @@
     "ammo_type": "32",
     "casing": "32_casing",
     "damage": 16,
-    "range": 12,
     "dispersion": 100,
     "recoil": 90,
     "effects": [ "COOKOFF" ]
@@ -38,7 +37,6 @@
     "ammo_type": "32",
     "casing": "32_casing",
     "damage": 14,
-    "range": 12,
     "dispersion": 110,
     "recoil": 90,
     "effects": [ "COOKOFF", "RECYCLED" ]

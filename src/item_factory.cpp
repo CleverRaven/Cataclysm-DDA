@@ -18,6 +18,7 @@
 #include "material.h"
 #include "artifact.h"
 #include "veh_type.h"
+#include "ammo.h"
 
 #include <algorithm>
 #include <sstream>
@@ -45,6 +46,14 @@ static const std::unordered_map<skill_id, int> default_aim_speed = {
     { skill_id( "launcher" ), 10 }
 };
 
+static const std::unordered_map<skill_id, int> base_range = {
+    { skill_id( "pistol"   ),  0 },
+    { skill_id( "smg"      ),  4 },
+    { skill_id( "rifle"    ), 10 },
+    { skill_id( "shotgun"  ),  2 },
+    { skill_id( "launcher" ),  0 }
+};
+
 typedef std::set<std::string> t_string_set;
 static t_string_set item_blacklist;
 static t_string_set item_whitelist;
@@ -63,6 +72,16 @@ bool item_is_blacklisted(const std::string &id)
     // Empty whitelist: default to enable all,
     // Non-empty whitelist: default to disable all.
     return !item_whitelist.empty();
+}
+
+void Item_factory::finalize() {
+    finialize_item_blacklist();
+
+    for( auto& e : m_templates ) {
+        if( e.second->ammo ) {
+            e.second->ammo->range += ammunition_type::find_ammunition_type( e.second->ammo->type ).range;
+        }
+    }
 }
 
 void Item_factory::finialize_item_blacklist()
@@ -760,7 +779,6 @@ void Item_factory::load( islot_gun &slot, JsonObject &jo )
     slot.skill_used = skill_id( jo.get_string( "skill" ) );
     slot.loudness = jo.get_int( "loudness", 0 );
     slot.damage = jo.get_int( "ranged_damage", 0 );
-    slot.range = jo.get_int( "range", 0 );
     slot.dispersion = jo.get_int( "dispersion", 0 );
     slot.sight_dispersion = jo.get_int("sight_dispersion", 0 );
     slot.recoil = jo.get_int( "recoil", 0 );
@@ -775,6 +793,12 @@ void Item_factory::load( islot_gun &slot, JsonObject &jo )
         } else {
             jo.throw_error( "aim_speed was unspecified and no suitable default was available" );
         }
+    }
+
+    jo.read( "range", slot.range );
+    auto base = base_range.find( slot.skill_used );
+    if( base != base_range.end() ) {
+        slot.range += base->second;
     }
 
     jo.read( "reload", slot.reload_time );

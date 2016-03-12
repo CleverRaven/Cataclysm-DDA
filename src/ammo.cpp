@@ -28,6 +28,8 @@ void ammunition_type::load_ammunition_type( JsonObject &jsobj )
     auto &ammo = result.first->second;
     ammo.name_             = jsobj.get_string( "name" );
     ammo.default_ammotype_ = jsobj.get_string( "default" );
+
+    jsobj.read( "range", ammo.range );
 }
 
 ammunition_type const &ammunition_type::find_ammunition_type( std::string const &ident )

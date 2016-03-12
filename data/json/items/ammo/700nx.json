@@ -16,7 +16,6 @@
     "ammo_type": "700nx",
     "casing": "700nx_casing",
     "damage": 90,
-    "range": 42,
     "pierce": 30,
     "dispersion": 15,
     "recoil": 750,

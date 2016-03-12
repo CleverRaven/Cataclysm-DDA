@@ -40,7 +40,6 @@
     "color": "brown",
     "skill": "pistol",
     "ammo": "38",
-    "range": 3,
     "dispersion": 225,
     "sight_dispersion": 120,
     "recoil": 30,

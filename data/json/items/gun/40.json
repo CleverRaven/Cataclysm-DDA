@@ -81,7 +81,7 @@
     "clip_size": 6,
     "reload": 200,
     "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
-    "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ]
+    "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT", "MAKESHIFT" ]
   },
   {
     "id": "sw_610",

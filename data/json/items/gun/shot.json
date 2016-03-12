@@ -15,7 +15,6 @@
     "color": "dark_gray",
     "skill": "shotgun",
     "ammo": "shot",
-    "range": 2,
     "dispersion": 75,
     "sight_dispersion": 90,
     "recoil": 90,

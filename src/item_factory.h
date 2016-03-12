@@ -55,6 +55,10 @@ class Item_factory
          * Reset the item factory. All item type definitions and item groups are erased.
          */
         void reset();
+
+        /** Called once all definitions have been loaded to perform cleanup */
+        void finalize();
+
         /**
          * Check consistency of itype and item group definitions, for example
          * valid material, valid tool, etc.

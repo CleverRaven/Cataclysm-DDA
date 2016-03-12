@@ -16,7 +16,6 @@
     "casing": "762_casing",
     "damage": 36,
     "pierce": 8,
-    "range": 30,
     "dispersion": 180,
     "recoil": 420,
     "effects": ["COOKOFF", "NEVER_MISFIRES"]
@@ -38,7 +37,6 @@
     "casing" : "762_casing",
     "damage" : 44,
     "pierce" : 10,
-    "range" : 30,
     "dispersion" : 180,
     "recoil" : 420,
     "effects" : ["COOKOFF", "NEVER_MISFIRES"]
@@ -60,7 +58,6 @@
     "casing" : "762_casing",
     "damage" : 34,
     "pierce" : 7,
-    "range" : 30,
     "dispersion" : 210,
     "recoil" : 375,
     "effects" : ["COOKOFF", "RECYCLED"]
@@ -82,7 +79,6 @@
     "casing" : "762_casing",
     "damage" : 42,
     "pierce" : 9,
-    "range" : 30,
     "dispersion" : 200,
     "recoil" : 390,
     "effects" : ["COOKOFF", "RECYCLED"]
