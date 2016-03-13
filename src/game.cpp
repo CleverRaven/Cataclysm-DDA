@@ -10443,30 +10443,29 @@ bool game::handle_liquid( item &liquid, item * const source, const int radius,
 
     menu.addentry( -1, true, 'g', _( "Pour on the ground" ) );
     actions.emplace_back( [&]() {
-        int dirx, diry;
+        tripoint target_pos = u.pos();
         const std::string liqstr = string_format( _( "Pour %s where?" ), liquid.tname().c_str() );
         refresh_all();
-        if( !choose_adjacent( liqstr, dirx, diry ) ) {
+        if( !choose_adjacent( liqstr, target_pos ) ) {
             return;
         }
         // TODO: implement filling into standing tanks/kegs/ similar terrain.
         // They have the NOITEMS flag and need special casing here.
-        if( !m.can_put_items_ter_furn( dirx, diry ) ) {
+        if( !m.can_put_items_ter_furn( target_pos ) ) {
             add_msg( m_info, _( "You can't pour there!" ) );
             return;
         }
-        // TODO: 3D coordinates are the future!
-        if( source_pos != nullptr && *source_pos == tripoint( dirx, diry, get_levz() ) ) {
+        if( source_pos != nullptr && *source_pos == target_pos ) {
             add_msg( m_info, _( "That's where you took it from!" ) );
             return;
         }
 
         if( create_activity() ) {
-            serialize_liquid_target( u.activity, tripoint( dirx, diry, get_levz() ) );
+            serialize_liquid_target( u.activity, target_pos );
             return;
         }
         // TODO: consume moves
-        m.add_item_or_charges( dirx, diry, liquid, 1 );
+        m.add_item_or_charges( target_pos, liquid, 1 );
         liquid.charges = 0;
     } );
     if( liquid.rotten() ) {
