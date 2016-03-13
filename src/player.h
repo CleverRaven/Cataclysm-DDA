@@ -1201,6 +1201,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void set_underwater(bool);
         bool is_hallucination() const override;
 
+        bool is_driving() const; /** Is the player currently controlling a moving vehicle */
+
         void environmental_revert_effect();
 
         bool is_invisible() const;

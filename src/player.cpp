@@ -1856,6 +1856,12 @@ bool player::is_hallucination() const
     return false;
 }
 
+bool player::is_driving() const
+{
+    const auto veh = g->m.veh_at( pos() );
+    return veh && veh->velocity != 0 && veh->player_in_control( *this );
+}
+
 void player::set_underwater(bool u)
 {
     if (underwater != u) {
