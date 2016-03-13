@@ -6523,16 +6523,16 @@
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_PARTS",
   "skill_used": "fabrication",
-  "difficulty": 5,
+  "difficulty": 4,
   "time": 40000,
   "reversible": true,
   "autolearn": true,
   "components": [
+    [ [ "chitin_piece", 20 ] ],
     [
-     [ "chitin_piece", 40 ]
-    ],
-    [
-     [ "rope_6", 4 ]
+        [ "rope_6", 2 ],
+        [ "superglue", 2 ],
+        [ "bone_glue", 4 ]
     ]
     ]
  },{
@@ -6541,18 +6541,20 @@
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_PARTS",
   "skill_used": "fabrication",
-  "difficulty": 4,
+  "difficulty": 3,
   "time": 40000,
   "reversible": true,
   "autolearn": true,
   "components": [
     [
-     [ "bone", 25 ],
-     [ "bone_human", 25 ],
-     [ "bone_tainted", 50 ]
+        [ "bone", 25 ],
+        [ "bone_human", 25 ],
+        [ "bone_tainted", 50 ]
     ],
     [
-     [ "rope_6", 5 ]
+        [ "rope_6", 4 ],
+        [ "superglue", 2 ],
+        [ "bone_glue", 4 ]
     ]
     ]
  },{
@@ -6561,7 +6563,7 @@
   "category": "CC_OTHER",
   "subcategory": "CSC_WEAPON_PARTS",
   "skill_used": "fabrication",
-  "difficulty": 7,
+  "difficulty": 6,
   "time": 360000,
   "reversible": false,
   "autolearn": true,
