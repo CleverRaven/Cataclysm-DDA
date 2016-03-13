@@ -75,7 +75,7 @@
         ["GRAB", 60]
     ],
     "flags":["SEES", "HEARS", "SMELLS", "SWIMS", "CHITIN", "CLIMBS", "VENOM"],
-	"anger_triggers":["FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "PLAYER_WEAK", "FIRE"]
+	"anger_triggers":["FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "PLAYER_CLOSE", "FIRE"]
     },{
     "type" : "MONSTER",
     "id" : "mon_ant_queen",
@@ -224,7 +224,7 @@
     ],
     "description":"A huge and hairy red ant almost twice the size of other giant ants.  Bulging pincers extend from its jaws.  This Earth native is comfortably adapted to its new size.",
     "flags":["SEES", "HEARS", "SMELLS", "SWIMS", "CHITIN", "CLIMBS", "VENOM"],
-    "anger_triggers":["FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "PLAYER_WEAK", "FIRE"]
+    "anger_triggers":["FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "PLAYER_CLOSE", "FIRE"]
     },{
     "type" : "MONSTER",
     "id" : "mon_ant_soldier_pk_weak",
