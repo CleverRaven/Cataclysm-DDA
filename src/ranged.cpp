@@ -1465,10 +1465,7 @@ double player::get_weapon_dispersion( const item *weapon, bool random ) const
         dispersion *= 4;
     }
 
-    if (dispersion < 0) {
-        return 0;
-    }
-    return dispersion;
+    return std::max( dispersion, 0.0 );
 }
 
 int recoil_add( player& p, const item &gun )
