@@ -6,7 +6,8 @@
     "edit-mode" : "modify",
         "upgrades":{
       "into": "mon_ant_larva_pk",
-      "half_life": 10
+      "half_life": 10,
+	  "anger_triggers":["HURT", "FIRE"]
     }
     },{
     "type" : "MONSTER",
@@ -38,7 +39,8 @@
         },
         ["GRAB", 30]
     ],
-    "flags":["SEES", "SMELLS", "CHITIN", "CLIMBS"]
+    "flags":["SEES", "SMELLS", "CHITIN", "CLIMBS"],
+	"anger_triggers":["FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "PLAYER_WEAK"]
     },{
     "type" : "MONSTER",
     "id" : "mon_ant_soldier",
@@ -72,7 +74,8 @@
         },
         ["GRAB", 60]
     ],
-    "flags":["SEES", "HEARS", "SMELLS", "SWIMS", "CHITIN", "CLIMBS", "VENOM"]
+    "flags":["SEES", "HEARS", "SMELLS", "SWIMS", "CHITIN", "CLIMBS", "VENOM"],
+	"anger_triggers":["FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "PLAYER_WEAK", "FIRE"]
     },{
     "type" : "MONSTER",
     "id" : "mon_ant_queen",
@@ -82,7 +85,8 @@
       "half_life": 14
     },
     "special_attacks":[["ANTQUEEN", 3], ["SHRIEK_ALERT", 30]],
-    "flags":["SEES", "SMELLS", "QUEEN", "CHITIN", "FAT", "CLIMBS", "BASHES"]
+    "flags":["SEES", "SMELLS", "QUEEN", "CHITIN", "FAT", "CLIMBS", "BASHES"],
+	"anger_triggers":["FRIEND_DIED", "HURT", "FIRE"]
     },{
     "type" : "MONSTER",
     "id" : "mon_ant_larva_pk",
@@ -220,7 +224,7 @@
     ],
     "description":"A huge and hairy red ant almost twice the size of other giant ants.  Bulging pincers extend from its jaws.  This Earth native is comfortably adapted to its new size.",
     "flags":["SEES", "HEARS", "SMELLS", "SWIMS", "CHITIN", "CLIMBS", "VENOM"],
-    "anger_triggers":["FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "PLAYER_CLOSE"]
+    "anger_triggers":["FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "PLAYER_WEAK", "FIRE"]
     },{
     "type" : "MONSTER",
     "id" : "mon_ant_soldier_pk_weak",
@@ -269,7 +273,7 @@
         }],
     "description":"Somewhat smaller than other soldiers, this nimble ant jumps after prey and drags them back to the hive for processing.  Its mandibles are the size of its thorax, and secrete poison.",
     "flags":["SEES", "SMELLS", "SWIMS", "CHITIN", "CLIMBS", "BADVENOM", "BASHES"],
-    "anger_triggers":["FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "PLAYER_CLOSE", "PLAYER_WEAK"]
+    "anger_triggers":["FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "PLAYER_CLOSE", "PLAYER_WEAK", "FIRE"]
     },{
     "type" : "MONSTER",
     "id" : "mon_ant_soldier_pk",
@@ -314,7 +318,7 @@
         }],
     "description":"Somewhat smaller than other soldiers, this nimble ant jumps after prey and drags them back to the hive for processing.  Its mandibles are the size of its thorax, and secrete a slick-looking poison.",
     "flags":["SEES", "SMELLS", "SWIMS", "CHITIN", "CLIMBS", "BADVENOM", "BASHES"],
-    "anger_triggers":["FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "PLAYER_CLOSE", "PLAYER_WEAK"]
+    "anger_triggers":["FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "PLAYER_CLOSE", "PLAYER_WEAK", "FIRE"]
     },{
     "type" : "MONSTER",
     "id" : "mon_ant_queen_firebug",
@@ -344,7 +348,7 @@
     "special_attacks":[["ANTQUEEN", 3], ["FLAMETHROWER", 10], ["SHRIEK_ALERT", 15]],
     "description":"A colossal red ant with a bulging, bloated thorax.  It moves slowly and deliberately, tending to nearby eggs and continually laying more.  Its antennae seem almost aesthetic, or at the least not used for sensing . . .",
     "flags":["SEES", "SMELLS", "QUEEN", "CHITIN", "FAT", "CLIMBS", "FIREPROOF", "BASHES"],
-    "anger_triggers":["FRIEND_ATTACKED", "FRIEND_DIED", "HURT"]
+    "anger_triggers":["FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "FIRE"]
     },{
     "type" : "MONSTER",
     "id" : "mon_ant_queen_young",
@@ -374,7 +378,7 @@
     "special_attacks":[["ANTQUEEN", 21], ["FLAMETHROWER", 30], ["SHRIEK_ALERT", 30], ["SHRIEK_STUN", 1]],
     "description":"A fecund female ant.  It still bears its wings, and likely either s preparing for or just completed its nuptial flight.  Its body is well-laden with stores of nutrients for its future young.",
     "flags":["SEES", "SMELLS", "CHITIN", "FAT", "CLIMBS", "FIREPROOF", "FLIES", "BASHES"],
-    "anger_triggers":["FRIEND_ATTACKED", "FRIEND_DIED", "HURT"]
+    "anger_triggers":["FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "FIRE"]
     },{
     "type" : "MONSTER",
     "id" : "mon_ant_kwama",
@@ -404,7 +408,7 @@
     "special_attacks":[["GRAB", 60], ["SHOCKSTORM", 30]],
     "description":"You don't know what this thing is, but the ants treat it as one of their own.  Its head looks like a maggot, completely devoid of pincers and with three beady eyes staring in different directions.  While it typically travels on its four limbs, it occassionally stands upon its hind limbs to gaze about.  It claws clumsily wth the three digits on each limb, and rumors exist of it being capable of harnessing electricity for attack.",
     "flags":["SEES", "HEARS", "SMELLS", "SWIMS", "CHITIN", "CLIMBS", "BASHES"],
-    "anger_triggers":["FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "PLAYER_CLOSE"]
+    "anger_triggers":["FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "PLAYER_CLOSE", "FIRE"]
     }
     
 ]
