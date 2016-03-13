@@ -32,6 +32,7 @@ const skill_id skill_archery( "archery" );
 const skill_id skill_throw( "throw" );
 const skill_id skill_gun( "gun" );
 const skill_id skill_melee( "melee" );
+const skill_id skill_driving( "driving" );
 
 const efftype_id effect_on_roof( "on_roof" );
 const efftype_id effect_bounced( "bounced" );
@@ -1422,6 +1423,15 @@ double player::get_weapon_dispersion( const item *weapon, bool random ) const
 {
     double dispersion = 0.; // Measured in quarter-degrees.
     dispersion += skill_dispersion( *weapon, random );
+
+    if( is_driving() ) {
+        // get volume of gun (or for auxiliary gunmods the parent gun)
+        const item *parent = has_item( *weapon ) ? find_parent( *weapon ) : nullptr;
+        int vol = parent ? parent->volume() : weapon->volume();
+
+        ///\EFFECT_DRIVING reduces the inaccuracy penalty when using guns whilst driving
+        dispersion += std::max( vol - get_skill_level( skill_driving ), 1 ) * 20;
+    }
 
     dispersion += rand_or_max( random, ranged_dex_mod() );
     dispersion += rand_or_max( random, ranged_per_mod() );
