@@ -387,7 +387,7 @@ classes = {
             { name = "activate_bionic", rval = "bool", args = { "int", "bool" } },
             { name = "active_light", rval = "float", args = { } },
             { name = "add_ammo_to_worn_quiver", rval = "int", args = { "item" } },
-            { name = "add_bionic", rval = nil, args = { "string" } },
+            { name = "add_bionic", rval = nil, args = { "string", "body_part" } },
             { name = "add_known_trap", rval = nil, args = { "tripoint", "trap" } },
             { name = "add_morale", rval = nil, args = { "morale_type", "int" } },
             { name = "add_morale", rval = nil, args = { "morale_type", "int", "int" } },
