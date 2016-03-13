@@ -1056,7 +1056,11 @@ std::vector<tripoint> game::target( tripoint &p, const tripoint &low, const trip
             } else {
                 predicted_recoil = u.recoil;
             }
-            line_number = u.print_aim_bars( w_target, line_number, relevant, critter, predicted_recoil );
+            if( relevant->gunmod_current() ) {
+                line_number = u.print_aim_bars( w_target, line_number, relevant->gunmod_current(), critter, predicted_recoil );
+            } else {
+                line_number = u.print_aim_bars( w_target, line_number, relevant, critter, predicted_recoil );
+            }
             if( aim_mode->has_threshold ) {
                 mvwprintw(w_target, line_number++, 1, _("%s Delay: %i"), aim_mode->name.c_str(), predicted_delay );
             }
@@ -1416,13 +1420,6 @@ static int rand_or_max( bool random, int max )
 // utility functions for projectile_attack
 double player::get_weapon_dispersion( const item *weapon, bool random ) const
 {
-    if( weapon->is_gun() && weapon->is_in_auxiliary_mode() ) {
-        const auto gunmod = weapon->gunmod_current();
-        if( gunmod != nullptr ) {
-            return get_weapon_dispersion( gunmod, random );
-        }
-    }
-
     double dispersion = 0.; // Measured in quarter-degrees.
     dispersion += skill_dispersion( *weapon, random );
 
