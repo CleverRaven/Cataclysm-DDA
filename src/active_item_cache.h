@@ -29,6 +29,8 @@ class active_item_cache
         // Use this one if there's a chance that the item being referenced has been invalidated.
         bool has( item_reference const &itm ) const;
         bool empty() const;
+        // Shift all locations on this cache.
+        void shift_location( const point delta );
         std::list<item_reference> get();
 };
 

@@ -29,6 +29,15 @@ bool active_item_cache::empty() const
     return active_items.empty();
 }
 
+void active_item_cache::shift_location( const point delta )
+{
+    for( auto &tuple : active_items ) {
+        for( auto &an_iter : tuple.second ) {
+            an_iter.location -= delta;
+        }
+    }
+}
+
 // get() only returns the first size() / processing_speed() elements of each list, rounded up.
 // It relies on the processing logic to remove and reinsert the items to they
 // move to the back of their respective lists (or to new lists).
