@@ -80,7 +80,8 @@ std::string bodyparts[] = { bp_asText[0], bp_asText[1], bp_asText[2], bp_asText[
                           };
 
 void draw_background( WINDOW *win, const bool empty_list );
-void draw_header( WINDOW *win, std::string power_string, const std::string help_key );
+void draw_header( WINDOW *win, const size_t tab_index, const std::string power_string,
+                  const std::string help_key );
 const char *power_description( std::string const &id );
 
 void draw_background( WINDOW *win, const bool empty_list )
