@@ -11295,7 +11295,7 @@ bool add_or_drop_with_msg( player &u, item &it )
     return true;
 }
 
-void game::unload( item &it )
+bool game::unload( item &it )
 {
     // Unload a container consuming moves per item successfully removed
     if( it.is_container() && !it.contents.empty() ) {
@@ -11307,7 +11307,7 @@ void game::unload( item &it )
             u.moves -= mv;
             return true;
         } ), it.contents.end() );
-        return;
+        return true;
     }
 
     // If item can be unloaded more than once (currently only guns) prompt user to choose
@@ -11329,7 +11329,7 @@ void game::unload( item &it )
     // Next check for any reasons why the item cannot be unloaded
     if( target->ammo_type() == "NULL" || target->ammo_capacity() <= 0 ) {
         add_msg( m_info, _("You can't unload a %s!"), target->tname().c_str() );
-        return;
+        return false;
     }
 
     if( target->has_flag( "NO_UNLOAD" ) ) {
@@ -11338,7 +11338,7 @@ void game::unload( item &it )
         } else {
             add_msg( m_info, _( "You can't unload a %s!" ), target->tname().c_str() );
         }
-        return;
+        return false;
     }
 
     if( !target->magazine_current() && target->ammo_remaining() <= 0 ) {
@@ -11347,7 +11347,7 @@ void game::unload( item &it )
         } else {
             add_msg( m_info, _( "Your %s isn't loaded." ), target->tname().c_str() );
         }
-        return;
+        return false;
     }
 
     if( target->is_magazine() ) {
@@ -11358,14 +11358,14 @@ void game::unload( item &it )
             }
             u.moves -= u.item_reload_cost( *target, e ) / 2;
             return true;
-        } ), it.contents.end() );
+        } ), target->contents.end() );
 
         add_msg( _( "You unload your %s." ), target->tname().c_str() );
-        return;
+        return true;
 
     } else if( target->magazine_current() ) {
         if( !add_or_drop_with_msg( u, *target->magazine_current() ) ) {
-            return;
+            return false;
         }
         // Eject magazine consuming half as much time as required to insert it
         u.moves -= u.item_reload_cost( *target, *target->magazine_current() ) / 2;
@@ -11383,7 +11383,7 @@ void game::unload( item &it )
                 add_msg( _( "You recover %i unused plutonium." ), qty );
             } else {
                 add_msg( m_info, _( "You can't remove partially depleted plutonium!" ) );
-                return;
+                return false;
             }
         }
 
@@ -11394,11 +11394,11 @@ void game::unload( item &it )
             add_or_drop_with_msg( u, ammo );
             qty -= ammo.charges;
             if( qty <= 0 ) {
-                return; // no liquid was moved
+                return false; // no liquid was moved
             }
 
         } else if( !add_or_drop_with_msg( u, ammo ) ) {
-            return;
+            return false;
         }
 
         // If successful remove appropriate qty of ammo consuming half as much time as required to load it
@@ -11420,6 +11420,7 @@ void game::unload( item &it )
     }
 
     add_msg( _( "You unload your %s." ), target->tname().c_str() );
+    return true;
 }
 
 void game::wield( int pos )
