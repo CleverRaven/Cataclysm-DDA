@@ -73,9 +73,9 @@ std::map<std::string, bionic_data> bionics;
 std::vector<std::string> faulty_bionics;
 
 // similar to content of body_part_name() but with extra entry 'Other'
-std::string bodyparts[] = { _( "Torso" ), _( "Head" ), _( "Eyes" ), _( "Mouth" ),
-                            _( "L. Arm" ), _( "R. Arm" ), _( "L. Hand" ), _( "R. Hand" ),
-                            _( "L. Leg" ), _( "R. Leg" ), _( "L. Foot" ), _( "R. Foot" ),
+std::string bodyparts[] = { bp_asText[0], bp_asText[1], bp_asText[2], bp_asText[3],
+                            bp_asText[4], bp_asText[5], bp_asText[6], bp_asText[7],
+                            bp_asText[8], bp_asText[9], bp_asText[10], bp_asText[11],
                             _( "Other" ), _( "All" )
                           };
 
@@ -783,12 +783,28 @@ void player::power_bionics_new()
     size_t tab_index = tab_count - 1;
     int cursor = 0;
     int scroll_position = 0;
-    const int max_scroll_position = std::max( 0, static_cast<int>( my_bionics.size() ) -
-                                              getmaxy( w_bio_list ) );
-    bool redraw = true;
+    int max_scroll_position;
 
+    bool recalc = true;
+    bool redraw = true;
+    std::vector<std::pair<body_part, size_t>> content;
     // main loop
     for( ;; ) {
+        if( recalc ) {
+            content.clear();
+            for( int bp_index = 0; bp_index <= num_bp; ++bp_index ) {
+                body_part bp = static_cast<body_part>( bp_index );
+                content.push_back( std::make_pair( bp , INT_MAX ) );
+                for( size_t i = 0; i < my_bionics.size(); ++i ) {
+                    if( my_bionics[i].occupied_bp == bp_index ) {
+                        content.push_back( std::make_pair( bp, i ) );
+                    }
+                }
+            }
+            max_scroll_position = std::max( 0, static_cast<int>( content.size() ) -
+                                               getmaxy( w_bio_list ) );
+            recalc = false;
+        }
         if( redraw ) {
             draw_background( w_bionics, my_bionics.empty() );
             draw_header( w_bio_header, tab_index, string_format( _( "Power: %i/%i" ),
@@ -796,72 +812,103 @@ void player::power_bionics_new()
                                                                  int( max_power_level ) ),
                          ctxt.get_desc( "HELP_KEYBINDINGS" ) );
             werase( w_bio_list );
-            draw_scrollbar( w_bio_list, cursor, getmaxy( w_bio_list ), my_bionics.size(),
-                            0, 0, BORDER_COLOR, false );
+
+            max_scroll_position = std::max( 0, static_cast<int>( content.size() ) -
+                                                                 getmaxy( w_bio_list ) );
+            draw_scrollbar( w_bio_list, cursor, getmaxy( w_bio_list ),
+                            static_cast<int>( content.size() ), 0, 0, BORDER_COLOR, false );
+
             for( int i = scroll_position; i < std::min( getmaxy( w_bio_list ) + scroll_position,
-                                                        int( my_bionics.size() ) ); ++i ) {
-                const bionic& b = my_bionics[i];
-                const bool highlighted = ( i == cursor );
-                const nc_color cbm_color = get_bionic_text_color( b, highlighted );
-                mvwputch( w_bio_list, i - scroll_position, 2, cbm_color, b.invlet );
-
-                // highlight the current line
-                if( highlighted ){
-                    for( int j = 3; j < getmaxx( w_bio_list ) - 1; ++j ) {
-                        wputch( w_bio_list, h_white, ' ' );
+                                                        static_cast<int>( content.size() ) ); ++i ) {
+                if( content[i].second == INT_MAX ) {
+                    mvwprintz( w_bio_list, i - scroll_position, 2, c_yellow,
+                               string_format( "%s [%i/%i]:",
+                                              bodyparts[content[i].first].c_str(),
+                                              get_used_bionics_slots( content[i].first ),
+                                              get_total_bionics_slots( content[i].first ) ).c_str() );
+                    if( i == cursor ) {
+                        cursor++;
                     }
-                }
+                } else {
+                    const bionic& b = my_bionics[content[i].second];
+                    const bool highlighted = ( i == cursor );
+                    const nc_color cbm_color = get_bionic_text_color( b, highlighted );
 
-                mvwprintz( w_bio_list, i - scroll_position, 5, cbm_color,
-                           bionic_info( b.id ).name.c_str() );
-                wprintz( w_bio_list, cbm_color, " [%d]", b.occupied_size );
-                if( bionic_info( b.id ).toggled ) {
-                    mvwprintz( w_bio_list, i - scroll_position, getmaxx( w_bio_list ) / 2,
-                               cbm_color, b.powered ? _( "ON" ) : _( "OFF" ) );
-                }
+                    // invlet
+                    mvwputch( w_bio_list, i - scroll_position, 2, cbm_color, b.invlet );
 
-                const char* desc = power_description( b.id );
-                mvwprintz( w_bio_list, i - scroll_position,
-                           std::min( getmaxx( w_bio_list ) * 2 / 3 + 8,
-                                     getmaxx( w_bio_list ) - utf8_width( desc ) - 1 ),
-                           get_bionic_text_color( b, highlighted ), desc );
+                    // highlight the current line
+                    if( highlighted ){
+                        for( int j = 3; j < getmaxx( w_bio_list ) - 1; ++j ) {
+                            wputch( w_bio_list, h_white, ' ' );
+                        }
+                    }
+
+                    // name
+                    mvwprintz( w_bio_list, i - scroll_position, 5, cbm_color,
+                               bionic_info( b.id ).name.c_str() );
+
+                    // size
+                    wprintz( w_bio_list, cbm_color, " [%i]", b.occupied_size );
+                    if( bionic_info( b.id ).toggled ) {
+                        mvwprintz( w_bio_list, i - scroll_position, getmaxx( w_bio_list ) / 2,
+                                   cbm_color, b.powered ? _( "ON" ) : _( "OFF" ) );
+                    }
+
+                    // power consumption description
+                    const char* desc = power_description( b.id );
+                    mvwprintz( w_bio_list, i - scroll_position,
+                               std::min( getmaxx( w_bio_list ) - utf8_width( desc ) - 1,
+                                         getmaxx( w_bio_list ) * 2 / 3 + 8 ), cbm_color, desc );
+                }
             }
             wrefresh( w_bio_list );
 
-            //update content of description window
+            // update content of description window
+            std::string desc = bionic_info( my_bionics[ content[cursor].second ].id ).description;
             werase( w_bio_description );
-            fold_and_print( w_bio_description, 0, 0, getmaxx( w_bio_description ), c_ltgray,
-                            bionic_info( my_bionics[cursor].id ).description.c_str() );
+            fold_and_print( w_bio_description, 0, 0, getmaxx( w_bio_description ),
+                            c_ltblue, desc );
             wrefresh( w_bio_description );
 
             redraw = false;
         }
         const std::string action = ctxt.handle_input();
+
+        if( action == "ANY_INPUT" && my_bionics.empty() ) {
+            return;
+        }
+
         if( action == "HELP_KEYBINDINGS" ) {
             wrefresh( w_bionics );
             redraw = true;
 
         } else if( action == "UP" ) {
-            if( cursor == 0 ) {
-                cursor = static_cast<int>( my_bionics.size() ) - 1;
-            } else {
-                cursor--;
-            }
-            if( scroll_position > 0 && cursor - scroll_position < getmaxy( w_bio_list ) / 2 ) {
-                scroll_position--;
-            }
+            do {
+                if( cursor == 0 ) {
+                    cursor = static_cast<int>( content.size() ) - 1;
+                    scroll_position = max_scroll_position;
+                } else {
+                    cursor--;
+                }
+                if( scroll_position > 0 && cursor - scroll_position < getmaxy( w_bio_list ) / 2 ) {
+                    scroll_position--;
+                }
+            } while ( content[cursor].second == INT_MAX );
             redraw = true;
 
         } else if( action == "DOWN" ) {
-            cursor++;
-            if( cursor >= static_cast<int>( my_bionics.size() ) ) {
-                cursor = 0;
-                scroll_position = 0;
-            }
-            if( scroll_position < max_scroll_position &&
-                cursor - scroll_position > getmaxy( w_bio_list ) / 2 ) {
-                scroll_position++;
-            }
+            do {
+                cursor++;
+                if( cursor >= static_cast<int>( content.size() ) ) {
+                    cursor = 0;
+                    scroll_position = 0;
+                }
+                if( scroll_position < max_scroll_position &&
+                    cursor - scroll_position > getmaxy( w_bio_list ) / 2 ) {
+                    scroll_position++;
+                }
+            } while ( content[cursor].second == INT_MAX );
             redraw = true;
 
         } else if( action == "LEFT" ) {
@@ -873,7 +920,7 @@ void player::power_bionics_new()
             redraw = true;
 
         } else if( action == "REASSIGN" ) {
-            const long ch = my_bionics[cursor].invlet;
+            const long ch = my_bionics[content[cursor].second].invlet;
             bionic *tmp = bionic_by_invlet( ch );
             if( tmp == nullptr ) {
                 // Selected an non-existing bionic (or escape, or ...)
@@ -899,13 +946,13 @@ void player::power_bionics_new()
             }
 
         } else if( action == "REMOVE" ) {
-            if( uninstall_bionic( my_bionics[cursor].id ) ) {
                 redraw = true;
+            if( uninstall_bionic( my_bionics[content[cursor].second].id ) ) {
                 continue;
             }
 
         } else if( action == "CONFIRM" ) {
-            bionic *tmp = &my_bionics[cursor];
+            bionic *tmp = &my_bionics[content[cursor].second];
             if( tmp == nullptr ) {
                 // Selected an non-existing bionic
                 // this should not happen because we're choosing bionic via cursor
@@ -1600,7 +1647,7 @@ void player::process_bionic(int b)
     }
 }
 
-int player::get_used_bionics_slots( int bp )
+int player::get_used_bionics_slots( body_part bp )
 {
     int used_slots = 0;
     for( auto& bio : my_bionics ) {
@@ -1612,52 +1659,50 @@ int player::get_used_bionics_slots( int bp )
     return used_slots;
 }
 
-int player::get_total_bionics_slots( int bp )
+int player::get_total_bionics_slots( body_part bp )
 {
-    int total_slots = 0;
-    switch( static_cast<body_part>( bp ) ) {
+    switch( bp ) {
     case bp_torso:
-        total_slots = 20;
+        return 100;
 
     case bp_head:
-        total_slots = 5;
+        return 15;
 
     case bp_eyes:
-        total_slots = 2;
+        return 2;
 
     case bp_mouth:
-        total_slots = 2;
+        return 4;
 
     case bp_arm_l:
     case bp_arm_r:
-        total_slots = 8;
+        return 20;
 
     case bp_hand_l:
     case bp_hand_r:
-        total_slots = 3;
+        return 5;
 
     case bp_leg_l:
     case bp_leg_r:
         if( has_trait( "LEG_TENTACLES" ) ) {
-            // 3 tentacles per side, 4 slots ea
-            total_slots = 3 * 4;
+            // 3 tentacles per side, 12 slots ea
+            return ( 3 * 12 );
         } else {
             // boring regular legs
-            total_slots = 10;
+            return 26;
         }
 
     case bp_foot_l:
     case bp_foot_r:
-        total_slots = 4;
+        return 10;
 
     case num_bp:
-        total_slots = INT_MAX;
+        return INT_MAX;
     }
-
-    return total_slots;
+    return 0;
 }
 
-int player::get_free_bionics_slots( int bp )
+int player::get_free_bionics_slots( body_part bp )
 {
     return get_total_bionics_slots( bp ) - get_used_bionics_slots( bp );
 }
@@ -1908,9 +1953,10 @@ _( "WARNING: %i%% chance of genetic damage, blood loss, or damage to existing bi
                                        warning.c_str() );
     std::vector<body_part> available_bodyparts;
     for( size_t i = 0; i < num_bp; ++i ) {
-        if( get_free_bionics_slots( i ) > 0 ) {
+        body_part bp = static_cast<body_part>( i );
+        if( get_free_bionics_slots( bp ) > 0 ) {
             bp_selection.addentry( bp_asText[i] );
-            available_bodyparts.push_back( static_cast<body_part>( i ) );
+            available_bodyparts.push_back( bp );
         }
     }
     if( available_bodyparts.empty() ) {
@@ -2145,7 +2191,7 @@ void player::remove_bionic(std::string const &b) {
 				   continue;
         }
 
-        new_my_bionics.push_back(bionic(i.id, i.invlet, i.occupied_bp));
+        new_my_bionics.push_back( bionic( i.id, i.invlet, i.occupied_bp ) );
     }
     my_bionics = new_my_bionics;
     recalc_sight_limits();
