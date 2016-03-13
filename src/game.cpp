@@ -10362,7 +10362,7 @@ bool game::handle_liquid_from_container( item &container, int radius )
 }
 
 bool game::handle_liquid(item &liquid, bool from_ground, item *source,
-                         int radius)
+                         int radius, const vehicle * const source_veh )
 {
     if( !liquid.made_of(LIQUID) ) {
         dbg(D_ERROR) << "game:handle_liquid: Tried to handle_liquid a non-liquid!";
@@ -10399,6 +10399,9 @@ bool game::handle_liquid(item &liquid, bool from_ground, item *source,
     }
 
     for( auto &veh : nearby_vehicles_for( liquid.typeId() ) ) {
+        if( veh == source_veh ) {
+            continue;
+        }
         menu.addentry( -1, true, MENU_AUTOASSIGN, _( "Fill nearby vehicle %s" ), veh->name.c_str() );
         actions.emplace_back( [&, veh]() {
             // TODO: make this an activity

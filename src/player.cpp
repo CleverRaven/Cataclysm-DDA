@@ -5776,8 +5776,7 @@ bool player::siphon( vehicle &veh, const itype_id &desired_liquid )
     // refill fraction parts (if fuel_per_charge > 1), so we don't have to consider them later
     veh.refill( desired_liquid, used_item_amount % fuel_per_charge );
 
-    // TODO add the vehicle as parameter to avoid siphoning back into the vehicle itself.
-    if( !g->handle_liquid( used_item, false ) ) {
+    if( !g->handle_liquid( used_item, false, 0, &veh ) ) {
         return false;
     }
     // TODO: make sure handle_liquid consumes moves.
