@@ -43,7 +43,6 @@
     "material": ["steel", "wood"],
     "symbol": "(",
     "color": "brown",
-    "flags": "NEVER_JAMS",
     "skill": "rifle",
     "ammo": "762",
     "dispersion": 2,
