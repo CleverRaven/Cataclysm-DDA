@@ -80,7 +80,6 @@ npc::npc()
     guard_pos = no_goal_point;
     goal = no_goal_point;
     fatigue = 0;
-    thirst = 0;
     fetching_item = false;
     has_new_items = true;
     worst_item_value = 0;
@@ -1773,8 +1772,8 @@ int npc::value( const item &it, int market_price ) const
             comestval++;
         } if( get_hunger() > 40 ) {
             comestval += (comest->get_nutrition() + get_hunger() - 40) / 6;
-        } if( thirst > 40 ) {
-            comestval += (comest->quench + thirst - 40) / 4;
+        } if( get_thirst() > 40 ) {
+            comestval += (comest->quench + get_thirst() - 40) / 4;
         }
         if( comestval > 0 && can_eat( it ) == EDIBLE ) {
             ret += comestval;

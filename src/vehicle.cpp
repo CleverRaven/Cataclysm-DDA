@@ -946,7 +946,7 @@ void vehicle::use_controls( const tripoint &pos, const bool remote_action )
         if( remotely_controlled ){
             menu.addentry( release_remote_control, true, 'l', _( "Stop controlling" ) );
         }
-        
+
         // iterate over all parts
         for( size_t p = 0; !has_electronic_controls && p < parts.size(); ++p ) {
             has_electronic_controls = part_flag( p, "CTRL_ELECTRONIC" ) ||
@@ -3603,7 +3603,7 @@ void vehicle::consume_fuel( double load = 1.0 )
         if (one_in(10)) {
             g->u.fatigue += mod;
             g->u.mod_hunger(mod);
-            g->u.thirst += mod;
+            g->u.mod_thirst(mod);
         }
         g->u.mod_stat( "stamina", -mod * 20);
     }
@@ -6285,13 +6285,13 @@ bool vehicle::fire_turret( int p, bool manual )
 
         return false;
     }
-    
+
     // set up for burst shots
     if( abs(parts[p].mode) > 1 ){
         charges *= turret_data.gun.burst_size();
         charges = std::min(charges, turret_data.charges);
     }
-    
+
     // Create a fake gun
     // @todo damage the gun based on part hp
     item gun( turret_data.gun.typeId(), turret_data.gun.bday );
@@ -6445,8 +6445,8 @@ int vehicle::manual_fire_turret( int p, player &shooter, item &gun )
         const tripoint &targ = trajectory.back();
         // Put our shooter on the roof of the vehicle
         shooter.add_effect( effect_on_roof, 1 );
-        
-        int to_fire = abs(parts[p].mode) > 1 ? gun.burst_size() : 1; 
+
+        int to_fire = abs(parts[p].mode) > 1 ? gun.burst_size() : 1;
         res = shooter.fire_gun( targ, to_fire, gun );
         // And now back - we don't want to get any weird behavior
         shooter.remove_effect( effect_on_roof );
@@ -6933,7 +6933,7 @@ void vehicle::calc_mass_center( bool use_precalc ) const
             // Change back to the above if it runs too slowly
             m_part += j.weight();
         }
-        
+
         if( pi.has_flag( VPFLAG_BOARDABLE ) && parts[i].has_flag( vehicle_part::passenger_flag ) ) {
             const player *p = get_passenger( i );
             // Sometimes flag is wrongly set, don't crash!

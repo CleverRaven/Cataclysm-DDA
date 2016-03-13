@@ -107,7 +107,7 @@ bool defense_game::init()
 void defense_game::per_turn()
 {
     if (!thirst) {
-        g->u.thirst = 0;
+        g->u.set_thirst(0);
     }
     if (!hunger) {
         g->u.set_hunger(0);

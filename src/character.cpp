@@ -51,6 +51,7 @@ Character::Character() : Creature(), visitable<Character>()
     healthy = 0;
     healthy_mod = 0;
     hunger = 0;
+    thirst = 0;
     stomach_food = 0;
     stomach_water = 0;
 
@@ -1515,13 +1516,30 @@ int Character::get_hunger() const
 {
     return hunger;
 }
+
 void Character::mod_hunger(int nhunger)
 {
-    hunger += nhunger;
+    set_hunger( hunger + nhunger );
 }
+
 void Character::set_hunger(int nhunger)
 {
     hunger = nhunger;
+}
+
+int Character::get_thirst() const
+{
+    return thirst;
+}
+
+void Character::mod_thirst(int nthirst)
+{
+    set_thirst( thirst + nthirst );
+}
+
+void Character::set_thirst(int nthirst)
+{
+    thirst = nthirst;
 }
 
 int Character::get_stomach_food() const

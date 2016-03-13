@@ -16,13 +16,13 @@ const efftype_id effect_poison( "poison" );
 
 const mtype_id mon_player_blob( "mon_player_blob" );
 
-static const std::vector<std::string> carnivore_blacklist{{
+static const std::vector<std::string> carnivore_blacklist {{
         "ALLERGEN_VEGGY", "ALLERGEN_FRUIT", "ALLERGEN_WHEAT",
     }
 };
 // This ugly temp array is here because otherwise it goes
 // std::vector(char*, char*)->vector(InputIterator,InputIterator) or some such
-const std::array<std::string, 2> temparray{{"ALLERGEN_MEAT", "ALLERGEN_EGG"}};
+const std::array<std::string, 2> temparray {{"ALLERGEN_MEAT", "ALLERGEN_EGG"}};
 static const std::vector<std::string> herbivore_blacklist( temparray.begin(), temparray.end() );
 
 int player::stomach_capacity() const
@@ -212,13 +212,13 @@ edible_rating player::can_eat( const item &food, bool interactive, bool force ) 
     bool spoiled = food.rotten();
 
     const int temp_hunger = get_hunger() - nutr;
-    const int temp_thirst = thirst - quench;
+    const int temp_thirst = get_thirst() - quench;
 
     const bool overeating = get_hunger() < 0 && nutr >= 5 && !gourmand && !eathealth && !slimespawner &&
                             !hibernate;
 
     if( interactive && hibernate &&
-        ( get_hunger() >= -60 && thirst >= -60 ) &&
+        ( get_hunger() >= -60 && get_thirst() >= -60 ) &&
         ( temp_hunger < -60 || temp_thirst < -60 ) ) {
         if( !maybe_query( _( "You're adequately fueled. Prepare for hibernation?" ) ) ) {
             return TOO_FULL;
@@ -324,8 +324,8 @@ bool player::eat( item &food, bool force )
     // If neither of the above is true then it's a drug and shouldn't get mealtime penalty/bonus
 
     if( hibernate &&
-        ( get_hunger() > -60 && thirst > -60 ) &&
-        ( get_hunger() - nutr < -60 || thirst - quench < -60 ) ) {
+        ( get_hunger() > -60 && get_thirst() > -60 ) &&
+        ( get_hunger() - nutr < -60 || get_thirst() - quench < -60 ) ) {
         add_memorial_log( pgettext( "memorial_male", "Began preparing for hibernation." ),
                           pgettext( "memorial_female", "Began preparing for hibernation." ) );
         add_msg_if_player(
@@ -493,7 +493,7 @@ bool player::eat( item &food, bool force )
 void cap_nutrition_thirst( player &p, int capacity, bool food, bool water )
 {
     if( ( food && p.get_hunger() < capacity ) ||
-        ( water && p.thirst < capacity ) ) {
+        ( water && p.get_thirst() < capacity ) ) {
         p.add_msg_if_player( _( "You can't finish it all!" ) );
     }
 
@@ -502,13 +502,14 @@ void cap_nutrition_thirst( player &p, int capacity, bool food, bool water )
         p.set_hunger( capacity );
     }
 
-    if( p.thirst < capacity ) {
-        p.mod_stomach_water( p.thirst - capacity );
-        p.thirst = capacity;
+    if( p.get_thirst() < capacity ) {
+        p.mod_stomach_water( p.get_thirst() - capacity );
+        p.set_thirst( capacity );
     }
 
     add_msg( m_debug, "%s nutrition cap: hunger %d, thirst %d, stomach food %d, stomach water %d",
-             p.disp_name().c_str(), p.get_hunger(), p.thirst, p.get_stomach_food(), p.get_stomach_water() );
+             p.disp_name().c_str(), p.get_hunger(), p.get_thirst(), p.get_stomach_food(),
+             p.get_stomach_water() );
 }
 
 void player::consume_effects( item &food, bool rotten )
@@ -561,7 +562,7 @@ void player::consume_effects( item &food, bool rotten )
 
     const auto nutr = nutrition_for( comest );
     mod_hunger( -nutr * factor * hunger_factor );
-    thirst -= comest->quench * factor;
+    mod_thirst( -comest->quench * factor );
     mod_stomach_food( nutr * factor * hunger_factor );
     mod_stomach_water( comest->quench * factor );
     if( unhealthy_allowed || comest->healthy > 0 ) {
@@ -609,7 +610,7 @@ void player::consume_effects( item &food, bool rotten )
     }
 
     if( hibernate ) {
-        if( ( nutr > 0 && get_hunger() < -60 ) || ( comest->quench > 0 && thirst < -60 ) ) {
+        if( ( nutr > 0 && get_hunger() < -60 ) || ( comest->quench > 0 && get_thirst() < -60 ) ) {
             //Tell the player what's going on
             add_msg_if_player( _( "You gorge yourself, preparing to hibernate." ) );
             if( one_in( 2 ) ) {
@@ -617,7 +618,7 @@ void player::consume_effects( item &food, bool rotten )
                 fatigue += nutr;
             }
         }
-        if( ( nutr > 0 && get_hunger() < -200 ) || ( comest->quench > 0 && thirst < -200 ) ) {
+        if( ( nutr > 0 && get_hunger() < -200 ) || ( comest->quench > 0 && get_thirst() < -200 ) ) {
             //Hibernation should cut burn to 60/day
             add_msg_if_player( _( "You feel stocked for a day or two. Got your bed all ready and secured?" ) );
             if( one_in( 2 ) ) {
@@ -626,7 +627,7 @@ void player::consume_effects( item &food, bool rotten )
             }
         }
 
-        if( ( nutr > 0 && get_hunger() < -400 ) || ( comest->quench > 0 && thirst < -400 ) ) {
+        if( ( nutr > 0 && get_hunger() < -400 ) || ( comest->quench > 0 && get_thirst() < -400 ) ) {
             add_msg_if_player(
                 _( "Mmm.  You can still fit some more in...but maybe you should get comfortable and sleep." ) );
             if( !one_in( 3 ) ) {
@@ -634,7 +635,7 @@ void player::consume_effects( item &food, bool rotten )
                 fatigue += nutr;
             }
         }
-        if( ( nutr > 0 && get_hunger() < -600 ) || ( comest->quench > 0 && thirst < -600 ) ) {
+        if( ( nutr > 0 && get_hunger() < -600 ) || ( comest->quench > 0 && get_thirst() < -600 ) ) {
             add_msg_if_player( _( "That filled a hole!  Time for bed..." ) );
             // At this point, you're done.  Schlaf gut.
             fatigue += nutr;
@@ -644,7 +645,7 @@ void player::consume_effects( item &food, bool rotten )
     // Moved here and changed a bit - it was too complex
     // Incredibly minor stuff like this shouldn't require complexity
     if( !is_npc() && has_trait( "SLIMESPAWNER" ) &&
-        ( get_hunger() < capacity + 40 || thirst < capacity + 40 ) ) {
+        ( get_hunger() < capacity + 40 || get_thirst() < capacity + 40 ) ) {
         add_msg_if_player( m_mixed,
                            _( "You feel as though you're going to split open!  In a good way?" ) );
         mod_pain( 5 );
@@ -663,7 +664,7 @@ void player::consume_effects( item &food, bool rotten )
             }
         }
         mod_hunger( 40 );
-        thirst += 40;
+        mod_thirst( 40 );
         //~slimespawns have *small voices* which may be the Nice equivalent
         //~of the Rat King's ALL CAPS invective.  Probably shared-brain telepathy.
         add_msg_if_player( m_good, _( "hey, you look like me! let's work together!" ) );
