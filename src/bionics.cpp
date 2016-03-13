@@ -818,67 +818,68 @@ void player::power_bionics_new()
             draw_scrollbar( w_bio_list, cursor, getmaxy( w_bio_list ),
                             static_cast<int>( content.size() ), 0, 0, BORDER_COLOR, false );
 
-            for( int i = scroll_position; i < std::min( getmaxy( w_bio_list ) + scroll_position,
-                                                        static_cast<int>( content.size() ) ); ++i ) {
-                if( content[i].second == INT_MAX ) {
-                    mvwprintz( w_bio_list, i - scroll_position, 2, c_yellow,
-                               string_format( "%s [%i/%i]:",
-                                              bodyparts[content[i].first].c_str(),
-                                              get_used_bionics_slots( content[i].first ),
-                                              get_total_bionics_slots( content[i].first ) ).c_str() );
-                    if( i == cursor ) {
-                        cursor++;
-                    }
-                } else {
-                    const bionic& b = my_bionics[content[i].second];
-                    const bool highlighted = ( i == cursor );
-                    const nc_color cbm_color = get_bionic_text_color( b, highlighted );
-
-                    // invlet
-                    mvwputch( w_bio_list, i - scroll_position, 2, cbm_color, b.invlet );
-
-                    // highlight the current line
-                    if( highlighted ){
-                        for( int j = 3; j < getmaxx( w_bio_list ) - 1; ++j ) {
-                            wputch( w_bio_list, h_white, ' ' );
+            if( !my_bionics.empty() ) {
+                for( int i = scroll_position; i < std::min( getmaxy( w_bio_list ) + scroll_position,
+                     static_cast<int>( content.size() ) ); ++i ) {
+                    if( content[i].second == INT_MAX ) {
+                        mvwprintz( w_bio_list, i - scroll_position, 2, c_yellow,
+                                   string_format( "%s [%i/%i]:",
+                                                  bodyparts[content[i].first].c_str(),
+                                                  get_used_bionics_slots( content[i].first ),
+                                                  get_total_bionics_slots( content[i].first ) ).c_str() );
+                        if( i == cursor ) {
+                            cursor++;
                         }
+                    } else {
+                        const bionic& b = my_bionics[content[i].second];
+                        const bool highlighted = ( i == cursor );
+                        const nc_color cbm_color = get_bionic_text_color( b, highlighted );
+
+                        // invlet
+                        mvwputch( w_bio_list, i - scroll_position, 2, cbm_color, b.invlet );
+
+                        // highlight the current line
+                        if( highlighted ){
+                            for( int j = 3; j < getmaxx( w_bio_list ) - 1; ++j ) {
+                                wputch( w_bio_list, h_white, ' ' );
+                            }
+                        }
+
+                        // name
+                        mvwprintz( w_bio_list, i - scroll_position, 5, cbm_color,
+                                   bionic_info( b.id ).name.c_str() );
+
+                        // size
+                        wprintz( w_bio_list, cbm_color, " [%i]", b.occupied_size );
+                        if( bionic_info( b.id ).toggled ) {
+                            mvwprintz( w_bio_list, i - scroll_position, getmaxx( w_bio_list ) / 2,
+                                       cbm_color, b.powered ? _( "ON" ) : _( "OFF" ) );
+                        }
+
+                        // power consumption description
+                        const char* desc = power_description( b.id );
+                        mvwprintz( w_bio_list, i - scroll_position,
+                                   std::min( getmaxx( w_bio_list ) - utf8_width( desc ) - 1,
+                                             getmaxx( w_bio_list ) * 2 / 3 + 8 ), cbm_color, desc );
                     }
-
-                    // name
-                    mvwprintz( w_bio_list, i - scroll_position, 5, cbm_color,
-                               bionic_info( b.id ).name.c_str() );
-
-                    // size
-                    wprintz( w_bio_list, cbm_color, " [%i]", b.occupied_size );
-                    if( bionic_info( b.id ).toggled ) {
-                        mvwprintz( w_bio_list, i - scroll_position, getmaxx( w_bio_list ) / 2,
-                                   cbm_color, b.powered ? _( "ON" ) : _( "OFF" ) );
-                    }
-
-                    // power consumption description
-                    const char* desc = power_description( b.id );
-                    mvwprintz( w_bio_list, i - scroll_position,
-                               std::min( getmaxx( w_bio_list ) - utf8_width( desc ) - 1,
-                                         getmaxx( w_bio_list ) * 2 / 3 + 8 ), cbm_color, desc );
                 }
+                // update content of description window
+                std::string desc = bionic_info( my_bionics[ content[cursor].second ].id ).description;
+                werase( w_bio_description );
+                fold_and_print( w_bio_description, 0, 0, getmaxx( w_bio_description ),
+                                c_ltblue, desc );
+                wrefresh( w_bio_description );
             }
             wrefresh( w_bio_list );
-
-            // update content of description window
-            std::string desc = bionic_info( my_bionics[ content[cursor].second ].id ).description;
-            werase( w_bio_description );
-            fold_and_print( w_bio_description, 0, 0, getmaxx( w_bio_description ),
-                            c_ltblue, desc );
-            wrefresh( w_bio_description );
-
             redraw = false;
         }
-        const std::string action = ctxt.handle_input();
 
-        if( action == "ANY_INPUT" && my_bionics.empty() ) {
+        if( my_bionics.empty() ) {
+            getch();
             return;
         }
 
+        const std::string action = ctxt.handle_input();
         if( action == "HELP_KEYBINDINGS" ) {
             wrefresh( w_bionics );
             redraw = true;
