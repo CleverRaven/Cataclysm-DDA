@@ -2202,7 +2202,7 @@ void act_vehicle_siphon(vehicle* veh) {
 
     // No other vehicles around, just siphon into a can.
     if(foundv.empty()) {
-        g->u.siphon(veh, fuel);
+        g->u.siphon(*veh, fuel);
         return;
     } else {
         uimenu fmenu;
@@ -2215,7 +2215,7 @@ void act_vehicle_siphon(vehicle* veh) {
 
         // HAX: if choice is 0 ("Nearby vehicle"), we'll fall through to later code.
         if(choice == 1) {
-            g->u.siphon(veh, fuel);
+            g->u.siphon(*veh, fuel);
             return;
         } else if(choice == 2) {
             add_msg(m_info, _("Never mind."));

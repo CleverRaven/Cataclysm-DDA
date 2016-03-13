@@ -5763,30 +5763,30 @@ int player::addiction_level( add_type type ) const
     return 0;
 }
 
-bool player::siphon(vehicle *veh, const itype_id &desired_liquid)
+bool player::siphon( vehicle &veh, const itype_id &desired_liquid )
 {
-    int liquid_amount = veh->drain( desired_liquid, veh->fuel_capacity(desired_liquid) );
+    int liquid_amount = veh.drain( desired_liquid, veh.fuel_capacity(desired_liquid) );
     item used_item( desired_liquid, calendar::turn );
     const int fuel_per_charge = fuel_charges_to_amount_factor( desired_liquid );
     used_item.charges = liquid_amount / fuel_per_charge;
     if( used_item.charges <= 0 ) {
         add_msg( _( "There is not enough %s left to siphon it." ), used_item.type_name().c_str() );
-        veh->refill( desired_liquid, liquid_amount );
+        veh.refill( desired_liquid, liquid_amount );
         return false;
     }
     int extra = g->move_liquid( used_item );
     if( extra == -1 ) {
         // Failed somehow, put the liquid back and bail out.
-        veh->refill( desired_liquid, used_item.charges * fuel_per_charge );
+        veh.refill( desired_liquid, used_item.charges * fuel_per_charge );
         return false;
     }
     int siphoned = liquid_amount - extra;
-    veh->refill( desired_liquid, extra );
+    veh.refill( desired_liquid, extra );
     if( siphoned > 0 ) {
         add_msg(ngettext("Siphoned %1$d unit of %2$s from the %3$s.",
                             "Siphoned %1$d units of %2$s from the %3$s.",
                             siphoned),
-                   siphoned, used_item.tname().c_str(), veh->name.c_str());
+                   siphoned, used_item.tname().c_str(), veh.name.c_str());
         //Don't consume turns if we decided not to siphon
         return true;
     } else {
