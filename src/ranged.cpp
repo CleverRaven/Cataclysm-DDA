@@ -1436,7 +1436,13 @@ double player::get_weapon_dispersion( const item *weapon, bool random ) const
     dispersion += rand_or_max( random, ranged_dex_mod() );
     dispersion += rand_or_max( random, ranged_per_mod() );
 
-    dispersion += rand_or_max( random, 3 * (encumb(bp_arm_l) + encumb(bp_arm_r)));
+    // pistols select the least encumbered hand
+    if( weapon->gun_skill() == skill_pistol ) {
+        dispersion += rand_or_max( random, 3 * std::min( encumb( bp_arm_l ), encumb( bp_arm_r ) ) );
+    } else {
+        dispersion += rand_or_max( random, 3 * ( encumb( bp_arm_l ) + encumb( bp_arm_r ) ) );
+    }
+
     dispersion += rand_or_max( random, 6 * encumb(bp_eyes));
 
     if( weapon->ammo_data() ) {
