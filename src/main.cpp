@@ -58,6 +58,7 @@ int main(int argc, char *argv[])
     int seed = time(NULL);
     bool verifyexit = false;
     bool check_all_mods = false;
+    std::string dump;
 
     // Set default file paths
 #ifdef PREFIX
@@ -107,6 +108,18 @@ int main(int argc, char *argv[])
                 section_default,
                 [&check_all_mods](int, const char **) -> int {
                     check_all_mods = true;
+                    return 0;
+                }
+            },
+            {
+                "--dump-stats", "<what>",
+                "Dumps item stats",
+                section_default,
+                [&dump](int n, const char *params[]) -> int {
+                    if(n != 1 ) {
+                        return -1;
+                    }
+                    dump = params[ 0 ];
                     return 0;
                 }
             },
@@ -389,6 +402,10 @@ int main(int argc, char *argv[])
                 exit_handler(-999);
             }
             exit_handler(0);
+        }
+        if( ! dump.empty() ) {
+            g->dump_stats( dump );
+            exit_handler( 0 );
         }
         if (check_all_mods) {
             // Here we load all the mods and check their
