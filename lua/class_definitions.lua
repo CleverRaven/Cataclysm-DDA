@@ -353,7 +353,6 @@ classes = {
             { name = "mon_at", rval = "int", args = { "tripoint", "bool" } },
             { name = "monster_at", rval = "monster&", args = { "tripoint" } },
             { name = "monster_at", rval = "monster&", args = { "tripoint", "bool" } },
-            { name = "move_liquid", rval = "int", args = { "item" } },
             { name = "natural_light_level", rval = "float", args = { "int" } },
             { name = "npc_at", rval = "int", args = { "tripoint" } },
             { name = "npc_by_id", rval = "int", args = { "int" } },

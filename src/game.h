@@ -597,10 +597,6 @@ class game
         bool handle_liquid(item &liquid, bool from_ground, item *source = NULL,
                            int radius = 0);
 
-        //Move_liquid returns the amount of liquid left if we didn't move all the liquid,
-        //otherwise returns sentinel -1, signifies transaction fail.
-        int move_liquid(item &liquid);
-
         void open_gate( const tripoint &p );
 
         // Knockback functions: knock target at t along a line, either calculated
