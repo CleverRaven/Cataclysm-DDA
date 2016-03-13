@@ -107,12 +107,12 @@ void draw_background( WINDOW *win, const bool empty_list )
             _( "Condition" ),
             _( "Usage Cost" )
         }};
-        const std::array<int, 3> pos = {{
-            2,
-            std::max( getmaxx( win ) / 2 - utf8_width( titles[1].c_str() ) / 2 ,
-                      pos[0] + utf8_width( titles[0].c_str() ) + 2 ),
-            std::max( getmaxx( win ) * 2 / 3 + 7, pos[1] + utf8_width( titles[1].c_str() ) + 2)
-        }};
+        std::array<int, 3> pos;
+            pos[0] = 2;
+            pos[1] = std::max( getmaxx( win ) / 2 - utf8_width( titles[1].c_str() ) / 2 ,
+                               pos[0] + utf8_width( titles[0].c_str() ) + 2 );
+            pos[2] = std::max( getmaxx( win ) * 2 / 3 + 7,
+                               pos[1] + utf8_width( titles[1].c_str() ) + 2);
         for( size_t i = 0; i < std::min( titles.size(), pos.size() ); ++i ) {
             mvwprintw( win, 3, pos[i], titles[i].c_str() );
         }
@@ -1685,13 +1685,7 @@ int player::get_total_bionics_slots( body_part bp )
 
     case bp_leg_l:
     case bp_leg_r:
-        if( has_trait( "LEG_TENTACLES" ) ) {
-            // 3 tentacles per side, 12 slots ea
-            return ( 3 * 12 );
-        } else {
-            // boring regular legs
-            return 26;
-        }
+        return 26;
 
     case bp_foot_l:
     case bp_foot_r:
