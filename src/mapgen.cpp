@@ -8096,7 +8096,7 @@ ee|,,,,,,r|#############\n\
                                                f_counter, f_desk,  f_locker, f_null));
             spawn_item(19, 22, "cleansuit");
             place_items("cleaning", 85,  6,  11, 6,  14, false, 0);
-            place_items("tools", 85,  10,  6, 13,  6, false, 0);
+            place_items( "tools_common", 85,  10,  6, 13,  6, false, 0 );
             place_items("toxic_dump_equipment", 85,  22,  14, 23,  15, false, 0);
             if (x_in_y(1, 2)) {
                 add_spawn(mon_hazmatbot, 1, 22, 12);
@@ -9019,9 +9019,9 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
             for (int x = 2; x <= 22; x += 4) {
                 line_furn(this, f_rack, x, 4, x, SEEY * 2 - 5);
                 if (one_in(3)) {
-                    place_items("tools",    70, x, 4, x, SEEY * 2 - 5, false, 0);
+                    place_items( "tools_carpentry", 70, x, 4, x, SEEY * 2 - 5, false, 0 );
                 } else if (one_in(2)) {
-                    place_items("bigtools", 70, x, 4, x, SEEY * 2 - 5, false, 0);
+                    place_items( "tools_construction", 70, x, 4, x, SEEY * 2 - 5, false, 0 );
                 } else if (one_in(3)) {
                     place_items("hardware", 70, x, 4, x, SEEY * 2 - 5, false, 0);
                 } else {
@@ -11714,7 +11714,7 @@ void silo_rooms(map *m)
                 break;
             case  3:
             case  4:
-                used1 = "tools";
+                used1 = "tools_lighting";
                 break;
             case  5:
             case  6:
