@@ -786,7 +786,6 @@ void player::power_bionics_new()
     int max_scroll_position;
 
     bool recalc = true;
-    bool redraw = true;
     std::vector<std::pair<body_part, size_t>> content;
     // main loop
     for( ;; ) {
@@ -805,74 +804,72 @@ void player::power_bionics_new()
                                                getmaxy( w_bio_list ) );
             recalc = false;
         }
-        if( redraw ) {
-            draw_background( w_bionics, my_bionics.empty() );
-            draw_header( w_bio_header, tab_index, string_format( _( "Power: %i/%i" ),
-                                                                 int( power_level ),
-                                                                 int( max_power_level ) ),
-                         ctxt.get_desc( "HELP_KEYBINDINGS" ) );
-            werase( w_bio_list );
 
-            max_scroll_position = std::max( 0, static_cast<int>( content.size() ) -
-                                                                 getmaxy( w_bio_list ) );
-            draw_scrollbar( w_bio_list, cursor, getmaxy( w_bio_list ),
-                            static_cast<int>( content.size() ), 0, 0, BORDER_COLOR, false );
+        draw_background( w_bionics, my_bionics.empty() );
+        draw_header( w_bio_header, tab_index, string_format( _( "Power: %i/%i" ),
+                                                             int( power_level ),
+                                                             int( max_power_level ) ),
+                     ctxt.get_desc( "HELP_KEYBINDINGS" ) );
+        werase( w_bio_list );
 
-            if( !my_bionics.empty() ) {
-                for( int i = scroll_position; i < std::min( getmaxy( w_bio_list ) + scroll_position,
-                     static_cast<int>( content.size() ) ); ++i ) {
-                    if( content[i].second == INT_MAX ) {
-                        mvwprintz( w_bio_list, i - scroll_position, 2, c_yellow,
-                                   string_format( "%s [%i/%i]:",
-                                                  bodyparts[content[i].first].c_str(),
-                                                  get_used_bionics_slots( content[i].first ),
-                                                  get_total_bionics_slots( content[i].first ) ).c_str() );
-                        if( i == cursor ) {
-                            cursor++;
-                        }
-                    } else {
-                        const bionic& b = my_bionics[content[i].second];
-                        const bool highlighted = ( i == cursor );
-                        const nc_color cbm_color = get_bionic_text_color( b, highlighted );
+        max_scroll_position = std::max( 0, static_cast<int>( content.size() ) -
+                                                             getmaxy( w_bio_list ) );
+        draw_scrollbar( w_bio_list, cursor, getmaxy( w_bio_list ),
+                        static_cast<int>( content.size() ), 0, 0, BORDER_COLOR, false );
 
-                        // invlet
-                        mvwputch( w_bio_list, i - scroll_position, 2, cbm_color, b.invlet );
-
-                        // highlight the current line
-                        if( highlighted ){
-                            for( int j = 3; j < getmaxx( w_bio_list ) - 1; ++j ) {
-                                wputch( w_bio_list, h_white, ' ' );
-                            }
-                        }
-
-                        // name
-                        mvwprintz( w_bio_list, i - scroll_position, 5, cbm_color,
-                                   bionic_info( b.id ).name.c_str() );
-
-                        // size
-                        wprintz( w_bio_list, cbm_color, " [%i]", b.occupied_size );
-                        if( bionic_info( b.id ).toggled ) {
-                            mvwprintz( w_bio_list, i - scroll_position, getmaxx( w_bio_list ) / 2,
-                                       cbm_color, b.powered ? _( "ON" ) : _( "OFF" ) );
-                        }
-
-                        // power consumption description
-                        const char* desc = power_description( b.id );
-                        mvwprintz( w_bio_list, i - scroll_position,
-                                   std::min( getmaxx( w_bio_list ) - utf8_width( desc ) - 1,
-                                             getmaxx( w_bio_list ) * 2 / 3 + 8 ), cbm_color, desc );
+        if( !my_bionics.empty() ) {
+            for( int i = scroll_position; i < std::min( getmaxy( w_bio_list ) + scroll_position,
+                 static_cast<int>( content.size() ) ); ++i ) {
+                if( content[i].second == INT_MAX ) {
+                    mvwprintz( w_bio_list, i - scroll_position, 2, c_yellow,
+                               string_format( "%s [%i/%i]:",
+                                              bodyparts[content[i].first].c_str(),
+                                              get_used_bionics_slots( content[i].first ),
+                                              get_total_bionics_slots( content[i].first ) ).c_str() );
+                    if( i == cursor ) {
+                        cursor++;
                     }
+                } else {
+                    const bionic& b = my_bionics[content[i].second];
+                    const bool highlighted = ( i == cursor );
+                    const nc_color cbm_color = get_bionic_text_color( b, highlighted );
+
+                    // invlet
+                    mvwputch( w_bio_list, i - scroll_position, 2, cbm_color, b.invlet );
+
+                    // highlight the current line
+                    if( highlighted ){
+                        for( int j = 3; j < getmaxx( w_bio_list ) - 1; ++j ) {
+                            wputch( w_bio_list, h_white, ' ' );
+                        }
+                    }
+
+                    // name
+                    mvwprintz( w_bio_list, i - scroll_position, 5, cbm_color,
+                               bionic_info( b.id ).name.c_str() );
+
+                    // size
+                    wprintz( w_bio_list, cbm_color, " [%i]", b.occupied_size );
+                    if( bionic_info( b.id ).toggled ) {
+                        mvwprintz( w_bio_list, i - scroll_position, getmaxx( w_bio_list ) / 2,
+                                   cbm_color, b.powered ? _( "ON" ) : _( "OFF" ) );
+                    }
+
+                    // power consumption description
+                    const char* desc = power_description( b.id );
+                    mvwprintz( w_bio_list, i - scroll_position,
+                               std::min( getmaxx( w_bio_list ) - utf8_width( desc ) - 1,
+                                         getmaxx( w_bio_list ) * 2 / 3 + 8 ), cbm_color, desc );
                 }
-                // update content of description window
-                std::string desc = bionic_info( my_bionics[ content[cursor].second ].id ).description;
-                werase( w_bio_description );
-                fold_and_print( w_bio_description, 0, 0, getmaxx( w_bio_description ),
-                                c_ltblue, desc );
-                wrefresh( w_bio_description );
             }
-            wrefresh( w_bio_list );
-            redraw = false;
+            // update content of description window
+            std::string desc = bionic_info( my_bionics[ content[cursor].second ].id ).description;
+            werase( w_bio_description );
+            fold_and_print( w_bio_description, 0, 0, getmaxx( w_bio_description ),
+                            c_ltblue, desc );
+            wrefresh( w_bio_description );
         }
+        wrefresh( w_bio_list );
 
         if( my_bionics.empty() ) {
             getch();
@@ -882,7 +879,6 @@ void player::power_bionics_new()
         const std::string action = ctxt.handle_input();
         if( action == "HELP_KEYBINDINGS" ) {
             wrefresh( w_bionics );
-            redraw = true;
 
         } else if( action == "UP" ) {
             do {
@@ -896,7 +892,6 @@ void player::power_bionics_new()
                     scroll_position--;
                 }
             } while ( content[cursor].second == INT_MAX );
-            redraw = true;
 
         } else if( action == "DOWN" ) {
             do {
@@ -910,15 +905,12 @@ void player::power_bionics_new()
                     scroll_position++;
                 }
             } while ( content[cursor].second == INT_MAX );
-            redraw = true;
 
         } else if( action == "LEFT" ) {
             ( tab_index > 0 ) ? tab_index-- : tab_index = tab_count - 1;
-            redraw = true;
 
         } else if( action == "RIGHT" ) {
             tab_index = ( tab_index + 1 ) % tab_count;
-            redraw = true;
 
         } else if( action == "REASSIGN" ) {
             const long ch = my_bionics[content[cursor].second].invlet;
@@ -927,7 +919,7 @@ void player::power_bionics_new()
                 // Selected an non-existing bionic (or escape, or ...)
                 continue;
             }
-            redraw = true;
+
             const long newch = popup_getkey( _( "%s; enter new letter." ),
                                              bionics[tmp->id].name.c_str() );
             wrefresh( w_bionics );
@@ -947,7 +939,6 @@ void player::power_bionics_new()
             }
 
         } else if( action == "REMOVE" ) {
-                redraw = true;
             if( uninstall_bionic( my_bionics[content[cursor].second].id ) ) {
                 continue;
             }
@@ -959,7 +950,6 @@ void player::power_bionics_new()
                 // this should not happen because we're choosing bionic via cursor
                 continue;
             } else {
-                redraw = true;
                 if( bionics[tmp->id].activated ) {
                     int b = tmp - &my_bionics[0];
                     if( tmp->powered ) {
@@ -987,7 +977,6 @@ void player::power_bionics_new()
                 // Selected an non-existing bionic
                 continue;
             } else {
-                redraw = true;
                 if( bionics[tmp->id].activated ) {
                     int b = tmp - &my_bionics[0];
                     if( tmp->powered ) {
@@ -1002,7 +991,6 @@ void player::power_bionics_new()
                     popup( _("You can not activate %s!" ), bionic_info( tmp->id ).name.c_str() );
                 }
             }
-            redraw = true;
         }
     }
 }
