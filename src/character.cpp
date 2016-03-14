@@ -719,9 +719,6 @@ bool Character::has_active_item(const itype_id & id) const
 
 item Character::remove_weapon()
 {
-    if( weapon.active ) {
-        weapon.deactivate_charger_gun();
-    }
  item tmp = weapon;
  weapon = ret_null;
  return tmp;

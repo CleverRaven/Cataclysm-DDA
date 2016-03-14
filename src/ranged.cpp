@@ -384,15 +384,13 @@ int player::fire_gun( const tripoint &target, int shots )
 
 int player::fire_gun( const tripoint &target, int shots, item& gun )
 {
-    const bool is_charger_gun = gun.update_charger_gun_ammo();
-
     if( !gun.is_gun() ) {
         debugmsg( "%s tried to fire non-gun (%s).", name.c_str(), gun.tname().c_str() );
         return 0;
     }
 
     // Number of shots to fire is limited by the ammount of remaining ammo
-    if( gun.ammo_required() && !is_charger_gun ) {
+    if( gun.ammo_required() ) {
         shots = std::min( shots, int( gun.ammo_remaining() / gun.ammo_required() ) );
     }
 
@@ -456,8 +454,6 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
         if( gun.has_flag( "BIO_WEAPON" ) ) {
             // Consume a (virtual) charge to let player::activate_bionic know the weapon has been fired.
             gun.charges--;
-        } else if( gun.deactivate_charger_gun() ) {
-            // Deactivated charger gun
         } else {
             if( !gun.ammo_consume( gun.ammo_required(), pos() ) ) {
                 debugmsg( "Unexpected shortage of ammo whilst firing %s", gun.tname().c_str() );

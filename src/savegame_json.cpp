@@ -1494,6 +1494,12 @@ void vehicle_part::deserialize(JsonIn &jsin)
     JsonObject data = jsin.get_object();
     vpart_str_id pid;
     data.read("id", pid);
+
+    // swap deprecated charger gun for laser rifle
+    if( pid.str() == "laser_gun" ) {
+        pid = vpart_str_id( "laser_rifle" );
+    }
+
     // if we don't know what type of part it is, it'll cause problems later.
     if( !pid.is_valid() ) {
         if( pid.str() == "wheel_underbody" ) {

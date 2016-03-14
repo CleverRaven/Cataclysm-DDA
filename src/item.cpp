@@ -43,8 +43,6 @@
 #include <iterator>
 
 static const std::string GUN_MODE_VAR_NAME( "item::mode" );
-static const std::string CHARGER_GUN_FLAG_NAME( "CHARGE" );
-static const std::string CHARGER_GUN_AMMO_ID( "charge_shot" );
 
 const skill_id skill_survival( "survival" );
 const skill_id skill_melee( "melee" );
@@ -3879,12 +3877,8 @@ int item::gun_range( bool with_ammo ) const
     for( const auto mod : gunmods() ) {
         ret += mod->type->gunmod->range;
     }
-    if( with_ammo ) {
-        if( is_charger_gun() ) {
-            ret += 5 + charges * 5;
-        } else if( ammo_data() ) {
-            ret += ammo_data()->ammo->range;
-        }
+    if( with_ammo && ammo_data() ) {
+        ret += ammo_data()->ammo->range;
     }
     return std::max( 0, ret );
 }
@@ -5474,121 +5468,6 @@ bool item::process_tool( player *carrier, const tripoint &pos )
     return false;
 }
 
-bool item::is_charger_gun() const
-{
-    return has_flag( CHARGER_GUN_FLAG_NAME );
-}
-
-bool item::deactivate_charger_gun()
-{
-    if( !is_charger_gun() ) {
-        return false;
-    }
-    charges = 0;
-    active = false;
-    return true;
-}
-
-bool item::activate_charger_gun( player &u )
-{
-    if( !is_charger_gun() ) {
-        return false;
-    }
-    if( u.has_charges( "UPS", 1 ) ) {
-        u.add_msg_if_player( m_info, _( "Your %s starts charging." ), tname().c_str() );
-        charges = 0;
-        poison = 0;
-        set_curammo( CHARGER_GUN_AMMO_ID );
-        active = true;
-    } else {
-        u.add_msg_if_player( m_info, _( "You need a powered UPS." ) );
-    }
-    return true;
-}
-
-bool item::update_charger_gun_ammo()
-{
-    if( !is_charger_gun() ) {
-        return false;
-    }
-    if( ammo_current() != CHARGER_GUN_AMMO_ID ) {
-        set_curammo( CHARGER_GUN_AMMO_ID );
-    }
-    const auto tmpammo = ammo_data()->ammo.get();
-
-    long charges = ammo_remaining();
-    tmpammo->damage = charges * charges;
-    tmpammo->pierce = ( charges >= 4 ? ( charges - 3 ) * 2.5 : 0 );
-    if( charges <= 4 ) {
-        tmpammo->dispersion = 210 - charges * 30;
-    } else {
-        tmpammo->dispersion = charges * ( charges - 4 );
-        tmpammo->dispersion = 15 * charges * ( charges - 4 );
-    }
-    tmpammo->recoil = tmpammo->dispersion * .8;
-    tmpammo->ammo_effects.clear();
-    if( charges == 8 ) {
-        tmpammo->ammo_effects.insert( "EXPLOSIVE_BIG" );
-    } else if( charges >= 7 ) {
-        tmpammo->ammo_effects.insert( "EXPLOSIVE" );
-    } else if( charges >= 6 ) {
-        tmpammo->ammo_effects.insert( "EXPLOSIVE_SMALL" );
-    }
-    if( charges >= 5 ) {
-        tmpammo->ammo_effects.insert( "FLAME" );
-    } else if( charges >= 4 ) {
-        tmpammo->ammo_effects.insert( "INCENDIARY" );
-    }
-    return true;
-}
-
-bool item::process_charger_gun( player *carrier, const tripoint &pos )
-{
-    if( carrier == nullptr || this != &carrier->weapon ) {
-        // Either on the ground or in the inventory of the player, in both cases:
-        // stop charging.
-        deactivate_charger_gun();
-        return false;
-    }
-    if( charges == 8 ) { // Maintaining charge takes less power.
-        if( carrier->use_charges_if_avail( "UPS", 4 ) ) {
-            poison++;
-        } else {
-            poison--;
-        }
-        if( poison >= 3  &&  one_in( 20 ) ) {   // 3 turns leeway, then it may discharge.
-            //~ %s is weapon name
-            carrier->add_memorial_log( pgettext( "memorial_male", "Accidental discharge of %s." ),
-                                       pgettext( "memorial_female", "Accidental discharge of %s." ),
-                                       tname().c_str() );
-            carrier->add_msg_player_or_npc( m_bad, _( "Your %s discharges!" ), _( "<npcname>'s %s discharges!" ), tname().c_str() );
-            tripoint target( pos.x + rng( -12, 12 ), pos.y + rng( -12, 12 ), pos.z );
-            carrier->fire_gun( target );
-        } else {
-            carrier->add_msg_player_or_npc( m_warning, _( "Your %s beeps alarmingly." ), _( "<npcname>'s %s beeps alarmingly." ), tname().c_str() );
-        }
-    } else { // We're chargin it up!
-        if( carrier->use_charges_if_avail( "UPS", 1 + charges ) ) {
-            poison++;
-        } else {
-            poison--;
-        }
-        if( poison >= charges ) {
-            charges++;
-            poison = 0;
-        }
-    }
-    if( poison < 0 ) {
-        carrier->add_msg_if_player( m_neutral, _( "Your %s spins down." ), tname().c_str() );
-        charges--;
-        poison = charges - 1;
-    }
-    if( charges <= 0 ) {
-        active = false;
-    }
-    return false;
-}
-
 bool item::process( player *carrier, const tripoint &pos, bool activate )
 {
     const bool preserves = type->container && type->container->preserves;
@@ -5637,9 +5516,6 @@ bool item::process( player *carrier, const tripoint &pos, bool activate )
         return process_cable(carrier, pos);
     }
     if( is_tool() && process_tool( carrier, pos ) ) {
-        return true;
-    }
-    if( is_charger_gun() && process_charger_gun( carrier, pos ) ) {
         return true;
     }
     return false;
