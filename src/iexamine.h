@@ -107,6 +107,13 @@ void climb_down( player &p, const tripoint &examp );
 hack_result hack_attempt( player &p );
 
 /**
+ * Pour liquid into a keg (furniture) on the map. The transferred charges (if any)
+ * will be removed from the liquid item.
+ * @return Whether any charges have been transferred at all.
+ */
+bool pour_into_keg( const tripoint &pos, item &liquid );
+
+/**
  * Items that appear when a generic plant is harvested. Seed @ref islot_seed.
  * @param type The seed type, must have a @ref itype::seed slot.
  * @param plant_count Number of fruits to generate. For charge-based items, this

@@ -2134,16 +2134,9 @@ void iexamine::keg(player &p, const tripoint &examp)
                         drink->tname().c_str(), g->m.name(examp).c_str());
                 return;
             }
-            for (int i = 0; i < charges_held; i++) {
-                p.use_charges(drink->typeId(), 1);
-                drink->charges++;
-                if( drink->volume() >= keg_cap ) {
-                    add_msg(_("You completely fill the %1$s with %2$s."), g->m.name(examp).c_str(),
-                            drink->tname().c_str());
-                    p.moves -= 250;
-                    return;
-                }
-            }
+            item tmp( drink->typeId(), calendar::turn, charges_held );
+            pour_into_keg( examp, tmp );
+            p.use_charges( drink->typeId(), charges_held - tmp.charges );
             add_msg(_("You fill the %1$s with %2$s."), g->m.name(examp).c_str(),
                     drink->tname().c_str());
             p.moves -= 250;
@@ -2161,6 +2154,39 @@ void iexamine::keg(player &p, const tripoint &examp)
             return;
         }
     }
+}
+
+bool iexamine::pour_into_keg( const tripoint &pos, item &liquid )
+{
+    const int keg_cap = get_keg_cap( g->m.furn_at( pos ) );
+    if( keg_cap <= 0 ) {
+        return false;
+    }
+    const auto keg_name = g->m.name( pos );
+
+    map_stack stack = g->m.i_at( pos );
+    if( stack.empty() ) {
+        // Not using map functions here because kegs have the NOITEM flags and map functions
+        // will put the liquid on a nearby tile instead.
+        stack.insert_at( stack.begin(), liquid );
+        stack.front().charges = 0; // Will be set later
+    } else if( stack.front().typeId() != liquid.typeId() ) {
+        add_msg( _( "The %s already contains some %s, you can't add a different liquid to it." ),
+                 keg_name.c_str(), stack.front().tname().c_str() );
+        return false;
+    }
+
+    item &drink = stack.front();
+    if( drink.volume() >= keg_cap ) {
+        add_msg( _( "The %s is full." ), keg_name.c_str() );
+        return false;
+    }
+
+    while( liquid.charges > 0 && drink.volume() < keg_cap ) {
+        drink.charges++;
+        liquid.charges--;
+    }
+    return true;
 }
 
 void pick_plant(player &p, const tripoint &examp,
