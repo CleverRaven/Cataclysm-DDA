@@ -266,7 +266,10 @@ void gun_actor::load( JsonObject &obj )
     obj.read( "fake_int", fake_int );
     obj.read( "fake_per", fake_per );
 
-    range = obj.get_float( "range" );
+    if( !obj.read( "range", range ) ) {
+        range = gun.gun_range();
+    }
+
     move_cost = obj.get_int( "move_cost" );
     targeting_cost = obj.get_int( "targeting_cost" );
 

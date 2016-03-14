@@ -77,6 +77,8 @@ class gun_actor : public mattack_actor
 
         // Cap ammo at this if it goes above that for some reason
         int max_ammo;
+        /** Additional cap above any imposed by the gun itself */
+        int range;
 
         /** Description of the attack being run */
         std::string description = "The %s fires its %s";
@@ -99,8 +101,6 @@ class gun_actor : public mattack_actor
         // Targeting isn't enough, needs to laser lock too
         // Prevents quickly changing targets
         bool laser_lock;
-        // Maximum distance at which we acquire targets
-        float range;
         // Don't activate burst for targets above that distance
         float range_no_burst;
         // Limit burst to that
