@@ -11785,8 +11785,7 @@
         "addiction_type" : "none",
         "charges": 5,
         "healthy" : 1,
-        "fun": 2,
-        "stim": 0
+        "fun": 2
     },
     {
         "id": "peanutbutter",
