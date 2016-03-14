@@ -174,6 +174,7 @@ const recipe *select_crafting_recipe( int &batch_size )
     ctxt.register_action( "HELP_RECIPE" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "CYCLE_BATCH" );
+    ctxt.register_action( "VIEW_CRAFTING_INV" );
 
     const inventory &crafting_inv = g->u.crafting_inventory();
     std::string filterstring = "";
@@ -502,6 +503,11 @@ const recipe *select_crafting_recipe( int &batch_size )
                 line = batch_line;
                 keepline = true;
             }
+            redraw = true;
+        } else if( action == "VIEW_CRAFTING_INV" ) {
+            // TODO: Proper solution (const slices)
+            inventory ugly_copy = crafting_inv;
+            g->display_slice( ugly_copy.slice_filter(), _( "Crafting inventory" ) );
             redraw = true;
         }
         if( line < 0 ) {

@@ -510,6 +510,20 @@
     },
     {
         "type" : "keybinding",
+        "id" : "VIEW_CRAFTING_INV",
+        "category" : "CRAFTING",
+        "name": "View crafting inventory",
+        "bindings" : [
+            {
+                "input_method" : "keyboard",
+                "key" : [
+                    "v"
+                ]
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
         "id": "SCROLL_UP",
         "category": "CRAFTING",
         "name": "Scroll item info up",
