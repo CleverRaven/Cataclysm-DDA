@@ -597,6 +597,8 @@ class game
         bool handle_liquid(item &liquid, bool from_ground, item *source = NULL,
                            int radius = 0);
 
+        bool pour_into( vehicle &veh, item &liquid );
+
         //Move_liquid returns the amount of liquid left if we didn't move all the liquid,
         //otherwise returns sentinel -1, signifies transaction fail.
         int move_liquid(item &liquid);
