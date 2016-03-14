@@ -4392,6 +4392,25 @@
         }
     },{
         "type" : "terrain",
+        "id" : "t_gates_control_brick",
+        "name": "mechanical winch",
+        "symbol": "6",
+        "color": "cyan_red",
+        "move_cost": 0,
+        "flags": ["TRANSPARENT", "NOITEM", "INDOORS", "PERMEABLE"],
+        "examine_action": "controls_gate",
+        "bash": {
+            "str_min": 18, "str_max": 80,
+            "sound": "metal screeching!",
+            "sound_fail": "clang!",
+            "ter_set": "t_rock_floor",
+            "items": [
+                { "item": "steel_chunk", "count": [1, 4] },
+                { "item": "scrap", "count": [3, 6] }
+            ]
+        }
+    },{
+        "type" : "terrain",
         "id" : "t_gates_control_metal",
         "name": "control lever",
         "symbol": "6",
