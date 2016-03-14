@@ -113,6 +113,9 @@ class gun_actor : public mattack_actor
         bool laser_lock = false; /** does switching between targets incur further targeting penalty */
         /*@}*/
 
+        /** If true then disable this attack completely if not brightly lit */
+        bool require_sunlight = false;
+
         void shoot( monster &z, Creature &target ) const;
 
         gun_actor();

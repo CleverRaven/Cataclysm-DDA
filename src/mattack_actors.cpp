@@ -296,6 +296,8 @@ void gun_actor::load( JsonObject &obj )
     obj.read( "targeting_volume", targeting_volume );
 
     obj.get_bool( "laser_lock", laser_lock );
+
+    obj.read( "require_sunlight", require_sunlight );
 }
 
 mattack_actor *gun_actor::clone() const
@@ -344,6 +346,15 @@ void gun_actor::shoot( monster &z, Creature &target ) const
         debugmsg( "Generated too much ammo (%d) of type %s for %s in gun_actor::shoot",
                   z.ammo[ammo_type], ammo_type.c_str(), z.name().c_str() );
         z.ammo[ammo_type] = max_ammo;
+    }
+
+    if( require_sunlight && !g->is_in_sunlight( z.pos() ) ) {
+        if( one_in( 3 ) ) {
+            if( g->u.sees( z ) ) {
+                add_msg( _( failure_msg.c_str() ), z.name().c_str() );
+            }
+        }
+        return;
     }
 
     const bool require_targeting = ( require_targeting_player && target.is_player() ) ||
