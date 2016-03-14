@@ -3652,6 +3652,7 @@ void game::dump_stats( const std::string& what )
             << "Weight" << "\t"
             << "Capacity" << "\t"
             << "Range" << "\t"
+            << "Dispersion" << "\t"
             << "Recoil" << "\t"
             << "Damage" << "\t"
             << "Pierce" << std::endl;
@@ -3664,6 +3665,7 @@ void game::dump_stats( const std::string& what )
                 << gun.weight() << "\t"
                 << gun.ammo_capacity() << "\t"
                 << gun.gun_range() << "\t"
+                << gun.gun_dispersion() << "\t"
                 << gun.gun_recoil() << "\t"
                 << gun.gun_damage() << "\t"
                 << gun.gun_pierce() << std::endl;
@@ -3681,6 +3683,38 @@ void game::dump_stats( const std::string& what )
                     gun.emplace_back( "barrel_small" );
                     dump( gun );
                 }
+            }
+        }
+    } else if( what == "AMMO" ) {
+        std::cout
+            << "Name" << "\t"
+            << "Ammo" << "\t"
+            << "Volume" << "\t"
+            << "Weight" << "\t"
+            << "Stack" << "\t"
+            << "Range" << "\t"
+            << "Dispersion" << "\t"
+            << "Recoil" << "\t"
+            << "Damage" << "\t"
+            << "Pierce" << std::endl;
+
+        auto dump = []( const item& ammo ) {
+            std::cout
+                << ammo.tname( false ) << "\t"
+                << ammo.type->ammo->type << "\t"
+                << ammo.volume() << "\t"
+                << ammo.weight() << "\t"
+                << ammo.type->stack_size << "\t"
+                << ammo.type->ammo->range << "\t"
+                << ammo.type->ammo->dispersion << "\t"
+                << ammo.type->ammo->recoil << "\t"
+                << ammo.type->ammo->damage << "\t"
+                << ammo.type->ammo->pierce << std::endl;
+        };
+
+        for( auto& e : item_controller->get_all_itypes() ) {
+            if( e.second->ammo.get() ) {
+                dump( item( e.first, calendar::turn, item::solitary_tag {} ) );
             }
         }
     }
