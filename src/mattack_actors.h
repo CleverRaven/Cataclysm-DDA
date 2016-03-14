@@ -76,10 +76,11 @@ class gun_actor : public mattack_actor
         /*@}*/
 
         /*@{*/
-        /** Additional caps above any imposed by the base gun */
+        /** Additional caps above any imposed by either the base gun or monster */
         int range;
         int range_no_burst; /** only burst fire at or below this distance */
         int burst_limit;
+        int max_ammo = INT_MAX; /** limited also by monster starting_ammo */
         /*@}*/
 
         /** Description of the attack being run */

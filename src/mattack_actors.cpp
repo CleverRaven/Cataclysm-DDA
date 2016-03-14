@@ -275,12 +275,11 @@ void gun_actor::load( JsonObject &obj )
     if( !obj.read( "range_no_burst", range_no_burst ) ) {
         range = gun.gun_range();
     }
+    obj.read( "max_ammo", max_ammo );
 
     move_cost = obj.get_int( "move_cost" );
     targeting_cost = obj.get_int( "targeting_cost" );
 
-    // Optional:
-    max_ammo = obj.get_int( "max_ammo", INT_MAX );
 
     obj.read( "description", description );
 
