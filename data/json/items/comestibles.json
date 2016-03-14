@@ -40,7 +40,6 @@
         "charges": 1,
         "healthy": 0,
         "fun": 0,
-        "stim": 0,
         "flags" : ["EATEN_COLD"],
         "phase": "liquid",
         "ammo_data": {
@@ -3322,7 +3321,6 @@
         "addiction_type": "none",
         "spoils_in": 12,
         "use_action": "RAW_MEAT",
-        "stim": 0,
         "container": "null",
         "comestible_type": "FOOD",
         "symbol": ",",
@@ -3346,7 +3344,6 @@
         "addiction_type": "none",
         "spoils_in": 12,
         "use_action": "RAW_MEAT",
-        "stim": 0,
         "container": "null",
         "comestible_type": "FOOD",
         "symbol": ",",
@@ -3370,7 +3367,6 @@
         "addiction_type": "none",
         "spoils_in": 12,
         "use_action": "RAW_MEAT",
-        "stim": 0,
         "container": "null",
         "comestible_type": "FOOD",
         "symbol": ",",
@@ -3394,7 +3390,6 @@
         "addiction_type": "none",
         "spoils_in": 12,
         "use_action": "RAW_MEAT",
-        "stim": 0,
         "container": "null",
         "comestible_type": "FOOD",
         "symbol": ",",
@@ -6189,7 +6184,6 @@
         "color": "blue",
         "addiction_type": "none",
         "spoils_in": 0,
-        "stim": 0,
         "container": "bag_plastic",
         "comestible_type": "FOOD",
         "symbol": "%",
@@ -6257,7 +6251,6 @@
         "color": "red",
         "addiction_type": "none",
         "spoils_in": 0,
-        "stim": 0,
         "container": "bag_plastic",
         "comestible_type": "FOOD",
         "symbol": "%",
@@ -11702,7 +11695,6 @@
         "charges": 5,
         "healthy": 0,
         "fun": -5,
-        "stim": 0,
         "phase": "liquid"
     },
     {
@@ -11725,7 +11717,6 @@
         "charges": 5,
         "healthy": 0,
         "fun": -1,
-        "stim": 0,
         "phase": "liquid"
     },
     {
@@ -11749,7 +11740,6 @@
         "charges": 5,
         "healthy": 0,
         "fun": 0,
-        "stim": 0,
         "phase": "liquid"
     },
     {
@@ -11773,7 +11763,6 @@
         "charges" : 5,
         "healthy" : 1,
         "fun": 0,
-        "stim": 0,
         "phase": "liquid"
     },
     {
@@ -11819,7 +11808,6 @@
         "charges": 5,
         "healthy": 0,
         "fun": 0,
-        "stim": 0,
         "phase": "liquid",
         "flags" : ["USE_EAT_VERB"]
     },
@@ -12893,7 +12881,6 @@
         "color": "yellow",
         "addiction_type": "none",
         "spoils_in": 0,
-        "stim": 0,
         "container": "bag_plastic",
         "comestible_type": "FOOD",
         "symbol": "%",
@@ -12993,7 +12980,6 @@
         "color": "red",
         "addiction_type": "none",
         "spoils_in": 0,
-        "stim": 0,
         "container": "bag_plastic",
         "comestible_type": "FOOD",
         "symbol": "%",
@@ -13078,7 +13064,6 @@
         "color": "light_green",
         "addiction_type": "none",
         "spoils_in": 0,
-        "stim": 0,
         "container": "bag_plastic",
         "comestible_type": "FOOD",
         "symbol": "%",
@@ -13251,7 +13236,6 @@
         "color": "red",
         "addiction_type": "none",
         "spoils_in": 0,
-        "stim": 0,
         "container": "bag_plastic",
         "comestible_type": "FOOD",
         "symbol": "%",
@@ -13631,7 +13615,6 @@
         "color": "red",
         "addiction_type": "none",
         "spoils_in": 0,
-        "stim": 0,
         "container": "bag_plastic",
         "comestible_type": "FOOD",
         "symbol": "%",
@@ -13697,7 +13680,6 @@
         "color": "blue",
         "addiction_type": "none",
         "spoils_in": 0,
-        "stim": 0,
         "container": "bag_plastic",
         "comestible_type": "FOOD",
         "symbol": "%",
@@ -14830,7 +14812,6 @@
         "charges": 10,
         "healthy": -1,
         "fun": -15,
-        "stim": 0,
         "phase": "liquid"
     },
     {
