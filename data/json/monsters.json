@@ -6384,41 +6384,6 @@
     "flags":["SEES", "NOHEAD", "ELECTRONIC", "IMMOBILE", "NO_BREATHE"]
     },{
     "type" : "MONSTER",
-    "id" : "mon_turret_rifle",
-    "name": "milspec turret",
-    "species":"ROBOT",
-    "default_faction":"military",
-    "symbol":"2",
-    "color":"green",
-    "size":"SMALL",
-    "material":"steel",
-    "diff":20,
-    "aggression":100,
-    "morale":100,
-    "speed":100,
-    "melee_skill":0,
-    "melee_dice":0,
-    "melee_dice_sides":0,
-    "melee_cut":0,
-    "dodge":0,
-    "armor_bash":14,
-    "armor_cut":16,
-    "revert_to_itype": "bot_rifleturret",
-    "death_drops": {
-        "groups": [
-            [ "robots", 9 ],
-            [ "turret_rifle", 2 ]
-        ]
-    },
-    "luminance":210,
-    "hp":40,
-    "death_function":"EXPLODE",
-    "special_attacks":[["RIFLE_TUR", 1]],
-    "starting_ammo" : {"556":100},
-    "description":"Leadworks LLC's T-4A1 Sentry.  It features improved firmware over General Atomics' TX-1 9mm model and an automated M4 carbine.",
-    "flags":["SEES", "NOHEAD", "ELECTRONIC", "IMMOBILE", "NO_BREATHE"]
-    },{
-    "type" : "MONSTER",
     "id" : "mon_turret_searchlight",
     "name": "milspec searchlight",
     "species":"ROBOT",
