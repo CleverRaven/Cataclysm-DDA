@@ -83,6 +83,7 @@ void draw_background( WINDOW *win, const bool empty_list );
 void draw_header( WINDOW *win, const size_t tab_index, const std::string power_string,
                   const std::string help_key );
 const char *power_description( std::string const &id );
+bool compare_cbm_names( std::pair<body_part, size_t> val1, std::pair<body_part, size_t> val2 );
 
 void draw_background( WINDOW *win, const bool empty_list )
 {
@@ -170,6 +171,23 @@ const char *power_description( std::string const &id )
                                      bionics[id].power_deactivate );
     }
     return power_desc.str().c_str();
+}
+
+bool compare_cbm_names( std::pair<body_part, size_t> val1, std::pair<body_part, size_t> val2 )
+{
+    if( val1.first == val2.first ) {
+        if( val1.second == INT_MAX ){
+            return true;
+        } else if( val2.second == INT_MAX ) {
+            return false;
+        }
+        // actual comparison of CBM names
+        std::string name1 = bionics[g->u.my_bionics[val1.second].id].name;
+        std::string name2 = bionics[g->u.my_bionics[val2.second].id].name;
+        return( name1.compare( name2 ) <= 0 );
+    } else {
+        return( val1.first < val2.first );
+    }
 }
 
 } //namespace
@@ -801,6 +819,7 @@ void player::power_bionics_new()
                     }
                 }
             }
+            std::sort( content.begin(), content.end(), compare_cbm_names );
             max_scroll_position = std::max( 0, static_cast<int>( content.size() ) -
                                                getmaxy( w_bio_list ) );
             recalc = false;
@@ -1944,7 +1963,7 @@ _( "WARNING: %i%% chance of genetic damage, blood loss, or damage to existing bi
         }
     }
     if( available_bodyparts.empty() ) {
-        popup( _( "No enough space for bionic installation!" ) );
+        popup( _( "Not enough space for bionic installation!" ) );
         return false;
     } else if( available_bodyparts.size() == 1 ) {
         // only one option is possible
