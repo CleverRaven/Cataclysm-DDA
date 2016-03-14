@@ -1107,6 +1107,11 @@ public:
          *  @return NULL if item does not use a specific ammo type (and is consequently not reloadable) */
         ammotype ammo_type( bool conversion = true ) const;
 
+        /** Get default ammo used by item or "NULL" if item does not have a default ammo type
+         *  @param conversion whether to include the effect of any flags or mods which convert the type
+         *  @return NULL if item does not use a specific ammo type (and is consequently not reloadable) */
+        itype_id ammo_default( bool conversion = true ) const;
+
         /** Get ammo effects for item optionally inclusive of any resulting from the loaded ammo */
         std::set<std::string> ammo_effects( bool with_ammo = true ) const;
 
