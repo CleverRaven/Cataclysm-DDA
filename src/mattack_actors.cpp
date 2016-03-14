@@ -240,9 +240,15 @@ gun_actor::gun_actor()
 
 void gun_actor::load( JsonObject &obj )
 {
-    // Mandatory
     gun_type = obj.get_string( "gun_type" );
-    ammo_type = obj.get_string( "ammo_type" );
+    item gun( gun_type );
+    if( !gun.is_gun() ) {
+        obj.throw_error( "monster gun_actor specified non-gun" );
+    }
+
+    if( !obj.read( "ammo_type", ammo_type ) ) {
+        ammo_type = gun.ammo_type();
+    }
 
     JsonArray jarr = obj.get_array( "fake_skills" );
     while( jarr.has_more() ) {

@@ -62,7 +62,8 @@ class gun_actor : public mattack_actor
     public:
         // Item type of the gun we're using
         itype_id gun_type;
-        // Type of ammo we're using
+
+        /** Specific ammo type to use or for gun default if unspecified */
         ammotype ammo_type;
         // Cap ammo at this if it goes above that for some reason
         int max_ammo;
