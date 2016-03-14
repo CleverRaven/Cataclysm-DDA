@@ -19,7 +19,7 @@
     "aim_speed": 0,
     "durability": 10,
     "reload": 500,
-    "apply_ammo_effects": [ "PLASMA", "EXPLOSIVE", "FLAME" ],
+    "ammo_effects": [ "PLASMA", "EXPLOSIVE", "FLAME" ],
     "flags": [ "BIO_WEAPON", "NEVER_JAMS" ]
   },
   {
@@ -42,7 +42,7 @@
     "aim_speed": 0,
     "durability": 10,
     "reload": 500,
-    "apply_ammo_effects": [ "LASER", "INCENDIARY" ],
+    "ammo_effects": [ "LASER", "INCENDIARY" ],
     "flags": [ "BIO_WEAPON", "NEVER_JAMS" ]
   },
   {
@@ -64,7 +64,7 @@
     "aim_speed": 0,
     "durability": 10,
     "reload": 500,
-    "apply_ammo_effects": [ "LIGHTNING", "BOUNCE" ],
+    "ammo_effects": [ "LIGHTNING", "BOUNCE" ],
     "flags": [ "BIO_WEAPON", "NEVER_JAMS" ]
   }
 ]

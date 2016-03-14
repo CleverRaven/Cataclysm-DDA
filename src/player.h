@@ -830,10 +830,12 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          *  @return true if item was destroyed */
         bool consume_charges( item& used, long qty );
 
-        /** Removes selected gunmod from the entered weapon */
-        void remove_gunmod(item *weapon, unsigned id);
+        /** Removes gunmod after first unloading any contained ammo and returns true on success */
+        bool gunmod_remove( item& gun, item& mod );
+
         /** Starts activity to install gunmod having warned user about any risk of failure or irremovable mods s*/
         void gunmod_add( item& gun, item& mod );
+
         /** Attempts to install bionics, returns false if the player cancels prior to installation */
         bool install_bionics(const itype &type, int skill_level = -1);
         /** Handles reading effects and returns true if activity started */
@@ -1127,7 +1129,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool last_climate_control_ret;
         std::string move_mode;
         int power_level, max_power_level;
-        int thirst;
         int fatigue;
         int tank_plut, reactor_plut, slow_rad;
         int oxygen;

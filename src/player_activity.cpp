@@ -255,7 +255,7 @@ void player_activity::do_turn( player *p )
             activity_handlers::fill_liquid_do_turn( this, p );
             break;
         case ACT_ATM:
-            iexamine::atm( p, &g->m, p->pos() );
+            iexamine::atm( *p, p->pos() );
             break;
         case ACT_START_ENGINES:
             moves_left -= 100;

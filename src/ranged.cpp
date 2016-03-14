@@ -39,7 +39,7 @@ const efftype_id effect_bounced( "bounced" );
 static projectile make_gun_projectile( const item &gun );
 int time_to_fire(player &p, const itype &firing);
 static inline void eject_casing( player& p, item& weap );
-int recoil_add( player& p, const item& gun );
+int recoil_add( player& p, const item& gun, int shot );
 void make_gun_sound_effect(player &p, bool burst, item *weapon);
 extern bool is_valid_in_w_terrain(int, int);
 void drop_or_embed_projectile( const dealt_projectile_attack &attack );
@@ -384,15 +384,13 @@ int player::fire_gun( const tripoint &target, int shots )
 
 int player::fire_gun( const tripoint &target, int shots, item& gun )
 {
-    const bool is_charger_gun = gun.update_charger_gun_ammo();
-
     if( !gun.is_gun() ) {
         debugmsg( "%s tried to fire non-gun (%s).", name.c_str(), gun.tname().c_str() );
         return 0;
     }
 
     // Number of shots to fire is limited by the ammount of remaining ammo
-    if( gun.ammo_required() && !is_charger_gun ) {
+    if( gun.ammo_required() ) {
         shots = std::min( shots, int( gun.ammo_remaining() / gun.ammo_required() ) );
     }
 
@@ -424,6 +422,7 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
 
     tripoint aim = target;
     int curshot = 0;
+    int burst = 0; // count of shots against current target
     for( ; curshot != shots; ++curshot ) {
 
 
@@ -445,7 +444,7 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
 
         // if we are firing a turret don't apply that recoil to the player
         // @todo turrets need to accumulate recoil themselves
-        recoil_add( *this, gun );
+        recoil_add( *this, gun, ++burst );
 
         make_gun_sound_effect( *this, shots > 1, &gun );
         sfx::generate_gun_sound( *this, gun );
@@ -455,8 +454,6 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
         if( gun.has_flag( "BIO_WEAPON" ) ) {
             // Consume a (virtual) charge to let player::activate_bionic know the weapon has been fired.
             gun.charges--;
-        } else if( gun.deactivate_charger_gun() ) {
-            // Deactivated charger gun
         } else {
             if( !gun.ammo_consume( gun.ammo_required(), pos() ) ) {
                 debugmsg( "Unexpected shortage of ammo whilst firing %s", gun.tname().c_str() );
@@ -510,6 +507,7 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
                 break; ///\EFFECT_GUN increases chance of firing multiple times in a burst
             }
             aim = random_entry( hostiles )->pos();
+            burst = 0;
         }
     }
 
@@ -1458,7 +1456,7 @@ double player::get_weapon_dispersion( const item *weapon, bool random ) const
     return dispersion;
 }
 
-int recoil_add( player& p, const item &gun )
+int recoil_add( player& p, const item &gun, int shot )
 {
     if( p.has_effect( effect_on_roof ) ) {
         // @todo fix handling of turret recoil
@@ -1475,6 +1473,10 @@ int recoil_add( player& p, const item &gun )
     ///\EFFECT_SHOTGUN randomly decreases recoil with appropriate guns
     ///\EFFECT_SMG randomly decreases recoil with appropriate guns
     qty -= rng( 0, p.get_skill_level( gun.gun_skill() ) * 7 );
+
+    // when firing in bursts reduce the penalty from each sucessive shot
+    double k = 1.6; // 5 round burst is equivalent to ~2 individually aimed shots
+    qty *= pow( 1.0 / sqrt( shot ), k );
 
     return p.recoil += std::max( qty, 0 );
 }

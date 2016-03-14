@@ -1711,7 +1711,7 @@ void remove_ammo(item *dis_item, player &p)
                 remove_ammo( &contents[i], p );
                 i++;
             } else {
-                p.remove_gunmod( dis_item, i );
+                p.gunmod_remove( *dis_item, contents[ i ] );
             }
             continue;
         }

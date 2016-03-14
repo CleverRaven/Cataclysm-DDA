@@ -946,7 +946,7 @@ void vehicle::use_controls( const tripoint &pos, const bool remote_action )
         if( remotely_controlled ){
             menu.addentry( release_remote_control, true, 'l', _( "Stop controlling" ) );
         }
-        
+
         // iterate over all parts
         for( size_t p = 0; !has_electronic_controls && p < parts.size(); ++p ) {
             has_electronic_controls = part_flag( p, "CTRL_ELECTRONIC" ) ||
@@ -3603,7 +3603,7 @@ void vehicle::consume_fuel( double load = 1.0 )
         if (one_in(10)) {
             g->u.fatigue += mod;
             g->u.mod_hunger(mod);
-            g->u.thirst += mod;
+            g->u.mod_thirst(mod);
         }
         g->u.mod_stat( "stamina", -mod * 20);
     }
@@ -5991,15 +5991,11 @@ void vehicle::control_turrets() {
         for( int i = 0; i < (int)turrets.size(); i++ ) {
             int p = turrets[i];
             const item gun( part_info( p ).item, 0 );
-            bool charge = gun.is_charger_gun();
-            bool burst = gun.burst_size() > 1;
             char sym;
             if( parts[p].mode == 0 ) {
                 sym = ' ';
-            } else if( parts[p].mode > 9 && burst ) {
+            } else if( parts[p].mode > 9 && gun.burst_size() > 1 ) {
                 sym = 'B'; // Burst
-            } else if( parts[p].mode > 9 && charge ) {
-                sym = 'X'; // Big charge
             } else if( parts[p].mode > 0 && parts[p].mode < 10 ) {
                 sym = '0' + parts[p].mode;
             } else if( parts[p].mode < -1 ) {
@@ -6048,7 +6044,6 @@ void vehicle::cycle_turret_mode( int p, bool only_manual_modes )
 
     vehicle_part &tr = parts[p];
     const bool auto_only = gun.has_flag("BURST_ONLY");
-    const bool burst_or_charge = gun.burst_size() > 1 || gun.is_charger_gun();
     const bool was_auto = tr.mode > 0;
     if( tr.mode < -1 && !auto_only ) {
         tr.mode = -1;
@@ -6057,18 +6052,14 @@ void vehicle::cycle_turret_mode( int p, bool only_manual_modes )
     } else if( tr.mode <= 0 && !only_manual_modes && !auto_only ) {
         tr.mode = 1;
     } else if( tr.mode <= 1 && !only_manual_modes ) {
-        tr.mode = burst_or_charge ? 1000 : -1;
+        tr.mode = gun.burst_size() > 1 ? 1000 : -1;
     } else {
-        tr.mode = burst_or_charge ? -1000 : -1;
+        tr.mode = gun.burst_size() > 1 ? -1000 : -1;
     }
 
     if( only_manual_modes ) {
         const char *name = part_info( p ).name.c_str();
-        if( tr.mode < -1 && gun.is_charger_gun() ) {
-            add_msg( m_info, _("Setting turret %s to full power mode."), name );
-        } else if( tr.mode == -1 && gun.is_charger_gun() ) {
-            add_msg( m_info, _("Setting turret %s to low power mode."), name );
-        } else if( tr.mode < -1 ) {
+        if( tr.mode < -1 ) {
             add_msg( m_info, _("Setting turret %s to burst mode."), name );
         } else if( tr.mode == -1 ) {
             add_msg( m_info, _("Setting turret %s to single-fire mode."), name );
@@ -6154,18 +6145,6 @@ vehicle::turret_ammo_data::turret_ammo_data( const vehicle &veh, int const part 
         source = NONE;
         ammo = nullptr;
         charges = ammo_for;
-        return;
-    }
-
-    // In case of charger guns, we return max charge rather than max burst.
-    // Note that charger guns have special ammo type, but they consume regular "battery" ammo from
-    // the vehicle tank, therefor ammo != gun.curammo, but both have to be valid.
-    if ( gun.is_charger_gun() ) {
-        charge_mult *= 5;
-        source = TANK;
-        ammo = item::find_type( fuel_type_battery );
-        gun.set_curammo( "charge_shot" );
-        charges = std::min( ammo_for, power / charge_mult );
         return;
     }
 
@@ -6265,17 +6244,6 @@ bool vehicle::fire_turret( int p, bool manual )
     // note that guns that don't use ammo return 0 for ammo_required(), in which case
     // turret_data.charges will be the number of individual shots we can take
     long charges = std::max( turret_data.gun.ammo_required(), 1L );
-    if( turret_data.gun.is_charger_gun() ) {
-        if( one_in(100) ) {
-            charges = rng( 5, 8 ); // kaboom
-        } else {
-            charges = rng( 1, 4 );
-        }
-
-        if( charges > abs( parts[p].mode ) ) {
-            charges = abs( parts[p].mode ); // Currently only limiting, not increasing
-        }
-    }
 
     // check if we can fire at least one shot
     if( turret_data.charges - charges < 0 ) {
@@ -6285,20 +6253,17 @@ bool vehicle::fire_turret( int p, bool manual )
 
         return false;
     }
-    
+
     // set up for burst shots
     if( abs(parts[p].mode) > 1 ){
         charges *= turret_data.gun.burst_size();
         charges = std::min(charges, turret_data.charges);
     }
-    
+
     // Create a fake gun
     // @todo damage the gun based on part hp
     item gun( turret_data.gun.typeId(), turret_data.gun.bday );
-    if( gun.is_charger_gun() ) {
-        gun.charges = charges;
-        gun.update_charger_gun_ammo();
-    } else if( turret_data.gun.ammo_current() != "null" ) {
+    if( turret_data.gun.ammo_current() != "null" ) {
         gun.ammo_set( turret_data.gun.ammo_current(), charges );
     }
 
@@ -6445,8 +6410,8 @@ int vehicle::manual_fire_turret( int p, player &shooter, item &gun )
         const tripoint &targ = trajectory.back();
         // Put our shooter on the roof of the vehicle
         shooter.add_effect( effect_on_roof, 1 );
-        
-        int to_fire = abs(parts[p].mode) > 1 ? gun.burst_size() : 1; 
+
+        int to_fire = abs(parts[p].mode) > 1 ? gun.burst_size() : 1;
         res = shooter.fire_gun( targ, to_fire, gun );
         // And now back - we don't want to get any weird behavior
         shooter.remove_effect( effect_on_roof );
@@ -6933,7 +6898,7 @@ void vehicle::calc_mass_center( bool use_precalc ) const
             // Change back to the above if it runs too slowly
             m_part += j.weight();
         }
-        
+
         if( pi.has_flag( VPFLAG_BOARDABLE ) && parts[i].has_flag( vehicle_part::passenger_flag ) ) {
             const player *p = get_passenger( i );
             // Sometimes flag is wrongly set, don't crash!
