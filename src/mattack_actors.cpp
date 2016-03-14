@@ -342,7 +342,7 @@ void gun_actor::shoot( monster &z, Creature &target ) const
                                   !target.has_effect( effect_was_laserlocked );
 
     if( not_targeted || not_laser_locked ) {
-        if( !targeting_sound.empty() ) {
+        if( targeting_volume > 0 && !targeting_sound.empty() ) {
             sounds::sound( z.pos(), targeting_volume, _( targeting_sound.c_str() ) );
         }
         if( not_targeted ) {

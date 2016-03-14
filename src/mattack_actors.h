@@ -107,8 +107,8 @@ class gun_actor : public mattack_actor
         int targeting_timeout = 8; /** default turns afer which targeting is lsot and needs repeating */
         int targeting_timeout_extend = 3; /** increase timeout by this many turns after each shot */
 
-        std::string targeting_sound; /** sound to make or none if unspecified */
-        int targeting_volume = 6;
+        std::string targeting_sound = "beep-beep-beep!";
+        int targeting_volume = 6; /** if set to zero don't emit any targetting sounds */
 
         bool laser_lock = false; /** does switching between targets incur further targeting penalty */
         /*@}*/

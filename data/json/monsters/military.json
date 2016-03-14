@@ -69,8 +69,7 @@
         "cooldown": 1,
         "gun_type": "laser_cannon",
         "fake_skills": [ [ "gun", 4 ], [ "rifle", 8 ] ],
-        "require_sunlight": true,
-        "targeting_sound": "beep-beep-beep!"
+        "require_sunlight": true
     } ],
     "death_drops": {
       "groups": [ [ "robots", 10 ], [ "laserturret", 1 ]
@@ -106,9 +105,7 @@
         "cooldown": 1,
         "gun_type": "m4a1",
         "fake_skills": [ [ "gun", 6 ], [ "rifle", 8 ] ],
-        "fake_dex": 10,
-        "targeting_sound": "beep-beep-beep!",
-        "no_ammo_sound": "a chk!"
+        "fake_dex": 10
     } ],
     "death_drops": {
       "groups": [ [ "robots", 9 ], [ "turret_rifle", 2 ] ]
