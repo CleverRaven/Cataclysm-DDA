@@ -1961,28 +1961,29 @@ bool Character::pour_into( item &container, item &liquid )
         // for filling up chainsaws, jackhammers and flamethrowers
 
         if( container.ammo_type() != liquid.ammo_type() ) {
-            add_msg( m_info, _( "Your %1$s won't hold %2$s." ), container.tname().c_str(),
-                     liquid.tname().c_str() );
+            add_msg_if_player( m_info, _( "Your %1$s won't hold %2$s." ), container.tname().c_str(),
+                               liquid.tname().c_str() );
             return false;
         }
 
         if( container.ammo_remaining() >= container.ammo_capacity() ) {
-            add_msg( m_info, _( "Your %1$s can't hold any more %2$s." ), container.tname().c_str(),
-                     liquid.tname().c_str() );
+            add_msg_if_player( m_info, _( "Your %1$s can't hold any more %2$s." ), container.tname().c_str(),
+                               liquid.tname().c_str() );
             return false;
         }
 
         if( container.ammo_remaining() && container.ammo_current() != liquid.typeId() ) {
-            add_msg( m_info, _( "You can't mix loads in your %s." ), container.tname().c_str() );
+            add_msg_if_player( m_info, _( "You can't mix loads in your %s." ), container.tname().c_str() );
             return false;
         }
 
-        add_msg( _( "You pour %1$s into the %2$s." ), liquid.tname().c_str(), container.tname().c_str() );
+        add_msg_if_player( _( "You pour %1$s into the %2$s." ), liquid.tname().c_str(),
+                           container.tname().c_str() );
         auto qty = std::min( liquid.charges, container.ammo_capacity() - container.ammo_remaining() );
         liquid.charges -= qty;
         container.ammo_set( liquid.typeId(), container.ammo_remaining() + qty );
         if( liquid.charges > 0 ) {
-            add_msg( _( "There's some left over!" ) );
+            add_msg_if_player( _( "There's some left over!" ) );
         }
 
     } else {
@@ -1990,15 +1991,16 @@ bool Character::pour_into( item &container, item &liquid )
         bool allow_bucket = &container == &weapon || !has_item( container );
         std::string err;
         if( !container.fill_with( liquid, err, allow_bucket ) ) {
-            add_msg( m_info, err.c_str() );
+            add_msg_if_player( m_info, err.c_str() );
             return false;
         }
 
         inv.unsort();
-        add_msg( _( "You pour %1$s into the %2$s." ), liquid.tname().c_str(), container.tname().c_str() );
+        add_msg_if_player( _( "You pour %1$s into the %2$s." ), liquid.tname().c_str(),
+                           container.tname().c_str() );
         if( liquid.charges > 0 ) {
             // TODO: maybe not show this if the source is infinite. Best would be to move it to the caller.
-            add_msg( _( "There's some left over!" ) );
+            add_msg_if_player( _( "There's some left over!" ) );
         }
     }
 
@@ -2013,18 +2015,18 @@ bool Character::pour_into( vehicle &veh, item &liquid )
     const int fuel_amnt = veh.fuel_left( ftype );
     if( fuel_cap <= 0 ) {
         //~ %1$s - transport name, %2$s liquid fuel name
-        add_msg( m_info, _( "The %1$s doesn't use %2$s." ), veh.name.c_str(), liquid.type_name().c_str() );
+        add_msg_if_player( m_info, _( "The %1$s doesn't use %2$s." ), veh.name.c_str(), liquid.type_name().c_str() );
         return false;
     } else if( fuel_amnt >= fuel_cap ) {
-        add_msg( m_info, _( "The %s is already full." ), veh.name.c_str() );
+        add_msg_if_player( m_info, _( "The %s is already full." ), veh.name.c_str() );
         return false;
     }
     const long amt = liquid.charges;
     liquid.charges = veh.refill( ftype, amt );
     if( veh.fuel_left( ftype ) < fuel_cap ) {
-        add_msg( _( "You refill the %1$s with %2$s." ), veh.name.c_str(), liquid.type_name().c_str() );
+        add_msg_if_player( _( "You refill the %1$s with %2$s." ), veh.name.c_str(), liquid.type_name().c_str() );
     } else {
-        add_msg( _( "You refill the %1$s with %2$s to its maximum." ), veh.name.c_str(),
+        add_msg_if_player( _( "You refill the %1$s with %2$s to its maximum." ), veh.name.c_str(),
                  liquid.type_name().c_str() );
     }
     return true;
