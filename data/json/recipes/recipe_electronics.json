@@ -549,10 +549,7 @@
   ],
   "components": [
     [ [ "power_supply", 1 ] ],
-    [
-      [ "small_storage_battery", 1 ],
-      [ "UPS_off", 1 ]
-    ],
+    [ [ "small_storage_battery", 1 ] ],
     [ [ "scrap", 4 ] ],
     [ [ "cable", 10 ] ]
   ]
@@ -1831,22 +1828,22 @@
   "subcategory": "CSC_ELECTRONIC_PARTS",
   "skill_used": "electronics",
   "skills_required": [ "fabrication", 1 ],
-  "difficulty": 2,
+  "difficulty": 3,
   "time": 10000,
   "reversible": true,
-  "decomp_learn": 2,
+  "decomp_learn": 3,
   "autolearn": false,
   "book_learn": [[ "manual_electronics", 2 ] , [ "mag_electronics", 2 ] , [ "manual_mechanics", 3]],
   "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
   "tools": [
     [
-      [ "soldering_iron", 5 ],
-      [ "toolset", 5 ]
+      [ "soldering_iron", 10 ],
+      [ "toolset", 10 ]
     ]
   ],
   "components": [
-    [ [ "small_storage_battery", 6 ] ],
-    [ [ "scrap", 1 ] ],
+    [ [ "small_storage_battery", 8 ] ],
+    [ [ "scrap", 4 ] ],
     [ [ "cable", 5 ] ]
   ]
 },{
@@ -1856,22 +1853,22 @@
   "subcategory": "CSC_ELECTRONIC_PARTS",
   "skill_used": "electronics",
   "skills_required": [ "fabrication", 1 ],
-  "difficulty": 2,
+  "difficulty": 3,
   "time": 20000,
   "reversible": true,
-  "decomp_learn": 2,
+  "decomp_learn": 3,
   "autolearn": false,
   "book_learn": [[ "manual_electronics", 2 ] , [ "mag_electronics", 2 ] , [ "manual_mechanics", 3]],
   "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
   "tools": [
     [
-      [ "soldering_iron", 5 ],
-      [ "toolset", 5 ]
+      [ "soldering_iron", 20 ],
+      [ "toolset", 20 ]
     ]
   ],
   "components": [
     [ [ "medium_storage_battery", 4 ] ],
-    [ [ "scrap", 2 ] ],
+    [ [ "scrap", 8 ] ],
     [ [ "cable", 10 ] ]
   ]
 },{

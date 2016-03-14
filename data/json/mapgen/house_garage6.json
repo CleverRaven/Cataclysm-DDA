@@ -137,7 +137,7 @@
                 { "item": "waitingroom", "chance": 75, "x": 4, "y": 16 },
                 { "item": "softdrugs", "chance": 75, "x": 18, "y": 13 },
                 { "item": "cleaning", "chance": 50, "x": [18,20], "y": 11 },
-                { "item": "bigtools", "chance": 25, "x": 14, "y": 11 },
+                { "item": "tools_carpentry", "chance": 25, "x": 14, "y": 11 },
                 { "item": "home_hw", "chance": 50, "x": 20, "y": [7,10] }
             ],
             "place_monsters": [

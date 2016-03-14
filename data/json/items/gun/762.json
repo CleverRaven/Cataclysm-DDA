@@ -43,7 +43,6 @@
     "material": ["steel", "wood"],
     "symbol": "(",
     "color": "brown",
-    "flags": "NEVER_JAMS",
     "skill": "rifle",
     "ammo": "762",
     "dispersion": 2,
@@ -54,6 +53,7 @@
     "clip_size": 10,
     "reload": 450,
     "barrel_length" : 2,
-    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
+    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
+    "flags": [ "RELOAD_ONE", "NEVER_JAMS" ]
   }
 ]

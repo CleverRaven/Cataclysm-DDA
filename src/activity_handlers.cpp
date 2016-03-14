@@ -61,8 +61,8 @@ void activity_handlers::burrow_finish(player_activity *act, player *p)
         // Tunneling through solid rock is hungry, sweaty, tiring, backbreaking work
         // Not quite as bad as the pickaxe, though
         p->mod_hunger(10);
+        p->mod_thirst(10);
         p->fatigue += 15;
-        p->thirst += 10;
         p->mod_pain(3 * rng(1, 3));
         // Mining is construction work!
         p->practice( skill_carpentry, 5 );
@@ -70,8 +70,8 @@ void activity_handlers::burrow_finish(player_activity *act, player *p)
                g->m.ter(pos) != t_dirt && g->m.ter(pos) != t_grass ) {
         //Breaking up concrete on the surface? not nearly as bad
         p->mod_hunger(5);
+        p->mod_thirst(5);
         p->fatigue += 10;
-        p->thirst += 5;
     }
     g->m.destroy( pos, true );
 }
@@ -838,12 +838,12 @@ void activity_handlers::pickaxe_finish(player_activity *act, player *p)
         // Tunneling through solid rock is hungry, sweaty, tiring, backbreaking work
         // Betcha wish you'd opted for the J-Hammer ;P
         p->mod_hunger(15);
+        p->mod_thirst(15);
         if( p->has_trait("STOCKY_TROGLO") ) {
             p->fatigue += 20; // Yep, dwarves can dig longer before tiring
         } else {
             p->fatigue += 30;
         }
-        p->thirst += 15;
         p->mod_pain(2 * rng(1, 3));
         // Mining is construction work!
         p->practice( skill_carpentry, 5 );
@@ -851,8 +851,8 @@ void activity_handlers::pickaxe_finish(player_activity *act, player *p)
                g->m.ter(pos) != t_dirt && g->m.ter(pos) != t_grass ) {
         //Breaking up concrete on the surface? not nearly as bad
         p->mod_hunger(5);
+        p->mod_thirst(5);
         p->fatigue += 10;
-        p->thirst += 5;
     }
     g->m.destroy( pos, true );
     it->charges = std::max(long(0), it->charges - it->type->charges_to_use());

@@ -4236,7 +4236,7 @@ void game::debug()
                         uimenu smenu;
                         smenu.return_invalid = true;
                         smenu.addentry( 0, true, 'h', "%s: %d", _( "Hunger" ), p.get_hunger() );
-                        smenu.addentry( 1, true, 't', "%s: %d", _( "Thirst" ), p.thirst );
+                        smenu.addentry( 1, true, 't', "%s: %d", _( "Thirst" ), p.get_thirst() );
                         smenu.addentry( 2, true, 'f', "%s: %d", _( "Fatigue" ), p.fatigue );
                         smenu.addentry( 999, true, 'q', "%s", _( "[q]uit" ) );
                         smenu.selected = 0;
@@ -4249,7 +4249,7 @@ void game::debug()
                                 valid = true;
                                 break;
                             case 1:
-                                cur = p.thirst;
+                                cur = p.get_thirst();
                                 valid = true;
                                 break;
                             case 2:
@@ -4266,7 +4266,7 @@ void game::debug()
                                     p.set_hunger( value );
                                     break;
                                 case 1:
-                                    p.thirst = value;
+                                    p.set_thirst( value );
                                     break;
                                 case 2:
                                     p.fatigue = value;
@@ -8100,10 +8100,10 @@ void game::examine( const tripoint &examp )
 
     const tripoint player_pos = u.pos();
 
-    if (m.has_furn(examp)) {
-        xfurn_t.examine(&u, &m, examp);
+    if( m.has_furn( examp ) ) {
+        xfurn_t.examine( u, examp );
     } else {
-        xter_t.examine(&u, &m, examp);
+        xter_t.examine( u, examp );
     }
 
     // Did the player get moved? Bail out if so; our examp probably
@@ -8136,7 +8136,7 @@ void game::examine( const tripoint &examp )
     }
 
     if( !m.tr_at( examp ).is_null() ) {
-        iexamine::trap(&u, &m, examp);
+        iexamine::trap( u, examp );
         draw_ter();
     }
 
@@ -10723,12 +10723,6 @@ void game::plfire( bool burst, const tripoint &default_target )
             return;
         }
 
-        if( !gun.active && !gun.is_in_auxiliary_mode() ) {
-            if( gun.activate_charger_gun( u ) ) {
-                return;
-            }
-        }
-
         if( gun.has_flag("FIRE_TWOHAND") && ( !u.has_two_arms() || u.worn_with_flag("RESTRICT_HANDS") ) ) {
             add_msg(m_info, _("You need two free hands to fire your %s."), gun.tname().c_str() );
             return;
@@ -11295,7 +11289,7 @@ bool add_or_drop_with_msg( player &u, item &it )
     return true;
 }
 
-void game::unload( item &it )
+bool game::unload( item &it )
 {
     // Unload a container consuming moves per item successfully removed
     if( it.is_container() && !it.contents.empty() ) {
@@ -11307,7 +11301,7 @@ void game::unload( item &it )
             u.moves -= mv;
             return true;
         } ), it.contents.end() );
-        return;
+        return true;
     }
 
     // If item can be unloaded more than once (currently only guns) prompt user to choose
@@ -11329,7 +11323,7 @@ void game::unload( item &it )
     // Next check for any reasons why the item cannot be unloaded
     if( target->ammo_type() == "NULL" || target->ammo_capacity() <= 0 ) {
         add_msg( m_info, _("You can't unload a %s!"), target->tname().c_str() );
-        return;
+        return false;
     }
 
     if( target->has_flag( "NO_UNLOAD" ) ) {
@@ -11338,7 +11332,7 @@ void game::unload( item &it )
         } else {
             add_msg( m_info, _( "You can't unload a %s!" ), target->tname().c_str() );
         }
-        return;
+        return false;
     }
 
     if( !target->magazine_current() && target->ammo_remaining() <= 0 ) {
@@ -11347,7 +11341,7 @@ void game::unload( item &it )
         } else {
             add_msg( m_info, _( "Your %s isn't loaded." ), target->tname().c_str() );
         }
-        return;
+        return false;
     }
 
     if( target->is_magazine() ) {
@@ -11358,14 +11352,14 @@ void game::unload( item &it )
             }
             u.moves -= u.item_reload_cost( *target, e ) / 2;
             return true;
-        } ), it.contents.end() );
+        } ), target->contents.end() );
 
         add_msg( _( "You unload your %s." ), target->tname().c_str() );
-        return;
+        return true;
 
     } else if( target->magazine_current() ) {
         if( !add_or_drop_with_msg( u, *target->magazine_current() ) ) {
-            return;
+            return false;
         }
         // Eject magazine consuming half as much time as required to insert it
         u.moves -= u.item_reload_cost( *target, *target->magazine_current() ) / 2;
@@ -11383,7 +11377,7 @@ void game::unload( item &it )
                 add_msg( _( "You recover %i unused plutonium." ), qty );
             } else {
                 add_msg( m_info, _( "You can't remove partially depleted plutonium!" ) );
-                return;
+                return false;
             }
         }
 
@@ -11394,11 +11388,11 @@ void game::unload( item &it )
             add_or_drop_with_msg( u, ammo );
             qty -= ammo.charges;
             if( qty <= 0 ) {
-                return; // no liquid was moved
+                return false; // no liquid was moved
             }
 
         } else if( !add_or_drop_with_msg( u, ammo ) ) {
-            return;
+            return false;
         }
 
         // If successful remove appropriate qty of ammo consuming half as much time as required to load it
@@ -11420,6 +11414,7 @@ void game::unload( item &it )
     }
 
     add_msg( _( "You unload your %s." ), target->tname().c_str() );
+    return true;
 }
 
 void game::wield( int pos )
@@ -13258,7 +13253,7 @@ tripoint game::find_or_make_stairs( map &mp, const int z_after, bool &rope_ladde
                     u.mod_pain(5);
                     u.apply_damage( nullptr, bp_torso, 5 );
                     u.mod_hunger(10);
-                    u.thirst += 10;
+                    u.mod_thirst(10);
                 } else {
                     add_msg(_("You gingerly descend using your vines."));
                 }
@@ -13266,7 +13261,7 @@ tripoint game::find_or_make_stairs( map &mp, const int z_after, bool &rope_ladde
                 add_msg(_("You effortlessly lower yourself and leave a vine rooted for future use."));
                 rope_ladder = true;
                 u.mod_hunger(10);
-                u.thirst += 10;
+                u.mod_thirst(10);
             }
         } else {
             return tripoint_min;
@@ -14490,7 +14485,7 @@ void game::process_artifact(item *it, player *p)
 
         case AEP_THIRST:
             if (one_in(120)) {
-                p->thirst++;
+                p->mod_thirst(1);
             }
             break;
 

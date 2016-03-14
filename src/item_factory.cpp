@@ -79,6 +79,8 @@ void Item_factory::finialize_item_blacklist()
                 continue;
             }
             itype *default_magazine = m_templates[ type->magazine_default[ type->gun->ammo ] ];
+            type->volume += default_magazine->volume;
+            type->weight += default_magazine->weight;
             type->gun->clip = default_magazine->magazine->capacity;
             type->gun->reload_time = default_magazine->magazine->capacity *
                 default_magazine->magazine->reload_time;

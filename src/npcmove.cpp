@@ -1012,8 +1012,8 @@ npc_action npc::address_needs( int danger )
         return npc_noop;
     }
 
-    if( ( danger <= NPC_DANGER_VERY_LOW && ( get_hunger() > 40 || thirst > 40 ) ) ||
-        thirst > 80 || get_hunger() > 160 ) {
+    if ((danger <= NPC_DANGER_VERY_LOW && (get_hunger() > 40 || get_thirst() > 40)) ||
+        get_thirst() > 80 || get_hunger() > 160) {
         if( consume_food() ) {
             return npc_noop;
         }
@@ -2446,7 +2446,7 @@ bool npc::consume_food()
     float best_weight = 0.0f;
     int index = -1;
     int want_hunger = get_hunger();
-    int want_quench = thirst;
+    int want_quench = get_thirst();
     invslice slice = inv.slice();
     for( size_t i = 0; i < slice.size(); i++ ) {
         const item &it = slice[i]->front();
@@ -2463,7 +2463,7 @@ bool npc::consume_food()
         if( !is_friend() ) {
             // TODO: Remove this and let player "exploit" hungry NPCs
             set_hunger( 0 );
-            thirst = 0;
+            set_thirst( 0 );
         }
         return false;
     }
@@ -2944,7 +2944,7 @@ bool npc::complain()
 
     // Thirst every 2 hours
     // Since NPCs can't dry to death, respect the rules
-    if( thirst > 80
+    if( get_thirst() > 80
         && complaints[thirst_string] < calendar::turn - HOURS(2) &&
         do_complain ) {
         say( _("<thirsty>") );
