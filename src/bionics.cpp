@@ -69,6 +69,8 @@ const efftype_id effect_visuals( "visuals" );
 const efftype_id effect_weed_high( "weed_high" );
 
 namespace {
+typedef std::pair<body_part, size_t> cbm_pair;
+
 std::map<std::string, bionic_data> bionics;
 std::vector<std::string> faulty_bionics;
 
@@ -83,8 +85,8 @@ void draw_background( WINDOW *win, const bool empty_list );
 void draw_header( WINDOW *win, const size_t tab_index, const std::string power_string,
                   const std::string help_key );
 const char *power_description( std::string const &id );
-bool compare_cbm_names( std::pair<body_part, size_t> val1, std::pair<body_part, size_t> val2 );
-std::vector<std::pair<body_part, size_t>> define_content( body_part bp );
+bool compare_cbm_names( cbm_pair val1, cbm_pair val2 );
+std::vector<cbm_pair> define_content( body_part bp );
 
 void draw_background( WINDOW *win, const bool empty_list )
 {
@@ -174,7 +176,7 @@ const char *power_description( std::string const &id )
     return power_desc.str().c_str();
 }
 
-bool compare_cbm_names( std::pair<body_part, size_t> val1, std::pair<body_part, size_t> val2 )
+bool compare_cbm_names( cbm_pair val1, cbm_pair val2 )
 {
     if( val1.first == val2.first ) {
         if( val1.second == INT_MAX ){
@@ -192,9 +194,9 @@ bool compare_cbm_names( std::pair<body_part, size_t> val1, std::pair<body_part, 
     }
 }
 
-std::vector<std::pair<body_part, size_t>> define_content( body_part bp )
+std::vector<cbm_pair> define_content( body_part bp )
 {
-    std::vector<std::pair<body_part, size_t>> content;
+    std::vector<cbm_pair> content;
     content.push_back( std::make_pair( bp , INT_MAX ) );
     for( size_t i = 0; i < g->u.my_bionics.size(); ++i ) {
         if( g->u.my_bionics[i].occupied_bp == bp ) {
@@ -820,7 +822,7 @@ void player::power_bionics_new()
     int max_scroll_position;
 
     bool recalc = true;
-    std::vector<std::pair<body_part, size_t>> content;
+    std::vector<cbm_pair> content;
     // main loop
     for( ;; ) {
         if( recalc ) {
@@ -829,11 +831,11 @@ void player::power_bionics_new()
             if( tab_index == tab_count - 1 ) {
                 content.clear();
                 for( int bp_index = 0; bp_index <= num_bp; ++bp_index ) {
-                    std::vector<std::pair<body_part, size_t>> more_content = define_content(
-                                                                             static_cast<body_part>
-                                                                             ( bp_index ) );
+                    std::vector<cbm_pair> more_content = define_content( static_cast<body_part>
+                                                                         ( bp_index ) );
                     content.insert( content.end(), more_content.begin(), more_content.end() );
                 }
+            // bodypart: %tab_index%
             } else {
                 content = define_content( static_cast<body_part>( tab_index ) );
             }
