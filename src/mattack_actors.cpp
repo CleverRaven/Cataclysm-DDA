@@ -406,7 +406,12 @@ void gun_actor::shoot( monster &z, Creature &target ) const
         tmp.skillLevel( pr.first ).level( pr.second );
     }
 
-    tmp.weapon = item( gun_type ).ammo_set( ammo_type, z.ammo[ ammo_type ] );
+    tmp.worn.push_back( item( "fake_UPS", calendar::turn, 1000 ) );
+
+    tmp.weapon = item( gun_type );
+    if( tmp.weapon.ammo_type() != "NULL" ) {
+        tmp.weapon.ammo_set( ammo_type, z.ammo[ ammo_type ] );
+    }
 
     const auto distance = rl_dist( z.pos(), target.pos() );
 
