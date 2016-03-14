@@ -280,8 +280,9 @@ void gun_actor::load( JsonObject &obj )
     move_cost = obj.get_int( "move_cost" );
     targeting_cost = obj.get_int( "targeting_cost" );
 
-
     obj.read( "description", description );
+    obj.read( "failure_msg", failure_msg );
+    obj.read( "no_ammo_sound", no_ammo_sound );
 
     require_targeting_player = obj.get_bool( "require_targeting_player", true );
     require_targeting_npc = obj.get_bool( "require_targeting_npc", false );
@@ -297,9 +298,6 @@ void gun_actor::load( JsonObject &obj )
         targeting_sound = obj.get_string( "targeting_sound" );
         targeting_volume = obj.get_int( "targeting_volume" );
     }
-
-    // Sound of no ammo
-    no_ammo_sound = obj.get_string( "no_ammo_sound", "" );
 }
 
 mattack_actor *gun_actor::clone() const
