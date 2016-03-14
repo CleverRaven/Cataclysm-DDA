@@ -23,8 +23,6 @@
         "type": "gun",
         "cooldown": 2,
         "gun_type": "hk_mp5",
-        "fake_str": 16,
-        "fake_per": 12,
         "targeting_sound": "beep-beep-beep!",
         "no_ammo_sound": "a chk!"
     } ],
@@ -59,8 +57,6 @@
         "type": "gun",
         "cooldown": 1,
         "gun_type": "hk_mp5",
-        "fake_str": 16,
-        "fake_per": 12,
         "targeting_sound": "beep-beep-beep!",
         "no_ammo_sound": "a chk!"
     } ],

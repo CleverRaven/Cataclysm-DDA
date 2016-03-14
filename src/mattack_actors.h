@@ -69,10 +69,10 @@ class gun_actor : public mattack_actor
         /*@{*/
         /** Balanced against player. If fake_skills unspecified defaults to GUN 4, WEAPON 8 */
         std::map<skill_id, int> fake_skills;
-        int fake_str = 8;
+        int fake_str = 16;
         int fake_dex = 8;
         int fake_int = 8;
-        int fake_per = 8;
+        int fake_per = 12;
         /*@}*/
 
         /*@{*/
