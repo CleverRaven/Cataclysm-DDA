@@ -45,6 +45,41 @@
     "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "IMMOBILE", "NO_BREATHE" ]
   },
   {
+    "id": "mon_laserturret",
+    "type": "MONSTER",
+    "name": "laser turret",
+    "description": "The TX-5LR Cerberus is an upgrade to its predecessors.  It features a state of the art revolving laser cannon system with three barrels that charge from solar cells embedded in its hull.",
+    "default_faction": "military",
+    "species": "ROBOT",
+    "hp": 30,
+    "size": "SMALL",
+    "revert_to_itype": "bot_laserturret",
+    "material": "steel",
+    "symbol": "2",
+    "color": "white",
+    "aggression": 100,
+    "diff": 14,
+    "speed": 100,
+    "morale": 100,
+    "luminance": 200,
+    "armor_bash": 14,
+    "armor_cut": 16,
+    "special_attacks": [ {
+        "type": "gun",
+        "cooldown": 1,
+        "gun_type": "laser_cannon",
+        "fake_skills": [ [ "gun", 4 ], [ "rifle", 8 ] ],
+        "require_sunlight": true,
+        "targeting_sound": "beep-beep-beep!"
+    } ],
+    "death_drops": {
+      "groups": [ [ "robots", 10 ], [ "laserturret", 1 ]
+      ]
+    },
+    "death_function": "EXPLODE",
+    "flags": [ "SEES","NOHEAD", "ELECTRONIC", "IMMOBILE", "NO_BREATHE" ]
+  },
+  {
     "id": "mon_turret_rifle",
     "type": "MONSTER",
     "name": "milspec turret",
