@@ -84,6 +84,7 @@ void draw_header( WINDOW *win, const size_t tab_index, const std::string power_s
                   const std::string help_key );
 const char *power_description( std::string const &id );
 bool compare_cbm_names( std::pair<body_part, size_t> val1, std::pair<body_part, size_t> val2 );
+std::vector<std::pair<body_part, size_t>> define_content( body_part bp );
 
 void draw_background( WINDOW *win, const bool empty_list )
 {
@@ -186,8 +187,22 @@ bool compare_cbm_names( std::pair<body_part, size_t> val1, std::pair<body_part, 
         std::string name2 = bionics[g->u.my_bionics[val2.second].id].name;
         return( name1.compare( name2 ) <= 0 );
     } else {
+        // will never happen because val1.first == val2.first is always true
         return( val1.first < val2.first );
     }
+}
+
+std::vector<std::pair<body_part, size_t>> define_content( body_part bp )
+{
+    std::vector<std::pair<body_part, size_t>> content;
+    content.push_back( std::make_pair( bp , INT_MAX ) );
+    for( size_t i = 0; i < g->u.my_bionics.size(); ++i ) {
+        if( g->u.my_bionics[i].occupied_bp == bp ) {
+            content.push_back( std::make_pair( bp, i ) );
+        }
+    }
+    std::sort( content.begin(), content.end(), compare_cbm_names );
+    return content;
 }
 
 } //namespace
@@ -809,17 +824,19 @@ void player::power_bionics_new()
     // main loop
     for( ;; ) {
         if( recalc ) {
-            content.clear();
-            for( int bp_index = 0; bp_index <= num_bp; ++bp_index ) {
-                body_part bp = static_cast<body_part>( bp_index );
-                content.push_back( std::make_pair( bp , INT_MAX ) );
-                for( size_t i = 0; i < my_bionics.size(); ++i ) {
-                    if( my_bionics[i].occupied_bp == bp_index ) {
-                        content.push_back( std::make_pair( bp, i ) );
-                    }
+
+            // bodyparts: all
+            if( tab_index == tab_count - 1 ) {
+                content.clear();
+                for( int bp_index = 0; bp_index <= num_bp; ++bp_index ) {
+                    std::vector<std::pair<body_part, size_t>> more_content = define_content(
+                                                                             static_cast<body_part>
+                                                                             ( bp_index ) );
+                    content.insert( content.end(), more_content.begin(), more_content.end() );
                 }
+            } else {
+                content = define_content( static_cast<body_part>( tab_index ) );
             }
-            std::sort( content.begin(), content.end(), compare_cbm_names );
             max_scroll_position = std::max( 0, static_cast<int>( content.size() ) -
                                                getmaxy( w_bio_list ) );
             recalc = false;
@@ -837,7 +854,7 @@ void player::power_bionics_new()
         draw_scrollbar( w_bio_list, cursor, getmaxy( w_bio_list ),
                         static_cast<int>( content.size() ), 0, 0, BORDER_COLOR, false );
 
-        if( !my_bionics.empty() ) {
+        if( !my_bionics.empty() && content.size() > 1) {
             for( int i = scroll_position; i < std::min( getmaxy( w_bio_list ) + scroll_position,
                  static_cast<int>( content.size() ) ); ++i ) {
                 if( content[i].second == INT_MAX ) {
@@ -928,9 +945,11 @@ void player::power_bionics_new()
 
         } else if( action == "LEFT" ) {
             ( tab_index > 0 ) ? tab_index-- : tab_index = tab_count - 1;
+            recalc = true;
 
         } else if( action == "RIGHT" ) {
             tab_index = ( tab_index + 1 ) % tab_count;
+            recalc = true;
 
         } else if( action == "REASSIGN" ) {
             const long ch = my_bionics[content[cursor].second].invlet;
@@ -960,6 +979,7 @@ void player::power_bionics_new()
 
         } else if( action == "REMOVE" ) {
             if( uninstall_bionic( my_bionics[content[cursor].second].id ) ) {
+                recalc = true;
                 continue;
             }
 
