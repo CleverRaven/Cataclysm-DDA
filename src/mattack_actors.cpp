@@ -269,6 +269,12 @@ void gun_actor::load( JsonObject &obj )
     if( !obj.read( "range", range ) ) {
         range = gun.gun_range();
     }
+    if( !obj.read( "burst_limit", burst_limit ) ) {
+        range = gun.burst_size();
+    }
+    if( !obj.read( "range_no_burst", range_no_burst ) ) {
+        range = gun.gun_range();
+    }
 
     move_cost = obj.get_int( "move_cost" );
     targeting_cost = obj.get_int( "targeting_cost" );
@@ -284,11 +290,8 @@ void gun_actor::load( JsonObject &obj )
     targeting_timeout = obj.get_int( "targeting_timeout", 8 );
     targeting_timeout_extend = obj.get_int( "targeting_timeout_extend", 3 );
 
-    burst_limit = obj.get_int( "burst_limit", INT_MAX );
-
     laser_lock = obj.get_bool( "laser_lock", false );
 
-    range_no_burst = obj.get_float( "range_no_burst", range + 1 );
 
     if( obj.has_member( "targeting_sound" ) || obj.has_member( "targeting_volume" ) ) {
         // Both or neither, but not just one
@@ -409,16 +412,14 @@ void gun_actor::shoot( monster &z, Creature &target ) const
     tmp.weapon = item( gun_type ).ammo_set( ammo_type, z.ammo[ ammo_type ] );
 
     const auto distance = rl_dist( z.pos(), target.pos() );
-    int burst_size = std::min( burst_limit, tmp.weapon.burst_size() );
-    if( distance > range_no_burst ) {
-        burst_size = 1;
-    }
+
+    const int burst = std::min( distance <= range_no_burst ? burst_limit : 1, tmp.weapon.burst_size() );
 
     if( g->u.sees( z ) ) {
         add_msg( m_warning, _( description.c_str() ), z.name().c_str(), tmp.weapon.tname().c_str() );
     }
 
-    z.ammo[ammo_type] -= tmp.fire_gun( target.pos(), std::max( burst_size, 1 ) );
+    z.ammo[ammo_type] -= tmp.fire_gun( target.pos(), burst );
 
     if( require_targeting ) {
         z.add_effect( effect_targeted, targeting_timeout_extend );
