@@ -1955,47 +1955,46 @@ bool Character::is_blind() const
 
 bool Character::pour_into( item &container, item &liquid )
 {
-    const auto cont = &container;
-    if( liquid.is_ammo() && ( cont->is_tool() || cont->is_gun() ) ) {
+    if( liquid.is_ammo() && ( container.is_tool() || container.is_gun() ) ) {
         // TODO: merge this part with game::reload
         // for filling up chainsaws, jackhammers and flamethrowers
 
-        if( cont->ammo_type() != liquid.ammo_type() ) {
-            add_msg( m_info, _( "Your %1$s won't hold %2$s." ), cont->tname().c_str(),
+        if( container.ammo_type() != liquid.ammo_type() ) {
+            add_msg( m_info, _( "Your %1$s won't hold %2$s." ), container.tname().c_str(),
                      liquid.tname().c_str() );
             return false;
         }
 
-        if( cont->ammo_remaining() >= cont->ammo_capacity() ) {
-            add_msg( m_info, _( "Your %1$s can't hold any more %2$s." ), cont->tname().c_str(),
+        if( container.ammo_remaining() >= container.ammo_capacity() ) {
+            add_msg( m_info, _( "Your %1$s can't hold any more %2$s." ), container.tname().c_str(),
                      liquid.tname().c_str() );
             return false;
         }
 
-        if( cont->ammo_remaining() && cont->ammo_current() != liquid.typeId() ) {
-            add_msg( m_info, _( "You can't mix loads in your %s." ), cont->tname().c_str() );
+        if( container.ammo_remaining() && container.ammo_current() != liquid.typeId() ) {
+            add_msg( m_info, _( "You can't mix loads in your %s." ), container.tname().c_str() );
             return false;
         }
 
-        add_msg( _( "You pour %1$s into the %2$s." ), liquid.tname().c_str(), cont->tname().c_str() );
-        auto qty = std::min( liquid.charges, cont->ammo_capacity() - cont->ammo_remaining() );
+        add_msg( _( "You pour %1$s into the %2$s." ), liquid.tname().c_str(), container.tname().c_str() );
+        auto qty = std::min( liquid.charges, container.ammo_capacity() - container.ammo_remaining() );
         liquid.charges -= qty;
-        cont->ammo_set( liquid.typeId(), cont->ammo_remaining() + qty );
+        container.ammo_set( liquid.typeId(), container.ammo_remaining() + qty );
         if( liquid.charges > 0 ) {
             add_msg( _( "There's some left over!" ) );
         }
 
     } else {
         // Filling up normal containers
-        bool allow_bucket = cont == &weapon || !has_item( *cont );
+        bool allow_bucket = &container == &weapon || !has_item( container );
         std::string err;
-        if( !cont->fill_with( liquid, err, allow_bucket ) ) {
+        if( !container.fill_with( liquid, err, allow_bucket ) ) {
             add_msg( m_info, err.c_str() );
             return false;
         }
 
         inv.unsort();
-        add_msg( _( "You pour %1$s into the %2$s." ), liquid.tname().c_str(), cont->tname().c_str() );
+        add_msg( _( "You pour %1$s into the %2$s." ), liquid.tname().c_str(), container.tname().c_str() );
         if( liquid.charges > 0 ) {
             // TODO: maybe not show this if the source is infinite. Best would be to move it to the caller.
             add_msg( _( "There's some left over!" ) );
