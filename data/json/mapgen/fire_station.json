@@ -70,7 +70,7 @@
                     "L": "t_door_locked",
                     "+": "t_door_c",
                     "M": "t_door_metal_locked",
-                    "w": "t_gates_mech_control",
+                    "w": "t_gates_control_brick",
                     "x": "t_console_broken",
                     "c": "t_floor",
                     "#": "t_floor",
