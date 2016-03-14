@@ -178,20 +178,14 @@ const char *power_description( std::string const &id )
 
 bool compare_cbm_names( cbm_pair val1, cbm_pair val2 )
 {
-    if( val1.first == val2.first ) {
-        if( val1.second == INT_MAX ){
-            return true;
-        } else if( val2.second == INT_MAX ) {
-            return false;
-        }
-        // actual comparison of CBM names
-        std::string name1 = bionics[g->u.my_bionics[val1.second].id].name;
-        std::string name2 = bionics[g->u.my_bionics[val2.second].id].name;
-        return( name1.compare( name2 ) <= 0 );
-    } else {
-        // will never happen because val1.first == val2.first is always true
-        return( val1.first < val2.first );
+    if( val1.second == INT_MAX ){
+        return true;
+    } else if( val2.second == INT_MAX ) {
+        return false;
     }
+    std::string name1 = bionics[g->u.my_bionics[val1.second].id].name;
+    std::string name2 = bionics[g->u.my_bionics[val2.second].id].name;
+    return( name1.compare( name2 ) <= 0 );
 }
 
 std::vector<cbm_pair> define_content( body_part bp )
