@@ -5620,8 +5620,8 @@ void player::update_needs( int rate_multiplier )
             set_hunger( 500 );
         }
 
-        if( thirst > 300 ) {
-            thirst = 300;
+        if( get_thirst() > 300 ) {
+            set_thirst( 300 );
         }
     }
 }
