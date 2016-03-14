@@ -86,30 +86,32 @@ class gun_actor : public mattack_actor
         /** Description of the attack being run */
         std::string description = "The %s fires its %s";
 
-        // Move cost of executing the attack
-        int move_cost;
-        // If true, gives "grace period" to player
-        bool require_targeting_player;
-        // As above, but to npcs
-        bool require_targeting_npc;
-        // As above, but to monsters
-        bool require_targeting_monster;
-        // "Remember" targeting for this many turns
-        int targeting_timeout;
-        // Extend the above timeout by this number of turns when
-        // attacking a targeted critter
-        int targeting_timeout_extend;
-        // Waste this many moves on targeting
-        int targeting_cost;
-        // Targeting isn't enough, needs to laser lock too
-        // Prevents quickly changing targets
-        bool laser_lock;
+        /** Message to display (if any) for failures to fire excluding lack of ammo */
+        std::string failure_msg;
 
-        // Sound of targeting u
-        std::string targeting_sound;
-        int targeting_volume;
-        // Sounds of no ammo
+        /** Sound (if any) when either starting_ammo depleted or max_ammo reached */
         std::string no_ammo_sound;
+
+        /** Number of moves required for each attack */
+        int move_cost = 150;
+
+        /*@{*/
+        /** Turrets may need to expend moves targeting before firing on certain targets */
+
+        int targeting_cost = 100; /** moves consumed before first attack can be made */
+
+        bool require_targeting_player = true; /** by default always give player some warning */
+        bool require_targeting_npc = false;
+        bool require_targeting_monster = false;
+
+        int targeting_timeout = 8; /** default turns afer which targeting is lsot and needs repeating */
+        int targeting_timeout_extend = 3; /** increase timeout by this many turns after each shot */
+
+        std::string targeting_sound; /** sound to make or none if unspecified */
+        int targeting_volume = 6;
+
+        bool laser_lock = false; /** does switching between targets incur further targeting penalty */
+        /*@}*/
 
         void shoot( monster &z, Creature &target ) const;
 

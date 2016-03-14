@@ -277,27 +277,25 @@ void gun_actor::load( JsonObject &obj )
     }
     obj.read( "max_ammo", max_ammo );
 
-    move_cost = obj.get_int( "move_cost" );
-    targeting_cost = obj.get_int( "targeting_cost" );
+    obj.read( "move_cost", move_cost );
 
     obj.read( "description", description );
     obj.read( "failure_msg", failure_msg );
     obj.read( "no_ammo_sound", no_ammo_sound );
 
-    require_targeting_player = obj.get_bool( "require_targeting_player", true );
-    require_targeting_npc = obj.get_bool( "require_targeting_npc", false );
-    require_targeting_monster = obj.get_bool( "require_targeting_monster", false );
-    targeting_timeout = obj.get_int( "targeting_timeout", 8 );
-    targeting_timeout_extend = obj.get_int( "targeting_timeout_extend", 3 );
+    obj.read( "targeting_cost", targeting_cost );
 
-    laser_lock = obj.get_bool( "laser_lock", false );
+    obj.read( "require_targeting_player", require_targeting_player );
+    obj.read( "require_targeting_npc", require_targeting_npc );
+    obj.read( "require_targeting_monster", require_targeting_monster );
 
+    obj.read( "targeting_timeout", targeting_timeout );
+    obj.read( "targeting_timeout_extend", targeting_timeout_extend );
 
-    if( obj.has_member( "targeting_sound" ) || obj.has_member( "targeting_volume" ) ) {
-        // Both or neither, but not just one
-        targeting_sound = obj.get_string( "targeting_sound" );
-        targeting_volume = obj.get_int( "targeting_volume" );
-    }
+    obj.read( "targeting_sound", targeting_sound );
+    obj.read( "targeting_volume", targeting_volume );
+
+    obj.get_bool( "laser_lock", laser_lock );
 }
 
 mattack_actor *gun_actor::clone() const
