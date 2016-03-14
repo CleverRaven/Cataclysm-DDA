@@ -66,6 +66,10 @@ class gun_actor : public mattack_actor
         ammotype ammo_type;
         // Cap ammo at this if it goes above that for some reason
         int max_ammo;
+
+        /** Description of the attack being run */
+        std::string description = "The %s fires its %s";
+
         // Stats for the fake NPC
         int fake_str;
         int fake_dex;
@@ -97,8 +101,6 @@ class gun_actor : public mattack_actor
         float range_no_burst;
         // Limit burst to that
         int burst_limit;
-        // Description of the attack being executed; "%s fires its BFG!"
-        std::string description;
 
         // Sound of targeting u
         std::string targeting_sound;

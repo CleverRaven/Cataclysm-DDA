@@ -251,12 +251,13 @@ void gun_actor::load( JsonObject &obj )
     }
 
     range = obj.get_float( "range" );
-    description = obj.get_string( "description" );
     move_cost = obj.get_int( "move_cost" );
     targeting_cost = obj.get_int( "targeting_cost" );
 
     // Optional:
     max_ammo = obj.get_int( "max_ammo", INT_MAX );
+
+    obj.read( "description", description );
 
     fake_str = obj.get_int( "fake_str", 8 );
     fake_dex = obj.get_int( "fake_dex", 8 );
@@ -366,10 +367,6 @@ void gun_actor::shoot( monster &z, Creature &target ) const
         return;
     }
 
-    if( g->u.sees( z ) ) {
-        add_msg( m_warning, _( description.c_str() ) );
-    }
-
     npc tmp;
     tmp.name = _( "The " ) + z.name();
     tmp.set_fake( true );
@@ -401,6 +398,10 @@ void gun_actor::shoot( monster &z, Creature &target ) const
     int burst_size = std::min( burst_limit, tmp.weapon.burst_size() );
     if( distance > range_no_burst ) {
         burst_size = 1;
+    }
+
+    if( g->u.sees( z ) ) {
+        add_msg( m_warning, _( description.c_str() ), z.name().c_str(), tmp.weapon.tname().c_str() );
     }
 
     z.ammo[ammo_type] -= tmp.fire_gun( target.pos(), std::max( burst_size, 1 ) );
