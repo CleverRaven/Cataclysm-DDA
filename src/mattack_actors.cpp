@@ -405,7 +405,7 @@ void gun_actor::shoot( monster &z, Creature &target ) const
     const int burst = std::min( distance <= range_no_burst ? burst_limit : 1, tmp.weapon.burst_size() );
 
     if( g->u.sees( z ) ) {
-        add_msg( m_warning, _( description.c_str() ), z.name().c_str(), tmp.weapon.tname().c_str() );
+        add_msg( m_warning, _( description.c_str() ), z.name().c_str(), tmp.weapon.gun_type().c_str() );
     }
 
     z.ammo[ammo_type] -= tmp.fire_gun( target.pos(), burst );
