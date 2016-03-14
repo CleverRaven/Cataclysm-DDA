@@ -64,7 +64,7 @@ class gun_actor : public mattack_actor
         itype_id gun_type;
 
         /** Specific ammo type to use or for gun default if unspecified */
-        ammotype ammo_type;
+        ammotype ammo_type = "NULL";
 
         /*@{*/
         /** Balanced against player. If fake_skills unspecified defaults to GUN 4, WEAPON 8 */
@@ -77,9 +77,9 @@ class gun_actor : public mattack_actor
 
         /*@{*/
         /** Additional caps above any imposed by either the base gun or monster */
-        int range;
-        int range_no_burst; /** only burst fire at or below this distance */
-        int burst_limit;
+        int range = 18;
+        int range_no_burst = INT_MAX; /** only burst fire at or below this distance */
+        int burst_limit = INT_MAX;
         int max_ammo = INT_MAX; /** limited also by monster starting_ammo */
         /*@}*/
 

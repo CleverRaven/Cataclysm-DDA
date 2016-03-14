@@ -241,14 +241,8 @@ gun_actor::gun_actor()
 void gun_actor::load( JsonObject &obj )
 {
     gun_type = obj.get_string( "gun_type" );
-    item gun( gun_type );
-    if( !gun.is_gun() ) {
-        obj.throw_error( "monster gun_actor specified non-gun" );
-    }
 
-    if( !obj.read( "ammo_type", ammo_type ) ) {
-        ammo_type = gun.ammo_type();
-    }
+    obj.read( "ammo_type", ammo_type );
 
     if( obj.has_array( "fake_skills" ) ) {
         JsonArray jarr = obj.get_array( "fake_skills" );
@@ -256,9 +250,6 @@ void gun_actor::load( JsonObject &obj )
             JsonArray cur = jarr.next_array();
             fake_skills[skill_id( cur.get_string( 0 ) )] = cur.get_int( 1 );
         }
-    } else {
-        fake_skills[ skill_id( "gun" ) ] = 4;
-        fake_skills[ gun.gun_skill() ] = 8;
     }
 
     obj.read( "fake_str", fake_str );
@@ -266,15 +257,10 @@ void gun_actor::load( JsonObject &obj )
     obj.read( "fake_int", fake_int );
     obj.read( "fake_per", fake_per );
 
-    if( !obj.read( "range", range ) ) {
-        range = gun.gun_range();
-    }
-    if( !obj.read( "burst_limit", burst_limit ) ) {
-        range = gun.burst_size();
-    }
-    if( !obj.read( "range_no_burst", range_no_burst ) ) {
-        range = gun.gun_range();
-    }
+    obj.read( "range", range );
+    obj.read( "burst_limit", burst_limit );
+    obj.read( "range_no_burst", range_no_burst );
+
     obj.read( "max_ammo", max_ammo );
 
     obj.read( "move_cost", move_cost );
@@ -341,18 +327,9 @@ bool gun_actor::call( monster &z ) const
 
 void gun_actor::shoot( monster &z, Creature &target ) const
 {
-    // Make sure our ammo isn't weird.
-    if( z.ammo[ammo_type] > max_ammo ) {
-        debugmsg( "Generated too much ammo (%d) of type %s for %s in gun_actor::shoot",
-                  z.ammo[ammo_type], ammo_type.c_str(), z.name().c_str() );
-        z.ammo[ammo_type] = max_ammo;
-    }
-
     if( require_sunlight && !g->is_in_sunlight( z.pos() ) ) {
-        if( one_in( 3 ) ) {
-            if( g->u.sees( z ) ) {
-                add_msg( _( failure_msg.c_str() ), z.name().c_str() );
-            }
+        if( one_in( 3 ) && g->u.sees( z ) ) {
+            add_msg( _( failure_msg.c_str() ), z.name().c_str() );
         }
         return;
     }
@@ -382,19 +359,25 @@ void gun_actor::shoot( monster &z, Creature &target ) const
         return;
     }
 
-    // It takes a while
     z.moves -= move_cost;
 
-    if( z.ammo[ammo_type] <= 0 && !no_ammo_sound.empty() ) {
-        sounds::sound( z.pos(), 10, _( no_ammo_sound.c_str() ) );
+    item gun( gun_type );
+    itype_id ammo = ( ammo_type != "NULL" ) ? ammo_type : gun.ammo_default();
+
+    if( ammo != "NULL" && z.ammo[ ammo ] < gun.ammo_required() ) {
+        if( !no_ammo_sound.empty() ) {
+            sounds::sound( z.pos(), 10, _( no_ammo_sound.c_str() ) );
+        }
         return;
+    }
+
+    if( ammo != "NULL" ) {
+        gun.ammo_set( ammo, z.ammo[ ammo] );
     }
 
     npc tmp;
     tmp.name = _( "The " ) + z.name();
     tmp.set_fake( true );
-    tmp.recoil = 0;
-    tmp.driving_recoil = 0;
     tmp.setpos( z.pos() );
     tmp.str_max = fake_str;
     tmp.dex_max = fake_dex;
@@ -404,23 +387,18 @@ void gun_actor::shoot( monster &z, Creature &target ) const
     tmp.dex_cur = fake_dex;
     tmp.int_cur = fake_int;
     tmp.per_cur = fake_per;
+    tmp.attitude = z.friendly ? NPCATT_DEFEND : NPCATT_KILL;
 
-    if( z.friendly != 0 ) {
-        tmp.attitude = NPCATT_DEFEND;
-    } else {
-        tmp.attitude = NPCATT_KILL;
+    if( fake_skills.empty() ) {
+        tmp.skillLevel( skill_id( "gun" ) ).level( 4 );
+        tmp.skillLevel( gun.gun_skill() ).level( 8 );
     }
-
     for( const auto &pr : fake_skills ) {
         tmp.skillLevel( pr.first ).level( pr.second );
     }
 
+    tmp.weapon = gun;
     tmp.worn.push_back( item( "fake_UPS", calendar::turn, 1000 ) );
-
-    tmp.weapon = item( gun_type );
-    if( tmp.weapon.ammo_type() != "NULL" ) {
-        tmp.weapon.ammo_set( ammo_type, z.ammo[ ammo_type ] );
-    }
 
     const auto distance = rl_dist( z.pos(), target.pos() );
 

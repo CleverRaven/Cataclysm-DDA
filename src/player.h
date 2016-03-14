@@ -1133,8 +1133,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int tank_plut, reactor_plut, slow_rad;
         int oxygen;
         int stamina;
-        int recoil;
-        int driving_recoil;
+        int recoil = 0;
+        int driving_recoil = 0;
         int scent;
         int dodges_left, blocks_left;
         int stim, radiation;
