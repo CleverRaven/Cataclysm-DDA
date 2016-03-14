@@ -65,19 +65,22 @@ class gun_actor : public mattack_actor
 
         /** Specific ammo type to use or for gun default if unspecified */
         ammotype ammo_type;
+
+        /*@{*/
+        /** Balanced against player. If fake_skills unspecified defaults to GUN 4, WEAPON 8 */
+        std::map<skill_id, int> fake_skills;
+        int fake_str = 8;
+        int fake_dex = 8;
+        int fake_int = 8;
+        int fake_per = 8;
+        /*@}*/
+
         // Cap ammo at this if it goes above that for some reason
         int max_ammo;
 
         /** Description of the attack being run */
         std::string description = "The %s fires its %s";
 
-        // Stats for the fake NPC
-        int fake_str;
-        int fake_dex;
-        int fake_int;
-        int fake_per;
-        // Skills for the fake NPC
-        std::map<skill_id, int> fake_skills;
         // Move cost of executing the attack
         int move_cost;
         // If true, gives "grace period" to player

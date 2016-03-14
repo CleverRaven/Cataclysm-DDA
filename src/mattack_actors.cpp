@@ -250,11 +250,21 @@ void gun_actor::load( JsonObject &obj )
         ammo_type = gun.ammo_type();
     }
 
-    JsonArray jarr = obj.get_array( "fake_skills" );
-    while( jarr.has_more() ) {
-        JsonArray cur = jarr.next_array();
-        fake_skills[skill_id( cur.get_string( 0 ) )] = cur.get_int( 1 );
+    if( obj.has_array( "fake_skills" ) ) {
+        JsonArray jarr = obj.get_array( "fake_skills" );
+        while( jarr.has_more() ) {
+            JsonArray cur = jarr.next_array();
+            fake_skills[skill_id( cur.get_string( 0 ) )] = cur.get_int( 1 );
+        }
+    } else {
+        fake_skills[ skill_id( "gun" ) ] = 4;
+        fake_skills[ gun.gun_skill() ] = 8;
     }
+
+    obj.read( "fake_str", fake_str );
+    obj.read( "fake_dex", fake_dex );
+    obj.read( "fake_int", fake_int );
+    obj.read( "fake_per", fake_per );
 
     range = obj.get_float( "range" );
     move_cost = obj.get_int( "move_cost" );
@@ -264,11 +274,6 @@ void gun_actor::load( JsonObject &obj )
     max_ammo = obj.get_int( "max_ammo", INT_MAX );
 
     obj.read( "description", description );
-
-    fake_str = obj.get_int( "fake_str", 8 );
-    fake_dex = obj.get_int( "fake_dex", 8 );
-    fake_int = obj.get_int( "fake_int", 8 );
-    fake_per = obj.get_int( "fake_per", 8 );
 
     require_targeting_player = obj.get_bool( "require_targeting_player", true );
     require_targeting_npc = obj.get_bool( "require_targeting_npc", false );
