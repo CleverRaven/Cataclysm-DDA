@@ -15,13 +15,17 @@
         "type" : "ammunition_type",
         "id" : "700nx",
         "name" : ".700 Nitro Express",
-        "default" : "700nx"
+        "default" : "700nx",
+        "range": 24,
+        "recoil": 900
     },
     {
         "type" : "ammunition_type",
         "id" : "50",
         "name" : ".50 BMG",
-        "default" : "50bmg"
+        "default" : "50bmg",
+        "range": 24,
+        "recoil": 800
     },
     {
         "type" : "ammunition_type",
@@ -57,7 +61,9 @@
         "type" : "ammunition_type",
         "id" : "shot",
         "name" : "shot",
-        "default" : "shot_00"
+        "default" : "shot_00",
+        "range": 4,
+        "recoil": 600
     },
     {
         "type" : "ammunition_type",
@@ -69,97 +75,129 @@
         "type" : "ammunition_type",
         "id" : "22",
         "name" : ".22",
-        "default" : "22_lr"
+        "default" : "22_lr",
+        "range": 6,
+        "recoil": 120
     },
     {
         "type" : "ammunition_type",
         "id" : "9mm",
         "name" : "9mm",
-        "default" : "9mm"
+        "default" : "9mm",
+        "range": 7,
+        "recoil": 200
     },
     {
         "type" : "ammunition_type",
         "id" : "9x18",
         "name" : "9x18mm",
-        "default" : "9x18mm"
+        "default" : "9x18mm",
+        "range": 7,
+        "recoil": 200
     },
     {
         "type" : "ammunition_type",
         "id" : "38",
         "name" : ".38",
-        "default" : "38_special"
+        "default" : "38_special",
+        "range": 5,
+        "recoil": 120
     },
     {
         "type" : "ammunition_type",
         "id" : "40",
         "name" : ".40",
-        "default" : "10mm"
+        "default" : "10mm",
+        "range": 9,
+        "recoil": 260
     },
     {
         "type" : "ammunition_type",
         "id" : "44",
         "name" : ".44",
-        "default" : "44magnum"
+        "default" : "44magnum",
+        "range": 9,
+        "recoil": 300
     },
     {
         "type" : "ammunition_type",
         "id" : "45",
         "name" : ".45",
-        "default" : "45_acp"
+        "default" : "45_acp",
+        "range": 6,
+        "recoil": 220
     },
     {
         "type" : "ammunition_type",
         "id" : "454",
         "name" : ".454",
-        "default" : "454_Casull"
+        "default" : "454_Casull",
+        "range": 10,
+        "recoil": 400
     },
     {
         "type" : "ammunition_type",
         "id" : "500",
         "name" : ".500",
-        "default" : "500_Magnum"
+        "default" : "500_Magnum",
+        "range": 10,
+        "recoil": 460
     },
     {
         "type" : "ammunition_type",
         "id" : "57",
         "name" : "5.7mm",
-        "default" : "57mm"
+        "default" : "57mm",
+        "range": 10,
+        "recoil": 140
     },
     {
         "type" : "ammunition_type",
         "id" : "46",
         "name" : "4.6mm",
-        "default" : "46mm"
+        "default" : "46mm",
+        "range": 10,
+        "recoil": 140
     },
     {
         "type" : "ammunition_type",
         "id" : "762",
         "name" : "7.62x39mm",
-        "default" : "762_m43"
+        "default" : "762_m43",
+        "range": 9,
+        "recoil": 520
     },
     {
         "type" : "ammunition_type",
         "id" : "545x39",
         "name" : "5.45x39mm",
-        "default" : "545"
+        "default" : "545",
+        "range": 9,
+        "recoil": 350
     },
     {
         "type" : "ammunition_type",
         "id" : "223",
         "name" : ".223",
-        "default" : "223"
+        "default" : "223",
+        "range": 9,
+        "recoil": 480
     },
     {
         "type" : "ammunition_type",
         "id" : "3006",
         "name" : ".30-06",
-        "default" : "270"
+        "default" : "270",
+        "range": 16,
+        "recoil": 540
     },
     {
         "type" : "ammunition_type",
         "id" : "308",
         "name" : ".308",
-        "default" : "308"
+        "default" : "308",
+        "range": 11,
+        "recoil": 560
     },
     {
         "type" : "ammunition_type",
@@ -381,25 +419,33 @@
         "type" : "ammunition_type",
         "id" : "300",
         "name" : ".300",
-        "default" : "300_winmag"
+        "default" : "300_winmag",
+        "range": 22,
+        "recoil": 660
     },
     {
         "type" : "ammunition_type",
         "id" : "32",
         "name" : ".32",
-        "default" : "32_acp"
+        "default" : "32_acp",
+        "range": 5,
+        "recoil": 100
     },
     {
         "type" : "ammunition_type",
         "id" : "762x25",
         "name" : "7.62x25mm",
-        "default" : "762_25"
+        "default" : "762_25",
+        "range": 6,
+        "recoil": 200
     },
     {
         "type" : "ammunition_type",
         "id" : "flintlock",
         "name" : "paper cartridge",
-        "default" : "flintlock_ammo"
+        "default" : "flintlock_ammo",
+        "range": 5,
+        "recoil": 520
     },
     {
         "type" : "ammunition_type",
@@ -417,7 +463,9 @@
         "type" : "ammunition_type",
         "id" : "762R",
         "name": "7.62x54mm",
-        "default": "762_54R"
+        "default": "762_54R",
+        "range": 20,
+        "recoil": 620
     },
     {
         "type" : "ammunition_type",

@@ -16,10 +16,8 @@
     "ammo_type": "44",
     "casing": "44_casing",
     "damage": 36,
-    "range": 16,
     "pierce": 8,
     "dispersion": 150,
-    "recoil": 400,
     "effects": [ "COOKOFF" ]
   },
   {
@@ -39,10 +37,8 @@
     "ammo_type": "44",
     "casing": "44_casing",
     "damage": 40,
-    "range": 16,
     "pierce": 4,
     "dispersion": 150,
-    "recoil": 400,
     "effects": [ "COOKOFF" ]
   },
   {
@@ -62,10 +58,8 @@
     "ammo_type": "44",
     "casing": "44_casing",
     "damage": 33,
-    "range": 16,
     "pierce": 7,
     "dispersion": 165,
-    "recoil": 345,
     "effects": [ "COOKOFF", "RECYCLED" ]
   },
   {
@@ -85,10 +79,8 @@
     "ammo_type": "44",
     "casing": "44_casing",
     "damage": 38,
-    "range": 16,
     "pierce": 3,
     "dispersion": 165,
-    "recoil": 400,
     "effects": [ "COOKOFF", "RECYCLED" ]
   }
 ]

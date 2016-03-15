@@ -15,9 +15,9 @@
     "ammo_type" : "22",
     "casing" : "22_casing",
     "damage" : 5,
-    "range" : 10,
+    "range": -2,
     "dispersion" : 75,
-    "recoil" : 60,
+    "recoil" : -30,
     "effects" : ["COOKOFF"]
   },
   {
@@ -37,9 +37,7 @@
     "casing" : "22_casing",
     "damage" : 17,
     "pierce" : 3,
-    "range" : 13,
     "dispersion" : 60,
-    "recoil" : 90,
     "effects" : ["COOKOFF"]
   },
   {
@@ -58,9 +56,7 @@
     "ammo_type" : "22",
     "casing" : "22_casing",
     "damage" : 12,
-    "range" : 13,
     "dispersion" : 60,
-    "recoil" : 90,
     "effects" : ["COOKOFF"]
   },
   {
@@ -79,8 +75,8 @@
     "ammo_type" : "22",
     "casing" : "22_casing",
     "damage" : 4,
-    "range" : 3,
-    "recoil" : 30,
+    "range": -4,
+    "recoil" : -60,
     "effects" : ["COOKOFF", "SHOT"],
     "flags" : ["NOGIB"]
   },
@@ -100,9 +96,7 @@
     "ammo_type" : "22",
     "casing" : "22_casing",
     "damage" : 10,
-    "range" : 13,
     "dispersion" : 75,
-    "recoil" : 105,
     "effects" : ["COOKOFF", "RECYCLED"]
   },
   {
@@ -122,9 +116,7 @@
     "casing" : "22_casing",
     "damage" : 15,
     "pierce" : 3,
-    "range" : 13,
     "dispersion" : 75,
-    "recoil" : 105,
     "effects" : ["COOKOFF", "RECYCLED"]
   }
 ]

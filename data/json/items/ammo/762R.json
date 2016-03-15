@@ -15,9 +15,7 @@
     "ammo_type": "762R",
     "casing": "762R_casing",
     "damage": 54,
-    "range": 75,
     "pierce": 10,
-    "recoil": 500,
     "effects": [ "COOKOFF" ]
   },
   {
@@ -36,9 +34,7 @@
     "ammo_type": "762R",
     "casing": "762R_casing",
     "damage": 50,
-    "range": 75,
     "pierce": 10,
-    "recoil": 500,
     "effects": [ "COOKOFF", "RECYCLED" ]
   }
 ]

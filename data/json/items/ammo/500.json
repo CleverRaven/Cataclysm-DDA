@@ -16,10 +16,8 @@
     "ammo_type": "500",
     "casing": "500_casing",
     "damage": 48,
-    "range": 16,
     "pierce": 8,
     "dispersion": 90,
-    "recoil": 600,
     "effects": [ "COOKOFF" ]
   }
 ]

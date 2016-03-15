@@ -17,10 +17,7 @@
     "ammo": "44",
     "dispersion": 405,
     "sight_dispersion": 90,
-    "aim_speed": 4,
-    "recoil": 45,
     "durability": 7,
-    "reload": 100,
     "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "magazine_well": 1,
     "magazines": [
@@ -45,11 +42,8 @@
     "ammo": "44",
     "dispersion": 180,
     "sight_dispersion": 90,
-    "aim_speed": 4,
-    "recoil": 100,
     "durability": 8,
     "clip_size": 9,
-    "reload": 75,
     "built_in_mods": [ "lemat_revolver_shotgun" ],
     "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ]
@@ -72,11 +66,8 @@
     "ammo": "44",
     "dispersion": 195,
     "sight_dispersion": 90,
-    "aim_speed": 4,
-    "recoil": 90,
     "durability": 8,
     "clip_size": 6,
-    "reload": 80,
     "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ]
   },
@@ -97,11 +88,8 @@
     "ammo": "44",
     "dispersion": 180,
     "sight_dispersion": 90,
-    "aim_speed": 4,
-    "recoil": 100,
     "durability": 8,
     "clip_size": 6,
-    "reload": 75,
     "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ]
   }

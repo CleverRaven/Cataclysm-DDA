@@ -17,10 +17,7 @@
     "ammo": "40",
     "dispersion": 240,
     "sight_dispersion": 90,
-    "aim_speed": 4,
-    "recoil": 90,
     "durability": 6,
-    "reload": 100,
     "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "magazine_well": 1,
     "magazines": [
@@ -48,10 +45,7 @@
     "ammo": "40",
     "dispersion": 210,
     "sight_dispersion": 90,
-    "aim_speed": 4,
-    "recoil": 120,
     "durability": 7,
-    "reload": 100,
     "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "magazine_well": 1,
     "magazines": [
@@ -79,14 +73,12 @@
     "ammo": "40",
     "dispersion": 250,
     "sight_dispersion": 100,
-    "aim_speed": 4,
-    "recoil": 100,
     "durability": 6,
     "loudness": 25,
     "clip_size": 6,
-    "reload": 60,
+    "reload": 200,
     "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
-    "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ]
+    "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT", "MAKESHIFT" ]
   },
   {
     "id": "sw_610",
@@ -106,11 +98,8 @@
     "ammo": "40",
     "dispersion": 225,
     "sight_dispersion": 90,
-    "aim_speed": 4,
-    "recoil": 90,
     "durability": 8,
     "clip_size": 6,
-    "reload": 60,
     "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ]
   }

@@ -15,10 +15,8 @@
     "ammo_type" : "57",
     "casing" : "57mm_casing",
     "damage" : 20,
-    "range" : 14,
     "pierce" : 18,
     "dispersion" : 90,
-    "recoil" : 90,
     "effects" : ["COOKOFF"]
   },
   {
@@ -37,10 +35,8 @@
     "ammo_type" : "57",
     "casing" : "57mm_casing",
     "damage" : 18,
-    "range" : 14,
     "pierce" : 17,
     "dispersion" : 105,
-    "recoil" : 105,
     "effects" : ["COOKOFF", "RECYCLED"]
   }
 ]

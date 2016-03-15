@@ -15,10 +15,8 @@
     "ammo_type" : "46",
     "casing" : "46mm_casing",
     "damage" : 18,
-    "range" : 14,
     "pierce" : 20,
     "dispersion" : 90,
-    "recoil" : 90,
     "effects" : ["COOKOFF"]
   },
   {
@@ -37,10 +35,8 @@
     "ammo_type" : "46",
     "casing" : "46mm_casing",
     "damage" : 16,
-    "range" : 14,
     "pierce" : 29,
     "dispersion" : 105,
-    "recoil" : 105,
     "effects" : ["COOKOFF"]
   }
 ]

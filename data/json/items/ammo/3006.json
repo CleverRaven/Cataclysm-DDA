@@ -16,10 +16,8 @@
     "ammo_type": "3006",
     "casing": "3006_casing",
     "damage": 64,
-    "range": 65,
     "pierce": 4,
     "dispersion": 25,
-    "recoil": 600,
     "effects": [ "COOKOFF" ]
   },
   {
@@ -39,10 +37,8 @@
     "ammo_type": "3006",
     "casing": "3006_casing",
     "damage": 61,
-    "range": 75,
     "pierce": 8,
     "dispersion": 45,
-    "recoil": 620,
     "effects": [ "COOKOFF" ]
   },
   {
@@ -62,10 +58,8 @@
     "ammo_type": "3006",
     "casing": "3006_casing",
     "damage": 61,
-    "range": 75,
     "pierce": 8,
     "dispersion": 15,
-    "recoil": 620,
     "effects": [ "COOKOFF", "INCENDIARY" ]
   },
   {
@@ -85,10 +79,8 @@
     "ammo_type": "3006",
     "casing": "3006_casing",
     "damage": 52,
-    "range": 75,
     "pierce": 16,
     "dispersion": 45,
-    "recoil": 640,
     "effects": [ "COOKOFF" ]
   },
   {
@@ -108,10 +100,8 @@
     "ammo_type": "3006",
     "casing": "3006_casing",
     "damage": 60,
-    "range": 65,
     "pierce": 4,
     "dispersion": 35,
-    "recoil": 600,
     "effects": [ "COOKOFF", "RECYCLED" ]
   },
   {
@@ -131,10 +121,8 @@
     "ammo_type": "3006",
     "casing": "3006_casing",
     "damage": 59,
-    "range": 75,
     "pierce": 8,
     "dispersion": 55,
-    "recoil": 620,
     "effects": [ "COOKOFF", "RECYCLED" ]
   },
   {
@@ -154,10 +142,8 @@
     "ammo_type": "3006",
     "casing": "3006_casing",
     "damage": 59,
-    "range": 75,
     "pierce": 8,
     "dispersion": 25,
-    "recoil": 620,
     "effects": [ "COOKOFF", "INCENDIARY", "RECYCLED" ]
   },
   {
@@ -177,10 +163,8 @@
     "ammo_type": "3006",
     "casing": "3006_casing",
     "damage": 50,
-    "range": 75,
     "pierce": 16,
     "dispersion": 55,
-    "recoil": 640,
     "effects": [ "COOKOFF" ]
   }
 ]

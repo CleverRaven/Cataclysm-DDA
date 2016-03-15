@@ -15,10 +15,8 @@
     "ammo_type": "223",
     "casing": "223_casing",
     "damage": 44,
-    "range": 36,
     "pierce": 2,
     "dispersion": 80,
-    "recoil": 450,
     "effects": [ "COOKOFF" ]
   },
   {
@@ -37,10 +35,10 @@
     "ammo_type": "223",
     "casing": "223_casing",
     "damage": 46,
-    "range": 38,
+    "range": 2,
     "pierce": 8,
     "dispersion": 60,
-    "recoil": 480,
+    "recoil": 30,
     "effects": [ "COOKOFF", "NEVER_MISFIRES" ]
   },
   {
@@ -59,10 +57,10 @@
     "ammo_type": "223",
     "casing": "223_casing",
     "damage": 46,
-    "range": 38,
+    "range": 2,
     "pierce": 8,
     "dispersion": 45,
-    "recoil": 480,
+    "recoil": 30,
     "effects": [ "COOKOFF", "INCENDIARY", "NEVER_MISFIRES" ]
   },
   {
@@ -82,11 +80,8 @@
     "casing": "223_casing",
     "damage": 42,
     "pierce": 2,
-    "range": 36,
     "dispersion": 90,
-    "recoil": 450,
     "effects": [ "COOKOFF", "RECYCLED" ]
-
   },
   {
     "id": "reloaded_556",
@@ -104,10 +99,10 @@
     "ammo_type": "223",
     "casing": "223_casing",
     "damage": 44,
+    "range": 2,
     "pierce": 4,
-    "range": 38,
     "dispersion": 70,
-    "recoil": 480,
+    "recoil": 30,
     "effects": [ "COOKOFF", "RECYCLED" ]
   },
   {
@@ -126,10 +121,10 @@
     "ammo_type": "223",
     "casing": "223_casing",
     "damage": 42,
-    "range": 36,
+    "range": 2,
     "pierce": 7,
     "dispersion": 75,
-    "recoil": 495,
+    "recoil": 30,
     "effects": [ "COOKOFF", "INCENDIARY", "RECYCLED" ]
   }
 ]

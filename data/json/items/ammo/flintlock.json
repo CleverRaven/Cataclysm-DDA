@@ -14,9 +14,7 @@
     "color": "white",
     "ammo_type": "flintlock",
     "damage": 50,
-    "range": 6,
     "dispersion": 120,
-    "recoil": 420,
     "loudness": 70,
     "effects": [ "COOKOFF", "MUZZLE_SMOKE" ]
   },
@@ -35,9 +33,8 @@
     "color": "white",
     "ammo_type": "flintlock",
     "damage": 45,
-    "range": 4,
+    "range": -2,
     "dispersion": 20,
-    "recoil": 420,
     "loudness": 90,
     "effects": [ "COOKOFF", "MUZZLE_SMOKE", "SHOT" ]
   }

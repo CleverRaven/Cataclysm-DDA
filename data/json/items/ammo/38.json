@@ -16,10 +16,8 @@
     "ammo_type": "38",
     "casing": "38_casing",
     "damage": 20,
-    "range": 14,
     "pierce": 2,
     "dispersion": 125,
-    "recoil": 125,
     "effects": [ "COOKOFF" ]
   },
   {
@@ -39,9 +37,7 @@
     "ammo_type": "38",
     "casing": "38_casing",
     "damage": 22,
-    "range": 14,
     "dispersion": 125,
-    "recoil": 125,
     "effects": [ "COOKOFF" ]
   },
   {
@@ -61,10 +57,8 @@
     "ammo_type": "38",
     "casing": "38_casing",
     "damage": 26,
-    "range": 16,
     "pierce": 4,
     "dispersion": 145,
-    "recoil": 190,
     "effects": [ "COOKOFF" ]
   },
   {
@@ -84,10 +78,8 @@
     "ammo_type": "38",
     "casing": "38_casing",
     "damage": 18,
-    "range": 14,
     "pierce": 2,
     "dispersion": 125,
-    "recoil": 125,
     "effects": [ "COOKOFF", "RECYCLED" ]
   },
   {
@@ -107,9 +99,7 @@
     "ammo_type": "38",
     "casing": "38_casing",
     "damage": 20,
-    "range": 14,
     "dispersion": 125,
-    "recoil": 125,
     "effects": [ "COOKOFF", "RECYCLED" ]
   },
   {
@@ -129,10 +119,8 @@
     "ammo_type": "38",
     "casing": "38_casing",
     "damage": 24,
-    "range": 16,
     "pierce": 4,
     "dispersion": 145,
-    "recoil": 190,
     "effects": [ "COOKOFF", "RECYCLED" ]
   }
 ]
