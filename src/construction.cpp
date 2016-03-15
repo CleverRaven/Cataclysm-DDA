@@ -1025,9 +1025,7 @@ void construct::done_digormine_stair( point p, bool dig )
             g->u.mod_hunger( dig ? 25 : 35 );
             g->u.mod_thirst( dig ? 25 : 35 );
             g->u.fatigue += dig ? 30 : 40;
-            if( !( g->u.has_trait( "NOPAIN" ) ) ) {
-                g->u.mod_pain( 4 ); // Backbreaking work, mining!
-            }
+            g->u.mod_pain( 4 ); // Backbreaking work, mining!
         }
         if( dig )
             g->u.add_memorial_log( pgettext( "memorial_male", "Dug a shaft into lava." ),
