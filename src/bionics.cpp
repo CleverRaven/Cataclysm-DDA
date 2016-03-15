@@ -913,7 +913,7 @@ void player::power_bionics_new()
         if( action == "HELP_KEYBINDINGS" ) {
             wrefresh( w_bionics );
 
-        } else if( action == "UP" ) {
+        } else if( action == "UP" && content.size() > 1 ) {
             do {
                 if( cursor == 0 ) {
                     cursor = static_cast<int>( content.size() ) - 1;
@@ -926,7 +926,7 @@ void player::power_bionics_new()
                 }
             } while ( content[cursor].second == INT_MAX );
 
-        } else if( action == "DOWN" ) {
+        } else if( action == "DOWN" && content.size() > 1 ) {
             do {
                 cursor++;
                 if( cursor >= static_cast<int>( content.size() ) ) {
@@ -941,10 +941,14 @@ void player::power_bionics_new()
 
         } else if( action == "LEFT" ) {
             ( tab_index > 0 ) ? tab_index-- : tab_index = tab_count - 1;
+            cursor = 1;
+            scroll_position = 0;
             recalc = true;
 
         } else if( action == "RIGHT" ) {
             tab_index = ( tab_index + 1 ) % tab_count;
+            cursor = 1;
+            scroll_position = 0;
             recalc = true;
 
         } else if( action == "REASSIGN" ) {
