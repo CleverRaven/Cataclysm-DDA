@@ -7637,6 +7637,8 @@ void game::open_gate( const tripoint &p, const ter_id handle_type )
         pull_message = _("You turn the handle...");
     } else if (handle_type == t_gates_control_concrete) {
         pull_message = _("You turn the handle...");
+    } else if (handle_type == t_gates_control_brick) {
+        pull_message = _("You turn the handle...");
     } else if (handle_type == t_barndoor) {
         pull_message = _("You pull the rope...");
     } else if (handle_type == t_palisade_pulley) {

@@ -1330,6 +1330,13 @@ void activity_handlers::open_gate_finish( player_activity *act, player *p )
         open_message = _("The gate is opened!");
         close_message = _("The gate is closed!");
         bash_dmg = 40;
+    } else if (handle_type == t_gates_control_brick) {
+        wall_type = t_brick_wall;
+        door_type = t_door_metal_locked;
+        floor_type = t_floor;
+        open_message = _("The gate is opened!");
+        close_message = _("The gate is closed!");
+        bash_dmg = 40;
     } else if (handle_type == t_barndoor) {
         wall_type = t_wall_wood;
         door_type = t_door_metal_locked;
