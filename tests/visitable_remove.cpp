@@ -11,7 +11,7 @@
 
 template <typename T>
 static int count_items( const T& src, const itype_id& id ) {
-    int n;
+    int n = 0;
     src.visit_items_const( [&n,&id]( const item *e ) {
         n += ( e->typeId() == id );
         return VisitResponse::NEXT;
