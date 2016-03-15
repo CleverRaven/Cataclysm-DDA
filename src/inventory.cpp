@@ -662,7 +662,7 @@ std::list<item> inventory::reduce_stack(const itype_id &type, int quantity)
 
 item inventory::remove_item(const item *it)
 {
-    auto tmp = remove_items_with( [&it] (const item &i) { return &i == it; } );
+    auto tmp = remove_items_with( [&it](const item& i) { return &i == it; }, 1 );
     if( !tmp.empty() ) {
         return tmp.front();
     }

@@ -322,34 +322,6 @@ class Character : public Creature, public visitable<Character>
         std::vector<const item *> items_with( const std::function<bool(const item&)>& filter ) const;
 
         /**
-         * Removes the items that match the given filter.
-         * The returned items are a copy of the removed item.
-         * If no item has been removed, an empty list will be returned.
-         */
-        template<typename T>
-        std::list<item> remove_items_with( T filter )
-        {
-            // player usually interacts with items in the inventory the most (?)
-            std::list<item> result = inv.remove_items_with( filter );
-            for( auto iter = worn.begin(); iter != worn.end(); ) {
-                item &article = *iter;
-                if( filter( article ) ) {
-                    result.splice( result.begin(), worn, iter++ );
-                } else {
-                    result.splice( result.begin(), article.remove_items_with( filter ) );
-                    ++iter;
-                }
-            }
-            if( !weapon.is_null() ) {
-                if( filter( weapon ) ) {
-                    result.push_back( remove_weapon() );
-                } else {
-                    result.splice( result.begin(), weapon.remove_items_with( filter ) );
-                }
-            }
-            return result;
-        }
-        /**
          * Similar to @ref remove_items_with, but considers only worn items and not their
          * content (@ref item::contents is not checked).
          * If the filter function returns true, the item is removed.

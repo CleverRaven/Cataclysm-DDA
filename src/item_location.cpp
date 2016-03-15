@@ -209,7 +209,7 @@ class item_location::item_on_person : public item_location::impl
 
             const auto removed = who.remove_items_with( [this]( const item & it ) {
                 return &it == what;
-            } );
+            }, 1 );
 
             what = nullptr;
             if( removed.empty() ) {

@@ -186,7 +186,9 @@ struct level_cache {
  */
 class map
 {
- friend class editmap;
+    friend class editmap;
+    friend class visitable<map_cursor>;
+
  public:
 // Constructors & Initialization
  map(int mapsize = MAPSIZE, bool zlev = false);

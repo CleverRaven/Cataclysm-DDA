@@ -6425,8 +6425,8 @@ int vehicle::manual_fire_turret( int p, player &shooter, item &gun )
     } else {
         // This shouldn't happen, not even if armor below the UPS is destroyed
         // ...but let's handle anyway
-        auto upses = shooter.remove_items_with( [] ( item &it ) {
-            return it.type->id == "fake_UPS";
+        auto upses = shooter.remove_items_with( [] ( const item& it ) {
+            return it.typeId() == "fake_UPS";
         } );
         for( auto &up : upses ) {
             refill( fuel_type_battery, up.charges );

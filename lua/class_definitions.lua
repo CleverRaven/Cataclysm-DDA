@@ -1060,7 +1060,7 @@ classes = {
             { name = "precise_unit_volume", rval = "int", args = { } },
             { name = "price", rval = "int", args = { "bool" } },
             { name = "process", rval = "bool", args = { "player", "tripoint", "bool" } },
-            { name = "process_artifact", rval = "bool", args = { "player", "tripoint" } },
+            { name = "process_artifact", rval = nil, args = { "player", "tripoint" } },
             { name = "processing_speed", rval = "int", args = { } },
             { name = "put_in", rval = nil, args = { "item" } },
             { name = "quiver_store_arrow", rval = "int", args = { "item" } },
