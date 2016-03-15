@@ -10451,9 +10451,9 @@ void game::drop(std::vector<item> &dropped, std::vector<item> &dropped_worn,
     if( to_veh ) {
         bool vh_overflow = false;
         for( auto &elem : dropped ) {
-            if( elem.is_bucket_nonempty() && !elem.spill_contents( *this ) ) {
+            if( elem.is_bucket_nonempty() && !elem.spill_contents( u ) ) {
                 add_msg( _("To avoid spilling its contents, you set your %1$s on the %2$s."),
-                         m.name(dir).c_str() );
+                         elem.display_name().c_str(), m.name(dir).c_str() );
                 m.add_item_or_charges( dir, elem, 2 );
                 continue;
             }

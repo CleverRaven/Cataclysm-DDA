@@ -3594,9 +3594,10 @@ bool item::spill_contents( Character &c )
 
     while( !contents.empty() ) {
         if( contents[0].made_of( LIQUID ) ) {
-            if( g->handle_liquid( contents[0], false, false, nullptr, nullptr, 1 ) ) {
+            long charges_pre = contents[0].charges;
+            if( g->handle_liquid( contents[0], false, false, this, nullptr, 1 ) ) {
                 contents.erase( contents.begin() );
-            } else {
+            } else if( charges_pre == contents[0].charges ) {
                 return false;
             }
         } else {
