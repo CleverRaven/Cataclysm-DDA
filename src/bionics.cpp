@@ -853,15 +853,28 @@ void player::power_bionics_new()
         if( !my_bionics.empty() && content.size() > 1) {
             for( int i = scroll_position; i < std::min( getmaxy( w_bio_list ) + scroll_position,
                  static_cast<int>( content.size() ) ); ++i ) {
+
+                // show bodypart name and slots
                 if( content[i].second == INT_MAX ) {
-                    mvwprintz( w_bio_list, i - scroll_position, 2, c_yellow,
-                               string_format( "%s [%i/%i]:",
-                                              bodyparts[content[i].first].c_str(),
-                                              get_used_bionics_slots( content[i].first ),
-                                              get_total_bionics_slots( content[i].first ) ).c_str() );
+                    const size_t total_slots = get_total_bionics_slots( content[i].first );
+                    std::string str;
+                    if( total_slots < INT_MAX ) {
+                        str = string_format( "%s [%i/%i]:", bodyparts[content[i].first].c_str(),
+                                             get_used_bionics_slots( content[i].first ),
+                                             total_slots );
+
+                    // no need to show INT_MAX amount of total slots
+                    } else {
+                        str = string_format( "%s [%i]:", bodyparts[content[i].first].c_str(),
+                                             get_used_bionics_slots( content[i].first ) );
+                    }
+                    mvwprintz( w_bio_list, i - scroll_position, 2, c_yellow, str.c_str() );
+
                     if( i == cursor ) {
                         cursor++;
                     }
+
+                // show bionic and its properties
                 } else {
                     const bionic& b = my_bionics[content[i].second];
                     const bool highlighted = ( i == cursor );
