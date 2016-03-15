@@ -6023,7 +6023,7 @@
                 { "item": "bearing", "charges": [4, 12] },
                 { "item": "frame", "prob": 60 },
                 { "item": "motor", "prob": 30 },
-                { "item": "metal_tank_small", "prob": 30 },
+                { "item": "metal_tank", "prob": 30 },
                 { "item": "motor_large", "prob": 10 }
             ]
         },
@@ -6043,7 +6043,7 @@
                 { "item": "bearing", "charges": [2, 8] },
                 { "item": "frame", "prob": 30 },
                 { "item": "motor", "prob": 10 },
-                { "item": "metal_tank_small", "prob": 20 },
+                { "item": "metal_tank", "prob": 20 },
                 { "item": "motor_large", "prob": 5 }
             ]
         }

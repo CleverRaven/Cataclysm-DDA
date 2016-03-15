@@ -1372,6 +1372,8 @@ void item::io( Archive& archive )
             convert( "UPS_off" );
         } else if( id == "adv_UPS_on" ) {
             convert( "adv_UPS_off" );
+        } else if( id == "metal_tank_small" ) {
+            convert( "jerrycan" );
         } else {
             convert( id );
         }

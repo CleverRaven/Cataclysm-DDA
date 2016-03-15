@@ -372,6 +372,24 @@
      "material_thickness" : 1
   },
   {
+      "id" : "metal_tank_small",
+      "type": "CONTAINER",
+      "symbol" : "}",
+      "color" : "light_cyan",
+      "name" : "small metal tank",
+      "category": "other",
+      "description" : "A small metal tank for holding gas or liquids.  Useful for crafting.",
+      "price" : 6000,
+      "weight" : 3200,
+      "volume" : 45,
+      "bashing" : 5,
+      "to_hit" : -3,
+      "contains" : 45,
+      "material" : ["steel", "null"],
+      "watertight": true,
+      "seals": true
+  },
+  {
     "id": "nx17",
     "type": "GUN",
     "symbol": "(",
