@@ -166,18 +166,6 @@ std::string power_description( std::string const &id )
     return power_desc.str();
 }
 
-bool compare_cbm_names( cbm_pair const &val1, cbm_pair const &val2 )
-{
-    if( val1.second == INT_MAX ){
-        return true;
-    } else if( val2.second == INT_MAX ) {
-        return false;
-    }
-    std::string &name1 = bionics[g->u.my_bionics[val1.second].id].name;
-    std::string &name2 = bionics[g->u.my_bionics[val2.second].id].name;
-    return( name1.compare( name2 ) <= 0 );
-}
-
 std::vector<cbm_pair> define_content( body_part bp )
 {
     std::vector<cbm_pair> content;
@@ -187,7 +175,16 @@ std::vector<cbm_pair> define_content( body_part bp )
             content.push_back( std::make_pair( bp, i ) );
         }
     }
-    std::sort( content.begin(), content.end(), compare_cbm_names );
+    std::sort( content.begin(), content.end(), [] ( cbm_pair const &val1, cbm_pair const &val2 ) {
+        if( val1.second == INT_MAX ){
+            return true;
+        } else if( val2.second == INT_MAX ) {
+            return false;
+        }
+        std::string &name1 = bionics[g->u.my_bionics[val1.second].id].name;
+        std::string &name2 = bionics[g->u.my_bionics[val2.second].id].name;
+        return( name1.compare( name2 ) <= 0 );
+    });
     return content;
 }
 
