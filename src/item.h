@@ -725,6 +725,7 @@ public:
  bool is_var_veh_part() const;
  bool is_artifact() const;
     bool is_bucket() const;
+    bool is_bucket_nonempty() const;
 
     /**
      * Can this item have given item/itype as content?
@@ -772,6 +773,20 @@ public:
  itype_id typeId() const;
  const itype* type;
  std::vector<item> contents;
+
+        /**
+         * Unloads the item's contents.
+         * @param c Character who receives the contents.
+         *          If c is the player, liquids will be handled, otherwise they will be spilled.
+         * @return If the item is now empty.
+         */
+        bool spill_contents( Character &c );
+        /**
+         * Unloads the item's contents.
+         * @param pos Position to dump the contents on.
+         * @return If the item is now empty.
+         */
+        bool spill_contents( const tripoint &pos );
 
         /** Checks if item is a holster and currently capable of storing obj
          *  @param ignore only check item is compatible and ignore any existing contents */

@@ -4974,14 +4974,23 @@ bool vehicle::add_item (int part, item itm)
         }
     }
 
-    if ( cur_volume + add_volume > maxvolume ) {
+    if( cur_volume + add_volume > maxvolume ) {
         return false;
     }
+
     return add_item_at( part, parts[part].items.end(), itm );
 }
 
 bool vehicle::add_item_at(int part, std::list<item>::iterator index, item itm)
 {
+    if( itm.is_bucket_nonempty() ) {
+        for( auto &elem : itm.contents ) {
+            g->m.add_item_or_charges( global_part_pos3( part ), elem );
+        }
+
+        itm.contents.clear();
+    }
+
     const auto new_pos = parts[part].items.insert( index, itm );
     if( itm.needs_processing() ) {
         active_items.add( new_pos, parts[part].mount );

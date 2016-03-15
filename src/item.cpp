@@ -2076,7 +2076,7 @@ void item::on_pickup( Character &p )
         g->add_artifact_messages( type->artifact->effects_carried );
     }
 
-    if( is_bucket() ) {
+    if( is_bucket_nonempty() ) {
         for( const auto &it : contents ) {
             g->m.add_item( p.pos(), it );
         }
@@ -3473,6 +3473,11 @@ bool item::is_bucket() const
            !type->container->preserves;
 }
 
+bool item::is_bucket_nonempty() const
+{
+    return is_bucket() && !is_container_empty();
+}
+
 bool item::is_container_empty() const
 {
     return contents.empty();
@@ -3578,6 +3583,38 @@ bool item::can_contain( const itype &tp ) const
     }
 
     // @todo Acid in waterskins
+    return true;
+}
+
+bool item::spill_contents( Character &c )
+{
+    if( c.is_npc() ) {
+        spill_contents( c.pos() );
+    }
+
+    while( !contents.empty() ) {
+        if( contents[0].made_of( LIQUID ) ) {
+            if( g->handle_liquid( contents[0], false, false, nullptr, nullptr, 1 ) ) {
+                contents.erase( contents.begin() );
+            } else {
+                return false;
+            }
+        } else {
+            c.i_add_or_drop( contents[0] );
+            contents.erase( contents.begin() );
+        }
+    }
+
+    return true;
+}
+
+bool item::spill_contents( const tripoint &pos )
+{
+    for( item &it : contents ) {
+        g->m.add_item_or_charges( pos, it );
+    }
+
+    contents.clear();
     return true;
 }
 
@@ -4883,7 +4920,9 @@ bool item::fill_with( item &liquid, std::string &err, bool allow_bucket )
             err = string_format( _( "That %s isn't water-tight." ), tname().c_str());
             return false;
         case L_ERR_NOT_SEALED:
-            err = string_format( _( "You can't seal that %s!" ), tname().c_str());
+            err = is_bucket() ?
+                  string_format( _( "That %s must be on the ground or held to hold contents!" ), tname().c_str()) :
+                  string_format( _( "You can't seal that %s!" ), tname().c_str());
             return false;
         case L_ERR_FULL:
             err = string_format( _( "Your %1$s can't hold any more %2$s." ), tname().c_str(), liquid.tname().c_str());

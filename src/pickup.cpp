@@ -415,9 +415,10 @@ void Pickup::pick_one_up( const tripoint &pickup_target, item &newit, vehicle *v
         case SPILL:
             if( newit.is_container_empty() ) {
                 debugmsg( "Tried to spill contents from an empty container" );
-            } else if( newit.contents[0].made_of( LIQUID ) ) {
-                picked_up = g->handle_liquid( newit.contents[0], false, false, nullptr, nullptr, 1 );
+                break;
             }
+
+            picked_up = newit.spill_contents( g->u );
             if( !picked_up ) {
                 break;
             }

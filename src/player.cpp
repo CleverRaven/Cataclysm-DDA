@@ -9828,6 +9828,10 @@ bool player::wield( item& target )
         return false;
     }
 
+    if( weapon.is_bucket_nonempty() && !weapon.spill_contents( *this ) ) {
+        return false;
+    }
+
     if( target.is_null() ) {
         return dispose_item( weapon, string_format( _( "Stop wielding %s?" ), weapon.tname().c_str() ) );
     }
