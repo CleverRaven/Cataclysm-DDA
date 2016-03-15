@@ -44,23 +44,6 @@
         "weight" : 0,
         "ammo_type" : "money",
         "count" : 1
-    },
-    {   "type" : "AMMO",
-        "id" : "laser_capacitor",
-        "price" : 20000,
-        "name" : "charged capacitor",
-        "symbol" : "=",
-        "color" : "yellow",
-        "description" : "A single capacitor charged with current to be used by a laser weapon or similar armament.",
-        "material" : "steel",
-        "volume" : 1,
-        "weight" : 5,
-        "ammo_type" : "laser_capacitor",
-        "damage" : 20,
-        "pierce" : 10,
-        "range" : 24,
-        "count" : 1,
-        "effects" : ["NEVER_MISFIRES"]
     },{
        "type" : "AMMO",
         "id" : "string_6",

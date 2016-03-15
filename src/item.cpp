@@ -4082,6 +4082,12 @@ ammotype item::ammo_type( bool conversion ) const
     return "NULL";
 }
 
+itype_id item::ammo_default( bool conversion ) const
+{
+    auto res = default_ammo( ammo_type( conversion ) );
+    return !res.empty() ? res : "NULL";
+}
+
 std::set<std::string> item::ammo_effects( bool with_ammo ) const
 {
     if( !is_gun() ) {

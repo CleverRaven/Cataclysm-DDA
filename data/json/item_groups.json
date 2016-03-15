@@ -6764,8 +6764,7 @@
     "type" : "item_group",
     "id" : "laserturret",
     "items":[
-      ["cerberus_laser", 1],
-      ["laser_capacitor", 8]
+      ["cerberus_laser", 1]
       ]
   },{
     "type" : "item_group",

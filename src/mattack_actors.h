@@ -62,49 +62,59 @@ class gun_actor : public mattack_actor
     public:
         // Item type of the gun we're using
         itype_id gun_type;
-        // Type of ammo we're using
-        ammotype ammo_type;
-        // Cap ammo at this if it goes above that for some reason
-        int max_ammo;
-        // Stats for the fake NPC
-        int fake_str;
-        int fake_dex;
-        int fake_int;
-        int fake_per;
-        // Skills for the fake NPC
-        std::map<skill_id, int> fake_skills;
-        // Move cost of executing the attack
-        int move_cost;
-        // If true, gives "grace period" to player
-        bool require_targeting_player;
-        // As above, but to npcs
-        bool require_targeting_npc;
-        // As above, but to monsters
-        bool require_targeting_monster;
-        // "Remember" targeting for this many turns
-        int targeting_timeout;
-        // Extend the above timeout by this number of turns when
-        // attacking a targeted critter
-        int targeting_timeout_extend;
-        // Waste this many moves on targeting
-        int targeting_cost;
-        // Targeting isn't enough, needs to laser lock too
-        // Prevents quickly changing targets
-        bool laser_lock;
-        // Maximum distance at which we acquire targets
-        float range;
-        // Don't activate burst for targets above that distance
-        float range_no_burst;
-        // Limit burst to that
-        int burst_limit;
-        // Description of the attack being executed; "%s fires its BFG!"
-        std::string description;
 
-        // Sound of targeting u
-        std::string targeting_sound;
-        int targeting_volume;
-        // Sounds of no ammo
+        /** Specific ammo type to use or for gun default if unspecified */
+        ammotype ammo_type = "NULL";
+
+        /*@{*/
+        /** Balanced against player. If fake_skills unspecified defaults to GUN 4, WEAPON 8 */
+        std::map<skill_id, int> fake_skills;
+        int fake_str = 16;
+        int fake_dex = 8;
+        int fake_int = 8;
+        int fake_per = 12;
+        /*@}*/
+
+        /*@{*/
+        /** Additional caps above any imposed by either the base gun or monster */
+        int range = 18;
+        int range_no_burst = INT_MAX; /** only burst fire at or below this distance */
+        int burst_limit = INT_MAX;
+        int max_ammo = INT_MAX; /** limited also by monster starting_ammo */
+        /*@}*/
+
+        /** Description of the attack being run */
+        std::string description = "The %s fires its %s";
+
+        /** Message to display (if any) for failures to fire excluding lack of ammo */
+        std::string failure_msg;
+
+        /** Sound (if any) when either starting_ammo depleted or max_ammo reached */
         std::string no_ammo_sound;
+
+        /** Number of moves required for each attack */
+        int move_cost = 150;
+
+        /*@{*/
+        /** Turrets may need to expend moves targeting before firing on certain targets */
+
+        int targeting_cost = 100; /** moves consumed before first attack can be made */
+
+        bool require_targeting_player = true; /** by default always give player some warning */
+        bool require_targeting_npc = false;
+        bool require_targeting_monster = false;
+
+        int targeting_timeout = 8; /** default turns afer which targeting is lsot and needs repeating */
+        int targeting_timeout_extend = 3; /** increase timeout by this many turns after each shot */
+
+        std::string targeting_sound = "beep-beep-beep!";
+        int targeting_volume = 6; /** if set to zero don't emit any targetting sounds */
+
+        bool laser_lock = false; /** does switching between targets incur further targeting penalty */
+        /*@}*/
+
+        /** If true then disable this attack completely if not brightly lit */
+        bool require_sunlight = false;
 
         void shoot( monster &z, Creature &target ) const;
 
