@@ -141,44 +141,40 @@ void draw_header( WINDOW *win, const size_t tab_index, const std::string power_s
     wrefresh( win );
 }
 
+const auto separator = []( std::ostringstream &s )
+{
+    return s.tellp() != 0 ? ", " : "";
+};
+
 std::string power_description( std::string const &id )
 {
     std::ostringstream power_desc;
-    bool has_previous_text = false;
     if( bionics[id].power_over_time > 0 && bionics[id].charge_time > 0 ) {
         power_desc << ( bionics[id].charge_time == 1 ?
                         string_format( _("%d PU / turn" ), bionics[id].power_over_time ) :
                         string_format( _("%d PU / %d turns" ), bionics[id].power_over_time,
                                        bionics[id].charge_time ) );
-        has_previous_text = true;
     }
     if( bionics[id].power_activate > 0 && bionics[id].charge_time == 0 ) {
-        if( has_previous_text ) {
-            power_desc << ", ";
-        }
-        power_desc << string_format( _( "%d PU / activation" ),
-                                     bionics[id].power_activate );
-        has_previous_text = true;
+        power_desc << separator( power_desc ) << string_format( _( "%d PU / activation" ),
+                                                                bionics[id].power_activate );
     }
     if( bionics[id].power_deactivate > 0 && bionics[id].charge_time == 0 ) {
-        if( has_previous_text ) {
-            power_desc << ", ";
-        }
-        power_desc << string_format( _( "%d PU / deactivation" ),
-                                     bionics[id].power_deactivate );
+        power_desc << separator( power_desc ) << string_format( _( "%d PU / deactivation" ),
+                                                                bionics[id].power_deactivate );
     }
     return power_desc.str();
 }
 
-bool compare_cbm_names( cbm_pair val1, cbm_pair val2 )
+bool compare_cbm_names( cbm_pair const &val1, cbm_pair const &val2 )
 {
     if( val1.second == INT_MAX ){
         return true;
     } else if( val2.second == INT_MAX ) {
         return false;
     }
-    std::string name1 = bionics[g->u.my_bionics[val1.second].id].name;
-    std::string name2 = bionics[g->u.my_bionics[val2.second].id].name;
+    std::string &name1 = bionics[g->u.my_bionics[val1.second].id].name;
+    std::string &name2 = bionics[g->u.my_bionics[val2.second].id].name;
     return( name1.compare( name2 ) <= 0 );
 }
 
@@ -196,7 +192,6 @@ std::vector<cbm_pair> define_content( body_part bp )
 }
 
 } //namespace
-
 
 bool is_valid_bionic(std::string const& id)
 {
