@@ -166,23 +166,23 @@ std::string power_description( std::string const &id )
     return power_desc.str();
 }
 
-std::vector<cbm_pair> define_content( body_part bp )
+std::vector<cbm_pair> define_content( player& u, body_part bp )
 {
     std::vector<cbm_pair> content;
     content.push_back( std::make_pair( bp , INT_MAX ) );
-    for( size_t i = 0; i < g->u.my_bionics.size(); ++i ) {
+    for( size_t i = 0; i < u.my_bionics.size(); ++i ) {
         if( g->u.my_bionics[i].occupied_bp == bp ) {
             content.push_back( std::make_pair( bp, i ) );
         }
     }
-    std::sort( content.begin(), content.end(), [] ( cbm_pair const &val1, cbm_pair const &val2 ) {
+    std::sort( content.begin(), content.end(), [&u] ( cbm_pair const &val1, cbm_pair const &val2 ) {
         if( val1.second == INT_MAX ){
             return true;
         } else if( val2.second == INT_MAX ) {
             return false;
         }
-        std::string &name1 = bionics[g->u.my_bionics[val1.second].id].name;
-        std::string &name2 = bionics[g->u.my_bionics[val2.second].id].name;
+        std::string &name1 = bionics[u.my_bionics[val1.second].id].name;
+        std::string &name2 = bionics[u.my_bionics[val2.second].id].name;
         return( name1.compare( name2 ) <= 0 );
     });
     return content;
@@ -811,13 +811,13 @@ void player::power_bionics_new()
             if( tab_index == tab_count - 1 ) {
                 content.clear();
                 for( int bp_index = 0; bp_index <= num_bp; ++bp_index ) {
-                    std::vector<cbm_pair> more_content = define_content( static_cast<body_part>
+                    std::vector<cbm_pair> more_content = define_content( g->u, static_cast<body_part>
                                                                          ( bp_index ) );
                     content.insert( content.end(), more_content.begin(), more_content.end() );
                 }
             // bodypart: %tab_index%
             } else {
-                content = define_content( static_cast<body_part>( tab_index ) );
+                content = define_content( g->u, static_cast<body_part>( tab_index ) );
             }
             max_scroll_position = std::max( 0, static_cast<int>( content.size() ) -
                                                getmaxy( w_bio_list ) );
