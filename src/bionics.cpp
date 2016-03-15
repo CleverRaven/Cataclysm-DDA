@@ -81,13 +81,6 @@ std::string bodyparts[] = { bp_asText[0], bp_asText[1], bp_asText[2], bp_asText[
                             _( "Other" ), _( "All" )
                           };
 
-void draw_background( WINDOW *win, const bool empty_list );
-void draw_header( WINDOW *win, const size_t tab_index, const std::string power_string,
-                  const std::string help_key );
-const char *power_description( std::string const &id );
-bool compare_cbm_names( cbm_pair val1, cbm_pair val2 );
-std::vector<cbm_pair> define_content( body_part bp );
-
 void draw_background( WINDOW *win, const bool empty_list )
 {
     draw_border( win );
@@ -114,10 +107,11 @@ void draw_background( WINDOW *win, const bool empty_list )
         }};
         std::array<int, 3> pos;
             pos[0] = 2;
-            pos[1] = std::max( getmaxx( win ) / 2 - utf8_width( titles[1].c_str() ) / 2 ,
-                               pos[0] + utf8_width( titles[0].c_str() ) + 2 );
+            pos[1] = std::max( getmaxx( win ) / 2 - utf8_width( titles[1] ) / 2 ,
+                               pos[0] + utf8_width( titles[0] ) + 2 );
             pos[2] = std::max( getmaxx( win ) * 2 / 3 + 7,
-                               pos[1] + utf8_width( titles[1].c_str() ) + 2);
+                               pos[1] + utf8_width( titles[1] ) + 2);
+
         for( size_t i = 0; i < std::min( titles.size(), pos.size() ); ++i ) {
             mvwprintw( win, 3, pos[i], titles[i].c_str() );
         }
@@ -142,12 +136,12 @@ void draw_header( WINDOW *win, const size_t tab_index, const std::string power_s
 
     werase( win );
     for( size_t i = 0; i < std::min( titles.size(), pos.size() ); ++i ) {
-        fold_and_print( win, 0, pos[i], getmaxx( win ) - 3, c_white, titles[i].c_str() );
+        fold_and_print( win, 0, pos[i], getmaxx( win ) - 3, c_white, titles[i] );
     }
     wrefresh( win );
 }
 
-const char *power_description( std::string const &id )
+std::string power_description( std::string const &id )
 {
     std::ostringstream power_desc;
     bool has_previous_text = false;
@@ -173,7 +167,7 @@ const char *power_description( std::string const &id )
         power_desc << string_format( _( "%d PU / deactivation" ),
                                      bionics[id].power_deactivate );
     }
-    return power_desc.str().c_str();
+    return power_desc.str();
 }
 
 bool compare_cbm_names( cbm_pair val1, cbm_pair val2 )
@@ -902,10 +896,11 @@ void player::power_bionics_new()
                     }
 
                     // power consumption description
-                    const char* desc = power_description( b.id );
+                    std::string desc = power_description( b.id );
                     mvwprintz( w_bio_list, i - scroll_position,
                                std::min( getmaxx( w_bio_list ) - utf8_width( desc ) - 1,
-                                         getmaxx( w_bio_list ) * 2 / 3 + 8 ), cbm_color, desc );
+                                         getmaxx( w_bio_list ) * 2 / 3 + 8 ), cbm_color,
+                               desc.c_str() );
                 }
             }
             // update content of description window
@@ -2001,7 +1996,7 @@ _( "WARNING: %i%% chance of genetic damage, blood loss, or damage to existing bi
     } else if( available_bodyparts.size() == 1 ) {
         // only one option is possible
         bp_selection.ret = 0;
-        if( !query_yn( string_format( _( "%s Continue anyway?" ), warning.c_str() ).c_str() ) ) {
+        if( !query_yn( _( "%s Continue anyway?" ), warning.c_str() ) ) {
             return false;
         }
     } else {
