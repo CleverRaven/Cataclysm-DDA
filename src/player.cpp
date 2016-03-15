@@ -9861,7 +9861,12 @@ bool player::wield( item& target )
 
     moves -= mv;
 
-    weapon = i_rem( &target );
+    if( has_item( target ) ) {
+        weapon = i_rem( &target );
+    } else {
+        weapon = target;
+    }
+
     last_item = itype_id( weapon.type->id );
 
     weapon.on_wield( *this, mv );

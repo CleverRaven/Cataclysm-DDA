@@ -1985,7 +1985,8 @@ bool advanced_inventory::move_content( item &src_container, item &dest_container
     }
 
     std::string err;
-    if( !dest_container.fill_with( src, err ) ) {
+    // @todo Allow buckets here, but require them to be on the ground or wielded
+    if( !dest_container.fill_with( src, err, false ) ) {
         popup( err.c_str() );
         return false;
     }

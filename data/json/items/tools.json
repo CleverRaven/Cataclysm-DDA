@@ -1448,7 +1448,11 @@
     "bashing": 6,
     "category" : "tools",
     "to_hit": 1,
-    "qualities": [["COOK", 3], ["BOIL", 2], ["CONTAIN", 1], ["CHEM", 1]]
+    "qualities": [["COOK", 3], ["BOIL", 2], ["CONTAIN", 1], ["CHEM", 1]],
+    "container_data" : {
+        "contains": 8,
+        "watertight": true
+    }
   },
   {
     "type":"GENERIC",

@@ -444,16 +444,18 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
      * liquid ammo.
      * @param liquid Liquid to fill the container with.
      * @param err Contains error message if function returns false.
+     * @param allow_bucket Allow filling non-sealable containers
      * @return Returns false in case of error. Nothing has been added in that case.
      */
-    bool fill_with( item &liquid, std::string &err );
+    bool fill_with( item &liquid, std::string &err, bool allow_bucket );
     /**
      * How much more of this liquid (in charges) can be put in this container.
      * If this is not a container (or not suitable for the liquid), it returns 0.
      * Note that mixing different types of liquid is not possible.
      * Also note that this works for guns and tools that accept liquid ammo.
+     * @param allow_bucket Allow filling non-sealable containers
      */
-    long get_remaining_capacity_for_liquid(const item &liquid) const;
+    long get_remaining_capacity_for_liquid( const item &liquid, bool allow_bucket = false ) const;
     /**
      * Puts the given item into this one, no checks are performed.
      */
@@ -722,6 +724,17 @@ public:
  bool is_software() const;
  bool is_var_veh_part() const;
  bool is_artifact() const;
+    bool is_bucket() const;
+
+    /**
+     * Can this item have given item/itype as content?
+     * 
+     * For example, airtight for gas, acidproof for acid etc.
+     */
+    /*@{*/
+    bool can_contain( const item &it ) const;
+    bool can_contain( const itype &tp ) const;
+    /*@}*/
 
         /**
          * Is it ever possible to reload this item?
@@ -1332,7 +1345,7 @@ public:
     private:
         /** Helper for liquid and container related stuff. */
         enum LIQUID_FILL_ERROR : int;
-        LIQUID_FILL_ERROR has_valid_capacity_for_liquid(const item &liquid) const;
+        LIQUID_FILL_ERROR has_valid_capacity_for_liquid( const item &liquid, bool allow_bucket ) const;
         std::string name;
         const itype* curammo = nullptr;
         std::map<std::string, std::string> item_vars;
