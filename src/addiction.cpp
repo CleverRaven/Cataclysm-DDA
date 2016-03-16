@@ -21,7 +21,7 @@ void addict_effect(player &u, addiction &add,
                     _("You could use some nicotine."));
             u.add_morale(MORALE_CRAVING_NICOTINE, -15, -50);
             if (one_in(800 - 50 * in)) {
-                u.fatigue++;
+                u.mod_fatigue(1);
             }
             if (u.stim > -50 && one_in(400 - 20 * in)) {
                 u.stim--;

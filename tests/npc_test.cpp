@@ -19,7 +19,7 @@ void sane( const npc &who )
 {
     CHECK( who.get_hunger() >= 0 );
     CHECK( who.get_thirst() >= 0 );
-    CHECK( who.fatigue >= -25 );
+    CHECK( who.get_fatigue() >= -25 );
 }
 
 npc create_model()
@@ -29,7 +29,7 @@ npc create_model()
     model_npc.randomize();
     model_npc.set_hunger( 0 );
     model_npc.set_thirst( 0 );
-    model_npc.fatigue = 0;
+    model_npc.set_fatigue( 0 );
     model_npc.remove_effect( efftype_id( "sleep" ) );
     // An ugly hack to prevent NPC falling asleep during testing due to massive fatigue
     model_npc.set_mutation( "WEB_WEAVER" );
@@ -49,10 +49,10 @@ TEST_CASE("on_load-sane-values")
         const int margin = 1;
         CHECK( test_npc.get_hunger() <= five_min_ticks + margin );
         CHECK( test_npc.get_thirst() <= five_min_ticks + margin );
-        CHECK( test_npc.fatigue <= five_min_ticks + margin );
+        CHECK( test_npc.get_fatigue() <= five_min_ticks + margin );
         CHECK( test_npc.get_hunger() >= five_min_ticks - margin );
         CHECK( test_npc.get_thirst() >= five_min_ticks - margin );
-        CHECK( test_npc.fatigue >= five_min_ticks - margin );
+        CHECK( test_npc.get_fatigue() >= five_min_ticks - margin );
     }
 
     SECTION("Awake for 2 days, gaining hunger/thirst/fatigue") {
@@ -63,16 +63,16 @@ TEST_CASE("on_load-sane-values")
         const int margin = 10;
         CHECK( test_npc.get_hunger() <= five_min_ticks + margin );
         CHECK( test_npc.get_thirst() <= five_min_ticks + margin );
-        CHECK( test_npc.fatigue <= five_min_ticks + margin );
+        CHECK( test_npc.get_fatigue() <= five_min_ticks + margin );
         CHECK( test_npc.get_hunger() >= five_min_ticks - margin );
         CHECK( test_npc.get_thirst() >= five_min_ticks - margin );
-        CHECK( test_npc.fatigue >= five_min_ticks - margin );
+        CHECK( test_npc.get_fatigue() >= five_min_ticks - margin );
     }
 
     SECTION("Sleeping for 6 hours, gaining hunger/thirst (not testing fatigue due to lack of effects processing)") {
         npc test_npc = model_npc;
         test_npc.add_effect( efftype_id( "sleep" ), HOURS(6) );
-        test_npc.fatigue = 1000;
+        test_npc.set_fatigue(1000);
         const int five_min_ticks = 12 * 6;
         const float expected_rate = 0.5f;
         const int expected_change = five_min_ticks * expected_rate;
@@ -110,10 +110,10 @@ TEST_CASE("on_load-similar-to-per-turn")
         const int margin = 1;
         CHECK( on_load_npc.get_hunger() <= iterated_npc.get_hunger() + margin );
         CHECK( on_load_npc.get_thirst() <= iterated_npc.get_thirst() + margin );
-        CHECK( on_load_npc.fatigue <= iterated_npc.fatigue + margin );
+        CHECK( on_load_npc.get_fatigue() <= iterated_npc.get_fatigue() + margin );
         CHECK( on_load_npc.get_hunger() >= iterated_npc.get_hunger() - margin );
         CHECK( on_load_npc.get_thirst() >= iterated_npc.get_thirst() - margin );
-        CHECK( on_load_npc.fatigue >= iterated_npc.fatigue - margin );
+        CHECK( on_load_npc.get_fatigue() >= iterated_npc.get_fatigue() - margin );
     }
 
     SECTION("Awake for 6 hours, gaining hunger/thirst/fatigue") {
@@ -128,9 +128,9 @@ TEST_CASE("on_load-similar-to-per-turn")
         const int margin = 10;
         CHECK( on_load_npc.get_hunger() <= iterated_npc.get_hunger() + margin );
         CHECK( on_load_npc.get_thirst() <= iterated_npc.get_thirst() + margin );
-        CHECK( on_load_npc.fatigue <= iterated_npc.fatigue + margin );
+        CHECK( on_load_npc.get_fatigue() <= iterated_npc.get_fatigue() + margin );
         CHECK( on_load_npc.get_hunger() >= iterated_npc.get_hunger() - margin );
         CHECK( on_load_npc.get_thirst() >= iterated_npc.get_thirst() - margin );
-        CHECK( on_load_npc.fatigue >= iterated_npc.fatigue - margin );
+        CHECK( on_load_npc.get_fatigue() >= iterated_npc.get_fatigue() - margin );
     }
 }

@@ -616,7 +616,7 @@ void player::update_mental_focus()
 
     // Fatigue should at least prevent high focus
     // This caps focus gain at 60(arbitrary value) if you're Dead Tired
-    if (fatigue >= DEAD_TIRED && focus_pool > 60) {
+    if (get_fatigue() >= DEAD_TIRED && focus_pool > 60) {
         focus_pool = 60;
     }
 
@@ -781,7 +781,7 @@ void player::update_bodytemp()
     const int metabolism_warmth = std::max( 0.0f, met_rate - 1.0f ) * 1000;
     // Fatigue
     // ~-900 when exhausted
-    const int fatigue_warmth = has_sleep ? 0 : std::min( 0.0f, -1.5f * fatigue );
+    const int fatigue_warmth = has_sleep ? 0 : std::min( 0.0f, -1.5f * get_fatigue() );
 
     // Sunlight
     const int sunlight_warmth = g->is_in_sunlight( pos() ) ? 0 :
@@ -2270,7 +2270,7 @@ void player::mod_stat( const std::string &stat, int modifier )
     if( stat == "thirst" ) {
         mod_thirst( modifier );
     } else if( stat == "fatigue" ) {
-        fatigue += modifier;
+        mod_fatigue( modifier );
     } else if( stat == "oxygen" ) {
         oxygen += modifier;
     } else if( stat == "stamina" ) {
@@ -3571,11 +3571,11 @@ void player::disp_status( WINDOW *w, WINDOW *w2 )
     }
 
     wmove( w, sideStyle ? 3 : 2, sideStyle ? 0 : 30 );
-    if( fatigue > EXHAUSTED ) {
+    if( get_fatigue() > EXHAUSTED ) {
         wprintz( w, c_red,    _( "Exhausted" ) );
-    } else if( fatigue > DEAD_TIRED ) {
+    } else if( get_fatigue() > DEAD_TIRED ) {
         wprintz( w, c_ltred,  _( "Dead tired" ) );
-    } else if( fatigue > TIRED ) {
+    } else if( get_fatigue() > TIRED ) {
         wprintz( w, c_yellow, _( "Tired" ) );
     }
 
@@ -4850,7 +4850,7 @@ void player::mod_fatigue(int nfatigue)
 
 void player::set_fatigue(int nfatigue)
 {
-    fatigue = nfatigue;
+    fatigue = std::max( nfatigue, -1000 );
 }
 
 int player::get_fatigue() const
@@ -5419,14 +5419,14 @@ void player::check_needs_extremes()
     }
 
     // Check if we're falling asleep, unless we're sleeping
-    if( fatigue >= EXHAUSTED + 25 && !in_sleep_state() ) {
-        if( fatigue >= MASSIVE_FATIGUE ) {
+    if( get_fatigue() >= EXHAUSTED + 25 && !in_sleep_state() ) {
+        if( get_fatigue() >= MASSIVE_FATIGUE ) {
             add_msg_if_player(m_bad, _("Survivor sleep now."));
             add_memorial_log(pgettext("memorial_male", "Succumbed to lack of sleep."),
                                pgettext("memorial_female", "Succumbed to lack of sleep."));
-            fatigue -= 10;
+            mod_fatigue(-10);
             try_to_sleep();
-        } else if( fatigue >= 800 && calendar::once_every(MINUTES(30)) ) {
+        } else if( get_fatigue() >= 800 && calendar::once_every(MINUTES(30)) ) {
             add_msg_if_player(m_warning, _("Anywhere would be a good place to sleep..."));
         } else if( calendar::once_every(MINUTES(30)) ) {
             add_msg_if_player(m_warning, _("You feel like you haven't slept in days."));
@@ -5435,8 +5435,8 @@ void player::check_needs_extremes()
 
     // Even if we're not Exhausted, we really should be feeling lack/sleep earlier
     // Penalties start at Dead Tired and go from there
-    if( fatigue >= DEAD_TIRED && !in_sleep_state() ) {
-        if( fatigue >= 700 ) {
+    if( get_fatigue() >= DEAD_TIRED && !in_sleep_state() ) {
+        if( get_fatigue() >= 700 ) {
            if( calendar::once_every(MINUTES(30)) ) {
                 add_msg_if_player(m_warning, _("You're too tired to stop yawning."));
                 add_effect( effect_lack_sleep, 50);
@@ -5446,7 +5446,7 @@ void player::check_needs_extremes()
                 // Rivet's idea: look out for microsleeps!
                 fall_asleep(5);
             }
-        } else if( fatigue >= EXHAUSTED ) {
+        } else if( get_fatigue() >= EXHAUSTED ) {
             if( calendar::once_every(MINUTES(30)) ) {
                 add_msg_if_player(m_warning, _("How much longer until bedtime?"));
                 add_effect( effect_lack_sleep, 50);
@@ -5455,7 +5455,7 @@ void player::check_needs_extremes()
             if (one_in(100 + int_cur)) {
                 fall_asleep(5);
             }
-        } else if( fatigue >= DEAD_TIRED && calendar::once_every(MINUTES(30)) ) {
+        } else if( get_fatigue() >= DEAD_TIRED && calendar::once_every(MINUTES(30)) ) {
             add_msg_if_player(m_warning, _("*yawn* You should really get some sleep."));
             add_effect( effect_lack_sleep, 50);
         }
@@ -5513,14 +5513,9 @@ void player::update_needs( int rate_multiplier )
         mod_thirst( divide_roll_remainder( thirst_rate * rate_multiplier, 1.0 ) );
     }
 
-    // Sanity check for negative fatigue value.
-    if( fatigue < -1000 ) {
-        fatigue = -1000;
-    }
-
-    const bool wasnt_fatigued = fatigue <= DEAD_TIRED;
+    const bool wasnt_fatigued = get_fatigue() <= DEAD_TIRED;
     // Don't increase fatigue if sleeping or trying to sleep or if we're at the cap.
-    if( fatigue < 1050 && !asleep && !debug_ls ) {
+    if( get_fatigue() < 1050 && !asleep && !debug_ls ) {
         float fatigue_rate = 1.0f;
         // Wakeful folks don't always gain fatigue!
         if( has_trait("WAKEFUL") ) {
@@ -5548,7 +5543,7 @@ void player::update_needs( int rate_multiplier )
         }
 
         if( !debug_ls && fatigue_rate > 0.0f ) {
-            fatigue += divide_roll_remainder( fatigue_rate * rate_multiplier, 1.0 );
+            mod_fatigue( divide_roll_remainder( fatigue_rate * rate_multiplier, 1.0 ) );
         }
     } else if( has_effect( effect_sleep ) ) {
         effect &sleep = get_effect( effect_sleep );
@@ -5577,16 +5572,16 @@ void player::update_needs( int rate_multiplier )
 
         if( recovery_rate > 0.0f ) {
             int recovered = divide_roll_remainder( recovery_rate * rate_multiplier, 1.0 );
-            if( fatigue - recovered < -20 ) {
+            if( get_fatigue() - recovered < -20 ) {
                 // Should be wake up, but that could prevent some retroactive regeneration
                 sleep.set_duration( 1 );
-                fatigue = -25;
+                mod_fatigue(-25);
             } else {
-                fatigue -= recovered;
+                mod_fatigue(-recovered);
             }
         }
     }
-    if( is_player() && wasnt_fatigued && fatigue > DEAD_TIRED && !in_sleep_state() ) {
+    if( is_player() && wasnt_fatigued && get_fatigue() > DEAD_TIRED && !in_sleep_state() ) {
         if (activity.type == ACT_NULL) {
             add_msg_if_player(m_warning, _("You're feeling tired.  %s to lie down for sleep."),
                 press_x(ACTION_SLEEP).c_str());
@@ -6104,8 +6099,8 @@ void player::add_eff_effects(effect e, bool reduced)
     }
     // Add fatigue
     if (e.get_amount("FATIGUE", reduced) > 0) {
-        fatigue += bound_mod_to_vals(fatigue, e.get_amount("FATIGUE", reduced),
-                        e.get_max_val("FATIGUE", reduced), e.get_min_val("FATIGUE", reduced));
+        mod_fatigue(bound_mod_to_vals(fatigue, e.get_amount("FATIGUE", reduced),
+                        e.get_max_val("FATIGUE", reduced), e.get_min_val("FATIGUE", reduced)));
     }
     // Add pain
     if (e.get_amount("PAIN", reduced) > 0) {
@@ -6238,8 +6233,8 @@ void player::process_effects() {
             if (val != 0 && !in_sleep_state()) {
                 mod = 1;
                 if(it.activated(calendar::turn, "FATIGUE", val, reduced, mod)) {
-                    fatigue += bound_mod_to_vals(fatigue, val, it.get_max_val("FATIGUE", reduced),
-                                                it.get_min_val("FATIGUE", reduced));
+                    mod_fatigue(bound_mod_to_vals(fatigue, val, it.get_max_val("FATIGUE", reduced),
+                                                it.get_min_val("FATIGUE", reduced)));
                 }
             }
 
@@ -7045,7 +7040,7 @@ void player::hardcoded_effects(effect &it)
             if (one_in(150)) {
                 add_msg_if_player(m_bad, _("You feel paranoid.  They're watching you."));
                 mod_pain(1);
-                fatigue += dice(1,6);
+                mod_fatigue(dice(1,6));
             } else if (one_in(500)) {
                 add_msg_if_player(m_bad, _("You feel like you need less teeth.  You pull one out, and it is rotten to the core."));
                 mod_pain(1);
@@ -7057,7 +7052,7 @@ void player::hardcoded_effects(effect &it)
             } else if (one_in(500)) {
                 add_msg_if_player(m_bad, _("You feel so sick, like you've been poisoned, but you need more.  So much more."));
                 vomit();
-                fatigue += dice(1,6);
+                mod_fatigue(dice(1,6));
             }
         }
     } else if( id == effect_teleglow ) {
@@ -7452,12 +7447,12 @@ void player::hardcoded_effects(effect &it)
             it.set_intensity(1);
         }
 
-        if( fatigue < -25 && it.get_duration() > 30 ) {
+        if( get_fatigue() < -25 && it.get_duration() > 30 ) {
             it.set_duration(dice(3, 10));
         }
 
-        if( fatigue <= 0 && fatigue > -20 ) {
-            fatigue = -25;
+        if( get_fatigue() <= 0 && get_fatigue() > -20 ) {
+            mod_fatigue(-25);
             add_msg_if_player(m_good, _("You feel well rested."));
             it.set_duration(dice(3, 100));
         }
@@ -7505,18 +7500,18 @@ void player::hardcoded_effects(effect &it)
                         mutate_category("MUTCAT_MYCUS");
                         mod_hunger(10);
                         mod_thirst(10);
-                        fatigue += 5;
+                        mod_fatigue(5);
                     }
                 }
             }
         }
 
         bool woke_up = false;
-        int tirednessVal = rng(5, 200) + rng(0, abs(fatigue * 2 * 5));
+        int tirednessVal = rng(5, 200) + rng(0, abs(get_fatigue() * 2 * 5));
         if (!has_effect( effect_blind ) && !worn_with_flag("BLIND") && !has_active_bionic("bio_blindfold")) {
             if (has_trait("HEAVYSLEEPER2") && !has_trait("HIBERNATE")) {
                 // So you can too sleep through noon
-                if ((tirednessVal * 1.25) < g->m.ambient_light_at(pos()) && (fatigue < 10 || one_in(fatigue / 2))) {
+                if ((tirednessVal * 1.25) < g->m.ambient_light_at(pos()) && (get_fatigue() < 10 || one_in(get_fatigue() / 2))) {
                     add_msg_if_player(_("It's too bright to sleep."));
                     // Set ourselves up for removal
                     it.set_duration(0);
@@ -7524,13 +7519,13 @@ void player::hardcoded_effects(effect &it)
                 }
              // Ursine hibernators would likely do so indoors.  Plants, though, might be in the sun.
             } else if (has_trait("HIBERNATE")) {
-                if ((tirednessVal * 5) < g->m.ambient_light_at(pos()) && (fatigue < 10 || one_in(fatigue / 2))) {
+                if ((tirednessVal * 5) < g->m.ambient_light_at(pos()) && (get_fatigue() < 10 || one_in(get_fatigue() / 2))) {
                     add_msg_if_player(_("It's too bright to sleep."));
                     // Set ourselves up for removal
                     it.set_duration(0);
                     woke_up = true;
                 }
-            } else if (tirednessVal < g->m.ambient_light_at(pos()) && (fatigue < 10 || one_in(fatigue / 2))) {
+            } else if (tirednessVal < g->m.ambient_light_at(pos()) && (get_fatigue() < 10 || one_in(get_fatigue() / 2))) {
                 add_msg_if_player(_("It's too bright to sleep."));
                 // Set ourselves up for removal
                 it.set_duration(0);
@@ -7543,11 +7538,11 @@ void player::hardcoded_effects(effect &it)
             // Cold or heat may wake you up.
             // Player will sleep through cold or heat if fatigued enough
             for (int i = 0 ; i < num_bp ; i++) {
-                if (temp_cur[i] < BODYTEMP_VERY_COLD - fatigue / 2) {
+                if (temp_cur[i] < BODYTEMP_VERY_COLD - get_fatigue() / 2) {
                     if (one_in(5000)) {
                         add_msg_if_player(_("You toss and turn trying to keep warm."));
                     }
-                    if (temp_cur[i] < BODYTEMP_FREEZING - fatigue / 2 ||
+                    if (temp_cur[i] < BODYTEMP_FREEZING - get_fatigue() / 2 ||
                                         one_in(temp_cur[i] + 5000)) {
                         add_msg_if_player(m_bad, _("It's too cold to sleep."));
                         // Set ourselves up for removal
@@ -7555,11 +7550,11 @@ void player::hardcoded_effects(effect &it)
                         woke_up = true;
                         break;
                     }
-                } else if (temp_cur[i] > BODYTEMP_VERY_HOT + fatigue / 2) {
+                } else if (temp_cur[i] > BODYTEMP_VERY_HOT + get_fatigue() / 2) {
                     if (one_in(5000)) {
                         add_msg_if_player(_("You toss and turn in the heat."));
                     }
-                    if (temp_cur[i] > BODYTEMP_SCORCHING + fatigue / 2 ||
+                    if (temp_cur[i] > BODYTEMP_SCORCHING + get_fatigue() / 2 ||
                                         one_in(15000 - temp_cur[i])) {
                         add_msg_if_player(m_bad, _("It's too hot to sleep."));
                         // Set ourselves up for removal
@@ -7670,8 +7665,8 @@ void player::suffer()
                 }
             }
             if (mdata.fatigue){
-                fatigue += mdata.cost;
-                if (fatigue >= EXHAUSTED) { // Exhausted
+                mod_fatigue(mdata.cost);
+                if (get_fatigue() >= EXHAUSTED) { // Exhausted
                     add_msg_if_player(m_warning, _("You're too exhausted to keep your %s going."), mdata.name.c_str());
                     tdata.powered = false;
                 }
@@ -7808,7 +7803,7 @@ void player::suffer()
             }
             if (one_in(3600)) {
                 add_msg_if_player(m_good, _("You feel fatigued all of a sudden."));
-                fatigue += 10 * rng(2, 4);
+                mod_fatigue(10 * rng(2, 4));
             }
             if (one_in(4800)) {
                 if (one_in(3)) {
@@ -8381,7 +8376,7 @@ void player::suffer()
         mod_healthy_mod(-50, -200);
     }
     if (has_bionic("bio_sleepy") && one_in(500) && !in_sleep_state()) {
-        fatigue++;
+        mod_fatigue(1);
     }
     if (has_bionic("bio_itchy") && one_in(500) && !has_effect( effect_formication )) {
         add_msg_if_player(m_bad, _("Your malfunctioning bionic itches!"));
@@ -8427,7 +8422,7 @@ void player::mend( int rate_multiplier )
     // Bed rest speeds up mending
     if( has_effect( effect_sleep ) ) {
         healing_factor *= 4.0;
-    } else if( fatigue > DEAD_TIRED ) {
+    } else if( get_fatigue() > DEAD_TIRED ) {
         // but being dead tired does not...
         healing_factor *= 0.75;
     }
@@ -11613,10 +11608,10 @@ int player::sleep_spot( const tripoint &p ) const
             sleepy -= 999;
         }
     }
-    if (fatigue < TIRED + 1) {
-        sleepy -= int( (TIRED + 1 - fatigue) / 4);
+    if (get_fatigue() < TIRED + 1) {
+        sleepy -= int( (TIRED + 1 - get_fatigue()) / 4);
     } else {
-        sleepy += int((fatigue - TIRED + 1) / 16);
+        sleepy += int((get_fatigue() - TIRED + 1) / 16);
     }
 
     if( stim > 0 || !has_trait("INSOMNIA") ) {
@@ -12930,7 +12925,7 @@ void player::environmental_revert_effect()
     }
     set_hunger(0);
     set_thirst(0);
-    fatigue = 0;
+    set_fatigue(0);
     set_healthy(0);
     set_healthy_mod(0);
     stim = 0;

@@ -4237,7 +4237,7 @@ void game::debug()
                         smenu.return_invalid = true;
                         smenu.addentry( 0, true, 'h', "%s: %d", _( "Hunger" ), p.get_hunger() );
                         smenu.addentry( 1, true, 't', "%s: %d", _( "Thirst" ), p.get_thirst() );
-                        smenu.addentry( 2, true, 'f', "%s: %d", _( "Fatigue" ), p.fatigue );
+                        smenu.addentry( 2, true, 'f', "%s: %d", _( "Fatigue" ), p.get_fatigue() );
                         smenu.addentry( 999, true, 'q', "%s", _( "[q]uit" ) );
                         smenu.selected = 0;
                         smenu.query();
@@ -4253,7 +4253,7 @@ void game::debug()
                                 valid = true;
                                 break;
                             case 2:
-                                cur = p.fatigue;
+                                cur = p.get_fatigue();
                                 valid = true;
                                 break;
                             default:
@@ -4269,7 +4269,7 @@ void game::debug()
                                     p.set_thirst( value );
                                     break;
                                 case 2:
-                                    p.fatigue = value;
+                                    p.set_fatigue( value );
                             }
                         }
 
@@ -12175,7 +12175,7 @@ void game::place_player( const tripoint &dest_loc )
         ///\EFFECT_INT decreases chance of tentacles getting stuck to the ground
         if ((!(m.has_flag("SWIMMABLE", dest_loc)) && (one_in(80 + u.dex_cur + u.int_cur)))) {
             add_msg(_("Your tentacles stick to the ground, but you pull them free."));
-            u.fatigue++;
+            u.mod_fatigue(1);
         }
     }
     if (!u.has_artifact_with(AEP_STEALTH) && !u.has_trait("LEG_TENTACLES") &&

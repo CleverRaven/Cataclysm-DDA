@@ -62,7 +62,7 @@ void activity_handlers::burrow_finish(player_activity *act, player *p)
         // Not quite as bad as the pickaxe, though
         p->mod_hunger(10);
         p->mod_thirst(10);
-        p->fatigue += 15;
+        p->mod_fatigue(15);
         p->mod_pain(3 * rng(1, 3));
         // Mining is construction work!
         p->practice( skill_carpentry, 5 );
@@ -71,7 +71,7 @@ void activity_handlers::burrow_finish(player_activity *act, player *p)
         //Breaking up concrete on the surface? not nearly as bad
         p->mod_hunger(5);
         p->mod_thirst(5);
-        p->fatigue += 10;
+        p->mod_fatigue(10);
     }
     g->m.destroy( pos, true );
 }
@@ -840,9 +840,9 @@ void activity_handlers::pickaxe_finish(player_activity *act, player *p)
         p->mod_hunger(15);
         p->mod_thirst(15);
         if( p->has_trait("STOCKY_TROGLO") ) {
-            p->fatigue += 20; // Yep, dwarves can dig longer before tiring
+            p->mod_fatigue(20); // Yep, dwarves can dig longer before tiring
         } else {
-            p->fatigue += 30;
+            p->mod_fatigue(30);
         }
         p->mod_pain(2 * rng(1, 3));
         // Mining is construction work!
@@ -852,7 +852,7 @@ void activity_handlers::pickaxe_finish(player_activity *act, player *p)
         //Breaking up concrete on the surface? not nearly as bad
         p->mod_hunger(5);
         p->mod_thirst(5);
-        p->fatigue += 10;
+        p->mod_fatigue(10);
     }
     g->m.destroy( pos, true );
     it->charges = std::max(long(0), it->charges - it->type->charges_to_use());
@@ -1177,13 +1177,13 @@ void activity_handlers::vibe_do_turn( player_activity *act, player *p )
         p->add_morale(MORALE_FEELING_GOOD, 4, 320); //4 points/min, one hour to fill
         // 1:1 fatigue:morale ratio, so maxing the morale is possible but will take
         // you pretty close to Dead Tired from a well-rested state.
-        p->fatigue += 4;
+        p->mod_fatigue(4);
     }
     if( vibrator_item.charges == 0 ) {
         act->moves_left = 0;
         add_msg(m_info, _("The %s runs out of batteries."), vibrator_item.tname().c_str());
     }
-    if( p->fatigue >= DEAD_TIRED ) { // Dead Tired: different kind of relaxation needed
+    if( p->get_fatigue() >= DEAD_TIRED ) { // Dead Tired: different kind of relaxation needed
         act->moves_left = 0;
         add_msg(m_info, _("You're too tired to continue."));
     }
