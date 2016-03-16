@@ -637,6 +637,12 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void set_painkiller(int npkill);
         /** Returns intensity of painkillers  */
         int get_painkiller() const;
+        /** Modifies the level of fatigue  */
+        void mod_fatigue(int nfatigue);
+        /** Sets the absolute level of fatigue */
+        void set_fatigue(int nfatigue);
+        /** Returns the current level of fatigue */
+        int get_fatigue() const;
 
         /** Heals a body_part for dam */
         void heal(body_part healed, int dam);

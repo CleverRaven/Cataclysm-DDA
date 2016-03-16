@@ -4843,6 +4843,21 @@ void player::react_to_felt_pain( int intensity )
     }
 }
 
+void player::mod_fatigue(int nfatigue)
+{
+    set_fatigue(fatigue + nfatigue);
+}
+
+void player::set_fatigue(int nfatigue)
+{
+    fatigue = nfatigue;
+}
+
+int player::get_fatigue() const
+{
+    return fatigue;
+}
+
 /*
     Where damage to player is actually applied to hit body parts
     Might be where to put bleed stuff rather than in player::deal_damage()
