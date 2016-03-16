@@ -12547,16 +12547,26 @@ int player::exceeds_recipe_requirements( const recipe &rec ) const
     return over;
 }
 
-bool player::has_recipe_requirements( const recipe *rec ) const
+bool player::has_recipe_requirements( const recipe &rec ) const
 {
-    return ( exceeds_recipe_requirements( *rec ) > -1 );
+    return ( exceeds_recipe_requirements( rec ) > -1 );
+}
+
+bool player::has_recipe_autolearned( const recipe &rec ) const
+{
+    return !rec.autolearn_requirements.empty() &&
+           meets_skill_requirements( rec.autolearn_requirements );
+}
+
+bool player::can_decomp_learn( const recipe &rec ) const
+{
+    return !rec.learn_by_disassembly.empty() &&
+           meets_skill_requirements( rec.learn_by_disassembly );
 }
 
 bool player::knows_recipe(const recipe *rec) const
 {
-    // do we know the recipe by virtue of it being autolearned?
-    if( !rec->autolearn_requirements.empty() &&
-        meets_skill_requirements( rec->autolearn_requirements ) ) {
+    if( has_recipe_autolearned( *rec ) ) {
         return true;
     }
 

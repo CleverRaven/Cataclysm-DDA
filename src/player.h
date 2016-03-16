@@ -1002,7 +1002,9 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool knows_recipe( const recipe *rec ) const;
         void learn_recipe( const recipe *rec, bool force = false );
         int exceeds_recipe_requirements( const recipe &rec ) const;
-        bool has_recipe_requirements( const recipe *rec ) const;
+        bool has_recipe_requirements( const recipe &rec ) const;
+        bool has_recipe_autolearned( const recipe &rec ) const;
+        bool can_decomp_learn( const recipe &rec ) const;
 
         bool studied_all_recipes( const itype &book ) const;
 

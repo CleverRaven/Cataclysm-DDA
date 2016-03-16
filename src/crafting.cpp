@@ -102,10 +102,12 @@ void load_recipe(JsonObject &jsobj)
 
     std::map<std::string, int> autolearn_requirements;
     if( jsobj.has_bool( "autolearn" ) ) {
-        // Short definition of autolearn (equal to required skills)
-        autolearn_requirements = requires_skills;
-        if( skill_used ) {
-            autolearn_requirements[skill_used.str()] = difficulty;
+        if( jsobj.get_bool( "autolearn" ) ) {
+            // Short definition of autolearn (equal to required skills)
+            autolearn_requirements = requires_skills;
+            if( skill_used ) {
+                autolearn_requirements[skill_used.str()] = difficulty;
+            }
         }
     } else if( jsobj.has_array( "autolearn" ) ) {
         JsonArray jarr = jsobj.get_array( "autolearn" );
@@ -1688,7 +1690,7 @@ void player::complete_disassemble( int item_pos, const tripoint &loc,
     }
 
     if( !dis.learn_by_disassembly.empty() && !knows_recipe( &dis ) ) {
-        if( meets_skill_requirements( dis.learn_by_disassembly ) ) {
+        if( can_decomp_learn( dis ) ) {
             // @todo: make this depend on intelligence
             if (one_in(4)) {
                 learn_recipe( &dis );
