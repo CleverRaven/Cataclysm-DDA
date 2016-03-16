@@ -12566,11 +12566,11 @@ bool player::can_decomp_learn( const recipe &rec ) const
 
 bool player::knows_recipe(const recipe *rec) const
 {
-    if( has_recipe_autolearned( *rec ) ) {
+    if( learned_recipes.find( rec->ident() ) != learned_recipes.end() ) {
         return true;
     }
 
-    if( learned_recipes.find( rec->ident() ) != learned_recipes.end() ) {
+    if( has_recipe_autolearned( *rec ) ) {
         return true;
     }
 

@@ -3904,7 +3904,7 @@
   "time": 12000,
   "reversible": true,
   "decomp_learn": 2,
-  "autolearn": false,
+  "autolearn": [[ "mechanics", 3 ], [ "electronics", 2 ]],
   "book_learn": [["manual_mechanics", 3] , ["textbook_mechanics", 2] , ["welding_book", 1]],
   "qualities":[
     {"id":"HAMMER","level":1,"amount":1}
@@ -7883,7 +7883,6 @@
   "components": [
     [
       [ "sewing_kit", 1 ],
-      [ "knitting_needles", 1 ],
       [ "tailors_kit", 1 ]
     ]
   ]

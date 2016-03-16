@@ -101,19 +101,19 @@ void load_recipe(JsonObject &jsobj)
     }
 
     std::map<std::string, int> autolearn_requirements;
-    if( jsobj.has_bool( "autolearn" ) ) {
+    if( jsobj.has_array( "autolearn" ) ) {
+        JsonArray jarr = jsobj.get_array( "autolearn" );
+        while( jarr.has_more() ) {
+            JsonArray ja = jarr.next_array();
+            autolearn_requirements[ja.get_string(0)] = ja.get_int(1);
+        }
+    } else if( jsobj.has_bool( "autolearn" ) ) {
         if( jsobj.get_bool( "autolearn" ) ) {
             // Short definition of autolearn (equal to required skills)
             autolearn_requirements = requires_skills;
             if( skill_used ) {
                 autolearn_requirements[skill_used.str()] = difficulty;
             }
-        }
-    } else if( jsobj.has_array( "autolearn" ) ) {
-        JsonArray jarr = jsobj.get_array( "autolearn" );
-        while( jarr.has_more() ) {
-            JsonArray ja = jarr.next_array();
-            requires_skills[ja.get_string(0)] = ja.get_int(1);
         }
     }
 
