@@ -1135,7 +1135,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool last_climate_control_ret;
         std::string move_mode;
         int power_level, max_power_level;
-        int fatigue;
         int tank_plut, reactor_plut, slow_rad;
         int oxygen;
         int stamina;
@@ -1372,6 +1371,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool can_study_recipe(const itype &book) const;
         bool try_study_recipe(const itype &book);
 
+        int fatigue;
         int pkill;
 
         std::vector<tripoint> auto_move_route;

@@ -79,7 +79,6 @@ npc::npc()
     wanted_item_pos = no_goal_point;
     guard_pos = no_goal_point;
     goal = no_goal_point;
-    fatigue = 0;
     fetching_item = false;
     has_new_items = true;
     worst_item_value = 0;
