@@ -171,7 +171,7 @@ std::vector<cbm_pair> define_content( player& u, body_part bp )
     std::vector<cbm_pair> content;
     content.push_back( std::make_pair( bp , INT_MAX ) );
     for( size_t i = 0; i < u.my_bionics.size(); ++i ) {
-        if( g->u.my_bionics[i].occupied_bp == bp ) {
+        if( u.my_bionics[i].occupied_bp == bp ) {
             content.push_back( std::make_pair( bp, i ) );
         }
     }
@@ -811,13 +811,13 @@ void player::power_bionics_new()
             if( tab_index == tab_count - 1 ) {
                 content.clear();
                 for( int bp_index = 0; bp_index <= num_bp; ++bp_index ) {
-                    std::vector<cbm_pair> more_content = define_content( g->u, static_cast<body_part>
-                                                                         ( bp_index ) );
+                    std::vector<cbm_pair> more_content = define_content( *this,
+                                                         static_cast<body_part>( bp_index ) );
                     content.insert( content.end(), more_content.begin(), more_content.end() );
                 }
             // bodypart: %tab_index%
             } else {
-                content = define_content( g->u, static_cast<body_part>( tab_index ) );
+                content = define_content( *this, static_cast<body_part>( tab_index ) );
             }
             max_scroll_position = std::max( 0, static_cast<int>( content.size() ) -
                                                getmaxy( w_bio_list ) );
