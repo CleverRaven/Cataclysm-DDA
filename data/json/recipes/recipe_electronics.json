@@ -245,7 +245,7 @@
   "difficulty": 1,
   "time": 7000,
   "reversible": false,
-  "autolearn": [[ "electronics" 3 ]],
+  "autolearn": [[ "electronics", 3 ]],
   "book_learn": [[ "manual_electronics", 1 ] , [ "textbook_electronics", 1 ] , [ "advanced_electronics", 1 ]],
   "tools": [
     [
