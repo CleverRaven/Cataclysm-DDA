@@ -917,7 +917,6 @@ private:
     void setID (int id);
     bool dead;  // If true, we need to be cleaned up
 
-    bool is_dangerous_field( const field_entry &fld ) const;
     bool sees_dangerous_field( const tripoint &p ) const;
     bool could_move_onto( const tripoint &p ) const;
 };

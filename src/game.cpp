@@ -12029,34 +12029,22 @@ bool game::walk_move( const tripoint &dest_loc )
     if( !shifting_furniture ) {
         //Ask for EACH bad field, maybe not? Maybe say "theres X bad shit in there don't do it."
         const field &tmpfld = m.field_at(dest_loc);
+        std::vector<const field_entry *> dangerous_fields;
         for( auto &fld : tmpfld ) {
-            const field_entry &cur = fld.second;
-            field_id curType = cur.getFieldType();
-            bool dangerous = false;
-
-            switch (curType) {
-            case fd_smoke:
-                dangerous = !(u.get_env_resist(bp_mouth) >= 7);
-                break;
-            case fd_tear_gas:
-            case fd_toxic_gas:
-            case fd_gas_vent:
-            case fd_relax_gas:
-                dangerous = !(u.get_env_resist(bp_mouth) >= 15);
-                break;
-            case fd_fungal_haze:
-                dangerous = (!((u.get_env_resist(bp_mouth) >= 15) &&
-                              (u.get_env_resist(bp_eyes) >= 15) ) &&
-                              !u.has_trait("M_IMMUNE"));
-            case fd_electricity:
-                dangerous = !u.is_elec_immune();
-                break;
-            default:
-                dangerous = cur.is_dangerous();
-                break;
+            if( u.is_dangerous_field( fld.second ) ) {
+                dangerous_fields.push_back( &fld.second );
             }
-            if( dangerous && !u.has_trait( "DEBUG_NODMG" ) &&
-                !query_yn(_("Really step into that %s?"), cur.name().c_str())) {
+        }
+
+        if( !dangerous_fields.empty() ) {
+            std::stringstream names;
+            names << dangerous_fields[0]->name();
+            for( size_t i = 1; i < dangerous_fields.size(); i++ ) {
+                names << ", ";
+                names << dangerous_fields[i]->name();
+            }
+
+            if( !query_yn( _("Really step into: %s?"), names.str().c_str() ) ) {
                 return true;
             }
         }

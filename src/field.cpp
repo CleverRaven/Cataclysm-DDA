@@ -1778,7 +1778,7 @@ void map::player_in_field( player &u )
             const auto burn_part = [&]( body_part bp, const int scale ) {
                 const int damage = rng( 1, scale + density );
                 // A bit ugly, but better than being annoyed by acid when in hazmat
-                if( u.get_armor_type( bp, DT_ACID ) < damage ) {
+                if( u.get_armor_type( DT_ACID, bp ) < damage ) {
                     auto ddi = u.deal_damage( nullptr, bp, damage_instance( DT_ACID, damage ) );
                     total_damage += ddi.total_damage();
                 }
