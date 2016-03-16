@@ -12555,7 +12555,8 @@ bool player::has_recipe_requirements( const recipe *rec ) const
 bool player::knows_recipe(const recipe *rec) const
 {
     // do we know the recipe by virtue of it being autolearned?
-    if( rec->autolearn && has_recipe_requirements( rec ) ) {
+    if( !rec->autolearn_requirements.empty() &&
+        meets_skill_requirements( rec->autolearn_requirements ) ) {
         return true;
     }
 

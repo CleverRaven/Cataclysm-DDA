@@ -54,8 +54,8 @@ struct recipe {
         skill_id skill_used;
         std::map<skill_id, int> required_skills;
         bool reversible; // can the item be disassembled?
-        bool autolearn; // do we learn it just by leveling skills?
-        int learn_by_disassembly; // what level (if any) do we learn it by disassembly?
+        std::map<skill_id, int> autolearn_requirements; // Skill levels required to autolearn
+        std::map<skill_id, int> learn_by_disassembly; // Skill levels required to learn by disassembly
 
         // maximum achievable time reduction, as percentage of the original time.
         // if zero then the recipe has no batch crafting time reduction.

@@ -990,6 +990,17 @@ SkillLevel const& Character::get_skill_level(const skill_id &ident) const
     return get_skill_level( &ident.obj() );
 }
 
+bool Character::meets_skill_requirements( const std::map<skill_id, int> &req ) const
+{
+    for( const auto &pr : req ) {
+        if( get_skill_level( pr.first ) < pr.second ) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
 int Character::skill_dispersion( const item& gun, bool random ) const
 {
     static skill_id skill_gun( "gun" );

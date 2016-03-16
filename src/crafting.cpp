@@ -36,7 +36,7 @@ void remove_from_component_lookup(recipe* r);
 
 recipe::recipe() :
     result("null"), contained(false),skill_used( NULL_ID ), reversible(false),
-    autolearn(false), learn_by_disassembly(-1), result_mult(1)
+    autolearn_requirements(), learn_by_disassembly(), result_mult(1)
 {
 }
 
@@ -68,7 +68,6 @@ void load_recipe(JsonObject &jsobj)
     // required
     std::string result = jsobj.get_string("result");
     std::string category = jsobj.get_string("category");
-    bool autolearn = jsobj.get_bool("autolearn");
     int time = jsobj.get_int("time");
     int difficulty = jsobj.get_int( "difficulty" );
 
@@ -78,7 +77,6 @@ void load_recipe(JsonObject &jsobj)
     bool reversible = jsobj.get_bool("reversible", false);
     skill_id skill_used( jsobj.get_string("skill_used", skill_id::NULL_ID.str() ) );
     std::string id_suffix = jsobj.get_string("id_suffix", "");
-    int learn_by_disassembly = jsobj.get_int("decomp_learn", -1);
     double batch_rscale = 0.0;
     int batch_rsize = 0;
     if (jsobj.has_array( "batch_time_factors" )) {
@@ -99,6 +97,38 @@ void load_recipe(JsonObject &jsobj)
             }
         } else {
             requires_skills[jsarr.get_string(0)] = jsarr.get_int(1);
+        }
+    }
+
+    std::map<std::string, int> autolearn_requirements;
+    if( jsobj.has_bool( "autolearn" ) ) {
+        // Short definition of autolearn (equal to required skills)
+        autolearn_requirements = requires_skills;
+        if( skill_used ) {
+            autolearn_requirements[skill_used.str()] = difficulty;
+        }
+    } else if( jsobj.has_array( "autolearn" ) ) {
+        JsonArray jarr = jsobj.get_array( "autolearn" );
+        while( jarr.has_more() ) {
+            JsonArray ja = jarr.next_array();
+            requires_skills[ja.get_string(0)] = ja.get_int(1);
+        }
+    }
+
+    std::map<std::string, int> learn_by_disassembly;
+    if( jsobj.has_int( "decomp_learn" ) ) {
+        // Short definition of decomp_learn - only the main skill
+        int val = jsobj.get_int( "decomp_learn" );
+        if( val >= 0 && !skill_used ) {
+            jsobj.throw_error( "decomp_learn specified with no skill_used" );
+        } else if( val >= 0 ) {
+            learn_by_disassembly[skill_used.str()] = val;
+        }
+    } else if( jsobj.has_array( "decomp_learn" ) ) {
+        JsonArray jarr = jsobj.get_array( "decomp_learn" );
+        while( jarr.has_more() ) {
+            JsonArray ja = jarr.next_array();
+            learn_by_disassembly[ja.get_string(0)] = ja.get_int(1);
         }
     }
 
@@ -140,9 +170,13 @@ void load_recipe(JsonObject &jsobj)
     for( const auto &elem : requires_skills ) {
         rec->required_skills[skill_id( elem.first )] = elem.second;
     }
+    for( const auto &elem : autolearn_requirements ) {
+        rec->autolearn_requirements[skill_id( elem.first )] = elem.second;
+    }
+    for( const auto &elem : learn_by_disassembly ) {
+        rec->learn_by_disassembly[skill_id( elem.first )] = elem.second;
+    }
     rec->reversible = reversible;
-    rec->autolearn = autolearn;
-    rec->learn_by_disassembly = learn_by_disassembly;
     rec->batch_rscale = batch_rscale;
     rec->batch_rsize = batch_rsize;
     rec->result_mult = result_mult;
@@ -1653,8 +1687,9 @@ void player::complete_disassemble( int item_pos, const tripoint &loc,
         }
     }
 
-    if (dis.learn_by_disassembly >= 0 && !knows_recipe(&dis)) {
-        if( !dis.skill_used || dis.learn_by_disassembly <= skillLevel(dis.skill_used)) {
+    if( !dis.learn_by_disassembly.empty() && !knows_recipe( &dis ) ) {
+        if( meets_skill_requirements( dis.learn_by_disassembly ) ) {
+            // @todo: make this depend on intelligence
             if (one_in(4)) {
                 learn_recipe( &dis );
                 add_msg(m_good, _("You learned a recipe from disassembling it!"));
