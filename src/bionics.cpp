@@ -951,7 +951,7 @@ void player::power_bionics_new()
             scroll_position = 0;
             recalc = true;
 
-        } else if( action == "REASSIGN" ) {
+        } else if( action == "REASSIGN" && content.size() > 1 ) {
             const long ch = my_bionics[content[cursor].second].invlet;
             bionic *tmp = bionic_by_invlet( ch );
             if( tmp == nullptr ) {
@@ -977,33 +977,30 @@ void player::power_bionics_new()
                 tmp->invlet = newch;
             }
 
-        } else if( action == "REMOVE" ) {
+        } else if( action == "REMOVE" && content.size() > 1 ) {
             if( uninstall_bionic( my_bionics[content[cursor].second].id ) ) {
                 recalc = true;
                 continue;
             }
 
-        } else if( action == "CONFIRM" ) {
+        } else if( action == "CONFIRM" && content.size() > 1 ) {
             bionic *tmp = &my_bionics[content[cursor].second];
             if( tmp == nullptr ) {
                 // Selected an non-existing bionic
-                // this should not happen because we're choosing bionic via cursor
                 continue;
-            } else {
-                if( bionics[tmp->id].activated ) {
-                    int b = tmp - &my_bionics[0];
-                    if( tmp->powered ) {
-                        deactivate_bionic( b );
-                    } else {
-                        activate_bionic( b );
-                    }
-                    // update message log and the menu
-                    g->refresh_all();
-                    continue;
-                } else {
-                    popup( _("You can not activate %s!" ), bionic_info( tmp->id ).name.c_str() );
-                }
             }
+            if( !bionics[tmp->id].activated ) {
+                popup( _("You can not activate %s!" ), bionic_info( tmp->id ).name.c_str() );
+                continue;
+            }
+            int b = tmp - &my_bionics[0];
+            if( tmp->powered ) {
+                deactivate_bionic( b );
+            } else {
+                activate_bionic( b );
+            }
+            // update message log and the menu
+            g->refresh_all();
 
         } else if( action == "ANY_INPUT" ) {
             long ch = ctxt.get_raw_input().get_first_input();
@@ -1016,21 +1013,19 @@ void player::power_bionics_new()
             if( tmp == nullptr ) {
                 // Selected an non-existing bionic
                 continue;
-            } else {
-                if( bionics[tmp->id].activated ) {
-                    int b = tmp - &my_bionics[0];
-                    if( tmp->powered ) {
-                        deactivate_bionic( b );
-                    } else {
-                        activate_bionic( b );
-                    }
-                    // update message log and the menu
-                    g->refresh_all();
-                    continue;
-                } else {
-                    popup( _("You can not activate %s!" ), bionic_info( tmp->id ).name.c_str() );
-                }
             }
+            if( !bionics[tmp->id].activated ) {
+                popup( _("You can not activate %s!" ), bionic_info( tmp->id ).name.c_str() );
+                continue;
+            }
+            int b = tmp - &my_bionics[0];
+            if( tmp->powered ) {
+                deactivate_bionic( b );
+            } else {
+                activate_bionic( b );
+            }
+            // update message log and the menu
+            g->refresh_all();
         }
     }
 }
