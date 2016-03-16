@@ -10229,7 +10229,7 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
 
     } else {
         // Filling up normal containers
-        bool allow_bucket = cont == &g->u.weapon || !g->u.has_item( *cont );
+        bool allow_bucket = cont == &u.weapon || !u.has_item( *cont );
         std::string err;
         if( !cont->fill_with( liquid, err, allow_bucket ) ) {
             add_msg( m_info, err.c_str() );
@@ -10314,7 +10314,7 @@ int game::move_liquid(item &liquid)
         } else {
             item tmp_liquid = liquid;
             std::string err;
-            bool allow_bucket = cont == &g->u.weapon || !g->u.has_item( *cont );
+            bool allow_bucket = cont == &u.weapon || !u.has_item( *cont );
             if( !cont->fill_with( tmp_liquid, err, allow_bucket ) ) {
                 add_msg( m_info, "%s", err.c_str() );
                 return -1;
