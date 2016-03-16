@@ -105,35 +105,9 @@ bool clear_shot_reach( const tripoint &from, const tripoint &to )
     return true;
 }
 
-bool npc::is_dangerous_field( const field_entry &fld ) const
-{
-    switch( fld.getFieldType() ) {
-        case fd_smoke:
-            return get_env_resist( bp_mouth ) < 7;
-        case fd_tear_gas:
-        case fd_toxic_gas:
-        case fd_gas_vent:
-        case fd_relax_gas:
-            return get_env_resist( bp_mouth ) < 15;
-        case fd_fungal_haze:
-            if( has_trait( "M_IMMUNE" ) ) {
-                return false;
-            }
-            return get_env_resist( bp_mouth ) < 15 || get_env_resist( bp_eyes ) < 15;
-        default:
-            return fld.is_dangerous();
-    }
-}
-
 bool npc::sees_dangerous_field( const tripoint &p ) const
 {
-    auto &fields = g->m.field_at( p );
-    for( auto & fld : fields ) {
-        if( is_dangerous_field( fld.second ) ) {
-            return true;
-        }
-    }
-    return false;
+    return is_dangerous_field( g->m.field_at( p ) );
 }
 
 bool npc::could_move_onto( const tripoint &p ) const
@@ -1023,6 +997,14 @@ npc_action npc::address_needs( int danger )
         set_thirst(0);
     }
 
+    if( danger <= NPC_DANGER_VERY_LOW && find_corpse_to_pulp() ) {
+        if( !do_pulp() ) {
+            move_to_next();
+        }
+
+        return npc_noop;
+    }
+
     // TODO: More risky attempts at sleep when exhausted
     if( danger == 0 && fatigue > TIRED ) {
         if( !is_following() ) {
@@ -1370,41 +1352,42 @@ void npc::aim()
     }
 }
 
-void npc::update_path( const tripoint &p, const bool no_bashing )
+bool npc::update_path( const tripoint &p, const bool no_bashing, bool force )
 {
     if( p == pos() ) {
         path.clear();
-        return;
+        return true;
     }
 
     while( !path.empty() && path[0] == pos() ) {
         path.erase( path.begin() );
     }
 
-    const int bash_power = no_bashing ? 0 : smash_ability();
-    if( path.empty() ) {
-        path = g->m.route( pos(), p, bash_power, 1000 );
-        if( path.empty() ) {
-            add_msg( m_debug, "Failed to path %d,%d,%d->%d,%d,%d",
-                     posx(), posy(), posz(), p.x, p.y, p.z );
+    if( !path.empty() ) {
+        const tripoint &last = path[path.size() - 1];
+        if( last == p && ( path[0].z != posz() || rl_dist( path[0], pos() ) <= 1 ) ) {
+            // Our path already leads to that point, no need to recalculate
+            return true;
         }
-        return;
-    }
-    const tripoint &last = path[path.size() - 1];
-    if( last == p && ( path[0].z != posz() || rl_dist( path[0], pos() ) <= 1 ) ) {
-        // Our path already leads to that point, no need to recalculate
-        return;
     }
 
-    path = g->m.route( pos(), p, bash_power, 1000 );
-    if( !path.empty() && path[0] == pos() ) {
-        path.erase( path.begin() );
-    }
-
-    if( path.empty() ) {
+    const int bash_power = no_bashing ? 0 : smash_ability();
+    auto new_path = g->m.route( pos(), p, bash_power, 1000 );
+    if( new_path.empty() ) {
         add_msg( m_debug, "Failed to path %d,%d,%d->%d,%d,%d",
                  posx(), posy(), posz(), p.x, p.y, p.z );
     }
+
+    while( !new_path.empty() && new_path[0] == pos() ) {
+        new_path.erase( new_path.begin() );
+    }
+
+    if( !new_path.empty() || force ) {
+        path = std::move( new_path );
+        return true;
+    }
+
+    return false;
 }
 
 bool npc::can_move_to( const tripoint &p, bool no_bashing ) const
@@ -2015,6 +1998,91 @@ void npc::drop_items(int weight, int volume)
         }
     }
     update_worst_item_value();
+}
+
+bool npc::find_corpse_to_pulp()
+{
+    if( is_following() && !rules.allow_pulp ) {
+        return false;
+    }
+
+    // Pathing with overdraw can get expensive, limit it
+    int path_counter = 4;
+    const auto check_tile = [this, &path_counter]( const tripoint &p ) -> const item * {
+        if( !g->m.sees_some_items( p, *this ) || !sees( p ) ) {
+            return nullptr;
+        }
+
+        const auto items = g->m.i_at( p );
+        const item * found = nullptr;
+        for( const item &it : items ) {
+            // Pulp only stuff that revives, but don't pulp acid stuff
+            // That is, if you aren't protected from this stuff!
+            if( it.can_revive() && !is_dangerous_field( it.get_mtype()->bloodType() ) ) {
+                found = &it;
+            }
+        }
+
+        if( found != nullptr ) {
+            path_counter--;
+            // Only return corpses we can path to
+            return update_path( p, false, false ) ? found : nullptr;
+        }
+
+        return nullptr;
+    };
+
+    const int range = 6;
+
+    const bool had_pulp_target = pulp_location != tripoint_min;
+
+    const item *corpse = nullptr;
+    if( had_pulp_target && square_dist( pos(), pulp_location ) <= range ) {
+        corpse = check_tile( pulp_location );
+    }
+
+    // Remember the old target to avoid spamming
+    const item *old_target = corpse;
+
+    if( corpse == nullptr ) {
+        for( const tripoint &p : closest_tripoints_first( range, pos() ) ) {
+            corpse = check_tile( p );
+
+            if( corpse != nullptr ) {
+                pulp_location = p;
+                break;
+            }
+
+            if( path_counter <= 0 ) {
+                break;
+            }
+        }
+    }
+
+    if( corpse != nullptr && corpse != old_target && is_following() ) {
+        say( _("Hold on, I want to pulp that %s."),
+             corpse->tname().c_str() );
+    }
+
+    return corpse != nullptr;
+}
+
+bool npc::do_pulp()
+{
+    if( pulp_location == tripoint_min ) {
+        return false;
+    }
+
+    if( rl_dist( pulp_location, pos() ) > 1 || pulp_location.z != posz() ) {
+        return false;
+    }
+
+    // TODO: Don't recreate the activity every time
+    int old_moves = moves;
+    assign_activity( ACT_PULP, INT_MAX, 0 );
+    activity.placement = pulp_location;
+    activity.do_turn( this );
+    return moves != old_moves;
 }
 
 bool npc::wield_better_weapon()

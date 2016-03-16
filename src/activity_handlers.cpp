@@ -938,7 +938,7 @@ void activity_handlers::pulp_do_turn( player_activity *act, player *p )
             p->mod_stat( "stamina", stamina_ratio * -40 );
 
             moves += 100 / std::max( 0.25f, stamina_ratio );
-            if( one_in( 10 ) ) {
+            if( one_in( 4 ) ) {
                 // Smashing may not be butchery, but it involves some zombie anatomy
                 p->practice( skill_survival, 2, 2 );
             }
@@ -954,12 +954,14 @@ void activity_handlers::pulp_do_turn( player_activity *act, player *p )
     // If we reach this, all corpses have been pulped, finish the activity
     act->moves_left = 0;
     if( num_corpses == 0 ) {
-        add_msg(m_bad, _("The corpse moved before you could finish smashing it!"));
+        p->add_msg_if_player(m_bad, _("The corpse moved before you could finish smashing it!"));
         return;
     }
     // TODO: Factor in how long it took to do the smashing.
-    add_msg(ngettext("The corpse is thoroughly pulped.",
-                     "The corpses are thoroughly pulped.", num_corpses));
+    p->add_msg_player_or_npc( ngettext( "The corpse is thoroughly pulped.",
+                                        "The corpses are thoroughly pulped.", num_corpses ),
+                              ngettext( "<npcname> finished pulping the corpse.",
+                                        "<npcname> finished pulping the corpses.", num_corpses ) );
 }
 
 void activity_handlers::refill_vehicle_do_turn( player_activity *act, player *p )

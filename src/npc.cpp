@@ -2194,6 +2194,14 @@ std::string npc::opinion_text() const
  return ret.str();
 }
 
+void maybe_shift( tripoint &pos, int dx, int dy )
+{
+    if( pos != tripoint_min ) {
+        pos.x += dx;
+        pos.y += dy;
+    }
+}
+
 void npc::shift(int sx, int sy)
 {
     const int shiftx = sx * SEEX;
@@ -2219,15 +2227,9 @@ void npc::shift(int sx, int sy)
         }
     }
 
-    if( wanted_item_pos != no_goal_point ) {
-        wanted_item_pos.x -= shiftx;
-        wanted_item_pos.y -= shifty;
-    }
-
-    if( last_player_seen_pos != no_goal_point ) {
-        last_player_seen_pos.x -= shiftx;
-        last_player_seen_pos.y -= shifty;
-    }
+    maybe_shift( wanted_item_pos, -shiftx, -shifty );
+    maybe_shift( last_player_seen_pos, -shiftx, -shifty );
+    maybe_shift( pulp_location, -shiftx, -shifty );
     path.clear();
 }
 

@@ -223,6 +223,7 @@ struct npc_follower_rules : public JsonSerializer, public JsonDeserializer
     bool allow_bash;
     bool allow_sleep;
     bool allow_complain;
+    bool allow_pulp;
 
     npc_follower_rules()
     {
@@ -236,6 +237,7 @@ struct npc_follower_rules : public JsonSerializer, public JsonDeserializer
         allow_bash = true;
         allow_sleep = false;
         allow_complain = true;
+        allow_pulp = true;
     };
 
     using JsonSerializer::serialize;
@@ -747,7 +749,13 @@ public:
     void do_reload( item &what );
 
 // Physical movement from one tile to the next
- void update_path( const tripoint &p, bool no_bashing = false );
+    /**
+     * Tries to find path to p. If it can, updates path to it.
+     * @param no_bashing Don't allow pathing through tiles that require bashing.
+     * @param force If there is no valid path, empty the current path.
+     * @returns If it updated the path.
+     */
+    bool update_path( const tripoint &p, bool no_bashing = false, bool force = true );
  bool can_move_to( const tripoint &p, bool no_bashing = false ) const;
  void move_to    ( const tripoint &p, bool no_bashing = false );
  void move_to_next(); // Next in <path>
@@ -759,6 +767,11 @@ public:
  void find_item  (); // Look around and pick an item
  void pick_up_item (); // Move to, or grab, our targeted item
  void drop_items (int weight, int volume); // Drop wgt and vol
+
+    /** Returns true if it finds one. */
+    bool find_corpse_to_pulp();
+    /** Returns true if it handles the turn. */
+    bool do_pulp();
 
 // Combat functions and player interaction functions
     Creature *get_target( int target ) const;
@@ -855,6 +868,11 @@ public:
 
     tripoint wander_pos; // Not actually used (should be: wander there when you hear a sound)
     int wander_time;
+
+    /**
+     * Location and index of the corpse we'd like to pulp (if any).
+     */
+    tripoint pulp_location;
 
  int restock;
  bool fetching_item;

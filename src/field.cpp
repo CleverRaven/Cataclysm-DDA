@@ -1767,13 +1767,21 @@ void map::player_in_field( player &u )
                 break;
             }
 
+            if( u.has_trait( "ACIDPROOF" ) ) {
+                // No need for warnings
+                break;
+            }
+
             const int density = cur->getFieldDensity();
             int total_damage = 0;
             // Use a helper for a bit less boilerplate
             const auto burn_part = [&]( body_part bp, const int scale ) {
                 const int damage = rng( 1, scale + density );
-                auto ddi = u.deal_damage( nullptr, bp, damage_instance( DT_ACID, damage ) );
-                total_damage += ddi.total_damage();
+                // A bit ugly, but better than being annoyed by acid when in hazmat
+                if( u.get_armor_type( bp, DT_ACID ) < damage ) {
+                    auto ddi = u.deal_damage( nullptr, bp, damage_instance( DT_ACID, damage ) );
+                    total_damage += ddi.total_damage();
+                }
                 // Represents acid seeping in rather than being splashed on
                 u.add_env_effect( effect_corroding, bp, 2 + density, rng( 2, 1 + density ), bp, false, 0 );
             };
@@ -2639,4 +2647,10 @@ int field::move_cost() const
         current_cost += fld.second.move_cost();
     }
     return current_cost;
+}
+
+bool field_type_dangerous( field_id id )
+{
+    const field_t &ft = fieldlist[id];
+    return ft.dangerous[0] || ft.dangerous[1] || ft.dangerous[2];
 }

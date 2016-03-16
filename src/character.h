@@ -11,6 +11,9 @@
 #include <map>
 
 using skill_id = string_id<Skill>;
+enum field_id : int;
+class field;
+class field_entry;
 
 enum vision_modes {
     DEBUG_NIGHTVISION,
@@ -447,6 +450,10 @@ class Character : public Creature, public visitable<Character>
          * It is supposed to hide the query_yn to simplify player vs. npc code.
          */
         virtual bool query_yn( const char *mes, ... ) const = 0;
+
+        bool is_dangerous_field( const field &fld ) const;
+        bool is_dangerous_field( const field_entry &entry ) const;
+        bool is_dangerous_field( const field_id fid ) const;
 
         /** Returns true if the player has some form of night vision */
         bool has_nv();
