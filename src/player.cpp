@@ -5365,11 +5365,12 @@ void player::check_needs_extremes()
                            pgettext("memorial_female", "Died of a healing stimulant overdose."));
         hp_cur[hp_torso] = 0;
     } else if( get_effect_dur( effect_adrenaline ) > 500 ) {
-        add_msg_if_player(m_bad, _("Your heart spasms and stops."));
+        add_msg_if_player( m_bad, _("Your heart spasms and stops.") );
         add_memorial_log( pgettext("memorial_male", "Died of adrenaline overdose."),
                           pgettext("memorial_female", "Died of adrenaline overdose.") );
         hp_cur[hp_torso] = 0;
     }
+
     // Check if we're starving or have starved
     if( is_player() && get_hunger() >= 3000 ) {
         if (get_hunger() >= 6000) {
@@ -7287,7 +7288,7 @@ void player::hardcoded_effects(effect &it)
             }
         }
 
-        if( dur > 14000 && one_in( 512 ) ) {
+        if( dur > 18000 && one_in( MINUTES( 5 ) * 512 ) ) {
             if( !has_trait( "NOPAIN" ) ) {
                 add_msg_if_player(m_bad, _("Your heart spasms painfully and stops, dragging you back to reality as you die."));
             } else {
