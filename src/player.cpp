@@ -172,7 +172,6 @@ player::player() : Character()
  blocks_left = 1;
  power_level = 0;
  max_power_level = 0;
- fatigue = 0;
  stamina = get_stamina_max();
  stim = 0;
  pkill = 0;
@@ -4841,21 +4840,6 @@ void player::react_to_felt_pain( int intensity )
             wake_up();
         }
     }
-}
-
-void player::mod_fatigue(int nfatigue)
-{
-    set_fatigue(fatigue + nfatigue);
-}
-
-void player::set_fatigue(int nfatigue)
-{
-    fatigue = std::max( nfatigue, -1000 );
-}
-
-int player::get_fatigue() const
-{
-    return fatigue;
 }
 
 /*
