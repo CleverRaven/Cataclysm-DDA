@@ -6051,25 +6051,18 @@ int iuse::unfold_generic(player *p, item *it, bool, const tripoint& )
 
 int iuse::adrenaline_injector(player *p, item *it, bool, const tripoint& )
 {
-    if( p->is_npc() && p->stim > 100 ) {
+    if( p->is_npc() && p->get_effect_dur( effect_adrenaline ) >= 300 ) {
         return 0;
     }
 
     p->moves -= 100;
-    p->add_msg_if_player(_("You inject yourself with adrenaline."));
+    p->add_msg_player_or_npc( _("You inject yourself with adrenaline."),
+                              _("<npcname> injects themselves with adrenaline.") );
 
     item syringe( "syringe", it->bday );
     p->i_add( syringe );
-    p->add_effect( effect_adrenaline, 200);
-    if (p->has_effect( effect_adrenaline)) {
-        //Massively boost stimulant level, risking death on an extended chain
-        p->stim += 80;
-    }
+    p->add_effect( effect_adrenaline, 200 );
 
-    if (p->has_effect( effect_asthma)) {
-        p->remove_effect( effect_asthma);
-        p->add_msg_if_player(m_good, _("The adrenaline causes your asthma to clear."));
-    }
     return it->type->charges_to_use();
 }
 

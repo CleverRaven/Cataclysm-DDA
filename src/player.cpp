@@ -4799,6 +4799,10 @@ void player::set_pain(int npain)
 
 int player::get_perceived_pain() const
 {
+    if( get_effect_int( effect_adrenaline ) > 1 ) {
+        return 0;
+    }
+
     return std::max( get_pain() - get_painkiller(), 0 );
 }
 
@@ -5351,25 +5355,19 @@ void player::check_needs_extremes()
         add_memorial_log(pgettext("memorial_male", "Died of a drug overdose."),
                            pgettext("memorial_female", "Died of a drug overdose."));
         hp_cur[hp_torso] = 0;
-    } else if( has_effect( effect_jetinjector ) ) {
-            if( get_effect_dur( effect_jetinjector ) > 400 ) {
-                if (!(has_trait("NOPAIN"))) {
-                    add_msg_if_player(m_bad, _("Your heart spasms painfully and stops."));
-                } else {
-                    add_msg_if_player(_("Your heart spasms and stops."));
-                }
-                add_memorial_log(pgettext("memorial_male", "Died of a healing stimulant overdose."),
-                                   pgettext("memorial_female", "Died of a healing stimulant overdose."));
-                hp_cur[hp_torso] = 0;
-            }
-    } else if( has_effect( effect_datura ) && get_effect_dur( effect_datura ) > 14000 && one_in( 512 ) ) {
+    } else if( has_effect( effect_jetinjector ) && get_effect_dur( effect_jetinjector ) > 400 ) {
         if (!(has_trait("NOPAIN"))) {
-            add_msg_if_player(m_bad, _("Your heart spasms painfully and stops, dragging you back to reality as you die."));
+            add_msg_if_player(m_bad, _("Your heart spasms painfully and stops."));
         } else {
-            add_msg_if_player(_("You dissolve into beautiful paroxysms of energy.  Life fades from your nebulae and you are no more."));
+            add_msg_if_player(_("Your heart spasms and stops."));
         }
-        add_memorial_log(pgettext("memorial_male", "Died of datura overdose."),
-                           pgettext("memorial_female", "Died of datura overdose."));
+        add_memorial_log(pgettext("memorial_male", "Died of a healing stimulant overdose."),
+                           pgettext("memorial_female", "Died of a healing stimulant overdose."));
+        hp_cur[hp_torso] = 0;
+    } else if( get_effect_dur( effect_adrenaline ) > 500 ) {
+        add_msg_if_player(m_bad, _("Your heart spasms and stops."));
+        add_memorial_log( pgettext("memorial_male", "Died of adrenaline overdose."),
+                          pgettext("memorial_female", "Died of adrenaline overdose.") );
         hp_cur[hp_torso] = 0;
     }
     // Check if we're starving or have starved
@@ -7287,6 +7285,17 @@ void player::hardcoded_effects(effect &it)
                     mod_pain(rng(8, 40));
                 }
             }
+        }
+
+        if( dur > 14000 && one_in( 512 ) ) {
+            if( !has_trait( "NOPAIN" ) ) {
+                add_msg_if_player(m_bad, _("Your heart spasms painfully and stops, dragging you back to reality as you die."));
+            } else {
+                add_msg_if_player(_("You dissolve into beautiful paroxysms of energy.  Life fades from your nebulae and you are no more."));
+            }
+            add_memorial_log(pgettext("memorial_male", "Died of datura overdose."),
+                               pgettext("memorial_female", "Died of datura overdose."));
+            hp_cur[hp_torso] = 0;
         }
     } else if( id == effect_grabbed ) {
         blocks_left -= 1;
