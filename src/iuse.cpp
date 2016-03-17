@@ -6061,6 +6061,12 @@ int iuse::adrenaline_injector(player *p, item *it, bool, const tripoint& )
 
     item syringe( "syringe", it->bday );
     p->i_add( syringe );
+    if( p->has_effect( effect_adrenaline ) ) {
+        p->add_msg_if_player( m_bad, _("Your heart spasms!") );
+        // Note: not the mod, the health
+        p->mod_healthy( -20 );
+    }
+
     p->add_effect( effect_adrenaline, 200 );
 
     return it->type->charges_to_use();

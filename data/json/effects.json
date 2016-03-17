@@ -1092,7 +1092,6 @@
         "miss_messages": [["Your comedown throws you off.", 1]],
         "max_intensity": 2,
         "int_dur_factor": 150,
-        "dur_add_perc": 15,
         "removes_effects": ["winded"],
         "base_mods": {
             "speed_mod": [-10],
