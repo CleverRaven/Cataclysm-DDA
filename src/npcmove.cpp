@@ -2018,8 +2018,14 @@ bool npc::find_corpse_to_pulp()
         for( const item &it : items ) {
             // Pulp only stuff that revives, but don't pulp acid stuff
             // That is, if you aren't protected from this stuff!
-            if( it.can_revive() && !is_dangerous_field( it.get_mtype()->bloodType() ) ) {
+            if( it.can_revive() ) {
+                // If the first encountered corpse is acidic, it is not safe to bash
+                if( is_dangerous_field( it.get_mtype()->bloodType() ) ) {
+                    return nullptr;
+                }
+
                 found = &it;
+                break;
             }
         }
 
