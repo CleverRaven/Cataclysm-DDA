@@ -12830,7 +12830,7 @@ void game::fling_creature(Creature *c, const int &dir, float flvel, bool control
     tileray tdir(dir);
     int range = flvel / 10;
     tripoint pt = c->pos();
-    while (range > 0) {
+    while( range > 0 ) {
         c->underwater = false;
         // TODO: Check whenever it is actually in the viewport
         // or maybe even just redraw the changed tiles
@@ -12881,6 +12881,11 @@ void game::fling_creature(Creature *c, const int &dir, float flvel, bool control
             } else {
                 thru = false;
             }
+        }
+
+        // If the critter dies during flinging, moving it around causes debugmsgs
+        if( c->is_dead_state() ) {
+            return;
         }
 
         flvel -= force;
