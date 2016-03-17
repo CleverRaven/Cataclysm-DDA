@@ -1076,18 +1076,20 @@ bool npc::wear_if_wanted( const item &it )
 
     // TODO: Make it depend on stuff
     static const std::array<int, num_bp> max_encumb = {{
-        19, // bp_torso - Higher if ranged?
-        30, // bp_head
-        29, // bp_eyes - Lower if using ranged?
-        19, // bp_mouth
-        19, // bp_arm_l - Split ranged/melee?
-        19, // bp_arm_r
-        29, // bp_hand_l - Lower if throwing?
-        29, // bp_hand_r
-        19, // bp_leg_l - Higher if ranged?
-        19, // bp_leg_r
-        29, // bp_foot_l
-        29, // bp_foot_r
+        30, // bp_torso - Higher if ranged?
+        100, // bp_head
+        30, // bp_eyes - Lower if using ranged?
+        30, // bp_mouth
+        30, // bp_arm_l
+        30, // bp_arm_r
+        30, // bp_hand_l - Lower if throwing?
+        30, // bp_hand_r
+        // Must be enough to allow hazmat, turnout etc.
+        30, // bp_leg_l - Higher if ranged?
+        30, // bp_leg_r
+        // Doesn't hurt much
+        50, // bp_foot_l
+        50, // bp_foot_r
     }};
 
     // Splints ignore limits, but only when being equipped on a broken part
@@ -1109,9 +1111,10 @@ bool npc::wear_if_wanted( const item &it )
         return wear_item( it, false );
     }
 
-    bool encumb_ok = true;
-    const auto new_enc = get_encumbrance( it );
-    do {
+    const int it_encumber = it.get_encumber();
+    while( !worn.empty() ) {
+        bool encumb_ok = true;
+        const auto new_enc = get_encumbrance( it );
         // Strip until we can put the new item on
         // This is one of the reasons this command is not used by the AI
         for( size_t i = 0; i < num_bp; i++ ) {
@@ -1120,8 +1123,8 @@ bool npc::wear_if_wanted( const item &it )
                 continue;
             }
 
-            if( it.get_encumber() > max_encumb[i] ) {
-                // Not a NPC-friendly item
+            if( it_encumber > max_encumb[i] ) {
+                // Not an NPC-friendly item
                 return false;
             }
 
@@ -1131,8 +1134,9 @@ bool npc::wear_if_wanted( const item &it )
             }
         }
 
-        if( encumb_ok ) {
-            return wear_item( it, false );
+        if( encumb_ok && can_wear( it, false ) ) {
+            // @todo Hazmat/power armor makes this not work due to 1 boots/headgear limit
+            return wear_item( it, true );
         }
         // Otherwise, maybe we should take off one or more items and replace them
         bool took_off = false;
@@ -1155,9 +1159,9 @@ bool npc::wear_if_wanted( const item &it )
             // Shouldn't happen, but does
             return wear_item( it, false );
         }
-    } while( !worn.empty() );
+    }
 
-    return false;
+    return worn.empty() && wear_item( it, false );
 }
 
 bool npc::wield( item& it )
@@ -2131,7 +2135,7 @@ std::string npc::opinion_text() const
   ret << _("Untrusting");
  else if (op_of_u.trust <= 2)
   ret << _("Uneasy");
- else if (op_of_u.trust <= 5)
+ else if (op_of_u.trust <= 4)
   ret << _("Trusting");
  else if (op_of_u.trust < 10)
   ret << _("Very trusting");

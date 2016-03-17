@@ -2041,11 +2041,13 @@ bool npc::find_corpse_to_pulp()
         corpse = check_tile( pulp_location );
     }
 
-    // Remember the old target to avoid spamming
+    // Find the old target to avoid spamming
     const item *old_target = corpse;
 
     if( corpse == nullptr ) {
-        for( const tripoint &p : closest_tripoints_first( range, pos() ) ) {
+        // If we're following the player, don't wander off to pulp corpses
+        const tripoint &around = is_following() ? g->u.pos() : pos();
+        for( const tripoint &p : closest_tripoints_first( range, around ) ) {
             corpse = check_tile( p );
 
             if( corpse != nullptr ) {
