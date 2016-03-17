@@ -332,7 +332,7 @@
         }
     ],
     "description":"The Eastern cougar, a large feline predator.  Once thought extinct in this region, conservation efforts were successful in restoring a thriving population.",
-    "flags":["SEES", "HEARS", "GOODHEARING", "SMELLS", "ANIMAL", "WARM", "FUR", "HIT_AND_RUN", "KEENNOSE", "BLEED", "ATTACKMON", "BONES", "FAT"],
+    "flags":["SEES", "HEARS", "GOODHEARING", "SMELLS", "ANIMAL", "WARM", "FUR", "HIT_AND_RUN", "KEENNOSE", "BLEED", "BONES", "FAT"],
     "anger_triggers":["STALK", "PLAYER_WEAK", "HURT", "PLAYER_CLOSE", "FRIEND_ATTACKED"],
     "placate_triggers":["MEAT"],
     "fear_triggers":["SOUND"],
@@ -400,7 +400,7 @@
     "hp":22,
     "death_function":"NORMAL",
     "description":"The Eastern coyote, also called the tweed wolf, is a territorial canine descended from the offspring of gray wolves and true coyotes.  It is intimidated by humans and other predators, but will fight if threatened.",
-    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FUR", "HIT_AND_RUN", "KEENNOSE", "BLEED", "ATTACKMON", "BONES"],
+    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FUR", "HIT_AND_RUN", "KEENNOSE", "BLEED", "BONES"],
     "anger_triggers":["STALK", "FRIEND_ATTACKED", "PLAYER_WEAK", "HURT", "PLAYER_CLOSE"],
     "placate_triggers":["MEAT"],
     "categories":["WILDLIFE"]
@@ -430,7 +430,7 @@
     "hp":20,
     "death_function":"NORMAL",
     "description":"The Northeastern coyote, a widespread canine pack hunter.  More timid than a wolf, it is an opportunistic feeder and prefers to hunt smaller and weaker prey.",
-    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FUR", "KEENNOSE", "BLEED", "ATTACKMON", "BONES", "FAT"],
+    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FUR", "KEENNOSE", "BLEED", "BONES", "FAT"],
     "anger_triggers":["FRIEND_ATTACKED", "PLAYER_WEAK", "PLAYER_CLOSE"],
     "placate_triggers":["MEAT"],
     "categories":["WILDLIFE"]
@@ -545,7 +545,7 @@
     "hp":30,
     "death_function":"NORMAL",
     "description": "With mangy fur and hungry eyes, it's clear that this once domesticated dog has gone feral.",
-    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FUR", "HIT_AND_RUN", "KEENNOSE", "BLEED", "ATTACKMON", "BONES", "FAT"],
+    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FUR", "HIT_AND_RUN", "KEENNOSE", "BLEED", "BONES", "FAT"],
     "anger_triggers":["HURT", "FRIEND_ATTACKED", "FRIEND_DIED"],
     "placate_triggers":["MEAT"],
     "categories":["WILDLIFE"]
@@ -4455,7 +4455,7 @@
     "hp":70,
     "death_function":"NORMAL",
     "description":"A ferocious mutant dragonfly as big as a cat, darting through the air with a cluster of fangs for a mouth.",
-    "flags":["SEES", "SMELLS", "FLIES", "HIT_AND_RUN", "ATTACKMON", "CHITIN"],
+    "flags":["SEES", "SMELLS", "FLIES", "HIT_AND_RUN", "CHITIN"],
     "anger_triggers":["PLAYER_WEAK"],
     "fear_triggers":["PLAYER_CLOSE"]
     },{
@@ -4509,7 +4509,7 @@
     "hp":70,
     "death_function":"NORMAL",
     "description":"A meter-long centipede with a menacing pair of pincers, moving swiftly on dozens of spindly legs.",
-    "flags":["SEES", "SMELLS", "HEARS", "VENOM", "ATTACKMON", "CHITIN", "FAT"]
+    "flags":["SEES", "SMELLS", "HEARS", "VENOM", "CHITIN", "FAT"]
     },{
     "type" : "MONSTER",
     "id" : "mon_frog",
@@ -4577,7 +4577,7 @@
         }
     ],
     "description":"A mutated bullfrog taller than you are.  It stares with amber eyes as it considers the easiest way to swallow you whole.",
-    "flags":["SEES", "SMELLS", "HEARS", "SWIMS", "LEATHER", "ATTACKMON", "BONES", "FAT"],
+    "flags":["SEES", "SMELLS", "HEARS", "SWIMS", "LEATHER", "BONES", "FAT"],
     "anger_triggers":["STALK", "PLAYER_WEAK", "PLAYER_CLOSE"]
     },{
     "type" : "MONSTER",
@@ -4737,7 +4737,7 @@
     "hp":40,
     "death_function":"NORMAL",
     "description":"A wolf spider mutated to about thirty times its normal size, it moves quickly and aggressively to catch and consume prey.",
-    "flags":["SEES", "SMELLS", "HEARS", "VENOM", "ATTACKMON", "CHITIN", "FAT", "CLIMBS"],
+    "flags":["SEES", "SMELLS", "HEARS", "VENOM", "CHITIN", "FAT", "CLIMBS"],
     "anger_triggers":["STALK", "PLAYER_WEAK", "HURT", "PLAYER_CLOSE"]
     },{
     "type" : "MONSTER",
@@ -6670,7 +6670,7 @@
     "hp":50,
     "death_function":"NORMAL",
     "description":"A mutant, terrestrial variety of the signal crayfish, this massive crustacean resembles a humongous lobster.",
-    "flags":["SMELLS", "HEARS", "SEES", "CHITIN", "SWIMS", "ATTACKMON", "GRABS", "FAT", "ARTHROPOD_BLOOD"],
+    "flags":["SMELLS", "HEARS", "SEES", "CHITIN", "SWIMS", "GRABS", "FAT", "ARTHROPOD_BLOOD"],
     "anger_triggers":["PLAYER_CLOSE", "HURT"],
     "fear_triggers":["FIRE"]
     },{
