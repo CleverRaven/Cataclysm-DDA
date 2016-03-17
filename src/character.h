@@ -575,14 +575,6 @@ class Character : public Creature, public visitable<Character>
         void load(JsonObject &jsin);
 
         // --------------- Values ---------------
-        /** Needs (hunger, thirst, fatigue, etc.) */
-        int hunger;
-        int thirst;
-        int fatigue;
-
-        int stomach_food;
-        int stomach_water;
-
         std::map<const Skill*, SkillLevel> _skills;
 
         // Cached vision values.
@@ -591,6 +583,15 @@ class Character : public Creature, public visitable<Character>
 
         // turn the character expired, if -1 it has not been set yet.
         int turn_died = -1;
+
+    private:
+        /** Needs (hunger, thirst, fatigue, etc.) */
+        int hunger;
+        int thirst;
+        int fatigue;
+
+        int stomach_food;
+        int stomach_water;
 };
 
 #endif

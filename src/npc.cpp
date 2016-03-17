@@ -1556,7 +1556,7 @@ void npc::decide_needs()
 
     needrank[need_weapon] = weapon_value( weapon );
     needrank[need_food] = 15 - get_hunger();
-    needrank[need_drink] = 15 - thirst;
+    needrank[need_drink] = 15 - get_thirst();
     invslice slice = inv.slice();
     for (auto &i : slice) {
         const it_comest* food = NULL;

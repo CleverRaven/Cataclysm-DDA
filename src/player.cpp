@@ -6083,7 +6083,7 @@ void player::add_eff_effects(effect e, bool reduced)
     }
     // Add fatigue
     if (e.get_amount("FATIGUE", reduced) > 0) {
-        mod_fatigue(bound_mod_to_vals(fatigue, e.get_amount("FATIGUE", reduced),
+        mod_fatigue(bound_mod_to_vals(get_fatigue(), e.get_amount("FATIGUE", reduced),
                         e.get_max_val("FATIGUE", reduced), e.get_min_val("FATIGUE", reduced)));
     }
     // Add pain
@@ -6217,7 +6217,7 @@ void player::process_effects() {
             if (val != 0 && !in_sleep_state()) {
                 mod = 1;
                 if(it.activated(calendar::turn, "FATIGUE", val, reduced, mod)) {
-                    mod_fatigue(bound_mod_to_vals(fatigue, val, it.get_max_val("FATIGUE", reduced),
+                    mod_fatigue(bound_mod_to_vals(get_fatigue(), val, it.get_max_val("FATIGUE", reduced),
                                                 it.get_min_val("FATIGUE", reduced)));
                 }
             }
