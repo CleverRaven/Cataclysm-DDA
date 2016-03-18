@@ -362,6 +362,22 @@ int main(int argc, char *argv[])
                FILENAMES["user_dir"].c_str());
         exit(1);
     }
+    if (!assure_dir_exist(FILENAMES["user_datadir"].c_str())) {
+        printf("Can't open or create %s. Check permissions.\n",
+               FILENAMES["user_datadir"].c_str());
+    }
+    if (!assure_dir_exist(FILENAMES["user_gfxdir"].c_str())) {
+        printf("Can't open or create %s. Check permissions.\n",
+               FILENAMES["user_gfxdir"].c_str());
+    }
+    if (!assure_dir_exist(FILENAMES["user_moddir"].c_str())) {
+        printf("Can't open or create %s. Check permissions.\n",
+               FILENAMES["user_moddir"].c_str());
+    }
+    if (!assure_dir_exist(FILENAMES["user_sounddir"].c_str())) {
+        printf("Can't open or create %s. Check permissions.\n",
+               FILENAMES["user_sounddir"].c_str());
+    }
 
     setupDebug();
 

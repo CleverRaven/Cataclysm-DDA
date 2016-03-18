@@ -158,6 +158,12 @@ void PATH_INFO::set_standard_filenames(void)
     update_pathname("obsolete-mods", FILENAMES["moddir"] + "obsolete-mods.json");
     update_pathname("defaultsounddir", FILENAMES["datadir"] + "sound");
 
+    // User's data directories
+    update_pathname("user_datadir", FILENAMES["user_dir"] + "data/");
+    update_pathname("user_gfxdir", FILENAMES["user_datadir"] + "gfx/");
+    update_pathname("user_moddir", FILENAMES["user_datadir"] + "mods/");
+    update_pathname("user_sounddir", FILENAMES["user_datadir"] + "sound/");
+
     update_pathname("savedir", FILENAMES["user_dir"] + "save/");
     update_pathname("memorialdir", FILENAMES["user_dir"] + "memorial/");
     update_pathname("templatedir", FILENAMES["user_dir"] + "templates/");
