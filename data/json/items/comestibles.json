@@ -9431,60 +9431,60 @@
         "material" : ["plastic", "null"]
     },
     {
-        "id": "mre_veggy_box",
-        "type": "GENERIC",
-        "symbol": ")",
-        "color": "brown",
-        "name": "MRE - Vegetarian",
-        "name_plural": "MREs - vegetarian",
-        "category": "food",
-        "description": "A 'Meal Ready to Eat' with an irradiated vegetarian-friendly course and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Disassemble it to get to its contents.",
-        "price": 1500,
-        "weight": 900,
-        "volume": 3,
-        "material": ["plastic", "null"]
+        "id" : "mre_veggy_box",
+        "type" : "GENERIC",
+        "symbol" : ")",
+        "color" : "brown",
+        "name" : "MRE - Vegetarian",
+        "name_plural" : "MREs - vegetarian",
+        "category" : "food",
+        "description" : "A 'Meal Ready to Eat' with an irradiated vegetarian-friendly course and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Disassemble it to get to its contents.",
+        "price" : 1500,
+        "weight" : 900,
+        "volume" : 3,
+        "material" : ["plastic", "null"]
     },
     {
-        "id": "mre_chicken_box",
-        "type": "GENERIC",
-        "symbol": ")",
-        "color": "brown",
-        "name": "MRE - Chicken",
-        "name_plural": "MREs - chicken",
-        "category": "food",
-        "description": "A 'Meal Ready to Eat' with an irradiated chicken course and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Disassemble it to get to its contents.",
-        "price": 1500,
-        "weight": 900,
-        "volume": 3,
-        "material": ["plastic", "null"]
+        "id" : "mre_chicken_box",
+        "type" : "GENERIC",
+        "symbol" : ")",
+        "color" : "brown",
+        "name" : "MRE - Chicken",
+        "name_plural" : "MREs - chicken",
+        "category" : "food",
+        "description" : "A 'Meal Ready to Eat' with an irradiated chicken course and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Disassemble it to get to its contents.",
+        "price" : 1500,
+        "weight" : 900,
+        "volume" : 3,
+        "material" : ["plastic", "null"]
     },
     {
-        "id": "mre_hotdog_box",
-        "type": "GENERIC",
-        "symbol": ")",
-        "color": "brown",
-        "name": "MRE - Hotdogs",
-        "name_plural": "MREs - hotdogs",
-        "category": "food",
-        "description": "A 'Meal Rejected by the Enemy' with a hotdog main course and everything a desperate survivor needs.  The contents will begin to rot once they're removed from this sealed bag.  Disassemble it to get to its contents.",
-        "price": 1200,
-        "weight": 900,
-        "volume": 3,
-        "material": ["plastic", "null"]
+        "id" : "mre_hotdog_box",
+        "type" : "GENERIC",
+        "symbol" : ")",
+        "color" : "brown",
+        "name" : "MRE - Hotdogs",
+        "name_plural" : "MREs - hotdogs",
+        "category" : "food",
+        "description" : "A 'Meal Rejected by the Enemy' with a hotdog main course and everything a desperate survivor needs.  The contents will begin to rot once they're removed from this sealed bag.  Disassemble it to get to its contents.",
+        "price" : 1200,
+        "weight" : 900,
+        "volume" : 3,
+        "material" : ["plastic", "null"]
     },
     {
-        "id": "mre_ravioli_box",
-        "type": "GENERIC",
-        "symbol": ")",
-        "color": "brown",
-        "name": "MRE - Ravioli",
-        "name_plural": "MREs - ravioli",
-        "category": "food",
-        "description": "A 'Meal Ready to Eat' with a ravioli course and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Disassemble it to get to its contents.",
-        "price": 1700,
-        "weight": 900,
-        "volume": 3,
-        "material": ["plastic", "null"]
+        "id" : "mre_ravioli_box",
+        "type" : "GENERIC",
+        "symbol" : ")",
+        "color" : "brown",
+        "name" : "MRE - Ravioli",
+        "name_plural" : "MREs - ravioli",
+        "category" : "food",
+        "description" : "A 'Meal Ready to Eat' with a ravioli course and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Disassemble it to get to its contents.",
+        "price" : 1700,
+        "weight" : 900,
+        "volume" : 3,
+        "material" : ["plastic", "null"]
     },
     {
         "type" : "COMESTIBLE",
@@ -10014,7 +10014,7 @@
         "material" : "cotton",
         "volume" : 1,
         "charges" : 3,
-        "stack_size": 9,
+        "stack_size" : 9,
         "flags" : ["USE_ON_NPC"],
         "fun" : 0,
         "use_action" : {
@@ -10057,8 +10057,8 @@
             "long_action" : true,
             "effects" : [
                 {
-                    "id": "pkill1",
-                    "duration": 120
+                    "id" : "pkill1",
+                    "duration" : 120
                 }
             ]
         }
@@ -10154,7 +10154,7 @@
         "comestible_type" : "MED",
         "symbol" : "!",
         "quench" : 0,
-        "healthy": 0,
+        "healthy" : 0,
         "nutrition" : 0,
         "description" : "A syringe filled with a shot of adrenaline.  It serves as a powerful stimulant when you inject yourself with it.  Asthmatics can use it in an emergency to clear their asthma.",
         "price" : 3400,
@@ -10178,8 +10178,8 @@
             "activation_message" : "You take some aspirin.",
             "effects" : [
                 {
-                    "id": "pkill1",
-                    "duration": 120
+                    "id" : "pkill1",
+                    "duration" : 120
                 }
             ]
         },
@@ -10253,8 +10253,8 @@
             "activation_message" : "You take some potassium iodide.",
             "effects" : [
                 {
-                    "id": "iodine",
-                    "duration": 7200
+                    "id" : "iodine",
+                    "duration" : 7200
                 }
             ]},
         "comestible_type" : "MED",
@@ -10281,8 +10281,8 @@
             "activation_message" : "You take some Prussian blue.",
             "effects" : [
                 {
-                    "id": "pblue",
-                    "duration": 3600
+                    "id" : "pblue",
+                    "duration" : 3600
                 }
             ]},
         "comestible_type" : "MED",
@@ -10358,8 +10358,8 @@
             "activation_message" : "You take some codeine.",
             "effects" : [
                 {
-                    "id": "pkill2",
-                    "duration": 180
+                    "id" : "pkill2",
+                    "duration" : 180
                 }
             ]
         },
@@ -10390,12 +10390,12 @@
             "activation_message" : "You take some oxycodone.",
             "effects" : [
                 {
-                    "id": "pkill3",
-                    "duration": 20
+                    "id" : "pkill3",
+                    "duration" : 20
                 },
                 {
-                    "id": "pkill2",
-                    "duration": 200
+                    "id" : "pkill2",
+                    "duration" : 200
                 }
             ]
         },
@@ -10426,8 +10426,8 @@
             "activation_message" : "You take some tramadol.",
             "effects" : [
                 {
-                    "id": "pkill_l",
-                    "duration": 4500
+                    "id" : "pkill_l",
+                    "duration" : 4500
                 }
             ]
         },
@@ -10538,7 +10538,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "seed_weed",
-        "category": "other",
+        "category" : "other",
         "name" : "cannabis seed",
         "color" : "green",
         "use_action" : "SEED",
@@ -10555,9 +10555,9 @@
         "charges" : 2,
         "stack_size" : 100,
         "fun" : 0,
-        "seed_data": {
-            "plant_name": "cannabis",
-            "fruit": "cannabis",
+        "seed_data" : {
+            "plant_name" : "cannabis",
+            "fruit" : "cannabis",
             "grow" : 91
         }
     },
@@ -10622,12 +10622,12 @@
             "tools_needed" : { "syringe" : 1 },
             "effects" : [
                 {
-                    "id": "pkill3",
-                    "duration": 80
+                    "id" : "pkill3",
+                    "duration" : 80
                 },
                 {
-                    "id": "pkill2",
-                    "duration": 200
+                    "id" : "pkill2",
+                    "duration" : 200
                 }
             ]
         },
@@ -10659,12 +10659,12 @@
             "tools_needed" : { "syringe" : 1 },
             "effects" : [
                 {
-                    "id": "pkill3",
-                    "duration": 20
+                    "id" : "pkill3",
+                    "duration" : 20
                 },
                 {
-                    "id": "pkill2",
-                    "duration": 200
+                    "id" : "pkill2",
+                    "duration" : 200
                 }
             ]
         },
@@ -10719,7 +10719,7 @@
         "description" : "The smoke billowing from this cigar has a sweet, musty odor.",
         "price" : 0,
         "material" : "null",
-        "category": "drugs",
+        "category" : "drugs",
         "flags" : ["LITCIG", "TOBACCO", "LIGHT_4"]
     },
     {
@@ -10736,7 +10736,7 @@
         "description" : "A true gentleman always finishes his cigars.",
         "price" : 0,
         "material" : "null",
-        "category": "other"
+        "category" : "other"
     },
     {
         "type" : "COMESTIBLE",
@@ -10774,14 +10774,14 @@
         "description" : "The smell of skunk permeates the air as a thin trail of smoke floats off of this joint.",
         "price" : 0,
         "material" : "null",
-        "category": "drugs",
+        "category" : "drugs",
         "flags" : ["LITCIG", "LIGHT_4"]
     },
     {
         "type" : "COMESTIBLE",
         "id" : "joint_roach",
         "name" : "joint roach",
-        "name_plural": "joint roaches",
+        "name_plural" : "joint roaches",
         "weight" : 0,
         "color" : "green",
         "stim" : -10,
@@ -10801,7 +10801,7 @@
         "stack_size" : 1000,
         "bashing" : -1,
         "fun" : 12,
-        "category": "other"
+        "category" : "other"
     },
     {
         "type" : "COMESTIBLE",
@@ -10898,8 +10898,8 @@
             "activation_message" : "You take some poppy painkiller.",
             "effects" : [
                 {
-                    "id": "pkill2",
-                    "duration": 180
+                    "id" : "pkill2",
+                    "duration" : 180
                 }
             ]
         },
@@ -10930,11 +10930,11 @@
             "activation_message" : "You smoke your crack rocks.  Mother would be proud.",
             "effects" : [
                 {
-                    "id": "high",
-                    "duration": 15
+                    "id" : "high",
+                    "duration" : 15
                 }
             ],
-            "stat_adjustments": {"hunger" : -10},
+            "stat_adjustments" : {"hunger" : -10},
             "fields_produced" : {"fd_cracksmoke" : 2},
             "charges_needed" : { "fire" : 1 },
             "tools_needed" : { "apparatus" : -1 }
@@ -11013,18 +11013,18 @@
         }
     },
     {
-        "id": "mayonnaise",
-        "type": "COMESTIBLE",
-        "symbol": "~",
-        "color": "white",
-        "name": "mayonnaise",
-        "name_plural": "mayonnaise",
-        "description": "Good old mayo, tastes great on sandwiches.",
-        "price": 600,
+        "id" : "mayonnaise",
+        "type" : "COMESTIBLE",
+        "symbol" : "~",
+        "color" : "white",
+        "name" : "mayonnaise",
+        "name_plural" : "mayonnaise",
+        "description" : "Good old mayo, tastes great on sandwiches.",
+        "price" : 600,
         "material" : ["junk", "egg"],
-        "weight": 84,
-        "volume": 1,
-        "comestible_type": "DRINK",
+        "weight" : 84,
+        "volume" : 1,
+        "comestible_type" : "DRINK",
         "container": "bottle_plastic",
         "quench": 15,
         "nutrition": 15,
