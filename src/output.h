@@ -418,8 +418,11 @@ std::pair<std::string, nc_color> const& get_light_level(const float light);
  * @param val Value to display. Can be unclipped.
  * @param width Width of the entire string.
  * @param label Label before the bar. Can be empty.
- * @param begin Iterator over pairs <double percentage, char char>.
- * @param end Iterator over pairs <double percentage, char char>.
+ * @param begin Iterator over pairs <double p, char c> (see below).
+ * @param end Iterator over pairs <double p, char c> (see below).
+ * Where:
+ *    p - percentage of the entire bar which can be filled with c.
+ *    c - character to fill the segment of the bar with
  */
 template<typename RatingIterator>
 std::string get_labeled_bar( const double val, const int width, const std::string &label,

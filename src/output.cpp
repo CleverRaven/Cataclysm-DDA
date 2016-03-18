@@ -1999,11 +1999,11 @@ std::string get_labeled_bar( const double val, const int width, const std::strin
     result.reserve( width );
     if( !label.empty() ) {
         result += label;
-        result += std::string( " " );
+        result += ' ';
     }
     const int bar_width = width - utf8_width( result ) - 2; // - 2 for the brackets
 
-    result += std::string( "[" );
+    result += '[';
     if( bar_width > 0 ) {
         int used_width = 0;
         for( RatingIterator it(begin); it != end; ++it ) {
@@ -2018,7 +2018,7 @@ std::string get_labeled_bar( const double val, const int width, const std::strin
         }
         result += std::string( bar_width - used_width, ' ' );
     }
-    result += std::string( "]" );
+    result += ']';
 
     return result;
 }
