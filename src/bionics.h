@@ -11,10 +11,13 @@
 struct bionic_data {
     bionic_data() = default;
     bionic_data( std::string nname, bool ps, bool tog, int pac, int pad, int pot,
-                 int ct, int cap, std::string desc, bool fault );
+                 int ct, int cap, std::string desc, bool fault,
+                 std::map<body_part, int> aff_bps );
 
     std::string name;
     std::string description;
+    std::map<body_part, int> affected_bodyparts;
+
     /** Power cost on activation */
     int power_activate = 0;
     /** Power cost on deactivation */
@@ -42,13 +45,13 @@ struct bionic : public JsonSerializer, public JsonDeserializer {
     int         charge  = 0;
     char        invlet  = 'a';
     bool        powered = false;
-    int         occupied_size = 1;
-    body_part   occupied_bp = static_cast<body_part>( 12 );
+    // this map is stored because JSON definition of bionic can has multiple options
+    std::map<body_part, int> used_bodyparts;
 
     bionic()
         : id( "bio_batteries" ) { }
-    bionic( std::string pid, char pinvlet, body_part bp )
-        : id( std::move( pid ) ), invlet( pinvlet ), occupied_bp( bp ) { }
+    bionic( std::string pid, char pinvlet, std::map<body_part, int> bps )
+        : id( std::move( pid ) ), invlet( pinvlet ), used_bodyparts( std::move( bps ) ) { }
 
     bionic_data const &info() const {
         return bionic_info( id );
