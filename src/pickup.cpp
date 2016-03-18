@@ -283,7 +283,8 @@ enum pickup_answer :int {
 
 pickup_answer handle_problematic_pickup( const item &it, bool &offered_swap, const std::string &explain )
 {
-    if( !g->u.is_armed() && !g->u.keep_hands_free ) {
+    player &u = g->u;
+    if( !u.is_armed() && !u.keep_hands_free ) {
         return WIELD;
     }
 
@@ -295,14 +296,14 @@ pickup_answer handle_problematic_pickup( const item &it, bool &offered_swap, con
 
     offered_swap = true;
     // @todo Gray out if not enough hands
-    amenu.addentry( WIELD, !g->u.weapon.has_flag( "NO_UNWIELD" ), 'w',
-                    _("Dispose of %s and wield %s"), g->u.weapon.display_name().c_str(),
+    amenu.addentry( WIELD, !u.weapon.has_flag( "NO_UNWIELD" ), 'w',
+                    _("Dispose of %s and wield %s"), u.weapon.display_name().c_str(),
                     it.display_name().c_str() );
     if( it.is_armor() ) {
         // @todo Gray out for mutants?
-        amenu.addentry( WEAR, true, 'W', _("Wear %s"), it.display_name().c_str() );
+        amenu.addentry( WEAR, u.can_wear( it ), 'W', _("Wear %s"), it.display_name().c_str() );
     }
-    if( !it.is_container_empty() && g->u.can_pickVolume( it.volume() ) ) {
+    if( !it.is_container_empty() && u.can_pickVolume( it.volume() ) ) {
         amenu.addentry( SPILL, true, 's', _("Spill %s, then pick up %s"),
                         it.contents[0].tname().c_str(), it.display_name().c_str() );
     }
@@ -321,13 +322,14 @@ void Pickup::pick_one_up( const tripoint &pickup_target, item &newit, vehicle *v
                           int cargo_part, int index, int quantity, bool &got_water,
                           bool &offered_swap, PickupMap &mapPickup, bool autopickup )
 {
+    player &u = g->u;
     int moves_taken = 100;
     bool picked_up = false;
     pickup_answer option = CANCEL;
     item leftovers = newit;
 
     if( newit.invlet != '\0' &&
-        g->u.invlet_to_position( newit.invlet ) != INT_MIN ) {
+        u.invlet_to_position( newit.invlet ) != INT_MIN ) {
         // Existing invlet is not re-usable, remove it and let the code in player.cpp/inventory.cpp
         // add a new invlet, otherwise keep the (usable) invlet.
         newit.invlet = '\0';
@@ -345,14 +347,14 @@ void Pickup::pick_one_up( const tripoint &pickup_target, item &newit, vehicle *v
 
     if( newit.made_of(LIQUID) ) {
         got_water = true;
-    } else if (!g->u.can_pickWeight(newit.weight(), false)) {
+    } else if (!u.can_pickWeight(newit.weight(), false)) {
         add_msg(m_info, _("The %s is too heavy!"), newit.display_name().c_str());
     } else if( newit.is_ammo() && (newit.ammo_type() == "arrow" || newit.ammo_type() == "bolt")) {
         // @todo Make quiver code generic so that ammo pouches can use it too
         //add ammo to quiver
         int quivered = handle_quiver_insertion( newit, moves_taken, picked_up );
         if( newit.charges > 0 ) {
-            if( !g->u.can_pickVolume( newit.volume() ) ) {
+            if( !u.can_pickVolume( newit.volume() ) ) {
                 if( quivered > 0 ) {
                     //update the charges for the item that gets re-added to the game map
                     quantity = quivered;
@@ -377,7 +379,7 @@ void Pickup::pick_one_up( const tripoint &pickup_target, item &newit, vehicle *v
         } else {
             option = CANCEL;
         }
-    } else if( !g->u.can_pickVolume( newit.volume() ) ) {
+    } else if( !u.can_pickVolume( newit.volume() ) ) {
         if( !autopickup ) {
             const std::string &explain = string_format( _("Not enough capacity to stash %s"),
                                                         newit.display_name().c_str() );
@@ -397,19 +399,19 @@ void Pickup::pick_one_up( const tripoint &pickup_target, item &newit, vehicle *v
             picked_up = false;
             break;
         case WEAR:
-            picked_up = g->u.wear_item( newit );
+            picked_up = u.wear_item( newit );
             break;
         case WIELD:
-            picked_up = g->u.wield( newit );
+            picked_up = u.wield( newit );
             if( !picked_up ) {
                 break;
             }
 
-            if( g->u.weapon.invlet ) {
-                add_msg( m_info, _("Wielding %c - %s"), g->u.weapon.invlet,
-                         g->u.weapon.display_name().c_str() );
+            if( u.weapon.invlet ) {
+                add_msg( m_info, _("Wielding %c - %s"), u.weapon.invlet,
+                         u.weapon.display_name().c_str() );
             } else {
-                add_msg( m_info, _("Wielding - %s"), g->u.weapon.display_name().c_str() );
+                add_msg( m_info, _("Wielding - %s"), u.weapon.display_name().c_str() );
             }
             break;
         case SPILL:
@@ -418,7 +420,7 @@ void Pickup::pick_one_up( const tripoint &pickup_target, item &newit, vehicle *v
                 break;
             }
 
-            picked_up = newit.spill_contents( g->u );
+            picked_up = newit.spill_contents( u );
             if( !picked_up ) {
                 break;
             }
@@ -426,7 +428,7 @@ void Pickup::pick_one_up( const tripoint &pickup_target, item &newit, vehicle *v
         case STASH:
             auto &entry = mapPickup[newit.tname()];
             entry.second += newit.count_by_charges() ? newit.charges : 1;
-            entry.first = g->u.i_add( newit );
+            entry.first = u.i_add( newit );
             picked_up = true;
             break;
     }
