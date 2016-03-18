@@ -321,6 +321,7 @@ bool WinCreate()
         window_flags |= SDL_WINDOW_FULLSCREEN;
     } else if (OPTIONS["FULLSCREEN"] == "windowedbl") {
         window_flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
+        SDL_SetHint(SDL_HINT_VIDEO_MINIMIZE_ON_FOCUS_LOSS, "0");
     }
 
     window = SDL_CreateWindow(version.c_str(),

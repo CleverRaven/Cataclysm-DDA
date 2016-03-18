@@ -3382,11 +3382,18 @@ int iuse::makemound(player *p, item *it, bool, const tripoint& )
     }
 }
 
-//TODO remove this?
-int iuse::dig(player *p, item *it, bool, const tripoint& )
+int iuse::dig(player *p, item *it, bool, const tripoint & )
 {
-    p->add_msg_if_player(m_info, _("You can dig a pit via the construction menu -- hit *"));
-    return it->type->charges_to_use();
+    for( const tripoint &pt : closest_tripoints_first( 1, p->pos() ) ) {
+        if( g->m.furn_at( pt ).examine == iexamine::rubble ) {
+            p->moves -= 200;
+            p->add_msg_if_player( _("You clear up that %s."), g->m.furnname( pt ).c_str() );
+            g->m.furn_set( pt, f_null );
+            return it->type->charges_to_use();
+        }
+    }
+
+    return 0;
 }
 
 void act_vehicle_siphon(vehicle *); // veh_interact.cpp
