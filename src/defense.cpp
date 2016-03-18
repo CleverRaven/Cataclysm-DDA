@@ -113,7 +113,7 @@ void defense_game::per_turn()
         g->u.set_hunger(0);
     }
     if (!sleep) {
-        g->u.fatigue = 0;
+        g->u.set_fatigue(0);
     }
     if (int(calendar::turn) % (time_between_waves * 10) == 0) {
         current_wave++;

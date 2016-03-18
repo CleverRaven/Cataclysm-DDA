@@ -1311,8 +1311,8 @@ void iexamine::flower_poppy(player &p, const tripoint &examp)
         p.moves -= 150; // You take your time...
         add_msg(_("You slowly suck up the nectar."));
         p.mod_hunger(-25);
+        p.mod_fatigue(20);
         p.add_effect( effect_pkill2, 70);
-        p.fatigue += 20;
         // Please drink poppy nectar responsibly.
         if (one_in(20)) {
             p.add_addiction(ADD_PKILLER, 1);

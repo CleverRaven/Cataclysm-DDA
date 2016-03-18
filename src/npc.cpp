@@ -79,7 +79,6 @@ npc::npc()
     wanted_item_pos = no_goal_point;
     guard_pos = no_goal_point;
     goal = no_goal_point;
-    fatigue = 0;
     fetching_item = false;
     has_new_items = true;
     worst_item_value = 0;
@@ -1557,7 +1556,7 @@ void npc::decide_needs()
 
     needrank[need_weapon] = weapon_value( weapon );
     needrank[need_food] = 15 - get_hunger();
-    needrank[need_drink] = 15 - thirst;
+    needrank[need_drink] = 15 - get_thirst();
     invslice slice = inv.slice();
     for (auto &i : slice) {
         const it_comest* food = NULL;

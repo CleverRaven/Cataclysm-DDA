@@ -985,7 +985,7 @@ void construct::done_digormine_stair( point p, bool dig )
             }
             g->u.mod_hunger( dig ? 15 : 25 );
             g->u.mod_thirst( dig ? 15 : 25 );
-            g->u.fatigue += dig ? 20 : 30;
+            g->u.mod_fatigue( dig ? 20 : 30 );
             g->u.mod_pain( dig ? 8 : 10 );
         } else {
             if( dig ) {
@@ -995,7 +995,7 @@ void construct::done_digormine_stair( point p, bool dig )
             }
             g->u.mod_hunger( dig ? 25 : 35 );
             g->u.mod_thirst( dig ? 25 : 35 );
-            g->u.fatigue += dig ? 30 : 40;
+            g->u.mod_fatigue( dig ? 30 : 40 );
             if( !( g->u.has_trait( "NOPAIN" ) ) ) {
                 add_msg( m_bad, _( "You're quite sore from all that work, though." ) );
                 g->u.mod_pain( dig ? 8 : 10 ); // Backbreaking work, mining!
@@ -1014,7 +1014,7 @@ void construct::done_digormine_stair( point p, bool dig )
             }
             g->u.mod_hunger( dig ? 15 : 25 );
             g->u.mod_thirst( dig ? 15 : 25 );
-            g->u.fatigue += dig ? 20 : 30;
+            g->u.mod_fatigue( dig ? 20 : 30 );
             g->u.mod_pain( 4 );
         } else {
             if( dig ) {
@@ -1024,10 +1024,8 @@ void construct::done_digormine_stair( point p, bool dig )
             }
             g->u.mod_hunger( dig ? 25 : 35 );
             g->u.mod_thirst( dig ? 25 : 35 );
-            g->u.fatigue += dig ? 30 : 40;
-            if( !( g->u.has_trait( "NOPAIN" ) ) ) {
-                g->u.mod_pain( 4 ); // Backbreaking work, mining!
-            }
+            g->u.mod_fatigue( dig ? 30 : 40 );
+            g->u.mod_pain( 4 ); // Backbreaking work, mining!
         }
         if( dig )
             g->u.add_memorial_log( pgettext( "memorial_male", "Dug a shaft into lava." ),
@@ -1140,7 +1138,7 @@ void construct::done_digormine_stair( point p, bool dig )
             }
             g->u.mod_hunger( dig ? 10 : 20 ); // Less heavy work, but making the ladder's still fatiguing
             g->u.mod_thirst( dig ? 10 : 20 );
-            g->u.fatigue += dig ? 20 : 30;
+            g->u.mod_fatigue( dig ? 20 : 30 );
             g->u.mod_pain( 4 );
         } else {
             if( dig ) {
@@ -1150,7 +1148,7 @@ void construct::done_digormine_stair( point p, bool dig )
             }
             g->u.mod_hunger( dig ? 20 : 30 );
             g->u.mod_thirst( dig ? 20 : 30 );
-            g->u.fatigue += dig ? 30 : 40;
+            g->u.mod_fatigue( dig ? 30 : 40 );
             if( !( g->u.has_trait( "NOPAIN" ) ) ) {
                 add_msg( m_bad, _( "You're quite sore from all that work, though." ) );
                 g->u.mod_pain( 4 ); // Backbreaking work, mining!
@@ -1228,14 +1226,14 @@ void construct::done_mine_upstair( point p )
           add_msg(_("You carve upward and breach open a space."));
           g->u.mod_hunger(35);
           g->u.mod_thirst(35);
-          g->u.fatigue += 40;
+          g->u.mod_fatigue(40);
           g->u.mod_pain(15); // NOPAIN is a THRESH_MEDICAL trait so shouldn't be present here
       }
       else {
           add_msg(_("You drill out a passage, heading for the surface."));
           g->u.mod_hunger(45);
           g->u.mod_thirst(45);
-          g->u.fatigue += 50;
+          g->u.mod_fatigue(50);
           if (!(g->u.has_trait("NOPAIN"))) {
               add_msg(m_bad, _("You're quite sore from all that work."));
               g->u.mod_pain(15); // Backbreaking work, mining!
@@ -1251,14 +1249,14 @@ void construct::done_mine_upstair( point p )
           add_msg(_("You carve upward, and break into open space."));
           g->u.mod_hunger(30); // Tougher to go up than down.
           g->u.mod_thirst(30);
-          g->u.fatigue += 40;
+          g->u.mod_fatigue(40);
           g->u.mod_pain(5);
       }
       else {
           add_msg(_("You drill up into a preexisting space."));
           g->u.mod_hunger(40);
           g->u.mod_thirst(40);
-          g->u.fatigue += 50;
+          g->u.mod_fatigue(50);
           if (!(g->u.has_trait("NOPAIN"))) {
               add_msg(m_bad, _("You're quite sore from all that work."));
               g->u.mod_pain(5);

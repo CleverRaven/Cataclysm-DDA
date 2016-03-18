@@ -637,7 +637,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void set_painkiller(int npkill);
         /** Returns intensity of painkillers  */
         int get_painkiller() const;
-
         /** Heals a body_part for dam */
         void heal(body_part healed, int dam);
         /** Heals an hp_part for dam */
@@ -1129,7 +1128,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool last_climate_control_ret;
         std::string move_mode;
         int power_level, max_power_level;
-        int fatigue;
         int tank_plut, reactor_plut, slow_rad;
         int oxygen;
         int stamina;

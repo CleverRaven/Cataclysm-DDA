@@ -3601,9 +3601,9 @@ void vehicle::consume_fuel( double load = 1.0 )
         //cost proportional to strain
         int mod = 1 + 4 * st;
         if (one_in(10)) {
-            g->u.fatigue += mod;
             g->u.mod_hunger(mod);
             g->u.mod_thirst(mod);
+            g->u.mod_fatigue(mod);
         }
         g->u.mod_stat( "stamina", -mod * 20);
     }

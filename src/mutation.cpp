@@ -361,7 +361,7 @@ void player::activate_mutation( const std::string &mut )
     // You can take yourself halfway to Near Death levels of hunger/thirst.
     // Fatigue can go to Exhausted.
     if ((mdata.hunger && get_hunger() >= 700) || (mdata.thirst && get_thirst() >= 260) ||
-      (mdata.fatigue && fatigue >= EXHAUSTED)) {
+      (mdata.fatigue && get_fatigue() >= EXHAUSTED)) {
       // Insufficient Foo to *maintain* operation is handled in player::suffer
         add_msg_if_player(m_warning, _("You feel like using your %s would kill you!"), mdata.name.c_str());
         return;
@@ -381,7 +381,7 @@ void player::activate_mutation( const std::string &mut )
             mod_thirst(cost);
         }
         if (mdata.fatigue){
-            fatigue += cost;
+            mod_fatigue(cost);
         }
         tdata.powered = true;
 
@@ -780,7 +780,7 @@ void player::power_mutations()
                         break;
                     } else if( (!mut_data.hunger || get_hunger() <= 400) &&
                                (!mut_data.thirst || get_thirst() <= 400) &&
-                               (!mut_data.fatigue || fatigue <= 400) ) {
+                               (!mut_data.fatigue || get_fatigue() <= 400) ) {
 
                         // this will clear the mutations menu for targeting purposes
                         werase(wBio);

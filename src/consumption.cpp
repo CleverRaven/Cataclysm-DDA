@@ -615,7 +615,7 @@ void player::consume_effects( item &food, bool rotten )
             add_msg_if_player( _( "You gorge yourself, preparing to hibernate." ) );
             if( one_in( 2 ) ) {
                 //50% chance of the food tiring you
-                fatigue += nutr;
+                mod_fatigue( nutr );
             }
         }
         if( ( nutr > 0 && get_hunger() < -200 ) || ( comest->quench > 0 && get_thirst() < -200 ) ) {
@@ -623,7 +623,7 @@ void player::consume_effects( item &food, bool rotten )
             add_msg_if_player( _( "You feel stocked for a day or two. Got your bed all ready and secured?" ) );
             if( one_in( 2 ) ) {
                 //And another 50%, intended cumulative
-                fatigue += nutr;
+                mod_fatigue( nutr );
             }
         }
 
@@ -632,13 +632,13 @@ void player::consume_effects( item &food, bool rotten )
                 _( "Mmm.  You can still fit some more in...but maybe you should get comfortable and sleep." ) );
             if( !one_in( 3 ) ) {
                 //Third check, this one at 66%
-                fatigue += nutr;
+                mod_fatigue( nutr );
             }
         }
         if( ( nutr > 0 && get_hunger() < -600 ) || ( comest->quench > 0 && get_thirst() < -600 ) ) {
             add_msg_if_player( _( "That filled a hole!  Time for bed..." ) );
             // At this point, you're done.  Schlaf gut.
-            fatigue += nutr;
+            mod_fatigue( nutr );
         }
     }
 
