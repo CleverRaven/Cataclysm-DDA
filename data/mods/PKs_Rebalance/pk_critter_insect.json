@@ -7,7 +7,7 @@
         "upgrades":{
       "into": "mon_ant_larva_pk",
       "half_life": 10,
-	  "anger_triggers":["HURT", "FIRE"]
+      "anger_triggers":["HURT", "FIRE"]
     }
     },{
     "type" : "MONSTER",
@@ -410,4 +410,5 @@
     "flags":["SEES", "HEARS", "SMELLS", "SWIMS", "CHITIN", "CLIMBS", "BASHES"],
     "anger_triggers":["FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "PLAYER_CLOSE", "FIRE"]
     }
+
 ]
