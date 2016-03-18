@@ -68,13 +68,13 @@ void iexamine::gaspump(player &p, const tripoint &examp)
     for( auto item_it = items.begin(); item_it != items.end(); ++item_it ) {
         if( item_it->made_of(LIQUID) ) {
             ///\EFFECT_DEX decreases chance of spilling gas from a pump
-            if( one_in(10 + p.dex_cur) ) {
-                add_msg(m_bad, _("You accidentally spill the %s."), item_it->type_name(1).c_str());
-                item spill( item_it->type->id, calendar::turn );
-                const auto min = item_it->liquid_charges( 1 );
+            if( one_in(10 + p.get_dex()) ) {
+                add_msg(m_bad, _("You accidentally spill the %s."), item_it->type_name().c_str());
+                item spill( item_it->typeId(), calendar::turn );
+                const int spill_min = item_it->liquid_charges( 1 );
                 ///\EFFECT_DEX decreases amount of gas spilled from a pump
-                const auto max = item_it->liquid_charges( 1 ) * 8.0 / p.dex_cur;
-                spill.charges = rng( min, max );
+                const int spill_max = item_it->liquid_charges( 1 ) * 8.0 / std::max( 1, p.get_dex() );
+                spill.charges = rng( spill_min, spill_max );
                 g->m.add_item_or_charges( p.pos(), spill, 1 );
                 item_it->charges -= spill.charges;
                 if( item_it->charges < 1 ) {
@@ -84,7 +84,7 @@ void iexamine::gaspump(player &p, const tripoint &examp)
                 p.moves -= 300;
                 if( g->handle_liquid( *item_it, true, false ) ) {
                     add_msg(_("With a clang and a shudder, the %s pump goes silent."),
-                            item_it->type_name(1).c_str());
+                            item_it->type_name().c_str() );
                     items.erase( item_it );
                 }
             }

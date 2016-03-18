@@ -9594,9 +9594,8 @@ bool player::can_wear( const item& it, bool alert ) const
     } else {
         // Only headgear can be worn with power armor, except other power armor components.
         // You can't wear headgear if power armor helmet is already sitting on your head.
-        if( ( is_wearing_on_bp( "power_armor_helmet_basic", bp_head ) == true ||
-            is_wearing_on_bp( "power_armor_helmet_light", bp_head ) == true ||
-            is_wearing_on_bp( "power_armor_helmet_heavy", bp_head ) == true ) &&
+        bool has_helmet = false;
+        if( ( is_wearing_power_armor( &has_helmet ) && has_helmet ) &&
             ( !it.covers( bp_head ) || !it.covers( bp_mouth ) || !it.covers( bp_eyes ) ) ) {
             for( auto &i : worn ) {
                 if( i.is_power_armor() ) {
