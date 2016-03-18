@@ -3293,53 +3293,39 @@ void player::disp_morale()
 }
 
 int player::print_aim_bars( WINDOW *w, int line_number, item *weapon, Creature *target, int predicted_recoil ) {
-    // Window width minus borders.
-    const int window_width = getmaxx( w ) - 2;
     // This is absolute accuracy for the player.
     // TODO: push the calculations duplicated from Creature::deal_projectile_attack() and
     // Creature::projectile_attack() into shared methods.
     // Dodge is intentionally not accounted for.
 
-    mvwprintw(w, line_number++, 1, _("Symbols: * = Headshot + = Hit | = Graze"));
-    const double aim_level =
-        predicted_recoil + driving_recoil + get_weapon_dispersion( weapon, false );
-    const double range = rl_dist( pos(), target->pos() );
-    const double missed_by = aim_level * 0.00021666666666666666 * range;
-    const double hit_rating = missed_by / std::max(double(get_speed()) / 80., 1.0);
     // Confidence is chance of the actual shot being under the target threshold,
     // This simplifies the calculation greatly, that's intentional.
-    const std::array<std::pair<double, char>, 3> ratings =
-        {{ std::make_pair(0.1, '*'), std::make_pair(0.4, '+'), std::make_pair(0.6, '|') }};
-    const std::string confidence_label = _("Confidence ");
-    const int confidence_width = window_width - utf8_width( confidence_label ) - 2;
-    int used_width = 0;
-    std::string confidence_meter("[");
-    for( auto threshold : ratings ) {
-        const double confidence =
-            std::min( 1.0, std::max( 0.0, threshold.first / hit_rating ) );
-        const int confidence_meter_width = int(confidence_width * confidence) - used_width;
-        used_width += confidence_meter_width;
-        confidence_meter += std::string( confidence_meter_width, threshold.second );
-    }
-    confidence_meter += std::string( confidence_width - used_width, ' ' );
-    confidence_meter += std::string( "]" );
-    mvwprintw(w, line_number++, 1, "%s%s",
-              confidence_label.c_str(), confidence_meter.c_str() );
-
+    const double aim_level = predicted_recoil + driving_recoil + get_weapon_dispersion( weapon, false );
+    const double range = rl_dist( pos(), target->pos() );
+    const double missed_by = aim_level * 0.00021666666666666666 * range;
+    const double hit_rating = missed_by / std::max( double( get_speed() ) / 80., 1.0 );
+    const double confidence = 1 / hit_rating;
     // This is a relative measure of how steady the player's aim is,
     // 0 it is the best the player can do.
     const double steady_score = predicted_recoil - weapon->sight_dispersion( -1 );
     // Fairly arbitrary cap on steadiness...
-    const double steadiness = std::max( 0.0, 1.0 - (steady_score / 250) );
-    const std::string steadiness_label = _("Steadiness ");
-    const int steadiness_width = window_width - utf8_width( steadiness_label ) - 2;
-    const int steadiness_meter_width = steadiness_width * steadiness;
-    std::string steadiness_meter("[");
-    steadiness_meter += std::string( steadiness_meter_width, '*' );
-    steadiness_meter += std::string( steadiness_width - steadiness_meter_width, ' ' );
-    steadiness_meter += std::string( "]" );
-    mvwprintw(w, line_number++, 1, "%s%s",
-              steadiness_label.c_str(), steadiness_meter.c_str() );
+    const double steadiness = 1.0 - steady_score / 250;
+
+    const std::array<std::pair<double, char>, 3> confidence_ratings = {{
+        std::make_pair( 0.1, '*' ),
+        std::make_pair( 0.4, '+' ),
+        std::make_pair( 0.6, '|' ) }};
+
+    const int window_width = getmaxx( w ) - 2; // Window width minus borders.
+    const std::string &confidence_bar = get_labeled_bar( confidence, window_width, _( "Confidence" ),
+        confidence_ratings.begin(),
+        confidence_ratings.end() );
+    const std::string &steadiness_bar = get_labeled_bar( steadiness, window_width, _( "Steadiness" ), '*' );
+
+    mvwprintw( w, line_number++, 1, _( "Symbols: * = Headshot + = Hit | = Graze" ) );
+    mvwprintw( w, line_number++, 1, confidence_bar.c_str() );
+    mvwprintw( w, line_number++, 1, steadiness_bar.c_str() );
+
     return line_number;
 }
 

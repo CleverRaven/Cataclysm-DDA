@@ -1990,6 +1990,46 @@ std::pair<std::string, nc_color> const& get_light_level(const float light)
     return strings[light_level];
 }
 
+template<typename RatingIterator>
+std::string get_labeled_bar( const double val, const int width, const std::string &label,
+    RatingIterator begin, RatingIterator end )
+{
+    std::string result;
+
+    result.reserve( width );
+    if( !label.empty() ) {
+        result += label;
+        result += std::string( " " );
+    }
+    const int bar_width = width - utf8_width( result ) - 2; // - 2 for the brackets
+
+    result += std::string( "[" );
+    if( bar_width > 0 ) {
+        int used_width = 0;
+        for( RatingIterator it(begin); it != end; ++it ) {
+            const double factor = std::min( 1.0, std::max( 0.0, it->first * val ) );
+            const int seg_width = int( factor * bar_width ) - used_width;
+
+            if( seg_width <= 0 ) {
+                continue;
+            }
+            used_width += seg_width;
+            result += std::string( seg_width, it->second );
+        }
+        result += std::string( bar_width - used_width, ' ' );
+    }
+    result += std::string( "]" );
+
+    return result;
+}
+
+std::string get_labeled_bar( const double val, const int width, const std::string &label, char c )
+{
+    const std::array<std::pair<double, char>, 1> ratings =
+        {{ std::make_pair(1.0, c) }};
+    return get_labeled_bar( val, width, label, ratings.begin(), ratings.end() );
+}
+
 /**
  * Display data in table, each cell contains one entry from the
  * data vector. Allows vertical scrolling if the data does not fit.
