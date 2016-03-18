@@ -3158,7 +3158,7 @@
         "fun" : 0
     },
     {
-        "type" :"COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "stomach",
         "name" : "stomach",
         "weight" : 72,
@@ -3180,7 +3180,7 @@
         "fun" : -15
     },
     {
-        "type" :"COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "hstomach",
         "name" : "human stomach",
         "weight" : 72,
@@ -3202,7 +3202,7 @@
         "fun" : -15
     },
     {
-        "type" :"COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "stomach_large",
         "name" : "large stomach",
         "weight" : 145,
@@ -3224,7 +3224,7 @@
         "fun" : -15
     },
     {
-        "type" :"COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "hstomach_large",
         "name" : "large human stomach",
         "weight" : 145,
@@ -14949,15 +14949,15 @@
         "fun" : 0,
         "seed_data" : {
             "plant_name" : "pumpkin",
-            "fruit": "pumpkin",
-            "fruit_div": 3,
-            "byproducts": [ "withered" ],
+            "fruit" : "pumpkin",
+            "fruit_div" : 3,
+            "byproducts" : [ "withered" ],
             "grow" : 91
         }
     },{
         "type" : "COMESTIBLE",
         "id" : "seed_sunflower",
-        "category": "other",
+        "category" : "other",
         "name" : "sunflower seed",
         "weight" : 1,
         "color" : "green",
@@ -14974,14 +14974,14 @@
         "charges" : 2,
         "stack_size" : 100,
         "fun" : 0,
-        "seed_data": {
-            "plant_name": "sunflower",
-            "fruit": "seed_sunflower",
-            "byproducts": [ "withered" ],
+        "seed_data" : {
+            "plant_name" : "sunflower",
+            "fruit" : "seed_sunflower",
+            "byproducts" : [ "withered" ],
             "grow" : 91
         }
     },{
-        "type": "COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "canola",
         "name" : "canola",
         "description" : "A pretty stalk of canola.  Its seeds can be pressed into oil.",
@@ -15000,7 +15000,7 @@
         "charges" : 1,
         "price" : 0
 },{
-        "type": "COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "dogbane",
         "name" : "dogbane",
         "description" : "A stalk of dogbane.  It has very fibrous stems and is mildly poisonous.",
@@ -15022,7 +15022,7 @@
 },{   
         "type" : "COMESTIBLE",
         "id" : "seed_dogbane",
-        "category": "other",
+        "category" : "other",
         "price" : 120,
         "name" : "dogbane seeds",
         "name_plural" : "dogbane seeds",
@@ -15035,14 +15035,14 @@
         "weight" : 1,
         "charges" : 2,
         "stack_size" : 100,
-        "seed_data": {
-            "plant_name": "dogbane",
-            "fruit": "dogbane",
-            "byproducts": [ "withered" ],
+        "seed_data" : {
+            "plant_name" : "dogbane",
+            "fruit" : "dogbane",
+            "byproducts" : [ "withered" ],
             "grow" : 91
         }
 },{
-       "type": "COMESTIBLE",
+       "type" : "COMESTIBLE",
        "id" : "bee_balm",
        "name" : "bee balm",
        "description" : "A snow-white flower also known as wild bergamot.  Smells faintly of mint.",
@@ -15063,7 +15063,7 @@
 },{   
         "type" : "COMESTIBLE",
         "id" : "seed_bee_balm",
-        "category": "other",
+        "category" : "other",
         "price" : 120,
         "name" : "bee balm seeds",
         "name_plural" : "bee balm seeds",
@@ -15076,10 +15076,10 @@
         "weight" : 1,
         "charges" : 2,
         "stack_size" : 100,
-        "seed_data": {
-            "plant_name": "bee balm",
-            "fruit": "bee_balm",
-            "byproducts": [ "withered" ],
+        "seed_data" : {
+            "plant_name" : "bee balm",
+            "fruit" : "bee_balm",
+            "byproducts" : [ "withered" ],
             "grow" : 91
         }
 },{
@@ -15107,7 +15107,7 @@
        "flags" : ["EATEN_HOT"],
        "fun" : 1
 },{
-       "type": "COMESTIBLE",
+       "type" : "COMESTIBLE",
        "id" : "mugwort",
        "name" : "mugwort",
        "description" : "A stalk of mugwort.  Smells wonderful.",
@@ -15129,7 +15129,7 @@
 },{   
         "type" : "COMESTIBLE",
         "id" : "seed_mugwort",
-        "category": "other",
+        "category" : "other",
         "price" : 120,
         "name" : "mugwort seeds",
         "name_plural" : "mugwort seeds",
@@ -15142,9 +15142,9 @@
         "weight" : 1,
         "charges" : 2,
         "stack_size" : 100,
-        "seed_data": {
-            "plant_name": "mugwort",
-            "fruit": "mugwort",
+        "seed_data" : {
+            "plant_name" : "mugwort",
+            "fruit" : "mugwort",
             "grow" : 91
         }
 },{   
@@ -15172,7 +15172,7 @@
 },{   
         "type" : "COMESTIBLE",
         "id" : "seed_buckwheat",
-        "category": "other",
+        "category" : "other",
         "price" : 120,
         "name" : "buckwheat seeds",
         "name_plural" : "buckwheat seeds",
@@ -15185,16 +15185,16 @@
         "weight" : 1,
         "charges" : 2,
         "stack_size" : 100,
-        "seed_data": {
-            "plant_name": "buckwheat",
-            "fruit": "buckwheat",
-            "byproducts": [ "withered" ],
+        "seed_data" : {
+            "plant_name" : "buckwheat",
+            "fruit" : "buckwheat",
+            "byproducts" : [ "withered" ],
             "grow" : 91
         }
 },{   
         "type" : "COMESTIBLE",
         "id" : "seed_wild_herbs",
-        "category": "other",
+        "category" : "other",
         "price" : 120,
         "name" : "wild herb seeds",
         "name_plural" : "wild herb seeds",
@@ -15207,15 +15207,15 @@
         "weight" : 1,
         "charges" : 2,
         "stack_size" : 100,
-        "seed_data": {
-            "plant_name": "wild herb",
-            "fruit": "wild_herbs",
+        "seed_data" : {
+            "plant_name" : "wild herb",
+            "fruit" : "wild_herbs",
             "grow" : 91
         }
 },{   
         "type" : "COMESTIBLE",
         "id" : "seed_veggy_wild",
-        "category": "other",
+        "category" : "other",
         "price" : 120,
         "name" : "wild vegetable stems",
         "name_plural" : "wild vegetable stems",
@@ -15228,16 +15228,16 @@
         "weight" : 1,
         "charges" : 2,
         "stack_size" : 100,
-        "seed_data": {
-            "plant_name": "wild vegetable",
-            "fruit": "veggy_wild",
-            "byproducts": [ "withered" ],
+        "seed_data" : {
+            "plant_name" : "wild vegetable",
+            "fruit" : "veggy_wild",
+            "byproducts" : [ "withered" ],
             "grow" : 91
         }
 },{   
         "type" : "COMESTIBLE",
         "id" : "seed_raw_dandelion",
-        "category": "other",
+        "category" : "other",
         "price" : 120,
         "name" : "dandelion seeds",
         "name_plural" : "dandelion seeds",
@@ -15250,15 +15250,15 @@
         "weight" : 1,
         "charges" : 2,
         "stack_size" : 100,
-        "seed_data": {
-            "plant_name": "dandelion",
-            "fruit": "raw_dandelion",
+        "seed_data" : {
+            "plant_name" : "dandelion",
+            "fruit" : "raw_dandelion",
             "grow" : 91
         }
 },{   
         "type" : "COMESTIBLE",
         "id" : "seed_rhubarb",
-        "category": "other",
+        "category" : "other",
         "price" : 120,
         "name" : "rhubarb stems",
         "name_plural" : "rhubarb stems",
@@ -15271,16 +15271,16 @@
         "weight" : 1,
         "charges" : 2,
         "stack_size" : 100,
-        "seed_data": {
-            "plant_name": "rhubarb",
-            "fruit": "rhubarb",
-            "byproducts": [ "withered" ],
+        "seed_data" : {
+            "plant_name" : "rhubarb",
+            "fruit" : "rhubarb",
+            "byproducts" : [ "withered" ],
             "grow" : 91
         }
 },{   
         "type" : "COMESTIBLE",
         "id" : "seed_mushroom",
-        "category": "other",
+        "category" : "other",
         "price" : 120,
         "name" : "mushroom spores",
         "name_plural" : "mushroom spores",
@@ -15293,15 +15293,15 @@
         "weight" : 1,
         "charges" : 2,
         "stack_size" : 100,
-        "seed_data": {
-            "plant_name": "mushroom",
-            "fruit": "mushroom",
+        "seed_data" : {
+            "plant_name" : "mushroom",
+            "fruit" : "mushroom",
             "grow" : 91
         }
 },{   
         "type" : "COMESTIBLE",
         "id" : "seed_mushroom_morel",
-        "category": "other",
+        "category" : "other",
         "price" : 120,
         "name" : "morel mushroom spores",
         "name_plural" : "morel mushroom spores",
@@ -15314,15 +15314,15 @@
         "weight" : 1,
         "charges" : 2,
         "stack_size" : 100,
-        "seed_data": {
-            "plant_name": "morel mushroom",
-            "fruit": "mushroom_morel",
+        "seed_data" : {
+            "plant_name" : "morel mushroom",
+            "fruit" : "mushroom_morel",
             "grow" : 91
         }
 },{   
         "type" : "COMESTIBLE",
         "id" : "seed_mushroom_magic",
-        "category": "other",
+        "category" : "other",
         "price" : 120,
         "name" : "mushroom spores",
         "name_plural" : "mushroom spores",
@@ -15336,15 +15336,15 @@
         "charges" : 2,
         "stack_size" : 100,
         "flags" : "HIDDEN_HALLU",
-        "seed_data": {
-            "plant_name": "mushroom",
-            "fruit": "mushroom_magic",
+        "seed_data" : {
+            "plant_name" : "mushroom",
+            "fruit" : "mushroom_magic",
             "grow" : 91
         }
     },{
         "type" : "COMESTIBLE",
         "id" : "seed_mushroom_poison",
-        "category": "other",
+        "category" : "other",
         "price" : 120,
         "name" : "mushroom spores",
         "name_plural" : "mushroom spores",
@@ -15358,9 +15358,9 @@
         "charges" : 2,
         "stack_size" : 100,
         "flags" : "HIDDEN_POISON",
-        "seed_data": {
-            "plant_name": "mushroom",
-            "fruit": "mushroom_poison",
+        "seed_data" : {
+            "plant_name" : "mushroom",
+            "fruit" : "mushroom_poison",
             "grow" : 91
         }
     },{
@@ -15388,8 +15388,8 @@
             "move_cost" : 100,
             "effects" : [
                 {
-                    "id": "sleep",
-                    "duration": 1000
+                    "id" : "sleep",
+                    "duration" : 1000
                 }
             ],
             "used_up_item" : "rag"
@@ -15405,7 +15405,7 @@
         "comestible_type" : "DRINK",
         "symbol" : "~",
         "quench" : 25,
-        "healthy": 0,
+        "healthy" : 0,
         "nutrition" : 45,
         "description" : "Smooth and rich, this spoon-coating mix of milk, cream, and eggs is a popular traditional holiday drink.  While often spiked, it is still delicious on its own.  Meant to be stored cold, it will spoil rapidly.",
         "price" : 40,
