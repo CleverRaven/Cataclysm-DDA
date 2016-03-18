@@ -5712,7 +5712,7 @@
         "nutrition" : 18,
         "description" : "A tasty cooked wild mushroom.",
         "price" : 150,
-        "material" : "null",
+        "material" : "veggy",
         "volume" : 1,
         "charges" : 1,
         "fun" : 1
