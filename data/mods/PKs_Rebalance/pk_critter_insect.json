@@ -410,5 +410,4 @@
     "flags":["SEES", "HEARS", "SMELLS", "SWIMS", "CHITIN", "CLIMBS", "BASHES"],
     "anger_triggers":["FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "PLAYER_CLOSE", "FIRE"]
     }
-    
 ]
