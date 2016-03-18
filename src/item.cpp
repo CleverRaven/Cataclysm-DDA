@@ -3589,7 +3589,7 @@ bool item::can_contain( const itype &tp ) const
 bool item::spill_contents( Character &c )
 {
     if( c.is_npc() ) {
-        spill_contents( c.pos() );
+        return spill_contents( c.pos() );
     }
 
     while( !contents.empty() ) {
