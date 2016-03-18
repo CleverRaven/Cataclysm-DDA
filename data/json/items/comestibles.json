@@ -6291,7 +6291,7 @@
     },
     {   "type" : "COMESTIBLE",
         "id" : "seed_sugar_beet",
-        "category": "other",
+        "category" : "other",
         "price" : 120,
         "name" : "sugar beet seed",
         "name_plural" : "sugar beet seeds",
@@ -6299,14 +6299,14 @@
         "color" : "brown",
         "description" : "Some sugar beet seeds.",
         "material" : "veggy",
-        "comestible_type": "FOOD",
+        "comestible_type" : "FOOD",
         "volume" : 0,
         "weight" : 5,
         "charges" : 4,
         "stack_size" : 40,
-        "seed_data": {
-            "plant_name": "sugar beet",
-            "fruit": "sugar_beet",
+        "seed_data" : {
+            "plant_name" : "sugar beet",
+            "fruit" : "sugar_beet",
             "grow" : 90
         }
     },
@@ -6332,7 +6332,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "seed_lettuce",
-        "category": "other",
+        "category" : "other",
         "price" : 50,
         "name" : "lettuce seed",
         "name_plural" : "lettuce seeds",
@@ -6340,15 +6340,15 @@
         "color" : "brown",
         "description" : "Some lettuce seeds.",
         "material" : "veggy",
-        "comestible_type": "FOOD",
+        "comestible_type" : "FOOD",
         "volume" : 1,
         "weight" : 1,
         "charges" : 4,
         "stack_size" : 100,
-        "seed_data": {
-            "plant_name": "lettuce",
-            "fruit": "lettuce",
-            "byproducts": [ "withered" ],
+        "seed_data" : {
+            "plant_name" : "lettuce",
+            "fruit" : "lettuce",
+            "byproducts" : [ "withered" ],
             "grow" : 85
         }
     },
@@ -6374,7 +6374,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "seed_cabbage",
-        "category": "other",
+        "category" : "other",
         "price" : 50,
         "name" : "cabbage seed",
         "name_plural" : "cabbage seeds",
@@ -6382,15 +6382,15 @@
         "color" : "light_gray",
         "description" : "Some white cabbage seeds.",
         "material" : "veggy",
-        "comestible_type": "FOOD",
+        "comestible_type" : "FOOD",
         "volume" : 1,
         "weight" : 1,
         "charges" : 4,
         "stack_size" : 100,
-        "seed_data": {
-            "plant_name": "cabbage",
-            "fruit": "cabbage",
-            "byproducts": [ "withered" ],
+        "seed_data" : {
+            "plant_name" : "cabbage",
+            "fruit" : "cabbage",
+            "byproducts" : [ "withered" ],
             "grow" : 85
         }
     },
@@ -6417,7 +6417,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "seed_tomato",
-        "category": "other",
+        "category" : "other",
         "price" : 50,
         "name" : "tomato seed",
         "name_plural" : "tomato seeds",
@@ -6425,22 +6425,22 @@
         "color" : "brown",
         "description" : "Some tomato seeds.",
         "material" : "veggy",
-        "comestible_type": "FOOD",
+        "comestible_type" : "FOOD",
         "volume" : 1,
         "weight" : 1,
         "charges" : 4,
         "stack_size" : 100,
-        "seed_data": {
-            "plant_name": "tomato",
-            "fruit": "tomato",
-            "byproducts": [ "withered" ],
+        "seed_data" : {
+            "plant_name" : "tomato",
+            "fruit" : "tomato",
+            "byproducts" : [ "withered" ],
             "grow" : 65
         }
     },
     {
         "type" : "COMESTIBLE",
         "id" : "seed_cotton_boll",
-        "category": "other",
+        "category" : "other",
         "price" : 50,
         "name" : "cotton seed",
         "name_plural" : "cotton seeds",
@@ -6448,15 +6448,15 @@
         "color" : "brown",
         "description" : "Some cotton seeds.  Can be processed to produce an edible oil.",
         "material" : "veggy",
-        "comestible_type": "FOOD",
+        "comestible_type" : "FOOD",
         "volume" : 1,
         "weight" : 5,
         "charges" : 8,
         "stack_size" : 40,
-        "seed_data": {
-            "plant_name": "cotton",
-            "fruit": "cotton_boll",
-            "byproducts": [ "withered" ],
+        "seed_data" : {
+            "plant_name" : "cotton",
+            "fruit" : "cotton_boll",
+            "byproducts" : [ "withered" ],
             "grow" : 130
         }
     },
@@ -6534,7 +6534,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "seed_broccoli",
-        "category": "other",
+        "category" : "other",
         "price" : 50,
         "name" : "broccoli seed",
         "name_plural" : "broccoli seeds",
@@ -6542,15 +6542,15 @@
         "color" : "brown",
         "description" : "Some broccoli seeds.",
         "material" : "veggy",
-        "comestible_type": "FOOD",
+        "comestible_type" : "FOOD",
         "volume" : 1,
         "weight" : 1,
         "charges" : 4,
         "stack_size" : 100,
-        "seed_data": {
-            "plant_name": "broccoli",
-            "fruit": "broccoli",
-            "byproducts": [ "withered" ],
+        "seed_data" : {
+            "plant_name" : "broccoli",
+            "fruit" : "broccoli",
+            "byproducts" : [ "withered" ],
             "grow" : 75
         }
     },
@@ -6577,7 +6577,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "seed_zucchini",
-        "category": "other",
+        "category" : "other",
         "price" : 50,
         "name" : "zucchini seed",
         "name_plural" : "zucchini seeds",
@@ -6585,15 +6585,15 @@
         "color" : "brown",
         "description" : "Some zucchini seeds.",
         "material" : "veggy",
-        "comestible_type": "FOOD",
+        "comestible_type" : "FOOD",
         "volume" : 1,
         "weight" : 1,
         "charges" : 4,
         "stack_size" : 100,
-        "seed_data": {
-            "plant_name": "zucchini",
-            "fruit": "zucchini",
-            "byproducts": [ "withered" ],
+        "seed_data" : {
+            "plant_name" : "zucchini",
+            "fruit" : "zucchini",
+            "byproducts" : [ "withered" ],
             "grow" : 47
         }
     },
@@ -6620,7 +6620,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "seed_onion",
-        "category": "other",
+        "category" : "other",
         "price" : 50,
         "name" : "onion seed",
         "name_plural" : "onion seeds",
@@ -6628,15 +6628,15 @@
         "color" : "brown",
         "description" : "Some onion seeds.",
         "material" : "veggy",
-        "comestible_type": "FOOD",
+        "comestible_type" : "FOOD",
         "volume" : 1,
         "weight" : 1,
         "charges" : 4,
         "stack_size" : 100,
-        "seed_data": {
-            "plant_name": "onion",
-            "fruit": "onion",
-            "byproducts": [ "withered" ],
+        "seed_data" : {
+            "plant_name" : "onion",
+            "fruit" : "onion",
+            "byproducts" : [ "withered" ],
             "grow" : 65
         }
     },
@@ -6662,7 +6662,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "seed_garlic",
-        "category": "other",
+        "category" : "other",
         "price" : 50,
         "name" : "garlic clove",
         "name_plural" : "garlic cloves",
@@ -6670,7 +6670,7 @@
         "color" : "brown",
         "description" : "Cloves of garlic.  Useful as a seasoning, or for planting.",
         "material" : "veggy",
-        "comestible_type": "FOOD",
+        "comestible_type" : "FOOD",
         "quench" : -3,
         "healthy" : 0,
         "nutrition" : 3,
@@ -6679,10 +6679,10 @@
         "charges" : 6,
         "stack_size" : 6,
         "fun" : -3,
-        "seed_data": {
-            "plant_name": "garlic",
-            "fruit": "garlic",
-            "byproducts": [ "withered" ],
+        "seed_data" : {
+            "plant_name" : "garlic",
+            "fruit" : "garlic",
+            "byproducts" : [ "withered" ],
             "grow" : 65
         }
     },
@@ -6709,7 +6709,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "seed_carrot",
-        "category": "other",
+        "category" : "other",
         "price" : 50,
         "name" : "carrot seed",
         "name_plural" : "carrot seeds",
@@ -6717,15 +6717,15 @@
         "color" : "brown",
         "description" : "Some carrot seeds.",
         "material" : "veggy",
-        "comestible_type": "FOOD",
+        "comestible_type" : "FOOD",
         "volume" : 1,
         "weight" : 1,
         "charges" : 4,
         "stack_size" : 100,
-        "seed_data": {
-            "plant_name": "carrot",
-            "fruit": "carrot",
-            "byproducts": [ "withered" ],
+        "seed_data" : {
+            "plant_name" : "carrot",
+            "fruit" : "carrot",
+            "byproducts" : [ "withered" ],
             "grow" : 65
         }
     },
@@ -6753,7 +6753,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "seed_corn",
-        "category": "other",
+        "category" : "other",
         "price" : 50,
         "name" : "corn seed",
         "name_plural" : "corn seeds",
@@ -6761,15 +6761,15 @@
         "color" : "brown",
         "description" : "Some corn seeds.",
         "material" : "veggy",
-        "comestible_type": "FOOD",
+        "comestible_type" : "FOOD",
         "volume" : 1,
         "weight" : 1,
         "charges" : 4,
         "stack_size" : 100,
-        "seed_data": {
-            "plant_name": "corn",
-            "fruit": "corn",
-            "byproducts": [ "withered" ],
+        "seed_data" : {
+            "plant_name" : "corn",
+            "fruit" : "corn",
+            "byproducts" : [ "withered" ],
             "grow" : 80
         }
     },
@@ -7682,7 +7682,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "fetus",
-        "category": "other",
+        "category" : "other",
         "name" : "misshapen fetus",
         "name_plural" : "misshapen fetuses",
         "weight" : 760,
@@ -7705,7 +7705,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "arm",
-        "category": "other",
+        "category" : "other",
         "name" : "mutated arm",
         "weight" : 3767,
         "color" : "brown",
@@ -7727,7 +7727,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "leg",
-        "category": "other",
+        "category" : "other",
         "name" : "mutated leg",
         "weight" : 11071,
         "color" : "brown",
@@ -7827,9 +7827,9 @@
         "charges" : 1,
         "stack_size" : 10,
         "fun" : 30,
-        "seed_data": {
-            "fruit": "null", "//": "dummy entry, results are hardcoded",
-            "plant_name": "marloss berry",
+        "seed_data" : {
+            "fruit" : "null", "//" : "dummy entry, results are hardcoded",
+            "plant_name" : "marloss berry",
             "grow" : 91
         }
     },
@@ -7957,7 +7957,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "seed_oats",
-        "category": "other",
+        "category" : "other",
         "price" : 50,
         "name" : "oat seed",
         "name_plural" : "oat seeds",
@@ -7965,15 +7965,15 @@
         "color" : "brown",
         "description" : "Some oat seeds.",
         "material" : "wheat",
-        "comestible_type": "FOOD",
+        "comestible_type" : "FOOD",
         "volume" : 1,
         "weight" : 5,
         "charges" : 4,
         "stack_size" : 40,
-        "seed_data": {
-            "plant_name": "oats",
-            "fruit": "oats",
-            "byproducts": [ "withered" ],
+        "seed_data" : {
+            "plant_name" : "oats",
+            "fruit" : "oats",
+            "byproducts" : [ "withered" ],
             "grow" : 45
         }
     },
@@ -8725,17 +8725,17 @@
         "volume" : 1,
         "charges" : 1,
         "fun" : -1,
-        "seed_data": {
-            "plant_name": "beans",
-            "fruit": "raw_beans",
-            "byproducts": [ "withered" ],
+        "seed_data" : {
+            "plant_name" : "beans",
+            "fruit" : "raw_beans",
+            "byproducts" : [ "withered" ],
             "grow" : 91
         }
     },
     {
         "type" : "COMESTIBLE",
         "id" : "seed_potato_raw",
-        "category": "other",
+        "category" : "other",
         "price" : 50,
         "name" : "seed potato",
         "name_plural" : "seed potatoes",
@@ -8743,15 +8743,15 @@
         "color" : "brown",
         "description" : "Some seed potatoes.",
         "material" : "veggy",
-        "comestible_type": "FOOD",
+        "comestible_type" : "FOOD",
         "volume" : 1,
         "weight" : 20,
         "charges" : 4,
         "stack_size" : 10,
-        "seed_data": {
-            "plant_name": "potatoes",
-            "fruit": "potato_raw",
-            "byproducts": [ "withered" ],
+        "seed_data" : {
+            "plant_name" : "potatoes",
+            "fruit" : "potato_raw",
+            "byproducts" : [ "withered" ],
             "grow" : 95
         }
     },
@@ -9417,18 +9417,18 @@
         "fun" : 10
     },
     {
-        "id": "mre_beef_box",
-        "type": "GENERIC",
-        "symbol": ")",
-        "color": "brown",
-        "name": "MRE - Beef",
-        "name_plural": "MREs - beef",
-        "category": "food",
-        "description": "A 'Meal Ready to Eat' with an irradiated beef main course and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Disassemble it to get to its contents.",
-        "price": 1500,
-        "weight": 900,
-        "volume": 3,
-        "material": ["plastic", "null"]
+        "id" : "mre_beef_box",
+        "type" : "GENERIC",
+        "symbol" : ")",
+        "color" : "brown",
+        "name" : "MRE - Beef",
+        "name_plural" : "MREs - beef",
+        "category" : "food",
+        "description" : "A 'Meal Ready to Eat' with an irradiated beef main course and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Disassemble it to get to its contents.",
+        "price" : 1500,
+        "weight" : 900,
+        "volume" : 3,
+        "material" : ["plastic", "null"]
     },
     {
         "id": "mre_veggy_box",
