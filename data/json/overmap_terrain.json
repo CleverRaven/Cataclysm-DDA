@@ -1360,7 +1360,7 @@
     },{
         "type" : "overmap_terrain",
         "id" : "car_corner_aban1",
-        "name" : "green",
+        "name" : "car corner",
         "sym" : 70,
         "rotate" : true,
         "color" : "green",
