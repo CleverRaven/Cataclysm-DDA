@@ -5692,7 +5692,7 @@ int iuse::artifact(player *p, item *it, bool, const tripoint& )
 
             case AEA_SCREAM:
                 p->add_msg_if_player(m_warning, _("Your %s screams disturbingly."), it->tname().c_str());
-                sounds::sound(p->pos(), 40, "");{
+                sounds::sound(p->pos(), 40, "");
                 if (!p->is_deaf()) {
                     p->add_morale(MORALE_SCREAM, -10, 0, 300, 5);
                 }
