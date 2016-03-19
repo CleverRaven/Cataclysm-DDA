@@ -116,7 +116,7 @@ void event::actualize()
         if (g->u.has_amount("petrified_eye", 1)) {
             add_msg(_("The eye you're carrying lets out a tortured scream!"));
             sounds::sound(g->u.pos(), 60, "");
-            if (g->u.is_deaf() == false) {
+            if (!g->u.is_deaf()) {
                 g->u.add_morale(MORALE_SCREAM, -15, 0, 300, 5);
             }
         }
