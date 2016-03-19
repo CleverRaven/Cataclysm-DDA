@@ -8762,7 +8762,6 @@
         "autolearn": true,
         "flags": ["BLIND_EASY"],
         "components": [ [
-            [ "drink_strawberry_surprise", 7 ],
             [ "gin", 7 ],
             [ "mead", 7 ],
             [ "pine_wine", 7 ],
@@ -8771,11 +8770,7 @@
             [ "tequila", 7 ],
             [ "triple_sec", 7 ],
             [ "vodka", 7 ],
-            [ "whiskey", 7 ],
-            [ "wine_cabernet", 7 ],
-            [ "wine_chardonnay", 7 ],
-            [ "wine_noir", 7 ],
-            [ "wine_riesling", 7 ]
+            [ "whiskey", 7 ]
         ] ]
     },{
         "type" : "recipe",
