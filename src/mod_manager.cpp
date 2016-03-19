@@ -21,7 +21,7 @@ static std::unordered_set<std::string> obsolete_mod_list;
 // These accessors are to delay the initialization of the strings in the respective containers until after gettext is initialized.
 const std::vector<std::pair<std::string, std::string> > &get_mod_list_categories() {
     static const std::vector<std::pair<std::string, std::string> > mod_list_categories = {
-        {"items", _("ITEM ADDIDION MODS")},
+        {"items", _("ITEM ADDITION MODS")},
         {"creatures", _("CREATURE MODS")},
         {"buildings", _("BUILDINGS MODS")},
         {"vehicles", _("VEHICLE MODS")},
