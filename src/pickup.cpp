@@ -14,6 +14,7 @@
 #include "mapdata.h"
 #include "cata_utility.h"
 #include "debug.h"
+#include "catacharset.h"
 
 #include <map>
 #include <vector>
@@ -652,7 +653,23 @@ void Pickup::pick_up( const tripoint &pos, int min )
         WINDOW_PTR w_pickupptr( w_pickup );
         WINDOW_PTR w_item_infoptr( w_item_info );
 
-        int ch = ' ';
+        std::string action;
+        long raw_input_char = ' ';
+        input_context ctxt("PICKUP");
+        ctxt.register_action("UP", _("Previous item"));
+        ctxt.register_action("DOWN", _("Next item"));
+        ctxt.register_action("RIGHT", _("Mark selected item"));
+        ctxt.register_action("LEFT", _("Unmark selected item"));
+        ctxt.register_action("NEXT_TAB", _("Next page"));
+        ctxt.register_action("PREV_TAB", _("Previous page"));
+        ctxt.register_action("SCROLL_UP");
+        ctxt.register_action("SCROLL_DOWN");
+        ctxt.register_action("CONFIRM");
+        ctxt.register_action("SELECT_ALL");
+        ctxt.register_action("QUIT", _("Cancel"));
+        ctxt.register_action("ANY_INPUT");
+        ctxt.register_action("HELP_KEYBINDINGS");
+
         int start = 0, cur_it;
         int new_weight = g->u.weight_carried(), new_volume = g->u.volume_carried();
         bool update = true;
@@ -666,25 +683,26 @@ void Pickup::pick_up( const tripoint &pos, int min )
         // Now print the two lists; those on the ground and about to be added to inv
         // Continue until we hit return or space
         do {
-            static const std::string pickup_chars =
-                "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ:;";
+            const std::string pickup_chars = ctxt.get_available_single_char_hotkeys(
+                "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ:;");
             int idx = -1;
             for (int i = 1; i < pickupH; i++) {
                 mvwprintw(w_pickup, i, 0,
                           "                                                ");
             }
-            if (ch >= '0' && ch <= '9') {
-                ch = (char)ch - '0';
+            if ( action == "ANY_INPUT" &&
+                    raw_input_char >= '0' && raw_input_char <= '9') {
+                int raw_input_char_value = (char)raw_input_char - '0';
                 itemcount *= 10;
-                itemcount += ch;
+                itemcount += raw_input_char_value;
                 if( itemcount < 0 ) {
                     itemcount = 0;
                 }
-            } else if ( ch == KEY_PPAGE) {
+            } else if ( action == "SCROLL_UP") {
                 iScrollPos--;
-            } else if ( ch == KEY_NPAGE) {
+            } else if ( action == "SCROLL_DOWN") {
                 iScrollPos++;
-            } else if ( ch == '<' ) {
+            } else if ( action == "PREV_TAB" ) {
                 if ( start > 0 ) {
                     start -= maxitems;
                 } else {
@@ -692,7 +710,7 @@ void Pickup::pick_up( const tripoint &pos, int min )
                 }
                 selected = start;
                 mvwprintw(w_pickup, maxitems + 2, 0, "         ");
-            } else if ( ch == '>' ) {
+            } else if ( action == "NEXT_TAB" ) {
                 if ( start + maxitems < (int)here.size() ) {
                     start += maxitems;
                 } else {
@@ -701,7 +719,7 @@ void Pickup::pick_up( const tripoint &pos, int min )
                 iScrollPos = 0;
                 selected = start;
                 mvwprintw(w_pickup, maxitems + 2, pickupH, "            ");
-            } else if ( ch == KEY_UP ) {
+            } else if ( action == "UP" ) {
                 selected--;
                 iScrollPos = 0;
                 if ( selected < 0 ) {
@@ -713,7 +731,7 @@ void Pickup::pick_up( const tripoint &pos, int min )
                 } else if ( selected < start ) {
                     start -= maxitems;
                 }
-            } else if ( ch == KEY_DOWN ) {
+            } else if ( action == "DOWN" ) {
                 selected++;
                 iScrollPos = 0;
                 if ( selected >= (int)here.size() ) {
@@ -723,11 +741,11 @@ void Pickup::pick_up( const tripoint &pos, int min )
                     start += maxitems;
                 }
             } else if ( selected >= 0 && (
-                            ( ch == KEY_RIGHT && !getitem[selected]) ||
-                            ( ch == KEY_LEFT && getitem[selected] )
+                            ( action == "RIGHT" && !getitem[selected]) ||
+                            ( action == "LEFT" && getitem[selected] )
                         ) ) {
                 idx = selected;
-            } else if ( ch == '`' ) {
+            } else if ( action == "ANY_INPUT" && raw_input_char == '`' ) {
                 std::string ext = string_input_popup(
                                       _("Enter 2 letters (case sensitive):"), 3, "", "", "", 2);
                 if(ext.size() == 2) {
@@ -737,8 +755,8 @@ void Pickup::pick_up( const tripoint &pos, int min )
                         idx = pickup_chars.size() + ( p1 * pickup_chars.size() ) + p2;
                     }
                 }
-            } else {
-                idx = ( ch <= 127 ) ? pickup_chars.find(ch) : -1;
+            } else if ( action == "ANY_INPUT" ) {
+                idx = ( raw_input_char <= 127 ) ? pickup_chars.find(raw_input_char) : -1;
                 iScrollPos = 0;
             }
 
@@ -765,8 +783,8 @@ void Pickup::pick_up( const tripoint &pos, int min )
                 }
 
                 // Note: this might not change the value of getitem[idx] at all!
-                getitem[idx].pick = ( ch == KEY_RIGHT ? true : ( ch == KEY_LEFT ? false : !getitem[idx] ) );
-                if ( ch != KEY_RIGHT && ch != KEY_LEFT) {
+                getitem[idx].pick = ( action == "RIGHT" ? true : ( action == "LEFT" ? false : !getitem[idx] ) );
+                if ( action != "RIGHT" && action != "LEFT" ) {
                     selected = idx;
                     start = (int)( idx / maxitems ) * maxitems;
                 }
@@ -800,7 +818,7 @@ void Pickup::pick_up( const tripoint &pos, int min )
             trim_and_print(w_item_info, 0, 4, itemsW - 8, c_white, "%s >", here[selected].display_name().c_str());
             wrefresh(w_item_info);
 
-            if (ch == ',') {
+            if (action == "SELECT_ALL") {
                 int count = 0;
                 for (size_t i = 0; i < here.size(); i++) {
                     if (getitem[i]) {
@@ -833,12 +851,14 @@ void Pickup::pick_up( const tripoint &pos, int min )
                     if (cur_it < (int)pickup_chars.size() ) {
                         mvwputch(w_pickup, 1 + (cur_it % maxitems), 0, icolor,
                                  char(pickup_chars[cur_it]));
-                    } else {
+                    } else if ( cur_it < (int)pickup_chars.size() + (int)pickup_chars.size() * (int)pickup_chars.size() ) {
                         int p = cur_it - pickup_chars.size();
                         int p1 = p / pickup_chars.size();
                         int p2 = p % pickup_chars.size();
                         mvwprintz(w_pickup, 1 + (cur_it % maxitems), 0, icolor, "`%c%c",
                                   char(pickup_chars[p1]), char(pickup_chars[p2]));
+                    } else {
+                        mvwputch(w_pickup, 1 + (cur_it % maxitems), 0, icolor, ' ');
                     }
                     if (getitem[cur_it]) {
                         if (getitem[cur_it].count == 0) {
@@ -858,19 +878,29 @@ void Pickup::pick_up( const tripoint &pos, int min )
                 }
             }
 
-            int pw = pickupW;
-            const char *unmark = _("[left] Unmark");
-            const char *scroll = _("[up/dn] Scroll");
-            const char *mark   = _("[right] Mark");
-            mvwprintw(w_pickup, maxitems + 1, 0,                         unmark);
-            mvwprintw(w_pickup, maxitems + 1, (pw - std::strlen(scroll)) / 2, scroll);
-            mvwprintw(w_pickup, maxitems + 1,  pw - std::strlen(mark),        mark);
-            const char *prev = _("[<] Prev");
-            const char *all = _("[,] All");
-            const char *next   = _("[>] Next");
-            mvwprintw(w_pickup, maxitems + 2, 0, prev);
-            mvwprintw(w_pickup, maxitems + 2, (pw - std::strlen(all)) / 2, all);
-            mvwprintw(w_pickup, maxitems + 2, pw - std::strlen(next), next);
+            utf8_wrapper help_text = utf8_wrapper(string_format(_("[%s] Unmark"), ctxt.get_desc("LEFT", 1).c_str()));
+            size_t help_text_x_pos = 0;
+            mvwprintw(w_pickup, maxitems + 1, help_text_x_pos, help_text.replace_all("%", "%%").c_str());
+
+            help_text = utf8_wrapper(string_format(_("[%s] Help"), ctxt.get_desc("HELP_KEYBINDINGS", 1).c_str()));
+            help_text_x_pos = center_text_pos(help_text, 0, pickupW);
+            mvwprintw(w_pickup, maxitems + 1, help_text_x_pos, help_text.replace_all("%", "%%").c_str());
+
+            help_text = utf8_wrapper(string_format(_("[%s] Mark"), ctxt.get_desc("RIGHT", 1).c_str()));
+            help_text_x_pos = pickupW - help_text.display_width();
+            mvwprintw(w_pickup, maxitems + 1, help_text_x_pos, help_text.replace_all("%", "%%").c_str());
+
+            help_text = utf8_wrapper(string_format(_("[%s] Prev"), ctxt.get_desc("PREV_TAB", 1).c_str()));
+            help_text_x_pos = 0;
+            mvwprintw(w_pickup, maxitems + 2, help_text_x_pos, help_text.replace_all("%", "%%").c_str());
+
+            help_text = utf8_wrapper(string_format(_("[%s] All"), ctxt.get_desc("SELECT_ALL", 1).c_str()));
+            help_text_x_pos = center_text_pos(help_text, 0, pickupW);
+            mvwprintw(w_pickup, maxitems + 2, help_text_x_pos, help_text.replace_all("%", "%%").c_str());
+
+            help_text = utf8_wrapper(string_format(_("[%s] Next"), ctxt.get_desc("NEXT_TAB", 1).c_str()));
+            help_text_x_pos = pickupW - help_text.display_width();
+            mvwprintw(w_pickup, maxitems + 2, help_text_x_pos, help_text.replace_all("%", "%%").c_str());
 
             if (update) { // Update weight & volume information
                 update = false;
@@ -888,9 +918,10 @@ void Pickup::pick_up( const tripoint &pos, int min )
             }
             wrefresh(w_pickup);
 
-            ch = (int)getch();
+            action = ctxt.handle_input();
+            raw_input_char = ctxt.get_raw_input().get_first_input();
 
-        } while (ch != ' ' && ch != '\n' && ch != KEY_ENTER && ch != KEY_ESCAPE);
+        } while (action != "QUIT" && action != "CONFIRM");
 
         bool item_selected = false;
         // Check if we have selected an item.
@@ -899,7 +930,7 @@ void Pickup::pick_up( const tripoint &pos, int min )
                 item_selected = true;
             }
         }
-        if( (ch != '\n' && ch != KEY_ENTER) || !item_selected ) {
+        if( action != "CONFIRM" || !item_selected ) {
             w_pickupptr.reset();
             w_item_infoptr.reset();
             add_msg(_("Never mind."));

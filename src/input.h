@@ -349,9 +349,18 @@ class input_context
 
         /**
          * Get a description text for the key/other input method associated
-         * with the given action.
+         * with the given action. If there are multiple bound keys, no more
+         * than max_limit will be described in the result.
+         *
+         * @param action_descriptor The action descriptor for which to return
+         *                          a description of the bound keys.
+         *
+         * @param max_limit No more than max_limit bound keys will be
+         *                  described in the returned description. A value of
+         *                  0 indicates no limit.
          */
-        const std::string get_desc( const std::string &action_descriptor );
+        const std::string get_desc( const std::string &action_descriptor,
+                                    const unsigned int max_limit = 0 );
 
         /**
          * Handles input and returns the next action in the queue.

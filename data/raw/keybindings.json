@@ -191,6 +191,42 @@
     },
     {
         "type" : "keybinding",
+        "id": "SELECT_ALL",
+        "category": "PICKUP",
+        "name": "Select all",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":","
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "SCROLL_UP",
+        "category": "PICKUP",
+        "name": "Scroll item info up",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"PPAGE"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "SCROLL_DOWN",
+        "category": "PICKUP",
+        "name": "Scroll item info down",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"NPAGE"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
         "id": "ADD_RULE",
         "category": "AUTO_PICKUP",
         "name": "Add rule",
