@@ -165,13 +165,13 @@ std::string power_description( std::string const &id )
     return power_desc.str();
 }
 
-std::vector<cbm_pair> define_content( player& u, body_part bp )
+std::vector<cbm_pair> define_content( player const &u, body_part bp )
 {
     std::vector<cbm_pair> content;
-    content.push_back( std::make_pair( bp , INT_MAX ) );
+    content.emplace_back( bp , INT_MAX );
     for( size_t i = 0; i < u.my_bionics.size(); ++i ) {
         if( u.my_bionics[i].used_bodyparts.count( bp ) > 0 ) {
-            content.push_back( std::make_pair( bp, i ) );
+            content.emplace_back( bp, i );
         }
     }
     std::sort( content.begin(), content.end(), [&u] ( cbm_pair const &val1, cbm_pair const &val2 ) {
@@ -1673,17 +1673,20 @@ void player::process_bionic(int b)
     }
 }
 
-int player::get_used_bionics_slots( body_part bp )
+int player::get_used_bionics_slots( body_part bp ) const
 {
     int used_slots = 0;
     for( auto& bio : my_bionics ) {
-        used_slots += bio.used_bodyparts[bp];
+        auto search = bio.used_bodyparts.find( bp );
+        if( search != bio.used_bodyparts.end() ) {
+            used_slots += search->second;
+        }
     }
 
     return used_slots;
 }
 
-int player::get_total_bionics_slots( body_part bp )
+int player::get_total_bionics_slots( body_part bp ) const
 {
     switch( bp ) {
     case bp_torso:
@@ -1720,12 +1723,12 @@ int player::get_total_bionics_slots( body_part bp )
     return 0;
 }
 
-int player::get_free_bionics_slots( body_part bp )
+int player::get_free_bionics_slots( body_part bp ) const
 {
     return get_total_bionics_slots( bp ) - get_used_bionics_slots( bp );
 }
 
-bool player::has_enough_slots( body_part bp, int slots_needed )
+bool player::has_enough_slots( body_part bp, int slots_needed ) const
 {
     return( get_free_bionics_slots( bp ) >= slots_needed );
 }
@@ -1971,22 +1974,29 @@ bool player::install_bionics(const itype &type, int skill_level)
     affected_bodyparts.emplace( bp_head, 1 );
     affected_bodyparts.emplace( bp_mouth, 2 );
 
-    std::map<body_part, size_t> issues;
+    std::map<body_part, int> issues;
     for( auto& elem : affected_bodyparts ) {
         if( !has_enough_slots( elem.first, elem.second ) ) {
-            issues.insert( elem );
+            issues.emplace( elem.first, (int)elem.second -
+                            get_free_bionics_slots( elem.first ) );
         }
     }
 
     // moved out from loop above to show all requirements which are not satisfied
     if( !issues.empty() ) {
         // @todo: show info from issues map in this popup:
-        popup( _( "Not enough space for bionic installation!" ) );
+        std::string detailed_info;
+        for( auto& elem : issues ) {
+            detailed_info += string_format( _( "\n%s: %i more slot(s) needed." ),
+                                            bodyparts[static_cast<size_t>( elem.first )].c_str(),
+                                            elem.second );
+        }
+        popup( _( "Not enough space for bionic installation!%s" ), detailed_info.c_str() );
         return false;
     }
 
     if( !query_yn( _( "WARNING: %i percent chance of genetic damage, blood loss, or damage to existing bionics! Continue anyway?" ),
-                   int( 100 - chance_of_success ) ) ) {
+                   ( 100 - int( chance_of_success ) ) ) ) {
         return false;
     }
 
@@ -2164,7 +2174,7 @@ void bionics_install_failure( player *u, int difficulty, int success,
     }
 }
 
-void player::add_bionic( std::string const &b, std::map<body_part, size_t> affected_bodyparts )
+void player::add_bionic( std::string const &b, std::map<body_part, size_t> const &affected_bodyparts )
 {
     if( has_bionic( b ) ) {
         debugmsg( "Tried to install bionic %s that is already installed!", b.c_str() );
@@ -2186,7 +2196,7 @@ void player::add_bionic( std::string const &b, std::map<body_part, size_t> affec
         return;
     }
 
-    my_bionics.push_back( bionic( b, newinv, affected_bodyparts ) );
+    my_bionics.emplace_back( b, newinv, affected_bodyparts );
     if ( b == "bio_tools" || b == "bio_ears" ) {
         activate_bionic(my_bionics.size() -1);
     }
@@ -2210,7 +2220,7 @@ void player::remove_bionic(std::string const &b) {
 				   continue;
         }
 
-        new_my_bionics.push_back( bionic( i.id, i.invlet, i.used_bodyparts ) );
+        new_my_bionics.emplace_back( i.id, i.invlet, i.used_bodyparts );
     }
     my_bionics = new_my_bionics;
     recalc_sight_limits();
@@ -2314,8 +2324,9 @@ void load_bionic(JsonObject &jsobj)
         possible_bodyparts.push_back( std::make_pair( static_cast<body_part>( jsarr.get_int( 0 ) ),
                                                       jsarr.get_int( 1 ) ) );
     } else {
-        possible_bodyparts.push_back( std::make_pair( bp_head, 1 ) );
-        possible_bodyparts.push_back( std::make_pair( bp_torso, 5 ) );
+        // @todo: remove this temporary placeholder
+        possible_bodyparts.emplace_back( bp_head, 1 );
+        possible_bodyparts.emplace_back( bp_torso, 5 );
     }
 
 

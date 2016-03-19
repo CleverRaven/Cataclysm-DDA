@@ -293,7 +293,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Returns true if the player is wearing an active optical cloak */
         bool has_active_optcloak() const;
         /** Adds a bionic to my_bionics[] */
-        void add_bionic( std::string const &b, std::map<body_part, size_t> affected_bodyparts );
+        void add_bionic( std::string const &b, std::map<body_part, size_t> const &affected_bodyparts );
         /** Removes a bionic from my_bionics[] */
         void remove_bionic(std::string const &b);
         /** Used by the player to perform surgery to remove bionics and possibly retrieve parts */
@@ -1177,10 +1177,10 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int last_batch;
         itype_id lastconsumed;        //used in crafting.cpp and construction.cpp
 
-        int get_used_bionics_slots( body_part bp );
-        int get_total_bionics_slots( body_part bp );
-        int get_free_bionics_slots( body_part bp );
-        bool has_enough_slots( body_part bp, int slots_needed );
+        int get_used_bionics_slots( body_part bp ) const;
+        int get_total_bionics_slots( body_part bp ) const;
+        int get_free_bionics_slots( body_part bp ) const;
+        bool has_enough_slots( body_part bp, int slots_needed ) const;
 
         //Dumps all memorial events into a single newline-delimited string
         std::string dump_memorial() const;
