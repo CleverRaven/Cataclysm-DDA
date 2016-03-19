@@ -2014,9 +2014,9 @@ std::string get_labeled_bar( const double val, const int width, const std::strin
                 continue;
             }
             used_width += seg_width;
-            result += std::string( seg_width, it->second );
+            result.insert( result.end(), seg_width, it->second );
         }
-        result += std::string( bar_width - used_width, ' ' );
+        result.insert( result.end(), bar_width - used_width, ' ' );
     }
     result += ']';
 
