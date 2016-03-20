@@ -1918,25 +1918,6 @@ bool player::install_bionics(const itype &type, int skill_level)
         return false;
     }
 
-    // @todo: this code should be removed after complete implementation of bionics slots system
-    if (bioid == "bio_reactor" || bioid == "bio_advreactor") {
-        if (has_bionic("bio_furnace") && has_bionic("bio_storage")) {
-            popup(_("Your internal storage and furnace take up too much room!"));
-            return false;
-        } else if (has_bionic("bio_furnace")) {
-            popup(_("Your internal furnace takes up too much room!"));
-            return false;
-        } else if (has_bionic("bio_storage")) {
-            popup(_("Your internal storage takes up too much room!"));
-            return false;
-        }
-    }
-    if ((bioid == "bio_furnace" ) || (bioid == "bio_storage") || (bioid == "bio_reactor") || (bioid == "bio_advreactor")) {
-        if (has_bionic("bio_reactor") || has_bionic("bio_advreactor")) {
-            popup(_("Your installed reactor leaves no room!"));
-            return false;
-        }
-    }
     if (bioid == "bio_reactor_upgrade" ){
         if (!has_bionic("bio_reactor")) {
             popup(_("There is nothing to upgrade!"));
@@ -2317,14 +2298,11 @@ void load_bionic(JsonObject &jsobj)
     if( !jsarr.empty() ) {
         while (jsarr.has_more()) {
             JsonArray ja = jsarr.next_array();
-            // @todo replace reading of body_part directly as int by string to bp convertion
-            // (see armor->covers as reference)
             occupied_bodyparts.emplace( get_body_part_token( ja.get_string( 0 ) ),
                                         ja.get_int( 1 ) );
         }
     } else {
-        // @todo remove this temporary placeholder (provide default vals)
-        occupied_bodyparts.emplace( bp_torso, 1 );
+        occupied_bodyparts.emplace( num_bp, 1 );
     }
 
 

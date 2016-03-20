@@ -43,6 +43,9 @@
         "type": "bionic",
         "id": "bio_reactor",
         "name": "Microreactor System",
+        "occupied_bodyparts": [
+            [ "TORSO", 85 ]
+        ],
         "power_source": true,
         "toggled": true,
         "description": "This stripped down mini-reactor may not be the best thing to have in your chest.  There is no way to shut it down, but you can toggle additional fuel intake."
@@ -50,6 +53,9 @@
         "type": "bionic",
         "id": "bio_advreactor",
         "name": "Advanced Microreactor System",
+        "occupied_bodyparts": [
+            [ "TORSO", 85 ]
+        ],
         "power_source": true,
         "toggled": true,
         "description": "This stripped down mini-reactor is safer than it appears due to integrated radiation cleansers.  There is no way to shut it down, but you can toggle additional fuel intake."
@@ -70,12 +76,21 @@
         "type": "bionic",
         "id": "bio_torsionratchet",
         "name": "Joint Torsion Ratchet",
+        "occupied_bodyparts": [
+            [ "ARM_L", 12 ],
+            [ "ARM_R", 12 ],
+            [ "LEG_L", 12 ],
+            [ "LEG_R", 12 ]
+        ],
         "power_source": true,
         "description": "Your joints have been equipped with torsion ratchets that generate power slowly when you move."
     },{
         "type": "bionic",
         "id": "bio_furnace",
         "name": "Internal Furnace",
+        "occupied_bodyparts": [
+            [ "TORSO", 55 ]
+        ],
         "power_source": true,
         "toggled": true,
         "description": "When this bionic is active, you can burn nearly any organic material as fuel (use 'E'), recharging your power level.  Some materials will burn better than others."
@@ -216,7 +231,7 @@
         "id": "bio_storage",
         "name": "Internal Storage",
         "occupied_bodyparts": [
-            [ "TORSO", 80 ]
+            [ "TORSO", 40 ]
         ],
         "description": "Space inside your chest cavity has been converted into a storage area.  You may carry an extra 8 units of volume."
     },{
@@ -584,11 +599,17 @@
         "type": "bionic",
         "id": "bio_fingerhack",
         "name": "Fingerhack",
+        "occupied_bodyparts": [
+            [ "HAND_R", 2 ]
+        ],
         "description": "One of your fingers has an electrohack embedded in it; an all-purpose hacking unit used to override control panels and the like (but not computers).  Skill in computers is important, and a failed use may damage your circuits."
     },{
         "type": "bionic",
         "id": "bio_lockpick",
         "name": "Fingerpick",
+        "occupied_bodyparts": [
+            [ "HAND_R", 2 ]
+        ],
         "act_cost": 25,
         "description": "One of your fingers has an electronic lockpick embedded in it.  This automatic system will quickly unlock all but the most advanced key locks without any skill required on the part of the user."
     },{
