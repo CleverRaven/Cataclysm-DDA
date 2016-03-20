@@ -2712,7 +2712,7 @@ void npc::process_turn()
     player::process_turn();
 
     if( is_following() && calendar::once_every( HOURS(1) ) &&
-        get_hunger() < 200 && thirst < 100 && op_of_u.trust < 5 ) {
+        get_hunger() < 200 && get_thirst() < 100 && op_of_u.trust < 5 ) {
         // Friends who are well fed will like you more
         // 24 checks per day, best case chance at trust 0 is 1 in 48 for +1 trust per 2 days
         float trust_chance = 5 - op_of_u.trust;
@@ -2722,7 +2722,7 @@ void npc::process_turn()
                          std::max( 0, -op_of_u.value ) +
                          std::max( 0, op_of_u.fear );
         // Being barely hungry and thirsty, not in pain and not wounded means good care
-        int state_penalty = get_hunger() + thirst + (100 - hp_percentage()) + get_pain();
+        int state_penalty = get_hunger() + get_thirst() + (100 - hp_percentage()) + get_pain();
         if( x_in_y( trust_chance, 240 + 10 * op_penalty + state_penalty ) ) {
             op_of_u.trust++;
         }
