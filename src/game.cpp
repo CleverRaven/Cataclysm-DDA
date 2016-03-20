@@ -94,6 +94,10 @@
 #include <ctime>
 #include <cstring>
 
+#ifdef TILES
+#include "cata_tiles.h"
+#endif // TILES
+
 #if !(defined _WIN32 || defined WINDOWS || defined TILES)
 #include <langinfo.h>
 #endif
@@ -155,6 +159,9 @@ nc_color sev(int a); // Right now, ONLY used for scent debugging....
 //The one and only game instance
 game *g;
 extern worldfactory *world_generator;
+#ifdef TILES
+extern cata_tiles *tilecontext;
+#endif // TILES
 input_context get_default_mode_input_context();
 
 uistatedata uistate;
@@ -606,6 +613,9 @@ void game::init_ui()
 void game::toggle_sidebar_style(void)
 {
     narrow_sidebar = !narrow_sidebar;
+#ifdef TILES
+    tilecontext->reinit_minimap();
+#endif // TILES
     init_ui();
     refresh_all();
 }
