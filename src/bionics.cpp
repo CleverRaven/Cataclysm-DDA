@@ -2173,10 +2173,12 @@ void player::add_bionic( std::string const &b, std::map<body_part, size_t> const
         return;
     }
     char newinv = ' ';
-    for( auto &inv_char : bionic_chars ) {
-        if( bionic_by_invlet( inv_char ) == nullptr ) {
-            newinv = inv_char;
-            break;
+    if( bionics[b].activated ) {
+        for( auto &inv_char : bionic_chars ) {
+            if( bionic_by_invlet( inv_char ) == nullptr ) {
+                newinv = inv_char;
+                break;
+            }
         }
     }
 
@@ -2322,8 +2324,7 @@ void load_bionic(JsonObject &jsobj)
         }
     } else {
         // @todo remove this temporary placeholder (provide default vals)
-        occupied_bodyparts.emplace( bp_head, 1 );
-        occupied_bodyparts.emplace( bp_torso, 5 );
+        occupied_bodyparts.emplace( bp_torso, 1 );
     }
 
 
