@@ -249,7 +249,7 @@
                 { "item": "scrap", "count": [8, 12] },
                 { "item": "steel_chunk", "count": [2, 4] },
                 { "item": "metal_tank_little", "count": [0, 2] },
-                { "item": "metal_tank_small", "count": [0, 2] },
+                { "item": "jerrycan", "count": [0, 2] },
                 { "item": "metal_tank", "count": [0, 2] }
             ]
         },
@@ -260,7 +260,7 @@
                 { "item": "steel_chunk", "count": [4, 6] },
                 { "item": "scrap", "count": [12, 16] },
                 { "item": "metal_tank_little", "count": [2, 4] },
-                { "item": "metal_tank_small", "count": [2, 4] },
+                { "item": "jerrycan", "count": [2, 4] },
                 { "item": "metal_tank", "count": [2, 4] }
             ]
         }

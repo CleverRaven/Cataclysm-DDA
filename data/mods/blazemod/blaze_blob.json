@@ -413,7 +413,7 @@
   ],
   "components": [
     [
-      [ "metal_tank_small", 1],
+      [ "jerrycan", 1],
       [ "clay_hydria", 1],
       [ "blob_tank", 1]
     ],

@@ -1663,13 +1663,13 @@ std::string dialogue::dynamic_line( const std::string &topic ) const
             info << "  " << string_format(_("Per %d - %d"), per_min, per_min + per_range);
         }
 
-        if( ability >= 100 - ( p->fatigue / 10 ) ) {
+        if( ability >= 100 - ( p->get_fatigue() / 10 ) ) {
             std::string how_tired;
-            if( p->fatigue > EXHAUSTED ) {
+            if( p->get_fatigue() > EXHAUSTED ) {
                 how_tired = _("Exhausted");
-            } else if( p->fatigue > DEAD_TIRED) {
+            } else if( p->get_fatigue() > DEAD_TIRED) {
                 how_tired = _("Dead tired");
-            } else if( p->fatigue > TIRED ) {
+            } else if( p->get_fatigue() > TIRED ) {
                 how_tired = _("Tired");
             } else {
                 how_tired = _("Not tired");
@@ -1692,11 +1692,11 @@ std::string dialogue::dynamic_line( const std::string &topic ) const
 
     } else if( topic == "TALK_WAKE_UP" ) {
         if( p->has_effect( effect_sleep ) ) {
-            if( p->fatigue > EXHAUSTED ) {
+            if( p->get_fatigue() > EXHAUSTED ) {
                 return _("No, just <swear> no...");
-            } else if( p->fatigue > DEAD_TIRED) {
+            } else if( p->get_fatigue() > DEAD_TIRED) {
                 return _("Just let me sleep, <name_b>!");
-            } else if( p->fatigue > TIRED ) {
+            } else if( p->get_fatigue() > TIRED ) {
                 return _("Make it quick, I want to go back to sleep.");
             } else {
                 return _("Just few minutes more...");

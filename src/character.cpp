@@ -52,6 +52,7 @@ Character::Character() : Creature(), visitable<Character>()
     healthy_mod = 0;
     hunger = 0;
     thirst = 0;
+    fatigue = 0;
     stomach_food = 0;
     stomach_water = 0;
 
@@ -662,7 +663,7 @@ item Character::i_rem(int pos)
 
 item Character::i_rem(const item *it)
 {
-    auto tmp = remove_items_with( [&it] (const item &i) { return &i == it; } );
+    auto tmp = remove_items_with( [&it] (const item &i) { return &i == it; }, 1 );
     if( tmp.empty() ) {
         debugmsg( "did not found item %s to remove it!", it->tname().c_str() );
         return ret_null;
@@ -1562,6 +1563,21 @@ void Character::mod_stomach_water(int n_stomach_water)
 void Character::set_stomach_water(int n_stomach_water)
 {
     stomach_water = std::max(0, n_stomach_water);
+}
+
+void Character::mod_fatigue(int nfatigue)
+{
+    set_fatigue(fatigue + nfatigue);
+}
+
+void Character::set_fatigue(int nfatigue)
+{
+    fatigue = std::max( nfatigue, -1000 );
+}
+
+int Character::get_fatigue() const
+{
+    return fatigue;
 }
 
 void Character::reset_bonuses()

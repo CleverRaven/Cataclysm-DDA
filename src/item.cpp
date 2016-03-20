@@ -4082,6 +4082,12 @@ ammotype item::ammo_type( bool conversion ) const
     return "NULL";
 }
 
+itype_id item::ammo_default( bool conversion ) const
+{
+    auto res = default_ammo( ammo_type( conversion ) );
+    return !res.empty() ? res : "NULL";
+}
+
 std::set<std::string> item::ammo_effects( bool with_ammo ) const
 {
     if( !is_gun() ) {
@@ -5224,10 +5230,10 @@ bool item::process_food( player * /*carrier*/, const tripoint &pos )
     return false;
 }
 
-bool item::process_artifact( player *carrier, const tripoint & /*pos*/ )
+void item::process_artifact( player *carrier, const tripoint & /*pos*/ )
 {
     if( !is_artifact() ) {
-        return false;
+        return;
     }
     // Artifacts are currently only useful for the player character, the messages
     // don't consider npcs. Also they are not processed when laying on the ground.
@@ -5236,8 +5242,6 @@ bool item::process_artifact( player *carrier, const tripoint & /*pos*/ )
     if( carrier == &g->u ) {
         g->process_artifact( this, carrier );
     }
-    // Artifacts are never consumed
-    return false;
 }
 
 bool item::process_corpse( player *carrier, const tripoint &pos )

@@ -120,6 +120,8 @@ vehicle_stack( std::list<item> *newstack, point newloc, vehicle *neworigin, int 
 struct vehicle_part : public JsonSerializer, public JsonDeserializer
 {
     friend vehicle;
+    friend visitable<vehicle_cursor>;
+
     enum : int { passenger_flag = 1 };
 
     vehicle_part( int dx = 0, int dy = 0 );

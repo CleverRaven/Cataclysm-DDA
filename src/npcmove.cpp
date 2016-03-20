@@ -1020,13 +1020,13 @@ npc_action npc::address_needs( int danger )
     }
 
     // TODO: More risky attempts at sleep when exhausted
-    if( danger == 0 && fatigue > TIRED ) {
+    if( danger == 0 && get_fatigue() > TIRED ) {
         if( !is_following() ) {
-            fatigue = 0; // TODO: Make tired NPCs handle sleep offscreen
+            set_fatigue(0); // TODO: Make tired NPCs handle sleep offscreen
             return npc_undecided;
         }
 
-        if( rules.allow_sleep || fatigue > MASSIVE_FATIGUE ) {
+        if( rules.allow_sleep || get_fatigue() > MASSIVE_FATIGUE ) {
             return npc_sleep;
         } else if( g->u.in_sleep_state() ) {
             // TODO: "Guard me while I sleep" command
@@ -2915,9 +2915,9 @@ bool npc::complain()
 
     // When tired, complain every 30 minutes
     // If massively tired, ignore restrictions
-    if( fatigue > TIRED &&
+    if( get_fatigue() > TIRED &&
         complaints[fatigue_string] < calendar::turn - MINUTES(30) &&
-        (do_complain || fatigue > MASSIVE_FATIGUE - 100) ) {
+        (do_complain || get_fatigue() > MASSIVE_FATIGUE - 100) ) {
         say( "<yawn>" );
         complaints[fatigue_string] = calendar::turn;
         return true;

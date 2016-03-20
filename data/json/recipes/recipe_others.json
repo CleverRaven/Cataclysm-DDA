@@ -3044,34 +3044,6 @@
   ]
 },{
   "type" : "recipe",
-  "result": "metal_tank_small",
-  "category": "CC_OTHER",
-  "subcategory": "CSC_OTHER_MATERIALS",
-  "skill_used": "fabrication",
-  "difficulty": 1,
-  "time": 2000,
-  "reversible": false,
-  "autolearn": true,
-  "qualities":[
-    {"id":"HAMMER","level":2,"amount":1}
-  ], "tools": [
-    [
-      [ "goggles_welding", -1 ]
-    ],
-    [
-      [ "welder", 50 ],
-      [ "welder_crude", 75 ],
-      [ "toolset", 75 ],
-      [ "oxy_torch", 5]
-    ]
-  ],
-  "components": [
-    [
-      [ "sheet_metal", 1 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
   "result": "it_battery_mount",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MATERIALS",
@@ -3956,7 +3928,7 @@
     {"id":"HAMMER","level":2,"amount":1}
   ], "components": [ [ ["pot", 1] ],
     [ ["hose", 2] ],
-    [ ["metal_tank_small", 1] ] ]
+    [ ["jerrycan_big", 1] ] ]
 },{
   "type" : "recipe",
   "result": "popcan_stove",
@@ -5203,7 +5175,7 @@
      [ "scrap", 36 ]
     ],
     [
-     [ "metal_tank_small", 1 ]
+     [ "jerrycan_big", 1 ]
     ],
     [
      [ "pipe", 3]
@@ -5244,7 +5216,7 @@
      [ "scrap", 4 ]
     ],
     [
-     [ "metal_tank_small", 1 ]
+     [ "jerrycan_big", 1 ]
     ]
   ]
 },{
@@ -5355,7 +5327,7 @@
        [ "scrap", 72 ]
      ],
      [
-       [ "metal_tank_small", 1 ]
+       [ "jerrycan_big", 1 ]
      ],
      [
        [ "pipe", 8 ]
@@ -5398,7 +5370,7 @@
        [ "scrap", 36 ]
      ],
      [
-       [ "metal_tank_small", 1 ]
+       [ "jerrycan_big", 1 ]
      ],
      [
        [ "pipe", 4 ]
@@ -5484,7 +5456,7 @@
        [ "scrap", 60 ]
      ],
      [
-       [ "metal_tank_small", 1 ]
+       [ "jerrycan_big", 1 ]
      ],
      [
        ["pipe", 6]

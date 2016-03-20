@@ -5140,14 +5140,14 @@ std::list<item> map::use_charges(const tripoint &origin, const int range,
             continue;
         }
 
-        const int kpart = veh->part_with_feature(vpart, "KITCHEN");
+        const int kpart = veh->part_with_feature(vpart, "FAUCET");
         const int weldpart = veh->part_with_feature(vpart, "WELDRIG");
         const int craftpart = veh->part_with_feature(vpart, "CRAFTRIG");
         const int forgepart = veh->part_with_feature(vpart, "FORGE");
         const int chempart = veh->part_with_feature(vpart, "CHEMLAB");
         const int cargo = veh->part_with_feature(vpart, "CARGO");
 
-        if (kpart >= 0) { // we have a kitchen, now to see what to drain
+        if (kpart >= 0) { // we have a faucet, now to see what to drain
             ammotype ftype = "NULL";
 
             if (type == "water_clean") {

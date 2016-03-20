@@ -6861,7 +6861,7 @@
     "qualities": [["CUT", 1], ["DIG", 3], ["BUTCHER", -8]]
   },{
     "id": "digging_stick",
-    "type": "TOOL",
+    "type": "GENERIC",
     "symbol": "/",
     "color": "brown",
     "name": "digging stick",
@@ -6871,14 +6871,7 @@
     "weight": 1133,
     "volume": 6,
     "bashing": 8,
-    "max_charges": 0,
-    "initial_charges": 0,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
-    "ammo": "NULL",
-    "revert_to": "null",
-    "qualities": [["DIG", 1]],
-    "use_action": "DIG"
+    "qualities": [["DIG", 1]]
   },{
     "id": "shelter_kit",
     "type": "TOOL",

@@ -4237,7 +4237,7 @@ void game::debug()
                         smenu.return_invalid = true;
                         smenu.addentry( 0, true, 'h', "%s: %d", _( "Hunger" ), p.get_hunger() );
                         smenu.addentry( 1, true, 't', "%s: %d", _( "Thirst" ), p.get_thirst() );
-                        smenu.addentry( 2, true, 'f', "%s: %d", _( "Fatigue" ), p.fatigue );
+                        smenu.addentry( 2, true, 'f', "%s: %d", _( "Fatigue" ), p.get_fatigue() );
                         smenu.addentry( 999, true, 'q', "%s", _( "[q]uit" ) );
                         smenu.selected = 0;
                         smenu.query();
@@ -4253,7 +4253,7 @@ void game::debug()
                                 valid = true;
                                 break;
                             case 2:
-                                cur = p.fatigue;
+                                cur = p.get_fatigue();
                                 valid = true;
                                 break;
                             default:
@@ -4269,7 +4269,7 @@ void game::debug()
                                     p.set_thirst( value );
                                     break;
                                 case 2:
-                                    p.fatigue = value;
+                                    p.set_fatigue( value );
                             }
                         }
 
@@ -5053,11 +5053,11 @@ void game::draw()
 {
     // Draw map
     werase(w_terrain);
+    draw_sidebar();
     draw_ter();
     if( !is_draw_tiles_mode() ) {
         wrefresh(w_terrain);
     }
-    draw_sidebar();
 #ifdef TILES
     try_sdl_update();
 #endif // TILES
@@ -5321,11 +5321,15 @@ void game::draw_ter( const tripoint &center, const bool looking, const bool draw
                 ctxt.get_desc("QUIT").c_str() );
         popup(message, PF_NO_WAIT_ON_TOP);
     }
-    wrefresh(w_terrain);
 
     if( u.has_effect( effect_visuals ) || u.get_effect_int( effect_hot, bp_head ) > 1 ) {
         hallucinate( center );
     }
+    // Place the cursor over the player as is expected by screen readers.
+    wmove( w_terrain, POSY + g->u.pos().y - center.y, POSX + g->u.pos().x - center.x );
+
+    wrefresh(w_terrain);
+
 }
 
 tripoint game::get_veh_dir_indicator_location() const
@@ -7636,6 +7640,8 @@ void game::open_gate( const tripoint &p, const ter_id handle_type )
     if (handle_type == t_gates_mech_control) {
         pull_message = _("You turn the handle...");
     } else if (handle_type == t_gates_control_concrete) {
+        pull_message = _("You turn the handle...");
+    } else if (handle_type == t_gates_control_brick) {
         pull_message = _("You turn the handle...");
     } else if (handle_type == t_barndoor) {
         pull_message = _("You pull the rope...");
@@ -12175,7 +12181,7 @@ void game::place_player( const tripoint &dest_loc )
         ///\EFFECT_INT decreases chance of tentacles getting stuck to the ground
         if ((!(m.has_flag("SWIMMABLE", dest_loc)) && (one_in(80 + u.dex_cur + u.int_cur)))) {
             add_msg(_("Your tentacles stick to the ground, but you pull them free."));
-            u.fatigue++;
+            u.mod_fatigue(1);
         }
     }
     if (!u.has_artifact_with(AEP_STEALTH) && !u.has_trait("LEG_TENTACLES") &&
@@ -12828,7 +12834,7 @@ void game::fling_creature(Creature *c, const int &dir, float flvel, bool control
     tileray tdir(dir);
     int range = flvel / 10;
     tripoint pt = c->pos();
-    while (range > 0) {
+    while( range > 0 ) {
         c->underwater = false;
         // TODO: Check whenever it is actually in the viewport
         // or maybe even just redraw the changed tiles
@@ -12879,6 +12885,11 @@ void game::fling_creature(Creature *c, const int &dir, float flvel, bool control
             } else {
                 thru = false;
             }
+        }
+
+        // If the critter dies during flinging, moving it around causes debugmsgs
+        if( c->is_dead_state() ) {
+            return;
         }
 
         flvel -= force;

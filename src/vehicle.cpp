@@ -3601,9 +3601,9 @@ void vehicle::consume_fuel( double load = 1.0 )
         //cost proportional to strain
         int mod = 1 + 4 * st;
         if (one_in(10)) {
-            g->u.fatigue += mod;
             g->u.mod_hunger(mod);
             g->u.mod_thirst(mod);
+            g->u.mod_fatigue(mod);
         }
         g->u.mod_stat( "stamina", -mod * 20);
     }
@@ -4607,7 +4607,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
     // Velocity of the object we're hitting
     // Assuming it starts at 0, but we'll probably hit it many times
     // in one collision, so accumulate the velocity gain from each hit.
-    float vel2 = 0;
+    float vel2 = 0.0f;
     do {
         smashed = false;
         // Impulse of vehicle
@@ -4709,7 +4709,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
                     fabs(e * mass * vel1_a) > fabs(mass2 * (10.0f - vel2_a)) ) {
                     // Also handle the weird case when we don't have enough force
                     // but still have to push (in such case compare momentum)
-                    const float push_force = fabs(vel2_a) > 10.0f ? fabs(vel2_a) : 10.1f;
+                    const float push_force = std::max<float>( fabs( vel2_a ), 10.1f );
                     const int angle_sum = vel2_a > 0 ?
                         move.dir() + angle : -(move.dir() + angle);
                     g->fling_creature( critter, angle_sum, push_force );
@@ -4730,7 +4730,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
             }
         }
 
-        coll_velocity = vel1_a * 100;
+        coll_velocity = vel1_a * ( smashed ? 100 : 90 );
         // Stop processing when sign inverts, not when we reach 0
     } while( !smashed && sgn( coll_velocity ) == vel_sign );
 
@@ -6425,8 +6425,8 @@ int vehicle::manual_fire_turret( int p, player &shooter, item &gun )
     } else {
         // This shouldn't happen, not even if armor below the UPS is destroyed
         // ...but let's handle anyway
-        auto upses = shooter.remove_items_with( [] ( item &it ) {
-            return it.type->id == "fake_UPS";
+        auto upses = shooter.remove_items_with( [] ( const item& it ) {
+            return it.typeId() == "fake_UPS";
         } );
         for( auto &up : upses ) {
             refill( fuel_type_battery, up.charges );
