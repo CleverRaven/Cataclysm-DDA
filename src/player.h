@@ -293,7 +293,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Returns true if the player is wearing an active optical cloak */
         bool has_active_optcloak() const;
         /** Adds a bionic to my_bionics[] */
-        void add_bionic( std::string const &b, std::map<body_part, size_t> const &affected_bodyparts );
+        void add_bionic( std::string const &b, std::map<body_part, size_t> const affected_bodyparts );
         /** Removes a bionic from my_bionics[] */
         void remove_bionic(std::string const &b);
         /** Used by the player to perform surgery to remove bionics and possibly retrieve parts */

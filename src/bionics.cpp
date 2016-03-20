@@ -204,18 +204,16 @@ bionic_data const& bionic_info(std::string const &id)
     debugmsg("bad bionic id");
 
     static bionic_data const null_value {"bad bionic", false, false, 0, 0, 0, 0, 0,
-                                         "bad_bionic", false };
+                                         "bad_bionic", false, {{num_bp, 1}} };
     return null_value;
 }
 
-void bionics_install_failure( player *u, int difficulty, int success,
-                              std::map<body_part, size_t> affected_bodyparts );
-
-bionic_data::bionic_data(std::string nname, bool ps, bool tog, int pac, int pad, int pot,
-                         int ct, int cap, std::string desc, bool fault
+bionic_data::bionic_data( std::string nname, bool ps, bool tog, int pac, int pad, int pot, int ct,
+                          int cap, std::string desc, bool fault, std::map<body_part, size_t> bps
 ) : name(std::move(nname)), description(std::move(desc)), power_activate(pac),
     power_deactivate(pad), power_over_time(pot), charge_time(ct), capacity(cap),
-    faulty(fault), power_source(ps), activated(tog || pac || ct), toggled(tog)
+    faulty(fault), power_source(ps), activated(tog || pac || ct), toggled(tog),
+    occupied_bodyparts( std::move( bps ) )
 {
 }
 
@@ -1968,25 +1966,19 @@ bool player::install_bionics(const itype &type, int skill_level)
                                 difficult);
     }
 
-    // @todo fixit: placeholder with hardcoded values is used temporary:
-    std::map<body_part, size_t> affected_bodyparts;
-    affected_bodyparts.emplace( bp_torso, 3 );
-    affected_bodyparts.emplace( bp_head, 1 );
-    affected_bodyparts.emplace( bp_mouth, 2 );
-
     std::map<body_part, int> issues;
-    for( auto& elem : affected_bodyparts ) {
+    for( auto& elem : bionics[ bioid ].occupied_bodyparts ) {
         if( !has_enough_slots( elem.first, elem.second ) ) {
             issues.emplace( elem.first, (int)elem.second -
                             get_free_bionics_slots( elem.first ) );
         }
     }
 
-    // moved out from loop above to show all requirements which are not satisfied
+    // show all requirements which are not satisfied
     if( !issues.empty() ) {
-        // @todo: show info from issues map in this popup:
         std::string detailed_info;
         for( auto& elem : issues ) {
+            //~ <Body part name>: <number of slots> more slot(s) needed.
             detailed_info += string_format( _( "\n%s: %i more slot(s) needed." ),
                                             bodyparts[static_cast<size_t>( elem.first )].c_str(),
                                             elem.second );
@@ -2011,7 +2003,7 @@ bool player::install_bionics(const itype &type, int skill_level)
 
         add_msg(m_good, _("Successfully installed %s."), bionics[bioid].name.c_str());
 
-        add_bionic(bioid, affected_bodyparts );
+        add_bionic(bioid, bionics[ bioid ].occupied_bodyparts );
 
         if( bioid == "bio_eye_optic" && has_trait( "HYPEROPIC" ) ) {
             remove_mutation( "HYPEROPIC" );
@@ -2040,7 +2032,7 @@ bool player::install_bionics(const itype &type, int skill_level)
         add_memorial_log(pgettext("memorial_male", "Installed bionic: %s."),
                          pgettext("memorial_female", "Installed bionic: %s."),
                          bionics[bioid].name.c_str());
-        bionics_install_failure(this, difficult, success, affected_bodyparts );
+        bionics_install_failure(this, difficult, success, bionics[ bioid ].occupied_bodyparts );
     }
     g->refresh_all();
     return true;
@@ -2174,7 +2166,7 @@ void bionics_install_failure( player *u, int difficulty, int success,
     }
 }
 
-void player::add_bionic( std::string const &b, std::map<body_part, size_t> const &affected_bodyparts )
+void player::add_bionic( std::string const &b, std::map<body_part, size_t> const affected_bodyparts )
 {
     if( has_bionic( b ) ) {
         debugmsg( "Tried to install bionic %s that is already installed!", b.c_str() );
@@ -2317,16 +2309,21 @@ void load_bionic(JsonObject &jsobj)
     bool faulty = jsobj.get_bool("faulty", false);
     bool power_source = jsobj.get_bool("power_source", false);
 
-    std::vector<cbm_pair> possible_bodyparts;
-    jsarr = jsobj.get_array( "possible_bodyparts" );
+    std::map<body_part, size_t> occupied_bodyparts;
+    jsarr = jsobj.get_array( "occupied_bodyparts" );
 
     if( !jsarr.empty() ) {
-        possible_bodyparts.push_back( std::make_pair( static_cast<body_part>( jsarr.get_int( 0 ) ),
-                                                      jsarr.get_int( 1 ) ) );
+        while (jsarr.has_more()) {
+            JsonArray ja = jsarr.next_array();
+            // @todo replace reading of body_part directly as int by string to bp convertion
+            // (see armor->covers as reference)
+            occupied_bodyparts.emplace( static_cast<body_part>( ja.get_int( 0 ) ),
+                                        ja.get_int( 1 ) );
+        }
     } else {
-        // @todo: remove this temporary placeholder
-        possible_bodyparts.emplace_back( bp_head, 1 );
-        possible_bodyparts.emplace_back( bp_torso, 5 );
+        // @todo remove this temporary placeholder (provide default vals)
+        occupied_bodyparts.emplace( bp_head, 1 );
+        occupied_bodyparts.emplace( bp_torso, 5 );
     }
 
 
@@ -2336,7 +2333,8 @@ void load_bionic(JsonObject &jsobj)
 
     auto const result = bionics.insert(std::make_pair(std::move(id),
         bionic_data( std::move( name ), power_source, toggled, on_cost, off_cost,
-                     react_cost, time, capacity, std::move( description ), faulty ) ) );
+                     react_cost, time, capacity, std::move( description ), faulty,
+                     std::move( occupied_bodyparts ) ) ) );
 
     if (!result.second) {
         debugmsg("duplicate bionic id");
@@ -2350,7 +2348,7 @@ void bionic::serialize(JsonOut &json) const
     json.member("invlet", (int)invlet);
     json.member("powered", powered);
     json.member("charge", charge);
-    // @todo: uncomment this and make it works
+    // @todo uncomment this and make it works
     //json.member( "used_bodyparts", used_bodyparts  );
     json.end_object();
 }
@@ -2362,7 +2360,7 @@ void bionic::deserialize(JsonIn &jsin)
     invlet = jo.get_int("invlet");
     powered = jo.get_bool("powered");
     charge = jo.get_int("charge");
-    // @todo: uncomment this and make it works
+    // @todo uncomment this and make it works
     //used_bodyparts = jo.get_int_array( "used_bodyparts" );
 }
 
