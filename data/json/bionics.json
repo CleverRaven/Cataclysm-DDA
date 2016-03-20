@@ -178,14 +178,14 @@
         "react_cost": 1,
         "time": 4,
         "occupied_bodyparts": [
-            [ "TORSO", 5 ],
-            [ "HEAD", 1 ],
-            [ "ARM_L", 1 ],
-            [ "ARM_R", 1 ],
+            [ "TORSO", 8 ],
+            [ "HEAD", 2 ],
+            [ "ARM_L", 2 ],
+            [ "ARM_R", 2 ],
             [ "HAND_L", 1 ],
             [ "HAND_R", 1 ],
-            [ "LEG_L", 1 ],
-            [ "LEG_R", 1 ],
+            [ "LEG_L", 3 ],
+            [ "LEG_R", 3 ],
             [ "FOOT_L", 1 ],
             [ "FOOT_R", 1 ]
         ],
@@ -194,6 +194,18 @@
         "type": "bionic",
         "id": "bio_faraday",
         "name": "Dielectric Capacitance System",
+        "occupied_bodyparts": [
+            [ "TORSO", 8 ],
+            [ "HEAD", 2 ],
+            [ "ARM_L", 2 ],
+            [ "ARM_R", 2 ],
+            [ "HAND_L", 1 ],
+            [ "HAND_R", 1 ],
+            [ "LEG_L", 3 ],
+            [ "LEG_R", 3 ],
+            [ "FOOT_L", 1 ],
+            [ "FOOT_R", 1 ]
+        ],
         "toggled": true,
         "act_cost": 1,
         "react_cost": 1,
@@ -203,6 +215,9 @@
         "type": "bionic",
         "id": "bio_storage",
         "name": "Internal Storage",
+        "occupied_bodyparts": [
+            [ "TORSO", 80 ]
+        ],
         "description": "Space inside your chest cavity has been converted into a storage area.  You may carry an extra 8 units of volume."
     },{
         "type": "bionic",
@@ -218,6 +233,10 @@
         "type": "bionic",
         "id": "bio_tools",
         "name": "Integrated Toolset",
+        "occupied_bodyparts": [
+            [ "HAND_L", 3 ],
+            [ "HAND_R", 3 ]
+        ],
         "toggled": true,
         "description": "Implanted in your hands and fingers is a complete tool set - screwdriver, hammer, wrench, and heating elements.  You can use this in place of many tools when crafting."
     },{
@@ -241,24 +260,35 @@
         "type": "bionic",
         "id": "bio_armor_head",
         "name": "Alloy Plating - Head",
-"occupied_bodyparts": [
-            [ "HEAD", 15 ]
+        "occupied_bodyparts": [
+            [ "HEAD", 5 ]
         ],
         "description": "The flesh on your head has been replaced by a strong armor, protecting both your head and jaw regions."
     },{
         "type": "bionic",
         "id": "bio_armor_torso",
         "name": "Alloy Plating - Torso",
+        "occupied_bodyparts": [
+            [ "TORSO", 10 ]
+        ],
         "description": "The flesh on your torso has been replaced by a strong armor, protecting you greatly."
     },{
         "type": "bionic",
         "id": "bio_armor_arms",
         "name": "Alloy Plating - Arms",
+        "occupied_bodyparts": [
+            [ "ARM_L", 4 ],
+            [ "ARM_R", 4 ]
+        ],
         "description": "The flesh on your arms has been replaced by a strong armor, protecting you greatly."
     },{
         "type": "bionic",
         "id": "bio_armor_legs",
         "name": "Alloy Plating - Legs",
+        "occupied_bodyparts": [
+            [ "LEG_L", 5 ],
+            [ "LEG_R", 5 ]
+        ],
         "description": "The flesh on your legs has been replaced by a strong armor, protecting you greatly."
     },{
         "type": "bionic",
@@ -269,6 +299,9 @@
         "type": "bionic",
         "id": "bio_flashlight",
         "name": "Cranial Flashlight",
+        "occupied_bodyparts": [
+            [ "EYES", 1 ]
+        ],
         "toggled": true,
         "act_cost": 1,
         "react_cost": 1,
@@ -278,6 +311,9 @@
         "type": "bionic",
         "id": "bio_night_vision",
         "name": "Implanted Night Vision",
+        "occupied_bodyparts": [
+            [ "EYES", 1 ]
+        ],
         "toggled": true,
         "act_cost": 1,
         "react_cost": 1,
@@ -287,6 +323,9 @@
         "type": "bionic",
         "id": "bio_infrared",
         "name": "Infrared Vision",
+        "occupied_bodyparts": [
+            [ "EYES", 1 ]
+        ],
         "toggled": true,
         "act_cost": 5,
         "react_cost": 5,
@@ -296,6 +335,10 @@
         "type": "bionic",
         "id": "bio_face_mask",
         "name": "Facial Distortion",
+        "occupied_bodyparts": [
+            [ "HEAD", 3 ],
+            [ "MOUTH", 1 ]
+        ],
         "description": "Through controlled application of electrochemical impulses, you are capable of altering your facial structure so as to subtly affect the reactions of others.  This grants a bonus to all social interactions."
     },{
         "type": "bionic",
@@ -421,6 +464,10 @@
         "type": "bionic",
         "id": "bio_alarm",
         "name": "Alarm System",
+        "occupied_bodyparts": [
+            [ "TORSO", 5 ],
+            [ "HEAD", 1 ]
+        ],
         "toggled": true,
         "act_cost": 1,
         "react_cost": 1,
@@ -436,12 +483,20 @@
         "type": "bionic",
         "id": "bio_lighter",
         "name": "Mini-Flamethrower",
+        "occupied_bodyparts": [
+            [ "HAND_L", 1 ],
+            [ "HAND_R", 1 ]
+        ],
         "act_cost": 75,
         "description": "The index fingers of both hands have powerful fire starters which extend from the tip."
     },{
         "type": "bionic",
         "id": "bio_claws",
         "name": "Bionic Claws",
+        "occupied_bodyparts": [
+            [ "HAND_L", 5 ],
+            [ "HAND_R", 5 ]
+        ],
         "toggled": true,
         "act_cost": 100,
         "description": "Vicious claws have been installed inside your fingers, allowing you to extend and retract them at the cost of a small amount of power.  These do considerable cutting damage, but prevent you from holding anything else while extended."
@@ -449,11 +504,18 @@
         "type": "bionic",
         "id": "bio_razors",
         "name": "Fingertip Razors",
+        "occupied_bodyparts": [
+            [ "HAND_L", 2 ],
+            [ "HAND_R", 2 ]
+        ],
         "description": "You possess razor-sharp retractable claws underneath your fingernails, ten double-edged blades four centimeters in length that do a small amount of unarmed slashing damage whenever your fingertips are uncovered."
     },{
         "type": "bionic",
         "id": "bio_cqb",
         "name": "Close Quarters Battle",
+        "occupied_bodyparts": [
+            [ "HEAD", 4 ]
+        ],
         "toggled": true,
         "act_cost": 1,
         "react_cost": 1,
@@ -470,12 +532,19 @@
         "type": "bionic",
         "id": "bio_blaster",
         "name": "Fusion Blaster Arm",
+        "occupied_bodyparts": [
+            [ "ARM_L", 20 ],
+            [ "HAND_L", 5 ]
+        ],
         "act_cost": 50,
         "description": "Your left arm has been replaced by a heavy-duty fusion blaster!  You may use your energy banks to fire a damaging heat ray; however, you are unable to use or carry two-handed items, and may only fire handguns."
     },{
         "type": "bionic",
         "id": "bio_laser",
         "name": "Finger-Mounted Laser",
+        "occupied_bodyparts": [
+            [ "HAND_R", 1 ]
+        ],
         "act_cost": 50,
         "description": "One of your fingers has a small high-powered laser embedded in it.  This long range weapon is not incredibly damaging, but is very accurate, and has the potential to start fires."
     },{
@@ -488,6 +557,12 @@
         "type": "bionic",
         "id": "bio_hydraulics",
         "name": "Hydraulic Muscles",
+        "occupied_bodyparts": [
+            [ "ARM_L", 3 ],
+            [ "ARM_R", 3 ],
+            [ "LEG_L", 6 ],
+            [ "LEG_R", 6 ]
+        ],
         "toggled": true,
         "act_cost": 17,
         "react_cost": 17,
