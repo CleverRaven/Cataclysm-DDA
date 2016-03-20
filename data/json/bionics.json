@@ -177,6 +177,18 @@
         "act_cost": 1,
         "react_cost": 1,
         "time": 4,
+        "occupied_bodyparts": [
+            [ "TORSO", 5 ],
+            [ "HEAD", 1 ],
+            [ "ARM_L", 1 ],
+            [ "ARM_R", 1 ],
+            [ "HAND_L", 1 ],
+            [ "HAND_R", 1 ],
+            [ "LEG_L", 1 ],
+            [ "LEG_R", 1 ],
+            [ "FOOT_L", 1 ],
+            [ "FOOT_R", 1 ]
+        ],
         "description": "Throughout your body lies a network of thermal piping which eases the effects of high and low ambient temperatures."
     },{
         "type": "bionic",
@@ -229,6 +241,9 @@
         "type": "bionic",
         "id": "bio_armor_head",
         "name": "Alloy Plating - Head",
+"occupied_bodyparts": [
+            [ "HEAD", 15 ]
+        ],
         "description": "The flesh on your head has been replaced by a strong armor, protecting both your head and jaw regions."
     },{
         "type": "bionic",

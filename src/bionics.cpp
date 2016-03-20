@@ -2317,7 +2317,7 @@ void load_bionic(JsonObject &jsobj)
             JsonArray ja = jsarr.next_array();
             // @todo replace reading of body_part directly as int by string to bp convertion
             // (see armor->covers as reference)
-            occupied_bodyparts.emplace( static_cast<body_part>( ja.get_int( 0 ) ),
+            occupied_bodyparts.emplace( get_body_part_token( ja.get_string( 0 ) ),
                                         ja.get_int( 1 ) );
         }
     } else {
@@ -2360,7 +2360,7 @@ void bionic::deserialize(JsonIn &jsin)
     invlet = jo.get_int("invlet");
     powered = jo.get_bool("powered");
     charge = jo.get_int("charge");
-    // @todo uncomment this and make it works
-    //used_bodyparts = jo.get_int_array( "used_bodyparts" );
+    // @todo replace this placeholder by actual implementation
+    used_bodyparts = {{num_bp, 1}};
 }
 
