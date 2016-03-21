@@ -2227,7 +2227,7 @@ int repair_item_actor::repair_recipe_difficulty( const player &pl,
             cur_difficulty++;
         }
 
-        if( !training && !pl.has_recipe_requirements( cur_recipe ) ) {
+        if( !training && !pl.has_recipe_requirements( *cur_recipe ) ) {
             cur_difficulty++;
         }
 
