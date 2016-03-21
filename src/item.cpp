@@ -680,21 +680,16 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
             insert_separation_line();
         }
 
-        if( made_of().size() > 0 ) {
+        const std::vector<material_type*> mat_types = made_of_types();
+        if( !mat_types.empty() ) {
             std::string material_list;
-            bool made_of_something = false;
-            for( auto next_material : made_of_types() ) {
-                if( !next_material->is_null() ) {
-                    if( made_of_something ) {
-                        material_list.append( ", " );
-                    }
-                    material_list.append( "<stat>" + next_material->name() + "</stat>" );
-                    made_of_something = true;
+            for( auto next_material : mat_types ) {
+                if( !material_list.empty() ) {
+                    material_list.append( ", " );
                 }
+                material_list.append( "<stat>" + next_material->name() + "</stat>" );
             }
-            if( made_of_something ) {
-                info.push_back( iteminfo( "BASE", string_format( _( "Material: %s" ), material_list.c_str() ) ) );
-            }
+            info.push_back( iteminfo( "BASE", string_format( _( "Material: %s" ), material_list.c_str() ) ) );
         }
         if( has_var( "contained_name" ) ) {
             info.push_back( iteminfo( "BASE", string_format( _( "Contains: %s" ),
