@@ -10233,9 +10233,11 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
         }
         return true;
 
-    } else { // filling up normal containers
+    } else {
+        // Filling up normal containers
+        bool allow_bucket = cont == &u.weapon || !u.has_item( *cont );
         std::string err;
-        if( !cont->fill_with( liquid, err ) ) {
+        if( !cont->fill_with( liquid, err, allow_bucket ) ) {
             add_msg( m_info, err.c_str() );
             return false;
         }
@@ -10318,7 +10320,8 @@ int game::move_liquid(item &liquid)
         } else {
             item tmp_liquid = liquid;
             std::string err;
-            if( !cont->fill_with( tmp_liquid, err ) ) {
+            bool allow_bucket = cont == &u.weapon || !u.has_item( *cont );
+            if( !cont->fill_with( tmp_liquid, err, allow_bucket ) ) {
                 add_msg( m_info, "%s", err.c_str() );
                 return -1;
             }
@@ -10451,9 +10454,16 @@ void game::drop(std::vector<item> &dropped, std::vector<item> &dropped_worn,
         }
     }
 
-    if (to_veh) {
+    if( to_veh ) {
         bool vh_overflow = false;
         for( auto &elem : dropped ) {
+            if( elem.is_bucket_nonempty() && !elem.spill_contents( u ) ) {
+                add_msg( _("To avoid spilling its contents, you set your %1$s on the %2$s."),
+                         elem.display_name().c_str(), m.name(dir).c_str() );
+                m.add_item_or_charges( dir, elem, 2 );
+                continue;
+            }
+
             vh_overflow = vh_overflow || !veh->add_item( veh_part, elem );
             if (vh_overflow) {
                 m.add_item_or_charges( dir, elem, 1 );

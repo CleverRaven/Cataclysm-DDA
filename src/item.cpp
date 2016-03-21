@@ -2069,11 +2069,19 @@ void item::on_wield( player &p, int mv )
     p.add_msg_if_player( msg.c_str(), tname().c_str() );
 }
 
-void item::on_pickup( Character &p  )
+void item::on_pickup( Character &p )
 {
     // TODO: artifacts currently only work with the player character
     if( &p == &g->u && type->artifact ) {
         g->add_artifact_messages( type->artifact->effects_carried );
+    }
+
+    if( is_bucket_nonempty() ) {
+        for( const auto &it : contents ) {
+            g->m.add_item( p.pos(), it );
+        }
+
+        contents.clear();
     }
 }
 
@@ -3455,6 +3463,21 @@ bool item::is_sealable_container() const
     return type->container && type->container->seals;
 }
 
+bool item::is_bucket() const
+{
+    // That "preserves" part is a hack:
+    // Currently all non-empty cans are effectively sealed at all times
+    // Making them buckets would cause weirdness
+    return type->container != nullptr &&
+           !type->container->seals &&
+           !type->container->preserves;
+}
+
+bool item::is_bucket_nonempty() const
+{
+    return is_bucket() && !is_container_empty();
+}
+
 bool item::is_container_empty() const
 {
     return contents.empty();
@@ -3540,6 +3563,60 @@ bool item::is_software() const
 bool item::is_artifact() const
 {
     return type->artifact.get() != nullptr;
+}
+
+bool item::can_contain( const item &it ) const
+{
+    // @todo Volume check
+    return can_contain( *it.type );
+}
+
+bool item::can_contain( const itype &tp ) const
+{
+    if( type->container == nullptr ) {
+        // @todo: Tools etc.
+        return false;
+    }
+
+    if( tp.phase == LIQUID && !type->container->watertight ) {
+        return false;
+    }
+
+    // @todo Acid in waterskins
+    return true;
+}
+
+bool item::spill_contents( Character &c )
+{
+    if( c.is_npc() ) {
+        return spill_contents( c.pos() );
+    }
+
+    while( !contents.empty() ) {
+        if( contents[0].made_of( LIQUID ) ) {
+            long charges_pre = contents[0].charges;
+            if( g->handle_liquid( contents[0], false, false, this, nullptr, 1 ) ) {
+                contents.erase( contents.begin() );
+            } else if( charges_pre == contents[0].charges ) {
+                return false;
+            }
+        } else {
+            c.i_add_or_drop( contents[0] );
+            contents.erase( contents.begin() );
+        }
+    }
+
+    return true;
+}
+
+bool item::spill_contents( const tripoint &pos )
+{
+    for( item &it : contents ) {
+        g->m.add_item_or_charges( pos, it );
+    }
+
+    contents.clear();
+    return true;
 }
 
 int item::get_chapters() const
@@ -4714,9 +4791,9 @@ int item::getlight_emit() const
     return lumint;
 }
 
-long item::get_remaining_capacity_for_liquid(const item &liquid) const
+long item::get_remaining_capacity_for_liquid( const item &liquid, bool allow_bucket ) const
 {
-    if ( has_valid_capacity_for_liquid( liquid ) != L_ERR_NONE) {
+    if ( has_valid_capacity_for_liquid( liquid, allow_bucket ) != L_ERR_NONE) {
         return 0;
     }
 
@@ -4741,7 +4818,7 @@ long item::get_remaining_capacity_for_liquid(const item &liquid) const
     return remaining_capacity;
 }
 
-item::LIQUID_FILL_ERROR item::has_valid_capacity_for_liquid(const item &liquid) const
+item::LIQUID_FILL_ERROR item::has_valid_capacity_for_liquid( const item &liquid, bool allow_bucket ) const
 {
     if (liquid.is_ammo() && (is_tool() || is_gun())) {
         // for filling up chainsaws, jackhammers and flamethrowers
@@ -4772,20 +4849,20 @@ item::LIQUID_FILL_ERROR item::has_valid_capacity_for_liquid(const item &liquid) 
         }
     }
 
-    if (!is_container()) {
+    if( !is_container() ) {
         return L_ERR_NOT_CONTAINER;
     }
 
-    if (contents.empty()) {
-        if ( !type->container->watertight ) {
-            return L_ERR_NOT_WATERTIGHT;
-        } else if( !type->container->seals) {
-            return L_ERR_NOT_SEALED;
-        }
-    } else { // Not empty
-        if ( contents[0].type->id != liquid.type->id ) {
-            return L_ERR_NO_MIX;
-        }
+    if( !contents.empty() && contents[0].type->id != liquid.type->id ) {
+        return L_ERR_NO_MIX;
+    }
+
+    if( !type->container->watertight ) {
+        return L_ERR_NOT_WATERTIGHT;
+    }
+
+    if( !allow_bucket && !type->container->seals ) {
+        return L_ERR_NOT_SEALED;
     }
 
     if (!contents.empty()) {
@@ -4834,9 +4911,9 @@ bool item::use_amount(const itype_id &it, long &quantity, std::list<item> &used)
     }
 }
 
-bool item::fill_with( item &liquid, std::string &err )
+bool item::fill_with( item &liquid, std::string &err, bool allow_bucket )
 {
-    LIQUID_FILL_ERROR lferr = has_valid_capacity_for_liquid( liquid );
+    LIQUID_FILL_ERROR lferr = has_valid_capacity_for_liquid( liquid, allow_bucket );
     switch ( lferr ) {
         case L_ERR_NONE :
             break;
@@ -4850,7 +4927,9 @@ bool item::fill_with( item &liquid, std::string &err )
             err = string_format( _( "That %s isn't water-tight." ), tname().c_str());
             return false;
         case L_ERR_NOT_SEALED:
-            err = string_format( _( "You can't seal that %s!" ), tname().c_str());
+            err = is_bucket() ?
+                  string_format( _( "That %s must be on the ground or held to hold contents!" ), tname().c_str()) :
+                  string_format( _( "You can't seal that %s!" ), tname().c_str());
             return false;
         case L_ERR_FULL:
             err = string_format( _( "Your %1$s can't hold any more %2$s." ), tname().c_str(), liquid.tname().c_str());
@@ -4860,7 +4939,7 @@ bool item::fill_with( item &liquid, std::string &err )
             return false;
     }
 
-    const long remaining_capacity = get_remaining_capacity_for_liquid( liquid );
+    const long remaining_capacity = get_remaining_capacity_for_liquid( liquid, allow_bucket );
     const long amount = std::min( remaining_capacity, liquid.charges );
 
     if( !is_container_empty() ) {

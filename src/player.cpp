@@ -9808,6 +9808,10 @@ bool player::wield( item& target )
         return false;
     }
 
+    if( weapon.is_bucket_nonempty() && !weapon.spill_contents( *this ) ) {
+        return false;
+    }
+
     if( target.is_null() ) {
         return dispose_item( weapon, string_format( _( "Stop wielding %s?" ), weapon.tname().c_str() ) );
     }
@@ -9841,7 +9845,12 @@ bool player::wield( item& target )
 
     moves -= mv;
 
-    weapon = i_rem( &target );
+    if( has_item( target ) ) {
+        weapon = i_rem( &target );
+    } else {
+        weapon = target;
+    }
+
     last_item = itype_id( weapon.type->id );
 
     weapon.on_wield( *this, mv );

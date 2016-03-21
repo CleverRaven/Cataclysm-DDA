@@ -1432,7 +1432,11 @@
     "bashing": 6,
     "category" : "tools",
     "to_hit": 1,
-    "qualities": [["COOK", 3], ["BOIL", 2], ["CONTAIN", 1], ["CHEM", 1]]
+    "qualities": [["COOK", 3], ["BOIL", 2], ["CONTAIN", 1], ["CHEM", 1]],
+    "container_data" : {
+        "contains": 8,
+        "watertight": true
+    }
   },
   {
     "type":"GENERIC",
@@ -1448,7 +1452,11 @@
     "bashing": 6,
     "category" : "tools",
     "to_hit": 1,
-    "qualities": [["COOK", 3], ["BOIL", 2], ["CONTAIN", 1], ["CHEM", 1]]
+    "qualities": [["COOK", 3], ["BOIL", 2], ["CONTAIN", 1], ["CHEM", 1]],
+    "container_data" : {
+        "contains": 8,
+        "watertight": true
+    }
   },
   {
     "type":"GENERIC",
@@ -1464,7 +1472,11 @@
     "bashing": 10,
     "category" : "tools",
     "to_hit": 2,
-    "qualities": [["COOK", 2], ["BOIL", 2], ["CONTAIN", 1]]
+    "qualities": [["COOK", 2], ["BOIL", 2], ["CONTAIN", 1]],
+    "container_data" : {
+        "contains": 4,
+        "watertight": true
+    }
   },
   {
     "type":"GENERIC",
@@ -1509,7 +1521,11 @@
     "volume": 8,
     "bashing": 1,
     "category": "tools",
-    "qualities": [["COOK", 3], ["BOIL", 2], ["CONTAIN", 1], ["CHEM", 1]]
+    "qualities": [["COOK", 3], ["BOIL", 2], ["CONTAIN", 1], ["CHEM", 1]],
+    "container_data" : {
+        "contains": 8,
+        "watertight": true
+    }
   },
   {
     "type": "GENERIC",
@@ -1538,7 +1554,11 @@
     "volume": 3,
     "bashing": 1,
     "to_hit": 1,
-    "qualities": [["BOIL", 1]]
+    "qualities": [["BOIL", 1]],
+    "container_data" : {
+        "contains": 3,
+        "watertight": true
+    }
   },
   {
     "type":"GENERIC",
@@ -1554,7 +1574,11 @@
     "bashing": 3,
     "category" : "tools",
     "to_hit": 2,
-    "qualities": [["BOIL", 1]]
+    "qualities": [["BOIL", 1]],
+    "container_data" : {
+        "contains": 2,
+        "watertight": true
+    }
   },
   {
     "type":"GENERIC",
