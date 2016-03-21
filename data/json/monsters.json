@@ -5653,7 +5653,6 @@
     "symbol":"&",
     "color":"dkgray",
     "size":"HUGE",
-    "material":"protoplasmic",
     "diff":20,
     "aggression":100,
     "morale":100,
