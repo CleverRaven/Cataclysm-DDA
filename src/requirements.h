@@ -29,8 +29,6 @@ struct quality {
     // Translated name
     std::string name;
 
-    typedef std::map<quality_id, quality> quality_map;
-    static quality_map qualities;
     static void reset();
     static void load( JsonObject &jo );
     static std::string get_name( const quality_id &id );

@@ -13,7 +13,9 @@
 #include <cmath>
 #include <algorithm>
 
-quality::quality_map quality::qualities;
+namespace {
+std::map<quality_id, quality> qualities;
+} // namespace
 
 void quality::reset()
 {
