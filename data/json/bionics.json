@@ -15,6 +15,9 @@
         "type": "bionic",
         "id": "bio_batteries",
         "name": "Battery System",
+        "occupied_bodyparts": [
+            [ "TORSO", 35 ]
+        ],
         "capacity": 10,
         "power_source": true,
         "toggled": true,
@@ -23,6 +26,9 @@
         "type": "bionic",
         "id": "bio_plut_filter",
         "name": "Plutonium Filter",
+        "occupied_bodyparts": [
+            [ "TORSO", 15 ]
+        ],
         "toggled": true,
         "act_cost": 1,
         "react_cost": 1,
@@ -32,6 +38,9 @@
         "type": "bionic",
         "id": "bio_plutdump",
         "name": "Plutonium Purger",
+        "occupied_bodyparts": [
+            [ "TORSO", 10 ]
+        ],
         "act_cost": 1,
         "description": "Emergency reactor fuel purge ejects all fuel from your reactor."
     },{
@@ -44,7 +53,7 @@
         "id": "bio_reactor",
         "name": "Microreactor System",
         "occupied_bodyparts": [
-            [ "TORSO", 85 ]
+            [ "TORSO", 75 ]
         ],
         "power_source": true,
         "toggled": true,
@@ -54,7 +63,7 @@
         "id": "bio_advreactor",
         "name": "Advanced Microreactor System",
         "occupied_bodyparts": [
-            [ "TORSO", 85 ]
+            [ "TORSO", 75 ]
         ],
         "power_source": true,
         "toggled": true,
@@ -63,6 +72,10 @@
         "type": "bionic",
         "id": "bio_metabolics",
         "name": "Metabolic Interchange",
+        "occupied_bodyparts": [
+            [ "TORSO", 5 ],
+            [ "HEAD", 2 ]
+        ],
         "power_source": true,
         "toggled": true,
         "description": "Your digestive system and power supply are interconnected.  Any drain on energy instead increases your hunger.  Can be toggled on and off at will."
@@ -70,6 +83,9 @@
         "type": "bionic",
         "id": "bio_solar",
         "name": "Solar Panels",
+        "occupied_bodyparts": [
+            [ "TORSO", 20 ]
+        ],
         "power_source": true,
         "description": "You have a few solar panels installed.  While in direct sunlight, your power level will slowly recharge."
     },{
@@ -89,7 +105,7 @@
         "id": "bio_furnace",
         "name": "Internal Furnace",
         "occupied_bodyparts": [
-            [ "TORSO", 55 ]
+            [ "TORSO", 50 ]
         ],
         "power_source": true,
         "toggled": true,
@@ -98,30 +114,45 @@
         "type": "bionic",
         "id": "bio_ethanol",
         "name": "Ethanol Burner",
+        "occupied_bodyparts": [
+            [ "TORSO", 35 ]
+        ],
         "power_source": true,
         "description": "You burn alcohol as fuel in an extremely efficient reaction.  However, you will still suffer the inebriating effects of the substance."
     },{
         "type": "bionic",
         "id": "bio_memory",
         "name": "Enhanced Memory Banks",
+        "occupied_bodyparts": [
+            [ "HEAD", 3 ]
+        ],
         "toggled": true,
         "description": "Your memory has been enhanced with small quantum storage drives.  Any time you start to forget a skill, if this bionic is active you will retain all knowledge, at the cost of a small amount of power."
     },{
         "type": "bionic",
         "id": "bio_ears",
         "name": "Enhanced Hearing",
+        "occupied_bodyparts": [
+            [ "HEAD", 3 ]
+        ],
         "toggled": true,
         "description": "When this bionic is active, your hearing will be drastically improved, allowing you to hear ten times better than the average person.  Additionally, high-intensity sounds will be automatically dampened before they can damage your hearing."
     },{
         "type": "bionic",
         "id": "bio_earplugs",
         "name": "Sound Dampeners",
+        "occupied_bodyparts": [
+            [ "HEAD", 3 ]
+        ],
         "toggled": true,
         "description": "When this bionic is active, you can block hearing completely (with Enhanced Hearing deactivated) or dampen sound slightly (with Enhanced Hearing activated)."
     },{
         "type": "bionic",
         "id": "bio_eye_enhancer",
         "name": "Diamond Cornea",
+        "occupied_bodyparts": [
+            [ "EYES", 1 ]
+        ],
         "description": "Your vision is greatly enhanced, giving you a +2 bonus to perception."
     },{
         "type": "bionic",
@@ -137,6 +168,9 @@
         "type": "bionic",
         "id": "bio_int_enhancer",
         "name": "Cerebral Booster",
+        "occupied_bodyparts": [
+            [ "HEAD", 7 ]
+        ],
         "description": "Your brain has been enhanced with bionic coprocessors, giving you a +2 bonus to intelligence."
     },{
         "type": "bionic",
@@ -147,27 +181,42 @@
         "type": "bionic",
         "id": "bio_watch",
         "name": "Internal Chronometer",
+        "occupied_bodyparts": [
+            [ "HEAD", 1 ]
+        ],
         "description": "You have been equipped with an internal atomic clock, ensuring that you will always know the current time.  Additionally, it includes a silent alarm clock function."
     },{
         "type": "bionic",
         "id": "bio_membrane",
         "name": "Nictating Membrane",
+        "occupied_bodyparts": [
+            [ "EYES", 1 ]
+        ],
         "description": "Your eyes have a thin membrane that closes over your eyes while underwater, negating any vision penalties."
     },{
         "type": "bionic",
         "id": "bio_sunglasses",
         "name": "Anti-glare Compensators",
+        "occupied_bodyparts": [
+            [ "EYES", 1 ]
+        ],
         "description": "Your eyes have quick-reacting transition lenses installed over them.  They negate glare penalties, partially protect you from bright flashes, and protect your eyes when welding."
     },{
         "type": "bionic",
         "id": "bio_blindfold",
         "name": "Optical Dampers",
+        "occupied_bodyparts": [
+            [ "EYES", 1 ]
+        ],
         "toggled": true,
         "description": "The lenses installed over your eyes can be tinted to block out incoming light."
     },{
         "type": "bionic",
         "id": "bio_eye_optic",
         "name": "Telescopic Eyes",
+        "occupied_bodyparts": [
+            [ "EYES", 1 ]
+        ],
         "description": "Much of the material in your inner eye has been removed and replaced with an array of high-powered, auto-focusing lenses.  You can now see much farther and more clearer than before, any vision problems you might have had are now gone."
     },{
         "type": "bionic",
@@ -183,6 +232,10 @@
         "type": "bionic",
         "id": "bio_purifier",
         "name": "Air Filtration System",
+        "occupied_bodyparts": [
+            [ "TORSO", 4 ],
+            [ "MOUTH", 2 ]
+        ],
         "description": "Implanted in your trachea is an advanced filtration system.  If toxins find their way into your windpipe, the filter will attempt to remove them."
     },{
         "type": "bionic",
@@ -270,6 +323,18 @@
         "type": "bionic",
         "id": "bio_carbon",
         "name": "Subdermal Carbon Filament",
+        "occupied_bodyparts": [
+            [ "TORSO", 5 ],
+            [ "HEAD", 2 ],
+            [ "ARM_L", 2 ],
+            [ "ARM_R", 2 ],
+            [ "HAND_L", 1 ],
+            [ "HAND_R", 1 ],
+            [ "LEG_L", 3 ],
+            [ "LEG_R", 3 ],
+            [ "FOOT_L", 1 ],
+            [ "FOOT_R", 1 ]
+        ],
         "description": "Lying just beneath your skin is a thin armor made of carbon nanotubes.  This reduces bashing damage by 2 and cutting damage by 4."
     },{
         "type": "bionic",
@@ -309,6 +374,9 @@
         "type": "bionic",
         "id": "bio_armor_eyes",
         "name": "Protective Lenses",
+        "occupied_bodyparts": [
+            [ "EYES", 1 ]
+        ],
         "description": "Your eye sockets have been sealed with highly protective mirrored lenses and your tear ducts have been re-routed to your mouth.  When you cry, you must spit out or swallow your tears."
     },{
         "type": "bionic",
@@ -359,6 +427,14 @@
         "type": "bionic",
         "id": "bio_ads",
         "name": "Active Defense System",
+        "occupied_bodyparts": [
+            [ "TORSO", 10 ],
+            [ "HEAD", 1 ],
+            [ "ARM_L", 1 ],
+            [ "ARM_R", 1 ],
+            [ "LEG_L", 2 ],
+            [ "LEG_R", 2 ]
+        ],
         "toggled": true,
         "act_cost": 10,
         "react_cost": 10,
@@ -368,6 +444,14 @@
         "type": "bionic",
         "id": "bio_ods",
         "name": "Offensive Defense System",
+        "occupied_bodyparts": [
+            [ "TORSO", 10 ],
+            [ "HEAD", 1 ],
+            [ "ARM_L", 1 ],
+            [ "ARM_R", 1 ],
+            [ "LEG_L", 2 ],
+            [ "LEG_R", 2 ]
+        ],
         "toggled": true,
         "act_cost": 10,
         "react_cost": 10,
@@ -392,6 +476,9 @@
         "type": "bionic",
         "id": "bio_scent_vision",
         "name": "Scent Vision",
+        "occupied_bodyparts": [
+            [ "HEAD", 3 ]
+        ],
         "toggled": true,
         "act_cost": 1,
         "react_cost": 1,
@@ -401,6 +488,18 @@
         "type": "bionic",
         "id": "bio_cloak",
         "name": "Cloaking System",
+        "occupied_bodyparts": [
+            [ "TORSO", 15 ],
+            [ "HEAD", 2 ],
+            [ "ARM_L", 3 ],
+            [ "ARM_R", 3 ],
+            [ "HAND_L", 1 ],
+            [ "HAND_R", 1 ],
+            [ "LEG_L", 4 ],
+            [ "LEG_R", 4 ],
+            [ "FOOT_L", 1 ],
+            [ "FOOT_R", 1 ]
+        ],
         "toggled": true,
         "act_cost": 50,
         "react_cost": 50,

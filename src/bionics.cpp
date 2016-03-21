@@ -1694,10 +1694,10 @@ int player::get_total_bionics_slots( body_part bp ) const
         return 15;
 
     case bp_eyes:
-        return 2;
+        return 4;
 
     case bp_mouth:
-        return 4;
+        return 5;
 
     case bp_arm_l:
     case bp_arm_r:
@@ -1713,7 +1713,7 @@ int player::get_total_bionics_slots( body_part bp ) const
 
     case bp_foot_l:
     case bp_foot_r:
-        return 10;
+        return 8;
 
     case num_bp:
         return INT_MAX;
