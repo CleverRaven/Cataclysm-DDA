@@ -27,6 +27,7 @@ using mtype_id = string_id<mtype>;
 struct islot_armor;
 struct use_function;
 class material_type;
+using material_id = std::string;
 class item_category;
 using ammotype = std::string;
 using itype_id = std::string;
@@ -564,7 +565,7 @@ public:
      * This may return an empty vector.
      * The returned vector does not contain the null id.
      */
-    const std::vector<std::string> &made_of() const;
+    const std::vector<material_id> &made_of() const;
     /**
      * Same as @ref made_of(), but returns the @ref material_type directly.
      */
@@ -574,18 +575,18 @@ public:
      * one item of the passed in set matches any material).
      * @param mat_idents Set of material ids.
      */
-    bool made_of_any( const std::vector<std::string> &mat_idents ) const;
+    bool made_of_any( const std::vector<material_id> &mat_idents ) const;
     /**
      * Check we are made of only the materials (e.g. false if we have
      * one material not in the set).
      * @param mat_idents Set of material ids.
      */
-    bool only_made_of( const std::vector<std::string> &mat_idents ) const;
+    bool only_made_of( const std::vector<material_id> &mat_idents ) const;
     /**
      * Check we are made of this material (e.g. matches at least one
      * in our set.)
      */
-    bool made_of( const std::string &mat_ident ) const;
+    bool made_of( const material_id &mat_ident ) const;
     /**
      * Are we solid, liquid, gas, plasma?
      */

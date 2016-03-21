@@ -10,13 +10,14 @@
 #include "json.h"
 
 class material_type;
+using material_id = std::string;
 
-typedef std::map<std::string, material_type> material_map;
+typedef std::map<material_id, material_type> material_map;
 
 class material_type
 {
     private:
-        std::string _ident;
+        material_id _ident;
         std::string _name;
         std::string _salvage_id; // this material turns into this item when salvaged
         float _salvage_multiplier; // multiplier when salvaging.
@@ -35,28 +36,28 @@ class material_type
 
     public:
         material_type();
-        material_type( std::string ident, std::string name,
+        material_type( material_id ident, std::string name,
                        std::string salvage_id, float salvage_multiplier,
                        int bash_resist, int cut_resist,
                        std::string bash_dmg_verb, std::string cut_dmg_verb,
                        std::string dmg_adj[],
                        int acid_resist, int elec_resist, int fire_resist,
                        int chip_resist, int density );
-        material_type( std::string ident );
+        material_type( material_id ident );
         static void load_material( JsonObject &jsobj );
 
         // functions
-        static material_type *find_material( std::string ident );
+        static material_type *find_material( material_id ident );
         //  static material_type* find_material_from_tag(material mat);
         static material_type *base_material();  // null material
-        static bool has_material( const std::string &ident );
+        static bool has_material( const material_id &ident );
         // clear material map, every material pointer becames invalid!
         static void reset();
 
         int dam_resist( damage_type damtype ) const;
 
         bool is_null() const;
-        std::string ident() const;
+        material_id ident() const;
         std::string name() const;
         std::string salvage_id() const;
         float salvage_multiplier() const;

@@ -28,7 +28,7 @@ material_type::material_type()
     _density = 1;
 }
 
-material_type::material_type( std::string ident, std::string name,
+material_type::material_type( material_id ident, std::string name,
                               std::string salvage_id, float salvage_multiplier,
                               int bash_resist, int cut_resist,
                               std::string bash_dmg_verb, std::string cut_dmg_verb,
@@ -55,7 +55,7 @@ material_type::material_type( std::string ident, std::string name,
     }
 }
 
-material_type::material_type( std::string ident )
+material_type::material_type( material_id ident )
 {
     material_type *mat_type = find_material( ident );
     _ident = ident;
@@ -108,7 +108,7 @@ void material_type::load_material( JsonObject &jsobj )
     DebugLog( D_INFO, DC_ALL ) << "Loaded material: " << mat._name;
 }
 
-material_type *material_type::find_material( std::string ident )
+material_type *material_type::find_material( material_id ident )
 {
     material_map::iterator found = _all_materials.find( ident );
     if( found != _all_materials.end() ) {
@@ -125,7 +125,7 @@ void material_type::reset()
     _all_materials.clear();
 }
 
-bool material_type::has_material( const std::string &ident )
+bool material_type::has_material( const material_id &ident )
 {
     return _all_materials.count( ident ) > 0;
 }
@@ -164,7 +164,7 @@ bool material_type::is_null() const
     return ( _ident == "null" );
 }
 
-std::string material_type::ident() const
+material_id material_type::ident() const
 {
     return _ident;
 }

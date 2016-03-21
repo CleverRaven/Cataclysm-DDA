@@ -3154,7 +3154,7 @@ bool item::is_two_handed( const player &u ) const
     return ((weight() / 113) > u.str_cur * 4);
 }
 
-const std::vector<std::string> &item::made_of() const
+const std::vector<material_id> &item::made_of() const
 {
     if( is_corpse() ) {
         return corpse->mat;
@@ -3171,7 +3171,7 @@ std::vector<material_type*> item::made_of_types() const
     return material_types_composed_of;
 }
 
-bool item::made_of_any( const std::vector<std::string> &mat_idents ) const
+bool item::made_of_any( const std::vector<material_id> &mat_idents ) const
 {
     for( auto candidate_material : mat_idents ) {
         for( auto target_material : made_of() ) {
@@ -3183,7 +3183,7 @@ bool item::made_of_any( const std::vector<std::string> &mat_idents ) const
     return false;
 }
 
-bool item::only_made_of( const std::vector<std::string> &mat_idents ) const
+bool item::only_made_of( const std::vector<material_id> &mat_idents ) const
 {
     for( auto target_material : made_of() ) {
         if( std::find( mat_idents.begin(), mat_idents.end(), target_material ) == mat_idents.end() ) {
@@ -3193,7 +3193,7 @@ bool item::only_made_of( const std::vector<std::string> &mat_idents ) const
     return true;
 }
 
-bool item::made_of( const std::string &mat_ident ) const
+bool item::made_of( const material_id &mat_ident ) const
 {
     const auto &materials = made_of();
     return std::find( materials.begin(), materials.end(), mat_ident ) != materials.end();
@@ -5572,8 +5572,8 @@ bool item::is_soft() const
 {
     // @todo Make this a material property
     // @todo Add a SOFT flag (for chainmail and the like)
-    static const std::vector<std::string> soft_mats = {{
-        "cotton", "leather", "wool", "nomex"
+    static const std::vector<material_id> soft_mats = {{
+        material_id( "cotton" ), material_id( "leather" ), material_id( "wool" ), material_id( "nomex" )
     }};
 
     return made_of_any( soft_mats );

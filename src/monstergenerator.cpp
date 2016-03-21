@@ -442,7 +442,7 @@ void mtype::load( JsonObject &jo )
     optional( jo, was_loaded, "name_plural", name_plural, name + "s" );
     mandatory( jo, was_loaded, "description", description, translated_string_reader );
 
-    optional( jo, was_loaded, "material", mat, auto_flags_reader<std::string> {} );
+    optional( jo, was_loaded, "material", mat, auto_flags_reader<material_id> {} );
     optional( jo, was_loaded, "species", species, auto_flags_reader<species_id> {} );
     optional( jo, was_loaded, "categories", categories, auto_flags_reader<> {} );
 

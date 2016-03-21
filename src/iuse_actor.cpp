@@ -1053,7 +1053,7 @@ int salvage_actor::cut_up(player *p, item *it, item *cut) const
     ///\EFFECT_FABRICATION reduces chance of losing components when cutting items up
     int entropy_threshold = std::max(5, 10 - p->skillLevel( skill_fabrication ) );
     // What material components can we get back?
-    std::vector<std::string> cut_material_components = cut->made_of();
+    std::vector<material_id> cut_material_components = cut->made_of();
     // What materials do we salvage (ids and counts).
     std::map<std::string, int> materials_salvaged;
 
@@ -2047,9 +2047,9 @@ void repair_item_actor::load( JsonObject &obj )
 }
 
 // TODO: This should be a property of material json, not a hardcoded hack
-const itype_id &material_component( const std::string &id )
+const itype_id &material_component( const material_id &id )
 {
-    static const std::map< std::string, itype_id > material_id_map {
+    static const std::map< material_id, itype_id > material_id_map {
         // Metals (welded)
         { "kevlar", "kevlar_plate" },
         { "plastic", "plastic_chunk" },
@@ -2132,7 +2132,7 @@ bool repair_item_actor::handle_components( player &pl, const item &fix,
     bool print_msg, bool just_check ) const
 {
     // Entries valid for repaired items
-    std::set<std::string> valid_entries;
+    std::set<material_id> valid_entries;
     for( const auto &mat : materials ) {
         if( fix.made_of( mat ) ) {
             valid_entries.insert( mat );
@@ -2257,7 +2257,7 @@ bool repair_item_actor::can_repair( player &pl, const item &tool, const item &fi
         return false;
     }
 
-    if( &fix == &tool || any_of( materials.begin(), materials.end(), [&fix]( const std::string &mat ) {
+    if( &fix == &tool || any_of( materials.begin(), materials.end(), [&fix]( const material_id &mat ) {
             return material_component( mat ) == fix.typeId();
         } ) ) {
         if( print_msg ) {

@@ -2117,7 +2117,7 @@ int iuse::sew_advanced(player *p, item *it, bool, const tripoint& )
     //translation note: add <plural> tag to keep them unique
 
     // Little helper to cut down some surplus redundancy and repetition
-    const auto add_material = [&]( const itype_id &material,
+    const auto add_material = [&]( const material_id &material,
                                    const itype_id &mat_item,
                                    const std::string &plural ) {
         if( mod->made_of( material ) ) {

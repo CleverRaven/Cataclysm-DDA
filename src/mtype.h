@@ -252,7 +252,7 @@ struct mtype {
         std::string sym;
         nc_color color;
         m_size size;
-        std::vector<std::string> mat;
+        std::vector<material_id> mat;
         phase_id phase;
         std::set<m_flag> flags;
         std::set<monster_trigger> anger, placate, fear;

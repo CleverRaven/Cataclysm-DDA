@@ -156,7 +156,7 @@ struct artifact_tool_form_datum {
     char sym;
     nc_color color;
     // Most things had 0 to 1 material.
-    std::string material;
+    material_id material;
     int volume_min, volume_max;
     int weight_min, weight_max;
     artifact_weapon_type base_weapon;
@@ -197,7 +197,7 @@ struct artifact_armor_form_datum {
     std::string name;
     nc_color color;
     // Most things had 0 to 1 material.
-    std::string material;
+    material_id material;
     int volume, weight;
     int encumb;
     int coverage;

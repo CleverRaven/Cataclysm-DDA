@@ -1763,7 +1763,7 @@ void iexamine::kiln_empty(player &p, const tripoint &examp)
         return;
     }
 
-    std::vector< std::string > kilnable{ "wood", "bone" };
+    std::vector<material_id> kilnable{ material_id( "wood" ), material_id( "bone" ) };
     bool fuel_present = false;
     auto items = g->m.i_at( examp );
     for( auto i : items ) {
@@ -2349,7 +2349,7 @@ void iexamine::shrub_wildveggies( player &p, const tripoint &examp )
     return;
 }
 
-int sum_up_item_weight_by_material( map_stack &stack, const std::string &material, bool remove_items )
+int sum_up_item_weight_by_material( map_stack &stack, const material_id &material, bool remove_items )
 {
     int sum_weight = 0;
     for( auto item_it = stack.begin(); item_it != stack.end(); ) {

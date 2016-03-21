@@ -29,7 +29,7 @@ using matec_id = string_id<ma_technique>;
 enum art_effect_active : int;
 enum art_charge : int;
 enum art_effect_passive : int;
-
+using material_id = std::string;
 typedef std::string itype_id;
 typedef std::string ammotype;
 
@@ -538,7 +538,7 @@ public:
 
     // What we're made of (material names). .size() == made of nothing.
     // MATERIALS WORK IN PROGRESS.
-    std::vector<std::string> materials;
+    std::vector<material_id> materials;
     std::vector<use_function> use_methods; // Special effects of use
 
     std::set<std::string> item_tags;

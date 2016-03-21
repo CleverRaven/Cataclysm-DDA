@@ -22,6 +22,7 @@ class effect_type;
 using efftype_id = string_id<effect_type>;
 using ammotype = std::string;
 using itype_id = std::string;
+using material_id = std::string;
 
 /**
  * Transform an item into a specific type.
@@ -422,7 +423,7 @@ class salvage_actor : public iuse_actor
         /**
          * Materials it can cut.
          */
-        std::vector<std::string> material_whitelist;
+        std::vector<material_id> material_whitelist;
 
         bool try_to_cut_up( player *p, item *it ) const;
         int cut_up( player *p, item *it, item *cut ) const;
@@ -449,7 +450,7 @@ class inscribe_actor : public iuse_actor
         bool material_restricted;
 
         // Materials it can write on
-        std::vector<std::string> material_whitelist;
+        std::vector<material_id> material_whitelist;
 
         // How will the inscription be described
         std::string verb; // "Write", "Carve"
@@ -670,7 +671,7 @@ class repair_item_actor : public iuse_actor
 {
     public:
         /** Materials we are allowed to repair */
-        std::vector<std::string> materials;
+        std::vector<material_id> materials;
         /** Skill used */
         skill_id used_skill;
         /**
