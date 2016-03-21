@@ -320,14 +320,14 @@ std::string monster::name_with_armor() const
     std::string ret;
     if( type->in_species( INSECT ) ) {
         ret = string_format(_("carapace"));
-    } else if( type->has_material("veggy") ) {
+    } else if( type->made_of("veggy") ) {
         ret = string_format(_("thick bark"));
-    } else if( type->has_material("flesh") || type->has_material("hflesh") ||
-               type->has_material("iflesh") ) {
+    } else if( type->made_of("flesh") || type->made_of("hflesh") ||
+               type->made_of("iflesh") ) {
         ret = string_format(_("thick hide"));
-    } else if( type->has_material("iron") || type->has_material("steel")) {
+    } else if( type->made_of("iron") || type->made_of("steel")) {
         ret = string_format(_("armor plating"));
-    } else if( type->has_material("protoplasmic") ) {
+    } else if( type->made_of("protoplasmic") ) {
         ret = string_format(_("hard protoplasmic hide"));
     }
     return ret;
@@ -545,7 +545,7 @@ int monster::sight_range( const int light_level ) const
 
 bool monster::made_of( const std::string &m ) const
 {
-    return type->has_material( m );
+    return type->made_of( m );
 }
 
 bool monster::made_of(phase_id p) const
@@ -1809,9 +1809,9 @@ bool monster::make_fungus()
     if( type->in_species( FUNGUS ) ) { // No friendly-fungalizing ;-)
         return true;
     }
-    if( !type->has_material("flesh") && !type->has_material("hflesh") &&
-        !type->has_material("veggy") && !type->has_material("iflesh") &&
-        !type->has_material("bone") ) {
+    if( !type->made_of("flesh") && !type->made_of("hflesh") &&
+        !type->made_of("veggy") && !type->made_of("iflesh") &&
+        !type->made_of("bone") ) {
         // No fungalizing robots or weird stuff (mi-gos are technically fungi, blobs are goo)
         return true;
     }
@@ -2125,7 +2125,7 @@ void monster::on_load()
         regen = 10.0f;
     } else if( has_flag( MF_REVIVES ) ) {
         regen = 1.0f / HOURS(1);
-    } else if( type->has_material( "flesh" ) || type->has_material( "veggy" ) ) {
+    } else if( type->made_of( "flesh" ) || type->made_of( "veggy" ) ) {
         // Most living stuff here
         regen = 0.25f / HOURS(1);
     }
