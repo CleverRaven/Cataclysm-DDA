@@ -7402,7 +7402,7 @@ void game::smash()
         if (u.skillLevel( skill_melee ) == 0) {
             u.practice( skill_melee, rng(0, 1) * rng(0, 1));
         }
-        if (u.weapon.made_of("glass") &&
+        if (u.weapon.made_of( material_id( "glass" ) ) &&
             rng(0, u.weapon.volume() + 3) < u.weapon.volume()) {
             add_msg(m_bad, _("Your %s shatters!"), u.weapon.tname().c_str());
             for( auto &elem : u.weapon.contents ) {
@@ -7707,7 +7707,7 @@ bool game::forced_door_closing( const tripoint &p, const ter_id door_type, int b
                 m.i_rem( x, y, 0 );
                 continue;
             }
-            if (items[0].made_of("glass") && one_in(2)) {
+            if (items[0].made_of( material_id( "glass" ) ) && one_in(2)) {
                 if (can_see) {
                     add_msg(m_warning, _("A %s shatters!"), items[0].tname().c_str());
                 } else {

@@ -6301,9 +6301,9 @@ void player::hardcoded_effects(effect &it)
             hurtall(3, nullptr);
         }
         remove_worn_items_with( []( item &tmp ) {
-            bool burnVeggy = (tmp.made_of("veggy") || tmp.made_of("paper"));
-            bool burnFabric = ((tmp.made_of("cotton") || tmp.made_of("wool")) && one_in(10));
-            bool burnPlastic = ((tmp.made_of("plastic")) && one_in(50));
+            bool burnVeggy = (tmp.made_of( material_id( "veggy" ) ) || tmp.made_of( material_id( "paper" ) ));
+            bool burnFabric = ((tmp.made_of( material_id( "cotton" ) ) || tmp.made_of( material_id( "wool" ) )) && one_in(10));
+            bool burnPlastic = ((tmp.made_of( material_id( "plastic" ) )) && one_in(50));
             return burnVeggy || burnFabric || burnPlastic;
         } );
     } else if( id == effect_spores ) {
@@ -9324,10 +9324,10 @@ bool player::consume_item( item &target )
                 }
             }
             int charge = (to_eat->volume() + to_eat->weight()) / 9;
-            if (to_eat->made_of("leather")) {
+            if (to_eat->made_of( material_id( "leather" ) )) {
                 charge /= 4;
             }
-            if (to_eat->made_of("wood")) {
+            if (to_eat->made_of( material_id( "wood" ) )) {
                 charge /= 2;
             }
             charge_power(charge);
@@ -9508,7 +9508,7 @@ bool player::can_wear( const item& it, bool alert ) const
         return false;
     }
 
-    if( has_trait( "WOOLALLERGY" ) && ( it.made_of("wool" ) || it.item_tags.count( "wooled" ) ) ) {
+    if( has_trait( "WOOLALLERGY" ) && ( it.made_of( material_id( "wool" ) ) || it.item_tags.count( "wooled" ) ) ) {
         if( alert ) {
             add_msg_if_player( m_info, _( "You can't wear that, it's made of wool!" ) );
         }
@@ -9528,8 +9528,8 @@ bool player::can_wear( const item& it, bool alert ) const
             }
         }
         if( it.covers(bp_head) &&
-            !it.made_of( "wool" ) && !it.made_of( "cotton" ) &&
-            !it.made_of( "nomex" ) && !it.made_of( "leather" ) &&
+            !it.made_of( material_id( "wool" ) ) && !it.made_of( material_id( "cotton" ) ) &&
+            !it.made_of( material_id( "nomex" ) ) && !it.made_of( material_id( "leather" ) ) &&
             ( has_trait( "HORNS_POINTED" ) || has_trait( "ANTENNAE" ) || has_trait( "ANTLERS" ) ) ) {
             if( alert ) {
                 add_msg_if_player( m_info, _( "You cannot wear a helmet over your %s." ),
@@ -11489,12 +11489,12 @@ int player::get_wind_resistance(body_part bp) const
 
     for( auto &i : worn ) {
         if( i.covers(bp) ) {
-            if( i.made_of("leather") || i.made_of("plastic") || i.made_of("bone") ||
-                i.made_of("chitin") || i.made_of("nomex") ) {
+            if( i.made_of( material_id( "leather" ) ) || i.made_of( material_id( "plastic" ) ) || i.made_of( material_id( "bone" ) ) ||
+                i.made_of( material_id( "chitin" ) ) || i.made_of( material_id( "nomex" ) ) ) {
                 penalty = 10; // 90% effective
-            } else if( i.made_of("cotton") ) {
+            } else if( i.made_of( material_id( "cotton" ) ) ) {
                 penalty = 30;
-            } else if( i.made_of("wool") ) {
+            } else if( i.made_of( material_id( "wool" ) ) ) {
                 penalty = 40;
             } else {
                 penalty = 1; // 99% effective
@@ -11525,7 +11525,7 @@ int player::warmth(body_part bp) const
             warmth = i.get_warmth();
             // Wool items do not lose their warmth due to being wet.
             // Warmth is reduced by 0 - 66% based on wetness.
-            if (!i.made_of("wool"))
+            if (!i.made_of( material_id( "wool" ) ))
             {
                 warmth *= 1.0 - 0.66 * body_wetness[bp] / drench_capacity[bp];
             }

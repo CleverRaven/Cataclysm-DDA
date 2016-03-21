@@ -243,10 +243,10 @@ static bool item_inscription(player *p, item *cut, std::string verb, std::string
         add_msg(m_info, _("You can't %s an item that's not solid!"), lower_verb.c_str());
         return false;
     }
-    if (carveable && !(cut->made_of("wood") || cut->made_of("plastic") ||
-                       cut->made_of("glass") || cut->made_of("chitin") ||
-                       cut->made_of("iron") || cut->made_of("steel") ||
-                       cut->made_of("silver"))) {
+    if (carveable && !(cut->made_of( material_id( "wood" ) ) || cut->made_of( material_id( "plastic" ) ) ||
+                       cut->made_of( material_id( "glass" ) ) || cut->made_of( material_id( "chitin" ) ) ||
+                       cut->made_of( material_id( "iron" ) ) || cut->made_of( material_id( "steel" ) ) ||
+                       cut->made_of( material_id( "silver" ) ))) {
         std::string lower_verb = verb;
         std::transform(lower_verb.begin(), lower_verb.end(), lower_verb.begin(), ::tolower);
         add_msg(m_info, _("You can't %1$s %2$s because of the material it is made of."),
@@ -2084,13 +2084,13 @@ int iuse::sew_advanced(player *p, item *it, bool, const tripoint& )
     }
 
     int pos = g->inv_for_filter( _("Enhance what?"), []( const item & itm ) {
-            return itm.made_of( "cotton" ) ||
-            itm.made_of( "leather" ) ||
-            itm.made_of( "fur" ) ||
-            itm.made_of( "nomex" ) ||
-            itm.made_of( "plastic" ) ||
-            itm.made_of( "kevlar" ) ||
-            itm.made_of( "wool" );
+            return itm.made_of( material_id( "cotton" ) ) ||
+            itm.made_of( material_id( "leather" ) ) ||
+            itm.made_of( material_id( "fur" ) ) ||
+            itm.made_of( material_id( "nomex" ) ) ||
+            itm.made_of( material_id( "plastic" ) ) ||
+            itm.made_of( material_id( "kevlar" ) ) ||
+            itm.made_of( material_id( "wool" ) );
         } );
     item *mod = &(p->i_at(pos));
     if (mod == NULL || mod->is_null()) {
@@ -2126,13 +2126,13 @@ int iuse::sew_advanced(player *p, item *it, bool, const tripoint& )
         }
     };
 
-    add_material( "cotton", "rag", _( "<plural>rags" ) );
-    add_material( "leather", "leather", _( "<plural>leather" ) );
-    add_material( "fur", "fur", _( "<plural>fur" ) );
-    add_material( "nomex", "nomex", _( "<plural>Nomex" ) );
-    add_material( "plastic", "plastic_chunk", _( "<plural>plastic" ) );
-    add_material( "kevlar", "kevlar_plate", _( "<plural>Kevlar" ) );
-    add_material( "wool", "felt_patch", _( "<plural>wool" ) );
+    add_material( material_id( "cotton" ), "rag", _( "<plural>rags" ) );
+    add_material( material_id( "leather" ), "leather", _( "<plural>leather" ) );
+    add_material( material_id( "fur" ), "fur", _( "<plural>fur" ) );
+    add_material( material_id( "nomex" ), "nomex", _( "<plural>Nomex" ) );
+    add_material( material_id( "plastic" ), "plastic_chunk", _( "<plural>plastic" ) );
+    add_material( material_id( "kevlar" ), "kevlar_plate", _( "<plural>Kevlar" ) );
+    add_material( material_id( "wool" ), "felt_patch", _( "<plural>wool" ) );
     if (repair_items.empty()) {
         p->add_msg_if_player(m_info, _("Your %s is not made of fabric, leather, fur, Kevlar, wool or plastic."),
                              mod->tname().c_str());
@@ -6262,8 +6262,8 @@ int iuse::misc_repair(player *p, item *it, bool, const tripoint& )
         return 0;
     }
     int inventory_index = g->inv_for_filter( _("Select the item to repair."), []( const item & itm ) {
-        return ( !itm.is_firearm() ) && (itm.made_of("wood") || itm.made_of("paper") ||
-                                 itm.made_of("bone") || itm.made_of("chitin") ) ;
+        return ( !itm.is_firearm() ) && (itm.made_of( material_id( "wood" ) ) || itm.made_of( material_id( "paper" ) ) ||
+                                 itm.made_of( material_id( "bone" ) ) || itm.made_of( material_id( "chitin" ) ) ) ;
     } );
     item *fix = &( p->i_at(inventory_index ) );
     if (fix == NULL || fix->is_null()) {
@@ -6274,8 +6274,8 @@ int iuse::misc_repair(player *p, item *it, bool, const tripoint& )
         p->add_msg_if_player(m_info, _("That requires gunsmithing tools."));
         return 0;
     }
-    if (!(fix->made_of("wood") || fix->made_of("paper") || fix->made_of("bone") ||
-          fix->made_of("chitin"))) {
+    if (!(fix->made_of( material_id( "wood" ) ) || fix->made_of( material_id( "paper" ) ) || fix->made_of( material_id( "bone" ) ) ||
+          fix->made_of( material_id( "chitin" ) ))) {
         p->add_msg_if_player(m_info, _("That isn't made of wood, paper, bone, or chitin!"));
         return 0;
     }

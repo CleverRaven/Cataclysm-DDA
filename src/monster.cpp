@@ -858,21 +858,21 @@ bool monster::is_immune_effect( const efftype_id &effect ) const
     if( effect == effect_onfire ) {
         return is_immune_damage( DT_HEAT ) ||
             made_of(LIQUID) ||
-            made_of("stone") ||
-            made_of("steel") ||
+            made_of( material_id( "stone" ) ) ||
+            made_of( material_id( "steel" ) ) ||
             has_flag(MF_FIREY);
     }
 
     if( effect == effect_bleed ) {
         return !has_flag(MF_WARM) ||
-            !made_of("flesh");
+            !made_of( material_id( "flesh" ) );
     }
 
     if( effect == effect_paralyzepoison ||
         effect == effect_badpoison ||
         effect == effect_poison ) {
         return !has_flag(MF_WARM) ||
-            (!made_of("flesh") && !made_of("iflesh"));
+            (!made_of( material_id( "flesh" ) ) && !made_of( material_id( "iflesh" ) ));
     }
 
     return false;
@@ -896,7 +896,7 @@ bool monster::is_immune_damage( const damage_type dt ) const
     case DT_STAB:
         return false;
     case DT_HEAT:
-        return made_of("steel") || made_of("stone"); // Ugly hardcode - remove later
+        return made_of( material_id( "steel" ) ) || made_of( material_id( "stone" ) ); // Ugly hardcode - remove later
     case DT_COLD:
         return false;
     case DT_ELECTRIC:
@@ -1738,12 +1738,12 @@ void monster::process_effects()
             const efftype_id &id = _effect_it.second.get_id();
             // MATERIALS-TODO: use fire resistance
             if( id == effect_onfire ) {
-                if (made_of("flesh") || made_of("iflesh"))
+                if (made_of( material_id( "flesh" ) ) || made_of( material_id( "iflesh" ) ))
                     apply_damage( nullptr, bp_torso, rng( 3, 8 ) );
-                if (made_of("veggy"))
+                if (made_of( material_id( "veggy" ) ))
                     apply_damage( nullptr, bp_torso, rng( 10, 20 ) );
-                if (made_of("paper") || made_of("powder") || made_of("wood") || made_of("cotton") ||
-                    made_of("wool"))
+                if (made_of( material_id( "paper" ) ) || made_of( material_id( "powder" ) ) || made_of( material_id( "wood" ) ) || made_of( material_id( "cotton" ) ) ||
+                    made_of( material_id( "wool" ) ))
                     apply_damage( nullptr, bp_torso, rng( 15, 40 ) );
             }
         }

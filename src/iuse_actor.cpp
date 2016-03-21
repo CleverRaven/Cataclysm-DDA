@@ -932,20 +932,19 @@ void salvage_actor::load( JsonObject &obj )
     if( obj.has_array( "material_whitelist" ) ) {
         JsonArray jarr = obj.get_array( "material_whitelist" );
         while( jarr.has_more() ) {
-            const auto material_id = jarr.next_string();
-            material_whitelist.push_back( material_id );
+            material_whitelist.push_back( material_id( jarr.next_string() ) );
         }
     } else {
         // Default to old salvageable materials
-        material_whitelist.push_back("cotton");
-        material_whitelist.push_back("leather");
-        material_whitelist.push_back("fur");
-        material_whitelist.push_back("nomex");
-        material_whitelist.push_back("kevlar");
-        material_whitelist.push_back("plastic");
-        material_whitelist.push_back("wood");
-        material_whitelist.push_back("wool");
-        material_whitelist.push_back("neoprene");
+        material_whitelist.push_back( material_id( "cotton" ) );
+        material_whitelist.push_back( material_id( "leather" ) );
+        material_whitelist.push_back( material_id( "fur" ) );
+        material_whitelist.push_back( material_id( "nomex" ) );
+        material_whitelist.push_back( material_id( "kevlar" ) );
+        material_whitelist.push_back( material_id( "plastic" ) );
+        material_whitelist.push_back( material_id( "wood" ) );
+        material_whitelist.push_back( material_id( "wool" ) );
+        material_whitelist.push_back( material_id( "neoprene" ) );
     }
 }
 
@@ -1145,19 +1144,18 @@ void inscribe_actor::load( JsonObject &obj )
     if( obj.has_array( "material_whitelist" ) ) {
         JsonArray jarr = obj.get_array( "material_whitelist" );
         while( jarr.has_more() ) {
-            const auto material_id = jarr.next_string();
-            material_whitelist.push_back( material_id );
+            material_whitelist.push_back( material_id( jarr.next_string() ) );
         }
     } else if( material_restricted ) {
         material_whitelist.reserve( 7 );
         // Default to old carveable materials
-        material_whitelist.push_back("wood");
-        material_whitelist.push_back("plastic");
-        material_whitelist.push_back("glass");
-        material_whitelist.push_back("chitin");
-        material_whitelist.push_back("iron");
-        material_whitelist.push_back("steel");
-        material_whitelist.push_back("silver");
+        material_whitelist.push_back( material_id( "wood" ) );
+        material_whitelist.push_back( material_id( "plastic" ) );
+        material_whitelist.push_back( material_id( "glass" ) );
+        material_whitelist.push_back( material_id( "chitin" ) );
+        material_whitelist.push_back( material_id( "iron" ) );
+        material_whitelist.push_back( material_id( "steel" ) );
+        material_whitelist.push_back( material_id( "silver" ) );
     }
 
     verb = _(obj.get_string( "verb", "Carve" ).c_str());
@@ -2026,7 +2024,7 @@ void repair_item_actor::load( JsonObject &obj )
     // Mandatory:
     JsonArray jarr = obj.get_array( "materials" );
     while( jarr.has_more() ) {
-        materials.push_back( jarr.next_string() );
+        materials.push_back( material_id( jarr.next_string() ) );
     }
 
     // TODO: Make skill non-mandatory while still erroring on invalid skill
@@ -2051,20 +2049,20 @@ const itype_id &material_component( const material_id &id )
 {
     static const std::map< material_id, itype_id > material_id_map {
         // Metals (welded)
-        { "kevlar", "kevlar_plate" },
-        { "plastic", "plastic_chunk" },
-        { "iron", "scrap" },
-        { "steel", "scrap" },
-        { "hardsteel", "scrap" },
-        { "aluminum", "material_aluminium_ingot" },
-        { "copper", "scrap_copper" },
+        { material_id( "kevlar" ), "kevlar_plate" },
+        { material_id( "plastic" ), "plastic_chunk" },
+        { material_id( "iron" ), "scrap" },
+        { material_id( "steel" ), "scrap" },
+        { material_id( "hardsteel" ), "scrap" },
+        { material_id( "aluminum" ), "material_aluminium_ingot" },
+        { material_id( "copper" ), "scrap_copper" },
         // Fabrics (sewn)
-        { "cotton", "rag" },
-        { "leather", "leather" },
-        { "fur", "fur" },
-        { "nomex", "nomex" },
-        { "wool", "felt_patch" },
-        { "neoprene", "neoprene" }
+        { material_id( "cotton" ), "rag" },
+        { material_id( "leather" ), "leather" },
+        { material_id( "fur" ), "fur" },
+        { material_id( "nomex" ), "nomex" },
+        { material_id( "wool" ), "felt_patch" },
+        { material_id( "neoprene" ), "neoprene" }
     };
 
     static const itype_id null_material = "";

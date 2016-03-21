@@ -438,32 +438,32 @@ void init_artifacts()
 
     artifact_tool_form_datum tmp_artifact_tool_form_data[NUM_ARTTOOLFORMS] = {
         {
-            "", '*', c_white, "null", 0, 0, 0, 0, ARTWEAP_BULK,
+            "", '*', c_white, material_id( "null" ), 0, 0, 0, 0, ARTWEAP_BULK,
             {ARTWEAP_NULL, ARTWEAP_NULL, ARTWEAP_NULL}
         },
 
         {
-            _("Harp"), ';', c_yellow, "wood", 20, 30, 1150, 2100, ARTWEAP_BULK,
+            _("Harp"), ';', c_yellow, material_id( "wood" ), 20, 30, 1150, 2100, ARTWEAP_BULK,
             {ARTWEAP_SPEAR, ARTWEAP_SWORD, ARTWEAP_KNIFE}
         },
 
         {
-            _("Staff"), '/', c_brown, "wood", 6, 12, 450, 1150, ARTWEAP_CLUB,
+            _("Staff"), '/', c_brown, material_id( "wood" ), 6, 12, 450, 1150, ARTWEAP_CLUB,
             {ARTWEAP_BULK, ARTWEAP_SPEAR, ARTWEAP_KNIFE}
         },
 
         {
-            _("Sword"), '/', c_ltblue, "steel", 8, 14, 900, 3259, ARTWEAP_SWORD,
+            _("Sword"), '/', c_ltblue, material_id( "steel" ), 8, 14, 900, 3259, ARTWEAP_SWORD,
             {ARTWEAP_BULK, ARTWEAP_NULL, ARTWEAP_NULL}
         },
 
         {
-            _("Dagger"), ';', c_ltblue, "steel", 1, 4, 100, 700, ARTWEAP_KNIFE,
+            _("Dagger"), ';', c_ltblue, material_id( "steel" ), 1, 4, 100, 700, ARTWEAP_KNIFE,
             {ARTWEAP_NULL, ARTWEAP_NULL, ARTWEAP_NULL}
         },
 
         {
-            _("Cube"), '*', c_white, "steel", 1, 3, 100, 2300, ARTWEAP_BULK,
+            _("Cube"), '*', c_white, material_id( "steel" ), 1, 3, 100, 2300, ARTWEAP_BULK,
             {ARTWEAP_SPEAR, ARTWEAP_NULL, ARTWEAP_NULL}
         }
     };
@@ -486,13 +486,13 @@ void init_artifacts()
 
     artifact_armor_form_datum tmp_artifact_armor_form_data[NUM_ARTARMFORMS] = {
         {
-            "", c_white, "null",        0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+            "", c_white, material_id( "null" ),        0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
             0, false,
             {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}
         },
         // Name    color  Material         Vol Wgt Enc Cov Thk Env Wrm Sto Bsh Cut Hit
         {
-            _("Robe"),   c_red, "wool",    6, 700,  1,  90,  3,  0,  2,  0, -8,  0, -3,
+            _("Robe"),   c_red, material_id( "wool" ),    6, 700,  1,  90,  3,  0,  2,  0, -8,  0, -3,
             mfb(bp_torso) | mfb(bp_leg_l) | mfb(bp_leg_r), false,
             {
                 ARMORMOD_LIGHT, ARMORMOD_BULKY, ARMORMOD_POCKETED, ARMORMOD_FURRED,
@@ -501,7 +501,7 @@ void init_artifacts()
         },
 
         {
-            _("Coat"),   c_brown, "leather",   14, 1600,  2,  80, 2,  1,  4,  4, -6,  0, -3,
+            _("Coat"),   c_brown, material_id( "leather" ),   14, 1600,  2,  80, 2,  1,  4,  4, -6,  0, -3,
             mfb(bp_torso), false,
             {
                 ARMORMOD_LIGHT, ARMORMOD_POCKETED, ARMORMOD_FURRED, ARMORMOD_PADDED,
@@ -510,7 +510,7 @@ void init_artifacts()
         },
 
         {
-            _("Mask"),   c_white, "wood",      4, 100,  2,  50, 2,  1,  2,  0,  2,  0, -2,
+            _("Mask"),   c_white, material_id( "wood" ),      4, 100,  2,  50, 2,  1,  2,  0,  2,  0, -2,
             mfb(bp_eyes) | mfb(bp_mouth), false,
             {
                 ARMORMOD_FURRED, ARMORMOD_FURRED, ARMORMOD_NULL, ARMORMOD_NULL,
@@ -520,7 +520,7 @@ void init_artifacts()
 
         // Name    color  Materials             Vol  Wgt Enc Cov Thk Env Wrm Sto Bsh Cut Hit
         {
-            _("Helm"),   c_dkgray, "silver",    6, 700,  2,  85, 3,  0,  1,  0,  8,  0, -2,
+            _("Helm"),   c_dkgray, material_id( "silver" ),    6, 700,  2,  85, 3,  0,  1,  0,  8,  0, -2,
             mfb(bp_head), false,
             {
                 ARMORMOD_BULKY, ARMORMOD_FURRED, ARMORMOD_PADDED, ARMORMOD_PLATED,
@@ -529,7 +529,7 @@ void init_artifacts()
         },
 
         {
-            _("Gloves"), c_ltblue, "leather", 2, 100,  1,  90,  3,  1,  2,  0, -4,  0, -2,
+            _("Gloves"), c_ltblue, material_id( "leather" ), 2, 100,  1,  90,  3,  1,  2,  0, -4,  0, -2,
             mfb(bp_hand_l) | mfb(bp_hand_r), true,
             {
                 ARMORMOD_BULKY, ARMORMOD_FURRED, ARMORMOD_PADDED, ARMORMOD_PLATED,
@@ -539,7 +539,7 @@ void init_artifacts()
 
         // Name    color  Materials            Vol  Wgt Enc Cov Thk Env Wrm Sto Bsh Cut Hit
         {
-            _("Boots"), c_blue, "leather",     6, 250,  1,  75,  3,  1,  3,  0,  4,  0, -1,
+            _("Boots"), c_blue, material_id( "leather" ),     6, 250,  1,  75,  3,  1,  3,  0,  4,  0, -1,
             mfb(bp_foot_l) | mfb(bp_foot_r), true,
             {
                 ARMORMOD_LIGHT, ARMORMOD_BULKY, ARMORMOD_PADDED, ARMORMOD_PLATED,
@@ -548,7 +548,7 @@ void init_artifacts()
         },
 
         {
-            _("Ring"), c_ltgreen, "silver",   0,  4,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+            _("Ring"), c_ltgreen, material_id( "silver" ),   0,  4,  0,  0,  0,  0,  0,  0,  0,  0,  0,
             0, true,
             {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}
         }
@@ -561,44 +561,44 @@ void init_artifacts()
     artifact_armor_form_datum tmp_artifact_armor_mod_data[NUM_ARMORMODS] = {
 
         {
-            "", c_white, "null", 0,  0,  0,  0,  0,  0,  0,  0,  0, 0, 0, 0, false,
+            "", c_white, material_id( "null" ), 0,  0,  0,  0,  0,  0,  0,  0,  0, 0, 0, 0, false,
             {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}
         },
         // Description; "It is ..." or "They are ..."
         {
-            _("very thin and light."), c_white, "null",
+            _("very thin and light."), c_white, material_id( "null" ),
             // Vol   Wgt Enc Cov Thk Env Wrm Sto
             -4, -950, -2, -1, -1, -1, -1,  0, 0, 0, 0, 0,  false,
             {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}
         },
 
         {
-            _("extremely bulky."), c_white, "null",
+            _("extremely bulky."), c_white, material_id( "null" ),
             8, 1150,  2,  1,  1,  0,  1,  0, 0, 0, 0, 0,  false,
             {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}
         },
 
         {
-            _("covered in pockets."), c_white, "null",
+            _("covered in pockets."), c_white, material_id( "null" ),
             1, 150,  1,  0,  0,  0,  0, 16, 0, 0, 0, 0,  false,
             {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}
         },
 
         {
-            _("disgustingly furry."), c_white, "wool",
+            _("disgustingly furry."), c_white, material_id( "wool" ),
             // Vol  Wgt Enc Dmg Cut Env Wrm Sto
             4, 250,  1,  1,  1,  1,  3,  0, 0, 0, 0, 0,  false,
             {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}
         },
 
         {
-            _("leather-padded."), c_white, "leather",
+            _("leather-padded."), c_white, material_id( "leather" ),
             4, 450,  1, 1,  1,  0,  1, -3, 0, 0, 0, 0,  false,
             {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}
         },
 
         {
-            _("plated in iron."), c_white, "iron",
+            _("plated in iron."), c_white, material_id( "iron" ),
             4, 1400,  3,  2, 2,  0,  1, -4, 0, 0, 0, 0, false,
             {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}
         },
@@ -897,7 +897,7 @@ std::string new_natural_artifact(artifact_natural_property prop)
 
     art->sym = ':';
     art->color = c_yellow;
-    art->materials.push_back("stone");
+    art->materials.push_back( material_id( "stone" ) );
     art->volume = rng(shape_data->volume_min, shape_data->volume_max);
     art->weight = rng(shape_data->weight_min, shape_data->weight_max);
     art->melee_dam = 0;
@@ -1116,17 +1116,17 @@ void it_artifact_tool::deserialize(JsonObject &jo)
     // quite some time. Loading and saving once will write things out as a JSON
     // array.
     if (jo.has_string("m1")) {
-        materials.push_back(jo.get_string("m1"));
+        materials.push_back( material_id( jo.get_string( "m1" ) ) );
     }
     if (jo.has_string("m2")) {
-        materials.push_back(jo.get_string("m2"));
+        materials.push_back( material_id( jo.get_string( "m2" ) ) );
     }
     // Assumption, perhaps dangerous, that we won't wind up with m1 and m2 and
     // a materials array in our serialized objects at the same time.
     if (jo.has_array("materials")) {
         JsonArray jarr = jo.get_array("materials");
         for( size_t i = 0; i < jarr.size(); ++i) {
-            materials.push_back(jarr.get_string(i));
+            materials.push_back( material_id ( jarr.get_string( i ) ) );
         }
     }
     volume = jo.get_int("volume");
@@ -1182,17 +1182,17 @@ void it_artifact_armor::deserialize(JsonObject &jo)
     // quite some time. Loading and saving once will write things out as a JSON
     // array.
     if (jo.has_string("m1")) {
-        materials.push_back(jo.get_string("m1"));
+        materials.push_back( material_id( jo.get_string( "m1" ) ) );
     }
     if (jo.has_string("m2")) {
-        materials.push_back(jo.get_string("m2"));
+        materials.push_back( material_id( jo.get_string( "m2" ) ) );
     }
     // Assumption, perhaps dangerous, that we won't wind up with m1 and m2 and
     // a materials array in our serialized objects at the same time.
     if (jo.has_array("materials")) {
         JsonArray jarr = jo.get_array("materials");
         for( size_t i = 0; i < jarr.size(); ++i) {
-            materials.push_back(jarr.get_string(i));
+            materials.push_back( material_id( jarr.get_string( i ) ) );
         }
     }
     volume = jo.get_int("volume");

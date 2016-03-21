@@ -1171,26 +1171,26 @@ void set_allergy_flags( itype &item_template )
     static const std::vector<material_allergy_pair> all_pairs = {{
         // First allergens:
         // An item is an allergen even if it has trace amounts of allergenic material
-        std::make_pair( "hflesh", "CANNIBALISM" ),
+        std::make_pair( material_id( "hflesh" ), "CANNIBALISM" ),
 
-        std::make_pair( "hflesh", "ALLERGEN_MEAT" ),
-        std::make_pair( "iflesh", "ALLERGEN_MEAT" ),
-        std::make_pair( "flesh", "ALLERGEN_MEAT" ),
-        std::make_pair( "wheat", "ALLERGEN_WHEAT" ),
-        std::make_pair( "fruit", "ALLERGEN_FRUIT" ),
-        std::make_pair( "veggy", "ALLERGEN_VEGGY" ),
-        std::make_pair( "milk", "ALLERGEN_MILK" ),
-        std::make_pair( "egg", "ALLERGEN_EGG" ),
-        std::make_pair( "junk", "ALLERGEN_JUNK" ),
+        std::make_pair( material_id( "hflesh" ), "ALLERGEN_MEAT" ),
+        std::make_pair( material_id( "iflesh" ), "ALLERGEN_MEAT" ),
+        std::make_pair( material_id( "flesh" ), "ALLERGEN_MEAT" ),
+        std::make_pair( material_id( "wheat" ), "ALLERGEN_WHEAT" ),
+        std::make_pair( material_id( "fruit" ), "ALLERGEN_FRUIT" ),
+        std::make_pair( material_id( "veggy" ), "ALLERGEN_VEGGY" ),
+        std::make_pair( material_id( "milk" ), "ALLERGEN_MILK" ),
+        std::make_pair( material_id( "egg" ), "ALLERGEN_EGG" ),
+        std::make_pair( material_id( "junk" ), "ALLERGEN_JUNK" ),
         // Not food, but we can keep it here
-        std::make_pair( "wool", "ALLERGEN_WOOL" ),
+        std::make_pair( material_id( "wool" ), "ALLERGEN_WOOL" ),
         // Now "made of". Those flags should not be passed
-        std::make_pair( "flesh", "CARNIVORE_OK" ),
-        std::make_pair( "hflesh", "CARNIVORE_OK" ),
-        std::make_pair( "iflesh", "CARNIVORE_OK" ),
-        std::make_pair( "milk", "CARNIVORE_OK" ),
-        std::make_pair( "egg", "CARNIVORE_OK" ),
-        std::make_pair( "honey", "URSINE_HONEY" ),
+        std::make_pair( material_id( "flesh" ), "CARNIVORE_OK" ),
+        std::make_pair( material_id( "hflesh" ), "CARNIVORE_OK" ),
+        std::make_pair( material_id( "iflesh" ), "CARNIVORE_OK" ),
+        std::make_pair( material_id( "milk" ), "CARNIVORE_OK" ),
+        std::make_pair( material_id( "egg" ), "CARNIVORE_OK" ),
+        std::make_pair( material_id( "honey" ), "URSINE_HONEY" ),
     }};
 
     const auto &mats = item_template.materials;
@@ -1207,11 +1207,11 @@ void hflesh_to_flesh( itype &item_template )
 {
     auto &mats = item_template.materials;
     const auto old_size = mats.size();
-    mats.erase( std::remove( mats.begin(), mats.end(), "hflesh" ), mats.end() );
+    mats.erase( std::remove( mats.begin(), mats.end(), material_id( "hflesh" ) ), mats.end() );
     // Only add "flesh" material if not already present
     if( old_size != mats.size() &&
-        std::find( mats.begin(), mats.end(), "flesh" ) == mats.end() ) {
-        mats.push_back( "flesh" );
+        std::find( mats.begin(), mats.end(), material_id( "flesh" ) ) == mats.end() ) {
+        mats.push_back( material_id( "flesh" ) );
     }
 }
 
@@ -1263,7 +1263,7 @@ void Item_factory::load_basic_info(JsonObject &jo, itype *new_item_template)
     }
 
     for( auto &m : jo.get_tags( "material" ) ) {
-        new_item_template->materials.push_back( m );
+        new_item_template->materials.push_back( material_id( m ) );
     }
 
     if( jo.has_string( "phase" ) ) {
