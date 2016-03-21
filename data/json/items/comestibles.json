@@ -20,26 +20,26 @@
         "fun" : 0
     },
     {
-        "id": "water",
-        "type": "COMESTIBLE",
-        "symbol": "~",
-        "color": "light_cyan",
-        "name": "water",
-        "name_plural": "water",
-        "description": "Water, the stuff of life, the best thirst-quencher available.",
-        "price": 0,
-        "weight": 250,
-        "volume": 1,
-        "comestible_type": "DRINK",
-        "container": "bottle_plastic",
-        "quench": 50,
-        "nutrition": 0,
-        "charges": 1,
-        "healthy": 0,
-        "fun": 0,
+        "id" : "water",
+        "type" : "COMESTIBLE",
+        "symbol" : "~",
+        "color" : "light_cyan",
+        "name" : "water",
+        "name_plural" : "water",
+        "description" : "Water, the stuff of life, the best thirst-quencher available.",
+        "price" : 0,
+        "weight" : 250,
+        "volume" : 1,
+        "comestible_type" : "DRINK",
+        "container" : "bottle_plastic",
+        "quench" : 50,
+        "nutrition" : 0,
+        "charges" : 1,
+        "healthy" : 0,
+        "fun" : 0,
         "flags" : ["EATEN_COLD"],
-        "phase": "liquid",
-        "ammo_data": {
+        "phase" : "liquid",
+        "ammo_data" : {
             "ammo_type" : "water",
             "damage" : 0,
             "range" : 0,
@@ -70,7 +70,7 @@
         "charges" : 1,
         "flags" : ["EATEN_COLD"],
         "fun" : 0,
-        "ammo_data": {
+        "ammo_data" : {
             "ammo_type" : "water",
             "damage" : 0,
             "range" : 0,
@@ -475,7 +475,7 @@
         "type" : "COMESTIBLE",
         "id" : "milk",
         "name" : "milk",
-        "name_plural": "milk",
+        "name_plural" : "milk",
         "weight" : 258,
         "color" : "white",
         "spoils_in" : 8,
@@ -3158,92 +3158,92 @@
         "fun" : 0
     },
     {
-        "type":"COMESTIBLE",
-        "id": "stomach",
-        "name": "stomach",
-        "weight": 72,
-        "color": "red",
-        "spoils_in": 12,
-        "use_action": "RAW_MEAT",
-        "container": "null",
-        "comestible_type": "FOOD",
-        "symbol": ",",
-        "quench": 1,
-        "healthy": -1,
-        "nutrition": 5,
-        "description": "The stomach of a woodland creature.  It is surprisingly durable.",
-        "price": 500,
-        "material": "flesh",
-        "volume": 1,
-        "to_hit": -1,
-        "charges": 1,
-        "fun": -15
+        "type" : "COMESTIBLE",
+        "id" : "stomach",
+        "name" : "stomach",
+        "weight" : 72,
+        "color" : "red",
+        "spoils_in" : 12,
+        "use_action" : "RAW_MEAT",
+        "container" : "null",
+        "comestible_type" : "FOOD",
+        "symbol" : ",",
+        "quench" : 1,
+        "healthy" : -1,
+        "nutrition" : 5,
+        "description" : "The stomach of a woodland creature.  It is surprisingly durable.",
+        "price" : 500,
+        "material" : "flesh",
+        "volume" : 1,
+        "to_hit" : -1,
+        "charges" : 1,
+        "fun" : -15
     },
     {
-        "type":"COMESTIBLE",
-        "id": "hstomach",
-        "name": "human stomach",
-        "weight": 72,
-        "color": "red",
-        "spoils_in": 12,
-        "use_action": "RAW_MEAT",
-        "container": "null",
-        "comestible_type": "FOOD",
-        "symbol": ",",
-        "quench": 1,
-        "healthy": -1,
-        "nutrition": 5,
-        "description": "The stomach of a human.  It is surprisingly durable.",
-        "price": 500,
-        "material": "hflesh",
-        "volume": 1,
-        "to_hit": -1,
-        "charges": 1,
-        "fun": -15
+        "type" : "COMESTIBLE",
+        "id" : "hstomach",
+        "name" : "human stomach",
+        "weight" : 72,
+        "color" : "red",
+        "spoils_in" : 12,
+        "use_action" : "RAW_MEAT",
+        "container" : "null",
+        "comestible_type" : "FOOD",
+        "symbol" : ",",
+        "quench" : 1,
+        "healthy" : -1,
+        "nutrition" : 5,
+        "description" : "The stomach of a human.  It is surprisingly durable.",
+        "price" : 500,
+        "material" : "hflesh",
+        "volume" : 1,
+        "to_hit" : -1,
+        "charges" : 1,
+        "fun" : -15
     },
     {
-        "type":"COMESTIBLE",
-        "id": "stomach_large",
-        "name": "large stomach",
-        "weight": 145,
-        "color": "red",
-        "spoils_in": 12,
-        "use_action": "RAW_MEAT",
-        "container": "null",
-        "comestible_type": "FOOD",
-        "symbol": ",",
-        "quench": 1,
-        "healthy": -1,
-        "nutrition": 10,
-        "description": "The stomach of a large woodland creature.  It is surprisingly durable.",
-        "price": 700,
-        "material": "flesh",
-        "volume": 2,
-        "to_hit": -1,
-        "charges": 1,
-        "fun": -15
+        "type" : "COMESTIBLE",
+        "id" : "stomach_large",
+        "name" : "large stomach",
+        "weight" : 145,
+        "color" : "red",
+        "spoils_in" : 12,
+        "use_action" : "RAW_MEAT",
+        "container" : "null",
+        "comestible_type" : "FOOD",
+        "symbol" : ",",
+        "quench" : 1,
+        "healthy" : -1,
+        "nutrition" : 10,
+        "description" : "The stomach of a large woodland creature.  It is surprisingly durable.",
+        "price" : 700,
+        "material" : "flesh",
+        "volume" : 2,
+        "to_hit" : -1,
+        "charges" : 1,
+        "fun" : -15
     },
     {
-        "type":"COMESTIBLE",
-        "id": "hstomach_large",
-        "name": "large human stomach",
-        "weight": 145,
-        "color": "red",
-        "spoils_in": 12,
-        "use_action": "RAW_MEAT",
-        "container": "null",
-        "comestible_type": "FOOD",
-        "symbol": ",",
-        "quench": 1,
-        "healthy": -1,
-        "nutrition": 10,
-        "description": "The stomach of a large humanoid creature.  It is surprisingly durable.",
-        "price": 700,
-        "material": "hflesh",
-        "volume": 2,
-        "to_hit": -1,
-        "charges": 1,
-        "fun": -15
+        "type" : "COMESTIBLE",
+        "id" : "hstomach_large",
+        "name" : "large human stomach",
+        "weight" : 145,
+        "color" : "red",
+        "spoils_in" : 12,
+        "use_action" : "RAW_MEAT",
+        "container" : "null",
+        "comestible_type" : "FOOD",
+        "symbol" : ",",
+        "quench" : 1,
+        "healthy" : -1,
+        "nutrition" : 10,
+        "description" : "The stomach of a large humanoid creature.  It is surprisingly durable.",
+        "price" : 700,
+        "material" : "hflesh",
+        "volume" : 2,
+        "to_hit" : -1,
+        "charges" : 1,
+        "fun" : -15
     },
     {
         "type" : "COMESTIBLE",
@@ -3887,7 +3887,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "meat_tainted",
-        "category": "other",
+        "category" : "other",
         "name" : "chunk of tainted meat",
         "name_plural" : "chunks of tainted meat",
         "weight" : 238,
@@ -3909,7 +3909,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "bone_tainted",
-        "category": "other",
+        "category" : "other",
         "name" : "tainted bone",
         "weight" : 212,
         "color" : "light_gray",
@@ -3949,7 +3949,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "fat_tainted",
-        "category": "other",
+        "category" : "other",
         "name" : "tainted fat",
         "weight" : 192,
         "color" : "yellow",
@@ -3971,7 +3971,7 @@
         "type" : "COMESTIBLE",
         "id" : "tallow_tainted",
         "name" : "tainted tallow",
-        "category": "other",
+        "category" : "other",
         "weight" : 128,
         "color" : "light_gray",
         "use_action" : "POISON",
@@ -3991,7 +3991,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "slime_scrap",
-        "category": "other",
+        "category" : "other",
         "name" : "blob glob",
         "weight" : 238,
         "color" : "dkgray",
@@ -4011,7 +4011,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "veggy_tainted",
-        "category": "other",
+        "category" : "other",
         "name" : "tainted veggy",
         "name_plural" : "tainted veggies",
         "weight" : 238,
@@ -5060,7 +5060,7 @@
         "healthy" : 1,
         "nutrition" : 10,
         "description" : "Plain and unseasoned popcorn.  Not as tasty as other kinds, but healthier as a result.",
-        "price": 115,
+        "price" : 115,
         "material" : "junk",
         "volume" : 1,
         "charges" : 3,
@@ -5081,7 +5081,7 @@
         "healthy" : -1,
         "nutrition" : 10,
         "description" : "Popcorn with salt added for extra flavor.",
-        "price": 115,
+        "price" : 115,
         "material" : "junk",
         "volume" : 1,
         "charges" : 3,
@@ -5102,7 +5102,7 @@
         "healthy" : -1,
         "nutrition" : 10,
         "description" : "Popcorn with a light covering of butter for extra flavor.",
-        "price": 115,
+        "price" : 115,
         "material" : "junk",
         "volume" : 1,
         "charges" : 3,
@@ -5219,7 +5219,7 @@
         "symbol" : "%",
         "quench" : 0,
         "healthy" : 0,
-        "nutrition" : 25, "//": "Same as the meat it's been made from.  It's additional ingredient compared to smoking, jerking, and dehydrating, so there's no incentive otherwise.",
+        "nutrition" : 25, "//" : "Same as the meat it's been made from.  It's additional ingredient compared to smoking, jerking, and dehydrating, so there's no incentive otherwise.",
         "description" : "A dish in which meat or fish is set into a gelatin made from a meat or vegetable stock.  This food will never spoil.",
         "price" : 2500,
         "material" : "flesh",
@@ -5250,7 +5250,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "hflesh_aspic",
-        "name" : "amoral aspic", "//": "See also: ableist, alogical, antihero, annoying, alliterate (made from illiterate person), antagonist, adversary, arrogant, asocial, the list goes on and on out from the chat where it began...",
+        "name" : "amoral aspic", "//" : "See also: ableist, alogical, antihero, annoying, alliterate (made from illiterate person), antagonist, adversary, arrogant, asocial, the list goes on and on out from the chat where it began...",
         "weight" : 175,
         "color" : "red",
         "comestible_type" : "FOOD",
@@ -5833,33 +5833,33 @@
         "fun" : 0
     },
     {
-        "type": "COMESTIBLE",
-        "id": "irradiated_blueberries",
-        "name": "irradiated blueberry",
-        "name_plural": "irradiated blueberries",
-        "weight": 200,
-        "color": "blue",
-        "container": "bag_plastic",
-        "comestible_type": "FOOD",
-        "symbol": "%",
-        "quench": 2,
-        "healthy": 1,
+        "type" : "COMESTIBLE",
+        "id" : "irradiated_blueberries",
+        "name" : "irradiated blueberry",
+        "name_plural" : "irradiated blueberries",
+        "weight" : 200,
+        "color" : "blue",
+        "container" : "bag_plastic",
+        "comestible_type" : "FOOD",
+        "symbol" : "%",
+        "quench" : 2,
+        "healthy" : 1,
         "nutrition" : 16,
-        "description": "An irradiated blueberry will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
-        "price": 410,
-        "material": "fruit",
-        "volume": 1,
-        "charges": 1,
-        "fun": 0
+        "description" : "An irradiated blueberry will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
+        "price" : 410,
+        "material" : "fruit",
+        "volume" : 1,
+        "charges" : 1,
+        "fun" : 0
     },
     {
         "type" : "COMESTIBLE",
         "id" : "seed_blueberries",
-        "category": "other",
+        "category" : "other",
         "price" : 120,
         "name" : "blueberry seed",
         "name_plural" : "blueberry seeds",
-        "comestible_type": "FOOD",
+        "comestible_type" : "FOOD",
         "symbol" : ".",
         "color" : "brown",
         "description" : "Some blueberry seeds.",
@@ -5868,10 +5868,10 @@
         "weight" : 1,
         "charges" : 4,
         "stack_size" : 100,
-        "seed_data": {
-            "plant_name": "blueberry",
-            "fruit": "blueberries",
-            "byproducts": [ "withered" ],
+        "seed_data" : {
+            "plant_name" : "blueberry",
+            "fruit" : "blueberries",
+            "byproducts" : [ "withered" ],
             "grow" : 91
         }
     },
@@ -5896,24 +5896,24 @@
         "fun" : 0
     },
     {
-        "type": "COMESTIBLE",
-        "id": "irradiated_strawberries",
-        "name": "irradiated strawberry",
-        "name_plural": "irradiated strawberries",
-        "weight": 200,
-        "color": "red",
-        "container": "bag_plastic",
-        "comestible_type": "FOOD",
-        "symbol": "%",
-        "quench": 3,
-        "healthy": 1,
+        "type" : "COMESTIBLE",
+        "id" : "irradiated_strawberries",
+        "name" : "irradiated strawberry",
+        "name_plural" : "irradiated strawberries",
+        "weight" : 200,
+        "color" : "red",
+        "container" : "bag_plastic",
+        "comestible_type" : "FOOD",
+        "symbol" : "%",
+        "quench" : 3,
+        "healthy" : 1,
         "nutrition" : 18,
-        "description": "An irradiated strawberry will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
-        "price": 410,
-        "material": "fruit",
-        "volume": 1,
-        "charges": 1,
-        "fun": 0
+        "description" : "An irradiated strawberry will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
+        "price" : 410,
+        "material" : "fruit",
+        "volume" : 1,
+        "charges" : 1,
+        "fun" : 0
     },
     {
         "type" : "COMESTIBLE",
@@ -5936,7 +5936,7 @@
     },
     {   "type" : "COMESTIBLE",
         "id" : "seed_strawberries",
-        "category": "other",
+        "category" : "other",
         "price" : 120,
         "name" : "strawberry seed",
         "name_plural" : "strawberry seeds",
@@ -5944,21 +5944,21 @@
         "color" : "brown",
         "description" : "Some strawberry seeds.",
         "material" : "fruit",
-        "comestible_type": "FOOD",
+        "comestible_type" : "FOOD",
         "volume" : 1,
         "weight" : 1,
         "charges" : 4,
         "stack_size" : 100,
-        "seed_data": {
-            "plant_name": "strawberry",
-            "fruit": "strawberries",
-            "byproducts": [ "withered" ],
+        "seed_data" : {
+            "plant_name" : "strawberry",
+            "fruit" : "strawberries",
+            "byproducts" : [ "withered" ],
             "grow" : 91
         }
     },
     {   "type" : "COMESTIBLE",
         "id" : "seed_blackberries",
-        "category": "other",
+        "category" : "other",
         "price" : 120,
         "name" : "blackberry seed",
         "name_plural" : "blackberry seeds",
@@ -5966,21 +5966,21 @@
         "color" : "brown",
         "description" : "Some blackberry seeds.",
         "material" : "fruit",
-        "comestible_type": "FOOD",
+        "comestible_type" : "FOOD",
         "volume" : 1,
         "weight" : 1,
         "charges" : 4,
         "stack_size" : 100,
-        "seed_data": {
-            "plant_name": "blackberry",
-            "fruit": "blackberries",
-            "byproducts": [ "withered" ],
+        "seed_data" : {
+            "plant_name" : "blackberry",
+            "fruit" : "blackberries",
+            "byproducts" : [ "withered" ],
             "grow" : 91
         }
     },
     {   "type" : "COMESTIBLE",
         "id" : "seed_cranberries",
-        "category": "other",
+        "category" : "other",
         "price" : 120,
         "name" : "cranberry seed",
         "name_plural" : "cranberry seeds",
@@ -5988,21 +5988,21 @@
         "color" : "brown",
         "description" : "Some cranberry seeds.",
         "material" : "fruit",
-        "comestible_type": "FOOD",
+        "comestible_type" : "FOOD",
         "volume" : 1,
         "weight" : 1,
         "charges" : 4,
         "stack_size" : 100,
-        "seed_data": {
-            "plant_name": "cranberry",
-            "fruit": "cranberries",
-            "byproducts": [ "withered" ],
+        "seed_data" : {
+            "plant_name" : "cranberry",
+            "fruit" : "cranberries",
+            "byproducts" : [ "withered" ],
             "grow" : 91
         }
     },
     {   "type" : "COMESTIBLE",
         "id" : "seed_raspberries",
-        "category": "other",
+        "category" : "other",
         "price" : 120,
         "name" : "raspberry seed",
         "name_plural" : "raspberry seeds",
@@ -6010,15 +6010,15 @@
         "color" : "brown",
         "description" : "Some raspberry seeds.",
         "material" : "fruit",
-        "comestible_type": "FOOD",
+        "comestible_type" : "FOOD",
         "volume" : 1,
         "weight" : 1,
         "charges" : 4,
         "stack_size" : 100,
-        "seed_data": {
-            "plant_name": "raspberry",
-            "fruit": "raspberries",
-            "byproducts": [ "withered" ],
+        "seed_data" : {
+            "plant_name" : "raspberry",
+            "fruit" : "raspberries",
+            "byproducts" : [ "withered" ],
             "grow" : 91
         }
     },
@@ -6044,7 +6044,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "seed_wheat",
-        "category": "other",
+        "category" : "other",
         "price" : 50,
         "name" : "wheat seed",
         "name_plural" : "wheat seeds",
@@ -6052,15 +6052,15 @@
         "color" : "brown",
         "description" : "Some wheat seeds.",
         "material" : "wheat",
-        "comestible_type": "FOOD",
+        "comestible_type" : "FOOD",
         "volume" : 1,
         "weight" : 5,
         "charges" : 4,
         "stack_size" : 40,
-        "seed_data": {
-            "plant_name": "wheat",
-            "fruit": "wheat",
-            "byproducts": [ "straw_pile" ],
+        "seed_data" : {
+            "plant_name" : "wheat",
+            "fruit" : "wheat",
+            "byproducts" : [ "straw_pile" ],
             "grow" : 120
         }
     },
@@ -6127,9 +6127,9 @@
     },
     {
         "type" : "COMESTIBLE",
-        "id": "hickory_nut_unshelled",
-        "name": "handful of shelled hickory nuts",
-        "name_plural": "handfuls of shelled hickory nuts",
+        "id" : "hickory_nut_unshelled",
+        "name" : "handful of shelled hickory nuts",
+        "name_plural" : "handfuls of shelled hickory nuts",
         "weight" : 190,
         "color" : "brown",
         "comestible_type" : "FOOD",
@@ -6137,7 +6137,7 @@
         "quench" : -5,
         "healthy" : 1,
         "nutrition" : 15,
-        "description": "A handful of raw hard nuts from a hickory tree, their shells have been removed.",
+        "description" : "A handful of raw hard nuts from a hickory tree, their shells have been removed.",
         "price" : 0,
         "material" : "veggy",
         "volume" : 1,
@@ -6208,7 +6208,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "seed_hops",
-        "category": "other",
+        "category" : "other",
         "price" : 160,
         "name" : "hop rhizome",
         "name_plural" : "hop rhizomes",
@@ -6216,15 +6216,15 @@
         "color" : "brown",
         "description" : "Roots of a hop plant, for growing your own.",
         "material" : "veggy",
-        "comestible_type": "FOOD",
+        "comestible_type" : "FOOD",
         "volume" : 1,
         "weight" : 152,
         "charges" : 2,
         "stack_size" : 8,
-        "seed_data": {
-            "plant_name": "hops",
-            "fruit": "hops",
-            "byproducts": [ "straw_pile" ],
+        "seed_data" : {
+            "plant_name" : "hops",
+            "fruit" : "hops",
+            "byproducts" : [ "straw_pile" ],
             "grow" : 120
         }
     },
@@ -6249,7 +6249,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "seed_barley",
-        "category": "other",
+        "category" : "other",
         "price" : 160,
         "name" : "barley seed",
         "name_plural" : "barley seeds",
@@ -6257,15 +6257,15 @@
         "color" : "brown",
         "description" : "Some barley seeds.",
         "material" : "veggy",
-        "comestible_type": "FOOD",
+        "comestible_type" : "FOOD",
         "volume" : 1,
         "weight" : 5,
         "charges" : 2,
         "stack_size" : 40,
-        "seed_data": {
-            "plant_name": "barley",
-            "fruit": "barley",
-            "byproducts": [ "straw_pile" ],
+        "seed_data" : {
+            "plant_name" : "barley",
+            "fruit" : "barley",
+            "byproducts" : [ "straw_pile" ],
             "grow" : 70
         }
     },
@@ -6291,7 +6291,7 @@
     },
     {   "type" : "COMESTIBLE",
         "id" : "seed_sugar_beet",
-        "category": "other",
+        "category" : "other",
         "price" : 120,
         "name" : "sugar beet seed",
         "name_plural" : "sugar beet seeds",
@@ -6299,14 +6299,14 @@
         "color" : "brown",
         "description" : "Some sugar beet seeds.",
         "material" : "veggy",
-        "comestible_type": "FOOD",
+        "comestible_type" : "FOOD",
         "volume" : 0,
         "weight" : 5,
         "charges" : 4,
         "stack_size" : 40,
-        "seed_data": {
-            "plant_name": "sugar beet",
-            "fruit": "sugar_beet",
+        "seed_data" : {
+            "plant_name" : "sugar beet",
+            "fruit" : "sugar_beet",
             "grow" : 90
         }
     },
@@ -6332,7 +6332,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "seed_lettuce",
-        "category": "other",
+        "category" : "other",
         "price" : 50,
         "name" : "lettuce seed",
         "name_plural" : "lettuce seeds",
@@ -6340,15 +6340,15 @@
         "color" : "brown",
         "description" : "Some lettuce seeds.",
         "material" : "veggy",
-        "comestible_type": "FOOD",
+        "comestible_type" : "FOOD",
         "volume" : 1,
         "weight" : 1,
         "charges" : 4,
         "stack_size" : 100,
-        "seed_data": {
-            "plant_name": "lettuce",
-            "fruit": "lettuce",
-            "byproducts": [ "withered" ],
+        "seed_data" : {
+            "plant_name" : "lettuce",
+            "fruit" : "lettuce",
+            "byproducts" : [ "withered" ],
             "grow" : 85
         }
     },
@@ -6374,7 +6374,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "seed_cabbage",
-        "category": "other",
+        "category" : "other",
         "price" : 50,
         "name" : "cabbage seed",
         "name_plural" : "cabbage seeds",
@@ -6382,15 +6382,15 @@
         "color" : "light_gray",
         "description" : "Some white cabbage seeds.",
         "material" : "veggy",
-        "comestible_type": "FOOD",
+        "comestible_type" : "FOOD",
         "volume" : 1,
         "weight" : 1,
         "charges" : 4,
         "stack_size" : 100,
-        "seed_data": {
-            "plant_name": "cabbage",
-            "fruit": "cabbage",
-            "byproducts": [ "withered" ],
+        "seed_data" : {
+            "plant_name" : "cabbage",
+            "fruit" : "cabbage",
+            "byproducts" : [ "withered" ],
             "grow" : 85
         }
     },
@@ -6417,7 +6417,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "seed_tomato",
-        "category": "other",
+        "category" : "other",
         "price" : 50,
         "name" : "tomato seed",
         "name_plural" : "tomato seeds",
@@ -6425,22 +6425,22 @@
         "color" : "brown",
         "description" : "Some tomato seeds.",
         "material" : "veggy",
-        "comestible_type": "FOOD",
+        "comestible_type" : "FOOD",
         "volume" : 1,
         "weight" : 1,
         "charges" : 4,
         "stack_size" : 100,
-        "seed_data": {
-            "plant_name": "tomato",
-            "fruit": "tomato",
-            "byproducts": [ "withered" ],
+        "seed_data" : {
+            "plant_name" : "tomato",
+            "fruit" : "tomato",
+            "byproducts" : [ "withered" ],
             "grow" : 65
         }
     },
     {
         "type" : "COMESTIBLE",
         "id" : "seed_cotton_boll",
-        "category": "other",
+        "category" : "other",
         "price" : 50,
         "name" : "cotton seed",
         "name_plural" : "cotton seeds",
@@ -6448,15 +6448,15 @@
         "color" : "brown",
         "description" : "Some cotton seeds.  Can be processed to produce an edible oil.",
         "material" : "veggy",
-        "comestible_type": "FOOD",
+        "comestible_type" : "FOOD",
         "volume" : 1,
         "weight" : 5,
         "charges" : 8,
         "stack_size" : 40,
-        "seed_data": {
-            "plant_name": "cotton",
-            "fruit": "cotton_boll",
-            "byproducts": [ "withered" ],
+        "seed_data" : {
+            "plant_name" : "cotton",
+            "fruit" : "cotton_boll",
+            "byproducts" : [ "withered" ],
             "grow" : 130
         }
     },
@@ -6534,7 +6534,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "seed_broccoli",
-        "category": "other",
+        "category" : "other",
         "price" : 50,
         "name" : "broccoli seed",
         "name_plural" : "broccoli seeds",
@@ -6542,15 +6542,15 @@
         "color" : "brown",
         "description" : "Some broccoli seeds.",
         "material" : "veggy",
-        "comestible_type": "FOOD",
+        "comestible_type" : "FOOD",
         "volume" : 1,
         "weight" : 1,
         "charges" : 4,
         "stack_size" : 100,
-        "seed_data": {
-            "plant_name": "broccoli",
-            "fruit": "broccoli",
-            "byproducts": [ "withered" ],
+        "seed_data" : {
+            "plant_name" : "broccoli",
+            "fruit" : "broccoli",
+            "byproducts" : [ "withered" ],
             "grow" : 75
         }
     },
@@ -6577,7 +6577,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "seed_zucchini",
-        "category": "other",
+        "category" : "other",
         "price" : 50,
         "name" : "zucchini seed",
         "name_plural" : "zucchini seeds",
@@ -6585,15 +6585,15 @@
         "color" : "brown",
         "description" : "Some zucchini seeds.",
         "material" : "veggy",
-        "comestible_type": "FOOD",
+        "comestible_type" : "FOOD",
         "volume" : 1,
         "weight" : 1,
         "charges" : 4,
         "stack_size" : 100,
-        "seed_data": {
-            "plant_name": "zucchini",
-            "fruit": "zucchini",
-            "byproducts": [ "withered" ],
+        "seed_data" : {
+            "plant_name" : "zucchini",
+            "fruit" : "zucchini",
+            "byproducts" : [ "withered" ],
             "grow" : 47
         }
     },
@@ -6620,7 +6620,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "seed_onion",
-        "category": "other",
+        "category" : "other",
         "price" : 50,
         "name" : "onion seed",
         "name_plural" : "onion seeds",
@@ -6628,15 +6628,15 @@
         "color" : "brown",
         "description" : "Some onion seeds.",
         "material" : "veggy",
-        "comestible_type": "FOOD",
+        "comestible_type" : "FOOD",
         "volume" : 1,
         "weight" : 1,
         "charges" : 4,
         "stack_size" : 100,
-        "seed_data": {
-            "plant_name": "onion",
-            "fruit": "onion",
-            "byproducts": [ "withered" ],
+        "seed_data" : {
+            "plant_name" : "onion",
+            "fruit" : "onion",
+            "byproducts" : [ "withered" ],
             "grow" : 65
         }
     },
@@ -6662,7 +6662,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "seed_garlic",
-        "category": "other",
+        "category" : "other",
         "price" : 50,
         "name" : "garlic clove",
         "name_plural" : "garlic cloves",
@@ -6670,7 +6670,7 @@
         "color" : "brown",
         "description" : "Cloves of garlic.  Useful as a seasoning, or for planting.",
         "material" : "veggy",
-        "comestible_type": "FOOD",
+        "comestible_type" : "FOOD",
         "quench" : -3,
         "healthy" : 0,
         "nutrition" : 3,
@@ -6679,10 +6679,10 @@
         "charges" : 6,
         "stack_size" : 6,
         "fun" : -3,
-        "seed_data": {
-            "plant_name": "garlic",
-            "fruit": "garlic",
-            "byproducts": [ "withered" ],
+        "seed_data" : {
+            "plant_name" : "garlic",
+            "fruit" : "garlic",
+            "byproducts" : [ "withered" ],
             "grow" : 65
         }
     },
@@ -6709,7 +6709,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "seed_carrot",
-        "category": "other",
+        "category" : "other",
         "price" : 50,
         "name" : "carrot seed",
         "name_plural" : "carrot seeds",
@@ -6717,15 +6717,15 @@
         "color" : "brown",
         "description" : "Some carrot seeds.",
         "material" : "veggy",
-        "comestible_type": "FOOD",
+        "comestible_type" : "FOOD",
         "volume" : 1,
         "weight" : 1,
         "charges" : 4,
         "stack_size" : 100,
-        "seed_data": {
-            "plant_name": "carrot",
-            "fruit": "carrot",
-            "byproducts": [ "withered" ],
+        "seed_data" : {
+            "plant_name" : "carrot",
+            "fruit" : "carrot",
+            "byproducts" : [ "withered" ],
             "grow" : 65
         }
     },
@@ -6753,7 +6753,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "seed_corn",
-        "category": "other",
+        "category" : "other",
         "price" : 50,
         "name" : "corn seed",
         "name_plural" : "corn seeds",
@@ -6761,15 +6761,15 @@
         "color" : "brown",
         "description" : "Some corn seeds.",
         "material" : "veggy",
-        "comestible_type": "FOOD",
+        "comestible_type" : "FOOD",
         "volume" : 1,
         "weight" : 1,
         "charges" : 4,
         "stack_size" : 100,
-        "seed_data": {
-            "plant_name": "corn",
-            "fruit": "corn",
-            "byproducts": [ "withered" ],
+        "seed_data" : {
+            "plant_name" : "corn",
+            "fruit" : "corn",
+            "byproducts" : [ "withered" ],
             "grow" : 80
         }
     },
@@ -7682,7 +7682,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "fetus",
-        "category": "other",
+        "category" : "other",
         "name" : "misshapen fetus",
         "name_plural" : "misshapen fetuses",
         "weight" : 760,
@@ -7705,7 +7705,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "arm",
-        "category": "other",
+        "category" : "other",
         "name" : "mutated arm",
         "weight" : 3767,
         "color" : "brown",
@@ -7727,7 +7727,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "leg",
-        "category": "other",
+        "category" : "other",
         "name" : "mutated leg",
         "weight" : 11071,
         "color" : "brown",
@@ -7827,9 +7827,9 @@
         "charges" : 1,
         "stack_size" : 10,
         "fun" : 30,
-        "seed_data": {
-            "fruit": "null", "//": "dummy entry, results are hardcoded",
-            "plant_name": "marloss berry",
+        "seed_data" : {
+            "fruit" : "null", "//" : "dummy entry, results are hardcoded",
+            "plant_name" : "marloss berry",
             "grow" : 91
         }
     },
@@ -7957,7 +7957,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "seed_oats",
-        "category": "other",
+        "category" : "other",
         "price" : 50,
         "name" : "oat seed",
         "name_plural" : "oat seeds",
@@ -7965,15 +7965,15 @@
         "color" : "brown",
         "description" : "Some oat seeds.",
         "material" : "wheat",
-        "comestible_type": "FOOD",
+        "comestible_type" : "FOOD",
         "volume" : 1,
         "weight" : 5,
         "charges" : 4,
         "stack_size" : 40,
-        "seed_data": {
-            "plant_name": "oats",
-            "fruit": "oats",
-            "byproducts": [ "withered" ],
+        "seed_data" : {
+            "plant_name" : "oats",
+            "fruit" : "oats",
+            "byproducts" : [ "withered" ],
             "grow" : 45
         }
     },
@@ -8725,17 +8725,17 @@
         "volume" : 1,
         "charges" : 1,
         "fun" : -1,
-        "seed_data": {
-            "plant_name": "beans",
-            "fruit": "raw_beans",
-            "byproducts": [ "withered" ],
+        "seed_data" : {
+            "plant_name" : "beans",
+            "fruit" : "raw_beans",
+            "byproducts" : [ "withered" ],
             "grow" : 91
         }
     },
     {
         "type" : "COMESTIBLE",
         "id" : "seed_potato_raw",
-        "category": "other",
+        "category" : "other",
         "price" : 50,
         "name" : "seed potato",
         "name_plural" : "seed potatoes",
@@ -8743,15 +8743,15 @@
         "color" : "brown",
         "description" : "Some seed potatoes.",
         "material" : "veggy",
-        "comestible_type": "FOOD",
+        "comestible_type" : "FOOD",
         "volume" : 1,
         "weight" : 20,
         "charges" : 4,
         "stack_size" : 10,
-        "seed_data": {
-            "plant_name": "potatoes",
-            "fruit": "potato_raw",
-            "byproducts": [ "withered" ],
+        "seed_data" : {
+            "plant_name" : "potatoes",
+            "fruit" : "potato_raw",
+            "byproducts" : [ "withered" ],
             "grow" : 95
         }
     },
@@ -9417,74 +9417,74 @@
         "fun" : 10
     },
     {
-        "id": "mre_beef_box",
-        "type": "GENERIC",
-        "symbol": ")",
-        "color": "brown",
-        "name": "MRE - Beef",
-        "name_plural": "MREs - beef",
-        "category": "food",
-        "description": "A 'Meal Ready to Eat' with an irradiated beef main course and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Disassemble it to get to its contents.",
-        "price": 1500,
-        "weight": 900,
-        "volume": 3,
-        "material": ["plastic", "null"]
+        "id" : "mre_beef_box",
+        "type" : "GENERIC",
+        "symbol" : ")",
+        "color" : "brown",
+        "name" : "MRE - Beef",
+        "name_plural" : "MREs - beef",
+        "category" : "food",
+        "description" : "A 'Meal Ready to Eat' with an irradiated beef main course and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Disassemble it to get to its contents.",
+        "price" : 1500,
+        "weight" : 900,
+        "volume" : 3,
+        "material" : ["plastic", "null"]
     },
     {
-        "id": "mre_veggy_box",
-        "type": "GENERIC",
-        "symbol": ")",
-        "color": "brown",
-        "name": "MRE - Vegetarian",
-        "name_plural": "MREs - vegetarian",
-        "category": "food",
-        "description": "A 'Meal Ready to Eat' with an irradiated vegetarian-friendly course and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Disassemble it to get to its contents.",
-        "price": 1500,
-        "weight": 900,
-        "volume": 3,
-        "material": ["plastic", "null"]
+        "id" : "mre_veggy_box",
+        "type" : "GENERIC",
+        "symbol" : ")",
+        "color" : "brown",
+        "name" : "MRE - Vegetarian",
+        "name_plural" : "MREs - vegetarian",
+        "category" : "food",
+        "description" : "A 'Meal Ready to Eat' with an irradiated vegetarian-friendly course and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Disassemble it to get to its contents.",
+        "price" : 1500,
+        "weight" : 900,
+        "volume" : 3,
+        "material" : ["plastic", "null"]
     },
     {
-        "id": "mre_chicken_box",
-        "type": "GENERIC",
-        "symbol": ")",
-        "color": "brown",
-        "name": "MRE - Chicken",
-        "name_plural": "MREs - chicken",
-        "category": "food",
-        "description": "A 'Meal Ready to Eat' with an irradiated chicken course and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Disassemble it to get to its contents.",
-        "price": 1500,
-        "weight": 900,
-        "volume": 3,
-        "material": ["plastic", "null"]
+        "id" : "mre_chicken_box",
+        "type" : "GENERIC",
+        "symbol" : ")",
+        "color" : "brown",
+        "name" : "MRE - Chicken",
+        "name_plural" : "MREs - chicken",
+        "category" : "food",
+        "description" : "A 'Meal Ready to Eat' with an irradiated chicken course and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Disassemble it to get to its contents.",
+        "price" : 1500,
+        "weight" : 900,
+        "volume" : 3,
+        "material" : ["plastic", "null"]
     },
     {
-        "id": "mre_hotdog_box",
-        "type": "GENERIC",
-        "symbol": ")",
-        "color": "brown",
-        "name": "MRE - Hotdogs",
-        "name_plural": "MREs - hotdogs",
-        "category": "food",
-        "description": "A 'Meal Rejected by the Enemy' with a hotdog main course and everything a desperate survivor needs.  The contents will begin to rot once they're removed from this sealed bag.  Disassemble it to get to its contents.",
-        "price": 1200,
-        "weight": 900,
-        "volume": 3,
-        "material": ["plastic", "null"]
+        "id" : "mre_hotdog_box",
+        "type" : "GENERIC",
+        "symbol" : ")",
+        "color" : "brown",
+        "name" : "MRE - Hotdogs",
+        "name_plural" : "MREs - hotdogs",
+        "category" : "food",
+        "description" : "A 'Meal Rejected by the Enemy' with a hotdog main course and everything a desperate survivor needs.  The contents will begin to rot once they're removed from this sealed bag.  Disassemble it to get to its contents.",
+        "price" : 1200,
+        "weight" : 900,
+        "volume" : 3,
+        "material" : ["plastic", "null"]
     },
     {
-        "id": "mre_ravioli_box",
-        "type": "GENERIC",
-        "symbol": ")",
-        "color": "brown",
-        "name": "MRE - Ravioli",
-        "name_plural": "MREs - ravioli",
-        "category": "food",
-        "description": "A 'Meal Ready to Eat' with a ravioli course and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Disassemble it to get to its contents.",
-        "price": 1700,
-        "weight": 900,
-        "volume": 3,
-        "material": ["plastic", "null"]
+        "id" : "mre_ravioli_box",
+        "type" : "GENERIC",
+        "symbol" : ")",
+        "color" : "brown",
+        "name" : "MRE - Ravioli",
+        "name_plural" : "MREs - ravioli",
+        "category" : "food",
+        "description" : "A 'Meal Ready to Eat' with a ravioli course and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Disassemble it to get to its contents.",
+        "price" : 1700,
+        "weight" : 900,
+        "volume" : 3,
+        "material" : ["plastic", "null"]
     },
     {
         "type" : "COMESTIBLE",
@@ -10014,7 +10014,7 @@
         "material" : "cotton",
         "volume" : 1,
         "charges" : 3,
-        "stack_size": 9,
+        "stack_size" : 9,
         "flags" : ["USE_ON_NPC"],
         "fun" : 0,
         "use_action" : {
@@ -10057,8 +10057,8 @@
             "long_action" : true,
             "effects" : [
                 {
-                    "id": "pkill1",
-                    "duration": 120
+                    "id" : "pkill1",
+                    "duration" : 120
                 }
             ]
         }
@@ -10154,7 +10154,7 @@
         "comestible_type" : "MED",
         "symbol" : "!",
         "quench" : 0,
-        "healthy": 0,
+        "healthy" : 0,
         "nutrition" : 0,
         "description" : "A syringe filled with a shot of adrenaline.  It serves as a powerful stimulant when you inject yourself with it.  Asthmatics can use it in an emergency to clear their asthma.",
         "price" : 3400,
@@ -10178,8 +10178,8 @@
             "activation_message" : "You take some aspirin.",
             "effects" : [
                 {
-                    "id": "pkill1",
-                    "duration": 120
+                    "id" : "pkill1",
+                    "duration" : 120
                 }
             ]
         },
@@ -10253,8 +10253,8 @@
             "activation_message" : "You take some potassium iodide.",
             "effects" : [
                 {
-                    "id": "iodine",
-                    "duration": 7200
+                    "id" : "iodine",
+                    "duration" : 7200
                 }
             ]},
         "comestible_type" : "MED",
@@ -10281,8 +10281,8 @@
             "activation_message" : "You take some Prussian blue.",
             "effects" : [
                 {
-                    "id": "pblue",
-                    "duration": 3600
+                    "id" : "pblue",
+                    "duration" : 3600
                 }
             ]},
         "comestible_type" : "MED",
@@ -10358,8 +10358,8 @@
             "activation_message" : "You take some codeine.",
             "effects" : [
                 {
-                    "id": "pkill2",
-                    "duration": 180
+                    "id" : "pkill2",
+                    "duration" : 180
                 }
             ]
         },
@@ -10390,12 +10390,12 @@
             "activation_message" : "You take some oxycodone.",
             "effects" : [
                 {
-                    "id": "pkill3",
-                    "duration": 20
+                    "id" : "pkill3",
+                    "duration" : 20
                 },
                 {
-                    "id": "pkill2",
-                    "duration": 200
+                    "id" : "pkill2",
+                    "duration" : 200
                 }
             ]
         },
@@ -10426,8 +10426,8 @@
             "activation_message" : "You take some tramadol.",
             "effects" : [
                 {
-                    "id": "pkill_l",
-                    "duration": 4500
+                    "id" : "pkill_l",
+                    "duration" : 4500
                 }
             ]
         },
@@ -10538,7 +10538,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "seed_weed",
-        "category": "other",
+        "category" : "other",
         "name" : "cannabis seed",
         "color" : "green",
         "use_action" : "SEED",
@@ -10555,9 +10555,9 @@
         "charges" : 2,
         "stack_size" : 100,
         "fun" : 0,
-        "seed_data": {
-            "plant_name": "cannabis",
-            "fruit": "cannabis",
+        "seed_data" : {
+            "plant_name" : "cannabis",
+            "fruit" : "cannabis",
             "grow" : 91
         }
     },
@@ -10622,12 +10622,12 @@
             "tools_needed" : { "syringe" : 1 },
             "effects" : [
                 {
-                    "id": "pkill3",
-                    "duration": 80
+                    "id" : "pkill3",
+                    "duration" : 80
                 },
                 {
-                    "id": "pkill2",
-                    "duration": 200
+                    "id" : "pkill2",
+                    "duration" : 200
                 }
             ]
         },
@@ -10659,12 +10659,12 @@
             "tools_needed" : { "syringe" : 1 },
             "effects" : [
                 {
-                    "id": "pkill3",
-                    "duration": 20
+                    "id" : "pkill3",
+                    "duration" : 20
                 },
                 {
-                    "id": "pkill2",
-                    "duration": 200
+                    "id" : "pkill2",
+                    "duration" : 200
                 }
             ]
         },
@@ -10719,7 +10719,7 @@
         "description" : "The smoke billowing from this cigar has a sweet, musty odor.",
         "price" : 0,
         "material" : "null",
-        "category": "drugs",
+        "category" : "drugs",
         "flags" : ["LITCIG", "TOBACCO", "LIGHT_4"]
     },
     {
@@ -10736,7 +10736,7 @@
         "description" : "A true gentleman always finishes his cigars.",
         "price" : 0,
         "material" : "null",
-        "category": "other"
+        "category" : "other"
     },
     {
         "type" : "COMESTIBLE",
@@ -10774,14 +10774,14 @@
         "description" : "The smell of skunk permeates the air as a thin trail of smoke floats off of this joint.",
         "price" : 0,
         "material" : "null",
-        "category": "drugs",
+        "category" : "drugs",
         "flags" : ["LITCIG", "LIGHT_4"]
     },
     {
         "type" : "COMESTIBLE",
         "id" : "joint_roach",
         "name" : "joint roach",
-        "name_plural": "joint roaches",
+        "name_plural" : "joint roaches",
         "weight" : 0,
         "color" : "green",
         "stim" : -10,
@@ -10801,7 +10801,7 @@
         "stack_size" : 1000,
         "bashing" : -1,
         "fun" : 12,
-        "category": "other"
+        "category" : "other"
     },
     {
         "type" : "COMESTIBLE",
@@ -10898,8 +10898,8 @@
             "activation_message" : "You take some poppy painkiller.",
             "effects" : [
                 {
-                    "id": "pkill2",
-                    "duration": 180
+                    "id" : "pkill2",
+                    "duration" : 180
                 }
             ]
         },
@@ -10930,11 +10930,11 @@
             "activation_message" : "You smoke your crack rocks.  Mother would be proud.",
             "effects" : [
                 {
-                    "id": "high",
-                    "duration": 15
+                    "id" : "high",
+                    "duration" : 15
                 }
             ],
-            "stat_adjustments": {"hunger" : -10},
+            "stat_adjustments" : {"hunger" : -10},
             "fields_produced" : {"fd_cracksmoke" : 2},
             "charges_needed" : { "fire" : 1 },
             "tools_needed" : { "apparatus" : -1 }
@@ -11013,129 +11013,129 @@
         }
     },
     {
-        "id": "mayonnaise",
-        "type": "COMESTIBLE",
-        "symbol": "~",
-        "color": "white",
-        "name": "mayonnaise",
-        "name_plural": "mayonnaise",
-        "description": "Good old mayo, tastes great on sandwiches.",
-        "price": 600,
+        "id" : "mayonnaise",
+        "type" : "COMESTIBLE",
+        "symbol" : "~",
+        "color" : "white",
+        "name" : "mayonnaise",
+        "name_plural" : "mayonnaise",
+        "description" : "Good old mayo, tastes great on sandwiches.",
+        "price" : 600,
         "material" : ["junk", "egg"],
-        "weight": 84,
-        "volume": 1,
-        "comestible_type": "DRINK",
-        "container": "bottle_plastic",
-        "quench": 15,
-        "nutrition": 15,
-        "spoils_in": 160,
-        "charges": 5,
-        "healthy": 0,
-        "fun": -5,
-        "phase": "liquid"
+        "weight" : 84,
+        "volume" : 1,
+        "comestible_type" : "DRINK",
+        "container" : "bottle_plastic",
+        "quench" : 15,
+        "nutrition" : 15,
+        "spoils_in" : 160,
+        "charges" : 5,
+        "healthy" : 0,
+        "fun" : -5,
+        "phase" : "liquid"
     },
     {
-        "id": "ketchup",
-        "type": "COMESTIBLE",
-        "symbol": "~",
-        "color": "red",
-        "name": "ketchup",
-        "description": "Good old ketchup, tastes great on hot dogs.",
-        "price": 6000,
+        "id" : "ketchup",
+        "type" : "COMESTIBLE",
+        "symbol" : "~",
+        "color" : "red",
+        "name" : "ketchup",
+        "description" : "Good old ketchup, tastes great on hot dogs.",
+        "price" : 6000,
         "material" : ["veggy", "junk"],
-        "weight": 51,
-        "volume": 1,
-        "comestible_type": "DRINK",
-        "container": "bottle_plastic",
-        "quench": 0,
-        "nutrition": 3,
-        "spoils_in": 600,
-        "charges": 5,
-        "healthy": 0,
-        "fun": -1,
-        "phase": "liquid"
+        "weight" : 51,
+        "volume" : 1,
+        "comestible_type" : "DRINK",
+        "container" : "bottle_plastic",
+        "quench" : 0,
+        "nutrition" : 3,
+        "spoils_in" : 600,
+        "charges" : 5,
+        "healthy" : 0,
+        "fun" : -1,
+        "phase" : "liquid"
     },
     {
-        "id": "mustard",
-        "type": "COMESTIBLE",
-        "symbol": "~",
-        "color": "yellow",
-        "name": "mustard",
-        "name_plural": "mustard",
-        "description": "Good old mustard, tastes great on hamburgers.",
-        "price": 500,
+        "id" : "mustard",
+        "type" : "COMESTIBLE",
+        "symbol" : "~",
+        "color" : "yellow",
+        "name" : "mustard",
+        "name_plural" : "mustard",
+        "description" : "Good old mustard, tastes great on hamburgers.",
+        "price" : 500,
         "material" : "junk",
-        "weight": 53,
-        "volume": 1,
-        "comestible_type": "DRINK",
-        "container": "bottle_plastic",
-        "quench": 10,
-        "nutrition": 10,
-        "charges": 5,
-        "healthy": 0,
-        "fun": 0,
-        "phase": "liquid"
+        "weight" : 53,
+        "volume" : 1,
+        "comestible_type" : "DRINK",
+        "container" : "bottle_plastic",
+        "quench" : 10,
+        "nutrition" : 10,
+        "charges" : 5,
+        "healthy" : 0,
+        "fun" : 0,
+        "phase" : "liquid"
     },
     {
-        "id": "honey_bottled",
-        "type": "COMESTIBLE",
-        "symbol": "~",
-        "color": "yellow",
-        "name": "forest honey",
-        "name_plural": "forest honey",
-        "description": "Honey, that stuff bees make.  This one is \"forest honey\", a liquid form of honey.  This honey won't spoil and is good for your digestion.",
-        "price": 800,
+        "id" : "honey_bottled",
+        "type" : "COMESTIBLE",
+        "symbol" : "~",
+        "color" : "yellow",
+        "name" : "forest honey",
+        "name_plural" : "forest honey",
+        "description" : "Honey, that stuff bees make.  This one is \"forest honey\", a liquid form of honey.  This honey won't spoil and is good for your digestion.",
+        "price" : 800,
         "material" : "honey",
-        "weight": 63,
-        "volume": 1,
-        "comestible_type": "DRINK",
-        "container": "bottle_plastic",
-        "quench": 2,
-        "nutrition": 7,
+        "weight" : 63,
+        "volume" : 1,
+        "comestible_type" : "DRINK",
+        "container" : "bottle_plastic",
+        "quench" : 2,
+        "nutrition" : 7,
         "charges" : 5,
         "healthy" : 1,
         "fun" : 3,
-        "phase": "liquid"
+        "phase" : "liquid"
     },
     {
-        "id": "honey_glassed",
-        "type": "COMESTIBLE",
-        "symbol": "~",
-        "color": "yellow",
-        "name": "candied honey",
-        "name_plural": "candied honey",
-        "description": "Honey, that stuff the bees make.  This variant is \"candied honey\", a variant of very thick consistence.  This honey won't spoil and is good for your digestion.",
-        "price": 800,
+        "id" : "honey_glassed",
+        "type" : "COMESTIBLE",
+        "symbol" : "~",
+        "color" : "yellow",
+        "name" : "candied honey",
+        "name_plural" : "candied honey",
+        "description" : "Honey, that stuff the bees make.  This variant is \"candied honey\", a variant of very thick consistence.  This honey won't spoil and is good for your digestion.",
+        "price" : 800,
         "material" : "honey",
-        "weight": 253,
-        "volume": 1,
-        "comestible_type": "FOOD",
-        "container": "jar_glass",
-        "quench": 1,
-        "nutrition": 8,
-        "charges": 5,
+        "weight" : 253,
+        "volume" : 1,
+        "comestible_type" : "FOOD",
+        "container" : "jar_glass",
+        "quench" : 1,
+        "nutrition" : 8,
+        "charges" : 5,
         "healthy" : 1,
-        "fun": 2
+        "fun" : 2
     },
     {
-        "id": "peanutbutter",
-        "type": "COMESTIBLE",
-        "symbol": "~",
-        "color": "brown",
-        "name": "peanut butter",
-        "description": "A brown goo that tastes very little like its namesake.  It's not bad, but it'll stick to the roof of your mouth.",
-        "price": 310, "//" : "Two charges per jar.",
+        "id" : "peanutbutter",
+        "type" : "COMESTIBLE",
+        "symbol" : "~",
+        "color" : "brown",
+        "name" : "peanut butter",
+        "description" : "A brown goo that tastes very little like its namesake.  It's not bad, but it'll stick to the roof of your mouth.",
+        "price" : 310, "//" : "Two charges per jar.",
         "material" : "null",
-        "weight": 50,
-        "volume": 1,
-        "comestible_type": "DRINK",
-        "container": "jar_glass",
-        "quench": -2,
-        "nutrition": 5,
-        "charges": 5,
-        "healthy": 0,
-        "fun": 0,
-        "phase": "liquid",
+        "weight" : 50,
+        "volume" : 1,
+        "comestible_type" : "DRINK",
+        "container" : "jar_glass",
+        "quench" : -2,
+        "nutrition" : 5,
+        "charges" : 5,
+        "healthy" : 0,
+        "fun" : 0,
+        "phase" : "liquid",
         "flags" : ["USE_EAT_VERB"]
     },
     {
@@ -11742,8 +11742,8 @@
             "activation_message" : "You eat the pink tablet.",
             "effects" : [
                 {
-                    "id": "hallu",
-                    "duration": 3600
+                    "id" : "hallu",
+                    "duration" : 3600
                 }
             ]
         },
@@ -11766,7 +11766,7 @@
         "id" : "gum",
         "name" : "chewing gum",
         "name_plural" : "chewing gum",
-        "category": "food",
+        "category" : "food",
         "weight" : 3,
         "color" : "pink",
         "use_action" : "CHEW",
@@ -11834,7 +11834,7 @@
         "type" : "COMESTIBLE",
         "id" : "caff_gum",
         "name" : "caffeinated chewing gum",
-        "category": "food",
+        "category" : "food",
         "weight" : 3,
         "color" : "white",
         "use_action" : "CHEW",
@@ -11856,7 +11856,7 @@
         "type" : "COMESTIBLE",
         "id" : "vinegar",
         "name" : "vinegar",
-        "name_plural": "vinegar",
+        "name_plural" : "vinegar",
         "weight" : 127,
         "color" : "white",
         "container" : "jug_plastic",
@@ -12036,7 +12036,7 @@
     },
     {   "type" : "AMMO",
         "id" : "fungal_seeds",
-        "category": "other",
+        "category" : "other",
         "price" : 100,
         "name" : "fungal seed",
         "symbol" : ".",
@@ -12052,9 +12052,9 @@
         "recoil" : 0,
         "count" : 1,
         "stack_size" : 8,
-        "seed_data": {
-            "fruit": "null", "//": "dummy entry, results are hardcoded",
-            "plant_name": "fungal flower",
+        "seed_data" : {
+            "fruit" : "null", "//" : "dummy entry, results are hardcoded",
+            "plant_name" : "fungal flower",
             "grow" : 91
         }
     },
@@ -12141,23 +12141,23 @@
         "fun" : 2
     },
     {
-        "type": "COMESTIBLE",
-        "id": "irradiated_grapefruit",
-        "name": "irradiated grapefruit",
-        "weight": 200,
-        "color": "yellow",
-        "container": "bag_plastic",
-        "comestible_type": "FOOD",
-        "symbol": "%",
-        "quench": 18,
-        "healthy": 5,
-        "nutrition": 35,
-        "description": "An irradiated grapefruit will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
-        "price": 200,
-        "material": "fruit",
-        "volume": 1,
-        "charges": 1,
-        "fun": 2
+        "type" : "COMESTIBLE",
+        "id" : "irradiated_grapefruit",
+        "name" : "irradiated grapefruit",
+        "weight" : 200,
+        "color" : "yellow",
+        "container" : "bag_plastic",
+        "comestible_type" : "FOOD",
+        "symbol" : "%",
+        "quench" : 18,
+        "healthy" : 5,
+        "nutrition" : 35,
+        "description" : "An irradiated grapefruit will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
+        "price" : 200,
+        "material" : "fruit",
+        "volume" : 1,
+        "charges" : 1,
+        "fun" : 2
     },
     {
         "type" : "COMESTIBLE",
@@ -12180,8 +12180,8 @@
     },{
         "type" : "COMESTIBLE",
         "id" : "coffee_bean",
-        "category": "other",
-        "container": "bag_plastic",
+        "category" : "other",
+        "container" : "bag_plastic",
         "price" : 50,
         "name" : "coffee beans",
         "name_plural" : "coffee beans",
@@ -12189,8 +12189,8 @@
         "color" : "brown",
         "description" : "Some coffee beans, can be roasted.",
         "material" : "null",
-        "comestible_type": "FOOD",
-        "addiction_type": "caffeine",
+        "comestible_type" : "FOOD",
+        "addiction_type" : "caffeine",
         "volume" : 1,
         "charges" : 1,
         "stack_size" : 40,
@@ -12198,8 +12198,8 @@
     },{
         "type" : "COMESTIBLE",
         "id" : "roasted_coffee_bean",
-        "category": "other",
-        "container": "bag_plastic",
+        "category" : "other",
+        "container" : "bag_plastic",
         "price" : 50,
         "name" : "roasted coffee beans",
         "name_plural" : "roasted coffee beans",
@@ -12207,8 +12207,8 @@
         "color" : "brown",
         "description" : "Some roasted coffee beans, can be ground into powder.",
         "material" : "null",
-        "comestible_type": "FOOD",
-        "addiction_type": "caffeine",
+        "comestible_type" : "FOOD",
+        "addiction_type" : "caffeine",
         "volume" : 1,
         "charges" : 1,
         "stack_size" : 40,
@@ -12234,24 +12234,24 @@
         "fun" : 3
     },
     {
-        "type": "COMESTIBLE",
-        "id": "irradiated_cherries",
-        "name": "irradiated cherry",
-        "name_plural": "irradiated cherries",
-        "weight": 200,
-        "color": "red",
-        "container": "bag_plastic",
-        "comestible_type": "FOOD",
-        "symbol": "%",
-        "quench": 2,
-        "healthy": 1,
-        "nutrition": 14,
-        "description": "An irradiated cherry will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
-        "price": 140,
-        "material": "fruit",
-        "volume": 1,
-        "charges": 1,
-        "fun": 3
+        "type" : "COMESTIBLE",
+        "id" : "irradiated_cherries",
+        "name" : "irradiated cherry",
+        "name_plural" : "irradiated cherries",
+        "weight" : 200,
+        "color" : "red",
+        "container" : "bag_plastic",
+        "comestible_type" : "FOOD",
+        "symbol" : "%",
+        "quench" : 2,
+        "healthy" : 1,
+        "nutrition" : 14,
+        "description" : "An irradiated cherry will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
+        "price" : 140,
+        "material" : "fruit",
+        "volume" : 1,
+        "charges" : 1,
+        "fun" : 3
     },
     {
         "type" : "COMESTIBLE",
@@ -12312,24 +12312,24 @@
         "fun" : 4
     },
     {
-        "type": "COMESTIBLE",
-        "id": "irradiated_grapes",
-        "name": "irradiated grape",
-        "name_plural": "irradiated grapes",
-        "weight": 300,
-        "color": "light_green",
-        "container": "bag_plastic",
-        "comestible_type": "FOOD",
-        "symbol": "%",
-        "quench": 5,
-        "healthy": 2,
-        "nutrition": 18,
-        "description": "An irradiated grape will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
-        "price": 170,
-        "material": "fruit",
-        "volume": 1,
-        "charges": 2,
-        "fun": 4
+        "type" : "COMESTIBLE",
+        "id" : "irradiated_grapes",
+        "name" : "irradiated grape",
+        "name_plural" : "irradiated grapes",
+        "weight" : 300,
+        "color" : "light_green",
+        "container" : "bag_plastic",
+        "comestible_type" : "FOOD",
+        "symbol" : "%",
+        "quench" : 5,
+        "healthy" : 2,
+        "nutrition" : 18,
+        "description" : "An irradiated grape will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
+        "price" : 170,
+        "material" : "fruit",
+        "volume" : 1,
+        "charges" : 2,
+        "fun" : 4
     },
     {
         "type" : "COMESTIBLE",
@@ -12472,24 +12472,24 @@
         "fun" : 0
     },
     {
-        "type": "COMESTIBLE",
-        "id": "irradiated_cranberries",
-        "name": "irradiated cranberry",
-        "name_plural": "irradiated cranberries",
-        "weight": 340,
-        "color": "red",
-        "container": "bag_plastic",
-        "comestible_type": "FOOD",
-        "symbol": "%",
-        "quench": 2,
-        "healthy": 4,
-        "nutrition": 5,
-        "description": "An irradiated cranberry will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
-        "price": 190,
-        "material": "fruit",
-        "volume": 1,
-        "charges": 3,
-        "fun": 0
+        "type" : "COMESTIBLE",
+        "id" : "irradiated_cranberries",
+        "name" : "irradiated cranberry",
+        "name_plural" : "irradiated cranberries",
+        "weight" : 340,
+        "color" : "red",
+        "container" : "bag_plastic",
+        "comestible_type" : "FOOD",
+        "symbol" : "%",
+        "quench" : 2,
+        "healthy" : 4,
+        "nutrition" : 5,
+        "description" : "An irradiated cranberry will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
+        "price" : 190,
+        "material" : "fruit",
+        "volume" : 1,
+        "charges" : 3,
+        "fun" : 0
     },
     {
         "type" : "COMESTIBLE",
@@ -12642,7 +12642,7 @@
         "weight" : 288,
         "color" : "light_gray",
         "comestible_type" : "DRINK",
-        "container": "bottle_plastic",
+        "container" : "bottle_plastic",
         "symbol" : "%",
         "quench" : 40,
         "healthy" : 2,
@@ -12664,7 +12664,7 @@
         "weight" : 288,
         "color" : "light_gray",
         "comestible_type" : "DRINK",
-        "container": "bottle_plastic",
+        "container" : "bottle_plastic",
         "symbol" : "%",
         "quench" : 40,
         "healthy" : 2,
@@ -12685,7 +12685,7 @@
         "weight" : 322,
         "color" : "yellow",
         "comestible_type" : "DRINK",
-        "container": "bottle_plastic",
+        "container" : "bottle_plastic",
         "symbol" : "%",
         "quench" : 40,
         "healthy" : 4,
@@ -12706,7 +12706,7 @@
         "weight" : 322,
         "color" : "yellow",
         "comestible_type" : "DRINK",
-        "container": "bottle_plastic",
+        "container" : "bottle_plastic",
         "symbol" : "%",
         "quench" : 40,
         "healthy" : 4,
@@ -12823,24 +12823,24 @@
         "fun" : 4
     },
     {
-        "type": "COMESTIBLE",
-        "id": "irradiated_raspberries",
-        "name": "irradiated raspberry",
-        "name_plural": "irradiated raspberries",
-        "weight": 226,
-        "color": "red",
-        "container": "bag_plastic",
-        "comestible_type": "FOOD",
-        "symbol": "%",
-        "quench": 3,
-        "healthy": 2,
-        "nutrition": 15,
-        "description": "An irradiated raspberry will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
-        "price": 410,
-        "material": "fruit",
-        "volume": 1,
-        "charges": 1,
-        "fun": 4
+        "type" : "COMESTIBLE",
+        "id" : "irradiated_raspberries",
+        "name" : "irradiated raspberry",
+        "name_plural" : "irradiated raspberries",
+        "weight" : 226,
+        "color" : "red",
+        "container" : "bag_plastic",
+        "comestible_type" : "FOOD",
+        "symbol" : "%",
+        "quench" : 3,
+        "healthy" : 2,
+        "nutrition" : 15,
+        "description" : "An irradiated raspberry will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
+        "price" : 410,
+        "material" : "fruit",
+        "volume" : 1,
+        "charges" : 1,
+        "fun" : 4
     },
     {
         "type" : "COMESTIBLE",
@@ -12883,24 +12883,24 @@
         "fun" : 4
     },
     {
-        "type": "COMESTIBLE",
-        "id": "irradiated_blackberries",
-        "name": "irradiated blackberry",
-        "name_plural": "irradiated blackberries",
-        "weight": 226,
-        "color": "blue",
-        "container": "bag_plastic",
-        "comestible_type": "FOOD",
-        "symbol": "%",
-        "quench": 3,
-        "healthy": 5,
-        "nutrition": 15,
-        "description": "An irradiated blackberry will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
-        "price": 410,
-        "material": "fruit",
-        "volume": 1,
-        "charges": 1,
-        "fun": 4
+        "type" : "COMESTIBLE",
+        "id" : "irradiated_blackberries",
+        "name" : "irradiated blackberry",
+        "name_plural" : "irradiated blackberries",
+        "weight" : 226,
+        "color" : "blue",
+        "container" : "bag_plastic",
+        "comestible_type" : "FOOD",
+        "symbol" : "%",
+        "quench" : 3,
+        "healthy" : 5,
+        "nutrition" : 15,
+        "description" : "An irradiated blackberry will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
+        "price" : 410,
+        "material" : "fruit",
+        "volume" : 1,
+        "charges" : 1,
+        "fun" : 4
     },
     {
         "type" : "COMESTIBLE",
@@ -13667,8 +13667,8 @@
     {   "type" : "COMESTIBLE",
         "id" : "datura_seed",
         "name" : "datura seeds",
-        "name_plural": "datura seeds",
-        "category": "other",
+        "name_plural" : "datura seeds",
+        "category" : "other",
         "weight" : 2,
         "color" : "brown",
         "use_action" : "DATURA",
@@ -13685,10 +13685,10 @@
         "charges" : 4,
         "stack_size" : 100,
         "fun" : -1,
-        "seed_data": {
-            "plant_name": "datura",
-            "fruit": "datura_seed",
-            "byproducts": [ "withered" ],
+        "seed_data" : {
+            "plant_name" : "datura",
+            "fruit" : "datura_seed",
+            "byproducts" : [ "withered" ],
             "grow" : 91
         }
     },
@@ -13792,7 +13792,7 @@
     },{
         "type" : "COMESTIBLE",
         "id" : "seed_cucumber",
-        "category": "other",
+        "category" : "other",
         "price" : 50,
         "name" : "cucumber seed",
         "name_plural" : "cucumber seeds",
@@ -13800,15 +13800,15 @@
         "color" : "brown",
         "description" : "Some cucumber seeds.",
         "material" : "veggy",
-        "comestible_type": "FOOD",
+        "comestible_type" : "FOOD",
         "volume" : 1,
         "weight" : 1,
         "charges" : 4,
         "stack_size" : 100,
-        "seed_data": {
-            "plant_name": "cucumber",
-            "fruit": "cucumber",
-            "byproducts": [ "withered" ],
+        "seed_data" : {
+            "plant_name" : "cucumber",
+            "fruit" : "cucumber",
+            "byproducts" : [ "withered" ],
             "grow" : 60
         }
     },{
@@ -13851,7 +13851,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "seed_celery",
-        "category": "other",
+        "category" : "other",
         "price" : 50,
         "name" : "celery seed",
         "name_plural" : "celery seeds",
@@ -13859,15 +13859,15 @@
         "color" : "brown",
         "description" : "Some celery seeds.",
         "material" : "veggy",
-        "comestible_type": "FOOD",
+        "comestible_type" : "FOOD",
         "volume" : 1,
         "weight" : 1,
         "charges" : 4,
         "stack_size" : 100,
-        "seed_data": {
-            "plant_name": "celery",
-            "fruit": "celery",
-            "byproducts": [ "withered" ],
+        "seed_data" : {
+            "plant_name" : "celery",
+            "fruit" : "celery",
+            "byproducts" : [ "withered" ],
             "grow" : 130
         }
     },
@@ -13928,47 +13928,47 @@
         "fun" : 0
     },
     {
-        "id": "soysauce",
-        "type": "COMESTIBLE",
-        "symbol": "~",
-        "color": "brown",
-        "name": "soy sauce",
-        "name_plural": "soy sauce",
-        "description": "Salty fermented soybean sauce.",
-        "price": 190,
+        "id" : "soysauce",
+        "type" : "COMESTIBLE",
+        "symbol" : "~",
+        "color" : "brown",
+        "name" : "soy sauce",
+        "name_plural" : "soy sauce",
+        "description" : "Salty fermented soybean sauce.",
+        "price" : 190,
         "material" : "null",
-        "weight": 24,
-        "volume": 1,
-        "comestible_type": "DRINK",
-        "container": "bottle_glass",
-        "quench": -20,
-        "nutrition": 0,
-        "charges": 10,
-        "healthy": -1,
-        "fun": -15,
-        "phase": "liquid"
+        "weight" : 24,
+        "volume" : 1,
+        "comestible_type" : "DRINK",
+        "container" : "bottle_glass",
+        "quench" : -20,
+        "nutrition" : 0,
+        "charges" : 10,
+        "healthy" : -1,
+        "fun" : -15,
+        "phase" : "liquid"
     },
     {
-        "id": "horseradish",
-        "type": "COMESTIBLE",
-        "symbol": "~",
-        "color": "white",
-        "name": "horseradish",
-        "name_plural": "horseradish",
-        "description": "A spicy grated root vegetable packed in vinegared brine.",
-        "price": 150,
+        "id" : "horseradish",
+        "type" : "COMESTIBLE",
+        "symbol" : "~",
+        "color" : "white",
+        "name" : "horseradish",
+        "name_plural" : "horseradish",
+        "description" : "A spicy grated root vegetable packed in vinegared brine.",
+        "price" : 150,
         "material" : "null",
-        "weight": 18,
-        "volume": 1,
-        "comestible_type": "FOOD",
-        "container": "jar_glass",
-        "quench": -10,
-        "nutrition": 2,
-        "charges": 25,
-        "healthy": 1,
-        "fun": -20,
-        "stim": 1,
-        "phase": "liquid"
+        "weight" : 18,
+        "volume" : 1,
+        "comestible_type" : "FOOD",
+        "container" : "jar_glass",
+        "quench" : -10,
+        "nutrition" : 2,
+        "charges" : 25,
+        "healthy" : 1,
+        "fun" : -20,
+        "stim" : 1,
+        "phase" : "liquid"
     },
     {
         "type" : "COMESTIBLE",
@@ -14135,7 +14135,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "dry_meat_tainted",
-        "category": "other",
+        "category" : "other",
         "name" : "dehydrated tainted meat",
         "weight" : 56,
         "color" : "red",
@@ -14155,7 +14155,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "dry_veggy_tainted",
-        "category": "other",
+        "category" : "other",
         "name" : "dehydrated tainted veggy",
         "name_plural" : "dehydrated tainted veggies",
         "weight" : 44,
@@ -14280,7 +14280,7 @@
         "description" : "A carefully folded raw skin harvested from a fur-bearing animal.  It still has the fur attached.  You can cure it for storage and tanning, or eat it if you're desperate enough.",
         "price" : 50,
         "material" : ["fur", "flesh"],
-        "flags": ["NO_SALVAGE"],
+        "flags" : ["NO_SALVAGE"],
         "volume" : 5,
         "charges" : 1,
         "stack_size" : 1,
@@ -14303,7 +14303,7 @@
         "description" : "A carefully folded raw skin harvested from a fur-bearing unnatural creature.  It still has the fur attached and is poisonous.  You can cure it for storage and tanning.",
         "price" : 0,
         "material" : ["fur", "flesh"],
-        "flags": ["NO_SALVAGE"],
+        "flags" : ["NO_SALVAGE"],
         "volume" : 5,
         "charges" : 1,
         "stack_size" : 1,
@@ -14365,8 +14365,8 @@
             "activation_message" : "You use your sewer gas inhaler.",
             "effects" : [
                 {
-                    "id": "hallu",
-                    "duration": 2600
+                    "id" : "hallu",
+                    "duration" : 2600
                 }
             ]
         },
@@ -14837,7 +14837,7 @@
         "flags" : ["EATEN_HOT"],
         "fun" : 6
     },{
-        "type": "COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "thyme",
         "name" : "thyme",
         "description" : "A stalk of thyme.  Smells delicious.",
@@ -14858,22 +14858,22 @@
     },{
         "type" : "COMESTIBLE",
         "id" : "seed_thyme",
-        "category": "other",
+        "category" : "other",
         "price" : 120,
         "name" : "thyme seeds",
         "name_plural" : "thyme seeds",
         "symbol" : ".",
         "color" : "green",
         "description" : "Some thyme seeds.  You could probably plant these.",
-        "comestible_type": "FOOD",
+        "comestible_type" : "FOOD",
         "material" : "veggy",
         "volume" : 1,
         "weight" : 1,
         "charges" : 2,
         "stack_size" : 100,
-        "seed_data": {
-            "plant_name": "thyme",
-            "fruit": "thyme",
+        "seed_data" : {
+            "plant_name" : "thyme",
+            "fruit" : "thyme",
             "grow" : 91
         }
     },{
@@ -14908,7 +14908,7 @@
     },{   
         "type" : "COMESTIBLE",
         "id" : "seed_canola",
-        "category": "other",
+        "category" : "other",
         "price" : 120,
         "name" : "canola seeds",
         "name_plural" : "canola seeds",
@@ -14921,16 +14921,16 @@
         "weight" : 1,
         "charges" : 2,
         "stack_size" : 100,
-        "seed_data": {
-            "plant_name": "canola",
-            "fruit": "seed_canola",
-            "byproducts": [ "withered" ],
+        "seed_data" : {
+            "plant_name" : "canola",
+            "fruit" : "seed_canola",
+            "byproducts" : [ "withered" ],
             "grow" : 91
         }
     },{
         "type" : "COMESTIBLE",
         "id" : "seed_pumpkin",
-        "category": "other",
+        "category" : "other",
         "name" : "pumpkin seed",
         "weight" : 1,
         "color" : "green",
@@ -14947,17 +14947,17 @@
         "charges" : 2,
         "stack_size" : 100,
         "fun" : 0,
-        "seed_data": {
-            "plant_name": "pumpkin",
-            "fruit": "pumpkin",
-            "fruit_div": 3,
-            "byproducts": [ "withered" ],
+        "seed_data" : {
+            "plant_name" : "pumpkin",
+            "fruit" : "pumpkin",
+            "fruit_div" : 3,
+            "byproducts" : [ "withered" ],
             "grow" : 91
         }
     },{
         "type" : "COMESTIBLE",
         "id" : "seed_sunflower",
-        "category": "other",
+        "category" : "other",
         "name" : "sunflower seed",
         "weight" : 1,
         "color" : "green",
@@ -14974,14 +14974,14 @@
         "charges" : 2,
         "stack_size" : 100,
         "fun" : 0,
-        "seed_data": {
-            "plant_name": "sunflower",
-            "fruit": "seed_sunflower",
-            "byproducts": [ "withered" ],
+        "seed_data" : {
+            "plant_name" : "sunflower",
+            "fruit" : "seed_sunflower",
+            "byproducts" : [ "withered" ],
             "grow" : 91
         }
     },{
-        "type": "COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "canola",
         "name" : "canola",
         "description" : "A pretty stalk of canola.  Its seeds can be pressed into oil.",
@@ -15000,7 +15000,7 @@
         "charges" : 1,
         "price" : 0
 },{
-        "type": "COMESTIBLE",
+        "type" : "COMESTIBLE",
         "id" : "dogbane",
         "name" : "dogbane",
         "description" : "A stalk of dogbane.  It has very fibrous stems and is mildly poisonous.",
@@ -15022,7 +15022,7 @@
 },{   
         "type" : "COMESTIBLE",
         "id" : "seed_dogbane",
-        "category": "other",
+        "category" : "other",
         "price" : 120,
         "name" : "dogbane seeds",
         "name_plural" : "dogbane seeds",
@@ -15035,14 +15035,14 @@
         "weight" : 1,
         "charges" : 2,
         "stack_size" : 100,
-        "seed_data": {
-            "plant_name": "dogbane",
-            "fruit": "dogbane",
-            "byproducts": [ "withered" ],
+        "seed_data" : {
+            "plant_name" : "dogbane",
+            "fruit" : "dogbane",
+            "byproducts" : [ "withered" ],
             "grow" : 91
         }
 },{
-       "type": "COMESTIBLE",
+       "type" : "COMESTIBLE",
        "id" : "bee_balm",
        "name" : "bee balm",
        "description" : "A snow-white flower also known as wild bergamot.  Smells faintly of mint.",
@@ -15063,7 +15063,7 @@
 },{   
         "type" : "COMESTIBLE",
         "id" : "seed_bee_balm",
-        "category": "other",
+        "category" : "other",
         "price" : 120,
         "name" : "bee balm seeds",
         "name_plural" : "bee balm seeds",
@@ -15076,10 +15076,10 @@
         "weight" : 1,
         "charges" : 2,
         "stack_size" : 100,
-        "seed_data": {
-            "plant_name": "bee balm",
-            "fruit": "bee_balm",
-            "byproducts": [ "withered" ],
+        "seed_data" : {
+            "plant_name" : "bee balm",
+            "fruit" : "bee_balm",
+            "byproducts" : [ "withered" ],
             "grow" : 91
         }
 },{
@@ -15107,7 +15107,7 @@
        "flags" : ["EATEN_HOT"],
        "fun" : 1
 },{
-       "type": "COMESTIBLE",
+       "type" : "COMESTIBLE",
        "id" : "mugwort",
        "name" : "mugwort",
        "description" : "A stalk of mugwort.  Smells wonderful.",
@@ -15129,7 +15129,7 @@
 },{   
         "type" : "COMESTIBLE",
         "id" : "seed_mugwort",
-        "category": "other",
+        "category" : "other",
         "price" : 120,
         "name" : "mugwort seeds",
         "name_plural" : "mugwort seeds",
@@ -15142,9 +15142,9 @@
         "weight" : 1,
         "charges" : 2,
         "stack_size" : 100,
-        "seed_data": {
-            "plant_name": "mugwort",
-            "fruit": "mugwort",
+        "seed_data" : {
+            "plant_name" : "mugwort",
+            "fruit" : "mugwort",
             "grow" : 91
         }
 },{   
@@ -15172,7 +15172,7 @@
 },{   
         "type" : "COMESTIBLE",
         "id" : "seed_buckwheat",
-        "category": "other",
+        "category" : "other",
         "price" : 120,
         "name" : "buckwheat seeds",
         "name_plural" : "buckwheat seeds",
@@ -15185,16 +15185,16 @@
         "weight" : 1,
         "charges" : 2,
         "stack_size" : 100,
-        "seed_data": {
-            "plant_name": "buckwheat",
-            "fruit": "buckwheat",
-            "byproducts": [ "withered" ],
+        "seed_data" : {
+            "plant_name" : "buckwheat",
+            "fruit" : "buckwheat",
+            "byproducts" : [ "withered" ],
             "grow" : 91
         }
 },{   
         "type" : "COMESTIBLE",
         "id" : "seed_wild_herbs",
-        "category": "other",
+        "category" : "other",
         "price" : 120,
         "name" : "wild herb seeds",
         "name_plural" : "wild herb seeds",
@@ -15207,15 +15207,15 @@
         "weight" : 1,
         "charges" : 2,
         "stack_size" : 100,
-        "seed_data": {
-            "plant_name": "wild herb",
-            "fruit": "wild_herbs",
+        "seed_data" : {
+            "plant_name" : "wild herb",
+            "fruit" : "wild_herbs",
             "grow" : 91
         }
 },{   
         "type" : "COMESTIBLE",
         "id" : "seed_veggy_wild",
-        "category": "other",
+        "category" : "other",
         "price" : 120,
         "name" : "wild vegetable stems",
         "name_plural" : "wild vegetable stems",
@@ -15228,16 +15228,16 @@
         "weight" : 1,
         "charges" : 2,
         "stack_size" : 100,
-        "seed_data": {
-            "plant_name": "wild vegetable",
-            "fruit": "veggy_wild",
-            "byproducts": [ "withered" ],
+        "seed_data" : {
+            "plant_name" : "wild vegetable",
+            "fruit" : "veggy_wild",
+            "byproducts" : [ "withered" ],
             "grow" : 91
         }
 },{   
         "type" : "COMESTIBLE",
         "id" : "seed_raw_dandelion",
-        "category": "other",
+        "category" : "other",
         "price" : 120,
         "name" : "dandelion seeds",
         "name_plural" : "dandelion seeds",
@@ -15250,15 +15250,15 @@
         "weight" : 1,
         "charges" : 2,
         "stack_size" : 100,
-        "seed_data": {
-            "plant_name": "dandelion",
-            "fruit": "raw_dandelion",
+        "seed_data" : {
+            "plant_name" : "dandelion",
+            "fruit" : "raw_dandelion",
             "grow" : 91
         }
 },{   
         "type" : "COMESTIBLE",
         "id" : "seed_rhubarb",
-        "category": "other",
+        "category" : "other",
         "price" : 120,
         "name" : "rhubarb stems",
         "name_plural" : "rhubarb stems",
@@ -15271,16 +15271,16 @@
         "weight" : 1,
         "charges" : 2,
         "stack_size" : 100,
-        "seed_data": {
-            "plant_name": "rhubarb",
-            "fruit": "rhubarb",
-            "byproducts": [ "withered" ],
+        "seed_data" : {
+            "plant_name" : "rhubarb",
+            "fruit" : "rhubarb",
+            "byproducts" : [ "withered" ],
             "grow" : 91
         }
 },{   
         "type" : "COMESTIBLE",
         "id" : "seed_mushroom",
-        "category": "other",
+        "category" : "other",
         "price" : 120,
         "name" : "mushroom spores",
         "name_plural" : "mushroom spores",
@@ -15293,15 +15293,15 @@
         "weight" : 1,
         "charges" : 2,
         "stack_size" : 100,
-        "seed_data": {
-            "plant_name": "mushroom",
-            "fruit": "mushroom",
+        "seed_data" : {
+            "plant_name" : "mushroom",
+            "fruit" : "mushroom",
             "grow" : 91
         }
 },{   
         "type" : "COMESTIBLE",
         "id" : "seed_mushroom_morel",
-        "category": "other",
+        "category" : "other",
         "price" : 120,
         "name" : "morel mushroom spores",
         "name_plural" : "morel mushroom spores",
@@ -15314,15 +15314,15 @@
         "weight" : 1,
         "charges" : 2,
         "stack_size" : 100,
-        "seed_data": {
-            "plant_name": "morel mushroom",
-            "fruit": "mushroom_morel",
+        "seed_data" : {
+            "plant_name" : "morel mushroom",
+            "fruit" : "mushroom_morel",
             "grow" : 91
         }
 },{   
         "type" : "COMESTIBLE",
         "id" : "seed_mushroom_magic",
-        "category": "other",
+        "category" : "other",
         "price" : 120,
         "name" : "mushroom spores",
         "name_plural" : "mushroom spores",
@@ -15336,15 +15336,15 @@
         "charges" : 2,
         "stack_size" : 100,
         "flags" : "HIDDEN_HALLU",
-        "seed_data": {
-            "plant_name": "mushroom",
-            "fruit": "mushroom_magic",
+        "seed_data" : {
+            "plant_name" : "mushroom",
+            "fruit" : "mushroom_magic",
             "grow" : 91
         }
     },{
         "type" : "COMESTIBLE",
         "id" : "seed_mushroom_poison",
-        "category": "other",
+        "category" : "other",
         "price" : 120,
         "name" : "mushroom spores",
         "name_plural" : "mushroom spores",
@@ -15358,9 +15358,9 @@
         "charges" : 2,
         "stack_size" : 100,
         "flags" : "HIDDEN_POISON",
-        "seed_data": {
-            "plant_name": "mushroom",
-            "fruit": "mushroom_poison",
+        "seed_data" : {
+            "plant_name" : "mushroom",
+            "fruit" : "mushroom_poison",
             "grow" : 91
         }
     },{
@@ -15388,8 +15388,8 @@
             "move_cost" : 100,
             "effects" : [
                 {
-                    "id": "sleep",
-                    "duration": 1000
+                    "id" : "sleep",
+                    "duration" : 1000
                 }
             ],
             "used_up_item" : "rag"
@@ -15405,7 +15405,7 @@
         "comestible_type" : "DRINK",
         "symbol" : "~",
         "quench" : 25,
-        "healthy": 0,
+        "healthy" : 0,
         "nutrition" : 45,
         "description" : "Smooth and rich, this spoon-coating mix of milk, cream, and eggs is a popular traditional holiday drink.  While often spiked, it is still delicious on its own.  Meant to be stored cold, it will spoil rapidly.",
         "price" : 40,
