@@ -70,7 +70,8 @@ class options_manager : public JsonSerializer, public JsonDeserializer
 
                 //int map constructor
                 cOpt( const std::string sPageIn, const std::string sMenuTextIn, const std::string sTooltipIn,
-                      const std::map<int, std::string> mIntValuesIn, int iInitialIn, int iDefaultIn, copt_hide_t opt_hide = COPT_NO_HIDE );
+                      const std::map<int, std::string> mIntValuesIn, int iInitialIn, int iDefaultIn,
+                      copt_hide_t opt_hide = COPT_NO_HIDE );
 
                 //float constructor
                 cOpt( const std::string sPageIn, const std::string sMenuTextIn, const std::string sTooltipIn,
