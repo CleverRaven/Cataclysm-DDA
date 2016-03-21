@@ -3004,7 +3004,6 @@ int item::bash_resist( bool to_self ) const
     if( item_tags.count("kevlar_padded") > 0 ){
         k_padding = max_value / ( 1 + exp( stepness * ( get_thickness() - center_of_S )));
     }
-    std::vector<material_type*> mat_types = made_of_types();
     // Armor gets an additional multiplier.
     if( is_armor() ) {
         // base resistance
@@ -3013,11 +3012,14 @@ int item::bash_resist( bool to_self ) const
         eff_thickness = std::max( 1, get_thickness() - eff_damage );
     }
 
-    for (auto mat : mat_types) {
-        resist += mat->bash_resist();
+    const std::vector<material_type*> mat_types = made_of_types();
+    if( !mat_types.empty() ) {
+        for (auto mat : mat_types) {
+            resist += mat->bash_resist();
+        }
+        // Average based on number of materials.
+        resist /= mat_types.size();
     }
-    // Average based on number of materials.
-    resist /= mat_types.size();
 
     return lround((resist * eff_thickness * adjustment) + l_padding + k_padding);
 }
@@ -3048,7 +3050,6 @@ int item::cut_resist( bool to_self ) const
         static constexpr float center_of_S = 2.0f;
         k_padding = max_value / ( 1 + exp( stepness * ( get_thickness() - center_of_S )));
     }
-    std::vector<material_type*> mat_types = made_of_types();
     // Armor gets an additional multiplier.
     if( is_armor() ) {
         // base resistance
@@ -3057,11 +3058,14 @@ int item::cut_resist( bool to_self ) const
         eff_thickness = std::max( 1, get_thickness() - eff_damage );
     }
 
-    for( auto mat : mat_types ) {
-        resist += mat->cut_resist();
+    const std::vector<material_type*> mat_types = made_of_types();
+    if( !mat_types.empty() ) {
+        for( auto mat : mat_types ) {
+            resist += mat->cut_resist();
+        }
+        // Average based on number of materials.
+        resist /= mat_types.size();
     }
-    // Average based on number of materials.
-    resist /= mat_types.size();
 
     return lround((resist * eff_thickness * adjustment) + l_padding + k_padding);
 }
@@ -3084,15 +3088,18 @@ int item::acid_resist( bool to_self ) const
         return 0.0;
     }
 
-    std::vector<material_type*> mat_types = made_of_types();
-    // Not sure why cut and bash get an armor thickness bonus but acid doesn't,
-    // but such is the way of the code.
+    const std::vector<material_type*> mat_types = made_of_types();
+    if( !mat_types.empty() ) {
+        // Not sure why cut and bash get an armor thickness bonus but acid doesn't,
+        // but such is the way of the code.
 
-    for( auto mat : mat_types ) {
-        resist += mat->acid_resist();
+        for( auto mat : mat_types ) {
+            resist += mat->acid_resist();
+        }
+        // Average based on number of materials.
+        resist /= mat_types.size();
     }
-    // Average based on number of materials.
-    resist /= mat_types.size();
+
     const int env = get_env_resist();
     if( !to_self && env < 10 ) {
         // Low env protection means it doesn't prevent acid seeping in.
@@ -3109,13 +3116,15 @@ int item::fire_resist( bool to_self ) const
         return 0.0;
     }
 
-    std::vector<material_type*> mat_types = made_of_types();
-
-    for( auto mat : mat_types ) {
-        resist += mat->fire_resist();
+    const std::vector<material_type*> mat_types = made_of_types();
+    if( !mat_types.empty() ) {
+        for( auto mat : mat_types ) {
+            resist += mat->fire_resist();
+        }
+        // Average based on number of materials.
+        resist /= mat_types.size();
     }
-    // Average based on number of materials.
-    resist /= mat_types.size();
+
     const int env = get_env_resist();
     if( !to_self && env < 10 ) {
         // Iron resists immersion in magma, iron-clad knight won't.
