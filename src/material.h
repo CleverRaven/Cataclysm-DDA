@@ -8,9 +8,10 @@
 #include "damage.h" // damage_type
 #include "enums.h"
 #include "json.h"
+#include "string_id.h"
 
 class material_type;
-using material_id = std::string;
+using material_id = string_id<material_type>;
 
 typedef std::map<material_id, material_type> material_map;
 

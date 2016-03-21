@@ -180,7 +180,7 @@ classes = {
             { name = "is_wearing_on_bp", rval = "bool", args = { "string", "body_part" } },
             { name = "is_worn", rval = "bool", args = { "item" } },
             { name = "limb_color", rval = "int", args = { "body_part", "bool", "bool", "bool" } },
-            { name = "made_of", rval = "bool", args = { "string" } },
+            { name = "made_of", rval = "bool", args = { "material_id" } },
             { name = "mod_int_bonus", rval = nil, args = { "int" } },
             { name = "mod_stat", rval = nil, args = { "string", "int" } },
             { name = "move_effects", rval = "bool", args = { "bool" } },
@@ -1039,7 +1039,7 @@ classes = {
             { name = "liquid_units", rval = "int", args = { "int" } },
             { name = "load_info", rval = nil, args = { "string" } },
             { name = "made_of", rval = "bool", args = { "phase_id" } },
-            { name = "made_of", rval = "bool", args = { "string" } },
+            { name = "made_of", rval = "bool", args = { "material_id" } },
             { name = "magazine_current", rval = "item&", args = { } },
             { name = "magazine_current", rval = "item&", args = { } },
             { name = "magazine_default", rval = "string", args = { "bool" } },
@@ -1713,7 +1713,7 @@ classes = {
             { name = "knock_back_from", rval = nil, args = { "tripoint" } },
             { name = "load_info", rval = nil, args = { "string" } },
             { name = "made_of", rval = "bool", args = { "phase_id" } },
-            { name = "made_of", rval = "bool", args = { "string" } },
+            { name = "made_of", rval = "bool", args = { "material_id" } },
             { name = "make_ally", rval = nil, args = { "monster" } },
             { name = "make_friendly", rval = nil, args = { } },
             { name = "make_fungus", rval = "bool", args = { } },
@@ -1773,6 +1773,13 @@ classes = {
     },
     martialart = {
         string_id = "matype_id",
+        attributes = {
+        },
+        functions = {
+        }
+    },
+    material_type = {
+        string_id = "material_id",
         attributes = {
         },
         functions = {
@@ -1867,7 +1874,7 @@ classes = {
             { name = "get_meat_itype", rval = "string", args = { } },
             { name = "gibType", rval = "field_id", args = { } },
             { name = "has_flag", rval = "bool", args = { "string" } },
-            { name = "made_of", rval = "bool", args = { "string" } },
+            { name = "made_of", rval = "bool", args = { "material_id" } },
             { name = "has_special_attack", rval = "bool", args = { "string" } },
             { name = "in_category", rval = "bool", args = { "string" } },
             { name = "in_species", rval = "bool", args = { "species_id" } },

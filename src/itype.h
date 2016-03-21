@@ -29,7 +29,8 @@ using matec_id = string_id<ma_technique>;
 enum art_effect_active : int;
 enum art_charge : int;
 enum art_effect_passive : int;
-using material_id = std::string;
+class material_type;
+using material_id = string_id<material_type>;
 typedef std::string itype_id;
 typedef std::string ammotype;
 

@@ -22,7 +22,8 @@ class effect_type;
 using efftype_id = string_id<effect_type>;
 using ammotype = std::string;
 using itype_id = std::string;
-using material_id = std::string;
+class material_type;
+using material_id = string_id<material_type>;
 
 /**
  * Transform an item into a specific type.

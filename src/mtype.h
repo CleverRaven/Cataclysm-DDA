@@ -36,7 +36,8 @@ using species_id = string_id<species_type>;
 class effect_type;
 using efftype_id = string_id<effect_type>;
 class JsonArray;
-using material_id = std::string;
+class material_type;
+using material_id = string_id<material_type>;
 
 typedef std::string itype_id;
 

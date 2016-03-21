@@ -7,9 +7,21 @@
 
 #include <string>
 
+template<>
+bool string_id<material_type>::is_valid() const
+{
+    return material_type::has_material( *this );
+}
+
+template<>
+const material_type &string_id<material_type>::obj() const
+{
+    return *material_type::find_material( *this );
+}
+
 material_type::material_type()
 {
-    _ident = "null";
+    _ident = material_id( "null" );
     _name = "null";
     _salvage_id = "null";
     _salvage_multiplier = 1.0;
@@ -84,7 +96,7 @@ void material_type::load_material( JsonObject &jsobj )
 {
     material_type mat;
 
-    mat._ident = jsobj.get_string( "ident" );
+    mat._ident = material_id( jsobj.get_string( "ident" ) );
     mat._name = _( jsobj.get_string( "name" ).c_str() );
     mat._salvage_id = jsobj.get_string( "salvage_id", "null" );
     mat._salvage_multiplier = jsobj.get_float( "salvage_multiplier", 1.0 );
@@ -132,7 +144,7 @@ bool material_type::has_material( const material_id &ident )
 
 material_type *material_type::base_material()
 {
-    return material_type::find_material( "null" );
+    return material_type::find_material( material_id( "null" ) );
 }
 
 int material_type::dam_resist( damage_type damtype ) const
@@ -161,7 +173,7 @@ int material_type::dam_resist( damage_type damtype ) const
 
 bool material_type::is_null() const
 {
-    return ( _ident == "null" );
+    return ( _ident == material_id( "null" ) );
 }
 
 material_id material_type::ident() const

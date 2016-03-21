@@ -512,7 +512,7 @@ void Item_factory::check_definitions() const
         }
 
         for( auto mat_id : type->materials ) {
-            if( mat_id == "null" || !material_type::has_material(mat_id) ) {
+            if( mat_id.str() == "null" || !material_type::has_material(mat_id) ) {
                 msg << string_format("invalid material %s", mat_id.c_str()) << "\n";
             }
         }

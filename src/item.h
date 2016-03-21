@@ -27,7 +27,7 @@ using mtype_id = string_id<mtype>;
 struct islot_armor;
 struct use_function;
 class material_type;
-using material_id = std::string;
+using material_id = string_id<material_type>;
 class item_category;
 using ammotype = std::string;
 using itype_id = std::string;
