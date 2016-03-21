@@ -9031,7 +9031,7 @@ tripoint game::look_around( WINDOW *w_info, const tripoint &start_point,
 
             draw_ter( lp, true );
         }
-    } while (action != "QUIT" && action != "CONFIRM");
+    } while (action != "QUIT" && action != "CONFIRM" && (!select_zone || action != "SELECT"));
 
     if( m.has_zlevels() && lp.z != old_levz ) {
         m.build_map_cache( old_levz );
@@ -9047,7 +9047,7 @@ tripoint game::look_around( WINDOW *w_info, const tripoint &start_point,
     reenter_fullscreen();
     bVMonsterLookFire = true;
 
-    if( action == "CONFIRM" ) {
+    if( action == "CONFIRM" || ( select_zone && action == "SELECT" ) ) {
         return lp;
     }
 
