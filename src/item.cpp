@@ -3207,13 +3207,9 @@ const std::vector<std::string> &item::made_of() const
 
 std::vector<material_type*> item::made_of_types() const
 {
-    std::vector<std::string> materials_composed_of = made_of();
     std::vector<material_type*> material_types_composed_of;
-    material_type *next_material;
-
-    for (auto mat_id : materials_composed_of) {
-        next_material = material_type::find_material(mat_id);
-        material_types_composed_of.push_back(next_material);
+    for (auto mat_id : made_of()) {
+        material_types_composed_of.push_back(material_type::find_material(mat_id));
     }
     return material_types_composed_of;
 }
