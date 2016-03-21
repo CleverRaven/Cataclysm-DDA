@@ -15,6 +15,7 @@
 #include "int_id.h"
 #include "string_id.h"
 #include "rng.h"
+#include "enums.h"
 
 //TODO: include comments about how these variables work. Where are they used. Are they constant etc.
 #define CAMPSIZE 1
@@ -127,15 +128,6 @@ struct bash_params {
     bool success; // Was anything destroyed?
 
     bool bashed_solid; // Did we bash furniture, terrain or vehicle
-};
-
-enum visibility_type {
-  VIS_HIDDEN,
-  VIS_CLEAR,
-  VIS_LIT,
-  VIS_BOOMER,
-  VIS_DARK,
-  VIS_BOOMER_DARK
 };
 
 struct level_cache {

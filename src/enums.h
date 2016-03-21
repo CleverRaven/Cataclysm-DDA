@@ -76,6 +76,15 @@ namespace std{
     };
 }
 
+enum visibility_type {
+  VIS_HIDDEN,
+  VIS_CLEAR,
+  VIS_LIT,
+  VIS_BOOMER,
+  VIS_DARK,
+  VIS_BOOMER_DARK
+};
+
 enum special_game_id {
     SGAME_NULL = 0,
     SGAME_TUTORIAL,
