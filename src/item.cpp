@@ -3199,11 +3199,7 @@ bool item::is_two_handed( const player &u ) const
 
 const std::vector<std::string> &item::made_of() const
 {
-    const static std::vector<std::string> null_material = {"null"};
-    if( is_null() ) {
-        // pass, we're not made of anything at the moment.
-        return null_material;
-    } else if( is_corpse() ) {
+    if( is_corpse() ) {
         return corpse->mat;
     }
     return type->materials;
