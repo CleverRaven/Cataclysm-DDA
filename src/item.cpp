@@ -3266,7 +3266,7 @@ bool item::conductive() const
 
     // If any material does not resist electricity we are conductive.
     for (auto mat : made_of_types()) {
-        if (!mat->is_null() && mat->elec_resist() <= 0) {
+        if (mat->elec_resist() <= 0) {
             return true;
         }
     }
