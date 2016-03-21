@@ -8808,15 +8808,17 @@ tripoint game::look_around( WINDOW *w_info, const tripoint &start_point,
     ctxt.set_iso(true);
     ctxt.register_directions();
     ctxt.register_action("COORDINATE");
+    ctxt.register_action("LEVEL_UP");
+    ctxt.register_action("LEVEL_DOWN");
+    ctxt.register_action("TOGGLE_FAST_SCROLL");
     ctxt.register_action("SELECT");
+    if (!select_zone) {
+        ctxt.register_action("TRAVEL_TO");
+        ctxt.register_action("LIST_ITEMS");
+    }
     ctxt.register_action("CONFIRM");
     ctxt.register_action("QUIT");
-    ctxt.register_action("TOGGLE_FAST_SCROLL");
-    ctxt.register_action("LIST_ITEMS");
-    ctxt.register_action( "LEVEL_UP" );
-    ctxt.register_action( "LEVEL_DOWN" );
-    ctxt.register_action( "TRAVEL_TO" );
-    ctxt.register_action( "HELP_KEYBINDINGS" );
+    ctxt.register_action("HELP_KEYBINDINGS");
 
     const int old_levz = get_levz();
 
@@ -8962,7 +8964,7 @@ tripoint game::look_around( WINDOW *w_info, const tripoint &start_point,
 
         //Wait for input
         action = ctxt.handle_input();
-        if (action == "LIST_ITEMS" && !select_zone) {
+        if (action == "LIST_ITEMS") {
             list_items_monsters();
             draw_ter( lp, true );
 
