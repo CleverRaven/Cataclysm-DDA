@@ -555,7 +555,7 @@ void Item_factory::check_definitions() const
             }
         }
         for( auto &q : type->qualities ) {
-            if( !quality::has( q.first ) ) {
+            if( !q.first.is_valid() ) {
                 msg << string_format("item %s has unknown quality %s", type->id.c_str(), q.first.c_str()) << "\n";
             }
         }

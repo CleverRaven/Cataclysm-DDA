@@ -39,9 +39,10 @@ std::string quality::get_name( const quality_id &id )
     return id.str();
 }
 
-bool quality::has( const quality_id &id )
+template<>
+bool string_id<quality>::is_valid() const
 {
-    return qualities.count( id ) > 0;
+    return qualities.count( *this ) > 0;
 }
 
 std::string quality_requirement::to_string( int ) const
@@ -198,7 +199,7 @@ std::string requirement_data::list_missing() const
 
 void quality_requirement::check_consistency( const std::string &display_name ) const
 {
-    if( !quality::has( type ) ) {
+    if( !type.is_valid() ) {
         debugmsg( "Unknown quality %s in %s", type.c_str(), display_name.c_str() );
     }
 }
