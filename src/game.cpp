@@ -5053,11 +5053,11 @@ void game::draw()
 {
     // Draw map
     werase(w_terrain);
-    draw_sidebar();
     draw_ter();
     if( !is_draw_tiles_mode() ) {
         wrefresh(w_terrain);
     }
+    draw_sidebar();
 #ifdef TILES
     try_sdl_update();
 #endif // TILES
@@ -5321,15 +5321,11 @@ void game::draw_ter( const tripoint &center, const bool looking, const bool draw
                 ctxt.get_desc("QUIT").c_str() );
         popup(message, PF_NO_WAIT_ON_TOP);
     }
+    wrefresh(w_terrain);
 
     if( u.has_effect( effect_visuals ) || u.get_effect_int( effect_hot, bp_head ) > 1 ) {
         hallucinate( center );
     }
-    // Place the cursor over the player as is expected by screen readers.
-    wmove( w_terrain, POSY + g->u.pos().y - center.y, POSX + g->u.pos().x - center.x );
-
-    wrefresh(w_terrain);
-
 }
 
 tripoint game::get_veh_dir_indicator_location() const
