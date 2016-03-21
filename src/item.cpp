@@ -3229,14 +3229,7 @@ bool item::made_of_any( const std::vector<std::string> &mat_idents ) const
 bool item::only_made_of( const std::vector<std::string> &mat_idents ) const
 {
     for( auto target_material : made_of() ) {
-        bool found = false;
-        for( auto candidate_material : mat_idents ) {
-            if( candidate_material == target_material ) {
-                found = true;
-                break;
-            }
-        }
-        if( !found ) {
+        if( std::find( mat_idents.begin(), mat_idents.end(), target_material ) == mat_idents.end() ) {
             return false;
         }
     }
