@@ -8811,10 +8811,12 @@ tripoint game::look_around( WINDOW *w_info, const tripoint &start_point,
     ctxt.register_action("LEVEL_UP");
     ctxt.register_action("LEVEL_DOWN");
     ctxt.register_action("TOGGLE_FAST_SCROLL");
-    ctxt.register_action("SELECT");
-    if (!select_zone) {
+    if (select_zone) {
+        ctxt.register_action("SELECT");
+    } else {
         ctxt.register_action("TRAVEL_TO");
         ctxt.register_action("LIST_ITEMS");
+        ctxt.register_action("MOUSE_MOVE");
     }
     ctxt.register_action("CONFIRM");
     ctxt.register_action("QUIT");
@@ -8956,7 +8958,13 @@ tripoint game::look_around( WINDOW *w_info, const tripoint &start_point,
             wrefresh(w_info);
         }
 
+#ifndef TILES
+        // Required in ncurses mode to update selected terrain square with
+        // highlighted coloring. In TILES mode, the selected square isn't
+        // highlighted using this function, and it is too CPU-intensive to
+        // call repeatedly in a mouse event loop.
         wrefresh(w_terrain);
+#endif
 
         if (select_zone && has_first_point) {
             inp_mngr.set_timeout(BLINK_SPEED);
@@ -9033,7 +9041,7 @@ tripoint game::look_around( WINDOW *w_info, const tripoint &start_point,
 
             draw_ter( lp, true );
         }
-    } while (action != "QUIT" && action != "CONFIRM" && (!select_zone || action != "SELECT"));
+    } while (action != "QUIT" && action != "CONFIRM" && action != "SELECT");
 
     if( m.has_zlevels() && lp.z != old_levz ) {
         m.build_map_cache( old_levz );
@@ -9049,7 +9057,7 @@ tripoint game::look_around( WINDOW *w_info, const tripoint &start_point,
     reenter_fullscreen();
     bVMonsterLookFire = true;
 
-    if( action == "CONFIRM" || ( select_zone && action == "SELECT" ) ) {
+    if( action == "CONFIRM" || action == "SELECT" ) {
         return lp;
     }
 
