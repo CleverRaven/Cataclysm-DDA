@@ -44,13 +44,11 @@ struct bionic : public JsonSerializer, public JsonDeserializer {
     int         charge  = 0;
     char        invlet  = 'a';
     bool        powered = false;
-    // this map is stored because JSON definition of bionic can has multiple options
-    std::map<body_part, size_t> used_bodyparts;
 
     bionic()
         : id( "bio_batteries" ) { }
-    bionic( std::string pid, char pinvlet, std::map<body_part, size_t> bps )
-        : id( std::move( pid ) ), invlet( pinvlet ), used_bodyparts( std::move( bps ) ) { }
+    bionic( std::string pid, char pinvlet )
+        : id( std::move( pid ) ), invlet( pinvlet ) { }
 
     bionic_data const &info() const {
         return bionic_info( id );
@@ -67,7 +65,6 @@ void reset_bionics();
 void load_bionic( JsonObject &jsobj ); // load a bionic from JSON
 bool is_valid_bionic( std::string const &id );
 
-void bionics_install_failure( player *u, int difficulty, int success,
-                              std::map<body_part, size_t> const affected_bodyparts );
+void bionics_install_failure( player *u, int difficulty, int success );
 
 #endif

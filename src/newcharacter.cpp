@@ -452,7 +452,7 @@ int player::create(character_type type, std::string tempname)
     std::vector<std::string> prof_CBMs = g->u.prof->CBMs();
     for (std::vector<std::string>::const_iterator iter = prof_CBMs.begin();
          iter != prof_CBMs.end(); ++iter) {
-        add_bionic( *iter, bionic_info( *iter ).occupied_bodyparts );
+        add_bionic(*iter);
     }
     // Adjust current energy level to maximum
     power_level = max_power_level;
