@@ -1262,8 +1262,8 @@ void Item_factory::load_basic_info(JsonObject &jo, itype *new_item_template)
         new_item_template->color = color_from_string( jo.get_string( "color" ) );
     }
 
-    if( jo.has_member( "material" ) ) {
-        set_material_from_json( jo, "material", new_item_template );
+    for( auto &m : jo.get_tags( "material" ) ) {
+        new_item_template->materials.push_back( m );
     }
 
     if( jo.has_string( "phase" ) ) {
@@ -1413,20 +1413,6 @@ std::bitset<num_bp> Item_factory::flags_from_json(JsonObject &jo, const std::str
     }
 
     return flag;
-}
-
-void Item_factory::set_material_from_json( JsonObject& jo, std::string member,
-                                           itype *new_item_template )
-{
-    if( jo.has_array(member) ) {
-        JsonArray jarr = jo.get_array(member);
-        for( int i = 0; i < (int)jarr.size(); ++i ) {
-            std::string material_id = jarr.get_string(i);
-            new_item_template->materials.push_back( material_id );
-        }
-    } else if( jo.has_string(member) ) {
-        new_item_template->materials.push_back( jo.get_string(member) );
-    }
 }
 
 void Item_factory::reset()
