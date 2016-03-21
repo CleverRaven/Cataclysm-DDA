@@ -3253,10 +3253,6 @@ bool item::only_made_of( const std::vector<std::string> &mat_idents ) const
 
 bool item::made_of( const std::string &mat_ident ) const
 {
-    if( is_null() ) {
-        return false;
-    }
-
     const auto &materials = made_of();
     return std::find( materials.begin(), materials.end(), mat_ident ) != materials.end();
 }
