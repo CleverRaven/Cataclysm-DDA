@@ -8722,7 +8722,7 @@ void game::zones_manager()
         wrefresh(w_zones_border);
 
         //Wait for input
-        handle_mouseview(ctxt, action);
+        action = ctxt.handle_input();
     } while (action != "QUIT");
     inp_mngr.set_timeout(-1);
 
@@ -8960,79 +8960,75 @@ tripoint game::look_around( WINDOW *w_info, const tripoint &start_point,
         }
 
         //Wait for input
-        if (!handle_mouseview(ctxt, action)) {
-            // Our coordinates will either be determined by coordinate input(mouse),
-            // by a direction key, or by the previous value.
+        action = ctxt.handle_input();
+        if (action == "LIST_ITEMS" && !select_zone) {
+            list_items_monsters();
+            draw_ter( lp, true );
 
-            if (action == "LIST_ITEMS" && !select_zone) {
-                list_items_monsters();
-                draw_ter( lp, true );
-
-            } else if (action == "TOGGLE_FAST_SCROLL") {
-                fast_scroll = !fast_scroll;
-            } else if( action == "LEVEL_UP" || action == "LEVEL_DOWN" ) {
-                if( !allow_zlev_move ) {
-                    continue;
-                }
-
-                int new_levz = lp.z + ( action == "LEVEL_UP" ? 1 : -1 );
-                if( new_levz > OVERMAP_HEIGHT ) {
-                    new_levz = OVERMAP_HEIGHT;
-                } else if( new_levz < -OVERMAP_DEPTH ) {
-                    new_levz = -OVERMAP_DEPTH;
-                }
-
-                add_msg("levx: %d, levy: %d, levz :%d", get_levx(), get_levy(), new_levz );
-                u.view_offset.z = new_levz - u.posz();
-                lp.z = new_levz;
-                refresh_all();
-                draw_ter( lp, true );
-            } else if( action == "TRAVEL_TO" ) {
-                if( !u.sees( lp ) ) {
-                    add_msg(_("You can't see that destination."));
-                    continue;
-                }
-                auto route = m.route( u.pos(), lp, 0, 1000 );
-                if( route.size() > 1 ) {
-                    route.pop_back();
-                    u.set_destination( route );
-                } else {
-                    add_msg(m_info, _("You can't travel there."));
-                    continue;
-                }
-                return { INT_MIN, INT_MIN, INT_MIN };
-            } else if (!ctxt.get_coordinates(w_terrain, lx, ly)) {
-                int dx, dy;
-                ctxt.get_direction(dx, dy, action);
-
-                if (dx == -2) {
-                    dx = 0;
-                    dy = 0;
-                } else {
-                    if (fast_scroll) {
-                        dx *= soffset;
-                        dy *= soffset;
-                    }
-                }
-
-                lx += dx;
-                ly += dy;
-
-                //Keep cursor inside the reality bubble
-                if (lx < 0) {
-                    lx = 0;
-                } else if (lx > MAPSIZE * SEEX) {
-                    lx = MAPSIZE * SEEX;
-                }
-
-                if (ly < 0) {
-                    ly = 0;
-                } else if (ly > MAPSIZE * SEEY) {
-                    ly = MAPSIZE * SEEY;
-                }
-
-                draw_ter( lp, true );
+        } else if (action == "TOGGLE_FAST_SCROLL") {
+            fast_scroll = !fast_scroll;
+        } else if( action == "LEVEL_UP" || action == "LEVEL_DOWN" ) {
+            if( !allow_zlev_move ) {
+                continue;
             }
+
+            int new_levz = lp.z + ( action == "LEVEL_UP" ? 1 : -1 );
+            if( new_levz > OVERMAP_HEIGHT ) {
+                new_levz = OVERMAP_HEIGHT;
+            } else if( new_levz < -OVERMAP_DEPTH ) {
+                new_levz = -OVERMAP_DEPTH;
+            }
+
+            add_msg("levx: %d, levy: %d, levz :%d", get_levx(), get_levy(), new_levz );
+            u.view_offset.z = new_levz - u.posz();
+            lp.z = new_levz;
+            refresh_all();
+            draw_ter( lp, true );
+        } else if( action == "TRAVEL_TO" ) {
+            if( !u.sees( lp ) ) {
+                add_msg(_("You can't see that destination."));
+                continue;
+            }
+            auto route = m.route( u.pos(), lp, 0, 1000 );
+            if( route.size() > 1 ) {
+                route.pop_back();
+                u.set_destination( route );
+            } else {
+                add_msg(m_info, _("You can't travel there."));
+                continue;
+            }
+            return { INT_MIN, INT_MIN, INT_MIN };
+        } else if (!ctxt.get_coordinates(w_terrain, lx, ly)) {
+            int dx, dy;
+            ctxt.get_direction(dx, dy, action);
+
+            if (dx == -2) {
+                dx = 0;
+                dy = 0;
+            } else {
+                if (fast_scroll) {
+                    dx *= soffset;
+                    dy *= soffset;
+                }
+            }
+
+            lx += dx;
+            ly += dy;
+
+            //Keep cursor inside the reality bubble
+            if (lx < 0) {
+                lx = 0;
+            } else if (lx > MAPSIZE * SEEX) {
+                lx = MAPSIZE * SEEX;
+            }
+
+            if (ly < 0) {
+                ly = 0;
+            } else if (ly > MAPSIZE * SEEY) {
+                ly = MAPSIZE * SEEY;
+            }
+
+            draw_ter( lp, true );
         }
     } while (action != "QUIT" && action != "CONFIRM");
 
