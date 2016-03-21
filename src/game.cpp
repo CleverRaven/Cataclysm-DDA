@@ -8438,6 +8438,7 @@ void game::zones_manager()
     ctxt.register_action("SHOW_ZONE_ON_MAP");
     ctxt.register_action("ENABLE_ZONE");
     ctxt.register_action("DISABLE_ZONE");
+    ctxt.register_action("HELP_KEYBINDINGS");
 
     auto &zones = zone_manager::get_manager();
     int zone_num = zones.size();
