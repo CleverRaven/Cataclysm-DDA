@@ -2047,7 +2047,7 @@ void repair_item_actor::load( JsonObject &obj )
 }
 
 // TODO: This should be a property of material json, not a hardcoded hack
-const itype_id &material_component( const std::string &material_id )
+const itype_id &material_component( const std::string &id )
 {
     static const std::map< std::string, itype_id > material_id_map {
         // Metals (welded)
@@ -2068,7 +2068,7 @@ const itype_id &material_component( const std::string &material_id )
     };
 
     static const itype_id null_material = "";
-    const auto iter = material_id_map.find( material_id );
+    const auto iter = material_id_map.find( id );
     if( iter != material_id_map.end() ) {
         return iter->second;
     }
