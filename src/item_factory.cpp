@@ -554,10 +554,9 @@ void Item_factory::check_definitions() const
                 msg << string_format("snippet category %s without any snippets", type->id.c_str(), type->snippet_category.c_str()) << "\n";
             }
         }
-        for (std::map<std::string, int>::const_iterator a = type->qualities.begin();
-             a != type->qualities.end(); ++a) {
-            if( !quality::has( a->first ) ) {
-                msg << string_format("item %s has unknown quality %s", type->id.c_str(), a->first.c_str()) << "\n";
+        for( auto &q : type->qualities ) {
+            if( !quality::has( q.first ) ) {
+                msg << string_format("item %s has unknown quality %s", type->id.c_str(), q.first.c_str()) << "\n";
             }
         }
         if( type->default_container != "null" && !has_template( type->default_container ) ) {
