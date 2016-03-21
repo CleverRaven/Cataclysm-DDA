@@ -466,7 +466,6 @@ void game::init_ui()
     int locX, locY, locW, locH;
     int statX, statY, statW, statH;
     int stat2X, stat2Y, stat2W, stat2H;
-    int mouseview_y, mouseview_h, mouseview_w;
     int pixelminimapW, pixelminimapH, pixelminimapX, pixelminimapY;
 
     bool pixel_minimap_custom_height = false;
@@ -513,10 +512,6 @@ void game::init_ui()
         messY = stat2Y + stat2H;
         pixelminimapX = 0;
         pixelminimapY = messY + messHshort;
-
-        mouseview_y = messY + 7;
-        mouseview_h = TERRAIN_WINDOW_TERM_HEIGHT - mouseview_y - 5;
-        mouseview_w = sidebarWidth;
     } else {
         // standard sidebar style
         locH = 2;
@@ -557,10 +552,6 @@ void game::init_ui()
         stat2Y = statY + statH;
         stat2H = 1;
         stat2W = sidebarWidth;
-
-        mouseview_y = stat2Y + stat2H;
-        mouseview_h = TERRAIN_WINDOW_TERM_HEIGHT - mouseview_y;
-        mouseview_w = sidebarWidth - MINIMAP_WIDTH;
     }
 
     int _y = VIEW_OFFSET_Y;
@@ -592,7 +583,15 @@ void game::init_ui()
     w_status = newwin(statH, statW, _y + statY, _x + statX);
     werase(w_status);
 
-    int mouseview_x = _x + minimapX;
+    int mouseview_w = messW;
+    int mouseview_y = _y + messY;
+    int mouseview_x = _x + messX;
+    int mouseview_h;
+    if (pixel_minimap_option) {
+        mouseview_h = messHshort - 5;
+    } else {
+        mouseview_h = messHlong - 5;
+    }
     if (mouseview_h < lookHeight) {
         // Not enough room below the status bar, just use the regular lookaround area
         get_lookaround_dimensions(mouseview_w, mouseview_y, mouseview_x);
@@ -635,18 +634,12 @@ void game::toggle_fullscreen(void)
 void game::toggle_pixel_minimap(void)
 {
 #ifdef TILES
-    if (w_messages == w_messages_short) {
+    if (pixel_minimap_option) {
         clear_window_area(w_pixel_minimap);
-        w_messages = w_messages_long;
-        pixel_minimap_option = 0;
-    } else {
-        w_messages = w_messages_short;
-        pixel_minimap_option = 1;
     }
-    werase(w_messages);
-    mvwputch(w_messages, 0, 0, c_black, ' ');
-    wrefresh(w_messages);
-    draw_sidebar();
+    pixel_minimap_option = !pixel_minimap_option;
+    init_ui();
+    refresh_all();
 #endif // TILES
 }
 
