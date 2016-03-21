@@ -65,20 +65,13 @@ void live_view::init( int const start_x, int const start_y, int const w, int con
     hide();
 }
 
-void live_view::show( const int x, const int y )
+void live_view::show( const int x, const int y, const visibility_variables &cache )
 {
     if( !enabled || !w_live_view ) {
         return;
     }
 
-    bool did_hide = hide( false ); // Clear window if it's visible
-
-    if( !g->u.sees( x, y ) ) {
-        if( did_hide ) {
-            wrefresh( *this );
-        }
-        return;
-    }
+    hide( false ); // Clear window if it's visible
 
     map &m = g->m;
     mvwprintz( *this, 0, START_COLUMN, c_white, "< " );
@@ -89,7 +82,8 @@ void live_view::show( const int x, const int y )
     // TODO: Z
     tripoint p( x, y, g->get_levz() );
 
-    g->print_all_tile_info( p, *this, START_COLUMN, line, true );
+    auto visibility = m.get_visibility( m.apparent_light_at( p, cache ), cache );
+    g->print_all_tile_info( p, *this, START_COLUMN, line, true , visibility );
 
     if( m.can_put_items_ter_furn( p ) && m.sees_some_items( p, g->u ) ) {
         if( g->u.has_effect( effect_blind ) || g->u.worn_with_flag( "BLIND" ) ) {

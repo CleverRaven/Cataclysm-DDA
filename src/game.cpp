@@ -76,6 +76,7 @@
 #include "item_location.h"
 #include "weather.h"
 #include "faction.h"
+#include "enums.h"
 #include "live_view.h"
 #include "recipe_dictionary.h"
 #include "cata_utility.h"
@@ -1933,7 +1934,8 @@ int game::inventory_item_menu(int pos, int iStartX, int iWidth, const inventory_
 
 // Checks input to see if mouse was moved and handles the mouse view box accordingly.
 // Returns true if input requires breaking out into a game action.
-bool game::handle_mouseview(input_context &ctxt, std::string &action)
+bool game::handle_mouseview(input_context &ctxt, std::string &action,
+                            const visibility_variables& cache)
 {
     do {
         action = ctxt.handle_input();
@@ -1942,7 +1944,7 @@ bool game::handle_mouseview(input_context &ctxt, std::string &action)
             if (!ctxt.get_coordinates(w_terrain, mx, my)) {
                 hide_mouseview();
             } else {
-                liveview.show(mx, my);
+                liveview.show(mx, my, cache);
             }
         }
     } while (action == "MOUSE_MOVE"); // Freeze animation when moving the mouse
@@ -2081,6 +2083,11 @@ input_context game::get_player_input(std::string &action)
         ctxt.register_action("QUIT");
     }
 
+    visibility_variables cache;
+    m.update_visibility_cache( cache, u.posz() );
+    const level_cache &map_cache = m.get_cache_ref( u.posz() );
+    const auto &visibility_cache = map_cache.visibility_cache;
+
     if (OPTIONS["ANIMATIONS"]) {
         int iStartX = (TERRAIN_WINDOW_WIDTH > 121) ? (TERRAIN_WINDOW_WIDTH - 121) / 2 : 0;
         int iStartY = (TERRAIN_WINDOW_HEIGHT > 121) ? (TERRAIN_WINDOW_HEIGHT - 121) / 2 : 0;
@@ -2125,14 +2132,9 @@ input_context game::get_player_input(std::string &action)
         wPrint.endx = iEndX;
         wPrint.endy = iEndY;
 
-        visibility_variables cache;
-        m.update_visibility_cache( cache, u.posz() );
-        const level_cache &map_cache = m.get_cache_ref( u.posz() );
-        const auto &visibility_cache = map_cache.visibility_cache;
-
         inp_mngr.set_timeout(125);
         // Force at least one animation frame if the player is dead.
-        while( handle_mouseview(ctxt, action) || uquit == QUIT_WATCH ) {
+        while( handle_mouseview(ctxt, action, cache) || uquit == QUIT_WATCH ) {
             if( bWeatherEffect && OPTIONS["ANIMATION_RAIN"] ) {
                 /*
                 Location to add rain drop animation bits! Since it refreshes w_terrain it can be added to the animation section easily
@@ -2248,7 +2250,7 @@ input_context game::get_player_input(std::string &action)
         }
         inp_mngr.set_timeout(-1);
     } else {
-        while (handle_mouseview(ctxt, action)) {};
+        while (handle_mouseview(ctxt, action, cache)) {};
     }
 
     return ctxt;
@@ -8271,12 +8273,52 @@ tripoint game::look_debug()
 ////////////////////////////////////////////////////////////////////////////////////////////
 
 void game::print_all_tile_info( const tripoint &lp, WINDOW *w_look, int column, int &line,
-                                bool mouse_hover )
+                                bool mouse_hover, visibility_type visibility )
 {
-    print_terrain_info( lp, w_look, column, line );
-    print_fields_info( lp, w_look, column, line );
-    print_trap_info( lp, w_look, column, line );
-    print_object_info( lp, w_look, column, line, mouse_hover );
+    switch( visibility ) {
+        case VIS_CLEAR:
+            print_terrain_info( lp, w_look, column, line );
+            print_fields_info( lp, w_look, column, line );
+            print_trap_info( lp, w_look, column, line );
+            print_object_info( lp, w_look, column, line, mouse_hover );
+            break;
+        case VIS_BOOMER:
+        case VIS_BOOMER_DARK:
+        case VIS_DARK:
+        case VIS_LIT:
+        case VIS_HIDDEN:
+            print_visibility_info( w_look, column, line, visibility );
+            break;
+    }
+}
+
+void game::print_visibility_info( WINDOW *w_look, int column, int &line,
+                                  visibility_type visibility )
+{
+    const char* visibility_message = nullptr;
+    switch( visibility ) {
+        case VIS_CLEAR:
+            visibility_message = _("Clearly visible.");
+            break;
+        case VIS_BOOMER:
+            visibility_message = _("A bright pink blur.");
+            break;
+        case VIS_BOOMER_DARK:
+            visibility_message = _("A pink blur.");
+            break;
+        case VIS_DARK:
+            visibility_message = _("Darkness.");
+            break;
+        case VIS_LIT:
+            visibility_message = _("Bright light.");
+            break;
+        case VIS_HIDDEN:
+            visibility_message = _("Unseen.");
+            break;
+    }
+
+    mvwprintw(w_look, column, line, visibility_message);
+    line += 2;
 }
 
 void game::print_terrain_info( const tripoint &lp, WINDOW *w_look, int column, int &line)
@@ -8363,6 +8405,36 @@ void game::print_object_info( const tripoint &lp, WINDOW *w_look, const int colu
         m.drawsq(w_terrain, u, lp, true, true, lp );
     }
     handle_multi_item_info( lp, w_look, column, line, mouse_hover );
+}
+
+void game::print_visibility_indicator( visibility_type visibility )
+{
+    std::string visibility_indicator;
+    nc_color visibility_indicator_color = c_white;
+    switch( visibility ) {
+        case VIS_CLEAR:
+            // Nothing printed when visibility is clear
+            return;
+        case VIS_BOOMER:
+        case VIS_BOOMER_DARK:
+            visibility_indicator = '#';
+            visibility_indicator_color = c_pink;
+            break;
+        case VIS_DARK:
+            visibility_indicator = '#';
+            visibility_indicator_color = c_dkgray;
+            break;
+        case VIS_LIT:
+            visibility_indicator = '#';
+            visibility_indicator_color = c_ltgray;
+            break;
+        case VIS_HIDDEN:
+            visibility_indicator = 'x';
+            visibility_indicator_color = c_white;
+            break;
+    }
+
+    mvwputch(w_terrain, POSY, POSX, visibility_indicator_color, visibility_indicator);
 }
 
 void game::handle_multi_item_info( const tripoint &lp, WINDOW *w_look, const int column, int &line,
@@ -8959,33 +9031,9 @@ tripoint game::look_around( WINDOW *w_info, const tripoint &start_point,
 
         } else {
             //Look around
-            switch( m.get_visibility(m.apparent_light_at(lp, cache), cache) ) {
-            case VIS_CLEAR:
-                print_all_tile_info( lp, w_info, 1, off, false);
-                break;
-            case VIS_BOOMER:
-                mvwputch_inv(w_terrain, POSY, POSX, c_pink, '#');
-                //~ Describing what you can see when you're boomered.
-                mvwprintw(w_info, 1, 1, _("A bright pink blur."));
-                break;
-            case VIS_BOOMER_DARK:
-                mvwputch_inv(w_terrain, POSY, POSX, c_pink, '#');
-                //~ Describing what you can see when you're boomered.
-                mvwprintw(w_info, 1, 1, _("A pink blur."));
-                break;
-            case VIS_DARK:
-                mvwputch_inv(w_terrain, POSY, POSX, c_dkgray, '#');
-                mvwprintw(w_info, 1, 1, _("Darkness."));
-                break;
-            case VIS_LIT:
-                mvwputch_inv(w_terrain, POSY, POSX, c_ltgray, '#');
-                mvwprintw(w_info, 1, 1, _("Bright light."));
-                break;
-            case VIS_HIDDEN:
-                mvwputch(w_terrain, POSY, POSX, c_white, 'x');
-                mvwprintw(w_info, 1, 1, _("Unseen."));
-                break;
-            }
+            auto visibility = m.get_visibility(m.apparent_light_at(lp, cache), cache);
+            print_all_tile_info( lp, w_info, 1, off, false, visibility);
+            print_visibility_indicator( visibility );
 
             if (fast_scroll) {
                 // print a light green mark below the top right corner of the w_info window

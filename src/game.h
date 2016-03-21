@@ -107,6 +107,7 @@ class live_view;
 typedef int nc_color;
 struct w_point;
 struct explosion_data;
+struct visibility_variables;
 
 // Note: this is copied from inventory.h
 // Entire inventory.h would also bring item.h here
@@ -408,7 +409,9 @@ class game
         int list_items(const int iLastState); //List all items around the player
         int list_monsters(const int iLastState); //List all monsters around the player
         // Shared method to print "look around" info
-        void print_all_tile_info( const tripoint &lp, WINDOW *w_look, int column, int &line, bool mouse_hover );
+        void print_all_tile_info( const tripoint &lp, WINDOW *w_look,
+                                  int column, int &line, bool mouse_hover,
+                                  visibility_type visibility );
 
         std::vector<map_item_stack> find_nearby_items(int iRadius);
         void draw_item_filter_rules(WINDOW *window, int rows);
@@ -713,6 +716,8 @@ private:
         void print_trap_info( const tripoint &lp, WINDOW *w_look, const int column, int &line );
         void print_object_info( const tripoint &lp, WINDOW *w_look, const int column, int &line,
                                bool mouse_hover );
+        void print_visibility_info( WINDOW *w_look, int column, int &line, visibility_type visibility );
+        void print_visibility_indicator( visibility_type visibility );
         void handle_multi_item_info( const tripoint &lp, WINDOW *w_look, const int column, int &line,
                                     bool mouse_hover );
         void get_lookaround_dimensions(int &lookWidth, int &begin_y, int &begin_x) const;
@@ -782,8 +787,10 @@ private:
         void quickload();        // Loads the previously saved game if it exists
 
         // Input related
+        // Handles box showing items under mouse
         bool handle_mouseview(input_context &ctxt,
-                              std::string &action); // Handles box showing items under mouse
+                              std::string &action,
+                              const visibility_variables &cache);
         void hide_mouseview(); // Hides the mouse hover box and redraws what was under it
 
         // On-request draw functions
