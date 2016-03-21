@@ -569,7 +569,7 @@ public:
     /**
      * Same as @ref made_of(), but returns the @ref material_type directly.
      */
-    std::vector<material_type*> made_of_types() const;
+    std::vector<const material_type*> made_of_types() const;
     /**
      * Check we are made of at least one of a set (e.g. true if even
      * one item of the passed in set matches any material).

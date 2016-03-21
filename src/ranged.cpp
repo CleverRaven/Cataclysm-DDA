@@ -596,15 +596,7 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
 
     // Rescaling to use the same units as projectile_attack
     const double shot_dispersion = deviation * (.01 / 0.00021666666666666666);
-    /*
-    // This causes crashes for some reason
-    static const std::vector<std::string> ferric = {{
-        "iron", "steel"
-    }};
-    */
-    std::vector<std::string> ferric;
-    ferric.push_back( "iron" );
-    ferric.push_back( "steel" );
+    static const std::vector<material_id> ferric = { material_id( "iron" ), material_id( "steel" ) };
 
     bool do_railgun = has_active_bionic("bio_railgun") &&
                       thrown.made_of_any( ferric );

@@ -679,7 +679,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
             insert_separation_line();
         }
 
-        const std::vector<material_type*> mat_types = made_of_types();
+        const std::vector<const material_type*> mat_types = made_of_types();
         if( !mat_types.empty() ) {
             std::string material_list;
             for( auto next_material : mat_types ) {
@@ -2383,12 +2383,12 @@ int item::weight() const
             case MS_LARGE:  ret = 120000;  break;
             case MS_HUGE:   ret = 200000;  break;
         }
-        if( made_of( "veggy" ) ) {
+        if( made_of( material_id( "veggy" ) ) ) {
             ret /= 3;
         }
-        if( corpse->in_species( FISH ) || corpse->in_species( BIRD ) || corpse->in_species( INSECT ) || made_of( "bone" ) ) {
+        if( corpse->in_species( FISH ) || corpse->in_species( BIRD ) || corpse->in_species( INSECT ) || made_of( material_id( "bone" ) ) ) {
             ret /= 8;
-        } else if ( made_of( "iron" ) || made_of( "steel" ) || made_of( "stone" ) ) {
+        } else if ( made_of( material_id( "iron" ) ) || made_of( material_id( "steel" ) ) || made_of( material_id( "stone" ) ) ) {
             ret *= 7;
         }
 
@@ -2969,7 +2969,7 @@ int item::bash_resist( bool to_self ) const
         eff_thickness = std::max( 1, get_thickness() - eff_damage );
     }
 
-    const std::vector<material_type*> mat_types = made_of_types();
+    const std::vector<const material_type*> mat_types = made_of_types();
     if( !mat_types.empty() ) {
         for (auto mat : mat_types) {
             resist += mat->bash_resist();
@@ -3015,7 +3015,7 @@ int item::cut_resist( bool to_self ) const
         eff_thickness = std::max( 1, get_thickness() - eff_damage );
     }
 
-    const std::vector<material_type*> mat_types = made_of_types();
+    const std::vector<const material_type*> mat_types = made_of_types();
     if( !mat_types.empty() ) {
         for( auto mat : mat_types ) {
             resist += mat->cut_resist();
@@ -3045,7 +3045,7 @@ int item::acid_resist( bool to_self ) const
         return 0.0;
     }
 
-    const std::vector<material_type*> mat_types = made_of_types();
+    const std::vector<const material_type*> mat_types = made_of_types();
     if( !mat_types.empty() ) {
         // Not sure why cut and bash get an armor thickness bonus but acid doesn't,
         // but such is the way of the code.
@@ -3073,7 +3073,7 @@ int item::fire_resist( bool to_self ) const
         return 0.0;
     }
 
-    const std::vector<material_type*> mat_types = made_of_types();
+    const std::vector<const material_type*> mat_types = made_of_types();
     if( !mat_types.empty() ) {
         for( auto mat : mat_types ) {
             resist += mat->fire_resist();
@@ -3162,9 +3162,9 @@ const std::vector<material_id> &item::made_of() const
     return type->materials;
 }
 
-std::vector<material_type*> item::made_of_types() const
+std::vector<const material_type*> item::made_of_types() const
 {
-    std::vector<material_type*> material_types_composed_of;
+    std::vector<const material_type*> material_types_composed_of;
     for (auto mat_id : made_of()) {
         material_types_composed_of.push_back(material_type::find_material(mat_id));
     }
@@ -4631,20 +4631,20 @@ bool item::flammable() const
         return true;
     }
 
-    if( made_of("nomex") ) {
+    if( made_of( material_id( "nomex" ) ) ) {
         return false;
     }
 
-    if( made_of("paper") || made_of("powder") || made_of("plastic") ) {
+    if( made_of( material_id( "paper" ) ) || made_of( material_id( "powder" ) ) || made_of( material_id( "plastic" ) ) ) {
         return true;
     }
 
     int vol = volume();
-    if( ( made_of( "wood" ) || made_of( "veggy" ) ) && ( burnt < 1 || vol <= 10 ) ) {
+    if( ( made_of( material_id( "wood" ) ) || made_of( material_id( "veggy" ) ) ) && ( burnt < 1 || vol <= 10 ) ) {
         return true;
     }
 
-    if( ( made_of("cotton") || made_of("wool") ) && ( burnt / ( vol + 1 ) <= 1 ) ) {
+    if( ( made_of( material_id( "cotton" ) ) || made_of( material_id( "wool" ) ) ) && ( burnt / ( vol + 1 ) <= 1 ) ) {
         return true;
     }
 
