@@ -5656,7 +5656,7 @@ void game::hallucinate( const tripoint &center )
 float game::natural_light_level( const int zlev ) const
 {
     if( zlev > OVERMAP_HEIGHT || zlev < 0 ) {
-        return 0.0;
+        return LIGHT_AMBIENT_MINIMAL;
     }
 
     if( latest_lightlevels[zlev] > -std::numeric_limits<float>::max() ) {
@@ -5687,9 +5687,6 @@ float game::natural_light_level( const int zlev ) const
     for( const auto &e : events ) {
         // EVENT_DIM slowly dims the natural sky level, then relights it.
         if( e.type == EVENT_DIM ) {
-            if( zlev < 0 ) {
-                continue;
-            }
             int turns_left = e.turn - int(calendar::turn);
             // EVENT_DIM has an occurrence date of turn + 50, so the first 25 dim it,
             if (turns_left > 25) {
@@ -5698,20 +5695,19 @@ float game::natural_light_level( const int zlev ) const
             } else {
                 mod_ret = std::max(mod_ret, (ret * (25 - turns_left)) / 25);
             }
-        }
-        // EVENT_ARTIFACT_LIGHT causes everywhere to become as bright as day.
-        else if ( e.type == EVENT_ARTIFACT_LIGHT ) {
-            mod_ret = std::max(mod_ret, 100.0f);
+        } else if ( e.type == EVENT_ARTIFACT_LIGHT ) {
+            // EVENT_ARTIFACT_LIGHT causes everywhere to become as bright as day.
+            mod_ret = std::max<float>( ret, DAYLIGHT_LEVEL );
         }
     }
     // If we had a changed light level due to an artifact event then it overwrites
     // the natural light level.
-    if (mod_ret > -1) {
+    if( mod_ret > -1 ) {
         ret = mod_ret;
     }
 
     // Cap everything to our minimum light level
-    ret = std::max(LIGHT_AMBIENT_MINIMAL, ret);
+    ret = std::max<float>( LIGHT_AMBIENT_MINIMAL, ret );
 
     latest_lightlevels[zlev] = ret;
 
