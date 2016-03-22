@@ -2871,7 +2871,7 @@ int iuse::pack_item(player *p, item *it, bool t, const tripoint& )
 
 static int cauterize_elec(player *p, item *it)
 {
-    if (it->charges == 0) {
+    if (it->charges == 0 && it->ammo_capacity()) {
         p->add_msg_if_player(m_info, _("You need batteries to cauterize wounds."));
         return 0;
     } else if (!p->has_effect( effect_bite ) && !p->has_effect( effect_bleed ) && !p->is_underwater()) {

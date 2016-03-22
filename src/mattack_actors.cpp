@@ -293,12 +293,11 @@ mattack_actor *gun_actor::clone() const
 
 bool gun_actor::call( monster &z ) const
 {
-    Creature *target;
     if( z.friendly != 0 ) {
         // Attacking monsters, not the player!
         int boo_hoo;
-        target = z.auto_find_hostile_target( range, boo_hoo );
-        if( target == nullptr ) {
+        Creature *hostile_target = z.auto_find_hostile_target( range, boo_hoo );
+        if( hostile_target == nullptr ) {
             // Couldn't find any targets!
             if( boo_hoo > 0 && g->u.sees( z ) ) {
                 // because that stupid oaf was in the way!
@@ -310,12 +309,12 @@ bool gun_actor::call( monster &z ) const
             return false;
         }
 
-        shoot( z, *target );
+        shoot( z, *hostile_target );
         return true;
     }
 
     // Not friendly; hence, firing at the player too
-    target = z.attack_target();
+    Creature *target = z.attack_target();
     if( target == nullptr || rl_dist( z.pos(), target->pos() ) > range ||
         !z.sees( *target ) ) {
         return false;
@@ -372,7 +371,7 @@ void gun_actor::shoot( monster &z, Creature &target ) const
     }
 
     if( ammo != "NULL" ) {
-        gun.ammo_set( ammo, z.ammo[ ammo] );
+        gun.ammo_set( ammo, z.ammo[ ammo ] );
     }
 
     npc tmp;
@@ -408,7 +407,7 @@ void gun_actor::shoot( monster &z, Creature &target ) const
         add_msg( m_warning, _( description.c_str() ), z.name().c_str(), tmp.weapon.gun_type().c_str() );
     }
 
-    z.ammo[ammo_type] -= tmp.fire_gun( target.pos(), burst );
+    z.ammo[ammo] -= tmp.fire_gun( target.pos(), burst );
 
     if( require_targeting ) {
         z.add_effect( effect_targeted, targeting_timeout_extend );
