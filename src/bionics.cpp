@@ -1687,10 +1687,10 @@ int player::get_total_bionics_slots( body_part bp ) const
 {
     switch( bp ) {
     case bp_torso:
-        return 100;
+        return 80;
 
     case bp_head:
-        return 15;
+        return 18;
 
     case bp_eyes:
         return 4;
@@ -1712,7 +1712,7 @@ int player::get_total_bionics_slots( body_part bp ) const
 
     case bp_foot_l:
     case bp_foot_r:
-        return 8;
+        return 6;
 
     case num_bp:
         return INT_MAX;
