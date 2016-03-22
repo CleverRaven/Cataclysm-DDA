@@ -50,6 +50,11 @@ bool Creature_tracker::add( monster &critter )
         return false;
     }
 
+    if( critter.type->has_flag( MF_VERMIN ) ) {
+        // Don't spawn vermin, they aren't implemented yet
+        return false;
+    }
+
     const int critter_id = mon_at( critter.pos() );
     if( critter_id != -1 ) {
         // We can spawn stuff on hallucinations, but we need to kill them first
