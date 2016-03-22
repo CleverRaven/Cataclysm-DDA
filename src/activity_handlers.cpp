@@ -884,36 +884,36 @@ void activity_handlers::pulp_do_turn( player_activity *act, player *p )
 
     int moves = 0;
     int &num_corpses = act->index; // use this to collect how many corpse are pulped
-    auto corpse_pile = g->m.i_at(pos);
-    for( auto corpse = corpse_pile.begin(); corpse != corpse_pile.end(); ++corpse ) {
-        if( !corpse->is_corpse() || !corpse->get_mtype()->has_flag( MF_REVIVES )  ) {
+    auto corpse_pile = g->m.i_at( pos );
+    for( auto &corpse : corpse_pile ) {
+        if( !corpse.is_corpse() || !corpse.get_mtype()->has_flag( MF_REVIVES )  ) {
             // Don't smash non-rezing corpses
             continue;
         }
 
-        if( corpse->damage >= CORPSE_PULP_THRESHOLD ) {
+        if( corpse.damage >= CORPSE_PULP_THRESHOLD ) {
             // Deactivate already-pulped corpses that weren't properly deactivated
-            corpse->active = false;
+            corpse.active = false;
             continue;
         }
 
-        while( corpse->damage < CORPSE_PULP_THRESHOLD ) {
+        while( corpse.damage < CORPSE_PULP_THRESHOLD ) {
             // Increase damage as we keep smashing ensuring we eventually smash the target.
-            if( x_in_y( pulp_power, corpse->volume() ) ) {
-                if( ++corpse->damage == CORPSE_PULP_THRESHOLD ) {
-                    corpse->active = false;
+            if( x_in_y( pulp_power, corpse.volume() ) ) {
+                if( ++corpse.damage == CORPSE_PULP_THRESHOLD ) {
+                    corpse.active = false;
                     num_corpses++;
                 }
             }
 
             // Splatter some blood around
             tripoint tmp = pos;
-            field_id type_blood = corpse->get_mtype()->bloodType();
+            field_id type_blood = corpse.get_mtype()->bloodType();
             if( mess_radius > 1 && x_in_y( pulp_power, 10000 ) ) {
                 // Make gore instead of blood this time
-                type_blood = corpse->get_mtype()->gibType();
+                type_blood = corpse.get_mtype()->gibType();
             }
-            if( type_blood != fd_null && x_in_y( pulp_power, corpse->volume() ) ) {
+            if( type_blood != fd_null && x_in_y( pulp_power, corpse.volume() ) ) {
                 // Splatter a bit more randomly, so that it looks cooler
                 const int radius = mess_radius + x_in_y( pulp_power, 500 ) + x_in_y( pulp_power, 1000 );
                 const tripoint dest( pos.x + rng( -radius, radius ), pos.y + rng( -radius, radius ), pos.z );
@@ -938,7 +938,7 @@ void activity_handlers::pulp_do_turn( player_activity *act, player *p )
             p->mod_stat( "stamina", stamina_ratio * -40 );
 
             moves += 100 / std::max( 0.25f, stamina_ratio );
-            if( one_in( 10 ) ) {
+            if( one_in( 4 ) ) {
                 // Smashing may not be butchery, but it involves some zombie anatomy
                 p->practice( skill_survival, 2, 2 );
             }
@@ -954,12 +954,14 @@ void activity_handlers::pulp_do_turn( player_activity *act, player *p )
     // If we reach this, all corpses have been pulped, finish the activity
     act->moves_left = 0;
     if( num_corpses == 0 ) {
-        add_msg(m_bad, _("The corpse moved before you could finish smashing it!"));
+        p->add_msg_if_player(m_bad, _("The corpse moved before you could finish smashing it!"));
         return;
     }
     // TODO: Factor in how long it took to do the smashing.
-    add_msg(ngettext("The corpse is thoroughly pulped.",
-                     "The corpses are thoroughly pulped.", num_corpses));
+    p->add_msg_player_or_npc( ngettext( "The corpse is thoroughly pulped.",
+                                        "The corpses are thoroughly pulped.", num_corpses ),
+                              ngettext( "<npcname> finished pulping the corpse.",
+                                        "<npcname> finished pulping the corpses.", num_corpses ) );
 }
 
 void activity_handlers::refill_vehicle_do_turn( player_activity *act, player *p )

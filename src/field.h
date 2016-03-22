@@ -102,6 +102,11 @@ extern field_t fieldlist[num_fields];
 extern field_id field_from_ident(const std::string &field_ident);
 
 /**
+ * Returns if the field has at least one intensity for which dangerous[intensity] is true.
+ */
+bool field_type_dangerous( field_id id );
+
+/**
  * An active or passive effect existing on a tile.
  * Each effect can vary in intensity (density) and age (usually used as a time to live).
  */

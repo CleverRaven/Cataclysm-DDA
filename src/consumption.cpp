@@ -52,10 +52,6 @@ int player::nutrition_for( const it_comest *comest ) const
 
 float player::metabolic_rate_base() const
 {
-    if( is_npc() ) {
-        return 0.0f;
-    }
-
     float ret = 1.0f;
     if( has_trait( "LIGHTEATER" ) ) {
         ret -= ( 1.0f / 3.0f );
@@ -81,10 +77,6 @@ float player::metabolic_rate_base() const
 // TODO: Involve stamina (maybe not here?)
 float player::metabolic_rate() const
 {
-    if( is_npc() ) {
-        return 0.0f;
-    }
-
     // First value is effective hunger, second is nutrition multiplier
     // Note: Values do not match hungry/v.hungry/famished/starving,
     // because effective hunger is affected by speed (which drops when hungry)

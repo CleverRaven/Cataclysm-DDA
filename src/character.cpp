@@ -34,6 +34,8 @@ const efftype_id effect_webbed( "webbed" );
 
 const skill_id skill_throw( "throw" );
 
+const std::string debug_nodmg( "DEBUG_NODMG" );
+
 Character::Character() : Creature(), visitable<Character>()
 {
     str_max = 0;
@@ -1872,6 +1874,80 @@ nc_color Character::symbol_color() const
     }
 
     return basic;
+}
+
+bool Character::is_dangerous_field( const field &fd ) const
+{
+    if( fd.fieldCount() == 0 || has_trait( debug_nodmg ) ) {
+        return false;
+    }
+
+    for( auto &fld : fd ) {
+        if( is_dangerous_field( fld.second ) ) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+bool Character::is_dangerous_field( const field_entry &entry ) const
+{
+    const field_id fid = entry.getFieldType();
+    switch( fid ) {
+        // @todo Lower density fields are less dangerous
+        case fd_smoke:
+        case fd_tear_gas:
+        case fd_toxic_gas:
+        case fd_gas_vent:
+        case fd_relax_gas:
+        case fd_fungal_haze:
+        case fd_electricity:
+        case fd_acid:
+            return is_dangerous_field( fid );
+        default:
+            return !has_trait( debug_nodmg ) && entry.is_dangerous();
+    }
+
+    return false;
+}
+
+bool Character::is_dangerous_field( const field_id fid ) const
+{
+    if( has_trait( debug_nodmg ) ) {
+        return false;
+    }
+
+    switch( fid ) {
+        case fd_smoke:
+            return get_env_resist( bp_mouth ) < 12;
+        case fd_tear_gas:
+        case fd_toxic_gas:
+        case fd_gas_vent:
+        case fd_relax_gas:
+            return get_env_resist( bp_mouth ) < 15;
+        case fd_fungal_haze:
+            return get_env_resist( bp_mouth ) < 15 ||
+                   get_env_resist( bp_eyes ) < 15 ||
+                   has_trait("M_IMMUNE");
+        case fd_electricity:
+            return !is_elec_immune();
+        case fd_acid:
+            return !has_trait("ACIDPROOF") &&
+                   (is_on_ground() ||
+                   get_env_resist( bp_foot_l ) < 15 ||
+                   get_env_resist( bp_foot_r ) < 15 ||
+                   get_env_resist( bp_leg_l ) < 15 ||
+                   get_env_resist( bp_leg_r ) < 15 ||
+                   get_armor_type( DT_ACID, bp_foot_l ) < 5 ||
+                   get_armor_type( DT_ACID, bp_foot_r ) < 5 ||
+                   get_armor_type( DT_ACID, bp_leg_l ) < 5 ||
+                   get_armor_type( DT_ACID, bp_leg_r ) < 5);
+        default:
+            return field_type_dangerous( fid );
+    }
+
+    return false;
 }
 
 int Character::throw_range( const item &it ) const

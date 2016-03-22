@@ -62,7 +62,7 @@ enum npc_action : int {
     npc_reload, npc_sleep, // 2, 3
     npc_pickup, // 4
     npc_escape_item, npc_wield_melee, npc_wield_loaded_gun, npc_wield_empty_gun,
-    npc_heal, npc_use_painkiller, npc_eat, npc_drop_items, // 5 - 12
+    npc_heal, npc_use_painkiller, npc_drop_items, // 5 - 12
     npc_flee, npc_melee, npc_shoot, npc_shoot_burst, npc_alt_attack, // 13 - 17
     npc_look_for_player, npc_heal_player, npc_follow_player, npc_follow_embarked,
     npc_talk_to_player, npc_mug_player, // 18 - 23
@@ -105,35 +105,9 @@ bool clear_shot_reach( const tripoint &from, const tripoint &to )
     return true;
 }
 
-bool npc::is_dangerous_field( const field_entry &fld ) const
-{
-    switch( fld.getFieldType() ) {
-        case fd_smoke:
-            return get_env_resist( bp_mouth ) < 7;
-        case fd_tear_gas:
-        case fd_toxic_gas:
-        case fd_gas_vent:
-        case fd_relax_gas:
-            return get_env_resist( bp_mouth ) < 15;
-        case fd_fungal_haze:
-            if( has_trait( "M_IMMUNE" ) ) {
-                return false;
-            }
-            return get_env_resist( bp_mouth ) < 15 || get_env_resist( bp_eyes ) < 15;
-        default:
-            return fld.is_dangerous();
-    }
-}
-
 bool npc::sees_dangerous_field( const tripoint &p ) const
 {
-    auto &fields = g->m.field_at( p );
-    for( auto & fld : fields ) {
-        if( is_dangerous_field( fld.second ) ) {
-            return true;
-        }
-    }
-    return false;
+    return is_dangerous_field( g->m.field_at( p ) );
 }
 
 bool npc::could_move_onto( const tripoint &p ) const
@@ -438,10 +412,6 @@ void npc::execute_action( npc_action action )
 
     case npc_use_painkiller:
         use_painkiller();
-        break;
-
-    case npc_eat:
-        pick_and_eat();
         break;
 
     case npc_drop_items:
@@ -1018,9 +988,17 @@ npc_action npc::address_needs( int danger )
 
     if ((danger <= NPC_DANGER_VERY_LOW && (get_hunger() > 40 || get_thirst() > 40)) ||
         get_thirst() > 80 || get_hunger() > 160) {
-        //return npc_eat; // TODO: Make eating work when then NPC doesn't have enough food
-        set_hunger(0);
-        set_thirst(0);
+        if( consume_food() ) {
+            return npc_noop;
+        }
+    }
+
+    if( danger <= NPC_DANGER_VERY_LOW && find_corpse_to_pulp() ) {
+        if( !do_pulp() ) {
+            move_to_next();
+        }
+
+        return npc_noop;
     }
 
     // TODO: More risky attempts at sleep when exhausted
@@ -1370,41 +1348,42 @@ void npc::aim()
     }
 }
 
-void npc::update_path( const tripoint &p, const bool no_bashing )
+bool npc::update_path( const tripoint &p, const bool no_bashing, bool force )
 {
     if( p == pos() ) {
         path.clear();
-        return;
+        return true;
     }
 
     while( !path.empty() && path[0] == pos() ) {
         path.erase( path.begin() );
     }
 
-    const int bash_power = no_bashing ? 0 : smash_ability();
-    if( path.empty() ) {
-        path = g->m.route( pos(), p, bash_power, 1000 );
-        if( path.empty() ) {
-            add_msg( m_debug, "Failed to path %d,%d,%d->%d,%d,%d",
-                     posx(), posy(), posz(), p.x, p.y, p.z );
+    if( !path.empty() ) {
+        const tripoint &last = path[path.size() - 1];
+        if( last == p && ( path[0].z != posz() || rl_dist( path[0], pos() ) <= 1 ) ) {
+            // Our path already leads to that point, no need to recalculate
+            return true;
         }
-        return;
-    }
-    const tripoint &last = path[path.size() - 1];
-    if( last == p && ( path[0].z != posz() || rl_dist( path[0], pos() ) <= 1 ) ) {
-        // Our path already leads to that point, no need to recalculate
-        return;
     }
 
-    path = g->m.route( pos(), p, bash_power, 1000 );
-    if( !path.empty() && path[0] == pos() ) {
-        path.erase( path.begin() );
-    }
-
-    if( path.empty() ) {
+    const int bash_power = no_bashing ? 0 : smash_ability();
+    auto new_path = g->m.route( pos(), p, bash_power, 1000 );
+    if( new_path.empty() ) {
         add_msg( m_debug, "Failed to path %d,%d,%d->%d,%d,%d",
                  posx(), posy(), posz(), p.x, p.y, p.z );
     }
+
+    while( !new_path.empty() && new_path[0] == pos() ) {
+        new_path.erase( new_path.begin() );
+    }
+
+    if( !new_path.empty() || force ) {
+        path = std::move( new_path );
+        return true;
+    }
+
+    return false;
 }
 
 bool npc::can_move_to( const tripoint &p, bool no_bashing ) const
@@ -2017,6 +1996,99 @@ void npc::drop_items(int weight, int volume)
     update_worst_item_value();
 }
 
+bool npc::find_corpse_to_pulp()
+{
+    if( is_following() && !rules.allow_pulp ) {
+        return false;
+    }
+
+    // Pathing with overdraw can get expensive, limit it
+    int path_counter = 4;
+    const auto check_tile = [this, &path_counter]( const tripoint &p ) -> const item * {
+        if( !g->m.sees_some_items( p, *this ) || !sees( p ) ) {
+            return nullptr;
+        }
+
+        const auto items = g->m.i_at( p );
+        const item * found = nullptr;
+        for( const item &it : items ) {
+            // Pulp only stuff that revives, but don't pulp acid stuff
+            // That is, if you aren't protected from this stuff!
+            if( it.can_revive() ) {
+                // If the first encountered corpse is acidic, it is not safe to bash
+                if( is_dangerous_field( it.get_mtype()->bloodType() ) ) {
+                    return nullptr;
+                }
+
+                found = &it;
+                break;
+            }
+        }
+
+        if( found != nullptr ) {
+            path_counter--;
+            // Only return corpses we can path to
+            return update_path( p, false, false ) ? found : nullptr;
+        }
+
+        return nullptr;
+    };
+
+    const int range = 6;
+
+    const bool had_pulp_target = pulp_location != tripoint_min;
+
+    const item *corpse = nullptr;
+    if( had_pulp_target && square_dist( pos(), pulp_location ) <= range ) {
+        corpse = check_tile( pulp_location );
+    }
+
+    // Find the old target to avoid spamming
+    const item *old_target = corpse;
+
+    if( corpse == nullptr ) {
+        // If we're following the player, don't wander off to pulp corpses
+        const tripoint &around = is_following() ? g->u.pos() : pos();
+        for( const tripoint &p : closest_tripoints_first( range, around ) ) {
+            corpse = check_tile( p );
+
+            if( corpse != nullptr ) {
+                pulp_location = p;
+                break;
+            }
+
+            if( path_counter <= 0 ) {
+                break;
+            }
+        }
+    }
+
+    if( corpse != nullptr && corpse != old_target && is_following() ) {
+        say( _("Hold on, I want to pulp that %s."),
+             corpse->tname().c_str() );
+    }
+
+    return corpse != nullptr;
+}
+
+bool npc::do_pulp()
+{
+    if( pulp_location == tripoint_min ) {
+        return false;
+    }
+
+    if( rl_dist( pulp_location, pos() ) > 1 || pulp_location.z != posz() ) {
+        return false;
+    }
+
+    // TODO: Don't recreate the activity every time
+    int old_moves = moves;
+    assign_activity( ACT_PULP, INT_MAX, 0 );
+    activity.placement = pulp_location;
+    activity.do_turn( this );
+    return moves != old_moves;
+}
+
 bool npc::wield_better_weapon()
 {
     // TODO: Allow wielding weaker weapons against weaker targets
@@ -2361,47 +2433,118 @@ void npc::use_painkiller()
     }
 }
 
-void npc::pick_and_eat()
+// We want our food to:
+// Provide enough nutrition and quench
+// Not provide too much of either (don't waste food)
+// Not be unhealthy
+// Not have side effects
+// Be eaten before it rots (favor soon-to-rot perishables)
+float rate_food( const item &it, int want_nutr, int want_quench )
 {
-    int best_hunger = 999, best_thirst = 999, index = -1;
-    bool thirst_more_important = (get_thirst() > get_hunger() * 1.5);
+    const it_comest *food = dynamic_cast<const it_comest *>( it.type );
+    if( food == nullptr ) {
+        // Not food
+        return 0.0f;
+    }
+
+    int nutr = food->get_nutrition();
+    int quench = food->quench;
+
+    if( nutr <= 0 && quench <= 0 ) {
+        // Not food - may be salt, drugs etc.
+        return 0.0f;
+    }
+
+    if( !it.type->use_methods.empty() ) {
+        // TODO: Get a good method of telling apart:
+        // raw meat (parasites - don't eat unless mutant)
+        // zed meat (poison - don't eat unless mutant)
+        // alcohol (debuffs, health drop - supplement diet but don't bulk-consume)
+        // caffeine (fine to consume, but expensive and prevents sleep)
+        // hallu shrooms (NPCs don't hallucinate, so don't eat those)
+        // honeycomb (harmless iuse)
+        // royal jelly (way too expensive to eat as food)
+        // mutagenic crap (don't eat, we want player to micromanage muties)
+        // marloss (NPCs don't turn fungal)
+        // weed brownies (small debuff)
+        // seeds (too expensive)
+
+        // For now skip all of those
+        return 0.0f;
+    }
+
+    if( it.rotten() ) {
+        // TODO: Allow sapro mutants to eat it anyway and make them prefer it
+        return 0.0f;
+    }
+
+    float relative_rot = it.get_relative_rot();
+    float weight = std::max( 1.0f, 10.0f * relative_rot );
+    if( food->fun < 0 ) {
+        // This helps to avoid eating stuff like flour
+        weight /= (-food->fun) + 1;
+    }
+
+    if( food->healthy < 0 ) {
+        weight /= (-food->healthy) + 1;
+    }
+
+    // Avoid wasting quench values unless it's about to rot away
+    if( relative_rot < 0.9f && quench > want_quench ) {
+        weight -= (1.0f - relative_rot) * (quench - want_quench);
+    }
+
+    if( quench < 0 && want_quench > 0 && want_nutr < want_quench ) {
+        // Avoid stuff that makes us thirsty when we're more thirsty than hungry
+        weight = weight * want_nutr / want_quench;
+    }
+
+    if( nutr > want_nutr ) {
+        // TODO: Allow overeating in some cases
+        if( nutr >= 5 ) {
+            return 0.0f;
+        }
+
+        if( relative_rot < 0.9f ) {
+            weight /= nutr - want_nutr;
+        }
+    }
+
+    if( it.poison > 0 ) {
+        weight -= it.poison;
+    }
+
+    return weight;
+}
+
+bool npc::consume_food()
+{
+    float best_weight = 0.0f;
+    int index = -1;
+    int want_hunger = get_hunger();
+    int want_quench = get_thirst();
     invslice slice = inv.slice();
-    for (size_t i = 0; i < slice.size(); i++) {
-        int eaten_hunger = -1, eaten_thirst = -1;
-        const it_comest *food = NULL;
-        item &it = slice[i]->front();
-        if (it.is_food()) {
-            food = dynamic_cast<const it_comest *>(it.type);
-        } else if (it.is_food_container()) {
-            food = dynamic_cast<const it_comest *>(it.contents[0].type);
-        }
-        if (food != NULL) {
-            eaten_hunger = get_hunger() - food->get_nutrition();
-            eaten_thirst = get_thirst() - food->quench;
-        }
-        if (eaten_hunger > 0) { // <0 means we have a chance of puking
-            if ((thirst_more_important && eaten_thirst < best_thirst) ||
-                (!thirst_more_important && eaten_hunger < best_hunger) ||
-                (eaten_thirst == best_thirst && eaten_hunger < best_hunger) ||
-                (eaten_hunger == best_hunger && eaten_thirst < best_thirst)   ) {
-                if (eaten_hunger < best_hunger) {
-                    best_hunger = eaten_hunger;
-                }
-                if (eaten_thirst < best_thirst) {
-                    best_thirst = eaten_thirst;
-                }
-                index = i;
-            }
+    for( size_t i = 0; i < slice.size(); i++ ) {
+        const item &it = slice[i]->front();
+        float cur_weight = it.is_food_container() ?
+            rate_food( it.contents[0], want_hunger, want_quench ) :
+            rate_food( it, want_hunger, want_quench );
+        if( cur_weight > best_weight ) {
+            best_weight = cur_weight;
+            index = i;
         }
     }
 
-    if (index == -1) {
-        move_pause();
-        return;
+    if( index == -1 ) {
+        if( !is_friend() ) {
+            // TODO: Remove this and let player "exploit" hungry NPCs
+            set_hunger( 0 );
+            set_thirst( 0 );
+        }
+        return false;
     }
 
-    consume(index);
-    moves = 0;
+    return consume( index );
 }
 
 void npc::mug_player(player &mark)
@@ -2724,8 +2867,6 @@ std::string npc_action_name(npc_action action)
         return _("Heal self");
     case npc_use_painkiller:
         return _("Use painkillers");
-    case npc_eat:
-        return _("Eat");
     case npc_drop_items:
         return _("Drop items");
     case npc_flee:
@@ -2813,10 +2954,15 @@ bool npc::complain()
     static const std::string bite_string = "bite";
     static const std::string bleed_string = "bleed";
     static const std::string radiation_string = "radiation";
+    static const std::string hunger_string = "hunger";
+    static const std::string thirst_string = "thirst";
     // TODO: Allow calling for help when scared
     if( !is_following() || !g->u.sees( *this ) ) {
         return false;
     }
+
+    // Don't wake player up with non-serious complaints
+    const bool do_complain = rules.allow_complain && !g->u.in_sleep_state();
 
     // When infected, complain every (4-intensity) hours
     // At intensity 3, ignore player wanting us to shut up
@@ -2824,7 +2970,7 @@ bool npc::complain()
         body_part bp = bp_affected( *this, effect_infected );
         const auto &eff = get_effect( effect_infected, bp );
         if( complaints[infected_string] < calendar::turn - HOURS(4 - eff.get_intensity()) &&
-            (rules.allow_complain || eff.get_intensity() >= 3) ) {
+            (do_complain || eff.get_intensity() >= 3) ) {
             say( _("My %s wound is infected..."), body_part_name( bp ).c_str() );
             complaints[infected_string] = calendar::turn;
             // Only one complaint per turn
@@ -2835,7 +2981,7 @@ bool npc::complain()
     // When bitten, complain every hour, but respect restrictions
     if( has_effect( effect_bite ) ) {
         body_part bp = bp_affected( *this, effect_bite );
-        if( rules.allow_complain &&
+        if( do_complain &&
             complaints[bite_string] < calendar::turn - HOURS(1) ) {
             say( _("The bite wound on my %s looks bad."), body_part_name( bp ).c_str() );
             complaints[bite_string] = calendar::turn;
@@ -2847,7 +2993,7 @@ bool npc::complain()
     // If massively tired, ignore restrictions
     if( get_fatigue() > TIRED &&
         complaints[fatigue_string] < calendar::turn - MINUTES(30) &&
-        (rules.allow_complain || get_fatigue() > MASSIVE_FATIGUE - 100) ) {
+        (do_complain || get_fatigue() > MASSIVE_FATIGUE - 100) ) {
         say( "<yawn>" );
         complaints[fatigue_string] = calendar::turn;
         return true;
@@ -2856,13 +3002,32 @@ bool npc::complain()
     // Radiation every 10 minutes
     if( radiation > 90 &&
         complaints[radiation_string] < calendar::turn - MINUTES(10) &&
-        (rules.allow_complain || radiation > 150) ) {
+        (do_complain || radiation > 150) ) {
         say( _("I'm suffering from radiation sickness...") );
         complaints[radiation_string] = calendar::turn;
         return true;
     }
 
-    // TODO: Complain about hunger and thirst, when NPCs can have those
+    // Hunger every 3-6 hours
+    // Since NPCs can't starve to death, respect the rules
+    if( get_hunger() > 160 &&
+        complaints[hunger_string] < calendar::turn - std::max( HOURS(3), MINUTES(60*8 - get_hunger()) ) &&
+        do_complain ) {
+        say( _("<hungry>") );
+        complaints[hunger_string] = calendar::turn;
+        return true;
+    }
+
+    // Thirst every 2 hours
+    // Since NPCs can't dry to death, respect the rules
+    if( get_thirst() > 80
+        && complaints[thirst_string] < calendar::turn - HOURS(2) &&
+        do_complain ) {
+        say( _("<thirsty>") );
+        complaints[thirst_string] = calendar::turn;
+        return true;
+    }
+
     return false;
 }
 

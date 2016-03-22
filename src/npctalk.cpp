@@ -73,6 +73,8 @@ std::string talk_done_mugging[10];
 std::string talk_leaving[10];
 std::string talk_catch_up[10];
 std::string talk_yawn[10];
+std::string talk_hungry[10];
+std::string talk_thirsty[10];
 
 /**
  * A dynamically generated line, spoken by the NPC.
@@ -155,8 +157,9 @@ public:
 
 static std::map<std::string, json_talk_topic> json_talk_topics;
 
-#define NUM_STATIC_TAGS 27
+#define NUM_STATIC_TAGS 29
 
+// TODO: Read all this from jsons
 tag_data talk_tags[NUM_STATIC_TAGS] = {
 {"<okay>",          &talk_okay},
 {"<no>",            &talk_no},
@@ -184,7 +187,9 @@ tag_data talk_tags[NUM_STATIC_TAGS] = {
 {"<done_mugging>",  &talk_done_mugging},
 {"<catch_up>",      &talk_catch_up},
 {"<im_leaving_you>",&talk_leaving},
-{"<yawn>",          &talk_yawn}
+{"<yawn>",          &talk_yawn},
+{"<hungry>",        &talk_hungry},
+{"<thirsty>",       &talk_thirsty}
 };
 
 // Every OWED_VAL that the NPC owes you counts as +1 towards convincing
@@ -537,6 +542,37 @@ void game::init_npctalk()
     _("I'll just go to sleep, <okay>?")
     };
     for(int j=0; j<10; j++) {talk_yawn[j] = tmp_talk_yawn[j];}
+
+    std::string tmp_talk_hungry[10] = {
+    _("When we eatin'?"),
+    // TODO: Make them more creative with food
+    // TODO: Make them respect their mutations when asking for food
+    _("I'd eat a burger if I had one."),
+    _("Perfect time for a lunch break."),
+    _("I'm hungry..."),
+    _("I'm <swear> hungry."),
+    _("So, <name_g>, when we eatin'?"),
+    _("I <really> need to eat something."),
+    _("<ill_die> if I don't get some food."),
+    _("Consider this idea: you give me food and I eat it."),
+    _("Did you know that lack of food kills faster than chain smoking?")
+    };
+    for(int j=0; j<10; j++) {talk_hungry[j] = tmp_talk_hungry[j];}
+
+    std::string tmp_talk_thirsty[10] = {
+    _("When we drinkin'?"),
+    // Intentionally similar to alcohol addiction message
+    _("When was the last time I had a drink?"),
+    _("I'm parched, I need to drink something."),
+    _("I'm thirsty..."),
+    _("I'm <swear> thirsty."),
+    _("Can you give me something to drink, <name_g>?"),
+    _("I <really> need to get some water."),
+    _("<ill_die> if I don't drink something."),
+    _("Water... Is there an oasis nearby?"),
+    _("Did you know that lack of water kills faster than lack of rest?")
+    };
+    for(int j=0; j<10; j++) {talk_thirsty[j] = tmp_talk_thirsty[j];}
 }
 
 void npc_chatbin::check_missions()
@@ -1694,6 +1730,12 @@ std::string dialogue::dynamic_line( const std::string &topic ) const
             status << string_format(_(" %s will complain about wounds and needs."), npcstr.c_str());
         } else {
             status << string_format(_(" %s will only complain in an emergency."), npcstr.c_str());
+        }
+
+        if( p->rules.allow_pulp ) {
+            status << string_format(_(" %s will smash nearby zombie corpses."), npcstr.c_str());
+        } else {
+            status << string_format(_(" %s will leave zombie corpses intact."), npcstr.c_str());
         }
 
         return status.str();
@@ -2973,6 +3015,9 @@ void dialogue::gen_responses( const std::string &topic )
                               &talk_function::toggle_allow_complain );
             }
 
+            add_response( p->rules.allow_pulp ? _("Leave corpses alone.") : _("Smash zombie corpses."),
+                          "TALK_MISC_RULES", &talk_function::toggle_allow_pulp );
+
             add_response_none( _("Never mind.") );
 
     }
@@ -3368,6 +3413,11 @@ void talk_function::toggle_allow_sleep( npc *p )
 void talk_function::toggle_allow_complain( npc *p )
 {
     p->rules.allow_complain = !p->rules.allow_complain;
+}
+
+void talk_function::toggle_allow_pulp( npc *p )
+{
+    p->rules.allow_pulp = !p->rules.allow_pulp;
 }
 
 void talk_function::reveal_stats (npc *p)
@@ -3899,9 +3949,10 @@ bool dialogue::print_responses( int const yoffset )
         }
     }
     // Those are always available, their key bindings are fixed as well.
-    mvwprintz( win, curline + 2, xoffset, c_magenta, _( "L: Look at" ) );
-    mvwprintz( win, curline + 3, xoffset, c_magenta, _( "S: Size up stats" ) );
-    mvwprintz( win, curline + 4, xoffset, c_magenta, _( "Y: Yell" ) );
+    mvwprintz( win, curline + 1, xoffset, c_magenta, _( "Shift+L: Look at" ) );
+    mvwprintz( win, curline + 2, xoffset, c_magenta, _( "Shift+S: Size up stats" ) );
+    mvwprintz( win, curline + 3, xoffset, c_magenta, _( "Shift+Y: Yell" ) );
+    mvwprintz( win, curline + 4, xoffset, c_magenta, _( "Shift+O: Check opinion" ) );
     return curline > max_line; // whether there is more to print.
 }
 
@@ -4077,23 +4128,20 @@ std::string dialogue::opt( const std::string &topic )
 
 std::string special_talk(char ch)
 {
- switch (ch) {
-  case 'L':
-  case 'l':
-   return "TALK_LOOK_AT";
-  case 'S':
-  case 's':
-   return "TALK_SIZE_UP";
-  case 'O':
-  case 'o':
-   return "TALK_OPINION";
-  case 'Y':
-  case 'y':
-   return "TALK_SHOUT";
-  default:
-   return "TALK_NONE";
- }
- return "TALK_NONE";
+    switch (ch) {
+        case 'L':
+            return "TALK_LOOK_AT";
+        case 'S':
+            return "TALK_SIZE_UP";
+        case 'O':
+            return "TALK_OPINION";
+        case 'Y':
+            return "TALK_SHOUT";
+        default:
+            return "TALK_NONE";
+    }
+
+    return "TALK_NONE";
 }
 
 // Creates a new inventory that contains `added` items, but not `without` ones
@@ -4704,7 +4752,9 @@ bool try_consume( npc &p, item &it, bool &used, std::string &reason )
         return false;
     }
 
-    if( p.op_of_u.trust < 5 && !g->u.has_trait( "DEBUG_MIND_CONTROL" ) ) {
+    if( ( !it.type->use_methods.empty() || comest->quench < 0 || it.poison > 0 ) &&
+        p.op_of_u.trust < 5 &&
+        !g->u.has_trait( "DEBUG_MIND_CONTROL" ) ) {
         // TODO: Get some better check here
         reason = _("I don't <swear> trust you enough to eat from your hand...");
         return false;

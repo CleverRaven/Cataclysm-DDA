@@ -223,6 +223,7 @@ struct npc_follower_rules : public JsonSerializer, public JsonDeserializer
     bool allow_bash;
     bool allow_sleep;
     bool allow_complain;
+    bool allow_pulp;
 
     npc_follower_rules()
     {
@@ -236,6 +237,7 @@ struct npc_follower_rules : public JsonSerializer, public JsonDeserializer
         allow_bash = true;
         allow_sleep = false;
         allow_complain = true;
+        allow_pulp = true;
     };
 
     using JsonSerializer::serialize;
@@ -705,6 +707,7 @@ public:
 // Movement; the following are defined in npcmove.cpp
  void move(); // Picks an action & a target and calls execute_action
  void execute_action( npc_action action ); // Performs action
+    void process_turn() override;
 
     void choose_monster_target();
     void assess_danger();
@@ -747,7 +750,13 @@ public:
     void do_reload( item &what );
 
 // Physical movement from one tile to the next
- void update_path( const tripoint &p, bool no_bashing = false );
+    /**
+     * Tries to find path to p. If it can, updates path to it.
+     * @param no_bashing Don't allow pathing through tiles that require bashing.
+     * @param force If there is no valid path, empty the current path.
+     * @returns If it updated the path.
+     */
+    bool update_path( const tripoint &p, bool no_bashing = false, bool force = true );
  bool can_move_to( const tripoint &p, bool no_bashing = false ) const;
  void move_to    ( const tripoint &p, bool no_bashing = false );
  void move_to_next(); // Next in <path>
@@ -760,6 +769,11 @@ public:
  void pick_up_item (); // Move to, or grab, our targeted item
  void drop_items (int weight, int volume); // Drop wgt and vol
 
+    /** Returns true if it finds one. */
+    bool find_corpse_to_pulp();
+    /** Returns true if it handles the turn. */
+    bool do_pulp();
+
 // Combat functions and player interaction functions
     Creature *get_target( int target ) const;
  void wield_best_melee ();
@@ -768,10 +782,11 @@ public:
  void heal_player (player &patient);
  void heal_self  ();
  void take_painkiller ();
- void pick_and_eat ();
  void mug_player (player &mark);
  void look_for_player (player &sought);
  bool saw_player_recently() const;// Do we have an idea of where u are?
+    /** Returns true if food was consumed, false otherwise. */
+    bool consume_food();
 
 // Movement on the overmap scale
  bool has_destination() const; // Do we have a long-term destination?
@@ -856,6 +871,11 @@ public:
     tripoint wander_pos; // Not actually used (should be: wander there when you hear a sound)
     int wander_time;
 
+    /**
+     * Location and index of the corpse we'd like to pulp (if any).
+     */
+    tripoint pulp_location;
+
  int restock;
  bool fetching_item;
  bool has_new_items; // If true, we have something new and should re-equip
@@ -899,7 +919,6 @@ private:
     void setID (int id);
     bool dead;  // If true, we need to be cleaned up
 
-    bool is_dangerous_field( const field_entry &fld ) const;
     bool sees_dangerous_field( const tripoint &p ) const;
     bool could_move_onto( const tripoint &p ) const;
 };

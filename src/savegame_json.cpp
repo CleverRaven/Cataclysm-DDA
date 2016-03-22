@@ -810,6 +810,7 @@ void npc_follower_rules::serialize(JsonOut &json) const
     json.member( "allow_bash", allow_bash );
     json.member( "allow_sleep", allow_sleep );
     json.member( "allow_complain", allow_complain );
+    json.member( "allow_pulp", allow_pulp );
     json.end_object();
 }
 
@@ -829,6 +830,7 @@ void npc_follower_rules::deserialize(JsonIn &jsin)
     data.read( "allow_bash", allow_bash );
     data.read( "allow_sleep", allow_sleep );
     data.read( "allow_complain", allow_complain );
+    data.read( "allow_pulp", allow_pulp );
 }
 
 extern std::string convert_talk_topic( talk_topic_enum );
@@ -1017,6 +1019,10 @@ void npc::load(JsonObject &data)
     data.read( "guardy", guard_pos.y );
     data.read( "guardz", guard_pos.z );
 
+    data.read( "pulp_locationx", pulp_location.x );
+    data.read( "pulp_locationy", pulp_location.y );
+    data.read( "pulp_locationz", pulp_location.z );
+
     if ( data.read("mission", misstmp) ) {
         mission = npc_mission( misstmp );
     }
@@ -1102,6 +1108,10 @@ void npc::store(JsonOut &json) const
     json.member( "guardx", guard_pos.x );
     json.member( "guardy", guard_pos.y );
     json.member( "guardz", guard_pos.z );
+
+    json.member( "pulp_locationx", pulp_location.x );
+    json.member( "pulp_locationy", pulp_location.y );
+    json.member( "pulp_locationz", pulp_location.z );
 
     json.member( "mission", mission ); // todo: stringid
     json.member( "flags", flags );

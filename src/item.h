@@ -524,7 +524,7 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
      * Get @ref rot value relative to it_comest::spoils, if the item does not spoil,
      * it returns 0. If the item is rotten the returned value is > 1.
      */
-    float get_relative_rot();
+    float get_relative_rot() const;
     /**
      * Set the @ref rot to the given relative rot (relative to it_comest::spoils).
      */

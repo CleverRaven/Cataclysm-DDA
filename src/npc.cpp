@@ -1075,18 +1075,20 @@ bool npc::wear_if_wanted( const item &it )
 
     // TODO: Make it depend on stuff
     static const std::array<int, num_bp> max_encumb = {{
-        19, // bp_torso - Higher if ranged?
-        30, // bp_head
-        29, // bp_eyes - Lower if using ranged?
-        19, // bp_mouth
-        19, // bp_arm_l - Split ranged/melee?
-        19, // bp_arm_r
-        29, // bp_hand_l - Lower if throwing?
-        29, // bp_hand_r
-        19, // bp_leg_l - Higher if ranged?
-        19, // bp_leg_r
-        29, // bp_foot_l
-        29, // bp_foot_r
+        30, // bp_torso - Higher if ranged?
+        100, // bp_head
+        30, // bp_eyes - Lower if using ranged?
+        30, // bp_mouth
+        30, // bp_arm_l
+        30, // bp_arm_r
+        30, // bp_hand_l - Lower if throwing?
+        30, // bp_hand_r
+        // Must be enough to allow hazmat, turnout etc.
+        30, // bp_leg_l - Higher if ranged?
+        30, // bp_leg_r
+        // Doesn't hurt much
+        50, // bp_foot_l
+        50, // bp_foot_r
     }};
 
     // Splints ignore limits, but only when being equipped on a broken part
@@ -1108,9 +1110,10 @@ bool npc::wear_if_wanted( const item &it )
         return wear_item( it, false );
     }
 
-    bool encumb_ok = true;
-    const auto new_enc = get_encumbrance( it );
-    do {
+    const int it_encumber = it.get_encumber();
+    while( !worn.empty() ) {
+        bool encumb_ok = true;
+        const auto new_enc = get_encumbrance( it );
         // Strip until we can put the new item on
         // This is one of the reasons this command is not used by the AI
         for( size_t i = 0; i < num_bp; i++ ) {
@@ -1119,8 +1122,8 @@ bool npc::wear_if_wanted( const item &it )
                 continue;
             }
 
-            if( it.get_encumber() > max_encumb[i] ) {
-                // Not a NPC-friendly item
+            if( it_encumber > max_encumb[i] ) {
+                // Not an NPC-friendly item
                 return false;
             }
 
@@ -1130,8 +1133,9 @@ bool npc::wear_if_wanted( const item &it )
             }
         }
 
-        if( encumb_ok ) {
-            return wear_item( it, false );
+        if( encumb_ok && can_wear( it, false ) ) {
+            // @todo Hazmat/power armor makes this not work due to 1 boots/headgear limit
+            return wear_item( it, true );
         }
         // Otherwise, maybe we should take off one or more items and replace them
         bool took_off = false;
@@ -1154,9 +1158,9 @@ bool npc::wear_if_wanted( const item &it )
             // Shouldn't happen, but does
             return wear_item( it, false );
         }
-    } while( !worn.empty() );
+    }
 
-    return false;
+    return worn.empty() && wear_item( it, false );
 }
 
 bool npc::wield( item& it )
@@ -2130,7 +2134,7 @@ std::string npc::opinion_text() const
   ret << _("Untrusting");
  else if (op_of_u.trust <= 2)
   ret << _("Uneasy");
- else if (op_of_u.trust <= 5)
+ else if (op_of_u.trust <= 4)
   ret << _("Trusting");
  else if (op_of_u.trust < 10)
   ret << _("Very trusting");
@@ -2193,6 +2197,14 @@ std::string npc::opinion_text() const
  return ret.str();
 }
 
+void maybe_shift( tripoint &pos, int dx, int dy )
+{
+    if( pos != tripoint_min ) {
+        pos.x += dx;
+        pos.y += dy;
+    }
+}
+
 void npc::shift(int sx, int sy)
 {
     const int shiftx = sx * SEEX;
@@ -2218,15 +2230,9 @@ void npc::shift(int sx, int sy)
         }
     }
 
-    if( wanted_item_pos != no_goal_point ) {
-        wanted_item_pos.x -= shiftx;
-        wanted_item_pos.y -= shifty;
-    }
-
-    if( last_player_seen_pos != no_goal_point ) {
-        last_player_seen_pos.x -= shiftx;
-        last_player_seen_pos.y -= shifty;
-    }
+    maybe_shift( wanted_item_pos, -shiftx, -shifty );
+    maybe_shift( last_player_seen_pos, -shiftx, -shifty );
+    maybe_shift( pulp_location, -shiftx, -shifty );
     path.clear();
 }
 
@@ -2705,4 +2711,31 @@ bool npc::dispose_item( item& obj, const std::string & )
 
     mn->action();
     return true;
+}
+
+void npc::process_turn()
+{
+    player::process_turn();
+
+    if( is_following() && calendar::once_every( HOURS(1) ) &&
+        get_hunger() < 200 && get_thirst() < 100 && op_of_u.trust < 5 ) {
+        // Friends who are well fed will like you more
+        // 24 checks per day, best case chance at trust 0 is 1 in 48 for +1 trust per 2 days
+        float trust_chance = 5 - op_of_u.trust;
+        // Penalize for bad impression
+        // TODO: Penalize for traits and actions (especially murder, unless NPC is psycho)
+        int op_penalty = std::max( 0, op_of_u.anger ) +
+                         std::max( 0, -op_of_u.value ) +
+                         std::max( 0, op_of_u.fear );
+        // Being barely hungry and thirsty, not in pain and not wounded means good care
+        int state_penalty = get_hunger() + get_thirst() + (100 - hp_percentage()) + get_pain();
+        if( x_in_y( trust_chance, 240 + 10 * op_penalty + state_penalty ) ) {
+            op_of_u.trust++;
+        }
+
+        // TODO: Similar checks for fear and anger
+    }
+
+    // TODO: Add decreasing trust/value/etc. here when player doesn't provide food
+    // TODO: Make NPCs leave the player if there's a path out of map and player is sleeping/unseen/etc.
 }
