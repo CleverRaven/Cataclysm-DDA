@@ -16,7 +16,7 @@
         "id": "bio_batteries",
         "name": "Battery System",
         "occupied_bodyparts": [
-            [ "TORSO", 30 ]
+            [ "TORSO", 25 ]
         ],
         "capacity": 10,
         "power_source": true,
@@ -73,8 +73,7 @@
         "id": "bio_metabolics",
         "name": "Metabolic Interchange",
         "occupied_bodyparts": [
-            [ "TORSO", 5 ],
-            [ "HEAD", 2 ]
+            [ "TORSO", 25 ]
         ],
         "power_source": true,
         "toggled": true,
@@ -158,11 +157,13 @@
         "type": "bionic",
         "id": "bio_dex_enhancer",
         "name": "Wired Reflexes",
+
         "description": "Your reaction time has been greatly enhanced with bionic nerve stimulators, giving you a +2 bonus to dexterity."
     },{
         "type": "bionic",
         "id": "bio_str_enhancer",
         "name": "Muscle Augmentation",
+
         "description": "Your muscular system has been enhanced with myomer fibers, giving you a +2 bonus to strength."
     },{
         "type": "bionic",
@@ -176,6 +177,7 @@
         "type": "bionic",
         "id": "bio_speed",
         "name": "Synaptic Accelerator",
+
         "description": "Your nervous system has been enhanced with bionic stimulators, giving you a 10% boost to your speed."
     },{
         "type": "bionic",
@@ -215,18 +217,30 @@
         "id": "bio_eye_optic",
         "name": "Telescopic Eyes",
         "occupied_bodyparts": [
-            [ "EYES", 1 ]
+            [ "EYES", 2 ]
         ],
         "description": "Much of the material in your inner eye has been removed and replaced with an array of high-powered, auto-focusing lenses.  You can now see much farther and more clearer than before, any vision problems you might have had are now gone."
     },{
         "type": "bionic",
         "id": "bio_targeting",
         "name": "Targeting System",
+        "occupied_bodyparts": [
+            [ "EYES", 1 ],
+            [ "ARM_L", 3 ],
+            [ "ARM_R", 3 ],
+            [ "HAND_L", 1 ],
+            [ "HAND_R", 1 ]
+        ],
         "description": "Your eyes are equipped with range finders, and their movement is synced with that of your arms, to a degree.  Shots you fire will be much more accurate, particularly at long range."
     },{
         "type": "bionic",
         "id": "bio_gills",
         "name": "Membrane Oxygenator",
+        "occupied_bodyparts": [
+            [ "TORSO", 4 ],
+            [ "HEAD", 2 ],
+            [ "MOUTH", 2 ]
+        ],
         "description": "An oxygen interchange system automatically switches on while underwater, slowly draining your energy reserves but providing oxygen."
     },{
         "type": "bionic",
@@ -317,12 +331,31 @@
         "type": "bionic",
         "id": "bio_shock",
         "name": "Electroshock Unit",
+        "occupied_bodyparts": [
+            [ "TORSO", 8 ],
+            [ "ARM_L", 3 ],
+            [ "ARM_R", 3 ],
+            [ "HAND_L", 1 ],
+            [ "HAND_R", 1 ]
+        ],
         "toggled": true,
         "description": "While fighting unarmed, or with a weapon that conducts electricity, there is a chance that a successful hit will shock your opponent, inflicting extra damage and disabling them temporarily at the cost of some energy."
     },{
         "type": "bionic",
         "id": "bio_heat_absorb",
         "name": "Heat Drain",
+        "occupied_bodyparts": [
+            [ "TORSO", 12 ],
+            [ "HEAD", 3 ],
+            [ "ARM_L", 3 ],
+            [ "ARM_R", 3 ],
+            [ "HAND_L", 1 ],
+            [ "HAND_R", 1 ],
+            [ "LEG_L", 5 ],
+            [ "LEG_R", 5 ],
+            [ "FOOT_L", 2 ],
+            [ "FOOT_R", 2 ]
+        ],
         "toggled": true,
         "description": "While fighting unarmed against a warm-blooded opponent, there is a chance that a successful hit will drain body heat, inflicting a small amount of extra damage, and increasing your power reserves slightly."
     },{
@@ -527,7 +560,7 @@
         "id": "bio_painkiller",
         "name": "Sensory Dulling",
         "occupied_bodyparts": [
-            [ "TORSO", 10 ]
+            [ "HEAD", 2 ]
         ],
         "act_cost": 50,
         "description": "Your nervous system is wired to allow you to inhibit the signals of pain, allowing you to dull your senses at will.  However, the use of this system may cause delayed reaction time and drowsiness."
@@ -611,7 +644,7 @@
         "id": "bio_blood_anal",
         "name": "Blood Analysis",
         "occupied_bodyparts": [
-            [ "TORSO", 8 ]
+            [ "TORSO", 5 ]
         ],
         "act_cost": 25,
         "description": "Small sensors have been implanted in your heart, allowing you to analyze your blood.  This will detect many illnesses, drugs, and other conditions."
@@ -621,6 +654,7 @@
         "name": "Integrated Dosimeter",
         "occupied_bodyparts": [
             [ "TORSO", 2 ],
+            [ "HEAD", 1 ],
             [ "ARM_L", 1 ],
             [ "ARM_R", 1 ],
             [ "LEG_L", 1 ],
@@ -655,7 +689,7 @@
         "id": "bio_blood_filter",
         "name": "Blood Filter",
         "occupied_bodyparts": [
-            [ "TORSO", 6 ]
+            [ "TORSO", 10 ]
         ],
         "act_cost": 75,
         "description": "A filtration system in your heart allows you to actively filter out chemical impurities, primarily drugs.  It will have limited impact on viruses.  Note that it is not a targeted filter; ALL drugs in your system will be affected."
@@ -664,7 +698,7 @@
         "id": "bio_alarm",
         "name": "Alarm System",
         "occupied_bodyparts": [
-            [ "TORSO", 5 ],
+            [ "TORSO", 2 ],
             [ "HEAD", 1 ]
         ],
         "toggled": true,
@@ -763,16 +797,17 @@
             [ "HAND_R", 2 ]
         ],
         "act_cost": 100,
-        "description": "Mounted in the palms of your hand are small parabolic EMP field generators.  You may use power to fire a short-ranged blast which will disable electronics and robots."
+        "description": "Mounted in the palm of your hand are small parabolic EMP field generators.  You may use power to fire a short-ranged blast which will disable electronics and robots."
     },{
         "type": "bionic",
         "id": "bio_hydraulics",
         "name": "Hydraulic Muscles",
         "occupied_bodyparts": [
-            [ "ARM_L", 3 ],
-            [ "ARM_R", 3 ],
-            [ "LEG_L", 6 ],
-            [ "LEG_R", 6 ]
+            [ "TORSO", 4 ],
+            [ "ARM_L", 8 ],
+            [ "ARM_R", 8 ],
+            [ "LEG_L", 14 ],
+            [ "LEG_R", 14 ]
         ],
         "toggled": true,
         "act_cost": 17,
@@ -833,8 +868,8 @@
         "id": "bio_power_armor_interface",
         "name": "Power Armor Interface",
         "occupied_bodyparts": [
-            [ "TORSO", 2 ],
-            [ "HEAD", 2 ]
+            [ "TORSO", 4 ],
+            [ "HEAD", 1 ]
         ],
         "toggled": true,
         "act_cost": 1,
@@ -847,7 +882,7 @@
         "name": "Power Armor Interface Mk. II",
         "occupied_bodyparts": [
             [ "TORSO", 3 ],
-            [ "HEAD", 1 ]
+            [ "HEAD", 2 ]
         ],
         "toggled": true,
         "act_cost": 1,
@@ -858,12 +893,14 @@
         "type": "bionic",
         "id": "bio_flashbang",
         "name": "Flashbang Generator",
+
         "act_cost": 125,
         "description": "Light emitting diodes integrated into your skin can release a flash comparable to a flashbang grenade, blinding nearby enemies.  Speakers integrated into your body mimic the loud sound, deafening those nearby."
     },{
         "type": "bionic",
         "id": "bio_railgun",
         "name": "Railgun",
+
         "toggled": true,
         "act_cost": 1,
         "react_cost": 1,
@@ -873,6 +910,7 @@
         "type": "bionic",
         "id": "bio_probability_travel",
         "name": "Probability Travel",
+
         "toggled": true,
         "act_cost": 1,
         "react_cost": 1,
@@ -882,18 +920,23 @@
         "type": "bionic",
         "id": "bio_shockwave",
         "name": "Shockwave Generator",
+
         "act_cost": 250,
         "description": "You generate a powerful shockwave, knocking back all nearby creatures.  Targets are stunned briefly, take damage and additional stun upon impact with impassable terrain, and knockback any creatures they collide with."
     },{
         "type": "bionic",
         "id": "bio_chain_lightning",
         "name": "Chain Lightning",
+
         "act_cost": 125,
         "description": "Your body is equipped with a chain lightning generator, allowing you to emit a blast of lightning at a target, leaving a trail of lightning in its wake, jumping to additional targets within 4 tiles of the previous target."
     },{
         "type": "bionic",
         "id": "bio_night",
         "name": "Artificial Night Generator",
+        "occupied_bodyparts": [
+            [ "TORSO", 16 ]
+        ],
         "toggled": true,
         "act_cost": 15,
         "react_cost": 15,
@@ -903,6 +946,7 @@
         "type": "bionic",
         "id": "bio_uncanny_dodge",
         "name": "Uncanny Dodge",
+
         "toggled": true,
         "act_cost": 1,
         "react_cost": 1,
@@ -912,12 +956,18 @@
         "type": "bionic",
         "id": "bio_ups",
         "name": "Internal Unified Power System",
+        "occupied_bodyparts": [
+            [ "TORSO", 5 ]
+        ],
         "toggled": true,
         "description": "You have a unified power system wired into your power banks.  Objects that run on a UPS can now draw directly from your internal power supply."
     },{
         "type": "bionic",
         "id": "bio_dis_shock",
         "name": "Electrical Discharge",
+        "occupied_bodyparts": [
+            [ "TORSO", 6 ]
+        ],
         "faulty": true,
         "description": "A malfunctioning bionic which occasionally discharges electricity through your body, causing pain and brief paralysis but no damage."
     },{
@@ -954,15 +1004,15 @@
             [ "LEG_R", 1 ]
         ],
         "faulty": true,
-        "description": "A functioning bionic.  It will occasionally emit a loud burst of noise."
+        "description": "A malfunctioning bionic.  It will occasionally emit a loud burst of noise."
     },{
         "type": "bionic",
         "id": "bio_power_weakness",
         "name": "Power Overload",
         "occupied_bodyparts": [
-            [ "TORSO", 2 ],
-            [ "ARM_L", 2 ],
-            [ "ARM_R", 2 ],
+            [ "TORSO", 3 ],
+            [ "ARM_L", 1 ],
+            [ "ARM_R", 1 ],
             [ "LEG_L", 2 ],
             [ "LEG_R", 2 ]
         ],
@@ -975,8 +1025,8 @@
         "occupied_bodyparts": [
             [ "TORSO", 3 ],
             [ "HEAD", 2 ],
-            [ "HAND_L", 2 ],
-            [ "HAND_R", 2 ]
+            [ "HAND_L", 1 ],
+            [ "HAND_R", 1 ]
         ],
         "faulty": true,
         "description": "A bionic of some sort, so badly installed that you cannot even tell what it was originally supposed to be.  Sometimes it itches horribly."
@@ -1013,12 +1063,22 @@
         "type": "bionic",
         "id": "bio_shakes",
         "name": "Bionic Short Circuit",
+        "occupied_bodyparts": [
+            [ "TORSO", 1 ],
+            [ "ARM_L", 2 ],
+            [ "ARM_R", 2 ],
+            [ "LEG_L", 3 ],
+            [ "LEG_R", 3 ]
+        ],
         "faulty": true,
         "description": "A poorly-wired bionic which fails to serve its intended purpose, this malfunctioning device periodically short-circuits, causing systemic muscle tremors."
     },{
         "type": "bionic",
         "id": "bio_leaky",
         "name": "Leaky Bionic",
+        "occupied_bodyparts": [
+            [ "TORSO", 5 ]
+        ],
         "faulty": true,
         "description": "This botched piece of bionic hardware slowly leaks electrolytic compounds, piezoelectric nanomaterials, and other high-tech contaminants into your bloodstream.  Needless to say, this is not good for your health."
     },{
