@@ -1708,7 +1708,7 @@ int player::get_total_bionics_slots( body_part bp ) const
 
     case bp_leg_l:
     case bp_leg_r:
-        return 26;
+        return 30;
 
     case bp_foot_l:
     case bp_foot_r:

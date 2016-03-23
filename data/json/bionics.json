@@ -157,13 +157,25 @@
         "type": "bionic",
         "id": "bio_dex_enhancer",
         "name": "Wired Reflexes",
-
+        "occupied_bodyparts": [
+            [ "TORSO", 6 ],
+            [ "ARM_L", 4 ],
+            [ "ARM_R", 4 ],
+            [ "LEG_L", 8 ],
+            [ "LEG_R", 8 ]
+        ],
         "description": "Your reaction time has been greatly enhanced with bionic nerve stimulators, giving you a +2 bonus to dexterity."
     },{
         "type": "bionic",
         "id": "bio_str_enhancer",
         "name": "Muscle Augmentation",
-
+        "occupied_bodyparts": [
+            [ "TORSO", 6 ],
+            [ "ARM_L", 4 ],
+            [ "ARM_R", 4 ],
+            [ "LEG_L", 8 ],
+            [ "LEG_R", 8 ]
+        ],
         "description": "Your muscular system has been enhanced with myomer fibers, giving you a +2 bonus to strength."
     },{
         "type": "bionic",
@@ -177,7 +189,17 @@
         "type": "bionic",
         "id": "bio_speed",
         "name": "Synaptic Accelerator",
-
+        "occupied_bodyparts": [
+            [ "TORSO", 12 ],
+            [ "ARM_L", 3 ],
+            [ "ARM_R", 3 ],
+            [ "HAND_L", 1 ],
+            [ "HAND_R", 1 ],
+            [ "LEG_L", 6 ],
+            [ "LEG_R", 6 ],
+            [ "FOOT_L", 2 ],
+            [ "FOOT_R", 2 ]
+        ],
         "description": "Your nervous system has been enhanced with bionic stimulators, giving you a 10% boost to your speed."
     },{
         "type": "bionic",
@@ -405,8 +427,8 @@
         "id": "bio_armor_legs",
         "name": "Alloy Plating - Legs",
         "occupied_bodyparts": [
-            [ "LEG_L", 5 ],
-            [ "LEG_R", 5 ]
+            [ "LEG_L", 6 ],
+            [ "LEG_R", 6 ]
         ],
         "description": "The flesh on your legs has been replaced by a strong armor, protecting you greatly."
     },{
@@ -855,8 +877,8 @@
         "id": "bio_ground_sonar",
         "name": "Terranian Sonar",
         "occupied_bodyparts": [
-            [ "FOOT_L", 2 ],
-            [ "FOOT_R", 2 ]
+            [ "FOOT_L", 3 ],
+            [ "FOOT_R", 3 ]
         ],
         "toggled": true,
         "act_cost": 5,
@@ -893,14 +915,25 @@
         "type": "bionic",
         "id": "bio_flashbang",
         "name": "Flashbang Generator",
-
+        "occupied_bodyparts": [
+            [ "TORSO", 20 ],
+            [ "ARM_L", 2 ],
+            [ "ARM_R", 2 ],
+            [ "LEG_L", 3 ],
+            [ "LEG_R", 3 ]
+        ],
         "act_cost": 125,
         "description": "Light emitting diodes integrated into your skin can release a flash comparable to a flashbang grenade, blinding nearby enemies.  Speakers integrated into your body mimic the loud sound, deafening those nearby."
     },{
         "type": "bionic",
         "id": "bio_railgun",
         "name": "Railgun",
-
+        "occupied_bodyparts": [
+            [ "ARM_L", 5 ],
+            [ "ARM_R", 5 ],
+            [ "HAND_L", 1 ],
+            [ "HAND_R", 1 ]
+        ],
         "toggled": true,
         "act_cost": 1,
         "react_cost": 1,
@@ -910,7 +943,15 @@
         "type": "bionic",
         "id": "bio_probability_travel",
         "name": "Probability Travel",
-
+        "occupied_bodyparts": [
+            [ "TORSO", 20 ],
+            [ "ARM_L", 2 ],
+            [ "ARM_R", 2 ],
+            [ "LEG_L", 3 ],
+            [ "LEG_R", 3 ],
+            [ "FOOT_L", 1 ],
+            [ "FOOT_R", 1 ]
+        ],
         "toggled": true,
         "act_cost": 1,
         "react_cost": 1,
@@ -920,14 +961,20 @@
         "type": "bionic",
         "id": "bio_shockwave",
         "name": "Shockwave Generator",
-
+        "occupied_bodyparts": [
+            [ "TORSO", 20 ]
+        ],
         "act_cost": 250,
         "description": "You generate a powerful shockwave, knocking back all nearby creatures.  Targets are stunned briefly, take damage and additional stun upon impact with impassable terrain, and knockback any creatures they collide with."
     },{
         "type": "bionic",
         "id": "bio_chain_lightning",
         "name": "Chain Lightning",
-
+        "occupied_bodyparts": [
+            [ "TORSO", 16 ],
+            [ "ARM_L", 4 ],
+            [ "ARM_R", 4 ]
+        ],
         "act_cost": 125,
         "description": "Your body is equipped with a chain lightning generator, allowing you to emit a blast of lightning at a target, leaving a trail of lightning in its wake, jumping to additional targets within 4 tiles of the previous target."
     },{
@@ -946,7 +993,15 @@
         "type": "bionic",
         "id": "bio_uncanny_dodge",
         "name": "Uncanny Dodge",
-
+        "occupied_bodyparts": [
+            [ "TORSO", 12 ],
+            [ "ARM_L", 3 ],
+            [ "ARM_R", 3 ],
+            [ "LEG_L", 5 ],
+            [ "LEG_R", 5 ],
+            [ "FOOT_L", 1 ],
+            [ "FOOT_R", 1 ]
+        ],
         "toggled": true,
         "act_cost": 1,
         "react_cost": 1,
@@ -1147,7 +1202,9 @@
             [ "ARM_L", 1 ],
             [ "ARM_R", 1 ],
             [ "LEG_L", 1 ],
-            [ "LEG_R", 1 ]
+            [ "LEG_R", 1 ],
+            [ "FOOT_L", 1 ],
+            [ "FOOT_R", 1 ]            
         ],
         "faulty": true,
         "description": "Improperly installed wires cause a physical stiffness in most of your body, causing increased encumbrance."
