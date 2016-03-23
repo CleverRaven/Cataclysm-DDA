@@ -196,10 +196,12 @@ struct common_ranged_data {
      * Recoil "bonus" from gun.
      */
     int recoil = 0;
-    /**
-     * loudness for guns/gunmods and ammo
-     */
-    int loudness = 0;
+
+    /** Loudness of a gun, gunmod or specific ammo
+     *  For guns and gunmods this is a modifier which if unspecified defaults to 0
+     *  For ammo this is an absolute value which if unspecified results in a appropriate
+     *  value being calculated based upon other properties of the ammo */
+    int loudness = -1;
 };
 
 /**
@@ -344,7 +346,7 @@ struct islot_ammo : common_ranged_data {
     /**
      * Default charges.
      */
-    long def_charges = 0;
+    long def_charges = 1;
     /**
      * TODO: document me.
      */

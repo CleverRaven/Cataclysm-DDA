@@ -75,11 +75,15 @@ void Item_factory::finalize()
         if( obj.stack_size == 0 && ( obj.ammo || obj.is_food() ) ) {
             obj.stack_size = obj.charges_default();
         }
-
         for( const auto &tag : obj.item_tags ) {
             if( tag.size() > 6 && tag.substr( 0, 6 ) == "LIGHT_" ) {
                 obj.light_emission = std::max( atoi( tag.substr( 6 ).c_str() ), 0 );
             }
+        }
+        // for ammo not specifying loudness (or an explicit zero) derive value from other properties
+        if( obj.ammo && obj.ammo->loudness < 0 ) {
+            obj.ammo->loudness = std::max( std::max( { obj.ammo->damage, obj.ammo->pierce, obj.ammo->range } ) * 3,
+                                           obj.ammo->recoil / 3 );
         }
     }
 }
@@ -760,24 +764,37 @@ void Item_factory::load( islot_software &slot, JsonObject &jo )
 
 void Item_factory::load( islot_ammo &slot, JsonObject &jo )
 {
-    slot.type = jo.get_string( "ammo_type" );
-    slot.casing = jo.get_string( "casing", slot.casing );
-    slot.damage = jo.get_int( "damage", 0 );
-    slot.pierce = jo.get_int( "pierce", 0 );
-    slot.range = jo.get_int( "range", 0 );
-    slot.dispersion = jo.get_int( "dispersion", 0 );
-    slot.recoil = jo.get_int( "recoil", 0 );
-    slot.def_charges = jo.get_long( "count" );
-    slot.ammo_effects = jo.get_tags( "effects" );
+    // will be checked later by ::check_definitions()
+    jo.read( "ammo_type", slot.type );
 
-    if( !jo.read( "loudness", slot.loudness ) ) {
-        slot.loudness = std::max( std::max( { slot.damage, slot.pierce, slot.range } ) * 3, slot.recoil / 3 );
-    }
+    jo.read( "casing", slot.casing );
+    jo.read( "damage", slot.damage );
+    jo.read( "pierce", slot.pierce );
+    jo.read( "range", slot.range );
+    jo.read( "dispersion", slot.dispersion );
+    jo.read( "recoil", slot.recoil );
+    jo.read( "count", slot.def_charges );
+
+    // merge with any default or inherited tags
+    auto fx = jo.get_tags( "effects" );
+    slot.ammo_effects.insert( fx.begin(), fx.end() );
+
+    jo.read( "loudness", slot.loudness );
 }
 
 void Item_factory::load_ammo(JsonObject &jo)
 {
-    itype *new_item_template = new itype();
+    itype *new_item_template;
+    if( jo.has_string( "copy-from" ) ) {
+        auto src = m_templates.find( jo.get_string( "copy-from" ) );
+        if( src == m_templates.end() ) {
+            jo.throw_error( "cannot copy from unknown type" );
+        }
+        new_item_template = new itype( *src->second );
+    } else {
+        new_item_template = new itype();
+    }
+
     load_slot( new_item_template->ammo, jo );
     load_basic_info( jo, new_item_template );
     load_slot( new_item_template->spawn, jo );
