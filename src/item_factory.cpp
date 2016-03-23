@@ -933,8 +933,6 @@ void Item_factory::load_tool( JsonObject &jo, const itype *src )
 {
     auto obj = src ? new it_tool( *( dynamic_cast<const it_tool *>( src ) ) ) : new it_tool();
 
-    obj->use_methods.clear();
-
     jo.read( "ammo", obj->ammo_id );
     jo.read( "max_charges", obj->max_charges );
     jo.read( "initial_charges", obj->def_charges );
@@ -1270,6 +1268,9 @@ void Item_factory::load_basic_info(JsonObject &jo, itype *new_item_template)
         new_item_template->techniques.insert( matec_id( s ) );
     }
 
+    if( jo.has_member( "use_action" ) ) {
+        new_item_template->use_methods.clear();
+    }
     set_use_methods_from_json( jo, "use_action", new_item_template->use_methods );
 
     if (jo.has_member("category")) {
