@@ -245,7 +245,7 @@ struct islot_gun : common_firing_data {
     /**
      * Reload time, in moves.
      */
-    int reload_time = 0;
+    int reload_time = 100;
     /**
      * Noise displayed when reloading the weapon.
      */

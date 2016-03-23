@@ -759,9 +759,11 @@ void Item_factory::load( islot_gun &slot, JsonObject &jo )
     slot.durability = jo.get_int( "durability" );
     slot.burst = jo.get_int( "burst", 0 );
     slot.clip = jo.get_int( "clip_size", 0 );
-    slot.reload_time = jo.get_int( "reload" );
+
+    jo.read( "reload", slot.reload_time );
     slot.reload_noise = jo.get_string( "reload_noise", _ ("click.") );
     slot.reload_noise_volume = jo.get_int( "reload_noise_volume", -1 );
+
     slot.pierce = jo.get_int( "pierce", 0 );
     slot.ammo_effects = jo.get_tags( "ammo_effects" );
     slot.ups_charges = jo.get_int( "ups_charges", 0 );

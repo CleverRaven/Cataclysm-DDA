@@ -19,7 +19,6 @@
     "aim_speed": 6,
     "recoil": -60,
     "durability": 7,
-    "reload": 100,
     "barrel_length": 2,
     "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "magazine_well": 1,
@@ -101,7 +100,6 @@
     "aim_speed" : 6,
     "recoil": 30,
     "durability": 8,
-    "reload": 100,
     "barrel_length" : 4,
     "burst": 5,
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
@@ -132,7 +130,6 @@
     "recoil": -45,
     "durability": 8,
     "clip_size": 4,
-    "reload": 75,
     "barrel_length": 3,
     "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "flags": [ "RELOAD_ONE", "NEVER_JAMS" ]
@@ -161,7 +158,7 @@
     "durability": 6,
     "loudness": 25,
     "clip_size": 1,
-    "reload": 75,
+    "reload": 200,
     "barrel_length": 4,
     "valid_mod_locations": [ [ "accessories", 2 ], [ "muzzle", 1 ], [ "stock", 1 ] ],
     "flags": "RELOAD_ONE"
@@ -190,7 +187,7 @@
     "durability": 2,
     "loudness": 25,
     "clip_size": 1,
-    "reload": 75,
+    "reload": 200,
     "barrel_length": 2,
     "valid_mod_locations": [ [ "accessories", 4 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "sights", 1 ] ],
     "flags": [ "RELOAD_ONE" ]
