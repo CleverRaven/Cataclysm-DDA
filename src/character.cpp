@@ -1987,3 +1987,8 @@ int Character::throw_range( const item &it ) const
     return ret;
 }
 
+bool Character::made_of( const std::string &m ) const {
+    // TODO: check for mutations that change this.
+    static const std::vector<std::string> fleshy = { "flesh", "hflesh" };
+    return std::find( fleshy.begin(), fleshy.end(), m ) != fleshy.end();
+}

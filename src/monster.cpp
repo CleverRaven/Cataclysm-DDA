@@ -2059,11 +2059,6 @@ int monster::get_hp_max() const
     return type->hp;
 }
 
-std::string monster::get_material() const
-{
-    return type->mat[0];
-}
-
 void monster::hear_sound( const tripoint &source, const int vol, const int dist )
 {
     if( !can_hear() ) {
