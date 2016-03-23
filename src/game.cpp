@@ -8290,6 +8290,30 @@ void game::print_all_tile_info( const tripoint &lp, WINDOW *w_look, int column, 
             print_visibility_info( w_look, column, line, visibility );
             break;
     }
+
+    if( m.has_graffiti_at( lp ) ) {
+        mvwprintw(w_look, ++line + 1, 1, _("Graffiti: %s"), m.graffiti_at( lp ).c_str() );
+    }
+
+    auto this_sound = sounds::sound_at( lp );
+    if( !this_sound.empty() ) {
+        mvwprintw( w_look, ++line, 1, _("You heard %s from here."), this_sound.c_str() );
+    } else {
+        // Check other z-levels
+        tripoint tmp = lp;
+        for( tmp.z = -OVERMAP_DEPTH; tmp.z <= OVERMAP_HEIGHT; tmp.z++ ) {
+            if( tmp.z == lp.z ) {
+                continue;
+            }
+
+            auto zlev_sound = sounds::sound_at( tmp );
+            if( !zlev_sound.empty() ) {
+                mvwprintw( w_look, ++line, 1, tmp.z > lp.z ?
+                           _("You heard %s from above.") : _("You heard %s from below."),
+                           zlev_sound.c_str() );
+            }
+        }
+    }
 }
 
 void game::print_visibility_info( WINDOW *w_look, int column, int &line,
@@ -9054,30 +9078,6 @@ tripoint game::look_around( WINDOW *w_info, const tripoint &start_point,
             if (fast_scroll) {
                 // print a light green mark below the top right corner of the w_info window
                 mvwprintz(w_info, 1, lookWidth - 1, c_ltgreen, _("F"));
-            }
-
-            if( m.has_graffiti_at( lp ) ) {
-                mvwprintw(w_info, ++off + 1, 1, _("Graffiti: %s"), m.graffiti_at( lp ).c_str() );
-            }
-
-            auto this_sound = sounds::sound_at( lp );
-            if( !this_sound.empty() ) {
-                mvwprintw( w_info, ++off, 1, _("You heard %s from here."), this_sound.c_str() );
-            } else {
-                // Check other z-levels
-                tripoint tmp = lp;
-                for( tmp.z = -OVERMAP_DEPTH; tmp.z <= OVERMAP_HEIGHT; tmp.z++ ) {
-                    if( tmp.z == lp.z ) {
-                        continue;
-                    }
-
-                    auto zlev_sound = sounds::sound_at( tmp );
-                    if( !zlev_sound.empty() ) {
-                        mvwprintw( w_info, ++off, 1, tmp.z > lp.z ?
-                                   _("You heard %s from above.") : _("You heard %s from below."),
-                                   zlev_sound.c_str() );
-                    }
-                }
             }
 
             wrefresh(w_info);
