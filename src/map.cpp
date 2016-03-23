@@ -2394,7 +2394,7 @@ bool map::has_flag(const std::string &flag, const int x, const int y) const
     return has_flag_ter_or_furn(flag, x, y); // Does bound checking
 }
 
-bool map::can_put_items(const int x, const int y)
+bool map::can_put_items_ter_furn(const int x, const int y) const
 {
     return !has_flag("NOITEM", x, y) && !has_flag("SEALED", x, y);
 }
@@ -2472,7 +2472,18 @@ bool map::has_flag( const std::string &flag, const tripoint &p ) const
     return has_flag_ter_or_furn( flag, p ); // Does bound checking
 }
 
-bool map::can_put_items( const tripoint &p )
+bool map::can_put_items( const tripoint &p ) const
+{
+    if (can_put_items_ter_furn( p )) {
+        return true;
+    } else {
+        int part = -1;
+        const vehicle * const veh = veh_at( p, part );
+        return veh != nullptr && veh->part_with_feature( part, "CARGO" ) >= 0;
+    }
+}
+
+bool map::can_put_items_ter_furn( const tripoint &p ) const
 {
     return !has_flag( "NOITEM", p ) && !has_flag( "SEALED", p );
 }

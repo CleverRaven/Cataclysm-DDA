@@ -2274,7 +2274,7 @@ void game::rcdrive(int dx, int dy)
 
     tripoint src( cx, cy, cz );
     tripoint dest( cx + dx, cy + dy, cz );
-    if( m.impassable(dest) || !m.can_put_items(dest) ||
+    if( m.impassable(dest) || !m.can_put_items_ter_furn(dest) ||
         m.has_furn(dest) ) {
         sounds::sound(dest, 7, _("sound of a collision with an obstacle."));
         return;
@@ -10150,7 +10150,7 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
     if (!from_ground && liquid.rotten() &&
         choose_adjacent(liqstr, dirx, diry)) {
 
-        if (!m.can_put_items(dirx, diry)) {
+        if (!m.can_put_items_ter_furn(dirx, diry)) {
             add_msg(m_info, _("You can't pour there!"));
             return false;
         }
@@ -10180,7 +10180,7 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
             if (!from_ground && !liquid.rotten() &&
                 choose_adjacent(liqstr, dirx, diry)) {
 
-                if (!m.can_put_items(dirx, diry)) {
+                if (!m.can_put_items_ter_furn(dirx, diry)) {
                     add_msg(m_info, _("You can't pour there!"));
                     return false;
                 }
@@ -10355,12 +10355,8 @@ int game::move_liquid(item &liquid)
 void game::drop(int pos)
 {
     if (!m.can_put_items(u.pos())) {
-        int part = -1;
-        vehicle * const veh = m.veh_at( u.pos(), part );
-        if( veh == nullptr || veh->part_with_feature( part, "CARGO" ) < 0 ) {
-            add_msg(m_info, _("You can't place items there!"));
-            return;
-        }
+        add_msg(m_info, _("You can't place items here!"));
+        return;
     }
 
     if (pos == INT_MIN) {
@@ -10390,12 +10386,8 @@ void game::drop_in_direction()
     }
 
     if (!m.can_put_items(dirp)) {
-        int part = -1;
-        vehicle * const veh = m.veh_at( dirp, part );
-        if( veh == nullptr || veh->part_with_feature( part, "CARGO" ) < 0 ) {
-            add_msg(m_info, _("You can't place items there!"));
-            return;
-        }
+        add_msg(m_info, _("You can't place items there!"));
+        return;
     }
 
     make_drop_activity( ACT_DROP, dirp );
