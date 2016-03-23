@@ -57,8 +57,9 @@ void live_view::show( const int x, const int y, const visibility_variables &cach
     // TODO: Z
     tripoint p( x, y, g->get_levz() );
 
+    const int last_line = getmaxy( *this ) - START_LINE - 1;
     auto visibility = m.get_visibility( m.apparent_light_at( p, cache ), cache );
-    g->print_all_tile_info( p, *this, START_COLUMN, line, true , visibility );
+    g->print_all_tile_info( p, *this, START_COLUMN, line, last_line, visibility );
 
 #if (defined TILES || defined _WIN32 || defined WINDOWS)
     // Because of the way the status UI is done, the live view window must

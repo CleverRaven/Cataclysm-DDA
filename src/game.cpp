@@ -8273,14 +8273,14 @@ tripoint game::look_debug()
 ////////////////////////////////////////////////////////////////////////////////////////////
 
 void game::print_all_tile_info( const tripoint &lp, WINDOW *w_look, int column, int &line,
-                                bool mouse_hover, visibility_type visibility )
+                                const int last_line, visibility_type visibility )
 {
     switch( visibility ) {
         case VIS_CLEAR:
             print_terrain_info( lp, w_look, column, line );
             print_fields_info( lp, w_look, column, line );
             print_trap_info( lp, w_look, column, line );
-            print_object_info( lp, w_look, column, line, mouse_hover );
+            print_object_info( lp, w_look, column, line, last_line );
             break;
         case VIS_BOOMER:
         case VIS_BOOMER_DARK:
@@ -8409,26 +8409,22 @@ void game::print_trap_info( const tripoint &lp, WINDOW *w_look, const int column
 }
 
 void game::print_object_info( const tripoint &lp, WINDOW *w_look, const int column, int &line,
-                              bool mouse_hover )
+                              const int last_line )
 {
     int veh_part = 0;
     vehicle *veh = m.veh_at( lp, veh_part);
     const Creature *critter = critter_at( lp, true );
     if( critter != nullptr && ( u.sees( *critter ) || critter == &u ) ) {
-        if( !mouse_hover ) {
-            critter->draw( w_terrain, lp, true );
-        }
+        critter->draw( w_terrain, lp, true );
         line = critter->print_info( w_look, line, 6, column );
     } else if (veh) {
         mvwprintw(w_look, line++, column, _("There is a %s there. Parts:"), veh->name.c_str());
         line = veh->print_part_desc(w_look, line, getmaxx(w_look), veh_part);
-        if (!mouse_hover) {
-            m.drawsq( w_terrain, u, lp, true, true, lp );
-        }
-    } else if (!mouse_hover) {
-        m.drawsq(w_terrain, u, lp, true, true, lp );
+        m.drawsq( w_terrain, u, lp, true, true, lp );
+    } else {
+        m.drawsq( w_terrain, u, lp, true, true, lp );
     }
-    handle_multi_item_info( lp, w_look, column, line, mouse_hover );
+    handle_multi_item_info( lp, w_look, column, line, last_line );
 }
 
 void game::print_visibility_indicator( visibility_type visibility )
@@ -8462,7 +8458,7 @@ void game::print_visibility_indicator( visibility_type visibility )
 }
 
 void game::handle_multi_item_info( const tripoint &lp, WINDOW *w_look, const int column, int &line,
-                                   bool mouse_hover )
+                                   const int last_line )
 {
     if( !m.sees_some_items( lp, u ) ) {
         return;
@@ -8478,7 +8474,6 @@ void game::handle_multi_item_info( const tripoint &lp, WINDOW *w_look, const int
             ++item_names[item.tname()];
         }
 
-        const int last_line = mouse_hover ? getmaxy( w_look ) - 2 : lookHeight - 2;
         const int max_width = getmaxx( w_look ) - column - 1;
         for( auto const &it : item_names ) {
             if( line >= last_line ) {
@@ -9012,8 +9007,6 @@ tripoint game::look_around( WINDOW *w_info, const tripoint &start_point,
             }
         }
 
-        int off = 1;
-
         if (select_zone) {
             //Select Zone
             if (has_first_point) {
@@ -9072,7 +9065,9 @@ tripoint game::look_around( WINDOW *w_info, const tripoint &start_point,
         } else {
             //Look around
             auto visibility = m.get_visibility(m.apparent_light_at(lp, cache), cache);
-            print_all_tile_info( lp, w_info, 1, off, false, visibility);
+            int first_line = 1;
+            const int last_line = lookHeight - 2;
+            print_all_tile_info( lp, w_info, 1, first_line, last_line, visibility );
             print_visibility_indicator( visibility );
 
             if (fast_scroll) {
