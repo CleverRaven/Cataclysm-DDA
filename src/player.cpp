@@ -9618,22 +9618,32 @@ bool player::can_wear( const item& it, bool alert ) const
         return false;
     }
 
+    if( ( ( it.covers( bp_foot_l ) && is_wearing_shoes( "left" ) ) ||
+          ( it.covers( bp_foot_r ) && is_wearing_shoes( "right") ) ) &&
+          !it.has_flag( "BELTED" ) && !it.has_flag( "SKINTIGHT" ) ) {
+        // Checks to see if the player is wearing shoes
+        if( alert ) {
+            add_msg_if_player( m_info, _( "You're already wearing footwear!" ) );
+        }
+        return false;
+    }
+
+    if( it.covers( bp_head ) && ( encumb( bp_head ) > 10) && ( !( it.get_encumber() < 9) ) ) {
+        if(alert) {
+            add_msg_if_player( m_info, wearing_something_on( bp_head ) ?
+                            _( "You can't wear another helmet!" ) : _( "You can't wear a helmet!" ) );
+        }
+        return false;
+    }
+
+    if( has_trait( "WOOLALLERGY" ) && ( it.made_of("wool" ) || it.item_tags.count( "wooled" ) ) ) {
+        if( alert ) {
+            add_msg_if_player( m_info, _( "You can't wear that, it's made of wool!" ) );
+        }
+        return false;
+    }
+
     if( !it.has_flag( "OVERSIZE" ) ) {
-        if( has_trait( "WOOLALLERGY" ) && ( it.made_of("wool" ) || it.item_tags.count( "wooled" ) ) ) {
-            if( alert ) {
-                add_msg_if_player( m_info, _( "You can't wear that, it's made of wool!" ) );
-            }
-            return false;
-        }
-
-        if( it.covers( bp_head ) && ( encumb( bp_head ) > 10) && ( !( it.get_encumber() < 9) ) ) {
-            if(alert) {
-                add_msg_if_player( m_info, wearing_something_on( bp_head ) ?
-                                _( "You can't wear another helmet!" ) : _( "You can't wear a helmet!" ) );
-            }
-            return false;
-        }
-
         if( ( it.covers( bp_hand_l ) || it.covers( bp_hand_r ) ||
               it.covers( bp_arm_l )  || it.covers( bp_arm_r )  ||
               it.covers( bp_leg_l )  || it.covers( bp_leg_r )  ||
@@ -9762,16 +9772,6 @@ bool player::can_wear( const item& it, bool alert ) const
                 add_msg_if_player( m_info, _( "You cannot wear a helmet over your %s." ),
                             ( has_trait( "HORNS_POINTED" ) ? _( "horns" ) :
                             ( has_trait( "ANTENNAE" ) ? _( "antennae" ) : _( "antlers" ) ) ) );
-            }
-            return false;
-        }
-
-        if( ( ( it.covers( bp_foot_l ) && is_wearing_shoes( "left" ) ) ||
-              ( it.covers( bp_foot_r ) && is_wearing_shoes( "right") ) ) &&
-              !it.has_flag( "BELTED" ) && !it.has_flag( "SKINTIGHT" ) ) {
-            // Checks to see if the player is wearing shoes
-            if( alert ) {
-                add_msg_if_player( m_info, _( "You're already wearing footwear!" ) );
             }
             return false;
         }
