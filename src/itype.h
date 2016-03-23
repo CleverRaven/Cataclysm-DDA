@@ -525,13 +525,16 @@ public:
     explosion_data explosion;
 
     phase_id phase      = SOLID; // e.g. solid, liquid, gas
-    unsigned price      = 0; // Its value
-    unsigned price_post = 0; // Post-apocalyptic, more practical value
-    unsigned volume     = 0; // Space taken up by this item
-    int      stack_size = 0; // How many things make up the above-defined volume (eg. 100 aspirin = 1 volume)
-    unsigned weight     = 0; // Weight in grams. Assumes positive weight. No helium, guys!
 
-    unsigned integral_volume; // Space consumed when integrated as part of another item (defaults to volume)
+    /** After loading from JSON these properties guaranteed to be zero or positive */
+    /*@{*/
+    int weight          = -1; // Weight in grams for item (or each stack member)
+    int volume          = -1; // Space occupied by items of this type
+    int price           = -1; // Value before cataclysm
+    int price_post      = -1; // Value after cataclysm (dependent upon practical usages)
+    int stack_size      =  0; // Maximum identical items that can stack per above unit volume
+    int integral_volume = -1; // Space consumed when integrated as part of another item (defaults to volume)
+    /*@}*/
 
     bool rigid = true; // If non-rigid volume (and if worn encumbrance) increases proportional to contents
 
@@ -553,7 +556,7 @@ public:
     std::map< ammotype, itype_id > magazine_default;
 
     /** Volume above which the magazine starts to protrude from the item and add extra volume */
-    int magazine_well;
+    int magazine_well = 0;
 
     virtual std::string get_item_type_string() const
     {

@@ -210,6 +210,9 @@ class Item_factory
         void load_item_whitelist( JsonObject &jo );
         void finialize_item_blacklist();
 
+        /** Called once after all definitions loaded to perform cleanup tasks */
+        void finalize();
+
         /**
          * Load a json blob of type item option.
          * @param jo a JsonObject of type ITEM_OPTION to load.
@@ -307,8 +310,6 @@ class Item_factory
                                              std::string flag_type = "" );
 
         void set_material_from_json( JsonObject &jo, std::string member, itype *new_item );
-
-        void set_intvar( std::string tag, unsigned int &var, int min, int max );
 
         //Currently only used to body_part stuff, bitset size might need to be increased in the future
         void set_flag_by_string( std::bitset<num_bp> &cur_flags, const std::string &new_flag,
