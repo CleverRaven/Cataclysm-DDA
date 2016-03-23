@@ -8411,19 +8411,22 @@ void game::print_trap_info( const tripoint &lp, WINDOW *w_look, const int column
 void game::print_object_info( const tripoint &lp, WINDOW *w_look, const int column, int &line,
                               const int last_line )
 {
-    int veh_part = 0;
-    vehicle *veh = m.veh_at( lp, veh_part);
     const Creature *critter = critter_at( lp, true );
     if( critter != nullptr && ( u.sees( *critter ) || critter == &u ) ) {
         critter->draw( w_terrain, lp, true );
         line = critter->print_info( w_look, line, 6, column );
-    } else if (veh) {
-        mvwprintw(w_look, line++, column, _("There is a %s there. Parts:"), veh->name.c_str());
-        line = veh->print_part_desc(w_look, line, last_line, getmaxx(w_look), veh_part);
-        m.drawsq( w_terrain, u, lp, true, true, lp );
     } else {
         m.drawsq( w_terrain, u, lp, true, true, lp );
     }
+
+    int veh_part = 0;
+    vehicle *veh = m.veh_at( lp, veh_part);
+    if (veh) {
+        mvwprintw(w_look, line++, column, _("There is a %s there. Parts:"), veh->name.c_str());
+        line = veh->print_part_desc(w_look, line, last_line, getmaxx(w_look), veh_part);
+        m.drawsq( w_terrain, u, lp, true, true, lp );
+    }
+
     handle_multi_item_info( lp, w_look, column, line, last_line );
 }
 
