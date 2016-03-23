@@ -3313,26 +3313,6 @@ static std::string print_gun_mode( const player &p )
     }
 }
 
-int player::draw_turret_aim( WINDOW *w, int line_number, const tripoint &targ ) const
-{
-    vehicle *veh = g->m.veh_at( pos() );
-    if( veh == nullptr ) {
-        debugmsg( "Tried to aim turret while outside vehicle" );
-        return line_number;
-    }
-
-    const auto turret_state = veh->turrets_can_shoot( targ );
-    int num_ok = 0;
-    for( const auto &pr : turret_state ) {
-        if( pr.second == turret_all_ok ) {
-            num_ok++;
-        }
-    }
-
-    mvwprintw( w, line_number++, 1, _("Turrets in range: %d"), num_ok );
-    return line_number;
-}
-
 void player::print_stamina_bar( WINDOW *w ) const
 {
     std::string sta_bar = "";

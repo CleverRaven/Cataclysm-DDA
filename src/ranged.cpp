@@ -890,6 +890,26 @@ static int print_aim_bars( const player &p, WINDOW *w, int line_number, item *we
     return line_number;
 }
 
+static int draw_turret_aim( const player &p, WINDOW *w, int line_number, const tripoint &targ )
+{
+    vehicle *veh = g->m.veh_at( p.pos() );
+    if( veh == nullptr ) {
+        debugmsg( "Tried to aim turret while outside vehicle" );
+        return line_number;
+    }
+
+    const auto turret_state = veh->turrets_can_shoot( targ );
+    int num_ok = 0;
+    for( const auto &pr : turret_state ) {
+        if( pr.second == turret_all_ok ) {
+            num_ok++;
+        }
+    }
+
+    mvwprintw( w, line_number++, 1, _("Turrets in range: %d"), num_ok );
+    return line_number;
+}
+
 // TODO: Shunt redundant drawing code elsewhere
 std::vector<tripoint> game::target( tripoint &p, const tripoint &low, const tripoint &high,
                                     std::vector<Creature *> t, int &target,
@@ -1123,7 +1143,7 @@ std::vector<tripoint> game::target( tripoint &p, const tripoint &low, const trip
                 mvwprintw(w_target, line_number++, 1, _("%s Delay: %i"), aim_mode->name.c_str(), predicted_delay );
             }
         } else if( mode == TARGET_MODE_TURRET ) {
-            line_number = u.draw_turret_aim( w_target, line_number, p );
+            line_number = draw_turret_aim( u, w_target, line_number, p );
         }
 
         wrefresh(w_target);

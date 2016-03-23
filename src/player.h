@@ -185,9 +185,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void disp_info();
         /** Provides the window and detailed morale data */
         void disp_morale();
-        /** Displays indicator informing which turrets can fire at `targ`.**/
-        int draw_turret_aim( WINDOW *w, int line_number, const tripoint &targ ) const;
-
         /** Print the player's stamina bar. **/
         void print_stamina_bar( WINDOW *w ) const;
         /** Generates the sidebar and it's data in-game */
