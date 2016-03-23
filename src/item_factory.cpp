@@ -804,10 +804,8 @@ void Item_factory::load_itype( JsonObject &jo )
         return load_gun( jo, src );
     } else if( type == "ARMOR" ) {
         return load_armor( jo, src );
-    } else if( type == "TOOL" ) {
+    } else if( type == "TOOL" || type == "TOOL_ARMOR" ) {
         return load_tool( jo, src );
-    } else if( type == "TOOL_ARMOR" ) {
-        return load_tool_armor( jo, src );
     } else if( type == "BOOK" ) {
         return load_book( jo, src );
     } else if( type == "COMESTIBLE" ) {
@@ -931,39 +929,27 @@ void Item_factory::load( islot_armor &slot, JsonObject &jo )
     }
 }
 
-void Item_factory::load_tool( JsonObject &jo, const itype * )
+void Item_factory::load_tool( JsonObject &jo, const itype *src )
 {
-    it_tool *tool_template = new it_tool();
-    tool_template->ammo_id = jo.get_string("ammo");
-    tool_template->max_charges = jo.get_long("max_charges", 0);
-    tool_template->def_charges = jo.get_long("initial_charges");
-    tool_template->charges_per_use = jo.get_int("charges_per_use");
-    tool_template->turns_per_charge = jo.get_int("turns_per_charge");
+    auto obj = src ? new it_tool( *( dynamic_cast<const it_tool *>( src ) ) ) : new it_tool();
 
-    tool_template->revert_to = jo.get_string("revert_to", tool_template->revert_to );
-    jo.read( "revert_msg", tool_template->revert_msg );
+    obj->use_methods.clear();
 
-    tool_template->subtype = jo.get_string("sub", "");
+    jo.read( "ammo", obj->ammo_id );
+    jo.read( "max_charges", obj->max_charges );
+    jo.read( "initial_charges", obj->def_charges );
+    jo.read( "charges_per_use", obj->charges_per_use );
+    jo.read( "turns_per_charge", obj->turns_per_charge );
+    jo.read( "revert_to", obj->revert_to );
+    jo.read( "revert_msg", obj->revert_msg );
+    jo.read( "sub", obj->subtype );
 
-    itype *new_item_template = tool_template;
-    load_basic_info(jo, new_item_template);
-    load_slot( new_item_template->spawn, jo );
-}
+    if( jo.get_string( "type" ) == "TOOL_ARMOR" ) {
+        load_slot( obj->armor, jo );
+    }
 
-void Item_factory::load_tool_armor( JsonObject &jo, const itype * )
-{
-    it_tool *tool_template = new it_tool();
-
-    tool_template->ammo_id = jo.get_string("ammo");
-    tool_template->max_charges = jo.get_int("max_charges", 0);
-    tool_template->def_charges = jo.get_int("initial_charges");
-    tool_template->charges_per_use = jo.get_int("charges_per_use");
-    tool_template->turns_per_charge = jo.get_int("turns_per_charge");
-    tool_template->revert_to = jo.get_string("revert_to");
-
-    load_slot( tool_template->armor , jo );
-
-    load_basic_info(jo, tool_template);
+    load_basic_info( jo, obj );
+    load_slot( obj->spawn, jo );
 }
 
 void Item_factory::load( islot_book &slot, JsonObject &jo )

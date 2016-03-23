@@ -150,7 +150,6 @@ class Item_factory
         void load_gun( JsonObject &jo, const itype *src );
         void load_armor( JsonObject &jo, const itype *src );
         void load_tool( JsonObject &jo, const itype *src );
-        void load_tool_armor( JsonObject &jo, const itype *src );
         void load_book( JsonObject &jo, const itype *src );
         void load_comestible( JsonObject &jo, const itype *src );
         void load_container( JsonObject &jo, const itype *src );

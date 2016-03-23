@@ -691,7 +691,7 @@ public:
 };
 
 struct it_tool : itype {
-    std::string ammo_id;
+    std::string ammo_id = "NULL";
 
     itype_id revert_to = "null";
     std::string revert_msg;
