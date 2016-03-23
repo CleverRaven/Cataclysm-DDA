@@ -10354,6 +10354,15 @@ int game::move_liquid(item &liquid)
 
 void game::drop(int pos)
 {
+    if (!m.can_put_items(u.pos())) {
+        int part = -1;
+        vehicle * const veh = m.veh_at( u.pos(), part );
+        if( veh == nullptr || veh->part_with_feature( part, "CARGO" ) < 0 ) {
+            add_msg(m_info, _("You can't place items there!"));
+            return;
+        }
+    }
+
     if (pos == INT_MIN) {
         make_drop_activity( ACT_DROP, u.pos() );
     } else if( pos == -1 && !u.can_unwield( u.weapon ) ) {
