@@ -5056,6 +5056,13 @@ void game::draw()
 {
     // Draw map
     werase(w_terrain);
+
+    //temporary fix for updating visibility for minimap
+    ter_view_z = ( u.pos() + u.view_offset ).z;
+    m.build_map_cache( ter_view_z );
+    visibility_variables cache;
+    m.update_visibility_cache( cache, ter_view_z );
+
     draw_sidebar();
     draw_ter();
     if( !is_draw_tiles_mode() ) {
