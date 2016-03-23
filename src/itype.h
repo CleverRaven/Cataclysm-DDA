@@ -431,32 +431,61 @@ struct islot_artifact {
     std::vector<art_effect_passive> effects_worn;
 };
 
-struct itype {
+class itype_facets {
+    public:
+        itype_facets() = default;
+
+        /** implements CopyConstructible */
+        itype_facets( const itype_facets& rhs ) {
+            container = clone_slot( rhs.container );
+            armor = clone_slot( rhs.armor );
+            book = clone_slot( rhs.book );
+            gun = clone_slot( rhs.gun );
+            gunmod = clone_slot( rhs.gunmod );
+            magazine = clone_slot( rhs.magazine );
+            variable_bigness = clone_slot( rhs.variable_bigness );
+            bionic = clone_slot( rhs.bionic );
+            software = clone_slot( rhs.software );
+            spawn = clone_slot( rhs.spawn );
+            ammo = clone_slot( rhs.ammo );
+            seed = clone_slot( rhs.seed );
+            artifact = clone_slot( rhs.artifact );
+        }
+
+        /**
+         * Optional slots for various item type properties
+         * @warning check for nullptr before dereferencing
+         */
+        /*@{*/
+        std::unique_ptr<islot_container> container;
+        std::unique_ptr<islot_armor> armor;
+        std::unique_ptr<islot_book> book;
+        std::unique_ptr<islot_gun> gun;
+        std::unique_ptr<islot_gunmod> gunmod;
+        std::unique_ptr<islot_magazine> magazine;
+        std::unique_ptr<islot_variable_bigness> variable_bigness;
+        std::unique_ptr<islot_bionic> bionic;
+        std::unique_ptr<islot_software> software;
+        std::unique_ptr<islot_spawn> spawn;
+        std::unique_ptr<islot_ammo> ammo;
+        std::unique_ptr<islot_seed> seed;
+        std::unique_ptr<islot_artifact> artifact;
+        /*@}*/
+
+    private:
+        template <typename T>
+        static std::unique_ptr<T> clone_slot( const std::unique_ptr<T>& src ) {
+            return src ? std::unique_ptr<T>( new T( *src ) ) : std::unique_ptr<T>();
+        }
+};
+
+struct itype : public itype_facets {
     friend class Item_factory;
 
     // unique string identifier for this item,
     // can be used as lookup key in master itype map
     // Used for save files; aligns to itype_id above.
     std::string id;
-    /**
-     * Slots for various item type properties. Each slot may contain a valid pointer or null, check
-     * this before using it.
-     */
-    /*@{*/
-    std::unique_ptr<islot_container> container;
-    std::unique_ptr<islot_armor> armor;
-    std::unique_ptr<islot_book> book;
-    std::unique_ptr<islot_gun> gun;
-    std::unique_ptr<islot_gunmod> gunmod;
-    std::unique_ptr<islot_magazine> magazine;
-    std::unique_ptr<islot_variable_bigness> variable_bigness;
-    std::unique_ptr<islot_bionic> bionic;
-    std::unique_ptr<islot_software> software;
-    std::unique_ptr<islot_spawn> spawn;
-    std::unique_ptr<islot_ammo> ammo;
-    std::unique_ptr<islot_seed> seed;
-    std::unique_ptr<islot_artifact> artifact;
-    /*@}*/
 protected:
     // private because is should only be accessed through itype::nname!
     // name and name_plural are not translated automatically
