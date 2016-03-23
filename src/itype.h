@@ -482,16 +482,19 @@ class itype_facets {
 struct itype : public itype_facets {
     friend class Item_factory;
 
+    virtual ~itype() {};
+
     // unique string identifier for this item,
     // can be used as lookup key in master itype map
     // Used for save files; aligns to itype_id above.
-    std::string id;
+    std::string id = "null";
+
 protected:
     // private because is should only be accessed through itype::nname!
     // name and name_plural are not translated automatically
     // nname() is used for display purposes
-    std::string name;        // Proper name, singular form, in American English.
-    std::string name_plural; // name, plural form, in American English.
+    std::string name = "none";        // Proper name, singular form, in American English.
+    std::string name_plural = "none"; // name, plural form, in American English.
 public:
     std::string snippet_category;
     std::string description; // Flavor text
@@ -619,10 +622,6 @@ public:
     long invoke( player *p, item *it, const tripoint &pos ) const; // Picks first method or returns 0
     long invoke( player *p, item *it, const tripoint &pos, const std::string &iuse_name ) const;
     long tick( player *p, item *it, const tripoint &pos ) const;
-
-    itype() : id("null"), name("none"), name_plural("none") {}
-
-    virtual ~itype() { };
 };
 
 // Includes food drink and drugs
