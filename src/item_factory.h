@@ -265,7 +265,7 @@ class Item_factory
          * and calls @ref load to do the actual (type specific) loading.
          */
         template<typename SlotType>
-        void load_slot( std::unique_ptr<SlotType> &slotptr, JsonObject &jo );
+        void load_slot( std::unique_ptr<SlotType> &slotptr, JsonObject &jo, bool relative = false );
         /**
          * Load item the item slot if present in json.
          * Checks whether the json object has a member of the given name and if so, loads the item
@@ -273,21 +273,21 @@ class Item_factory
          */
         template<typename SlotType>
         void load_slot_optional( std::unique_ptr<SlotType> &slotptr, JsonObject &jo,
-                                 const std::string &member );
+                                 const std::string &member, bool relative = false );
 
-        void load( islot_container &slot, JsonObject &jo );
-        void load( islot_armor &slot, JsonObject &jo );
-        void load( islot_book &slot, JsonObject &jo );
-        void load( islot_gun &slot, JsonObject &jo );
-        void load( islot_gunmod &slot, JsonObject &jo );
-        void load( islot_magazine &slot, JsonObject &jo );
-        void load( islot_variable_bigness &slot, JsonObject &jo );
-        void load( islot_bionic &slot, JsonObject &jo );
-        void load( islot_spawn &slot, JsonObject &jo );
-        void load( islot_ammo &slot, JsonObject &jo );
-        void load( islot_seed &slot, JsonObject &jo );
-        void load( islot_software &slot, JsonObject &jo );
-        void load( islot_artifact &slot, JsonObject &jo );
+        void load( islot_container &slot, JsonObject &jo, bool relative = false );
+        void load( islot_armor &slot, JsonObject &jo, bool relative = false );
+        void load( islot_book &slot, JsonObject &jo, bool relative = false );
+        void load( islot_gun &slot, JsonObject &jo, bool relative = false );
+        void load( islot_gunmod &slot, JsonObject &jo, bool relative = false );
+        void load( islot_magazine &slot, JsonObject &jo, bool relative = false );
+        void load( islot_variable_bigness &slot, JsonObject &jo, bool relative = false );
+        void load( islot_bionic &slot, JsonObject &, bool relative = false );
+        void load( islot_spawn &slot, JsonObject &jo, bool relative = false );
+        void load( islot_ammo &slot, JsonObject &jo, bool relative = false );
+        void load( islot_seed &slot, JsonObject &jo, bool relative = false );
+        void load( islot_software &slot, JsonObject &jo, bool relative = false );
+        void load( islot_artifact &slot, JsonObject &jo, bool relative = false );
 
         // used to add the default categories
         void add_category( const std::string &id, int sort_rank, const std::string &name );
