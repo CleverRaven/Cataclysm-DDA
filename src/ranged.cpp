@@ -32,6 +32,7 @@ const skill_id skill_archery( "archery" );
 const skill_id skill_throw( "throw" );
 const skill_id skill_gun( "gun" );
 const skill_id skill_melee( "melee" );
+const skill_id skill_driving( "driving" );
 
 const efftype_id effect_on_roof( "on_roof" );
 const efftype_id effect_bounced( "bounced" );
@@ -1054,7 +1055,11 @@ std::vector<tripoint> game::target( tripoint &p, const tripoint &low, const trip
             } else {
                 predicted_recoil = u.recoil;
             }
-            line_number = u.print_aim_bars( w_target, line_number, relevant, critter, predicted_recoil );
+            if( relevant->gunmod_current() ) {
+                line_number = u.print_aim_bars( w_target, line_number, relevant->gunmod_current(), critter, predicted_recoil );
+            } else {
+                line_number = u.print_aim_bars( w_target, line_number, relevant, critter, predicted_recoil );
+            }
             if( aim_mode->has_threshold ) {
                 mvwprintw(w_target, line_number++, 1, _("%s Delay: %i"), aim_mode->name.c_str(), predicted_delay );
             }
@@ -1411,18 +1416,27 @@ static int rand_or_max( bool random, int max )
     return random ? rng(0, max) : max;
 }
 
+static bool is_driving( const player &p )
+{
+    const auto veh = g->m.veh_at( p.pos() );
+    return veh && veh->velocity != 0 && veh->player_in_control( p );
+}
+
+
 // utility functions for projectile_attack
 double player::get_weapon_dispersion( const item *weapon, bool random ) const
 {
-    if( weapon->is_gun() && weapon->is_in_auxiliary_mode() ) {
-        const auto gunmod = weapon->gunmod_current();
-        if( gunmod != nullptr ) {
-            return get_weapon_dispersion( gunmod, random );
-        }
-    }
-
     double dispersion = 0.; // Measured in quarter-degrees.
     dispersion += skill_dispersion( *weapon, random );
+
+    if( is_driving( *this ) ) {
+        // get volume of gun (or for auxiliary gunmods the parent gun)
+        const item *parent = has_item( *weapon ) ? find_parent( *weapon ) : nullptr;
+        int vol = parent ? parent->volume() : weapon->volume();
+
+        ///\EFFECT_DRIVING reduces the inaccuracy penalty when using guns whilst driving
+        dispersion += std::max( vol - get_skill_level( skill_driving ), 1 ) * 20;
+    }
 
     dispersion += rand_or_max( random, ranged_dex_mod() );
     dispersion += rand_or_max( random, ranged_per_mod() );
@@ -1450,10 +1464,7 @@ double player::get_weapon_dispersion( const item *weapon, bool random ) const
         dispersion *= 4;
     }
 
-    if (dispersion < 0) {
-        return 0;
-    }
-    return dispersion;
+    return std::max( dispersion, 0.0 );
 }
 
 int recoil_add( player& p, const item &gun, int shot )

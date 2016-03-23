@@ -1201,7 +1201,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool is_underwater() const override;
         void set_underwater(bool);
         bool is_hallucination() const override;
-
         void environmental_revert_effect();
 
         bool is_invisible() const;
