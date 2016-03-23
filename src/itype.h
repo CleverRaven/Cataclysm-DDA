@@ -491,6 +491,9 @@ struct itype : public itype_facets {
     // Used for save files; aligns to itype_id above.
     std::string id = "null";
 
+    /** base type for this definition, eg. AMMO, TOOL, GUN */
+    std::string base;
+
 protected:
     // private because is should only be accessed through itype::nname!
     // name and name_plural are not translated automatically

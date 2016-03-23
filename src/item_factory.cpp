@@ -782,19 +782,56 @@ void Item_factory::load( islot_ammo &slot, JsonObject &jo )
     jo.read( "loudness", slot.loudness );
 }
 
-void Item_factory::load_ammo(JsonObject &jo)
+void Item_factory::load_itype( JsonObject &jo )
 {
-    itype *new_item_template;
+    auto type = jo.get_string( "type" );
+
+    itype *src = nullptr;
     if( jo.has_string( "copy-from" ) ) {
-        auto src = m_templates.find( jo.get_string( "copy-from" ) );
-        if( src == m_templates.end() ) {
+        auto iter = m_templates.find( jo.get_string( "copy-from" ) );
+        if( iter == m_templates.end() ) {
             jo.throw_error( "cannot copy from unknown type" );
         }
-        new_item_template = new itype( *src->second );
-    } else {
-        new_item_template = new itype();
+        if( iter->second->base != type ) {
+            jo.throw_error( "cannot copy from definition of differing type" );
+        }
+        src = iter->second;
     }
 
+    if( type == "AMMO" ) {
+        return load_ammo( jo, src );
+    } else if( type == "GUN" ) {
+        return load_gun( jo, src );
+    } else if( type == "ARMOR" ) {
+        return load_armor( jo, src );
+    } else if( type == "TOOL" ) {
+        return load_tool( jo, src );
+    } else if( type == "TOOL_ARMOR" ) {
+        return load_tool_armor( jo, src );
+    } else if( type == "BOOK" ) {
+        return load_book( jo, src );
+    } else if( type == "COMESTIBLE" ) {
+        return load_comestible( jo, src );
+    } else if( type == "CONTAINER" ) {
+        return load_container( jo, src );
+    } else if( type == "GUNMOD" ) {
+        return load_gunmod( jo, src );
+    } else if( type == "MAGAZINE" ) {
+        return load_magazine( jo, src );
+    } else if( type == "GENERIC" ) {
+        return load_generic( jo, src );
+    } else if( type == "BIONIC_ITEM" ) {
+        return load_bionic( jo, src );
+    } else if( type == "VAR_VEH_PART" ) {
+        return load_veh_part( jo, src );
+    } else {
+        jo.throw_error( "unrecognised type", "type" );
+    }
+}
+
+void Item_factory::load_ammo( JsonObject &jo, const itype *src )
+{
+    itype *new_item_template = src ? new itype( *src ) : new itype();
     load_slot( new_item_template->ammo, jo );
     load_basic_info( jo, new_item_template );
     load_slot( new_item_template->spawn, jo );
@@ -860,14 +897,14 @@ void Item_factory::load( islot_spawn &slot, JsonObject &jo )
     }
 }
 
-void Item_factory::load_gun(JsonObject &jo)
+void Item_factory::load_gun( JsonObject &jo, const itype * )
 {
     itype* new_item_template = new itype();
     load_slot( new_item_template->gun, jo );
     load_basic_info( jo, new_item_template );
 }
 
-void Item_factory::load_armor(JsonObject &jo)
+void Item_factory::load_armor( JsonObject &jo, const itype * )
 {
     itype* new_item_template = new itype();
     load_slot( new_item_template->armor, jo );
@@ -894,7 +931,7 @@ void Item_factory::load( islot_armor &slot, JsonObject &jo )
     }
 }
 
-void Item_factory::load_tool(JsonObject &jo)
+void Item_factory::load_tool( JsonObject &jo, const itype * )
 {
     it_tool *tool_template = new it_tool();
     tool_template->ammo_id = jo.get_string("ammo");
@@ -913,7 +950,7 @@ void Item_factory::load_tool(JsonObject &jo)
     load_slot( new_item_template->spawn, jo );
 }
 
-void Item_factory::load_tool_armor(JsonObject &jo)
+void Item_factory::load_tool_armor( JsonObject &jo, const itype * )
 {
     it_tool *tool_template = new it_tool();
 
@@ -941,14 +978,14 @@ void Item_factory::load( islot_book &slot, JsonObject &jo )
     set_use_methods_from_json( jo, "use_action", slot.use_methods );
 }
 
-void Item_factory::load_book( JsonObject &jo )
+void Item_factory::load_book( JsonObject &jo, const itype * )
 {
     itype *new_item_template = new itype();
     load_slot( new_item_template->book, jo );
     load_basic_info( jo, new_item_template );
 }
 
-void Item_factory::load_comestible(JsonObject &jo)
+void Item_factory::load_comestible( JsonObject &jo, const itype * )
 {
     it_comest *comest_template = new it_comest();
     comest_template->comesttype = jo.get_string( "comestible_type" );
@@ -973,7 +1010,7 @@ void Item_factory::load_comestible(JsonObject &jo)
     load_slot( new_item_template->spawn, jo );
 }
 
-void Item_factory::load_container(JsonObject &jo)
+void Item_factory::load_container( JsonObject &jo, const itype * )
 {
     itype *new_item_template = new itype();
     load_slot( new_item_template->container, jo );
@@ -1018,7 +1055,7 @@ void Item_factory::load( islot_gunmod &slot, JsonObject &jo )
     slot.install_time = jo.get_int( "install_time", slot.install_time );
 }
 
-void Item_factory::load_gunmod(JsonObject &jo)
+void Item_factory::load_gunmod( JsonObject &jo, const itype * )
 {
     itype *new_item_template = new itype();
     load_slot( new_item_template->gunmod, jo );
@@ -1035,7 +1072,7 @@ void Item_factory::load( islot_magazine &slot, JsonObject &jo )
     slot.linkage = jo.get_string( "linkage", slot.linkage );
 }
 
-void Item_factory::load_magazine(JsonObject &jo)
+void Item_factory::load_magazine( JsonObject &jo, const itype * )
 {
     itype *new_item_template = new itype();
     load_slot( new_item_template->magazine, jo );
@@ -1049,7 +1086,7 @@ void Item_factory::load( islot_bionic &slot, JsonObject &jo )
     slot.bionic_id = jo.get_string( "id" );
 }
 
-void Item_factory::load_bionic( JsonObject &jo )
+void Item_factory::load_bionic( JsonObject &jo, const itype * )
 {
     itype *new_item_template = new itype();
     load_slot( new_item_template->bionic, jo );
@@ -1070,14 +1107,14 @@ void Item_factory::load( islot_variable_bigness &slot, JsonObject &jo )
     }
 }
 
-void Item_factory::load_veh_part(JsonObject &jo)
+void Item_factory::load_veh_part( JsonObject &jo, const itype * )
 {
     itype *new_item_template = new itype();
     load_slot( new_item_template->variable_bigness, jo );
     load_basic_info( jo, new_item_template );
 }
 
-void Item_factory::load_generic(JsonObject &jo)
+void Item_factory::load_generic( JsonObject &jo, const itype * )
 {
     itype *new_item_template = new itype();
     load_basic_info(jo, new_item_template);
@@ -1145,6 +1182,8 @@ void Item_factory::load_basic_info(JsonObject &jo, itype *new_item_template)
         delete m_templates[new_item_template->id];
     }
     m_templates[new_item_template->id] = new_item_template;
+
+    jo.read( "type", new_item_template->base );
 
     jo.read( "weight", new_item_template->weight );
     jo.read( "volume", new_item_template->volume );

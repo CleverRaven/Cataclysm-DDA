@@ -134,29 +134,31 @@ class Item_factory
         bool add_item_to_group( const Group_tag group_id, const Item_tag item_id, int weight );
         /*@}*/
 
-
         /**
          * @name Item type loading
          *
          * These function load different instances of itype objects from json.
          * The loaded item types are stored and can be accessed through @ref find_template.
          * @param jo The json object to load data from.
+         * @param src Base item type (if any) from which this instance is derived
          * @throw std::string if the json object contains invalid data.
          */
         /*@{*/
-        void load_ammo( JsonObject &jo );
-        void load_gun( JsonObject &jo );
-        void load_armor( JsonObject &jo );
-        void load_tool( JsonObject &jo );
-        void load_tool_armor( JsonObject &jo );
-        void load_book( JsonObject &jo );
-        void load_comestible( JsonObject &jo );
-        void load_container( JsonObject &jo );
-        void load_gunmod( JsonObject &jo );
-        void load_magazine( JsonObject &jo );
-        void load_generic( JsonObject &jo );
-        void load_bionic( JsonObject &jo );
-        void load_veh_part( JsonObject &jo );
+        void load_itype( JsonObject &jo );
+
+        void load_ammo( JsonObject &jo, const itype *src );
+        void load_gun( JsonObject &jo, const itype *src );
+        void load_armor( JsonObject &jo, const itype *src );
+        void load_tool( JsonObject &jo, const itype *src );
+        void load_tool_armor( JsonObject &jo, const itype *src );
+        void load_book( JsonObject &jo, const itype *src );
+        void load_comestible( JsonObject &jo, const itype *src );
+        void load_container( JsonObject &jo, const itype *src );
+        void load_gunmod( JsonObject &jo, const itype *src );
+        void load_magazine( JsonObject &jo, const itype *src );
+        void load_generic( JsonObject &jo, const itype *src );
+        void load_bionic( JsonObject &jo, const itype *src );
+        void load_veh_part( JsonObject &jo, const itype *src );
         /*@}*/
 
 
