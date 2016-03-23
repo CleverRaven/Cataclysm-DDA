@@ -3291,24 +3291,24 @@ void player::disp_morale()
     morale.display( ( calc_focus_equilibrium() - focus_pool ) / 100.0 );
 }
 
-std::string player::print_gun_mode() const
+static std::string print_gun_mode( const player &p )
 {
     // Print current weapon, or attachment if active.
-    const item* gunmod = weapon.gunmod_current();
+    const item *gunmod = p.weapon.gunmod_current();
     std::stringstream attachment;
-    if (gunmod != NULL) {
+    if( gunmod != NULL ) {
         attachment << gunmod->type_name().c_str();
         if( gunmod->ammo_remaining() ) {
             attachment << " (" << gunmod->ammo_remaining() << ")";
         }
-        return string_format( _("%s (Mod)"), attachment.str().c_str() );
+        return string_format( _( "%s (Mod)" ), attachment.str().c_str() );
     } else {
-        if (weapon.get_gun_mode() == "MODE_BURST") {
-            return string_format( _("%s (Burst)"), weapname().c_str() );
-        } else if( weapon.get_gun_mode() == "MODE_REACH" ) {
-            return string_format( _("%s (Bayonet)"), weapname().c_str() );
+        if( p.weapon.get_gun_mode() == "MODE_BURST" ) {
+            return string_format( _( "%s (Burst)" ), p.weapname().c_str() );
+        } else if( p.weapon.get_gun_mode() == "MODE_REACH" ) {
+            return string_format( _( "%s (Bayonet)" ), p.weapname().c_str() );
         } else {
-            return string_format( _("%s"), weapname().c_str() );
+            return string_format( _( "%s" ), p.weapname().c_str() );
         }
     }
 }
@@ -3349,7 +3349,7 @@ void player::disp_status( WINDOW *w, WINDOW *w2 )
     {
         const int y = sideStyle ? 1 : 0;
         const int w = getmaxx( weapwin );
-        trim_and_print( weapwin, y, 0, w, c_ltgray, "%s", print_gun_mode().c_str() );
+        trim_and_print( weapwin, y, 0, w, c_ltgray, "%s", print_gun_mode( *this ).c_str() );
     }
 
     // Print currently used style or weapon mode.
