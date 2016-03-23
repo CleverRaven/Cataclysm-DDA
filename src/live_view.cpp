@@ -17,31 +17,6 @@ namespace
 constexpr int START_LINE = 1;
 constexpr int START_COLUMN = 1;
 
-void print_items( WINDOW *const w, const map_stack &items, int &line )
-{
-    std::map<std::string, int> item_names;
-    for( auto &item : items ) {
-        ++item_names[item.tname()];
-    }
-
-    int const last_line = getmaxy( w ) - START_LINE - 1;
-    int const max_w = getmaxx( w ) - START_COLUMN - 1; // border
-
-    for( auto const &it : item_names ) {
-        if( line == last_line ) {
-            mvwprintz( w, line++, START_COLUMN, c_yellow, _( "More items here..." ) );
-            break;
-        }
-
-        if( it.second > 1 ) {
-            //~ item name [quantity]
-            trim_and_print( w, line++, START_COLUMN, max_w, c_white, _( "%s [%d]" ),
-                            it.first.c_str(), it.second );
-        } else {
-            trim_and_print( w, line++, START_COLUMN, max_w, c_white, "%s", it.first.c_str() );
-        }
-    }
-}
 } //namespace
 
 bool live_view::is_compact() const
@@ -84,15 +59,6 @@ void live_view::show( const int x, const int y, const visibility_variables &cach
 
     auto visibility = m.get_visibility( m.apparent_light_at( p, cache ), cache );
     g->print_all_tile_info( p, *this, START_COLUMN, line, true , visibility );
-
-    if( m.can_put_items_ter_furn( p ) && m.sees_some_items( p, g->u ) ) {
-        if( g->u.has_effect( effect_blind ) || g->u.worn_with_flag( "BLIND" ) ) {
-            mvwprintz( *this, line++, START_COLUMN, c_yellow,
-                       _( "There's something here, but you can't see what it is." ) );
-        } else {
-            print_items( *this, m.i_at( p ), line );
-        }
-    }
 
 #if (defined TILES || defined _WIN32 || defined WINDOWS)
     // Because of the way the status UI is done, the live view window must

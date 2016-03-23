@@ -8440,20 +8440,36 @@ void game::print_visibility_indicator( visibility_type visibility )
 void game::handle_multi_item_info( const tripoint &lp, WINDOW *w_look, const int column, int &line,
                                    bool mouse_hover )
 {
-    if( m.sees_some_items( lp, u ) ) {
-        if (mouse_hover) {
-            // items are displayed from the live view, don't do this here
-            return;
+    if( !m.sees_some_items( lp, u ) ) {
+        return;
+    } else if ( m.has_flag( "CONTAINER", lp ) && !m.could_see_items( lp, u ) ) {
+        mvwprintw( w_look, line++, column, _( "You cannot see what is inside of it." ) );
+    } else if( u.has_effect( effect_blind ) || u.worn_with_flag( "BLIND" ) ) {
+        mvwprintz( w_look, line++, column, c_yellow,
+                _( "There's something there, but you can't see what it is." ) );
+        return;
+    } else {
+        std::map<std::string, int> item_names;
+        for( auto &item : m.i_at( lp ) ) {
+            ++item_names[item.tname()];
         }
-        const maptile &cur_maptile = g->m.maptile_at( lp );
-        const item &displayed_item = cur_maptile.get_uppermost_item();
 
-        trim_and_print(w_look, line++, column, getmaxx(w_look) - 2, c_ltgray, _("There is a %s there."), displayed_item.tname().c_str());
-        if (cur_maptile.get_item_count() > 1) {
-            mvwprintw(w_look, line++, column, _("There are other items there as well."));
+        const int last_line = mouse_hover ? getmaxy( w_look ) - 2 : lookHeight - 2;
+        const int max_width = getmaxx( w_look ) - column - 1;
+        for( auto const &it : item_names ) {
+            if( line >= last_line ) {
+                mvwprintz( w_look, line++, column , c_yellow, _( "More items here..." ) );
+                break;
+            }
+
+            if( it.second > 1 ) {
+                trim_and_print( w_look, line++, column, max_width, c_white,
+                        pgettext( "%s is the name of the item. %d is the quantity of that item.", "%s [%d]" ),
+                        it.first.c_str(), it.second );
+            } else {
+                trim_and_print( w_look, line++, column, max_width, c_white, "%s", it.first.c_str() );
+            }
         }
-    } else if (m.has_flag("CONTAINER", lp) && !m.could_see_items( lp, u)) {
-        mvwprintw(w_look, line++, column, _("You cannot see what is inside of it."));
     }
 }
 
