@@ -952,25 +952,20 @@ void player::power_bionics_new()
 
         } else if( action == "REASSIGN" && content.size() > 1 ) {
             const long ch = my_bionics[content[cursor].second].invlet;
-            bionic *tmp = bionic_by_invlet( ch );
-            if( tmp == nullptr ) {
-                // Selected an non-existing bionic (or escape, or ...)
-                continue;
-            }
-
+            bionic *tmp = &my_bionics[content[cursor].second];
             const long newch = popup_getkey( _( "%s; enter new letter." ),
                                              bionics[tmp->id].name.c_str() );
             wrefresh( w_bionics );
-            if( newch == ch || newch == ' ' || newch == KEY_ESCAPE ) {
+            if( newch == ch || newch == KEY_ESCAPE ) {
                 continue;
             }
-            if( !bionic_chars.valid( newch ) ) {
+            if( !bionic_chars.valid( newch ) && newch != ' ' ) {
                 popup( _( "Invalid bionic letter. Only those characters are valid:\n\n%s" ),
                        bionic_chars.get_allowed_chars().c_str() );
                 continue;
             }
             bionic *otmp = bionic_by_invlet( newch );
-            if( otmp != nullptr ) {
+            if( otmp != nullptr && newch != ' ' ) {
                 std::swap( tmp->invlet, otmp->invlet );
             } else {
                 tmp->invlet = newch;
@@ -984,10 +979,6 @@ void player::power_bionics_new()
 
         } else if( action == "CONFIRM" && content.size() > 1 ) {
             bionic *tmp = &my_bionics[content[cursor].second];
-            if( tmp == nullptr ) {
-                // Selected an non-existing bionic
-                continue;
-            }
             if( !bionics[tmp->id].activated ) {
                 popup( _("You can not activate %s!" ), bionic_info( tmp->id ).name.c_str() );
                 continue;
@@ -1005,6 +996,9 @@ void player::power_bionics_new()
             long ch = ctxt.get_raw_input().get_first_input();
             if( ch == KEY_ESCAPE ) {
                 return;
+            }
+            if( ch == ' ' ) {
+                continue;
             }
 
             // @todo: remove code duplication
@@ -1696,7 +1690,7 @@ int player::get_total_bionics_slots( body_part bp ) const
         return 4;
 
     case bp_mouth:
-        return 5;
+        return 4;
 
     case bp_arm_l:
     case bp_arm_r:
@@ -1712,7 +1706,7 @@ int player::get_total_bionics_slots( body_part bp ) const
 
     case bp_foot_l:
     case bp_foot_r:
-        return 6;
+        return 7;
 
     case num_bp:
         return INT_MAX;
