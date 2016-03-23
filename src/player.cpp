@@ -3291,43 +3291,6 @@ void player::disp_morale()
     morale.display( ( calc_focus_equilibrium() - focus_pool ) / 100.0 );
 }
 
-int player::print_aim_bars( WINDOW *w, int line_number, item *weapon, Creature *target, int predicted_recoil ) {
-    // This is absolute accuracy for the player.
-    // TODO: push the calculations duplicated from Creature::deal_projectile_attack() and
-    // Creature::projectile_attack() into shared methods.
-    // Dodge is intentionally not accounted for.
-
-    // Confidence is chance of the actual shot being under the target threshold,
-    // This simplifies the calculation greatly, that's intentional.
-    const double aim_level = predicted_recoil + driving_recoil + get_weapon_dispersion( weapon, false );
-    const double range = rl_dist( pos(), target->pos() );
-    const double missed_by = aim_level * 0.00021666666666666666 * range;
-    const double hit_rating = missed_by / std::max( double( get_speed() ) / 80., 1.0 );
-    const double confidence = 1 / hit_rating;
-    // This is a relative measure of how steady the player's aim is,
-    // 0 it is the best the player can do.
-    const double steady_score = predicted_recoil - weapon->sight_dispersion( -1 );
-    // Fairly arbitrary cap on steadiness...
-    const double steadiness = 1.0 - steady_score / 250;
-
-    const std::array<std::pair<double, char>, 3> confidence_ratings = {{
-        std::make_pair( 0.1, '*' ),
-        std::make_pair( 0.4, '+' ),
-        std::make_pair( 0.6, '|' ) }};
-
-    const int window_width = getmaxx( w ) - 2; // Window width minus borders.
-    const std::string &confidence_bar = get_labeled_bar( confidence, window_width, _( "Confidence" ),
-        confidence_ratings.begin(),
-        confidence_ratings.end() );
-    const std::string &steadiness_bar = get_labeled_bar( steadiness, window_width, _( "Steadiness" ), '*' );
-
-    mvwprintw( w, line_number++, 1, _( "Symbols: * = Headshot + = Hit | = Graze" ) );
-    mvwprintw( w, line_number++, 1, confidence_bar.c_str() );
-    mvwprintw( w, line_number++, 1, steadiness_bar.c_str() );
-
-    return line_number;
-}
-
 std::string player::print_gun_mode() const
 {
     // Print current weapon, or attachment if active.

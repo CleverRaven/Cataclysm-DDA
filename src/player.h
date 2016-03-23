@@ -145,8 +145,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Returns the name of the player's outer layer, e.g. "armor plates" */
         std::string skin_name() const override;
 
-        virtual bool is_player() const override
-        {
+        virtual bool is_player() const override {
             return true;
         }
 
@@ -159,8 +158,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Returns the modifier value used for vomiting effects. */
         double vomit_mod();
 
-        virtual bool is_npc() const override
-        {
+        virtual bool is_npc() const override {
             return false;    // Overloaded for NPCs in npc.h
         }
         /** Returns what color the player should be drawn as */
@@ -187,8 +185,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void disp_info();
         /** Provides the window and detailed morale data */
         void disp_morale();
-        /** Print the bars indicating how well the player is currently aiming.**/
-        int print_aim_bars( WINDOW *w, int line_number, item *weapon, Creature *target, int predicted_recoil);
         /** Returns the gun mode indicator, ready to be printed, contains color-tags. **/
         std::string print_gun_mode() const;
         /** Returns the colored recoil indicator (contains color-tags). **/
