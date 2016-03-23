@@ -46,6 +46,7 @@
     "aim_speed" : 6,
     "recoil": -15,
     "durability": 8,
+    "reload": 150,
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
     "magazine_well" : 1,
     "magazines" : [
@@ -73,6 +74,7 @@
     "recoil": 75,
     "durability": 8,
     "clip_size": 5,
+    "reload": 75,
     "barrel_length": 1,
     "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "sights", 1 ] ],
     "flags": "RELOAD_ONE"
