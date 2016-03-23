@@ -56,7 +56,7 @@ void live_view::show( const int x, const int y, const visibility_variables &cach
     // TODO: Z
     tripoint p( x, y, g->get_levz() );
 
-    const int last_line = getmaxy( *this ) - START_LINE - 1;
+    const int last_line = getmaxy( w_live_view.get() ) - START_LINE - 1;
     g->print_all_tile_info( p, *this, START_COLUMN, line, last_line, false, cache );
 
 #if (defined TILES || defined _WIN32 || defined WINDOWS)
