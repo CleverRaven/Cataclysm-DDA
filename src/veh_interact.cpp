@@ -969,7 +969,7 @@ void veh_interact::do_repair()
         sel_vehicle_part = &veh->parts[parts_here[need_repair[pos]]];
         sel_vpart_info = &sel_vehicle_part->info();
         werase (w_parts);
-        veh->print_part_desc(w_parts, 0, parts_w, cpart, need_repair[pos]);
+        veh->print_part_desc(w_parts, 0, getmaxy( w_parts ) - 1, parts_w, cpart, need_repair[pos]);
         wrefresh (w_parts);
         werase (w_msg);
         bool has_comps = true;
@@ -998,7 +998,7 @@ void veh_interact::do_repair()
             return;
         } else if (action == "QUIT") {
             werase (w_parts);
-            veh->print_part_desc (w_parts, 0, parts_w, cpart, -1);
+            veh->print_part_desc (w_parts, 0, getmaxy( w_parts ) - 1, parts_w, cpart, -1);
             wrefresh (w_parts);
             werase (w_msg);
             wrefresh(w_msg);
@@ -1214,7 +1214,7 @@ void veh_interact::do_remove()
         sel_vpart_info = &sel_vehicle_part->info();
         //redraw list of parts
         werase (w_parts);
-        veh->print_part_desc (w_parts, 0, parts_w, cpart, pos);
+        veh->print_part_desc (w_parts, 0, getmaxy( w_parts ) - 1, parts_w, cpart, pos);
         wrefresh (w_parts);
         bool can_remove = can_remove_part(parts_here[pos], skilllevel, msg_width);
         //read input
@@ -1224,7 +1224,7 @@ void veh_interact::do_remove()
             break;
         } else if (action == "QUIT") {
             werase (w_parts);
-            veh->print_part_desc (w_parts, 0, parts_w, cpart, -1);
+            veh->print_part_desc (w_parts, 0, getmaxy( w_parts ) - 1, parts_w, cpart, -1);
             wrefresh (w_parts);
             werase (w_msg);
             wrefresh(w_msg);
@@ -1443,7 +1443,7 @@ void veh_interact::move_cursor (int dx, int dy)
               special_symbol(sym));
     wrefresh (w_disp);
     werase (w_parts);
-    veh->print_part_desc (w_parts, 0, parts_w, cpart, -1);
+    veh->print_part_desc (w_parts, 0, getmaxy( w_parts ) - 1, parts_w, cpart, -1);
     wrefresh (w_parts);
 
     can_mount.clear();
