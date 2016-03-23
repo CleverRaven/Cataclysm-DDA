@@ -3313,26 +3313,6 @@ std::string player::print_gun_mode() const
     }
 }
 
-std::string player::print_recoil() const
-{
-    if (weapon.is_gun()) {
-        const int adj_recoil = recoil + driving_recoil;
-        if( adj_recoil > MIN_RECOIL ) {
-            // 150 is the minimum when not actively aiming
-            const char *color_name = "c_ltgray";
-            if( adj_recoil >= 690 ) {
-                color_name = "c_red";
-            } else if( adj_recoil >= 450 ) {
-                color_name = "c_ltred";
-            } else if( adj_recoil >= 210 ) {
-                color_name = "c_yellow";
-            }
-            return string_format("<color_%s>%s</color>", color_name, _("Recoil"));
-        }
-    }
-    return std::string();
-}
-
 int player::draw_turret_aim( WINDOW *w, int line_number, const tripoint &targ ) const
 {
     vehicle *veh = g->m.veh_at( pos() );

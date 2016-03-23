@@ -714,6 +714,26 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
     return dealt_attack;
 }
 
+static std::string print_recoil( const player &p)
+{
+    if( p.weapon.is_gun() ) {
+        const int adj_recoil = p.recoil + p.driving_recoil;
+        if( adj_recoil > MIN_RECOIL ) {
+            // 150 is the minimum when not actively aiming
+            const char *color_name = "c_ltgray";
+            if( adj_recoil >= 690 ) {
+                color_name = "c_red";
+            } else if( adj_recoil >= 450 ) {
+                color_name = "c_ltred";
+            } else if( adj_recoil >= 210 ) {
+                color_name = "c_yellow";
+            }
+            return string_format("<color_%s>%s</color>", color_name, _("Recoil"));
+        }
+    }
+    return std::string();
+}
+
 // Draws the static portions of the targeting menu,
 // returns the number of lines used to draw instructions.
 static int draw_targeting_window( WINDOW *w_target, item *relevant, player &p, target_mode mode,
@@ -735,7 +755,7 @@ static int draw_targeting_window( WINDOW *w_target, item *relevant, player &p, t
                 title = string_format( _( "Firing %s" ), relevant->tname().c_str() );
             }
             title += " ";
-            title += p.print_recoil();
+            title += print_recoil( p );
         } else if( mode == TARGET_MODE_THROW ) {
             title = string_format( _("Throwing %s"), relevant->tname().c_str());
         } else {
