@@ -110,7 +110,7 @@ void live_view::show( const int x, const int y )
     // be a different code path here that works for ncurses.
     int full_height = w_live_view->height;
     if( line < w_live_view->height - 1 ) {
-        w_live_view->height = ( line > 11 ) ? line : 11;
+        w_live_view->height = std::max( line + 1, 11 );
     }
     last_height = w_live_view->height;
 #endif
