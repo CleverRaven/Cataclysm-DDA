@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cataclysm-dda 0.C\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-15 10:44+0300\n"
+"POT-Creation-Date: 2016-03-23 12:28+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -45,19 +45,6 @@ msgstr[1] ""
 #. ~ Description for cent
 #: lang/json/AMMO_from_json.py
 msgid "IF YOU ARE SEEING THIS IT IS A BUG."
-msgstr ""
-
-#: lang/json/AMMO_from_json.py
-msgid "charged capacitor"
-msgid_plural "charged capacitors"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for charged capacitor
-#: lang/json/AMMO_from_json.py
-msgid ""
-"A single capacitor charged with current to be used by a laser weapon or "
-"similar armament."
 msgstr ""
 
 #: lang/json/AMMO_from_json.py
@@ -968,42 +955,6 @@ msgid ""
 "ammunition."
 msgstr ""
 
-#: lang/json/AMMO_from_json.py lang/json/ammunition_type_from_json.py
-msgid "gasoline"
-msgid_plural "gasoline"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for gasoline
-#: lang/json/AMMO_from_json.py
-msgid ""
-"Gasoline is a highly flammable liquid.  When under pressure, it has the "
-"potential for violent explosion."
-msgstr ""
-
-#: lang/json/AMMO_from_json.py lang/json/ammunition_type_from_json.py
-msgid "diesel"
-msgid_plural "diesel"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for diesel
-#: lang/json/AMMO_from_json.py
-msgid ""
-"Petroleum-based fuel made from a byproduct of the gasoline making process."
-msgstr ""
-
-#: lang/json/AMMO_from_json.py lang/json/ammunition_type_from_json.py
-msgid "lamp oil"
-msgid_plural "lamp oil"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for lamp oil
-#: lang/json/AMMO_from_json.py
-msgid "A thin and clean-burning oil made for use in oil lamps."
-msgstr ""
-
 #: lang/json/AMMO_from_json.py
 msgid "medical tape"
 msgid_plural "medical tapes"
@@ -1754,20 +1705,6 @@ msgstr[1] ""
 #. ~ Description for oxygen
 #: lang/json/AMMO_from_json.py
 msgid "A canister of oxygen."
-msgstr ""
-
-#: lang/json/AMMO_from_json.py
-msgid "napalm"
-msgid_plural "napalm"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for napalm
-#: lang/json/AMMO_from_json.py
-msgid ""
-"This is gasoline mixed with some other components to make it stick to the "
-"surface and increase burning temperature, meant to be used with a "
-"flamethrower."
 msgstr ""
 
 #: lang/json/AMMO_from_json.py
@@ -2741,6 +2678,56 @@ msgstr ""
 #: lang/json/AMMO_from_json.py lang/json/furniture_from_json.py
 #: lang/json/furniture_from_json.py
 msgid "fungal flower"
+msgstr ""
+
+#: lang/json/AMMO_from_json.py lang/json/ammunition_type_from_json.py
+msgid "diesel"
+msgid_plural "diesel"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for diesel
+#: lang/json/AMMO_from_json.py
+msgid ""
+"Petroleum-based fuel made from a byproduct of the gasoline making process."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py lang/json/ammunition_type_from_json.py
+msgid "gasoline"
+msgid_plural "gasoline"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for gasoline
+#: lang/json/AMMO_from_json.py
+msgid ""
+"Gasoline is a highly flammable liquid.  When under pressure, it has the "
+"potential for violent explosion."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py lang/json/ammunition_type_from_json.py
+msgid "lamp oil"
+msgid_plural "lamp oil"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for lamp oil
+#: lang/json/AMMO_from_json.py
+msgid "A thin and clean-burning oil made for use in oil lamps."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid "napalm"
+msgid_plural "napalm"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for napalm
+#: lang/json/AMMO_from_json.py
+msgid ""
+"This is gasoline mixed with some other components to make it stick to the "
+"surface and increase burning temperature, meant to be used with a "
+"flamethrower."
 msgstr ""
 
 #: lang/json/AMMO_from_json.py lang/json/terrain_from_json.py
@@ -17686,6 +17673,28 @@ msgid ""
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
+msgid "strong mixed alcohol"
+msgid_plural "strong mixed alcohol"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for strong mixed alcohol
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Strong alcoholic drinks, mixed with no regard for taste."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "weak mixed alcohol"
+msgid_plural "weak mixed alcohol"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for weak mixed alcohol
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Weak alcoholic drinks, mixed with no regard for taste."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
 msgid "fruit wine"
 msgid_plural "fruit wines"
 msgstr[0] ""
@@ -25946,40 +25955,29 @@ msgstr[1] ""
 #: lang/json/CONTAINER_from_json.py
 msgid ""
 "A steel jerrycan, meant to carry fuel, but can carry other liquids in a "
-"pinch.  It has a capacity of 25 liters."
+"pinch.  It has a capacity of 20 liters."
 msgstr ""
 
 #: lang/json/CONTAINER_from_json.py
-msgid "metal tank"
-msgid_plural "metal tanks"
+msgid "metal tank (60L)"
+msgid_plural "metal tank (60L)s"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for metal tank
+#. ~ Description for metal tank (60L)
 #: lang/json/CONTAINER_from_json.py
-msgid "A metal tank for holding liquids.  Useful for crafting."
+msgid "A large metal tank for holding liquids.  Useful for crafting."
 msgstr ""
 
 #: lang/json/CONTAINER_from_json.py
-msgid "small metal tank"
-msgid_plural "small metal tanks"
+msgid "metal tank (2L)"
+msgid_plural "metal tank (2L)s"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for small metal tank
+#. ~ Description for metal tank (2L)
 #: lang/json/CONTAINER_from_json.py
-msgid "A small metal tank for holding gas or liquids.  Useful for crafting."
-msgstr ""
-
-#: lang/json/CONTAINER_from_json.py
-msgid "little metal tank"
-msgid_plural "little metal tanks"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for little metal tank
-#: lang/json/CONTAINER_from_json.py
-msgid "A little metal tank for holding gas or liquids.  Useful for crafting."
+msgid "A small metal tank for gas or liquids.  Useful for crafting."
 msgstr ""
 
 #: lang/json/CONTAINER_from_json.py
@@ -26192,6 +26190,17 @@ msgstr[1] ""
 msgid ""
 "A fragile clay vessel.  It can be used to make crude impact grenades or to "
 "store liquid."
+msgstr ""
+
+#: lang/json/CONTAINER_from_json.py
+msgid "small metal tank"
+msgid_plural "small metal tanks"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for small metal tank
+#: lang/json/CONTAINER_from_json.py
+msgid "A small metal tank for holding gas or liquids.  Useful for crafting."
 msgstr ""
 
 #: lang/json/CONTAINER_from_json.py
@@ -28263,6 +28272,19 @@ msgid ""
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py
+msgid "TX-5LR Laser Cannon"
+msgid_plural "TX-5LR Laser Cannons"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for TX-5LR Laser Cannon
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"A laser cannon stripped from the barrel of a TX-5LR Cerberus laser turret.  "
+"Unusable as a weapon on its own without the necessary parts."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
 msgid "The Shotokan Karate Handbook"
 msgid_plural "Shotokan Karate Handbooks"
 msgstr[0] ""
@@ -29993,6 +30015,19 @@ msgid "A large block of semi-processed coal."
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py
+msgid "charged capacitor"
+msgid_plural "charged capacitors"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for charged capacitor
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"A single capacitor charged with current to be used by a laser weapon or "
+"similar armament."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
 msgid "misc software"
 msgid_plural "misc software"
 msgstr[0] ""
@@ -30465,6 +30500,19 @@ msgstr[1] ""
 msgid ""
 "This is large blade attached to a long stick.  It could do a considerable "
 "amount of damage."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "digging stick"
+msgid_plural "digging sticks"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for digging stick
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"This is a large stick, with the end carved into a broad blade for digging.  "
+"It could be used to dig shallow pits, but not deep ones."
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py
@@ -33981,19 +34029,6 @@ msgid ""
 "A bolt-action, box-magazine-fed, sniper rifle chambered in the powerful .300 "
 "Winchester Magnum round.  The M2010 had completely replaced the M24 rifle "
 "series by 2017."
-msgstr ""
-
-#: lang/json/GUN_from_json.py
-msgid "TX-5LR Laser Cannon"
-msgid_plural "TX-5LR Laser Cannons"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for TX-5LR Laser Cannon
-#: lang/json/GUN_from_json.py
-msgid ""
-"A laser cannon stripped from the barrel of a TX-5LR Cerberus laser turret.  "
-"Unusable as a weapon on its own without the necessary parts."
 msgstr ""
 
 #: lang/json/GUN_from_json.py
@@ -42472,20 +42507,6 @@ msgid ""
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
-msgid "security bot"
-msgid_plural "security bots"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for security bot
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"The Northrop Watchman X-1 is a production series of heavily armored combat "
-"robots.  Initially designed for military patrol and escort service, it rolls "
-"on a set of hydraulic treads and is armed with a 3\"/50 caliber gun."
-msgstr ""
-
-#: lang/json/MONSTER_from_json.py
 msgid "cleaner bot"
 msgid_plural "cleaner bots"
 msgstr[0] ""
@@ -42569,63 +42590,6 @@ msgid ""
 "made shortly after the split-up of Northrup Grumman.  Clad in depleted "
 "uranium plating, and armed with advanced munitions and a 120-mm gun, it is "
 "capable of delivering extraordinary firepower."
-msgstr ""
-
-#: lang/json/MONSTER_from_json.py
-msgid "turret"
-msgid_plural "turrets"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for turret
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"The General Atomics TX-1 Guardian, a small, pill-shaped automated gun turret "
-"using state of the art ATR systems to dynamically reorient itself to new "
-"friends and enemies alike.  The two SMG barrels can swivel a full 360 "
-"degrees."
-msgstr ""
-
-#: lang/json/MONSTER_from_json.py
-msgid "laser turret"
-msgid_plural "laser turrets"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for laser turret
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"The TX-5LR Cerberus is an upgrade to its predecessors.  It features a state "
-"of the art revolving laser cannon system with three barrels that charge from "
-"solar cells embedded in its hull."
-msgstr ""
-
-#: lang/json/MONSTER_from_json.py
-msgid "milspec turret"
-msgid_plural "milspec turrets"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for milspec turret
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"Leadworks LLC's T-4A1 Sentry.  It features improved firmware over General "
-"Atomics' TX-1 9mm model and an automated M4 carbine."
-msgstr ""
-
-#: lang/json/MONSTER_from_json.py
-msgid "antimateriel turret"
-msgid_plural "antimateriel turrets"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for antimateriel turret
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"Leadworks LLC's T-107A1 Interdictor, an automated .50BMG antimateriel "
-"rifle.  Credited with forestalling countless car-bombing attempts, it has "
-"always been kept under extremely tight control, so as to itself maintain "
-"extremely tight control of its area.  And then the Cataclysm struck."
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
@@ -42996,6 +42960,77 @@ msgstr[1] ""
 #. ~ Description for giant cockroach nymph
 #: lang/json/MONSTER_from_json.py
 msgid "A baby mutant cockroach about the size of a rat."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "security bot"
+msgid_plural "security bots"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for security bot
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"The Northrop Watchman X-1 is a production series of heavily armored combat "
+"robots.  Initially designed for military patrol and escort service, it rolls "
+"on a set of hydraulic treads and is armed with a 3\"/50 caliber gun."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "turret"
+msgid_plural "turrets"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for turret
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"The General Atomics TX-1 Guardian, a small, pill-shaped automated gun turret "
+"using state of the art ATR systems to dynamically reorient itself to new "
+"friends and enemies alike.  The two SMG barrels can swivel a full 360 "
+"degrees."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "antimateriel turret"
+msgid_plural "antimateriel turrets"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for antimateriel turret
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"Leadworks LLC's T-107A1 Interdictor, an automated .50BMG antimateriel "
+"rifle.  Credited with forestalling countless car-bombing attempts, it has "
+"always been kept under extremely tight control, so as to itself maintain "
+"extremely tight control of its area.  And then the Cataclysm struck."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "laser turret"
+msgid_plural "laser turrets"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for laser turret
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"The TX-5LR Cerberus is an upgrade to its predecessors.  It features a state "
+"of the art revolving laser cannon system with three barrels that charge from "
+"solar cells embedded in its hull."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "milspec turret"
+msgid_plural "milspec turrets"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for milspec turret
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"Leadworks LLC's T-4A1 Sentry.  It features improved firmware over General "
+"Atomics' TX-1 9mm model and an automated M4 carbine."
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
@@ -49116,19 +49151,6 @@ msgid ""
 msgstr ""
 
 #: lang/json/TOOL_from_json.py
-msgid "digging stick"
-msgid_plural "digging sticks"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for digging stick
-#: lang/json/TOOL_from_json.py
-msgid ""
-"This is a large stick, with the end carved into a broad blade for digging.  "
-"It could be used to dig shallow pits, but not deep ones."
-msgstr ""
-
-#: lang/json/TOOL_from_json.py
 msgid "shelter kit"
 msgid_plural "shelter kits"
 msgstr[0] ""
@@ -52934,10 +52956,6 @@ msgstr ""
 
 #: lang/json/ammunition_type_from_json.py
 msgid "cents"
-msgstr ""
-
-#: lang/json/ammunition_type_from_json.py
-msgid "charge"
 msgstr ""
 
 #: lang/json/ammunition_type_from_json.py
@@ -58453,7 +58471,7 @@ msgstr ""
 msgid "Take Off Worn Item"
 msgstr ""
 
-#: lang/json/keybinding_from_json.py src/npcmove.cpp
+#: lang/json/keybinding_from_json.py
 msgid "Eat"
 msgstr ""
 
@@ -65730,8 +65748,8 @@ msgstr ""
 msgid "barn"
 msgstr ""
 
-#: lang/json/overmap_terrain_from_json.py src/color.cpp src/item.cpp
-msgid "green"
+#: lang/json/overmap_terrain_from_json.py
+msgid "car corner"
 msgstr ""
 
 #: lang/json/overmap_terrain_from_json.py
@@ -77713,19 +77731,19 @@ msgid "hand rims"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
-msgid "gasoline tank (small)"
+msgid "gasoline tank (10L)"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
-msgid "gasoline tank"
+msgid "gasoline tank (60L)"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
-msgid "napalm tank"
+msgid "napalm tank (60L)"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
-msgid "gasoline tank (little)"
+msgid "gasoline tank (2L)"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
@@ -77737,15 +77755,15 @@ msgid "external gas tank (large)"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
-msgid "diesel tank (small)"
+msgid "diesel tank (10L)"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
-msgid "diesel tank"
+msgid "diesel tank (60L)"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
-msgid "diesel tank (little)"
+msgid "diesel tank (2L)"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
@@ -77769,15 +77787,15 @@ msgid "hydrogen tank"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
-msgid "clean water tank (small)"
+msgid "clean water tank (10L)"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
-msgid "clean water tank (little)"
+msgid "clean water tank (2L)"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
-msgid "clean water tank"
+msgid "clean water tank (60L)"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
@@ -77789,15 +77807,15 @@ msgid "external clean water tank (55 gal)"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
-msgid "dirty water tank (small)"
+msgid "dirty water tank (10L)"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
-msgid "dirty water tank (little)"
+msgid "dirty water tank (2L)"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
-msgid "dirty water tank"
+msgid "dirty water tank (60L)"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
@@ -78054,6 +78072,14 @@ msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
 msgid "folding extra light quarterpanel"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "gasoline tank (little)"
+msgstr ""
+
+#: lang/json/vehicle_part_from_json.py
+msgid "diesel tank (little)"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
@@ -78616,6 +78642,12 @@ msgstr ""
 #: src/activity_handlers.cpp
 msgid "The corpse is thoroughly pulped."
 msgid_plural "The corpses are thoroughly pulped."
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/activity_handlers.cpp
+msgid "<npcname> finished pulping the corpse."
+msgid_plural "<npcname> finished pulping the corpses."
 msgstr[0] ""
 msgstr[1] ""
 
@@ -79606,7 +79638,8 @@ msgid "Encumbrance"
 msgstr ""
 
 #: src/armor_layers.cpp
-msgid "Can't use that action on an NPC"
+#, c-format
+msgid "%s says: I don't trust you enough to let you do that!"
 msgstr ""
 
 #: src/armor_layers.cpp
@@ -79616,6 +79649,10 @@ msgstr ""
 
 #: src/armor_layers.cpp
 msgid "Put on:"
+msgstr ""
+
+#: src/armor_layers.cpp
+msgid "Can't put this on"
 msgstr ""
 
 #: src/armor_layers.cpp
@@ -81454,6 +81491,10 @@ msgstr ""
 
 #: src/color.cpp src/item.cpp
 msgid "red"
+msgstr ""
+
+#: src/color.cpp src/item.cpp
+msgid "green"
 msgstr ""
 
 #: src/color.cpp
@@ -88343,6 +88384,11 @@ msgid "You put several items in the %s."
 msgstr ""
 
 #: src/game.cpp
+#, c-format
+msgid "To avoid spilling its contents, you set your %1$s on the %2$s."
+msgstr ""
+
+#: src/game.cpp
 msgid "The trunk is full, so some items fall on the ground."
 msgstr ""
 
@@ -88789,7 +88835,7 @@ msgstr ""
 
 #: src/game.cpp
 #, c-format
-msgid "Really step into that %s?"
+msgid "Really step into: %s?"
 msgstr ""
 
 #: src/game.cpp
@@ -90893,7 +90939,7 @@ msgstr ""
 msgid "Clear up that %s?"
 msgstr ""
 
-#: src/iexamine.cpp
+#: src/iexamine.cpp src/iuse.cpp
 #, c-format
 msgid "You clear up that %s."
 msgstr ""
@@ -93327,6 +93373,11 @@ msgstr ""
 
 #: src/item.cpp
 #, c-format
+msgid "That %s must be on the ground or held to hold contents!"
+msgstr ""
+
+#: src/item.cpp
+#, c-format
 msgid "You can't seal that %s!"
 msgstr ""
 
@@ -94901,10 +94952,6 @@ msgstr ""
 
 #: src/iuse.cpp
 msgid "You can't churn up this ground."
-msgstr ""
-
-#: src/iuse.cpp
-msgid "You can dig a pit via the construction menu -- hit *"
 msgstr ""
 
 #: src/iuse.cpp
@@ -103383,7 +103430,7 @@ msgid "Find a Book"
 msgstr ""
 
 #: src/mod_manager.cpp
-msgid "ITEM ADDIDION MODS"
+msgid "ITEM ADDITION MODS"
 msgstr ""
 
 #: src/mod_manager.cpp
@@ -104237,24 +104284,6 @@ msgstr ""
 #: src/monattack.cpp
 #, c-format
 msgid "The %s shocks <npcname>!"
-msgstr ""
-
-#: src/monattack.cpp src/player.cpp
-msgid "beep-beep-beep!"
-msgstr ""
-
-#: src/monattack.cpp
-#, c-format
-msgid "The %s's barrel spins but nothing happens!"
-msgstr ""
-
-#: src/monattack.cpp
-msgid "boop-boop!"
-msgstr ""
-
-#: src/monattack.cpp
-#, c-format
-msgid "The %s's barrel spins and fires!"
 msgstr ""
 
 #: src/monattack.cpp
@@ -106859,6 +106888,11 @@ msgstr ""
 
 #: src/npcmove.cpp
 #, c-format
+msgid "Hold on, I want to pulp that %s."
+msgstr ""
+
+#: src/npcmove.cpp
+#, c-format
 msgid "%1$s throws a %2$s."
 msgstr ""
 
@@ -107013,6 +107047,14 @@ msgstr ""
 
 #: src/npcmove.cpp
 msgid "I'm suffering from radiation sickness..."
+msgstr ""
+
+#: src/npcmove.cpp
+msgid "<hungry>"
+msgstr ""
+
+#: src/npcmove.cpp
+msgid "<thirsty>"
 msgstr ""
 
 #: src/npcmove.cpp
@@ -108092,6 +108134,86 @@ msgstr ""
 
 #: src/npctalk.cpp
 msgid "I'll just go to sleep, <okay>?"
+msgstr ""
+
+#: src/npctalk.cpp
+msgid "When we eatin'?"
+msgstr ""
+
+#: src/npctalk.cpp
+msgid "I'd eat a burger if I had one."
+msgstr ""
+
+#: src/npctalk.cpp
+msgid "Perfect time for a lunch break."
+msgstr ""
+
+#: src/npctalk.cpp
+msgid "I'm hungry..."
+msgstr ""
+
+#: src/npctalk.cpp
+msgid "I'm <swear> hungry."
+msgstr ""
+
+#: src/npctalk.cpp
+msgid "So, <name_g>, when we eatin'?"
+msgstr ""
+
+#: src/npctalk.cpp
+msgid "I <really> need to eat something."
+msgstr ""
+
+#: src/npctalk.cpp
+msgid "<ill_die> if I don't get some food."
+msgstr ""
+
+#: src/npctalk.cpp
+msgid "Consider this idea: you give me food and I eat it."
+msgstr ""
+
+#: src/npctalk.cpp
+msgid "Did you know that lack of food kills faster than chain smoking?"
+msgstr ""
+
+#: src/npctalk.cpp
+msgid "When we drinkin'?"
+msgstr ""
+
+#: src/npctalk.cpp
+msgid "When was the last time I had a drink?"
+msgstr ""
+
+#: src/npctalk.cpp
+msgid "I'm parched, I need to drink something."
+msgstr ""
+
+#: src/npctalk.cpp
+msgid "I'm thirsty..."
+msgstr ""
+
+#: src/npctalk.cpp
+msgid "I'm <swear> thirsty."
+msgstr ""
+
+#: src/npctalk.cpp
+msgid "Can you give me something to drink, <name_g>?"
+msgstr ""
+
+#: src/npctalk.cpp
+msgid "I <really> need to get some water."
+msgstr ""
+
+#: src/npctalk.cpp
+msgid "<ill_die> if I don't drink something."
+msgstr ""
+
+#: src/npctalk.cpp
+msgid "Water... Is there an oasis nearby?"
+msgstr ""
+
+#: src/npctalk.cpp
+msgid "Did you know that lack of water kills faster than lack of rest?"
 msgstr ""
 
 #: src/npctalk.cpp
@@ -109367,6 +109489,16 @@ msgid " %s will only complain in an emergency."
 msgstr ""
 
 #: src/npctalk.cpp
+#, c-format
+msgid " %s will smash nearby zombie corpses."
+msgstr ""
+
+#: src/npctalk.cpp
+#, c-format
+msgid " %s will leave zombie corpses intact."
+msgstr ""
+
+#: src/npctalk.cpp
 msgid "YES MASTER"
 msgstr ""
 
@@ -110474,6 +110606,14 @@ msgid "Tell me when you need something."
 msgstr ""
 
 #: src/npctalk.cpp
+msgid "Leave corpses alone."
+msgstr ""
+
+#: src/npctalk.cpp
+msgid "Smash zombie corpses."
+msgstr ""
+
+#: src/npctalk.cpp
 msgid "OBEY ME!"
 msgstr ""
 
@@ -110631,15 +110771,19 @@ msgid "<punc>!"
 msgstr ""
 
 #: src/npctalk.cpp
-msgid "L: Look at"
+msgid "Shift+L: Look at"
 msgstr ""
 
 #: src/npctalk.cpp
-msgid "S: Size up stats"
+msgid "Shift+S: Size up stats"
 msgstr ""
 
 #: src/npctalk.cpp
-msgid "Y: Yell"
+msgid "Shift+Y: Yell"
+msgstr ""
+
+#: src/npctalk.cpp
+msgid "Shift+O: Check opinion"
 msgstr ""
 
 #: src/npctalk.cpp
@@ -112250,6 +112394,21 @@ msgstr ""
 
 #: src/pickup.cpp
 #, c-format
+msgid "Dispose of %s and wield %s"
+msgstr ""
+
+#: src/pickup.cpp
+#, c-format
+msgid "Wear %s"
+msgstr ""
+
+#: src/pickup.cpp
+#, c-format
+msgid "Spill %s, then pick up %s"
+msgstr ""
+
+#: src/pickup.cpp
+#, c-format
 msgid "The %s is too heavy!"
 msgstr ""
 
@@ -112262,12 +112421,12 @@ msgstr[1] ""
 
 #: src/pickup.cpp
 #, c-format
-msgid "Put on the %s?"
+msgid "Can't stash %s while it's not empty"
 msgstr ""
 
 #: src/pickup.cpp
 #, c-format
-msgid "No space for %1$s; wield instead? (drops %2$s)"
+msgid "Not enough capacity to stash %s"
 msgstr ""
 
 #: src/pickup.cpp
@@ -112278,19 +112437,6 @@ msgstr ""
 #: src/pickup.cpp
 #, c-format
 msgid "Wielding - %s"
-msgstr ""
-
-#: src/pickup.cpp
-#, c-format
-msgid ""
-"There's no room in your inventory for the %s and you can't unwield your %s."
-msgstr ""
-
-#: src/pickup.cpp
-#, c-format
-msgid ""
-"There's no room in your inventory for the %s and you have decided to keep "
-"your hands free."
 msgstr ""
 
 #: src/pickup.cpp
@@ -113039,15 +113185,15 @@ msgid "Dexterity %+d when throwing items;\n"
 msgstr ""
 
 #: src/player.cpp
+msgid "Confidence"
+msgstr ""
+
+#: src/player.cpp
+msgid "Steadiness"
+msgstr ""
+
+#: src/player.cpp
 msgid "Symbols: * = Headshot + = Hit | = Graze"
-msgstr ""
-
-#: src/player.cpp
-msgid "Confidence "
-msgstr ""
-
-#: src/player.cpp
-msgid "Steadiness "
 msgstr ""
 
 #: src/player.cpp
@@ -114406,6 +114552,10 @@ msgstr ""
 
 #: src/player.cpp
 msgid "Your internal chronometer wakes you up."
+msgstr ""
+
+#: src/player.cpp
+msgid "beep-beep-beep!"
 msgstr ""
 
 #: src/player.cpp
