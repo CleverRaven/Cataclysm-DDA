@@ -486,7 +486,7 @@ void Item_factory::check_definitions() const
         }
 
         for( auto mat_id : type->materials ) {
-            if( mat_id != "null" && !material_type::has_material(mat_id) ) {
+            if( mat_id == "null" || !material_type::has_material(mat_id) ) {
                 msg << string_format("invalid material %s", mat_id.c_str()) << "\n";
             }
         }
@@ -849,9 +849,11 @@ void Item_factory::load( islot_gun &slot, JsonObject &jo )
     slot.durability = jo.get_int( "durability" );
     slot.burst = jo.get_int( "burst", 0 );
     slot.clip = jo.get_int( "clip_size", 0 );
-    slot.reload_time = jo.get_int( "reload" );
+
+    jo.read( "reload", slot.reload_time );
     slot.reload_noise = jo.get_string( "reload_noise", _ ("click.") );
     slot.reload_noise_volume = jo.get_int( "reload_noise_volume", -1 );
+
     slot.pierce = jo.get_int( "pierce", 0 );
     slot.ammo_effects = jo.get_tags( "ammo_effects" );
     slot.ups_charges = jo.get_int( "ups_charges", 0 );
@@ -1207,9 +1209,8 @@ void Item_factory::load_basic_info(JsonObject &jo, itype *new_item_template)
     }
 
     if( jo.has_member( "material" ) ) {
+        new_item_template->materials.clear();
         set_material_from_json( jo, "material", new_item_template );
-    } else {
-        new_item_template->materials.push_back( "null" );
     }
 
     if( jo.has_string( "phase" ) ) {
@@ -1270,8 +1271,8 @@ void Item_factory::load_basic_info(JsonObject &jo, itype *new_item_template)
 
     if( jo.has_member( "use_action" ) ) {
         new_item_template->use_methods.clear();
+        set_use_methods_from_json( jo, "use_action", new_item_template->use_methods );
     }
-    set_use_methods_from_json( jo, "use_action", new_item_template->use_methods );
 
     if (jo.has_member("category")) {
         new_item_template->category = get_category(jo.get_string("category"));
@@ -1370,21 +1371,14 @@ std::bitset<num_bp> Item_factory::flags_from_json(JsonObject &jo, const std::str
 void Item_factory::set_material_from_json( JsonObject& jo, std::string member,
                                            itype *new_item_template )
 {
-    // All materials need a type, even if it is "null", which seems to be the base type.
     if( jo.has_array(member) ) {
         JsonArray jarr = jo.get_array(member);
         for( int i = 0; i < (int)jarr.size(); ++i ) {
             std::string material_id = jarr.get_string(i);
-            if( material_id == "null" ) {
-                continue;
-            }
             new_item_template->materials.push_back( material_id );
         }
     } else if( jo.has_string(member) ) {
         new_item_template->materials.push_back( jo.get_string(member) );
-    } else {
-        // Default material.
-        new_item_template->materials.push_back("null");
     }
 }
 

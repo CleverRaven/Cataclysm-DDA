@@ -25,7 +25,7 @@
     "volume": 1,
     "integral_volume": 0,
     "price": 38000,
-    "material": [ "steel", "null" ],
+    "material": [ "steel" ],
     "symbol": ":",
     "color": "dark_gray",
     "location": "grip",

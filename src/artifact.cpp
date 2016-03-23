@@ -1200,11 +1200,6 @@ void it_artifact_armor::deserialize(JsonObject &jo)
             materials.push_back(jarr.get_string(i));
         }
     }
-    if (materials.size() == 0) {
-        // I don't think we need this, but a lot of code seems to want at least
-        // one material and I'm not sure I found every single corner case.
-        materials.push_back("null");
-    }
     volume = jo.get_int("volume");
     weight = jo.get_int("weight");
     melee_dam = jo.get_int("melee_dam");

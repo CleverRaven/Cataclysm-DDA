@@ -11,7 +11,7 @@
         "color" : "blue",
         "intelligence" : 9,
         "symbol" : "?",
-        "material" : ["paper", "null"],
+        "material" : ["paper"],
         "volume" : 5,
         "bashing" : -2,
         "time" : 60,
