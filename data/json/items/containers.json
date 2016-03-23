@@ -448,7 +448,7 @@
         "bashing" : 6,
         "to_hit" : -4,
         "contains" : 240,
-        "material" : ["steel", "null"],
+        "material" : ["steel"],
         "watertight": true,
         "seals": true
     },

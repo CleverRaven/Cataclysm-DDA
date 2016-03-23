@@ -4575,12 +4575,14 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
 
     //Calculate damage resulting from d_E
     const itype *type = item::find_type( part_info( ret.part ).item );
-    std::vector<std::string> vpart_item_mats = type->materials;
+    const auto &mats = type->materials;
     float vpart_dens = 0;
-    for( auto mat_id : vpart_item_mats ) {
-        vpart_dens += material_type::find_material(mat_id)->density();
+    if( !mats.empty() ) {
+        for( auto &mat_id : mats ) {
+            vpart_dens += material_type::find_material( mat_id )->density();
+        }
+        vpart_dens /= mats.size(); // average
     }
-    vpart_dens /= vpart_item_mats.size(); // average
 
     //k=100 -> 100% damage on part
     //k=0 -> 100% damage on obj

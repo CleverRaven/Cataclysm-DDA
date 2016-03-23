@@ -1607,7 +1607,6 @@
     "name": "turret aim point",
     "description": "Doesn't actually fire anything, just there to aim the turrets.",
     "price": 0,
-    "material": "null",
     "flags": ["NEVER_JAMS", "MOUNTED_GUN"],
     "skill": "computer",
     "ammo": "pointer_fake_ammo",
