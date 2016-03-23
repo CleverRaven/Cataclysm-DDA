@@ -1181,35 +1181,6 @@ void Item_factory::load_basic_info(JsonObject &jo, itype *new_item_template)
         new_item_template->snippet_category = jo.get_string( "snippet_category", "" );
     }
 
-    /*
-    List of current flags
-    FIT - Reduces encumbrance by ten
-    SKINTIGHT - Reduces layer penalty
-    VARSIZE - Can be made to fit via tailoring
-    OVERSIZE - Can always be worn no matter encumbrance/mutations/bionics/etc
-    POCKETS - Will increase warmth for hands if hands are cold and the player is wielding nothing
-    HOOD - Will increase warmth for head if head is cold and player's head isn't encumbered
-    RAINPROOF - Works like a raincoat to protect from rain effects
-    WATCH - Shows the current time, instead of sun/moon position
-    ALARMCLOCK - Has an alarmclock feature
-    FANCY - Less than practical clothing meant primarily to convey a certain image.
-    SUPER_FANCY - Clothing suitable for the most posh of events.
-    LIGHT_* - light emission, sets cached int light_emission
-    USE_EAT_VERB - Use the eat verb, even if it's a liquid(soup, jam etc.)
-    STURDY - Clothing is made to be armor. Prevents damage to armor unless it is penetrated.
-    SWIM_GOGGLES - Allows you to see much further under water.
-    REBREATHER - Works to supply you with oxygen while underwater. Requires external limiter like battery power.
-    UNRECOVERABLE - Prevents the item from being recovered when deconstructing another item that uses this one.
-    GNV_EFFECT - Green night vision effect. Requires external limiter like battery power.
-    IR_EFFECT - Infrared vision effect. Requires external limiter like battery power.
-    SUN_GLASSES - Protects from sunlight's 'glare' effect.
-    RAD_RESIST - Partially protects from ambient radiation.
-    RAD_PROOF- Fully protects from ambient radiation.
-    ELECTRIC_IMMUNE- Fully protects from electricity.
-    THERMOMETER - Shows current air temperature. If an item has Thermo, Hygro and/or Baro, more information is shown, such as windchill and wind speed.
-    HYGROMETER - Shows current relative humidity. If an item has Thermo, Hygro and/or Baro, more information is shown, such as windchill and wind speed.
-    BAROMETER - Shows current pressure. If an item has Thermo, Hygro and/or Baro, more information is shown, such as windchill and wind speed.
-    */
     new_item_template->item_tags = jo.get_tags("flags");
     if (!new_item_template->item_tags.empty()) {
         for (std::set<std::string>::const_iterator it = new_item_template->item_tags.begin();
