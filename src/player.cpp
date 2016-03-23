@@ -9636,14 +9636,14 @@ bool player::can_wear( const item& it, bool alert ) const
         return false;
     }
 
-    if( !it.has_flag( "OVERSIZE" ) ) {
-        if( has_trait( "WOOLALLERGY" ) && ( it.made_of("wool" ) || it.item_tags.count( "wooled" ) ) ) {
-            if( alert ) {
-                add_msg_if_player( m_info, _( "You can't wear that, it's made of wool!" ) );
-            }
-            return false;
+    if( has_trait( "WOOLALLERGY" ) && ( it.made_of("wool" ) || it.item_tags.count( "wooled" ) ) ) {
+        if( alert ) {
+            add_msg_if_player( m_info, _( "You can't wear that, it's made of wool!" ) );
         }
+        return false;
+    }
 
+    if( !it.has_flag( "OVERSIZE" ) ) {
         if( ( it.covers( bp_hand_l ) || it.covers( bp_hand_r ) ||
               it.covers( bp_arm_l )  || it.covers( bp_arm_r )  ||
               it.covers( bp_leg_l )  || it.covers( bp_leg_r )  ||
