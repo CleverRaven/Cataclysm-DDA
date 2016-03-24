@@ -527,12 +527,12 @@ void Pickup::pick_up( const tripoint &pos, int min )
             break;
         case ITEMS_FROM_GROUND:
             // Nothing to change, default is to pick from ground anyway.
+            if (g->m.has_flag("SEALED", pos)) {
+                return;
+            }
+
             break;
         }
-    }
-
-    if (g->m.has_flag("SEALED", pos)) {
-        return;
     }
 
     if( !from_vehicle ) {

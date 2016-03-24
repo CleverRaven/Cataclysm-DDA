@@ -80,10 +80,10 @@ std::string get_subcat_name( const std::string &cat, std::string prefixed_name )
 void translate_all()
 {
     for( const auto &cat : craft_cat_list ) {
-        normalized_names[cat] = get_cat_name( _( cat.c_str() ) );
+        normalized_names[cat] = _( get_cat_name( cat ).c_str() );
 
         for( const auto &subcat : craft_subcat_list[cat] ) {
-            normalized_names[subcat] =  get_subcat_name( cat, _( subcat.c_str() ) ) ;
+            normalized_names[subcat] =  _( get_subcat_name( cat, subcat ).c_str() ) ;
         }
     }
 }

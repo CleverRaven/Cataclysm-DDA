@@ -578,6 +578,8 @@ public:
     const material_type &get_base_material() const;
     /**
      * The ids of all the materials this is made of.
+     * This may return an empty vector.
+     * The returned vector does not contain the null id.
      */
     const std::vector<std::string> &made_of() const;
     /**
@@ -727,7 +729,7 @@ public:
 
     /**
      * Can this item have given item/itype as content?
-     * 
+     *
      * For example, airtight for gas, acidproof for acid etc.
      */
     /*@{*/

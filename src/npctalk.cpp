@@ -4741,15 +4741,21 @@ void load_talk_topic( JsonObject &jo )
     }
 }
 
+enum consumption_result {
+    REFUSED = 0,
+    CONSUMED_SOME, // Consumption didn't fail, but don't delete the item
+    CONSUMED_ALL   // Consumption succeeded, delete the item
+};
+
 // Returns true if we destroyed the item through consumption
-bool try_consume( npc &p, item &it, bool &used, std::string &reason )
+consumption_result try_consume( npc &p, item &it, std::string &reason )
 {
-    item &to_eat = it.is_food_container( &p ) ?
-        it.contents[0] : it;
+    bool consuming_contents = it.is_food_container( &p );
+    item &to_eat = consuming_contents ? it.contents[0] : it;
     const auto comest = dynamic_cast<const it_comest*>( to_eat.type );
     if( comest == nullptr ) {
         // Don't inform the player that we don't want to eat the lighter
-        return false;
+        return REFUSED;
     }
 
     if( ( !it.type->use_methods.empty() || comest->quench < 0 || it.poison > 0 ) &&
@@ -4757,7 +4763,7 @@ bool try_consume( npc &p, item &it, bool &used, std::string &reason )
         !g->u.has_trait( "DEBUG_MIND_CONTROL" ) ) {
         // TODO: Get some better check here
         reason = _("I don't <swear> trust you enough to eat from your hand...");
-        return false;
+        return REFUSED;
     }
 
     // TODO: Make it not a copy+paste from player::consume_item
@@ -4765,7 +4771,7 @@ bool try_consume( npc &p, item &it, bool &used, std::string &reason )
     if( comest->comesttype == "FOOD" || comest->comesttype == "DRINK" ) {
         if( !p.eat( to_eat ) ) {
             reason = _("It doesn't look like a good idea to consume this...");
-            return false;
+            return REFUSED;
         }
     } else if (comest->comesttype == "MED") {
         if (comest->tool != "null") {
@@ -4776,7 +4782,7 @@ bool try_consume( npc &p, item &it, bool &used, std::string &reason )
             if (!has) {
                 reason = string_format( _("I need a %s to consume that!"),
                     item::nname( comest->tool ).c_str() );
-                return false;
+                return REFUSED;
             }
             p.use_charges( comest->tool, 1 );
         }
@@ -4784,7 +4790,7 @@ bool try_consume( npc &p, item &it, bool &used, std::string &reason )
             amount_used = comest->invoke( &p, &to_eat, p.pos() );
             if( amount_used <= 0 ) {
                 reason = _("It doesn't look like a good idea to consume this..");
-                return false;
+                return REFUSED;
             }
         }
 
@@ -4794,9 +4800,18 @@ bool try_consume( npc &p, item &it, bool &used, std::string &reason )
         debugmsg("Unknown comestible type of item: %s\n", to_eat.tname().c_str());
     }
 
-    used = true;
     to_eat.charges -= amount_used;
-    return to_eat.charges <= 0;
+    if( to_eat.charges > 0 ) {
+        return CONSUMED_SOME;
+    }
+
+    if( consuming_contents ) {
+        it.contents.erase( it.contents.begin() );
+        return CONSUMED_SOME;
+    }
+
+    // If not consuming contents and charge <= 0, we just ate the last charge from the stack
+    return CONSUMED_ALL;
 }
 
 std::string give_item_to( npc &p, bool allow_use, bool allow_carry )
@@ -4816,14 +4831,14 @@ std::string give_item_to( npc &p, bool allow_use, bool allow_carry )
         return _("Are you <swear> insane!?");
     }
 
-    bool used = false;
     std::string no_consume_reason;
     if( allow_use ) {
         // Eating first, to avoid evaluating bread as a weapon
-        if( try_consume( p, given, used, no_consume_reason ) ) {
+        const auto consume_res = try_consume( p, given, no_consume_reason );
+        if( consume_res == CONSUMED_ALL ) {
             g->u.i_rem( inv_pos );
         }
-        if( used ) {
+        if( consume_res != REFUSED ) {
             g->u.moves -= 100;
             return _("Here we go...");
         }

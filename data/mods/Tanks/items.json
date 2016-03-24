@@ -532,7 +532,7 @@
   "color" : "green",
   "intelligence" : 8,
   "symbol" : "?",
-  "material" : ["paper", "null"],
+  "material" : ["paper"],
   "volume" : 4,
   "bashing" : 8,
   "time" : 30,
