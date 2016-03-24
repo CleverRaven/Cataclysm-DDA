@@ -3297,103 +3297,26 @@ void player::disp_morale()
     morale.display( ( calc_focus_equilibrium() - focus_pool ) / 100.0 );
 }
 
-int player::print_aim_bars( WINDOW *w, int line_number, item *weapon, Creature *target, int predicted_recoil ) {
-    // This is absolute accuracy for the player.
-    // TODO: push the calculations duplicated from Creature::deal_projectile_attack() and
-    // Creature::projectile_attack() into shared methods.
-    // Dodge is intentionally not accounted for.
-
-    // Confidence is chance of the actual shot being under the target threshold,
-    // This simplifies the calculation greatly, that's intentional.
-    const double aim_level = predicted_recoil + driving_recoil + get_weapon_dispersion( weapon, false );
-    const double range = rl_dist( pos(), target->pos() );
-    const double missed_by = aim_level * 0.00021666666666666666 * range;
-    const double hit_rating = missed_by / std::max( double( get_speed() ) / 80., 1.0 );
-    const double confidence = 1 / hit_rating;
-    // This is a relative measure of how steady the player's aim is,
-    // 0 it is the best the player can do.
-    const double steady_score = predicted_recoil - weapon->sight_dispersion( -1 );
-    // Fairly arbitrary cap on steadiness...
-    const double steadiness = 1.0 - steady_score / 250;
-
-    const std::array<std::pair<double, char>, 3> confidence_ratings = {{
-        std::make_pair( 0.1, '*' ),
-        std::make_pair( 0.4, '+' ),
-        std::make_pair( 0.6, '|' ) }};
-
-    const int window_width = getmaxx( w ) - 2; // Window width minus borders.
-    const std::string &confidence_bar = get_labeled_bar( confidence, window_width, _( "Confidence" ),
-        confidence_ratings.begin(),
-        confidence_ratings.end() );
-    const std::string &steadiness_bar = get_labeled_bar( steadiness, window_width, _( "Steadiness" ), '*' );
-
-    mvwprintw( w, line_number++, 1, _( "Symbols: * = Headshot + = Hit | = Graze" ) );
-    mvwprintw( w, line_number++, 1, confidence_bar.c_str() );
-    mvwprintw( w, line_number++, 1, steadiness_bar.c_str() );
-
-    return line_number;
-}
-
-std::string player::print_gun_mode() const
+static std::string print_gun_mode( const player &p )
 {
     // Print current weapon, or attachment if active.
-    const item* gunmod = weapon.gunmod_current();
+    const item *gunmod = p.weapon.gunmod_current();
     std::stringstream attachment;
-    if (gunmod != NULL) {
+    if( gunmod != NULL ) {
         attachment << gunmod->type_name().c_str();
         if( gunmod->ammo_remaining() ) {
             attachment << " (" << gunmod->ammo_remaining() << ")";
         }
-        return string_format( _("%s (Mod)"), attachment.str().c_str() );
+        return string_format( _( "%s (Mod)" ), attachment.str().c_str() );
     } else {
-        if (weapon.get_gun_mode() == "MODE_BURST") {
-            return string_format( _("%s (Burst)"), weapname().c_str() );
-        } else if( weapon.get_gun_mode() == "MODE_REACH" ) {
-            return string_format( _("%s (Bayonet)"), weapname().c_str() );
+        if( p.weapon.get_gun_mode() == "MODE_BURST" ) {
+            return string_format( _( "%s (Burst)" ), p.weapname().c_str() );
+        } else if( p.weapon.get_gun_mode() == "MODE_REACH" ) {
+            return string_format( _( "%s (Bayonet)" ), p.weapname().c_str() );
         } else {
-            return string_format( _("%s"), weapname().c_str() );
+            return string_format( _( "%s" ), p.weapname().c_str() );
         }
     }
-}
-
-std::string player::print_recoil() const
-{
-    if (weapon.is_gun()) {
-        const int adj_recoil = recoil + driving_recoil;
-        if( adj_recoil > MIN_RECOIL ) {
-            // 150 is the minimum when not actively aiming
-            const char *color_name = "c_ltgray";
-            if( adj_recoil >= 690 ) {
-                color_name = "c_red";
-            } else if( adj_recoil >= 450 ) {
-                color_name = "c_ltred";
-            } else if( adj_recoil >= 210 ) {
-                color_name = "c_yellow";
-            }
-            return string_format("<color_%s>%s</color>", color_name, _("Recoil"));
-        }
-    }
-    return std::string();
-}
-
-int player::draw_turret_aim( WINDOW *w, int line_number, const tripoint &targ ) const
-{
-    vehicle *veh = g->m.veh_at( pos() );
-    if( veh == nullptr ) {
-        debugmsg( "Tried to aim turret while outside vehicle" );
-        return line_number;
-    }
-
-    const auto turret_state = veh->turrets_can_shoot( targ );
-    int num_ok = 0;
-    for( const auto &pr : turret_state ) {
-        if( pr.second == turret_all_ok ) {
-            num_ok++;
-        }
-    }
-
-    mvwprintw( w, line_number++, 1, _("Turrets in range: %d"), num_ok );
-    return line_number;
 }
 
 void player::print_stamina_bar( WINDOW *w ) const
@@ -3412,7 +3335,7 @@ void player::disp_status( WINDOW *w, WINDOW *w2 )
     {
         const int y = sideStyle ? 1 : 0;
         const int w = getmaxx( weapwin );
-        trim_and_print( weapwin, y, 0, w, c_ltgray, "%s", print_gun_mode().c_str() );
+        trim_and_print( weapwin, y, 0, w, c_ltgray, "%s", print_gun_mode( *this ).c_str() );
     }
 
     // Print currently used style or weapon mode.

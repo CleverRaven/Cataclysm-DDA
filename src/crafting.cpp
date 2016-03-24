@@ -233,19 +233,14 @@ void finalize_recipes()
     }
 }
 
-bool player::crafting_allowed( const std::string &rec_name )
+static bool crafting_allowed( const player &p, const recipe &rec )
 {
-    return crafting_allowed( *recipe_dict[rec_name] );
-}
-
-bool player::crafting_allowed( const recipe &rec )
-{
-    if( !has_morale_to_craft() ) {
+    if( !p.has_morale_to_craft() ) {
         add_msg( m_info, _( "Your morale is too low to craft..." ) );
         return false;
     }
 
-    if( lighting_craft_speed_multiplier( rec ) == 0.0f ) {
+    if( p.lighting_craft_speed_multiplier( rec ) == 0.0f ) {
         add_msg( m_info, _( "You can't see to craft!" ) );
         return false;
     }
@@ -253,7 +248,7 @@ bool player::crafting_allowed( const recipe &rec )
     return true;
 }
 
-float player::lighting_craft_speed_multiplier( const recipe &rec )
+float player::lighting_craft_speed_multiplier( const recipe &rec ) const
 {
     // negative is bright, 0 is just bright enough, positive is dark, +7.0f is pitch black
     float darkness = fine_detail_vision_mod() - 4.0f;
@@ -291,7 +286,7 @@ void player::craft()
     int batch_size = 0;
     const recipe *rec = select_crafting_recipe( batch_size );
     if (rec) {
-        if ( crafting_allowed( *rec ) ) {
+        if ( crafting_allowed( *this, *rec ) ) {
             make_craft( rec->ident(), batch_size );
         }
     }
@@ -311,7 +306,7 @@ void player::long_craft()
     int batch_size = 0;
     const recipe *rec = select_crafting_recipe( batch_size );
     if (rec) {
-        if ( crafting_allowed( *rec ) ) {
+        if ( crafting_allowed( *this, *rec ) ) {
             make_all_craft( rec->ident(), batch_size );
         }
     }
@@ -320,7 +315,7 @@ void player::long_craft()
 bool player::making_would_work(const std::string &id_to_make, int batch_size)
 {
     const recipe *making = recipe_by_name( id_to_make );
-    if( making == nullptr || !crafting_allowed( *making ) ) {
+    if( making == nullptr || !crafting_allowed( *this, *making ) ) {
         return false;
     }
 

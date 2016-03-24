@@ -518,7 +518,6 @@ classes = {
             { name = "cough", rval = nil, args = { "bool", "int" } },
             { name = "cough", rval = nil, args = { } },
             { name = "craft", rval = nil, args = { } },
-            { name = "crafting_allowed", rval = "bool", args = { "string" } },
             { name = "crit_chance", rval = "float", args = { "int", "int", "item" } },
             { name = "crossed_threshold", rval = "bool", args = { } },
             { name = "deactivate_bionic", rval = "bool", args = { "int" } },
