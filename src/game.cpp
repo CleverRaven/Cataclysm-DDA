@@ -8088,22 +8088,39 @@ void game::examine()
 
 void game::examine( const tripoint &examp )
 {
+    Creature *c = critter_at( examp );
+    if( c != nullptr ) {
+        monster *mon = dynamic_cast<monster *>( c );
+        if( mon != nullptr && mon->has_effect( effect_pet ) ) {
+            if( pet_menu( mon ) ) {
+                return;
+            }
+        }
+
+        npc *np = dynamic_cast<npc*>( c );
+        if( np != nullptr ) {
+            if( npc_menu( *np ) ) {
+                return;
+            }
+        }
+    }
+
     int veh_part = 0;
     vehicle *veh = nullptr;
 
-    veh = m.veh_at(examp, veh_part);
-    if (veh) {
-        if (u.controlling_vehicle) {
+    veh = m.veh_at( examp, veh_part );
+    if( veh != nullptr ) {
+        if( u.controlling_vehicle ) {
             add_msg(m_info, _("You can't do that while driving."));
-        } else if (abs(veh->velocity) > 0) {
+        } else if( abs(veh->velocity) > 0 ) {
             add_msg(m_info, _("You can't do that on a moving vehicle."));
         } else {
-            Pickup::pick_up( examp, 0);
+            Pickup::pick_up( examp, 0 );
         }
         return;
     }
 
-    if (m.has_flag("CONSOLE", examp)) {
+    if( m.has_flag( "CONSOLE", examp ) ) {
         use_computer( examp );
         return;
     }
@@ -8125,26 +8142,8 @@ void game::examine( const tripoint &examp )
     }
 
     bool none = true;
-    if (xter_t.examine != &iexamine::none || xfurn_t.examine != &iexamine::none) {
+    if( xter_t.examine != &iexamine::none || xfurn_t.examine != &iexamine::none ) {
         none = false;
-    }
-
-    if (critter_at(examp) != NULL) {
-        Creature *c = critter_at(examp);
-        monster *mon = dynamic_cast<monster *>(c);
-
-        if( mon != nullptr && mon->has_effect( effect_pet) ) {
-            if (pet_menu(mon)) {
-                return;
-            }
-        }
-
-        npc *np = dynamic_cast<npc*>( c );
-        if( np != nullptr ) {
-            if( npc_menu( *np ) ) {
-                return;
-            }
-        }
     }
 
     if( !m.tr_at( examp ).is_null() ) {
@@ -8158,7 +8157,7 @@ void game::examine( const tripoint &examp )
     }
 
     if (m.has_flag("SEALED", examp)) {
-        if (none) {
+        if( none ) {
             if (m.has_flag("UNSTABLE", examp)) {
                 add_msg(_("The %s is too unstable to remove anything."), m.name(examp).c_str());
             } else {
@@ -8170,7 +8169,7 @@ void game::examine( const tripoint &examp )
         if( m.tr_at( examp ).is_null() && m.i_at(examp).empty() &&
             m.has_flag("CONTAINER", examp) && none) {
             add_msg(_("It is empty."));
-        } else if (!veh) {
+        } else if( veh == nullptr ) {
             Pickup::pick_up( examp, 0);
         }
     }
