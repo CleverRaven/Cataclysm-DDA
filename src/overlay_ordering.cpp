@@ -1,7 +1,7 @@
 #include "overlay_ordering.h"
 
-std::unordered_map<std::string, int> base_mutation_overlay_ordering;
-std::unordered_map<std::string, int> tileset_mutation_overlay_ordering;
+std::map<std::string, int> base_mutation_overlay_ordering;
+std::map<std::string, int> tileset_mutation_overlay_ordering;
 
 void load_overlay_ordering( JsonObject &jsobj )
 {

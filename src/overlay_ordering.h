@@ -3,11 +3,11 @@
 
 #include "json.h"
 
-#include <unordered_map>
+#include <map>
 #include <string>
 
-extern std::unordered_map<std::string, int> base_mutation_overlay_ordering;
-extern std::unordered_map<std::string, int> tileset_mutation_overlay_ordering;
+extern std::map<std::string, int> base_mutation_overlay_ordering;
+extern std::map<std::string, int> tileset_mutation_overlay_ordering;
 
 void load_overlay_ordering( JsonObject &jsobj );
 

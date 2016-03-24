@@ -1500,7 +1500,7 @@ Each tileset has a tile_config.json describing how to map the contents of a spri
           }
         ]
       }
-    ]
+    ],
     "overlay_ordering": [
       {
         "id" : "WINGS_BAT",                         // mutation name, in a string or array of strings
