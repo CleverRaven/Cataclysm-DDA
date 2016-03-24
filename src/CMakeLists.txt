@@ -303,6 +303,7 @@ SET (CATACLYSM_DDA_HEADERS
     ${CMAKE_SOURCE_DIR}/src/uistate.h
     ${CMAKE_SOURCE_DIR}/src/profession.h
     ${CMAKE_SOURCE_DIR}/src/path_info.h
+    ${CMAKE_SOURCE_DIR}/src/pathfinding.h
     ${CMAKE_SOURCE_DIR}/src/version.h
     ${CMAKE_SOURCE_DIR}/src/input.h
     ${CMAKE_SOURCE_DIR}/src/item_stack.h

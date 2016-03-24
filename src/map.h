@@ -16,6 +16,7 @@
 #include "string_id.h"
 #include "rng.h"
 #include "enums.h"
+#include "pathfinding.h"
 
 //TODO: include comments about how these variables work. Where are they used. Are they constant etc.
 #define CAMPSIZE 1
@@ -74,6 +75,7 @@ class map;
 enum ter_bitflags : int;
 template<typename T>
 struct id_or_id;
+struct pathfinding_cache;
 
 class map_stack : public item_stack {
 private:
@@ -219,6 +221,8 @@ class map
             get_cache( zlev ).floor_cache_dirty = true;
         }
     }
+
+    void set_pathfinding_cache_dirty( const int zlev );
     /*@}*/
 
 
@@ -426,16 +430,19 @@ public:
  std::vector<point> getDirCircle(const int Fx, const int Fy, const int Tx, const int Ty) const;
  std::vector<tripoint> get_dir_circle( const tripoint &f, const tripoint &t ) const;
 
- /**
-  * Calculate a best path using A*
-  *
-  * @param f The source location from which to path.
-  * @param t The destination to which to path.
-  * @param bash Bashing strength of pathing creature (0 means no bashing through terrain).
-  * @param maxdist Consider only paths up to this length (move cost multiplies "length" of a tile).
-  */
- std::vector<tripoint> route( const tripoint &f, const tripoint &t,
-                              const int bash, const int maxdist ) const;
+    /**
+     * Calculate a best path using A*
+     *
+     * @param f The source location from which to path.
+     * @param t The destination to which to path.
+     * @param bash Bashing strength of pathing creature (0 means no bashing through terrain).
+     * @param maxdist Consider only paths up to this length (move cost multiplies "length" of a tile).
+     */
+    std::vector<tripoint> route( const tripoint &f, const tripoint &t,
+                                 const int bash, const int maxdist,
+                                 const std::set<tripoint> &pre_closed ) const;
+    std::vector<tripoint> route( const tripoint &f, const tripoint &t,
+                                 const int bash, const int maxdist ) const;
 
  int coord_to_angle(const int x, const int y, const int tgtx, const int tgty) const;
 // Vehicles: Common to 2D and 3D
@@ -1397,15 +1404,23 @@ private:
      */
     std::array< std::unique_ptr<level_cache>, OVERMAP_LAYERS > caches;
 
+    mutable std::array< std::unique_ptr<pathfinding_cache>, OVERMAP_LAYERS > pathfinding_caches;
+
     // Note: no bounds check
-    level_cache &get_cache( const int zlev ) {
+    level_cache &get_cache( int zlev ) {
         return *caches[zlev + OVERMAP_DEPTH];
     }
 
+    pathfinding_cache &get_pathfinding_cache( int zlev ) const;
+
   public:
-    const level_cache &get_cache_ref( const int zlev ) const {
+    const level_cache &get_cache_ref( int zlev ) const {
         return *caches[zlev + OVERMAP_DEPTH];
     }
+
+    const pathfinding_cache &get_pathfinding_cache_ref( int zlev ) const;
+
+    void update_pathfinding_cache( int zlev ) const;
 
     void update_visibility_cache( visibility_variables &cache, int zlev );
 

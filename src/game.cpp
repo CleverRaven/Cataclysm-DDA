@@ -79,6 +79,7 @@
 #include "live_view.h"
 #include "recipe_dictionary.h"
 #include "cata_utility.h"
+#include "pathfinding.h"
 
 #include <map>
 #include <set>
