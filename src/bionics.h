@@ -5,9 +5,6 @@
 #include "output.h" // WINDOW
 #include <string>
 
-/* Thought: Perhaps a HUD bionic that changes the display of the game?
- * Showing more information or something. */
-
 struct bionic_data {
     bionic_data() = default;
     bionic_data( std::string nname, bool ps, bool tog, int pac, int pad, int pot, int ct,
@@ -60,7 +57,6 @@ struct bionic : public JsonSerializer, public JsonDeserializer {
     void deserialize( JsonIn &jsin ) override;
 };
 
-void draw_exam_window( WINDOW *win, int border_line, bool examination );
 void reset_bionics();
 void load_bionic( JsonObject &jsobj ); // load a bionic from JSON
 bool is_valid_bionic( std::string const &id );
