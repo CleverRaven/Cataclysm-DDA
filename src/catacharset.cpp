@@ -158,6 +158,12 @@ int utf8_width(const std::string &str, const bool ignore_tags)
 {
     return utf8_width(str.c_str(), ignore_tags);
 }
+
+int utf8_width(const utf8_wrapper &str, const bool ignore_tags)
+{
+    return utf8_width(str.c_str(), ignore_tags);
+}
+
 //Convert cursor position to byte offset
 //returns the first character position in bytes behind the cursor position.
 //If the cursor is not on the first half of the character,
@@ -411,6 +417,24 @@ int center_text_pos(const char *text, int start_pos, int end_pos)
 {
     int full_screen = end_pos - start_pos + 1;
     int str_len = utf8_width(text);
+    int position = (full_screen - str_len) / 2;
+
+    if (position <= 0) {
+        return start_pos;
+    }
+
+    return start_pos + position;
+}
+
+int center_text_pos( const std::string &text, int start_pos, int end_pos )
+{
+    return center_text_pos( text.c_str(), start_pos, end_pos );
+}
+
+int center_text_pos( const utf8_wrapper &text, int start_pos, int end_pos )
+{
+    int full_screen = end_pos - start_pos + 1;
+    int str_len = text.display_width();
     int position = (full_screen - str_len) / 2;
 
     if (position <= 0) {
