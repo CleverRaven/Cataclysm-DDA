@@ -148,7 +148,7 @@ const efftype_id effect_winded( "winded" );
 const matype_id style_none( "style_none" );
 
 // use this instead of having to type out 26 spaces like before
-static const std::string header_spaces(26, ' ');
+static const std::string header_spaces( 26, ' ' );
 
 stats player_stats;
 
@@ -159,72 +159,73 @@ static bool should_combine_bps( const player &, size_t, size_t );
 
 player::player() : Character()
 {
- id = -1; // -1 is invalid
- str_cur = 8;
- str_max = 8;
- dex_cur = 8;
- dex_max = 8;
- int_cur = 8;
- int_max = 8;
- per_cur = 8;
- per_max = 8;
- dodges_left = 1;
- blocks_left = 1;
- power_level = 0;
- max_power_level = 0;
- stamina = get_stamina_max();
- stim = 0;
- pkill = 0;
- radiation = 0;
- tank_plut = 0;
- reactor_plut = 0;
- slow_rad = 0;
- cash = 0;
- recoil = 0;
- driving_recoil = 0;
- scent = 500;
- male = true;
- prof = profession::has_initialized() ? profession::generic() : NULL; //workaround for a potential structural limitation, see player::create
+    id = -1; // -1 is invalid
+    str_cur = 8;
+    str_max = 8;
+    dex_cur = 8;
+    dex_max = 8;
+    int_cur = 8;
+    int_max = 8;
+    per_cur = 8;
+    per_max = 8;
+    dodges_left = 1;
+    blocks_left = 1;
+    power_level = 0;
+    max_power_level = 0;
+    stamina = get_stamina_max();
+    stim = 0;
+    pkill = 0;
+    radiation = 0;
+    tank_plut = 0;
+    reactor_plut = 0;
+    slow_rad = 0;
+    cash = 0;
+    recoil = 0;
+    driving_recoil = 0;
+    scent = 500;
+    male = true;
+    prof = profession::has_initialized() ? profession::generic() :
+           NULL; //workaround for a potential structural limitation, see player::create
 
     start_location = start_location_id( "shelter" );
- moves = 100;
- movecounter = 0;
- cached_turn = -1;
- oxygen = 0;
- next_climate_control_check=0;
- last_climate_control_ret=false;
- active_mission = nullptr;
- in_vehicle = false;
- controlling_vehicle = false;
- grab_point = {0, 0, 0};
- grab_type = OBJECT_NONE;
- move_mode = "walk";
- style_selected = matype_id( "style_none" );
- keep_hands_free = false;
- focus_pool = 100;
- last_item = itype_id("null");
- sight_max = 9999;
- last_batch = 0;
- lastconsumed = itype_id("null");
- next_expected_position = tripoint_min;
+    moves = 100;
+    movecounter = 0;
+    cached_turn = -1;
+    oxygen = 0;
+    next_climate_control_check = 0;
+    last_climate_control_ret = false;
+    active_mission = nullptr;
+    in_vehicle = false;
+    controlling_vehicle = false;
+    grab_point = {0, 0, 0};
+    grab_type = OBJECT_NONE;
+    move_mode = "walk";
+    style_selected = matype_id( "style_none" );
+    keep_hands_free = false;
+    focus_pool = 100;
+    last_item = itype_id( "null" );
+    sight_max = 9999;
+    last_batch = 0;
+    lastconsumed = itype_id( "null" );
+    next_expected_position = tripoint_min;
 
- empty_traits();
+    empty_traits();
 
- for( auto &skill : Skill::skills ) {
-     skillLevel( skill ).level( 0 );
- }
+    for( auto &skill : Skill::skills ) {
+        skillLevel( skill ).level( 0 );
+    }
 
- for (int i = 0; i < num_bp; i++) {
-  temp_cur[i] = BODYTEMP_NORM;
-  frostbite_timer[i] = 0;
-  temp_conv[i] = BODYTEMP_NORM;
-  body_wetness[i] = 0;
- }
- nv_cached = false;
- volume = 0;
+    for( int i = 0; i < num_bp; i++ ) {
+        temp_cur[i] = BODYTEMP_NORM;
+        frostbite_timer[i] = 0;
+        temp_conv[i] = BODYTEMP_NORM;
+        body_wetness[i] = 0;
+    }
+    nv_cached = false;
+    volume = 0;
 
- memorial_log.clear();
- player_stats.reset();
+    memorial_log.clear();
+    player_stats.reset();
 
     drench_capacity[bp_eyes] = 1;
     drench_capacity[bp_mouth] = 1;
@@ -255,31 +256,31 @@ void player::normalize()
 
     recalc_hp();
 
-    for (int i = 0 ; i < num_bp; i++) {
+    for( int i = 0 ; i < num_bp; i++ ) {
         temp_conv[i] = BODYTEMP_NORM;
     }
     stamina = get_stamina_max();
 }
 
-std::string player::disp_name(bool possessive) const
+std::string player::disp_name( bool possessive ) const
 {
-    if (!possessive) {
-        if (is_player()) {
-            return _("you");
+    if( !possessive ) {
+        if( is_player() ) {
+            return _( "you" );
         }
         return name;
     } else {
-        if (is_player()) {
-            return _("your");
+        if( is_player() ) {
+            return _( "your" );
         }
-        return string_format(_("%s's"), name.c_str());
+        return string_format( _( "%s's" ), name.c_str() );
     }
 }
 
 std::string player::skin_name() const
 {
     //TODO: Return actual deflecting layer name
-    return _("armor");
+    return _( "armor" );
 }
 
 void player::reset_stats()
