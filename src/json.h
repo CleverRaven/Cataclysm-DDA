@@ -728,7 +728,7 @@ inline bool JsonObject::assign( const std::string& name, std::set<std::string>& 
     } else if( has_string( add ) ) {
         val.insert( get_string( add ) );
         return true;
-    } else if( has_string( name ) ) {
+    } else if( has_member( name ) ) {
         val = get_tags( name );
         return true;
     } else {
