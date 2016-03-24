@@ -1,7 +1,7 @@
 #ifndef PATHFINDING_H
 #define PATHFINDING_H
 
-enum pf_special : int {
+enum pf_special : char {
     PF_NORMAL = 0x00,    // Plain boring tile (grass, dirt, floor etc.)
     PF_SLOW = 0x01,      // Tile with move cost >2
     PF_WALL = 0x02,      // Unpassable ter/furn/vehicle
