@@ -47,6 +47,7 @@
 #include "catalua.h"
 #include "npc.h"
 #include "cata_utility.h"
+#include "overlay_ordering.h"
 
 #include <map>
 
@@ -13274,24 +13275,39 @@ bool player::sees_with_infrared( const Creature &critter ) const
     return g->m.sees( pos(), critter.pos(), sight_range( DAYLIGHT_LEVEL ) );
 }
 
-std::vector<std::string> player::get_overlay_ids() const {
+std::vector<std::string> player::get_overlay_ids() const
+{
     std::vector<std::string> rval;
+    std::multimap<int, std::string> mutation_sorting;
 
     // first get mutations
-    for( auto & mutation : get_mutations() ) {
-        rval.push_back("mutation_"+mutation);
+    for( auto &mutation : get_mutations() ) {
+        auto it = base_mutation_overlay_ordering.find( mutation );
+        auto it2 = tileset_mutation_overlay_ordering.find( mutation );
+        int value = 9999;
+        if( it != base_mutation_overlay_ordering.end() ) {
+            value = it->second;
+        }
+        if( it2 != tileset_mutation_overlay_ordering.end() ) {
+            value = it2->second;
+        }
+        mutation_sorting.insert( std::make_pair( value, mutation ) );
+    }
+
+    for( auto &mutorder : mutation_sorting ) {
+        rval.push_back( "mutation_" + mutorder.second );
     }
 
     // next clothing
     // TODO: worry about correct order of clothing overlays
-    for(const item& worn_item : worn) {
-        rval.push_back("worn_"+worn_item.typeId());
+    for( const item &worn_item : worn ) {
+        rval.push_back( "worn_" + worn_item.typeId() );
     }
 
     // last weapon
     // TODO: might there be clothing that covers the weapon?
-    if(!weapon.is_null()) {
-        rval.push_back("wielded_"+weapon.typeId());
+    if( !weapon.is_null() ) {
+        rval.push_back( "wielded_" + weapon.typeId() );
     }
     return rval;
 }

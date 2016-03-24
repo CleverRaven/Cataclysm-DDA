@@ -49,6 +49,7 @@
 #include "clzones.h"
 #include "sounds.h"
 #include "gates.h"
+#include "overlay_ordering.h"
 
 #include <string>
 #include <vector>
@@ -220,6 +221,7 @@ void DynamicDataLoader::initialize()
     type_function_map["playlist"] = new StaticFunctionAccessor(&sfx::load_playlist);
 
     type_function_map["gate"] = new StaticFunctionAccessor(&gates::load_gates);
+    type_function_map["overlay_order"] = new StaticFunctionAccessor( &load_overlay_ordering );
 }
 
 void DynamicDataLoader::reset()

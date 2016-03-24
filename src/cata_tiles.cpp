@@ -27,6 +27,7 @@
 #include "weather.h"
 #include "weighted_list.h"
 #include "submap.h"
+#include "overlay_ordering.h"
 
 #include <algorithm>
 #include <fstream>
@@ -518,6 +519,28 @@ void cata_tiles::load_tilejson_from_file(const std::string &tileset_dir, std::if
         load_tilejson_from_file(config, 0, newsize);
         offset = newsize;
     }
+
+    // allows a tileset to override the order of mutation images being applied to a character
+    if( config.has_array( "overlay_ordering" ) ) {
+        tileset_mutation_overlay_ordering.clear();
+        JsonArray orderarray = config.get_array( "overlay_ordering" );
+        while( orderarray.has_more() ) {
+            JsonObject ordering = orderarray.next_object();
+
+            int order = ordering.get_int( "order" );
+            if( ordering.has_array( "id" ) ) {
+                JsonArray jsarr = ordering.get_array( "id" );
+                while( jsarr.has_more() ) {
+                    std::string mut_id = jsarr.next_string();
+                    tileset_mutation_overlay_ordering[mut_id] = order;
+                }
+            } else {
+                std::string mut_id = ordering.get_string( "id" );
+                tileset_mutation_overlay_ordering[mut_id] = order;
+            }
+        }
+    }
+
     // offset should be the total number of sprites loaded from every tileset image
     // eliminate any sprite references that are too high to exist
     // also eliminate negative sprite references
