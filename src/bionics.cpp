@@ -73,12 +73,13 @@ typedef std::pair<body_part, size_t> cbm_pair;
 std::map<std::string, bionic_data> bionics;
 std::vector<std::string> faulty_bionics;
 
-// similar to content of body_part_name() but with extra entry 'Other'
-std::string bodyparts[] = { bp_asText[0], bp_asText[1], bp_asText[2], bp_asText[3],
-                            bp_asText[4], bp_asText[5], bp_asText[6], bp_asText[7],
-                            bp_asText[8], bp_asText[9], bp_asText[10], bp_asText[11],
-                            _( "Other" ), _( "All" )
-                          };
+std::string bp_category( const size_t i )
+{
+    if( i < num_bp ) {
+        return bp_asText[i];
+    }
+    return _( "All" );
+}
 
 void draw_background( WINDOW *win, const bool empty_list )
 {
@@ -121,7 +122,7 @@ void draw_header( WINDOW *win, const size_t tab_index, const std::string power_s
                   const std::string help_key )
 {
     const std::array<std::string, 3> titles = {{
-        string_format( _( "Body Parts <color_yellow><< %s >></color>" ), bodyparts[tab_index].c_str() ),
+        string_format( _( "Body Parts <color_yellow><< %s >></color>" ), bp_category( tab_index ).c_str() ),
         power_string,
         string_format( _( "Press '<color_yellow>%s</color>' for help" ), help_key.c_str() )
     }};
@@ -289,7 +290,7 @@ void player::power_bionics()
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
 
-    size_t tab_count = num_bp + 2;
+    size_t tab_count = num_bp + 1;
     size_t tab_index = tab_count - 1;
     int cursor = 0;
     int scroll_position = 0;
@@ -339,13 +340,13 @@ void player::power_bionics()
                     const size_t total_slots = get_total_bionics_slots( content[i].first );
                     std::string str;
                     if( total_slots < INT_MAX ) {
-                        str = string_format( "%s [%i/%i]:", bodyparts[content[i].first].c_str(),
+                        str = string_format( "%s [%i/%i]:", bp_category( content[i].first ).c_str(),
                                              get_used_bionics_slots( content[i].first ),
                                              total_slots );
 
                     // no need to show INT_MAX amount of total slots
                     } else {
-                        str = string_format( "%s [%i]:", bodyparts[content[i].first].c_str(),
+                        str = string_format( "%s [%i]:", bp_category( content[i].first ).c_str(),
                                              get_used_bionics_slots( content[i].first ) );
                     }
                     mvwprintz( w_bio_list, i - scroll_position, 2, c_yellow, str.c_str() );
@@ -1431,7 +1432,7 @@ bool player::install_bionics(const itype &type, int skill_level)
         for( auto& elem : issues ) {
             //~ <Body part name>: <number of slots> more slot(s) needed.
             detailed_info += string_format( _( "\n%s: %i more slot(s) needed." ),
-                                            bodyparts[static_cast<size_t>( elem.first )].c_str(),
+                                            bp_category( elem.first ).c_str(),
                                             elem.second );
         }
         popup( _( "Not enough space for bionic installation!%s" ), detailed_info.c_str() );
@@ -1765,7 +1766,7 @@ void load_bionic(JsonObject &jsobj)
                                         ja.get_int( 1 ) );
         }
     } else {
-        occupied_bodyparts.emplace( num_bp, 1 );
+        occupied_bodyparts.emplace( bp_torso, 1 );
     }
 
 
