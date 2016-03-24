@@ -712,22 +712,22 @@ Item_spawn_data *Item_factory::get_group(const Item_tag &group_tag)
 ///////////////////////
 
 template<typename SlotType>
-void Item_factory::load_slot( std::unique_ptr<SlotType> &slotptr, JsonObject &jo, bool relative )
+void Item_factory::load_slot( std::unique_ptr<SlotType> &slotptr, JsonObject &jo )
 {
     if( !slotptr ) {
         slotptr.reset( new SlotType() );
     }
-    load( *slotptr, jo, relative );
+    load( *slotptr, jo );
 }
 
 template<typename SlotType>
-void Item_factory::load_slot_optional( std::unique_ptr<SlotType> &slotptr, JsonObject &jo, const std::string &member, bool relative )
+void Item_factory::load_slot_optional( std::unique_ptr<SlotType> &slotptr, JsonObject &jo, const std::string &member )
 {
     if( !jo.has_member( member ) ) {
         return;
     }
     JsonObject slotjo = jo.get_object( member );
-    load_slot( slotptr, slotjo, relative );
+    load_slot( slotptr, slotjo );
 }
 
 template<typename E>
@@ -747,7 +747,7 @@ void load_optional_enum_array( std::vector<E> &vec, JsonObject &jo, const std::s
     }
 }
 
-void Item_factory::load( islot_artifact &slot, JsonObject &jo, bool )
+void Item_factory::load( islot_artifact &slot, JsonObject &jo )
 {
     slot.charge_type = jo.get_enum_value( "charge_type", ARTC_NULL );
     load_optional_enum_array( slot.effects_wielded, jo, "effects_wielded" );
@@ -756,61 +756,46 @@ void Item_factory::load( islot_artifact &slot, JsonObject &jo, bool )
     load_optional_enum_array( slot.effects_worn, jo, "effects_worn" );
 }
 
-void Item_factory::load( islot_software &slot, JsonObject &jo, bool )
+void Item_factory::load( islot_software &slot, JsonObject &jo )
 {
     slot.type = jo.get_string( "type" );
     slot.power = jo.get_int( "power" );
 }
 
-void Item_factory::load( islot_ammo &slot, JsonObject &jo, bool relative )
+void Item_factory::load( islot_ammo &slot, JsonObject &jo )
 {
     // will be checked later by ::check_definitions()
     jo.read( "ammo_type", slot.type );
-    jo.read( "count", slot.def_charges );
-    jo.read( "casing", slot.casing );
 
-    if( relative ) {
-        slot.damage += jo.get_int( "damage", 0 );
-        slot.pierce += jo.get_int( "pierce", 0 );
-        slot.range += jo.get_int( "range", 0 );
-        slot.dispersion += jo.get_int( "dispersion", 0 );
-        slot.recoil += jo.get_int( "recoil", 0 );
-        slot.loudness += jo.get_int( "loudness", 0 );
-    } else {
-        jo.read( "damage", slot.damage);
-        jo.read( "pierce", slot.pierce );
-        jo.read( "range", slot.range );
-        jo.read( "dispersion", slot.dispersion );
-        jo.read( "recoil", slot.recoil );
-        jo.read( "loudness", slot.loudness );
-    }
+    jo.read( "casing", slot.casing );
+    jo.read( "damage", slot.damage );
+    jo.read( "pierce", slot.pierce );
+    jo.read( "range", slot.range );
+    jo.read( "dispersion", slot.dispersion );
+    jo.read( "recoil", slot.recoil );
+    jo.read( "count", slot.def_charges );
 
     // merge with any default or inherited tags
     auto fx = jo.get_tags( "effects" );
     slot.ammo_effects.insert( fx.begin(), fx.end() );
+
+    jo.read( "loudness", slot.loudness );
 }
 
 void Item_factory::load_itype( JsonObject &jo )
 {
     auto type = jo.get_string( "type" );
+
     itype *src = nullptr;
-
-    if( jo.has_string( "copy-from" ) && jo.has_string( "relative-to" ) ) {
-        jo.throw_error( "cannot specify both copy-from and relative-to" );
-    }
-
-    itype_id base;
-    if( jo.read( jo.has_string( "copy-from" ) ? "copy-from" : "relative-to", base ) ) {
-        auto iter = m_templates.find( base );
+    if( jo.has_string( "copy-from" ) ) {
+        auto iter = m_templates.find( jo.get_string( "copy-from" ) );
         if( iter == m_templates.end() ) {
             jo.throw_error( "cannot copy from unknown type" );
         }
+        if( iter->second->base != type ) {
+            jo.throw_error( "cannot copy from definition of differing type" );
+        }
         src = iter->second;
-    }
-
-    if( src && src->base != type ) {
-        // @todo extend support to include
-        jo.throw_error( "cannot copy from definition of differing type" );
     }
 
     if( type == "AMMO" ) {
@@ -845,12 +830,12 @@ void Item_factory::load_itype( JsonObject &jo )
 void Item_factory::load_ammo( JsonObject &jo, const itype *src )
 {
     itype *new_item_template = src ? new itype( *src ) : new itype();
-    load_slot( new_item_template->ammo, jo, jo.has_member( "relative-to") );
+    load_slot( new_item_template->ammo, jo );
     load_basic_info( jo, new_item_template );
     load_slot( new_item_template->spawn, jo );
 }
 
-void Item_factory::load( islot_gun &slot, JsonObject &jo, bool )
+void Item_factory::load( islot_gun &slot, JsonObject &jo )
 {
     slot.ammo = jo.get_string( "ammo", slot.ammo );
     slot.skill_used = skill_id( jo.get_string( "skill" ) );
@@ -898,7 +883,7 @@ void Item_factory::load( islot_gun &slot, JsonObject &jo, bool )
     }
 }
 
-void Item_factory::load( islot_spawn &slot, JsonObject &jo, bool )
+void Item_factory::load( islot_spawn &slot, JsonObject &jo )
 {
     if( jo.has_array( "rand_charges" ) ) {
         JsonArray jarr = jo.get_array( "rand_charges" );
@@ -926,7 +911,7 @@ void Item_factory::load_armor( JsonObject &jo, const itype * )
     load_basic_info( jo, new_item_template );
 }
 
-void Item_factory::load( islot_armor &slot, JsonObject &jo, bool )
+void Item_factory::load( islot_armor &slot, JsonObject &jo )
 {
     slot.encumber = jo.get_int( "encumbrance", 0 );
     slot.coverage = jo.get_int( "coverage" );
@@ -967,7 +952,7 @@ void Item_factory::load_tool( JsonObject &jo, const itype *src )
     load_slot( obj->spawn, jo );
 }
 
-void Item_factory::load( islot_book &slot, JsonObject &jo, bool )
+void Item_factory::load( islot_book &slot, JsonObject &jo )
 {
     slot.level = jo.get_int( "max_level" );
     slot.req = jo.get_int( "required_level" );
@@ -1018,7 +1003,7 @@ void Item_factory::load_container( JsonObject &jo, const itype * )
     load_basic_info( jo, new_item_template );
 }
 
-void Item_factory::load( islot_seed &slot, JsonObject &jo, bool )
+void Item_factory::load( islot_seed &slot, JsonObject &jo )
 {
     slot.grow = jo.get_int( "grow" );
     slot.fruit_div = jo.get_int( "fruit_div", 1 );
@@ -1028,7 +1013,7 @@ void Item_factory::load( islot_seed &slot, JsonObject &jo, bool )
     slot.byproducts = jo.get_string_array( "byproducts" );
 }
 
-void Item_factory::load( islot_container &slot, JsonObject &jo, bool )
+void Item_factory::load( islot_container &slot, JsonObject &jo )
 {
     slot.contains = jo.get_int( "contains" );
     slot.seals = jo.get_bool( "seals", false );
@@ -1036,7 +1021,7 @@ void Item_factory::load( islot_container &slot, JsonObject &jo, bool )
     slot.preserves = jo.get_bool( "preserves", false );
 }
 
-void Item_factory::load( islot_gunmod &slot, JsonObject &jo, bool )
+void Item_factory::load( islot_gunmod &slot, JsonObject &jo )
 {
     slot.damage = jo.get_int( "damage_modifier", 0 );
     slot.loudness = jo.get_int( "loudness_modifier", 0 );
@@ -1063,7 +1048,7 @@ void Item_factory::load_gunmod( JsonObject &jo, const itype * )
     load_basic_info( jo, new_item_template );
 }
 
-void Item_factory::load( islot_magazine &slot, JsonObject &jo, bool )
+void Item_factory::load( islot_magazine &slot, JsonObject &jo )
 {
     slot.type = jo.get_string( "ammo_type" );
     slot.capacity = jo.get_int( "capacity" );
@@ -1080,7 +1065,7 @@ void Item_factory::load_magazine( JsonObject &jo, const itype * )
     load_basic_info( jo, new_item_template );
 }
 
-void Item_factory::load( islot_bionic &slot, JsonObject &jo, bool )
+void Item_factory::load( islot_bionic &slot, JsonObject &jo )
 {
     slot.difficulty = jo.get_int( "difficulty" );
     // TODO: must be the same as the item type id, for compatibility
@@ -1094,7 +1079,7 @@ void Item_factory::load_bionic( JsonObject &jo, const itype * )
     load_basic_info( jo, new_item_template );
 }
 
-void Item_factory::load( islot_variable_bigness &slot, JsonObject &jo, bool )
+void Item_factory::load( islot_variable_bigness &slot, JsonObject &jo )
 {
     slot.min_bigness = jo.get_int( "min-bigness" );
     slot.max_bigness = jo.get_int( "max-bigness" );
