@@ -3959,8 +3959,8 @@ int player::sight_range(int light_level) const
         (1.0 / LIGHT_TRANSPARENCY_OPEN_AIR);
     // int range = log(light_level * LIGHT_AMBIENT_LOW) / LIGHT_TRANSPARENCY_OPEN_AIR;
 
-    // Clamp to sight_max.
-    return std::min(range, sight_max);
+    // Clamp to [1, sight_max].
+    return std::max( 1, std::min( range, sight_max ) );
 }
 
 int player::unimpaired_range() const

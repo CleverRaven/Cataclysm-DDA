@@ -462,7 +462,7 @@ float Character::get_vision_threshold(int light_level) const {
      */
     if( vision_mode_cache[DEBUG_NIGHTVISION] ) {
         // Debug vision always works with absurdly little light.
-        threshold = 0.01;
+        return 0.01;
     } else if( vision_mode_cache[NV_GOGGLES] || vision_mode_cache[NIGHTVISION_3] ||
                vision_mode_cache[FULL_ELFA_VISION] || vision_mode_cache[CEPH_VISION] ) {
         if( vision_mode_cache[BIRD_EYE] ) {
