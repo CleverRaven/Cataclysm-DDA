@@ -3454,6 +3454,7 @@ bool item::is_bucket() const
     // Currently all non-empty cans are effectively sealed at all times
     // Making them buckets would cause weirdness
     return type->container != nullptr &&
+           type->container->watertight &&
            !type->container->seals &&
            !type->container->preserves;
 }
@@ -4846,7 +4847,7 @@ item::LIQUID_FILL_ERROR item::has_valid_capacity_for_liquid( const item &liquid,
         return L_ERR_NOT_WATERTIGHT;
     }
 
-    if( !allow_bucket && !type->container->seals ) {
+    if( !type->container->seals && ( !allow_bucket || !is_bucket() ) ) {
         return L_ERR_NOT_SEALED;
     }
 
