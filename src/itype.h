@@ -196,12 +196,6 @@ struct common_ranged_data {
      * Recoil "bonus" from gun.
      */
     int recoil = 0;
-
-    /** Loudness of a gun, gunmod or specific ammo
-     *  For guns and gunmods this is a modifier which if unspecified defaults to 0
-     *  For ammo this is an absolute value which if unspecified results in a appropriate
-     *  value being calculated based upon other properties of the ammo */
-    int loudness = -1;
 };
 
 /**
@@ -224,6 +218,9 @@ struct common_firing_data : common_ranged_data {
      * Burst size.
      */
     int burst = 0;
+
+    /** Modifies base loudness as provided by the currently loaded ammo */
+    int loudness = 0;
 };
 
 // TODO: this shares a lot with the ammo item type, merge into a separate slot type?
@@ -251,7 +248,7 @@ struct islot_gun : common_firing_data {
     /**
      * Noise displayed when reloading the weapon.
      */
-    std::string reload_noise;
+    std::string reload_noise = "click.";
     /**
      * Volume of the noise made when reloading this weapon.
      */
@@ -351,6 +348,12 @@ struct islot_ammo : common_ranged_data {
      * TODO: document me.
      */
     std::set<std::string> ammo_effects;
+
+    /*
+     * Base loudness of ammo (possbily modified by gun/gunmods). If unspecified an
+     * appropriate value is calculated based upon the other properties of the ammo
+    */
+    int loudness = -1;
 };
 
 struct islot_variable_bigness {
