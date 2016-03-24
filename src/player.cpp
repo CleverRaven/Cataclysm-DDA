@@ -148,7 +148,7 @@ const efftype_id effect_winded( "winded" );
 const matype_id style_none( "style_none" );
 
 // use this instead of having to type out 26 spaces like before
-static const std::string header_spaces(26, ' ');
+static const std::string header_spaces( 26, ' ' );
 
 stats player_stats;
 
@@ -159,72 +159,73 @@ static bool should_combine_bps( const player &, size_t, size_t );
 
 player::player() : Character()
 {
- id = -1; // -1 is invalid
- str_cur = 8;
- str_max = 8;
- dex_cur = 8;
- dex_max = 8;
- int_cur = 8;
- int_max = 8;
- per_cur = 8;
- per_max = 8;
- dodges_left = 1;
- blocks_left = 1;
- power_level = 0;
- max_power_level = 0;
- stamina = get_stamina_max();
- stim = 0;
- pkill = 0;
- radiation = 0;
- tank_plut = 0;
- reactor_plut = 0;
- slow_rad = 0;
- cash = 0;
- recoil = 0;
- driving_recoil = 0;
- scent = 500;
- male = true;
- prof = profession::has_initialized() ? profession::generic() : NULL; //workaround for a potential structural limitation, see player::create
+    id = -1; // -1 is invalid
+    str_cur = 8;
+    str_max = 8;
+    dex_cur = 8;
+    dex_max = 8;
+    int_cur = 8;
+    int_max = 8;
+    per_cur = 8;
+    per_max = 8;
+    dodges_left = 1;
+    blocks_left = 1;
+    power_level = 0;
+    max_power_level = 0;
+    stamina = get_stamina_max();
+    stim = 0;
+    pkill = 0;
+    radiation = 0;
+    tank_plut = 0;
+    reactor_plut = 0;
+    slow_rad = 0;
+    cash = 0;
+    recoil = 0;
+    driving_recoil = 0;
+    scent = 500;
+    male = true;
+    prof = profession::has_initialized() ? profession::generic() :
+           NULL; //workaround for a potential structural limitation, see player::create
 
     start_location = start_location_id( "shelter" );
- moves = 100;
- movecounter = 0;
- cached_turn = -1;
- oxygen = 0;
- next_climate_control_check=0;
- last_climate_control_ret=false;
- active_mission = nullptr;
- in_vehicle = false;
- controlling_vehicle = false;
- grab_point = {0, 0, 0};
- grab_type = OBJECT_NONE;
- move_mode = "walk";
- style_selected = matype_id( "style_none" );
- keep_hands_free = false;
- focus_pool = 100;
- last_item = itype_id("null");
- sight_max = 9999;
- last_batch = 0;
- lastconsumed = itype_id("null");
- next_expected_position = tripoint_min;
+    moves = 100;
+    movecounter = 0;
+    cached_turn = -1;
+    oxygen = 0;
+    next_climate_control_check = 0;
+    last_climate_control_ret = false;
+    active_mission = nullptr;
+    in_vehicle = false;
+    controlling_vehicle = false;
+    grab_point = {0, 0, 0};
+    grab_type = OBJECT_NONE;
+    move_mode = "walk";
+    style_selected = matype_id( "style_none" );
+    keep_hands_free = false;
+    focus_pool = 100;
+    last_item = itype_id( "null" );
+    sight_max = 9999;
+    last_batch = 0;
+    lastconsumed = itype_id( "null" );
+    next_expected_position = tripoint_min;
 
- empty_traits();
+    empty_traits();
 
- for( auto &skill : Skill::skills ) {
-     skillLevel( skill ).level( 0 );
- }
+    for( auto &skill : Skill::skills ) {
+        skillLevel( skill ).level( 0 );
+    }
 
- for (int i = 0; i < num_bp; i++) {
-  temp_cur[i] = BODYTEMP_NORM;
-  frostbite_timer[i] = 0;
-  temp_conv[i] = BODYTEMP_NORM;
-  body_wetness[i] = 0;
- }
- nv_cached = false;
- volume = 0;
+    for( int i = 0; i < num_bp; i++ ) {
+        temp_cur[i] = BODYTEMP_NORM;
+        frostbite_timer[i] = 0;
+        temp_conv[i] = BODYTEMP_NORM;
+        body_wetness[i] = 0;
+    }
+    nv_cached = false;
+    volume = 0;
 
- memorial_log.clear();
- player_stats.reset();
+    memorial_log.clear();
+    player_stats.reset();
 
     drench_capacity[bp_eyes] = 1;
     drench_capacity[bp_mouth] = 1;
@@ -255,31 +256,31 @@ void player::normalize()
 
     recalc_hp();
 
-    for (int i = 0 ; i < num_bp; i++) {
+    for( int i = 0 ; i < num_bp; i++ ) {
         temp_conv[i] = BODYTEMP_NORM;
     }
     stamina = get_stamina_max();
 }
 
-std::string player::disp_name(bool possessive) const
+std::string player::disp_name( bool possessive ) const
 {
-    if (!possessive) {
-        if (is_player()) {
-            return _("you");
+    if( !possessive ) {
+        if( is_player() ) {
+            return _( "you" );
         }
         return name;
     } else {
-        if (is_player()) {
-            return _("your");
+        if( is_player() ) {
+            return _( "your" );
         }
-        return string_format(_("%s's"), name.c_str());
+        return string_format( _( "%s's" ), name.c_str() );
     }
 }
 
 std::string player::skin_name() const
 {
     //TODO: Return actual deflecting layer name
-    return _("armor");
+    return _( "armor" );
 }
 
 void player::reset_stats()
@@ -287,32 +288,31 @@ void player::reset_stats()
     clear_miss_reasons();
 
     // Trait / mutation buffs
-    if (has_trait("THICK_SCALES")) {
-        add_miss_reason(_("Your thick scales get in the way."), 2);
+    if( has_trait( "THICK_SCALES" ) ) {
+        add_miss_reason( _( "Your thick scales get in the way." ), 2 );
     }
-    if (has_trait("CHITIN2") || has_trait("CHITIN3") || has_trait("CHITIN_FUR3")) {
-        add_miss_reason(_("Your chitin gets in the way."), 1);
+    if( has_trait( "CHITIN2" ) || has_trait( "CHITIN3" ) || has_trait( "CHITIN_FUR3" ) ) {
+        add_miss_reason( _( "Your chitin gets in the way." ), 1 );
     }
-    if (has_trait("COMPOUND_EYES") && !wearing_something_on(bp_eyes)) {
-        mod_per_bonus(1);
+    if( has_trait( "COMPOUND_EYES" ) && !wearing_something_on( bp_eyes ) ) {
+        mod_per_bonus( 1 );
     }
-    if (has_trait("INSECT_ARMS")) {
-        add_miss_reason(_("Your insect limbs get in the way."), 2);
+    if( has_trait( "INSECT_ARMS" ) ) {
+        add_miss_reason( _( "Your insect limbs get in the way." ), 2 );
     }
-    if (has_trait("INSECT_ARMS_OK")) {
-        if (!wearing_something_on(bp_torso)) {
-            mod_dex_bonus(1);
+    if( has_trait( "INSECT_ARMS_OK" ) ) {
+        if( !wearing_something_on( bp_torso ) ) {
+            mod_dex_bonus( 1 );
+        } else {
+            mod_dex_bonus( -1 );
+            add_miss_reason( _( "Your clothing restricts your insect arms." ), 1 );
         }
-        else {
-            mod_dex_bonus(-1);
-            add_miss_reason(_("Your clothing restricts your insect arms."), 1);
-        }
     }
-    if (has_trait("WEBBED")) {
-        add_miss_reason(_("Your webbed hands get in the way."), 1);
+    if( has_trait( "WEBBED" ) ) {
+        add_miss_reason( _( "Your webbed hands get in the way." ), 1 );
     }
-    if (has_trait("ARACHNID_ARMS")) {
-        add_miss_reason(_("Your arachnid limbs get in the way."), 4);
+    if( has_trait( "ARACHNID_ARMS" ) ) {
+        add_miss_reason( _( "Your arachnid limbs get in the way." ), 4 );
     }
     if( has_trait( "ARACHNID_ARMS_OK" ) ) {
         if( !wearing_something_on( bp_torso ) ) {
@@ -324,96 +324,97 @@ void player::reset_stats()
     }
 
     // Pain
-    if ( get_perceived_pain() > 0 ) {
-        if (!(has_trait("CENOBITE"))) {
-            mod_str_bonus(-int(get_perceived_pain() / 15));
-            mod_dex_bonus(-int(get_perceived_pain() / 15));
-            add_miss_reason(_("Your pain distracts you!"), int( get_perceived_pain() / 15 ));
+    if( get_perceived_pain() > 0 ) {
+        if( !( has_trait( "CENOBITE" ) ) ) {
+            mod_str_bonus( -int( get_perceived_pain() / 15 ) );
+            mod_dex_bonus( -int( get_perceived_pain() / 15 ) );
+            add_miss_reason( _( "Your pain distracts you!" ), int( get_perceived_pain() / 15 ) );
         }
-        mod_per_bonus(-int(get_perceived_pain() / 20));
-        if (!(has_trait("INT_SLIME"))) {
-            mod_int_bonus(-(1 + int(get_perceived_pain() / 25)));
-        } else if (has_trait("INT_SLIME")) {
-        // Having one's brain throughout one's body does have its downsides.
-        // Be glad we don't assess permanent damage.
-            mod_int_bonus(-( 1 + get_perceived_pain() ));
+        mod_per_bonus( -int( get_perceived_pain() / 20 ) );
+        if( !( has_trait( "INT_SLIME" ) ) ) {
+            mod_int_bonus( -( 1 + int( get_perceived_pain() / 25 ) ) );
+        } else if( has_trait( "INT_SLIME" ) ) {
+            // Having one's brain throughout one's body does have its downsides.
+            // Be glad we don't assess permanent damage.
+            mod_int_bonus( -( 1 + get_perceived_pain() ) );
         }
     }
     // Morale
     if( abs( get_morale_level() ) >= 100 ) {
         mod_str_bonus( int( get_morale_level() / 180 ) );
         int dex_mod = int( get_morale_level() / 200 );
-        mod_dex_bonus(dex_mod);
-        if (dex_mod < 0) {
-            add_miss_reason(_("What's the point of fighting?"), -dex_mod);
+        mod_dex_bonus( dex_mod );
+        if( dex_mod < 0 ) {
+            add_miss_reason( _( "What's the point of fighting?" ), -dex_mod );
         }
         mod_per_bonus( int( get_morale_level() / 125 ) );
         mod_int_bonus( int( get_morale_level() / 100 ) );
     }
     // Radiation
-    if (radiation > 0) {
-        mod_str_bonus(-int(radiation / 80));
-        int dex_mod = -int(radiation / 110);
-        mod_dex_bonus(dex_mod);
-        if (dex_mod < 0) {
-            add_miss_reason(_("Radiation weakens you."), -dex_mod);
+    if( radiation > 0 ) {
+        mod_str_bonus( -int( radiation / 80 ) );
+        int dex_mod = -int( radiation / 110 );
+        mod_dex_bonus( dex_mod );
+        if( dex_mod < 0 ) {
+            add_miss_reason( _( "Radiation weakens you." ), -dex_mod );
         }
-        mod_per_bonus(-int(radiation / 100));
-        mod_int_bonus(-int(radiation / 120));
+        mod_per_bonus( -int( radiation / 100 ) );
+        mod_int_bonus( -int( radiation / 120 ) );
     }
     // Stimulants
-    mod_dex_bonus(int(stim / 10));
-    mod_per_bonus(int(stim /  7));
-    mod_int_bonus(int(stim /  6));
-    if (stim >= 30) {
-        int dex_mod = -int(abs(stim - 15) / 8);
-        mod_dex_bonus(dex_mod);
-        add_miss_reason(_("You shake with the excess stimulation."), -dex_mod);
-        mod_per_bonus(-int(abs(stim - 15) / 12));
-        mod_int_bonus(-int(abs(stim - 15) / 14));
-    } else if (stim <= 10) {
-        add_miss_reason(_("You feel woozy."), -int(stim / 10));
+    mod_dex_bonus( int( stim / 10 ) );
+    mod_per_bonus( int( stim /  7 ) );
+    mod_int_bonus( int( stim /  6 ) );
+    if( stim >= 30 ) {
+        int dex_mod = -int( abs( stim - 15 ) / 8 );
+        mod_dex_bonus( dex_mod );
+        add_miss_reason( _( "You shake with the excess stimulation." ), -dex_mod );
+        mod_per_bonus( -int( abs( stim - 15 ) / 12 ) );
+        mod_int_bonus( -int( abs( stim - 15 ) / 14 ) );
+    } else if( stim <= 10 ) {
+        add_miss_reason( _( "You feel woozy." ), -int( stim / 10 ) );
     }
     // Hunger
     if( get_hunger() >= 500 ) {
         // We die at 6000
-        const int dex_mod = -int(get_hunger() / 1000);
-        add_miss_reason(_("You're weak from hunger."), -dex_mod);
-        mod_str_bonus( -int(get_hunger() / 500) );
+        const int dex_mod = -int( get_hunger() / 1000 );
+        add_miss_reason( _( "You're weak from hunger." ), -dex_mod );
+        mod_str_bonus( -int( get_hunger() / 500 ) );
         mod_dex_bonus( dex_mod );
-        mod_int_bonus( -int(get_hunger() / 1000) );
+        mod_int_bonus( -int( get_hunger() / 1000 ) );
     }
     // Thirst
     if( get_thirst() >= 200 ) {
         // We die at 1200
-        const int dex_mod = -int(get_thirst() / 200);
-        add_miss_reason(_("You're weak from thirst."), -dex_mod);
-        mod_str_bonus( -int(get_thirst() / 200) );
+        const int dex_mod = -int( get_thirst() / 200 );
+        add_miss_reason( _( "You're weak from thirst." ), -dex_mod );
+        mod_str_bonus( -int( get_thirst() / 200 ) );
         mod_dex_bonus( dex_mod );
-        mod_int_bonus( -int(get_thirst() / 200) );
-        mod_per_bonus( -int(get_thirst() / 200) );
+        mod_int_bonus( -int( get_thirst() / 200 ) );
+        mod_per_bonus( -int( get_thirst() / 200 ) );
     }
 
     // Dodge-related effects
-    mod_dodge_bonus( mabuff_dodge_bonus() - ( encumb(bp_leg_l) + encumb(bp_leg_r) )/20 - (encumb(bp_torso) / 10) );
+    mod_dodge_bonus( mabuff_dodge_bonus() - ( encumb( bp_leg_l ) + encumb( bp_leg_r ) ) / 20 - ( encumb(
+                         bp_torso ) / 10 ) );
     // Whiskers don't work so well if they're covered
-    if (has_trait("WHISKERS") && !wearing_something_on(bp_mouth)) {
-        mod_dodge_bonus(1);
+    if( has_trait( "WHISKERS" ) && !wearing_something_on( bp_mouth ) ) {
+        mod_dodge_bonus( 1 );
     }
-    if (has_trait("WHISKERS_RAT") && !wearing_something_on(bp_mouth)) {
-        mod_dodge_bonus(2);
+    if( has_trait( "WHISKERS_RAT" ) && !wearing_something_on( bp_mouth ) ) {
+        mod_dodge_bonus( 2 );
     }
     // Spider hair is basically a full-body set of whiskers, once you get the brain for it
-    if (has_trait("CHITIN_FUR3")) {
-    static const std::array<body_part, 5> parts {{bp_head, bp_arm_r, bp_arm_l, bp_leg_r, bp_leg_l}};
+    if( has_trait( "CHITIN_FUR3" ) ) {
+        static const std::array<body_part, 5> parts {{bp_head, bp_arm_r, bp_arm_l, bp_leg_r, bp_leg_l}};
         for( auto bp : parts ) {
             if( !wearing_something_on( bp ) ) {
-                mod_dodge_bonus(+1);
+                mod_dodge_bonus( +1 );
             }
         }
         // Torso handled separately, bigger bonus
-        if (!wearing_something_on(bp_torso)) {
-            mod_dodge_bonus(4);
+        if( !wearing_something_on( bp_torso ) ) {
+            mod_dodge_bonus( 4 );
         }
     }
 
@@ -423,7 +424,7 @@ void player::reset_stats()
     // Apply static martial arts buffs
     ma_static_effects();
 
-    if( calendar::once_every(MINUTES(1)) ) {
+    if( calendar::once_every( MINUTES( 1 ) ) ) {
         update_mental_focus();
     }
 
@@ -434,7 +435,7 @@ void player::reset_stats()
     for( auto maps : effects ) {
         for( auto i : maps.second ) {
             const auto &it = i.second;
-            bool reduced = resists_effect(it);
+            bool reduced = resists_effect( it );
             mod_str_bonus( it.get_mod( "STR", reduced ) );
             mod_dex_bonus( it.get_mod( "DEX", reduced ) );
             mod_per_bonus( it.get_mod( "PER", reduced ) );
@@ -450,15 +451,15 @@ void player::process_turn()
     Character::process_turn();
 
     // Didn't just pick something up
-    last_item = itype_id("null");
+    last_item = itype_id( "null" );
 
-    if( has_active_bionic("bio_metabolics") && power_level + 25 <= max_power_level &&
-        get_hunger() < 100 && calendar::once_every(5) ) {
-        mod_hunger(2);
-        charge_power(25);
+    if( has_active_bionic( "bio_metabolics" ) && power_level + 25 <= max_power_level &&
+        get_hunger() < 100 && calendar::once_every( 5 ) ) {
+        mod_hunger( 2 );
+        charge_power( 25 );
     }
 
-    visit_items( [this]( item *e ) {
+    visit_items( [this]( item * e ) {
         e->process_artifact( this, pos() );
         return VisitResponse::NEXT;
     } );
@@ -467,37 +468,39 @@ void player::process_turn()
 
     // Set our scent towards the norm
     int norm_scent = 500;
-    if (has_trait("WEAKSCENT")) {
+    if( has_trait( "WEAKSCENT" ) ) {
         norm_scent = 300;
     }
-    if (has_trait("SMELLY")) {
+    if( has_trait( "SMELLY" ) ) {
         norm_scent = 800;
     }
-    if (has_trait("SMELLY2")) {
+    if( has_trait( "SMELLY2" ) ) {
         norm_scent = 1200;
     }
     // Not so much that you don't have a scent
     // but that you smell like a plant, rather than
     // a human. When was the last time you saw a critter
     // attack a bluebell or an apple tree?
-    if ( (has_trait("FLOWERS")) && (!(has_trait("CHLOROMORPH"))) ) {
+    if( ( has_trait( "FLOWERS" ) ) && ( !( has_trait( "CHLOROMORPH" ) ) ) ) {
         norm_scent -= 200;
     }
     // You *are* a plant.  Unless someone hunts triffids by scent,
     // you don't smell like prey.
-    if( has_trait("CHLOROMORPH") ) {
+    if( has_trait( "CHLOROMORPH" ) ) {
         norm_scent = 0;
     }
 
     // Scent increases fast at first, and slows down as it approaches normal levels.
     // Estimate it will take about norm_scent * 2 turns to go from 0 - norm_scent / 2
     // Without smelly trait this is about 1.5 hrs. Slows down significantly after that.
-    if (scent < rng(0, norm_scent))
+    if( scent < rng( 0, norm_scent ) ) {
         scent++;
+    }
 
     // Unusually high scent decreases steadily until it reaches normal levels.
-    if (scent > norm_scent)
+    if( scent > norm_scent ) {
         scent--;
+    }
 
     // We can dodge again! Assuming we can actually move...
     if( !in_sleep_state() ) {
@@ -521,7 +524,8 @@ void player::process_turn()
     }
 }
 
-void player::drop_inventory_overflow() {
+void player::drop_inventory_overflow()
+{
     // Fix for #15079
     // @todo replace when we implement off-hand item_location
     if( activity.type != ACT_RELOAD ) {
@@ -543,51 +547,50 @@ void player::update_morale()
 void player::apply_persistent_morale()
 {
     // Hoarders get a morale penalty if they're not carrying a full inventory.
-    if (has_trait("HOARDER"))
-    {
-        int pen = int((volume_capacity() - volume_carried()) / 2);
-        if (pen > 70) {
+    if( has_trait( "HOARDER" ) ) {
+        int pen = int( ( volume_capacity() - volume_carried() ) / 2 );
+        if( pen > 70 ) {
             pen = 70;
         }
-        if (pen <= 0) {
+        if( pen <= 0 ) {
             pen = 0;
         }
         if( has_effect( effect_took_xanax ) ) {
-            pen = int(pen / 7);
+            pen = int( pen / 7 );
         } else if( has_effect( effect_took_prozac ) ) {
-            pen = int(pen / 2);
+            pen = int( pen / 2 );
         }
-        if (pen > 0) {
-            add_morale(MORALE_PERM_HOARDER, -pen, -pen, 5, 5, true);
+        if( pen > 0 ) {
+            add_morale( MORALE_PERM_HOARDER, -pen, -pen, 5, 5, true );
         }
     }
 
     // Floral folks really don't like having their flowers covered.
-    if( has_trait("FLOWERS") && wearing_something_on(bp_head) ) {
-        add_morale(MORALE_PERM_CONSTRAINED, -10, -10, 5, 5, true);
+    if( has_trait( "FLOWERS" ) && wearing_something_on( bp_head ) ) {
+        add_morale( MORALE_PERM_CONSTRAINED, -10, -10, 5, 5, true );
     }
 
     // The same applies to rooters and their feet; however, they don't take
     // too many problems from no-footgear.
     double shoe_factor = footwear_factor();
-    if( (has_trait("ROOTS") || has_trait("ROOTS2") || has_trait("ROOTS3") ) &&
+    if( ( has_trait( "ROOTS" ) || has_trait( "ROOTS2" ) || has_trait( "ROOTS3" ) ) &&
         shoe_factor ) {
-        add_morale(MORALE_PERM_CONSTRAINED, -10 * shoe_factor, -10 * shoe_factor, 5, 5, true);
+        add_morale( MORALE_PERM_CONSTRAINED, -10 * shoe_factor, -10 * shoe_factor, 5, 5, true );
     }
 
     // Masochists get a morale bonus from pain.
-    if (has_trait("MASOCHIST") || has_trait("MASOCHIST_MED") ||  has_trait("CENOBITE")) {
+    if( has_trait( "MASOCHIST" ) || has_trait( "MASOCHIST_MED" ) ||  has_trait( "CENOBITE" ) ) {
         int bonus = get_perceived_pain() / 2.5;
         // Advanced masochists really get a morale bonus from pain.
         // (It's not capped.)
-        if (has_trait("MASOCHIST") && (bonus > 25)) {
+        if( has_trait( "MASOCHIST" ) && ( bonus > 25 ) ) {
             bonus = 25;
         }
         if( has_effect( effect_took_prozac ) ) {
-            bonus = int(bonus / 3);
+            bonus = int( bonus / 3 );
         }
-        if (bonus != 0) {
-            add_morale(MORALE_PERM_MASOCHIST, bonus, bonus, 5, 5, true);
+        if( bonus != 0 ) {
+            add_morale( MORALE_PERM_MASOCHIST, bonus, bonus, 5, 5, true );
         }
     }
 }
@@ -598,8 +601,7 @@ void player::update_mental_focus()
 
     // handle negative gain rates in a symmetric manner
     int base_change = 1;
-    if (focus_gain_rate < 0)
-    {
+    if( focus_gain_rate < 0 ) {
         base_change = -1;
         focus_gain_rate = -focus_gain_rate;
     }
@@ -607,22 +609,21 @@ void player::update_mental_focus()
     // for every 100 points, we have a flat gain of 1 focus.
     // for every n points left over, we have an n% chance of 1 focus
     int gain = focus_gain_rate / 100;
-    if (rng(1, 100) <= (focus_gain_rate % 100))
-    {
+    if( rng( 1, 100 ) <= ( focus_gain_rate % 100 ) ) {
         gain++;
     }
 
-    focus_pool += (gain * base_change);
+    focus_pool += ( gain * base_change );
 
     // Fatigue should at least prevent high focus
     // This caps focus gain at 60(arbitrary value) if you're Dead Tired
-    if (get_fatigue() >= DEAD_TIRED && focus_pool > 60) {
+    if( get_fatigue() >= DEAD_TIRED && focus_pool > 60 ) {
         focus_pool = 60;
     }
 
     // Moved from calc_focus_equilibrium, because it is now const
     if( activity.type == ACT_READ ) {
-        const item &book = i_at(activity.position);
+        const item &book = i_at( activity.position );
         if( !book.is_book() ) {
             activity.type = ACT_NULL;
         }
@@ -635,8 +636,8 @@ int player::calc_focus_equilibrium() const
 {
     int focus_gain_rate = 100;
 
-    if (activity.type == ACT_READ) {
-        const item &book = i_at(activity.position);
+    if( activity.type == ACT_READ ) {
+        const item &book = i_at( activity.position );
         if( book.is_book() ) {
             auto &bt = *book.type->book;
             // apply a penalty when we're actually learning something
@@ -654,10 +655,10 @@ int player::calc_focus_equilibrium() const
         eff_morale = eff_morale - get_perceived_pain();
     }
 
-    if (eff_morale < -99) {
+    if( eff_morale < -99 ) {
         // At very low morale, focus goes up at 1% of the normal rate.
         focus_gain_rate = 1;
-    } else if (eff_morale <= 50) {
+    } else if( eff_morale <= 50 ) {
         // At -99 to +50 morale, each point of morale gives 1% of the normal rate.
         focus_gain_rate += eff_morale;
     } else {
@@ -672,8 +673,8 @@ int player::calc_focus_equilibrium() const
 
         int block_multiplier = 1;
         int morale_left = eff_morale;
-        while (focus_gain_rate < 400) {
-            if (morale_left > 50 * block_multiplier) {
+        while( focus_gain_rate < 400 ) {
+            if( morale_left > 50 * block_multiplier ) {
                 // We can afford the entire block.  Get it and continue.
                 morale_left -= 50 * block_multiplier;
                 focus_gain_rate += 50;
@@ -688,9 +689,9 @@ int player::calc_focus_equilibrium() const
     }
 
     // This should be redundant, but just in case...
-    if (focus_gain_rate < 1) {
+    if( focus_gain_rate < 1 ) {
         focus_gain_rate = 1;
-    } else if (focus_gain_rate > 400) {
+    } else if( focus_gain_rate > 400 ) {
         focus_gain_rate = 400;
     }
 
@@ -733,7 +734,7 @@ HURRICANE : 185 mph (880 hPa) [Ref: Hurricane Wilma]
 
 void player::update_bodytemp()
 {
-    if( has_trait("DEBUG_NOTEMP") ) {
+    if( has_trait( "DEBUG_NOTEMP" ) ) {
         for( int i = 0 ; i < num_bp ; i++ ) {
             temp_cur[i] = BODYTEMP_NORM;
             temp_conv[i] = BODYTEMP_NORM;
@@ -748,12 +749,12 @@ void player::update_bodytemp()
     vehicle *veh = g->m.veh_at( pos(), vpart );
     int vehwindspeed = 0;
     if( veh != nullptr ) {
-        vehwindspeed = abs(veh->velocity / 100); // vehicle velocity in mph
+        vehwindspeed = abs( veh->velocity / 100 ); // vehicle velocity in mph
     }
     const oter_id &cur_om_ter = overmap_buffer.ter( global_omt_location() );
     std::string omtername = otermap[cur_om_ter].name;
-    bool sheltered = g->is_sheltered(pos());
-    int total_windpower = get_local_windpower(weather.windpower + vehwindspeed, omtername, sheltered);
+    bool sheltered = g->is_sheltered( pos() );
+    int total_windpower = get_local_windpower( weather.windpower + vehwindspeed, omtername, sheltered );
 
     // Let's cache this not to check it num_bp times
     const bool has_bark = has_trait( "BARK" );
@@ -785,14 +786,14 @@ void player::update_bodytemp()
 
     // Sunlight
     const int sunlight_warmth = g->is_in_sunlight( pos() ) ? 0 :
-        (g->weather == WEATHER_SUNNY ? 1000 : 500);
+                                ( g->weather == WEATHER_SUNNY ? 1000 : 500 );
     // Fire at our tile
     const int fire_warmth = bodytemp_modifier_fire();
 
     // Cache fires to avoid scanning the map around us bp times
     // Stored as intensity-distance pairs
     std::vector<std::pair<int, int>> fires;
-    fires.reserve( 13*13 );
+    fires.reserve( 13 * 13 );
     int best_fire = 0;
     for( int j = -6 ; j <= 6 ; j++ ) {
         for( int k = -6 ; k <= 6 ; k++ ) {
@@ -802,7 +803,7 @@ void player::update_bodytemp()
             int ffire = g->m.get_field_strength( dest, fd_fire );
             if( ffire > 0 ) {
                 heat_intensity = ffire;
-            } else if (g->m.tr_at( dest ).loadid == tr_lava ) {
+            } else if( g->m.tr_at( dest ).loadid == tr_lava ) {
                 heat_intensity = 3;
             }
             if( heat_intensity == 0 || !g->m.sees( pos(), dest, -1 ) ) {
@@ -824,37 +825,37 @@ void player::update_bodytemp()
     // Current temperature and converging temperature calculations
     for( int i = 0 ; i < num_bp; i++ ) {
         // Skip eyes
-        if (i == bp_eyes) {
+        if( i == bp_eyes ) {
             continue;
         }
 
         // This adjusts the temperature scale to match the bodytemp scale,
         // it needs to be reset every iteration
-        int adjusted_temp = (Ctemperature - ambient_norm);
+        int adjusted_temp = ( Ctemperature - ambient_norm );
         int bp_windpower = total_windpower;
         // Represents the fact that the body generates heat when it is cold.
         // TODO : should this increase hunger?
         double scaled_temperature = logarithmic_range( BODYTEMP_VERY_COLD, BODYTEMP_VERY_HOT,
-                                                    temp_cur[i] );
+                                    temp_cur[i] );
         // Produces a smooth curve between 30.0 and 60.0.
-        float homeostasis_adjustement = 30.0 * (1.0 + scaled_temperature);
-        int clothing_warmth_adjustement = homeostasis_adjustement * warmth(body_part(i));
-        int clothing_warmth_adjusted_bonus = homeostasis_adjustement * bonus_item_warmth(body_part(i));
+        float homeostasis_adjustement = 30.0 * ( 1.0 + scaled_temperature );
+        int clothing_warmth_adjustement = homeostasis_adjustement * warmth( body_part( i ) );
+        int clothing_warmth_adjusted_bonus = homeostasis_adjustement * bonus_item_warmth( body_part( i ) );
         // WINDCHILL
 
-        bp_windpower = (float)bp_windpower * (1 - get_wind_resistance(body_part(i)) / 100.0);
+        bp_windpower = ( float )bp_windpower * ( 1 - get_wind_resistance( body_part( i ) ) / 100.0 );
         // Calculate windchill
         int windchill = get_local_windchill( g->get_temperature(),
-                                             get_local_humidity(weather.humidity, g->weather,
-                                                     sheltered),
+                                             get_local_humidity( weather.humidity, g->weather,
+                                                     sheltered ),
                                              bp_windpower );
         // If you're standing in water, air temperature is replaced by water temperature. No wind.
         const ter_id ter_at_pos = g->m.ter( pos() );
         // Convert to 0.01C
         int water_temperature = 100 * temp_to_celsius( g->weather_gen->get_water_temperature() );
-        if ( (ter_at_pos == t_water_dp || ter_at_pos == t_water_pool || ter_at_pos == t_swater_dp) ||
-             ((ter_at_pos == t_water_sh || ter_at_pos == t_swater_sh || ter_at_pos == t_sewage) &&
-              (i == bp_foot_l || i == bp_foot_r || i == bp_leg_l || i == bp_leg_r)) ) {
+        if( ( ter_at_pos == t_water_dp || ter_at_pos == t_water_pool || ter_at_pos == t_swater_dp ) ||
+            ( ( ter_at_pos == t_water_sh || ter_at_pos == t_swater_sh || ter_at_pos == t_sewage ) &&
+              ( i == bp_foot_l || i == bp_foot_r || i == bp_leg_l || i == bp_leg_r ) ) ) {
             adjusted_temp += water_temperature - Ctemperature; // Swap out air temp for water temp.
             windchill = 0;
         }
@@ -868,7 +869,7 @@ void player::update_bodytemp()
         temp_conv[i] += fatigue_warmth;
         // CONVECTION HEAT SOURCES (generates body heat, helps fight frostbite)
         // Bark : lowers blister count to -10; harder to get blisters
-        int blister_count = (has_bark ? -10 : 0); // If the counter is high, your skin starts to burn
+        int blister_count = ( has_bark ? -10 : 0 ); // If the counter is high, your skin starts to burn
         for( const auto &intensity_dist : fires ) {
             const int intensity = intensity_dist.first;
             const int distance = intensity_dist.second;
@@ -899,52 +900,52 @@ void player::update_bodytemp()
             temp_conv[i] -= 750;
         }
         // Loss of blood results in loss of body heat, 1% bodyheat lost per 2% hp lost
-        temp_conv[i] -= blood_loss(body_part(i)) * temp_conv[i] / 200;
+        temp_conv[i] -= blood_loss( body_part( i ) ) * temp_conv[i] / 200;
 
         // EQUALIZATION
-        switch (i) {
-        case bp_torso:
-            temp_equalizer(bp_torso, bp_arm_l);
-            temp_equalizer(bp_torso, bp_arm_r);
-            temp_equalizer(bp_torso, bp_leg_l);
-            temp_equalizer(bp_torso, bp_leg_r);
-            temp_equalizer(bp_torso, bp_head);
-            break;
-        case bp_head:
-            temp_equalizer(bp_head, bp_torso);
-            temp_equalizer(bp_head, bp_mouth);
-            break;
-        case bp_arm_l:
-            temp_equalizer(bp_arm_l, bp_torso);
-            temp_equalizer(bp_arm_l, bp_hand_l);
-            break;
-        case bp_arm_r:
-            temp_equalizer(bp_arm_r, bp_torso);
-            temp_equalizer(bp_arm_r, bp_hand_r);
-            break;
-        case bp_leg_l:
-            temp_equalizer(bp_leg_l, bp_torso);
-            temp_equalizer(bp_leg_l, bp_foot_l);
-            break;
-        case bp_leg_r:
-            temp_equalizer(bp_leg_r, bp_torso);
-            temp_equalizer(bp_leg_r, bp_foot_r);
-            break;
-        case bp_mouth:
-            temp_equalizer(bp_mouth, bp_head);
-            break;
-        case bp_hand_l:
-            temp_equalizer(bp_hand_l, bp_arm_l);
-            break;
-        case bp_hand_r:
-            temp_equalizer(bp_hand_r, bp_arm_r);
-            break;
-        case bp_foot_l:
-            temp_equalizer(bp_foot_l, bp_leg_l);
-            break;
-        case bp_foot_r:
-            temp_equalizer(bp_foot_r, bp_leg_r);
-            break;
+        switch( i ) {
+            case bp_torso:
+                temp_equalizer( bp_torso, bp_arm_l );
+                temp_equalizer( bp_torso, bp_arm_r );
+                temp_equalizer( bp_torso, bp_leg_l );
+                temp_equalizer( bp_torso, bp_leg_r );
+                temp_equalizer( bp_torso, bp_head );
+                break;
+            case bp_head:
+                temp_equalizer( bp_head, bp_torso );
+                temp_equalizer( bp_head, bp_mouth );
+                break;
+            case bp_arm_l:
+                temp_equalizer( bp_arm_l, bp_torso );
+                temp_equalizer( bp_arm_l, bp_hand_l );
+                break;
+            case bp_arm_r:
+                temp_equalizer( bp_arm_r, bp_torso );
+                temp_equalizer( bp_arm_r, bp_hand_r );
+                break;
+            case bp_leg_l:
+                temp_equalizer( bp_leg_l, bp_torso );
+                temp_equalizer( bp_leg_l, bp_foot_l );
+                break;
+            case bp_leg_r:
+                temp_equalizer( bp_leg_r, bp_torso );
+                temp_equalizer( bp_leg_r, bp_foot_r );
+                break;
+            case bp_mouth:
+                temp_equalizer( bp_mouth, bp_head );
+                break;
+            case bp_hand_l:
+                temp_equalizer( bp_hand_l, bp_arm_l );
+                break;
+            case bp_hand_r:
+                temp_equalizer( bp_hand_r, bp_arm_r );
+                break;
+            case bp_foot_l:
+                temp_equalizer( bp_foot_l, bp_leg_l );
+                break;
+            case bp_foot_r:
+                temp_equalizer( bp_foot_r, bp_leg_r );
+                break;
         }
 
         // Correction of body temperature due to traits and mutations
@@ -960,7 +961,7 @@ void player::update_bodytemp()
         if( !has_sleep_state && best_fire > 0 ) {
             // Warming up over a fire
             // Extremities are easier to extend over a fire
-            switch (i) {
+            switch( i ) {
                 case bp_head:
                 case bp_torso:
                 case bp_mouth:
@@ -1015,7 +1016,7 @@ void player::update_bodytemp()
             // Morale bonus for comfiness - only if actually comfy (not too warm/cold)
             // Spread the morale bonus in time.
             if( comfortable_warmth > 0 &&
-                calendar::turn % MINUTES( 1 ) == (MINUTES( i ) / MINUTES( num_bp )) &&
+                calendar::turn % MINUTES( 1 ) == ( MINUTES( i ) / MINUTES( num_bp ) ) &&
                 get_effect_int( effect_cold, ( body_part )num_bp ) == 0 &&
                 get_effect_int( effect_hot, ( body_part )num_bp ) == 0 &&
                 temp_cur[i] > BODYTEMP_COLD && temp_cur[i] <= BODYTEMP_NORM ) {
@@ -1033,12 +1034,13 @@ void player::update_bodytemp()
             rounding_error = 1;
         }
         if( temp_cur[i] != temp_conv[i] ) {
-            temp_cur[i] = temp_difference * exp(-0.002) + temp_conv[i] + rounding_error;
+            temp_cur[i] = temp_difference * exp( -0.002 ) + temp_conv[i] + rounding_error;
         }
         // This statement checks if we should be wearing our bonus warmth.
         // If, after all the warmth calculations, we should be, then we have to recalculate the temperature.
-        if (clothing_warmth_adjusted_bonus != 0 &&
-            ((temp_conv[i] + clothing_warmth_adjusted_bonus) < BODYTEMP_HOT || temp_cur[i] < BODYTEMP_COLD)) {
+        if( clothing_warmth_adjusted_bonus != 0 &&
+            ( ( temp_conv[i] + clothing_warmth_adjusted_bonus ) < BODYTEMP_HOT ||
+              temp_cur[i] < BODYTEMP_COLD ) ) {
             temp_conv[i] += clothing_warmth_adjusted_bonus;
             rounding_error = 0;
             if( temp_difference < 0 && temp_difference > -600 ) {
@@ -1046,29 +1048,29 @@ void player::update_bodytemp()
             }
             if( temp_before != temp_conv[i] ) {
                 temp_difference = temp_before - temp_conv[i];
-                temp_cur[i] = temp_difference * exp(-0.002) + temp_conv[i] + rounding_error;
+                temp_cur[i] = temp_difference * exp( -0.002 ) + temp_conv[i] + rounding_error;
             }
         }
         int temp_after = temp_cur[i];
         // PENALTIES
-        if (temp_cur[i] < BODYTEMP_FREEZING) {
-            add_effect( effect_cold, 1, (body_part)i, true, 3 );
+        if( temp_cur[i] < BODYTEMP_FREEZING ) {
+            add_effect( effect_cold, 1, ( body_part )i, true, 3 );
         } else if( temp_cur[i] < BODYTEMP_VERY_COLD ) {
-            add_effect( effect_cold, 1, (body_part)i, true, 2);
+            add_effect( effect_cold, 1, ( body_part )i, true, 2 );
         } else if( temp_cur[i] < BODYTEMP_COLD ) {
-            add_effect( effect_cold, 1, (body_part)i, true, 1 );
+            add_effect( effect_cold, 1, ( body_part )i, true, 1 );
         } else if( temp_cur[i] > BODYTEMP_SCORCHING ) {
-            add_effect( effect_hot, 1, (body_part)i, true, 3 );
+            add_effect( effect_hot, 1, ( body_part )i, true, 3 );
         } else if( temp_cur[i] > BODYTEMP_VERY_HOT ) {
-            add_effect( effect_hot, 1, (body_part)i, true, 2 );
+            add_effect( effect_hot, 1, ( body_part )i, true, 2 );
         } else if( temp_cur[i] > BODYTEMP_HOT ) {
-            add_effect( effect_hot, 1, (body_part)i, true, 1 );
+            add_effect( effect_hot, 1, ( body_part )i, true, 1 );
         } else {
-            if (temp_cur[i] >= BODYTEMP_COLD) {
-                remove_effect( effect_cold, (body_part)i );
+            if( temp_cur[i] >= BODYTEMP_COLD ) {
+                remove_effect( effect_cold, ( body_part )i );
             }
-            if (temp_cur[i] <= BODYTEMP_HOT) {
-                remove_effect( effect_hot, (body_part)i );
+            if( temp_cur[i] <= BODYTEMP_HOT ) {
+                remove_effect( effect_hot, ( body_part )i );
             }
         }
         // FROSTBITE - only occurs to hands, feet, face
@@ -1105,47 +1107,47 @@ void player::update_bodytemp()
             // Warmth gives a slight buff to temperature resistance
             // Wetness gives a heavy nerf to temperature resistance
             int Ftemperature = g->get_temperature() +
-                               warmth((body_part)i) * 0.2 - 20 * wetness_percentage / 100;
+                               warmth( ( body_part )i ) * 0.2 - 20 * wetness_percentage / 100;
             // Windchill reduced by your armor
-            int FBwindPower = total_windpower * (1 - get_wind_resistance(body_part(i)) / 100.0);
+            int FBwindPower = total_windpower * ( 1 - get_wind_resistance( body_part( i ) ) / 100.0 );
 
-            int intense = get_effect_int( effect_frostbite, (body_part)i );
+            int intense = get_effect_int( effect_frostbite, ( body_part )i );
 
             // This has been broken down into 8 zones
             // Low risk zones (stops at frostnip)
             if( temp_cur[i] < BODYTEMP_COLD &&
-                ((Ftemperature < 30 && Ftemperature >= 10) ||
-                 (Ftemperature < 10 && Ftemperature >= -5 &&
-                  FBwindPower < 20 && -4 * Ftemperature + 3 * FBwindPower - 20 >= 0)) ) {
+                ( ( Ftemperature < 30 && Ftemperature >= 10 ) ||
+                  ( Ftemperature < 10 && Ftemperature >= -5 &&
+                    FBwindPower < 20 && -4 * Ftemperature + 3 * FBwindPower - 20 >= 0 ) ) ) {
                 if( frostbite_timer[i] < 2000 ) {
                     frostbite_timer[i] += 3;
                 }
-                if( one_in(100) && !has_effect( effect_frostbite, (body_part)i ) ) {
-                    add_msg(m_warning, _("Your %s will be frostnipped in the next few hours."),
-                            body_part_name(body_part(i)).c_str());
+                if( one_in( 100 ) && !has_effect( effect_frostbite, ( body_part )i ) ) {
+                    add_msg( m_warning, _( "Your %s will be frostnipped in the next few hours." ),
+                             body_part_name( body_part( i ) ).c_str() );
                 }
                 // Medium risk zones
             } else if( temp_cur[i] < BODYTEMP_COLD &&
-                       ((Ftemperature < 10 && Ftemperature >= -5 && FBwindPower < 20 &&
-                         -4 * Ftemperature + 3 * FBwindPower - 20 < 0) ||
-                        (Ftemperature < 10 && Ftemperature >= -5 && FBwindPower >= 20) ||
-                        (Ftemperature < -5 && FBwindPower < 10) ||
-                        (Ftemperature < -5 && FBwindPower >= 10 &&
-                         -4 * Ftemperature + 3 * FBwindPower - 170 >= 0)) ) {
+                       ( ( Ftemperature < 10 && Ftemperature >= -5 && FBwindPower < 20 &&
+                           -4 * Ftemperature + 3 * FBwindPower - 20 < 0 ) ||
+                         ( Ftemperature < 10 && Ftemperature >= -5 && FBwindPower >= 20 ) ||
+                         ( Ftemperature < -5 && FBwindPower < 10 ) ||
+                         ( Ftemperature < -5 && FBwindPower >= 10 &&
+                           -4 * Ftemperature + 3 * FBwindPower - 170 >= 0 ) ) ) {
                 frostbite_timer[i] += 8;
-                if (one_in(100) && intense < 2) {
-                    add_msg(m_warning, _("Your %s will be frostbitten within the hour!"),
-                            body_part_name(body_part(i)).c_str());
+                if( one_in( 100 ) && intense < 2 ) {
+                    add_msg( m_warning, _( "Your %s will be frostbitten within the hour!" ),
+                             body_part_name( body_part( i ) ).c_str() );
                 }
                 // High risk zones
-            } else if (temp_cur[i] < BODYTEMP_COLD &&
-                       ((Ftemperature < -5 && FBwindPower >= 10 &&
-                         -4 * Ftemperature + 3 * FBwindPower - 170 < 0) ||
-                        (Ftemperature < -35 && FBwindPower >= 10)) ) {
+            } else if( temp_cur[i] < BODYTEMP_COLD &&
+                       ( ( Ftemperature < -5 && FBwindPower >= 10 &&
+                           -4 * Ftemperature + 3 * FBwindPower - 170 < 0 ) ||
+                         ( Ftemperature < -35 && FBwindPower >= 10 ) ) ) {
                 frostbite_timer[i] += 72;
-                if (one_in(100) && intense < 2) {
-                    add_msg(m_warning, _("Your %s will be frostbitten any minute now!!"),
-                            body_part_name(body_part(i)).c_str());
+                if( one_in( 100 ) && intense < 2 ) {
+                    add_msg( m_warning, _( "Your %s will be frostbitten any minute now!!" ),
+                             body_part_name( body_part( i ) ).c_str() );
                 }
                 // Risk free, so reduce frostbite timer
             } else {
@@ -1155,61 +1157,65 @@ void player::update_bodytemp()
             // Handle the bestowing of frostbite
             if( frostbite_timer[i] < 0 ) {
                 frostbite_timer[i] = 0;
-            } else if (frostbite_timer[i] > 4200) {
+            } else if( frostbite_timer[i] > 4200 ) {
                 // This ensures that the player will recover in at most 3 hours.
                 frostbite_timer[i] = 4200;
             }
             // Frostbite, no recovery possible
-            if (frostbite_timer[i] >= 3600) {
-                add_effect( effect_frostbite, 1, (body_part)i, true, 2 );
-                remove_effect( effect_frostbite_recovery, (body_part)i );
-            // Else frostnip, add recovery if we were frostbitten
-            } else if (frostbite_timer[i] >= 1800) {
-                if (intense == 2) {
-                    add_effect( effect_frostbite_recovery, 1, (body_part)i, true );
+            if( frostbite_timer[i] >= 3600 ) {
+                add_effect( effect_frostbite, 1, ( body_part )i, true, 2 );
+                remove_effect( effect_frostbite_recovery, ( body_part )i );
+                // Else frostnip, add recovery if we were frostbitten
+            } else if( frostbite_timer[i] >= 1800 ) {
+                if( intense == 2 ) {
+                    add_effect( effect_frostbite_recovery, 1, ( body_part )i, true );
                 }
-                add_effect( effect_frostbite, 1, (body_part)i, true, 1 );
-            // Else fully recovered
-            } else if (frostbite_timer[i] == 0) {
-                remove_effect( effect_frostbite, (body_part)i );
-                remove_effect( effect_frostbite_recovery, (body_part)i );
+                add_effect( effect_frostbite, 1, ( body_part )i, true, 1 );
+                // Else fully recovered
+            } else if( frostbite_timer[i] == 0 ) {
+                remove_effect( effect_frostbite, ( body_part )i );
+                remove_effect( effect_frostbite_recovery, ( body_part )i );
             }
         }
         // Warn the player if condition worsens
         if( temp_before > BODYTEMP_FREEZING && temp_after < BODYTEMP_FREEZING ) {
             //~ %s is bodypart
-            add_msg(m_warning, _("You feel your %s beginning to go numb from the cold!"),
-                    body_part_name(body_part(i)).c_str());
+            add_msg( m_warning, _( "You feel your %s beginning to go numb from the cold!" ),
+                     body_part_name( body_part( i ) ).c_str() );
         } else if( temp_before > BODYTEMP_VERY_COLD && temp_after < BODYTEMP_VERY_COLD ) {
             //~ %s is bodypart
-            add_msg(m_warning, _("You feel your %s getting very cold."),
-                    body_part_name(body_part(i)).c_str());
+            add_msg( m_warning, _( "You feel your %s getting very cold." ),
+                     body_part_name( body_part( i ) ).c_str() );
         } else if( temp_before > BODYTEMP_COLD && temp_after < BODYTEMP_COLD ) {
             //~ %s is bodypart
-            add_msg(m_warning, _("You feel your %s getting chilly."),
-                    body_part_name(body_part(i)).c_str());
+            add_msg( m_warning, _( "You feel your %s getting chilly." ),
+                     body_part_name( body_part( i ) ).c_str() );
         } else if( temp_before < BODYTEMP_SCORCHING && temp_after > BODYTEMP_SCORCHING ) {
             //~ %s is bodypart
-            add_msg(m_bad, _("You feel your %s getting red hot from the heat!"),
-                    body_part_name(body_part(i)).c_str());
+            add_msg( m_bad, _( "You feel your %s getting red hot from the heat!" ),
+                     body_part_name( body_part( i ) ).c_str() );
         } else if( temp_before < BODYTEMP_VERY_HOT && temp_after > BODYTEMP_VERY_HOT ) {
             //~ %s is bodypart
-            add_msg(m_warning, _("You feel your %s getting very hot."),
-                    body_part_name(body_part(i)).c_str());
+            add_msg( m_warning, _( "You feel your %s getting very hot." ),
+                     body_part_name( body_part( i ) ).c_str() );
         } else if( temp_before < BODYTEMP_HOT && temp_after > BODYTEMP_HOT ) {
             //~ %s is bodypart
-            add_msg(m_warning, _("You feel your %s getting warm."),
-                    body_part_name(body_part(i)).c_str());
+            add_msg( m_warning, _( "You feel your %s getting warm." ),
+                     body_part_name( body_part( i ) ).c_str() );
         }
 
         // Warn the player that wind is going to be a problem.
         // But only if it can be a problem, no need to spam player with "wind chills your scorching body"
-        if( temp_conv[i] <= BODYTEMP_COLD && windchill < -10 && one_in(200) ) {
-            add_msg(m_bad, _("The wind is making your %s feel quite cold."), body_part_name(body_part(i)).c_str());
-        } else if( temp_conv[i] <= BODYTEMP_COLD && windchill < -20 && one_in(100) ) {
-            add_msg(m_bad, _("The wind is very strong, you should find some more wind-resistant clothing for your %s."), body_part_name(body_part(i)).c_str());
-        } else if( temp_conv[i] <= BODYTEMP_COLD && windchill < -30 && one_in(50) ) {
-            add_msg(m_bad, _("Your clothing is not providing enough protection from the wind for your %s!"), body_part_name(body_part(i)).c_str());
+        if( temp_conv[i] <= BODYTEMP_COLD && windchill < -10 && one_in( 200 ) ) {
+            add_msg( m_bad, _( "The wind is making your %s feel quite cold." ),
+                     body_part_name( body_part( i ) ).c_str() );
+        } else if( temp_conv[i] <= BODYTEMP_COLD && windchill < -20 && one_in( 100 ) ) {
+            add_msg( m_bad,
+                     _( "The wind is very strong, you should find some more wind-resistant clothing for your %s." ),
+                     body_part_name( body_part( i ) ).c_str() );
+        } else if( temp_conv[i] <= BODYTEMP_COLD && windchill < -30 && one_in( 50 ) ) {
+            add_msg( m_bad, _( "Your clothing is not providing enough protection from the wind for your %s!" ),
+                     body_part_name( body_part( i ) ).c_str() );
         }
     }
 }
