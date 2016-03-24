@@ -247,7 +247,7 @@ void player::sort_armor()
     ctxt.register_action( "ASSIGN_INVLETS" );
     ctxt.register_action( "EQUIP_ARMOR" );
     ctxt.register_action( "REMOVE_ARMOR" );
-    ctxt.register_action( "HELP" );
+    ctxt.register_action( "USAGE_HELP" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
 
     bool exit = false;
@@ -281,7 +281,9 @@ void player::sort_armor()
         // top bar
         wprintz( w_sort_cat, c_white, _( "Sort Armor" ) );
         wprintz( w_sort_cat, c_yellow, "  << %s >>", armor_cat[tabindex].c_str() );
-        tmp_str = string_format( _( "Press %s for help." ), ctxt.get_desc( "HELP" ).c_str() );
+        tmp_str = string_format( _( "Press %s for help. Press %s to change keybindings." ),
+                                 ctxt.get_desc( "USAGE_HELP" ).c_str(),
+                                 ctxt.get_desc( "HELP_KEYBINDINGS" ).c_str() );
         mvwprintz( w_sort_cat, 0, win_w - utf8_width( tmp_str ) - 4,
                    c_white, tmp_str.c_str() );
 
@@ -546,7 +548,7 @@ void player::sort_armor()
                     }
                 }
             }
-        } else if( action == "HELP" ) {
+        } else if( action == "USAGE_HELP" ) {
             popup_getkey( _( "\
 Use the arrow- or keypad keys to navigate the left list.\n\
 Press [%s] to select highlighted armor for reordering.\n\
