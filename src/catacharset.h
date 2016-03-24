@@ -78,6 +78,7 @@ class utf8_wrapper
             erase( start, _length - start );
         }
         void append( const utf8_wrapper &other );
+        utf8_wrapper &replace_all( const utf8_wrapper &search, const utf8_wrapper &replace );
         /**
          * Returns a substring based on the display width, not the number of
          * code points (as the other substr function does).

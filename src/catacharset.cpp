@@ -582,6 +582,18 @@ void utf8_wrapper::append(const utf8_wrapper &other)
     _display_width += other._display_width;
 }
 
+utf8_wrapper& utf8_wrapper::replace_all( const utf8_wrapper &search, const utf8_wrapper &replace )
+{
+    for(std::string::size_type i = _data.find(search._data); i != std::string::npos;
+            i = _data.find(search._data, i) ) {
+        erase(i, search.length());
+        insert(i, replace);
+        i += replace._data.length();
+    }
+
+    return *this;
+}
+
 std::string utf8_wrapper::shorten( size_t maxlength ) const
 {
     if( display_width() <= maxlength ) {
