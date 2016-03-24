@@ -698,10 +698,43 @@ class JsonObject
             return jsin->read(t);
         }
 
+        template <typename T>
+        bool assign( const std::string& name, T& val ) {
+            return read( name, val );
+        }
+
         // useful debug info
         std::string line_number(); // for occasional use only
 };
 
+template <>
+inline bool JsonObject::assign( const std::string& name, int& val ) {
+    const auto rel = std::string( "relative:" ) += name;
+    if( has_int( rel ) ) {
+        val += get_int( rel );
+        return true;
+    } else {
+        return read( name, val );
+    }
+}
+
+template <>
+inline bool JsonObject::assign( const std::string& name, std::set<std::string>& val ) {
+    const auto del = std::string( "delete:" ) += name;
+    const auto add = std::string( "add:" ) += name;
+    if( has_string( del ) ) {
+        val.erase( get_string( del ) );
+        return true;
+    } else if( has_string( add ) ) {
+        val.insert( get_string( add ) );
+        return true;
+    } else if( has_string( name ) ) {
+        val = get_tags( name );
+        return true;
+    } else {
+        return false;
+    }
+}
 
 /* JsonArray
  * =========

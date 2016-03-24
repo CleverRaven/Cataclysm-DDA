@@ -764,22 +764,16 @@ void Item_factory::load( islot_software &slot, JsonObject &jo )
 
 void Item_factory::load( islot_ammo &slot, JsonObject &jo )
 {
-    // will be checked later by ::check_definitions()
-    jo.read( "ammo_type", slot.type );
-
-    jo.read( "casing", slot.casing );
-    jo.read( "damage", slot.damage );
-    jo.read( "pierce", slot.pierce );
-    jo.read( "range", slot.range );
-    jo.read( "dispersion", slot.dispersion );
-    jo.read( "recoil", slot.recoil );
-    jo.read( "count", slot.def_charges );
-
-    // merge with any default or inherited tags
-    auto fx = jo.get_tags( "effects" );
-    slot.ammo_effects.insert( fx.begin(), fx.end() );
-
-    jo.read( "loudness", slot.loudness );
+    jo.assign( "ammo_type", slot.type );
+    jo.assign( "casing", slot.casing );
+    jo.assign( "damage", slot.damage );
+    jo.assign( "pierce", slot.pierce );
+    jo.assign( "range", slot.range );
+    jo.assign( "dispersion", slot.dispersion );
+    jo.assign( "recoil", slot.recoil );
+    jo.assign( "count", slot.def_charges );
+    jo.assign( "effects", slot.ammo_effects );
+    jo.assign( "loudness", slot.loudness );
 }
 
 void Item_factory::load_itype( JsonObject &jo )
@@ -935,14 +929,14 @@ void Item_factory::load_tool( JsonObject &jo, const itype *src )
 {
     auto obj = src ? new it_tool( *( dynamic_cast<const it_tool *>( src ) ) ) : new it_tool();
 
-    jo.read( "ammo", obj->ammo_id );
-    jo.read( "max_charges", obj->max_charges );
-    jo.read( "initial_charges", obj->def_charges );
-    jo.read( "charges_per_use", obj->charges_per_use );
-    jo.read( "turns_per_charge", obj->turns_per_charge );
-    jo.read( "revert_to", obj->revert_to );
-    jo.read( "revert_msg", obj->revert_msg );
-    jo.read( "sub", obj->subtype );
+    jo.assign( "ammo", obj->ammo_id );
+    jo.assign( "max_charges", obj->max_charges );
+    jo.assign( "initial_charges", obj->def_charges );
+    jo.assign( "charges_per_use", obj->charges_per_use );
+    jo.assign( "turns_per_charge", obj->turns_per_charge );
+    jo.assign( "revert_to", obj->revert_to );
+    jo.assign( "revert_msg", obj->revert_msg );
+    jo.assign( "sub", obj->subtype );
 
     if( jo.get_string( "type" ) == "TOOL_ARMOR" ) {
         load_slot( obj->armor, jo );
