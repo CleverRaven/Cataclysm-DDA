@@ -288,32 +288,31 @@ void player::reset_stats()
     clear_miss_reasons();
 
     // Trait / mutation buffs
-    if (has_trait("THICK_SCALES")) {
-        add_miss_reason(_("Your thick scales get in the way."), 2);
+    if( has_trait( "THICK_SCALES" ) ) {
+        add_miss_reason( _( "Your thick scales get in the way." ), 2 );
     }
-    if (has_trait("CHITIN2") || has_trait("CHITIN3") || has_trait("CHITIN_FUR3")) {
-        add_miss_reason(_("Your chitin gets in the way."), 1);
+    if( has_trait( "CHITIN2" ) || has_trait( "CHITIN3" ) || has_trait( "CHITIN_FUR3" ) ) {
+        add_miss_reason( _( "Your chitin gets in the way." ), 1 );
     }
-    if (has_trait("COMPOUND_EYES") && !wearing_something_on(bp_eyes)) {
-        mod_per_bonus(1);
+    if( has_trait( "COMPOUND_EYES" ) && !wearing_something_on( bp_eyes ) ) {
+        mod_per_bonus( 1 );
     }
-    if (has_trait("INSECT_ARMS")) {
-        add_miss_reason(_("Your insect limbs get in the way."), 2);
+    if( has_trait( "INSECT_ARMS" ) ) {
+        add_miss_reason( _( "Your insect limbs get in the way." ), 2 );
     }
-    if (has_trait("INSECT_ARMS_OK")) {
-        if (!wearing_something_on(bp_torso)) {
-            mod_dex_bonus(1);
+    if( has_trait( "INSECT_ARMS_OK" ) ) {
+        if( !wearing_something_on( bp_torso ) ) {
+            mod_dex_bonus( 1 );
+        } else {
+            mod_dex_bonus( -1 );
+            add_miss_reason( _( "Your clothing restricts your insect arms." ), 1 );
         }
-        else {
-            mod_dex_bonus(-1);
-            add_miss_reason(_("Your clothing restricts your insect arms."), 1);
-        }
     }
-    if (has_trait("WEBBED")) {
-        add_miss_reason(_("Your webbed hands get in the way."), 1);
+    if( has_trait( "WEBBED" ) ) {
+        add_miss_reason( _( "Your webbed hands get in the way." ), 1 );
     }
-    if (has_trait("ARACHNID_ARMS")) {
-        add_miss_reason(_("Your arachnid limbs get in the way."), 4);
+    if( has_trait( "ARACHNID_ARMS" ) ) {
+        add_miss_reason( _( "Your arachnid limbs get in the way." ), 4 );
     }
     if( has_trait( "ARACHNID_ARMS_OK" ) ) {
         if( !wearing_something_on( bp_torso ) ) {
@@ -325,96 +324,97 @@ void player::reset_stats()
     }
 
     // Pain
-    if ( get_perceived_pain() > 0 ) {
-        if (!(has_trait("CENOBITE"))) {
-            mod_str_bonus(-int(get_perceived_pain() / 15));
-            mod_dex_bonus(-int(get_perceived_pain() / 15));
-            add_miss_reason(_("Your pain distracts you!"), int( get_perceived_pain() / 15 ));
+    if( get_perceived_pain() > 0 ) {
+        if( !( has_trait( "CENOBITE" ) ) ) {
+            mod_str_bonus( -int( get_perceived_pain() / 15 ) );
+            mod_dex_bonus( -int( get_perceived_pain() / 15 ) );
+            add_miss_reason( _( "Your pain distracts you!" ), int( get_perceived_pain() / 15 ) );
         }
-        mod_per_bonus(-int(get_perceived_pain() / 20));
-        if (!(has_trait("INT_SLIME"))) {
-            mod_int_bonus(-(1 + int(get_perceived_pain() / 25)));
-        } else if (has_trait("INT_SLIME")) {
-        // Having one's brain throughout one's body does have its downsides.
-        // Be glad we don't assess permanent damage.
-            mod_int_bonus(-( 1 + get_perceived_pain() ));
+        mod_per_bonus( -int( get_perceived_pain() / 20 ) );
+        if( !( has_trait( "INT_SLIME" ) ) ) {
+            mod_int_bonus( -( 1 + int( get_perceived_pain() / 25 ) ) );
+        } else if( has_trait( "INT_SLIME" ) ) {
+            // Having one's brain throughout one's body does have its downsides.
+            // Be glad we don't assess permanent damage.
+            mod_int_bonus( -( 1 + get_perceived_pain() ) );
         }
     }
     // Morale
     if( abs( get_morale_level() ) >= 100 ) {
         mod_str_bonus( int( get_morale_level() / 180 ) );
         int dex_mod = int( get_morale_level() / 200 );
-        mod_dex_bonus(dex_mod);
-        if (dex_mod < 0) {
-            add_miss_reason(_("What's the point of fighting?"), -dex_mod);
+        mod_dex_bonus( dex_mod );
+        if( dex_mod < 0 ) {
+            add_miss_reason( _( "What's the point of fighting?" ), -dex_mod );
         }
         mod_per_bonus( int( get_morale_level() / 125 ) );
         mod_int_bonus( int( get_morale_level() / 100 ) );
     }
     // Radiation
-    if (radiation > 0) {
-        mod_str_bonus(-int(radiation / 80));
-        int dex_mod = -int(radiation / 110);
-        mod_dex_bonus(dex_mod);
-        if (dex_mod < 0) {
-            add_miss_reason(_("Radiation weakens you."), -dex_mod);
+    if( radiation > 0 ) {
+        mod_str_bonus( -int( radiation / 80 ) );
+        int dex_mod = -int( radiation / 110 );
+        mod_dex_bonus( dex_mod );
+        if( dex_mod < 0 ) {
+            add_miss_reason( _( "Radiation weakens you." ), -dex_mod );
         }
-        mod_per_bonus(-int(radiation / 100));
-        mod_int_bonus(-int(radiation / 120));
+        mod_per_bonus( -int( radiation / 100 ) );
+        mod_int_bonus( -int( radiation / 120 ) );
     }
     // Stimulants
-    mod_dex_bonus(int(stim / 10));
-    mod_per_bonus(int(stim /  7));
-    mod_int_bonus(int(stim /  6));
-    if (stim >= 30) {
-        int dex_mod = -int(abs(stim - 15) / 8);
-        mod_dex_bonus(dex_mod);
-        add_miss_reason(_("You shake with the excess stimulation."), -dex_mod);
-        mod_per_bonus(-int(abs(stim - 15) / 12));
-        mod_int_bonus(-int(abs(stim - 15) / 14));
-    } else if (stim <= 10) {
-        add_miss_reason(_("You feel woozy."), -int(stim / 10));
+    mod_dex_bonus( int( stim / 10 ) );
+    mod_per_bonus( int( stim /  7 ) );
+    mod_int_bonus( int( stim /  6 ) );
+    if( stim >= 30 ) {
+        int dex_mod = -int( abs( stim - 15 ) / 8 );
+        mod_dex_bonus( dex_mod );
+        add_miss_reason( _( "You shake with the excess stimulation." ), -dex_mod );
+        mod_per_bonus( -int( abs( stim - 15 ) / 12 ) );
+        mod_int_bonus( -int( abs( stim - 15 ) / 14 ) );
+    } else if( stim <= 10 ) {
+        add_miss_reason( _( "You feel woozy." ), -int( stim / 10 ) );
     }
     // Hunger
     if( get_hunger() >= 500 ) {
         // We die at 6000
-        const int dex_mod = -int(get_hunger() / 1000);
-        add_miss_reason(_("You're weak from hunger."), -dex_mod);
-        mod_str_bonus( -int(get_hunger() / 500) );
+        const int dex_mod = -int( get_hunger() / 1000 );
+        add_miss_reason( _( "You're weak from hunger." ), -dex_mod );
+        mod_str_bonus( -int( get_hunger() / 500 ) );
         mod_dex_bonus( dex_mod );
-        mod_int_bonus( -int(get_hunger() / 1000) );
+        mod_int_bonus( -int( get_hunger() / 1000 ) );
     }
     // Thirst
     if( get_thirst() >= 200 ) {
         // We die at 1200
-        const int dex_mod = -int(get_thirst() / 200);
-        add_miss_reason(_("You're weak from thirst."), -dex_mod);
-        mod_str_bonus( -int(get_thirst() / 200) );
+        const int dex_mod = -int( get_thirst() / 200 );
+        add_miss_reason( _( "You're weak from thirst." ), -dex_mod );
+        mod_str_bonus( -int( get_thirst() / 200 ) );
         mod_dex_bonus( dex_mod );
-        mod_int_bonus( -int(get_thirst() / 200) );
-        mod_per_bonus( -int(get_thirst() / 200) );
+        mod_int_bonus( -int( get_thirst() / 200 ) );
+        mod_per_bonus( -int( get_thirst() / 200 ) );
     }
 
     // Dodge-related effects
-    mod_dodge_bonus( mabuff_dodge_bonus() - ( encumb(bp_leg_l) + encumb(bp_leg_r) )/20 - (encumb(bp_torso) / 10) );
+    mod_dodge_bonus( mabuff_dodge_bonus() - ( encumb( bp_leg_l ) + encumb( bp_leg_r ) ) / 20 - ( encumb(
+                         bp_torso ) / 10 ) );
     // Whiskers don't work so well if they're covered
-    if (has_trait("WHISKERS") && !wearing_something_on(bp_mouth)) {
-        mod_dodge_bonus(1);
+    if( has_trait( "WHISKERS" ) && !wearing_something_on( bp_mouth ) ) {
+        mod_dodge_bonus( 1 );
     }
-    if (has_trait("WHISKERS_RAT") && !wearing_something_on(bp_mouth)) {
-        mod_dodge_bonus(2);
+    if( has_trait( "WHISKERS_RAT" ) && !wearing_something_on( bp_mouth ) ) {
+        mod_dodge_bonus( 2 );
     }
     // Spider hair is basically a full-body set of whiskers, once you get the brain for it
-    if (has_trait("CHITIN_FUR3")) {
-    static const std::array<body_part, 5> parts {{bp_head, bp_arm_r, bp_arm_l, bp_leg_r, bp_leg_l}};
+    if( has_trait( "CHITIN_FUR3" ) ) {
+        static const std::array<body_part, 5> parts {{bp_head, bp_arm_r, bp_arm_l, bp_leg_r, bp_leg_l}};
         for( auto bp : parts ) {
             if( !wearing_something_on( bp ) ) {
-                mod_dodge_bonus(+1);
+                mod_dodge_bonus( +1 );
             }
         }
         // Torso handled separately, bigger bonus
-        if (!wearing_something_on(bp_torso)) {
-            mod_dodge_bonus(4);
+        if( !wearing_something_on( bp_torso ) ) {
+            mod_dodge_bonus( 4 );
         }
     }
 
@@ -424,7 +424,7 @@ void player::reset_stats()
     // Apply static martial arts buffs
     ma_static_effects();
 
-    if( calendar::once_every(MINUTES(1)) ) {
+    if( calendar::once_every( MINUTES( 1 ) ) ) {
         update_mental_focus();
     }
 
@@ -435,7 +435,7 @@ void player::reset_stats()
     for( auto maps : effects ) {
         for( auto i : maps.second ) {
             const auto &it = i.second;
-            bool reduced = resists_effect(it);
+            bool reduced = resists_effect( it );
             mod_str_bonus( it.get_mod( "STR", reduced ) );
             mod_dex_bonus( it.get_mod( "DEX", reduced ) );
             mod_per_bonus( it.get_mod( "PER", reduced ) );
@@ -451,15 +451,15 @@ void player::process_turn()
     Character::process_turn();
 
     // Didn't just pick something up
-    last_item = itype_id("null");
+    last_item = itype_id( "null" );
 
-    if( has_active_bionic("bio_metabolics") && power_level + 25 <= max_power_level &&
-        get_hunger() < 100 && calendar::once_every(5) ) {
-        mod_hunger(2);
-        charge_power(25);
+    if( has_active_bionic( "bio_metabolics" ) && power_level + 25 <= max_power_level &&
+        get_hunger() < 100 && calendar::once_every( 5 ) ) {
+        mod_hunger( 2 );
+        charge_power( 25 );
     }
 
-    visit_items( [this]( item *e ) {
+    visit_items( [this]( item * e ) {
         e->process_artifact( this, pos() );
         return VisitResponse::NEXT;
     } );
@@ -468,37 +468,39 @@ void player::process_turn()
 
     // Set our scent towards the norm
     int norm_scent = 500;
-    if (has_trait("WEAKSCENT")) {
+    if( has_trait( "WEAKSCENT" ) ) {
         norm_scent = 300;
     }
-    if (has_trait("SMELLY")) {
+    if( has_trait( "SMELLY" ) ) {
         norm_scent = 800;
     }
-    if (has_trait("SMELLY2")) {
+    if( has_trait( "SMELLY2" ) ) {
         norm_scent = 1200;
     }
     // Not so much that you don't have a scent
     // but that you smell like a plant, rather than
     // a human. When was the last time you saw a critter
     // attack a bluebell or an apple tree?
-    if ( (has_trait("FLOWERS")) && (!(has_trait("CHLOROMORPH"))) ) {
+    if( ( has_trait( "FLOWERS" ) ) && ( !( has_trait( "CHLOROMORPH" ) ) ) ) {
         norm_scent -= 200;
     }
     // You *are* a plant.  Unless someone hunts triffids by scent,
     // you don't smell like prey.
-    if( has_trait("CHLOROMORPH") ) {
+    if( has_trait( "CHLOROMORPH" ) ) {
         norm_scent = 0;
     }
 
     // Scent increases fast at first, and slows down as it approaches normal levels.
     // Estimate it will take about norm_scent * 2 turns to go from 0 - norm_scent / 2
     // Without smelly trait this is about 1.5 hrs. Slows down significantly after that.
-    if (scent < rng(0, norm_scent))
+    if( scent < rng( 0, norm_scent ) ) {
         scent++;
+    }
 
     // Unusually high scent decreases steadily until it reaches normal levels.
-    if (scent > norm_scent)
+    if( scent > norm_scent ) {
         scent--;
+    }
 
     // We can dodge again! Assuming we can actually move...
     if( !in_sleep_state() ) {
@@ -522,7 +524,8 @@ void player::process_turn()
     }
 }
 
-void player::drop_inventory_overflow() {
+void player::drop_inventory_overflow()
+{
     // Fix for #15079
     // @todo replace when we implement off-hand item_location
     if( activity.type != ACT_RELOAD ) {
@@ -544,51 +547,50 @@ void player::update_morale()
 void player::apply_persistent_morale()
 {
     // Hoarders get a morale penalty if they're not carrying a full inventory.
-    if (has_trait("HOARDER"))
-    {
-        int pen = int((volume_capacity() - volume_carried()) / 2);
-        if (pen > 70) {
+    if( has_trait( "HOARDER" ) ) {
+        int pen = int( ( volume_capacity() - volume_carried() ) / 2 );
+        if( pen > 70 ) {
             pen = 70;
         }
-        if (pen <= 0) {
+        if( pen <= 0 ) {
             pen = 0;
         }
         if( has_effect( effect_took_xanax ) ) {
-            pen = int(pen / 7);
+            pen = int( pen / 7 );
         } else if( has_effect( effect_took_prozac ) ) {
-            pen = int(pen / 2);
+            pen = int( pen / 2 );
         }
-        if (pen > 0) {
-            add_morale(MORALE_PERM_HOARDER, -pen, -pen, 5, 5, true);
+        if( pen > 0 ) {
+            add_morale( MORALE_PERM_HOARDER, -pen, -pen, 5, 5, true );
         }
     }
 
     // Floral folks really don't like having their flowers covered.
-    if( has_trait("FLOWERS") && wearing_something_on(bp_head) ) {
-        add_morale(MORALE_PERM_CONSTRAINED, -10, -10, 5, 5, true);
+    if( has_trait( "FLOWERS" ) && wearing_something_on( bp_head ) ) {
+        add_morale( MORALE_PERM_CONSTRAINED, -10, -10, 5, 5, true );
     }
 
     // The same applies to rooters and their feet; however, they don't take
     // too many problems from no-footgear.
     double shoe_factor = footwear_factor();
-    if( (has_trait("ROOTS") || has_trait("ROOTS2") || has_trait("ROOTS3") ) &&
+    if( ( has_trait( "ROOTS" ) || has_trait( "ROOTS2" ) || has_trait( "ROOTS3" ) ) &&
         shoe_factor ) {
-        add_morale(MORALE_PERM_CONSTRAINED, -10 * shoe_factor, -10 * shoe_factor, 5, 5, true);
+        add_morale( MORALE_PERM_CONSTRAINED, -10 * shoe_factor, -10 * shoe_factor, 5, 5, true );
     }
 
     // Masochists get a morale bonus from pain.
-    if (has_trait("MASOCHIST") || has_trait("MASOCHIST_MED") ||  has_trait("CENOBITE")) {
+    if( has_trait( "MASOCHIST" ) || has_trait( "MASOCHIST_MED" ) ||  has_trait( "CENOBITE" ) ) {
         int bonus = get_perceived_pain() / 2.5;
         // Advanced masochists really get a morale bonus from pain.
         // (It's not capped.)
-        if (has_trait("MASOCHIST") && (bonus > 25)) {
+        if( has_trait( "MASOCHIST" ) && ( bonus > 25 ) ) {
             bonus = 25;
         }
         if( has_effect( effect_took_prozac ) ) {
-            bonus = int(bonus / 3);
+            bonus = int( bonus / 3 );
         }
-        if (bonus != 0) {
-            add_morale(MORALE_PERM_MASOCHIST, bonus, bonus, 5, 5, true);
+        if( bonus != 0 ) {
+            add_morale( MORALE_PERM_MASOCHIST, bonus, bonus, 5, 5, true );
         }
     }
 }
@@ -599,8 +601,7 @@ void player::update_mental_focus()
 
     // handle negative gain rates in a symmetric manner
     int base_change = 1;
-    if (focus_gain_rate < 0)
-    {
+    if( focus_gain_rate < 0 ) {
         base_change = -1;
         focus_gain_rate = -focus_gain_rate;
     }
