@@ -44,6 +44,8 @@ struct mutation_branch {
     bool mixed_effect  = false;
     bool startingtrait = false;
     bool activated     = false;
+    // Should it activate as soon as it is gained?
+    bool starts_active = false;
     // IF any of the three are true, it drains that as the "cost"
     bool fatigue       = false;
     bool hunger        = false;

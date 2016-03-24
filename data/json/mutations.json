@@ -122,7 +122,8 @@
         "changes_to" : ["NIGHTVISION2"],
         "cancels": ["ELFA_NV", "ELFA_FNV", "FEL_NV", "URSINE_EYE"],
         "category" : ["MUTCAT_BIRD", "MUTCAT_CATTLE", "MUTCAT_INSECT"],
-        "active" : true
+        "active" : true,
+        "starts_active" : true
     },{
         "type" : "mutation",
         "id" : "POISRESIST",
@@ -925,7 +926,8 @@
         "changes_to" : ["NIGHTVISION3"],
         "cancels" : ["ELFA_NV", "ELFA_FNV", "FEL_NV", "URSINE_EYE"],
         "category" : ["MUTCAT_FISH", "MUTCAT_BEAST", "MUTCAT_INSECT", "MUTCAT_RAT", "MUTCAT_CHIMERA", "MUTCAT_LUPINE"],
-        "active" : true
+        "active" : true,
+        "starts_active" : true
     },{
         "type" : "mutation",
         "id" : "NIGHTVISION3",
@@ -936,7 +938,8 @@
         "leads_to" : ["INFRARED"],
         "cancels" : ["ELFA_NV", "ELFA_FNV", "FEL_NV", "URSINE_EYE"],
         "category" : ["MUTCAT_FISH", "MUTCAT_TROGLOBITE", "MUTCAT_SPIDER"],
-        "active" : true
+        "active" : true,
+        "starts_active" : true
     },{
         "type" : "mutation",
         "id" : "CEPH_EYES",
@@ -957,7 +960,8 @@
         "prereqs" : ["CEPH_EYES"],
         "cancels" : ["LIZ_IR", "FEL_NV", "NIGHTVISION", "NIGHTVISION2", "NIGHTVISION3", "ELFA_NV", "ELFA_FNV"],
         "category" : ["MUTCAT_CEPHALOPOD"],
-        "active" : true
+        "active" : true,
+        "starts_active" : true
     },{
         "type" : "mutation",
         "id" : "ELFAEYES",
@@ -978,7 +982,8 @@
         "changes_to" : ["ELFA_FNV"],
         "cancels" : ["LIZ_IR", "FEL_NV", "NIGHTVISION", "NIGHTVISION2", "NIGHTVISION3"],
         "category" : ["MUTCAT_ELFA"],
-        "active" : true
+        "active" : true,
+        "starts_active" : true
     },{
         "type" : "mutation",
         "id" : "ELFA_FNV",
@@ -988,7 +993,8 @@
         "prereqs" : ["ELFA_NV"],
         "cancels" : ["LIZ_IR", "FEL_NV", "NIGHTVISION", "NIGHTVISION2", "NIGHTVISION3"],
         "category" : ["MUTCAT_ELFA"],
-        "active" : true
+        "active" : true,
+        "starts_active" : true
     },{
         "type" : "mutation",
         "id" : "FEL_EYE",
@@ -1009,7 +1015,8 @@
         "prereqs" : ["FEL_EYE"],
         "cancels" : ["ELFA_NV", "ELFA_FNV", "LIZ_IR", "NIGHTVISION", "NIGHTVISION2", "NIGHTVISION3"],
         "category" : ["MUTCAT_FELINE"],
-        "active" : true
+        "active" : true,
+        "starts_active" : true
     },{
         "type" : "mutation",
         "id" : "URSINE_EYE",
@@ -1018,7 +1025,8 @@
         "description" : "Your visual processing has shifted: though you can see better in the dark, you're nearsighted in the light.  Maybe glasses would help.  Activate to toggle NV-visible areas on or off.",
         "cancels" : ["ELFAEYES", "LIZ_EYE", "BIRD_EYE", "FEL_EYE", "COMPOUND_EYES", "NIGHTVISION", "NIGHTVISION2", "NIGHTVISION3", "MYOPIC"],
         "category" : ["MUTCAT_URSINE"],
-        "active" : true
+        "active" : true,
+        "starts_active" : true
     },{
         "type" : "mutation",
         "id" : "BIRD_EYE",

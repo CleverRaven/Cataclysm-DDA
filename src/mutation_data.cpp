@@ -88,6 +88,7 @@ void mutation_branch::load( JsonObject &jsobj )
     new_mut.startingtrait = jsobj.get_bool("starting_trait", false);
     new_mut.mixed_effect = jsobj.get_bool("mixed_effect", false);
     new_mut.activated = jsobj.get_bool("active", false);
+    new_mut.starts_active = jsobj.get_bool("starts_active", false);
     new_mut.cost = jsobj.get_int("cost", 0);
     new_mut.cooldown = jsobj.get_int("time",0);
     new_mut.hunger = jsobj.get_bool("hunger",false);

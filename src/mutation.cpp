@@ -127,6 +127,9 @@ void Character::mutation_effect(std::string mut)
     bool destroy = false;
     std::vector<body_part> bps;
 
+    const auto &branch = mutation_branch::get( mut );
+    // @todo JSON-ize the block below
+
     if (mut == "TOUGH" || mut == "TOUGH2" || mut == "TOUGH3" || mut == "GLASSJAW" ||
         mut == "FLIMSY" || mut == "FLIMSY2" || mut == "FLIMSY3" ||
         mut == "MUT_TOUGH" || mut == "MUT_TOUGH2" || mut == "MUT_TOUGH3") {
@@ -137,6 +140,11 @@ void Character::mutation_effect(std::string mut)
         // Push off gloves
         bps.push_back(bp_hand_l);
         bps.push_back(bp_hand_r);
+
+    } else if( mut == "LEG_TENTACLES" ) {
+        // Push off boots/socks
+        bps.push_back(bp_foot_l);
+        bps.push_back(bp_foot_r);
 
     } else if (mut == "TALONS") {
         // Destroy gloves
@@ -176,6 +184,7 @@ void Character::mutation_effect(std::string mut)
 
     } else if (mut == "HORNS_POINTED" || mut == "ANTENNAE" || mut == "ANTLERS") {
         // Push off non-cloth helmets
+        // @todo Make those non-cloth only
         bps.push_back(bp_head);
 
     } else if (mut == "HUGE") {
@@ -256,6 +265,7 @@ void Character::mutation_effect(std::string mut)
         return false;
     };
 
+    // @todo Make this understand other limitations, like antlers allowing cloth
     remove_worn_items_with( [&]( item& armor ) {
         static const std::string mutation_safe = "OVERSIZE";
         if( armor.has_flag( mutation_safe ) ) {
@@ -283,6 +293,10 @@ void Character::mutation_effect(std::string mut)
     } );
 
     on_mutation_gain( mut );
+
+    if( branch.starts_active ) {
+        my_mutations[mut].powered = true;
+    }
 }
 
 void Character::mutation_loss_effect(std::string mut)
