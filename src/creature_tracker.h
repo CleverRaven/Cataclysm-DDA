@@ -15,6 +15,9 @@ class Creature_tracker
         /** Returns the monster at the given index. */
         monster &find( int index );
         const monster &find( int index ) const;
+        /** Returns the monster with a given id. */
+        monster *by_id( long id );
+        const monster *by_id( long id ) const;
         /** Returns the monster index of the monster at the given tripoint. */
         int mon_at( const tripoint &coords ) const;
         /** Adds the given monster to the creature_tracker. Returns whether the operation was successful. */
@@ -34,8 +37,11 @@ class Creature_tracker
     private:
         std::vector<monster *> monsters_list;
         std::unordered_map<tripoint, size_t> monsters_by_location;
+        std::unordered_map<long, size_t> monsters_by_id;
         /** Remove the monsters entry in @ref monsters_by_location */
         void remove_from_location_map( const monster &critter );
+        /** Remove the monsters entry in @ref monsters_by_id */
+        void remove_from_id_map( const monster &critter );
 };
 
 #endif

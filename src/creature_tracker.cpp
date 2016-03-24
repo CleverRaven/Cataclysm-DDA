@@ -4,6 +4,7 @@
 #include "debug.h"
 #include "mtype.h"
 #include "item.h"
+#include "game.h"
 
 Creature_tracker::Creature_tracker()
 {
@@ -29,6 +30,21 @@ const monster &Creature_tracker::find( int index ) const
     }
 
     return *( monsters_list[index] );
+}
+
+monster *Creature_tracker::by_id( long id )
+{
+    return const_cast<monster *>( const_cast<const Creature_tracker *>( this )->by_id( id ) );
+}
+
+const monster *Creature_tracker::by_id( long id ) const
+{
+    const auto iter = monsters_by_id.find( id );
+    if( iter != monsters_by_id.end() ) {
+        return &find( iter->second );
+    }
+
+    return nullptr;
 }
 
 int Creature_tracker::mon_at( const tripoint &coords ) const
@@ -69,6 +85,20 @@ bool Creature_tracker::add( monster &critter )
         return false;
     }
 
+    if( critter.get_id() == 0 ) {
+        critter.set_id( g->assign_creature_id() );
+    }
+
+    const Creature *other = g->critter_with_id( critter.get_id() );
+    while( other != nullptr && other != &critter ) {
+        debugmsg( "%s had id %ld, which belongs to %s",
+                  critter.disp_name().c_str(), critter.get_id(),
+                  other->disp_name().c_str() );
+        critter.set_id( g->assign_creature_id() );
+        other = g->critter_with_id( critter.get_id() );
+    }
+
+    monsters_by_id[critter.get_id()] = monsters_list.size();
     monsters_by_location[critter.pos()] = monsters_list.size();
     monsters_list.push_back( new monster( critter ) );
     return true;
@@ -141,6 +171,18 @@ void Creature_tracker::remove_from_location_map( const monster &critter )
     }
 }
 
+void Creature_tracker::remove_from_id_map( const monster &critter )
+{
+    const long id = critter.get_id();
+    const auto iter = monsters_by_id.find( id );
+    if( iter != monsters_by_id.end() ) {
+        const auto &other = find( iter->second );
+        if( &other == &critter ) {
+            monsters_by_id.erase( iter );
+        }
+    }
+}
+
 void Creature_tracker::remove( const int idx )
 {
     if( idx < 0 || idx >= ( int )monsters_list.size() ) {
@@ -151,12 +193,19 @@ void Creature_tracker::remove( const int idx )
 
     monster &m = *monsters_list[idx];
     remove_from_location_map( m );
+    remove_from_id_map( m );
 
     delete monsters_list[idx];
     monsters_list.erase( monsters_list.begin() + idx );
 
     // Fix indices in monsters_by_location for any zombies that were just moved down 1 place.
     for( auto &elem : monsters_by_location ) {
+        if( elem.second > ( size_t )idx ) {
+            --elem.second;
+        }
+    }
+
+    for( auto &elem : monsters_by_id ) {
         if( elem.second > ( size_t )idx ) {
             --elem.second;
         }
@@ -170,6 +219,7 @@ void Creature_tracker::clear()
     }
     monsters_list.clear();
     monsters_by_location.clear();
+    monsters_by_id.clear();
 }
 
 void Creature_tracker::rebuild_cache()
@@ -177,6 +227,7 @@ void Creature_tracker::rebuild_cache()
     monsters_by_location.clear();
     for( size_t i = 0; i < monsters_list.size(); i++ ) {
         monster &critter = *monsters_list[i];
+        monsters_by_id[critter.get_id()] = i;
         monsters_by_location[critter.pos()] = i;
     }
 }

@@ -503,6 +503,11 @@ class Creature
 
         bool fake;
 
+        /**
+         * Global id of the critter. Must be unique in a given world.
+         */
+        long global_id;
+
         Creature();
         Creature(const Creature &) = default;
         Creature(Creature &&) = default;
@@ -514,6 +519,13 @@ class Creature
 
  public:
         body_part select_body_part(Creature *source, int hit_roll) const;
+        long get_id() const {
+            return global_id;
+        }
+
+        void set_id( long new_id ) {
+            global_id = new_id;
+        }
  protected:
         /**
          * This function replaces the "<npcname>" substring with the provided NPC name.

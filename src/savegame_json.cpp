@@ -1894,6 +1894,8 @@ void faction::serialize(JsonOut &json) const
 
 void Creature::store( JsonOut &jsout ) const
 {
+    jsout.member( "global_id", global_id );
+
     jsout.member( "moves", moves );
     jsout.member( "pain", pain );
 
@@ -1943,6 +1945,10 @@ void Creature::store( JsonOut &jsout ) const
 
 void Creature::load( JsonObject &jsin )
 {
+    if( !jsin.read( "global_id", global_id ) ) {
+        global_id = 0;
+    }
+
     jsin.read( "moves", moves );
     jsin.read( "pain", pain );
 

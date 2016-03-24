@@ -258,6 +258,10 @@ class game
         Creature *critter_at( const tripoint &p, bool allow_hallucination = false );
         Creature const* critter_at( const tripoint &p, bool allow_hallucination = false ) const;
 
+        /** Retuns the creature with a given id if it exists in the bubble. */
+        Creature *critter_with_id( long id );
+        Creature const* critter_with_id( long id ) const;
+
         /** Summons a brand new monster at the current time. Returns the summoned monster. */
         bool summon_mon( const mtype_id& id, const tripoint &p );
         /** Calls the creature_tracker add function. Returns true if successful. */
@@ -374,6 +378,7 @@ class game
         void reset_light_level();
         int assign_npc_id();
         int assign_faction_id();
+        long assign_creature_id();
         faction *faction_by_ident(std::string ident);
         Creature *is_hostile_nearby();
         Creature *is_hostile_very_close();
@@ -799,8 +804,8 @@ private:
 
         // ########################## DATA ################################
 
-        int last_target; // The last monster targeted
-        bool last_target_was_npc;
+        // The last creature targeted
+        long last_target;
         safe_mode_type safe_mode;
         std::vector<int> new_seen_mon;
         int mostseen;  // # of mons seen last turn; if this increases, set safe_mode to SAFE_MODE_STOP
@@ -812,6 +817,7 @@ private:
         calendar nextspawn; // The turn on which monsters will spawn next.
         calendar nextweather; // The turn on which weather will shift next.
         int next_npc_id, next_faction_id, next_mission_id; // Keep track of UIDs
+        long next_creature_id;
         int grscent[SEEX *MAPSIZE][SEEY *MAPSIZE];   // The scent map
         int nulscent;    // Returned for OOB scent checks
         std::list<event> events;         // Game events to be processed

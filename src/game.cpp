@@ -676,8 +676,9 @@ void game::setup()
     next_npc_id = 1;
     next_faction_id = 1;
     next_mission_id = 1;
-    last_target = -1;  // We haven't targeted any monsters yet
-    last_target_was_npc = false;
+    // Creature id 1 has to be the player
+    next_creature_id = 2;
+    last_target = -1;  // We haven't targeted any critters yet
     new_game = true;
     uquit = QUIT_NO;   // We haven't quit the game
     bVMonsterLookFire = true;
@@ -880,8 +881,22 @@ void game::load_npcs()
         if (temp->marked_for_death) {
             temp->die( nullptr );
         } else {
-            if (temp->my_fac != NULL)
+            if( temp->my_fac != NULL ) {
                 temp->my_fac->known_by_u = true;
+            }
+            if( temp->get_id() == 0 ) {
+                temp->set_id( assign_creature_id() );
+            }
+
+            const Creature *other = critter_with_id( temp->get_id() );
+            while( other != nullptr && other != temp ) {
+                debugmsg( "%s had id %ld, which belongs to %s",
+                          temp->disp_name().c_str(), temp->get_id(),
+                          other->disp_name().c_str() );
+                temp->set_id( assign_creature_id() );
+                other = critter_with_id( temp->get_id() );
+            }
+
             active_npc.push_back( temp );
             just_added.push_back( temp );
         }
@@ -3458,6 +3473,7 @@ void game::load(std::string worldname, std::string name)
     // Now load up the master game data; factions (and more?)
     load_master(worldname);
     u = player();
+    u.set_id( 1 );
     u.name = base64_decode(name);
     // This should be initialized more globally (in player/Character constructor)
     u.ret_null = item( "null", 0 );
@@ -5752,6 +5768,13 @@ int game::assign_faction_id()
     return ret;
 }
 
+long game::assign_creature_id()
+{
+    long ret = next_creature_id;
+    next_creature_id++;
+    return ret;
+}
+
 faction *game::faction_by_ident(std::string id)
 {
     for( auto &elem : factions ) {
@@ -6852,6 +6875,30 @@ Creature const* game::critter_at( const tripoint &p, bool allow_hallucination ) 
     return const_cast<game*>(this)->critter_at( p, allow_hallucination );
 }
 
+Creature *game::critter_with_id( long id )
+{
+    if( id == 1 ) {
+        return &u;
+    }
+
+    monster *mon = critter_tracker->by_id( id );
+    if( mon != nullptr ) {
+        return mon;
+    }
+
+    for( size_t i = 0; i < active_npc.size(); i++ ) {
+        if( active_npc[i]->get_id() == id ) {
+            return active_npc[i];
+        }
+    }
+
+    return nullptr;
+}
+Creature const *game::critter_with_id( long id ) const
+{
+    return const_cast<game*>(this)->critter_with_id( id );
+}
+
 bool game::summon_mon( const mtype_id& id, const tripoint &p )
 {
     monster mon( id );
@@ -6899,11 +6946,6 @@ bool game::update_zombie_pos( const monster &critter, const tripoint &pos )
 
 void game::remove_zombie(const int idx)
 {
-    if( last_target == idx && !last_target_was_npc ) {
-        last_target = -1;
-    } else if( last_target > idx && !last_target_was_npc ) {
-        last_target--;
-    }
     critter_tracker->remove(idx);
 }
 
@@ -8295,6 +8337,9 @@ void game::print_object_info( const tripoint &lp, WINDOW *w_look, const int colu
             critter->draw( w_terrain, lp, true );
         }
         line = critter->print_info( w_look, line, 6, column );
+        if( debug_mode ) {
+            mvwprintw( w_look, line++, column, "ID: %lu", critter->get_id() );
+        }
     } else if (veh) {
         mvwprintw(w_look, line++, column, _("There is a %s there. Parts:"), veh->name.c_str());
         line = veh->print_part_desc(w_look, line, (mouse_hover) ? getmaxx(w_look) : 48, veh_part);
@@ -9910,7 +9955,8 @@ int game::list_monsters(const int iLastState)
             } else if (action == "fire") {
                 if( cCurMon != nullptr &&
                     rl_dist( u.pos(), cCurMon->pos() ) <= iWeaponRange) {
-                    last_target = mon_at( cCurMon->pos(), true );
+                    int mon_id = mon_at( cCurMon->pos(), true );
+                    last_target = mon_id >= 0 ? zombie( mon_id ).get_id() : -1;
                     u.view_offset = stored_view_offset;
                     return 2;
                 }
@@ -10613,12 +10659,7 @@ std::vector<tripoint> game::pl_target_ui( tripoint &p, int range, item *relevant
                                           const tripoint &default_target )
 {
     // Populate a list of targets with the zombies in range and visible
-    const Creature *last_target_critter = nullptr;
-    if (last_target >= 0 && !last_target_was_npc && size_t(last_target) < num_zombies()) {
-        last_target_critter = &zombie(last_target);
-    } else if (last_target >= 0 && last_target_was_npc && size_t(last_target) < active_npc.size()) {
-        last_target_critter = active_npc[last_target];
-    }
+    const Creature *last_target_critter = critter_with_id( last_target );
     auto mon_targets = u.get_targetable_creatures( range );
     std::sort(mon_targets.begin(), mon_targets.end(), compare_by_dist_attitude { u } );
     int passtarget = -1;
@@ -10635,6 +10676,7 @@ std::vector<tripoint> game::pl_target_ui( tripoint &p, int range, item *relevant
             break;
         }
     }
+debugmsg("last_target: %ld, passtarget: %d", last_target, passtarget);
     // target() sets x and y, and returns an empty vector if we canceled (Esc)
     const tripoint range_point( range, range, range );
     std::vector<tripoint> trajectory = target( p, u.pos() - range_point, u.pos() + range_point,
@@ -10644,24 +10686,23 @@ std::vector<tripoint> game::pl_target_ui( tripoint &p, int range, item *relevant
         // Make it our default for next time
         int id = npc_at( p );
         if (id >= 0) {
-            last_target = id;
-            last_target_was_npc = true;
-            if(!active_npc[id]->is_enemy()){
-                if (!query_yn(_("Really attack %s?"), active_npc[id]->name.c_str())) {
+            npc &np = *active_npc[id];
+            last_target = np.get_id();
+            if(!np.is_enemy()){
+                if (!query_yn(_("Really attack %s?"), np.name.c_str())) {
                     std::vector<tripoint> trajectory_blank;
                     return trajectory_blank; // Cancel the attack
                 } else {
                     //The NPC knows we started the fight, used for morale penalty.
-                    active_npc[id]->hit_by_player = true;
+                    np.hit_by_player = true;
                 }
             }
-            active_npc[id]->make_angry();
+            np.make_angry();
         } else {
             id = mon_at( p, true );
-            if (id >= 0) {
-                last_target = id;
-                last_target_was_npc = false;
-                zombie(last_target).add_effect( effect_hit_by_player, 100);
+            if( id >= 0 ) {
+                last_target = zombie( id ).get_id();
+                zombie( id ).add_effect( effect_hit_by_player, 100 );
             }
         }
     }
