@@ -5687,6 +5687,17 @@ bool item::is_dangerous() const
     } );
 }
 
+bool item::is_soft() const
+{
+    // @todo Make this a material property
+    // @todo Add a SOFT flag (for chainmail and the like)
+    static const std::vector<std::string> soft_mats = {{
+        "cotton", "leather", "wool", "nomex"
+    }};
+
+    return made_of_any( soft_mats );
+}
+
 bool item::is_reloadable() const
 {
     if( !is_gun() && !is_tool() && !is_magazine() ) {

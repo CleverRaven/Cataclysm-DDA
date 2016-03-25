@@ -89,6 +89,8 @@ void mutation_branch::load( JsonObject &jsobj )
     new_mut.mixed_effect = jsobj.get_bool("mixed_effect", false);
     new_mut.activated = jsobj.get_bool("active", false);
     new_mut.starts_active = jsobj.get_bool("starts_active", false);
+    new_mut.destroys_gear = jsobj.get_bool("destroys_gear", false);
+    new_mut.allow_soft_gear = jsobj.get_bool("allow_soft_gear", false);
     new_mut.cost = jsobj.get_int("cost", 0);
     new_mut.cooldown = jsobj.get_int("time",0);
     new_mut.hunger = jsobj.get_bool("hunger",false);
@@ -158,6 +160,11 @@ void mutation_branch::load( JsonObject &jsobj )
         std::string part_id = jo.next_string();
         int enc = jo.next_int();
         new_mut.encumbrance_covered[get_body_part_token( part_id )] = enc;
+    }
+
+    jsarr = jsobj.get_array("restricts_gear");
+    while( jsarr.has_more() ) {
+        new_mut.restricts_gear.insert( get_body_part_token( jsarr.next_string() ) );
     }
 }
 

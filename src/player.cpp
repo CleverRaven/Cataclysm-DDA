@@ -9583,126 +9583,17 @@ bool player::can_wear( const item& it, bool alert ) const
     }
 
     if( !it.has_flag( "OVERSIZE" ) ) {
-        if( ( it.covers( bp_hand_l ) || it.covers( bp_hand_r ) ||
-              it.covers( bp_arm_l )  || it.covers( bp_arm_r )  ||
-              it.covers( bp_leg_l )  || it.covers( bp_leg_r )  ||
-              it.covers( bp_foot_l ) || it.covers( bp_foot_r ) ||
-              it.covers( bp_torso )  || it.covers( bp_head) ) &&
-            ( has_trait( "HUGE" ) || has_trait( "HUGE_OK" ) ) ) {
-            if( alert ) {
-                add_msg_if_player( m_info, _( "The %s is much too small to fit your huge body!" ), it.type_name().c_str() );
-            }
-            return false;
-        }
+        for( const std::string &mut : get_mutations() ) {
+            const auto &branch = mutation_branch::get( mut );
+            if( branch.conflicts_with_item( it ) ) {
+                if( alert ) {
+                    add_msg( m_info, _( "Your mutation %s prevents you from wearing that %s." ),
+                             branch.name.c_str(), it.type_name().c_str() );
+                }
 
-        if( ( it.covers( bp_hand_l ) || it.covers( bp_hand_r ) ) &&
-            ( has_trait( "ARM_TENTACLES" ) || has_trait( "ARM_TENTACLES_4" ) || has_trait( "ARM_TENTACLES_8" ) ) ) {
-            if( alert ) {
-                add_msg_if_player( m_info, _( "You cannot put %s over your tentacles." ), it.type_name().c_str() );
+                return false;
             }
-            return false;
         }
-
-        if( ( it.covers( bp_hand_l ) || it.covers( bp_hand_r ) ) && has_trait( "TALONS" ) ) {
-            if( alert ) {
-                add_msg_if_player( m_info, _( "You cannot put %s over your talons." ), it.type_name().c_str() );
-            }
-            return false;
-        }
-
-        if( ( it.covers( bp_hand_l ) || it.covers( bp_hand_r ) ) &&
-            ( has_trait( "PAWS" ) || has_trait( "PAWS_LARGE" ) ) ) {
-            if( alert ) {
-                add_msg_if_player( m_info, _( "You cannot get %s to stay on your paws." ), it.type_name().c_str() );
-            }
-            return false;
-        }
-
-        if( it.covers( bp_mouth ) && ( has_trait( "BEAK" ) || has_trait( "BEAK_PECK" ) || has_trait( "BEAK_HUM" ) ) ) {
-            if( alert ) {
-                add_msg_if_player( m_info, _( "You cannot put a %s over your beak." ), it.type_name().c_str() );
-            }
-            return false;
-        }
-
-        if( it.covers( bp_mouth ) &&
-            (has_trait( "MUZZLE" ) || has_trait( "MUZZLE_BEAR" ) || has_trait( "MUZZLE_LONG" ) || has_trait( "MUZZLE_RAT" ) ) ) {
-            if( alert ) {
-                add_msg_if_player( m_info, _( "You cannot fit the %s over your muzzle." ), it.type_name().c_str() );
-            }
-            return false;
-        }
-
-        if( it.covers( bp_mouth ) && has_trait( "MINOTAUR" ) ) {
-            if( alert ) {
-                add_msg_if_player( m_info, _( "You cannot fit the %s over your snout." ), it.type_name().c_str() );
-            }
-            return false;
-        }
-
-        if( it.covers( bp_mouth ) && has_trait( "SABER_TEETH" ) ) {
-            if( alert ) {
-                add_msg_if_player( m_info, _( "Your saber teeth are simply too large for %s to fit." ), it.type_name().c_str() );
-            }
-            return false;
-        }
-
-        if( it.covers(bp_mouth) && has_trait("MANDIBLES") ) {
-            if( alert ) {
-                add_msg_if_player(_("Your mandibles are simply too large for %s to fit."), it.type_name().c_str());
-            }
-            return false;
-        }
-
-        if( it.covers(bp_mouth) && has_trait( "PROBOSCIS" ) ) {
-            if( alert ) {
-                add_msg_if_player( m_info, _( "Your proboscis is simply too large for %s to fit." ), it.type_name().c_str() );
-            }
-            return false;
-        }
-
-        if( ( it.covers( bp_foot_l ) || it.covers( bp_foot_r ) ) && has_trait( "HOOVES" ) ) {
-            if( alert ) {
-                add_msg_if_player( m_info, _( "You cannot wear footwear on your hooves." ) );
-            }
-            return false;
-        }
-
-        if( ( it.covers( bp_foot_l ) || it.covers( bp_foot_r ) ) && has_trait( "LEG_TENTACLES" ) ) {
-            if( alert ) {
-                add_msg_if_player( m_info, _( "You cannot wear footwear on your tentacles." ) );
-            }
-            return false;
-        }
-
-        if( ( it.covers( bp_foot_l ) || it.covers( bp_foot_r ) ) && has_trait( "RAP_TALONS" ) ) {
-            if( alert ) {
-                add_msg_if_player( m_info, _( "Your talons are much too large for footgear." ) );
-            }
-            return false;
-        }
-
-        if( it.covers( bp_head ) && has_trait( "HORNS_CURLED" ) ) {
-            if( alert ) {
-                add_msg_if_player( m_info, _( "You cannot wear headgear over your horns." ) );
-            }
-            return false;
-        }
-
-        if( it.covers( bp_torso ) && (has_trait( "SHELL" ) || has_trait( "SHELL2" ) ) ) {
-            if( alert ) {
-                add_msg_if_player( m_info, _( "You cannot fit that over your shell." ) );
-            }
-            return false;
-        }
-
-        if( it.covers( bp_torso ) && ( has_trait( "INSECT_ARMS" ) || has_trait( "ARACHNID_ARMS" ) ) ) {
-            if( alert ) {
-                add_msg_if_player( m_info, _( "Your new limbs are too wriggly to fit under that." ) );
-            }
-            return false;
-        }
-
         if( it.covers(bp_head) &&
             !it.made_of( "wool" ) && !it.made_of( "cotton" ) &&
             !it.made_of( "nomex" ) && !it.made_of( "leather" ) &&
