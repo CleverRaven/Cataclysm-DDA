@@ -2829,7 +2829,7 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_zombie_mancroc",
-    "name": "",
+    "name": "zombie snapper",
     "species":"ZOMBIE",
     "default_faction":"zombie",
     "symbol":"Z",
