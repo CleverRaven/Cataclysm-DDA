@@ -1,8 +1,6 @@
 #!/usr/bin/env python
 "Extract translatable strings from the .json files in data/json."
 
-from __future__ import print_function
-
 import json
 import os
 
