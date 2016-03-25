@@ -431,6 +431,16 @@ struct islot_artifact {
     std::vector<art_effect_passive> effects_worn;
 };
 
+template <typename T>
+class copyable_unique_ptr : public std::unique_ptr<T> {
+    public:
+        copyable_unique_ptr() = default;
+        copyable_unique_ptr( copyable_unique_ptr&& rhs ) = default;
+
+        copyable_unique_ptr( const copyable_unique_ptr<T>& rhs )
+            : std::unique_ptr<T>( rhs ? new T( *rhs ) : nullptr ) {}
+};
+
 struct itype {
     friend class Item_factory;
 
@@ -443,19 +453,19 @@ struct itype {
      * this before using it.
      */
     /*@{*/
-    std::unique_ptr<islot_container> container;
-    std::unique_ptr<islot_armor> armor;
-    std::unique_ptr<islot_book> book;
-    std::unique_ptr<islot_gun> gun;
-    std::unique_ptr<islot_gunmod> gunmod;
-    std::unique_ptr<islot_magazine> magazine;
-    std::unique_ptr<islot_variable_bigness> variable_bigness;
-    std::unique_ptr<islot_bionic> bionic;
-    std::unique_ptr<islot_software> software;
-    std::unique_ptr<islot_spawn> spawn;
-    std::unique_ptr<islot_ammo> ammo;
-    std::unique_ptr<islot_seed> seed;
-    std::unique_ptr<islot_artifact> artifact;
+    copyable_unique_ptr<islot_container> container;
+    copyable_unique_ptr<islot_armor> armor;
+    copyable_unique_ptr<islot_book> book;
+    copyable_unique_ptr<islot_gun> gun;
+    copyable_unique_ptr<islot_gunmod> gunmod;
+    copyable_unique_ptr<islot_magazine> magazine;
+    copyable_unique_ptr<islot_variable_bigness> variable_bigness;
+    copyable_unique_ptr<islot_bionic> bionic;
+    copyable_unique_ptr<islot_software> software;
+    copyable_unique_ptr<islot_spawn> spawn;
+    copyable_unique_ptr<islot_ammo> ammo;
+    copyable_unique_ptr<islot_seed> seed;
+    copyable_unique_ptr<islot_artifact> artifact;
     /*@}*/
 protected:
     // private because is should only be accessed through itype::nname!
