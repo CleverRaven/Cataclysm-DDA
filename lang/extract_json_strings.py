@@ -456,9 +456,7 @@ def writestr(filename, string, plural=None, context=None, format_strings=False, 
 def tlcomment(fs, string):
     "Write the string to the file as a comment for translators."
     if len(string) > 0:
-        fs.write("#~ ")
-        fs.write(string.encode('utf-8'))
-        fs.write("\n")
+        fs.write("#~ {}\n".format(string))
 
 def get_outfile(json_object_type):
     return os.path.join(to_dir, json_object_type + "_from_json.py")
