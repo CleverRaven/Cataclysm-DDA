@@ -2,6 +2,51 @@
     {
         "type" : "snippet",
         "category" : "<swear!>",
-        "text": "SWEAR_I"
+        "text" : "fuck"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<swear!>",
+        "text" : "damn"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<swear!>",
+        "text" : "damnit"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<swear!>",
+        "text" : "shit"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<swear!>",
+        "text" : "fuckit"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<swear!>",
+        "text" : "crap"
+    },
+        {
+        "type" : "snippet",
+        "category" : "<swear!>",
+        "text" : "motherfucker"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<swear!>",
+        "text" : "<swear><punc> <swear!>"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<swear!>",
+        "text" : "<very> <swear!>"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<swear!>",
+        "text" : "son of an ass"
     }
 ]

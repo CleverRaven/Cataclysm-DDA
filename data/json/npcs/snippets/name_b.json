@@ -2,6 +2,51 @@
     {
         "type" : "snippet",
         "category" : "<name_b>",
-        "text": "NAME_B"
+        "text" : "punk"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<name_b>",
+        "text" : "loser"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<name_b>",
+        "text" : "dickhead"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<name_b>",
+        "text" : "asshole"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<name_b>",
+        "text" : "fucker"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<name_b>",
+        "text" : "sucker"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<name_b>",
+        "text" : "fuckwad"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<name_b>",
+        "text" : "jerk"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<name_b>",
+        "text" : "motherfucker"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<name_b>",
+        "text" : "shithead"
     }
 ]

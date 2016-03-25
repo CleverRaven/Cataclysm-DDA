@@ -2,6 +2,51 @@
     {
         "type" : "snippet",
         "category" : "<yawn>",
-        "text": "YAWN"
+        "text" : "When we sleepin'?"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<yawn>",
+        "text" : "*Yawn*"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<yawn>",
+        "text" : "What time is it?"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<yawn>",
+        "text" : "I'm tired..."
+    },
+    {
+        "type" : "snippet",
+        "category" : "<yawn>",
+        "text" : "I'm <swear> tired."
+    },
+    {
+        "type" : "snippet",
+        "category" : "<yawn>",
+        "text" : "Can we rest for a while, <name_g>?"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<yawn>",
+        "text" : "I <really> need to rest."
+    },
+    {
+        "type" : "snippet",
+        "category" : "<yawn>",
+        "text" : "<ill_die> if we don't stop for a moment."
+    },
+    {
+        "type" : "snippet",
+        "category" : "<yawn>",
+        "text" : "Did you know that lack of rest kills faster than lack of food?"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<yawn>",
+        "text" : "I'll just go to sleep, <okay>?"
     }
 ]

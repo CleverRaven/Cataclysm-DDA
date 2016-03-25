@@ -2,6 +2,51 @@
     {
         "type" : "snippet",
         "category" : "<keep_up>",
-        "text": "KEEP_UP"
+        "text" : "Catch up!"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<keep_up>",
+        "text" : "Get over here!"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<keep_up>",
+        "text" : "Catch up, <name_g>!"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<keep_up>",
+        "text" : "Keep up!"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<keep_up>",
+        "text" : "Come on, <catch_up>!"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<keep_up>",
+        "text" : "Keep it moving!"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<keep_up>",
+        "text" : "Stay with me!"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<keep_up>",
+        "text" : "Keep close!"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<keep_up>",
+        "text" : "Stay close!"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<keep_up>",
+        "text" : "Let's keep going!"
     }
 ]

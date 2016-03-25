@@ -2,6 +2,51 @@
     {
         "type" : "snippet",
         "category" : "<name_g>",
-        "text": "NAME_G"
+        "text" : "stranger"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<name_g>",
+        "text" : "friend"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<name_g>",
+        "text" : "pilgrim"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<name_g>",
+        "text" : "traveler"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<name_g>",
+        "text" : "pal"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<name_g>",
+        "text" : "fella"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<name_g>",
+        "text" : "you"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<name_g>",
+        "text" : "dude"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<name_g>",
+        "text" : "buddy"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<name_g>",
+        "text" : "man"
     }
 ]

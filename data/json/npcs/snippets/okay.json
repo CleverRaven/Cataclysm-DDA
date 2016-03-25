@@ -2,6 +2,46 @@
     {
         "type" : "snippet",
         "category" : "<okay>",
-        "text": "OKAY"
+        "text" : "okay"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<okay>",
+        "text" : "get it"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<okay>",
+        "text" : "you dig"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<okay>",
+        "text" : "dig"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<okay>",
+        "text" : "got it"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<okay>",
+        "text" : "you see"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<okay>",
+        "text" : "see, <name_g>"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<okay>",
+        "text" : "alright"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<okay>",
+        "text" : "that clear"
     }
 ]

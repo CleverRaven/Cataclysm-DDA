@@ -2,6 +2,51 @@
     {
         "type" : "snippet",
         "category" : "<really>",
-        "text": "REALLY"
+        "text" : "really"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<really>",
+        "text" : "fucking"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<really>",
+        "text" : "absolutely"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<really>",
+        "text" : "definitely"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<really>",
+        "text" : "for real"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<really>",
+        "text" : "honestly"
+    },
+        {
+        "type" : "snippet",
+        "category" : "<really>",
+        "text" : "<really> <really>"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<really>",
+        "text" : "most <really>"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<really>",
+        "text" : "urgently"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<really>",
+        "text" : "REALLY"
     }
 ]

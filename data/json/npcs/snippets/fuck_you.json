@@ -2,6 +2,51 @@
     {
         "type" : "snippet",
         "category" : "<fuck_you>",
-        "text": "FUCK_YOU"
+        "text" : "fuck you"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<fuck_you>",
+        "text" : "fuck off"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<fuck_you>",
+        "text" : "go fuck yourself"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<fuck_you>",
+        "text" : "<fuck_you>, <name_b>"
+    },
+        {
+        "type" : "snippet",
+        "category" : "<fuck_you>",
+        "text" : "<fuck_you>, <swear> <name_b>"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<fuck_you>",
+        "text" : "<name_b>"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<fuck_you>",
+        "text" : "<swear> <name_b>"
+    },
+        {
+        "type" : "snippet",
+        "category" : "<fuck_you>",
+        "text" : "fuck you"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<fuck_you>",
+        "text" : "fuck off"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<fuck_you>",
+        "text" : "go fuck yourself"
     }
 ]

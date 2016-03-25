@@ -2,6 +2,51 @@
     {
         "type" : "snippet",
         "category" : "<ill_die>",
-        "text": "ILL_DIE"
+        "text" : "I'm not gonna last much longer"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<ill_die>",
+        "text" : "I'll be dead soon"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<ill_die>",
+        "text" : "I'll be a goner"
+    },
+        {
+        "type" : "snippet",
+        "category" : "<ill_die>",
+        "text" : "I'm dead, <name_g>,"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<ill_die>",
+        "text" : "I'm dead meat"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<ill_die>",
+        "text" : "I'm in <very> serious trouble"
+    },
+        {
+        "type" : "snippet",
+        "category" : "<ill_die>",
+        "text" : "I'm <very> doomed"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<ill_die>",
+        "text" : "I'm done for"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<ill_die>",
+        "text" : "I won't last much longer"
+    },
+        {
+        "type" : "snippet",
+        "category" : "<ill_die>",
+        "text" : "my days are <really> numbered"
     }
 ]

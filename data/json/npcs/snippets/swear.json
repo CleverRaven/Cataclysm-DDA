@@ -2,6 +2,51 @@
     {
         "type" : "snippet",
         "category" : "<swear>",
-        "text": "SWEAR"
+        "text" : "fucking"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<swear>",
+        "text" : "goddamn"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<swear>",
+        "text" : "motherfucking"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<swear>",
+        "text" : "freaking"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<swear>",
+        "text" : "damn"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<swear>",
+        "text" : "<swear> <swear>"
+    },
+        {
+        "type" : "snippet",
+        "category" : "<swear>",
+        "text" : "fucking"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<swear>",
+        "text" : "fuckin'"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<swear>",
+        "text" : "god damn"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<swear>",
+        "text" : "mafuckin'"
     }
 ]

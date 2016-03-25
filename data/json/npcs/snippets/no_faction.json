@@ -2,6 +2,51 @@
     {
         "type" : "snippet",
         "category" : "<no_faction>",
-        "text": "NO_FACTION"
+        "text" : "I'm unaffiliated."
+    },
+        {
+        "type" : "snippet",
+        "category" : "<no_faction>",
+        "text" : "I don't run with a crew."
+    },
+        {
+        "type" : "snippet",
+        "category" : "<no_faction>",
+        "text" : "I'm a solo artist, <okay>?"
+    },
+        {
+        "type" : "snippet",
+        "category" : "<no_faction>",
+        "text" : "I don't kowtow to any group, <okay>?"
+    },
+        {
+        "type" : "snippet",
+        "category" : "<no_faction>",
+        "text" : "I'm a freelancer."
+    },
+        {
+        "type" : "snippet",
+        "category" : "<no_faction>",
+        "text" : "I work alone, <name_g>."
+    },
+        {
+        "type" : "snippet",
+        "category" : "<no_faction>",
+        "text" : "I'm a free agent, more money that way."
+    },
+        {
+        "type" : "snippet",
+        "category" : "<no_faction>",
+        "text" : "I prefer to work uninhibited by that kind of connection."
+    },
+        {
+        "type" : "snippet",
+        "category" : "<no_faction>",
+        "text" : "I haven't found one that's good enough for me."
+    },
+        {
+        "type" : "snippet",
+        "category" : "<no_faction>",
+        "text" : "I don't belong to a faction, <name_g>."
     }
 ]

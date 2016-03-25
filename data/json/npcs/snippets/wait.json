@@ -2,6 +2,51 @@
     {
         "type" : "snippet",
         "category" : "<wait>",
-        "text": "WAIT"
+        "text" : "Hey, where are you?"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<wait>",
+        "text" : "Wait up, <name_g>!"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<wait>",
+        "text" : "<name_g>, wait for me!"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<wait>",
+        "text" : "Hey, wait up, <okay>?"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<wait>",
+        "text" : "You <really> need to wait for me!"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<wait>",
+        "text" : "You <swear> need to wait!"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<wait>",
+        "text" : "<name_g>, where are you?"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<wait>",
+        "text" : "Hey <name_g><punc> Wait for me!"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<wait>",
+        "text" : "Where are you?!"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<wait>",
+        "text" : "Hey, I'm over here!"
     }
 ]

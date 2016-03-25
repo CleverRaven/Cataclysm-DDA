@@ -2,6 +2,51 @@
     {
         "type" : "snippet",
         "category" : "<no>",
-        "text": "NO"
+        "text" : "no"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<no>",
+        "text" : "fuck no"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<no>",
+        "text" : "hell no"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<no>",
+        "text" : "no way"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<no>",
+        "text" : "not a chance"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<no>",
+        "text" : "I don't think so"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<no>",
+        "text" : "no way in hell"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<no>",
+        "text" : "nuh uh"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<no>",
+        "text" : "nope"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<no>",
+        "text" : "fat chance"
     }
 ]

@@ -2,6 +2,51 @@
     {
         "type" : "snippet",
         "category" : "<very>",
-        "text": "VERY"
+        "text" : "really"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<very>",
+        "text" : "fucking"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<very>",
+        "text" : "super"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<very>",
+        "text" : "wicked"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<very>",
+        "text" : "very"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<very>",
+        "text" : "mega"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<very>",
+        "text" : "uber"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<very>",
+        "text" : "ultra"
+    },
+        {
+        "type" : "snippet",
+        "category" : "<very>",
+        "text" : "so <very>"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<very>",
+        "text" : "<very> <very>"
     }
 ]

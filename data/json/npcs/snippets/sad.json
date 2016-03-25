@@ -2,6 +2,46 @@
     {
         "type" : "snippet",
         "category" : "<sad>",
-        "text": "SAD"
+        "text" : "sad"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<sad>",
+        "text" : "bummed"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<sad>",
+        "text" : "depressed"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<sad>",
+        "text" : "pissed"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<sad>",
+        "text" : "unhappy"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<sad>",
+        "text" : "<very> <sad>"
+    },
+        {
+        "type" : "snippet",
+        "category" : "<sad>",
+        "text" : "dejected"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<sad>",
+        "text" : "down"
+    },
+        {
+        "type" : "snippet",
+        "category" : "<sad>",
+        "text" : "glum"
     }
 ]

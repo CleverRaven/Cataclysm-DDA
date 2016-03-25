@@ -2,6 +2,51 @@
     {
         "type" : "snippet",
         "category" : "<hungry>",
-        "text": "HUNGRY"
+        "text" : "When we eatin'?"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<hungry>",
+        "text" : "I'd eat a burger if I had one."
+    },
+    {
+        "type" : "snippet",
+        "category" : "<hungry>",
+        "text" : "Perfect time for a lunch break."
+    },
+    {
+        "type" : "snippet",
+        "category" : "<hungry>",
+        "text" : "I'm hungry..."
+    },
+    {
+        "type" : "snippet",
+        "category" : "<hungry>",
+        "text" : "I'm <swear> hungry."
+    },
+    {
+        "type" : "snippet",
+        "category" : "<hungry>",
+        "text" : "So, <name_g>, when we eatin'?"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<hungry>",
+        "text" : "I <really> need to eat something."
+    },
+    {
+        "type" : "snippet",
+        "category" : "<hungry>",
+        "text" : "<ill_die> if I don't get some food."
+    },
+    {
+        "type" : "snippet",
+        "category" : "<hungry>",
+        "text" : "Consider this idea: you give me food and I eat it."
+    },
+    {
+        "type" : "snippet",
+        "category" : "<hungry>",
+        "text" : "Did you know that lack of food kills faster than chain smoking?"
     }
 ]

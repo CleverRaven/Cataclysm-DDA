@@ -2,6 +2,51 @@
     {
         "type" : "snippet",
         "category" : "<let_me_pass>",
-        "text": "LET_ME_PASS"
+        "text" : "Excuse me, let me pass."
+    },
+    {
+        "type" : "snippet",
+        "category" : "<let_me_pass>",
+        "text" : "Hey <name_g>, can I get through?"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<let_me_pass>",
+        "text" : "Let me get past you, <name_g>."
+    },
+    {
+        "type" : "snippet",
+        "category" : "<let_me_pass>",
+        "text" : "Let me through, <okay>?"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<let_me_pass>",
+        "text" : "Can I get past you, <name_g>?"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<let_me_pass>",
+        "text" : "I need to get past you, <name_g>."
+    },
+    {
+        "type" : "snippet",
+        "category" : "<let_me_pass>",
+        "text" : "Move your <swear> ass, <name_b>!"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<let_me_pass>",
+        "text" : "Out of my way, <name_b>!"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<let_me_pass>",
+        "text" : "Move it, <name_g>!"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<let_me_pass>",
+        "text" : "You need to move, <name_g>, <okay>?"
     }
 ]

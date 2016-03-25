@@ -2,6 +2,51 @@
     {
         "type" : "snippet",
         "category" : "<greet>",
-        "text": "GREET"
+        "text" : "Hey <name_g>."
+    },
+    {
+        "type" : "snippet",
+        "category" : "<greet>",
+        "text" : "Greetings <name_g>."
+    },
+    {
+        "type" : "snippet",
+        "category" : "<greet>",
+        "text" : "Hi <name_g><punc> You okay?"
+    },
+        {
+        "type" : "snippet",
+        "category" : "<greet>",
+        "text" : "<name_g><punc>  Let's talk."
+    },
+    {
+        "type" : "snippet",
+        "category" : "<greet>",
+        "text" : "Well hey there."
+    },
+        {
+        "type" : "snippet",
+        "category" : "<greet>",
+        "text" : "<name_g><punc>  Hello."
+    },
+    {
+        "type" : "snippet",
+        "category" : "<greet>",
+        "text" : "What's up, <name_g>?"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<greet>",
+        "text" : "You okay, <name_g>?"
+    },
+        {
+        "type" : "snippet",
+        "category" : "<greet>",
+        "text" : "Hello, <name_g>."
+    },
+    {
+        "type" : "snippet",
+        "category" : "<greet>",
+        "text" : "Hi <name_g>"
     }
 ]

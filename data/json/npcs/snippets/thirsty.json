@@ -2,6 +2,51 @@
     {
         "type" : "snippet",
         "category" : "<thirsty>",
-        "text": "THIRSTY"
+        "text" : "When we drinkin'?"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<thirsty>",
+        "text" : "When was the last time I had a drink?"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<thirsty>",
+        "text" : "I'm parched, I need to drink something."
+    },
+    {
+        "type" : "snippet",
+        "category" : "<thirsty>",
+        "text" : "I'm thirsty..."
+    },
+    {
+        "type" : "snippet",
+        "category" : "<thirsty>",
+        "text" : "I'm <swear> thirsty."
+    },
+    {
+        "type" : "snippet",
+        "category" : "<thirsty>",
+        "text" : "Can you give me something to drink, <name_g>?"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<thirsty>",
+        "text" : "I <really> need to get some water."
+    },
+    {
+        "type" : "snippet",
+        "category" : "<thirsty>",
+        "text" : "<ill_die> if I don't drink something."
+    },
+    {
+        "type" : "snippet",
+        "category" : "<thirsty>",
+        "text" : "Water... Is there an oasis nearby?"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<thirsty>",
+        "text" : "Did you know that lack of water kills faster than lack of rest?"
     }
 ]

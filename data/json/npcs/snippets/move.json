@@ -2,6 +2,51 @@
     {
         "type" : "snippet",
         "category" : "<move>",
-        "text": "MOVE"
+        "text" : "Move"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<move>",
+        "text" : "Move your ass"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<move>",
+        "text" : "Get out of the way"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<move>",
+        "text" : "You need to move"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<move>",
+        "text" : "Hey <name_g>, move"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<move>",
+        "text" : "<swear> move it"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<move>",
+        "text" : "Move your <swear> ass"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<move>",
+        "text" : "Get out of my way, <name_b>,"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<move>",
+        "text" : "Move to the side"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<move>",
+        "text" : "Get out of my line of fire"
     }
 ]

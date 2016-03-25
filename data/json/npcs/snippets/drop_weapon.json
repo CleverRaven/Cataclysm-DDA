@@ -1,0 +1,52 @@
+[
+    {
+        "type" : "snippet",
+        "category" : "<drop_weapon>",
+        "text" : "Drop your <swear> weapon!"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<drop_weapon>",
+        "text" : "Okay <name_b>, drop your weapon!"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<drop_weapon>",
+        "text" : "Put your <swear> weapon down!"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<drop_weapon>",
+        "text" : "Drop the <yrwp>, <name_b>!"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<drop_weapon>",
+        "text" : "Drop the <swear> <yrwp>!"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<drop_weapon>",
+        "text" : "Drop your <yrwp>!"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<drop_weapon>",
+        "text" : "Put down the <yrwp>!"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<drop_weapon>",
+        "text" : "Drop your <swear> weapon, <name_b>!"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<drop_weapon>",
+        "text" : "Put down your <yrwp>!"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<drop_weapon>",
+        "text" : "Alright, drop the <yrwp>!"
+    }
+]

@@ -2,6 +2,51 @@
     {
         "type" : "snippet",
         "category" : "<happy>",
-        "text": "HAPPY"
+        "text" : "glad"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<happy>",
+        "text" : "happy"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<happy>",
+        "text" : "overjoyed"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<happy>",
+        "text" : "ecstatic"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<happy>",
+        "text" : "thrilled"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<happy>",
+        "text" : "stoked"
+    },
+        {
+        "type" : "snippet",
+        "category" : "<happy>",
+        "text" : "<very> <happy>"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<happy>",
+        "text" : "tickled pink"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<happy>",
+        "text" : "delighted"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<happy>",
+        "text" : "pumped"
     }
 ]

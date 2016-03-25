@@ -2,6 +2,51 @@
     {
         "type" : "snippet",
         "category" : "<im_leaving_you>",
-        "text": "IM_LEAVING_YOU"
+        "text" : "So long, <name_b>!"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<im_leaving_you>",
+        "text" : "Hasta luego, <name_g>!"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<im_leaving_you>",
+        "text" : "I'm outta here!"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<im_leaving_you>",
+        "text" : "Bye bye, <name_b>!"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<im_leaving_you>",
+        "text" : "So long, <name_b>!"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<im_leaving_you>",
+        "text" : "Hasta luego, <name_g>!"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<im_leaving_you>",
+        "text" : "I'm outta here!"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<im_leaving_you>",
+        "text" : "Bye bye, <name_b>!"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<im_leaving_you>",
+        "text" : "I'm outta here!"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<im_leaving_you>",
+        "text" : "Bye bye, <name_b>!"
     }
 ]

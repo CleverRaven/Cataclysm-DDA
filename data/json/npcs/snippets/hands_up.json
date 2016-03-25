@@ -2,6 +2,51 @@
     {
         "type" : "snippet",
         "category" : "<hands_up>",
-        "text": "HANDS_UP"
+        "text" : "Put your <swear> hands up!"
+    },
+        {
+        "type" : "snippet",
+        "category" : "<hands_up>",
+        "text" : "Put your hands up, <name_b>!"
+    },
+        {
+        "type" : "snippet",
+        "category" : "<hands_up>",
+        "text" : "Reach for the sky!"
+    },
+        {
+        "type" : "snippet",
+        "category" : "<hands_up>",
+        "text" : "Hands up!"
+    },
+        {
+        "type" : "snippet",
+        "category" : "<hands_up>",
+        "text" : "Hands in the air!"
+    },
+        {
+        "type" : "snippet",
+        "category" : "<hands_up>",
+        "text" : "Hands up, <name_b>!"
+    },
+        {
+        "type" : "snippet",
+        "category" : "<hands_up>",
+        "text" : "Hands where I can see them!"
+    },
+        {
+        "type" : "snippet",
+        "category" : "<hands_up>",
+        "text" : "Okay <name_b>, hands up!"
+    },
+        {
+        "type" : "snippet",
+        "category" : "<hands_up>",
+        "text" : "Okay <name_b><punc> hands up!"
+    },
+        {
+        "type" : "snippet",
+        "category" : "<hands_up>",
+        "text" : "Hands in the air, <name_b>!"
     }
 ]

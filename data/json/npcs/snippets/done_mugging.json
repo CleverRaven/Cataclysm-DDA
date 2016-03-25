@@ -2,6 +2,51 @@
     {
         "type" : "snippet",
         "category" : "<done_mugging>",
-        "text": "DONE_MUGGING"
+        "text" : "Thanks for the cash, <name_b>!"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<done_mugging>",
+        "text" : "So long, <name_b>!"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<done_mugging>",
+        "text" : "Thanks a lot, <name_g>!"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<done_mugging>",
+        "text" : "Catch you later, <name_g>!"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<done_mugging>",
+        "text" : "See you later, <name_b>!"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<done_mugging>",
+        "text" : "See you in hell, <name_b>!"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<done_mugging>",
+        "text" : "Hasta luego, <name_g>!"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<done_mugging>",
+        "text" : "I'm outta here! <done_mugging>"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<done_mugging>",
+        "text" : "Bye bye, <name_b>!"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<done_mugging>",
+        "text" : "Thanks, <name_g>!"
     }
 ]

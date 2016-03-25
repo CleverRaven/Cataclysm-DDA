@@ -1,0 +1,47 @@
+[
+    {
+        "type" : "snippet",
+        "category" : "<ill_kill_you>",
+        "text" : "I'll kill you"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<ill_kill_you>",
+        "text" : "you're dead"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<ill_kill_you>",
+        "text" : "I'll <swear> kill you"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<ill_kill_you>",
+        "text" : "you're dead meat"
+    },
+        {
+        "type" : "snippet",
+        "category" : "<ill_kill_you>",
+        "text" : "<ill_kill_you>, <name_b>"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<ill_kill_you>",
+        "text" : "you're a dead <man>"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<ill_kill_you>",
+        "text" : "you'll taste my <mywp>"
+    },
+        {
+        "type" : "snippet",
+        "category" : "<ill_kill_you>",
+        "text" : "you're <swear> dead"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<ill_kill_you>",
+        "text" : "<name_b>, <ill_kill_you>"
+    }
+]
