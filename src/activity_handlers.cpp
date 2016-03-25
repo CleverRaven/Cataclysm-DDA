@@ -280,7 +280,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     stomach = roll_butchery() >= 0;
 
     if( bones > 0 ) {
-        if( corpse->made_of("veggy") ) {
+        if( corpse->made_of( material_id( "veggy" ) ) ) {
             g->m.spawn_item(p->pos(), "plant_sac", bones, 0, age);
             p->add_msg_if_player(m_good, _("You harvest some fluid bladders!"));
         } else if( corpse->has_flag(MF_BONES) && corpse->has_flag(MF_POISON) ) {
@@ -299,7 +299,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         if( corpse->has_flag(MF_BONES) && !corpse->has_flag(MF_POISON) ) {
             g->m.spawn_item(p->pos(), "sinew", sinews, 0, age);
             p->add_msg_if_player(m_good, _("You harvest some usable sinews!"));
-        } else if( corpse->made_of("veggy") ) {
+        } else if( corpse->made_of( material_id( "veggy" ) ) ) {
             g->m.spawn_item(p->pos(), "plant_fibre", sinews, 0, age);
             p->add_msg_if_player(m_good, _("You harvest some plant fibers!"));
         }
