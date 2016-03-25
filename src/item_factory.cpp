@@ -126,28 +126,34 @@ void Item_factory::finalize_item_blacklist()
         if (!has_template(*a)) {
             debugmsg("item on blacklist %s does not exist", a->c_str());
         }
+
     }
-    const bool magazines_blacklisted = item_options.count("blacklist_magazines") != 0;
+
     // Can't be part of the blacklist loop because the magazines might be
     // deleted before the guns are processed.
+    const bool magazines_blacklisted = item_options.count("blacklist_magazines");
+
     if( magazines_blacklisted ) {
-        for( std::pair<const std::string, itype *> &entry : m_templates ) {
-            itype *type = entry.second;
-            // find the guns, look up their default magazine, and add its capacity to the gun.
-            if( !type->gun || type->magazine_default.empty() ) {
+        for( auto& e : m_templates ) {
+            if( !e.second->magazines.empty() ) {
                 continue;
             }
-            itype *default_magazine = m_templates[ type->magazine_default[ type->gun->ammo ] ];
-            type->volume += default_magazine->volume;
-            type->weight += default_magazine->weight;
-            type->gun->clip = default_magazine->magazine->capacity;
-            type->gun->reload_time = default_magazine->magazine->capacity *
-                default_magazine->magazine->reload_time;
-            type->magazines.clear();
-            type->magazine_default.clear();
-            type->magazine_well = 0;
+
+            // check_definitions() guarantees that defmag both exists and is a magazine
+            itype *defmag = m_templates[ e.second->magazine_default[ e.second->gun->ammo ] ].get();
+            e.second->volume += defmag->volume;
+            e.second->weight += defmag->weight;
+            e.second->magazines.clear();
+            e.second->magazine_default.clear();
+            e.second->magazine_well = 0;
+
+            if( e.second->gun ) {
+                e.second->gun->clip = defmag->magazine->capacity;
+                e.second->gun->reload_time = defmag->magazine->capacity * defmag->magazine->reload_time;
+            }
         }
     }
+
     for( std::pair<const std::string, itype *> &entry : m_templates ) {
         const std::string &itm = entry.first;
         if( !item_is_blacklisted( itm ) &&
@@ -589,6 +595,10 @@ void Item_factory::check_definitions() const
                 if( type->item_tags.count( "BIO_WEAPON" ) ) {
                     msg << "BIO_WEAPON must not be specified with an ammo type" << "\n";
                 }
+
+                if( !type->magazines.empty() && !type->magazine_default.count( type->gun->ammo ) ) {
+                    msg << "specified magazine but none provided for default ammo type" << "\n";
+                }
             }
 
             if( type->gun->barrel_length < 0 ) {
@@ -639,10 +649,10 @@ void Item_factory::check_definitions() const
 
         for( const auto& typ : type->magazines ) {
             for( const auto& mag : typ.second ) {
-                magazines_used.insert( mag );
-                if( !has_template( mag ) ){
+                if( !has_template( mag ) || !find_template( mag )->magazine ) {
                     msg << string_format("invalid magazine.") << "\n";
                 }
+                magazines_used.insert( mag );
             }
         }
 
