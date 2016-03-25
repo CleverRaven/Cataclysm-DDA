@@ -25,6 +25,7 @@
 
 bool trigdist;
 bool use_tiles;
+bool force_message_refresh;
 bool log_from_top;
 int message_ttl;
 bool fov_3d;
@@ -1074,6 +1075,13 @@ void options_manager::init()
                                   "show,hide,hidekb", "show", COPT_CURSES_HIDE
                                  );
 
+    ////////////////////////////ACCESSIBILITY INTERFACE////////////////////////
+    mOptionsSort["interface"]++;
+    OPTIONS["FORCE_MESSAGE_REFRESH"] = cOpt("interface", _("Force sidebar log refresh every turn"),
+                                  _("If true, the sidebar message log will be erased every turn before being redrawn. This ensures new messages similar to previous messages will not be missed by screen readers."),
+                                  false, COPT_SDL_HIDE
+                                 );
+
     ////////////////////////////GRAPHICS/////////////////////////
     OPTIONS["ANIMATIONS"] = cOpt("graphics", _("Animations"),
                                  _("If true, will display enabled animations."),
@@ -1813,6 +1821,7 @@ bool options_manager::save(bool ingame)
 
     trigdist = OPTIONS["CIRCLEDIST"]; // update trigdist as well
     use_tiles = OPTIONS["USE_TILES"]; // and use_tiles
+    force_message_refresh = OPTIONS["FORCE_MESSAGE_REFRESH"]; // cache to global due to heavy usage.
     log_from_top = OPTIONS["SIDEBAR_LOG_FLOW"] == "new_top"; // cache to global due to heavy usage.
     message_ttl = OPTIONS["MESSAGE_TTL"]; // cache to global due to heavy usage.
     fov_3d = OPTIONS["FOV_3D"];
@@ -1868,6 +1877,7 @@ void options_manager::load()
 
     trigdist = OPTIONS["CIRCLEDIST"]; // cache to global due to heavy usage.
     use_tiles = OPTIONS["USE_TILES"]; // cache to global due to heavy usage.
+    force_message_refresh = OPTIONS["FORCE_MESSAGE_REFRESH"]; // cache to global due to heavy usage.
     log_from_top = OPTIONS["SIDEBAR_LOG_FLOW"] == "new_top"; // cache to global due to heavy usage.
     message_ttl = OPTIONS["MESSAGE_TTL"]; // cache to global due to heavy usage.
     fov_3d = OPTIONS["FOV_3D"];
