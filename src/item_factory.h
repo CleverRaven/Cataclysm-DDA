@@ -179,7 +179,7 @@ class Item_factory
          * Check if an item type is known to the Item_factory.
          * @param id Item type id (@ref itype::id).
          */
-        bool has_template( const itype_id& id ) const {
+        bool has_template( const itype_id &id ) const {
             return m_templates.count( id );
         }
 
@@ -189,7 +189,7 @@ class Item_factory
          * generated, stored and returned.
          * @param id Item type id (@ref itype::id).
          */
-        const itype * find_template( const itype_id& id ) const;
+        const itype *find_template( const itype_id &id ) const;
 
         /**
          * Add a passed in itype to the collection of item types.
@@ -218,7 +218,7 @@ class Item_factory
          * @ref find_template).
          * Value is the itype instance (result of @ref find_template).
          */
-        const std::map<const itype_id, std::unique_ptr<itype>>& get_all_itypes() const {
+        const std::map<const itype_id, std::unique_ptr<itype>> &get_all_itypes() const {
             return m_templates;
         }
         /**
@@ -240,7 +240,7 @@ class Item_factory
          * @param msg Stream in which all error messages are printed.
          * @param ammo Ammo type to check.
          */
-        bool check_ammo_type( std::ostream &msg, const ammotype& ammo ) const;
+        bool check_ammo_type( std::ostream &msg, const ammotype &ammo ) const;
 
         typedef std::map<std::string, item_category> CategoryMap;
         // Map with all the defined item categories,
