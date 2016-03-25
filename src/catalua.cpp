@@ -880,13 +880,13 @@ monster *create_monster( const mtype_id &mon_type, const tripoint &p )
     }
 }
 
-it_comest *get_comestible_type(std::string name)
+const it_comest *get_comestible_type(std::string name)
 {
-    return dynamic_cast<it_comest *>(item::find_type(name));
+    return dynamic_cast<const it_comest *>(item::find_type(name));
 }
-it_tool *get_tool_type(std::string name)
+const it_tool *get_tool_type(std::string name)
 {
-    return dynamic_cast<it_tool *>(item::find_type(name));
+    return dynamic_cast<const it_tool *>(item::find_type(name));
 }
 
 

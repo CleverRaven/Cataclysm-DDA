@@ -189,7 +189,7 @@ class Item_factory
          * generated, stored and returned.
          * @param id Item type id (@ref itype::id).
          */
-        itype * find_template( const itype_id& id ) const;
+        const itype * find_template( const itype_id& id ) const;
 
         /**
          * Add a passed in itype to the collection of item types.
@@ -228,7 +228,8 @@ class Item_factory
 
     private:
         std::map<std::string, std::unique_ptr<itype>> m_abstracts;
-        std::map<const itype_id, std::unique_ptr<itype>> m_templates;
+
+        mutable std::map<const itype_id, std::unique_ptr<itype>> m_templates;
 
         typedef std::map<Group_tag, Item_spawn_data *> GroupMap;
         GroupMap m_template_groups;

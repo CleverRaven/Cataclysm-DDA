@@ -275,9 +275,9 @@ struct furn_t : map_data_common_t {
     int move_str_req; //The amount of strength required to move through this terrain easily.
 
     // May return NULL
-    itype *crafting_pseudo_item_type() const;
+    const itype *crafting_pseudo_item_type() const;
     // May return NULL
-    itype *crafting_ammo_item_type() const;
+    const itype *crafting_ammo_item_type() const;
 };
 
 

@@ -1320,7 +1320,7 @@ public:
         /**
          * Returns the item type of the given identifier. Never returns null.
          */
-        static itype *find_type( const itype_id &id );
+        static const itype *find_type( const itype_id &id );
         /**
          * Whether the item is counted by charges, this is a static wrapper
          * around @ref count_by_charges, that does not need an items instance.

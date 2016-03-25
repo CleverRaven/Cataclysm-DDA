@@ -5760,7 +5760,7 @@ bool item::type_is_defined( const itype_id &id )
     return item_controller->has_template( id );
 }
 
-itype *item::find_type( const itype_id &type )
+const itype * item::find_type( const itype_id& type )
 {
     return item_controller->find_template( type );
 }

@@ -696,7 +696,7 @@ void Item_factory::check_definitions() const
 }
 
 //Returns the template with the given identification tag
-itype * Item_factory::find_template( const itype_id& id ) const
+const itype * Item_factory::find_template( const itype_id& id ) const
 {
     auto& found = m_templates[ id ];
     if( !found ) {
