@@ -4346,7 +4346,9 @@
         "wet_protection" : [
             { "part" : "TORSO", "ignored" : 26 }
         ],
-        "active"     :    true
+        "active"     :    true,
+        "restricts_gear" : [ "TORSO" ],
+        "destroys_gear" : true
     },{
         "type" : "mutation",
         "id" : "LEG_TENTACLES",
