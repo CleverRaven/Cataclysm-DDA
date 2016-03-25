@@ -1607,7 +1607,7 @@ void npc::say( const std::string line, ... ) const
     va_start(ap, line);
     std::string formatted_line = vstring_format(line, ap);
     va_end(ap);
-    parse_tags(formatted_line, &(g->u), this);
+    parse_tags( formatted_line, g->u, *this );
     if (g->u.sees( *this )) {
         add_msg(_("%1$s says: \"%2$s\""), name.c_str(), formatted_line.c_str());
         sounds::sound(pos(), 16, "");

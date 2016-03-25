@@ -20,6 +20,7 @@
 #include "compatibility.h"
 #include "basecamp.h"
 #include "cata_utility.h"
+#include "text_snippets.h"
 
 #include <vector>
 #include <string>
@@ -3826,58 +3827,61 @@ void talk_function::start_training( npc *p )
     p->add_effect( effect_asked_to_train, 3600 );
 }
 
-void parse_tags(std::string &phrase, const player *u, const npc *me)
+void parse_tags( std::string &phrase, const player &u, const npc &me )
 {
- if (u == NULL || me == NULL) {
-  debugmsg("Called parse_tags() with NULL pointers!");
-  return;
- }
+    phrase = remove_color_tags( phrase );
 
- phrase = remove_color_tags( phrase );
+    size_t fa;
+    size_t fb;
+    std::string tag;
+    do {
+        fa = phrase.find("<");
+        fb = phrase.find(">");
+        int l = fb - fa + 1;
+        if( fa != std::string::npos && fb != std::string::npos ) {
+            tag = phrase.substr( fa, fb - fa + 1 );
+        } else {
+            return;
+        }
 
- size_t fa, fb;
- std::string tag;
- do {
-  fa = phrase.find("<");
-  fb = phrase.find(">");
-  int l = fb - fa + 1;
-  if (fa != std::string::npos && fb != std::string::npos)
-   tag = phrase.substr(fa, fb - fa + 1);
-  else
-   tag = "";
-  bool replaced = false;
-  for (int i = 0; i < NUM_STATIC_TAGS && !replaced; i++) {
-   if (tag == talk_tags[i].tag) {
-    phrase.replace(fa, l, (*talk_tags[i].replacement)[rng(0, 9)]);
-    replaced = true;
-   }
-  }
-  if (!replaced) { // Special, dynamic tags go here
-   if (tag == "<yrwp>")
-    phrase.replace( fa, l, remove_color_tags( u->weapon.tname() ) );
-   else if (tag == "<mywp>") {
-    if (me->weapon.type->id == "null")
-     phrase.replace(fa, l, _("fists"));
-    else
-     phrase.replace( fa, l, remove_color_tags( me->weapon.tname() ) );
-   } else if (tag == "<ammo>") {
-    if (!me->weapon.is_gun())
-     phrase.replace(fa, l, _("BADAMMO"));
-    else {
-     phrase.replace(fa, l, ammo_name(me->weapon.ammo_type()) );
-    }
-   } else if (tag == "<punc>") {
-    switch (rng(0, 2)) {
-     case 0: phrase.replace(fa, l, rm_prefix(_("<punc>.")));   break;
-     case 1: phrase.replace(fa, l, rm_prefix(_("<punc>..."))); break;
-     case 2: phrase.replace(fa, l, rm_prefix(_("<punc>!")));   break;
-    }
-   } else if (tag != "") {
-    debugmsg("Bad tag. '%s' (%d - %d)", tag.c_str(), fa, fb);
-    phrase.replace(fa, fb - fa + 1, "????");
-   }
-  }
- } while (fa != std::string::npos && fb != std::string::npos);
+        const std::string &replacement = SNIPPET.random_from_category( tag );
+        if( !replacement.empty() ) {
+            phrase.replace( fa, l, replacement );
+            continue;
+        }
+
+        // Special, dynamic tags go here
+        if (tag == "<yrwp>") {
+            phrase.replace( fa, l, remove_color_tags( u.weapon.tname() ) );
+        } else if (tag == "<mywp>") {
+            if( !me.is_armed() ) {
+                phrase.replace(fa, l, _("fists"));
+            } else {
+                phrase.replace( fa, l, remove_color_tags( me.weapon.tname() ) );
+            }
+        } else if (tag == "<ammo>") {
+            if( !me.weapon.is_gun() ) {
+                phrase.replace(fa, l, _("BADAMMO"));
+            } else {
+                phrase.replace(fa, l, ammo_name( me.weapon.ammo_type() ) );
+            }
+        } else if (tag == "<punc>") {
+            switch (rng(0, 2)) {
+                case 0:
+                    phrase.replace(fa, l, rm_prefix(_("<punc>.")));
+                    break;
+                case 1:
+                    phrase.replace(fa, l, rm_prefix(_("<punc>...")));
+                    break;
+                case 2:
+                    phrase.replace(fa, l, rm_prefix(_("<punc>!")));
+                    break;
+            }
+        } else if( tag.empty() ) {
+            debugmsg("Bad tag. '%s' (%d - %d)", tag.c_str(), fa, fb);
+            phrase.replace(fa, fb - fa + 1, "????");
+        }
+    } while( fa != std::string::npos && fb != std::string::npos );
 }
 
 void dialogue::clear_window_texts()
@@ -4010,7 +4014,7 @@ void talk_response::do_formatting( const dialogue &d, char const letter )
             text.c_str() // response
         );
     }
-    parse_tags( ftext, d.alpha, d.beta );
+    parse_tags( ftext, *d.alpha, *d.beta );
     // Remaining width of the responses area, -2 for the border, -2 for indentation
     int const fold_width = FULL_SCREEN_WIDTH / 2 - 2 - 2;
     formated_text = foldstring( ftext, fold_width );
@@ -4060,7 +4064,7 @@ std::string dialogue::opt( const std::string &topic )
     }
 
     // Parse any tags in challenge
-    parse_tags( challenge, alpha, beta );
+    parse_tags( challenge, *alpha, *beta );
     capitalize_letter( challenge );
 
     // Prepend "My Name: "
