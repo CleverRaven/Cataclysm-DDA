@@ -812,18 +812,61 @@ void Item_factory::load( islot_software &slot, JsonObject &jo )
     slot.power = jo.get_int( "power" );
 }
 
+/** Helpers to handle json entity inheritance logic in a generic way. **/
+template <typename T>
+typename std::enable_if<std::is_integral<T>::value, bool>::type assign(
+    JsonObject &jo, const std::string& name, T& val ) {
+    T tmp;
+    if( jo.get_object( "relative" ).read( name, tmp ) ) {
+        val += tmp;
+        return true;
+    }
+    return jo.read( name, val );
+}
+
+template <typename T>
+typename std::enable_if<std::is_same<T, std::string>::value, bool>::type assign(
+    JsonObject &jo, const std::string& name, T& val ) {
+    return jo.read( name, val );
+}
+
+template <typename T>
+typename std::enable_if<std::is_same<T, std::set<std::string>>::value, bool>::type assign(
+    JsonObject &jo, const std::string& name, T& val ) {
+    auto add = jo.get_object( "extend" );
+    if( add.has_string( name ) || add.has_array( name ) ) {
+        auto tags = add.get_tags( name );
+        val.insert( tags.begin(), tags.end() );
+        return true;
+    }
+
+    auto del = jo.get_object( "delete" );
+    if( del.has_string( name ) || del.has_array( name ) ) {
+        for( const auto& e : del.get_tags( name ) ) {
+            val.erase( e );
+        }
+        return true;
+    }
+
+    if( jo.has_string( name ) || jo.has_array( name ) ) {
+        val = jo.get_tags( name );
+        return true;
+    }
+    return false;
+}
+
 void Item_factory::load( islot_ammo &slot, JsonObject &jo )
 {
-    jo.assign( "ammo_type", slot.type );
-    jo.assign( "casing", slot.casing );
-    jo.assign( "damage", slot.damage );
-    jo.assign( "pierce", slot.pierce );
-    jo.assign( "range", slot.range );
-    jo.assign( "dispersion", slot.dispersion );
-    jo.assign( "recoil", slot.recoil );
-    jo.assign( "count", slot.def_charges );
-    jo.assign( "loudness", slot.loudness );
-    jo.assign( "effects", slot.ammo_effects );
+    assign( jo, "ammo_type", slot.type );
+    assign( jo, "casing", slot.casing );
+    assign( jo, "damage", slot.damage );
+    assign( jo, "pierce", slot.pierce );
+    assign( jo, "range", slot.range );
+    assign( jo, "dispersion", slot.dispersion );
+    assign( jo, "recoil", slot.recoil );
+    assign( jo, "count", slot.def_charges );
+    assign( jo, "loudness", slot.loudness );
+    assign( jo, "effects", slot.ammo_effects );
 }
 
 void Item_factory::load_ammo(JsonObject &jo)
@@ -841,26 +884,26 @@ void Item_factory::load( islot_gun &slot, JsonObject &jo )
         slot.skill_used = skill_id( jo.get_string( "skill" ) );
     }
 
-    jo.assign( "ammo", slot.ammo );
-    jo.assign( "range", slot.range );
-    jo.assign( "ranged_damage", slot.damage );
-    jo.assign( "pierce", slot.pierce );
-    jo.assign( "dispersion", slot.dispersion );
-    jo.assign( "sight_dispersion", slot.sight_dispersion );
-    jo.assign( "aim_speed", slot.aim_speed );
-    jo.assign( "recoil", slot.recoil );
-    jo.assign( "durability", slot.durability );
-    jo.assign( "burst", slot.burst );
-    jo.assign( "loudness", slot.loudness );
-    jo.assign( "clip_size", slot.clip );
-    jo.assign( "reload", slot.reload_time );
-    jo.assign( "reload_noise", slot.reload_noise );
-    jo.assign( "reload_noise_volume", slot.reload_noise_volume );
-    jo.assign( "barrel_length", slot.barrel_length );
-    jo.assign( "built_in_mods", slot.built_in_mods );
-    jo.assign( "default_mods", slot.default_mods );
-    jo.assign( "ups_charges", slot.ups_charges );
-    jo.assign( "ammo_effects", slot.ammo_effects );
+    assign( jo, "ammo", slot.ammo );
+    assign( jo, "range", slot.range );
+    assign( jo, "ranged_damage", slot.damage );
+    assign( jo, "pierce", slot.pierce );
+    assign( jo, "dispersion", slot.dispersion );
+    assign( jo, "sight_dispersion", slot.sight_dispersion );
+    assign( jo, "aim_speed", slot.aim_speed );
+    assign( jo, "recoil", slot.recoil );
+    assign( jo, "durability", slot.durability );
+    assign( jo, "burst", slot.burst );
+    assign( jo, "loudness", slot.loudness );
+    assign( jo, "clip_size", slot.clip );
+    assign( jo, "reload", slot.reload_time );
+    assign( jo, "reload_noise", slot.reload_noise );
+    assign( jo, "reload_noise_volume", slot.reload_noise_volume );
+    assign( jo, "barrel_length", slot.barrel_length );
+    assign( jo, "built_in_mods", slot.built_in_mods );
+    assign( jo, "default_mods", slot.default_mods );
+    assign( jo, "ups_charges", slot.ups_charges );
+    assign( jo, "ammo_effects", slot.ammo_effects );
 
     if( jo.has_array( "valid_mod_locations" ) ) {
         JsonArray jarr = jo.get_array( "valid_mod_locations" );
@@ -1179,23 +1222,23 @@ void Item_factory::load_basic_info(JsonObject &jo, itype *new_item_template)
         m_templates[ new_item_template->id ] = new_item_template;
     }
 
-    jo.assign( "weight", new_item_template->weight );
-    jo.assign( "volume", new_item_template->volume );
-    jo.assign( "price", new_item_template->price );
-    jo.assign( "price_post", new_item_template->price_post );
-    jo.assign( "stack_size", new_item_template->stack_size );
-    jo.assign( "integral_volume", new_item_template->integral_volume );
-    jo.assign( "bashing", new_item_template->melee_dam );
-    jo.assign( "cutting", new_item_template->melee_cut );
-    jo.assign( "to_hit", new_item_template->m_to_hit );
-    jo.assign( "default_container", new_item_template->default_container );
-    jo.assign( "rigid", new_item_template->rigid );
-    jo.assign( "min_strength", new_item_template->min_str );
-    jo.assign( "min_dexterity", new_item_template->min_dex );
-    jo.assign( "min_intelligence", new_item_template->min_int );
-    jo.assign( "min_perception", new_item_template->min_per );
-    jo.assign( "magazine_well", new_item_template->magazine_well );
-    jo.assign( "explode_in_fire", new_item_template->explode_in_fire );
+    assign( jo, "weight", new_item_template->weight );
+    assign( jo, "volume", new_item_template->volume );
+    assign( jo, "price", new_item_template->price );
+    assign( jo, "price_post", new_item_template->price_post );
+    assign( jo, "stack_size", new_item_template->stack_size );
+    assign( jo, "integral_volume", new_item_template->integral_volume );
+    assign( jo, "bashing", new_item_template->melee_dam );
+    assign( jo, "cutting", new_item_template->melee_cut );
+    assign( jo, "to_hit", new_item_template->m_to_hit );
+    assign( jo, "default_container", new_item_template->default_container );
+    assign( jo, "rigid", new_item_template->rigid );
+    assign( jo, "min_strength", new_item_template->min_str );
+    assign( jo, "min_dexterity", new_item_template->min_dex );
+    assign( jo, "min_intelligence", new_item_template->min_int );
+    assign( jo, "min_perception", new_item_template->min_per );
+    assign( jo, "magazine_well", new_item_template->magazine_well );
+    assign( jo, "explode_in_fire", new_item_template->explode_in_fire );
 
     new_item_template->name = jo.get_string( "name" );
     if( jo.has_member( "name_plural" ) ) {
@@ -1260,7 +1303,7 @@ void Item_factory::load_basic_info(JsonObject &jo, itype *new_item_template)
         new_item_template->snippet_category = jo.get_string( "snippet_category", "" );
     }
 
-    jo.assign( "flags", new_item_template->item_tags );
+    assign( jo, "flags", new_item_template->item_tags );
 
     if (jo.has_member("qualities")) {
         set_qualities_from_json(jo, "qualities", new_item_template);
