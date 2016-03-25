@@ -309,59 +309,58 @@ void fill_water_collectors(int mmPerHour, bool acid)
  * Main routine for wet effects caused by weather.
  * Drenching the player is applied after checks against worn and held items.
  *
- * The warmth of armor is considered when determining how much drench happens.
+ * The warmth of armor is considered when determining how much drench happens per tick.
  *
- * Note that this is not the only place where drenching can happen. For example, moving or swimming into water tiles will also cause drenching.
+ * Note that this is not the only place where drenching can happen.
+ * For example, moving or swimming into water tiles will also cause drenching.
  * @see fill_water_collectors
  * @see map::decay_fields_and_scent
  * @see player::drench
  */
-void generic_wet(bool acid)
+void wet_player( int amount )
 {
-    if ((!g->u.worn_with_flag("RAINPROOF") || one_in(100)) &&
-        (!g->u.weapon.has_flag("RAIN_PROTECT") || one_in(20)) && !g->u.has_trait("FEATHERS") &&
-        (g->u.warmth(bp_torso) * 4 / 5 + g->u.warmth(bp_head) / 5) < 30 && PLAYER_OUTSIDE &&
-        one_in(2)) {
-        if (g->u.weapon.has_flag("RAIN_PROTECT")) {
-            // Umbrellas tend to protect one's head and torso pretty well
-            g->u.drench(30 - (g->u.warmth(bp_leg_l) + (g->u.warmth(bp_leg_r)) * 2 / 5 +
-                              (g->u.warmth(bp_foot_l) + g->u.warmth(bp_foot_r)) / 10),
-                        mfb(bp_leg_l) | mfb(bp_leg_r), false );
-        } else {
-            g->u.drench(30 - (g->u.warmth(bp_torso) * 4 / 5 + g->u.warmth(bp_head) / 5),
-                        mfb(bp_torso) | mfb(bp_arm_l) | mfb(bp_arm_r) | mfb(bp_head), false );
-        }
+    if( !PLAYER_OUTSIDE ||
+        g->u.has_trait("FEATHERS") ||
+        g->u.weapon.has_flag("RAIN_PROTECT") ||
+        ( !one_in(50) && g->u.worn_with_flag("RAINPROOF") ) ) {
+        return;
     }
 
-    fill_water_collectors(4, acid); // fixme; consolidate drench and this.
+    if( rng( 0, 100 - amount + g->u.warmth( bp_torso ) * 4 / 5 + g->u.warmth( bp_head ) / 5 ) > 10 ) {
+        // Thick clothing slows down (but doesn't cap) soaking
+        return;
+    }
+
+    const auto &wet = g->u.body_wetness;
+    const auto &capacity = g->u.drench_capacity;
+    int drenched_parts = mfb(bp_torso) | mfb(bp_arm_l) | mfb(bp_arm_r) | mfb(bp_head);
+    if( wet[bp_torso] * 100 >= capacity[bp_torso] * 50 ) {
+        // Once upper body is 50%+ drenched, start soaking the legs too
+        drenched_parts = drenched_parts | mfb(bp_leg_l) | mfb(bp_leg_r) ;
+    }
+
+    g->u.drench( amount, drenched_parts, false );
+}
+
+/**
+ * Main routine for wet effects caused by weather.
+ */
+void generic_wet(bool acid)
+{
+    fill_water_collectors(4, acid);
     g->m.decay_fields_and_scent( 15 );
+    wet_player( 30 );
 }
 
 /**
  * Main routine for very wet effects caused by weather.
  * Similar to generic_wet() but with more aggressive numbers.
- * @see fill_water_collectors
- * @see map::decay_fields_and_scent
- * @see player::drench
  */
 void generic_very_wet(bool acid)
 {
-    if ((!g->u.worn_with_flag("RAINPROOF") || one_in(50)) &&
-        (!g->u.weapon.has_flag("RAIN_PROTECT") || one_in(10)) && !g->u.has_trait("FEATHERS") &&
-        (g->u.warmth(bp_torso) * 4 / 5 + g->u.warmth(bp_head) / 5) < 60 && PLAYER_OUTSIDE) {
-        if (g->u.weapon.has_flag("RAIN_PROTECT")) {
-            // Umbrellas tend to protect one's head and torso pretty well
-            g->u.drench(60 - ((g->u.warmth(bp_leg_l) + g->u.warmth(bp_leg_r)) * 2 / 5 +
-                              (g->u.warmth(bp_foot_l) + g->u.warmth(bp_foot_r)) / 10),
-                        mfb(bp_leg_l) | mfb(bp_leg_r), false );
-        } else {
-            g->u.drench(60 - (g->u.warmth(bp_torso) * 4 / 5 + g->u.warmth(bp_head) / 5),
-                        mfb(bp_torso) | mfb(bp_arm_l) | mfb(bp_arm_r) | mfb(bp_head), false );
-        }
-    }
-
-    fill_water_collectors(8, acid);
+    fill_water_collectors( 8, acid );
     g->m.decay_fields_and_scent( 45 );
+    wet_player( 60 );
 }
 
 void weather_effect::none()      {};

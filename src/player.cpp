@@ -8472,8 +8472,8 @@ void player::vomit()
 void player::drench( int saturation, int flags, bool ignore_waterproof )
 {
     // OK, water gets in your AEP suit or whatever.  It wasn't built to keep you dry.
-    if ( has_trait("DEBUG_NOTEMP") || has_active_mutation("SHELL2") ||
-         ( !ignore_waterproof && is_waterproof(flags) ) ) {
+    if( has_trait("DEBUG_NOTEMP") || has_active_mutation("SHELL2") ||
+        ( !ignore_waterproof && is_waterproof(flags) ) ) {
         return;
     }
 
@@ -8489,12 +8489,8 @@ void player::drench( int saturation, int flags, bool ignore_waterproof )
             continue;
         }
         // Different sources will only make the bodypart wet to a limit
-        int source_wet_max = saturation / 2;
-        int wetness_increment = source_wet_max / 8;
-        // Make sure increment is at least 1
-        if( source_wet_max != 0 && wetness_increment == 0 ) {
-            wetness_increment = 1;
-        }
+        int source_wet_max = saturation * bp_wetness_max * 2 / 100;
+        int wetness_increment = ignore_waterproof ? 100 : 2;
         // Respect maximums
         const int wetness_max = std::min( source_wet_max, bp_wetness_max );
         if( body_wetness[i] < wetness_max ){
@@ -8614,7 +8610,7 @@ void player::update_body_wetness( const w_point &weather )
 {
     // Average number of turns to go from completely soaked to fully dry
     // assuming average temperature and humidity
-    constexpr int average_drying = HOURS(1);
+    constexpr int average_drying = HOURS(2);
 
     // A modifier on drying time
     double delay = 1.0;
@@ -8670,6 +8666,7 @@ void player::update_body_wetness( const w_point &weather )
             drying_chance = 1;
         }
 
+        // @todo Make evaporation reduce body heat
         if( drying_chance >= drying_roll ) {
             body_wetness[i] -= 1;
             if( body_wetness[i] < 0 ) {

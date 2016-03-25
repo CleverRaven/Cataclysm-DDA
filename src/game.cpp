@@ -12811,11 +12811,7 @@ void game::plswim( const tripoint &p )
     u.burn_move_stamina( movecost );
 
     int drenchFlags = mfb(bp_leg_l) | mfb(bp_leg_r) | mfb(bp_torso) | mfb(bp_arm_l) |
-        mfb(bp_arm_r) | mfb(bp_foot_l) | mfb(bp_foot_r);
-
-    if (get_temperature() <= 50) {
-        drenchFlags |= mfb(bp_hand_l) | mfb(bp_hand_r);
-    }
+        mfb(bp_arm_r) | mfb(bp_foot_l) | mfb(bp_foot_r) | mfb(bp_hand_l) | mfb(bp_hand_r);
 
     if (u.is_underwater()) {
         drenchFlags |= mfb(bp_head) | mfb(bp_eyes) | mfb(bp_mouth) | mfb(bp_hand_l) | mfb(bp_hand_r);
