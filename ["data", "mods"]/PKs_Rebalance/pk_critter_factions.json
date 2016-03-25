@@ -1,0 +1,12 @@
+[
+
+    {
+        "type" : "MONSTER_FACTION",
+        "name" : "ant",
+        "base_faction" : "insect",
+        "neutral" : ["vermin", "small_animal"],
+        "by_mood" : ["insect", "zombie"]
+    }
+    
+
+]
