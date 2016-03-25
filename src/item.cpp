@@ -2348,7 +2348,7 @@ int item::price( bool practical ) const
             // items with integral magazines may contain ammunition which can affect the price
             child += item( e->ammo_data(), calendar::turn, e->charges ).price( practical );
 
-        } else if( e->is_tool() && e->ammo_type() == "NULL" && e->type->maximum_charges() > 0 ) {
+        } else if( e->is_tool() && e->ammo_type() == "NULL" && e->ammo_capacity() ) {
             // if tool has no ammo (eg. spray can) reduce price proportional to remaining charges
             child *= e->ammo_remaining() / double( std::max( e->type->charges_default(), 1 ) );
         }
@@ -3987,7 +3987,7 @@ long item::ammo_capacity() const
     }
 
     if( is_tool() ) {
-        res = type->maximum_charges();
+        res = type->tool->max_charges;
 
         if( has_flag("DOUBLE_AMMO") ) {
             res *= 2;
