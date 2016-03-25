@@ -10,7 +10,7 @@ class WrongJSONItem(Exception):
         self.msg = msg
         self.item = item
     def __str__(self):
-        return ("---\nWrong JSON item:\n{0}\n--- JSON Item:\n{1}\n---".format(self.msg, self.item))
+        return ("---\nJSON error\n{0}\n--- JSON Item:\n{1}\n---".format(self.msg, self.item))
 
 # there may be some non-json files in data/raw
 not_json = {
