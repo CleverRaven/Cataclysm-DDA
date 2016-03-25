@@ -154,21 +154,19 @@ void Item_factory::finalize_item_blacklist()
         }
     }
 
-    for( std::pair<const std::string, itype *> &entry : m_templates ) {
-        const std::string &itm = entry.first;
-        if( !item_is_blacklisted( itm ) &&
-            !( magazines_blacklisted && entry.second->magazine != nullptr ) ) {
+    for( auto &e : m_templates ) {
+        if( !( item_is_blacklisted( e.first ) || ( magazines_blacklisted && e.second->magazine ) ) ) {
             continue;
         }
-        for( auto &elem : m_template_groups ) {
-            elem.second->remove_item( itm );
+        for( auto &g : m_template_groups ) {
+            g.second->remove_item( e.first );
         }
         recipe_dict.delete_if( [&]( recipe &r ) {
-            return r.result == itm || r.requirements.remove_item( itm );
+            return r.result == e.first || r.requirements.remove_item( e.first );
         } );
 
         remove_construction_if([&](construction &c) {
-            return c.requirements.remove_item(itm);
+            return c.requirements.remove_item( e.first );
         });
     }
 
@@ -474,29 +472,24 @@ void Item_factory::add_category(const std::string &id, int sort_rank, const std:
     cat.name = name;
 }
 
-void Item_factory::check_ammo_type(std::ostream &msg, const std::string &ammo) const
+bool Item_factory::check_ammo_type( std::ostream &msg, const ammotype& ammo ) const
 {
-    // Skip fake types
     if ( ammo == "NULL" || ammo == "pointer_fake_ammo" ) {
-        return;
+        return false; // skip fake types
     }
 
-    // Check for valid ammo type name.
     if (ammo_name(ammo) == "none") {
         msg << string_format("ammo type %s not listed in ammo_name() function", ammo.c_str()) << "\n";
+        return false;
     }
 
-    // Search ammo type.
-    for( const auto &elem : m_templates ) {
-        const auto ammot = elem.second;
-        if( !ammot->ammo ) {
-            continue;
-        }
-        if( ammot->ammo->type == ammo ) {
-            return;
-        }
+    if( std::none_of( m_templates.begin(), m_templates.end(), [&ammo]( const decltype(m_templates)::value_type& e ) {
+        return e.second->ammo && e.second->ammo->type == ammo;
+    } ) ) {
+        msg << string_format("there is no actual ammo of type %s defined", ammo.c_str()) << "\n";
+        return false;
     }
-    msg << string_format("there is no actual ammo of type %s defined", ammo.c_str()) << "\n";
+    return true;
 }
 
 void Item_factory::check_definitions() const
@@ -506,7 +499,7 @@ void Item_factory::check_definitions() const
     std::set<itype_id> magazines_defined;
     for( const auto &elem : m_templates ) {
         std::ostringstream msg;
-        const itype *type = elem.second;
+        const itype *type = elem.second.get();
 
         if( type->weight < 0 ) {
             msg << "negative weight" << "\n";
@@ -702,30 +695,20 @@ void Item_factory::check_definitions() const
     }
 }
 
-bool Item_factory::has_template(const Item_tag &id) const
-{
-    return m_templates.count(id) > 0;
-}
-
 //Returns the template with the given identification tag
-itype *Item_factory::find_template(Item_tag id)
+itype * Item_factory::find_template( const itype_id& id ) const
 {
-    std::map<Item_tag, itype *>::iterator found = m_templates.find(id);
-    if (found != m_templates.end()) {
-        return found->second;
+    auto& found = m_templates[ id ];
+    if( !found ) {
+        debugmsg( "Missing item definition: %s", id.c_str() );
+        found.reset( new itype() );
+        found->id = id;
+        found->name = string_format( "undefined-%ss", id.c_str() );
+        found->name_plural = string_format( "undefined-%s", id.c_str() );
+        found->description = string_format( "Missing item definition for %s.", id.c_str() );
     }
 
-    debugmsg("Missing item (check item_groups.json): %s", id.c_str());
-    it_artifact_tool *bad_itype = new it_artifact_tool();
-    bad_itype->id = id.c_str();
-    bad_itype->name = string_format("undefined-%ss", id.c_str());
-    bad_itype->name_plural = string_format("undefined-%ss", id.c_str());
-    bad_itype->description = string_format("A strange shimmering... nothing."
-                                           "  You think it wants to be a %s.", id.c_str());
-    bad_itype->sym = '.';
-    bad_itype->color = c_white;
-    m_templates[id] = bad_itype;
-    return bad_itype;
+    return found.get();
 }
 
 void Item_factory::add_item_type(itype *new_type)
@@ -734,9 +717,7 @@ void Item_factory::add_item_type(itype *new_type)
         debugmsg( "called Item_factory::add_item_type with nullptr" );
         return;
     }
-    auto &entry = m_templates[new_type->id];
-    delete entry;
-    entry = new_type;
+    m_templates[ new_type->id ].reset( new_type );
 }
 
 Item_spawn_data *Item_factory::get_group(const Item_tag &group_tag)
@@ -1223,13 +1204,7 @@ void Item_factory::load_basic_info(JsonObject &jo, itype *new_item_template)
         m_abstracts[ new_item_template->id ].reset( new_item_template );
     } else {
         new_item_template->id = jo.get_string( "id" );
-        if( m_templates.count( new_item_template->id ) ) {
-            // New item already exists. Because mods are loaded after
-            // core data, we override it. This allows mods to change
-            // item from core data.
-            delete m_templates[ new_item_template->id ];
-        }
-        m_templates[ new_item_template->id ] = new_item_template;
+        m_templates[ new_item_template->id ].reset( new_item_template );
     }
 
     assign( jo, "weight", new_item_template->weight );
@@ -1456,9 +1431,6 @@ void Item_factory::clear()
     // Also clear functions refering to lua
     iuse_function_list.clear();
 
-    for( auto &elem : m_templates ) {
-        delete elem.second;
-    }
     m_templates.clear();
     item_blacklist.clear();
     item_whitelist.clear();
@@ -1940,11 +1912,6 @@ std::vector<Item_tag> Item_factory::get_all_itype_ids() const
         result.push_back( p.first );
     }
     return result;
-}
-
-const std::map<Item_tag, itype *> &Item_factory::get_all_itypes() const
-{
-    return m_templates;
 }
 
 Item_tag Item_factory::create_artifact_id() const

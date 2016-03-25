@@ -1,9 +1,6 @@
 #ifndef ITEM_FACTORY_H
 #define ITEM_FACTORY_H
 
-#include "json.h"
-#include "iuse.h"
-#include "bodypart.h"
 #include <string>
 #include <memory>
 #include <vector>
@@ -12,30 +9,18 @@
 #include <memory>
 #include <list>
 
+#include "json.h"
+#include "itype.h"
+
 bool item_is_blacklisted( const std::string &id );
 
 typedef std::string Item_tag;
 typedef std::string Group_tag;
 typedef std::vector<item> Item_list;
 
-//For the iuse arguments
 class Item_spawn_data;
 class Item_group;
 class item;
-struct itype;
-struct islot_container;
-struct islot_armor;
-struct islot_book;
-struct islot_gun;
-struct islot_gunmod;
-struct islot_magazine;
-struct islot_variable_bigness;
-struct islot_bionic;
-struct islot_spawn;
-struct islot_ammo;
-struct islot_seed;
-struct islot_software;
-struct islot_artifact;
 class item_category;
 
 /**
@@ -194,14 +179,18 @@ class Item_factory
          * Check if an item type is known to the Item_factory.
          * @param id Item type id (@ref itype::id).
          */
-        bool has_template( const Item_tag &id ) const;
+        bool has_template( const itype_id& id ) const {
+            return m_templates.count( id );
+        }
+
         /**
          * Returns the itype with the given id.
          * This function never returns null, if the item type is unknown, a new item type is
          * generated, stored and returned.
          * @param id Item type id (@ref itype::id).
          */
-        itype *find_template( Item_tag id );
+        itype * find_template( const itype_id& id ) const;
+
         /**
          * Add a passed in itype to the collection of item types.
          * If the item type overrides an existing type, the existing type is deleted first.
@@ -229,15 +218,18 @@ class Item_factory
          * @ref find_template).
          * Value is the itype instance (result of @ref find_template).
          */
-        const std::map<Item_tag, itype *> &get_all_itypes() const;
+        const std::map<const itype_id, std::unique_ptr<itype>>& get_all_itypes() const {
+            return m_templates;
+        }
         /**
          * Create a new (and currently unused) item type id.
          */
         Item_tag create_artifact_id() const;
+
     private:
         std::map<std::string, std::unique_ptr<itype>> m_abstracts;
+        std::map<const itype_id, std::unique_ptr<itype>> m_templates;
 
-        std::map<Item_tag, itype *> m_templates;
         typedef std::map<Group_tag, Item_spawn_data *> GroupMap;
         GroupMap m_template_groups;
 
@@ -247,7 +239,7 @@ class Item_factory
          * @param msg Stream in which all error messages are printed.
          * @param ammo Ammo type to check.
          */
-        void check_ammo_type( std::ostream &msg, const std::string &ammo ) const;
+        bool check_ammo_type( std::ostream &msg, const ammotype& ammo ) const;
 
         typedef std::map<std::string, item_category> CategoryMap;
         // Map with all the defined item categories,
