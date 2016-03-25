@@ -46,8 +46,6 @@ const efftype_id effect_infection( "infection" );
 const efftype_id effect_lying_down( "lying_down" );
 const efftype_id effect_sleep( "sleep" );
 
-std::string talk_needs[num_needs][5];
-
 /**
  * A dynamically generated line, spoken by the NPC.
  * This struct only adds the constructors which will load the data from json
@@ -198,39 +196,6 @@ static int calc_ma_style_training_cost( const matype_id & /* id */ )
     return 800;
 }
 
-void game::init_npctalk()
-{
-    std::string tmp_talk_needs[num_needs][5] = {
-    {"", "", "", "", ""},
-    {_("Hey<punc> You got any <ammo>?"), _("I'll need some <ammo> soon, got any?"),
-     _("I really need some <ammo><punc>"), _("I need <ammo> for my <mywp>, got any?"),
-     _("I need some <ammo> <very> bad<punc>")},
-    {_("Got anything I can use as a weapon?"),
-     _("<ill_die> without a good weapon<punc>"),
-     _("I'm sick of fighting with my <swear> <mywp>, got something better?"),
-     _("Hey <name_g>, care to sell me a weapon?"),
-     _("My <mywp> just won't cut it, I need a real weapon...")},
-    {_("Hey <name_g>, I could really use a gun."),
-     _("Hey, you got a spare gun?  It'd be better than my <swear> <mywp><punc>"),
-     _("<ill_die> if I don't find a gun soon!"),
-     _("<name_g><punc> Feel like selling me a gun?"),
-     _("I need a gun, any kind will do!")},
-    {_("I could use some food, here."), _("I need some food, <very> bad!"),
-     _("Man, am I <happy> to see you!  Got any food to trade?"),
-     _("<ill_die> unless I get some food in me<punc> <okay>?"),
-     _("Please tell me you have some food to trade!")},
-    {_("Got anything to drink?"), _("I need some water or something."),
-     _("<name_g>, I need some water... got any?"),
-     _("<ill_die> without something to drink."), _("You got anything to drink?")}
-    };
-
-    for(int i = 0; i < num_needs; i++) {
-        for(int j = 0; j < 5; j++) {
-            talk_needs[i][j] = tmp_talk_needs[i][j];
-        }
-    }
-}
-
 void npc_chatbin::check_missions()
 {
     // TODO: or simply fail them? Some missions might only need to be reported.
@@ -316,7 +281,6 @@ void npc::talk_to_u()
     }
 
     // Needs
-    // TODO: Use talk_needs for food and drinks
     if( has_effect( effect_sleep ) || has_effect( effect_lying_down ) ) {
         d.topic_stack.push_back( "TALK_WAKE_UP" );
     }

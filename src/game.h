@@ -633,7 +633,6 @@ class game
         bool save_uistate();
         void load_uistate(std::string worldname);
         // Data Initialization
-        void init_npctalk();
         void init_fields();
         void init_faction_data();
         void init_autosave();     // Initializes autosave parameters

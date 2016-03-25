@@ -230,7 +230,6 @@ void game::load_static_data()
     init_mapgen_builtin_functions();
     init_fields();
     init_savedata_translation_tables();
-    init_npctalk();
     init_artifacts();
     init_faction_data();
 
