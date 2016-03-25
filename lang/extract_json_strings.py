@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 "Extract translatable strings from the .json files in data/json."
 
 import json
