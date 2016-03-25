@@ -1289,7 +1289,7 @@
     "vision_day":3,
     "vision_night":3,
     "hp":40,
-    "death_function":"NORMAL",
+    "death_function":"FUNGUS",
     "special_attacks":[["FUNGUS", 200]],
     "description":"Pale, sickly gray in color, this giant ant's cracked exoskeleton is barely held together by coils of fungus erupting from every joint in its body.",
     "flags":["SEES", "SMELLS", "POISON", "CLIMBS"]
@@ -1790,8 +1790,8 @@
     "speed":70,
     "melee_skill":1,
     "melee_dice":2,
-    "melee_dice_sides":2,
-    "melee_cut":0,
+    "melee_dice_sides":3,
+    "melee_cut":3,
     "dodge":0,
     "armor_bash":0,
     "armor_cut":0,
@@ -1999,7 +1999,7 @@
     "luminance":0,
     "hp":140,
     "death_function":["ACID", "NORMAL"],
-    "special_attacks":[["ACID_ACCURATE", 5], ["ACID_BARF", 5]],
+    "special_attacks":[["ACID_ACCURATE", 15], ["ACID_BARF", 5]],
     "special_when_hit":["ACIDSPLASH", 100],
     "description":"This body has swollen to immense proportions, but still manages to hold itself together with semi-congealed acid all over its bloated body.  It clumsily moves around, but attacks with a large reserve of acid.",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "ACIDPROOF", "ACID_BLOOD", "NO_BREATHE", "REVIVES", "BONES", "PUSH_MON"]
@@ -2135,6 +2135,10 @@
     "vision_day":40,
     "vision_night":3,
     "death_drops": "mon_zombie_swimmer_death_drops",
+    "upgrades":{
+      "into": "mon_zombie_biter",
+      "half_life": 14
+    },
     "hp":70,
     "death_function":["NORMAL"],
     "special_attacks":[
@@ -2369,8 +2373,8 @@
     "dodge":0,
     "armor_bash":3,
     "armor_cut":0,
-    "vision_day":30,
-    "vision_night":3,
+    "vision_day":7,
+    "vision_night":7,
     "death_drops": "default_zombie_death_drops",
     "hp":60,
     "death_function":["NORMAL"],
@@ -2382,7 +2386,7 @@
         }
     ],
     "description":"Once human, fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together a shambling mass of mold-covered flesh.",
-    "flags":["SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "BONES", "PUSH_MON"]
+    "flags":["SEES", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "BONES", "PUSH_MON"]
     },{
     "type" : "MONSTER",
     "id" : "mon_boomer",
@@ -7096,18 +7100,18 @@
     "aggression":100,
     "morale":100,
     "speed":110,
-    "melee_skill":3,
+    "melee_skill":4,
     "melee_dice":3,
-    "melee_dice_sides":4,
+    "melee_dice_sides":6,
     "melee_cut":2,
-    "dodge":0,
-    "armor_bash":3,
+    "dodge":1,
+    "armor_bash":5,
     "armor_cut":8,
     "vision_day":40,
     "vision_night":3,
     "death_drops": "default_zombie_death_drops",
     "luminance":16,
-    "hp":300,
+    "hp":240,
     "death_function":["NORMAL"],
     "special_attacks":[["SHOCKSTORM", 15], ["SMASH", 30]],
     "special_when_hit":["ZAPBACK", 75],
