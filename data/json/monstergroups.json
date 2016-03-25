@@ -620,6 +620,7 @@
     "name" : "GROUP_SEWER",
     "default" : "mon_sewer_rat",
     "monsters" : [
+      { "monster" : "mon_gator", "freq" : 100, "cost_multiplier" : 0 },
       { "monster" : "mon_sewer_fish", "freq" : 300, "cost_multiplier" : 0, "pack_size" : [2,6] },
       { "monster" : "mon_sewer_snake", "freq" : 240, "cost_multiplier" : 0 },
       { "monster" : "mon_sewer_rat", "freq" : 100, "cost_multiplier" : 0, "pack_size" : [3,12] },
