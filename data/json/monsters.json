@@ -3095,7 +3095,7 @@
     },
     "upgrades":{
         "into_group": "GROUP_CHILD_ZOMBIE_UPGRADE",
-        "half_life": 28
+        "half_life": 14
     },
     "hp":40,
     "death_function":["NORMAL"],
