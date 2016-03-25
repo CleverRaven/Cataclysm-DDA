@@ -812,13 +812,13 @@ std::string new_artifact()
             if (info->available_mods[index] != ARMORMOD_NULL) {
                 artifact_armor_mod mod = info->available_mods[index];
                 artifact_armor_form_datum *modinfo = &(artifact_armor_mod_data[mod]);
-                if (modinfo->volume >= 0 || art->volume > unsigned(abs(modinfo->volume))) {
+                if (modinfo->volume >= 0 || art->volume > abs(modinfo->volume)) {
                     art->volume += modinfo->volume;
                 } else {
                     art->volume = 1;
                 }
 
-                if (modinfo->weight >= 0 || art->weight > unsigned(abs(modinfo->weight))) {
+                if (modinfo->weight >= 0 || art->weight > abs(modinfo->weight)) {
                     art->weight += modinfo->weight;
                 } else {
                     art->weight = 1;

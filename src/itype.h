@@ -196,10 +196,6 @@ struct common_ranged_data {
      * Recoil "bonus" from gun.
      */
     int recoil = 0;
-    /**
-     * loudness for guns/gunmods and ammo
-     */
-    int loudness = 0;
 };
 
 /**
@@ -222,6 +218,9 @@ struct common_firing_data : common_ranged_data {
      * Burst size.
      */
     int burst = 0;
+
+    /** Modifies base loudness as provided by the currently loaded ammo */
+    int loudness = 0;
 };
 
 // TODO: this shares a lot with the ammo item type, merge into a separate slot type?
@@ -249,7 +248,7 @@ struct islot_gun : common_firing_data {
     /**
      * Noise displayed when reloading the weapon.
      */
-    std::string reload_noise;
+    std::string reload_noise = "click.";
     /**
      * Volume of the noise made when reloading this weapon.
      */
@@ -344,11 +343,17 @@ struct islot_ammo : common_ranged_data {
     /**
      * Default charges.
      */
-    long def_charges = 0;
+    long def_charges = 1;
     /**
      * TODO: document me.
      */
     std::set<std::string> ammo_effects;
+
+    /*
+     * Base loudness of ammo (possbily modified by gun/gunmods). If unspecified an
+     * appropriate value is calculated based upon the other properties of the ammo
+    */
+    int loudness = -1;
 };
 
 struct islot_variable_bigness {
@@ -431,38 +436,73 @@ struct islot_artifact {
     std::vector<art_effect_passive> effects_worn;
 };
 
-struct itype {
+class itype_facets {
+    public:
+        itype_facets() = default;
+
+        /** implements CopyConstructible */
+        itype_facets( const itype_facets& rhs ) {
+            container = clone_slot( rhs.container );
+            armor = clone_slot( rhs.armor );
+            book = clone_slot( rhs.book );
+            gun = clone_slot( rhs.gun );
+            gunmod = clone_slot( rhs.gunmod );
+            magazine = clone_slot( rhs.magazine );
+            variable_bigness = clone_slot( rhs.variable_bigness );
+            bionic = clone_slot( rhs.bionic );
+            software = clone_slot( rhs.software );
+            spawn = clone_slot( rhs.spawn );
+            ammo = clone_slot( rhs.ammo );
+            seed = clone_slot( rhs.seed );
+            artifact = clone_slot( rhs.artifact );
+        }
+
+        /**
+         * Optional slots for various item type properties
+         * @warning check for nullptr before dereferencing
+         */
+        /*@{*/
+        std::unique_ptr<islot_container> container;
+        std::unique_ptr<islot_armor> armor;
+        std::unique_ptr<islot_book> book;
+        std::unique_ptr<islot_gun> gun;
+        std::unique_ptr<islot_gunmod> gunmod;
+        std::unique_ptr<islot_magazine> magazine;
+        std::unique_ptr<islot_variable_bigness> variable_bigness;
+        std::unique_ptr<islot_bionic> bionic;
+        std::unique_ptr<islot_software> software;
+        std::unique_ptr<islot_spawn> spawn;
+        std::unique_ptr<islot_ammo> ammo;
+        std::unique_ptr<islot_seed> seed;
+        std::unique_ptr<islot_artifact> artifact;
+        /*@}*/
+
+    private:
+        template <typename T>
+        static std::unique_ptr<T> clone_slot( const std::unique_ptr<T>& src ) {
+            return src ? std::unique_ptr<T>( new T( *src ) ) : std::unique_ptr<T>();
+        }
+};
+
+struct itype : public itype_facets {
     friend class Item_factory;
+
+    virtual ~itype() {};
 
     // unique string identifier for this item,
     // can be used as lookup key in master itype map
     // Used for save files; aligns to itype_id above.
-    std::string id;
-    /**
-     * Slots for various item type properties. Each slot may contain a valid pointer or null, check
-     * this before using it.
-     */
-    /*@{*/
-    std::unique_ptr<islot_container> container;
-    std::unique_ptr<islot_armor> armor;
-    std::unique_ptr<islot_book> book;
-    std::unique_ptr<islot_gun> gun;
-    std::unique_ptr<islot_gunmod> gunmod;
-    std::unique_ptr<islot_magazine> magazine;
-    std::unique_ptr<islot_variable_bigness> variable_bigness;
-    std::unique_ptr<islot_bionic> bionic;
-    std::unique_ptr<islot_software> software;
-    std::unique_ptr<islot_spawn> spawn;
-    std::unique_ptr<islot_ammo> ammo;
-    std::unique_ptr<islot_seed> seed;
-    std::unique_ptr<islot_artifact> artifact;
-    /*@}*/
+    std::string id = "null";
+
+    /** base type for this definition, eg. AMMO, TOOL, GUN */
+    std::string base;
+
 protected:
     // private because is should only be accessed through itype::nname!
     // name and name_plural are not translated automatically
     // nname() is used for display purposes
-    std::string name;        // Proper name, singular form, in American English.
-    std::string name_plural; // name, plural form, in American English.
+    std::string name = "none";        // Proper name, singular form, in American English.
+    std::string name_plural = "none"; // name, plural form, in American English.
 public:
     std::string snippet_category;
     std::string description; // Flavor text
@@ -493,13 +533,16 @@ public:
     explosion_data explosion;
 
     phase_id phase      = SOLID; // e.g. solid, liquid, gas
-    unsigned price      = 0; // Its value
-    unsigned price_post = 0; // Post-apocalyptic, more practical value
-    unsigned volume     = 0; // Space taken up by this item
-    int      stack_size = 0; // How many things make up the above-defined volume (eg. 100 aspirin = 1 volume)
-    unsigned weight     = 0; // Weight in grams. Assumes positive weight. No helium, guys!
 
-    unsigned integral_volume; // Space consumed when integrated as part of another item (defaults to volume)
+    /** After loading from JSON these properties guaranteed to be zero or positive */
+    /*@{*/
+    int weight          = -1; // Weight in grams for item (or each stack member)
+    int volume          = -1; // Space occupied by items of this type
+    int price           = -1; // Value before cataclysm
+    int price_post      = -1; // Value after cataclysm (dependent upon practical usages)
+    int stack_size      =  0; // Maximum identical items that can stack per above unit volume
+    int integral_volume = -1; // Space consumed when integrated as part of another item (defaults to volume)
+    /*@}*/
 
     bool rigid = true; // If non-rigid volume (and if worn encumbrance) increases proportional to contents
 
@@ -521,7 +564,7 @@ public:
     std::map< ammotype, itype_id > magazine_default;
 
     /** Volume above which the magazine starts to protrude from the item and add extra volume */
-    int magazine_well;
+    int magazine_well = 0;
 
     virtual std::string get_item_type_string() const
     {
@@ -590,10 +633,6 @@ public:
     long invoke( player *p, item *it, const tripoint &pos ) const; // Picks first method or returns 0
     long invoke( player *p, item *it, const tripoint &pos, const std::string &iuse_name ) const;
     long tick( player *p, item *it, const tripoint &pos ) const;
-
-    itype() : id("null"), name("none"), name_plural("none") {}
-
-    virtual ~itype() { };
 };
 
 // Includes food drink and drugs
@@ -655,7 +694,7 @@ public:
 };
 
 struct it_tool : itype {
-    std::string ammo_id;
+    std::string ammo_id = "NULL";
 
     itype_id revert_to = "null";
     std::string revert_msg;

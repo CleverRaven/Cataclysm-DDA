@@ -137,31 +137,31 @@ void DynamicDataLoader::initialize()
 
     type_function_map["trap"] = new StaticFunctionAccessor(&trap::load);
     type_function_map["AMMO"] = new ClassFunctionAccessor<Item_factory>(item_controller,
-            &Item_factory::load_ammo);
+            &Item_factory::load_itype);
     type_function_map["GUN"] = new ClassFunctionAccessor<Item_factory>(item_controller,
-            &Item_factory::load_gun);
+            &Item_factory::load_itype);
     type_function_map["ARMOR"] = new ClassFunctionAccessor<Item_factory>(item_controller,
-            &Item_factory::load_armor);
+            &Item_factory::load_itype);
     type_function_map["TOOL"] = new ClassFunctionAccessor<Item_factory>(item_controller,
-            &Item_factory::load_tool);
+            &Item_factory::load_itype);
     type_function_map["TOOL_ARMOR"] = new ClassFunctionAccessor<Item_factory>(item_controller,
-            &Item_factory::load_tool_armor);
+            &Item_factory::load_itype);
     type_function_map["BOOK"] = new ClassFunctionAccessor<Item_factory>(item_controller,
-            &Item_factory::load_book);
+            &Item_factory::load_itype);
     type_function_map["COMESTIBLE"] = new ClassFunctionAccessor<Item_factory>(item_controller,
-            &Item_factory::load_comestible);
+            &Item_factory::load_itype);
     type_function_map["CONTAINER"] = new ClassFunctionAccessor<Item_factory>(item_controller,
-            &Item_factory::load_container);
+            &Item_factory::load_itype);
     type_function_map["GUNMOD"] = new ClassFunctionAccessor<Item_factory>(item_controller,
-            &Item_factory::load_gunmod);
+            &Item_factory::load_itype);
     type_function_map["MAGAZINE"] = new ClassFunctionAccessor<Item_factory>(item_controller,
-            &Item_factory::load_magazine);
+            &Item_factory::load_itype);
     type_function_map["GENERIC"] = new ClassFunctionAccessor<Item_factory>(item_controller,
-            &Item_factory::load_generic);
+            &Item_factory::load_itype);
     type_function_map["BIONIC_ITEM"] = new ClassFunctionAccessor<Item_factory>(item_controller,
-            &Item_factory::load_bionic);
+            &Item_factory::load_itype);
     type_function_map["VAR_VEH_PART"] = new ClassFunctionAccessor<Item_factory>(item_controller,
-            &Item_factory::load_veh_part);
+            &Item_factory::load_itype);
     type_function_map["ITEM_CATEGORY"] = new ClassFunctionAccessor<Item_factory>(item_controller,
             &Item_factory::load_item_category);
 
@@ -368,7 +368,7 @@ void DynamicDataLoader::finalize_loaded_data()
     MonsterGenerator::generator().finalize_mtypes();
     MonsterGroupManager::FinalizeMonsterGroups();
     monfactions::finalize();
-    item_controller->finialize_item_blacklist();
+    item_controller->finalize();
     finalize_recipes();
     finialize_martial_arts();
     check_consistency();

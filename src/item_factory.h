@@ -134,29 +134,30 @@ class Item_factory
         bool add_item_to_group( const Group_tag group_id, const Item_tag item_id, int weight );
         /*@}*/
 
-
         /**
          * @name Item type loading
          *
          * These function load different instances of itype objects from json.
          * The loaded item types are stored and can be accessed through @ref find_template.
          * @param jo The json object to load data from.
+         * @param src Base item type (if any) from which this instance is derived
          * @throw std::string if the json object contains invalid data.
          */
         /*@{*/
-        void load_ammo( JsonObject &jo );
-        void load_gun( JsonObject &jo );
-        void load_armor( JsonObject &jo );
-        void load_tool( JsonObject &jo );
-        void load_tool_armor( JsonObject &jo );
-        void load_book( JsonObject &jo );
-        void load_comestible( JsonObject &jo );
-        void load_container( JsonObject &jo );
-        void load_gunmod( JsonObject &jo );
-        void load_magazine( JsonObject &jo );
-        void load_generic( JsonObject &jo );
-        void load_bionic( JsonObject &jo );
-        void load_veh_part( JsonObject &jo );
+        void load_itype( JsonObject &jo );
+
+        void load_ammo( JsonObject &jo, const itype *src );
+        void load_gun( JsonObject &jo, const itype *src );
+        void load_armor( JsonObject &jo, const itype *src );
+        void load_tool( JsonObject &jo, const itype *src );
+        void load_book( JsonObject &jo, const itype *src );
+        void load_comestible( JsonObject &jo, const itype *src );
+        void load_container( JsonObject &jo, const itype *src );
+        void load_gunmod( JsonObject &jo, const itype *src );
+        void load_magazine( JsonObject &jo, const itype *src );
+        void load_generic( JsonObject &jo, const itype *src );
+        void load_bionic( JsonObject &jo, const itype *src );
+        void load_veh_part( JsonObject &jo, const itype *src );
         /*@}*/
 
 
@@ -209,6 +210,9 @@ class Item_factory
         void load_item_blacklist( JsonObject &jo );
         void load_item_whitelist( JsonObject &jo );
         void finialize_item_blacklist();
+
+        /** Called once after all definitions loaded to perform cleanup tasks */
+        void finalize();
 
         /**
          * Load a json blob of type item option.
@@ -307,8 +311,6 @@ class Item_factory
                                              std::string flag_type = "" );
 
         void set_material_from_json( JsonObject &jo, std::string member, itype *new_item );
-
-        void set_intvar( std::string tag, unsigned int &var, int min, int max );
 
         //Currently only used to body_part stuff, bitset size might need to be increased in the future
         void set_flag_by_string( std::bitset<num_bp> &cur_flags, const std::string &new_flag,
