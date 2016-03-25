@@ -52,7 +52,6 @@ void draw_monster_sounds( const tripoint &offset, WINDOW *window );
 std::string sound_at( const tripoint &location );
 }
 
-typedef std::string mat_type;
 typedef std::string ter_type;
 
 namespace sfx

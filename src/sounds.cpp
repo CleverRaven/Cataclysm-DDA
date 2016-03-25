@@ -700,15 +700,15 @@ void sfx::do_projectile_hit( const Creature &target ) {
     const int angle = get_heard_angle( target.pos() );
     if( target.is_monster() ) {
         const monster &mon = dynamic_cast<const monster &>( target );
-        static std::set<mat_type> const fleshy = {
-            mat_type( "flesh" ),
-            mat_type( "hflesh" ),
-            mat_type( "iflesh" ),
-            mat_type( "veggy" ),
-            mat_type( "bone" ),
-            mat_type( "protoplasmic" ),
+        static std::set<material_id> const fleshy = {
+            material_id( "flesh" ),
+            material_id( "hflesh" ),
+            material_id( "iflesh" ),
+            material_id( "veggy" ),
+            material_id( "bone" ),
+            material_id( "protoplasmic" ),
         };
-        const bool is_fleshy = std::any_of( fleshy.begin(), fleshy.end(), [&mon]( const mat_type &m ) {
+        const bool is_fleshy = std::any_of( fleshy.begin(), fleshy.end(), [&mon]( const material_id &m ) {
             return mon.made_of( m );
         } );
 
