@@ -602,7 +602,7 @@ public:
     /** Volume above which the magazine starts to protrude from the item and add extra volume */
     int magazine_well = 0;
 
-    virtual std::string get_item_type_string() const
+    std::string get_item_type_string() const
     {
         if( tool ) {
             return "TOOL";
@@ -628,9 +628,9 @@ public:
 
     // Returns the name of the item type in the correct language and with respect to its grammatical number,
     // based on quantity (example: item type “anvil”, nname(4) would return “anvils” (as in “4 anvils”).
-    virtual std::string nname(unsigned int quantity) const;
+    std::string nname(unsigned int quantity) const;
 
-    virtual bool count_by_charges() const
+    bool count_by_charges() const
     {
         if( ammo ) {
             return true;
@@ -640,7 +640,7 @@ public:
         return false;
     }
 
-    virtual int charges_default() const {
+    int charges_default() const {
         if( tool ) {
             return tool->def_charges;
         } else if( comestible ) {
@@ -651,7 +651,7 @@ public:
         return 0;
     }
 
-    virtual int charges_to_use() const
+    int charges_to_use() const
     {
         if( tool ) {
             return tool->charges_per_use;
@@ -659,7 +659,7 @@ public:
         return 1;
     }
 
-    virtual int maximum_charges() const
+    int maximum_charges() const
     {
         if( tool ) {
             return tool->max_charges;
