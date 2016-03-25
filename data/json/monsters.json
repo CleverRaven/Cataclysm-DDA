@@ -4329,6 +4329,47 @@
     "flags":["SEES", "SMELLS", "WARM", "VENOM", "SWIMS", "LEATHER", "BONES"]
     },{
     "type" : "MONSTER",
+    "id" : "mon_gator",
+    "name": "sewer gator",
+    "species":"REPTILE",
+    "default_faction":"gator",
+    "symbol":"A",
+    "color":"ltgreen",
+    "size":"LARGE",
+    "material":"flesh",
+    "diff":15,
+    "aggression":20,
+    "morale":50,
+    "speed":90,
+    "melee_skill":4,
+    "melee_dice":1,
+    "melee_dice_sides":10,
+    "melee_cut":12,
+    "dodge":2,
+    "armor_bash":6,
+    "armor_cut":8,
+    "vision_day":2,
+    "vision_night":35,
+    "hp":90,
+    "death_function":"NORMAL",
+    "special_attacks":[
+        {
+            "type" : "bite",
+            "cooldown" : 20,
+            "accuracy" : 6,
+            "damage_max_instance" : [
+                {"damage_type" : "stab", "amount" : 9, "armor_multiplier" : 0.5},
+                {"damage_type" : "bash", "amount" : 27, "armor_multiplier" : 0.5}
+            ]
+        }, ["GRAB", 30], ["GRAB_DRAG", 10]],
+    "description":"In the late 20th century there was an urban legend about pet alligators getting flushed down the toilet and growing to adulthood in sewers.  This large specimen doesn't look like its used to humans as anything other than a meal.",
+    "flags":["SEES", "HEARS", "GOODHEARING", "SMELLS", "KEENNOSE", "ANIMAL", "BLEED", "ATTACKMON", "BONES", "LEATHER", "SWIMS"],
+    "anger_triggers":["PLAYER_CLOSE", "PLAYER_WEAK"],
+    "placate_triggers":["MEAT"],
+    "fear_triggers": ["FIRE", "HURT"],
+    "categories":["WILDLIFE"]
+    },{
+    "type" : "MONSTER",
     "id" : "mon_rat_king",
     "name": "rat king",
     "species":"MAMMAL",
