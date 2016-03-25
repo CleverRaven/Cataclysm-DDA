@@ -200,6 +200,7 @@ game::game() :
     safe_mode(SAFE_MODE_ON),
     mostseen(0),
     gamemode(NULL),
+    user_action_counter(0),
     lookHeight(13),
     tileset_zoom(16)
 {
@@ -1396,7 +1397,14 @@ bool game::do_turn()
                     draw();
                 }
 
+                static bool user_took_action = false;
+                if (user_took_action) {
+                    user_action_counter += 1;
+                    user_took_action = false;
+                }
+
                 if (handle_action()) {
+                    user_took_action = true;
                     ++moves_since_last_save;
                     u.action_taken();
                 }
@@ -9345,6 +9353,11 @@ void game::reset_zoom()
     tileset_zoom = 16;
     rescale_tileset(tileset_zoom);
 #endif // TILES
+}
+
+int game::get_user_action_counter() const
+{
+    return user_action_counter;
 }
 
 void game::list_items_monsters()

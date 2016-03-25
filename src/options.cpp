@@ -26,6 +26,7 @@
 bool trigdist;
 bool use_tiles;
 bool log_from_top;
+int message_ttl;
 bool fov_3d;
 bool tile_iso;
 
@@ -1005,6 +1006,12 @@ void options_manager::init()
                                        "new_top,new_bottom", "new_bottom"
                                       );
 
+    OPTIONS["MESSAGE_TTL"] = cOpt("interface", _("Sidebar log message display duration"),
+                                        _("Number of turns after which a message will be removed from the sidebar log. '0' disables this option."),
+                                        0, 1000, 0
+                                       );
+
+
     //~ style of vehicle interaction menu; vertical is old one.
     optionNames["vertical"] = _("Vertical");
     optionNames["horizontal"] = _("Horizontal");
@@ -1807,6 +1814,7 @@ bool options_manager::save(bool ingame)
     trigdist = OPTIONS["CIRCLEDIST"]; // update trigdist as well
     use_tiles = OPTIONS["USE_TILES"]; // and use_tiles
     log_from_top = OPTIONS["SIDEBAR_LOG_FLOW"] == "new_top"; // cache to global due to heavy usage.
+    message_ttl = OPTIONS["MESSAGE_TTL"]; // cache to global due to heavy usage.
     fov_3d = OPTIONS["FOV_3D"];
 
     try {
@@ -1861,6 +1869,7 @@ void options_manager::load()
     trigdist = OPTIONS["CIRCLEDIST"]; // cache to global due to heavy usage.
     use_tiles = OPTIONS["USE_TILES"]; // cache to global due to heavy usage.
     log_from_top = OPTIONS["SIDEBAR_LOG_FLOW"] == "new_top"; // cache to global due to heavy usage.
+    message_ttl = OPTIONS["MESSAGE_TTL"]; // cache to global due to heavy usage.
     fov_3d = OPTIONS["FOV_3D"];
 }
 
