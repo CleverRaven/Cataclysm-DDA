@@ -309,8 +309,6 @@ class Item_factory
 
         void set_material_from_json( JsonObject &jo, std::string member, itype *new_item );
 
-        void set_intvar( std::string tag, unsigned int &var, int min, int max );
-
         //Currently only used to body_part stuff, bitset size might need to be increased in the future
         void set_flag_by_string( std::bitset<num_bp> &cur_flags, const std::string &new_flag,
                                  const std::string &flag_type );
