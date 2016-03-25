@@ -24,6 +24,7 @@ struct trap;
 enum m_flag : int;
 enum field_id : int;
 enum damage_type : int;
+using material_id = std::string;
 
 enum m_size : int {
     MS_TINY = 0,    // Squirrel
@@ -359,10 +360,7 @@ class Creature
         virtual int get_hp( hp_part bp = num_hp_parts ) const = 0;
         virtual int get_hp_max( hp_part bp = num_hp_parts ) const = 0;
         virtual int hp_percentage() const = 0;
-        virtual std::string get_material() const
-        {
-            return "flesh";
-        }
+        virtual bool made_of( const material_id &m ) const = 0;
         virtual field_id bloodType () const = 0;
         virtual field_id gibType () const = 0;
         // TODO: replumb this to use a std::string along with monster flags.

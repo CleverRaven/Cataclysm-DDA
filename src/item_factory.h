@@ -10,6 +10,7 @@
 #include <map>
 #include <bitset>
 #include <memory>
+#include <list>
 
 bool item_is_blacklisted( const std::string &id );
 
@@ -159,6 +160,8 @@ class Item_factory
         void load_veh_part( JsonObject &jo );
         /*@}*/
 
+        /** called after all JSON has been read and performs any necessary cleanup tasks */
+        void finalize();
 
         /**
          * @name Item categories
@@ -208,7 +211,6 @@ class Item_factory
 
         void load_item_blacklist( JsonObject &jo );
         void load_item_whitelist( JsonObject &jo );
-        void finialize_item_blacklist();
 
         /**
          * Load a json blob of type item option.
@@ -233,6 +235,8 @@ class Item_factory
          */
         Item_tag create_artifact_id() const;
     private:
+        std::map<std::string, std::unique_ptr<itype>> m_abstracts;
+
         std::map<Item_tag, itype *> m_templates;
         typedef std::map<Group_tag, Item_spawn_data *> GroupMap;
         GroupMap m_template_groups;
@@ -255,6 +259,12 @@ class Item_factory
         CategoryMap m_categories;
 
         void create_inital_categories();
+
+        /**
+         * Called before creating a new template and handles inheritance via copy-from
+         * May defer instantiation of the template if depends on other objects not as-yet loaded
+         */
+        itype *load_definition( JsonObject &jo );
 
         /**
          * Load the data of the slot struct. It creates the slot object (of type SlotType) and
@@ -308,16 +318,19 @@ class Item_factory
 
         void set_material_from_json( JsonObject &jo, std::string member, itype *new_item );
 
-        void set_intvar( std::string tag, unsigned int &var, int min, int max );
-
         //Currently only used to body_part stuff, bitset size might need to be increased in the future
         void set_flag_by_string( std::bitset<num_bp> &cur_flags, const std::string &new_flag,
                                  const std::string &flag_type );
         void clear();
         void init();
 
+        void finalize_item_blacklist();
+
         //iuse stuff
         std::map<Item_tag, use_function> iuse_function_list;
+
+        /** JSON data dependent upon as-yet unparsed definitions */
+        std::list<std::string> deferred;
 };
 
 extern std::unique_ptr<Item_factory> item_controller;

@@ -602,7 +602,7 @@ public:
 // Flags: 2D overloads
     std::string features(const int x, const int y); // Words relevant to terrain (sharp, etc)
     bool has_flag(const std::string & flag, const int x, const int y) const;  // checks terrain, furniture and vehicles
-    bool can_put_items(const int x, const int y); // True if items can be placed in this tile
+    bool can_put_items_ter_furn(const int x, const int y) const; // True if items can be placed in this tile
     bool has_flag_ter(const std::string & flag, const int x, const int y) const;  // checks terrain
     bool has_flag_furn(const std::string & flag, const int x, const int y) const;  // checks furniture
     bool has_flag_ter_or_furn(const std::string & flag, const int x, const int y) const; // checks terrain or furniture
@@ -616,7 +616,8 @@ public:
 // Flags: 3D
     std::string features( const tripoint &p ); // Words relevant to terrain (sharp, etc)
     bool has_flag( const std::string &flag, const tripoint &p ) const;  // checks terrain, furniture and vehicles
-    bool can_put_items( const tripoint &p ); // True if items can be placed in this tile
+    bool can_put_items( const tripoint &p ) const; // True if items can be dropped in this tile
+    bool can_put_items_ter_furn( const tripoint &p ) const; // True if items can be placed in this tile
     bool has_flag_ter( const std::string &flag, const tripoint &p ) const;  // checks terrain
     bool has_flag_furn( const std::string &flag, const tripoint &p ) const;  // checks furniture
     bool has_flag_ter_or_furn( const std::string &flag, const tripoint &p ) const; // checks terrain or furniture

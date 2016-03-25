@@ -122,78 +122,27 @@ void Character::apply_mods(const std::string &mut, bool add_remove)
     }
 }
 
+bool mutation_branch::conflicts_with_item( const item &it ) const
+{
+    if( allow_soft_gear && it.is_soft() ) {
+        return false;
+    }
+
+    for( body_part bp : restricts_gear ) {
+        if( it.covers( bp ) ) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
 void Character::mutation_effect(std::string mut)
 {
-    bool destroy = false;
-    std::vector<body_part> bps;
-
     if (mut == "TOUGH" || mut == "TOUGH2" || mut == "TOUGH3" || mut == "GLASSJAW" ||
         mut == "FLIMSY" || mut == "FLIMSY2" || mut == "FLIMSY3" ||
         mut == "MUT_TOUGH" || mut == "MUT_TOUGH2" || mut == "MUT_TOUGH3") {
         recalc_hp();
-
-    } else if( mut == "PAWS" || mut == "PAWS_LARGE" || mut == "ARM_TENTACLES" ||
-               mut == "ARM_TENTACLES_4" || mut == "ARM_TENTACLES_8" ) {
-        // Push off gloves
-        bps.push_back(bp_hand_l);
-        bps.push_back(bp_hand_r);
-
-    } else if (mut == "TALONS") {
-        // Destroy gloves
-        destroy = true;
-        bps.push_back(bp_hand_l);
-        bps.push_back(bp_hand_r);
-
-    } else if (mut == "BEAK" || mut == "BEAK_PECK" || mut == "BEAK_HUM" || mut == "MANDIBLES" ||
-               mut == "SABER_TEETH") {
-        // Destroy mouthwear
-        destroy = true;
-        bps.push_back(bp_mouth);
-
-    } else if (mut == "MINOTAUR" || mut == "MUZZLE" || mut == "MUZZLE_BEAR" || mut == "MUZZLE_LONG" ||
-               mut == "PROBOSCIS" || mut == "MUZZLE_RAT") {
-        // Push off mouthwear
-        bps.push_back(bp_mouth);
-
-    } else if (mut == "HOOVES" || mut == "RAP_TALONS") {
-        // Destroy footwear
-        destroy = true;
-        bps.push_back(bp_foot_l);
-        bps.push_back(bp_foot_r);
-
-    } else if (mut == "SHELL") {
-        // Destroy torsowear
-        destroy = true;
-        bps.push_back(bp_torso);
-
-    } else if ( (mut == "INSECT_ARMS") || (mut == "ARACHNID_ARMS") || (mut == "WINGS_BUTTERFLY") ) {
-        // Push off torsowear
-        bps.push_back(bp_torso);
-
-    } else if (mut == "HORNS_CURLED" || mut == "CHITIN3") {
-        // Push off all helmets
-        bps.push_back(bp_head);
-
-    } else if (mut == "HORNS_POINTED" || mut == "ANTENNAE" || mut == "ANTLERS") {
-        // Push off non-cloth helmets
-        bps.push_back(bp_head);
-
-    } else if (mut == "HUGE") {
-        // And there goes your clothing; by now you shouldn't need it anymore
-        add_msg_player_or_npc(m_bad,
-            _("You rip out of your clothing!"),
-            _("<npcname> rips out of their clothing!"));
-        destroy = true;
-        bps.push_back(bp_torso);
-        bps.push_back(bp_leg_l);
-        bps.push_back(bp_leg_r);
-        bps.push_back(bp_arm_l);
-        bps.push_back(bp_arm_r);
-        bps.push_back(bp_hand_l);
-        bps.push_back(bp_hand_r);
-        bps.push_back(bp_head);
-        bps.push_back(bp_foot_l);
-        bps.push_back(bp_foot_r);
 
     } else if (mut == "STR_ALPHA") {
         ///\EFFECT_STR_MAX determines bonus from STR mutation
@@ -247,24 +196,17 @@ void Character::mutation_effect(std::string mut)
         apply_mods(mut, true);
     }
 
-    const auto covers_any = [&bps]( const item& armor ) {
-        for( auto &bp : bps ) {
-            if( armor.covers( bp ) ) {
-                return true;
-            }
-        }
-        return false;
-    };
+    const auto &branch = mutation_branch::get( mut );
 
     remove_worn_items_with( [&]( item& armor ) {
         static const std::string mutation_safe = "OVERSIZE";
         if( armor.has_flag( mutation_safe ) ) {
             return false;
         }
-        if( !covers_any( armor ) ) {
+        if( !branch.conflicts_with_item( armor ) ) {
             return false;
         }
-        if( destroy ) {
+        if( branch.destroys_gear ) {
             add_msg_player_or_npc( m_bad,
                 _("Your %s is destroyed!"),
                 _("<npcname>'s %s is destroyed!"),
@@ -281,6 +223,10 @@ void Character::mutation_effect(std::string mut)
         }
         return true;
     } );
+
+    if( branch.starts_active ) {
+        my_mutations[mut].powered = true;
+    }
 
     on_mutation_gain( mut );
 }

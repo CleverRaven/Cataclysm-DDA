@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cataclysm-dda 0.C\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-23 12:28+0300\n"
+"POT-Creation-Date: 2016-03-24 10:28+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -38308,7 +38308,9 @@ msgstr ""
 msgid "CHEMICAL STUFF"
 msgstr ""
 
+#. ~ Crafting recipes category name
 #: lang/json/ITEM_CATEGORY_from_json.py
+#: lang/json/recipe_category_from_json.py
 msgid "ARMOR"
 msgstr ""
 
@@ -39672,9 +39674,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "freshwater eel"
-msgid_plural "freshwater eels"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for freshwater eel
 #: lang/json/MONSTER_from_json.py
@@ -39685,9 +39685,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "bowfin"
-msgid_plural "bowfins"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for bowfin
 #: lang/json/MONSTER_from_json.py
@@ -39698,9 +39696,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "bullhead"
-msgid_plural "bullheads"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for bullhead
 #: lang/json/MONSTER_from_json.py
@@ -39709,9 +39705,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "trout"
-msgid_plural "trouts"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for trout
 #: lang/json/MONSTER_from_json.py
@@ -39722,9 +39716,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "carp"
-msgid_plural "carps"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for carp
 #: lang/json/MONSTER_from_json.py
@@ -39735,9 +39727,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "pike"
-msgid_plural "pikes"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for pike
 #: lang/json/MONSTER_from_json.py
@@ -39747,9 +39737,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "bluegill"
-msgid_plural "bluegills"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for bluegill
 #: lang/json/MONSTER_from_json.py
@@ -39810,9 +39798,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "salmon"
-msgid_plural "salmons"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for salmon
 #: lang/json/MONSTER_from_json.py
@@ -39858,9 +39844,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "jawed terror"
-msgid_plural "jawed terrors"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for jawed terror
 #: lang/json/MONSTER_from_json.py
@@ -39871,9 +39855,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "giant carp"
-msgid_plural "giant carps"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for giant carp
 #: lang/json/MONSTER_from_json.py
@@ -39884,9 +39866,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "giant salmon"
-msgid_plural "giant salmons"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for giant salmon
 #: lang/json/MONSTER_from_json.py
@@ -39897,9 +39877,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "Lobster"
-msgid_plural "Lobsters"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for Lobster
 #: lang/json/MONSTER_from_json.py
@@ -39911,9 +39889,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "Crayfish"
-msgid_plural "Crayfishs"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for Crayfish
 #: lang/json/MONSTER_from_json.py
@@ -39924,9 +39900,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "debug monster"
-msgid_plural "debug monsters"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for debug monster
 #: lang/json/MONSTER_from_json.py
@@ -39935,9 +39909,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "bat"
-msgid_plural "bats"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for bat
 #: lang/json/MONSTER_from_json.py
@@ -39949,9 +39921,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "beaver"
-msgid_plural "beavers"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for beaver
 #: lang/json/MONSTER_from_json.py
@@ -39964,9 +39934,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "duck"
-msgid_plural "ducks"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for duck
 #: lang/json/MONSTER_from_json.py
@@ -39977,9 +39945,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "bear"
-msgid_plural "bears"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for bear
 #: lang/json/MONSTER_from_json.py
@@ -39991,9 +39957,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "Smoky bear"
-msgid_plural "Smoky bears"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for Smoky bear
 #: lang/json/MONSTER_from_json.py
@@ -40004,9 +39968,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "bobcat"
-msgid_plural "bobcats"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for bobcat
 #: lang/json/MONSTER_from_json.py
@@ -40017,9 +39979,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "cat"
-msgid_plural "cats"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for cat
 #: lang/json/MONSTER_from_json.py
@@ -40031,9 +39991,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "chicken"
-msgid_plural "chickens"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for chicken
 #: lang/json/MONSTER_from_json.py
@@ -40045,9 +40003,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "chipmunk"
-msgid_plural "chipmunks"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for chipmunk
 #: lang/json/MONSTER_from_json.py
@@ -40059,9 +40015,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "cougar"
-msgid_plural "cougars"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for cougar
 #: lang/json/MONSTER_from_json.py
@@ -40073,9 +40027,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "cow"
-msgid_plural "cows"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for cow
 #: lang/json/MONSTER_from_json.py
@@ -40087,9 +40039,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "coyote"
-msgid_plural "coyotes"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for coyote
 #: lang/json/MONSTER_from_json.py
@@ -40109,9 +40059,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "crow"
-msgid_plural "crows"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for crow
 #: lang/json/MONSTER_from_json.py
@@ -40122,9 +40070,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "deer"
-msgid_plural "deers"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for deer
 #: lang/json/MONSTER_from_json.py
@@ -40135,9 +40081,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "deer mouse"
-msgid_plural "deer mouses"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for deer mouse
 #: lang/json/MONSTER_from_json.py
@@ -40149,9 +40093,7 @@ msgstr ""
 #: lang/json/MONSTER_from_json.py
 #: src/game.cpp
 msgid "dog"
-msgid_plural "dogs"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for dog
 #: lang/json/MONSTER_from_json.py
@@ -40182,9 +40124,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "groundhog"
-msgid_plural "groundhogs"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for groundhog
 #: lang/json/MONSTER_from_json.py
@@ -40195,9 +40135,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "jackrabbit"
-msgid_plural "jackrabbits"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for jackrabbit
 #: lang/json/MONSTER_from_json.py
@@ -40208,9 +40146,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "horse"
-msgid_plural "horses"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for horse
 #: lang/json/MONSTER_from_json.py
@@ -40221,9 +40157,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "lemming"
-msgid_plural "lemmings"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for lemming
 #: lang/json/MONSTER_from_json.py
@@ -40236,9 +40170,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "mink"
-msgid_plural "minks"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for mink
 #: lang/json/MONSTER_from_json.py
@@ -40250,9 +40182,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "moose"
-msgid_plural "mooses"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for moose
 #: lang/json/MONSTER_from_json.py
@@ -40263,9 +40193,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "muskrat"
-msgid_plural "muskrats"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for muskrat
 #: lang/json/MONSTER_from_json.py
@@ -40277,9 +40205,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "otter"
-msgid_plural "otters"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for otter
 #: lang/json/MONSTER_from_json.py
@@ -40292,9 +40218,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "pig"
-msgid_plural "pigs"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for pig
 #: lang/json/MONSTER_from_json.py
@@ -40305,9 +40229,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "rabbit"
-msgid_plural "rabbits"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for rabbit
 #: lang/json/MONSTER_from_json.py
@@ -40318,9 +40240,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "black rat"
-msgid_plural "black rats"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for black rat
 #: lang/json/MONSTER_from_json.py
@@ -40332,9 +40252,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "sewer rat"
-msgid_plural "sewer rats"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for sewer rat
 #: lang/json/MONSTER_from_json.py
@@ -40359,9 +40277,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "zombear"
-msgid_plural "zombears"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for zombear
 #: lang/json/MONSTER_from_json.py
@@ -40372,9 +40288,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "shrew"
-msgid_plural "shrews"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for shrew
 #: lang/json/MONSTER_from_json.py
@@ -40385,9 +40299,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "squirrel"
-msgid_plural "squirrels"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for squirrel
 #: lang/json/MONSTER_from_json.py
@@ -40407,9 +40319,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "weasel"
-msgid_plural "weasels"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for weasel
 #: lang/json/MONSTER_from_json.py
@@ -40435,9 +40345,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "ant larva"
-msgid_plural "ant larvas"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for ant larva
 #: lang/json/MONSTER_from_json.py
@@ -40448,9 +40356,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "giant ant"
-msgid_plural "giant ants"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for giant ant
 #: lang/json/MONSTER_from_json.py
@@ -40461,9 +40367,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "soldier ant"
-msgid_plural "soldier ants"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for soldier ant
 #: lang/json/MONSTER_from_json.py
@@ -40474,9 +40378,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "queen ant"
-msgid_plural "queen ants"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for queen ant
 #: lang/json/MONSTER_from_json.py
@@ -40487,9 +40389,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "fungal ant"
-msgid_plural "fungal ants"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for fungal ant
 #: lang/json/MONSTER_from_json.py
@@ -40513,9 +40413,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "giant bee"
-msgid_plural "giant bees"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for giant bee
 #: lang/json/MONSTER_from_json.py
@@ -40526,9 +40424,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "wasp"
-msgid_plural "wasps"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for wasp
 #: lang/json/MONSTER_from_json.py
@@ -40539,9 +40435,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "giant wasp"
-msgid_plural "giant wasps"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for giant wasp
 #: lang/json/MONSTER_from_json.py
@@ -40552,9 +40446,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "graboid"
-msgid_plural "graboids"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for graboid
 #: lang/json/MONSTER_from_json.py
@@ -40566,9 +40458,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "giant worm"
-msgid_plural "giant worms"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for giant worm
 #: lang/json/MONSTER_from_json.py
@@ -40580,9 +40470,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "half worm"
-msgid_plural "half worms"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for half worm
 #: lang/json/MONSTER_from_json.py
@@ -40591,9 +40479,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "sludge crawler"
-msgid_plural "sludge crawlers"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for sludge crawler
 #: lang/json/MONSTER_from_json.py
@@ -40605,9 +40491,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "zombie"
-msgid_plural "zombies"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for zombie
 #: lang/json/MONSTER_from_json.py
@@ -40618,9 +40502,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "fat zombie"
-msgid_plural "fat zombies"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for fat zombie
 #: lang/json/MONSTER_from_json.py
@@ -40631,9 +40513,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "tough zombie"
-msgid_plural "tough zombies"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for tough zombie
 #: lang/json/MONSTER_from_json.py
@@ -40644,9 +40524,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "crawling zombie"
-msgid_plural "crawling zombies"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for crawling zombie
 #: lang/json/MONSTER_from_json.py
@@ -40657,9 +40535,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "hazmat zombie"
-msgid_plural "hazmat zombies"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for hazmat zombie
 #: lang/json/MONSTER_from_json.py
@@ -40670,9 +40546,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "firefighter zombie"
-msgid_plural "firefighter zombies"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for firefighter zombie
 #: lang/json/MONSTER_from_json.py
@@ -40683,9 +40557,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "survivor zombie"
-msgid_plural "survivor zombies"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for survivor zombie
 #: lang/json/MONSTER_from_json.py
@@ -40696,9 +40568,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "decayed zombie"
-msgid_plural "decayed zombies"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for decayed zombie
 #: lang/json/MONSTER_from_json.py
@@ -40709,9 +40579,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "zombie cop"
-msgid_plural "zombie cops"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for zombie cop
 #: lang/json/MONSTER_from_json.py
@@ -40721,9 +40589,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "shrieker zombie"
-msgid_plural "shrieker zombies"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for shrieker zombie
 #: lang/json/MONSTER_from_json.py
@@ -40734,9 +40600,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "screecher zombie"
-msgid_plural "screecher zombies"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for screecher zombie
 #: lang/json/MONSTER_from_json.py
@@ -40747,9 +40611,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "acidic zombie"
-msgid_plural "acidic zombies"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for acidic zombie
 #: lang/json/MONSTER_from_json.py
@@ -40760,9 +40622,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "spitter zombie"
-msgid_plural "spitter zombies"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for spitter zombie
 #: lang/json/MONSTER_from_json.py
@@ -40774,9 +40634,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "corrosive zombie"
-msgid_plural "corrosive zombies"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for corrosive zombie
 #: lang/json/MONSTER_from_json.py
@@ -40788,9 +40646,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "shocker zombie"
-msgid_plural "shocker zombies"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for shocker zombie
 #: lang/json/MONSTER_from_json.py
@@ -40799,9 +40655,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "smoker zombie"
-msgid_plural "smoker zombies"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for smoker zombie
 #: lang/json/MONSTER_from_json.py
@@ -40812,9 +40666,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "shady zombie"
-msgid_plural "shady zombies"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for shady zombie
 #: lang/json/MONSTER_from_json.py
@@ -40826,9 +40678,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "swimmer zombie"
-msgid_plural "swimmer zombies"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for swimmer zombie
 #: lang/json/MONSTER_from_json.py
@@ -40839,9 +40689,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "zombie dog"
-msgid_plural "zombie dogs"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for zombie dog
 #: lang/json/MONSTER_from_json.py
@@ -40852,9 +40700,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "skeletal dog"
-msgid_plural "skeletal dogs"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for skeletal dog
 #: lang/json/MONSTER_from_json.py
@@ -40865,9 +40711,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "Z-9"
-msgid_plural "Z-9s"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for Z-9
 #: lang/json/MONSTER_from_json.py
@@ -40878,9 +40722,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "rot-weiler"
-msgid_plural "rot-weilers"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for rot-weiler
 #: lang/json/MONSTER_from_json.py
@@ -40891,9 +40733,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "zombie brute"
-msgid_plural "zombie brutes"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for zombie brute
 #: lang/json/MONSTER_from_json.py
@@ -40903,9 +40743,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "zombie hulk"
-msgid_plural "zombie hulks"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for zombie hulk
 #: lang/json/MONSTER_from_json.py
@@ -40916,9 +40754,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "fungal zombie"
-msgid_plural "fungal zombies"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for fungal zombie
 #: lang/json/MONSTER_from_json.py
@@ -40929,9 +40765,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "boomer"
-msgid_plural "boomers"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for boomer
 #: lang/json/MONSTER_from_json.py
@@ -40942,9 +40776,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "huge boomer"
-msgid_plural "huge boomers"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for huge boomer
 #: lang/json/MONSTER_from_json.py
@@ -40956,9 +40788,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "fungal boomer"
-msgid_plural "fungal boomers"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for fungal boomer
 #: lang/json/MONSTER_from_json.py
@@ -40969,9 +40799,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "bloated zombie"
-msgid_plural "bloated zombies"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for bloated zombie
 #: lang/json/MONSTER_from_json.py
@@ -40983,9 +40811,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "skeleton"
-msgid_plural "skeletons"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for skeleton
 #: lang/json/MONSTER_from_json.py
@@ -40998,9 +40824,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "zombie necromancer"
-msgid_plural "zombie necromancers"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for zombie necromancer
 #: lang/json/MONSTER_from_json.py
@@ -41013,9 +40837,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "zombie scientist"
-msgid_plural "zombie scientists"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for zombie scientist
 #: lang/json/MONSTER_from_json.py
@@ -41027,9 +40849,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "zombie soldier"
-msgid_plural "zombie soldiers"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for zombie soldier
 #: lang/json/MONSTER_from_json.py
@@ -41040,9 +40860,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "zombie grenadier"
-msgid_plural "zombie grenadiers"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for zombie grenadier
 #: lang/json/MONSTER_from_json.py
@@ -41053,9 +40871,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "zombie elite grenadier"
-msgid_plural "zombie elite grenadiers"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for zombie elite grenadier
 #: lang/json/MONSTER_from_json.py
@@ -41066,9 +40882,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "grabber zombie"
-msgid_plural "grabber zombies"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for grabber zombie
 #: lang/json/MONSTER_from_json.py
@@ -41079,9 +40893,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "grappler zombie"
-msgid_plural "grappler zombies"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for grappler zombie
 #: lang/json/MONSTER_from_json.py
@@ -41093,9 +40905,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "slavering biter"
-msgid_plural "slavering biters"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for slavering biter
 #: lang/json/MONSTER_from_json.py
@@ -41106,9 +40916,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "zombie master"
-msgid_plural "zombie masters"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for zombie master
 #: lang/json/MONSTER_from_json.py
@@ -41122,9 +40930,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "scarred zombie"
-msgid_plural "scarred zombies"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for scarred zombie
 #: lang/json/MONSTER_from_json.py
@@ -41135,9 +40941,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "feral runner"
-msgid_plural "feral runners"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for feral runner
 #: lang/json/MONSTER_from_json.py
@@ -41148,9 +40952,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "feral hunter"
-msgid_plural "feral hunters"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for feral hunter
 #: lang/json/MONSTER_from_json.py
@@ -41161,9 +40963,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "feral predator"
-msgid_plural "feral predators"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for feral predator
 #: lang/json/MONSTER_from_json.py
@@ -41175,9 +40975,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "zombie hollow"
-msgid_plural "zombie hollows"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for zombie hollow
 #: lang/json/MONSTER_from_json.py
@@ -41205,9 +41003,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "anklebiter"
-msgid_plural "anklebiters"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for anklebiter
 #: lang/json/MONSTER_from_json.py
@@ -41218,9 +41014,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "howling waif"
-msgid_plural "howling waifs"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for howling waif
 #: lang/json/MONSTER_from_json.py
@@ -41232,9 +41026,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "sproglodyte"
-msgid_plural "sproglodytes"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for sproglodyte
 #: lang/json/MONSTER_from_json.py
@@ -41245,9 +41037,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "shriekling"
-msgid_plural "shrieklings"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for shriekling
 #: lang/json/MONSTER_from_json.py
@@ -41258,9 +41048,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "creepy crawler"
-msgid_plural "creepy crawlers"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for creepy crawler
 #: lang/json/MONSTER_from_json.py
@@ -41271,9 +41059,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "snotgobbler"
-msgid_plural "snotgobblers"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for snotgobbler
 #: lang/json/MONSTER_from_json.py
@@ -41284,9 +41070,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "jabberwock"
-msgid_plural "jabberwocks"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for jabberwock
 #: lang/json/MONSTER_from_json.py
@@ -41298,9 +41082,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "irradiated wanderer"
-msgid_plural "irradiated wanderers"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for irradiated wanderer
 #: lang/json/MONSTER_from_json.py
@@ -41311,9 +41093,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "charred nightmare"
-msgid_plural "charred nightmares"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for charred nightmare
 #: lang/json/MONSTER_from_json.py
@@ -41324,9 +41104,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "triffid"
-msgid_plural "triffids"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for triffid
 #: lang/json/MONSTER_from_json.py
@@ -41338,9 +41116,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "triffid sprout"
-msgid_plural "triffid sprouts"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for triffid sprout
 #: lang/json/MONSTER_from_json.py
@@ -41351,9 +41127,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "fungal fighter"
-msgid_plural "fungal fighters"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for fungal fighter
 #: lang/json/MONSTER_from_json.py
@@ -41364,9 +41138,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "triffid queen"
-msgid_plural "triffid queens"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for triffid queen
 #: lang/json/MONSTER_from_json.py
@@ -41378,9 +41150,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "creeper hub"
-msgid_plural "creeper hubs"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for creeper hub
 #: lang/json/MONSTER_from_json.py
@@ -41391,9 +41161,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "creeper vine"
-msgid_plural "creeper vines"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for creeper vine
 #: lang/json/MONSTER_from_json.py
@@ -41402,9 +41170,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "biollante"
-msgid_plural "biollantes"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for biollante
 #: lang/json/MONSTER_from_json.py
@@ -41415,9 +41181,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "vine beast"
-msgid_plural "vine beasts"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for vine beast
 #: lang/json/MONSTER_from_json.py
@@ -41430,9 +41194,7 @@ msgstr ""
 #: lang/json/MONSTER_from_json.py
 #: lang/json/overmap_terrain_from_json.py
 msgid "triffid heart"
-msgid_plural "triffid hearts"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for triffid heart
 #: lang/json/MONSTER_from_json.py
@@ -41443,9 +41205,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "fungaloid"
-msgid_plural "fungaloids"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for fungaloid
 #: lang/json/MONSTER_from_json.py
@@ -41457,9 +41217,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "fungal sporeling"
-msgid_plural "fungal sporelings"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for fungal sporeling
 #: lang/json/MONSTER_from_json.py
@@ -41471,9 +41229,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "spore cloud"
-msgid_plural "spore clouds"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for spore cloud
 #: lang/json/MONSTER_from_json.py
@@ -41482,9 +41238,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "fungal spire"
-msgid_plural "fungal spires"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for fungal spire
 #: lang/json/MONSTER_from_json.py
@@ -41495,9 +41249,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "giant fungal blossom"
-msgid_plural "giant fungal blossoms"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for giant fungal blossom
 #: lang/json/MONSTER_from_json.py
@@ -41509,9 +41261,7 @@ msgstr ""
 #: lang/json/MONSTER_from_json.py
 #: lang/json/overmap_terrain_from_json.py
 msgid "fungal tower"
-msgid_plural "fungal towers"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for fungal tower
 #: lang/json/MONSTER_from_json.py
@@ -41526,9 +41276,7 @@ msgstr ""
 #: lang/json/MONSTER_from_json.py lang/json/terrain_from_json.py
 #: lang/json/terrain_from_json.py
 msgid "fungal wall"
-msgid_plural "fungal walls"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for fungal wall
 #: lang/json/MONSTER_from_json.py
@@ -41539,9 +41287,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "fungal hedgerow"
-msgid_plural "fungal hedgerows"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for fungal hedgerow
 #: lang/json/MONSTER_from_json.py
@@ -41552,9 +41298,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "fungal tendril"
-msgid_plural "fungal tendrils"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for fungal tendril
 #: lang/json/MONSTER_from_json.py
@@ -41563,9 +41307,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "fungal blossom"
-msgid_plural "fungal blossoms"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for fungal blossom
 #: lang/json/MONSTER_from_json.py
@@ -41576,9 +41318,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "brain blob"
-msgid_plural "brain blobs"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for brain blob
 #: lang/json/MONSTER_from_json.py
@@ -41589,9 +41329,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "big blob"
-msgid_plural "big blobs"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for big blob
 #: lang/json/MONSTER_from_json.py
@@ -41602,9 +41340,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "blob"
-msgid_plural "blobs"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for blob
 #: lang/json/MONSTER_from_json.py
@@ -41615,9 +41351,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "small blob"
-msgid_plural "small blobs"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for small blob
 #: lang/json/MONSTER_from_json.py
@@ -41628,9 +41362,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "C.H.U.D."
-msgid_plural "C.H.U.D.s"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for C.H.U.D.
 #: lang/json/MONSTER_from_json.py
@@ -41641,9 +41373,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "cyclopean"
-msgid_plural "cyclopeans"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for cyclopean
 #: lang/json/MONSTER_from_json.py
@@ -41654,9 +41384,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "crawler"
-msgid_plural "crawlers"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for crawler
 #: lang/json/MONSTER_from_json.py
@@ -41667,9 +41395,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "seweranha"
-msgid_plural "seweranhas"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for seweranha
 #: lang/json/MONSTER_from_json.py
@@ -41680,9 +41406,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "sewer snake"
-msgid_plural "sewer snakes"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for sewer snake
 #: lang/json/MONSTER_from_json.py
@@ -41694,9 +41418,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "rat king"
-msgid_plural "rat kings"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for rat king
 #: lang/json/MONSTER_from_json.py
@@ -41707,9 +41429,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "mosquito"
-msgid_plural "mosquitos"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for mosquito
 #: lang/json/MONSTER_from_json.py
@@ -41720,9 +41440,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "giant mosquito"
-msgid_plural "giant mosquitos"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for giant mosquito
 #: lang/json/MONSTER_from_json.py
@@ -41758,9 +41476,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "centipede"
-msgid_plural "centipedes"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for centipede
 #: lang/json/MONSTER_from_json.py
@@ -41770,9 +41486,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "giant centipede"
-msgid_plural "giant centipedes"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for giant centipede
 #: lang/json/MONSTER_from_json.py
@@ -41783,9 +41497,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "bull frog"
-msgid_plural "bull frogs"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for bull frog
 #: lang/json/MONSTER_from_json.py
@@ -41796,9 +41508,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "giant frog"
-msgid_plural "giant frogs"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for giant frog
 #: lang/json/MONSTER_from_json.py
@@ -41809,9 +41519,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "slug"
-msgid_plural "slugs"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for slug
 #: lang/json/MONSTER_from_json.py
@@ -41823,9 +41531,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "giant slug"
-msgid_plural "giant slugs"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for giant slug
 #: lang/json/MONSTER_from_json.py
@@ -41836,9 +41542,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "dermatik larva"
-msgid_plural "dermatik larvas"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for dermatik larva
 #: lang/json/MONSTER_from_json.py
@@ -41849,9 +41553,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "dermatik"
-msgid_plural "dermatiks"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for dermatik
 #: lang/json/MONSTER_from_json.py
@@ -41862,9 +41564,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "wolf spider"
-msgid_plural "wolf spiders"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for wolf spider
 #: lang/json/MONSTER_from_json.py
@@ -41875,9 +41575,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "giant wolf spider"
-msgid_plural "giant wolf spiders"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for giant wolf spider
 #: lang/json/MONSTER_from_json.py
@@ -41888,9 +41586,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "giant web spider"
-msgid_plural "giant web spiders"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for giant web spider
 #: lang/json/MONSTER_from_json.py
@@ -41901,9 +41597,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "immature giant web spider"
-msgid_plural "immature giant web spiders"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for immature giant web spider
 #: lang/json/MONSTER_from_json.py
@@ -41914,9 +41608,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "jumping spider"
-msgid_plural "jumping spiders"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for jumping spider
 #: lang/json/MONSTER_from_json.py
@@ -41928,9 +41620,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "giant jumping spider"
-msgid_plural "giant jumping spiders"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for giant jumping spider
 #: lang/json/MONSTER_from_json.py
@@ -41941,9 +41631,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "trapdoor spider"
-msgid_plural "trapdoor spiders"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for trapdoor spider
 #: lang/json/MONSTER_from_json.py
@@ -41954,9 +41642,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "giant trapdoor spider"
-msgid_plural "giant trapdoor spiders"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for giant trapdoor spider
 #: lang/json/MONSTER_from_json.py
@@ -41967,9 +41653,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "black widow spider"
-msgid_plural "black widow spiders"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for black widow spider
 #: lang/json/MONSTER_from_json.py
@@ -41980,9 +41664,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "giant black widow"
-msgid_plural "giant black widows"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for giant black widow
 #: lang/json/MONSTER_from_json.py
@@ -41993,9 +41675,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "giant black widow spiderling"
-msgid_plural "giant black widow spiderlings"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for giant black widow spiderling
 #: lang/json/MONSTER_from_json.py
@@ -42006,9 +41686,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "giant cellar spider"
-msgid_plural "giant cellar spiders"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for giant cellar spider
 #: lang/json/MONSTER_from_json.py
@@ -42020,9 +41698,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "immature giant cellar spider"
-msgid_plural "immature giant cellar spiders"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for immature giant cellar spider
 #: lang/json/MONSTER_from_json.py
@@ -42033,9 +41709,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "dark wyrm"
-msgid_plural "dark wyrms"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for dark wyrm
 #: lang/json/MONSTER_from_json.py
@@ -42047,9 +41721,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "amigara horror"
-msgid_plural "amigara horrors"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for amigara horror
 #: lang/json/MONSTER_from_json.py
@@ -42067,9 +41739,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "tentacle dog"
-msgid_plural "tentacle dogs"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for tentacle dog
 #: lang/json/MONSTER_from_json.py
@@ -42080,9 +41750,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "thing"
-msgid_plural "things"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for thing
 #: lang/json/MONSTER_from_json.py
@@ -42093,9 +41761,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "human snail"
-msgid_plural "human snails"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for human snail
 #: lang/json/MONSTER_from_json.py
@@ -42131,9 +41797,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "flying polyp"
-msgid_plural "flying polyps"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for flying polyp
 #: lang/json/MONSTER_from_json.py
@@ -42144,9 +41808,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "hunting horror"
-msgid_plural "hunting horrors"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for hunting horror
 #: lang/json/MONSTER_from_json.py
@@ -42158,9 +41820,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "mi-go"
-msgid_plural "mi-gos"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for mi-go
 #: lang/json/MONSTER_from_json.py
@@ -42172,9 +41832,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "yugg"
-msgid_plural "yuggs"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for yugg
 #: lang/json/MONSTER_from_json.py
@@ -42186,9 +41844,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "amoebic mold"
-msgid_plural "amoebic molds"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for amoebic mold
 #: lang/json/MONSTER_from_json.py
@@ -42199,9 +41855,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "flaming eye"
-msgid_plural "flaming eyes"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for flaming eye
 #: lang/json/MONSTER_from_json.py
@@ -42212,9 +41866,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "kreck"
-msgid_plural "krecks"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for kreck
 #: lang/json/MONSTER_from_json.py
@@ -42225,9 +41877,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "gracken"
-msgid_plural "grackens"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for gracken
 #: lang/json/MONSTER_from_json.py
@@ -42251,9 +41901,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "gozu"
-msgid_plural "gozus"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for gozu
 #: lang/json/MONSTER_from_json.py
@@ -42264,9 +41912,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "shadow"
-msgid_plural "shadows"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for shadow
 #: lang/json/MONSTER_from_json.py
@@ -42275,9 +41921,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "wraith"
-msgid_plural "wraiths"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for wraith
 #: lang/json/MONSTER_from_json.py
@@ -42288,9 +41932,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "breather"
-msgid_plural "breathers"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for breather
 #: lang/json/MONSTER_from_json.py
@@ -42299,9 +41941,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "shadow snake"
-msgid_plural "shadow snakes"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for shadow snake
 #: lang/json/MONSTER_from_json.py
@@ -42310,9 +41950,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "shoggoth"
-msgid_plural "shoggoths"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for shoggoth
 #: lang/json/MONSTER_from_json.py
@@ -42324,9 +41962,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "albino penguin"
-msgid_plural "albino penguins"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for albino penguin
 #: lang/json/MONSTER_from_json.py
@@ -42336,9 +41972,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "dementia"
-msgid_plural "dementias"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for dementia
 #: lang/json/MONSTER_from_json.py
@@ -42362,9 +41996,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "blood sacrifice"
-msgid_plural "blood sacrifices"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for blood sacrifice
 #: lang/json/MONSTER_from_json.py
@@ -42376,9 +42008,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "flesh angel"
-msgid_plural "flesh angels"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for flesh angel
 #: lang/json/MONSTER_from_json.py
@@ -42389,9 +42019,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "eyebot"
-msgid_plural "eyebots"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for eyebot
 #: lang/json/MONSTER_from_json.py
@@ -42403,9 +42031,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "manhack"
-msgid_plural "manhacks"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for manhack
 #: lang/json/MONSTER_from_json.py
@@ -42416,9 +42042,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "grenade hack"
-msgid_plural "grenade hacks"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for grenade hack
 #: lang/json/MONSTER_from_json.py
@@ -42429,9 +42053,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "mininuke hack"
-msgid_plural "mininuke hacks"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for mininuke hack
 #: lang/json/MONSTER_from_json.py
@@ -42442,9 +42064,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "tear gas hack"
-msgid_plural "tear gas hacks"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for tear gas hack
 #: lang/json/MONSTER_from_json.py
@@ -42455,9 +42075,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "EMP hack"
-msgid_plural "EMP hacks"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for EMP hack
 #: lang/json/MONSTER_from_json.py
@@ -42468,9 +42086,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "C-4 hack"
-msgid_plural "C-4 hacks"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for C-4 hack
 #: lang/json/MONSTER_from_json.py
@@ -42481,9 +42097,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "flashbang hack"
-msgid_plural "flashbang hacks"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for flashbang hack
 #: lang/json/MONSTER_from_json.py
@@ -42494,9 +42108,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "skitterbot"
-msgid_plural "skitterbots"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for skitterbot
 #: lang/json/MONSTER_from_json.py
@@ -42508,9 +42120,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "cleaner bot"
-msgid_plural "cleaner bots"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for cleaner bot
 #: lang/json/MONSTER_from_json.py
@@ -42521,9 +42131,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "police bot"
-msgid_plural "police bots"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for police bot
 #: lang/json/MONSTER_from_json.py
@@ -42536,9 +42144,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "miner bot"
-msgid_plural "miner bots"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for miner bot
 #: lang/json/MONSTER_from_json.py
@@ -42549,9 +42155,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "tribot"
-msgid_plural "tribots"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for tribot
 #: lang/json/MONSTER_from_json.py
@@ -42563,9 +42167,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "chicken walker"
-msgid_plural "chicken walkers"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for chicken walker
 #: lang/json/MONSTER_from_json.py
@@ -42579,9 +42181,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "tank drone"
-msgid_plural "tank drones"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for tank drone
 #: lang/json/MONSTER_from_json.py
@@ -42594,9 +42194,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "milspec searchlight"
-msgid_plural "milspec searchlights"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for milspec searchlight
 #: lang/json/MONSTER_from_json.py
@@ -42607,9 +42205,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "exploder"
-msgid_plural "exploders"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for exploder
 #: lang/json/MONSTER_from_json.py
@@ -42620,9 +42216,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "your mother"
-msgid_plural "your mothers"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for your mother
 #: lang/json/MONSTER_from_json.py
@@ -42631,9 +42225,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "generator"
-msgid_plural "generators"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for generator
 #: lang/json/MONSTER_from_json.py
@@ -42642,9 +42234,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "slimespring"
-msgid_plural "slimesprings"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for slimespring
 #: lang/json/MONSTER_from_json.py
@@ -42653,9 +42243,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "turkey"
-msgid_plural "turkeys"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for turkey
 #: lang/json/MONSTER_from_json.py
@@ -42666,9 +42254,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "raccoon"
-msgid_plural "raccoons"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for raccoon
 #: lang/json/MONSTER_from_json.py
@@ -42680,9 +42266,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "opossum"
-msgid_plural "opossums"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for opossum
 #: lang/json/MONSTER_from_json.py
@@ -42694,9 +42278,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "rattlesnake"
-msgid_plural "rattlesnakes"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for rattlesnake
 #: lang/json/MONSTER_from_json.py
@@ -42707,9 +42289,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "giant rattlesnake"
-msgid_plural "giant rattlesnakes"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for giant rattlesnake
 #: lang/json/MONSTER_from_json.py
@@ -42721,9 +42301,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "giant crayfish"
-msgid_plural "giant crayfishs"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for giant crayfish
 #: lang/json/MONSTER_from_json.py
@@ -42749,9 +42327,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "broken cyborg"
-msgid_plural "broken cyborgs"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for broken cyborg
 #: lang/json/MONSTER_from_json.py
@@ -42764,9 +42340,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "antlered horror"
-msgid_plural "antlered horrors"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for antlered horror
 #: lang/json/MONSTER_from_json.py
@@ -42779,9 +42353,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "grim howler"
-msgid_plural "grim howlers"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for grim howler
 #: lang/json/MONSTER_from_json.py
@@ -42792,9 +42364,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "decayed pouncer"
-msgid_plural "decayed pouncers"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for decayed pouncer
 #: lang/json/MONSTER_from_json.py
@@ -42805,9 +42375,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "zombie bio-operator"
-msgid_plural "zombie bio-operators"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for zombie bio-operator
 #: lang/json/MONSTER_from_json.py
@@ -42818,9 +42386,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "armored zombie"
-msgid_plural "armored zombies"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for armored zombie
 #: lang/json/MONSTER_from_json.py
@@ -42831,9 +42397,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "festering boar"
-msgid_plural "festering boars"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for festering boar
 #: lang/json/MONSTER_from_json.py
@@ -42844,9 +42408,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "evil multi-cooker"
-msgid_plural "evil multi-cookers"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for evil multi-cooker
 #: lang/json/MONSTER_from_json.py
@@ -42855,9 +42417,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "Thriller"
-msgid_plural "Thrillers"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for Thriller
 #: lang/json/MONSTER_from_json.py
@@ -42870,9 +42430,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "zombie dancer"
-msgid_plural "zombie dancers"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for zombie dancer
 #: lang/json/MONSTER_from_json.py
@@ -42888,9 +42446,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "riot control bot"
-msgid_plural "riot control bots"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for riot control bot
 #: lang/json/MONSTER_from_json.py
@@ -42903,9 +42459,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "zombie technician"
-msgid_plural "zombie technicians"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for zombie technician
 #: lang/json/MONSTER_from_json.py
@@ -42916,9 +42470,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "shocker brute"
-msgid_plural "shocker brutes"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for shocker brute
 #: lang/json/MONSTER_from_json.py
@@ -42930,9 +42482,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "giant cockroach"
-msgid_plural "giant cockroachs"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for giant cockroach
 #: lang/json/MONSTER_from_json.py
@@ -42941,9 +42491,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "pregnant giant cockroach"
-msgid_plural "pregnant giant cockroachs"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for pregnant giant cockroach
 #: lang/json/MONSTER_from_json.py
@@ -42953,9 +42501,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "giant cockroach nymph"
-msgid_plural "giant cockroach nymphs"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for giant cockroach nymph
 #: lang/json/MONSTER_from_json.py
@@ -42964,9 +42510,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "security bot"
-msgid_plural "security bots"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for security bot
 #: lang/json/MONSTER_from_json.py
@@ -42978,9 +42522,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "turret"
-msgid_plural "turrets"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for turret
 #: lang/json/MONSTER_from_json.py
@@ -42993,9 +42535,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "antimateriel turret"
-msgid_plural "antimateriel turrets"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for antimateriel turret
 #: lang/json/MONSTER_from_json.py
@@ -43008,9 +42548,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "laser turret"
-msgid_plural "laser turrets"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for laser turret
 #: lang/json/MONSTER_from_json.py
@@ -43022,9 +42560,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "milspec turret"
-msgid_plural "milspec turrets"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for milspec turret
 #: lang/json/MONSTER_from_json.py
@@ -43035,9 +42571,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "old animatronic fox"
-msgid_plural "old animatronic foxs"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for old animatronic fox
 #: lang/json/MONSTER_from_json.py
@@ -43049,9 +42583,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "new animatronic fox"
-msgid_plural "new animatronic foxs"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for new animatronic fox
 #: lang/json/MONSTER_from_json.py
@@ -43063,9 +42595,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "wrecked animatronic fox"
-msgid_plural "wrecked animatronic foxs"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for wrecked animatronic fox
 #: lang/json/MONSTER_from_json.py
@@ -43077,9 +42607,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "new animatronic bunny"
-msgid_plural "new animatronic bunnys"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for new animatronic bunny
 #: lang/json/MONSTER_from_json.py
@@ -43091,9 +42619,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "old animatronic bunny"
-msgid_plural "old animatronic bunnys"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for old animatronic bunny
 #: lang/json/MONSTER_from_json.py
@@ -43105,9 +42631,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "old animatronic chicken"
-msgid_plural "old animatronic chickens"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for old animatronic chicken
 #: lang/json/MONSTER_from_json.py
@@ -43118,9 +42642,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "new animatronic chicken"
-msgid_plural "new animatronic chickens"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for new animatronic chicken
 #: lang/json/MONSTER_from_json.py
@@ -43133,9 +42655,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "old animatronic bear"
-msgid_plural "old animatronic bears"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for old animatronic bear
 #: lang/json/MONSTER_from_json.py
@@ -43147,9 +42667,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "new animatronic bear"
-msgid_plural "new animatronic bears"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for new animatronic bear
 #: lang/json/MONSTER_from_json.py
@@ -43161,9 +42679,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "animatronic bat"
-msgid_plural "animatronic bats"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for animatronic bat
 #: lang/json/MONSTER_from_json.py
@@ -43175,9 +42691,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "animatronic beaver"
-msgid_plural "animatronic beavers"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for animatronic beaver
 #: lang/json/MONSTER_from_json.py
@@ -43189,9 +42703,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "animatronic cat"
-msgid_plural "animatronic cats"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for animatronic cat
 #: lang/json/MONSTER_from_json.py
@@ -43202,9 +42714,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "animatronic chipmunk"
-msgid_plural "animatronic chipmunks"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for animatronic chipmunk
 #: lang/json/MONSTER_from_json.py
@@ -43216,9 +42726,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "animatronic cow"
-msgid_plural "animatronic cows"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for animatronic cow
 #: lang/json/MONSTER_from_json.py
@@ -43230,9 +42738,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "animatronic coyote"
-msgid_plural "animatronic coyotes"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for animatronic coyote
 #: lang/json/MONSTER_from_json.py
@@ -43244,9 +42750,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "animatronic deer"
-msgid_plural "animatronic deers"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for animatronic deer
 #: lang/json/MONSTER_from_json.py
@@ -43257,9 +42761,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "animatronic horse"
-msgid_plural "animatronic horses"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for animatronic horse
 #: lang/json/MONSTER_from_json.py
@@ -43270,9 +42772,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "animatronic pig"
-msgid_plural "animatronic pigs"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for animatronic pig
 #: lang/json/MONSTER_from_json.py
@@ -43296,9 +42796,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "animatronic squirrel"
-msgid_plural "animatronic squirrels"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for animatronic squirrel
 #: lang/json/MONSTER_from_json.py
@@ -43310,9 +42808,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "animatronic child"
-msgid_plural "animatronic childs"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for animatronic child
 #: lang/json/MONSTER_from_json.py
@@ -43323,9 +42819,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "marionette"
-msgid_plural "marionettes"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for marionette
 #: lang/json/MONSTER_from_json.py
@@ -43336,9 +42830,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "animatronic wolf"
-msgid_plural "animatronic wolfs"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for animatronic wolf
 #: lang/json/MONSTER_from_json.py
@@ -43362,9 +42854,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "moruboru"
-msgid_plural "moruborus"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for moruboru
 #: lang/json/MONSTER_from_json.py
@@ -43375,9 +42865,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "archon"
-msgid_plural "archons"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for archon
 #: lang/json/MONSTER_from_json.py
@@ -43388,9 +42876,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "dracolich"
-msgid_plural "dracolichs"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for dracolich
 #: lang/json/MONSTER_from_json.py
@@ -43403,9 +42889,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "Compsognathus"
-msgid_plural "Compsognathuss"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for Compsognathus
 #: lang/json/MONSTER_from_json.py
@@ -43416,9 +42900,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "Gallimimus"
-msgid_plural "Gallimimuss"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for Gallimimus
 #: lang/json/MONSTER_from_json.py
@@ -43429,9 +42911,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "Titanis"
-msgid_plural "Titaniss"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for Titanis
 #: lang/json/MONSTER_from_json.py
@@ -43442,9 +42922,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "Spinosaurus"
-msgid_plural "Spinosauruss"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for Spinosaurus
 #: lang/json/MONSTER_from_json.py
@@ -43455,9 +42933,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "Tyrannosaurus rex"
-msgid_plural "Tyrannosaurus rexs"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for Tyrannosaurus rex
 #: lang/json/MONSTER_from_json.py
@@ -43466,9 +42942,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "Triceratops"
-msgid_plural "Triceratopss"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for Triceratops
 #: lang/json/MONSTER_from_json.py
@@ -43479,9 +42953,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "Stegosaurus"
-msgid_plural "Stegosauruss"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for Stegosaurus
 #: lang/json/MONSTER_from_json.py
@@ -43490,9 +42962,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "Ankylosaurus"
-msgid_plural "Ankylosauruss"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for Ankylosaurus
 #: lang/json/MONSTER_from_json.py
@@ -43503,9 +42973,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "Allosaurus"
-msgid_plural "Allosauruss"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for Allosaurus
 #: lang/json/MONSTER_from_json.py
@@ -43516,9 +42984,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "Eoraptor"
-msgid_plural "Eoraptors"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for Eoraptor
 #: lang/json/MONSTER_from_json.py
@@ -43529,9 +42995,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "Velociraptor"
-msgid_plural "Velociraptors"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for Velociraptor
 #: lang/json/MONSTER_from_json.py
@@ -43542,9 +43006,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "Deinonychus"
-msgid_plural "Deinonychuss"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for Deinonychus
 #: lang/json/MONSTER_from_json.py
@@ -43555,9 +43017,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "Utahraptor"
-msgid_plural "Utahraptors"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for Utahraptor
 #: lang/json/MONSTER_from_json.py
@@ -43568,9 +43028,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "Parasaurolophus"
-msgid_plural "Parasaurolophuss"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for Parasaurolophus
 #: lang/json/MONSTER_from_json.py
@@ -43581,9 +43039,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "Dimorphodon"
-msgid_plural "Dimorphodons"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for Dimorphodon
 #: lang/json/MONSTER_from_json.py
@@ -43592,9 +43048,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "Dilophosaurus"
-msgid_plural "Dilophosauruss"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for Dilophosaurus
 #: lang/json/MONSTER_from_json.py
@@ -43603,9 +43057,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "zombie nightstalker"
-msgid_plural "zombie nightstalkers"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for zombie nightstalker
 #: lang/json/MONSTER_from_json.py
@@ -43616,9 +43068,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "zombie wrestling brute"
-msgid_plural "zombie wrestling brutes"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for zombie wrestling brute
 #: lang/json/MONSTER_from_json.py
@@ -43630,9 +43080,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "hungry zombie"
-msgid_plural "hungry zombies"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for hungry zombie
 #: lang/json/MONSTER_from_json.py
@@ -43644,9 +43092,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "rotting zombie"
-msgid_plural "rotting zombies"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for rotting zombie
 #: lang/json/MONSTER_from_json.py
@@ -43657,9 +43103,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "zombie mangler"
-msgid_plural "zombie manglers"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for zombie mangler
 #: lang/json/MONSTER_from_json.py
@@ -43670,9 +43114,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "zombie husk"
-msgid_plural "zombie husks"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for zombie husk
 #: lang/json/MONSTER_from_json.py
@@ -43685,9 +43127,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "swimmimg zombie"
-msgid_plural "swimmimg zombies"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for swimmimg zombie
 #: lang/json/MONSTER_from_json.py
@@ -43696,9 +43136,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "encrusted zombie"
-msgid_plural "encrusted zombies"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for encrusted zombie
 #: lang/json/MONSTER_from_json.py
@@ -43710,9 +43148,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "zombie nadir"
-msgid_plural "zombie nadirs"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for zombie nadir
 #: lang/json/MONSTER_from_json.py
@@ -43724,9 +43160,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "shambling zombie"
-msgid_plural "shambling zombies"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for shambling zombie
 #: lang/json/MONSTER_from_json.py
@@ -43739,9 +43173,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "zombie scrapper"
-msgid_plural "zombie scrappers"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for zombie scrapper
 #: lang/json/MONSTER_from_json.py
@@ -43753,9 +43185,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "zombie reaver"
-msgid_plural "zombie reavers"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for zombie reaver
 #: lang/json/MONSTER_from_json.py
@@ -43768,9 +43198,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "zombie lord"
-msgid_plural "zombie lords"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for zombie lord
 #: lang/json/MONSTER_from_json.py
@@ -43783,9 +43211,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "ethereal zombie"
-msgid_plural "ethereal zombies"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for ethereal zombie
 #: lang/json/MONSTER_from_json.py
@@ -43797,9 +43223,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "zombie tank"
-msgid_plural "zombie tanks"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for zombie tank
 #: lang/json/MONSTER_from_json.py
@@ -43811,9 +43235,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "putrid zombie"
-msgid_plural "putrid zombies"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for putrid zombie
 #: lang/json/MONSTER_from_json.py
@@ -43826,9 +43248,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "zombie chaser"
-msgid_plural "zombie chasers"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for zombie chaser
 #: lang/json/MONSTER_from_json.py
@@ -43839,9 +43259,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "hell hound"
-msgid_plural "hell hounds"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for hell hound
 #: lang/json/MONSTER_from_json.py
@@ -43853,9 +43271,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "zombie hunting dog"
-msgid_plural "zombie hunting dogs"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #. ~ Description for zombie hunting dog
 #: lang/json/MONSTER_from_json.py
@@ -70366,6 +69782,224 @@ msgid ""
 "mystical practitioner of the (bionic) arcane arts."
 msgstr ""
 
+#. ~ Crafting recipes category name
+#: lang/json/recipe_category_from_json.py
+msgid "WEAPON"
+msgstr ""
+
+#. ~ Crafting recipes subcategory all
+#: lang/json/recipe_category_from_json.py
+#: lang/json/recipe_category_from_json.py src/crafting_gui.cpp
+msgid "ALL"
+msgstr ""
+
+#. ~ Crafting recipes subcategory of 'WEAPON' category
+#: lang/json/recipe_category_from_json.py
+msgid "BASHING"
+msgstr ""
+
+#. ~ Crafting recipes subcategory of 'WEAPON' category
+#: lang/json/recipe_category_from_json.py
+msgid "CUTTING"
+msgstr ""
+
+#. ~ Crafting recipes subcategory of 'WEAPON' category
+#: lang/json/recipe_category_from_json.py
+msgid "PIERCING"
+msgstr ""
+
+#. ~ Crafting recipes subcategory of 'WEAPON' category
+#: lang/json/recipe_category_from_json.py
+msgid "RANGED"
+msgstr ""
+
+#. ~ Crafting recipes subcategory of 'WEAPON' category
+#: lang/json/recipe_category_from_json.py
+msgid "EXPLOSIVE"
+msgstr ""
+
+#. ~ Crafting recipes subcategory of 'WEAPON' category
+#: lang/json/recipe_category_from_json.py src/item_factory.cpp
+msgid "MODS"
+msgstr ""
+
+#. ~ Crafting recipes subcategory of 'WEAPON' category
+#. ~ Crafting recipes subcategory of 'AMMO' category
+#. ~ Crafting recipes subcategory of 'FOOD' category
+#. ~ Crafting recipes subcategory of 'CHEM' category
+#. ~ Crafting recipes subcategory of 'ELECTRONIC' category
+#. ~ Crafting recipes subcategory of 'ARMOR' category
+#. ~ Crafting recipes category name
+#. ~ Crafting recipes subcategory of 'OTHER' category
+#: lang/json/recipe_category_from_json.py
+#: lang/json/recipe_category_from_json.py src/item_factory.cpp
+msgid "OTHER"
+msgstr ""
+
+#. ~ Crafting recipes category name
+#: lang/json/recipe_category_from_json.py src/item_factory.cpp
+msgid "AMMO"
+msgstr ""
+
+#. ~ Crafting recipes subcategory of 'AMMO' category
+#: lang/json/recipe_category_from_json.py
+msgid "BULLETS"
+msgstr ""
+
+#. ~ Crafting recipes subcategory of 'AMMO' category
+#: lang/json/recipe_category_from_json.py
+msgid "ARROWS"
+msgstr ""
+
+#. ~ Crafting recipes subcategory of 'AMMO' category
+#. ~ Crafting recipes subcategory of 'ELECTRONIC' category
+#: lang/json/recipe_category_from_json.py
+msgid "COMPONENTS"
+msgstr ""
+
+#. ~ Crafting recipes category name
+#: lang/json/recipe_category_from_json.py src/item_factory.cpp
+msgid "FOOD"
+msgstr ""
+
+#. ~ Crafting recipes subcategory of 'FOOD' category
+#: lang/json/recipe_category_from_json.py
+msgid "DRINKS"
+msgstr ""
+
+#. ~ Crafting recipes subcategory of 'FOOD' category
+#: lang/json/recipe_category_from_json.py
+msgid "MEAT"
+msgstr ""
+
+#. ~ Crafting recipes subcategory of 'FOOD' category
+#: lang/json/recipe_category_from_json.py
+msgid "VEGGI"
+msgstr ""
+
+#. ~ Crafting recipes subcategory of 'FOOD' category
+#: lang/json/recipe_category_from_json.py
+msgid "SNACK"
+msgstr ""
+
+#. ~ Crafting recipes subcategory of 'FOOD' category
+#: lang/json/recipe_category_from_json.py
+msgid "BREAD"
+msgstr ""
+
+#. ~ Crafting recipes subcategory of 'FOOD' category
+#: lang/json/recipe_category_from_json.py
+msgid "PASTA"
+msgstr ""
+
+#. ~ Crafting recipes category name
+#: lang/json/recipe_category_from_json.py
+msgid "CHEM"
+msgstr ""
+
+#. ~ Crafting recipes subcategory of 'CHEM' category
+#: lang/json/recipe_category_from_json.py src/item_factory.cpp
+msgid "DRUGS"
+msgstr ""
+
+#. ~ Crafting recipes subcategory of 'CHEM' category
+#: lang/json/recipe_category_from_json.py src/item_factory.cpp
+msgid "MUTAGEN"
+msgstr ""
+
+#. ~ Crafting recipes subcategory of 'CHEM' category
+#: lang/json/recipe_category_from_json.py
+msgid "CHEMICALS"
+msgstr ""
+
+#. ~ Crafting recipes category name
+#: lang/json/recipe_category_from_json.py
+msgid "ELECTRONIC"
+msgstr ""
+
+#. ~ Crafting recipes subcategory of 'ELECTRONIC' category
+#: lang/json/recipe_category_from_json.py
+msgid "CBMS"
+msgstr ""
+
+#. ~ Crafting recipes subcategory of 'ELECTRONIC' category
+#. ~ Crafting recipes subcategory of 'OTHER' category
+#: lang/json/recipe_category_from_json.py
+#: lang/json/recipe_category_from_json.py src/item_factory.cpp
+msgid "TOOLS"
+msgstr ""
+
+#. ~ Crafting recipes subcategory of 'ELECTRONIC' category
+#. ~ Crafting recipes subcategory of 'OTHER' category
+#: lang/json/recipe_category_from_json.py
+msgid "PARTS"
+msgstr ""
+
+#. ~ Crafting recipes subcategory of 'ELECTRONIC' category
+#: lang/json/recipe_category_from_json.py
+msgid "LIGHTING"
+msgstr ""
+
+#. ~ Crafting recipes subcategory of 'ARMOR' category
+#: lang/json/recipe_category_from_json.py
+msgid "STORAGE"
+msgstr ""
+
+#. ~ Crafting recipes subcategory of 'ARMOR' category
+#: lang/json/recipe_category_from_json.py
+msgid "SUIT"
+msgstr ""
+
+#. ~ Crafting recipes subcategory of 'ARMOR' category
+#: lang/json/recipe_category_from_json.py src/game.cpp
+msgid "HEAD"
+msgstr ""
+
+#. ~ Crafting recipes subcategory of 'ARMOR' category
+#: lang/json/recipe_category_from_json.py src/game.cpp
+msgid "TORSO"
+msgstr ""
+
+#. ~ Crafting recipes subcategory of 'ARMOR' category
+#: lang/json/recipe_category_from_json.py
+msgid "ARMS"
+msgstr ""
+
+#. ~ Crafting recipes subcategory of 'ARMOR' category
+#: lang/json/recipe_category_from_json.py
+msgid "HANDS"
+msgstr ""
+
+#. ~ Crafting recipes subcategory of 'ARMOR' category
+#: lang/json/recipe_category_from_json.py
+msgid "LEGS"
+msgstr ""
+
+#. ~ Crafting recipes subcategory of 'ARMOR' category
+#: lang/json/recipe_category_from_json.py
+msgid "FEET"
+msgstr ""
+
+#. ~ Crafting recipes subcategory of 'OTHER' category
+#: lang/json/recipe_category_from_json.py
+msgid "MEDICAL"
+msgstr ""
+
+#. ~ Crafting recipes subcategory of 'OTHER' category
+#: lang/json/recipe_category_from_json.py
+msgid "CONTAINERS"
+msgstr ""
+
+#. ~ Crafting recipes subcategory of 'OTHER' category
+#: lang/json/recipe_category_from_json.py
+msgid "MATERIALS"
+msgstr ""
+
+#. ~ Crafting recipes subcategory of 'OTHER' category
+#: lang/json/recipe_category_from_json.py
+msgid "TRAPS"
+msgstr ""
+
 #: lang/json/recipe_from_json.py
 msgid "Stuff THE MAN doesn't want you to know"
 msgstr ""
@@ -80668,6 +80302,10 @@ msgid "Your radiation level: %d"
 msgstr ""
 
 #: src/bionics.cpp
+msgid "The bionic refuses to activate!"
+msgstr ""
+
+#: src/bionics.cpp
 msgid "Create an EMP where?"
 msgstr ""
 
@@ -83074,10 +82712,6 @@ msgstr ""
 
 #: src/crafting.cpp src/crafting_gui.cpp
 msgid "N/A"
-msgstr ""
-
-#: src/crafting_gui.cpp
-msgid "ALL"
 msgstr ""
 
 #: src/crafting_gui.cpp
@@ -87312,15 +86946,7 @@ msgid "%s, day %d"
 msgstr ""
 
 #: src/game.cpp
-msgid "HEAD"
-msgstr ""
-
-#: src/game.cpp
 msgid "L ARM"
-msgstr ""
-
-#: src/game.cpp
-msgid "TORSO"
 msgstr ""
 
 #: src/game.cpp
@@ -93473,15 +93099,7 @@ msgid "MAGAZINES"
 msgstr ""
 
 #: src/item_factory.cpp
-msgid "AMMO"
-msgstr ""
-
-#: src/item_factory.cpp
 msgid "WEAPONS"
-msgstr ""
-
-#: src/item_factory.cpp
-msgid "TOOLS"
 msgstr ""
 
 #: src/item_factory.cpp
@@ -93489,31 +93107,11 @@ msgid "CLOTHING"
 msgstr ""
 
 #: src/item_factory.cpp
-msgid "FOOD"
-msgstr ""
-
-#: src/item_factory.cpp
-msgid "DRUGS"
-msgstr ""
-
-#: src/item_factory.cpp
 msgid "BOOKS"
 msgstr ""
 
 #: src/item_factory.cpp
-msgid "MODS"
-msgstr ""
-
-#: src/item_factory.cpp
 msgid "BIONICS"
-msgstr ""
-
-#: src/item_factory.cpp
-msgid "MUTAGEN"
-msgstr ""
-
-#: src/item_factory.cpp
-msgid "OTHER"
 msgstr ""
 
 #: src/item_factory.cpp
@@ -96117,7 +95715,11 @@ msgid "You inject yourself with adrenaline."
 msgstr ""
 
 #: src/iuse.cpp
-msgid "The adrenaline causes your asthma to clear."
+msgid "<npcname> injects themselves with adrenaline."
+msgstr ""
+
+#: src/iuse.cpp
+msgid "Your heart spasms!"
 msgstr ""
 
 #: src/iuse.cpp
@@ -110949,6 +110551,11 @@ msgstr ""
 
 #: src/options.cpp
 #, c-format
+msgid "%d: %s"
+msgstr ""
+
+#: src/options.cpp
+#, c-format
 msgid "Default: %s - Values: %s"
 msgstr ""
 
@@ -110968,6 +110575,11 @@ msgstr ""
 #: src/options.cpp
 #, c-format
 msgid "Default: %d - Min: %d, Max: %d"
+msgstr ""
+
+#: src/options.cpp
+#, c-format
+msgid "Default: %d: %s"
 msgstr ""
 
 #: src/options.cpp
@@ -111641,6 +111253,15 @@ msgstr ""
 msgid ""
 "Controls how fast the enemy beacons blink on the pixel minimap. Value is "
 "multiplied by 200 ms. Set to 0 to disable."
+msgstr ""
+
+#: src/options.cpp src/sdltiles.cpp
+msgid "Display"
+msgstr ""
+
+#: src/options.cpp src/sdltiles.cpp
+msgid ""
+"Sets which video display will be used to show the game. Requires restart."
 msgstr ""
 
 #: src/options.cpp
@@ -113604,25 +113225,13 @@ msgid "Died of a healing stimulant overdose."
 msgstr ""
 
 #: src/player.cpp
-msgid ""
-"Your heart spasms painfully and stops, dragging you back to reality as you "
-"die."
-msgstr ""
-
-#: src/player.cpp
-msgid ""
-"You dissolve into beautiful paroxysms of energy.  Life fades from your "
-"nebulae and you are no more."
-msgstr ""
-
-#: src/player.cpp
 msgctxt "memorial_male"
-msgid "Died of datura overdose."
+msgid "Died of adrenaline overdose."
 msgstr ""
 
 #: src/player.cpp
 msgctxt "memorial_female"
-msgid "Died of datura overdose."
+msgid "Died of adrenaline overdose."
 msgstr ""
 
 #: src/player.cpp
@@ -114470,6 +114079,28 @@ msgstr ""
 msgid "No one should be asked to handle this trip."
 msgstr ""
 
+#: src/player.cpp
+msgid ""
+"Your heart spasms painfully and stops, dragging you back to reality as you "
+"die."
+msgstr ""
+
+#: src/player.cpp
+msgid ""
+"You dissolve into beautiful paroxysms of energy.  Life fades from your "
+"nebulae and you are no more."
+msgstr ""
+
+#: src/player.cpp
+msgctxt "memorial_male"
+msgid "Died of datura overdose."
+msgstr ""
+
+#: src/player.cpp
+msgctxt "memorial_female"
+msgid "Died of datura overdose."
+msgstr ""
+
 #. ~ %s is bodypart name.
 #: src/player.cpp
 #, c-format
@@ -114903,7 +114534,7 @@ msgid "You can't wear %i or more %s at once."
 msgstr ""
 
 #: src/player.cpp
-msgid "You can't wear that, it's made of wool!"
+msgid "You're already wearing footwear!"
 msgstr ""
 
 #: src/player.cpp
@@ -114912,6 +114543,10 @@ msgstr ""
 
 #: src/player.cpp
 msgid "You can't wear another helmet!"
+msgstr ""
+
+#: src/player.cpp
+msgid "You can't wear that, it's made of wool!"
 msgstr ""
 
 #: src/player.cpp
@@ -115003,10 +114638,6 @@ msgstr ""
 
 #: src/player.cpp
 msgid "antlers"
-msgstr ""
-
-#: src/player.cpp
-msgid "You're already wearing footwear!"
 msgstr ""
 
 #: src/player.cpp
@@ -117888,12 +117519,12 @@ msgstr ""
 
 #. ~ indicates that a vehicle part is inside
 #: src/vehicle.cpp
-msgid "In"
+msgid "Interior"
 msgstr ""
 
 #. ~ indicates that a vehicle part is outside
 #: src/vehicle.cpp
-msgid "Out"
+msgid "Exterior"
 msgstr ""
 
 #: src/vehicle.cpp

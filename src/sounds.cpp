@@ -700,22 +700,25 @@ void sfx::do_projectile_hit( const Creature &target ) {
     const int angle = get_heard_angle( target.pos() );
     if( target.is_monster() ) {
         const monster &mon = dynamic_cast<const monster &>( target );
-        const auto material = mon.get_material();
-        static std::set<mat_type> const fleshy = {
-            mat_type( "flesh" ),
-            mat_type( "hflesh" ),
-            mat_type( "iflesh" ),
-            mat_type( "veggy" ),
-            mat_type( "bone" ),
-            mat_type( "protoplasmic" ),
+        static std::set<material_id> const fleshy = {
+            material_id( "flesh" ),
+            material_id( "hflesh" ),
+            material_id( "iflesh" ),
+            material_id( "veggy" ),
+            material_id( "bone" ),
+            material_id( "protoplasmic" ),
         };
-        if( fleshy.count( material ) > 0 || mon.has_flag( MF_VERMIN ) ) {
+        const bool is_fleshy = std::any_of( fleshy.begin(), fleshy.end(), [&mon]( const material_id &m ) {
+            return mon.made_of( m );
+        } );
+
+        if( is_fleshy || mon.has_flag( MF_VERMIN ) ) {
             play_variant_sound( "bullet_hit", "hit_flesh", heard_volume, angle, 0.8, 1.2 );
             return;
-        } else if( material == "stone" ) {
+        } else if( mon.made_of( "stone" ) ) {
             play_variant_sound( "bullet_hit", "hit_wall", heard_volume, angle, 0.8, 1.2 );
             return;
-        } else if( material == "steel" ) {
+        } else if( mon.made_of( "steel" ) ) {
             play_variant_sound( "bullet_hit", "hit_metal", heard_volume, angle, 0.8, 1.2 );
             return;
         } else {

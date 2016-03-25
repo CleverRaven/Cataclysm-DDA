@@ -201,6 +201,7 @@ game::game() :
     safe_mode(SAFE_MODE_ON),
     mostseen(0),
     gamemode(NULL),
+    user_action_counter(0),
     lookHeight(13),
     tileset_zoom(16)
 {
@@ -1397,7 +1398,14 @@ bool game::do_turn()
                     draw();
                 }
 
+                static bool user_took_action = false;
+                if (user_took_action) {
+                    user_action_counter += 1;
+                    user_took_action = false;
+                }
+
                 if (handle_action()) {
+                    user_took_action = true;
                     ++moves_since_last_save;
                     u.action_taken();
                 }
@@ -2275,7 +2283,7 @@ void game::rcdrive(int dx, int dy)
 
     tripoint src( cx, cy, cz );
     tripoint dest( cx + dx, cy + dy, cz );
-    if( m.impassable(dest) || !m.can_put_items(dest) ||
+    if( m.impassable(dest) || !m.can_put_items_ter_furn(dest) ||
         m.has_furn(dest) ) {
         sounds::sound(dest, 7, _("sound of a collision with an obstacle."));
         return;
@@ -8089,22 +8097,39 @@ void game::examine()
 
 void game::examine( const tripoint &examp )
 {
+    Creature *c = critter_at( examp );
+    if( c != nullptr ) {
+        monster *mon = dynamic_cast<monster *>( c );
+        if( mon != nullptr && mon->has_effect( effect_pet ) ) {
+            if( pet_menu( mon ) ) {
+                return;
+            }
+        }
+
+        npc *np = dynamic_cast<npc*>( c );
+        if( np != nullptr ) {
+            if( npc_menu( *np ) ) {
+                return;
+            }
+        }
+    }
+
     int veh_part = 0;
     vehicle *veh = nullptr;
 
-    veh = m.veh_at(examp, veh_part);
-    if (veh) {
-        if (u.controlling_vehicle) {
+    veh = m.veh_at( examp, veh_part );
+    if( veh != nullptr ) {
+        if( u.controlling_vehicle ) {
             add_msg(m_info, _("You can't do that while driving."));
-        } else if (abs(veh->velocity) > 0) {
+        } else if( abs(veh->velocity) > 0 ) {
             add_msg(m_info, _("You can't do that on a moving vehicle."));
         } else {
-            Pickup::pick_up( examp, 0);
+            Pickup::pick_up( examp, 0 );
         }
         return;
     }
 
-    if (m.has_flag("CONSOLE", examp)) {
+    if( m.has_flag( "CONSOLE", examp ) ) {
         use_computer( examp );
         return;
     }
@@ -8126,26 +8151,8 @@ void game::examine( const tripoint &examp )
     }
 
     bool none = true;
-    if (xter_t.examine != &iexamine::none || xfurn_t.examine != &iexamine::none) {
+    if( xter_t.examine != &iexamine::none || xfurn_t.examine != &iexamine::none ) {
         none = false;
-    }
-
-    if (critter_at(examp) != NULL) {
-        Creature *c = critter_at(examp);
-        monster *mon = dynamic_cast<monster *>(c);
-
-        if( mon != nullptr && mon->has_effect( effect_pet) ) {
-            if (pet_menu(mon)) {
-                return;
-            }
-        }
-
-        npc *np = dynamic_cast<npc*>( c );
-        if( np != nullptr ) {
-            if( npc_menu( *np ) ) {
-                return;
-            }
-        }
     }
 
     if( !m.tr_at( examp ).is_null() ) {
@@ -8159,7 +8166,7 @@ void game::examine( const tripoint &examp )
     }
 
     if (m.has_flag("SEALED", examp)) {
-        if (none) {
+        if( none ) {
             if (m.has_flag("UNSTABLE", examp)) {
                 add_msg(_("The %s is too unstable to remove anything."), m.name(examp).c_str());
             } else {
@@ -8171,7 +8178,7 @@ void game::examine( const tripoint &examp )
         if( m.tr_at( examp ).is_null() && m.i_at(examp).empty() &&
             m.has_flag("CONTAINER", examp) && none) {
             add_msg(_("It is empty."));
-        } else if (!veh) {
+        } else if( veh == nullptr ) {
             Pickup::pick_up( examp, 0);
         }
     }
@@ -9349,6 +9356,11 @@ void game::reset_zoom()
 #endif // TILES
 }
 
+int game::get_user_action_counter() const
+{
+    return user_action_counter;
+}
+
 void game::list_items_monsters()
 {
     int iRetItems = -1;
@@ -10151,7 +10163,7 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
     if (!from_ground && liquid.rotten() &&
         choose_adjacent(liqstr, dirx, diry)) {
 
-        if (!m.can_put_items(dirx, diry)) {
+        if (!m.can_put_items_ter_furn(dirx, diry)) {
             add_msg(m_info, _("You can't pour there!"));
             return false;
         }
@@ -10181,7 +10193,7 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
             if (!from_ground && !liquid.rotten() &&
                 choose_adjacent(liqstr, dirx, diry)) {
 
-                if (!m.can_put_items(dirx, diry)) {
+                if (!m.can_put_items_ter_furn(dirx, diry)) {
                     add_msg(m_info, _("You can't pour there!"));
                     return false;
                 }
@@ -10355,6 +10367,11 @@ int game::move_liquid(item &liquid)
 
 void game::drop(int pos)
 {
+    if (!m.can_put_items(u.pos())) {
+        add_msg(m_info, _("You can't place items here!"));
+        return;
+    }
+
     if (pos == INT_MIN) {
         make_drop_activity( ACT_DROP, u.pos() );
     } else if( pos == -1 && !u.can_unwield( u.weapon ) ) {
@@ -10382,12 +10399,8 @@ void game::drop_in_direction()
     }
 
     if (!m.can_put_items(dirp)) {
-        int part = -1;
-        vehicle * const veh = m.veh_at( dirp, part );
-        if( veh == nullptr || veh->part_with_feature( part, "CARGO" ) < 0 ) {
-            add_msg(m_info, _("You can't place items there!"));
-            return;
-        }
+        add_msg(m_info, _("You can't place items there!"));
+        return;
     }
 
     make_drop_activity( ACT_DROP, dirp );
@@ -12812,11 +12825,7 @@ void game::plswim( const tripoint &p )
     u.burn_move_stamina( movecost );
 
     int drenchFlags = mfb(bp_leg_l) | mfb(bp_leg_r) | mfb(bp_torso) | mfb(bp_arm_l) |
-        mfb(bp_arm_r) | mfb(bp_foot_l) | mfb(bp_foot_r);
-
-    if (get_temperature() <= 50) {
-        drenchFlags |= mfb(bp_hand_l) | mfb(bp_hand_r);
-    }
+        mfb(bp_arm_r) | mfb(bp_foot_l) | mfb(bp_foot_r) | mfb(bp_hand_l) | mfb(bp_hand_r);
 
     if (u.is_underwater()) {
         drenchFlags |= mfb(bp_head) | mfb(bp_eyes) | mfb(bp_mouth) | mfb(bp_hand_l) | mfb(bp_hand_r);

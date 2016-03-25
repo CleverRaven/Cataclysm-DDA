@@ -632,7 +632,7 @@ void advanced_inv_area::init()
             if( veh != nullptr ) {
                 vstor = veh->part_with_feature( vstor, "CARGO", false );
             }
-            canputitemsloc = can_store_in_vehicle() || g->m.can_put_items( pos );
+            canputitemsloc = can_store_in_vehicle() || g->m.can_put_items_ter_furn( pos );
             max_size = MAX_ITEM_IN_SQUARE;
             max_volume = g->m.max_volume( pos );
             if( can_store_in_vehicle() ) {

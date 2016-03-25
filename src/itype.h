@@ -196,10 +196,6 @@ struct common_ranged_data {
      * Recoil "bonus" from gun.
      */
     int recoil = 0;
-    /**
-     * loudness for guns/gunmods and ammo
-     */
-    int loudness = 0;
 };
 
 /**
@@ -222,6 +218,9 @@ struct common_firing_data : common_ranged_data {
      * Burst size.
      */
     int burst = 0;
+
+    /** Modifies base loudness as provided by the currently loaded ammo */
+    int loudness = 0;
 };
 
 // TODO: this shares a lot with the ammo item type, merge into a separate slot type?
@@ -249,7 +248,7 @@ struct islot_gun : common_firing_data {
     /**
      * Noise displayed when reloading the weapon.
      */
-    std::string reload_noise;
+    std::string reload_noise = "click.";
     /**
      * Volume of the noise made when reloading this weapon.
      */
@@ -344,11 +343,16 @@ struct islot_ammo : common_ranged_data {
     /**
      * Default charges.
      */
-    long def_charges = 0;
+    long def_charges = 1;
     /**
      * TODO: document me.
      */
     std::set<std::string> ammo_effects;
+    /**
+     * Base loudness of ammo (possbily modified by gun/gunmods). If unspecified an
+     * appropriate value is calculated based upon the other properties of the ammo
+     */
+    int loudness = -1;
 };
 
 struct islot_variable_bigness {
@@ -431,6 +435,16 @@ struct islot_artifact {
     std::vector<art_effect_passive> effects_worn;
 };
 
+template <typename T>
+class copyable_unique_ptr : public std::unique_ptr<T> {
+    public:
+        copyable_unique_ptr() = default;
+        copyable_unique_ptr( copyable_unique_ptr&& rhs ) = default;
+
+        copyable_unique_ptr( const copyable_unique_ptr<T>& rhs )
+            : std::unique_ptr<T>( rhs ? new T( *rhs ) : nullptr ) {}
+};
+
 struct itype {
     friend class Item_factory;
 
@@ -443,19 +457,19 @@ struct itype {
      * this before using it.
      */
     /*@{*/
-    std::unique_ptr<islot_container> container;
-    std::unique_ptr<islot_armor> armor;
-    std::unique_ptr<islot_book> book;
-    std::unique_ptr<islot_gun> gun;
-    std::unique_ptr<islot_gunmod> gunmod;
-    std::unique_ptr<islot_magazine> magazine;
-    std::unique_ptr<islot_variable_bigness> variable_bigness;
-    std::unique_ptr<islot_bionic> bionic;
-    std::unique_ptr<islot_software> software;
-    std::unique_ptr<islot_spawn> spawn;
-    std::unique_ptr<islot_ammo> ammo;
-    std::unique_ptr<islot_seed> seed;
-    std::unique_ptr<islot_artifact> artifact;
+    copyable_unique_ptr<islot_container> container;
+    copyable_unique_ptr<islot_armor> armor;
+    copyable_unique_ptr<islot_book> book;
+    copyable_unique_ptr<islot_gun> gun;
+    copyable_unique_ptr<islot_gunmod> gunmod;
+    copyable_unique_ptr<islot_magazine> magazine;
+    copyable_unique_ptr<islot_variable_bigness> variable_bigness;
+    copyable_unique_ptr<islot_bionic> bionic;
+    copyable_unique_ptr<islot_software> software;
+    copyable_unique_ptr<islot_spawn> spawn;
+    copyable_unique_ptr<islot_ammo> ammo;
+    copyable_unique_ptr<islot_seed> seed;
+    copyable_unique_ptr<islot_artifact> artifact;
     /*@}*/
 protected:
     // private because is should only be accessed through itype::nname!
@@ -493,13 +507,16 @@ public:
     explosion_data explosion;
 
     phase_id phase      = SOLID; // e.g. solid, liquid, gas
-    unsigned price      = 0; // Its value
-    unsigned price_post = 0; // Post-apocalyptic, more practical value
-    unsigned volume     = 0; // Space taken up by this item
-    int      stack_size = 0; // How many things make up the above-defined volume (eg. 100 aspirin = 1 volume)
-    unsigned weight     = 0; // Weight in grams. Assumes positive weight. No helium, guys!
 
-    unsigned integral_volume; // Space consumed when integrated as part of another item (defaults to volume)
+    /** After loading from JSON these properties guaranteed to be zero or positive */
+    /*@{*/
+    int weight          =  0; // Weight in grams for item (or each stack member)
+    int volume          =  0; // Space occupied by items of this type
+    int price           =  0; // Value before cataclysm
+    int price_post      = -1; // Value after cataclysm (dependent upon practical usages)
+    int stack_size      =  0; // Maximum identical items that can stack per above unit volume
+    int integral_volume = -1; // Space consumed when integrated as part of another item (defaults to volume)
+    /*@}*/
 
     bool rigid = true; // If non-rigid volume (and if worn encumbrance) increases proportional to contents
 
@@ -521,7 +538,7 @@ public:
     std::map< ammotype, itype_id > magazine_default;
 
     /** Volume above which the magazine starts to protrude from the item and add extra volume */
-    int magazine_well;
+    int magazine_well = 0;
 
     virtual std::string get_item_type_string() const
     {

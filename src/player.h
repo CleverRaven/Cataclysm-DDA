@@ -145,8 +145,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Returns the name of the player's outer layer, e.g. "armor plates" */
         std::string skin_name() const override;
 
-        virtual bool is_player() const override
-        {
+        virtual bool is_player() const override {
             return true;
         }
 
@@ -159,8 +158,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Returns the modifier value used for vomiting effects. */
         double vomit_mod();
 
-        virtual bool is_npc() const override
-        {
+        virtual bool is_npc() const override {
             return false;    // Overloaded for NPCs in npc.h
         }
         /** Returns what color the player should be drawn as */
@@ -187,15 +185,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void disp_info();
         /** Provides the window and detailed morale data */
         void disp_morale();
-        /** Print the bars indicating how well the player is currently aiming.**/
-        int print_aim_bars( WINDOW *w, int line_number, item *weapon, Creature *target, int predicted_recoil);
-        /** Returns the gun mode indicator, ready to be printed, contains color-tags. **/
-        std::string print_gun_mode() const;
-        /** Returns the colored recoil indicator (contains color-tags). **/
-        std::string print_recoil() const;
-        /** Displays indicator informing which turrets can fire at `targ`.**/
-        int draw_turret_aim( WINDOW *w, int line_number, const tripoint &targ ) const;
-
         /** Print the player's stamina bar. **/
         void print_stamina_bar( WINDOW *w ) const;
         /** Generates the sidebar and it's data in-game */
@@ -709,14 +698,14 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         morale_type allergy_type( const item &food ) const;
         /** Used for eating entered comestible, returns true if comestible is successfully eaten */
         bool eat( item &food, bool force = false );
-        edible_rating can_eat( const item &food,
-            bool interactive = false, bool force = false ) const;
+        edible_rating can_eat( const item &food, bool interactive = false,
+                               bool force = false ) const;
 
         /** Gets player's minimum hunger and thirst */
         int stomach_capacity() const;
 
         /** Handles the nutrition value for a comestible **/
-        int nutrition_for(const it_comest *comest) const;
+        int nutrition_for( const it_comest *comest ) const;
         /** Stable base metabolic rate due to traits */
         float metabolic_rate_base() const;
         /** Current metabolic rate due to traits, hunger, speed, etc. */
@@ -773,7 +762,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          * @param factor base move cost per unit volume before considering any other modifiers
          * @return cost in moves ranging from 0 to MAX_HANDLING_COST
          */
-        int item_store_cost( const item& it, const item& container, bool effects = true, int factor = VOLUME_MOVE_COST ) const;
+        int item_store_cost( const item& it, const item& container, bool effects = true,
+                             int factor = VOLUME_MOVE_COST ) const;
 
         /**
          * Calculate (but do not deduct) the number of moves required to reload an item with specified quantity of ammo
@@ -787,12 +777,12 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int item_wear_cost( const item& to_wear ) const;
 
         /** Wear item; returns false on fail. If interactive is false, don't alert the player or drain moves on completion. */
-        bool wear(int pos, bool interactive = true);
+        bool wear( int pos, bool interactive = true );
         /** Wear item; returns false on fail. If interactive is false, don't alert the player or drain moves on completion. */
         bool wear_item( const item &to_wear, bool interactive = true );
         /** Swap side on which item is worn; returns false on fail. If interactive is false, don't alert player or drain moves */
-        bool change_side (item *target, bool interactive = true);
-        bool change_side (int pos, bool interactive = true);
+        bool change_side( item *target, bool interactive = true );
+        bool change_side( int pos, bool interactive = true );
         /** Takes off an item, returning false on fail, if an item vector
          *  is given, stores the items in that vector and not in the inventory */
         bool takeoff( item *target, bool autodrop = false, std::vector<item> *items = nullptr );
@@ -801,7 +791,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          *  @param pos index of contained item to wield. Set to -1 to show menu if container has more than one item
          *  @param factor scales moves cost and can be set to zero if item should be wielded without any delay
          *  @param effects whether temporary player effects such (eg. GRABBED) are considered when consuming moves */
-        bool wield_contents( item *container, int pos = 0, int factor = VOLUME_MOVE_COST, bool effects = true );
+        bool wield_contents( item *container, int pos = 0, int factor = VOLUME_MOVE_COST,
+                             bool effects = true );
         /** Stores an item inside another consuming moves proportional to weapon skill and volume
          *  @param factor scales moves cost and can be set to zero if item should be stored without any delay
          *  @param effects whether temporary player effects such (eg. GRABBED) are considered when consuming moves */
@@ -944,17 +935,17 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          * @return An item that contains the removed charges, it's effectively a
          * copy of the item with the proper charges.
          */
-        item reduce_charges(int position, long quantity);
+        item reduce_charges( int position, long quantity );
         /**
          * Remove charges from a specific item (given by a pointer to it).
          * Otherwise identical to @ref reduce_charges(int,long)
          * @param it A pointer to the item, it *must* exist.
          */
-        item reduce_charges(item *it, long quantity);
+        item reduce_charges( item *it, long quantity );
         /** Return the item position of the item with given invlet, return INT_MIN if
          * the player does not have such an item with that invlet. Don't use this on npcs.
          * Only use the invlet in the user interface, otherwise always use the item position. */
-        int invlet_to_position(long invlet) const;
+        int invlet_to_position( long invlet ) const;
 
         const martialart &get_combat_style() const; // Returns the combat style object
         std::vector<item *> inv_dump(); // Inventory + weapon + worn (for death, etc)
@@ -966,20 +957,20 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         // has_amount works ONLY for quantity.
         // has_charges works ONLY for charges.
-        std::list<item> use_amount(itype_id it, int quantity);
-        bool use_charges_if_avail(itype_id it, long quantity);// Uses up charges
-        std::list<item> use_charges(itype_id it, long quantity);// Uses up charges
-        bool has_amount(const itype_id &it, int quantity) const;
-        bool has_charges(const itype_id &it, long quantity) const;
-        int  amount_of(const itype_id &it) const;
+        std::list<item> use_amount( itype_id it, int quantity );
+        bool use_charges_if_avail( itype_id it, long quantity );// Uses up charges
+        std::list<item> use_charges( itype_id it, long quantity );// Uses up charges
+        bool has_amount( const itype_id &it, int quantity ) const;
+        bool has_charges( const itype_id &it, long quantity ) const;
+        int  amount_of( const itype_id &it ) const;
         /** Returns the amount of item `type' that is currently worn */
-        int  amount_worn(const itype_id &id) const;
-        long charges_of(const itype_id &it) const;
+        int  amount_worn( const itype_id &id ) const;
+        long charges_of( const itype_id &it ) const;
 
         int  leak_level( std::string flag ) const; // carried items may leak radiation or chemicals
 
         // Check for free container space for the whole liquid item
-        bool has_container_for(const item &liquid) const;
+        bool has_container_for( const item &liquid ) const;
         // Has a weapon, inventory item or worn item with flag
         bool has_item_with_flag( std::string flag ) const;
         // Has amount (or more) items with at least the required quality level.
@@ -987,7 +978,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         // Returns max required quality in player's items, INT_MIN if player has no such items
         int max_quality( const std::string &quality_id ) const;
 
-        bool has_mission_item(int mission_id) const; // Has item with mission_id
+        bool has_mission_item( int mission_id ) const; // Has item with mission_id
         /**
          * Check whether the player has a gun that uses the given type of ammo.
          */
@@ -1008,9 +999,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool studied_all_recipes( const itype &book ) const;
 
         // crafting.cpp
-        bool crafting_allowed( const std::string & rec_name );
-        bool crafting_allowed( const recipe & rec );
-        float lighting_craft_speed_multiplier( const recipe & rec );
+        float lighting_craft_speed_multiplier( const recipe & rec ) const;
         bool has_morale_to_craft() const;
         bool can_make( const recipe * r, int batch_size = 1 ); // have components?
         bool making_would_work( const std::string & id_to_make, int batch_size );
@@ -1035,12 +1024,11 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool can_disassemble( const item &dis_item, const recipe *cur_recipe,
                               const inventory &crafting_inv, bool print_msg ) const;
         bool disassemble(int pos = INT_MAX);
-        bool disassemble( item &dis_item, int dis_pos,
-            bool ground, bool msg_and_query = true );
+        bool disassemble( item &dis_item, int dis_pos, bool ground, bool msg_and_query = true );
         void disassemble_all( bool one_pass ); // Disassemble all items on the tile
         void complete_disassemble();
         void complete_disassemble( int item_pos, const tripoint &loc,
-            bool from_ground, const recipe &dis );
+                                   bool from_ground, const recipe &dis );
 
         // yet more crafting.cpp
         const inventory &crafting_inventory(); // includes nearby items
@@ -1060,7 +1048,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
                             const std::string &hotkeys = DEFAULT_HOTKEYS );
 
         // Auto move methods
-        void set_destination(const std::vector<tripoint> &route);
+        void set_destination( const std::vector<tripoint> &route );
         void clear_destination();
         bool has_destination() const;
         std::vector<tripoint> &get_auto_move_route();
@@ -1201,7 +1189,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool is_underwater() const override;
         void set_underwater(bool);
         bool is_hallucination() const override;
-
         void environmental_revert_effect();
 
         bool is_invisible() const;

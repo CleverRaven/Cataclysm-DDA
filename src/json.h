@@ -698,6 +698,46 @@ class JsonObject
             return jsin->read(t);
         }
 
+        template <typename T>
+        typename std::enable_if<std::is_integral<T>::value, bool>::type assign( const std::string& name, T& val ) {
+            T tmp;
+            if( get_object( "relative" ).read( name, tmp ) ) {
+                val += tmp;
+                return true;
+            }
+            return read( name, val );
+        }
+
+        template <typename T>
+        typename std::enable_if<std::is_same<T, std::string>::value, bool>::type assign( const std::string& name, T& val ) {
+            return read( name, val );
+        }
+
+        template <typename T>
+        typename std::enable_if<std::is_same<T, std::set<std::string>>::value, bool>::type assign( const std::string& name, T& val ) {
+            auto add = get_object( "extend" );
+            if( add.has_string( name ) || add.has_array( name ) ) {
+                auto tags = add.get_tags( name );
+                val.insert( tags.begin(), tags.end() );
+                return true;
+            }
+
+            auto del = get_object( "delete" );
+            if( del.has_string( name ) || del.has_array( name ) ) {
+                for( const auto& e : del.get_tags( name ) ) {
+                    val.erase( e );
+                }
+                return true;
+            }
+
+            if( has_string( name ) || has_array( name ) ) {
+                val = get_tags( name );
+                return true;
+            }
+            return false;
+        }
+
+
         // useful debug info
         std::string line_number(); // for occasional use only
 };

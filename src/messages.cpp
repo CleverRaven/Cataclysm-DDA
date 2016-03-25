@@ -15,6 +15,7 @@
 
 // sidebar messages flow direction
 extern bool log_from_top;
+extern int message_ttl;
 
 namespace {
 
@@ -23,18 +24,22 @@ Messages player_messages;
 
 struct game_message : public JsonDeserializer, public JsonSerializer {
     std::string       message;
-    calendar          time  = 0;
+    calendar          timestamp_in_turns  = 0;
+    int               timestamp_in_user_actions = 0;
     int               count = 1;
     game_message_type type  = m_neutral;
 
     game_message() = default;
-    game_message(std::string &&msg, game_message_type const t)
-      : message (std::move(msg)), time (calendar::turn), type (t)
+    game_message(std::string &&msg, game_message_type const t) :
+        message (std::move(msg)),
+        timestamp_in_turns (calendar::turn),
+        timestamp_in_user_actions(g->get_user_action_counter()),
+        type (t)
     {
     }
 
     int turn() const {
-        return time.get_turn();
+        return timestamp_in_turns.get_turn();
     }
 
     std::string get_with_count() const {
@@ -61,7 +66,7 @@ struct game_message : public JsonDeserializer, public JsonSerializer {
 
     void deserialize(JsonIn &jsin) override {
         JsonObject obj = jsin.get_object();
-        time = obj.get_int( "turn" );
+        timestamp_in_turns = obj.get_int( "turn" );
         message = obj.get_string( "message" );
         count = obj.get_int( "count" );
         type = static_cast<game_message_type>( obj.get_int( "type" ) );
@@ -69,13 +74,17 @@ struct game_message : public JsonDeserializer, public JsonSerializer {
 
     void serialize(JsonOut &jsout) const override {
         jsout.start_object();
-        jsout.member( "turn", static_cast<int>( time ) );
+        jsout.member( "turn", static_cast<int>( timestamp_in_turns ) );
         jsout.member( "message", message );
         jsout.member( "count", count );
         jsout.member( "type", static_cast<int>( type ) );
         jsout.end_object();
     }
 };
+
+bool message_exceeds_ttl(const game_message &message) {
+    return message_ttl > 0 && message.timestamp_in_user_actions + message_ttl <= g->get_user_action_counter();
+}
 
 } //namespace
 
@@ -108,7 +117,8 @@ public:
         }
 
         last_msg.count++;
-        last_msg.time = calendar::turn;
+        last_msg.timestamp_in_turns = calendar::turn;
+        last_msg.timestamp_in_user_actions = g->get_user_action_counter();
         last_msg.type = type;
 
         return true;
@@ -152,7 +162,7 @@ public:
 
         std::transform(begin(messages) + offset, end(messages), back_inserter(result),
             [](game_message const& msg) {
-                return std::make_pair(msg.time.print_time(),
+                return std::make_pair(msg.timestamp_in_turns.print_time(),
                     msg.count ? msg.message + to_string(msg.count) : msg.message);
             }
         );
@@ -252,7 +262,7 @@ void Messages::display_messages()
 
             const game_message &m     = player_messages.impl_->history(i);
             const nc_color col        = msgtype_to_color( m.type, false );
-            const calendar timepassed = calendar::turn - m.time;
+            const calendar timepassed = calendar::turn - m.timestamp_in_turns;
 
             if (timepassed.get_turn() > lasttime) {
                 mvwprintz(w, line++, 3, c_ltblue, _("%s ago:"),
@@ -306,8 +316,11 @@ void Messages::display_messages(WINDOW *const ipk_target, int const left, int co
             }
 
             const game_message &m = player_messages.impl_->messages[i];
-            const nc_color col = m.get_color(player_messages.impl_->curmes);
+            if (message_exceeds_ttl(m)) {
+                break;
+            }
 
+            const nc_color col = m.get_color(player_messages.impl_->curmes);
             for( const std::string &folded : foldstring(m.get_with_count(), maxlength) ) {
                 if (line > bottom) {
                     break;
@@ -322,6 +335,10 @@ void Messages::display_messages(WINDOW *const ipk_target, int const left, int co
             }
 
             const game_message &m = player_messages.impl_->messages[i];
+            if (message_exceeds_ttl(m)) {
+                break;
+            }
+
             const nc_color col = m.get_color(player_messages.impl_->curmes);
             const auto folded_strings = foldstring(m.get_with_count(), maxlength);
             const auto folded_rend = folded_strings.rend();

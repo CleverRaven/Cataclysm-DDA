@@ -657,6 +657,15 @@ void draw_exam_window(WINDOW *win, int border_line, bool examination)
     }
 }
 
+void force_comedown( effect &eff )
+{
+    if( eff.is_null() || eff.get_effect_type() == nullptr || eff.get_duration() <= 1 ) {
+        return;
+    }
+
+    eff.set_duration( std::min( eff.get_duration(), eff.get_int_dur_factor() ) );
+}
+
 // Why put this in a Big Switch?  Why not let bionics have pointers to
 // functions, much like monsters and items?
 //
@@ -889,8 +898,9 @@ bool player::activate_bionic(int b, bool eff_only)
         remove_effect( effect_took_xanax );
         remove_effect( effect_took_prozac );
         remove_effect( effect_took_flumed );
-        remove_effect( effect_adrenaline );
-        remove_effect( effect_meth );
+        // Purging the substance won't remove the fatigue it caused
+        force_comedown( get_effect( effect_adrenaline ) );
+        force_comedown( get_effect( effect_meth ) );
         set_painkiller( 0 );
         stim = 0;
     } else if(bio.id == "bio_evap") {
@@ -929,10 +939,12 @@ bool player::activate_bionic(int b, bool eff_only)
             radiation = 0;
         }
     } else if(bio.id == "bio_adrenaline") {
-        if (has_effect( effect_adrenaline )) {
-            add_effect( effect_adrenaline, 50);
+        if( has_effect( effect_adrenaline ) ) {
+            // Safety
+            add_msg_if_player( m_bad, _( "The bionic refuses to activate!" ) );
+            charge_power( bionics[bio.id].power_activate );
         } else {
-            add_effect( effect_adrenaline, 200);
+            add_effect( effect_adrenaline, 200 );
         }
     } else if(bio.id == "bio_blaster") {
         tmp_item = weapon;

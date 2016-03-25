@@ -612,13 +612,13 @@ bool player::create(character_type type, std::string tempname)
             style_selected = ma_type;
         }
     }
-    // For compatibility with old versions and for better user experience:
-    // activate some mutations right from the start.
-    // TODO: (maybe) move this to json?
-    if( has_trait( "NIGHTVISION" ) ) {
-        my_mutations["NIGHTVISION"].powered = true;
-    } else if( has_trait( "URSINE_EYE" ) ) {
-        my_mutations["URSINE_EYE"].powered = true;
+
+    // Activate some mutations right from the start.
+    for( const std::string &mut : get_mutations() ) {
+        const auto branch = mutation_branch::get( mut );
+        if( branch.starts_active ) {
+            my_mutations[mut].powered = true;
+        }
     }
 
     // Likewise, the asthmatic start with their medication.

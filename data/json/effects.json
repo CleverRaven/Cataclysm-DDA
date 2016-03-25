@@ -1092,21 +1092,22 @@
         "miss_messages": [["Your comedown throws you off.", 1]],
         "max_intensity": 2,
         "int_dur_factor": 150,
-        "dur_add_perc": 15,
         "removes_effects": ["winded"],
         "base_mods": {
             "speed_mod": [-10],
             "str_mod": [-2],
-            "dex_mod": [-1],
+            "dex_mod": [-2],
             "int_mod": [-1],
-            "per_mod": [-1]
+            "per_mod": [-1],
+            "stamina_min": [-2]
         },
         "scaling_mods": {
-            "speed_mod": [50],
-            "str_mod": [7],
+            "speed_mod": [30],
+            "str_mod": [5],
             "dex_mod": [4],
             "int_mod": [-7],
-            "per_mod": [2]
+            "per_mod": [2],
+            "stamina_min": [4]
         }
     },
     {
@@ -1128,16 +1129,18 @@
         "base_mods": {
             "speed_mod": [-10],
             "str_mod": [-2],
-            "dex_mod": [-1],
+            "dex_mod": [-2],
             "int_mod": [-1],
-            "per_mod": [-1]
+            "per_mod": [-1],
+            "stamina_min": [-2]
         },
         "scaling_mods": {
-            "speed_mod": [50],
-            "str_mod": [7],
+            "speed_mod": [30],
+            "str_mod": [5],
             "dex_mod": [4],
             "int_mod": [-7],
-            "per_mod": [2]
+            "per_mod": [2],
+            "stamina_min": [4]
         }
     },
     {

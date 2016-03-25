@@ -73,7 +73,6 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         }
         int get_hp_max( hp_part ) const override;
         int get_hp_max() const;
-        std::string get_material() const override;
         int hp_percentage() const override;
 
         // Access
@@ -105,7 +104,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         bool can_act() const;
         int sight_range( int light_level ) const override;
         using Creature::sees;
-        bool made_of( const std::string &m ) const; // Returns true if it's made of m
+        bool made_of( const material_id &m ) const override; // Returns true if it's made of m
         bool made_of( phase_id p ) const; // Returns true if its phase is p
 
         bool avoid_trap( const tripoint &pos, const trap &tr ) const override;

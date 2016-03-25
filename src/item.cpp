@@ -3454,6 +3454,7 @@ bool item::is_bucket() const
     // Currently all non-empty cans are effectively sealed at all times
     // Making them buckets would cause weirdness
     return type->container != nullptr &&
+           type->container->watertight &&
            !type->container->seals &&
            !type->container->preserves;
 }
@@ -4846,7 +4847,7 @@ item::LIQUID_FILL_ERROR item::has_valid_capacity_for_liquid( const item &liquid,
         return L_ERR_NOT_WATERTIGHT;
     }
 
-    if( !allow_bucket && !type->container->seals ) {
+    if( !type->container->seals && ( !allow_bucket || !is_bucket() ) ) {
         return L_ERR_NOT_SEALED;
     }
 
@@ -5685,6 +5686,17 @@ bool item::is_dangerous() const
     return std::any_of( contents.begin(), contents.end(), []( const item &it ) {
         return it.is_dangerous();
     } );
+}
+
+bool item::is_soft() const
+{
+    // @todo Make this a material property
+    // @todo Add a SOFT flag (for chainmail and the like)
+    static const std::vector<std::string> soft_mats = {{
+        "cotton", "leather", "wool", "nomex"
+    }};
+
+    return made_of_any( soft_mats );
 }
 
 bool item::is_reloadable() const

@@ -368,7 +368,7 @@ void DynamicDataLoader::finalize_loaded_data()
     MonsterGenerator::generator().finalize_mtypes();
     MonsterGroupManager::FinalizeMonsterGroups();
     monfactions::finalize();
-    item_controller->finialize_item_blacklist();
+    item_controller->finalize();
     finalize_recipes();
     finialize_martial_arts();
     check_consistency();

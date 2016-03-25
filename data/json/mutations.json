@@ -122,7 +122,8 @@
         "changes_to" : ["NIGHTVISION2"],
         "cancels": ["ELFA_NV", "ELFA_FNV", "FEL_NV", "URSINE_EYE"],
         "category" : ["MUTCAT_BIRD", "MUTCAT_CATTLE", "MUTCAT_INSECT"],
-        "active" : true
+        "active" : true,
+        "starts_active" : true
     },{
         "type" : "mutation",
         "id" : "POISRESIST",
@@ -925,7 +926,8 @@
         "changes_to" : ["NIGHTVISION3"],
         "cancels" : ["ELFA_NV", "ELFA_FNV", "FEL_NV", "URSINE_EYE"],
         "category" : ["MUTCAT_FISH", "MUTCAT_BEAST", "MUTCAT_INSECT", "MUTCAT_RAT", "MUTCAT_CHIMERA", "MUTCAT_LUPINE"],
-        "active" : true
+        "active" : true,
+        "starts_active" : true
     },{
         "type" : "mutation",
         "id" : "NIGHTVISION3",
@@ -936,7 +938,8 @@
         "leads_to" : ["INFRARED"],
         "cancels" : ["ELFA_NV", "ELFA_FNV", "FEL_NV", "URSINE_EYE"],
         "category" : ["MUTCAT_FISH", "MUTCAT_TROGLOBITE", "MUTCAT_SPIDER"],
-        "active" : true
+        "active" : true,
+        "starts_active" : true
     },{
         "type" : "mutation",
         "id" : "CEPH_EYES",
@@ -957,7 +960,8 @@
         "prereqs" : ["CEPH_EYES"],
         "cancels" : ["LIZ_IR", "FEL_NV", "NIGHTVISION", "NIGHTVISION2", "NIGHTVISION3", "ELFA_NV", "ELFA_FNV"],
         "category" : ["MUTCAT_CEPHALOPOD"],
-        "active" : true
+        "active" : true,
+        "starts_active" : true
     },{
         "type" : "mutation",
         "id" : "ELFAEYES",
@@ -978,7 +982,8 @@
         "changes_to" : ["ELFA_FNV"],
         "cancels" : ["LIZ_IR", "FEL_NV", "NIGHTVISION", "NIGHTVISION2", "NIGHTVISION3"],
         "category" : ["MUTCAT_ELFA"],
-        "active" : true
+        "active" : true,
+        "starts_active" : true
     },{
         "type" : "mutation",
         "id" : "ELFA_FNV",
@@ -988,7 +993,8 @@
         "prereqs" : ["ELFA_NV"],
         "cancels" : ["LIZ_IR", "FEL_NV", "NIGHTVISION", "NIGHTVISION2", "NIGHTVISION3"],
         "category" : ["MUTCAT_ELFA"],
-        "active" : true
+        "active" : true,
+        "starts_active" : true
     },{
         "type" : "mutation",
         "id" : "FEL_EYE",
@@ -1009,7 +1015,8 @@
         "prereqs" : ["FEL_EYE"],
         "cancels" : ["ELFA_NV", "ELFA_FNV", "LIZ_IR", "NIGHTVISION", "NIGHTVISION2", "NIGHTVISION3"],
         "category" : ["MUTCAT_FELINE"],
-        "active" : true
+        "active" : true,
+        "starts_active" : true
     },{
         "type" : "mutation",
         "id" : "URSINE_EYE",
@@ -1018,7 +1025,8 @@
         "description" : "Your visual processing has shifted: though you can see better in the dark, you're nearsighted in the light.  Maybe glasses would help.  Activate to toggle NV-visible areas on or off.",
         "cancels" : ["ELFAEYES", "LIZ_EYE", "BIRD_EYE", "FEL_EYE", "COMPOUND_EYES", "NIGHTVISION", "NIGHTVISION2", "NIGHTVISION3", "MYOPIC"],
         "category" : ["MUTCAT_URSINE"],
-        "active" : true
+        "active" : true,
+        "starts_active" : true
     },{
         "type" : "mutation",
         "id" : "BIRD_EYE",
@@ -1492,7 +1500,8 @@
             [ "LEG_R", 10 ],
             [ "FOOT_L", 10 ],
             [ "FOOT_R", 10 ]
-        ]
+        ],
+        "restricts_gear" : [ "HEAD" ]
     },{
         "type" : "mutation",
         "id" : "CHITIN_FUR",
@@ -1801,6 +1810,8 @@
         "visibility" : 4,
         "ugliness" : 3,
         "mixed_effect" : true,
+        "restricts_gear" : [ "HAND_L", "HAND_R" ],
+        "destroys_gear" : true,
         "description" : "Your index fingers have grown into huge talons.  After a bit of practice, you find that this does not affect your dexterity, but allows for a deadly unarmed attack.  They also prevent you from wearing gloves.",
         "prereqs" : ["NAILS"],
         "cancels" : ["CLAWS", "CLAWS_RETRACT", "ARM_TENTACLES", "ARM_TENTACLES_4", "ARM_TENTACLES_8"],
@@ -2028,7 +2039,9 @@
         "description" : "You have grown large, curved, and wickedly sharp talons in place of your big toes.  Fortunately, they don't get in the way of your walking.  Unfortunately, they do prevent you from wearing footgear.",
         "valid" : false,
         "cancels" : ["PADDED_FEET", "LEG_TENTACLES", "HOOVES", "ROOTS1", "ROOTS2", "ROOTS3"],
-        "category" : ["MUTCAT_RAPTOR"]
+        "category" : ["MUTCAT_RAPTOR"],
+        "restricts_gear" : [ "FOOT_L", "FOOT_R" ],
+        "destroys_gear" : true
     },{
         "type" : "mutation",
         "id" : "HOOVES",
@@ -2041,9 +2054,11 @@
         "cancels" : ["PADDED_FEET", "LEG_TENTACLES", "RAP_TALONS"],
         "category" : ["MUTCAT_CATTLE", "MUTCAT_CHIMERA"],
         "wet_protection":[
-         { "part" : "FOOT_L", "neutral" : 10 },
-         { "part" : "FOOT_R", "neutral" : 10 }
-      ]
+            { "part" : "FOOT_L", "neutral" : 10 },
+            { "part" : "FOOT_R", "neutral" : 10 }
+        ],
+        "restricts_gear" : [ "FOOT_L", "FOOT_R" ],
+        "destroys_gear" : true
     },{
         "type" : "mutation",
         "id" : "ALCMET",
@@ -2201,7 +2216,9 @@
         "prereqs" : ["FANGS"],
         "threshreq" : ["THRESH_FELINE", "THRESH_CHIMERA"],
         "cancels" : ["BEAK", "BEAK_HUM", "BEAK_PECK", "PROBOSCIS", "MANDIBLES", "MUZZLE_LONG", "MUZZLE", "MINOTAUR"],
-        "category" : ["MUTCAT_FELINE", "MUTCAT_CHIMERA"]
+        "category" : ["MUTCAT_FELINE", "MUTCAT_CHIMERA"],
+        "restricts_gear" : [ "MOUTH" ],
+        "destroys_gear" : true
     },{
         "type" : "mutation",
         "id" : "EATHEALTH",
@@ -2236,7 +2253,8 @@
         "description" : "You have a pair of large curled horns, like those of a ram.  They allow you to make a strong bashing headbutt attack, but prevent you from wearing any headwear.",
         "prereqs" : ["HORNS"],
         "cancels" : ["ANTENNAE", "HORNS_POINTED", "ANTLERS"],
-        "category" : ["MUTCAT_CHIMERA"]
+        "category" : ["MUTCAT_CHIMERA"],
+        "restricts_gear" : [ "HEAD" ]
     },{
         "type" : "mutation",
         "id" : "HORNS_POINTED",
@@ -2247,7 +2265,9 @@
         "mixed_effect" : true,
         "description" : "You have a pair of long, pointed horns, like those of an antelope.  They allow you to make a strong piercing headbutt attack, but prevent you from wearing any headwear the is not made of fabric.",
         "prereqs" : ["HORNS"],
-        "cancels" : ["ANTENNAE", "HORNS_CURLED", "ANTLERS"]
+        "cancels" : ["ANTENNAE", "HORNS_CURLED", "ANTLERS"],
+        "restricts_gear" : [ "HEAD" ],
+        "allow_soft_gear" : true
     },{
         "type" : "mutation",
         "id" : "ANTLERS",
@@ -2258,7 +2278,9 @@
         "mixed_effect" : true,
         "description" : "You have a huge rack of antlers, like those of a moose.  They prevent you from hearing headwear that is not made of fabric, but provide a weak headbutt attack.",
         "prereqs" : ["HORNS"],
-        "cancels" : ["ANTENNAE", "HORNS_CURLED", "HORNS_POINTED"]
+        "cancels" : ["ANTENNAE", "HORNS_CURLED", "HORNS_POINTED"],
+        "restricts_gear" : [ "HEAD" ],
+        "allow_soft_gear" : true
     },{
         "type" : "mutation",
         "id" : "ANTENNAE",
@@ -2269,7 +2291,9 @@
         "description" : "You have a pair of antennae.  They allow you to detect the presence of monsters up to a few tiles away, even if you can't see or hear them, but prevent you from wearing headwear that is not made of fabric.",
         "prereqs" : ["HEADBUMPS"],
         "cancels" : ["HORNS", "HORNS_CURLED", "HORNS_POINTED", "ANTLERS"],
-        "category" : ["MUTCAT_INSECT"]
+        "category" : ["MUTCAT_INSECT"],
+        "restricts_gear" : [ "HEAD" ],
+        "allow_soft_gear" : true
     },{
         "type" : "mutation",
         "id" : "FLEET2",
@@ -2657,7 +2681,9 @@
         "category" : ["MUTCAT_INSECT", "MUTCAT_SPIDER"],
         "wet_protection" : [
             { "part" : "MOUTH", "ignored" : 1 }
-        ]
+        ],
+        "restricts_gear" : [ "MOUTH" ],
+        "destroys_gear" : true
     },{
         "type" : "mutation",
         "id" : "FANGS_SPIDER",
@@ -2864,7 +2890,9 @@
         "category" : ["MUTCAT_URSINE", "MUTCAT_CATTLE"],
         "passive_mods" : {
             "str_mod" : 4
-        }
+        },
+        "restricts_gear" : [ "TORSO", "LEG_L", "LEG_R", "ARM_L", "ARM_R", "HAND_L", "HAND_R", "HEAD", "FOOT_L", "FOOT_R" ],
+        "destroys_gear" : true
     },{
         "type" : "mutation",
         "id" : "HUGE_OK",
@@ -2881,7 +2909,9 @@
         "category" : ["MUTCAT_URSINE", "MUTCAT_CATTLE"],
         "passive_mods" : {
             "str_mod" : 4
-        }
+        },
+        "restricts_gear" : [ "TORSO", "LEG_L", "LEG_R", "ARM_L", "ARM_R", "HAND_L", "HAND_R", "HEAD", "FOOT_L", "FOOT_R" ],
+        "destroys_gear" : true
     },{
         "type" : "mutation",
         "id" : "STR_UP",
@@ -3261,7 +3291,8 @@
         "prereqs" : ["WINGS_STUB"],
         "threshreq" : ["THRESH_INSECT"],
         "cancels" : ["WINGS_BIRD", "WINGS_INSECT", "WINGS_BAT"],
-        "category" : ["MUTCAT_INSECT"]
+        "category" : ["MUTCAT_INSECT"],
+        "restricts_gear" : [ "TORSO" ]
     },{
         "type" : "mutation",
         "id" : "PALE",
@@ -3382,7 +3413,8 @@
         "description" : "Your face resembles that of a bull, with a significant snout.  It looks fearsome but prevents you from wearing mouthgear.",
         "cancels" : ["BEAK", "BEAK_HUM", "BEAK_PECK", "PROBOSCIS", "MUZZLE", "MUZZLE_LONG", "MUZZLE_BEAR"],
         "prereqs" : ["SNOUT"],
-        "category" : ["MUTCAT_CATTLE"]
+        "category" : ["MUTCAT_CATTLE"],
+        "restricts_gear" : [ "MOUTH" ]
     },{
         "type" : "mutation",
         "id" : "MUZZLE",
@@ -3394,7 +3426,8 @@
         "description" : "Your jaw and nose have extended into a wolfish muzzle.  It lends itself to biting in combat and looks impressive, but prevents you from wearing mouthgear.",
         "cancels" : ["BEAK", "BEAK_HUM", "BEAK_PECK", "PROBOSCIS", "MINOTAUR", "MUZZLE_LONG", "MUZZLE_BEAR"],
         "prereqs" : ["SNOUT"],
-        "category" : ["MUTCAT_BEAST", "MUTCAT_LUPINE"]
+        "category" : ["MUTCAT_BEAST", "MUTCAT_LUPINE"],
+        "restricts_gear" : [ "MOUTH" ]
     },{
         "type" : "mutation",
         "id" : "MUZZLE_BEAR",
@@ -3406,7 +3439,8 @@
         "description" : "Your jaw and nose have extended into a bearish muzzle.  You could bite with it, and it looks impressive, but it prevents you from wearing mouthgear.",
         "cancels" : ["BEAK", "BEAK_HUM", "BEAK_PECK", "PROBOSCIS", "MINOTAUR", "MUZZLE_LONG", "MUZZLE"],
         "prereqs" : ["SNOUT"],
-        "category" : ["MUTCAT_URSINE"]
+        "category" : ["MUTCAT_URSINE"],
+        "restricts_gear" : [ "MOUTH" ]
     },{
         "type" : "mutation",
         "id" : "MUZZLE_RAT",
@@ -3417,7 +3451,8 @@
         "description" : "Your face and jaw have extended, giving you an alert and attentive appearance.",
         "prereqs" : ["SNOUT"],
         "cancels" : ["BEAK", "BEAK_HUM", "BEAK_PECK", "PROBOSCIS", "MINOTAUR", "MUZZLE", "MUZZLE_BEAR", "MUZZLE_LONG"],
-        "category" : ["MUTCAT_RAT"]
+        "category" : ["MUTCAT_RAT"],
+        "restricts_gear" : [ "MOUTH" ]
     },{
         "type" : "mutation",
         "id" : "MUZZLE_LONG",
@@ -3429,7 +3464,8 @@
         "description" : "Your face and jaws are a shorter version of those found on alligators.  They look NASTY-as do the bite wounds they can inflict-but prevent you from wearing mouthgear.",
         "cancels" : ["BEAK", "BEAK_HUM", "BEAK_PECK", "PROBOSCIS", "MUZZLE", "MINOTAUR", "MUZZLE_BEAR"],
         "prereqs" : ["SNOUT"],
-        "category" : ["MUTCAT_LIZARD"]
+        "category" : ["MUTCAT_LIZARD"],
+        "restricts_gear" : [ "MOUTH" ]
     },{
         "type" : "mutation",
         "id" : "PROBOSCIS",
@@ -3444,7 +3480,8 @@
         "prereqs" : ["EYEBULGE", "COMPOUND_EYES"],
         "threshreq" : ["THRESH_INSECT"],
         "category" : ["MUTCAT_INSECT"],
-        "active" : true
+        "active" : true,
+        "restricts_gear" : [ "MOUTH" ]
     },{
         "type" : "mutation",
         "id" : "HOLLOW_BONES",
@@ -3669,6 +3706,7 @@
             [ "HAND_L", 10 ],
             [ "HAND_R", 10 ]
         ],
+        "restricts_gear" : [ "HAND_L", "HAND_R" ],
         "prereqs" : ["CLAWS", "CLAWS_RETRACT", "CLAWS_RAT"],
         "cancels" : ["TALONS", "ARM_TENTACLES", "ARM_TENTACLES_4", "ARM_TENTACLES_8"],
         "changes_to" : ["PAWS_LARGE"],
@@ -3686,6 +3724,7 @@
             [ "HAND_L", 20 ],
             [ "HAND_R", 20 ]
         ],
+        "restricts_gear" : [ "HAND_L", "HAND_R" ],
         "prereqs" : ["PAWS"],
         "cancels" : ["TALONS", "ARM_TENTACLES", "ARM_TENTACLES_4", "ARM_TENTACLES_8"],
         "category" : ["MUTCAT_BEAST", "MUTCAT_URSINE"]
@@ -3703,7 +3742,9 @@
         "category" : ["MUTCAT_BIRD", "MUTCAT_CEPHALOPOD"],
         "wet_protection" : [
             { "part" : "MOUTH", "ignored" : 1 }
-        ]
+        ],
+        "restricts_gear" : [ "MOUTH" ],
+        "destroys_gear" : true
     },{
         "type" : "mutation",
         "id" : "BEAK_PECK",
@@ -3720,7 +3761,9 @@
         "category" : ["MUTCAT_BIRD"],
         "wet_protection" : [
             { "part" : "MOUTH", "ignored" : 2 }
-        ]
+        ],
+        "restricts_gear" : [ "MOUTH" ],
+        "destroys_gear" : true
     },{
         "type" : "mutation",
         "id" : "BEAK_HUM",
@@ -3738,7 +3781,9 @@
         "wet_protection" : [
             { "part" : "MOUTH", "ignored" : 2 }
         ],
-        "active" : true
+        "active" : true,
+        "restricts_gear" : [ "MOUTH" ],
+        "destroys_gear" : true
     },{
         "type" : "mutation",
         "id" : "UNSTABLE",
@@ -4144,7 +4189,8 @@
         "prereqs" : ["CHITIN", "CHITIN2", "CHITIN3", "CHITIN_FUR2", "CHITIN_FUR3"],
         "prereqs2" : ["ANTENNAE"],
         "threshreq" : ["THRESH_INSECT", "THRESH_SPIDER"],
-        "category" : ["MUTCAT_INSECT", "MUTCAT_SPIDER"]
+        "category" : ["MUTCAT_INSECT", "MUTCAT_SPIDER"],
+        "restricts_gear" : [ "TORSO" ]
     },{
         "type" : "mutation",
         "id" : "INSECT_ARMS_OK",
@@ -4179,7 +4225,8 @@
         "prereqs" : ["INSECT_ARMS"],
         "prereqs2" : ["CHITIN3", "CHITIN_FUR2", "CHITIN_FUR3"],
         "threshreq" : ["THRESH_SPIDER"],
-        "category" : ["MUTCAT_SPIDER"]
+        "category" : ["MUTCAT_SPIDER"],
+        "restricts_gear" : [ "TORSO" ]
     },{
         "type" : "mutation",
         "id" : "ARACHNID_ARMS_OK",
@@ -4208,6 +4255,7 @@
             [ "HAND_L", 30 ],
             [ "HAND_R", 30 ]
         ],
+        "restricts_gear" : [ "HAND_L", "HAND_R" ],
         "leads_to" : ["CLAWS_TENTACLE"],
         "changes_to" : ["ARM_TENTACLES_4"],
         "cancels" : ["PAWS", "PAWS_LARGE", "NAILS", "CLAWS", "TALONS"],
@@ -4229,6 +4277,7 @@
             [ "HAND_L", 30 ],
             [ "HAND_R", 30 ]
         ],
+        "restricts_gear" : [ "HAND_L", "HAND_R" ],
         "prereqs" : ["ARM_TENTACLES"],
         "leads_to" : ["CLAWS_TENTACLE"],
         "changes_to" : ["ARM_TENTACLES_8"],
@@ -4251,6 +4300,7 @@
             [ "HAND_L", 30 ],
             [ "HAND_R", 30 ]
         ],
+        "restricts_gear" : [ "HAND_L", "HAND_R" ],
         "prereqs" : ["ARM_TENTACLES_4"],
         "cancels" : ["PAWS", "PAWS_LARGE", "NAILS", "CLAWS", "TALONS"],
         "leads_to" : ["CLAWS_TENTACLE"],
@@ -4275,7 +4325,9 @@
         "category" : ["MUTCAT_CEPHALOPOD"],
         "wet_protection" : [
             { "part" : "TORSO", "ignored" : 26 }
-        ]
+        ],
+        "restricts_gear" : [ "TORSO" ],
+        "destroys_gear" : true
     },{
         "type" : "mutation",
         "id" : "SHELL2",
@@ -4294,7 +4346,9 @@
         "wet_protection" : [
             { "part" : "TORSO", "ignored" : 26 }
         ],
-        "active"     :    true
+        "active"     :    true,
+        "restricts_gear" : [ "TORSO" ],
+        "destroys_gear" : true
     },{
         "type" : "mutation",
         "id" : "LEG_TENTACLES",
@@ -4312,7 +4366,8 @@
             { "part" : "LEG_R", "neutral" : 21 },
             { "part" : "FOOT_L", "neutral" : 6 },
             { "part" : "FOOT_R", "neutral" : 6 }
-        ]
+        ],
+        "restricts_gear" : [ "FOOT_L", "FOOT_R" ]
     },{
         "type" : "mutation",
         "id" : "LEG_TENT_BRACE",

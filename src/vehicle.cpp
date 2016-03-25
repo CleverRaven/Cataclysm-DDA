@@ -2737,10 +2737,10 @@ int vehicle::print_part_desc(WINDOW *win, int y1, int width, int p, int hl /*= -
 
         if (i == 0 && is_inside(pl[i])) {
             //~ indicates that a vehicle part is inside
-            mvwprintz(win, y, width-2-utf8_width(_("In")), c_ltgray, _("In"));
+            mvwprintz(win, y, width-2-utf8_width(_("Interior")), c_ltgray, _("Interior"));
         } else if (i == 0) {
             //~ indicates that a vehicle part is outside
-            mvwprintz(win, y, width-2-utf8_width(_("Out")), c_ltgray, _("Out"));
+            mvwprintz(win, y, width-2-utf8_width(_("Exterior")), c_ltgray, _("Exterior"));
         }
         y++;
     }

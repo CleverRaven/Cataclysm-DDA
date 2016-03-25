@@ -747,6 +747,11 @@ public:
         bool is_dangerous() const; // Is it an active grenade or something similar that will hurt us?
 
         /**
+         * Is this item flexible enough to be worn on body parts like antlers?
+         */
+        bool is_soft() const;
+
+        /**
          * Does the item provide the artifact effect when it is wielded?
          */
         bool has_effect_when_wielded( art_effect_passive effect ) const;
