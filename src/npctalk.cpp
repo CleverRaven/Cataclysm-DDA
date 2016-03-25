@@ -4752,7 +4752,7 @@ consumption_result try_consume( npc &p, item &it, std::string &reason )
 {
     bool consuming_contents = it.is_food_container( &p );
     item &to_eat = consuming_contents ? it.contents[0] : it;
-    const auto comest = dynamic_cast<const it_comest*>( to_eat.type );
+    const auto comest = to_eat.type->comestible.get();
     if( comest == nullptr ) {
         // Don't inform the player that we don't want to eat the lighter
         return REFUSED;
@@ -4786,8 +4786,8 @@ consumption_result try_consume( npc &p, item &it, std::string &reason )
             }
             p.use_charges( comest->tool, 1 );
         }
-        if (comest->has_use()) {
-            amount_used = comest->invoke( &p, &to_eat, p.pos() );
+        if( to_eat.type->has_use() ) {
+            amount_used = to_eat.type->invoke( &p, &to_eat, p.pos() );
             if( amount_used <= 0 ) {
                 reason = _("It doesn't look like a good idea to consume this..");
                 return REFUSED;

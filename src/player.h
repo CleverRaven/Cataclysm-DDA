@@ -33,7 +33,6 @@ struct tool_comp;
 class vehicle;
 class start_location;
 using start_location_id = string_id<start_location>;
-struct it_comest;
 struct w_point;
 struct points_left;
 
@@ -705,7 +704,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int stomach_capacity() const;
 
         /** Handles the nutrition value for a comestible **/
-        int nutrition_for( const it_comest *comest ) const;
+        int nutrition_for( const itype *comest ) const;
         /** Stable base metabolic rate due to traits */
         float metabolic_rate_base() const;
         /** Current metabolic rate due to traits, hunger, speed, etc. */
