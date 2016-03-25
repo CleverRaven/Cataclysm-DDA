@@ -10,6 +10,7 @@
 #include <map>
 #include <bitset>
 #include <memory>
+#include <list>
 
 bool item_is_blacklisted( const std::string &id );
 
@@ -258,6 +259,12 @@ class Item_factory
         void create_inital_categories();
 
         /**
+         * Called before creating a new template and handles inheritance via copy-from
+         * May defer instantiation of the template if depends on other objects not as-yet loaded
+         */
+        itype *load_definition( JsonObject &jo );
+
+        /**
          * Load the data of the slot struct. It creates the slot object (of type SlotType) and
          * and calls @ref load to do the actual (type specific) loading.
          */
@@ -319,6 +326,9 @@ class Item_factory
 
         //iuse stuff
         std::map<Item_tag, use_function> iuse_function_list;
+
+        /** JSON data dependent upon as-yet unparsed definitions */
+        std::list<std::string> deferred;
 };
 
 extern std::unique_ptr<Item_factory> item_controller;

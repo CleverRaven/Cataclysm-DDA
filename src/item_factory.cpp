@@ -18,6 +18,7 @@
 #include "material.h"
 #include "artifact.h"
 #include "veh_type.h"
+#include "init.h"
 
 #include <algorithm>
 #include <sstream>
@@ -57,6 +58,30 @@ bool item_is_blacklisted(const std::string &id)
 }
 
 void Item_factory::finalize() {
+
+    auto& dyn = DynamicDataLoader::get_instance();
+
+    while( !deferred.empty() ) {
+        auto n = deferred.size();
+        auto it = deferred.begin();
+        for( decltype(deferred)::size_type idx = 0; idx != n; ++idx ) {
+            try {
+                std::istringstream str( *it );
+                JsonIn jsin( str );
+                JsonObject jo = jsin.get_object();
+                dyn.load_object( jo );
+            } catch( const std::exception &err ) {
+                debugmsg( "Error loading data from json: %s", err.what() );
+            }
+            ++it;
+        }
+        deferred.erase( deferred.begin(), it );
+        if( deferred.size() == n ) {
+            debugmsg( "JSON contains circular dependency: discarded %i templates", n );
+            break;
+        }
+    }
+
     finalize_item_blacklist();
 
     for( auto& e : m_templates ) {
@@ -739,6 +764,20 @@ void load_optional_enum_array( std::vector<E> &vec, JsonObject &jo, const std::s
     while( !stream.end_array() ) {
         vec.push_back( stream.get_enum_value<E>() );
     }
+}
+
+itype * Item_factory::load_definition( JsonObject& jo ) {
+    if( !jo.has_string( "copy-from" ) ) {
+        return new itype();
+    }
+
+    auto base = m_templates.find( jo.get_string( "copy-from" ) );
+    if( base != m_templates.end() ) {
+        return new itype( *base->second );
+    }
+
+    deferred.emplace_back( jo.str() );
+    return nullptr;
 }
 
 void Item_factory::load( islot_artifact &slot, JsonObject &jo )
