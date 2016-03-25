@@ -2,6 +2,51 @@
     {
         "type" : "snippet",
         "category" : "<lets_talk>",
-        "text": "LETS_TALK"
+        "text" : "Wait up, let's talk!"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<lets_talk>",
+        "text" : "Hey, I <really> want to talk to you!"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<lets_talk>",
+        "text" : "Come on, talk to me!"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<lets_talk>",
+        "text" : "Hey <name_g>, let's talk!"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<lets_talk>",
+        "text" : "<name_g>, we <really> need to talk!"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<lets_talk>",
+        "text" : "Hey, we should talk, <okay>?"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<lets_talk>",
+        "text" : "<name_g>!  Wait up!"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<lets_talk>",
+        "text" : "Wait up, <okay>?"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<lets_talk>",
+        "text" : "Let's talk, <name_g>!"
+    },
+    {
+        "type" : "snippet",
+        "category" : "<lets_talk>",
+        "text" : "Look, <name_g><punc> let's talk!"
     }
 ]
