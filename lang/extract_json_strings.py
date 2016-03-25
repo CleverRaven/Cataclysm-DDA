@@ -9,6 +9,7 @@ class WrongJSONItem(Exception):
     def __init__(self, msg, item):
         self.msg = msg
         self.item = item
+
     def __str__(self):
         return ("---\nJSON error\n{0}\n--- JSON Item:\n{1}\n---".format(self.msg, self.item))
 
@@ -145,16 +146,16 @@ def extract_martial_art(item):
         name = item["id"]
     if "description" in item:
         writestr(outfile, item["description"],
-             comment="Description for martial art '%s'" % name)
+                 comment="Description for martial art '{}'".format(name))
     onhit_buffs = item.get("onhit_buffs", list())
     static_buffs = item.get("static_buffs", list())
     buffs = onhit_buffs + static_buffs
     for buff in buffs:
         writestr(outfile, buff["name"])
         if buff["name"] == item["name"]:
-            c="Description of buff for martial art '%s'" % name
+            c="Description of buff for martial art '{}'".format(name)
         else:
-            c="Description of buff '%s' for martial art '%s'" % (buff["name"], name)
+            c="Description of buff '{}' for martial art '{}'".format(buff["name"], name)
         writestr(outfile, buff["description"], comment=c)
 
 def extract_effect_type(item):
@@ -181,7 +182,7 @@ def extract_effect_type(item):
         writestr(outfile, msg, format_strings=True)
     else:
         writestr(outfile, msg, format_strings=True,
-          comment="Apply message for effect(s) '{}'.".format(', '.join(name)))
+                 comment="Apply message for effect(s) '{}'.".format(', '.join(name)))
 
     # remove_message
     msg = item.get("remove_message")
@@ -189,7 +190,7 @@ def extract_effect_type(item):
         writestr(outfile, msg, format_strings=True)
     else:
         writestr(outfile, msg, format_strings=True,
-          comment="Remove message for effect(s) '{}'.".format(', '.join(name)))
+                 comment="Remove message for effect(s) '{}'.".format(', '.join(name)))
 
     # miss messages
     msg = item.get("miss_messages", ())
@@ -199,7 +200,7 @@ def extract_effect_type(item):
     else:
         for m in msg:
             writestr(outfile, m[0],
-              comment="Miss message for effect(s) '{}'.".format(', '.join(name)))
+                     comment="Miss message for effect(s) '{}'.".format(', '.join(name)))
     msg = item.get("decay_messages", ())
     if not name:
         for m in msg:
@@ -207,7 +208,7 @@ def extract_effect_type(item):
     else:
         for m in msg:
             writestr(outfile, m[0],
-              comment="Decay message for effect(s) '{}'.".format(', '.join(name)))
+                     comment="Decay message for effect(s) '{}'.".format(', '.join(name)))
 
     # aplly and remove memorial messages.
     msg = item.get("apply_memorial_log")
@@ -216,9 +217,9 @@ def extract_effect_type(item):
         writestr(outfile, msg, context="memorial_female")
     else:
         writestr(outfile, msg, context="memorial_male",
-          comment="Male memorial apply log for effect(s) '{}'.".format(', '.join(name)))
+                 comment="Male memorial apply log for effect(s) '{}'.".format(', '.join(name)))
         writestr(outfile, msg, context="memorial_female",
-          comment="Female memorial apply log for effect(s) '{}'.".format(', '.join(name)))
+                 comment="Female memorial apply log for effect(s) '{}'.".format(', '.join(name)))
     msg = item.get("remove_memorial_log")
     if not name:
         writestr(outfile, msg, context="memorial_male")
@@ -323,7 +324,6 @@ def extract_mutation(item):
     item_name = found = item.get("name")
     if found is None:
         raise WrongJSONItem("JSON item don't contain 'name' field", item)
-        return
     writestr(outfile, found, comment="Mutation class name")
 
     simple_fields = [ "mutagen_message",
@@ -336,13 +336,13 @@ def extract_mutation(item):
         found = item.get(f)
         # Need that check due format string argument
         if found is not None:
-            writestr(outfile, found, comment="Mutation class: {0} {1}".format(item_name, f))
+            writestr(outfile, found, comment="Mutation class: {} {}".format(item_name, f))
 
     found = item.get("memorial_message")
     writestr(outfile, found, context="memorial_male",
-             comment="Mutation class: {0} Male memorial messsage".format(item_name))
+             comment="Mutation class: {} Male memorial messsage".format(item_name))
     writestr(outfile, found, context="memorial_female",
-             comment="Mutation class: {0} Female memorial messsage".format(item_name))
+             comment="Mutation class: {} Female memorial messsage".format(item_name))
 
 
 def extract_vehspawn(item):
@@ -424,6 +424,11 @@ for filename in os.listdir(to_dir):
 ##  FUNCTIONS
 ##
 
+def tlcomment(fs, string):
+    "Write the string to the file as a comment for translators."
+    if len(string) > 0:
+        fs.write("#~ {}\n".format(string))
+
 def gettextify(string, context=None, plural=None):
     "Put the string in a fake gettext call, and add a newline."
     if context:
@@ -435,14 +440,15 @@ def gettextify(string, context=None, plural=None):
             return "_(%r)\n" % string
 
 def writestr(filename, string, plural=None, context=None, format_strings=False, comment=None):
+    "Wrap the string and write to the file."
     if type(string) is list and plural is None:
         for entry in string:
             writestr(filename, entry, None, context, format_strings, comment)
         return
 
-    "Wrap the string and write to the file."
-    # no empty strings
+    # don't write empty strings
     if not string: return
+
     with open(filename,'a') as fs:
         # Append developers comment
         if comment:
@@ -452,11 +458,6 @@ def writestr(filename, string, plural=None, context=None, format_strings=False, 
         if not format_strings and "%" in string:
             fs.write("# xgettext:no-python-format\n")
         fs.write(gettextify(string,context=context,plural=plural))
-
-def tlcomment(fs, string):
-    "Write the string to the file as a comment for translators."
-    if len(string) > 0:
-        fs.write("#~ {}\n".format(string))
 
 def get_outfile(json_object_type):
     return os.path.join(to_dir, json_object_type + "_from_json.py")
@@ -515,7 +516,7 @@ def extract(item, infilename):
         extract_specials[object_type](item)
         return
     elif object_type not in automatically_convertible:
-        raise WrongJSONItem("ERROR: Unrecognized object type '{0}'!".format(object_type), item)
+        raise WrongJSONItem("ERROR: Unrecognized object type '{}'!".format(object_type), item)
     wrote = False
     name = item.get("name") # Used in gettext comments below.
     # Don't extract any record with name = "none".
@@ -530,7 +531,7 @@ def extract(item, infilename):
         else:
             if object_type in needs_plural:
                 # no name_plural entry in json, use default constructed (name+"s"), as in item_factory.cpp
-                writestr(outfile, name, "%ss" % name, **kwargs)
+                writestr(outfile, name, "{}s".format(name), **kwargs)
             else:
                 writestr(outfile, name, **kwargs)
         wrote = True
@@ -539,7 +540,7 @@ def extract(item, infilename):
         wrote = True
     if "description" in item:
         if name:
-            c = "Description for %s" % name
+            c = "Description for {}".format(name)
         else:
             c = None
         writestr(outfile, item["description"], comment=c, **kwargs)
@@ -584,7 +585,7 @@ def extract(item, infilename):
             writestr(outfile, mod_loc[0], **kwargs)
             wrote = True
     if not wrote:
-        print("WARNING: %s: nothing translatable found in item: %r" % (infilename, item))
+        print("WARNING: {}: nothing translatable found in item: {}".format(infilename, item))
 
 def extract_all_from_dir(json_dir):
     """Extract strings from every json file in the specified directory,
@@ -602,13 +603,14 @@ def extract_all_from_dir(json_dir):
         elif f.endswith(".json"):
             extract_all_from_file(full_name)
         elif f not in not_json:
-            print("skipping file: %r" % f)
+            print("Skipping file: '{}'".format(f))
     for d in dirs:
         extract_all_from_dir(os.path.join(json_dir, d))
 
 def extract_all_from_file(json_file):
-    print("Loading %s" % json_file)
     "Extract translatable strings from every object in the specified file."
+    print("Loading {}".format(json_file))
+
     with open(json_file) as fp:
         jsondata = json.load(fp)
     # it's either an array of objects, or a single object
@@ -619,7 +621,7 @@ def extract_all_from_file(json_file):
             for jsonobject in jsondata:
                 extract(jsonobject, json_file)
     except WrongJSONItem as E:
-        print("---\nFile: {0}".format(json_file))
+        print("---\nFile: '{0}'".format(json_file))
         print(E)
         exit(1)
 
