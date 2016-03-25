@@ -1499,7 +1499,7 @@
     "type" : "MONSTER",
     "id" : "mon_sludge_crawler",
     "name": "sludge crawler",
-    "species": "ABERRATION",
+    "species": "MUTANT",
     "default_faction": "mutant_predator",
     "symbol":"S",
     "color":"dkgray",
