@@ -159,6 +159,8 @@ class Item_factory
         void load_veh_part( JsonObject &jo );
         /*@}*/
 
+        /** called after all JSON has been read and performs any necessary cleanup tasks */
+        void finalize();
 
         /**
          * @name Item categories
@@ -208,7 +210,6 @@ class Item_factory
 
         void load_item_blacklist( JsonObject &jo );
         void load_item_whitelist( JsonObject &jo );
-        void finialize_item_blacklist();
 
         /**
          * Load a json blob of type item option.
@@ -315,6 +316,8 @@ class Item_factory
                                  const std::string &flag_type );
         void clear();
         void init();
+
+        void finalize_item_blacklist();
 
         //iuse stuff
         std::map<Item_tag, use_function> iuse_function_list;

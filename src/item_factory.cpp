@@ -56,7 +56,11 @@ bool item_is_blacklisted(const std::string &id)
     return !item_whitelist.empty();
 }
 
-void Item_factory::finialize_item_blacklist()
+void Item_factory::finalize() {
+    finalize_item_blacklist();
+}
+
+void Item_factory::finalize_item_blacklist()
 {
     for (t_string_set::const_iterator a = item_whitelist.begin(); a != item_whitelist.end(); ++a) {
         if (!has_template(*a)) {
