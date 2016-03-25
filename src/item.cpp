@@ -134,13 +134,13 @@ item::item( const itype *type, int turn, int qty ) : type( type )
     } else if( type->is_food() ) {
         active = goes_bad() && !rotten();
 
-    } else if( type->is_tool() ) {
+    } else if( type->tool ) {
         if( ammo_remaining() && ammo_type() != "NULL" ) {
-            set_curammo( default_ammo( ammo_type() ) );
+            ammo_set( default_ammo( ammo_type() ), ammo_remaining() );
         }
     }
 
-    if( ( type->gun || type->is_tool() ) && !magazine_integral() ) {
+    if( ( type->gun || type->tool ) && !magazine_integral() ) {
         set_var( "magazine_converted", true );
     }
 
@@ -205,12 +205,11 @@ item& item::deactivate( const Character *ch, bool alert )
         return *this; // no-op
     }
 
-    const auto tool = dynamic_cast<const it_tool *>( type );
-    if( tool && tool->revert_to != "null" ) {
-        if( ch && alert && !tool->revert_msg.empty() ) {
-            ch->add_msg_if_player( m_info, _( tool->revert_msg.c_str() ), tname().c_str() );
+    if( is_tool() && type->tool->revert_to != "null" ) {
+        if( ch && alert && !type->tool->revert_msg.empty() ) {
+            ch->add_msg_if_player( m_info, _( type->tool->revert_msg.c_str() ), tname().c_str() );
         }
-        convert( tool->revert_to );
+        convert( type->tool->revert_to );
         active = false;
 
     }
@@ -1235,11 +1234,9 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         info.push_back( iteminfo( "CONTAINER", temp1.str() ) );
     }
     if( is_tool() ) {
-        const auto tool = dynamic_cast<const it_tool *>( type );
 
         if( ammo_capacity() != 0 ) {
             std::string temp_fmt;
-            const std::string t_ammo_name = ammo_name( tool->ammo_id );
 
             info.push_back( iteminfo( "TOOL", string_format( _( "<bold>Charges</bold>: %d" ), ammo_remaining() ) ) );
 
@@ -1254,19 +1251,19 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                     temp_fmt += item_controller->find_template( *iter )->nname( 1 );
                 }
             } else if( has_flag( "DOUBLE_AMMO" ) ) {
-                if( tool->ammo_id != "NULL" ) {
+                if( ammo_type() != "NULL" ) {
                     //~ "%s" is ammunition type. This types can't be plural.
                     temp_fmt = ngettext( "Maximum <num> charge (doubled) of %s.",
                                          "Maximum <num> charges (doubled) of %s.",
                                          ammo_capacity() );
-                    temp_fmt = string_format( temp_fmt, t_ammo_name.c_str() );
+                    temp_fmt = string_format( temp_fmt, ammo_name( ammo_type() ).c_str() );
                 } else {
                     temp_fmt = ngettext( "Maximum <num> charge (doubled).",
                                          "Maximum <num> charges (doubled).",
                                          ammo_capacity() );
                 }
             } else if( has_flag( "ATOMIC_AMMO" ) ) {
-                if( tool->ammo_id != "NULL" ) {
+                if( ammo_type() != "NULL" ) {
                     //~ "%s" is ammunition type. This types can't be plural.
                     temp_fmt = ngettext( "Maximum <num> charge of %s.",
                                          "Maximum <num> charges of %s.",
@@ -1278,12 +1275,12 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                                          ammo_capacity() );
                 }
             } else {
-                if( tool->ammo_id != "NULL" ) {
+                if( ammo_type() != "NULL" ) {
                     //~ "%s" is ammunition type. This types can't be plural.
                     temp_fmt = ngettext( "Maximum <num> charge of %s.",
                                          "Maximum <num> charges of %s.",
                                          ammo_capacity() );
-                    temp_fmt = string_format( temp_fmt, t_ammo_name.c_str() );
+                    temp_fmt = string_format( temp_fmt, ammo_name( ammo_type() ).c_str() );
                 } else {
                     temp_fmt = ngettext( "Maximum <num> charge.",
                                          "Maximum <num> charges.",
@@ -3520,23 +3517,16 @@ bool item::is_emissive() const
 
 bool item::is_tool() const
 {
-    if( is_null() )
-        return false;
-
-    return type->is_tool();
+    return type->tool != nullptr;
 }
 
 bool item::is_tool_reversible() const
 {
-    const it_tool *source = dynamic_cast<const it_tool *>( type );
-    if( source != nullptr && source->revert_to != "null" ) {
-        item revert( source->revert_to, 0 );
+    if( is_tool() && type->tool->revert_to != "null" ) {
+        item revert( type->tool->revert_to );
         npc n;
         revert.type->invoke( &n, &revert, tripoint(-999, -999, -999) );
-        const it_tool *target = dynamic_cast<const it_tool *>( revert.type );
-        if ( target != nullptr ) {
-            return ( source->id == target->id );
-        }
+        return revert.is_tool() && typeId() == revert.typeId();
     }
     return false;
 }
@@ -4134,7 +4124,7 @@ ammotype item::ammo_type( bool conversion ) const
     if( is_gun() ) {
         return type->gun->ammo;
     } else if( is_tool() ) {
-        return dynamic_cast<const it_tool*>( type )->ammo_id;
+        return type->tool->ammo_id;
     } else if( is_magazine() ) {
         return type->magazine->type;
     } else if( is_ammo() ) {
@@ -4767,11 +4757,9 @@ int item::getlight_emit() const
         return 0;
     }
     if ( has_flag("CHARGEDIM") && is_tool() && !has_flag("USE_UPS")) {
-        const auto tool = dynamic_cast<const it_tool *>(type);
-        int maxcharge = tool->max_charges;
         // Falloff starts at 1/5 total charge and scales linearly from there to 0.
-        if( maxcharge > 0 && charges < maxcharge / 5 ) {
-            lumint *= (float)charges * 5.0 / (float)maxcharge;
+        if( ammo_capacity() && ammo_remaining() < ( ammo_capacity() / 5 ) ) {
+            lumint *= ammo_remaining() * 5.0 / ammo_capacity();
         }
     }
     return lumint;
@@ -4785,14 +4773,7 @@ long item::get_remaining_capacity_for_liquid( const item &liquid, bool allow_buc
 
     if (liquid.is_ammo() && (is_tool() || is_gun())) {
         // for filling up chainsaws, jackhammers and flamethrowers
-        long max = 0;
-        if (is_tool()) {
-            const auto tool = dynamic_cast<const it_tool *>(type);
-            max = tool->max_charges;
-        } else {
-            max = type->gun->clip;
-        }
-        return max - charges;
+        return ammo_capacity() - ammo_remaining();
     }
 
     const auto total_capacity = liquid.liquid_charges( type->container->contains );
@@ -4808,29 +4789,15 @@ item::LIQUID_FILL_ERROR item::has_valid_capacity_for_liquid( const item &liquid,
 {
     if (liquid.is_ammo() && (is_tool() || is_gun())) {
         // for filling up chainsaws, jackhammers and flamethrowers
-        ammotype ammo = "NULL";
-        int max = 0;
-
-        if (is_tool()) {
-            const auto tool = dynamic_cast<const it_tool *>(type);
-            ammo = tool->ammo_id;
-            max = tool->max_charges;
-        } else {
-            ammo = type->gun->ammo;
-            max = type->gun->clip;
-        }
-
-        ammotype liquid_type = liquid.ammo_type();
-
-        if (ammo != liquid_type) {
+        if( ammo_type() != liquid.ammo_type() ) {
             return L_ERR_NOT_CONTAINER;
         }
 
-        if (max <= 0 || charges >= max) {
+        if( ammo_remaining() >= ammo_capacity() ) {
             return L_ERR_FULL;
         }
 
-        if( charges > 0 && ammo_current() != liquid.type->id ) {
+        if( ammo_remaining() && ammo_current() != liquid.typeId() ) {
             return L_ERR_NO_MIX;
         }
     }
@@ -4944,7 +4911,7 @@ long item::charges_of(const itype_id &it) const
 {
     long count = 0;
 
-    if (((type->id == it) || (is_tool() && (dynamic_cast<const it_tool *>(type))->subtype == it)) && contents.empty()) {
+    if ( ( typeId() == it || ( is_tool() && type->tool->subtype == it ) ) && contents.empty() ) {
         // If we're specifically looking for a container, only say we have it if it's empty.
         if (charges < 0) {
             count++;
@@ -4970,7 +4937,7 @@ bool item::use_charges(const itype_id &it, long &quantity, std::list<item> &used
         }
     }
     // Now check the item itself
-    if( !((type->id == it) || (is_tool() && (dynamic_cast<const it_tool *>(type))->subtype == it)) ||
+    if( !( typeId() == it || ( is_tool() && type->tool->subtype == it ) ) ||
         quantity <= 0 || !contents.empty() ) {
         return false;
     }
@@ -5475,9 +5442,8 @@ bool item::process_wet( player * /*carrier*/, const tripoint & /*pos*/ )
 {
     item_counter--;
     if( item_counter == 0 ) {
-        const it_tool *tool = dynamic_cast<const it_tool *>( type );
-        if( tool != nullptr && tool->revert_to != "null" ) {
-            convert( tool->revert_to );
+        if( is_tool() && type->tool->revert_to != "null" ) {
+            convert( type->tool->revert_to );
         }
         item_tags.erase( "WET" );
         active = false;
@@ -5488,10 +5454,9 @@ bool item::process_wet( player * /*carrier*/, const tripoint & /*pos*/ )
 
 bool item::process_tool( player *carrier, const tripoint &pos )
 {
-    const auto tmp = dynamic_cast<const it_tool *>( type );
     long charges_used = 0;
     // Some tools (bombs) use charges as a countdown timer.
-    if( tmp->turns_per_charge > 0 && int( calendar::turn ) % tmp->turns_per_charge == 0 ) {
+    if( type->tool->turns_per_charge > 0 && int( calendar::turn ) % type->tool->turns_per_charge == 0 ) {
         charges_used = 1;
     }
     if( charges_used > 0 ) {
@@ -5516,7 +5481,7 @@ bool item::process_tool( player *carrier, const tripoint &pos )
     if( charges_used == 0 ) {
         // TODO: iuse functions should expect a nullptr as player, but many of them
         // don't and therefore will fail.
-        tmp->tick( carrier != nullptr ? carrier : &g->u, this, pos );
+        type->tick( carrier != nullptr ? carrier : &g->u, this, pos );
         if( charges == -1 ) {
             // Signal that the item has destroyed itself.
             return true;
@@ -5527,8 +5492,8 @@ bool item::process_tool( player *carrier, const tripoint &pos )
         }
         // TODO: iuse functions should expect a nullptr as player, but many of them
         // don't and therefor will fail.
-        tmp->invoke( carrier != nullptr ? carrier : &g->u, this, pos );
-        if( tmp->revert_to == "null" ) {
+        type->invoke( carrier != nullptr ? carrier : &g->u, this, pos );
+        if( type->tool->revert_to == "null" ) {
             return true; // reverts to nothing -> destroy the item
         }
         deactivate( carrier );

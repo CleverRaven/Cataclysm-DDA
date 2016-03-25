@@ -10218,47 +10218,32 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
 
     } else if (liquid.is_ammo() && (cont->is_tool() || cont->is_gun())) {
         // for filling up chainsaws, jackhammers and flamethrowers
-        ammotype ammo = "NULL";
-        long max = 0;
 
-        if (cont->is_tool()) {
-            const auto tool = dynamic_cast<const it_tool *>(cont->type);
-            ammo = tool->ammo_id;
-            max = tool->max_charges;
-        } else {
-            ammo = cont->type->gun->ammo;
-            max = cont->type->gun->clip;
-        }
-
-        ammotype liquid_type = liquid.ammo_type();
-
-        if (ammo != liquid_type) {
+        if( cont->ammo_type() != liquid.ammo_type() ) {
             add_msg(m_info, _("Your %1$s won't hold %2$s."), cont->tname().c_str(),
                     liquid.tname().c_str());
             return false;
         }
 
-        if (max <= 0 || cont->charges >= max) {
+        if( cont->ammo_remaining() >= cont->ammo_capacity() ) {
             add_msg(m_info, _("Your %1$s can't hold any more %2$s."), cont->tname().c_str(),
                     liquid.tname().c_str());
             return false;
         }
 
-        if( cont->charges > 0 && cont->ammo_current() != liquid.typeId() ) {
+        if( cont->ammo_remaining() && cont->ammo_current() != liquid.typeId() ) {
             add_msg(m_info, _("You can't mix loads in your %s."), cont->tname().c_str());
             return false;
         }
 
         add_msg(_("You pour %1$s into the %2$s."), liquid.tname().c_str(), cont->tname().c_str());
-        cont->set_curammo( liquid );
         if (infinite) {
-            cont->charges = max;
+            cont->ammo_set( liquid.typeId() ); // fill to capacity
         } else {
-            cont->charges += liquid.charges;
-            if (cont->charges > max) {
-                long extra = cont->charges - max;
-                cont->charges = max;
-                liquid.charges = extra;
+            auto qty = std::min( liquid.charges, cont->ammo_capacity() - cont->ammo_remaining() );
+            liquid.charges -= qty;
+            cont->ammo_set( liquid.typeId(), cont->ammo_remaining() + qty );
+            if( liquid.charges > 0 ) {
                 add_msg(_("There's some left over!"));
                 return false;
             }
@@ -10304,51 +10289,37 @@ int game::move_liquid(item &liquid)
     if( u.has_item( *cont ) ) {
         if (cont == NULL || cont->is_null()) {
             return -1;
+
         } else if (liquid.is_ammo() && (cont->is_tool() || cont->is_gun())) {
             // for filling up chainsaws, jackhammers and flamethrowers
-            ammotype ammo = "NULL";
-            int max = 0;
 
-            if (cont->is_tool()) {
-                const auto tool = dynamic_cast<const it_tool *>(cont->type);
-                ammo = tool->ammo_id;
-                max = tool->max_charges;
-            } else {
-                ammo = cont->type->gun->ammo;
-                max = cont->type->gun->clip;
-            }
-
-            ammotype liquid_type = liquid.ammo_type();
-
-            if (ammo != liquid_type) {
-                add_msg(m_info, _("Your %1$s won't hold %2$s."), cont->tname().c_str(),
-                        liquid.tname().c_str());
+            if( cont->ammo_type() != liquid.ammo_type() ) {
+                add_msg( m_info, _( "Your %1$s won't hold %2$s." ),
+                         cont->tname().c_str(), liquid.tname().c_str() );
                 return -1;
             }
 
-            if (max <= 0 || cont->charges >= max) {
-                add_msg(m_info, _("Your %1$s can't hold any more %2$s."), cont->tname().c_str(),
-                        liquid.tname().c_str());
+            if( cont->ammo_remaining() >= cont->ammo_capacity() ) {
+                add_msg( m_info, _( "Your %1$s can't hold any more %2$s." ),
+                         cont->tname().c_str(), liquid.tname().c_str() );
                 return -1;
             }
 
-            if( cont->charges > 0 && cont->ammo_current() != liquid.typeId() ) {
-                add_msg(m_info, _("You can't mix loads in your %s."), cont->tname().c_str());
+            if( cont->ammo_remaining() && cont->ammo_current() != liquid.typeId() ) {
+                add_msg( m_info, _( "You can't mix loads in your %s." ), cont->tname().c_str() );
                 return -1;
             }
 
-            add_msg(_("You pour %1$ss into your %2$s."), liquid.tname().c_str(),
-                    cont->tname().c_str());
-            cont->set_curammo( liquid );
-            cont->charges += liquid.charges;
-            if (cont->charges > max) {
-                long extra = cont->charges - max;
-                cont->charges = max;
-                add_msg(_("There's some left over!"));
-                return extra;
-            } else {
-                return 0;
+            add_msg( _(" You pour %1$s into the %2$s." ), liquid.tname().c_str(), cont->tname().c_str() );
+            auto qty = std::min( liquid.charges, cont->ammo_capacity() - cont->ammo_remaining() );
+            liquid.charges -= qty;
+            cont->ammo_set( liquid.typeId(), cont->ammo_remaining() + qty );
+            if( liquid.charges > 0 ) {
+                add_msg( _( "There's some left over!" ) );
+                return liquid.charges;
             }
+            return 0;
+
         } else {
             item tmp_liquid = liquid;
             std::string err;
@@ -14424,9 +14395,8 @@ void game::process_artifact(item *it, player *p)
         effects.insert( effects.end(), ew.begin(), ew.end() );
     }
     if( it->is_tool() ) {
-        const auto tool = dynamic_cast<const it_tool*>( it->type );
         // Recharge it if necessary
-        if (it->charges < tool->max_charges) {
+        if( it->ammo_remaining() < it->ammo_capacity() ) {
             switch (it->type->artifact->charge_type) {
             case ARTC_NULL:
             case NUM_ARTCS:

@@ -2340,8 +2340,7 @@ void npc::activate_item(int item_index)
     const int oldmoves = moves;
     item *it = &i_at(item_index);
     if (it->is_tool()) {
-        const auto tool = dynamic_cast<const it_tool *>(it->type);
-        tool->invoke( this, it, pos() );
+        it->type->invoke( this, it, pos() );
     } else if (it->is_food()) {
         const auto comest = dynamic_cast<const it_comest *>(it->type);
         comest->invoke( this, it, pos() );

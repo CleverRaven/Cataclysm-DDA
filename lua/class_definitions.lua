@@ -1952,7 +1952,6 @@ classes = {
             { name = "invoke", rval = "int", args = { "player", "item", "tripoint" } },
             { name = "invoke", rval = "int", args = { "player", "item", "tripoint", "string" } },
             { name = "is_food", rval = "bool", args = { } },
-            { name = "is_tool", rval = "bool", args = { } },
             { name = "maximum_charges", rval = "int", args = { } },
             { name = "nname", rval = "string", args = { "int" } },
             { name = "tick", rval = "int", args = { "player", "item", "tripoint" } },
@@ -2006,25 +2005,6 @@ classes = {
             { name = "get_item_type_string", rval = "string", args = { } },
             { name = "get_nutrition", rval = "int", args = { } },
             { name = "is_food", rval = "bool", args = { } },
-        }
-    },
-    it_tool = {
-        parent = "itype",
-        attributes = {
-            ammo_id = { type = "string", writable = true },
-            charges_per_use = { type = "int", writable = true },
-            def_charges = { type = "int", writable = true },
-            max_charges = { type = "int", writable = true },
-            revert_to = { type = "string", writable = true },
-            subtype = { type = "string", writable = true },
-            turns_per_charge = { type = "int", writable = true },
-        },
-        functions = {
-            { name = "charges_default", rval = "int", args = { } },
-            { name = "charges_to_use", rval = "int", args = { } },
-            { name = "get_item_type_string", rval = "string", args = { } },
-            { name = "is_tool", rval = "bool", args = { } },
-            { name = "maximum_charges", rval = "int", args = { } },
         }
     },
     w_point = {
@@ -2285,11 +2265,6 @@ global_functions = {
         args = { "mtype_id", "tripoint" },
         rval = "monster&",
         desc = "Creates and spawns a new monster of given type. Returns a refernce to it, *or* nil if it could not be spawned."
-    },
-    get_tool_type = {
-        cpp_name = "get_tool_type",
-        args = { "string" },
-        rval = "it_tool&"
     },
     get_calendar_turn = {
         cpp_name = "get_calendar_turn_wrapper",

@@ -272,8 +272,10 @@ class Item_factory
          */
         template<typename SlotType>
         void load_slot_optional( std::unique_ptr<SlotType> &slotptr, JsonObject &jo,
+
                                  const std::string &member );
 
+        void load( islot_tool &slot, JsonObject &jo );
         void load( islot_container &slot, JsonObject &jo );
         void load( islot_armor &slot, JsonObject &jo );
         void load( islot_book &slot, JsonObject &jo );

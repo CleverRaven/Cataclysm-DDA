@@ -2539,12 +2539,11 @@ const itype * furn_t::crafting_pseudo_item_type() const
 
 const itype *furn_t::crafting_ammo_item_type() const
 {
-    const it_tool *toolt = dynamic_cast<const it_tool *>(crafting_pseudo_item_type());
-    if (toolt != NULL && toolt->ammo_id != "NULL") {
-        const std::string ammoid = default_ammo(toolt->ammo_id);
-        return item::find_type( ammoid );
+    const itype *pseudo = crafting_pseudo_item_type();
+    if( pseudo->tool && pseudo->tool->ammo_id != "NULL" ) {
+        return item::find_type( default_ammo( pseudo->tool->ammo_id ) );
     }
-    return NULL;
+    return nullptr;
 }
 
 static long count_charges_in_list(const itype *type, const map_stack &items)
