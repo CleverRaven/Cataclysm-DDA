@@ -7535,6 +7535,9 @@ bool game::forced_gate_closing( const tripoint &p, const ter_id door_type, int b
         } else if (npc_or_player->is_player()) {
             add_msg(m_bad, _("The %s hits you."), door_name.c_str());
         }
+        if( npc_or_player->activity.type != ACT_NULL ) {
+            npc_or_player->cancel_activity();
+        }
         // TODO: make the npc angry?
         npc_or_player->hitall(bash_dmg, 0, nullptr);
         knockback( kbp, p, std::max(1, bash_dmg / 10), -1, 1);

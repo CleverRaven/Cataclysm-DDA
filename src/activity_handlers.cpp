@@ -1307,7 +1307,7 @@ void activity_handlers::cracking_finish( player_activity *act, player *p )
 
 void activity_handlers::open_gate_finish( player_activity *act, player *p )
 {
-    const tripoint &pos = act->placement;
+    const tripoint pos = act->placement; // Not a reference because act can change
     const ter_id handle_type = g->m.ter( pos );
     ter_id wall_type;
     ter_id door_type;
@@ -1383,8 +1383,8 @@ void activity_handlers::open_gate_finish( player_activity *act, player *p )
             if( !open ) {  //closing the gate...
                 int x = gate_x;
                 int y = gate_y;
-                while( g->m.ter( x, y) == floor_type ) {
-                    if( act->type == ACT_NULL || !g->forced_gate_closing( tripoint( x, y, pos.z ), door_type, bash_dmg ) ) {
+                while( g->m.ter( x, y ) == floor_type ) {
+                    if( !g->forced_gate_closing( tripoint( x, y, pos.z ), door_type, bash_dmg ) ) {
                         close = false;
                         break;
                     }
@@ -1397,7 +1397,7 @@ void activity_handlers::open_gate_finish( player_activity *act, player *p )
             if( !close ) {  //opening the gate...
                 int x = gate_x;
                 int y = gate_y;
-                while( g->m.ter( x, y) == door_type ) {
+                while( g->m.ter( x, y ) == door_type ) {
                     g->m.ter_set( x, y, floor_type );
                     x += dx[j];
                     y += dy[j];
