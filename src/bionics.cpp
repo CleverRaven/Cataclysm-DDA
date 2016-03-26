@@ -290,6 +290,21 @@ void player::power_bionics()
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
 
+    // find and fix hotkey & invlet conflicts
+    for( auto& elem : my_bionics ) {
+        if( ctxt.get_available_single_char_hotkeys( &elem.invlet ).empty() ) {
+            std::string filtered_chars = ctxt.get_available_single_char_hotkeys(
+                                         bionic_chars.get_allowed_chars() );
+            bool found = false;
+            for( size_t i = 0; i < filtered_chars.size() && !found; ++i ) {
+                found = bionic_by_invlet( filtered_chars[i] ) == nullptr;
+                if( found ) {
+                    elem.invlet = filtered_chars[i];
+                }
+            }
+        }
+    }
+
     size_t tab_count = num_bp + 1;
     size_t tab_index = tab_count - 1;
     int cursor = 0;
@@ -301,7 +316,6 @@ void player::power_bionics()
     // main loop
     for( ;; ) {
         if( recalc ) {
-
             // bodyparts: all
             if( tab_index == tab_count - 1 ) {
                 content.clear();
@@ -456,9 +470,12 @@ void player::power_bionics()
             if( newch == ch || newch == KEY_ESCAPE ) {
                 continue;
             }
+
+            // @todo do not accept invlet which conflicts with current keybinding
             if( !bionic_chars.valid( newch ) && newch != ' ' ) {
                 popup( _( "Invalid bionic letter. Only those characters are valid:\n\n%s" ),
-                       bionic_chars.get_allowed_chars().c_str() );
+                       ctxt.get_available_single_char_hotkeys(
+                       bionic_chars.get_allowed_chars() ).c_str() );
                 continue;
             }
             bionic *otmp = bionic_by_invlet( newch );
