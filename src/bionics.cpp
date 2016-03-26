@@ -105,11 +105,11 @@ void draw_background( WINDOW *win, const bool empty_list )
             _( "Usage Cost" )
         }};
         std::array<int, 3> pos;
-            pos[0] = 2;
-            pos[1] = std::max( getmaxx( win ) / 2 - utf8_width( titles[1] ) / 2 ,
-                               pos[0] + utf8_width( titles[0] ) + 2 );
-            pos[2] = std::max( getmaxx( win ) * 2 / 3 + 7,
-                               pos[1] + utf8_width( titles[1] ) + 2 );
+        pos[0] = 2;
+        pos[1] = std::max( getmaxx( win ) / 2 - utf8_width( titles[1] ) / 2 ,
+                           pos[0] + utf8_width( titles[0] ) + 2 );
+        pos[2] = std::max( getmaxx( win ) * 2 / 3 + 7,
+                           pos[1] + utf8_width( titles[1] ) + 2 );
 
         for( size_t i = 0; i < std::min( titles.size(), pos.size() ); ++i ) {
             mvwprintw( win, 3, pos[i], titles[i].c_str() );
@@ -150,17 +150,17 @@ std::string power_description( std::string const &id )
     std::ostringstream power_desc;
     if( bionics[id].power_over_time > 0 && bionics[id].charge_time > 0 ) {
         power_desc << ( bionics[id].charge_time == 1 ?
-                        string_format( _("%d PU / turn" ), bionics[id].power_over_time ) :
-                        string_format( _("%d PU / %d turns" ), bionics[id].power_over_time,
+                        string_format( _( "%d PU / turn" ), bionics[id].power_over_time ) :
+                        string_format( _( "%d PU / %d turns" ), bionics[id].power_over_time,
                                        bionics[id].charge_time ) );
     }
     if( bionics[id].power_activate > 0 && bionics[id].charge_time == 0 ) {
         power_desc << separator( power_desc ) << string_format( _( "%d PU / activation" ),
-                                                                bionics[id].power_activate );
+                   bionics[id].power_activate );
     }
     if( bionics[id].power_deactivate > 0 && bionics[id].charge_time == 0 ) {
         power_desc << separator( power_desc ) << string_format( _( "%d PU / deactivation" ),
-                                                                bionics[id].power_deactivate );
+                   bionics[id].power_deactivate );
     }
     return power_desc.str();
 }
@@ -174,8 +174,8 @@ std::vector<cbm_pair> define_content( player const &u, body_part bp )
             content.emplace_back( bp, i );
         }
     }
-    std::sort( content.begin(), content.end(), [&u] ( cbm_pair const &val1, cbm_pair const &val2 ) {
-        if( val1.second == INT_MAX ){
+    std::sort( content.begin(), content.end(), [&u]( cbm_pair const & val1, cbm_pair const & val2 ) {
+        if( val1.second == INT_MAX ) {
             return true;
         } else if( val2.second == INT_MAX ) {
             return false;
@@ -183,75 +183,76 @@ std::vector<cbm_pair> define_content( player const &u, body_part bp )
         std::string &name1 = bionics[u.my_bionics[val1.second].id].name;
         std::string &name2 = bionics[u.my_bionics[val2.second].id].name;
         return( name1.compare( name2 ) <= 0 );
-    });
+    } );
     return content;
 }
 
 } //namespace
 
-bool is_valid_bionic(std::string const& id)
+bool is_valid_bionic( std::string const &id )
 {
-    return !!bionics.count(id);
+    return !!bionics.count( id );
 }
 
-bionic_data const& bionic_info(std::string const &id)
+bionic_data const &bionic_info( std::string const &id )
 {
-    auto const it = bionics.find(id);
-    if (it != bionics.end()) {
+    auto const it = bionics.find( id );
+    if( it != bionics.end() ) {
         return it->second;
     }
 
-    debugmsg("bad bionic id");
+    debugmsg( "bad bionic id" );
 
-    static bionic_data const null_value {"bad bionic", false, false, 0, 0, 0, 0, 0,
-                                         "bad_bionic", false, {{num_bp, 1}} };
+    static bionic_data const null_value {
+        "bad bionic", false, false, 0, 0, 0, 0, 0, "bad_bionic", false, {{num_bp, 1}}
+    };
     return null_value;
 }
 
 bionic_data::bionic_data( std::string nname, bool ps, bool tog, int pac, int pad, int pot, int ct,
                           int cap, std::string desc, bool fault, std::map<body_part, size_t> bps
-) : name(std::move(nname)), description(std::move(desc)), power_activate(pac),
-    power_deactivate(pad), power_over_time(pot), charge_time(ct), capacity(cap),
-    faulty(fault), power_source(ps), activated(tog || pac || ct), toggled(tog),
+                        ) : name( std::move( nname ) ), description( std::move( desc ) ), power_activate( pac ),
+    power_deactivate( pad ), power_over_time( pot ), charge_time( ct ), capacity( cap ),
+    faulty( fault ), power_source( ps ), activated( tog || pac || ct ), toggled( tog ),
     occupied_bodyparts( std::move( bps ) )
 {
 }
 
 //get a text color depending on the power/powering state of the bionic
-nc_color get_bionic_text_color(bionic const &bio, bool const isHighlightedBionic)
+nc_color get_bionic_text_color( bionic const &bio, bool const isHighlightedBionic )
 {
     nc_color type = c_white;
-    if(bionics[bio.id].activated){
-        if(isHighlightedBionic){
-            if (bio.powered && !bionics[bio.id].power_source) {
+    if( bionics[bio.id].activated ) {
+        if( isHighlightedBionic ) {
+            if( bio.powered && !bionics[bio.id].power_source ) {
                 type = h_red;
-            } else if (bionics[bio.id].power_source && !bio.powered) {
+            } else if( bionics[bio.id].power_source && !bio.powered ) {
                 type = h_ltcyan;
-            } else if (bionics[bio.id].power_source && bio.powered) {
+            } else if( bionics[bio.id].power_source && bio.powered ) {
                 type = h_ltgreen;
             } else {
                 type = h_ltred;
             }
-        }else{
-            if (bio.powered && !bionics[bio.id].power_source) {
+        } else {
+            if( bio.powered && !bionics[bio.id].power_source ) {
                 type = c_red;
-            } else if (bionics[bio.id].power_source && !bio.powered) {
+            } else if( bionics[bio.id].power_source && !bio.powered ) {
                 type = c_ltcyan;
-            } else if (bionics[bio.id].power_source && bio.powered) {
+            } else if( bionics[bio.id].power_source && bio.powered ) {
                 type = c_ltgreen;
             } else {
                 type = c_ltred;
             }
         }
-    }else{
-        if(isHighlightedBionic){
-            if (bionics[bio.id].power_source) {
+    } else {
+        if( isHighlightedBionic ) {
+            if( bionics[bio.id].power_source ) {
                 type = h_ltcyan;
             } else {
                 type = h_cyan;
             }
-        }else{
-            if (bionics[bio.id].power_source) {
+        } else {
+            if( bionics[bio.id].power_source ) {
                 type = c_ltcyan;
             } else {
                 type = c_cyan;
@@ -291,10 +292,10 @@ void player::power_bionics()
     ctxt.register_action( "HELP_KEYBINDINGS" );
 
     // find and fix hotkey & invlet conflicts
-    for( auto& elem : my_bionics ) {
+    for( auto &elem : my_bionics ) {
         if( ctxt.get_available_single_char_hotkeys( &elem.invlet ).empty() ) {
             std::string filtered_chars = ctxt.get_available_single_char_hotkeys(
-                                         bionic_chars.get_allowed_chars() );
+                                             bionic_chars.get_allowed_chars() );
             bool found = false;
             for( size_t i = 0; i < filtered_chars.size() && !found; ++i ) {
                 found = bionic_by_invlet( filtered_chars[i] ) == nullptr;
@@ -325,30 +326,30 @@ void player::power_bionics()
                                                          static_cast<body_part>( bp_index ) );
                     content.insert( content.end(), more_content.begin(), more_content.end() );
                 }
-            // bodypart: %tab_index%
+                // bodypart: %tab_index%
             } else {
                 content = define_content( *this, static_cast<body_part>( tab_index ) );
             }
             max_scroll_position = std::max( 0, static_cast<int>( content.size() ) -
-                                               getmaxy( w_bio_list ) );
+                                            getmaxy( w_bio_list ) );
             recalc = false;
         }
 
         draw_background( w_bionics, my_bionics.empty() );
         draw_header( w_bio_header, tab_index, string_format( _( "Power: %i/%i" ),
-                                                             int( power_level ),
-                                                             int( max_power_level ) ),
+                     int( power_level ),
+                     int( max_power_level ) ),
                      ctxt.get_desc( "HELP_KEYBINDINGS" ) );
         werase( w_bio_list );
 
         max_scroll_position = std::max( 0, static_cast<int>( content.size() ) -
-                                                             getmaxy( w_bio_list ) );
+                                        getmaxy( w_bio_list ) );
         draw_scrollbar( w_bio_list, cursor, getmaxy( w_bio_list ),
                         static_cast<int>( content.size() ), 0, 0, BORDER_COLOR, false );
 
-        if( !my_bionics.empty() && content.size() > 1) {
+        if( !my_bionics.empty() && content.size() > 1 ) {
             for( int i = scroll_position; i < std::min( getmaxy( w_bio_list ) + scroll_position,
-                 static_cast<int>( content.size() ) ); ++i ) {
+                    static_cast<int>( content.size() ) ); ++i ) {
 
                 // show bodypart name and slots
                 if( content[i].second == INT_MAX ) {
@@ -380,7 +381,7 @@ void player::power_bionics()
                     mvwputch( w_bio_list, i - scroll_position, 2, cbm_color, b.invlet );
 
                     // highlight the current line
-                    if( highlighted ){
+                    if( highlighted ) {
                         for( int j = 3; j < getmaxx( w_bio_list ) - 1; ++j ) {
                             wputch( w_bio_list, h_white, ' ' );
                         }
@@ -435,7 +436,7 @@ void player::power_bionics()
                 if( scroll_position > 0 && cursor - scroll_position < getmaxy( w_bio_list ) / 2 ) {
                     scroll_position--;
                 }
-            } while ( content[cursor].second == INT_MAX );
+            } while( content[cursor].second == INT_MAX );
 
         } else if( action == "DOWN" && content.size() > 1 ) {
             do {
@@ -448,7 +449,7 @@ void player::power_bionics()
                     cursor - scroll_position > getmaxy( w_bio_list ) / 2 ) {
                     scroll_position++;
                 }
-            } while ( content[cursor].second == INT_MAX );
+            } while( content[cursor].second == INT_MAX );
 
         } else if( action == "LEFT" ) {
             ( tab_index > 0 ) ? tab_index-- : tab_index = tab_count - 1;
@@ -494,7 +495,7 @@ void player::power_bionics()
         } else if( action == "CONFIRM" && content.size() > 1 ) {
             bionic *tmp = &my_bionics[content[cursor].second];
             if( !bionics[tmp->id].activated ) {
-                popup( _("You can not activate %s!" ), bionic_info( tmp->id ).name.c_str() );
+                popup( _( "You can not activate %s!" ), bionic_info( tmp->id ).name.c_str() );
                 continue;
             }
             int b = tmp - &my_bionics[0];
@@ -1156,25 +1157,25 @@ void player::process_bionic(int b)
 
     // Bionic effects on every turn they are active go here.
     if( bio.id == "bio_night" ) {
-        if( calendar::once_every(5) ) {
-            add_msg(m_neutral, _("Artificial night generator active!"));
+        if( calendar::once_every( 5 ) ) {
+            add_msg( m_neutral, _( "Artificial night generator active!" ) );
         }
     } else if( bio.id == "bio_remote" ) {
         if( g->remoteveh() == nullptr && get_value( "remote_controlling" ) == "" ) {
             bio.powered = false;
-            add_msg( m_warning, _("Your %s has lost connection and is turning off."),
+            add_msg( m_warning, _( "Your %s has lost connection and is turning off." ),
                      bionics[bio.id].name.c_str() );
         }
-    } else if (bio.id == "bio_hydraulics") {
+    } else if( bio.id == "bio_hydraulics" ) {
         // Sound of hissing hydraulic muscle! (not quite as loud as a car horn)
-        sounds::sound( pos(), 19, _("HISISSS!"));
+        sounds::sound( pos(), 19, _( "HISISSS!" ) );
     }
 }
 
 int player::get_used_bionics_slots( body_part bp ) const
 {
     int used_slots = 0;
-    for( auto& bio : my_bionics ) {
+    for( auto &bio : my_bionics ) {
         auto search = bionics[bio.id].occupied_bodyparts.find( bp );
         if( search != bionics[bio.id].occupied_bodyparts.end() ) {
             used_slots += search->second;
@@ -1762,32 +1763,32 @@ void reset_bionics()
     faulty_bionics.clear();
 }
 
-void load_bionic(JsonObject &jsobj)
+void load_bionic( JsonObject &jsobj )
 {
     JsonArray jsarr;
-    std::string id = jsobj.get_string("id");
-    std::string name = _(jsobj.get_string("name").c_str());
-    std::string description = _(jsobj.get_string("description").c_str());
-    int on_cost = jsobj.get_int("act_cost", 0);
+    std::string id = jsobj.get_string( "id" );
+    std::string name = _( jsobj.get_string( "name" ).c_str() );
+    std::string description = _( jsobj.get_string( "description" ).c_str() );
+    int on_cost = jsobj.get_int( "act_cost", 0 );
 
-    bool toggled = jsobj.get_bool("toggled", false);
+    bool toggled = jsobj.get_bool( "toggled", false );
     // Requires ability to toggle
-    int off_cost = jsobj.get_int("deact_cost", 0);
+    int off_cost = jsobj.get_int( "deact_cost", 0 );
 
-    int time = jsobj.get_int("time", 0);
+    int time = jsobj.get_int( "time", 0 );
     // Requires a non-zero time
-    int react_cost = jsobj.get_int("react_cost", 0);
+    int react_cost = jsobj.get_int( "react_cost", 0 );
 
-    int capacity = jsobj.get_int("capacity", 0);
+    int capacity = jsobj.get_int( "capacity", 0 );
 
-    bool faulty = jsobj.get_bool("faulty", false);
-    bool power_source = jsobj.get_bool("power_source", false);
+    bool faulty = jsobj.get_bool( "faulty", false );
+    bool power_source = jsobj.get_bool( "power_source", false );
 
     std::map<body_part, size_t> occupied_bodyparts;
     jsarr = jsobj.get_array( "occupied_bodyparts" );
 
     if( !jsarr.empty() ) {
-        while (jsarr.has_more()) {
+        while( jsarr.has_more() ) {
             JsonArray ja = jsarr.next_array();
             occupied_bodyparts.emplace( get_body_part_token( ja.get_string( 0 ) ),
                                         ja.get_int( 1 ) );
@@ -1797,35 +1798,35 @@ void load_bionic(JsonObject &jsobj)
     }
 
 
-    if (faulty) {
-        faulty_bionics.push_back(id);
+    if( faulty ) {
+        faulty_bionics.push_back( id );
     }
 
-    auto const result = bionics.insert(std::make_pair(std::move(id),
-        bionic_data( std::move( name ), power_source, toggled, on_cost, off_cost,
-                     react_cost, time, capacity, std::move( description ), faulty,
-                     std::move( occupied_bodyparts ) ) ) );
+    auto const result = bionics.insert( std::make_pair( std::move( id ),
+                                        bionic_data( std::move( name ), power_source, toggled, on_cost, off_cost,
+                                                react_cost, time, capacity, std::move( description ), faulty,
+                                                std::move( occupied_bodyparts ) ) ) );
 
-    if (!result.second) {
-        debugmsg("duplicate bionic id");
+    if( !result.second ) {
+        debugmsg( "duplicate bionic id" );
     }
 }
 
-void bionic::serialize(JsonOut &json) const
+void bionic::serialize( JsonOut &json ) const
 {
     json.start_object();
-    json.member("id", id);
-    json.member("invlet", (int)invlet);
-    json.member("powered", powered);
-    json.member("charge", charge);
+    json.member( "id", id );
+    json.member( "invlet", ( int )invlet );
+    json.member( "powered", powered );
+    json.member( "charge", charge );
     json.end_object();
 }
 
-void bionic::deserialize(JsonIn &jsin)
+void bionic::deserialize( JsonIn &jsin )
 {
     JsonObject jo = jsin.get_object();
-    id = jo.get_string("id");
-    invlet = jo.get_int("invlet");
-    powered = jo.get_bool("powered");
-    charge = jo.get_int("charge");
+    id = jo.get_string( "id" );
+    invlet = jo.get_int( "invlet" );
+    powered = jo.get_bool( "powered" );
+    charge = jo.get_int( "charge" );
 }
