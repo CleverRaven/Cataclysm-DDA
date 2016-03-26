@@ -1367,38 +1367,43 @@ void activity_handlers::open_gate_finish( player_activity *act, player *p )
     bool open = false;
     bool close = false;
 
+    const auto ortho = []( int x, int y ) -> bool {
+        return std::abs( x + y ) == 1;
+    };
+
     for (int wall_x = -1; wall_x <= 1; wall_x++) {
         for (int wall_y = -1; wall_y <= 1; wall_y++) {
             for (int gate_x = -1; gate_x <= 1; gate_x++) {
                 for (int gate_y = -1; gate_y <= 1; gate_y++) {
-                    if ((wall_x + wall_y == 1 || wall_x + wall_y == -1) &&
-                        // make sure wall not diagonally opposite to handle
-                        (gate_x + gate_y == 1 || gate_x + gate_y == -1) &&  // same for gate direction
-                        ((wall_y != 0 && (g->m.ter(examx + wall_x, examy + wall_y) == wall_type)) ||
-                         //horizontal orientation of the gate
-                         (wall_x != 0 &&
-                          (g->m.ter(examx + wall_x, examy + wall_y) == wall_type)))) { //vertical orientation of the gate
+                    if( ortho( wall_x, wall_y ) &&  // make sure wall not diagonally opposite to handle
+                        ortho( gate_x, gate_y ) &&  // same for gate direction
+                        g->m.ter(examx + wall_x, examy + wall_y) == wall_type ) { //vertical orientation of the gate
 
-                        int cur_x = examx + wall_x + gate_x;
-                        int cur_y = examy + wall_y + gate_y;
+                        const int cur_x = examx + wall_x + gate_x;
+                        const int cur_y = examy + wall_y + gate_y;
 
-                        if (!close &&
-                            (g->m.ter(examx + wall_x + gate_x, examy + wall_y + gate_y) == door_type)) {  //opening the gate...
-                            open = true;
-                            while (g->m.ter(cur_x, cur_y) == door_type) {
-                                g->m.ter_set(cur_x, cur_y, floor_type);
-                                cur_x = cur_x + gate_x;
-                                cur_y = cur_y + gate_y;
+                        if (!open) {  //closing the gate...
+                            int cur_gx = cur_x;
+                            int cur_gy = cur_y;
+                            while (g->m.ter(cur_gx, cur_gy) == floor_type) {
+                                if( act->type == ACT_NULL || !g->forced_gate_closing( tripoint( cur_gx, cur_gy, pos.z ), door_type, bash_dmg ) ) {
+                                    close = false;
+                                    break;
+                                }
+                                cur_gx += gate_x;
+                                cur_gy += gate_y;
+                                close = true;
                             }
                         }
 
-                        if (!open &&
-                            (g->m.ter(examx + wall_x + gate_x, examy + wall_y + gate_y) == floor_type)) {  //closing the gate...
-                            close = true;
-                            while (g->m.ter(cur_x, cur_y) == floor_type) {
-                                g->forced_gate_closing( tripoint( cur_x, cur_y, pos.z ), door_type, bash_dmg );
-                                cur_x = cur_x + gate_x;
-                                cur_y = cur_y + gate_y;
+                        if (!close) {  //opening the gate...
+                            int cur_gx = cur_x;
+                            int cur_gy = cur_y;
+                            while (g->m.ter(cur_gx, cur_gy) == door_type) {
+                                g->m.ter_set(cur_gx, cur_gy, floor_type);
+                                cur_gx += gate_x;
+                                cur_gy += gate_y;
+                                open = true;
                             }
                         }
                     }
