@@ -135,7 +135,7 @@ void Item_factory::finalize_item_blacklist()
 
     if( magazines_blacklisted ) {
         for( auto& e : m_templates ) {
-            if( !e.second->magazines.empty() ) {
+            if( e.second->magazines.empty() ) {
                 continue;
             }
 
