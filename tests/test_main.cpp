@@ -8,7 +8,6 @@
 #include "path_info.h"
 #include "player.h"
 #include "worldfactory.h"
-#include "debug.h"
 
 void init_global_game_state() {
     PATH_INFO::init_base_path("");
@@ -37,10 +36,8 @@ void init_global_game_state() {
     g->m.load( g->get_levx(), g->get_levy(), g->get_levz(), false );
 }
 
-int main( int argc, const char *argv[] )
+int main( int argc, char* const argv[] )
 {
-  debug_fatal = true; // prevents stalling on debugmsg, see issue #15723
-
   // TODO: Only init game if we're running tests that need it.
   init_global_game_state();
 

@@ -3044,6 +3044,34 @@
   ]
 },{
   "type" : "recipe",
+  "result": "metal_tank_small",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "fabrication",
+  "difficulty": 1,
+  "time": 2000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"HAMMER","level":2,"amount":1}
+  ], "tools": [
+    [
+      [ "goggles_welding", -1 ]
+    ],
+    [
+      [ "welder", 50 ],
+      [ "welder_crude", 75 ],
+      [ "toolset", 75 ],
+      [ "oxy_torch", 5]
+    ]
+  ],
+  "components": [
+    [
+      [ "sheet_metal", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
   "result": "it_battery_mount",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MATERIALS",
@@ -3139,7 +3167,6 @@
       [ "moonshine", 7 ],
       [ "brandy", 7 ],
       [ "chem_ethanol", 7],
-      [ "mixed_alcohol_strong", 7 ],
       [ "disinfectant", 1 ],
       [ "saline", 5 ],
       [ "thyme_oil", 1 ],
@@ -3905,7 +3932,7 @@
   "time": 12000,
   "reversible": true,
   "decomp_learn": 2,
-  "autolearn": [[ "mechanics", 3 ], [ "electronics", 2 ]],
+  "autolearn": false,
   "book_learn": [["manual_mechanics", 3] , ["textbook_mechanics", 2] , ["welding_book", 1]],
   "qualities":[
     {"id":"HAMMER","level":1,"amount":1}
@@ -3929,7 +3956,7 @@
     {"id":"HAMMER","level":2,"amount":1}
   ], "components": [ [ ["pot", 1] ],
     [ ["hose", 2] ],
-    [ ["jerrycan_big", 1] ] ]
+    [ ["metal_tank_small", 1] ] ]
 },{
   "type" : "recipe",
   "result": "popcan_stove",
@@ -5176,7 +5203,7 @@
      [ "scrap", 36 ]
     ],
     [
-     [ "jerrycan_big", 1 ]
+     [ "metal_tank_small", 1 ]
     ],
     [
      [ "pipe", 3]
@@ -5217,7 +5244,7 @@
      [ "scrap", 4 ]
     ],
     [
-     [ "jerrycan_big", 1 ]
+     [ "metal_tank_small", 1 ]
     ]
   ]
 },{
@@ -5328,7 +5355,7 @@
        [ "scrap", 72 ]
      ],
      [
-       [ "jerrycan_big", 1 ]
+       [ "metal_tank_small", 1 ]
      ],
      [
        [ "pipe", 8 ]
@@ -5343,7 +5370,7 @@
   "skills_required": [[ "carpentry", 4], [ "electronics", 3 ]],
   "difficulty": 7,
   "time": 150000,
-  "reversible": true,
+  "reversible": false,
   "autolearn": true,
   "book_learn": [["textbook_fabrication", 7] , ["manual_fabrication", 7]],
   "qualities":[
@@ -5371,7 +5398,7 @@
        [ "scrap", 36 ]
      ],
      [
-       [ "jerrycan_big", 1 ]
+       [ "metal_tank_small", 1 ]
      ],
      [
        [ "pipe", 4 ]
@@ -5457,7 +5484,7 @@
        [ "scrap", 60 ]
      ],
      [
-       [ "jerrycan_big", 1 ]
+       [ "metal_tank_small", 1 ]
      ],
      [
        ["pipe", 6]
@@ -6496,16 +6523,16 @@
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_PARTS",
   "skill_used": "fabrication",
-  "difficulty": 4,
+  "difficulty": 5,
   "time": 40000,
   "reversible": true,
   "autolearn": true,
   "components": [
-    [ [ "chitin_piece", 20 ] ],
     [
-        [ "rope_6", 2 ],
-        [ "superglue", 2 ],
-        [ "bone_glue", 4 ]
+     [ "chitin_piece", 40 ]
+    ],
+    [
+     [ "rope_6", 4 ]
     ]
     ]
  },{
@@ -6514,20 +6541,18 @@
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_PARTS",
   "skill_used": "fabrication",
-  "difficulty": 3,
+  "difficulty": 4,
   "time": 40000,
   "reversible": true,
   "autolearn": true,
   "components": [
     [
-        [ "bone", 25 ],
-        [ "bone_human", 25 ],
-        [ "bone_tainted", 50 ]
+     [ "bone", 25 ],
+     [ "bone_human", 25 ],
+     [ "bone_tainted", 50 ]
     ],
     [
-        [ "rope_6", 4 ],
-        [ "superglue", 2 ],
-        [ "bone_glue", 4 ]
+     [ "rope_6", 5 ]
     ]
     ]
  },{
@@ -6536,7 +6561,7 @@
   "category": "CC_OTHER",
   "subcategory": "CSC_WEAPON_PARTS",
   "skill_used": "fabrication",
-  "difficulty": 6,
+  "difficulty": 7,
   "time": 360000,
   "reversible": false,
   "autolearn": true,
@@ -7884,6 +7909,7 @@
   "components": [
     [
       [ "sewing_kit", 1 ],
+      [ "knitting_needles", 1 ],
       [ "tailors_kit", 1 ]
     ]
   ]

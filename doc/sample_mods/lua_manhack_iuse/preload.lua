@@ -8,10 +8,8 @@ function iuse_manhack(item, active)
 	local locs = {}
 	for delta_x = -1, 1 do
 		for delta_y = -1, 1 do
-			local point = player:pos()
-			point.x = point.x + delta_x
-			point.y = point.y + delta_y
-			if g:is_empty(point) then
+			local point = { x = player.posx + delta_x, y = player.posy + delta_y }
+			if game.is_empty(point.x, point.y) then
 				table.insert(locs, point )
 			end
 		end
@@ -24,7 +22,7 @@ function iuse_manhack(item, active)
 
 	-- okay, we got a bunch of locations, pick one and spawn a manhack there
 	local loc = pick_from_list(locs)
-	local monster = game.create_monster(mtype_id("mon_manhack"), loc)
+	local monster = game.create_monster("mon_manhack", loc.x, loc.y)
 	return 1 -- 1 charge used
 end
 

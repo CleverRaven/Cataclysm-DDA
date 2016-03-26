@@ -29,9 +29,6 @@ class options_manager : public JsonSerializer, public JsonDeserializer
         static std::string build_soundpacks_list();
         bool bIngame;
 
-        bool load_legacy();
-
-    public:
         enum copt_hide_t {
             /** Don't hide this option */
             COPT_NO_HIDE,
@@ -45,6 +42,9 @@ class options_manager : public JsonSerializer, public JsonDeserializer
             COPT_NO_SOUND_HIDE
         };
 
+        bool load_legacy();
+
+    public:
         class cOpt
         {
                 friend class options_data;
@@ -67,11 +67,6 @@ class options_manager : public JsonSerializer, public JsonDeserializer
                 //int constructor
                 cOpt( const std::string sPageIn, const std::string sMenuTextIn, const std::string sTooltipIn,
                       const int iMinIn, int iMaxIn, int iDefaultIn, copt_hide_t opt_hide = COPT_NO_HIDE );
-
-                //int map constructor
-                cOpt( const std::string sPageIn, const std::string sMenuTextIn, const std::string sTooltipIn,
-                      const std::map<int, std::string> mIntValuesIn, int iInitialIn, int iDefaultIn,
-                      copt_hide_t opt_hide = COPT_NO_HIDE );
 
                 //float constructor
                 cOpt( const std::string sPageIn, const std::string sMenuTextIn, const std::string sTooltipIn,
@@ -149,7 +144,6 @@ class options_manager : public JsonSerializer, public JsonDeserializer
                 int iMin;
                 int iMax;
                 int iDefault;
-                std::map<int, std::string> mIntValues;
 
                 //sType == "float"
                 float fSet;

@@ -9,7 +9,7 @@
 #include "catacharset.h"
 #include "messages.h"
 #include "mission.h"
-#include "morale_types.h"
+#include "morale.h"
 #include "ammo.h"
 #include "overmapbuffer.h"
 #include "json.h"
@@ -73,8 +73,6 @@ std::string talk_done_mugging[10];
 std::string talk_leaving[10];
 std::string talk_catch_up[10];
 std::string talk_yawn[10];
-std::string talk_hungry[10];
-std::string talk_thirsty[10];
 
 /**
  * A dynamically generated line, spoken by the NPC.
@@ -157,9 +155,8 @@ public:
 
 static std::map<std::string, json_talk_topic> json_talk_topics;
 
-#define NUM_STATIC_TAGS 29
+#define NUM_STATIC_TAGS 27
 
-// TODO: Read all this from jsons
 tag_data talk_tags[NUM_STATIC_TAGS] = {
 {"<okay>",          &talk_okay},
 {"<no>",            &talk_no},
@@ -187,9 +184,7 @@ tag_data talk_tags[NUM_STATIC_TAGS] = {
 {"<done_mugging>",  &talk_done_mugging},
 {"<catch_up>",      &talk_catch_up},
 {"<im_leaving_you>",&talk_leaving},
-{"<yawn>",          &talk_yawn},
-{"<hungry>",        &talk_hungry},
-{"<thirsty>",       &talk_thirsty}
+{"<yawn>",          &talk_yawn}
 };
 
 // Every OWED_VAL that the NPC owes you counts as +1 towards convincing
@@ -542,37 +537,6 @@ void game::init_npctalk()
     _("I'll just go to sleep, <okay>?")
     };
     for(int j=0; j<10; j++) {talk_yawn[j] = tmp_talk_yawn[j];}
-
-    std::string tmp_talk_hungry[10] = {
-    _("When we eatin'?"),
-    // TODO: Make them more creative with food
-    // TODO: Make them respect their mutations when asking for food
-    _("I'd eat a burger if I had one."),
-    _("Perfect time for a lunch break."),
-    _("I'm hungry..."),
-    _("I'm <swear> hungry."),
-    _("So, <name_g>, when we eatin'?"),
-    _("I <really> need to eat something."),
-    _("<ill_die> if I don't get some food."),
-    _("Consider this idea: you give me food and I eat it."),
-    _("Did you know that lack of food kills faster than chain smoking?")
-    };
-    for(int j=0; j<10; j++) {talk_hungry[j] = tmp_talk_hungry[j];}
-
-    std::string tmp_talk_thirsty[10] = {
-    _("When we drinkin'?"),
-    // Intentionally similar to alcohol addiction message
-    _("When was the last time I had a drink?"),
-    _("I'm parched, I need to drink something."),
-    _("I'm thirsty..."),
-    _("I'm <swear> thirsty."),
-    _("Can you give me something to drink, <name_g>?"),
-    _("I <really> need to get some water."),
-    _("<ill_die> if I don't drink something."),
-    _("Water... Is there an oasis nearby?"),
-    _("Did you know that lack of water kills faster than lack of rest?")
-    };
-    for(int j=0; j<10; j++) {talk_thirsty[j] = tmp_talk_thirsty[j];}
 }
 
 void npc_chatbin::check_missions()
@@ -1479,24 +1443,11 @@ std::string dialogue::dynamic_line( const std::string &topic ) const
         std::stringstream status;
         // Prepending * makes this an action, not a phrase
         switch (p->rules.engagement) {
-            case ENGAGE_NONE:
-                status << _("*is not engaging enemies.");
-                break;
-            case ENGAGE_CLOSE:
-                status << _("*is engaging nearby enemies.");
-                break;
-            case ENGAGE_WEAK:
-                status << _("*is engaging weak enemies.");
-                break;
-            case ENGAGE_HIT:
-                status << _("*is engaging enemies you attack.");
-                break;
-            case ENGAGE_NO_MOVE:
-                status << _("*is engaging enemies close enough to attack without moving.");
-                break;
-            case ENGAGE_ALL:
-                status << _("*is engaging all enemies.");
-                break;
+            case ENGAGE_NONE:  status << _("*is not engaging enemies.");         break;
+            case ENGAGE_CLOSE: status << _("*is engaging nearby enemies.");      break;
+            case ENGAGE_WEAK:  status << _("*is engaging weak enemies.");        break;
+            case ENGAGE_HIT:   status << _("*is engaging enemies you attack.");  break;
+            case ENGAGE_ALL:   status << _("*is engaging all enemies.");         break;
         }
         std::string npcstr = rm_prefix(p->male ? _("<npc>He") : _("<npc>She"));
         if (p->rules.use_guns) {
@@ -1518,9 +1469,6 @@ std::string dialogue::dynamic_line( const std::string &topic ) const
 
     } else if( topic == "TALK_COMBAT_ENGAGEMENT" ) {
         return _("What should I do?");
-
-    } else if( topic == "TALK_AIM_RULES" ) {
-        return _("How should I aim?");
 
     } else if( topic == "TALK_STRANGER_NEUTRAL" ) {
         if (p->myclass == NC_TRADER) {
@@ -1663,13 +1611,13 @@ std::string dialogue::dynamic_line( const std::string &topic ) const
             info << "  " << string_format(_("Per %d - %d"), per_min, per_min + per_range);
         }
 
-        if( ability >= 100 - ( p->get_fatigue() / 10 ) ) {
+        if( ability >= 100 - ( p->fatigue / 10 ) ) {
             std::string how_tired;
-            if( p->get_fatigue() > EXHAUSTED ) {
+            if( p->fatigue > EXHAUSTED ) {
                 how_tired = _("Exhausted");
-            } else if( p->get_fatigue() > DEAD_TIRED) {
+            } else if( p->fatigue > DEAD_TIRED) {
                 how_tired = _("Dead tired");
-            } else if( p->get_fatigue() > TIRED ) {
+            } else if( p->fatigue > TIRED ) {
                 how_tired = _("Tired");
             } else {
                 how_tired = _("Not tired");
@@ -1692,11 +1640,11 @@ std::string dialogue::dynamic_line( const std::string &topic ) const
 
     } else if( topic == "TALK_WAKE_UP" ) {
         if( p->has_effect( effect_sleep ) ) {
-            if( p->get_fatigue() > EXHAUSTED ) {
+            if( p->fatigue > EXHAUSTED ) {
                 return _("No, just <swear> no...");
-            } else if( p->get_fatigue() > DEAD_TIRED) {
+            } else if( p->fatigue > DEAD_TIRED) {
                 return _("Just let me sleep, <name_b>!");
-            } else if( p->get_fatigue() > TIRED ) {
+            } else if( p->fatigue > TIRED ) {
                 return _("Make it quick, I want to go back to sleep.");
             } else {
                 return _("Just few minutes more...");
@@ -1730,12 +1678,6 @@ std::string dialogue::dynamic_line( const std::string &topic ) const
             status << string_format(_(" %s will complain about wounds and needs."), npcstr.c_str());
         } else {
             status << string_format(_(" %s will only complain in an emergency."), npcstr.c_str());
-        }
-
-        if( p->rules.allow_pulp ) {
-            status << string_format(_(" %s will smash nearby zombie corpses."), npcstr.c_str());
-        } else {
-            status << string_format(_(" %s will leave zombie corpses intact."), npcstr.c_str());
         }
 
         return status.str();
@@ -2797,7 +2739,6 @@ void dialogue::gen_responses( const std::string &topic )
 
     } else if( topic == "TALK_COMBAT_COMMANDS" ) {
             add_response( _("Change your engagement rules..."), "TALK_COMBAT_ENGAGEMENT" );
-            add_response( _("Change your aiming rules..."), "TALK_AIM_RULES" );
             if (p->rules.use_guns) {
                 add_response( _("Don't use guns anymore."), "TALK_COMBAT_COMMANDS",
                               &talk_function::toggle_use_guns );
@@ -2822,50 +2763,27 @@ void dialogue::gen_responses( const std::string &topic )
             add_response_none( _("Never mind.") );
 
     } else if( topic == "TALK_COMBAT_ENGAGEMENT" ) {
-            if( p->rules.engagement != ENGAGE_NONE ) {
+            if (p->rules.engagement != ENGAGE_NONE) {
                 add_response( _("Don't fight unless your life depends on it."), "TALK_NONE",
                               &talk_function::set_engagement_none );
             }
-            if( p->rules.engagement != ENGAGE_CLOSE ) {
+            if (p->rules.engagement != ENGAGE_CLOSE) {
                 add_response( _("Attack enemies that get too close."), "TALK_NONE",
                               &talk_function::set_engagement_close);
             }
-            if( p->rules.engagement != ENGAGE_WEAK ) {
+            if (p->rules.engagement != ENGAGE_WEAK) {
                 add_response( _("Attack enemies that you can kill easily."), "TALK_NONE",
                               &talk_function::set_engagement_weak );
             }
-            if( p->rules.engagement != ENGAGE_HIT ) {
+            if (p->rules.engagement != ENGAGE_HIT) {
                 add_response( _("Attack only enemies that I attack first."), "TALK_NONE",
                               &talk_function::set_engagement_hit );
             }
-            if( p->rules.engagement != ENGAGE_NO_MOVE ) {
-                add_response( _("Attack only enemies you can reach without moving."), "TALK_NONE",
-                              &talk_function::set_engagement_no_move );
-            }
-            if( p->rules.engagement != ENGAGE_ALL ) {
+            if (p->rules.engagement != ENGAGE_ALL) {
                 add_response( _("Attack anything you want."), "TALK_NONE",
                               &talk_function::set_engagement_all );
             }
             add_response_none( _("Never mind.") );
-
-    } else if( topic == "TALK_AIM_RULES" ) {
-        if( p->rules.aim != AIM_WHEN_CONVENIENT ) {
-            add_response( _("Aim when it's convenient."), "TALK_NONE",
-                          &talk_function::set_aim_convenient );
-        }
-        if( p->rules.aim != AIM_SPRAY ) {
-            add_response( _("Go wild, you don't need to aim much."), "TALK_NONE",
-                          &talk_function::set_aim_spray );
-        }
-        if( p->rules.aim != AIM_PRECISE ) {
-            add_response( _("Take your time, aim carefully."), "TALK_NONE",
-                          &talk_function::set_aim_precise );
-        }
-        if( p->rules.aim != AIM_STRICTLY_PRECISE ) {
-            add_response( _("Don't shoot if you can't aim really well."), "TALK_NONE",
-                          &talk_function::set_aim_strictly_precise );
-        }
-        add_response_none( _("Never mind.") );
 
     } else if( topic == "TALK_STRANGER_NEUTRAL" || topic == "TALK_STRANGER_WARY" ||
                topic == "TALK_STRANGER_SCARED" || topic == "TALK_STRANGER_FRIENDLY" ) {
@@ -3014,9 +2932,6 @@ void dialogue::gen_responses( const std::string &topic )
                 add_response( _("Tell me when you need something."), "TALK_MISC_RULES",
                               &talk_function::toggle_allow_complain );
             }
-
-            add_response( p->rules.allow_pulp ? _("Leave corpses alone.") : _("Smash zombie corpses."),
-                          "TALK_MISC_RULES", &talk_function::toggle_allow_pulp );
 
             add_response_none( _("Never mind.") );
 
@@ -3217,12 +3132,6 @@ int topic_category( const std::string &topic )
     if( topic_7.count( topic ) > 0 ) {
         return 7;
     }
-    static const std::unordered_set<std::string> topic_8 = { {
-        "TALK_AIM_RULES",
-    } };
-    if( topic_7.count( topic ) > 0 ) {
-        return 8;
-    }
     static const std::unordered_set<std::string> topic_99 = { {
         "TALK_SIZE_UP", "TALK_LOOK_AT", "TALK_OPINION", "TALK_SHOUT"
     } };
@@ -3415,11 +3324,6 @@ void talk_function::toggle_allow_complain( npc *p )
     p->rules.allow_complain = !p->rules.allow_complain;
 }
 
-void talk_function::toggle_allow_pulp( npc *p )
-{
-    p->rules.allow_pulp = !p->rules.allow_pulp;
-}
-
 void talk_function::reveal_stats (npc *p)
 {
     p->disp_info();
@@ -3528,8 +3432,8 @@ void talk_function::construction_tips(npc *p)
 
 void talk_function::buy_beer(npc *p)
 {
-    item cont( "bottle_glass" );
-    cont.emplace_back( "hb_beer", calendar::turn, 2 );
+    item cont( "bottle_glass", calendar::turn );
+    cont.put_in( item( "hb_beer", calendar::turn, 2 ) );
     g->u.i_add( cont );
     g->u.cash -= 1000;
     add_msg(m_good, _("%s gave you a beer..."), p->name.c_str());
@@ -3537,8 +3441,8 @@ void talk_function::buy_beer(npc *p)
 
 void talk_function::buy_brandy(npc *p)
 {
-    item cont( "bottle_glass" );
-    cont.emplace_back( "brandy", calendar::turn, 1 );
+    item cont( "bottle_glass", calendar::turn );
+    cont.put_in( item( "brandy", calendar::turn, 1 ) );
     g->u.i_add( cont );
     g->u.cash -= 1000;
     add_msg(m_good, _("%s gave you a shot of brandy..."), p->name.c_str());
@@ -3546,8 +3450,8 @@ void talk_function::buy_brandy(npc *p)
 
 void talk_function::buy_rum(npc *p)
 {
-    item cont( "bottle_glass" );
-    cont.emplace_back( "rum", calendar::turn, 1 );
+    item cont( "bottle_glass", calendar::turn );
+    cont.put_in( item( "rum", calendar::turn, 1 ) );
     g->u.i_add( cont );
     g->u.cash -= 1000;
     add_msg(m_good, _("%s gave you a shot of rum..."), p->name.c_str());
@@ -3555,8 +3459,8 @@ void talk_function::buy_rum(npc *p)
 
 void talk_function::buy_whiskey(npc *p)
 {
-    item cont( "bottle_glass" );
-    cont.emplace_back( "whiskey", calendar::turn, 1 );
+    item cont( "bottle_glass", calendar::turn );
+    cont.put_in( item( "whiskey", calendar::turn, 1 ) );
     g->u.i_add( cont );
     g->u.cash -= 1200;
     add_msg(m_good, _("%s gave you a shot of whiskey..."), p->name.c_str());
@@ -3764,34 +3668,9 @@ void talk_function::set_engagement_hit(npc *p)
     p->rules.engagement = ENGAGE_HIT;
 }
 
-void talk_function::set_engagement_no_move( npc *p )
-{
-    p->rules.engagement = ENGAGE_NO_MOVE;
-}
-
 void talk_function::set_engagement_all(npc *p)
 {
     p->rules.engagement = ENGAGE_ALL;
-}
-
-void talk_function::set_aim_convenient( npc *p )
-{
-    p->rules.aim = AIM_WHEN_CONVENIENT;
-}
-
-void talk_function::set_aim_spray( npc *p )
-{
-    p->rules.aim = AIM_SPRAY;
-}
-
-void talk_function::set_aim_precise( npc *p )
-{
-    p->rules.aim = AIM_PRECISE;
-}
-
-void talk_function::set_aim_strictly_precise( npc *p )
-{
-    p->rules.aim = AIM_STRICTLY_PRECISE;
 }
 
 void talk_function::start_training( npc *p )
@@ -3949,10 +3828,9 @@ bool dialogue::print_responses( int const yoffset )
         }
     }
     // Those are always available, their key bindings are fixed as well.
-    mvwprintz( win, curline + 1, xoffset, c_magenta, _( "Shift+L: Look at" ) );
-    mvwprintz( win, curline + 2, xoffset, c_magenta, _( "Shift+S: Size up stats" ) );
-    mvwprintz( win, curline + 3, xoffset, c_magenta, _( "Shift+Y: Yell" ) );
-    mvwprintz( win, curline + 4, xoffset, c_magenta, _( "Shift+O: Check opinion" ) );
+    mvwprintz( win, curline + 2, xoffset, c_magenta, _( "L: Look at" ) );
+    mvwprintz( win, curline + 3, xoffset, c_magenta, _( "S: Size up stats" ) );
+    mvwprintz( win, curline + 4, xoffset, c_magenta, _( "Y: Yell" ) );
     return curline > max_line; // whether there is more to print.
 }
 
@@ -4128,20 +4006,23 @@ std::string dialogue::opt( const std::string &topic )
 
 std::string special_talk(char ch)
 {
-    switch (ch) {
-        case 'L':
-            return "TALK_LOOK_AT";
-        case 'S':
-            return "TALK_SIZE_UP";
-        case 'O':
-            return "TALK_OPINION";
-        case 'Y':
-            return "TALK_SHOUT";
-        default:
-            return "TALK_NONE";
-    }
-
-    return "TALK_NONE";
+ switch (ch) {
+  case 'L':
+  case 'l':
+   return "TALK_LOOK_AT";
+  case 'S':
+  case 's':
+   return "TALK_SIZE_UP";
+  case 'O':
+  case 'o':
+   return "TALK_OPINION";
+  case 'Y':
+  case 'y':
+   return "TALK_SHOUT";
+  default:
+   return "TALK_NONE";
+ }
+ return "TALK_NONE";
 }
 
 // Creates a new inventory that contains `added` items, but not `without` ones
@@ -4156,7 +4037,7 @@ inventory inventory_exchange( inventory &inv,
 
     for( item *it : item_dump ) {
         if( without.count( it ) == 0 ) {
-            new_inv.add_item( *it, true, false );
+            new_inv.push_back( *it );
         }
     }
 
@@ -4741,29 +4622,21 @@ void load_talk_topic( JsonObject &jo )
     }
 }
 
-enum consumption_result {
-    REFUSED = 0,
-    CONSUMED_SOME, // Consumption didn't fail, but don't delete the item
-    CONSUMED_ALL   // Consumption succeeded, delete the item
-};
-
 // Returns true if we destroyed the item through consumption
-consumption_result try_consume( npc &p, item &it, std::string &reason )
+bool try_consume( npc &p, item &it, bool &used, std::string &reason )
 {
-    bool consuming_contents = it.is_food_container( &p );
-    item &to_eat = consuming_contents ? it.contents[0] : it;
+    item &to_eat = it.is_food_container( &p ) ?
+        it.contents[0] : it;
     const auto comest = dynamic_cast<const it_comest*>( to_eat.type );
     if( comest == nullptr ) {
         // Don't inform the player that we don't want to eat the lighter
-        return REFUSED;
+        return false;
     }
 
-    if( ( !it.type->use_methods.empty() || comest->quench < 0 || it.poison > 0 ) &&
-        p.op_of_u.trust < 5 &&
-        !g->u.has_trait( "DEBUG_MIND_CONTROL" ) ) {
+    if( p.op_of_u.trust < 5 && !g->u.has_trait( "DEBUG_MIND_CONTROL" ) ) {
         // TODO: Get some better check here
         reason = _("I don't <swear> trust you enough to eat from your hand...");
-        return REFUSED;
+        return false;
     }
 
     // TODO: Make it not a copy+paste from player::consume_item
@@ -4771,7 +4644,7 @@ consumption_result try_consume( npc &p, item &it, std::string &reason )
     if( comest->comesttype == "FOOD" || comest->comesttype == "DRINK" ) {
         if( !p.eat( to_eat ) ) {
             reason = _("It doesn't look like a good idea to consume this...");
-            return REFUSED;
+            return false;
         }
     } else if (comest->comesttype == "MED") {
         if (comest->tool != "null") {
@@ -4782,7 +4655,7 @@ consumption_result try_consume( npc &p, item &it, std::string &reason )
             if (!has) {
                 reason = string_format( _("I need a %s to consume that!"),
                     item::nname( comest->tool ).c_str() );
-                return REFUSED;
+                return false;
             }
             p.use_charges( comest->tool, 1 );
         }
@@ -4790,7 +4663,7 @@ consumption_result try_consume( npc &p, item &it, std::string &reason )
             amount_used = comest->invoke( &p, &to_eat, p.pos() );
             if( amount_used <= 0 ) {
                 reason = _("It doesn't look like a good idea to consume this..");
-                return REFUSED;
+                return false;
             }
         }
 
@@ -4800,18 +4673,9 @@ consumption_result try_consume( npc &p, item &it, std::string &reason )
         debugmsg("Unknown comestible type of item: %s\n", to_eat.tname().c_str());
     }
 
+    used = true;
     to_eat.charges -= amount_used;
-    if( to_eat.charges > 0 ) {
-        return CONSUMED_SOME;
-    }
-
-    if( consuming_contents ) {
-        it.contents.erase( it.contents.begin() );
-        return CONSUMED_SOME;
-    }
-
-    // If not consuming contents and charge <= 0, we just ate the last charge from the stack
-    return CONSUMED_ALL;
+    return to_eat.charges <= 0;
 }
 
 std::string give_item_to( npc &p, bool allow_use, bool allow_carry )
@@ -4827,18 +4691,18 @@ std::string give_item_to( npc &p, bool allow_use, bool allow_carry )
         return _("How?");
     }
 
-    if( given.is_dangerous() && !g->u.has_trait( "DEBUG_MIND_CONTROL" ) ) {
+    if( given.is_dangerous() ) {
         return _("Are you <swear> insane!?");
     }
 
+    bool used = false;
     std::string no_consume_reason;
     if( allow_use ) {
         // Eating first, to avoid evaluating bread as a weapon
-        const auto consume_res = try_consume( p, given, no_consume_reason );
-        if( consume_res == CONSUMED_ALL ) {
+        if( try_consume( p, given, used, no_consume_reason ) ) {
             g->u.i_rem( inv_pos );
         }
-        if( consume_res != REFUSED ) {
+        if( used ) {
             g->u.moves -= 100;
             return _("Here we go...");
         }

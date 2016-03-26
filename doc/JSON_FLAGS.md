@@ -586,9 +586,8 @@ listings, as ids are constant throughout DDA's code.  Happy chambering!  :-)
 - ```INCENDIARY``` Lights target on fire.
 - ```NAPALM``` Explosion that spreads fire.
 - ```TEARGAS``` Generates a cloud of teargas.
-- ```SMOKE``` Generates a cloud of smoke at the target.
-- ```SMOKE_BIG``` Generates a large cloud of smoke at the target.
-- ```MUZZLE_SMOKE``` Generate a small cloud of smoke at the source.
+- ```SMOKE``` Generates a cloud of smoke.
+- ```SMOKE_BIG``` Generates a large cloud of smoke.
 - ```TRAIL``` Creates a trail of smoke.
 - ```FLARE``` Lights the target on fire.
 - ```FLASHBANG``` Blinds and deafens nearby targets.
@@ -811,7 +810,8 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```BURST_ONLY``` No single-fire mode. Note that this is an additional flag to the above "MODE_BURST" flag.
 - ```RELOAD_AND_SHOOT``` Firing automatically reloads and then shoots.
 - ```RELOAD_ONE``` Only reloads one round at a time.
-- ```BIO_WEAPON``` Weapon is a CBM weapon, uses power as ammo and should not specify an ammo type
+- ```NO_AMMO``` Does not directly have a loaded ammo type.
+- ```BIO_WEAPON``` Weapon is a CBM weapon, uses power as ammo. (CBM weapons should get both NO_AMMO and BIO_WEAPON, to work correctly).
 - ```CHARGE``` Has to be charged to fire. Higher charges do more damage.
 - ```NO_UNLOAD``` Cannot be unloaded.
 - ```FIRE_50``` Uses 50 shots per firing.

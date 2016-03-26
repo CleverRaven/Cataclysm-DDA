@@ -807,7 +807,6 @@ void Creature::add_effect( const efftype_id &eff_id, int dur, body_part bp,
         if (found_effect != bodyparts.end()) {
             found = true;
             effect &e = found_effect->second;
-            const int prev_int = e.get_intensity();
             // If we do, mod the duration, factoring in the mod value
             e.mod_duration(dur * e.get_dur_add_perc() / 100);
             // Limit to max duration
@@ -832,9 +831,6 @@ void Creature::add_effect( const efftype_id &eff_id, int dur, body_part bp,
                 e.set_intensity(1);
             } else if (e.get_intensity() > e.get_max_intensity()) {
                 e.set_intensity(e.get_max_intensity());
-            }
-            if( e.get_intensity() != prev_int ) {
-                on_effect_int_change( eff_id, e.get_intensity(), bp );
             }
         }
     }
@@ -885,7 +881,6 @@ void Creature::add_effect( const efftype_id &eff_id, int dur, body_part bp,
                                   pgettext("memorial_female",
                                            type.get_apply_memorial_log().c_str()));
         }
-        on_effect_int_change( eff_id, e.get_intensity(), bp );
         // Perform any effect addition effects.
         bool reduced = resists_effect(e);
         add_eff_effects(e, reduced);
@@ -909,12 +904,6 @@ bool Creature::add_env_effect( const efftype_id &eff_id, body_part vector, int s
 }
 void Creature::clear_effects()
 {
-    for( auto &elem : effects ) {
-        for( auto &_effect_it : elem.second ) {
-            const effect &e = _effect_it.second;
-            on_effect_int_change( e.get_id(), 0, e.get_bp() );
-        }
-    }
     effects.clear();
 }
 bool Creature::remove_effect( const efftype_id &eff_id, body_part bp )
@@ -939,13 +928,9 @@ bool Creature::remove_effect( const efftype_id &eff_id, body_part bp )
 
     // num_bp means remove all of a given effect id
     if (bp == num_bp) {
-        for( auto &it : effects[eff_id] ) {
-            on_effect_int_change( eff_id, 0, it.first );
-        }
         effects.erase(eff_id);
     } else {
         effects[eff_id].erase(bp);
-        on_effect_int_change( eff_id, 0, bp );
         // If there are no more effects of a given type remove the type map
         if (effects[eff_id].empty()) {
             effects.erase(eff_id);
@@ -1020,14 +1005,8 @@ void Creature::process_effects()
                 rem_ids.push_back( removed_effect );
                 rem_bps.push_back(num_bp);
             }
-            effect &e = _it.second;
-            const int prev_int = e.get_intensity();
             // Run decay effects, marking effects for removal as necessary.
-            e.decay( rem_ids, rem_bps, calendar::turn, is_player() );
-
-            if( e.get_intensity() != prev_int && e.get_duration() > 0 ) {
-                on_effect_int_change( e.get_id(), e.get_intensity(), e.get_bp() );
-            }
+            _it.second.decay( rem_ids, rem_bps, calendar::turn, is_player() );
         }
     }
 
@@ -1077,29 +1056,12 @@ std::string Creature::get_value( const std::string key ) const
 
 void Creature::mod_pain(int npain)
 {
-    mod_pain_noresist( npain );
+    pain += npain;
+    // Pain should never go negative
+    if (pain < 0) {
+        pain = 0;
+    }
 }
-
-void Creature::mod_pain_noresist(int npain)
-{
-    set_pain( pain + npain );
-}
-
-void Creature::set_pain(int npain)
-{
-    pain = std::max( npain, 0 );
-}
-
-int Creature::get_pain() const
-{
-    return pain;
-}
-
-int Creature::get_perceived_pain() const
-{
-    return get_pain();
-}
-
 void Creature::mod_moves(int nmoves)
 {
     moves += nmoves;

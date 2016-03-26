@@ -3,7 +3,6 @@
 #include "mongroup.h"
 #include "debug.h"
 #include "mtype.h"
-#include "item.h"
 
 Creature_tracker::Creature_tracker()
 {

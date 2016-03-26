@@ -80,6 +80,7 @@ void mapgen_church_gothic(map *m, oter_id terrain_type, mapgendata dat, int turn
 
 void mapgen_pharm(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 
+void mapgen_s_hardware(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_s_sports(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 
 void mapgen_shelter(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
@@ -88,6 +89,8 @@ void mapgen_lmoe(map *m, oter_id terrain_type, mapgendata dat, int turn, float d
 
 void mapgen_basement_generic_layout(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_basement_junk(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
+void mapgen_basement_guns(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
+void mapgen_basement_survivalist(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_basement_chemlab(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_basement_weed(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_basement_game(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);

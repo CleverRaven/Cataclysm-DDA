@@ -1480,18 +1480,6 @@
             { "part" : "HAND_L", "ignored" : 3 },
             { "part" : "HAND_R", "ignored" : 3 },
             { "part" : "TORSO", "ignored" : 26 }
-        ],
-        "encumbrance_always" : [
-            [ "TORSO", 10 ],
-            [ "HEAD", 10 ],
-            [ "ARM_L", 10 ],
-            [ "ARM_R", 10 ],
-            [ "HAND_L", 10 ],
-            [ "HAND_R", 10 ],
-            [ "LEG_L", 10 ],
-            [ "LEG_R", 10 ],
-            [ "FOOT_L", 10 ],
-            [ "FOOT_R", 10 ]
         ]
     },{
         "type" : "mutation",
@@ -1529,18 +1517,6 @@
         "bodytemp_modifiers" : [150, 250],
         "bodytemp_sleep" : 75,
         "description" : "Your exoskeleton has hardened considerably--restricting movement, granted--and boasts a fine coat of hairs that put feline whiskers to shame.",
-        "encumbrance_always" : [
-            [ "TORSO", 10 ],
-            [ "HEAD", 10 ],
-            [ "ARM_L", 10 ],
-            [ "ARM_R", 10 ],
-            [ "HAND_L", 10 ],
-            [ "HAND_R", 10 ],
-            [ "LEG_L", 10 ],
-            [ "LEG_R", 10 ],
-            [ "FOOT_L", 10 ],
-            [ "FOOT_R", 10 ]
-        ],
         "prereqs" : ["CHITIN_FUR2", "CHITIN3"],
         "threshreq" : ["THRESH_SPIDER"],
         "category" : ["MUTCAT_SPIDER"]
@@ -1786,10 +1762,6 @@
         "ugliness" : 4,
         "mixed_effect" : true,
         "description" : "Your upper tentacles have grown large, hook-barbed rakes on the ends.  They're quite vicious, but really aren't suited for fine manipulation.",
-        "encumbrance_always" : [
-            [ "HAND_L", 20 ],
-            [ "HAND_R", 20 ]
-        ],
         "prereqs" : ["ARM_TENTACLES", "ARM_TENTACLES_4", "ARM_TENTACLES_8"],
         "threshreq" : ["THRESH_CEPHALOPOD"],
         "category" : ["MUTCAT_CEPHALOPOD"]
@@ -2820,11 +2792,6 @@
         "visibility" : 1,
         "ugliness" : 1,
         "mixed_effect" : true,
-        "encumbrance_always" : [
-            [ "TORSO", 10 ],
-            [ "ARM_L", 10 ],
-            [ "ARM_R", 10 ]
-        ],
         "description" : "You have grown noticeably taller and broader.  Much of it is useful muscle mass (Strength +2), but you find it throws off your balance and you get in your own way (+10 torso and arm encumbrance).",
         "prereqs" : ["STR_UP", "STR_UP_2", "STR_UP_3", "STR_UP_4"],
         "changes_to": ["LARGE_OK", "HUGE"],
@@ -3197,7 +3164,6 @@
         "visibility" : 7,
         "ugliness" : 4,
         "description" : "You have a flattened nose and thin slits for nostrils, giving you a lizard-like appearance.  This makes breathing slightly difficult and increases mouth encumbrance by 10.",
-        "encumbrance_always" : [["MOUTH", 10]],
         "category" : ["MUTCAT_LIZARD", "MUTCAT_CEPHALOPOD", "MUTCAT_RAPTOR"]
     },{
         "type" : "mutation",
@@ -3257,7 +3223,6 @@
         "description" : "You have a very large and very beautiful pair of brightly-colored wings.  They can't lift you, and they make balancing tricky, but they certainly catch air and attention!",
         "valid" : false,
         "purifiable" : false,
-        "encumbrance_always" : [[ "TORSO", 10 ]],
         "prereqs" : ["WINGS_STUB"],
         "threshreq" : ["THRESH_INSECT"],
         "cancels" : ["WINGS_BIRD", "WINGS_INSECT", "WINGS_BAT"],
@@ -3643,18 +3608,14 @@
         "type" : "mutation",
         "id" : "WEBBED",
         "name" : "Webbed Hands",
-        "points" : -2,
+        "points" : -3,
         "visibility" : 3,
         "ugliness" : 2,
-        "description" : "Your hands and feet are heavily webbed, reducing your dexterity by 1 and causing problems with gloves.  However, you can swim much faster.  Slightly decreases wet penalties.",
+        "description" : "Your hands and feet are heavily webbed, reducing your dexterity by 1 and preventing you from wearing gloves.  However, you can swim much faster.  Slightly decreases wet penalties.",
         "category" : ["MUTCAT_LIZARD", "MUTCAT_FISH", "MUTCAT_SLIME"],
         "wet_protection" : [
             { "part" : "HAND_L", "good" : 3 },
             { "part" : "HAND_R", "good" : 3 }
-        ],
-        "encumbrance_covered" : [
-            [ "HAND_L", 50 ],
-            [ "HAND_R", 50 ]
         ]
     },{
         "type" : "mutation",
@@ -3665,10 +3626,6 @@
         "ugliness" : 2,
         "mixed_effect" : true,
         "description" : "Your hands have fused into quasi-paws.  Fine manipulation is a challenge: permanent hand encumbrance of 10, difficulty with delicate craftwork, and your gloves don't fit.  But they handle water better.",
-        "encumbrance_always" : [
-            [ "HAND_L", 10 ],
-            [ "HAND_R", 10 ]
-        ],
         "prereqs" : ["CLAWS", "CLAWS_RETRACT", "CLAWS_RAT"],
         "cancels" : ["TALONS", "ARM_TENTACLES", "ARM_TENTACLES_4", "ARM_TENTACLES_8"],
         "changes_to" : ["PAWS_LARGE"],
@@ -3682,10 +3639,6 @@
         "ugliness" : 3,
         "mixed_effect" : true,
         "description" : "Your paws are much larger now.  Manual dexterity is is difficult: permanent hand encumbrance of 20, serious problems crafting, and no gloves.  But you can swim more effectively.",
-        "encumbrance_always" : [
-            [ "HAND_L", 20 ],
-            [ "HAND_R", 20 ]
-        ],
         "prereqs" : ["PAWS"],
         "cancels" : ["TALONS", "ARM_TENTACLES", "ARM_TENTACLES_4", "ARM_TENTACLES_8"],
         "category" : ["MUTCAT_BEAST", "MUTCAT_URSINE"]
@@ -3763,16 +3716,16 @@
         "name" : "Minor Radioactivity",
         "points" : -2,
         "bodytemp_modifiers" : [250, 250],
-        "description" : "Your body has become radioactive!  You continuously emit low levels of radiation, which slowly contaminates the world around you.",
+        "description" : "Your body has become radioactive!  You continuously emit low levels of radiation, which results in a chronic case of radiation poisoning.",
         "changes_to" : ["RADIOACTIVE2"],
         "category" : ["MUTCAT_SLIME"]
     },{
         "type" : "mutation",
         "id" : "RADIOACTIVE2",
         "name" : "Radioactivity",
-        "points" : -4,
+        "points" : -6,
         "bodytemp_modifiers" : [750, 750],
-        "description" : "Your body has become radioactive!  You continuously emit moderate levels of radiation, which contaminates the world around you.",
+        "description" : "Your body has become radioactive!  You continuously emit moderate levels of radiation, some of which will be absorbed by you, and some of which will contaminate the world around you.",
         "prereqs" : ["RADIOACTIVE1"],
         "changes_to" : ["RADIOACTIVE3"],
         "category": ["MUTCAT_ELFA"]
@@ -3780,9 +3733,9 @@
         "type" : "mutation",
         "id" : "RADIOACTIVE3",
         "name" : "Severe Radioactivity",
-        "points" : -6,
+        "points" : -10,
         "bodytemp_modifiers" : [1500, 1500],
-        "description" : "Your body has become radioactive!  You continuously emit heavy levels of radiation, making your surroundings unlivable.",
+        "description" : "Your body has become radioactive!  You continuously emit heavy levels of radiation, some of which will be absorbed by you, and some of which will contaminate the world around you.",
         "prereqs" : ["RADIOACTIVE2"]
     },{
         "type" : "mutation",
@@ -4121,10 +4074,6 @@
             { "part" : "ARM_R", "neutral" : 50 },
             { "part" : "HAND_L", "neutral" : 10 },
             { "part" : "HAND_R", "neutral" : 10 }
-        ],
-        "encumbrance_always" : [
-            [ "ARM_L", 20 ],
-            [ "ARM_R", 20 ]
         ]
     },{
         "type" : "mutation",
@@ -4135,10 +4084,6 @@
         "ugliness" : 5,
         "description" : "You've *finally* sprouted a pair of arms from your midsection.  They flail more-or-less uncontrollably,  making you feel rather larval.",
         "purifiable" : false,
-        "encumbrance_always" : [
-            [ "ARM_L", 30 ],
-            [ "ARM_R", 30 ]
-        ],
         "changes_to" : ["INSECT_ARMS_OK", "ARACHNID_ARMS"],
         "cancels" : ["PAWS", "ARM_TENTACLES", "ARM_TENTACLES_4", "ARM_TENTACLES_8"],
         "prereqs" : ["CHITIN", "CHITIN2", "CHITIN3", "CHITIN_FUR2", "CHITIN_FUR3"],
@@ -4170,10 +4115,6 @@
         "description" : "There's the last two limbs you were expecting.  Unfortunately you still can't coordinate them, so you're getting in your own way.  A lot.",
         "valid" : false,
         "purifiable" : false,
-        "encumbrance_always" : [
-            [ "ARM_L", 40 ],
-            [ "ARM_R", 40 ]
-        ],
         "changes_to" : ["ARACHNID_ARMS_OK"],
         "cancels" : ["PAWS", "ARM_TENTACLES", "ARM_TENTACLES_4", "ARM_TENTACLES_8"],
         "prereqs" : ["INSECT_ARMS"],
@@ -4204,10 +4145,6 @@
         "ugliness" : 4,
         "mixed_effect" : true,
         "description" : "Your arms have transformed into tentacles, resulting in a bonus of 1 to dexterity, permanent hand encumbrance of 30, and inability to wear gloves.  Somewhat decreases wet penalties.",
-        "encumbrance_always" : [
-            [ "HAND_L", 30 ],
-            [ "HAND_R", 30 ]
-        ],
         "leads_to" : ["CLAWS_TENTACLE"],
         "changes_to" : ["ARM_TENTACLES_4"],
         "cancels" : ["PAWS", "PAWS_LARGE", "NAILS", "CLAWS", "TALONS"],
@@ -4225,10 +4162,6 @@
         "visibility" : 8,
         "ugliness" : 5,
         "description" : "Your arms have transformed into four tentacles, resulting in a bonus of 1 to dexterity, permanent hand encumbrance of 30, and inability to wear gloves.  You can make up to 3 extra attacks with them.  Somewhat decreases wet penalties.",
-        "encumbrance_always" : [
-            [ "HAND_L", 30 ],
-            [ "HAND_R", 30 ]
-        ],
         "prereqs" : ["ARM_TENTACLES"],
         "leads_to" : ["CLAWS_TENTACLE"],
         "changes_to" : ["ARM_TENTACLES_8"],
@@ -4247,10 +4180,6 @@
         "visibility" : 9,
         "ugliness" : 6,
         "description" : "Your arms have transformed into eight tentacles, resulting in a bonus of 1 to dexterity, permanent hand encumbrance of 30, and inability to wear gloves.  You can make up to 7 extra attacks with them.  Somewhat decreases wet penalties.",
-        "encumbrance_always" : [
-            [ "HAND_L", 30 ],
-            [ "HAND_R", 30 ]
-        ],
         "prereqs" : ["ARM_TENTACLES_4"],
         "cancels" : ["PAWS", "PAWS_LARGE", "NAILS", "CLAWS", "TALONS"],
         "leads_to" : ["CLAWS_TENTACLE"],
@@ -4287,7 +4216,6 @@
         "bodytemp_sleep" : 200,
         "mixed_effect" : true,
         "description" : "Your protective shell has grown large enough to accommodate--if need be--your whole body.  Activate to pull your head and limbs into your shell, trading mobility and vision for warmth, protection, and shelter.",
-        "encumbrance_always" : [[ "TORSO", 10 ]],
         "prereqs" : ["SHELL"],
         "threshreq" : ["THRESH_CEPHALOPOD"],
         "category" : ["MUTCAT_CEPHALOPOD"],

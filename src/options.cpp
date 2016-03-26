@@ -204,35 +204,6 @@ options_manager::cOpt::cOpt(const std::string sPageIn, const std::string sMenuTe
     setSortPos(sPageIn);
 }
 
-//int map constructor
-options_manager::cOpt::cOpt(const std::string sPageIn, const std::string sMenuTextIn, const std::string sTooltipIn,
-           const std::map<int, std::string> mIntValuesIn, int iInitialIn, int iDefaultIn, copt_hide_t opt_hide)
-{
-    sPage = sPageIn;
-    sMenuText = sMenuTextIn;
-    sTooltip = sTooltipIn;
-    sType = "int_map";
-
-    hide = opt_hide;
-
-    mIntValues = mIntValuesIn;
-
-    auto item = mIntValuesIn.find( iInitialIn );
-    if ( item == mIntValuesIn.cend() ) {
-        iInitialIn = mIntValuesIn.cbegin()->first;
-    }
-
-    item = mIntValuesIn.find( iDefaultIn );
-    if ( item == mIntValuesIn.cend() ) {
-        iDefaultIn = mIntValuesIn.cbegin()->first;
-    }
-
-    iDefault = iDefaultIn;
-    iSet = iInitialIn;
-
-    setSortPos(sPageIn);
-}
-
 //float constructor
 options_manager::cOpt::cOpt(const std::string sPageIn, const std::string sMenuTextIn, const std::string sTooltipIn,
            const float fMinIn, float fMaxIn, float fDefaultIn, float fStepIn, copt_hide_t opt_hide)
@@ -347,7 +318,7 @@ std::string options_manager::cOpt::getValue()
     } else if (sType == "bool") {
         return (bSet) ? "true" : "false";
 
-    } else if (sType == "int" || sType == "int_map") {
+    } else if (sType == "int") {
         std::stringstream ssTemp;
         ssTemp << iSet;
         return ssTemp.str();
@@ -371,9 +342,6 @@ std::string options_manager::cOpt::getValueName()
 
     } else if (sType == "bool") {
         return (bSet) ? _("True") : _("False");
-
-    } else if ( sType == "int_map" ) {
-        return string_format(_("%d: %s"), iSet, mIntValues.find( iSet )->second.c_str());
     }
 
     return getValue();
@@ -400,9 +368,6 @@ std::string options_manager::cOpt::getDefaultText(const bool bTranslated)
 
     } else if (sType == "int") {
         return string_format(_("Default: %d - Min: %d, Max: %d"), iDefault, iMin, iMax);
-
-    } else if (sType == "int_map") {
-        return string_format( _( "Default: %d: %s" ), iDefault, mIntValues.find( iDefault )->second.c_str() );
 
     } else if (sType == "float") {
         return string_format(_("Default: %.2f - Min: %.2f, Max: %.2f"), fDefault, fMin, fMax);
@@ -459,14 +424,6 @@ void options_manager::cOpt::setNext()
             iSet = iMin;
         }
 
-    } else if (sType == "int_map") {
-        auto next = std::next( mIntValues.find( iSet ) );
-        if ( next == mIntValues.cend() ) {
-            iSet = mIntValues.cbegin()->first;
-        } else {
-            iSet = next->first;
-        }
-
     } else if (sType == "float") {
         fSet += fStep;
         if (fSet > fMax) {
@@ -496,16 +453,6 @@ void options_manager::cOpt::setPrev()
         iSet--;
         if (iSet < iMin) {
             iSet = iMax;
-        }
-
-    } else if (sType == "int_map") {
-        auto item = mIntValues.find( iSet );
-        if ( item == mIntValues.cbegin() ) {
-            auto prev = std::prev( mIntValues.cend() );
-            iSet = prev->first;
-        } else {
-            auto prev = std::prev( item );
-            iSet = prev->first;
         }
 
     } else if (sType == "float") {
@@ -550,14 +497,6 @@ void options_manager::cOpt::setValue(std::string sSetIn)
             iSet = iDefault;
         }
 
-    } else if (sType == "int_map") {
-        iSet = atoi(sSetIn.c_str());
-
-        auto item = mIntValues.find( iSet );
-        if ( item == mIntValues.cend() ) {
-            iSet = iDefault;
-        }
-
     } else if (sType == "float") {
         std::istringstream ssTemp(sSetIn);
         ssTemp.imbue(std::locale::classic());
@@ -580,7 +519,7 @@ options_manager::cOpt::operator float() const
         return (!sSet.empty()) ? 1.0f : 0.0f;
     } else if (sType == "bool") {
         return (bSet) ? 1.0f : 0.0f;
-    } else if (sType == "int" || sType == "int_map") {
+    } else if (sType == "int") {
         return static_cast<float>(iSet);
     } else if (sType == "float") {
         return fSet;
@@ -597,7 +536,7 @@ options_manager::cOpt::operator int() const
         return (!sSet.empty()) ? 1 : 0;
     } else if (sType == "bool") {
         return (bSet) ? 1 : 0;
-    } else if (sType == "int" || sType == "int_map") {
+    } else if (sType == "int") {
         return iSet;
     } else if (sType == "float") {
         return static_cast<int>(fSet);
@@ -1134,12 +1073,6 @@ void options_manager::init()
 
     mOptionsSort["graphics"]++;
 
-
-    OPTIONS["DISPLAY"] = cOpt("graphics", _("Display"),
-                              _("Sets which video display will be used to show the game. Requires restart."),
-                              0, 10000, 0, COPT_CURSES_HIDE
-                              );
-
     optionNames["fullscreen"] = _("Fullscreen");
     optionNames["windowedbl"] = _("Windowed borderless");
     OPTIONS["FULLSCREEN"] = cOpt("graphics", _("Fullscreen"),
@@ -1171,20 +1104,10 @@ void options_manager::init()
 
     mOptionsSort["debug"]++;
 
-    OPTIONS["INITIAL_STAT_POINTS"] = cOpt("debug", _("Initial stat points"),
-                                          _("Initial points available to spend on stats on character generation."),
-                                          0, 1000, 2
-                                         );
-
-    OPTIONS["INITIAL_TRAIT_POINTS"] = cOpt("debug", _("Initial trait points"),
-                                           _("Initial points available to spend on traits on character generation."),
-                                           0, 1000, 2
-                                          );
-
-    OPTIONS["INITIAL_SKILL_POINTS"] = cOpt("debug", _("Initial skill points"),
-                                           _("Initial points available to spend on skills on character generation."),
-                                           0, 1000, 2
-                                           );
+    OPTIONS["INITIAL_POINTS"] = cOpt("debug", _("Initial points"),
+                                     _("Initial points available on character generation."),
+                                     0, 1000, 6
+                                    );
 
     OPTIONS["MAX_TRAIT_POINTS"] = cOpt("debug", _("Maximum trait points"),
                                        _("Maximum trait points available for character generation."),
@@ -1389,39 +1312,6 @@ void options_manager::init()
         }
     }
 }
-
-#ifdef TILES
-// Helper method to isolate #ifdeffed tiles code.
-static void refresh_tiles( bool used_tiles_changed, bool pixel_minimap_height_changed, bool ingame )
-{
-    if( used_tiles_changed ) {
-        //try and keep SDL calls limited to source files that deal specifically with them
-        try {
-            tilecontext->reinit();
-            //g->init_ui is called when zoom is changed
-            g->reset_zoom();
-            if( ingame ) {
-                if( g->pixel_minimap_option ) {
-                    wrefresh(g->w_pixel_minimap);
-                }
-                g->refresh_all();
-            }
-            tilecontext->do_tile_loading_report();
-        } catch( const std::exception &err ) {
-            popup( _( "Loading the tileset failed: %s" ), err.what() );
-            use_tiles = false;
-        }
-    } else if( ingame && g->pixel_minimap_option && pixel_minimap_height_changed ) {
-        tilecontext->reinit_minimap();
-        g->init_ui();
-        wrefresh( g->w_pixel_minimap );
-        g->refresh_all();
-    }
-}
-#else
-static void refresh_tiles( bool, bool, bool ) {
-}
-#endif // TILES
 
 void options_manager::show(bool ingame)
 {
@@ -1718,19 +1608,10 @@ void options_manager::show(bool ingame)
             }
         }
     }
-    for( auto &iter : WOPTIONS_OLD ) {
-        if( iter.second.getValue() != ACTIVE_WORLD_OPTIONS[iter.first].getValue() ) {
-            options_changed = true;
-            world_options_changed = true;
-        }
-    }
 
     if (options_changed) {
         if(query_yn(_("Save changes?"))) {
             save(ingame && world_options_changed);
-            if( world_options_changed ) {
-                world_generator->save_world( world_generator->active_world, false );
-            }
         } else {
             used_tiles_changed = false;
             OPTIONS = OPTIONS_OLD;
@@ -1745,9 +1626,28 @@ void options_manager::show(bool ingame)
         g->mmenu_refresh_motd();
         g->mmenu_refresh_credits();
     }
-
-    refresh_tiles( used_tiles_changed, pixel_minimap_height_changed, ingame );
-
+    if( used_tiles_changed ) {
+#ifdef TILES
+        //try and keep SDL calls limited to source files that deal specifically with them
+        try {
+            tilecontext->reinit();
+            //g->init_ui is called when zoom is changed
+            g->reset_zoom();
+            if( ingame ) {
+                g->refresh_all();
+                tilecontext->do_tile_loading_report();
+            }
+        } catch( const std::exception &err ) {
+            popup(_("Loading the tileset failed: %s"), err.what());
+            use_tiles = false;
+        }
+#endif // TILES
+    } else if (!used_tiles_changed && pixel_minimap_height_changed) {
+#ifdef TILES
+        tilecontext->reinit_minimap();
+        g->init_ui();
+#endif // TILES
+    }
     delwin(w_options);
     delwin(w_options_border);
     delwin(w_options_header);

@@ -11,7 +11,7 @@
 #include "iuse_actor.h"
 #include "rng.h"
 #include "mongroup.h"
-#include "morale_types.h"
+#include "morale.h"
 #include "messages.h"
 #include "martialarts.h"
 #include "itype.h"
@@ -21,7 +21,6 @@
 #include "field.h"
 #include "weather.h"
 #include "ui.h"
-#include "map_iterator.h"
 
 #include <math.h>
 #include <sstream>
@@ -61,8 +60,8 @@ void activity_handlers::burrow_finish(player_activity *act, player *p)
         // Tunneling through solid rock is hungry, sweaty, tiring, backbreaking work
         // Not quite as bad as the pickaxe, though
         p->mod_hunger(10);
-        p->mod_thirst(10);
-        p->mod_fatigue(15);
+        p->fatigue += 15;
+        p->thirst += 10;
         p->mod_pain(3 * rng(1, 3));
         // Mining is construction work!
         p->practice( skill_carpentry, 5 );
@@ -70,8 +69,8 @@ void activity_handlers::burrow_finish(player_activity *act, player *p)
                g->m.ter(pos) != t_dirt && g->m.ter(pos) != t_grass ) {
         //Breaking up concrete on the surface? not nearly as bad
         p->mod_hunger(5);
-        p->mod_thirst(5);
-        p->mod_fatigue(10);
+        p->fatigue += 10;
+        p->thirst += 5;
     }
     g->m.destroy( pos, true );
 }
@@ -139,23 +138,22 @@ void set_up_butchery( player_activity &act, player &u )
 
     const mtype *corpse = items[act.index].get_mtype();
     int time_to_cut = 0;
-    switch( corpse->size ) {
-        // Time (roughly) in turns to cut up the corpse
-        case MS_TINY:
-            time_to_cut = 25;
-            break;
-        case MS_SMALL:
-            time_to_cut = 50;
-            break;
-        case MS_MEDIUM:
-            time_to_cut = 75;
-            break;
-        case MS_LARGE:
-            time_to_cut = 100;
-            break;
-        case MS_HUGE:
-            time_to_cut = 300;
-            break;
+    switch( corpse->size ) { // Time (roughly) in turns to cut up the corpse
+    case MS_TINY:
+        time_to_cut = 12;
+        break;
+    case MS_SMALL:
+        time_to_cut = 25;
+        break;
+    case MS_MEDIUM:
+        time_to_cut = 50;
+        break;
+    case MS_LARGE:
+        time_to_cut = 80;
+        break;
+    case MS_HUGE:
+        time_to_cut = 150;
+        break;
     }
 
     // At factor 0, 10 time_to_cut is 10 turns. At factor 50, it's 5 turns, at 75 it's 2.5
@@ -198,65 +196,66 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     int wool = 0;
     bool stomach = false;
 
-    int max_practice = 4;
     switch (corpse->size) {
-        case MS_TINY:
-            pieces = 1;
-            skins = 1;
-            bones = 1;
-            fats = 1;
-            sinews = 1;
-            feathers = 2;
-            wool = 1;
-            break;
-        case MS_SMALL:
-            pieces = 2;
-            skins = 2;
-            bones = 4;
-            fats = 2;
-            sinews = 4;
-            feathers = 6;
-            wool = 2;
-            break;
-        case MS_MEDIUM:
-            pieces = 4;
-            skins = 4;
-            bones = 9;
-            fats = 4;
-            sinews = 9;
-            feathers = 11;
-            wool = 4;
-            break;
-        case MS_LARGE:
-            pieces = 8;
-            skins = 8;
-            bones = 14;
-            fats = 8;
-            sinews = 14;
-            feathers = 17;
-            wool = 8;
-            max_practice = 5;
-            break;
-        case MS_HUGE:
-            pieces = 16;
-            skins = 16;
-            bones = 21;
-            fats = 16;
-            sinews = 21;
-            feathers = 24;
-            wool = 16;
-            max_practice = 6;
-            break;
+    case MS_TINY:
+        pieces = 1;
+        skins = 1;
+        bones = 1;
+        fats = 1;
+        sinews = 1;
+        feathers = 2;
+        wool = 1;
+        break;
+    case MS_SMALL:
+        pieces = 2;
+        skins = 2;
+        bones = 4;
+        fats = 2;
+        sinews = 4;
+        feathers = 6;
+        wool = 2;
+        break;
+    case MS_MEDIUM:
+        pieces = 4;
+        skins = 4;
+        bones = 9;
+        fats = 4;
+        sinews = 9;
+        feathers = 11;
+        wool = 4;
+        break;
+    case MS_LARGE:
+        pieces = 8;
+        skins = 8;
+        bones = 14;
+        fats = 8;
+        sinews = 14;
+        feathers = 17;
+        wool = 8;
+        break;
+    case MS_HUGE:
+        pieces = 16;
+        skins = 16;
+        bones = 21;
+        fats = 16;
+        sinews = 21;
+        feathers = 24;
+        wool = 16;
+        break;
     }
 
     const int skill_level = p->skillLevel( skill_survival );
 
     auto roll_butchery = [&] () {
         double skill_shift = 0.0;
-        ///\EFFECT_SURVIVAL randomly increases butcher rolls
+        ///\EFFECT_SURVIVAL randomly increases butcher rolls, slightly
         skill_shift += rng_float( 0, skill_level - 3 );
         ///\EFFECT_DEX >8 randomly increases butcher rolls, slightly, <8 decreases
         skill_shift += rng_float( 0, p->dex_cur - 8 ) / 4.0;
+        ///\EFFECT_STR >4 randomly increases butcher rolls, <4 decreases
+        if( p->str_cur < 4 ) {
+            skill_shift -= rng_float( 0, 5 * ( 4 - p->str_cur ) ) / 4.0;
+        }
 
         if( factor < 0 ) {
             skill_shift -= rng_float( 0, -factor / 5.0 );
@@ -265,9 +264,9 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         return static_cast<int>( round( skill_shift ) );
     };
 
-    int practice = std::max( 0, 4 + pieces + roll_butchery() );
+    int practice = std::max( 0, 4 + pieces + roll_butchery());
 
-    p->practice( skill_survival, practice, max_practice );
+    p->practice( skill_survival, practice );
 
     // Lose some meat, skins, etc if the rolls are low
     pieces +=   std::min( 0, roll_butchery() );
@@ -462,9 +461,9 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     }
 
     if( pieces <= 0 ) {
-        p->add_msg_if_player(m_bad, _("Your clumsy butchering destroys the flesh!"));
+        p->add_msg_if_player(m_bad, _("Your clumsy butchering destroys the meat!"));
     } else {
-        p->add_msg_if_player(m_good, _("You harvest some flesh."));
+        p->add_msg_if_player(m_good, _("You harvest some meat."));
         const itype_id meat = corpse->get_meat_itype();
         if( meat == "null" ) {
             return;
@@ -838,12 +837,12 @@ void activity_handlers::pickaxe_finish(player_activity *act, player *p)
         // Tunneling through solid rock is hungry, sweaty, tiring, backbreaking work
         // Betcha wish you'd opted for the J-Hammer ;P
         p->mod_hunger(15);
-        p->mod_thirst(15);
         if( p->has_trait("STOCKY_TROGLO") ) {
-            p->mod_fatigue(20); // Yep, dwarves can dig longer before tiring
+            p->fatigue += 20; // Yep, dwarves can dig longer before tiring
         } else {
-            p->mod_fatigue(30);
+            p->fatigue += 30;
         }
+        p->thirst += 15;
         p->mod_pain(2 * rng(1, 3));
         // Mining is construction work!
         p->practice( skill_carpentry, 5 );
@@ -851,8 +850,8 @@ void activity_handlers::pickaxe_finish(player_activity *act, player *p)
                g->m.ter(pos) != t_dirt && g->m.ter(pos) != t_grass ) {
         //Breaking up concrete on the surface? not nearly as bad
         p->mod_hunger(5);
-        p->mod_thirst(5);
-        p->mod_fatigue(10);
+        p->fatigue += 10;
+        p->thirst += 5;
     }
     g->m.destroy( pos, true );
     it->charges = std::max(long(0), it->charges - it->type->charges_to_use());
@@ -865,103 +864,74 @@ void activity_handlers::pulp_do_turn( player_activity *act, player *p )
 {
     const tripoint &pos = act->placement;
 
+    // numbers logic: a str 8 character with a butcher knife (4 bash, 18 cut)
+    // should have at least a 50% chance of damaging an intact zombie corpse (75 volume).
+    // a str 8 character with a baseball bat (28 bash, 0 cut) should have around a 25% chance.
+
     int cut_power = p->weapon.type->melee_cut;
-    // Stabbing weapons are a lot less effective at pulping
+    // stabbing weapons are a lot less effective at pulping
     if( p->weapon.has_flag("STAB") || p->weapon.has_flag("SPEAR") ) {
         cut_power /= 2;
     }
-
-    // Slicing weapons are a moderately less effective at pulping
-    if( p->weapon.has_flag("SLICE") ) {
-        cut_power = cut_power * 2 / 3;
-    }
     ///\EFFECT_STR increases pulping power, with diminishing returns
-    float pulp_power = sqrt( (p->str_cur + p->weapon.type->melee_dam) * ( cut_power + 1.0f ) );
-    // Multiplier to get the chance right + some bonus for survival skill
-    pulp_power *= 40 + p->get_skill_level( skill_survival ) * 5;
-
-    const int mess_radius = p->weapon.has_flag("MESSY") ? 2 : 1;
+    double pulp_power = sqrt((double)(p->str_cur + p->weapon.type->melee_dam)) *
+        std::min(1.0, sqrt((double)(cut_power + 1)));
+    ///\EFFECT_STR caps pulping power
+    pulp_power = std::min(pulp_power, (double)p->str_cur);
+    pulp_power *= 20; // constant multiplier to get the chance right
 
     int moves = 0;
     int &num_corpses = act->index; // use this to collect how many corpse are pulped
-    auto corpse_pile = g->m.i_at( pos );
-    for( auto &corpse : corpse_pile ) {
-        if( !corpse.is_corpse() || !corpse.get_mtype()->has_flag( MF_REVIVES )  ) {
-            // Don't smash non-rezing corpses
-            continue;
+    auto corpse_pile = g->m.i_at(pos);
+    for( auto corpse = corpse_pile.begin(); corpse != corpse_pile.end(); ++corpse ) {
+
+        if( !corpse->is_corpse() || corpse->damage >= CORPSE_PULP_THRESHOLD ) {
+            continue; // no corpse or already pulped
         }
 
-        if( corpse.damage >= CORPSE_PULP_THRESHOLD ) {
-            // Deactivate already-pulped corpses that weren't properly deactivated
-            corpse.active = false;
-            continue;
-        }
+        while( corpse->damage < CORPSE_PULP_THRESHOLD ) {
 
-        while( corpse.damage < CORPSE_PULP_THRESHOLD ) {
             // Increase damage as we keep smashing ensuring we eventually smash the target.
-            if( x_in_y( pulp_power, corpse.volume() ) ) {
-                if( ++corpse.damage == CORPSE_PULP_THRESHOLD ) {
-                    corpse.active = false;
+            if( x_in_y( pulp_power, corpse->volume() ) ) {
+                if( ++corpse->damage == CORPSE_PULP_THRESHOLD ) {
+                    corpse->active = false;
                     num_corpses++;
                 }
+                p->handle_melee_wear();
             }
 
             // Splatter some blood around
             tripoint tmp = pos;
-            field_id type_blood = corpse.get_mtype()->bloodType();
-            if( mess_radius > 1 && x_in_y( pulp_power, 10000 ) ) {
-                // Make gore instead of blood this time
-                type_blood = corpse.get_mtype()->gibType();
-            }
-            if( type_blood != fd_null && x_in_y( pulp_power, corpse.volume() ) ) {
-                // Splatter a bit more randomly, so that it looks cooler
-                const int radius = mess_radius + x_in_y( pulp_power, 500 ) + x_in_y( pulp_power, 1000 );
-                const tripoint dest( pos.x + rng( -radius, radius ), pos.y + rng( -radius, radius ), pos.z );
-                const auto blood_line = line_to( pos, dest );
-                int line_len = blood_line.size();
-                for( const auto &elem : blood_line ) {
-                    g->m.adjust_field_strength( elem, type_blood, 1 );
-                    line_len--;
-                    if( g->m.impassable( elem ) ) {
-                        // Blood splatters stop at walls.
-                        if( line_len > 0 ) {
-                            // But splatter the rest of the blood at the wall
-                            g->m.adjust_field_strength( elem, type_blood, line_len );
+            field_id type_blood = corpse->get_mtype()->bloodType();
+            if( type_blood != fd_null ) {
+                for( tmp.x = pos.x - 1; tmp.x <= pos.x + 1; tmp.x++ ) {
+                    for( tmp.y = pos.y - 1; tmp.y <= pos.y + 1; tmp.y++ ) {
+                        if( !one_in( pulp_power / std::min( corpse->volume(), 1 ) ) ) {
+                            g->m.add_field( tmp, type_blood, 1, 0 );
                         }
-
-                        break;
                     }
                 }
             }
 
-            float stamina_ratio = (float)p->stamina / p->get_stamina_max();
-            p->mod_stat( "stamina", stamina_ratio * -40 );
+            p->mod_stat( "stamina", -20 - ( p->weapon.weight() / 100 ) );
 
-            moves += 100 / std::max( 0.25f, stamina_ratio );
-            if( one_in( 4 ) ) {
-                // Smashing may not be butchery, but it involves some zombie anatomy
-                p->practice( skill_survival, 2, 2 );
-            }
-
+            moves += p->weapon.is_null() ? 80 : p->weapon.attack_time() * 0.8;
             if( moves >= p->moves ) {
-                // Enough for this turn;
-                p->moves -= moves;
+                p->moves -= moves; // enough for this turn;
                 return;
             }
         }
     }
 
-    // If we reach this, all corpses have been pulped, finish the activity
+   // If we reach this, all corpses have been pulped, finish the activity
     act->moves_left = 0;
     if( num_corpses == 0 ) {
-        p->add_msg_if_player(m_bad, _("The corpse moved before you could finish smashing it!"));
+        add_msg(m_bad, _("The corpse moved before you could finish smashing it!"));
         return;
     }
     // TODO: Factor in how long it took to do the smashing.
-    p->add_msg_player_or_npc( ngettext( "The corpse is thoroughly pulped.",
-                                        "The corpses are thoroughly pulped.", num_corpses ),
-                              ngettext( "<npcname> finished pulping the corpse.",
-                                        "<npcname> finished pulping the corpses.", num_corpses ) );
+    add_msg(ngettext("The corpse is thoroughly pulped.",
+                     "The corpses are thoroughly pulped.", num_corpses));
 }
 
 void activity_handlers::refill_vehicle_do_turn( player_activity *act, player *p )
@@ -1022,18 +992,18 @@ void activity_handlers::reload_finish( player_activity *act, player *p )
         ss >> reloadable_pos;
         reloadable = &p->i_at(reloadable_pos);
     }
-    if( reloadable->reload( *p, item_location( *p, &p->i_at( act->position ) ), act->index ) ) {
+    if( reloadable->reload(*p, act->position) ) {
         if( reloadable->is_gun() && reloadable->has_flag("RELOAD_ONE") ) {
             if( reloadable->ammo_type() == "bolt" ) {
-                add_msg(_("You insert a bolt into the %s."),
+                add_msg(_("You insert a bolt into your %s."),
                         reloadable->tname().c_str());
             } else {
-                add_msg(_("You insert a cartridge into the %s."),
+                add_msg(_("You insert a cartridge into your %s."),
                         reloadable->tname().c_str());
             }
             p->recoil = std::max(MIN_RECOIL, (MIN_RECOIL + p->recoil) / 2);
         } else {
-            add_msg(_("You reload the %s."), reloadable->tname().c_str());
+            add_msg(_("You reload your %s."), reloadable->tname().c_str());
             p->recoil = MIN_RECOIL;
         }
 
@@ -1047,7 +1017,7 @@ void activity_handlers::reload_finish( player_activity *act, player *p )
             }
         }
     } else {
-        add_msg(m_info, _("Can't reload the %s."), reloadable->tname().c_str());
+        add_msg(m_info, _("Can't reload your %s."), reloadable->tname().c_str());
     }
     act->type = ACT_NULL;
 }
@@ -1179,13 +1149,13 @@ void activity_handlers::vibe_do_turn( player_activity *act, player *p )
         p->add_morale(MORALE_FEELING_GOOD, 4, 320); //4 points/min, one hour to fill
         // 1:1 fatigue:morale ratio, so maxing the morale is possible but will take
         // you pretty close to Dead Tired from a well-rested state.
-        p->mod_fatigue(4);
+        p->fatigue += 4;
     }
     if( vibrator_item.charges == 0 ) {
         act->moves_left = 0;
         add_msg(m_info, _("The %s runs out of batteries."), vibrator_item.tname().c_str());
     }
-    if( p->get_fatigue() >= DEAD_TIRED ) { // Dead Tired: different kind of relaxation needed
+    if( p->fatigue >= DEAD_TIRED ) { // Dead Tired: different kind of relaxation needed
         act->moves_left = 0;
         add_msg(m_info, _("You're too tired to continue."));
     }
@@ -1332,13 +1302,6 @@ void activity_handlers::open_gate_finish( player_activity *act, player *p )
         open_message = _("The gate is opened!");
         close_message = _("The gate is closed!");
         bash_dmg = 40;
-    } else if (handle_type == t_gates_control_brick) {
-        wall_type = t_brick_wall;
-        door_type = t_door_metal_locked;
-        floor_type = t_floor;
-        open_message = _("The gate is opened!");
-        close_message = _("The gate is closed!");
-        bash_dmg = 40;
     } else if (handle_type == t_barndoor) {
         wall_type = t_wall_wood;
         door_type = t_door_metal_locked;
@@ -1421,8 +1384,7 @@ enum repeat_type : int {
     REPEAT_FOREVER,     // Repeat for as long as possible
     REPEAT_FULL,        // Repeat until damage==0
     REPEAT_EVENT,       // Repeat until something interesting happens
-    REPEAT_CANCEL,      // Stop repeating
-    REPEAT_INIT         // Haven't found repeat value yet.
+    REPEAT_CANCEL       // Stop repeating
 };
 
 repeat_type repeat_menu( const std::string &title, repeat_type last_selection )
@@ -1502,10 +1464,11 @@ struct weldrig_hack {
 void activity_handlers::repair_item_finish( player_activity *act, player *p )
 {
     const std::string iuse_name_string = act->get_str_value( 0, "repair_item" );
-    repeat_type repeat = (repeat_type)act->get_value( 0, REPEAT_INIT );
+    const repeat_type repeat = (repeat_type)act->get_value( 0, REPEAT_ONCE );
     weldrig_hack w_hack;
     item &main_tool = !w_hack.init( *act ) ?
-        p->i_at( act->index ) : w_hack.get_item();
+        p->i_at( act->index ) :
+        w_hack.get_item();
 
     item *used_tool = main_tool.get_usable_item( iuse_name_string );
     if( used_tool == nullptr ) {
@@ -1513,7 +1476,6 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
         act->type = ACT_NULL;
         return;
     }
-    bool event_happened = false;
 
     const auto use_fun = used_tool->get_use( iuse_name_string );
     // TODO: De-uglify this block. Something like get_use<iuse_actor_type>() maybe?
@@ -1535,40 +1497,35 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
 
     item &fix = p->i_at( act->position );
 
-    // The first time through we just find out how many times the player wants to repeat the action.
-    if( repeat != REPEAT_INIT ) {
-        // Remember our level: we want to stop retrying on level up
-        const int old_level = p->get_skill_level( actor->used_skill );
-        const auto attempt = actor->repair( *p, *used_tool, fix );
-        if( attempt != repair_item_actor::AS_CANT ) {
-            p->consume_charges( *used_tool, charges_to_use );
-        }
+    // Remember our level: we want to stop retrying on level up
+    const int old_level = p->get_skill_level( actor->used_skill );
+    const auto attempt = actor->repair( *p, *used_tool, fix );
+    if( attempt != repair_item_actor::AS_CANT ) {
+        p->consume_charges( *used_tool, charges_to_use );
+    }
 
-        // Print message explaining why we stopped
-        // But only if we didn't destroy the item (because then it's obvious)
-        const bool destroyed = attempt == repair_item_actor::AS_DESTROYED;
-        if( attempt == repair_item_actor::AS_CANT ||
-            destroyed ||
-            !actor->can_repair( *p, *used_tool, fix, !destroyed ) ) {
-            // Can't repeat any more
-            act->type = ACT_NULL;
-            w_hack.clean_up();
-            return;
-        }
-
-        event_happened =
-            attempt == repair_item_actor::AS_FAILURE ||
-            attempt == repair_item_actor::AS_SUCCESS ||
-            old_level != p->get_skill_level( actor->used_skill );
-    } else {
-        repeat = REPEAT_ONCE;
+    // Print message explaining why we stopped
+    // But only if we didn't destroy the item (because then it's obvious)
+    const bool destroyed = attempt == repair_item_actor::AS_DESTROYED;
+    if( attempt == repair_item_actor::AS_CANT ||
+        destroyed ||
+        !actor->can_repair( *p, *used_tool, fix, !destroyed ) ) {
+        // Can't repeat any more
+        act->type = ACT_NULL;
+        w_hack.clean_up();
+        return;
     }
 
     w_hack.clean_up();
+
+    const bool event_happened =
+        attempt == repair_item_actor::AS_FAILURE ||
+        attempt == repair_item_actor::AS_SUCCESS ||
+        old_level != p->get_skill_level( actor->used_skill );
     const bool need_input =
         repeat == REPEAT_ONCE ||
-        ( repeat == REPEAT_EVENT && event_happened ) ||
-        ( repeat == REPEAT_FULL && fix.damage <= 0 );
+        (repeat == REPEAT_EVENT && event_happened) ||
+        (repeat == REPEAT_FULL && fix.damage <= 0);
 
     if( need_input ) {
         g->draw();
@@ -1627,7 +1584,7 @@ void activity_handlers::gunmod_add_finish( player_activity *act, player *p )
     }
 
     if( rng( 0, 100 ) <= roll ) {
-        add_msg( m_good, _( "You successfully attached the %1$s to your %2$s." ), mod.tname().c_str(),
+        add_msg( m_good, _( "You sucessfully attached the %1$s to your %2$s." ), mod.tname().c_str(),
                  gun.tname().c_str() );
         gun.contents.push_back( p->i_rem( &mod ) );
 

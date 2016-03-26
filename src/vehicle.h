@@ -120,8 +120,6 @@ vehicle_stack( std::list<item> *newstack, point newloc, vehicle *neworigin, int 
 struct vehicle_part : public JsonSerializer, public JsonDeserializer
 {
     friend vehicle;
-    friend visitable<vehicle_cursor>;
-
     enum : int { passenger_flag = 1 };
 
     vehicle_part( int dx = 0, int dy = 0 );
@@ -771,20 +769,12 @@ public:
     // Set up the turret to fire
     bool fire_turret( int p, bool manual );
 
-    /*
-     * Fire turret at some automatically acquired target
-     * @param p part number for the turret
-     * @return number of shots actually fired (which may be zero)
-     */
-    int automatic_fire_turret( int p, item &gun );
+    // Fire turret at some automatically acquired target
+    bool automatic_fire_turret( int p, const itype &guntype, const itype &ammotype, long &charges );
 
-    /*
-     * Aim and fire turret manually
-     * @param p part number for the turret
-     * @return number of shots actually fired (which may be zero)
-     */
+    // Aim and fire turret manually
     // TODO: Make it work correctly with UPS-powered turrets when player has a UPS already
-    int manual_fire_turret( int p, player &shooter, item &gun );
+    bool manual_fire_turret( int p, player &shooter, const itype &guntype, const itype &ammotype, long &charges );
 
     // Update the set of occupied points and return a reference to it
     std::set<tripoint> &get_points( bool force_refresh = false );

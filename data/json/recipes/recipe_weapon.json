@@ -795,7 +795,6 @@
       [ "brandy", 14 ],
       [ "chem_ethanol", 14],
       [ "denat_alcohol", 14],
-      [ "mixed_alcohol_strong", 14 ],
       [ "lamp_oil", 400 ],
       [ "gasoline", 600 ],
       [ "diesel", 600 ]
@@ -1588,6 +1587,37 @@
   ]
 },{
   "type" : "recipe",
+  "result": "surv_levershotgun",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_RANGED",
+  "skill_used": "mechanics",
+  "skills_required": [ "gun", 5 ],
+  "difficulty": 7,
+  "time": 480000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"SAW_M_FINE","level":1,"amount":1},
+    {"id":"SCREW_FINE","level":1,"amount":1},
+    {"id":"WRENCH_FINE","level":1,"amount":1}
+  ], "tools": [
+    [ ["goggles_welding", -1] ],
+    [
+      ["oxy_torch", 60],
+      ["welder", 300],
+      ["large_repairkit", 150],
+      ["small_repairkit", 300],
+      ["welder_crude", 450],
+      ["toolset", 450]
+    ]
+  ], "components": [
+    [ [ "pipe", 2 ] ],
+    [ [ "spring", 1 ] ],
+    [ [ "steel_chunk", 3 ] ],
+    [ [ "2x4", 1 ] ]
+  ]
+},{
+  "type" : "recipe",
   "result": "rifle_3006",
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_RANGED",
@@ -1870,40 +1900,6 @@
     ]
   ]
 },{
-  "type": "recipe",
-  "result": "nail_bomb",
-  "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_EXPLOSIVE",
-  "skill_used": "fabrication",
-  "skills_required": [ "mechanics", 1 ],
-  "difficulty": 2,
-  "time": 5000,
-  "reversible": true,
-  "autolearn": true,
-  "qualities" : [],
-  "components": [
-    [
-      [ "superglue", 1 ],
-      [ "duct_tape", 75 ],
-      [ "string_36", 1 ]
-    ],
-    [
-      [ "bottle_glass", 1 ],
-      [ "clay_canister", 1 ],
-      [ "flask_glass", 1 ]
-    ],
-    [
-      [ "nail", 40 ]
-    ],
-    [
-      [ "gunpowder", 72 ],
-      [ "chem_black_powder", 144 ],
-      [ "gasoline", 200 ],
-      [ "diesel", 200 ],
-      [ "shot_bird", 6 ]
-    ]
-  ]
-},{
   "type" : "recipe",
   "result": "combatsaw_off",
   "category": "CC_WEAPON",
@@ -2163,7 +2159,6 @@
       [ "brandy", 7 ],
       [ "chem_ethanol", 7],
       [ "denat_alcohol", 7],
-      [ "mixed_alcohol_strong", 7 ],
       [ "tallow", 1 ],
       [ "tallow_tainted", 1 ]
     ],
@@ -2202,7 +2197,6 @@
       [ "brandy", 7 ],
       [ "chem_ethanol", 7],
       [ "denat_alcohol", 7],
-      [ "mixed_alcohol_strong", 14 ],
       [ "tallow", 1 ],
       [ "tallow_tainted", 1 ]
     ],

@@ -514,6 +514,12 @@ action_id handle_action_menu()
         action_weightings[ACTION_TOGGLE_MOVE] = 300;
     }
 
+    // If our wielded item is a gun, doesn't have full ammo, and we do have the ammo,
+    // prioritize reloading.
+    if( g->u.can_reload() ) {
+        action_weightings[ACTION_RELOAD] = 250;
+    }
+
     // Check if we're on a vehicle, if so, vehicle controls should be top.
     {
         int veh_part = 0;

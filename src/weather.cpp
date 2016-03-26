@@ -1,9 +1,7 @@
-#include "weather.h"
-
-#include "coordinate_conversions.h"
 #include "options.h"
 #include "game.h"
 #include "map.h"
+#include "weather.h"
 #include "messages.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
@@ -13,7 +11,6 @@
 #include "weather_gen.h"
 #include "sounds.h"
 #include "cata_utility.h"
-#include "player.h"
 
 #include <vector>
 #include <sstream>
@@ -35,16 +32,16 @@ const efftype_id effect_glare( "glare" );
  */
 void weather_effect::glare()
 {
-    if( PLAYER_OUTSIDE && g->is_in_sunlight( g->u.pos() ) && !g->u.in_sleep_state() &&
-        !g->u.worn_with_flag( "SUN_GLASSES" ) && !g->u.has_bionic( "bio_sunglasses" ) ) {
-        if( !g->u.has_effect( effect_glare ) ) {
-            if( g->u.has_trait( "CEPH_VISION" ) ) {
+    if (PLAYER_OUTSIDE && g->is_in_sunlight(g->u.pos()) &&
+        !g->u.worn_with_flag("SUN_GLASSES") && !g->u.has_bionic("bio_sunglasses")) {
+        if(!g->u.has_effect( effect_glare)) {
+            if (g->u.has_trait("CEPH_VISION")) {
                 g->u.add_env_effect( effect_glare, bp_eyes, 2, 4 );
             } else {
                 g->u.add_env_effect( effect_glare, bp_eyes, 2, 2 );
             }
         } else {
-            if( g->u.has_trait( "CEPH_VISION" ) ) {
+            if (g->u.has_trait("CEPH_VISION")) {
                 g->u.add_env_effect( effect_glare, bp_eyes, 2, 2 );
             } else {
                 g->u.add_env_effect( effect_glare, bp_eyes, 2, 1 );
@@ -60,7 +57,7 @@ int get_rot_since( const int startturn, const int endturn, const tripoint &locat
 {
     // Ensure food doesn't rot in ice labs, where the
     // temperature is much less than the weather specifies.
-    tripoint const omt_pos = ms_to_omt_copy( location );
+    tripoint const omt_pos = overmapbuffer::ms_to_omt_copy( location );
     oter_id const & oter = overmap_buffer.ter( omt_pos );
     // TODO: extract this into a property of the overmap terrain
     if (is_ot_type("ice_lab", oter)) {
@@ -309,58 +306,59 @@ void fill_water_collectors(int mmPerHour, bool acid)
  * Main routine for wet effects caused by weather.
  * Drenching the player is applied after checks against worn and held items.
  *
- * The warmth of armor is considered when determining how much drench happens per tick.
+ * The warmth of armor is considered when determining how much drench happens.
  *
- * Note that this is not the only place where drenching can happen.
- * For example, moving or swimming into water tiles will also cause drenching.
+ * Note that this is not the only place where drenching can happen. For example, moving or swimming into water tiles will also cause drenching.
  * @see fill_water_collectors
  * @see map::decay_fields_and_scent
  * @see player::drench
  */
-void wet_player( int amount )
-{
-    if( !PLAYER_OUTSIDE ||
-        g->u.has_trait("FEATHERS") ||
-        g->u.weapon.has_flag("RAIN_PROTECT") ||
-        ( !one_in(50) && g->u.worn_with_flag("RAINPROOF") ) ) {
-        return;
-    }
-
-    if( rng( 0, 100 - amount + g->u.warmth( bp_torso ) * 4 / 5 + g->u.warmth( bp_head ) / 5 ) > 10 ) {
-        // Thick clothing slows down (but doesn't cap) soaking
-        return;
-    }
-
-    const auto &wet = g->u.body_wetness;
-    const auto &capacity = g->u.drench_capacity;
-    int drenched_parts = mfb(bp_torso) | mfb(bp_arm_l) | mfb(bp_arm_r) | mfb(bp_head);
-    if( wet[bp_torso] * 100 >= capacity[bp_torso] * 50 ) {
-        // Once upper body is 50%+ drenched, start soaking the legs too
-        drenched_parts = drenched_parts | mfb(bp_leg_l) | mfb(bp_leg_r) ;
-    }
-
-    g->u.drench( amount, drenched_parts, false );
-}
-
-/**
- * Main routine for wet effects caused by weather.
- */
 void generic_wet(bool acid)
 {
-    fill_water_collectors(4, acid);
+    if ((!g->u.worn_with_flag("RAINPROOF") || one_in(100)) &&
+        (!g->u.weapon.has_flag("RAIN_PROTECT") || one_in(20)) && !g->u.has_trait("FEATHERS") &&
+        (g->u.warmth(bp_torso) * 4 / 5 + g->u.warmth(bp_head) / 5) < 30 && PLAYER_OUTSIDE &&
+        one_in(2)) {
+        if (g->u.weapon.has_flag("RAIN_PROTECT")) {
+            // Umbrellas tend to protect one's head and torso pretty well
+            g->u.drench(30 - (g->u.warmth(bp_leg_l) + (g->u.warmth(bp_leg_r)) * 2 / 5 +
+                              (g->u.warmth(bp_foot_l) + g->u.warmth(bp_foot_r)) / 10),
+                        mfb(bp_leg_l) | mfb(bp_leg_r), false );
+        } else {
+            g->u.drench(30 - (g->u.warmth(bp_torso) * 4 / 5 + g->u.warmth(bp_head) / 5),
+                        mfb(bp_torso) | mfb(bp_arm_l) | mfb(bp_arm_r) | mfb(bp_head), false );
+        }
+    }
+
+    fill_water_collectors(4, acid); // fixme; consolidate drench and this.
     g->m.decay_fields_and_scent( 15 );
-    wet_player( 30 );
 }
 
 /**
  * Main routine for very wet effects caused by weather.
  * Similar to generic_wet() but with more aggressive numbers.
+ * @see fill_water_collectors
+ * @see map::decay_fields_and_scent
+ * @see player::drench
  */
 void generic_very_wet(bool acid)
 {
-    fill_water_collectors( 8, acid );
+    if ((!g->u.worn_with_flag("RAINPROOF") || one_in(50)) &&
+        (!g->u.weapon.has_flag("RAIN_PROTECT") || one_in(10)) && !g->u.has_trait("FEATHERS") &&
+        (g->u.warmth(bp_torso) * 4 / 5 + g->u.warmth(bp_head) / 5) < 60 && PLAYER_OUTSIDE) {
+        if (g->u.weapon.has_flag("RAIN_PROTECT")) {
+            // Umbrellas tend to protect one's head and torso pretty well
+            g->u.drench(60 - ((g->u.warmth(bp_leg_l) + g->u.warmth(bp_leg_r)) * 2 / 5 +
+                              (g->u.warmth(bp_foot_l) + g->u.warmth(bp_foot_r)) / 10),
+                        mfb(bp_leg_l) | mfb(bp_leg_r), false );
+        } else {
+            g->u.drench(60 - (g->u.warmth(bp_torso) * 4 / 5 + g->u.warmth(bp_head) / 5),
+                        mfb(bp_torso) | mfb(bp_arm_l) | mfb(bp_arm_r) | mfb(bp_head), false );
+        }
+    }
+
+    fill_water_collectors(8, acid);
     g->m.decay_fields_and_scent( 45 );
-    wet_player( 60 );
 }
 
 void weather_effect::none()      {};
@@ -448,7 +446,7 @@ void weather_effect::light_acid()
                     add_msg(_("Your power armor protects you from the acidic drizzle."));
                 } else {
                     add_msg(m_warning, _("The acid rain stings, but is mostly harmless for now..."));
-                    if (one_in(10) && (g->u.get_pain() < 10)) {
+                    if (one_in(10) && (g->u.pain < 10)) {
                         g->u.mod_pain(1);
                     }
                 }
@@ -475,7 +473,7 @@ void weather_effect::acid()
                     add_msg(_("Your power armor protects you from the acid rain."));
                 } else {
                     add_msg(m_bad, _("The acid rain burns!"));
-                    if (one_in(2) && (g->u.get_pain() < 100)) {
+                    if (one_in(2) && (g->u.pain < 100)) {
                         g->u.mod_pain( rng(1, 5) );
                     }
                 }
@@ -542,7 +540,7 @@ std::string weather_forecast( point const &abs_sm_pos )
     // int weather_proportions[NUM_WEATHER_TYPES] = {0};
     double high = -100.0;
     double low = 100.0;
-    point const abs_ms_pos = sm_to_ms_copy( abs_sm_pos );
+    point const abs_ms_pos = overmapbuffer::sm_to_ms_copy( abs_sm_pos );
     // TODO wind direction and speed
     int last_hour = calendar::turn - ( calendar::turn % HOURS(1) );
     for(int d = 0; d < 6; d++) {

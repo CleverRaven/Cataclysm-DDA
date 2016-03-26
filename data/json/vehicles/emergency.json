@@ -87,9 +87,10 @@
             {"x": -3, "y": 2, "part": "wheel"}
         ],
         "items" : [
-            {"x": -2, "y": 0, "chance": 5, "item_groups": ["tools_entry"]},
+            {"x": 0, "y": 0, "chance": 5, "items": ["remington_870"]},
+            {"x": 0, "y": 0, "chance": 5, "items": ["shot_slug"]},
             {"x": -2, "y": 0, "chance": 5, "item_groups": ["cop_gear"]},
-            {"x": -2, "y": 1, "chance": 3, "item_groups": ["cop_weapons"], "magazine": 100, "ammo": 50 }
+            {"x": -2, "y": 1, "chance": 3, "item_groups": ["cop_weapons"]}
         ]
     },{
         "type" : "vehicle",
@@ -178,7 +179,10 @@
             {"x": -3, "y": 2, "part": "wheel"}
         ],
         "items" : [
-            { "x": -2, "y": 1, "chance": 75, "item_groups": [ "guns_cop" ], "magazine": 100, "ammo": 50 }
+            {"x": 0, "y": 0, "chance": 20, "items": ["rm103a_pistol", "8mm_caseless"]},
+            {"x": 0, "y": 0, "chance": 20, "items": ["sw_610"]},
+            {"x": 0, "y": 0, "chance": 75, "items": ["glock_22"]},
+            {"x": 0, "y": 0, "chance": 75, "items": ["40sw"]}
         ]            
     },{
         "type" : "vehicle",
@@ -357,15 +361,15 @@
             {"x": -5, "y": 3, "part": "plating_steel"}
         ],
         "items" : [
-            {"x": -2, "y": 0, "chance": 50, "item_groups": [ "swat_gear" ] },
-            {"x": -2, "y": 2, "chance": 50, "item_groups": [ "guns_swat" ], "magazine": 100, "ammo": 50 },
-            {"x": -2, "y": 2, "chance": 50, "item_groups": [ "ammo_swat" ] },
-            {"x": -3, "y": 0, "chance": 50, "item_groups": [ "guns_swat" ], "magazine": 100, "ammo": 50 },
-            {"x": -3, "y": 0, "chance": 50, "item_groups": [ "mags_swat" ] },
-            {"x": -3, "y": 2, "chance": 50, "item_groups": [ "swat_gear" ] },
-            {"x": -4, "y": 0, "chance": 50, "item_groups": [ "guns_swat" ], "magazine": 100, "ammo": 50 },
-            {"x": -4, "y": 0, "chance": 50, "item_groups": [ "ammo_swat" ] },
-            {"x": -4, "y": 2, "chance": 50, "item_groups": [ "swat_gear" ] }
+            {"x": -2, "y": 0, "chance": 50, "item_groups": ["swat_gear", "swat_gear"]},
+            {"x": -2, "y": 2, "chance": 50, "item_groups": ["swat_gear", "swat_gear"]},
+            {"x": -2, "y": 2, "chance": 20, "item_groups": ["swat_gear", "swat_gear"]},
+            {"x": -3, "y": 0, "chance": 50, "item_groups": ["swat_gear", "swat_gear"]},
+            {"x": -3, "y": 0, "chance": 20, "item_groups": ["swat_gear", "swat_gear", "swat_gear"]},
+            {"x": -3, "y": 2, "chance": 50, "item_groups": ["swat_gear", "swat_gear"]},
+            {"x": -4, "y": 0, "chance": 50, "item_groups": ["swat_gear", "swat_gear"]},
+            {"x": -4, "y": 0, "chance": 20, "item_groups": ["swat_gear", "swat_gear"]},
+            {"x": -4, "y": 2, "chance": 50, "item_groups": ["swat_gear", "swat_gear"]}
         ]
     },{
         "type" : "vehicle",
@@ -579,7 +583,6 @@
             {"x": 0, "y": -1, "part": "hdframe_vertical"},
             {"x": 0, "y": -1, "part": "door"},
             {"x": 0, "y": -1, "part": "roof"},
-            {"x": 0, "y": -1, "part": "wheel_wide_steerable"},
             {"x": 0, "y": 0, "part": "hdframe_horizontal"},
             {"x": 0, "y": 0, "part": "seat"},
             {"x": 0, "y": 0, "part": "seatbelt"},
@@ -599,8 +602,8 @@
             {"x": 0, "y": 3, "part": "hdframe_vertical"},
             {"x": 0, "y": 3, "part": "door"},
             {"x": 0, "y": 3, "part": "roof"},
-            {"x": 0, "y": 3, "part": "wheel_wide_steerable"},
             {"x": -1, "y": -1, "part": "hdframe_vertical"},
+            {"x": -1, "y": -1, "part": "wheel_wide_steerable"},
             {"x": -1, "y": -1, "part": "board_vertical"},
             {"x": -1, "y": -1, "part": "roof"},
             {"x": -1, "y": 0, "part": "hdframe_horizontal"},
@@ -618,6 +621,7 @@
             {"x": -1, "y": 2, "part": "roof"},
             {"x": -1, "y": 2, "part": "light_red"},
             {"x": -1, "y": 3, "part": "hdframe_vertical"},
+            {"x": -1, "y": 3, "part": "wheel_wide_steerable"},
             {"x": -1, "y": 3, "part": "board_vertical"},
             {"x": -1, "y": 3, "part": "roof"},
             {"x": -2, "y": -1, "part": "hdframe_vertical"},

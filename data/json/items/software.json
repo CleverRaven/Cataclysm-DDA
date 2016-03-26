@@ -11,7 +11,6 @@
         "weight": 0,
         "volume": 0,
         "container": "usb_drive",
-        "flags": ["IRREMOVABLE", "NO_DROP"],
         "software_data": {
             "power": 0,
             "type": "USELESS"
@@ -29,7 +28,6 @@
         "weight": 0,
         "volume": 0,
         "container": "usb_drive",
-        "flags": ["IRREMOVABLE", "NO_DROP"],
         "software_data": {
             "power": 2,
             "type": "HACKING"
@@ -47,7 +45,6 @@
         "weight": 0,
         "volume": 0,
         "container": "usb_drive",
-        "flags": ["IRREMOVABLE", "NO_DROP"],
         "software_data": {
             "power": 2,
             "type": "MEDICAL"
@@ -65,7 +62,6 @@
         "weight": 0,
         "volume": 0,
         "container": "usb_drive",
-        "flags": ["IRREMOVABLE", "NO_DROP"],
         "software_data": {
             "power": 3,
             "type": "SCIENCE"
@@ -83,7 +79,6 @@
         "weight": 0,
         "volume": 0,
         "container": "usb_drive",
-        "flags": ["IRREMOVABLE", "NO_DROP"],
         "software_data": {
             "power": 5,
             "type": "DATA"

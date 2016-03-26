@@ -12,7 +12,6 @@
 #include "ui.h"
 #include "mutation.h"
 #include "mtype.h"
-#include "player.h"
 
 #include <sstream>
 

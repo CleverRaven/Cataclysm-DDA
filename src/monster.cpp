@@ -1,6 +1,4 @@
 #include "monster.h"
-
-#include "coordinate_conversions.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mondeath.h"
@@ -1119,12 +1117,16 @@ void monster::deal_damage_handle_type(const damage_unit& du, body_part bp, int& 
     switch (du.type) {
     case DT_ELECTRIC:
         if (has_flag(MF_ELECTRIC)) {
-            return; // immunity
+            damage += 0; // immunity
+            pain += 0;
+            return; // returns, since we don't want a fallthrough
         }
         break;
     case DT_COLD:
         if (!has_flag(MF_WARM)) {
-            return; // immunity
+            damage += 0; // immunity
+            pain += 0;
+            return;
         }
         break;
     case DT_BASH:
@@ -1139,7 +1141,9 @@ void monster::deal_damage_handle_type(const damage_unit& du, body_part bp, int& 
         break;
     case DT_ACID:
         if( has_flag( MF_ACIDPROOF ) ) {
-            return; // immunity
+            damage += 0; // immunity
+            pain += 0;
+            return;
         }
     case DT_TRUE: // typeless damage, should always go through
     case DT_BIOLOGICAL: // internal damage, like from smoke or poison
@@ -1649,7 +1653,7 @@ void monster::die(Creature* nkiller)
     if( !is_hallucination() && has_flag( MF_QUEEN ) ) {
         // The submap coordinates of this monster, monster groups coordinates are
         // submap coordinates.
-        const point abssub = ms_to_sm_copy( g->m.getabs( posx(), posy() ) );
+        const point abssub = overmapbuffer::ms_to_sm_copy( g->m.getabs( posx(), posy() ) );
         // Do it for overmap above/below too
         for( int z = 1; z >= -1; --z ) {
             for( int x = -MAPSIZE / 2; x <= MAPSIZE / 2; x++ ) {

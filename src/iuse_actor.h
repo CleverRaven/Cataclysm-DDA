@@ -6,7 +6,6 @@
 #include "color.h"
 #include "bodypart.h"
 #include "string_id.h"
-#include "explosion.h"
 #include <limits.h>
 
 struct vehicle_prototype;
@@ -20,8 +19,6 @@ class Skill;
 using skill_id = string_id<Skill>;
 class effect_type;
 using efftype_id = string_id<effect_type>;
-using ammotype = std::string;
-using itype_id = std::string;
 
 /**
  * Transform an item into a specific type.
@@ -75,7 +72,6 @@ class iuse_transform : public iuse_actor
         virtual void load( JsonObject &jo );
         virtual long use(player *, item *, bool, const tripoint& ) const override;
         virtual iuse_actor *clone() const override;
-        std::string get_name() const override;
 };
 
 /**
@@ -118,15 +114,12 @@ class auto_iuse_transform : public iuse_transform
 class explosion_iuse : public iuse_actor
 {
     public:
-        // Structure describing the explosion + shrapnel
-        // Ignored if its power field is < 0
-        explosion_data explosion;
-
-        /** Maximum percentage of count that should be dropped within area of effect */
-        int shrapnel_recovery = 0;
-        /** What type of shrapnel to drop */
-        itype_id shrapnel_drop = "null";
-
+        // Those 4 values are forwarded to game::explosion.
+        // No explosion is done if power < 0
+        float explosion_power;
+        float explosion_distance_factor;
+        int explosion_shrapnel;
+        bool explosion_fire;
         // Those 2 values are forwarded to game::draw_explosion,
         // Nothing is drawn if radius < 0 (game::explosion might still draw something)
         int draw_explosion_radius;
@@ -152,6 +145,10 @@ class explosion_iuse : public iuse_actor
 
         explosion_iuse()
             : iuse_actor()
+            , explosion_power(-1)
+            , explosion_distance_factor(0.8f)
+            , explosion_shrapnel(-1)
+            , explosion_fire(false)
             , draw_explosion_radius(-1)
             , draw_explosion_color(c_white)
             , do_flashbang(false)
@@ -640,30 +637,6 @@ class holster_actor : public iuse_actor
 };
 
 /**
- * Store ammo and later reload using it
- */
-class bandolier_actor : public iuse_actor
-{
-    public:
-        /** Total number of rounds that can be stored **/
-        int capacity = 1;
-        /** What types of ammo can be stored? */
-        std::set<ammotype> ammo;
-
-        /** Check if obj could be stored in the bandolier */
-        bool can_store( const item& bandolier, const item& obj ) const;
-
-        /** Store ammo in the bandolier */
-        bool store( player &p, item& bandolier, item& obj ) const;
-
-        virtual ~bandolier_actor() { }
-        virtual void load( JsonObject &jo );
-        virtual long use( player *, item *, bool, const tripoint & ) const override;
-        virtual iuse_actor *clone() const override;
-        virtual void info( const item &, std::vector<iteminfo> & ) const override;
-};
-
-/**
  * Repair an item
  */
 class repair_item_actor : public iuse_actor
@@ -783,7 +756,6 @@ class heal_actor : public iuse_actor
         virtual void load( JsonObject &jo );
         virtual long use( player *, item *, bool, const tripoint & ) const override;
         virtual iuse_actor *clone() const override;
-        virtual void info( const item &, std::vector<iteminfo> & ) const override;
 };
 
 #endif

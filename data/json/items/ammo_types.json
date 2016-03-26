@@ -7,6 +7,12 @@
     },
     {
         "type" : "ammunition_type",
+        "id" : "generic_no_ammo",
+        "name" : "none",
+        "default" : ""
+    },
+    {
+        "type" : "ammunition_type",
         "id" : "pointer_fake_ammo",
         "name" : "none", 
         "default" : "pointer_fake_ammo"
@@ -241,6 +247,12 @@
     },
     {
         "type" : "ammunition_type",
+        "id" : "laser_capacitor",
+        "name" : "charge",
+        "default" : "laser_pack"
+    },
+    {
+        "type" : "ammunition_type",
         "id" : "plutonium",
         "name" : "plutonium",
         "default" : "plut_cell"
@@ -391,7 +403,7 @@
     },
     {
         "type" : "ammunition_type",
-        "id" : "flintlock",
+        "id" : "ammo_flintlock",
         "name" : "paper cartridge",
         "default" : "flintlock_ammo"
     },

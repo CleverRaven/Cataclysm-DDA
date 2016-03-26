@@ -8,7 +8,7 @@
 #include "overmapbuffer.h"
 #include "sounds.h"
 #include "translations.h"
-#include "morale_types.h"
+#include "morale.h"
 #include "messages.h"
 #include "material.h"
 #include "event.h"
@@ -22,7 +22,6 @@
 #include "weather.h"
 #include "pldata.h"
 #include "recipe_dictionary.h"
-#include "player.h"
 
 #include <sstream>
 #include <algorithm>
@@ -68,9 +67,6 @@ void iuse_transform::load( JsonObject &obj )
     obj.read( "need_charges_msg", need_charges_msg );
     obj.read( "moves", moves );
     obj.read( "menu_option_text", menu_option_text );
-    if( !menu_option_text.empty() ) {
-        menu_option_text = _( menu_option_text.c_str() );
-    }
 }
 
 long iuse_transform::use(player *p, item *it, bool t, const tripoint &pos ) const
@@ -111,7 +107,10 @@ long iuse_transform::use(player *p, item *it, bool t, const tripoint &pos ) cons
         // Transform into something in a container, assume the content is
         // "created" right now and give the content the current time as birthday
         it->convert( container_id );
-        target = &it->emplace_back( target_id );
+        it->unset_curammo();
+        it->charges = -1;
+        it->contents.push_back(item(target_id, calendar::turn));
+        target = &it->contents.back();
     }
     target->active = active;
     if (target_charges > -2) {
@@ -133,13 +132,50 @@ long iuse_transform::use(player *p, item *it, bool t, const tripoint &pos ) cons
     return 0;
 }
 
-std::string iuse_transform::get_name() const
+
+
+auto_iuse_transform::~auto_iuse_transform()
 {
-    if( !menu_option_text.empty() ) {
-        return menu_option_text;
-    }
-    return iuse_actor::get_name();
 }
+
+iuse_actor *auto_iuse_transform::clone() const
+{
+    return new auto_iuse_transform(*this);
+}
+
+void auto_iuse_transform::load( JsonObject &obj )
+{
+    iuse_transform::load( obj );
+    obj.read( "when_underwater", when_underwater );
+    obj.read( "non_interactive_msg", non_interactive_msg );
+}
+
+long auto_iuse_transform::use(player *p, item *it, bool t, const tripoint &pos) const
+{
+    if (t) {
+        if (!when_underwater.empty() && p != NULL && p->is_underwater()) {
+            // Dirty hack to display the "when underwater" message instead of the normal message
+            std::swap(const_cast<auto_iuse_transform *>(this)->when_underwater,
+                      const_cast<auto_iuse_transform *>(this)->msg_transform);
+            const long tmp = iuse_transform::use(p, it, t, pos);
+            std::swap(const_cast<auto_iuse_transform *>(this)->when_underwater,
+                      const_cast<auto_iuse_transform *>(this)->msg_transform);
+            return tmp;
+        }
+        // Normal use, don't need to do anything here.
+        return 0;
+    }
+    if (it->charges > 0 && !non_interactive_msg.empty()) {
+        if( p != nullptr ) {
+            p->add_msg_if_player(m_info, _( non_interactive_msg.c_str() ), it->tname().c_str());
+        }
+        // Activated by the player, but not allowed to do so
+        return 0;
+    }
+    return iuse_transform::use(p, it, t, pos);
+}
+
+
 
 explosion_iuse::~explosion_iuse()
 {
@@ -155,11 +191,10 @@ extern std::vector<tripoint> points_for_gas_cloud(const tripoint &center, int ra
 
 void explosion_iuse::load( JsonObject &obj )
 {
-    if( obj.has_object( "explosion" ) ) {
-        auto expl = obj.get_object( "explosion" );
-        explosion = load_explosion_data( expl );
-    }
-
+    obj.read( "explosion_power", explosion_power );
+    obj.read( "explosion_shrapnel", explosion_shrapnel );
+    obj.read( "explosion_distance_factor", explosion_distance_factor );
+    obj.read( "explosion_fire", explosion_fire );
     obj.read( "draw_explosion_radius", draw_explosion_radius );
     if( obj.has_member( "draw_explosion_color" ) ) {
         draw_explosion_color = color_from_string( obj.get_string( "draw_explosion_color" ) );
@@ -196,11 +231,9 @@ long explosion_iuse::use(player *p, item *it, bool t, const tripoint &pos) const
         }
         return 0;
     }
-
-    if( explosion.power >= 0.0f ) {
-        g->explosion( pos, explosion );
+    if (explosion_power >= 0) {
+        g->explosion( pos, explosion_power, explosion_distance_factor, explosion_shrapnel, explosion_fire );
     }
-
     if (draw_explosion_radius >= 0) {
         g->draw_explosion( pos, draw_explosion_radius, draw_explosion_color);
     }
@@ -1877,156 +1910,6 @@ long holster_actor::use( player *p, item *it, bool, const tripoint & ) const
     return 0;
 }
 
-iuse_actor *bandolier_actor::clone() const
-{
-    return new bandolier_actor( *this );
-}
-
-void bandolier_actor::load( JsonObject &obj )
-{
-    capacity = obj.get_int( "capacity", capacity );
-    ammo = obj.get_tags( "ammo" );
-}
-
-void bandolier_actor::info( const item&, std::vector<iteminfo>& dump ) const
-{
-    if( !ammo.empty() ) {
-        auto str = std::accumulate( std::next( ammo.begin() ), ammo.end(),
-                                    string_format( "<stat>%s</stat>", ammo_name( *ammo.begin() ).c_str() ),
-                                    [&]( const std::string& lhs, const ammotype& rhs ) {
-                return lhs + string_format( ", <stat>%s</stat>", ammo_name( rhs ).c_str() );
-        } );
-
-        dump.emplace_back( "TOOL", string_format(
-            ngettext( "Can be activated to store a single round of ",
-                      "Can be activated to store up to <stat>%i</stat> rounds of ", capacity ),
-                      capacity ),
-            str );
-    }
-}
-
-bool bandolier_actor::can_store( const item &bandolier, const item &obj ) const
-{
-    if( !obj.is_ammo() ) {
-        return false;
-    }
-    if( !bandolier.contents.empty() && ( bandolier.contents[0].typeId() != obj.typeId() ||
-                                         bandolier.contents[0].charges >= capacity ) ) {
-        return false;
-    }
-    return std::count( ammo.begin(), ammo.end(), obj.type->ammo->type );
-}
-
-bool bandolier_actor::store( player &p, item &bandolier, item &obj ) const
-{
-    if( obj.is_null() || bandolier.is_null() ) {
-        debugmsg( "Null item was passed to bandolier_actor" );
-        return false;
-    }
-
-    if( !p.has_item( obj ) ) {
-        debugmsg( "Tried to store item not in player possession in bandolier" );
-        return false;
-    }
-
-    // if selected item is unsuitable inform the player why not
-    if( !obj.is_ammo() ) {
-        p.add_msg_if_player( m_info, _( "That %1$s isn't ammo!" ), obj.tname().c_str() );
-        return false;
-    }
-
-    if( !std::count( ammo.begin(), ammo.end(), obj.type->ammo->type ) ) {
-        p.add_msg_if_player( m_info, _( "Your %1$s can't store that type of ammo" ),
-                             bandolier.type_name().c_str() );
-        return false;
-    }
-
-    long qty;
-
-    if( bandolier.contents.empty() ) {
-        qty = std::min( obj.charges, long( capacity ) );
-
-        item put = obj.split( qty );
-        if( !put.is_null() ) {
-            bandolier.put_in( put );
-        } else {
-            bandolier.put_in( p.i_rem( &obj ) );
-        }
-    } else {
-        qty = std::min( obj.charges, capacity - bandolier.contents[0].charges );
-
-        if( bandolier.contents[0].typeId() != obj.typeId() ) {
-            p.add_msg_if_player( m_info, _( "Your %1$s already contains a different type of ammo" ),
-                                 bandolier.type_name().c_str() );
-            return false;
-        }
-        if( qty <= 0 ) {
-            p.add_msg_if_player( m_info, _( "Your %1$s is already full" ), bandolier.type_name().c_str() );
-            return false;
-        }
-
-        obj.charges -= qty;
-        bandolier.contents[0].charges += qty;
-        if( obj.charges <= 0 ) {
-            p.i_rem( &obj );
-        }
-    }
-    p.add_msg_if_player( _( "You store the %1$s in your %2$s" ), obj.tname( qty ).c_str(),
-                         bandolier.type_name().c_str() );
-
-    return true;
-}
-
-
-long bandolier_actor::use( player *p, item *it, bool, const tripoint & ) const
-{
-    if( &p->weapon == it ) {
-        p->add_msg_if_player( _( "You need to unwield your %s before using it." ),
-                              it->type_name().c_str() );
-        return 0;
-    }
-
-    uimenu menu;
-    menu.text = _( "Store ammo" );
-    menu.return_invalid = true;
-
-    std::vector<std::function<void()>> actions;
-
-    menu.addentry( -1, it->contents.empty() || it->contents[0].charges < capacity,
-                   'r', string_format( _( "Store ammo in %s" ), it->type_name().c_str() ) );
-
-    actions.emplace_back( [&] {
-        item &obj = p->i_at( g->inv_for_filter( _( "Store ammo" ),
-                                                [&]( const item & e ) {
-            return can_store( *it, e );
-        } ) );
-
-        if( !obj.is_null() ) {
-            store( *p, *it, obj );
-        } else {
-            p->add_msg_if_player( _( "Never mind." ) );
-        }
-    } );
-
-    menu.addentry( -1, !it->contents.empty(), 'u', string_format( _( "Unload %s" ),
-                   it->type_name().c_str() ) );
-
-    actions.emplace_back( [&] {
-        if( p->i_add_or_drop( it->contents[0] ) ) {
-            it->contents.erase( it->contents.begin() );
-        } else {
-            p->add_msg_if_player( _( "Never mind." ) );
-        }
-    } );
-
-    menu.query();
-    if( menu.ret >= 0 ) {
-        actions[ menu.ret ]();
-    }
-
-    return 0;
-}
-
 void repair_item_actor::load( JsonObject &obj )
 {
     // Mandatory:
@@ -2227,7 +2110,7 @@ int repair_item_actor::repair_recipe_difficulty( const player &pl,
             cur_difficulty++;
         }
 
-        if( !training && !pl.has_recipe_requirements( *cur_recipe ) ) {
+        if( !training && !pl.has_recipe_requirements( cur_recipe ) ) {
             cur_difficulty++;
         }
 
@@ -2776,35 +2659,4 @@ hp_part heal_actor::use_healing_item( player &healer, player &patient, item &it,
     }
 
     return healed;
-}
-
-void heal_actor::info( const item &, std::vector<iteminfo> &dump ) const
-{
-    if( head_power > 0 || torso_power > 0 || limb_power > 0 ) {
-        dump.emplace_back( "TOOL", _( "<bold>Base healing:</bold> " ), "", -999, true, "", true );
-        dump.emplace_back( "TOOL", _( "Head: " ), "", head_power, true, "", false );
-        dump.emplace_back( "TOOL", _( "  Torso: " ), "", torso_power, true, "", false );
-        dump.emplace_back( "TOOL", _( "  Limbs: " ), "", limb_power, true, "", true );
-        if( g != nullptr ) {
-            dump.emplace_back( "TOOL", _( "<bold>Actual healing:</bold> " ), "", -999, true, "", true );
-            dump.emplace_back( "TOOL", _( "Head: " ), "", get_heal_value( g->u, hp_head ), true, "", false );
-            dump.emplace_back( "TOOL", _( "  Torso: " ), "", get_heal_value( g->u, hp_torso ), true, "", false );
-            dump.emplace_back( "TOOL", _( "  Limbs: " ), "", get_heal_value( g->u, hp_arm_l ), true, "", true );
-        }
-    }
-
-    if( bleed > 0.0f || bite > 0.0f || infect > 0.0f ) {
-        dump.emplace_back( "TOOL", _( "<bold>Chance to heal (percent):</bold> " ), "", -999, true, "", true );
-        if( bleed > 0.0f ) {
-            dump.emplace_back( "TOOL", _( "<bold>Bleeding</bold>:" ), "", (int)(bleed * 100), true, "", true );
-        }
-        if( bite > 0.0f ) {
-            dump.emplace_back( "TOOL", _( "<bold>Bite</bold>:" ), "", (int)(bite * 100), true, "", true );
-        }
-        if( infect > 0.0f ) {
-            dump.emplace_back( "TOOL", _( "<bold>Infection</bold>:" ), "", (int)(infect * 100), true, "", true );
-        }
-    }
-
-    dump.emplace_back( "TOOL", _( "<bold>Moves to use</bold>:" ), "", move_cost );
 }

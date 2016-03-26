@@ -5,7 +5,6 @@
 #include "monster.h"
 #include "mtype.h"
 #include "weather.h"
-#include "player.h"
 #ifdef TILES
 #include "cata_tiles.h" // all animation functions will be pushed out to a cata_tiles function in some manner
 

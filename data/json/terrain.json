@@ -2739,24 +2739,6 @@
         }
     },{
         "type" : "terrain",
-        "id" : "t_tree_dead",
-        "name": "dead tree",
-        "symbol": "7",
-        "color": "brown",
-        "move_cost": 0,
-        "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT"],
-        "bash": {
-            "str_min": 70, "str_max": 140,
-            "sound": "crunch!",
-            "sound_fail": "whack!",
-            "ter_set": "t_dirt",
-            "items": [
-                { "item": "stick", "count": [3, 10] },
-                { "item": "splinter", "count": [10, 25] }
-            ]
-        }
-    },{
-        "type" : "terrain",
         "id" : "t_tree_young",
         "name": "young tree",
         "symbol": "1",
@@ -4392,25 +4374,6 @@
         }
     },{
         "type" : "terrain",
-        "id" : "t_gates_control_brick",
-        "name": "mechanical winch",
-        "symbol": "6",
-        "color": "cyan_red",
-        "move_cost": 0,
-        "flags": ["TRANSPARENT", "NOITEM", "INDOORS", "PERMEABLE"],
-        "examine_action": "controls_gate",
-        "bash": {
-            "str_min": 18, "str_max": 80,
-            "sound": "metal screeching!",
-            "sound_fail": "clang!",
-            "ter_set": "t_rock_floor",
-            "items": [
-                { "item": "steel_chunk", "count": [1, 4] },
-                { "item": "scrap", "count": [3, 6] }
-            ]
-        }
-    },{
-        "type" : "terrain",
         "id" : "t_gates_control_metal",
         "name": "control lever",
         "symbol": "6",
@@ -6023,7 +5986,7 @@
                 { "item": "bearing", "charges": [4, 12] },
                 { "item": "frame", "prob": 60 },
                 { "item": "motor", "prob": 30 },
-                { "item": "metal_tank", "prob": 30 },
+                { "item": "metal_tank_small", "prob": 30 },
                 { "item": "motor_large", "prob": 10 }
             ]
         },
@@ -6043,7 +6006,7 @@
                 { "item": "bearing", "charges": [2, 8] },
                 { "item": "frame", "prob": 30 },
                 { "item": "motor", "prob": 10 },
-                { "item": "metal_tank", "prob": 20 },
+                { "item": "metal_tank_small", "prob": 20 },
                 { "item": "motor_large", "prob": 5 }
             ]
         }

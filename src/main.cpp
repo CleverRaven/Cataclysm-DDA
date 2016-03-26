@@ -494,6 +494,16 @@ void exit_handler(int s)
     if (s != 2 || query_yn(_("Really Quit? All unsaved changes will be lost."))) {
         erase(); // Clear screen
 
+        int ret;
+#if (defined _WIN32 || defined WINDOWS)
+        ret = system("cls"); // Tell the terminal to clear itself
+        ret = system("color 07");
+#else
+        ret = system("clear"); // Tell the terminal to clear itself
+#endif
+        if (ret != 0) {
+            DebugLog( D_ERROR, DC_ALL ) << "system(\"clear\"): error returned: " << ret;
+        }
         deinitDebug();
 
         int exit_status = 0;

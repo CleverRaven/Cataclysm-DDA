@@ -1,6 +1,4 @@
 #include "game.h"
-
-#include "coordinate_conversions.h"
 #include "creature_tracker.h"
 #include "output.h"
 #include "skill.h"
@@ -21,7 +19,6 @@
 #include "mapdata.h"
 #include "translations.h"
 #include "mongroup.h"
-
 #include <map>
 #include <set>
 #include <algorithm>
@@ -78,7 +75,7 @@ void game::serialize(std::ofstream & fout) {
         json.member( "nextspawn", (int)nextspawn );
         // current map coordinates
         tripoint pos_sm = m.get_abs_sub();
-        const point pos_om = sm_to_om_remain( pos_sm.x, pos_sm.y );
+        const point pos_om = overmapbuffer::sm_to_om_remain( pos_sm.x, pos_sm.y );
         json.member( "levx", pos_sm.x );
         json.member( "levy", pos_sm.y );
         json.member( "levz", pos_sm.z );

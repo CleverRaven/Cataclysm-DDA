@@ -126,10 +126,6 @@ float monster::rate_target( Creature &c, float best, bool smart ) const
         return INT_MAX;
     }
 
-    if( !smart ) {
-        return d;
-    }
-
     float power = c.power_rating();
     monster *mon = dynamic_cast< monster * >( &c );
     // Their attitude to us and not ours to them, so that bobcats won't get gunned down
@@ -598,15 +594,11 @@ void monster::move()
     }
     if( wandf > 0 && !moved ) { // No LOS, no scent, so as a fall-back follow sound
         unset_dest();
-        if( wander_pos != pos() ) {
-            destination = wander_pos;
+        tripoint tmp = wander_next();
+        if( tmp != pos() ) {
+            destination = tmp;
             moved = true;
         }
-    }
-
-    if( !g->m.has_zlevels() ) {
-        // Otherwise weird things happen
-        destination.z = posz();
     }
 
     tripoint next_step;
@@ -627,32 +619,15 @@ void monster::move()
                 next_step = candidate;
                 break;
             }
-
-            // Allow non-stumbling critters to stumble when most direct choice is bad
-            bool bad_choice = false;
             // Bail out if we can't move there and we can't bash.
-            if( !can_move_to( candidate ) ) {
-                if( !can_bash ) {
-                    continue;
-                }
-
-                const int estimate = g->m.bash_rating( bash_estimate(), candidate );
-                if( estimate <= 0 ) {
-                    continue;
-                }
-
-                if( estimate < 5 ) {
-                    bad_choice = true;
-                }
+            if( !can_move_to( candidate ) &&
+                !( can_bash && g->m.bash_rating( bash_estimate(), candidate ) >= 1 ) ) {
+                continue;
             }
             // Bail out if there's a non-hostile monster in the way and we're not pushy.
-            if( target != nullptr && attitude_to( *target ) != A_HOSTILE ) {
-                if( !has_flag( MF_ATTACKMON ) && !has_flag( MF_PUSH_MON ) ) {
-                    continue;
-                }
-
-                // Friendly fire and pushing are always bad choices - they take a lot of time
-                bad_choice = true;
+            if( target != nullptr && attitude_to( *target ) != A_HOSTILE &&
+                !has_flag( MF_ATTACKMON ) && !has_flag( MF_PUSH_MON ) ) {
+                continue;
             }
             const float progress = distance_to_target - trig_dist( candidate, destination );
             // The x2 makes the first (and most direct) path twice as likely,
@@ -664,8 +639,7 @@ void monster::move()
                 next_step = candidate;
                 // If we stumble, pick a random square, otherwise take the first one,
                 // which is the most direct path.
-                // Except if the direct path is bad, then check others
-                if( !staggers && !bad_choice ) {
+                if( !staggers ) {
                     break;
                 }
             }
@@ -762,6 +736,115 @@ tripoint monster::scent_move()
     }
 
     return random_entry( smoves, next );
+}
+
+tripoint monster::wander_next()
+{
+    tripoint next = pos();
+    bool xbest = true;
+    if( abs( wander_pos.y - posy() ) > abs( wander_pos.x - posx() ) ) {
+        // Which is more important
+        xbest = false;
+    }
+
+    int x = posx(), x2 = posx() - 1, x3 = posx() + 1;
+    int y = posy(), y2 = posy() - 1, y3 = posy() + 1;
+    int z = posz();
+    // Used to avoid checking same points 3 times when moving in a straight line
+    // *_move is true if pos*() != wander_pos.*
+    bool x_move = true;
+    bool y_move = true;
+    bool z_move = true;
+    if( wander_pos.x < posx() ) {
+        x--;
+        x2++;
+    } else if( wander_pos.x > posx() ) {
+        x++;
+        x2++;
+        x3 -= 2;
+    } else {
+        x_move = false;
+    }
+
+    if( wander_pos.y < posy() ) {
+        y--;
+        y2++;
+    } else if( wander_pos.y > posy() ) {
+        y++;
+        y2++;
+        y3 -= 2;
+    } else {
+        y_move = false;
+    }
+
+    if( wander_pos.z < posz() ) {
+        z--;
+    } else if( wander_pos.z > posz() ) {
+        z++;
+    } else {
+        z_move = false;
+    }
+
+    if( !x_move && !y_move && !z_move ) {
+        return next;
+    }
+
+    // Any creature can "fly" downwards
+    const bool flies = z < posz() || has_flag( MF_FLIES );
+    const bool climbs =  has_flag( MF_CLIMBS );
+    const bool canbash = has_flag( MF_BASHES ) || has_flag( MF_BORES );
+    const int bash_est = bash_estimate();
+    // Check if we can move into position, attack player on position or bash position
+    // If yes, set next to this position and return true, otherwise return false
+    const auto try_pos = [&]( const int x, const int y, const int z ) {
+        tripoint dest( x, y, z );
+        if( ( canbash && g->m.bash_rating( bash_est, dest ) > 0 ) ||
+            ( ( flies || g->m.has_floor_or_support( dest ) ) &&
+              can_move_to( dest ) ) ) {
+            next = dest;
+            return true;
+        }
+
+        return false;
+    };
+
+    bool found = false;
+    const bool can_climb = z_move && ( flies || climbs || g->m.has_flag( TFLAG_RAMP, pos() ) );
+    if( z_move && g->m.valid_move( pos(), tripoint( posx(), posy(), z ), false, can_climb ) ) {
+        found = true;
+        if( ( x_move || y_move ) && try_pos( x, y, z ) ) {
+        } else if( y_move && try_pos( x, y2, z ) ) {
+        } else if( x_move && try_pos( x2, y, z ) ) {
+        } else if( y_move && try_pos( x, y3, z ) ) {
+        } else if( x_move && try_pos( x3, y, z ) ) {
+        } else if( try_pos( posx(), posy(), z ) ) {
+        } else {
+            found = false;
+        }
+    }
+
+    if( found ) {
+        return next;
+    }
+
+    if( xbest ) {
+        if( ( x_move || y_move ) && try_pos( x, y, posz() ) ) {
+            // Do nothing in each of those ifs, the if-else is just for convenience
+        } else if( y_move && try_pos( x, y2, posz() ) ) {
+        } else if( x_move && try_pos( x2, y, posz() ) ) {
+        } else if( y_move && try_pos( x, y3, posz() ) ) {
+        } else if( x_move && try_pos( x3, y, posz() ) ) {
+        }
+    } else {
+        if( ( x_move || y_move ) && try_pos( x, y, posz() ) ) {
+        } else if( x_move && try_pos( x2, y, posz() ) ) {
+        } else if( y_move && try_pos( x, y2, posz() ) ) {
+        } else if( x_move && try_pos( x3, y, posz() ) ) {
+        } else if( y_move && try_pos( x, y3, posz() ) ) {
+        }
+    }
+
+    return next;
 }
 
 int monster::calc_movecost( const tripoint &f, const tripoint &t ) const
@@ -1197,7 +1280,7 @@ bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
         }
 
         // Pushing forward is easier than pushing aside
-        const int direction_penalty = abs( dx - dir.x ) + abs( dy - dir.y );
+        const int direction_penalty = abs( dx - dir.x ) + abs( dy + dir.y );
         if( direction_penalty > 2 ) {
             continue;
         }
@@ -1468,7 +1551,7 @@ bool monster::will_reach( int x, int y )
         return true;
     }
 
-    if( can_see() && sees( tripoint( x, y, posz() ) ) ) {
+    if( can_see() && g->m.sees( pos(), {x, y, posz()}, g->light_level( posz() ) ) ) {
         return true;
     }
 

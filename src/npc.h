@@ -95,7 +95,21 @@ enum npc_class : int {
 std::string npc_class_name(npc_class);
 std::string npc_class_name_str(npc_class);
 
-enum npc_action : int;
+enum npc_action {
+    npc_undecided = 0,
+    npc_pause, //1
+    npc_reload, npc_sleep, // 2, 3
+    npc_pickup, // 4
+    npc_escape_item, npc_wield_melee, npc_wield_loaded_gun, npc_wield_empty_gun,
+    npc_heal, npc_use_painkiller, npc_eat, npc_drop_items, // 5 - 12
+    npc_flee, npc_melee, npc_shoot, npc_shoot_burst, npc_alt_attack, // 13 - 17
+    npc_look_for_player, npc_heal_player, npc_follow_player, npc_follow_embarked,
+    npc_talk_to_player, npc_mug_player, // 18 - 23
+    npc_goto_destination, npc_avoid_friendly_fire, // 24, 25
+    npc_base_idle, // 26
+    npc_noop,
+    num_npc_actions
+};
 
 enum npc_need {
  need_none,
@@ -192,29 +206,16 @@ struct npc_opinion : public JsonSerializer, public JsonDeserializer
 };
 
 enum combat_engagement {
-    ENGAGE_NONE = 0,
-    ENGAGE_CLOSE,
-    ENGAGE_WEAK,
-    ENGAGE_HIT,
-    ENGAGE_ALL,
-    ENGAGE_NO_MOVE
-};
-
-enum aim_rule {
-    // Aim some
-    AIM_WHEN_CONVENIENT = 0,
-    // No concern for ammo efficiency
-    AIM_SPRAY,
-    // Aim when possible, then shoot
-    AIM_PRECISE,
-    // If you can't aim, don't shoot
-    AIM_STRICTLY_PRECISE
+ ENGAGE_NONE = 0,
+ ENGAGE_CLOSE,
+ ENGAGE_WEAK,
+ ENGAGE_HIT,
+ ENGAGE_ALL
 };
 
 struct npc_follower_rules : public JsonSerializer, public JsonDeserializer
 {
     combat_engagement engagement;
-    aim_rule aim;
     bool use_guns;
     bool use_grenades;
     bool use_silent;
@@ -223,12 +224,10 @@ struct npc_follower_rules : public JsonSerializer, public JsonDeserializer
     bool allow_bash;
     bool allow_sleep;
     bool allow_complain;
-    bool allow_pulp;
 
     npc_follower_rules()
     {
         engagement = ENGAGE_ALL;
-        aim = AIM_WHEN_CONVENIENT;
         use_guns = true;
         use_grenades = true;
         use_silent = false;
@@ -237,7 +236,6 @@ struct npc_follower_rules : public JsonSerializer, public JsonDeserializer
         allow_bash = true;
         allow_sleep = false;
         allow_complain = true;
-        allow_pulp = true;
     };
 
     using JsonSerializer::serialize;
@@ -688,8 +686,8 @@ public:
     int  danger_assessment();
     int  average_damage_dealt(); // Our guess at how much damage we can deal
     bool bravery_check(int diff);
-    bool emergency() const;
-    bool emergency( int danger ) const;
+    bool emergency();
+    bool emergency( int danger );
     bool is_active() const;
     void say( const std::string line, ...) const;
     void decide_needs();
@@ -707,7 +705,6 @@ public:
 // Movement; the following are defined in npcmove.cpp
  void move(); // Picks an action & a target and calls execute_action
  void execute_action( npc_action action ); // Performs action
-    void process_turn() override;
 
     void choose_monster_target();
     void assess_danger();
@@ -726,37 +723,17 @@ public:
  int choose_escape_item(); // Returns item position of our best escape aid
 
 // Helper functions for ranged combat
-    // Multiplier for acceptable angle of inaccuracy
-    double confidence_mult() const;
-    int confident_range( int weapon_index = -1 ) const;
-    int confident_gun_range( const item & ) const;
-    int confident_gun_range( const item &gun, int at_recoil ) const;
-    int confident_throw_range( const item & ) const;
-    bool wont_hit_friend( const tripoint &p , int position = -1 ) const;
-    bool need_to_reload() const; // Wielding a gun that is empty
-    bool enough_time_to_reload( const item &gun ) const;
-    /** Can reload currently wielded gun? */
-    bool can_reload_current();
-    /** Has a gun or magazine that can be reloaded */
-    const item &find_reloadable() const;
-    item &find_reloadable();
-    /** Finds ammo the NPC could use to reload a given object */
-    item_location find_usable_ammo( const item &weap );
-    const item_location find_usable_ammo( const item &weap ) const;
-
-    bool dispose_item( item& obj, const std::string& prompt = std::string() ) override;
-
-    void aim();
-    void do_reload( item &what );
+ int confident_range( int position = -1 );
+ /**
+  * Check if this NPC is blocking movement from the given position
+  */
+ bool is_blocking_position( const tripoint &p );
+ bool wont_hit_friend( const tripoint &p , int position = -1 );
+ bool need_to_reload(); // Wielding a gun that is empty
+ bool enough_time_to_reload( const item &gun );
 
 // Physical movement from one tile to the next
-    /**
-     * Tries to find path to p. If it can, updates path to it.
-     * @param no_bashing Don't allow pathing through tiles that require bashing.
-     * @param force If there is no valid path, empty the current path.
-     * @returns If it updated the path.
-     */
-    bool update_path( const tripoint &p, bool no_bashing = false, bool force = true );
+ void update_path( const tripoint &p, bool no_bashing = false );
  bool can_move_to( const tripoint &p, bool no_bashing = false ) const;
  void move_to    ( const tripoint &p, bool no_bashing = false );
  void move_to_next(); // Next in <path>
@@ -769,11 +746,6 @@ public:
  void pick_up_item (); // Move to, or grab, our targeted item
  void drop_items (int weight, int volume); // Drop wgt and vol
 
-    /** Returns true if it finds one. */
-    bool find_corpse_to_pulp();
-    /** Returns true if it handles the turn. */
-    bool do_pulp();
-
 // Combat functions and player interaction functions
     Creature *get_target( int target ) const;
  void wield_best_melee ();
@@ -782,11 +754,10 @@ public:
  void heal_player (player &patient);
  void heal_self  ();
  void take_painkiller ();
+ void pick_and_eat ();
  void mug_player (player &mark);
  void look_for_player (player &sought);
  bool saw_player_recently() const;// Do we have an idea of where u are?
-    /** Returns true if food was consumed, false otherwise. */
-    bool consume_food();
 
 // Movement on the overmap scale
  bool has_destination() const; // Do we have a long-term destination?
@@ -871,11 +842,6 @@ public:
     tripoint wander_pos; // Not actually used (should be: wander there when you hear a sound)
     int wander_time;
 
-    /**
-     * Location and index of the corpse we'd like to pulp (if any).
-     */
-    tripoint pulp_location;
-
  int restock;
  bool fetching_item;
  bool has_new_items; // If true, we have something new and should re-equip
@@ -919,6 +885,7 @@ private:
     void setID (int id);
     bool dead;  // If true, we need to be cleaned up
 
+    bool is_dangerous_field( const field_entry &fld ) const;
     bool sees_dangerous_field( const tripoint &p ) const;
     bool could_move_onto( const tripoint &p ) const;
 };

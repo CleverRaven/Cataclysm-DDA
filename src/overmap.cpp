@@ -1,6 +1,14 @@
-#include "overmap.h"
+#include <stdlib.h>
+#include <time.h>
+#include <math.h>
+#include <fstream>
+#include <vector>
+#include <sstream>
+#include <cstring>
+#include <ostream>
+#include <queue>
 
-#include "coordinate_conversions.h"
+#include "overmap.h"
 #include "overmap_types.h"
 #include "rng.h"
 #include "line.h"
@@ -29,16 +37,6 @@
 #include "ui.h"
 #include "mapbuffer.h"
 #include "map_iterator.h"
-
-#include <stdlib.h>
-#include <time.h>
-#include <math.h>
-#include <fstream>
-#include <vector>
-#include <sstream>
-#include <cstring>
-#include <ostream>
-#include <queue>
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -1688,7 +1686,7 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
 
     if( data.iZoneIndex != -1 ) {
         sZoneName = zones.zones[data.iZoneIndex].get_name();
-        tripointZone = ms_to_omt_copy(zones.zones[data.iZoneIndex].get_center_point());
+        tripointZone = overmapbuffer::ms_to_omt_copy(zones.zones[data.iZoneIndex].get_center_point());
     }
 
     // If we're debugging monster groups, find the monster group we've selected
@@ -1838,7 +1836,7 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
                 // Convert to position within overmap
                 int localx = omx * 2;
                 int localy = omy * 2;
-                sm_to_om_remain(localx, localy);
+                overmapbuffer::sm_to_om_remain(localx, localy);
 
                 if(mgroup && mgroup->target.x / 2 == localx / 2 && mgroup->target.y / 2 == localy / 2) {
                     ter_color = c_red;
@@ -1887,7 +1885,7 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
                 }
                 // Highlight areas that already have been generated
                 if( MAPBUFFER.lookup_submap(
-                        omt_to_sm_copy( tripoint( omx, omy, z ) ) ) ) {
+                        overmapbuffer::omt_to_sm_copy( tripoint( omx, omy, z ) ) ) ) {
                     ter_color = red_background( ter_color );
                 }
             }
@@ -2066,7 +2064,7 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
                        _(" - Return to game")).c_str());
     }
     point omt(cursx, cursy);
-    const point om = omt_to_om_remain(omt);
+    const point om = overmapbuffer::omt_to_om_remain(omt);
     mvwprintz(wbar, getmaxy(wbar) - 1, 1, c_red,
               _("LEVEL %i, %d'%d, %d'%d"), z, om.x, omt.x, om.y, omt.y);
 

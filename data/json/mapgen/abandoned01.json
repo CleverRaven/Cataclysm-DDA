@@ -678,20 +678,20 @@
                 { "item": "child_book", "x": 11, "y": 16},
                 { "item": "child_book", "x": 11, "y": 15},
                 { "item": "pot", "x": 11, "y": 23},
-                { "item": "battery", "x": 11, "y": 16, "chance": 3}
+                { "item": "battery", "x": 11, "y": 16, "chance": 3},
+                { "item": "survivor_special_700", "x": 13, "y": 15}
             ],
             "set": [
                 { "point": "terrain", "id": "t_dirt", "x": [ 0, 14 ], "y": [ 0,3 ], "repeat": [ 8, 10 ] }
                     ],
-            "place_loot": [
-                { "group": "cabin_suicide", "chance": 100, "x": [ 4, 4], "y": [ 15, 15] },
-                { "group": "cannedfood", "chance": 90, "x": [ 11, 11], "y": [ 22, 23] },
-                { "group": "cannedfood", "chance": 90, "x": [ 13, 13], "y": [ 22, 23] },
-                { "group": "cannedfood", "chance": 90, "x": [ 11, 11], "y": [ 22, 23] },
-                { "group": "cannedfood", "chance": 90, "x": [ 13, 13], "y": [ 22, 23] },
-                { "group": "stash_water", "chance": 100, "x": [ 20, 20], "y": [ 15, 15] },
-                { "group": "stash_water", "chance": 100, "x": [ 19, 19], "y": [ 15, 15] },
-                { "item": "survivor_special_700", "chance": 100, "x": 13, "y": 15, "ammo": 100 }
+            "place_items": [
+                { "item": "cabin_suicide", "chance": 100, "x": [ 4, 4], "y": [ 15, 15] },
+                { "item": "cannedfood", "chance": 90, "x": [ 11, 11], "y": [ 22, 23] },
+                { "item": "cannedfood", "chance": 90, "x": [ 13, 13], "y": [ 22, 23] },
+                { "item": "cannedfood", "chance": 90, "x": [ 11, 11], "y": [ 22, 23] },
+                { "item": "cannedfood", "chance": 90, "x": [ 13, 13], "y": [ 22, 23] },
+                { "item": "stash_water", "chance": 100, "x": [ 20, 20], "y": [ 15, 15] },
+                { "item": "stash_water", "chance": 100, "x": [ 19, 19], "y": [ 15, 15] }
             ]
         }
     }

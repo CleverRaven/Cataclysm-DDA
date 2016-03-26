@@ -1,8 +1,26 @@
 [
     {
         "type": "item_group",
-        "id" : "guns_rifle_rare",
+        "id" : "rifles",
         "items" :[
+          ["cw-24", 4],
+          ["cwd-63", 5]
+        ]
+    },
+    {
+        "type": "item_group",
+        "id" : "assault",
+        "items" :[
+          ["svs-24", 3],
+          ["svs-24c", 2]
+        ]
+    },
+    {
+        "type": "item_group",
+        "id": "allguns",
+        "items": [
+          ["svs-24", 3],
+          ["svs-24c", 2],
           ["cw-24", 4],
           ["cwd-63", 5]
         ]
@@ -39,6 +57,14 @@
     },
     {
         "type": "item_group",
+        "id": "lmoe_guns",
+        "items": [
+          ["cw-24", 6],
+          ["cwd-63", 5]
+        ]
+    },
+    {
+        "type": "item_group",
         "id": "ammo",
         "items": [
           ["654", 4],
@@ -47,32 +73,20 @@
     },
     {
         "type": "item_group",
-        "id": "gunmod_rare",
+        "id": "gunxtras",
         "items": [
+          ["654_casing", 10],
           ["retool_654", 1],
           ["retool_545", 1],
           ["retool_762", 1]
         ]
     },
     {
-        "id": "ammo_casings",
         "type": "item_group",
-        "items": [
-          [ "654_casing", 100 ]
-        ]
-    },
-    {
-        "type": "item_group",
-        "id": "ammo_rifle_rare",
+        "id": "stash_ammo",
         "items": [
           ["654", 5],
-          ["654t", 2]
-        ]
-    },
-    {
-        "type": "item_group",
-        "id": "ammo_smg_rare",
-        "items": [
+          ["654t", 2],
           ["20_dread", 2]
         ]
     },

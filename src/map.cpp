@@ -1,6 +1,5 @@
-#include "map.h"
+﻿#include "map.h"
 
-#include "coordinate_conversions.h"
 #include "drawing_primitives.h"
 #include "lightmap.h"
 #include "output.h"
@@ -370,9 +369,7 @@ void map::vehmove()
         }
     }
     // Process item removal on the vehicles that were modified this turn.
-    // Use a copy because part_removal_cleanup can modify the container.
-    auto temp = dirty_vehicle_list;
-    for( const auto &elem : temp ) {
+    for( const auto &elem : dirty_vehicle_list ) {
         ( elem )->part_removal_cleanup();
     }
     dirty_vehicle_list.clear();
@@ -1229,7 +1226,6 @@ void map::board_vehicle( const tripoint &pos, player *p )
     }
     veh->parts[seat_part].set_flag(vehicle_part::passenger_flag);
     veh->parts[seat_part].passenger_id = p->getID();
-    veh->invalidate_mass();
 
     p->setpos( pos );
     p->in_vehicle = true;
@@ -1277,7 +1273,6 @@ void map::unboard_vehicle( const tripoint &p )
     passenger->controlling_vehicle = false;
     veh->parts[seat_part].remove_flag(vehicle_part::passenger_flag);
     veh->skidding = true;
-    veh->invalidate_mass();
 }
 
 void map::displace_vehicle( tripoint &p, const tripoint &dp )
@@ -2394,7 +2389,7 @@ bool map::has_flag(const std::string &flag, const int x, const int y) const
     return has_flag_ter_or_furn(flag, x, y); // Does bound checking
 }
 
-bool map::can_put_items_ter_furn(const int x, const int y) const
+bool map::can_put_items(const int x, const int y)
 {
     return !has_flag("NOITEM", x, y) && !has_flag("SEALED", x, y);
 }
@@ -2472,18 +2467,7 @@ bool map::has_flag( const std::string &flag, const tripoint &p ) const
     return has_flag_ter_or_furn( flag, p ); // Does bound checking
 }
 
-bool map::can_put_items( const tripoint &p ) const
-{
-    if (can_put_items_ter_furn( p )) {
-        return true;
-    } else {
-        int part = -1;
-        const vehicle * const veh = veh_at( p, part );
-        return veh != nullptr && veh->part_with_feature( part, "CARGO" ) >= 0;
-    }
-}
-
-bool map::can_put_items_ter_furn( const tripoint &p ) const
+bool map::can_put_items( const tripoint &p )
 {
     return !has_flag( "NOITEM", p ) && !has_flag( "SEALED", p );
 }
@@ -3406,7 +3390,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
         if( rl_dist( g->u.pos(), p ) <= 3 ) {
             g->u.add_memorial_log(pgettext("memorial_male", "Set off an alarm."),
                                   pgettext("memorial_female", "Set off an alarm."));
-            const point abs = ms_to_sm_copy( getabs( p.x, p.y ) );
+            const point abs = overmapbuffer::ms_to_sm_copy( getabs( p.x, p.y ) );
             g->add_event(EVENT_WANTED, int(calendar::turn) + 300, 0, tripoint( abs.x, abs.y, p.z ) );
         }
     }
@@ -3608,7 +3592,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
     }
 
     if( bash->explosive > 0 ) {
-        g->explosion( p, bash->explosive, 0.8, false );
+        g->explosion( p, bash->explosive, 0.8, 0, false );
     }
 
     if( collapses ) {
@@ -3812,7 +3796,7 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
 
     if( has_flag("ALARMED", p) && !g->event_queued(EVENT_WANTED) ) {
         sounds::sound(p, 30, _("An alarm sounds!"));
-        const tripoint abs = ms_to_sm_copy( getabs( p ) );
+        const tripoint abs = overmapbuffer::ms_to_sm_copy( getabs( p ) );
         g->add_event(EVENT_WANTED, int(calendar::turn) + 300, 0, abs );
     }
 
@@ -3949,7 +3933,7 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
         if (hit_items || one_in(3)) {
             if (dam > 15) {
                 if( inc ) {
-                    g->explosion( p, 40, 0.8, true );
+                    g->explosion( p, 40, 0.8, 0, true);
                 } else {
                     for( const tripoint &pt : points_in_radius( p, 2 ) ) {
                         if( one_in( 3 ) && passable( pt ) ) {
@@ -4004,7 +3988,7 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
         add_field(p, fd_plasma, rng(1, 2), 0 );
     }
 
-    if (ammo_effects.count("LASER") || ammo_effects.count("DRAW_LASER_BEAM")) {
+    if (ammo_effects.count("LASER")) {
         add_field(p, fd_laser, 2, 0 );
     }
 
@@ -4552,6 +4536,8 @@ void map::spawn_natural_artifact(const tripoint &p, artifact_natural_property pr
     add_item_or_charges( p, item( new_natural_artifact( prop ), 0 ) );
 }
 
+//New spawn_item method, using item factory
+// added argument to spawn at various damage levels
 void map::spawn_item(const tripoint &p, const std::string &type_id,
                      const unsigned quantity, const long charges,
                      const unsigned birthday, const int damlevel)
@@ -4564,7 +4550,8 @@ void map::spawn_item(const tripoint &p, const std::string &type_id,
         return;
     }
     // recurse to spawn (quantity - 1) items
-    for( size_t i = 1; i < quantity; i++ ) {
+    for( size_t i = 1; i < quantity; i++ )
+    {
         spawn_item( p, type_id, 1, charges, birthday, damlevel );
     }
     // spawn the item
@@ -5151,14 +5138,14 @@ std::list<item> map::use_charges(const tripoint &origin, const int range,
             continue;
         }
 
-        const int kpart = veh->part_with_feature(vpart, "FAUCET");
+        const int kpart = veh->part_with_feature(vpart, "KITCHEN");
         const int weldpart = veh->part_with_feature(vpart, "WELDRIG");
         const int craftpart = veh->part_with_feature(vpart, "CRAFTRIG");
         const int forgepart = veh->part_with_feature(vpart, "FORGE");
         const int chempart = veh->part_with_feature(vpart, "CHEMLAB");
         const int cargo = veh->part_with_feature(vpart, "CARGO");
 
-        if (kpart >= 0) { // we have a faucet, now to see what to drain
+        if (kpart >= 0) { // we have a kitchen, now to see what to drain
             ammotype ftype = "NULL";
 
             if (type == "water_clean") {
@@ -5736,7 +5723,7 @@ void map::update_visibility_cache( visibility_variables &cache, const int zlev )
             if( sm_squares_seen[gridx][gridy] > 36 ) { // 25% of the submap is visible
                 const tripoint sm( gridx, gridy, 0 );
                 const auto abs_sm = map::abs_sub + sm;
-                const auto abs_omt = sm_to_omt_copy( abs_sm );
+                const auto abs_omt = overmapbuffer::sm_to_omt_copy( abs_sm );
                 overmap_buffer.set_seen( abs_omt.x, abs_omt.y, abs_omt.z, true);
             }
         }
@@ -6060,9 +6047,9 @@ bool map::draw_maptile( WINDOW* w, player &u, const tripoint &p, const maptile &
             hi = true;
         } else {
             // otherwise override with the symbol of the last item
-            sym = curr_maptile.get_uppermost_item().symbol();
+            sym = curr_maptile.get_last_item().symbol();
             if (!draw_item_sym) {
-                tercol = curr_maptile.get_uppermost_item().color();
+                tercol = curr_maptile.get_last_item().color();
             }
             if( curr_maptile.get_item_count() > 1 ) {
                 invert = !invert;
@@ -6721,7 +6708,7 @@ void map::loadn( const int gridx, const int gridy, const int gridz, const bool u
         // Short-circuit if the map tile is uniform
         int overx = newmapx;
         int overy = newmapy;
-        sm_to_omt( overx, overy );
+        overmapbuffer::sm_to_omt( overx, overy );
         oter_id terrain_type = overmap_buffer.ter( overx, overy, gridz );
         if( terrain_type == rock || terrain_type == air ) {
             generate_uniform( newmapx, newmapy, gridz, terrain_type );
@@ -6885,52 +6872,6 @@ void map::restock_fruits( const tripoint &p, int time_since_last_actualize )
     }
 }
 
-void map::rad_scorch( const tripoint &p, int time_since_last_actualize )
-{
-    const int rads = get_radiation( p );
-    if( rads == 0 ) {
-        return;
-    }
-
-    // TODO: More interesting rad scorch chance - base on season length?
-    if( !x_in_y( 1.0 * rads * rads * time_since_last_actualize, DAYS(91) ) ) {
-        return;
-    }
-
-    // First destroy the farmable plants (those are furniture)
-    // TODO: Rad-resistant mutant plants (that produce radioactive fruit)
-    const furn_t &fid = furn_at( p );
-    if( fid.has_flag( "PLANT" ) ) {
-        i_clear( p );
-        furn_set( p, f_null );
-    }
-
-    const ter_id tid = ter( p );
-    // TODO: De-hardcode this
-    static const std::map<ter_id, std::string> dies_into {{
-        {t_grass, "t_dirt"},
-        {t_tree_young, "t_dirt"},
-        {t_tree_pine, "t_tree_deadpine"},
-        {t_tree_birch, "t_tree_birch_harvested"},
-        {t_tree_willow, "t_tree_willow_harvested"},
-        {t_tree_hickory, "t_tree_hickory_dead"},
-        {t_tree_hickory_harvested, "t_tree_hickory_dead"},
-    }};
-
-    const auto iter = dies_into.find( tid );
-    if( iter != dies_into.end() ) {
-        ter_set( p, iter->second );
-        return;
-    }
-
-    const ter_t &tr = tid.obj();
-    if( tr.has_flag( "SHRUB" ) ) {
-        ter_set( p, t_dirt );
-    } else if( tr.has_flag( "TREE" ) ) {
-        ter_set( p, "t_tree_dead" );
-    }
-}
-
 void map::actualize( const int gridx, const int gridy, const int gridz )
 {
     submap *const tmpsub = get_submap_at_grid( gridx, gridy, gridz );
@@ -6969,8 +6910,6 @@ void map::actualize( const int gridx, const int gridy, const int gridz )
             grow_plant( pnt );
 
             restock_fruits( pnt, time_since_last_actualize );
-
-            rad_scorch( pnt, time_since_last_actualize );
         }
     }
 
@@ -7144,7 +7083,7 @@ void map::spawn_monsters_submap_group( const tripoint &gp, mongroup &group, bool
     // Find horde's target submap
     tripoint horde_target( group.target.x - abs_sub.x,
         group.target.y - abs_sub.y, abs_sub.z );
-    sm_to_ms( horde_target );
+    overmapbuffer::sm_to_ms( horde_target );
     for( auto &tmp : group.monsters ) {
         for( int tries = 0; tries < 10 && !locations.empty(); tries++ ) {
             const tripoint p = random_entry_removed( locations );

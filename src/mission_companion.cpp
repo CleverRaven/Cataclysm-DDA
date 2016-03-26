@@ -9,6 +9,7 @@
 #include "catacharset.h"
 #include "messages.h"
 #include "mission.h"
+#include "morale.h"
 #include "ammo.h"
 #include "overmapbuffer.h"
 #include "json.h"
@@ -1253,7 +1254,7 @@ bool talk_function::forage_return(npc *p)
         } else {
             popup(_("%s was caught unaware and was forced to fight the creature at close range!"), comp->name.c_str());
             // the following doxygen aliases do not yet exist. this is marked for future reference
-
+            
             ///\EFFECT_MELEE_NPC affects forage mission results
 
             ///\EFFECT_SURVIVAL_NPC affects forage mission results

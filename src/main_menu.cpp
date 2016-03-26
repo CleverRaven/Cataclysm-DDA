@@ -14,6 +14,7 @@
 #include "filesystem.h"
 #include "path_info.h"
 #include "mapsharing.h"
+#include "morale.h"
 #include "sounds.h"
 
 #include <fstream>
@@ -259,7 +260,7 @@ bool game::opening_screen()
         popup( _( "Unable to make config directory. Check permissions." ) );
         return false;
     }
-
+    
     if( !assure_dir_exist( FILENAMES["savedir"] ) ) {
         popup( _( "Unable to make save directory. Check permissions." ) );
         return false;
@@ -411,7 +412,21 @@ bool game::opening_screen()
                         }
                         world_generator->set_active_world(world);
                         setup();
-                        if( !u.create( sel2 == 0 ? PLTYPE_CUSTOM : ( sel2 == 2 ? PLTYPE_RANDOM : PLTYPE_NOW ) ) ) {
+                        int pgen = -1;
+                        bool rnd_scn = false;
+                        while (pgen < 0) {
+                            //create will return -1 (random character)
+                            //or -2 (random character and scenario) keeping the loop going
+                            //it will return 0 on exit, or 1 on success
+                            pgen = u.create((sel2 == 0) ? PLTYPE_CUSTOM : ((sel2 == 2) ?
+                                           (rnd_scn ? PLTYPE_RANDOM_WITH_SCENARIO : PLTYPE_RANDOM) :
+                                            PLTYPE_NOW));
+                            if (pgen < 0) {
+                                u = player();
+                                rnd_scn = pgen == -2;
+                            }
+                        }
+                        if (pgen == 0) {
                             u = player();
                             continue;
                         }
@@ -419,10 +434,7 @@ bool game::opening_screen()
                         werase(w_background);
                         wrefresh(w_background);
 
-                        if( !start_game( world->world_name ) ) {
-                            u = player();
-                            continue;
-                        }
+                        start_game(world->world_name);
                         start = true;
                     } else if (sel2 == 1) {
                         layer = 3;
@@ -826,10 +838,7 @@ bool game::opening_screen()
                     }
                     werase(w_background);
                     wrefresh(w_background);
-                    if( !start_game( world_generator->active_world->world_name ) ) {
-                        u = player();
-                        continue;
-                    }
+                    start_game(world_generator->active_world->world_name);
                     start = true;
                 }
             }

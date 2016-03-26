@@ -19,6 +19,26 @@
 #include <algorithm> //std::min
 #include <sstream>
 
+namespace {
+void draw_exam_window(WINDOW *win, int border_line, bool examination)
+{
+    int width = getmaxx(win);
+    if (examination) {
+        for (int i = 1; i < width - 1; i++) {
+            mvwputch(win, border_line, i, BORDER_COLOR, LINE_OXOX); // Draw line above description
+        }
+        mvwputch(win, border_line, 0, BORDER_COLOR, LINE_XXXO); // |-
+        mvwputch(win, border_line, width - 1, BORDER_COLOR, LINE_XOXX); // -|
+    } else {
+        for (int i = 1; i < width - 1; i++) {
+            mvwprintz(win, border_line, i, c_black, " "); // Erase line
+        }
+        mvwputch(win, border_line, 0, BORDER_COLOR, LINE_XOXO); // |
+        mvwputch(win, border_line, width, BORDER_COLOR, LINE_XOXO); // |
+    }
+}
+} // namespace
+
 // '!' and '=' are uses as default bindings in the menu
 const invlet_wrapper mutation_chars("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ\"#&()*+./:;@[\\]^_{|}");
 
@@ -63,7 +83,6 @@ void Character::toggle_trait(const std::string &flag)
         mutation_loss_effect(flag);
     }
     recalc_sight_limits();
-    reset_encumbrance();
 }
 
 void Character::set_mutation(const std::string &flag)
@@ -75,7 +94,6 @@ void Character::set_mutation(const std::string &flag)
         debugmsg("Trying to set %s mutation, but the character already has it.", flag.c_str());
     }
     recalc_sight_limits();
-    reset_encumbrance();
 }
 
 void Character::unset_mutation(const std::string &flag)
@@ -87,7 +105,6 @@ void Character::unset_mutation(const std::string &flag)
         my_mutations.erase( iter );
     }
     recalc_sight_limits();
-    reset_encumbrance();
 }
 
 int Character::get_mod(std::string mut, std::string arg) const
@@ -132,8 +149,8 @@ void Character::mutation_effect(std::string mut)
         mut == "MUT_TOUGH" || mut == "MUT_TOUGH2" || mut == "MUT_TOUGH3") {
         recalc_hp();
 
-    } else if( mut == "PAWS" || mut == "PAWS_LARGE" || mut == "ARM_TENTACLES" ||
-               mut == "ARM_TENTACLES_4" || mut == "ARM_TENTACLES_8" ) {
+    } else if (mut == "WEBBED" || mut == "PAWS" || mut == "PAWS_LARGE" || mut == "ARM_TENTACLES" ||
+               mut == "ARM_TENTACLES_4" || mut == "ARM_TENTACLES_8") {
         // Push off gloves
         bps.push_back(bp_hand_l);
         bps.push_back(bp_hand_r);
@@ -281,8 +298,6 @@ void Character::mutation_effect(std::string mut)
         }
         return true;
     } );
-
-    on_mutation_gain( mut );
 }
 
 void Character::mutation_loss_effect(std::string mut)
@@ -343,8 +358,6 @@ void Character::mutation_loss_effect(std::string mut)
     } else {
         apply_mods(mut, false);
     }
-
-    on_mutation_loss( mut );
 }
 
 bool Character::has_active_mutation(const std::string & b) const
@@ -360,8 +373,8 @@ void player::activate_mutation( const std::string &mut )
     int cost = mdata.cost;
     // You can take yourself halfway to Near Death levels of hunger/thirst.
     // Fatigue can go to Exhausted.
-    if ((mdata.hunger && get_hunger() >= 700) || (mdata.thirst && get_thirst() >= 260) ||
-      (mdata.fatigue && get_fatigue() >= EXHAUSTED)) {
+    if ((mdata.hunger && get_hunger() >= 700) || (mdata.thirst && thirst >= 260) ||
+      (mdata.fatigue && fatigue >= EXHAUSTED)) {
       // Insufficient Foo to *maintain* operation is handled in player::suffer
         add_msg_if_player(m_warning, _("You feel like using your %s would kill you!"), mdata.name.c_str());
         return;
@@ -378,10 +391,10 @@ void player::activate_mutation( const std::string &mut )
             mod_hunger(cost);
         }
         if (mdata.thirst){
-            mod_thirst(cost);
+            thirst += cost;
         }
         if (mdata.fatigue){
-            mod_fatigue(cost);
+            fatigue += cost;
         }
         tdata.powered = true;
 
@@ -779,8 +792,8 @@ void player::power_mutations()
                         // Action done, leave screen
                         break;
                     } else if( (!mut_data.hunger || get_hunger() <= 400) &&
-                               (!mut_data.thirst || get_thirst() <= 400) &&
-                               (!mut_data.fatigue || get_fatigue() <= 400) ) {
+                               (!mut_data.thirst || thirst <= 400) &&
+                               (!mut_data.fatigue || fatigue <= 400) ) {
 
                         // this will clear the mutations menu for targeting purposes
                         werase(wBio);

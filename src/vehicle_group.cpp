@@ -2,7 +2,6 @@
 #include "debug.h"
 #include "translations.h"
 #include "vehicle.h"
-#include "map.h"
 
 using vplacement_id = string_id<VehiclePlacement>;
 

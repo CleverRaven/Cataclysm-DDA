@@ -40,7 +40,7 @@
     "weight": 114,
     "volume": 1,
     "price": 2000,
-    "material": [ "cotton" ],
+    "material": [ "cotton", "null" ],
     "symbol": ":",
     "color": "light_gray",
     "location": "accessories",

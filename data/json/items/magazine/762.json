@@ -3,7 +3,7 @@
     "id" : "akmmag",
     "type" : "MAGAZINE",
     "name" : "AKM magazine",
-    "description" : "A standard 30-round magazine made for the AKM rifle, made of stamped sheet metal.",
+    "description" : "A standard 30-round magazine made for the AK-74M rifle, made of stamped sheet metal.",
     "weight" : 430,
     "volume" : 2,
     "price" : 2800,

@@ -20,12 +20,12 @@
     "recoil": 60,
     "durability": 9,
     "burst": 8,
+    "reload": 100,
+    "loudness": 150,
     "barrel_length" : 1,
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
     "magazines": [
-      [ "762", [ "akmmag", "akmbigmag" ] ],
-      [ "223", [ "stanag30", "stanag10", "stanag50" ] ],
-      [ "308", [ "g3mag", "g3bigmag" ] ]
+      [ "762", [ "akmmag", "akmbigmag" ] ]
     ],
     "flags": ["MODE_BURST", "NEVER_JAMS"]
   },
@@ -42,6 +42,7 @@
     "material": ["steel", "wood"],
     "symbol": "(",
     "color": "brown",
+    "flags": "NEVER_JAMS",
     "skill": "rifle",
     "ammo": "762",
     "dispersion": 2,
@@ -50,8 +51,9 @@
     "recoil": -60,
     "durability": 8,
     "clip_size": 10,
+    "reload": 450,
+    "loudness" : 150,
     "barrel_length" : 2,
-    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
-    "flags": [ "RELOAD_ONE", "NEVER_JAMS" ]
+    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   }
 ]

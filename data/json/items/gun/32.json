@@ -6,7 +6,7 @@
     "name_plural": "SIG Sauer P230",
     "description": "The SIG Sauer P230 is a small, semi-automatic handgun chambered in .32 ACP.  Due to its small dimensions, it was often carried as a backup weapon.",
     "weight": 460,
-    "volume": 1,
+    "volume": 2,
     "price": 43000,
     "bashing": 8,
     "to_hit": -1,
@@ -19,6 +19,8 @@
     "sight_dispersion": 105,
     "aim_speed": 3,
     "durability": 8,
+    "loudness": 150,
+    "reload": 100,
     "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "magazine_well": 1,
     "magazines": [
@@ -46,6 +48,8 @@
     "recoil": -10,
     "durability": 6,
     "burst": 8,
+    "loudness": 150,
+    "reload": 100,
     "valid_mod_locations": [ [ "accessories", 3 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "magazines": [
       [ "32", [ "skorpion61mag" ] ]
@@ -59,7 +63,7 @@
     "name_plural": "Walther PPK",
     "description": "One of the most famous handguns of the 20th century.  Your name is not Bond, but you might find this little gun still useful.",
     "weight": 525,
-    "volume": 1,
+    "volume": 2,
     "price": 45000,
     "bashing": 8,
     "to_hit": -1,
@@ -72,6 +76,8 @@
     "sight_dispersion": 105,
     "aim_speed": 3,
     "durability": 8,
+    "loudness": 150,
+    "reload": 100,
     "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "magazine_well": 1,
     "magazines": [

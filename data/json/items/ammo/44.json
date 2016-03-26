@@ -73,7 +73,7 @@
     "type": "AMMO",
     "name": "reloaded .44 Magnum",
     "name_plural": "reloaded .44 Magnum",
-    "description": ".44 magnum ammunition with 240gr JHP bullets.  The .44 magnum round is one of the most powerful handgun cartridges available.  It has excellent stopping power but suffers from extremely high recoil for a handgun round.  This one has been hand-reloaded.",
+    "description": "Described (in 1971) by Dirty Harry as \"the most powerful handgun in the world,\" the .44 Magnum gained widespread popularity due to its depictions in the media.  In reality, its intense recoil makes it unsuitable in most cases.  This one has been hand-reloaded.",
     "weight": 16,
     "volume": 1,
     "price": 58,

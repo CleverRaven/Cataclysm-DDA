@@ -31,21 +31,22 @@ ignore_files = {
 # these objects have no translatable strings
 ignorable = {
     "BULLET_PULLING",
-    "colordef",
-    "epilogue", # FIXME right now this object can't be translated correctly
     "ITEM_BLACKLIST",
-    "item_group",
-    "ITEM_OPTION",
-    "monitems",
     "MONSTER_BLACKLIST",
     "MONSTER_FACTION",
-    "monstergroup",
     "MONSTER_WHITELIST",
+    "SPECIES",
+    "colordef",
+    "epilogue", # FIXME right now this object can't be translated correctly
+    "item_group",
+    "monitems",
+    "monstergroup",
     "npc",      # FIXME right now this object is unextractable
     "overmap_special",
+    "recipe_category",
+    "recipe_subcategory",
     "region_overlay",
     "region_settings",
-    "SPECIES",
     "vehicle_group",
     "vehicle_placement"
 }
@@ -61,8 +62,8 @@ ignorable = {
 #   "messages" member containing an array of translatable strings
 automatically_convertible = {
     "AMMO",
-    "ammunition_type",
     "ARMOR",
+    "ammunition_type",
     "bionic",
     "BIONIC_ITEM",
     "BOOK",
@@ -73,8 +74,9 @@ automatically_convertible = {
     "faction",
     "furniture",
     "GENERIC",
-    "GUN",
     "GUNMOD",
+    "GUN",
+    "STATIONARY_ITEM",
     "hint",
     "item_action",
     "ITEM_CATEGORY",
@@ -89,16 +91,15 @@ automatically_convertible = {
     "snippet",
     "speech",
     "start_location",
-    "STATIONARY_ITEM",
     "terrain",
+    "tool_quality",
     "TOOL",
     "TOOL_ARMOR",
-    "tool_quality",
     "trap",
     "tutorial_messages",
     "VAR_VEH_PART",
-    "vehicle",
     "vehicle_part",
+    "vehicle",
 }
 
 # for these objects a plural form is needed
@@ -110,13 +111,13 @@ needs_plural = {
     "COMESTIBLE",
     "CONTAINER",
     "GENERIC",
-    "GUN",
     "GUNMOD",
-    "MONSTER"
+    "GUN",
     "STATIONARY_ITEM",
     "TOOL",
     "TOOL_ARMOR",
     "VAR_VEH_PART",
+    "MONSTER"
 }
 
 # these objects can be automatically converted, but use format strings
@@ -272,7 +273,7 @@ def extract_mapgen(item):
     outfile = get_outfile("mapgen")
     # writestr will not write string if it is None.
     for objkey in item["object"]:
-        if objkey == "place_specials" or objkey == "place_signs":
+        if objkey == "place_specials":
             for special in item["object"][objkey]:
                 for speckey in special:
                     if speckey == "signage":
@@ -357,39 +358,17 @@ def extract_vehspawn(item):
     for st in found:
         writestr(outfile, st.get("description"), comment="Vehicle Spawn Description")
 
-def extract_recipe_category(item):
-    outfile = get_outfile("recipe_category")
-
-    cid = item.get("id", None)
-    if cid:
-        if cid == 'CC_NONCRAFT':
-            return
-        cat_name = cid.split("_")[1]
-        writestr(outfile, cat_name, comment="Crafting recipes category name")
-    else:
-        raise WrongJSONItem("Recipe category must have unique id", item)
-
-    found = item.get("recipe_subcategories", [])
-    for subcat in found:
-        if subcat == 'CSC_ALL':
-            writestr(outfile, 'ALL', comment="Crafting recipes subcategory all")
-            continue
-        subcat_name = subcat.split('_')[2]
-        writestr(outfile, subcat_name,
-                 comment="Crafting recipes subcategory of '{}' category".format(cat_name))
-
 # these objects need to have their strings specially extracted
 extract_specials = {
     "effect_type": extract_effect_type,
-    "mapgen": extract_mapgen,
-    "martial_art": extract_martial_art,
     "material": extract_material,
-    "mutation_category": extract_mutation,
+    "martial_art": extract_martial_art,
     "profession": extract_professions,
-    "recipe_category": extract_recipe_category,
     "recipe": extract_recipes,
     "scenario": extract_scenarios,
+    "mapgen": extract_mapgen,
     "talk_topic": extract_talk_topic,
+    "mutation_category": extract_mutation,
     "vehicle_spawn": extract_vehspawn
 }
 

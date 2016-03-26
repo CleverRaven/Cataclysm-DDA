@@ -695,9 +695,7 @@
         "fields_type": "fd_blood",
         "fields_min_density": 3,
         "fields_max_density": 3,
-        "explosion": {
-            "power": 12
-        }
+        "explosion_power": 12
       }
   },{
     "id": "scroll_sun",
@@ -1070,7 +1068,12 @@
     "turns_per_charge": 300,
     "ammo": "NULL",
     "revert_to": "stormbringer",
-    "revert_msg": "The malevolent energy fades from the cursed blade, returning it to normal",
+    "use_action": {
+        "type": "auto_transform",
+        "target": "stormbringer",
+        "non_interactive_msg": "\"The black blade will not be thwarted!\"  The effect cannot be dispeled until its energy has run out.",
+        "msg": "The malevolent energy fades from the cursed blade, returning it to normal."
+    },
     "category" : "weapons",
     "//" : "Funny as it'd be to add the bad weather effect too, that would be a tad silly",
     "artifact_data" : {

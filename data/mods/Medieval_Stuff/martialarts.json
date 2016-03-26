@@ -67,7 +67,7 @@
                 "unarmed_allowed" : true,
                 "max_stacks": 1,
                 "buff_duration" : 2,
-                "mult_bonuses" : [["damage", "bash", 1.1]]
+                "bash_mult" : 1.1
             }
         ],
         "onhit_buffs": [
@@ -82,7 +82,7 @@
                   ],
                 "buff_duration" : 2,
                 "max_stacks" : 1,
-                "mult_bonuses" : [["damage", "bash", 1.2]]
+                "bash_mult" : 1.2
             }
         ],
         "techniques" : [

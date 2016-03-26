@@ -105,8 +105,8 @@
             "place_items": [
                 { "item": "bed", "chance": 80,  "x": [5,6 ], "y": [19,20 ] },
                 { "item": "bedroom", "chance": 75, "x": [ 6,7 ], "y": [ 19,20 ] },
-                { "item": "livingroom", "chance": 75, "x": [ 12,15 ], "y": [ 5,8 ] },
-                { "item": "livingroom", "chance": 75, "x": [ 12,15 ], "y": [ 18,22 ] },
+                { "item": "livingroom", "chance": 75, "x": [ 11,15 ], "y": [ 5,8 ] },
+                { "item": "livingroom", "chance": 75, "x": [ 11,15 ], "y": [ 18,22 ] },
                 { "item": "livingroom", "chance": 75, "x": [ 9,15 ], "y":  [ 15,17 ] },
                 { "item": "dresser", "chance": 90, "x": 4, "y":  19  },
                 { "item": "fridge", "chance": 60, "x": [ 18,19 ], "y": 19 },
@@ -121,8 +121,8 @@
                 { "item": "pool_table", "chance": 50, "x": [ 4,6 ], "y": [ 13,14 ]},
                 { "item": "office", "chance": 30, "x": [ 11,15 ] , "y": [ 19,21 ] },
                 { "item": "oven", "chance": 50, "x": [ 17, 17 ], "y": 19 },
-                { "item": "cleaning", "chance": 75, "x": [ 17,21 ], "y": [ 21,22 ] },
-                { "item": "softdrugs", "chance": 75, "x": [ 17,21 ], "y": [ 21,22 ] }
+                { "item": "cleaning", "chance": 75, "x": [ 17,22 ], "y": [ 21,22 ] },
+                { "item": "softdrugs", "chance": 75, "x": [ 17,22 ], "y": [ 21,22 ] }
             ],
             "place_monsters": [
                 { "monster": "GROUP_ZOMBIE", "chance": 2, "x": [ 2, 21 ], "y": [ 2, 21 ] }

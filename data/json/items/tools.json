@@ -411,7 +411,7 @@
     "to_hit" : 0,
     "color" : "dark_gray",
     "symbol" : ",",
-    "material" : ["steel"],
+    "material" : ["steel", "null"],
     "volume" : 1,
     "bashing" : 1,
     "cutting" : 8,
@@ -455,7 +455,7 @@
     "name_plural": "paint brushes",
     "description": "A wide brush, suitable for painting walls.",
     "price": 7000,
-    "material": ["wood"],
+    "material": ["wood", "null"],
     "weight": 60,
     "volume": 2,
     "to_hit": 1,
@@ -677,8 +677,9 @@
     "ammo": "gasoline",
     "revert_to": "gasoline_lantern",
     "use_action": {
-        "type": "transform",
+        "type": "auto_transform",
         "target": "gasoline_lantern",
+        "when_underwater": "The lantern is extinguished.",
         "msg": "The lantern is extinguished."
     }
   },
@@ -735,8 +736,9 @@
     "ammo": "lamp_oil",
     "revert_to": "oil_lamp",
     "use_action": {
-        "type": "transform",
+        "type": "auto_transform",
         "target": "oil_lamp",
+        "when_underwater": "The lantern is extinguished.",
         "msg": "The lantern is extinguished."
     }
   },
@@ -749,7 +751,7 @@
     "name_plural": "electric lanterns (off)",
     "description": "This is a battery-powered lamp.  It does not provide much light, but it lasts a long time.  Use it to turn it on.",
     "price": 1000,
-    "material": ["plastic"],
+    "material": ["plastic", "null"],
     "weight": 980,
     "volume": 4,
     "bashing": 1,
@@ -778,7 +780,7 @@
     "name_plural": "electric lanterns (on)",
     "description": "This is a battery-powered lamp.  It does not provide much light, but it lasts a long time.  It is turned on.  Use it to turn it off.",
     "price": 1000,
-    "material": ["plastic"],
+    "material": ["plastic", "null"],
     "flags": "LIGHT_15",
     "weight": 980,
     "volume": 4,
@@ -1068,7 +1070,12 @@
     "turns_per_charge": 120,
     "ammo": "NULL",
     "revert_to": "lightstrip_dead",
-    "revert_msg": "The lightstrip dies."
+    "use_action": {
+        "type": "auto_transform",
+        "target": "lightstrip_dead",
+        "non_interactive_msg": "You can not deactivate the lightstrip.",
+        "msg": "The lightstrip dies."
+    }
   },
   {
     "id": "glowstick",
@@ -1114,7 +1121,12 @@
     "turns_per_charge": 2,
     "ammo": "NULL",
     "revert_to": "glowstick_dead",
-    "revert_msg": "The glowstick fades out."
+    "use_action": {
+        "type": "auto_transform",
+        "target": "glowstick_dead",
+        "non_interactive_msg": "You can't turn off a glowstick.",
+        "msg": "The glowstick fades out."
+    }
   },
   {
     "id": "glowstick_dead",
@@ -1183,7 +1195,12 @@
     "turns_per_charge": 2,
     "ammo": "NULL",
     "revert_to": "handflare_dead",
-    "revert_msg": "The flare sputters out"
+    "use_action": {
+        "type": "auto_transform",
+        "target": "handflare_dead",
+        "non_interactive_msg": "You can't turn off a flare.",
+        "msg": "The flare sputters out."
+    }
   },
   {
     "id": "hotplate",
@@ -1370,7 +1387,7 @@
     "name": "coffeemaker",
     "description": "This is a heating element with pot and frame for holding coffee or other powders.  It's got a battery compartment for use when the power goes out.  You can use it to make coffee, or other drinks if you so choose.",
     "price": 2000,
-    "material": ["plastic"],
+    "material": ["plastic", "null"],
     "weight": 3100,
     "volume": 3,
     "to_hit": -5,
@@ -1432,11 +1449,7 @@
     "bashing": 6,
     "category" : "tools",
     "to_hit": 1,
-    "qualities": [["COOK", 3], ["BOIL", 2], ["CONTAIN", 1], ["CHEM", 1]],
-    "container_data" : {
-        "contains": 8,
-        "watertight": true
-    }
+    "qualities": [["COOK", 3], ["BOIL", 2], ["CONTAIN", 1], ["CHEM", 1]]
   },
   {
     "type":"GENERIC",
@@ -1452,11 +1465,7 @@
     "bashing": 6,
     "category" : "tools",
     "to_hit": 1,
-    "qualities": [["COOK", 3], ["BOIL", 2], ["CONTAIN", 1], ["CHEM", 1]],
-    "container_data" : {
-        "contains": 8,
-        "watertight": true
-    }
+    "qualities": [["COOK", 3], ["BOIL", 2], ["CONTAIN", 1], ["CHEM", 1]]
   },
   {
     "type":"GENERIC",
@@ -1472,11 +1481,7 @@
     "bashing": 10,
     "category" : "tools",
     "to_hit": 2,
-    "qualities": [["COOK", 2], ["BOIL", 2], ["CONTAIN", 1]],
-    "container_data" : {
-        "contains": 4,
-        "watertight": true
-    }
+    "qualities": [["COOK", 2], ["BOIL", 2], ["CONTAIN", 1]]
   },
   {
     "type":"GENERIC",
@@ -1521,11 +1526,7 @@
     "volume": 8,
     "bashing": 1,
     "category": "tools",
-    "qualities": [["COOK", 3], ["BOIL", 2], ["CONTAIN", 1], ["CHEM", 1]],
-    "container_data" : {
-        "contains": 8,
-        "watertight": true
-    }
+    "qualities": [["COOK", 3], ["BOIL", 2], ["CONTAIN", 1], ["CHEM", 1]]
   },
   {
     "type": "GENERIC",
@@ -1554,11 +1555,7 @@
     "volume": 3,
     "bashing": 1,
     "to_hit": 1,
-    "qualities": [["BOIL", 1]],
-    "container_data" : {
-        "contains": 3,
-        "watertight": true
-    }
+    "qualities": [["BOIL", 1]]
   },
   {
     "type":"GENERIC",
@@ -1574,11 +1571,7 @@
     "bashing": 3,
     "category" : "tools",
     "to_hit": 2,
-    "qualities": [["BOIL", 1]],
-    "container_data" : {
-        "contains": 2,
-        "watertight": true
-    }
+    "qualities": [["BOIL", 1]]
   },
   {
     "type":"GENERIC",
@@ -1591,7 +1584,7 @@
     "to_hit" : 1,
     "color" : "brown",
     "symbol" : "/",
-    "material" : ["wood"],
+    "material" : ["wood", "null"],
     "techniques" : ["WBLOCK_1"],
     "volume" : 6,
     "bashing" : 4,
@@ -1608,7 +1601,7 @@
     "to_hit" : 1,
     "color" : "brown",
     "symbol" : ";",
-    "material" : ["wood"],
+    "material" : ["wood", "null"],
     "volume" : 2,
     "bashing" : 3,
     "price" : 3000
@@ -2201,7 +2194,7 @@
         "to_hit" : 3,
         "color" : "green",
         "symbol" : ",",
-        "material" : ["plastic"],
+        "material" : ["plastic", "null"],
         "volume" : 2,
         "bashing" : 4,
         "flags" : ["WRAP"],
@@ -3078,10 +3071,8 @@
         "sound_volume": 0,
         "sound_msg": "Tick.",
         "no_deactivate_msg": "You've already pulled the %s's pin, try throwing it instead.",
-        "explosion": {
-            "power": 12,
-            "shrapnel": 28
-        }
+        "explosion_power": 12,
+        "explosion_shrapnel": 28
     }
   },
   {
@@ -3092,7 +3083,7 @@
     "name": "incendiary grenade",
     "description": "This is a military grade incendiary hand grenade.  Use this item to pull the pin and light the fuse.  You will then have five turns before it explodes into a raging inferno; throwing it would be a good idea.",
     "price": 2000,
-    "material": ["steel"],
+    "material": ["steel", "null"],
     "weight": 180,
     "volume": 1,
     "bashing": 6,
@@ -3121,7 +3112,7 @@
     "name": "active incendiary grenade",
     "description": "This is an active incendiary grenade, likely to burst into an inferno any second now.  Better throw it!",
     "price": 0,
-    "material": ["steel"],
+    "material": ["steel", "null"],
     "weight": 180,
     "volume": 1,
     "bashing": 6,
@@ -3678,8 +3669,7 @@
     "flags": ["RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB"],
     "revert_to": "null",
     "category": "weapons",
-    "explode_in_fire" : true,
-    "explosion" : {
+    "explode_in_fire" : {
         "power": 60,
         "shrapnel": 0
     },
@@ -3714,8 +3704,7 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category": "weapons",
-    "explode_in_fire" : true,
-    "explosion" : {
+    "explode_in_fire" : {
         "power": 60,
         "shrapnel": 0
     },
@@ -3724,9 +3713,8 @@
         "sound_volume": 0,
         "sound_msg": "ssss...",
         "no_deactivate_msg": "You've already lit the %s, try throwing it instead.",
-        "explosion": {
-            "power": 60
-        }
+        "explosion_power": 60,
+        "explosion_shrapnel": 0
     }
   },
   {
@@ -3865,9 +3853,8 @@
         "sound_volume": 2,
         "sound_msg": "Tick.",
         "no_deactivate_msg": "You've already set the %s's timer, you might want to get away from it.",
-        "explosion": {
-            "power": 450
-        },
+        "explosion_power": 450,
+        "explosion_shrapnel": 0,
         "fields_type": "fd_nuke_gas",
         "fields_radius": 6,
         "fields_min_density": 3,
@@ -4275,6 +4262,7 @@
     "name_plural": "fake UPS",
     "description": "If you can see this, it is a bug.",
     "price": 0,
+    "material": ["null"],
     "weight": 0,
     "volume": 0,
     "max_charges": 1000,
@@ -4405,7 +4393,7 @@
      "name": "handheld game system",
      "description": "This is a portable games console in working condition, with a backlit screen allowing you to play in the dark.  You can use it to play it for a little while, but this requires batteries.",
      "price": 12000,
-     "material": ["plastic"],
+     "material": ["plastic", "null"],
      "weight": 200,
      "volume": 2,
      "max_charges": 200,
@@ -4545,7 +4533,7 @@
     "name": "C-4 explosive",
     "description": "This is military grade RDX composition explosive.  A label reads: \"Highly explosive, use with extreme caution!\" It comes with a small timer.",
     "price": 9000,
-    "material": ["plastic"],
+    "material": ["plastic", "null"],
     "weight": 1570,
     "volume": 4,
     "to_hit": -4,
@@ -4567,7 +4555,7 @@
     "name_plural": "C-4 explosives (armed)",
     "description": "This is military grade RDX composition explosive.  A label reads: \"Highly explosive, use with extreme caution!\" It comes with a small timer, which is currently ticking down.",
     "price": 0,
-    "material": ["plastic"],
+    "material": ["plastic", "null"],
     "weight": 1570,
     "volume": 4,
     "to_hit": -4,
@@ -4583,10 +4571,8 @@
         "sound_volume": 0,
         "sound_msg": "Tick.",
         "no_deactivate_msg": "You've already set the %s's timer, you might want to get away from it.",
-        "explosion": {
-            "power": 40,
-            "shrapnel": 3
-        }
+        "explosion_power": 40,
+        "explosion_shrapnel": 3
     }
   },
   {
@@ -5829,7 +5815,7 @@
     "color": "brown",
     "name": "torch",
     "name_plural": "torches",
-    "description": "This is a large stick, wrapped in rags that are soaked with a flammable material.  When lit, produces a fair amount of light.  You'll need a lighter or matches to light it.",
+    "description": "This is a large stick, wrapped in gasoline soaked rags.  When lit, produces a fair amount of light.  You'll need a lighter or matches to light it.",
     "price": 0,
     "material": "wood",
     "weight": 831,
@@ -5858,7 +5844,7 @@
     "color": "brown",
     "name": "torch (lit)",
     "name_plural": "torches (lit)",
-    "description": "This is a large stick, wrapped in rags that are soaked with a flammable material.  It is burning, producing plenty of light.",
+    "description": "This is a large stick, wrapped in gasoline soaked rags.  It is burning, producing plenty of light.",
     "price": 0,
     "material": "wood",
     "flags": ["FIRE", "LIGHT_310", "CHARGEDIM", "FLAMING"],
@@ -5978,8 +5964,9 @@
     "ammo": "NULL",
     "revert_to": "null",
     "use_action": {
-        "type": "transform",
+        "type": "auto_transform",
         "target": "candle",
+        "when_underwater": "The candle is extinguished.",
         "msg": "The candle winks out."
     }
   },
@@ -6609,7 +6596,7 @@
     "name_plural" : "copper knives",
     "description" : "A knife consisting of crudely-worked copper, and a simple handle.  Primitive, but a step above stone-age.",
     "price": 3000,
-    "material": ["copper"],
+    "material": ["copper", "null"],
     "weight": 650,
     "volume": 1,
     "bashing": 2,
@@ -6632,7 +6619,7 @@
     "name_plural" : "makeshift knives",
     "description" : "A knife consisting of a long, somewhat sharpened, spike and a tightly wrapped rag as a handle.  It makes a good melee weapon.",
     "price": 0,
-    "material": ["steel"],
+    "material": ["steel", "null"],
     "weight": 550,
     "volume": 2,
     "bashing": 2,
@@ -6884,7 +6871,7 @@
     "qualities": [["CUT", 1], ["DIG", 3], ["BUTCHER", -8]]
   },{
     "id": "digging_stick",
-    "type": "GENERIC",
+    "type": "TOOL",
     "symbol": "/",
     "color": "brown",
     "name": "digging stick",
@@ -6894,7 +6881,14 @@
     "weight": 1133,
     "volume": 6,
     "bashing": 8,
-    "qualities": [["DIG", 1]]
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "qualities": [["DIG", 1]],
+    "use_action": "DIG"
   },{
     "id": "shelter_kit",
     "type": "TOOL",
@@ -8198,9 +8192,8 @@
         "sound_volume": 0,
         "sound_msg": "ssss...",
         "no_deactivate_msg": "You've already lit the %s, try throwing it instead.",
-        "explosion": {
-            "power": 24
-        }
+        "explosion_power": 24,
+        "explosion_shrapnel": 0
     }
   },
  {
@@ -8261,8 +8254,9 @@
             "moves_cost": 15
         },
         {
-            "type": "transform",
+            "type": "auto_transform",
             "msg": "You extinguish the lighter.",
+            "when_underwater": "The lighter is extinguished.",
             "target": "ref_lighter",
             "active": false,
             "menu_option_text": "Extinguish"
@@ -8492,7 +8486,7 @@
     "id" : "wrapped_rad_badge",
     "name" : "wrapped radiation badge",
     "price" : 1000,
-    "material" : ["plastic"],
+    "material" : ["plastic", "null"],
     "volume" : 0,
     "weight" : 20,
     "symbol": ",",
@@ -8519,7 +8513,7 @@
     "name": "food dehydrator",
     "description": "This is a portable electric food dehydrator.  It's powered by batteries, and could be invaluable in preserving food.",
     "price": 6000,
-    "material": ["plastic"],
+    "material": ["plastic", "null"],
     "weight": 4200,
     "volume": 18,
     "bashing": 8,
@@ -9589,10 +9583,8 @@
     "use_action": {
         "type": "explosion",
         "no_deactivate_msg": "You can't disarm your %s'.  Place it, get away, and use the remote control to detonate.",
-        "explosion": {
-            "power": 12,
-            "shrapnel": 4
-        }
+        "explosion_power": 12,
+        "explosion_shrapnel": 4
     }
   },
   {
@@ -9646,9 +9638,8 @@
     "use_action": {
         "type": "explosion",
         "no_deactivate_msg": "You can't disarm your %s'.  Place it, get away and use the remote control to detonate.",
-        "explosion": {
-            "power": 60
-        }
+        "explosion_power": 60,
+        "explosion_shrapnel": 0
     }
   },
   {
@@ -9664,7 +9655,7 @@
     "weight": 350,
     "volume": 8,
     "to_hit": -1,
-    "material": ["plastic"]
+    "material": ["plastic", "null"]
   },
   {
     "id": "smart_lamp",
@@ -9828,8 +9819,7 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category": "weapons",
-    "explode_in_fire" : true,
-    "explosion" : {
+    "explode_in_fire" : {
         "power": 80,
         "shrapnel": 0
     },
@@ -9864,8 +9854,7 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category": "weapons",
-    "explode_in_fire" : true,
-    "explosion" : {
+    "explode_in_fire" : {
         "power": 80,
         "shrapnel": 0
     },
@@ -9874,9 +9863,7 @@
         "sound_volume": 0,
         "sound_msg": "ssss...",
         "no_deactivate_msg": "You've already lit the %s, try throwing it instead.",
-        "explosion": {
-            "power": 80
-        }
+        "explosion_power": 80
     }
   },
   {
@@ -10326,10 +10313,8 @@
         "sound_volume": 0,
         "sound_msg": "Tick.",
         "no_deactivate_msg": "You've already lit the fuse – run!",
-        "explosion": {
-            "power": 500,
-            "shrapnel": 50
-        }
+        "explosion_power": 500,
+        "explosion_shrapnel": 50
     }
   },
   {
@@ -10387,10 +10372,8 @@
         "sound_volume": 0,
         "sound_msg": "Kshhh.",
         "no_deactivate_msg": "You've already lit the fuse – throw it!",
-        "explosion": {
-            "power": 10,
-            "shrapnel": 5
-        }
+        "explosion_power": 10,
+        "explosion_shrapnel": 5
     }
   },
   {
@@ -10446,10 +10429,8 @@
         "sound_volume": 0,
         "sound_msg": "Kshhh.",
         "no_deactivate_msg": "You've already lit the fuse – run!",
-        "explosion": {
-            "power": 60,
-            "shrapnel": 30
-        }
+        "explosion_power": 60,
+        "explosion_shrapnel": 30
     }
   },
   {
@@ -10508,10 +10489,8 @@
         "sound_volume": 0,
         "sound_msg": "Kshhh.",
         "no_deactivate_msg": "You've already lit the fuse – what are you waiting for?",
-        "explosion": {
-            "power": 9,
-            "shrapnel": 40
-        }
+        "explosion_power": 9,
+        "explosion_shrapnel": 40
     }
   },
   {
@@ -10569,10 +10548,8 @@
         "sound_volume": 0,
         "sound_msg": "Kshhh.",
         "no_deactivate_msg": "You've already lit the fuse – clear the area immediately!",
-        "explosion": {
-            "power": 750,
-            "shrapnel": 200
-        }
+        "explosion_power": 750,
+        "explosion_shrapnel": 200
     }
   },
   {
@@ -10630,9 +10607,7 @@
         "sound_volume": 5,
         "sound_msg": "Hsssss.",
         "no_deactivate_msg": "You've already lit the fuse – get rid of it immediately!",
-        "explosion": {
-            "power": 1
-        },
+        "explosion_power": 1,
         "fields_radius": 2,
         "fields_type": "fd_smoke",
         "fields_min_density": 2,
@@ -10742,7 +10717,7 @@
     "symbol" : "-",
     "description" : "A brass-plated trumpet with only a few dents here and there.",
     "price" : 7500,
-    "material" : ["iron"],
+    "material" : ["iron", "null"],
     "volume" : 10,
     "phase" : "solid",
     "bashing" : 7
@@ -10778,7 +10753,7 @@
     "symbol" : "(",
     "description" : "A small factory made ukulele.  Looks to be in working condition.",
     "price" : 7500,
-    "material" : ["wood"],
+    "material" : ["wood", "null"],
     "volume" : 10,
     "phase" : "solid",
     "bashing" : 5
@@ -10850,7 +10825,7 @@
     "symbol" : "}",
     "description" : "A cheap, factory-made violin with a built-in holder for a bow.  Still produces a nice sound.",
     "price" : 7500,
-    "material" : ["wood"],
+    "material" : ["wood", "null"],
     "volume" : 10,
     "phase" : "solid",
     "bashing" : 5
@@ -10886,7 +10861,7 @@
     "symbol" : "}",
     "description" : "A shiny golden fiddle, with a strange aura around it.  You feel like it once belonged to the best there's ever been.",
     "price" : 1000000,
-    "material" : ["gold"],
+    "material" : ["gold", "null"],
     "volume" : 10,
     "phase" : "solid",
     "bashing" : 9

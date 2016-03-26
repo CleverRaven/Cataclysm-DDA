@@ -343,10 +343,14 @@
     },
     {
         "type" : "keybinding",
-        "id": "USAGE_HELP",
+        "id": "HELP",
         "category": "SORT_ARMOR",
-        "name": "Display Usage Help",
+        "name": "Display Help",
         "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"?"
+            },
             {
                 "input_method":"keyboard",
                 "key":"F1"

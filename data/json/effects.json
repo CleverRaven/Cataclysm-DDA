@@ -425,16 +425,6 @@
         "name": ["Laser-targeted"],
         "desc": ["A laser sight is targeting you!"],
         "apply_message": "",
-        "max_duration": 5,
-        "rating": "bad"
-    },
-    {
-        "type": "effect_type",
-        "id": "was_laserlocked",
-        "name": [""],
-        "desc": [""],
-        "apply_message": "",
-        "max_duration": 5,
         "rating": "bad"
     },
     {
@@ -717,7 +707,7 @@
         "type": "effect_type",
         "id": "pblue",
         "base_mods": {
-            "rad_chance": [600],
+            "rad_chance": [16],
             "rad_min": [-1]
         }
     },
@@ -1092,22 +1082,21 @@
         "miss_messages": [["Your comedown throws you off.", 1]],
         "max_intensity": 2,
         "int_dur_factor": 150,
+        "dur_add_perc": 15,
         "removes_effects": ["winded"],
         "base_mods": {
             "speed_mod": [-10],
             "str_mod": [-2],
-            "dex_mod": [-2],
+            "dex_mod": [-1],
             "int_mod": [-1],
-            "per_mod": [-1],
-            "stamina_min": [-2]
+            "per_mod": [-1]
         },
         "scaling_mods": {
-            "speed_mod": [30],
-            "str_mod": [5],
+            "speed_mod": [50],
+            "str_mod": [7],
             "dex_mod": [4],
             "int_mod": [-7],
-            "per_mod": [2],
-            "stamina_min": [4]
+            "per_mod": [2]
         }
     },
     {
@@ -1129,18 +1118,16 @@
         "base_mods": {
             "speed_mod": [-10],
             "str_mod": [-2],
-            "dex_mod": [-2],
+            "dex_mod": [-1],
             "int_mod": [-1],
-            "per_mod": [-1],
-            "stamina_min": [-2]
+            "per_mod": [-1]
         },
         "scaling_mods": {
-            "speed_mod": [30],
-            "str_mod": [5],
+            "speed_mod": [50],
+            "str_mod": [7],
             "dex_mod": [4],
             "int_mod": [-7],
-            "per_mod": [2],
-            "stamina_min": [4]
+            "per_mod": [2]
         }
     },
     {

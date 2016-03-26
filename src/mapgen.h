@@ -179,10 +179,10 @@ private:
 
 class mapgen_function_json : public virtual mapgen_function {
     public:
-    bool check_inbounds( const jmapgen_int &var ) const;
-    void setup_setmap( JsonArray &parray );
+    bool check_inbounds( const jmapgen_int & var ) const;
+    void setup_setmap(JsonArray &parray);
     virtual bool setup() override;
-    virtual void generate(map *, oter_id, mapgendata, int, float) override;
+    virtual void generate(map*, oter_id, mapgendata, int, float) override;
 
     mapgen_function_json( std::string s, int w = 1000 );
     ~mapgen_function_json() {
@@ -193,7 +193,7 @@ class mapgen_function_json : public virtual mapgen_function {
     std::string jdata;
     size_t mapgensize;
     ter_id fill_ter;
-    std::vector<ter_furn_id> format;
+    std::unique_ptr<ter_furn_id[]> format;
     std::vector<jmapgen_setmap> setmap_points;
 
     /**
@@ -216,8 +216,6 @@ class mapgen_function_json : public virtual mapgen_function {
 private:
     jmapgen_objects objects;
     jmapgen_int rotation;
-
-    void formatted_set_incredibly_simple( map *m ) const;
 };
 
 /////////////////////////////////////////////////////////////////////////////////

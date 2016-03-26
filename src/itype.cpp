@@ -27,14 +27,26 @@ bool itype::can_use( const std::string &iuse_name ) const
 
 const use_function *itype::get_use( const std::string &iuse_name ) const
 {
-    const auto iter = std::find_if( use_methods.begin(),
-    use_methods.end(), [&]( const use_function & func ) {
-        return func.get_type() == iuse_name;
-    } );
-    if( iter == use_methods.end() ) {
+    if( !has_use() ) {
         return nullptr;
     }
-    return &*iter;
+
+    const use_function *func = item_controller->get_iuse( iuse_name );
+    if( func != nullptr ) {
+        if( std::find( use_methods.cbegin(), use_methods.cend(),
+                       *func ) != use_methods.cend() ) {
+            return func;
+        }
+    }
+
+    for( const auto &method : use_methods ) {
+        const auto ptr = method.get_actor_ptr();
+        if( ptr != nullptr && ptr->type == iuse_name ) {
+            return &method;
+        }
+    }
+
+    return nullptr;
 }
 
 long itype::tick( player *p, item *it, const tripoint &pos ) const

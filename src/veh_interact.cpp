@@ -13,6 +13,7 @@
 #include "debug.h"
 #include "messages.h"
 #include "translations.h"
+#include "morale.h"
 #include "veh_type.h"
 #include "ui.h"
 #include "itype.h"

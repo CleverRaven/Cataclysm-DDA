@@ -1,36 +1,5 @@
 [
   {
-    "id": "american_180",
-    "type": "GUN",
-    "name": "American-180",
-    "name_plural": "American-180",
-    "description": "The American-180 is a submachine gun developed in the 1960's that fires .22 LR, unusual for an SMG.  Though the round is low-powered, the high rate of fire and large magazine makes the 180 a formidable weapon.",
-    "weight": 1840,
-    "volume": 5,
-    "price": 163000,
-    "bashing": 11,
-    "to_hit": -2,
-    "material": "steel",
-    "symbol": "(",
-    "color": "light_gray",
-    "skill": "smg",
-    "ammo": "22",
-    "ranged_damage": 2,
-    "dispersion": 180,
-    "sight_dispersion": 105,
-    "aim_speed": 3,
-    "recoil": 10,
-    "durability": 6,
-    "burst": 30,
-    "barrel_length": 1,
-    "valid_mod_locations": [ [ "accessories", 3 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
-    "magazines": [
-      [ "22", [ "a180mag" ] ],
-      [ "57", [ "fnp90mag" ] ]
-    ],
-    "flags": [ "MODE_BURST" ]
-  },
-  {
     "id": "marlin_9a",
     "type": "GUN",
     "name": "Marlin 39A",
@@ -51,7 +20,9 @@
     "aim_speed": 6,
     "recoil": -75,
     "durability": 8,
+    "loudness": 150,
     "clip_size": 19,
+    "reload": 90,
     "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "flags": "RELOAD_ONE"
   },
@@ -77,38 +48,11 @@
     "aim_speed": 2,
     "recoil": 30,
     "durability": 6,
+    "loudness": 150,
     "clip_size": 4,
+    "reload": 100,
     "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ]
-  },
-  {
-    "id": "rifle_22",
-    "type": "GUN",
-    "name": "pipe rifle: .22",
-    "name_plural": "pipe rifles: .22",
-    "description": "A home-made rifle.  It is simply a pipe attached to a stock, with a hammer to strike the single round it holds.",
-    "weight": 1953,
-    "volume": 7,
-    "price": 10000,
-    "bashing": 10,
-    "to_hit": -1,
-    "material": [ "steel", "wood" ],
-    "symbol": "(",
-    "color": "brown",
-    "skill": "rifle",
-    "ammo": "22",
-    "ranged_damage": -2,
-    "dispersion": 105,
-    "sight_dispersion": 60,
-    "aim_speed": 6,
-    "recoil": 30,
-    "durability": 6,
-    "loudness": 25,
-    "clip_size": 1,
-    "reload": 200,
-    "barrel_length": 2,
-    "valid_mod_locations": [ [ "accessories", 2 ], [ "muzzle", 1 ], [ "stock", 1 ] ],
-    "flags": [ "RELOAD_ONE", "RELOAD_EJECT" ]
   },
   {
     "id": "rm360_carbine",
@@ -131,6 +75,7 @@
     "recoil": 5,
     "durability": 9,
     "burst": 20,
+    "loudness": 125,
     "reload": 500,
     "valid_mod_locations": [ [ "accessories", 3 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "magazines": [ [ "22", [ "360_200_mag", "360_400_mag" ] ] ],
@@ -157,13 +102,13 @@
     "aim_speed": 6,
     "recoil": -75,
     "durability": 8,
+    "loudness": 150,
+    "reload": 100,
     "barrel_length": 2,
     "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "magazine_well": 1,
     "magazines": [
-      [ "22", [ "ruger1022mag", "ruger1022bigmag" ] ],
-      [ "46", [ "hk46mag", "hk46bigmag" ] ],
-      [ "57", [ "fn57mag" ] ]
+      [ "22", [ "ruger1022mag", "ruger1022bigmag" ] ]
     ]
   },
   {
@@ -187,7 +132,9 @@
     "aim_speed": 4,
     "recoil": 90,
     "durability": 8,
+    "loudness": 160,
     "clip_size": 8,
+    "reload": 80,
     "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ]
   },
@@ -212,6 +159,8 @@
     "aim_speed": 4,
     "recoil": 60,
     "durability": 8,
+    "loudness": 150,
+    "reload": 100,
     "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "magazine_well": 1,
     "magazines": [
@@ -239,6 +188,8 @@
     "aim_speed": 4,
     "recoil": 75,
     "durability": 7,
+    "loudness": 150,
+    "reload": 100,
     "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "magazines": [
       [ "22", [ "sw22mag" ] ]

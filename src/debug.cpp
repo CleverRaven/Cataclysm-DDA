@@ -9,7 +9,6 @@
 #include <fstream>
 #include <streambuf>
 #include <sys/stat.h>
-#include <exception>
 
 #ifndef _MSC_VER
 #include <sys/time.h>
@@ -31,8 +30,6 @@ static int debugLevel = D_ERROR;
 static int debugClass = D_MAIN;
 #endif
 
-bool debug_fatal = false;
-
 bool debug_mode = false;
 
 void realDebugmsg( const char *filename, const char *line, const char *mes, ... )
@@ -41,11 +38,6 @@ void realDebugmsg( const char *filename, const char *line, const char *mes, ... 
     va_start( ap, mes );
     const std::string text = vstring_format( mes, ap );
     va_end( ap );
-
-    if( debug_fatal ) {
-        throw std::runtime_error( string_format( "%s:%s %s", filename, line, text.c_str() ) );
-    }
-
     DebugLog( D_ERROR, D_MAIN ) << filename << ":" << line << " " << text;
     fold_and_print( stdscr, 0, 0, getmaxx( stdscr ), c_ltred, "DEBUG: %s\n  Press spacebar...",
                     text.c_str() );

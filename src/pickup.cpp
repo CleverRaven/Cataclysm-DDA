@@ -13,19 +13,10 @@
 #include "vehicle.h"
 #include "mapdata.h"
 #include "cata_utility.h"
-#include "debug.h"
 
 #include <map>
 #include <vector>
 #include <cstring>
-
-struct pickup_count {
-    bool pick = false;
-    int count = 0;
-    explicit operator bool() const {
-        return pick;
-    }
-};
 
 // Handles interactions with a vehicle in the examine menu.
 Pickup::interact_results Pickup::interact_with_vehicle( vehicle *veh, const tripoint &pos, int veh_root_part )
@@ -225,7 +216,7 @@ Pickup::interact_results Pickup::interact_with_vehicle( vehicle *veh, const trip
     return DONE;
 }
 
-static bool select_autopickup_items( std::vector<item> &here, std::vector<pickup_count> &getitem )
+static bool select_autopickup_items( std::vector<item> &here, std::vector<bool> &getitem )
 {
     bool bFoundSomething = false;
 
@@ -264,7 +255,7 @@ static bool select_autopickup_items( std::vector<item> &here, std::vector<pickup
             }
 
             if (bPickup) {
-                getitem[i].pick = bPickup;
+                getitem[i] = bPickup;
                 bFoundSomething = true;
             }
         }
@@ -272,64 +263,16 @@ static bool select_autopickup_items( std::vector<item> &here, std::vector<pickup
     return bFoundSomething;
 }
 
-enum pickup_answer :int {
-    CANCEL = -1,
-    WIELD,
-    WEAR,
-    SPILL,
-    STASH,
-    NUM_ANSWERS
-};
-
-pickup_answer handle_problematic_pickup( const item &it, bool &offered_swap, const std::string &explain )
-{
-    player &u = g->u;
-    if( !u.is_armed() && !u.keep_hands_free ) {
-        return WIELD;
-    }
-
-    uimenu amenu;
-    amenu.return_invalid = true;
-
-    amenu.selected = 0;
-    amenu.text = explain;
-
-    offered_swap = true;
-    // @todo Gray out if not enough hands
-    amenu.addentry( WIELD, !u.weapon.has_flag( "NO_UNWIELD" ), 'w',
-                    _("Dispose of %s and wield %s"), u.weapon.display_name().c_str(),
-                    it.display_name().c_str() );
-    if( it.is_armor() ) {
-        // @todo Gray out for mutants?
-        amenu.addentry( WEAR, u.can_wear( it ), 'W', _("Wear %s"), it.display_name().c_str() );
-    }
-    if( !it.is_container_empty() && u.can_pickVolume( it.volume() ) ) {
-        amenu.addentry( SPILL, true, 's', _("Spill %s, then pick up %s"),
-                        it.contents[0].tname().c_str(), it.display_name().c_str() );
-    }
-
-    amenu.query();
-    int choice = amenu.ret;
-
-    if( choice <= CANCEL || choice >= NUM_ANSWERS ) {
-        return CANCEL;
-    }
-
-    return static_cast<pickup_answer>( choice );
-}
-
 void Pickup::pick_one_up( const tripoint &pickup_target, item &newit, vehicle *veh,
                           int cargo_part, int index, int quantity, bool &got_water,
                           bool &offered_swap, PickupMap &mapPickup, bool autopickup )
 {
-    player &u = g->u;
     int moves_taken = 100;
     bool picked_up = false;
-    pickup_answer option = CANCEL;
     item leftovers = newit;
 
     if( newit.invlet != '\0' &&
-        u.invlet_to_position( newit.invlet ) != INT_MIN ) {
+        g->u.invlet_to_position( newit.invlet ) != INT_MIN ) {
         // Existing invlet is not re-usable, remove it and let the code in player.cpp/inventory.cpp
         // add a new invlet, otherwise keep the (usable) invlet.
         newit.invlet = '\0';
@@ -347,15 +290,14 @@ void Pickup::pick_one_up( const tripoint &pickup_target, item &newit, vehicle *v
 
     if( newit.made_of(LIQUID) ) {
         got_water = true;
-    } else if (!u.can_pickWeight(newit.weight(), false)) {
+    } else if (!g->u.can_pickWeight(newit.weight(), false)) {
         add_msg(m_info, _("The %s is too heavy!"), newit.display_name().c_str());
     } else if( newit.is_ammo() && (newit.ammo_type() == "arrow" || newit.ammo_type() == "bolt")) {
-        // @todo Make quiver code generic so that ammo pouches can use it too
         //add ammo to quiver
-        int quivered = handle_quiver_insertion( newit, moves_taken, picked_up );
-        if( newit.charges > 0 ) {
-            if( !u.can_pickVolume( newit.volume() ) ) {
-                if( quivered > 0 ) {
+        int quivered = handle_quiver_insertion( newit, moves_taken, picked_up);
+        if( newit.charges > 0) {
+            if(!g->u.can_pickVolume( newit.volume())) {
+                if(quivered > 0) {
                     //update the charges for the item that gets re-added to the game map
                     quantity = quivered;
                     leftovers.charges = newit.charges;
@@ -367,74 +309,83 @@ void Pickup::pick_one_up( const tripoint &pickup_target, item &newit, vehicle *v
                                              newit.charges), newit.tname(newit.charges).c_str());
                 }
             } else {
-                // Add to inventory instead
-                option = STASH;
+                //add to inventory instead
+                item &it = g->u.i_add(newit);
+                picked_up = true;
+
+                //display output message
+                PickupMap map_pickup;
+                int charges = (newit.count_by_charges()) ? newit.charges : 1;
+                map_pickup.insert(std::pair<std::string, ItemCount>(newit.tname(), ItemCount(it, charges)));
+                show_pickup_message(map_pickup);
             }
         }
-    } else if( newit.is_bucket() && !newit.is_container_empty() ) {
+    } else if (!g->u.can_pickVolume(newit.volume())) {
         if( !autopickup ) {
-            const std::string &explain = string_format( _("Can't stash %s while it's not empty"),
-                                                        newit.display_name().c_str() );
-            option = handle_problematic_pickup( newit, offered_swap, explain );
-        } else {
-            option = CANCEL;
-        }
-    } else if( !u.can_pickVolume( newit.volume() ) ) {
-        if( !autopickup ) {
-            const std::string &explain = string_format( _("Not enough capacity to stash %s"),
-                                                        newit.display_name().c_str() );
-            option = handle_problematic_pickup( newit, offered_swap, explain );
-        } else {
-            option = CANCEL;
-        }
+            // Armor can be instantly worn
+            if (newit.is_armor() &&
+                query_yn(_("Put on the %s?"),
+                         newit.display_name().c_str())) {
+                if (g->u.wear_item(newit)) {
+                    picked_up = true;
+                }
+            } else if (g->u.is_armed()) {
+                if (!g->u.weapon.has_flag("NO_UNWIELD")) {
+                    if( !offered_swap ) {
+                        offered_swap = true;
+                        if ( g->u.weapon.type->id != newit.type->id &&
+                             query_yn(_("No space for %1$s; wield instead? (drops %2$s)"),
+                                      newit.display_name().c_str(),
+                                      g->u.weapon.display_name().c_str()) ) {
+                            picked_up = true;
+                            g->m.add_item_or_charges( pickup_target,
+                                                      g->u.remove_weapon(), 1 );
+                            g->u.inv.assign_empty_invlet( newit, true ); // force getting an invlet.
+                            g->u.wield( g->u.i_add(newit) );
+
+                            if (newit.invlet) {
+                                add_msg(m_info, _("Wielding %c - %s"), newit.invlet,
+                                        newit.display_name().c_str());
+                            } else {
+                                add_msg(m_info, _("Wielding - %s"), newit.display_name().c_str());
+                            }
+                        }
+                    }
+                } else {
+                    add_msg(m_info, _("There's no room in your inventory for the %s "
+                                      "and you can't unwield your %s."),
+                            newit.display_name().c_str(),
+                            g->u.weapon.display_name().c_str());
+                }
+            } else if( !g->u.is_armed()  ) {
+                if (g->u.keep_hands_free) {
+                    add_msg(m_info, _("There's no room in your inventory for the %s "
+                                      "and you have decided to keep your hands free."),
+                            newit.display_name().c_str());
+                } else {
+                    g->u.inv.assign_empty_invlet(newit, true);  // force getting an invlet.
+                    g->u.wield( g->u.i_add( newit ) );
+                    picked_up = true;
+
+                    if (newit.invlet) {
+                        add_msg(m_info, _("Wielding %c - %s"), newit.invlet,
+                                newit.display_name().c_str());
+                    } else {
+                        add_msg(m_info, _("Wielding - %s"), newit.display_name().c_str());
+                    }
+                }
+            } // end of if unarmed
+        } // end of if !autopickup
     } else {
-        option = STASH;
+        auto &entry = mapPickup[newit.tname()];
+        entry.second += newit.count_by_charges() ? newit.charges : 1;
+        entry.first = g->u.i_add(newit);
+        picked_up = true;
     }
 
-    switch( option ) {
-        case NUM_ANSWERS:
-            // Some other option
-            break;
-        case CANCEL:
-            picked_up = false;
-            break;
-        case WEAR:
-            picked_up = u.wear_item( newit );
-            break;
-        case WIELD:
-            picked_up = u.wield( newit );
-            if( !picked_up ) {
-                break;
-            }
-
-            if( u.weapon.invlet ) {
-                add_msg( m_info, _("Wielding %c - %s"), u.weapon.invlet,
-                         u.weapon.display_name().c_str() );
-            } else {
-                add_msg( m_info, _("Wielding - %s"), u.weapon.display_name().c_str() );
-            }
-            break;
-        case SPILL:
-            if( newit.is_container_empty() ) {
-                debugmsg( "Tried to spill contents from an empty container" );
-                break;
-            }
-
-            picked_up = newit.spill_contents( u );
-            if( !picked_up ) {
-                break;
-            }
-            // Intentional fallthrough
-        case STASH:
-            auto &entry = mapPickup[newit.tname()];
-            entry.second += newit.count_by_charges() ? newit.charges : 1;
-            entry.first = u.i_add( newit );
-            picked_up = true;
-            break;
-    }
-
-    if( picked_up ) {
-        Pickup::remove_from_map_or_vehicle( pickup_target, veh, cargo_part, moves_taken, index );
+    if(picked_up) {
+        Pickup::remove_from_map_or_vehicle(pickup_target,
+                                           veh, cargo_part, moves_taken, index);
     }
     if( leftovers.charges > 0 ) {
         bool to_map = veh == nullptr;
@@ -527,12 +478,12 @@ void Pickup::pick_up( const tripoint &pos, int min )
             break;
         case ITEMS_FROM_GROUND:
             // Nothing to change, default is to pick from ground anyway.
-            if (g->m.has_flag("SEALED", pos)) {
-                return;
-            }
-
             break;
         }
+    }
+
+    if (g->m.has_flag("SEALED", pos)) {
+        return;
     }
 
     if( !from_vehicle ) {
@@ -560,11 +511,11 @@ void Pickup::pick_up( const tripoint &pos, int min )
     if( from_vehicle ) {
         auto vehitems = veh->get_items(cargo_part);
         here.resize( vehitems.size() );
-        std::copy( vehitems.rbegin(), vehitems.rend(), here.begin() );
+        std::copy( vehitems.begin(), vehitems.end(), here.begin() );
     } else {
         auto mapitems = g->m.i_at(pos);
         here.resize( mapitems.size() );
-        std::copy( mapitems.rbegin(), mapitems.rend(), here.begin() );
+        std::copy( mapitems.begin(), mapitems.end(), here.begin() );
     }
 
     if (min == -1) {
@@ -624,13 +575,15 @@ void Pickup::pick_up( const tripoint &pos, int min )
 
     const int minmaxitems = sideStyle ? 6 : 9;
 
-    std::vector<pickup_count> getitem( here.size() );
+    std::vector<bool> getitem;
+    getitem.resize(here.size(), false);
 
     int maxitems = here.size();
     maxitems = (maxitems < minmaxitems ? minmaxitems : (maxitems > maxmaxitems ? maxmaxitems :
                 maxitems ));
 
     int itemcount = 0;
+    std::map<int, unsigned int> pickup_count; // Count of how many we'll pick up from each stack
 
     if (min == -1) { //Auto Pickup, select matching items
         if( !select_autopickup_items( here, getitem) ) {
@@ -744,9 +697,9 @@ void Pickup::pick_up( const tripoint &pos, int min )
 
             if( idx >= 0 && idx < (int)here.size()) {
                 if( getitem[idx] ) {
-                    if( getitem[idx].count != 0 && getitem[idx].count < here[idx].charges ) {
+                    if( pickup_count[idx] != 0 && (int)pickup_count[idx] < here[idx].charges ) {
                         item temp = here[idx];
-                        temp.charges = getitem[idx].count;
+                        temp.charges = pickup_count[idx];
                         new_weight -= temp.weight();
                         new_volume -= temp.volume();
                     } else {
@@ -754,28 +707,28 @@ void Pickup::pick_up( const tripoint &pos, int min )
                         new_volume -= here[idx].volume();
                     }
                 }
-                if (itemcount != 0 || getitem[idx].count == 0) {
+                if (itemcount != 0 || pickup_count[idx] == 0) {
                     if (itemcount >= here[idx].charges || !here[idx].count_by_charges()) {
                         // Ignore the count if we pickup the whole stack anyway
                         // or something that is not counted by charges (tools)
                         itemcount = 0;
                     }
-                    getitem[idx].count = itemcount;
+                    pickup_count[idx] = itemcount;
                     itemcount = 0;
                 }
 
                 // Note: this might not change the value of getitem[idx] at all!
-                getitem[idx].pick = ( ch == KEY_RIGHT ? true : ( ch == KEY_LEFT ? false : !getitem[idx] ) );
+                getitem[idx] = ( ch == KEY_RIGHT ? true : ( ch == KEY_LEFT ? false : !getitem[idx] ) );
                 if ( ch != KEY_RIGHT && ch != KEY_LEFT) {
                     selected = idx;
                     start = (int)( idx / maxitems ) * maxitems;
                 }
 
                 if (getitem[idx]) {
-                    if (getitem[idx].count != 0 &&
-                        getitem[idx].count < here[idx].charges) {
+                    if (pickup_count[idx] != 0 &&
+                        (int)pickup_count[idx] < here[idx].charges) {
                         item temp = here[idx];
-                        temp.charges = getitem[idx].count;
+                        temp.charges = pickup_count[idx];
                         new_weight += temp.weight();
                         new_volume += temp.volume();
                     } else {
@@ -783,7 +736,7 @@ void Pickup::pick_up( const tripoint &pos, int min )
                         new_volume += here[idx].volume();
                     }
                 } else {
-                    getitem[idx].count = 0;
+                    pickup_count[idx] = 0;
                 }
                 update = true;
             }
@@ -809,11 +762,11 @@ void Pickup::pick_up( const tripoint &pos, int min )
                         new_weight += here[i].weight();
                         new_volume += here[i].volume();
                     }
-                    getitem[i].pick = true;
+                    getitem[i] = true;
                 }
                 if (count == (int)here.size()) {
                     for (size_t i = 0; i < here.size(); i++) {
-                        getitem[i].pick = false;
+                        getitem[i] = false;
                     }
                     new_weight = g->u.weight_carried();
                     new_volume = g->u.volume_carried();
@@ -841,7 +794,7 @@ void Pickup::pick_up( const tripoint &pos, int min )
                                   char(pickup_chars[p1]), char(pickup_chars[p2]));
                     }
                     if (getitem[cur_it]) {
-                        if (getitem[cur_it].count == 0) {
+                        if (pickup_count[cur_it] == 0) {
                             wprintz(w_pickup, c_ltblue, " + ");
                         } else {
                             wprintz(w_pickup, c_ltblue, " # ");
@@ -917,11 +870,10 @@ void Pickup::pick_up( const tripoint &pos, int min )
         // Auto pickup will need to auto resume since there can be several of them on the stack.
         g->u.activity.auto_resume = true;
     }
-    std::reverse( getitem.begin(), getitem.end() );
-    for( size_t i = 0; i < here.size(); i++ ) {
+    for (size_t i = 0; i < here.size(); i++) {
         if( getitem[i] ) {
             g->u.activity.values.push_back( i );
-            g->u.activity.values.push_back( getitem[i].count );
+            g->u.activity.values.push_back( pickup_count[i] );
         }
     }
 

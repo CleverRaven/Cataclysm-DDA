@@ -10,12 +10,11 @@
 #include "mondeath.h"
 #include "iuse_actor.h"
 #include "translations.h"
-#include "morale_types.h"
+#include "morale.h"
 #include "event.h"
 #include "itype.h"
 #include "mtype.h"
 #include "field.h"
-#include "player.h"
 
 #include <math.h>  // rounding
 #include <sstream>

@@ -11,7 +11,6 @@ You can join to your language translation project:
 
 On [Transifex](https://www.transifex.com/projects/p/cataclysm-dda/):
 * Argentinian
-* Chinese (Simplified)
 * Chinese (Traditional)
 * German
 * Italian
@@ -19,6 +18,7 @@ On [Transifex](https://www.transifex.com/projects/p/cataclysm-dda/):
 * Spanish
 
 On [Launchpad](https://translations.launchpad.net/cdda):
+* Chinese (Simplified)
 * French
 * Japanese
 * Korean

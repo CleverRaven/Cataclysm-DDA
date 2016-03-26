@@ -11,9 +11,6 @@
 #include <map>
 
 using skill_id = string_id<Skill>;
-enum field_id : int;
-class field;
-class field_entry;
 
 enum vision_modes {
     DEBUG_NIGHTVISION,
@@ -29,9 +26,6 @@ enum vision_modes {
     URSINE_VISION,
     BOOMERED,
     DARKNESS,
-    IR_VISION,
-    VISION_CLAIRVOYANCE,
-    VISION_CLAIRVOYANCE_SUPER,
     NUM_VISION_MODES
 };
 
@@ -40,18 +34,6 @@ enum fatigue_levels {
     DEAD_TIRED = 383,
     EXHAUSTED = 575,
     MASSIVE_FATIGUE = 1000
-};
-
-struct encumbrance_data {
-    int encumbrance = 0;
-    int armor_encumbrance = 0;
-    int layer_penalty = 0;
-    bool operator ==( const encumbrance_data &rhs ) const
-    {
-        return encumbrance == rhs.encumbrance &&
-               armor_encumbrance == rhs.armor_encumbrance &&
-               layer_penalty == rhs.layer_penalty;
-    }
 };
 
 class Character : public Creature, public visitable<Character>
@@ -125,22 +107,16 @@ class Character : public Creature, public visitable<Character>
 
         /** Getter for need values exclusive to characters */
         virtual int get_hunger() const;
-        virtual int get_thirst() const;
-        virtual int get_fatigue() const;
         virtual int get_stomach_food() const;
         virtual int get_stomach_water() const;
 
         /** Modifiers for need values exclusive to characters */
         virtual void mod_hunger(int nhunger);
-        virtual void mod_thirst(int nthirst);
-        virtual void mod_fatigue(int nfatigue);
         virtual void mod_stomach_food(int n_stomach_food);
         virtual void mod_stomach_water(int n_stomach_water);
 
         /** Setters for need values exclusive to characters */
         virtual void set_hunger(int nhunger);
-        virtual void set_thirst(int nthirst);
-        virtual void set_fatigue(int nfatigue);
         virtual void set_stomach_food(int n_stomach_food);
         virtual void set_stomach_water(int n_stomach_water);
 
@@ -167,22 +143,6 @@ class Character : public Creature, public visitable<Character>
         virtual void reset_stats() override;
         /** Handles stat and bonus reset. */
         virtual void reset() override;
-
-        /** Recalculates encumbrance cache. */
-        void reset_encumbrance();
-        /** Returns ENC provided by armor, etc. */
-        int encumb( body_part bp ) const;
-
-        /** Get encumbrance for all body parts. */
-        std::array<encumbrance_data, num_bp> get_encumbrance() const;
-        /** Get encumbrance for all body parts as if `new_item` was also worn. */
-        std::array<encumbrance_data, num_bp> get_encumbrance( const item &new_item ) const;
-
-        /** Returns true if the character is wearing active power */
-        bool is_wearing_active_power_armor() const;
-
-        /** Bitset of all the body parts covered only with items with `flag` (or nothing) */
-        std::bitset<num_bp> exclusive_flag_coverage( const std::string &flag ) const;
 
         /** Processes effects which may prevent the Character from moving (bear traps, crushed, etc.).
          *  Returns false if movement is stopped. */
@@ -255,16 +215,6 @@ class Character : public Creature, public visitable<Character>
  protected:
         /** Applies stat mods to character. */
         void apply_mods(const std::string &mut, bool add_remove);
-
-        /** Recalculate encumbrance for all body parts. */
-        std::array<encumbrance_data, num_bp> calc_encumbrance() const;
-        /** Recalculate encumbrance for all body parts as if `new_item` was also worn. */
-        std::array<encumbrance_data, num_bp> calc_encumbrance( const item &new_item ) const;
-
-        /** Applies encumbrance from mutations and bionics only */
-        void mut_cbm_encumb( std::array<encumbrance_data, num_bp> &vals ) const;
-        /** Applies encumbrance from items only */
-        void item_encumb( std::array<encumbrance_data, num_bp> &vals, const item &new_item ) const;
  public:
         /** Handles things like destruction of armor, etc. */
         void mutation_effect(std::string mut);
@@ -327,6 +277,34 @@ class Character : public Creature, public visitable<Character>
         std::vector<item *> items_with( const std::function<bool(const item&)>& filter );
         std::vector<const item *> items_with( const std::function<bool(const item&)>& filter ) const;
 
+        /**
+         * Removes the items that match the given filter.
+         * The returned items are a copy of the removed item.
+         * If no item has been removed, an empty list will be returned.
+         */
+        template<typename T>
+        std::list<item> remove_items_with( T filter )
+        {
+            // player usually interacts with items in the inventory the most (?)
+            std::list<item> result = inv.remove_items_with( filter );
+            for( auto iter = worn.begin(); iter != worn.end(); ) {
+                item &article = *iter;
+                if( filter( article ) ) {
+                    result.splice( result.begin(), worn, iter++ );
+                } else {
+                    result.splice( result.begin(), article.remove_items_with( filter ) );
+                    ++iter;
+                }
+            }
+            if( !weapon.is_null() ) {
+                if( filter( weapon ) ) {
+                    result.push_back( remove_weapon() );
+                } else {
+                    result.splice( result.begin(), weapon.remove_items_with( filter ) );
+                }
+            }
+            return result;
+        }
         /**
          * Similar to @ref remove_items_with, but considers only worn items and not their
          * content (@ref item::contents is not checked).
@@ -391,8 +369,8 @@ class Character : public Creature, public visitable<Character>
          */
         std::vector<item_location> find_ammo( const item& obj, bool empty = true, int radius = 1 );
 
-        /** Maximum thrown range with a given item, taking all active effects into account. */
-        int throw_range( const item & ) const;
+        /** Returns true if the character's current weapon can be reloaded (ammo must be available). */
+        bool can_reload();
 
         int weight_carried() const;
         int volume_carried() const;
@@ -422,8 +400,6 @@ class Character : public Creature, public visitable<Character>
         SkillLevel const& get_skill_level(const Skill* _skill) const;
         SkillLevel const& get_skill_level(const Skill &_skill) const;
         SkillLevel const& get_skill_level(const skill_id &ident) const;
-
-        bool meets_skill_requirements( const std::map<skill_id, int> &req ) const;
 
         /** Return character dispersion penalty dependent upon relevant gun skill level */
         int skill_dispersion( const item& gun, bool random ) const;
@@ -455,10 +431,6 @@ class Character : public Creature, public visitable<Character>
          * It is supposed to hide the query_yn to simplify player vs. npc code.
          */
         virtual bool query_yn( const char *mes, ... ) const = 0;
-
-        bool is_dangerous_field( const field &fld ) const;
-        bool is_dangerous_field( const field_entry &entry ) const;
-        bool is_dangerous_field( const field_id fid ) const;
 
         /** Returns true if the player has some form of night vision */
         bool has_nv();
@@ -499,12 +471,6 @@ class Character : public Creature, public visitable<Character>
         std::vector<bionic> my_bionics;
 
     protected:
-        virtual void on_mutation_gain( const std::string & ) {};
-        virtual void on_mutation_loss( const std::string & ) {};
-        virtual void on_item_wear( const item & ) {};
-        virtual void on_item_takeoff( const item & ) {};
-
-    protected:
         Character();
         Character(const Character &) = default;
         Character(Character &&) = default;
@@ -538,8 +504,6 @@ class Character : public Creature, public visitable<Character>
         int healthy;
         int healthy_mod;
 
-        std::array<encumbrance_data, num_bp> encumbrance_cache;
-
         /**
          * Traits / mutations of the character. Key is the mutation id (it's also a valid
          * key into @ref mutation_data), the value describes the status of the mutation.
@@ -556,6 +520,9 @@ class Character : public Creature, public visitable<Character>
         void load(JsonObject &jsin);
 
         // --------------- Values ---------------
+        /** Needs (hunger, thirst, fatigue, etc.) */
+        int hunger, stomach_food, stomach_water;
+
         std::map<const Skill*, SkillLevel> _skills;
 
         // Cached vision values.
@@ -564,15 +531,6 @@ class Character : public Creature, public visitable<Character>
 
         // turn the character expired, if -1 it has not been set yet.
         int turn_died = -1;
-
-    private:
-        /** Needs (hunger, thirst, fatigue, etc.) */
-        int hunger;
-        int thirst;
-        int fatigue;
-
-        int stomach_food;
-        int stomach_water;
 };
 
 #endif

@@ -7,7 +7,6 @@
 #include "pldata.h" // add_type
 #include "bodypart.h" // body_part::num_bp
 #include "string_id.h"
-#include "explosion.h"
 
 #include <string>
 #include <vector>
@@ -42,6 +41,14 @@ enum bigness_property_aspect : int {
 std::string ammo_name(std::string const &t);
 // Returns the default ammo for a category of ammo (e.g. ""00_shot"")
 std::string const& default_ammo(std::string const &guntype);
+
+struct explosion_data {
+    // Those 4 values are forwarded to game::explosion.
+    float power           = -1.0f;
+    float distance_factor = 0.8f;
+    int shrapnel          = 0;
+    bool fire             = false;
+};
 
 struct islot_container {
     /**
@@ -196,10 +203,6 @@ struct common_ranged_data {
      * Recoil "bonus" from gun.
      */
     int recoil = 0;
-    /**
-     * loudness for guns/gunmods and ammo
-     */
-    int loudness = 0;
 };
 
 /**
@@ -222,6 +225,10 @@ struct common_firing_data : common_ranged_data {
      * Burst size.
      */
     int burst = 0;
+    /**
+     * loudness for guns/gunmods
+     */
+    int loudness = 0;
 };
 
 // TODO: this shares a lot with the ammo item type, merge into a separate slot type?
@@ -233,7 +240,7 @@ struct islot_gun : common_firing_data {
     /**
      * What type of ammo this gun uses.
      */
-    ammotype ammo = "NULL";
+    std::string ammo;
     /**
      * Gun durability, affects gun being damaged during shooting.
      */
@@ -245,7 +252,7 @@ struct islot_gun : common_firing_data {
     /**
      * Reload time, in moves.
      */
-    int reload_time = 100;
+    int reload_time = 0;
     /**
      * Noise displayed when reloading the weapon.
      */
@@ -338,9 +345,9 @@ struct islot_ammo : common_ranged_data {
      */
     std::string type;
     /**
-     * Type id of casings, can be "null" for no casings at all.
+     * Type id of casings, can be "NULL" for no casings at all.
      */
-    std::string casing = "null";
+    std::string casing;
     /**
      * Default charges.
      */
@@ -349,6 +356,8 @@ struct islot_ammo : common_ranged_data {
      * TODO: document me.
      */
     std::set<std::string> ammo_effects;
+
+    islot_ammo() : casing ("NULL") { }
 };
 
 struct islot_variable_bigness {
@@ -487,10 +496,8 @@ public:
     int min_per = 0;
     std::map<skill_id, int> min_skills;
 
-    // Should the item explode when lit on fire
-    bool explode_in_fire;
-    // How should the item explode
-    explosion_data explosion;
+    // Explosion that happens when the item is set on fire
+    explosion_data explosion_on_fire_data;
 
     phase_id phase      = SOLID; // e.g. solid, liquid, gas
     unsigned price      = 0; // Its value
@@ -522,6 +529,11 @@ public:
 
     /** Volume above which the magazine starts to protrude from the item and add extra volume */
     int magazine_well;
+
+    bool explode_in_fire() const
+    {
+        return explosion_on_fire_data.power >= 0;
+    }
 
     virtual std::string get_item_type_string() const
     {
@@ -593,6 +605,15 @@ public:
 
     itype() : id("null"), name("none"), name_plural("none") {}
 
+    itype(std::string pid, unsigned pprice, std::string pname, std::string pname_plural,
+          std::string pdes, char psym, nc_color pcolor, std::vector<std::string> pmaterials,
+          phase_id pphase, unsigned pvolume, unsigned pweight, int pmelee_dam,
+          int pmelee_cut, int pm_to_hit) : id(std::move(pid)), name(std::move(pname)),
+          name_plural(std::move(pname_plural)), description(std::move(pdes)),
+          materials(std::move(pmaterials)), phase(pphase), price(pprice), volume(pvolume),
+          weight(pweight), melee_dam(pmelee_dam), melee_cut(pmelee_cut), m_to_hit(pm_to_hit),
+          color(pcolor), sym(psym) { }
+
     virtual ~itype() { };
 };
 
@@ -656,10 +677,7 @@ public:
 
 struct it_tool : itype {
     std::string ammo_id;
-
-    itype_id revert_to = "null";
-    std::string revert_msg;
-
+    std::string revert_to;
     std::string subtype;
 
     long max_charges = 0;

@@ -33,17 +33,11 @@ class start_location
         static std::vector<const start_location *> get_all();
 
         /**
-         * Find a suitable start location on the overmap.
-         * @return Global, absolute overmap terrain coordinates where the player should spawn.
-         * It may return `overmap::invalid_tripoint` if no suitable starting location could be found
-         * in the world.
+         * Setup the player start location on the overmaps.
+         * It also initializes the map at that points using @ref prepare_map.
+         * @return The player start location in global, absolute overmap terrain coordinates.
          */
-        tripoint find_player_initial_location() const;
-        /**
-         * Initialize the map at players start location using @ref prepare_map.
-         * @param omtstart Global overmap terrain coordinates where the player is to be spawned.
-         */
-        void prepare_map( const tripoint &omtstart ) const;
+        tripoint setup() const;
         /**
          * Place the player somewher ein th reality bubble (g->m).
          */

@@ -7,7 +7,7 @@
     "weight": 225,
     "volume": 0,
     "price": 72000,
-    "material": [ "steel" ],
+    "material": [ "steel", "null" ],
     "symbol": ":",
     "color": "light_gray",
     "location": "muzzle",
@@ -27,7 +27,7 @@
     "price": 480,
     "bashing": 3,
     "to_hit": 1,
-    "material": [ "steel" ],
+    "material": [ "steel", "null" ],
     "symbol": ":",
     "color": "dark_gray",
     "location": "muzzle",
@@ -35,7 +35,7 @@
     "damage_modifier": -5,
     "dispersion_modifier": 15,
     "loudness_modifier": -30,
-    "recoil_modifier": -15
+    "recoil_modifier": -1
   },
   {
     "id": "muzzle_brake",
@@ -45,7 +45,7 @@
     "weight": 380,
     "volume": 1,
     "price": 84000,
-    "material": [ "steel" ],
+    "material": [ "steel", "null" ],
     "symbol": ":",
     "color": "light_gray",
     "location": "muzzle",
@@ -65,14 +65,15 @@
     "price": 140000,
     "bashing": 3,
     "to_hit": 1,
-    "material": [ "steel" ],
+    "material": [ "steel", "null" ],
     "symbol": ":",
     "color": "dark_gray",
     "location": "muzzle",
     "mod_targets": [ "shotgun" ],
     "damage_modifier": -4,
+    "dispersion_modifier": 15,
     "loudness_modifier": -30,
-    "recoil_modifier": -15
+    "recoil_modifier": -2
   },
   {
     "id": "suppressor",
@@ -84,32 +85,15 @@
     "price": 48000,
     "bashing": 3,
     "to_hit": 1,
-    "material": [ "steel" ],
+    "material": [ "steel", "null" ],
     "symbol": ":",
     "color": "dark_gray",
     "location": "muzzle",
     "mod_targets": [ "pistol", "smg", "rifle" ],
     "install_time": 200,
     "damage_modifier": -4,
+    "dispersion_modifier": 15,
     "loudness_modifier": -50,
-    "recoil_modifier": -25
-  },
-  {
-    "id": "suppressor_compact",
-    "type": "GUNMOD",
-    "name": "compact suppressor",
-    "description": "A compact suppressor designed for pistols and best used with smaller calibers.  A suppressor will slightly reduce recoil and muzzle velocity.",
-    "weight": 140,
-    "volume": 1,
-    "price": 78000,
-    "material": "steel",
-    "symbol": ":",
-    "color": "dark_gray",
-    "location": "muzzle",
-    "mod_targets": [ "pistol" ],
-    "install_time": 200,
-    "damage_modifier": -2,
-    "loudness_modifier": -30,
-    "recoil_modifier": -15
+    "recoil_modifier": -2
   }
 ]

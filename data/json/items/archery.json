@@ -22,6 +22,26 @@
    },
    {
       "type" : "AMMO",
+      "id" : "fletching",
+      "price" : 300,
+      "name" : "fletching",
+      "symbol" : "=",
+      "color" : "white",
+      "description" : "Also known as a flight, this item provides aerodynamic stabilization of arrows.  You'll need to put these on your arrows to make them functional.",
+      "material" : "paper",
+      "volume" : 1,
+      "weight" : 1,
+      "bashing" : 1,
+      "ammo_type" : "components",
+      "damage" : 0,
+      "range" : 0,
+      "dispersion" : 0,
+      "recoil" : 0,
+      "count" : 10,
+      "stack_size" : 100
+   },
+   {
+      "type" : "AMMO",
       "id" : "shaft_wood",
       "category" : "spare_parts",
       "price" : 500,
@@ -162,7 +182,6 @@
       "range" : 6,
       "dispersion" : 190,
       "recoil" : 0,
-      "loudness": 0,
       "count" : 10,
       "effects" : ["RECOVER_5"]
    },
@@ -184,7 +203,6 @@
       "range" : 6,
       "dispersion" : 175,
       "recoil" : 0,
-      "loudness": 0,
       "count" : 10,
       "effects" : ["RECOVER_5"]
    },
@@ -205,7 +223,6 @@
       "range" : 6,
       "dispersion" : 210,
       "recoil" : 0,
-      "loudness": 0,
       "count" : 10,
       "flags" : ["NOGIB"],
       "effects" : ["RECOVER_5"]
@@ -229,7 +246,6 @@
       "range" : 7,
       "dispersion" : 135,
       "recoil" : 0,
-      "loudness": 0,
       "count" : 10,
       "effects" : ["RECOVER_5"]
    },
@@ -251,7 +267,6 @@
       "range" : 7,
       "dispersion" : 135,
       "recoil" : 0,
-      "loudness": 0,
       "count" : 10,
       "effects" : ["RECOVER_10"]
    },
@@ -317,7 +332,6 @@
       "range" : 7,
       "dispersion" : 135,
       "recoil" : 0,
-      "loudness": 0,
       "count" : 10,
       "effects" : ["RECOVER_10"]
    },
@@ -340,7 +354,6 @@
       "range" : 8,
       "dispersion" : 60,
       "recoil" : 0,
-      "loudness": 0,
       "count" : 10,
       "effects" : ["RECOVER_10"]
    },
@@ -384,7 +397,6 @@
       "range" : 5,
       "dispersion" : 285,
       "recoil" : 0,
-      "loudness": 0,
       "count" : 10,
       "effects" : ["RECOVER_15"]
    },
@@ -407,7 +419,6 @@
       "range" : 10,
       "dispersion" : 60,
       "recoil" : 0,
-      "loudness": 0,
       "count" : 10,
       "effects" : ["RECOVER_15"]
    },
@@ -429,7 +440,6 @@
       "range" : 8,
       "dispersion" : 135,
       "recoil" : 0,
-      "loudness": 0,
       "count" : 8,
       "stack_size" : 10,
       "effects" : ["RECOVER_3"]
@@ -452,7 +462,6 @@
       "range" : 5,
       "dispersion" : 285,
       "recoil" : 0,
-      "loudness": 0,
       "count" : 5,
       "effects" : ["EXPLOSIVE_SMALL"]
    },
@@ -491,7 +500,6 @@
       "range" : 5,
       "dispersion" : 285,
       "recoil" : 0,
-      "loudness": 0,
       "count" : 5,
       "effects" : ["IGNITE"]
    },
@@ -513,7 +521,6 @@
       "range" : 0,
       "dispersion" : 150,
       "recoil" : 0,
-      "loudness": 0,
       "count" : 15,
       "effects" : ["RECOVER_5"]
    },
@@ -535,7 +542,6 @@
       "range" : 3,
       "dispersion" : 135,
       "recoil" : 0,
-      "loudness": 0,
       "count" : 10,
       "effects" : ["RECOVER_15"]
    },
@@ -557,7 +563,6 @@
       "range" : 6,
       "dispersion" : 120,
       "recoil" : 0,
-      "loudness": 0,
       "count" : 10,
       "effects" : ["RECOVER_25"]
    },
@@ -579,7 +584,6 @@
       "range" : 8,
       "dispersion" : 135,
       "recoil" : 0,
-      "loudness": 0,
       "count" : 1,
       "stack_size" : 10,
       "effects" : ["COOKOFF", "EXPLOSIVE_SMALL"]
@@ -829,7 +833,7 @@
       "name" : "reflex recurve bow",
       "description" : "A bow that combines the traits from both the reflex and the recurve bows, with both limbs and tips curving away from the archer.  This dramatically increases the power and requires significant strength to draw the bow effectively.",
       "price" : 72000,
-      "material" : ["wood"],
+      "material" : ["wood", "null"],
       "flags" : ["FIRE_TWOHAND", "STR_DRAW", "RELOAD_AND_SHOOT", "PRIMITIVE_RANGED_WEAPON"],
       "skill" : "archery",
       "min_strength" : 6,
@@ -1084,7 +1088,6 @@
         "range" : 6,
         "dispersion" : 150,
         "recoil" : 0,
-        "loudness": 0,
         "count" : 4,
         "effects" : ["RECOVER_5"]
     },
@@ -1106,7 +1109,6 @@
         "range" : 6,
         "dispersion" : 120,
         "recoil" : 0,
-        "loudness": 0,
         "count" : 4,
         "effects" : ["RECOVER_15"]
     },
@@ -1128,7 +1130,6 @@
         "range" : 10,
         "dispersion" : 90,
         "recoil" : 0,
-        "loudness": 0,
         "count" : 4,
         "effects" : ["RECOVER_3"]
     },
@@ -1151,7 +1152,6 @@
         "range":12,
         "dispersion":125,
         "recoil":0,
-        "loudness": 0,
         "count":10,
         "effects" : ["RECOVER_10"]
     }

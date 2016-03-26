@@ -3,7 +3,6 @@
 #include "game.h"
 #include "item.h"
 #include "player.h"
-#include "item_location.h"
 
 TEST_CASE( "reload_gun_with_integral_magazine" ) {
     player &dummy = g->u;
@@ -23,7 +22,7 @@ TEST_CASE( "reload_gun_with_integral_magazine" ) {
     REQUIRE( gun.ammo_remaining() == 0 );
     REQUIRE( gun.magazine_integral() );
 
-    bool success = gun.reload( dummy, item_location( dummy, &ammo ), ammo.charges );
+    bool success = gun.reload( dummy, ammo_pos );
 
     REQUIRE( success );
     REQUIRE( gun.ammo_remaining() == gun.ammo_capacity() );
@@ -55,7 +54,7 @@ TEST_CASE( "reload_gun_with_swappable_magazine" ) {
     int ammo_pos = dummy.inv.position_by_item( &ammo );
     REQUIRE( ammo_pos != INT_MIN );
 
-    bool magazine_success = magazine.reload( dummy, item_location( dummy, &ammo ), ammo.charges );
+    bool magazine_success = magazine.reload( dummy, ammo_pos );
 
     REQUIRE( magazine_success );
     REQUIRE( magazine.ammo_remaining() == magazine.ammo_capacity() );
@@ -63,7 +62,7 @@ TEST_CASE( "reload_gun_with_swappable_magazine" ) {
     REQUIRE( gun.ammo_remaining() == 0 );
     REQUIRE( gun.magazine_integral() == false );
 
-    bool gun_success = gun.reload( dummy, item_location( dummy, &magazine ), 1 );
+    bool gun_success = gun.reload( dummy, magazine_pos );
 
     REQUIRE( gun.ammo_remaining() == gun.ammo_capacity() );
 }

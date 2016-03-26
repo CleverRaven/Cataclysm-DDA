@@ -48,13 +48,8 @@ class item_location
          *  @param qty if specified limits maximum obtained charges
          *  @warning caller should restack inventory if item is to remain in it
          *  @warning all further operations using this class are invalid
-         *  @warning it is unsafe to call this within unsequenced operations (see #15542)
          *  @return inventory position for the item */
         int obtain( Character &ch, long qty = -1 );
-
-        /** Calculate (but do not deduct) number of moves required to obtain an item
-         *  @see item_location::obtain */
-        int obtain_cost( const Character &ch, long qty = -1 ) const;
 
         /** Removes the selected item from the game
          *  @warning all further operations using this class are invalid */

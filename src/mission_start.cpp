@@ -1,6 +1,4 @@
 #include "mission.h"
-
-#include "coordinate_conversions.h"
 #include "game.h"
 #include "map.h"
 #include "debug.h"
@@ -44,7 +42,7 @@ const efftype_id effect_infection( "infection" );
  */
 static tripoint random_house_in_city( const city_reference &cref )
 {
-    const auto city_center_omt = sm_to_omt_copy( cref.abs_sm_pos );
+    const auto city_center_omt = overmapbuffer::sm_to_omt_copy( cref.abs_sm_pos );
     const auto size = cref.city->s;
     const int z = cref.abs_sm_pos.z;
     std::vector<tripoint> valid;
@@ -74,7 +72,7 @@ static tripoint random_house_in_closest_city()
 }
 /**
  * Set target of mission to closest overmap terrain of that type,
- * reveal the area around it (uses reveal with reveal_rad),
+ * reveal the area around it (uses overmapbuffer::reveal with reveal_rad),
  * and returns the mission target.
  */
 static tripoint target_om_ter( const std::string &omter, int reveal_rad, mission *miss,

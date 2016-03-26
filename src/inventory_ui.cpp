@@ -7,6 +7,7 @@
 #include "translations.h"
 #include "options.h"
 #include "messages.h"
+#include "morale.h"
 #include "input.h"
 #include "catacharset.h"
 #include "item_location.h"
@@ -1005,16 +1006,11 @@ item_location game::inv_map_splice(
 
 item *game::inv_map_for_liquid(const item &liquid, const std::string &title, int radius)
 {
-    auto sealable_filter = [&]( const item &candidate ) {
-        return candidate.get_remaining_capacity_for_liquid( liquid, false ) > 0;
+    auto filter = [&]( const item &candidate ) {
+        return candidate.get_remaining_capacity_for_liquid( liquid ) > 0;
     };
 
-    auto bucket_filter = [&]( const item &candidate ) {
-        return candidate.get_remaining_capacity_for_liquid( liquid, true ) > 0;
-    };
-
-    // Buckets can only be filled when on the ground
-    return inv_map_splice( sealable_filter, bucket_filter, sealable_filter, title, radius ).get_item();
+    return inv_map_splice( filter, title, radius ).get_item();
 }
 
 int game::inv_for_flag(const std::string &flag, const std::string &title, bool const auto_choose_single)

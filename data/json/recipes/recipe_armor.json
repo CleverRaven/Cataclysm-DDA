@@ -2580,6 +2580,7 @@
     ],
     [
       [ "rag", 2 ],
+      [ "muffler", 1 ],
       [ "bandana", 2 ],
       [ "paper", 10 ]
     ],
@@ -3689,19 +3690,6 @@
       [ "tanned_pelt", 2 ]
     ]
   ]
-},{
-  "type" : "recipe",
-  "result": "gambeson",
-  "category": "CC_ARMOR",
-  "subcategory": "CSC_ARMOR_SUIT",
-  "skill_used": "tailor",
-  "difficulty": 4,
-  "time": 60000,
-  "reversible": false,
-  "autolearn": false,
-  "book_learn": [[ "textbook_armwest", 3 ]],
-  "tools": [ [ [ "sewing_kit", 30 ] ] ],
-  "components": [ [ [ "rag", 20 ] ] ]
 },{
   "type" : "recipe",
   "result": "armor_larmor",
@@ -7443,139 +7431,6 @@
     ]
   },{
     "type" : "recipe",
-    "result": "bandolier_pistol",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_STORAGE",
-    "skill_used": "tailor",
-    "skills_required": [ [ "gun", 1 ], [ "pistol", 1 ] ],
-    "difficulty": 3,
-    "time": 80000,
-    "reversible": false,
-    "autolearn": true,
-    "tools": [
-      [
-        [ "sewing_kit", 40 ]
-      ]
-    ],
-     "components": [
-      [
-        [ "leather", 8 ]
-      ],
-      [
-        [ "string_36", 1 ],
-        [ "string_6", 6 ]
-      ]
-    ]
-  },{
-    "type" : "recipe",
-    "result": "bandolier_rifle",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_STORAGE",
-    "skill_used": "tailor",
-    "skills_required": [ [ "gun", 1 ], [ "rifle", 1 ] ],
-    "difficulty": 3,
-    "time": 80000,
-    "reversible": false,
-    "autolearn": true,
-    "tools": [
-      [
-        [ "sewing_kit", 40 ]
-      ]
-    ],
-     "components": [
-      [
-        [ "leather", 8 ]
-      ],
-      [
-        [ "string_36", 1 ],
-        [ "string_6", 6 ]
-      ]
-    ]
-  },{
-    "type" : "recipe",
-    "result": "bandolier_shotgun",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_STORAGE",
-    "skill_used": "tailor",
-    "skills_required": [ [ "gun", 1 ], [ "shotgun", 1 ] ],
-    "difficulty": 3,
-    "time": 80000,
-    "reversible": false,
-    "autolearn": true,
-    "tools": [
-      [
-        [ "sewing_kit", 40 ]
-      ]
-    ],
-     "components": [
-      [
-        [ "leather", 8 ]
-      ],
-      [
-        [ "string_36", 1 ],
-        [ "string_6", 6 ]
-      ]
-    ]
-  },{
-    "type" : "recipe",
-    "result": "bandolier_wrist",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_STORAGE",
-    "skill_used": "tailor",
-    "skills_required": [ [ "gun", 1 ], [ "rifle", 1 ] ],
-    "difficulty": 3,
-    "time": 80000,
-    "reversible": false,
-    "autolearn": true,
-    "tools": [
-      [
-        [ "sewing_kit", 20 ]
-      ]
-    ],
-     "components": [
-      [
-        [ "rag", 4 ]
-      ],
-      [
-        [ "string_6", 4 ],
-        [ "thread", 40 ],
-        [ "plant_fibre", 40 ]
-      ]
-    ]
-  },{
-    "type" : "recipe",
-    "result": "grenade_pouch",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_STORAGE",
-    "skill_used": "tailor",
-    "skills_required": [ [ "gun", 1 ], [ "launcher", 1 ] ],
-    "difficulty": 3,
-    "time": 80000,
-    "reversible": false,
-    "autolearn": true,
-    "tools": [
-      [
-        [ "sewing_kit", 20 ]
-      ],
-      [
-        [ "mold_plastic", -1 ]
-      ]
-    ],
-     "components": [
-      [
-        [ "rag", 4 ]
-      ],
-      [
-        [ "plastic_chunk", 2 ]
-      ],
-      [
-        [ "string_6", 2 ],
-        [ "thread", 20 ],
-        [ "plant_fibre", 20 ]
-      ]
-    ]
-  },{
-    "type" : "recipe",
     "result": "bootsheath",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_STORAGE",
@@ -7956,6 +7811,17 @@
     [ [ "fur", 14 ], [ "tanned_pelt", 2 ], [ "leather", 14 ], [ "tanned_hide", 2 ] ],
     [ [ "rag", 4 ] ]
   ]
+},{
+  "type" : "recipe",
+  "result": "helmet_netting",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_HEAD",
+  "skill_used": "tailor",
+  "difficulty": 2,
+  "time": 18000,
+  "reversible": false,
+  "autolearn": true,
+  "components": [ [ [ "thread", 500 ], [ "sinew", 500], [ "plant_fibre", 500] ] ]
 },{
   "type" : "recipe",
   "result": "sweater",
@@ -9058,44 +8924,6 @@
       [ "tshirt_text", 1 ]
     ]
   ]
-},{
-  "type" : "recipe",
-  "result": "tunic",
-  "category": "CC_ARMOR",
-  "subcategory": "CSC_ARMOR_TORSO",
-  "skill_used": "tailor",
-  "difficulty": 3,
-  "time": 45000,
-  "reversible": false,
-  "autolearn": true,
-  "tools": [ [ [ "sewing_kit", 10 ] ] ],
-  "components": [ [ [ "rag", 10 ] ] ]
-},{
-  "type" : "recipe",
-  "result": "sleeveless_tunic",
-  "category": "CC_ARMOR",
-  "subcategory": "CSC_ARMOR_TORSO",
-  "skill_used": "tailor",
-  "difficulty": 3,
-  "time": 40000,
-  "reversible": false,
-  "autolearn": true,
-  "tools": [ [ [ "sewing_kit", 8 ] ] ],
-  "components": [ [ [ "rag", 8 ] ] ]
-},{
-  "type" : "recipe",
-  "result": "sleeveless_tunic",
-  "id_suffix": "cutting",
-  "byproducts": { "id" : "rag", "amount" : 2 },
-  "category": "CC_ARMOR",
-  "subcategory": "CSC_ARMOR_TORSO",
-  "skill_used": "tailor",
-  "difficulty": 2,
-  "time": 21000,
-  "reversible": false,
-  "autolearn": true,
-  "qualities" : [{"id":"CUT","level":1,"amount":1}],
-  "components": [ [ [ "tunic", 1 ] ] ]
 },
 {
   "type" : "recipe",

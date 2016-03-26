@@ -3,7 +3,7 @@
     "id" : "ak74mag",
     "type" : "MAGAZINE",
     "name" : "AK-74M magazine",
-    "description" : "A standard magazine made for the AK-74M rifle, made of steel-reinforced polymer.  Holds 30 rounds.",
+    "description" : "A standard magazine made for the AK-74M rifle, made of steel-reinforced polymer.  Holds 30 rounds",
     "weight" : 230,
     "volume" : 2,
     "price" : 1500,

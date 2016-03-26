@@ -14,8 +14,6 @@
 #include "active_item_cache.h"
 #include "int_id.h"
 #include "string_id.h"
-#include "rng.h"
-#include "enums.h"
 
 //TODO: include comments about how these variables work. Where are they used. Are they constant etc.
 #define CAMPSIZE 1
@@ -130,6 +128,15 @@ struct bash_params {
     bool bashed_solid; // Did we bash furniture, terrain or vehicle
 };
 
+enum visibility_type {
+  VIS_HIDDEN,
+  VIS_CLEAR,
+  VIS_LIT,
+  VIS_BOOMER,
+  VIS_DARK,
+  VIS_BOOMER_DARK
+};
+
 struct level_cache {
     level_cache(); // Zeroes all relevant values
     level_cache( const level_cache &other ) = default;
@@ -178,9 +185,7 @@ struct level_cache {
  */
 class map
 {
-    friend class editmap;
-    friend class visitable<map_cursor>;
-
+ friend class editmap;
  public:
 // Constructors & Initialization
  map(int mapsize = MAPSIZE, bool zlev = false);
@@ -595,7 +600,7 @@ public:
 // Flags: 2D overloads
     std::string features(const int x, const int y); // Words relevant to terrain (sharp, etc)
     bool has_flag(const std::string & flag, const int x, const int y) const;  // checks terrain, furniture and vehicles
-    bool can_put_items_ter_furn(const int x, const int y) const; // True if items can be placed in this tile
+    bool can_put_items(const int x, const int y); // True if items can be placed in this tile
     bool has_flag_ter(const std::string & flag, const int x, const int y) const;  // checks terrain
     bool has_flag_furn(const std::string & flag, const int x, const int y) const;  // checks furniture
     bool has_flag_ter_or_furn(const std::string & flag, const int x, const int y) const; // checks terrain or furniture
@@ -609,8 +614,7 @@ public:
 // Flags: 3D
     std::string features( const tripoint &p ); // Words relevant to terrain (sharp, etc)
     bool has_flag( const std::string &flag, const tripoint &p ) const;  // checks terrain, furniture and vehicles
-    bool can_put_items( const tripoint &p ) const; // True if items can be dropped in this tile
-    bool can_put_items_ter_furn( const tripoint &p ) const; // True if items can be placed in this tile
+    bool can_put_items( const tripoint &p ); // True if items can be placed in this tile
     bool has_flag_ter( const std::string &flag, const tripoint &p ) const;  // checks terrain
     bool has_flag_furn( const std::string &flag, const tripoint &p ) const;  // checks furniture
     bool has_flag_ter_or_furn( const std::string &flag, const tripoint &p ) const; // checks terrain or furniture
@@ -790,9 +794,8 @@ void add_corpse( const tripoint &p );
     void add_item(const int x, const int y, item new_item);
     void spawn_an_item( const int x, const int y, item new_item,
                         const long charges, const int damlevel );
-    std::vector<item *> place_items( items_location loc, const int chance, const int x1, const int y1,
-                                     const int x2, const int y2, bool ongrass, const int turn,
-                                     int magazine = 0, int ammo = 0 );
+    int place_items(items_location loc, const int chance, const int x1, const int y1,
+                  const int x2, const int y2, bool ongrass, const int turn, bool rand = true);
     void spawn_items(const int x, const int y, const std::vector<item> &new_items);
     void create_anomaly(const int cx, const int cy, artifact_natural_property prop);
 // Items: 3D
@@ -852,13 +855,10 @@ void add_corpse( const tripoint &p );
     * all. Values <= 0 or > 100 are invalid.
     * @param ongrass If false the items won't spawn on flat terrain (grass, floor, ...).
     * @param turn The birthday that the created items shall have.
-    * @param magazine percentage chance item will contain the default magazine
-    * @param ammo percentage chance item will be filled with default ammo
-    * @return vector containing all placed items
+    * @return The number of placed items.
     */
-    std::vector<item *> place_items( items_location loc, const int chance, const tripoint &f,
-                                     const tripoint &t, bool ongrass, const int turn,
-                                     int magazine = 0, int ammo = 0 );
+    int place_items( items_location loc, const int chance, const tripoint &f,
+                     const tripoint &t, bool ongrass, const int turn, bool rand = true );
     /**
     * Place items from an item group at p. Places as much items as the item group says.
     * (Most item groups are distributions and will only create one item.)
@@ -1079,12 +1079,6 @@ public:
          * Ignored if smaller than 0.
          */
         bool pl_sees( const tripoint &t, int max_range ) const;
-        /**
-         * Uses the map cache to tell if the player could see the given square.
-         * pl_sees implies pl_line_of_sight
-         * Used for infrared.
-         */
-        bool pl_line_of_sight( const tripoint &t, int max_range ) const;
     std::set<vehicle*> dirty_vehicle_list;
 
     /** return @ref abs_sub */
@@ -1174,7 +1168,7 @@ protected:
         void remove_rotten_items( Container &items, const tripoint &p );
         /**
          * Try to fill funnel based items here. Simulates rain from `since_turn` till now.
-         * @param p The location in this map where to fill funnels.
+         * @param pnt The location in this map where to fill funnels.
          * @param since_turn First turn of simulated filling.
          */
         void fill_funnels( const tripoint &p, int since_turn );
@@ -1188,10 +1182,6 @@ protected:
          * called the last time.
          */
         void restock_fruits( const tripoint &p, int time_since_last_actualize );
-        /**
-         * Radiation-related plant (and fungus?) death.
-         */
-        void rad_scorch( const tripoint &p, int time_since_last_actualize );
         void player_in_field( player &u );
         void monster_in_field( monster &z );
         /**
@@ -1213,15 +1203,6 @@ public:
     void build_floor_cache( int zlev );
     // We want this visible in `game`, because we want it built earlier in the turn than the rest
     void build_floor_caches();
-
-    /** Get random tile on circumference of a circle */
-    tripoint random_perimeter( const tripoint& src, int radius ) const
-    {
-        tripoint dst;
-        calc_ray_end( rng( 1, 360 ), radius, src, dst );
-        return dst;
-    }
-
 protected:
  void generate_lightmap( int zlev );
  void build_seen_cache( const tripoint &origin, int target_z );

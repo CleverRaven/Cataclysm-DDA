@@ -8,7 +8,6 @@
 #include "monster.h"
 #include "mtype.h"
 #include "options.h"
-#include "player.h"
 
 #include <fstream>
 #include <sstream>

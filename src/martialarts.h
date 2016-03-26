@@ -4,7 +4,6 @@
 #include "pldata.h"
 #include "json.h"
 #include "string_id.h"
-#include "bonuses.h"
 #include <string>
 #include <vector>
 #include <map>
@@ -21,37 +20,39 @@ class ma_technique;
 using matec_id = string_id<ma_technique>;
 class effect_type;
 using efftype_id = string_id<effect_type>;
-class Skill;
-using skill_id = string_id<Skill>;
 
 struct ma_requirements {
-    bool was_loaded = false;
-
     bool unarmed_allowed; // does this bonus work when unarmed?
     bool melee_allowed; // what about with a melee weapon?
-    bool strictly_unarmed; // If unarmed, what about unarmed weapons?
 
-    /** Minimum amount of given skill to trigger this bonus */
-    std::map<skill_id, int> min_skill;
+    int min_melee; // minimum amount of unarmed to trigger this bonus
+    int min_unarmed; // minimum amount of unarmed to trigger this bonus
+    int min_bashing; // minimum amount of unarmed to trigger this bonus
+    int min_cutting; // minimum amount of unarmed to trigger this bonus
+    int min_stabbing; // minimum amount of unarmed to trigger this bonus
 
-    /** Minimum amount of given damage type on the weapon
-     *  Note: DT_FIRE currently won't work, not even on flaming weapons!
-     */
-    std::map<damage_type, int> min_damage;
+    int min_bashing_damage; // minimum amount of bashing damage on the weapon
+    int min_cutting_damage; // minimum amount of cutting damage on the weapon
 
     std::set<mabuff_id> req_buffs; // other buffs required to trigger this bonus
     std::set<std::string> req_flags; // any item flags required for this technique
 
     ma_requirements() {
-        unarmed_allowed = false;
-        melee_allowed = false;
-        strictly_unarmed = false;
+        unarmed_allowed = false; // does this bonus work when unarmed?
+        melee_allowed = false; // what about with a melee weapon?
+
+        min_melee = 0; // minimum amount of unarmed to trigger this technique
+        min_unarmed = 0; // etc
+        min_bashing = 0;
+        min_cutting = 0;
+        min_stabbing = 0;
+
+        min_bashing_damage = 0;
+        min_cutting_damage = 0;
     }
 
     bool is_valid_player( const player &u ) const;
     bool is_valid_weapon( const item &i ) const;
-
-    void load( JsonObject &jo );
 };
 
 class ma_technique
@@ -96,16 +97,34 @@ class ma_technique
         bool miss_recovery; // allows free recovery from misses, like tec_feint
         bool grab_break; // allows grab_breaks, like tec_break
 
+        bool flaming; // applies fire effects etc
+
+        int hit; // flat bonus to hit
+        int bash; // flat bonus to bash
+        int cut; // flat bonus to cut
+        int pain; // attacks cause pain
+
         int weighting; //how often this technique is used
 
-        /** All kinds of bonuses by types to damage, hit etc. */
-        bonus_container bonuses;
+        float bash_mult; // bash damage multiplier
+        float cut_mult; // cut damage multiplier
+        float speed_mult; // speed multiplier (fractional is faster)
 
-        float damage_bonus( const player &u, damage_type type ) const;
-        float damage_multiplier( const player &u, damage_type type ) const;
-        float move_cost_multiplier( const player &u ) const;
-        float move_cost_penalty( const player &u ) const;
-        float armor_penetration( const player &u, damage_type type ) const;
+        float bash_str; // bonus damage to add per str point
+        float bash_dex; // "" dex point
+        float bash_int; // "" int point
+        float bash_per; // "" per point
+
+        float cut_str; // bonus cut damage to add per str point
+        float cut_dex; // "" dex point
+        float cut_int; // "" int point
+        float cut_per; // "" per point
+
+        float hit_str; // bonus to-hit to add per str point
+        float hit_dex; // "" dex point
+        float hit_int; // "" int point
+        float hit_per; // "" per point
+
 };
 
 class ma_buff
@@ -130,23 +149,22 @@ class ma_buff
         int block_bonus( const player &u ) const;
 
         // returns the armor bonus for various armor stats (equivalent to armor)
-        int armor_bonus( const player &u, damage_type type ) const;
+        int arm_bash_bonus( const player &u ) const;
+        int arm_cut_bonus( const player &u ) const;
 
         // returns the stat bonus for the various damage stats (for rolls)
-        float damage_bonus( const player &u, damage_type type ) const;
+        int bash_bonus( const player &u ) const;
+        int cut_bonus( const player &u ) const;
 
         // returns damage multipliers for the various damage stats (applied after
         // bonuses)
-        float damage_mult( const player &u, damage_type type ) const;
-
-        /** Stamina cost multiplier */
-        float stamina_mult() const;
+        float bash_mult() const;
+        float cut_mult() const;
 
         // returns various boolean flags
         bool is_throw_immune() const;
         bool is_quiet() const;
         bool can_melee() const;
-        bool can_unarmed_weapon() const;
 
         // The ID of the effect that is used to store this buff
         efftype_id get_effect_id() const;
@@ -168,13 +186,47 @@ class ma_buff
         int dodges_bonus; // extra dodges, like karate
         int blocks_bonus; // extra blocks, like karate
 
-        /** All kinds of bonuses by types to damage, hit, armor etc. */
-        bonus_container bonuses;
+        int arm_bash; // passive bonus to bash armor
+        int arm_cut; // passive bonus to cut armor
+
+        int hit; // flat bonus to hit
+        int bash; // flat bonus to bash
+        int cut; // flat bonus to cut
+        int dodge; // flat dodge bonus
+        int speed; // flat speed bonus
+        int block; // unarmed block damage reduction
+
+        float bash_stat_mult; // bash damage multiplier, like aikido
+        float cut_stat_mult; // cut damage multiplier
+
+        float bash_str; // bonus damage to add per str point
+        float bash_dex; // "" dex point
+        float bash_int; // "" int point
+        float bash_per; // "" per point
+
+        float cut_str; // bonus cut damage to add per str point
+        float cut_dex; // "" dex point
+        float cut_int; // "" int point
+        float cut_per; // "" per point
+
+        float hit_str; // bonus to-hit to add per str point
+        float hit_dex; // "" dex point
+        float hit_int; // "" int point
+        float hit_per; // "" per point
+
+        float dodge_str; // bonus dodge to add per str point
+        float dodge_dex; // "" dex point
+        float dodge_int; // "" int point
+        float dodge_per; // "" per point
+
+        float block_str; // bonus block DR per str point
+        float block_dex; // "" dex point
+        float block_int; // "" int point
+        float block_per; // "" per point
 
         bool quiet;
         bool melee_allowed;
         bool throw_immune; // are we immune to throws/grabs?
-        bool strictly_unarmed; // can we use unarmed weapons?
 
         void load( JsonObject &jo );
 };
@@ -202,11 +254,9 @@ class martialart
         void apply_ongethit_buffs( player &u ) const;
 
         // determines if a technique is valid or not for this style
-        bool has_technique( const player &u, const matec_id &tech ) const;
+        bool has_technique( const player &u, matec_id tech ) const;
         // determines if a weapon is valid for this style
-        bool has_weapon( const std::string &item ) const;
-        // Is this weapon OK with this art?
-        bool weapon_valid( const item &u ) const;
+        bool has_weapon( std::string item ) const;
 
         matype_id id;
         bool was_loaded = false;
@@ -218,7 +268,6 @@ class martialart
         bool leg_block_with_bio_armor_legs;
         std::set<matec_id> techniques; // all available techniques
         std::set<std::string> weapons; // all style weapons
-        bool strictly_unarmed; // Punch daggers etc.
         std::vector<mabuff_id> static_buffs; // all buffs triggered by each condition
         std::vector<mabuff_id> onmove_buffs;
         std::vector<mabuff_id> onhit_buffs;

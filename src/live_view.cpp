@@ -91,7 +91,7 @@ void live_view::show( const int x, const int y )
 
     g->print_all_tile_info( p, *this, START_COLUMN, line, true );
 
-    if( m.can_put_items_ter_furn( p ) && m.sees_some_items( p, g->u ) ) {
+    if( m.can_put_items( p ) && m.sees_some_items( p, g->u ) ) {
         if( g->u.has_effect( effect_blind ) || g->u.worn_with_flag( "BLIND" ) ) {
             mvwprintz( *this, line++, START_COLUMN, c_yellow,
                        _( "There's something here, but you can't see what it is." ) );
@@ -110,7 +110,7 @@ void live_view::show( const int x, const int y )
     // be a different code path here that works for ncurses.
     int full_height = w_live_view->height;
     if( line < w_live_view->height - 1 ) {
-        w_live_view->height = std::max( line + 1, 11 );
+        w_live_view->height = ( line > 11 ) ? line : 11;
     }
     last_height = w_live_view->height;
 #endif

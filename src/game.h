@@ -11,7 +11,6 @@
 
 #include <vector>
 #include <map>
-#include <unordered_map>
 #include <list>
 #include <stdarg.h>
 
@@ -106,7 +105,6 @@ class faction;
 class live_view;
 typedef int nc_color;
 struct w_point;
-struct explosion_data;
 
 // Note: this is copied from inventory.h
 // Entire inventory.h would also bring item.h here
@@ -205,29 +203,12 @@ class game
         /** Create explosion at p of intensity (power) with (shrapnel) chunks of shrapnel.
             Explosion intensity formula is roughly power*factor^distance.
             If factor <= 0, no blast is produced */
-        std::unordered_map<tripoint, std::pair<int, int>> explosion(
-            const tripoint &p, float power, float factor = 0.8f,
-            bool fire = false, int shrapnel_count = 0, int shrapnel_mass = 10
-        );
-
-        std::unordered_map<tripoint, std::pair<int, int>> explosion(
-            const tripoint &p, const explosion_data &ex
-        );
-
+        void explosion( const tripoint &p, float power, float factor = 0.8f,
+                        int shrapnel = 0, bool fire = false );
         /** Helper for explosion, does the actual blast. */
         void do_blast( const tripoint &p, float power, float factor, bool fire );
-
-        /*
-         * Emits shrapnel damaging creatures and sometimes terrain/furniture within range
-         * @param src source from which shrapnel radiates outwards in a uniformly random distribtion
-         * @param power raw kinetic energy which is responsible for damage and reduced by effects of cover
-         * @param count abritrary measure of quantity shrapnel emitted affecting number of hits
-         * @param mass determines how readily terrain constrains shrapnel and also caps pierce damage
-         * @param range maximum distance shrapnel may travel
-         * @return map containing all tiles considered with value being sum of damage received (if any)
-         */
-        std::unordered_map<tripoint,int> shrapnel( const tripoint &src, int power, int count, int mass, int range = -1 );
-
+        /** Shoot shrapnel from point p */
+        void shrapnel( const tripoint &p, int power, int count, int radius );
         /** Triggers a flashbang explosion at p. */
         void flashbang( const tripoint &p, bool player_immune = false );
         /** Moves the player vertically. If force == true then they are falling. */
@@ -617,7 +598,7 @@ class game
         bool load_master(std::string worldname); // Load the master data file, with factions &c
         void load_weather(std::ifstream &fin);
         void load(std::string worldname, std::string name); // Load a player-specific save file
-        bool start_game(std::string worldname); // Starts a new game in a world
+        void start_game(std::string worldname); // Starts a new game in a world
         void start_special_game(special_game_id gametype); // See gamemode.cpp
 
         //private save functions.
@@ -697,7 +678,7 @@ class game
         void reload(); // Reload a wielded gun/tool  'r'
         void reload(int pos);
 public:
-        bool unload( item &it ); // Unload a gun/tool  'U'
+        void unload(item &it); // Unload a gun/tool  'U'
         void unload(int pos = INT_MIN);
 private:
         void wield(int pos = INT_MIN); // Wield a weapon  'w'
@@ -777,7 +758,6 @@ private:
         //  int autosave_timeout();  // If autosave enabled, how long we should wait for user inaction before saving.
         void autosave();         // automatic quicksaves - Performs some checks before calling quicksave()
         void quicksave();        // Saves the game without quitting
-        void quickload();        // Loads the previously saved game if it exists
 
         // Input related
         bool handle_mouseview(input_context &ctxt,

@@ -245,7 +245,7 @@
   "difficulty": 1,
   "time": 7000,
   "reversible": false,
-  "autolearn": [[ "electronics", 3 ]],
+  "autolearn": false,
   "book_learn": [[ "manual_electronics", 1 ] , [ "textbook_electronics", 1 ] , [ "advanced_electronics", 1 ]],
   "tools": [
     [
@@ -454,7 +454,7 @@
   "time": 20000,
   "reversible": true,
   "decomp_learn": 0,
-  "autolearn": [[ "electronics", 2 ]],
+  "autolearn": false,
   "book_learn": [[ "manual_electronics", 1 ] , [ "advanced_electronics", 2 ] , [ "textbook_anarch", 2 ]],
   "components": [
     [
@@ -549,7 +549,10 @@
   ],
   "components": [
     [ [ "power_supply", 1 ] ],
-    [ [ "small_storage_battery", 1 ] ],
+    [
+      [ "small_storage_battery", 1 ],
+      [ "UPS_off", 1 ]
+    ],
     [ [ "scrap", 4 ] ],
     [ [ "cable", 10 ] ]
   ]
@@ -1828,22 +1831,22 @@
   "subcategory": "CSC_ELECTRONIC_PARTS",
   "skill_used": "electronics",
   "skills_required": [ "fabrication", 1 ],
-  "difficulty": 3,
+  "difficulty": 2,
   "time": 10000,
   "reversible": true,
-  "decomp_learn": 3,
+  "decomp_learn": 2,
   "autolearn": false,
   "book_learn": [[ "manual_electronics", 2 ] , [ "mag_electronics", 2 ] , [ "manual_mechanics", 3]],
   "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
   "tools": [
     [
-      [ "soldering_iron", 10 ],
-      [ "toolset", 10 ]
+      [ "soldering_iron", 5 ],
+      [ "toolset", 5 ]
     ]
   ],
   "components": [
-    [ [ "small_storage_battery", 8 ] ],
-    [ [ "scrap", 4 ] ],
+    [ [ "small_storage_battery", 6 ] ],
+    [ [ "scrap", 1 ] ],
     [ [ "cable", 5 ] ]
   ]
 },{
@@ -1853,22 +1856,22 @@
   "subcategory": "CSC_ELECTRONIC_PARTS",
   "skill_used": "electronics",
   "skills_required": [ "fabrication", 1 ],
-  "difficulty": 3,
+  "difficulty": 2,
   "time": 20000,
   "reversible": true,
-  "decomp_learn": 3,
+  "decomp_learn": 2,
   "autolearn": false,
   "book_learn": [[ "manual_electronics", 2 ] , [ "mag_electronics", 2 ] , [ "manual_mechanics", 3]],
   "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
   "tools": [
     [
-      [ "soldering_iron", 20 ],
-      [ "toolset", 20 ]
+      [ "soldering_iron", 5 ],
+      [ "toolset", 5 ]
     ]
   ],
   "components": [
     [ [ "medium_storage_battery", 4 ] ],
-    [ [ "scrap", 8 ] ],
+    [ [ "scrap", 2 ] ],
     [ [ "cable", 10 ] ]
   ]
 },{

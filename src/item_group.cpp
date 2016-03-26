@@ -181,31 +181,30 @@ void Item_modifier::modify(item &new_item) const
     new_item.damage = std::min( std::max( (int) rng( damage.first, damage.second ), MIN_ITEM_DAMAGE ), MAX_ITEM_DAMAGE );
 
     long ch = (charges.first == charges.second) ? charges.first : rng(charges.first, charges.second);
-
+    const auto g = new_item.type->gun.get();
+    const auto t = dynamic_cast<const it_tool *>(new_item.type);
+   
     if(ch != -1) {
         if( new_item.count_by_charges() || new_item.made_of( LIQUID ) ) {
             // food, ammo
             // count_by_charges requires that charges is at least 1. It makes no sense to
             // spawn a "water (0)" item.
             new_item.charges = std::max( 1l, ch );
-        } else if( new_item.is_tool() ) {
-            const auto qty = std::min( ch, new_item.ammo_capacity() );
-            new_item.charges = qty;
-            if( new_item.ammo_type() != "NULL" && qty > 0 ) {
-                new_item.ammo_set( new_item.ammo_type(), qty );
-            }
-        } else if( !new_item.is_gun() ) {
+        } else if(t != NULL) {
+            new_item.charges = std::min(ch, t->max_charges);
+        } else if (g == nullptr){
             //not gun, food, ammo or tool. 
             new_item.charges = ch;
         }
     }
     
-    if( new_item.is_gun() && ( ammo.get() != nullptr || ch > 0 ) ) {
+    if( g != nullptr && ( ammo.get() != nullptr || ch > 0 ) ) {
         if( ammo.get() == nullptr ) {
             // In case there is no explicit ammo item defined, use the default ammo
-            if( new_item.ammo_type() != "NULL" ) {
+            const auto ammoid = default_ammo( g->ammo );
+            if ( !ammoid.empty() ) {
+                new_item.set_curammo( ammoid );
                 new_item.charges = ch;
-                new_item.set_curammo( new_item.ammo_type() );
             }
         } else {
             const item am = ammo->create_single( new_item.bday );
@@ -225,7 +224,6 @@ void Item_modifier::modify(item &new_item) const
             new_item.charges = 0;
         }
     }
-
     if(container.get() != NULL) {
         item cont = container->create_single(new_item.bday);
         if (!cont.is_null()) {
@@ -278,10 +276,9 @@ bool Item_modifier::remove_item(const Item_tag &itemid)
 Item_group::Item_group(Type t, int probability)
     : Item_spawn_data(probability)
     , type(t)
-    , with_ammo(0)
-    , with_magazine(0)
     , sum_prob(0)
     , items()
+    , with_ammo(false)
 {
 }
 
@@ -345,24 +342,22 @@ Item_spawn_data::ItemList Item_group::create(int birthday, RecursionList &rec) c
         }
     }
 
-    for( auto& e : result ) {
-        bool spawn_ammo = rng( 0, 99 ) < with_ammo;
-        bool spawn_mags = rng( 0, 99 ) < with_magazine || spawn_ammo;
-
-        if( spawn_mags && !e.magazine_integral() && !e.magazine_current() ) {
-            e.contents.emplace_back( e.magazine_default(), e.bday );
-        }
-        if( spawn_ammo && e.ammo_capacity() > 0 && e.ammo_remaining() == 0 ) {
-            itype_id ammo = default_ammo( e.ammo_type() );
-            if( e.magazine_current() ) {
-                e.magazine_current()->contents.emplace_back( ammo, e.bday, e.ammo_capacity() );
+    if( with_ammo && !result.empty() ) {
+        const auto& it = result.front();
+        if( it.is_gun() ) {
+            if( it.magazine_default() != "null" ) {
+                result.emplace_back( it.magazine_default(), birthday );
             } else {
-                e.set_curammo( ammo );
-                e.charges = e.ammo_capacity();
+                const std::string ammoid = default_ammo( it.ammo_type() );
+                if ( !ammoid.empty() ) {
+                    item ammo( ammoid, birthday );
+                    // TODO: change the spawn lists to contain proper references to containers
+                    ammo = ammo.in_its_container();
+                    result.push_back( ammo );
+                }
             }
         }
     }
-
     return result;
 }
 

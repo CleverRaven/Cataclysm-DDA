@@ -16,7 +16,6 @@
 #include "translations.h"
 #include "input.h"
 #include "overmap.h"
-#include "player.h"
 
 #include <string>
 #include <vector>
@@ -107,13 +106,13 @@ bool defense_game::init()
 void defense_game::per_turn()
 {
     if (!thirst) {
-        g->u.set_thirst(0);
+        g->u.thirst = 0;
     }
     if (!hunger) {
         g->u.set_hunger(0);
     }
     if (!sleep) {
-        g->u.set_fatigue(0);
+        g->u.fatigue = 0;
     }
     if (int(calendar::turn) % (time_between_waves * 10) == 0) {
         current_wave++;

@@ -2010,7 +2010,6 @@
       [ "moonshine", 7 ],
       [ "brandy", 7 ],
       [ "chem_ethanol", 7],
-      [ "mixed_alcohol_strong", 7 ],
       [ "bleach", 1 ]
     ],
     [
@@ -2633,9 +2632,8 @@
         [ "gin", 14 ],
         [ "tequila", 14 ],
         [ "bum_wine", 56 ],
-        [ "fruit_wine", 56 ],
-        [ "moonshine", 14 ],
-        [ "mixed_alcohol_strong", 14 ]
+        [ "fruit_wine", 56],
+        [ "moonshine", 14]
     ] ]
 },
 {

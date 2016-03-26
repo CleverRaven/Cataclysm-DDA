@@ -111,18 +111,12 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
         item &operator=( const item & ) = default;
         virtual ~item() = default;
 
-        explicit item( const itype_id& id, int turn = -1, int qty = -1 );
-        explicit item( const itype *type, int turn = -1, int qty = -1 );
+        item( const itype_id& id, int turn, int qty = -1 );
+        item( const itype *type, int turn, int qty = -1 );
 
-        /** Suppress randomisation and always start with default quantity of charges */
         struct default_charges_tag {};
         item( const itype_id& id, int turn, default_charges_tag );
         item( const itype *type, int turn, default_charges_tag );
-
-        /** Default (or randomised) charges except if counted by charges then only one charge */
-        struct solitary_tag {};
-        item( const itype_id& id, int turn, solitary_tag );
-        item( const itype *type, int turn, solitary_tag );
 
         item( JsonObject &jo );
 
@@ -132,31 +126,6 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
          * @return same instance to allow method chaining
          */
         item& convert( const itype_id& new_type );
-
-        /**
-         * Filter converting this instance to the inactive type
-         * If the item is either inactive or cannot be deactivated is a no-op
-         * @param ch character currently possessing or acting upon the item (if any)
-         * @param alert whether to display any messages
-         * @return same instance to allow method chaining
-         */
-        item& deactivate( const Character *ch = nullptr, bool alert = true );
-
-        /**
-         * Filter setting the ammo for this instance
-         * Any existing ammo is removed. If necessary a default magazine is also added.
-         * @param ammo specific type of ammo (must be compatible with item ammo type)
-         * @param qty maximum ammo (capped by item capacity) or negative to fill to capacity
-         * @return same instance to allow method chaining
-         */
-        item& ammo_set( const itype_id& ammo, long qty = -1 );
-
-        /**
-         * Filter removing all ammo from this instance
-         * If the item is neither a tool, gun nor magazine is a no-op
-         * For items reloading using magazines any empty magazine remains present.
-         */
-        item& ammo_unset();
 
         /**
          * Splits a count-by-charges item always leaving source item with minimum of 1 charge
@@ -259,28 +228,17 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
      */
     bool can_reload( const itype_id& ammo = std::string() ) const;
 
-    struct reload_option {
-        const item *target = nullptr;
-        item_location ammo;
-        long qty = 0;
-        int moves = 0;
-
-        operator bool() const {
-            return target && ammo && qty > 0;
-        }
-    };
-
     /**
      * Select suitable ammo with which to reload the item
      * @param u player inventory to search for suitable ammo.
      */
-    reload_option pick_reload_ammo( player &u ) const;
+    item_location pick_reload_ammo( player &u ) const;
 
-    /**
-     * Reload item using ammo from location returning true if sucessful
-     * @param qty caps reloading to this (or fewer) units
-     */
-    bool reload( player &u, item_location loc, long qty );
+    /** Reload item using ammo from inventory position returning true if sucessful */
+    bool reload( player &u, int pos );
+
+    /** Reload item using ammo from location returning true if sucessful */
+    bool reload( player &u, item_location loc );
 
     template<typename Archive>
     void io( Archive& );
@@ -349,11 +307,6 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
      */
     int damage_cut() const;
     /**
-     * Damage of a given type that is caused by using this item as melee weapon.
-     * NOTE: Does NOT respect the legacy "stabbing is cutting"!
-     */
-    int damage_by_type( damage_type dt ) const;
-    /**
      * Whether the character needs both hands to wield this item.
      */
     bool is_two_handed( const player &u ) const;
@@ -369,11 +322,6 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
      */
     skill_id weap_skill() const;
     /*@}*/
-
-    /**
-     * Maximum range at which this weapon can be used for melee/reach attacks.
-     */
-    int reach_range() const;
 
  /**
   * Count the amount of items of type 'it' including this item,
@@ -444,30 +392,20 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
      * liquid ammo.
      * @param liquid Liquid to fill the container with.
      * @param err Contains error message if function returns false.
-     * @param allow_bucket Allow filling non-sealable containers
      * @return Returns false in case of error. Nothing has been added in that case.
      */
-    bool fill_with( item &liquid, std::string &err, bool allow_bucket );
+    bool fill_with( item &liquid, std::string &err );
     /**
      * How much more of this liquid (in charges) can be put in this container.
      * If this is not a container (or not suitable for the liquid), it returns 0.
      * Note that mixing different types of liquid is not possible.
      * Also note that this works for guns and tools that accept liquid ammo.
-     * @param allow_bucket Allow filling non-sealable containers
      */
-    long get_remaining_capacity_for_liquid( const item &liquid, bool allow_bucket = false ) const;
+    long get_remaining_capacity_for_liquid(const item &liquid) const;
     /**
      * Puts the given item into this one, no checks are performed.
      */
     void put_in( item payload );
-
-    /** Stores a newly constructed item at the end of this item's contents */
-    template<typename ... Args>
-    item& emplace_back( Args&&... args ) {
-        contents.emplace_back( std::forward<Args>( args )... );
-        return contents.back();
-    }
-
     /**
      * Returns this item into its default container. If it does not have a default container,
      * returns this. It's intended to be used like \code newitem = newitem.in_its_container();\endcode
@@ -488,6 +426,7 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
     bool has_quality( std::string quality_id, int quality_value ) const;
     bool count_by_charges() const;
     bool craft_has_charges();
+    long num_charges();
 
     /**
      * Reduce the charges of this item, only use for items counted by charges!
@@ -524,7 +463,7 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
      * Get @ref rot value relative to it_comest::spoils, if the item does not spoil,
      * it returns 0. If the item is rotten the returned value is > 1.
      */
-    float get_relative_rot() const;
+    float get_relative_rot();
     /**
      * Set the @ref rot to the given relative rot (relative to it_comest::spoils).
      */
@@ -578,8 +517,6 @@ public:
     const material_type &get_base_material() const;
     /**
      * The ids of all the materials this is made of.
-     * This may return an empty vector.
-     * The returned vector does not contain the null id.
      */
     const std::vector<std::string> &made_of() const;
     /**
@@ -681,6 +618,7 @@ protected:
     bool process_litcig(player *carrier, const tripoint &pos);
     bool process_cable(player *carrier, const tripoint &pos);
     bool process_tool(player *carrier, const tripoint &pos);
+    bool process_charger_gun(player *carrier, const tripoint &pos);
 public:
     /**
      * Helper to bring a cable back to its initial state.
@@ -698,10 +636,12 @@ public:
     /**
      * Process and apply artifact effects. This should be called exactly once each turn, it may
      * modify character stats (like speed, strength, ...), so call it after those have been reset.
+     * @return True if the item should be destroyed (it has run out of charges or similar), false
+     * if the item should be kept. Artifacts usually return false as they never get destroyed.
      * @param carrier The character carrying the artifact, can be null.
      * @param pos The location of the artifact (should be the player location if carried).
      */
-    void process_artifact( player *carrier, const tripoint &pos );
+    bool process_artifact( player *carrier, const tripoint &pos );
 
  bool destroyed_at_zero_charges() const;
 // Most of the is_whatever() functions call the same function in our itype
@@ -710,7 +650,7 @@ public:
  bool is_food_container(player const*u) const;  // Ditto
  bool is_food() const;                // Ignoring the ability to eat batteries, etc.
  bool is_food_container() const;      // Ignoring the ability to eat batteries, etc.
- bool is_ammo_container() const; // does this item contain ammo? (excludes magazines)
+ bool is_ammo_container() const;
  bool is_bionic() const;
  bool is_magazine() const;
  bool is_ammo() const;
@@ -724,25 +664,6 @@ public:
  bool is_software() const;
  bool is_var_veh_part() const;
  bool is_artifact() const;
-    bool is_bucket() const;
-    bool is_bucket_nonempty() const;
-
-    /**
-     * Can this item have given item/itype as content?
-     *
-     * For example, airtight for gas, acidproof for acid etc.
-     */
-    /*@{*/
-    bool can_contain( const item &it ) const;
-    bool can_contain( const itype &tp ) const;
-    /*@}*/
-
-        /**
-         * Is it ever possible to reload this item?
-         * Only the base item is considered with any mods ignored
-         * @see item::can_reload() to check current state of base item
-         */
-        bool is_reloadable() const;
 
         bool is_dangerous() const; // Is it an active grenade or something similar that will hurt us?
 
@@ -774,24 +695,22 @@ public:
  const itype* type;
  std::vector<item> contents;
 
-        /**
-         * Unloads the item's contents.
-         * @param c Character who receives the contents.
-         *          If c is the player, liquids will be handled, otherwise they will be spilled.
-         * @return If the item is now empty.
-         */
-        bool spill_contents( Character &c );
-        /**
-         * Unloads the item's contents.
-         * @param pos Position to dump the contents on.
-         * @return If the item is now empty.
-         */
-        bool spill_contents( const tripoint &pos );
-
         /** Checks if item is a holster and currently capable of storing obj
          *  @param ignore only check item is compatible and ignore any existing contents */
         bool can_holster ( const item& obj, bool ignore = false ) const;
 
+        /**
+         * Returns @ref curammo, the ammo that is currently load in this item.
+         * May return a null pointer.
+         * If non-null, the returned itype is quaranted to have an ammo slot:
+         * @code itm.get_curammo()->ammo->damage @endcode will work.
+         */
+        const itype* get_curammo() const;
+        /**
+         * Whether the item is currently loaded (which implies it has some non-null pointer
+         * as @ref curammo).
+         */
+        bool has_curammo() const;
         /**
          * Sets the current ammo to nullptr. Note that it does not touch the charges or anything else.
          */
@@ -1107,6 +1026,40 @@ public:
         /*@}*/
 
         /**
+         * @name Charger gun
+         *
+         * These functions are used on charger guns. Those items are activated, load over time
+         * (using the wielders UPS), and fire like a normal gun using pseudo ammo.
+         * Each function returns false when called on items that are not charger guns.
+         * Nothing is done in that case, so it's save to call them even when it's unknown whether
+         * the item is a charger gun.
+         * You must all @ref update_charger_gun_ammo before using properties of it as they depend
+         * on the charges of the gun.
+         */
+        /*@{*/
+        /**
+         * Deactivate the gun.
+         */
+        bool deactivate_charger_gun();
+        /**
+         * Activate the gun, it will now load charges over time.
+         * The item must be in the possessions of a player (given as parameter).
+         * The function will show a message regarding the loading status. If the player does not
+         * have a power source, it will not start loading and a different message is displayed.
+         * Can be called on npcs (no messages than).
+         */
+        bool activate_charger_gun( player &u );
+        /**
+         * Update the charges ammo settings. This must be called right before firing the gun because
+         * the properties of the ammo depend on the loading of the gun.
+         * E.g. a gun with many charges provides more ammo effects.
+         */
+        bool update_charger_gun_ammo();
+        /** Whether this is a charger gun. */
+        bool is_charger_gun() const;
+        /*@}*/
+
+        /**
          * @name Gun and gunmod functions
          *
          * Gun and gun mod functions. Anything stated to apply to guns, applies to auxiliary gunmods
@@ -1116,7 +1069,11 @@ public:
         /*@{*/
         bool is_gunmod() const;
         bool is_gun() const;
-
+        /**
+         * How much moves (@ref Creature::moves) it takes to reload this item.
+         * This also applies to tools.
+         */
+        int reload_time( const player &u ) const;
         /** Quantity of ammunition currently loaded in tool, gun or axuiliary gunmod */
         long ammo_remaining() const;
         /** Maximum quantity of ammunition loadable for tool, gun or axuiliary gunmod */
@@ -1134,17 +1091,6 @@ public:
          *  @param conversion whether to include the effect of any flags or mods which convert the type
          *  @return NULL if item does not use a specific ammo type (and is consequently not reloadable) */
         ammotype ammo_type( bool conversion = true ) const;
-
-        /** Get default ammo used by item or "NULL" if item does not have a default ammo type
-         *  @param conversion whether to include the effect of any flags or mods which convert the type
-         *  @return NULL if item does not use a specific ammo type (and is consequently not reloadable) */
-        itype_id ammo_default( bool conversion = true ) const;
-
-        /** Get ammo effects for item optionally inclusive of any resulting from the loaded ammo */
-        std::set<std::string> ammo_effects( bool with_ammo = true ) const;
-
-        /** Returns casing type ejected by item (if any) which is always "null" if item is not a gun */
-        itype_id ammo_casing() const;
 
         /** Does item have an integral magazine (as opposed to allowing detachable magazines) */
         bool magazine_integral() const;
@@ -1175,18 +1121,6 @@ public:
         /** Returns all gunmods currently attached to this item (always empty if item not a gun) */
         std::vector<item *> gunmods();
         std::vector<const item *> gunmods() const;
-
-        /** Get first attached gunmod matching type or nullptr if no such mod or item is not a gun */
-        item * gunmod_find( const itype_id& mod );
-        const item * gunmod_find( const itype_id& mod ) const;
-
-        /**
-         * Returns currently active auxiliary (@ref is_auxiliary_gunmod) gun mod item.
-         * May return null if there is no such gun mod or if the gun is not in the
-         * auxiliary mode (@ref is_in_auxiliary_mode).
-         */
-        item * gunmod_current();
-        item const * gunmod_current() const;
 
         /*
          * Checks if mod can be applied to this item considering any current state (jammed, loaded etc.)
@@ -1282,6 +1216,19 @@ public:
         std::string gun_type() const;
 
         /**
+         * Returns the currently active auxiliary (@ref is_auxiliary_gunmod) gun mod item.
+         * May return null if there is no such gun mod or if the gun is not in the
+         * auxiliary mode (@ref is_in_auxiliary_mode).
+         */
+        item* active_gunmod();
+        item const* active_gunmod() const;
+        /**
+         * Returns the index of a gunmod item of the given type. The actual gunmod item is in
+         * the @ref contents vector, the returned index point into that vector.
+         * Returns -1 if this is not a gun, or if it has no such gunmod.
+         */
+        int has_gunmod( const itype_id& type ) const;
+        /**
          * Number of mods that can still be installed into the given mod location,
          * for non-guns it always returns 0.
          */
@@ -1305,6 +1252,27 @@ public:
          */
         item *get_usable_item( const std::string &use_name );
 
+        /**
+         * Recursively check the contents of this item and remove those items
+         * that match the filter. Note that this function does *not* match
+         * the filter against *this* item, only against the contents.
+         * @return The removed items, the list may be empty if no items matches.
+         */
+        template<typename T>
+        std::list<item> remove_items_with( T filter )
+        {
+            std::list<item> result;
+            for( auto it = contents.begin(); it != contents.end(); ) {
+                if( filter( *it ) ) {
+                    result.push_back( std::move( *it ) );
+                    it = contents.erase( it );
+                } else {
+                    result.splice( result.begin(), it->remove_items_with( filter ) );
+                    ++it;
+                }
+            }
+            return result;
+        }
         /**
          * Returns the translated item name for the item with given id.
          * The name is in the proper plural form as specified by the
@@ -1344,7 +1312,7 @@ public:
     private:
         /** Helper for liquid and container related stuff. */
         enum LIQUID_FILL_ERROR : int;
-        LIQUID_FILL_ERROR has_valid_capacity_for_liquid( const item &liquid, bool allow_bucket ) const;
+        LIQUID_FILL_ERROR has_valid_capacity_for_liquid(const item &liquid) const;
         std::string name;
         const itype* curammo = nullptr;
         std::map<std::string, std::string> item_vars;

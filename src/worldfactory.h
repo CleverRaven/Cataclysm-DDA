@@ -23,9 +23,6 @@ struct WORLD {
     std::vector<std::string> active_mod_order;
 
     WORLD();
-
-    bool save_exists( const std::string &name ) const;
-    void add_save( const std::string &name );
 };
 
 class mod_manager;

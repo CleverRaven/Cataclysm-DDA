@@ -42,7 +42,7 @@ bool quality::has( const std::string &id )
     return qualities.count( id ) > 0;
 }
 
-std::string quality_requirement::to_string( int ) const
+std::string quality_requirement::to_string(int) const
 {
     return string_format( ngettext( "%d tool with %s of %d or more.",
                                     "%d tools with %s of %d or more.", count ),
@@ -54,7 +54,7 @@ bool tool_comp::by_charges() const
     return count > 0;
 }
 
-std::string tool_comp::to_string( int batch ) const
+std::string tool_comp::to_string(int batch) const
 {
     if( by_charges() ) {
         //~ <tool-name> (<numer-of-charges> charges)
@@ -65,7 +65,7 @@ std::string tool_comp::to_string( int batch ) const
     }
 }
 
-std::string item_comp::to_string( int batch ) const
+std::string item_comp::to_string(int batch) const
 {
     const int c = std::abs( count ) * batch;
     //~ <item-count> <item-name>
@@ -107,8 +107,8 @@ void item_comp::load( JsonArray &ja )
     type = comp.get_string( 0 );
     count = comp.get_int( 1 );
     // Recoverable is true by default.
-    if( comp.size() > 2 ) {
-        recoverable = comp.get_string( 2 ) == "NO_RECOVER" ? false : true;
+    if(comp.size() > 2) {
+        recoverable = comp.get_string(2) == "NO_RECOVER" ? false : true;
     }
     if( count <= 0 ) {
         ja.throw_error( "item count must be a positive number" );
@@ -116,15 +116,15 @@ void item_comp::load( JsonArray &ja )
 }
 
 template<typename T>
-void requirement_data::load_obj_list( JsonArray &jsarr, std::vector< std::vector<T> > &objs )
+void requirement_data::load_obj_list(JsonArray &jsarr, std::vector< std::vector<T> > &objs)
 {
-    while( jsarr.has_more() ) {
-        if( jsarr.test_array() ) {
+    while (jsarr.has_more()) {
+        if(jsarr.test_array()) {
             std::vector<T> choices;
             JsonArray ja = jsarr.next_array();
-            while( ja.has_more() ) {
-                choices.push_back( T() );
-                choices.back().load( ja );
+            while (ja.has_more()) {
+                choices.push_back(T());
+                choices.back().load(ja);
             }
             if( !choices.empty() ) {
                 objs.push_back( choices );
@@ -132,8 +132,8 @@ void requirement_data::load_obj_list( JsonArray &jsarr, std::vector< std::vector
         } else {
             // tool qualities don't normally use a list of alternatives
             // each quality is mandatory.
-            objs.push_back( std::vector<T>( 1 ) );
-            objs.back().back().load( jsarr );
+            objs.push_back(std::vector<T>(1));
+            objs.back().back().load(jsarr);
         }
     }
 }
@@ -161,8 +161,8 @@ bool requirement_data::any_marked_available( const std::vector<T> &comps )
 }
 
 template<typename T>
-std::string requirement_data::print_missing_objs( const std::string &header,
-        const std::vector< std::vector<T> > &objs )
+std::string requirement_data::print_missing_objs(const std::string &header,
+        const std::vector< std::vector<T> > &objs)
 {
     std::ostringstream buffer;
     for( const auto &list : objs ) {
@@ -170,16 +170,16 @@ std::string requirement_data::print_missing_objs( const std::string &header,
             continue;
         }
         if( !buffer.str().empty() ) {
-            buffer << "\n" << _( "and " );
+            buffer << "\n" << _("and ");
         }
         for( auto it = list.begin(); it != list.end(); ++it ) {
             if( it != list.begin() ) {
-                buffer << _( " or " );
+                buffer << _(" or ");
             }
             buffer << it->to_string();
         }
     }
-    if( buffer.str().empty() ) {
+    if (buffer.str().empty()) {
         return std::string();
     }
     return header + "\n" + buffer.str() + "\n";
@@ -188,9 +188,9 @@ std::string requirement_data::print_missing_objs( const std::string &header,
 std::string requirement_data::list_missing() const
 {
     std::ostringstream buffer;
-    buffer << print_missing_objs( _( "These tools are missing:" ), tools );
-    buffer << print_missing_objs( _( "These tools are missing:" ), qualities );
-    buffer << print_missing_objs( _( "Those components are missing:" ), components );
+    buffer << print_missing_objs(_("These tools are missing:"), tools);
+    buffer << print_missing_objs(_("These tools are missing:"), qualities);
+    buffer << print_missing_objs(_("Those components are missing:"), components);
     return buffer.str();
 }
 
@@ -210,7 +210,7 @@ void component::check_consistency( const std::string &display_name ) const
 
 template<typename T>
 void requirement_data::check_consistency( const std::vector< std::vector<T> > &vec,
-        const std::string &display_name )
+                                      const std::string &display_name )
 {
     for( const auto &list : vec ) {
         for( const auto &comp : list ) {
@@ -221,13 +221,13 @@ void requirement_data::check_consistency( const std::vector< std::vector<T> > &v
 
 void requirement_data::check_consistency( const std::string &display_name ) const
 {
-    check_consistency( tools, display_name );
-    check_consistency( components, display_name );
-    check_consistency( qualities, display_name );
+    check_consistency(tools, display_name);
+    check_consistency(components, display_name);
+    check_consistency(qualities, display_name);
 }
 
 int requirement_data::print_components( WINDOW *w, int ypos, int xpos, int width, nc_color col,
-                                        const inventory &crafting_inv, int batch ) const
+                                    const inventory &crafting_inv, int batch ) const
 {
     if( components.empty() ) {
         return 0;
@@ -236,29 +236,27 @@ int requirement_data::print_components( WINDOW *w, int ypos, int xpos, int width
     return print_list( w, ypos + 1, xpos, width, col, crafting_inv, components, batch ) + 1;
 }
 
-std::vector<std::string> requirement_data::get_folded_components_list( int width, nc_color col,
-        const inventory &crafting_inv, int batch ) const
+std::vector<std::string> requirement_data::get_folded_components_list( int width, nc_color col, const inventory &crafting_inv, int batch) const
 {
     std::vector<std::string> out_buffer;
     if( components.empty() ) {
         return out_buffer;
     }
     std::ostringstream current_line;
-    current_line << "<color_" << string_from_color( col ) << ">" << _( "Components required:" ) <<
-                 "</color>";
-    out_buffer.push_back( current_line.str() );
-    current_line.str( "" );
+    current_line << "<color_" << string_from_color(col) << ">" << _( "Components required:" ) << "</color>";
+    out_buffer.push_back(current_line.str());
+    current_line.str("");
 
-    std::vector<std::string> folded_buffer = get_folded_list( width, crafting_inv, components, batch );
-    out_buffer.insert( out_buffer.end(), folded_buffer.begin(), folded_buffer.end() );
+    std::vector<std::string> folded_buffer = get_folded_list(width, crafting_inv, components, batch);
+    out_buffer.insert(out_buffer.end(), folded_buffer.begin(), folded_buffer.end());
 
     return out_buffer;
 }
 
 template<typename T>
 int requirement_data::print_list( WINDOW *w, int ypos, int xpos, int width, nc_color col,
-                                  const inventory &crafting_inv, const std::vector< std::vector<T> > &objs,
-                                  int batch )
+                              const inventory &crafting_inv, const std::vector< std::vector<T> > &objs,
+                              int batch )
 {
     const int oldy = ypos;
     for( const auto &comp_list : objs ) {
@@ -269,7 +267,7 @@ int requirement_data::print_list( WINDOW *w, int ypos, int xpos, int width, nc_c
                 buffer << "<color_white> " << _( "OR" ) << "</color> ";
             }
             const std::string col = a->get_color( has_one, crafting_inv, batch );
-            buffer << "<color_" << col << ">" << a->to_string( batch ) << "</color>";
+            buffer << "<color_" << col << ">" << a->to_string(batch) << "</color>";
         }
         mvwprintz( w, ypos, xpos, col, "> " );
         ypos += fold_and_print( w, ypos, xpos + 2, width - 2, col, buffer.str() );
@@ -279,8 +277,8 @@ int requirement_data::print_list( WINDOW *w, int ypos, int xpos, int width, nc_c
 
 template<typename T>
 std::vector<std::string> requirement_data::get_folded_list( int width,
-        const inventory &crafting_inv, const std::vector< std::vector<T> > &objs,
-        int batch )
+                              const inventory &crafting_inv, const std::vector< std::vector<T> > &objs,
+                              int batch )
 {
     std::vector<std::string> out_buffer;
     for( const auto &comp_list : objs ) {
@@ -291,15 +289,15 @@ std::vector<std::string> requirement_data::get_folded_list( int width,
                 buffer << "<color_white> " << _( "OR" ) << "</color> ";
             }
             const std::string col = a->get_color( has_one, crafting_inv, batch );
-            buffer << "<color_" << col << ">" << a->to_string( batch ) << "</color>";
+            buffer << "<color_" << col << ">" << a->to_string(batch) << "</color>";
         }
         std::vector<std::string> folded = foldstring( buffer.str(), width - 2 );
 
-        for( size_t i = 0; i < folded.size(); i++ ) {
-            if( i == 0 ) {
-                out_buffer.push_back( std::string( "> " ).append( folded[i] ) );
-            } else {
-                out_buffer.push_back( std::string( "  " ).append( folded[i] ) );
+        for( size_t i = 0; i < folded.size(); i++){
+            if( i == 0 ){
+                out_buffer.push_back(std::string("> ").append(folded[i]));
+            }else{
+                out_buffer.push_back(std::string("  ").append(folded[i]));
             }
         }
     }
@@ -307,7 +305,7 @@ std::vector<std::string> requirement_data::get_folded_list( int width,
 }
 
 int requirement_data::print_tools( WINDOW *w, int ypos, int xpos, int width, nc_color col,
-                                   const inventory &crafting_inv, int batch ) const
+                               const inventory &crafting_inv, int batch ) const
 {
     const int oldy = ypos;
     mvwprintz( w, ypos, xpos, col, _( "Tools required:" ) );
@@ -318,32 +316,30 @@ int requirement_data::print_tools( WINDOW *w, int ypos, int xpos, int width, nc_
         ypos++;
         return ypos - oldy;
     }
-    ypos += print_list( w, ypos, xpos, width, col, crafting_inv, qualities );
-    ypos += print_list( w, ypos, xpos, width, col, crafting_inv, tools, batch );
+    ypos += print_list(w, ypos, xpos, width, col, crafting_inv, qualities);
+    ypos += print_list(w, ypos, xpos, width, col, crafting_inv, tools, batch);
     return ypos - oldy;
 }
 
-std::vector<std::string> requirement_data::get_folded_tools_list( int width, nc_color col,
-        const inventory &crafting_inv, int batch ) const
+std::vector<std::string> requirement_data::get_folded_tools_list(int width, nc_color col, const inventory &crafting_inv, int batch) const
 {
     std::vector<std::string> output_buffer;
     std::ostringstream current_line;
-    current_line << "<color_" << string_from_color( col ) << ">" << _( "Tools required:" ) <<
-                 "</color>";
-    output_buffer.push_back( current_line.str() );
-    current_line.str( "" );
+    current_line << "<color_" << string_from_color(col) << ">" << _( "Tools required:" ) << "</color>";
+    output_buffer.push_back(current_line.str());
+    current_line.str("");
     if( tools.empty() && qualities.empty() ) {
-        current_line << "<color_" << string_from_color( col ) << ">" << "> " << "</color>";
-        current_line << "<color_" << string_from_color( c_green ) << ">" << _( "NONE" ) << "</color>";
-        output_buffer.push_back( current_line.str() );
+        current_line << "<color_" << string_from_color(col) << ">" << "> " << "</color>";
+        current_line << "<color_" << string_from_color(c_green) << ">" << _( "NONE" ) << "</color>";
+        output_buffer.push_back(current_line.str());
         return output_buffer;
     }
 
-    std::vector<std::string> folded_qualities = get_folded_list( width, crafting_inv, qualities );
-    output_buffer.insert( output_buffer.end(), folded_qualities.begin(), folded_qualities.end() );
+    std::vector<std::string> folded_qualities = get_folded_list(width, crafting_inv, qualities);
+    output_buffer.insert(output_buffer.end(), folded_qualities.begin(), folded_qualities.end());
 
-    std::vector<std::string> folded_tools = get_folded_list( width, crafting_inv, tools, batch );
-    output_buffer.insert( output_buffer.end(), folded_tools.begin(), folded_tools.end() );
+    std::vector<std::string> folded_tools = get_folded_list(width, crafting_inv, tools, batch);
+    output_buffer.insert(output_buffer.end(), folded_tools.begin(), folded_tools.end());
     return output_buffer;
 }
 
@@ -368,8 +364,8 @@ bool requirement_data::can_make_with_inventory( const inventory &crafting_inv, i
 
 template<typename T>
 bool requirement_data::has_comps( const inventory &crafting_inv,
-                                  const std::vector< std::vector<T> > &vec,
-                                  int batch )
+                              const std::vector< std::vector<T> > &vec,
+                              int batch )
 {
     bool retval = true;
     for( const auto &set_of_tools : vec ) {
@@ -471,11 +467,11 @@ std::string item_comp::get_color( bool has_one, const inventory &crafting_inv, i
 }
 
 template<typename T>
-const T *requirement_data::find_by_type( const std::vector< std::vector<T> > &vec,
-        const std::string &type )
+const T *requirement_data::find_by_type(const std::vector< std::vector<T> > &vec,
+                                    const std::string &type)
 {
-    for( const auto &list : vec ) {
-        for( const auto &comp : list ) {
+    for( const auto &list : vec) {
+        for( const auto &comp : list) {
             if( comp.type == type ) {
                 return &comp;
             }
@@ -541,7 +537,7 @@ bool requirement_data::check_enough_materials( const item_comp &comp,
         }
         // This item can be used for the quality requirement, same as above for specific
         // tools applies.
-        if( !crafting_inv.has_items_with_quality( qr->type, qr->level, qr->count + abs( comp.count ) ) ) {
+        if( !crafting_inv.has_items_with_quality( qr->type, qr->level, qr->count + abs(comp.count) ) ) {
             comp.available = a_insufficent;
         }
     }
@@ -643,17 +639,17 @@ const requirement_data requirement_data::disassembly_requirements() const
     // Remove duplicate qualities
     {
         auto itr = std::unique( qualities.begin(), qualities.end(),
-                                []( const quality_requirement & a, const quality_requirement & b ) {
-                                    return a.type == b.type;
-                                } );
+            []( const quality_requirement &a, const quality_requirement &b ) {
+                return a.type == b.type;
+            } );
         qualities.resize( std::distance( qualities.begin(), itr ) );
     }
 
     // Remove empty variant sections
     ret.tools.erase( std::remove_if( ret.tools.begin(), ret.tools.end(),
-                                     []( const std::vector<tool_comp> &tcv ) {
-                                         return tcv.empty();
-                                     } ), ret.tools.end() );
+    []( const std::vector<tool_comp> &tcv ) {
+        return tcv.empty();
+    } ), ret.tools.end() );
 
     return ret;
 }

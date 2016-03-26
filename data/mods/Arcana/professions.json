@@ -46,12 +46,10 @@
                 "boots",
                 "gloves_fingerless",
                 "backpack",
-                "matches",
-                "chemistry_set_basic",
+                "pot",
+                "chemistry_set",
                 "chem_ethanol",
-                "bottle_glass",
-                "book_potioncraft",
-                "essence"
+                "book_potioncraft"
             ],
             "male": [
                 "briefs"
@@ -86,12 +84,9 @@
                 "socks",
                 "dress_shoes",
                 "mbag",
-                "matches",
                 "candle",
-                "feather",
                 "scroll_blank",
-                "book_scrollcraft",
-                "essence"
+                "book_scrollcraft"
             ],
             "male": [
                 "briefs"
@@ -133,13 +128,7 @@
                 "rag",
                 "blood_athame",
                 "bloodscourge",
-                "book_bloodmagic",
-                "essence_blood",
-                "essence_blood",
-                "essence_blood",
-                "essence_blood",
-                "essence_blood",
-                "essence_blood"
+                "book_bloodmagic"
             ],
             "male": [
                 "boxer_briefs"
@@ -182,22 +171,7 @@
                 "holy_symbol",
                 "backpack",
                 "hexenhammer",
-                "book_hexenhammer",
-                "essence_dull",
-                "essence_dull",
-                "essence_dull",
-                "essence_dull",
-                "essence_dull",
-                "essence_dull",
-                "essence_dull",
-                "essence_dull",
-                "essence_dull",
-                "essence_dull",
-                "essence_dull",
-                "essence_dull",
-                "essence_dull",
-                "essence_dull",
-                "essence_dull"
+                "book_hexenhammer"
             ],
             "male": [
                 "boxer_shorts"
@@ -226,14 +200,9 @@
                 "robe_shadow",
                 "socks",
                 "bastsandals",
-                "gauntlets_necro",
                 "leather_pouch",
                 "offering_chalice",
-                "book_sacrifice",
-                "essence",
-                "essence",
-                "essence",
-                "essence"
+                "book_sacrifice"
             ],
             "female": [
                 "chestwrap"
@@ -265,12 +234,9 @@
                 "gloves_leather",
                 "knit_scarf",
                 "backpack",
-                "matches",
                 "bowl_pewter",
                 "silver_glyph",
-                "tallow",
-                "book_summoning",
-                "essence"
+                "book_summoning"
             ],
             "male": [
                 "boxer_shorts"

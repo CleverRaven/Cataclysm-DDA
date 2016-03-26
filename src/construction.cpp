@@ -1,6 +1,5 @@
 #include "construction.h"
 
-#include "coordinate_conversions.h"
 #include "game.h"
 #include "map.h"
 #include "debug.h"
@@ -676,16 +675,16 @@ void complete_construction()
     player &u = g->u;
     const construction &built = constructions[u.activity.index];
 
-    u.practice( built.skill, (int)( (10 + 15*built.difficulty) * (1 + built.time/30000.0) ),
+    u.practice( built.skill, (int)( (10 + 15*built.difficulty) * (1 + built.time/30000.0) ), 
                     (int)(built.difficulty * 1.25) );
-
+                   
 
     // Friendly NPCs gain exp from assisting or watching...
     for( auto &elem : g->active_npc ) {
         if (rl_dist( elem->pos(), u.pos() ) < PICKUP_RANGE && elem->is_friend()){
             //If the NPC can understand what you are doing, they gain more exp
             if (elem->skillLevel(built.skill) >= built.difficulty){
-                elem->practice( built.skill, (int)( (10 + 15*built.difficulty) * (1 + built.time/30000.0) ),
+                elem->practice( built.skill, (int)( (10 + 15*built.difficulty) * (1 + built.time/30000.0) ), 
                                     (int)(built.difficulty * 1.25) );
                 add_msg(m_info, _("%s assists you with the work..."), elem->name.c_str());
             //NPC near you isn't skilled enough to help
@@ -942,7 +941,7 @@ void unroll_digging( int const numer_of_2x4s )
 void construct::done_digormine_stair( point p, bool dig )
 {
     tripoint const abs_pos = g->m.getabs( tripoint( p.x, p.y, g->get_levz() ) );
-    tripoint const pos_sm = ms_to_sm_copy( abs_pos );
+    tripoint const pos_sm = overmapbuffer::ms_to_sm_copy( abs_pos );
     tinymap tmpmap;
     tmpmap.load( pos_sm.x, pos_sm.y, pos_sm.z - 1, false );
     tripoint const local_tmp = tmpmap.getlocal( abs_pos );
@@ -984,8 +983,8 @@ void construct::done_digormine_stair( point p, bool dig )
                 add_msg( _( "You delve ever deeper into the earth." ) );
             }
             g->u.mod_hunger( dig ? 15 : 25 );
-            g->u.mod_thirst( dig ? 15 : 25 );
-            g->u.mod_fatigue( dig ? 20 : 30 );
+            g->u.fatigue += dig ? 20 : 30;
+            g->u.thirst += dig ? 15 : 25;
             g->u.mod_pain( dig ? 8 : 10 );
         } else {
             if( dig ) {
@@ -994,8 +993,8 @@ void construct::done_digormine_stair( point p, bool dig )
                 add_msg( _( "You drill out a passage, heading deeper underground." ) );
             }
             g->u.mod_hunger( dig ? 25 : 35 );
-            g->u.mod_thirst( dig ? 25 : 35 );
-            g->u.mod_fatigue( dig ? 30 : 40 );
+            g->u.fatigue += dig ? 30 : 40;
+            g->u.thirst += dig ? 25 : 35;
             if( !( g->u.has_trait( "NOPAIN" ) ) ) {
                 add_msg( m_bad, _( "You're quite sore from all that work, though." ) );
                 g->u.mod_pain( dig ? 8 : 10 ); // Backbreaking work, mining!
@@ -1013,8 +1012,8 @@ void construct::done_digormine_stair( point p, bool dig )
                 add_msg( m_warning, _( "You delve down directly above a magma flow!" ) );
             }
             g->u.mod_hunger( dig ? 15 : 25 );
-            g->u.mod_thirst( dig ? 15 : 25 );
-            g->u.mod_fatigue( dig ? 20 : 30 );
+            g->u.fatigue += dig ? 20 : 30;
+            g->u.thirst += dig ? 15 : 25;
             g->u.mod_pain( 4 );
         } else {
             if( dig ) {
@@ -1023,9 +1022,11 @@ void construct::done_digormine_stair( point p, bool dig )
                 add_msg( m_warning, _( "You just mined into lava!" ) );
             }
             g->u.mod_hunger( dig ? 25 : 35 );
-            g->u.mod_thirst( dig ? 25 : 35 );
-            g->u.mod_fatigue( dig ? 30 : 40 );
-            g->u.mod_pain( 4 ); // Backbreaking work, mining!
+            g->u.fatigue += dig ? 30 : 40;
+            g->u.thirst += dig ? 25 : 35;
+            if( !( g->u.has_trait( "NOPAIN" ) ) ) {
+                g->u.mod_pain( 4 ); // Backbreaking work, mining!
+            }
         }
         if( dig )
             g->u.add_memorial_log( pgettext( "memorial_male", "Dug a shaft into lava." ),
@@ -1137,8 +1138,8 @@ void construct::done_digormine_stair( point p, bool dig )
                 add_msg( _( "You delve ever deeper into the earth, and break into open space." ) );
             }
             g->u.mod_hunger( dig ? 10 : 20 ); // Less heavy work, but making the ladder's still fatiguing
-            g->u.mod_thirst( dig ? 10 : 20 );
-            g->u.mod_fatigue( dig ? 20 : 30 );
+            g->u.fatigue += dig ? 20 : 30;
+            g->u.thirst += dig ? 10 : 20;
             g->u.mod_pain( 4 );
         } else {
             if( dig ) {
@@ -1147,8 +1148,8 @@ void construct::done_digormine_stair( point p, bool dig )
                 add_msg( _( "You mine into a preexisting space, and improvise a ladder." ) );
             }
             g->u.mod_hunger( dig ? 20 : 30 );
-            g->u.mod_thirst( dig ? 20 : 30 );
-            g->u.mod_fatigue( dig ? 30 : 40 );
+            g->u.fatigue += dig ? 30 : 40;
+            g->u.thirst += dig ? 20 : 30;
             if( !( g->u.has_trait( "NOPAIN" ) ) ) {
                 add_msg( m_bad, _( "You're quite sore from all that work, though." ) );
                 g->u.mod_pain( 4 ); // Backbreaking work, mining!
@@ -1175,7 +1176,7 @@ void construct::done_mine_downstair( point p )
 void construct::done_mine_upstair( point p )
 {
     tripoint const abs_pos = g->m.getabs( tripoint( p.x, p.y, g->get_levz() ) );
-    tripoint const pos_sm = ms_to_sm_copy( abs_pos );
+    tripoint const pos_sm = overmapbuffer::ms_to_sm_copy( abs_pos );
     tinymap tmpmap;
     tmpmap.load( pos_sm.x, pos_sm.y, pos_sm.z + 1, false );
     tripoint const local_tmp = tmpmap.getlocal( abs_pos );
@@ -1225,15 +1226,15 @@ void construct::done_mine_upstair( point p )
       if (g->u.has_trait("PAINRESIST_TROGLO") || g->u.has_trait("STOCKY_TROGLO")) {
           add_msg(_("You carve upward and breach open a space."));
           g->u.mod_hunger(35);
-          g->u.mod_thirst(35);
-          g->u.mod_fatigue(40);
+          g->u.fatigue += 40;
+          g->u.thirst += 35;
           g->u.mod_pain(15); // NOPAIN is a THRESH_MEDICAL trait so shouldn't be present here
       }
       else {
           add_msg(_("You drill out a passage, heading for the surface."));
           g->u.mod_hunger(45);
-          g->u.mod_thirst(45);
-          g->u.mod_fatigue(50);
+          g->u.fatigue += 50;
+          g->u.thirst += 45;
           if (!(g->u.has_trait("NOPAIN"))) {
               add_msg(m_bad, _("You're quite sore from all that work."));
               g->u.mod_pain(15); // Backbreaking work, mining!
@@ -1248,15 +1249,15 @@ void construct::done_mine_upstair( point p )
       if (g->u.has_trait("PAINRESIST_TROGLO") || g->u.has_trait("STOCKY_TROGLO")) {
           add_msg(_("You carve upward, and break into open space."));
           g->u.mod_hunger(30); // Tougher to go up than down.
-          g->u.mod_thirst(30);
-          g->u.mod_fatigue(40);
+          g->u.fatigue += 40;
+          g->u.thirst += 30;
           g->u.mod_pain(5);
       }
       else {
           add_msg(_("You drill up into a preexisting space."));
           g->u.mod_hunger(40);
-          g->u.mod_thirst(40);
-          g->u.mod_fatigue(50);
+          g->u.fatigue += 50;
+          g->u.thirst += 40;
           if (!(g->u.has_trait("NOPAIN"))) {
               add_msg(m_bad, _("You're quite sore from all that work."));
               g->u.mod_pain(5);
@@ -1412,8 +1413,8 @@ float construction::time_scale() const
 int construction::adjusted_time() const
 {
     int basic = time;
-    int assistants = 0;
-
+    int assistants = 0;                
+    
     for( auto &elem : g->active_npc ) {
         if (rl_dist( elem->pos(), g->u.pos() ) < PICKUP_RANGE && elem->is_friend()){
             if (elem->skillLevel(skill) >= difficulty)
@@ -1424,9 +1425,9 @@ int construction::adjusted_time() const
         basic = basic * .75;
     if (basic <= time * .4)
         basic = time * .4;
-
+        
     basic *= time_scale();
-
+    
     return basic;
 }
 

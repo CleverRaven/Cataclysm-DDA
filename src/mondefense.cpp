@@ -10,7 +10,6 @@
 #include "map.h"
 #include "translations.h"
 #include "field.h"
-#include "player.h"
 
 void mdefense::none( monster &, Creature *, const dealt_projectile_attack * )
 {
@@ -88,7 +87,7 @@ void mdefense::acidsplash( monster &m, Creature *const source,
 
     // Don't splatter directly on the `m`, that doesn't work well
     auto pts = closest_tripoints_first( 1, initial_target );
-    pts.erase( std::remove( pts.begin(), pts.end(), m.pos() ), pts.end() );
+    pts.erase( std::remove( pts.begin(), pts.end(), m.pos() ) );
 
     projectile prj;
     prj.speed = 10;

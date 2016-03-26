@@ -13,8 +13,6 @@
 #include "input.h"
 #include "monster.h"
 #include "mtype.h"
-#include "player.h"
-#include "mutation.h"
 
 const efftype_id effect_beartrap( "beartrap" );
 const efftype_id effect_bite( "bite" );
@@ -32,11 +30,7 @@ const efftype_id effect_in_pit( "in_pit" );
 const efftype_id effect_lightsnare( "lightsnare" );
 const efftype_id effect_webbed( "webbed" );
 
-const skill_id skill_throw( "throw" );
-
-const std::string debug_nodmg( "DEBUG_NODMG" );
-
-Character::Character() : Creature(), visitable<Character>()
+Character::Character()
 {
     str_max = 0;
     dex_max = 0;
@@ -53,12 +47,11 @@ Character::Character() : Creature(), visitable<Character>()
     healthy = 0;
     healthy_mod = 0;
     hunger = 0;
-    thirst = 0;
-    fatigue = 0;
     stomach_food = 0;
     stomach_water = 0;
 
     name = "";
+    Creature::set_speed_base(100);
 }
 
 field_id Character::bloodType() const
@@ -182,8 +175,8 @@ bool Character::move_effects(bool attacking)
                                     _("<npcname> frees themselves from the light snare!"));
             item string("string_36", calendar::turn);
             item snare("snare_trigger", calendar::turn);
-            g->m.add_item_or_charges(pos(), string);
-            g->m.add_item_or_charges(pos(), snare);
+            g->m.add_item_or_charges(posx(), posy(), string);
+            g->m.add_item_or_charges(posx(), posy(), snare);
         } else {
             add_msg_if_player(m_bad, _("You try to free yourself from the light snare, but can't get loose!"));
         }
@@ -199,8 +192,8 @@ bool Character::move_effects(bool attacking)
                                     _("<npcname> frees themselves from the heavy snare!"));
             item rope("rope_6", calendar::turn);
             item snare("snare_trigger", calendar::turn);
-            g->m.add_item_or_charges(pos(), rope);
-            g->m.add_item_or_charges(pos(), snare);
+            g->m.add_item_or_charges(posx(), posy(), rope);
+            g->m.add_item_or_charges(posx(), posy(), snare);
         } else {
             add_msg_if_player(m_bad, _("You try to free yourself from the heavy snare, but can't get loose!"));
         }
@@ -218,7 +211,7 @@ bool Character::move_effects(bool attacking)
             add_msg_player_or_npc(m_good, _("You free yourself from the bear trap!"),
                                     _("<npcname> frees themselves from the bear trap!"));
             item beartrap("beartrap", calendar::turn);
-            g->m.add_item_or_charges(pos(), beartrap);
+            g->m.add_item_or_charges(posx(), posy(), beartrap);
         } else {
             add_msg_if_player(m_bad, _("You try to free yourself from the bear trap, but can't get loose!"));
         }
@@ -422,22 +415,6 @@ void Character::recalc_sight_limits()
     if( has_trait("BIRD_EYE") ) {
         vision_mode_cache.set( BIRD_EYE);
     }
-
-    // Not exactly a sight limit thing, but related enough
-    if( has_active_bionic( "bio_infrared" ) ||
-        has_trait( "INFRARED" ) ||
-        has_trait( "LIZ_IR" ) ||
-        worn_with_flag( "IR_EFFECT" ) ) {
-        vision_mode_cache.set( IR_VISION );
-    }
-
-    if( has_artifact_with( AEP_SUPER_CLAIRVOYANCE ) ) {
-        vision_mode_cache.set( VISION_CLAIRVOYANCE_SUPER );
-    }
-
-    if( has_artifact_with( AEP_CLAIRVOYANCE ) ) {
-        vision_mode_cache.set( VISION_CLAIRVOYANCE );
-    }
 }
 
 float Character::get_vision_threshold(int light_level) const {
@@ -462,7 +439,7 @@ float Character::get_vision_threshold(int light_level) const {
      */
     if( vision_mode_cache[DEBUG_NIGHTVISION] ) {
         // Debug vision always works with absurdly little light.
-        return 0.01;
+        threshold = 0.01;
     } else if( vision_mode_cache[NV_GOGGLES] || vision_mode_cache[NIGHTVISION_3] ||
                vision_mode_cache[FULL_ELFA_VISION] || vision_mode_cache[CEPH_VISION] ) {
         if( vision_mode_cache[BIRD_EYE] ) {
@@ -569,17 +546,14 @@ std::vector<const item *> Character::items_with( const std::function<bool(const 
 
 item& Character::i_add(item it)
 {
-    itype_id item_type_id = "null";
-    if( it.type ) {
-        item_type_id = it.type->id;
-    }
+ itype_id item_type_id = "null";
+ if( it.type ) item_type_id = it.type->id;
 
-    last_item = item_type_id;
+ last_item = item_type_id;
 
-    if( it.is_food() || it.is_ammo() || it.is_gun()  || it.is_armor() ||
-        it.is_book() || it.is_tool() || it.is_weap() || it.is_food_container() ) {
-        inv.unsort();
-    }
+ if (it.is_food() || it.is_ammo() || it.is_gun()  || it.is_armor() ||
+     it.is_book() || it.is_tool() || it.is_weap() || it.is_food_container())
+  inv.unsort();
 
     // if there's a desired invlet for this item type, try to use it
     bool keep_invlet = false;
@@ -591,7 +565,6 @@ item& Character::i_add(item it)
             break;
         }
     }
-
     auto &item_in_inv = inv.add_item(it, keep_invlet);
     item_in_inv.on_pickup( *this );
     return item_in_inv;
@@ -669,7 +642,7 @@ item Character::i_rem(int pos)
 
 item Character::i_rem(const item *it)
 {
-    auto tmp = remove_items_with( [&it] (const item &i) { return &i == it; }, 1 );
+    auto tmp = remove_items_with( [&it] (const item &i) { return &i == it; } );
     if( tmp.empty() ) {
         debugmsg( "did not found item %s to remove it!", it->tname().c_str() );
         return ret_null;
@@ -695,7 +668,7 @@ bool Character::i_add_or_drop(item& it, int qty) {
         }
         if( drop ) {
             retval &= !g->m.add_item_or_charges( pos(), it ).is_null();
-        } else if ( !( it.has_flag("IRREMOVABLE") && !it.is_gun() ) ){
+        } else if ( !( it.has_flag("IRREMOVEABLE") && !it.is_gun() ) ){
             i_add(it);
         }
     }
@@ -726,6 +699,9 @@ bool Character::has_active_item(const itype_id & id) const
 
 item Character::remove_weapon()
 {
+    if( weapon.active ) {
+        weapon.deactivate_charger_gun();
+    }
  item tmp = weapon;
  weapon = ret_null;
  return tmp;
@@ -761,7 +737,7 @@ void find_ammo_helper( T& src, const item& obj, bool empty, Output out, bool nes
                 // some liquids are ammo but we can't reload with them unless within a container
                 return VisitResponse::SKIP;
             }
-            if( node->is_ammo_container() && !node->contents[0].made_of( SOLID ) ) {
+            if( node->is_ammo_container() ) {
                 if( node->contents[0].ammo_type() == ammo ) {
                     out = item_location( src, node );
                 }
@@ -808,6 +784,14 @@ std::vector<item_location> Character::find_ammo( const item& obj, bool empty, in
     }
 
     return res;
+}
+
+bool Character::can_reload()
+{
+    if (!weapon.is_gun()) {
+        return false;
+    }
+    return (weapon.charges < weapon.type->gun->clip && get_ammo(weapon.ammo_type()).size() > 0);
 }
 
 int Character::weight_carried() const
@@ -997,13 +981,6 @@ SkillLevel const& Character::get_skill_level(const skill_id &ident) const
     return get_skill_level( &ident.obj() );
 }
 
-bool Character::meets_skill_requirements( const std::map<skill_id, int> &req ) const
-{
-    return std::all_of( req.begin(), req.end(), [this]( const std::pair<skill_id, int> &pr ) {
-        return get_skill_level( pr.first ) >= pr.second;
-    });
-}
-
 int Character::skill_dispersion( const item& gun, bool random ) const
 {
     static skill_id skill_gun( "gun" );
@@ -1176,191 +1153,6 @@ bool Character::has_nv()
     return nv;
 }
 
-void Character::reset_encumbrance()
-{
-    encumbrance_cache = calc_encumbrance();
-}
-
-std::array<encumbrance_data, num_bp> Character::calc_encumbrance() const
-{
-    return calc_encumbrance( ret_null );
-}
-
-std::array<encumbrance_data, num_bp> Character::calc_encumbrance( const item &new_item ) const
-{
-    std::array<encumbrance_data, num_bp> ret;
-
-    item_encumb( ret, new_item );
-    mut_cbm_encumb( ret );
-
-    return ret;
-}
-
-std::array<encumbrance_data, num_bp> Character::get_encumbrance() const
-{
-    return encumbrance_cache;
-}
-
-std::array<encumbrance_data, num_bp> Character::get_encumbrance( const item &new_item ) const
-{
-    return calc_encumbrance( new_item );
-}
-
-using layer_data = std::array<int, MAX_CLOTHING_LAYER>;
-
-void layer_item( std::array<encumbrance_data, num_bp> &vals,
-                 std::array<layer_data, num_bp> &layers,
-                 const item &it, bool power_armor )
-{
-    const auto item_layer = it.get_layer();
-    int encumber_val = it.get_encumber();
-    // For the purposes of layering penalty, set a min of 2 and a max of 10 per item.
-    int layering_encumbrance = std::min( 10, std::max( 2, encumber_val ) );
-
-    const int armorenc = !power_armor || !it.is_power_armor() ?
-        encumber_val : std::max( 0, encumber_val - 40 );
-
-    for( size_t i = 0; i < num_bp; i++ ) {
-        body_part bp = body_part( i );
-        if( !it.covers( bp ) ) {
-            continue;
-        }
-
-        int &this_layer = layers[i][item_layer];
-        this_layer = std::max( this_layer, layering_encumbrance );
-
-        vals[i].armor_encumbrance += armorenc;
-        vals[i].layer_penalty += layering_encumbrance;
-    }
-}
-
-bool Character::is_wearing_active_power_armor() const
-{
-    for( const auto &w : worn ) {
-        if( w.is_power_armor() && w.active ) {
-            return true;
-        }
-    }
-    return false;
-}
-
-/*
- * Encumbrance logic:
- * Some clothing is intrinsically encumbering, such as heavy jackets, backpacks, body armor, etc.
- * These simply add their encumbrance value to each body part they cover.
- * In addition, each article of clothing after the first in a layer imposes an additional penalty.
- * e.g. one shirt will not encumber you, but two is tight and starts to restrict movement.
- * Clothes on seperate layers don't interact, so if you wear e.g. a light jacket over a shirt,
- * they're intended to be worn that way, and don't impose a penalty.
- * The default is to assume that clothes do not fit, clothes that are "fitted" either
- * reduce the encumbrance penalty by ten, or if that is already 0, they reduce the layering effect.
- *
- * Use cases:
- * What would typically be considered normal "street clothes" should not be considered encumbering.
- * Tshirt, shirt, jacket on torso/arms, underwear and pants on legs, socks and shoes on feet.
- * This is currently handled by each of these articles of clothing
- * being on a different layer and/or body part, therefore accumulating no encumbrance.
- */
-void Character::item_encumb( std::array<encumbrance_data, num_bp> &vals, const item &new_item ) const
-{
-    // The highest encumbrance of any one item on the layer.
-    std::array<layer_data, num_bp> layers = {{
-        {{}}, {{}}, {{}}, {{}}, {{}}, {{}}, {{}}, {{}}, {{}}, {{}}, {{}}, {{}}
-    }};
-
-    const bool power_armored = is_wearing_active_power_armor();
-    for( auto& w : worn ) {
-        layer_item( vals, layers, w, power_armored );
-    }
-
-    if( !new_item.is_null() ) {
-        layer_item( vals, layers, new_item, power_armored );
-    }
-
-    // The stacking penalty applies by doubling the encumbrance of
-    // each item except the highest encumbrance one.
-    // So we add them together and then subtract out the highest.
-    for( size_t i = 0; i < num_bp; i++ ) {
-        for( size_t j = 0; j < MAX_CLOTHING_LAYER; j++ ) {
-            vals[i].layer_penalty -= std::max( 0, layers[i][j] );
-        }
-    }
-
-    // Make sure the values are sane
-    for( auto &elem : vals ) {
-        elem.armor_encumbrance = std::max( 0, elem.armor_encumbrance );
-        elem.layer_penalty = std::max( 0, elem.layer_penalty );
-        // Add armor and layering penalties for the final values
-        elem.encumbrance += elem.armor_encumbrance + elem.layer_penalty;
-    }
-}
-
-int Character::encumb( body_part bp ) const
-{
-    return encumbrance_cache[bp].encumbrance;
-}
-
-void apply_mut_encumbrance( std::array<encumbrance_data, num_bp> &vals,
-                            const mutation_branch &mut,
-                            const std::bitset<num_bp> &oversize )
-{
-    for( const auto &enc : mut.encumbrance_always ) {
-        vals[enc.first].encumbrance += enc.second;
-    }
-
-    for( const auto &enc : mut.encumbrance_covered ) {
-        if( !oversize.test( enc.first ) ) {
-            vals[enc.first].encumbrance += enc.second;
-        }
-    }
-}
-
-void Character::mut_cbm_encumb( std::array<encumbrance_data, num_bp> &vals ) const
-{
-    if( has_bionic("bio_stiff") ) {
-        // All but head, mouth and eyes
-        for( auto &val : vals ) {
-            val.encumbrance += 10;
-        }
-
-        vals[bp_head].encumbrance -= 10;
-        vals[bp_mouth].encumbrance -= 10;
-        vals[bp_eyes].encumbrance -= 10;
-    }
-
-    if( has_bionic("bio_nostril") ) {
-        vals[bp_mouth].encumbrance += 10;
-    }
-    if( has_bionic("bio_thumbs") ) {
-        vals[bp_hand_l].encumbrance += 10;
-        vals[bp_hand_r].encumbrance += 10;
-    }
-    if( has_bionic("bio_pokedeye") ) {
-        vals[bp_eyes].encumbrance += 10;
-    }
-
-    // Lower penalty for bps covered only by XL armor
-    const auto oversize = exclusive_flag_coverage( "OVERSIZE" );
-    for( const auto &mut_pair : my_mutations ) {
-        const auto &branch = mutation_branch::get( mut_pair.first );
-        apply_mut_encumbrance( vals, branch, oversize );
-    }
-}
-
-std::bitset<num_bp> Character::exclusive_flag_coverage( const std::string &flag ) const
-{
-    std::bitset<num_bp> ret;
-    ret.set();
-    for( const auto &elem : worn ) {
-        if( !elem.has_flag( flag ) ) {
-            // Unset the parts covered by this item
-            ret &= ( ~elem.get_covered_body_parts() );
-        }
-    }
-
-    return ret;
-}
-
 /*
  * Innate stats getters
  */
@@ -1527,30 +1319,13 @@ int Character::get_hunger() const
 {
     return hunger;
 }
-
 void Character::mod_hunger(int nhunger)
 {
-    set_hunger( hunger + nhunger );
+    hunger += nhunger;
 }
-
 void Character::set_hunger(int nhunger)
 {
     hunger = nhunger;
-}
-
-int Character::get_thirst() const
-{
-    return thirst;
-}
-
-void Character::mod_thirst(int nthirst)
-{
-    set_thirst( thirst + nthirst );
-}
-
-void Character::set_thirst(int nthirst)
-{
-    thirst = nthirst;
 }
 
 int Character::get_stomach_food() const
@@ -1578,21 +1353,6 @@ void Character::set_stomach_water(int n_stomach_water)
     stomach_water = std::max(0, n_stomach_water);
 }
 
-void Character::mod_fatigue(int nfatigue)
-{
-    set_fatigue(fatigue + nfatigue);
-}
-
-void Character::set_fatigue(int nfatigue)
-{
-    fatigue = std::max( nfatigue, -1000 );
-}
-
-int Character::get_fatigue() const
-{
-    return fatigue;
-}
-
 void Character::reset_bonuses()
 {
     // Reset all bonuses to 0 and mults to 1.0
@@ -1600,8 +1360,6 @@ void Character::reset_bonuses()
     dex_bonus = 0;
     per_bonus = 0;
     int_bonus = 0;
-
-    reset_encumbrance();
 
     Creature::reset_bonuses();
 }
@@ -1874,116 +1632,5 @@ nc_color Character::symbol_color() const
     }
 
     return basic;
-}
-
-bool Character::is_dangerous_field( const field &fd ) const
-{
-    if( fd.fieldCount() == 0 || has_trait( debug_nodmg ) ) {
-        return false;
-    }
-
-    for( auto &fld : fd ) {
-        if( is_dangerous_field( fld.second ) ) {
-            return true;
-        }
-    }
-
-    return false;
-}
-
-bool Character::is_dangerous_field( const field_entry &entry ) const
-{
-    const field_id fid = entry.getFieldType();
-    switch( fid ) {
-        // @todo Lower density fields are less dangerous
-        case fd_smoke:
-        case fd_tear_gas:
-        case fd_toxic_gas:
-        case fd_gas_vent:
-        case fd_relax_gas:
-        case fd_fungal_haze:
-        case fd_electricity:
-        case fd_acid:
-            return is_dangerous_field( fid );
-        default:
-            return !has_trait( debug_nodmg ) && entry.is_dangerous();
-    }
-
-    return false;
-}
-
-bool Character::is_dangerous_field( const field_id fid ) const
-{
-    if( has_trait( debug_nodmg ) ) {
-        return false;
-    }
-
-    switch( fid ) {
-        case fd_smoke:
-            return get_env_resist( bp_mouth ) < 12;
-        case fd_tear_gas:
-        case fd_toxic_gas:
-        case fd_gas_vent:
-        case fd_relax_gas:
-            return get_env_resist( bp_mouth ) < 15;
-        case fd_fungal_haze:
-            return get_env_resist( bp_mouth ) < 15 ||
-                   get_env_resist( bp_eyes ) < 15 ||
-                   has_trait("M_IMMUNE");
-        case fd_electricity:
-            return !is_elec_immune();
-        case fd_acid:
-            return !has_trait("ACIDPROOF") &&
-                   (is_on_ground() ||
-                   get_env_resist( bp_foot_l ) < 15 ||
-                   get_env_resist( bp_foot_r ) < 15 ||
-                   get_env_resist( bp_leg_l ) < 15 ||
-                   get_env_resist( bp_leg_r ) < 15 ||
-                   get_armor_type( DT_ACID, bp_foot_l ) < 5 ||
-                   get_armor_type( DT_ACID, bp_foot_r ) < 5 ||
-                   get_armor_type( DT_ACID, bp_leg_l ) < 5 ||
-                   get_armor_type( DT_ACID, bp_leg_r ) < 5);
-        default:
-            return field_type_dangerous( fid );
-    }
-
-    return false;
-}
-
-int Character::throw_range( const item &it ) const
-{
-    if( it.is_null() ) {
-        return -1;
-    }
-
-    item tmp = it;
-
-    if( tmp.count_by_charges() && tmp.charges > 1 ) {
-        tmp.charges = 1;
-    }
-
-    ///\EFFECT_STR determines maximum weight that can be thrown
-    if( (tmp.weight() / 113) > int(str_cur * 15) ) {
-        return 0;
-    }
-    // Increases as weight decreases until 150 g, then decreases again
-    ///\EFFECT_STR increases throwing range, vs item weight (high or low)
-    int ret = (str_cur * 8) / (tmp.weight() >= 150 ? tmp.weight() / 113 : 10 - int(tmp.weight() / 15));
-    ret -= int(tmp.volume() / 4);
-    if( has_active_bionic("bio_railgun") && (tmp.made_of("iron") || tmp.made_of("steel"))) {
-        ret *= 2;
-    }
-    if( ret < 1 ) {
-        return 1;
-    }
-    // Cap at double our strength + skill
-    ///\EFFECT_STR caps throwing range
-
-    ///\EFFECT_THROW caps throwing range
-    if( ret > str_cur * 1.5 + get_skill_level( skill_throw ) ) {
-        return str_cur * 1.5 + get_skill_level( skill_throw );
-    }
-
-    return ret;
 }
 

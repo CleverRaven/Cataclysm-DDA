@@ -24,7 +24,7 @@
 #include "ui.h"
 #include "mongroup.h"
 #include "itype.h"
-#include "morale_types.h"
+#include "morale.h"
 #include "trap.h"
 #include "overmap.h"
 #include "mtype.h"
@@ -361,8 +361,7 @@ public:
             lua_setglobal( L, global_name );
         }
     }
-    template<typename ...Args>
-    static void push( lua_State* const L, Args &&... args )
+    static void push( lua_State* const L, const T& value )
     {
         // Push user data,
         T* value_in_lua = static_cast<T*>( lua_newuserdata( L, sizeof( T ) ) );
@@ -371,7 +370,7 @@ public:
         // -1 would the the metatable, -2 is the uservalue, the table is popped
         lua_setmetatable( L, -2 );
         // This is where the copy happens:
-        new (value_in_lua) T( std::forward<Args>( args )... );
+        new (value_in_lua) T( value );
     }
     static int push_reg( lua_State* const L, const T& value )
     {
@@ -703,36 +702,6 @@ template<typename E>
 struct LuaType<LuaEnum<E>> : public LuaEnum<E> {
 };
 
-/**
- * Wrapper class to access objects in Lua that are stored as either a pointer or a value.
- * Technically, this class could inherit from both `LuaValue<T>` and `LuaReference<T>`,
- * but that would basically the same code anyway.
- * It behaves like a LuaValue if there is a value on the stack, and like LuaReference is there
- * is a reference on the stack. Functions behave like the functions in a `LuaType`.
- * Note that it does not have a push function because it can not know whether to push a reference
- * or a value (copy). The caller must decide this and must use `LuaValue` or `LuaReference`.
- */
-template<typename T>
-class LuaValueOrReference {
-    public:
-        using proxy = typename LuaReference<T>::proxy;
-        static proxy get( lua_State* const L, int const stack_index ) {
-            if( LuaValue<T>::has( L, stack_index ) ) {
-                return proxy{ &LuaValue<T>::get( L, stack_index ) };
-            }
-            return LuaReference<T>::get( L, stack_index );
-        }
-        static void check( lua_State* const L, int const stack_index ) {
-            if( LuaValue<T>::has( L, stack_index ) ) {
-                return;
-            }
-            LuaValue<T*>::check( L, stack_index );
-        }
-        static bool has( lua_State* const L, int const stack_index ) {
-            return LuaValue<T>::has( L, stack_index ) || LuaValue<T*>::has( L, stack_index );
-        }
-};
-
 void update_globals(lua_State *L)
 {
     LuaReference<player>::push( L, g->u );
@@ -745,56 +714,6 @@ void update_globals(lua_State *L)
     luah_setglobal( L, "g", -1 );
 }
 
-class lua_iuse_wrapper : public iuse_actor {
-private:
-    int lua_function;
-public:
-    lua_iuse_wrapper( const int f, const std::string &type ) : lua_function( f ) {
-        iuse_actor::type = type;
-    }
-    ~lua_iuse_wrapper() = default;
-    long use( player *, item *it, bool a, const tripoint &pos ) const override {
-        // We'll be using lua_state a lot!
-        lua_State * const L = lua_state;
-
-        // If it's a lua function, the arguments have to be wrapped in
-        // lua userdata's and passed on the lua stack.
-        // We will now call the function f(player, item, active)
-
-        update_globals( L );
-
-        // Push the lua function on top of the stack
-        lua_rawgeti( L, LUA_REGISTRYINDEX, lua_function );
-
-        // TODO: also pass the player object, because of NPCs and all
-        //       I guess
-
-        // Push the item on top of the stack.
-        const int item_in_registry = LuaReference<item>::push_reg( L, it );
-        // Push the "active" parameter on top of the stack.
-        lua_pushboolean( L, a );
-        // Push the location of the item.
-        const int tripoint_in_registry = LuaValue<tripoint>::push_reg( L, pos );
-
-        // Call the iuse function
-        int err = lua_pcall( L, 3, 1, 0 );
-        lua_report_error( L, err, "iuse function" );
-
-        // Make sure the now outdated parameters we passed to lua aren't
-        // being used anymore by setting a metatable that will error on
-        // access.
-        luah_remove_from_registry( L, item_in_registry );
-        luah_setmetatable( L, "outdated_metatable");
-        luah_remove_from_registry( L, tripoint_in_registry );
-        luah_setmetatable( L, "outdated_metatable" );
-
-        return lua_tointeger( L, -1 );
-    }
-    iuse_actor *clone() const override {
-        return new lua_iuse_wrapper( *this );
-    }
-};
-
 // iuse abstraction to make iuse's both in lua and C++ possible
 // ------------------------------------------------------------
 void Item_factory::register_iuse_lua(const std::string &name, int lua_function)
@@ -802,7 +721,7 @@ void Item_factory::register_iuse_lua(const std::string &name, int lua_function)
     if( iuse_function_list.count( name ) > 0 ) {
         DebugLog(D_INFO, D_MAIN) << "lua iuse function " << name << " overrides existing iuse function";
     }
-    iuse_function_list[name] = use_function( new lua_iuse_wrapper( lua_function, name ) );
+    iuse_function_list[name] = use_function(lua_function);
 }
 
 // Call the given string directly, used in the lua debug command.
@@ -1191,43 +1110,105 @@ void game::init_lua()
 
 #endif // #ifdef LUA
 
-use_function::use_function( iuse_actor * const f )
-: actor( f )
+use_function::~use_function()
 {
-}
-
-use_function::use_function( const use_function &other )
-: actor( other.actor ? other.actor->clone() : nullptr )
-{
-}
-
-use_function &use_function::operator=( iuse_actor * const f )
-{
-    return operator=( use_function( f ) );
-}
-
-use_function &use_function::operator=( const use_function &other )
-{
-    actor.reset( other.actor ? other.actor->clone() : nullptr );
-    return *this;
-}
-
-void use_function::dump_info( const item &it, std::vector<iteminfo> &dump ) const
-{
-    if( actor != nullptr ) {
-        actor->info( it, dump );
+    if (function_type == USE_FUNCTION_ACTOR_PTR) {
+        delete actor_ptr;
     }
 }
 
+use_function::use_function(const use_function &other)
+    : function_type(other.function_type)
+{
+    if (function_type == USE_FUNCTION_CPP) {
+        cpp_function = other.cpp_function;
+    } else if (function_type == USE_FUNCTION_ACTOR_PTR) {
+        actor_ptr = other.actor_ptr->clone();
+    } else {
+        lua_function = other.lua_function;
+    }
+}
+
+void use_function::operator=(use_function_pointer f)
+{
+    this->~use_function();
+    new (this) use_function(f);
+}
+
+void use_function::operator=(iuse_actor *f)
+{
+    this->~use_function();
+    new (this) use_function(f);
+}
+
+void use_function::operator=(const use_function &other)
+{
+    this->~use_function();
+    new (this) use_function(other);
+}
+
+// If we're not using lua, need to define Use_function in a way to always call the C++ function
 long use_function::call( player *player_instance, item *item_instance, bool active, const tripoint &pos ) const
 {
-    if( !actor ) {
+    if (function_type == USE_FUNCTION_NONE) {
         if (player_instance != NULL && player_instance->is_player()) {
             add_msg(_("You can't do anything interesting with your %s."), item_instance->tname().c_str());
         }
+    } else if (function_type == USE_FUNCTION_CPP) {
+        // If it's a C++ function, simply call it with the given arguments.
+        iuse tmp;
+        return (tmp.*cpp_function)(player_instance, item_instance, active, pos);
+    } else if (function_type == USE_FUNCTION_ACTOR_PTR) {
+        return actor_ptr->use(player_instance, item_instance, active, pos);
+    } else {
+#ifdef LUA
+
+        // We'll be using lua_state a lot!
+        lua_State *L = lua_state;
+
+        // If it's a lua function, the arguments have to be wrapped in
+        // lua userdata's and passed on the lua stack.
+        // We will now call the function f(player, item, active)
+
+        update_globals(L);
+
+        // Push the lua function on top of the stack
+        lua_rawgeti(L, LUA_REGISTRYINDEX, lua_function);
+
+        // TODO: also pass the player object, because of NPCs and all
+        //       I guess
+
+        // Push the item on top of the stack.
+        const int item_in_registry = LuaReference<item>::push_reg( L, item_instance );
+        // Push the "active" parameter on top of the stack.
+        lua_pushboolean(L, active);
+        // Push the location of the item.
+        const int tripoint_in_registry = LuaValue<tripoint>::push_reg( L, pos );
+
+        // Call the iuse function
+        int err = lua_pcall(L, 3, 1, 0);
+        lua_report_error( L, err, "iuse function" );
+
+        // Make sure the now outdated parameters we passed to lua aren't
+        // being used anymore by setting a metatable that will error on
+        // access.
+        luah_remove_from_registry(L, item_in_registry);
+        luah_setmetatable(L, "outdated_metatable");
+        luah_remove_from_registry(L, tripoint_in_registry);
+        luah_setmetatable(L, "outdated_metatable");
+
+        return lua_tointeger(L, -1);
+
+#else
+
+        // If LUA isn't defined and for some reason we registered a lua function,
+        // simply do nothing.
         return 0;
+
+#endif
+
     }
-    return actor->use(player_instance, item_instance, active, pos);
+    return 0;
 }
 
 #ifndef LUA
@@ -1237,7 +1218,7 @@ int lua_monster_move( monster * )
     return 0;
 }
 int call_lua( std::string ) {
-    popup( _( "This binary was not compiled with Lua support." ) );
+    popup( "This binary was not compiled with Lua support." );
     return 0;
 }
 // Implemented in mapgen.cpp:

@@ -87,7 +87,7 @@
         "ammo": "essence_dull_type",
         "revert_to": "somen_clairvoyance",
         "use_action": {
-            "type": "transform",
+            "type": "auto_transform",
             "msg": "The mask's features return to its original impassive expression.",
             "target": "somen_clairvoyance"
         },
@@ -231,7 +231,7 @@
         "turns_per_charge": 5,
         "ammo": "essence_type",
         "use_action": {
-            "type": "transform",
+            "type": "auto_transform",
             "msg": "The robe's fabric returns to its normal gray color, dispeling the illusion.",
             "target": "robe_shadow"
         },

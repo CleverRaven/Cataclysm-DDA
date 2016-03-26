@@ -14,7 +14,6 @@
 const efftype_id effect_bite( "bite" );
 const efftype_id effect_infected( "infected" );
 const efftype_id effect_laserlocked( "laserlocked" );
-const efftype_id effect_was_laserlocked( "was_laserlocked" );
 const efftype_id effect_targeted( "targeted" );
 
 // Simplified version of the function in monattack.cpp
@@ -240,50 +239,43 @@ gun_actor::gun_actor()
 
 void gun_actor::load( JsonObject &obj )
 {
+    // Mandatory
     gun_type = obj.get_string( "gun_type" );
+    ammo_type = obj.get_string( "ammo_type" );
 
-    obj.read( "ammo_type", ammo_type );
-
-    if( obj.has_array( "fake_skills" ) ) {
-        JsonArray jarr = obj.get_array( "fake_skills" );
-        while( jarr.has_more() ) {
-            JsonArray cur = jarr.next_array();
-            fake_skills[skill_id( cur.get_string( 0 ) )] = cur.get_int( 1 );
-        }
+    JsonArray jarr = obj.get_array( "fake_skills" );
+    while( jarr.has_more() ) {
+        JsonArray cur = jarr.next_array();
+        fake_skills[skill_id( cur.get_string( 0 ) )] = cur.get_int( 1 );
     }
 
-    obj.read( "fake_str", fake_str );
-    obj.read( "fake_dex", fake_dex );
-    obj.read( "fake_int", fake_int );
-    obj.read( "fake_per", fake_per );
+    range = obj.get_float( "range" );
+    description = obj.get_string( "description" );
+    move_cost = obj.get_int( "move_cost" );
+    targeting_cost = obj.get_int( "targeting_cost" );
 
-    obj.read( "range", range );
-    obj.read( "burst_limit", burst_limit );
-    obj.read( "range_no_burst", range_no_burst );
+    // Optional:
+    max_ammo = obj.get_int( "max_ammo", INT_MAX );
 
-    obj.read( "max_ammo", max_ammo );
+    fake_str = obj.get_int( "fake_str", 8 );
+    fake_dex = obj.get_int( "fake_dex", 8 );
+    fake_int = obj.get_int( "fake_int", 8 );
+    fake_per = obj.get_int( "fake_per", 8 );
 
-    obj.read( "move_cost", move_cost );
+    burst_limit = obj.get_int( "burst_limit", INT_MAX );
 
-    obj.read( "description", description );
-    obj.read( "failure_msg", failure_msg );
-    obj.read( "no_ammo_sound", no_ammo_sound );
+    laser_lock = obj.get_bool( "laser_lock", false );
 
-    obj.read( "targeting_cost", targeting_cost );
+    range_no_burst = obj.get_float( "range_no_burst", range + 1 );
 
-    obj.read( "require_targeting_player", require_targeting_player );
-    obj.read( "require_targeting_npc", require_targeting_npc );
-    obj.read( "require_targeting_monster", require_targeting_monster );
+    if( obj.has_member( "targeting_sound" ) || obj.has_member( "targeting_volume" ) ) {
+        // Both or neither, but not just one
+        targeting_sound = obj.get_string( "targeting_sound" );
+        targeting_volume = obj.get_int( "targeting_volume" );
+    }
 
-    obj.read( "targeting_timeout", targeting_timeout );
-    obj.read( "targeting_timeout_extend", targeting_timeout_extend );
-
-    obj.read( "targeting_sound", targeting_sound );
-    obj.read( "targeting_volume", targeting_volume );
-
-    obj.get_bool( "laser_lock", laser_lock );
-
-    obj.read( "require_sunlight", require_sunlight );
+    // Sound of no ammo
+    no_ammo_sound = obj.get_string( "no_ammo_sound", "" );
 }
 
 mattack_actor *gun_actor::clone() const
@@ -293,11 +285,12 @@ mattack_actor *gun_actor::clone() const
 
 bool gun_actor::call( monster &z ) const
 {
+    Creature *target;
     if( z.friendly != 0 ) {
         // Attacking monsters, not the player!
         int boo_hoo;
-        Creature *hostile_target = z.auto_find_hostile_target( range, boo_hoo );
-        if( hostile_target == nullptr ) {
+        target = z.auto_find_hostile_target( range, boo_hoo );
+        if( target == nullptr ) {
             // Couldn't find any targets!
             if( boo_hoo > 0 && g->u.sees( z ) ) {
                 // because that stupid oaf was in the way!
@@ -309,12 +302,12 @@ bool gun_actor::call( monster &z ) const
             return false;
         }
 
-        shoot( z, *hostile_target );
+        shoot( z, *target );
         return true;
     }
 
     // Not friendly; hence, firing at the player too
-    Creature *target = z.attack_target();
+    target = z.attack_target();
     if( target == nullptr || rl_dist( z.pos(), target->pos() ) > range ||
         !z.sees( *target ) ) {
         return false;
@@ -326,57 +319,18 @@ bool gun_actor::call( monster &z ) const
 
 void gun_actor::shoot( monster &z, Creature &target ) const
 {
-    if( require_sunlight && !g->is_in_sunlight( z.pos() ) ) {
-        if( one_in( 3 ) && g->u.sees( z ) ) {
-            add_msg( _( failure_msg.c_str() ), z.name().c_str() );
-        }
-        return;
-    }
-
-    const bool require_targeting = ( require_targeting_player && target.is_player() ) ||
-                                   ( require_targeting_npc && target.is_npc() ) ||
-                                   ( require_targeting_monster && target.is_monster() );
-    const bool not_targeted = require_targeting && !z.has_effect( effect_targeted );
-    const bool not_laser_locked = require_targeting && laser_lock &&
-                                  !target.has_effect( effect_was_laserlocked );
-
-    if( not_targeted || not_laser_locked ) {
-        if( targeting_volume > 0 && !targeting_sound.empty() ) {
-            sounds::sound( z.pos(), targeting_volume, _( targeting_sound.c_str() ) );
-        }
-        if( not_targeted ) {
-            z.add_effect( effect_targeted, targeting_timeout );
-        }
-        if( not_laser_locked ) {
-            target.add_effect( effect_laserlocked, 5 );
-            target.add_effect( effect_was_laserlocked, 5 );
-            target.add_msg_if_player( m_warning,
-                                      _( "You're not sure why you've got a laser dot on you..." ) );
-        }
-
-        z.moves -= targeting_cost;
-        return;
-    }
-
-    z.moves -= move_cost;
-
-    item gun( gun_type );
-    itype_id ammo = ( ammo_type != "NULL" ) ? ammo_type : gun.ammo_default();
-
-    if( ammo != "NULL" && z.ammo[ ammo ] < gun.ammo_required() ) {
-        if( !no_ammo_sound.empty() ) {
-            sounds::sound( z.pos(), 10, _( no_ammo_sound.c_str() ) );
-        }
-        return;
-    }
-
-    if( ammo != "NULL" ) {
-        gun.ammo_set( ammo, z.ammo[ ammo ] );
+    // Make sure our ammo isn't weird.
+    if( z.ammo[ammo_type] > max_ammo ) {
+        debugmsg( "Generated too much ammo (%d) of type %s for %s in gun_actor::shoot",
+                  z.ammo[ammo_type], ammo_type.c_str(), z.name().c_str() );
+        z.ammo[ammo_type] = max_ammo;
     }
 
     npc tmp;
     tmp.name = _( "The " ) + z.name();
     tmp.set_fake( true );
+    tmp.recoil = 0;
+    tmp.driving_recoil = 0;
     tmp.setpos( z.pos() );
     tmp.str_max = fake_str;
     tmp.dex_max = fake_dex;
@@ -386,35 +340,57 @@ void gun_actor::shoot( monster &z, Creature &target ) const
     tmp.dex_cur = fake_dex;
     tmp.int_cur = fake_int;
     tmp.per_cur = fake_per;
-    tmp.attitude = z.friendly ? NPCATT_DEFEND : NPCATT_KILL;
-
-    if( fake_skills.empty() ) {
-        tmp.skillLevel( skill_id( "gun" ) ).level( 4 );
-        tmp.skillLevel( gun.gun_skill() ).level( 8 );
+    tmp.weapon = item( gun_type, 0 );
+    tmp.weapon.set_curammo( ammo_type );
+    tmp.weapon.charges = z.ammo[ammo_type];
+    if( z.friendly != 0 ) {
+        tmp.attitude = NPCATT_DEFEND;
+    } else {
+        tmp.attitude = NPCATT_KILL;
     }
+
     for( const auto &pr : fake_skills ) {
         tmp.skillLevel( pr.first ).level( pr.second );
     }
 
-    tmp.weapon = gun;
-    tmp.worn.push_back( item( "fake_UPS", calendar::turn, 1000 ) );
+    if( &target == &g->u ) {
+        if( !z.has_effect( effect_targeted ) ) {
+            if( !targeting_sound.empty() ) {
+                sounds::sound( z.pos(), targeting_volume, _( targeting_sound.c_str() ) );
+            }
+            z.add_effect( effect_targeted, 8 );
+            if( laser_lock ) {
+                target.add_effect( effect_laserlocked, 5 );
+                target.add_msg_if_player( m_warning,
+                                          _( "You're not sure why you've got a laser dot on you..." ) );
+            }
 
-    const auto distance = rl_dist( z.pos(), target.pos() );
+            z.moves -= targeting_cost;
+            return;
+        }
+    }
 
-    const int burst = std::min( distance <= range_no_burst ? burst_limit : 1, tmp.weapon.burst_size() );
+    // It takes a while
+    z.moves -= move_cost;
+
+    if( z.ammo[ammo_type] <= 0 && !no_ammo_sound.empty() ) {
+        sounds::sound( z.pos(), 10, _( no_ammo_sound.c_str() ) );
+        return;
+    }
 
     if( g->u.sees( z ) ) {
-        add_msg( m_warning, _( description.c_str() ), z.name().c_str(), tmp.weapon.gun_type().c_str() );
+        add_msg( m_warning, _( description.c_str() ) );
     }
 
-    z.ammo[ammo] -= tmp.fire_gun( target.pos(), burst );
-
-    if( require_targeting ) {
-        z.add_effect( effect_targeted, targeting_timeout_extend );
+    const auto distance = rl_dist( z.pos(), target.pos() );
+    int burst_size = std::min( burst_limit, tmp.weapon.burst_size() );
+    if( distance > range_no_burst || burst_size < 1 ) {
+        burst_size = 1;
     }
 
-    if( laser_lock ) {
-        // To prevent spamming laser locks when the player can tank that stuff somehow
-        target.add_effect( effect_was_laserlocked, 5 );
+    tmp.fire_gun( target.pos(), burst_size );
+    z.ammo[ammo_type] = tmp.weapon.charges;
+    if( &target == &g->u ) {
+        z.add_effect( effect_targeted, 3 );
     }
 }
