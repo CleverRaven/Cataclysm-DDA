@@ -32,6 +32,7 @@
   },
   {
     "id": "ar15",
+    "copy-from": "rifle_base",
     "type": "GUN",
     "name": "AR-15",
     "description": "This ubiquitous rifle is the forefather of M16 rifle series.  It is lightweight and accurate, but will malfunction if not properly maintained. This one is a semi automatic civilian version.",
@@ -43,11 +44,9 @@
     "material": ["steel", "plastic"],
     "symbol": "(",
     "color": "dark_gray",
-    "skill": "rifle",
     "ammo": "223",
     "dispersion": 5,
     "sight_dispersion": 60,
-    "aim_speed" : 6,
     "durability": 7,
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
     "magazines" : [
