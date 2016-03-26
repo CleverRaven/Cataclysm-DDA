@@ -2439,7 +2439,7 @@
         "flags" : ["LITCIG", "TOBACCO", "LIGHT_4"]
     },
     {
-        "type" : "COMESTIBLE",
+        "type" : "GENERIC",
         "id" : "cig_butt",
         "name" : "cigarette butt",
         "weight" : 0,
