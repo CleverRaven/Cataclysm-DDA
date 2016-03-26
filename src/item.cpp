@@ -781,6 +781,23 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                 info.emplace_back( "AMMO", space + _( "Dispersion: " ), "", ammo.dispersion, true, "", true, true );
                 info.emplace_back( "AMMO", _( "Recoil: " ), "", ammo.recoil, true, "", true, true );
              }
+
+            std::vector<std::string> fx;
+            if( ammo.ammo_effects.count( "RECYCLED" ) ) {
+                fx.emplace_back( _( "This ammo has been <bad>hand-loaded</bad>" ) );
+            }
+            if( ammo.ammo_effects.count( "NEVER_MISFIRES" ) ) {
+                fx.emplace_back( _( "This ammo <good>never misfires</good>" ) );
+            }
+            if( ammo.ammo_effects.count( "INCENDIARY" ) ) {
+                fx.emplace_back( _( "This ammo <neutral>starts fires</neutral>" ) );
+            }
+            if( !fx.empty() ) {
+                insert_separation_line();
+                for( const auto& e : fx ) {
+                    info.emplace_back( "AMMO", e );
+                }
+            }
         }
 
     } else {
