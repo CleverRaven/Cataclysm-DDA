@@ -821,6 +821,13 @@ typename std::enable_if<std::is_integral<T>::value, bool>::type assign(
         val += tmp;
         return true;
     }
+
+    double scalar;
+    if( jo.get_object( "proportional" ).read( name, scalar ) && scalar > 0.0 ) {
+        val *= scalar;
+        return true;
+    }
+
     return jo.read( name, val );
 }
 
