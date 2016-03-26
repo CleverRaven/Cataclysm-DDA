@@ -357,6 +357,7 @@ void DynamicDataLoader::unload_data()
 extern void calculate_mapgen_weights();
 void DynamicDataLoader::finalize_loaded_data()
 {
+    item_controller->finalize();
     mission_type::initialize(); // Needs overmap terrain.
     set_ter_ids();
     set_furn_ids();
@@ -368,7 +369,6 @@ void DynamicDataLoader::finalize_loaded_data()
     MonsterGenerator::generator().finalize_mtypes();
     MonsterGroupManager::FinalizeMonsterGroups();
     monfactions::finalize();
-    item_controller->finalize();
     finalize_recipes();
     finialize_martial_arts();
     check_consistency();
