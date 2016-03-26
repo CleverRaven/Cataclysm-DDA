@@ -109,6 +109,9 @@ void Item_factory::finalize() {
             obj.ammo->loudness = std::max( std::max( { obj.ammo->damage, obj.ammo->pierce, obj.ammo->range } ) * 3,
                                            obj.ammo->recoil / 3 );
         }
+        if( obj.gun ) {
+            obj.gun->reload_noise = _( obj.gun->reload_noise.c_str() );
+        }
     }
 }
 
@@ -588,6 +591,10 @@ void Item_factory::check_definitions() const
                 }
             }
 
+            if( type->gun->barrel_length < 0 ) {
+                msg << "gun barrel length cannot be negative" << "\n";
+            }
+
             if( !type->gun->skill_used ) {
                 msg << string_format("uses no skill") << "\n";
             } else if( !type->gun->skill_used.is_valid() ) {
@@ -830,31 +837,30 @@ void Item_factory::load_ammo(JsonObject &jo)
 
 void Item_factory::load( islot_gun &slot, JsonObject &jo )
 {
-    slot.ammo = jo.get_string( "ammo", slot.ammo );
-    slot.skill_used = skill_id( jo.get_string( "skill" ) );
-    slot.loudness = jo.get_int( "loudness", 0 );
-    slot.damage = jo.get_int( "ranged_damage", 0 );
-    slot.range = jo.get_int( "range", 0 );
-    slot.dispersion = jo.get_int( "dispersion", 0 );
-    slot.sight_dispersion = jo.get_int("sight_dispersion", 0 );
-    slot.aim_speed = jo.get_int("aim_speed");
-    slot.recoil = jo.get_int( "recoil", 0 );
-    slot.durability = jo.get_int( "durability" );
-    slot.burst = jo.get_int( "burst", 0 );
-    slot.clip = jo.get_int( "clip_size", 0 );
-
-    jo.read( "reload", slot.reload_time );
-    slot.reload_noise = jo.get_string( "reload_noise", _ ("click.") );
-    slot.reload_noise_volume = jo.get_int( "reload_noise_volume", -1 );
-
-    slot.pierce = jo.get_int( "pierce", 0 );
-    slot.ammo_effects = jo.get_tags( "ammo_effects" );
-    slot.ups_charges = jo.get_int( "ups_charges", 0 );
-
-    slot.barrel_length = jo.get_int( "barrel_length", 0 );
-    if( slot.barrel_length < 0 ) {
-        jo.throw_error( "gun barrel length cannot be negative", "barrel_length" );
+    if( jo.has_string( "skill" ) ) {
+        slot.skill_used = skill_id( jo.get_string( "skill" ) );
     }
+
+    jo.assign( "ammo", slot.ammo );
+    jo.assign( "range", slot.range );
+    jo.assign( "ranged_damage", slot.damage );
+    jo.assign( "pierce", slot.pierce );
+    jo.assign( "dispersion", slot.dispersion );
+    jo.assign( "sight_dispersion", slot.sight_dispersion );
+    jo.assign( "aim_speed", slot.aim_speed );
+    jo.assign( "recoil", slot.recoil );
+    jo.assign( "durability", slot.durability );
+    jo.assign( "burst", slot.burst );
+    jo.assign( "loudness", slot.loudness );
+    jo.assign( "clip_size", slot.clip );
+    jo.assign( "reload", slot.reload_time );
+    jo.assign( "reload_noise", slot.reload_noise );
+    jo.assign( "reload_noise_volume", slot.reload_noise_volume );
+    jo.assign( "barrel_length", slot.barrel_length );
+    jo.assign( "built_in_mods", slot.built_in_mods );
+    jo.assign( "default_mods", slot.default_mods );
+    jo.assign( "ups_charges", slot.ups_charges );
+    jo.assign( "ammo_effects", slot.ammo_effects );
 
     if( jo.has_array( "valid_mod_locations" ) ) {
         JsonArray jarr = jo.get_array( "valid_mod_locations" );
@@ -863,16 +869,6 @@ void Item_factory::load( islot_gun &slot, JsonObject &jo )
             slot.valid_mod_locations.insert( std::pair<std::string, int>( curr.get_string( 0 ),
                                              curr.get_int( 1 ) ) );
         }
-    }
-
-    JsonArray builtmod = jo.get_array( "built_in_mods" );
-    while( builtmod.has_more() ) {
-        slot.built_in_mods.insert( builtmod.next_string() );
-    }
-
-    JsonArray defmod = jo.get_array( "default_mods" );
-    while( defmod.has_more() ) {
-        slot.default_mods.insert( defmod.next_string() );
     }
 }
 
@@ -892,9 +888,11 @@ void Item_factory::load( islot_spawn &slot, JsonObject &jo )
 
 void Item_factory::load_gun(JsonObject &jo)
 {
-    itype* new_item_template = new itype();
-    load_slot( new_item_template->gun, jo );
-    load_basic_info( jo, new_item_template );
+    auto def = load_definition( jo );
+    if( def) {
+        load_slot( def->gun, jo );
+        load_basic_info( jo, def );
+    }
 }
 
 void Item_factory::load_armor(JsonObject &jo)

@@ -248,7 +248,7 @@ struct islot_gun : common_firing_data {
     /**
      * Noise displayed when reloading the weapon.
      */
-    std::string reload_noise;
+    std::string reload_noise = "click.";
     /**
      * Volume of the noise made when reloading this weapon.
      */
