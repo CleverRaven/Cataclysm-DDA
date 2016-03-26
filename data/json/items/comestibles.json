@@ -6473,36 +6473,6 @@
     },
     {
         "type" : "COMESTIBLE",
-        "id" : "cotton_ball",
-        "name" : "cotton balls",
-        "name_plural" : "cotton balls",
-        "category" : "spare_parts",
-        "weight" : 180,
-        "color" : "white",
-        "container" : "bag_plastic",
-        "comestible_type" : "MED",
-        "symbol" : "*",
-        "quench" : 0,
-        "healthy" : 0,
-        "nutrition" : 0,
-        "description" : "Fluffy balls of clean white cotton.  Can serve as makeshift bandages in an emergency.",
-        "price" : 500,
-        "material" : "cotton",
-        "volume" : 1,
-        "charges" : 2,
-        "flags" : ["USE_ON_NPC"],
-        "fun" : 0,
-        "use_action" : {
-            "type" : "heal",
-            "limb_power" : 3,
-            "head_power" : 1,
-            "torso_power" : 4,
-            "bleed" : 0.9,
-            "move_cost" : 300
-        }
-    },
-    {
-        "type" : "COMESTIBLE",
         "id" : "broccoli",
         "name" : "broccoli",
         "name_plural" : "broccoli",
@@ -9980,71 +9950,6 @@
         "charges" : 8,
         "flags" : ["EATEN_HOT"],
         "fun" : 15
-    },
-    {
-        "type" : "COMESTIBLE",
-        "id" : "bandages",
-        "name" : "bandage",
-        "weight" : 70,
-        "color" : "white",
-        "comestible_type" : "MED",
-        "symbol" : "!",
-        "quench" : 0,
-        "healthy" : 0,
-        "nutrition" : 0,
-        "description" : "Simple cloth bandages.  Used for healing small amounts of damage.",
-        "price" : 600,
-        "material" : "cotton",
-        "volume" : 1,
-        "charges" : 3,
-        "stack_size": 9,
-        "flags" : ["USE_ON_NPC"],
-        "fun" : 0,
-        "use_action" : {
-            "type" : "heal",
-            "limb_power" : 3,
-            "head_power" : 1,
-            "torso_power" : 4,
-            "bleed" : 0.9,
-            "move_cost" : 300
-        }
-    },
-    {
-        "type" : "COMESTIBLE",
-        "id" : "1st_aid",
-        "name" : "first aid kit",
-        "weight" : 240,
-        "color" : "red",
-        "comestible_type" : "MED",
-        "symbol" : "!",
-        "quench" : 0,
-        "healthy" : 0,
-        "nutrition" : 0,
-        "description" : "A full medical kit, with bandages, local anesthetics, and rapid healing agents.  Used for healing large amounts of damage.",
-        "price" : 3000,
-        "material" : "plastic",
-        "volume" : 1,
-        "charges" : 2,
-        "stack_size" : 6,
-        "flags" : ["USE_ON_NPC"],
-        "fun" : 0,
-        "use_action" : {
-            "type" : "heal",
-            "limb_power" : 14,
-            "head_power" : 10,
-            "torso_power" : 18,
-            "bleed" : 0.95,
-            "bite" : 0.99,
-            "infect" : 0.95,
-            "move_cost" : 6000,
-            "long_action" : true,
-            "effects" : [
-                {
-                    "id": "pkill1",
-                    "duration": 120
-                }
-            ]
-        }
     },
     {
         "type" : "COMESTIBLE",
