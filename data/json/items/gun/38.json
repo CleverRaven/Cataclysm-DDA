@@ -56,7 +56,7 @@
     "type": "GUN",
     "name": "Ruger LCR .38",
     "name_plural": "Ruger LCR .38",
-    "description": "A compact, double-action-only revolver designed for easy concealment, with a stainless steel cylinder and aluminum frame.  This is the basic model, chambered in .38 Special.",
+    "description": "A compact, double-action-only revolver designed for easy concealment, with a stainless steel cylinder and aluminum frame.",
     "weight": 382,
     "volume": 1,
     "price": 54500,
