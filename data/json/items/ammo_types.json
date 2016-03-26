@@ -93,7 +93,7 @@
         "type" : "ammunition_type",
         "id" : "40",
         "name" : ".40",
-        "default" : "10mm"
+        "default" : "40sw"
     },
     {
         "type" : "ammunition_type",
