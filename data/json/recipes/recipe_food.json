@@ -12086,14 +12086,14 @@
 },
 {
    "type" : "recipe",
-   "result": "sandwich_sauce",
-   "category": "CC_FOOD",
-   "subcategory": "CSC_FOOD_SNACK",
-   "skill_used": "cooking",
-   "difficulty": 0,
-   "time": 1500,
-   "reversible": false,
-   "autolearn": true,
+   "result" : "sandwich_sauce",
+   "category" : "CC_FOOD",
+   "subcategory" : "CSC_FOOD_SNACK",
+   "skill_used" : "cooking",
+   "difficulty" : 0,
+   "time" : 1500,
+   "reversible" : false,
+   "autolearn" : true,
    "qualities" : [
      {"id":"CUT","level":1,"amount":1}
    ],
@@ -12109,10 +12109,7 @@
       [ "ketchup", 1 ],
       [ "sauce_pesto", 1 ],
       [ "sauce_red", 1 ],
-      [ "mustard", 1 ],
-      [ "honeycomb", 1 ],
-      [ "honey_bottled", 1 ],
-      [ "honey_glassed", 1 ]
+      [ "mustard", 1 ]
     ]
   ]
 },
@@ -12140,6 +12137,32 @@
       [ "jam_fruit", 1 ],
       [ "jam_strawberries", 1 ],
       [ "jam_blueberries", 1 ]
+    ]
+  ]
+},
+{
+   "type" : "recipe",
+   "result" : "sandwich_honey",
+   "category" : "CC_FOOD",
+   "subcategory" : "CSC_FOOD_SNACK",
+   "skill_used" : "cooking",
+   "difficulty" : 0,
+   "time" : 1500,
+   "reversible" : false,
+   "autolearn" : true,
+   "qualities" : [
+     {"id":"CUT","level":1,"amount":1}
+   ],
+  "components": [
+    [
+      [ "flatbread", 2 ],
+      [ "bread", 2 ],
+      [ "cornbread", 2 ],
+      [ "wastebread", 2 ]
+    ],
+    [
+      [ "honeycomb", 1 ],
+      [ "honey_bottled", 1 ]
     ]
   ]
 },
