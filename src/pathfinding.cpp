@@ -226,11 +226,10 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
         }
     }
 
-    // This will un-close starting point
-    pf.add_point( 0, 0, f, f );
-
-    // End also needs not to be closed
+    // Start and end must not be closed
+    pf.unclose_point( f );
     pf.unclose_point( t );
+    pf.add_point( 0, 0, f, f );
 
     bool done = false;
 
