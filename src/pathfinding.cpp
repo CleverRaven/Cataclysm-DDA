@@ -221,7 +221,7 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
     // Make NPCs not want to path through player
     // But don't make player pathing stop working
     for( const auto &p : pre_closed ) {
-        if( p.x >= minx && p.x < maxx && p.y >= miny & p.y < maxy ) {
+        if( p.x >= minx && p.x < maxx && p.y >= miny && p.y < maxy ) {
             pf.close_point( p );
         }
     }
