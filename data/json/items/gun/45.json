@@ -29,6 +29,7 @@
   },
   {
     "id": "l_enforcer_45",
+    "copy-from": "pistol_revolver",
     "type": "GUN",
     "name": "L2031 Enforcer",
     "name_plural": "L2031 Enforcer",
@@ -41,17 +42,14 @@
     "material": [ "steel", "wood" ],
     "symbol": "(",
     "color": "light_gray",
-    "skill": "pistol",
     "ammo": "45",
     "ranged_damage": 5,
     "dispersion": 195,
     "sight_dispersion": 90,
-    "aim_speed": 4,
     "recoil": 120,
     "durability": 8,
     "clip_size": 6,
-    "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
-    "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ]
+    "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ]
   },
   {
     "id": "l_long_45",

@@ -30,6 +30,7 @@
   },
   {
     "id": "lemat_revolver",
+    "copy-from": "pistol_revolver",
     "type": "GUN",
     "name": "LeMat revolver",
     "description": "A modernized version of the original LeMat revolver, a rare and expensive firearm produced during the civil war.  With  a capacity of 9 modern .44 cartridges and a single 12 gauge shell, it makes a great companion for those who wander the \"Earth-that-was\".",
@@ -40,20 +41,18 @@
     "material": [ "steel", "wood" ],
     "symbol": "(",
     "color": "brown",
-    "skill": "pistol",
     "ammo": "44",
     "dispersion": 180,
     "sight_dispersion": 90,
-    "aim_speed": 4,
     "recoil": 100,
     "durability": 8,
     "clip_size": 9,
     "built_in_mods": [ "lemat_revolver_shotgun" ],
-    "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
-    "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ]
+    "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ]
   },
   {
     "id": "ruger_redhawk",
+    "copy-from": "pistol_revolver",
     "type": "GUN",
     "name": "Ruger Redhawk",
     "name_plural": "Ruger Redhawk",
@@ -66,19 +65,17 @@
     "material": [ "steel", "wood" ],
     "symbol": "(",
     "color": "dark_gray",
-    "skill": "pistol",
     "ammo": "44",
     "dispersion": 195,
     "sight_dispersion": 90,
-    "aim_speed": 4,
     "recoil": 90,
     "durability": 8,
     "clip_size": 6,
-    "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
-    "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ]
+    "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ]
   },
   {
     "id": "sw629",
+    "copy-from": "pistol_revolver",
     "type": "GUN",
     "name": "S&W 629",
     "name_plural": "S&W 629",
@@ -90,15 +87,12 @@
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "dark_gray",
-    "skill": "pistol",
     "ammo": "44",
     "dispersion": 180,
     "sight_dispersion": 90,
-    "aim_speed": 4,
     "recoil": 100,
     "durability": 8,
     "clip_size": 6,
-    "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
-    "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ]
+    "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ]
   }
 ]
