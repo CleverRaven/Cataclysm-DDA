@@ -396,7 +396,7 @@
     "name": "FN SCAR-L",
     "description": "A highly accurate and modular assault rifle specially designed for the United States Special Operations Command.  The 'L' in its name stands for light, as it uses the lightweight .223 round.",
     "weight": 2960,
-    "volume": 8,
+    "volume": 9,
     "price": 280000,
     "bashing": 12,
     "to_hit": -1,
