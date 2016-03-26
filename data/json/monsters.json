@@ -5050,7 +5050,7 @@
     "id" : "mon_dark_wyrm",
     "name": "dark wyrm",
     "species":"MUTANT",
-    "default_faction": "jabberwock",
+    "default_faction": "mutant_predator",
     "symbol":"S",
     "color":"blue",
     "size":"LARGE",
