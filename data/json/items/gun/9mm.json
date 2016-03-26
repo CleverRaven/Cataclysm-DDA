@@ -231,7 +231,6 @@
     "price": 95000,
     "bashing": 8,
     "to_hit": -2,
-    "flags": "MODE_BURST",
     "material": ["steel", "plastic"],
     "symbol": "(",
     "color": "dark_gray",
@@ -250,7 +249,8 @@
     "magazines" : [
       [ "9mm", [ "lw21mag" ] ],
       [ "45", [ "lw12mag" ] ]
-    ]
+    ],
+    "flags": [ "MODE_BURST" ],
   },
   {
     "id": "l_sp_9mm",

@@ -82,34 +82,11 @@
   },
   {
     "id": "l_mp_45",
+    "copy-from": "l_mp_9mm",
     "type": "GUN",
     "name": "L39B-45",
     "description": "After the success of the 9mm model, Leadworks LLC released an L39B chambered in .45.  It soon earned a reputation as one of the most intimidating guns on the market, for firer and target alike.",
-    "weight": 1335,
-    "volume": 3,
-    "price": 115000,
-    "bashing": 12,
-    "to_hit": -2,
-    "range": 1,
-    "material": ["steel", "plastic"],
-    "symbol": "(",
-    "color": "dark_gray",
-    "skill": "pistol",
-    "ammo": "45",
-    "ranged_damage": 4,
-    "dispersion": 240,
-    "sight_dispersion": 90,
-    "aim_speed" : 4,
-    "recoil": 150,
-    "durability": 7,
-    "burst": 3,
-    "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
-    "magazine_well" : 1,
-    "magazines" : [
-        [ "45", [ "lw12mag" ] ],
-        [ "9mm", [ "lw21mag" ] ]
-    ],
-    "flags": "MODE_BURST"
+    "ammo": "45"
   },
   {
     "id": "l_sp_45",
