@@ -288,30 +288,9 @@
   },
   {
     "id": "usp_45",
+    "copy-from": "usp_9mm",
     "type": "GUN",
     "name": "USP .45",
-    "description": "A popular .45 pistol, widely used among law enforcement.  Extensively tested for durability, it has been found to stay accurate even after being subjected to extreme abuse.",
-    "material": ["steel", "plastic"],
-    "symbol": "(",
-    "color": "dark_gray",
-    "weight": 789,
-    "volume": 1,
-    "price": 57100, "//" : "Extrapolated from .45ACP models that have comparable mag capacity.",
-    "bashing": 9,
-    "to_hit": -2,
-    "skill": "pistol",
-    "ammo": "45",
-    "ranged_damage": 1,
-    "dispersion": 255,
-    "sight_dispersion": 90,
-    "aim_speed" : 4,
-    "recoil": 120,
-    "durability": 9,
-    "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "bore", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
-    "magazine_well" : 1,
-    "magazines" : [
-      [ "45", [ "usp45mag" ] ],
-      [ "9mm", [ "usp9mag" ] ]
-    ]
+    "ammo": "45"
   }
 ]

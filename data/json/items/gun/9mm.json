@@ -411,7 +411,7 @@
     "id": "usp_9mm",
     "type": "GUN",
     "name": "USP 9mm",
-    "description": "A popular 9mm pistol, widely used among law enforcement.  Extensively tested for durability, it has been found to stay accurate even after being subjected to extreme abuse.",
+    "description": "A popular pistol, widely used among law enforcement.  Extensively tested for durability, it has been found to stay accurate even after being subjected to extreme abuse.",
     "material": ["steel", "plastic"],
     "symbol": "(",
     "color": "dark_gray",
