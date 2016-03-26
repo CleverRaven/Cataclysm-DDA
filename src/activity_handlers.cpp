@@ -1309,8 +1309,6 @@ void activity_handlers::open_gate_finish( player_activity *act, player *p )
 {
     const tripoint &pos = act->placement;
     const ter_id handle_type = g->m.ter( pos );
-    int examx = pos.x;
-    int examy = pos.y;
     ter_id wall_type;
     ter_id door_type;
     ter_id floor_type;
@@ -1367,46 +1365,43 @@ void activity_handlers::open_gate_finish( player_activity *act, player *p )
     bool open = false;
     bool close = false;
 
-    const auto ortho = []( int x, int y ) -> bool {
-        return std::abs( x + y ) == 1;
-    };
+    for( int i = 0; i < 4; ++i ) {
+        static const int dx[4] = { 1, 0, -1, 0 };
+        static const int dy[4] = { 0, 1, 0, -1 };
 
-    for (int wall_x = -1; wall_x <= 1; wall_x++) {
-        for (int wall_y = -1; wall_y <= 1; wall_y++) {
-            for (int gate_x = -1; gate_x <= 1; gate_x++) {
-                for (int gate_y = -1; gate_y <= 1; gate_y++) {
-                    if( ortho( wall_x, wall_y ) &&  // make sure wall not diagonally opposite to handle
-                        ortho( gate_x, gate_y ) &&  // same for gate direction
-                        g->m.ter(examx + wall_x, examy + wall_y) == wall_type ) { //vertical orientation of the gate
+        const int wall_x = pos.x + dx[i];
+        const int wall_y = pos.y + dy[i];
 
-                        const int cur_x = examx + wall_x + gate_x;
-                        const int cur_y = examy + wall_y + gate_y;
+        if( g->m.ter( wall_x, wall_y ) != wall_type ) {
+            continue;
+        }
 
-                        if (!open) {  //closing the gate...
-                            int cur_gx = cur_x;
-                            int cur_gy = cur_y;
-                            while (g->m.ter(cur_gx, cur_gy) == floor_type) {
-                                if( act->type == ACT_NULL || !g->forced_gate_closing( tripoint( cur_gx, cur_gy, pos.z ), door_type, bash_dmg ) ) {
-                                    close = false;
-                                    break;
-                                }
-                                cur_gx += gate_x;
-                                cur_gy += gate_y;
-                                close = true;
-                            }
-                        }
+        for( int j = 0; j < 4; ++j ) {
+            const int gate_x = wall_x + dx[j];
+            const int gate_y = wall_y + dy[j];
 
-                        if (!close) {  //opening the gate...
-                            int cur_gx = cur_x;
-                            int cur_gy = cur_y;
-                            while (g->m.ter(cur_gx, cur_gy) == door_type) {
-                                g->m.ter_set(cur_gx, cur_gy, floor_type);
-                                cur_gx += gate_x;
-                                cur_gy += gate_y;
-                                open = true;
-                            }
-                        }
+            if( !open ) {  //closing the gate...
+                int x = gate_x;
+                int y = gate_y;
+                while( g->m.ter( x, y) == floor_type ) {
+                    if( act->type == ACT_NULL || !g->forced_gate_closing( tripoint( x, y, pos.z ), door_type, bash_dmg ) ) {
+                        close = false;
+                        break;
                     }
+                    x += dx[j];
+                    y += dy[j];
+                    close = true;
+                }
+            }
+
+            if( !close ) {  //opening the gate...
+                int x = gate_x;
+                int y = gate_y;
+                while( g->m.ter( x, y) == door_type ) {
+                    g->m.ter_set( x, y, floor_type );
+                    x += dx[j];
+                    y += dy[j];
+                    open = true;
                 }
             }
         }
