@@ -262,7 +262,6 @@
     "price": 70000,
     "bashing": 8,
     "to_hit": -2,
-    "flags": "DURABLE_MELEE",
     "material": ["steel", "plastic"],
     "symbol": "(",
     "color": "dark_gray",
@@ -280,7 +279,8 @@
     "magazines" : [
       [ "9mm", [ "lw21mag" ] ],
       [ "45", [ "lw12mag" ] ]
-    ]
+    ],
+    "flags": [ "DURABLE_MELEE" ]
   },
   {
     "id": "m9",

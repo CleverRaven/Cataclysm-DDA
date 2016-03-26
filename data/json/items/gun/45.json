@@ -113,33 +113,11 @@
   },
   {
     "id": "l_sp_45",
+    "copy-from": "l_sp_9mm",
     "type": "GUN",
     "name": "L39-45",
     "description": "Capitalizing on the L39B-45's reputation as one of the most intimidating pistols on the market, Leadworks LLC manufactured a semiautomatic model as well.  Locking it semi-auto reduced cost and improved performance.",
-    "weight": 1265,
-    "volume": 3,
-    "price": 81000,
-    "bashing": 12,
-    "to_hit": -2,
-    "material": ["steel", "plastic"],
-    "symbol": "(",
-    "color": "dark_gray",
-    "skill": "pistol",
-    "ammo": "45",
-    "range": 1,
-    "ranged_damage": 4,
-    "dispersion": 225,
-    "sight_dispersion": 90,
-    "aim_speed" : 4,
-    "recoil": 135,
-    "durability": 9,
-    "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
-    "magazine_well" : 1,
-    "magazines" : [
-        [ "45", [ "lw12mag" ] ],
-        [ "9mm", [ "lw21mag" ] ]
-    ],
-    "flags": "DURABLE_MELEE"
+    "ammo": "45"
   },
   {
     "id": "m1911",
