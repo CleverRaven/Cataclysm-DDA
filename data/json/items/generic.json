@@ -2464,7 +2464,7 @@
         "price": 2000,
         "material": "veggy",
         "weight": 420,
-        "volume":4 
+        "volume": 4 
     },
     {
         "type" : "COMESTIBLE",
