@@ -1,7 +1,7 @@
 [
     {
-        "type" : "COMESTIBLE",
         "id" : "cotton_ball",
+        "type" : "COMESTIBLE",
         "name" : "cotton balls",
         "name_plural" : "cotton balls",
         "category" : "spare_parts",
@@ -30,8 +30,8 @@
         }
     },
     {
-        "type" : "COMESTIBLE",
         "id" : "bandages",
+        "type" : "COMESTIBLE",
         "name" : "bandage",
         "weight" : 70,
         "color" : "white",
@@ -58,8 +58,8 @@
         }
     },
     {
-        "type" : "COMESTIBLE",
         "id" : "1st_aid",
+        "type" : "COMESTIBLE",
         "name" : "first aid kit",
         "weight" : 240,
         "color" : "red",
@@ -86,8 +86,7 @@
             "infect" : 0.95,
             "move_cost" : 6000,
             "long_action" : true,
-            "effects" : [
-                {
+            "effects" : [ {
                     "id" : "pkill1",
                     "duration" : 120
                 }
@@ -95,8 +94,8 @@
         }
     },
     {
-        "type" : "COMESTIBLE",
         "id" : "poppysyrup",
+        "type" : "COMESTIBLE",
         "name" : "poppy cough syrup",
         "name_plural" : "poppy cough syrup",
         "weight" : 48,
@@ -119,8 +118,8 @@
         "fun" : 0
     },
     {
-        "type" : "COMESTIBLE",
         "id" : "poppy_sleep",
+        "type" : "COMESTIBLE",
         "name" : "poppy sleep",
         "weight" : 1,
         "color" : "magenta",
@@ -140,8 +139,8 @@
         "fun" : 0
     },
     {
-        "type" : "COMESTIBLE",
         "id" : "poppy_pain",
+        "type" : "COMESTIBLE",
         "name" : "poppy painkiller",
         "weight" : 1,
         "color" : "pink",
@@ -149,8 +148,7 @@
         "use_action" : {
             "type" : "consume_drug",
             "activation_message" : "You take some poppy painkiller.",
-            "effects" : [
-                {
+            "effects" : [ {
                     "id" : "pkill2",
                     "duration" : 180
                 }
@@ -170,8 +168,9 @@
         "stack_size" : 100,
         "fun" : 0
     },
-    {   "type" : "COMESTIBLE",
+    {   
         "id" : "datura_seed",
+        "type" : "COMESTIBLE",
         "name" : "datura seeds",
         "name_plural" : "datura seeds",
         "category" : "other",
@@ -198,8 +197,8 @@
         }
     },
     {
-        "type" : "COMESTIBLE",
         "id" : "thyme_oil",
+        "type" : "COMESTIBLE",
         "name" : "thyme oil",
         "description" : "Some essential oil made from thyme, which can act as a mildly irritating disinfectant.",
         "comestible_type" : "MED",
@@ -227,8 +226,8 @@
         }
     },
     {   
-        "type" : "COMESTIBLE",
         "id" : "mugwort_oil",
+        "type" : "COMESTIBLE",
         "name" : "mugwort oil",
         "description" : "Some essential oil made from mugwort, which may kill parasites when ingested.  Consume it with water!",
         "comestible_type" : "MED",
