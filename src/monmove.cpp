@@ -620,6 +620,18 @@ void monster::move()
         // in both circular and roguelike distance modes.
         const float distance_to_target = trig_dist( pos(), destination );
         for( const tripoint &candidate : squares_closer_to( pos(), destination ) ) {
+            if( candidate.z != posz() ) {
+                if( !g->m.valid_move( pos(), candidate, false, true ) ) {
+                    // Can't phase through floor
+                    continue;
+                }
+
+                if( !can_fly && candidate.z > posz() && !g->m.has_floor_or_support( candidate ) ) {
+                    // Can't "jump" up a whole z-level
+                    continue;
+                }
+            }
+
             const Creature *target = g->critter_at( candidate, is_hallucination() );
             // When attacking an adjacent enemy, we're direct.
             if( target != nullptr && attitude_to( *target ) == A_HOSTILE ) {
