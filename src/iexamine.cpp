@@ -2529,7 +2529,7 @@ void iexamine::water_source(player &p, const tripoint &examp)
     p.activity.values.push_back(water.bday);
 }
 
-itype *furn_t::crafting_pseudo_item_type() const
+const itype * furn_t::crafting_pseudo_item_type() const
 {
     if (crafting_pseudo_item.empty()) {
         return NULL;
@@ -2537,7 +2537,7 @@ itype *furn_t::crafting_pseudo_item_type() const
     return item::find_type( crafting_pseudo_item );
 }
 
-itype *furn_t::crafting_ammo_item_type() const
+const itype *furn_t::crafting_ammo_item_type() const
 {
     const it_tool *toolt = dynamic_cast<const it_tool *>(crafting_pseudo_item_type());
     if (toolt != NULL && toolt->ammo_id != "NULL") {
@@ -2560,8 +2560,8 @@ static long count_charges_in_list(const itype *type, const map_stack &items)
 void iexamine::reload_furniture(player &p, const tripoint &examp)
 {
     const furn_t &f = g->m.furn_at(examp);
-    itype *type = f.crafting_pseudo_item_type();
-    itype *ammo = f.crafting_ammo_item_type();
+    const itype *type = f.crafting_pseudo_item_type();
+    const itype *ammo = f.crafting_ammo_item_type();
     if (type == NULL || ammo == NULL) {
         add_msg(m_info, _("This %s can not be reloaded!"), f.name.c_str());
         return;

@@ -1236,8 +1236,8 @@ bool save_artifacts( const std::string &path )
         JsonOut json( fout );
         json.start_array();
         for( auto & p : item_controller->get_all_itypes() ) {
-            it_artifact_tool *art_tool = dynamic_cast<it_artifact_tool *>( p.second );
-            it_artifact_armor *art_armor = dynamic_cast<it_artifact_armor *>( p.second );
+            it_artifact_tool *art_tool = dynamic_cast<it_artifact_tool *>( p.second.get() );
+            it_artifact_armor *art_armor = dynamic_cast<it_artifact_armor *>( p.second.get() );
             if( art_tool != nullptr ) {
                 json.write( *art_tool );
             } else if( art_armor != nullptr ) {

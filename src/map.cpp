@@ -5120,7 +5120,7 @@ void use_charges_from_furn( const furn_t &f, const itype_id &type, long &quantit
         return;
     }
 
-    itype *itt = f.crafting_pseudo_item_type();
+    const itype *itt = f.crafting_pseudo_item_type();
     if (itt == NULL || itt->id != type) {
         return;
     }

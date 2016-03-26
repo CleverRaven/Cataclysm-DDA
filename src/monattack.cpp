@@ -4293,7 +4293,7 @@ bool mattack::kamikaze(monster *z)
 
     // Get the bomb type and it's data
     const auto bomb_type = item::find_type( z->ammo.begin()->first );
-    itype* act_bomb_type;
+    const itype* act_bomb_type;
     long charges;
     // Hardcoded data for charge variant items
     if (z->ammo.begin()->first == "mininuke") {
