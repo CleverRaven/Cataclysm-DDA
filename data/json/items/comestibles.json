@@ -13611,33 +13611,6 @@
         "stack_size" : 40,
         "fun" : 8
     },
-    {   "type" : "COMESTIBLE",
-        "id" : "datura_seed",
-        "name" : "datura seeds",
-        "name_plural": "datura seeds",
-        "category": "other",
-        "weight" : 2,
-        "color" : "brown",
-        "use_action" : "DATURA",
-        "stim" : 6,
-        "comestible_type" : "MED",
-        "symbol" : ".",
-        "quench" : 0,
-        "healthy" : -2,
-        "nutrition" : 0,
-        "description" : "Small, dark seeds from the spiny pods of a datura plant.  Full of powerful psychoactive chemicals, these tiny seeds are a potent analgesic and deliriant, and can be deadly in cases of overdose.  You could probably plant these.",
-        "price" : 0,
-        "volume" : 1,
-        "charges" : 4,
-        "stack_size" : 100,
-        "fun" : -1,
-        "seed_data": {
-            "plant_name": "datura",
-            "fruit": "datura_seed",
-            "byproducts": [ "withered" ],
-            "grow" : 91
-        }
-    },
     {
         "type" : "COMESTIBLE",
         "id" : "diazepam",
@@ -14837,34 +14810,6 @@
             "fruit": "thyme",
             "grow" : 91
         }
-    },{
-        "type" : "COMESTIBLE",
-        "id" : "thyme_oil",
-        "name" : "thyme oil",
-        "description" : "Some essential oil made from thyme, which can act as a mildly irritating disinfectant.",
-        "comestible_type" : "MED",
-        "spoils_in" : 672,
-        "quench" : 0,
-        "nutrition" : 0,
-        "fun" : 0,
-        "phase" : "liquid",
-        "healthy" : 0,
-        "weight" : 40,
-        "to_hit" : -3,
-        "color" : "yellow",
-        "symbol" : "~",
-        "volume" : 1,
-        "bashing" : -8,
-        "charges" : 1,
-        "price" : 0,
-        "use_action" : {
-            "type" : "heal",
-            "limb_power" : 6,
-            "head_power" : 5,
-            "torso_power" : 9,
-            "bite" : 0.95,
-            "move_cost" : 100
-        }
     },{   
         "type" : "COMESTIBLE",
         "id" : "seed_canola",
@@ -15106,27 +15051,6 @@
             "fruit": "mugwort",
             "grow" : 91
         }
-},{   
-        "type" : "COMESTIBLE",
-        "id" : "mugwort_oil",
-        "name" : "mugwort oil",
-        "description" : "Some essential oil made from mugwort, which may kill parasites when ingested.  Consume it with water!",
-        "comestible_type" : "MED",
-        "use_action" : "ANTIPARASITIC",
-        "spoils_in" : 672,
-        "quench" : -50,
-        "nutrition" : 0,
-        "fun" : -5,
-        "phase" : "liquid",
-        "healthy" : 0,
-        "weight" : 40,
-        "to_hit" : -3,
-        "color" : "yellow",
-        "symbol" : "~",
-        "volume" : 1,
-        "bashing" : -8,
-        "charges" : 1,
-        "price" : 0
 },{   
         "type" : "COMESTIBLE",
         "id" : "seed_buckwheat",
