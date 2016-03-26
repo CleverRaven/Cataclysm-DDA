@@ -126,17 +126,17 @@
     },{
         "type" : "MONSTER_FACTION",
         "name" : "mutant",
-        "neutral" : ["vermin"],
-        "by_mood" : ["small_animal", "blob", "utility_bot", "mutant_omnivore"]
+        "by_mood" : ["small_animal", "blob", "utility_bot", "mutant_omnivore", "mutant_predator"]
     },{
         "type" : "MONSTER_FACTION",
         "name" : "mutant_omnivore",
-        "neutral" : ["vermin", "utility_bot", "small_animal"],
-        "by_mood" : ["blob", "mutant_predator", "mutant"]
+        "base_faction" : "mutant",
+        "neutral" : ["utility_bot", "small_animal"],
+        "by_mood" : ["mutant_predator", "mutant"]
     },{
         "type" : "MONSTER_FACTION",
         "name" : "mutant_predator",
-        "neutral" : ["vermin"],
-        "by_mood" : ["mutant_omnivore", "blob"]
+        "base_faction" : "mutant",
+        "by_mood" : ["mutant_omnivore", "mutant"]
     }
 ]
