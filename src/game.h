@@ -409,9 +409,9 @@ class game
         int list_items(const int iLastState); //List all items around the player
         int list_monsters(const int iLastState); //List all monsters around the player
         // Shared method to print "look around" info
-        void print_all_tile_info( const tripoint &lp, WINDOW *w_look,
-                                  int column, int &line, const int last_line,
-                                  visibility_type visibility );
+        void print_all_tile_info( const tripoint &lp, WINDOW *w_look, int column, int &line,
+                                  int last_line, bool draw_terrain_indicators,
+                                  const visibility_variables &cache );
 
         std::vector<map_item_stack> find_nearby_items(int iRadius);
         void draw_item_filter_rules(WINDOW *window, int rows);
@@ -714,12 +714,15 @@ private:
         void print_fields_info( const tripoint &lp, WINDOW *w_look, int column, int &line );
         void print_terrain_info( const tripoint &lp, WINDOW *w_look, int column, int &line );
         void print_trap_info( const tripoint &lp, WINDOW *w_look, const int column, int &line );
-        void print_object_info( const tripoint &lp, WINDOW *w_look, const int column, int &line,
-                               const int last_line );
-        void print_visibility_info( WINDOW *w_look, int column, int &line, visibility_type visibility );
+        void print_creature_info( const Creature *creature, WINDOW *w_look, int column,
+                                  int &line );
+        void print_vehicle_info( const vehicle *veh, int veh_part, WINDOW *w_look,
+                                 int column, int &line, int last_line );
+        void print_visibility_info( WINDOW *w_look, int column, int &line,
+                                    visibility_type visibility );
         void print_visibility_indicator( visibility_type visibility );
-        void handle_multi_item_info( const tripoint &lp, WINDOW *w_look, const int column, int &line,
-                                    const int last_line );
+        void print_items_info( const tripoint &lp, WINDOW *w_look, const int column, int &line,
+                               const int last_line );
         void get_lookaround_dimensions(int &lookWidth, int &begin_y, int &begin_x) const;
 
         input_context get_player_input(std::string &action);
