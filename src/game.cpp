@@ -8937,13 +8937,17 @@ tripoint game::look_around( WINDOW *w_info, const tripoint &start_point,
             wrefresh(w_info);
         }
 
-#ifndef TILES
-        // Required in ncurses mode to update selected terrain square with
-        // highlighted coloring. In TILES mode, the selected square isn't
-        // highlighted using this function, and it is too CPU-intensive to
-        // call repeatedly in a mouse event loop.
-        wrefresh(w_terrain);
-#endif
+        if (!is_draw_tiles_mode() && action != "MOUSE_MOVE") {
+            // When tiles are disabled, this refresh is required to update the
+            // selected terrain square with highlighted ascii coloring. When
+            // tiles are enabled, the selected square isn't highlighted using
+            // this function, and it is too CPU-intensive to call repeatedly
+            // in a mouse event loop. If we did want to highlight the tile
+            // selected by the mouse, we could call wrefresh when the mouse
+            // hovered over a new tile (rather than on every mouse move
+            // event).
+            wrefresh(w_terrain);
+        }
 
         if (select_zone && has_first_point) {
             inp_mngr.set_timeout(BLINK_SPEED);
