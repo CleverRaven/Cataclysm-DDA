@@ -45,7 +45,7 @@
         "material" : "cotton",
         "volume" : 1,
         "charges" : 3,
-        "stack_size": 9,
+        "stack_size" : 9,
         "flags" : [ "USE_ON_NPC" ],
         "fun" : 0,
         "use_action" : {
@@ -88,8 +88,8 @@
             "long_action" : true,
             "effects" : [
                 {
-                    "id": "pkill1",
-                    "duration": 120
+                    "id" : "pkill1",
+                    "duration" : 120
                 }
             ]
         }
