@@ -2444,27 +2444,18 @@
         "name" : "cigarette butt",
         "weight" : 0,
         "color" : "dark_gray",
-        "addiction_type" : "nicotine",
-        "spoils_in" : 0,
-        "stim" : 1,
         "to_hit" : -2,
-        "comestible_type" : "MED",
         "symbol" : "!",
-        "quench" : 0,
-        "healthy" : -3,
-        "addiction_potential" : 50,
-        "nutrition" : 0,
         "description" : "What was once a wonderfully addictive tube of dried tobacco leaf is now just a smelly piece of trash.  What a tragedy!\nThe leftover tobacco in a few of these could probably be used to roll another cigarette.  If you're willing to go that far...",
         "price" : 0,
         "tool" : "null",
         "volume" : 0,
         "charges" : 1,
         "stack_size" : 1000,
-        "fun" : 2,
         "category": "other"
     },
     {
-        "type":"GENERIC",
+       "type":"GENERIC",
         "id": "cannabis",
         "symbol": "%",
         "color": "light_green",
@@ -2473,7 +2464,7 @@
         "price": 2000,
         "material": "veggy",
         "weight": 420,
-        "volume": 4
+        "volume":"0" 
     },
     {
         "type" : "COMESTIBLE",
