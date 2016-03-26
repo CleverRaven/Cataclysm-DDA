@@ -2455,7 +2455,7 @@
         "category": "other"
     },
     {
-       "type":"GENERIC",
+        "type":"GENERIC",
         "id": "cannabis",
         "symbol": "%",
         "color": "light_green",
@@ -2464,7 +2464,7 @@
         "price": 2000,
         "material": "veggy",
         "weight": 420,
-        "volume":"0" 
+        "volume":"4" 
     },
     {
         "type" : "COMESTIBLE",
