@@ -3497,6 +3497,9 @@ void game::load(std::string worldname, std::string name)
         gamemode = new special_game();
     }
 
+    safe_mode = (OPTIONS["SAFEMODE"] ? SAFE_MODE_ON : SAFE_MODE_OFF);
+    mostseen = 0; // ...and mostseen is 0, we haven't seen any monsters yet.
+
     init_autosave();
     get_auto_pickup().load_character(); // Load character auto pickup rules
     zone_manager::get_manager().load_zones(); // Load character world zones
