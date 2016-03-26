@@ -235,6 +235,8 @@ class Item_factory
          */
         Item_tag create_artifact_id() const;
     private:
+        std::map<std::string, std::unique_ptr<itype>> m_abstracts;
+
         std::map<Item_tag, itype *> m_templates;
         typedef std::map<Group_tag, Item_spawn_data *> GroupMap;
         GroupMap m_template_groups;

@@ -776,6 +776,11 @@ itype * Item_factory::load_definition( JsonObject& jo ) {
         return new itype( *base->second );
     }
 
+    auto abstract = m_abstracts.find( jo.get_string( "copy-from" ) );
+    if( abstract != m_abstracts.end() ) {
+        return new itype( *abstract->second );
+    }
+
     deferred.emplace_back( jo.str() );
     return nullptr;
 }
@@ -1159,15 +1164,19 @@ void hflesh_to_flesh( itype &item_template )
 
 void Item_factory::load_basic_info(JsonObject &jo, itype *new_item_template)
 {
-    std::string new_id = jo.get_string("id");
-    new_item_template->id = new_id;
-    if (m_templates.count(new_id) > 0) {
-        // New item already exists. Because mods are loaded after
-        // core data, we override it. This allows mods to change
-        // item from core data.
-        delete m_templates[new_id];
+    if( jo.has_string( "abstract" ) ) {
+        new_item_template->id = jo.get_string( "abstract" );
+        m_abstracts[ new_item_template->id ].reset( new_item_template );
+    } else {
+        new_item_template->id = jo.get_string( "id" );
+        if( m_templates.count( new_item_template->id ) ) {
+            // New item already exists. Because mods are loaded after
+            // core data, we override it. This allows mods to change
+            // item from core data.
+            delete m_templates[ new_item_template->id ];
+        }
+        m_templates[ new_item_template->id ] = new_item_template;
     }
-    m_templates[new_id] = new_item_template;
 
     jo.assign( "weight", new_item_template->weight );
     jo.assign( "volume", new_item_template->volume );
