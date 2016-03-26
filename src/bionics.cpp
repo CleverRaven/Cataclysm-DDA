@@ -537,6 +537,15 @@ void player::power_bionics()
     }
 }
 
+void force_comedown( effect &eff )
+{
+    if( eff.is_null() || eff.get_effect_type() == nullptr || eff.get_duration() <= 1 ) {
+        return;
+    }
+
+    eff.set_duration( std::min( eff.get_duration(), eff.get_int_dur_factor() ) );
+}
+
 // Why put this in a Big Switch?  Why not let bionics have pointers to
 // functions, much like monsters and items?
 //
