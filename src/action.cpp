@@ -113,6 +113,8 @@ std::string action_ident( action_id act )
     switch( act ) {
         case ACTION_PAUSE:
             return "pause";
+        case ACTION_TIMEOUT:
+            return "TIMEOUT";
         case ACTION_MOVE_N:
             return "UP";
         case ACTION_MOVE_NE:

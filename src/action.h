@@ -15,6 +15,7 @@ enum action_id : int {
     ACTION_SEC_SELECT,
     // Movement
     ACTION_PAUSE,
+    ACTION_TIMEOUT,
     ACTION_MOVE_N,
     ACTION_MOVE_NE,
     ACTION_MOVE_E,
