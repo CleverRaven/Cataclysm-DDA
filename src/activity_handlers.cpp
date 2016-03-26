@@ -1305,10 +1305,8 @@ void activity_handlers::cracking_finish( player_activity *act, player *p )
     g->m.furn_set( act->placement, f_safe_o);
 }
 
-void activity_handlers::open_gate_finish( player_activity *act, player *p )
-{
-    const tripoint pos = act->placement; // Not a reference because act can change
-    const ter_id handle_type = g->m.ter( pos );
+struct gate_info {
+    ter_id handle_type;
     ter_id wall_type;
     ter_id door_type;
     ter_id floor_type;
@@ -1316,56 +1314,83 @@ void activity_handlers::open_gate_finish( player_activity *act, player *p )
     const char *close_message;
     const char *fail_message;
     int bash_dmg;
+};
 
-    if (handle_type == t_gates_mech_control) {
-        wall_type = t_wall;
-        door_type = t_door_metal_locked;
-        floor_type = t_floor;
-        open_message = _("The gate is opened!");
-        close_message = _("The gate is closed!");
-        fail_message = _("The gate can't be closed!");
-        bash_dmg = 40;
-    } else if (handle_type == t_gates_control_concrete) {
-        wall_type = t_concrete_wall;
-        door_type = t_door_metal_locked;
-        floor_type = t_floor;
-        open_message = _("The gate is opened!");
-        close_message = _("The gate is closed!");
-        fail_message = _("The gate can't be closed!");
-        bash_dmg = 40;
-    } else if (handle_type == t_gates_control_brick) {
-        wall_type = t_brick_wall;
-        door_type = t_door_metal_locked;
-        floor_type = t_floor;
-        open_message = _("The gate is opened!");
-        close_message = _("The gate is closed!");
-        fail_message = _("The gate can't be closed!");
-        bash_dmg = 40;
-    } else if (handle_type == t_barndoor) {
-        wall_type = t_wall_wood;
-        door_type = t_door_metal_locked;
-        floor_type = t_dirtfloor;
-        open_message = _("The barn doors opened!");
-        close_message = _("The barn doors closed!");
-        fail_message = _("The barn doors can't be closed!");
-        bash_dmg = 40;
-    } else if (handle_type == t_palisade_pulley) {
-        wall_type = t_palisade;
-        door_type = t_palisade_gate;
-        floor_type = t_palisade_gate_o;
-        open_message = _("The palisade gate swings open!");
-        close_message = _("The palisade gate swings closed with a crash!");
-        fail_message = _("The palisade gate can't be closed!");
-        bash_dmg = 30;
-    } else if (handle_type == t_gates_control_metal) {
-        wall_type = t_wall_metal;
-        door_type = t_door_metal_locked;
-        floor_type = t_metal_floor;
-        open_message = _("The door rises!");
-        close_message = _("The door slams shut!");
-        fail_message = _("The door can't be closed!");
-        bash_dmg = 60;
-    } else {
+const gate_info *get_gate_info( const ter_id handle_type )
+{
+    //@todo Consider JSONizing the array
+    static const std::array<gate_info, 6> gate_info_data = { { {
+        t_gates_mech_control,
+        t_wall,
+        t_door_metal_locked,
+        t_floor,
+        _("The gate is opened!"),
+        _("The gate is closed!"),
+        _("The gate can't be closed!"),
+        40 }, {
+
+        t_gates_control_concrete,
+        t_concrete_wall,
+        t_door_metal_locked,
+        t_floor,
+        _("The gate is opened!"),
+        _("The gate is closed!"),
+        _("The gate can't be closed!"),
+        40 }, {
+
+        t_gates_control_brick,
+        t_brick_wall,
+        t_door_metal_locked,
+        t_floor,
+        _("The gate is opened!"),
+        _("The gate is closed!"),
+        _("The gate can't be closed!"),
+        40 }, {
+
+        t_barndoor,
+        t_wall_wood,
+        t_door_metal_locked,
+        t_dirtfloor,
+        _("The barn doors opened!"),
+        _("The barn doors closed!"),
+        _("The barn doors can't be closed!"),
+        40 }, {
+
+        t_palisade_pulley,
+        t_palisade,
+        t_palisade_gate,
+        t_palisade_gate_o,
+        _("The palisade gate swings open!"),
+        _("The palisade gate swings closed with a crash!"),
+        _("The palisade gate can't be closed!"),
+        30 }, {
+
+        t_gates_control_metal,
+        t_wall_metal,
+        t_door_metal_locked,
+        t_metal_floor,
+        _("The door rises!"),
+        _("The door slams shut!"),
+        _("The door can't be closed!"),
+        60 }
+    } };
+
+    for( auto &info : gate_info_data ) {
+        if( info.handle_type == handle_type ) {
+            return &info;
+        }
+    }
+
+    return nullptr;
+}
+
+void activity_handlers::open_gate_finish( player_activity *act, player *p )
+{
+    const tripoint pos = act->placement; // Not a reference because act can change
+    const gate_info *gi = get_gate_info( g->m.ter( pos ) );
+
+    if( gi == nullptr ) {
+        p->add_msg_if_player( _( "Nothing happens." ) );
         return;
     }
 
@@ -1380,7 +1405,7 @@ void activity_handlers::open_gate_finish( player_activity *act, player *p )
         const int wall_x = pos.x + dx[i];
         const int wall_y = pos.y + dy[i];
 
-        if( g->m.ter( wall_x, wall_y ) != wall_type ) {
+        if( g->m.ter( wall_x, wall_y ) != gi->wall_type ) {
             continue;
         }
 
@@ -1391,8 +1416,8 @@ void activity_handlers::open_gate_finish( player_activity *act, player *p )
             if( !open ) {  //closing the gate...
                 int x = gate_x;
                 int y = gate_y;
-                while( g->m.ter( x, y ) == floor_type ) {
-                    if( !g->forced_gate_closing( tripoint( x, y, pos.z ), door_type, bash_dmg ) ) {
+                while( g->m.ter( x, y ) == gi->floor_type ) {
+                    if( !g->forced_gate_closing( tripoint( x, y, pos.z ), gi->door_type, gi->bash_dmg ) ) {
                         fail = true;
                         close = false;
                         break;
@@ -1406,8 +1431,8 @@ void activity_handlers::open_gate_finish( player_activity *act, player *p )
             if( !close ) {  //opening the gate...
                 int x = gate_x;
                 int y = gate_y;
-                while( g->m.ter( x, y ) == door_type ) {
-                    g->m.ter_set( x, y, floor_type );
+                while( g->m.ter( x, y ) == gi->door_type ) {
+                    g->m.ter_set( x, y, gi->floor_type );
                     x += dx[j];
                     y += dy[j];
                     open = true;
@@ -1416,14 +1441,14 @@ void activity_handlers::open_gate_finish( player_activity *act, player *p )
         }
     }
 
-    if (fail) {
-        p->add_msg_if_player(fail_message);
-    } else if (open) {
-        p->add_msg_if_player(open_message);
-    } else if (close) {
-        p->add_msg_if_player(close_message);
+    if( fail ) {
+        p->add_msg_if_player( gi->fail_message );
+    } else if( open ) {
+        p->add_msg_if_player( gi->open_message );
+    } else if( close ) {
+        p->add_msg_if_player( gi->close_message );
     } else {
-        p->add_msg_if_player(_("Nothing happens."));
+        p->add_msg_if_player( _( "Nothing happens." ) );
     }
 }
 
