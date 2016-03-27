@@ -4818,11 +4818,7 @@ static void process_vehicle_items( vehicle *cur_veh, int part )
             if( !n.has_flag("RECHARGE") && !n.has_flag("USE_UPS") ) {
                 continue;
             }
-            int full_charge = dynamic_cast<const it_tool*>(n.type)->max_charges;
-            if( n.has_flag("DOUBLE_AMMO") ) {
-                full_charge = full_charge * 2;
-            }
-            if( n.is_tool() && full_charge > n.charges ) {
+            if( n.is_tool() && n.ammo_capacity() > n.ammo_remaining() ) {
                 if( cur_veh->discharge_battery( 10, false ) ) {
                     break; // Check car's power before charging
                 }

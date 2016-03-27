@@ -111,21 +111,19 @@ Pickup::interact_results Pickup::interact_with_vehicle( vehicle *veh, const trip
     }
 
     switch( static_cast<options>( choice ) ) {
+
     case USE_HOTPLATE: {
-        //Will be -1 if no battery at all
-        item tmp_hotplate( "hotplate", 0 );
-        // Drain a ton of power
-        tmp_hotplate.charges = veh->drain( "battery", 100 );
-        if( tmp_hotplate.is_tool() ) {
-            const auto tmptool = dynamic_cast<const it_tool *>((&tmp_hotplate)->type);
-            if ( tmp_hotplate.charges >= tmptool->charges_per_use ) {
-                g->u.invoke_item( &tmp_hotplate );
-                tmp_hotplate.charges -= tmptool->charges_per_use;
-                veh->refill( "battery", tmp_hotplate.charges );
-            }
+        item pseudo( "hotplate" );
+        itype_id ammo = pseudo.ammo_default();
+        pseudo.ammo_set( ammo, veh->drain( ammo, pseudo.ammo_capacity() ) );
+
+        if ( pseudo.ammo_remaining() >= pseudo.ammo_required() ) {
+            g->u.invoke_item( &pseudo );
+            pseudo.ammo_consume( pseudo.ammo_required(), g->u.pos() );
+            veh->refill( ammo, pseudo.ammo_remaining() );
         }
         return DONE;
-        }
+    }
 
     case FILL_CONTAINER: {
         int amt = veh->drain("water_clean", veh->fuel_left("water_clean"));
@@ -149,47 +147,42 @@ Pickup::interact_results Pickup::interact_with_vehicle( vehicle *veh, const trip
         }
 
     case USE_WELDER: {
-        //Will be -1 if no battery at all
-        item tmp_welder( "welder", 0 );
-        // Drain a ton of power
-        tmp_welder.charges = veh->drain( "battery", 1000 );
-        if( tmp_welder.is_tool() ) {
-            const auto tmptool = dynamic_cast<const it_tool *>((&tmp_welder)->type);
-            if ( tmp_welder.charges >= tmptool->charges_per_use ) {
-                g->u.invoke_item( &tmp_welder );
-                tmp_welder.charges -= tmptool->charges_per_use;
-                veh->refill( "battery", tmp_welder.charges );
-                // Evil hack incoming
-                auto &act = g->u.activity;
-                if( act.type == ACT_REPAIR_ITEM ) {
-                    // Magic: first tell activity the item doesn't really exist
-                    act.index = INT_MIN;
-                    // Then tell it to search it on `pos`
-                    act.coords.push_back( pos );
-                    // Finally tell it it is the vehicle part with weldrig
-                    act.values.resize( 2 );
-                    act.values[1] = veh->part_with_feature( veh_root_part, "WELDRIG" );
-                }
+        item pseudo( "welder" );
+        itype_id ammo = pseudo.ammo_default();
+        pseudo.ammo_set( ammo, veh->drain( ammo, pseudo.ammo_capacity() ) );
+
+        if ( pseudo.ammo_remaining() >= pseudo.ammo_required() ) {
+            g->u.invoke_item( &pseudo );
+            pseudo.ammo_consume( pseudo.ammo_required(), g->u.pos() );
+            veh->refill( ammo, pseudo.ammo_remaining() );
+
+            // Evil hack incoming
+            auto &act = g->u.activity;
+            if( act.type == ACT_REPAIR_ITEM ) {
+                // Magic: first tell activity the item doesn't really exist
+                act.index = INT_MIN;
+                // Then tell it to search it on `pos`
+                act.coords.push_back( pos );
+                // Finally tell it it is the vehicle part with weldrig
+                act.values.resize( 2 );
+                act.values[1] = veh->part_with_feature( veh_root_part, "WELDRIG" );
             }
         }
         return DONE;
-        }
+    }
 
     case USE_PURIFIER: {
-        //Will be -1 if no battery at all
-        item tmp_purifier( "water_purifier", 0 );
-        // Drain a ton of power
-        tmp_purifier.charges = veh->drain( "battery", veh->fuel_left("battery"));
-        if( tmp_purifier.is_tool() ) {
-            const auto tmptool = dynamic_cast<const it_tool *>((&tmp_purifier)->type);
-            if ( tmp_purifier.charges >= tmptool->charges_per_use ) {
-                g->u.invoke_item( &tmp_purifier );
-                tmp_purifier.charges -= tmptool->charges_per_use;
-                veh->refill( "battery", tmp_purifier.charges );
-            }
+        item pseudo( "water_purifier" );
+        itype_id ammo = pseudo.ammo_default();
+        pseudo.ammo_set( ammo, veh->drain( ammo, pseudo.ammo_capacity() ) );
+
+        if ( pseudo.ammo_remaining() >= pseudo.ammo_required() ) {
+            g->u.invoke_item( &pseudo );
+            pseudo.ammo_consume( pseudo.ammo_required(), g->u.pos() );
+            veh->refill( ammo, pseudo.ammo_remaining() );
         }
         return DONE;
-        }
+    }
 
     case PURIFY_TANK: {
         const int max_water = std::min( veh->fuel_left("water"),

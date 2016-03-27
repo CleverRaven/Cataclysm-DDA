@@ -884,11 +884,6 @@ const it_comest *get_comestible_type(std::string name)
 {
     return dynamic_cast<const it_comest *>(item::find_type(name));
 }
-const it_tool *get_tool_type(std::string name)
-{
-    return dynamic_cast<const it_tool *>(item::find_type(name));
-}
-
 
 // Manually implemented lua functions
 //

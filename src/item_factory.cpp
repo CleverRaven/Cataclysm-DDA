@@ -649,13 +649,12 @@ void Item_factory::check_definitions() const
             }
         }
 
-        const it_tool *tool = dynamic_cast<const it_tool *>(type);
-        if (tool != 0) {
-            check_ammo_type(msg, tool->ammo_id);
-            if (tool->revert_to != "null" && !has_template(tool->revert_to)) {
-                msg << string_format("invalid revert_to property %s", tool->revert_to.c_str()) << "\n";
+        if( type->tool ) {
+            check_ammo_type( msg, type->tool->ammo_id );
+            if( type->tool->revert_to != "null" && !has_template( type->tool->revert_to ) ) {
+                msg << string_format( "invalid revert_to property %s", type->tool->revert_to.c_str() ) << "\n";
             }
-            if( !tool->revert_msg.empty() && tool->revert_to == "null" ) {
+            if( !type->tool->revert_msg.empty() && type->tool->revert_to == "null" ) {
                 msg << _( "cannot specify revert_msg without revert_to" ) << "\n";
             }
         }
@@ -956,39 +955,32 @@ void Item_factory::load( islot_armor &slot, JsonObject &jo )
     }
 }
 
+void Item_factory::load( islot_tool &slot, JsonObject &jo )
+{
+    jo.read( "ammo", slot.ammo_id );
+    jo.read( "max_charges", slot.max_charges );
+    jo.read( "initial_charges", slot.def_charges );
+    jo.read( "charges_per_use", slot.charges_per_use );
+    jo.read( "turns_per_charge", slot.turns_per_charge );
+    jo.read( "revert_to", slot.revert_to );
+    jo.read( "revert_msg", slot.revert_msg );
+    jo.read( "sub", slot.subtype );
+}
+
 void Item_factory::load_tool(JsonObject &jo)
 {
-    it_tool *tool_template = new it_tool();
-    tool_template->ammo_id = jo.get_string("ammo");
-    tool_template->max_charges = jo.get_long("max_charges", 0);
-    tool_template->def_charges = jo.get_long("initial_charges");
-    tool_template->charges_per_use = jo.get_int("charges_per_use");
-    tool_template->turns_per_charge = jo.get_int("turns_per_charge");
-
-    tool_template->revert_to = jo.get_string("revert_to", tool_template->revert_to );
-    jo.read( "revert_msg", tool_template->revert_msg );
-
-    tool_template->subtype = jo.get_string("sub", "");
-
-    itype *new_item_template = tool_template;
-    load_basic_info(jo, new_item_template);
-    load_slot( new_item_template->spawn, jo );
+    auto def = new itype();
+    load_slot( def->tool, jo );
+    load_basic_info( jo, def );
+    load_slot( def->spawn, jo ); // @todo deprecate
 }
 
 void Item_factory::load_tool_armor(JsonObject &jo)
 {
-    it_tool *tool_template = new it_tool();
-
-    tool_template->ammo_id = jo.get_string("ammo");
-    tool_template->max_charges = jo.get_int("max_charges", 0);
-    tool_template->def_charges = jo.get_int("initial_charges");
-    tool_template->charges_per_use = jo.get_int("charges_per_use");
-    tool_template->turns_per_charge = jo.get_int("turns_per_charge");
-    tool_template->revert_to = jo.get_string("revert_to");
-
-    load_slot( tool_template->armor , jo );
-
-    load_basic_info(jo, tool_template);
+    auto def = new itype();
+    load_slot( def->tool, jo );
+    load_slot( def->armor, jo );
+    load_basic_info( jo, def );
 }
 
 void Item_factory::load( islot_book &slot, JsonObject &jo )
@@ -1809,7 +1801,7 @@ const std::string &Item_factory::calc_category( const itype *it )
     if( it->ammo ) {
         return category_id_ammo;
     }
-    if (it->is_tool()) {
+    if( it->tool ) {
         return category_id_tools;
     }
     if( it->armor ) {

@@ -390,7 +390,7 @@ bool player::eat( item &food, bool force )
                                food.tname().c_str() );
     }
 
-    if( item::find_type( comest->tool )->is_tool() ) {
+    if( item::find_type( comest->tool )->tool ) {
         // Tools like lighters get used
         use_charges( comest->tool, 1 );
     }

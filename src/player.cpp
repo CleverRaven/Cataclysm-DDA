@@ -10342,12 +10342,8 @@ hint_rating player::rate_action_disassemble( const item &it )
 hint_rating player::rate_action_use( const item &it ) const
 {
     if( it.is_tool() ) {
-        const auto tool = dynamic_cast<const it_tool*>(it.type);
-        if (tool->charges_per_use != 0 && it.charges < tool->charges_per_use) {
-            return HINT_IFFY;
-        } else {
-            return HINT_GOOD;
-        }
+        return it.ammo_remaining() < it.ammo_required() ? HINT_IFFY : HINT_GOOD;
+
     } else if (it.is_gunmod()) {
         ///\EFFECT_GUN >0 allows rating estimates for gun modifications
         if (get_skill_level( skill_gun ) == 0) {
@@ -10374,30 +10370,28 @@ hint_rating player::rate_action_use( const item &it ) const
 
 bool player::has_enough_charges( const item &it, bool show_msg ) const
 {
-    const it_tool *tool = dynamic_cast<const it_tool *>( it.type );
-    if( tool == NULL || tool->charges_per_use <= 0 ) {
-        // If the item is not a tool, it can always be invoked as it does not consume charges.
+    if( !it.is_tool() || !it.ammo_required() ) {
         return true;
     }
     if( it.has_flag( "USE_UPS" ) ) {
-        if( has_charges( "UPS", tool->charges_per_use ) || it.charges >= tool->charges_per_use ) {
+        if( has_charges( "UPS", it.ammo_required() ) || it.ammo_remaining() >= it.ammo_required() ) {
             return true;
         }
         if( show_msg ) {
             add_msg_if_player( m_info,
                     ngettext( "Your %s needs %d charge from some UPS.",
                               "Your %s needs %d charges from some UPS.",
-                              tool->charges_per_use ),
-                    it.tname().c_str(), tool->charges_per_use );
+                              it.ammo_required() ),
+                    it.tname().c_str(), it.ammo_required() );
         }
         return false;
-    } else if( it.charges < tool->charges_per_use ) {
+    } else if( it.ammo_remaining() < it.ammo_required() ) {
         if( show_msg ) {
             add_msg_if_player( m_info,
                     ngettext( "Your %s has %d charge but needs %d.",
                               "Your %s has %d charges but needs %d.",
-                              it.charges ),
-                    it.tname().c_str(), it.charges, tool->charges_per_use );
+                              it.ammo_remaining() ),
+                    it.tname().c_str(), it.ammo_remaining(), it.ammo_required() );
         }
         return false;
     }

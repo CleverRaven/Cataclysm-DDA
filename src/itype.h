@@ -43,6 +43,20 @@ std::string ammo_name(std::string const &t);
 // Returns the default ammo for a category of ammo (e.g. ""00_shot"")
 std::string const& default_ammo(std::string const &guntype);
 
+struct islot_tool {
+    std::string ammo_id = "NULL";
+
+    itype_id revert_to = "null";
+    std::string revert_msg;
+
+    std::string subtype;
+
+    long max_charges = 0;
+    long def_charges = 0;
+    unsigned char charges_per_use = 0;
+    unsigned char turns_per_charge = 0;
+};
+
 struct islot_container {
     /**
      * Volume, scaled by the default-stack size of the item that is contained in this container.
@@ -458,6 +472,7 @@ struct itype {
      */
     /*@{*/
     copyable_unique_ptr<islot_container> container;
+    copyable_unique_ptr<islot_tool> tool;
     copyable_unique_ptr<islot_armor> armor;
     copyable_unique_ptr<islot_book> book;
     copyable_unique_ptr<islot_gun> gun;
@@ -542,7 +557,9 @@ public:
 
     virtual std::string get_item_type_string() const
     {
-        if( container ) {
+        if( tool ) {
+            return "TOOL";
+        } else if( container ) {
             return "CONTAINER";
         } else if( armor ) {
             return "ARMOR";
@@ -569,11 +586,6 @@ public:
         return false;
     }
 
-    virtual bool is_tool() const
-    {
-        return false;
-    }
-
     virtual bool count_by_charges() const
     {
         if( ammo ) {
@@ -583,7 +595,9 @@ public:
     }
 
     virtual int charges_default() const {
-        if( ammo ) {
+        if( tool ) {
+            return tool->def_charges;
+        } else if( ammo ) {
             return ammo->def_charges;
         }
         return 0;
@@ -591,11 +605,17 @@ public:
 
     virtual int charges_to_use() const
     {
+        if( tool ) {
+            return tool->charges_per_use;
+        }
         return 1;
     }
 
     virtual int maximum_charges() const
     {
+        if( tool ) {
+            return tool->max_charges;
+        }
         return 1;
     }
 
@@ -669,46 +689,6 @@ public:
     int get_nutrition() const;
 
     int get_calories() const;
-};
-
-struct it_tool : itype {
-    std::string ammo_id;
-
-    itype_id revert_to = "null";
-    std::string revert_msg;
-
-    std::string subtype;
-
-    long max_charges = 0;
-    long def_charges = 0;
-    unsigned char charges_per_use = 0;
-    unsigned char turns_per_charge = 0;
-
-    it_tool() = default;
-
-    bool is_tool() const override
-    {
-        return true;
-    }
-
-    std::string get_item_type_string() const override
-    {
-        return "TOOL";
-    }
-
-    virtual int charges_default() const override {
-        return def_charges;
-    }
-
-    int charges_to_use() const override
-    {
-        return charges_per_use;
-    }
-
-    int maximum_charges() const override
-    {
-        return max_charges;
-    }
 };
 
 #endif

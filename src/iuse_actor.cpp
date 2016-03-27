@@ -1594,14 +1594,8 @@ long fireweapon_on_actor::use( player *p, item *it, bool t, const tripoint& ) co
     }
 
     if( extinguish ) {
-        it->active = false;
-        const auto tool = dynamic_cast<const it_tool *>( it->type );
-        if( tool == nullptr ) {
-            debugmsg( "Non-tool has fireweapon_on actor" );
-            it->convert( "null" );
-        }
+        it->deactivate( p, false );
 
-        it->convert( tool->revert_to );
     } else if( one_in( noise_chance ) ) {
         if( noise > 0 ) {
             sounds::sound( p->pos(), noise, _(noise_message.c_str()) );
@@ -2096,8 +2090,7 @@ bool could_repair( const player &p, const item &it, bool print_msg )
         }
         return false;
     }
-    int charges_used = dynamic_cast<const it_tool*>( it.type )->charges_to_use();
-    if( it.charges < charges_used ) {
+    if( it.charges < it.type->charges_to_use() ) {
         if( print_msg ) {
             p.add_msg_if_player( m_info, _("Your tool does not have enough charges to do that.") );
         }

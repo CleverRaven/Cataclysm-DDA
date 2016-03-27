@@ -325,12 +325,12 @@ void veh_interact::deallocate_windows()
  */
 static int charges_per_use( const std::string &id )
 {
-    const it_tool *t = dynamic_cast<const it_tool *>( item::find_type( id ) );
-    if( t == nullptr ) {
+    const itype *pseudo = item::find_type( id );
+    if( !pseudo->tool ) {
         debugmsg( "item %s is not a tool as expected", id.c_str() );
         return 0;
     }
-    return t->charges_per_use;
+    return pseudo->tool->charges_per_use;
 }
 
 void veh_interact::cache_tool_availability()

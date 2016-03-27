@@ -58,7 +58,7 @@ enum art_charge : int {
 
 /* CLASSES */
 
-class it_artifact_tool : public it_tool, public JsonSerializer, public JsonDeserializer
+class it_artifact_tool : public itype, public JsonSerializer, public JsonDeserializer
 {
     public:
         using JsonSerializer::serialize;
