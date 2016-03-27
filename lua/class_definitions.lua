@@ -361,7 +361,7 @@ classes = {
             { name = "npc_by_id", rval = "int", args = { "int" } },
             { name = "nuke", rval = nil, args = { "tripoint" } },
             { name = "num_zombies", rval = "int", args = { } },
-            { name = "open_gate", rval = nil, args = { "tripoint", "ter_id" } },
+            { name = "open_gate", rval = nil, args = { "tripoint" } },
             { name = "peek", rval = nil, args = { "tripoint" } },
             { name = "peek", rval = nil, args = { } },
             { name = "plfire", rval = nil, args = { "bool" } },

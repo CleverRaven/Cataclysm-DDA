@@ -524,7 +524,7 @@ class game
         //otherwise returns sentinel -1, signifies transaction fail.
         int move_liquid(item &liquid);
 
-        void open_gate( const tripoint &p, const ter_id handle_type );
+        void open_gate( const tripoint &p );
 
         // Knockback functions: knock target at t along a line, either calculated
         // from source position s using force parameter or passed as an argument;

@@ -598,7 +598,7 @@ void iexamine::controls_gate(player &p, const tripoint &examp)
         none( p, examp );
         return;
     }
-    g->open_gate( examp, g->m.ter( examp ) );
+    g->open_gate( examp );
 }
 
 void iexamine::cardreader(player &p, const tripoint &examp)
