@@ -218,8 +218,8 @@ item& item::deactivate( const Character *ch, bool alert )
 
 item& item::ammo_set( const itype_id& ammo, long qty )
 {
-    // if zero or negative qty try and completely fill the item
-    if( qty <= 0 ) {
+    // if negative qty completely fill the item
+    if( qty < 0 ) {
         if( magazine_integral() || magazine_current() ) {
             qty = ammo_capacity();
         } else {
@@ -227,10 +227,22 @@ item& item::ammo_set( const itype_id& ammo, long qty )
         }
     }
 
+    if( qty == 0 ) {
+        ammo_unset();
+        return *this;
+    }
+
+    // handle reloadable tools and guns with no specific ammo type as special case
+    if( ( is_tool() || is_gun() ) && magazine_integral() && ammo == "null" && ammo_type() == "NULL" ) {
+        curammo = nullptr;
+        charges = std::min( qty, ammo_capacity() );
+        return *this;
+    }
+
     // check ammo is valid for the item
     const itype *atype = item_controller->find_template( ammo );
-    if( qty <= 0 || !atype->ammo || atype->ammo->type != ammo_type() ) {
-        debugmsg( "Tried to set invalid ammo of %s (%i) for %s", atype->nname( qty ).c_str(), qty, tname().c_str() );
+    if( !atype->ammo || atype->ammo->type != ammo_type() ) {
+        debugmsg( "Tried to set invalid ammo of %s for %s", atype->nname( qty ).c_str(), tname().c_str() );
         return *this;
     }
 
