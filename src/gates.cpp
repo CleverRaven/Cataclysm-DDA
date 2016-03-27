@@ -127,47 +127,37 @@ void gates::open_gate( const tripoint &pos )
     bool fail = false;
 
     for( int i = 0; i < 4; ++i ) {
-        static const int dx[4] = { 1, 0, -1, 0 };
-        static const int dy[4] = { 0, 1, 0, -1 };
+        static const tripoint dir[4] = { { 1, 0, 0 }, { 0, 1, 0 }, { -1, 0, 0 }, { 0, -1, 0 } };
+        const tripoint wall_pos = pos + dir[i];
 
-        const int wall_x = pos.x + dx[i];
-        const int wall_y = pos.y + dy[i];
-
-        if( g->m.ter( wall_x, wall_y ) != gate.get_wall() ) {
+        if( g->m.ter( wall_pos ) != gate.get_wall() ) {
             continue;
         }
 
         for( int j = 0; j < 4; ++j ) {
-            const int gate_x = wall_x + dx[j];
-            const int gate_y = wall_y + dy[j];
+            const tripoint gate_pos = wall_pos + dir[j];
 
             if( !open ) {  //closing the gate...
-                int x = gate_x;
-                int y = gate_y;
-                while( g->m.ter( x, y ) == gate.get_floor() ) {
-                    const tripoint gate_pos( x, y, pos.z );
-
-                    fail = !g->forced_door_closing( gate_pos, gate.get_door(), gate.bash_dmg ) || fail;
+                tripoint cur_pos = gate_pos;
+                while( g->m.ter( cur_pos ) == gate.get_floor() ) {
+                    fail = !g->forced_door_closing( cur_pos, gate.get_door(), gate.bash_dmg ) || fail;
                     close = !fail;
-                    x += dx[j];
-                    y += dy[j];
+                    cur_pos += dir[j];
                 }
             }
 
             if( !close ) {  //opening the gate...
-                int x = gate_x;
-                int y = gate_y;
+                tripoint cur_pos = gate_pos;
                 while( true ) {
-                    const ter_id ter = g->m.ter( x, y );
+                    const ter_id ter = g->m.ter( cur_pos );
 
                     if( ter == gate.get_door() ) {
-                        g->m.ter_set( x, y, gate.get_floor() );
+                        g->m.ter_set( cur_pos, gate.get_floor() );
                         open = !fail;
                     } else if( ter != gate.get_floor() ) {
                         break;
                     }
-                    x += dx[j];
-                    y += dy[j];
+                    cur_pos += dir[j];
                 }
             }
         }
