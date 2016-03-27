@@ -40,33 +40,6 @@ material_type::material_type()
     _density = 1;
 }
 
-material_type::material_type( material_id ident, std::string name,
-                              std::string salvage_id, float salvage_multiplier,
-                              int bash_resist, int cut_resist,
-                              std::string bash_dmg_verb, std::string cut_dmg_verb,
-                              std::string dmg_adj[],
-                              int acid_resist, int elec_resist, int fire_resist,
-                              int chip_resist, int density )
-{
-    _ident = ident;
-    _name = name;
-    _salvage_id = salvage_id;
-    _salvage_multiplier = salvage_multiplier;
-    _bash_resist = bash_resist;
-    _cut_resist = cut_resist;
-    _bash_dmg_verb = bash_dmg_verb;
-    _cut_dmg_verb = cut_dmg_verb;
-    _acid_resist = acid_resist;
-    _elec_resist = elec_resist;
-    _fire_resist = fire_resist;
-    _chip_resist = chip_resist;
-    _density = density;
-
-    for( auto i = 0; i != MAX_ITEM_DAMAGE; ++i ) {
-        _dmg_adj[i] = dmg_adj[i];
-    }
-}
-
 material_type::material_type( material_id ident )
 {
     material_type *mat_type = find_material( ident );

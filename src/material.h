@@ -37,13 +37,6 @@ class material_type
 
     public:
         material_type();
-        material_type( material_id ident, std::string name,
-                       std::string salvage_id, float salvage_multiplier,
-                       int bash_resist, int cut_resist,
-                       std::string bash_dmg_verb, std::string cut_dmg_verb,
-                       std::string dmg_adj[],
-                       int acid_resist, int elec_resist, int fire_resist,
-                       int chip_resist, int density );
         material_type( material_id ident );
         static void load_material( JsonObject &jsobj );
 
