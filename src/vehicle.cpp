@@ -4579,7 +4579,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
     float vpart_dens = 0;
     if( !mats.empty() ) {
         for( auto &mat_id : mats ) {
-            vpart_dens += material_type::find_material( mat_id )->density();
+            vpart_dens += mat_id.obj().density();
         }
         vpart_dens /= mats.size(); // average
     }

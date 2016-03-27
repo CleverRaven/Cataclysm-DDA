@@ -22,7 +22,13 @@ bool string_id<material_type>::is_valid() const
 template<>
 const material_type &string_id<material_type>::obj() const
 {
-    return *material_type::find_material( *this );
+    const auto found = _all_materials.find( *this );
+    if( found == _all_materials.end() ) {
+        debugmsg( "Tried to get invalid material: %s", c_str() );
+        static const material_type null_material{};
+        return null_material;
+    }
+    return found->second;
 }
 
 material_type::material_type()
@@ -73,18 +79,6 @@ void material_type::load_material( JsonObject &jsobj )
 
     _all_materials[mat._ident] = mat;
     DebugLog( D_INFO, DC_ALL ) << "Loaded material: " << mat._name;
-}
-
-material_type *material_type::find_material( material_id ident )
-{
-    material_map::iterator found = _all_materials.find( ident );
-    if( found != _all_materials.end() ) {
-        return &( found->second );
-    } else {
-        debugmsg( "Tried to get invalid material: %s", ident.c_str() );
-        static material_type null_material;
-        return &null_material;
-    }
 }
 
 void material_type::reset()

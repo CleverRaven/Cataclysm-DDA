@@ -3166,7 +3166,7 @@ std::vector<const material_type*> item::made_of_types() const
 {
     std::vector<const material_type*> material_types_composed_of;
     for (auto mat_id : made_of()) {
-        material_types_composed_of.push_back(material_type::find_material(mat_id));
+        material_types_composed_of.push_back( &mat_id.obj() );
     }
     return material_types_composed_of;
 }
@@ -3570,17 +3570,17 @@ void item::mark_chapter_as_read( const player &u )
 const material_type &item::get_random_material() const
 {
     if( type->materials.empty() ) {
-        return *material_type::find_material( "null" );
+        return material_id( "null" ).obj();
     }
-    return *material_type::find_material( random_entry( type->materials ) );
+    return random_entry( type->materials ).obj();
 }
 
 const material_type &item::get_base_material() const
 {
     if( type->materials.empty() ) {
-        return *material_type::find_material( "null" );
+        return material_id( "null" ).obj();
     }
-    return *material_type::find_material( type->materials.front() );
+    return type->materials.front().obj();
 }
 
 bool item::operator<(const item& other) const

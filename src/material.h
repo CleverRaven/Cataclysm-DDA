@@ -34,9 +34,6 @@ class material_type
         material_type();
         static void load_material( JsonObject &jsobj );
 
-        // functions
-        static material_type *find_material( material_id ident );
-        //  static material_type* find_material_from_tag(material mat);
         static bool has_material( const material_id &ident );
         // clear material map, every material pointer becames invalid!
         static void reset();

@@ -1096,9 +1096,9 @@ int salvage_actor::cut_up(player *p, item *it, item *cut) const
     // Decided to split components evenly. Since salvage will likely change
     // soon after I write this, I'll go with the one that is cleaner.
     for (auto material : cut_material_components) {
-        material_type * mt = material_type::find_material(material);
-        std::string salvaged_id = mt->salvage_id();
-        float salvage_multiplier = mt->salvage_multiplier();
+        const material_type &mt = material.obj();
+        std::string salvaged_id = mt.salvage_id();
+        float salvage_multiplier = mt.salvage_multiplier();
         materials_salvaged[salvaged_id] = count * salvage_multiplier / cut_material_components.size();
     }
 
@@ -2143,10 +2143,10 @@ bool repair_item_actor::handle_components( player &pl, const item &fix,
             pl.add_msg_if_player( m_info, _("Your %s is not made of any of:"),
                                   fix.tname().c_str());
             for( const auto &mat_name : materials ) {
-                const auto mat = material_type::find_material( mat_name );
+                const auto &mat = mat_name.obj();
                 const auto mat_comp = material_component( mat_name );
                 pl.add_msg_if_player( m_info, _("%s (repaired using %s)"),
-                                      mat->name().c_str(), item::nname( mat_comp, 2 ).c_str() );
+                                      mat.name().c_str(), item::nname( mat_comp, 2 ).c_str() );
             }
         }
 
