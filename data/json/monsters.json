@@ -2862,7 +2862,7 @@
                 {"damage_type" : "bash", "amount" : 15, "armor_multiplier" : 0.3}
             ]
         },
-        ["GRAB", 20], ["GRAB_DRAG", 10],
+        ["GRAB", 20], ["GRAB_DRAG", 10]
     ],
     "description":"With a crocodile-like snout and rows of protuding teeth, this swimwear-clad zombie lurks in the water.",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "BLEED", "GRABS", "NO_BREATHE", "REVIVES", "BONES", "PUSH_MON", "SWIMS"]
