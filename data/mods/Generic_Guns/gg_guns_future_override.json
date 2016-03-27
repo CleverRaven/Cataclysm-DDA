@@ -134,10 +134,14 @@
      "aim_speed" : 4,
      "recoil": 60,
      "durability": 9,
-     "clip_size": 20,
      "reload": 400,
      "loudness" : 125,
-     "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
+     "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
+     "magazine_well" : 1,
+     "magazines" : [
+       [ "9mm", [ "lw21mag" ] ],
+       [ "45", [ "lw12mag" ] ]
+     ]
     },
     {
      "id": "l_mp_9mm",
@@ -165,10 +169,14 @@
      "durability": 8,
      "//": "The M93R can go through up to 110 rounds in six seconds, FWIW.",
      "burst": 3,
-     "clip_size": 21,
      "reload": 425,
      "loudness" : 125,
-     "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
+     "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
+     "magazine_well" : 1,
+     "magazines" : [
+       [ "9mm", [ "lw21mag" ] ],
+       [ "45", [ "lw12mag" ] ]
+     ]
     },
     {
      "id": "l_lookout_9mm",

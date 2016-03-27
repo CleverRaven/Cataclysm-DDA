@@ -7,6 +7,14 @@
     "aim_speed": 4
   },
   {
+    "abstract": "pistol_revolver",
+    "copy-from": "pistol_base",
+    "type": "GUN",
+    "name": "revolver",
+    "proportional": { "reload": 0.7 },
+    "extend": { "flags": [ "RELOAD_ONE", "RELOAD_EJECT", "NEVER_JAMS" ] }
+  },
+  {
     "abstract": "rifle_base",
     "type": "GUN",
     "name": "base rifle",
