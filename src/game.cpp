@@ -80,6 +80,7 @@
 #include "recipe_dictionary.h"
 #include "cata_utility.h"
 #include "pathfinding.h"
+#include "gates.h"
 
 #include <map>
 #include <set>
@@ -7508,7 +7509,7 @@ void game::exam_vehicle(vehicle &veh, const tripoint &p, int cx, int cy)
     refresh_all();
 }
 
-bool game::forced_gate_closing( const tripoint &p, const ter_id door_type, int bash_dmg )
+bool game::forced_door_closing( const tripoint &p, const ter_id door_type, int bash_dmg )
 {
     // TODO: Z
     const int &x = p.x;
@@ -7640,48 +7641,9 @@ bool game::forced_gate_closing( const tripoint &p, const ter_id door_type, int b
     return true;
 }
 
-// A gate handle is adjacent to a wall section, and next to that wall section on one side or
-// another is the gate.  There may be a handle on the other side, but this is optional.
-// The gate continues until it reaches a non-floor tile, so they can be arbitrary length.
-//
-//   |  !|!  -++-++-  !|++++-
-//   +   +      !      +
-//   +   +   -++-++-   +
-//   +   +             +
-//   +   +   !|++++-   +
-//  !|   |!        !   |
-//
-// The terrain type of the handle is passed in, and that is used to determine the type of
-// the wall and gate.
-void game::open_gate( const tripoint &p, const ter_id handle_type )
+void game::open_gate( const tripoint &p )
 {
-    int moves = 900;
-    const char *pull_message;
-
-    if (handle_type == t_gates_mech_control) {
-        pull_message = _("You turn the handle...");
-    } else if (handle_type == t_gates_control_concrete) {
-        pull_message = _("You turn the handle...");
-    } else if (handle_type == t_gates_control_brick) {
-        pull_message = _("You turn the handle...");
-    } else if (handle_type == t_barndoor) {
-        pull_message = _("You pull the rope...");
-    } else if (handle_type == t_palisade_pulley) {
-        pull_message = _("You pull the rope...");
-    } else if ( handle_type == t_gates_control_metal) {
-        pull_message = _("You throw the lever...");
-    } else {
-        return;
-    }
-
-    add_msg(pull_message);
-    if (handle_type == t_gates_control_metal){
-        moves += 300;
-    }else{
-        moves += 900;
-    }
-    u.assign_activity( ACT_OPEN_GATE, moves) ;
-    u.activity.placement = p;
+    gates::open_gate( p, u );
 }
 
 void game::moving_vehicle_dismount( const tripoint &dest_loc )

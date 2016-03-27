@@ -48,6 +48,7 @@
 #include "veh_type.h"
 #include "clzones.h"
 #include "sounds.h"
+#include "gates.h"
 
 #include <string>
 #include <vector>
@@ -217,6 +218,8 @@ void DynamicDataLoader::initialize()
 
     type_function_map["sound_effect"] = new StaticFunctionAccessor(&sfx::load_sound_effects);
     type_function_map["playlist"] = new StaticFunctionAccessor(&sfx::load_playlist);
+
+    type_function_map["gate"] = new StaticFunctionAccessor(&gates::load_gates);
 }
 
 void DynamicDataLoader::reset()
@@ -349,6 +352,7 @@ void DynamicDataLoader::unload_data()
     unload_talk_topics();
     start_location::reset();
     scenario::reset();
+    gates::reset();
 
     // TODO:
     //    NameGenerator::generator().clear_names();
