@@ -15,12 +15,23 @@ struct gate_data;
 using gate_id = string_id<gate_data>;
 
 struct gate_data {
-    gate_data() : moves( 0 ), bash_dmg( 0 ), was_loaded( false ) {};
+
+public:
+    gate_data() : moves( 0 ), bash_dmg( 0 ), was_loaded( false ), wall( t_null ), door( t_null ), floor( t_null ) {};
 
     gate_id id;
-    std::string wall_id;
-    std::string door_id;
-    std::string floor_id;
+
+    ter_id get_wall() const {
+        return get_ter( wall_id, wall );
+    }
+
+    ter_id get_door() const {
+        return get_ter( door_id, door );
+    }
+
+    ter_id get_floor() const {
+        return get_ter( floor_id, floor );
+    }
 
     std::string pull_message;
     std::string open_message;
@@ -32,6 +43,22 @@ struct gate_data {
     bool was_loaded;
 
     void load( JsonObject &jo );
+
+private:
+    ter_id get_ter( const std::string &ter_name, ter_id &cached_ter ) const {
+        if( cached_ter == t_null ) {
+            cached_ter = terfind( ter_name );
+        }
+        return cached_ter;
+    }
+
+    mutable ter_id wall;
+    mutable ter_id door;
+    mutable ter_id floor;
+
+    std::string wall_id;
+    std::string door_id;
+    std::string floor_id;
 };
 
 gate_id get_gate_id( const tripoint &pos )
@@ -94,10 +121,6 @@ void gates::open_gate( const tripoint &pos )
 
     const gate_data &gate = gates_data.obj( gid );
 
-    const ter_id wall = terfind( gate.wall_id );
-    const ter_id door = terfind( gate.door_id );
-    const ter_id floor = terfind( gate.floor_id );
-
     bool open = false;
     bool close = false;
     bool fail = false;
@@ -109,7 +132,7 @@ void gates::open_gate( const tripoint &pos )
         const int wall_x = pos.x + dx[i];
         const int wall_y = pos.y + dy[i];
 
-        if( g->m.ter( wall_x, wall_y ) != wall ) {
+        if( g->m.ter( wall_x, wall_y ) != gate.get_wall() ) {
             continue;
         }
 
@@ -120,10 +143,10 @@ void gates::open_gate( const tripoint &pos )
             if( !open ) {  //closing the gate...
                 int x = gate_x;
                 int y = gate_y;
-                while( g->m.ter( x, y ) == floor ) {
+                while( g->m.ter( x, y ) == gate.get_floor() ) {
                     const tripoint gate_pos( x, y, pos.z );
 
-                    fail = !g->forced_door_closing( gate_pos, door, gate.bash_dmg ) || fail;
+                    fail = !g->forced_door_closing( gate_pos, gate.get_door(), gate.bash_dmg ) || fail;
                     close = !fail;
                     x += dx[j];
                     y += dy[j];
@@ -136,10 +159,10 @@ void gates::open_gate( const tripoint &pos )
                 while( true ) {
                     const ter_id ter = g->m.ter( x, y );
 
-                    if( ter == door ) {
-                        g->m.ter_set( x, y, floor );
+                    if( ter == gate.get_door() ) {
+                        g->m.ter_set( x, y, gate.get_floor() );
                         open = !fail;
-                    } else if( ter != floor ) {
+                    } else if( ter != gate.get_floor() ) {
                         break;
                     }
                     x += dx[j];
