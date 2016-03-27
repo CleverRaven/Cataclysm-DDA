@@ -38,7 +38,7 @@
         "messages" : {
             "pull" : "You turn the handle...",
             "open" : "The gate is opened!",
-	   "close" : "The gate is closed!",
+            "close" : "The gate is closed!",
             "fail" : "The gate can't be closed!"
         },
         "moves" : 1800,
