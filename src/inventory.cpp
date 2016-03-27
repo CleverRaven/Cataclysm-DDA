@@ -893,16 +893,6 @@ bool inventory::has_components(itype_id it, int quantity) const
     return has_amount(it, quantity, false);
 }
 
-bool inventory::has_amount(itype_id it, int quantity) const
-{
-    return has_amount(it, quantity, true);
-}
-
-bool inventory::has_amount(itype_id it, int quantity, bool used_as_tool) const
-{
-    return (amount_of(it, used_as_tool) >= quantity);
-}
-
 bool inventory::has_charges(itype_id it, long quantity) const
 {
     return (charges_of(it) >= quantity);

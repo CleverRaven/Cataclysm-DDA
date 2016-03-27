@@ -9190,15 +9190,6 @@ bool player::is_waterproof( const std::bitset<num_bp> &parts ) const
     return covered_with_flag("WATERPROOF", parts);
 }
 
-bool player::has_amount(const itype_id &it, int quantity) const
-{
-    if (it == "toolset")
-    {
-        return has_active_bionic("bio_tools");
-    }
-    return (amount_of(it) >= quantity);
-}
-
 int player::amount_worn(const itype_id &id) const
 {
     int amount = 0;

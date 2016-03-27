@@ -67,9 +67,15 @@ class visitable
         /**
          * Count items matching id including both this instance and any contained items
          * @param pseudo whether pseudo-items (from map/vehicle tiles, bionics etc) are considered
+         * @param limit stop searching after this many matches
          * @note items must be empty to be considered a match
          */
-        int amount_of( const std::string &what, bool pseudo = true ) const;
+        int amount_of( const std::string &what, bool pseudo = true, int limit = INT_MAX ) const;
+
+        /** Check instance provides at least qty of an item (@see amount_of) */
+        bool has_amount( const std::string &what, int qty, bool pseudo = true ) const {
+            return amount_of( what, pseudo, qty ) == qty;
+        }
 
         /** Returns all items (including those within a container) matching the filter */
         std::vector<item *> items_with( const std::function<bool(const item&)>& filter );

@@ -579,24 +579,24 @@ long visitable<Character>::charges_of( const std::string &what ) const
 }
 
 template <typename T>
-static int amount_of_internal( const T& self, const itype_id& id, bool pseudo )
+static int amount_of_internal( const T& self, const itype_id& id, bool pseudo, int limit )
 {
     int qty = 0;
-    self.visit_items( [&qty, &id, &pseudo] ( const item *e ) {
+    self.visit_items( [&qty, &id, &pseudo, &limit] ( const item *e ) {
         qty += ( e->typeId() == id && e->contents.empty() && ( pseudo || !e->has_flag( "PSEUDO" ) ) );
-        return VisitResponse::NEXT;
+        return qty != limit ? VisitResponse::NEXT : VisitResponse::ABORT;
     } );
     return qty;
 }
 
 template <typename T>
-int visitable<T>::amount_of( const std::string& what, bool pseudo ) const
+int visitable<T>::amount_of( const std::string& what, bool pseudo, int limit ) const
 {
-    return amount_of_internal( *this, what, pseudo );
+    return amount_of_internal( *this, what, pseudo, limit );
 }
 
 template <>
-int visitable<Character>::amount_of( const std::string& what, bool pseudo ) const
+int visitable<Character>::amount_of( const std::string& what, bool pseudo, int limit ) const
 {
     auto self = static_cast<const Character *>( this );
 
@@ -613,7 +613,7 @@ int visitable<Character>::amount_of( const std::string& what, bool pseudo ) cons
         return qty;
     }
 
-    return amount_of_internal( *this, what, pseudo );
+    return amount_of_internal( *this, what, pseudo, limit );
 }
 
 // explicit template initialization for all classes implementing the visitable interface

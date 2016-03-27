@@ -146,8 +146,6 @@ class inventory : public visitable<inventory>
         std::list<item> use_amount (itype_id it, int quantity);
         std::list<item> use_charges(itype_id it, long quantity);
 
-        bool has_amount (itype_id it, int quantity) const;
-        bool has_amount (itype_id it, int quantity, bool used_as_tool) const;
         bool has_tools (itype_id it, int quantity) const;
         bool has_components (itype_id it, int quantity) const;
         bool has_charges(itype_id it, long quantity) const;
