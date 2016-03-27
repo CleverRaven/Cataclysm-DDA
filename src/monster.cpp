@@ -858,8 +858,6 @@ bool monster::is_immune_effect( const efftype_id &effect ) const
     if( effect == effect_onfire ) {
         return is_immune_damage( DT_HEAT ) ||
             made_of(LIQUID) ||
-            made_of( material_id( "stone" ) ) ||
-            made_of( material_id( "steel" ) ) ||
             has_flag(MF_FIREY);
     }
 
