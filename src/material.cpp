@@ -6,6 +6,12 @@
 #include "translations.h"
 
 #include <string>
+#include <map>
+
+namespace
+{
+std::map<material_id, material_type> _all_materials;
+} // namespace
 
 template<>
 bool string_id<material_type>::is_valid() const
@@ -39,8 +45,6 @@ material_type::material_type()
     _chip_resist = 0;
     _density = 1;
 }
-
-material_map material_type::_all_materials;
 
 // load a material object from incoming JSON
 void material_type::load_material( JsonObject &jsobj )

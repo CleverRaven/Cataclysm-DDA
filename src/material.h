@@ -2,7 +2,6 @@
 #define MATERIALS_H
 
 #include <string>
-#include <map>
 
 #include "game_constants.h"
 #include "damage.h" // damage_type
@@ -12,8 +11,6 @@
 
 class material_type;
 using material_id = string_id<material_type>;
-
-typedef std::map<material_id, material_type> material_map;
 
 class material_type
 {
@@ -32,8 +29,6 @@ class material_type
         int _fire_resist;
         int _chip_resist;       // Resistance to physical damage of the item itself
         int _density;   // relative to "powder", which is 1
-
-        static material_map _all_materials;
 
     public:
         material_type();
