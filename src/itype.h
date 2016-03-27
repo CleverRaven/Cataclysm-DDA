@@ -517,7 +517,7 @@ public:
     std::map<skill_id, int> min_skills;
 
     // Should the item explode when lit on fire
-    bool explode_in_fire;
+    bool explode_in_fire = false;
     // How should the item explode
     explosion_data explosion;
 
