@@ -42,7 +42,6 @@ class material_type
         // functions
         static material_type *find_material( material_id ident );
         //  static material_type* find_material_from_tag(material mat);
-        static material_type *base_material();  // null material
         static bool has_material( const material_id &ident );
         // clear material map, every material pointer becames invalid!
         static void reset();

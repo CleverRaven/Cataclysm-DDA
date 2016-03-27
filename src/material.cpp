@@ -93,11 +93,6 @@ bool material_type::has_material( const material_id &ident )
     return _all_materials.count( ident ) > 0;
 }
 
-material_type *material_type::base_material()
-{
-    return material_type::find_material( material_id( "null" ) );
-}
-
 int material_type::dam_resist( damage_type damtype ) const
 {
     switch( damtype ) {
