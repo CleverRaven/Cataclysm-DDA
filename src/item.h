@@ -1112,8 +1112,8 @@ public:
         /** Quantity of ammunition consumed per usage of tool or with each shot of gun */
         long ammo_required() const;
         /** If sufficient ammo available consume it, otherwise do nothing and return false
-         *  @param pos current location of item, used for ejecting magazines and similar effects */
-        bool ammo_consume( int qty, const tripoint& pos );
+         *  @param pos current location of item, if supplied used for ejecting magazines and similar effects */
+        bool ammo_consume( int qty, const tripoint *pos = nullptr );
         /** Specific ammo data, returns nullptr if item is neither ammo nor loaded with any */
         const itype * ammo_data() const;
         /** Specific ammo type, returns "null" if item is neither ammo nor loaded with any */
