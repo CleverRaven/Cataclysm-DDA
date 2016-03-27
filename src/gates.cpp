@@ -8,6 +8,9 @@
 
 #include <string>
 
+namespace
+{
+
 struct gate_data;
 using gate_id = string_id<gate_data>;
 
@@ -31,9 +34,13 @@ struct gate_data {
     void load( JsonObject &jo );
 };
 
-namespace
+gate_id get_gate_id( const tripoint &pos )
 {
-    generic_factory<gate_data> gates_data( "gate type", "handle" );
+    return static_cast<gate_id>( g->m.get_ter( pos ) );
+}
+
+generic_factory<gate_data> gates_data( "gate type", "handle" );
+
 }
 
 void gate_data::load( JsonObject &jo )
@@ -63,11 +70,6 @@ void gates::load_gates( JsonObject &jo )
 void gates::reset()
 {
     gates_data.reset();
-}
-
-gate_id get_gate_id( const tripoint &pos )
-{
-    return static_cast<gate_id>( g->m.get_ter( pos ) );
 }
 
 // A gate handle is adjacent to a wall section, and next to that wall section on one side or
