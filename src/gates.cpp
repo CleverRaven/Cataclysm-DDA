@@ -16,49 +16,50 @@ using gate_id = string_id<gate_data>;
 
 struct gate_data {
 
-public:
-    gate_data() : moves( 0 ), bash_dmg( 0 ), was_loaded( false ), wall( t_null ), door( t_null ), floor( t_null ) {};
+    public:
+        gate_data() : moves( 0 ), bash_dmg( 0 ), was_loaded( false ), wall( t_null ), door( t_null ),
+            floor( t_null ) {};
 
-    gate_id id;
+        gate_id id;
 
-    ter_id get_wall() const {
-        return get_ter( wall_id, wall );
-    }
-
-    ter_id get_door() const {
-        return get_ter( door_id, door );
-    }
-
-    ter_id get_floor() const {
-        return get_ter( floor_id, floor );
-    }
-
-    std::string pull_message;
-    std::string open_message;
-    std::string close_message;
-    std::string fail_message;
-
-    int moves;
-    int bash_dmg;
-    bool was_loaded;
-
-    void load( JsonObject &jo );
-
-private:
-    ter_id get_ter( const std::string &ter_name, ter_id &cached_ter ) const {
-        if( cached_ter == t_null ) {
-            cached_ter = terfind( ter_name );
+        ter_id get_wall() const {
+            return get_ter( wall_id, wall );
         }
-        return cached_ter;
-    }
 
-    mutable ter_id wall;
-    mutable ter_id door;
-    mutable ter_id floor;
+        ter_id get_door() const {
+            return get_ter( door_id, door );
+        }
 
-    std::string wall_id;
-    std::string door_id;
-    std::string floor_id;
+        ter_id get_floor() const {
+            return get_ter( floor_id, floor );
+        }
+
+        std::string pull_message;
+        std::string open_message;
+        std::string close_message;
+        std::string fail_message;
+
+        int moves;
+        int bash_dmg;
+        bool was_loaded;
+
+        void load( JsonObject &jo );
+
+    private:
+        ter_id get_ter( const std::string &ter_name, ter_id &cached_ter ) const {
+            if( cached_ter == t_null ) {
+                cached_ter = terfind( ter_name );
+            }
+            return cached_ter;
+        }
+
+        mutable ter_id wall;
+        mutable ter_id door;
+        mutable ter_id floor;
+
+        std::string wall_id;
+        std::string door_id;
+        std::string floor_id;
 };
 
 gate_id get_gate_id( const tripoint &pos )
